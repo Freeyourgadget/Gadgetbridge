@@ -21,6 +21,7 @@ import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.bluetooth.BluetoothAdapter;
+import android.companion.CompanionDeviceManager;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -29,6 +30,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.telephony.SmsManager;
 
+import androidx.annotation.RequiresApi;
 import androidx.core.app.NotificationCompat;
 import androidx.core.content.FileProvider;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
@@ -195,25 +197,35 @@ public abstract class AbstractDeviceSupport implements DeviceSupport {
         }
     }
 
+    @RequiresApi(Build.VERSION_CODES.Q)
     private void handleGBDeviceEventFindPhoneStartNotification() {
         LOG.info("Got handleGBDeviceEventFindPhoneStartNotification");
         Intent intent = new Intent(context, FindPhoneActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 
         PendingIntent pi = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+
         NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
 
-        NotificationCompat.Builder notification = new NotificationCompat.Builder(context, NOTIFICATION_CHANNEL_HIGH_PRIORITY_ID );
-        notification
+        NotificationCompat.Builder notification = new NotificationCompat.Builder(context, NOTIFICATION_CHANNEL_HIGH_PRIORITY_ID )
                 .setSmallIcon(R.drawable.ic_notification)
                 .setOngoing(false)
                 .setFullScreenIntent(pi, true)
                 .setPriority(NotificationCompat.PRIORITY_HIGH)
                 .setAutoCancel(true)
                 .setContentTitle(  context.getString( R.string.find_my_phone_notification ) );
+
         notification.setGroup("BackgroundService");
 
-        notificationManager.notify(GB.NOTIFICATION_ID_PHONE_FIND, notification.build());
+        CompanionDeviceManager manager = (CompanionDeviceManager) context.getSystemService(Context.COMPANION_DEVICE_SERVICE);
+        if (manager.getAssociations().size() > 0) {
+            notificationManager.notify(GB.NOTIFICATION_ID_PHONE_FIND, notification.build());
+            context.startActivity(intent);
+            LOG.debug("CompanionDeviceManager associations were found, starting intent");
+        } else {
+            notificationManager.notify(GB.NOTIFICATION_ID_PHONE_FIND, notification.build());
+            LOG.warn("CompanionDeviceManager associations were not found, can't start intent");
+        }
     }
 
 
