@@ -44,6 +44,7 @@ vendor's servers.
 * iTag
 * ID115
 * JYou Y5
+* Lefun
 * Lenovo Watch 9
 * Lenovo Watch X (Plus) [Wiki](https://codeberg.org/mamutcho/Gadgetbridge/wiki)
 * Liveview
@@ -94,6 +95,7 @@ Please see [FEATURES.md](https://codeberg.org/Freeyourgadget/Gadgetbridge/src/ma
 * Pavel Elagin (JYou Y5)
 * Taavi Eomäe (iTag)
 * Erik Bloß (TLW64)
+* Yukai Li (Lefun)
 
 ## Contribute
 
