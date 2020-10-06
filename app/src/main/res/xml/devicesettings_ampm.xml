@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
-    <SwitchPreference
-        android:defaultValue="false"
-        android:icon="@drawable/ic_access_time"
-        android:key="pref_ampm_enabled"
-        android:summary="@string/lefun_prefs_ampm_summary"
-        android:title="@string/lefun_prefs_ampm_title" />
-</androidx.preference.PreferenceScreen>

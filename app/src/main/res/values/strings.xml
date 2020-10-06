@@ -552,9 +552,7 @@
     <string name="lefun_prefs_hydration_reminder_interval_title">Hydration reminder interval (in minutes)</string>
     <string name="lefun_prefs_antilost_title">Anti-loss</string>
     <string name="lefun_prefs_antilost_summary">The band will vibrate if your phone disconnects from the band</string>
-    <string name="lefun_prefs_ampm_title">12-hour display</string>
-    <string name="lefun_prefs_ampm_summary">Display time in 12-hour format with AM/PM indicator</string>
-    <string name="lefun_interface_language_title">Interface language</string>
+    <string name="lefun_prefs_interface_language_title">Interface language</string>
     <string name="automatic">Automatic</string>
     <string name="simplified_chinese">Simplified Chinese</string>
     <string name="traditional_chinese">Traditional Chinese</string>

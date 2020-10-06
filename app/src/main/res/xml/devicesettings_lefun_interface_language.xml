@@ -7,5 +7,5 @@
         android:icon="@drawable/ic_language"
         android:key="pref_lefun_interface_language"
         android:summary="%s"
-        android:title="@string/lefun_interface_language_title" />
+        android:title="@string/lefun_prefs_interface_language_title" />
 </androidx.preference.PreferenceScreen>

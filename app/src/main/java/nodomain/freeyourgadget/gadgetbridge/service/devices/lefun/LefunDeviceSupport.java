@@ -23,6 +23,7 @@ import android.bluetooth.BluetoothGattCharacteristic;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
+import android.text.format.DateFormat;
 import android.widget.Toast;
 
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
@@ -147,6 +148,7 @@ public class LefunDeviceSupport extends AbstractBTLEDeviceSupport {
             batReq.perform();
             inProgressRequests.add(batReq);
 
+            sendAmPmSettingIfNecessary(builder);
             sendUnitsSetting(builder);
             sendUserProfile(builder);
         } catch (IOException e) {
@@ -386,10 +388,8 @@ public class LefunDeviceSupport extends AbstractBTLEDeviceSupport {
     public void onSendConfiguration(String config) {
         SharedPreferences prefs = GBApplication.getDeviceSpecificSharedPrefs(getDevice().getAddress());
         switch (config) {
-            case DeviceSettingsPreferenceConst.PREF_AMPM_ENABLED: {
-                boolean enabled = prefs.getBoolean(DeviceSettingsPreferenceConst.PREF_AMPM_ENABLED, false);
-                byte ampmValue = enabled ? SettingsCommand.AM_PM_12_HOUR : SettingsCommand.AM_PM_24_HOUR;
-                sendGeneralSettings(null, ampmValue, (byte) 0xff);
+            case DeviceSettingsPreferenceConst.PREF_TIMEFORMAT: {
+                sendAmPmSetting(null);
                 break;
             }
             case DeviceSettingsPreferenceConst.PREF_LIFTWRIST_NOSHED: {
@@ -472,6 +472,47 @@ public class LefunDeviceSupport extends AbstractBTLEDeviceSupport {
             lefunUnits = SettingsCommand.MEASUREMENT_UNIT_IMPERIAL;
         }
         sendGeneralSettings(builder, (byte) 0xff, lefunUnits);
+    }
+
+    /**
+     * Send AM/PM indicator setting based on time format pref
+     *
+     * @param builder the transaction builder to append to
+     */
+    private void sendAmPmSetting(TransactionBuilder builder) {
+        SharedPreferences prefs = GBApplication.getDeviceSpecificSharedPrefs(getDevice().getAddress());
+        String ampmSetting = prefs.getString(DeviceSettingsPreferenceConst.PREF_TIMEFORMAT,
+                getContext().getString(R.string.p_timeformat_auto));
+
+        byte ampmDeviceSetting = (byte) 0xff;
+        if (getContext().getString(R.string.p_timeformat_auto).equals(ampmSetting)) {
+            if (DateFormat.is24HourFormat(getContext())) {
+                ampmDeviceSetting = SettingsCommand.AM_PM_24_HOUR;
+            } else {
+                ampmDeviceSetting = SettingsCommand.AM_PM_12_HOUR;
+            }
+        } else if (getContext().getString(R.string.p_timeformat_24h).equals(ampmSetting)) {
+            ampmDeviceSetting = SettingsCommand.AM_PM_24_HOUR;
+        } else if (getContext().getString(R.string.p_timeformat_am_pm).equals(ampmSetting)) {
+            ampmDeviceSetting = SettingsCommand.AM_PM_12_HOUR;
+        }
+
+        sendGeneralSettings(builder, ampmDeviceSetting, (byte) 0xff);
+    }
+
+    /**
+     * Send AM/PM indicator setting only if time format pref is set to auto
+     *
+     * @param builder the transaction builder to append to
+     */
+    private void sendAmPmSettingIfNecessary(TransactionBuilder builder) {
+        SharedPreferences prefs = GBApplication.getDeviceSpecificSharedPrefs(getDevice().getAddress());
+        String ampmSetting = prefs.getString(DeviceSettingsPreferenceConst.PREF_TIMEFORMAT,
+                getContext().getString(R.string.p_timeformat_auto));
+
+        if (getContext().getString(R.string.p_timeformat_auto).equals(ampmSetting)) {
+            sendAmPmSetting(builder);
+        }
     }
 
     /**
@@ -628,9 +669,19 @@ public class LefunDeviceSupport extends AbstractBTLEDeviceSupport {
     public void receiveGeneralSettings(int amPm, int units) {
         SharedPreferences prefs = GBApplication.getDeviceSpecificSharedPrefs(getDevice().getAddress());
         boolean ampmEnabled = amPm == SettingsCommand.AM_PM_12_HOUR;
-        prefs.edit()
-                .putBoolean(DeviceSettingsPreferenceConst.PREF_AMPM_ENABLED, ampmEnabled)
-                .apply();
+        String currAmpmSetting = prefs.getString(DeviceSettingsPreferenceConst.PREF_TIMEFORMAT,
+                getContext().getString(R.string.p_timeformat_auto));
+
+        SharedPreferences.Editor editor = prefs.edit();
+
+        // Only update AM/PM indicator setting if it is not currently set to auto
+        if (!getContext().getString(R.string.p_timeformat_auto).equals(currAmpmSetting)) {
+            String ampmValue = getContext().getString(ampmEnabled ? R.string.p_timeformat_am_pm
+                    : R.string.p_timeformat_24h);
+            editor.putString(DeviceSettingsPreferenceConst.PREF_TIMEFORMAT, ampmValue);
+        }
+
+        editor.apply();
     }
 
     /**
