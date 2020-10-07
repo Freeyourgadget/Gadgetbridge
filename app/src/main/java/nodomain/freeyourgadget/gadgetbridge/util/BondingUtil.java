@@ -277,7 +277,9 @@ public class BondingUtil {
                 .build();
 
         CompanionDeviceManager manager = (CompanionDeviceManager) bondingInterface.getContext().getSystemService(Context.COMPANION_DEVICE_SERVICE);
+        LOG.debug(String.format("Searching for %s associations", deviceCandidate.getMacAddress()));
         for (String association : manager.getAssociations()) {
+            LOG.debug(String.format("Already associated with: %s", association));
             if (association.equals(deviceCandidate.getMacAddress())) {
                 LOG.info("The device has already been bonded through CompanionDeviceManager, using regular");
                 // If it's already "associated", we should immediately pair
@@ -287,6 +289,7 @@ public class BondingUtil {
             }
         }
 
+        LOG.debug("Starting association request");
         manager.associate(pairingRequest,
                 getCompanionDeviceManagerCallback(bondingInterface),
                 null);
