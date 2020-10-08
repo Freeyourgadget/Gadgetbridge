@@ -418,6 +418,8 @@
     <string name="user_feedback_miband_set_alarms_failed">There was an error setting the alarms, please try again.</string>
     <string name="user_feedback_miband_set_alarms_ok">Alarms sent to device.</string>
     <string name="chart_no_data_synchronize">No data. Synchronize device?</string>
+    <string name="chart_no_active_data">No activities detected.</string>
+    <string name="chart_get_active_and_synchronize">Do some activity and synchronize device.</string>
     <string name="user_feedback_miband_activity_data_transfer">About to transfer %1$s of data starting from %2$s</string>
     <string name="miband_prefs_fitness_goal">Daily step target</string>
     <string name="dbaccess_error_executing">Error executing \'%1$s\'</string>
@@ -439,6 +441,7 @@
     <string name="weeksleepchart_today_sleep_description">Sleep today, target: %1$s</string>
     <string name="weekstepschart_steps_a_week">Steps per week</string>
     <string name="activity_sleepchart_activity_and_sleep">Activity</string>
+    <string name="charts_activity_list">Activity list</string>
     <string name="lack_of_sleep">Lack of sleep: %1$s</string>
     <string name="overslept">Overslept: %1$s</string>
     <string name="updating_firmware">Flashing firmware…</string>
@@ -596,6 +599,10 @@
     <string name="pref_title_chart_sleep_rolling_24_hour">Sleep range</string>
     <string name="pref_chart_sleep_rolling_24_on">Past 24 hours</string>
     <string name="pref_chart_sleep_rolling_24_off">Noon to noon</string>
+    <string name="activity_prefs_chart_min_steps_per_minute_for_run">Minimal steps per minute to detect run</string>
+    <string name="activity_prefs_chart_min_steps_per_minute">Minimal steps per minute to detect activity</string>
+    <string name="activity_prefs_chart_max_idle_phase_length">Pause length to separate activities (minutes)</string>
+    <string name="activity_prefs_chart_min_session_length">Minimal activity length (minutes)</string>
     <string name="authenticating">Authenticating</string>
     <string name="authentication_required">Authentication required</string>
     <string name="activity_prefs_sleep_duration">Preferred sleep duration in hours</string>

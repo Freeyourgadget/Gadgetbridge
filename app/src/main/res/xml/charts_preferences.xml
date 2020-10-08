@@ -53,7 +53,34 @@
             android:summaryOff="@string/pref_charts_range_off"
             android:summaryOn="@string/pref_charts_range_on"
             android:title="@string/pref_title_charts_range" />
-
-
     </PreferenceCategory>
+    <PreferenceCategory
+        android:key="pref_charts_activity_list"
+        android:title="@string/charts_activity_list">
+
+        <EditTextPreference
+            android:inputType="number"
+            android:key="chart_list_min_session_length"
+            android:maxLength="2"
+            android:title="@string/activity_prefs_chart_min_session_length" />
+
+        <EditTextPreference
+            android:inputType="number"
+            android:key="chart_list_max_idle_phase_length"
+            android:maxLength="2"
+            android:title="@string/activity_prefs_chart_max_idle_phase_length" />
+
+        <EditTextPreference
+            android:inputType="number"
+            android:key="chart_list_min_steps_per_minute"
+            android:maxLength="3"
+            android:title="@string/activity_prefs_chart_min_steps_per_minute" />
+
+        <EditTextPreference
+            android:inputType="number"
+            android:key="chart_list_min_steps_per_minute_for_run"
+            android:maxLength="3"
+            android:title="@string/activity_prefs_chart_min_steps_per_minute_for_run" />
+    </PreferenceCategory>
+
 </PreferenceScreen>
