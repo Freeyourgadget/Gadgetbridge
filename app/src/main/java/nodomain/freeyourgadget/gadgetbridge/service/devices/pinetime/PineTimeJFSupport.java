@@ -91,7 +91,6 @@ public class PineTimeJFSupport extends AbstractBTLEDeviceSupport implements DfuL
 
     private final DfuProgressListener progressListener = new DfuProgressListenerAdapter() {
         private final LocalBroadcastManager manager = LocalBroadcastManager.getInstance(getContext());
-        private final Context context = getContext();
 
         /**
          * Sets the progress bar to indeterminate or not, also makes it visible
@@ -121,53 +120,53 @@ public class PineTimeJFSupport extends AbstractBTLEDeviceSupport implements DfuL
         @Override
         public void onDeviceConnecting(final String mac) {
             this.setIndeterminate(true);
-            this.setProgressText(context.getString(R.string.devicestatus_connecting));
+            this.setProgressText(getContext().getString(R.string.devicestatus_connecting));
         }
 
         @Override
         public void onDeviceConnected(final String mac) {
             this.setIndeterminate(true);
-            this.setProgressText(context.getString(R.string.devicestatus_connected));
+            this.setProgressText(getContext().getString(R.string.devicestatus_connected));
         }
 
         @Override
         public void onEnablingDfuMode(final String mac) {
             this.setIndeterminate(true);
-            this.setProgressText(context.getString(R.string.devicestatus_upload_starting));
+            this.setProgressText(getContext().getString(R.string.devicestatus_upload_starting));
         }
 
         @Override
         public void onDfuProcessStarting(final String mac) {
             this.setIndeterminate(true);
-            this.setProgressText(context.getString(R.string.devicestatus_upload_starting));
+            this.setProgressText(getContext().getString(R.string.devicestatus_upload_starting));
         }
 
         @Override
         public void onDfuProcessStarted(final String mac) {
             this.setIndeterminate(true);
-            this.setProgressText(context.getString(R.string.devicestatus_upload_started));
+            this.setProgressText(getContext().getString(R.string.devicestatus_upload_started));
         }
 
         @Override
         public void onDeviceDisconnecting(final String mac) {
-            this.setProgressText(context.getString(R.string.devicestatus_disconnecting));
+            this.setProgressText(getContext().getString(R.string.devicestatus_disconnecting));
         }
 
         @Override
         public void onDeviceDisconnected(final String mac) {
             this.setIndeterminate(true);
-            this.setProgressText(context.getString(R.string.devicestatus_disconnected));
+            this.setProgressText(getContext().getString(R.string.devicestatus_disconnected));
         }
 
         @Override
         public void onDfuCompleted(final String mac) {
-            this.setProgressText(context.getString(R.string.devicestatus_upload_completed));
+            this.setProgressText(getContext().getString(R.string.devicestatus_upload_completed));
             this.setIndeterminate(false);
             this.setProgress(100);
 
             handler = null;
             controller = null;
-            DfuServiceListenerHelper.unregisterProgressListener(context, progressListener);
+            DfuServiceListenerHelper.unregisterProgressListener(getContext(), progressListener);
 
             // TODO: Request reconnection
         }
@@ -175,17 +174,17 @@ public class PineTimeJFSupport extends AbstractBTLEDeviceSupport implements DfuL
         @Override
         public void onFirmwareValidating(final String mac) {
             this.setIndeterminate(true);
-            this.setProgressText(context.getString(R.string.devicestatus_upload_validating));
+            this.setProgressText(getContext().getString(R.string.devicestatus_upload_validating));
         }
 
         @Override
         public void onDfuAborted(final String mac) {
-            this.setProgressText(context.getString(R.string.devicestatus_upload_aborted));
+            this.setProgressText(getContext().getString(R.string.devicestatus_upload_aborted));
         }
 
         @Override
         public void onError(final String mac, int error, int errorType, final String message) {
-            this.setProgressText(context.getString(R.string.devicestatus_upload_failed));
+            this.setProgressText(getContext().getString(R.string.devicestatus_upload_failed));
         }
 
         @Override
@@ -198,7 +197,7 @@ public class PineTimeJFSupport extends AbstractBTLEDeviceSupport implements DfuL
             this.setProgress(percent);
             this.setIndeterminate(false);
             this.setProgressText(String.format(Locale.ENGLISH,
-                    context.getString(R.string.firmware_update_progress),
+                    getContext().getString(R.string.firmware_update_progress),
                     percent, speed, averageSpeed, segment, totalSegments));
         }
     };
