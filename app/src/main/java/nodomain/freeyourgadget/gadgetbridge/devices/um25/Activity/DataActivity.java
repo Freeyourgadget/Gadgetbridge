@@ -22,8 +22,8 @@ public class DataActivity extends AbstractGBActivity {
 
     private enum ValueDisplay{
         VOLTAGE("voltage", "%.3fV", R.id.um25_text_voltage, 1000),
-        CURRENT("current", "%.4fA", R.id.um25_text_current, 1000),
-        WATTAGE("wattage", "%.4fW", R.id.um25_text_wattage, 1000),
+        CURRENT("current", "%.4fA", R.id.um25_text_current, 10000),
+        WATTAGE("wattage", "%.3fW", R.id.um25_text_wattage, 1000),
         ;
 
         private String variableName;
@@ -60,6 +60,9 @@ public class DataActivity extends AbstractGBActivity {
         super.onPause();
         LocalBroadcastManager.getInstance(this)
                 .unregisterReceiver(measurementReceiver);
+        for(TextView view : valueViews.values()){
+            view.setText("-");
+        }
     }
 
     private void displayMeasurementData(MeasurementData data){
