@@ -1050,4 +1050,11 @@ Temps de sommeil préféré en heures</string>
     <string name="charts_activity_list">Liste d\'activités</string>
     <string name="chart_get_active_and_synchronize">Avoir une activité et synchroniser l\'appareil.</string>
     <string name="chart_no_active_data">Aucune activité détectée.</string>
+    <string name="devicetype_lefun">Lefun</string>
+    <string name="lefun_prefs_interface_language_title">langue de l\'interface</string>
+    <string name="lefun_prefs_antilost_summary">Le bracelet vibrera si votre téléphone se déconnecte du bracelet</string>
+    <string name="lefun_prefs_antilost_title">Anti-perte</string>
+    <string name="lefun_prefs_hydration_reminder_interval_title">Intervalle de rappel d\'hydratation (en minutes)</string>
+    <string name="lefun_prefs_hydration_reminder_summary">Le bracelet vibrera pour vous rappeler de boire de l\'eau</string>
+    <string name="lefun_prefs_hydration_reminder_title">Rappel d\'hydratation</string>
 </resources>
