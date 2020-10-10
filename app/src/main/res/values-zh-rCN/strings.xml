@@ -1055,4 +1055,11 @@
     <string name="activity_filter_to_placeholder">今天</string>
     <string name="activity_filter_from_placeholder">遥远的过去</string>
     <string name="about_links">连接</string>
+    <string name="activity_prefs_chart_min_session_length">最小活动长度（分钟）</string>
+    <string name="activity_prefs_chart_max_idle_phase_length">以暂停长度来分割活动（分钟）</string>
+    <string name="activity_prefs_chart_min_steps_per_minute">每分钟检测到的最小活动步数</string>
+    <string name="activity_prefs_chart_min_steps_per_minute_for_run">每分钟检测跑步的最小步数</string>
+    <string name="charts_activity_list">活动列表</string>
+    <string name="chart_get_active_and_synchronize">做一些运动来同步设备。</string>
+    <string name="chart_no_active_data">未检测到活动。</string>
 </resources>
