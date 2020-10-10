@@ -1044,4 +1044,11 @@
     <string name="activity_filter_to_placeholder">היום</string>
     <string name="activity_filter_from_placeholder">מרחק שעבר</string>
     <string name="about_links">קישורים</string>
+    <string name="activity_prefs_chart_min_session_length">משך מזערי לפעילות (דקות)</string>
+    <string name="activity_prefs_chart_max_idle_phase_length">משך השהייה להפרדת פעילויות (דקות)</string>
+    <string name="activity_prefs_chart_min_steps_per_minute">כמות מזערית של צעדים לדקה לזיהוי פעילות</string>
+    <string name="activity_prefs_chart_min_steps_per_minute_for_run">כמות מזערית של צעדים לדקה לזיהוי ריצה</string>
+    <string name="charts_activity_list">רשימת פעילויות</string>
+    <string name="chart_get_active_and_synchronize">יש לעשות פעילות כלשהי ולסנכרן את ההתקן.</string>
+    <string name="chart_no_active_data">לא זוהו פעילויות.</string>
 </resources>
