@@ -413,7 +413,7 @@
     <string name="mi2_prefs_inactivity_warnings">Hareketsizlik uyarıları</string>
     <string name="mi2_prefs_inactivity_warnings_dnd_summary">Belirli zaman arasında Hareketsizlik Uyarısı vermesin</string>
     <string name="mi2_prefs_inactivity_warnings_summary">Belirli süre hareketsiz kaldığınızda bileklik titreyecek</string>
-    <string name="mi2_prefs_inactivity_warnings_threshold">Hareketsizlik sınırı (dakika cinsinden)</string>
+    <string name="mi2_prefs_inactivity_warnings_threshold">Hareketsizlik sınırı (dakika olarak)</string>
     <string name="mi2_prefs_rotate_wrist_to_switch_info">Bilgileri değiştirmek için bileği döndür</string>
     <string name="mi3_night_mode_sunset">Gün batımında</string>
     <string name="mi3_prefs_band_screen_unlock">Bileklik ekran kilidini açma</string>
@@ -691,7 +691,7 @@
     <string name="prefs_button_triple_press_action_selection_title">Etkinlik 3 eylemi</string>
     <string name="prefs_button_variable_actions">Ayrıntılı basma eylemi ayarları</string>
     <string name="prefs_disconnect_notification">Bağlantı kesilme bildirimi</string>
-    <string name="prefs_enable_find_phone">\\\'Telefonu bul\\\' özelliğini aç</string>
+    <string name="prefs_enable_find_phone">\'Telefonu bul\' özelliğini aç</string>
     <string name="prefs_find_phone">Telefonu bul</string>
     <string name="prefs_find_phone_duration">Saniye cinsinden zil süresi</string>
     <string name="prefs_find_phone_summary">Telefonunuzun zilini çalmak için bilekliğinizi kullanın.</string>
@@ -1081,4 +1081,11 @@
     <string name="charts_activity_list">Etkinlik listesi</string>
     <string name="chart_get_active_and_synchronize">Biraz etkinlik yapın ve aygıtı eşzamanlayın.</string>
     <string name="chart_no_active_data">Etkinlik algılanmadı.</string>
+    <string name="lefun_prefs_antilost_summary">Telefonunuzun bileklikle bağlantısı kesilirse bileklik titreyecek</string>
+    <string name="devicetype_lefun">Lefun</string>
+    <string name="lefun_prefs_interface_language_title">Arayüz dili</string>
+    <string name="lefun_prefs_antilost_title">Kayıp önleme</string>
+    <string name="lefun_prefs_hydration_reminder_interval_title">Sıvı alma hatırlatma aralığı (dakika olarak)</string>
+    <string name="lefun_prefs_hydration_reminder_summary">Bileklik su içmenizi hatırlatmak için titreyecek</string>
+    <string name="lefun_prefs_hydration_reminder_title">Sıvı alma hatırlatıcı</string>
 </resources>
