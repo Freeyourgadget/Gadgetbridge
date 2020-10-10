@@ -1050,4 +1050,11 @@
     <string name="activity_filter_from_placeholder">далёкое прошлое</string>
     <string name="activity_filter_to_placeholder">сегодня</string>
     <string name="about_links">Ссылки</string>
+    <string name="activity_prefs_chart_min_session_length">Минимальная продолжительность активностей (минуты)</string>
+    <string name="activity_prefs_chart_max_idle_phase_length">Продолжительность паузы для разделения активностей (минуты)</string>
+    <string name="activity_prefs_chart_min_steps_per_minute">Минимальные шаги в минуту для обнаружения активности</string>
+    <string name="activity_prefs_chart_min_steps_per_minute_for_run">Минимальные шаги в минуту для обнаружения бега</string>
+    <string name="charts_activity_list">Список активностей</string>
+    <string name="chart_get_active_and_synchronize">Сделайте некоторую активность и синхронизируйте устройство.</string>
+    <string name="chart_no_active_data">Никакой активности не обнаружено.</string>
 </resources>
