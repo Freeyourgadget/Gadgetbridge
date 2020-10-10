@@ -763,7 +763,7 @@
     <string name="devicetype_makibes_hr3">Makibes HR3</string>
     <string name="devicetype_amazfit_bip_lite">Amazfit Bip Lite</string>
     <string name="prefs_find_phone">Найти телефон</string>
-    <string name="prefs_enable_find_phone">Включить \\\'Найти телефон\\\'</string>
+    <string name="prefs_enable_find_phone">Включить \'Найти телефон\'</string>
     <string name="prefs_find_phone_summary">Использовать ваш браслет для проигрывания рингтонов.</string>
     <string name="prefs_find_phone_duration">Продолжительность звонка в секундах</string>
     <string name="maximum_duration">Продолжительность</string>
@@ -1057,4 +1057,11 @@
     <string name="charts_activity_list">Список активностей</string>
     <string name="chart_get_active_and_synchronize">Сделайте некоторую активность и синхронизируйте устройство.</string>
     <string name="chart_no_active_data">Никакой активности не обнаружено.</string>
+    <string name="lefun_prefs_hydration_reminder_interval_title">Интервал напоминания о гидратации (в минутах)</string>
+    <string name="lefun_prefs_hydration_reminder_title">Напоминание о гидратации</string>
+    <string name="lefun_prefs_antilost_summary">Браслет будет вибрировать, если ваш телефон отключится от браслета</string>
+    <string name="lefun_prefs_hydration_reminder_summary">Браслет будет вибрировать, напоминая вам о питье воды</string>
+    <string name="devicetype_lefun">Lefun</string>
+    <string name="lefun_prefs_interface_language_title">Язык интерфейса</string>
+    <string name="lefun_prefs_antilost_title">Защита от потери</string>
 </resources>
