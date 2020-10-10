@@ -1043,4 +1043,11 @@ Temps de sommeil préféré en heures</string>
 \nNote : vous n\'avez pas à installer les fichier .res et .gps si ceux ci sont exactement les même qu\'installé précédemment.
 \n
 \nÀ VOS RISQUES ET PÉRILS !</string>
+    <string name="activity_prefs_chart_min_session_length">Durée d\'activité minimale (minutes)</string>
+    <string name="activity_prefs_chart_max_idle_phase_length">Longueur de la pause pour séparer les activités (minutes)</string>
+    <string name="activity_prefs_chart_min_steps_per_minute">Nombre de pas minimum par minute pour détecter une activité</string>
+    <string name="activity_prefs_chart_min_steps_per_minute_for_run">Nombre de pas minimum par minute pour détecter une course</string>
+    <string name="charts_activity_list">Liste d\'activités</string>
+    <string name="chart_get_active_and_synchronize">Avoir une activité et synchroniser l\'appareil.</string>
+    <string name="chart_no_active_data">Aucune activité détectée.</string>
 </resources>
