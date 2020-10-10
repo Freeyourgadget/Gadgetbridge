@@ -1013,4 +1013,7 @@
     <string name="activity_summaries_all_devices">Alle enheter</string>
     <string name="activity_filter_to_placeholder">i dag</string>
     <string name="about_links">Lenker</string>
+    <string name="lefun_prefs_hydration_reminder_interval_title">Drikkepåminnelseintervall (i minutter)</string>
+    <string name="lefun_prefs_interface_language_title">Grensesnittspråk</string>
+    <string name="pref_title_weather_summary">Brukt av LineageOS-værtilbyderen, andre Android-versjoner må bruke et program som «Ditt lokale vær». Mer info er å finne på Gadgetbridge-wiki-en.</string>
 </resources>
