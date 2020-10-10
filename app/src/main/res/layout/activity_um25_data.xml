@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="-"
+            android:id="@+id/um25_text_voltage"
+            android:gravity="center_horizontal"
+            android:textSize="@dimen/um25_value_text_size"
+            android:textColor="@android:color/holo_green_dark"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="-"
+            android:id="@+id/um25_text_current"
+            android:gravity="center_horizontal"
+            android:textSize="@dimen/um25_value_text_size"
+            android:textColor="@android:color/holo_red_dark"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="-"
+            android:id="@+id/um25_text_wattage"
+            android:gravity="center_horizontal"
+            android:textSize="@dimen/um25_value_text_size"
+            android:textColor="@android:color/white"/>
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

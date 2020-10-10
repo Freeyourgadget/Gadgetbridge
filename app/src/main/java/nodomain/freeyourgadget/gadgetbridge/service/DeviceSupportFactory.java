@@ -83,6 +83,7 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.QHybridSuppo
 import nodomain.freeyourgadget.gadgetbridge.service.devices.roidmi.RoidmiSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.sonyswr12.SonySWR12DeviceSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.tlw64.TLW64Support;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.um25.Support.UM25Support;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.vibratissimo.VibratissimoSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.waspos.WaspOSDeviceSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.watch9.Watch9DeviceSupport;
@@ -333,6 +334,9 @@ public class DeviceSupportFactory {
                         break;
                     case WASPOS:
                         deviceSupport = new ServiceDeviceSupport(new WaspOSDeviceSupport(), EnumSet.of(ServiceDeviceSupport.Flags.BUSY_CHECKING));
+                        break;
+                    case UM25:
+                        deviceSupport = new ServiceDeviceSupport(new UM25Support(), EnumSet.of(ServiceDeviceSupport.Flags.BUSY_CHECKING));
                         break;
                 }
                 if (deviceSupport != null) {
