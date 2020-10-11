@@ -9,6 +9,8 @@
 
 # Add any project specific keep options here:
 
+-dontobfuscate
+
 # Pebble BG-JS
 -keepclassmembers class * {
     @android.webkit.JavascriptInterface <methods>;
