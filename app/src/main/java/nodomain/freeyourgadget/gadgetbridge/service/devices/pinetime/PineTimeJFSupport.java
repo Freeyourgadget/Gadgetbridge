@@ -68,21 +68,28 @@ public class PineTimeJFSupport extends AbstractBTLEDeviceSupport {
      */
     String lastAlbum;
     String lastTrack;
+    String lastArtist;
 
-    private void setInitialized(TransactionBuilder builder) {
-        builder.add(new SetDeviceStateAction(getDevice(), GBDevice.State.INITIALIZED, getContext()));
-    }
-
-    private void requestDeviceInfo(TransactionBuilder builder) {
-        LOG.debug("Requesting Device Info!");
-        deviceInfoProfile.requestDeviceInfo(builder);
-    }
-
-    private void handleDeviceInfo(nodomain.freeyourgadget.gadgetbridge.service.btle.profiles.deviceinfo.DeviceInfo info) {
-        LOG.warn("Device info: " + info);
-        versionCmd.hwVersion = info.getHardwareRevision();
-        versionCmd.fwVersion = info.getFirmwareRevision();
-        handleGBDeviceEvent(versionCmd);
+    public PineTimeJFSupport() {
+        super(LOG);
+        addSupportedService(GattService.UUID_SERVICE_ALERT_NOTIFICATION);
+        addSupportedService(GattService.UUID_SERVICE_CURRENT_TIME);
+        addSupportedService(GattService.UUID_SERVICE_DEVICE_INFORMATION);
+        addSupportedService(PineTimeJFConstants.UUID_SERVICE_MUSIC_CONTROL);
+        deviceInfoProfile = new DeviceInfoProfile<>(this);
+        IntentListener mListener = new IntentListener() {
+            @Override
+            public void notify(Intent intent) {
+                String action = intent.getAction();
+                if (DeviceInfoProfile.ACTION_DEVICE_INFO.equals(action)) {
+                    handleDeviceInfo((nodomain.freeyourgadget.gadgetbridge.service.btle.profiles.deviceinfo.DeviceInfo) intent.getParcelableExtra(DeviceInfoProfile.EXTRA_DEVICE_INFO));
+                }
+            }
+        };
+        deviceInfoProfile.addListener(mListener);
+        AlertNotificationProfile<PineTimeJFSupport> alertNotificationProfile = new AlertNotificationProfile<>(this);
+        addSupportedProfile(alertNotificationProfile);
+        addSupportedProfile(deviceInfoProfile);
     }
 
     @Override
@@ -219,37 +226,6 @@ public class PineTimeJFSupport extends AbstractBTLEDeviceSupport {
     @Override
     public void onDeleteCalendarEvent(byte type, long id) {
 
-    }
-
-    String lastArtist;
-
-    public PineTimeJFSupport() {
-        super(LOG);
-        addSupportedService(GattService.UUID_SERVICE_ALERT_NOTIFICATION);
-        addSupportedService(GattService.UUID_SERVICE_CURRENT_TIME);
-        addSupportedService(GattService.UUID_SERVICE_DEVICE_INFORMATION);
-        addSupportedService(PineTimeJFConstants.UUID_SERVICE_MUSIC_CONTROL);
-        deviceInfoProfile = new DeviceInfoProfile<>(this);
-        IntentListener mListener = new IntentListener() {
-            @Override
-            public void notify(Intent intent) {
-                String action = intent.getAction();
-                if (DeviceInfoProfile.ACTION_DEVICE_INFO.equals(action)) {
-                    handleDeviceInfo((nodomain.freeyourgadget.gadgetbridge.service.btle.profiles.deviceinfo.DeviceInfo) intent.getParcelableExtra(DeviceInfoProfile.EXTRA_DEVICE_INFO));
-                }
-            }
-        };
-        deviceInfoProfile.addListener(mListener);
-        AlertNotificationProfile<PineTimeJFSupport> alertNotificationProfile = new AlertNotificationProfile<>(this);
-        addSupportedProfile(alertNotificationProfile);
-        addSupportedProfile(deviceInfoProfile);
-    }
-
-    /**
-     * Helper function that ust converts an integer into a byte array
-     */
-    private static byte[] intToBytes(int source) {
-        return ByteBuffer.allocate(4).putInt(source).array();
     }
 
     @Override
@@ -407,6 +383,13 @@ public class PineTimeJFSupport extends AbstractBTLEDeviceSupport {
     }
 
     /**
+     * Helper function that just converts an integer into a byte array
+     */
+    private static byte[] intToBytes(int source) {
+        return ByteBuffer.allocate(4).putInt(source).array();
+    }
+
+    /**
      * This will check if the characteristic exists and can be written
      * <p>
      * Keeps backwards compatibility with firmware that can't take all the information
@@ -417,5 +400,21 @@ public class PineTimeJFSupport extends AbstractBTLEDeviceSupport {
                 (characteristic.getProperties() & BluetoothGattCharacteristic.PROPERTY_WRITE) > 0) {
             builder.write(characteristic, data);
         }
+    }
+
+    private void setInitialized(TransactionBuilder builder) {
+        builder.add(new SetDeviceStateAction(getDevice(), GBDevice.State.INITIALIZED, getContext()));
+    }
+
+    private void requestDeviceInfo(TransactionBuilder builder) {
+        LOG.debug("Requesting Device Info!");
+        deviceInfoProfile.requestDeviceInfo(builder);
+    }
+
+    private void handleDeviceInfo(nodomain.freeyourgadget.gadgetbridge.service.btle.profiles.deviceinfo.DeviceInfo info) {
+        LOG.warn("Device info: " + info);
+        versionCmd.hwVersion = info.getHardwareRevision();
+        versionCmd.fwVersion = info.getFirmwareRevision();
+        handleGBDeviceEvent(versionCmd);
     }
 }
