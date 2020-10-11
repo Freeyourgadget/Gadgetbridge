@@ -1051,4 +1051,11 @@
     <string name="charts_activity_list">רשימת פעילויות</string>
     <string name="chart_get_active_and_synchronize">יש לעשות פעילות כלשהי ולסנכרן את ההתקן.</string>
     <string name="chart_no_active_data">לא זוהו פעילויות.</string>
+    <string name="devicetype_lefun">Lefun</string>
+    <string name="lefun_prefs_interface_language_title">שפת המנשק</string>
+    <string name="lefun_prefs_antilost_summary">הצמיד ירוטו אם הטלפון שלך מתנתק מהצמיד</string>
+    <string name="lefun_prefs_antilost_title">מונע איבוד</string>
+    <string name="lefun_prefs_hydration_reminder_interval_title">הפרש תזכורת שתייה (בדקות)</string>
+    <string name="lefun_prefs_hydration_reminder_summary">הצמיד ירטוט כדי להזכיר לך לשתות מים</string>
+    <string name="lefun_prefs_hydration_reminder_title">תזכורת שתייה</string>
 </resources>
