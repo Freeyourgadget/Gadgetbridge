@@ -19,21 +19,26 @@ package nodomain.freeyourgadget.gadgetbridge.activities;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
+import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Typeface;
+import android.net.Uri;
 import android.os.Bundle;
 import android.text.InputType;
 import android.util.TypedValue;
 import android.view.Gravity;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -43,12 +48,16 @@ import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.core.content.FileProvider;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.Date;
@@ -65,27 +74,48 @@ import nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryItems;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryJsonSummary;
 import nodomain.freeyourgadget.gadgetbridge.util.AndroidUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.DateTimeUtils;
+import nodomain.freeyourgadget.gadgetbridge.util.FileUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 import nodomain.freeyourgadget.gadgetbridge.util.SwipeEvents;
 //import nodomain.freeyourgadget.gadgetbridge.util.OnSwipeTouchListener;
 
 public class ActivitySummaryDetail extends AbstractGBActivity {
     private static final Logger LOG = LoggerFactory.getLogger(ActivitySummaryDetail.class);
-    private GBDevice gbDevice;
-
-    private boolean show_raw_data = false;
     BaseActivitySummary currentItem = null;
+    private GBDevice gbDevice;
+    private boolean show_raw_data = false;
     private int alternateColor;
-    //private Object BottomSheetBehavior;
+    private Menu mOptionsMenu;
+
+    public static int getAlternateColor(Context context) {
+        TypedValue typedValue = new TypedValue();
+        Resources.Theme theme = context.getTheme();
+        theme.resolveAttribute(R.attr.alternate_row_background, typedValue, true);
+        return typedValue.data;
+    }
+
+    public static Bitmap getScreenShot(View view, int height, int width, Context context) {
+        Bitmap bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(bitmap);
+        if (GBApplication.isDarkThemeEnabled()) {
+            canvas.drawColor(GBApplication.getBackgroundColor(context));
+        } else {
+            canvas.drawColor(Color.WHITE);
+        }
+        view.draw(canvas);
+        return bitmap;
+    }
 
     @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         final Context appContext = this.getApplicationContext();
         if (appContext instanceof GBApplication) {
             setContentView(R.layout.activity_summary_details);
         }
+
 
         Intent intent = getIntent();
 
@@ -137,9 +167,9 @@ public class ActivitySummaryDetail extends AbstractGBActivity {
                     currentItem = newItem;
                     makeSummaryHeader(newItem);
                     makeSummaryContent(newItem);
-                    activitySummariesChartFragment.setDateAndGetData(gbDevice, currentItem.getStartTime().getTime()/1000, currentItem.getEndTime().getTime()/1000);
+                    activitySummariesChartFragment.setDateAndGetData(gbDevice, currentItem.getStartTime().getTime() / 1000, currentItem.getEndTime().getTime() / 1000);
                     layout.startAnimation(animFadeRight);
-
+                    show_hide_gpx_menu();
                 } else {
                     layout.startAnimation(animBounceRight);
                 }
@@ -152,8 +182,9 @@ public class ActivitySummaryDetail extends AbstractGBActivity {
                     currentItem = newItem;
                     makeSummaryHeader(newItem);
                     makeSummaryContent(newItem);
-                    activitySummariesChartFragment.setDateAndGetData(gbDevice, currentItem.getStartTime().getTime()/1000, currentItem.getEndTime().getTime()/1000);
+                    activitySummariesChartFragment.setDateAndGetData(gbDevice, currentItem.getStartTime().getTime() / 1000, currentItem.getEndTime().getTime() / 1000);
                     layout.startAnimation(animFadeLeft);
+                    show_hide_gpx_menu();
                 } else {
                     layout.startAnimation(animBounceLeft);
                 }
@@ -164,7 +195,7 @@ public class ActivitySummaryDetail extends AbstractGBActivity {
         if (currentItem != null) {
             makeSummaryHeader(currentItem);
             makeSummaryContent(currentItem);
-            activitySummariesChartFragment.setDateAndGetData(gbDevice, currentItem.getStartTime().getTime()/1000, currentItem.getEndTime().getTime()/1000);
+            activitySummariesChartFragment.setDateAndGetData(gbDevice, currentItem.getStartTime().getTime() / 1000, currentItem.getEndTime().getTime() / 1000);
         }
 
 
@@ -190,7 +221,7 @@ public class ActivitySummaryDetail extends AbstractGBActivity {
                 String name = currentItem.getName();
                 input.setText((name != null) ? name : "");
                 FrameLayout container = new FrameLayout(ActivitySummaryDetail.this);
-                FrameLayout.LayoutParams params = new  FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
                 params.leftMargin = getResources().getDimensionPixelSize(R.dimen.dialog_margin);
                 params.rightMargin = getResources().getDimensionPixelSize(R.dimen.dialog_margin);
                 input.setLayoutParams(params);
@@ -224,22 +255,6 @@ public class ActivitySummaryDetail extends AbstractGBActivity {
 
     private void makeSummaryHeader(BaseActivitySummary item) {
         //make view of data from main part of item
-        final String gpxTrack = item.getGpxTrack();
-        Button show_track_btn = findViewById(R.id.showTrack);
-        show_track_btn.setVisibility(View.GONE);
-
-        if (gpxTrack != null) {
-            show_track_btn.setVisibility(View.VISIBLE);
-            show_track_btn.setOnClickListener(new View.OnClickListener() {
-                public void onClick(View v) {
-                    try {
-                        AndroidUtils.viewFile(gpxTrack, Intent.ACTION_VIEW, ActivitySummaryDetail.this);
-                    } catch (IOException e) {
-                        GB.toast(getApplicationContext(), "Unable to display GPX track: " + e.getMessage(), Toast.LENGTH_LONG, GB.ERROR, e);
-                    }
-                }
-            });
-        }
         String activitykindname = ActivityKind.asString(item.getActivityKind(), getApplicationContext());
         String activityname = item.getName();
         Date starttime = item.getStartTime();
@@ -292,7 +307,7 @@ public class ActivitySummaryDetail extends AbstractGBActivity {
                 TableRow label_row = new TableRow(ActivitySummaryDetail.this);
                 TextView label_field = new TextView(ActivitySummaryDetail.this);
                 label_field.setTextSize(16);
-                label_field.setPadding(0,10,0,0);
+                label_field.setPadding(0, 10, 0, 0);
                 label_field.setTypeface(null, Typeface.BOLD);
                 label_field.setText(String.format("%s", getStringResourceByName(key)));
                 label_row.addView(label_field);
@@ -361,14 +376,6 @@ public class ActivitySummaryDetail extends AbstractGBActivity {
         }
     }
 
-
-    public static int getAlternateColor(Context context) {
-        TypedValue typedValue = new TypedValue();
-        Resources.Theme theme = context.getTheme();
-        theme.resolveAttribute(R.attr.alternate_row_background, typedValue, true);
-        return typedValue.data;
-    }
-
     private String getStringResourceByName(String aString) {
         String packageName = getPackageName();
         int resId = getResources().getIdentifier(aString, "string", packageName);
@@ -387,9 +394,82 @@ public class ActivitySummaryDetail extends AbstractGBActivity {
                 // back button
                 finish();
                 return true;
+            case R.id.activity_action_take_screenshot:
+                take_share_screenshot(ActivitySummaryDetail.this);
+                return true;
+            case R.id.activity_action_share_gpx:
+                share_gpx_track(ActivitySummaryDetail.this);
+                return true;
         }
         return super.onOptionsItemSelected(item);
     }
 
+    private void take_share_screenshot(Context context) {
+        final ScrollView layout = findViewById(R.id.activity_summary_detail_scroll_layout);
+        int width = layout.getChildAt(0).getHeight();
+        int height = layout.getChildAt(0).getWidth();
+        Bitmap screenShot = getScreenShot(layout, width, height, context);
 
+        String fileName = FileUtils.makeValidFileName("Screenshot-" + ActivityKind.asString(currentItem.getActivityKind(), context).toLowerCase() + "-" + DateTimeUtils.formatIso8601(currentItem.getStartTime()) + ".png");
+        try {
+            File targetFile = new File(FileUtils.getExternalFilesDir(), fileName);
+            FileOutputStream fOut = new FileOutputStream(targetFile);
+            screenShot.compress(Bitmap.CompressFormat.PNG, 85, fOut);
+            fOut.flush();
+            fOut.close();
+            shareScreenshot(targetFile, context);
+            GB.toast(getApplicationContext(), "Screenshot saved", Toast.LENGTH_LONG, GB.INFO);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void shareScreenshot(File targetFile, Context context) {
+        Uri contentUri = FileProvider.getUriForFile(context,
+                context.getApplicationContext().getPackageName() + ".screenshot_provider", targetFile);
+        Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
+        sharingIntent.setType("image/*");
+        String shareBody = "Sports Activity";
+        sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Sports Activity");
+        sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, shareBody);
+        sharingIntent.putExtra(Intent.EXTRA_STREAM, contentUri);
+
+        try {
+            startActivity(Intent.createChooser(sharingIntent, "Share via"));
+        } catch (ActivityNotFoundException e) {
+            Toast.makeText(context, R.string.activity_error_no_app_for_png, Toast.LENGTH_LONG).show();
+        }
+    }
+
+    private void share_gpx_track(Context context) {
+        final String gpxTrack = currentItem.getGpxTrack();
+
+        if (gpxTrack != null) {
+            try {
+                AndroidUtils.viewFile(gpxTrack, Intent.ACTION_VIEW, context);
+            } catch (IOException e) {
+                GB.toast(getApplicationContext(), "Unable to display GPX track: " + e.getMessage(), Toast.LENGTH_LONG, GB.ERROR, e);
+            }
+        } else {
+            GB.toast(getApplicationContext(), "No GPX track in this activity", Toast.LENGTH_LONG, GB.INFO);
+        }
+    }
+
+    private void show_hide_gpx_menu() {
+        final String gpxTrack = currentItem.getGpxTrack();
+        if (gpxTrack == null) {
+            mOptionsMenu.findItem(R.id.activity_detail_overflowMenu).getSubMenu().findItem(R.id.activity_action_share_gpx).setVisible(false);
+        } else {
+            mOptionsMenu.findItem(R.id.activity_detail_overflowMenu).getSubMenu().findItem(R.id.activity_action_share_gpx).setVisible(true);
+        }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        super.onCreateOptionsMenu(menu);
+        mOptionsMenu = menu;
+        getMenuInflater().inflate(R.menu.activity_take_screenshot_menu, menu);
+        show_hide_gpx_menu();
+        return true;
+    }
 }

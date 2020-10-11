@@ -31,6 +31,7 @@ import com.github.mikephil.charting.charts.Chart;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -61,6 +62,14 @@ public class ActivityListingChartFragment extends AbstractChartFragment {
         stepListAdapter = new ActivityListingAdapter(getContext());
         stepsList.setAdapter(stepListAdapter);
         stepsDateView = rootView.findViewById(R.id.stepsDateView);
+        LOG.debug("PETR " + getHost());
+        try {
+            getChartsHost().getClass().getMethod("enableSwipeRefresh").invoke(false);
+        } catch (Exception e) {
+            LOG.debug("dsda", e);
+        }
+        //device.getClass().getMethod("cancelBondProcess").invoke(device);
+
         //refresh();
         return rootView;
     }
