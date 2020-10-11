@@ -1065,4 +1065,20 @@ Temps de sommeil préféré en heures</string>
     <string name="sonyswr12_settings_low_vibration_summary">Permettre une faible intensité de vibration sur la bande</string>
     <string name="sonyswr12_settings_stamina_summary">Le mode d\'économie d\'énergie désactive la mesure automatique périodique de la fréquence cardiaque augmente ainsi le temps de travail</string>
     <string name="sonyswr12_settings_alarm_interval_summary">L\'intervalle d\'alarme intelligente est l\'intervalle avant l\'alarme installée. Dans cet intervalle, l\'appareil tente de détecter la phase de sommeil la plus légère pour réveiller l\'utilisateur</string>
+    <string name="devicetype_nut_mini">Nut Mini</string>
+    <string name="descentSeconds">Descendant</string>
+    <string name="activity_error_no_app_for_png">Pour partager cette capture écran, installer une application pour gérer les fichiers images.</string>
+    <string name="firmware_update_progress">Envoi en cours
+\n%1d%% à %.2fkbps (moyenne %.2fkbps)
+\nÉlément %1d de %1d</string>
+    <string name="devicestatus_upload_failed">L\'envoi n\'a pas réussi</string>
+    <string name="devicestatus_upload_aborted">L\'envoi a avorté !</string>
+    <string name="devicestatus_upload_validating">L\'envoi est en cours de validation</string>
+    <string name="devicestatus_upload_completed">L\'envoi est terminé</string>
+    <string name="devicestatus_disconnected">Appareil déconnecté !</string>
+    <string name="devicestatus_disconnecting">L\'appareil se déconnecte !</string>
+    <string name="devicestatus_upload_started">L\'envoi a démarré</string>
+    <string name="devicestatus_upload_starting">L\'envoi démarre</string>
+    <string name="devicestatus_connected">Appareil connecté</string>
+    <string name="devicestatus_connecting">Connexion à l\'apparel</string>
 </resources>
