@@ -1096,4 +1096,6 @@
     <string name="sonyswr12_settings_stamina_summary">Güç tasarrufu modu, kalp atış hızının periyodik otomatik ölçümünü kapatır ve böylece çalışma süresini uzatır</string>
     <string name="sonyswr12_settings_alarm_interval_summary">Akıllı alarm aralığı, kurulu alarmdan önceki aralıktır. Bu aralıkta cihaz, kullanıcıyı uyandırmak için uykunun en hafif aşamasını tespit etmeye çalışıyor</string>
     <string name="sonyswr12_settings_stamina">Güç tasarrufu modu açık</string>
+    <string name="devicetype_nut_mini">Nut Mini</string>
+    <string name="activity_error_no_app_for_png">Bu ekran görüntüsünü paylaşmak için görüntü dosyalarını işleyebilen bir uygulama kurun.</string>
 </resources>
