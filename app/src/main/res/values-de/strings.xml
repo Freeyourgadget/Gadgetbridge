@@ -1095,4 +1095,5 @@
     <string name="devicestatus_upload_starting">Upload beginnt</string>
     <string name="devicestatus_connected">Gerät ist verbunden</string>
     <string name="devicestatus_connecting">Gerät stellt eine Verbindung her</string>
+    <string name="charts_activity_list">Aktivitätsliste</string>
 </resources>
