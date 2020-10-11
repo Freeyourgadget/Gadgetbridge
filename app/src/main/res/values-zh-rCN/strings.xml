@@ -759,7 +759,7 @@
     <string name="devicetype_makibes_hr3">Makibes HR3</string>
     <string name="devicetype_amazfit_bip_lite">华米手表青春版 Lite</string>
     <string name="prefs_find_phone">查找手机</string>
-    <string name="prefs_enable_find_phone">启用查找手机</string>
+    <string name="prefs_enable_find_phone">启用“查找手机”</string>
     <string name="prefs_find_phone_summary">使用您的手环以在手机上播放铃声。</string>
     <string name="prefs_find_phone_duration">铃声将持续数秒</string>
     <string name="maximum_duration">持续</string>
@@ -1062,4 +1062,11 @@
     <string name="charts_activity_list">活动列表</string>
     <string name="chart_get_active_and_synchronize">做一些运动来同步设备。</string>
     <string name="chart_no_active_data">未检测到活动。</string>
+    <string name="devicetype_lefun">Lefun</string>
+    <string name="lefun_prefs_interface_language_title">界面语言</string>
+    <string name="lefun_prefs_antilost_summary">如果您的手机断开与手环的连接，将会震动</string>
+    <string name="lefun_prefs_antilost_title">防丢失</string>
+    <string name="lefun_prefs_hydration_reminder_interval_title">水合提醒间隔（分钟）</string>
+    <string name="lefun_prefs_hydration_reminder_summary">当需要提醒喝水时，手环会震动</string>
+    <string name="lefun_prefs_hydration_reminder_title">水合提醒</string>
 </resources>
