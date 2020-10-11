@@ -18,7 +18,6 @@ package nodomain.freeyourgadget.gadgetbridge.service.devices.pinetime;
 
 import android.bluetooth.BluetoothGatt;
 import android.bluetooth.BluetoothGattCharacteristic;
-import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.widget.Toast;
@@ -45,6 +44,7 @@ import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventMusicContr
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventVersionInfo;
 import nodomain.freeyourgadget.gadgetbridge.devices.pinetime.PineTimeDFUService;
 import nodomain.freeyourgadget.gadgetbridge.devices.pinetime.PineTimeInstallHandler;
+import nodomain.freeyourgadget.gadgetbridge.devices.pinetime.PineTimeJFConstants;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.Alarm;
 import nodomain.freeyourgadget.gadgetbridge.model.CalendarEventSpec;
@@ -65,13 +65,13 @@ import nodomain.freeyourgadget.gadgetbridge.service.btle.profiles.alertnotificat
 import nodomain.freeyourgadget.gadgetbridge.service.btle.profiles.alertnotification.AlertNotificationProfile;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.profiles.alertnotification.NewAlert;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.profiles.alertnotification.OverflowStrategy;
-import nodomain.freeyourgadget.gadgetbridge.service.btle.profiles.deviceinfo.DeviceInfo;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.profiles.deviceinfo.DeviceInfoProfile;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
 public class PineTimeJFSupport extends AbstractBTLEDeviceSupport implements DfuLogListener {
     private static final Logger LOG = LoggerFactory.getLogger(PineTimeJFSupport.class);
-
+    private final GBDeviceEventVersionInfo versionCmd = new GBDeviceEventVersionInfo();
+    private final DeviceInfoProfile<PineTimeJFSupport> deviceInfoProfile;
     /**
      * These are used to keep track when long strings haven't changed,
      * thus avoiding unnecessary transfers that are (potentially) very slow.
@@ -81,11 +81,6 @@ public class PineTimeJFSupport extends AbstractBTLEDeviceSupport implements DfuL
     String lastAlbum;
     String lastTrack;
     String lastArtist;
-
-    private final GBDeviceEventVersionInfo versionCmd = new GBDeviceEventVersionInfo();
-
-    private final DeviceInfoProfile<PineTimeJFSupport> deviceInfoProfile;
-
     PineTimeInstallHandler handler;
     DfuServiceController controller;
 
@@ -222,32 +217,6 @@ public class PineTimeJFSupport extends AbstractBTLEDeviceSupport implements DfuL
         AlertNotificationProfile<PineTimeJFSupport> alertNotificationProfile = new AlertNotificationProfile<>(this);
         addSupportedProfile(alertNotificationProfile);
         addSupportedProfile(deviceInfoProfile);
-    }
-
-    @Override
-    protected TransactionBuilder initializeDevice(TransactionBuilder builder) {
-        builder.add(new SetDeviceStateAction(getDevice(), GBDevice.State.INITIALIZING, getContext()));
-        requestDeviceInfo(builder);
-        onSetTime();
-        builder.notify(getCharacteristic(UUID_CHARACTERISTICS_MUSIC_EVENT), true);
-        setInitialized(builder);
-        return builder;
-    }
-
-    private void setInitialized(TransactionBuilder builder) {
-        builder.add(new SetDeviceStateAction(getDevice(), GBDevice.State.INITIALIZED, getContext()));
-    }
-
-    private void requestDeviceInfo(TransactionBuilder builder) {
-        LOG.debug("Requesting Device Info!");
-        deviceInfoProfile.requestDeviceInfo(builder);
-    }
-
-    private void handleDeviceInfo(DeviceInfo info) {
-        LOG.warn("Device info: " + info);
-        versionCmd.hwVersion = info.getHardwareRevision();
-        versionCmd.fwVersion = info.getFirmwareRevision();
-        handleGBDeviceEvent(versionCmd);
     }
 
     @Override
