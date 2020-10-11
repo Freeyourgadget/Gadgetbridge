@@ -1,6 +1,7 @@
 ### Changelog
 
 #### 0.48.0 (WIP)
+* Initial support for Sony SWR12
 * Initial support for Lefun Smart Bands
 * InfiniTime: Improved music support for latest firmware
 * Add sport activity list tab in charts
