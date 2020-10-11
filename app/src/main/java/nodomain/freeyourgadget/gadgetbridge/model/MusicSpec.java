@@ -20,6 +20,8 @@ package nodomain.freeyourgadget.gadgetbridge.model;
 import java.util.Objects;
 
 public class MusicSpec {
+    public static final int MUSIC_UNKNOWN = -1;
+
     public static final int MUSIC_UNDEFINED = 0;
     public static final int MUSIC_PLAY = 1;
     public static final int MUSIC_PAUSE = 2;
@@ -27,12 +29,12 @@ public class MusicSpec {
     public static final int MUSIC_NEXT = 4;
     public static final int MUSIC_PREVIOUS = 5;
 
-    public String artist;
-    public String album;
-    public String track;
-    public int duration;
-    public int trackCount;
-    public int trackNr;
+    public String artist = null;
+    public String album = null;
+    public String track = null;
+    public int duration = MUSIC_UNKNOWN;
+    public int trackCount = MUSIC_UNKNOWN;
+    public int trackNr = MUSIC_UNKNOWN;
 
     public MusicSpec() {
 

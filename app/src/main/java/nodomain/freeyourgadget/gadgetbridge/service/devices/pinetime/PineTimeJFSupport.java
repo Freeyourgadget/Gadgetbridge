@@ -1,4 +1,4 @@
-/*  Copyright (C) 2020 Andreas Shimokawa
+/*  Copyright (C) 2020 Andreas Shimokawa, Taavi Eomäe
 
     This file is part of Gadgetbridge.
 
@@ -24,13 +24,14 @@ import android.net.Uri;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
 import java.util.UUID;
 
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventMusicControl;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventVersionInfo;
-import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandService;
+import nodomain.freeyourgadget.gadgetbridge.devices.pinetime.PineTimeJFConstants;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.Alarm;
 import nodomain.freeyourgadget.gadgetbridge.model.CalendarEventSpec;
@@ -59,46 +60,14 @@ public class PineTimeJFSupport extends AbstractBTLEDeviceSupport {
     private final GBDeviceEventVersionInfo versionCmd = new GBDeviceEventVersionInfo();
     private final DeviceInfoProfile<PineTimeJFSupport> deviceInfoProfile;
 
-    private static final UUID UUID_SERVICE_MUSICCONTROL = UUID.fromString("c7e50001-00fc-48fe-8e23-433b3a1942d0");
-    private static final UUID UUID_CHARACTERISTICS_MUSIC_EVENT = UUID.fromString("c7e50002-00fc-48fe-8e23-433b3a1942d0");
-    private static final UUID UUID_CHARACTERISTICS_MUSIC_STATUS = UUID.fromString("c7e50003-00fc-48fe-8e23-433b3a1942d0");
-    private static final UUID UUID_CHARACTERISTICS_MUSIC_TRACK = UUID.fromString("c7e50004-00fc-48fe-8e23-433b3a1942d0");
-    private static final UUID UUID_CHARACTERISTICS_MUSIC_ARTIST = UUID.fromString("c7e50005-00fc-48fe-8e23-433b3a1942d0");
-    private static final UUID UUID_CHARACTERISTICS_MUSIC_ALBUM = UUID.fromString("c7e50006-00fc-48fe-8e23-433b3a1942d0");
-
-    public PineTimeJFSupport() {
-        super(LOG);
-        addSupportedService(GattService.UUID_SERVICE_ALERT_NOTIFICATION);
-        addSupportedService(GattService.UUID_SERVICE_CURRENT_TIME);
-        addSupportedService(GattService.UUID_SERVICE_DEVICE_INFORMATION);
-        addSupportedService(UUID_SERVICE_MUSICCONTROL);
-        deviceInfoProfile = new DeviceInfoProfile<>(this);
-        IntentListener mListener = new IntentListener() {
-            @Override
-            public void notify(Intent intent) {
-                String action = intent.getAction();
-                if (DeviceInfoProfile.ACTION_DEVICE_INFO.equals(action)) {
-                    handleDeviceInfo((nodomain.freeyourgadget.gadgetbridge.service.btle.profiles.deviceinfo.DeviceInfo) intent.getParcelableExtra(DeviceInfoProfile.EXTRA_DEVICE_INFO));
-                }
-            }
-        };
-        deviceInfoProfile.addListener(mListener);
-        AlertNotificationProfile<PineTimeJFSupport> alertNotificationProfile = new AlertNotificationProfile<>(this);
-        addSupportedProfile(alertNotificationProfile);
-        addSupportedProfile(deviceInfoProfile);
-    }
-
-
-    @Override
-    protected TransactionBuilder initializeDevice(TransactionBuilder builder) {
-        builder.add(new SetDeviceStateAction(getDevice(), GBDevice.State.INITIALIZING, getContext()));
-        requestDeviceInfo(builder);
-        onSetTime();
-        builder.notify(getCharacteristic(UUID_CHARACTERISTICS_MUSIC_EVENT), true);
-        setInitialized(builder);
-        return builder;
-    }
-
+    /**
+     * These are used to keep track when long strings haven't changed,
+     * thus avoiding unnecessary transfers that are (potentially) very slow.
+     * <p>
+     * Makes the device's UI more responsive.
+     */
+    String lastAlbum;
+    String lastTrack;
 
     private void setInitialized(TransactionBuilder builder) {
         builder.add(new SetDeviceStateAction(getDevice(), GBDevice.State.INITIALIZED, getContext()));
@@ -162,7 +131,6 @@ public class PineTimeJFSupport extends AbstractBTLEDeviceSupport {
     public void onSetCannedMessages(CannedMessagesSpec cannedMessagesSpec) {
 
     }
-
 
     @Override
     public void onEnableRealtimeSteps(boolean enable) {
@@ -253,19 +221,73 @@ public class PineTimeJFSupport extends AbstractBTLEDeviceSupport {
 
     }
 
+    String lastArtist;
+
+    public PineTimeJFSupport() {
+        super(LOG);
+        addSupportedService(GattService.UUID_SERVICE_ALERT_NOTIFICATION);
+        addSupportedService(GattService.UUID_SERVICE_CURRENT_TIME);
+        addSupportedService(GattService.UUID_SERVICE_DEVICE_INFORMATION);
+        addSupportedService(PineTimeJFConstants.UUID_SERVICE_MUSIC_CONTROL);
+        deviceInfoProfile = new DeviceInfoProfile<>(this);
+        IntentListener mListener = new IntentListener() {
+            @Override
+            public void notify(Intent intent) {
+                String action = intent.getAction();
+                if (DeviceInfoProfile.ACTION_DEVICE_INFO.equals(action)) {
+                    handleDeviceInfo((nodomain.freeyourgadget.gadgetbridge.service.btle.profiles.deviceinfo.DeviceInfo) intent.getParcelableExtra(DeviceInfoProfile.EXTRA_DEVICE_INFO));
+                }
+            }
+        };
+        deviceInfoProfile.addListener(mListener);
+        AlertNotificationProfile<PineTimeJFSupport> alertNotificationProfile = new AlertNotificationProfile<>(this);
+        addSupportedProfile(alertNotificationProfile);
+        addSupportedProfile(deviceInfoProfile);
+    }
+
+    /**
+     * Helper function that ust converts an integer into a byte array
+     */
+    private static byte[] intToBytes(int source) {
+        return ByteBuffer.allocate(4).putInt(source).array();
+    }
+
+    @Override
+    protected TransactionBuilder initializeDevice(TransactionBuilder builder) {
+        builder.add(new SetDeviceStateAction(getDevice(), GBDevice.State.INITIALIZING, getContext()));
+        requestDeviceInfo(builder);
+        onSetTime();
+        builder.notify(getCharacteristic(PineTimeJFConstants.UUID_CHARACTERISTICS_MUSIC_EVENT), true);
+        setInitialized(builder);
+        return builder;
+    }
+
     @Override
     public void onSetMusicInfo(MusicSpec musicSpec) {
         try {
             TransactionBuilder builder = performInitialized("send playback info");
 
-            if (musicSpec.album != null) {
-                builder.write(getCharacteristic(UUID_CHARACTERISTICS_MUSIC_TRACK), musicSpec.track.getBytes());
+            if (musicSpec.album != null && !musicSpec.album.equals(lastAlbum)) {
+                lastAlbum = musicSpec.album;
+                safeWriteToCharacteristic(builder, PineTimeJFConstants.UUID_CHARACTERISTICS_MUSIC_ALBUM, musicSpec.album.getBytes());
             }
-            if (musicSpec.artist != null) {
-                builder.write(getCharacteristic(UUID_CHARACTERISTICS_MUSIC_ARTIST), musicSpec.artist.getBytes());
+            if (musicSpec.track != null && !musicSpec.track.equals(lastTrack)) {
+                lastTrack = musicSpec.track;
+                safeWriteToCharacteristic(builder, PineTimeJFConstants.UUID_CHARACTERISTICS_MUSIC_TRACK, musicSpec.track.getBytes());
             }
-            if (musicSpec.album != null) {
-                builder.write(getCharacteristic(UUID_CHARACTERISTICS_MUSIC_ALBUM), musicSpec.album.getBytes());
+            if (musicSpec.artist != null && !musicSpec.artist.equals(lastArtist)) {
+                lastArtist = musicSpec.artist;
+                safeWriteToCharacteristic(builder, PineTimeJFConstants.UUID_CHARACTERISTICS_MUSIC_ARTIST, musicSpec.artist.getBytes());
+            }
+
+            if (musicSpec.duration != MusicSpec.MUSIC_UNKNOWN) {
+                safeWriteToCharacteristic(builder, PineTimeJFConstants.UUID_CHARACTERISTICS_MUSIC_LENGTH_TOTAL, intToBytes(musicSpec.duration));
+            }
+            if (musicSpec.trackNr != MusicSpec.MUSIC_UNKNOWN) {
+                safeWriteToCharacteristic(builder, PineTimeJFConstants.UUID_CHARACTERISTICS_MUSIC_TRACK_NUMBER, intToBytes(musicSpec.trackNr));
+            }
+            if (musicSpec.trackCount != MusicSpec.MUSIC_UNKNOWN) {
+                safeWriteToCharacteristic(builder, PineTimeJFConstants.UUID_CHARACTERISTICS_MUSIC_TRACK_TOTAL, intToBytes(musicSpec.trackCount));
             }
 
             builder.queue(getQueue());
@@ -279,16 +301,62 @@ public class PineTimeJFSupport extends AbstractBTLEDeviceSupport {
         try {
             TransactionBuilder builder = performInitialized("send playback state");
 
-            byte[] state = new byte[]{0};
-            if (stateSpec.state == MusicStateSpec.STATE_PLAYING) {
-                state[0] = 1;
+            if (stateSpec.state != MusicStateSpec.STATE_UNKNOWN) {
+                byte[] state = new byte[1];
+                if (stateSpec.state == MusicStateSpec.STATE_PLAYING) {
+                    state[0] = 0x01;
+                }
+                safeWriteToCharacteristic(builder, PineTimeJFConstants.UUID_CHARACTERISTICS_MUSIC_STATUS, state);
             }
-            builder.write(getCharacteristic(UUID_CHARACTERISTICS_MUSIC_STATUS), state);
+
+            if (stateSpec.playRate != MusicStateSpec.STATE_UNKNOWN) {
+                safeWriteToCharacteristic(builder, PineTimeJFConstants.UUID_CHARACTERISTICS_MUSIC_PLAYBACK_SPEED, intToBytes(stateSpec.playRate));
+            }
+
+            if (stateSpec.position != MusicStateSpec.STATE_UNKNOWN) {
+                safeWriteToCharacteristic(builder, PineTimeJFConstants.UUID_CHARACTERISTICS_MUSIC_POSITION, intToBytes(stateSpec.position));
+            }
+
+            if (stateSpec.repeat != MusicStateSpec.STATE_UNKNOWN) {
+                safeWriteToCharacteristic(builder, PineTimeJFConstants.UUID_CHARACTERISTICS_MUSIC_REPEAT, intToBytes(stateSpec.repeat));
+            }
+
+            if (stateSpec.shuffle != MusicStateSpec.STATE_UNKNOWN) {
+                safeWriteToCharacteristic(builder, PineTimeJFConstants.UUID_CHARACTERISTICS_MUSIC_SHUFFLE, intToBytes(stateSpec.repeat));
+            }
+
             builder.queue(getQueue());
 
         } catch (Exception e) {
             LOG.error("error sending music state", e);
         }
+
+    }
+
+    @Override
+    public boolean onCharacteristicRead(BluetoothGatt gatt,
+                                        BluetoothGattCharacteristic characteristic, int status) {
+        if (super.onCharacteristicRead(gatt, characteristic, status)) {
+            return true;
+        }
+        UUID characteristicUUID = characteristic.getUuid();
+
+        LOG.info("Unhandled characteristic read: " + characteristicUUID);
+        return false;
+    }
+
+    @Override
+    public void onSendConfiguration(String config) {
+
+    }
+
+    @Override
+    public void onReadConfiguration(String config) {
+
+    }
+
+    @Override
+    public void onTestNewFunction() {
 
     }
 
@@ -300,7 +368,7 @@ public class PineTimeJFSupport extends AbstractBTLEDeviceSupport {
         }
 
         UUID characteristicUUID = characteristic.getUuid();
-        if (characteristicUUID.equals(UUID_CHARACTERISTICS_MUSIC_EVENT)) {
+        if (characteristicUUID.equals(PineTimeJFConstants.UUID_CHARACTERISTICS_MUSIC_EVENT)) {
             byte[] value = characteristic.getValue();
             GBDeviceEventMusicControl deviceEventMusicControl = new GBDeviceEventMusicControl();
 
@@ -334,34 +402,20 @@ public class PineTimeJFSupport extends AbstractBTLEDeviceSupport {
     }
 
     @Override
-    public boolean onCharacteristicRead(BluetoothGatt gatt,
-                                        BluetoothGattCharacteristic characteristic, int status) {
-        if (super.onCharacteristicRead(gatt, characteristic, status)) {
-            return true;
-        }
-        UUID characteristicUUID = characteristic.getUuid();
-
-        LOG.info("Unhandled characteristic read: " + characteristicUUID);
-        return false;
-    }
-
-    @Override
-    public void onSendConfiguration(String config) {
-
-    }
-
-    @Override
-    public void onReadConfiguration(String config) {
-
-    }
-
-    @Override
-    public void onTestNewFunction() {
-
-    }
-
-    @Override
     public void onSendWeather(WeatherSpec weatherSpec) {
 
+    }
+
+    /**
+     * This will check if the characteristic exists and can be written
+     * <p>
+     * Keeps backwards compatibility with firmware that can't take all the information
+     */
+    private void safeWriteToCharacteristic(TransactionBuilder builder, UUID uuid, byte[] data) {
+        BluetoothGattCharacteristic characteristic = getCharacteristic(uuid);
+        if (characteristic != null &&
+                (characteristic.getProperties() & BluetoothGattCharacteristic.PROPERTY_WRITE) > 0) {
+            builder.write(characteristic, data);
+        }
     }
 }
