@@ -1,5 +1,12 @@
 ### Changelog
 
+#### 0.48.0 (WIP)
+* Initial support for Lefun Smart Bands
+* InfiniTime: Improved music support for latest firmware
+* Add sport activity list tab in charts
+* Weather: Fix wind speed and direction not being passed properly
+* Fix find your phone feature on Android 10 (need companion device pairing)
+
 #### 0.47.2
 * Amazfit Bip S: Send sunrise and sunset on latest firmware if enabled
 * Huami: Support new firmware update protocol (fixes firmware flashing with firmware 2.1.1.50/4.1.5.55 on Amazfit Bip S)
