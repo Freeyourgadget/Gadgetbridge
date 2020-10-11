@@ -1058,4 +1058,5 @@
     <string name="lefun_prefs_hydration_reminder_interval_title">הפרש תזכורת שתייה (בדקות)</string>
     <string name="lefun_prefs_hydration_reminder_summary">הצמיד ירטוט כדי להזכיר לך לשתות מים</string>
     <string name="lefun_prefs_hydration_reminder_title">תזכורת שתייה</string>
+    <string name="baseAltitude">בסיס לחישוב רום</string>
 </resources>
