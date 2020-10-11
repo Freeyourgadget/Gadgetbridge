@@ -1067,4 +1067,32 @@
     <string name="sonyswr12_settings_low_vibration_summary">Aktivieren Sie eine geringe Vibrationsintensität auf dem Band</string>
     <string name="sonyswr12_settings_stamina_summary">Der Energiesparmodus schaltet die regelmäßige automatische Messung der Herzfrequenz aus und verlängert so die Arbeitszeit</string>
     <string name="sonyswr12_settings_alarm_interval_summary">Das intelligente Alarmintervall ist das Intervall vor dem installierten Alarm. In diesem Intervall versucht das Gerät, die leichteste Schlafphase zu erkennen, um den Benutzer zu wecken</string>
+    <string name="chart_get_active_and_synchronize">Führe einige Aktivitäten durch und synchronisiere das Gerät.</string>
+    <string name="devicetype_nut_mini">Nut Mini</string>
+    <string name="descentSeconds">Absteigend</string>
+    <string name="devicetype_lefun">Lefun</string>
+    <string name="activity_error_no_app_for_png">Um diesen Screenshot zu teilen, installiere eine App, die Bilddateien verarbeiten kann.</string>
+    <string name="activity_prefs_chart_min_session_length">Minimale Aktivitätsdauer (Minuten)</string>
+    <string name="activity_prefs_chart_max_idle_phase_length">Pausenlänge zum Trennen von Aktivitäten (Minuten)</string>
+    <string name="activity_prefs_chart_min_steps_per_minute">Minimale Schritte pro Minute zur Erkennung von Aktivität</string>
+    <string name="activity_prefs_chart_min_steps_per_minute_for_run">Minimale Schritte pro Minute zur Lauferkennung</string>
+    <string name="lefun_prefs_interface_language_title">Sprache der Benutzeroberfläche</string>
+    <string name="lefun_prefs_antilost_summary">Das Band wird vibrieren, wenn dein Telefon die Verbindung zum Band unterbricht</string>
+    <string name="lefun_prefs_antilost_title">Anti-Verlust</string>
+    <string name="lefun_prefs_hydration_reminder_interval_title">Intervall der Trinkerinnerung (in Minuten)</string>
+    <string name="lefun_prefs_hydration_reminder_summary">Das Band wird vibrieren, um dich daran zu erinnern, Wasser zu trinken</string>
+    <string name="lefun_prefs_hydration_reminder_title">Trinkerinnerung</string>
+    <string name="firmware_update_progress">Upload wird ausgeführt
+\n%1d%% bei %.2fkbps (durchschnittlich %.2fkbps)
+\nTeil %1d von %1d</string>
+    <string name="devicestatus_upload_failed">Upload ist fehlgeschlagen</string>
+    <string name="devicestatus_upload_aborted">Upload wurde abgebrochen!</string>
+    <string name="devicestatus_upload_validating">Upload wird überprüft</string>
+    <string name="devicestatus_upload_completed">Upload abgeschlossen</string>
+    <string name="devicestatus_disconnected">Gerät getrennt!</string>
+    <string name="devicestatus_disconnecting">Gerät trennt die Verbindung!</string>
+    <string name="devicestatus_upload_started">Upload hat begonnen</string>
+    <string name="devicestatus_upload_starting">Upload beginnt</string>
+    <string name="devicestatus_connected">Gerät ist verbunden</string>
+    <string name="devicestatus_connecting">Gerät stellt eine Verbindung her</string>
 </resources>
