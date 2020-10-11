@@ -127,9 +127,7 @@ public class ActivityListingChartFragment extends AbstractChartFragment {
 
         tsFrom = (int) (day.getTimeInMillis() / 1000);
         tsTo = tsFrom + 24 * 60 * 60 - 1;
-
         tsDataFrom = tsFrom;
-
         return getAllSamples(db, device, tsFrom, tsTo);
     }
 
@@ -137,7 +135,7 @@ public class ActivityListingChartFragment extends AbstractChartFragment {
         //have an "Unknown Activity" in the list in case there are no active sessions
         List<StepAnalysis.StepSession> result = new ArrayList<>();
         int tsTo = tsDataFrom + 24 * 60 * 60 - 1;
-        result.add(new StepAnalysis.StepSession(new Date(tsDataFrom * 1000L), new Date(tsTo * 1000L), 0, ActivityKind.TYPE_UNKNOWN));
+        result.add(new StepAnalysis.StepSession(new Date(tsDataFrom * 1000L), new Date(tsTo * 1000L), 0, 0, ActivityKind.TYPE_UNKNOWN));
         return result;
     }
 

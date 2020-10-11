@@ -29,80 +29,109 @@ import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
 
 public class StepAnalysis {
     protected static final Logger LOG = LoggerFactory.getLogger(StepAnalysis.class);
-    private static final long MIN_SESSION_LENGTH = 60 * GBApplication.getPrefs().getInt("chart_list_min_session_length", 10);
-    private static final long MAX_IDLE_PHASE_LENGTH = 60 * GBApplication.getPrefs().getInt("chart_list_max_idle_phase_length", 5);
-    private static final long MIN_STEPS_PER_MINUTE = GBApplication.getPrefs().getInt("chart_list_min_steps_per_minute", 80);
-    private static final long MIN_STEPS_PER_MINUTE_FOR_RUN = GBApplication.getPrefs().getInt("chart_list_min_steps_per_minute_for_run", 120);
+    private final int MIN_SESSION_STEPS = 100;
 
     public List<StepSession> calculateStepSessions(List<? extends ActivitySample> samples) {
         List<StepSession> result = new ArrayList<>();
+        final int MIN_SESSION_LENGTH = 60 * GBApplication.getPrefs().getInt("chart_list_min_session_length", 5);
+        final int MAX_IDLE_PHASE_LENGTH = 60 * GBApplication.getPrefs().getInt("chart_list_max_idle_phase_length", 5);
+        final int MIN_STEPS_PER_MINUTE = GBApplication.getPrefs().getInt("chart_list_min_steps_per_minute", 40);
 
         ActivitySample previousSample = null;
         Date stepStart = null;
         Date stepEnd = null;
         int activeSteps = 0;
-        int stepsBetwenActivities = 0;
-        long durationSinceLastActiveStep = 0;
+        int heartRateForAverage = 0;
+        int heartRateToAdd = 0;
+        int activeSamplesForAverage = 0;
+        int activeSamplesToAdd = 0;
+        int stepsBetweenActivities = 0;
+        int heartRateBetweenActivities = 0;
+        int durationSinceLastActiveStep = 0;
         int activityKind;
 
         for (ActivitySample sample : samples) {
             if (isStep(sample)) { //TODO    we could improve/extend this to other activities as well, if in database
+
+                if (sample.getHeartRate() != 255 && sample.getHeartRate() != -1) {
+                    heartRateToAdd = sample.getHeartRate();
+                    activeSamplesToAdd = 1;
+                } else {
+                    heartRateToAdd = 0;
+                    activeSamplesToAdd = 0;
+                }
+
                 if (stepStart == null) {
-                    if (sample.getSteps() > MIN_STEPS_PER_MINUTE) { //active step
-                        stepStart = getDateFromSample(sample);
-                        activeSteps = sample.getSteps();
-                        durationSinceLastActiveStep = 0;
-                        stepsBetwenActivities = 0;
-                    }
+                    stepStart = getDateFromSample(sample);
+                    activeSteps = sample.getSteps();
+                    heartRateForAverage = heartRateToAdd;
+                    activeSamplesForAverage = activeSamplesToAdd;
+                    durationSinceLastActiveStep = 0;
+                    stepsBetweenActivities = 0;
+                    heartRateBetweenActivities = 0;
+                    previousSample = null;
                 }
                 if (previousSample != null) {
-                    long durationSinceLastSample = sample.getTimestamp() - previousSample.getTimestamp();
-
+                    int durationSinceLastSample = sample.getTimestamp() - previousSample.getTimestamp();
+                    activeSamplesForAverage += activeSamplesToAdd;
                     if (sample.getSteps() > MIN_STEPS_PER_MINUTE) {
-                        activeSteps += sample.getSteps() + stepsBetwenActivities;
-                        stepsBetwenActivities = 0;
+                        activeSteps += sample.getSteps() + stepsBetweenActivities;
+                        heartRateForAverage += heartRateToAdd + heartRateBetweenActivities;
+                        stepsBetweenActivities = 0;
+                        heartRateBetweenActivities = 0;
                         durationSinceLastActiveStep = 0;
                     } else {
-                        stepsBetwenActivities += sample.getSteps();
+                        stepsBetweenActivities += sample.getSteps();
+                        heartRateBetweenActivities += heartRateToAdd;
                         durationSinceLastActiveStep += durationSinceLastSample;
                     }
-                    if (stepStart != null && durationSinceLastActiveStep >= MAX_IDLE_PHASE_LENGTH) {
-                        long current = getDateFromSample(sample).getTime() / 1000;
-                        long ending = stepStart.getTime() / 1000;
-                        long session_length = current - ending;
+                    if (durationSinceLastActiveStep >= MAX_IDLE_PHASE_LENGTH) {
 
-                        if (session_length > MIN_SESSION_LENGTH) {
-                            stepEnd = getDateFromSample(sample);
-                            activityKind = detect_activity_from_steps_per_minute(session_length, activeSteps);
-                            result.add(new StepSession(stepStart, stepEnd, activeSteps, activityKind));
-                            stepStart = null;
+                        int current = sample.getTimestamp();
+                        int starting = (int) (stepStart.getTime() / 1000);
+                        int session_length = current - starting - durationSinceLastActiveStep;
+                        int heartRateAverage = activeSamplesForAverage > 0 ? heartRateForAverage / activeSamplesForAverage : 0;
+
+                        if (session_length >= MIN_SESSION_LENGTH) {
+                            stepEnd = new Date((sample.getTimestamp() - durationSinceLastActiveStep) * 1000L);
+                            activityKind = detect_activity(session_length, activeSteps, heartRateAverage);
+                            result.add(new StepSession(stepStart, stepEnd, activeSteps, heartRateAverage, activityKind));
                         }
+                        stepStart = null;
                     }
                 }
                 previousSample = sample;
             }
         }
-        //make sure we save the last portion of the data as well
+        //make sure we show the last portion of the data as well in case no further activity is recorded yet
         if (stepStart != null && previousSample != null) {
-            long current = getDateFromSample(previousSample).getTime() / 1000;
-            long ending = stepStart.getTime() / 1000;
-            long session_length = current - ending;
+            int current = previousSample.getTimestamp();
+            int starting = (int) (stepStart.getTime() / 1000);
+            int session_length = current - starting - durationSinceLastActiveStep;
+            int heartRateAverage = activeSamplesForAverage > 0 ? heartRateForAverage / activeSamplesForAverage : 0;
 
-            if (session_length > MIN_SESSION_LENGTH) {
+            if (session_length > MIN_SESSION_LENGTH && activeSteps > MIN_SESSION_STEPS) {
                 stepEnd = getDateFromSample(previousSample);
-                activityKind = detect_activity_from_steps_per_minute(session_length, activeSteps);
-                result.add(new StepSession(stepStart, stepEnd, activeSteps, activityKind));
+                activityKind = detect_activity(session_length, activeSteps, heartRateAverage);
+                result.add(new StepSession(stepStart, stepEnd, activeSteps, heartRateAverage, activityKind));
             }
         }
         return result;
     }
 
-    private int detect_activity_from_steps_per_minute(long session_length, int activeSteps) {
-        long spm = activeSteps / (session_length / 60);
+    private int detect_activity(int session_length, int activeSteps, int heartRateAverage) {
+        final int MIN_STEPS_PER_MINUTE_FOR_RUN = GBApplication.getPrefs().getInt("chart_list_min_steps_per_minute_for_run", 120);
+        int spm = (int) (activeSteps / (session_length / 60));
         if (spm > MIN_STEPS_PER_MINUTE_FOR_RUN) {
             return ActivityKind.TYPE_RUNNING;
         }
-        return ActivityKind.TYPE_WALKING;
+        if (activeSteps > 200) {
+            return ActivityKind.TYPE_WALKING;
+        }
+        if (heartRateAverage > 90) {
+            return ActivityKind.TYPE_EXERCISE;
+        }
+        return ActivityKind.TYPE_ACTIVITY;
     }
 
     private boolean isStep(ActivitySample sample) {
@@ -117,14 +146,16 @@ public class StepAnalysis {
         private final Date stepStart;
         private final Date stepEnd;
         private final int steps;
+        private final int heartRateAverage;
         private final int activityKind;
 
         StepSession(Date stepStart,
                     Date stepEnd,
-                    int steps, int activityKind) {
+                    int steps, int heartRateAverage, int activityKind) {
             this.stepStart = stepStart;
             this.stepEnd = stepEnd;
             this.steps = steps;
+            this.heartRateAverage = heartRateAverage;
             this.activityKind = activityKind;
         }
 
@@ -136,8 +167,12 @@ public class StepAnalysis {
             return stepEnd;
         }
 
-        public long getSteps() {
+        public int getSteps() {
             return steps;
+        }
+
+        public int getHeartRateAverage() {
+            return heartRateAverage;
         }
 
         public int getActivityKind() {
