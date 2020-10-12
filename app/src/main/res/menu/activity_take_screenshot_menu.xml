@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/activity_detail_overflowMenu"
+        android:icon="@drawable/ic_share"
+        android:title="@string/share"
+        app:iconTint="@color/primarytext_dark"
+        app:showAsAction="always">
+
+        <menu>
+            <item
+                android:id="@+id/activity_action_take_screenshot"
+                android:icon="@drawable/ic_screenshot"
+                android:title="@string/controlcenter_take_screenshot"
+                app:showAsAction="never" />
+
+            <item
+                android:id="@+id/activity_action_share_gpx"
+                android:icon="@drawable/ic_map"
+                android:title="@string/activity_detail_show_gps_label"
+                app:showAsAction="never" />
+
+        </menu>
+    </item>
+</menu>
+
+

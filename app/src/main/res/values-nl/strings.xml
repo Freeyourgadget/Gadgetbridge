@@ -358,8 +358,6 @@
     <string name="mi2_prefs_button_action_vibrate_summary">Schakel band vibratie in als een knopactie gedetecteerd wordt</string>
     <string name="mi2_prefs_button_press_count_max_delay">Maximum tijdsvertraging tussen knopdrukken</string>
     <string name="mi2_prefs_button_press_count_max_delay_summary">Maximum tijdsvertraging tussen knopdrukken in milliseconden</string>
-    <string name="mi2_prefs_button_press_count_match_delay">Vertraging na knopactie</string>
-    <string name="mi2_prefs_button_press_count_match_delay_summary">Vertraag na één knopactie (nummer is button_id intent extra) of 0 voor onmiddelijk</string>
     <string name="mi2_prefs_goal_notification">Doel melding</string>
     <string name="mi2_prefs_goal_notification_summary">De armband zal trillen als het doel voor het dagelijks aantal stappen bereikt is</string>
     <string name="mi2_prefs_display_items">Toon items</string>
@@ -864,9 +862,6 @@
     <string name="power_mode_saving">Energiebesparing</string>
     <string name="power_mode_normal">Normaal</string>
     <string name="power_mode_title">Horloge energie mode</string>
-    <string name="pref_title_longsit">Inactiviteitsperiode (minuten)</string>
-    <string name="prefs_longsit_switch">Inactiviteit herinnering</string>
-    <string name="pref_summary_longsit">Herinneren als er X minuten inactiviteit is</string>
     <string name="prefs_sensors_button_bp_calibration_sum">Druk hier om te beginnen met kalibreren</string>
     <string name="prefs_sensors_button_bp_calibration">Kalibratie</string>
     <string name="pref_sensors_bp_calibration_high">Bloeddruk SYSTOLISCH (hoog)</string>
@@ -961,4 +956,11 @@
     <string name="activity_type_elliptical_trainer">Elliptische Trainer</string>
     <string name="activity_type_indoor_cycling">Binnenshuis fietsen</string>
     <string name="activity_type_swimming_openwater">Zwemmen (Open water)</string>
+    <string name="sonyswr12_settings_title">Sony SWR12 instellingen</string>
+    <string name="sonyswr12_settings_low_vibration">Laag trillingsniveau ingeschakeld</string>
+    <string name="sonyswr12_settings_stamina">Energiebesparende modus is ingeschakeld</string>
+    <string name="sonyswr12_settings_alarm_interval">Slimme alarminterval in minuten</string>
+    <string name="sonyswr12_settings_low_vibration_summary">Schakel lage trillingsintensiteit op de band in</string>
+    <string name="sonyswr12_settings_stamina_summary">De energiebesparende modus schakelt de periodieke automatische hartslagmeting uit, waardoor de werktijd toeneemt</string>
+    <string name="sonyswr12_settings_alarm_interval_summary">Slimme alarminterval is het interval vóór het geïnstalleerde alarm. In dit interval probeert het apparaat de lichtste slaapfase te detecteren om de gebruiker wakker te maken</string>
 </resources>

@@ -368,8 +368,6 @@
     <string name="mi2_prefs_button_action_vibrate_summary">버튼 동작이 작동할 경우 기기 진동</string>
     <string name="mi2_prefs_button_press_count_max_delay">버튼 누름간 최대 간격</string>
     <string name="mi2_prefs_button_press_count_max_delay_summary">버튼 누름 간격을 밀리초(Milisecond) 단위로 설정</string>
-    <string name="mi2_prefs_button_press_count_match_delay">버튼 동작 후 지연</string>
-    <string name="mi2_prefs_button_press_count_match_delay_summary">버튼 동작을 작동하고 나서의 휴지 기간 (0으로 설정할 경우 지연 없음)</string>
     <string name="mi2_prefs_goal_notification">목표 달성 알림</string>
     <string name="mi2_prefs_goal_notification_summary">목표 걸음 수 달성시 밴드 진동</string>
     <string name="mi2_prefs_display_items">항목 표시</string>
@@ -611,4 +609,11 @@
     <string name="pref_invalid_frequency_title">올바르지 않은 주파수</string>
     <string name="pref_invalid_frequency_message">87.5와 108.0 사이의 주파수를 입력하세요</string>
     <string name="mi2_prefs_button_press_broadcast_default_value" translatable="false">nodomain.freeyourgadget.gadgetbridge.ButtonPressed</string>
+    <string name="sonyswr12_settings_title">Sony SWR12 설정</string>
+    <string name="sonyswr12_settings_low_vibration">저진동 가능</string>
+    <string name="sonyswr12_settings_low_vibration_summary">손목 밴드에서 낮은 강도의 진동 활성화</string>
+    <string name="sonyswr12_settings_stamina">절전 모드 켜기</string>
+    <string name="sonyswr12_settings_stamina_summary">절전 모드는주기적인 심박수 자동 측정을 해제하여 작업 시간을 늘립니다.</string>
+    <string name="sonyswr12_settings_alarm_interval">분 단위의 스마트 알람 간격</string>
+    <string name="sonyswr12_settings_alarm_interval_summary">스마트 알람 간격은 설치된 알람 이전의 간격입니다. 이 간격에서 장치는 사용자를 깨우기 위해 가장 가벼운 수면 단계를 감지하려고합니다.</string>
 </resources>

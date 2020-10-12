@@ -45,4 +45,15 @@ public class DeviceSettingsPreferenceConst {
     public static final String PREF_LONGSIT_SWITCH = "pref_longsit_switch";
     public static final String PREF_LONGSIT_SWITCH_NOSHED = "screen_longsit_noshed";
     public static final String PREF_DO_NOT_DISTURB_NOAUTO = "do_not_disturb_no_auto";
+    public static final String PREF_FIND_PHONE_ENABLED = "prefs_find_phone";
+
+    public static final String PREF_ANTILOST_ENABLED = "pref_antilost_enabled";
+    public static final String PREF_HYDRATION_SWITCH = "pref_hydration_switch";
+    public static final String PREF_HYDRATION_PERIOD = "pref_hydration_period";
+    public static final String PREF_AMPM_ENABLED = "pref_ampm_enabled";
+    public static final String PREF_LEFUN_INTERFACE_LANGUAGE = "pref_lefun_interface_language";
+
+    public static final String PREF_SONYSWR12_LOW_VIBRATION = "vibration_preference";
+    public static final String PREF_SONYSWR12_STAMINA = "stamina_preference";
+    public static final String PREF_SONYSWR12_SMART_INTERVAL = "smart_alarm_interval_preference";
 }

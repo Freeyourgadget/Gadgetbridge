@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
     <string name="app_name">Gadgetbridge</string>
     <string name="title_activity_controlcenter">Gadgetbridge</string>
     <string name="action_settings">Settings</string>
@@ -418,6 +418,8 @@
     <string name="user_feedback_miband_set_alarms_failed">There was an error setting the alarms, please try again.</string>
     <string name="user_feedback_miband_set_alarms_ok">Alarms sent to device.</string>
     <string name="chart_no_data_synchronize">No data. Synchronize device?</string>
+    <string name="chart_no_active_data">No activities detected.</string>
+    <string name="chart_get_active_and_synchronize">Do some activity and synchronize device.</string>
     <string name="user_feedback_miband_activity_data_transfer">About to transfer %1$s of data starting from %2$s</string>
     <string name="miband_prefs_fitness_goal">Daily step target</string>
     <string name="dbaccess_error_executing">Error executing \'%1$s\'</string>
@@ -439,9 +441,24 @@
     <string name="weeksleepchart_today_sleep_description">Sleep today, target: %1$s</string>
     <string name="weekstepschart_steps_a_week">Steps per week</string>
     <string name="activity_sleepchart_activity_and_sleep">Activity</string>
+    <string name="charts_activity_list">Activity list</string>
     <string name="lack_of_sleep">Lack of sleep: %1$s</string>
     <string name="overslept">Overslept: %1$s</string>
+
+    <!-- Firmware updating -->
+    <string name="devicestatus_connecting">Device is connecting</string>
+    <string name="devicestatus_connected">Device is connected</string>
+    <string name="devicestatus_upload_starting">Upload is starting</string>
+    <string name="devicestatus_upload_started">Upload has started</string>
+    <string name="devicestatus_disconnecting">Device is disconnecting!</string>
+    <string name="devicestatus_disconnected">Device has disconnected!</string>
+    <string name="devicestatus_upload_completed">Upload has completed</string>
+    <string name="devicestatus_upload_validating">Upload is being validated</string>
+    <string name="devicestatus_upload_aborted">Upload has been aborted!</string>
+    <string name="devicestatus_upload_failed">Upload has failed</string>
+    <string name="firmware_update_progress">Upload is in progress\n%1d%% at %.2fkbps (average %.2fkbps)\nPart %1d of %1d</string>
     <string name="updating_firmware">Flashing firmware…</string>
+
     <string name="fwapp_install_device_not_ready">File cannot be installed, device not ready.</string>
     <string name="installhandler_firmware_name">%1$s: %2$s %3$s</string>
     <string name="miband_fwinstaller_compatible_version">Compatible version</string>
@@ -502,7 +519,7 @@
     <string name="miband_prefs_hr_sleep_detection">Use heart rate sensor to improve sleep detection</string>
     <string name="miband_prefs_device_time_offset_hours">Device time offset in hours (for detecting sleep of shift workers)</string>
     <string name="prefs_find_phone">Find phone</string>
-    <string name="prefs_enable_find_phone">Turn on \\\'Find phone\\\'</string>
+    <string name="prefs_enable_find_phone">Turn on \'Find phone\'</string>
     <string name="prefs_find_phone_summary">Use your band to play your phone\'s ringtone.</string>
     <string name="prefs_find_phone_duration">Ring duration in seconds</string>
     <string name="miband2_prefs_dateformat">Date format</string>
@@ -544,6 +561,12 @@
     <string name="bip_prefs_shotcuts_summary">Choose the shortcuts on the band screen</string>
     <string name="pref_title_force_white_color_scheme">Force black on white color scheme</string>
     <string name="pref_summary_force_white_color_scheme">Useful if you your watch has dark hands</string>
+    <string name="lefun_prefs_hydration_reminder_title">Hydration reminder</string>
+    <string name="lefun_prefs_hydration_reminder_summary">The band will vibrate to remind you to drink water</string>
+    <string name="lefun_prefs_hydration_reminder_interval_title">Hydration reminder interval (in minutes)</string>
+    <string name="lefun_prefs_antilost_title">Anti-loss</string>
+    <string name="lefun_prefs_antilost_summary">The band will vibrate if your phone disconnects from the band</string>
+    <string name="lefun_prefs_interface_language_title">Interface language</string>
     <string name="automatic">Automatic</string>
     <string name="simplified_chinese">Simplified Chinese</string>
     <string name="traditional_chinese">Traditional Chinese</string>
@@ -596,6 +619,10 @@
     <string name="pref_title_chart_sleep_rolling_24_hour">Sleep range</string>
     <string name="pref_chart_sleep_rolling_24_on">Past 24 hours</string>
     <string name="pref_chart_sleep_rolling_24_off">Noon to noon</string>
+    <string name="activity_prefs_chart_min_steps_per_minute_for_run">Minimal steps per minute to detect run</string>
+    <string name="activity_prefs_chart_min_steps_per_minute">Minimal steps per minute to detect activity</string>
+    <string name="activity_prefs_chart_max_idle_phase_length">Pause length to separate activities (minutes)</string>
+    <string name="activity_prefs_chart_min_session_length">Minimal activity length (minutes)</string>
     <string name="authenticating">Authenticating</string>
     <string name="authentication_required">Authentication required</string>
     <string name="activity_prefs_sleep_duration">Preferred sleep duration in hours</string>
@@ -719,6 +746,7 @@
     <string name="activity_type_treadmill">Treadmill</string>
     <string name="activity_type_exercise">Exercise</string>
     <string name="activity_error_no_app_for_gpx">To view activity trace, install app which can handle GPX files.</string>
+    <string name="activity_error_no_app_for_png">To share this screenshot, install an app which can handle image files.</string>
     <string name="select_all">Select all</string>
     <string name="share">Share</string>
     <string name="reset_index">Reset fetch date</string>
@@ -772,11 +800,13 @@
     <string name="devicetype_banglejs">Bangle.js</string>
     <string name="devicetype_tlw64">TLW64</string>
     <string name="devicetype_pinetime_jf">PineTime (JF Firmware)</string>
+    <string name="devicetype_sonyswr12" translatable="false">Sony SWR12</string>
     <string name="choose_auto_export_location">Choose export location</string>
     <string name="notification_channel_name">Gadgetbridge notifications</string>
     <string name="notification_channel_high_priority_name">Gadgetbridge notifications high priority</string>
     <string name="devicetype_amazfit_gts">Amazfit GTS</string>
     <string name="devicetype_sg2">Lemfo SG2</string>
+    <string name="devicetype_lefun">Lefun</string>
     <!-- Menus on the smart device -->
     <string name="menuitem_shortcut_alipay">Alipay (Shortcut)</string>
     <string name="menuitem_shortcut_weather">Weather (Shortcut)</string>
@@ -920,6 +950,13 @@
     <string name="ignore_bonded_devices">Ignore bonded devices</string>
     <string name="ignore_bonded_devices_description">Enabling this option will ignore devices that have been bonded/paired already when scanning</string>
     <string name="error_location_enabled_mandatory">Location must be turned on to scan for devices</string>
+    <string name="sonyswr12_settings_title">Sony SWR12 Settings</string>
+    <string name="sonyswr12_settings_low_vibration">Low vibration enabled</string>
+    <string name="sonyswr12_settings_low_vibration_summary">Enable low intensity of vibration on wristband</string>
+    <string name="sonyswr12_settings_stamina">Power saving mode on</string>
+    <string name="sonyswr12_settings_stamina_summary">Power saving mode turns off periodic auto measuring of heart rate thus increases working time</string>
+    <string name="sonyswr12_settings_alarm_interval">Smart alarm interval in minutes</string>
+    <string name="sonyswr12_settings_alarm_interval_summary">Smart alarm interval is interval before of installed alarm. In this interval device is trying to detect lightest phase of sleep to awake user</string>
     <!-- activity summary labels-->
     <string name="distanceMeters">Distance</string>
     <string name="ascentMeters">Uphill</string>
@@ -1021,6 +1058,7 @@
     <string name="freestyle">Freestyle</string>
     <string name="backstroke">Backstroke</string>
     <string name="medley">Medley</string>
+    <string name="devicetype_nut_mini">Nut Mini</string>
 
     <plurals name="widget_alarm_target_hours">
         <item quantity="one">%d hour</item>

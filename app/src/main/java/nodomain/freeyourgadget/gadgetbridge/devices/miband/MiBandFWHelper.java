@@ -20,12 +20,13 @@ package nodomain.freeyourgadget.gadgetbridge.devices.miband;
 import android.content.Context;
 import android.net.Uri;
 
+import androidx.annotation.NonNull;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 
-import androidx.annotation.NonNull;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
@@ -133,9 +134,8 @@ public class MiBandFWHelper extends AbstractMiBandFWHelper {
      * @return
      * @throws IllegalArgumentException when the data is not recognized as firmware data
      */
-    public static
     @NonNull
-    AbstractMiFirmwareInfo determineFirmwareInfoFor(byte[] wholeFirmwareBytes) {
+    public static AbstractMiFirmwareInfo determineFirmwareInfoFor(byte[] wholeFirmwareBytes) {
         return AbstractMiFirmwareInfo.determineFirmwareInfoFor(wholeFirmwareBytes);
     }
 

@@ -41,9 +41,11 @@ vendor's servers.
 * Fossil Hybrid HR (WARNING: NEEDS FOSSIL APP WITH ACCOUNT ONCE AND COMPLICATED PROCEDURE) [Wiki](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Fossil-Hybrid-HR)
 * Fossil Q Hybrid
 * HPlus Devices (e.g. ZeBand) [Wiki](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/HPlus)
-* iTag
+* iTag [Wiki](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/iTag)
 * ID115
+* Nut Mini 3, Nut 2 and possibly others [Wiki](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Nut)
 * JYou Y5
+* Lefun
 * Lenovo Watch 9
 * Lenovo Watch X (Plus) [Wiki](https://codeberg.org/mamutcho/Gadgetbridge/wiki)
 * Liveview
@@ -94,6 +96,7 @@ Please see [FEATURES.md](https://codeberg.org/Freeyourgadget/Gadgetbridge/src/ma
 * Pavel Elagin (JYou Y5)
 * Taavi Eomäe (iTag)
 * Erik Bloß (TLW64)
+* Yukai Li (Lefun)
 
 ## Contribute
 

@@ -84,7 +84,7 @@ public class UpdateFirmwareOperation extends AbstractMiBand1Operation {
             displayMessage(getContext(), "Error sending firmware info, aborting.", Toast.LENGTH_LONG, GB.ERROR);
             done();
         }
-        //the firmware will be sent by the notification listener if the band confirms that the metadata are ok.
+        /** the firmware will be sent by the {@link UpdateFirmwareOperation#handleNotificationNotif} if the band confirms that the metadata are ok. **/
     }
 
     private void done() {

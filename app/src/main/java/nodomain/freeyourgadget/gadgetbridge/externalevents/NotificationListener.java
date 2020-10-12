@@ -295,7 +295,7 @@ public class NotificationListener extends NotificationListenerService {
             }
         }
 
-        String source = sbn.getPackageName().toLowerCase();
+        String source = sbn.getPackageName();
         Notification notification = sbn.getNotification();
 
         Long notificationOldRepeatPreventionValue = notificationOldRepeatPrevention.get(source);

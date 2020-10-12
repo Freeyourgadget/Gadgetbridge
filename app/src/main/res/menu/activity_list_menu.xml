@@ -3,21 +3,32 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/activity_action_manage_timestamp"
-        android:icon="@drawable/ic_history"
-        android:title="@string/reset_index"
-        app:showAsAction="never" />
-    <item
         android:id="@+id/activity_action_filter"
         android:icon="@drawable/ic_filter_alt"
         android:title="@string/pref_header_filter"
         app:iconTint="@color/primarytext_dark"
-        app:showAsAction="ifRoom" />
+        app:showAsAction="always" />
     <item
         android:id="@+id/activity_action_calculate_summary_stats"
         android:icon="@drawable/ic_calculate"
         android:title="@string/pref_header_statistics"
         app:iconTint="@color/primarytext_dark"
-        app:showAsAction="ifRoom" />
+        app:showAsAction="always" />
+
+    <item
+        android:id="@+id/overflowMenu"
+        android:icon="@drawable/ic_menu"
+        android:title="@string/menuitem_more"
+        app:iconTint="@color/primarytext_dark"
+        app:showAsAction="always">
+
+        <menu>
+            <item
+                android:id="@+id/activity_action_manage_timestamp"
+                android:icon="@drawable/ic_history"
+                android:title="@string/reset_index"
+                app:showAsAction="never" />
+        </menu>
+    </item>
 
 </menu>

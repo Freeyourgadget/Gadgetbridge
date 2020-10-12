@@ -1,4 +1,4 @@
-/*  Copyright (C) 2020 Andreas Shimokawa
+/*  Copyright (C) 2020 Andreas Shimokawa, Taavi Eomäe
 
     This file is part of Gadgetbridge.
 
@@ -55,7 +55,8 @@ public class PineTimeJFCoordinator extends AbstractDeviceCoordinator {
 
     @Override
     public InstallHandler findInstallHandler(Uri uri, Context context) {
-        return null;
+        PineTimeInstallHandler handler = new PineTimeInstallHandler(uri, context);
+        return handler.isValid() ? handler : null;
     }
 
     @Override

@@ -355,14 +355,16 @@ public class ChartsActivity extends AbstractGBFragmentActivity implements Charts
                 case 0:
                     return new ActivitySleepChartFragment();
                 case 1:
-                    return new SleepChartFragment();
+                    return new ActivityListingChartFragment();
                 case 2:
-                    return new WeekSleepChartFragment();
+                    return new SleepChartFragment();
                 case 3:
-                    return new WeekStepsChartFragment();
+                    return new WeekSleepChartFragment();
                 case 4:
-                    return new SpeedZonesFragment();
+                    return new WeekStepsChartFragment();
                 case 5:
+                    return new SpeedZonesFragment();
+                case 6:
                     return new LiveActivityFragment();
             }
             return null;
@@ -373,9 +375,9 @@ public class ChartsActivity extends AbstractGBFragmentActivity implements Charts
             // Show 5 or 6 total pages.
             DeviceCoordinator coordinator = DeviceHelper.getInstance().getCoordinator(mGBDevice);
             if (coordinator.supportsRealtimeData()) {
-                return 6;
+                return 7;
             }
-            return 5;
+            return 6;
         }
 
         private String getSleepTitle() {
@@ -402,14 +404,16 @@ public class ChartsActivity extends AbstractGBFragmentActivity implements Charts
                 case 0:
                     return getString(R.string.activity_sleepchart_activity_and_sleep);
                 case 1:
-                    return getString(R.string.sleepchart_your_sleep);
+                    return getString(R.string.charts_activity_list);
                 case 2:
-                    return getSleepTitle();
+                    return getString(R.string.sleepchart_your_sleep);
                 case 3:
-                    return getStepsTitle();
+                    return getSleepTitle();
                 case 4:
-                    return getString(R.string.stats_title);
+                    return getStepsTitle();
                 case 5:
+                    return getString(R.string.stats_title);
+                case 6:
                     return getString(R.string.liveactivity_live_activity);
             }
             return super.getPageTitle(position);

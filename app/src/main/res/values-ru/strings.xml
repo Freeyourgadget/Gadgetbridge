@@ -438,8 +438,6 @@
     <string name="mi2_prefs_button_action_vibrate_summary">Включить вибро-отклик браслета в ответ на исполнение действия при нажатии</string>
     <string name="mi2_prefs_button_press_count_max_delay">Максимальная задержка между нажатиями</string>
     <string name="mi2_prefs_button_press_count_max_delay_summary">Максимальная задержка между нажатиями в миллисекундах</string>
-    <string name="mi2_prefs_button_press_count_match_delay">Задержка после действия при нажатии</string>
-    <string name="mi2_prefs_button_press_count_match_delay_summary">Задержка при выполнении заданного количества нажатий для однократного действия (число указано в button_id). Это число равно нулю для действий без задержки</string>
     <string name="mi2_prefs_goal_notification">Уведомления о достижении цели</string>
     <string name="mi2_prefs_goal_notification_summary">Браслет завибрирует, когда будет выполнена дневная норма шагов</string>
     <string name="mi2_prefs_display_items">Что показывать на экране</string>
@@ -765,7 +763,7 @@
     <string name="devicetype_makibes_hr3">Makibes HR3</string>
     <string name="devicetype_amazfit_bip_lite">Amazfit Bip Lite</string>
     <string name="prefs_find_phone">Найти телефон</string>
-    <string name="prefs_enable_find_phone">Включить \\\'Найти телефон\\\'</string>
+    <string name="prefs_enable_find_phone">Включить \'Найти телефон\'</string>
     <string name="prefs_find_phone_summary">Использовать ваш браслет для проигрывания рингтонов.</string>
     <string name="prefs_find_phone_duration">Продолжительность звонка в секундах</string>
     <string name="maximum_duration">Продолжительность</string>
@@ -939,7 +937,6 @@
     <string name="Strokes">Взмахи</string>
     <string name="strokes_unit">взм</string>
     <string name="strokes_second">взм/с</string>
-    <string name="strokes">Взмахи</string>
     <string name="averageStrokesPerSecond">Среднее количество взмахов</string>
     <string name="prefs_events_forwarding_action_title">Выполнить действие</string>
     <string name="prefs_events_forwarding_wokeup">При пробуждении</string>
@@ -1053,4 +1050,26 @@
     <string name="activity_filter_from_placeholder">далёкое прошлое</string>
     <string name="activity_filter_to_placeholder">сегодня</string>
     <string name="about_links">Ссылки</string>
+    <string name="activity_prefs_chart_min_session_length">Минимальная продолжительность активностей (минуты)</string>
+    <string name="activity_prefs_chart_max_idle_phase_length">Продолжительность паузы для разделения активностей (минуты)</string>
+    <string name="activity_prefs_chart_min_steps_per_minute">Минимальные шаги в минуту для обнаружения активности</string>
+    <string name="activity_prefs_chart_min_steps_per_minute_for_run">Минимальные шаги в минуту для обнаружения бега</string>
+    <string name="charts_activity_list">Список активностей</string>
+    <string name="chart_get_active_and_synchronize">Сделайте некоторую активность и синхронизируйте устройство.</string>
+    <string name="chart_no_active_data">Никакой активности не обнаружено.</string>
+    <string name="lefun_prefs_hydration_reminder_interval_title">Интервал напоминания о гидратации (в минутах)</string>
+    <string name="lefun_prefs_hydration_reminder_title">Напоминание о гидратации</string>
+    <string name="lefun_prefs_antilost_summary">Браслет будет вибрировать, если ваш телефон отключится от браслета</string>
+    <string name="lefun_prefs_hydration_reminder_summary">Браслет будет вибрировать, напоминая вам о питье воды</string>
+    <string name="devicetype_lefun">Lefun</string>
+    <string name="lefun_prefs_interface_language_title">Язык интерфейса</string>
+    <string name="lefun_prefs_antilost_title">Защита от потери</string>
+    <string name="devicetype_sonyswr12">Sony SWR12</string>
+    <string name="sonyswr12_settings_title">Настройки Sony SWR12</string>
+    <string name="sonyswr12_settings_low_vibration">Слабая вибрация</string>
+    <string name="sonyswr12_settings_stamina">Режима энергосбережения включен</string>
+    <string name="sonyswr12_settings_alarm_interval">Интервал умного будильника в минутах</string>
+    <string name="sonyswr12_settings_low_vibration_summary">Включить слабую вибрации на браслете</string>
+    <string name="sonyswr12_settings_stamina_summary">Режим энергосбережения отключает периодическое автоматическое измерение пульса, что увеличивает время работы</string>
+    <string name="sonyswr12_settings_alarm_interval_summary">Интервал умного будильника - это интервал до установленного будильника. В этом интервале устройство пытается определить самую легкую фазу сна, чтобы разбудить пользователя.</string>
 </resources>

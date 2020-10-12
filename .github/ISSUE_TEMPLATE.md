@@ -17,6 +17,16 @@ If you got it from Google Play, please note [that version](https://github.com/Ta
 
 #### Your issue is:
 *If possible, please attach [logs](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Log-Files)! that might help identifying the problem.*
+*Long logs can be also included but make sure to tuck them into the `details` tag:*
+
+<details>
+  <summary>Click to see my log, which is a bit longer</summary>
+
+```
+Here go lines of that log.
+```
+</details>
+
 
 #### Your wearable device is:
 

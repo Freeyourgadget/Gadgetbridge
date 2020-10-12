@@ -80,6 +80,14 @@ public class GB {
     public static final String DISPLAY_MESSAGE_DURATION = "duration";
     public static final String DISPLAY_MESSAGE_SEVERITY = "severity";
 
+    /** Commands related to the progress (bar) on the screen */
+    public static final String ACTION_SET_PROGRESS_BAR = "GB_Set_Progress_Bar";
+    public static final String PROGRESS_BAR_INDETERMINATE = "indeterminate";
+    public static final String PROGRESS_BAR_MAX = "max";
+    public static final String PROGRESS_BAR_PROGRESS = "progress";
+    public static final String ACTION_SET_PROGRESS_TEXT = "GB_Set_Progress_Text";
+    public static final String ACTION_SET_INFO_TEXT = "GB_Set_Info_Text";
+
     private static PendingIntent getContentIntent(Context context) {
         Intent notificationIntent = new Intent(context, ControlCenterv2.class);
         notificationIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
@@ -187,20 +195,29 @@ public class GB {
         return GBApplication.getContext().getPackageManager().hasSystemFeature(PackageManager.FEATURE_BLUETOOTH_LE);
     }
 
+    public static final char[] HEX_CHARS = "0123456789ABCDEF".toCharArray();
+
     public static String hexdump(byte[] buffer, int offset, int length) {
         if (length == -1) {
             length = buffer.length - offset;
         }
-        final char[] hexArray = "0123456789ABCDEF".toCharArray();
+
         char[] hexChars = new char[length * 2];
         for (int i = 0; i < length; i++) {
             int v = buffer[i + offset] & 0xFF;
-            hexChars[i * 2] = hexArray[v >>> 4];
-            hexChars[i * 2 + 1] = hexArray[v & 0x0F];
+            hexChars[i * 2] = HEX_CHARS[v >>> 4];
+            hexChars[i * 2 + 1] = HEX_CHARS[v & 0x0F];
         }
         return new String(hexChars);
     }
 
+    public static String hexdump(byte[] buffer) {
+        return hexdump(buffer, 0, buffer.length);
+    }
+
+    /**
+     * https://stackoverflow.com/a/140861/4636860
+     */
     public static byte[] hexStringToByteArray(String s) {
         int len = s.length();
         byte[] data = new byte[len / 2];

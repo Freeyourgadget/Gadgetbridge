@@ -48,4 +48,11 @@
     <string name="appmanager_hrm_activate">Aktivera pulsmätare</string>
     <string name="appmanager_hrm_deactivate">Avaktivera pulsmätare</string>
     <string name="app_configure">Konfigurera</string>
+    <string name="sonyswr12_settings_title">Inställningar Sony SWR12</string>
+    <string name="sonyswr12_settings_low_vibration">Låg vibration aktiverad</string>
+    <string name="sonyswr12_settings_stamina">Energisparläge är på</string>
+    <string name="sonyswr12_settings_alarm_interval">Smart larmintervall på några minuter</string>
+    <string name="sonyswr12_settings_low_vibration_summary">Aktivera låg vibrationsintensitet på armbandet</string>
+    <string name="sonyswr12_settings_stamina_summary">Energisparläget stänger av periodisk automatisk mätning av hjärtfrekvensen, vilket ökar arbetstiden</string>
+    <string name="sonyswr12_settings_alarm_interval_summary">Smart alarmintervall är intervall före installerat larm. I detta intervall försöker enheten att upptäcka den lättaste fasen av sömn för att vakna användare</string>
 </resources>
