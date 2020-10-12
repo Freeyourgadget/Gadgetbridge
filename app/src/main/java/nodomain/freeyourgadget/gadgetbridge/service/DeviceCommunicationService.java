@@ -410,13 +410,14 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
                     // I would rather like to save that as an array in SharedPreferences
                     // this would work but I dont know how to do the same in the Settings Activity's xml
                     ArrayList<String> replies = new ArrayList<>();
+                    SharedPreferences devicePrefs = GBApplication.getDeviceSpecificSharedPrefs(mGBDevice.getAddress());
                     for (int i = 1; i <= 16; i++) {
-                        String reply = prefs.getString("canned_reply_" + i, null);
+                        String reply = devicePrefs.getString("canned_reply_" + i, null);
                         if (reply != null && !reply.equals("")) {
                             replies.add(reply);
                         }
                     }
-                    notificationSpec.cannedReplies = replies.toArray(new String[replies.size()]);
+                    notificationSpec.cannedReplies = replies.toArray(new String[0]);
                 }
 
                 mDeviceSupport.onNotification(notificationSpec);

@@ -1510,7 +1510,7 @@ public class PebbleProtocol extends GBDeviceProtocol {
 
         String blobDBKey;
         switch (cannedMessagesSpec.type) {
-            case CannedMessagesSpec.TYPE_MISSEDCALLS:
+            case CannedMessagesSpec.TYPE_REJECTEDCALLS:
                 blobDBKey = "com.pebble.android.phone";
                 break;
             case CannedMessagesSpec.TYPE_NEWSMS:

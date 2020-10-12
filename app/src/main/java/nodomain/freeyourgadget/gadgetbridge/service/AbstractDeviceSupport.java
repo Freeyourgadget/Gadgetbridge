@@ -24,6 +24,7 @@ import android.bluetooth.BluetoothAdapter;
 import android.companion.CompanionDeviceManager;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
@@ -378,7 +379,7 @@ public abstract class AbstractDeviceSupport implements DeviceSupport {
             notificationListenerIntent.putExtra("handle", deviceEvent.handle);
             notificationListenerIntent.putExtra("title", deviceEvent.title);
             if (deviceEvent.reply != null) {
-                Prefs prefs = GBApplication.getPrefs();
+                SharedPreferences prefs = GBApplication.getDeviceSpecificSharedPrefs(gbDevice.getAddress());
                 String suffix = prefs.getString("canned_reply_suffix", null);
                 if (suffix != null && !Objects.equals(suffix, "")) {
                     deviceEvent.reply += suffix;

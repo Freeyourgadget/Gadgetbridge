@@ -86,6 +86,7 @@ import static nodomain.freeyourgadget.gadgetbridge.model.DeviceType.AMAZFITCOR2;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceType.MIBAND;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceType.MIBAND2;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceType.MIBAND3;
+import static nodomain.freeyourgadget.gadgetbridge.model.DeviceType.PEBBLE;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceType.fromKey;
 import static nodomain.freeyourgadget.gadgetbridge.util.GB.NOTIFICATION_CHANNEL_HIGH_PRIORITY_ID;
 import static nodomain.freeyourgadget.gadgetbridge.util.GB.NOTIFICATION_CHANNEL_ID;
@@ -105,7 +106,7 @@ public class GBApplication extends Application {
     private static SharedPreferences sharedPrefs;
     private static final String PREFS_VERSION = "shared_preferences_version";
     //if preferences have to be migrated, increment the following and add the migration logic in migratePrefs below; see http://stackoverflow.com/questions/16397848/how-can-i-migrate-android-preferences-with-a-new-version
-    private static final int CURRENT_PREFS_VERSION = 7;
+    private static final int CURRENT_PREFS_VERSION = 8;
 
     private static final int ERROR_IN_GADGETBRIDGE_NOTIFICATION = 42;
 
@@ -922,7 +923,22 @@ public class GBApplication extends Application {
             migrateStringPrefToPerDevicePref("mi_button_press_broadcast", "nodomain.freeyourgadget.gadgetbridge.ButtonPressed", "button_action_broadcast", new ArrayList<>(Collections.singletonList(MIBAND2)));
         }
         if (oldVersion < 7) {
-            migrateStringPrefToPerDevicePref("mi_reserve_alarm_calendar","0","reserve_alarms_calendar", new ArrayList<>(Arrays.asList(MIBAND, MIBAND2)));
+            migrateStringPrefToPerDevicePref("mi_reserve_alarm_calendar", "0", "reserve_alarms_calendar", new ArrayList<>(Arrays.asList(MIBAND, MIBAND2)));
+        }
+
+        if (oldVersion < 8) {
+            for (int i = 1; i <= 16; i++) {
+                String message = prefs.getString("canned_message_dismisscall_" + i, null);
+                if (message != null) {
+                    migrateStringPrefToPerDevicePref("canned_message_dismisscall_" + i, "", "canned_message_dismisscall_" + i, new ArrayList<>(Collections.singletonList(PEBBLE)));
+                }
+            }
+            for (int i = 1; i <= 16; i++) {
+                String message = prefs.getString("canned_reply_" + i, null);
+                if (message != null) {
+                    migrateStringPrefToPerDevicePref("canned_reply_" + i, "", "canned_reply_" + i, new ArrayList<>(Collections.singletonList(PEBBLE)));
+                }
+            }
         }
 
         editor.putString(PREFS_VERSION, Integer.toString(CURRENT_PREFS_VERSION));

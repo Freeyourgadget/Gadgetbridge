@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
     <PreferenceScreen
         android:key="screen_events_forwarding"
         android:icon="@drawable/ic_extension"
@@ -21,7 +22,8 @@
             <EditTextPreference
                 android:defaultValue="@string/prefs_events_forwarding_fellsleep_broadcast_default_value"
                 android:key="prefs_events_forwarding_fellsleep_broadcast"
-                android:title="@string/prefs_events_forwarding_broadcast_title" />
+                android:title="@string/prefs_events_forwarding_broadcast_title"
+                app:useSimpleSummaryProvider="true" />
         </PreferenceCategory>
 
         <PreferenceCategory
@@ -38,7 +40,8 @@
             <EditTextPreference
                 android:defaultValue="@string/prefs_events_forwarding_wokeup_broadcast_default_value"
                 android:key="prefs_events_forwarding_wokeup_broadcast"
-                android:title="@string/prefs_events_forwarding_broadcast_title" />
+                android:title="@string/prefs_events_forwarding_broadcast_title"
+                app:useSimpleSummaryProvider="true" />
         </PreferenceCategory>
 
         <PreferenceCategory
@@ -55,7 +58,8 @@
             <EditTextPreference
                 android:defaultValue="@string/prefs_events_forwarding_startnonwear_broadcast_default_value"
                 android:key="prefs_events_forwarding_startnonwear_broadcast"
-                android:title="@string/prefs_events_forwarding_broadcast_title" />
+                android:title="@string/prefs_events_forwarding_broadcast_title"
+                app:useSimpleSummaryProvider="true" />
         </PreferenceCategory>
 
 
