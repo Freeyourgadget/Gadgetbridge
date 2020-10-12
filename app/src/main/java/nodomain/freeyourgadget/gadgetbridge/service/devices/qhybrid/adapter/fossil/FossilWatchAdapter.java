@@ -176,6 +176,8 @@ public class FossilWatchAdapter extends WatchAdapter {
                 new ConfigurationPutRequest.VibrationStrengthConfigItem(vibrationStrength),
                 new ConfigurationPutRequest.TimezoneOffsetConfigItem((short) timezoneOffset)
         }, this));
+
+        setTime();
     }
 
     public int getMTU() {
