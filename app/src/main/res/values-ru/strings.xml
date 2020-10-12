@@ -1072,4 +1072,6 @@
     <string name="sonyswr12_settings_low_vibration_summary">Включить слабую вибрации на браслете</string>
     <string name="sonyswr12_settings_stamina_summary">Режим энергосбережения отключает периодическое автоматическое измерение пульса, что увеличивает время работы</string>
     <string name="sonyswr12_settings_alarm_interval_summary">Интервал умного будильника - это интервал до установленного будильника. В этом интервале устройство пытается определить самую легкую фазу сна, чтобы разбудить пользователя.</string>
+    <string name="devicetype_nut_mini">Nut Mini</string>
+    <string name="activity_error_no_app_for_png">Чтобы поделиться этим скриншотом, установите приложение, которое может обрабатывать файлы изображений.</string>
 </resources>
