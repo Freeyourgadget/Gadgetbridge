@@ -40,11 +40,13 @@ public class MiBand5FirmwareInfo extends HuamiFirmwareInfo {
         crcToVersion.put(29062, "1.0.0.76");
         crcToVersion.put(26302, "1.0.1.16");
         crcToVersion.put(26666, "1.0.1.32");
+        crcToVersion.put(54599, "1.0.2.08");
 
         // resources
         crcToVersion.put(8009, "1.0.0.76");
         crcToVersion.put(47040, "1.0.1.16");
         crcToVersion.put(49094, "1.0.1.32");
+        crcToVersion.put(18506, "1.0.2.08");
 
         // font
         crcToVersion.put(31978, "1");
