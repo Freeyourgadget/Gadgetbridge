@@ -432,7 +432,6 @@ public class ConfigActivity extends AbstractGBActivity {
                         final int currentIndex = i;
                         String configName = buttonConfig.getString(i);
                         TextView buttonTextView = new TextView(ConfigActivity.this);
-                        buttonTextView.setTextColor(Color.WHITE);
                         buttonTextView.setTextSize(20);
                         try {
                             ConfigPayload payload = ConfigPayload.valueOf(configName);
