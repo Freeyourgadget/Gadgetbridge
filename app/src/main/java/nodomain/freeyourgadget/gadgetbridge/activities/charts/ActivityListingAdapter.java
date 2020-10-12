@@ -2,47 +2,73 @@ package nodomain.freeyourgadget.gadgetbridge.activities.charts;
 
 import android.content.Context;
 
+import java.text.DecimalFormat;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
-import nodomain.freeyourgadget.gadgetbridge.R;
-import nodomain.freeyourgadget.gadgetbridge.adapter.AbstractItemAdapter;
+import nodomain.freeyourgadget.gadgetbridge.adapter.AbstractActivityListingAdapter;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityKind;
 import nodomain.freeyourgadget.gadgetbridge.util.DateTimeUtils;
 
-public class ActivityListingAdapter extends AbstractItemAdapter<StepAnalysis.StepSession> {
+public class ActivityListingAdapter extends AbstractActivityListingAdapter<StepAnalysis.StepSession> {
     public ActivityListingAdapter(Context context) {
         super(context);
     }
 
     @Override
-    protected String getName(StepAnalysis.StepSession item) {
-        int activityKind = item.getActivityKind();
-        String activityKindLabel = ActivityKind.asString(activityKind, getContext());
-        Date startTime = item.getStepStart();
-        Date endTime = item.getStepEnd();
-
-        String fromTime = DateTimeUtils.formatTime(startTime.getHours(), startTime.getMinutes());
-        String toTime = DateTimeUtils.formatTime(endTime.getHours(), endTime.getMinutes());
-        String duration = DateTimeUtils.formatDurationHoursMinutes(endTime.getTime() - startTime.getTime(), TimeUnit.MILLISECONDS);
-
-        if (activityKind == ActivityKind.TYPE_UNKNOWN) {
-            return getContext().getString(R.string.chart_no_active_data);
-        }
-        return activityKindLabel + " " + duration + " (" + fromTime + " - " + toTime + ")";
+    protected String getTimeFrom(StepAnalysis.StepSession item) {
+        Date time = item.getStepStart();
+        return DateTimeUtils.formatTime(time.getHours(), time.getMinutes());
     }
 
     @Override
-    protected String getDetails(StepAnalysis.StepSession item) {
-        String heartRate = "";
-        if (item.getActivityKind() == ActivityKind.TYPE_UNKNOWN) {
-            return getContext().getString(R.string.chart_get_active_and_synchronize);
-        }
-        if (item.getHeartRateAverage() > 50) {
-            heartRate = "   ❤️ " + item.getHeartRateAverage();
-        }
+    protected String getTimeTo(StepAnalysis.StepSession item) {
+        Date time = item.getStepEnd();
+        return DateTimeUtils.formatTime(time.getHours(), time.getMinutes());
+    }
 
-        return "👣 " + item.getSteps() + heartRate;
+    @Override
+    protected String getActivityName(StepAnalysis.StepSession item) {
+        return ActivityKind.asString(item.getActivityKind(), getContext());
+    }
+
+    @Override
+    protected String getStepLabel(StepAnalysis.StepSession item) {
+        return String.valueOf(item.getSteps());
+    }
+
+    @Override
+    protected String getDistanceLabel(StepAnalysis.StepSession item) {
+        DecimalFormat df = new DecimalFormat("###m");
+        //DecimalFormatSymbols symbols = df.getDecimalFormatSymbols();
+        //symbols.setGroupingSeparator(' ');
+        return df.format(item.getDistance());
+    }
+
+    @Override
+    protected String getHrLabel(StepAnalysis.StepSession item) {
+        return String.valueOf(item.getHeartRateAverage());
+    }
+
+    @Override
+    protected String getIntensityLabel(StepAnalysis.StepSession item) {
+        DecimalFormat df = new DecimalFormat("###.#");
+        return df.format(item.getIntensity());
+    }
+
+    @Override
+    protected String getDurationLabel(StepAnalysis.StepSession item) {
+        long duration = item.getStepEnd().getTime() - item.getStepStart().getTime();
+        return DateTimeUtils.formatDurationHoursMinutes(duration, TimeUnit.MILLISECONDS);
+    }
+
+    @Override
+    public Boolean hasHR(StepAnalysis.StepSession item) {
+        if (item.getHeartRateAverage() > 0) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     @Override

@@ -73,7 +73,7 @@
             android:title="@string/activity_prefs_chart_max_idle_phase_length" />
 
         <EditTextPreference
-            android:defaultValue="40"
+            android:defaultValue="20"
             android:inputType="number"
             android:key="chart_list_min_steps_per_minute"
             android:maxLength="3"

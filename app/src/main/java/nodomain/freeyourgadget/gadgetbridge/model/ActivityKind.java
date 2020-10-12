@@ -207,7 +207,7 @@ public class ActivityKind {
             case TYPE_ACTIVITY: // fall through
             case TYPE_UNKNOWN: // fall through
             default:
-                return R.drawable.ic_activity_unknown;
+                return R.drawable.ic_activity_unknown_small;
         }
     }
 }
