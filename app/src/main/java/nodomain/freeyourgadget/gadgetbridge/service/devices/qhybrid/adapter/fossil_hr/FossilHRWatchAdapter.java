@@ -69,6 +69,7 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fos
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.notification.PlayCallNotificationRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.notification.PlayTextNotificationRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.authentication.VerifyPrivateKeyRequest;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.buttons.ButtonConfiguration;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.buttons.ButtonConfigurationPutRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.configuration.ConfigurationGetRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.configuration.ConfigurationPutRequest;
@@ -914,15 +915,22 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
             for (int i = 0; i < jsonArray.length(); i++) menuItems[i] = jsonArray.getString(i);
 
             SharedPreferences prefs = getDeviceSpecificPreferences();
-            String upperButtonApp = prefs.getString(DeviceSettingsPreferenceConst.PREF_BUTTON_1_FUNCTION, "weatherApp");
-            String middleButtonApp = prefs.getString(DeviceSettingsPreferenceConst.PREF_BUTTON_2_FUNCTION, "commuteApp");
-            String lowerButtonApp = prefs.getString(DeviceSettingsPreferenceConst.PREF_BUTTON_3_FUNCTION, "musicApp");
+
+            ButtonConfiguration[] buttonConfigurations = new ButtonConfiguration[]{
+                    new ButtonConfiguration("top_single_click", prefs.getString(DeviceSettingsPreferenceConst.PREF_BUTTON_1_FUNCTION_SHORT, "weatherApp")),
+                    new ButtonConfiguration("middle_single_click", prefs.getString(DeviceSettingsPreferenceConst.PREF_BUTTON_2_FUNCTION_SHORT, "commuteApp")),
+                    new ButtonConfiguration("bottom_single_click", prefs.getString(DeviceSettingsPreferenceConst.PREF_BUTTON_3_FUNCTION_SHORT, "musicApp")),
+                    new ButtonConfiguration("top_hold", prefs.getString(DeviceSettingsPreferenceConst.PREF_BUTTON_1_FUNCTION_LONG, "weatherApp")),
+                    // new ButtonConfiguration("middle_hold", prefs.getString(DeviceSettingsPreferenceConst.PREF_BUTTON_2_FUNCTION_LONG, "commuteApp")),
+                    new ButtonConfiguration("bottom_hold", prefs.getString(DeviceSettingsPreferenceConst.PREF_BUTTON_3_FUNCTION_LONG, "musicApp")),
+                    new ButtonConfiguration("top_double_click", prefs.getString(DeviceSettingsPreferenceConst.PREF_BUTTON_1_FUNCTION_DOUBLE, "weatherApp")),
+                    new ButtonConfiguration("middle_double_click", prefs.getString(DeviceSettingsPreferenceConst.PREF_BUTTON_2_FUNCTION_DOUBLE, "commuteApp")),
+                    new ButtonConfiguration("bottom_double_click", prefs.getString(DeviceSettingsPreferenceConst.PREF_BUTTON_3_FUNCTION_DOUBLE, "musicApp")),
+            };
 
             queueWrite(new ButtonConfigurationPutRequest(
                     menuItems,
-                    upperButtonApp,
-                    middleButtonApp,
-                    lowerButtonApp,
+                    buttonConfigurations,
                     this
             ));
         } catch (JSONException e) {
@@ -933,9 +941,15 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
     @Override
     public void onSendConfiguration(String config) {
         switch (config) {
-            case DeviceSettingsPreferenceConst.PREF_BUTTON_1_FUNCTION:
-            case DeviceSettingsPreferenceConst.PREF_BUTTON_2_FUNCTION:
-            case DeviceSettingsPreferenceConst.PREF_BUTTON_3_FUNCTION:
+            case DeviceSettingsPreferenceConst.PREF_BUTTON_1_FUNCTION_SHORT:
+            case DeviceSettingsPreferenceConst.PREF_BUTTON_2_FUNCTION_SHORT:
+            case DeviceSettingsPreferenceConst.PREF_BUTTON_3_FUNCTION_SHORT:
+            case DeviceSettingsPreferenceConst.PREF_BUTTON_1_FUNCTION_LONG:
+            case DeviceSettingsPreferenceConst.PREF_BUTTON_2_FUNCTION_LONG:
+            case DeviceSettingsPreferenceConst.PREF_BUTTON_3_FUNCTION_LONG:
+            case DeviceSettingsPreferenceConst.PREF_BUTTON_1_FUNCTION_DOUBLE:
+            case DeviceSettingsPreferenceConst.PREF_BUTTON_2_FUNCTION_DOUBLE:
+            case DeviceSettingsPreferenceConst.PREF_BUTTON_3_FUNCTION_DOUBLE:
                 overwriteButtons(null);
                 break;
             case DeviceSettingsPreferenceConst.PREF_VIBRATION_STRENGH_PERCENTAGE:

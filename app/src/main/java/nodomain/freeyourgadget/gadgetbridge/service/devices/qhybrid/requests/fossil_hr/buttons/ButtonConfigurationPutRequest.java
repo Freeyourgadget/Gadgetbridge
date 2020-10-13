@@ -12,30 +12,21 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fos
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
 public class ButtonConfigurationPutRequest extends JsonPutRequest {
-    public ButtonConfigurationPutRequest(String[] menuItems, String upperButtonApp, String middleButtonApp, String lowerButtonApp, FossilHRWatchAdapter adapter) {
-        super(createObject(menuItems, upperButtonApp, middleButtonApp, lowerButtonApp), adapter);
+    public ButtonConfigurationPutRequest(String[] menuItems, ButtonConfiguration[] buttonConfigurations, FossilHRWatchAdapter adapter) {
+        super(createObject(menuItems, buttonConfigurations), adapter);
     }
 
-    private static JSONObject createObject(String[] menuItems, String upperButtonApp, String middleButtonApp, String lowerButtonApp) {
+    private static JSONObject createObject(String[] menuItems, ButtonConfiguration[] buttonConfigurations) {
         try {
+            JSONArray configuration = new JSONArray();
+            for(ButtonConfiguration buttonConfiguration : buttonConfigurations){
+                configuration.put(buttonConfiguration.toJsonObject());
+            }
             return new JSONObject()
                     .put("push", new JSONObject()
                             .put("set", new JSONObject()
                                     .put("commuteApp._.config.destinations", new JSONArray(menuItems))
-                                    .put("master._.config.buttons", new JSONArray()
-                                            .put(new JSONObject()
-                                                    .put("name", upperButtonApp)
-                                                    .put("button_evt", "top_short_press_release")
-                                            )
-                                            .put(new JSONObject()
-                                                    .put("name", middleButtonApp)
-                                                    .put("button_evt", "middle_short_press_release")
-                                            )
-                                            .put(new JSONObject()
-                                                    .put("name", lowerButtonApp)
-                                                    .put("button_evt", "bottom_short_press_release")
-                                            )
-                                    )
+                                    .put("master._.config.buttons", configuration)
                             )
                     );
         } catch (JSONException e) {
