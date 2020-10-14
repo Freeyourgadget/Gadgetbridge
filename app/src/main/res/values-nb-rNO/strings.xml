@@ -190,7 +190,7 @@
     <string name="pairing">Parrer med %s…</string>
     <string name="pairing_creating_bond_with">Oppretter tilknytning til %1$s (%2$s)</string>
     <string name="pairing_unable_to_pair_with">Klarte ikke å parre med %1$s (%2$s)</string>
-    <string name="pairing_in_progress">Parring underveis: %1$s (%2$s)</string>
+    <string name="pairing_in_progress">Tilknytning underveis: %1$s (%2$s)</string>
     <string name="pairing_already_bonded">Allerede tilknyttet %1$s (%2$s), tilkobler…</string>
     <string name="message_cannot_pair_no_mac">Ingen MAC-adresse sendt, kan ikke parre.</string>
     <string name="preferences_category_device_specific_settings">Enhetsspesifikke innstillinger</string>
@@ -947,10 +947,10 @@
     <string name="activity_detail_start_label">Start:</string>
     <string name="Steps">Steg</string>
     <string name="activity_type_yoga">Yoga</string>
-    <string name="bip_prefs_shotcuts_summary">Velg snarveiene på armbåndsur-skjermen</string>
+    <string name="bip_prefs_shotcuts_summary">Velg snarveiene på bånd-skjermen</string>
     <string name="fw_upgrade_notice_miband5">Du er i ferd med å installere %s-fastvaren på ditt Mi Band 5.
 \n
-\nForsikre deg om at du installerer .fw-fila, så .res-fila. Armbåndsuret ditt vil starte på nytt etter at .fw-fila er installert.
+\nForsikre deg om at du installerer .fw-fila, så .res-fila. Båndet ditt vil starte på nytt etter at .fw-fila er installert.
 \n
 \nMerk: Du trenger ikke å installere .res-filen hvis den er akkurat den samme som den som allerede er installert.
 \n
@@ -1024,4 +1024,66 @@
     <string name="sonyswr12_settings_low_vibration_summary">Aktiver lav vibrasjonsintensitet på båndet</string>
     <string name="sonyswr12_settings_stamina_summary">Strømsparingsmodus slår av periodisk automatisk måling av hjertefrekvensen og øker dermed arbeidstiden</string>
     <string name="sonyswr12_settings_alarm_interval_summary">Smart alarmintervall er intervall før installert alarm. I dette intervallet prøver enheten å oppdage den letteste søvnfasen for å våkne brukeren</string>
+    <string name="about_description">Skyfri, gemenhetslig fri erstatning for den lukkede motsatsen for dine Android-slaveenheter.</string>
+    <string name="pref_check_permission_status_summary">Sjekk og forespør tilganger selv om de ikke trengs umiddelbart. Skru av dette kun hvis enhetene dine ikke støtter noen av disse funksjonene. Å ikke innvilge tilganger kan forårsake problemer!</string>
+    <string name="companiondevice_pairing_details">Skrur på slaveenhets-API (funker kun på Android 8 og høyere, og tilknytningen må settes opp på ny med Gadgetbro), noe som øker påliteligheten hvis tjenester må startes på ny i bakgrunnen</string>
+    <string name="error_version_check_extreme_caution">Advarsel: Kunne ikke sjekke versjonsinfo! Du bør ikke fortsette og versjonsnavnet «%s» ble sett.</string>
+    <string name="companiondevice_pairing">Tilknytning av slaveenhet</string>
+    <string name="error_exporting_device_preferences">Klarte ikke å eksportere enhetsspesifikke innstillinger</string>
+    <string name="error_setting_alias">Klarte ikke å sette alias:</string>
+    <string name="error_retrieving_devices_database">Klarte ikke å hente enheter fra database</string>
+    <string name="swimStyle">Svømmestil</string>
+    <string name="swolfIndex">SWOLF-indeks</string>
+    <string name="error_location_enabled_mandatory">Posisjon må være påslått for å se etter enheter</string>
+    <string name="baseAltitude">Starthøyde</string>
+    <string name="swolf_index">SWOLF-indeks</string>
+    <string name="prefs_events_forwarding_fellsleep">Ved dvalgang</string>
+    <string name="devicetype_nut_mini">Nut mini</string>
+    <string name="addto_filter">Legg til i filter</string>
+    <string name="prefs_events_forwarding_action_title">Kjør handling</string>
+    <string name="prefs_events_forwarding_startnonwear">Når ikke ikledt</string>
+    <string name="prefs_events_forwarding_wokeup">Ved oppvåkning</string>
+    <string name="devicetype_lefun">LeFun</string>
+    <string name="activity_error_no_app_for_png">For å dele denne skjermavbildningen må du installere et program som kan åpne bildefiler.</string>
+    <string name="activity_prefs_chart_min_session_length">Minste aktivitetslengde (minutter)</string>
+    <string name="lefun_prefs_antilost_title">Tapsforhindring</string>
+    <string name="activity_filter_individual_items">Individuelt valgte elementer</string>
+    <string name="no">Nei</string>
+    <string name="yes">Ja</string>
+    <string name="error_background_service_reason">Kunne ikke starte bakgrunnstjenesten:</string>
+    <string name="require_location_provider">Posisjon må skrus på</string>
+    <string name="ignore_bonded_devices_description">Ignorerer enheter ved skanning som allerede har blitt tilknyttet/parret</string>
+    <string name="ignore_bonded_devices">Ignorer tilknyttede enheter</string>
+    <string name="device_is_currently_bonded">ALLEREDE TILKNYTTET</string>
+    <string name="devicetype_sg2">LEMFO SG2</string>
+    <string name="activity_prefs_chart_max_idle_phase_length">Pauselengde for inndeling av aktiviteter (minutter)</string>
+    <string name="activity_prefs_chart_min_steps_per_minute">Minste antall steg per minutt før aktivitet registreres</string>
+    <string name="activity_prefs_chart_min_steps_per_minute_for_run">Laveste antall steg før løping registreres</string>
+    <string name="lefun_prefs_antilost_summary">Båndet vil vibrere hvis telefonen mister tilkoblingen til båndet</string>
+    <string name="lefun_prefs_hydration_reminder_summary">Båndet vil vibrere for å minne deg på å drikke vann</string>
+    <string name="lefun_prefs_hydration_reminder_title">Drikkepåminnelse</string>
+    <string name="firmware_update_progress">Opplasting underveis
+\n%1d%% i %.2fkbps (gjennomsnitt %.2fkbps)
+\nDel %1d av %1d</string>
+    <string name="devicestatus_upload_failed">Opplastingen mislyktes</string>
+    <string name="devicestatus_upload_aborted">Opplasting avbrutt!</string>
+    <string name="devicestatus_upload_validating">Opplastingen bekreftes</string>
+    <string name="devicestatus_upload_completed">Opplasting fullført</string>
+    <string name="devicestatus_disconnected">Enhet frakoblet.</string>
+    <string name="devicestatus_disconnecting">Enhet kobler fra!</string>
+    <string name="devicestatus_upload_started">Opplasting startet</string>
+    <string name="devicestatus_upload_starting">Opplasting starter</string>
+    <string name="devicestatus_connecting">Enheten kobler til</string>
+    <string name="devicestatus_connected">Enhet tilkoblet</string>
+    <string name="charts_activity_list">Aktivitetsliste</string>
+    <string name="chart_get_active_and_synchronize">Utfør litt aktivitet og synkroniser enhet.</string>
+    <string name="chart_no_active_data">Ingen nylige aktiviteter.</string>
+    <string name="pref_title_device_spec_settings_show_raw_graph">Vis rå-data på aktivitetsdiagram</string>
+    <string name="pref_summary_device_spec_settings_title_force_time">Tving gjennom synkronisering av tid ved gjenopptatt tilkobling. Analoge visere kan vise feil tid!</string>
+    <string name="pref_title_device_spec_settings_force_time">Tving gjennom synkronisering av tid</string>
+    <string name="pref_summary_notifications_and_calls_title_shake_reject">Dupliserer klokkeknappehandling</string>
+    <string name="pref_summary_notifications_and_calls_enable_misscall">Gjenta hvert minutt</string>
+    <string name="pref_notifications_and_calls_enable_misscall">Varsle om tapt anrop</string>
+    <string name="prefs_notifications_and_calls_continious_ring">Merknad for oppringing</string>
+    <string name="pref_title_notifications_and_calls_repeat_on_call">Merknad for tapt anrop</string>
 </resources>
