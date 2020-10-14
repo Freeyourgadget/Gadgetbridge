@@ -36,8 +36,6 @@ import java.util.List;
 
 import nodomain.freeyourgadget.gadgetbridge.R;
 
-import static nodomain.freeyourgadget.gadgetbridge.activities.charts.ActivityAnalysis.LOG;
-
 /**
  * Adapter for displaying generic ItemWithDetails instances.
  */
@@ -108,9 +106,17 @@ public abstract class AbstractActivityListingAdapter<T> extends ArrayAdapter<T> 
             hrLayout.setVisibility(View.VISIBLE);
         }
 
+        if (!hasIntensity(item)) {
+            intensityLayout.setVisibility(View.GONE);
+        } else {
+            intensityLayout.setVisibility(View.VISIBLE);
+        }
+
         activityIcon.setImageResource(getIcon(item));
 
-        if (position % 2 == 0) {parentLayout.setBackgroundColor(alternateColor);}
+        if (position % 2 == 0) {
+            parentLayout.setBackgroundColor(alternateColor);
+        }
 
         return view;
     }
@@ -131,7 +137,9 @@ public abstract class AbstractActivityListingAdapter<T> extends ArrayAdapter<T> 
 
     protected abstract String getDurationLabel(T item);
 
-    protected abstract Boolean hasHR(T item);
+    protected abstract boolean hasHR(T item);
+
+    protected abstract boolean hasIntensity(T item);
 
     @DrawableRes
     protected abstract int getIcon(T item);

@@ -64,7 +64,8 @@ public class StepAnalysis {
 
 
         for (ActivitySample sample : samples) {
-            if (sample.getKind() != ActivityKind.TYPE_SLEEP) { //anything but sleep counts
+            if (sample.getKind() != ActivityKind.TYPE_SLEEP //anything but sleep counts
+                    && !(sample instanceof TrailingActivitySample)) { //trailing samples have wrong date and make trailing activity have 0 duration
                 if (sample.getHeartRate() != 255 && sample.getHeartRate() != -1) {
                     heartRateToAdd = sample.getHeartRate();
                     activeHrSamplesToAdd = 1;
@@ -122,7 +123,8 @@ public class StepAnalysis {
                 previousSample = sample;
             }
         }
-        //make sure we show the last portion of the data as well in case no further activity is recorded yet
+        //trailing activity: make sure we show the last portion of the data as well in case no further activity is recorded yet
+
         if (sessionStart != null && previousSample != null) {
             int current = previousSample.getTimestamp();
             int starting = (int) (sessionStart.getTime() / 1000);
@@ -131,7 +133,6 @@ public class StepAnalysis {
             if (session_length >= MIN_SESSION_LENGTH) {
                 int heartRateAverage = activeHrSamplesForAverage > 0 ? heartRateForAverage / activeHrSamplesForAverage : 0;
                 float distance = (float) (activeSteps * STEP_SIZE);
-
                 sessionEnd = getDateFromSample(previousSample);
                 activityKind = detect_activity_kind(session_length, activeSteps, heartRateAverage, activeIntensity);
                 result.add(new StepSession(sessionStart, sessionEnd, activeSteps, heartRateAverage, activeIntensity, distance, activityKind));

@@ -63,8 +63,17 @@ public class ActivityListingAdapter extends AbstractActivityListingAdapter<StepA
     }
 
     @Override
-    public Boolean hasHR(StepAnalysis.StepSession item) {
+    public boolean hasHR(StepAnalysis.StepSession item) {
         if (item.getHeartRateAverage() > 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    @Override
+    public boolean hasIntensity(StepAnalysis.StepSession item) {
+        if (item.getIntensity() > 0) {
             return true;
         } else {
             return false;
