@@ -1077,6 +1077,6 @@
     <string name="sonyswr12_settings_low_vibration_summary">降低频带上的振动强度</string>
     <string name="sonyswr12_settings_stamina_summary">省电模式会关闭定期自动测量心率，从而增加工作时间</string>
     <string name="sonyswr12_settings_alarm_interval_summary">智能警报间隔是安装警报之前的间隔。 在此间隔内，设备尝试检测最轻的睡眠阶段以唤醒用户</string>
-    <string name="devicetype_nut_mini">Nut Mini</string>
+    <string name="devicetype_nut_mini">Nut mini</string>
     <string name="activity_error_no_app_for_png">若需要分享此截图，请安装一个图片查看软件。</string>
 </resources>
