@@ -85,7 +85,7 @@ public abstract class AbstractActivityListingAdapter<T> extends ArrayAdapter<T> 
 
 
         LinearLayout hrLayout = view.findViewById(R.id.line_layout_hr);
-        LinearLayout stepLayout = view.findViewById(R.id.line_layout_step);
+        LinearLayout distanceLayout = view.findViewById(R.id.line_layout_distance);
         LinearLayout intensityLayout = view.findViewById(R.id.line_layout_intensity);
         RelativeLayout parentLayout = view.findViewById(R.id.list_item_parent_layout);
 
@@ -110,6 +110,12 @@ public abstract class AbstractActivityListingAdapter<T> extends ArrayAdapter<T> 
             intensityLayout.setVisibility(View.GONE);
         } else {
             intensityLayout.setVisibility(View.VISIBLE);
+        }
+
+        if (!hasDistance(item)) {
+            distanceLayout.setVisibility(View.GONE);
+        } else {
+            distanceLayout.setVisibility(View.VISIBLE);
         }
 
         activityIcon.setImageResource(getIcon(item));
@@ -140,6 +146,8 @@ public abstract class AbstractActivityListingAdapter<T> extends ArrayAdapter<T> 
     protected abstract boolean hasHR(T item);
 
     protected abstract boolean hasIntensity(T item);
+
+    protected abstract boolean hasDistance(T item);
 
     @DrawableRes
     protected abstract int getIcon(T item);

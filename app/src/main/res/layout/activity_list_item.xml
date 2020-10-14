@@ -172,7 +172,7 @@
                             android:layout_height="20dp"
                             android:layout_gravity="start"
                             android:contentDescription="@string/candidate_item_device_image"
-                            app:srcCompat="@drawable/ic_place" />
+                            app:srcCompat="@drawable/ic_distance" />
 
                         <TextView
                             android:id="@+id/line_layout_distance_label"

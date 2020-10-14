@@ -105,7 +105,6 @@ public class ActivityListingChartFragment extends AbstractChartFragment {
                 getChartsHost().enableSwipeRefresh(true); //try to enable pull to refresh, might be needed
             } else {
                 getChartsHost().enableSwipeRefresh(false); //disable pull to refresh as it collides with swipable view
-                // this still provides one pull to refresh on the start, in case it is needed
             }
             //push to the adapter
             stepListAdapter.setItems(stepSessions, true);

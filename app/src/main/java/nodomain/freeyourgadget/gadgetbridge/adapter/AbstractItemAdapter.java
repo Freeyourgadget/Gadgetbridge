@@ -66,23 +66,18 @@ public abstract class AbstractItemAdapter<T> extends ArrayAdapter<T> {
     }
 
     public void setDateFromFilter(long date){
-        this.setDateFromFilter(date);
     }
 
     public void setDateToFilter(long date){
-        this.setDateToFilter(date);
     }
 
     public void setNameContainsFilter(String name){
-        this.setNameContainsFilter(name);
     }
 
     public void setItemsFilter(List items) {
-        this.setItemsFilter(items);
     }
 
     public void setDeviceFilter(long device) {
-        this.setDeviceFilter(device);
     }
 
     @Override

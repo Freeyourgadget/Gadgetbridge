@@ -30,24 +30,27 @@ import nodomain.freeyourgadget.gadgetbridge.model.ActivityUser;
 
 public class StepAnalysis {
     protected static final Logger LOG = LoggerFactory.getLogger(StepAnalysis.class);
-    final double MULTIPLIER_FEMALE = 0.44; //constants to calculate steps from height
-    final double MULTIPLIER_OTHER = 0.45; //thes feel too small though
-    final double MULTIPLIER_MALE = 0.46;
-    private final double MIN_SESSION_INTENSITY = 0.4; //needs tuning
-    private double STEP_SIZE = 1;
 
     public List<StepSession> calculateStepSessions(List<? extends ActivitySample> samples) {
         List<StepSession> result = new ArrayList<>();
+        ActivityUser activityUser = new ActivityUser();
+        double STEP_LENGTH_M;
         final int MIN_SESSION_LENGTH = 60 * GBApplication.getPrefs().getInt("chart_list_min_session_length", 5);
         final int MAX_IDLE_PHASE_LENGTH = 60 * GBApplication.getPrefs().getInt("chart_list_max_idle_phase_length", 5);
         final int MIN_STEPS_PER_MINUTE = GBApplication.getPrefs().getInt("chart_list_min_steps_per_minute", 40);
-        final int GENDER = GBApplication.getPrefs().getInt("activity_user_gender", 2);
-        final int HEIGHT = GBApplication.getPrefs().getInt("activity_user_height_cm", 170);
-        STEP_SIZE = calculate_step_size(GENDER, HEIGHT);
+        int stepLengthCm = activityUser.getStepLengthCm();
+        int heightCm = activityUser.getHeightCm();
+
+        if (stepLengthCm == 0 && heightCm != 0) {
+            STEP_LENGTH_M = heightCm * 0.43 * 0.01;
+        } else {
+            STEP_LENGTH_M = stepLengthCm * 0.01;
+        }
+        final double MIN_SESSION_INTENSITY = Math.max(0, Math.min(1, MIN_STEPS_PER_MINUTE * 0.01));
 
         ActivitySample previousSample = null;
         Date sessionStart = null;
-        Date sessionEnd = null;
+        Date sessionEnd;
         int activeSteps = 0; //steps that we count
         int stepsBetweenActivePeriods = 0; //steps during time when we maybe take a rest but then restart
         int durationSinceLastActiveStep = 0;
@@ -77,7 +80,7 @@ public class StepAnalysis {
                 if (sessionStart == null) {
                     sessionStart = getDateFromSample(sample);
                     activeSteps = sample.getSteps();
-                    activeIntensity = (int) sample.getIntensity();
+                    activeIntensity = sample.getIntensity();
                     heartRateForAverage = heartRateToAdd;
                     activeHrSamplesForAverage = activeHrSamplesToAdd;
                     durationSinceLastActiveStep = 0;
@@ -112,7 +115,7 @@ public class StepAnalysis {
 
                         if (session_length >= MIN_SESSION_LENGTH) { //valid activity session
                             int heartRateAverage = activeHrSamplesForAverage > 0 ? heartRateForAverage / activeHrSamplesForAverage : 0;
-                            float distance = (float) (activeSteps * STEP_SIZE);
+                            float distance = (float) (activeSteps * STEP_LENGTH_M);
                             sessionEnd = new Date((sample.getTimestamp() - durationSinceLastActiveStep) * 1000L);
                             activityKind = detect_activity_kind(session_length, activeSteps, heartRateAverage, activeIntensity);
                             result.add(new StepSession(sessionStart, sessionEnd, activeSteps, heartRateAverage, activeIntensity, distance, activityKind));
@@ -132,29 +135,13 @@ public class StepAnalysis {
 
             if (session_length >= MIN_SESSION_LENGTH) {
                 int heartRateAverage = activeHrSamplesForAverage > 0 ? heartRateForAverage / activeHrSamplesForAverage : 0;
-                float distance = (float) (activeSteps * STEP_SIZE);
+                float distance = (float) (activeSteps * STEP_LENGTH_M);
                 sessionEnd = getDateFromSample(previousSample);
                 activityKind = detect_activity_kind(session_length, activeSteps, heartRateAverage, activeIntensity);
                 result.add(new StepSession(sessionStart, sessionEnd, activeSteps, heartRateAverage, activeIntensity, distance, activityKind));
             }
         }
         return result;
-    }
-
-    private double calculate_step_size(int gender, int height) {
-        double multiplier = 0;
-        switch (gender) {
-            case ActivityUser.GENDER_MALE:
-                multiplier = MULTIPLIER_MALE;
-                break;
-            case ActivityUser.GENDER_FEMALE:
-                multiplier = MULTIPLIER_FEMALE;
-                break;
-            case ActivityUser.GENDER_OTHER:
-                multiplier = MULTIPLIER_OTHER;
-                break;
-        }
-        return height * multiplier / 100;
     }
 
     private int detect_activity_kind(int session_length, int activeSteps, int heartRateAverage, float intensity) {
@@ -166,7 +153,7 @@ public class StepAnalysis {
         if (activeSteps > 200) {
             return ActivityKind.TYPE_WALKING;
         }
-        if (heartRateAverage > 90 && intensity > 30) { //needs tuning
+        if (heartRateAverage > 90 && intensity > 15) { //needs tuning
             return ActivityKind.TYPE_EXERCISE;
         }
         return ActivityKind.TYPE_ACTIVITY;

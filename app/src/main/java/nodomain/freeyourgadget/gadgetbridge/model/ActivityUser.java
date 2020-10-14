@@ -44,6 +44,7 @@ public class ActivityUser {
     private int activityUserCaloriesBurnt;
     private int activityUserDistanceMeters;
     private int activityUserActiveTimeMinutes;
+    private int activityUserStepLengthCm;
 
     private static final String defaultUserName = "gadgetbridge-user";
     public static final int defaultUserGender = GENDER_FEMALE;
@@ -56,6 +57,7 @@ public class ActivityUser {
     public static final int defaultUserCaloriesBurnt = 2000;
     public static final int defaultUserDistanceMeters = 5000;
     public static final int defaultUserActiveTimeMinutes = 60;
+    public static final int defaultUserStepLengthCm = 0;
 
     public static final String PREF_USER_NAME = "mi_user_alias";
     public static final String PREF_USER_YEAR_OF_BIRTH = "activity_user_year_of_birth";
@@ -67,6 +69,7 @@ public class ActivityUser {
     public static final String PREF_USER_CALORIES_BURNT = "activity_user_calories_burnt";
     public static final String PREF_USER_DISTANCE_METERS = "activity_user_distance_meters";
     public static final String PREF_USER_ACTIVETIME_MINUTES = "activity_user_activetime_minutes";
+    public static final String PREF_USER_STEP_LENGTH_CM = "activity_user_step_length_cm";
 
     public ActivityUser() {
         fetchPreferences();
@@ -95,6 +98,10 @@ public class ActivityUser {
 
     public int getHeightCm() {
         return activityUserHeightCm;
+    }
+
+    public int getStepLengthCm() {
+        return activityUserStepLengthCm;
     }
 
     /**
@@ -139,6 +146,7 @@ public class ActivityUser {
         activityUserCaloriesBurnt = prefs.getInt(PREF_USER_CALORIES_BURNT, defaultUserCaloriesBurnt);
         activityUserDistanceMeters = prefs.getInt(PREF_USER_DISTANCE_METERS, defaultUserDistanceMeters);
         activityUserActiveTimeMinutes = prefs.getInt(PREF_USER_ACTIVETIME_MINUTES, defaultUserActiveTimeMinutes);
+        activityUserStepLengthCm = prefs.getInt(PREF_USER_STEP_LENGTH_CM, defaultUserStepLengthCm);
     }
 
     public Date getUserBirthday() {

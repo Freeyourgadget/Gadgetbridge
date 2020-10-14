@@ -39,10 +39,16 @@ public class ActivityListingAdapter extends AbstractActivityListingAdapter<StepA
 
     @Override
     protected String getDistanceLabel(StepAnalysis.StepSession item) {
-        DecimalFormat df = new DecimalFormat("###m");
+        float distance = item.getDistance();
+        String unit = "###m";
+        if (distance > 2000) {
+            distance = distance / 1000;
+            unit = "###.#km";
+        }
+        DecimalFormat df = new DecimalFormat(unit);
         //DecimalFormatSymbols symbols = df.getDecimalFormatSymbols();
         //symbols.setGroupingSeparator(' ');
-        return df.format(item.getDistance());
+        return df.format(distance);
     }
 
     @Override
@@ -74,6 +80,15 @@ public class ActivityListingAdapter extends AbstractActivityListingAdapter<StepA
     @Override
     public boolean hasIntensity(StepAnalysis.StepSession item) {
         if (item.getIntensity() > 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    @Override
+    protected boolean hasDistance(StepAnalysis.StepSession item) {
+        if (item.getDistance() > 0) {
             return true;
         } else {
             return false;

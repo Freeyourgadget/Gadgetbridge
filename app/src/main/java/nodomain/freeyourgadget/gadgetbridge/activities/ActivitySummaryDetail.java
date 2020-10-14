@@ -259,8 +259,8 @@ public class ActivitySummaryDetail extends AbstractGBActivity {
         String activityname = item.getName();
         Date starttime = item.getStartTime();
         Date endtime = item.getEndTime();
-        String starttimeS = DateTimeUtils.formatDateTime(starttime);
-        String endtimeS = DateTimeUtils.formatDateTime(endtime);
+        String starttimeS = String.format("%s, %s", DateTimeUtils.formatDate(starttime), DateTimeUtils.formatTime(starttime.getHours(), starttime.getMinutes()));
+        String endtimeS = String.format("%s, %s", DateTimeUtils.formatDate(endtime), DateTimeUtils.formatTime(endtime.getHours(), endtime.getMinutes()));
         String durationhms = DateTimeUtils.formatDurationHoursMinutes((endtime.getTime() - starttime.getTime()), TimeUnit.MILLISECONDS);
 
         ImageView activity_icon = findViewById(R.id.item_image);
