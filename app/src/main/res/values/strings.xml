@@ -444,7 +444,6 @@
     <string name="charts_activity_list">Activity list</string>
     <string name="lack_of_sleep">Lack of sleep: %1$s</string>
     <string name="overslept">Overslept: %1$s</string>
-
     <!-- Firmware updating -->
     <string name="devicestatus_connecting">Device is connecting</string>
     <string name="devicestatus_connected">Device is connected</string>
@@ -458,7 +457,6 @@
     <string name="devicestatus_upload_failed">Upload has failed</string>
     <string name="firmware_update_progress">Upload is in progress\n%1d%% at %.2fkbps (average %.2fkbps)\nPart %1d of %1d</string>
     <string name="updating_firmware">Flashing firmware…</string>
-
     <string name="fwapp_install_device_not_ready">File cannot be installed, device not ready.</string>
     <string name="installhandler_firmware_name">%1$s: %2$s %3$s</string>
     <string name="miband_fwinstaller_compatible_version">Compatible version</string>
@@ -930,7 +928,7 @@
     <string name="fdroid_url" translatable="false">F-Droid: <a href="https://f-droid.org/packages/nodomain.freeyourgadget.gadgetbridge/">https://f-droid.org/packages/nodomain.freeyourgadget.gadgetbridge/</a></string>
     <string name="about_title">About</string>
     <string name="about_activity_title">About Gadgetbridge</string>
-    <string name="about_description">A free and cloudless replacement for your gadget vendors\' closed source Android applications.</string>
+    <string name="about_description">Cloudless copylefted libre replacement for closed source Android gadget apps from vendors.</string>
     <string name="about_core_team_title">Core Team (in order of first code contribution)</string>
     <string name="about_contributors">Contributors</string>
     <string name="about_core_team_members" translatable="false">Andreas Shimokawa\nCarsten Pfeiffer\nDaniele Gobbetti</string>
@@ -1056,16 +1054,12 @@
     <string name="activity_summaries_all_devices">All devices</string>
     <string name="activity_filter_from_placeholder">distant past</string>
     <string name="activity_filter_to_placeholder">today</string>
-
-
-
     <!-- swim styles -->
     <string name="breaststroke">Breaststroke</string>
     <string name="freestyle">Freestyle</string>
     <string name="backstroke">Backstroke</string>
     <string name="medley">Medley</string>
-    <string name="devicetype_nut_mini">Nut Mini</string>
-
+    <string name="devicetype_nut_mini">Nut mini</string>
     <plurals name="widget_alarm_target_hours">
         <item quantity="one">%d hour</item>
         <item quantity="two">%d hours</item>
