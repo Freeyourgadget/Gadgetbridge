@@ -308,7 +308,8 @@ public class ChartsActivity extends AbstractGBFragmentActivity implements Charts
         return super.onOptionsItemSelected(item);
     }
 
-    private void enableSwipeRefresh(boolean enable) {
+    @Override
+    public void enableSwipeRefresh(boolean enable) {
         DeviceCoordinator coordinator = DeviceHelper.getInstance().getCoordinator(mGBDevice);
         swipeLayout.setEnabled(enable && coordinator.allowFetchActivityData(mGBDevice));
     }

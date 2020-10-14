@@ -46,7 +46,7 @@ import nodomain.freeyourgadget.gadgetbridge.util.DateTimeUtils;
 
 public class ActivityListingChartFragment extends AbstractChartFragment {
     protected static final Logger LOG = LoggerFactory.getLogger(ActivityListingChartFragment.class);
-    int tsDataFrom;
+    int tsDateFrom;
     private View rootView;
     private List<? extends ActivitySample> activitySamples;
     private ActivityListingAdapter stepListAdapter;
@@ -61,7 +61,8 @@ public class ActivityListingChartFragment extends AbstractChartFragment {
         stepListAdapter = new ActivityListingAdapter(getContext());
         stepsList.setAdapter(stepListAdapter);
         stepsDateView = rootView.findViewById(R.id.stepsDateView);
-        //refresh();
+        refresh();
+
         return rootView;
     }
 
@@ -76,7 +77,7 @@ public class ActivityListingChartFragment extends AbstractChartFragment {
         String action = intent.getAction();
         if (action.equals(ChartsHost.REFRESH)) {
             // TODO: use LimitLines to visualize smart alarms?
-            //refresh();
+            refresh();
         } else {
             super.onReceive(context, intent);
         }
@@ -94,13 +95,17 @@ public class ActivityListingChartFragment extends AbstractChartFragment {
     @Override
     protected void updateChartsnUIThread(ChartsData chartsData) {
         //top displays selected date
-        stepsDateView.setText(DateTimeUtils.formatDate(new Date(tsDataFrom * 1000L)));
+        stepsDateView.setText(DateTimeUtils.formatDate(new Date(tsDateFrom * 1000L)));
         //calculate active sessions
         StepAnalysis stepAnalysis = new StepAnalysis();
         if (activitySamples != null) {
             List<StepAnalysis.StepSession> stepSessions = stepAnalysis.calculateStepSessions(activitySamples);
             if (stepSessions.toArray().length == 0) {
                 stepSessions = create_empty_record();
+                getChartsHost().enableSwipeRefresh(true); //try to enable pull to refresh, might be needed
+            } else {
+                getChartsHost().enableSwipeRefresh(false); //disable pull to refresh as it collides with swipable view
+                // this still provides one pull to refresh on the start, in case it is needed
             }
             //push to the adapter
             stepListAdapter.setItems(stepSessions, true);
@@ -109,12 +114,10 @@ public class ActivityListingChartFragment extends AbstractChartFragment {
 
     @Override
     protected void renderCharts() {
-
     }
 
     @Override
     protected void setupLegend(Chart chart) {
-
     }
 
     @Override
@@ -124,20 +127,17 @@ public class ActivityListingChartFragment extends AbstractChartFragment {
         day.set(Calendar.HOUR_OF_DAY, 0); //and we set time for the start and end of the same day
         day.set(Calendar.MINUTE, 0);
         day.set(Calendar.SECOND, 0);
-
         tsFrom = (int) (day.getTimeInMillis() / 1000);
         tsTo = tsFrom + 24 * 60 * 60 - 1;
-        tsDataFrom = tsFrom;
+        tsDateFrom = tsFrom;
         return getAllSamples(db, device, tsFrom, tsTo);
     }
 
     private List<StepAnalysis.StepSession> create_empty_record() {
         //have an "Unknown Activity" in the list in case there are no active sessions
         List<StepAnalysis.StepSession> result = new ArrayList<>();
-        int tsTo = tsDataFrom + 24 * 60 * 60 - 1;
-        result.add(new StepAnalysis.StepSession(new Date(tsDataFrom * 1000L), new Date(tsTo * 1000L), 0, 0, ActivityKind.TYPE_UNKNOWN));
+        int tsTo = tsDateFrom + 24 * 60 * 60 - 1;
+        result.add(new StepAnalysis.StepSession(new Date(tsDateFrom * 1000L), new Date(tsTo * 1000L), 0, 0, 0, 0, ActivityKind.TYPE_UNKNOWN));
         return result;
     }
-
-
 }
