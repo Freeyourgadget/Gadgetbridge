@@ -754,7 +754,7 @@
     <string name="devicetype_makibes_hr3">Makibes HR3</string>
     <string name="devicetype_amazfit_bip_lite">Amazfit Bip Lite</string>
     <string name="prefs_find_phone">Vyhledat telefon</string>
-    <string name="prefs_enable_find_phone">Zapnout \\\'Vyhledání telefonu\\\'</string>
+    <string name="prefs_enable_find_phone">Zapnout \'Vyhledání telefonu\'</string>
     <string name="prefs_find_phone_summary">Použijte náramek/hodinky k prozvonění telefonu.</string>
     <string name="prefs_find_phone_duration">Délka zvonění ve vteřinách</string>
     <string name="maximum_duration">Délka</string>
@@ -1054,4 +1054,34 @@
     <string name="sonyswr12_settings_low_vibration_summary">Povolit nízkou intenzitu vibrací na pásmu</string>
     <string name="sonyswr12_settings_stamina_summary">Režim úspory energie vypíná periodické automatické měření srdeční frekvence a tím prodlužuje pracovní dobu</string>
     <string name="sonyswr12_settings_alarm_interval_summary">Interval inteligentního alarmu je interval před nainstalovaným alarmem. V tomto intervalu se zařízení pokouší detekovat nejlehčí fázi spánku, aby probudil uživatele</string>
+    <string name="devicetype_nut_mini">Nut Mini</string>
+    <string name="chart_get_active_and_synchronize">Vykonejte nějakou aktivitu a synchronizujte zařízení.</string>
+    <string name="chart_no_active_data">Nedetekovány žádné aktivity.</string>
+    <string name="descentSeconds">Doba sestupu</string>
+    <string name="devicetype_lefun">Lefun</string>
+    <string name="activity_error_no_app_for_png">Chcete-li sdílet tento snímek obrazovky, nainstalujte si aplikaci, která dokáže zpracovávat nebo přijímat obrázky.</string>
+    <string name="activity_prefs_chart_min_session_length">Minimální délka aktivity (minut)</string>
+    <string name="activity_prefs_chart_max_idle_phase_length">Délka pauzy k oddělení aktivit (minut)</string>
+    <string name="activity_prefs_chart_min_steps_per_minute">Minimální počet kroků za minutu k detekci aktivity</string>
+    <string name="activity_prefs_chart_min_steps_per_minute_for_run">Minimální počet kroků za minutu k detekci běhu</string>
+    <string name="lefun_prefs_interface_language_title">Jazyk rozhraní</string>
+    <string name="lefun_prefs_antilost_summary">Řemínek zavibruje při odpojení od telefonu</string>
+    <string name="lefun_prefs_antilost_title">Ochrana proti ztrátě</string>
+    <string name="lefun_prefs_hydration_reminder_interval_title">Interval připomenutí hydratace (v minutách)</string>
+    <string name="lefun_prefs_hydration_reminder_summary">Pásek zavibruje pro připomenutí se napít</string>
+    <string name="lefun_prefs_hydration_reminder_title">Připomenutí hydratace</string>
+    <string name="firmware_update_progress">Průběh nahrávání
+\n%1d%% při %.2fkbps (průměr %.2fkbps)
+\nČást %1d z %1d</string>
+    <string name="devicestatus_upload_failed">Došlo k chybě nahrávání</string>
+    <string name="devicestatus_upload_aborted">Nahrávání přerušeno!</string>
+    <string name="devicestatus_upload_validating">Kontrola nahraných dat</string>
+    <string name="devicestatus_upload_completed">Nahrávání dokončeno</string>
+    <string name="devicestatus_disconnected">Zařízení odpojeno!</string>
+    <string name="devicestatus_disconnecting">Zařízení se odpojuje!</string>
+    <string name="devicestatus_upload_started">Nahrávání začalo</string>
+    <string name="devicestatus_upload_starting">Počátek nahrávání</string>
+    <string name="devicestatus_connected">Zařízení připojeno</string>
+    <string name="devicestatus_connecting">Připojování zařízení</string>
+    <string name="charts_activity_list">Seznam Aktivit</string>
 </resources>
