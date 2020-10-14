@@ -932,7 +932,7 @@
     <string name="about_additional_device_support">Ek aygıt desteği</string>
     <string name="about_contributors">Katkıda bulunanlar</string>
     <string name="about_core_team_title">Çekirdek Ekip (ilk kod katkıda bulunma sırasına göre)</string>
-    <string name="about_description">Aygıt sağlayıcılarınızın kapalı kaynaklı Android uygulamalarının yerine özgür ve bulut gerektirmeyen bir alternatif.</string>
+    <string name="about_description">Satıcıların kapalı kaynaklı Android aygıt uygulamalarının yerine bulut gerektirmeyen copyleft özgür alternatif.</string>
     <string name="about_activity_title">Gadgetbridge hakkında</string>
     <string name="about_title">Hakkında</string>
     <string name="pref_title_weather_summary">LineageOS hava durumu sağlayıcısı için kullanılır, diğer Android sürümleri \"Weather notification\" gibi bir uygulama kullanmalıdır. Gadgetbridge wiki sayfasında daha fazla bilgi bulabilirsiniz.</string>
@@ -1096,6 +1096,6 @@
     <string name="sonyswr12_settings_stamina_summary">Güç tasarrufu modu, kalp atış hızının periyodik otomatik ölçümünü kapatır ve böylece çalışma süresini uzatır</string>
     <string name="sonyswr12_settings_alarm_interval_summary">Akıllı alarm aralığı, kurulu alarmdan önceki aralıktır. Bu aralıkta cihaz, kullanıcıyı uyandırmak için uykunun en hafif aşamasını tespit etmeye çalışıyor</string>
     <string name="sonyswr12_settings_stamina">Güç tasarrufu modu açık</string>
-    <string name="devicetype_nut_mini">Nut Mini</string>
+    <string name="devicetype_nut_mini">Nut mini</string>
     <string name="activity_error_no_app_for_png">Bu ekran görüntüsünü paylaşmak için görüntü dosyalarını işleyebilen bir uygulama kurun.</string>
 </resources>
