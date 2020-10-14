@@ -1068,7 +1068,7 @@
     <string name="sonyswr12_settings_stamina_summary">Der Energiesparmodus schaltet die regelmäßige automatische Messung der Herzfrequenz aus und verlängert so die Arbeitszeit</string>
     <string name="sonyswr12_settings_alarm_interval_summary">Das intelligente Alarmintervall ist das Intervall vor dem installierten Alarm. In diesem Intervall versucht das Gerät, die leichteste Schlafphase zu erkennen, um den Benutzer zu wecken</string>
     <string name="chart_get_active_and_synchronize">Führe einige Aktivitäten durch und synchronisiere das Gerät.</string>
-    <string name="devicetype_nut_mini">Nut Mini</string>
+    <string name="devicetype_nut_mini">Nut mini</string>
     <string name="descentSeconds">Absteigend</string>
     <string name="devicetype_lefun">Lefun</string>
     <string name="activity_error_no_app_for_png">Um diesen Screenshot zu teilen, installiere eine App, die Bilddateien verarbeiten kann.</string>
