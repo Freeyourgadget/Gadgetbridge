@@ -70,6 +70,7 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fos
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.file.FileLookupRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.notification.PlayCallNotificationRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.notification.PlayTextNotificationRequest;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.activity.ActivityFilesGetRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.async.ConfirmAppStatusRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.authentication.VerifyPrivateKeyRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.buttons.ButtonConfiguration;
@@ -88,6 +89,9 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fos
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.music.MusicControlRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.music.MusicInfoSetRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.notification.NotificationFilterPutHRRequest;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.translation.TranslationData;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.translation.TranslationsGetRequest;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.translation.TranslationsPutRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.widget.CustomBackgroundWidgetElement;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.widget.CustomTextWidgetElement;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.widget.CustomWidget;
@@ -836,25 +840,19 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
 
     @Override
     public void onTestNewFunction() {
-        /*queueWrite(new ActivityFilesGetRequest(this){
+        queueWrite(new TranslationsGetRequest(this){
             @Override
-            public void handleFileData(byte[] fileData) {
-                super.handleFileData(fileData);
-                File activityDir = new File(getContext().getExternalFilesDir(null), "activity_hr");
-                activityDir.mkdir();
-                File f = new File(activityDir, String.valueOf(System.currentTimeMillis()));
-                try {
-                    f.createNewFile();
-                    FileOutputStream fos = new FileOutputStream(f);
-                    fos.write(fileData);
-                    fos.close();
-                    GB.toast("saved file data", Toast.LENGTH_SHORT, GB.INFO);
-                } catch (IOException e) {
-                    GB.log("activity file error", GB.ERROR, e);
-                }
-                queueWrite(new FileDeleteRequest((short) 0x0101));
+            public void handleTranslations(TranslationData translationData) {
+                translationData.replaceByOriginal("ON", "oi m8");
+                translationData.replaceByOriginal("OFF", "nah go away");
+                translationData.replaceByOriginal("Device is about to reset.", "oh frick no no no");
+                translationData.replaceByOriginal("Release button to stop reset.", "please don't let me die like that");
+                translationData.replaceByOriginal("Serial number", "Gadgetbridge :)");
+                translationData.replaceByOriginal("Dial Info", "Widgets");
+                TranslationsPutRequest request = new TranslationsPutRequest(translationData, FossilHRWatchAdapter.this);
+                queueWrite(request);
             }
-        });*/
+        });
     }
 
     @Override
