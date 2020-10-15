@@ -70,6 +70,7 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.adapter.Watc
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.adapter.WatchAdapterFactory;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.adapter.fossil.FossilWatchAdapter;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.adapter.fossil_hr.FossilHRWatchAdapter;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.file.FileHandle;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.misfit.DownloadFileRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.misfit.PlayNotificationRequest;
 import nodomain.freeyourgadget.gadgetbridge.util.FileUtils;
@@ -90,6 +91,12 @@ public class QHybridSupport extends QHybridBaseSupport {
     public static final String QHYBRID_COMMAND_SEND_MENU_ITEMS = "nodomain.freeyourgadget.gadgetbridge.Q_SEND_MENU_ITEMS";
     public static final String QHYBRID_COMMAND_SET_WIDGET_CONTENT = "nodomain.freeyourgadget.gadgetbridge.Q_SET_WIDGET_CONTENT";
     public static final String QHYBRID_COMMAND_SET_BACKGROUND_IMAGE = "nodomain.freeyourgadget.gadgetbridge.Q_SET_BACKGROUND_IMAGE";
+
+    public static final String QHYBRID_COMMAND_DOWNLOAD_FILE = "nodomain.freeyourgadget.gadgetbridge.Q_DOWNLOAD_FILE";
+    public static final String QHYBRID_COMMAND_UPLOAD_FILE = "nodomain.freeyourgadget.gadgetbridge.Q_UPLOAD_FILE";
+
+    public static final String QHYBRID_ACTION_DOWNLOADED_FILE = "nodomain.freeyourgadget.gadgetbridge.Q_DOWNLOADED_FILE";
+    public static final String QHYBRID_ACTION_UPLOADED_FILE = "nodomain.freeyourgadget.gadgetbridge.Q_UPLOADED_FILE";
 
     private static final String QHYBRID_ACTION_SET_ACTIVITY_HAND = "nodomain.freeyourgadget.gadgetbridge.Q_SET_ACTIVITY_HAND";
 
@@ -146,6 +153,8 @@ public class QHybridSupport extends QHybridBaseSupport {
         commandFilter.addAction(QHYBRID_COMMAND_UPDATE_WIDGETS);
         commandFilter.addAction(QHYBRID_COMMAND_SEND_MENU_ITEMS);
         commandFilter.addAction(QHYBRID_COMMAND_SET_BACKGROUND_IMAGE);
+        commandFilter.addAction(QHYBRID_COMMAND_UPLOAD_FILE);
+        commandFilter.addAction(QHYBRID_COMMAND_DOWNLOAD_FILE);
         commandReceiver = new BroadcastReceiver() {
 
             @Override
@@ -235,6 +244,21 @@ public class QHybridSupport extends QHybridBaseSupport {
                     case QHYBRID_COMMAND_SET_BACKGROUND_IMAGE:{
                         byte[] pixels = intent.getByteArrayExtra("EXTRA_PIXELS_ENCODED");
                         watchAdapter.setBackgroundImage(pixels);
+                        break;
+                    }
+                    case QHYBRID_COMMAND_DOWNLOAD_FILE:{
+                        Object handleObject = intent.getSerializableExtra("EXTRA_HANDLE");
+                        if(handleObject == null || !(handleObject instanceof FileHandle)) return;
+                        FileHandle handle = (FileHandle) handleObject;
+                        watchAdapter.downloadFile(handle, intent.getBooleanExtra("EXTRA_ENCRYPTED", false));
+                        break;
+                    }
+                    case QHYBRID_COMMAND_UPLOAD_FILE:{
+                        Object handleObject = intent.getSerializableExtra("EXTRA_HANDLE");
+                        if(handleObject == null || !(handleObject instanceof FileHandle)) return;
+                        FileHandle handle = (FileHandle) handleObject;
+                        String filePath = intent.getStringExtra("EXTRA_PATH");
+                        watchAdapter.uploadFile(handle, filePath, intent.getBooleanExtra("EXTRA_ENCRYPTED", false));
                         break;
                     }
                 }

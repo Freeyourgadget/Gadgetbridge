@@ -3,7 +3,6 @@ package nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.adapter.fos
 import android.bluetooth.BluetoothGattCharacteristic;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -13,7 +12,11 @@ import android.graphics.Paint;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
+import android.os.Handler;
+import android.os.Looper;
 import android.widget.Toast;
+
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -21,6 +24,7 @@ import org.json.JSONObject;
 
 import java.io.BufferedInputStream;
 import java.io.File;
+import java.io.FileDescriptor;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -29,11 +33,8 @@ import java.io.InputStream;
 import java.nio.BufferOverflowException;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.List;
-import java.util.TimeZone;
 import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -60,26 +61,26 @@ import nodomain.freeyourgadget.gadgetbridge.model.WeatherSpec;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.QHybridSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.adapter.fossil.FossilWatchAdapter;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.file.FileHandle;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.parser.ActivityEntry;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.parser.ActivityFileParser;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.Request;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.RequestMtuRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.SetDeviceStateRequest;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.configuration.ConfigurationPutRequest.TimeConfigItem;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.file.FileDeleteRequest;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.file.FileGetRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.file.FileLookupRequest;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.file.FilePutRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.notification.PlayCallNotificationRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.notification.PlayTextNotificationRequest;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.activity.ActivityFilesGetRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.async.ConfirmAppStatusRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.authentication.VerifyPrivateKeyRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.buttons.ButtonConfiguration;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.buttons.ButtonConfigurationPutRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.configuration.ConfigurationGetRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.configuration.ConfigurationPutRequest;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.file.AssetFile;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.file.AssetFilePutRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.file.FileEncryptedGetRequest;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.file.FilePutRawRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.file.FirmwareFilePutRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.image.AssetImage;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.image.AssetImageFactory;
@@ -478,7 +479,7 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
             if (pushFiles.size() > 0) {
                 queueWrite(new AssetFilePutRequest(
                         pushFiles.toArray(new AssetImage[0]),
-                        (byte) 0x00,
+                        FileHandle.ASSET_BACKGROUND_IMAGES,
                         this
                 ));
             }
@@ -489,6 +490,70 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
             ));
         } catch (IOException e) {
             e.printStackTrace();
+        }
+    }
+
+    private void handleFileDownload(FileHandle handle, byte[] file){
+        Intent resultIntent = new Intent(QHybridSupport.QHYBRID_ACTION_DOWNLOADED_FILE);
+        File outputFile = new File(getContext().getExternalFilesDir("download"), handle.name() + "_" + System.currentTimeMillis() + ".bin");
+        try {
+            FileOutputStream fos = new FileOutputStream(outputFile);
+            fos.write(file);
+            fos.close();
+            resultIntent.putExtra("EXTRA_SUCCESS", true);
+            resultIntent.putExtra("EXTRA_PATH", outputFile.getAbsolutePath());
+        } catch (IOException e) {
+            e.printStackTrace();
+            resultIntent.putExtra("EXTRA_SUCCESS", false);
+        }
+        LocalBroadcastManager.getInstance(getContext()).sendBroadcast(resultIntent);
+    }
+
+    @Override
+    public void uploadFile(FileHandle handle, String filePath, boolean fileIsEncrypted) {
+        final Intent resultIntent = new Intent(QHybridSupport.QHYBRID_ACTION_UPLOADED_FILE);
+        byte[] fileData;
+
+        try {
+            FileInputStream fis = new FileInputStream(filePath);
+            fileData = new byte[fis.available()];
+            fis.read(fileData);
+            fis.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+            resultIntent.putExtra("EXTRA_SUCCESS", false);
+            LocalBroadcastManager.getInstance(getContext()).sendBroadcast(resultIntent);
+            return;
+        }
+
+        queueWrite(new FilePutRawRequest(handle, fileData, this){
+            @Override
+            public void onFilePut(boolean success) {
+                resultIntent.putExtra("EXTRA_SUCCESS", success);
+                LocalBroadcastManager.getInstance(getContext()).sendBroadcast(resultIntent);
+            }
+        });
+    }
+
+    @Override
+    public void downloadFile(final FileHandle handle, boolean fileIsEncrypted) {
+        if(fileIsEncrypted){
+            negotiateSymmetricKey();
+            queueWrite(new FileEncryptedGetRequest(handle, this) {
+                @Override
+                public void handleFileData(byte[] fileData) {
+                    logger.debug("downloaded encrypted file");
+                    handleFileDownload(handle, fileData);
+                }
+            });
+        }else{
+            queueWrite(new FileGetRequest(handle, this) {
+                @Override
+                public void handleFileData(byte[] fileData) {
+                    logger.debug("downloaded regular file");
+                    handleFileDownload(handle, fileData);
+                }
+            });
         }
     }
 

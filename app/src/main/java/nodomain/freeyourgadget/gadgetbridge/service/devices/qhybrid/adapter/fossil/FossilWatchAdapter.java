@@ -46,6 +46,7 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.QHybridSuppo
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.adapter.WatchAdapter;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.buttonconfig.ConfigFileBuilder;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.buttonconfig.ConfigPayload;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.file.FileHandle;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.Request;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.FossilRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.RequestMtuRequest;
@@ -241,7 +242,7 @@ public class FossilWatchAdapter extends WatchAdapter {
 
             ConfigFileBuilder builder = new ConfigFileBuilder(payloads);
 
-            FilePutRequest fileUploadRequets = new FilePutRequest((short) 0x0600, builder.build(true), this) {
+            FilePutRequest fileUploadRequets = new FilePutRequest(FileHandle.SETTINGS_BUTTONS, builder.build(true), this) {
                 @Override
                 public void onFilePut(boolean success) {
                     if (success)
@@ -361,7 +362,7 @@ public class FossilWatchAdapter extends WatchAdapter {
     @Override
     public void onTestNewFunction() {
         queueWrite(new FilePutRequest(
-                (short) 0x0600,
+                FileHandle.HAND_ACTIONS,
                 new byte[]{
                         (byte) 0x01, (byte) 0x00, (byte) 0x08, (byte) 0x01, (byte) 0x01, (byte) 0x24, (byte) 0x00, (byte) 0x85, (byte) 0x01, (byte) 0x30, (byte) 0x52, (byte) 0xFF, (byte) 0x26, (byte) 0x00, (byte) 0x03, (byte) 0x00, (byte) 0x09, (byte) 0x04, (byte) 0x01, (byte) 0x03, (byte) 0xA0, (byte) 0x00, (byte) 0x00, (byte) 0xA0, (byte) 0x00, (byte) 0x00, (byte) 0x08, (byte) 0x01, (byte) 0x05, (byte) 0x00, (byte) 0x93, (byte) 0x00, (byte) 0x02, (byte) 0x09, (byte) 0x04, (byte) 0x01, (byte) 0x03, (byte) 0x00, (byte) 0x24, (byte) 0x00, (byte) 0x00, (byte) 0x24, (byte) 0x00, (byte) 0x08, (byte) 0x01, (byte) 0x50, (byte) 0x00, (byte) 0x01, (byte) 0x00, (byte) 0x1F, (byte) 0xBE, (byte) 0xB4, (byte) 0x1B
                 },

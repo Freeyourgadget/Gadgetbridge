@@ -68,6 +68,7 @@ public class HRConfigActivity extends AbstractGBActivity implements View.OnClick
         setContentView(R.layout.activity_qhybrid_hr_settings);
 
         findViewById(R.id.qhybrid_action_add).setOnClickListener(this);
+        findViewById(R.id.qhybrid_file_management_trigger).setOnClickListener(this);
 
         sharedPreferences = GBApplication.getPrefs().getPreferences();
 
@@ -401,6 +402,9 @@ public class HRConfigActivity extends AbstractGBActivity implements View.OnClick
                     .setPositiveButton("ok", this)
                     .setTitle("create action")
                     .show();
+        } else if(v.getId() == R.id.qhybrid_file_management_trigger) {
+            finish();
+            startActivity(new Intent(getApplicationContext(), FileManagementActivity.class));
         }
     }
 

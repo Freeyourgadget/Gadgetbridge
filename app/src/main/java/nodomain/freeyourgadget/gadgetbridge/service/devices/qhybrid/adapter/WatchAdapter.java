@@ -30,6 +30,7 @@ import nodomain.freeyourgadget.gadgetbridge.model.MusicSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.MusicStateSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.WeatherSpec;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.QHybridSupport;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.file.FileHandle;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.misfit.PlayNotificationRequest;
 
 public abstract class WatchAdapter {
@@ -137,5 +138,11 @@ public abstract class WatchAdapter {
     }
 
     public void onDeleteNotification(int id) {
+    }
+
+    public void downloadFile(FileHandle handle, boolean fileIsEncrypted) {
+    }
+
+    public void uploadFile(FileHandle handle, String filePath, boolean fileIsEncrypted) {
     }
 }
