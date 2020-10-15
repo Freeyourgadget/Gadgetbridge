@@ -904,7 +904,7 @@
     <string name="about_additional_device_support">תמיכה במכשירים נוספים</string>
     <string name="about_contributors">תורמים</string>
     <string name="about_core_team_title">צוות הליבה (מסודרים לפי מועד תרומת הקוד הראשונה)</string>
-    <string name="about_description">חלופה חופשית ונטולת ענן ליישומוני ה־Android עם הקוד הסגור של ספק הגאדג׳טים שלך.</string>
+    <string name="about_description">חלופה חופשית ונטולת ענן ליישומוני ה־Android לחפיצים עם הקוד הסגור של היצרנים.</string>
     <string name="about_activity_title">על אודות Gadgetbridge</string>
     <string name="about_title">על אודות</string>
     <string name="pref_title_weather_summary">משמש לספק מזג האוויר של LineageOS, גרסאות אחרות של Android צריכות להשתמש ביישומונים כמו „התראות מזג אוויר”. אפשר למצוא מידע נוסף בוויקי של Gadgetbridge.</string>
@@ -1067,7 +1067,7 @@
     <string name="sonyswr12_settings_stamina_summary">מצב חיסכון בחשמל מכבה מדידה אוטומטית תקופתית של דופק ובכך מגדיל את זמן העבודה</string>
     <string name="sonyswr12_settings_alarm_interval_summary">מרווח אזעקה חכם הוא מרווח לפני ההתראה המותקנת. במרווח זה מכשיר מנסה לאתר את שלב השינה הקל ביותר למשתמש ער</string>
     <string name="baseAltitude">בסיס לחישוב רום</string>
-    <string name="devicetype_nut_mini">Nut Mini</string>
+    <string name="devicetype_nut_mini">Nut mini</string>
     <string name="descentSeconds">ירידה</string>
     <string name="activity_error_no_app_for_png">כדי לשתף את צילום המסך, עליך להתקין יישומון שיכול לטפל בקובצי תמונה.</string>
     <string name="firmware_update_progress">מתבצעת העלאה
@@ -1083,4 +1083,13 @@
     <string name="devicestatus_upload_started">החלה העלאה</string>
     <string name="devicestatus_connected">המכשיר מחובר</string>
     <string name="devicestatus_connecting">המכשיר מתחבר</string>
+    <string name="pref_title_lower_button_function_double">כפתור תחתון כפול</string>
+    <string name="pref_title_middle_button_function_double">כפתור אמצעי כפול</string>
+    <string name="pref_title_upper_button_function_double">כפתור עליון כפול</string>
+    <string name="pref_title_lower_button_function_long">כפתור תחתון ארוך</string>
+    <string name="pref_title_middle_button_function_long">כפתור אמצעי ארוך</string>
+    <string name="pref_title_upper_button_function_long">כפתור עליון ארוך</string>
+    <string name="pref_title_lower_button_function_short">כפתור תחתון קצר</string>
+    <string name="pref_title_middle_button_function_short">כפתור אמצעי קצר</string>
+    <string name="pref_title_upper_button_function_short">כפתור עליון קצר</string>
 </resources>
