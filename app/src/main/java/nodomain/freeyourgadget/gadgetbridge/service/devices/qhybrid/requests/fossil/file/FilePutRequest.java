@@ -26,6 +26,7 @@ import java.util.zip.CRC32;
 
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.adapter.fossil.FossilWatchAdapter;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.file.FileHandle;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.FossilRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.file.ResultCode;
 import nodomain.freeyourgadget.gadgetbridge.util.CRC32C;
@@ -37,7 +38,9 @@ public class FilePutRequest extends FossilRequest {
 
     private ArrayList<byte[]> packets = new ArrayList<>();
 
-    private short handle, fileVersion;
+    private short fileVersion;
+
+    private FileHandle handle;
 
     private FossilWatchAdapter adapter;
 
@@ -45,14 +48,14 @@ public class FilePutRequest extends FossilRequest {
 
     private int fullCRC;
 
-    public FilePutRequest(short handle, byte[] file, short fileVersion, FossilWatchAdapter adapter) {
-        this.handle = handle;
+    public FilePutRequest(FileHandle fileHandle, byte[] file, short fileVersion, FossilWatchAdapter adapter) {
+        this.handle = fileHandle;
         this.adapter = adapter;
         this.fileVersion = fileVersion;
 
         int fileLength = file.length + 16;
         ByteBuffer buffer = this.createBuffer();
-        buffer.putShort(1, handle);
+        buffer.putShort(1, handle.getHandle());
         buffer.putInt(3, 0);
         buffer.putInt(7, fileLength);
         buffer.putInt(11, fileLength);
@@ -64,11 +67,11 @@ public class FilePutRequest extends FossilRequest {
         state = UploadState.INITIALIZED;
     }
 
-    public FilePutRequest(short handle, byte[] file, FossilWatchAdapter adapter) {
-        this(handle, file, (short) 2, adapter);
+    public FilePutRequest(FileHandle fileHandle, byte[] file, FossilWatchAdapter adapter) {
+        this(fileHandle, file, (short) 2, adapter);
     }
 
-    public short getHandle() {
+    public FileHandle getHandle() {
         return handle;
     }
 
@@ -110,7 +113,7 @@ public class FilePutRequest extends FossilRequest {
                         throw new RuntimeException("upload status: " + code + "   (" + status + ")");
                     }
 
-                    if (handle != this.handle) {
+                    if (handle != this.handle.getHandle()) {
                         throw new RuntimeException("wrong response handle");
                     }
 
@@ -122,7 +125,7 @@ public class FilePutRequest extends FossilRequest {
                     ByteBuffer buffer2 = ByteBuffer.allocate(3);
                     buffer2.order(ByteOrder.LITTLE_ENDIAN);
                     buffer2.put((byte) 4);
-                    buffer2.putShort(this.handle);
+                    buffer2.putShort(this.handle.getHandle());
 
                     new TransactionBuilder("file close")
                             .write(
@@ -144,7 +147,7 @@ public class FilePutRequest extends FossilRequest {
 
                     short handle = buffer.getShort(1);
 
-                    if (handle != this.handle) {
+                    if (handle != this.handle.getHandle()) {
                         onFilePut(false);
                         throw new RuntimeException("wrong file closing handle");
                     }
@@ -199,7 +202,7 @@ public class FilePutRequest extends FossilRequest {
         ByteBuffer buffer = ByteBuffer.allocate(file.length + 12 + 4);
         buffer.order(ByteOrder.LITTLE_ENDIAN);
 
-        buffer.putShort(handle);
+        buffer.putShort(handle.getHandle());
         buffer.putShort(fileVersion);
         buffer.putInt(0);
         buffer.putInt(file.length);

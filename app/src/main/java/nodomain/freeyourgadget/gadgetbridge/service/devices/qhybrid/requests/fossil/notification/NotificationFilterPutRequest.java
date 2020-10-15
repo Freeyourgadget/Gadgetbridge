@@ -23,17 +23,18 @@ import java.util.zip.CRC32;
 
 import nodomain.freeyourgadget.gadgetbridge.devices.qhybrid.NotificationConfiguration;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.adapter.fossil.FossilWatchAdapter;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.file.FileHandle;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.file.FileCloseAndPutRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.file.FilePutRequest;
 
 public class NotificationFilterPutRequest extends FilePutRequest {
     public NotificationFilterPutRequest(NotificationConfiguration[] configs, FossilWatchAdapter adapter) {
-        super((short) 0x0C00, createFile(configs), adapter);
+        super(FileHandle.NOTIFICATION_FILTER, createFile(configs), adapter);
     }
 
 
     public NotificationFilterPutRequest(ArrayList<NotificationConfiguration> configs, FossilWatchAdapter adapter) {
-        super((short) 0x0C00, createFile(configs.toArray(new NotificationConfiguration[0])), adapter);
+        super(FileHandle.NOTIFICATION_FILTER, createFile(configs.toArray(new NotificationConfiguration[0])), adapter);
     }
 
     private static byte[] createFile(NotificationConfiguration[] configs){

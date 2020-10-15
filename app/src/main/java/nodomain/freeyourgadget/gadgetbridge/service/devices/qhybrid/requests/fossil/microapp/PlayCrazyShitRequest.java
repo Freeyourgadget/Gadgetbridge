@@ -23,11 +23,12 @@ import java.util.List;
 import java.util.zip.CRC32;
 
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.adapter.fossil.FossilWatchAdapter;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.file.FileHandle;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.file.FilePutRequest;
 
 public class PlayCrazyShitRequest extends FilePutRequest {
     public PlayCrazyShitRequest(byte[] appData, FossilWatchAdapter adapter) {
-        super((short) 0x0600, createPayload(appData), adapter);
+        super(FileHandle.HAND_ACTIONS, createPayload(appData), adapter);
     }
 
     private static byte[] createPayload(byte[] appData) {

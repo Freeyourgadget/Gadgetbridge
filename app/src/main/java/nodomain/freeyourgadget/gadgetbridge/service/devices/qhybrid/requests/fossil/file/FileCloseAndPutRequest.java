@@ -22,6 +22,7 @@ import nodomain.freeyourgadget.gadgetbridge.devices.qhybrid.NotificationConfigur
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.service.DeviceSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.adapter.fossil.FossilWatchAdapter;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.file.FileHandle;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.notification.NotificationFilterPutRequest;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
@@ -29,7 +30,7 @@ public class FileCloseAndPutRequest extends FileCloseRequest {
     FossilWatchAdapter adapter;
     byte[] data;
 
-    public FileCloseAndPutRequest(short fileHandle, byte[] data, FossilWatchAdapter adapter) {
+    public FileCloseAndPutRequest(FileHandle fileHandle, byte[] data, FossilWatchAdapter adapter) {
         super(fileHandle);
         this.adapter = adapter;
         this.data = data;

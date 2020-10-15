@@ -10,6 +10,7 @@ import java.util.zip.CRC32;
 
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.adapter.fossil.FossilWatchAdapter;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.file.FileHandle;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.FossilRequest;
 
 public class FilePutRawRequest extends FossilRequest {
@@ -45,7 +46,11 @@ public class FilePutRawRequest extends FossilRequest {
         state = UploadState.INITIALIZED;
     }
 
-    public short getHandle() {
+    public FilePutRawRequest(FileHandle handle, byte[] file, FossilWatchAdapter adapter) {
+        this(handle.getHandle(), file, adapter);
+    }
+
+        public short getHandle() {
         return handle;
     }
 

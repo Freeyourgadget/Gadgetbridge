@@ -26,6 +26,7 @@ import java.util.zip.CRC32;
 
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.QHybridSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.adapter.fossil.FossilWatchAdapter;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.file.FileHandle;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.Request;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.FossilRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.file.ResultCode;
@@ -50,6 +51,10 @@ public abstract class FileGetRequest extends FossilRequest {
                         .putInt(0)
                         .putInt(0xFFFFFFFF)
                         .array();
+    }
+
+    public FileGetRequest(FileHandle handle, FossilWatchAdapter adapter){
+        this(handle.getHandle(), adapter);
     }
 
     public FossilWatchAdapter getAdapter() {

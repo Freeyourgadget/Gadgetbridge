@@ -21,6 +21,7 @@ import android.bluetooth.BluetoothGattCharacteristic;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 
+import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.file.FileHandle;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.FossilRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.file.ResultCode;
 
@@ -36,6 +37,10 @@ public class FileDeleteRequest extends FossilRequest {
         buffer.putShort(handle);
 
         this.data = buffer.array();
+    }
+
+    public FileDeleteRequest(FileHandle handle){
+        this(handle.getHandle());
     }
 
     @Override

@@ -23,20 +23,21 @@ import java.util.Arrays;
 import java.util.zip.CRC32;
 
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.adapter.fossil.FossilWatchAdapter;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.file.FileHandle;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.file.FilePutRequest;
 import nodomain.freeyourgadget.gadgetbridge.util.StringUtils;
 
 public abstract class PlayNotificationRequest extends FilePutRequest {
     public PlayNotificationRequest(int notificationType, int flags, String packageName, FossilWatchAdapter adapter) {
-        super((short) 0x0900, createFile(notificationType, flags, packageName, packageName, packageName, getCurrentMessageId()), adapter);
+        super(FileHandle.NOTIFICATION_PLAY, createFile(notificationType, flags, packageName, packageName, packageName, getCurrentMessageId()), adapter);
     }
 
     public PlayNotificationRequest(int notificationType, int flags, String packageName, String sender, String message, FossilWatchAdapter adapter) {
-        super((short) 0x0900, createFile(notificationType, flags, packageName, sender, message, getCurrentMessageId()), adapter);
+        super(FileHandle.NOTIFICATION_PLAY, createFile(notificationType, flags, packageName, sender, message, getCurrentMessageId()), adapter);
     }
 
     public PlayNotificationRequest(int notificationType, int flags, int packageCRC, String sender, String message, int messageId, FossilWatchAdapter adapter) {
-        super((short) 0x0900, createFile(notificationType, flags, "whatever", sender, message, packageCRC, messageId), adapter);
+        super(FileHandle.NOTIFICATION_PLAY, createFile(notificationType, flags, "whatever", sender, message, packageCRC, messageId), adapter);
     }
 
     private static int getCurrentMessageId(){

@@ -22,6 +22,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.adapter.fossil.FossilWatchAdapter;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.file.FileHandle;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.file.FilePutRequest;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
@@ -73,11 +74,11 @@ public class ConfigurationPutRequest extends FilePutRequest {
     }
 
     public ConfigurationPutRequest(ConfigItem item, FossilWatchAdapter adapter) {
-        super((short) 0x0800, createFileContent(new ConfigItem[]{item}), adapter);
+        super(FileHandle.CONFIGURATION, createFileContent(new ConfigItem[]{item}), adapter);
     }
 
     public ConfigurationPutRequest(ConfigItem[] items, FossilWatchAdapter adapter) {
-        super((short) 0x0800, createFileContent(items), adapter);
+        super(FileHandle.CONFIGURATION, createFileContent(items), adapter);
     }
 
     private static byte[] createFileContent(ConfigItem[] items) {

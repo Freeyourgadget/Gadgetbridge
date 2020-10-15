@@ -21,22 +21,23 @@ import android.bluetooth.BluetoothGattCharacteristic;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 
+import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.file.FileHandle;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.FossilRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.file.ResultCode;
 
 public class FileVerifyRequest extends FossilRequest {
     private boolean isFinished = false;
-    private short handle;
+    private FileHandle handle;
 
-    public FileVerifyRequest(short fileHandle) {
+    public FileVerifyRequest(FileHandle fileHandle) {
         this.handle = fileHandle;
         ByteBuffer buffer = this.createBuffer();
-        buffer.putShort(fileHandle);
+        buffer.putShort(fileHandle.getHandle());
 
         this.data = buffer.array();
     }
 
-    public short getHandle() {
+    public FileHandle getHandle() {
         return handle;
     }
 
@@ -61,7 +62,7 @@ public class FileVerifyRequest extends FossilRequest {
         ByteBuffer buffer = ByteBuffer.wrap(value);
         buffer.order(ByteOrder.LITTLE_ENDIAN);
 
-        if(this.handle != buffer.getShort(1)) throw new RuntimeException("wrong response handle");
+        if(this.handle.getHandle() != buffer.getShort(1)) throw new RuntimeException("wrong response handle");
 
         byte status = buffer.get(3);
 

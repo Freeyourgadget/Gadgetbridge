@@ -4,11 +4,12 @@ import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.adapter.fossil.FossilWatchAdapter;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.file.FileHandle;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.file.FilePutRequest;
 
 public class TranslationsPutRequest extends FilePutRequest {
     public TranslationsPutRequest(TranslationData translationData, FossilWatchAdapter adapter) {
-        super((short) 0x0702, createPayload(translationData), (short) 0x0d02, adapter);
+        super(FileHandle.ASSET_TRANSLATIONS, createPayload(translationData), (short) 0x0d02, adapter);
     }
 
     private static byte[] createPayload(TranslationData translationData){

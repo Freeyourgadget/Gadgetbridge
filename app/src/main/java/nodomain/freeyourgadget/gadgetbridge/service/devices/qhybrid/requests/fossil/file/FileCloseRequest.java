@@ -22,23 +22,24 @@ import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.util.UUID;
 
+import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.file.FileHandle;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.Request;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.FossilRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.file.ResultCode;
 
 public class FileCloseRequest extends FossilRequest {
     private boolean isFinished = false;
-    private short handle;
+    private FileHandle handle;
 
-    public FileCloseRequest(short fileHandle) {
+    public FileCloseRequest(FileHandle fileHandle) {
         this.handle = fileHandle;
         ByteBuffer buffer = this.createBuffer();
-        buffer.putShort(fileHandle);
+        buffer.putShort(fileHandle.getHandle());
 
         this.data = buffer.array();
     }
 
-    public short getHandle() {
+    public FileHandle getHandle() {
         return handle;
     }
 
@@ -61,7 +62,7 @@ public class FileCloseRequest extends FossilRequest {
         ByteBuffer buffer = ByteBuffer.wrap(value);
         buffer.order(ByteOrder.LITTLE_ENDIAN);
 
-        if(this.handle != buffer.getShort(1)) throw new RuntimeException("wrong response handle");
+        if(this.handle.getHandle() != buffer.getShort(1)) throw new RuntimeException("wrong response handle");
 
         byte status = buffer.get(3);
 

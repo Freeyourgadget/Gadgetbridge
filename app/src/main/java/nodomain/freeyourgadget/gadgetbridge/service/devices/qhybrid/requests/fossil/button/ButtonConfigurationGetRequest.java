@@ -21,11 +21,12 @@ import java.nio.ByteOrder;
 
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.adapter.fossil.FossilWatchAdapter;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.buttonconfig.ConfigPayload;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.file.FileHandle;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.file.FileGetRequest;
 
 public class ButtonConfigurationGetRequest extends FileGetRequest {
     public ButtonConfigurationGetRequest(FossilWatchAdapter adapter) {
-        super((short) 0x0600, adapter);
+        super(FileHandle.SETTINGS_BUTTONS, adapter);
     }
 
     @Override

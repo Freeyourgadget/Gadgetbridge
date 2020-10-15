@@ -6,14 +6,15 @@ import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.adapter.fossil.FossilWatchAdapter;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.file.FileHandle;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.file.FilePutRequest;
 
 public class AssetFilePutRequest extends FilePutRequest {
-    public AssetFilePutRequest(AssetFile[] files, byte subHandle, FossilWatchAdapter adapter) throws IOException {
-        super((short) (0x0700 | subHandle), prepareFileData(files), adapter);
+    public AssetFilePutRequest(AssetFile[] files, FileHandle handle, FossilWatchAdapter adapter) throws IOException {
+        super(handle, prepareFileData(files), adapter);
     }
-    public AssetFilePutRequest(AssetFile file, byte subHandle, FossilWatchAdapter adapter) {
-        super((short) (0x0700 | subHandle), prepareFileData(file), adapter);
+    public AssetFilePutRequest(AssetFile file, FileHandle handle, FossilWatchAdapter adapter) {
+        super(handle, prepareFileData(file), adapter);
     }
 
     private static byte[] prepareFileData(AssetFile[] files) throws IOException {

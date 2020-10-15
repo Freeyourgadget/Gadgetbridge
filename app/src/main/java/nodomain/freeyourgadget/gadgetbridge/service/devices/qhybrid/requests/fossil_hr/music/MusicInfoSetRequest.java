@@ -5,11 +5,12 @@ import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.adapter.fossil.FossilWatchAdapter;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.file.FileHandle;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.file.FilePutRequest;
 
 public class MusicInfoSetRequest extends FilePutRequest {
     public MusicInfoSetRequest(String artist, String album, String title, FossilWatchAdapter adapter) {
-        super((short) 0x0400, createFile(artist, album, title), adapter);
+        super(FileHandle.MUSIC_INFO, createFile(artist, album, title), adapter);
     }
 
     private static byte[] createFile(String artist, String album, String title) {

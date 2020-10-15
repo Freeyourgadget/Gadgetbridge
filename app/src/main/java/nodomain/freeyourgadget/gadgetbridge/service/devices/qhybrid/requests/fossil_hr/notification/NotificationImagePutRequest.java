@@ -6,21 +6,22 @@ import java.nio.ByteOrder;
 import java.util.zip.CRC32;
 
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.adapter.fossil.FossilWatchAdapter;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.file.FileHandle;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.file.AssetFile;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.file.AssetFilePutRequest;
 import nodomain.freeyourgadget.gadgetbridge.util.StringUtils;
 
 public class NotificationImagePutRequest extends AssetFilePutRequest {
     private NotificationImagePutRequest(String packageName, AssetFile file, FossilWatchAdapter adapter) throws IOException {
-        super(file, (byte) 0x01, adapter);
+        super(file, FileHandle.ASSET_NOTIFICATION_IMAGES, adapter);
     }
 
     private NotificationImagePutRequest(NotificationImage image, FossilWatchAdapter adapter) throws IOException {
-        super(image, (byte) 0x01, adapter);
+        super(image, FileHandle.ASSET_NOTIFICATION_IMAGES, adapter);
     }
 
     public NotificationImagePutRequest(NotificationImage[] images, FossilWatchAdapter adapter) throws IOException {
-        super(images, (byte) 0x01, adapter);
+        super(images, FileHandle.ASSET_NOTIFICATION_IMAGES, adapter);
     }
 
 

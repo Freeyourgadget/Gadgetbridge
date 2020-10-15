@@ -6,17 +6,18 @@ import java.util.ArrayList;
 
 import nodomain.freeyourgadget.gadgetbridge.devices.qhybrid.NotificationHRConfiguration;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.adapter.fossil.FossilWatchAdapter;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.file.FileHandle;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.file.FilePutRequest;
 import nodomain.freeyourgadget.gadgetbridge.util.StringUtils;
 
 public class NotificationFilterPutHRRequest extends FilePutRequest {
     public NotificationFilterPutHRRequest(NotificationHRConfiguration[] configs, FossilWatchAdapter adapter) {
-        super((short) 0x0C00, createFile(configs), adapter);
+        super(FileHandle.NOTIFICATION_FILTER, createFile(configs), adapter);
     }
 
 
     public NotificationFilterPutHRRequest(ArrayList<NotificationHRConfiguration> configs, FossilWatchAdapter adapter) {
-        super((short) 0x0C00, createFile(configs.toArray(new NotificationHRConfiguration[0])), adapter);
+        super(FileHandle.NOTIFICATION_FILTER, createFile(configs.toArray(new NotificationHRConfiguration[0])), adapter);
     }
 
     private static byte[] createFile(NotificationHRConfiguration[] configs) {

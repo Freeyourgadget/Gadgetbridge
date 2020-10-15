@@ -23,12 +23,13 @@ import java.util.regex.Pattern;
 
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.adapter.fossil.FossilWatchAdapter;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.file.FileHandle;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.file.FilePutRequest;
 import nodomain.freeyourgadget.gadgetbridge.util.Version;
 
 public class AlarmsSetRequest extends FilePutRequest {
     public AlarmsSetRequest(Alarm[] alarms, FossilWatchAdapter adapter) {
-        super((short) 0x0A00, createFileFromAlarms(alarms, isNewFormat(adapter)), isNewFormat(adapter) ? (short) 3 : (short) 2, adapter); // TODO version 3
+        super(FileHandle.ALARMS, createFileFromAlarms(alarms, isNewFormat(adapter)), isNewFormat(adapter) ? (short) 3 : (short) 2, adapter); // TODO version 3
     }
 
     static private boolean isNewFormat(FossilWatchAdapter adapter) {

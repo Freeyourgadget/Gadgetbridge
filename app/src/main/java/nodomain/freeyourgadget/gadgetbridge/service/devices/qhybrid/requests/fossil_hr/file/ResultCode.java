@@ -28,7 +28,7 @@ public enum ResultCode {
     UNKNOWN(-1, false),
 
     // no clue what there one mean
-    UNKNOWN_1(-125, true);
+    UNKNOWN_1(-125, false);
 
     boolean success;
     int code;

@@ -35,6 +35,7 @@ import javax.crypto.spec.SecretKeySpec;
 
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.adapter.fossil.FossilWatchAdapter;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.adapter.fossil_hr.FossilHRWatchAdapter;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.file.FileHandle;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.FossilRequest;
 import nodomain.freeyourgadget.gadgetbridge.util.CRC32C;
 
@@ -62,6 +63,10 @@ public abstract class FileEncryptedGetRequest extends FossilRequest {
                         .putInt(0)
                         .putInt(0xFFFFFFFF)
                         .array();
+    }
+
+    public FileEncryptedGetRequest(FileHandle handle, FossilHRWatchAdapter adapter) {
+        this(handle.getHandle(), adapter);
     }
 
     private void initDecryption() {
