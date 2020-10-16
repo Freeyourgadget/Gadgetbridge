@@ -1105,4 +1105,5 @@
     <string name="pref_title_lower_button_function_short">Untere Taste kurz</string>
     <string name="pref_title_middle_button_function_short">Mittlere Taste kurz</string>
     <string name="pref_title_upper_button_function_short">Obere Taste kurz</string>
+    <string name="activity_prefs_step_length_cm">Schrittlänge in cm</string>
 </resources>
