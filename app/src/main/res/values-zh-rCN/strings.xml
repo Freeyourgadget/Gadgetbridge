@@ -912,7 +912,7 @@
     <string name="about_additional_device_support">额外设备支持</string>
     <string name="about_contributors">贡献者</string>
     <string name="about_core_team_title">核心成员 （以第一次提交代码排序）</string>
-    <string name="about_description">一个免费的、无云的替代品，可以替代你您的手环厂商的闭源Android应用。</string>
+    <string name="about_description">用于替代原厂手环应用的脱机无版权自由应用。</string>
     <string name="about_activity_title">关于 Gadgetbridge</string>
     <string name="about_title">关于</string>
     <string name="pref_title_weather_summary">由LineageOS天气服务提供，其他版本的Android系统需要使用诸如“Weather notification”。更多信息请访问 Gadgetbridge 的Wiki。</string>
@@ -1079,4 +1079,26 @@
     <string name="sonyswr12_settings_alarm_interval_summary">智能警报间隔是安装警报之前的间隔。 在此间隔内，设备尝试检测最轻的睡眠阶段以唤醒用户</string>
     <string name="devicetype_nut_mini">Nut mini</string>
     <string name="activity_error_no_app_for_png">若需要分享此截图，请安装一个图片查看软件。</string>
+    <string name="pref_title_lower_button_function_double">底部按钮双击</string>
+    <string name="pref_title_middle_button_function_double">中间按钮双击</string>
+    <string name="pref_title_upper_button_function_double">上部按钮双击</string>
+    <string name="pref_title_lower_button_function_long">底部按钮长按</string>
+    <string name="pref_title_middle_button_function_long">中间按钮长按</string>
+    <string name="pref_title_upper_button_function_long">上部按钮长按</string>
+    <string name="pref_title_lower_button_function_short">短按底部按钮</string>
+    <string name="pref_title_middle_button_function_short">短按中间按钮</string>
+    <string name="pref_title_upper_button_function_short">短按上按钮</string>
+    <string name="firmware_update_progress">正在处理上传：
+\n%1d%% 的 %.2fkbps (平均 %.2fkbps)
+\n分段 %1d 的 %1d</string>
+    <string name="devicestatus_upload_failed">上传已失败</string>
+    <string name="devicestatus_upload_aborted">上传已放弃！</string>
+    <string name="devicestatus_upload_validating">上传正在验证中</string>
+    <string name="devicestatus_upload_completed">上传已完成</string>
+    <string name="devicestatus_disconnected">设备已断开连接！</string>
+    <string name="devicestatus_disconnecting">设备已经断开连接！</string>
+    <string name="devicestatus_upload_started">上传已启动</string>
+    <string name="devicestatus_upload_starting">上传启动中</string>
+    <string name="devicestatus_connected">设备已连接</string>
+    <string name="devicestatus_connecting">设备正在连接中</string>
 </resources>
