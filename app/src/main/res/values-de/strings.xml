@@ -917,7 +917,7 @@
     <string name="about_additional_device_support">Unterstützung zusätzlicher Geräte</string>
     <string name="about_contributors">Beitragende</string>
     <string name="about_core_team_title">Kernteam (Reihenfolge der ersten Mitwirkung am Code)</string>
-    <string name="about_description">Ein freier und nicht cloud basierter Ersatz für proprietäre Android Anwendungen der Hersteller von Gadgets.</string>
+    <string name="about_description">Cloudloser freier Ersatz für proprietäre Android-Gadget-Apps der Hersteller.</string>
     <string name="about_activity_title">Über Gadgetbridge</string>
     <string name="about_title">Über</string>
     <string name="pref_title_weather_summary">Wird für den LineageOS Wetterdienst genutzt, andere Android Versionen müssen eine App wie \"Weather notification\" nutzen. Mehr Informationen gibt es im Gadgetbride wiki.</string>
@@ -1096,4 +1096,13 @@
     <string name="devicestatus_connected">Gerät ist verbunden</string>
     <string name="devicestatus_connecting">Gerät stellt eine Verbindung her</string>
     <string name="charts_activity_list">Aktivitätsliste</string>
+    <string name="pref_title_lower_button_function_double">Untere Taste doppelt</string>
+    <string name="pref_title_middle_button_function_double">Mittlere Taste doppelt</string>
+    <string name="pref_title_upper_button_function_double">Obere Taste doppelt</string>
+    <string name="pref_title_lower_button_function_long">Untere Taste lang</string>
+    <string name="pref_title_middle_button_function_long">Mittlere Taste lang</string>
+    <string name="pref_title_upper_button_function_long">Obere Taste lang</string>
+    <string name="pref_title_lower_button_function_short">Untere Taste kurz</string>
+    <string name="pref_title_middle_button_function_short">Mittlere Taste kurz</string>
+    <string name="pref_title_upper_button_function_short">Obere Taste kurz</string>
 </resources>
