@@ -32,20 +32,6 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fos
 import nodomain.freeyourgadget.gadgetbridge.util.CRC32C;
 
 public class FilePutRequest extends FilePutRawRequest {
-    public enum UploadState {INITIALIZED, UPLOADING, CLOSING, UPLOADED}
-
-    public UploadState state;
-
-    private ArrayList<byte[]> packets = new ArrayList<>();
-
-    private FileHandle handle;
-
-    private FossilWatchAdapter adapter;
-
-    private byte[] file;
-
-    private int fullCRC;
-
     public FilePutRequest(FileHandle fileHandle, byte[] file, FossilWatchAdapter adapter) {
         super(fileHandle, createFilePayload(fileHandle, file, adapter.getSupportedFileVersion(fileHandle)), adapter);
     }
