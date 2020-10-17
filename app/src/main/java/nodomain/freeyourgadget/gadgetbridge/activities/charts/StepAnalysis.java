@@ -168,19 +168,19 @@ public class StepAnalysis {
     }
 
     public static class StepSession {
-        private final Date stepStart;
-        private final Date stepEnd;
+        private final Date startTime;
+        private final Date endTime;
         private final int steps;
         private final int heartRateAverage;
         private final float intensity;
         private final float distance;
         private final int activityKind;
 
-        StepSession(Date stepStart,
-                    Date stepEnd,
+        StepSession(Date startTime,
+                    Date endTime,
                     int steps, int heartRateAverage, float intensity, float distance, int activityKind) {
-            this.stepStart = stepStart;
-            this.stepEnd = stepEnd;
+            this.startTime = startTime;
+            this.endTime = endTime;
             this.steps = steps;
             this.heartRateAverage = heartRateAverage;
             this.intensity = intensity;
@@ -188,12 +188,12 @@ public class StepAnalysis {
             this.activityKind = activityKind;
         }
 
-        public Date getStepStart() {
-            return stepStart;
+        public Date getStartTime() {
+            return startTime;
         }
 
-        public Date getStepEnd() {
-            return stepEnd;
+        public Date getEndTime() {
+            return endTime;
         }
 
         public int getSteps() {

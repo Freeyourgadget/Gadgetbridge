@@ -24,6 +24,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.SparseBooleanArray;
@@ -268,6 +269,7 @@ public class ActivitySummariesActivity extends AbstractListActivity<BaseActivity
         ActivitySummariesAdapter activitySummariesAdapter = new ActivitySummariesAdapter(this, mGBDevice, activityFilter, dateFromFilter, dateToFilter, nameContainsFilter, deviceFilter, itemsFilter);
         int backgroundColor = getBackgroundColor(ActivitySummariesActivity.this);
         activitySummariesAdapter.setBackgroundColor(backgroundColor);
+        activitySummariesAdapter.setShowTime(false);
         setItemAdapter(activitySummariesAdapter);
 
         getItemListView().setOnItemClickListener(new AdapterView.OnItemClickListener() {

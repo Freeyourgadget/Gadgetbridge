@@ -61,24 +61,7 @@ public abstract class AbstractItemAdapter<T> extends ArrayAdapter<T> {
         this.horizontalAlignment = horizontalAlignment;
     }
 
-    public void setActivityKindFilter(int activityKind){
-        this.setActivityKindFilter(activityKind);
-    }
 
-    public void setDateFromFilter(long date){
-    }
-
-    public void setDateToFilter(long date){
-    }
-
-    public void setNameContainsFilter(String name){
-    }
-
-    public void setItemsFilter(List items) {
-    }
-
-    public void setDeviceFilter(long device) {
-    }
 
     @Override
     public View getView(int position, View view, ViewGroup parent) {

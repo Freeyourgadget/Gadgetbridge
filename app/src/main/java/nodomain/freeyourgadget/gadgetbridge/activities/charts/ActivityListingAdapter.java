@@ -16,14 +16,29 @@ public class ActivityListingAdapter extends AbstractActivityListingAdapter<StepA
     }
 
     @Override
+    protected String getDateLabel(StepAnalysis.StepSession item) {
+        return "";
+    }
+
+    @Override
+    protected boolean hasGPS(StepAnalysis.StepSession item) {
+        return false;
+    }
+
+    @Override
+    protected boolean hasDate(StepAnalysis.StepSession item) {
+        return false;
+    }
+
+    @Override
     protected String getTimeFrom(StepAnalysis.StepSession item) {
-        Date time = item.getStepStart();
+        Date time = item.getStartTime();
         return DateTimeUtils.formatTime(time.getHours(), time.getMinutes());
     }
 
     @Override
     protected String getTimeTo(StepAnalysis.StepSession item) {
-        Date time = item.getStepEnd();
+        Date time = item.getEndTime();
         return DateTimeUtils.formatTime(time.getHours(), time.getMinutes());
     }
 
@@ -64,7 +79,7 @@ public class ActivityListingAdapter extends AbstractActivityListingAdapter<StepA
 
     @Override
     protected String getDurationLabel(StepAnalysis.StepSession item) {
-        long duration = item.getStepEnd().getTime() - item.getStepStart().getTime();
+        long duration = item.getEndTime().getTime() - item.getStartTime().getTime();
         return DateTimeUtils.formatDurationHoursMinutes(duration, TimeUnit.MILLISECONDS);
     }
 
@@ -96,9 +111,18 @@ public class ActivityListingAdapter extends AbstractActivityListingAdapter<StepA
     }
 
     @Override
+    protected boolean hasSteps(StepAnalysis.StepSession item) {
+        if (item.getSteps() > 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+
+    @Override
     protected int getIcon(StepAnalysis.StepSession item) {
-        int activityKind = item.getActivityKind();
-        return ActivityKind.getIconId(activityKind);
+        return ActivityKind.getIconId(item.getActivityKind());
     }
 
 

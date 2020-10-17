@@ -45,6 +45,8 @@ public abstract class AbstractActivityListingAdapter<T> extends ArrayAdapter<T> 
     private final List<T> items;
     private int backgroundColor = 0;
     private int alternateColor = 0;
+    private boolean zebraStripes = true;
+    private boolean showTime = true;
 
     public AbstractActivityListingAdapter(Context context) {
         this(context, new ArrayList<T>());
@@ -74,22 +76,28 @@ public abstract class AbstractActivityListingAdapter<T> extends ArrayAdapter<T> 
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             view = inflater.inflate(R.layout.activity_list_item, parent, false);
         }
-        TextView timeFrom = view.findViewById(R.id.line_layout_timeFrom);
-        TextView timeTo = view.findViewById(R.id.line_layout_timeTo);
-        TextView activityName = view.findViewById(R.id.line_layout_activityName);
+        TextView timeFrom = view.findViewById(R.id.line_layout_time_from);
+        TextView timeTo = view.findViewById(R.id.line_layout_time_to);
+        TextView activityName = view.findViewById(R.id.line_layout_activity_name);
         TextView stepLabel = view.findViewById(R.id.line_layout_step_label);
         TextView distanceLabel = view.findViewById(R.id.line_layout_distance_label);
         TextView hrLabel = view.findViewById(R.id.line_layout_hr_label);
         TextView intensityLabel = view.findViewById(R.id.line_layout_intensity_label);
-        TextView durationLabel = view.findViewById(R.id.line_layout_duration_labe);
+        TextView durationLabel = view.findViewById(R.id.line_layout_duration_label);
+        TextView dateLabel = view.findViewById(R.id.line_layout_date_label);
 
-
+        LinearLayout timeLayout = view.findViewById(R.id.line_layout_time);
         LinearLayout hrLayout = view.findViewById(R.id.line_layout_hr);
+        LinearLayout stepsLayout = view.findViewById(R.id.line_layout_step);
         LinearLayout distanceLayout = view.findViewById(R.id.line_layout_distance);
         LinearLayout intensityLayout = view.findViewById(R.id.line_layout_intensity);
+        LinearLayout dateLayout = view.findViewById(R.id.line_layout_date);
+        LinearLayout list_item_subparent_layout = view.findViewById(R.id.list_item_subparent_layout);
+
         RelativeLayout parentLayout = view.findViewById(R.id.list_item_parent_layout);
 
-        ImageView activityIcon = view.findViewById(R.id.line_layout_activityIcon);
+        ImageView activityIcon = view.findViewById(R.id.line_layout_activity_icon);
+        ImageView gpsIcon = view.findViewById(R.id.line_layout_gps_icon);
 
         timeFrom.setText(getTimeFrom(item));
         timeTo.setText(getTimeTo(item));
@@ -99,6 +107,8 @@ public abstract class AbstractActivityListingAdapter<T> extends ArrayAdapter<T> 
         hrLabel.setText(getHrLabel(item));
         intensityLabel.setText(getIntensityLabel(item));
         durationLabel.setText(getDurationLabel(item));
+        dateLabel.setText(getDateLabel(item));
+
 
         if (!hasHR(item)) {
             hrLayout.setVisibility(View.GONE);
@@ -118,14 +128,43 @@ public abstract class AbstractActivityListingAdapter<T> extends ArrayAdapter<T> 
             distanceLayout.setVisibility(View.VISIBLE);
         }
 
+        if (!hasSteps(item)) {
+            stepsLayout.setVisibility(View.GONE);
+        } else {
+            stepsLayout.setVisibility(View.VISIBLE);
+        }
+
+        if (!hasDate(item)) {
+            dateLayout.setVisibility(View.GONE);
+        } else {
+            dateLayout.setVisibility(View.VISIBLE);
+        }
+
+        if (!showTime) {
+            timeLayout.setVisibility(View.GONE);
+        } else {
+            timeLayout.setVisibility(View.VISIBLE);
+        }
+
+        if (!hasGPS(item)) {
+            gpsIcon.setVisibility(View.GONE);
+        } else {
+            gpsIcon.setVisibility(View.VISIBLE);
+        }
         activityIcon.setImageResource(getIcon(item));
 
-        if (position % 2 == 0) {
+        if (zebraStripes && position % 2 == 0) {
             parentLayout.setBackgroundColor(alternateColor);
         }
 
         return view;
     }
+
+    protected abstract String getDateLabel(T item);
+
+    protected abstract boolean hasGPS(T item);
+
+    protected abstract boolean hasDate(T item);
 
     protected abstract String getTimeFrom(T item);
 
@@ -149,6 +188,16 @@ public abstract class AbstractActivityListingAdapter<T> extends ArrayAdapter<T> 
 
     protected abstract boolean hasDistance(T item);
 
+    protected abstract boolean hasSteps(T item);
+
+    public void setZebraStripes(boolean enable) {
+        zebraStripes = enable;
+    }
+
+    public void setShowTime(boolean enable) {
+        showTime = enable;
+    }
+
     @DrawableRes
     protected abstract int getIcon(T item);
 
@@ -167,4 +216,22 @@ public abstract class AbstractActivityListingAdapter<T> extends ArrayAdapter<T> 
         }
     }
 
+    public void setActivityKindFilter(int activityKind) {
+        this.setActivityKindFilter(activityKind);
+    }
+
+    public void setDateFromFilter(long date) {
+    }
+
+    public void setDateToFilter(long date) {
+    }
+
+    public void setNameContainsFilter(String name) {
+    }
+
+    public void setItemsFilter(List items) {
+    }
+
+    public void setDeviceFilter(long device) {
+    }
 }

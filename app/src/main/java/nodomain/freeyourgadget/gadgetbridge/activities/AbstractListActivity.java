@@ -22,13 +22,13 @@ import android.widget.ListView;
 import java.util.List;
 
 import nodomain.freeyourgadget.gadgetbridge.R;
-import nodomain.freeyourgadget.gadgetbridge.adapter.AbstractItemAdapter;
+import nodomain.freeyourgadget.gadgetbridge.adapter.AbstractActivityListingAdapter;
 
 public abstract class AbstractListActivity<T> extends AbstractGBActivity {
-    private AbstractItemAdapter<T> itemAdapter;
+    private AbstractActivityListingAdapter<T> itemAdapter;
     private ListView itemListView;
 
-    public void setItemAdapter(AbstractItemAdapter<T> itemAdapter) {
+    public void setItemAdapter(AbstractActivityListingAdapter<T> itemAdapter) {
         this.itemAdapter = itemAdapter;
         itemListView.setAdapter(itemAdapter);
     }
@@ -61,7 +61,7 @@ public abstract class AbstractListActivity<T> extends AbstractGBActivity {
         this.itemAdapter.setDeviceFilter(device);
     }
 
-    public AbstractItemAdapter<T> getItemAdapter() {
+    public AbstractActivityListingAdapter<T> getItemAdapter() {
         return itemAdapter;
     }
 
