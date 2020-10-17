@@ -1121,4 +1121,5 @@
     <string name="devicestatus_connected">Aygıt bağlandı</string>
     <string name="devicestatus_connecting">Aygıt bağlanıyor</string>
     <string name="activity_prefs_step_length_cm">Santimetre cinsinden adım uzunluğu</string>
+    <string name="devicetype_amazfit_band5">Amazfit Band 5</string>
 </resources>
