@@ -1101,4 +1101,5 @@
     <string name="devicestatus_upload_starting">上传启动中</string>
     <string name="devicestatus_connected">设备已连接</string>
     <string name="devicestatus_connecting">设备正在连接中</string>
+    <string name="activity_prefs_step_length_cm">步伐厘米长度</string>
 </resources>
