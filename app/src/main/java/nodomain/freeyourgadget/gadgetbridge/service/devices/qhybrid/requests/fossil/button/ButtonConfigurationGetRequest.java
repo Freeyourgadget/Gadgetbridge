@@ -22,15 +22,15 @@ import java.nio.ByteOrder;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.adapter.fossil.FossilWatchAdapter;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.buttonconfig.ConfigPayload;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.file.FileHandle;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.file.FileGetRequest;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.file.FileGetRawRequest;
 
-public class ButtonConfigurationGetRequest extends FileGetRequest {
+public class ButtonConfigurationGetRequest extends FileGetRawRequest {
     public ButtonConfigurationGetRequest(FossilWatchAdapter adapter) {
         super(FileHandle.SETTINGS_BUTTONS, adapter);
     }
 
     @Override
-    public void handleFileData(byte[] fileData) {
+    public void handleFileRawData(byte[] fileData) {
         log("fileData");
 
         ByteBuffer buffer = ByteBuffer.wrap(fileData);

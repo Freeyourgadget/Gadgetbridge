@@ -6,15 +6,15 @@ import java.util.ArrayList;
 
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.adapter.fossil.FossilWatchAdapter;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.file.FileHandle;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.file.FileGetRequest;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.file.FileGetRawRequest;
 
-public abstract class TranslationsGetRequest extends FileGetRequest {
+public abstract class TranslationsGetRequest extends FileGetRawRequest {
     public TranslationsGetRequest(FossilWatchAdapter adapter) {
         super(FileHandle.ASSET_TRANSLATIONS, adapter);
     }
 
     @Override
-    public void handleFileData(byte[] fileData) {
+    public void handleFileRawData(byte[] fileData) {
         ByteBuffer buffer = ByteBuffer.wrap(fileData);
         buffer.order(ByteOrder.LITTLE_ENDIAN);
 

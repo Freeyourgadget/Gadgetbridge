@@ -16,124 +16,25 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.file;
 
-import android.bluetooth.BluetoothGattCharacteristic;
-
-import java.nio.ByteBuffer;
-import java.nio.ByteOrder;
-import java.util.ArrayList;
-import java.util.UUID;
-import java.util.zip.CRC32;
-
-import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.QHybridSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.adapter.fossil.FossilWatchAdapter;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.file.FileHandle;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.Request;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.FossilRequest;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.file.ResultCode;
 
-public abstract class FileGetRequest extends FossilRequest {
-    private short handle;
-    private FossilWatchAdapter adapter;
-
-    private ByteBuffer fileBuffer;
-
-    private byte[] fileData;
-
-    private boolean finished = false;
-
+public abstract class FileGetRequest extends FileGetRawRequest {
     public FileGetRequest(short handle, FossilWatchAdapter adapter) {
-        this.handle = handle;
-        this.adapter = adapter;
-
-        this.data =
-                createBuffer()
-                        .putShort(handle)
-                        .putInt(0)
-                        .putInt(0xFFFFFFFF)
-                        .array();
+        super(handle, adapter);
     }
 
-    public FileGetRequest(FileHandle handle, FossilWatchAdapter adapter){
-        this(handle.getHandle(), adapter);
-    }
-
-    public FossilWatchAdapter getAdapter() {
-        return adapter;
+    public FileGetRequest(FileHandle handle, FossilWatchAdapter adapter) {
+        super(handle, adapter);
     }
 
     @Override
-    public boolean isFinished(){
-        return finished;
+    public void handleFileRawData(byte[] fileData) {
+        byte[] file = new byte[fileData.length - 12 - 4]; // 12 = header   4 = crc end
+        System.arraycopy(fileData, 12, file, 0, file.length);
+
+        this.handleFileData(file);
     }
 
-    @Override
-    public void handleResponse(BluetoothGattCharacteristic characteristic) {
-        byte[] value = characteristic.getValue();
-        byte first = value[0];
-        if(characteristic.getUuid().toString().equals("3dda0003-957f-7d4a-34a6-74696673696d")){
-            if((first & 0x0F) == 1){
-                ByteBuffer buffer = ByteBuffer.wrap(value);
-                buffer.order(ByteOrder.LITTLE_ENDIAN);
-
-                short handle = buffer.getShort(1);
-                int size = buffer.getInt(4);
-
-                byte status = buffer.get(3);
-
-                ResultCode code = ResultCode.fromCode(status);
-                if(!code.inidicatesSuccess()){
-                    throw new RuntimeException("FileGet error: " + code + "   (" + status + ")");
-                }
-
-                if(this.handle != handle){
-                    throw new RuntimeException("handle: " + handle + "   expected: " + this.handle);
-                }
-                log("file size: " + size);
-                fileBuffer = ByteBuffer.allocate(size);
-            }else if((first & 0x0F) == 8){
-                this.finished = true;
-
-                ByteBuffer buffer = ByteBuffer.wrap(value);
-                buffer.order(ByteOrder.LITTLE_ENDIAN);
-
-                short handle = buffer.getShort(1);
-                if(this.handle != handle){
-                    throw new RuntimeException("handle: " + handle + "   expected: " + this.handle);
-                }
-
-                CRC32 crc = new CRC32();
-                crc.update(this.fileData);
-
-                int crcExpected = buffer.getInt(8);
-
-                if((int) crc.getValue() != crcExpected){
-                    throw new RuntimeException("handle: " + handle + "   expected: " + this.handle);
-                }
-
-                this.handleFileData(this.fileData);
-            }
-        }else if(characteristic.getUuid().toString().equals("3dda0004-957f-7d4a-34a6-74696673696d")){
-            fileBuffer.put(value, 1, value.length - 1);
-            if((first & 0x80) == 0x80){
-                this.fileData = fileBuffer.array();
-            }
-        }
-    }
-
-    @Override
-    public UUID getRequestUUID() {
-        return UUID.fromString("3dda0003-957f-7d4a-34a6-74696673696d");
-    }
-
-    @Override
-    public byte[] getStartSequence() {
-        return new byte[]{1};
-    }
-
-    @Override
-    public int getPayloadLength() {
-        return 11;
-    }
-
-    abstract public void handleFileData(byte[] fileData);
+    public abstract void handleFileData(byte[] fileData);
 }

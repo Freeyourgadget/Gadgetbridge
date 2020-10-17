@@ -3,13 +3,12 @@ package nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fo
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.util.ArrayList;
-import java.util.concurrent.atomic.AtomicReferenceArray;
 
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.adapter.fossil.FossilWatchAdapter;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.file.FileHandle;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.file.FileGetRequest;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.file.FileGetRawRequest;
 
-public class GetDeviceInfoRequest extends FileGetRequest {
+public class GetDeviceInfoRequest extends FileGetRawRequest {
     enum INFO_CLASS{
         SUPPORTED_FILE_VERSIONS((short) 0x0a, SupportedFileVersionsInfo.class),
         ;
@@ -42,7 +41,7 @@ public class GetDeviceInfoRequest extends FileGetRequest {
     }
 
     @Override
-    public void handleFileData(byte[] fileData) {
+    public void handleFileRawData(byte[] fileData) {
         ByteBuffer buffer = ByteBuffer.wrap(fileData);
         buffer.order(ByteOrder.LITTLE_ENDIAN);
         buffer.position(12);

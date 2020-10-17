@@ -21,16 +21,15 @@ import nodomain.freeyourgadget.gadgetbridge.model.GenericItem;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.QHybridSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.adapter.fossil.FossilWatchAdapter;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.file.FileHandle;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.file.FileGetRequest;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.file.FileLookupAndGetRequest;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.file.FileGetRawRequest;
 
-public class ConfigurationGetRequest extends FileGetRequest {
+public class ConfigurationGetRequest extends FileGetRawRequest {
     public ConfigurationGetRequest(FossilWatchAdapter adapter) {
         super(FileHandle.CONFIGURATION, adapter);
     }
 
     @Override
-    public void handleFileData(byte[] fileData) {
+    public void handleFileRawData(byte[] fileData) {
         byte[] data = new byte[fileData.length - 12 - 4];
 
         System.arraycopy(fileData, 12, data, 0, data.length);

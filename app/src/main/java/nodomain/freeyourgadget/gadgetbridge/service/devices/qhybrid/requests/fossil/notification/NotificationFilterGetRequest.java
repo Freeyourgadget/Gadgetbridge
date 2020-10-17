@@ -21,16 +21,16 @@ import java.nio.ByteOrder;
 
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.adapter.fossil.FossilWatchAdapter;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.file.FileHandle;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.file.FileGetRequest;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.file.FileGetRawRequest;
 import nodomain.freeyourgadget.gadgetbridge.util.CRC32C;
 
-public class NotificationFilterGetRequest extends FileGetRequest {
+public class NotificationFilterGetRequest extends FileGetRawRequest {
     public NotificationFilterGetRequest(FossilWatchAdapter adapter) {
         super(FileHandle.NOTIFICATION_FILTER, adapter);
     }
 
     @Override
-    public void handleFileData(byte[] fileData) {
+    public void handleFileRawData(byte[] fileData) {
         log("handleFileData");
         ByteBuffer buffer = ByteBuffer.wrap(fileData);
         buffer.order(ByteOrder.LITTLE_ENDIAN);

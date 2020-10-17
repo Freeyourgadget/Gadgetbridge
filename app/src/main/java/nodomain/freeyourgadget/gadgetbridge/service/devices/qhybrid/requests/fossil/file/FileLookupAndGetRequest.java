@@ -25,9 +25,9 @@ public abstract class FileLookupAndGetRequest extends FileLookupRequest {
 
     @Override
     public void handleFileLookup(short fileHandle){
-        getAdapter().queueWrite(new FileGetRequest(getHandle(), getAdapter()) {
+        getAdapter().queueWrite(new FileGetRawRequest(getHandle(), getAdapter()) {
             @Override
-            public void handleFileData(byte[] fileData) {
+            public void handleFileRawData(byte[] fileData) {
                 FileLookupAndGetRequest.this.handleFileData(fileData);
             }
         }, true);

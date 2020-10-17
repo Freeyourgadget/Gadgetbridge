@@ -64,7 +64,7 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.parser.Activ
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.RequestMtuRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.SetDeviceStateRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.file.FileDeleteRequest;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.file.FileGetRequest;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.file.FileGetRawRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.file.FileLookupRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.notification.PlayCallNotificationRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.notification.PlayTextNotificationRequest;
@@ -548,9 +548,9 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
                 }
             });
         }else{
-            queueWrite(new FileGetRequest(handle, this) {
+            queueWrite(new FileGetRawRequest(handle, this) {
                 @Override
-                public void handleFileData(byte[] fileData) {
+                public void handleFileRawData(byte[] fileData) {
                     logger.debug("downloaded regular file");
                     handleFileDownload(handle, fileData);
                 }
