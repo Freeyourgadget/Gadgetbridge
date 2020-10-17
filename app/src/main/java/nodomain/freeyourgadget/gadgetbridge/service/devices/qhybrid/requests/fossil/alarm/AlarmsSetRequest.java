@@ -29,27 +29,12 @@ import nodomain.freeyourgadget.gadgetbridge.util.Version;
 
 public class AlarmsSetRequest extends FilePutRequest {
     public AlarmsSetRequest(Alarm[] alarms, FossilWatchAdapter adapter) {
-        super(FileHandle.ALARMS, createFileFromAlarms(alarms, isNewFormat(adapter)), isNewFormat(adapter) ? (short) 3 : (short) 2, adapter); // TODO version 3
+        super(FileHandle.ALARMS, createFileFromAlarms(alarms, adapter.getSupportedFileVersion(FileHandle.ALARMS)), adapter);
     }
 
-    static private boolean isNewFormat(FossilWatchAdapter adapter) {
-        GBDevice device = adapter.getDeviceSupport().getDevice();
-        String firmware = device.getFirmwareVersion();
-
-        Version newFormatVersion = new Version("1.0.2.17");
-        Pattern versionPattern = Pattern.compile("([0-9]+)\\.([0-9]+)\\.([0-9]+)\\.([0-9]+)");
-        Matcher matcher = versionPattern.matcher(firmware);
-
-        if (matcher.find()) {
-            String thisVersion = matcher.group(0);
-            return newFormatVersion.compareTo(new Version(thisVersion)) != 1;
-        } else {
-            return false;
-        }
-    }
-
-    static public byte[] createFileFromAlarms(Alarm[] alarms, boolean newFormat) {
+    static public byte[] createFileFromAlarms(Alarm[] alarms, short fileFormat) {
         ByteBuffer buffer;
+        boolean newFormat = fileFormat == 0x03;
         if (!newFormat) {
             buffer = ByteBuffer.allocate(alarms.length * 3);
             for (Alarm alarm : alarms) buffer.put(alarm.getData());

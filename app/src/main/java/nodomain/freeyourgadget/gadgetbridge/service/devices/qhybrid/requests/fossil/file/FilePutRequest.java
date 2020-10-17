@@ -47,7 +47,7 @@ public class FilePutRequest extends FilePutRawRequest {
     private int fullCRC;
 
     public FilePutRequest(FileHandle fileHandle, byte[] file, FossilWatchAdapter adapter) {
-        super(fileHandle, createFilePayload(fileHandle, file, (short) 0), adapter);
+        super(fileHandle, createFilePayload(fileHandle, file, adapter.getSupportedFileVersion(fileHandle)), adapter);
     }
 
     private static byte[] createFilePayload(FileHandle fileHandle, byte[] file, short fileVersion){

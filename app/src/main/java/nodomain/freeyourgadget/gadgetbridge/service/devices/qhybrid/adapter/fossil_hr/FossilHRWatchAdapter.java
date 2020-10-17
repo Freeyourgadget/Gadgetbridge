@@ -137,6 +137,11 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
             queueWrite(new RequestMtuRequest(512));
         }
 
+        getDeviceInfos();
+    }
+
+    @Override
+    protected void initializeWithSupportedFileVersions() {
         queueWrite(new SetDeviceStateRequest(GBDevice.State.AUTHENTICATING));
 
         negotiateSymmetricKey();

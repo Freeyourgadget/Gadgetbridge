@@ -53,6 +53,9 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fos
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.SetDeviceStateRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.alarm.AlarmsSetRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.configuration.ConfigurationPutRequest;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.device_info.DeviceInfo;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.device_info.GetDeviceInfoRequest;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.device_info.SupportedFileVersionsInfo;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.file.FilePutRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.notification.NotificationFilterPutRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.notification.PlayTextNotificationRequest;
@@ -87,6 +90,8 @@ public class FossilWatchAdapter extends WatchAdapter {
 
     protected Logger logger = LoggerFactory.getLogger(getClass().getSimpleName());
 
+    SupportedFileVersionsInfo supportedFileVersions;
+
     public FossilWatchAdapter(QHybridSupport deviceSupport) {
         super(deviceSupport);
     }
@@ -98,28 +103,37 @@ public class FossilWatchAdapter extends WatchAdapter {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             queueWrite(new RequestMtuRequest(512), false);
         }
-        // queueWrite(new FileCloseRequest((short) 0xFFFF));
-        // queueWrite(new ConfigurationGetRequest(this), false);
 
+        getDeviceInfos();
+    }
+
+    public short getSupportedFileVersion(FileHandle handle){
+        return this.supportedFileVersions.getSupportedFileVersion(handle);
+    }
+
+    protected void initializeWithSupportedFileVersions() {
         syncConfiguration();
 
         syncNotificationSettings();
 
         syncButtonSettings();
 
-        /* queueWrite(new ButtonConfigurationGetRequest(this) {
-            @Override
-            public void onConfigurationsGet(ConfigPayload[] configs) {
-                super.onConfigurationsGet(configs);
-
-                JSONArray buttons = new JSONArray();
-                for (ConfigPayload payload : configs) buttons.put(String.valueOf(payload));
-                String json = buttons.toString();
-                getDeviceSupport().getDevice().addDeviceInfo(new GenericItem(ITEM_BUTTONS, json));
-            }
-        }); */
-
         queueWrite(new SetDeviceStateRequest(GBDevice.State.INITIALIZED), false);
+    }
+
+    protected void getDeviceInfos(){
+        queueWrite(new GetDeviceInfoRequest(this){
+            @Override
+            public void handleDeviceInfos(DeviceInfo[] deviceInfos) {
+                for(DeviceInfo info : deviceInfos){
+                    if(info instanceof SupportedFileVersionsInfo){
+                        FossilWatchAdapter.this.supportedFileVersions = (SupportedFileVersionsInfo) info;
+                        initializeWithSupportedFileVersions();
+                        return;
+                    }
+                }
+            }
+        });
     }
 
     private void syncButtonSettings(){

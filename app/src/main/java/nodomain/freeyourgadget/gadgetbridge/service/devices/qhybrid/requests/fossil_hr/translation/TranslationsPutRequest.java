@@ -9,7 +9,7 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fos
 
 public class TranslationsPutRequest extends FilePutRequest {
     public TranslationsPutRequest(TranslationData translationData, FossilWatchAdapter adapter) {
-        super(FileHandle.ASSET_TRANSLATIONS, createPayload(translationData), (short) 0x0d02, adapter);
+        super(FileHandle.ASSET_TRANSLATIONS, createPayload(translationData), adapter);
     }
 
     private static byte[] createPayload(TranslationData translationData){
