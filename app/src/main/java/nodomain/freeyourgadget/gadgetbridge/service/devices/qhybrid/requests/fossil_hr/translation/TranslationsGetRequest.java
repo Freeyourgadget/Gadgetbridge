@@ -6,19 +6,17 @@ import java.util.ArrayList;
 
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.adapter.fossil.FossilWatchAdapter;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.file.FileHandle;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.file.FileGetRawRequest;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.file.FileGetRequest;
 
-public abstract class TranslationsGetRequest extends FileGetRawRequest {
+public abstract class TranslationsGetRequest extends FileGetRequest {
     public TranslationsGetRequest(FossilWatchAdapter adapter) {
         super(FileHandle.ASSET_TRANSLATIONS, adapter);
     }
 
     @Override
-    public void handleFileRawData(byte[] fileData) {
+    public void handleFileData(byte[] fileData) {
         ByteBuffer buffer = ByteBuffer.wrap(fileData);
         buffer.order(ByteOrder.LITTLE_ENDIAN);
-
-        buffer.position(12);
 
         byte[] localeBytes = new byte[5];
         buffer.get(localeBytes);
@@ -28,7 +26,7 @@ public abstract class TranslationsGetRequest extends FileGetRawRequest {
 
         ArrayList<TranslationItem> translations = new ArrayList<>();
 
-        while(buffer.remaining() > 4){
+        while(buffer.remaining() > 0){
             int originalLength = buffer.getShort() - 1; // subtracting null terminator
             byte[] originalBytes = new byte[originalLength];
             buffer.get(originalBytes);

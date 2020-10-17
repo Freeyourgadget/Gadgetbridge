@@ -6,9 +6,9 @@ import java.util.ArrayList;
 
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.adapter.fossil.FossilWatchAdapter;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.file.FileHandle;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.file.FileGetRawRequest;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.file.FileGetRequest;
 
-public class GetDeviceInfoRequest extends FileGetRawRequest {
+public class GetDeviceInfoRequest extends FileGetRequest {
     enum INFO_CLASS{
         SUPPORTED_FILE_VERSIONS((short) 0x0a, SupportedFileVersionsInfo.class),
         ;
@@ -41,14 +41,13 @@ public class GetDeviceInfoRequest extends FileGetRawRequest {
     }
 
     @Override
-    public void handleFileRawData(byte[] fileData) {
+    public void handleFileData(byte[] fileData) {
         ByteBuffer buffer = ByteBuffer.wrap(fileData);
         buffer.order(ByteOrder.LITTLE_ENDIAN);
-        buffer.position(12);
 
         ArrayList<DeviceInfo> deviceInfos = new ArrayList<>();
 
-        while(buffer.remaining() > 4){
+        while(buffer.remaining() > 0){
             short type = buffer.getShort();
             int length = buffer.get();
             byte[] payload = new byte[length];
