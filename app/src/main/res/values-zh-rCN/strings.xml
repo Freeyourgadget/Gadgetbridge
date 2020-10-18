@@ -1102,4 +1102,5 @@
     <string name="devicestatus_connected">设备已连接</string>
     <string name="devicestatus_connecting">设备正在连接中</string>
     <string name="activity_prefs_step_length_cm">步伐厘米长度</string>
+    <string name="devicetype_amazfit_band5">米动手环 5</string>
 </resources>
