@@ -1,0 +1,11 @@
+* Initial support for Sony SWR12
+* Initial support for Lefun Smart Bands
+* Initial support for Nut devices
+* InfiniTime: Improved music support for latest firmware
+* Fossil Hybrid HR: Fixes and better support for newer firmwares
+* Fossil Hybrid HR: Debug activity for dumping and sending resources to the watch
+* Huami: Improve style of sports activity lists
+* Add sport activity list tab in charts
+* Allow sharing of sports activity summaries as image (full scroll view)
+* Weather: Fix wind speed and direction not being passed properly
+* Fix find your phone feature on Android 10 (need companion device pairing)

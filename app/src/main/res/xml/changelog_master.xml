@@ -1,5 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
+    <release version="0.48.0" versioncode="182">
+        <change>Initial support for Sony SWR12</change>
+        <change>Initial support for Lefun Smart Bands</change>
+        <change>Initial support for Nut devices</change>
+        <change>InfiniTime: Improved music support for latest firmware</change>
+        <change>Fossil Hybrid HR: Fixes and better support for newer firmwares</change>
+        <change>Fossil Hybrid HR: Debug activity for dumping and sending resources to the watch</change>
+        <change>Huami: Improve style of sports activity lists</change>
+        <change>Add sport activity list tab in charts</change>
+        <change>Allow sharing of sports activity summaries as image (full scroll view)</change>
+        <change>Weather: Fix wind speed and direction not being passed properly</change>
+        <change>Fix find your phone feature on Android 10 (need companion device pairing)</change>
+    </release>
     <release version="0.47.2" versioncode="181">
         <change>Amazfit Bip S: Send sunrise and sunset on latest firmware if enabled</change>
         <change>Huami: Support new firmware update protocol (fixes firmware flashing with firmware 2.1.1.50/4.1.5.55 on Amazfit Bip S)</change>
