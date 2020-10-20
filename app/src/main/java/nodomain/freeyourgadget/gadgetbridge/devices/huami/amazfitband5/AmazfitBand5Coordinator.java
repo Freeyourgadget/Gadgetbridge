@@ -87,7 +87,7 @@ public class AmazfitBand5Coordinator extends HuamiCoordinator {
     @Override
     public int[] getSupportedDeviceSpecificSettings(GBDevice device) {
         return new int[]{
-                R.xml.devicesettings_miband5,
+                R.xml.devicesettings_amazfitband5,
                 R.xml.devicesettings_wearlocation,
                 R.xml.devicesettings_custom_emoji_font,
                 R.xml.devicesettings_timeformat,

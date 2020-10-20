@@ -28,6 +28,8 @@ import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.LinkedHashMap;
+import java.util.Map;
 import java.util.Set;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
@@ -115,59 +117,22 @@ public class AmazfitBipSSupport extends AmazfitBipSupport {
 
     @Override
     protected AmazfitBipSSupport setDisplayItems(TransactionBuilder builder) {
-        if (gbDevice.getFirmwareVersion() == null) {
-            LOG.warn("Device not initialized yet, won't set menu items");
-            return this;
-        }
+        Map<String, Integer> keyIdMap = new LinkedHashMap<>();
+        keyIdMap.put("status", 0x01);
+        keyIdMap.put("hr", 0x02);
+        keyIdMap.put("pai", 0x19);
+        keyIdMap.put("workout", 0x03);
+        keyIdMap.put("alipay", 0x11);
+        keyIdMap.put("nfc", 0x10);
+        keyIdMap.put("weather", 0x04);
+        keyIdMap.put("alarm", 0x09);
+        keyIdMap.put("timer", 0x1b);
+        keyIdMap.put("compass", 0x16);
+        keyIdMap.put("worldclock", 0x1a);
+        keyIdMap.put("music", 0x0b);
+        keyIdMap.put("settings", 0x13);
 
-        SharedPreferences prefs = GBApplication.getDeviceSpecificSharedPrefs(gbDevice.getAddress());
-        Set<String> pages = prefs.getStringSet(HuamiConst.PREF_DISPLAY_ITEMS, new HashSet<>(Arrays.asList(getContext().getResources().getStringArray(R.array.pref_bips_display_items_default))));
-        LOG.info("Setting display items to " + (pages == null ? "none" : pages));
-        byte[] command = new byte[]{
-                0x1E,
-                0x00, 0x00, (byte) 0xFF, 0x01, // Status
-                0x01, 0x00, (byte) 0xFF, 0x02, // HR
-                0x02, 0x00, (byte) 0xFF, 0x19, // PAI
-                0x03, 0x00, (byte) 0xFF, 0x03, // Workout
-                0x04, 0x00, (byte) 0xFF, 0x11, // Alipay
-                0x05, 0x00, (byte) 0xFF, 0x10, // NFC
-                0x06, 0x00, (byte) 0xFF, 0x04, // Weather
-                0x07, 0x00, (byte) 0xFF, 0x09, // Alarm
-                0x08, 0x00, (byte) 0xFF, 0x1B, // Timer
-                0x09, 0x00, (byte) 0xFF, 0x16, // Compass
-                0x0A, 0x00, (byte) 0xFF, 0x1A, // World clock
-                0x0B, 0x00, (byte) 0xFF, 0x0B, // Music
-                0x0C, 0x00, (byte) 0xFF, 0x13  // Settings
-        };
-
-        String[] keys = {"status", "hr", "pai", "workout", "alipay", "nfc", "weather", "alarm", "timer", "compass", "worldclock", "music", "settings"};
-        byte[] ids = {1, 2, 25, 3, 17, 16, 4, 9, 27, 22, 26, 11, 19};
-
-        if (pages != null) {
-            // it seem that we first have to put all ENABLED items into the array
-            int pos = 1;
-            for (int i = 0; i < keys.length; i++) {
-                String key = keys[i];
-                byte id = ids[i];
-                if (pages.contains(key)) {
-                    command[pos + 1] = 0x00;
-                    command[pos + 3] = id;
-                    pos += 4;
-                }
-            }
-            // And then all DISABLED ones
-            for (int i = 0; i < keys.length; i++) {
-                String key = keys[i];
-                byte id = ids[i];
-                if (!pages.contains(key)) {
-                    command[pos + 1] = 0x01;
-                    command[pos + 3] = id;
-                    pos += 4;
-                }
-            }
-            writeToChunked(builder, 2, command);
-        }
-
+        setDisplayItemsNew(builder, R.array.pref_bips_display_items_default, keyIdMap);
         return this;
     }
 

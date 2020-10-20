@@ -19,13 +19,41 @@ package nodomain.freeyourgadget.gadgetbridge.service.devices.huami.amazfitband5;
 import android.content.Context;
 import android.net.Uri;
 
-import java.io.IOException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
+import java.io.IOException;
+import java.util.LinkedHashMap;
+import java.util.Map;
+
+import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiFWHelper;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.amazfitband5.AmazfitBand5FWHelper;
+import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.miband5.MiBand5Support;
 
 public class AmazfitBand5Support extends MiBand5Support {
+    private static final Logger LOG = LoggerFactory.getLogger(AmazfitBand5Support.class);
+
+    @Override
+    protected AmazfitBand5Support setDisplayItems(TransactionBuilder builder) {
+        Map<String, Integer> keyIdMap = new LinkedHashMap<>();
+        keyIdMap.put("status", 0x01);
+        keyIdMap.put("pai", 0x19);
+        keyIdMap.put("hr", 0x02);
+        keyIdMap.put("spo2", 0x24);
+        keyIdMap.put("notifications", 0x06);
+        keyIdMap.put("breathing", 0x33);
+        keyIdMap.put("eventreminder", 0x15);
+        keyIdMap.put("weather", 0x04);
+        keyIdMap.put("workout", 0x03);
+        keyIdMap.put("more", 0x07);
+        keyIdMap.put("stress", 0x1c);
+        keyIdMap.put("cycles", 0x1d);
+
+        setDisplayItemsNew(builder, R.array.pref_amazfitband5_display_items_default, keyIdMap);
+        return this;
+    }
 
     @Override
     public HuamiFWHelper createFWHelper(Uri uri, Context context) throws IOException {

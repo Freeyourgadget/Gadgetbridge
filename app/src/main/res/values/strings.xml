@@ -828,6 +828,7 @@
     <string name="menuitem_stress">Stress</string>
     <string name="menuitem_pai">PAI</string>
     <string name="menuitem_hr">Heart Rate</string>
+    <string name="menuitem_spo2">SpO2</string>
     <string name="menuitem_eventreminder">Event Reminder</string>
     <string name="menuitem_workout">Workout</string>
     <string name="menuitem_unknown">Unknown</string>

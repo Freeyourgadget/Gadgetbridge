@@ -48,8 +48,10 @@ import java.util.GregorianCalendar;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.Set;
 import java.util.SimpleTimeZone;
+import java.util.SortedMap;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.UUID;
@@ -2307,6 +2309,51 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
                 data[HuamiService.SCREEN_CHANGE_BYTE] |= HuamiService.DISPLAY_ITEM_BIT_BATTERY;
             }
             builder.write(getCharacteristic(HuamiService.UUID_CHARACTERISTIC_3_CONFIGURATION), data);
+        }
+
+        return this;
+    }
+
+    protected HuamiSupport setDisplayItemsNew(TransactionBuilder builder, int defaultSettings, Map<String, Integer> keyIdMap) {
+        if (gbDevice.getFirmwareVersion() == null) {
+            LOG.warn("Device not initialized yet, won't set menu items");
+            return this;
+        }
+
+        SharedPreferences prefs = GBApplication.getDeviceSpecificSharedPrefs(gbDevice.getAddress());
+        Set<String> pages = prefs.getStringSet(HuamiConst.PREF_DISPLAY_ITEMS, new HashSet<>(Arrays.asList(getContext().getResources().getStringArray(defaultSettings))));
+        LOG.info("Setting display items to " + (pages == null ? "none" : pages));
+
+        if (pages != null) {
+            byte[] command = new byte[keyIdMap.size() * 4 + 1];
+            command[0] = 0x1e;
+            // it seem that we first have to put all ENABLED items into the array
+            int pos = 1;
+            int index = 0;
+            for (Map.Entry<String, Integer> entry : keyIdMap.entrySet()) {
+                String key = entry.getKey();
+                int id = entry.getValue();
+
+                if (pages.contains(key)) {
+                    command[pos++] = (byte) index++;
+                    command[pos++] = 0x00;
+                    command[pos++] = (byte) 0xff;
+                    command[pos++] = (byte) id;
+                }
+            }
+            // And then all DISABLED ones
+            for (Map.Entry<String, Integer> entry : keyIdMap.entrySet()) {
+                String key = entry.getKey();
+                int id = entry.getValue();
+
+                if (!pages.contains(key)) {
+                    command[pos++] = (byte) index++;
+                    command[pos++] = 0x01;
+                    command[pos++] = (byte) 0xff;
+                    command[pos++] = (byte) id;
+                }
+            }
+            writeToChunked(builder, 2, command);
         }
 
         return this;

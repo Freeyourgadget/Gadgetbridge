@@ -35,6 +35,7 @@
     <item name="p_menuitem_more" type="string">more</item>
     <item name="p_menuitem_nfc" type="string">nfc</item>
     <item name="p_menuitem_hr" type="string">hr</item>
+    <item name="p_menuitem_spo2" type="string">spo2</item>
     <item name="p_menuitem_pai" type="string">pai</item>
     <item name="p_menuitem_stress" type="string">stress</item>
     <item name="p_menuitem_cycles" type="string">cycles</item>

@@ -17,20 +17,16 @@
 package nodomain.freeyourgadget.gadgetbridge.service.devices.huami.amazfitgts;
 
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.net.Uri;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
-import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
-import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiFWHelper;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.amazfitgts.AmazfitGTSFWHelper;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
@@ -70,59 +66,21 @@ public class AmazfitGTSSupport extends AmazfitBipSupport {
 
     @Override
     protected AmazfitGTSSupport setDisplayItems(TransactionBuilder builder) {
-        if (gbDevice.getFirmwareVersion() == null) {
-            LOG.warn("Device not initialized yet, won't set menu items");
-            return this;
-        }
+        Map<String, Integer> keyIdMap = new LinkedHashMap<>();
+        keyIdMap.put("status", 0x01);
+        keyIdMap.put("pai", 0x19);
+        keyIdMap.put("hr", 0x02);
+        keyIdMap.put("workout", 0x03);
+        keyIdMap.put("activity", 0x14);
+        keyIdMap.put("weather", 0x04);
+        keyIdMap.put("music", 0x0b);
+        keyIdMap.put("notifications", 0x06);
+        keyIdMap.put("alarm", 0x09);
+        keyIdMap.put("eventreminder", 0x15);
+        keyIdMap.put("more", 0x07);
+        keyIdMap.put("settings", 0x13);
 
-        SharedPreferences prefs = GBApplication.getDeviceSpecificSharedPrefs(gbDevice.getAddress());
-        Set<String> pages = prefs.getStringSet(HuamiConst.PREF_DISPLAY_ITEMS, new HashSet<>(Arrays.asList(getContext().getResources().getStringArray(R.array.pref_gts_display_items_default))));
-        LOG.info("Setting display items to " + (pages == null ? "none" : pages));
-        byte[] command = new byte[]{
-                0x1E,
-                0x00, 0x00, (byte) 0xFF, 0x01, // Status
-                0x01, 0x00, (byte) 0xFF, 0x19, // PAI
-                0x02, 0x00, (byte) 0xFF, 0x02, // HR
-                0x03, 0x00, (byte) 0xFF, 0x03, // Workout
-                0x04, 0x00, (byte) 0xFF, 0x14, // Activities
-                0x05, 0x00, (byte) 0xFF, 0x04, // Weather
-                0x06, 0x00, (byte) 0xFF, 0x0B, // Music
-                0x07, 0x00, (byte) 0xFF, 0x06, // Notifications
-                0x08, 0x00, (byte) 0xFF, 0x09, // Alarm
-                0x09, 0x00, (byte) 0xFF, 0x15, // Event reminder
-                0x0A, 0x00, (byte) 0xFF, 0x07, // More
-                0x0B, 0x00, (byte) 0xFF, 0x13  // Settings
-        };
-
-        String[] keys = {"status", "pai", "hr", "workout", "activity", "weather", "music", "notifications", "alarm", "eventreminder", "more", "settings"};
-        byte[] ids = {1, 25, 2, 3, 20, 4, 11, 6, 9, 21, 7, 19};
-
-        if (pages != null) {
-            pages.add("settings");
-            // it seem that we first have to put all ENABLED items into the array
-            int pos = 1;
-            for (int i = 0; i < keys.length; i++) {
-                String key = keys[i];
-                byte id = ids[i];
-                if (pages.contains(key)) {
-                    command[pos + 1] = 0x00;
-                    command[pos + 3] = id;
-                    pos += 4;
-                }
-            }
-            // And then all DISABLED ones
-            for (int i = 0; i < keys.length; i++) {
-                String key = keys[i];
-                byte id = ids[i];
-                if (!pages.contains(key)) {
-                    command[pos + 1] = 0x01;
-                    command[pos + 3] = id;
-                    pos += 4;
-                }
-            }
-            writeToChunked(builder, 2, command);
-        }
-
+        setDisplayItemsNew(builder, R.array.pref_gts_display_items_default, keyIdMap);
         return this;
     }
 
