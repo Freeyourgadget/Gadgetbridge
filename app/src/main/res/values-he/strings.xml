@@ -1094,4 +1094,5 @@
     <string name="pref_title_upper_button_function_short">כפתור עליון קצר</string>
     <string name="activity_prefs_step_length_cm">אורך צעד בס״מ</string>
     <string name="devicetype_amazfit_band5">Amazfit Band 5</string>
+    <string name="menuitem_spo2">ריווי חמצן בדם</string>
 </resources>
