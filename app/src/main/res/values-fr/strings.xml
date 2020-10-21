@@ -1092,4 +1092,5 @@ Temps de sommeil préféré en heures</string>
     <string name="pref_title_upper_button_function_short">Appui court bouton du haut</string>
     <string name="devicetype_amazfit_band5">Amazfit Band 5</string>
     <string name="activity_prefs_step_length_cm">Longueur de pas en cm</string>
+    <string name="menuitem_spo2">SpO2</string>
 </resources>
