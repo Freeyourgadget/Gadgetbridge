@@ -80,7 +80,7 @@ public class AmazfitGTSSupport extends AmazfitBipSupport {
         keyIdMap.put("more", 0x07);
         keyIdMap.put("settings", 0x13);
 
-        setDisplayItemsNew(builder, R.array.pref_gts_display_items_default, keyIdMap);
+        setDisplayItemsNew(builder, false, R.array.pref_gts_display_items_default, keyIdMap);
         return this;
     }
 

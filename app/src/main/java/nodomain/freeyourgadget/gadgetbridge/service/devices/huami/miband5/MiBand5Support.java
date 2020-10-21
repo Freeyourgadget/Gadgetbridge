@@ -50,7 +50,7 @@ public class MiBand5Support extends MiBand4Support {
         keyIdMap.put("stress", 0x1c);
         keyIdMap.put("cycles", 0x1d);
 
-        setDisplayItemsNew(builder, R.array.pref_miband5_display_items_default, keyIdMap);
+        setDisplayItemsNew(builder, false, R.array.pref_miband5_display_items_default, keyIdMap);
         return this;
     }
 
