@@ -2,7 +2,8 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/activity_summary_detail_scroll_layout"
-    android:layout_width="fill_parent" android:layout_height="fill_parent"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
     android:scrollbars="vertical">
 
     <LinearLayout
@@ -141,10 +142,7 @@
                             android:layout_weight="1"
                             android:gravity="end" />
                     </TableRow>
-
                 </TableLayout>
-
-
             </LinearLayout>
         </LinearLayout>
 
@@ -166,13 +164,14 @@
                 android:layout_height="wrap_content" />
 
             <FrameLayout
-                android:id="@+id/fragmentHolder"
+                android:id="@+id/chartsFragmentHolder"
                 android:layout_width="match_parent"
-                android:layout_height="300dp">
+                android:layout_height="300dp"></FrameLayout>
 
-            </FrameLayout>
-
+            <FrameLayout
+                android:id="@+id/gpsFragmentHolder"
+                android:layout_width="match_parent"
+                android:layout_height="300dp"></FrameLayout>
         </LinearLayout>
-
     </LinearLayout>
-    </ScrollView>
+</ScrollView>

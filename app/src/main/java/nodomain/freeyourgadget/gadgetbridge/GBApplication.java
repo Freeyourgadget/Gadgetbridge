@@ -1003,6 +1003,13 @@ public class GBApplication extends Application {
         return typedValue.data;
     }
 
+    public static int getWindowBackgroundColor(Context context) {
+        TypedValue typedValue = new TypedValue();
+        Resources.Theme theme = context.getTheme();
+        theme.resolveAttribute(android.R.attr.windowBackground, typedValue, true);
+        return typedValue.data;
+    }
+
     public static Prefs getPrefs() {
         return prefs;
     }

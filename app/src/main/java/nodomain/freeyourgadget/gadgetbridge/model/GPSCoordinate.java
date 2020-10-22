@@ -18,6 +18,7 @@ package nodomain.freeyourgadget.gadgetbridge.model;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.util.Comparator;
 
 public final class GPSCoordinate {
     private final double latitude;
@@ -78,4 +79,26 @@ public final class GPSCoordinate {
     public String toString() {
         return "lon: " + formatLocation(longitude) + ", lat: " + formatLocation(latitude) + ", alt: " + formatLocation(altitude) + "m";
     }
+
+    public static class compareLatitude implements Comparator<GPSCoordinate> {
+        @Override
+        public int compare(GPSCoordinate trkPt1, GPSCoordinate trkPt2) {
+            return Double.compare(trkPt1.getLatitude(), trkPt2.getLatitude());
+        }
+    }
+
+    public static class compareLongitude implements Comparator<GPSCoordinate> {
+        @Override
+        public int compare(GPSCoordinate trkPt1, GPSCoordinate trkPt2) {
+            return Double.compare(trkPt1.getLongitude(), trkPt2.getLongitude());
+        }
+    }
+
+    public static class compareElevation implements Comparator<GPSCoordinate> {
+        @Override
+        public int compare(GPSCoordinate trkPt1, GPSCoordinate trkPt2) {
+            return Double.compare(trkPt1.getAltitude(), trkPt2.getAltitude());
+        }
+    }
+
 }
