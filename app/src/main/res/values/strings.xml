@@ -1063,6 +1063,7 @@
     <string name="backstroke">Backstroke</string>
     <string name="medley">Medley</string>
     <string name="devicetype_nut_mini">Nut mini</string>
+    <string name="qhybrid_calibration_align_hint">align hands to 12:00</string>
     <plurals name="widget_alarm_target_hours">
         <item quantity="one">%d hour</item>
         <item quantity="two">%d hours</item>

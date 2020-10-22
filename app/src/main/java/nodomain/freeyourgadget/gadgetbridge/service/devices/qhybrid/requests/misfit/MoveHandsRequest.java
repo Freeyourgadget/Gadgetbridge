@@ -22,36 +22,50 @@ import java.nio.ByteBuffer;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.Request;
 
 public class MoveHandsRequest extends Request {
-    public MoveHandsRequest(boolean moveRelative, short degreesMin, short degreesHour, short degreesSub){
-        init(moveRelative, degreesMin, degreesHour, degreesSub);
+    public MoveHandsRequest(MovementConfiguration movement){
+        init(movement);
     }
 
-    private void init(boolean moveRelative, short degreesMin, short degreesHour, short degreesSub) {
+    private void init(MovementConfiguration movement) {
         int count = 0;
-        if(degreesHour != -1) count++;
-        if(degreesMin != -1) count++;
-        if(degreesSub != -1) count++;
+        if(movement.isHourSet()) count++;
+        if(movement.isMinuteSet()) count++;
+        if(movement.isSubSet()) count++;
 
         ByteBuffer buffer = createBuffer(count * 5 + 5);
-        buffer.put(moveRelative ? 1 : (byte)2);
+        buffer.put(movement.isRelativeMovement() ? 1 : (byte)2);
         buffer.put((byte)count);
 
-        if(degreesHour > -1){
+        if(movement.isHourSet()){
             buffer.put((byte)1);
-            buffer.putShort(degreesHour);
-            buffer.put((byte)3);
+            buffer.putShort((short)Math.abs(movement.getHourDegrees()));
+            if(movement.isRelativeMovement()){
+                buffer.put(movement.getHourDegrees() >= 0 ? (byte) 1 : (byte) 2);
+            }else {
+                buffer.put((byte)3);
+            }
             buffer.put((byte)1);
         }
-        if(degreesMin > -1){
+
+        if(movement.isMinuteSet()){
             buffer.put((byte)2);
-            buffer.putShort(degreesMin);
-            buffer.put((byte)3);
+            buffer.putShort((short)Math.abs(movement.getMinuteDegrees()));
+            if(movement.isRelativeMovement()){
+                buffer.put(movement.getMinuteDegrees() >= 0 ? (byte) 1 : (byte) 2);
+            }else {
+                buffer.put((byte)3);
+            }
             buffer.put((byte)1);
         }
-        if(degreesSub > -1){
+
+        if(movement.isSubSet()){
             buffer.put((byte)3);
-            buffer.putShort(degreesSub);
-            buffer.put((byte)3);
+            buffer.putShort((short)Math.abs(movement.getSubDegrees()));
+            if(movement.isRelativeMovement()){
+                buffer.put(movement.getSubDegrees() >= 0 ? (byte) 1 : (byte) 2);
+            }else {
+                buffer.put((byte)3);
+            }
             buffer.put((byte)1);
         }
 
@@ -61,5 +75,62 @@ public class MoveHandsRequest extends Request {
     @Override
     public byte[] getStartSequence() {
         return new byte[]{2, 21, 3};
+    }
+
+    static public class MovementConfiguration{
+        private int hourDegrees, minuteDegrees, subDegrees;
+        private boolean hourSet = false, minuteSet = false, subSet = false;
+        private boolean relativeMovement;
+
+        public MovementConfiguration(boolean relativeMovement) {
+            this.relativeMovement = relativeMovement;
+        }
+
+        public boolean isRelativeMovement() {
+            return relativeMovement;
+        }
+
+        public void setRelativeMovement(boolean relativeMovement) {
+            this.relativeMovement = relativeMovement;
+        }
+
+        public int getHourDegrees() {
+            return hourDegrees;
+        }
+
+        public void setHourDegrees(int hourDegrees) {
+            this.hourDegrees = hourDegrees;
+            this.hourSet = true;
+        }
+
+        public int getMinuteDegrees() {
+            return minuteDegrees;
+        }
+
+        public void setMinuteDegrees(int minuteDegrees) {
+            this.minuteDegrees = minuteDegrees;
+            this.minuteSet = true;
+        }
+
+        public int getSubDegrees() {
+            return subDegrees;
+        }
+
+        public void setSubDegrees(int subDegrees) {
+            this.subDegrees = subDegrees;
+            this.subSet = true;
+        }
+
+        public boolean isHourSet() {
+            return hourSet;
+        }
+
+        public boolean isMinuteSet() {
+            return minuteSet;
+        }
+
+        public boolean isSubSet() {
+            return subSet;
+        }
     }
 }

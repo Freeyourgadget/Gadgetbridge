@@ -72,6 +72,7 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.adapter.foss
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.adapter.fossil_hr.FossilHRWatchAdapter;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.file.FileHandle;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.misfit.DownloadFileRequest;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.misfit.MoveHandsRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.misfit.PlayNotificationRequest;
 import nodomain.freeyourgadget.gadgetbridge.util.FileUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
@@ -80,6 +81,8 @@ public class QHybridSupport extends QHybridBaseSupport {
     public static final String QHYBRID_COMMAND_CONTROL = "qhybrid_command_control";
     public static final String QHYBRID_COMMAND_UNCONTROL = "qhybrid_command_uncontrol";
     public static final String QHYBRID_COMMAND_SET = "qhybrid_command_set";
+    public static final String QHYBRID_COMMAND_MOVE = "qhybrid_command_move";
+    public static final String QHYBRID_COMMAND_SAVE_CALIBRATION = "qhybrid_command_save_calibration";
     public static final String QHYBRID_COMMAND_VIBRATE = "qhybrid_command_vibrate";
     public static final String QHYBRID_COMMAND_UPDATE = "qhybrid_command_update";
     public static final String QHYBRID_COMMAND_UPDATE_TIMEZONE = "qhybrid_command_update_timezone";
@@ -143,6 +146,8 @@ public class QHybridSupport extends QHybridBaseSupport {
         IntentFilter commandFilter = new IntentFilter(QHYBRID_COMMAND_CONTROL);
         commandFilter.addAction(QHYBRID_COMMAND_UNCONTROL);
         commandFilter.addAction(QHYBRID_COMMAND_SET);
+        commandFilter.addAction(QHYBRID_COMMAND_MOVE);
+        commandFilter.addAction(QHYBRID_COMMAND_SAVE_CALIBRATION);
         commandFilter.addAction(QHYBRID_COMMAND_VIBRATE);
         commandFilter.addAction(QHYBRID_COMMAND_UPDATE);
         commandFilter.addAction(QHYBRID_COMMAND_UPDATE_TIMEZONE);
@@ -169,10 +174,17 @@ public class QHybridSupport extends QHybridBaseSupport {
                     case QHYBRID_COMMAND_CONTROL: {
                         log("sending control request");
                         watchAdapter.requestHandsControl();
+                        MoveHandsRequest.MovementConfiguration movement = new MoveHandsRequest.MovementConfiguration(false);
                         if (config != null) {
-                            watchAdapter.setHands(config.getHour(), config.getMin());
+                            if(config.getHour() != -1) movement.setHourDegrees(config.getHour());
+                            if(config.getMin() != -1) movement.setHourDegrees(config.getMin());
+                            if(config.getSubEye() != -1) movement.setHourDegrees(config.getSubEye());
+                            watchAdapter.setHands(movement);
                         } else {
-                            watchAdapter.setHands((short) 0, (short) 0);
+                            movement.setHourDegrees(0);
+                            movement.setMinuteDegrees(0);
+                            movement.setSubDegrees(0);
+                            watchAdapter.setHands(movement);
                         }
                         break;
                     }
@@ -181,9 +193,24 @@ public class QHybridSupport extends QHybridBaseSupport {
                         break;
                     }
                     case QHYBRID_COMMAND_SET: {
-                        if (config != null) {
-                            watchAdapter.setHands(config.getHour(), config.getMin());
-                        }
+                        if(config == null) break;
+                        MoveHandsRequest.MovementConfiguration movement = new MoveHandsRequest.MovementConfiguration(false);
+                        if(config.getHour() != -1) movement.setHourDegrees(config.getHour());
+                        if(config.getMin() != -1) movement.setHourDegrees(config.getMin());
+                        if(config.getSubEye() != -1) movement.setHourDegrees(config.getSubEye());
+                        watchAdapter.setHands(movement);
+                        break;
+                    }
+                    case QHYBRID_COMMAND_MOVE: {
+                        MoveHandsRequest.MovementConfiguration movement = new MoveHandsRequest.MovementConfiguration(true);
+                        if(extras.containsKey("EXTRA_DISTANCE_HOUR")) movement.setHourDegrees(extras.getShort("EXTRA_DISTANCE_HOUR"));
+                        if(extras.containsKey("EXTRA_DISTANCE_MINUTE")) movement.setMinuteDegrees(extras.getShort("EXTRA_DISTANCE_MINUTE"));
+                        if(extras.containsKey("EXTRA_DISTANCE_SUB")) movement.setSubDegrees(extras.getShort("EXTRA_DISTANCE_SUB"));
+                        watchAdapter.setHands(movement);
+                        break;
+                    }
+                    case QHYBRID_COMMAND_SAVE_CALIBRATION: {
+                        watchAdapter.saveCalibration();
                         break;
                     }
                     case QHYBRID_COMMAND_VIBRATE: {

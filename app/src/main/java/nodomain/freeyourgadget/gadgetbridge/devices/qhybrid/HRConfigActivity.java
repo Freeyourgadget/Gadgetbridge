@@ -69,6 +69,7 @@ public class HRConfigActivity extends AbstractGBActivity implements View.OnClick
 
         findViewById(R.id.qhybrid_action_add).setOnClickListener(this);
         findViewById(R.id.qhybrid_file_management_trigger).setOnClickListener(this);
+        findViewById(R.id.calibration_trigger).setOnClickListener(this);
 
         sharedPreferences = GBApplication.getPrefs().getPreferences();
 
@@ -405,6 +406,9 @@ public class HRConfigActivity extends AbstractGBActivity implements View.OnClick
         } else if(v.getId() == R.id.qhybrid_file_management_trigger) {
             finish();
             startActivity(new Intent(getApplicationContext(), FileManagementActivity.class));
+        } else if(v.getId() == R.id.calibration_trigger) {
+            finish();
+            startActivity(new Intent(getApplicationContext(), CalibrationActivity.class));
         }
     }
 

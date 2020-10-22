@@ -573,5 +573,6 @@
         <activity
             android:name=".devices.qhybrid.FileManagementActivity"
             android:exported="true" />
+        <activity android:name=".devices.qhybrid.CalibrationActivity" />
     </application>
 </manifest>

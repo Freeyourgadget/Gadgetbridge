@@ -63,6 +63,7 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.mis
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.misfit.MoveHandsRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.misfit.ReleaseHandsControlRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.misfit.RequestHandControlRequest;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.misfit.SaveCalibrationRequest;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
 import static nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.QHybridSupport.ITEM_STEP_GOAL;
@@ -279,10 +280,14 @@ public class FossilWatchAdapter extends WatchAdapter {
     }
 
     @Override
-    public void setHands(short hour, short minute) {
-        queueWrite(new MoveHandsRequest(false, minute, hour, (short) -1), false);
+    public void setHands(MoveHandsRequest.MovementConfiguration movement) {
+        queueWrite(new MoveHandsRequest(movement), false);
     }
 
+    @Override
+    public void saveCalibration() {
+        queueWrite(new SaveCalibrationRequest());
+    }
 
     public void vibrate(nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.misfit.PlayNotificationRequest.VibrationType vibration) {
         // queueWrite(new nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.misfit.PlayNotificationRequest(vibration, -1, -1));

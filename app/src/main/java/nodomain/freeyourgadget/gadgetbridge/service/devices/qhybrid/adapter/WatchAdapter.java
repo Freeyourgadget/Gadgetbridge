@@ -31,6 +31,7 @@ import nodomain.freeyourgadget.gadgetbridge.model.MusicStateSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.WeatherSpec;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.QHybridSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.file.FileHandle;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.misfit.MoveHandsRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.misfit.PlayNotificationRequest;
 
 public abstract class WatchAdapter {
@@ -55,7 +56,8 @@ public abstract class WatchAdapter {
     public abstract void setTime();
     public abstract void overwriteButtons(String buttonConfigJson);
     public abstract void setActivityHand(double progress);
-    public abstract void setHands(short hour, short minute);
+    public abstract void setHands(MoveHandsRequest.MovementConfiguration movement);
+    public abstract void saveCalibration();
     public abstract void vibrate(PlayNotificationRequest.VibrationType vibration);
     public abstract void vibrateFindMyDevicePattern();
     public abstract void requestHandsControl();

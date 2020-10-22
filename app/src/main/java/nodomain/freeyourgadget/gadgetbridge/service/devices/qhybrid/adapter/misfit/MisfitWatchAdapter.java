@@ -68,6 +68,7 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.mis
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.misfit.PlayNotificationRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.misfit.ReleaseHandsControlRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.misfit.RequestHandControlRequest;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.misfit.SaveCalibrationRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.misfit.SetCurrentStepCountRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.misfit.SetStepGoalRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.misfit.SetTimeRequest;
@@ -368,11 +369,6 @@ public class MisfitWatchAdapter extends WatchAdapter {
         queueWrite(new SetCurrentStepCountRequest(Math.min((int) (1000000 * progress), 999999)));
     }
 
-
-    public void setHands(short hour, short minute) {
-        queueWrite(new MoveHandsRequest(false, minute, hour, (short) -1));
-    }
-
     public void vibrate(PlayNotificationRequest.VibrationType vibration) {
         queueWrite(new PlayNotificationRequest(vibration, -1, -1));
     }
@@ -382,7 +378,6 @@ public class MisfitWatchAdapter extends WatchAdapter {
         queueWrite(new VibrateRequest(false, (short) 4, (short) 1));
     }
 
-
     @Override
     public void requestHandsControl() {
         queueWrite(new RequestHandControlRequest());
@@ -391,6 +386,16 @@ public class MisfitWatchAdapter extends WatchAdapter {
     @Override
     public void releaseHandsControl() {
         queueWrite(new ReleaseHandsControlRequest());
+    }
+
+    @Override
+    public void setHands(MoveHandsRequest.MovementConfiguration movement) {
+        queueWrite(new MoveHandsRequest(movement));
+    }
+
+    @Override
+    public void saveCalibration() {
+        queueWrite(new SaveCalibrationRequest());
     }
 
     @Override
