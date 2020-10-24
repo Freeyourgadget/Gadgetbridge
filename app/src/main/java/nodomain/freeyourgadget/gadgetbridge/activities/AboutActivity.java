@@ -20,6 +20,7 @@ package nodomain.freeyourgadget.gadgetbridge.activities;
 import android.os.Bundle;
 import android.text.method.LinkMovementMethod;
 import android.widget.TextView;
+import nodomain.freeyourgadget.gadgetbridge.BuildConfig;
 
 import nodomain.freeyourgadget.gadgetbridge.R;
 
@@ -29,6 +30,10 @@ public class AboutActivity extends AbstractGBActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_about);
+        TextView about_version = findViewById(R.id.about_version);
+        String versionName = BuildConfig.VERSION_NAME;
+        about_version.setText(String.format(getString(R.string.about_version), versionName));
+
         TextView link1 = findViewById(R.id.links1);
         link1.setMovementMethod(LinkMovementMethod.getInstance());
         TextView link2 = findViewById(R.id.links2);

@@ -12,7 +12,7 @@
         android:layout_centerInParent="true"
         android:alpha="0.1"
         android:contentDescription="@string/icon_placeholder"
-        android:tint="?attr/textColorPrimary"
+        app:tint="?attr/textColorPrimary"
         app:srcCompat="@drawable/gadgetbridge_img" />
 
     <ScrollView
@@ -48,6 +48,11 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/about_description" />
+
+                <TextView
+                    android:id="@+id/about_version"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
             </LinearLayout>
 
             <TextView
