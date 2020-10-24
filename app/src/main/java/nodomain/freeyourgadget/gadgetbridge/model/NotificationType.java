@@ -55,6 +55,7 @@ public enum NotificationType {
     BUSINESS_CALENDAR(PebbleIconID.TIMELINE_CALENDAR, PebbleColor.BlueMoon),
     RIOT(PebbleIconID.NOTIFICATION_HIPCHAT, PebbleColor.LavenderIndigo),
     SIGNAL(PebbleIconID.NOTIFICATION_HIPCHAT, PebbleColor.BlueMoon),
+    WIRE(PebbleIconID.NOTIFICATION_HIPCHAT, PebbleColor.BlueMoon),
     SKYPE(PebbleIconID.NOTIFICATION_SKYPE, PebbleColor.VividCerulean),
     SLACK(PebbleIconID.NOTIFICATION_SLACK, PebbleColor.Folly),
     SNAPCHAT(PebbleIconID.NOTIFICATION_SNAPCHAT, PebbleColor.Icterine),
@@ -105,6 +106,7 @@ public enum NotificationType {
             case FACEBOOK_MESSENGER:
             case RIOT:
             case SIGNAL:
+            case WIRE:
             case TELEGRAM:
             case THREEMA:
             case KONTALK:

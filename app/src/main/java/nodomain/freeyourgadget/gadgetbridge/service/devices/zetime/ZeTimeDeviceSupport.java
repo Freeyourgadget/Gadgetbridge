@@ -834,6 +834,7 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
             case CONVERSATIONS:
             case RIOT:
             case SIGNAL:
+            case WIRE:
             case TELEGRAM:
             case THREEMA:
             case KONTALK:

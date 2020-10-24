@@ -286,6 +286,7 @@ public class BLETypeConversions {
             case LINE:
             case RIOT:
             case SIGNAL:
+            case WIRE:
             case SKYPE:
             case SNAPCHAT:
             case TELEGRAM:

@@ -72,6 +72,9 @@ public class AppNotificationType extends HashMap<String, NotificationType> {
         // Signal
         put("org.thoughtcrime.securesms", NotificationType.SIGNAL);
 
+        // Wire
+        put("com.wire", NotificationType.WIRE);
+
         // Telegram
         put("org.telegram.messenger", NotificationType.TELEGRAM);
         put("org.telegram.messenger.beta", NotificationType.TELEGRAM);
