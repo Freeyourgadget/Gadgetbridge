@@ -524,6 +524,11 @@ public class QHybridSupport extends QHybridBaseSupport {
         }
     }
 
+    @Override
+    public void onReset(int flags) {
+        super.onReset(flags);
+        this.watchAdapter.factoryReset();
+    }
 
     public double calculateNotificationProgress() {
         HashMap<NotificationConfiguration, Boolean> configs = new HashMap<>(0);

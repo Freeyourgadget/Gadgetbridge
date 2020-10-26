@@ -97,6 +97,7 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fos
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.widget.Widget;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.widget.WidgetsPutRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.misfit.AnimationRequest;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.misfit.FactoryResetRequest;
 import nodomain.freeyourgadget.gadgetbridge.util.FileUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
@@ -904,6 +905,11 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
         } catch (JSONException e) {
             logger.error("JSON exception: ", e);
         }
+    }
+
+    @Override
+    public void factoryReset() {
+        queueWrite(new FactoryResetRequest());
     }
 
     @Override

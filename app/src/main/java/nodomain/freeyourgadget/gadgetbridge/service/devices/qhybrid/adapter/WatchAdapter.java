@@ -147,4 +147,7 @@ public abstract class WatchAdapter {
 
     public void uploadFile(FileHandle handle, String filePath, boolean fileIsEncrypted) {
     }
+
+    public void factoryReset() {
+    }
 }
