@@ -26,7 +26,6 @@ import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
@@ -97,11 +96,7 @@ public class ActivitySummaryDetail extends AbstractGBActivity {
     public static Bitmap getScreenShot(View view, int height, int width, Context context) {
         Bitmap bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
         Canvas canvas = new Canvas(bitmap);
-        if (GBApplication.isDarkThemeEnabled()) {
-            canvas.drawColor(GBApplication.getBackgroundColor(context));
-        } else {
-            canvas.drawColor(Color.WHITE);
-        }
+        canvas.drawColor(GBApplication.getWindowBackgroundColor(context));
         view.draw(canvas);
         return bitmap;
     }
@@ -153,10 +148,12 @@ public class ActivitySummaryDetail extends AbstractGBActivity {
                 R.anim.bounceright);
 
         final ActivitySummariesChartFragment activitySummariesChartFragment = new ActivitySummariesChartFragment();
+        final ActivitySummariesGpsFragment activitySummariesGpsFragment = new ActivitySummariesGpsFragment();
 
         getSupportFragmentManager()
                 .beginTransaction()
-                .replace(R.id.fragmentHolder, activitySummariesChartFragment)
+                .replace(R.id.chartsFragmentHolder, activitySummariesChartFragment)
+                .replace(R.id.gpsFragmentHolder, activitySummariesGpsFragment)
                 .commit();
 
         layout.setOnTouchListener(new SwipeEvents(this) {
@@ -168,6 +165,13 @@ public class ActivitySummaryDetail extends AbstractGBActivity {
                     makeSummaryHeader(newItem);
                     makeSummaryContent(newItem);
                     activitySummariesChartFragment.setDateAndGetData(gbDevice, currentItem.getStartTime().getTime() / 1000, currentItem.getEndTime().getTime() / 1000);
+                    if (get_gpx_file() != null) {
+                        showCanvas();
+                        activitySummariesGpsFragment.set_data(get_gpx_file());
+                    } else {
+                        hideCanvas();
+                    }
+
                     layout.startAnimation(animFadeRight);
                     show_hide_gpx_menu();
                 } else {
@@ -183,6 +187,14 @@ public class ActivitySummaryDetail extends AbstractGBActivity {
                     makeSummaryHeader(newItem);
                     makeSummaryContent(newItem);
                     activitySummariesChartFragment.setDateAndGetData(gbDevice, currentItem.getStartTime().getTime() / 1000, currentItem.getEndTime().getTime() / 1000);
+                    if (get_gpx_file() != null) {
+                        showCanvas();
+                        activitySummariesGpsFragment.set_data(get_gpx_file());
+                    } else {
+                        hideCanvas();
+                    }
+
+
                     layout.startAnimation(animFadeLeft);
                     show_hide_gpx_menu();
                 } else {
@@ -196,6 +208,13 @@ public class ActivitySummaryDetail extends AbstractGBActivity {
             makeSummaryHeader(currentItem);
             makeSummaryContent(currentItem);
             activitySummariesChartFragment.setDateAndGetData(gbDevice, currentItem.getStartTime().getTime() / 1000, currentItem.getEndTime().getTime() / 1000);
+            if (get_gpx_file() != null) {
+                showCanvas();
+                activitySummariesGpsFragment.set_data(get_gpx_file());
+            } else {
+                hideCanvas();
+            }
+
         }
 
 
@@ -463,6 +482,34 @@ public class ActivitySummaryDetail extends AbstractGBActivity {
             mOptionsMenu.findItem(R.id.activity_detail_overflowMenu).getSubMenu().findItem(R.id.activity_action_share_gpx).setVisible(true);
         }
     }
+
+    private void showCanvas() {
+        View gpsView = findViewById(R.id.gpsFragmentHolder);
+        ViewGroup.LayoutParams params = gpsView.getLayoutParams();
+        params.height = (int) (300 * getApplicationContext().getResources().getDisplayMetrics().density);
+        gpsView.setLayoutParams(params);
+    }
+
+    private void hideCanvas() {
+        View gpsView = findViewById(R.id.gpsFragmentHolder);
+        ViewGroup.LayoutParams params = gpsView.getLayoutParams();
+        params.height = 0;
+        gpsView.setLayoutParams(params);
+    }
+
+    private File get_gpx_file() {
+        final String gpxTrack = currentItem.getGpxTrack();
+        if (gpxTrack != null) {
+            File file = new File(gpxTrack);
+            if (file.exists()) {
+                return file;
+            } else {
+                return null;
+            }
+        }
+        return null;
+    }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

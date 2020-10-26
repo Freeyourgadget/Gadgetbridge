@@ -24,6 +24,7 @@ import android.widget.Toast;
 
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -72,6 +73,10 @@ public class PineTimeJFSupport extends AbstractBTLEDeviceSupport implements DfuL
     private static final Logger LOG = LoggerFactory.getLogger(PineTimeJFSupport.class);
     private final GBDeviceEventVersionInfo versionCmd = new GBDeviceEventVersionInfo();
     private final DeviceInfoProfile<PineTimeJFSupport> deviceInfoProfile;
+    private final int MaxNotificationLength = 100;
+    private int firmwareVersionMajor = 0;
+    private int firmwareVersionMinor = 0;
+    private int firmwareVersionPatch = 0;
     /**
      * These are used to keep track when long strings haven't changed,
      * thus avoiding unnecessary transfers that are (potentially) very slow.
@@ -227,8 +232,19 @@ public class PineTimeJFSupport extends AbstractBTLEDeviceSupport implements DfuL
     @Override
     public void onNotification(NotificationSpec notificationSpec) {
         TransactionBuilder builder = new TransactionBuilder("notification");
-        NewAlert alert = new NewAlert(AlertCategory.CustomHuami, 1, notificationSpec.body + " "); // HACK: no idea why the last byte is swallowed
+        String message = notificationSpec.body;
+        if(!IsFirmwareAtLeastVersion0_9()) {
+            // Firmware versions prior to 0.9 ignore the last characters of the notification message
+            // Add an space character so that the whole message will be displayed
+            message += " ";
+        }
+        NewAlert alert = new NewAlert(AlertCategory.CustomHuami, 1, message);
         AlertNotificationProfile<?> profile = new AlertNotificationProfile<>(this);
+        if(IsFirmwareAtLeastVersion0_9()) {
+            // InfiniTime 0.9+ support notification message of up to 100 characters
+            // Instead of 18 by default
+            profile.setMaxLength(MaxNotificationLength);
+        }
         profile.newAlert(builder, alert, OverflowStrategy.TRUNCATE);
         builder.queue(getQueue());
     }
@@ -573,7 +589,22 @@ public class PineTimeJFSupport extends AbstractBTLEDeviceSupport implements DfuL
         LOG.warn("Device info: " + info);
         versionCmd.hwVersion = info.getHardwareRevision();
         versionCmd.fwVersion = info.getFirmwareRevision();
+
+        if(versionCmd.fwVersion != null && !versionCmd.fwVersion.isEmpty()) {
+            // FW version format : "major.minor.patch". Ex : "0.8.2"
+            String[] tokens = StringUtils.split(versionCmd.fwVersion, ".");
+            if(tokens.length == 3) {
+                firmwareVersionMajor = Integer.parseInt(tokens[0]);
+                firmwareVersionMinor = Integer.parseInt(tokens[1]);
+                firmwareVersionPatch = Integer.parseInt(tokens[2]);
+            }
+        }
+
         handleGBDeviceEvent(versionCmd);
+    }
+
+    private boolean IsFirmwareAtLeastVersion0_9() {
+        return firmwareVersionMajor > 0 || firmwareVersionMinor >= 9;
     }
 
     /**

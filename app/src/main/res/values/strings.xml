@@ -930,6 +930,7 @@
     <string name="codeberg_url" translatable="false">Code: <a href="https://codeberg.org/Freeyourgadget/Gadgetbridge">https://codeberg.org/Freeyourgadget/Gadgetbridge</a></string>
     <string name="fdroid_url" translatable="false">F-Droid: <a href="https://f-droid.org/packages/nodomain.freeyourgadget.gadgetbridge/">https://f-droid.org/packages/nodomain.freeyourgadget.gadgetbridge/</a></string>
     <string name="about_title">About</string>
+    <string name="about_version">Version %s</string>
     <string name="about_activity_title">About Gadgetbridge</string>
     <string name="about_description">Cloudless copylefted libre replacement for closed source Android gadget apps from vendors.</string>
     <string name="about_core_team_title">Core Team (in order of first code contribution)</string>
@@ -1022,6 +1023,7 @@
     <string name="activity_detail_end_label">End</string>
     <string name="activity_detail_duration_label">Duration</string>
     <string name="activity_detail_show_gps_label">Show GPS Track</string>
+    <string name="gps_track">GPS track</string>
     <!-- Device Actions Preferences -->
     <string name="prefs_events_forwarding_summary">Use device events to trigger actions and Android broadcasts</string>
     <string name="prefs_events_forwarding_title">Device actions</string>
