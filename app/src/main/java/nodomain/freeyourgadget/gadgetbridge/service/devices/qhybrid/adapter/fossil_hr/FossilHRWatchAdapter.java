@@ -12,6 +12,8 @@ import android.graphics.Paint;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
+import android.os.Handler;
+import android.os.Looper;
 import android.widget.Toast;
 
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
@@ -57,6 +59,7 @@ import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.Weather;
 import nodomain.freeyourgadget.gadgetbridge.model.WeatherSpec;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
+import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.SetDeviceStateAction;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.QHybridSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.adapter.fossil.FossilWatchAdapter;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.file.FileHandle;
@@ -134,6 +137,17 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
 
     @Override
     public void initialize() {
+        try {
+            getSecretKey();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+            toast(e.getMessage());
+            new TransactionBuilder("init fail")
+                    .add(new SetDeviceStateAction(getDeviceSupport().getDevice(), GBDevice.State.AUTHENTICATION_REQUIRED, getContext()))
+                    .queue(getDeviceSupport().getQueue());
+            return;
+        }
+
         saveRawActivityFiles = getDeviceSpecificPreferences().getBoolean("save_raw_activity_files", false);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -573,10 +587,27 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
     }
 
     private void negotiateSymmetricKey() {
-        queueWrite(new VerifyPrivateKeyRequest(
-                this.getSecretKey(),
-                this
-        ));
+        try {
+            queueWrite(new VerifyPrivateKeyRequest(
+                    this.getSecretKey(),
+                    this
+            ));
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+            toast(e.getMessage());
+            getDeviceSupport().getDevice().setState(GBDevice.State.AUTHENTICATION_REQUIRED);
+            getDeviceSupport().getDevice().sendDeviceUpdateIntent(getContext());
+            getDeviceSupport().getQueue().clear();
+        }
+    }
+
+    private void toast(final String data){
+        new Handler(Looper.getMainLooper()).post(new Runnable() {
+            @Override
+            public void run() {
+                Toast.makeText(getContext(), data, Toast.LENGTH_LONG).show();
+            }
+        });
     }
 
     @Override
@@ -628,7 +659,7 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
     public void onFetchActivityData() {
         syncSettings();
 
-        queueWrite(new VerifyPrivateKeyRequest(this.getSecretKey(), this));
+        negotiateSymmetricKey();
         queueWrite(new FileLookupRequest(FileHandle.ACTIVITY_FILE, this) {
             @Override
             public void handleFileLookup(final short fileHandle) {
@@ -948,17 +979,20 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
     }
 
 
-    public byte[] getSecretKey() {
+    public byte[] getSecretKey() throws IllegalAccessException {
         byte[] authKeyBytes = new byte[16];
 
         SharedPreferences sharedPrefs = GBApplication.getDeviceSpecificSharedPrefs(getDeviceSupport().getDevice().getAddress());
 
         String authKey = sharedPrefs.getString("authkey", null);
         if (authKey != null && !authKey.isEmpty()) {
-            byte[] srcBytes = authKey.trim().getBytes();
-            if (authKey.length() == 34 && authKey.startsWith("0x")) {
-                srcBytes = GB.hexStringToByteArray(authKey.substring(2));
+            authKey = authKey.replace(" ", "");
+            authKey = authKey.replace("0x", "");
+            if(authKey.length() != 32){
+                throw new IllegalAccessException("Key should be 16 bytes long as hex string");
             }
+            byte[] srcBytes = GB.hexStringToByteArray(authKey);
+
             System.arraycopy(srcBytes, 0, authKeyBytes, 0, Math.min(srcBytes.length, 16));
         }
 

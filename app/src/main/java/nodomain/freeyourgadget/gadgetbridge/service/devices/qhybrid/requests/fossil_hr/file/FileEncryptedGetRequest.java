@@ -72,7 +72,12 @@ public abstract class FileEncryptedGetRequest extends FossilRequest {
     private void initDecryption() {
         try {
             cipher = Cipher.getInstance("AES/CTR/NoPadding");
-            keySpec = new SecretKeySpec(this.adapter.getSecretKey(), "AES");
+            try {
+                keySpec = new SecretKeySpec(this.adapter.getSecretKey(), "AES");
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+                return;
+            }
 
 
             iv = new byte[16];
