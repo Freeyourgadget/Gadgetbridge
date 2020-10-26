@@ -24,6 +24,7 @@ import java.util.UUID;
 import java.util.zip.CRC32;
 
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.adapter.fossil.FossilWatchAdapter;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.file.FileHandle;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.FossilRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.file.ResultCode;
 
@@ -39,8 +40,8 @@ public abstract class FileLookupRequest extends FossilRequest {
 
     protected boolean finished = false;
 
-    public FileLookupRequest(byte fileType, FossilWatchAdapter adapter) {
-        this.fileType = fileType;
+    public FileLookupRequest(FileHandle fileHandle, FossilWatchAdapter adapter) {
+        this.fileType = fileHandle.getMajorHandle();
         this.adapter = adapter;
 
         this.data =

@@ -8,13 +8,14 @@ import nodomain.freeyourgadget.gadgetbridge.model.BatteryState;
 import nodomain.freeyourgadget.gadgetbridge.model.GenericItem;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.QHybridSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.adapter.fossil_hr.FossilHRWatchAdapter;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.file.FileHandle;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.configuration.ConfigurationPutRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.file.FileEncryptedLookupAndGetRequest;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
 public class ConfigurationGetRequest extends FileEncryptedLookupAndGetRequest {
     public ConfigurationGetRequest(FossilHRWatchAdapter adapter) {
-        super((byte) 0x08, adapter);
+        super(FileHandle.CONFIGURATION, adapter);
     }
 
     @Override

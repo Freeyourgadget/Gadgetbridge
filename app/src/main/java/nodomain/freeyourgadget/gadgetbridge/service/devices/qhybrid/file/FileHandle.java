@@ -2,6 +2,8 @@ package nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.file;
 
 public enum FileHandle {
     OTA_FILE(0x00, 0x00),
+    ACTIVITY_FILE(0x01, 0x00),
+    HARDWARE_LOG_FILE(0x02, 0x00),
     FONT_FILE(0x03, 0x00),
     MUSIC_INFO(0x04, 0x00),
     UI_CONTROL(0x05, 0x00),
@@ -31,5 +33,9 @@ public enum FileHandle {
 
     public short getHandle(){
         return (short)((handle << 8) | (subHandle));
+    }
+
+    public byte getMajorHandle() {
+        return handle;
     }
 }

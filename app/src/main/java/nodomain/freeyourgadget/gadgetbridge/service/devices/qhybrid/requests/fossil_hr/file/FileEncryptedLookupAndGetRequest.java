@@ -17,11 +17,12 @@
 package nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.file;
 
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.adapter.fossil_hr.FossilHRWatchAdapter;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.file.FileHandle;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.file.FileLookupRequest;
 
 public abstract class FileEncryptedLookupAndGetRequest extends FileLookupRequest {
-    public FileEncryptedLookupAndGetRequest(byte fileType, FossilHRWatchAdapter adapter) {
-        super(fileType, adapter);
+    public FileEncryptedLookupAndGetRequest(FileHandle fileHandle, FossilHRWatchAdapter adapter) {
+        super(fileHandle, adapter);
     }
 
     @Override

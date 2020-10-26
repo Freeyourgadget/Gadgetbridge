@@ -36,6 +36,7 @@ import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import no.nordicsemi.android.dfu.FileType;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
@@ -95,6 +96,7 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fos
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.widget.CustomWidgetElement;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.widget.Widget;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.widget.WidgetsPutRequest;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.misfit.AnimationRequest;
 import nodomain.freeyourgadget.gadgetbridge.util.FileUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
@@ -626,7 +628,7 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
         syncSettings();
 
         queueWrite(new VerifyPrivateKeyRequest(this.getSecretKey(), this));
-        queueWrite(new FileLookupRequest((byte) 0x01, this) {
+        queueWrite(new FileLookupRequest(FileHandle.ACTIVITY_FILE, this) {
             @Override
             public void handleFileLookup(final short fileHandle) {
                 queueWrite(new FileEncryptedGetRequest(fileHandle, FossilHRWatchAdapter.this) {
