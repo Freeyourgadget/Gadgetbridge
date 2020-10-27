@@ -17,6 +17,7 @@
 package nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.file;
 
 import android.bluetooth.BluetoothGattCharacteristic;
+import android.widget.Toast;
 
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
@@ -38,6 +39,7 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.adapter.foss
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.file.FileHandle;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.FossilRequest;
 import nodomain.freeyourgadget.gadgetbridge.util.CRC32C;
+import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
 public abstract class FileEncryptedGetRequest extends FossilRequest {
     private short handle;
@@ -75,7 +77,7 @@ public abstract class FileEncryptedGetRequest extends FossilRequest {
             try {
                 keySpec = new SecretKeySpec(this.adapter.getSecretKey(), "AES");
             } catch (IllegalAccessException e) {
-                e.printStackTrace();
+                GB.toast("error getting key: " + e.getMessage(), Toast.LENGTH_LONG, GB.ERROR, e);
                 return;
             }
 

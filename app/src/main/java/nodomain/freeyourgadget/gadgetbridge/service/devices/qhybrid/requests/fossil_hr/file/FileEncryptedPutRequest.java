@@ -95,7 +95,7 @@ public class FileEncryptedPutRequest extends FossilRequest {
                     try {
                         keySpec = new SecretKeySpec(this.adapter.getSecretKey(), "AES");
                     } catch (IllegalAccessException e) {
-                        e.printStackTrace();
+                        GB.toast("error getting key: " + e.getMessage(), Toast.LENGTH_LONG, GB.ERROR, e);
                         return;
                     }
                     try {

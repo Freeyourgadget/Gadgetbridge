@@ -140,8 +140,7 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
         try {
             getSecretKey();
         } catch (IllegalAccessException e) {
-            e.printStackTrace();
-            toast(e.getMessage());
+            GB.toast("erro getting key: " + e.getMessage(), Toast.LENGTH_LONG, GB.ERROR, e);
             new TransactionBuilder("init fail")
                     .add(new SetDeviceStateAction(getDeviceSupport().getDevice(), GBDevice.State.AUTHENTICATION_REQUIRED, getContext()))
                     .queue(getDeviceSupport().getQueue());
@@ -593,8 +592,7 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
                     this
             ));
         } catch (IllegalAccessException e) {
-            e.printStackTrace();
-            toast(e.getMessage());
+            GB.toast("error getting key: " + e.getMessage(), Toast.LENGTH_LONG, GB.ERROR, e);
             getDeviceSupport().getDevice().setState(GBDevice.State.AUTHENTICATION_REQUIRED);
             getDeviceSupport().getDevice().sendDeviceUpdateIntent(getContext());
             getDeviceSupport().getQueue().clear();
