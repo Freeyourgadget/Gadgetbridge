@@ -773,6 +773,7 @@
     <string name="devicetype_amazfit_gtr">Amazfit GTR</string>
     <string name="devicetype_amazfit_trex">Amazfit T-Rex</string>
     <string name="devicetype_amazfit_bips">Amazfit Bip S</string>
+    <string name="devicetype_amazfit_bips_lite">Amazfit Bip S Lite</string>
     <string name="devicetype_vibratissimo">Vibratissimo</string>
     <string name="devicetype_liveview">LiveView</string>
     <string name="devicetype_hplus">HPlus</string>
