@@ -20,6 +20,7 @@ package nodomain.freeyourgadget.gadgetbridge.activities.charts;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.format.DateUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -136,6 +137,11 @@ public class ActivityListingChartFragment extends AbstractChartFragment {
         //have an "Unknown Activity" in the list in case there are no active sessions
         List<StepAnalysis.StepSession> result = new ArrayList<>();
         int tsTo = tsDateFrom + 24 * 60 * 60 - 1;
+        if (DateUtils.isToday(tsDateFrom * 1000L)) {
+            Calendar day = Calendar.getInstance();
+            day.set(Calendar.SECOND, 0);
+            tsTo = (int) (day.getTimeInMillis() / 1000);
+        }
         result.add(new StepAnalysis.StepSession(new Date(tsDateFrom * 1000L), new Date(tsTo * 1000L), 0, 0, 0, 0, ActivityKind.TYPE_UNKNOWN));
         return result;
     }

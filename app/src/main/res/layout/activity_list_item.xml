@@ -106,7 +106,7 @@
                     <ImageView
                         android:id="@+id/line_layout_gps_icon"
                         android:layout_width="20dp"
-                        android:layout_height="20dp"
+                        android:layout_height="19dp"
                         android:layout_gravity="end"
                         android:contentDescription="@string/candidate_item_device_image"
                         app:srcCompat="@android:drawable/ic_menu_mylocation" />
@@ -116,22 +116,23 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="2dp"
+                    android:layout_marginTop="6dp"
+                    android:gravity="bottom"
                     android:orientation="horizontal">
 
                     <LinearLayout
                         android:id="@+id/line_layout_step"
                         android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
+                        android:layout_height="wrap_content"
                         android:layout_gravity="start"
-                        android:gravity="start"
+                        android:gravity="bottom|start"
                         android:orientation="horizontal">
 
                         <ImageView
                             android:id="@+id/line_layout_step_icon"
-                            android:layout_width="20dp"
-                            android:layout_height="20dp"
-                            android:layout_gravity="start"
+                            android:layout_width="19dp"
+                            android:layout_height="19dp"
+                            android:layout_gravity="bottom|start"
                             android:contentDescription="@string/candidate_item_device_image"
                             app:srcCompat="@drawable/ic_shoe" />
 
@@ -140,13 +141,12 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_gravity="start"
-                            android:layout_marginStart="2dp"
-                            android:layout_marginEnd="2dp"
+                            android:layout_marginEnd="4dp"
                             android:layout_weight="1"
                             android:gravity="start"
                             android:maxLines="1"
                             android:scrollHorizontally="false"
-                            android:text="2000" />
+                            android:text="15000" />
 
                     </LinearLayout>
 
@@ -160,8 +160,8 @@
 
                         <ImageView
                             android:id="@+id/line_layout_intensity_icon"
-                            android:layout_width="20dp"
-                            android:layout_height="20dp"
+                            android:layout_width="19dp"
+                            android:layout_height="19dp"
                             android:layout_gravity="start"
                             android:contentDescription="@string/candidate_item_device_image"
                             app:srcCompat="@drawable/ic_intensity" />
@@ -171,13 +171,12 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_gravity="start"
-                            android:layout_marginStart="2dp"
-                            android:layout_marginEnd="2dp"
+                            android:layout_marginEnd="4dp"
                             android:layout_weight="1"
                             android:gravity="start"
                             android:maxLines="1"
                             android:scrollHorizontally="false"
-                            android:text="200" />
+                            android:text="101" />
 
                     </LinearLayout>
 
@@ -191,8 +190,8 @@
 
                         <ImageView
                             android:id="@+id/line_layout_distance_icon"
-                            android:layout_width="20dp"
-                            android:layout_height="20dp"
+                            android:layout_width="19dp"
+                            android:layout_height="19dp"
                             android:layout_gravity="start"
                             android:contentDescription="@string/candidate_item_device_image"
                             app:srcCompat="@drawable/ic_distance" />
@@ -202,13 +201,12 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_gravity="start"
-                            android:layout_marginStart="2dp"
-                            android:layout_marginEnd="2dp"
+                            android:layout_marginEnd="4dp"
                             android:layout_weight="1"
                             android:gravity="start"
                             android:maxLines="1"
                             android:scrollHorizontally="false"
-                            android:text="2.5km" />
+                            android:text="15.1km" />
 
                     </LinearLayout>
 
@@ -222,8 +220,8 @@
 
                         <ImageView
                             android:id="@+id/line_layout_hr_icon"
-                            android:layout_width="20dp"
-                            android:layout_height="20dp"
+                            android:layout_width="19dp"
+                            android:layout_height="19dp"
                             android:layout_gravity="start"
                             android:contentDescription="@string/candidate_item_device_image"
                             app:srcCompat="@drawable/ic_heartrate" />
@@ -233,13 +231,12 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_gravity="start"
-                            android:layout_marginStart="2dp"
                             android:layout_marginEnd="2dp"
                             android:layout_weight="1"
                             android:gravity="start"
                             android:maxLines="1"
                             android:scrollHorizontally="false"
-                            android:text="2.5km" />
+                            android:text="122" />
 
                     </LinearLayout>
 
