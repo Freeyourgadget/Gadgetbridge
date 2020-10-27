@@ -74,6 +74,7 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.file.FileHan
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.misfit.DownloadFileRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.misfit.MoveHandsRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.misfit.PlayNotificationRequest;
+import nodomain.freeyourgadget.gadgetbridge.service.serial.GBDeviceProtocol;
 import nodomain.freeyourgadget.gadgetbridge.util.FileUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
@@ -527,7 +528,9 @@ public class QHybridSupport extends QHybridBaseSupport {
     @Override
     public void onReset(int flags) {
         super.onReset(flags);
-        this.watchAdapter.factoryReset();
+        if ((flags & GBDeviceProtocol.RESET_FLAGS_FACTORY_RESET) != 0) {
+            this.watchAdapter.factoryReset();
+        }
     }
 
     public double calculateNotificationProgress() {
