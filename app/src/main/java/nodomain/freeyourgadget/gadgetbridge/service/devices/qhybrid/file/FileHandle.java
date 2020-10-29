@@ -22,20 +22,25 @@ public enum FileHandle {
     LOOK_UP_TABLE(0x0f, 0x00),
     RATE(0x10, 0x00),
     REPLY_MESSAGES(0x13, 0x00),
+    APP_CODE(0x15, 0xFE),
     ;
 
-    private byte handle, subHandle;
+    private int handle, subHandle;
 
     FileHandle(int handle, int subHandle) {
-        this.handle = (byte) handle;
-        this.subHandle = (byte) subHandle;
+        this.handle = handle;
+        this.subHandle = subHandle;
     }
 
     public short getHandle(){
         return (short)((handle << 8) | (subHandle));
     }
 
+    public byte getMinorHandle(){
+        return (byte) subHandle;
+    }
+
     public byte getMajorHandle() {
-        return handle;
+        return (byte) handle;
     }
 }

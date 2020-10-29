@@ -19,14 +19,12 @@ public class SupportedFileVersionsInfo implements DeviceInfo {
             short version = buffer.getShort();
             supportedFileVersions.put(handle, version);
         }
+
+        supportedFileVersions.put((byte) 0x15, (short) 0x0003);
     }
 
     public short getSupportedFileVersion(FileHandle fileHandle){
-        return getSupportedFileVersion(fileHandle.getHandle());
-    }
-
-    public short getSupportedFileVersion(short fileHandle){
-        return getSupportedFileVersion((byte)((fileHandle >> 8) & 0xFF));
+        return getSupportedFileVersion(fileHandle.getMajorHandle());
     }
 
     public short getSupportedFileVersion(byte fileHandle){
