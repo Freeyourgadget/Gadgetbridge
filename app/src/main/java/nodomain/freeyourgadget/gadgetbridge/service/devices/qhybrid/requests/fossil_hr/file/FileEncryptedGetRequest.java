@@ -40,6 +40,7 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.file.FileHan
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.FossilRequest;
 import nodomain.freeyourgadget.gadgetbridge.util.CRC32C;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
+import nodomain.freeyourgadget.gadgetbridge.util.StringUtils;
 
 public abstract class FileEncryptedGetRequest extends FossilRequest {
     private short handle;
@@ -170,6 +171,8 @@ public abstract class FileEncryptedGetRequest extends FossilRequest {
             try {
                 cipher.init(Cipher.DECRYPT_MODE, keySpec, new IvParameterSpec(iv));
                 byte[] result = cipher.doFinal(value);
+
+                log("decryption result: " + StringUtils.bytesToHex(result));
 
                 incrementIV();
 
