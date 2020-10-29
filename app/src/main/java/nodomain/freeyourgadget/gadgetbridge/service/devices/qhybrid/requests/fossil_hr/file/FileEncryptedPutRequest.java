@@ -91,7 +91,13 @@ public class FileEncryptedPutRequest extends FossilRequest {
 
                     this.prepareFilePackets(this.file);
 
-                    SecretKeySpec keySpec = new SecretKeySpec(this.adapter.getSecretKey(), "AES");
+                    SecretKeySpec keySpec = null;
+                    try {
+                        keySpec = new SecretKeySpec(this.adapter.getSecretKey(), "AES");
+                    } catch (IllegalAccessException e) {
+                        GB.toast("error getting key: " + e.getMessage(), Toast.LENGTH_LONG, GB.ERROR, e);
+                        return;
+                    }
                     try {
                         Cipher cipher = Cipher.getInstance("AES/CTR/NoPadding");
 

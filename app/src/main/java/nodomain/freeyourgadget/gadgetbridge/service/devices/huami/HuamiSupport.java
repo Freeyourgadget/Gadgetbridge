@@ -2313,15 +2313,24 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
         return this;
     }
 
-    protected HuamiSupport setDisplayItemsNew(TransactionBuilder builder, int defaultSettings, Map<String, Integer> keyIdMap) {
+    protected HuamiSupport setDisplayItemsNew(TransactionBuilder builder, boolean isShortcuts, int defaultSettings, Map<String, Integer> keyIdMap) {
         if (gbDevice.getFirmwareVersion() == null) {
             LOG.warn("Device not initialized yet, won't set menu items");
             return this;
         }
 
         SharedPreferences prefs = GBApplication.getDeviceSpecificSharedPrefs(gbDevice.getAddress());
-        Set<String> pages = prefs.getStringSet(HuamiConst.PREF_DISPLAY_ITEMS, new HashSet<>(Arrays.asList(getContext().getResources().getStringArray(defaultSettings))));
-        LOG.info("Setting display items to " + (pages == null ? "none" : pages));
+        Set<String> pages;
+        byte menuType;
+        if (isShortcuts) {
+            menuType = (byte) 0xfd;
+            pages = prefs.getStringSet(HuamiConst.PREF_SHORTCUTS, new HashSet<>(Arrays.asList(getContext().getResources().getStringArray(R.array.pref_bips_shortcuts_default))));
+            LOG.info("Setting shortcuts to " + (pages == null ? "none" : pages));
+        } else {
+            menuType = (byte) 0xff;
+            pages = prefs.getStringSet(HuamiConst.PREF_DISPLAY_ITEMS, new HashSet<>(Arrays.asList(getContext().getResources().getStringArray(defaultSettings))));
+            LOG.info("Setting display items to " + (pages == null ? "none" : pages));
+        }
 
         if (pages != null) {
             byte[] command = new byte[keyIdMap.size() * 4 + 1];
@@ -2336,7 +2345,7 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
                 if (pages.contains(key)) {
                     command[pos++] = (byte) index++;
                     command[pos++] = 0x00;
-                    command[pos++] = (byte) 0xff;
+                    command[pos++] = menuType;
                     command[pos++] = (byte) id;
                 }
             }
@@ -2348,7 +2357,7 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
                 if (!pages.contains(key)) {
                     command[pos++] = (byte) index++;
                     command[pos++] = 0x01;
-                    command[pos++] = (byte) 0xff;
+                    command[pos++] = (byte) menuType;
                     command[pos++] = (byte) id;
                 }
             }
