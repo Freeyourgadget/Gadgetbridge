@@ -593,6 +593,7 @@
         <item>@string/menuitem_alarm</item>
         <item>@string/menuitem_eventreminder</item>
         <item>@string/menuitem_more</item>
+        <item>@string/menuitem_settings</item>
     </string-array>
 
     <string-array name="pref_gts_display_items_values">
@@ -607,6 +608,7 @@
         <item>@string/p_menuitem_alarm</item>
         <item>@string/p_menuitem_eventreminder</item>
         <item>@string/p_menuitem_more</item>
+        <item>@string/p_menuitem_settings</item>
     </string-array>
 
     <string-array name="pref_gts_display_items_default">
@@ -621,6 +623,7 @@
         <item>@string/p_menuitem_alarm</item>
         <item>@string/p_menuitem_eventreminder</item>
         <item>@string/p_menuitem_more</item>
+        <item>@string/p_menuitem_settings</item>
     </string-array>
 
     <string-array name="pref_bips_display_items">
