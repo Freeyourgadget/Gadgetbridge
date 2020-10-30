@@ -77,6 +77,7 @@ public abstract class FileEncryptedGetRequest extends FossilRequest {
             cipher = Cipher.getInstance("AES/CTR/NoPadding");
             try {
                 keySpec = new SecretKeySpec(this.adapter.getSecretKey(), "AES");
+                log("key: " + StringUtils.bytesToHex(keySpec.getEncoded()));
             } catch (IllegalAccessException e) {
                 GB.toast("error getting key: " + e.getMessage(), Toast.LENGTH_LONG, GB.ERROR, e);
                 return;
@@ -173,6 +174,7 @@ public abstract class FileEncryptedGetRequest extends FossilRequest {
                 byte[] result = cipher.doFinal(value);
 
                 log("decryption result: " + StringUtils.bytesToHex(result));
+                log("iv: " + StringUtils.bytesToHex(iv));
 
                 incrementIV();
 
