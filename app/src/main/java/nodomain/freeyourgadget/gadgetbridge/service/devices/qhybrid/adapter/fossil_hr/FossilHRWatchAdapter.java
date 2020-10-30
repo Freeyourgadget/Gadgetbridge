@@ -686,7 +686,7 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
                             if (saveRawActivityFiles) {
                                 writeFile(String.valueOf(System.currentTimeMillis()), fileData);
                             }
-                            queueWrite(new FileDeleteRequest(fileHandle));
+                            // queueWrite(new FileDeleteRequest(fileHandle));
                             GB.toast("synced activity data", Toast.LENGTH_SHORT, GB.INFO);
                         } catch (Exception ex) {
                             GB.toast(getContext(), "Error saving steps data: " + ex.getLocalizedMessage(), Toast.LENGTH_LONG, GB.ERROR);
@@ -947,7 +947,7 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
 
     @Override
     public void onTestNewFunction() {
-        queueWrite(new ButtonConfigurationPutRequest(
+        /*queueWrite(new ButtonConfigurationPutRequest(
                 new String[]{"test"},
                 new ButtonConfiguration[]{
                         new ButtonConfiguration(
@@ -955,7 +955,7 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
                         )
                 },
                 this
-        ));
+        ));*/
         /*queueWrite(new FileLookupAndGetRequest(FileHandle.APP_CODE, this) {
             @Override
             public void handleFileData(byte[] fileData) {
