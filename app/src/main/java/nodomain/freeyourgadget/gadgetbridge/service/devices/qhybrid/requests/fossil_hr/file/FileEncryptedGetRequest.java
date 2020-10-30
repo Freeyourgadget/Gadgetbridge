@@ -54,7 +54,10 @@ public abstract class FileEncryptedGetRequest extends FossilRequest {
 
     private Cipher cipher;
     private SecretKeySpec keySpec;
-    private byte[] iv;
+    private byte[] originalIv;
+
+    private int packetCount = 0;
+    private int ivIncrementor = 0x1f;
 
     public FileEncryptedGetRequest(short handle, FossilHRWatchAdapter adapter) {
         this.handle = handle;
@@ -83,16 +86,16 @@ public abstract class FileEncryptedGetRequest extends FossilRequest {
             }
 
 
-            iv = new byte[16];
+            originalIv = new byte[16];
 
 
             byte[] phoneRandomNumber = adapter.getPhoneRandomNumber();
             byte[] watchRandomNumber = adapter.getWatchRandomNumber();
 
-            System.arraycopy(phoneRandomNumber, 0, iv, 2, 6);
-            System.arraycopy(watchRandomNumber, 0, iv, 9, 7);
+            System.arraycopy(phoneRandomNumber, 0, originalIv, 2, 6);
+            System.arraycopy(watchRandomNumber, 0, originalIv, 9, 7);
 
-            iv[7]++;
+            originalIv[7]++;
         } catch (NoSuchAlgorithmException | NoSuchPaddingException e) {
             e.printStackTrace();
         }
@@ -102,13 +105,15 @@ public abstract class FileEncryptedGetRequest extends FossilRequest {
         return adapter;
     }
 
-    private void incrementIV(){
-        ByteBuffer buffer = ByteBuffer.wrap(this.iv);
+    private byte[] incrementIV(byte[] iv, int amount){
+        byte[] incrementedIv = new byte[iv.length];
+        System.arraycopy(iv, 0, incrementedIv, 0, iv.length);
+        ByteBuffer buffer = ByteBuffer.wrap(incrementedIv);
         int number = buffer.getInt(12);
-        number += 0x1F;
+        number += amount;
         buffer.position(12);
         buffer.putInt(number);
-        this.iv = buffer.array();
+        return buffer.array();
     }
 
     @Override
@@ -169,12 +174,29 @@ public abstract class FileEncryptedGetRequest extends FossilRequest {
             }
         } else if (characteristic.getUuid().toString().equals("3dda0004-957f-7d4a-34a6-74696673696d")) {
             try {
-                cipher.init(Cipher.DECRYPT_MODE, keySpec, new IvParameterSpec(iv));
-                byte[] result = cipher.doFinal(value);
+                byte[] result = null;
+                if(packetCount == 1) {
+                    for(int testIvSummand = 0x1e; testIvSummand < 0x30; testIvSummand++){
+                        byte[] iv = incrementIV(originalIv, testIvSummand);
+                        cipher.init(Cipher.DECRYPT_MODE, keySpec, new IvParameterSpec(iv));
+                        result = cipher.doFinal(value);
+
+                        if(result[0] == 0x01 || result[0] == 0x81){
+                            this.ivIncrementor = testIvSummand;
+                            log("iv summand: " + testIvSummand);
+                            break;
+                        }
+                        log("no iv summand found");
+                    }
+                }else{
+                    byte[] iv = incrementIV(originalIv, ivIncrementor * packetCount);
+
+                    cipher.init(Cipher.DECRYPT_MODE, keySpec, new IvParameterSpec(iv));
+                    result = cipher.doFinal(value);
+                }
 
                 log("decryption result: " + StringUtils.bytesToHex(result));
-
-                incrementIV();
+                packetCount++;
 
                 fileBuffer.put(result, 1, result.length - 1);
                 if ((result[0] & 0x80) == 0x80) {
