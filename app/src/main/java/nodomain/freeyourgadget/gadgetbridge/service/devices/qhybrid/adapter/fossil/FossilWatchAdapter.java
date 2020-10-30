@@ -54,6 +54,7 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fos
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.alarm.AlarmsSetRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.configuration.ConfigurationPutRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.device_info.DeviceInfo;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.device_info.DeviceSecurityVersionInfo;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.device_info.GetDeviceInfoRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.device_info.SupportedFileVersionsInfo;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.file.FilePutRequest;
@@ -129,10 +130,11 @@ public class FossilWatchAdapter extends WatchAdapter {
                 for(DeviceInfo info : deviceInfos){
                     if(info instanceof SupportedFileVersionsInfo){
                         FossilWatchAdapter.this.supportedFileVersions = (SupportedFileVersionsInfo) info;
-                        initializeWithSupportedFileVersions();
-                        return;
+                    }else if(info instanceof DeviceSecurityVersionInfo){
+                        getDeviceSupport().getDevice().addDeviceInfo(new GenericItem("DEVICE_SECURITY_VERSION", info.toString()));
                     }
                 }
+                initializeWithSupportedFileVersions();
             }
         });
     }

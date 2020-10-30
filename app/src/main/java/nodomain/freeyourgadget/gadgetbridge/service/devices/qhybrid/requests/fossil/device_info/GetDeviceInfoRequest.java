@@ -11,6 +11,7 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fos
 public class GetDeviceInfoRequest extends FileGetRequest {
     enum INFO_CLASS{
         SUPPORTED_FILE_VERSIONS((short) 0x0a, SupportedFileVersionsInfo.class),
+        DEVICE_SECURITY_VERSION((short) 0x0e, DeviceSecurityVersionInfo.class),
         ;
         private short identifier;
         private  Class<? extends DeviceInfo> itemClass;
