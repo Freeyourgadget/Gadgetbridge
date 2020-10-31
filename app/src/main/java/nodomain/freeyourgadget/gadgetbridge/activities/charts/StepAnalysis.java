@@ -24,6 +24,7 @@ import java.util.Date;
 import java.util.List;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
+import nodomain.freeyourgadget.gadgetbridge.activities.HeartRateUtils;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityKind;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityUser;
@@ -64,12 +65,12 @@ public class StepAnalysis {
 
         float activeIntensity = 0;
         float intensityBetweenActivePeriods = 0;
-
+        HeartRateUtils heartRateUtilsInstance = HeartRateUtils.getInstance();
 
         for (ActivitySample sample : samples) {
             if (sample.getKind() != ActivityKind.TYPE_SLEEP //anything but sleep counts
                     && !(sample instanceof TrailingActivitySample)) { //trailing samples have wrong date and make trailing activity have 0 duration
-                if (sample.getHeartRate() != 255 && sample.getHeartRate() != -1) {
+                if (heartRateUtilsInstance.isValidHeartRateValue(sample.getHeartRate())) {
                     heartRateToAdd = sample.getHeartRate();
                     activeHrSamplesToAdd = 1;
                 } else {

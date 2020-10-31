@@ -146,6 +146,7 @@ public abstract class AbstractChartFragment extends AbstractGBFragment {
     protected int AK_NOT_WORN_COLOR;
 
     protected String HEARTRATE_LABEL;
+    protected String HEARTRATE_AVERAGE_LABEL;
 
     protected AbstractChartFragment(String... intentFilterActions) {
         mIntentFilterActions = new HashSet<>();
@@ -197,6 +198,7 @@ public abstract class AbstractChartFragment extends AbstractGBFragment {
         AK_NOT_WORN_COLOR = runningColor.data;
 
         HEARTRATE_LABEL = getContext().getString(R.string.charts_legend_heartrate);
+        HEARTRATE_AVERAGE_LABEL = getContext().getString(R.string.charts_legend_heartrate_average);
 
         akActivity = new ActivityConfig(ActivityKind.TYPE_ACTIVITY, getString(R.string.abstract_chart_fragment_kind_activity), AK_ACTIVITY_COLOR);
         akLightSleep = new ActivityConfig(ActivityKind.TYPE_LIGHT_SLEEP, getString(R.string.abstract_chart_fragment_kind_light_sleep), AK_LIGHT_SLEEP_COLOR);

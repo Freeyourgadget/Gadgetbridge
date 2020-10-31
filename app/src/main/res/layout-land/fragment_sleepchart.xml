@@ -1,40 +1,56 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="nodomain.freeyourgadget.gadgetbridge.activities.charts.ChartsActivity$PlaceholderFragment"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    tools:context="nodomain.freeyourgadget.gadgetbridge.activities.charts.ChartsActivity$PlaceholderFragment">
 
-    <TextView
-        android:id="@+id/sleepchart_info"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:layout_weight="90" />
+    <include
+        layout="@layout/heartrate_average_widget"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:layout_gravity="top|end"
+        android:layout_marginTop="-5dp"
+        android:layout_marginEnd="-2dp" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight="10"
-        android:orientation="horizontal">
+        android:orientation="vertical">
 
-        <com.github.mikephil.charting.charts.PieChart
-            android:id="@+id/sleepchart_pie_light_deep"
+        <TextView
+            android:id="@+id/sleepchart_info"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
-            android:layout_weight="40" />
+            android:layout_weight="90" />
 
-        <com.github.mikephil.charting.charts.LineChart
-            android:id="@+id/sleepchart"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:layout_weight="20" />
-    </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="10"
+            android:orientation="horizontal">
+
+            <com.github.mikephil.charting.charts.PieChart
+                android:id="@+id/sleepchart_pie_light_deep"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_weight="40" />
+
+            <com.github.mikephil.charting.charts.LineChart
+                android:id="@+id/sleepchart"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_weight="20" />
+        </LinearLayout>
 
 
-    <!--<TextView-->
+        <!--<TextView-->
         <!--android:text="Test"-->
         <!--android:layout_width="fill_parent"-->
         <!--android:layout_height="fill_parent"-->
         <!--android:layout_weight="20" />-->
 
-</LinearLayout>
+    </LinearLayout>
+</RelativeLayout>
