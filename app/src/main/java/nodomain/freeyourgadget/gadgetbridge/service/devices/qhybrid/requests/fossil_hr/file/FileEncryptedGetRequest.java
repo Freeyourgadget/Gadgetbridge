@@ -56,6 +56,8 @@ public abstract class FileEncryptedGetRequest extends FossilRequest {
     private SecretKeySpec keySpec;
     private byte[] originalIv;
 
+    int fileSize;
+
     private int packetCount = 0;
     private int ivIncrementor = 0x1f;
 
@@ -133,7 +135,7 @@ public abstract class FileEncryptedGetRequest extends FossilRequest {
                 this.initDecryption();
 
                 short handle = buffer.getShort(1);
-                int size = buffer.getInt(4);
+                fileSize = buffer.getInt(4);
 
                 byte status = buffer.get(3);
 
@@ -145,8 +147,8 @@ public abstract class FileEncryptedGetRequest extends FossilRequest {
                 if (this.handle != handle) {
                     throw new RuntimeException("handle: " + handle + "   expected: " + this.handle);
                 }
-                log("file size: " + size);
-                fileBuffer = ByteBuffer.allocate(size);
+                log("file size: " + fileSize);
+                fileBuffer = ByteBuffer.allocate(fileSize);
             } else if ((first & 0x0F) == 8) {
                 this.finished = true;
 
@@ -181,7 +183,11 @@ public abstract class FileEncryptedGetRequest extends FossilRequest {
                         cipher.init(Cipher.DECRYPT_MODE, keySpec, new IvParameterSpec(iv));
                         result = cipher.doFinal(value);
 
-                        if(result[0] == 0x01 || result[0] == 0x81){
+                        int currentLength = fileBuffer.position() + result.length - 1;
+
+                        byte expectedByte = (currentLength == fileSize) ? (byte)0x81 : (byte)0x01; // 0x81 indicated the last payload
+
+                        if(result[0] == expectedByte){
                             this.ivIncrementor = testIvSummand;
                             log("iv summand: " + testIvSummand);
                             break;
