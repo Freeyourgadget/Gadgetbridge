@@ -28,6 +28,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.constraintlayout.widget.ConstraintLayout;
+
 import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.charts.Chart;
 import com.github.mikephil.charting.charts.LineChart;
@@ -73,7 +75,10 @@ public class SleepChartFragment extends AbstractChartFragment {
     private PieChart mSleepAmountChart;
     private TextView mSleepchartInfo;
     private TextView heartRateAverageLabel;
-    private ImageView heartRateWidget;
+    private ImageView heartRateIcon;
+    private int heartRateMin = 0;
+    private int heartRateMax = 0;
+
 
     private int mSmartAlarmFrom = -1;
     private int mSmartAlarmTo = -1;
@@ -192,6 +197,8 @@ public class SleepChartFragment extends AbstractChartFragment {
         mActivityChart.getXAxis().setValueFormatter(mcd.getChartsData().getXValueFormatter());
         mActivityChart.setData(mcd.getChartsData().getData());
         mSleepchartInfo.setText(buildYouSleptText(pieData));
+        heartRateMin = mcd.getHeartRateAxisMin();
+        heartRateMax = mcd.getHeartRateAxisMax();
 
         if (!CHARTS_SLEEP_RANGE_24H
                 && supportsHeartrate(getChartsHost().getDevice())
@@ -289,8 +296,17 @@ public class SleepChartFragment extends AbstractChartFragment {
         mActivityChart = rootView.findViewById(R.id.sleepchart);
         mSleepAmountChart = rootView.findViewById(R.id.sleepchart_pie_light_deep);
         mSleepchartInfo = rootView.findViewById(R.id.sleepchart_info);
-        heartRateWidget = rootView.findViewById(R.id.heartrate_widget_icon);
+        heartRateIcon = rootView.findViewById(R.id.heartrate_widget_icon);
         heartRateAverageLabel = rootView.findViewById(R.id.heartrate_widget_label);
+        ConstraintLayout heartRateWidgetLayout = rootView.findViewById(R.id.heartrate_widget_layout);
+
+        heartRateWidgetLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String detailedDuration = String.format(getString(R.string.charts_min_max_heartrate_popup), heartRateMin, heartRateMax);
+                new ChartsActivity.ShowDurationDialog(detailedDuration, getContext()).show();
+            }
+        });
 
         setupActivityChart();
         setupSleepAmountChart();
@@ -372,7 +388,7 @@ public class SleepChartFragment extends AbstractChartFragment {
         deepSleepEntry.label = akDeepSleep.label;
         deepSleepEntry.formColor = akDeepSleep.color;
         legendEntries.add(deepSleepEntry);
-        heartRateWidget.setVisibility(View.GONE); //hide heart icon
+        heartRateIcon.setVisibility(View.GONE); //hide heart icon
 
         if (supportsHeartrate(getChartsHost().getDevice())) {
             LegendEntry hrEntry = new LegendEntry();
@@ -384,7 +400,7 @@ public class SleepChartFragment extends AbstractChartFragment {
                 hrAverageEntry.label = HEARTRATE_AVERAGE_LABEL;
                 hrAverageEntry.formColor = Color.RED;
                 legendEntries.add(hrAverageEntry);
-                heartRateWidget.setVisibility(View.VISIBLE);
+                heartRateIcon.setVisibility(View.VISIBLE);
             }
         }
         chart.getLegend().setCustom(legendEntries);
@@ -432,12 +448,12 @@ public class SleepChartFragment extends AbstractChartFragment {
         private final DefaultChartsData<LineData> chartsData;
         private final MySleepChartsData pieData;
         private final float heartRateAverage;
-        private float heartRateAxisMax;
-        private float heartRateAxisMin;
+        private int heartRateAxisMax;
+        private int heartRateAxisMin;
         private float intensityAxisMax;
         private float intensityAxisMin;
 
-        public MyChartsData(MySleepChartsData pieData, DefaultChartsData<LineData> chartsData, float heartRateAverage, float heartRateAxisMin, float heartRateAxisMax, float intensityAxisMin, float intensityAxisMax) {
+        public MyChartsData(MySleepChartsData pieData, DefaultChartsData<LineData> chartsData, float heartRateAverage, int heartRateAxisMin, int heartRateAxisMax, float intensityAxisMin, float intensityAxisMax) {
             this.pieData = pieData;
             this.chartsData = chartsData;
             this.heartRateAverage = heartRateAverage;
@@ -457,13 +473,11 @@ public class SleepChartFragment extends AbstractChartFragment {
             return heartRateAverage;
         }
 
-        public float getHeartRateAxisMax() {
+        public int getHeartRateAxisMax() {
             return heartRateAxisMax;
         }
 
-        public float getHeartRateAxisMin() {
-            return heartRateAxisMin;
-        }
+        public int getHeartRateAxisMin() { return heartRateAxisMin; }
 
         public float getIntensityAxisMax() {
             return intensityAxisMax;

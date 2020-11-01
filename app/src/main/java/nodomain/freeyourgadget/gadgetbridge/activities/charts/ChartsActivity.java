@@ -65,7 +65,7 @@ public class ChartsActivity extends AbstractGBFragmentActivity implements Charts
 
     LimitedQueue mActivityAmountCache = new LimitedQueue(60);
 
-    private static class ShowDurationDialog extends Dialog {
+    public static class ShowDurationDialog extends Dialog {
         private final String mDuration;
         private TextView durationLabel;
 
