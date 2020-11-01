@@ -333,7 +333,7 @@ public class ControlCenterv2 extends AppCompatActivity
         if (GBApplication.getPrefs().getBoolean("display_add_device_fab", true)) {
             fab.show();
         } else {
-            if (deviceListView.getChildCount() < 1) {
+            if (deviceManager.getDevices().size() < 1) {
                 fab.show();
             } else {
                 fab.hide();
