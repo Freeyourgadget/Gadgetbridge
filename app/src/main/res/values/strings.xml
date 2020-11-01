@@ -8,6 +8,7 @@
     <string name="action_donate">Donate</string>
     <string name="controlcenter_fetch_activity_data">Synchronize</string>
     <string name="controlcenter_find_device">Find lost device</string>
+    <string name="find_lost_device_message">Search for %1$s?</string>
     <string name="controlcenter_take_screenshot">Take Screenshot</string>
     <string name="controlcenter_change_led_color">Change LED Color</string>
     <string name="controlcenter_change_fm_frequency">Change FM Frequency</string>
