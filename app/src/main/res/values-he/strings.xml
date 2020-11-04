@@ -1095,4 +1095,12 @@
     <string name="activity_prefs_step_length_cm">אורך צעד בס״מ</string>
     <string name="devicetype_amazfit_band5">Amazfit Band 5</string>
     <string name="menuitem_spo2">ריווי חמצן בדם</string>
+    <string name="qhybrid_calibration_align_hint">לכוון את המחוגים ל־12:00</string>
+    <string name="gps_track">מסלול GPS</string>
+    <string name="about_version">גרסה %s</string>
+    <string name="devicetype_amazfit_bips_lite">Amazfit Bip S Lite</string>
+    <string name="charts_legend_heartrate_average">דופק ממוצע</string>
+    <string name="charts_min_max_heartrate_popup">דופק נמוך: %1$d
+\nדופק גבוה: %2$d</string>
+    <string name="find_lost_device_message">לחפש אחר %1$s\?</string>
 </resources>
