@@ -1093,7 +1093,7 @@
     <string name="sonyswr12_settings_low_vibration">Düşük titreşim etkin</string>
     <string name="sonyswr12_settings_alarm_interval">Dakikalar içinde akıllı alarm aralığı</string>
     <string name="sonyswr12_settings_low_vibration_summary">Bileklik üzerinde düşük titreşim yoğunluğu sağlayın</string>
-    <string name="sonyswr12_settings_stamina_summary">Güç tasarrufu modu, kalp atış hızının periyodik otomatik ölçümünü kapatır ve böylece çalışma süresini uzatır</string>
+    <string name="sonyswr12_settings_stamina_summary">Güç tasarrufu modu, kalp ritminin periyodik olarak otomatik ölçümünü kapatır ve böylece çalışma süresini uzatır</string>
     <string name="sonyswr12_settings_alarm_interval_summary">Akıllı alarm aralığı, kurulu alarmdan önceki aralıktır. Bu aralıkta cihaz, kullanıcıyı uyandırmak için uykunun en hafif aşamasını tespit etmeye çalışıyor</string>
     <string name="sonyswr12_settings_stamina">Güç tasarrufu modu açık</string>
     <string name="devicetype_nut_mini">Nut mini</string>
@@ -1123,4 +1123,12 @@
     <string name="activity_prefs_step_length_cm">Santimetre cinsinden adım uzunluğu</string>
     <string name="devicetype_amazfit_band5">Amazfit Band 5</string>
     <string name="menuitem_spo2">SpO2</string>
+    <string name="qhybrid_calibration_align_hint">ibreleri 12:00\'ye hizala</string>
+    <string name="gps_track">GPS izleme</string>
+    <string name="about_version">Sürüm %s</string>
+    <string name="devicetype_amazfit_bips_lite">Amazfit Bip S Lite</string>
+    <string name="charts_legend_heartrate_average">Kalp ritmi ortalaması</string>
+    <string name="charts_min_max_heartrate_popup">En düşük kalp ritmi: %1$d
+\nEn yüksek kalp ritmi: %2$d</string>
+    <string name="find_lost_device_message">%1$s aransın mı\?</string>
 </resources>
