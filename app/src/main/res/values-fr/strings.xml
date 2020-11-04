@@ -1093,4 +1093,12 @@ Temps de sommeil préféré en heures</string>
     <string name="devicetype_amazfit_band5">Amazfit Band 5</string>
     <string name="activity_prefs_step_length_cm">Longueur de pas en cm</string>
     <string name="menuitem_spo2">SpO2</string>
+    <string name="qhybrid_calibration_align_hint">aligner les mains à midi</string>
+    <string name="gps_track">Trace GPS</string>
+    <string name="about_version">Version %s</string>
+    <string name="devicetype_amazfit_bips_lite">Amazfit Bip S Lite</string>
+    <string name="charts_legend_heartrate_average">Rythme cardiaque moyen</string>
+    <string name="charts_min_max_heartrate_popup">Rythme cardiaque le plus faible: %1$d
+\nRythme cardiaque le plus élevé: %2$d</string>
+    <string name="find_lost_device_message">Rechercher %1$s \?</string>
 </resources>
