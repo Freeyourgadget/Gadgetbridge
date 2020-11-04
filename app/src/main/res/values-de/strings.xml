@@ -1107,4 +1107,5 @@
     <string name="pref_title_upper_button_function_short">Obere Taste kurz</string>
     <string name="activity_prefs_step_length_cm">Schrittlänge in cm</string>
     <string name="qhybrid_calibration_align_hint">Zeiger auf 12:00 ausrichten</string>
+    <string name="devicetype_amazfit_band5">Amazfit Band 5</string>
 </resources>
