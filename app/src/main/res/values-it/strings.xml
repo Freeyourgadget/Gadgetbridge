@@ -745,7 +745,7 @@
     <string name="devicetype_makibes_hr3">Makibes HR3</string>
     <string name="devicetype_amazfit_bip_lite">Amazfit Bip Lite</string>
     <string name="prefs_find_phone">Trova telefono</string>
-    <string name="prefs_enable_find_phone">Attivare \\\'Trova telefono \\\'</string>
+    <string name="prefs_enable_find_phone">Abilita \'Trova telefono\'</string>
     <string name="prefs_find_phone_summary">Usa la tua band per riprodurre la suoneria del tuo telefono.</string>
     <string name="prefs_find_phone_duration">Durata dello squillo in secondi</string>
     <string name="maximum_duration">Durata</string>
@@ -985,7 +985,7 @@
     <string name="activity_type_cricket">Cricket</string>
     <string name="activity_type_yoga">Yoga</string>
     <string name="devicetype_sg2">Lemfo SG2</string>
-    <string name="activity_type_badminton">Badminton</string>
+    <string name="activity_type_badminton">Volano</string>
     <string name="activity_type_pingpong">Ping Pong</string>
     <string name="Strokes">Bracciate</string>
     <string name="averageStrokesPerSecond">Bracciate medie</string>
@@ -1049,4 +1049,40 @@
     <string name="sonyswr12_settings_low_vibration_summary">Abilita una bassa intensità di vibrazione sulla banda</string>
     <string name="sonyswr12_settings_stamina_summary">La modalità di risparmio energetico disattiva la misurazione automatica periodica della frequenza cardiaca, quindi aumenta il tempo di lavoro</string>
     <string name="sonyswr12_settings_alarm_interval_summary">L\'intervallo di allarme intelligente è l\'intervallo prima dell\'allarme installato. In questo intervallo il dispositivo sta cercando di rilevare la fase più leggera del sonno per svegliare l\'utente</string>
+    <string name="gps_track">Traccia GPS</string>
+    <string name="about_version">Versione %s</string>
+    <string name="devicetype_amazfit_bips_lite">Amazfit Bip S Lite</string>
+    <string name="devicetype_amazfit_band5">Amazfit Band 5</string>
+    <string name="activity_error_no_app_for_png">Per condividere questa schermata, installa un\'app che possa aprire file di immagine.</string>
+    <string name="charts_legend_heartrate_average">Media del battito cardiaco</string>
+    <string name="activity_prefs_chart_min_session_length">Lunghezza minima delle attività (minuti)</string>
+    <string name="activity_prefs_chart_max_idle_phase_length">Lunghezza della pausa per la separazione delle attività (minuti)</string>
+    <string name="activity_prefs_chart_min_steps_per_minute">Numero minimo di passi al minuto per il rilevamento di attività</string>
+    <string name="activity_prefs_chart_min_steps_per_minute_for_run">Numero minimo di passi al minuto per il rilevamento della corsa</string>
+    <string name="activity_prefs_step_length_cm">Lunghezza del passo in cm</string>
+    <string name="lefun_prefs_interface_language_title">Lingua interfaccia</string>
+    <string name="lefun_prefs_antilost_summary">La band vibrerà se il tuo telefono si scollega dalla band</string>
+    <string name="lefun_prefs_antilost_title">Anti-perdita</string>
+    <string name="lefun_prefs_hydration_reminder_interval_title">Intervallo di promemoria per l\'acqua (in minuti)</string>
+    <string name="lefun_prefs_hydration_reminder_summary">La band vibrerà per ricordarti di bere dell\'acqua</string>
+    <string name="lefun_prefs_hydration_reminder_title">Promemoria per l\'acqua</string>
+    <string name="charts_min_max_heartrate_popup">Valore del battito cardiaco più basso: %1$d
+\nValore del battito cardiaco più alco: %2$d</string>
+    <string name="firmware_update_progress">Caricamento in corso
+\n%1d%% a %.2fkbps (media %.2fkbps)
+\nParte %1d di %1d</string>
+    <string name="devicestatus_upload_failed">Caricamento non riuscito</string>
+    <string name="devicestatus_upload_aborted">Caricamento annullato!</string>
+    <string name="devicestatus_upload_validating">Il caricamento è in fase di validazione</string>
+    <string name="devicestatus_upload_completed">Caricamento completato</string>
+    <string name="devicestatus_disconnected">Il dispositivo si è disconnesso!</string>
+    <string name="devicestatus_disconnecting">Il dispositivo si sta disconnettendo!</string>
+    <string name="devicestatus_upload_started">Il caricamento è iniziato</string>
+    <string name="devicestatus_upload_starting">Avvio del caricamento</string>
+    <string name="devicestatus_connected">Dispositivo connesso</string>
+    <string name="devicestatus_connecting">Connessione al dispositivo</string>
+    <string name="charts_activity_list">Elenco attività</string>
+    <string name="chart_get_active_and_synchronize">Fai qualche attività e sincronizza il dispositivo.</string>
+    <string name="chart_no_active_data">Nessuna attività rilevata.</string>
+    <string name="find_lost_device_message">Cercare %1$s\?</string>
 </resources>
