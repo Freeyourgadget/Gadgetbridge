@@ -1088,7 +1088,7 @@
     <string name="pref_title_lower_button_function_short">短按底部按钮</string>
     <string name="pref_title_middle_button_function_short">短按中间按钮</string>
     <string name="pref_title_upper_button_function_short">短按上按钮</string>
-    <string name="firmware_update_progress">正在处理上传：
+    <string name="firmware_update_progress">上传正在处理中。
 \n%1d%% 的 %.2fkbps (平均 %.2fkbps)
 \n分段 %1d 的 %1d</string>
     <string name="devicestatus_upload_failed">上传已失败</string>
@@ -1104,4 +1104,12 @@
     <string name="activity_prefs_step_length_cm">步伐厘米长度</string>
     <string name="devicetype_amazfit_band5">米动手环 5</string>
     <string name="menuitem_spo2">血氧饱和度</string>
+    <string name="qhybrid_calibration_align_hint">将手对齐到 12:00</string>
+    <string name="gps_track">GPS 跟踪</string>
+    <string name="about_version">版本 %s</string>
+    <string name="devicetype_amazfit_bips_lite">华米 Bip S Lite</string>
+    <string name="charts_legend_heartrate_average">平均心率</string>
+    <string name="charts_min_max_heartrate_popup">最低心率：%1$d
+\n最高心率：%2$d</string>
+    <string name="find_lost_device_message">搜索 %1$s ？</string>
 </resources>
