@@ -59,6 +59,8 @@ public class ActivityListingChartFragment extends AbstractChartFragment {
         rootView = inflater.inflate(R.layout.fragment_steps_list, container, false);
 
         ListView stepsList = rootView.findViewById(R.id.itemListView);
+        View headerView = inflater.inflate(R.layout.heartrate_average_widget,null, false);
+        stepsList.addHeaderView(headerView);
         stepListAdapter = new ActivityListingAdapter(getContext());
         stepsList.setAdapter(stepListAdapter);
         stepsDateView = rootView.findViewById(R.id.stepsDateView);

@@ -5,14 +5,6 @@
     android:orientation="vertical"
     tools:context="nodomain.freeyourgadget.gadgetbridge.activities.charts.ChartsActivity$PlaceholderFragment">
 
-    <include
-        layout="@layout/heartrate_average_widget"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentRight="true"
-        android:layout_gravity="top|end" />
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -38,4 +30,21 @@
 
     </LinearLayout>
 
+    <include
+        layout="@layout/heartrate_average_widget"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:layout_gravity="top|end" />
+
+    <include
+        layout="@layout/intensity_total_widget"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="50dp"
+        android:layout_marginEnd="-1dp"
+        android:layout_gravity="top|end" />
 </RelativeLayout>
