@@ -1884,9 +1884,11 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
                     setDisconnectNotification(builder);
                     break;
                 case HuamiConst.PREF_DISPLAY_ITEMS:
+                case HuamiConst.PREF_DISPLAY_ITEMS_SORTABLE:
                     setDisplayItems(builder);
                     break;
                 case HuamiConst.PREF_SHORTCUTS:
+                case HuamiConst.PREF_SHORTCUTS_SORTABLE:
                     setShortcuts(builder);
                     break;
                 case MiBandConst.PREF_MI2_ROTATE_WRIST_TO_SWITCH_INFO:
@@ -2314,55 +2316,53 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
     }
 
     protected HuamiSupport setDisplayItemsNew(TransactionBuilder builder, boolean isShortcuts, int defaultSettings, Map<String, Integer> keyIdMap) {
-        if (gbDevice.getFirmwareVersion() == null) {
-            LOG.warn("Device not initialized yet, won't set menu items");
-            return this;
-        }
-
         SharedPreferences prefs = GBApplication.getDeviceSpecificSharedPrefs(gbDevice.getAddress());
-        Set<String> pages;
+        String pages;
+        List<String> enabledList;
         byte menuType;
         if (isShortcuts) {
             menuType = (byte) 0xfd;
-            pages = prefs.getStringSet(HuamiConst.PREF_SHORTCUTS, new HashSet<>(Arrays.asList(getContext().getResources().getStringArray(R.array.pref_bips_shortcuts_default))));
-            LOG.info("Setting shortcuts to " + (pages == null ? "none" : pages));
+            pages = prefs.getString(HuamiConst.PREF_SHORTCUTS_SORTABLE, null);
+            LOG.info("Setting shortcuts");
         } else {
             menuType = (byte) 0xff;
-            pages = prefs.getStringSet(HuamiConst.PREF_DISPLAY_ITEMS, new HashSet<>(Arrays.asList(getContext().getResources().getStringArray(defaultSettings))));
-            LOG.info("Setting display items to " + (pages == null ? "none" : pages));
+            pages = prefs.getString(HuamiConst.PREF_DISPLAY_ITEMS_SORTABLE, null);
+            LOG.info("Setting menu items");
         }
-
-        if (pages != null) {
-            byte[] command = new byte[keyIdMap.size() * 4 + 1];
-            command[0] = 0x1e;
-            // it seem that we first have to put all ENABLED items into the array
-            int pos = 1;
-            int index = 0;
-            for (Map.Entry<String, Integer> entry : keyIdMap.entrySet()) {
-                String key = entry.getKey();
-                int id = entry.getValue();
-
-                if (pages.contains(key)) {
-                    command[pos++] = (byte) index++;
-                    command[pos++] = 0x00;
-                    command[pos++] = menuType;
-                    command[pos++] = (byte) id;
-                }
-            }
-            // And then all DISABLED ones
-            for (Map.Entry<String, Integer> entry : keyIdMap.entrySet()) {
-                String key = entry.getKey();
-                int id = entry.getValue();
-
-                if (!pages.contains(key)) {
-                    command[pos++] = (byte) index++;
-                    command[pos++] = 0x01;
-                    command[pos++] = (byte) menuType;
-                    command[pos++] = (byte) id;
-                }
-            }
-            writeToChunked(builder, 2, command);
+        if (pages == null) {
+            enabledList = Arrays.asList(getContext().getResources().getStringArray(defaultSettings));
+        } else {
+            enabledList = Arrays.asList(pages.split(","));
         }
+        LOG.info("enabled items" + enabledList);
+
+        byte[] command = new byte[keyIdMap.size() * 4 + 1];
+        command[0] = 0x1e;
+        // it seem that we first have to put all ENABLED items into the array, oder does matter
+        int pos = 1;
+        int index = 0;
+        for (String key : enabledList) {
+            Integer id = keyIdMap.get(key);
+            if (id != null) {
+                command[pos++] = (byte) index++;
+                command[pos++] = 0x00;
+                command[pos++] = menuType;
+                command[pos++] = id.byteValue();
+            }
+        }
+        // And then all DISABLED ones, order does not matter
+        for (Map.Entry<String, Integer> entry : keyIdMap.entrySet()) {
+            String key = entry.getKey();
+            int id = entry.getValue();
+
+            if (!enabledList.contains(key)) {
+                command[pos++] = (byte) index++;
+                command[pos++] = 0x01;
+                command[pos++] = (byte) menuType;
+                command[pos++] = (byte) id;
+            }
+        }
+        writeToChunked(builder, 2, command);
 
         return this;
     }
