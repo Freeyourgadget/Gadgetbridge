@@ -11,4 +11,5 @@
     android:choiceMode="multipleChoice"
     dslv:sort_enabled="true"
     dslv:remove_enabled="false"
+    dslv:float_background_color="@color/accent"
     dslv:drag_handle_id="@id/drag_handle" />
