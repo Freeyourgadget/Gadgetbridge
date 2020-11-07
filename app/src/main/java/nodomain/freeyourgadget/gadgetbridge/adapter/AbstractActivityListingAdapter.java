@@ -35,6 +35,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import nodomain.freeyourgadget.gadgetbridge.R;
+import nodomain.freeyourgadget.gadgetbridge.activities.charts.StepAnalysis;
+import nodomain.freeyourgadget.gadgetbridge.model.ActivitySession;
 
 /**
  * Adapter for displaying generic ItemWithDetails instances.
@@ -43,6 +45,7 @@ public abstract class AbstractActivityListingAdapter<T> extends ArrayAdapter<T> 
 
     private final Context context;
     private final List<T> items;
+    private final int SESSION_SUMMARY = ActivitySession.SESSION_SUMMARY;
     private int backgroundColor = 0;
     private int alternateColor = 0;
     private boolean zebraStripes = true;
@@ -67,15 +70,27 @@ public abstract class AbstractActivityListingAdapter<T> extends ArrayAdapter<T> 
         return typedValue.data;
     }
 
+
     @Override
     public View getView(int position, View view, ViewGroup parent) {
         T item = getItem(position);
-        view = null; //this is ugly (probably we get no recycling), but it is required to keep the layout nice. We have only few items, so this should be OK.
-        if (view == null) {
-            LayoutInflater inflater = (LayoutInflater) context
-                    .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            view = inflater.inflate(R.layout.activity_list_item, parent, false);
+
+        if (isSummary(item)) {
+            view = fill_dashboard(item, position, view, parent, context);
+        } else {
+            view = fill_item(item, position, view, parent);
         }
+
+        return view;
+
+
+    }
+
+    private View fill_item(T item, int position, View view, ViewGroup parent) {
+        view = null;
+        LayoutInflater inflater = (LayoutInflater) context
+                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        view = inflater.inflate(R.layout.activity_list_item, parent, false);
         TextView timeFrom = view.findViewById(R.id.line_layout_time_from);
         TextView timeTo = view.findViewById(R.id.line_layout_time_to);
         TextView activityName = view.findViewById(R.id.line_layout_activity_name);
@@ -160,6 +175,9 @@ public abstract class AbstractActivityListingAdapter<T> extends ArrayAdapter<T> 
         return view;
     }
 
+
+    protected abstract View fill_dashboard(T item, int position, View view, ViewGroup parent, Context context);
+
     protected abstract String getDateLabel(T item);
 
     protected abstract boolean hasGPS(T item);
@@ -182,6 +200,8 @@ public abstract class AbstractActivityListingAdapter<T> extends ArrayAdapter<T> 
 
     protected abstract String getDurationLabel(T item);
 
+    protected abstract String getSessionCountLabel(T item);
+
     protected abstract boolean hasHR(T item);
 
     protected abstract boolean hasIntensity(T item);
@@ -189,6 +209,14 @@ public abstract class AbstractActivityListingAdapter<T> extends ArrayAdapter<T> 
     protected abstract boolean hasDistance(T item);
 
     protected abstract boolean hasSteps(T item);
+
+    protected abstract boolean hasTotalSteps(T item);
+
+    protected abstract boolean isSummary(T item);
+
+    protected abstract boolean isEmptySummary(T item);
+
+    protected abstract String getStepTotalLabel(T item);
 
     public void setZebraStripes(boolean enable) {
         zebraStripes = enable;

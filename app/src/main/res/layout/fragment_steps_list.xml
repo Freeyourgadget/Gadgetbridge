@@ -4,7 +4,6 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context="nodomain.freeyourgadget.gadgetbridge.activities.charts.ChartsActivity$PlaceholderFragment">
-
     <TextView
         android:id="@+id/stepsDateView"
         android:layout_width="match_parent"
@@ -14,8 +13,12 @@
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
         android:textStyle="bold" />
 
+
+
     <ListView
         android:id="@+id/itemListView"
+        android:layout_marginTop="0dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
+
 </LinearLayout>

@@ -14,14 +14,13 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_activity_unknown" />
+        app:srcCompat="@drawable/ic_intensity_hollow" />
 
     <TextView
         android:id="@+id/intensity_widget_label"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:paddingBottom="3dp"
-        android:paddingEnd="3dp"
+        android:paddingTop="10dp"
         android:text=""
         android:textAlignment="center"
         android:textSize="12sp"

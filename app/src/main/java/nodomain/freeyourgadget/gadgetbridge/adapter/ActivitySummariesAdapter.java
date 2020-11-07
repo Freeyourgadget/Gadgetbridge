@@ -18,6 +18,8 @@ package nodomain.freeyourgadget.gadgetbridge.adapter;
 
 import android.content.Context;
 import android.text.format.DateUtils;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Toast;
 
 import java.util.Calendar;
@@ -135,6 +137,11 @@ public class ActivitySummariesAdapter extends AbstractActivityListingAdapter<Bas
     }
 
     @Override
+    protected View fill_dashboard(BaseActivitySummary item, int position, View view, ViewGroup parent, Context context) {
+        return null;
+    }
+
+    @Override
     protected String getDateLabel(BaseActivitySummary item) {
         Date startTime = item.getStartTime();
         String separator = ",";
@@ -220,6 +227,11 @@ public class ActivitySummariesAdapter extends AbstractActivityListingAdapter<Bas
     }
 
     @Override
+    protected String getSessionCountLabel(BaseActivitySummary item) {
+        return "";
+    }
+
+    @Override
     protected boolean hasHR(BaseActivitySummary item) {
         return false;
     }
@@ -237,6 +249,26 @@ public class ActivitySummariesAdapter extends AbstractActivityListingAdapter<Bas
     @Override
     protected boolean hasSteps(BaseActivitySummary item) {
         return false;
+    }
+
+    @Override
+    protected boolean hasTotalSteps(BaseActivitySummary item) {
+        return false;
+    }
+
+    @Override
+    protected boolean isSummary(BaseActivitySummary item) {
+        return false;
+    }
+
+    @Override
+    protected boolean isEmptySummary(BaseActivitySummary item) {
+        return false;
+    }
+
+    @Override
+    protected String getStepTotalLabel(BaseActivitySummary item) {
+        return null;
     }
 
     @Override

@@ -443,6 +443,11 @@
     <string name="weekstepschart_steps_a_week">Steps per week</string>
     <string name="activity_sleepchart_activity_and_sleep">Activity</string>
     <string name="charts_activity_list">Activity list</string>
+    <string name="activity_list_summary_active_steps">Active steps</string>
+    <string name="activity_list_summary_distance">Distance</string>
+    <string name="activity_list_summary_active_time">Active time</string>
+    <string name="activity_list_summary_intensity">Movement\nIntensity</string>
+    <string name="activity_list_summary_activities">Activities</string>
     <string name="lack_of_sleep">Lack of sleep: %1$s</string>
     <string name="overslept">Overslept: %1$s</string>
     <!-- Firmware updating -->

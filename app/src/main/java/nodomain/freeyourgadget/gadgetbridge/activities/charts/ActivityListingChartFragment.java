@@ -42,14 +42,14 @@ import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityKind;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
+import nodomain.freeyourgadget.gadgetbridge.model.ActivitySession;
 import nodomain.freeyourgadget.gadgetbridge.util.DateTimeUtils;
-
 
 public class ActivityListingChartFragment extends AbstractChartFragment {
     protected static final Logger LOG = LoggerFactory.getLogger(ActivityListingChartFragment.class);
     int tsDateFrom;
+
     private View rootView;
-    private List<? extends ActivitySample> activitySamples;
     private ActivityListingAdapter stepListAdapter;
     private TextView stepsDateView;
 
@@ -57,17 +57,15 @@ public class ActivityListingChartFragment extends AbstractChartFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.fragment_steps_list, container, false);
-
+        getChartsHost().enableSwipeRefresh(false);
         ListView stepsList = rootView.findViewById(R.id.itemListView);
-        View headerView = inflater.inflate(R.layout.heartrate_average_widget,null, false);
-        stepsList.addHeaderView(headerView);
         stepListAdapter = new ActivityListingAdapter(getContext());
         stepsList.setAdapter(stepListAdapter);
         stepsDateView = rootView.findViewById(R.id.stepsDateView);
         refresh();
-
         return rootView;
     }
+
 
     @Override
     public String getTitle() {
@@ -86,36 +84,40 @@ public class ActivityListingChartFragment extends AbstractChartFragment {
         }
     }
 
-
     @Override
     protected ChartsData refreshInBackground(ChartsHost chartsHost, DBHandler db, GBDevice device) {
-        //trying to fit found peg into square hole of the Gb Charts fragment system
-        //get the data
+        List<? extends ActivitySample> activitySamples;
         activitySamples = getSamples(db, device);
-        return null;
+        List<ActivitySession> stepSessions = null;
+        StepAnalysis stepAnalysis = new StepAnalysis();
+        boolean isEmptySummary = false;
+
+        if (activitySamples != null) {
+            stepSessions = stepAnalysis.calculateStepSessions(activitySamples);
+            if (stepSessions.toArray().length == 0) {
+                isEmptySummary = true;
+            }
+            stepSessions = stepAnalysis.calculateSummary(stepSessions, isEmptySummary);
+        }
+        return new MyChartsData(stepSessions);
     }
 
     @Override
     protected void updateChartsnUIThread(ChartsData chartsData) {
-        //top displays selected date
-        stepsDateView.setText(DateTimeUtils.formatDate(new Date(tsDateFrom * 1000L)));
-        //calculate active sessions
-        StepAnalysis stepAnalysis = new StepAnalysis();
-        if (activitySamples != null) {
-            List<StepAnalysis.StepSession> stepSessions = stepAnalysis.calculateStepSessions(activitySamples);
-            if (stepSessions.toArray().length == 0) {
-                stepSessions = create_empty_record();
-                getChartsHost().enableSwipeRefresh(true); //try to enable pull to refresh, might be needed
-            } else {
-                getChartsHost().enableSwipeRefresh(false); //disable pull to refresh as it collides with swipable view
-            }
-            //push to the adapter
-            stepListAdapter.setItems(stepSessions, true);
+        MyChartsData mcd = (MyChartsData) chartsData;
+        if (mcd.getStepSessions().toArray().length == 0) {
+            getChartsHost().enableSwipeRefresh(true); //try to enable pull to refresh, might be needed
+        } else {
+            getChartsHost().enableSwipeRefresh(false); //disable pull to refresh as it collides with swipable view
         }
+
+        stepsDateView.setText(DateTimeUtils.formatDate(new Date(tsDateFrom * 1000L)));
+        stepListAdapter.setItems(mcd.getStepSessions(), true);
     }
 
     @Override
     protected void renderCharts() {
+
     }
 
     @Override
@@ -135,16 +137,17 @@ public class ActivityListingChartFragment extends AbstractChartFragment {
         return getAllSamples(db, device, tsFrom, tsTo);
     }
 
-    private List<StepAnalysis.StepSession> create_empty_record() {
-        //have an "Unknown Activity" in the list in case there are no active sessions
-        List<StepAnalysis.StepSession> result = new ArrayList<>();
-        int tsTo = tsDateFrom + 24 * 60 * 60 - 1;
-        if (DateUtils.isToday(tsDateFrom * 1000L)) {
-            Calendar day = Calendar.getInstance();
-            day.set(Calendar.SECOND, 0);
-            tsTo = (int) (day.getTimeInMillis() / 1000);
+    private static class MyChartsData extends ChartsData {
+        private final List<ActivitySession> stepSessions;
+
+        MyChartsData(List<ActivitySession> stepSessions) {
+            this.stepSessions = stepSessions;
         }
-        result.add(new StepAnalysis.StepSession(new Date(tsDateFrom * 1000L), new Date(tsTo * 1000L), 0, 0, 0, 0, ActivityKind.TYPE_UNKNOWN));
-        return result;
+
+        public List<ActivitySession> getStepSessions() {
+            return stepSessions;
+        }
     }
+
+
 }

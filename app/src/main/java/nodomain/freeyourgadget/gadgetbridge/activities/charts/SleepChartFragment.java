@@ -21,7 +21,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -244,7 +243,7 @@ public class SleepChartFragment extends AbstractChartFragment {
         int min = Collections.min(heartRateValues);
         int max = Collections.max(heartRateValues);
         int count = heartRateValues.toArray().length;
-        float sum = calculateHRSum(heartRateValues);
+        float sum = calculateSumOfInts(heartRateValues);
         float average = sum / count;
         return Triple.of(average, min, max);
     }
@@ -257,7 +256,7 @@ public class SleepChartFragment extends AbstractChartFragment {
         return result;
     }
 
-    private float calculateHRSum(List<Integer> samples) {
+    private float calculateSumOfInts(List<Integer> samples) {
         float result = 0;
         for (Integer sample : samples) {
             result += sample;

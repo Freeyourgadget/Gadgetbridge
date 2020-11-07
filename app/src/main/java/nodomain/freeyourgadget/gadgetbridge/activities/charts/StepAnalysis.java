@@ -28,12 +28,14 @@ import nodomain.freeyourgadget.gadgetbridge.activities.HeartRateUtils;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityKind;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityUser;
+import nodomain.freeyourgadget.gadgetbridge.model.ActivitySession;
 
 public class StepAnalysis {
     protected static final Logger LOG = LoggerFactory.getLogger(StepAnalysis.class);
+    private int totalDailySteps = 0;
 
-    public List<StepSession> calculateStepSessions(List<? extends ActivitySample> samples) {
-        List<StepSession> result = new ArrayList<>();
+    public List<ActivitySession> calculateStepSessions(List<? extends ActivitySample> samples) {
+        List<ActivitySession> result = new ArrayList<>();
         ActivityUser activityUser = new ActivityUser();
         double STEP_LENGTH_M;
         final int MIN_SESSION_LENGTH = 60 * GBApplication.getPrefs().getInt("chart_list_min_session_length", 5);
@@ -41,6 +43,7 @@ public class StepAnalysis {
         final int MIN_STEPS_PER_MINUTE = GBApplication.getPrefs().getInt("chart_list_min_steps_per_minute", 40);
         int stepLengthCm = activityUser.getStepLengthCm();
         int heightCm = activityUser.getHeightCm();
+        totalDailySteps = 0;
 
         if (stepLengthCm == 0 && heightCm != 0) {
             STEP_LENGTH_M = heightCm * 0.43 * 0.01;
@@ -68,6 +71,11 @@ public class StepAnalysis {
         HeartRateUtils heartRateUtilsInstance = HeartRateUtils.getInstance();
 
         for (ActivitySample sample : samples) {
+            int steps = sample.getSteps();
+            if (steps > 0) {
+                totalDailySteps += steps;
+            }
+
             if (sample.getKind() != ActivityKind.TYPE_SLEEP //anything but sleep counts
                     && !(sample instanceof TrailingActivitySample)) { //trailing samples have wrong date and make trailing activity have 0 duration
                 if (heartRateUtilsInstance.isValidHeartRateValue(sample.getHeartRate())) {
@@ -119,7 +127,7 @@ public class StepAnalysis {
                             float distance = (float) (activeSteps * STEP_LENGTH_M);
                             sessionEnd = new Date((sample.getTimestamp() - durationSinceLastActiveStep) * 1000L);
                             activityKind = detect_activity_kind(session_length, activeSteps, heartRateAverage, activeIntensity);
-                            result.add(new StepSession(sessionStart, sessionEnd, activeSteps, heartRateAverage, activeIntensity, distance, activityKind));
+                            result.add(new ActivitySession(sessionStart, sessionEnd, activeSteps, heartRateAverage, activeIntensity, distance, activityKind));
                         }
                         sessionStart = null;
                     }
@@ -139,8 +147,65 @@ public class StepAnalysis {
                 float distance = (float) (activeSteps * STEP_LENGTH_M);
                 sessionEnd = getDateFromSample(previousSample);
                 activityKind = detect_activity_kind(session_length, activeSteps, heartRateAverage, activeIntensity);
-                result.add(new StepSession(sessionStart, sessionEnd, activeSteps, heartRateAverage, activeIntensity, distance, activityKind));
+                result.add(new ActivitySession(sessionStart, sessionEnd, activeSteps, heartRateAverage, activeIntensity, distance, activityKind));
             }
+        }
+        return result;
+    }
+
+    public List<ActivitySession> calculateSummary(List<ActivitySession> sessions, boolean empty) {
+
+        HeartRateUtils heartRateUtilsInstance = HeartRateUtils.getInstance();
+        Date startTime = null;
+        Date endTime = null;
+        int stepsSum = 0;
+        int heartRateAverage = 0;
+        List<Integer> heartRateSum = new ArrayList<>();
+        int distanceSum = 0;
+        float intensitySum = 0;
+        int sessionCount;
+        int durationSum = 0;
+
+        for (ActivitySession session : sessions) {
+            startTime = session.getStartTime();
+            endTime = session.getEndTime();
+            durationSum += endTime.getTime() - startTime.getTime();
+            stepsSum += session.getActiveSteps();
+            distanceSum += session.getDistance();
+            heartRateSum.add(session.getHeartRateAverage());
+            intensitySum += session.getIntensity();
+        }
+
+        sessionCount = sessions.toArray().length;
+        if (heartRateSum.toArray().length > 0) {
+            heartRateAverage = calculateSumOfInts(heartRateSum) / heartRateSum.toArray().length;
+        }
+        if (!heartRateUtilsInstance.isValidHeartRateValue(heartRateAverage)) {
+            heartRateAverage = 0;
+        }
+        startTime = new Date(0);
+        endTime = new Date(durationSum);
+
+        ActivitySession stepSessionSummary = new ActivitySession(startTime, endTime,
+                stepsSum, heartRateAverage, intensitySum, distanceSum, 0);
+
+        stepSessionSummary.setSessionCount(sessionCount);
+        stepSessionSummary.setSessionType(ActivitySession.SESSION_SUMMARY);
+        stepSessionSummary.setEmptySummary(empty);
+
+
+        stepSessionSummary.setTotalDaySteps(totalDailySteps);
+
+        List<ActivitySession> newList = new ArrayList<>();
+        newList.add(stepSessionSummary);
+        newList.addAll(sessions);
+        return newList;
+    }
+
+    private int calculateSumOfInts(List<Integer> samples) {
+        int result = 0;
+        for (Integer sample : samples) {
+            result += sample;
         }
         return result;
     }
@@ -160,61 +225,7 @@ public class StepAnalysis {
         return ActivityKind.TYPE_ACTIVITY;
     }
 
-    private boolean isStep(ActivitySample sample) {
-        return sample.getKind() == ActivityKind.TYPE_WALKING || sample.getKind() == ActivityKind.TYPE_RUNNING || sample.getKind() == ActivityKind.TYPE_ACTIVITY;
-    }
-
     private Date getDateFromSample(ActivitySample sample) {
         return new Date(sample.getTimestamp() * 1000L);
-    }
-
-    public static class StepSession {
-        private final Date startTime;
-        private final Date endTime;
-        private final int steps;
-        private final int heartRateAverage;
-        private final float intensity;
-        private final float distance;
-        private final int activityKind;
-
-        StepSession(Date startTime,
-                    Date endTime,
-                    int steps, int heartRateAverage, float intensity, float distance, int activityKind) {
-            this.startTime = startTime;
-            this.endTime = endTime;
-            this.steps = steps;
-            this.heartRateAverage = heartRateAverage;
-            this.intensity = intensity;
-            this.distance = distance;
-            this.activityKind = activityKind;
-        }
-
-        public Date getStartTime() {
-            return startTime;
-        }
-
-        public Date getEndTime() {
-            return endTime;
-        }
-
-        public int getSteps() {
-            return steps;
-        }
-
-        public int getHeartRateAverage() {
-            return heartRateAverage;
-        }
-
-        public int getActivityKind() {
-            return activityKind;
-        }
-
-        public float getIntensity() {
-            return intensity;
-        }
-
-        public float getDistance() {
-            return distance;
-        }
     }
 }

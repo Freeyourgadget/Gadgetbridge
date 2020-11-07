@@ -134,7 +134,7 @@
                             android:layout_height="19dp"
                             android:layout_gravity="bottom|start"
                             android:contentDescription="@string/candidate_item_device_image"
-                            app:srcCompat="@drawable/ic_shoe" />
+                            app:srcCompat="@drawable/ic_shoe_print" />
 
                         <TextView
                             android:id="@+id/line_layout_step_label"
