@@ -156,6 +156,8 @@ import static nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst.PREF
 import static nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst.PREF_DEVICE_ACTION_START_NON_WEAR_SELECTION;
 import static nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst.PREF_DEVICE_ACTION_WOKE_UP_BROADCAST;
 import static nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst.PREF_DEVICE_ACTION_WOKE_UP_SELECTION;
+import static nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiService.DISPLAY_ITEM_BIT_CLOCK;
+import static nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiService.ENDPOINT_DISPLAY_ITEMS;
 import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.DEFAULT_VALUE_VIBRATION_COUNT;
 import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.DEFAULT_VALUE_VIBRATION_PROFILE;
 import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.VIBRATION_COUNT;
@@ -2315,6 +2317,54 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
         return this;
     }
 
+    protected HuamiSupport setDisplayItemsOld(TransactionBuilder builder, boolean isShortcuts, int defaultSettings, Map<String, Integer> keyPosMap) {
+
+        SharedPreferences prefs = GBApplication.getDeviceSpecificSharedPrefs(gbDevice.getAddress());
+        String pages;
+        List<String> enabledList;
+        if (isShortcuts) {
+            pages = prefs.getString(HuamiConst.PREF_SHORTCUTS_SORTABLE, null);
+            LOG.info("Setting shortcuts");
+        } else {
+            pages = prefs.getString(HuamiConst.PREF_DISPLAY_ITEMS_SORTABLE, null);
+            LOG.info("Setting menu items");
+        }
+        if (pages == null) {
+            enabledList = Arrays.asList(getContext().getResources().getStringArray(defaultSettings));
+        } else {
+            enabledList = Arrays.asList(pages.split(","));
+        }
+        LOG.info("enabled items" + enabledList);
+
+        byte[] command = new byte[keyPosMap.size() + 4];
+        command[0] = ENDPOINT_DISPLAY_ITEMS;
+        byte index = 1;
+        int enabled_mask = DISPLAY_ITEM_BIT_CLOCK;
+        // it seem that we first have to put all ENABLED items into the array, oder does matter
+        for (String key : enabledList) {
+            Integer id = keyPosMap.get(key);
+            if (id != null) {
+                enabled_mask |= (1 << id.byteValue());
+                command[3 + id] = index++;
+            }
+        }
+        // And then all DISABLED ones, order does not matter
+        for (Map.Entry<String, Integer> entry : keyPosMap.entrySet()) {
+            String key = entry.getKey();
+            int id = entry.getValue();
+
+            if (!enabledList.contains(key)) {
+                command[3 + id] = index++;
+            }
+        }
+
+        command[1] = (byte) (enabled_mask & 0xff);
+        command[2] = (byte) ((enabled_mask >> 8 & 0xff));
+
+        builder.write(getCharacteristic(HuamiService.UUID_CHARACTERISTIC_3_CONFIGURATION), command);
+        return this;
+    }
+
     protected HuamiSupport setDisplayItemsNew(TransactionBuilder builder, boolean isShortcuts, int defaultSettings, Map<String, Integer> keyIdMap) {
         SharedPreferences prefs = GBApplication.getDeviceSpecificSharedPrefs(gbDevice.getAddress());
         String pages;
@@ -2358,7 +2408,7 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
             if (!enabledList.contains(key)) {
                 command[pos++] = (byte) index++;
                 command[pos++] = 0x01;
-                command[pos++] = (byte) menuType;
+                command[pos++] = menuType;
                 command[pos++] = (byte) id;
             }
         }

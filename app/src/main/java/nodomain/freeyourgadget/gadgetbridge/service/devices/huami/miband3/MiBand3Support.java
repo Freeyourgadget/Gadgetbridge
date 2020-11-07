@@ -17,7 +17,6 @@
 package nodomain.freeyourgadget.gadgetbridge.service.devices.huami.miband3;
 
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.net.Uri;
 import android.widget.Toast;
 
@@ -25,16 +24,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
-import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
-import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiFWHelper;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiService;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.miband3.MiBand3Coordinator;
@@ -56,55 +52,17 @@ public class MiBand3Support extends AmazfitBipSupport {
 
     @Override
     protected MiBand3Support setDisplayItems(TransactionBuilder builder) {
-        SharedPreferences prefs = GBApplication.getDeviceSpecificSharedPrefs(gbDevice.getAddress());
-        Set<String> pages = prefs.getStringSet(HuamiConst.PREF_DISPLAY_ITEMS, new HashSet<>(Arrays.asList(getContext().getResources().getStringArray(R.array.pref_miband3_display_items_default))));
+        Map<String, Integer> keyPosMap = new LinkedHashMap<>();
+        keyPosMap.put("notifications", 1);
+        keyPosMap.put("weather", 2);
+        keyPosMap.put("activity", 3);
+        keyPosMap.put("more", 4);
+        keyPosMap.put("status", 5);
+        keyPosMap.put("heart_rate", 6);
+        keyPosMap.put("timer", 7);
+        keyPosMap.put("nfc", 8);
 
-        LOG.info("Setting display items to " + (pages == null ? "none" : pages));
-        byte[] command = MiBand3Service.COMMAND_CHANGE_SCREENS.clone();
-
-        byte pos = 1;
-        if (pages != null) {
-            if (pages.contains("notifications")) {
-                command[1] |= 0x02;
-                command[4] = pos++;
-            }
-            if (pages.contains("weather")) {
-                command[1] |= 0x04;
-                command[5] = pos++;
-            }
-            if (pages.contains("activity")) {
-                command[1] |= 0x08;
-                command[6] = pos++;
-            }
-            if (pages.contains("more")) {
-                command[1] |= 0x10;
-                command[7] = pos++;
-            }
-            if (pages.contains("status")) {
-                command[1] |= 0x20;
-                command[8] = pos++;
-            }
-            if (pages.contains("heart_rate")) {
-                command[1] |= 0x40;
-                command[9] = pos++;
-            }
-            if (pages.contains("timer")) {
-                command[1] |= 0x80;
-                command[10] = pos++;
-            }
-            if (pages.contains("nfc")) {
-                command[2] |= 0x01;
-                command[11] = pos++;
-            }
-            for (int i = 4; i <= 11; i++) {
-                if (command[i] == 0) {
-                    command[i] = pos++;
-                }
-            }
-
-            builder.write(getCharacteristic(HuamiService.UUID_CHARACTERISTIC_3_CONFIGURATION), command);
-        }
-
+        setDisplayItemsOld(builder, false, R.array.pref_miband3_display_items_default, keyPosMap);
         return this;
     }
 

@@ -401,8 +401,6 @@
     </string-array>
 
     <string-array name="pref_bip_display_items">
-        <item>@string/menuitem_shortcut_alipay</item>
-        <item>@string/menuitem_shortcut_weather</item>
         <item>@string/menuitem_status</item>
         <item>@string/menuitem_activity</item>
         <item>@string/menuitem_weather</item>
@@ -414,8 +412,6 @@
     </string-array>
 
     <string-array name="pref_bip_display_items_values">
-        <item>@string/p_menuitem_shortcut_alipay</item>
-        <item>@string/p_menuitem_shortcut_weather</item>
         <item>@string/p_menuitem_status</item>
         <item>@string/p_menuitem_activity</item>
         <item>@string/p_menuitem_weather</item>
@@ -434,6 +430,20 @@
         <item>@string/p_menuitem_timer</item>
         <item>@string/p_menuitem_compass</item>
         <item>@string/p_menuitem_settings</item>
+    </string-array>
+
+    <string-array name="pref_bip_shortcuts">
+        <item>@string/menuitem_alipay</item>
+        <item>@string/menuitem_weather</item>
+    </string-array>
+
+    <string-array name="pref_bip_shortcuts_values">
+        <item>@string/p_menuitem_alipay</item>
+        <item>@string/p_menuitem_weather</item>
+    </string-array>
+
+    <string-array name="pref_bip_shortcuts_default">
+        <item>@string/p_menuitem_weather</item>
     </string-array>
 
     <string-array name="pref_cor_display_items">

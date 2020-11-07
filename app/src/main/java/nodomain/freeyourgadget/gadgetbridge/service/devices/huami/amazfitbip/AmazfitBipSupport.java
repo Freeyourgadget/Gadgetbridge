@@ -18,24 +18,19 @@
 package nodomain.freeyourgadget.gadgetbridge.service.devices.huami.amazfitbip;
 
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.net.Uri;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
-import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
-import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiFWHelper;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiService;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.amazfitbip.AmazfitBipFWHelper;
-import nodomain.freeyourgadget.gadgetbridge.devices.huami.amazfitbip.AmazfitBipService;
 import nodomain.freeyourgadget.gadgetbridge.model.CallSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.RecordedDataTypes;
@@ -74,55 +69,18 @@ public class AmazfitBipSupport extends HuamiSupport {
 
     @Override
     protected AmazfitBipSupport setDisplayItems(TransactionBuilder builder) {
-        if (gbDevice.getFirmwareVersion() == null) {
-            LOG.warn("Device not initialized yet, won't set menu items");
-            return this;
-        }
+        Map<String, Integer> keyPosMap = new LinkedHashMap<>();
+        keyPosMap.put("status", 1);
+        keyPosMap.put("activity", 2);
+        keyPosMap.put("weather", 3);
+        keyPosMap.put("alarm", 4);
+        keyPosMap.put("timer", 5);
+        keyPosMap.put("compass", 6);
+        keyPosMap.put("settings", 7);
+        keyPosMap.put("alipay", 8);
 
-        SharedPreferences prefs = GBApplication.getDeviceSpecificSharedPrefs(gbDevice.getAddress());
-        Set<String> pages = prefs.getStringSet(HuamiConst.PREF_DISPLAY_ITEMS, new HashSet<>(Arrays.asList(getContext().getResources().getStringArray(R.array.pref_bip_display_items_default))));
-
-        LOG.info("Setting display items to " + (pages == null ? "none" : pages));
-        byte[] command = AmazfitBipService.COMMAND_CHANGE_SCREENS.clone();
-
-        boolean shortcut_weather = false;
-        boolean shortcut_alipay = false;
-
-        if (pages != null) {
-            if (pages.contains("status")) {
-                command[1] |= 0x02;
-            }
-            if (pages.contains("activity")) {
-                command[1] |= 0x04;
-            }
-            if (pages.contains("weather")) {
-                command[1] |= 0x08;
-            }
-            if (pages.contains("alarm")) {
-                command[1] |= 0x10;
-            }
-            if (pages.contains("timer")) {
-                command[1] |= 0x20;
-            }
-            if (pages.contains("compass")) {
-                command[1] |= 0x40;
-            }
-            if (pages.contains("settings")) {
-                command[1] |= 0x80;
-            }
-            if (pages.contains("alipay")) {
-                command[2] |= 0x01;
-            }
-            if (pages.contains("shortcut_weather")) {
-                shortcut_weather = true;
-            }
-            if (pages.contains("shortcut_alipay")) {
-                shortcut_alipay = true;
-            }
-            builder.write(getCharacteristic(HuamiService.UUID_CHARACTERISTIC_3_CONFIGURATION), command);
-            setShortcuts(builder, shortcut_weather, shortcut_alipay);
-        }
-
+        setDisplayItemsOld(builder, false, R.array.pref_bip_display_items_default, keyPosMap);
+        //setShortcuts(builder, shortcut_weather, shortcut_alipay);
         return this;
     }
 

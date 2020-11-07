@@ -812,8 +812,6 @@
     <string name="devicetype_sg2">Lemfo SG2</string>
     <string name="devicetype_lefun">Lefun</string>
     <!-- Menus on the smart device -->
-    <string name="menuitem_shortcut_alipay">Alipay (Shortcut)</string>
-    <string name="menuitem_shortcut_weather">Weather (Shortcut)</string>
     <string name="menuitem_status">Status</string>
     <string name="menuitem_notifications">Notifications</string>
     <string name="menuitem_activity">Activity</string>
