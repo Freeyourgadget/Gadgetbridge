@@ -1075,4 +1075,25 @@
     <string name="devicetype_nut_mini">Nut mini</string>
     <string name="activity_error_no_app_for_png">Чтобы поделиться этим скриншотом, установите приложение, которое может обрабатывать файлы изображений.</string>
     <string name="descentSeconds">По убыванию</string>
+    <string name="gps_track">GPS-трек</string>
+    <string name="about_version">Версия %s</string>
+    <string name="devicetype_amazfit_bips_lite">Amazfit Bip S Lite</string>
+    <string name="devicetype_amazfit_band5">Amazfit Band 5</string>
+    <string name="charts_legend_heartrate_average">Средняя частота пульса</string>
+    <string name="activity_prefs_step_length_cm">Длина шага в см</string>
+    <string name="charts_min_max_heartrate_popup">Самая низкая частота пульса: %1$d
+\nСамая высокая частота пульса: %2$d</string>
+    <string name="firmware_update_progress">Загрузка в процессе
+\n%1d%% при %.2fкбит/с (в среднем %.2fкбит/с)
+\nЧасть %1d из %1d</string>
+    <string name="devicestatus_upload_failed">Загрузка не удалась</string>
+    <string name="devicestatus_upload_aborted">Загрузка отменена!</string>
+    <string name="devicestatus_upload_validating">Загрузка проходит проверку</string>
+    <string name="devicestatus_upload_completed">Загрузка завершена</string>
+    <string name="devicestatus_disconnected">Устройство отключено!</string>
+    <string name="devicestatus_disconnecting">Устройство отключается!</string>
+    <string name="devicestatus_upload_starting">Загрузка начинается</string>
+    <string name="devicestatus_connected">Устройство подключено</string>
+    <string name="devicestatus_connecting">Устройство подключается</string>
+    <string name="find_lost_device_message">Искать %1$s\?</string>
 </resources>
