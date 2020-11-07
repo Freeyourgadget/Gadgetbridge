@@ -29,7 +29,6 @@ import java.util.Map;
 
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiFWHelper;
-import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiService;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.amazfitbip.AmazfitBipFWHelper;
 import nodomain.freeyourgadget.gadgetbridge.model.CallSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
@@ -80,21 +79,17 @@ public class AmazfitBipSupport extends HuamiSupport {
         keyPosMap.put("alipay", 8);
 
         setDisplayItemsOld(builder, false, R.array.pref_bip_display_items_default, keyPosMap);
-        //setShortcuts(builder, shortcut_weather, shortcut_alipay);
         return this;
     }
 
-    private void setShortcuts(TransactionBuilder builder, boolean weather, boolean alipay) {
-        LOG.info("Setting shortcuts: weather=" + weather + " alipay=" + alipay);
+    @Override
+    protected AmazfitBipSupport setShortcuts(TransactionBuilder builder) {
+        Map<String, Integer> keyPosMap = new LinkedHashMap<>();
+        keyPosMap.put("alipay", 1);
+        keyPosMap.put("weather", 2);
 
-        // Basically a hack to put weather first always, if alipay is the only enabled one
-        // there are actually two alipays set but the second one disabled.... :P
-        byte[] command = new byte[]{0x10,
-                (byte) ((alipay || weather) ? 0x80 : 0x00), (byte) (weather ? 0x02 : 0x01),
-                (byte) ((alipay && weather) ? 0x81 : 0x01), 0x01,
-        };
-
-        builder.write(getCharacteristic(HuamiService.UUID_CHARACTERISTIC_3_CONFIGURATION), command);
+        setDisplayItemsOld(builder, true, R.array.pref_bip_shortcuts_default, keyPosMap);
+        return this;
     }
 
     @Override

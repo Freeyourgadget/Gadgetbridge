@@ -2318,7 +2318,6 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
     }
 
     protected HuamiSupport setDisplayItemsOld(TransactionBuilder builder, boolean isShortcuts, int defaultSettings, Map<String, Integer> keyPosMap) {
-
         SharedPreferences prefs = GBApplication.getDeviceSpecificSharedPrefs(gbDevice.getAddress());
         String pages;
         List<String> enabledList;
@@ -2335,31 +2334,55 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
             enabledList = Arrays.asList(pages.split(","));
         }
         LOG.info("enabled items" + enabledList);
+        byte[] command;
 
-        byte[] command = new byte[keyPosMap.size() + 4];
-        command[0] = ENDPOINT_DISPLAY_ITEMS;
-        byte index = 1;
-        int enabled_mask = DISPLAY_ITEM_BIT_CLOCK;
-        // it seem that we first have to put all ENABLED items into the array, oder does matter
-        for (String key : enabledList) {
-            Integer id = keyPosMap.get(key);
-            if (id != null) {
-                enabled_mask |= (1 << id.byteValue());
-                command[3 + id] = index++;
+        if (isShortcuts) {
+            command = new byte[keyPosMap.size() * 2 + 1];
+            command[0] = 0x10;
+            int pos = 1;
+            int index = 0;
+            for (String key : enabledList) {
+                Integer id = keyPosMap.get(key);
+                if (id != null) {
+                    command[pos++] = (byte) (0x80 | index++);
+                    command[pos++] = id.byteValue();
+                }
             }
-        }
-        // And then all DISABLED ones, order does not matter
-        for (Map.Entry<String, Integer> entry : keyPosMap.entrySet()) {
-            String key = entry.getKey();
-            int id = entry.getValue();
+            for (Map.Entry<String, Integer> entry : keyPosMap.entrySet()) {
+                String key = entry.getKey();
+                int id = entry.getValue();
 
-            if (!enabledList.contains(key)) {
-                command[3 + id] = index++;
+                if (!enabledList.contains(key)) {
+                    command[pos++] = (byte) index++;
+                    command[pos++] = (byte) id;
+                }
             }
-        }
+        } else {
+            command = new byte[keyPosMap.size() + 4];
+            command[0] = ENDPOINT_DISPLAY_ITEMS;
+            byte index = 1;
+            int enabled_mask = DISPLAY_ITEM_BIT_CLOCK;
+            // it seem that we first have to put all ENABLED items into the array, oder does matter
+            for (String key : enabledList) {
+                Integer id = keyPosMap.get(key);
+                if (id != null) {
+                    enabled_mask |= (1 << id.byteValue());
+                    command[3 + id] = index++;
+                }
+            }
+            // And then all DISABLED ones, order does not matter
+            for (Map.Entry<String, Integer> entry : keyPosMap.entrySet()) {
+                String key = entry.getKey();
+                int id = entry.getValue();
 
-        command[1] = (byte) (enabled_mask & 0xff);
-        command[2] = (byte) ((enabled_mask >> 8 & 0xff));
+                if (!enabledList.contains(key)) {
+                    command[3 + id] = index++;
+                }
+            }
+
+            command[1] = (byte) (enabled_mask & 0xff);
+            command[2] = (byte) ((enabled_mask >> 8 & 0xff));
+        }
 
         builder.write(getCharacteristic(HuamiService.UUID_CHARACTERISTIC_3_CONFIGURATION), command);
         return this;
