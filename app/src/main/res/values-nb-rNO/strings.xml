@@ -1106,4 +1106,5 @@
     <string name="charts_min_max_heartrate_popup">Laveste puls: %1$d
 \nHøyeste puls: %2$d</string>
     <string name="find_lost_device_message">Søk etter %1$s\?</string>
+    <string name="devicetype_amazfit_gtr2">Amazfit GTR 2</string>
 </resources>
