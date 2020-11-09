@@ -57,6 +57,7 @@ import nodomain.freeyourgadget.gadgetbridge.devices.huami.amazfitcor.AmazfitCorC
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.amazfitcor2.AmazfitCor2Coordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.amazfitgtr.AmazfitGTRCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.amazfitgtr.AmazfitGTRLiteCoordinator;
+import nodomain.freeyourgadget.gadgetbridge.devices.huami.amazfitgtr2.AmazfitGTR2Coordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.amazfitgts.AmazfitGTSCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.amazfittrex.AmazfitTRexCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.miband2.MiBand2Coordinator;
@@ -224,6 +225,7 @@ public class DeviceHelper {
         result.add(new AmazfitCor2Coordinator());
         result.add(new AmazfitGTRCoordinator());
         result.add(new AmazfitGTRLiteCoordinator());
+        result.add(new AmazfitGTR2Coordinator());
         result.add(new AmazfitTRexCoordinator());
         result.add(new AmazfitGTSCoordinator());
         result.add(new AmazfitBipSCoordinator());
