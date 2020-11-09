@@ -1101,4 +1101,5 @@ Temps de sommeil préféré en heures</string>
     <string name="charts_min_max_heartrate_popup">Rythme cardiaque le plus faible: %1$d
 \nRythme cardiaque le plus élevé: %2$d</string>
     <string name="find_lost_device_message">Rechercher %1$s \?</string>
+    <string name="devicetype_amazfit_gtr2">Amazfit GTR 2</string>
 </resources>
