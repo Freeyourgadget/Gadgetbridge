@@ -1103,4 +1103,12 @@
     <string name="devicetype_lefun">Lefun</string>
     <string name="devicetype_amazfit_bips_lite">Amazfit Bip S Lite</string>
     <string name="devicetype_amazfit_band5">Amazfit Band 5</string>
+    <string name="flatSeconds">Płasko</string>
+    <string name="averageStride">Średni krok</string>
+    <string name="activity_filter_from_placeholder">odległa przeszłość</string>
+    <string name="activity_filter_individual_items">Indywidualnie wybrane elementy</string>
+    <string name="devicetype_amazfit_gtr2">Amazfit GTR 2</string>
+    <string name="activity_prefs_chart_max_idle_phase_length">Długość przerwy do oddzielenia aktywności (w minutach)</string>
+    <string name="devicestatus_upload_validating">Przesłany plik jest sprawdzany</string>
+    <string name="find_lost_device_message">Szukasz %1$s\?</string>
 </resources>
