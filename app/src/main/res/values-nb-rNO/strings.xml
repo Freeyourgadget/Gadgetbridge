@@ -1086,4 +1086,24 @@
     <string name="pref_notifications_and_calls_enable_misscall">Varsle om tapt anrop</string>
     <string name="prefs_notifications_and_calls_continious_ring">Merknad for oppringing</string>
     <string name="pref_title_notifications_and_calls_repeat_on_call">Merknad for tapt anrop</string>
+    <string name="qhybrid_calibration_align_hint">juster visere til 12:00</string>
+    <string name="gps_track">GPS-spor</string>
+    <string name="about_version">Versjon %s</string>
+    <string name="pref_title_lower_button_function_double">Nedre knapp dobbel</string>
+    <string name="pref_title_middle_button_function_double">Midtre knapp dobbel</string>
+    <string name="pref_title_upper_button_function_double">Øvre knapp dobbel</string>
+    <string name="pref_title_lower_button_function_long">Nedre knapp lang</string>
+    <string name="pref_title_middle_button_function_long">Midtre knapp lang</string>
+    <string name="pref_title_upper_button_function_long">Øvre knapp lang</string>
+    <string name="pref_title_lower_button_function_short">Nedre knapp kort</string>
+    <string name="pref_title_middle_button_function_short">Midtre knapp kort</string>
+    <string name="pref_title_upper_button_function_short">Øvre knapp kort</string>
+    <string name="menuitem_spo2">SpO2</string>
+    <string name="devicetype_amazfit_bips_lite">Amazfit Bip S Lite</string>
+    <string name="devicetype_amazfit_band5">Amazfit Band 5</string>
+    <string name="charts_legend_heartrate_average">Pulsgjennomsnitt</string>
+    <string name="activity_prefs_step_length_cm">Steglengde i cm</string>
+    <string name="charts_min_max_heartrate_popup">Laveste puls: %1$d
+\nHøyeste puls: %2$d</string>
+    <string name="find_lost_device_message">Søk etter %1$s\?</string>
 </resources>
