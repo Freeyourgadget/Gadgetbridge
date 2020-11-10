@@ -1107,4 +1107,10 @@
 \nHøyeste puls: %2$d</string>
     <string name="find_lost_device_message">Søk etter %1$s\?</string>
     <string name="devicetype_amazfit_gtr2">Amazfit GTR 2</string>
+    <string name="menuitem_dnd">Ikke forstyrr</string>
+    <string name="menuitem_stopwatch">Stoppeklokke</string>
+    <string name="menuitem_alexa">Alexa</string>
+    <string name="menuitem_takephoto">Ta et bilde</string>
+    <string name="menuitem_mutephone">Forstum telefon</string>
+    <string name="menuitem_findphone">Finn telefon</string>
 </resources>
