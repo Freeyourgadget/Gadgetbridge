@@ -899,7 +899,7 @@ Temps de sommeil préféré en heures</string>
     <string name="prefs_events_forwarding_fellsleep">Au sommeil</string>
     <string name="prefs_events_forwarding_title">Actions de l\'appareil</string>
     <string name="prefs_events_forwarding_summary">Utiliser les évènements de l\'appareil pour déclencher des actions et des messages diffusé Android</string>
-    <string name="menuitem_cycles">Cycles</string>
+    <string name="menuitem_cycles">Période</string>
     <string name="freestyle">Style libre</string>
     <string name="breaststroke">Rythme mammaire</string>
     <string name="activity_filter_to_placeholder">aujourd\'hui</string>
@@ -1102,4 +1102,10 @@ Temps de sommeil préféré en heures</string>
 \nRythme cardiaque le plus élevé: %2$d</string>
     <string name="find_lost_device_message">Rechercher %1$s \?</string>
     <string name="devicetype_amazfit_gtr2">Amazfit GTR 2</string>
+    <string name="menuitem_stopwatch">Étape</string>
+    <string name="menuitem_dnd">NPD</string>
+    <string name="menuitem_alexa">Alexa</string>
+    <string name="menuitem_takephoto">Prendre une photo</string>
+    <string name="menuitem_mutephone">Téléphone muet</string>
+    <string name="menuitem_findphone">Trouver mon téléphone</string>
 </resources>
