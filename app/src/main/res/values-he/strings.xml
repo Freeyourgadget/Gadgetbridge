@@ -922,7 +922,7 @@
 \n
 \nהמשך מעבר לנקודה זו הוא על אחריותך!</string>
     <string name="menuitem_stress">לחץ</string>
-    <string name="menuitem_cycles">מחזורים</string>
+    <string name="menuitem_cycles">משך</string>
     <string name="menuitem_breathing">נשימה</string>
     <string name="devicetype_miband5">Mi Band 5</string>
     <string name="ignore_bonded_devices_description">הפעלת אפשרות זו תתעלם ממכשירים שכבר אוגדו/צומדו טרם הסריקה</string>
@@ -1104,4 +1104,10 @@
 \nדופק גבוה: %2$d</string>
     <string name="find_lost_device_message">לחפש אחר %1$s\?</string>
     <string name="devicetype_amazfit_gtr2">Amazfit GTR 2</string>
+    <string name="menuitem_stopwatch">שעון עצר</string>
+    <string name="menuitem_dnd">לא להפריע</string>
+    <string name="menuitem_alexa">Alexa</string>
+    <string name="menuitem_takephoto">צילום תמונה</string>
+    <string name="menuitem_mutephone">השתקת הטלפון</string>
+    <string name="menuitem_findphone">איתור הטלפון</string>
 </resources>
