@@ -489,7 +489,7 @@
     <string name="pref_summary_pebble_gatt_clientonly">Pebble 2 experimentální nastavení, zkuste máte-li problémy se spojením</string>
     <string name="on">Zapnuto</string>
     <string name="activity_type_not_measured">Neměřeno</string>
-    <string name="activity_type_activity">Činnost</string>
+    <string name="activity_type_activity">Aktivita</string>
     <string name="activity_type_light_sleep">Lehký spánek</string>
     <string name="activity_type_deep_sleep">Hluboký spánek</string>
     <string name="activity_type_not_worn">Zařízení nepoužito</string>
@@ -1084,4 +1084,10 @@
     <string name="devicestatus_connected">Zařízení připojeno</string>
     <string name="devicestatus_connecting">Připojování zařízení</string>
     <string name="charts_activity_list">Seznam Aktivit</string>
+    <string name="devicetype_amazfit_band5">Amazfit Band 5</string>
+    <string name="charts_legend_heartrate_average">Průměrný tep</string>
+    <string name="activity_prefs_step_length_cm">Délka kroku v cm</string>
+    <string name="charts_min_max_heartrate_popup">Nejvyšší tep: %1$d
+\nNejnižší tep: %2$d</string>
+    <string name="find_lost_device_message">Vyhledat %1$s\?</string>
 </resources>
