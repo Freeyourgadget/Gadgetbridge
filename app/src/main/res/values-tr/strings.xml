@@ -943,7 +943,7 @@
     <string name="error_background_service_reason">Bir istisna nedeniyle arka plan hizmetini başlatma başarısız oldu. Hata:</string>
     <string name="error_background_service">Arka plan hizmeti başlatılamadı</string>
     <string name="menuitem_stress">Stres</string>
-    <string name="menuitem_cycles">Döngüler</string>
+    <string name="menuitem_cycles">Döngü</string>
     <string name="menuitem_breathing">Nefes Alma</string>
     <string name="devicetype_miband5">Mi Band 5</string>
     <string name="fw_upgrade_notice_miband5">Mi Band 5 aygıtınıza %s ürün yazılımını kurmak üzeresiniz.
@@ -1132,4 +1132,10 @@
 \nEn yüksek kalp ritmi: %2$d</string>
     <string name="find_lost_device_message">%1$s aransın mı\?</string>
     <string name="devicetype_amazfit_gtr2">Amazfit GTR 2</string>
+    <string name="menuitem_stopwatch">Kronometre</string>
+    <string name="menuitem_dnd">Rahatsız etmeyin</string>
+    <string name="menuitem_alexa">Alexa</string>
+    <string name="menuitem_takephoto">Fotoğraf çek</string>
+    <string name="menuitem_mutephone">Telefonun Sesini Kapat</string>
+    <string name="menuitem_findphone">Telefonu Bul</string>
 </resources>
