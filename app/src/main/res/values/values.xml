@@ -36,10 +36,16 @@
     <item name="p_menuitem_spo2" type="string">spo2</item>
     <item name="p_menuitem_pai" type="string">pai</item>
     <item name="p_menuitem_stress" type="string">stress</item>
-    <item name="p_menuitem_cycles" type="string">cycles</item>
+    <item name="p_menuitem_cycles" type="string">period</item>
     <item name="p_menuitem_eventreminder" type="string">eventreminder</item>
     <item name="p_menuitem_workout" type="string">workout</item>
     <item name="p_menuitem_worldclock" type="string">worldclock</item>
+    <item name="p_menuitem_findphone" type="string">findphone</item>
+    <item name="p_menuitem_dnd" type="string">dnd</item>
+    <item name="p_menuitem_stopwatch" type="string">stopwatch</item>
+    <item name="p_menuitem_mutephone" type="string">mutephone</item>
+    <item name="p_menuitem_takephoto" type="string">takephoto</item>
+    <item name="p_menuitem_alexa" type="string">alexa</item>
 
     <item name="p_off" type="string">off</item>
     <item name="p_on" type="string">on</item>

@@ -818,7 +818,7 @@
     <string name="menuitem_activity">Activity</string>
     <string name="menuitem_weather">Weather</string>
     <string name="menuitem_breathing">Breathing</string>
-    <string name="menuitem_cycles">Cycles</string>
+    <string name="menuitem_cycles">Period</string>
     <string name="menuitem_alarm">Alarm</string>
     <string name="menuitem_timer">Timer</string>
     <string name="menuitem_compass">Compass</string>
@@ -836,6 +836,12 @@
     <string name="menuitem_workout">Workout</string>
     <string name="menuitem_unknown">Unknown</string>
     <string name="menuitem_worldclock">World Clock</string>
+    <string name="menuitem_findphone">Find Phone</string>
+    <string name="menuitem_mutephone">Mute Phone</string>
+    <string name="menuitem_takephoto">Take a photo</string>
+    <string name="menuitem_alexa">Alexa</string>
+    <string name="menuitem_dnd">DND</string>
+    <string name="menuitem_stopwatch">Stopwatch</string>
     <string name="watch9_time_minutes">Minutes:</string>
     <string name="watch9_time_hours">Hours:</string>
     <string name="watch9_time_seconds">Seconds:</string>

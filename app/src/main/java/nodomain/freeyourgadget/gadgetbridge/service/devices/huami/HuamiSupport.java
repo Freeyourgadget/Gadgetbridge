@@ -2409,11 +2409,18 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
         }
         LOG.info("enabled items" + enabledList);
 
-        byte[] command = new byte[keyIdMap.size() * 4 + 1];
+        byte[] command = new byte[(keyIdMap.size() + 1) * 4 + 1];
         command[0] = 0x1e;
         // it seem that we first have to put all ENABLED items into the array, oder does matter
+
         int pos = 1;
         int index = 0;
+
+        command[pos++] = (byte) index++;
+        command[pos++] = 0x00;
+        command[pos++] = menuType;
+        command[pos++] = 0x12;
+
         for (String key : enabledList) {
             Integer id = keyIdMap.get(key);
             if (id != null) {
