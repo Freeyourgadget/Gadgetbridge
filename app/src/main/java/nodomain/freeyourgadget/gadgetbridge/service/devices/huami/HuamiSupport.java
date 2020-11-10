@@ -2388,7 +2388,7 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
         return this;
     }
 
-    protected HuamiSupport setDisplayItemsNew(TransactionBuilder builder, boolean isShortcuts, int defaultSettings, Map<String, Integer> keyIdMap) {
+    protected HuamiSupport setDisplayItemsNew(TransactionBuilder builder, boolean isShortcuts, int defaultSettings) {
         SharedPreferences prefs = GBApplication.getDeviceSpecificSharedPrefs(gbDevice.getAddress());
         String pages;
         List<String> enabledList;
@@ -2409,9 +2409,8 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
         }
         LOG.info("enabled items" + enabledList);
 
-        byte[] command = new byte[(keyIdMap.size() + 1) * 4 + 1];
+        byte[] command = new byte[(enabledList.size() + 1) * 4 + 1];
         command[0] = 0x1e;
-        // it seem that we first have to put all ENABLED items into the array, oder does matter
 
         int pos = 1;
         int index = 0;
@@ -2422,24 +2421,12 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
         command[pos++] = 0x12;
 
         for (String key : enabledList) {
-            Integer id = keyIdMap.get(key);
+            Integer id = HuamiMenuType.idLookup.get(key);
             if (id != null) {
                 command[pos++] = (byte) index++;
                 command[pos++] = 0x00;
                 command[pos++] = menuType;
                 command[pos++] = id.byteValue();
-            }
-        }
-        // And then all DISABLED ones, order does not matter
-        for (Map.Entry<String, Integer> entry : keyIdMap.entrySet()) {
-            String key = entry.getKey();
-            int id = entry.getValue();
-
-            if (!enabledList.contains(key)) {
-                command[pos++] = (byte) index++;
-                command[pos++] = 0x01;
-                command[pos++] = menuType;
-                command[pos++] = (byte) id;
             }
         }
         writeToChunked(builder, 2, command);

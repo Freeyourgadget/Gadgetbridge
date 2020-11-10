@@ -46,6 +46,7 @@
     <item name="p_menuitem_mutephone" type="string">mutephone</item>
     <item name="p_menuitem_takephoto" type="string">takephoto</item>
     <item name="p_menuitem_alexa" type="string">alexa</item>
+    <item name="p_menuitem_timer_stopwatch" type="string">timer_stopwatch</item>
 
     <item name="p_off" type="string">off</item>
     <item name="p_on" type="string">on</item>

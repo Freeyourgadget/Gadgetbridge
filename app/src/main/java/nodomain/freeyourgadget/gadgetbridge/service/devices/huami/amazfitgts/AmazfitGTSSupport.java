@@ -23,8 +23,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
-import java.util.LinkedHashMap;
-import java.util.Map;
 
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiFWHelper;
@@ -66,21 +64,7 @@ public class AmazfitGTSSupport extends AmazfitBipSupport {
 
     @Override
     protected AmazfitGTSSupport setDisplayItems(TransactionBuilder builder) {
-        Map<String, Integer> keyIdMap = new LinkedHashMap<>();
-        keyIdMap.put("status", 0x01);
-        keyIdMap.put("pai", 0x19);
-        keyIdMap.put("hr", 0x02);
-        keyIdMap.put("workout", 0x03);
-        keyIdMap.put("activity", 0x14);
-        keyIdMap.put("weather", 0x04);
-        keyIdMap.put("music", 0x0b);
-        keyIdMap.put("notifications", 0x06);
-        keyIdMap.put("alarm", 0x09);
-        keyIdMap.put("eventreminder", 0x15);
-        keyIdMap.put("more", 0x07);
-        keyIdMap.put("settings", 0x13);
-
-        setDisplayItemsNew(builder, false, R.array.pref_gts_display_items_default, keyIdMap);
+        setDisplayItemsNew(builder, false, R.array.pref_gts_display_items_default);
         return this;
     }
 

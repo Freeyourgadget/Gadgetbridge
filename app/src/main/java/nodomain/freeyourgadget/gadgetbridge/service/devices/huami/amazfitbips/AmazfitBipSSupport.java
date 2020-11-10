@@ -17,7 +17,6 @@
 package nodomain.freeyourgadget.gadgetbridge.service.devices.huami.amazfitbips;
 
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.net.Uri;
 
 import org.slf4j.Logger;
@@ -26,15 +25,8 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.LinkedHashMap;
-import java.util.Map;
-import java.util.Set;
 
-import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
-import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiFWHelper;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.amazfitbips.AmazfitBipSFWHelper;
 import nodomain.freeyourgadget.gadgetbridge.model.CallSpec;
@@ -117,37 +109,13 @@ public class AmazfitBipSSupport extends AmazfitBipSupport {
 
     @Override
     protected AmazfitBipSSupport setDisplayItems(TransactionBuilder builder) {
-        Map<String, Integer> keyIdMap = new LinkedHashMap<>();
-        keyIdMap.put("status", 0x01);
-        keyIdMap.put("hr", 0x02);
-        keyIdMap.put("pai", 0x19);
-        keyIdMap.put("workout", 0x03);
-        keyIdMap.put("alipay", 0x11);
-        keyIdMap.put("nfc", 0x10);
-        keyIdMap.put("weather", 0x04);
-        keyIdMap.put("alarm", 0x09);
-        keyIdMap.put("timer", 0x1b);
-        keyIdMap.put("compass", 0x16);
-        keyIdMap.put("worldclock", 0x1a);
-        keyIdMap.put("music", 0x0b);
-        keyIdMap.put("settings", 0x13);
-
-        setDisplayItemsNew(builder, false, R.array.pref_bips_display_items_default, keyIdMap);
+        setDisplayItemsNew(builder, false, R.array.pref_bips_display_items_default);
         return this;
     }
 
     @Override
     protected AmazfitBipSSupport setShortcuts(TransactionBuilder builder) {
-        Map<String, Integer> keyIdMap = new LinkedHashMap<>();
-        keyIdMap.put("status", 0x01);
-        keyIdMap.put("alipay", 0x11);
-        keyIdMap.put("nfc", 0x10);
-        keyIdMap.put("pai", 0x19);
-        keyIdMap.put("hr", 0x02);
-        keyIdMap.put("music", 0x0b);
-        keyIdMap.put("weather", 0x04);
-
-        setDisplayItemsNew(builder, true, R.array.pref_bips_display_items_default, keyIdMap);
+        setDisplayItemsNew(builder, true, R.array.pref_bips_display_items_default);
         return this;
     }
 
