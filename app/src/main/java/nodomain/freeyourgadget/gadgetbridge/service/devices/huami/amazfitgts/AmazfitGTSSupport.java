@@ -30,6 +30,8 @@ import nodomain.freeyourgadget.gadgetbridge.devices.huami.amazfitgts.AmazfitGTSF
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.amazfitbip.AmazfitBipSupport;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.operations.UpdateFirmwareOperation;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.operations.UpdateFirmwareOperation2020;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.operations.UpdateFirmwareOperationNew;
 import nodomain.freeyourgadget.gadgetbridge.util.Version;
 
@@ -58,7 +60,12 @@ public class AmazfitGTSSupport extends AmazfitBipSupport {
     }
 
     @Override
-    public UpdateFirmwareOperationNew createUpdateFirmwareOperation(Uri uri) {
+    public UpdateFirmwareOperation createUpdateFirmwareOperation(Uri uri) {
+        Version version = new Version(gbDevice.getFirmwareVersion());
+        if (version.compareTo(new Version("0.1.1.16")) >= 0) {
+            return new UpdateFirmwareOperation2020(uri, this);
+        }
+
         return new UpdateFirmwareOperationNew(uri, this);
     }
 
