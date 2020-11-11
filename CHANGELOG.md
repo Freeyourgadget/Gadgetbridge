@@ -1,5 +1,21 @@
 ### Changelog
 
+#### Next
+* Initial support for Amazfit Bip S Lite
+* Initial support for Amazfit GTR 2
+* Huami: allow sorting of shortcuts and menus (all except Mi Band 2)
+* Amazfit Band 5: Allow enabling SpO2 menu
+* Mi/Amazfit Band 5: Support shortcuts (right/left swipe)
+* Amazfit GTS: Fix firmware flashing on Firmware >=0.1.1.16
+* Fossil Hybrid HR: Support hands calibration
+* Fossil Hybrid HR: Support factory reset
+* Add version to About screen
+* Show GPS track in Sport Activity detail screen
+* Add heart rate average to Activity and Sleep charts
+* InfiniTime: Improve notification support for firmware >=0.9
+* Recognize Wire messenger as a chat application
+* Add confirmation dialog for find device button
+
 #### 0.48.0
 * Initial support for Sony SWR12
 * Initial support for Lefun Smart Bands
