@@ -421,6 +421,7 @@ public class SleepChartFragment extends AbstractChartFragment {
         deepSleepEntry.formColor = akDeepSleep.color;
         legendEntries.add(deepSleepEntry);
         heartRateIcon.setVisibility(View.GONE); //hide heart icon
+        intensityTotalIcon.setVisibility(View.GONE); //hide intensity icon
 
         if (supportsHeartrate(getChartsHost().getDevice())) {
             LegendEntry hrEntry = new LegendEntry();
@@ -433,6 +434,7 @@ public class SleepChartFragment extends AbstractChartFragment {
                 hrAverageEntry.formColor = Color.RED;
                 legendEntries.add(hrAverageEntry);
                 heartRateIcon.setVisibility(View.VISIBLE);
+                intensityTotalIcon.setVisibility(View.VISIBLE);
             }
         }
         chart.getLegend().setCustom(legendEntries);

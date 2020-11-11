@@ -116,7 +116,7 @@ public class ActivityUser {
     }
 
     public int getStepsGoal() {
-        if (activityUserStepsGoal < 0) {
+        if (activityUserStepsGoal < 1) {
             activityUserStepsGoal = defaultUserStepsGoal;
         }
         return activityUserStepsGoal;
@@ -157,7 +157,7 @@ public class ActivityUser {
 
     public int getCaloriesBurnt()
     {
-        if (activityUserCaloriesBurnt < 0) {
+        if (activityUserCaloriesBurnt < 1) {
             activityUserCaloriesBurnt = defaultUserCaloriesBurnt;
         }
         return activityUserCaloriesBurnt;
@@ -165,7 +165,7 @@ public class ActivityUser {
 
     public int getDistanceMeters()
     {
-        if (activityUserDistanceMeters < 0) {
+        if (activityUserDistanceMeters < 1) {
             activityUserDistanceMeters = defaultUserDistanceMeters;
         }
         return activityUserDistanceMeters;
@@ -173,7 +173,7 @@ public class ActivityUser {
 
     public int getActiveTimeMinutes()
     {
-        if (activityUserActiveTimeMinutes < 0) {
+        if (activityUserActiveTimeMinutes < 1) {
             activityUserActiveTimeMinutes = defaultUserActiveTimeMinutes;
         }
         return activityUserActiveTimeMinutes;
