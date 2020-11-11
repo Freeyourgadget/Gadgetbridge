@@ -41,12 +41,14 @@ public class MiBand5FirmwareInfo extends HuamiFirmwareInfo {
         crcToVersion.put(26302, "1.0.1.16");
         crcToVersion.put(26666, "1.0.1.32");
         crcToVersion.put(54599, "1.0.2.08");
+        crcToVersion.put(23572, "1.0.2.24");
 
         // resources
         crcToVersion.put(8009, "1.0.0.76");
         crcToVersion.put(47040, "1.0.1.16");
         crcToVersion.put(49094, "1.0.1.32");
         crcToVersion.put(18506, "1.0.2.08");
+        crcToVersion.put(22895, "1.0.2.24");
 
         // font
         crcToVersion.put(31978, "1");
@@ -67,9 +69,11 @@ public class MiBand5FirmwareInfo extends HuamiFirmwareInfo {
             }
             return HuamiFirmwareType.INVALID;
         }
-        if (ArrayUtils.startsWith(bytes, WATCHFACE_HEADER)) {
+        /*
+        if (ArrayUtils.startsWith(bytes, new byte[] {'U','I','H','H'})) {
             return HuamiFirmwareType.WATCHFACE;
         }
+        */
         if (ArrayUtils.startsWith(bytes, NEWFT_HEADER)) {
             if (bytes[10] == 0x03 || bytes[10] == 0x06) {
                 return HuamiFirmwareType.FONT;
