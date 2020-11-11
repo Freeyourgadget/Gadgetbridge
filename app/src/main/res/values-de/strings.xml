@@ -925,7 +925,7 @@
     <string name="error_version_check_extreme_caution">ACHTUNG: Fehler beim Prüfen der Information zur Version! Du solltest nicht fortfahren! Versionsname \"%s\" gefunden</string>
     <string name="permission_granting_mandatory">Alle Berechtigungen sind notwendig und es kann zu Problemen führen, wenn sie nicht genehmigt werden</string>
     <string name="menuitem_stress">Stress</string>
-    <string name="menuitem_cycles">Zyklus</string>
+    <string name="menuitem_cycles">Intervall</string>
     <string name="error_background_service_reason">Start des Hintergrunddienstes fehlgeschlagen wegen einem Fehler. Fehlermeldung:</string>
     <string name="error_background_service_reason_truncated">Hintergrunddienst konnte nicht gestartet werden, wegen…</string>
     <string name="error_background_service">Start des Hintergrunddienstes fehlgeschlagen</string>
@@ -1116,4 +1116,11 @@
     <string name="devicetype_amazfit_bips_lite">Amazfit Bip S Lite</string>
     <string name="charts_legend_heartrate_average">Durchschnittliche Herzfrequenz</string>
     <string name="find_lost_device_message">Suche nach %1$s\?</string>
+    <string name="menuitem_stopwatch">Stoppuhr</string>
+    <string name="menuitem_dnd">Nicht stören</string>
+    <string name="menuitem_alexa">Alexa</string>
+    <string name="menuitem_takephoto">Foto machen</string>
+    <string name="menuitem_mutephone">Telefon stumm schalten</string>
+    <string name="menuitem_findphone">Telefon finden</string>
+    <string name="devicetype_amazfit_gtr2">Amazfit GTR 2</string>
 </resources>
