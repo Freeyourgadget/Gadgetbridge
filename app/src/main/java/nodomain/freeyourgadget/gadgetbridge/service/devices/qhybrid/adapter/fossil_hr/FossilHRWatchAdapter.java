@@ -1187,7 +1187,9 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
         byte requestType = value[1];
 
         if (requestType == (byte) 0x04) {
-            handleCallRequest(value);
+            if(value[2] == 0x02){
+                handleCallRequest(value);
+            }
         } else if (requestType == (byte) 0x05) {
             handleMusicRequest(value);
         } else if (requestType == (byte) 0x01) {
