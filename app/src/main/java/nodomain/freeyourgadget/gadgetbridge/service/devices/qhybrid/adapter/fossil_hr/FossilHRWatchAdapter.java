@@ -798,11 +798,11 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
         try {
             for (NotificationHRConfiguration configuration : this.notificationConfigurations) {
                 if (configuration.getPackageName().equals(sourceAppId)) {
-                    queueWrite(new PlayTextNotificationRequest(sourceAppId, senderOrTitle, notificationSpec.body, this));
+                    queueWrite(new PlayTextNotificationRequest(sourceAppId, senderOrTitle, notificationSpec.body, notificationSpec.getId(), this));
                     return true;
                 }
             }
-            queueWrite(new PlayTextNotificationRequest("generic", senderOrTitle, notificationSpec.body, this));
+            queueWrite(new PlayTextNotificationRequest("generic", senderOrTitle, notificationSpec.body, notificationSpec.getId(), this));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -1281,6 +1281,10 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
         buffer.order(ByteOrder.LITTLE_ENDIAN);
 
         int notifId = buffer.getInt(3);
+
+        Intent deleteIntent = new Intent(NotificationListener.ACTION_DISMISS);
+        deleteIntent.putExtra("handle", (long) notifId);
+        LocalBroadcastManager.getInstance(getContext()).sendBroadcast(deleteIntent);
     }
 
     private void handleCallRequest(byte[] value) {

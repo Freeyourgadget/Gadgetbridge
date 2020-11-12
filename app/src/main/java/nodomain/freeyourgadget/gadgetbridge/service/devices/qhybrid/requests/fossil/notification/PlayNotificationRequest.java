@@ -32,8 +32,8 @@ public abstract class PlayNotificationRequest extends FilePutRequest {
         super(FileHandle.NOTIFICATION_PLAY, createFile(notificationType, flags, packageName, packageName, packageName, getCurrentMessageId()), adapter);
     }
 
-    public PlayNotificationRequest(int notificationType, int flags, String packageName, String sender, String message, FossilWatchAdapter adapter) {
-        super(FileHandle.NOTIFICATION_PLAY, createFile(notificationType, flags, packageName, sender, message, getCurrentMessageId()), adapter);
+    public PlayNotificationRequest(int notificationType, int flags, String packageName, String sender, String message, int notificationId, FossilWatchAdapter adapter) {
+        super(FileHandle.NOTIFICATION_PLAY, createFile(notificationType, flags, packageName, sender, message, notificationId), adapter);
     }
 
     public PlayNotificationRequest(int notificationType, int flags, int packageCRC, String sender, String message, int messageId, FossilWatchAdapter adapter) {
