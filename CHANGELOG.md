@@ -7,7 +7,7 @@
 * Amazfit Band 5: Allow enabling SpO2 menu
 * Mi/Amazfit Band 5: Support shortcuts (right/left swipe)
 * Amazfit GTS: Fix firmware flashing on Firmware >=0.1.1.16
-* Amazfit GTR: Fix firmware flashing on Firmware >=1.3.7.16
+* Amazfit GTR: Fix firmware flashing on Firmware >=1.3.7.16 or >=1.7.0.10
 * Fossil Hybrid HR: Remove Android notifications when deleting them from the watch
 * Fossil Hybrid HR: Enable rejecting calls on newer firmwares
 * Fossil Hybrid HR: Support hands calibration

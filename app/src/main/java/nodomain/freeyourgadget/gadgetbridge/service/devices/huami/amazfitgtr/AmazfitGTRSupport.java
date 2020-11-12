@@ -39,7 +39,7 @@ public class AmazfitGTRSupport extends AmazfitGTSSupport {
     @Override
     public UpdateFirmwareOperation createUpdateFirmwareOperation(Uri uri) {
         Version version = new Version(gbDevice.getFirmwareVersion());
-        if (version.compareTo(new Version("1.3.7.16")) >= 0) {
+        if ((!isCH(version) && (version.compareTo(new Version("1.3.7.16")) >= 0)) || (version.compareTo(new Version("1.7.0.10")) >= 0)) {
             return new UpdateFirmwareOperation2020(uri, this);
         }
 
@@ -59,6 +59,11 @@ public class AmazfitGTRSupport extends AmazfitGTSSupport {
     }
 
     private boolean is47mm(Version version) {
-        return version.compareTo(new Version("1.0.0.00")) >= 0;
+        return (version.compareTo(new Version("1.0.0.00")) >= 0) && (version.compareTo(new Version("1.6.0.00")) < 0);
     }
+
+    private boolean isCH(Version version) { // chinese variant?
+        return version.compareTo(new Version("1.6.0.00")) >= 0;
+    }
+
 }
