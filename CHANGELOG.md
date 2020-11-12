@@ -7,12 +7,17 @@
 * Amazfit Band 5: Allow enabling SpO2 menu
 * Mi/Amazfit Band 5: Support shortcuts (right/left swipe)
 * Amazfit GTS: Fix firmware flashing on Firmware >=0.1.1.16
+* Amazfit GTR: Fix firmware flashing on Firmware >=1.3.7.16
+* Fossil Hybrid HR: Remove Android notifications when deleting them from the watch
+* Fossil Hybrid HR: Enable rejecting calls on newer firmwares
 * Fossil Hybrid HR: Support hands calibration
 * Fossil Hybrid HR: Support factory reset
+* InfiniTime: Improve notification support for firmware >=0.9
 * Add version to About screen
 * Show GPS track in Sport Activity detail screen
+* Add Activity List Dashboard/Summary view to charts
 * Add heart rate average to Activity and Sleep charts
-* InfiniTime: Improve notification support for firmware >=0.9
+* Add intensity to Sleep charts
 * Recognize Wire messenger as a chat application
 * Add confirmation dialog for find device button
 
