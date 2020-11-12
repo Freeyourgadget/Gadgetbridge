@@ -27,8 +27,8 @@ import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.activities.HeartRateUtils;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityKind;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
-import nodomain.freeyourgadget.gadgetbridge.model.ActivityUser;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySession;
+import nodomain.freeyourgadget.gadgetbridge.model.ActivityUser;
 
 public class StepAnalysis {
     protected static final Logger LOG = LoggerFactory.getLogger(StepAnalysis.class);
@@ -60,11 +60,8 @@ public class StepAnalysis {
         int durationSinceLastActiveStep = 0;
         int activityKind;
 
-        int heartRateForAverage = 0;
-        int heartRateToAdd = 0;
-        int heartRateBetweenActivePeriods = 0;
-        int activeHrSamplesForAverage = 0;
-        int activeHrSamplesToAdd = 0;
+        List<Integer> heartRateSum = new ArrayList<>();
+        List<Integer> heartRateBetweenActivePeriodsSum = new ArrayList<>();
 
         float activeIntensity = 0;
         float intensityBetweenActivePeriods = 0;
@@ -78,41 +75,41 @@ public class StepAnalysis {
 
             if (sample.getKind() != ActivityKind.TYPE_SLEEP //anything but sleep counts
                     && !(sample instanceof TrailingActivitySample)) { //trailing samples have wrong date and make trailing activity have 0 duration
-                if (heartRateUtilsInstance.isValidHeartRateValue(sample.getHeartRate())) {
-                    heartRateToAdd = sample.getHeartRate();
-                    activeHrSamplesToAdd = 1;
-                } else {
-                    heartRateToAdd = 0;
-                    activeHrSamplesToAdd = 0;
-                }
 
                 if (sessionStart == null) {
                     sessionStart = getDateFromSample(sample);
                     activeSteps = sample.getSteps();
                     activeIntensity = sample.getIntensity();
-                    heartRateForAverage = heartRateToAdd;
-                    activeHrSamplesForAverage = activeHrSamplesToAdd;
+                    heartRateSum = new ArrayList<>();
+                    if (heartRateUtilsInstance.isValidHeartRateValue(sample.getHeartRate())) {
+                        heartRateSum.add(sample.getHeartRate());
+                    }
                     durationSinceLastActiveStep = 0;
                     stepsBetweenActivePeriods = 0;
-                    heartRateBetweenActivePeriods = 0;
+                    heartRateBetweenActivePeriodsSum = new ArrayList<>();
                     previousSample = null;
                 }
                 if (previousSample != null) {
                     int durationSinceLastSample = sample.getTimestamp() - previousSample.getTimestamp();
-                    activeHrSamplesForAverage += activeHrSamplesToAdd;
+
                     if (sample.getSteps() > MIN_STEPS_PER_MINUTE || //either some steps
                             (sample.getIntensity() > MIN_SESSION_INTENSITY && sample.getSteps() > 0)) { //or some intensity plus at least one step
                         activeSteps += sample.getSteps() + stepsBetweenActivePeriods;
                         activeIntensity += sample.getIntensity() + intensityBetweenActivePeriods;
-                        heartRateForAverage += heartRateToAdd + heartRateBetweenActivePeriods;
+                        if (heartRateUtilsInstance.isValidHeartRateValue(sample.getHeartRate())) {
+                            heartRateSum.add(sample.getHeartRate());
+                        }
+                        heartRateSum.addAll(heartRateBetweenActivePeriodsSum);
+                        heartRateBetweenActivePeriodsSum = new ArrayList<>();
                         stepsBetweenActivePeriods = 0;
-                        heartRateBetweenActivePeriods = 0;
                         intensityBetweenActivePeriods = 0;
                         durationSinceLastActiveStep = 0;
 
                     } else { //short break data to remember, we will add it to the rest later, if break not too long
                         stepsBetweenActivePeriods += sample.getSteps();
-                        heartRateBetweenActivePeriods += heartRateToAdd;
+                        if (heartRateUtilsInstance.isValidHeartRateValue(sample.getHeartRate())) {
+                            heartRateBetweenActivePeriodsSum.add(sample.getHeartRate());
+                        }
                         durationSinceLastActiveStep += durationSinceLastSample;
                         intensityBetweenActivePeriods += sample.getIntensity();
                     }
@@ -123,7 +120,7 @@ public class StepAnalysis {
                         int session_length = current - starting - durationSinceLastActiveStep;
 
                         if (session_length >= MIN_SESSION_LENGTH) { //valid activity session
-                            int heartRateAverage = activeHrSamplesForAverage > 0 ? heartRateForAverage / activeHrSamplesForAverage : 0;
+                            int heartRateAverage = heartRateSum.toArray().length > 0 ? calculateSumOfInts(heartRateSum) / heartRateSum.toArray().length : 0;
                             float distance = (float) (activeSteps * STEP_LENGTH_M);
                             sessionEnd = new Date((sample.getTimestamp() - durationSinceLastActiveStep) * 1000L);
                             activityKind = detect_activity_kind(session_length, activeSteps, heartRateAverage, activeIntensity);
@@ -143,7 +140,7 @@ public class StepAnalysis {
             int session_length = current - starting - durationSinceLastActiveStep;
 
             if (session_length >= MIN_SESSION_LENGTH) {
-                int heartRateAverage = activeHrSamplesForAverage > 0 ? heartRateForAverage / activeHrSamplesForAverage : 0;
+                int heartRateAverage = heartRateSum.toArray().length > 0 ? calculateSumOfInts(heartRateSum) / heartRateSum.toArray().length : 0;
                 float distance = (float) (activeSteps * STEP_LENGTH_M);
                 sessionEnd = getDateFromSample(previousSample);
                 activityKind = detect_activity_kind(session_length, activeSteps, heartRateAverage, activeIntensity);
@@ -155,7 +152,6 @@ public class StepAnalysis {
 
     public List<ActivitySession> calculateSummary(List<ActivitySession> sessions, boolean empty) {
 
-        HeartRateUtils heartRateUtilsInstance = HeartRateUtils.getInstance();
         Date startTime = null;
         Date endTime = null;
         int stepsSum = 0;
@@ -179,9 +175,6 @@ public class StepAnalysis {
         sessionCount = sessions.toArray().length;
         if (heartRateSum.toArray().length > 0) {
             heartRateAverage = calculateSumOfInts(heartRateSum) / heartRateSum.toArray().length;
-        }
-        if (!heartRateUtilsInstance.isValidHeartRateValue(heartRateAverage)) {
-            heartRateAverage = 0;
         }
         startTime = new Date(0);
         endTime = new Date(durationSum);
