@@ -1110,7 +1110,21 @@
     <string name="devicetype_amazfit_bips_lite">华米 Bip S Lite</string>
     <string name="charts_legend_heartrate_average">平均心率</string>
     <string name="charts_min_max_heartrate_popup">最低心率：%1$d
-\n最高心率：%2$d</string>
+\n最高心率：%2$d
+\n移动强度：%3$s</string>
     <string name="find_lost_device_message">搜索 %1$s ？</string>
     <string name="devicetype_amazfit_gtr2">米动 GTR 2</string>
+    <string name="menuitem_stopwatch">秒表</string>
+    <string name="menuitem_dnd">勿扰</string>
+    <string name="menuitem_alexa">Alexa</string>
+    <string name="menuitem_takephoto">拍照</string>
+    <string name="menuitem_mutephone">静音手机</string>
+    <string name="menuitem_findphone">查找手机</string>
+    <string name="movement_intensity">运动强度</string>
+    <string name="activity_list_summary_activities">活动</string>
+    <string name="activity_list_summary_intensity">运动
+\n强度</string>
+    <string name="activity_list_summary_active_time">活跃时间</string>
+    <string name="activity_list_summary_distance">距离</string>
+    <string name="activity_list_summary_active_steps">活跃步数</string>
 </resources>
