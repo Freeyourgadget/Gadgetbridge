@@ -30,6 +30,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.BufferOverflowException;
+import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
@@ -1187,8 +1189,10 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
         byte requestType = value[1];
 
         if (requestType == (byte) 0x04) {
-            if(value[2] == 0x02){
+            if(value[7] == 0x00 || value[7] == 0x01){
                 handleCallRequest(value);
+            }else if(value[7] == 0x02){
+                handleDeleteNotification(value);
             }
         } else if (requestType == (byte) 0x05) {
             handleMusicRequest(value);
@@ -1270,6 +1274,13 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
                 e.printStackTrace();
             }
         }
+    }
+
+    private void handleDeleteNotification(byte[] value) {
+        ByteBuffer buffer = ByteBuffer.wrap(value);
+        buffer.order(ByteOrder.LITTLE_ENDIAN);
+
+        int notifId = buffer.getInt(3);
     }
 
     private void handleCallRequest(byte[] value) {
