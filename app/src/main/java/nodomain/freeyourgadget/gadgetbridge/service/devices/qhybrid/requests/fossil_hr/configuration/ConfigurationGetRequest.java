@@ -10,10 +10,11 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.QHybridSuppo
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.adapter.fossil_hr.FossilHRWatchAdapter;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.file.FileHandle;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.configuration.ConfigurationPutRequest;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.file.FileEncryptedInterface;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.file.FileEncryptedLookupAndGetRequest;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
-public class ConfigurationGetRequest extends FileEncryptedLookupAndGetRequest {
+public class ConfigurationGetRequest extends FileEncryptedLookupAndGetRequest implements FileEncryptedInterface {
     public ConfigurationGetRequest(FossilHRWatchAdapter adapter) {
         super(FileHandle.CONFIGURATION, adapter);
     }

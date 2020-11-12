@@ -42,7 +42,7 @@ import nodomain.freeyourgadget.gadgetbridge.util.CRC32C;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 import nodomain.freeyourgadget.gadgetbridge.util.StringUtils;
 
-public abstract class FileEncryptedGetRequest extends FossilRequest {
+public abstract class FileEncryptedGetRequest extends FossilRequest implements FileEncryptedInterface{
     private short handle;
     private FossilHRWatchAdapter adapter;
 

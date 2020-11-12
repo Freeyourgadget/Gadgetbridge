@@ -66,6 +66,8 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.buttonconfig
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.file.FileHandle;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.parser.ActivityEntry;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.parser.ActivityFileParser;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.Request;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.FossilRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.RequestMtuRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.SetDeviceStateRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.button.ButtonConfigurationGetRequest;
@@ -85,6 +87,7 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fos
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.file.AssetFilePutRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.file.FileEncryptedGetRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.file.FilePutRawRequest;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.file.FileEncryptedInterface;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.file.FirmwareFilePutRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.image.AssetImage;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.image.AssetImageFactory;
@@ -105,6 +108,7 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fos
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.widget.WidgetsPutRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.misfit.AnimationRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.misfit.FactoryResetRequest;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.misfit.SetTimeRequest;
 import nodomain.freeyourgadget.gadgetbridge.util.FileUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
@@ -139,18 +143,16 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
     HashMap<String, Bitmap> appIconCache = new HashMap<>();
     String lastPostedApp = null;
 
+    enum CONNECTION_MODE {
+        NOT_INITIALIZED,
+        AUTHENTICATED,
+        NOT_AUTHENTICATED
+    }
+
+    CONNECTION_MODE connectionMode = CONNECTION_MODE.NOT_INITIALIZED;
+
     @Override
     public void initialize() {
-        try {
-            getSecretKey();
-        } catch (IllegalAccessException e) {
-            GB.toast("erro getting key: " + e.getMessage(), Toast.LENGTH_LONG, GB.ERROR, e);
-            new TransactionBuilder("init fail")
-                    .add(new SetDeviceStateAction(getDeviceSupport().getDevice(), GBDevice.State.AUTHENTICATION_REQUIRED, getContext()))
-                    .queue(getDeviceSupport().getQueue());
-            return;
-        }
-
         saveRawActivityFiles = getDeviceSpecificPreferences().getBoolean("save_raw_activity_files", false);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -162,22 +164,32 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
 
     @Override
     protected void initializeWithSupportedFileVersions() {
+        if (getDeviceSupport().getDevice().getFirmwareVersion().contains("prod")) {
+            GB.toast("Dummy FW, skipping initialization", Toast.LENGTH_LONG, GB.INFO);
+            queueWrite(new SetDeviceStateRequest(GBDevice.State.INITIALIZED), false);
+            return;
+        }
+
         queueWrite(new SetDeviceStateRequest(GBDevice.State.AUTHENTICATING));
 
         negotiateSymmetricKey();
+    }
 
+    private void initializeAfterAuthentication(boolean authenticated){
         queueWrite(new SetDeviceStateRequest(GBDevice.State.INITIALIZING));
+
+        if(!authenticated) GB.toast("Authentication failed, limited functionality", Toast.LENGTH_LONG, GB.ERROR);
 
         loadNotificationConfigurations();
         queueWrite(new NotificationFilterPutHRRequest(this.notificationConfigurations, this));
-        setVibrationStrength();
 
-        syncSettings();
-
-        setTime();
+        if(authenticated){
+            setVibrationStrength();
+            syncSettings();
+            setTime();
+        }
 
         overwriteButtons(null);
-
 
         loadBackground();
         loadWidgets();
@@ -185,6 +197,12 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
         // dunno if there is any point in doing this at start since when no watch is connected the QHybridSupport will not receive any intents anyway
 
         queueWrite(new SetDeviceStateRequest(GBDevice.State.INITIALIZED));
+    }
+
+    private void handleAuthenticationResult(boolean success){
+        if(this.connectionMode != CONNECTION_MODE.NOT_INITIALIZED) return;
+        this.connectionMode = success ? CONNECTION_MODE.AUTHENTICATED : CONNECTION_MODE.NOT_AUTHENTICATED;
+        this.initializeAfterAuthentication(success);
     }
 
     private void setVibrationStrength() {
@@ -198,8 +216,14 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
 
     @Override
     public void setVibrationStrength(short strength) {
-        negotiateSymmetricKey();
-        queueWrite(new ConfigurationPutRequest(new nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.configuration.ConfigurationPutRequest.VibrationStrengthConfigItem((byte) strength), this));
+        if(connectionMode == CONNECTION_MODE.NOT_AUTHENTICATED){
+            GB.toast("not available in unauthenticated mode", Toast.LENGTH_LONG, GB.ERROR);
+            return;
+        }
+
+        queueWrite(
+                (FileEncryptedInterface) new ConfigurationPutRequest(new nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.configuration.ConfigurationPutRequest.VibrationStrengthConfigItem((byte) strength), this)
+        );
     }
 
     private void loadNotificationConfigurations() {
@@ -337,7 +361,6 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
     }
 
     private void uploadWidgets() {
-        negotiateSymmetricKey();
         ArrayList<Widget> systemWidgets = new ArrayList<>(widgets.size());
         for (Widget widget : this.widgets) {
             if (!(widget instanceof CustomWidget) && !widget.getWidgetType().isCustom())
@@ -514,7 +537,7 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
         }
     }
 
-    private void handleFileDownload(FileHandle handle, byte[] file){
+    private void handleFileDownload(FileHandle handle, byte[] file) {
         Intent resultIntent = new Intent(QHybridSupport.QHYBRID_ACTION_DOWNLOADED_FILE);
         File outputFile = new File(getContext().getExternalFilesDir("download"), handle.name() + "_" + System.currentTimeMillis() + ".bin");
         try {
@@ -547,7 +570,7 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
             return;
         }
 
-        queueWrite(new FilePutRawRequest(handle, fileData, this){
+        queueWrite(new FilePutRawRequest(handle, fileData, this) {
             @Override
             public void onFilePut(boolean success) {
                 resultIntent.putExtra("EXTRA_SUCCESS", success);
@@ -558,16 +581,15 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
 
     @Override
     public void downloadFile(final FileHandle handle, boolean fileIsEncrypted) {
-        if(fileIsEncrypted){
-            negotiateSymmetricKey();
-            queueWrite(new FileEncryptedGetRequest(handle, this) {
+        if (fileIsEncrypted) {
+            queueWrite((FileEncryptedInterface) new FileEncryptedGetRequest(handle, this) {
                 @Override
                 public void handleFileData(byte[] fileData) {
                     logger.debug("downloaded encrypted file");
                     handleFileDownload(handle, fileData);
                 }
             });
-        }else{
+        } else {
             queueWrite(new FileGetRawRequest(handle, this) {
                 @Override
                 public void handleFileRawData(byte[] fileData) {
@@ -589,21 +611,43 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
         if (renderOnWatch && update) renderWidgets();
     }
 
+    private void queueWrite(final FileEncryptedInterface request){
+        try {
+            queueWrite(new VerifyPrivateKeyRequest(
+                    this.getSecretKey(),
+                    this
+            ){
+                @Override
+                protected void handleAuthenticationResult(boolean success) {
+                    if(success){
+                        GB.log("success auth", GB.INFO, null);
+                        queueWrite((FossilRequest) request, true);
+                    }
+                }
+            });
+        } catch (IllegalAccessException e) {
+            GB.toast("error getting key: " + e.getMessage(), Toast.LENGTH_LONG, GB.ERROR, e);
+        }
+    }
+
     private void negotiateSymmetricKey() {
         try {
             queueWrite(new VerifyPrivateKeyRequest(
                     this.getSecretKey(),
                     this
-            ));
+            ){
+                @Override
+                protected void handleAuthenticationResult(boolean success) {
+                    FossilHRWatchAdapter.this.handleAuthenticationResult(success);
+                }
+            });
         } catch (IllegalAccessException e) {
             GB.toast("error getting key: " + e.getMessage(), Toast.LENGTH_LONG, GB.ERROR, e);
-            getDeviceSupport().getDevice().setState(GBDevice.State.AUTHENTICATION_REQUIRED);
-            getDeviceSupport().getDevice().sendDeviceUpdateIntent(getContext());
-            getDeviceSupport().getQueue().clear();
+            this.handleAuthenticationResult(false);
         }
     }
 
-    private void toast(final String data){
+    private void toast(final String data) {
         new Handler(Looper.getMainLooper()).post(new Runnable() {
             @Override
             public void run() {
@@ -614,10 +658,12 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
 
     @Override
     public void setTime() {
-        negotiateSymmetricKey();
-
+        if(connectionMode == CONNECTION_MODE.NOT_AUTHENTICATED){
+            GB.toast("not available in unauthenticated mode", Toast.LENGTH_LONG, GB.ERROR);
+            return;
+        }
         queueWrite(
-                new ConfigurationPutRequest(this.generateTimeConfigItemNow() ,this), false
+                (FileEncryptedInterface) new ConfigurationPutRequest(this.generateTimeConfigItemNow(), this)
         );
     }
 
@@ -659,13 +705,17 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
 
     @Override
     public void onFetchActivityData() {
+        if(connectionMode == CONNECTION_MODE.NOT_AUTHENTICATED){
+            GB.toast("not available in unauthenticated mode", Toast.LENGTH_LONG, GB.ERROR);
+            return;
+        }
+
         syncSettings();
 
-        negotiateSymmetricKey();
         queueWrite(new FileLookupRequest(FileHandle.ACTIVITY_FILE, this) {
             @Override
             public void handleFileLookup(final short fileHandle) {
-                queueWrite(new FileEncryptedGetRequest(fileHandle, FossilHRWatchAdapter.this) {
+                queueWrite((FileEncryptedInterface) new FileEncryptedGetRequest(fileHandle, FossilHRWatchAdapter.this) {
                     @Override
                     public void handleFileData(byte[] fileData) {
                         try (DBHandler dbHandler = GBApplication.acquireDB()) {
@@ -725,9 +775,12 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
     }
 
     private void syncSettings() {
-        negotiateSymmetricKey();
+        if(connectionMode == CONNECTION_MODE.NOT_AUTHENTICATED){
+            GB.toast("not available in unauthenticated mode", Toast.LENGTH_LONG, GB.ERROR);
+            return;
+        }
 
-        queueWrite(new ConfigurationGetRequest(this));
+        queueWrite((FileEncryptedInterface) new ConfigurationGetRequest(this));
     }
 
     @Override
@@ -1010,7 +1063,7 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
         if (authKey != null && !authKey.isEmpty()) {
             authKey = authKey.replace(" ", "");
             authKey = authKey.replace("0x", "");
-            if(authKey.length() != 32){
+            if (authKey.length() != 32) {
                 throw new IllegalAccessException("Key should be 16 bytes long as hex string");
             }
             byte[] srcBytes = GB.hexStringToByteArray(authKey);
@@ -1052,10 +1105,11 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
 
             String firmware = getDeviceSupport().getDevice().getFirmwareVersion();
             Matcher matcher = Pattern.compile("[0-9]+\\.[0-9]+\\.[0-9]+\\.[0-9]+").matcher(firmware); // DN1.0.2.19r.v5
-            if(matcher.find()){
+            if (matcher.find()) {
                 firmware = matcher.group(0);
                 Version version = new Version(firmware);
-                if(version.compareTo(new Version("1.0.2.19")) == -1) singlePressEvent = "single_click";
+                if (version.compareTo(new Version("1.0.2.19")) == -1)
+                    singlePressEvent = "single_click";
             }
 
             ButtonConfiguration[] buttonConfigurations = new ButtonConfiguration[]{

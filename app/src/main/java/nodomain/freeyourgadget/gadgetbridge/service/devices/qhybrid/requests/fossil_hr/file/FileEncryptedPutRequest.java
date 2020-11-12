@@ -36,7 +36,7 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fos
 import nodomain.freeyourgadget.gadgetbridge.util.CRC32C;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
-public class FileEncryptedPutRequest extends FossilRequest {
+public class FileEncryptedPutRequest extends FossilRequest implements FileEncryptedInterface {
     public enum UploadState {INITIALIZED, UPLOADING, CLOSING, UPLOADED}
 
     public UploadState state;
