@@ -1101,7 +1101,8 @@
     <string name="devicetype_amazfit_bips_lite">Amazfit Bip S Lite</string>
     <string name="charts_legend_heartrate_average">דופק ממוצע</string>
     <string name="charts_min_max_heartrate_popup">דופק נמוך: %1$d
-\nדופק גבוה: %2$d</string>
+\nדופק גבוה: %2$d
+\nחוזק תנועה: %3$s</string>
     <string name="find_lost_device_message">לחפש אחר %1$s\?</string>
     <string name="devicetype_amazfit_gtr2">Amazfit GTR 2</string>
     <string name="menuitem_stopwatch">שעון עצר</string>
@@ -1110,4 +1111,11 @@
     <string name="menuitem_takephoto">צילום תמונה</string>
     <string name="menuitem_mutephone">השתקת הטלפון</string>
     <string name="menuitem_findphone">איתור הטלפון</string>
+    <string name="movement_intensity">חוזק תנועה</string>
+    <string name="activity_list_summary_activities">פעילויות</string>
+    <string name="activity_list_summary_intensity">חוזק
+\nהתנועה</string>
+    <string name="activity_list_summary_active_steps">צעדים בפעילות</string>
+    <string name="activity_list_summary_active_time">זמן פעילות</string>
+    <string name="activity_list_summary_distance">מרחק</string>
 </resources>
