@@ -16,39 +16,34 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal">
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:orientation="horizontal">
+            <com.github.mikephil.charting.charts.PieChart
+                android:id="@+id/activity_dashboard_piechart1"
+                android:layout_width="110dp"
+                android:layout_height="110dp"
+                android:layout_gravity="bottom|center"
+                android:layout_marginBottom="0dp"
+                android:layout_weight="1" />
 
-                <com.github.mikephil.charting.charts.PieChart
-                    android:id="@+id/activity_dashboard_piechart1"
-                    android:layout_width="110dp"
-                    android:layout_height="110dp"
-                    android:layout_gravity="bottom|center"
-                    android:layout_marginBottom="0dp"
-                    android:layout_weight="1" />
+            <com.github.mikephil.charting.charts.PieChart
+                android:id="@+id/activity_dashboard_piechart2"
+                android:layout_width="110dp"
+                android:layout_height="110dp"
+                android:layout_gravity="bottom|center"
+                android:layout_marginBottom="0dp"
+                android:layout_weight="1" />
 
-                <com.github.mikephil.charting.charts.PieChart
-                    android:id="@+id/activity_dashboard_piechart2"
-                    android:layout_width="110dp"
-                    android:layout_height="110dp"
-                    android:layout_gravity="bottom|center"
-                    android:layout_marginBottom="0dp"
-                    android:layout_weight="1" />
-
-                <com.github.mikephil.charting.charts.PieChart
-                    android:id="@+id/activity_dashboard_piechart3"
-                    android:layout_width="110dp"
-                    android:layout_height="110dp"
-                    android:layout_gravity="bottom|center"
-                    android:layout_marginBottom="0dp"
-                    android:layout_weight="1" />
-                <!--
+            <com.github.mikephil.charting.charts.PieChart
+                android:id="@+id/activity_dashboard_piechart3"
+                android:layout_width="110dp"
+                android:layout_height="110dp"
+                android:layout_gravity="bottom|center"
+                android:layout_marginBottom="0dp"
+                android:layout_weight="1" />
+            <!--
                                 <com.github.mikephil.charting.charts.PieChart
                                     android:id="@+id/activity_dashboard_piechart4"
                                     android:layout_width="90dp"
@@ -56,15 +51,13 @@
                                     android:layout_gravity="bottom|center"
                                     android:layout_marginBottom="0dp" />
                                     -->
-            </LinearLayout>
-
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_gravity="center"
-            android:layout_marginBottom="5dp"
+            android:layout_marginBottom="0dp"
             android:gravity="center"
             android:orientation="horizontal">
 
@@ -99,15 +92,15 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:layout_marginBottom="5dp"
+            android:layout_marginTop="0dp"
+            android:layout_marginBottom="10dp"
             android:baselineAligned="false"
             android:gravity="bottom|center"
             android:orientation="horizontal">
 
             <LinearLayout
                 android:id="@+id/line_layout_step"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center|top"
                 android:layout_marginStart="1dp"
@@ -132,7 +125,10 @@
                     android:gravity="center"
                     android:maxLines="2"
                     android:scrollHorizontally="false"
-                    android:text="@string/activity_list_summary_active_steps" />
+                    android:text="@string/activity_list_summary_active_steps"
+                    android:textAllCaps="true"
+                    android:textColor="@color/accent"
+                    android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/line_layout_step_label"
@@ -143,14 +139,15 @@
                     android:gravity="center"
                     android:maxLines="1"
                     android:scrollHorizontally="false"
-                    android:text="15000" />
+                    android:text="15000"
+                    android:textSize="24sp" />
 
             </LinearLayout>
 
 
             <LinearLayout
                 android:id="@+id/line_layout_distance"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center|top"
                 android:layout_marginStart="1dp"
@@ -175,7 +172,10 @@
                     android:gravity="center"
                     android:maxLines="2"
                     android:scrollHorizontally="false"
-                    android:text="@string/distance" />
+                    android:text="@string/distance"
+                    android:textAllCaps="true"
+                    android:textColor="@color/accent"
+                    android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/line_layout_distance_label"
@@ -186,14 +186,15 @@
                     android:gravity="center"
                     android:maxLines="1"
                     android:scrollHorizontally="false"
-                    android:text="15.1km" />
+                    android:text="15.1km"
+                    android:textSize="24sp" />
 
             </LinearLayout>
 
 
             <LinearLayout
                 android:id="@+id/line_layout_duration"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center|top"
                 android:layout_marginStart="1dp"
@@ -218,7 +219,10 @@
                     android:gravity="center"
                     android:maxLines="2"
                     android:scrollHorizontally="false"
-                    android:text="@string/activity_list_summary_active_time" />
+                    android:text="@string/activity_list_summary_active_time"
+                    android:textAllCaps="true"
+                    android:textColor="@color/accent"
+                    android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/line_layout_duration_label"
@@ -229,7 +233,8 @@
                     android:gravity="center"
                     android:maxLines="1"
                     android:scrollHorizontally="false"
-                    android:text="122" />
+                    android:text="122"
+                    android:textSize="24sp" />
 
             </LinearLayout>
 
@@ -247,7 +252,7 @@
 
             <LinearLayout
                 android:id="@+id/line_layout_total_step"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center|top"
                 android:layout_marginStart="1dp"
@@ -272,7 +277,10 @@
                     android:gravity="center"
                     android:maxLines="2"
                     android:scrollHorizontally="false"
-                    android:text="@string/live_activity_total_steps" />
+                    android:text="@string/live_activity_total_steps"
+                    android:textAllCaps="true"
+                    android:textColor="@color/accent"
+                    android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/line_layout_total_step_label"
@@ -283,14 +291,15 @@
                     android:gravity="center"
                     android:maxLines="1"
                     android:scrollHorizontally="false"
-                    android:text="15000" />
+                    android:text="15000"
+                    android:textSize="24sp" />
 
             </LinearLayout>
 
 
             <LinearLayout
                 android:id="@+id/line_layout_count"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center|top"
                 android:layout_marginStart="1dp"
@@ -315,7 +324,10 @@
                     android:gravity="center"
                     android:maxLines="2"
                     android:scrollHorizontally="false"
-                    android:text="@string/activity_list_summary_activities" />
+                    android:text="@string/activity_list_summary_activities"
+                    android:textAllCaps="true"
+                    android:textColor="@color/accent"
+                    android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/line_layout_count_label"
@@ -326,15 +338,16 @@
                     android:gravity="center"
                     android:maxLines="1"
                     android:scrollHorizontally="false"
-                    android:text="15" />
+                    android:text="15"
+                    android:textSize="24sp" />
 
             </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/line_layout_intensity2"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="bottom|center"
+                android:layout_gravity="center|top"
                 android:layout_marginStart="1dp"
                 android:layout_marginEnd="1dp"
                 android:layout_weight="1"
@@ -357,7 +370,10 @@
                     android:gravity="center"
                     android:maxLines="2"
                     android:scrollHorizontally="false"
-                    android:text="@string/activity_list_summary_intensity" />
+                    android:text="@string/activity_list_summary_intensity"
+                    android:textAllCaps="true"
+                    android:textColor="@color/accent"
+                    android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/line_layout_intensity2_label"
@@ -368,7 +384,8 @@
                     android:gravity="center"
                     android:maxLines="1"
                     android:scrollHorizontally="false"
-                    android:text="15" />
+                    android:text="15"
+                    android:textSize="24sp" />
 
             </LinearLayout>
 

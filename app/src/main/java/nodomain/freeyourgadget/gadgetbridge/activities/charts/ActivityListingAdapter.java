@@ -8,10 +8,12 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
+import com.github.mikephil.charting.utils.MPPointF;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,15 +31,15 @@ import nodomain.freeyourgadget.gadgetbridge.model.ActivityUser;
 import nodomain.freeyourgadget.gadgetbridge.util.DateTimeUtils;
 
 public class ActivityListingAdapter extends AbstractActivityListingAdapter<ActivitySession> {
-    public static final String ACTIVE_STEPS_CHART_COLOR = "#3498db";
-    public static final String DISTANCE_CHART_COLOR = "#f1c40f";
-    public static final String ACTIVE_TIME_CHART_COLOR = "#e74c3c";
+    public static final String CHART_COLOR_START = "#e74c3c";
+    public static final String CHART_COLOR_END = "#2ecc71";
     protected static final Logger LOG = LoggerFactory.getLogger(AbstractWeekChartFragment.class);
+    protected final int ANIM_TIME = 250;
     private final int SESSION_SUMMARY = ActivitySession.SESSION_SUMMARY;
     ActivityUser activityUser = new ActivityUser();
     int stepsGoal = activityUser.getStepsGoal();
-    int distanceMeters = activityUser.getDistanceMeters();
-    long activeTimeMillis = activityUser.getActiveTimeMinutes() * 60 * 1000L;
+    int distanceGoalMeters = activityUser.getDistanceMeters();
+    long activeTimeGoalTimeMillis = activityUser.getActiveTimeMinutes() * 60 * 1000L;
 
     public ActivityListingAdapter(Context context) {
         super(context);
@@ -48,53 +50,44 @@ public class ActivityListingAdapter extends AbstractActivityListingAdapter<Activ
         LayoutInflater inflater = (LayoutInflater) context
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         view = inflater.inflate(R.layout.activity_list_dashboard_item, parent, false);
-
         PieChart ActiveStepsChart;
         PieChart DistanceChart;
         PieChart ActiveTimeChart;
 
         ActiveStepsChart = view.findViewById(R.id.activity_dashboard_piechart1);
         setUpChart(ActiveStepsChart);
-        setStepsData(item, ActiveStepsChart, context);
+        int steps = item.getActiveSteps();
+        setChartsData(ActiveStepsChart, steps, stepsGoal, context.getString(R.string.activity_list_summary_active_steps), context);
 
         DistanceChart = view.findViewById(R.id.activity_dashboard_piechart2);
         setUpChart(DistanceChart);
-        setDistanceData(item, DistanceChart, context);
+        float distance = item.getDistance();
+        setChartsData(DistanceChart, distance, distanceGoalMeters, context.getString(R.string.distance), context);
 
         ActiveTimeChart = view.findViewById(R.id.activity_dashboard_piechart3);
         setUpChart(ActiveTimeChart);
-        setDurationData(item, ActiveTimeChart, context);
+        long duration = item.getEndTime().getTime() - item.getStartTime().getTime();
+        setChartsData(ActiveTimeChart, duration, activeTimeGoalTimeMillis, context.getString(R.string.activity_list_summary_active_time), context);
 
         TextView stepLabel = view.findViewById(R.id.line_layout_step_label);
         TextView stepTotalLabel = view.findViewById(R.id.line_layout_total_step_label);
-
         TextView distanceLabel = view.findViewById(R.id.line_layout_distance_label);
-
         TextView hrLabel = view.findViewById(R.id.heartrate_widget_label);
-
         TextView intensityLabel = view.findViewById(R.id.intensity_widget_label);
         TextView intensity2Label = view.findViewById(R.id.line_layout_intensity2_label);
-
-
         TextView durationLabel = view.findViewById(R.id.line_layout_duration_label);
         TextView sessionCountLabel = view.findViewById(R.id.line_layout_count_label);
-
         LinearLayout durationLayout = view.findViewById(R.id.line_layout_duration);
         LinearLayout countLayout = view.findViewById(R.id.line_layout_count);
-
-
         View hrLayout = view.findViewById(R.id.heartrate_widget_icon);
         LinearLayout stepsLayout = view.findViewById(R.id.line_layout_step);
         LinearLayout stepsTotalLayout = view.findViewById(R.id.line_layout_total_step);
-
-
         LinearLayout distanceLayout = view.findViewById(R.id.line_layout_distance);
         View intensityLayout = view.findViewById(R.id.intensity_widget_icon);
         View intensity2Layout = view.findViewById(R.id.line_layout_intensity2);
 
         stepLabel.setText(getStepLabel(item));
         stepTotalLabel.setText(getStepTotalLabel(item));
-
         distanceLabel.setText(getDistanceLabel(item));
         hrLabel.setText(getHrLabel(item));
         intensityLabel.setText(getIntensityLabel(item));
@@ -147,70 +140,38 @@ public class ActivityListingAdapter extends AbstractActivityListingAdapter<Activ
         return view;
     }
 
-    private void setStepsData(ActivitySession item, PieChart DashboardChart, Context context) {
+    private void setChartsData(PieChart pieChart, float value, float target, String label, Context context) {
         ArrayList<PieEntry> entries = new ArrayList<>();
-        int steps = item.getActiveSteps();
-        entries.add(new PieEntry((float) steps));
+        entries.add(new PieEntry((float) value, context.getResources().getDrawable(R.drawable.ic_star_gold)));
 
-        if (steps < stepsGoal) {
-            entries.add(new PieEntry((float) (stepsGoal - steps)));
+        Easing.EasingFunction animationEffect = Easing.EaseInOutSine;
+
+        if (value < target) {
+            entries.add(new PieEntry((float) (target - value)));
         }
 
-        DashboardChart.setCenterText(String.format("%d%%\n%s", (int) (steps * 100 / stepsGoal), context.getString(R.string.activity_list_summary_active_steps)));
+        pieChart.setCenterText(String.format("%d%%\n%s", (int) (value * 100 / target), label));
+        float colorValue = Math.max(0, Math.min(1, value / target));
+        int chartColor = interpolateColor(Color.parseColor(CHART_COLOR_START), Color.parseColor(CHART_COLOR_END), colorValue);
 
         PieDataSet dataSet = new PieDataSet(entries, "");
+        dataSet.setDrawIcons(false);
+        dataSet.setIconsOffset(new MPPointF(0, -66));
+
+        if (colorValue == 1) {
+            dataSet.setDrawIcons(true);
+        }
         dataSet.setSliceSpace(0f);
         dataSet.setSelectionShift(5f);
+        dataSet.setColors(chartColor, Color.LTGRAY);
 
-        dataSet.setColors(Color.parseColor(ACTIVE_STEPS_CHART_COLOR), Color.LTGRAY);
         PieData data = new PieData(dataSet);
         data.setValueTextSize(0f);
         data.setValueTextColor(Color.WHITE);
-        DashboardChart.setData(data);
-        DashboardChart.invalidate();
-    }
 
-    private void setDistanceData(ActivitySession item, PieChart DashboardChart, Context context) {
-        ArrayList<PieEntry> entries = new ArrayList<>();
-        float distance = item.getDistance();
-        entries.add(new PieEntry(distance));
-
-        if (distance < distanceMeters) {
-            entries.add(new PieEntry((float) (distanceMeters - distance)));
-        }
-
-        DashboardChart.setCenterText(String.format("%d%%\n%s", (int) (distance * 100 / distanceMeters), context.getString(R.string.distance)));
-        PieDataSet dataSet = new PieDataSet(entries, "");
-        dataSet.setSliceSpace(0f);
-        dataSet.setSelectionShift(5f);
-
-        dataSet.setColors(Color.parseColor(DISTANCE_CHART_COLOR), Color.LTGRAY);
-        PieData data = new PieData(dataSet);
-        data.setValueTextSize(0f);
-        data.setValueTextColor(Color.WHITE);
-        DashboardChart.setData(data);
-        DashboardChart.invalidate();
-    }
-
-    private void setDurationData(ActivitySession item, PieChart DashboardChart, Context context) {
-        ArrayList<PieEntry> entries = new ArrayList<>();
-        long duration = item.getEndTime().getTime() - item.getStartTime().getTime();
-        entries.add(new PieEntry((float) duration));
-
-        if (duration < activeTimeMillis) {
-            entries.add(new PieEntry((float) (activeTimeMillis - duration)));
-        }
-
-        DashboardChart.setCenterText(String.format("%d%%\n%s", (int) (duration * 100 / activeTimeMillis), context.getString(R.string.activity_list_summary_active_time)));
-        PieDataSet dataSet = new PieDataSet(entries, "");
-        dataSet.setSliceSpace(0f);
-        dataSet.setSelectionShift(5f);
-        dataSet.setColors(Color.parseColor(ACTIVE_TIME_CHART_COLOR), Color.LTGRAY);
-        PieData data = new PieData(dataSet);
-        data.setValueTextSize(0f);
-        data.setValueTextColor(Color.WHITE);
-        DashboardChart.setData(data);
-        DashboardChart.invalidate();
+        pieChart.setData(data);
+        pieChart.invalidate();
+        pieChart.animateY(ANIM_TIME, animationEffect);
     }
 
     private void setUpChart(PieChart DashboardChart) {
@@ -227,6 +188,21 @@ public class ActivityListingAdapter extends AbstractActivityListingAdapter<Activ
         DashboardChart.setRotationEnabled(true);
         DashboardChart.setHighlightPerTapEnabled(true);
         DashboardChart.setCenterTextOffset(0, 0);
+    }
+
+    private float interpolate(float a, float b, float proportion) {
+        return (a + ((b - a) * proportion));
+    }
+
+    private int interpolateColor(int a, int b, float proportion) {
+        float[] hsva = new float[3];
+        float[] hsvb = new float[3];
+        Color.colorToHSV(a, hsva);
+        Color.colorToHSV(b, hsvb);
+        for (int i = 0; i < 3; i++) {
+            hsvb[i] = interpolate(hsva[i], hsvb[i], proportion);
+        }
+        return Color.HSVToColor(hsvb);
     }
 
     @Override

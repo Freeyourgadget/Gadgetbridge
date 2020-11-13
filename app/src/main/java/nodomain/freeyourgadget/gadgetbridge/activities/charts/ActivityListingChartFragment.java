@@ -27,6 +27,7 @@ import android.view.ViewGroup;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.charts.Chart;
 
 import org.slf4j.Logger;
@@ -106,7 +107,7 @@ public class ActivityListingChartFragment extends AbstractChartFragment {
     protected void updateChartsnUIThread(ChartsData chartsData) {
         MyChartsData mcd = (MyChartsData) chartsData;
         if (mcd.getStepSessions().toArray().length == 0) {
-            getChartsHost().enableSwipeRefresh(true); //try to enable pull to refresh, might be needed
+            getChartsHost().enableSwipeRefresh(true); //enable pull to refresh, might be needed
         } else {
             getChartsHost().enableSwipeRefresh(false); //disable pull to refresh as it collides with swipable view
         }
@@ -117,8 +118,7 @@ public class ActivityListingChartFragment extends AbstractChartFragment {
 
     @Override
     protected void renderCharts() {
-
-    }
+            }
 
     @Override
     protected void setupLegend(Chart chart) {
