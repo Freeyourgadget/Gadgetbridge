@@ -1,6 +1,6 @@
 ### Changelog
 
-#### Next
+#### 0.49.0
 * Initial support for Amazfit Bip S Lite
 * Initial support for Amazfit GTR 2
 * Huami: allow sorting of shortcuts and menus (all except Mi Band 2)
@@ -8,6 +8,7 @@
 * Mi/Amazfit Band 5: Support shortcuts (right/left swipe)
 * Amazfit GTS: Fix firmware flashing on Firmware >=0.1.1.16
 * Amazfit GTR: Fix firmware flashing on Firmware >=1.3.7.16 or >=1.7.0.10
+* Amazfit GTR/GTS: Add missing settings menu item in preferences
 * Fossil Hybrid HR: Remove Android notifications when deleting them from the watch
 * Fossil Hybrid HR: Enable rejecting calls on newer firmwares
 * Fossil Hybrid HR: Support hands calibration

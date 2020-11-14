@@ -1,5 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
+    <release version="0.49.0" versioncode="183">
+        <change>Initial support for Amazfit Bip S Lite</change>
+        <change>Initial support for Amazfit GTR 2</change>
+        <change>Huami: allow sorting of shortcuts and menus (all except Mi Band 2)</change>
+        <change>Amazfit Band 5: Allow enabling SpO2 menu</change>
+        <change>Mi/Amazfit Band 5: Support shortcuts (right/left swipe)</change>
+        <change>Amazfit GTS: Fix firmware flashing on Firmware >=0.1.1.16</change>
+        <change>Amazfit GTR: Fix firmware flashing on Firmware >=1.3.7.16 or >=1.7.0.10</change>
+        <change>Amazfit GTR/GTS: Add missing settings menu item in preferences</change>
+        <change>Fossil Hybrid HR: Remove Android notifications when deleting them from the watch</change>
+        <change>Fossil Hybrid HR: Enable rejecting calls on newer firmwares</change>
+        <change>Fossil Hybrid HR: Support hands calibration</change>
+        <change>Fossil Hybrid HR: Support factory reset</change>
+        <change>InfiniTime: Improve notification support for firmware >=0.9</change>
+        <change>Add version to About screen</change>
+        <change>Show GPS track in Sport Activity detail screen</change>
+        <change>Add Activity List Dashboard/Summary view to charts</change>
+        <change>Add heart rate average to Activity and Sleep charts</change>
+        <change>Add intensity to Sleep charts</change>
+        <change>Recognize Wire messenger as a chat application</change>
+        <change>Add confirmation dialog for find device button</change>
+    </release>
     <release version="0.48.0" versioncode="182">
         <change>Initial support for Sony SWR12</change>
         <change>Initial support for Lefun Smart Bands</change>
