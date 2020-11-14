@@ -15,11 +15,11 @@
 
     You should have received a copy of the GNU Affero General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
-package nodomain.freeyourgadget.gadgetbridge.devices.casiogb6900;
+package nodomain.freeyourgadget.gadgetbridge.devices.casio;
 
 import java.util.UUID;
 
-public final class CasioGB6900Constants {
+public final class CasioConstants {
     public static final UUID CASIO_VIRTUAL_SERVER_SERVICE = UUID.fromString("26eb0007-b012-49a8-b1f8-394fb2032b0f");
 
     public static final UUID CASIO_VIRTUAL_SERVER_FEATURES = UUID.fromString("26eb0008-b012-49a8-b1f8-394fb2032b0f");

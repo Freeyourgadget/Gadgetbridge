@@ -16,7 +16,7 @@
 
     You should have received a copy of the GNU Affero General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
-package nodomain.freeyourgadget.gadgetbridge.devices.casiogb6900;
+package nodomain.freeyourgadget.gadgetbridge.devices.casio.gb6900;
 
 import android.app.Activity;
 import android.content.Context;
@@ -27,9 +27,11 @@ import org.slf4j.LoggerFactory;
 
 import androidx.annotation.NonNull;
 import nodomain.freeyourgadget.gadgetbridge.GBException;
+import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.devices.AbstractDeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.InstallHandler;
 import nodomain.freeyourgadget.gadgetbridge.devices.SampleProvider;
+import nodomain.freeyourgadget.gadgetbridge.devices.casio.CasioConstants;
 import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
 import nodomain.freeyourgadget.gadgetbridge.entities.Device;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
@@ -43,13 +45,13 @@ public class CasioGB6900DeviceCoordinator extends AbstractDeviceCoordinator {
     @NonNull
     @Override
     public DeviceType getSupportedType(GBDeviceCandidate candidate) {
-        if (candidate.supportsService(CasioGB6900Constants.CASIO_VIRTUAL_SERVER_SERVICE)) {
+        if (candidate.supportsService(CasioConstants.CASIO_VIRTUAL_SERVER_SERVICE)) {
             return DeviceType.CASIOGB6900;
         }
 
         String name = candidate.getDevice().getName();
         if (name != null) {
-            if (name.startsWith("CASIO")) {
+            if (name.startsWith("CASIO") && (name.endsWith("6900B") || name.endsWith("5600B"))) {
                 return DeviceType.CASIOGB6900;
             }
         }

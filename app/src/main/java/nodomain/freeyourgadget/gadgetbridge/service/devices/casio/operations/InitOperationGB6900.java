@@ -14,7 +14,7 @@
 
     You should have received a copy of the GNU Affero General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
-package nodomain.freeyourgadget.gadgetbridge.service.devices.casiogb6900.operations;
+package nodomain.freeyourgadget.gadgetbridge.service.devices.casio.operations;
 
 import android.bluetooth.BluetoothGatt;
 import android.bluetooth.BluetoothGattCharacteristic;
@@ -25,21 +25,21 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 import java.util.UUID;
 
-import nodomain.freeyourgadget.gadgetbridge.devices.casiogb6900.CasioGB6900Constants;
+import nodomain.freeyourgadget.gadgetbridge.devices.casio.CasioConstants;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.AbstractBTLEOperation;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.SetDeviceStateAction;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.casiogb6900.CasioGB6900DeviceSupport;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.casio.CasioGB6900DeviceSupport;
 
-public class InitOperation extends AbstractBTLEOperation<CasioGB6900DeviceSupport> {
-    private static final Logger LOG = LoggerFactory.getLogger(InitOperation.class);
+public class InitOperationGB6900 extends AbstractBTLEOperation<CasioGB6900DeviceSupport> {
+    private static final Logger LOG = LoggerFactory.getLogger(InitOperationGB6900.class);
 
     private final TransactionBuilder builder;
     private byte[] mBleSettings = null;
 
 
-    public InitOperation(CasioGB6900DeviceSupport support, TransactionBuilder builder) {
+    public InitOperationGB6900(CasioGB6900DeviceSupport support, TransactionBuilder builder) {
         super(support);
         this.builder = builder;
         builder.setGattCallback(this);
@@ -50,7 +50,7 @@ public class InitOperation extends AbstractBTLEOperation<CasioGB6900DeviceSuppor
         builder.add(new SetDeviceStateAction(getDevice(), GBDevice.State.INITIALIZING, getContext()));
         TransactionBuilder builder = getSupport().createTransactionBuilder("readBleSettings");
         builder.setGattCallback(this);
-        builder.read(getCharacteristic(CasioGB6900Constants.CASIO_SETTING_FOR_BLE_CHARACTERISTIC_UUID));
+        builder.read(getCharacteristic(CasioConstants.CASIO_SETTING_FOR_BLE_CHARACTERISTIC_UUID));
         getSupport().performImmediately(builder);
     }
 
@@ -85,7 +85,7 @@ public class InitOperation extends AbstractBTLEOperation<CasioGB6900DeviceSuppor
         try {
             TransactionBuilder builder = getSupport().createTransactionBuilder("writeBleInit");
             builder.setGattCallback(this);
-            builder.write(getCharacteristic(CasioGB6900Constants.CASIO_SETTING_FOR_BLE_CHARACTERISTIC_UUID), mBleSettings);
+            builder.write(getCharacteristic(CasioConstants.CASIO_SETTING_FOR_BLE_CHARACTERISTIC_UUID), mBleSettings);
             getSupport().performImmediately(builder);
         } catch(IOException e) {
             LOG.error("Error writing BLE settings: " + e.getMessage());
@@ -102,7 +102,7 @@ public class InitOperation extends AbstractBTLEOperation<CasioGB6900DeviceSuppor
         if(data.length == 0)
             return true;
 
-        if(characteristicUUID.equals(CasioGB6900Constants.CASIO_SETTING_FOR_BLE_CHARACTERISTIC_UUID)) {
+        if(characteristicUUID.equals(CasioConstants.CASIO_SETTING_FOR_BLE_CHARACTERISTIC_UUID)) {
             mBleSettings = data;
             StringBuilder str = new StringBuilder("Read Casio Setting for BLE: ");
             for (byte datum : data) {

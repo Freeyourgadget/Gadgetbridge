@@ -15,7 +15,7 @@
 
     You should have received a copy of the GNU Affero General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
-package nodomain.freeyourgadget.gadgetbridge.service.devices.casiogb6900;
+package nodomain.freeyourgadget.gadgetbridge.service.devices.casio;
 
 import android.content.Context;
 
