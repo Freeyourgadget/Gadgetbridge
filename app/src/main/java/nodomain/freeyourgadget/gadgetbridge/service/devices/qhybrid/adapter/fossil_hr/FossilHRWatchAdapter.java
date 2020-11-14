@@ -738,7 +738,7 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
                             if (saveRawActivityFiles) {
                                 writeFile(String.valueOf(System.currentTimeMillis()), fileData);
                             }
-                            // queueWrite(new FileDeleteRequest(fileHandle));
+                            queueWrite(new FileDeleteRequest(fileHandle));
                             GB.toast("synced activity data", Toast.LENGTH_SHORT, GB.INFO);
                         } catch (Exception ex) {
                             GB.toast(getContext(), "Error saving steps data: " + ex.getLocalizedMessage(), Toast.LENGTH_LONG, GB.ERROR);
