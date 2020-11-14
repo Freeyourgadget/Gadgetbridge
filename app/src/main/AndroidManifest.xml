@@ -87,6 +87,10 @@
             android:label="@string/title_activity_settings"
             android:parentActivityName=".activities.ControlCenterv2" />
         <activity
+            android:name=".activities.AboutUserPreferencesActivity"
+            android:label="@string/activity_prefs_about_you"
+            android:parentActivityName=".activities.AboutUserPreferencesActivity" />
+        <activity
             android:name=".activities.charts.ChartsPreferencesActivity"
             android:label="@string/activity_prefs_charts"
             android:parentActivityName=".activities.charts.ChartsPreferencesActivity" />

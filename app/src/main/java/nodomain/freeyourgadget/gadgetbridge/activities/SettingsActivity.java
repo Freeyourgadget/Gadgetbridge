@@ -65,13 +65,6 @@ import nodomain.freeyourgadget.gadgetbridge.util.GB;
 import nodomain.freeyourgadget.gadgetbridge.util.GBPrefs;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 
-import static nodomain.freeyourgadget.gadgetbridge.model.ActivityUser.PREF_USER_HEIGHT_CM;
-import static nodomain.freeyourgadget.gadgetbridge.model.ActivityUser.PREF_USER_SLEEP_DURATION;
-import static nodomain.freeyourgadget.gadgetbridge.model.ActivityUser.PREF_USER_STEPS_GOAL;
-import static nodomain.freeyourgadget.gadgetbridge.model.ActivityUser.PREF_USER_WEIGHT_KG;
-import static nodomain.freeyourgadget.gadgetbridge.model.ActivityUser.PREF_USER_YEAR_OF_BIRTH;
-import static nodomain.freeyourgadget.gadgetbridge.model.ActivityUser.PREF_USER_STEP_LENGTH_CM;
-
 public class SettingsActivity extends AbstractSettingsActivity {
     private static final Logger LOG = LoggerFactory.getLogger(SettingsActivity.class);
 
@@ -99,6 +92,16 @@ public class SettingsActivity extends AbstractSettingsActivity {
                 return true;
             }
         });
+
+        pref = findPreference("pref_category_activity_personal");
+        pref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            public boolean onPreferenceClick(Preference preference) {
+                Intent enableIntent = new Intent(SettingsActivity.this, AboutUserPreferencesActivity.class);
+                startActivity(enableIntent);
+                return true;
+            }
+        });
+
 
         pref = findPreference("pref_charts");
         pref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
@@ -455,12 +458,6 @@ public class SettingsActivity extends AbstractSettingsActivity {
                 "pebble_reconnect_attempts",
                 "location_latitude",
                 "location_longitude",
-                PREF_USER_YEAR_OF_BIRTH,
-                PREF_USER_HEIGHT_CM,
-                PREF_USER_WEIGHT_KG,
-                PREF_USER_SLEEP_DURATION,
-                PREF_USER_STEPS_GOAL,
-                PREF_USER_STEP_LENGTH_CM,
                 "weather_city",
         };
     }
