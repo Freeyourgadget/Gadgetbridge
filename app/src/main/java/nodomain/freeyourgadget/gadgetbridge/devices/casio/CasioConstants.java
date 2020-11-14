@@ -17,6 +17,8 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.devices.casio;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 
 public final class CasioConstants {
@@ -68,6 +70,13 @@ public final class CasioConstants {
     public static final UUID FUNCTION_SWITCH_CHARACTERISTIC = UUID.fromString("26eb001e-b012-49a8-b1f8-394fb2032b0f");
     public static final String MUSIC_MESSAGE = "Music";
 
+    // Modern Watches - All Features
+    public static final UUID CASIO_READ_REQUEST_FOR_ALL_FEATURES_CHARACTERISTIC_UUID = UUID.fromString("26eb002c-b012-49a8-b1f8-394fb2032b0f");
+    public static final UUID CASIO_ALL_FEATURES_CHARACTERISTIC_UUID = UUID.fromString("26eb002d-b012-49a8-b1f8-394fb2032b0f");
+    public static final UUID CASIO_DATA_REQUEST_SP_CHARACTERISTIC_UUID = UUID.fromString("26eb0023-b012-49a8-b1f8-394fb2032b0f");
+    public static final UUID CASIO_CONVOY_CHARACTERISTIC_UUID = UUID.fromString("26eb0024-b012-49a8-b1f8-394fb2032b0f");
+    public static final UUID CASIO_NOTIFICATION_CHARACTERISTIC_UUID = UUID.fromString("26eb0030-b012-49a8-b1f8-394fb2032b0f");
+
     // Link Loss
 
     public static final UUID LINK_LOSS_SERVICE = UUID.fromString("00001803-0000-1000-8000-00805f9b34fb");
@@ -91,6 +100,25 @@ public final class CasioConstants {
     public enum Model {
         MODEL_CASIO_GENERIC,
         MODEL_CASIO_6900B,
-        MODEL_CASIO_5600B
+        MODEL_CASIO_5600B,
+        MODEL_CASIO_GBX100
     }
+
+    public static Map<String, Byte> characteristicToByte = new HashMap<String, Byte>() {
+        {
+            put("CASIO_WATCH_NAME", (byte) 0x23);
+            put("CASIO_APP_INFORMATION", (byte) 0x22);
+            put("CASIO_BLE_FEATURES", (byte) 0x10);
+            put("CASIO_SETTING_FOR_BLE", (byte) 0x11);
+            put("CASIO_ADVERTISE_PARAMETER_MANAGER", (byte) 0x3b);
+            put("CASIO_CONNECTION_PARAMETER_MANAGER", (byte) 0x3a);
+            put("CASIO_MODULE_ID", (byte) 0x26);
+            put("CASIO_WATCH_CONDITION", (byte) 0x28);
+            put("CASIO_VERSION_INFORMATION", (byte) 0x20);
+            put("CASIO_DST_WATCH_STATE", (byte) 0x1d);
+            put("CASIO_DST_SETTING", (byte) 0x1e);
+            put("CASIO_SERVICE_DISCOVERY_MANAGER", (byte) 0x47);
+            put("CASIO_CURRENT_TIME", (byte) 0x09);
+        }
+    };
 }

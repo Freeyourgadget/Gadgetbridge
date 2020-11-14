@@ -16,7 +16,7 @@
 
     You should have received a copy of the GNU Affero General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
-package nodomain.freeyourgadget.gadgetbridge.devices.casio.gb6900;
+package nodomain.freeyourgadget.gadgetbridge.devices.casio.gbx100;
 
 import android.app.Activity;
 import android.content.Context;
@@ -39,16 +39,16 @@ import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceCandidate;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
 
-public class CasioGB6900DeviceCoordinator extends AbstractDeviceCoordinator {
-    protected static final Logger LOG = LoggerFactory.getLogger(CasioGB6900DeviceCoordinator.class);
+public class CasioGBX100DeviceCoordinator extends AbstractDeviceCoordinator {
+    protected static final Logger LOG = LoggerFactory.getLogger(CasioGBX100DeviceCoordinator.class);
 
     @NonNull
     @Override
     public DeviceType getSupportedType(GBDeviceCandidate candidate) {
         String name = candidate.getDevice().getName();
         if (name != null) {
-            if (name.startsWith("CASIO") && (name.endsWith("6900B") || name.endsWith("5600B"))) {
-                return DeviceType.CASIOGB6900;
+            if (name.startsWith("CASIO") && name.endsWith("GBX-100")) {
+                return DeviceType.CASIOGBX100;
             }
         }
 
@@ -57,7 +57,7 @@ public class CasioGB6900DeviceCoordinator extends AbstractDeviceCoordinator {
 
     @Override
     public int getBondingStyle(){
-        return BONDING_STYLE_BOND;
+        return BONDING_STYLE_NONE;
     }
 
     @Override
@@ -77,12 +77,12 @@ public class CasioGB6900DeviceCoordinator extends AbstractDeviceCoordinator {
 
     @Override
     public boolean supportsFindDevice() {
-        return true;
+        return false;
     }
 
     @Override
     public DeviceType getDeviceType() {
-        return DeviceType.CASIOGB6900;
+        return DeviceType.CASIOGBX100;
     }
 
     @Override
@@ -117,7 +117,7 @@ public class CasioGB6900DeviceCoordinator extends AbstractDeviceCoordinator {
 
     @Override
     public int getAlarmSlotCount() {
-        return 5; // 4 regular and one snooze
+        return 0; // 4 regular and one snooze
     }
 
     @Override
