@@ -24,13 +24,19 @@ import java.io.IOException;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiFWHelper;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.amazfitgtr2.AmazfitGTR2FWHelper;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.amazfitgts.AmazfitGTSSupport;
-import nodomain.freeyourgadget.gadgetbridge.util.Version;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.operations.UpdateFirmwareOperation;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.operations.UpdateFirmwareOperation2020;
 
 public class AmazfitGTR2Support extends AmazfitGTSSupport {
 
     @Override
     public HuamiFWHelper createFWHelper(Uri uri, Context context) throws IOException {
         return new AmazfitGTR2FWHelper(uri, context);
+    }
+
+    @Override
+    public UpdateFirmwareOperation createUpdateFirmwareOperation(Uri uri) {
+        return new UpdateFirmwareOperation2020(uri, this);
     }
 
     @Override
