@@ -2,7 +2,7 @@
 <changelog>
     <release version="0.49.0" versioncode="183">
         <change>Initial support for Amazfit Bip S Lite</change>
-        <change>Initial support for Amazfit GTR 2</change>
+        <change>Initial support for Amazfit GTR/GTS 2</change>
         <change>Huami: allow sorting of shortcuts and menus (all except Mi Band 2)</change>
         <change>Amazfit Band 5: Allow enabling SpO2 menu</change>
         <change>Mi/Amazfit Band 5: Support shortcuts (right/left swipe)</change>

@@ -2,7 +2,7 @@
 
 #### 0.49.0
 * Initial support for Amazfit Bip S Lite
-* Initial support for Amazfit GTR 2
+* Initial support for Amazfit GTR/GTS 2
 * Huami: allow sorting of shortcuts and menus (all except Mi Band 2)
 * Amazfit Band 5: Allow enabling SpO2 menu
 * Mi/Amazfit Band 5: Support shortcuts (right/left swipe)
