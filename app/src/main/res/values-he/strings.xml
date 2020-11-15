@@ -1118,4 +1118,5 @@
     <string name="activity_list_summary_active_steps">צעדים בפעילות</string>
     <string name="activity_list_summary_active_time">זמן פעילות</string>
     <string name="activity_list_summary_distance">מרחק</string>
+    <string name="devicetype_amazfit_gts2">Amazfit GTS 2</string>
 </resources>
