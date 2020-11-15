@@ -203,7 +203,7 @@
     <string name="miband_pairing_using_dummy_userdata">Ingen gyldig brukerdata angitt, bruker testbrukerdata midlertidig.</string>
     <string name="miband_pairing_tap_hint">Når ditt Mi Band vibrerer og blinker, trykk på det et par ganger på rad.</string>
     <string name="appinstaller_install">Installer</string>
-    <string name="discovery_connected_devices_hint">Gjør enheten din oppdagbar. Enheter som er tilkoblet vil antagelig ikke bli oppdaget. Aktiver plassering (GPS bl. a.) på Android 6+. Skru av Privacy Guard for Gadgetbru, siden det kan kræsje og medføre omstart av telefonen. Hvis ingen enhet blir funnet etter et par minutter, prøv igjen etter å ha startet din mobile enhet på nytt.</string>
+    <string name="discovery_connected_devices_hint">Gjør enheten din oppdagbar. Enheter som er tilkoblet vil antagelig ikke bli oppdaget. Aktiver plassering (GPS bl. a.) på Android 6+. Skru av Privacy Guard for Gadgetbru, siden det kan krasje og medføre omstart av telefonen. Hvis ingen enhet blir funnet etter et par minutter, prøv igjen etter å ha startet din mobile enhet på nytt.</string>
     <string name="discovery_note">Merk:</string>
     <string name="candidate_item_device_image">Enhetsavbildning</string>
     <string name="miband_prefs_alias">Navn/alias</string>
