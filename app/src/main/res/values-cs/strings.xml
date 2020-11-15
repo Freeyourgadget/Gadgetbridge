@@ -1054,7 +1054,7 @@
     <string name="sonyswr12_settings_low_vibration_summary">Povolit nízkou intenzitu vibrací na pásmu</string>
     <string name="sonyswr12_settings_stamina_summary">Režim úspory energie vypíná periodické automatické měření srdeční frekvence a tím prodlužuje pracovní dobu</string>
     <string name="sonyswr12_settings_alarm_interval_summary">Interval inteligentního alarmu je interval před nainstalovaným alarmem. V tomto intervalu se zařízení pokouší detekovat nejlehčí fázi spánku, aby probudil uživatele</string>
-    <string name="devicetype_nut_mini">Nut Mini</string>
+    <string name="devicetype_nut_mini">Nut mini</string>
     <string name="chart_get_active_and_synchronize">Vykonejte nějakou aktivitu a synchronizujte zařízení.</string>
     <string name="chart_no_active_data">Nedetekovány žádné aktivity.</string>
     <string name="descentSeconds">Doba sestupu</string>
@@ -1087,7 +1087,36 @@
     <string name="devicetype_amazfit_band5">Amazfit Band 5</string>
     <string name="charts_legend_heartrate_average">Průměrný tep</string>
     <string name="activity_prefs_step_length_cm">Délka kroku v cm</string>
-    <string name="charts_min_max_heartrate_popup">Nejvyšší tep: %1$d
-\nNejnižší tep: %2$d</string>
+    <string name="charts_min_max_heartrate_popup">Nejnižší tep: %1$d
+\nNejvyšší tep: %2$d
+\nIntenzita pohybu: %3$s</string>
     <string name="find_lost_device_message">Vyhledat %1$s\?</string>
+    <string name="qhybrid_calibration_align_hint">zarovnat ručičky na 12:00</string>
+    <string name="gps_track">GPS záznam</string>
+    <string name="about_version">Verze %s</string>
+    <string name="pref_title_lower_button_function_double">Spodní tlačítko: dvojstisk</string>
+    <string name="pref_title_middle_button_function_double">Prostřední tlačítko: dvojstisk</string>
+    <string name="pref_title_upper_button_function_double">Horní tlačítko: dvojstisk</string>
+    <string name="pref_title_lower_button_function_long">Spodní tlačítko: dlouhý stisk</string>
+    <string name="pref_title_middle_button_function_long">Prostřední tlačítko: dlouhý stisk</string>
+    <string name="pref_title_upper_button_function_long">Horní tlačítko: dlouhý stisk</string>
+    <string name="pref_title_lower_button_function_short">Spodní tlačítko: krátký stisk</string>
+    <string name="pref_title_middle_button_function_short">Prostřední tlačítko: krátký stisk</string>
+    <string name="pref_title_upper_button_function_short">Horní tlačítko: krátký stisk</string>
+    <string name="menuitem_stopwatch">Stopky</string>
+    <string name="menuitem_dnd">Nerušit</string>
+    <string name="menuitem_alexa">Alexa</string>
+    <string name="menuitem_takephoto">Pořízení fotografie</string>
+    <string name="menuitem_mutephone">Zamutovat telefon</string>
+    <string name="menuitem_findphone">Najít telefon</string>
+    <string name="menuitem_spo2">SpO2</string>
+    <string name="devicetype_amazfit_gtr2">Amazfit GTR 2</string>
+    <string name="devicetype_amazfit_bips_lite">Amazfit Bip S Lite</string>
+    <string name="movement_intensity">Intenzita pohybu</string>
+    <string name="activity_list_summary_activities">Aktivity</string>
+    <string name="activity_list_summary_intensity">Intenzita
+\npohybu</string>
+    <string name="activity_list_summary_active_time">Aktivní čas</string>
+    <string name="activity_list_summary_distance">Vzdálenost</string>
+    <string name="activity_list_summary_active_steps">Aktivní kroky</string>
 </resources>
