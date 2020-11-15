@@ -89,13 +89,29 @@ public final class CasioConstants {
     public static final UUID CASIO_SETTING_FOR_BLE_CHARACTERISTIC_UUID = UUID.fromString("26eb000f-b012-49a8-b1f8-394fb2032b0f");
     public static final UUID CASIO_SETTING_FOR_ALM_CHARACTERISTIC_UUID = UUID.fromString("26eb0013-b012-49a8-b1f8-394fb2032b0f");
 
-    // Notification Types
+    // Notification Types - GB6900
 
     public static final byte CALL_NOTIFICATION_ID = 3;
     public static final byte MAIL_NOTIFICATION_ID = 1;
     public static final byte CALENDAR_NOTIFICATION_ID = 7;
     public static final byte SNS_NOTIFICATION_ID = 13;
     public static final byte SMS_NOTIFICATION_ID = 5;
+
+    // Notification Types - GBX100
+    public static final byte CATEGORY_ADVERTISEMENT = 13;
+    public static final byte CATEGORY_BUSINESS = 9;
+    public static final byte CATEGORY_CONDITION = 12;
+    public static final byte CATEGORY_EMAIL = 6;
+    public static final byte CATEGORY_ENTERTAINMENT = 11;
+    public static final byte CATEGORY_HEATH_AND_FITNESS = 8;
+    public static final byte CATEGORY_INCOMING_CALL = 1;
+    public static final byte CATEGORY_LOCATION = 10;
+    public static final byte CATEGORY_MISSED_CALL = 2;
+    public static final byte CATEGORY_NEWS = 7;
+    public static final byte CATEGORY_OTHER = 0;
+    public static final byte CATEGORY_SCHEDULE_AND_ALARM = 5;
+    public static final byte CATEGORY_SNS = 4;
+    public static final byte CATEGORY_VOICEMAIL = 3;
 
     public enum Model {
         MODEL_CASIO_GENERIC,

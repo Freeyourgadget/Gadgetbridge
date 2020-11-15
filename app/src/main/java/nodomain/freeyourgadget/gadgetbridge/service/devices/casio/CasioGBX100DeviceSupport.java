@@ -31,6 +31,7 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
@@ -82,9 +83,8 @@ public class CasioGBX100DeviceSupport extends AbstractBTLEDeviceSupport {
     }
      */
 
-    public void setInitialized() {
-        gbDevice.setState(GBDevice.State.INITIALIZED);
-        gbDevice.sendDeviceUpdateIntent(getContext());
+    public void setInitialized(TransactionBuilder builder) {
+        builder.add(new SetDeviceStateAction(gbDevice, GBDevice.State.INITIALIZED, getContext()));
     }
 
     @Override
@@ -143,24 +143,91 @@ public class CasioGBX100DeviceSupport extends AbstractBTLEDeviceSupport {
         return true;
     }
 
+    private void showNotification(byte icon, String title, String message, int id) {
+        byte[] titleBytes = title.getBytes(StandardCharsets.UTF_8);
+        byte[] messageBytes = message.getBytes(StandardCharsets.UTF_8);
+
+        byte[] arr = new byte[22];
+        arr[0] = (byte) 0x03; // (byte)(id & 0xff);
+        arr[1] = (byte) 0x00; //((id >> 8) & 0xff);
+        arr[2] = (byte) 0x00; // ((id >> 16) & 0xff);
+        arr[3] = (byte) 0x00; // ((id >> 24) & 0xff);
+        arr[4] = 0x00;
+        arr[5] = (byte) 0x01;
+        arr[6] = icon;
+        arr[7] = (byte) 0x32;
+        arr[8] = (byte) 0x30;
+        arr[9] = (byte) 0x32;
+        arr[10] = (byte) 0x30;
+        arr[11] = (byte) 0x31;
+        arr[12] = (byte) 0x31;
+        arr[13] = (byte) 0x31;
+        arr[14] = (byte) 0x33;
+        arr[15] = (byte) 0x54;
+        arr[16] = (byte) 0x30;
+        arr[17] = (byte) 0x39;
+        arr[18] = (byte) 0x33;
+        arr[19] = (byte) 0x31;
+        arr[20] = (byte) 0x35;
+        arr[21] = (byte) 0x33;
+        byte[] copy = Arrays.copyOf(arr, arr.length + 2);
+        copy[copy.length-2] = 0;
+        copy[copy.length-1] = 0;
+        // appName is currently not supported
+        copy = Arrays.copyOf(copy, copy.length + 2);
+        copy[copy.length-2] = 0;
+        copy[copy.length-1] = 0;
+        if(titleBytes.length > 0) {
+            copy = Arrays.copyOf(copy, copy.length + titleBytes.length);
+            copy[copy.length-2-titleBytes.length] = (byte)(titleBytes.length & 0xff);
+            copy[copy.length-1-titleBytes.length] = (byte)((titleBytes.length >> 8) & 0xff);
+            System.arraycopy(titleBytes, 0, copy, copy.length - titleBytes.length, titleBytes.length);
+        }
+        copy = Arrays.copyOf(copy, copy.length + 2);
+        copy[copy.length-2] = 0;
+        copy[copy.length-1] = 0;
+        //subtitle is currently not supported
+        copy = Arrays.copyOf(copy, copy.length + 2);
+        copy[copy.length-2] = 0;
+        copy[copy.length-1] = 0;
+        if(messageBytes.length > 0) {
+            copy = Arrays.copyOf(copy, copy.length + messageBytes.length);
+            copy[copy.length-2-messageBytes.length] = (byte)(messageBytes.length & 0xff);
+            copy[copy.length-1-messageBytes.length] = (byte)((messageBytes.length >> 8) & 0xff);
+            System.arraycopy(messageBytes, 0, copy, copy.length - messageBytes.length, messageBytes.length);
+        }
+        for(int i=0; i<copy.length; i++) {
+            copy[i] = (byte)(~copy[i]);
+        }
+
+        try {
+            TransactionBuilder builder = performInitialized("showNotification");
+            builder.write(getCharacteristic(CasioConstants.CASIO_NOTIFICATION_CHARACTERISTIC_UUID), copy);
+            LOG.info("Showing notification, title: " + title + " message (not sent): " + message);
+            builder.queue(getQueue());
+        } catch (IOException e) {
+            LOG.warn("showNotification failed: " + e.getMessage());
+        }
+    }
     @Override
     public void onNotification(NotificationSpec notificationSpec) {
         String notificationTitle = StringUtils.getFirstOf(notificationSpec.sender, notificationSpec.title);
         byte icon;
         switch (notificationSpec.type) {
             case GENERIC_SMS:
-                icon = CasioConstants.SMS_NOTIFICATION_ID;
+                icon = CasioConstants.CATEGORY_EMAIL;
                 break;
             case GENERIC_CALENDAR:
-                icon = CasioConstants.CALENDAR_NOTIFICATION_ID;
+                icon = CasioConstants.CATEGORY_SCHEDULE_AND_ALARM;
                 break;
             case GENERIC_EMAIL:
-                icon = CasioConstants.MAIL_NOTIFICATION_ID;
+                icon = CasioConstants.CATEGORY_EMAIL;
                 break;
             default:
-                icon = CasioConstants.SNS_NOTIFICATION_ID;
+                icon = CasioConstants.CATEGORY_SNS;
                 break;
         }
+        showNotification(icon, notificationTitle, notificationSpec.body, notificationSpec.getId());
     }
 
     @Override
@@ -180,7 +247,14 @@ public class CasioGBX100DeviceSupport extends AbstractBTLEDeviceSupport {
 
     @Override
     public void onSetCallState(CallSpec callSpec) {
-
+        switch (callSpec.command) {
+            case CallSpec.CALL_INCOMING:
+                showNotification(CasioConstants.CATEGORY_INCOMING_CALL, callSpec.name, callSpec.number, 0x9876);
+                break;
+            default:
+                LOG.info("not sending CallSpec since only CALL_INCOMING is handled");
+                break;
+        }
     }
 
     @Override

@@ -360,6 +360,16 @@ public final class BtLEQueue {
     }
 
     /**
+     * Aborts the currently running transaction
+     */
+    public void abortCurrentTransaction() {
+        mAbortTransaction = true;
+        if (mWaitForActionResultLatch != null) {
+            mWaitForActionResultLatch.countDown();
+        }
+    }
+
+    /**
      * Adds a serverTransaction to the end of the queue
      *
      * @param transaction
