@@ -1077,7 +1077,8 @@
     <string name="menuitem_spo2">Saturacja (SpO2)</string>
     <string name="charts_legend_heartrate_average">Średnie tętno</string>
     <string name="charts_min_max_heartrate_popup">Najniższe tętno: %1$d
-\nNajwyższe tętno: %2$d</string>
+\nNajwyższe tętno: %2$d
+\nIntensywność ruchu: %3$s</string>
     <string name="firmware_update_progress">Trwa przesyłanie
 \n%1d%% na %.2fkbps (średnio %.2fkbps)
 \nCzęść %1d z %1d</string>
@@ -1117,4 +1118,6 @@
     <string name="menuitem_takephoto">Zrób zdjęcie</string>
     <string name="menuitem_mutephone">Wycisz telefon</string>
     <string name="menuitem_findphone">Znajdź telefon</string>
+    <string name="activity_list_summary_distance">Dystans</string>
+    <string name="devicetype_amazfit_gts2">Amazfit GTS 2</string>
 </resources>
