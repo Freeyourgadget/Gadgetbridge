@@ -34,7 +34,7 @@ android:
     #- sys-img-x86-android-17
 
 before_install:
-  - yes | sdkmanager "platforms;android-28"
+  - yes | sdkmanager "platforms;android-29"
 
 script:
   - ./gradlew build connectedCheck --stacktrace
