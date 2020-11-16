@@ -1102,7 +1102,7 @@
     <string name="devicestatus_connected">设备已连接</string>
     <string name="devicestatus_connecting">设备正在连接中</string>
     <string name="activity_prefs_step_length_cm">步伐厘米长度</string>
-    <string name="devicetype_amazfit_band5">米动手环 5</string>
+    <string name="devicetype_amazfit_band5">华米手环 5</string>
     <string name="menuitem_spo2">血氧饱和度</string>
     <string name="qhybrid_calibration_align_hint">将手对齐到 12:00</string>
     <string name="gps_track">GPS 跟踪</string>
@@ -1113,7 +1113,7 @@
 \n最高心率：%2$d
 \n移动强度：%3$s</string>
     <string name="find_lost_device_message">搜索 %1$s ？</string>
-    <string name="devicetype_amazfit_gtr2">米动 GTR 2</string>
+    <string name="devicetype_amazfit_gtr2">华米 GTR 2</string>
     <string name="menuitem_stopwatch">秒表</string>
     <string name="menuitem_dnd">勿扰</string>
     <string name="menuitem_alexa">Alexa</string>
@@ -1127,4 +1127,5 @@
     <string name="activity_list_summary_active_time">活跃时间</string>
     <string name="activity_list_summary_distance">距离</string>
     <string name="activity_list_summary_active_steps">活跃步数</string>
+    <string name="devicetype_amazfit_gts2">华米 GTS 2</string>
 </resources>
