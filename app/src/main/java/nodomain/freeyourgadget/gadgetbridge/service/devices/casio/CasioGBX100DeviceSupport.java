@@ -68,6 +68,7 @@ public class CasioGBX100DeviceSupport extends AbstractBTLEDeviceSupport {
     private MusicStateSpec mBufferMusicStateSpec = null;
     private BluetoothGatt mBtGatt = null;
     private boolean mFirstConnect = false;
+    private ArrayList<Integer> mSyncedNotificationIDs = new ArrayList<>();
 
     public CasioGBX100DeviceSupport() {
         super(LOG);
@@ -237,12 +238,17 @@ public class CasioGBX100DeviceSupport extends AbstractBTLEDeviceSupport {
         }
         LOG.info("onNotification id=" + notificationSpec.getId());
         showNotification(icon, notificationSpec.sender, notificationSpec.title, notificationSpec.body, notificationSpec.getId(), false);
+        mSyncedNotificationIDs.add(new Integer(notificationSpec.getId()));
     }
 
     @Override
     public void onDeleteNotification(int id) {
         LOG.info("onDeleteNofication id=" + id);
-        showNotification(CasioConstants.CATEGORY_OTHER, null, null, null, id, true);
+        Integer idInt = new Integer(id);
+        if(mSyncedNotificationIDs.contains(idInt)) {
+            showNotification(CasioConstants.CATEGORY_OTHER, null, null, null, id, true);
+            mSyncedNotificationIDs.remove(idInt);
+        }
     }
 
     public void writeCurrentTime(TransactionBuilder builder) {
