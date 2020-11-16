@@ -288,7 +288,7 @@ public class NotificationListener extends NotificationListenerService {
             }
         }
 
-        if (shouldIgnoreNotification(sbn)) {
+        if (shouldIgnoreNotification(sbn, false)) {
             if (!"com.sec.android.app.clockpackage".equals(sbn.getPackageName())) {     // workaround to allow phone alarm notification
                 LOG.info("Ignore notification: " + sbn.getPackageName());               // need to fix
                 return;
@@ -317,7 +317,7 @@ public class NotificationListener extends NotificationListenerService {
             }
         }
 
-        NotificationSpec notificationSpec = new NotificationSpec();
+        NotificationSpec notificationSpec = new NotificationSpec(sbn.getId());
 
         // determinate Source App Name ("Label")
         String name = getAppName(source);
@@ -719,12 +719,12 @@ public class NotificationListener extends NotificationListenerService {
         }
         // FIXME: DISABLED for now
 
-        if (shouldIgnoreNotification(sbn)) return;
+        if (shouldIgnoreNotification(sbn, true)) return;
 
         Prefs prefs = GBApplication.getPrefs();
         if (prefs.getBoolean("autoremove_notifications", true)) {
             LOG.info("notification removed, will ask device to delete it");
-            GBApplication.deviceService().onDeleteNotification((int) sbn.getPostTime());
+            GBApplication.deviceService().onDeleteNotification(sbn.getId());
         }
 
     }
@@ -802,7 +802,7 @@ public class NotificationListener extends NotificationListenerService {
         return false;
     }
 
-    private boolean shouldIgnoreNotification(StatusBarNotification sbn) {
+    private boolean shouldIgnoreNotification(StatusBarNotification sbn, boolean remove) {
         Notification notification = sbn.getNotification();
         String source = sbn.getPackageName();
 
@@ -817,12 +817,16 @@ public class NotificationListener extends NotificationListenerService {
             return true;
         }
 
-        Prefs prefs = GBApplication.getPrefs();
-        if (!prefs.getBoolean("notifications_generic_whenscreenon", false)) {
-            PowerManager powermanager = (PowerManager) getSystemService(POWER_SERVICE);
-            if (powermanager != null && powermanager.isScreenOn()) {
-                LOG.info("Not forwarding notification, screen seems to be on and settings do not allow this");
-                return true;
+        // Check for screen on when posting the notification; for removal, the screen
+        // has to be on (obviously)
+        if(!remove) {
+            Prefs prefs = GBApplication.getPrefs();
+            if (!prefs.getBoolean("notifications_generic_whenscreenon", false)) {
+                PowerManager powermanager = (PowerManager) getSystemService(POWER_SERVICE);
+                if (powermanager != null && powermanager.isScreenOn()) {
+                    LOG.info("Not forwarding notification, screen seems to be on and settings do not allow this");
+                    return true;
+                }
             }
         }
 
