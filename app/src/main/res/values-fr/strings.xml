@@ -1113,7 +1113,8 @@ Temps de sommeil préféré en heures</string>
     <string name="activity_list_summary_activities">Activités</string>
     <string name="activity_list_summary_intensity">Mouvement
 \nIntensité</string>
-    <string name="activity_list_summary_active_time">Temps actif</string>
+    <string name="activity_list_summary_active_time">Durée d\'activité</string>
     <string name="activity_list_summary_distance">Distance</string>
     <string name="activity_list_summary_active_steps">Pas réalisés</string>
+    <string name="devicetype_amazfit_gts2">Amazfit GTS 2</string>
 </resources>
