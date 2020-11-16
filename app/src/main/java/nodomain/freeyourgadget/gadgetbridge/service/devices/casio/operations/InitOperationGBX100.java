@@ -39,38 +39,34 @@ public class InitOperationGBX100 extends AbstractBTLEOperation<CasioGBX100Device
 
     private final TransactionBuilder builder;
     private final CasioGBX100DeviceSupport support;
+    private final boolean mFirstConnect;
+    private boolean mWriteAllFeaturesInitPending = false;
 
-    public InitOperationGBX100(CasioGBX100DeviceSupport support, TransactionBuilder builder) {
+    public InitOperationGBX100(CasioGBX100DeviceSupport support, TransactionBuilder builder, boolean firstConnect) {
         super(support);
         this.builder = builder;
         this.support = support;
+        this.mFirstConnect = firstConnect;
+        LOG.info("mFirstConnect: " + mFirstConnect);
         builder.setGattCallback(this);
-    }
-
-    private void writeAllFeaturesRequest(TransactionBuilder builder, byte[] arr) {
-        builder.write(getCharacteristic(CasioConstants.CASIO_READ_REQUEST_FOR_ALL_FEATURES_CHARACTERISTIC_UUID), arr);
     }
 
     private void writeAllFeaturesRequest(byte[] arr) {
         try {
             TransactionBuilder builder = createTransactionBuilder("writeAllFeaturesRequest");
             builder.setGattCallback(this);
-            writeAllFeaturesRequest(builder, arr);
+            support.writeAllFeaturesRequest(builder, arr);
             support.performImmediately(builder);
         } catch(IOException e) {
             LOG.error("Error writing all features: " + e.getMessage());
         }
     }
 
-    private void writeAllFeatures(TransactionBuilder builder, byte[] arr) {
-        builder.write(getCharacteristic(CasioConstants.CASIO_ALL_FEATURES_CHARACTERISTIC_UUID), arr);
-    }
-
     private void writeAllFeatures(byte[] arr) {
         try {
             TransactionBuilder builder = createTransactionBuilder("writeAllFeatures");
             builder.setGattCallback(this);
-            writeAllFeatures(builder, arr);
+            support.writeAllFeatures(builder, arr);
             support.performImmediately(builder);
         } catch(IOException e) {
             LOG.error("Error writing all features: " + e.getMessage());
@@ -82,8 +78,10 @@ public class InitOperationGBX100 extends AbstractBTLEOperation<CasioGBX100Device
         arr[0] = 0x00;
         arr[1] = 0x01;
 
+        mWriteAllFeaturesInitPending = true;
+
         if(builder != null)
-            writeAllFeatures(builder, arr);
+            support.writeAllFeatures(builder, arr);
         else
             writeAllFeatures(arr);
     }
@@ -93,7 +91,7 @@ public class InitOperationGBX100 extends AbstractBTLEOperation<CasioGBX100Device
     }
 
     private void requestWatchName(TransactionBuilder builder) {
-        writeAllFeaturesRequest(builder, new byte[]{CasioConstants.characteristicToByte.get("CASIO_WATCH_NAME")});
+        support.writeAllFeaturesRequest(builder, new byte[]{CasioConstants.characteristicToByte.get("CASIO_WATCH_NAME")});
     }
 
     private void requestWatchName() {
@@ -251,32 +249,6 @@ public class InitOperationGBX100 extends AbstractBTLEOperation<CasioGBX100Device
         writeAllFeatures(arr);
     }
 
-    private void writeCurrentTime(TransactionBuilder builder) {
-        byte[] arr = new byte[11];
-        Calendar cal = Calendar.getInstance();
-
-        int year = cal.get(Calendar.YEAR);
-        arr[0] = CasioConstants.characteristicToByte.get("CASIO_CURRENT_TIME");
-        arr[1] = (byte)((year >>> 0) & 0xff);
-        arr[2] = (byte)((year >>> 8) & 0xff);
-        arr[3] = (byte)(1 + cal.get(Calendar.MONTH));
-        arr[4] = (byte)cal.get(Calendar.DAY_OF_MONTH);
-        arr[5] = (byte)cal.get(Calendar.HOUR_OF_DAY);
-        arr[6] = (byte)cal.get(Calendar.MINUTE);
-        arr[7] = (byte)(1 + cal.get(Calendar.SECOND));
-        byte dayOfWk = (byte)(cal.get(Calendar.DAY_OF_WEEK) - 1);
-        if(dayOfWk == 0)
-            dayOfWk = 7;
-        arr[8] = dayOfWk;
-        arr[9] = (byte)(int) TimeUnit.MILLISECONDS.toSeconds(256 * cal.get(Calendar.MILLISECOND));
-        arr[10] = 1; // or 0?
-
-        if(builder == null)
-            writeAllFeatures(arr);
-        else
-            writeAllFeatures(builder, arr);
-    }
-
     private void enableAllFeatures(boolean enable) {
         try {
             TransactionBuilder builder = createTransactionBuilder("notifyAllFeatures");
@@ -294,7 +266,6 @@ public class InitOperationGBX100 extends AbstractBTLEOperation<CasioGBX100Device
 
     @Override
     protected void doPerform() throws IOException {
-
         builder.add(new SetDeviceStateAction(getDevice(), GBDevice.State.INITIALIZING, getContext()));
         enableAllFeatures(builder, true);
         requestWatchName(builder);
@@ -314,51 +285,58 @@ public class InitOperationGBX100 extends AbstractBTLEOperation<CasioGBX100Device
         if(data.length == 0)
             return true;
 
+        // Abort a stalled allFeaturesInit write
+        if(mWriteAllFeaturesInitPending) {
+            getQueue().abortCurrentTransaction();
+            mWriteAllFeaturesInitPending = false;
+        }
+
         if(characteristicUUID.equals(CasioConstants.CASIO_ALL_FEATURES_CHARACTERISTIC_UUID)) {
             if(data[0] == CasioConstants.characteristicToByte.get("CASIO_WATCH_NAME")) {
-                LOG.info("Got watch name, requesting BLE features; should write CASIO_APP_INFORMATION");
+                LOG.debug("Got watch name, requesting BLE features; should write CASIO_APP_INFORMATION");
                 writeAppInformation();
                 // The rest of the init sequence is not strictly needed; we keep
                 // it here for future reference.
-                //requestBleConfiguration();
+                if(mFirstConnect)
+                    requestBleConfiguration();
             } else if(data[0] == CasioConstants.characteristicToByte.get("CASIO_BLE_FEATURES")) {
-                LOG.info("Got BLE features, requesting BLE settings");
+                LOG.debug("Got BLE features, requesting BLE settings");
                 requestBleSettings();
             } else if(data[0] == CasioConstants.characteristicToByte.get("CASIO_SETTING_FOR_BLE")) {
-                LOG.info("Got BLE settings, requesting advertising parameters; should write BLE settings");
+                LOG.debug("Got BLE settings, requesting advertising parameters; should write BLE settings");
                 writeBleSettings(data);
                 requestAdvertisingParameters();
             } else if(data[0] == CasioConstants.characteristicToByte.get("CASIO_ADVERTISE_PARAMETER_MANAGER")) {
-                LOG.info("Got advertising parameters, requesting connection parameters; should write advertising parameters");
+                LOG.debug("Got advertising parameters, requesting connection parameters; should write advertising parameters");
                 writeAdvertisingParameters();
                 requestConnectionParameters();
             } else if(data[0] == CasioConstants.characteristicToByte.get("CASIO_CONNECTION_PARAMETER_MANAGER")) {
-                LOG.info("Got connection parameters, requesting module ID; should write connection parameters");
+                LOG.debug("Got connection parameters, requesting module ID; should write connection parameters");
                 writeConnectionParameters();
                 requestModuleId();
             } else if(data[0] == CasioConstants.characteristicToByte.get("CASIO_MODULE_ID")) {
-                LOG.info("Got module ID, requesting watch condition");
+                LOG.debug("Got module ID, requesting watch condition");
                 requestWatchCondition();
             } else if(data[0] == CasioConstants.characteristicToByte.get("CASIO_WATCH_CONDITION")) {
-                LOG.info("Got watch condition, requesting version information");
+                LOG.debug("Got watch condition, requesting version information");
                 requestVersionInformation();
             } else if(data[0] == CasioConstants.characteristicToByte.get("CASIO_VERSION_INFORMATION")) {
-                LOG.info("Got version information, requesting DST watch state");
+                LOG.debug("Got version information, requesting DST watch state");
                 requestDstWatchState();
             } else if(data[0] == CasioConstants.characteristicToByte.get("CASIO_DST_WATCH_STATE")) {
-                LOG.info("Got DST watch state, requesting DST setting; should write DST watch state");
+                LOG.debug("Got DST watch state, requesting DST setting; should write DST watch state");
                 requestDstSetting();
             } else if(data[0] == CasioConstants.characteristicToByte.get("CASIO_DST_SETTING")) {
-                LOG.info("Got DST setting, waiting...; should write DST setting and location and radio information");
+                LOG.debug("Got DST setting, waiting...; should write DST setting and location and radio information");
             } else if(data[0] == CasioConstants.characteristicToByte.get("CASIO_SERVICE_DISCOVERY_MANAGER")) {
                 if(data[1] == 0x02) {
                     // The writeAllFeaturesInit request triggers bonding. However, the transaction
                     // never completes. Instead, the watch sends 0x4701 notification and we abort
                     // the current transaction.
-                    LOG.info("We need to bond here. This is actually the request for the current time.");
+                    LOG.debug("We need to bond here. This is actually the request for the current time.");
                     try {
                         TransactionBuilder builder = createTransactionBuilder("writeCurrentTime");
-                        writeCurrentTime(builder);
+                        support.writeCurrentTime(builder);
                         writeAllFeaturesInit(builder);
                         support.performImmediately(builder);
                     } catch(IOException e) {
@@ -368,13 +346,12 @@ public class InitOperationGBX100 extends AbstractBTLEOperation<CasioGBX100Device
                     // The writeAllFeaturesInit request triggers encryption (again). However, the transaction
                     // never completes. Instead, the watch reports with 0x3d and we abort the current
                     // transaction.
-                    getQueue().abortCurrentTransaction();
-                    writeAllFeaturesInit();
+                    if(mFirstConnect)
+                        writeAllFeaturesInit();
                 }
             } else if(data[0] == 0x3d) {
                 LOG.info("Init operation done.");
                 // Finally, we set the state to initialized here!
-                getQueue().abortCurrentTransaction();
                 try {
                     TransactionBuilder builder = createTransactionBuilder("setInitialized");
                     support.setInitialized(builder);
