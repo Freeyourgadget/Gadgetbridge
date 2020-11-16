@@ -239,6 +239,11 @@ public class CasioGBX100DeviceSupport extends AbstractBTLEDeviceSupport {
         LOG.info("onNotification id=" + notificationSpec.getId());
         showNotification(icon, notificationSpec.sender, notificationSpec.title, notificationSpec.body, notificationSpec.getId(), false);
         mSyncedNotificationIDs.add(new Integer(notificationSpec.getId()));
+        // The watch only holds up to 10 notifications. However, the user might have deleted
+        // some notifications in the meantime, so to be sure, we keep the last 100 IDs.
+        if(mSyncedNotificationIDs.size() > 100) {
+            mSyncedNotificationIDs.remove(0);
+        }
     }
 
     @Override
