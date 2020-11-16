@@ -37,7 +37,8 @@ vendor's servers.
 * Amazfit GTS (WARNING: NEEDS MI FIT WITH ACCOUNT ONCE) [Wiki](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Amazfit-GTS)
 * Amazfit T-Rex (WARNING: NEEDS MI FIT WITH ACCOUNT ONCE)
 * BFH-16
-* Casio GB-6900B
+* Casio GB-5600B/GB-6900B/GB-X6900B
+* Casio GBX-100
 * Fossil Hybrid HR (WARNING: NEEDS FOSSIL APP WITH ACCOUNT ONCE AND COMPLICATED PROCEDURE) [Wiki](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Fossil-Hybrid-HR)
 * Fossil Q Hybrid
 * HPlus Devices (e.g. ZeBand) [Wiki](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/HPlus)
@@ -87,7 +88,7 @@ Please see [FEATURES.md](https://codeberg.org/Freeyourgadget/Gadgetbridge/src/ma
 * Vadim Kaushan (ID115)
 * "maxirnilian" (Lenovo Watch 9)
 * "ksiwczynski", "mkusnierz", "mamutcho" (Lenovo Watch X Plus)
-* Andreas Böhler (Casio GB-6900B)
+* Andreas Böhler (Casio)
 * Jean-François Greffier (Mi Scale 2)
 * Johannes Schmitt (BFH-16)
 * Lukas Schwichtenberg (Makibes HR3)
