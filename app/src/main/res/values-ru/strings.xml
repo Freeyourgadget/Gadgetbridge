@@ -148,7 +148,7 @@
     <string name="unknown_state">Непонятное состояние</string>
     <string name="_unknown_">(неизвестно)</string>
     <string name="test">Тест</string>
-    <string name="test_notification">Тестовое уведомлений</string>
+    <string name="test_notification">Тестовое уведомление</string>
     <string name="this_is_a_test_notification_from_gadgetbridge">Это тестовое уведомление от Gadgetbridge</string>
     <string name="bluetooth_is_not_supported_">Bluetooth не поддерживается.</string>
     <string name="bluetooth_is_disabled_">Bluetooth отключён.</string>
