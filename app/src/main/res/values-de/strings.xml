@@ -1109,7 +1109,8 @@
     <string name="qhybrid_calibration_align_hint">Zeiger auf 12:00 ausrichten</string>
     <string name="devicetype_amazfit_band5">Amazfit Band 5</string>
     <string name="charts_min_max_heartrate_popup">Niedrigste Herzfrequenz: %1$d
-\nHöchste Herzfrequenz: %2$d</string>
+\nHöchste Herzfrequenz: %2$d
+\nBewegungsintensität: %3$s</string>
     <string name="gps_track">GPS-Track</string>
     <string name="about_version">Version %s</string>
     <string name="menuitem_spo2">SpO2</string>
@@ -1123,4 +1124,12 @@
     <string name="menuitem_mutephone">Telefon stumm schalten</string>
     <string name="menuitem_findphone">Telefon finden</string>
     <string name="devicetype_amazfit_gtr2">Amazfit GTR 2</string>
+    <string name="devicetype_amazfit_gts2">Amazfit GTS 2</string>
+    <string name="movement_intensity">Bewegungsintensität</string>
+    <string name="activity_list_summary_activities">Aktivitäten</string>
+    <string name="activity_list_summary_intensity">Bewegungs-
+\nintensität</string>
+    <string name="activity_list_summary_active_time">Aktive Zeit</string>
+    <string name="activity_list_summary_distance">Strecke</string>
+    <string name="activity_list_summary_active_steps">Aktive Schritte</string>
 </resources>
