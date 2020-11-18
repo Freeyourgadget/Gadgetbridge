@@ -255,6 +255,11 @@ public class NotificationListener extends NotificationListenerService {
 
     @Override
     public void onNotificationPosted(StatusBarNotification sbn) {
+        onNotificationPosted(sbn, null);
+    }
+
+    @Override
+    public void onNotificationPosted(StatusBarNotification sbn, RankingMap rankingMap) {
         logNotification(sbn, true);
 
         notificationStack.remove(sbn.getPackageName());
@@ -269,17 +274,15 @@ public class NotificationListener extends NotificationListenerService {
 
         if (handleMediaSessionNotification(sbn)) return;
 
-        switch (GBApplication.getGrantedInterruptionFilter()) {
-            case NotificationManager.INTERRUPTION_FILTER_ALARMS:
-            case NotificationManager.INTERRUPTION_FILTER_NONE:
-                return;
-            case NotificationManager.INTERRUPTION_FILTER_PRIORITY:
-                // FIXME: Handle Reminders and Events if they are enabled in Do Not Disturb
-                return;
-        }
-
         Prefs prefs = GBApplication.getPrefs();
         if (GBApplication.isRunningLollipopOrLater()) {
+            if (prefs.getBoolean("notification_filter", false) && rankingMap != null) {
+                // Handle priority notifications for Do Not Disturb
+                Ranking ranking = new Ranking();
+                if (rankingMap.getRanking(sbn.getKey(), ranking)) {
+                    if (!ranking.matchesInterruptionFilter()) return;
+                }
+            }
             if (NotificationCompat.CATEGORY_CALL.equals(sbn.getNotification().category)
                     && prefs.getBoolean("notification_support_voip_calls", false)
                     && sbn.isOngoing()) {
