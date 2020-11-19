@@ -260,6 +260,16 @@ public class InitOperationGBX100 extends AbstractBTLEOperation<CasioGBX100Device
         }
     }
 
+    private void setInitialized() {
+        try {
+            TransactionBuilder builder = createTransactionBuilder("setInitialized");
+            support.setInitialized(builder);
+            support.performImmediately(builder);
+        } catch(IOException e) {
+            LOG.error("Error setting device to initialized: " + e.getMessage());
+        }
+    }
+
     private void enableAllFeatures(TransactionBuilder builder, boolean enable) {
         builder.notify(getCharacteristic(CasioConstants.CASIO_ALL_FEATURES_CHARACTERISTIC_UUID), enable);
     }
@@ -333,7 +343,10 @@ public class InitOperationGBX100 extends AbstractBTLEOperation<CasioGBX100Device
                     // The writeAllFeaturesInit request triggers bonding. However, the transaction
                     // never completes. Instead, the watch sends 0x4701 notification and we abort
                     // the current transaction.
-                    LOG.debug("We need to bond here. This is actually the request for the current time.");
+                    // This is actually the request for the link loss service - it's only received
+                    // on first connection, later reconnects receive 0x47 0x01.
+                    // We also need to send the current time, if not, the watch says "Failed".
+                    LOG.debug("We need to bond here. This is actually the request for the link loss service.");
                     try {
                         TransactionBuilder builder = createTransactionBuilder("writeCurrentTime");
                         support.writeCurrentTime(builder);
@@ -346,19 +359,18 @@ public class InitOperationGBX100 extends AbstractBTLEOperation<CasioGBX100Device
                     // The writeAllFeaturesInit request triggers encryption (again). However, the transaction
                     // never completes. Instead, the watch reports with 0x3d and we abort the current
                     // transaction.
+                    // This write is only required for the first connect, for later reconnections,
+                    // it's not required and the watch does not respond with 0x3d. Thus, we set
+                    // it directly to initialized.
                     if(mFirstConnect)
                         writeAllFeaturesInit();
+                    else
+                        setInitialized();
                 }
             } else if(data[0] == 0x3d) {
                 LOG.info("Init operation done.");
                 // Finally, we set the state to initialized here!
-                try {
-                    TransactionBuilder builder = createTransactionBuilder("setInitialized");
-                    support.setInitialized(builder);
-                    support.performImmediately(builder);
-                } catch(IOException e) {
-                    LOG.error("Error setting device to initialized: " + e.getMessage());
-                }
+                setInitialized();
             }
             return true;
         } else {
