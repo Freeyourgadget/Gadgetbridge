@@ -325,6 +325,7 @@
         <item>@string/menuitem_more</item>
         <item>@string/menuitem_stress</item>
         <item>@string/menuitem_cycles</item>
+        <item>@string/menuitem_nfc</item>
     </string-array>
 
     <string-array name="pref_miband5_display_items_values">
@@ -339,6 +340,7 @@
         <item>@string/p_menuitem_more</item>
         <item>@string/p_menuitem_stress</item>
         <item>@string/p_menuitem_cycles</item>
+        <item>@string/p_menuitem_nfc</item>
     </string-array>
 
     <string-array name="pref_miband5_display_items_default">
@@ -353,6 +355,7 @@
         <item>@string/p_menuitem_more</item>
         <item>@string/p_menuitem_stress</item>
         <item>@string/p_menuitem_cycles</item>
+        <item>@string/p_menuitem_nfc</item>
     </string-array>
 
     <string-array name="pref_miband5_shortcuts">
@@ -374,6 +377,7 @@
         <item>@string/menuitem_mutephone</item>
         <item>@string/menuitem_cycles</item>
         <item>@string/menuitem_takephoto</item>
+        <item>@string/menuitem_nfc</item>
     </string-array>
 
     <string-array name="pref_miband5_shortcuts_values">
@@ -395,6 +399,7 @@
         <item>@string/p_menuitem_mutephone</item>
         <item>@string/p_menuitem_cycles</item>
         <item>@string/p_menuitem_takephoto</item>
+        <item>@string/p_menuitem_nfc</item>
     </string-array>
 
     <string-array name="pref_miband5_shortcuts_default">
