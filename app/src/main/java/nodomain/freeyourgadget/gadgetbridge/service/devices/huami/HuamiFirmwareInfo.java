@@ -40,6 +40,10 @@ public abstract class HuamiFirmwareInfo {
             0x48, 0x4d, 0x44, 0x49, 0x41, 0x4c
     };
 
+    public static final byte[] WATCHFACE_HEADER_UIHH = new byte[]{
+            'U', 'I', 'H', 'H', 0x01
+    };
+
     protected static final byte[] FT_HEADER = new byte[]{ // HMZK font file (*.ft, *.ft.xx)
             0x48, 0x4d, 0x5a, 0x4b
     };

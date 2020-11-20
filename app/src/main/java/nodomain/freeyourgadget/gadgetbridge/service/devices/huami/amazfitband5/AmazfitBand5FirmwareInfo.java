@@ -54,7 +54,7 @@ public class AmazfitBand5FirmwareInfo extends HuamiFirmwareInfo {
             }
             return HuamiFirmwareType.INVALID;
         }
-        if (ArrayUtils.startsWith(bytes, WATCHFACE_HEADER)) {
+        if (ArrayUtils.startsWith(bytes, WATCHFACE_HEADER_UIHH)) {
             return HuamiFirmwareType.WATCHFACE;
         }
         if (ArrayUtils.startsWith(bytes, NEWFT_HEADER)) {

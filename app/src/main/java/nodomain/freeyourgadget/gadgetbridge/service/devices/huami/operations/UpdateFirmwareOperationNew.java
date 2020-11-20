@@ -29,7 +29,11 @@ import nodomain.freeyourgadget.gadgetbridge.service.btle.BLETypeConversions;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.SetDeviceBusyAction;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.HuamiFirmwareInfo;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.HuamiFirmwareType;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.HuamiSupport;
+import nodomain.freeyourgadget.gadgetbridge.util.ArrayUtils;
+
+import static nodomain.freeyourgadget.gadgetbridge.service.devices.huami.HuamiFirmwareInfo.WATCHFACE_HEADER_UIHH;
 
 public class UpdateFirmwareOperationNew extends UpdateFirmwareOperation {
     private static final Logger LOG = LoggerFactory.getLogger(UpdateFirmwareOperationNew.class);
@@ -39,13 +43,13 @@ public class UpdateFirmwareOperationNew extends UpdateFirmwareOperation {
         super(uri, support);
     }
 
-
+    @Override
     public boolean sendFwInfo() {
         try {
             TransactionBuilder builder = performInitialized("send firmware info");
             builder.add(new SetDeviceBusyAction(getDevice(), getContext().getString(R.string.updating_firmware), getContext()));
             int fwSize = getFirmwareInfo().getSize();
-            byte[] sizeBytes = BLETypeConversions.fromUint24(fwSize);
+            byte[] sizeBytes = BLETypeConversions.fromUint32(fwSize);
             byte[] bytes = new byte[10];
             int i = 0;
             bytes[i++] = HuamiService.COMMAND_FIRMWARE_INIT;
@@ -53,7 +57,7 @@ public class UpdateFirmwareOperationNew extends UpdateFirmwareOperation {
             bytes[i++] = sizeBytes[0];
             bytes[i++] = sizeBytes[1];
             bytes[i++] = sizeBytes[2];
-            bytes[i++] = 0; // TODO: what is that?
+            bytes[i++] = sizeBytes[3];
             int crc32 = firmwareInfo.getCrc32();
             byte[] crcBytes = BLETypeConversions.fromUint32(crc32);
             bytes[i++] = crcBytes[0];
@@ -61,7 +65,18 @@ public class UpdateFirmwareOperationNew extends UpdateFirmwareOperation {
             bytes[i++] = crcBytes[2];
             bytes[i] = crcBytes[3];
 
-
+            if (getFirmwareInfo().getFirmwareType() == HuamiFirmwareType.WATCHFACE) {
+                byte[] fwBytes = firmwareInfo.getBytes();
+                if (ArrayUtils.startsWith(fwBytes, WATCHFACE_HEADER_UIHH)) {
+                    builder.write(getCharacteristic(HuamiService.UUID_CHARACTERISTIC_3_CONFIGURATION),
+                            new byte[]{0x39, 0x00, 0x00, (byte) 0xff, (byte) 0xff, (byte) 0xff,
+                                    fwBytes[18],
+                                    fwBytes[19],
+                                    fwBytes[20],
+                                    fwBytes[21]
+                            });
+                }
+            }
             builder.write(fwCControlChar, bytes);
             builder.queue(getQueue());
             return true;
