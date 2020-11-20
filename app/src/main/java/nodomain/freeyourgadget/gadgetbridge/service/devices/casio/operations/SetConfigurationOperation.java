@@ -110,7 +110,16 @@ public class SetConfigurationOperation  extends AbstractBTLEOperation<CasioGBX10
                     data[i] = (byte)~data[i];
                 }
 
-                if(Arrays.equals(oldData, data)) {
+                // This allows changing month and day of birth on the watch
+                // without having it overwritten on every sync
+                boolean match = true;
+                for(int i=0; i<8; i++) {
+                    if(data[i] != oldData[i]) {
+                        match = false;
+                        break;
+                    }
+                }
+                if(match) {
                     LOG.info("No configuration update required");
                     requestTargetSettings();
                 } else {
@@ -179,9 +188,8 @@ public class SetConfigurationOperation  extends AbstractBTLEOperation<CasioGBX10
 
         operationStatus = OperationStatus.FINISHED;
         if (getDevice() != null) {
-            unsetBusy();
             try {
-                TransactionBuilder builder = performInitialized("finishe operation");
+                TransactionBuilder builder = performInitialized("finished operation");
                 builder.setGattCallback(null); // unset ourselves from being the queue's gatt callback
                 builder.wait(0);
                 builder.queue(getQueue());

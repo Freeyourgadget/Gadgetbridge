@@ -51,7 +51,7 @@ public class GetConfigurationOperation extends AbstractBTLEOperation<CasioGBX100
         operationStatus = OperationStatus.FINISHED;
         if (getDevice() != null) {
             try {
-                TransactionBuilder builder = performInitialized("finishe operation");
+                TransactionBuilder builder = performInitialized("finished operation");
                 builder.wait(0);
                 builder.setGattCallback(null); // unset ourselves from being the queue's gatt callback
                 builder.queue(getQueue());
