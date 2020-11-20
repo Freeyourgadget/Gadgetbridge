@@ -117,7 +117,7 @@ public class CasioGBX100DeviceCoordinator extends AbstractDeviceCoordinator {
 
     @Override
     public int getAlarmSlotCount() {
-        return 0; // 4 regular and one snooze
+        return 4;
     }
 
     @Override
@@ -148,5 +148,13 @@ public class CasioGBX100DeviceCoordinator extends AbstractDeviceCoordinator {
     @Override
     protected void deleteDevice(@NonNull GBDevice gbDevice, @NonNull Device device, @NonNull DaoSession session) throws GBException {
 
+    }
+
+    @Override
+    public int[] getSupportedDeviceSpecificSettings(GBDevice device) {
+        return new int[]{
+                R.xml.devicesettings_find_phone,
+                R.xml.devicesettings_wearlocation
+        };
     }
 }

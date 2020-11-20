@@ -17,12 +17,11 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.service.devices.casio;
 
-import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothGatt;
 import android.bluetooth.BluetoothGattCharacteristic;
-import android.bluetooth.BluetoothGattDescriptor;
-import android.bluetooth.BluetoothGattService;
+import android.content.SharedPreferences;
 import android.net.Uri;
+import android.os.Handler;
 import android.widget.Toast;
 
 import org.slf4j.Logger;
@@ -37,10 +36,12 @@ import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventCallControl;
+import nodomain.freeyourgadget.gadgetbridge.GBApplication;
+import nodomain.freeyourgadget.gadgetbridge.R;
+import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventFindPhone;
-import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventMusicControl;
 import nodomain.freeyourgadget.gadgetbridge.devices.casio.CasioConstants;
+import nodomain.freeyourgadget.gadgetbridge.devices.makibeshr3.MakibesHR3Constants;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.Alarm;
 import nodomain.freeyourgadget.gadgetbridge.model.CalendarEventSpec;
@@ -51,24 +52,29 @@ import nodomain.freeyourgadget.gadgetbridge.model.MusicStateSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.WeatherSpec;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.AbstractBTLEDeviceSupport;
-import nodomain.freeyourgadget.gadgetbridge.service.btle.GattCharacteristic;
-import nodomain.freeyourgadget.gadgetbridge.service.btle.GattService;
-import nodomain.freeyourgadget.gadgetbridge.service.btle.ServerTransactionBuilder;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
-import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.SetDeviceStateAction;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.casio.operations.GetConfigurationOperation;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.casio.operations.InitOperationGBX100;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.casio.operations.SetConfigurationOperation;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
-import nodomain.freeyourgadget.gadgetbridge.util.StringUtils;
 
-public class CasioGBX100DeviceSupport extends AbstractBTLEDeviceSupport {
+import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_FIND_PHONE_ENABLED;
+import static nodomain.freeyourgadget.gadgetbridge.model.ActivityUser.PREF_USER_ACTIVETIME_MINUTES;
+import static nodomain.freeyourgadget.gadgetbridge.model.ActivityUser.PREF_USER_DISTANCE_METERS;
+import static nodomain.freeyourgadget.gadgetbridge.model.ActivityUser.PREF_USER_GENDER;
+import static nodomain.freeyourgadget.gadgetbridge.model.ActivityUser.PREF_USER_HEIGHT_CM;
+import static nodomain.freeyourgadget.gadgetbridge.model.ActivityUser.PREF_USER_STEPS_GOAL;
+import static nodomain.freeyourgadget.gadgetbridge.model.ActivityUser.PREF_USER_WEIGHT_KG;
+import static nodomain.freeyourgadget.gadgetbridge.model.ActivityUser.PREF_USER_YEAR_OF_BIRTH;
+
+public class CasioGBX100DeviceSupport extends AbstractBTLEDeviceSupport implements SharedPreferences.OnSharedPreferenceChangeListener {
     private static final Logger LOG = LoggerFactory.getLogger(CasioGBX100DeviceSupport.class);
 
-    private final ArrayList<BluetoothGattCharacteristic> mCasioCharacteristics = new ArrayList<BluetoothGattCharacteristic>();
-    private MusicSpec mBufferMusicSpec = null;
-    private MusicStateSpec mBufferMusicStateSpec = null;
-    private BluetoothGatt mBtGatt = null;
     private boolean mFirstConnect = false;
+    private boolean mGetConfigurationPending = false;
     private ArrayList<Integer> mSyncedNotificationIDs = new ArrayList<>();
+    private int mLastCallId = 0;
+    private final Handler mFindPhoneHandler = new Handler();
 
     public CasioGBX100DeviceSupport() {
         super(LOG);
@@ -82,15 +88,10 @@ public class CasioGBX100DeviceSupport extends AbstractBTLEDeviceSupport {
         return connect();
     }
 
-    public void setInitialized(TransactionBuilder builder) {
+    public void setInitialized() {
         mFirstConnect = false;
-        builder.add(new SetDeviceStateAction(gbDevice, GBDevice.State.INITIALIZED, getContext()));
-    }
-
-    @Override
-    public void onServicesDiscovered(BluetoothGatt gatt) {
-        mBtGatt = gatt;
-        super.onServicesDiscovered(gatt);
+        gbDevice.setState(GBDevice.State.INITIALIZED);
+        gbDevice.sendDeviceUpdateIntent(getContext());
     }
 
     @Override
@@ -104,6 +105,12 @@ public class CasioGBX100DeviceSupport extends AbstractBTLEDeviceSupport {
 
         getDevice().setFirmwareVersion("N/A");
         getDevice().setFirmwareVersion2("N/A");
+
+        SharedPreferences preferences = GBApplication.getDeviceSpecificSharedPrefs(this.getDevice().getAddress());
+        preferences.registerOnSharedPreferenceChangeListener(this);
+
+        SharedPreferences prefs = GBApplication.getPrefs().getPreferences();
+        prefs.registerOnSharedPreferenceChangeListener(this);
 
         return builder;
     }
@@ -124,12 +131,21 @@ public class CasioGBX100DeviceSupport extends AbstractBTLEDeviceSupport {
     @Override
     public boolean onCharacteristicChanged(BluetoothGatt gatt,
                                            BluetoothGattCharacteristic characteristic) {
-        boolean handled = false;
-
         UUID characteristicUUID = characteristic.getUuid();
         byte[] data = characteristic.getValue();
         if (data.length == 0)
             return true;
+
+        if (characteristicUUID.equals(CasioConstants.CASIO_ALL_FEATURES_CHARACTERISTIC_UUID)) {
+            if(data[0] == CasioConstants.characteristicToByte.get("ALERT_LEVEL")) {
+                if(data[1] == 0x02) {
+                    onReverseFindDevice(true);
+                } else {
+                    onReverseFindDevice(false);
+                }
+                return true;
+            }
+        }
 
         LOG.info("Unhandled characteristic change: " + characteristicUUID + " code: " + String.format("0x%1x ...", data[0]));
         return super.onCharacteristicChanged(gatt, characteristic);
@@ -138,6 +154,14 @@ public class CasioGBX100DeviceSupport extends AbstractBTLEDeviceSupport {
     @Override
     public boolean useAutoConnect() {
         return true;
+    }
+
+    public void syncProfile() {
+        try {
+            new SetConfigurationOperation(this, CasioConstants.ConfigurationOption.OPTION_ALL).perform();
+        } catch (IOException e) {
+            GB.toast(getContext(), "Sending Casio configuration failed", Toast.LENGTH_SHORT, GB.ERROR, e);
+        }
     }
 
     private void showNotification(byte icon, String sender, String title, String message, int id, boolean delete) {
@@ -256,6 +280,51 @@ public class CasioGBX100DeviceSupport extends AbstractBTLEDeviceSupport {
         }
     }
 
+    private void onReverseFindDevice(boolean start) {
+        if (start) {
+            SharedPreferences sharedPreferences = GBApplication.getDeviceSpecificSharedPrefs(getDevice().getAddress());
+
+            String findPhone = sharedPreferences.getString(PREF_FIND_PHONE_ENABLED, getContext().getString(R.string.p_off));
+
+            if(findPhone.equals(getContext().getString(R.string.p_off)))
+                return;
+
+            GBDeviceEventFindPhone findPhoneEvent = new GBDeviceEventFindPhone();
+            findPhoneEvent.event = GBDeviceEventFindPhone.Event.START;
+            evaluateGBDeviceEvent(findPhoneEvent);
+
+            if(!findPhone.equals(getContext().getString(R.string.p_on))) {
+                String duration = sharedPreferences.getString(MakibesHR3Constants.PREF_FIND_PHONE_DURATION, "0");
+
+                try {
+                    int iDuration;
+
+                    try {
+                        iDuration = Integer.valueOf(duration);
+                    } catch (Exception ex) {
+                        LOG.warn(ex.getMessage());
+                        iDuration = 60;
+                    }
+                    if(iDuration > 0) {
+                        this.mFindPhoneHandler.postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                onReverseFindDevice(false);
+                            }
+                        }, iDuration * 1000);
+                    }
+                } catch (Exception e) {
+                    LOG.error("Unexpected exception in MiBand2Coordinator.getTime: " + e.getMessage());
+                }
+            }
+        } else {
+            // Always send stop, ignore preferences.
+            GBDeviceEventFindPhone findPhoneEvent = new GBDeviceEventFindPhone();
+            findPhoneEvent.event = GBDeviceEventFindPhone.Event.STOP;
+            evaluateGBDeviceEvent(findPhoneEvent);
+        }
+    }
+
     public void writeCurrentTime(TransactionBuilder builder) {
         byte[] arr = new byte[11];
         Calendar cal = Calendar.getInstance();
@@ -306,11 +375,14 @@ public class CasioGBX100DeviceSupport extends AbstractBTLEDeviceSupport {
 
     @Override
     public void onSetCallState(CallSpec callSpec) {
-        final AtomicInteger c = new AtomicInteger((int) (System.currentTimeMillis()/1000));
         switch (callSpec.command) {
             case CallSpec.CALL_INCOMING:
-                showNotification(CasioConstants.CATEGORY_INCOMING_CALL, "Phone", callSpec.name, callSpec.number, c.incrementAndGet(), false);
+                final AtomicInteger c = new AtomicInteger((int) (System.currentTimeMillis()/1000));
+                mLastCallId = c.incrementAndGet();
+                showNotification(CasioConstants.CATEGORY_INCOMING_CALL, "Phone", callSpec.name, callSpec.number, mLastCallId, false);
                 break;
+            case CallSpec.CALL_END:
+                showNotification(CasioConstants.CATEGORY_INCOMING_CALL, null, null, null, mLastCallId, true);
             default:
                 LOG.info("not sending CallSpec since only CALL_INCOMING is handled");
                 break;
@@ -423,12 +495,26 @@ public class CasioGBX100DeviceSupport extends AbstractBTLEDeviceSupport {
 
     @Override
     public void onSendConfiguration(String config) {
+        LOG.info("onSendConfiguration" + config);
+    }
 
+    public void onGetConfigurationFinished() {
+        mGetConfigurationPending = false;
     }
 
     @Override
     public void onReadConfiguration(String config) {
-
+        LOG.info("onReadConfiguration" + config);
+        // This is called upon pairing to retrieve the current watch settings, if any
+        if(config == null) {
+            try {
+                mGetConfigurationPending = true;
+                new GetConfigurationOperation(this, true).perform();
+            } catch (IOException e) {
+                mGetConfigurationPending = false;
+                GB.toast(getContext(), "Reading Casio configuration failed", Toast.LENGTH_SHORT, GB.ERROR, e);
+            }
+        }
     }
 
     @Override
@@ -439,5 +525,45 @@ public class CasioGBX100DeviceSupport extends AbstractBTLEDeviceSupport {
     @Override
     public void onSendWeather(WeatherSpec weatherSpec) {
 
+    }
+
+    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+        LOG.debug(key + " changed");
+
+        if (!this.isConnected()) {
+            LOG.debug("ignoring change, we're disconnected");
+            return;
+        }
+
+        if(mGetConfigurationPending) {
+            LOG.debug("Preferences are being fetched right now");
+            return;
+        }
+        try {
+            if (key.equals(DeviceSettingsPreferenceConst.PREF_WEARLOCATION)) {
+                new SetConfigurationOperation(this, CasioConstants.ConfigurationOption.OPTION_WRIST).perform();
+            } else if(key.equals(PREF_USER_STEPS_GOAL)) {
+                new SetConfigurationOperation(this, CasioConstants.ConfigurationOption.OPTION_STEP_GOAL).perform();
+            } else if(key.equals(PREF_USER_ACTIVETIME_MINUTES)) {
+                new SetConfigurationOperation(this, CasioConstants.ConfigurationOption.OPTION_ACTIVITY_GOAL).perform();
+            } else if(key.equals(PREF_USER_DISTANCE_METERS)) {
+                new SetConfigurationOperation(this, CasioConstants.ConfigurationOption.OPTION_DISTANCE_GOAL).perform();
+            } else if(key.equals(PREF_USER_GENDER)) {
+                new SetConfigurationOperation(this, CasioConstants.ConfigurationOption.OPTION_GENDER).perform();
+            } else if(key.equals(PREF_USER_HEIGHT_CM)) {
+                new SetConfigurationOperation(this, CasioConstants.ConfigurationOption.OPTION_HEIGHT).perform();
+            } else if(key.equals(PREF_USER_WEIGHT_KG)) {
+                new SetConfigurationOperation(this, CasioConstants.ConfigurationOption.OPTION_WEIGHT).perform();
+            } else if(key.equals(PREF_USER_YEAR_OF_BIRTH)) {
+                new SetConfigurationOperation(this, CasioConstants.ConfigurationOption.OPTION_BIRTHDAY).perform();
+            } else if (key.equals(PREF_FIND_PHONE_ENABLED) ||
+                    key.equals(MakibesHR3Constants.PREF_FIND_PHONE_DURATION)) {
+                // No action, we check the shared preferences when the device tries to ring the phone.
+            } else {
+                return;
+            }
+        } catch (IOException e) {
+            LOG.info("Error sending configuration change to watch");
+        }
     }
 }

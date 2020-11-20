@@ -260,16 +260,6 @@ public class InitOperationGBX100 extends AbstractBTLEOperation<CasioGBX100Device
         }
     }
 
-    private void setInitialized() {
-        try {
-            TransactionBuilder builder = createTransactionBuilder("setInitialized");
-            support.setInitialized(builder);
-            support.performImmediately(builder);
-        } catch(IOException e) {
-            LOG.error("Error setting device to initialized: " + e.getMessage());
-        }
-    }
-
     private void enableAllFeatures(TransactionBuilder builder, boolean enable) {
         builder.notify(getCharacteristic(CasioConstants.CASIO_ALL_FEATURES_CHARACTERISTIC_UUID), enable);
     }
@@ -365,12 +355,18 @@ public class InitOperationGBX100 extends AbstractBTLEOperation<CasioGBX100Device
                     if(mFirstConnect)
                         writeAllFeaturesInit();
                     else
-                        setInitialized();
+                        support.setInitialized();
                 }
             } else if(data[0] == 0x3d) {
                 LOG.info("Init operation done.");
                 // Finally, we set the state to initialized here!
-                setInitialized();
+                support.setInitialized();
+                if(mFirstConnect) {
+                    support.onReadConfiguration(null);
+                } else {
+                    // on first connect, this is called by onReadConfiguration
+                    support.syncProfile();
+                }
             }
             return true;
         } else {

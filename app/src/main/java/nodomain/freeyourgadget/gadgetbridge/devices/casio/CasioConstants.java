@@ -120,6 +120,18 @@ public final class CasioConstants {
         MODEL_CASIO_GBX100
     }
 
+    public enum ConfigurationOption {
+        OPTION_GENDER,
+        OPTION_WEIGHT,
+        OPTION_HEIGHT,
+        OPTION_WRIST,
+        OPTION_BIRTHDAY,
+        OPTION_STEP_GOAL,
+        OPTION_DISTANCE_GOAL,
+        OPTION_ACTIVITY_GOAL,
+        OPTION_ALL
+    }
+
     public static Map<String, Byte> characteristicToByte = new HashMap<String, Byte>() {
         {
             put("CASIO_WATCH_NAME", (byte) 0x23);
@@ -135,6 +147,9 @@ public final class CasioConstants {
             put("CASIO_DST_SETTING", (byte) 0x1e);
             put("CASIO_SERVICE_DISCOVERY_MANAGER", (byte) 0x47);
             put("CASIO_CURRENT_TIME", (byte) 0x09);
+            put("CASIO_SETTING_FOR_USER_PROFILE", (byte) 0x45);
+            put("CASIO_SETTING_FOR_TARGET_VALUE", (byte) 0x43);
+            put("ALERT_LEVEL", (byte) 0x0a);
         }
     };
 }
