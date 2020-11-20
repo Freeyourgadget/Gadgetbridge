@@ -60,6 +60,7 @@ import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.SetDeviceStateA
 import nodomain.freeyourgadget.gadgetbridge.service.devices.watch9.operations.InitOperation;
 import nodomain.freeyourgadget.gadgetbridge.util.AlarmUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.ArrayUtils;
+import nodomain.freeyourgadget.gadgetbridge.util.BcdUtil;
 
 public class Watch9DeviceSupport extends AbstractBTLEDeviceSupport {
 
@@ -238,14 +239,14 @@ public class Watch9DeviceSupport extends AbstractBTLEDeviceSupport {
     private void handleTime(byte[] time) {
         GregorianCalendar now = BLETypeConversions.createCalendar();
         GregorianCalendar nowDevice = BLETypeConversions.createCalendar();
-        int year = (nowDevice.get(Calendar.YEAR) / 100) * 100 + Conversion.fromBcd8(time[8]);
+        int year = (nowDevice.get(Calendar.YEAR) / 100) * 100 + BcdUtil.fromBcd8(time[8]);
         nowDevice.set(year,
-                Conversion.fromBcd8(time[9]) - 1,
-                Conversion.fromBcd8(time[10]),
-                Conversion.fromBcd8(time[11]),
-                Conversion.fromBcd8(time[12]),
-                Conversion.fromBcd8(time[13]));
-        nowDevice.set(Calendar.DAY_OF_WEEK, Conversion.fromBcd8(time[16]) + 1);
+                BcdUtil.fromBcd8(time[9]) - 1,
+                BcdUtil.fromBcd8(time[10]),
+                BcdUtil.fromBcd8(time[11]),
+                BcdUtil.fromBcd8(time[12]),
+                BcdUtil.fromBcd8(time[13]));
+        nowDevice.set(Calendar.DAY_OF_WEEK, BcdUtil.fromBcd8(time[16]) + 1);
 
         long timeDiff = (Math.abs(now.getTimeInMillis() - nowDevice.getTimeInMillis())) / 1000;
         if (10 < timeDiff && timeDiff < 120) {
@@ -260,12 +261,12 @@ public class Watch9DeviceSupport extends AbstractBTLEDeviceSupport {
             TransactionBuilder builder = performInitialized("setTime");
             int timezoneOffsetMinutes = (calendar.get(Calendar.ZONE_OFFSET) + calendar.get(Calendar.DST_OFFSET)) / (60 * 1000);
             int timezoneOffsetIndustrialMinutes = Math.round((Math.abs(timezoneOffsetMinutes) % 60) * 100f / 60f);
-            byte[] time = new byte[]{Conversion.toBcd8(calendar.get(Calendar.YEAR) % 100),
-                    Conversion.toBcd8(calendar.get(Calendar.MONTH) + 1),
-                    Conversion.toBcd8(calendar.get(Calendar.DAY_OF_MONTH)),
-                    Conversion.toBcd8(calendar.get(Calendar.HOUR_OF_DAY)),
-                    Conversion.toBcd8(calendar.get(Calendar.MINUTE)),
-                    Conversion.toBcd8(calendar.get(Calendar.SECOND)),
+            byte[] time = new byte[]{BcdUtil.toBcd8(calendar.get(Calendar.YEAR) % 100),
+                    BcdUtil.toBcd8(calendar.get(Calendar.MONTH) + 1),
+                    BcdUtil.toBcd8(calendar.get(Calendar.DAY_OF_MONTH)),
+                    BcdUtil.toBcd8(calendar.get(Calendar.HOUR_OF_DAY)),
+                    BcdUtil.toBcd8(calendar.get(Calendar.MINUTE)),
+                    BcdUtil.toBcd8(calendar.get(Calendar.SECOND)),
                     (byte) (timezoneOffsetMinutes / 60),
                     (byte) timezoneOffsetIndustrialMinutes,
                     (byte) (calendar.get(Calendar.DAY_OF_WEEK) - 1)
@@ -358,8 +359,8 @@ public class Watch9DeviceSupport extends AbstractBTLEDeviceSupport {
         repetitionMask |= (alarm.getRepetition(Alarm.ALARM_SUN) ? 0x01 : 0x00);
         if (0 < index && index < 4) {
             byte[] alarmValue = new byte[]{(byte) index,
-                    Conversion.toBcd8(AlarmUtils.toCalendar(alarm).get(Calendar.HOUR_OF_DAY)),
-                    Conversion.toBcd8(AlarmUtils.toCalendar(alarm).get(Calendar.MINUTE)),
+                    BcdUtil.toBcd8(AlarmUtils.toCalendar(alarm).get(Calendar.HOUR_OF_DAY)),
+                    BcdUtil.toBcd8(AlarmUtils.toCalendar(alarm).get(Calendar.MINUTE)),
                     repetitionMask,
                     (byte) (alarm.getEnabled() ? 0x01 : 0x00),
                     0x00 // TODO: Unknown
@@ -602,18 +603,6 @@ public class Watch9DeviceSupport extends AbstractBTLEDeviceSupport {
     }
 
     private static class Conversion {
-        static byte toBcd8(@IntRange(from = 0, to = 99) int value) {
-            int high = (value / 10) << 4;
-            int low = value % 10;
-            return (byte) (high | low);
-        }
-
-        static int fromBcd8(byte value) {
-            int high = ((value & 0xF0) >> 4) * 10;
-            int low = value & 0x0F;
-            return high + low;
-        }
-
         static byte[] toByteArr16(int value) {
             return new byte[]{(byte) (value >> 8), (byte) value};
         }
