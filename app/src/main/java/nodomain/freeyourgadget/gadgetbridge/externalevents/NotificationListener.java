@@ -317,7 +317,7 @@ public class NotificationListener extends NotificationListenerService {
             }
         }
 
-        NotificationSpec notificationSpec = new NotificationSpec(sbn.getId());
+        NotificationSpec notificationSpec = new NotificationSpec();
 
         // determinate Source App Name ("Label")
         String name = getAppName(source);
@@ -724,7 +724,11 @@ public class NotificationListener extends NotificationListenerService {
         Prefs prefs = GBApplication.getPrefs();
         if (prefs.getBoolean("autoremove_notifications", true)) {
             LOG.info("notification removed, will ask device to delete it");
-            GBApplication.deviceService().onDeleteNotification(sbn.getId());
+            Object o = mNotificationHandleLookup.lookupByValue(sbn.getPostTime());
+            if(o != null) {
+                int id = (int) o;
+                GBApplication.deviceService().onDeleteNotification(id);
+            }
         }
 
     }
