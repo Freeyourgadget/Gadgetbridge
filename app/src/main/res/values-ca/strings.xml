@@ -56,7 +56,7 @@
 \nNota: no heu d\'instal·lar el fitxer .res si és exactament el mateix que el prèviament instal·lat.
 \n
 \nPROCEDIU SOTA LA VOSTRA PRÒPIA RESPONSABILITAT!</string>
-    <string name="fw_multi_upgrade_notice">"Sou a punt d\'instal·lar els microprogramaris  %1$s i %2$s en lloc dels que hi ha actualment a la vostra Mi Band."</string>
+    <string name="fw_multi_upgrade_notice">Sou a punt d\'instal·lar els microprogramaris %1$s i %2$s en lloc dels que hi ha actualment a la vostra Mi Band.</string>
     <string name="miband_firmware_known">Aquest microprogramari ha estat provat i se sap que és compatible amb el Gadgetbridge.</string>
     <string name="miband_firmware_unknown_warning">Aquest microprogramari no ha estat provat i pot ser que no sigui compatible amb el Gadgetbridge. 
 \n 
@@ -179,7 +179,7 @@
     <string name="installation_failed_">La instal·lació ha fallat</string>
     <string name="installation_successful">Instal·lat</string>
     <string name="pref_title_weather">El temps</string>
-    <string name="pref_title_weather_location">Ubicació del temps (CM/LOS)</string>
+    <string name="pref_title_weather_location">Ubicació del temps (per al proveïdor de temps de LineageOS)</string>
     <string name="pref_header_auto_export">Exportació automàtica</string>
     <string name="pref_title_auto_export_enabled">Exportació automàtica activada</string>
     <string name="pref_title_auto_export_location">Ubicació de l\'exportació</string>
@@ -188,7 +188,8 @@
     <string name="app_install_info">Esteu a punt d\'instal·lar la següent aplicació:
 \n
 \n
-\n%1$s Versió %2$s per %3$s</string>
+\n%1$s Versió %2$s per %3$s
+\n</string>
     <string name="n_a">NO DISPONIBLE</string>
     <string name="initialized">inicialitzat</string>
     <string name="appversion_by_creator">%1$s per %2$s</string>
@@ -279,7 +280,8 @@
     <string name="installer_activity_wait_while_determining_status">Si us plau, espereu mentre s\'esbrina l\'estat de la instal·lació…</string>
     <string name="notif_battery_low_title">L\'aparell té poca bateria!</string>
     <string name="notif_battery_low_percent">A %1$s li roman un %2$s%% de bateria</string>
-    <string name="notif_battery_low_bigtext_last_charge_time">Darrera càrrega: %s</string>
+    <string name="notif_battery_low_bigtext_last_charge_time">Darrera càrrega: %s
+\n</string>
     <string name="notif_battery_low_bigtext_number_of_charges">Nombre de càrregues: %s</string>
     <string name="notif_export_failed_title">L\'exportació de la base de dades ha fallat! Si us plau, comproveu la configuració.</string>
     <string name="sleepchart_your_sleep">Son</string>
@@ -373,7 +375,7 @@
     <string name="authentication_required">Es requereix autenticació</string>
     <string name="appwidget_text">Zzz</string>
     <string name="add_widget">Afegeix un giny</string>
-    <string name="activity_prefs_sleep_duration">Duració preferida del son en hores</string>
+    <string name="activity_prefs_sleep_duration">Durada preferida del son en hores</string>
     <string name="appwidget_setting_alarm">S\'ha fixat una alarma a les %1$02d:%2$02d</string>
     <string name="device_hw">Revisió del maquinari: %1$s</string>
     <string name="device_fw">Versió del microprogramari: %1$s</string>
@@ -434,7 +436,7 @@
     <string name="miband_pairing_tap_hint">Quan la vostra Mi Band vibri i parpallegi, toqueu-la vàries vegades seguides.</string>
     <string name="discovery_connected_devices_hint">Feu que el vostre aparell es pugui detectar. Els aparells que ara estan connectats probablement no seran detectats. Activeu la localització (per exemple, el GPS) a Android 6+. Desactiveu el Privacy Guard per al Gadgetbridge, perquè podria penjar-se i fer que el telèfon es reniciés. Si després d\'uns quants minuts no s\'ha trobat cap aparell, torneu-ho a provar després de reiniciar el telèfon.</string>
     <string name="pref_title_dont_ack_transfer">No enviïs l\'ACK de les dades d\'activitats</string>
-    <string name="pref_summary_dont_ack_transfers">Si l\'arribada de les dades d\'activitats no és notificada a la polsera, aquestes dades no s\'eliminaran. Aquesta opció pot ser útil si feu servir el Gadgebridge també amb altres aplicacions.</string>
+    <string name="pref_summary_dont_ack_transfers">Si no són notificades a la polsera, les dades d\'activitat no s\'eliminaran. Pot ser útil si feu servir el Gadgebridge junt amb altres aplicacions.</string>
     <string name="pref_summary_keep_data_on_device">Les dades d\'activitats de la Mi Band es guardaran fins i tot després de sincronitzar. Aquesta opció pot ser útil si feu servir el Gadgebridge també amb altres aplicacions.</string>
     <string name="mi2_prefs_button_press_broadcast_summary">Difón el missatge enviat amb l\'esdeveniment. El paràmetre `button_id` és afegit automàticament a cada missatge.</string>
     <string name="pref_title_pebble_health_store_raw">Desa dades sense processar a la base de dades</string>
@@ -541,7 +543,7 @@
     <string name="activity_type_walking">Caminar</string>
     <string name="activity_type_swimming">Nedar</string>
     <string name="activity_type_unknown">Activitat desconeguda</string>
-    <string name="activity_summaries">Activitats</string>
+    <string name="activity_summaries">Activitats esportives</string>
     <string name="activity_type_biking">Ciclisme</string>
     <string name="activity_type_treadmill">Cinta de córrer</string>
     <string name="select_all">Selecciona-ho tot</string>
@@ -687,7 +689,7 @@
     <string name="devicetype_miscale2">Mi Scale 2</string>
     <string name="title_activity_device_specific_settings">Configuració específica de l\'aparell</string>
     <string name="pref_title_authkey">Clau d\'autenticació</string>
-    <string name="pref_summary_authkey">Canvia la clau d\'autenticació en tots els aparells Android des des quals et vulguis connectar. La clau anterior per defecte per a tots els aparells és 0123456789@ABCDE</string>
+    <string name="pref_summary_authkey">Canvia la clau d\'autenticació en tots els aparells Android des dels quals et vulguis connectar. La clau anterior per defecte per a tots els aparells és 0123456789@ABCDE</string>
     <string name="devicetype_bfh16">BFH-16</string>
     <string name="dutch">Neerlandès</string>
     <string name="turkish">Turc</string>
@@ -748,7 +750,7 @@
     <string name="devicetype_amazfit_bip_lite">Amazfit Bip Lite</string>
     <string name="prefs_find_phone">Troba el telèfon</string>
     <string name="prefs_enable_find_phone">Activa «Troba el telèfon»</string>
-    <string name="prefs_find_phone_duration">Duració del to en segons</string>
+    <string name="prefs_find_phone_duration">Durada del to en segons</string>
     <string name="maximum_duration">Durada</string>
     <string name="fw_upgrade_notice_amazfitbip_lite">Esteu a punt d\'instal·lar el microprogramari %s en el vostre Amazfit Bip Lite.
 \n
@@ -831,7 +833,7 @@
     <string name="hr_widget_nothing">Res</string>
     <string name="find_lost_device_you_found_it">Trobat!</string>
     <string name="pref_title_force_white_color_scheme">Força l\'esquema de color blanc sobre negre</string>
-    <string name="pref_summary_force_white_color_scheme">Útil si si el teu rellotge té les manetes negres</string>
+    <string name="pref_summary_force_white_color_scheme">Útil si el teu rellotge té les manetes negres</string>
     <string name="find_my_phone_notification">Troba el meu telèfon</string>
     <string name="notification_channel_high_priority_name">Notificacions de Gadgetbridge d\'alta prioritat</string>
     <string name="pref_title_custom_deviceicon">Mostra l\'icona de notificació específica de l\'aparell</string>
@@ -881,4 +883,195 @@
     <string name="sonyswr12_settings_stamina_summary">El mode d’estalvi d’energia desactiva la mesura automàtica periòdica de la freqüència cardíaca i, per tant, augmenta el temps de treball</string>
     <string name="sonyswr12_settings_alarm_interval_summary">L\'interval d\'alarma intel·ligent és l\'interval abans de l\'alarma instal·lada. En aquest interval, el dispositiu intenta detectar la fase més lleugera del son per despertar l\'usuari</string>
     <string name="sonyswr12_settings_stamina">Mode d\'estalvi d\'energia activat</string>
+    <string name="qhybrid_calibration_align_hint">alinea les manetes a les 12:00</string>
+    <string name="devicetype_nut_mini">Nut mini</string>
+    <string name="backstroke">Esquena</string>
+    <string name="freestyle">Estil lliure</string>
+    <string name="breaststroke">Braça</string>
+    <string name="activity_filter_apply_filter">Aplica el filtre</string>
+    <string name="activity_filter_reset_filter">Restableix filtre</string>
+    <string name="baseAltitude">Elevació base</string>
+    <string name="descentSeconds">Descendent</string>
+    <string name="ascentSeconds">Ascendent</string>
+    <string name="averageLapPace">Ritme de volta mitjà</string>
+    <string name="averageHR">Ritme cardíac</string>
+    <string name="error_location_enabled_mandatory">La ubicació ha d\'estar activada per cercar aparells</string>
+    <string name="error_retrieving_devices_database">Error al recuperar els aparells de la base de dades</string>
+    <string name="error_setting_alias">Error a l\'establir pseudònim:</string>
+    <string name="error_exporting_device_preferences">Error a l\'exportar les preferències específiques d\'aparell</string>
+    <string name="pref_check_permission_status">Comprova l\'estat dels permisos</string>
+    <string name="error_background_service_reason">L\'inici del servei en segon pla ha fallat per una excepció. Error:</string>
+    <string name="error_background_service_reason_truncated">L\'inici del servei en segon pla ha fallat perquè…</string>
+    <string name="error_background_service">Ha fallat l\'inici del servei en segon pla</string>
+    <string name="permission_granting_mandatory">Tots aquests permisos són requerits i pot haver-hi inestabilitat si no s\'atorguen</string>
+    <string name="about_additional_contributions">Moltes gràcies a tots els col·laboradors no mencionats per contribuir-hi codi, traduccions, suport, idees, motivació, informes d\'error, diners… ✊</string>
+    <string name="about_additional_device_support">Support d\'aparell addicional</string>
+    <string name="about_contributors">Col·laboradors</string>
+    <string name="about_core_team_title">Equip principal (en ordre de primera contribució de codi)</string>
+    <string name="about_description">Substitut lliure, copyleft i sense núvol per a les aplicacions Android de codi tancat dels fabricants dels aparells.</string>
+    <string name="menuitem_dnd">No molestis</string>
+    <string name="menuitem_spo2">SpO2</string>
+    <string name="menuitem_pai">PAI</string>
+    <string name="activity_error_no_app_for_png">Per compartir aquesta captura de pantalla, instal·la una app que pugui manegar fitxers d\'imatge.</string>
+    <string name="bip_prefs_shotcuts_summary">Tria les dreceres a la pantalla de la polsera</string>
+    <string name="charts_min_max_heartrate_popup">Ritme cardíac mínim: %1$d
+\nRitme cardíac màxim: %2$d
+\nIntensitat de moviment: %3$s</string>
+    <string name="devicestatus_upload_aborted">S\'ha avortat la càrrega!</string>
+    <string name="activity_list_summary_active_steps">Passes actives</string>
+    <string name="chart_get_active_and_synchronize">Fes alguna activitat i sincronitza l\'aparell.</string>
+    <string name="pref_sensors_bp_calibration_high">Pressió arterial sistòlica (alta)</string>
+    <string name="pref_sensors_bp_calibration_low">Pressió arterial diastòlica (baixa)</string>
+    <string name="pref_summary_device_spec_settings_title_force_time">Força la sincronització automàtica de l\'hora al reconnectar. Les manetes analògiques poden mostrar una hora incorrecta!</string>
+    <string name="pref_title_device_spec_settings_force_time">Força la sincronització de l\'hora</string>
+    <string name="pref_title_weather_summary">Usat per el proveïdor de temps de LineageOS, altres versions d\'Android requereixen fer servir una app com \"Weather notification\". Troba\'n més informació a la wiki de Gadgetbridge.</string>
+    <string name="controlcenter_set_alias">Establir pseudònim</string>
+    <string name="find_lost_device_message">Cercar %1$s\?</string>
+    <string name="activity_filter_to_placeholder">avui</string>
+    <string name="activity_filter_from_placeholder">passat llunyà</string>
+    <string name="activity_summaries_all_devices">Tots els aparells</string>
+    <string name="sports_activity_quick_filter_select">Període de temps</string>
+    <string name="sports_activity_quick_filter_30days">30 dies</string>
+    <string name="sports_activity_quick_filter_7days">7 dies</string>
+    <string name="sports_activity_quick_filter_last_month">El mes passat</string>
+    <string name="sports_activity_quick_filter_this_month">Aquest mes</string>
+    <string name="sports_activity_quick_filter_last_week">La setmana passada</string>
+    <string name="sports_activity_quick_filter_this_week">Aquesta setmana</string>
+    <string name="activity_summaries_all_activities">Totes les activitats</string>
+    <string name="activity_summaries_statistics">Estadístiques</string>
+    <string name="no">No</string>
+    <string name="yes">Sí</string>
+    <string name="addto_filter">Afegeix al filtre</string>
+    <string name="activity_filter_name_contains">Etiqueta</string>
+    <string name="activity_filter_filter_title">Filtre</string>
+    <string name="activity_filter_date_to">A</string>
+    <string name="activity_filter_date_from">Des de</string>
+    <string name="pref_header_statistics">Estadístiques d\'activitats esportives</string>
+    <string name="pref_header_filter">Filtre d\'activitats esportives</string>
+    <string name="prefs_events_forwarding_action_title">Executa acció</string>
+    <string name="prefs_events_forwarding_broadcast_title">Difon missatge</string>
+    <string name="prefs_events_forwarding_startnonwear">Quan no s\'esta portant</string>
+    <string name="prefs_events_forwarding_wokeup">Al despertar-te</string>
+    <string name="prefs_events_forwarding_fellsleep">A l\'adormir-te</string>
+    <string name="prefs_events_forwarding_title">Accions de l\'aparell</string>
+    <string name="gps_track">Pista GPS</string>
+    <string name="activity_detail_show_gps_label">Mostra la pista GPS</string>
+    <string name="activity_detail_duration_label">Durada</string>
+    <string name="activity_detail_end_label">Final</string>
+    <string name="activity_detail_start_label">Inici</string>
+    <string name="Steps">Passes</string>
+    <string name="Activity">Activitat</string>
+    <string name="Speed">Velocitat</string>
+    <string name="Elevation">Elevació</string>
+    <string name="Distance">Distància</string>
+    <string name="Swimming">Natació</string>
+    <string name="km">km</string>
+    <string name="minutes_km">min/km</string>
+    <string name="seconds_m">seg/m</string>
+    <string name="seconds_km">seg/km</string>
+    <string name="calories_unit">kcal</string>
+    <string name="laps_unit">voltes</string>
+    <string name="seconds">seg</string>
+    <string name="km_h">km/h</string>
+    <string name="meters_second">m/s</string>
+    <string name="steps_unit">passes</string>
+    <string name="cm">cm</string>
+    <string name="meters">m</string>
+    <string name="averageSpeed">Velocitat mitjana</string>
+    <string name="flatSeconds">Pla</string>
+    <string name="laps">Voltes</string>
+    <string name="averageKMPaceSeconds">Ritme</string>
+    <string name="maxPace">Ritme més ràpid</string>
+    <string name="minPace">Ritme més lent</string>
+    <string name="maxSpeed">Màxim</string>
+    <string name="caloriesBurnt">Calories</string>
+    <string name="activeSeconds">Actiu</string>
+    <string name="steps">Passes</string>
+    <string name="minAltitude">Mínim</string>
+    <string name="maxAltitude">Màxim</string>
+    <string name="descentMeters">En baixada</string>
+    <string name="ascentMeters">En pujada</string>
+    <string name="distanceMeters">Distància</string>
+    <string name="device_requires_key">ES REQUEREIX CLAU</string>
+    <string name="require_location_provider">La ubicació ha d\'estar activada</string>
+    <string name="about_links">Enllaços</string>
+    <string name="about_activity_title">Quant a Gadgetbridge</string>
+    <string name="about_version">Versió %s</string>
+    <string name="about_title">Quant a</string>
+    <string name="hr_widget_last_notification">Última notificació</string>
+    <string name="menuitem_stopwatch">Cronòmetre</string>
+    <string name="menuitem_alexa">Alexa</string>
+    <string name="menuitem_takephoto">Fes una foto</string>
+    <string name="menuitem_mutephone">Silencia el telèfon</string>
+    <string name="menuitem_findphone">Troba el telèfon</string>
+    <string name="menuitem_worldclock">Rellotge mundial</string>
+    <string name="menuitem_unknown">Desconegut</string>
+    <string name="menuitem_stress">Estrès</string>
+    <string name="menuitem_cycles">Període</string>
+    <string name="menuitem_breathing">Respiració</string>
+    <string name="devicetype_lefun">Lefun</string>
+    <string name="devicetype_sg2">Lemfo SG2</string>
+    <string name="devicetype_pinetime_jf">PineTime (JF Firmware)</string>
+    <string name="devicetype_tlw64">TLW64</string>
+    <string name="devicetype_amazfit_gts2">Amazfit GTS 2</string>
+    <string name="devicetype_amazfit_gtr2">Amazfit GTR 2</string>
+    <string name="devicetype_amazfit_bips_lite">Amazfit Bip S Lite</string>
+    <string name="devicetype_amazfit_trex">Amazfit T-Rex</string>
+    <string name="devicetype_amazfit_band5">Amazfit Band 5</string>
+    <string name="devicetype_miband5">Mi Band 5</string>
+    <string name="activity_summary_yesterday">Ahir</string>
+    <string name="activity_summary_today">Avui</string>
+    <string name="activity_summary_edit_name_title">Edita l\'etiqueta</string>
+    <string name="activity_summary_detail">Detall d\'activitats esportives</string>
+    <string name="activity_type_badminton">Bàdminton</string>
+    <string name="activity_type_pingpong">Tennis de taula</string>
+    <string name="activity_type_basketball">Bàsquet</string>
+    <string name="activity_type_cricket">Criquet</string>
+    <string name="activity_type_rowing_machine">Màquina de rem</string>
+    <string name="activity_type_soccer">Futbol</string>
+    <string name="activity_type_yoga">Ioga</string>
+    <string name="activity_type_jump_roping">Salt de corda</string>
+    <string name="activity_type_elliptical_trainer">Màquina el·líptica</string>
+    <string name="activity_type_indoor_cycling">Ciclisme d\'interior</string>
+    <string name="activity_type_swimming_openwater">Natació (Aigües obertes)</string>
+    <string name="charts_legend_heartrate_average">Ritme cardíac mitjà</string>
+    <string name="activity_prefs_chart_min_session_length">Durada mínima d\'activitat</string>
+    <string name="activity_prefs_chart_max_idle_phase_length">Duració de la pausa per a separar activitats (minuts)</string>
+    <string name="activity_prefs_chart_min_steps_per_minute_for_run">Passes per minut mínimes per a detectar correguda</string>
+    <string name="activity_prefs_chart_min_steps_per_minute">Passes per minut mínimes per a detectar activitat</string>
+    <string name="activity_prefs_step_length_cm">Llargada de passa en cm</string>
+    <string name="czesh">Txec</string>
+    <string name="swedish">Suec</string>
+    <string name="hebrew">Hebreu</string>
+    <string name="greek">Grec</string>
+    <string name="hungarian">Hongarès</string>
+    <string name="romanian">Romanès</string>
+    <string name="lefun_prefs_interface_language_title">Idioma de la interfície</string>
+    <string name="lefun_prefs_antilost_summary">La polsera vibrarà si el teu mòbil es desconnecta de la polsera</string>
+    <string name="lefun_prefs_antilost_title">Antipèrdua</string>
+    <string name="lefun_prefs_hydration_reminder_interval_title">Interval de recordatori d\'hidratació (en minuts)</string>
+    <string name="lefun_prefs_hydration_reminder_summary">La polsera vibrarà per a recordar-te que beguis aigua</string>
+    <string name="lefun_prefs_hydration_reminder_title">Recordatori d\'hidratació</string>
+    <string name="bip_prefs_shortcuts">Dreceres</string>
+    <string name="movement_intensity">Intensitat de moviment</string>
+    <string name="firmware_update_progress">La càrrega és en procés
+\n%1d%% a %.2fkbps (mitjana %.2fkbps)
+\nPart %1d de %1d</string>
+    <string name="devicestatus_upload_failed">Ha fallat la càrrega</string>
+    <string name="devicestatus_upload_started">Ha començat la càrrega</string>
+    <string name="devicestatus_upload_completed">S\'ha completat la càrrega</string>
+    <string name="devicestatus_upload_validating">S\'està validant la càrrega</string>
+    <string name="devicestatus_connecting">S\'està connectant l\'aparell</string>
+    <string name="devicestatus_connected">L\'aparell està connectat</string>
+    <string name="devicestatus_disconnecting">L\'aparell s\'està desconnectant!</string>
+    <string name="devicestatus_disconnected">L\'aparell s\'ha desconnectat!</string>
+    <string name="devicestatus_upload_starting">La càrrega està començant</string>
+    <string name="activity_list_summary_activities">Activitats</string>
+    <string name="activity_list_summary_intensity">Moviment
+\nIntensitat</string>
+    <string name="activity_list_summary_active_time">Temps actiu</string>
+    <string name="activity_list_summary_distance">Distància</string>
+    <string name="charts_activity_list">Llista d\'activitats</string>
+    <string name="chart_no_active_data">No s\'han detectat activitats.</string>
+    <string name="pref_theme_system">Sistema</string>
 </resources>
