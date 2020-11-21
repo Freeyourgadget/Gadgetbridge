@@ -1,5 +1,10 @@
 ### Changelog
 
+#### 0.50.0 (WIP)
+
+* Initial support for Casio GBX-100
+* Mi/Amazfit Band 5: Support watchface installation
+
 #### 0.49.0
 * Initial support for Amazfit Bip S Lite
 * Initial support for Amazfit GTR/GTS 2
