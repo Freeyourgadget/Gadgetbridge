@@ -1128,4 +1128,5 @@
     <string name="activity_list_summary_distance">距离</string>
     <string name="activity_list_summary_active_steps">活跃步数</string>
     <string name="devicetype_amazfit_gts2">华米 GTS 2</string>
+    <string name="devicetype_casiogbx100">卡西欧 GBX-100</string>
 </resources>
