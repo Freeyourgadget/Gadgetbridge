@@ -8,12 +8,6 @@
         android:title="@string/pref_header_filter"
         app:iconTint="@color/primarytext_dark"
         app:showAsAction="always" />
-    <item
-        android:id="@+id/activity_action_calculate_summary_stats"
-        android:icon="@drawable/ic_calculate"
-        android:title="@string/pref_header_statistics"
-        app:iconTint="@color/primarytext_dark"
-        app:showAsAction="always" />
 
     <item
         android:id="@+id/overflowMenu"

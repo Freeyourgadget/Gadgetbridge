@@ -475,7 +475,10 @@ public class ActivitySummaryDetail extends AbstractGBActivity {
     }
 
     private void show_hide_gpx_menu() {
-        final String gpxTrack = currentItem.getGpxTrack();
+        String gpxTrack = null;
+        if (currentItem != null) {
+            gpxTrack = currentItem.getGpxTrack();
+        }
         if (gpxTrack == null) {
             mOptionsMenu.findItem(R.id.activity_detail_overflowMenu).getSubMenu().findItem(R.id.activity_action_share_gpx).setVisible(false);
         } else {

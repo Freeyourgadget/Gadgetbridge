@@ -18,11 +18,20 @@ package nodomain.freeyourgadget.gadgetbridge.adapter;
 
 import android.content.Context;
 import android.text.format.DateUtils;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
-import java.util.Calendar;
+import org.json.JSONException;
+import org.json.JSONObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.text.DecimalFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -37,12 +46,14 @@ import nodomain.freeyourgadget.gadgetbridge.entities.BaseActivitySummaryDao;
 import nodomain.freeyourgadget.gadgetbridge.entities.Device;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityKind;
+import nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryJsonSummary;
 import nodomain.freeyourgadget.gadgetbridge.util.DateTimeUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
 import static nodomain.freeyourgadget.gadgetbridge.activities.ActivitySummariesFilter.ALL_DEVICES;
 
 public class ActivitySummariesAdapter extends AbstractActivityListingAdapter<BaseActivitySummary> {
+    protected static final Logger LOG = LoggerFactory.getLogger(ActivitySummariesAdapter.class);
     private final GBDevice device;
     long dateFromFilter = 0;
     long dateToFilter = 0;
@@ -105,7 +116,11 @@ public class ActivitySummariesAdapter extends AbstractActivityListingAdapter<Bas
                 qb.where(
                         BaseActivitySummaryDao.Properties.Id.in(itemsFilter));
             }
-            List<BaseActivitySummary> allSummaries = qb.build().list();
+
+
+            List<BaseActivitySummary> allSummaries = new ArrayList<>();
+            allSummaries.add(new BaseActivitySummary());
+            allSummaries.addAll(qb.build().list());
             setItems(allSummaries, true);
         } catch (Exception e) {
             GB.toast("Error loading activity summaries.", Toast.LENGTH_SHORT, GB.ERROR, e);
@@ -136,9 +151,96 @@ public class ActivitySummariesAdapter extends AbstractActivityListingAdapter<Bas
         this.deviceFilter = device;
     }
 
+    public int gettActivityKindFilter() {
+        return this.activityKindFilter;
+    }
+
     @Override
     protected View fill_dashboard(BaseActivitySummary item, int position, View view, ViewGroup parent, Context context) {
-        return null;
+        LayoutInflater inflater = (LayoutInflater) context
+                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        view = inflater.inflate(R.layout.activity_summary_dashboard_item, parent, false);
+
+        double durationSum = 0;
+        double caloriesBurntSum = 0;
+        double distanceSum = 0;
+        double activeSecondsSum = 0;
+        double firstItemDate = 0;
+        double lastItemDate = 0;
+        int activitiesCount = getCount() - 1;
+        int activityIcon = 0;
+        boolean activitySame = true;
+
+        TextView durationSumView = view.findViewById(R.id.summary_dashboard_layout_duration_label);
+        TextView caloriesBurntSumView = view.findViewById(R.id.summary_dashboard_layout_calories_label);
+        TextView distanceSumView = view.findViewById(R.id.summary_dashboard_layout_distance_label);
+        TextView activeSecondsSumView = view.findViewById(R.id.summary_dashboard_layout_active_duration_label);
+        TextView timeStartView = view.findViewById(R.id.summary_dashboard_layout_from_label);
+        TextView timeEndView = view.findViewById(R.id.summary_dashboard_layout_to_label);
+        TextView activitiesCountView = view.findViewById(R.id.summary_dashboard_layout_count_label);
+        TextView activityKindView = view.findViewById(R.id.summary_dashboard_layout_activity_label);
+        ImageView activityIconView = view.findViewById(R.id.summary_dashboard_layout_activity_icon);
+        ImageView activityIconBigView = view.findViewById(R.id.summary_dashboard_layout_big_activity_icon);
+
+        for (BaseActivitySummary sportitem : getItems()) {
+            if (sportitem.getStartTime() == null) continue; //first item is empty, for dashboard
+
+            if (firstItemDate == 0) firstItemDate = sportitem.getStartTime().getTime();
+            lastItemDate = sportitem.getEndTime().getTime();
+            durationSum += sportitem.getEndTime().getTime() - sportitem.getStartTime().getTime();
+
+            if (activityIcon == 0) {
+                activityIcon = sportitem.getActivityKind();
+            } else {
+                if (activityIcon != sportitem.getActivityKind()) {
+                    activitySame = false;
+                }
+            }
+
+
+            ActivitySummaryJsonSummary activitySummaryJsonSummary = new ActivitySummaryJsonSummary(sportitem);
+            JSONObject summarySubdata = activitySummaryJsonSummary.getSummaryData();
+
+            if (summarySubdata != null) {
+                try {
+                    if (summarySubdata.has("caloriesBurnt")) {
+                        caloriesBurntSum += summarySubdata.getJSONObject("caloriesBurnt").getDouble("value");
+                    }
+                    if (summarySubdata.has("distanceMeters")) {
+                        distanceSum += summarySubdata.getJSONObject("distanceMeters").getDouble("value");
+                    }
+                    if (summarySubdata.has("activeSeconds")) {
+                        activeSecondsSum += summarySubdata.getJSONObject("activeSeconds").getDouble("value");
+                    }
+                } catch (JSONException e) {
+                    LOG.error("SportsActivity", e);
+                }
+            }
+        }
+        DecimalFormat df = new DecimalFormat("#.##");
+        durationSumView.setText(String.format("%s", DateTimeUtils.formatDurationHoursMinutes((long) durationSum, TimeUnit.MILLISECONDS)));
+        caloriesBurntSumView.setText(String.format("%s %s", (long) caloriesBurntSum, context.getString(R.string.calories_unit)));
+        distanceSumView.setText(String.format("%s %s", df.format(distanceSum / 1000), context.getString(R.string.km)));
+        activeSecondsSumView.setText(String.format("%s", DateTimeUtils.formatDurationHoursMinutes((long) activeSecondsSum, TimeUnit.SECONDS)));
+        activitiesCountView.setText(String.valueOf(activitiesCount));
+        String activityName = context.getString(R.string.activity_summaries_all_activities);
+        if (gettActivityKindFilter() != 0) {
+            activityName = ActivityKind.asString(gettActivityKindFilter(), context);
+            activityIconView.setImageResource(ActivityKind.getIconId(gettActivityKindFilter()));
+            activityIconBigView.setImageResource(ActivityKind.getIconId(gettActivityKindFilter()));
+        } else {
+            if (activitySame) {
+                activityIconView.setImageResource(ActivityKind.getIconId(activityIcon));
+                activityIconBigView.setImageResource(ActivityKind.getIconId(activityIcon));
+            }
+        }
+
+        activityKindView.setText(activityName);
+
+        //start and end are inverted when filer not applied, because items are sorted the other way
+        timeStartView.setText((dateFromFilter != 0) ? DateTimeUtils.formatDate(new Date(dateFromFilter)) : DateTimeUtils.formatDate(new Date((long) lastItemDate)));
+        timeEndView.setText((dateToFilter != 0) ? DateTimeUtils.formatDate(new Date(dateToFilter)) : DateTimeUtils.formatDate(new Date((long) firstItemDate)));
+        return view;
     }
 
     @Override
@@ -257,8 +359,8 @@ public class ActivitySummariesAdapter extends AbstractActivityListingAdapter<Bas
     }
 
     @Override
-    protected boolean isSummary(BaseActivitySummary item) {
-        return false;
+    protected boolean isSummary(BaseActivitySummary item, int position) {
+        return position == 0;
     }
 
     @Override

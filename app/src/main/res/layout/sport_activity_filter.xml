@@ -1,15 +1,16 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/sport_activity_filter_background"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="15dp">
+    android:paddingStart="15dp"
+    android:paddingEnd="15dp">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
+
         <Spinner
             android:id="@+id/select_device"
             android:layout_width="match_parent"
@@ -17,8 +18,17 @@
             android:gravity="start|center_vertical"
             android:spinnerMode="dropdown"
             android:textAlignment="gravity" />
-        <View android:background="#000" android:layout_width="match_parent" android:layout_height="1.5dp"/>
-        <Space  android:background="#000" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginBottom="1dp" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1.5dp"
+            android:background="#000" />
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="1dp"
+            android:background="#000" />
 
         <Spinner
             android:id="@+id/select_kind"
@@ -27,8 +37,17 @@
             android:gravity="start|center_vertical"
             android:spinnerMode="dropdown"
             android:textAlignment="gravity" />
-        <View android:background="#000" android:layout_width="match_parent" android:layout_height="1.5dp"/>
-        <Space  android:background="#000" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginBottom="5dp" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1.5dp"
+            android:background="#000" />
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
+            android:background="#000" />
 
         <LinearLayout
             android:id="@+id/filtername"
@@ -42,18 +61,27 @@
             <EditText
                 android:id="@+id/textViewNameData"
                 android:layout_width="fill_parent"
-                android:hint="@string/activity_filter_name_contains"
                 android:layout_height="wrap_content"
+                android:autofillHints="@string/activity_filter_name_contains"
+                android:hint="@string/activity_filter_name_contains"
                 android:inputType="text"
                 android:paddingStart="8dp"
                 android:paddingEnd="8dp"
                 android:textAlignment="textStart"
-                android:textSize="16sp"
-                android:autofillHints="@string/activity_filter_name_contains" />
+                android:textSize="16sp" />
 
         </LinearLayout>
-        <View android:background="#000" android:layout_width="match_parent" android:layout_height="1.5dp"/>
-        <Space  android:background="#000" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginBottom="15dp" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1.5dp"
+            android:background="#000" />
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="15dp"
+            android:background="#000" />
 
         <LinearLayout
             android:id="@+id/filterfrom"
@@ -79,14 +107,23 @@
 
             <TextView
                 android:id="@+id/textViewFromData"
-                android:hint="@string/activity_filter_from_placeholder"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:hint="@string/activity_filter_from_placeholder"
                 android:textAlignment="textStart"
                 android:textSize="16sp" />
         </LinearLayout>
-        <View android:background="#000" android:layout_width="match_parent" android:layout_height="1.5dp"/>
-        <Space  android:background="#000" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginBottom="15dp" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1.5dp"
+            android:background="#000" />
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="15dp"
+            android:background="#000" />
 
         <LinearLayout
             android:id="@+id/filterto"
@@ -112,14 +149,18 @@
 
             <TextView
                 android:id="@+id/textViewToData"
-                android:hint="@string/activity_filter_to_placeholder"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:hint="@string/activity_filter_to_placeholder"
                 android:textAlignment="textStart"
                 android:textSize="16sp" />
 
         </LinearLayout>
-        <View android:background="#000" android:layout_width="match_parent" android:layout_height="1.5dp"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1.5dp"
+            android:background="#000" />
 
         <Spinner
             android:id="@+id/quick_filter_period_select"
@@ -128,8 +169,17 @@
             android:gravity="start|center_vertical"
             android:spinnerMode="dropdown"
             android:textAlignment="gravity" />
-        <View android:background="#000" android:layout_width="match_parent" android:layout_height="1.5dp"/>
-        <Space  android:background="#000" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginBottom="15dp" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1.5dp"
+            android:background="#000" />
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="15dp"
+            android:background="#000" />
 
         <LinearLayout
             android:id="@+id/filteritems"
@@ -161,8 +211,17 @@
                 android:textAlignment="textStart"
                 android:textSize="16sp" />
         </LinearLayout>
-        <View android:background="#000" android:layout_width="match_parent" android:layout_height="1.5dp"/>
-        <Space  android:background="#000" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginBottom="15dp" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1.5dp"
+            android:background="#000" />
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="15dp"
+            android:background="#000" />
 
         <Button
             android:id="@+id/reset_filter_button"
@@ -180,7 +239,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/activity_filter_apply_filter" />
-
 
     </LinearLayout>
 </ScrollView>

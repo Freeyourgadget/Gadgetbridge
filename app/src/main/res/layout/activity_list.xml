@@ -17,7 +17,6 @@
 
 
         </LinearLayout>
-        <include layout="@layout/activity_summary_statistics"/>
 
         <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
             android:id="@+id/list_activity_swipe_layout"

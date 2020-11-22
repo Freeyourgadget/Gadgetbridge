@@ -1,0 +1,470 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/list_item_parent_layout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <!--
+    android:background="?android:attr/activatedBackgroundIndicator"
+    -->
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:orientation="vertical">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="0dp"
+            android:baselineAligned="false"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:id="@+id/summary_dashboard_layout_big_activity_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center|top"
+                android:layout_marginStart="1dp"
+                android:layout_marginEnd="1dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:id="@+id/summary_dashboard_layout_big_activity_icon"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:layout_gravity="center"
+                    android:contentDescription="@string/candidate_item_device_image"
+                    app:srcCompat="@drawable/ic_activity_unknown_small" />
+
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="0dp"
+            android:layout_marginBottom="5dp"
+            android:baselineAligned="false"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:id="@+id/summary_dashboard_layout_distance"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center|top"
+                android:layout_marginStart="1dp"
+                android:layout_marginEnd="1dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:id="@+id/summary_dashboard_layout_distance_icon"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_gravity="center"
+                    android:contentDescription="@string/candidate_item_device_image"
+                    app:srcCompat="@drawable/ic_distance" />
+
+                <TextView
+                    android:id="@+id/summary_dashboard_layout_distance_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:maxLines="2"
+                    android:scrollHorizontally="false"
+                    android:text="@string/distance"
+                    android:textAllCaps="true"
+                    android:textColor="@color/accent"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/summary_dashboard_layout_distance_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:fontFamily="sans-serif-black"
+                    android:gravity="center"
+                    android:maxLines="1"
+                    android:scrollHorizontally="false"
+                    android:text="15000"
+                    android:textSize="18sp" />
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:id="@+id/summary_dashboard_layout_calories"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center|top"
+                android:layout_marginStart="1dp"
+                android:layout_marginEnd="1dp"
+                android:layout_weight="1"
+                android:gravity="bottom|center"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:id="@+id/summary_dashboard_layout_calories_icon"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_gravity="center"
+                    android:contentDescription="@string/candidate_item_device_image"
+                    app:srcCompat="@drawable/ic_calories" />
+
+                <TextView
+                    android:id="@+id/summary_dashboard_layout_calories_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:maxLines="2"
+                    android:scrollHorizontally="false"
+                    android:text="@string/caloriesBurnt"
+                    android:textAllCaps="true"
+                    android:textColor="@color/accent"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/summary_dashboard_layout_calories_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:fontFamily="sans-serif-black"
+                    android:gravity="center"
+                    android:maxLines="1"
+                    android:scrollHorizontally="false"
+                    android:text="30000"
+                    android:textSize="18sp" />
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:baselineAligned="false"
+            android:gravity="bottom|center"
+            android:orientation="horizontal">
+
+
+
+            <LinearLayout
+                android:id="@+id/summary_dashboard_layout_duration"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center|top"
+                android:layout_marginStart="1dp"
+                android:layout_marginEnd="1dp"
+                android:layout_weight="1"
+                android:gravity="center|top"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:id="@+id/summary_dashboard_layout_duration_icon"
+                    android:layout_width="19dp"
+                    android:layout_height="19dp"
+                    android:layout_gravity="center"
+                    android:contentDescription="@string/candidate_item_device_image"
+                    app:srcCompat="@drawable/ic_timer" />
+
+                <TextView
+                    android:id="@+id/summary_dashboard_layout_duration_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:maxLines="2"
+                    android:scrollHorizontally="false"
+                    android:text="@string/activity_detail_duration_label"
+                    android:textAllCaps="true"
+                    android:textColor="@color/accent"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/summary_dashboard_layout_duration_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:fontFamily="sans-serif-black"
+                    android:gravity="center"
+                    android:maxLines="1"
+                    android:scrollHorizontally="false"
+                    android:text="1d 20h 35m"
+                    android:textSize="18sp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/summary_dashboard_layout_active_duration"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center|top"
+                android:layout_marginStart="1dp"
+                android:layout_marginEnd="1dp"
+                android:layout_weight="1"
+                android:gravity="center|top"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:id="@+id/summary_dashboard_layout_active_duration_icon"
+                    android:layout_width="19dp"
+                    android:layout_height="19dp"
+                    android:layout_gravity="center"
+                    android:contentDescription="@string/candidate_item_device_image"
+                    app:srcCompat="@drawable/ic_timer" />
+
+                <TextView
+                    android:id="@+id/summary_dashboard_layout_active_duration_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:maxLines="2"
+                    android:scrollHorizontally="false"
+                    android:text="@string/activity_list_summary_active_time"
+                    android:textAllCaps="true"
+                    android:textColor="@color/accent"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/summary_dashboard_layout_active_duration_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:fontFamily="sans-serif-black"
+                    android:gravity="center"
+                    android:maxLines="1"
+                    android:scrollHorizontally="false"
+                    android:text="1d 13h 30m"
+                    android:textSize="18sp" />
+
+            </LinearLayout>
+
+
+
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:baselineAligned="false"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:id="@+id/summary_dashboard_layout_activity"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center|top"
+                android:layout_marginStart="1dp"
+                android:layout_marginEnd="1dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:id="@+id/summary_dashboard_layout_activity_icon"
+                    android:layout_width="19dp"
+                    android:layout_height="19dp"
+                    android:layout_gravity="center"
+                    android:contentDescription="@string/candidate_item_device_image"
+                    app:srcCompat="@drawable/ic_activity_unknown_small" />
+
+                <TextView
+                    android:id="@+id/summary_dashboard_layout_activity_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:maxLines="2"
+                    android:scrollHorizontally="false"
+                    android:text="@string/Activity"
+                    android:textAllCaps="true"
+                    android:textColor="@color/accent"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/summary_dashboard_layout_activity_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:fontFamily="sans-serif-black"
+                    android:gravity="center"
+                    android:maxLines="1"
+                    android:scrollHorizontally="false"
+                    android:text="All Activities"
+                    android:textSize="18sp" />
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:id="@+id/summary_dashboard_layout_count"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center|top"
+                android:layout_marginStart="1dp"
+                android:layout_marginEnd="1dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:id="@+id/summary_dashboard_layout_count_icon"
+                    android:layout_width="19dp"
+                    android:layout_height="19dp"
+                    android:layout_gravity="center"
+                    android:contentDescription="@string/candidate_item_device_image"
+                    app:srcCompat="@drawable/ic_activity_stacked" />
+
+                <TextView
+                    android:id="@+id/summary_dashboard_layout_count_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:maxLines="2"
+                    android:scrollHorizontally="false"
+                    android:text="@string/activity_list_summary_activities"
+                    android:textAllCaps="true"
+                    android:textColor="@color/accent"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/summary_dashboard_layout_count_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:fontFamily="sans-serif-black"
+                    android:gravity="center"
+                    android:maxLines="1"
+                    android:scrollHorizontally="false"
+                    android:text="15"
+                    android:textSize="18sp" />
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:baselineAligned="false"
+            android:gravity="bottom|center"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:id="@+id/summary_dashboard_layout_from"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center|top"
+                android:layout_marginStart="1dp"
+                android:layout_marginEnd="1dp"
+                android:layout_weight="1"
+                android:gravity="center|top"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:id="@+id/summary_dashboard_layout_from_icon"
+                    android:layout_width="19dp"
+                    android:layout_height="19dp"
+                    android:layout_gravity="center"
+                    android:contentDescription="@string/candidate_item_device_image"
+                    app:srcCompat="@drawable/ic_date_range" />
+
+                <TextView
+                    android:id="@+id/summary_dashboard_layout_from_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:maxLines="2"
+                    android:scrollHorizontally="false"
+                    android:text="@string/activity_filter_date_from"
+                    android:textAllCaps="true"
+                    android:textColor="@color/accent"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/summary_dashboard_layout_from_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:fontFamily="sans-serif-black"
+                    android:gravity="center"
+                    android:maxLines="1"
+                    android:scrollHorizontally="false"
+                    android:text="January 1, 1970"
+                    android:textSize="18sp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/summary_dashboard_layout_to"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center|top"
+                android:layout_marginStart="1dp"
+                android:layout_marginEnd="1dp"
+                android:layout_weight="1"
+                android:gravity="center|top"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:id="@+id/summary_dashboard_layout_to_icon"
+                    android:layout_width="19dp"
+                    android:layout_height="19dp"
+                    android:layout_gravity="center"
+                    android:contentDescription="@string/candidate_item_device_image"
+                    app:srcCompat="@drawable/ic_date_range" />
+
+                <TextView
+                    android:id="@+id/summary_dashboard_layout_to_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:maxLines="2"
+                    android:scrollHorizontally="false"
+                    android:text="@string/activity_filter_date_to"
+                    android:textAllCaps="true"
+                    android:textColor="@color/accent"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/summary_dashboard_layout_to_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:fontFamily="sans-serif-black"
+                    android:gravity="center"
+                    android:maxLines="1"
+                    android:scrollHorizontally="false"
+                    android:text="December 1, 2020"
+                    android:textSize="18sp" />
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+    </LinearLayout>
+
+</RelativeLayout>

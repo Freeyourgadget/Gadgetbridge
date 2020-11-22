@@ -24,6 +24,7 @@ import android.graphics.LightingColorFilter;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Pair;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -52,12 +53,15 @@ import java.util.Objects;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
+import nodomain.freeyourgadget.gadgetbridge.adapter.SpinnerWithIconAdapter;
+import nodomain.freeyourgadget.gadgetbridge.adapter.SpinnerWithIconItem;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHelper;
 import nodomain.freeyourgadget.gadgetbridge.devices.DeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
 import nodomain.freeyourgadget.gadgetbridge.entities.Device;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
+import nodomain.freeyourgadget.gadgetbridge.model.ActivityKind;
 import nodomain.freeyourgadget.gadgetbridge.util.DateTimeUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.DeviceHelper;
 
@@ -76,7 +80,7 @@ public class ActivitySummariesFilter extends AbstractGBActivity {
     long deviceFilter;
     long initial_deviceFilter;
     int BACKGROUND_COLOR;
-    LinkedHashMap<String, Long> allDevices;
+    LinkedHashMap<String, Pair<Long, Integer>> allDevices;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,7 +92,8 @@ public class ActivitySummariesFilter extends AbstractGBActivity {
         activityFilter = bundle.getInt("activityFilter", 0);
         dateFromFilter = bundle.getLong("dateFromFilter", 0);
         dateToFilter = bundle.getLong("dateToFilter", 0);
-        initial_deviceFilter = deviceFilter = bundle.getLong("deviceFilter", 0);
+        initial_deviceFilter = bundle.getLong("initial_deviceFilter", 0);
+        deviceFilter = bundle.getLong("deviceFilter", 0);
         nameContainsFilter = bundle.getString("nameContainsFilter");
 
         Context appContext = this.getApplicationContext();
@@ -101,25 +106,39 @@ public class ActivitySummariesFilter extends AbstractGBActivity {
 
         //device filter spinner
         final Spinner deviceFilterSpinner = findViewById(R.id.select_device);
-        ArrayList<String> filterDevicesArray = new ArrayList<String>(allDevices.keySet());
-        final ArrayAdapter<String> filterDevicesAdapter = new ArrayAdapter<String>(this,
-                R.layout.simple_spinner_item_themed, filterDevicesArray);
+        ArrayList<SpinnerWithIconItem> filterDevicesArray = new ArrayList<>();
+        for (Map.Entry<String, Pair<Long, Integer>> item : allDevices.entrySet()) {
+            filterDevicesArray.add(new SpinnerWithIconItem(item.getKey(), item.getValue().first, item.getValue().second));
+        }
+        final SpinnerWithIconAdapter filterDevicesAdapter = new SpinnerWithIconAdapter(this,
+                R.layout.spinner_with_image_layout, R.id.spinner_item_text, filterDevicesArray);
         deviceFilterSpinner.setAdapter(filterDevicesAdapter);
-        deviceFilterSpinner.setSelection(filterDevicesAdapter.getPosition(getDeviceById(deviceFilter)));
+        deviceFilterSpinner.setSelection(filterDevicesAdapter.getItemPositionForSelection(getDeviceById(deviceFilter)));
         addListenerOnSpinnerDeviceSelection();
 
         //Kind filter spinner - assign data, set selected item...
         final Spinner filterKindSpinner = findViewById(R.id.select_kind);
-        ArrayList<String> kindArray = new ArrayList<>(activityKindMap.keySet());
-        //ensure that all items is always first in the list
-        kindArray.remove(getString(R.string.activity_summaries_all_activities));
-        kindArray.add(0, getString(R.string.activity_summaries_all_activities));
+        ArrayList<SpinnerWithIconItem> kindArray = new ArrayList<>();
 
-        ArrayAdapter<String> filterKindAdapter = new ArrayAdapter<String>(this,
-                R.layout.simple_spinner_item_themed, kindArray);
-        filterKindSpinner.setAdapter(filterKindAdapter);
-        filterKindSpinner.setSelection(filterKindAdapter.getPosition(getKindByValue(activityFilter)));
+        for (Map.Entry<String, Integer> item : activityKindMap.entrySet()) {
+            if (item.getValue() == 0) continue; //do not put here All devices, but we do need them in the array
+            kindArray.add(new SpinnerWithIconItem(item.getKey(), new Long(item.getValue()), ActivityKind.getIconId(item.getValue())));
+        }
+
+        //ensure that all items is always first in the list, this is an issue on old android
+        SpinnerWithIconItem allActivities = new SpinnerWithIconItem(getString(R.string.activity_summaries_all_activities), new Long(0), ActivityKind.getIconId(0));
+        kindArray.add(0, allActivities);
+
+        SpinnerWithIconAdapter adapter = new SpinnerWithIconAdapter(this,
+                R.layout.spinner_with_image_layout, R.id.spinner_item_text, kindArray);
+
+        SpinnerWithIconItem selectedActivity = getKindByValue(activityFilter);
+        int selectedPosition = adapter.getItemPositionForSelection(selectedActivity);
+
+        filterKindSpinner.setAdapter(adapter);
+        filterKindSpinner.setSelection(selectedPosition);
         addListenerOnSpinnerKindSelection();
+
 
         //quick date filter selection
         final Spinner quick_filter_period_select = findViewById(R.id.quick_filter_period_select);
@@ -168,8 +187,7 @@ public class ActivitySummariesFilter extends AbstractGBActivity {
                 nameContainsFilter = "";
                 filterKindSpinner.setSelection(0);
                 itemsFilter = null;
-                deviceFilter = initial_deviceFilter;
-                deviceFilterSpinner.setSelection(filterDevicesAdapter.getPosition(getDeviceById(deviceFilter)));
+                deviceFilterSpinner.setSelection(filterDevicesAdapter.getItemPositionForSelection(getDeviceById(initial_deviceFilter)));
                 quick_filter_period_select.setSelection(0);
                 update_filter_fields();
             }
@@ -366,19 +384,20 @@ public class ActivitySummariesFilter extends AbstractGBActivity {
     private LinkedHashMap getAllDevices(Context appContext) {
         DaoSession daoSession;
         GBApplication gbApp = (GBApplication) appContext;
-        LinkedHashMap<String, Long> newMap = new LinkedHashMap<>(1);
+        LinkedHashMap<String, Pair<Long, Integer>> newMap = new LinkedHashMap<>(1);
         List<? extends GBDevice> devices = gbApp.getDeviceManager().getDevices();
-        newMap.put(getString(R.string.activity_summaries_all_devices), ALL_DEVICES);
+        newMap.put(getString(R.string.activity_summaries_all_devices), new Pair(ALL_DEVICES, R.drawable.ic_device_default_disabled));
 
         try (DBHandler handler = GBApplication.acquireDB()) {
             daoSession = handler.getDaoSession();
             for (GBDevice device : devices) {
                 DeviceCoordinator coordinator = DeviceHelper.getInstance().getCoordinator(device);
                 Device dbDevice = DBHelper.findDevice(device, daoSession);
+                int icon = device.isInitialized() ? device.getType().getIcon() : device.getType().getDisabledIcon();
                 if (dbDevice != null && coordinator != null
                         && coordinator.supportsActivityTracks()
                         && !newMap.containsKey(device.getAliasOrName())) {
-                    newMap.put(device.getAliasOrName(), dbDevice.getId());
+                    newMap.put(device.getAliasOrName(), new Pair(dbDevice.getId(), icon));
                 }
             }
 
@@ -388,19 +407,23 @@ public class ActivitySummariesFilter extends AbstractGBActivity {
         return newMap;
     }
 
-    public String getKindByValue(Integer value) {
+    public SpinnerWithIconItem getKindByValue(Integer value) {
         for (Map.Entry<String, Integer> entry : activityKindMap.entrySet()) {
             if (Objects.equals(value, entry.getValue())) {
-                return entry.getKey();
+                return new SpinnerWithIconItem(entry.getKey(),
+                        new Long(entry.getValue()),
+                        ActivityKind.getIconId(entry.getValue()));
             }
         }
         return null;
     }
 
-    public String getDeviceById(long id) {
-        for (Map.Entry<String, Long> device : allDevices.entrySet()) {
-            if (Objects.equals(id, device.getValue())) {
-                return device.getKey();
+    public SpinnerWithIconItem getDeviceById(long id) {
+        for (Map.Entry<String, Pair<Long, Integer>> device : allDevices.entrySet()) {
+            if (Objects.equals(id, device.getValue().first)) {
+                return new SpinnerWithIconItem(device.getKey(),
+                        device.getValue().first,
+                        device.getValue().second);
             }
         }
         return null;
@@ -409,7 +432,9 @@ public class ActivitySummariesFilter extends AbstractGBActivity {
     public class CustomOnKindSelectedListener implements AdapterView.OnItemSelectedListener {
 
         public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
-            activityFilter = activityKindMap.get(parent.getItemAtPosition(pos));
+            SpinnerWithIconItem selectedItem = (SpinnerWithIconItem) parent.getItemAtPosition(pos);
+            String activity = selectedItem.getText();
+            activityFilter = activityKindMap.get(activity);
             update_filter_fields();
         }
 
@@ -423,7 +448,8 @@ public class ActivitySummariesFilter extends AbstractGBActivity {
     public class CustomOnDeviceSelectedListener implements AdapterView.OnItemSelectedListener {
 
         public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
-            deviceFilter = allDevices.get(parent.getItemAtPosition(pos));
+            SpinnerWithIconItem selectedItem = (SpinnerWithIconItem) parent.getItemAtPosition(pos);
+            deviceFilter = selectedItem.getId();
             update_filter_fields();
         }
 

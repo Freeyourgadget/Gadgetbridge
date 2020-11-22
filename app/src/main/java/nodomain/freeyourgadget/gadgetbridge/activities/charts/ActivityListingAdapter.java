@@ -302,7 +302,7 @@ public class ActivityListingAdapter extends AbstractActivityListingAdapter<Activ
     }
 
     @Override
-    protected boolean isSummary(ActivitySession item) {
+    protected boolean isSummary(ActivitySession item, int position) {
         int sessionType = item.getSessionType();
         return sessionType == SESSION_SUMMARY;
     }

@@ -35,7 +35,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import nodomain.freeyourgadget.gadgetbridge.R;
-import nodomain.freeyourgadget.gadgetbridge.activities.charts.StepAnalysis;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySession;
 
 /**
@@ -75,7 +74,7 @@ public abstract class AbstractActivityListingAdapter<T> extends ArrayAdapter<T> 
     public View getView(int position, View view, ViewGroup parent) {
         T item = getItem(position);
 
-        if (isSummary(item)) {
+        if (isSummary(item, position)) {
             view = fill_dashboard(item, position, view, parent, context);
         } else {
             view = fill_item(item, position, view, parent);
@@ -168,7 +167,7 @@ public abstract class AbstractActivityListingAdapter<T> extends ArrayAdapter<T> 
         }
         activityIcon.setImageResource(getIcon(item));
 
-        if (zebraStripes && position % 2 == 0) {
+        if (zebraStripes && position % 2 != 0) {
             parentLayout.setBackgroundColor(alternateColor);
         }
 
@@ -212,7 +211,7 @@ public abstract class AbstractActivityListingAdapter<T> extends ArrayAdapter<T> 
 
     protected abstract boolean hasTotalSteps(T item);
 
-    protected abstract boolean isSummary(T item);
+    protected abstract boolean isSummary(T item, int position);
 
     protected abstract boolean isEmptySummary(T item);
 

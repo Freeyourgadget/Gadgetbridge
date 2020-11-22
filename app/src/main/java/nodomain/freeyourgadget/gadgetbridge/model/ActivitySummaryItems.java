@@ -17,26 +17,27 @@ public class ActivitySummaryItems {
         this.itemsAdapter = new ActivitySummariesAdapter(context, device, activityKindFilter, dateFromFilter, dateToFilter, nameContainsFilter, deviceFilter, itemsFilter);
     }
 
-    public BaseActivitySummary getItem(int position){
-        current_position=position;
+    public BaseActivitySummary getItem(int position) {
+        if (position == 0) return null;
+        current_position = position;
         return itemsAdapter.getItem(position);
     }
 
-    public int getPosition(BaseActivitySummary item){
+    public int getPosition(BaseActivitySummary item) {
         return itemsAdapter.getPosition(item);
     }
 
-    public BaseActivitySummary getNextItem(){
-        if (current_position+1 < itemsAdapter.getCount()){
-            current_position+=1;
+    public BaseActivitySummary getNextItem() {
+        if (current_position + 1 < itemsAdapter.getCount()) {
+            current_position += 1;
             return itemsAdapter.getItem(current_position);
         }
         return null;
     }
 
-    public BaseActivitySummary getPrevItem(){
-        if (current_position-1 >= 0){
-            current_position-=1;
+    public BaseActivitySummary getPrevItem() {
+        if (current_position - 1 >= 1) { //0 is empty item for summary dashboard
+            current_position -= 1;
             return itemsAdapter.getItem(current_position);
         }
         return null;
