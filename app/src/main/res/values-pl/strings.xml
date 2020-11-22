@@ -219,7 +219,7 @@
     <string name="updatefirmwareoperation_update_complete_rebooting">Instalacja firmware\'u zakończona, restartowanie urządzenia…</string>
     <string name="updatefirmwareoperation_write_failed">Instalacja oprogramowania nie powiodła się</string>
     <string name="chart_steps">Kroki</string>
-    <string name="liveactivity_live_activity">Ostatnia aktywność</string>
+    <string name="liveactivity_live_activity">Obecna aktywność</string>
     <string name="weeksteps_today_steps_description">Kroków dziś, cel: %1$s</string>
     <string name="pref_title_dont_ack_transfer">Nie przesyłaj danych aktywności ACK</string>
     <string name="pref_summary_dont_ack_transfers">Jeśli transmisja danych nie zostanie potwierdzona przez opaskę, dane dotyczące aktywności nie zostaną wyczyszczone. Przydatne, jeśli GB jest używany razem z innymi aplikacjami.</string>
@@ -255,7 +255,7 @@
     <string name="device_fw">Wersja oprogramowania: %1$s</string>
     <string name="updatefirmwareoperation_update_in_progress">Aktualizowanie oprogramowania</string>
     <string name="charts_legend_heartrate">Puls</string>
-    <string name="live_activity_heart_rate">Puls</string>
+    <string name="live_activity_heart_rate">Tętno</string>
     <string name="action_db_management">Zarządzanie bazą danych</string>
     <string name="title_activity_db_management">Zarządzanie bazą danych</string>
     <string name="dbmanagementactivity_exported_to">Wyeksportowano do: %1$s</string>
@@ -377,7 +377,7 @@
 \n 
 \nROBISZ TO NA WŁASNE RYZYKO!</string>
     <string name="fw_multi_upgrade_notice">Zamierzasz zainstalować oprogramowanie %1$s oraz %2$s, na miejsce obecnie zainstalowanego na opasce Mi Band.</string>
-    <string name="pref_title_charts_swipe">Włącz przesuwanie w lewo i w prawo na kartach czynności</string>
+    <string name="pref_title_charts_swipe">Włącz gesty przesuwania w lewo i w prawo na kartach aktywności</string>
     <string name="pref_title_notifications_timeout">Minimalny czas pomiędzy powiadomieniami</string>
     <string name="pref_title_call_privacy_mode">Tryb prywatności połączeń telefonicznych</string>
     <string name="pref_title_weather_location">Lokalizacja pogody (dla dostawcy pogody LineageOS)</string>
@@ -427,7 +427,7 @@
     <string name="minutes_30">30 minut</string>
     <string name="lack_of_step">Pozostało kroków: %1$d</string>
     <string name="pref_title_low_latency_fw_update">Użyj trybu o niskiej latencji przy aktualizacji firmware</string>
-    <string name="live_activity_max_heart_rate">Aktualny / Maks. puls: %1$d / %2$d</string>
+    <string name="live_activity_max_heart_rate">Aktualny / Maks. tętno: %1$d / %2$d</string>
     <string name="you_slept">Sen trwał od %1$s do %2$s</string>
     <string name="miband_prefs_device_time_offset_hours">Offset snu w godzinach (do detekcji snu pracowników zmianowych)</string>
     <string name="mi2_prefs_button_action_summary">Włącz akcję po naciśnięciu przycisku określoną ilość razy</string>
@@ -456,8 +456,8 @@
     <string name="korean">Koreański</string>
     <string name="japanese">Japoński</string>
     <string name="activity_prefs_charts">Ustawienia wykresów</string>
-    <string name="activity_prefs_chart_max_heart_rate">Puls maksymalny</string>
-    <string name="activity_prefs_chart_min_heart_rate">Puls minimalny</string>
+    <string name="activity_prefs_chart_max_heart_rate">Tętno maksymalne</string>
+    <string name="activity_prefs_chart_min_heart_rate">Tętno minimalne</string>
     <string name="authenticating">Uwierzytelnianie</string>
     <string name="authentication_required">Wymagane uwierzytelnienie</string>
     <string name="appwidget_text">Zzz</string>
@@ -550,7 +550,7 @@
     <string name="FetchActivityOperation_about_to_transfer_since">Przeniesienie danych z okresu %1$s</string>
     <string name="appwidget_setting_alarm">Ustawienie alarmu na %1$02d:%2$02d</string>
     <string name="error_creating_directory_for_logfiles">Błąd tworzenia folderu na pliki log: %1$s</string>
-    <string name="DEVINFO_HR_VER">"Puls: "</string>
+    <string name="DEVINFO_HR_VER">"Tętno: "</string>
     <string name="filter_mode_whitelist">Pokazuj gdy zawiera słowa</string>
     <string name="pref_chart_heartrate_color_red">Czerwony</string>
     <string name="mi2_prefs_button_press_broadcast_default_value" translatable="false">nodomain.freeyourgadget.gadgetbridge.ButtonPressed</string>
@@ -609,7 +609,7 @@
     <string name="zetime_title_heartrate">Ustawienia pomiaru tętna</string>
     <string name="zetime_title_screentime">Czas podświetlenia ekranu w sekundach</string>
     <string name="zetime_title_heart_rate_alarm">Alarm o poziomie tętna</string>
-    <string name="zetime_title_heart_rate_alarm_summary">Zegarek cię poinformuje, kiedy twój puls przekroczy limit.</string>
+    <string name="zetime_title_heart_rate_alarm_summary">Zegarek cię poinformuje, kiedy twoje tętno przekroczy limit.</string>
     <string name="zetime_heart_rate_alarm_enable">Włącz alarm o nieprawidłowym poziomie tętna</string>
     <string name="activity_prefs_alarm_max_heart_rate">Maksymalny poziom tętna</string>
     <string name="activity_prefs_alarm_min_heart_rate">Minimalny poziom tętna</string>
@@ -781,7 +781,7 @@
     <string name="zetime_signaling_beep_twice">Zabrzęcz dwa razy</string>
     <string name="zetime_signaling_vibrate_beep_once">Wibracja i brzęczenie raz</string>
     <string name="pref_title_support_voip_calls">Uwzględnij rozmowy przez internet (VoIP)</string>
-    <string name="pref_summary_authkey">Zmień klucz autoryzacji na wspólny dla wszystkich urządzeń z Androidem, z których chcesz się połączyć. Poprzedni domyślny klucz dla wszystkich urządzeń to 0123456789@ABCDE</string>
+    <string name="pref_summary_authkey">Zmień klucz autoryzacji na wspólny dla wszystkich urządzeń z Androidem, z których chcesz się połączyć. Dawniej, domyślnym kluczem dla wszystkich urządzeń był 0123456789@ABCDE</string>
     <string name="prefs_hr_alarm_activity">Alarm tętna podczas aktywności sportowej</string>
     <string name="prefs_hr_alarm_low">Dolny limit</string>
     <string name="prefs_hr_alarm_high">Górny limit</string>
@@ -993,12 +993,12 @@
     <string name="sports_activity_quick_filter_7days">7 dni</string>
     <string name="no">Nie</string>
     <string name="yes">Tak</string>
-    <string name="activity_detail_start_label">Start</string>
+    <string name="activity_detail_start_label">Początek</string>
     <string name="seconds_m">sek/m</string>
     <string name="seconds_km">sek/km</string>
     <string name="seconds">sek</string>
     <string name="averageSpeed">Średnia prędkość</string>
-    <string name="activeSeconds">Aktywny</string>
+    <string name="activeSeconds">Czas aktywności</string>
     <string name="pref_check_permission_status">Sprawdzanie stanu uprawnień</string>
     <string name="device_is_currently_bonded">JUŻ POWIĄZANE</string>
     <string name="activity_type_badminton">Badminton</string>
@@ -1024,7 +1024,7 @@
     <string name="about_additional_contributions">Dziękujemy wszystkim nie notowanym na liście współtwórcom za udostępnienie kodu, tłumaczenia, wsparcie, pomysły, motywację, zgłoszenia błędów, pieniądze… ✊</string>
     <string name="about_core_team_title">Zespół główny (w kolejności od pierwszego wkładu w kod aplikacji)</string>
     <string name="about_description">Wolny od chmury zamiennik dla aplikacji dla systemu Android o zamkniętym kodzie źródłowym dostarczanych przez producentów gadżetów.</string>
-    <string name="activity_summary_edit_name_title">Etykieta edycyjna</string>
+    <string name="activity_summary_edit_name_title">Edytuj etykietę</string>
     <string name="activity_type_pingpong">Ping-pong</string>
     <string name="activity_type_cricket">Krykiet</string>
     <string name="activity_type_rowing_machine">Ergometr wioślarski</string>
@@ -1097,7 +1097,7 @@
     <string name="sports_activity_quick_filter_last_week">Poprzedni tydzień</string>
     <string name="sports_activity_quick_filter_this_week">Ten tydzień</string>
     <string name="activity_summaries_all_activities">Wszystkie aktywności</string>
-    <string name="Strokes">Ruchów</string>
+    <string name="Strokes">Ruchy</string>
     <string name="swolf_index">indeks swolf</string>
     <string name="lefun_prefs_hydration_reminder_title">Przypomnienie o nawodnieniu</string>
     <string name="about_version">Wersja %s</string>
@@ -1120,4 +1120,12 @@
     <string name="menuitem_findphone">Znajdź telefon</string>
     <string name="activity_list_summary_distance">Dystans</string>
     <string name="devicetype_amazfit_gts2">Amazfit GTS 2</string>
+    <string name="activity_list_summary_active_steps">Kroki podczas aktywności</string>
+    <string name="movement_intensity">Intensywność ruchu</string>
+    <string name="activity_list_summary_intensity">Intensywność
+\nRuchu</string>
+    <string name="activity_list_summary_active_time">Czas aktywności</string>
+    <string name="prefs_events_forwarding_action_title">Uruchom</string>
+    <string name="devicetype_casiogbx100">Casio GBX-100</string>
+    <string name="activity_list_summary_activities">Aktywności</string>
 </resources>
