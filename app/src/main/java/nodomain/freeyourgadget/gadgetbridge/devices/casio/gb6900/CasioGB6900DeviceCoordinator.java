@@ -47,7 +47,7 @@ public class CasioGB6900DeviceCoordinator extends AbstractDeviceCoordinator {
     public DeviceType getSupportedType(GBDeviceCandidate candidate) {
         String name = candidate.getDevice().getName();
         if (name != null) {
-            if (name.startsWith("CASIO") && (name.endsWith("6900B") || name.endsWith("5600B"))) {
+            if (name.startsWith("CASIO") && (name.contains("6900B") || name.contains("5600B"))) {
                 return DeviceType.CASIOGB6900;
             }
         }
@@ -148,5 +148,12 @@ public class CasioGB6900DeviceCoordinator extends AbstractDeviceCoordinator {
     @Override
     protected void deleteDevice(@NonNull GBDevice gbDevice, @NonNull Device device, @NonNull DaoSession session) throws GBException {
 
+    }
+
+    @Override
+    public int[] getSupportedDeviceSpecificSettings(GBDevice device) {
+        return new int[] {
+                R.xml.devicesettings_disconnectnotification_noshed
+        };
     }
 }

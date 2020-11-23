@@ -22,6 +22,7 @@ import android.bluetooth.BluetoothGatt;
 import android.bluetooth.BluetoothGattCharacteristic;
 import android.bluetooth.BluetoothGattDescriptor;
 import android.bluetooth.BluetoothGattService;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.widget.Toast;
 
@@ -35,6 +36,7 @@ import java.util.Calendar;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
+import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventCallControl;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventFindPhone;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventMusicControl;
@@ -56,6 +58,8 @@ import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.casio.operations.InitOperationGB6900;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 import nodomain.freeyourgadget.gadgetbridge.util.StringUtils;
+
+import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_DISCONNECTNOTIF_NOSHED;
 
 public class CasioGB6900DeviceSupport extends AbstractBTLEDeviceSupport {
     private static final Logger LOG = LoggerFactory.getLogger(CasioGB6900DeviceSupport.class);
@@ -184,13 +188,21 @@ public class CasioGB6900DeviceSupport extends AbstractBTLEDeviceSupport {
         return mModel;
     }
 
-    // FIXME: Replace hardcoded values by configuration
     private void configureWatch(TransactionBuilder builder) {
         if (mBtGatt == null) {
             return;
         }
 
-        byte[] value = new byte[]{GattCharacteristic.MILD_ALERT};
+        SharedPreferences sharedPreferences = GBApplication.getDeviceSpecificSharedPrefs(getDevice().getAddress());
+
+        boolean enable = sharedPreferences.getBoolean(PREF_DISCONNECTNOTIF_NOSHED, false);
+
+        byte[] value = new byte[1];
+
+        if(enable)
+            value[0] = GattCharacteristic.MILD_ALERT;
+        else
+            value[0] = GattCharacteristic.NO_ALERT;
 
         BluetoothGattService llService = mBtGatt.getService(CasioConstants.LINK_LOSS_SERVICE);
         BluetoothGattCharacteristic charact = llService.getCharacteristic(CasioConstants.ALERT_LEVEL_CHARACTERISTIC_UUID);
