@@ -1162,4 +1162,36 @@
         <item>50</item>
         <item>60</item>
     </string-array>
+
+    <string-array name="pref_charts_tabs_items">
+        <item>@string/activity_sleepchart_activity_and_sleep</item>
+        <item>@string/charts_activity_list</item>
+        <item>@string/weeksleepchart_sleep_a_week</item>
+        <item>@string/weeksleepchart_sleep_a_month</item>
+        <item>@string/weekstepschart_steps_a_month</item>
+        <item>@string/stats_title</item>
+        <item>@string/liveactivity_live_activity</item>
+    </string-array>
+
+    <string-array name="pref_charts_tabs_values">
+        <item>@string/p_activity</item>
+        <item>@string/p_activity_list</item>
+        <item>@string/p_sleep</item>
+        <item>@string/p_sleep_week</item>
+        <item>@string/p_steps_week</item>
+        <item>@string/p_speed_zones</item>
+        <item>@string/p_live_stats</item>
+    </string-array>
+
+    <string-array name="pref_charts_tabs_items_default">
+        <item>@string/p_activity</item>
+        <item>@string/p_activity_list</item>
+        <item>@string/p_sleep</item>
+        <item>@string/p_sleep_week</item>
+        <item>@string/p_steps_week</item>
+        <item>@string/p_speed_zones</item>
+        <item>@string/p_live_stats</item>
+    </string-array>
+
+
 </resources>
