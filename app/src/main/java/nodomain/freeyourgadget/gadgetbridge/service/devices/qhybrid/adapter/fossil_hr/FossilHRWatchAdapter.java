@@ -125,7 +125,7 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
     private byte[] phoneRandomNumber;
     private byte[] watchRandomNumber;
 
-    private ArrayList<Widget> widgets = new ArrayList<>();
+    private static ArrayList<Widget> widgets = new ArrayList<>();
 
     private NotificationHRConfiguration[] notificationConfigurations;
 
@@ -177,15 +177,16 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
         negotiateSymmetricKey();
     }
 
-    private void initializeAfterAuthentication(boolean authenticated){
+    private void initializeAfterAuthentication(boolean authenticated) {
         queueWrite(new SetDeviceStateRequest(GBDevice.State.INITIALIZING));
 
-        if(!authenticated) GB.toast("Authentication failed, limited functionality", Toast.LENGTH_LONG, GB.ERROR);
+        if (!authenticated)
+            GB.toast("Authentication failed, limited functionality", Toast.LENGTH_LONG, GB.ERROR);
 
         loadNotificationConfigurations();
         queueWrite(new NotificationFilterPutHRRequest(this.notificationConfigurations, this));
 
-        if(authenticated){
+        if (authenticated) {
             setVibrationStrength();
             syncSettings();
             setTime();
@@ -201,8 +202,8 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
         queueWrite(new SetDeviceStateRequest(GBDevice.State.INITIALIZED));
     }
 
-    private void handleAuthenticationResult(boolean success){
-        if(this.connectionMode != CONNECTION_MODE.NOT_INITIALIZED) return;
+    private void handleAuthenticationResult(boolean success) {
+        if (this.connectionMode != CONNECTION_MODE.NOT_INITIALIZED) return;
         this.connectionMode = success ? CONNECTION_MODE.AUTHENTICATED : CONNECTION_MODE.NOT_AUTHENTICATED;
         this.initializeAfterAuthentication(success);
     }
@@ -218,7 +219,7 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
 
     @Override
     public void setVibrationStrength(short strength) {
-        if(connectionMode == CONNECTION_MODE.NOT_AUTHENTICATED){
+        if (connectionMode == CONNECTION_MODE.NOT_AUTHENTICATED) {
             GB.toast("not available in unauthenticated mode", Toast.LENGTH_LONG, GB.ERROR);
             return;
         }
@@ -292,7 +293,9 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
         boolean forceWhiteBackground = prefs.getBoolean("force_white_color_scheme", false);
         String fontColor = forceWhiteBackground ? "black" : "default";
 
-        this.widgets.clear();
+        Widget[] oldWidgets = widgets.toArray(new Widget[0]);
+
+        widgets.clear();
         String widgetJson = GBApplication.getPrefs().getPreferences().getString("FOSSIL_HR_WIDGETS", "{}");
         String customWidgetJson = GBApplication.getPrefs().getString("QHYBRID_CUSTOM_WIDGETS", "[]");
 
@@ -353,10 +356,23 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
                 }
 
                 if (widget == null) continue;
-                this.widgets.add(widget);
+                widgets.add(widget);
             }
         } catch (JSONException e) {
             e.printStackTrace();
+        }
+
+        for (Widget oldWidget : oldWidgets) {
+            if (!(oldWidget instanceof CustomWidget)) continue;
+            CustomWidget customOldWidget = (CustomWidget) oldWidget;
+            for (CustomWidgetElement oldElement : customOldWidget.getElements()) {
+                for (Widget newWidget : widgets) {
+                    if (newWidget instanceof CustomWidget) {
+                        ((CustomWidget) newWidget).updateElementValue(oldElement.getId(), oldElement.getValue());
+                    }
+                }
+            }
+
         }
 
         uploadWidgets();
@@ -364,7 +380,7 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
 
     private void uploadWidgets() {
         ArrayList<Widget> systemWidgets = new ArrayList<>(widgets.size());
-        for (Widget widget : this.widgets) {
+        for (Widget widget : widgets) {
             if (!(widget instanceof CustomWidget) && !widget.getWidgetType().isCustom())
                 systemWidgets.add(widget);
         }
@@ -401,7 +417,7 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
             }
 
 
-            for (int i = 0; i < this.widgets.size(); i++) {
+            for (int i = 0; i < widgets.size(); i++) {
                 Widget w = widgets.get(i);
                 if (!(w instanceof CustomWidget)) {
                     if (w.getWidgetType() == Widget.WidgetType.LAST_NOTIFICATION) {
@@ -605,7 +621,7 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
     @Override
     public void setWidgetContent(String widgetID, String content, boolean renderOnWatch) {
         boolean update = false;
-        for (Widget widget : this.widgets) {
+        for (Widget widget : widgets) {
             if (!(widget instanceof CustomWidget)) continue;
             if (((CustomWidget) widget).updateElementValue(widgetID, content)) update = true;
         }
@@ -613,15 +629,15 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
         if (renderOnWatch && update) renderWidgets();
     }
 
-    private void queueWrite(final FileEncryptedInterface request){
+    private void queueWrite(final FileEncryptedInterface request) {
         try {
             queueWrite(new VerifyPrivateKeyRequest(
                     this.getSecretKey(),
                     this
-            ){
+            ) {
                 @Override
                 protected void handleAuthenticationResult(boolean success) {
-                    if(success){
+                    if (success) {
                         GB.log("success auth", GB.INFO, null);
                         queueWrite((FossilRequest) request, true);
                     }
@@ -637,7 +653,7 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
             queueWrite(new VerifyPrivateKeyRequest(
                     this.getSecretKey(),
                     this
-            ){
+            ) {
                 @Override
                 protected void handleAuthenticationResult(boolean success) {
                     FossilHRWatchAdapter.this.handleAuthenticationResult(success);
@@ -660,7 +676,7 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
 
     @Override
     public void setTime() {
-        if(connectionMode == CONNECTION_MODE.NOT_AUTHENTICATED){
+        if (connectionMode == CONNECTION_MODE.NOT_AUTHENTICATED) {
             GB.toast("not available in unauthenticated mode", Toast.LENGTH_LONG, GB.ERROR);
             return;
         }
@@ -707,7 +723,7 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
 
     @Override
     public void onFetchActivityData() {
-        if(connectionMode == CONNECTION_MODE.NOT_AUTHENTICATED){
+        if (connectionMode == CONNECTION_MODE.NOT_AUTHENTICATED) {
             GB.toast("not available in unauthenticated mode", Toast.LENGTH_LONG, GB.ERROR);
             return;
         }
@@ -777,7 +793,7 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
     }
 
     private void syncSettings() {
-        if(connectionMode == CONNECTION_MODE.NOT_AUTHENTICATED){
+        if (connectionMode == CONNECTION_MODE.NOT_AUTHENTICATED) {
             GB.toast("not available in unauthenticated mode", Toast.LENGTH_LONG, GB.ERROR);
             return;
         }
@@ -1189,9 +1205,9 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
         byte requestType = value[1];
 
         if (requestType == (byte) 0x04) {
-            if(value[7] == 0x00 || value[7] == 0x01){
+            if (value[7] == 0x00 || value[7] == 0x01) {
                 handleCallRequest(value);
-            }else if(value[7] == 0x02){
+            } else if (value[7] == 0x02) {
                 handleDeleteNotification(value);
             }
         } else if (requestType == (byte) 0x05) {
