@@ -1119,4 +1119,6 @@
     <string name="activity_list_summary_active_time">Aktivní čas</string>
     <string name="activity_list_summary_distance">Vzdálenost</string>
     <string name="activity_list_summary_active_steps">Aktivní kroky</string>
+    <string name="devicetype_casiogbx100">Casio GBX-100</string>
+    <string name="devicetype_amazfit_gts2">Amazfit GTS 2</string>
 </resources>
