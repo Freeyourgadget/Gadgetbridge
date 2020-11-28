@@ -1,5 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
+    <release version="0.50.0" versioncode="184">
+        <change>Initial support for Casio GBX-100</change>
+        <change>Mi/Amazfit Band 5: Support watchface installation</change>
+        <change>Mi Band 5: Add missing NFC menu item</change>
+        <change>Casio GB-5600B/GB-6900B: Add configurable disconnect notification</change>
+        <change>Casio: Add support for synchronizing profile settings</change>
+        <change>Fossil Hybrid HR: Keep widget values after widget reload</change>
+        <change>Allow sorting and disabling charts/statistics tabs in per-device settings</change>
+        <change>Improve Sports Activities dashboard and Filter</change>
+        <change>Bug fixes for notification removal</change>
+        <change>Allow to clear activity labels</change>
+    </release>
     <release version="0.49.0" versioncode="183">
         <change>Initial support for Amazfit Bip S Lite</change>
         <change>Initial support for Amazfit GTR/GTS 2</change>
