@@ -104,7 +104,8 @@ public class QHybridCoordinator extends AbstractDeviceCoordinator {
             FossilHRInstallHandler installHandler = new FossilHRInstallHandler(uri, context);
             return installHandler.isValid() ? installHandler : null;
         }
-        return null;
+        FossilInstallHandler installHandler = new FossilInstallHandler(uri, context);
+        return installHandler.isValid() ? installHandler : null;
     }
 
     @Override
@@ -172,7 +173,8 @@ public class QHybridCoordinator extends AbstractDeviceCoordinator {
 
     @Override
     public boolean supportsFindDevice() {
-        GBDevice connectedDevice = GBApplication.app().getDeviceManager().getSelectedDevice();
+        return true;
+        /*GBDevice connectedDevice = GBApplication.app().getDeviceManager().getSelectedDevice();
         if(connectedDevice == null || connectedDevice.getType() != DeviceType.FOSSILQHYBRID){
             return true;
         }
@@ -180,7 +182,7 @@ public class QHybridCoordinator extends AbstractDeviceCoordinator {
         if(vibration == null){
             return true;
         }
-        return vibration.getDetails().equals("true");
+        return vibration.getDetails().equals("true");*/
     }
 
     @Override
