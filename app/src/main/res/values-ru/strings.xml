@@ -821,7 +821,7 @@
     <string name="devicetype_itag">iTag</string>
     <string name="pref_title_allow_high_mtu">Разрешить высокий MTU</string>
     <string name="pref_summary_allow_high_mtu">Увеличивает скорость передачи данных, но может не работать на некоторых Android-устройствах.</string>
-    <string name="pref_summary_sync_calendar">Включает уведомления календаря, даже когда отключено</string>
+    <string name="pref_summary_sync_calendar">Включает уведомления календаря, даже когда нет соединения</string>
     <string name="pref_title_sync_caldendar">Синхронизировать события в календаре</string>
     <string name="find_my_phone_notification">Найти телефон</string>
     <string name="pref_title_custom_deviceicon">Показывать собственную иконку устройства</string>
@@ -864,7 +864,7 @@
     <string name="menuitem_hr">Пульс</string>
     <string name="menuitem_pai">PAI</string>
     <string name="menuitem_stress">Стресс</string>
-    <string name="menuitem_cycles">Циклы</string>
+    <string name="menuitem_cycles">Период</string>
     <string name="menuitem_breathing">Дыхание</string>
     <string name="notification_channel_high_priority_name">Уведомления Gadgetbridge высокий приоритет</string>
     <string name="devicetype_watchxplus">Watch X Plus</string>
@@ -880,7 +880,7 @@
     <string name="hungarian">Венгерский</string>
     <string name="romanian">Румынский</string>
     <string name="pref_summary_force_white_color_scheme">Полезно, если у ваших часов темные стрелки</string>
-    <string name="pref_title_force_white_color_scheme">Форсировать цветовую схему \"чёрным по белому\"</string>
+    <string name="pref_title_force_white_color_scheme">Установить принудительно цветовую схему \"чёрным по белому\"</string>
     <string name="bip_prefs_shotcuts_summary">Выбрать ярлыки на экране браслета</string>
     <string name="bip_prefs_shortcuts">Ярлыки</string>
     <string name="pref_header_auto_fetch">Получать автоматически</string>
@@ -1082,7 +1082,8 @@
     <string name="charts_legend_heartrate_average">Средняя частота пульса</string>
     <string name="activity_prefs_step_length_cm">Длина шага в см</string>
     <string name="charts_min_max_heartrate_popup">Самая низкая частота пульса: %1$d
-\nСамая высокая частота пульса: %2$d</string>
+\nСамая высокая частота пульса: %2$d
+\nИнтенсивность движения: %3$d</string>
     <string name="firmware_update_progress">Загрузка в процессе
 \n%1d%% при %.2fкбит/с (в среднем %.2fкбит/с)
 \nЧасть %1d из %1d</string>
@@ -1096,4 +1097,24 @@
     <string name="devicestatus_connected">Устройство подключено</string>
     <string name="devicestatus_connecting">Устройство подключается</string>
     <string name="find_lost_device_message">Искать %1$s\?</string>
+    <string name="menuitem_dnd">DND</string>
+    <string name="menuitem_alexa">Alexa</string>
+    <string name="menuitem_takephoto">Сделать фото</string>
+    <string name="menuitem_mutephone">Отключение звука телефона</string>
+    <string name="menuitem_spo2">SpO2</string>
+    <string name="devicetype_casiogbx100">Casio GBX-100</string>
+    <string name="devicetype_amazfit_gts2">Amazfit GTS 2</string>
+    <string name="activity_list_summary_active_time">Активное время</string>
+    <string name="activity_list_summary_distance">Расстояние</string>
+    <string name="activity_list_summary_active_steps">Активные шаги</string>
+    <string name="prefs_charts_tabs_summary">Видимые вкладки диаграмм</string>
+    <string name="prefs_charts_tabs">Вкладки диаграмм</string>
+    <string name="activity_list_summary_intensity">Интенсивность
+\nдвижения</string>
+    <string name="menuitem_stopwatch">Секундомер</string>
+    <string name="menuitem_findphone">Найти телефон</string>
+    <string name="devicetype_amazfit_gtr2">Amazfit GTR 2</string>
+    <string name="movement_intensity">Интенсивность движения</string>
+    <string name="devicestatus_upload_started">Загрузка началась</string>
+    <string name="activity_list_summary_activities">Активности</string>
 </resources>
