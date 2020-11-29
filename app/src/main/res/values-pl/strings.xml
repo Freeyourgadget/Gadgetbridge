@@ -544,7 +544,7 @@
     <string name="mi2_prefs_do_not_disturb_summary">Opaska nie będzie otrzymywać powiadomień gdy jest aktywne</string>
     <string name="mi2_prefs_do_not_disturb_start">Początek</string>
     <string name="mi2_prefs_do_not_disturb_end">Koniec</string>
-    <string name="mi3_prefs_band_screen_unlock">Odblokowanie ekranu opaską</string>
+    <string name="mi3_prefs_band_screen_unlock">Odblokowanie ekranu opaski</string>
     <string name="mi3_prefs_band_screen_unlock_summary">Przesuń w górę aby odblokować ekran opaski</string>
     <string name="norwegian_bokmal">Norwegian Bokmål</string>
     <string name="FetchActivityOperation_about_to_transfer_since">Przeniesienie danych z okresu %1$s</string>
@@ -1125,7 +1125,9 @@
     <string name="activity_list_summary_intensity">Intensywność
 \nRuchu</string>
     <string name="activity_list_summary_active_time">Czas aktywności</string>
-    <string name="prefs_events_forwarding_action_title">Uruchom</string>
+    <string name="prefs_events_forwarding_action_title">Uruchom akcję</string>
     <string name="devicetype_casiogbx100">Casio GBX-100</string>
     <string name="activity_list_summary_activities">Aktywności</string>
+    <string name="prefs_charts_tabs_summary">Widoczne karty wykresów</string>
+    <string name="prefs_charts_tabs">Karty wykresów</string>
 </resources>
