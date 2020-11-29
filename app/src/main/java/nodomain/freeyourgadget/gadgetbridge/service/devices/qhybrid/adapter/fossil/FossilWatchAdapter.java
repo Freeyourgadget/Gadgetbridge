@@ -29,11 +29,15 @@ import org.json.JSONException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.BufferedInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.TimeZone;
+import java.util.UUID;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.devices.qhybrid.NotificationConfiguration;
@@ -58,6 +62,7 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fos
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.device_info.GetDeviceInfoRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.device_info.SupportedFileVersionsInfo;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.file.FilePutRequest;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.file.FirmwareFilePutRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.notification.NotificationFilterPutRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.notification.PlayTextNotificationRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.misfit.AnimationRequest;
@@ -65,7 +70,9 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.mis
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.misfit.ReleaseHandsControlRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.misfit.RequestHandControlRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.misfit.SaveCalibrationRequest;
+import nodomain.freeyourgadget.gadgetbridge.util.FileUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
+import nodomain.freeyourgadget.gadgetbridge.util.UriHelper;
 
 import static nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.QHybridSupport.ITEM_STEP_GOAL;
 import static nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.QHybridSupport.ITEM_TIMEZONE_OFFSET;
@@ -411,7 +418,20 @@ public class FossilWatchAdapter extends WatchAdapter {
 
     @Override
     public void onInstallApp(Uri uri) {
-
+        UriHelper uriHelper = null;
+        try {
+            uriHelper = UriHelper.get(uri, getContext());
+        } catch (IOException e) {
+            GB.toast(getContext(), "Could not open firmare: " + e.getMessage(), Toast.LENGTH_LONG, GB.ERROR, e);
+        }
+        if (uriHelper != null) {
+            try (InputStream in = new BufferedInputStream(uriHelper.openInputStream())) {
+                byte[] firmwareBytes = FileUtils.readAll(in, 1024 * 2024); // 2MB
+                queueWrite(new FirmwareFilePutRequest(firmwareBytes, this));
+            } catch (Exception e) {
+                GB.toast(getContext(), "Firmware cannot be installed: " + e.getMessage(), Toast.LENGTH_LONG, GB.ERROR, e);
+            }
+        }
     }
 
     @Override
@@ -556,8 +576,22 @@ public class FossilWatchAdapter extends WatchAdapter {
     @Override
     public void onFindDevice(boolean start) {
         try {
-            if (this.supportsExtendedVibration()) {
-                GB.toast("Device does not support brr brr", Toast.LENGTH_SHORT, GB.INFO);
+            if (!this.supportsExtendedVibration()) {
+                if (start) {
+                    new TransactionBuilder("vibrate find")
+                            .write(
+                                    getDeviceSupport().getCharacteristic(UUID.fromString("3dda0005-957f-7d4a-34a6-74696673696d")),
+                                    new byte[]{(byte) 0x01, (byte) 0x04, (byte) 0x30, (byte) 0x75, (byte) 0x00, (byte) 0x00}
+                            )
+                            .queue(getDeviceSupport().getQueue());
+                } else {
+                    new TransactionBuilder("vibrate find")
+                            .write(
+                                    getDeviceSupport().getCharacteristic(UUID.fromString("3dda0005-957f-7d4a-34a6-74696673696d")),
+                                    new byte[]{(byte) 0x02, (byte) 0x05, (byte) 0x04}
+                            )
+                            .queue(getDeviceSupport().getQueue());
+                }
             }
         } catch (UnsupportedOperationException e) {
             getDeviceSupport().notifiyException(e);

@@ -860,25 +860,6 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
     }
 
     @Override
-    public void onFindDevice(boolean start) {
-        if (start) {
-            new TransactionBuilder("vibrate find")
-                    .write(
-                            getDeviceSupport().getCharacteristic(UUID.fromString("3dda0005-957f-7d4a-34a6-74696673696d")),
-                            new byte[]{(byte) 0x01, (byte) 0x04, (byte) 0x30, (byte) 0x75, (byte) 0x00, (byte) 0x00}
-                    )
-                    .queue(getDeviceSupport().getQueue());
-        } else {
-            new TransactionBuilder("vibrate find")
-                    .write(
-                            getDeviceSupport().getCharacteristic(UUID.fromString("3dda0005-957f-7d4a-34a6-74696673696d")),
-                            new byte[]{(byte) 0x02, (byte) 0x05, (byte) 0x04}
-                    )
-                    .queue(getDeviceSupport().getQueue());
-        }
-    }
-
-    @Override
     public void onSetCallState(CallSpec callSpec) {
         super.onSetCallState(callSpec);
         queueWrite(new PlayCallNotificationRequest(StringUtils.getFirstOf(callSpec.name, callSpec.number), callSpec.command == CallSpec.CALL_INCOMING, this));
@@ -1051,24 +1032,6 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
                 queueWrite(request);
             }
         });*/
-    }
-
-    @Override
-    public void onInstallApp(Uri uri) {
-        UriHelper uriHelper = null;
-        try {
-            uriHelper = UriHelper.get(uri, getContext());
-        } catch (IOException e) {
-            GB.toast(getContext(), "Could not open firmare: " + e.getMessage(), Toast.LENGTH_LONG, GB.ERROR, e);
-        }
-        if (uriHelper != null) {
-            try (InputStream in = new BufferedInputStream(uriHelper.openInputStream())) {
-                byte[] firmwareBytes = FileUtils.readAll(in, 1024 * 2024); // 2MB
-                queueWrite(new FirmwareFilePutRequest(firmwareBytes, this));
-            } catch (Exception e) {
-                GB.toast(getContext(), "Firmware cannot be installed: " + e.getMessage(), Toast.LENGTH_LONG, GB.ERROR, e);
-            }
-        }
     }
 
 
