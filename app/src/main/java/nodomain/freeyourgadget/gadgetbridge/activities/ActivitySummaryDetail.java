@@ -66,7 +66,11 @@ import java.util.concurrent.TimeUnit;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
+import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
+import nodomain.freeyourgadget.gadgetbridge.database.DBHelper;
 import nodomain.freeyourgadget.gadgetbridge.entities.BaseActivitySummary;
+import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
+import nodomain.freeyourgadget.gadgetbridge.entities.Device;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityKind;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryItems;
@@ -164,7 +168,7 @@ public class ActivitySummaryDetail extends AbstractGBActivity {
                     currentItem = newItem;
                     makeSummaryHeader(newItem);
                     makeSummaryContent(newItem);
-                    activitySummariesChartFragment.setDateAndGetData(gbDevice, currentItem.getStartTime().getTime() / 1000, currentItem.getEndTime().getTime() / 1000);
+                    activitySummariesChartFragment.setDateAndGetData(getGBDevice(currentItem.getDevice()), currentItem.getStartTime().getTime() / 1000, currentItem.getEndTime().getTime() / 1000);
                     if (get_gpx_file() != null) {
                         showCanvas();
                         activitySummariesGpsFragment.set_data(get_gpx_file());
@@ -186,7 +190,7 @@ public class ActivitySummaryDetail extends AbstractGBActivity {
                     currentItem = newItem;
                     makeSummaryHeader(newItem);
                     makeSummaryContent(newItem);
-                    activitySummariesChartFragment.setDateAndGetData(gbDevice, currentItem.getStartTime().getTime() / 1000, currentItem.getEndTime().getTime() / 1000);
+                    activitySummariesChartFragment.setDateAndGetData(getGBDevice(currentItem.getDevice()), currentItem.getStartTime().getTime() / 1000, currentItem.getEndTime().getTime() / 1000);
                     if (get_gpx_file() != null) {
                         showCanvas();
                         activitySummariesGpsFragment.set_data(get_gpx_file());
@@ -207,7 +211,7 @@ public class ActivitySummaryDetail extends AbstractGBActivity {
         if (currentItem != null) {
             makeSummaryHeader(currentItem);
             makeSummaryContent(currentItem);
-            activitySummariesChartFragment.setDateAndGetData(gbDevice, currentItem.getStartTime().getTime() / 1000, currentItem.getEndTime().getTime() / 1000);
+            activitySummariesChartFragment.setDateAndGetData(getGBDevice(currentItem.getDevice()), currentItem.getStartTime().getTime() / 1000, currentItem.getEndTime().getTime() / 1000);
             if (get_gpx_file() != null) {
                 showCanvas();
                 activitySummariesGpsFragment.set_data(get_gpx_file());
@@ -253,8 +257,8 @@ public class ActivitySummaryDetail extends AbstractGBActivity {
                         .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-
                                 String name = input.getText().toString();
+                                if (name.length() < 1) name = null;
                                 currentItem.setName(name);
                                 currentItem.update();
                                 makeSummaryHeader(currentItem);
@@ -522,4 +526,22 @@ public class ActivitySummaryDetail extends AbstractGBActivity {
         show_hide_gpx_menu();
         return true;
     }
+
+    private GBDevice getGBDevice(Device findDevice) {
+        DaoSession daoSession;
+        GBApplication gbApp = (GBApplication) getApplicationContext();
+        List<? extends GBDevice> devices = gbApp.getDeviceManager().getDevices();
+
+        try (DBHandler handler = GBApplication.acquireDB()) {
+            daoSession = handler.getDaoSession();
+            for (GBDevice device : devices) {
+                Device dbDevice = DBHelper.findDevice(device, daoSession);
+                if (dbDevice.equals(findDevice)) return device;
+            }
+        } catch (Exception e) {
+            LOG.debug("Error getting device: " + e);
+        }
+        return null;
+    }
+
 }

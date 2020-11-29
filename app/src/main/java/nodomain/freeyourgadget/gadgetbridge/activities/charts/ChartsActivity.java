@@ -33,16 +33,23 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Objects;
-
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import androidx.viewpager.widget.ViewPager;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.List;
+import java.util.Objects;
+
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.activities.AbstractFragmentPagerAdapter;
@@ -54,8 +61,10 @@ import nodomain.freeyourgadget.gadgetbridge.util.DateTimeUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.DeviceHelper;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 import nodomain.freeyourgadget.gadgetbridge.util.LimitedQueue;
+import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 
 public class ChartsActivity extends AbstractGBFragmentActivity implements ChartsHost {
+    private static final Logger LOG = LoggerFactory.getLogger(ChartsActivity.class);
 
     private TextView mDateControl;
 
@@ -64,6 +73,7 @@ public class ChartsActivity extends AbstractGBFragmentActivity implements Charts
     private SwipeRefreshLayout swipeLayout;
 
     LimitedQueue mActivityAmountCache = new LimitedQueue(60);
+    List<String> enabledTabsList;
 
     public static class ShowDurationDialog extends Dialog {
         private final String mDuration;
@@ -136,6 +146,19 @@ public class ChartsActivity extends AbstractGBFragmentActivity implements Charts
             mGBDevice = extras.getParcelable(GBDevice.EXTRA_DEVICE);
         } else {
             throw new IllegalArgumentException("Must provide a device when invoking this activity");
+        }
+        Prefs prefs = new Prefs(GBApplication.getDeviceSpecificSharedPrefs(getDevice().getAddress()));
+        String myTabs = prefs.getString("charts_tabs", null);
+
+        if (myTabs == null) {
+            //make list mutable to be able to remove items later
+            enabledTabsList = new ArrayList<String>(Arrays.asList(this.getResources().getStringArray(R.array.pref_charts_tabs_items_default)));
+        } else {
+            enabledTabsList = new ArrayList<String>(Arrays.asList(myTabs.split(",")));
+        }
+        DeviceCoordinator coordinator = DeviceHelper.getInstance().getCoordinator(mGBDevice);
+        if (!coordinator.supportsRealtimeData()) {
+            enabledTabsList.remove("livestats");
         }
 
         swipeLayout = findViewById(R.id.activity_swipe_layout);
@@ -339,33 +362,35 @@ public class ChartsActivity extends AbstractGBFragmentActivity implements Charts
     }
 
 
+
+
     /**
      * A {@link FragmentStatePagerAdapter} that returns a fragment corresponding to
      * one of the sections/tabs/pages.
      */
     public class SectionsPagerAdapter extends AbstractFragmentPagerAdapter {
-
         SectionsPagerAdapter(FragmentManager fm) {
             super(fm);
         }
 
+
         @Override
         public Fragment getItem(int position) {
             // getItem is called to instantiate the fragment for the given page.
-            switch (position) {
-                case 0:
+            switch (enabledTabsList.get(position)) {
+                case "activity":
                     return new ActivitySleepChartFragment();
-                case 1:
+                case "activitylist":
                     return new ActivityListingChartFragment();
-                case 2:
+                case "sleep":
                     return new SleepChartFragment();
-                case 3:
+                case "sleepweek":
                     return new WeekSleepChartFragment();
-                case 4:
+                case "stepsweek":
                     return new WeekStepsChartFragment();
-                case 5:
+                case "speedzones":
                     return new SpeedZonesFragment();
-                case 6:
+                case "livestats":
                     return new LiveActivityFragment();
             }
             return null;
@@ -373,12 +398,7 @@ public class ChartsActivity extends AbstractGBFragmentActivity implements Charts
 
         @Override
         public int getCount() {
-            // Show 5 or 6 total pages.
-            DeviceCoordinator coordinator = DeviceHelper.getInstance().getCoordinator(mGBDevice);
-            if (coordinator.supportsRealtimeData()) {
-                return 7;
-            }
-            return 6;
+            return enabledTabsList.toArray().length;
         }
 
         private String getSleepTitle() {
@@ -401,20 +421,21 @@ public class ChartsActivity extends AbstractGBFragmentActivity implements Charts
 
         @Override
         public CharSequence getPageTitle(int position) {
-            switch (position) {
-                case 0:
+
+            switch (enabledTabsList.get(position)) {
+                case "activity":
                     return getString(R.string.activity_sleepchart_activity_and_sleep);
-                case 1:
+                case "activitylist":
                     return getString(R.string.charts_activity_list);
-                case 2:
+                case "sleep":
                     return getString(R.string.sleepchart_your_sleep);
-                case 3:
+                case "sleepweek":
                     return getSleepTitle();
-                case 4:
+                case "stepsweek":
                     return getStepsTitle();
-                case 5:
+                case "speedzones":
                     return getString(R.string.stats_title);
-                case 6:
+                case "livestats":
                     return getString(R.string.liveactivity_live_activity);
             }
             return super.getPageTitle(position);

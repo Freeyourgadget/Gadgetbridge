@@ -19,10 +19,10 @@ package nodomain.freeyourgadget.gadgetbridge.activities.devicesettings;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.preference.PreferenceFragmentCompat;
 import androidx.preference.PreferenceScreen;
 
+import org.apache.commons.lang3.ArrayUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -49,7 +49,11 @@ public class DeviceSettingsActivity extends AbstractGBActivity implements
             Fragment fragment = getSupportFragmentManager().findFragmentByTag(DeviceSpecificSettingsFragment.FRAGMENT_TAG);
             if (fragment == null) {
                 DeviceCoordinator coordinator = DeviceHelper.getInstance().getCoordinator(device);
-                fragment = DeviceSpecificSettingsFragment.newInstance(device.getAddress(), coordinator.getSupportedDeviceSpecificSettings(device));
+                int[] supportedSettings = coordinator.getSupportedDeviceSpecificSettings(device);
+                if (coordinator.supportsActivityTracking()) {
+                    supportedSettings = ArrayUtils.addAll(supportedSettings, R.xml.devicesettings_chartstabs);
+                }
+                fragment = DeviceSpecificSettingsFragment.newInstance(device.getAddress(), supportedSettings);
             }
             getSupportFragmentManager()
                     .beginTransaction()
@@ -62,8 +66,12 @@ public class DeviceSettingsActivity extends AbstractGBActivity implements
     @Override
     public boolean onPreferenceStartScreen(PreferenceFragmentCompat caller, PreferenceScreen preferenceScreen) {
         DeviceCoordinator coordinator = DeviceHelper.getInstance().getCoordinator(device);
+        int[] supportedSettings = coordinator.getSupportedDeviceSpecificSettings(device);
+        if (coordinator.supportsActivityTracking()) {
+            supportedSettings = ArrayUtils.addAll(supportedSettings, R.xml.devicesettings_chartstabs);
+        }
 
-        PreferenceFragmentCompat fragment = DeviceSpecificSettingsFragment.newInstance(device.getAddress(), coordinator.getSupportedDeviceSpecificSettings(device));
+        PreferenceFragmentCompat fragment = DeviceSpecificSettingsFragment.newInstance(device.getAddress(), supportedSettings);
         Bundle args = fragment.getArguments();
         args.putString(PreferenceFragmentCompat.ARG_PREFERENCE_ROOT, preferenceScreen.getKey());
         fragment.setArguments(args);

@@ -171,8 +171,10 @@
     <string name="installation_successful">Installert</string>
     <string name="firmware_install_warning">DU PRØVER Å INSTALLERE EN FASTVARE, FORTSETT PÅ EGEN RISIKO.
 \n
+\n
 \nDENNE FASTVAREN ER FOR MASKINVAREVERSJON: %s</string>
     <string name="app_install_info">Du er i ferd med å installere følgende program:
+\n
 \n
 \n%1$s version %2$s av %3$s
 \n</string>
@@ -1104,7 +1106,8 @@
     <string name="charts_legend_heartrate_average">Pulsgjennomsnitt</string>
     <string name="activity_prefs_step_length_cm">Steglengde i cm</string>
     <string name="charts_min_max_heartrate_popup">Laveste puls: %1$d
-\nHøyeste puls: %2$d</string>
+\nHøyeste puls: %2$d
+\nBevegelsesintensitet: %3$s</string>
     <string name="find_lost_device_message">Søk etter %1$s\?</string>
     <string name="devicetype_amazfit_gtr2">Amazfit GTR 2</string>
     <string name="menuitem_dnd">Ikke forstyrr</string>
@@ -1120,4 +1123,6 @@
 \nIntensitet</string>
     <string name="activity_list_summary_active_time">Aktiv tid</string>
     <string name="activity_list_summary_distance">Distanse</string>
+    <string name="devicetype_casiogbx100">Casio GBX-100</string>
+    <string name="devicetype_amazfit_gts2">Amazfit GTS 2</string>
 </resources>
