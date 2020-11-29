@@ -1118,4 +1118,6 @@ Temps de sommeil préféré en heures</string>
     <string name="activity_list_summary_active_steps">Pas réalisés</string>
     <string name="devicetype_amazfit_gts2">Amazfit GTS 2</string>
     <string name="devicetype_casiogbx100">Casio GBX-100</string>
+    <string name="prefs_charts_tabs_summary">Onglets visibles des tableaux</string>
+    <string name="prefs_charts_tabs">Onglets des Tableaux</string>
 </resources>
