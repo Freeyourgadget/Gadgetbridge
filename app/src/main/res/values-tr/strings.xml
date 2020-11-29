@@ -1148,4 +1148,6 @@
     <string name="activity_list_summary_active_steps">Etkin adımlar</string>
     <string name="devicetype_amazfit_gts2">Amazfit GTS 2</string>
     <string name="devicetype_casiogbx100">Casio GBX-100</string>
+    <string name="prefs_charts_tabs_summary">Görünür çizelge sekmeleri</string>
+    <string name="prefs_charts_tabs">Çizelge sekmeleri</string>
 </resources>
