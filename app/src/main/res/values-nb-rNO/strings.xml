@@ -1127,4 +1127,5 @@
     <string name="devicetype_amazfit_gts2">Amazfit GTS 2</string>
     <string name="prefs_charts_tabs_summary">Synlige poengtavlefaner</string>
     <string name="prefs_charts_tabs">Poengtavlefaner</string>
+    <string name="devicetype_amazfit_bipu">Amazfit Bip U</string>
 </resources>
