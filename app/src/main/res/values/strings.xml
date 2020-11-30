@@ -785,6 +785,7 @@
     <string name="devicetype_amazfit_trex">Amazfit T-Rex</string>
     <string name="devicetype_amazfit_bips">Amazfit Bip S</string>
     <string name="devicetype_amazfit_bips_lite">Amazfit Bip S Lite</string>
+    <string name="devicetype_amazfit_bipu">Amazfit Bip U</string>
     <string name="devicetype_amazfit_gtr2">Amazfit GTR 2</string>
     <string name="devicetype_amazfit_gts2">Amazfit GTS 2</string>
     <string name="devicetype_vibratissimo">Vibratissimo</string>
