@@ -21,8 +21,11 @@ import android.net.Uri;
 
 import java.io.IOException;
 
+import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiFWHelper;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.amazfittrex.AmazfitTRexFWHelper;
+import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.amazfitbips.AmazfitBipSSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.amazfitgts.AmazfitGTSSupport;
 
 public class AmazfitTRexSupport extends AmazfitGTSSupport {
@@ -30,6 +33,12 @@ public class AmazfitTRexSupport extends AmazfitGTSSupport {
     @Override
     public HuamiFWHelper createFWHelper(Uri uri, Context context) throws IOException {
         return new AmazfitTRexFWHelper(uri, context);
+    }
+
+    @Override
+    protected AmazfitTRexSupport setDisplayItems(TransactionBuilder builder) {
+        setDisplayItemsNew(builder, false, R.array.pref_trex_display_items_default);
+        return this;
     }
 
 }
