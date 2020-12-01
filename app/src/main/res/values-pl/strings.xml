@@ -281,7 +281,7 @@
     <string name="pref_title_general_autostartonboot">Uruchom automatycznie</string>
     <string name="pref_title_minimize_priority">Ukryj powiadomienia z Gadgetbridge</string>
     <string name="pref_summary_minimize_priority_off">Ikona na pasku stanu i powiadomienia pokazują się na zablokowanym ekranie</string>
-    <string name="pref_summary_minimize_priority_on">Ikona na pasku stanu i powiadomienia jest ukryta na zablokowanym ekranie</string>
+    <string name="pref_summary_minimize_priority_on">Ikona na pasku stanu i powiadomienia są ukryte na zablokowanym ekranie</string>
     <string name="pref_summary_notification_filter">Niechciane powiadomienia są wyłączone w tym trybie</string>
     <string name="pref_title_transliteration">Transliteracja</string>
     <string name="pref_summary_transliteration">Włącz tę opcję, jeśli twoje urządzenie nie obsługuje czcionki twojego języka</string>
@@ -957,7 +957,7 @@
     <string name="activity_type_indoor_cycling">Kolarstwo halowe</string>
     <string name="menuitem_worldclock">Czas na świecie</string>
     <string name="menuitem_stress">Stres</string>
-    <string name="about_title">O</string>
+    <string name="about_title">O aplikacji</string>
     <string name="meters">m</string>
     <string name="swim_style">styl pływania</string>
     <string name="laps_unit">okrążenia</string>
@@ -1023,7 +1023,7 @@
     <string name="about_links">Linki</string>
     <string name="about_additional_contributions">Dziękujemy wszystkim nie notowanym na liście współtwórcom za udostępnienie kodu, tłumaczenia, wsparcie, pomysły, motywację, zgłoszenia błędów, pieniądze… ✊</string>
     <string name="about_core_team_title">Zespół główny (w kolejności od pierwszego wkładu w kod aplikacji)</string>
-    <string name="about_description">Wolny od chmury zamiennik dla aplikacji dla systemu Android o zamkniętym kodzie źródłowym dostarczanych przez producentów gadżetów.</string>
+    <string name="about_description">Wolny od chmury zamiennik dla aplikacji o zamkniętym kodzie źródłowym dostarczanych przez producentów gadżetów dla systemu Android.</string>
     <string name="activity_summary_edit_name_title">Edytuj etykietę</string>
     <string name="activity_type_pingpong">Ping-pong</string>
     <string name="activity_type_cricket">Krykiet</string>
@@ -1130,4 +1130,5 @@
     <string name="activity_list_summary_activities">Aktywności</string>
     <string name="prefs_charts_tabs_summary">Widoczne karty wykresów</string>
     <string name="prefs_charts_tabs">Karty wykresów</string>
+    <string name="devicetype_amazfit_bipu">Amazfit Bip U</string>
 </resources>
