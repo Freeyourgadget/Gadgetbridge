@@ -43,4 +43,9 @@ public class AmazfitBipUSupport extends AmazfitBipSSupport {
     public UpdateFirmwareOperation createUpdateFirmwareOperation(Uri uri) {
         return new UpdateFirmwareOperation2020(uri, this);
     }
+
+    @Override
+    public int getActivitySampleSize() {
+        return 8;
+    }
 }
