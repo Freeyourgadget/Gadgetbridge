@@ -288,7 +288,7 @@
     <string name="liveactivity_live_activity">Actividad en directo</string>
     <string name="weeksteps_today_steps_description">Pasos hoy, objetivo: %1$s</string>
     <string name="pref_title_dont_ack_transfer">No hay confirmación en la transferencia de datos de actividad</string>
-    <string name="pref_summary_dont_ack_transfers">Si los datos no son marcados como descargados, no serán borrados de tu Mi Band. Útil si Gadgetbridge se usa conjuntamente con otras apps.</string>
+    <string name="pref_summary_dont_ack_transfers">Si no se confirma el mensaje de recepción, los datos de actividad no se borrarán. Es útil si GB se utiliza junto con otras aplicaciones.</string>
     <string name="pref_summary_keep_data_on_device">Mantendrá los datos de actividad en la Mi Band incluso después de la sincronización. Útil si GB se usa junto con otras apps.</string>
     <string name="pref_title_low_latency_fw_update">Usa el modo de baja latencia para las instalaciones de firmware</string>
     <string name="pref_summary_low_latency_fw_update">Esto podría ayudar en dispositivos donde las instalaciones de firmware fallan.</string>
@@ -342,7 +342,7 @@
     <string name="device_hw">Revisión de hardware: %1$s</string>
     <string name="device_fw">Versión de firmware: %1$s</string>
     <string name="error_creating_directory_for_logfiles">Error creando un directorio para los archivos de registro: %1$s</string>
-    <string name="DEVINFO_HR_VER">"P.P.M.: "</string>
+    <string name="DEVINFO_HR_VER">"HW Rev.: "</string>
     <string name="updatefirmwareoperation_update_in_progress">Instalando firmware</string>
     <string name="updatefirmwareoperation_firmware_not_sent">Firmware no enviado</string>
     <string name="charts_legend_heartrate">Ritmo cardíaco</string>
@@ -858,4 +858,148 @@
     <string name="sonyswr12_settings_low_vibration_summary">Activar baja intensidad de vibración en la pulsera</string>
     <string name="sonyswr12_settings_stamina_summary">El modo de ahorro de energía desactiva la medición automática periódica de la frecuencia cardíaca, lo que aumenta el tiempo de trabajo</string>
     <string name="sonyswr12_settings_alarm_interval_summary">El intervalo de alarma inteligente es el intervalo anterior a la alarma instalada. En este intervalo, el dispositivo está tratando de detectar la fase más ligera del sueño para despertar al usuario.</string>
+    <string name="activity_prefs_step_length_cm">Longitud del paso en cm</string>
+    <string name="czesh">Checo</string>
+    <string name="swedish">Sueco</string>
+    <string name="hebrew">Hebreo</string>
+    <string name="greek">Griego</string>
+    <string name="hungarian">Húngaro</string>
+    <string name="romanian">Rumano</string>
+    <string name="lefun_prefs_interface_language_title">Idioma de la interfaz</string>
+    <string name="lefun_prefs_antilost_summary">La banda vibrará si tu teléfono se desconecta de la banda</string>
+    <string name="lefun_prefs_antilost_title">Antipérdida</string>
+    <string name="lefun_prefs_hydration_reminder_interval_title">Intervalo del recordatorio de hidratación (en minutos)</string>
+    <string name="lefun_prefs_hydration_reminder_summary">La banda vibrará para recordarte que bebas agua</string>
+    <string name="lefun_prefs_hydration_reminder_title">Recordatorio de hidratación</string>
+    <string name="charts_min_max_heartrate_popup">Ritmo cardíaco más bajo: %1$d
+\nRitmo cardíaco más alto: %2$d
+\nIntensidad de movimiento: %3$s</string>
+    <string name="movement_intensity">Intensidad de movimiento</string>
+    <string name="firmware_update_progress">La carga está en curso
+\n%1d%% a %.2fkbps (promedio %.2fkbps)
+\nParte %1d de %1d</string>
+    <string name="devicestatus_upload_failed">La carga ha fallado</string>
+    <string name="devicestatus_upload_aborted">La carga ha sido abortada!</string>
+    <string name="devicestatus_upload_validating">La carga está siendo validada</string>
+    <string name="devicestatus_upload_completed">La carga se ha completado</string>
+    <string name="devicestatus_disconnected">El dispositivo se ha desconectado!</string>
+    <string name="devicestatus_disconnecting">El dispositivo se está desconectando!</string>
+    <string name="devicestatus_upload_started">La carga ha comenzado</string>
+    <string name="devicestatus_upload_starting">La carga está comenzando</string>
+    <string name="devicestatus_connected">El dispositivo está conectado</string>
+    <string name="devicestatus_connecting">El dispositivo se está conectando</string>
+    <string name="activity_list_summary_activities">Actividades</string>
+    <string name="activity_list_summary_intensity">Movimiento
+\nIntensidad</string>
+    <string name="activity_list_summary_active_time">Tiempo activo</string>
+    <string name="activity_list_summary_distance">Distancia</string>
+    <string name="activity_list_summary_active_steps">Pasos activos</string>
+    <string name="charts_activity_list">Lista de actividades</string>
+    <string name="prefs_charts_tabs">Tablas de gráficos</string>
+    <string name="chart_get_active_and_synchronize">Haga alguna actividad y sincronice el dispositivo.</string>
+    <string name="chart_no_active_data">No se han detectado actividades.</string>
+    <string name="pref_header_auto_fetch">Buscar automáticamente</string>
+    <string name="pref_title_device_spec_settings_show_raw_graph">Mostrar datos RAW en el gráfico de actividad</string>
+    <string name="pref_summary_notifications_and_calls_title_reject">Apagar - ignorar, Encender - rechazar</string>
+    <string name="prefs_notifications_and_calls_reject">Botón ignorar/rechazar llamada</string>
+    <string name="pref_header_notifications_and_calls_callhandling">Gestión de llamadas</string>
+    <string name="pref_title_weather_summary">Utilizando el proveedor de clima de LineageOS, otras versiones de Android necesitan usar una aplicación como \"Notificación del clima\". Encuentra más información en el wiki de Gadgetbridge.</string>
+    <string name="fw_upgrade_notice_miband5">Estás a punto de instalar el firmware %s en tu Mi Band 5.
+\n
+\nPor favor, asegúrate de instalar el archivo .fw, luego el archivo .res. Tu banda se reiniciará después de instalar el archivo .fw.
+\n
+\nNota: No es necesario instalar el archivo .res si es exactamente igual al instalado anteriormente.
+\n
+\nPROCEDA BAJO SU PROPIO RIESGO!</string>
+    <string name="fw_upgrade_notice_amazfit_trex">Estás a punto de instalar el firmware %s en tu Amazfit T-Rex.
+\n
+\nPor favor asegúrate de instalar el archivo .fw, luego el .res y finalmente el archivo .gps. Tu reloj se reiniciará después de instalar el archivo .fw.
+\n
+\nNota: No es necesario instalar los archivos .res y .gps si son exactamente iguales a los instalados anteriormente.
+\n
+\nPROCEDA BAJO SU PROPIO RIESGO!</string>
+    <string name="find_lost_device_message">Buscar por %1$s\?</string>
+    <string name="pref_sensors_bp_calibration_low">Presión arterial DIASTÓLICA (baja)</string>
+    <string name="pref_header_sensors_calibration">Calibración del sensor</string>
+    <string name="pref_sensors_bp_calibration_high">Presión arterial SISTÓLICA (alta)</string>
+    <string name="pref_sensors_bp_calibration">Calibración de la presión sanguínea</string>
+    <string name="pref_title_sensors_altitude">Calibración de altitud</string>
+    <string name="bip_prefs_shotcuts_summary">Elegir los atajos en la pantalla de la banda</string>
+    <string name="bip_prefs_shortcuts">Atajos</string>
+    <string name="baseAltitude">Altitud base</string>
+    <string name="averageStrokesPerSecond">Promedio brazada</string>
+    <string name="averageStrokeDistance">Distancia promedio de brazada</string>
+    <string name="averageStride">Promedio de avance</string>
+    <string name="distanceMeters">Distancia</string>
+    <string name="permission_granting_mandatory">Todos estos permisos son necesarios y podría producirse inestabilidad si no se conceden</string>
+    <string name="power_mode_title">Modo de energía del reloj</string>
+    <string name="power_mode_watch">Solo reloj</string>
+    <string name="power_mode_saving">Ahorro de energía</string>
+    <string name="power_mode_normal">Normal</string>
+    <string name="prefs_sensors_button_bp_calibration_sum">Presione aquí para empezar la calibración</string>
+    <string name="prefs_sensors_button_bp_calibration">Calibración</string>
+    <string name="prefs_notifications_and_calls_shake_reject">Agitar la muñeca para ignorar/rechazar llamada</string>
+    <string name="pref_summary_notifications_and_calls_title_shake_reject">Duplica la acción del botón de reloj</string>
+    <string name="pref_summary_device_spec_settings_title_force_time">Forzar la auto-sincronización del tiempo al reconectar. ¡Las manecillas analógicas pueden mostrar una hora incorrecta!</string>
+    <string name="pref_title_device_spec_settings_force_time">Forzar sincronizar el tiempo</string>
+    <string name="pref_header_device_spec_settings">Ajustes del dispositivo</string>
+    <string name="menuitem_stress">Estrés</string>
+    <string name="averageSpeed">Promedio de velocidad</string>
+    <string name="averageLapPace">Ritmo promedio de la vuelta</string>
+    <string name="averageKMPaceSeconds">Ritmo</string>
+    <string name="ascentSeconds">Ascendiendo</string>
+    <string name="flatSeconds">Plano</string>
+    <string name="descentSeconds">Descendiendo</string>
+    <string name="descentMeters">Cuesta abajo</string>
+    <string name="ascentMeters">Cuesta arriba</string>
+    <string name="averageHR">Ritmo cardíaco</string>
+    <string name="totalStride">Avance total</string>
+    <string name="qhybrid_calibration_align_hint">alinear las manos a las 12:00</string>
+    <string name="devicetype_nut_mini">Nut Mini</string>
+    <string name="medley">Medley</string>
+    <string name="backstroke">Estilo espalda</string>
+    <string name="freestyle">Estilo libre</string>
+    <string name="breaststroke">Estilo braza</string>
+    <string name="activity_filter_to_placeholder">hoy</string>
+    <string name="activity_filter_from_placeholder">pasado distante</string>
+    <string name="activity_summaries_all_devices">Todos los dispositivos</string>
+    <string name="sports_activity_quick_filter_select">Periodo de tiempo</string>
+    <string name="sports_activity_quick_filter_30days">30 días</string>
+    <string name="sports_activity_quick_filter_7days">7 días</string>
+    <string name="sports_activity_quick_filter_last_month">El mes anterior</string>
+    <string name="sports_activity_quick_filter_this_month">Este Mes</string>
+    <string name="sports_activity_quick_filter_last_week">La semana anterior</string>
+    <string name="sports_activity_quick_filter_this_week">Esta semana</string>
+    <string name="activity_summaries_all_activities">Todas las actividades</string>
+    <string name="activity_summaries_statistics">Estadísticas</string>
+    <string name="no">No</string>
+    <string name="yes">Sí</string>
+    <string name="activity_filter_individual_items">Elementos seleccionados individualmente</string>
+    <string name="addto_filter">Añadir a filtro</string>
+    <string name="activity_filter_apply_filter">Aplicar Filtro</string>
+    <string name="activity_filter_name_contains">Etiquetar</string>
+    <string name="activity_filter_filter_title">Filtrar</string>
+    <string name="activity_filter_reset_filter">Reiniciar filtro</string>
+    <string name="activity_filter_date_to">Hasta</string>
+    <string name="activity_filter_date_from">Desde</string>
+    <string name="pref_header_statistics">Estadísticas de actividades deportivas</string>
+    <string name="pref_header_filter">Filtro de actividades deportivas</string>
+    <string name="prefs_events_forwarding_action_title">Ejecutar acción</string>
+    <string name="prefs_events_forwarding_broadcast_title">Mensaje de difusión</string>
+    <string name="prefs_events_forwarding_startnonwear">Al No Usar</string>
+    <string name="prefs_events_forwarding_wokeup">Al Despertarse</string>
+    <string name="prefs_events_forwarding_fellsleep">Al Dormirse</string>
+    <string name="prefs_events_forwarding_title">Acciones del dispositivo</string>
+    <string name="prefs_events_forwarding_summary">Usar eventos del dispositivo para desencadenar acciones y emisiones de Android</string>
+    <string name="gps_track">Seguimiento de GPS</string>
+    <string name="activity_detail_show_gps_label">Mostrar seguimiento del GPS</string>
+    <string name="activity_detail_duration_label">Duración</string>
+    <string name="activity_detail_end_label">Finalizar</string>
+    <string name="activity_detail_start_label">Iniciar</string>
+    <string name="Steps">Pasos</string>
+    <string name="Activity">Actividad</string>
+    <string name="Speed">Velocidad</string>
+    <string name="Elevation">Elevación</string>
+    <string name="Distance">Distancia</string>
+    <string name="companiondevice_pairing_details">Habilita el nuevo soporte de la API de CompanionDevice (sólo tiene efecto en Android 8 o superior) que aumentará la fiabilidad si el servicio necesita ser reiniciado en segundo plano, requiere un re-emparejamiento usando Gadgetbridge paraque surja efecto</string>
 </resources>
