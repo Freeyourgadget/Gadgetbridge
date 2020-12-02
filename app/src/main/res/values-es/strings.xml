@@ -1002,4 +1002,27 @@
     <string name="Elevation">Elevación</string>
     <string name="Distance">Distancia</string>
     <string name="companiondevice_pairing_details">Habilita el nuevo soporte de la API de CompanionDevice (sólo tiene efecto en Android 8 o superior) que aumentará la fiabilidad si el servicio necesita ser reiniciado en segundo plano, requiere un re-emparejamiento usando Gadgetbridge paraque surja efecto</string>
+    <string name="notification_channel_high_priority_name">Notificaciones de Gadgetbridge con alta prioridad</string>
+    <string name="activity_error_no_app_for_png">Para compartir esta captura de pantalla, instale una aplicación que pueda manejar archivos de imagen.</string>
+    <string name="activity_summary_yesterday">Ayer</string>
+    <string name="activity_summary_today">Hoy</string>
+    <string name="activity_summary_edit_name_title">Editar etiqueta</string>
+    <string name="activity_summary_detail">Detalle de la actividad deportiva</string>
+    <string name="activity_type_badminton">Bádminton</string>
+    <string name="activity_type_pingpong">Ping Pong</string>
+    <string name="activity_type_basketball">Baloncesto</string>
+    <string name="activity_type_cricket">Críquet</string>
+    <string name="activity_type_rowing_machine">Máquina de remos</string>
+    <string name="activity_type_soccer">Fútbol</string>
+    <string name="activity_type_yoga">Yoga</string>
+    <string name="activity_type_jump_roping">Saltando la cuerda</string>
+    <string name="activity_type_elliptical_trainer">Entrenador Elíptica</string>
+    <string name="activity_type_indoor_cycling">Ciclismo en interiores</string>
+    <string name="activity_type_swimming_openwater">Nadar (Aguas abiertas)</string>
+    <string name="find_lost_device_you_found_it">Lo encontré!</string>
+    <string name="charts_legend_heartrate_average">Promedio de frecuencia cardíaca</string>
+    <string name="activity_prefs_chart_min_session_length">Duración mínima de la actividad (minutos)</string>
+    <string name="activity_prefs_chart_max_idle_phase_length">Duración de la pausa para separar las actividades (minutos)</string>
+    <string name="activity_prefs_chart_min_steps_per_minute">Pasos mínimos por minuto para detectar la actividad</string>
+    <string name="activity_prefs_chart_min_steps_per_minute_for_run">Pasos mínimos por minuto para detectar la corrida</string>
 </resources>
