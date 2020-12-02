@@ -645,6 +645,9 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
         if (notificationSpec.body != null) {
             message += StringUtils.truncate(notificationSpec.body, 512);
         }
+        if (notificationSpec.body == null && notificationSpec.subject == null) {
+            message += " "; // if we have no body we have to send at least something on some devices, else they reboot (Bip S)
+        }
 
         try {
             TransactionBuilder builder = performInitialized("new notification");
