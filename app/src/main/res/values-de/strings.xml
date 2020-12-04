@@ -1133,4 +1133,7 @@
     <string name="activity_list_summary_distance">Strecke</string>
     <string name="activity_list_summary_active_steps">Aktive Schritte</string>
     <string name="devicetype_casiogbx100">Casio GBX-100</string>
+    <string name="prefs_charts_tabs_summary">Sichtbare Chart-Tabs</string>
+    <string name="prefs_charts_tabs">Chart-Tabs</string>
+    <string name="devicetype_amazfit_bipu">Amazfit Bip U</string>
 </resources>
