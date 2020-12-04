@@ -92,10 +92,8 @@ public class BangleJSCoordinator extends AbstractDeviceCoordinator {
     }
 
     @Override
-    public boolean supportsRealtimeData() {
-        // We could support this easily but I can't figure out how to push the
-        // act event into real-time data :(
-        return false;
+    public boolean supportsRealtimeData()  {
+        return true;
     }
 
     @Override

@@ -19,8 +19,11 @@ package nodomain.freeyourgadget.gadgetbridge.service.devices.banglejs;
 import android.bluetooth.BluetoothGatt;
 import android.bluetooth.BluetoothGattCharacteristic;
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.widget.Toast;
+
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -55,6 +58,7 @@ import nodomain.freeyourgadget.gadgetbridge.model.BatteryState;
 import nodomain.freeyourgadget.gadgetbridge.model.CalendarEventSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.CallSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.CannedMessagesSpec;
+import nodomain.freeyourgadget.gadgetbridge.model.DeviceService;
 import nodomain.freeyourgadget.gadgetbridge.model.MusicSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.MusicStateSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
@@ -226,8 +230,8 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
                 int steps = 0;
                 if (json.has("hrm")) hrm = json.getInt("hrm");
                 if (json.has("stp")) steps = json.getInt("stp");
-                int activity = ActivityKind.TYPE_UNKNOWN;
-                if (json.has("act")) {
+                int activity = BangleJSSampleProvider.TYPE_ACTIVITY;
+                /*if (json.has("act")) {
                     String actName = "TYPE_" + json.getString("act").toUpperCase();
                     try {
                         Field f = ActivityKind.class.getField(actName);
@@ -239,7 +243,7 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
                     } catch (NoSuchFieldException e) {
                         LOG.info("JSON activity '"+actName+"' not found");
                     }
-                }
+                }*/
                 sample.setRawKind(activity);
                 sample.setHeartRate(hrm);
                 sample.setSteps(steps);
@@ -252,6 +256,12 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
                     provider.addGBActivitySample(sample);
                 } catch (Exception ex) {
                     LOG.warn("Error saving activity: " + ex.getLocalizedMessage());
+                }
+                // push realtime data
+                if (realtimeHRM || realtimeStep) {
+                    Intent intent = new Intent(DeviceService.ACTION_REALTIME_SAMPLES)
+                            .putExtra(DeviceService.EXTRA_REALTIME_SAMPLE, sample);
+                    LocalBroadcastManager.getInstance(getContext()).sendBroadcast(intent);
                 }
             } break;
         }

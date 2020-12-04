@@ -28,11 +28,14 @@ import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
 import nodomain.freeyourgadget.gadgetbridge.entities.ID115ActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.entities.ID115ActivitySampleDao;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
+import nodomain.freeyourgadget.gadgetbridge.model.ActivityKind;
 
 public class BangleJSSampleProvider extends AbstractSampleProvider<BangleJSActivitySample> {
     public BangleJSSampleProvider(GBDevice device, DaoSession session) {
         super(device, session);
     }
+
+    public static final int TYPE_ACTIVITY = 0;
 
     @Override
     public AbstractDao<BangleJSActivitySample, ?> getSampleDao() {
@@ -59,12 +62,17 @@ public class BangleJSSampleProvider extends AbstractSampleProvider<BangleJSActiv
 
     @Override
     public int normalizeType(int rawType) {
-        return rawType;
+        switch (rawType) {
+            case TYPE_ACTIVITY:
+                return ActivityKind.TYPE_ACTIVITY;
+            default: // fall through
+                return ActivityKind.TYPE_UNKNOWN;
+        }
     }
 
     @Override
     public int toRawActivityKind(int activityKind) {
-        return activityKind;
+        return TYPE_ACTIVITY;
     }
 
     @Override
