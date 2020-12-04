@@ -78,6 +78,7 @@ public class GBDaoGenerator {
         addLefunBiometricSample(schema,user,device);
         addLefunSleepSample(schema, user, device);
         addSonySWR12Sample(schema, user, device);
+        addBangleJSActivitySample(schema, user, device);
 
         addHybridHRActivitySample(schema, user, device);
         addCalendarSyncState(schema, device);
@@ -459,6 +460,16 @@ public class GBDaoGenerator {
 
         sleepSample.addIntProperty("type").notNull();
         return sleepSample;
+    }
+
+    private static Entity addBangleJSActivitySample(Schema schema, Entity user, Entity device) {
+        Entity activitySample = addEntity(schema, "BangleJSActivitySample");
+        activitySample.implementsSerializable();
+        addCommonActivitySampleProperties("AbstractActivitySample", activitySample, user, device);
+        activitySample.addIntProperty(SAMPLE_STEPS).notNull().codeBeforeGetterAndSetter(OVERRIDE);
+        activitySample.addIntProperty(SAMPLE_RAW_KIND).notNull().codeBeforeGetterAndSetter(OVERRIDE);
+        addHeartRateProperties(activitySample);
+        return activitySample;
     }
 
     private static void addCommonActivitySampleProperties(String superClass, Entity activitySample, Entity user, Entity device) {

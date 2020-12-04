@@ -93,6 +93,8 @@ public class BangleJSCoordinator extends AbstractDeviceCoordinator {
 
     @Override
     public boolean supportsRealtimeData() {
+        // We could support this easily but I can't figure out how to push the
+        // act event into real-time data :(
         return false;
     }
 
@@ -113,7 +115,7 @@ public class BangleJSCoordinator extends AbstractDeviceCoordinator {
 
     @Override
     public boolean supportsActivityTracking() {
-        return false;
+        return true;
     }
 
     @Override
@@ -128,7 +130,7 @@ public class BangleJSCoordinator extends AbstractDeviceCoordinator {
 
     @Override
     public boolean supportsHeartRateMeasurement(GBDevice device) {
-        return false;
+        return true;
     }
 
     @Override
@@ -158,7 +160,7 @@ public class BangleJSCoordinator extends AbstractDeviceCoordinator {
 
     @Override
     public SampleProvider<? extends ActivitySample> getSampleProvider(GBDevice device, DaoSession session) {
-        return null;//new BangleJSSampleProvider(device, session);
+        return new BangleJSSampleProvider(device, session);
     }
 
     @Override

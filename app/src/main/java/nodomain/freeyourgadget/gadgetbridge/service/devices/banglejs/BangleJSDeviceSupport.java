@@ -32,18 +32,24 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.SimpleTimeZone;
 import java.util.UUID;
 import java.lang.reflect.Field;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
+import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
+import nodomain.freeyourgadget.gadgetbridge.database.DBHelper;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventCallControl;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventFindPhone;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventMusicControl;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventNotificationControl;
 import nodomain.freeyourgadget.gadgetbridge.devices.banglejs.BangleJSConstants;
+import nodomain.freeyourgadget.gadgetbridge.devices.banglejs.BangleJSSampleProvider;
+import nodomain.freeyourgadget.gadgetbridge.entities.BangleJSActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
+import nodomain.freeyourgadget.gadgetbridge.model.ActivityKind;
 import nodomain.freeyourgadget.gadgetbridge.model.Alarm;
 import nodomain.freeyourgadget.gadgetbridge.model.BatteryState;
 import nodomain.freeyourgadget.gadgetbridge.model.CalendarEventSpec;
@@ -59,12 +65,17 @@ import nodomain.freeyourgadget.gadgetbridge.util.AlarmUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 
+import static nodomain.freeyourgadget.gadgetbridge.database.DBHelper.*;
+
 public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
     private static final Logger LOG = LoggerFactory.getLogger(BangleJSDeviceSupport.class);
     private BluetoothGattCharacteristic rxCharacteristic = null;
     private BluetoothGattCharacteristic txCharacteristic = null;
 
     private String receivedLine = "";
+    private boolean realtimeHRM = false;
+    private boolean realtimeStep = false;
+    private int realtimeHRMInterval = 30*60;
 
     public BangleJSDeviceSupport() {
         super(LOG);
@@ -87,13 +98,16 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
 
         Prefs prefs = GBApplication.getPrefs();
         if (prefs.getBoolean("datetime_synconconnect", true))
-          setTime(builder);
+          transmitTime(builder);
         //sendSettings(builder);
 
         // get version
 
         gbDevice.setState(GBDevice.State.INITIALIZED);
         gbDevice.sendDeviceUpdateIntent(getContext());
+
+        getDevice().setFirmwareVersion("N/A");
+        getDevice().setFirmwareVersion2("N/A");
 
         LOG.info("Initialization Done");
 
@@ -152,6 +166,12 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
             case "error":
                 GB.toast(getContext(), "Bangle.js: " + json.getString("msg"), Toast.LENGTH_LONG, GB.ERROR);
                 break;
+            case "ver": {
+                if (json.has("fw1"))
+                    getDevice().setFirmwareVersion(json.getString("fw1"));
+                if (json.has("fw2"))
+                    getDevice().setFirmwareVersion2(json.getString("fw2"));
+            } break;
             case "status": {
                 Context context = getContext();
                 if (json.has("bat")) {
@@ -199,21 +219,41 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
                     deviceEvtNotificationControl.reply = json.getString("msg");
                 evaluateGBDeviceEvent(deviceEvtNotificationControl);
             } break;
-            /*case "activity": {
+            case "act": {
                 BangleJSActivitySample sample = new BangleJSActivitySample();
                 sample.setTimestamp((int) (GregorianCalendar.getInstance().getTimeInMillis() / 1000L));
-                sample.setHeartRate(json.getInteger("hrm"));
+                int hrm = 0;
+                int steps = 0;
+                if (json.has("hrm")) hrm = json.getInt("hrm");
+                if (json.has("stp")) steps = json.getInt("stp");
+                int activity = ActivityKind.TYPE_UNKNOWN;
+                if (json.has("act")) {
+                    String actName = "TYPE_" + json.getString("act").toUpperCase();
+                    try {
+                        Field f = ActivityKind.class.getField(actName);
+                        try {
+                            activity = f.getInt(null);
+                        } catch (IllegalAccessException e) {
+                            LOG.info("JSON activity '"+actName+"' not readable");
+                        }
+                    } catch (NoSuchFieldException e) {
+                        LOG.info("JSON activity '"+actName+"' not found");
+                    }
+                }
+                sample.setRawKind(activity);
+                sample.setHeartRate(hrm);
+                sample.setSteps(steps);
                 try (DBHandler dbHandler = GBApplication.acquireDB()) {
-                    Long userId = DBHelper.getUser(dbHandler.getDaoSession()).getId();
+                    Long userId = getUser(dbHandler.getDaoSession()).getId();
                     Long deviceId = DBHelper.getDevice(getDevice(), dbHandler.getDaoSession()).getId();
                     BangleJSSampleProvider provider = new BangleJSSampleProvider(getDevice(), dbHandler.getDaoSession());
                     sample.setDeviceId(deviceId);
                     sample.setUserId(userId);
                     provider.addGBActivitySample(sample);
                 } catch (Exception ex) {
-                    LOG.warn("Error saving current heart rate: " + ex.getLocalizedMessage());
+                    LOG.warn("Error saving activity: " + ex.getLocalizedMessage());
                 }
-            } break;*/
+            } break;
         }
     }
 
@@ -239,7 +279,7 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
     }
 
 
-    void setTime(TransactionBuilder builder) {
+    void transmitTime(TransactionBuilder builder) {
       long ts = System.currentTimeMillis();
       float tz = SimpleTimeZone.getDefault().getOffset(ts) / (1000 * 60 * 60.0f);
       // set time
@@ -290,7 +330,7 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
     public void onSetTime() {
         try {
             TransactionBuilder builder = performInitialized("setTime");
-            setTime(builder);
+            transmitTime(builder);
             builder.queue(getQueue());
         } catch (Exception e) {
             GB.toast(getContext(), "Error setting time: " + e.getLocalizedMessage(), Toast.LENGTH_LONG, GB.ERROR);
@@ -380,9 +420,24 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
         }
     }
 
+    private void transmitActivityStatus() {
+        try {
+            JSONObject o = new JSONObject();
+            o.put("t", "act");
+            o.put("hrm", realtimeHRM);
+            o.put("stp", realtimeStep);
+            o.put("int", realtimeHRMInterval);
+            uartTxJSON("onEnableRealtimeSteps", o);
+        } catch (JSONException e) {
+            LOG.info("JSONException: " + e.getLocalizedMessage());
+        }
+    }
+
     @Override
     public void onEnableRealtimeSteps(boolean enable) {
-
+        if (enable == realtimeHRM) return;
+        realtimeStep = enable;
+        transmitActivityStatus();
     }
 
     @Override
@@ -432,7 +487,9 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
 
     @Override
     public void onEnableRealtimeHeartRateMeasurement(boolean enable) {
-
+        if (enable == realtimeHRM) return;
+        realtimeHRM = enable;
+        transmitActivityStatus();
     }
 
     @Override
@@ -471,7 +528,8 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
 
     @Override
     public void onSetHeartRateMeasurementInterval(int seconds) {
-
+        realtimeHRMInterval = seconds;
+        transmitActivityStatus();
     }
 
     @Override
