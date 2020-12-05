@@ -974,9 +974,9 @@
     <string name="devicetype_miband5">Mi Band 5</string>
     <string name="fw_upgrade_notice_miband5">Está prestes a instalar o firmware %s na sua Mi Band 5.
 \n
-\nCertifique-se de instalar o ficheiro .fw e, após, o ficheiro .res. Sua pulseira vai reiniciar após instalar o ficheiro .fw.
+\nCertifique-se de instalar o ficheiro .fw e, após, o ficheiro .res. A sua pulseira vai reiniciar após instalar o ficheiro .fw.
 \n
-\nNota: não tem que instalar .res se ele for exatamente o mesmo arquivo que o instalado anteriormente.
+\nNota: não tem que instalar .res se ele for exatamente o mesmo que o instalado anteriormente.
 \n
 \nPROSSIGA POR SUA CONTA E RISCO!</string>
     <string name="error_background_service_reason">A inicialização do serviço de plano de fundo falhou por causa de uma exceção. Erro:</string>
