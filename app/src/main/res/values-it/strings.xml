@@ -523,7 +523,7 @@
     <string name="menuitem_activity">Attività</string>
     <string name="menuitem_weather">Meteo</string>
     <string name="menuitem_alarm">Allarmi</string>
-    <string name="menuitem_timer">Timer</string>
+    <string name="menuitem_timer">Temporizzatore</string>
     <string name="menuitem_compass">Bussola</string>
     <string name="menuitem_settings">Impostazioni</string>
     <string name="menuitem_alipay">Alipay</string>
@@ -986,7 +986,7 @@
     <string name="activity_type_yoga">Yoga</string>
     <string name="devicetype_sg2">Lemfo SG2</string>
     <string name="activity_type_badminton">Volano</string>
-    <string name="activity_type_pingpong">Ping Pong</string>
+    <string name="activity_type_pingpong">Ping pong</string>
     <string name="Strokes">Bracciate</string>
     <string name="averageStrokesPerSecond">Bracciate medie</string>
     <string name="averageStrokeDistance">Distanza media bracciata</string>
@@ -1066,8 +1066,9 @@
     <string name="lefun_prefs_hydration_reminder_interval_title">Intervallo di promemoria per l\'acqua (in minuti)</string>
     <string name="lefun_prefs_hydration_reminder_summary">La band vibrerà per ricordarti di bere dell\'acqua</string>
     <string name="lefun_prefs_hydration_reminder_title">Promemoria per l\'acqua</string>
-    <string name="charts_min_max_heartrate_popup">Valore del battito cardiaco più basso: %1$d
-\nValore del battito cardiaco più alco: %2$d</string>
+    <string name="charts_min_max_heartrate_popup">Frequenza cardiaca più bassa: %1$d
+\nFrequenza cardiaca più alta: %2$d
+\nIntensità del movimento: %3$s</string>
     <string name="firmware_update_progress">Caricamento in corso
 \n%1d%% a %.2fkbps (media %.2fkbps)
 \nParte %1d di %1d</string>
@@ -1085,4 +1086,19 @@
     <string name="chart_get_active_and_synchronize">Fai qualche attività e sincronizza il dispositivo.</string>
     <string name="chart_no_active_data">Nessuna attività rilevata.</string>
     <string name="find_lost_device_message">Cercare %1$s\?</string>
+    <string name="devicetype_lefun">Lefun</string>
+    <string name="devicetype_casiogbx100">Casio GBX-100</string>
+    <string name="devicetype_amazfit_gts2">Amazfit GTS 2</string>
+    <string name="devicetype_amazfit_gtr2">Amazfit GTR 2</string>
+    <string name="devicetype_amazfit_bipu">Amazfit Bip U</string>
+    <string name="activity_type_elliptical_trainer">Allenatore ellittico</string>
+    <string name="movement_intensity">Intensità del movimento</string>
+    <string name="activity_list_summary_activities">Attività</string>
+    <string name="activity_list_summary_intensity">Movimento
+\nIntensità</string>
+    <string name="activity_list_summary_active_time">Tempo attivo</string>
+    <string name="activity_list_summary_distance">Distanza</string>
+    <string name="activity_list_summary_active_steps">Passi attivi</string>
+    <string name="prefs_charts_tabs_summary">Schede grafico visibili</string>
+    <string name="prefs_charts_tabs">Schede dei grafici</string>
 </resources>
