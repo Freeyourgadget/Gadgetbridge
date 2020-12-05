@@ -1123,4 +1123,7 @@
     <string name="prefs_charts_tabs_summary">לשונית תרשימים</string>
     <string name="prefs_charts_tabs">לשונית</string>
     <string name="devicetype_amazfit_bipu">Amazfit Bip U</string>
+    <string name="menuitem_pomodoro">עוקב פומודורו</string>
+    <string name="menuitem_sleep">שינה</string>
+    <string name="menuitem_goal">יעד פעילות</string>
 </resources>
