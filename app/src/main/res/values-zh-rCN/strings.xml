@@ -1131,4 +1131,8 @@
     <string name="devicetype_casiogbx100">卡西欧 GBX-100</string>
     <string name="prefs_charts_tabs">图表标签</string>
     <string name="prefs_charts_tabs_summary">可见的图表标签</string>
+    <string name="menuitem_pomodoro">Pomodoro 跟踪</string>
+    <string name="menuitem_sleep">睡眠</string>
+    <string name="menuitem_goal">活动目标</string>
+    <string name="devicetype_amazfit_bipu">华米 Bip U</string>
 </resources>
