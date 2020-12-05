@@ -46,8 +46,11 @@ class HuamiMenuType {
         put("timer_stopwatch", 0x1b);
         put("stress", 0x1c);
         put("period", 0x1d);
+        put("goal", 0x21);
+        put("sleep", 0x23);
         put("spo2", 0x24);
         put("breathing",0x33);
+        put("pomodoro", 0x38);
         put("alexa", 0x39);
     }};
 }

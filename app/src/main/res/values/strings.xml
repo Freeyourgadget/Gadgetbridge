@@ -853,6 +853,9 @@
     <string name="menuitem_alexa">Alexa</string>
     <string name="menuitem_dnd">DND</string>
     <string name="menuitem_stopwatch">Stopwatch</string>
+    <string name="menuitem_goal">Activity Goal</string>
+    <string name="menuitem_sleep">Sleep</string>
+    <string name="menuitem_pomodoro">Pomodoro Tracker</string>
     <string name="watch9_time_minutes">Minutes:</string>
     <string name="watch9_time_hours">Hours:</string>
     <string name="watch9_time_seconds">Seconds:</string>
