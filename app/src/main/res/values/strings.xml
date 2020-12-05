@@ -186,6 +186,8 @@
     <string name="pref_title_pebble_reconnect_attempts">Reconnection attempts</string>
     <string name="pref_summary_expose_hr">Allows other apps to access HR data in realtime while Gadgetbridge is connected</string>
     <string name="pref_title_expose_hr">3rd party realtime HR access</string>
+    <string name="pref_title_connected_advertisement">Visible while connected</string>
+    <string name="pref_summary_connected_advertisement">Makes the device discoverable via Bluetooth even when connected</string>
     <string name="pref_title_use_custom_font">Use custom font</string>
     <string name="pref_summary_use_custom_font">Enable this if your device has a custom font firmware for emoji support</string>
     <string name="pref_title_allow_high_mtu">Allow high MTU</string>

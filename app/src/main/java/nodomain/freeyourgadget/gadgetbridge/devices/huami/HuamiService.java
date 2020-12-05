@@ -140,8 +140,10 @@ public class HuamiService {
     public static final byte[] DATEFORMAT_TIME_12_HOURS = new byte[] {ENDPOINT_DISPLAY, 0x02, 0x0, 0x0 };
     public static final byte[] DATEFORMAT_TIME_24_HOURS = new byte[] {ENDPOINT_DISPLAY, 0x02, 0x0, 0x1 };
     public static final byte[] DATEFORMAT_DATE_MM_DD_YYYY = new byte[]{ENDPOINT_DISPLAY, 30, 0x00, 'M', 'M', '/', 'd', 'd', '/', 'y', 'y', 'y', 'y'};
-    public static final byte[] COMMAND_ENBALE_HR_CONNECTION = new byte[]{ENDPOINT_DISPLAY, 0x01, 0x00, 0x01};
-    public static final byte[] COMMAND_DISABLE_HR_CONNECTION = new byte[]{ENDPOINT_DISPLAY, 0x01, 0x00, 0x00};
+    public static final byte[] COMMAND_ENBALE_HR_CONNECTION = new byte[]{ENDPOINT_DISPLAY, 0x1f, 0x00, 0x01};
+    public static final byte[] COMMAND_DISABLE_HR_CONNECTION = new byte[]{ENDPOINT_DISPLAY, 0x1f, 0x00, 0x00};
+    public static final byte[] COMMAND_ENABLE_BT_CONNECTED_ADVERTISEMENT = new byte[]{ENDPOINT_DISPLAY, 0x01, 0x00, 0x01};
+    public static final byte[] COMMAND_DISABLE_BT_CONNECTED_ADVERTISEMENT = new byte[]{ENDPOINT_DISPLAY, 0x01, 0x00, 0x00};
     public static final byte[] COMMAND_ENABLE_DISPLAY_ON_LIFT_WRIST = new byte[]{ENDPOINT_DISPLAY, 0x05, 0x00, 0x01};
     public static final byte[] COMMAND_DISABLE_DISPLAY_ON_LIFT_WRIST = new byte[]{ENDPOINT_DISPLAY, 0x05, 0x00, 0x00};
     public static final byte[] COMMAND_SCHEDULE_DISPLAY_ON_LIFT_WRIST = new byte[]{ENDPOINT_DISPLAY, 0x05, 0x00, 0x01, 0x00, 0x00, 0x00, 0x00};

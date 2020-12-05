@@ -303,11 +303,11 @@ public class InitOperationGBX100 extends AbstractBTLEOperation<CasioGBX100Device
                 LOG.debug("Got BLE features, requesting BLE settings");
                 requestBleSettings();
             } else if(data[0] == CasioConstants.characteristicToByte.get("CASIO_SETTING_FOR_BLE")) {
-                LOG.debug("Got BLE settings, requesting advertising parameters; should write BLE settings");
+                LOG.debug("Got BLE settings, requesting advertisement parameters; should write BLE settings");
                 writeBleSettings(data);
                 requestAdvertisingParameters();
             } else if(data[0] == CasioConstants.characteristicToByte.get("CASIO_ADVERTISE_PARAMETER_MANAGER")) {
-                LOG.debug("Got advertising parameters, requesting connection parameters; should write advertising parameters");
+                LOG.debug("Got advertisement parameters, requesting connection parameters; should write advertisement parameters");
                 writeAdvertisingParameters();
                 requestConnectionParameters();
             } else if(data[0] == CasioConstants.characteristicToByte.get("CASIO_CONNECTION_PARAMETER_MANAGER")) {

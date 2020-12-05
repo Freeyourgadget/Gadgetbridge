@@ -62,4 +62,6 @@ public class DeviceSettingsPreferenceConst {
     public static final String PREF_SONYSWR12_LOW_VIBRATION = "vibration_preference";
     public static final String PREF_SONYSWR12_STAMINA = "stamina_preference";
     public static final String PREF_SONYSWR12_SMART_INTERVAL = "smart_alarm_interval_preference";
+
+    public static final String  PREF_BT_CONNECTED_ADVERTISEMENT = "bt_connected_advertisement";
 }
