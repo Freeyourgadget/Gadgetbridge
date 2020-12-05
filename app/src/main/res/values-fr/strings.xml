@@ -1121,4 +1121,7 @@ Temps de sommeil préféré en heures</string>
     <string name="prefs_charts_tabs_summary">Onglets visibles des tableaux</string>
     <string name="prefs_charts_tabs">Onglets des Tableaux</string>
     <string name="devicetype_amazfit_bipu">Amazfit Bip U</string>
+    <string name="menuitem_pomodoro">Tracker Pomodoro</string>
+    <string name="menuitem_sleep">Sommeil</string>
+    <string name="menuitem_goal">Objectif d\'activité</string>
 </resources>
