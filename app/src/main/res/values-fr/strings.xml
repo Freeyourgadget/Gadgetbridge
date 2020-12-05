@@ -136,8 +136,8 @@
     <string name="pref_summary_pebble_forcele">Utiliser le support expérimental du LE pour toutes les Pebble au lieu du Bluetooth classique. Cela requiert le jumelage d\'une Pebble non LE, puis d\'une Pebble LE</string>
     <string name="pref_title_pebble_mtu_limit">Limite du GATT MTU de Pebble 2/LE</string>
     <string name="pref_summary_pebble_mtu_limit">Si votre Pebble 2/LE ne fonctionne pas correctement, essayez d\'activer cette option pour limiter le MTU (plage valide 20–512)</string>
-    <string name="pref_title_pebble_enable_applogs">Activer les logs des apps du bracelet</string>
-    <string name="pref_summary_pebble_enable_applogs">Ceci permettra à Gadgetbridge de conserver les logs des Watch App (requiert une reconnexion)</string>
+    <string name="pref_title_pebble_enable_applogs">Activer la journalisation des applis du bracelet</string>
+    <string name="pref_summary_pebble_enable_applogs">Ceci fera en sorte que les journaux des applis de montre soient journalisés par Gadgetbridge (requiert une reconnexion)</string>
     <string name="pref_title_pebble_always_ack_pebblekit">ACK à l\'avance du PebbleKit</string>
     <string name="pref_summary_pebble_always_ack_pebblekit">Ceci permettra aux messages envoyés à des apps tierces d\'être toujours reconnus immédiatement</string>
     <string name="pref_title_pebble_reconnect_attempts">Tentatives de reconnexion</string>
@@ -1028,7 +1028,7 @@ Temps de sommeil préféré en heures</string>
     <string name="activity_type_elliptical_trainer">Entraîneur elliptique</string>
     <string name="activity_type_indoor_cycling">Vélo d\'intérieur</string>
     <string name="activity_type_swimming_openwater">Natation (en eau libre)</string>
-    <string name="pref_title_weather_summary">Utilisé par le fournisseur météo de LineageOS, les autres versions d\'Android doivent utilisées une application comme \"Weather notification\". Se reporter au wiki Gadgetbridge.</string>
+    <string name="pref_title_weather_summary">Utilisé par le fournisseur météo de LineageOS, les autres versions d\'Android doivent utilisées une application comme Weather notification. Se reporter au wiki Gadgetbridge.</string>
     <string name="fw_upgrade_notice_miband5">Vous êtes sur le point d\'installer le micrologiciel %s dans votre Mi Band 5.
 \n
 \nVeuillez installer le fichier .fw, puis le fichier .res. Votre montre redémarrera après avoir installé le fichier .fw.
@@ -1120,4 +1120,5 @@ Temps de sommeil préféré en heures</string>
     <string name="devicetype_casiogbx100">Casio GBX-100</string>
     <string name="prefs_charts_tabs_summary">Onglets visibles des tableaux</string>
     <string name="prefs_charts_tabs">Onglets des Tableaux</string>
+    <string name="devicetype_amazfit_bipu">Amazfit Bip U</string>
 </resources>
