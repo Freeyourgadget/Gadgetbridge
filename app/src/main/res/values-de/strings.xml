@@ -1136,4 +1136,7 @@
     <string name="prefs_charts_tabs_summary">Sichtbare Chart-Tabs</string>
     <string name="prefs_charts_tabs">Chart-Tabs</string>
     <string name="devicetype_amazfit_bipu">Amazfit Bip U</string>
+    <string name="menuitem_pomodoro">Pomodoro Tracker</string>
+    <string name="menuitem_sleep">Schlaf</string>
+    <string name="menuitem_goal">Aktivitätsziel</string>
 </resources>
