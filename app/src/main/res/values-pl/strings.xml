@@ -1131,4 +1131,6 @@
     <string name="prefs_charts_tabs_summary">Widoczne karty wykresów</string>
     <string name="prefs_charts_tabs">Karty wykresów</string>
     <string name="devicetype_amazfit_bipu">Amazfit Bip U</string>
+    <string name="menuitem_pomodoro">Minutnik Pomodoro</string>
+    <string name="menuitem_sleep">Sen</string>
 </resources>
