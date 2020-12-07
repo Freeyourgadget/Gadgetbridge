@@ -8,7 +8,7 @@
     android:orientation="vertical">
 
     <LinearLayout
-        android:id="@+id/todaywidget_header_container"
+        android:id="@+id/todaywidget_alarm_header_container"
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:background="@color/accent"
@@ -17,7 +17,7 @@
 
 
         <LinearLayout
-            android:id="@+id/todaywidget_header_bar"
+            android:id="@+id/todaywidget_alarm_header_bar"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"

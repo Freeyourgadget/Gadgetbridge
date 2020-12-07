@@ -166,6 +166,35 @@
                 grid:layout_columnSpan="2"
                 grid:layout_gravity="fill_horizontal"
                 android:text="@string/share_log" />
+            <Button
+                android:id="@+id/showWidgetsButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                grid:layout_columnSpan="2"
+                grid:layout_gravity="fill_horizontal"
+                android:text="Show all registered app widgets IDs" />
+            <Button
+                android:id="@+id/deleteWidgets"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                grid:layout_columnSpan="2"
+                grid:layout_gravity="fill_horizontal"
+                android:text="Delete all registered app widgets IDs" />
+            <Button
+                android:id="@+id/showWidgetsPrefs"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                grid:layout_columnSpan="2"
+                grid:layout_gravity="fill_horizontal"
+                android:text="Show app Widgets Preferences" />
+            <Button
+                android:id="@+id/deleteWidgetsPrefs"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                grid:layout_columnSpan="2"
+                grid:layout_gravity="fill_horizontal"
+                android:text="Delete app Widgets Preferences" />
+
         </androidx.gridlayout.widget.GridLayout>
     </ScrollView>
 

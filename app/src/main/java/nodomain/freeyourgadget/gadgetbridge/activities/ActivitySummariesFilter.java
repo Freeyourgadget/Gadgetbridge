@@ -381,7 +381,7 @@ public class ActivitySummariesFilter extends AbstractGBActivity {
         update_filter_fields();
     }
 
-    private LinkedHashMap getAllDevices(Context appContext) {
+    public LinkedHashMap getAllDevices(Context appContext) {
         DaoSession daoSession;
         GBApplication gbApp = (GBApplication) appContext;
         LinkedHashMap<String, Pair<Long, Integer>> newMap = new LinkedHashMap<>(1);

@@ -1,8 +1,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/alarm_list_top_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/primary_dark"
     android:orientation="vertical">
 
     <LinearLayout
@@ -24,33 +24,44 @@
             android:src="@drawable/ic_notification" />
 
 
-        <LinearLayout
-            android:id="@+id/todaywidget_header_bar"
+        <TextView
+            android:id="@+id/todaywidget_device_name"
             android:layout_width="0dp"
             android:layout_height="match_parent"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
             android:layout_weight="1"
-            android:gravity="start"
-            android:paddingLeft="0dp"
-            android:paddingRight="0dp">
-
-            <TextView
-                android:id="@+id/todaywidget_device_name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:layout_marginLeft="8dp"
-                android:layout_marginRight="8dp"
-                android:drawablePadding="4dp"
-                android:ellipsize="end"
-                android:maxLines="1"
-                android:text="@string/app_name"
-                android:textColor="@color/primarytext_dark"
-                android:textSize="18sp" />
-
-        </LinearLayout>
+            android:drawablePadding="4dp"
+            android:ellipsize="end"
+            android:gravity="center_vertical"
+            android:maxLines="1"
+            android:text="@string/app_name"
+            android:textColor="@color/primarytext_dark"
+            android:textSize="18sp" />
 
         <ImageView
-            android:id="@+id/todaywidget_header_plus"
+            android:id="@+id/todaywidget_battery_icon"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_gravity="start|center_vertical"
+            android:backgroundTint="#FFFFFF"
+            android:background="@drawable/ic_battery_full"
+            android:contentDescription="@string/icon_placeholder"
+            android:padding="0dp" />
+
+        <TextView
+            android:id="@+id/todaywidget_device_status"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical|end"
+            android:foregroundGravity="right"
+            android:gravity="end"
+            android:text="@string/device_not_connected"
+            android:textColor="@color/primarytext_dark"
+            android:textSize="18sp" />
+
+        <ImageView
+            android:id="@+id/todaywidget_header_alarm_icon"
             android:layout_width="32dp"
             android:layout_height="match_parent"
             android:layout_gravity="center_vertical"
@@ -65,55 +76,137 @@
     <LinearLayout
         android:id="@+id/todaywidget_bottom_layout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#2BE3DBDB"
+        android:baselineAligned="false"
         android:orientation="horizontal"
         android:paddingLeft="3dp"
-        android:paddingRight="3dp">
+        android:paddingRight="3dp"
+        android:paddingBottom="5dp">
 
         <LinearLayout
-            android:id="@+id/todaywidget_bottom_vertical"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:layout_weight="1"
+            android:orientation="horizontal">
 
+            <ImageView
+                android:id="@+id/todaywidget_steps_icon"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_gravity="start|center_vertical"
+                android:backgroundTint="#FFFFFF"
+                android:background="@drawable/ic_shoe_print"
+                android:contentDescription="@string/icon_placeholder"
+                android:padding="0dp" />
 
-            <TextView
-                android:id="@+id/todaywidget_steps"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:contentDescription="@string/widget_steps_label"
-                android:gravity="center_vertical|center_horizontal"
-                android:text="@string/widget_steps_label"
-                android:textColor="@color/primarytext_dark"
-                android:textSize="18sp" />
+                android:orientation="vertical"
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp">
 
-            <TextView
-                android:id="@+id/todaywidget_sleep"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:contentDescription="@string/widget_sleep_label"
-                android:gravity="center_vertical|center_horizontal"
-                android:text="@string/widget_sleep_label"
-                android:textColor="@color/primarytext_dark"
-                android:textSize="18sp" />
+                <TextView
+                    android:id="@+id/todaywidget_steps"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical|center_horizontal"
+                    android:textColor="@color/primarytext_dark"
+                    android:textSize="18sp" />
+
+                <ProgressBar
+                    android:id="@+id/todaywidget_steps_progress"
+                    style="?android:attr/progressBarStyleHorizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="3dp"
+                    android:layout_weight="1"
+                    android:background="#FFFFFF" />
+            </LinearLayout>
+
         </LinearLayout>
 
-        <TextView
-            android:id="@+id/empty"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1" />
-
-        <TextView
-            android:id="@+id/todaywidget_device_status"
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="end"
-            android:foregroundGravity="right"
-            android:gravity="end"
-            android:text="@string/device_not_connected"
-            android:textColor="@color/primarytext_dark"
-            android:textSize="18sp" />
+            android:layout_weight="1"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/todaywidget_distance_icon"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_gravity="start|center_vertical"
+                android:backgroundTint="#FFFFFF"
+                android:background="@drawable/ic_distance"
+                android:contentDescription="@string/icon_placeholder"
+                android:padding="0dp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp">
+
+                <TextView
+                    android:id="@+id/todaywidget_distance"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical|center_horizontal"
+                    android:textColor="@color/primarytext_dark"
+                    android:textSize="18sp" />
+
+                <ProgressBar
+                    android:id="@+id/todaywidget_distance_progress"
+                    style="?android:attr/progressBarStyleHorizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="3dp"
+                    android:layout_weight="1"
+                    android:background="#FFFFFF" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/todaywidget_sleep_icon"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_gravity="start|center_vertical"
+                android:backgroundTint="#FFFFFF"
+                android:background="@drawable/ic_activity_sleep"
+                android:contentDescription="@string/icon_placeholder" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp">
+
+                <TextView
+                    android:id="@+id/todaywidget_sleep"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical|center_horizontal"
+                    android:textColor="@color/primarytext_dark"
+                    android:textSize="18sp" />
+
+                <ProgressBar
+                    android:id="@+id/todaywidget_sleep_progress"
+                    style="?android:attr/progressBarStyleHorizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="3dp"
+                    android:layout_weight="1"
+                    android:background="#FFFFFF" />
+            </LinearLayout>
+        </LinearLayout>
+
 
     </LinearLayout>
 

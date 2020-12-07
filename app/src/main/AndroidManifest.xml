@@ -528,6 +528,8 @@
             android:label="@string/widget_listing_label">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+                <action android:name="android.appwidget.action.APPWIDGET_DELETED" />
+                <action android:name="android.appwidget.action.APPWIDGET_DISABLED" />
                 <action android:name="nodomain.freeyourgadget.gadgetbridge.WidgetClick" />
             </intent-filter>
 
@@ -541,6 +543,13 @@
             android:excludeFromRecents="true"
             android:launchMode="singleInstance"
             android:theme="@style/Theme.AppCompat.Light.Dialog" />
+
+        <activity android:name=".activities.WidgetConfigurationActivity">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE"/>
+            </intent-filter>
+        </activity>
+
         <activity
             android:name=".activities.ExternalPebbleJSActivity"
             android:allowTaskReparenting="true"

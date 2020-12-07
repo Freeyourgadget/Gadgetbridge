@@ -56,7 +56,7 @@ public class DailyTotals {
                 }
                 long[] all_daily = getDailyTotalsForDevice(device, day);
                 all_steps += all_daily[0];
-                all_sleep += all_daily[1] + all_daily[2];
+                all_sleep += all_daily[1];
             }
         }
         //LOG.debug("gbwidget daily totals, all steps:" + all_steps);
@@ -78,12 +78,11 @@ public class DailyTotals {
             long[] sleep = getTotalsSleepForActivityAmounts(amountsSleep);
             long steps = getTotalsStepsForActivityAmounts(amountsSteps);
 
-            return new long[]{steps, sleep[0], sleep[1]};
+            return new long[]{steps, sleep[0] + sleep[1]};
 
         } catch (Exception e) {
-
-            GB.toast("Error loading activity summaries.", Toast.LENGTH_SHORT, GB.ERROR, e);
-            return new long[]{0, 0, 0};
+            //GB.toast("Error loading sleep/steps widget data for device: " + device, Toast.LENGTH_SHORT, GB.ERROR, e);
+            return new long[]{0, 0};
         }
     }
 

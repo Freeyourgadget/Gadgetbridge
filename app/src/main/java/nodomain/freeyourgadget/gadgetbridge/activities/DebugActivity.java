@@ -22,7 +22,10 @@ import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
+import android.appwidget.AppWidgetHost;
+import android.appwidget.AppWidgetManager;
 import android.content.BroadcastReceiver;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -55,6 +58,7 @@ import java.util.Objects;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
+import nodomain.freeyourgadget.gadgetbridge.Widget;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.model.CallSpec;
@@ -66,6 +70,7 @@ import nodomain.freeyourgadget.gadgetbridge.model.NotificationType;
 import nodomain.freeyourgadget.gadgetbridge.model.RecordedDataTypes;
 import nodomain.freeyourgadget.gadgetbridge.service.serial.GBDeviceProtocol;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
+import nodomain.freeyourgadget.gadgetbridge.util.WidgetPreferenceStorage;
 
 import static android.content.Intent.EXTRA_SUBJECT;
 import static nodomain.freeyourgadget.gadgetbridge.util.GB.NOTIFICATION_CHANNEL_ID;
@@ -333,6 +338,76 @@ public class DebugActivity extends AbstractGBActivity {
                 showWarning();
             }
         });
+
+        Button showWidgetsButton = findViewById(R.id.showWidgetsButton);
+        showWidgetsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showAllRegisteredAppWidgets();
+            }
+        });
+
+        Button unregisterWidgetsButton = findViewById(R.id.deleteWidgets);
+        unregisterWidgetsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                unregisterAllRegisteredAppWidgets();
+            }
+        });
+
+        Button showWidgetsPrefsButton = findViewById(R.id.showWidgetsPrefs);
+        showWidgetsPrefsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showAppWidgetsPrefs();
+            }
+        });
+
+        Button deleteWidgetsPrefsButton = findViewById(R.id.deleteWidgetsPrefs);
+        deleteWidgetsPrefsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                deleteWidgetsPrefs();
+            }
+        });
+
+    }
+
+    private void deleteWidgetsPrefs() {
+        WidgetPreferenceStorage widgetPreferenceStorage = new WidgetPreferenceStorage();
+        widgetPreferenceStorage.deleteWidgetsPrefs(DebugActivity.this);
+        widgetPreferenceStorage.showAppWidgetsPrefs(DebugActivity.this);
+    }
+
+    private void showAppWidgetsPrefs() {
+        WidgetPreferenceStorage widgetPreferenceStorage = new WidgetPreferenceStorage();
+        widgetPreferenceStorage.showAppWidgetsPrefs(DebugActivity.this);
+
+    }
+
+    private void showAllRegisteredAppWidgets() {
+        //https://stackoverflow.com/questions/17387191/check-if-a-widget-is-exists-on-homescreen-using-appwidgetid
+
+        AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(DebugActivity.this);
+        AppWidgetHost appWidgetHost = new AppWidgetHost(DebugActivity.this, 1); // for removing phantoms
+        int[] appWidgetIDs = appWidgetManager.getAppWidgetIds(new ComponentName(DebugActivity.this, Widget.class));
+        GB.toast("Number of registered app widgets: " + appWidgetIDs.length, Toast.LENGTH_SHORT, GB.INFO);
+        for (int appWidgetID : appWidgetIDs) {
+            GB.toast("Widget: " + appWidgetID, Toast.LENGTH_SHORT, GB.INFO);
+        }
+    }
+
+    private void unregisterAllRegisteredAppWidgets() {
+        //https://stackoverflow.com/questions/17387191/check-if-a-widget-is-exists-on-homescreen-using-appwidgetid
+
+        AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(DebugActivity.this);
+        AppWidgetHost appWidgetHost = new AppWidgetHost(DebugActivity.this, 1); // for removing phantoms
+        int[] appWidgetIDs = appWidgetManager.getAppWidgetIds(new ComponentName(DebugActivity.this, Widget.class));
+        GB.toast("Number of registered app widgets: " + appWidgetIDs.length, Toast.LENGTH_SHORT, GB.INFO);
+        for (int appWidgetID : appWidgetIDs) {
+            appWidgetHost.deleteAppWidgetId(appWidgetID);
+            GB.toast("Removing widget: " + appWidgetID, Toast.LENGTH_SHORT, GB.INFO);
+        }
     }
 
     private void showWarning() {
