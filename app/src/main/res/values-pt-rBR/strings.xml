@@ -755,8 +755,8 @@
     <string name="pref_display_add_device_fab_on">Sempre visível</string>
     <string name="pref_display_add_device_fab_off">Visível apenas se nenhum dispositivo estiver adicionado</string>
     <plurals name="widget_alarm_target_hours">
-        <item quantity="one">% hora</item>
-        <item quantity="other">% horas</item>
+        <item quantity="one">%d hora</item>
+        <item quantity="other">%d horas</item>
     </plurals>
     <string name="activity_error_no_app_for_gpx">Para visualizar o rastreamento de atividade, instale um aplicativo que consegue manipular arquivos GPX.</string>
     <string name="preferences_makibes_hr3_settings">Configurações de Makibes HR3</string>
@@ -915,7 +915,7 @@
     <string name="about_additional_device_support">Suporte a dispositivos adicionais</string>
     <string name="about_contributors">Contribuidores</string>
     <string name="about_core_team_title">Equipe Core (na ordem da primeira contribuição de código)</string>
-    <string name="about_description">Um substituto livre e sem nuvem para os aplicativos Android de código fechado dos seus fornecedores de gadgets.</string>
+    <string name="about_description">Um substituto livre, protegido por copyleft, sem acesso a nuvem para os aplicativos Android de código fechado dos fornecedores de gadgets.</string>
     <string name="about_activity_title">Sobre o Gadgetbridge</string>
     <string name="about_title">Sobre</string>
     <string name="pref_title_weather_summary">Usado para o provedor do clima do LineageOS, outras versões do Android precisam usar um aplicativo como o \"Notificação de clima\". Encontrará mais informações no wiki do Gadgetbridge.</string>
@@ -933,7 +933,7 @@
     <string name="error_background_service_reason">A inicialização do serviço de plano de fundo falhou por causa de uma exceção. Erro:</string>
     <string name="error_background_service">Falha ao iniciar o serviço de plano de fundo</string>
     <string name="menuitem_stress">Estresse</string>
-    <string name="menuitem_cycles">Ciclos</string>
+    <string name="menuitem_cycles">Período</string>
     <string name="menuitem_breathing">Respiração</string>
     <string name="devicetype_miband5">Mi Band 5</string>
     <string name="devicetype_tlw64">TLW64</string>
@@ -1063,4 +1063,76 @@
     <string name="sonyswr12_settings_low_vibration_summary">Ativar baixa intensidade de vibração na banda</string>
     <string name="sonyswr12_settings_stamina_summary">O modo de economia de energia desativa a medição automática periódica da frequência cardíaca, aumentando assim o tempo de trabalho</string>
     <string name="sonyswr12_settings_alarm_interval_summary">O intervalo de alarme inteligente é o intervalo antes do alarme instalado. Neste intervalo, o dispositivo está tentando detectar a fase mais leve do sono para acordar o usuário</string>
+    <string name="qhybrid_calibration_align_hint">alinhar as mãos às 12:00</string>
+    <string name="devicetype_nut_mini">Nut mini</string>
+    <string name="gps_track">Rastro GPS</string>
+    <string name="descentSeconds">Descendente</string>
+    <string name="about_version">Versão %s</string>
+    <string name="pref_title_lower_button_function_double">Botão inferior duplo</string>
+    <string name="pref_title_middle_button_function_double">Botão central duplo</string>
+    <string name="pref_title_upper_button_function_double">Botão superior duplo</string>
+    <string name="pref_title_lower_button_function_long">Botão inferior longo</string>
+    <string name="pref_title_middle_button_function_long">Botão central longo</string>
+    <string name="pref_title_upper_button_function_long">Botão superior longo</string>
+    <string name="pref_title_lower_button_function_short">Botão inferior curto</string>
+    <string name="pref_title_middle_button_function_short">Botão central curto</string>
+    <string name="pref_title_upper_button_function_short">Botão superior curto</string>
+    <string name="menuitem_pomodoro">Rastreador Pomodoro</string>
+    <string name="menuitem_sleep">Sono</string>
+    <string name="menuitem_goal">Meta da atividade</string>
+    <string name="menuitem_stopwatch">Cronômetro</string>
+    <string name="menuitem_alexa">Alexa</string>
+    <string name="menuitem_takephoto">Tirar uma foto</string>
+    <string name="menuitem_mutephone">Silenciar telefone</string>
+    <string name="menuitem_findphone">Encontrar telefone</string>
+    <string name="menuitem_spo2">SpO2</string>
+    <string name="devicetype_lefun">Lefun</string>
+    <string name="devicetype_casiogbx100">Casio GBX-100</string>
+    <string name="devicetype_amazfit_gts2">Amazfit GTS 2</string>
+    <string name="devicetype_amazfit_gtr2">Amazfit GTR 2</string>
+    <string name="devicetype_amazfit_bipu">Amazfit Bip U</string>
+    <string name="devicetype_amazfit_bips_lite">Amazfit Bip S Lite</string>
+    <string name="devicetype_amazfit_band5">Amazfit Band 5</string>
+    <string name="activity_error_no_app_for_png">Para compartilhar esta captura de tela, instale um aplicativo que pode manipular arquivos de imagens.</string>
+    <string name="charts_legend_heartrate_average">Frequência cardíaca média</string>
+    <string name="activity_prefs_chart_min_session_length">Tamanho mínimo de atividade (minutos)</string>
+    <string name="activity_prefs_chart_max_idle_phase_length">Tamanho da pausa para separar atividades (minutos)</string>
+    <string name="activity_prefs_step_length_cm">Tamanho do passo em cm</string>
+    <string name="activity_prefs_chart_min_steps_per_minute">Passos mínimos por minuto para detectar atividade</string>
+    <string name="activity_prefs_chart_min_steps_per_minute_for_run">Passos mínimos por minuto para detectar corrida</string>
+    <string name="lefun_prefs_interface_language_title">Idioma da interface</string>
+    <string name="lefun_prefs_antilost_summary">A pulseira vai vibrar se seu telefone se desconectar da pulseira</string>
+    <string name="lefun_prefs_antilost_title">Antiperda</string>
+    <string name="lefun_prefs_hydration_reminder_interval_title">Intervalo de lembrete de hidratação (em minutos)</string>
+    <string name="lefun_prefs_hydration_reminder_summary">A pulseira vai vibrar para lhe lembrar de beber água</string>
+    <string name="lefun_prefs_hydration_reminder_title">Lembrete de hidratação</string>
+    <string name="charts_min_max_heartrate_popup">Frequência cardíaca mais baixa: %1$d
+\nFrequência cardíaca mais alta: %2$d
+\nIntensidade do movimento: %3$s</string>
+    <string name="movement_intensity">Intensidade do movimento</string>
+    <string name="firmware_update_progress">O upload está em progresso
+\n%1d%% a %.2fkbps (média de %.2fkbps)
+\nParte %1d de %1d</string>
+    <string name="devicestatus_upload_failed">O upload falhou</string>
+    <string name="devicestatus_upload_aborted">O upload foi abortado!</string>
+    <string name="devicestatus_upload_validating">O upload está sendo validado</string>
+    <string name="devicestatus_upload_completed">O upload foi concluído</string>
+    <string name="devicestatus_disconnected">O dispositivo foi desconectado!</string>
+    <string name="devicestatus_disconnecting">O dispositivo está desconectando!</string>
+    <string name="devicestatus_upload_started">O upload foi iniciado</string>
+    <string name="devicestatus_upload_starting">O upload está iniciando</string>
+    <string name="devicestatus_connected">O dispositivo está conectado</string>
+    <string name="devicestatus_connecting">O dispositivo está conectando</string>
+    <string name="activity_list_summary_activities">Atividades</string>
+    <string name="activity_list_summary_intensity">Movimento
+\nIntensidade</string>
+    <string name="activity_list_summary_active_time">Tempo ativo</string>
+    <string name="activity_list_summary_distance">Distância</string>
+    <string name="activity_list_summary_active_steps">Passos ativos</string>
+    <string name="charts_activity_list">Lista de atividades</string>
+    <string name="prefs_charts_tabs_summary">Abas de gráficos visíveis</string>
+    <string name="prefs_charts_tabs">Abas de gráficos</string>
+    <string name="chart_get_active_and_synchronize">Faça alguma atividade e sincronize o dispositivo.</string>
+    <string name="chart_no_active_data">Nenhuma atividade detectada.</string>
+    <string name="find_lost_device_message">Pesquisar por %1$s\?</string>
 </resources>
