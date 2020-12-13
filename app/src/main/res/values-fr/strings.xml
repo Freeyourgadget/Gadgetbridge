@@ -1124,4 +1124,6 @@ Temps de sommeil préféré en heures</string>
     <string name="menuitem_pomodoro">Tracker Pomodoro</string>
     <string name="menuitem_sleep">Sommeil</string>
     <string name="menuitem_goal">Objectif d\'activité</string>
+    <string name="pref_summary_connected_advertisement">Rend l\'appareil découvrable via Bluetooth même si connecté</string>
+    <string name="pref_title_connected_advertisement">Visible si connecté</string>
 </resources>
