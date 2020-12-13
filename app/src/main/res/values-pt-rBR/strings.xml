@@ -1135,4 +1135,7 @@
     <string name="chart_get_active_and_synchronize">Faça alguma atividade e sincronize o dispositivo.</string>
     <string name="chart_no_active_data">Nenhuma atividade detectada.</string>
     <string name="find_lost_device_message">Pesquisar por %1$s\?</string>
+    <string name="menuitem_dnd">DND</string>
+    <string name="pref_summary_connected_advertisement">Torna o dispositivo descobrível via Bluetooth mesmo quando conectado</string>
+    <string name="pref_title_connected_advertisement">Visível enquanto conectado</string>
 </resources>
