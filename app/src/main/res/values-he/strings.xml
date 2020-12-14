@@ -1126,4 +1126,6 @@
     <string name="menuitem_pomodoro">עוקב פומודורו</string>
     <string name="menuitem_sleep">שינה</string>
     <string name="menuitem_goal">יעד פעילות</string>
+    <string name="pref_summary_connected_advertisement">הופך את ההתקן לפתוח לגילוי דרך Bluetooth אפילו כשהוא מחובר</string>
+    <string name="pref_title_connected_advertisement">גלוי כשמחובר</string>
 </resources>
