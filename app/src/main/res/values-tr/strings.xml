@@ -500,8 +500,8 @@
     <string name="pref_default">Öntanımlı</string>
     <string name="pref_disable_new_ble_scanning">Yeni BLE (BlueTooth Düşük Enerji) taramasını devre dışı bırak</string>
     <string name="pref_display_add_device_fab">Yeni aygıt bağla düğmesi</string>
-    <string name="pref_display_add_device_fab_off">Yalnızca hiçbir aygıt eklenmediğinde görünür</string>
-    <string name="pref_display_add_device_fab_on">Her zaman göster</string>
+    <string name="pref_display_add_device_fab_off">Yalnızca hiçbir aygıt eklenmediğinde görülebilir</string>
+    <string name="pref_display_add_device_fab_on">Her zaman görülebilir</string>
     <string name="pref_header_activitytrackers">Etkinlik izleyiciler</string>
     <string name="pref_header_auto_export">Otomatik dışa aktar</string>
     <string name="pref_header_auto_fetch">Otomatik getir</string>
@@ -1094,7 +1094,7 @@
     <string name="sonyswr12_settings_alarm_interval">Dakikalar içinde akıllı alarm aralığı</string>
     <string name="sonyswr12_settings_low_vibration_summary">Bileklik üzerinde düşük titreşim yoğunluğu sağlayın</string>
     <string name="sonyswr12_settings_stamina_summary">Güç tasarrufu modu, kalp ritminin periyodik olarak otomatik ölçümünü kapatır ve böylece çalışma süresini uzatır</string>
-    <string name="sonyswr12_settings_alarm_interval_summary">Akıllı alarm aralığı, kurulu alarmdan önceki aralıktır. Bu aralıkta cihaz, kullanıcıyı uyandırmak için uykunun en hafif aşamasını tespit etmeye çalışıyor</string>
+    <string name="sonyswr12_settings_alarm_interval_summary">Akıllı alarm aralığı, kurulu alarmdan önceki aralıktır. Bu aralıkta aygıt, kullanıcıyı uyandırmak için uykunun en hafif aşamasını tespit etmeye çalışır</string>
     <string name="sonyswr12_settings_stamina">Güç tasarrufu modu açık</string>
     <string name="devicetype_nut_mini">Nut mini</string>
     <string name="activity_error_no_app_for_png">Bu ekran görüntüsünü paylaşmak için görüntü dosyalarını işleyebilen bir uygulama kurun.</string>
@@ -1148,10 +1148,12 @@
     <string name="activity_list_summary_active_steps">Etkin adımlar</string>
     <string name="devicetype_amazfit_gts2">Amazfit GTS 2</string>
     <string name="devicetype_casiogbx100">Casio GBX-100</string>
-    <string name="prefs_charts_tabs_summary">Görünür çizelge sekmeleri</string>
+    <string name="prefs_charts_tabs_summary">Görülebilir çizelge sekmeleri</string>
     <string name="prefs_charts_tabs">Çizelge sekmeleri</string>
     <string name="menuitem_pomodoro">Pomodoro İzleyici</string>
     <string name="menuitem_sleep">Uyku</string>
     <string name="menuitem_goal">Etkinlik Hedefi</string>
     <string name="devicetype_amazfit_bipu">Amazfit Bip U</string>
+    <string name="pref_summary_connected_advertisement">Bağlı olduğunda bile aygıtı Bluetooth aracılığıyla bulunabilir hale getirir</string>
+    <string name="pref_title_connected_advertisement">Bağlıyken görülebilir</string>
 </resources>
