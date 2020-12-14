@@ -1101,4 +1101,14 @@
     <string name="activity_list_summary_active_steps">Passi attivi</string>
     <string name="prefs_charts_tabs_summary">Schede grafico visibili</string>
     <string name="prefs_charts_tabs">Schede dei grafici</string>
+    <string name="menuitem_pomodoro">Tecnica Pomodoro</string>
+    <string name="menuitem_sleep">Sonno</string>
+    <string name="menuitem_goal">Obiettivo attività fisica</string>
+    <string name="menuitem_alexa">Alexa</string>
+    <string name="menuitem_takephoto">Acquisisci foto</string>
+    <string name="menuitem_mutephone">Silenzia cellulare</string>
+    <string name="menuitem_findphone">Trova cellulare</string>
+    <string name="menuitem_spo2">Ossigenazione sangue</string>
+    <string name="pref_summary_connected_advertisement">Mantieni visibile via Bluetooth anche quando connesso</string>
+    <string name="pref_title_connected_advertisement">Visibile mentre connessi</string>
 </resources>
