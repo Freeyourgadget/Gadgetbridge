@@ -1,5 +1,14 @@
 ### Changelog
 
+#### NEXT
+* Amazfit Bip U: Initial support
+* Amazfit T-Rex: Add missing menu items, remove non-existent
+* Fossil Hybrid Q: Support firmware upgrade
+* Amazfit Bip S: Fix crash with notifictions with only a title (GitNex does this)
+* Bangle.js: Support for HRM and steps activity recording
+* Huami: Add new option to disting to properly distinguish connected adverising and 3rd party hr exposure
+* Huami: Use blue icon instead of rainbow color icon for Signal (the rainbow icon was blue in early days)
+
 #### 0.50.0
 * Initial support for Casio GBX-100
 * Mi/Amazfit Band 5: Support watchface installation
