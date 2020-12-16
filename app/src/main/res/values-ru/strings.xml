@@ -1130,4 +1130,7 @@
     <string name="pref_title_middle_button_function_short">Короткое нажатие на среднюю кнопку</string>
     <string name="pref_title_upper_button_function_short">Короткое нажатие на верхнюю кнопку</string>
     <string name="menuitem_goal">Цель</string>
+    <string name="menuitem_pomodoro">Pomodoro Tracker</string>
+    <string name="pref_summary_connected_advertisement">Делает устройство доступным для обнаружения через Bluetooth даже при подключении</string>
+    <string name="pref_title_connected_advertisement">Виден при подключении</string>
 </resources>
