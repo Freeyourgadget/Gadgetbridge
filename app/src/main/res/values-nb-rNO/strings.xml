@@ -1128,4 +1128,9 @@
     <string name="prefs_charts_tabs_summary">Synlige poengtavlefaner</string>
     <string name="prefs_charts_tabs">Poengtavlefaner</string>
     <string name="devicetype_amazfit_bipu">Amazfit Bip U</string>
+    <string name="menuitem_pomodoro">Pomodoro-sporer</string>
+    <string name="menuitem_sleep">Søvn</string>
+    <string name="menuitem_goal">Aktivetsmål</string>
+    <string name="pref_summary_connected_advertisement">Gjør denne enheten oppdagbar via Blåtann selv når tilkoblet</string>
+    <string name="pref_title_connected_advertisement">Synlig når tilkoblet</string>
 </resources>
