@@ -1135,4 +1135,6 @@
     <string name="menuitem_sleep">睡眠</string>
     <string name="menuitem_goal">活动目标</string>
     <string name="devicetype_amazfit_bipu">华米 Bip U</string>
+    <string name="pref_summary_connected_advertisement">即使设备已连接，也将设备蓝牙设置为可发现</string>
+    <string name="pref_title_connected_advertisement">已连接时可见</string>
 </resources>
