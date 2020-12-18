@@ -142,13 +142,15 @@ import nodomain.freeyourgadget.gadgetbridge.util.StringUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.Version;
 
 import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_ALLOW_HIGH_MTU;
+import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_BT_CONNECTED_ADVERTISEMENT;
 import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_DATEFORMAT;
 import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_LANGUAGE;
 import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_RESERVER_ALARMS_CALENDAR;
 import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_SYNC_CALENDAR;
 import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_TIMEFORMAT;
 import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_WEARLOCATION;
-import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_BT_CONNECTED_ADVERTISEMENT;
+import static nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst.PREF_BUTTON_ACTION_SELECTION_BROADCAST;
+import static nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst.PREF_BUTTON_ACTION_SELECTION_OFF;
 import static nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst.PREF_DEVICE_ACTION_FELL_SLEEP_BROADCAST;
 import static nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst.PREF_DEVICE_ACTION_FELL_SLEEP_SELECTION;
 import static nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst.PREF_DEVICE_ACTION_SELECTION_BROADCAST;
@@ -1136,7 +1138,7 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
         // not supported
     }
 
-    // this could go though onion code with preferrednotification, but I this should work on all huami devices
+    // this could go though onion code with preferred notification, but I this should work on all huami devices
     private void vibrateOnce() {
         BluetoothGattCharacteristic characteristic = getCharacteristic(UUID_CHARACTERISTIC_ALERT_LEVEL);
         try {
@@ -1148,46 +1150,48 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
         }
     }
 
-    private void runButtonAction() {
-        Prefs prefs = new Prefs(GBApplication.getDeviceSpecificSharedPrefs(gbDevice.getAddress()));
-
+    private void processButtonAction() {
         if (currentButtonTimerActivationTime != currentButtonPressTime) {
             return;
         }
         //handle user events settings. 0 is long press, rest are button_id 1-3
         switch (currentButtonActionId) {
             case 0:
-                handleMediaButton(prefs.getString("button_long_press_action_selection","UNKNOWN"));
+                executeButtonAction("button_long_press_action_selection");
                 break;
             case 1:
-                handleMediaButton(prefs.getString("button_single_press_action_selection", "UNKNOWN"));
+                executeButtonAction("button_single_press_action_selection");
                 break;
             case 2:
-                handleMediaButton(prefs.getString("button_double_press_action_selection", "UNKNOWN"));
+                executeButtonAction("button_double_press_action_selection");
                 break;
             case 3:
-                handleMediaButton(prefs.getString("button_triple_press_action_selection", "UNKNOWN"));
+                executeButtonAction("button_triple_press_action_selection");
                 break;
             default:
                 break;
         }
 
-        String requiredButtonPressMessage = prefs.getString(HuamiConst.PREF_BUTTON_ACTION_BROADCAST,
-                this.getContext().getString(R.string.mi2_prefs_button_press_broadcast_default_value));
-
-        Intent in = new Intent();
-        in.setAction(requiredButtonPressMessage);
-        in.putExtra("button_id", currentButtonActionId);
-        LOG.info("Sending " + requiredButtonPressMessage + " with button_id " + currentButtonActionId);
-        this.getContext().getApplicationContext().sendBroadcast(in);
-
-        if (prefs.getBoolean(HuamiConst.PREF_BUTTON_ACTION_VIBRATE, false)) {
-            vibrateOnce();
-        }
-
         currentButtonActionId = 0;
         currentButtonPressCount = 0;
         currentButtonPressTime = System.currentTimeMillis();
+    }
+
+    private void executeButtonAction(String buttonKey) {
+        Prefs prefs = new Prefs(GBApplication.getDeviceSpecificSharedPrefs(gbDevice.getAddress()));
+        String buttonPreference = prefs.getString(buttonKey, PREF_BUTTON_ACTION_SELECTION_OFF);
+
+        if (buttonPreference.equals(PREF_BUTTON_ACTION_SELECTION_OFF)) {
+            return;
+        }
+        if (prefs.getBoolean(HuamiConst.PREF_BUTTON_ACTION_VIBRATE, false)) {
+            vibrateOnce();
+        }
+        if (buttonPreference.equals(PREF_BUTTON_ACTION_SELECTION_BROADCAST)) {
+            sendSystemBroadcastWithButtonId();
+        } else {
+            handleMediaButton(buttonPreference);
+        }
     }
 
     private void handleDeviceAction(String deviceAction, String message) {
@@ -1209,6 +1213,18 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
             this.getContext().getApplicationContext().sendBroadcast(in);
         }
     }
+
+    private void sendSystemBroadcastWithButtonId() {
+        Prefs prefs = new Prefs(GBApplication.getDeviceSpecificSharedPrefs(gbDevice.getAddress()));
+        String requiredButtonPressMessage = prefs.getString(HuamiConst.PREF_BUTTON_ACTION_BROADCAST,
+                this.getContext().getString(R.string.mi2_prefs_button_press_broadcast_default_value));
+        Intent in = new Intent();
+        in.setAction(requiredButtonPressMessage);
+        in.putExtra("button_id", currentButtonActionId);
+        LOG.info("Sending " + requiredButtonPressMessage + " with button_id " + currentButtonActionId);
+        this.getContext().getApplicationContext().sendBroadcast(in);
+    }
+
     private void handleMediaButton(String MediaAction) {
         if (MediaAction.equals(PREF_DEVICE_ACTION_SELECTION_OFF)) {
             return;
@@ -1404,7 +1420,7 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
         currentButtonActionId = 0;
         currentButtonPressTime = System.currentTimeMillis();
         currentButtonTimerActivationTime = currentButtonPressTime;
-        runButtonAction();
+        processButtonAction();
 
     }
 
@@ -1440,7 +1456,7 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
                 buttonActionTimer.scheduleAtFixedRate(new TimerTask() {
                     @Override
                     public void run() {
-                        runButtonAction();
+                        processButtonAction();
                         buttonActionTimer.cancel();
                     }
                 }, buttonPressMaxDelay, buttonPressMaxDelay);

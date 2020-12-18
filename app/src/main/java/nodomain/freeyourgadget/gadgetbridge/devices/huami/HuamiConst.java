@@ -73,6 +73,8 @@ public class HuamiConst {
     public static final String PREF_BUTTON_ACTION_PRESS_MAX_INTERVAL = "button_action_press_max_interval";
     public static final String PREF_BUTTON_ACTION_BROADCAST_DELAY = "button_action_broadcast_delay";
     public static final String PREF_BUTTON_ACTION_BROADCAST = "button_action_broadcast";
+    public static final String PREF_BUTTON_ACTION_SELECTION_OFF = "UNKNOWN";
+    public static final String PREF_BUTTON_ACTION_SELECTION_BROADCAST = "BROADCAST";
 
     public static final String PREF_DEVICE_ACTION_SELECTION_OFF = "UNKNOWN";
     public static final String PREF_DEVICE_ACTION_SELECTION_BROADCAST = "BROADCAST";
