@@ -358,6 +358,7 @@
     <string name="appinstaller_install">Install</string>
     <string name="discovery_connected_devices_hint">Make your device discoverable. Currently connected devices will likely not be discovered. Activate location (e.g. GPS) on Android 6+. Disable Privacy Guard for Gadgetbridge, because it may crash and reboot your phone. If no device is found after a few minutes, try again after rebooting your mobile device.</string>
     <string name="discovery_need_to_enter_authkey">This device needs a secret auth key, long press on the device to enter it. Read the wiki.</string>
+    <string name="discovery_entered_invalid_authkey">The secret auth key you entered is invalid! Long press on the device to edit.</string>
     <string name="discovery_note">Note:</string>
     <string name="candidate_item_device_image">Device image</string>
     <string name="miband_prefs_alias">Name/Alias</string>

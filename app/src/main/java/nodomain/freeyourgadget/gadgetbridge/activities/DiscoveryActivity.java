@@ -716,11 +716,11 @@ public class DiscoveryActivity extends AbstractGBActivity implements AdapterView
             SharedPreferences sharedPrefs = GBApplication.getDeviceSpecificSharedPrefs(deviceCandidate.getMacAddress());
 
             String authKey = sharedPrefs.getString("authkey", null);
-            if (authKey == null ||
-                    authKey.isEmpty() ||
-                    authKey.getBytes().length < 34 ||
-                    !authKey.startsWith("0x")) {
+            if (authKey == null || authKey.isEmpty() ) {
                 toast(DiscoveryActivity.this, getString(R.string.discovery_need_to_enter_authkey), Toast.LENGTH_LONG, GB.WARN);
+                return;
+            } else if (authKey.getBytes().length < 34 || !authKey.startsWith("0x")) {
+                toast(DiscoveryActivity.this, getString(R.string.discovery_entered_invalid_authkey), Toast.LENGTH_LONG, GB.WARN);
                 return;
             }
         }
