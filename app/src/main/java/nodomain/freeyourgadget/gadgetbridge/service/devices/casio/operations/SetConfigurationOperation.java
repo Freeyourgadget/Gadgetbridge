@@ -3,18 +3,16 @@ package nodomain.freeyourgadget.gadgetbridge.service.devices.casio.operations;
 import android.bluetooth.BluetoothGatt;
 import android.bluetooth.BluetoothGattCharacteristic;
 import android.content.SharedPreferences;
-import android.widget.Toast;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.util.Arrays;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.UUID;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
+import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.devices.casio.CasioConstants;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityUser;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.AbstractBTLEOperation;
@@ -22,8 +20,12 @@ import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.casio.CasioGBX100DeviceSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.miband.operations.OperationStatus;
 import nodomain.freeyourgadget.gadgetbridge.util.BcdUtil;
-import nodomain.freeyourgadget.gadgetbridge.util.GB;
+import nodomain.freeyourgadget.gadgetbridge.util.GBPrefs;
+import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 
+import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_AUTOLIGHT;
+import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_KEY_VIBRATION;
+import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_OPERATING_SOUNDS;
 import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_WEARLOCATION;
 import static nodomain.freeyourgadget.gadgetbridge.model.ActivityUser.GENDER_MALE;
 
@@ -36,6 +38,12 @@ public class SetConfigurationOperation  extends AbstractBTLEOperation<CasioGBX10
         super(support);
         this.support = support;
         this.option = option;
+    }
+
+    @Override
+    protected void prePerform() throws IOException {
+        super.prePerform();
+        getDevice().setBusyTask("SetConfigurationOperation starting..."); // mark as busy quickly to avoid interruptions from the outside
     }
 
     @Override
@@ -103,7 +111,7 @@ public class SetConfigurationOperation  extends AbstractBTLEOperation<CasioGBX10
                     data[6] = BcdUtil.toBcd8(year % 100);
                     data[7] = BcdUtil.toBcd8((year - (year % 100)) / 100);
                     data[8] = BcdUtil.toBcd8(month);
-                    data[9] = BcdUtil.toBcd8(day + 1);
+                    data[9] = BcdUtil.toBcd8(day);
                 }
 
                 for(int i=2; i<data.length; i++) {
@@ -162,6 +170,54 @@ public class SetConfigurationOperation  extends AbstractBTLEOperation<CasioGBX10
 
                 if(Arrays.equals(oldData, data)) {
                     LOG.info("No configuration update required");
+                    requestBasicSettings();
+                } else {
+                    // Basic settings will be requested in Gatt callback
+                    try {
+                        TransactionBuilder builder = performInitialized("setConfiguration");
+                        builder.setGattCallback(this);
+                        support.writeAllFeatures(builder, data);
+                        builder.queue(getQueue());
+                    } catch (IOException e) {
+                        LOG.info("Error writing configuration to Casio watch");
+                    }
+                }
+                return true;
+            } else if(data[0] == CasioConstants.characteristicToByte.get("CASIO_SETTING_FOR_BASIC")) {
+                SharedPreferences sharedPreferences = GBApplication.getDeviceSpecificSharedPrefs(getDevice().getAddress());
+                GBPrefs gbPrefs = new GBPrefs(new Prefs(GBApplication.getDeviceSpecificSharedPrefs(getDevice().getAddress())));
+
+                String timeformat = gbPrefs.getTimeFormat();
+
+                if(timeformat.equals(getContext().getString(R.string.p_timeformat_24h))) {
+                    data[1]  |= 0x01;
+                } else {
+                    data[1] &= ~0x01;
+                }
+
+                boolean autolight = sharedPreferences.getBoolean(PREF_AUTOLIGHT, false);
+                if(autolight) {
+                    data[1] &= ~0x04;
+                } else {
+                    data[1] |= 0x04;
+                }
+
+                boolean key_vibration = sharedPreferences.getBoolean(PREF_KEY_VIBRATION, true);
+                if (key_vibration) {
+                    data[10] = 1;
+                } else {
+                    data[10] = 0;
+                }
+
+                boolean operating_sounds = sharedPreferences.getBoolean(PREF_OPERATING_SOUNDS, false);
+                if(operating_sounds) {
+                    data[1] &= ~0x02;
+                } else {
+                    data[1] |= 0x02;
+                }
+
+                if(Arrays.equals(oldData, data)) {
+                    LOG.info("No configuration update required");
                     operationFinished();
                 } else {
                     // Operation will be finished in Gatt callback
@@ -186,6 +242,7 @@ public class SetConfigurationOperation  extends AbstractBTLEOperation<CasioGBX10
     protected void operationFinished() {
         LOG.info("SetConfigurationOperation finished");
 
+        unsetBusy();
         operationStatus = OperationStatus.FINISHED;
         if (getDevice() != null) {
             try {
@@ -196,6 +253,19 @@ public class SetConfigurationOperation  extends AbstractBTLEOperation<CasioGBX10
             } catch (IOException ex) {
                 LOG.info("Error resetting Gatt callback: " + ex.getMessage());
             }
+        }
+    }
+
+    private void requestBasicSettings() {
+        byte[] command = new byte[1];
+        command[0] = CasioConstants.characteristicToByte.get("CASIO_SETTING_FOR_BASIC");
+        try {
+            TransactionBuilder builder = performInitialized("getConfiguration");
+            builder.setGattCallback(this);
+            support.writeAllFeaturesRequest(builder, command);
+            builder.queue(getQueue());
+        } catch(IOException e) {
+            LOG.info("Error requesting Casio configuration");
         }
     }
 
@@ -227,6 +297,10 @@ public class SetConfigurationOperation  extends AbstractBTLEOperation<CasioGBX10
                 return true;
             }
             if(data[0] == CasioConstants.characteristicToByte.get("CASIO_SETTING_FOR_TARGET_VALUE")) {
+                requestBasicSettings();
+                return true;
+            }
+            if(data[0] == CasioConstants.characteristicToByte.get("CASIO_SETTING_FOR_BASIC")) {
                 operationFinished();
                 return true;
             }

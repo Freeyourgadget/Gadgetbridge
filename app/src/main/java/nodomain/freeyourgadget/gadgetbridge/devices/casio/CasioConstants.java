@@ -103,7 +103,7 @@ public final class CasioConstants {
     public static final byte CATEGORY_CONDITION = 12;
     public static final byte CATEGORY_EMAIL = 6;
     public static final byte CATEGORY_ENTERTAINMENT = 11;
-    public static final byte CATEGORY_HEATH_AND_FITNESS = 8;
+    public static final byte CATEGORY_HEALTH_AND_FITNESS = 8;
     public static final byte CATEGORY_INCOMING_CALL = 1;
     public static final byte CATEGORY_LOCATION = 10;
     public static final byte CATEGORY_MISSED_CALL = 2;
@@ -129,8 +129,20 @@ public final class CasioConstants {
         OPTION_STEP_GOAL,
         OPTION_DISTANCE_GOAL,
         OPTION_ACTIVITY_GOAL,
+        OPTION_AUTOLIGHT,
+        OPTION_TIMEFORMAT,
+        OPTION_KEY_VIBRATION,
+        OPTION_OPERATING_SOUNDS,
         OPTION_ALL
     }
+
+    public static final int CASIO_CONVOY_DATATYPE_STEPS = 0x04;
+    public static final int CASIO_CONVOY_DATATYPE_CALORIES = 0x05;
+
+    public static final int CASIO_FAKE_RING_SLEEP_DURATION = 3000;
+    public static final int CASIO_FAKE_RING_RETRIES = 10;
+
+    public static final int CASIO_AUTOREMOVE_MESSAGE_DELAY = 10000;
 
     public static Map<String, Byte> characteristicToByte = new HashMap<String, Byte>() {
         {
@@ -150,6 +162,10 @@ public final class CasioConstants {
             put("CASIO_SETTING_FOR_USER_PROFILE", (byte) 0x45);
             put("CASIO_SETTING_FOR_TARGET_VALUE", (byte) 0x43);
             put("ALERT_LEVEL", (byte) 0x0a);
+            put("CASIO_SETTING_FOR_ALM", (byte) 0x15);
+            put("CASIO_SETTING_FOR_ALM2", (byte) 0x16);
+            put("CASIO_SETTING_FOR_BASIC", (byte) 0x13);
+            put("CASIO_CURRENT_TIME_MANAGER", (byte) 0x39);
         }
     };
 }

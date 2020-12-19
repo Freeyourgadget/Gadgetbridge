@@ -26,12 +26,15 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import androidx.annotation.NonNull;
+
+import de.greenrobot.dao.query.QueryBuilder;
 import nodomain.freeyourgadget.gadgetbridge.GBException;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.devices.AbstractDeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.InstallHandler;
 import nodomain.freeyourgadget.gadgetbridge.devices.SampleProvider;
-import nodomain.freeyourgadget.gadgetbridge.devices.casio.CasioConstants;
+import nodomain.freeyourgadget.gadgetbridge.devices.casio.CasioGBX100SampleProvider;
+import nodomain.freeyourgadget.gadgetbridge.entities.CasioGBX100ActivitySampleDao;
 import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
 import nodomain.freeyourgadget.gadgetbridge.entities.Device;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
@@ -97,17 +100,17 @@ public class CasioGBX100DeviceCoordinator extends AbstractDeviceCoordinator {
 
     @Override
     public boolean supportsActivityDataFetching() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean supportsActivityTracking() {
-        return false;
+        return true;
     }
 
     @Override
     public SampleProvider<? extends ActivitySample> getSampleProvider(GBDevice device, DaoSession session) {
-        return null;
+        return new CasioGBX100SampleProvider(device, session);
     }
 
     @Override
@@ -147,14 +150,22 @@ public class CasioGBX100DeviceCoordinator extends AbstractDeviceCoordinator {
 
     @Override
     protected void deleteDevice(@NonNull GBDevice gbDevice, @NonNull Device device, @NonNull DaoSession session) throws GBException {
-
+        Long deviceId = device.getId();
+        QueryBuilder<?> qb = session.getCasioGBX100ActivitySampleDao().queryBuilder();
+        qb.where(CasioGBX100ActivitySampleDao.Properties.DeviceId.eq(deviceId)).buildDelete().executeDeleteWithoutDetachingEntities();
     }
 
     @Override
     public int[] getSupportedDeviceSpecificSettings(GBDevice device) {
         return new int[]{
                 R.xml.devicesettings_find_phone,
-                R.xml.devicesettings_wearlocation
+                R.xml.devicesettings_wearlocation,
+                R.xml.devicesettings_timeformat,
+                R.xml.devicesettings_autolight,
+                R.xml.devicesettings_key_vibration,
+                R.xml.devicesettings_operating_sounds,
+                R.xml.devicesettings_fake_ring_duration,
+                R.xml.devicesettings_autoremove_message
         };
     }
 }

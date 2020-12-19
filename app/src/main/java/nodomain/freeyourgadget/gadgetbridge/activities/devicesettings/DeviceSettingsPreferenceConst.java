@@ -52,6 +52,11 @@ public class DeviceSettingsPreferenceConst {
     public static final String PREF_LONGSIT_SWITCH_NOSHED = "screen_longsit_noshed";
     public static final String PREF_DO_NOT_DISTURB_NOAUTO = "do_not_disturb_no_auto";
     public static final String PREF_FIND_PHONE_ENABLED = "prefs_find_phone";
+    public static final String PREF_AUTOLIGHT = "autolight";
+    public static final String PREF_AUTOREMOVE_MESSAGE = "autoremove_message";
+    public static final String PREF_OPERATING_SOUNDS = "operating_sounds";
+    public static final String PREF_KEY_VIBRATION = "key_vibration";
+    public static final String PREF_FAKE_RING_DURATION = "fake_ring_duration";
 
     public static final String PREF_ANTILOST_ENABLED = "pref_antilost_enabled";
     public static final String PREF_HYDRATION_SWITCH = "pref_hydration_switch";

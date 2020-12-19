@@ -1098,4 +1098,9 @@
         <item quantity="many">%d hours</item>
         <item quantity="other">%d hours</item>
     </plurals>
+    <string name="prefs_autolight">Automatic light</string>
+    <string name="prefs_key_vibration">Key Vibration</string>
+    <string name="prefs_operating_sounds">Operating Sounds</string>
+    <string name="prefs_fake_ring_duration">Fake continuous ringing</string>
+    <string name="prefs_autoremove_message">Automatically remove SMS notifications</string>
 </resources>
