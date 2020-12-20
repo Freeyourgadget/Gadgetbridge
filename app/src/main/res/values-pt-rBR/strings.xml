@@ -1138,4 +1138,10 @@
     <string name="menuitem_dnd">DND</string>
     <string name="pref_summary_connected_advertisement">Torna o dispositivo descobrível via Bluetooth mesmo quando conectado</string>
     <string name="pref_title_connected_advertisement">Visível enquanto conectado</string>
+    <string name="prefs_autoremove_message">Remover automaticamente notificações SMS</string>
+    <string name="prefs_fake_ring_duration">Toque contínuo falso</string>
+    <string name="prefs_operating_sounds">Sons de operações</string>
+    <string name="prefs_key_vibration">Vibração de tecla</string>
+    <string name="prefs_autolight">Luz automática</string>
+    <string name="discovery_entered_invalid_authkey">A chave de autenticação secreta é inválida! Faça um pressionamento longo no dispositivo para editar.</string>
 </resources>
