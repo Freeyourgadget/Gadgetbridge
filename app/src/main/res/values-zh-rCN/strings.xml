@@ -1137,4 +1137,10 @@
     <string name="devicetype_amazfit_bipu">华米 Bip U</string>
     <string name="pref_summary_connected_advertisement">即使设备已连接，也将设备蓝牙设置为可发现</string>
     <string name="pref_title_connected_advertisement">已连接时可见</string>
+    <string name="prefs_autoremove_message">自动移除短信通知</string>
+    <string name="prefs_fake_ring_duration">假连续响铃</string>
+    <string name="prefs_operating_sounds">操作提示音</string>
+    <string name="prefs_key_vibration">按键震动</string>
+    <string name="prefs_autolight">自动亮度</string>
+    <string name="discovery_entered_invalid_authkey">输入的认证密钥无效！请在设备上长按以进行编辑。</string>
 </resources>
