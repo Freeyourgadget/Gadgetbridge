@@ -1128,4 +1128,10 @@
     <string name="menuitem_goal">יעד פעילות</string>
     <string name="pref_summary_connected_advertisement">הופך את ההתקן לפתוח לגילוי דרך Bluetooth אפילו כשהוא מחובר</string>
     <string name="pref_title_connected_advertisement">גלוי כשמחובר</string>
+    <string name="prefs_autoremove_message">להסיר התראות מסרונים אוטומטית</string>
+    <string name="prefs_fake_ring_duration">צלצול מתמשך מזויף</string>
+    <string name="prefs_key_vibration">רטט מקשים</string>
+    <string name="prefs_operating_sounds">צלילי הפעלה</string>
+    <string name="prefs_autolight">תאורה אוטומטית</string>
+    <string name="discovery_entered_invalid_authkey">מפתח האימות הסודי שמסרת אינו תקין! לחיצה ארוכה על המכשיר לעריכה.</string>
 </resources>
