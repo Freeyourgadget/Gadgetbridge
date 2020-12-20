@@ -1156,4 +1156,10 @@
     <string name="devicetype_amazfit_bipu">Amazfit Bip U</string>
     <string name="pref_summary_connected_advertisement">Bağlı olduğunda bile aygıtı Bluetooth aracılığıyla bulunabilir hale getirir</string>
     <string name="pref_title_connected_advertisement">Bağlıyken görülebilir</string>
+    <string name="prefs_autoremove_message">SMS bildirimlerini otomatik olarak kaldır</string>
+    <string name="prefs_fake_ring_duration">Sahte sürekli zil</string>
+    <string name="prefs_operating_sounds">Çalışma Sesleri</string>
+    <string name="prefs_key_vibration">Tuş Titreşimi</string>
+    <string name="prefs_autolight">Otomatik ışık</string>
+    <string name="discovery_entered_invalid_authkey">Girdiğiniz gizli kimlik doğrulama anahtarı geçersiz! Düzenlemek için aygıta uzun basın.</string>
 </resources>
