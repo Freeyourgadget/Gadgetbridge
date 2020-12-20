@@ -1137,4 +1137,12 @@
     <string name="menuitem_goal">Cel dotyczący aktywności</string>
     <string name="pref_title_connected_advertisement">Widoczne po podłączeniu</string>
     <string name="pref_summary_connected_advertisement">Sprawia, że urządzenie jest wykrywalne przez Bluetooth, nawet po połączeniu</string>
+    <string name="fw_upgrade_notice_amazfitvergel">Zamierzasz zainstalować firmware %s na Amazfit Verge Lite.
+\n
+\nPamiętaj, aby instalować pliki w kolejności: .fw, potem .res, a na końcu .gps. Twój zegarek zrestartuje się po instalacji pliku .fw.
+\n
+\nUwaga: Nie musisz instalować plików .res i .gps, jeśli są takie same jak poprzednio zainstalowane.
+\n
+\nROBISZ TO NA WŁASNE RYZYKO!</string>
+    <string name="devicetype_amazfit_vergel">Amazfit Verge Lite</string>
 </resources>
