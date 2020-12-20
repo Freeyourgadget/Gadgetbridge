@@ -1126,4 +1126,10 @@ Temps de sommeil préféré en heures</string>
     <string name="menuitem_goal">Objectif d\'activité</string>
     <string name="pref_summary_connected_advertisement">Rend l\'appareil découvrable via Bluetooth même si connecté</string>
     <string name="pref_title_connected_advertisement">Visible si connecté</string>
+    <string name="prefs_autoremove_message">Désactiver automatiquement les notifications SMS</string>
+    <string name="prefs_fake_ring_duration">Simulation de sonnerie permanente</string>
+    <string name="prefs_operating_sounds">Sons en fonctionnement</string>
+    <string name="prefs_key_vibration">Mode de vibration</string>
+    <string name="prefs_autolight">Éclairage automatique</string>
+    <string name="discovery_entered_invalid_authkey">La clé secrète d\'identification saisie est invalide ! Faire un appui long sur l\'appareil pour la modifier.</string>
 </resources>
