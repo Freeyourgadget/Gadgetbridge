@@ -1143,4 +1143,12 @@
     <string name="prefs_key_vibration">按键震动</string>
     <string name="prefs_autolight">自动亮度</string>
     <string name="discovery_entered_invalid_authkey">输入的认证密钥无效！请在设备上长按以进行编辑。</string>
+    <string name="devicetype_amazfit_vergel">华米 Verge Lite</string>
+    <string name="fw_upgrade_notice_amazfitvergel">您即将在您的华米 Verge Lite 上安装 %s 固件。
+\n
+\n请确保先安装 .fw 文件，再安装 .res 文件最后是 .gps 文件。您的手机表再安装了 .fw 文件后会自动重启。
+\n
+\n注意：若您的 .res 和 .gps 文件和之前版本相同，则无需安装。
+\n
+\n风险自担！</string>
 </resources>
