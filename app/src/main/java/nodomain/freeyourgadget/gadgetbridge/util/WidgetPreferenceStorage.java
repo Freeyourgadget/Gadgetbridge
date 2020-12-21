@@ -25,7 +25,6 @@ public class WidgetPreferenceStorage {
         JSONArray savedWidgetsPreferencesDataArray = null;
         try {
             savedWidgetsPreferencesDataArray = new JSONArray(savedWidgetsPreferencesData);
-            savedWidgetsPreferencesDataArray = new JSONArray("fdsfdsfsffs");
         } catch (
                 JSONException e) {
             LOG.error(e.getMessage());

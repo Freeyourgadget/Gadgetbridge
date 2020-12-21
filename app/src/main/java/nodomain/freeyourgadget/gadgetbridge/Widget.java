@@ -34,7 +34,6 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge;
 
-import android.annotation.SuppressLint;
 import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
@@ -71,11 +70,9 @@ import nodomain.freeyourgadget.gadgetbridge.util.DateTimeUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 import nodomain.freeyourgadget.gadgetbridge.util.WidgetPreferenceStorage;
 
-
 public class Widget extends AppWidgetProvider {
     public static final String WIDGET_CLICK = "nodomain.freeyourgadget.gadgetbridge.WidgetClick";
     public static final String APPWIDGET_DELETED = "android.appwidget.action.APPWIDGET_DELETED";
-    public static final String APPWIDGET_CONFIGURE = "nodomain.freeyourgadget.gadgetbridge.APPWIDGET_CONFIGURE";
 
     private static final Logger LOG = LoggerFactory.getLogger(Widget.class);
     static BroadcastReceiver broadcastReceiver = null;
@@ -112,8 +109,6 @@ public class Widget extends AppWidgetProvider {
         DailyTotals ds = new DailyTotals();
         return ds.getDailyTotalsForDevice(selectedDevice, day);
         //return ds.getDailyTotalsForAllDevices(day);
-
-
     }
 
     private String getHM(long value) {
@@ -137,8 +132,7 @@ public class Widget extends AppWidgetProvider {
         intent.setAction(WIDGET_CLICK);
         intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId);
         PendingIntent refreshDataIntent = PendingIntent.getBroadcast(
-                context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-        //views.setOnClickPendingIntent(R.id.todaywidget_bottom_layout, refreshDataIntent);
+                context, appWidgetId, intent, PendingIntent.FLAG_UPDATE_CURRENT);
         views.setOnClickPendingIntent(R.id.todaywidget_header_container, refreshDataIntent);
 
         //open GB main window
@@ -148,16 +142,15 @@ public class Widget extends AppWidgetProvider {
 
         //alarms popup menu
         Intent startAlarmListIntent = new Intent(context, WidgetAlarmsActivity.class);
-        PendingIntent startAlarmListPIntent = PendingIntent.getActivity(context, 0, startAlarmListIntent, 0);
+        startAlarmListIntent.putExtra(GBDevice.EXTRA_DEVICE, selectedDevice);
+        PendingIntent startAlarmListPIntent = PendingIntent.getActivity(context, appWidgetId, startAlarmListIntent, PendingIntent.FLAG_UPDATE_CURRENT);
         views.setOnClickPendingIntent(R.id.todaywidget_header_alarm_icon, startAlarmListPIntent);
 
-        //charts, requires device
-        if (selectedDevice != null) {
-            Intent startChartsIntent = new Intent(context, ChartsActivity.class);
-            startChartsIntent.putExtra(GBDevice.EXTRA_DEVICE, selectedDevice);
-            PendingIntent startChartsPIntent = PendingIntent.getActivity(context, 0, startChartsIntent, 0);
-            views.setOnClickPendingIntent(R.id.todaywidget_bottom_layout, startChartsPIntent);
-        }
+        //charts
+        Intent startChartsIntent = new Intent(context, ChartsActivity.class);
+        startChartsIntent.putExtra(GBDevice.EXTRA_DEVICE, selectedDevice);
+        PendingIntent startChartsPIntent = PendingIntent.getActivity(context, appWidgetId, startChartsIntent, PendingIntent.FLAG_CANCEL_CURRENT);
+        views.setOnClickPendingIntent(R.id.todaywidget_bottom_layout, startChartsPIntent);
 
         long[] dailyTotals = getSteps();
         int steps = (int) dailyTotals[0];
