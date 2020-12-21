@@ -1,6 +1,6 @@
 ### Changelog
 
-#### NEXT
+#### 0.51.0
 * Amazfit Bip U: Initial support
 * Amazfit Verge Lite: Initial Support
 * Amazfit T-Rex: Add missing menu items, remove non-existent
