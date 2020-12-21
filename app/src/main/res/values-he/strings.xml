@@ -1134,4 +1134,12 @@
     <string name="prefs_operating_sounds">צלילי הפעלה</string>
     <string name="prefs_autolight">תאורה אוטומטית</string>
     <string name="discovery_entered_invalid_authkey">מפתח האימות הסודי שמסרת אינו תקין! לחיצה ארוכה על המכשיר לעריכה.</string>
+    <string name="fw_upgrade_notice_amazfitvergel">פעולה זו תתקין את הקושחה %s במקום זו שכרגע מותקנת ב־Amazfit Verge Lite שלך.
+\n
+\nנא לוודא את התקנת קושחת ה־‎.fw בהתחלה, לאחר מכן את קובץ ה־‎.res ולבסוף קובץ ה־‎.gps השעון שלך יופעל מחדש לאחר התקנת קובץ ה־fw.
+\n
+\nלתשומת לבך: אין צורך בהתקנת קובצי ה־‎.res וה־‎.gps אם הם כבר זהים לאלו שהתקנת בעבר.
+\n
+\nהמשך התהליך הוא על אחריותך!</string>
+    <string name="devicetype_amazfit_vergel">Amazfit Verge Lite</string>
 </resources>
