@@ -1132,4 +1132,12 @@ Temps de sommeil préféré en heures</string>
     <string name="prefs_key_vibration">Mode de vibration</string>
     <string name="prefs_autolight">Éclairage automatique</string>
     <string name="discovery_entered_invalid_authkey">La clé secrète d\'identification saisie est invalide ! Faire un appui long sur l\'appareil pour la modifier.</string>
+    <string name="devicetype_amazfit_vergel">Amazfit Verge Lite</string>
+    <string name="fw_upgrade_notice_amazfitvergel">Vous êtes sur le point d\'installer le firmware %s dans votre Amazfit Verge Lite.
+\n
+\nAssurez-vous d\'installer le fichien .fw, puis le fichier .res, et pour finir le fichier .gps. Votre montre va redémarrer après l\'installation du fichier .fw.
+\n
+\nRemarque: Vous n\'avez pas besoin d\'installer les fichiers .res et .gps si ce sont exactement les mêmes fichiers que précédemment.
+\n
+\nMANIPULATION À VOS RISQUES ET PÉRILS !</string>
 </resources>
