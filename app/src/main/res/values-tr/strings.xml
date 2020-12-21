@@ -1162,4 +1162,12 @@
     <string name="prefs_key_vibration">Tuş Titreşimi</string>
     <string name="prefs_autolight">Otomatik ışık</string>
     <string name="discovery_entered_invalid_authkey">Girdiğiniz gizli kimlik doğrulama anahtarı geçersiz! Düzenlemek için aygıta uzun basın.</string>
+    <string name="devicetype_amazfit_vergel">Amazfit Verge Lite</string>
+    <string name="fw_upgrade_notice_amazfitvergel">Amazfit Verge Lite aygıtınıza %s ürün yazılımını kurmak üzeresiniz.
+\n
+\nLütfen önce .fw dosyasını, sonra .res dosyasını, ve son olarak .gps dosyasını kurun. .fw dosyasını kurduktan sonra saatiniz yeniden başlatılacak.
+\n
+\nNote: Bu dosyalar önceden kurulanlarla tamamen aynıysa .res ve .gps dosyalarını kurmanız gerekmez.
+\n
+\nİLERLEMENİZ DURUMUNDA RİSK SİZE AİTTİR!</string>
 </resources>
