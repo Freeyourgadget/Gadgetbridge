@@ -1139,4 +1139,20 @@
     <string name="menuitem_pomodoro">Pomodoro Tracker</string>
     <string name="menuitem_sleep">Schlaf</string>
     <string name="menuitem_goal">Aktivitätsziel</string>
+    <string name="prefs_autoremove_message">Automatisches Entfernen von SMS-Benachrichtigungen</string>
+    <string name="prefs_fake_ring_duration">Falsches Dauerklingeln</string>
+    <string name="prefs_operating_sounds">Tastentöne</string>
+    <string name="prefs_key_vibration">Tastenvibration</string>
+    <string name="prefs_autolight">Automatisches Licht</string>
+    <string name="devicetype_amazfit_vergel">Amazfit Verge Lite</string>
+    <string name="discovery_entered_invalid_authkey">Der eingegebene geheime Authentifikationsschlüssel ist ungültig! Drücke zum Bearbeiten lange auf das Gerät.</string>
+    <string name="pref_summary_connected_advertisement">Macht das Gerät auch im verbundenen Zustand über Bluetooth auffindbar</string>
+    <string name="pref_title_connected_advertisement">Sichtbar während der Verbindung</string>
+    <string name="fw_upgrade_notice_amazfitvergel">Du bist dabei, die Firmware %s auf deine Amazfit Verge Lite zu installieren.
+\n
+\nBitte stelle sicher, dass du die .fw Datei, dann die .res Datei und schließlich die .gps Datei installierst. Deine Uhr wird nach der Installation der .fw Datei neu gestartet.
+\n
+\nHinweis: Du musst die .res und .gps nicht installieren, wenn diese Dateien genau die gleichen sind wie die zuvor installierten.
+\n
+\nINSTALLATION AUF EIGENE GEFAHR!</string>
 </resources>
