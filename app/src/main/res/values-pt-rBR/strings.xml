@@ -1144,4 +1144,12 @@
     <string name="prefs_key_vibration">Vibração de tecla</string>
     <string name="prefs_autolight">Luz automática</string>
     <string name="discovery_entered_invalid_authkey">A chave de autenticação secreta é inválida! Faça um pressionamento longo no dispositivo para editar.</string>
+    <string name="devicetype_amazfit_vergel">Amazfit Verge Lite</string>
+    <string name="fw_upgrade_notice_amazfitvergel">Você está prestes a instalar o firmware %s no seu Amazfit Verge Lite.
+\n
+\nCertifique-se de instalar o arquivo .fw, depois disso o arquivo .res e finalmente o arquivo .gps. Sua pulseira será reiniciada após a instalação do arquivo .fw.
+\n
+\nNota: você não precisa instalar .res e .gps se esses forem exatamente os mesmos que os instalados anteriormente.
+\n
+\nPROSSIGA AO SEU PRÓPRIO RISCO!</string>
 </resources>
