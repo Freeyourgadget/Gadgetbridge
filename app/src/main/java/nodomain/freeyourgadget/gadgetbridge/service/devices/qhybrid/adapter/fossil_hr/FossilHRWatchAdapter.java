@@ -803,7 +803,16 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
             e.printStackTrace();
         }
 
-        if (sourceAppId != null) {
+        boolean showNotificationIcon = false;
+
+        for(Widget widget : widgets){
+            if(widget.getWidgetType() == Widget.WidgetType.LAST_NOTIFICATION){
+                showNotificationIcon = true;
+                break;
+            }
+        }
+
+        if (showNotificationIcon && sourceAppId != null) {
             if (!sourceAppId.equals(this.lastPostedApp)) {
                 if (appIconCache.get(sourceAppId) == null) {
                     try {
