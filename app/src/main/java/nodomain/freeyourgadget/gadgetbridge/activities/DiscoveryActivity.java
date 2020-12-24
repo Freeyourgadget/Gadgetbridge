@@ -338,6 +338,12 @@ public class DiscoveryActivity extends AbstractGBActivity implements AdapterView
         super.onPause();
     }
 
+    @Override
+    protected void onResume() {
+        removeBroadcastReceivers();
+        super.onResume();
+    }
+
     private void stopAllDiscovery() {
         try {
             stopBTDiscovery();
