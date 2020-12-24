@@ -94,7 +94,7 @@ public class LenovoWatchPairingActivity extends AbstractGBActivity implements Bo
     private void startPairing(GBDeviceCandidate deviceCandidate) {
         message.setText(getString(R.string.pairing, deviceCandidate));
 
-        removeBroadcastReceivers();
+        registerBroadcastReceivers();
 
         BondingUtil.connectThenComplete(this, deviceCandidate);
     }
@@ -112,13 +112,13 @@ public class LenovoWatchPairingActivity extends AbstractGBActivity implements Bo
 
     @Override
     protected void onResume() {
-        removeBroadcastReceivers();
+        registerBroadcastReceivers();
         super.onResume();
     }
 
     @Override
     protected void onStart() {
-        removeBroadcastReceivers();
+        registerBroadcastReceivers();
         super.onStart();
     }
 
@@ -145,7 +145,7 @@ public class LenovoWatchPairingActivity extends AbstractGBActivity implements Bo
         AndroidUtils.safeUnregisterBroadcastReceiver(LocalBroadcastManager.getInstance(this), pairingReceiver);
     }
 
-    public void removeBroadcastReceivers() {
+    public void registerBroadcastReceivers() {
         LocalBroadcastManager.getInstance(this).registerReceiver(pairingReceiver, new IntentFilter(GBDevice.ACTION_DEVICE_CHANGED));
     }
 

@@ -41,7 +41,7 @@ public interface BondingInterface {
      * This forces bonding activities to handle the addition
      * of all broadcast receivers in the same place
      **/
-    void removeBroadcastReceivers();
+    void registerBroadcastReceivers();
 
     /**
      * Just returns the Context

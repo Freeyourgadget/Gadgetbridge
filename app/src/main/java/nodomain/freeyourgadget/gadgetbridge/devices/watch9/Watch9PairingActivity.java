@@ -87,7 +87,7 @@ public class Watch9PairingActivity extends AbstractGBActivity implements Bonding
     private void startConnecting(GBDeviceCandidate deviceCandidate) {
         message.setText(getString(R.string.pairing, deviceCandidate));
 
-        removeBroadcastReceivers();
+        registerBroadcastReceivers();
         BondingUtil.connectThenComplete(this, deviceCandidate);
     }
 
@@ -114,7 +114,7 @@ public class Watch9PairingActivity extends AbstractGBActivity implements Bonding
     }
 
     @Override
-    public void removeBroadcastReceivers() {
+    public void registerBroadcastReceivers() {
         LocalBroadcastManager.getInstance(this).registerReceiver(pairingReceiver, new IntentFilter(GBDevice.ACTION_DEVICE_CHANGED));
     }
 
@@ -125,13 +125,13 @@ public class Watch9PairingActivity extends AbstractGBActivity implements Bonding
 
     @Override
     protected void onResume() {
-        removeBroadcastReceivers();
+        registerBroadcastReceivers();
         super.onResume();
     }
 
     @Override
     protected void onStart() {
-        removeBroadcastReceivers();
+        registerBroadcastReceivers();
         super.onStart();
     }
 

@@ -114,7 +114,7 @@ public class PebblePairingActivity extends AbstractGBActivity implements Bonding
                 return;
             }
 
-            removeBroadcastReceivers();
+            registerBroadcastReceivers();
             BondingUtil.connectThenComplete(this, device);
             return;
         }
@@ -205,13 +205,13 @@ public class PebblePairingActivity extends AbstractGBActivity implements Bonding
 
     @Override
     protected void onStart() {
-        removeBroadcastReceivers();
+        registerBroadcastReceivers();
         super.onStart();
     }
 
     @Override
     protected void onResume() {
-        removeBroadcastReceivers();
+        registerBroadcastReceivers();
         super.onResume();
     }
 
@@ -245,7 +245,7 @@ public class PebblePairingActivity extends AbstractGBActivity implements Bonding
         AndroidUtils.safeUnregisterBroadcastReceiver(this, bondingReceiver);
     }
 
-    public void removeBroadcastReceivers() {
+    public void registerBroadcastReceivers() {
         LocalBroadcastManager.getInstance(this).registerReceiver(pairingReceiver, new IntentFilter(GBDevice.ACTION_DEVICE_CHANGED));
         registerReceiver(bondingReceiver, new IntentFilter(BluetoothDevice.ACTION_BOND_STATE_CHANGED));
     }

@@ -324,7 +324,7 @@ public class BondingUtil {
      * Use this function to initiate bonding to a GBDeviceCandidate
      */
     public static void tryBondThenComplete(BondingInterface bondingInterface, GBDeviceCandidate deviceCandidate) {
-        bondingInterface.removeBroadcastReceivers();
+        bondingInterface.registerBroadcastReceivers();
         BluetoothDevice device = deviceCandidate.getDevice();
 
         int bondState = device.getBondState();
