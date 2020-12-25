@@ -83,7 +83,7 @@ public class ParcelableWeather2 implements Parcelable {
                 Bundle forecastBundle = in.readBundle(getClass().getClassLoader());
                 String[] forecastConditionType = forecastBundle.getStringArray("weather_condition_types");
                 int forecastConditionCode = 0;
-                if (forecastConditionType != null) {
+                if (forecastConditionType != null && forecastConditionType.length > 0) {
                     forecastConditionCode = weatherConditionTypesToOpenWeatherMapIds(forecastConditionType[0]);
                 }
                 int forecastLowTemp = forecastBundle.getInt("weather_low_temp");
