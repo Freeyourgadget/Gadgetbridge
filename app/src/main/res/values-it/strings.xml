@@ -789,14 +789,14 @@
 \nNota: non devi installare il file .res se è uguale a quello installato in precedenza.
 \n
 \nPROCEDI A TUO RISCHIO E PERICOLO!</string>
-    <string name="fw_upgrade_notice_amazfitgtr">Stai per installare il firmware% s sul tuo Amazfit GTR.
+    <string name="fw_upgrade_notice_amazfitgtr">Stai per installare il firmware %s sul tuo Amazfit GTR.
 \n
 \nAssicurati di installare il file .fw, quindi il file .res e infine il file .gps. L\'orologio si riavvierà dopo aver installato il file .fw.
 \n
 \nNota: non è necessario installare .res e .gps se questi file sono esattamente gli stessi installati in precedenza.
 \n
 \nPROCEDI A TUO RISCHIO!</string>
-    <string name="fw_upgrade_notice_amazfitgts">Stai per installare il firmware% s sul tuo Amazfit GTS.
+    <string name="fw_upgrade_notice_amazfitgts">Stai per installare il firmware %s sul tuo Amazfit GTS.
 \n
 \nAssicurati di installare il file .fw, quindi il file .res e infine il file .gps. L\'orologio si riavvierà dopo aver installato il file .fw.
 \n
@@ -1111,4 +1111,35 @@
     <string name="menuitem_spo2">Ossigenazione sangue</string>
     <string name="pref_summary_connected_advertisement">Mantieni visibile via Bluetooth anche quando connesso</string>
     <string name="pref_title_connected_advertisement">Visibile mentre connessi</string>
+    <string name="prefs_autoremove_message">Chiudi automaticamente le notifiche SMS</string>
+    <string name="prefs_fake_ring_duration">Suoneria continua fittizia</string>
+    <string name="prefs_operating_sounds">Suoni di operazione</string>
+    <string name="prefs_key_vibration">Vibrazione chiave</string>
+    <string name="prefs_autolight">Luce automatica</string>
+    <string name="qhybrid_calibration_align_hint">posiziona le mani alle 12:00</string>
+    <string name="devicetype_nut_mini">Nut mini</string>
+    <string name="prefs_events_forwarding_summary">Utilizza gli eventi del dispositivo per avviare azioni e broadcast di Android</string>
+    <string name="seconds_m">sec/m</string>
+    <string name="descentSeconds">Discendente</string>
+    <string name="swolfIndex">Indice SWOLF</string>
+    <string name="pref_title_lower_button_function_double">Pulsante inferiore, doppio</string>
+    <string name="pref_title_middle_button_function_double">Pulsante centrale, doppio</string>
+    <string name="pref_title_upper_button_function_double">Pulsante superiore, doppio</string>
+    <string name="pref_title_lower_button_function_long">Pulsante inferiore, prolungato</string>
+    <string name="pref_title_middle_button_function_long">Pulsante centrale, prolungato</string>
+    <string name="pref_title_upper_button_function_long">Pulsante superiore, prolungato</string>
+    <string name="pref_title_lower_button_function_short">Pulsante inferiore, breve</string>
+    <string name="pref_title_middle_button_function_short">Pulsante centrale, breve</string>
+    <string name="pref_title_upper_button_function_short">Pulsante superiore, breve</string>
+    <string name="menuitem_stopwatch">Cronometro</string>
+    <string name="menuitem_dnd">Non Dis.</string>
+    <string name="devicetype_amazfit_vergel">Amazfit Verge Lite</string>
+    <string name="discovery_entered_invalid_authkey">La chiave di autenticazione segreta che hai inserito non è valida! Tieni premuto sul dispositivo per modificarla.</string>
+    <string name="fw_upgrade_notice_amazfitvergel">Stai per installare il firmware %s sul tuo Amazfit Verge Lite.
+\n
+\nAssicurati di installare prima il file .fw, poi il file .res e infine il file .gps. Il tuo orologio verrà riavviato dopo l\'installazione del file .fw.
+\n
+\nNota: Non è necessario installare i file .res e .gps se questi sono gli stessi di quelli installati in precedenza.
+\n
+\nPROCEDI A TUO RISCHIO!</string>
 </resources>
