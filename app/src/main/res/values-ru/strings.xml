@@ -1133,4 +1133,17 @@
     <string name="menuitem_pomodoro">Pomodoro Tracker</string>
     <string name="pref_summary_connected_advertisement">Делает устройство доступным для обнаружения через Bluetooth даже при подключении</string>
     <string name="pref_title_connected_advertisement">Виден при подключении</string>
+    <string name="prefs_autoremove_message">Автоматически удалять SMS-уведомления</string>
+    <string name="prefs_fake_ring_duration">Поддельный непрерывный звонок</string>
+    <string name="prefs_key_vibration">Вибрация клавиш</string>
+    <string name="prefs_autolight">Автоматический свет</string>
+    <string name="devicetype_amazfit_vergel">Amazfit Verge Lite</string>
+    <string name="discovery_entered_invalid_authkey">Введенный вами секретный ключ аутентификации недействителен! Для редактирования нажмите и удерживайте на устройстве.</string>
+    <string name="fw_upgrade_notice_amazfitvergel">Вы собираетесь установить прошивку %s на свой Amazfit Verge Lite.
+\n
+\nОбязательно установите файл .fw, затем файл .res и, наконец, файл .gps. Ваши часы перезагрузятся после установки файла .fw.
+\n
+\nПримечание: вам не нужно устанавливать .res и .gps, если эти файлы точно такие же, как ранее установленные.
+\n
+\nДЕЙСТВУЙТЕ НА СВОЙ СТРАХ И РИСК!</string>
 </resources>
