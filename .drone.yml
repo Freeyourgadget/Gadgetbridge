@@ -1,0 +1,8 @@
+kind: pipeline
+name: android
+
+steps:
+- name: build
+  image: androidsdk/android-29 
+  commands:
+  - ./gradlew assembleDebug --stacktrace
