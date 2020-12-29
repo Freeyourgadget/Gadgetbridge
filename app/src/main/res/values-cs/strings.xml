@@ -758,7 +758,7 @@
     <string name="prefs_find_phone_summary">Použijte náramek/hodinky k prozvonění telefonu.</string>
     <string name="prefs_find_phone_duration">Délka zvonění ve vteřinách</string>
     <string name="maximum_duration">Délka</string>
-    <string name="discovery_need_to_enter_authkey">Toto zařízení vyžaduje tajný klíč, podržte dlouze na jménu zařízení pro jeho vložení. pro více detailů čtěte wiki.</string>
+    <string name="discovery_need_to_enter_authkey">Toto zařízení vyžaduje tajný klíč, podržte dlouze na jménu zařízení pro jeho vložení. Pro více detailů čtěte wiki.</string>
     <string name="fw_upgrade_notice_amazfitbip_lite">Chystáte se nainstalovat firmvér %s na vašem Amazfit Bip Lite.
 \n
 \nProsím nezapomeňte nainstalovat soubor .fw, a poté soubor .res . Vaše hodinky se po instalaci souboru .fw restartují.
@@ -1124,4 +1124,23 @@
     <string name="devicetype_amazfit_bipu">Amazfit Bip U</string>
     <string name="prefs_charts_tabs_summary">Viditelné karty grafů</string>
     <string name="prefs_charts_tabs">Karty grafů</string>
+    <string name="prefs_operating_sounds">Zvuky akcí</string>
+    <string name="menuitem_pomodoro">Pomodoro Časovač</string>
+    <string name="pref_summary_connected_advertisement">Zařízení bude viditelné přes Bluetooth i když je připojeno</string>
+    <string name="prefs_autoremove_message">Automaticky odstraňovat SMS oznámení</string>
+    <string name="prefs_fake_ring_duration">Falešné nepřetržité zvonění</string>
+    <string name="prefs_key_vibration">Vibrace kláves</string>
+    <string name="prefs_autolight">Automatické podsvícení</string>
+    <string name="menuitem_sleep">Spánek</string>
+    <string name="menuitem_goal">Cíle Aktivity</string>
+    <string name="devicetype_amazfit_vergel">Amazfit Verge Lite</string>
+    <string name="discovery_entered_invalid_authkey">Vložený tajný klíč není platný. Podržte dlouze na jménu zařízení pro jeho editaci.</string>
+    <string name="pref_title_connected_advertisement">Viditelné když připojeno</string>
+    <string name="fw_upgrade_notice_amazfitvergel">Chystáte se nainstalovat firmvér %s na vašem Amazfit Verge Lite.
+\n
+\nProsím nezapomeňte nainstalovat soubor .fw, potom soubor .res a nakonec soubor .gps. Vaše hodinky se po instalaci souboru .fw restartují.
+\n
+\nPoznámka: Nemusíte instalovat .res a .gps, pokud jsou tyto soubory přesně stejné jako ty, které byly nainstalovány dříve.
+\n
+\nPOKRAČUJTE TO NA VLASTNÍ NEBEZPEČÍ!</string>
 </resources>
