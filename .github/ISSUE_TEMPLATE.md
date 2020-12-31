@@ -3,6 +3,9 @@ name: Bug report
 about: Create a report to help us improve
 
 ---
+You can use the `Preview` tab ^ above to see final rendering of your report. Use `x` in brackets ([x]) to "check" a checkbox.
+
+If you just have a question, please ask first in the user chatroom in Matrix: `#gadgetbridge:matrix.org` ([web access via Element.io](https://app.element.io/#/room/#gadgetbridge:matrix.org)).
 
 #### Before reporting a bug, please confirm the following:
 - [ ] I have read the [wiki](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki), and I didn't find a solution to my problem / an answer to my question.
@@ -20,10 +23,10 @@ If you got it from Google Play, please note [that version](https://github.com/Ta
 *Long logs can be also included but make sure to tuck them into the `details` tag:*
 
 <details>
-  <summary>Click to see my log, which is a bit longer</summary>
+  <summary>Click to see my log under this fold</summary>
 
 ```
-Here go lines of that log.
+Here go lines of your log.
 ```
 </details>
 
@@ -39,3 +42,5 @@ Here go lines of that log.
 
 
 *New issues about already solved/documented topics could be closed without further comments. Same for too generic or incomplete reports.*
+
+Please use `Preview` tab above to see final rendering of your report before submitting.
