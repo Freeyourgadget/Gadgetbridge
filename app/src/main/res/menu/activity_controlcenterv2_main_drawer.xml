@@ -10,7 +10,7 @@
         <item android:id="@+id/action_debug"
             android:title="@string/action_debug"
             android:icon="@drawable/ic_devices_other" />
-        <item android:id="@+id/action_db_management"
+        <item android:id="@+id/action_data_management"
             android:title="@string/action_db_management"
             android:icon="@drawable/ic_pageview" />
         <item android:id="@+id/action_blacklist"

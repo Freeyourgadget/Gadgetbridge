@@ -418,7 +418,7 @@ public class SettingsActivity extends AbstractSettingsActivity {
     /*
     Either returns the file path of the selected document, or the display name, or an empty string
      */
-    private String getAutoExportLocationSummary() {
+    public String getAutoExportLocationSummary() {
         String autoExportLocation = GBApplication.getPrefs().getString(GBPrefs.AUTO_EXPORT_LOCATION, null);
         if (autoExportLocation == null) {
             return "";

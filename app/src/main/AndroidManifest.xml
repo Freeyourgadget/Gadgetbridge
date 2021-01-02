@@ -437,10 +437,9 @@
             android:excludeFromRecents="true"/>
 
         <activity
-            android:name=".activities.DbManagementActivity"
+            android:name=".activities.DataManagementActivity"
             android:label="@string/title_activity_db_management"
             android:parentActivityName=".activities.ControlCenterv2"
-            android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".activities.DiscoveryActivity"

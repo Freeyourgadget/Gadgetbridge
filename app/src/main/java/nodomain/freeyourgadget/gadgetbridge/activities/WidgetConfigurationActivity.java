@@ -19,6 +19,7 @@ import java.util.List;
 import java.util.Map;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
+import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.Widget;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHelper;
@@ -58,7 +59,7 @@ public class WidgetConfigurationActivity extends Activity {
         }
 
         AlertDialog.Builder builder = new AlertDialog.Builder(WidgetConfigurationActivity.this);
-        builder.setTitle("Select device");
+        builder.setTitle(R.string.widget_settings_select_device_title);
 
         allDevices = getAllDevices(getApplicationContext());
 
