@@ -811,6 +811,7 @@
         <item>@string/menuitem_cycles</item>
         <item>@string/menuitem_settings</item>
         <item>@string/menuitem_more</item>
+        <item>@string/menuitem_compass</item>
         <item>@string/menuitem_findphone</item>
         <item>@string/menuitem_takephoto</item>
         <item>@string/menuitem_alexa</item>
@@ -836,6 +837,7 @@
         <item>@string/p_menuitem_cycles</item>
         <item>@string/p_menuitem_settings</item>
         <item>@string/p_menuitem_more</item>
+        <item>@string/p_menuitem_compass</item>
         <item>@string/p_menuitem_findphone</item>
         <item>@string/p_menuitem_takephoto</item>
         <item>@string/p_menuitem_alexa</item>
