@@ -13,16 +13,16 @@
     <string name="abstract_chart_fragment_kind_deep_sleep">Derin uyku</string>
     <string name="abstract_chart_fragment_kind_light_sleep">Hafif uyku</string>
     <string name="abstract_chart_fragment_kind_not_worn">Giyilmedi</string>
-    <string name="action_db_management">Veri tabanı yönetimi</string>
+    <string name="action_db_management">Veri yönetimi</string>
     <string name="action_debug">Hata Ayıklama</string>
     <string name="action_discover">Yeni aygıt bağla</string>
     <string name="action_donate">Bağış Yap</string>
     <string name="action_quit">Çıkış</string>
     <string name="action_settings">Ayarlar</string>
-    <string name="activity_DB_ExportButton">Veri tabanını dışa aktar</string>
+    <string name="activity_DB_ExportButton">Verileri Dışa Aktar</string>
     <string name="activity_DB_delete_legacy_button">Eski veri tabanını sil</string>
-    <string name="activity_DB_empty_button">Veri tabanını boşalt</string>
-    <string name="activity_DB_import_button">Veri tabanını içe aktar</string>
+    <string name="activity_DB_empty_button">Veri Tabanını Boşalt</string>
+    <string name="activity_DB_import_button">Verileri İçe Aktar</string>
     <string name="activity_DB_test_export_button">Otomatik Dışa Aktarmayı Başlat</string>
     <string name="activity_DB_test_export_message">Veri tabanı dışa aktarılıyor…</string>
     <string name="activity_db_management_autoexport_explanation">Veri tabanı otomatik dışa aktarma konumu:</string>
@@ -30,9 +30,14 @@
     <string name="activity_db_management_empty_DB">Veri tabanını boşalt</string>
     <string name="activity_db_management_empty_db_warning">Dikkat! Bu düğmeye basarak veri tabanınızı silecek ve sıfırdan başlayacaksınız.</string>
     <string name="activity_db_management_exportimport_label">Dışa ve İçe Aktar</string>
-    <string name="activity_db_management_import_export_explanation">Veri tabanı işlemleri aygıtınızda aşağıdaki yolu kullanır.
-\nBu yola diğer Android uygulamaları ve bilgisayarınız tarafından erişilebilir.
-\nDışa aktarılan veri tabanınızı burada bulmayı bekleyin (veya içe aktarmak istediğiniz veri tabanını buraya koyun):</string>
+    <string name="activity_db_management_import_export_explanation">Dışa/içe aktarma işlemleri, aygıtınızdaki bir dizine giden aşağıdaki yolu kullanır. Bu dizine diğer Android uygulamaları ve bilgisayarınız tarafından erişilebilir. Veriler şunları içerir:
+\n Export_preference - genel ayarlar
+\n Export_preference_MAC - aygıta özel ayarlar
+\n Gadgetbridge - aygıt ve etkinlik veri tabanı
+\n Gadgetbridge_date - bir tarihte dışa aktarılan veri tabanı
+\n * .gpx - GPS kayıtları
+\n * .log - günlük dosyaları
+\nDışa aktarılan dosyalarınızı orada bulmayı (veya içe aktarmak istediğiniz dosyaları oraya yerleştirmeyi) bekleyin:</string>
     <string name="activity_db_management_merge_old_title">Eski veri tabanını silme</string>
     <string name="activity_error_no_app_for_gpx">Etkinlik izlemesini görüntülemek için GPX dosyalarını işleyebilen bir uygulama kurun.</string>
     <string name="activity_prefs_about_you">Hakkınızda</string>
@@ -165,7 +170,7 @@
     <string name="dbmanagementactivity_old_activity_db_deletion_failed">Eski etkinlik veri tabanının silinmesi başarısız oldu.</string>
     <string name="dbmanagementactivity_old_activity_db_successfully_deleted">Eski etkinlik verileri silindi.</string>
     <string name="dbmanagementactivity_overwrite">Üzerine Yaz</string>
-    <string name="dbmanagementactivity_overwrite_database_confirmation">Geçerli veri tabanının gerçekten üzerine yazılsın mı\? Tüm etkinlik verileriniz (varsa) kaybolacak.</string>
+    <string name="dbmanagementactivity_overwrite_database_confirmation">Geçerli verilerin gerçekten üzerine yazılsın mı\? Tüm etkinlik verilerinizin (varsa) ve tercihlerinizin üzerine yazılacak.</string>
     <string name="dbmanagementactivity_really_delete_entire_db">Veri tabanının tamamı gerçekten silinsin mi\? Tüm etkinlik verileriniz ve aygıtlarınızla ilgili bilgileriniz kaybolacak.</string>
     <string name="dbmanagementactivvity_cannot_access_export_path">Dışa aktarma yoluna erişilemiyor. Lütfen geliştiricilerle iletişime geçin.</string>
     <string name="debugactivity_really_factoryreset">Fabrika ayarlarına sıfırlama yapılması bağlı aygıttaki tüm verileri (destekleniyorsa) silecektir. Xiaomi/Huami aygıtları ayrıca Bluetooth MAC adresini değiştirir, bu nedenle Gadgetbridge tarafından yeni bir aygıt olarak görülürler.</string>
@@ -750,7 +755,7 @@
     <string name="title_activity_calblacklist">Kara Listeye Alınan Takvimler</string>
     <string name="title_activity_charts">Etkinlik ve Uyku</string>
     <string name="title_activity_controlcenter">Gadgetbridge</string>
-    <string name="title_activity_db_management">Veri tabanı yönetimi</string>
+    <string name="title_activity_db_management">Veri yönetimi</string>
     <string name="title_activity_debug">Hata Ayıklama</string>
     <string name="title_activity_device_specific_settings">Aygıta özel ayarlar</string>
     <string name="title_activity_discovery">Aygıt arama</string>
@@ -1170,4 +1175,9 @@
 \nNote: Bu dosyalar önceden kurulanlarla tamamen aynıysa .res ve .gps dosyalarını kurmanız gerekmez.
 \n
 \nİLERLEMENİZ DURUMUNDA RİSK SİZE AİTTİR!</string>
+    <string name="activity_DB_ShowContentButton">Dışa/İçe aktarma dizini içeriğini göster</string>
+    <string name="activity_data_management_directory_content_title">Dizin içeriğini dışa/içe aktar</string>
+    <string name="widget_settings_select_device_title">Aygıt seç</string>
+    <string name="dbmanagementactivity_export_confirmation">Veriler gerçekten dışarı aktarılsın mı\? Önceden dışa aktarılan etkinlik verilerinizin (varsa) ve tercihlerinizin üzerine yazılacak.</string>
+    <string name="dbmanagementactivity_export_data_title">Veriler Dışa Aktarılsın mı\?</string>
 </resources>
