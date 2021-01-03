@@ -353,8 +353,8 @@
     <string name="live_activity_heart_rate">Herzfrequenz</string>
     <string name="pref_title_pebble_health_store_raw">Rohdaten in der Datenbank speichern</string>
     <string name="pref_summary_pebble_health_store_raw">Speichert Daten „wie sie sind“ und erhöht die Datenbanknutzung, um eine spätere Auswertung zu ermöglichen.</string>
-    <string name="action_db_management">Datenbankverwaltung</string>
-    <string name="title_activity_db_management">Datenbankverwaltung</string>
+    <string name="action_db_management">Datenmanagement</string>
+    <string name="title_activity_db_management">Datenmanagement</string>
     <string name="activity_db_management_import_export_explanation">Die Datenbankoperationen verwenden den folgenden Pfad auf deinem Gerät. 
 \nDieser Pfad ist für andere Android-Apps und deinem Computer zugänglich. 
 \nDu findest die exportierte Datenbank hier (bzw. lege die zu Importierende dort ab):</string>
@@ -364,7 +364,7 @@
     <string name="dbmanagementactivity_error_exporting_db">Fehler beim Exportieren der DB: %1$s</string>
     <string name="dbmanagementactivity_error_exporting_shared">Fehler beim Exportieren der Einstellungen: %1$s</string>
     <string name="dbmanagementactivity_import_data_title">Daten importieren?</string>
-    <string name="dbmanagementactivity_overwrite_database_confirmation">Die aktuelle Datenbank wirklich überschreiben\? Alle aktuellen Aktivitätsdaten (falls vorhanden) gehen verloren.</string>
+    <string name="dbmanagementactivity_overwrite_database_confirmation">Die aktuellen Daten wirklich überschreiben\? Alle aktuellen Aktivitätsdaten (falls vorhanden) und Einstellungen werden überschrieben.</string>
     <string name="dbmanagementactivity_import_successful">Importiert.</string>
     <string name="dbmanagementactivity_error_importing_db">Fehler beim Importieren der DB: %1$s</string>
     <string name="dbmanagementactivity_error_importing_shared">Fehler beim Importieren der Einstellungen: %1$s</string>
@@ -735,8 +735,8 @@
     <string name="pref_title_expose_hr">Echtzeit-HR-Zugang von Drittanbietern</string>
     <string name="pref_title_use_custom_font">Benutzerdefinierte Schriftart verwenden</string>
     <string name="pref_summary_use_custom_font">Aktiviere das, wenn dein Gerät über eine benutzerdefinierte Schriftarten-Firmware für die Emoji-Unterstützung verfügt</string>
-    <string name="activity_DB_ExportButton">Datenbank exportieren</string>
-    <string name="activity_DB_import_button">Datenbank importieren</string>
+    <string name="activity_DB_ExportButton">Daten exportieren</string>
+    <string name="activity_DB_import_button">Daten importieren</string>
     <string name="activity_DB_delete_legacy_button">Alte Datenbank löschen</string>
     <string name="activity_DB_empty_button">Leere Datenbank</string>
     <string name="activity_db_management_empty_DB">Leere Datenbank</string>
@@ -1155,4 +1155,7 @@
 \nHinweis: Du musst die .res und .gps nicht installieren, wenn diese Dateien genau die gleichen sind wie die zuvor installierten.
 \n
 \nINSTALLATION AUF EIGENE GEFAHR!</string>
+    <string name="widget_settings_select_device_title">Gerät auswählen</string>
+    <string name="dbmanagementactivity_export_confirmation">Die Daten wirklich exportieren\? Zuvor exportierte Aktivitätsdaten (falls vorhanden) und Einstellungen werden überschrieben.</string>
+    <string name="dbmanagementactivity_export_data_title">Daten exportieren\?</string>
 </resources>
