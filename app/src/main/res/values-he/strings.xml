@@ -311,17 +311,22 @@
     <string name="live_activity_heart_rate">דופק</string>
     <string name="pref_title_pebble_health_store_raw">אחסון נתונים גולמיים במסד הנתונים</string>
     <string name="pref_summary_pebble_health_store_raw">הנתונים מאוחסנים כמו שהם, מה שיגרום להגדלת נפח מסד הנתונים לצד אפשרות לפענוח בעתיד.</string>
-    <string name="action_db_management">ניהול מסד נתונים</string>
-    <string name="title_activity_db_management">ניהול מסד נתונים</string>
-    <string name="activity_db_management_import_export_explanation">פעולות מסד הנתונים משתמשות בנתיב הבא בהתקן שלך. 
-\nנתיב זה נגיש ליישומונים אחרים של Android ולמחשב שלך. 
-\nאת הנתונים שייצאת ממסד הנתונים (ואת מסדי הנתונים שמיועדים לייבוא) ניתן למצוא שם:</string>
+    <string name="action_db_management">ניהול נתונים</string>
+    <string name="title_activity_db_management">ניהול נתונים</string>
+    <string name="activity_db_management_import_export_explanation">פעולות ייבוא/ייצוא משתמשות בנתיב הבא במכשיר שלך. התיקייה הזאת חשופה ליישומוני Android אחרים ולמחשב שלך. הנתונים כוללים:
+\nExport_preference - הגדרות גלובליות 
+\nExport_preference_MAC - הגדרות למכשיר מסוים
+\n Gadgetbridge - מסד נתוני מכשיר ופעילות
+\n Gadgetbridge_date - התאריך בוא ייוצא מסד הנתונים
+\n ‎*.gpx - הקלטות GPS
+\n ‎*.log - קובצי יומנים
+\nהקבצים שלך אמורים להיות (או ששם עליך להביא את מה שמיועד לייבוא) פה:</string>
     <string name="activity_db_management_merge_old_title">מחיקת מסד נתונים מיושן</string>
     <string name="dbmanagementactivvity_cannot_access_export_path">לא ניתן לגשת לנתיב הייצוא. נא ליצור קשר עם המפתחים.</string>
     <string name="dbmanagementactivity_exported_to">ייוצא אל: %1$s</string>
     <string name="dbmanagementactivity_error_exporting_db">שגיאה בייצוא מסד הנתונים: %1$s</string>
     <string name="dbmanagementactivity_import_data_title">לייבא נתונים?</string>
-    <string name="dbmanagementactivity_overwrite_database_confirmation">באמת לשכתב על מסד הנתונים הנוכחי? כל נתונים הפעילות הנוכחיים שלך (אם יש כאלה) ילכו לאיבוד.</string>
+    <string name="dbmanagementactivity_overwrite_database_confirmation">באמת לשכתב על הנתונים הנוכחיים\? כל נתוני הפעילות הנוכחיים (אם יש כאלה) וההעדפות שלך יידרסו.</string>
     <string name="dbmanagementactivity_import_successful">הייבוא הצליח.</string>
     <string name="dbmanagementactivity_error_importing_db">שגיאה בייבוא מסד הנתונים: %1$s</string>
     <string name="dbmanagementactivity_delete_activity_data_title">למחוק את נתוני הפעילות?</string>
@@ -720,8 +725,8 @@
     <string name="pref_summary_use_custom_font">יש להפעיל תכונה זו אם למכשיר שלך יש קושחה עם גופן שתומך באמוג׳י</string>
     <string name="activity_db_management_autoexport_explanation">מיקום הייצוא האוטומטי של מסד הנתונים הוגדר לכאן:</string>
     <string name="activity_db_management_autoexport_label">ייצוא אוטומטי</string>
-    <string name="activity_DB_ExportButton">ייצוא מסד נתונים</string>
-    <string name="activity_DB_import_button">ייבוא מסד נתונים</string>
+    <string name="activity_DB_ExportButton">ייצוא נתונים</string>
+    <string name="activity_DB_import_button">ייבוא נתונים</string>
     <string name="activity_DB_test_export_button">הפעלת ייצוא אוטומטי כעת</string>
     <string name="activity_DB_test_export_message">מסד הנתונים מיוצא…</string>
     <string name="activity_DB_delete_legacy_button">מחיקת מסד נתונים ישן</string>
@@ -1142,4 +1147,9 @@
 \n
 \nהמשך התהליך הוא על אחריותך!</string>
     <string name="devicetype_amazfit_vergel">Amazfit Verge Lite</string>
+    <string name="activity_DB_ShowContentButton">הצגת תוכן תיקיית ייבוא/ייצוא</string>
+    <string name="activity_data_management_directory_content_title">ייצוא/ייבוא תוכן תיקייה</string>
+    <string name="widget_settings_select_device_title">נא לבחור מכשיר</string>
+    <string name="dbmanagementactivity_export_confirmation">לייצא נתונים\? נתוני הפעילות שיוצאו קודם לכן (אם יש כאלו) וההעדפות יידרסו.</string>
+    <string name="dbmanagementactivity_export_data_title">לייצא נתונים\?</string>
 </resources>
