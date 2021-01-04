@@ -375,18 +375,23 @@
     <string name="live_activity_heart_rate">心率</string>
     <string name="pref_title_pebble_health_store_raw">在数据库中存储原始记录</string>
     <string name="pref_summary_pebble_health_store_raw">以“原样”保存数据，增加数据库使用量以允许稍后翻译。</string>
-    <string name="action_db_management">数据库管理</string>
-    <string name="title_activity_db_management">数据库管理</string>
-    <string name="activity_db_management_import_export_explanation">数据库操作会使用此路径在您的设备上进行。 
-\n此路径可用于其它 Android 应用程序和您的计算机。 
-\n您可以在这里找到导出的数据库（或放置您要导入的数据库）：</string>
+    <string name="action_db_management">数据管理</string>
+    <string name="title_activity_db_management">数据管理</string>
+    <string name="activity_db_management_import_export_explanation">导入/导出操作将会使用您设备的以下路径。该目录可以被您的其他应用和您的计算机访问。其中包括的数据有：
+\n Export_preference - 全局设置
+\n Export_preference_MAC - 特定设备设置
+\n Gadgetbridge - 设备和活动数据库
+\n Gadgetbridge_date - 数据库导出的日期
+\n *.gpx - GPS记录
+\n *.log - 日志文件
+\n导出后请前往此处找到这些文件（或您希望导入文件的路径）：</string>
     <string name="activity_db_management_merge_old_title">删除旧版数据库</string>
     <string name="dbmanagementactivvity_cannot_access_export_path">无法访问导出路径。请与开发者联系。</string>
     <string name="dbmanagementactivity_exported_to">导出到:%1$s</string>
     <string name="dbmanagementactivity_error_exporting_db">导出数据库时出错:%1$s</string>
     <string name="dbmanagementactivity_error_exporting_shared">导出首选项时出错:%1$s</string>
     <string name="dbmanagementactivity_import_data_title">是否导入数据？</string>
-    <string name="dbmanagementactivity_overwrite_database_confirmation">是否真的覆盖当前数据库？您当前的所有活动数据 (如果有) 都将丢失。</string>
+    <string name="dbmanagementactivity_overwrite_database_confirmation">是否真的覆盖当前数据？您当前的所有活动数据 (如果有) 和您的首选项都将丢失。</string>
     <string name="dbmanagementactivity_import_successful">导入成功。</string>
     <string name="dbmanagementactivity_error_importing_db">导入数据库时出错:%1$s</string>
     <string name="dbmanagementactivity_error_importing_shared">导入首选项时出错:%1$s</string>
@@ -729,12 +734,12 @@
     <string name="pref_summary_use_custom_font">如果您的设备使用自定义的字体固件或表情符号支持，请启用此选项</string>
     <string name="activity_db_management_autoexport_explanation">数据库自动导出路径已经被设置为：</string>
     <string name="activity_db_management_autoexport_label">自动导出</string>
-    <string name="activity_DB_ExportButton">导出数据库</string>
-    <string name="activity_DB_import_button">导入数据库</string>
+    <string name="activity_DB_ExportButton">导出数据</string>
+    <string name="activity_DB_import_button">导入数据</string>
     <string name="activity_DB_test_export_button">立刻运行自动导出</string>
     <string name="activity_DB_test_export_message">正在导出数据库…</string>
     <string name="activity_DB_delete_legacy_button">删除旧数据库</string>
-    <string name="activity_DB_empty_button">清空数据库</string>
+    <string name="activity_DB_empty_button">清空数据</string>
     <string name="activity_db_management_empty_DB">清空数据库</string>
     <string name="activity_db_management_exportimport_label">导入与导出</string>
     <string name="activity_db_management_empty_db_warning">警告！当按下此按钮后，将会清空您的数据库并从零开始。</string>
@@ -1151,4 +1156,9 @@
 \n注意：若您的 .res 和 .gps 文件和之前版本相同，则无需安装。
 \n
 \n风险自担！</string>
+    <string name="activity_DB_ShowContentButton">显示导入/导出目录中的内容</string>
+    <string name="activity_data_management_directory_content_title">导入/导出目录内容</string>
+    <string name="widget_settings_select_device_title">选择设备</string>
+    <string name="dbmanagementactivity_export_confirmation">确定需要导出数据吗？之前导出的数据（若有）将会被覆盖。</string>
+    <string name="dbmanagementactivity_export_data_title">导出数据？</string>
 </resources>
