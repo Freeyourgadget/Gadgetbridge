@@ -35,6 +35,11 @@ public class AmazfitGTS2Support extends AmazfitGTSSupport {
     }
 
     @Override
+    public void onSetCallState(CallSpec callSpec) {
+        onSetCallStateNew(callSpec);
+    }
+
+    @Override
     public UpdateFirmwareOperation createUpdateFirmwareOperation(Uri uri) {
         return new UpdateFirmwareOperation2020(uri, this);
     }

@@ -3,6 +3,7 @@
 #### NEXT
 * Amazfit Bip U Pro: Initial support
 * Amazfit GTS2: fix pairing
+* Amazfit GTS/GTR2: Fix incoming call display
 * Fossil Hybrid HR: avoid unnessecary widget rendering
 * A lot of Data(base) Management screen clarifications and improvemets
 * Fix a crash when when forecastConditionType length is 0 in weather notification data
