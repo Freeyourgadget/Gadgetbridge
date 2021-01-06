@@ -1152,4 +1152,5 @@
     <string name="widget_settings_select_device_title">נא לבחור מכשיר</string>
     <string name="dbmanagementactivity_export_confirmation">לייצא נתונים\? נתוני הפעילות שיוצאו קודם לכן (אם יש כאלו) וההעדפות יידרסו.</string>
     <string name="dbmanagementactivity_export_data_title">לייצא נתונים\?</string>
+    <string name="devicetype_amazfit_bipupro">Amazfit Bip U Pro</string>
 </resources>
