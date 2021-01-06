@@ -1180,4 +1180,5 @@
     <string name="widget_settings_select_device_title">Aygıt seç</string>
     <string name="dbmanagementactivity_export_confirmation">Veriler gerçekten dışarı aktarılsın mı\? Önceden dışa aktarılan etkinlik verilerinizin (varsa) ve tercihlerinizin üzerine yazılacak.</string>
     <string name="dbmanagementactivity_export_data_title">Veriler Dışa Aktarılsın mı\?</string>
+    <string name="devicetype_amazfit_bipupro">Amazfit Bip U Pro</string>
 </resources>
