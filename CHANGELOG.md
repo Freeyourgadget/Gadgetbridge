@@ -1,5 +1,14 @@
 ### Changelog
 
+#### NEXT
+* Amazfit Bip U Pro: Initial support
+* Amazfit GTS2: fix pairing
+* Fossil Hybrid HR: avoid unnessecary widget rendering
+* A lot of Data(base) Management screen clarifications and improvemets
+* Fix a crash when when forecastConditionType length is 0 in weather notification data
+* Change Do Not Disturb support to allow priority notifications
+* Fix problems when pariring some devices which require a pin to be entered
+
 #### 0.51.0
 * Amazfit Bip U: Initial support
 * Amazfit Verge Lite: Initial Support
