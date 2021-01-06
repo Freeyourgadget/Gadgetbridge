@@ -321,17 +321,22 @@
     <string name="live_activity_heart_rate">Srdeční tep</string>
     <string name="pref_title_pebble_health_store_raw">Uložit hrubý záznam do databáze</string>
     <string name="pref_summary_pebble_health_store_raw">Ukládá data v původní podobě, takže je databáze větší, ale umožňuje to pozdější vyhodnocení.</string>
-    <string name="action_db_management">Správa databáze</string>
-    <string name="title_activity_db_management">Správa databáze</string>
-    <string name="activity_db_management_import_export_explanation">Operace s databází použijí následující cestu v zařízení. 
-\nTato cesta je dostupná pro ostatní aplikace Androidu a váš počítač. 
-\nExportovanou databázi (nebo místo pro importovanou databázi) naleznete zde:</string>
+    <string name="action_db_management">Správa dat</string>
+    <string name="title_activity_db_management">Správa dat</string>
+    <string name="activity_db_management_import_export_explanation">Operace s databází použijí následující cestu ke složce v zařízení. Tato složka je dostupná pro ostatní aplikace Androidu a váš počítač. Soubory onsahují:
+\n Export_preference - globalní nastavení
+\n Export_preference_MAC - nastavení specifická pro zařízení
+\n Gadgetbridge - databáze zařízení a aktivit
+\n Gadgetbridge_date - databáze exportovaní ke datu
+\n *.gpx - GPS záznamy
+\n *.log - log soubory
+\nExportovaná data (nebo místo pro import dat) naleznete zde:</string>
     <string name="activity_db_management_merge_old_title">Smazat původní databázi</string>
     <string name="dbmanagementactivvity_cannot_access_export_path">Nelze přistoupit na zadanou cestu. Kontaktujte vývojáře.</string>
     <string name="dbmanagementactivity_exported_to">Exportováno do: %1$s</string>
     <string name="dbmanagementactivity_error_exporting_db">Chyba při exportu DB: %1$s</string>
     <string name="dbmanagementactivity_import_data_title">Importovat data?</string>
-    <string name="dbmanagementactivity_overwrite_database_confirmation">Opravdu chcete přepsat aktuální databázi\? Všechna uložená data aktivit budou ztracena.</string>
+    <string name="dbmanagementactivity_overwrite_database_confirmation">Opravdu chcete přepsat aktuální data\? Všechna uložená data aktivit a nastavení budou přepsána.</string>
     <string name="dbmanagementactivity_import_successful">Importováno.</string>
     <string name="dbmanagementactivity_error_importing_db">Chyba při importu DB: %1$s</string>
     <string name="dbmanagementactivity_delete_activity_data_title">Smazat data o aktivitách?</string>
@@ -723,8 +728,8 @@
     <string name="pref_summary_use_custom_font">Vaše zařízení má vlastní font s podporou emoji</string>
     <string name="activity_db_management_autoexport_explanation">Cesta autoexportu databáze je nastaveno na:</string>
     <string name="activity_db_management_autoexport_label">Automatický export</string>
-    <string name="activity_DB_ExportButton">Exportovat Databázi</string>
-    <string name="activity_DB_import_button">Importovat Databázi</string>
+    <string name="activity_DB_ExportButton">Exportovat Data</string>
+    <string name="activity_DB_import_button">Importovat Data</string>
     <string name="activity_DB_test_export_button">Spustit AutoExport Teď</string>
     <string name="activity_DB_test_export_message">Exportuji databázi…</string>
     <string name="activity_DB_delete_legacy_button">Vymazat starou databázi</string>
@@ -1143,4 +1148,10 @@
 \nPoznámka: Nemusíte instalovat .res a .gps, pokud jsou tyto soubory přesně stejné jako ty, které byly nainstalovány dříve.
 \n
 \nPOKRAČUJTE TO NA VLASTNÍ NEBEZPEČÍ!</string>
+    <string name="activity_DB_ShowContentButton">Zobrazit obsah složky pro export/import</string>
+    <string name="activity_data_management_directory_content_title">Obsah složky export/import</string>
+    <string name="widget_settings_select_device_title">Vyberte zařízení</string>
+    <string name="devicetype_amazfit_bipupro">Amazfit Bip U Pro</string>
+    <string name="dbmanagementactivity_export_confirmation">Opravdu exportovat data\? Předešle exportovaná data aktivit a nastavení budou přepsána.</string>
+    <string name="dbmanagementactivity_export_data_title">Exportovat Data\?</string>
 </resources>
