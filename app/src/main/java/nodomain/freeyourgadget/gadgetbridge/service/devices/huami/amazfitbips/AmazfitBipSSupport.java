@@ -23,8 +23,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
-import java.nio.ByteBuffer;
-import java.nio.ByteOrder;
 
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiFWHelper;
@@ -36,7 +34,6 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.amazfitbip.Ama
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.operations.UpdateFirmwareOperation;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.operations.UpdateFirmwareOperation2020;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.operations.UpdateFirmwareOperationNew;
-import nodomain.freeyourgadget.gadgetbridge.util.NotificationUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.Version;
 
 public class AmazfitBipSSupport extends AmazfitBipSupport {
@@ -66,30 +63,7 @@ public class AmazfitBipSSupport extends AmazfitBipSupport {
 
     @Override
     public void onSetCallState(CallSpec callSpec) {
-        if (callSpec.command == CallSpec.CALL_INCOMING) {
-            byte[] message = NotificationUtils.getPreferredTextFor(callSpec).getBytes();
-            int length = 10 + message.length;
-            ByteBuffer buf = ByteBuffer.allocate(length);
-            buf.order(ByteOrder.LITTLE_ENDIAN);
-            buf.put(new byte[]{3, 0, 0, 0, 0, 0});
-            buf.put(message);
-            buf.put(new byte[]{0, 0, 0, 2});
-            try {
-                TransactionBuilder builder = performInitialized("incoming call");
-                writeToChunked(builder, 0, buf.array());
-                builder.queue(getQueue());
-            } catch (IOException e) {
-                LOG.error("Unable to send incoming call");
-            }
-        } else if ((callSpec.command == CallSpec.CALL_START) || (callSpec.command == CallSpec.CALL_END)) {
-            try {
-                TransactionBuilder builder = performInitialized("end call");
-                writeToChunked(builder, 0, new byte[]{3, 3, 0, 0, 0, 0});
-                builder.queue(getQueue());
-            } catch (IOException e) {
-                LOG.error("Unable to send end call");
-            }
-        }
+        onSetCallStateNew(callSpec);
     }
 
     @Override

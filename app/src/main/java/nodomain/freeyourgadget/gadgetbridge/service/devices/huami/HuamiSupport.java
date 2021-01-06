@@ -804,6 +804,33 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
         }
     }
 
+    public void onSetCallStateNew(CallSpec callSpec) {
+        if (callSpec.command == CallSpec.CALL_INCOMING) {
+            byte[] message = NotificationUtils.getPreferredTextFor(callSpec).getBytes();
+            int length = 10 + message.length;
+            ByteBuffer buf = ByteBuffer.allocate(length);
+            buf.order(ByteOrder.LITTLE_ENDIAN);
+            buf.put(new byte[]{3, 0, 0, 0, 0, 0});
+            buf.put(message);
+            buf.put(new byte[]{0, 0, 0, 2});
+            try {
+                TransactionBuilder builder = performInitialized("incoming call");
+                writeToChunked(builder, 0, buf.array());
+                builder.queue(getQueue());
+            } catch (IOException e) {
+                LOG.error("Unable to send incoming call");
+            }
+        } else if ((callSpec.command == CallSpec.CALL_START) || (callSpec.command == CallSpec.CALL_END)) {
+            try {
+                TransactionBuilder builder = performInitialized("end call");
+                writeToChunked(builder, 0, new byte[]{3, 3, 0, 0, 0, 0});
+                builder.queue(getQueue());
+            } catch (IOException e) {
+                LOG.error("Unable to send end call");
+            }
+        }
+    }
+
     private void stopCurrentCallNotification() {
         try {
             TransactionBuilder builder = performInitialized("stop notification");
