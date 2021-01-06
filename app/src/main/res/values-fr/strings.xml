@@ -1150,4 +1150,5 @@ Temps de sommeil préféré en heures</string>
     <string name="widget_settings_select_device_title">Choisir l\'appareil</string>
     <string name="dbmanagementactivity_export_confirmation">Exporter réellement les données \? Les données et les préférences précédemment exportées (s\'il y en a) seront écrasées.</string>
     <string name="dbmanagementactivity_export_data_title">Exporter les Données \?</string>
+    <string name="devicetype_amazfit_bipupro">Amazfit Bip U Pro</string>
 </resources>
