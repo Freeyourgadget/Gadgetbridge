@@ -1161,4 +1161,5 @@
     <string name="widget_settings_select_device_title">选择设备</string>
     <string name="dbmanagementactivity_export_confirmation">确定需要导出数据吗？之前导出的数据（若有）将会被覆盖。</string>
     <string name="dbmanagementactivity_export_data_title">导出数据？</string>
+    <string name="devicetype_amazfit_bipupro">华米 Bip U Pro</string>
 </resources>
