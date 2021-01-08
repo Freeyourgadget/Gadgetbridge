@@ -802,6 +802,15 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
         // super.setActivityHand(progress);
     }
 
+    private boolean isNotificationWidgetVisible() {
+        for (Widget widget : widgets) {
+            if (widget.getWidgetType() == Widget.WidgetType.LAST_NOTIFICATION) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     public boolean playRawNotification(NotificationSpec notificationSpec) {
         String sourceAppId = notificationSpec.sourceAppId;
 
@@ -819,16 +828,7 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
             e.printStackTrace();
         }
 
-        boolean showNotificationIcon = false;
-
-        for(Widget widget : widgets){
-            if(widget.getWidgetType() == Widget.WidgetType.LAST_NOTIFICATION){
-                showNotificationIcon = true;
-                break;
-            }
-        }
-
-        if (showNotificationIcon && sourceAppId != null) {
+        if (isNotificationWidgetVisible() && sourceAppId != null) {
             if (!sourceAppId.equals(this.lastPostedApp)) {
                 if (appIconCache.get(sourceAppId) == null) {
                     try {
@@ -861,7 +861,10 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
         }
 
         this.lastPostedApp = null;
-        renderWidgets();
+
+        if (isNotificationWidgetVisible()) {
+            renderWidgets();
+        }
     }
 
     @Override
