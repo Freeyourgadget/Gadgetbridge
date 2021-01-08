@@ -355,9 +355,14 @@
     <string name="pref_summary_pebble_health_store_raw">Speichert Daten „wie sie sind“ und erhöht die Datenbanknutzung, um eine spätere Auswertung zu ermöglichen.</string>
     <string name="action_db_management">Datenmanagement</string>
     <string name="title_activity_db_management">Datenmanagement</string>
-    <string name="activity_db_management_import_export_explanation">Die Datenbankoperationen verwenden den folgenden Pfad auf deinem Gerät. 
-\nDieser Pfad ist für andere Android-Apps und deinem Computer zugänglich. 
-\nDu findest die exportierte Datenbank hier (bzw. lege die zu Importierende dort ab):</string>
+    <string name="activity_db_management_import_export_explanation">Die Export-/Importvorgänge verwenden den folgenden Pfad zu einem Verzeichnis auf deinem Gerät. Auf dieses Verzeichnis können andere Android-Apps und dein Computer zugreifen. Die Daten umfassen:
+\n Export_preference - globale Einstellungen
+\n Export_preference_MAC - gerätespezifische Einstellungen
+\n Gadgetbridge - Geräte- und Aktivitätsdatenbank
+\n Gadgetbridge_date - Datenbank, die an einem Datum exportiert wurde
+\n * .gpx - GPS-Aufzeichnungen
+\n * .log - Protokolldateien
+\nDie exportierten Dateien (oder die Dateien, die du importieren möchtest) findest du dort:</string>
     <string name="activity_db_management_merge_old_title">Legacy-Datenbank löschen</string>
     <string name="dbmanagementactivvity_cannot_access_export_path">Kann nicht auf den Exportpfad zugreifen. Bitte die Entwickler kontaktieren.</string>
     <string name="dbmanagementactivity_exported_to">Exportiert nach: %1$s</string>
@@ -1158,4 +1163,7 @@
     <string name="widget_settings_select_device_title">Gerät auswählen</string>
     <string name="dbmanagementactivity_export_confirmation">Die Daten wirklich exportieren\? Zuvor exportierte Aktivitätsdaten (falls vorhanden) und Einstellungen werden überschrieben.</string>
     <string name="dbmanagementactivity_export_data_title">Daten exportieren\?</string>
+    <string name="activity_DB_ShowContentButton">Export-/Importverzeichnisinhalt anzeigen</string>
+    <string name="activity_data_management_directory_content_title">Verzeichnisinhalt exportieren/importieren</string>
+    <string name="devicetype_amazfit_bipupro">Amazfit Bip U Pro</string>
 </resources>
