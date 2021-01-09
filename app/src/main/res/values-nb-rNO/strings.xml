@@ -53,7 +53,7 @@
 \n
 \nForsikre deg om at du installerer .fw-fila, og så .res-fila. Båndet ditt vil starte på ny etter at .fw-fila er installert.
 \n
-\nMerk: Du må ikke installere .res og .gps hvis disse er akkurat de samme som dem som allerede er installert.
+\nMerk: Du må ikke installere .res hvis den er akkurat de samme som den som allerede er installert.
 \n
 \nFORTSETT PÅ EGEN RISIKO!</string>
     <string name="fw_multi_upgrade_notice">Du er i ferd med å installere %1$s- og %2$s-fastvarene isteden for dem som er installert nå på ditt Mi Band.</string>
@@ -1133,4 +1133,24 @@
     <string name="menuitem_goal">Aktivetsmål</string>
     <string name="pref_summary_connected_advertisement">Gjør denne enheten oppdagbar via Blåtann selv når tilkoblet</string>
     <string name="pref_title_connected_advertisement">Synlig når tilkoblet</string>
+    <string name="fw_upgrade_notice_amazfitvergel">Du er i ferd med å installere %s-fastvaren på din Amazfit Verge Lite.
+\n
+\nForsikre deg om at du installerer .fw-fila, og så .res-fila, og til slutt .gps-filen. Båndet ditt vil starte på ny etter at .fw-fila er installert.
+\n
+\nMerk: Du må ikke installere .res og .gps hvis disse er akkurat de samme som dem som allerede er installert.
+\n
+\nFORTSETT PÅ EGEN RISIKO!</string>
+    <string name="discovery_entered_invalid_authkey">Den hemmelige identitetsnøkkelen du skrev inn er ugyldig. Trykk lenge på enheten for å redigere.</string>
+    <string name="dbmanagementactivity_export_confirmation">Vil du virkelig eksportere data\? Tidligere eksportert aktivitetsdata (hvis noen) og innstillinger vil bli overskrevet.</string>
+    <string name="dbmanagementactivity_export_data_title">Eksporter data\?</string>
+    <string name="activity_DB_ShowContentButton">Vis eksporter/importer mappeinnhold</string>
+    <string name="activity_data_management_directory_content_title">Eksporter/importer mappeinnhold</string>
+    <string name="prefs_autoremove_message">Fjern SMS-merknader automatisk</string>
+    <string name="prefs_fake_ring_duration">Falsk kontinuerlig ringing</string>
+    <string name="prefs_operating_sounds">Tastetoner</string>
+    <string name="prefs_key_vibration">Tastevibrasjon</string>
+    <string name="prefs_autolight">Automatisk lys</string>
+    <string name="widget_settings_select_device_title">Velg enhet</string>
+    <string name="devicetype_amazfit_vergel">Amazfit Verge Lite</string>
+    <string name="devicetype_amazfit_bipupro">Amazfit Bip U Pro</string>
 </resources>
