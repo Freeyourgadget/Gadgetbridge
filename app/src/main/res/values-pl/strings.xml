@@ -747,9 +747,14 @@
     <string name="devicetype_banglejs">Bangle.js</string>
     <string name="devicetype_y5">Y5</string>
     <string name="alarm_snooze">Drzemka</string>
-    <string name="activity_db_management_import_export_explanation">Operacje na bazie danych wykorzystują następującą ścieżkę na urządzeniu.
-\nTa ścieżka jest dostępna dla innych aplikacji Androida i Twojego komputera.
-\nSpodziewaj się, że znajdziesz tam wyeksportowaną bazę danych (lub umieść tam bazę danych, którą chcesz zaimportować):</string>
+    <string name="activity_db_management_import_export_explanation">Operacje importu/eksportu używają następującej ścieżki do katalogu na urządzeniu. Katalog jest dostępny dla innych aplikacji Androida i Twojego komputera. Dane obejmują:
+\n Export_preference - ustawienia globalne
+\n Export_preference_MAC - ustawienia specyficzne dla urządzenia
+\n Gadgetbridge - baza danych urządzeń i aktywności
+\n Gadgetbridge_date - baza danych wyeksportowana w danym dniu
+\n *.gpx - trasy GPS
+\n *.log - pliki logów
+\nTwoje wyeksportowane pliki znajdziesz (lub po prostu umieść pliki, które chcesz zaimportować) tutaj:</string>
     <string name="activity_db_management_merge_old_title">Usuwanie starej bazy danych</string>
     <string name="dbmanagementactivity_error_exporting_shared">Błąd podczas eksportowania preferencji: %1$s</string>
     <string name="dbmanagementactivity_error_importing_shared">Błąd podczas importowania preferencji: %1$s</string>
@@ -1147,4 +1152,16 @@
     <string name="devicetype_amazfit_vergel">Amazfit Verge Lite</string>
     <string name="prefs_autoremove_message">Automatycznie usuwaj powiadomienia SMS</string>
     <string name="discovery_entered_invalid_authkey">Wprowadzony klucz autoryzacji jest nieprawidłowy! Naciśnij i przytrzymaj, aby edytować.</string>
+    <string name="prefs_events_forwarding_broadcast_title">Treść emisji (broadcast)</string>
+    <string name="prefs_events_forwarding_summary">Używanie zdarzeń urządzenia do wyzwalania działań i emisji (broadcast) Androida</string>
+    <string name="activity_DB_ShowContentButton">Pokaż eksport/import zawartości katalogu</string>
+    <string name="activity_data_management_directory_content_title">Eksportuj/Importuj zawartość katalogu</string>
+    <string name="prefs_fake_ring_duration">Fałszywe ciągłe dzwonienie</string>
+    <string name="prefs_operating_sounds">Dźwięki operacyjne</string>
+    <string name="prefs_key_vibration">Wibracje klawiszy</string>
+    <string name="prefs_autolight">Automatyczne podświetlenie</string>
+    <string name="widget_settings_select_device_title">Wybierz urządzenie</string>
+    <string name="devicetype_amazfit_bipupro">Amazfit Bip U Pro</string>
+    <string name="dbmanagementactivity_export_confirmation">Czy naprawdę wyeksportować dane\? Wyeksportowane wcześniej dane o aktywnościach (jeśli takie istnieją) i ustawienia zostaną nadpisane.</string>
+    <string name="dbmanagementactivity_export_data_title">Wyeksportować dane\?</string>
 </resources>
