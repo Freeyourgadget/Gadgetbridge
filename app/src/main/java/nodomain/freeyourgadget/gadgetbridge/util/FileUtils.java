@@ -338,4 +338,16 @@ public class FileUtils {
     public static String makeValidFileName(String name) {
         return name.replaceAll("[\0/:\\r\\n\\\\]", "_");
     }
+    /**
+     *Returns extension of a file
+     * @param file string filename
+     */
+    public static String getExtension(String file) {
+        int i = file.lastIndexOf('.');
+        String extension = "";
+        if (i > 0) {
+            extension = file.substring(i + 1);
+        }
+        return extension;
+    }
 }

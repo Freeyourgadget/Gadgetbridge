@@ -655,14 +655,15 @@
     <string name="pref_summary_pebble_health_store_raw">Stores the data \"as is\", increasing the database usage to allow for later interpretation.</string>
     <string name="action_db_management">Data management</string>
     <string name="title_activity_db_management">Data management</string>
-    <string name="activity_db_management_import_export_explanation">The export/import operations use the following path to a directory on your device. This directory is accessible to other Android apps and your computer. The data includes:\n Export_preference - global settings\n Export_preference_MAC - device specific settings\n Gadgetbridge - device and activity database\n Gadgetbridge_date - database exported on a date\n *.gpx - GPS recordings\n *.log - log files\nExpect to find your exported files (or place the files you want to import) there:</string>
+    <string name="activity_db_management_import_export_explanation">The export/import operations use the following path (see below) to a directory on your device. This directory is accessible to other Android apps and your computer. Do note, that this directory and all containing files are deleted if you uninstall Gadgetbridge. The data includes:\n Export_preference - global settings\n Export_preference_MAC - device specific settings\n Gadgetbridge - device and activity database\n Gadgetbridge_date - database exported on a date\n *.gpx - GPS recordings\n *.log - log files\nExpect to find your exported files (or place the files you want to import) there:</string>
     <string name="activity_db_management_merge_old_title">Legacy database delete</string>
     <string name="dbmanagementactivvity_cannot_access_export_path">Cannot access export path. Please contact the developers.</string>
     <string name="dbmanagementactivity_exported_to">Exported to: %1$s</string>
     <string name="dbmanagementactivity_error_exporting_db">"Error exporting DB: %1$s"</string>
+    <string name="dbmanagementactivity_error_cleaning_export_directory">"Error erasing files from export directory %1$s"</string>
     <string name="dbmanagementactivity_error_exporting_shared">"Error exporting preference: %1$s"</string>
     <string name="dbmanagementactivity_import_data_title">Import Data?</string>
-    <string name="dbmanagementactivity_export_data_title">ExportData?</string>
+    <string name="dbmanagementactivity_export_data_title">Export Data?</string>
     <string name="dbmanagementactivity_overwrite_database_confirmation">Really overwrite the current data? All your current activity data (if any) and preferences will be overwritten.</string>
     <string name="dbmanagementactivity_export_confirmation">Really export data? Previously exported activity data (if any) and preferences will be overwritten.</string>
     <string name="dbmanagementactivity_import_successful">Imported.</string>
@@ -691,6 +692,13 @@
     <string name="Cancel">Cancel</string>
     <string name="Delete">Delete</string>
     <string name="ok">OK</string>
+    <string name="activity_data_management_directory_content_title">Export/Import directory content</string>
+    <string name="activity_DB_ShowContentButton">Show Export/Import directory content</string>
+    <string name="activity_db_management_clean_export_directory_label">Delete files in Export/Import directory</string>
+    <string name="activity_DB_clean_export_directory_warning_title">Delete files in the Export/Import directory?</string>
+    <string name="activity_DB_clean_export_directory_warning_message">Really delete files in the Export/Import directory?</string>
+    <string name="activity_db_management_clean_export_directory_text">Exported files in the Export/Import directory are accessible by any app on your device. You might like to remove these files after synchronisation or backup. Make sure to have a backup before deleting them. GPX files, sub-directories and auto-exported database file (if exist) will not be deleted. The path to the Export/Import directory is:</string>
+    <string name="dbmanagementactivity_export_finished">Deletion finished</string>
     <!-- Strings related to Vibration Activity -->
     <string name="title_activity_vibration">Vibration</string>
     <!-- Strings related to Pebble Pairing Activity-->
@@ -1108,6 +1116,4 @@
     <string name="prefs_operating_sounds">Operating Sounds</string>
     <string name="prefs_fake_ring_duration">Fake continuous ringing</string>
     <string name="prefs_autoremove_message">Automatically remove SMS notifications</string>
-    <string name="activity_data_management_directory_content_title">Export/Import directory content</string>
-    <string name="activity_DB_ShowContentButton">Show Export/Import directory content</string>
 </resources>

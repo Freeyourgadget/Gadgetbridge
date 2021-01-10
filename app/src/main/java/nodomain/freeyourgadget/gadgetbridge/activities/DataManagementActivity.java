@@ -28,13 +28,10 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.provider.DocumentsContract;
-import android.text.TextUtils;
-import android.util.Pair;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -45,9 +42,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
@@ -140,6 +135,17 @@ public class DataManagementActivity extends AbstractGBActivity {
             }
         });
 
+        TextView dbPath2 = findViewById(R.id.activity_data_management_path2);
+        dbPath2.setText(getExternalPath());
+
+        Button cleanExportDirectoryButton = findViewById(R.id.cleanExportDirectoryButton);
+        cleanExportDirectoryButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                cleanExportDirectory();
+            }
+        });
+
         Prefs prefs = GBApplication.getPrefs();
         boolean autoExportEnabled = prefs.getBoolean(GBPrefs.AUTO_EXPORT_ENABLED, false);
         int autoExportInterval = prefs.getInt(GBPrefs.AUTO_EXPORT_INTERVAL, 0);
@@ -174,8 +180,7 @@ public class DataManagementActivity extends AbstractGBActivity {
         sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
     }
 
-    private void showDirectoryContent() {
-    }
+
 
     //would rather re-use method of SettingsActivity... but lifecycle...
     private String getAutoExportLocationSummary() {
@@ -196,8 +201,8 @@ public class DataManagementActivity extends AbstractGBActivity {
                 if (cursor != null && cursor.moveToFirst()) {
                     return cursor.getString(cursor.getColumnIndex(DocumentsContract.Document.COLUMN_DISPLAY_NAME));
                 }
-            } catch (Exception fdfsdfds) {
-                LOG.error("Error", fdfsdfds);
+            } catch (Exception exception) {
+                LOG.error("Error getting export path", exception);
             }
         }
         return "";
@@ -275,6 +280,7 @@ public class DataManagementActivity extends AbstractGBActivity {
     private void exportDB() {
         new AlertDialog.Builder(this)
                 .setCancelable(true)
+                .setIcon(R.drawable.ic_warning)
                 .setTitle(R.string.dbmanagementactivity_export_data_title)
                 .setMessage(R.string.dbmanagementactivity_export_confirmation)
                 .setPositiveButton(R.string.activity_DB_ExportButton, new DialogInterface.OnClickListener() {
@@ -302,6 +308,7 @@ public class DataManagementActivity extends AbstractGBActivity {
     private void importDB() {
         new AlertDialog.Builder(this)
                 .setCancelable(true)
+                .setIcon(R.drawable.ic_warning)
                 .setTitle(R.string.dbmanagementactivity_import_data_title)
                 .setMessage(R.string.dbmanagementactivity_overwrite_database_confirmation)
                 .setPositiveButton(R.string.dbmanagementactivity_overwrite, new DialogInterface.OnClickListener() {
@@ -332,6 +339,7 @@ public class DataManagementActivity extends AbstractGBActivity {
     private void deleteActivityDatabase() {
         new AlertDialog.Builder(this)
                 .setCancelable(true)
+                .setIcon(R.drawable.ic_warning)
                 .setTitle(R.string.dbmanagementactivity_delete_activity_data_title)
                 .setMessage(R.string.dbmanagementactivity_really_delete_entire_db)
                 .setPositiveButton(R.string.Delete, new DialogInterface.OnClickListener() {
@@ -353,10 +361,12 @@ public class DataManagementActivity extends AbstractGBActivity {
     }
 
     private void deleteOldActivityDbFile() {
-        new AlertDialog.Builder(this).setCancelable(true);
-        new AlertDialog.Builder(this).setTitle(R.string.dbmanagementactivity_delete_old_activity_db);
-        new AlertDialog.Builder(this).setMessage(R.string.dbmanagementactivity_delete_old_activitydb_confirmation);
-        new AlertDialog.Builder(this).setPositiveButton(R.string.Delete, new DialogInterface.OnClickListener() {
+        new AlertDialog.Builder(this)
+                .setCancelable(true)
+                .setTitle(R.string.dbmanagementactivity_delete_old_activity_db)
+                .setIcon(R.drawable.ic_warning)
+                .setMessage(R.string.dbmanagementactivity_delete_old_activitydb_confirmation)
+                .setPositiveButton(R.string.Delete, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 if (GBApplication.deleteOldActivityDatabase(DataManagementActivity.this)) {
@@ -372,6 +382,45 @@ public class DataManagementActivity extends AbstractGBActivity {
             }
         });
         new AlertDialog.Builder(this).show();
+    }
+
+    private void cleanExportDirectory() {
+        new AlertDialog.Builder(this)
+                .setCancelable(true)
+                .setIcon(R.drawable.ic_warning)
+                .setTitle(R.string.activity_DB_clean_export_directory_warning_title)
+                .setMessage(getString(R.string.activity_DB_clean_export_directory_warning_message))
+                .setPositiveButton(R.string.Delete, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        try {
+                            File externalFilesDir = FileUtils.getExternalFilesDir();
+                            String autoexportFile = getAutoExportLocationSummary();
+                            for (File file : externalFilesDir.listFiles()) {
+                                if (file.isFile() &&
+                                        (!FileUtils.getExtension(file.toString()).toLowerCase().equals("gpx")) && //keep GPX files
+                                        (!file.toString().equals(autoexportFile)) // do not remove autoexport
+                                ) {
+                                    LOG.debug("Deleting file: " + file);
+                                    try {
+                                        file.delete();
+                                    } catch (Exception exception) {
+                                        LOG.error("Error erasing file: " + exception);
+                                    }
+                                }
+                            }
+                            GB.toast(getString(R.string.dbmanagementactivity_export_finished), Toast.LENGTH_SHORT, GB.INFO);
+                        } catch (Exception ex) {
+                            GB.toast(DataManagementActivity.this, getString(R.string.dbmanagementactivity_error_cleaning_export_directory, ex.getMessage()), Toast.LENGTH_LONG, GB.ERROR, ex);
+                        }
+                    }
+                })
+                .setNegativeButton(R.string.Cancel, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                    }
+                })
+                .show();
     }
 
     @Override
