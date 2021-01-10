@@ -1,5 +1,6 @@
-/*  Copyright (C) 2017-2020 Andreas Shimokawa, Carsten Pfeiffer, Daniele
-    Gobbetti, João Paulo Barraca, Nephiel, vanous
+/*  Copyright (C) 2017-2021 Andreas Shimokawa, Carsten Pfeiffer, Daniele
+    Gobbetti, João Paulo Barraca, Nephiel, Petr Vaněk, TinfoilSubmarine,
+    Zhong Jianxin
 
     This file is part of Gadgetbridge.
 

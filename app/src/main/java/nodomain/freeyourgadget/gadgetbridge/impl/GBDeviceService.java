@@ -1,4 +1,4 @@
-/*  Copyright (C) 2015-2020 Alberto, Andreas Böhler, Andreas Shimokawa,
+/*  Copyright (C) 2015-2021 Alberto, Andreas Böhler, Andreas Shimokawa,
     Carsten Pfeiffer, criogenic, Daniel Dakhno, Daniele Gobbetti, Frank Slezak,
     ivanovlev, José Rebelo, Julien Pivotto, Kasha, Roi Greenberg, Sebastian
     Kranz, Steffen Liebergeld

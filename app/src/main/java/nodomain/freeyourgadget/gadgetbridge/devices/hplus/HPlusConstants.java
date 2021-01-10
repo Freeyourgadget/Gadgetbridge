@@ -1,5 +1,5 @@
-/*  Copyright (C) 2016-2020 Andreas Shimokawa, Carsten Pfeiffer, João
-    Paulo Barraca
+/*  Copyright (C) 2016-2021 Andreas Shimokawa, Carsten Pfeiffer, João
+    Paulo Barraca, Lesur Frederic
 
     This file is part of Gadgetbridge.
 
@@ -16,10 +16,6 @@
     You should have received a copy of the GNU Affero General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.devices.hplus;
-
-/*
- * @author João Paulo Barraca &lt;jpbarraca@gmail.com&gt;
- */
 
 import java.util.HashMap;
 import java.util.Map;

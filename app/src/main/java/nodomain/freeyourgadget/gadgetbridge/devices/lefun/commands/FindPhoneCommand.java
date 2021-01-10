@@ -1,6 +1,4 @@
-/*  Copyright (C) 2016-2020 Andreas Shimokawa, Carsten Pfeiffer, Daniele
-    Gobbetti
-    Copyright (C) 2020 Yukai Li
+/*  Copyright (C) 2017-2021 Andreas Shimokawa, Yukai Li
 
     This file is part of Gadgetbridge.
 

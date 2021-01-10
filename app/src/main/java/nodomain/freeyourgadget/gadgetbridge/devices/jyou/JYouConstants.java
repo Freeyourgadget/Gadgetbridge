@@ -1,4 +1,4 @@
-/*  Copyright (C) 2017-2020 Pavel Elagin, Sami Alaoui
+/*  Copyright (C) 2017-2021 Pavel Elagin, Sami Alaoui
 
     This file is part of Gadgetbridge.
 

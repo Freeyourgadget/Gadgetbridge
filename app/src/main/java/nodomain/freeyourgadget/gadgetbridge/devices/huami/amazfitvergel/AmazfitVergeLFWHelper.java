@@ -1,5 +1,5 @@
-/*  Copyright (C) 2016-2020 Andreas Shimokawa, Carsten Pfeiffer, Daniele
-    Gobbetti
+/*  Copyright (C) 2016-2021 Andreas Shimokawa, angelpup, Carsten Pfeiffer,
+    Daniele Gobbetti, Dmytro Bielik
 
     This file is part of Gadgetbridge.
 

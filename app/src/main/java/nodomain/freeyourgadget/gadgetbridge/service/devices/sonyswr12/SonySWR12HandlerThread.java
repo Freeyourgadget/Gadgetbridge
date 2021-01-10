@@ -1,4 +1,4 @@
-/*  Copyright (C) 2015-2020 Andreas Shimokawa, Carsten Pfeiffer, opavlov
+/*  Copyright (C) 2020-2021 opavlov
 
     This file is part of Gadgetbridge.
 

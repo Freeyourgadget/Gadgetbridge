@@ -1,4 +1,5 @@
-/*  Copyright (C) 2015-2020 Andreas Shimokawa, Carsten Pfeiffer
+/*  Copyright (C) 2015-2021 Andreas Shimokawa, Andrzej Surowiec, Carsten
+    Pfeiffer, Daniel Dakhno
 
     This file is part of Gadgetbridge.
 

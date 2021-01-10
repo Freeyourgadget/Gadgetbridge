@@ -1,4 +1,4 @@
-/*  Copyright (C) 2016-2020 Carsten Pfeiffer, Daniele Gobbetti, José Rebelo
+/*  Copyright (C) 2016-2021 Carsten Pfeiffer, Daniele Gobbetti, José Rebelo
 
     This file is part of Gadgetbridge.
 

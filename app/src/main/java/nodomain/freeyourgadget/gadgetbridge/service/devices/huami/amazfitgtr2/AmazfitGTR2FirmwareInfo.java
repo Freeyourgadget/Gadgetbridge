@@ -1,4 +1,5 @@
-/*  Copyright (C) 2017-2020 Andreas Shimokawa, Daniele Gobbetti
+/*  Copyright (C) 2017-2021 Andreas Shimokawa, Daniele Gobbetti, Dmytro
+    Bielik, pangwalla
 
     This file is part of Gadgetbridge.
 

@@ -1,6 +1,6 @@
-/*  Copyright (C) 2015-2020 Andreas Böhler, Andreas Shimokawa, Carsten
-    Pfeiffer, Daniel Dakhno, Daniele Gobbetti, JohnnySun, José Rebelo,
-    Erik Bloß
+/*  Copyright (C) 2015-2021 0nse, 115ek, Andreas Shimokawa, Carsten
+    Pfeiffer, Daniel Dakhno, José Rebelo, Julien Pivotto, Sebastian Kranz,
+    Steffen Liebergeld
 
     This file is part of Gadgetbridge.
 

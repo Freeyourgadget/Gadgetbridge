@@ -1,4 +1,4 @@
-/*  Copyright (C) 2019-2020 Andreas Shimokawa, Gordon Williams
+/*  Copyright (C) 2019-2021 Andreas Shimokawa, Gordon Williams
 
     This file is part of Gadgetbridge.
 

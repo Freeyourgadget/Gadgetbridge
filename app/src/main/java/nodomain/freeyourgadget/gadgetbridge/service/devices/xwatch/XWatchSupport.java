@@ -1,5 +1,5 @@
-/*  Copyright (C) 2018-2020 Andreas Shimokawa, Carsten Pfeiffer, ladbsoft,
-    Sebastian Kranz
+/*  Copyright (C) 2018-2021 Andreas Shimokawa, Carsten Pfeiffer, ladbsoft,
+    mamucho, Sebastian Kranz
 
     This file is part of Gadgetbridge.
 

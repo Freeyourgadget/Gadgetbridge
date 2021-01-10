@@ -1,4 +1,4 @@
-/*  Copyright (C) 2017-2020 Andreas Shimokawa, Da Pa, Pavel Elagin, Sami Alaoui
+/*  Copyright (C) 2017-2021 Andreas Shimokawa, Da Pa, Pavel Elagin, Sami Alaoui
 
     This file is part of Gadgetbridge.
 

@@ -1,4 +1,5 @@
-/*  Copyright (C) 2020 Andreas Shimokawa
+/*  Copyright (C) 2017-2021 Andreas Shimokawa, Cristian Alfano, Daniele
+    Gobbetti, odavo32nof
 
     This file is part of Gadgetbridge.
 

@@ -1,5 +1,5 @@
-/*  Copyright (C) 2015-2020 0nse, Andreas Shimokawa, Carsten Pfeiffer,
-    Julien Pivotto, Kranz, Sebastian Kranz, Steffen Liebergeld
+/*  Copyright (C) 2015-2021 0nse, Andreas Shimokawa, Carsten Pfeiffer,
+    Julien Pivotto, Maxim Baz, Sebastian Kranz, Steffen Liebergeld
 
     This file is part of Gadgetbridge.
 

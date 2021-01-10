@@ -1,5 +1,6 @@
-/*  Copyright (C) 2015-2020 Andreas Shimokawa, Carsten Pfeiffer, Daniel Dakhno,
-    Daniele Gobbetti, Felix Konstantin Maurer, Taavi Eomäe, Uwe Hermann, Yar
+/*  Copyright (C) 2015-2021 Andreas Shimokawa, Carsten Pfeiffer, Daniel Dakhno,
+    Daniele Gobbetti, Felix Konstantin Maurer, Pauli Salmenrinne, Taavi Eomäe,
+    Uwe Hermann, Yar
 
     This file is part of Gadgetbridge.
 

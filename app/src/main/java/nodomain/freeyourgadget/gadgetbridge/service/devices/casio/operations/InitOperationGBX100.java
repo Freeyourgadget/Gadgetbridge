@@ -1,4 +1,4 @@
-/*  Copyright (C) 2020 Andreas Böhler
+/*  Copyright (C) 2020-2021 Andreas Böhler, Andreas Shimokawa
 
     This file is part of Gadgetbridge.
 

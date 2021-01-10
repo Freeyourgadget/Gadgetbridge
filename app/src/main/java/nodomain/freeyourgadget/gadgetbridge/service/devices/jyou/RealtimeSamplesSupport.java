@@ -1,4 +1,4 @@
-/*  Copyright (C) 2016-2020 Carsten Pfeiffer, Pavel Elagin
+/*  Copyright (C) 2016-2021 Carsten Pfeiffer, Pavel Elagin
 
     This file is part of Gadgetbridge.
 

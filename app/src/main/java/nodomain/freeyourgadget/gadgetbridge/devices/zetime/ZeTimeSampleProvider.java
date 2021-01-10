@@ -1,4 +1,4 @@
-/*  Copyright (C) 2018-2020 Daniele Gobbetti, Sebastian Kranz
+/*  Copyright (C) 2018-2021 Daniele Gobbetti, Sebastian Kranz
 
     This file is part of Gadgetbridge.
 

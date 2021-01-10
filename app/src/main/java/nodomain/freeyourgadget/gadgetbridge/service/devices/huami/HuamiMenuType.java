@@ -1,4 +1,4 @@
-/*  Copyright (C) 2020 Andreas Shimokawa
+/*  Copyright (C) 2020-2021 Andreas Shimokawa, TinfoilSubmarine
 
     This file is part of Gadgetbridge.
 

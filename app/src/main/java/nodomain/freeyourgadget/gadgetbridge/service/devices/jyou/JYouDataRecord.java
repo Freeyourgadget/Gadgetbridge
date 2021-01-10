@@ -1,4 +1,4 @@
-/*  Copyright (C) 2017-2020 João Paulo Barraca, Pavel Elagin
+/*  Copyright (C) 2017-2021 João Paulo Barraca, Pavel Elagin
 
     This file is part of Gadgetbridge.
 

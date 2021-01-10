@@ -1,6 +1,7 @@
-/*  Copyright (C) 2016-2020 Andreas Böhler, Andreas Shimokawa, Carsten
+/*  Copyright (C) 2016-2021 Andreas Böhler, Andreas Shimokawa, Carsten
     Pfeiffer, Daniele Gobbetti, José Rebelo
-        based on code from BlueWatcher, https://github.com/masterjc/bluewatcher
+
+    based on code from BlueWatcher, https://github.com/masterjc/bluewatcher
 
     This file is part of Gadgetbridge.
 

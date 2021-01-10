@@ -1,4 +1,4 @@
-/*  Copyright (C) 2018-2019 Daniele Gobbetti, maxirnilian
+/*  Copyright (C) 2018-2021 Daniele Gobbetti, mamucho, maxirnilian, mkusnierz
 
     This file is part of Gadgetbridge.
 

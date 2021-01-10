@@ -1,5 +1,5 @@
-/*  Copyright (C) 2019-2020 Andreas Böhler, Daniele Gobbetti
-    based on code from BlueWatcher, https://github.com/masterjc/bluewatcher
+/*  Copyright (C) 2019-2021 Andreas Böhler, Carsten Pfeiffer, Daniele
+    Gobbetti, Taavi Eomäe
 
     This file is part of Gadgetbridge.
 

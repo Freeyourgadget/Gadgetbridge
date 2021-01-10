@@ -1,5 +1,6 @@
-/*  Copyright (C) 2018-2019 Andreas Shimokawa, Carsten Pfeiffer, Daniele
-    Gobbetti, maxirnilian, Sebastian Kranz
+/*  Copyright (C) 2018-2021 Andreas Böhler, Andreas Shimokawa, Carsten
+    Pfeiffer, Daniele Gobbetti, mamucho, maxirnilian, mkusnierz, Sebastian Kranz,
+    Taavi Eomäe
 
     This file is part of Gadgetbridge.
 

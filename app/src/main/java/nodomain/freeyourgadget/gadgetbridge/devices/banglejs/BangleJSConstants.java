@@ -1,4 +1,4 @@
-/*  Copyright (C) 2019-2020 Gordon Williams
+/*  Copyright (C) 2019-2021 Gordon Williams
 
     This file is part of Gadgetbridge.
 

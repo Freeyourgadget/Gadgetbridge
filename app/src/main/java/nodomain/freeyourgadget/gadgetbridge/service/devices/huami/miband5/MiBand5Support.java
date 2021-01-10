@@ -1,4 +1,4 @@
-/*  Copyright (C) 2017-2020 Andreas Shimokawa, Carsten Pfeiffer
+/*  Copyright (C) 2019-2021 Andreas Shimokawa, Manuel Ruß, odavo32nof
 
     This file is part of Gadgetbridge.
 

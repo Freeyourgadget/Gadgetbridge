@@ -1,4 +1,4 @@
-/*  Copyright (C) 2018-2020 maxirnilian
+/*  Copyright (C) 2018-2021 maxirnilian
 
     This file is part of Gadgetbridge.
 

@@ -1,5 +1,5 @@
-/*  Copyright (C) 2018-2020 Andreas Böhler, Sebastian Kranz
-    based on code from BlueWatcher, https://github.com/masterjc/bluewatcher
+/*  Copyright (C) 2016-2021 Andreas Böhler, Andreas Shimokawa, Carsten
+    Pfeiffer, Sebastian Kranz
 
     This file is part of Gadgetbridge.
 

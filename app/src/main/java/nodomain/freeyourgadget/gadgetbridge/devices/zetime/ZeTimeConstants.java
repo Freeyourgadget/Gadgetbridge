@@ -1,4 +1,4 @@
-/*  Copyright (C) 2018-2020 Andreas Shimokawa, Kranz, Sebastian Kranz
+/*  Copyright (C) 2018-2021 Andreas Shimokawa, Sebastian Kranz
 
     This file is part of Gadgetbridge.
 
@@ -15,10 +15,6 @@
     You should have received a copy of the GNU Affero General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.devices.zetime;
-
-/**
- * Created by lightforce on 08.06.18.
- */
 
 import java.util.UUID;
 

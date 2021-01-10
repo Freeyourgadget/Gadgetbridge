@@ -1,4 +1,4 @@
-/*  Copyright (C) 2019-2020 Andreas Shimokawa, Daniel Dakhno
+/*  Copyright (C) 2019-2021 Andreas Shimokawa, Daniel Dakhno
 
     This file is part of Gadgetbridge.
 

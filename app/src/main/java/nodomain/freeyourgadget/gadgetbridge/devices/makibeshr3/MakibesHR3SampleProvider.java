@@ -1,4 +1,4 @@
-/*  Copyright (C) 2018-2020 Cre3per, Daniele Gobbetti, Sebastian Kranz
+/*  Copyright (C) 2018-2021 Cre3per, Daniele Gobbetti, Sebastian Kranz
 
     This file is part of Gadgetbridge.
 

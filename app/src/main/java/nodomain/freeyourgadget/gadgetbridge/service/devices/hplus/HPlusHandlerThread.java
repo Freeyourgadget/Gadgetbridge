@@ -1,4 +1,5 @@
-/*  Copyright (C) 2017-2020 Daniele Gobbetti, João Paulo Barraca
+/*  Copyright (C) 2017-2021 Daniele Gobbetti, João Paulo Barraca
+    Lesur Frederic
 
     This file is part of Gadgetbridge.
 
@@ -15,11 +16,6 @@
     You should have received a copy of the GNU Affero General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.service.devices.hplus;
-
-/*
- * @author João Paulo Barraca &lt;jpbarraca@gmail.com&gt;
- */
-
 
 import android.content.Context;
 import android.content.Intent;

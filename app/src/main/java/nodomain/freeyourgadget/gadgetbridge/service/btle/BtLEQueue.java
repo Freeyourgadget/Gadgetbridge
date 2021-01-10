@@ -1,6 +1,6 @@
-/*  Copyright (C) 2015-2020 Andreas Böhler, Andreas Shimokawa, Carsten
-    Pfeiffer, Cre3per, Daniel Dakhno, Daniele Gobbetti, Sergey Trofimov,
-    Uwe Hermann
+/*  Copyright (C) 2015-2021 Andreas Böhler, Andreas Shimokawa, Carsten
+    Pfeiffer, Cre3per, Daniel Dakhno, Daniele Gobbetti, Sergey Trofimov, Taavi
+    Eomäe, Uwe Hermann
 
     This file is part of Gadgetbridge.
 

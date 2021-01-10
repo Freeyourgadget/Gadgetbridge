@@ -1,4 +1,4 @@
-/*  Copyright (C) 2020 Lesur Frederic (memiks)
+/*  Copyright (C) 2020-2021 Lesur Frederic
 
     This file is part of Gadgetbridge.
 

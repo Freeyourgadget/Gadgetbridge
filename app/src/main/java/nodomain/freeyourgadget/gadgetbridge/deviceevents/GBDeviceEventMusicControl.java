@@ -1,4 +1,4 @@
-/*  Copyright (C) 2015-2020 Andreas Shimokawa, vanous
+/*  Copyright (C) 2015-2021 Andreas Shimokawa, Petr Vaněk
 
     This file is part of Gadgetbridge.
 

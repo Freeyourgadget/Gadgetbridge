@@ -1,4 +1,4 @@
-/*  Copyright (C) 2016-2020 Carsten Pfeiffer, Uwe Hermann
+/*  Copyright (C) 2016-2021 Carsten Pfeiffer, Uwe Hermann
 
     This file is part of Gadgetbridge.
 

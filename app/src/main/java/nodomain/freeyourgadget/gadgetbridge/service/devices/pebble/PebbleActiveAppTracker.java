@@ -1,4 +1,4 @@
-/*  Copyright (C) 2019-2020 Matej Drobnič
+/*  Copyright (C) 2019-2021 Matej Drobnič
 
     This file is part of Gadgetbridge.
 

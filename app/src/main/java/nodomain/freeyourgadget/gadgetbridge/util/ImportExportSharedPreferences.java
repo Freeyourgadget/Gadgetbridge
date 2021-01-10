@@ -1,4 +1,4 @@
-/*  Copyright (C) 2017-2020 Alberto, Andreas Shimokawa, Carsten Pfeiffer,
+/*  Copyright (C) 2017-2021 Alberto, Andreas Shimokawa, Carsten Pfeiffer,
     Daniele Gobbetti, Taavi Eomäe
 
     This file is part of Gadgetbridge.

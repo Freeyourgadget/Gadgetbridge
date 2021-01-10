@@ -1,4 +1,4 @@
-/*  Copyright (C) 2017-2020 Andreas Shimokawa, Carsten Pfeiffer, DerFetzer,
+/*  Copyright (C) 2017-2021 Andreas Shimokawa, Carsten Pfeiffer, DerFetzer,
     Matthieu Baerts, Roi Greenberg
 
     This file is part of Gadgetbridge.

@@ -1,4 +1,4 @@
-/*  Copyright (C) 2020 Taavi Eomäe
+/*  Copyright (C) 2020-2021 Andreas Shimokawa, Taavi Eomäe
 
     This file is part of Gadgetbridge.
 

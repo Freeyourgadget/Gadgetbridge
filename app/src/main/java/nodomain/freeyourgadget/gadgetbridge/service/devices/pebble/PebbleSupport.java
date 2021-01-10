@@ -1,5 +1,5 @@
-/*  Copyright (C) 2015-2020 Andreas Shimokawa, Carsten Pfeiffer, Daniele
-    Gobbetti, Kasha, Sebastian Kranz, Steffen Liebergeld
+/*  Copyright (C) 2015-2021 Andreas Shimokawa, Carsten Pfeiffer, Daniele
+    Gobbetti, Kasha, Sebastian Kranz, Steffen Liebergeld, Taavi Eomäe
 
     This file is part of Gadgetbridge.
 

@@ -1,5 +1,5 @@
-/*  Copyright (C) 2015-2020 Andreas Shimokawa, AndrewH, Carsten Pfeiffer,
-    Daniele Gobbetti, Pavel Elagin
+/*  Copyright (C) 2015-2021 Andreas Shimokawa, AndrewH, Carsten Pfeiffer,
+    Daniele Gobbetti, Pavel Elagin, Petr Vaněk
 
     This file is part of Gadgetbridge.
 

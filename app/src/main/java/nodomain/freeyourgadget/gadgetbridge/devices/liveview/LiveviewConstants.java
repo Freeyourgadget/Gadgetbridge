@@ -1,4 +1,4 @@
-/*  Copyright (C) 2016-2020 Daniele Gobbetti
+/*  Copyright (C) 2016-2021 Daniele Gobbetti
 
     This file is part of Gadgetbridge.
 

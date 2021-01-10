@@ -1,4 +1,5 @@
-/*  Copyright (C) 2017-2020 Andreas Shimokawa, Carsten Pfeiffer, Nephiel
+/*  Copyright (C) 2017-2021 Andreas Shimokawa, Carsten Pfeiffer, Nephiel,
+    odavo32nof, Petr Vaněk, Zhong Jianxin
 
     This file is part of Gadgetbridge.
 

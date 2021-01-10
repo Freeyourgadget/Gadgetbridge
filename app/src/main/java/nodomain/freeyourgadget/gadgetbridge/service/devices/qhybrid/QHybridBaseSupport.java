@@ -1,4 +1,4 @@
-/*  Copyright (C) 2015-2020 0nse, Andreas Shimokawa, Carsten Pfeiffer, Daniel
+/*  Copyright (C) 2015-2021 0nse, Andreas Shimokawa, Carsten Pfeiffer, Daniel
     Dakhno, José Rebelo, Julien Pivotto, Sebastian Kranz, Steffen Liebergeld
 
     This file is part of Gadgetbridge.

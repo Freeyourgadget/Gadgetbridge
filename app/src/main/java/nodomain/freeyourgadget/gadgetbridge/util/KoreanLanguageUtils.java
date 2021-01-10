@@ -1,4 +1,4 @@
-/*  Copyright (C) 2020 Ted Stein
+/*  Copyright (C) 2020-2021 Ted Stein
 
     This file is part of Gadgetbridge.
 

@@ -1,6 +1,4 @@
-/*  Copyright (C) 2015-2020 Andreas Böhler, Andreas Shimokawa, Carsten
-    Pfeiffer, Daniel Dakhno, Daniele Gobbetti, JohnnySun, José Rebelo,
-    opavlov
+/*  Copyright (C) 2020-2021 opavlov
 
     This file is part of Gadgetbridge.
 

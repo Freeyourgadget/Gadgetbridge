@@ -1,4 +1,4 @@
-/*  Copyright (C) 2018-2020 Pavel Elagin
+/*  Copyright (C) 2018-2021 Pavel Elagin
 
     This file is part of Gadgetbridge.
 

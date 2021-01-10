@@ -1,4 +1,4 @@
-/*  Copyright (C) 2017-2020 Daniele Gobbetti, João Paulo Barraca, tiparega
+/*  Copyright (C) 2017-2021 Daniele Gobbetti, João Paulo Barraca, tiparega
 
     This file is part of Gadgetbridge.
 

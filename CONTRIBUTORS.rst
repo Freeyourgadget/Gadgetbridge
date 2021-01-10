@@ -93,7 +93,6 @@
 * Uwe Hermann <uwe@hermann-uwe.de>
 * opavlov <forpoststuff@gmail.com>
 * Olexandr Nesterenko <olexn@ukr.net>
-* Kranz <Kranz>
 * Edoardo Rosa <edoardo.rosa90@gmail.com>
 * Dmitriy Bogdanov <di72nn@gmail.com>
 * Bożydar <trening302@o2.pl>
@@ -180,7 +179,6 @@
 * Irul <wedesignthing@gmail.com>
 * ifurther <i.further.5.4@gmail.com>
 * homocomputeris <homocomputeris+git@gmail.com>
-* frederic lesur LESUR　Frederic <frederic.lesur@ads-jp.intraxa>
 * Francesco Franchina <cescus92@gmail.com>
 * fparri <fparri@noreply.codeberg.org>
 * exit-failure <hakrala@web.de>
@@ -254,7 +252,7 @@
 * Mike van Rossum <mike@vanrossum.net>
 * Michal Novak <michal.novak@post.cz>
 * michaelneu <git@michaeln.eu>
-* Memiks <memiks@noreply.codeberg.org>
+* Lesur Frederic <contact@memiks.fr>
 * McSym28 <McSym28@users.noreply.github.com>
 * MaxL <z60loa8qw3umzu3@my10minutemail.com>
 * maxirnilian <maxirnilian@users.noreply.github.com>

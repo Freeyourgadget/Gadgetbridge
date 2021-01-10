@@ -1,4 +1,4 @@
-/*  Copyright (C) 2018-2020 Carsten Pfeiffer, Johann C. Rode
+/*  Copyright (C) 2018-2021 Carsten Pfeiffer, Johann C. Rode
 
     This file is part of Gadgetbridge.
 

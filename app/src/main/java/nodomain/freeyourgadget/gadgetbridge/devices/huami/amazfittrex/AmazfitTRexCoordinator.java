@@ -1,5 +1,5 @@
-/*  Copyright (C) 2017-2020 Andreas Shimokawa, Daniele Gobbetti, João
-    Paulo Barraca, José Rebelo, tiparega
+/*  Copyright (C) 2017-2021 Andreas Shimokawa, Daniele Gobbetti, Dmytro
+    Bielik, João Paulo Barraca, José Rebelo, tiparega
 
     This file is part of Gadgetbridge.
 

@@ -1,5 +1,6 @@
-/*  Copyright (C) 2016-2020 Alberto, Andreas Shimokawa, Carsten Pfeiffer,
-    ivanovlev, João Paulo Barraca, Pavel Motyrev, Quallenauge, Sebastian Kranz
+/*  Copyright (C) 2016-2021 Alberto, Andreas Shimokawa, Carsten Pfeiffer,
+    ivanovlev, João Paulo Barraca, Lesur Frederic, Pavel Motyrev, Quallenauge,
+    Sebastian Kranz
 
     This file is part of Gadgetbridge.
 

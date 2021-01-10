@@ -1,5 +1,5 @@
-/*  Copyright (C) 2016-2020 Andreas Shimokawa, Carsten Pfeiffer, Daniele
-    Gobbetti, maxirnilian, Vadim Kaushan
+/*  Copyright (C) 2016-2021 Andreas Shimokawa, Carsten Pfeiffer, Daniele
+    Gobbetti, mamucho, maxirnilian, Vadim Kaushan
 
     This file is part of Gadgetbridge.
 

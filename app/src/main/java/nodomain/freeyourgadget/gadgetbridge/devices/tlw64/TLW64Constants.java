@@ -1,4 +1,4 @@
-/*  Copyright (C) 2020 Erik Bloß
+/*  Copyright (C) 2015-2021 115ek, Carsten Pfeiffer
 
     This file is part of Gadgetbridge.
 

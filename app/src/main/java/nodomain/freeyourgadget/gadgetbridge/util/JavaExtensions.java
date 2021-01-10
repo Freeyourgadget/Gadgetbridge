@@ -1,4 +1,4 @@
-/*  Copyright (C) 2017-2020 ivanovlev
+/*  Copyright (C) 2017-2021 ivanovlev
 
     This file is part of Gadgetbridge.
 

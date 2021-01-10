@@ -1,4 +1,4 @@
-/*  Copyright (C) 2019 Daniel Dakhno
+/*  Copyright (C) 2019-2021 Daniel Dakhno
 
     This file is part of Gadgetbridge.
 

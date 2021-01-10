@@ -1,6 +1,7 @@
-/*  Copyright (C) 2015-2020 Andreas Shimokawa, atkyritsis, Carsten Pfeiffer,
-    Christian Fischer, Daniele Gobbetti, freezed-or-frozen, JohnnySun, Julien
-    Pivotto, Kasha, Sebastian Kranz, Sergey Trofimov, Steffen Liebergeld
+/*  Copyright (C) 2015-2021 Andreas Shimokawa, atkyritsis, Carsten Pfeiffer,
+    Christian Fischer, Daniele Gobbetti, Dmitry Markin, freezed-or-frozen,
+    JohnnySun, Julien Pivotto, Kasha, Sebastian Kranz, Sergey Trofimov, Steffen
+    Liebergeld
 
     This file is part of Gadgetbridge.
 

@@ -1,4 +1,4 @@
-/*  Copyright (C) 2016-2020 Andreas Shimokawa, Carsten Pfeiffer, Cre3per,
+/*  Copyright (C) 2016-2021 Andreas Shimokawa, Carsten Pfeiffer, Cre3per,
     Daniele Gobbetti, José Rebelo, Petr Kadlec, protomors
 
     This file is part of Gadgetbridge.

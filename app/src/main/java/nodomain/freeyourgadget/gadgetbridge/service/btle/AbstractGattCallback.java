@@ -1,4 +1,4 @@
-/*  Copyright (C) 2015-2020 Carsten Pfeiffer, Daniel Dakhno
+/*  Copyright (C) 2015-2021 Carsten Pfeiffer, Daniel Dakhno
 
     This file is part of Gadgetbridge.
 

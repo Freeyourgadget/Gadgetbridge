@@ -1,4 +1,5 @@
-/*  Copyright (C) 2018-2020 Daniele Gobbetti, maxirnilian, Taavi Eomäe
+/*  Copyright (C) 2018-2021 Daniele Gobbetti, mamucho, maxirnilian, mkusnierz,
+    Taavi Eomäe
 
     This file is part of Gadgetbridge.
 

@@ -1,4 +1,4 @@
-/*  Copyright (C) 2020 Taavi Eomäe
+/*  Copyright (C) 2019-2021 Daniel Dakhno, Taavi Eomäe
 
     This file is part of Gadgetbridge.
 
