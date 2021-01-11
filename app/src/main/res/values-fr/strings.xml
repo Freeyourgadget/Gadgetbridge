@@ -349,14 +349,14 @@ Temps de sommeil préféré en heures</string>
     <string name="pref_summary_pebble_health_store_raw">Si coché, les données « brutes » sont stockées pour une interprétation ultérieure, augmentant la taille de la base de données.</string>
     <string name="action_db_management">Gestion des données</string>
     <string name="title_activity_db_management">Gestion des données</string>
-    <string name="activity_db_management_import_export_explanation">Les opérations d\'Import/Export utilisent le répertoire suivant sur votre appareil. Ce répertoire est accessible à d\'autres applications Android et depuis votre ordinateur. Cela inclut :
+    <string name="activity_db_management_import_export_explanation">Les opérations d\'Import/Export utilisent le répertoire suivant (voir ci-dessous) sur votre appareil. Ce répertoire est accessible à d\'autres applications Android et depuis votre ordinateur. Merci de prendre note que ce répertoire et tout son contenu seront effacés si vous désinstallez Gadgetbridge. Cela inclut :
 \n Export_preference - réglages généraux
 \n Export_preference_MAC - réglages spécifiques à l\'appareil
 \n Gadgetbridge - base de données des appareils et activités
 \n Gadgetbridge_date - export de la base de données sur une date
 \n *.gpx - enregistrements GPS
 \n *.log - fichiers de log
-\nAttendez-vous à trouver vor fichiers exportés (ou à placer là les fichiers que vous voulez importer) à cet endroit :</string>
+\nAttendez-vous à trouver vos fichiers exportés (ou à placer là les fichiers que vous voulez importer) à cet endroit :</string>
     <string name="activity_db_management_merge_old_title">Effacer l\'ancienne base de données</string>
     <string name="dbmanagementactivvity_cannot_access_export_path">Impossible d\'accéder au fichier d\'export. Merci de contacter les développeurs.</string>
     <string name="dbmanagementactivity_exported_to">Exporter vers : %1$s</string>
@@ -1151,4 +1151,10 @@ Temps de sommeil préféré en heures</string>
     <string name="dbmanagementactivity_export_confirmation">Exporter réellement les données \? Les données et les préférences précédemment exportées (s\'il y en a) seront écrasées.</string>
     <string name="dbmanagementactivity_export_data_title">Exporter les Données \?</string>
     <string name="devicetype_amazfit_bipupro">Amazfit Bip U Pro</string>
+    <string name="dbmanagementactivity_export_finished">Suppression terminée</string>
+    <string name="activity_db_management_clean_export_directory_text">Les fichiers exportés dans le répertoire d\'Import/Export sont accessibles depuis n\'importe quelle application sur votre appareil. Il est préférable de supprimer ces fichiers après synchronisation ou sauvegarde. Assurez-vous d\'avoir une sauvegarde avant de supprimer les fichiers. Les fichiers GPX, les sous-répertoires, et les fichiers de base de données auto-exportés (s\'ils existent) ne seront pas supprimés. Le chemin du répertoire d\'Import/Export est:</string>
+    <string name="activity_DB_clean_export_directory_warning_message">Vraiment effacer les fichiers dans le répertoire d\'Import/Export \?</string>
+    <string name="activity_DB_clean_export_directory_warning_title">Effacer les fichiers dans le répertoire d\'Import/Export \?</string>
+    <string name="activity_db_management_clean_export_directory_label">Effacer les fichiers dans le répertoire d\'Import/Export</string>
+    <string name="dbmanagementactivity_error_cleaning_export_directory">Erreur lors de l\'effacement des fichiers du répertoire d\'exportation %1$s</string>
 </resources>
