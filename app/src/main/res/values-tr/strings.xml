@@ -30,7 +30,7 @@
     <string name="activity_db_management_empty_DB">Veri tabanını boşalt</string>
     <string name="activity_db_management_empty_db_warning">Dikkat! Bu düğmeye basarak veri tabanınızı silecek ve sıfırdan başlayacaksınız.</string>
     <string name="activity_db_management_exportimport_label">Dışa ve İçe Aktar</string>
-    <string name="activity_db_management_import_export_explanation">Dışa/içe aktarma işlemleri, aygıtınızdaki bir dizine giden aşağıdaki yolu kullanır. Bu dizine diğer Android uygulamaları ve bilgisayarınız tarafından erişilebilir. Veriler şunları içerir:
+    <string name="activity_db_management_import_export_explanation">Dışa/içe aktarma işlemleri, aygıtınızdaki bir dizine giden aşağıdaki yolu kullanır. Bu dizine diğer Android uygulamaları ve bilgisayarınız tarafından erişilebilir. Gadgetbridge\'i kaldırırsanız, bu dizinin ve içerdiği tüm dosyaların silineceğini unutmayın. Veriler şunları içerir:
 \n Export_preference - genel ayarlar
 \n Export_preference_MAC - aygıta özel ayarlar
 \n Gadgetbridge - aygıt ve etkinlik veri tabanı
@@ -1181,4 +1181,10 @@
     <string name="dbmanagementactivity_export_confirmation">Veriler gerçekten dışarı aktarılsın mı\? Önceden dışa aktarılan etkinlik verilerinizin (varsa) ve tercihlerinizin üzerine yazılacak.</string>
     <string name="dbmanagementactivity_export_data_title">Veriler Dışa Aktarılsın mı\?</string>
     <string name="devicetype_amazfit_bipupro">Amazfit Bip U Pro</string>
+    <string name="dbmanagementactivity_export_finished">Silme işlemi tamamlandı</string>
+    <string name="activity_db_management_clean_export_directory_text">Dışa/İçe aktarma dizinindeki dışa aktarılan dosyalara, aygıtınızdaki herhangi bir uygulama tarafından erişilebilir. Eşzamanlama veya yedeklemeden sonra bu dosyaları kaldırmak isteyebilirsiniz. Silmeden önce bir yedeğini aldığınızdan emin olun. GPX dosyaları, alt dizinler ve otomatik dışa aktarılan veri tabanı dosyası (varsa) silinmeyecektir. Dışa/İçe aktarma dizininin yolu şudur:</string>
+    <string name="activity_DB_clean_export_directory_warning_message">Dışa/İçe aktarma dizinindeki dosyalar gerçekten silinsin mi\?</string>
+    <string name="activity_DB_clean_export_directory_warning_title">Dışa/İçe aktarma dizinindeki dosyalar silinsin mi\?</string>
+    <string name="activity_db_management_clean_export_directory_label">Dışa/İçe aktarma dizinindeki dosyaları sil</string>
+    <string name="dbmanagementactivity_error_cleaning_export_directory">%1$s dışa aktarma dizininden dosyaları silerken hata oluştu</string>
 </resources>
