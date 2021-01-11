@@ -313,8 +313,8 @@
     <string name="pref_summary_pebble_health_store_raw">הנתונים מאוחסנים כמו שהם, מה שיגרום להגדלת נפח מסד הנתונים לצד אפשרות לפענוח בעתיד.</string>
     <string name="action_db_management">ניהול נתונים</string>
     <string name="title_activity_db_management">ניהול נתונים</string>
-    <string name="activity_db_management_import_export_explanation">פעולות ייבוא/ייצוא משתמשות בנתיב הבא במכשיר שלך. התיקייה הזאת חשופה ליישומוני Android אחרים ולמחשב שלך. הנתונים כוללים:
-\nExport_preference - הגדרות גלובליות 
+    <string name="activity_db_management_import_export_explanation">פעולות ייבוא/ייצוא משתמשות בנתיב הבא (מופיע להלן) במכשיר שלך. התיקייה הזאת חשופה ליישומוני Android אחרים ולמחשב שלך. נא לשים לב שהתיקייה הסרת על כל תוכנה תימחק בכל הסרת Gadgetbridge. הנתונים כוללים:
+\nExport_preference - הגדרות גלובליות
 \nExport_preference_MAC - הגדרות למכשיר מסוים
 \n Gadgetbridge - מסד נתוני מכשיר ופעילות
 \n Gadgetbridge_date - התאריך בוא ייוצא מסד הנתונים
@@ -1153,4 +1153,10 @@
     <string name="dbmanagementactivity_export_confirmation">לייצא נתונים\? נתוני הפעילות שיוצאו קודם לכן (אם יש כאלו) וההעדפות יידרסו.</string>
     <string name="dbmanagementactivity_export_data_title">לייצא נתונים\?</string>
     <string name="devicetype_amazfit_bipupro">Amazfit Bip U Pro</string>
+    <string name="activity_db_management_clean_export_directory_text">הקבצים שבתיקייה הייצוא/ייבוא זמינים לכל יישומון במכשיר שלך. יכול להיות שכדאי לך להסיר את הקבצים האלו לאחר סנכרון או גיבוי. נא לוודא שיש לך גיבוי בטרם מחיקתם. קובצי GPX, תת־תיקיות וקובץ מסד נתונים שיוצא אוטומטית (אם קיים) לא יימחקו. הנתיב לתיקיית הייצוא/ייבוא הוא:</string>
+    <string name="dbmanagementactivity_export_finished">המחיקה הושלמה</string>
+    <string name="activity_DB_clean_export_directory_warning_message">באמת למחוק את הקבצים שבתיקיית ייצוא/ייבוא\?</string>
+    <string name="activity_DB_clean_export_directory_warning_title">למחוק קבצים בתיקיית ייצוא/ייבוא\?</string>
+    <string name="activity_db_management_clean_export_directory_label">מחיקת קבצים בתיקיית ייצוא/ייבוא</string>
+    <string name="dbmanagementactivity_error_cleaning_export_directory">שגיאה במחיקת קבצים מתיקיית הייצוא %1$s</string>
 </resources>
