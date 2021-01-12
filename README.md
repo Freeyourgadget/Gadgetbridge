@@ -1,4 +1,8 @@
-Gadgetbridge is now hosted on [codeberg.org](https://codeberg.org/Freeyourgadget/Gadgetbridge/)
+Gadgetbridge is now hosted on [codeberg.org](https://codeberg.org/Freeyourgadget/Gadgetbridge/).
+
+<a href="https://codeberg.org/Freeyourgadget/Gadgetbridge/">
+    <img alt="Get it on Codeberg" src="https://get-it-on.codeberg.org/get-it-on-blue-on-white.png" height="60">
+</a>
 
 Gadgetbridge
 ============
@@ -64,7 +68,7 @@ vendor's servers.
 * NO.1 F1
 * Pebble, Pebble Steel, Pebble Time, Pebble Time Steel, Pebble Time Round [Wiki](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Pebble)
 * Pebble 2 [Wiki](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Pebble)
-* PimeTime (InfiniTime Firmware)
+* PineTime (InfiniTime Firmware)
 * Teclast H10, H30
 * TLW64
 * XWatch (Affordable Chinese Casio-like smartwatches)
