@@ -323,8 +323,8 @@
     <string name="pref_summary_pebble_health_store_raw">Ukládá data v původní podobě, takže je databáze větší, ale umožňuje to pozdější vyhodnocení.</string>
     <string name="action_db_management">Správa dat</string>
     <string name="title_activity_db_management">Správa dat</string>
-    <string name="activity_db_management_import_export_explanation">Operace s databází použijí následující cestu ke složce v zařízení. Tato složka je dostupná pro ostatní aplikace Androidu a váš počítač. Soubory onsahují:
-\n Export_preference - globalní nastavení
+    <string name="activity_db_management_import_export_explanation">Operace s databází použijí následující cestu (viz níže) ke složce v zařízení. Tato složka je dostupná pro ostatní aplikace Androidu a váš počítač. Nezapomeňte, že tato složka a její obsah jsou vymazány při odinstalaci Gadgetbridge. Soubory obsahují:
+\n Export_preference - globální nastavení
 \n Export_preference_MAC - nastavení specifická pro zařízení
 \n Gadgetbridge - databáze zařízení a aktivit
 \n Gadgetbridge_date - databáze exportovaní ke datu
@@ -1154,4 +1154,10 @@
     <string name="devicetype_amazfit_bipupro">Amazfit Bip U Pro</string>
     <string name="dbmanagementactivity_export_confirmation">Opravdu exportovat data\? Předešle exportovaná data aktivit a nastavení budou přepsána.</string>
     <string name="dbmanagementactivity_export_data_title">Exportovat Data\?</string>
+    <string name="dbmanagementactivity_export_finished">Mazání dokončeno</string>
+    <string name="activity_db_management_clean_export_directory_text">Soubory exportované do Export/Import složky jsou dostupné kterékoli aplikaci vašeho zařízení. Pravděpodobně je po exportu a následné záloze nebo synchronizaci budete chtít vymazat. Před vymazáním se ujistěte, že máte záložní kopii. GPX záznamy, pod-složky a soubor auto-exportu databáze (existují-li) nebudou vymazány. Cesta k Export/Import složce je:</string>
+    <string name="activity_DB_clean_export_directory_warning_message">Opravdu odstranit soubory z Export/Import složky\?</string>
+    <string name="activity_DB_clean_export_directory_warning_title">Chcete odstranit soubory z Export/Import složky\?</string>
+    <string name="activity_db_management_clean_export_directory_label">Odstranění souborů ze složky Export/Import</string>
+    <string name="dbmanagementactivity_error_cleaning_export_directory">Došlo k chybě při mazání souborů ze složky exportu %1$s</string>
 </resources>
