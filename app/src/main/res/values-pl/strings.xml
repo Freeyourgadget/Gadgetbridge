@@ -256,12 +256,12 @@
     <string name="updatefirmwareoperation_update_in_progress">Aktualizowanie oprogramowania</string>
     <string name="charts_legend_heartrate">Puls</string>
     <string name="live_activity_heart_rate">Tętno</string>
-    <string name="action_db_management">Zarządzanie bazą danych</string>
-    <string name="title_activity_db_management">Zarządzanie bazą danych</string>
+    <string name="action_db_management">Zarządzanie danymi</string>
+    <string name="title_activity_db_management">Zarządzanie danymi</string>
     <string name="dbmanagementactivity_exported_to">Wyeksportowano do: %1$s</string>
     <string name="dbmanagementactivity_error_exporting_db">Błąd eksportu bazy: %1$s</string>
     <string name="dbmanagementactivity_import_data_title">Zaimportować?</string>
-    <string name="dbmanagementactivity_overwrite_database_confirmation">Naprawdę chcesz napisać bazę? Wszystkie Twoje dane zostaną zastąpione.</string>
+    <string name="dbmanagementactivity_overwrite_database_confirmation">Czy naprawdę nadpisać bieżące dane\? Wszystkie Twoje dane dotyczące aktywności (jeśli istnieją) i preferencje zostaną nadpisane.</string>
     <string name="dbmanagementactivity_error_importing_db">Błąd importu bazy: %1$s</string>
     <string name="dbmanagementactivity_overwrite">Nadpisz</string>
     <string name="Cancel">Anuluj</string>
@@ -691,8 +691,8 @@
     <string name="pref_title_use_custom_font">Użyj niestandardowej czcionki</string>
     <string name="pref_summary_use_custom_font">Włącz tę opcję, jeśli Twoje urządzenie ma niestandardowy firmware czcionek do obsługi emoji</string>
     <string name="activity_db_management_autoexport_label">Automatyczny eksport</string>
-    <string name="activity_DB_ExportButton">Eksport BD</string>
-    <string name="activity_DB_import_button">Import BD</string>
+    <string name="activity_DB_ExportButton">Eksport danych</string>
+    <string name="activity_DB_import_button">Import danych</string>
     <string name="activity_DB_test_export_message">Eksportowanie bazy danych…</string>
     <string name="activity_DB_delete_legacy_button">Usuń starą bazę danych</string>
     <string name="activity_DB_empty_button">Opróżnij bazę danych</string>
@@ -747,14 +747,14 @@
     <string name="devicetype_banglejs">Bangle.js</string>
     <string name="devicetype_y5">Y5</string>
     <string name="alarm_snooze">Drzemka</string>
-    <string name="activity_db_management_import_export_explanation">Operacje importu/eksportu używają następującej ścieżki do katalogu na urządzeniu. Katalog jest dostępny dla innych aplikacji Androida i Twojego komputera. Dane obejmują:
+    <string name="activity_db_management_import_export_explanation">Operacje importu/eksportu używają następującej ścieżki (zobacz poniżej) do katalogu na urządzeniu. Katalog jest dostępny dla innych aplikacji Androida i Twojego komputera. Należy pamiętać, że ten katalog i wszystkie zawarte tam pliki zostaną usunięte, jeśli odinstalujesz Gadgetbridge. Dane obejmują:
 \n Export_preference - ustawienia globalne
 \n Export_preference_MAC - ustawienia specyficzne dla urządzenia
 \n Gadgetbridge - baza danych urządzeń i aktywności
 \n Gadgetbridge_date - baza danych wyeksportowana w danym dniu
 \n *.gpx - trasy GPS
 \n *.log - pliki logów
-\nTwoje wyeksportowane pliki znajdziesz (lub po prostu umieść pliki, które chcesz zaimportować) tutaj:</string>
+\nWyeksportowane pliki znajdziesz (lub pliki, które chcesz zaimportować umieść) tam:</string>
     <string name="activity_db_management_merge_old_title">Usuwanie starej bazy danych</string>
     <string name="dbmanagementactivity_error_exporting_shared">Błąd podczas eksportowania preferencji: %1$s</string>
     <string name="dbmanagementactivity_error_importing_shared">Błąd podczas importowania preferencji: %1$s</string>
@@ -1164,4 +1164,10 @@
     <string name="devicetype_amazfit_bipupro">Amazfit Bip U Pro</string>
     <string name="dbmanagementactivity_export_confirmation">Czy naprawdę wyeksportować dane\? Wyeksportowane wcześniej dane o aktywnościach (jeśli takie istnieją) i ustawienia zostaną nadpisane.</string>
     <string name="dbmanagementactivity_export_data_title">Wyeksportować dane\?</string>
+    <string name="activity_db_management_clean_export_directory_text">Eksportowane pliki w katalogu eksportu/importu są dostępne dla każdej aplikacji na Twoim urządzeniu. Możesz chcieć usunąć te pliki po synchronizacji lub utworzeniu kopii zapasowej. Upewnij się, że masz kopię zapasową przed ich usunięciem. Pliki GPX, podkatalogi i automatycznie wyeksportowane pliki bazy danych (jeśli istnieją) nie zostaną usunięte. Ścieżka do katalogu eksportu/ importu to:</string>
+    <string name="activity_db_management_clean_export_directory_label">Usuń pliki w katalogu eksportu/importu</string>
+    <string name="dbmanagementactivity_export_finished">Usuwanie ukończone</string>
+    <string name="activity_DB_clean_export_directory_warning_message">Czy na pewno usunąć pliki z katalogu eksportu/importu\?</string>
+    <string name="activity_DB_clean_export_directory_warning_title">Usunąć pliki z katalogu eksportu/importu\?</string>
+    <string name="dbmanagementactivity_error_cleaning_export_directory">Wystąpił błąd podczas usuwania plików z katalogu eksportu %1$s</string>
 </resources>
