@@ -355,7 +355,7 @@
     <string name="pref_summary_pebble_health_store_raw">Speichert Daten „wie sie sind“ und erhöht die Datenbanknutzung, um eine spätere Auswertung zu ermöglichen.</string>
     <string name="action_db_management">Datenmanagement</string>
     <string name="title_activity_db_management">Datenmanagement</string>
-    <string name="activity_db_management_import_export_explanation">Die Export-/Importvorgänge verwenden den folgenden Pfad zu einem Verzeichnis auf deinem Gerät. Auf dieses Verzeichnis können andere Android-Apps und dein Computer zugreifen. Die Daten umfassen:
+    <string name="activity_db_management_import_export_explanation">Die Export-/Importvorgänge verwenden den folgenden Pfad (siehe unten) zu einem Verzeichnis auf deinem Gerät. Auf dieses Verzeichnis können andere Android-Apps und dein Computer zugreifen. Beachte, dass dieses Verzeichnis und alle enthaltenen Dateien gelöscht werden, wenn du Gadgetbridge deinstallierst. Die Daten umfassen:
 \n Export_preference - globale Einstellungen
 \n Export_preference_MAC - gerätespezifische Einstellungen
 \n Gadgetbridge - Geräte- und Aktivitätsdatenbank
@@ -1166,4 +1166,10 @@
     <string name="activity_DB_ShowContentButton">Export-/Importverzeichnisinhalt anzeigen</string>
     <string name="activity_data_management_directory_content_title">Verzeichnisinhalt exportieren/importieren</string>
     <string name="devicetype_amazfit_bipupro">Amazfit Bip U Pro</string>
+    <string name="activity_db_management_clean_export_directory_text">Auf exportierte Dateien im Export/Import-Verzeichnis kann jede App auf deinem Gerät zugreifen. Möglicherweise möchtest du diese Dateien nach der Synchronisierung oder Sicherung entfernen. Stelle sicher, dass du ein Backup hast, bevor du sie löschst. GPX-Dateien, Unterverzeichnisse und automatisch exportierte Datenbankdateien (falls vorhanden) werden nicht gelöscht. Der Pfad zum Export/Import-Verzeichnis lautet:</string>
+    <string name="dbmanagementactivity_error_cleaning_export_directory">Fehler beim Löschen der Dateien aus dem Exportverzeichnis %1$s</string>
+    <string name="dbmanagementactivity_export_finished">Löschen abgeschlossen</string>
+    <string name="activity_DB_clean_export_directory_warning_message">Dateien im Export/Import-Verzeichnis wirklich löschen\?</string>
+    <string name="activity_DB_clean_export_directory_warning_title">Dateien im Export/Import-Verzeichnis löschen\?</string>
+    <string name="activity_db_management_clean_export_directory_label">Dateien im Export/Import-Verzeichnis löschen</string>
 </resources>
