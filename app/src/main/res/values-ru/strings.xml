@@ -330,7 +330,7 @@
     <string name="live_activity_heart_rate">Пульс</string>
     <string name="pref_title_pebble_health_store_raw">Хранить необработанные записи в базе данных</string>
     <string name="pref_summary_pebble_health_store_raw">Если флажок установлен, данные сохраняются как есть. В дальнейшем их можно будет обрабатывать. Обратите внимание: в этом случае база данных будет занимать больше места.</string>
-    <string name="action_db_management">Управление базой данных</string>
+    <string name="action_db_management">Управление данными</string>
     <string name="title_activity_db_management">Управление базой данных</string>
     <string name="activity_db_management_import_export_explanation">Операции с базой данных используют этот путь на устройстве. 
 \nОн доступен для других приложений Android и компьютера. 
@@ -341,7 +341,7 @@
     <string name="dbmanagementactivity_error_exporting_db">Ошибка экспорта базы данных: %1$s</string>
     <string name="dbmanagementactivity_error_exporting_shared">Ошибка экспорта настроек: %1$s</string>
     <string name="dbmanagementactivity_import_data_title">Импортировать данные?</string>
-    <string name="dbmanagementactivity_overwrite_database_confirmation">Точно перезаписать текущую базу данных? Все текущие данные вашей активности (если они есть) будут утеряны.</string>
+    <string name="dbmanagementactivity_overwrite_database_confirmation">Точно перезаписать текущие данные\? Все текущая активность (если она есть) будет перезаписаны.</string>
     <string name="dbmanagementactivity_import_successful">Импортировано.</string>
     <string name="dbmanagementactivity_error_importing_db">Ошибка импорта базы данных: %1$s</string>
     <string name="dbmanagementactivity_error_importing_shared">Ошибка импорта настроек: %1$s</string>
@@ -735,8 +735,8 @@
     <string name="pref_summary_use_custom_font">Активируйте это для поддержки emoji, если ваше устройство имеет установленный пользовательский шрифт</string>
     <string name="activity_db_management_autoexport_explanation">Местоположение авто-экспорта базы данных установлено:</string>
     <string name="activity_db_management_autoexport_label">Авто-экспорт</string>
-    <string name="activity_DB_ExportButton">Экспорт базы данных</string>
-    <string name="activity_DB_import_button">Импорт базы данных</string>
+    <string name="activity_DB_ExportButton">Экспорт данных</string>
+    <string name="activity_DB_import_button">Импорт данных</string>
     <string name="activity_DB_test_export_button">Запустить Авто-экспорт сейчас</string>
     <string name="activity_DB_test_export_message">Экспортирование базы данных…</string>
     <string name="activity_DB_delete_legacy_button">Удалить старую базу данных</string>
@@ -1147,4 +1147,6 @@
 \n
 \nДЕЙСТВУЙТЕ НА СВОЙ СТРАХ И РИСК!</string>
     <string name="qhybrid_calibration_align_hint">Выровнять стрелки к 12:00</string>
+    <string name="dbmanagementactivity_export_confirmation">Действительно экспортировать данные\? Ранее экспортированные данные о активности (если таковые имеются) и настройки будут перезаписаны.</string>
+    <string name="dbmanagementactivity_export_data_title">Экспорт данных\?</string>
 </resources>
