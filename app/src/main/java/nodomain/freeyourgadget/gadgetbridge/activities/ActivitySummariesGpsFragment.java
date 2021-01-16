@@ -88,7 +88,9 @@ public class ActivitySummariesGpsFragment extends AbstractGBFragment {
                 }
 
                 if (gpxParser != null) {
-                    drawTrack(canvas, gpxParser.getPoints());
+                    if (gpxParser.getPoints().toArray().length > 0) {
+                        drawTrack(canvas, gpxParser.getPoints());
+                    }
                 }
             }
         }).start();

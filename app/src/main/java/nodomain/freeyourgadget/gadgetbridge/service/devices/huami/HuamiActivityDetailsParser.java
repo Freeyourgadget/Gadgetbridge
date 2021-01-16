@@ -70,7 +70,7 @@ public class HuamiActivityDetailsParser {
         this.activityTrack = new ActivityTrack();
         activityTrack.setUser(summary.getUser());
         activityTrack.setDevice(summary.getDevice());
-        activityTrack.setName(summary.getName() + "-" + summary.getId());
+        activityTrack.setName(createActivityName(summary));
     }
 
     public ActivityTrack parse(byte[] bytes) throws GBException {
@@ -294,5 +294,15 @@ public class HuamiActivityDetailsParser {
     private int consumeSwimming(byte[] bytes, int offset) {
         LOG.debug("got packet type 8 (swimming?): " + GB.hexdump(bytes, offset, 6));
         return 6;
+    }
+
+    private String createActivityName(BaseActivitySummary summary) {
+        String name = summary.getName();
+        String nameText = "";
+        Long id = summary.getId();
+        if (name != null) {
+            nameText = name + " - ";
+        }
+        return nameText + id;
     }
 }

@@ -1,13 +1,16 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<gpx xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:gpxtpx="http://www.garmin.com/xmlschemas/TrackPointExtension/v1" xmlns="http://www.topografix.com/GPX/1/1" version="1.1" creator="Gadgetbridge Test" xsi:schemaLocation="http://www.topografix.com/GPX/1/1 http://www.topografix.com/GPX/1/1/gpx.xsd">
+<gpx xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:gpxtpx="http://www.garmin.com/xmlschemas/TrackPointExtension/v1" xmlns="http://www.topografix.com/GPX/1/1" xmlns:opentracks="http://opentracksapp.com/xmlschemas/v1" version="1.1" creator="Gadgetbridge Test" xsi:schemaLocation="http://www.topografix.com/GPX/1/1 http://www.topografix.com/GPX/1/1/gpx.xsd http://opentracksapp.com/xmlschemas/v1 http://opentracksapp.com/xmlschemas/OpenTracks_v1.xsd">
   <metadata>
     <name>Test Track</name>
     <author>
       <name>Test User</name>
     </author>
-    <time>2020-10-25T14:44:45+01:00</time>
+    <time>2021-01-16T23:27:34+01:00</time>
   </metadata>
   <trk>
+    <extensions>
+      <opentracks:trackid>0555e104-e8ea-4e10-b3e9-8b58abae257f</opentracks:trackid>
+    </extensions>
     <trkseg>
       <trkpt lon="-68.200293" lat="44.152462">
         <ele>40.000000</ele>

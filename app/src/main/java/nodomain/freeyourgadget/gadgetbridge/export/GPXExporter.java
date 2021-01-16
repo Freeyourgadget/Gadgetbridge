@@ -19,6 +19,9 @@ package nodomain.freeyourgadget.gadgetbridge.export;
 
 import android.util.Xml;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
 import org.xmlpull.v1.XmlSerializer;
 
 import java.io.File;
@@ -29,9 +32,8 @@ import java.math.RoundingMode;
 import java.nio.charset.StandardCharsets;
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import nodomain.freeyourgadget.gadgetbridge.activities.HeartRateUtils;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityPoint;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityTrack;
@@ -45,6 +47,10 @@ public class GPXExporter implements ActivityTrackExporter {
     private static final String NS_TRACKPOINT_EXTENSION = "gpxtpx";
     private static final String NS_TRACKPOINT_EXTENSION_URI = "http://www.garmin.com/xmlschemas/TrackPointExtension/v1";
     private static final String NS_XSI_URI = "http://www.w3.org/2001/XMLSchema-instance";
+    private static final String TOPOGRAFIX_NAMESPACE_XSD = "http://www.topografix.com/GPX/1/1/gpx.xsd";
+    private static final String OPENTRACKS_PREFIX = "opentracks";
+    private static final String OPENTRACKS_NAMESPACE_URI = "http://opentracksapp.com/xmlschemas/v1";
+    private static final String OPENTRACKS_NAMESPACE_XSD = "http://opentracksapp.com/xmlschemas/OpenTracks_v1.xsd";
 
     private String creator;
     private boolean includeHeartRate = true;
@@ -66,11 +72,14 @@ public class GPXExporter implements ActivityTrackExporter {
             ser.setPrefix("xsi", NS_XSI_URI);
             ser.setPrefix(NS_TRACKPOINT_EXTENSION, NS_TRACKPOINT_EXTENSION_URI);
             ser.setPrefix(NS_GPX_PREFIX, NS_GPX_URI);
+            ser.setPrefix(OPENTRACKS_PREFIX, OPENTRACKS_NAMESPACE_URI);
 
             ser.startTag(NS_GPX_URI, "gpx");
-            ser.attribute(null,"version", "1.1");
+            ser.attribute(null, "version", "1.1");
             ser.attribute(null, "creator", getCreator());
-            ser.attribute(NS_XSI_URI, "schemaLocation", NS_GPX_URI + " " + "http://www.topografix.com/GPX/1/1/gpx.xsd");
+            ser.attribute(NS_XSI_URI, "schemaLocation", NS_GPX_URI + " "
+                    + TOPOGRAFIX_NAMESPACE_XSD + " "
+                    + OPENTRACKS_NAMESPACE_URI + " " + OPENTRACKS_NAMESPACE_XSD);
 
             exportMetadata(ser, track);
             exportTrack(ser, track);
@@ -99,7 +108,12 @@ public class GPXExporter implements ActivityTrackExporter {
     }
 
     private void exportTrack(XmlSerializer ser, ActivityTrack track) throws IOException, GPXTrackEmptyException {
+        String uuid = UUID.randomUUID().toString();
         ser.startTag(NS_GPX_URI, "trk");
+        ser.startTag(NS_GPX_URI, "extensions");
+        ser.startTag(NS_GPX_URI, OPENTRACKS_PREFIX + ":trackid").text(uuid).endTag(NS_GPX_URI, OPENTRACKS_PREFIX + ":trackid");
+        ser.endTag(NS_GPX_URI, "extensions");
+
         ser.startTag(NS_GPX_URI, "trkseg");
 
         List<ActivityPoint> trackPoints = track.getTrackPoints();
