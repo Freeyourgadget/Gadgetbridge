@@ -1149,4 +1149,15 @@
     <string name="qhybrid_calibration_align_hint">Выровнять стрелки к 12:00</string>
     <string name="dbmanagementactivity_export_confirmation">Действительно экспортировать данные\? Ранее экспортированные данные о активности (если таковые имеются) и настройки будут перезаписаны.</string>
     <string name="dbmanagementactivity_export_data_title">Экспорт данных\?</string>
+    <string name="prefs_operating_sounds">Рабочие звуки</string>
+    <string name="widget_settings_select_device_title">Выберите устройство</string>
+    <string name="devicetype_amazfit_bipupro">Amazfit Bip U Pro</string>
+    <string name="dbmanagementactivity_export_finished">Удаление завершено</string>
+    <string name="activity_db_management_clean_export_directory_text">Экспортированные файлы в каталоге экспорта/импорта доступны для любого приложения на вашем устройстве. Вы можете удалить эти файлы после синхронизации или резервного копирования. Перед удалением убедитесь, что у вас есть резервная копия. Файлы GPX, подкаталоги и автоматически экспортируемый файл базы данных (если он существует) не будут удалены. Путь к каталогу экспорта/импорта:</string>
+    <string name="activity_DB_clean_export_directory_warning_message">Действительно удалить файлы в каталоге экспорта/импорта\?</string>
+    <string name="activity_DB_clean_export_directory_warning_title">Удалить файлы в каталоге экспорта/импорта\?</string>
+    <string name="activity_db_management_clean_export_directory_label">Удалить файлы в каталоге экспорта/импорта</string>
+    <string name="activity_DB_ShowContentButton">Показать содержимое каталога экспорта/импорта</string>
+    <string name="activity_data_management_directory_content_title">Экспорт/импорт содержимого каталога</string>
+    <string name="dbmanagementactivity_error_cleaning_export_directory">Ошибка при удалении файлов из каталога экспорта %1$s</string>
 </resources>
