@@ -1538,7 +1538,7 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
         super.onCharacteristicRead(gatt, characteristic, status);
 
         UUID characteristicUUID = characteristic.getUuid();
-        if (GattCharacteristic.UUID_CHARACTERISTIC_GAP_DEVICE_NAME.equals(characteristicUUID)) {
+        if (GattCharacteristic.UUID_CHARACTERISTIC_DEVICE_NAME.equals(characteristicUUID)) {
             handleDeviceName(characteristic.getValue(), status);
             return true;
         } else if (HuamiService.UUID_CHARACTERISTIC_6_BATTERY_INFO.equals(characteristicUUID)) {
