@@ -1153,4 +1153,11 @@
     <string name="widget_settings_select_device_title">Velg enhet</string>
     <string name="devicetype_amazfit_vergel">Amazfit Verge Lite</string>
     <string name="devicetype_amazfit_bipupro">Amazfit Bip U Pro</string>
+    <string name="activity_db_management_clean_export_directory_text">Eksporterte filer i eksport/import-mappen er tilgjengelig for alle programmer på enheten din. Du vil antagelig ønske å fjerne disse filene etter synkronisering eller sikkerhetskopi. Forsikre deg om at du har en sikkerhetskopi før du sletter dem. GPX-filer, undermapper og auto-eksportert databasefil (hvis den finnes) vil ikke slettes. Stien til eksport/import-mappen er:</string>
+    <string name="devicetype_amazfit_neo">Amazfit Neo</string>
+    <string name="dbmanagementactivity_export_finished">Sletting fullført</string>
+    <string name="activity_DB_clean_export_directory_warning_title">Slett filer i eksport/import-mappen\?</string>
+    <string name="activity_DB_clean_export_directory_warning_message">Vil du virkelig slette filer i eksport/import mappen\?</string>
+    <string name="activity_db_management_clean_export_directory_label">Slett filer i eksport/import-mappe</string>
+    <string name="dbmanagementactivity_error_cleaning_export_directory">Klarte ikke å slette filer fra eksportmappe %1$s</string>
 </resources>
