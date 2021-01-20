@@ -1157,4 +1157,5 @@ Temps de sommeil préféré en heures</string>
     <string name="activity_DB_clean_export_directory_warning_title">Effacer les fichiers dans le répertoire d\'Import/Export \?</string>
     <string name="activity_db_management_clean_export_directory_label">Effacer les fichiers dans le répertoire d\'Import/Export</string>
     <string name="dbmanagementactivity_error_cleaning_export_directory">Erreur lors de l\'effacement des fichiers du répertoire d\'exportation %1$s</string>
+    <string name="devicetype_amazfit_neo">Amazfit Neo</string>
 </resources>
