@@ -1187,4 +1187,5 @@
     <string name="activity_DB_clean_export_directory_warning_title">Dışa/İçe aktarma dizinindeki dosyalar silinsin mi\?</string>
     <string name="activity_db_management_clean_export_directory_label">Dışa/İçe aktarma dizinindeki dosyaları sil</string>
     <string name="dbmanagementactivity_error_cleaning_export_directory">%1$s dışa aktarma dizininden dosyaları silerken hata oluştu</string>
+    <string name="devicetype_amazfit_neo">Amazfit Neo</string>
 </resources>
