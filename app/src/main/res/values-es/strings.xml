@@ -18,7 +18,7 @@
     <string name="controlcenter_snackbar_need_longpress">Mantener pulsado el icono para desconectar</string>
     <string name="controlcenter_snackbar_disconnecting">Desconectando</string>
     <string name="controlcenter_snackbar_connecting">Conectando…</string>
-    <string name="controlcenter_snackbar_requested_screenshot">Capturando un pantallazo del dispositivo</string>
+    <string name="controlcenter_snackbar_requested_screenshot">Realizando una captura de pantalla del dispositivo</string>
     <string name="title_activity_debug">Depuración</string>
     <!--Strings related to AppManager-->
     <string name="title_activity_appmanager">Gestor de aplicaciones</string>
@@ -50,7 +50,7 @@
     <string name="miband_firmware_unknown_warning">Este firmware no ha sido probado y puede que no sea compatible con Gadgetbridge. 
 \n 
 \n¡NO se recomienda la instalación en tu Mi Band!</string>
-    <string name="miband_firmware_suggest_whitelist">"Si aún desea continuar y  después las cosas continúan funcionando correctamente, pida a los desarrolladores de Gadgetbridge que incluyan en la lista blanca la versión de firmware de %s."</string>
+    <string name="miband_firmware_suggest_whitelist">"Si aún deseas continuar y  después las cosas continúan funcionando correctamente, pide a los desarrolladores de Gadgetbridge que incluyan en la lista blanca la versión de firmware de %s."</string>
     <!--Strings related to Settings-->
     <string name="title_activity_settings">Ajustes</string>
     <string name="pref_header_general">Ajustes generales</string>
@@ -74,7 +74,7 @@
     <string name="pref_title_notifications_call">Llamadas telefónicas</string>
     <string name="pref_title_notifications_sms">SMS</string>
     <string name="pref_title_notifications_pebblemsg">Mensajes de Pebble</string>
-    <string name="pref_summary_notifications_pebblemsg">Compatibilidad con aplicaciones que envían notificaciones al Pebble mediante PebbleKit.</string>
+    <string name="pref_summary_notifications_pebblemsg">Soporte para aplicaciones que envían notificaciones al Pebble a través de PebbleKit.</string>
     <string name="pref_title_notifications_generic">Soporte para notificaciones genéricas</string>
     <string name="pref_title_whenscreenon">…también con pantalla encendida</string>
     <string name="pref_title_notification_filter">No Molestar</string>
@@ -349,16 +349,23 @@
     <string name="live_activity_heart_rate">Ritmo cardíaco</string>
     <string name="pref_title_pebble_health_store_raw">Almacenar datos en bruto en la base de datos </string>
     <string name="pref_summary_pebble_health_store_raw">Guarda los datos en bruto para poder ser interpretados más tarde, esto incrementa el tamaño de la base de datos.</string>
-    <string name="action_db_management">Administración de bases de datos</string>
-    <string name="title_activity_db_management">Administración de bases de datos</string>
-    <string name="activity_db_management_import_export_explanation">La base de datos usa la siguiente ubicación en su dispositivo.\nEsta ubicación está accesible para otras aplicaciones Android y para su ordenador.\nEncontrará sus bases de datos exportadas (o la que quiere importar) aquí:</string>
+    <string name="action_db_management">Administración de datos</string>
+    <string name="title_activity_db_management">Administración de datos</string>
+    <string name="activity_db_management_import_export_explanation">"Las operaciones de exportación/importación utilizan la siguiente ruta (véase más abajo) a un directorio de su dispositivo. Este directorio es accesible a otras aplicaciones Android y a su ordenador. Ten en cuenta que este directorio y todos los archivos que contiene se eliminan si desinstala Gadgetbridge. Los datos incluyen:
+\n  Exportar_preferencia - ajustes globales
+\n  Exportar_preferencia_MAC - ajustes específicos del dispositivo
+\n  Gadgetbridge - base de datos de dispositivos y actividades
+\n  Gadgetbridge_fecha - base de datos exportada en una fecha
+\n  *.gpx - grabaciones GPS
+\n  *.log - archivos de registro
+\nEspera encontrar sus archivos exportados (o coloca los archivos que deseas importar) allí:"</string>
     <string name="activity_db_management_merge_old_title">Borrar la base de datos antigua</string>
     <string name="dbmanagementactivvity_cannot_access_export_path">No se puede acceder a la ruta para exportar . Por favor, contacta con los desarrolladores.</string>
     <string name="dbmanagementactivity_exported_to">Exportado a: %1$s</string>
     <string name="dbmanagementactivity_error_exporting_db">Error de exportación de la base de datos: %1$s</string>
     <string name="dbmanagementactivity_error_exporting_shared">Error de exportación de las preferencias: %1$s</string>
     <string name="dbmanagementactivity_import_data_title">¿Importar Datos?</string>
-    <string name="dbmanagementactivity_overwrite_database_confirmation">¿Quiere sobreescribir la base de datos actual? Todos sus datos actuales (si los hay) se borrarán.</string>
+    <string name="dbmanagementactivity_overwrite_database_confirmation">¿Realmente quieres sobrescribir los datos actuales\? Todos tus datos de actividad actuales (si los hay) y las preferencias se sobrescribirán.</string>
     <string name="dbmanagementactivity_import_successful">Importado.</string>
     <string name="dbmanagementactivity_error_importing_db">Error de importación de la base de datos: %1$s</string>
     <string name="dbmanagementactivity_error_importing_shared">Error de importación de las preferencias: %1$s</string>
@@ -423,7 +430,7 @@
     <string name="mi2_prefs_button_press_count">Número de presiones</string>
     <string name="mi2_prefs_button_press_count_summary">Número de presiones de botón para desencadenar un Suceso 1. Después, presionar la misma cantidad de veces creará un Suceso 2 y así sucesivamente.</string>
     <string name="mi2_prefs_button_press_broadcast">Mensaje para enviar</string>
-    <string name="mi2_prefs_button_press_broadcast_summary">Enviar mensaje después de un número definido de pulsaciones</string>
+    <string name="mi2_prefs_button_press_broadcast_summary">Mensaje de difusión enviado con el evento. El parámetro `button_id` se añade automáticamente a cada mensaje.</string>
     <string name="mi2_prefs_button_action">Activar acción por botón</string>
     <string name="mi2_prefs_button_action_summary">Activar acción por un número definido de pulsaciones</string>
     <string name="mi2_prefs_button_action_vibrate">Activar la vibración de la pulsera</string>
@@ -456,7 +463,7 @@
     <string name="interval_thirty_minutes">Cada 30 minutos</string>
     <string name="interval_one_hour">Cada hora</string>
     <string name="pref_title_weather">Tiempo</string>
-    <string name="pref_title_weather_location">Ubicación para el Tiempo (CM/LOS)</string>
+    <string name="pref_title_weather_location">Ubicación para el tiempo (para el proveedor del tiempo de LineageOS)</string>
     <string name="kind_firmware">Firmware</string>
     <string name="kind_invalid">Datos no válidos</string>
     <string name="kind_font">Fuente</string>
@@ -497,7 +504,7 @@
     <string name="pref_auto_fetch_limit_fetches_summary">Extraer datos cada %d minutos</string>
     <string name="activity_type_light_sleep">Sueño ligero</string>
     <string name="activity_type_deep_sleep">Sueño profundo</string>
-    <string name="activity_summaries">Actividades</string>
+    <string name="activity_summaries">Actividades deportivas</string>
     <string name="menuitem_shortcut_weather">Tiempo (Acceso directo)</string>
     <string name="menuitem_notifications">Notificaciones</string>
     <string name="menuitem_weather">Tiempo</string>
@@ -727,12 +734,12 @@
     <string name="pref_summary_use_custom_font">Actívelo si su dispositivo incluye «firmware» de tipo de letra personalizado para admitir emoyis</string>
     <string name="activity_db_management_autoexport_explanation">La ubicación de exportación automática se definió en:</string>
     <string name="activity_db_management_autoexport_label">Exportación automática</string>
-    <string name="activity_DB_ExportButton">Exportar BD</string>
-    <string name="activity_DB_import_button">Importar BD</string>
+    <string name="activity_DB_ExportButton">Exportar datos</string>
+    <string name="activity_DB_import_button">Importar datos</string>
     <string name="activity_DB_test_export_button">Ejecutar exportación automática ahora</string>
     <string name="activity_DB_test_export_message">Exportando base de datos…</string>
     <string name="activity_DB_delete_legacy_button">Eliminar BD anterior</string>
-    <string name="activity_DB_empty_button">Vaciar BD</string>
+    <string name="activity_DB_empty_button">Vaciar base de datos</string>
     <string name="activity_db_management_empty_DB">Vaciar base de datos</string>
     <string name="activity_db_management_exportimport_label">Exportar e importar</string>
     <string name="activity_db_management_empty_db_warning">Atención: al pulsar en este botón se borrará la base de datos y comenzará de cero.</string>
@@ -752,7 +759,7 @@
     <string name="activity_error_no_app_for_gpx">Para ver el rastro de actividad, instale una aplicación que maneje archivos GPX.</string>
     <string name="preferences_makibes_hr3_settings">Configuración de Makibes HR3</string>
     <string name="prefs_find_phone">Encontrar teléfono</string>
-    <string name="prefs_enable_find_phone">Encender «Encontrar teléfono»</string>
+    <string name="prefs_enable_find_phone">Activar \"Encontrar teléfono\"</string>
     <string name="prefs_find_phone_summary">Utilice su pulsera para reproducir el tono del teléfono.</string>
     <string name="prefs_find_phone_duration">Duración del tono en segundos</string>
     <string name="maximum_duration">Duración</string>
@@ -837,7 +844,7 @@
     <string name="pref_summary_force_white_color_scheme">Útil si tu reloj tiene manecillas oscuras</string>
     <string name="find_my_phone_notification">Encuentra mi teléfono</string>
     <string name="pref_title_vibration_strength">Resistencia a la vibración</string>
-    <string name="pref_title_relax_firmware_checks">Habilite esto si desea actualizar un firmware no destinado a su dispositivo (bajo su propio riesgo)</string>
+    <string name="pref_title_relax_firmware_checks">Habilite esto si deseas instalar un firmware no destinado a tu dispositivo (bajo tu propio riesgo)</string>
     <string name="pref_summary_relax_firmware_checks">Relaje las comprobaciones de firmware</string>
     <string name="pref_title_allow_high_mtu">Permitir MTU alta</string>
     <string name="pref_summary_custom_deviceicon">Mostrar un icono de notificación de Android específico del dispositivo en lugar del icono de Gadgetbridge cuando esté conectado</string>
@@ -847,9 +854,9 @@
     <string name="pref_summary_notifications_and_calls_enable_misscall">Repetir a cada minuto</string>
     <string name="pref_notifications_and_calls_enable_misscall">Notificar llamada perdida</string>
     <string name="prefs_notifications_and_calls_continious_ring">Notificaciones durante llamada entrante</string>
-    <string name="pref_title_notifications_and_calls_repeat_on_call">Repetir Notificacion de Llamada</string>
+    <string name="pref_title_notifications_and_calls_repeat_on_call">Repetir notificación de la llamada</string>
     <string name="pref_header_notifications_and_calls">Llamadas y Notificaciones</string>
-    <string name="title_activity_LenovoWatch_calibration">Calibracion Watch X Plus</string>
+    <string name="title_activity_LenovoWatch_calibration">Calibración Watch X Plus</string>
     <string name="controlcenter_set_alias">Establecer Alias</string>
     <string name="sonyswr12_settings_title">Configuración de Sony SWR12</string>
     <string name="sonyswr12_settings_low_vibration">Baja vibración habilitada</string>
@@ -903,7 +910,7 @@
     <string name="pref_summary_notifications_and_calls_title_reject">Apagar - ignorar, Encender - rechazar</string>
     <string name="prefs_notifications_and_calls_reject">Botón ignorar/rechazar llamada</string>
     <string name="pref_header_notifications_and_calls_callhandling">Gestión de llamadas</string>
-    <string name="pref_title_weather_summary">Utilizando el proveedor de clima de LineageOS, otras versiones de Android necesitan usar una aplicación como \"Notificación del clima\". Encuentra más información en el wiki de Gadgetbridge.</string>
+    <string name="pref_title_weather_summary">Usado para el proveedor del tiempo de LineageOS, otras versiones de Android necesitan usar una aplicación como \"Weather notification\". Encuentra más información en la wiki de Gadgetbridge.</string>
     <string name="fw_upgrade_notice_miband5">Estás a punto de instalar el firmware %s en tu Mi Band 5.
 \n
 \nPor favor, asegúrate de instalar el archivo .fw, luego el archivo .res. Tu banda se reiniciará después de instalar el archivo .fw.
@@ -1025,4 +1032,137 @@
     <string name="activity_prefs_chart_max_idle_phase_length">Duración de la pausa para separar las actividades (minutos)</string>
     <string name="activity_prefs_chart_min_steps_per_minute">Pasos mínimos por minuto para detectar la actividad</string>
     <string name="activity_prefs_chart_min_steps_per_minute_for_run">Pasos mínimos por minuto para detectar la corrida</string>
+    <string name="pref_summary_connected_advertisement">Hace que el dispositivo sea visible por Bluetooth incluso cuando está conectado</string>
+    <string name="prefs_autoremove_message">Eliminar automáticamente las notificaciones por SMS</string>
+    <string name="prefs_fake_ring_duration">Falso timbre continuo</string>
+    <string name="prefs_operating_sounds">Sonidos de operación</string>
+    <string name="prefs_key_vibration">Vibración de las teclas</string>
+    <string name="prefs_autolight">Luz automática</string>
+    <string name="Swimming">Natación</string>
+    <string name="Strokes">Pulsaciones</string>
+    <string name="km">km</string>
+    <string name="bpm">lat/min</string>
+    <string name="minutes_km">km/min</string>
+    <string name="seconds_m">m/s</string>
+    <string name="seconds_km">km/s</string>
+    <string name="calories_unit">kcal</string>
+    <string name="laps_unit">vueltas</string>
+    <string name="swim_style">estilo de nado</string>
+    <string name="swolfIndex">índice swolf</string>
+    <string name="swolf_index">índice swolf</string>
+    <string name="seconds">seg</string>
+    <string name="strokes_unit">p</string>
+    <string name="strokes_second">p/s</string>
+    <string name="km_h">km/h</string>
+    <string name="meters_second">m/s</string>
+    <string name="steps_unit">pasos</string>
+    <string name="cm">cm</string>
+    <string name="meters">m</string>
+    <string name="laps">Vueltas</string>
+    <string name="swimStyle">estilo de nado</string>
+    <string name="maxPace">Ritmo más rápido</string>
+    <string name="minPace">Ritmo más lento</string>
+    <string name="maxSpeed">Máximo</string>
+    <string name="caloriesBurnt">Calorías</string>
+    <string name="activeSeconds">Activo</string>
+    <string name="steps">Pasos</string>
+    <string name="minAltitude">Mínimo</string>
+    <string name="maxAltitude">Máximo</string>
+    <string name="error_location_enabled_mandatory">La localización debe estar activada para buscar dispositivos</string>
+    <string name="ignore_bonded_devices_description">Al activar esta opción se ignoran los dispositivos que ya han sido vinculados/emparejados al escanear</string>
+    <string name="ignore_bonded_devices">Ignorar los dispositivos vinculados</string>
+    <string name="error_retrieving_devices_database">Error al recuperar los dispositivos de la base de datos</string>
+    <string name="error_setting_alias">Error al establecer el alias:</string>
+    <string name="error_exporting_device_preferences">Error al exportar las preferencias específicas del dispositivo</string>
+    <string name="pref_check_permission_status_summary">Comprueba y pide los permisos que faltan, incluso cuando pueden no ser necesarios al instante. Desactiva esto solo si tus dispositivos no soportan ninguna de estas características. ¡No conceder un permiso puede causar problemas!</string>
+    <string name="pref_check_permission_status">Comprobar el estado de los permisos</string>
+    <string name="error_background_service_reason">El inicio del servicio en segundo plano ha fallado debido a una excepción. Error:</string>
+    <string name="device_requires_key">CLAVE REQUERIDA</string>
+    <string name="device_is_currently_bonded">YA SE HA HECHO EL ENLACE</string>
+    <string name="error_background_service_reason_truncated">El inicio del servicio en segundo plano falló porque…</string>
+    <string name="error_background_service">Fallo al iniciar el servicio en segundo plano</string>
+    <string name="companiondevice_pairing">Emparejamiento de dispositivos de compañía</string>
+    <string name="require_location_provider">La localización debe estar activada</string>
+    <string name="error_version_check_extreme_caution">ATENCIÓN: ¡Error al comprobar la información de la versión! ¡No debes continuar! Nombre de la versión visto \"%s\"</string>
+    <string name="about_links">Enlaces</string>
+    <string name="about_additional_contributions">Muchas gracias a todos los colaboradores no incluidos en la lista por aportar código, traducciones, apoyo, ideas, motivación, informes de errores, dinero... ✊</string>
+    <string name="about_additional_device_support">Soporte de dispositivos adicionales</string>
+    <string name="about_contributors">Colaboradores</string>
+    <string name="about_core_team_title">Equipo principal (por orden de primera contribución de código)</string>
+    <string name="about_description">Sustitución sin nube y con copyleft de las aplicaciones de código cerrado para Android de los proveedores.</string>
+    <string name="about_activity_title">Acerca de Gadgetbridge</string>
+    <string name="about_version">Versión %s</string>
+    <string name="about_title">Acerca de</string>
+    <string name="hr_widget_last_notification">Última notificación</string>
+    <string name="pref_qhybrid_save_raw_activity_files">Guardar archivos de actividad sin procesar</string>
+    <string name="pref_qhybrid_title_widget_draw_circles">Dibujar círculos de widgets</string>
+    <string name="prefs_button_long_press_action_selection_title">Acción del botón de pulsación larga</string>
+    <string name="prefs_button_variable_actions">Configuración detallada de la pulsación de botones</string>
+    <string name="pref_title_lower_button_function_double">Botón inferior doble</string>
+    <string name="pref_title_middle_button_function_double">Botón central doble</string>
+    <string name="pref_title_upper_button_function_double">Botón superior doble</string>
+    <string name="pref_title_lower_button_function_long">Botón inferior largo</string>
+    <string name="pref_title_middle_button_function_long">Botón central largo</string>
+    <string name="pref_title_upper_button_function_long">Botón superior largo</string>
+    <string name="pref_title_lower_button_function_short">Botón inferior corto</string>
+    <string name="pref_title_middle_button_function_short">Botón central corto</string>
+    <string name="pref_title_upper_button_function_short">Botón superior corto</string>
+    <string name="widget_settings_select_device_title">Seleccionar dispositivo</string>
+    <string name="menuitem_sleep">Dormir</string>
+    <string name="menuitem_pomodoro">Pomodoro</string>
+    <string name="menuitem_goal">Objetivo de la actividad</string>
+    <string name="menuitem_stopwatch">Cronómetro</string>
+    <string name="menuitem_dnd">No molestar</string>
+    <string name="menuitem_alexa">Alexa</string>
+    <string name="menuitem_takephoto">Tomar una foto</string>
+    <string name="menuitem_mutephone">Silenciar teléfono</string>
+    <string name="menuitem_findphone">Encontrar teléfono</string>
+    <string name="menuitem_worldclock">Reloj mundial</string>
+    <string name="menuitem_unknown">Desconocido</string>
+    <string name="menuitem_workout">Entrenamiento</string>
+    <string name="menuitem_eventreminder">Recordatorio de eventos</string>
+    <string name="menuitem_spo2">SpO2</string>
+    <string name="menuitem_hr">Ritmo cardíaco</string>
+    <string name="menuitem_pai">PAI</string>
+    <string name="menuitem_cycles">Periodo</string>
+    <string name="menuitem_breathing">Respiración</string>
+    <string name="devicetype_lefun">Lefun</string>
+    <string name="devicetype_sg2">Lemfo SG2</string>
+    <string name="devicetype_amazfit_vergel">Amazfit Verge Lite</string>
+    <string name="devicetype_pinetime_jf">PineTime (Firmware JF)</string>
+    <string name="devicetype_tlw64">TLW64</string>
+    <string name="devicetype_casiogbx100">Casio GBX-100</string>
+    <string name="devicetype_watchxplus">Watch X Plus</string>
+    <string name="devicetype_watchx">Watch X</string>
+    <string name="devicetype_qhybrid">Fossil Q Hybrid</string>
+    <string name="devicetype_amazfit_gts2">Amazfit GTS 2</string>
+    <string name="devicetype_amazfit_gtr2">Amazfit GTR 2</string>
+    <string name="devicetype_amazfit_bipupro">Amazfit Bip U Pro</string>
+    <string name="devicetype_amazfit_bipu">Amazfit Bip U</string>
+    <string name="devicetype_amazfit_bips_lite">Amazfit Bip S Lite</string>
+    <string name="devicetype_amazfit_bips">Amazfit Bip S</string>
+    <string name="devicetype_amazfit_trex">Amazfit T-Rex</string>
+    <string name="devicetype_amazfit_neo">Amazfit Neo</string>
+    <string name="devicetype_amazfit_band5">Amazfit Band 5</string>
+    <string name="devicetype_miband5">Mi Band 5</string>
+    <string name="dbmanagementactivity_export_finished">Eliminación finalizada</string>
+    <string name="activity_db_management_clean_export_directory_text">Los archivos exportados en el directorio de Exportación/Importación son accesibles por cualquier aplicación de su dispositivo. Es posible que desees eliminar estos archivos después de la sincronización o la copia de seguridad. Asegúrate de tener una copia de seguridad antes de eliminarlos. Los archivos GPX, los subdirectorios y el archivo de base de datos autoexportado (si existe) no se eliminarán. La ruta del directorio de exportación/importación es:</string>
+    <string name="activity_DB_clean_export_directory_warning_title">¿Eliminar archivos en el directorio de exportación/importación\?</string>
+    <string name="activity_DB_clean_export_directory_warning_message">¿Eliminar realmente los archivos del directorio de exportación/importación\?</string>
+    <string name="activity_db_management_clean_export_directory_label">Eliminar archivos en el directorio de exportación/importación</string>
+    <string name="activity_DB_ShowContentButton">Mostrar el contenido del directorio de exportación/importación</string>
+    <string name="activity_data_management_directory_content_title">Exportar/Importar el contenido del directorio</string>
+    <string name="dbmanagementactivity_export_confirmation">¿Exportar datos realmente\? Los datos de actividad previamente exportados (si los hay) y las preferencias se sobrescribirán.</string>
+    <string name="dbmanagementactivity_export_data_title">¿Exportar datos\?</string>
+    <string name="dbmanagementactivity_error_cleaning_export_directory">Error al borrar archivos del directorio de exportación %1$s</string>
+    <string name="prefs_charts_tabs_summary">Pestañas de gráficos visibles</string>
+    <string name="discovery_entered_invalid_authkey">¡La clave secreta de autentificación que ha introducido no es válida! Haga una pulsación larga en el dispositivo para editarla.</string>
+    <string name="pref_title_connected_advertisement">Visible mientras está conectado</string>
+    <string name="fw_upgrade_notice_amazfitvergel">Estás a punto de instalar el firmware %s en tu Amazfit Verge Lite.
+\n
+\nPor favor, asegúrate de instalar el archivo .fw, luego el archivo .res y finalmente el archivo .gps. Su reloj se reiniciará después de instalar el archivo .fw.
+\n
+\nNota: No es necesario instalar los archivos .res y .gps si estos archivos son exactamente los mismos que los instalados anteriormente.
+\n
+\n¡PROCEDE BAJO TU PROPIO RIESGO!</string>
 </resources>
