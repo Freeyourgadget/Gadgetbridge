@@ -1170,4 +1170,5 @@
     <string name="activity_DB_clean_export_directory_warning_message">Czy na pewno usunąć pliki z katalogu eksportu/importu\?</string>
     <string name="activity_DB_clean_export_directory_warning_title">Usunąć pliki z katalogu eksportu/importu\?</string>
     <string name="dbmanagementactivity_error_cleaning_export_directory">Wystąpił błąd podczas usuwania plików z katalogu eksportu %1$s</string>
+    <string name="devicetype_amazfit_neo">Amazfit Neo</string>
 </resources>
