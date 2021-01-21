@@ -1155,7 +1155,7 @@
     <string name="dbmanagementactivity_export_confirmation">¿Exportar datos realmente\? Los datos de actividad previamente exportados (si los hay) y las preferencias se sobrescribirán.</string>
     <string name="dbmanagementactivity_export_data_title">¿Exportar datos\?</string>
     <string name="dbmanagementactivity_error_cleaning_export_directory">Error al borrar archivos del directorio de exportación %1$s</string>
-    <string name="prefs_charts_tabs_summary">Pestañas de gráficos visibles</string>
+    <string name="prefs_charts_tabs_summary">Pestañas visibles del gráfico</string>
     <string name="discovery_entered_invalid_authkey">¡La clave secreta de autentificación que ha introducido no es válida! Haga una pulsación larga en el dispositivo para editarla.</string>
     <string name="pref_title_connected_advertisement">Visible mientras está conectado</string>
     <string name="fw_upgrade_notice_amazfitvergel">Estás a punto de instalar el firmware %s en tu Amazfit Verge Lite.
