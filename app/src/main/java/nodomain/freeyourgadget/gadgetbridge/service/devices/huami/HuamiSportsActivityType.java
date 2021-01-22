@@ -31,6 +31,7 @@ public enum HuamiSportsActivityType {
     Soccer(0x12),
     JumpRope(0x15),
     RowingMachine(0x17),
+    StrengthTraining(0x34),
     Yoga(0x3c),
     Cricket(0x4e),
     Basketball(0x55),
@@ -80,6 +81,8 @@ public enum HuamiSportsActivityType {
                 return ActivityKind.TYPE_PINGPONG;
             case Badminton:
                 return ActivityKind.TYPE_BADMINTON;
+            case StrengthTraining:
+                return ActivityKind.TYPE_STRENGTH_TRAINING;
         }
         throw new RuntimeException("Not mapped activity kind for: " + this);
     }
@@ -129,6 +132,8 @@ public enum HuamiSportsActivityType {
                 return PingPong;
             case ActivityKind.TYPE_BADMINTON:
                 return Badminton;
+            case ActivityKind.TYPE_STRENGTH_TRAINING:
+                return StrengthTraining;
 
         }
         throw new RuntimeException("No matching activity activityKind: " + activityKind);

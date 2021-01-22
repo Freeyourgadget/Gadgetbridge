@@ -50,8 +50,9 @@ public class ActivityKind {
     public static final int TYPE_BASKETBALL = 0x00040000;
     public static final int TYPE_PINGPONG = 0x00080000;
     public static final int TYPE_BADMINTON = 0x00100000;
+    public static final int TYPE_STRENGTH_TRAINING = 0x00200000;
 
-    private static final int TYPES_COUNT = 23;
+    private static final int TYPES_COUNT = 24;
 
     public static final int TYPE_SLEEP = TYPE_LIGHT_SLEEP | TYPE_DEEP_SLEEP;
     public static final int TYPE_ALL = TYPE_ACTIVITY | TYPE_SLEEP | TYPE_NOT_WORN;
@@ -104,6 +105,25 @@ public class ActivityKind {
         if ((types & ActivityKind.TYPE_YOGA) != 0) {
             result[i++] = provider.toRawActivityKind(TYPE_YOGA);
         }
+        if ((types & ActivityKind.TYPE_ROWING_MACHINE) != 0) {
+            result[i++] = provider.toRawActivityKind(TYPE_ROWING_MACHINE);
+        }
+        if ((types & ActivityKind.TYPE_CRICKET) != 0) {
+            result[i++] = provider.toRawActivityKind(TYPE_CRICKET);
+        }
+        if ((types & ActivityKind.TYPE_BASKETBALL) != 0) {
+            result[i++] = provider.toRawActivityKind(TYPE_BASKETBALL);
+        }
+        if ((types & ActivityKind.TYPE_PINGPONG) != 0) {
+            result[i++] = provider.toRawActivityKind(TYPE_PINGPONG);
+        }
+        if ((types & ActivityKind.TYPE_BADMINTON) != 0) {
+            result[i++] = provider.toRawActivityKind(TYPE_BADMINTON);
+        }
+        if ((types & ActivityKind.TYPE_STRENGTH_TRAINING) != 0) {
+            result[i++] = provider.toRawActivityKind(TYPE_STRENGTH_TRAINING);
+        }
+
         return Arrays.copyOf(result, i);
     }
 
@@ -153,6 +173,8 @@ public class ActivityKind {
                 return context.getString(R.string.activity_type_pingpong);
             case TYPE_BADMINTON:
                 return context.getString(R.string.activity_type_badminton);
+            case TYPE_STRENGTH_TRAINING:
+                return context.getString(R.string.activity_type_strength_training);
             case TYPE_UNKNOWN:
             default:
                 return context.getString(R.string.activity_type_unknown);
@@ -189,7 +211,6 @@ public class ActivityKind {
                 return R.drawable.ic_activity_rope_jump;
             case TYPE_YOGA:
                 return R.drawable.ic_activity_yoga;
-
             case TYPE_SOCCER:
                 return R.drawable.ic_activity_soccer;
             case TYPE_ROWING_MACHINE:
@@ -202,6 +223,8 @@ public class ActivityKind {
                 return R.drawable.ic_activity_pingpong;
             case TYPE_BADMINTON:
                 return R.drawable.ic_activity_badmington;
+            case TYPE_STRENGTH_TRAINING:
+                return R.drawable.ic_activity_unknown_small; //FIXME: find icon
 
             case TYPE_NOT_WORN: // fall through
             case TYPE_ACTIVITY: // fall through

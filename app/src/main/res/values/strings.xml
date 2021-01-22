@@ -760,6 +760,7 @@
     <string name="activity_type_basketball">Basketball</string>
     <string name="activity_type_pingpong">Ping Pong</string>
     <string name="activity_type_badminton">Badminton</string>
+    <string name="activity_type_strength_training">Strength Training</string>
     <string name="activity_type_unknown">Unknown activity</string>
     <string name="activity_summaries">Sport Activities</string>
     <string name="activity_summary_detail">Sport Activity Detail</string>
