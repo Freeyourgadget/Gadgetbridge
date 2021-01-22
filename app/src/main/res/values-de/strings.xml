@@ -1172,4 +1172,5 @@
     <string name="activity_DB_clean_export_directory_warning_message">Dateien im Export/Import-Verzeichnis wirklich löschen\?</string>
     <string name="activity_DB_clean_export_directory_warning_title">Dateien im Export/Import-Verzeichnis löschen\?</string>
     <string name="activity_db_management_clean_export_directory_label">Dateien im Export/Import-Verzeichnis löschen</string>
+    <string name="devicetype_amazfit_neo">Amazfit Neo</string>
 </resources>
