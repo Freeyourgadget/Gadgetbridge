@@ -119,12 +119,11 @@ public class WidgetConfigurationActivity extends Activity {
                 Device dbDevice = DBHelper.findDevice(device, daoSession);
                 int icon = device.isInitialized() ? device.getType().getIcon() : device.getType().getDisabledIcon();
                 if (dbDevice != null && coordinator != null
-                        && coordinator.supportsActivityTracks()
+                        && (coordinator.supportsActivityDataFetching() || coordinator.supportsActivityTracking())
                         && !newMap.containsKey(device.getAliasOrName())) {
                     newMap.put(device.getAliasOrName(), new Pair(device.getAddress(), icon));
                 }
             }
-
         } catch (Exception e) {
             LOG.error("Error getting list of all devices: " + e);
         }
