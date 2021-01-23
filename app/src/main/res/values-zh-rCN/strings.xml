@@ -1169,4 +1169,5 @@
     <string name="activity_db_management_clean_export_directory_label">删除导入/导出目录中的文件</string>
     <string name="dbmanagementactivity_error_cleaning_export_directory">从导出目录 %1$s 中删除文件时遇到错误</string>
     <string name="devicetype_amazfit_neo">华米 Neo</string>
+    <string name="activity_type_strength_training">力量训练</string>
 </resources>
