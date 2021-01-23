@@ -312,6 +312,8 @@ public class ActivitySummaryDetail extends AbstractGBActivity {
 
     private void makeSummaryContent(BaseActivitySummary item) {
         //make view of data from summaryData of item
+        String units = GBApplication.getPrefs().getString(SettingsActivity.PREF_MEASUREMENT_SYSTEM, GBApplication.getContext().getString(R.string.p_unit_metric));
+        String UNIT_IMPERIAL = GBApplication.getContext().getString(R.string.p_unit_imperial);
 
         TableLayout fieldLayout = findViewById(R.id.summaryDetails);
         fieldLayout.removeAllViews(); //remove old widgets
@@ -349,27 +351,56 @@ public class ActivitySummaryDetail extends AbstractGBActivity {
                         double value = innerData.getDouble("value");
 
                         if (!show_raw_data) {
-                            //special casing here:
+                            //special casing here + imperial units handling
                             switch (unit) {
-                                case "meters_second":
-                                    value = value * 3.6;
-                                    unit = "km_h";
-                                    break;
-                                case "seconds_m":
-                                    value = value * (1000 / 60D);
-                                    unit = "minutes_km";
-                                    break;
-                                case "seconds_km":
-                                    value = value / 60;
-                                    unit = "minutes_km";
-                                    break;
-                                case "meters":
-                                    if (value > 2000) {
-                                        value = value / 1000;
-                                        unit = "km";
+                                case "cm":
+                                    if (units.equals(UNIT_IMPERIAL)) {
+                                        value = value * 0.0328084;
+                                        unit = "ft";
                                     }
                                     break;
-
+                                case "meters_second":
+                                    if (units.equals(UNIT_IMPERIAL)) {
+                                        value = value * 2.236936D;
+                                        unit = "mi_h";
+                                    } else { //metric
+                                        value = value * 3.6;
+                                        unit = "km_h";
+                                    }
+                                    break;
+                                case "seconds_m":
+                                    if (units.equals(UNIT_IMPERIAL)) {
+                                        value = value * (1609.344 / 60D);
+                                        unit = "minutes_mi";
+                                    } else { //metric
+                                        value = value * (1000 / 60D);
+                                        unit = "minutes_km";
+                                    }
+                                    break;
+                                case "seconds_km":
+                                    if (units.equals(UNIT_IMPERIAL)) {
+                                        value = value / 60D * 1.609344;
+                                        unit = "minutes_mi";
+                                    } else { //metric
+                                        value = value / 60D;
+                                        unit = "minutes_km";
+                                    }
+                                    break;
+                                case "meters":
+                                    if (units.equals(UNIT_IMPERIAL)) {
+                                        value = value * 3.28084D;
+                                        unit = "ft";
+                                        if (value > 6000) {
+                                            value = value * 0.0001893939D;
+                                            unit = "mi";
+                                        }
+                                    } else { //metric
+                                        if (value > 2000) {
+                                            value = value / 1000;
+                                            unit = "km";
+                                        }
+                                    }
+                                    break;
                             }
                         }
 

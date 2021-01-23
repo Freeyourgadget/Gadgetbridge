@@ -39,6 +39,7 @@ import java.util.concurrent.TimeUnit;
 import de.greenrobot.dao.query.QueryBuilder;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
+import nodomain.freeyourgadget.gadgetbridge.activities.SettingsActivity;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHelper;
 import nodomain.freeyourgadget.gadgetbridge.entities.BaseActivitySummary;
@@ -221,6 +222,9 @@ public class ActivitySummariesAdapter extends AbstractActivityListingAdapter<Bas
         durationSumView.setText(String.format("%s", DateTimeUtils.formatDurationHoursMinutes((long) durationSum, TimeUnit.MILLISECONDS)));
         caloriesBurntSumView.setText(String.format("%s %s", (long) caloriesBurntSum, context.getString(R.string.calories_unit)));
         distanceSumView.setText(String.format("%s %s", df.format(distanceSum / 1000), context.getString(R.string.km)));
+        distanceSumView.setText(getLabel(distanceSum));
+
+
         activeSecondsSumView.setText(String.format("%s", DateTimeUtils.formatDurationHoursMinutes((long) activeSecondsSum, TimeUnit.SECONDS)));
         activitiesCountView.setText(String.valueOf(activitiesCount));
         String activityName = context.getString(R.string.activity_summaries_all_activities);
@@ -310,6 +314,31 @@ public class ActivitySummariesAdapter extends AbstractActivityListingAdapter<Bas
     @Override
     protected String getDistanceLabel(BaseActivitySummary item) {
         return null;
+    }
+
+    protected String getLabel(double distance) {
+        double distanceMetric = distance;
+        double distanceImperial = distanceMetric * 3.28084f;
+        double distanceFormatted = 0;
+
+        String unit = "###m";
+        distanceFormatted = distanceMetric;
+        if (distanceMetric > 2000) {
+            distanceFormatted = distanceMetric / 1000;
+            unit = "###.#km";
+        }
+
+        String units = GBApplication.getPrefs().getString(SettingsActivity.PREF_MEASUREMENT_SYSTEM, GBApplication.getContext().getString(R.string.p_unit_metric));
+        if (units.equals(GBApplication.getContext().getString(R.string.p_unit_imperial))) {
+            unit = "###ft";
+            distanceFormatted = distanceImperial;
+            if (distanceImperial > 6000) {
+                distanceFormatted = distanceImperial * 0.0001893939f;
+                unit = "###.#mi";
+            }
+        }
+        DecimalFormat df = new DecimalFormat(unit);
+        return df.format(distanceFormatted);
     }
 
     @Override

@@ -59,6 +59,7 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import nodomain.freeyourgadget.gadgetbridge.activities.ControlCenterv2;
+import nodomain.freeyourgadget.gadgetbridge.activities.SettingsActivity;
 import nodomain.freeyourgadget.gadgetbridge.activities.WidgetAlarmsActivity;
 import nodomain.freeyourgadget.gadgetbridge.activities.charts.ChartsActivity;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
@@ -155,19 +156,30 @@ public class Widget extends AppWidgetProvider {
         long[] dailyTotals = getSteps();
         int steps = (int) dailyTotals[0];
         int sleep = (int) dailyTotals[1];
-
         ActivityUser activityUser = new ActivityUser();
         int stepGoal = activityUser.getStepsGoal();
         int sleepGoal = activityUser.getSleepDuration();
         int sleepGoalMinutes = sleepGoal * 60;
         int distanceGoal = activityUser.getDistanceMeters() * 100;
         int stepLength = activityUser.getStepLengthCm();
-        int distanceFormatted = (int) (dailyTotals[0] * stepLength / 100);
+        double distanceMeters = dailyTotals[0] * stepLength / 100;
+        double distanceFeet = distanceMeters * 3.28084f;
+        double distanceFormatted = 0;
 
         String unit = "###m";
-        if (distanceFormatted > 2000) {
-            distanceFormatted = distanceFormatted / 1000;
+        distanceFormatted = distanceMeters;
+        if (distanceMeters > 2000) {
+            distanceFormatted = distanceMeters / 1000;
             unit = "###.#km";
+        }
+        String units = GBApplication.getPrefs().getString(SettingsActivity.PREF_MEASUREMENT_SYSTEM, GBApplication.getContext().getString(R.string.p_unit_metric));
+        if (units.equals(GBApplication.getContext().getString(R.string.p_unit_imperial))) {
+            unit = "###ft";
+            distanceFormatted = distanceFeet;
+            if (distanceFeet > 6000) {
+                distanceFormatted = distanceFeet * 0.0001893939f;
+                unit = "###.#mi";
+            }
         }
         DecimalFormat df = new DecimalFormat(unit);
 

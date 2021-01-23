@@ -23,7 +23,9 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
+import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
+import nodomain.freeyourgadget.gadgetbridge.activities.SettingsActivity;
 import nodomain.freeyourgadget.gadgetbridge.adapter.AbstractActivityListingAdapter;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityKind;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySession;
@@ -244,14 +246,28 @@ public class ActivityListingAdapter extends AbstractActivityListingAdapter<Activ
 
     @Override
     protected String getDistanceLabel(ActivitySession item) {
-        float distance = item.getDistance();
+        double distanceMeters = item.getDistance();
+        double distanceFeet = distanceMeters * 3.28084f;
+        double distanceFormatted = 0;
+
         String unit = "###m";
-        if (distance > 2000) {
-            distance = distance / 1000;
+        distanceFormatted = distanceMeters;
+        if (distanceMeters > 2000) {
+            distanceFormatted = distanceMeters / 1000;
             unit = "###.#km";
         }
+
+        String units = GBApplication.getPrefs().getString(SettingsActivity.PREF_MEASUREMENT_SYSTEM, GBApplication.getContext().getString(R.string.p_unit_metric));
+        if (units.equals(GBApplication.getContext().getString(R.string.p_unit_imperial))) {
+            unit = "###ft";
+            distanceFormatted = distanceFeet;
+            if (distanceFeet > 6000) {
+                distanceFormatted = distanceFeet * 0.0001893939f;
+                unit = "###.#mi";
+            }
+        }
         DecimalFormat df = new DecimalFormat(unit);
-        return df.format(distance);
+        return df.format(distanceFormatted);
     }
 
     @Override
