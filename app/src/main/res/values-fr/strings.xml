@@ -1159,4 +1159,8 @@ Temps de sommeil préféré en heures</string>
     <string name="dbmanagementactivity_error_cleaning_export_directory">Erreur lors de l\'effacement des fichiers du répertoire d\'exportation %1$s</string>
     <string name="devicetype_amazfit_neo">Amazfit Neo</string>
     <string name="activity_type_strength_training">Entrainement de Puissance</string>
+    <string name="mi">miles</string>
+    <string name="minutes_mi">min/miles</string>
+    <string name="mi_h">miles/h</string>
+    <string name="ft">pieds</string>
 </resources>
