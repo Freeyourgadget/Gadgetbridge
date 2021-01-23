@@ -1154,7 +1154,7 @@
     <string name="discovery_entered_invalid_authkey">Wprowadzony klucz autoryzacji jest nieprawidłowy! Naciśnij i przytrzymaj, aby edytować.</string>
     <string name="prefs_events_forwarding_broadcast_title">Treść emisji (broadcast)</string>
     <string name="prefs_events_forwarding_summary">Używanie zdarzeń urządzenia do wyzwalania działań i emisji (broadcast) Androida</string>
-    <string name="activity_DB_ShowContentButton">Pokaż eksport/import zawartości katalogu</string>
+    <string name="activity_DB_ShowContentButton">Pokaż zawartość katalogu eksportu/importu</string>
     <string name="activity_data_management_directory_content_title">Eksportuj/Importuj zawartość katalogu</string>
     <string name="prefs_fake_ring_duration">Fałszywe ciągłe dzwonienie</string>
     <string name="prefs_operating_sounds">Dźwięki operacyjne</string>
@@ -1171,4 +1171,9 @@
     <string name="activity_DB_clean_export_directory_warning_title">Usunąć pliki z katalogu eksportu/importu\?</string>
     <string name="dbmanagementactivity_error_cleaning_export_directory">Wystąpił błąd podczas usuwania plików z katalogu eksportu %1$s</string>
     <string name="devicetype_amazfit_neo">Amazfit Neo</string>
+    <string name="minutes_mi">min/mil</string>
+    <string name="mi_h">mil/h</string>
+    <string name="ft">stopa</string>
+    <string name="mi">mi</string>
+    <string name="activity_type_strength_training">Trening siłowy</string>
 </resources>
