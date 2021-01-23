@@ -1161,4 +1161,8 @@
     <string name="dbmanagementactivity_error_cleaning_export_directory">שגיאה במחיקת קבצים מתיקיית הייצוא %1$s</string>
     <string name="devicetype_amazfit_neo">Amazfit Neo</string>
     <string name="activity_type_strength_training">אימון כוח</string>
+    <string name="mi">מייל</string>
+    <string name="minutes_mi">דקות למייל</string>
+    <string name="mi_h">מייל לשעה</string>
+    <string name="ft">רגל</string>
 </resources>
