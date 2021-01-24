@@ -1000,7 +1000,7 @@
     <string name="swim_style">yüzme tarzı</string>
     <string name="swolf_index">swolf indeksi</string>
     <string name="seconds">sn</string>
-    <string name="km_h">km/h</string>
+    <string name="km_h">km/sa</string>
     <string name="meters_second">m/s</string>
     <string name="steps_unit">adım</string>
     <string name="cm">cm</string>
@@ -1189,4 +1189,8 @@
     <string name="dbmanagementactivity_error_cleaning_export_directory">%1$s dışa aktarma dizininden dosyaları silerken hata oluştu</string>
     <string name="devicetype_amazfit_neo">Amazfit Neo</string>
     <string name="activity_type_strength_training">Kuvvet Eğitimi</string>
+    <string name="mi_h">mi/sa</string>
+    <string name="mi">mi</string>
+    <string name="minutes_mi">dak/mi</string>
+    <string name="ft">ft</string>
 </resources>
