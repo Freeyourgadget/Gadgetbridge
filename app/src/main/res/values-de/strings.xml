@@ -1174,4 +1174,8 @@
     <string name="activity_db_management_clean_export_directory_label">Dateien im Export/Import-Verzeichnis löschen</string>
     <string name="devicetype_amazfit_neo">Amazfit Neo</string>
     <string name="activity_type_strength_training">Krafttraining</string>
+    <string name="mi">mi</string>
+    <string name="minutes_mi">min/mi</string>
+    <string name="mi_h">mi/h</string>
+    <string name="ft">ft</string>
 </resources>
