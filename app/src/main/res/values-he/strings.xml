@@ -1165,4 +1165,5 @@
     <string name="minutes_mi">דקות למייל</string>
     <string name="mi_h">מייל לשעה</string>
     <string name="ft">רגל</string>
+    <string name="devicetype_amazfit_gts2_mini">Amazfit GTS 2 Mini</string>
 </resources>
