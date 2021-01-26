@@ -1193,4 +1193,5 @@
     <string name="mi">mi</string>
     <string name="minutes_mi">dak/mi</string>
     <string name="ft">ft</string>
+    <string name="devicetype_amazfit_gts2_mini">Amazfit GTS 2 Mini</string>
 </resources>
