@@ -1,5 +1,5 @@
-/*  Copyright (C) 2016-2021 Andreas Shimokawa, Carsten Pfeiffer, Daniele
-    Gobbetti, pangwalla
+/*  Copyright (C) 2017-2021 Andreas Shimokawa, Carsten Pfeiffer, Dmytro
+    Bielik, pangwalla
 
     This file is part of Gadgetbridge.
 
@@ -15,7 +15,7 @@
 
     You should have received a copy of the GNU Affero General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
-package nodomain.freeyourgadget.gadgetbridge.devices.huami.amazfitgts2;
+package nodomain.freeyourgadget.gadgetbridge.service.devices.huami.amazfitgts2;
 
 import android.content.Context;
 import android.net.Uri;
@@ -23,19 +23,12 @@ import android.net.Uri;
 import java.io.IOException;
 
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiFWHelper;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.amazfitgts2.AmazfitGTS2FirmwareInfo;
+import nodomain.freeyourgadget.gadgetbridge.devices.huami.amazfitgts2.AmazfitGTS2MiniFWHelper;
 
-public class AmazfitGTS2FWHelper extends HuamiFWHelper {
-
-    public AmazfitGTS2FWHelper(Uri uri, Context context) throws IOException {
-        super(uri, context);
-    }
+public class AmazfitGTS2MiniSupport extends AmazfitGTS2Support {
 
     @Override
-    protected void determineFirmwareInfo(byte[] wholeFirmwareBytes) {
-        firmwareInfo = new AmazfitGTS2FirmwareInfo(wholeFirmwareBytes);
-        if (!firmwareInfo.isHeaderValid()) {
-            throw new IllegalArgumentException("Not an Amazfit GTS 2 firmware");
-        }
+    public HuamiFWHelper createFWHelper(Uri uri, Context context) throws IOException {
+        return new AmazfitGTS2MiniFWHelper(uri, context);
     }
 }
