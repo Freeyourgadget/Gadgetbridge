@@ -1174,4 +1174,5 @@
     <string name="minutes_mi">分钟/英里</string>
     <string name="mi_h">迈</string>
     <string name="ft">英尺</string>
+    <string name="devicetype_amazfit_gts2_mini">华米 GTS 2 Mini</string>
 </resources>
