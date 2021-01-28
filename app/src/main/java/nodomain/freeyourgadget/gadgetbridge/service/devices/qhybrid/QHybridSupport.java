@@ -284,7 +284,11 @@ public class QHybridSupport extends QHybridBaseSupport {
                     }
                     case QHYBRID_COMMAND_UPLOAD_FILE:{
                         Object handleObject = intent.getSerializableExtra("EXTRA_HANDLE");
-                        if(handleObject == null || !(handleObject instanceof FileHandle)) return;
+                        if(handleObject == null)return;
+                        if(handleObject instanceof String){
+                            handleObject = FileHandle.fromName((String)handleObject);
+                        }
+                        if(!(handleObject instanceof FileHandle)) return;
                         FileHandle handle = (FileHandle) handleObject;
                         String filePath = intent.getStringExtra("EXTRA_PATH");
                         watchAdapter.uploadFile(handle, filePath, intent.getBooleanExtra("EXTRA_ENCRYPTED", false));
@@ -293,7 +297,7 @@ public class QHybridSupport extends QHybridBaseSupport {
                 }
             }
         };
-        LocalBroadcastManager.getInstance(getContext()).registerReceiver(commandReceiver, commandFilter);
+        LocalBroadcastManager.getInstance(GBApplication.getContext()).registerReceiver(commandReceiver, commandFilter);
 
         helper = new PackageConfigHelper(GBApplication.getContext());
 
@@ -301,6 +305,7 @@ public class QHybridSupport extends QHybridBaseSupport {
         globalFilter.addAction(QHYBRID_ACTION_SET_ACTIVITY_HAND);
         globalFilter.addAction(QHYBRID_COMMAND_SET_MENU_MESSAGE);
         globalFilter.addAction(QHYBRID_COMMAND_SET_WIDGET_CONTENT);
+        globalFilter.addAction(QHYBRID_COMMAND_UPLOAD_FILE);
         globalCommandReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
@@ -361,6 +366,18 @@ public class QHybridSupport extends QHybridBaseSupport {
                             String content = String.valueOf(intent.getExtras().get("EXTRA_CONTENT"));
                             watchAdapter.setWidgetContent(id, content, render);
                         }
+                        break;
+                    }
+                    case QHYBRID_COMMAND_UPLOAD_FILE:{
+                        Object handleObject = intent.getSerializableExtra("EXTRA_HANDLE");
+                        if(handleObject == null)return;
+                        if(handleObject instanceof String){
+                            handleObject = FileHandle.fromName((String)handleObject);
+                        }
+                        if(!(handleObject instanceof FileHandle)) return;
+                        FileHandle handle = (FileHandle) handleObject;
+                        String filePath = intent.getStringExtra("EXTRA_PATH");
+                        watchAdapter.uploadFile(handle, filePath, intent.getBooleanExtra("EXTRA_ENCRYPTED", false));
                         break;
                     }
                 }
