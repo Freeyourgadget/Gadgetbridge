@@ -186,9 +186,9 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
             setVibrationStrength();
             syncSettings();
             setTime();
+            overwriteButtons(null);
         }
 
-        overwriteButtons(null);
 
         loadBackground();
         loadWidgets();
@@ -1081,6 +1081,10 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
 
     @Override
     public void overwriteButtons(String jsonConfigString) {
+        if (connectionMode == CONNECTION_MODE.NOT_AUTHENTICATED) {
+            GB.toast("not available in unauthenticated mode", Toast.LENGTH_LONG, GB.ERROR);
+            return;
+        }
         try {
             JSONArray jsonArray = new JSONArray(
                     GBApplication.getPrefs().getString(HRConfigActivity.CONFIG_KEY_Q_ACTIONS, "[]")
