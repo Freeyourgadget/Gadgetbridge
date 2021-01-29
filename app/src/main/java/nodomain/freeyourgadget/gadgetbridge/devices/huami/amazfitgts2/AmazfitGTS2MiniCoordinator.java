@@ -44,7 +44,7 @@ public class AmazfitGTS2MiniCoordinator extends AmazfitGTS2Coordinator {
         try {
             BluetoothDevice device = candidate.getDevice();
             String name = device.getName();
-            if (name != null && name.equalsIgnoreCase("Amazfit GTS 2 Mini")) {
+            if (name != null && name.equalsIgnoreCase("Amazfit GTS2 mini")) {
                 return DeviceType.AMAZFITGTS2_MINI;
             }
         } catch (Exception ex) {
