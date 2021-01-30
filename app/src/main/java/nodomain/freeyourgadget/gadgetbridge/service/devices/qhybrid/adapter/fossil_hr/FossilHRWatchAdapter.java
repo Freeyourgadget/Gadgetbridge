@@ -182,12 +182,7 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
     }
 
     private void listApplications(){
-        queueWrite(new ApplicationsListRequest(this) {
-            @Override
-            public void handleApplicationsList(List<ApplicationInformation> applications) {
-                installedApplications = applications;
-            }
-        });
+        queueWrite(new ApplicationsListRequest(this));
     }
 
     private void initializeAfterAuthentication(boolean authenticated) {
@@ -388,6 +383,10 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
         }
 
         uploadWidgets();
+    }
+
+    public void setInstalledApplications(List<ApplicationInformation> installedApplications) {
+        this.installedApplications = installedApplications;
     }
 
     private void uploadWidgets() {
