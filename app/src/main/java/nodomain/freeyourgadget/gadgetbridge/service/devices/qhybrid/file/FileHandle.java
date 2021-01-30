@@ -57,6 +57,15 @@ public enum FileHandle {
         return null;
     }
 
+    public static FileHandle fromHandle(short handleBytes){
+        for(FileHandle handle : FileHandle.values()){
+            if(handle.getHandle() == handleBytes){
+                return handle;
+            }
+        }
+        return null;
+    }
+
     public short getHandle(){
         return (short)((handle << 8) | (subHandle));
     }

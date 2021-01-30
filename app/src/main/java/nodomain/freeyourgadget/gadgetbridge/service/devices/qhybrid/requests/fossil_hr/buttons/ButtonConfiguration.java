@@ -28,6 +28,10 @@ public class ButtonConfiguration {
         this.action = action;
     }
 
+    public String getAction() {
+        return action;
+    }
+
     public JSONObject toJsonObject(){
         try {
             return new JSONObject()

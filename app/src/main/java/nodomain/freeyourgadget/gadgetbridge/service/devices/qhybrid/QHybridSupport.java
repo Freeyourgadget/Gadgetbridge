@@ -283,15 +283,7 @@ public class QHybridSupport extends QHybridBaseSupport {
                         break;
                     }
                     case QHYBRID_COMMAND_UPLOAD_FILE:{
-                        Object handleObject = intent.getSerializableExtra("EXTRA_HANDLE");
-                        if(handleObject == null)return;
-                        if(handleObject instanceof String){
-                            handleObject = FileHandle.fromName((String)handleObject);
-                        }
-                        if(!(handleObject instanceof FileHandle)) return;
-                        FileHandle handle = (FileHandle) handleObject;
-                        String filePath = intent.getStringExtra("EXTRA_PATH");
-                        watchAdapter.uploadFile(handle, filePath, intent.getBooleanExtra("EXTRA_ENCRYPTED", false));
+                        handleFileUploadIntent(intent);
                         break;
                     }
                 }
@@ -369,21 +361,30 @@ public class QHybridSupport extends QHybridBaseSupport {
                         break;
                     }
                     case QHYBRID_COMMAND_UPLOAD_FILE:{
-                        Object handleObject = intent.getSerializableExtra("EXTRA_HANDLE");
-                        if(handleObject == null)return;
-                        if(handleObject instanceof String){
-                            handleObject = FileHandle.fromName((String)handleObject);
-                        }
-                        if(!(handleObject instanceof FileHandle)) return;
-                        FileHandle handle = (FileHandle) handleObject;
-                        String filePath = intent.getStringExtra("EXTRA_PATH");
-                        watchAdapter.uploadFile(handle, filePath, intent.getBooleanExtra("EXTRA_ENCRYPTED", false));
+                        handleFileUploadIntent(intent);
                         break;
                     }
                 }
             }
         };
         GBApplication.getContext().registerReceiver(globalCommandReceiver, globalFilter);
+    }
+
+    private void handleFileUploadIntent(Intent intent){
+        boolean generateHeader = intent.getBooleanExtra("EXTRA_GENERATE_FILE_HEADER", false);
+        String filePath = intent.getStringExtra("EXTRA_PATH");
+        if(!generateHeader){
+            watchAdapter.uploadFileIncludesHeader(filePath);
+            return;
+        }
+        Object handleObject = intent.getSerializableExtra("EXTRA_HANDLE");
+        if(handleObject == null)return;
+        if(handleObject instanceof String){
+            handleObject = FileHandle.fromName((String)handleObject);
+        }
+        if(!(handleObject instanceof FileHandle)) return;
+        FileHandle handle = (FileHandle) handleObject;
+        watchAdapter.uploadFileGenerateHeader(handle, filePath, intent.getBooleanExtra("EXTRA_ENCRYPTED", false));
     }
 
     @Override

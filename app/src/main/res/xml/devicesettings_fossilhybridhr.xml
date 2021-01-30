@@ -16,6 +16,7 @@
         android:key="button_1_function_long"
         android:summary="%s"
         android:title="@string/pref_title_upper_button_function_long" />
+    <!-- supported FW does not support double click
     <ListPreference
         android:defaultValue="weatherApp"
         android:entries="@array/pref_hybridhr_buttonfunctions"
@@ -23,6 +24,7 @@
         android:key="button_1_function_double"
         android:summary="%s"
         android:title="@string/pref_title_upper_button_function_double" />
+        -->
 
     <ListPreference
         android:defaultValue="commuteApp"
@@ -31,6 +33,7 @@
         android:key="button_2_function_short"
         android:summary="%s"
         android:title="@string/pref_title_middle_button_function_short" />
+    <!-- supported FW does not support double click
     <ListPreference
         android:defaultValue="commuteApp"
         android:entries="@array/pref_hybridhr_buttonfunctions"
@@ -38,6 +41,7 @@
         android:key="button_2_function_double"
         android:summary="%s"
         android:title="@string/pref_title_middle_button_function_double" />
+        -->
 
     <ListPreference
         android:defaultValue="musicApp"
@@ -53,6 +57,7 @@
         android:key="button_3_function_long"
         android:summary="%s"
         android:title="@string/pref_title_lower_button_function_long" />
+    <!-- supported FW does not support double click
     <ListPreference
         android:defaultValue="musicApp"
         android:entries="@array/pref_hybridhr_buttonfunctions"
@@ -60,6 +65,7 @@
         android:key="button_3_function_double"
         android:summary="%s"
         android:title="@string/pref_title_lower_button_function_double" />
+        -->
 
     <SwitchPreference
         android:defaultValue="false"

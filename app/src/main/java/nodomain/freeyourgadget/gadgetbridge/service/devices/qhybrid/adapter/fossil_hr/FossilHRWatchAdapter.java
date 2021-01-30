@@ -49,6 +49,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -71,6 +72,7 @@ import nodomain.freeyourgadget.gadgetbridge.model.MusicStateSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.Weather;
 import nodomain.freeyourgadget.gadgetbridge.model.WeatherSpec;
+import nodomain.freeyourgadget.gadgetbridge.service.btle.Transaction;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.QHybridSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.adapter.fossil.FossilWatchAdapter;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.file.FileHandle;
@@ -83,8 +85,11 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fos
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.file.FileGetRawRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.file.FileLookupRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.file.FilePutRawRequest;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.file.FilePutRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.notification.PlayCallNotificationRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.notification.PlayTextNotificationRequest;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.application.ApplicationInformation;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.application.ApplicationsListRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.async.ConfirmAppStatusRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.authentication.VerifyPrivateKeyRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.buttons.ButtonConfiguration;
@@ -141,6 +146,8 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
     HashMap<String, Bitmap> appIconCache = new HashMap<>();
     String lastPostedApp = null;
 
+    List<ApplicationInformation> installedApplications;
+
     enum CONNECTION_MODE {
         NOT_INITIALIZED,
         AUTHENTICATED,
@@ -157,6 +164,7 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
             queueWrite(new RequestMtuRequest(512));
         }
 
+        listApplications();
         getDeviceInfos();
     }
 
@@ -173,6 +181,15 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
         negotiateSymmetricKey();
     }
 
+    private void listApplications(){
+        queueWrite(new ApplicationsListRequest(this) {
+            @Override
+            public void handleApplicationsList(List<ApplicationInformation> applications) {
+                installedApplications = applications;
+            }
+        });
+    }
+
     private void initializeAfterAuthentication(boolean authenticated) {
         queueWrite(new SetDeviceStateRequest(GBDevice.State.INITIALIZING));
 
@@ -186,10 +203,9 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
             setVibrationStrength();
             syncSettings();
             setTime();
-            overwriteButtons(null);
         }
 
-
+        overwriteButtons(null);
         loadBackground();
         loadWidgets();
         // renderWidgets();
@@ -568,7 +584,7 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
     }
 
     @Override
-    public void uploadFile(FileHandle handle, String filePath, boolean fileIsEncrypted) {
+    public void uploadFileGenerateHeader(FileHandle handle, String filePath, boolean fileIsEncrypted) {
         final Intent resultIntent = new Intent(QHybridSupport.QHYBRID_ACTION_UPLOADED_FILE);
         byte[] fileData;
 
@@ -584,13 +600,45 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
             return;
         }
 
-        queueWrite(new FilePutRawRequest(handle, fileData, this) {
+        queueWrite(new FilePutRequest(handle, fileData, this) {
             @Override
             public void onFilePut(boolean success) {
                 resultIntent.putExtra("EXTRA_SUCCESS", success);
                 LocalBroadcastManager.getInstance(getContext()).sendBroadcast(resultIntent);
             }
         });
+    }
+
+    @Override
+    public void uploadFileIncludesHeader(String filePath) {
+        final Intent resultIntent = new Intent(QHybridSupport.QHYBRID_ACTION_UPLOADED_FILE);
+        byte[] fileData;
+
+        try {
+            FileInputStream fis = new FileInputStream(filePath);
+            fileData = new byte[fis.available()];
+            fis.read(fileData);
+            fis.close();
+
+            short handleBytes = (short)(fileData[0] & 0xFF | ((fileData[1] & 0xFF) << 8));
+            FileHandle handle = FileHandle.fromHandle(handleBytes);
+
+            if(handle == null){
+                throw new RuntimeException("unknown handle");
+            }
+
+            queueWrite(new FilePutRawRequest(handle, fileData, this) {
+                @Override
+                public void onFilePut(boolean success) {
+                    resultIntent.putExtra("EXTRA_SUCCESS", success);
+                    LocalBroadcastManager.getInstance(getContext()).sendBroadcast(resultIntent);
+                }
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+            resultIntent.putExtra("EXTRA_SUCCESS", false);
+            LocalBroadcastManager.getInstance(getContext()).sendBroadcast(resultIntent);
+        }
     }
 
     @Override
@@ -1081,10 +1129,6 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
 
     @Override
     public void overwriteButtons(String jsonConfigString) {
-        if (connectionMode == CONNECTION_MODE.NOT_AUTHENTICATED) {
-            GB.toast("not available in unauthenticated mode", Toast.LENGTH_LONG, GB.ERROR);
-            return;
-        }
         try {
             JSONArray jsonArray = new JSONArray(
                     GBApplication.getPrefs().getString(HRConfigActivity.CONFIG_KEY_Q_ACTIONS, "[]")
@@ -1104,24 +1148,31 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
                 if (version.compareTo(new Version("1.0.2.19")) == -1)
                     singlePressEvent = "single_click";
             }
+            ArrayList<ButtonConfiguration> configs = new ArrayList<>(5);
+            configs.add(new ButtonConfiguration("top_" + singlePressEvent, prefs.getString(DeviceSettingsPreferenceConst.PREF_BUTTON_1_FUNCTION_SHORT, "weatherApp")));
+            configs.add(new ButtonConfiguration("top_hold", prefs.getString(DeviceSettingsPreferenceConst.PREF_BUTTON_1_FUNCTION_LONG, "weatherApp")));
+         // configs.add(new ButtonConfiguration("top_double_click", prefs.getString(DeviceSettingsPreferenceConst.PREF_BUTTON_1_FUNCTION_DOUBLE, "weatherApp")));
+            configs.add(new ButtonConfiguration("middle_" + singlePressEvent, prefs.getString(DeviceSettingsPreferenceConst.PREF_BUTTON_2_FUNCTION_SHORT, "commuteApp")));
+         // configs.add(new ButtonConfiguration("middle_hold", prefs.getString(DeviceSettingsPreferenceConst.PREF_BUTTON_2_FUNCTION_LONG, "commuteApp")));
+         // configs.add(new ButtonConfiguration("middle_double_click", prefs.getString(DeviceSettingsPreferenceConst.PREF_BUTTON_2_FUNCTION_DOUBLE, "commuteApp")));
+            configs.add(new ButtonConfiguration("bottom_" + singlePressEvent, prefs.getString(DeviceSettingsPreferenceConst.PREF_BUTTON_3_FUNCTION_SHORT, "musicApp")));
+            configs.add(new ButtonConfiguration("bottom_hold", prefs.getString(DeviceSettingsPreferenceConst.PREF_BUTTON_3_FUNCTION_LONG, "musicApp")));
+         // configs.add(new ButtonConfiguration("bottom_double_click", prefs.getString(DeviceSettingsPreferenceConst.PREF_BUTTON_3_FUNCTION_DOUBLE, "musicApp")));
 
-            ButtonConfiguration[] buttonConfigurations = new ButtonConfiguration[]{
-                    new ButtonConfiguration("top_" + singlePressEvent, prefs.getString(DeviceSettingsPreferenceConst.PREF_BUTTON_1_FUNCTION_SHORT, "weatherApp")),
-                    new ButtonConfiguration("top_hold", prefs.getString(DeviceSettingsPreferenceConst.PREF_BUTTON_1_FUNCTION_LONG, "weatherApp")),
-                    new ButtonConfiguration("top_double_click", prefs.getString(DeviceSettingsPreferenceConst.PREF_BUTTON_1_FUNCTION_DOUBLE, "weatherApp")),
+            // filter out all apps not installed on watch
+            outerLoop: for (ButtonConfiguration config : configs){
+                for(ApplicationInformation installedApp : installedApplications){
+                    if(installedApp.getAppName().equals(config.getAction())){
+                        continue outerLoop;
+                    }
+                }
+                configs.remove(config);
+            }
 
-                    new ButtonConfiguration("middle_" + singlePressEvent, prefs.getString(DeviceSettingsPreferenceConst.PREF_BUTTON_2_FUNCTION_SHORT, "commuteApp")),
-                    // new ButtonConfiguration("middle_hold", prefs.getString(DeviceSettingsPreferenceConst.PREF_BUTTON_2_FUNCTION_LONG, "commuteApp")),
-                    new ButtonConfiguration("middle_double_click", prefs.getString(DeviceSettingsPreferenceConst.PREF_BUTTON_2_FUNCTION_DOUBLE, "commuteApp")),
-
-                    new ButtonConfiguration("bottom_" + singlePressEvent, prefs.getString(DeviceSettingsPreferenceConst.PREF_BUTTON_3_FUNCTION_SHORT, "musicApp")),
-                    new ButtonConfiguration("bottom_hold", prefs.getString(DeviceSettingsPreferenceConst.PREF_BUTTON_3_FUNCTION_LONG, "musicApp")),
-                    new ButtonConfiguration("bottom_double_click", prefs.getString(DeviceSettingsPreferenceConst.PREF_BUTTON_3_FUNCTION_DOUBLE, "musicApp")),
-            };
 
             queueWrite(new ButtonConfigurationPutRequest(
                     menuItems,
-                    buttonConfigurations,
+                    configs.toArray(new ButtonConfiguration[0]),
                     this
             ));
         } catch (JSONException e) {

@@ -16,6 +16,7 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.devices.qhybrid;
 
+import android.app.AlertDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -23,6 +24,7 @@ import android.content.IntentFilter;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.CompoundButton;
 import android.widget.ExpandableListView;
 import android.widget.Spinner;
 import android.widget.Switch;
@@ -31,6 +33,9 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.Serializable;
 import java.nio.file.attribute.FileTime;
 
@@ -39,12 +44,16 @@ import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.activities.AbstractGBActivity;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.QHybridSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.file.FileHandle;
+import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
 public class FileManagementActivity extends AbstractGBActivity implements View.OnClickListener {
     private final int REQUEST_CODE_PICK_UPLOAD_FILE = 0;
 
     private Spinner fileTypesSpinner;
     private Switch encryptedFile;
+    private boolean generateFileHeader = false;
+
+    private boolean warningDisplayed = false;
 
     BroadcastReceiver fileResultReceiver = new BroadcastReceiver() {
         @Override
@@ -100,6 +109,15 @@ public class FileManagementActivity extends AbstractGBActivity implements View.O
 
         findViewById(R.id.qhybrid_button_download_file).setOnClickListener(this);
         findViewById(R.id.qhybrid_button_upload_file).setOnClickListener(this);
+
+        ((Switch) findViewById(R.id.sqhybrid_switch_generate_file_header)).setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                generateFileHeader = isChecked;
+                fileTypesSpinner.setClickable(isChecked);
+                fileTypesSpinner.setAlpha(isChecked ? 1f : 0.2f);
+            }
+        });
     }
 
     @Override
@@ -108,13 +126,41 @@ public class FileManagementActivity extends AbstractGBActivity implements View.O
         if(requestCode != REQUEST_CODE_PICK_UPLOAD_FILE) return;
         if(resultCode != RESULT_OK) return;
 
-        Intent callIntent = new Intent(QHybridSupport.QHYBRID_COMMAND_UPLOAD_FILE);
-        callIntent.putExtra("EXTRA_HANDLE", (FileHandle) fileTypesSpinner.getSelectedItem());
-        callIntent.putExtra("EXTRA_ENCRYPTED", encryptedFile.isChecked());
-        callIntent.putExtra("EXTRA_PATH", data.getData().getPath());
-        // callIntent.setData(data.getData());
+        String path = data.getData().getPath();
 
-        LocalBroadcastManager.getInstance(this).sendBroadcast(callIntent);
+        try {
+            if(!warningDisplayed) {
+                FileInputStream fis = new FileInputStream(path);
+                short fileHandle = (short) (fis.read() | (fis.read() << 8));
+                fis.close();
+
+                boolean handleFound = FileHandle.fromHandle(fileHandle) != null;
+                if (handleFound == generateFileHeader) {
+                    warningDisplayed = true;
+                    String text = "File seems to contain file handle. Are you sure you want to generate a potentially already existing header?";
+                    if(!handleFound) text = "File does not start with a known handle. Are you sure the header is already generated?";
+                    text += " Repeat to continue anyway.";
+                    new AlertDialog.Builder(this)
+                            .setTitle("warning")
+                            .setMessage(text)
+                            .setPositiveButton("ok", null)
+                            .show();
+                    return;
+                }
+            }
+
+            Intent callIntent = new Intent(QHybridSupport.QHYBRID_COMMAND_UPLOAD_FILE);
+            callIntent.putExtra("EXTRA_HANDLE", (FileHandle) fileTypesSpinner.getSelectedItem());
+            callIntent.putExtra("EXTRA_ENCRYPTED", encryptedFile.isChecked());
+            callIntent.putExtra("EXTRA_GENERATE_FILE_HEADER", generateFileHeader);
+            callIntent.putExtra("EXTRA_PATH", data.getData().getPath());
+            // callIntent.setData(data.getData());
+
+            LocalBroadcastManager.getInstance(this).sendBroadcast(callIntent);
+        } catch (IOException e) {
+            e.printStackTrace();
+            GB.toast("cannot open file", Toast.LENGTH_LONG, GB.ERROR);
+        }
     }
 
     @Override
