@@ -70,8 +70,6 @@ public class ConfigurationGetRequest extends FileEncryptedLookupAndGetRequest im
             }
         }
 
-        GB.toast("got config", 0, GB.INFO);
-
         device.sendDeviceUpdateIntent(getAdapter().getContext());
     }
 
