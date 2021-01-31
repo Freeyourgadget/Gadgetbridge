@@ -73,6 +73,7 @@ vendor's servers.
 * TLW64
 * XWatch (Affordable Chinese Casio-like smartwatches)
 * Vibratissimo (Experimental)
+* Zepp E (WARNING: NEEDS VENDOR APP WITH ACCOUNT ONCE) [Wiki](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Amazfit-GTR)
 * ZeTime [Wiki](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/MyKronoz-ZeTime)
 
 

@@ -806,6 +806,7 @@
     <string name="devicetype_amazfit_gtr2">Amazfit GTR 2</string>
     <string name="devicetype_amazfit_gts2">Amazfit GTS 2</string>
     <string name="devicetype_amazfit_gts2_mini">Amazfit GTS 2 Mini</string>
+    <string name="devicetype_zepp_e">Zepp E</string>
     <string name="devicetype_vibratissimo">Vibratissimo</string>
     <string name="devicetype_liveview">LiveView</string>
     <string name="devicetype_hplus">HPlus</string>
