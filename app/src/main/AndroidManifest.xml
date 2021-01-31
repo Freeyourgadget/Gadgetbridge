@@ -426,6 +426,11 @@
             android:parentActivityName=".activities.ControlCenterv2"
             android:windowSoftInputMode="stateHidden" />
         <activity
+            android:name=".activities.BatteryInfoActivity"
+            android:label="@string/battery_detail_activity_title"
+            android:parentActivityName=".activities.ControlCenterv2" />
+
+        <activity
             android:name=".activities.ActivitySummaryDetail"
             android:label="@string/activity_summary_detail"
             android:parentActivityName=".activities.ActivitySummariesActivity"

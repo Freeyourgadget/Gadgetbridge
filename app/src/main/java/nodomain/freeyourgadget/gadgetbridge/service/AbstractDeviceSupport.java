@@ -44,6 +44,7 @@ import java.io.File;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.Collections;
 import java.util.Date;
 import java.util.Locale;
 import java.util.Objects;
@@ -52,6 +53,8 @@ import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.activities.FindPhoneActivity;
 import nodomain.freeyourgadget.gadgetbridge.activities.appmanager.AbstractAppManagerFragment;
+import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
+import nodomain.freeyourgadget.gadgetbridge.database.DBHelper;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEvent;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventAppInfo;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventBatteryInfo;
@@ -64,11 +67,16 @@ import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventMusicContr
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventNotificationControl;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventScreenshot;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventVersionInfo;
+import nodomain.freeyourgadget.gadgetbridge.entities.BatteryLevel;
+import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
+import nodomain.freeyourgadget.gadgetbridge.entities.Device;
+import nodomain.freeyourgadget.gadgetbridge.entities.User;
 import nodomain.freeyourgadget.gadgetbridge.externalevents.NotificationListener;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.BatteryState;
 import nodomain.freeyourgadget.gadgetbridge.service.receivers.GBCallControlReceiver;
 import nodomain.freeyourgadget.gadgetbridge.service.receivers.GBMusicControlReceiver;
+import nodomain.freeyourgadget.gadgetbridge.util.AlarmUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 
@@ -412,6 +420,20 @@ public abstract class AbstractDeviceSupport implements DeviceSupport {
                 GB.removeBatteryNotification(context);
             }
         } else {
+            try (DBHandler db = GBApplication.acquireDB()) {
+                DaoSession daoSession = db.getDaoSession();
+                Device device = DBHelper.getDevice(gbDevice, daoSession);
+                int ts = (int) (System.currentTimeMillis() / 1000);
+                BatteryLevel batteryLevel = new BatteryLevel();
+                batteryLevel.setTimestamp(ts);
+                batteryLevel.setDevice(device);
+                batteryLevel.setLevel(deviceEvent.level);
+                db.getDaoSession().getBatteryLevelDao().insert(batteryLevel);
+
+            } catch (Exception e) {
+                LOG.debug("Error accessing database: ", GB.ERROR, e);
+            }
+
             //show the notification if the battery level is below threshold and only if not connected to charger
             if (deviceEvent.level <= gbDevice.getBatteryThresholdPercent() &&
                     (BatteryState.BATTERY_LOW.equals(deviceEvent.state) ||

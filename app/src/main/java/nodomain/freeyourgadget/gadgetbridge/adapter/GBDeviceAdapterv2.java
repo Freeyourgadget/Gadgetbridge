@@ -57,6 +57,7 @@ import java.util.Locale;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.activities.ActivitySummariesActivity;
+import nodomain.freeyourgadget.gadgetbridge.activities.BatteryInfoActivity;
 import nodomain.freeyourgadget.gadgetbridge.activities.ConfigureAlarms;
 import nodomain.freeyourgadget.gadgetbridge.activities.VibrationActivity;
 import nodomain.freeyourgadget.gadgetbridge.activities.charts.ChartsActivity;
@@ -159,6 +160,19 @@ public class GBDeviceAdapterv2 extends RecyclerView.Adapter<GBDeviceAdapterv2.Vi
             holder.batteryStatusLabel.setText(String.format(Locale.getDefault(), "%.2f", batteryVoltage));
             holder.batteryIcon.setImageLevel(200);
         }
+        holder.batteryStatusBox.setOnClickListener(new View.OnClickListener()
+
+                                                   {
+                                                       @Override
+                                                       public void onClick(View v) {
+                                                           Intent startIntent;
+                                                           startIntent = new Intent(context, BatteryInfoActivity.class);
+                                                           startIntent.putExtra(GBDevice.EXTRA_DEVICE, device);
+                                                           context.startActivity(startIntent);
+                                                       }
+                                                   }
+        );
+
 
         //device specific settings
         holder.deviceSpecificSettingsView.setVisibility(coordinator.getSupportedDeviceSpecificSettings(device) != null ? View.VISIBLE : View.GONE);

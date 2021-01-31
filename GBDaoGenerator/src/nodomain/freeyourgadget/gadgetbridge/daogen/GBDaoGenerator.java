@@ -43,7 +43,7 @@ public class GBDaoGenerator {
 
 
     public static void main(String[] args) throws Exception {
-        Schema schema = new Schema(32, MAIN_PACKAGE + ".entities");
+        Schema schema = new Schema(33, MAIN_PACKAGE + ".entities");
 
         Entity userAttributes = addUserAttributes(schema);
         Entity user = addUserInfo(schema, userAttributes);
@@ -90,7 +90,7 @@ public class GBDaoGenerator {
         addNotificationFilterEntry(schema, notificationFilter);
 
         addActivitySummary(schema, user, device);
-
+        addBatteryLevel(schema, device);
         new DaoGenerator().generateAll(schema, "app/src/main/java");
     }
 
@@ -603,5 +603,15 @@ public class GBDaoGenerator {
         Entity entity = schema.addEntity(className);
         entity.addImport("de.greenrobot.dao.AbstractDao");
         return entity;
+    }
+
+    private static Entity addBatteryLevel(Schema schema, Entity device) {
+        Entity batteryLevel = addEntity(schema, "BatteryLevel");
+        batteryLevel.implementsSerializable();
+        batteryLevel.addIntProperty("timestamp").notNull().primaryKey();
+        Property deviceId = batteryLevel.addLongProperty("deviceId").primaryKey().notNull().getProperty();
+        batteryLevel.addToOne(device, deviceId);
+        batteryLevel.addIntProperty("level").notNull();
+        return batteryLevel;
     }
 }
