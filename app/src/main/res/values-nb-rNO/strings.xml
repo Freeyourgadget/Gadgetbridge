@@ -1165,4 +1165,6 @@
     <string name="mi_h">mi/t</string>
     <string name="ft">fot</string>
     <string name="activity_type_strength_training">Styrketrening</string>
+    <string name="devicetype_zepp_e">Zepp E</string>
+    <string name="devicetype_amazfit_gts2_mini">Amazfit GTS 2 Mini</string>
 </resources>
