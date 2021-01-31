@@ -82,7 +82,7 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.tlw64.TLW64Support;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.vibratissimo.VibratissimoSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.watch9.Watch9DeviceSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.xwatch.XWatchSupport;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.zeppe.ZeppESupport;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppe.ZeppESupport;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.zetime.ZeTimeDeviceSupport;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 

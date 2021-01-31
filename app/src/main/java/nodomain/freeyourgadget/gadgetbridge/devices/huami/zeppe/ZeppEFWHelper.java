@@ -23,7 +23,7 @@ import android.net.Uri;
 import java.io.IOException;
 
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiFWHelper;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.amazfitgtr.AmazfitGTRFirmwareInfo;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppe.ZeppEFirmwareInfo;
 
 public class ZeppEFWHelper extends HuamiFWHelper {
 
@@ -33,7 +33,7 @@ public class ZeppEFWHelper extends HuamiFWHelper {
 
     @Override
     protected void determineFirmwareInfo(byte[] wholeFirmwareBytes) {
-        firmwareInfo = new AmazfitGTRFirmwareInfo(wholeFirmwareBytes);
+        firmwareInfo = new ZeppEFirmwareInfo(wholeFirmwareBytes);
         if (!firmwareInfo.isHeaderValid()) {
             throw new IllegalArgumentException("Not a Zepp E firmware");
         }
