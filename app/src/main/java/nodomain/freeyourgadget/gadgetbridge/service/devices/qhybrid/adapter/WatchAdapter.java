@@ -153,4 +153,7 @@ public abstract class WatchAdapter {
 
     public void factoryReset() {
     }
+
+    public void uninstallApp(String appName) {
+    }
 }

@@ -125,6 +125,12 @@
         android:text="File management" />
 
     <Button
+        android:id="@+id/qhybrid_apps_management_trigger"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Apps management" />
+
+    <Button
         android:id="@+id/calibration_trigger"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

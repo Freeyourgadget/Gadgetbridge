@@ -96,6 +96,7 @@ public class QHybridSupport extends QHybridBaseSupport {
     public static final String QHYBRID_COMMAND_SEND_MENU_ITEMS = "nodomain.freeyourgadget.gadgetbridge.Q_SEND_MENU_ITEMS";
     public static final String QHYBRID_COMMAND_SET_WIDGET_CONTENT = "nodomain.freeyourgadget.gadgetbridge.Q_SET_WIDGET_CONTENT";
     public static final String QHYBRID_COMMAND_SET_BACKGROUND_IMAGE = "nodomain.freeyourgadget.gadgetbridge.Q_SET_BACKGROUND_IMAGE";
+    public static final String QHYBRID_COMMAND_UNINSTALL_APP = "nodomain.freeyourgadget.gadgetbridge.Q_UNINSTALL_APP";
 
     public static final String QHYBRID_COMMAND_DOWNLOAD_FILE = "nodomain.freeyourgadget.gadgetbridge.Q_DOWNLOAD_FILE";
     public static final String QHYBRID_COMMAND_UPLOAD_FILE = "nodomain.freeyourgadget.gadgetbridge.Q_UPLOAD_FILE";
@@ -160,6 +161,7 @@ public class QHybridSupport extends QHybridBaseSupport {
         commandFilter.addAction(QHYBRID_COMMAND_UPDATE_WIDGETS);
         commandFilter.addAction(QHYBRID_COMMAND_SEND_MENU_ITEMS);
         commandFilter.addAction(QHYBRID_COMMAND_SET_BACKGROUND_IMAGE);
+        commandFilter.addAction(QHYBRID_COMMAND_UNINSTALL_APP);
         commandFilter.addAction(QHYBRID_COMMAND_UPLOAD_FILE);
         commandFilter.addAction(QHYBRID_COMMAND_DOWNLOAD_FILE);
         commandReceiver = new BroadcastReceiver() {
@@ -284,6 +286,10 @@ public class QHybridSupport extends QHybridBaseSupport {
                     }
                     case QHYBRID_COMMAND_UPLOAD_FILE:{
                         handleFileUploadIntent(intent);
+                        break;
+                    }
+                    case QHYBRID_COMMAND_UNINSTALL_APP:{
+                        watchAdapter.uninstallApp(intent.getStringExtra("EXTRA_APP_NAME"));
                         break;
                     }
                 }

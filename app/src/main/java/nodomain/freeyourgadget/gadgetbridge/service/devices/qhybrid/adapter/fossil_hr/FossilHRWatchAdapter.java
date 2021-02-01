@@ -67,6 +67,7 @@ import nodomain.freeyourgadget.gadgetbridge.entities.HybridHRActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.externalevents.NotificationListener;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.CallSpec;
+import nodomain.freeyourgadget.gadgetbridge.model.GenericItem;
 import nodomain.freeyourgadget.gadgetbridge.model.MusicSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.MusicStateSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
@@ -213,6 +214,19 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
         if (this.connectionMode != CONNECTION_MODE.NOT_INITIALIZED) return;
         this.connectionMode = success ? CONNECTION_MODE.AUTHENTICATED : CONNECTION_MODE.NOT_AUTHENTICATED;
         this.initializeAfterAuthentication(success);
+    }
+
+    @Override
+    public void uninstallApp(String appName) {
+        for(ApplicationInformation appInfo : this.installedApplications){
+            if(appInfo.getAppName().equals(appName)){
+                byte handle = appInfo.getFileHandle();
+                short fullFileHandle = (short)((FileHandle.APP_CODE.getMajorHandle()) << 8 | handle);
+                queueWrite(new FileDeleteRequest(fullFileHandle));
+                listApplications();
+                break;
+            }
+        }
     }
 
     private void setVibrationStrength() {
@@ -633,6 +647,10 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
                     LocalBroadcastManager.getInstance(getContext()).sendBroadcast(resultIntent);
                 }
             });
+
+            if(handle == FileHandle.APP_CODE){
+                listApplications();
+            }
         } catch (Exception e) {
             e.printStackTrace();
             resultIntent.putExtra("EXTRA_SUCCESS", false);
@@ -1159,19 +1177,20 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
          // configs.add(new ButtonConfiguration("bottom_double_click", prefs.getString(DeviceSettingsPreferenceConst.PREF_BUTTON_3_FUNCTION_DOUBLE, "musicApp")));
 
             // filter out all apps not installed on watch
+            ArrayList<ButtonConfiguration> availableConfigs = new ArrayList<>();
             outerLoop: for (ButtonConfiguration config : configs){
                 for(ApplicationInformation installedApp : installedApplications){
                     if(installedApp.getAppName().equals(config.getAction())){
+                        availableConfigs.add(config);
                         continue outerLoop;
                     }
                 }
-                configs.remove(config);
             }
 
 
             queueWrite(new ButtonConfigurationPutRequest(
                     menuItems,
-                    configs.toArray(new ButtonConfiguration[0]),
+                    availableConfigs.toArray(new ButtonConfiguration[0]),
                     this
             ));
         } catch (JSONException e) {
@@ -1242,7 +1261,7 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
             logger.info("got event id " + eventId);
             try {
                 String jsonString = new String(value, 3, value.length - 3);
-                logger.info(jsonString);
+                // logger.info(jsonString);
                 JSONObject requestJson = new JSONObject(jsonString);
 
                 JSONObject request = requestJson.getJSONObject("req");

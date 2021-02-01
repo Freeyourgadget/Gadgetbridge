@@ -15,4 +15,8 @@ public class ApplicationInformation {
     public String getAppName() {
         return appName;
     }
+
+    public byte getFileHandle() {
+        return fileHandle;
+    }
 }
