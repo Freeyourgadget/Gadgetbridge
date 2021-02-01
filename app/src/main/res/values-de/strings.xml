@@ -573,7 +573,7 @@
     <string name="pref_title_pebble_gatt_clientonly">Nur für GATT</string>
     <string name="prefs_screen_orientation">Bildschirmausrichtung</string>
     <string name="pref_auto_fetch_limit_fetches">Minimale Zeit zwischen Abfragen</string>
-    <string name="pref_auto_fetch_limit_fetches_summary">Ruft alle %d Minuten ab</string>
+    <string name="pref_auto_fetch_limit_fetches_summary">Hole neue Informationen alle %d Minuten</string>
     <string name="notif_battery_low">%1$s Akku schwach</string>
     <string name="no_limit">Kein Limit</string>
     <string name="seconds_5">5 Sekunden</string>
@@ -930,7 +930,7 @@
     <string name="error_version_check_extreme_caution">ACHTUNG: Fehler beim Prüfen der Information zur Version! Du solltest nicht fortfahren! Versionsname \"%s\" gefunden</string>
     <string name="permission_granting_mandatory">Alle Berechtigungen sind notwendig und es kann zu Problemen führen, wenn sie nicht genehmigt werden</string>
     <string name="menuitem_stress">Stress</string>
-    <string name="menuitem_cycles">Intervall</string>
+    <string name="menuitem_cycles">Periode</string>
     <string name="error_background_service_reason">Start des Hintergrunddienstes fehlgeschlagen wegen einem Fehler. Fehlermeldung:</string>
     <string name="error_background_service_reason_truncated">Hintergrunddienst konnte nicht gestartet werden, wegen…</string>
     <string name="error_background_service">Start des Hintergrunddienstes fehlgeschlagen</string>
@@ -1151,8 +1151,8 @@
     <string name="prefs_autolight">Automatisches Licht</string>
     <string name="devicetype_amazfit_vergel">Amazfit Verge Lite</string>
     <string name="discovery_entered_invalid_authkey">Der eingegebene geheime Authentifikationsschlüssel ist ungültig! Drücke zum Bearbeiten lange auf das Gerät.</string>
-    <string name="pref_summary_connected_advertisement">Macht das Gerät auch im verbundenen Zustand über Bluetooth auffindbar</string>
-    <string name="pref_title_connected_advertisement">Sichtbar während der Verbindung</string>
+    <string name="pref_summary_connected_advertisement">Macht das Gerät trotz bestehender Bluetoothverbindung auffindbar</string>
+    <string name="pref_title_connected_advertisement">Sichtbar, während eine Verbindung besteht</string>
     <string name="fw_upgrade_notice_amazfitvergel">Du bist dabei, die Firmware %s auf deine Amazfit Verge Lite zu installieren.
 \n
 \nBitte stelle sicher, dass du die .fw Datei, dann die .res Datei und schließlich die .gps Datei installierst. Deine Uhr wird nach der Installation der .fw Datei neu gestartet.
@@ -1179,4 +1179,5 @@
     <string name="mi_h">mi/h</string>
     <string name="ft">ft</string>
     <string name="devicetype_amazfit_gts2_mini">Amazfit GTS 2 Mini</string>
+    <string name="devicetype_zepp_e">Zepp E</string>
 </resources>
