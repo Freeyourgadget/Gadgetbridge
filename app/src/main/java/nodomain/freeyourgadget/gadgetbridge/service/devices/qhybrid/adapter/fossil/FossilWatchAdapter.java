@@ -40,8 +40,12 @@ import java.util.TimeZone;
 import java.util.UUID;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
+import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
+import nodomain.freeyourgadget.gadgetbridge.database.DBHelper;
+import nodomain.freeyourgadget.gadgetbridge.devices.qhybrid.HybridHRActivitySampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.devices.qhybrid.NotificationConfiguration;
 import nodomain.freeyourgadget.gadgetbridge.devices.qhybrid.PackageConfigHelper;
+import nodomain.freeyourgadget.gadgetbridge.entities.HybridHRActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.Alarm;
 import nodomain.freeyourgadget.gadgetbridge.model.GenericItem;
@@ -51,6 +55,8 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.adapter.Watc
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.buttonconfig.ConfigFileBuilder;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.buttonconfig.ConfigPayload;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.file.FileHandle;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.parser.ActivityEntry;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.parser.ActivityFileParser;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.Request;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.FossilRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.RequestMtuRequest;
@@ -61,6 +67,8 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fos
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.device_info.DeviceSecurityVersionInfo;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.device_info.GetDeviceInfoRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.device_info.SupportedFileVersionsInfo;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.file.FileDeleteRequest;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.file.FileLookupAndGetRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.file.FilePutRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.file.FirmwareFilePutRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.notification.NotificationFilterPutRequest;
@@ -469,11 +477,40 @@ public class FossilWatchAdapter extends WatchAdapter {
 
     @Override
     public void onFetchActivityData() {
+        queueWrite(new FileLookupAndGetRequest(FileHandle.ACTIVITY_FILE, this) {
+            @Override
+            public void handleFileData(byte[] fileData) {
+                try (DBHandler dbHandler = GBApplication.acquireDB()) {
+                    ActivityFileParser parser = new ActivityFileParser();
+                    ArrayList<ActivityEntry> entries = parser.parseFile(fileData);
+                    HybridHRActivitySampleProvider provider = new HybridHRActivitySampleProvider(getDeviceSupport().getDevice(), dbHandler.getDaoSession());
 
-        // queueWrite(new ConfigurationPutRequest(new ConfigurationPutRequest.ConfigItem[0], this));
-        setVibrationStrength((byte) 50);
-        // queueWrite(new FileCloseRequest((short) 0x0800));
-        // queueWrite(new ConfigurationGetRequest(this));
+                    HybridHRActivitySample[] samples = new HybridHRActivitySample[entries.size()];
+
+                    Long userId = DBHelper.getUser(dbHandler.getDaoSession()).getId();
+                    Long deviceId = DBHelper.getDevice(getDeviceSupport().getDevice(), dbHandler.getDaoSession()).getId();
+                    for (int i = 0; i < entries.size(); i++) {
+                        samples[i] = entries.get(i).toDAOActivitySample(userId, deviceId);
+                    }
+
+                    provider.addGBActivitySamples(samples);
+
+                    queueWrite(new FileDeleteRequest(getHandle()));
+                    GB.toast("synced activity data", Toast.LENGTH_SHORT, GB.INFO);
+                } catch (Exception ex) {
+                    GB.toast(getContext(), "Error saving steps data: " + ex.getLocalizedMessage(), Toast.LENGTH_LONG, GB.ERROR);
+                    GB.updateTransferNotification(null, "Data transfer failed", false, 0, getContext());
+                }
+                getDeviceSupport().getDevice().sendDeviceUpdateIntent(getContext());
+            }
+
+            @Override
+            public void handleFileLookupError(FILE_LOOKUP_ERROR error) {
+                if(error == FILE_LOOKUP_ERROR.FILE_EMPTY){
+                    GB.toast("activity file empty", Toast.LENGTH_SHORT, GB.INFO);
+                }
+            }
+        });
     }
 
     @Override
