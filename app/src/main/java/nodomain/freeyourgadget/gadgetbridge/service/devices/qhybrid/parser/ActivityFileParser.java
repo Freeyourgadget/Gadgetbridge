@@ -23,7 +23,7 @@ import java.util.ArrayList;
 public class ActivityFileParser {
     // state flags;
     int heartRateQuality;
-    ActivityEntry.WEARING_STATE wearingState = ActivityEntry.WEARING_STATE.UNKNOWN;
+    ActivityEntry.WEARING_STATE wearingState = ActivityEntry.WEARING_STATE.WEARING;
     int currentTimestamp = -1;
     ActivityEntry currentSample = null;
     int currentId = 1;
