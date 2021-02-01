@@ -94,11 +94,15 @@ public class ActivityFileParser {
                 break;
             case (byte) 0xE2:
                 byte type = buffer.get();
-                int timestamp = buffer.getInt();
-                short duration = buffer.getShort();
-                short minutesOffset = buffer.getShort();
                 if (type == 0x04) {
+                    int timestamp = buffer.getInt();
+                    short duration = buffer.getShort();
+                    short minutesOffset = buffer.getShort();
                     this.currentTimestamp = timestamp;
+                }else if(type == 0x09){
+                    byte[] args = new byte[2];
+                    buffer.get(args);
+                    // dunno what to do with that
                 }
                 break;
             case (byte) 0xDD:
