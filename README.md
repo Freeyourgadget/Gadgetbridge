@@ -40,6 +40,7 @@ vendor's servers.
 * Amazfit Cor 2 [Wiki](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Amazfit-Cor-2)
 * Amazfit GTR (WARNING: NEEDS VENDOR APP WITH ACCOUNT ONCE) [Wiki](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Amazfit-GTR)
 * Amazfit GTR 2(WARNING: NEEDS VENDOR APP WITH ACCOUNT ONCE) [Wiki](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Amazfit-GTR)
+* Amazfit GTR 2e(WARNING: NEEDS VENDOR APP WITH ACCOUNT ONCE) [Wiki](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Amazfit-GTR)
 * Amazfit GTS (WARNING: NEEDS VENDOR APP WITH ACCOUNT ONCE) [Wiki](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Amazfit-GTS)
 * Amazfit GTS 2(WARNING: NEEDS VENDOR APP WITH ACCOUNT ONCE) [Wiki](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Amazfit-GTS)
 * Amazfit T-Rex (WARNING: NEEDS VENDOR APP WITH ACCOUNT ONCE)
