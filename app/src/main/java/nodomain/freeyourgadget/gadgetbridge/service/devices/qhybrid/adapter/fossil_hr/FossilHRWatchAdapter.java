@@ -95,6 +95,7 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fos
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.authentication.VerifyPrivateKeyRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.buttons.ButtonConfiguration;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.buttons.ButtonConfigurationPutRequest;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.commute.CommuteConfigPutRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.configuration.ConfigurationGetRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.configuration.ConfigurationPutRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.file.AssetFilePutRequest;
@@ -1147,12 +1148,6 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
     @Override
     public void overwriteButtons(String jsonConfigString) {
         try {
-            JSONArray jsonArray = new JSONArray(
-                    GBApplication.getPrefs().getString(HRConfigActivity.CONFIG_KEY_Q_ACTIONS, "[]")
-            );
-            String[] menuItems = new String[jsonArray.length()];
-            for (int i = 0; i < jsonArray.length(); i++) menuItems[i] = jsonArray.getString(i);
-
             SharedPreferences prefs = getDeviceSpecificPreferences();
 
             String singlePressEvent = "short_press_release";
@@ -1187,12 +1182,22 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
                 }
             }
 
-
             queueWrite(new ButtonConfigurationPutRequest(
-                    menuItems,
                     availableConfigs.toArray(new ButtonConfiguration[0]),
                     this
             ));
+
+            for(ApplicationInformation info : installedApplications){
+                if(info.getAppName().equals("commuteApp")){
+                    JSONArray jsonArray = new JSONArray(
+                            GBApplication.getPrefs().getString(HRConfigActivity.CONFIG_KEY_Q_ACTIONS, "[]")
+                    );
+                    String[] menuItems = new String[jsonArray.length()];
+                    for (int i = 0; i < jsonArray.length(); i++) menuItems[i] = jsonArray.getString(i);
+                    queueWrite(new CommuteConfigPutRequest(menuItems, this));
+                    break;
+                }
+            }
         } catch (JSONException e) {
             e.printStackTrace();
         }

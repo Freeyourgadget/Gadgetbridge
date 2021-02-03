@@ -14,7 +14,7 @@
 
     You should have received a copy of the GNU Affero General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
-package nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.buttons;
+package nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.commute;
 
 import android.widget.Toast;
 
@@ -22,26 +22,22 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.adapter.fossil.FossilWatchAdapter;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.adapter.fossil_hr.FossilHRWatchAdapter;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.buttons.ButtonConfiguration;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.json.JsonPutRequest;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
-public class ButtonConfigurationPutRequest extends JsonPutRequest {
-    public ButtonConfigurationPutRequest(ButtonConfiguration[] buttonConfigurations, FossilHRWatchAdapter adapter) {
-        super(createObject(buttonConfigurations), adapter);
+public class CommuteConfigPutRequest extends JsonPutRequest {
+    public CommuteConfigPutRequest(String[] menuItems, FossilHRWatchAdapter adapter) {
+        super(createObject(menuItems), adapter);
     }
 
-    private static JSONObject createObject(ButtonConfiguration[] buttonConfigurations) {
+    private static JSONObject createObject(String[] menuItems) {
         try {
-            JSONArray configuration = new JSONArray();
-            for(ButtonConfiguration buttonConfiguration : buttonConfigurations){
-                configuration.put(buttonConfiguration.toJsonObject());
-            }
             return new JSONObject()
                     .put("push", new JSONObject()
                             .put("set", new JSONObject()
-                                    .put("master._.config.buttons", configuration)
+                                    .put("commuteApp._.config.destinations", new JSONArray(menuItems))
                             )
                     );
         } catch (JSONException e) {
