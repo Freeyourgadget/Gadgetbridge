@@ -316,16 +316,21 @@
     <string name="live_activity_heart_rate">Frequência cardíaca</string>
     <string name="pref_title_pebble_health_store_raw">Armazenar registro bruto no banco de dados</string>
     <string name="pref_summary_pebble_health_store_raw">Armazena os dados \"como estão\", aumentando o uso do banco de dados para permitir posterior interpretação.</string>
-    <string name="action_db_management">Gerenciamento de banco de dados</string>
-    <string name="title_activity_db_management">Gerenciamento de banco de dados</string>
-    <string name="activity_db_management_import_export_explanation">As operações do banco de dados usam o caminho abaixo em seu dispositivo. 
-\nEste caminho está acessível a outros aplicativos do Android e ao seu computador. 
-\nEspere encontrar seu banco de dados (ou coloque o banco de dados que você deseja importar) em:</string>
+    <string name="action_db_management">Gerenciamento de dados</string>
+    <string name="title_activity_db_management">Gerenciamento de dados</string>
+    <string name="activity_db_management_import_export_explanation">As operações de exportação/importação usam o seguinte caminho (veja abaixo) para um diretório em seu dispositivo. Este diretório é acessível a outros aplicativos Android e seu computador. Observe que este diretório e todos os arquivos que contêm são excluídos se você desinstalar o Gadgetbridge. Os dados incluem:
+\n Export_preference - configurações globais
+\n Export_preference_MAC - configurações específicas do dispositivo
+\n Gadgetbridge - banco de dados de dispositivos e atividades
+\n Gadgetbridge_date - banco de dados exportado em uma data
+\n *.gpx - gravações deGPS
+\n *.log - arquivos de log
+\nEspere encontrar seus arquivos exportados (ou colocar os arquivos que deseja importar) lá:</string>
     <string name="dbmanagementactivvity_cannot_access_export_path">Não é possível acessar o caminho de exportação. Entre em contato com os desenvolvedores.</string>
     <string name="dbmanagementactivity_exported_to">Exportado para: %1$s</string>
     <string name="dbmanagementactivity_error_exporting_db">Erro ao exportar BD: %1$s</string>
     <string name="dbmanagementactivity_import_data_title">Importar dados?</string>
-    <string name="dbmanagementactivity_overwrite_database_confirmation">Realmente sobrescrever o banco de dados atual? Todos os seus dados atuais de atividade (se houver) serão perdidos.</string>
+    <string name="dbmanagementactivity_overwrite_database_confirmation">Realmente sobrescrever os dados atuais\? Todos os seus dados atuais de atividade (se houver) e preferências serão substituídos.</string>
     <string name="dbmanagementactivity_import_successful">Importado.</string>
     <string name="dbmanagementactivity_error_importing_db">Erro ao importar BD: %1$s</string>
     <string name="dbmanagementactivity_delete_activity_data_title">Excluir dados de atividade\?</string>
@@ -733,12 +738,12 @@
     <string name="pref_summary_use_custom_font">Habilite isso se seu dispositivo possui uma firmware de fonte personalizado para suporte a emoji</string>
     <string name="activity_db_management_autoexport_explanation">Localização de autoexportação do banco de dados foi definida para:</string>
     <string name="activity_db_management_autoexport_label">Autoexportar</string>
-    <string name="activity_DB_ExportButton">Exportar BD</string>
-    <string name="activity_DB_import_button">Importar BD</string>
+    <string name="activity_DB_ExportButton">Exportar dados</string>
+    <string name="activity_DB_import_button">Importar dados</string>
     <string name="activity_DB_test_export_button">Executar autoexportação agora</string>
     <string name="activity_DB_test_export_message">Exportando banco de dados…</string>
     <string name="activity_DB_delete_legacy_button">Excluir BD antigo</string>
-    <string name="activity_DB_empty_button">Esvaziar BD</string>
+    <string name="activity_DB_empty_button">Esvaziar banco de dados</string>
     <string name="activity_db_management_empty_DB">Esvaziar banco de dados</string>
     <string name="activity_db_management_exportimport_label">Exportar e importar</string>
     <string name="activity_db_management_empty_db_warning">Atenção! Ao pressionar esse botão, você vai apagar seus banco de dados e iniciar do zero.</string>
@@ -1152,4 +1157,9 @@
 \nNota: você não precisa instalar .res e .gps se esses forem exatamente os mesmos que os instalados anteriormente.
 \n
 \nPROSSIGA AO SEU PRÓPRIO RISCO!</string>
+    <string name="activity_DB_ShowContentButton">Mostrar Exportar/Importar conteúdo do diretório</string>
+    <string name="activity_data_management_directory_content_title">Exportar/Importar conteúdo do diretório</string>
+    <string name="dbmanagementactivity_export_confirmation">Realmente exportar dados\? Dados de atividades exportados anteriormente (se houver) e preferências serão substituídos.</string>
+    <string name="dbmanagementactivity_export_data_title">Exportar dados\?</string>
+    <string name="dbmanagementactivity_error_cleaning_export_directory">Erro ao apagar arquivos de diretório externo %1$s</string>
 </resources>
