@@ -1176,4 +1176,5 @@
     <string name="ft">英尺</string>
     <string name="devicetype_amazfit_gts2_mini">华米 GTS 2 Mini</string>
     <string name="devicetype_zepp_e">Zepp E</string>
+    <string name="devicetype_amazfit_gtr2e">华米 GTR 2e</string>
 </resources>
