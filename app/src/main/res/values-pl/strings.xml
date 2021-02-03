@@ -1176,4 +1176,7 @@
     <string name="ft">stopa</string>
     <string name="mi">mi</string>
     <string name="activity_type_strength_training">Trening siłowy</string>
+    <string name="devicetype_zepp_e">Zepp E</string>
+    <string name="devicetype_amazfit_gts2_mini">Amazfit GTS 2 Mini</string>
+    <string name="devicetype_amazfit_gtr2e">Amazfit GTR 2e</string>
 </resources>
