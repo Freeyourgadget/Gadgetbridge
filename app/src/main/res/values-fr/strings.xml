@@ -1165,4 +1165,5 @@ Temps de sommeil préféré en heures</string>
     <string name="ft">pieds</string>
     <string name="devicetype_amazfit_gts2_mini">Amazfit GTS 2 Mini</string>
     <string name="devicetype_zepp_e">Zepp E</string>
+    <string name="devicetype_amazfit_gtr2e">Amazfit GTR 2e</string>
 </resources>
