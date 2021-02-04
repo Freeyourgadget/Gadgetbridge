@@ -241,7 +241,7 @@
     <string name="pref_screen_notification_profile_email">Ειδοποιήσεις email</string>
     <string name="pref_title_weather_location">Τοποθεσία καιρού (για την υπηρεσία καιρού του LineageOS)</string>
     <string name="pref_screen_notification_profile_incoming_call">Ειδοποιήσεις εισερχομένων κλήσεων</string>
-    <string name="pref_screen_notification_profile_generic_chat">Συζήτηση</string>
+    <string name="pref_screen_notification_profile_generic_chat">Συνομιλία</string>
     <string name="pref_screen_notification_profile_generic_navigation">Πλοήγηση</string>
     <string name="pref_screen_notification_profile_generic_social">Κοινωνικά δίκτυα</string>
     <string name="prefs_title_heartrate_measurement_interval">Μέτρηση υγείας όλη τη μέρα</string>
