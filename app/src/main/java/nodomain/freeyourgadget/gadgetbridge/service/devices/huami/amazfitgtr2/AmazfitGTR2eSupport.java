@@ -15,7 +15,7 @@
 
     You should have received a copy of the GNU Affero General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
-package nodomain.freeyourgadget.gadgetbridge.service.devices.huami.amazfitgtr2e;
+package nodomain.freeyourgadget.gadgetbridge.service.devices.huami.amazfitgtr2;
 
 import android.content.Context;
 import android.net.Uri;
@@ -23,31 +23,12 @@ import android.net.Uri;
 import java.io.IOException;
 
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiFWHelper;
-import nodomain.freeyourgadget.gadgetbridge.devices.huami.amazfitgtr2e.AmazfitGTR2eFWHelper;
-import nodomain.freeyourgadget.gadgetbridge.model.CallSpec;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.amazfitgtr.AmazfitGTRSupport;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.operations.UpdateFirmwareOperation;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.operations.UpdateFirmwareOperation2020;
+import nodomain.freeyourgadget.gadgetbridge.devices.huami.amazfitgtr2.AmazfitGTR2eFWHelper;
 
-public class AmazfitGTR2eSupport extends AmazfitGTRSupport {
+public class AmazfitGTR2eSupport extends AmazfitGTR2Support {
 
     @Override
     public HuamiFWHelper createFWHelper(Uri uri, Context context) throws IOException {
         return new AmazfitGTR2eFWHelper(uri, context);
-    }
-
-    @Override
-    public void onSetCallState(CallSpec callSpec) {
-        onSetCallStateNew(callSpec);
-    }
-
-    @Override
-    public UpdateFirmwareOperation createUpdateFirmwareOperation(Uri uri) {
-        return new UpdateFirmwareOperation2020(uri, this);
-    }
-
-    @Override
-    public int getActivitySampleSize() {
-        return 8;
     }
 }

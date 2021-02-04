@@ -15,7 +15,7 @@
 
     You should have received a copy of the GNU Affero General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
-package nodomain.freeyourgadget.gadgetbridge.service.devices.huami.amazfitgtr2e;
+package nodomain.freeyourgadget.gadgetbridge.service.devices.huami.amazfitgtr2;
 
 import java.util.HashMap;
 import java.util.Map;

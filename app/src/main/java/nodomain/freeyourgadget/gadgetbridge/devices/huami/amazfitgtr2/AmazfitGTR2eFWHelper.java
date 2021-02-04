@@ -15,7 +15,7 @@
 
     You should have received a copy of the GNU Affero General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
-package nodomain.freeyourgadget.gadgetbridge.devices.huami.amazfitgtr2e;
+package nodomain.freeyourgadget.gadgetbridge.devices.huami.amazfitgtr2;
 
 import android.content.Context;
 import android.net.Uri;
@@ -23,7 +23,7 @@ import android.net.Uri;
 import java.io.IOException;
 
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiFWHelper;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.amazfitgtr2e.AmazfitGTR2eFirmwareInfo;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.amazfitgtr2.AmazfitGTR2eFirmwareInfo;
 
 public class AmazfitGTR2eFWHelper extends HuamiFWHelper {
 
