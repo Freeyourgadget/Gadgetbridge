@@ -261,11 +261,11 @@
     <string name="title_activity_alarm_details">Λεπτομέρειες ξυπνητηριού</string>
     <string name="alarm_sun_short">Κυρ</string>
     <string name="alarm_mon_short">Δευ</string>
-    <string name="alarm_tue_short">Τρι</string>
+    <string name="alarm_tue_short">Τρί</string>
     <string name="alarm_wed_short">Τετ</string>
-    <string name="alarm_thu_short">Πεμ</string>
+    <string name="alarm_thu_short">Πέμ</string>
     <string name="alarm_fri_short">Παρ</string>
-    <string name="alarm_sat_short">Σαβ</string>
+    <string name="alarm_sat_short">Σάβ</string>
     <string name="alarm_smart_wakeup">Έξυπνο ξύπνημα</string>
     <string name="user_feedback_miband_set_alarms_failed">Υπήρξε λάθος στη ρύθμιση των ξυπνητηριών, παρακαλώ προσπαθήστε ξανά.</string>
     <string name="user_feedback_miband_set_alarms_ok">Τα ξυπνητήρια στάλθηκαν στη συσκευή.</string>
