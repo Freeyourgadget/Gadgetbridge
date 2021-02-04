@@ -1167,4 +1167,5 @@ Temps de sommeil préféré en heures</string>
     <string name="devicetype_zepp_e">Zepp E</string>
     <string name="devicetype_amazfit_gtr2e">Amazfit GTR 2e</string>
     <string name="devicetype_waspos">Wasp OS</string>
+    <string name="battery_detail_activity_title">Info. Batterie</string>
 </resources>
