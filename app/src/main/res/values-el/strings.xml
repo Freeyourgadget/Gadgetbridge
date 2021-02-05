@@ -74,8 +74,8 @@
     <string name="pref_title_datetime_syctimeonconnect">Συγχρονισμός ώρας</string>
     <string name="pref_summary_datetime_syctimeonconnect">Συγχρονισμός ώρας στη φορετή συσκευή όταν αυτή συνδέεται με το κινητό ή όταν αλλάζετε ζώνη ώρας</string>
     <string name="pref_title_theme">Θέμα</string>
-    <string name="pref_theme_light">Ανοιχτόχρωμο</string>
-    <string name="pref_theme_dark">Σκούρο</string>
+    <string name="pref_theme_light">Φωτεινό</string>
+    <string name="pref_theme_dark">Σκοτεινό</string>
     <string name="pref_title_language">Γλώσσα</string>
     <string name="pref_title_minimize_priority">Απόκρυψη του εικονιδίου της εφαρμογής Gadgetbridge από τη μπάρα ειδοποιήσεων</string>
     <string name="pref_summary_minimize_priority_off">Το εικονίδιο θα φαίνεται στη γραμμή κατάστασης και οι ειδοποιήσεις στην οθόνη κλειδώματος</string>
@@ -577,7 +577,7 @@
     <string name="controlcenter_change_fm_frequency">Αλλαγή συχνότητας FM</string>
     <string name="mi3_prefs_night_mode">Λειτουργία \"νύχτας\"</string>
     <string name="mi3_prefs_night_mode_summary">Μείωση φωτεινότητας της οθόνης του Mi band 3 κατά τη διάρκεια της νύχτας</string>
-    <string name="ok">ΟΚ</string>
+    <string name="ok">Εντάξει</string>
     <string name="mi3_night_mode_sunset">Στη δύση του ηλίου</string>
     <string name="devicetype_roidmi">Roidmi</string>
     <string name="devicetype_roidmi3">Roidmi3</string>
