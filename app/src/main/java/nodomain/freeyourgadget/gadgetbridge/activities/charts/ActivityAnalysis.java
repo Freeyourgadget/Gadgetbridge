@@ -111,6 +111,10 @@ public class ActivityAnalysis {
         if (activity.getTotalSeconds() > 0) {
             result.addAmount(activity);
         }
+        if (notWorn.getTotalSeconds() > 0) {
+            result.addAmount(notWorn);
+        }
+
         result.calculatePercentages();
 
         return result;
