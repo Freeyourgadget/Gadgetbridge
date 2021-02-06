@@ -1,22 +1,22 @@
 ### Changelog
 
-#### 0.53.0 (WIP)
+#### 0.53.0
 * Initial support for wasp-os on nRF52 devices
-* Initial supupor for Zepp E
+* Initial support for Zepp E
 * Initial support for Amazfit GTS 2 Mini
 * Initial support for Amazfit Neo
-* Initial support fot Amazfit GTR/GTS 2e
+* Initial support for Amazfit GTR/GTS 2e
 * Fossil Hybrid HR: Fix bug with unknown data
 * Fossil Hybrid HR: allow app management on watch from GB
 * Fossil Hybrid HR: enumerate apps on watch on every connect
 * Fossil Hybrid HR: Do not configure buttons in unauthenticated mode
 * Fossil Classic: Fix unknown wearing state
 * Fossil Classic: Allow synchronizing activity data
+* Amazfit Bip U: Fix sports activity summary
 * Huami: Add Strength Training activity type
 * Honor Imperial units settings in widget, Activity list and workouts
-* Show all eligeble devices in Widget Configuration Activity
+* Show all eligible devices in Widget Configuration Activity
 * Also include step of not-worn samples in weekly step statistics
-* Amazfit Bip U: Fix sports activity summary
 
 #### 0.52.0
 * Amazfit Bip U Pro: Initial support

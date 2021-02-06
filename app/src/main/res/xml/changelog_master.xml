@@ -1,6 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
-
+    <release version="0.53.0" versioncode="187">
+        <change>Initial support for wasp-os on nRF52 devices</change>
+        <change>Initial support for Zepp E</change>
+        <change>Initial support for Amazfit GTS 2 Mini</change>
+        <change>Initial support for Amazfit Neo</change>
+        <change>Initial support for Amazfit GTR/GTS 2e</change>
+        <change>Fossil Hybrid HR: Fix bug with unknown data</change>
+        <change>Fossil Hybrid HR: allow app management on watch from GB</change>
+        <change>Fossil Hybrid HR: enumerate apps on watch on every connect</change>
+        <change>Fossil Hybrid HR: Do not configure buttons in unauthenticated mode</change>
+        <change>Fossil Classic: Fix unknown wearing state</change>
+        <change>Fossil Classic: Allow synchronizing activity data</change>
+        <change>Amazfit Bip U: Fix sports activity summary</change>
+        <change>Huami: Add Strength Training activity type</change>
+        <change>Honor Imperial units settings in widget, Activity list and workouts</change>
+        <change>Show all eligible devices in Widget Configuration Activity</change>
+        <change>Also include step of not-worn samples in weekly step statistics</change>
+    </release>
     <release version="0.52.0" versioncode="186">
         <change>Amazfit Bip U Pro: Initial support</change>
         <change>Amazfit GTS2: fix pairing</change>
