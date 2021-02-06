@@ -39,8 +39,6 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.casio.CasioGBX100Dev
 import nodomain.freeyourgadget.gadgetbridge.service.devices.hplus.HPlusSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.HuamiSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.amazfitband5.AmazfitBand5Support;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.amazfitgts2.AmazfitGTS2MiniSupport;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.amazfitneo.AmazfitNeoSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.amazfitbip.AmazfitBipLiteSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.amazfitbip.AmazfitBipSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.amazfitbips.AmazfitBipSLiteSupport;
@@ -53,13 +51,17 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.amazfitgtr.Ama
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.amazfitgtr.AmazfitGTRSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.amazfitgtr2.AmazfitGTR2Support;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.amazfitgtr2.AmazfitGTR2eSupport;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.amazfitvergel.AmazfitVergeLSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.amazfitgts.AmazfitGTSSupport;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.amazfitgts2.AmazfitGTS2MiniSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.amazfitgts2.AmazfitGTS2Support;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.amazfitgts2.AmazfitGTS2eSupport;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.amazfitneo.AmazfitNeoSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.amazfittrex.AmazfitTRexSupport;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.amazfitvergel.AmazfitVergeLSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.miband3.MiBand3Support;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.miband4.MiBand4Support;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.miband5.MiBand5Support;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppe.ZeppESupport;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.id115.ID115Support;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.itag.ITagSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.jyou.BFH16DeviceSupport;
@@ -84,7 +86,6 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.vibratissimo.Vibrati
 import nodomain.freeyourgadget.gadgetbridge.service.devices.waspos.WaspOSDeviceSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.watch9.Watch9DeviceSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.xwatch.XWatchSupport;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppe.ZeppESupport;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.zetime.ZeTimeDeviceSupport;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
@@ -199,6 +200,7 @@ public class DeviceSupportFactory {
                         break;
                     case ZEPP_E:
                         deviceSupport = new ServiceDeviceSupport(new ZeppESupport(), EnumSet.of(ServiceDeviceSupport.Flags.BUSY_CHECKING));
+                        break;
                     case AMAZFITGTR2E:
                         deviceSupport = new ServiceDeviceSupport(new AmazfitGTR2eSupport(), EnumSet.of(ServiceDeviceSupport.Flags.BUSY_CHECKING));
                         break;
@@ -216,6 +218,9 @@ public class DeviceSupportFactory {
                         break;
                     case AMAZFITGTS2_MINI:
                         deviceSupport = new ServiceDeviceSupport(new AmazfitGTS2MiniSupport(), EnumSet.of(ServiceDeviceSupport.Flags.BUSY_CHECKING));
+                        break;
+                    case AMAZFITGTS2E:
+                        deviceSupport = new ServiceDeviceSupport(new AmazfitGTS2eSupport(), EnumSet.of(ServiceDeviceSupport.Flags.BUSY_CHECKING));
                         break;
                     case AMAZFITCOR:
                         deviceSupport = new ServiceDeviceSupport(new AmazfitCorSupport(), EnumSet.of(ServiceDeviceSupport.Flags.BUSY_CHECKING));

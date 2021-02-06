@@ -5,7 +5,7 @@
 * Initial supupor for Zepp E
 * Initial support for Amazfit GTS 2 Mini
 * Initial support for Amazfit Neo
-* Initial support fot Amazfit GTR 2e
+* Initial support fot Amazfit GTR/GTS 2e
 * Fossil Hybrid HR: Fix bug with unknown data
 * Fossil Hybrid HR: allow app management on watch from GB
 * Fossil Hybrid HR: enumerate apps on watch on every connect
@@ -15,6 +15,7 @@
 * Huami: Add Strength Training activity type
 * Honor Imperial units settings in widget, Activity list and workouts
 * Show all eligeble devices in Widget Configuration Activity
+* Also include step of not-worn samples in weekly step statistics
 * Amazfit Bip U: Fix sports activity summary
 
 #### 0.52.0
