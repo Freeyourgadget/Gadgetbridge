@@ -125,7 +125,7 @@
     <string name="pref_title_location_latitude">Latitude</string>
     <string name="pref_title_location_longitude">Longitude</string>
     <string name="pref_title_location_keep_uptodate">Garder l’emplacement à jour</string>
-    <string name="pref_summary_location_keep_uptodate">Essayer de garder la localisation à jour pendant le fonctionnement, sinon utiliser l’emplacement enregistré.</string>
+    <string name="pref_summary_location_keep_uptodate">Essayer de garder la localisation à jour pendant le fonctionnement, sinon utiliser l’emplacement enregistré</string>
     <string name="toast_enable_networklocationprovider">Veuillez activer la localisation réseau</string>
     <string name="toast_aqurired_networklocation">Emplacement obtenu</string>
     <string name="pref_title_pebble_forceprotocol">Forcer le protocole de notification</string>
@@ -1140,11 +1140,11 @@ Temps de sommeil préféré en heures</string>
     <string name="devicetype_amazfit_vergel">Amazfit Verge Lite</string>
     <string name="fw_upgrade_notice_amazfitvergel">Vous êtes sur le point d\'installer le firmware %s dans votre Amazfit Verge Lite.
 \n
-\nAssurez-vous d\'installer le fichien .fw, puis le fichier .res, et pour finir le fichier .gps. Votre montre va redémarrer après l\'installation du fichier .fw.
+\nAssurez-vous d\'installer le fichier .fw, puis le fichier .res, et pour finir le fichier .gps. Votre montre va redémarrer après l\'installation du fichier .fw.
 \n
-\nRemarque: Vous n\'avez pas besoin d\'installer les fichiers .res et .gps si ce sont exactement les mêmes fichiers que précédemment.
+\nRemarque : Vous n\'avez pas besoin d\'installer les fichiers .res et .gps si ce sont exactement les mêmes fichiers que précédemment.
 \n
-\nMANIPULATION À VOS RISQUES ET PÉRILS !</string>
+\nMANIPULATION À VOS RISQUES ET PÉRILS !</string>
     <string name="activity_DB_ShowContentButton">Montrer le contenu du répertoire d\'Import/Export</string>
     <string name="activity_data_management_directory_content_title">Exporter/Importer le contenu du répertoire</string>
     <string name="widget_settings_select_device_title">Choisir l\'appareil</string>
@@ -1168,4 +1168,5 @@ Temps de sommeil préféré en heures</string>
     <string name="devicetype_amazfit_gtr2e">Amazfit GTR 2e</string>
     <string name="devicetype_waspos">Wasp OS</string>
     <string name="battery_detail_activity_title">Info. Batterie</string>
+    <string name="devicetype_amazfit_gts2e">Amazfit GTS 2e</string>
 </resources>
