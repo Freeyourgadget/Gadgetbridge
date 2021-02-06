@@ -165,10 +165,12 @@ public class GBDeviceAdapterv2 extends RecyclerView.Adapter<GBDeviceAdapterv2.Vi
                                                    {
                                                        @Override
                                                        public void onClick(View v) {
+                                                           /* will be enabled soon :)
                                                            Intent startIntent;
                                                            startIntent = new Intent(context, BatteryInfoActivity.class);
                                                            startIntent.putExtra(GBDevice.EXTRA_DEVICE, device);
                                                            context.startActivity(startIntent);
+                                                           */
                                                        }
                                                    }
         );
