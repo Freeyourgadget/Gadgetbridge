@@ -88,7 +88,7 @@ public class AmazfitGTR2Coordinator extends HuamiCoordinator {
     }
     public int[] getSupportedDeviceSpecificSettings(GBDevice device) {
         return new int[]{
-                R.xml.devicesettings_amazfitgtsgtr,
+                R.xml.devicesettings_amazfitgtsgtr2,
                 R.xml.devicesettings_wearlocation,
                 R.xml.devicesettings_timeformat,
                 R.xml.devicesettings_liftwrist_display,
