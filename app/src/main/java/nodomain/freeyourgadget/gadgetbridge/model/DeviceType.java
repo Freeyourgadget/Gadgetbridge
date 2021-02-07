@@ -93,6 +93,7 @@ public enum DeviceType {
     SONY_SWR12(310, R.drawable.ic_device_default, R.drawable.ic_device_default_disabled, R.string.devicetype_sonyswr12),
     LIVEVIEW(320, R.drawable.ic_device_default, R.drawable.ic_device_default_disabled, R.string.devicetype_liveview),
     WASPOS(330, R.drawable.ic_device_pebble, R.drawable.ic_device_pebble_disabled, R.string.devicetype_waspos),
+    AMAZFITX(340, R.drawable.ic_device_miband2, R.drawable.ic_device_miband2_disabled, R.string.devicetype_amazfit_x),
     TEST(1000, R.drawable.ic_device_default, R.drawable.ic_device_default_disabled, R.string.devicetype_test);
 
     private final int key;

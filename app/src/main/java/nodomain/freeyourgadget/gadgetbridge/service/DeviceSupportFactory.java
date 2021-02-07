@@ -58,6 +58,7 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.amazfitgts2.Am
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.amazfitneo.AmazfitNeoSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.amazfittrex.AmazfitTRexSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.amazfitvergel.AmazfitVergeLSupport;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.amazfitx.AmazfitXSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.miband3.MiBand3Support;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.miband4.MiBand4Support;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.miband5.MiBand5Support;
@@ -230,6 +231,9 @@ public class DeviceSupportFactory {
                         break;
                     case AMAZFITBAND5:
                         deviceSupport = new ServiceDeviceSupport(new AmazfitBand5Support(), EnumSet.of(ServiceDeviceSupport.Flags.BUSY_CHECKING));
+                        break;
+                    case AMAZFITX:
+                        deviceSupport = new ServiceDeviceSupport(new AmazfitXSupport(), EnumSet.of(ServiceDeviceSupport.Flags.BUSY_CHECKING));
                         break;
                     case AMAZFITNEO:
                         deviceSupport = new ServiceDeviceSupport(new AmazfitNeoSupport(), EnumSet.of(ServiceDeviceSupport.Flags.BUSY_CHECKING));

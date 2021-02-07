@@ -65,6 +65,7 @@ vendor's servers.
 * Mi Band 3 [Wiki](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Mi-Band-3)
 * Mi Band 4 (WARNING: NEEDS VENDOR APP WITH ACCOUNT ONCE) [Wiki](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Mi-Band-4)
 * Mi/Amazfit Band 5 (WARNING: NEEDS VENDOR APP WITH ACCOUNT ONCE) [Wiki](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Mi-Band-5)
+* Amazfit X (WARNING: NEEDS VENDOR APP WITH ACCOUNT ONCE) [Wiki](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Mi-Band-5)
 * Mi Scale 2 (Currently only displays a toast after stepping on the scale)
 * NO.1 F1
 * Pebble, Pebble Steel, Pebble Time, Pebble Time Steel, Pebble Time Round [Wiki](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Pebble)
