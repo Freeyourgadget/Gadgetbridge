@@ -47,7 +47,7 @@ public class AmazfitGTS2eCoordinator extends HuamiCoordinator {
         try {
             BluetoothDevice device = candidate.getDevice();
             String name = device.getName();
-            if (name != null && name.equalsIgnoreCase("Amazfit GTR 2e")) {
+            if (name != null && name.equalsIgnoreCase("Amazfit GTS 2e")) {
                 return DeviceType.AMAZFITGTS2E;
             }
         } catch (Exception ex) {
