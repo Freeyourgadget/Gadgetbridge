@@ -331,10 +331,16 @@
     <string name="pref_title_pebble_health_store_raw">Хранить необработанные записи в базе данных</string>
     <string name="pref_summary_pebble_health_store_raw">Если флажок установлен, данные сохраняются как есть. В дальнейшем их можно будет обрабатывать. Обратите внимание: в этом случае база данных будет занимать больше места.</string>
     <string name="action_db_management">Управление данными</string>
-    <string name="title_activity_db_management">Управление базой данных</string>
-    <string name="activity_db_management_import_export_explanation">Операции с базой данных используют этот путь на устройстве. 
-\nОн доступен для других приложений Android и компьютера. 
-\nВы можете найти экспортированную базу данных (или разместить базу данных, которую вы хотите импортировать) здесь:</string>
+    <string name="title_activity_db_management">Управление данными</string>
+    <string name="activity_db_management_import_export_explanation">Операции с экспорта/импорта используют этот путь (см. ниже) в директорию на устройстве. Эта директория доступна для других приложений Android и компьютера.
+\nОбратите внимание, что эта директория и все файлы в ней будет удалено, если вы удалите Gadgetbridge. Эти данные включают:
+\n Export_preference - глобальные настройки
+\n Export_preference_МАК - настройки только для этого устройства
+\n Gadgetbridge - база данных устройств и активностей
+\n Gadgetbridge_date - база данных, экспортированная на дату
+\n *.gpx - GPS записи
+\n *.log - лог файлы
+\nВы можете найти экспортированную базу данных (или разместить файлы, которые вы хотите импортировать) здесь:</string>
     <string name="activity_db_management_merge_old_title">Удаление устаревшей базы данных</string>
     <string name="dbmanagementactivvity_cannot_access_export_path">Нет доступа к пути экспорта. Обратитесь, пожалуйста, к разработчикам.</string>
     <string name="dbmanagementactivity_exported_to">Экспортировано в: %1$s</string>
@@ -837,7 +843,7 @@
     <string name="about_additional_device_support">Дополнительная поддержка устройств</string>
     <string name="about_contributors">Соавторы</string>
     <string name="about_core_team_title">Основная команда (в порядке поступления первого кода)</string>
-    <string name="about_description">Свободная альтернатива закрытым приложениям от производителей гаджетов. Без \"облаков\" и синхронизаций с внешними серверами.</string>
+    <string name="about_description">\"Безоблачная\" свободная альтернатива закрытым приложениям от производителей гаджетов.</string>
     <string name="about_activity_title">О Gadgetbridge</string>
     <string name="about_title">О программе</string>
     <string name="hr_widget_last_notification">Последнее уведомление</string>
@@ -1130,7 +1136,7 @@
     <string name="pref_title_middle_button_function_short">Короткое нажатие на среднюю кнопку</string>
     <string name="pref_title_upper_button_function_short">Короткое нажатие на верхнюю кнопку</string>
     <string name="menuitem_goal">Цель</string>
-    <string name="menuitem_pomodoro">Pomodoro Tracker</string>
+    <string name="menuitem_pomodoro">Трекер Pomodoro</string>
     <string name="pref_summary_connected_advertisement">Делает устройство доступным для обнаружения через Bluetooth даже при подключении</string>
     <string name="pref_title_connected_advertisement">Виден при подключении</string>
     <string name="prefs_autoremove_message">Автоматически удалять SMS-уведомления</string>
@@ -1160,4 +1166,16 @@
     <string name="activity_DB_ShowContentButton">Показать содержимое каталога экспорта/импорта</string>
     <string name="activity_data_management_directory_content_title">Экспорт/импорт содержимого каталога</string>
     <string name="dbmanagementactivity_error_cleaning_export_directory">Ошибка при удалении файлов из каталога экспорта %1$s</string>
+    <string name="mi">миль</string>
+    <string name="minutes_mi">минут/миль</string>
+    <string name="mi_h">миль/час</string>
+    <string name="ft">футов</string>
+    <string name="devicetype_waspos">ОС Wasp</string>
+    <string name="devicetype_zepp_e">Zepp E</string>
+    <string name="devicetype_amazfit_gts2e">Amazfit GTS 2e</string>
+    <string name="devicetype_amazfit_gts2_mini">Amazfit GTS 2 Mini</string>
+    <string name="devicetype_amazfit_gtr2e">Amazfit GTR 2e</string>
+    <string name="devicetype_amazfit_neo">Amazfit Neo</string>
+    <string name="activity_type_strength_training">Силовой тренинг</string>
+    <string name="battery_detail_activity_title">Информация о батарее</string>
 </resources>
