@@ -1162,4 +1162,5 @@
     <string name="dbmanagementactivity_export_confirmation">Realmente exportar dados\? Dados de atividades exportados anteriormente (se houver) e preferências serão substituídos.</string>
     <string name="dbmanagementactivity_export_data_title">Exportar dados\?</string>
     <string name="dbmanagementactivity_error_cleaning_export_directory">Erro ao apagar arquivos de diretório externo %1$s</string>
+    <string name="battery_detail_activity_title">Informações da bateria</string>
 </resources>
