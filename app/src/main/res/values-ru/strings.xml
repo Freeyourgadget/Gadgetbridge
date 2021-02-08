@@ -1111,7 +1111,7 @@
     <string name="menuitem_spo2">SpO2</string>
     <string name="devicetype_casiogbx100">Casio GBX-100</string>
     <string name="devicetype_amazfit_gts2">Amazfit GTS 2</string>
-    <string name="activity_list_summary_active_time">Активное время</string>
+    <string name="activity_list_summary_active_time">Время активности</string>
     <string name="activity_list_summary_distance">Расстояние</string>
     <string name="activity_list_summary_active_steps">Активные шаги</string>
     <string name="prefs_charts_tabs_summary">Видимые вкладки диаграмм</string>
