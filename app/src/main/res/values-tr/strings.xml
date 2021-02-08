@@ -1196,7 +1196,15 @@
     <string name="devicetype_amazfit_gts2_mini">Amazfit GTS 2 Mini</string>
     <string name="devicetype_zepp_e">Zepp E</string>
     <string name="devicetype_amazfit_gtr2e">Amazfit GTR 2e</string>
-    <string name="devicetype_waspos">Wasp OS</string>
+    <string name="devicetype_waspos">Wasp-os</string>
     <string name="battery_detail_activity_title">Pil bilgisi</string>
     <string name="devicetype_amazfit_gts2e">Amazfit GTS 2e</string>
+    <string name="devicetype_amazfit_x">Amazfit X</string>
+    <string name="fw_upgrade_notice_amazfitx">AmazFit X aygıtınıza %s ürün yazılımını kurmak üzeresiniz.
+\n
+\nLütfen önce .fw dosyasını, sonra .res dosyasını kurun. .fw dosyasını kurduktan sonra bilekliğiniz yeniden başlatılacak.
+\n
+\nNot: Bu dosyalar önceden kurulanlarla tamamen aynıysa .res dosyasını kurmanız gerekmez.
+\n
+\nİLERLEMENİZ DURUMUNDA RİSK SİZE AİTTİR!</string>
 </resources>
