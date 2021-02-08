@@ -1167,4 +1167,16 @@
     <string name="activity_type_strength_training">Styrketrening</string>
     <string name="devicetype_zepp_e">Zepp E</string>
     <string name="devicetype_amazfit_gts2_mini">Amazfit GTS 2 Mini</string>
+    <string name="fw_upgrade_notice_amazfitx">Du er i ferd med å installere %s-fastvaren på din Amazfit X.
+\n
+\nForsikre deg om at du installerer .fw-fila, så .res-fila. Båndet ditt vil starte på nytt etter at .fw-fila er installert.
+\n
+\nMerk: Du trenger ikke å installere .res-filen hvis den er akkurat den samme som den som allerede er installert.
+\n
+\nFORTSETT PÅ EGEN RISIKO!</string>
+    <string name="devicetype_waspos">Wasp-os</string>
+    <string name="devicetype_amazfit_x">Amazfit X</string>
+    <string name="devicetype_amazfit_gts2e">Amazfit GTS 2e</string>
+    <string name="devicetype_amazfit_gtr2e">Amazfit GTR 2e</string>
+    <string name="battery_detail_activity_title">Batteri-info</string>
 </resources>
