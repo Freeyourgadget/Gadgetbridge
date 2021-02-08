@@ -1179,7 +1179,15 @@
     <string name="devicetype_zepp_e">Zepp E</string>
     <string name="devicetype_amazfit_gts2_mini">Amazfit GTS 2 Mini</string>
     <string name="devicetype_amazfit_gtr2e">Amazfit GTR 2e</string>
-    <string name="devicetype_waspos">Wasp OS</string>
+    <string name="devicetype_waspos">Wasp-os</string>
     <string name="devicetype_amazfit_gts2e">Amazfit GTS 2e</string>
     <string name="battery_detail_activity_title">Informacje o baterii</string>
+    <string name="devicetype_amazfit_x">Amazfit X</string>
+    <string name="fw_upgrade_notice_amazfitx">Zamierzasz zainstalować firmware %s na swoim Amazfit X.
+\n
+\nPamiętaj, aby najpierw zainstalować plik .fw, a następnie plik .res. Twoja opaska zrestartuje się po instalacji pliku .fw.
+\n
+\nUwaga: Nie musisz instalować pliku .res, jeśli jest dokładnie taki sam jak poprzednio zainstalowany.
+\n
+\nROBISZ TO NA WŁASNE RYZYKO!</string>
 </resources>
