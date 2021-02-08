@@ -4,7 +4,7 @@
     <string name="title_activity_controlcenter">Gadgetbridge</string>
     <string name="action_settings">Ρυθμίσεις</string>
     <string name="action_debug">Αποσφαλμάτωση</string>
-    <string name="action_quit">Κλείσιμο</string>
+    <string name="action_quit">Έξοδος</string>
     <string name="action_donate">Δωρεά</string>
     <string name="controlcenter_fetch_activity_data">Συγχρονισμός</string>
     <string name="controlcenter_find_device">Βρείτε τη χαμένη συσκευή</string>
@@ -414,7 +414,7 @@
     <string name="dbmanagementactivity_old_activity_db_successfully_deleted">Τα παλιά δεδομένα της δραστηριότητάς σας διαγράφηκαν.</string>
     <string name="dbmanagementactivity_old_activity_db_deletion_failed">Η διαγραφή της παλιάς βάσης δεδομένων απέτυχε.</string>
     <string name="dbmanagementactivity_overwrite">Αντικατάσταση</string>
-    <string name="Cancel">Ακύρωση</string>
+    <string name="Cancel">Άκυρο</string>
     <string name="Delete">Διαγραφή</string>
     <string name="title_activity_vibration">Δόνηση</string>
     <string name="title_activity_pebble_pairing">Σύζευξη Pebble</string>
@@ -504,7 +504,7 @@
     <string name="activity_type_biking">Ποδηλασία</string>
     <string name="activity_type_treadmill">Διάδρομος</string>
     <string name="select_all">Επιλογή όλων</string>
-    <string name="share">Διαμοιρασμός</string>
+    <string name="share">Κοινοποίηση</string>
     <string name="reset_index">Επαναφορά ημερομηνίας λήψης</string>
     <string name="pref_title_pebble_gatt_clientonly">μόνο GATT πελάτες</string>
     <string name="pref_summary_pebble_gatt_clientonly">Αυτό είναι πειραματικό χαρακτηριστικό και μόνο για το Pebble 2 , δοκιμάστε το μόνο αν έχετε προβλήματα συνδεσιμότητας</string>
