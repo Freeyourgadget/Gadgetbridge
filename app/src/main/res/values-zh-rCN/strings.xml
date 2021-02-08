@@ -1177,7 +1177,15 @@
     <string name="devicetype_amazfit_gts2_mini">华米 GTS 2 Mini</string>
     <string name="devicetype_zepp_e">Zepp E</string>
     <string name="devicetype_amazfit_gtr2e">华米 GTR 2e</string>
-    <string name="devicetype_waspos">Wasp OS</string>
+    <string name="devicetype_waspos">Wasp os</string>
     <string name="battery_detail_activity_title">电池信息</string>
     <string name="devicetype_amazfit_gts2e">华米 GTS 2e</string>
+    <string name="devicetype_amazfit_x">华米 X</string>
+    <string name="fw_upgrade_notice_amazfitx">您即将在您的 华米 X 上安装 %s 固件。
+\n
+\n请确保首先安装 .fw 文件，再安装 .res 文件。您的手环将会在安装了 .fw 文件后自动重启。
+\n
+\n注意：若 .res 文件版本和之前安装的相同，则无需再次安装 .res 文件。
+\n
+\n风险自担！</string>
 </resources>
