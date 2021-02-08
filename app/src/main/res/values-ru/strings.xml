@@ -44,14 +44,14 @@
     <string name="title_activity_fw_app_insaller">Установка прошивки и приложений</string>
     <string name="fw_upgrade_notice">Вы собираетесь установить прошивку %s.</string>
     <string name="fw_multi_upgrade_notice">Вы собираетесь установить прошивки %1$s и %2$s вместо текущей на вашем Mi Band.</string>
-    <string name="miband_firmware_known">Эта прошивка была проверена: она совместима с Gadgetbridge.</string>
+    <string name="miband_firmware_known">Эта прошивка была проверена и она совместима с Gadgetbridge.</string>
     <string name="miband_firmware_unknown_warning">Эта прошивка не протестирована и может быть несовместима с Gadgetbridge.
 \n
 \nНЕ РЕКОМЕНДУЕТСЯ устанавливать её!</string>
     <string name="miband_firmware_suggest_whitelist">Если вы установите эту прошивку и убедитесь, что всё работает без сбоев, пожалуйста, сообщите об этом разработчикам Gadgetbridge. Они пометят эту версию прошивки (%s) как совместимую.</string>
     <!--Strings related to Settings-->
     <string name="title_activity_settings">Настройки</string>
-    <string name="pref_header_general">Общие</string>
+    <string name="pref_header_general">Общие настройки</string>
     <string name="pref_title_general_autoconnectonbluetooth">Подключаться к добавленному устройству при включении Bluetooth</string>
     <string name="pref_title_general_autostartonboot">Запускать автоматически</string>
     <string name="pref_title_general_autoreconnect">Переподключаться автоматически</string>
@@ -74,7 +74,7 @@
     <string name="pref_title_notifications_pebblemsg">Сообщения Pebble</string>
     <string name="pref_summary_notifications_pebblemsg">Для приложений, которые отправляют уведомления на Pebble с помощью PebbleKit.</string>
     <string name="pref_title_notifications_generic">Доступ к уведомлениям</string>
-    <string name="pref_title_whenscreenon">Уведомления при включённом экране</string>
+    <string name="pref_title_whenscreenon">...также, когда экран включен</string>
     <string name="pref_title_notification_filter">Не беспокоить</string>
     <string name="pref_summary_notification_filter">Не показывать нежелательные уведомления в этом режиме</string>
     <string name="pref_title_transliteration">Транслитерация</string>
@@ -828,7 +828,7 @@
     <string name="devicetype_itag">iTag</string>
     <string name="pref_title_allow_high_mtu">Разрешить высокий MTU</string>
     <string name="pref_summary_allow_high_mtu">Увеличивает скорость передачи данных, но может не работать на некоторых Android-устройствах.</string>
-    <string name="pref_summary_sync_calendar">Включает уведомления календаря, даже когда нет соединения</string>
+    <string name="pref_summary_sync_calendar">Позволяет выполнять оповещения календаря, даже при отключении</string>
     <string name="pref_title_sync_caldendar">Синхронизировать события в календаре</string>
     <string name="find_my_phone_notification">Найти телефон</string>
     <string name="pref_title_custom_deviceicon">Показывать собственную иконку устройства</string>
@@ -934,8 +934,8 @@
     <string name="controlcenter_set_alias">Установить псевдоним</string>
     <string name="pref_title_notifications_and_calls_repeat_on_call">Повторять уведомления о звонке</string>
     <string name="pref_header_notifications_and_calls">Уведомления и звонки</string>
-    <string name="pref_title_vibration_strength">Интенсивность вибрации</string>
-    <string name="pref_title_relax_firmware_checks">Включите, если хотите установить прошивку, не предназначенную для вашего устройства (на ваш страх и риск)</string>
+    <string name="pref_title_vibration_strength">Мощность вибрации</string>
+    <string name="pref_title_relax_firmware_checks">Включите эту функцию, если хотите установить прошивку, не предназначенную для вашего устройства (на ваш страх и риск)</string>
     <string name="pref_summary_relax_firmware_checks">Ослабить проверки прошивки</string>
     <string name="swolf_index">swolf индекс</string>
     <string name="ascentSeconds">Подъём</string>
@@ -1170,7 +1170,7 @@
     <string name="minutes_mi">минут/миль</string>
     <string name="mi_h">миль/час</string>
     <string name="ft">футов</string>
-    <string name="devicetype_waspos">ОС Wasp</string>
+    <string name="devicetype_waspos">Wasp-os</string>
     <string name="devicetype_zepp_e">Zepp E</string>
     <string name="devicetype_amazfit_gts2e">Amazfit GTS 2e</string>
     <string name="devicetype_amazfit_gts2_mini">Amazfit GTS 2 Mini</string>
@@ -1178,4 +1178,12 @@
     <string name="devicetype_amazfit_neo">Amazfit Neo</string>
     <string name="activity_type_strength_training">Силовой тренинг</string>
     <string name="battery_detail_activity_title">Информация о батарее</string>
+    <string name="fw_upgrade_notice_amazfitx">Вы собираетесь установить прошивку %s на свой Amazfit X.
+\n
+\nОбязательно установите файл .fw, а затем файл .res. Ваш браслет перезагрузится после установки файла .fw.
+\n
+\nПримечание: Вам не нужно устанавливать .res, если он точно такой же, как ранее установленный.
+\n
+\nДЕЙСТВУЙТЕ НА СВОЙ СТРАХ И РИСК!</string>
+    <string name="devicetype_amazfit_x">Amazfit X</string>
 </resources>
