@@ -914,8 +914,8 @@
     <string name="pref_title_notifications_and_calls_repeat_on_misscall">Повторять для n\'ого количества минут</string>
     <string name="pref_summary_notifications_and_calls_enable_misscall">Повторять каждую минуту</string>
     <string name="pref_notifications_and_calls_enable_misscall">Уведомлять о пропущенных вызовах</string>
-    <string name="prefs_notifications_and_calls_continious_ring">Уведомления во время входящего вызова</string>
-    <string name="title_activity_LenovoWatch_calibration">Калибровка Watch X Plus</string>
+    <string name="prefs_notifications_and_calls_continious_ring">Разрешить уведомления во время звонка</string>
+    <string name="title_activity_LenovoWatch_calibration">Калибровка часов Watch X Plus</string>
     <string name="pref_title_weather_summary">Используется для провайдера погоды LineageOS, другие версии Android должны использовать приложение типа \"Уведомление о погоде\". Дополнительную информацию можно найти в вики-проекте Gadgetbridge.</string>
     <string name="fw_upgrade_notice_miband5">Вы собираетесь установить прошивку %s на свой Mi Band 5.
 \n
