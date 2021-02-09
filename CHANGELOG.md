@@ -1,9 +1,9 @@
 ### Changelog
 
-#### NEXT
+#### 0.54.0
 * Initial support for Amazfit X
-* Fix missing menu items for GTR/GTS 2 models
-* Amazfit GTS2e: Fix broken suport
+* Fix missing menu items for GTS 2 Mini (some improvements also for other GTR2/GTS2 models) 
+* Amazfit GTS2e: Fix broken support
 
 #### 0.53.0
 * Initial support for wasp-os on nRF52 devices

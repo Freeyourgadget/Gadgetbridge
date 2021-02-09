@@ -1,0 +1,3 @@
+* Initial support for Amazfit X
+* Fix missing menu items for GTS 2 Mini (some improvements also for other GTR2/GTS2 models) 
+* Amazfit GTS2e: Fix broken support

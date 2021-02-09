@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
+    <release version="0.54.0" versioncode="188">
+        <change>Initial support for Amazfit X</change>
+        <change>Fix missing menu items for GTS 2 Mini (some improvements also for other GTR2/GTS2 models)</change>
+        <change>Amazfit GTS2e: Fix broken support</change>
+    </release>
     <release version="0.53.0" versioncode="187">
         <change>Initial support for wasp-os on nRF52 devices</change>
         <change>Initial support for Zepp E</change>

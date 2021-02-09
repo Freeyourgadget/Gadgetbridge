@@ -1999,6 +1999,7 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
 
     @Override
     public void onTestNewFunction() {
+        /*
         try {
             boolean test = false;
             TransactionBuilder builder = performInitialized("test pattern");
@@ -2007,6 +2008,7 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
             writeToChunked(builder,2, testpattern);
             builder.queue(getQueue());
         } catch (Exception ignored) {}
+        */
     }
 
     @Override
