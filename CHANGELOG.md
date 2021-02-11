@@ -2,6 +2,7 @@
 
 #### NEXT
 * Amazfit GTS2e: Really fix broken support (probably)
+* Amazfit Bip S Lite: Fix broken support (probably)
 
 #### 0.54.0
 * Initial support for Amazfit X
