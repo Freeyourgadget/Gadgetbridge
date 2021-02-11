@@ -27,8 +27,8 @@
                 android:id="@+id/battery_status_device_icon"
                 android:layout_width="80dp"
                 android:layout_height="80dp"
-                app:srcCompat="@drawable/ic_devices_other"
-                android:contentDescription="TODO" />
+                android:contentDescription="TODO"
+                app:srcCompat="@drawable/ic_devices_other" />
 
             <LinearLayout
                 android:id="@+id/activity_battery_info_top_layout"
@@ -39,7 +39,7 @@
                 android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/battery_status_device_name_text"
+                    android:id="@+id/battery_status_device_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -47,13 +47,25 @@
                     tools:text="Device name" />
 
                 <TextView
-                    android:id="@+id/battery_status_battery_level_text"
+                    android:id="@+id/battery_status_battery_level"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:textAlignment="textEnd"
                     android:textSize="48sp"
                     tools:text="90%" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/battery_status_battery_voltage"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                </LinearLayout>
 
             </LinearLayout>
 
@@ -69,7 +81,35 @@
             <FrameLayout
                 android:id="@+id/batteryChartFragmentHolder"
                 android:layout_width="match_parent"
-                android:layout_height="400dp"/>
+                android:layout_height="350dp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/battery_status_time_span_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAlignment="center"
+                android:textSize="20sp" />
+
+            <SeekBar
+                android:id="@+id/battery_status_time_span_seekbar"
+                style="@style/Widget.AppCompat.SeekBar.Discrete"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:max="5"
+                android:progress="1" />
+
+            <Button
+                android:id="@+id/battery_status_calendar_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Choose end date" />
+
         </LinearLayout>
     </LinearLayout>
 </ScrollView>

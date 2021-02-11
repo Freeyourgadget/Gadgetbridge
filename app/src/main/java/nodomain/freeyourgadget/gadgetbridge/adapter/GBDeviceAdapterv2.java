@@ -141,7 +141,7 @@ public class GBDeviceAdapterv2 extends RecyclerView.Adapter<GBDeviceAdapterv2.Vi
 
         //begin of action row
         //battery
-        holder.batteryStatusBox.setVisibility(View.GONE);
+        holder.batteryStatusBox.setVisibility(View.VISIBLE);
         short batteryLevel = device.getBatteryLevel();
         float batteryVoltage = device.getBatteryVoltage();
         BatteryState batteryState = device.getBatteryState();
@@ -165,12 +165,10 @@ public class GBDeviceAdapterv2 extends RecyclerView.Adapter<GBDeviceAdapterv2.Vi
                                                    {
                                                        @Override
                                                        public void onClick(View v) {
-                                                           /* will be enabled soon :)
                                                            Intent startIntent;
                                                            startIntent = new Intent(context, BatteryInfoActivity.class);
                                                            startIntent.putExtra(GBDevice.EXTRA_DEVICE, device);
                                                            context.startActivity(startIntent);
-                                                           */
                                                        }
                                                    }
         );
