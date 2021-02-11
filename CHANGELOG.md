@@ -1,7 +1,7 @@
 ### Changelog
 
-#### NEXT
-* Amazfit GTS2e: Really fix broken support (probably)
+#### 0.54.1
+* Amazfit GTS2e: Really fix broken support
 * Amazfit Bip S Lite: Fix broken support (probably)
 
 #### 0.54.0
