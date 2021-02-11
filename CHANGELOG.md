@@ -1,5 +1,8 @@
 ### Changelog
 
+#### NEXT
+* Amazfit GTS2e: Really fix broken support (probably)
+
 #### 0.54.0
 * Initial support for Amazfit X
 * Fix missing menu items for GTS 2 Mini (some improvements also for other GTR2/GTS2 models) 
