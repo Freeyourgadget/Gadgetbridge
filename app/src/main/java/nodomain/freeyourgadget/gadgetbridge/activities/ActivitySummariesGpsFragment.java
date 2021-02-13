@@ -95,6 +95,7 @@ public class ActivitySummariesGpsFragment extends AbstractGBFragment {
             }
         }).start();
     }
+
     private void drawTrack(Canvas canvas, List<GPSCoordinate> trackPoints) {
         double maxLat = (Collections.max(trackPoints, new GPSCoordinate.compareLatitude())).getLatitude();
         double minLat = (Collections.min(trackPoints, new GPSCoordinate.compareLatitude())).getLatitude();
@@ -102,6 +103,15 @@ public class ActivitySummariesGpsFragment extends AbstractGBFragment {
         double minLon = (Collections.min(trackPoints, new GPSCoordinate.compareLongitude())).getLongitude();
         double maxAlt = (Collections.max(trackPoints, new GPSCoordinate.compareElevation())).getAltitude();
         double minAlt = (Collections.min(trackPoints, new GPSCoordinate.compareElevation())).getAltitude();
+        float scale_factor_w = (float) ((maxLat - minLat) / (maxLon - minLon));
+        float scale_factor_h = (float) ((maxLon - minLon) / (maxLat - minLat));
+
+        if (scale_factor_h > scale_factor_w) { //scaling to draw proportionally
+            scale_factor_h = 1;
+        } else {
+            scale_factor_w = 1;
+        }
+
 
         Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
         paint.setStrokeWidth(1);
@@ -112,7 +122,7 @@ public class ActivitySummariesGpsFragment extends AbstractGBFragment {
             float lon = (float) ((p.getLongitude() - minLon) / (maxLon - minLon));
             float alt = (float) ((p.getAltitude() - minAlt) / (maxAlt - minAlt));
             paint.setStrokeWidth(1 + alt); //make thicker with higher altitude, we could do more here
-            canvas.drawPoint(CANVAS_SIZE * lat, CANVAS_SIZE * lon, paint);
+            canvas.drawPoint(CANVAS_SIZE * lat * scale_factor_w, CANVAS_SIZE * lon * scale_factor_h, paint);
         }
     }
 
@@ -130,6 +140,7 @@ public class ActivitySummariesGpsFragment extends AbstractGBFragment {
         canvas.drawRect(0,0,360,360,paint);
          */
         imageView.setImageBitmap(bitmap);
+        imageView.setScaleY(-1f); //flip the canvas
 
         return canvas;
     }
