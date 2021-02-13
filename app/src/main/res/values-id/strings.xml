@@ -41,4 +41,24 @@
     <string name="sonyswr12_settings_alarm_interval_summary">Interval alarm pintar adalah interval sebelum alarm dipasang. Dalam interval ini perangkat mencoba mendeteksi fase tidur paling ringan untuk membangunkan pengguna</string>
     <string name="sonyswr12_settings_low_vibration">Getaran rendah diaktifkan</string>
     <string name="sonyswr12_settings_stamina">Mode hemat daya aktif</string>
+    <string name="title_activity_fw_app_insaller">Penginstal FW / Aplikasi</string>
+    <string name="prefs_autoremove_message">Hapus notifikasi SMS secara otomatis</string>
+    <string name="fw_upgrade_notice">Anda akan memasang %s.</string>
+    <string name="title_activity_calblacklist">Kalender yang diblacklist</string>
+    <string name="whitelist_all_for_notifications">Whitelist untuk semua notifikasi</string>
+    <string name="blacklist_all_for_notifications">Blacklist untuk semua notifikasi</string>
+    <string name="title_activity_appblacklist">Blacklist notifikasi</string>
+    <string name="app_move_to_top">Pindah ke atas</string>
+    <string name="app_configure">Konfigurasi</string>
+    <string name="appmanager_weather_install_provider">Pasang aplikasi notifikasi Cuaca</string>
+    <string name="appmanager_weather_deactivate">Nonaktifkan aplikasi Sistem Cuaca</string>
+    <string name="appmanager_weather_activate">Aktifkan aplikasi Sistem Cuaca</string>
+    <string name="appmanager_hrm_deactivate">Nonaktifkan HRM</string>
+    <string name="appmanager_hrm_activate">Aktifkan HRM</string>
+    <string name="appmanager_health_deactivate">Nonaktifkan</string>
+    <string name="appmanager_health_activate">Aktifkan</string>
+    <string name="appmanager_app_openinstore">Cari di Pebble appstore</string>
+    <string name="battery_detail_activity_title">Info Baterai</string>
+    <string name="controlcenter_set_alias">Atur Alias</string>
+    <string name="find_lost_device_message">Cari %1$s\?</string>
 </resources>
