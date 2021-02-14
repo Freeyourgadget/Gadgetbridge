@@ -25,7 +25,15 @@
     <string name="controlcenter_snackbar_connecting">Connecting…</string>
     <string name="controlcenter_snackbar_requested_screenshot">Taking a screenshot of the device</string>
     <string name="controlcenter_calibrate_device">Calibrate Device</string>
+    <!-- Strings related to battery Info Activity -->
     <string name="battery_detail_activity_title">Battery info</string>
+    <string name="battery_level">Battery level</string>
+    <string name="calendar_day">Day</string>
+    <string name="calendar_week">Week</string>
+    <string name="calendar_two_weeks">Two weeks</string>
+    <string name="calendar_month">Month</string>
+    <string name="calendar_six_months">Six months</string>
+    <string name="calendar_year">Year</string>
     <!-- Strings related to Debug Activity -->
     <string name="title_activity_debug">Debug</string>
     <string name="debugactivity_really_factoryreset_title">Really factory reset?</string>
@@ -1118,6 +1126,7 @@
     <string name="medley">Medley</string>
     <string name="devicetype_nut_mini">Nut mini</string>
     <string name="qhybrid_calibration_align_hint">align hands to 12:00</string>
+    <string translatable="false" name="lorem_ipsum">Lorem Ipsum</string>
     <plurals name="widget_alarm_target_hours">
         <item quantity="one">%d hour</item>
         <item quantity="two">%d hours</item>

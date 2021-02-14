@@ -118,7 +118,7 @@ public class BatteryInfoChartFragment extends AbstractChartFragment {
             }
         }
 
-        LineDataSet dataSet = new LineDataSet(entries, "Battery level");
+        LineDataSet dataSet = new LineDataSet(entries, getString(R.string.battery_level));
         dataSet.setLineWidth(2.2f);
         dataSet.setMode(LineDataSet.Mode.HORIZONTAL_BEZIER);
         dataSet.setCubicIntensity(0.1f);
@@ -238,8 +238,7 @@ public class BatteryInfoChartFragment extends AbstractChartFragment {
             int ts = (int) value;
             cal.setTimeInMillis(tsTranslation.toOriginalValue(ts) * 1000L);
             Date date = cal.getTime();
-            String dateString = annotationDateFormat.format(date);
-            return dateString;
+            return annotationDateFormat.format(date);
         }
     }
 
@@ -289,7 +288,6 @@ public class BatteryInfoChartFragment extends AbstractChartFragment {
                 // center the marker horizontally and vertically
                 mOffset = new MPPointF(-(getWidth() / 2) + 20, -getHeight() - 10);
             }
-
             return mOffset;
         }
     }

@@ -5,9 +5,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
@@ -15,10 +15,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.Calendar;
+import java.util.Date;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
+import nodomain.freeyourgadget.gadgetbridge.util.DateTimeUtils;
 
 public class BatteryInfoActivity extends AbstractGBActivity {
     private static final Logger LOG = LoggerFactory.getLogger(BatteryInfoActivity.class);
@@ -59,8 +61,13 @@ public class BatteryInfoActivity extends AbstractGBActivity {
 
         TextView battery_status_device_name_text = (TextView) findViewById(R.id.battery_status_device_name);
         TextView battery_status_battery_voltage = (TextView) findViewById(R.id.battery_status_battery_voltage);
+        final TextView battery_status_date_from_text = (TextView) findViewById(R.id.battery_status_date_from_text);
+        final TextView battery_status_date_to_text = (TextView) findViewById(R.id.battery_status_date_to_text);
+
         SeekBar battery_status_time_span_seekbar = (SeekBar) findViewById(R.id.battery_status_time_span_seekbar);
         final TextView battery_status_time_span_text = (TextView) findViewById(R.id.battery_status_time_span_text);
+
+        LinearLayout battery_status_date_to_layout = (LinearLayout) findViewById(R.id.battery_status_date_to_layout);
 
         battery_status_time_span_seekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
 
@@ -69,36 +76,38 @@ public class BatteryInfoActivity extends AbstractGBActivity {
                 String text;
                 switch (i) {
                     case 0:
-                        text = "Day";
+                        text = getString(R.string.calendar_day);
                         timeSpanDays = 1;
                         break;
                     case 1:
-                        text = "Week";
+                        text = getString(R.string.calendar_week);
                         timeSpanDays = 7;
                         break;
                     case 2:
-                        text = "Two weeks";
+                        text = getString(R.string.calendar_two_weeks);
                         timeSpanDays = 14;
                         break;
                     case 3:
-                        text = "Month";
+                        text = getString(R.string.calendar_month);
                         timeSpanDays = 30;
                         break;
                     case 4:
-                        text = "Six months";
+                        text = getString(R.string.calendar_six_months);
                         timeSpanDays = 182;
                         break;
                     case 5:
-                        text = "Year";
+                        text = getString(R.string.calendar_year);
                         timeSpanDays = 365;
                         break;
                     default:
-                        text = "Two weeks";
+                        text = getString(R.string.calendar_two_weeks);
                         timeSpanDays = 14;
                 }
 
                 battery_status_time_span_text.setText(text);
                 timeFrom = timeTo - 24 * 3600 * timeSpanDays;
+                battery_status_date_from_text.setText(DateTimeUtils.formatDate(new Date(timeFrom * 1000L)));
+                battery_status_date_to_text.setText(DateTimeUtils.formatDate(new Date(timeTo * 1000L)));
                 batteryInfoChartFragment.setDateAndGetData(gbDevice, timeFrom, timeTo);
             }
 
@@ -114,8 +123,8 @@ public class BatteryInfoActivity extends AbstractGBActivity {
             }
         });
 
-        Button battery_status_calendar_button = findViewById(R.id.battery_status_calendar_button);
-        battery_status_calendar_button.setOnClickListener(new View.OnClickListener() {
+        //Button battery_status_calendar_button = findViewById(R.id.battery_status_calendar_button);
+        battery_status_date_to_layout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
@@ -132,6 +141,8 @@ public class BatteryInfoActivity extends AbstractGBActivity {
                             date.set(year, monthOfYear, dayOfMonth);
                             timeTo = (int) (date.getTimeInMillis() / 1000);
                             timeFrom = timeTo - 24 * 3600 * timeSpanDays;
+                            battery_status_date_from_text.setText(DateTimeUtils.formatDate(new Date(timeFrom * 1000L)));
+                            battery_status_date_to_text.setText(DateTimeUtils.formatDate(new Date(timeTo * 1000L)));
                             batteryInfoChartFragment.setDateAndGetData(gbDevice, timeFrom, timeTo);
                         }
                     }, currentDate.get(Calendar.YEAR), currentDate.get(Calendar.MONTH), currentDate.get(Calendar.DATE)).show();
