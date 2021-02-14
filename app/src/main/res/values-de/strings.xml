@@ -1192,4 +1192,11 @@
 \nHinweis: Die .res Datei muss nicht installiert werden, wenn es die gleiche Datei ist, die schon zuvor installiert wurde.
 \n
 \nINSTALLATION AUF EIGENE GEFAHR!</string>
+    <string name="calendar_year">Jahr</string>
+    <string name="calendar_six_months">Sechs Monate</string>
+    <string name="calendar_month">Monat</string>
+    <string name="calendar_two_weeks">Zwei Wochen</string>
+    <string name="calendar_week">Woche</string>
+    <string name="calendar_day">Tag</string>
+    <string name="battery_level">Akkustand</string>
 </resources>
