@@ -1207,4 +1207,11 @@
 \nNot: Bu dosyalar önceden kurulanlarla tamamen aynıysa .res dosyasını kurmanız gerekmez.
 \n
 \nİLERLEMENİZ DURUMUNDA RİSK SİZE AİTTİR!</string>
+    <string name="calendar_year">Yıl</string>
+    <string name="calendar_six_months">Altı ay</string>
+    <string name="calendar_month">Ay</string>
+    <string name="calendar_two_weeks">İki hafta</string>
+    <string name="calendar_week">Hafta</string>
+    <string name="calendar_day">Gün</string>
+    <string name="battery_level">Pil seviyesi</string>
 </resources>
