@@ -1168,7 +1168,7 @@
     <string name="devicetype_amazfit_gts2_mini">Amazfit GTS 2 Mini</string>
     <string name="devicetype_zepp_e">Zepp E</string>
     <string name="devicetype_amazfit_gtr2e">Amazfit GTR 2e</string>
-    <string name="devicetype_waspos">Wasp OS</string>
+    <string name="devicetype_waspos">Wasp-os</string>
     <string name="battery_detail_activity_title">פרטים על הסוללה</string>
     <string name="devicetype_amazfit_gts2e">Amazfit GTS 2e</string>
     <string name="devicetype_amazfit_x">Amazfit X</string>
@@ -1179,4 +1179,11 @@
 \nלתשומת לבך: אין צורך בהתקנת קובץ ה־‎.res אם הוא כבר זהה לזה שהתקנת בעבר.
 \n
 \nהמשך התהליך הוא על אחריותך!</string>
+    <string name="calendar_year">שנה</string>
+    <string name="calendar_six_months">שישה חודשים</string>
+    <string name="calendar_month">חודש</string>
+    <string name="calendar_two_weeks">שבועיים</string>
+    <string name="calendar_week">שבוע</string>
+    <string name="calendar_day">יום</string>
+    <string name="battery_level">רמת הסוללה</string>
 </resources>
