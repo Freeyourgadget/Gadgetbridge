@@ -1166,7 +1166,22 @@ Temps de sommeil préféré en heures</string>
     <string name="devicetype_amazfit_gts2_mini">Amazfit GTS 2 Mini</string>
     <string name="devicetype_zepp_e">Zepp E</string>
     <string name="devicetype_amazfit_gtr2e">Amazfit GTR 2e</string>
-    <string name="devicetype_waspos">Wasp OS</string>
+    <string name="devicetype_waspos">Wasp-os</string>
     <string name="battery_detail_activity_title">Info. Batterie</string>
     <string name="devicetype_amazfit_gts2e">Amazfit GTS 2e</string>
+    <string name="devicetype_amazfit_x">Amazfit X</string>
+    <string name="fw_upgrade_notice_amazfitx">Vous allez installer le microcode %s dans votre Amazfit X.
+\n
+\nAssurez-vous d\'abord d\'installer le fichier .fw, puis ensuite le fichier .res. Votre bracelet va redémarrer après l\'installation du fichier .fw.
+\n
+\nRemarque: Vous n\'avez pas à réinstaller le fichiers .res si c\'est exactement le même que vous avez précédemment installé.
+\n
+\nA VOS RISQUES ET PÉRILS !</string>
+    <string name="calendar_year">Année</string>
+    <string name="calendar_six_months">Semestre</string>
+    <string name="calendar_month">Mois</string>
+    <string name="calendar_two_weeks">Deux semaines</string>
+    <string name="calendar_week">Semaine</string>
+    <string name="calendar_day">Jour</string>
+    <string name="battery_level">Niveau de batterie</string>
 </resources>
