@@ -1063,7 +1063,7 @@
     <string name="activity_type_soccer">Fußball</string>
     <string name="activity_filter_to_placeholder">Heute</string>
     <string name="activity_filter_from_placeholder">Vergangenheit</string>
-    <string name="chart_no_active_data">Keine Aktivitäten gefunden.</string>
+    <string name="chart_no_active_data">Keine Aktivitäten festgestellt.</string>
     <string name="devicetype_sonyswr12">Sony SWR12</string>
     <string name="sonyswr12_settings_title">Sony SWR12 Einstellungen</string>
     <string name="sonyswr12_settings_low_vibration">Geringe Vibration aktiviert</string>
