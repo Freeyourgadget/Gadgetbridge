@@ -1188,4 +1188,11 @@
 \n注意：若 .res 文件版本和之前安装的相同，则无需再次安装 .res 文件。
 \n
 \n风险自担！</string>
+    <string name="calendar_year">年</string>
+    <string name="calendar_six_months">半年</string>
+    <string name="calendar_month">月</string>
+    <string name="calendar_two_weeks">两周</string>
+    <string name="calendar_week">周</string>
+    <string name="calendar_day">日</string>
+    <string name="battery_level">电池电量</string>
 </resources>
