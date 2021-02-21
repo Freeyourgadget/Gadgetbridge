@@ -1186,4 +1186,11 @@
 \n
 \nДЕЙСТВУЙТЕ НА СВОЙ СТРАХ И РИСК!</string>
     <string name="devicetype_amazfit_x">Amazfit X</string>
+    <string name="calendar_year">Год</string>
+    <string name="calendar_six_months">Шесть месяцев</string>
+    <string name="calendar_month">Месяц</string>
+    <string name="calendar_two_weeks">Две недели</string>
+    <string name="calendar_week">Неделя</string>
+    <string name="calendar_day">День</string>
+    <string name="battery_level">Уровень заряда батареи</string>
 </resources>
