@@ -19,18 +19,18 @@ package nodomain.freeyourgadget.gadgetbridge.devices.pinetime;
 import java.util.UUID;
 
 public class PineTimeJFConstants {
-    public static final UUID UUID_SERVICE_MUSIC_CONTROL = UUID.fromString("00010000-78fc-48fe-8e23-433b3a1942d0");
+    public static final UUID UUID_SERVICE_MUSIC_CONTROL = UUID.fromString("00000000-78fc-48fe-8e23-433b3a1942d0");
 
-    public static final UUID UUID_CHARACTERISTICS_MUSIC_EVENT = UUID.fromString("00010001-78fc-48fe-8e23-433b3a1942d0");
-    public static final UUID UUID_CHARACTERISTICS_MUSIC_STATUS = UUID.fromString("00010002-78fc-48fe-8e23-433b3a1942d0");
-    public static final UUID UUID_CHARACTERISTICS_MUSIC_ARTIST = UUID.fromString("00010003-78fc-48fe-8e23-433b3a1942d0");
-    public static final UUID UUID_CHARACTERISTICS_MUSIC_TRACK = UUID.fromString("00010004-78fc-48fe-8e23-433b3a1942d0");
-    public static final UUID UUID_CHARACTERISTICS_MUSIC_ALBUM = UUID.fromString("00010005-78fc-48fe-8e23-433b3a1942d0");
-    public static final UUID UUID_CHARACTERISTICS_MUSIC_POSITION = UUID.fromString("00010006-78fc-48fe-8e23-433b3a1942d0");
-    public static final UUID UUID_CHARACTERISTICS_MUSIC_LENGTH_TOTAL = UUID.fromString("00010007-78fc-48fe-8e23-433b3a1942d0");
-    public static final UUID UUID_CHARACTERISTICS_MUSIC_TRACK_NUMBER = UUID.fromString("00010008-78fc-48fe-8e23-433b3a1942d0");
-    public static final UUID UUID_CHARACTERISTICS_MUSIC_TRACK_TOTAL = UUID.fromString("00010009-78fc-48fe-8e23-433b3a1942d0");
-    public static final UUID UUID_CHARACTERISTICS_MUSIC_PLAYBACK_SPEED = UUID.fromString("0001000a-78fc-48fe-8e23-433b3a1942d0");
-    public static final UUID UUID_CHARACTERISTICS_MUSIC_REPEAT = UUID.fromString("0001000b-78fc-48fe-8e23-433b3a1942d0");
-    public static final UUID UUID_CHARACTERISTICS_MUSIC_SHUFFLE = UUID.fromString("0001000c-78fc-48fe-8e23-433b3a1942d0");
+    public static final UUID UUID_CHARACTERISTICS_MUSIC_EVENT = UUID.fromString("00000001-78fc-48fe-8e23-433b3a1942d0");
+    public static final UUID UUID_CHARACTERISTICS_MUSIC_STATUS = UUID.fromString("00000002-78fc-48fe-8e23-433b3a1942d0");
+    public static final UUID UUID_CHARACTERISTICS_MUSIC_ARTIST = UUID.fromString("00000003-78fc-48fe-8e23-433b3a1942d0");
+    public static final UUID UUID_CHARACTERISTICS_MUSIC_TRACK = UUID.fromString("00000004-78fc-48fe-8e23-433b3a1942d0");
+    public static final UUID UUID_CHARACTERISTICS_MUSIC_ALBUM = UUID.fromString("00000005-78fc-48fe-8e23-433b3a1942d0");
+    public static final UUID UUID_CHARACTERISTICS_MUSIC_POSITION = UUID.fromString("00000006-78fc-48fe-8e23-433b3a1942d0");
+    public static final UUID UUID_CHARACTERISTICS_MUSIC_LENGTH_TOTAL = UUID.fromString("00000007-78fc-48fe-8e23-433b3a1942d0");
+    public static final UUID UUID_CHARACTERISTICS_MUSIC_TRACK_NUMBER = UUID.fromString("00000008-78fc-48fe-8e23-433b3a1942d0");
+    public static final UUID UUID_CHARACTERISTICS_MUSIC_TRACK_TOTAL = UUID.fromString("00000009-78fc-48fe-8e23-433b3a1942d0");
+    public static final UUID UUID_CHARACTERISTICS_MUSIC_PLAYBACK_SPEED = UUID.fromString("0000000a-78fc-48fe-8e23-433b3a1942d0");
+    public static final UUID UUID_CHARACTERISTICS_MUSIC_REPEAT = UUID.fromString("0000000b-78fc-48fe-8e23-433b3a1942d0");
+    public static final UUID UUID_CHARACTERISTICS_MUSIC_SHUFFLE = UUID.fromString("0000000c-78fc-48fe-8e23-433b3a1942d0");
 }
