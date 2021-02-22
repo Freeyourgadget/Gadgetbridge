@@ -42,6 +42,7 @@ import no.nordicsemi.android.dfu.DfuServiceController;
 import no.nordicsemi.android.dfu.DfuServiceInitiator;
 import no.nordicsemi.android.dfu.DfuServiceListenerHelper;
 import nodomain.freeyourgadget.gadgetbridge.R;
+import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventCallControl;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventMusicControl;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventVersionInfo;
 import nodomain.freeyourgadget.gadgetbridge.devices.pinetime.PineTimeDFUService;
@@ -211,6 +212,8 @@ public class PineTimeJFSupport extends AbstractBTLEDeviceSupport implements DfuL
         addSupportedService(GattService.UUID_SERVICE_CURRENT_TIME);
         addSupportedService(GattService.UUID_SERVICE_DEVICE_INFORMATION);
         addSupportedService(PineTimeJFConstants.UUID_SERVICE_MUSIC_CONTROL);
+        addSupportedService(PineTimeJFConstants.UUID_CHARACTERISTIC_ALERT_NOTIFICATION_EVENT);
+
         deviceInfoProfile = new DeviceInfoProfile<>(this);
         IntentListener mListener = new IntentListener() {
             @Override
@@ -277,7 +280,15 @@ public class PineTimeJFSupport extends AbstractBTLEDeviceSupport implements DfuL
 
     @Override
     public void onSetCallState(CallSpec callSpec) {
-
+        if (callSpec.command == CallSpec.CALL_INCOMING) {
+            TransactionBuilder builder = new TransactionBuilder("incomingcall");
+            String message = (byte) 0x01 + callSpec.name;
+            NewAlert alert = new NewAlert(AlertCategory.IncomingCall, 1, message);
+            AlertNotificationProfile<?> profile = new AlertNotificationProfile<>(this);
+            profile.setMaxLength(MaxNotificationLength);
+            profile.newAlert(builder, alert, OverflowStrategy.TRUNCATE);
+            builder.queue(getQueue());
+        }
     }
 
     @Override
@@ -415,6 +426,10 @@ public class PineTimeJFSupport extends AbstractBTLEDeviceSupport implements DfuL
         requestDeviceInfo(builder);
         onSetTime();
         builder.notify(getCharacteristic(PineTimeJFConstants.UUID_CHARACTERISTICS_MUSIC_EVENT), true);
+        BluetoothGattCharacteristic alertNotificationEventCharacteristic = getCharacteristic(PineTimeJFConstants.UUID_CHARACTERISTIC_ALERT_NOTIFICATION_EVENT);
+        if (alertNotificationEventCharacteristic != null) {
+            builder.notify(alertNotificationEventCharacteristic, true);
+        }
         setInitialized(builder);
         return builder;
     }
@@ -553,7 +568,26 @@ public class PineTimeJFSupport extends AbstractBTLEDeviceSupport implements DfuL
             }
             evaluateGBDeviceEvent(deviceEventMusicControl);
             return true;
+        } else if (characteristicUUID.equals(PineTimeJFConstants.UUID_CHARACTERISTIC_ALERT_NOTIFICATION_EVENT)) {
+            byte[] value = characteristic.getValue();
+            GBDeviceEventCallControl deviceEventCallControl = new GBDeviceEventCallControl();
+            switch (value[0]) {
+                case 0:
+                    deviceEventCallControl.event = GBDeviceEventCallControl.Event.REJECT;
+                    break;
+                case 1:
+                    deviceEventCallControl.event = GBDeviceEventCallControl.Event.ACCEPT;
+                    break;
+                case 2:
+                    deviceEventCallControl.event = GBDeviceEventCallControl.Event.IGNORE;
+                    break;
+                default:
+                    return false;
+            }
+            evaluateGBDeviceEvent(deviceEventCallControl);
+            return true;
         }
+
         LOG.info("Unhandled characteristic changed: " + characteristicUUID);
         return false;
     }

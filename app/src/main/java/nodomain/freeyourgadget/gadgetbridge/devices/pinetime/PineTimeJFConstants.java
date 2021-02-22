@@ -33,4 +33,6 @@ public class PineTimeJFConstants {
     public static final UUID UUID_CHARACTERISTICS_MUSIC_PLAYBACK_SPEED = UUID.fromString("0000000a-78fc-48fe-8e23-433b3a1942d0");
     public static final UUID UUID_CHARACTERISTICS_MUSIC_REPEAT = UUID.fromString("0000000b-78fc-48fe-8e23-433b3a1942d0");
     public static final UUID UUID_CHARACTERISTICS_MUSIC_SHUFFLE = UUID.fromString("0000000c-78fc-48fe-8e23-433b3a1942d0");
+
+    public static final UUID UUID_CHARACTERISTIC_ALERT_NOTIFICATION_EVENT = UUID.fromString("00020001-78fc-48fe-8e23-433b3a1942d0");
 }
