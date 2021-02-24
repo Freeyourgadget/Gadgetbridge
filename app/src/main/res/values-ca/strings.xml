@@ -441,8 +441,8 @@
     <string name="mi2_prefs_button_press_broadcast_summary">Difón el missatge enviat amb l\'esdeveniment. El paràmetre `button_id` és afegit automàticament a cada missatge.</string>
     <string name="pref_title_pebble_health_store_raw">Desa dades sense processar a la base de dades</string>
     <string name="pref_summary_pebble_health_store_raw">Desa les dades \"tal qual\", tot augmentant l\'ús de la base de dades per tal de permetre possibles interpretacions més tard.</string>
-    <string name="action_db_management">Gestió de la base de dades</string>
-    <string name="title_activity_db_management">Gestió de la base de dades</string>
+    <string name="action_db_management">Gestió de dades</string>
+    <string name="title_activity_db_management">Gestió de dades</string>
     <string name="activity_db_management_import_export_explanation">Les operacions de base de dades fan servir el següent camí al vostre aparell.
 \nAquest camí és accessible des d\'altres aparells Android i des del vostre ordinador.
 \nQuan exporteu una base de dades, la trobareu aquí, i quan vulgueu importar una base de dades, heu de deixar els fitxers també aquí:</string>
@@ -452,7 +452,7 @@
     <string name="dbmanagementactivity_error_exporting_db">Hi ha hagut un error en esborrar la base de dades: %1$s</string>
     <string name="dbmanagementactivity_error_exporting_shared">Hi ha hagut un error en exportar la preferència: %1$s</string>
     <string name="dbmanagementactivity_import_data_title">Voleu importar les dades\?</string>
-    <string name="dbmanagementactivity_overwrite_database_confirmation">De debò voleu sobreescriure la base de dades actual\? Totes les vostres dades actuals d\'activitats (si en teniu) es perdran.</string>
+    <string name="dbmanagementactivity_overwrite_database_confirmation">De debò voleu sobreescriure les dades actuals\? Totes les vostres dades actuals d\'activitats (si en teniu) i les preferències es sobreescriuran.</string>
     <string name="dbmanagementactivity_import_successful">S\'ha importat.</string>
     <string name="dbmanagementactivity_error_importing_db">Hi ha hagut un error en importar la base de dades: %1$s</string>
     <string name="dbmanagementactivity_error_importing_shared">Hi ha hagut un error en importar la preferència: %1$s</string>
@@ -724,8 +724,8 @@
     <string name="pref_title_use_custom_font">Utilitza un tipus de lletra personalitzat</string>
     <string name="pref_summary_use_custom_font">Activa-ho si el vostre dispositiu inclou microprogramari de tipus de lletra personalitzat amb suport per a emojis</string>
     <string name="activity_db_management_autoexport_label">Exportació automàtica</string>
-    <string name="activity_DB_ExportButton">Exporta BD</string>
-    <string name="activity_DB_import_button">Importa BD</string>
+    <string name="activity_DB_ExportButton">Exporta les dades</string>
+    <string name="activity_DB_import_button">Importa les dades</string>
     <string name="activity_DB_test_export_button">Executa l\'exportació automàtica ara</string>
     <string name="activity_DB_test_export_message">Exportant base de dades…</string>
     <string name="activity_DB_delete_legacy_button">Esborra BD antiga</string>
@@ -1074,4 +1074,79 @@
     <string name="charts_activity_list">Llista d\'activitats</string>
     <string name="chart_no_active_data">No s\'han detectat activitats.</string>
     <string name="pref_theme_system">Sistema</string>
+    <string name="fw_upgrade_notice_amazfitx">Sou a punt d\'instal·lar el microprogramari %s en la vostra Amazfit X.
+\n
+\nSi us plau, assegureu-vos d\'instal·lar el fitxer .fw, i després el fitxer .res. La vostra polsera es reiniciarà després d\'instal·lar el fitxer .fw.
+\n
+\nNota: no heu d\'instal·lar el fitxer .res si és exactament el mateix que el prèviament instal·lat.
+\n
+\nPROCEDIU SOTA LA VOSTRA PRÒPIA RESPONSABILITAT!</string>
+    <string name="fw_upgrade_notice_miband5">Sou a punt d\'instal·lar el microprogramari %s en la vostra Mi Band 5.
+\n
+\nSi us plau, assegureu-vos d\'instal·lar el fitxer .fw, i després el fitxer .res. La vostra polsera es reiniciarà després d\'instal·lar el fitxer .fw.
+\n
+\nNota: no heu d\'instal·lar el fitxer .res si és exactament el mateix que el prèviament instal·lat.
+\n
+\nPROCEDIU SOTA LA VOSTRA PRÒPIA RESPONSABILITAT!</string>
+    <string name="fw_upgrade_notice_amazfitvergel">Sou a punt d\'instal·lar el microprogramari %s en la vostra Amazfit Verge Lite.
+\n
+\nSi us plau, assegureu-vos d\'instal·lar el fitxer .fw, i després el fitxer .res. La vostra polsera es reiniciarà després d\'instal·lar el fitxer .fw.
+\n
+\nNota: no heu d\'instal·lar el fitxer .res si és exactament el mateix que el prèviament instal·lat.
+\n
+\nPROCEDIU SOTA LA VOSTRA PRÒPIA RESPONSABILITAT!</string>
+    <string name="fw_upgrade_notice_amazfit_trex">Sou a punt d\'instal·lar el microprogramari %s en la vostra Amazfit T-Rex.
+\n
+\nSi us plau, assegureu-vos d\'instal·lar el fitxer .fw, i després el fitxer .res. La vostra polsera es reiniciarà després d\'instal·lar el fitxer .fw.
+\n
+\nNota: no heu d\'instal·lar el fitxer .res si és exactament el mateix que el prèviament instal·lat.
+\n
+\nPROCEDIU SOTA LA VOSTRA PRÒPIA RESPONSABILITAT!</string>
+    <string name="prefs_autoremove_message">Suprimeix automàticament les notificacions d\'SMS</string>
+    <string name="prefs_key_vibration">Vibració de les tecles</string>
+    <string name="prefs_autolight">Llum automàtica</string>
+    <string name="mi">mi</string>
+    <string name="minutes_mi">min/mi</string>
+    <string name="mi_h">mi/h</string>
+    <string name="ft">ft</string>
+    <string name="device_is_currently_bonded">JA ESTÀ APARELLAT</string>
+    <string name="pref_qhybrid_save_raw_activity_files">Guarda els arxius d\'activitat sense processar</string>
+    <string name="widget_settings_select_device_title">Seleccionar aparell</string>
+    <string name="menuitem_sleep">Dormir</string>
+    <string name="menuitem_goal">Objectiu d\'activitat</string>
+    <string name="devicetype_amazfit_vergel">Amazfit Verge Lite</string>
+    <string name="devicetype_waspos">Wasp-os</string>
+    <string name="devicetype_casiogbx100">Casio GBX-100</string>
+    <string name="devicetype_zepp_e">Zepp E</string>
+    <string name="devicetype_amazfit_x">Amazfit X</string>
+    <string name="devicetype_amazfit_gts2e">Amazfit GTS 2e</string>
+    <string name="devicetype_amazfit_gts2_mini">Amazfit GTS 2 Mini</string>
+    <string name="devicetype_amazfit_gtr2e">Amazfit GTR 2e</string>
+    <string name="devicetype_amazfit_bipupro">Amazfit Bip U Pro</string>
+    <string name="devicetype_amazfit_bipu">Amazfit Bip U</string>
+    <string name="devicetype_amazfit_neo">Amazfit Neo</string>
+    <string name="activity_type_strength_training">Entrenament de força</string>
+    <string name="dbmanagementactivity_export_finished">Supressió finalitzada</string>
+    <string name="activity_DB_clean_export_directory_warning_message">De debò voleu esborrar els fitxers del directori d\'exportació/importació\?</string>
+    <string name="activity_DB_clean_export_directory_warning_title">Voleu esborrar els fitxers del directori d\'exportació/importació\?</string>
+    <string name="activity_db_management_clean_export_directory_label">Esborra els fitxers del directori d\'exportació/importació</string>
+    <string name="activity_DB_ShowContentButton">Mostra el contingut del directori d\'exportació/importació</string>
+    <string name="activity_data_management_directory_content_title">Exporta/Importa el contingut del directori</string>
+    <string name="dbmanagementactivity_export_data_title">Voleu exportar les dades\?</string>
+    <string name="dbmanagementactivity_error_cleaning_export_directory">Hi ha hagut un error en esborrar fitxers del directori d\'exportació %1$s</string>
+    <string name="prefs_charts_tabs_summary">Pestanyes de gràfics visibles</string>
+    <string name="prefs_charts_tabs">Pestanyes de gràfics</string>
+    <string name="discovery_entered_invalid_authkey">La clau secreta d\'autenticació que heu introduït no és vàlida! Mantingueu premut sobre l\'aparell per a editar-la.</string>
+    <string name="power_mode_title">Mode d\'energia del rellotge</string>
+    <string name="pref_title_device_spec_settings_show_raw_graph">Mostra les dades RAW al gràfic d\'activitat</string>
+    <string name="pref_summary_connected_advertisement">Fes que l\'aparell sigui visible per Bluetooth inclús quan estigui connectat</string>
+    <string name="pref_title_connected_advertisement">Visible mentre estigui connectat</string>
+    <string name="calendar_year">Any</string>
+    <string name="calendar_six_months">Sis mesos</string>
+    <string name="calendar_month">Mes</string>
+    <string name="calendar_two_weeks">Dues setmanes</string>
+    <string name="calendar_week">Setmana</string>
+    <string name="calendar_day">Dia</string>
+    <string name="battery_level">Nivell de bateria</string>
+    <string name="battery_detail_activity_title">Informació de la bateria</string>
 </resources>
