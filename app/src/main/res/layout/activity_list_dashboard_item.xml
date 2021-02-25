@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/list_item_parent_layout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
@@ -67,14 +66,14 @@
                 android:layout_weight="0.5" />
 
             <include
-                layout="@layout/heartrate_average_widget"
+                layout="@layout/layout_widget_heartrate_average"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:layout_gravity="bottom|center"
                 android:layout_weight="1" />
 
             <include
-                layout="@layout/intensity_total_widget"
+                layout="@layout/layout_widget_intensity_total"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:layout_gravity="bottom|center"
@@ -98,146 +97,11 @@
             android:gravity="bottom|center"
             android:orientation="horizontal">
 
-            <LinearLayout
-                android:id="@+id/line_layout_step"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center|top"
-                android:layout_marginStart="1dp"
-                android:layout_marginEnd="1dp"
-                android:layout_weight="1"
-                android:gravity="center|top"
-                android:orientation="vertical">
+            <include layout="@layout/layout_widget_active_steps" />
 
-                <ImageView
-                    android:id="@+id/line_layout_step_icon"
-                    android:layout_width="19dp"
-                    android:layout_height="19dp"
-                    android:layout_gravity="center"
-                    android:contentDescription="@string/candidate_item_device_image"
-                    app:srcCompat="@drawable/ic_shoe_print" />
+            <include layout="@layout/layout_widget_distance" />
 
-                <TextView
-                    android:id="@+id/line_layout_step_title"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:gravity="center"
-                    android:maxLines="2"
-                    android:scrollHorizontally="false"
-                    android:text="@string/activity_list_summary_active_steps"
-                    android:textAllCaps="true"
-                    android:textColor="@color/accent"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:id="@+id/line_layout_step_label"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:fontFamily="sans-serif-black"
-                    android:gravity="center"
-                    android:maxLines="1"
-                    android:scrollHorizontally="false"
-                    android:text="15000"
-                    android:textSize="24sp" />
-
-            </LinearLayout>
-
-
-            <LinearLayout
-                android:id="@+id/line_layout_distance"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center|top"
-                android:layout_marginStart="1dp"
-                android:layout_marginEnd="1dp"
-                android:layout_weight="1"
-                android:gravity="center|top"
-                android:orientation="vertical">
-
-                <ImageView
-                    android:id="@+id/line_layout_distance_icon"
-                    android:layout_width="19dp"
-                    android:layout_height="19dp"
-                    android:layout_gravity="center"
-                    android:contentDescription="@string/candidate_item_device_image"
-                    app:srcCompat="@drawable/ic_distance" />
-
-                <TextView
-                    android:id="@+id/line_layout_distance_title"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:gravity="center"
-                    android:maxLines="2"
-                    android:scrollHorizontally="false"
-                    android:text="@string/distance"
-                    android:textAllCaps="true"
-                    android:textColor="@color/accent"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:id="@+id/line_layout_distance_label"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:fontFamily="sans-serif-black"
-                    android:gravity="center"
-                    android:maxLines="1"
-                    android:scrollHorizontally="false"
-                    android:text="15.1km"
-                    android:textSize="24sp" />
-
-            </LinearLayout>
-
-
-            <LinearLayout
-                android:id="@+id/line_layout_duration"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center|top"
-                android:layout_marginStart="1dp"
-                android:layout_marginEnd="1dp"
-                android:layout_weight="1"
-                android:gravity="center|top"
-                android:orientation="vertical">
-
-                <ImageView
-                    android:id="@+id/line_layout_duration_icon"
-                    android:layout_width="19dp"
-                    android:layout_height="19dp"
-                    android:layout_gravity="center"
-                    android:contentDescription="@string/candidate_item_device_image"
-                    app:srcCompat="@drawable/ic_access_time" />
-
-                <TextView
-                    android:id="@+id/line_layout_duration_title"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:gravity="center"
-                    android:maxLines="2"
-                    android:scrollHorizontally="false"
-                    android:text="@string/activity_list_summary_active_time"
-                    android:textAllCaps="true"
-                    android:textColor="@color/accent"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:id="@+id/line_layout_duration_label"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:fontFamily="sans-serif-black"
-                    android:gravity="center"
-                    android:maxLines="1"
-                    android:scrollHorizontally="false"
-                    android:text="122"
-                    android:textSize="24sp" />
-
-            </LinearLayout>
-
+            <include layout="@layout/layout_widget_duration" />
 
         </LinearLayout>
 
@@ -250,145 +114,11 @@
             android:gravity="center"
             android:orientation="horizontal">
 
-            <LinearLayout
-                android:id="@+id/line_layout_total_step"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center|top"
-                android:layout_marginStart="1dp"
-                android:layout_marginEnd="1dp"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:orientation="vertical">
+            <include layout="@layout/layout_widget_total_steps" />
 
-                <ImageView
-                    android:id="@+id/line_layout_total_step_icon"
-                    android:layout_width="19dp"
-                    android:layout_height="19dp"
-                    android:layout_gravity="center"
-                    android:contentDescription="@string/candidate_item_device_image"
-                    app:srcCompat="@drawable/ic_shoe_prints_many" />
+            <include layout="@layout/layout_widget_activities_count" />
 
-                <TextView
-                    android:id="@+id/line_layout_total_step_title"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:gravity="center"
-                    android:maxLines="2"
-                    android:scrollHorizontally="false"
-                    android:text="@string/live_activity_total_steps"
-                    android:textAllCaps="true"
-                    android:textColor="@color/accent"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:id="@+id/line_layout_total_step_label"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:fontFamily="sans-serif-black"
-                    android:gravity="center"
-                    android:maxLines="1"
-                    android:scrollHorizontally="false"
-                    android:text="15000"
-                    android:textSize="24sp" />
-
-            </LinearLayout>
-
-
-            <LinearLayout
-                android:id="@+id/line_layout_count"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center|top"
-                android:layout_marginStart="1dp"
-                android:layout_marginEnd="1dp"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:orientation="vertical">
-
-                <ImageView
-                    android:id="@+id/line_layout_count_icon"
-                    android:layout_width="19dp"
-                    android:layout_height="19dp"
-                    android:layout_gravity="center"
-                    android:contentDescription="@string/candidate_item_device_image"
-                    app:srcCompat="@drawable/ic_activity_stacked" />
-
-                <TextView
-                    android:id="@+id/line_layout_count_title"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:gravity="center"
-                    android:maxLines="2"
-                    android:scrollHorizontally="false"
-                    android:text="@string/activity_list_summary_activities"
-                    android:textAllCaps="true"
-                    android:textColor="@color/accent"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:id="@+id/line_layout_count_label"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:fontFamily="sans-serif-black"
-                    android:gravity="center"
-                    android:maxLines="1"
-                    android:scrollHorizontally="false"
-                    android:text="15"
-                    android:textSize="24sp" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/line_layout_intensity2"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center|top"
-                android:layout_marginStart="1dp"
-                android:layout_marginEnd="1dp"
-                android:layout_weight="1"
-                android:gravity="bottom|center"
-                android:orientation="vertical">
-
-                <ImageView
-                    android:id="@+id/line_layout_intensity2_icon"
-                    android:layout_width="19dp"
-                    android:layout_height="19dp"
-                    android:layout_gravity="center"
-                    android:contentDescription="@string/candidate_item_device_image"
-                    app:srcCompat="@drawable/ic_intensity" />
-
-                <TextView
-                    android:id="@+id/line_layout_intensity2_title"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:gravity="center"
-                    android:maxLines="2"
-                    android:scrollHorizontally="false"
-                    android:text="@string/activity_list_summary_intensity"
-                    android:textAllCaps="true"
-                    android:textColor="@color/accent"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:id="@+id/line_layout_intensity2_label"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:fontFamily="sans-serif-black"
-                    android:gravity="center"
-                    android:maxLines="1"
-                    android:scrollHorizontally="false"
-                    android:text="15"
-                    android:textSize="24sp" />
-
-            </LinearLayout>
-
+            <include layout="@layout/layout_widget_intensity_total2" />
 
         </LinearLayout>
     </LinearLayout>

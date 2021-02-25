@@ -29,6 +29,7 @@ import android.widget.TextView;
 
 import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.charts.Chart;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -63,6 +64,11 @@ public class ActivityListingChartFragment extends AbstractChartFragment {
         stepListAdapter = new ActivityListingAdapter(getContext());
         stepsList.setAdapter(stepListAdapter);
         stepsDateView = rootView.findViewById(R.id.stepsDateView);
+        FloatingActionButton fab;
+        fab = rootView.findViewById(R.id.fab);
+        fab.setVisibility(View.VISIBLE);
+
+
         refresh();
         return rootView;
     }

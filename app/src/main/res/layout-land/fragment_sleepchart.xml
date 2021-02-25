@@ -45,7 +45,7 @@
 
     </LinearLayout>
     <include
-        layout="@layout/heartrate_average_widget"
+        layout="@layout/layout_widget_heartrate_average"
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:layout_alignParentTop="true"
@@ -55,7 +55,7 @@
         android:layout_marginStart="170dp" />
 
     <include
-        layout="@layout/intensity_total_widget"
+        layout="@layout/layout_widget_intensity_total"
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:layout_alignParentTop="true"
