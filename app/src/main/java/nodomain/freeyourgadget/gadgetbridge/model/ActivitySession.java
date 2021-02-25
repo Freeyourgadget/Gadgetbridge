@@ -8,6 +8,7 @@ public class ActivitySession {
 
     public static int SESSION_NORMAL = 1;
     public static int SESSION_SUMMARY = 2;
+    public static int SESSION_ONGOING = 3;
 
     private final Date startTime;
     private final Date endTime;

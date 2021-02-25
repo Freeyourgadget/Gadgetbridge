@@ -53,6 +53,13 @@
             android:summaryOff="@string/pref_charts_range_off"
             android:summaryOn="@string/pref_charts_range_on"
             android:title="@string/pref_title_charts_range" />
+
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="charts_show_ongoing_activity"
+            android:layout="@layout/preference_checkbox"
+            android:title="@string/show_ongoing_activity" />
+
     </PreferenceCategory>
 
     <PreferenceCategory

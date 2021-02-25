@@ -464,6 +464,8 @@
     <string name="activity_list_summary_active_time">Active time</string>
     <string name="activity_list_summary_intensity">Movement\nIntensity</string>
     <string name="activity_list_summary_activities">Activities</string>
+    <string name="dialog_hide">Hide</string>
+    <string name="show_ongoing_activity">Show ongoing activity popup</string>
     <string name="lack_of_sleep">Lack of sleep: %1$s</string>
     <string name="overslept">Overslept: %1$s</string>
     <!-- Firmware updating -->

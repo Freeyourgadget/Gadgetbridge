@@ -358,6 +358,11 @@ public class ActivitySummariesAdapter extends AbstractActivityListingAdapter<Bas
     }
 
     @Override
+    protected String getSpeedLabel(BaseActivitySummary item) {
+        return null;
+    }
+
+    @Override
     protected String getSessionCountLabel(BaseActivitySummary item) {
         return "";
     }

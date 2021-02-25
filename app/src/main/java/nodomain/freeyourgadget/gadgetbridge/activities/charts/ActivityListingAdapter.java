@@ -288,6 +288,22 @@ public class ActivityListingAdapter extends AbstractActivityListingAdapter<Activ
     }
 
     @Override
+    protected String getSpeedLabel(ActivitySession item) {
+        long duration = item.getEndTime().getTime() - item.getStartTime().getTime();
+        double distanceMeters = item.getDistance();
+
+        double speed = distanceMeters * 1000 / duration;
+        String unit = "###.#km/h";
+        String units = GBApplication.getPrefs().getString(SettingsActivity.PREF_MEASUREMENT_SYSTEM, GBApplication.getContext().getString(R.string.p_unit_metric));
+        if (units.equals(GBApplication.getContext().getString(R.string.p_unit_imperial))) {
+            unit = "###.#mi/h";
+            speed = speed * 0.6213712;
+        }
+        DecimalFormat df = new DecimalFormat(unit);
+        return df.format(speed);
+    }
+
+    @Override
     protected String getSessionCountLabel(ActivitySession item) {
         return String.valueOf(item.getSessionCount());
     }

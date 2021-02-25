@@ -199,6 +199,8 @@ public abstract class AbstractActivityListingAdapter<T> extends ArrayAdapter<T> 
 
     protected abstract String getDurationLabel(T item);
 
+    protected abstract String getSpeedLabel(T item);
+
     protected abstract String getSessionCountLabel(T item);
 
     protected abstract boolean hasHR(T item);
