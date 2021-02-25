@@ -66,6 +66,8 @@ public class ActivitySummariesChartFragment extends AbstractChartFragment {
         }
     }
 
+
+
     private void populate_charts_data() {
         int LEGEND_TEXT_COLOR = 0;
 

@@ -24,7 +24,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.github.mikephil.charting.charts.Chart;
+import androidx.core.content.ContextCompat;
+
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.components.MarkerView;
@@ -52,19 +53,21 @@ import de.greenrobot.dao.query.QueryBuilder;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.activities.charts.AbstractChartFragment;
-import nodomain.freeyourgadget.gadgetbridge.activities.charts.ChartsData;
-import nodomain.freeyourgadget.gadgetbridge.activities.charts.ChartsHost;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHelper;
 import nodomain.freeyourgadget.gadgetbridge.entities.BatteryLevel;
 import nodomain.freeyourgadget.gadgetbridge.entities.BatteryLevelDao;
 import nodomain.freeyourgadget.gadgetbridge.entities.Device;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
-import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
 
 
-public class BatteryInfoChartFragment extends AbstractChartFragment {
+public class BatteryInfoChartFragment extends AbstractGBFragment {
     private static final Logger LOG = LoggerFactory.getLogger(BatteryInfoChartFragment.class);
+    protected int BACKGROUND_COLOR;
+    protected int DESCRIPTION_COLOR;
+    protected int CHART_TEXT_COLOR;
+    protected int LEGEND_TEXT_COLOR;
+    protected String BATTERY_LABEL;
 
     private LineChart mChart;
     private int startTime;
@@ -76,38 +79,43 @@ public class BatteryInfoChartFragment extends AbstractChartFragment {
         this.endTime = (int) endTime;
         this.gbDevice = gbDevice;
         try {
-            //setupLegend(mChart);
             populate_charts_data();
         } catch (Exception e) {
             LOG.debug("Unable to fill charts data right now:", e);
         }
     }
 
-    private void populate_charts_data() {
-        int LEGEND_TEXT_COLOR = 0;
 
-        try (DBHandler handler = GBApplication.acquireDB()) {
-            List<? extends BatteryLevel> samples = getBatteryLevels(handler, gbDevice, startTime, endTime);
-            DefaultBatteryChartsData dcd = null;
-            try {
-                dcd = fill_dcd(samples);
-            } catch (Exception e) {
-                LOG.debug("Unable to get charts data right now:", e);
+    private void populate_charts_data() {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try (DBHandler handler = GBApplication.acquireDB()) {
+                    List<? extends BatteryLevel> samples = getBatteryLevels(handler, gbDevice, startTime, endTime);
+                    DefaultBatteryChartsData dcd = null;
+                    try {
+                        dcd = fill_dcd(samples);
+                    } catch (Exception e) {
+                        LOG.debug("Unable to get charts data right now:", e);
+                    }
+                    if (dcd != null && mChart != null) {
+                        mChart.setTouchEnabled(true);
+                        mChart.setMarker(new batteryValuesAndDateMarker(getContext(), R.layout.custom_chart_marker, dcd.firstTs));
+                        mChart.getXAxis().setValueFormatter(dcd.getXValueFormatter());
+                        mChart.setData((LineData) dcd.getData());
+                        mChart.invalidate();
+                    }
+                } catch (Exception e) {
+                    LOG.error("Unable to get charts data:", e);
+                }
+
             }
-            if (dcd != null && mChart != null) {
-                mChart.setTouchEnabled(true);
-                mChart.setMarker(new batteryValuesAndDateMarker(getContext(), R.layout.custom_chart_marker, dcd.firstTs));
-                mChart.getXAxis().setValueFormatter(dcd.getXValueFormatter());
-                mChart.setData((LineData) dcd.getData());
-                mChart.invalidate();
-            }
-        } catch (Exception e) {
-            LOG.error("Unable to get charts data:", e);
-        }
+        }).start();
+
     }
 
     private DefaultBatteryChartsData fill_dcd(List<? extends BatteryLevel> samples) {
-        TimestampTranslation tsTranslation = new TimestampTranslation();
+        AbstractChartFragment.TimestampTranslation tsTranslation = new AbstractChartFragment.TimestampTranslation();
         List<Entry> entries = new ArrayList<Entry>();
         int firstTs = 0;
 
@@ -118,7 +126,7 @@ public class BatteryInfoChartFragment extends AbstractChartFragment {
             }
         }
 
-        LineDataSet dataSet = new LineDataSet(entries, getString(R.string.battery_level));
+        LineDataSet dataSet = new LineDataSet(entries, BATTERY_LABEL);
         dataSet.setLineWidth(2.2f);
         dataSet.setMode(LineDataSet.Mode.HORIZONTAL_BEZIER);
         dataSet.setCubicIntensity(0.1f);
@@ -133,6 +141,14 @@ public class BatteryInfoChartFragment extends AbstractChartFragment {
         return new DefaultBatteryChartsData(lineData, new customFormatter(tsTranslation), firstTs);
 
     }
+
+    private void init() {
+        BACKGROUND_COLOR = GBApplication.getBackgroundColor(getContext());
+        LEGEND_TEXT_COLOR = DESCRIPTION_COLOR = GBApplication.getTextColor(getContext());
+        CHART_TEXT_COLOR = ContextCompat.getColor(getContext(), R.color.secondarytext);
+        BATTERY_LABEL = getString(R.string.battery_level);
+    }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -157,8 +173,8 @@ public class BatteryInfoChartFragment extends AbstractChartFragment {
         mChart.getLegend().setTextColor(LEGEND_TEXT_COLOR);
         mChart.setBackgroundColor(BACKGROUND_COLOR);
         mChart.getDescription().setTextColor(DESCRIPTION_COLOR);
-        configureBarLineChartDefaults(mChart);
         mChart.setTouchEnabled(true);
+        mChart.getLegend().setHorizontalAlignment(Legend.LegendHorizontalAlignment.CENTER);
 
         XAxis x = mChart.getXAxis();
         x.setDrawLabels(true);
@@ -195,40 +211,12 @@ public class BatteryInfoChartFragment extends AbstractChartFragment {
         return levels;
     }
 
-    @Override
-    protected void setupLegend(Chart chart) {
-        chart.getLegend().setHorizontalAlignment(Legend.LegendHorizontalAlignment.CENTER);
-    }
-
-    @Override
-    protected ChartsData refreshInBackground(ChartsHost chartsHost, DBHandler db, GBDevice device) {
-        return null;
-    }
-
-    @Override
-    protected void renderCharts() {
-
-    }
-
-    @Override
-    protected List<? extends ActivitySample> getSamples(DBHandler db, GBDevice device, int tsFrom, int tsTo) {
-        return null;
-    }
-
-    protected Entry createLineEntry(float value, int xValue) {
-        return new Entry(xValue, value);
-    }
-
-    @Override
-    protected void updateChartsnUIThread(ChartsData chartsData) {
-    }
-
     protected static class customFormatter extends ValueFormatter {
-        private final TimestampTranslation tsTranslation;
+        private final AbstractChartFragment.TimestampTranslation tsTranslation;
         SimpleDateFormat annotationDateFormat = new SimpleDateFormat("dd.MM HH:mm");
         Calendar cal = GregorianCalendar.getInstance();
 
-        public customFormatter(TimestampTranslation tsTranslation) {
+        public customFormatter(AbstractChartFragment.TimestampTranslation tsTranslation) {
             this.tsTranslation = tsTranslation;
         }
 
@@ -242,7 +230,7 @@ public class BatteryInfoChartFragment extends AbstractChartFragment {
         }
     }
 
-    private class DefaultBatteryChartsData extends DefaultChartsData {
+    private class DefaultBatteryChartsData extends AbstractChartFragment.DefaultChartsData {
         public int firstTs;
 
         public DefaultBatteryChartsData(ChartData data, ValueFormatter xValueFormatter, int ts) {
@@ -262,7 +250,7 @@ public class BatteryInfoChartFragment extends AbstractChartFragment {
 
         public batteryValuesAndDateMarker(Context context, int layoutResource, int ts) {
             super(context, layoutResource);
-            TimestampTranslation tsTranslation = new TimestampTranslation();
+            AbstractChartFragment.TimestampTranslation tsTranslation = new AbstractChartFragment.TimestampTranslation();
             formatter = new customFormatter(tsTranslation);
             top_text = (TextView) findViewById(R.id.chart_marker_item_top);
             bottom_text = (TextView) findViewById(R.id.chart_marker_item_bottom);
