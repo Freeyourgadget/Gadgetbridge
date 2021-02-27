@@ -472,7 +472,7 @@ Temps de sommeil préféré en heures</string>
     <string name="devicetype_amazfit_bip">Amazfit Bip</string>
     <string name="devicetype_amazfit_cor">Amazfit Cor</string>
     <string name="devicetype_vibratissimo">Vibratissimo</string>
-    <string name="devicetype_liveview">LiveView</string>
+    <string name="devicetype_liveview">Vue en directe</string>
     <string name="devicetype_hplus">HPlus</string>
     <string name="devicetype_makibes_f68">Makibes F68</string>
     <string name="devicetype_exrizu_k8">Exrizu K8</string>
@@ -1184,4 +1184,6 @@ Temps de sommeil préféré en heures</string>
     <string name="calendar_week">Semaine</string>
     <string name="calendar_day">Jour</string>
     <string name="battery_level">Niveau de batterie</string>
+    <string name="show_ongoing_activity">Afficher une popup pour l\'activité en cours</string>
+    <string name="dialog_hide">Cacher</string>
 </resources>
