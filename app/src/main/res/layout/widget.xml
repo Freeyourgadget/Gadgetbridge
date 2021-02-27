@@ -96,7 +96,7 @@
                 android:layout_height="20dp"
                 android:layout_gravity="start|center_vertical"
                 android:backgroundTint="#FFFFFF"
-                android:background="@drawable/ic_shoe_print"
+                android:background="@drawable/ic_shoe_prints_many"
                 android:contentDescription="@string/icon_placeholder"
                 android:padding="0dp" />
 
@@ -138,7 +138,7 @@
                 android:layout_height="20dp"
                 android:layout_gravity="start|center_vertical"
                 android:backgroundTint="#FFFFFF"
-                android:background="@drawable/ic_distance"
+                android:background="@drawable/ic_distance_total"
                 android:contentDescription="@string/icon_placeholder"
                 android:padding="0dp" />
 
