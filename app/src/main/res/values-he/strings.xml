@@ -1186,4 +1186,6 @@
     <string name="calendar_week">שבוע</string>
     <string name="calendar_day">יום</string>
     <string name="battery_level">רמת הסוללה</string>
+    <string name="show_ongoing_activity">הצגת חלונית פעילות נוכחית</string>
+    <string name="dialog_hide">הסתרה</string>
 </resources>
