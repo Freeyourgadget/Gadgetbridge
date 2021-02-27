@@ -175,6 +175,7 @@ public class BatteryInfoChartFragment extends AbstractGBFragment {
         mChart.getDescription().setTextColor(DESCRIPTION_COLOR);
         mChart.setTouchEnabled(true);
         mChart.getLegend().setHorizontalAlignment(Legend.LegendHorizontalAlignment.CENTER);
+        mChart.getDescription().setEnabled(false);
 
         XAxis x = mChart.getXAxis();
         x.setDrawLabels(true);
