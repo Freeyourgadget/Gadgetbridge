@@ -1195,4 +1195,6 @@
     <string name="calendar_week">周</string>
     <string name="calendar_day">日</string>
     <string name="battery_level">电池电量</string>
+    <string name="show_ongoing_activity">显示正在进行活动的弹出窗口</string>
+    <string name="dialog_hide">隐藏</string>
 </resources>
