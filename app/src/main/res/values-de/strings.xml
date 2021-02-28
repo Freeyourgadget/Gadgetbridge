@@ -1199,4 +1199,6 @@
     <string name="calendar_week">Woche</string>
     <string name="calendar_day">Tag</string>
     <string name="battery_level">Akkustand</string>
+    <string name="show_ongoing_activity">Popup für laufende Aktivitäten anzeigen</string>
+    <string name="dialog_hide">Ausblenden</string>
 </resources>
