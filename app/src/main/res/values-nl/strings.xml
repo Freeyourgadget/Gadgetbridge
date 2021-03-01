@@ -276,7 +276,7 @@
     <string name="alarm_thu_short">Do</string>
     <string name="alarm_fri_short">Vr</string>
     <string name="alarm_sat_short">Za</string>
-    <string name="alarm_smart_wakeup">Slim ontwaken</string>
+    <string name="alarm_smart_wakeup">Slim wekken</string>
     <string name="user_feedback_miband_set_alarms_failed">Er is een fout opgetreden bij het instellen van de alarmen, probeer het opnieuw.</string>
     <string name="user_feedback_miband_set_alarms_ok">Alarmen verzonden naar het apparaat.</string>
     <string name="chart_no_data_synchronize">Geen data. Toestel synchroniseren?</string>
@@ -322,7 +322,7 @@
     <string name="liveactivity_live_activity">Live activiteit</string>
     <string name="weeksteps_today_steps_description">Stappen vandaag, doel: %1$s</string>
     <string name="pref_title_dont_ack_transfer">Bevestig de activiteitsdata transfer niet</string>
-    <string name="pref_summary_dont_ack_transfers">Als de activiteitsdata niet bevestigd wordt naar de armband, zal deze niet gewist worden. Dit is nuttig als GB gebruikt wordt samen met andere apps.</string>
+    <string name="pref_summary_dont_ack_transfers">Als er niet bevestigd wordt naar de armband, zullen de activiteitgegevens niet gewist worden. Dit is nuttig als GB gebruikt wordt samen met andere apps.</string>
     <string name="pref_summary_keep_data_on_device">Wij zullen activiteitsdata op de Mi Band houden zelfs na synchronisatie. Dit is nuttig als GB gebruikt wordt samen met andere apps.</string>
     <string name="pref_title_low_latency_fw_update">Gebruik lage vertragingstijd modus voor Firmware flashen</string>
     <string name="pref_summary_low_latency_fw_update">Dit kan helpen op toestellen waar firmware flashen faalt.</string>
@@ -399,18 +399,23 @@
     <string name="live_activity_heart_rate">Hartslag</string>
     <string name="pref_title_pebble_health_store_raw">Bewaar onbewerkte record in de database</string>
     <string name="pref_summary_pebble_health_store_raw">Slaat de data op \"zoals ze is\", dit vergroot het gebruik van de database om latere interpretatie mogelijk te maken.</string>
-    <string name="action_db_management">Database beheer</string>
-    <string name="title_activity_db_management">Database beheer</string>
-    <string name="activity_db_management_import_export_explanation">De database operaties gebruiken het volgende pad op uw toestel. 
-\nDit pad is toegankelijk voor andere Android apps en uw computer. 
-\nVerwacht uw geëxporteerde database daar (of plaats de database die u wil importeren) terug te vinden:</string>
+    <string name="action_db_management">Gegevensbeheer</string>
+    <string name="title_activity_db_management">Gegevensbeheer</string>
+    <string name="activity_db_management_import_export_explanation">De export-/importbewerkingen gebruiken het volgende pad (zie hieronder) naar een map op uw apparaat. Deze map is toegankelijk voor andere Android-apps en uw computer. Houd er rekening mee dat deze map en alle bestanden erin, worden verwijderd als u Gadgetbridge verwijdert. De gegevens omvatten:
+\nExport_preference - globale instellingen
+\nExport_preference_MAC - apparaatspecifieke instellingen
+\nGadgetbridge - apparaat- en activiteitendatabase
+\nGadgetbridge_date - database geëxporteerd op een datum
+\n* .gpx - GPS-opnames
+\n* .log - logbestanden
+\nUw geëxporteerde bestanden kunt u hier vinden (of plaats de bestanden die u wilt importeren hier):</string>
     <string name="activity_db_management_merge_old_title">Legacy-database verwijderen</string>
     <string name="dbmanagementactivvity_cannot_access_export_path">Export pad is niet toegankelijk. Neem contact op met de ontwikkelaars.</string>
     <string name="dbmanagementactivity_exported_to">Geëxporteerd naar: %1$s</string>
     <string name="dbmanagementactivity_error_exporting_db">Fout bij het exporteren DB: %1$s</string>
     <string name="dbmanagementactivity_error_exporting_shared">Fout bij het exporteren voorkeur: %1$s</string>
     <string name="dbmanagementactivity_import_data_title">Data importeren?</string>
-    <string name="dbmanagementactivity_overwrite_database_confirmation">Weet u zeker dat u de huidige database wil overschrijven? Al uw huidige activiteitsgegevens (indien aanwezig) zullen verloren gaan.</string>
+    <string name="dbmanagementactivity_overwrite_database_confirmation">Weet u zeker dat u de huidige gegevens wilt overschrijven\? Al uw huidige activiteitsgegevens (indien aanwezig) zullen verloren gaan.</string>
     <string name="dbmanagementactivity_import_successful">Geïmporteerd.</string>
     <string name="dbmanagementactivity_error_importing_db">Fout bij het importeren DB: %1$s</string>
     <string name="dbmanagementactivity_error_importing_shared">Fout bij het importeren voorkeur: %1$s</string>
@@ -514,7 +519,7 @@
     <string name="activity_type_walking">Wandelen</string>
     <string name="activity_type_swimming">Zwemmen</string>
     <string name="activity_type_unknown">Onbekend activiteit</string>
-    <string name="activity_summaries">Activiteiten</string>
+    <string name="activity_summaries">Sportactiviteiten</string>
     <string name="activity_type_biking">Fietsen</string>
     <string name="activity_type_treadmill">Loopband</string>
     <string name="select_all">Selecteer alles</string>
@@ -549,7 +554,7 @@
     <string name="polish">Pools</string>
     <string name="korean">Koreaans</string>
     <string name="japanese">Japans</string>
-    <string name="reset_index">Herstel ophaal datum</string>
+    <string name="reset_index">Reset ophaaldatum</string>
     <string name="devicetype_mykronoz_zetime">MyKronoz ZeTime</string>
     <string name="menuitem_notifications">Meldingen</string>
     <string name="controlcenter_change_led_color">Wijzig ledkleur</string>
@@ -725,14 +730,14 @@
     <string name="pref_title_expose_hr">realtime HR-toegang door derden</string>
     <string name="pref_title_use_custom_font">Gebruik aangepast lettertype</string>
     <string name="pref_summary_use_custom_font">Selecteer dit als je device aangepaste font software bevat met emoji ondersteuning</string>
-    <string name="activity_db_management_autoexport_explanation">Database autoexport locatie is ingesteld op:</string>
+    <string name="activity_db_management_autoexport_explanation">Database autoexport-locatie is ingesteld op:</string>
     <string name="activity_db_management_autoexport_label">Auto Exporteren</string>
-    <string name="activity_DB_ExportButton">Exporteer DB</string>
-    <string name="activity_DB_import_button">Importeer DB</string>
+    <string name="activity_DB_ExportButton">Exporteer gegevens</string>
+    <string name="activity_DB_import_button">Importeer gegevens</string>
     <string name="activity_DB_test_export_button">Voer nu AutoExport uit</string>
     <string name="activity_DB_test_export_message">Bezig database te exporteren…</string>
     <string name="activity_DB_delete_legacy_button">Verwijder oude DB</string>
-    <string name="activity_DB_empty_button">Leeg DB</string>
+    <string name="activity_DB_empty_button">Database legen</string>
     <string name="activity_db_management_empty_DB">Leeg Database</string>
     <string name="activity_db_management_exportimport_label">Exporteer en importeer</string>
     <string name="activity_db_management_empty_db_warning">Waarschuwing! Als je op deze knop drukt wis je je database en start je met een schone lei.</string>
@@ -757,7 +762,7 @@
     <string name="devicetype_makibes_hr3">Makibes HR3</string>
     <string name="devicetype_amazfit_bip_lite">Amazfit Bip Lite</string>
     <string name="prefs_find_phone">Vind telefoon</string>
-    <string name="prefs_enable_find_phone">Zet \\\'Vind telefoon\\\' aan</string>
+    <string name="prefs_enable_find_phone">\\\'Vind telefoon\\\' inschakelen</string>
     <string name="prefs_find_phone_summary">Gebruik je band om de beltoon van je telefoon af te spelen.</string>
     <string name="prefs_find_phone_duration">Belduur in seconden</string>
     <string name="maximum_duration">Duur</string>
@@ -905,11 +910,11 @@
 \n 
 \nGA VERDER OP EIGEN RISICO!</string>
     <string name="devicetype_amazfit_trex">Amazfit T-Rex</string>
-    <string name="about_additional_contributions">Veel dank aan alle niet-vermelde bijdragers voor het bijdragen van code, ondersteuning, ideeën, motivatie, bugrapporten, geld ... ✊</string>
+    <string name="about_additional_contributions">Hartelijk dank aan alle niet-vermelde bijdragers voor het bijdragen van code, vertalingen, ondersteuning, ideeën, motivatie, foutrapporten, geld ... ✊</string>
     <string name="about_additional_device_support">Extra apparaatondersteuning</string>
     <string name="about_contributors">Bijdragers</string>
     <string name="about_core_team_title">Kernteam (in volgorde van eerste codebijdrage)</string>
-    <string name="about_description">Een gratis en cloudloze vervanging voor de closed source Android-applicaties van uw gadgetverkoper.</string>
+    <string name="about_description">Cloudloze vrije vervanging voor de gesloten Android-applicaties van gadgetfabrikanten.</string>
     <string name="about_activity_title">Over Gadgetbridge</string>
     <string name="about_title">Over</string>
     <string name="pref_title_weather_summary">Gebruikt voor de LineageOS weer provider, andere Android versies moeten een app zoals \"Weather notification\" gebruiiken. Meer informatie is te vinden in de Gadgetbridge wiki.</string>
@@ -917,7 +922,7 @@
     <string name="error_background_service_reason_truncated">Het starten van de achtergrondservice is mislukt omdat…</string>
     <string name="error_background_service_reason">Het starten van de achtergronddienst is mislukt vanwege een uitzondering. Fout:</string>
     <string name="error_background_service">Kan de achtergrondservice niet starten</string>
-    <string name="error_version_check_extreme_caution">LET OP: Fout bij het controleren van versie-informatie! Je moet niet doorgaan! Zag versie naam \"% s\"</string>
+    <string name="error_version_check_extreme_caution">LET OP: Fout bij het controleren van versie-informatie! Je moet niet doorgaan! Zag versienaam \"%s\"</string>
     <string name="permission_granting_mandatory">Al deze toestemmingen zijn vereist en er kan instabiliteit ontstaan als ze niet worden verleend</string>
     <string name="menuitem_stress">Spanning</string>
     <string name="menuitem_cycles">Cycli</string>
@@ -952,7 +957,7 @@
     <string name="activity_type_pingpong">Vingerpong</string>
     <string name="activity_type_basketball">Basketbal</string>
     <string name="activity_type_soccer">Voetbal</string>
-    <string name="activity_type_yoga"></string>
+    <string name="activity_type_yoga">Yoga</string>
     <string name="activity_type_elliptical_trainer">Elliptische Trainer</string>
     <string name="activity_type_indoor_cycling">Binnenshuis fietsen</string>
     <string name="activity_type_swimming_openwater">Zwemmen (Open water)</string>
@@ -963,4 +968,228 @@
     <string name="sonyswr12_settings_low_vibration_summary">Schakel lage trillingsintensiteit op de band in</string>
     <string name="sonyswr12_settings_stamina_summary">De energiebesparende modus schakelt de periodieke automatische hartslagmeting uit, waardoor de werktijd toeneemt</string>
     <string name="sonyswr12_settings_alarm_interval_summary">Slimme alarminterval is het interval vóór het geïnstalleerde alarm. In dit interval probeert het apparaat de lichtste slaapfase te detecteren om de gebruiker wakker te maken</string>
+    <string name="prefs_autoremove_message">SMS-meldingen automatisch verwijderen</string>
+    <string name="prefs_fake_ring_duration">Continu rinkelen nadoen</string>
+    <string name="prefs_operating_sounds">Bedieningsgeluiden</string>
+    <string name="prefs_key_vibration">Knoptrilling</string>
+    <string name="prefs_autolight">Automatisch licht</string>
+    <string name="qhybrid_calibration_align_hint">stel de wijzers in op 12:00</string>
+    <string name="prefs_events_forwarding_action_title">Actie uitvoeren</string>
+    <string name="gps_track">GPS-track</string>
+    <string name="Distance">Afstand</string>
+    <string name="Swimming">Zwemmen</string>
+    <string name="Strokes">Slagen</string>
+    <string name="mi">mi</string>
+    <string name="km">km</string>
+    <string name="bpm">bpm</string>
+    <string name="minutes_km">min/km</string>
+    <string name="seconds_m">sec/m</string>
+    <string name="seconds_km">sec/km</string>
+    <string name="calories_unit">kcal</string>
+    <string name="laps_unit">rondes</string>
+    <string name="swim_style">zwemstijl</string>
+    <string name="swolf_index">SWOLF-index</string>
+    <string name="seconds">sec</string>
+    <string name="strokes_second">slg/s</string>
+    <string name="strokes_unit">slg</string>
+    <string name="minutes_mi">min/mi</string>
+    <string name="mi_h">mi/u</string>
+    <string name="km_h">km/u</string>
+    <string name="meters_second">m/s</string>
+    <string name="steps_unit">stappen</string>
+    <string name="ft">ft</string>
+    <string name="cm">cm</string>
+    <string name="meters">m</string>
+    <string name="averageSpeed">Gemiddelde snelheid</string>
+    <string name="baseAltitude">Basishoogte</string>
+    <string name="flatSeconds">Vlak</string>
+    <string name="descentSeconds">Dalend</string>
+    <string name="ascentSeconds">Stijgend</string>
+    <string name="laps">Rondes</string>
+    <string name="swimStyle">swimStyle</string>
+    <string name="swolfIndex">swolfIndex</string>
+    <string name="fw_upgrade_notice_amazfitvergel">Je staat op het punt om de %s -firmware op je Amazfit Verge Lite te installeren.
+\n
+\nZorg ervoor dat je het .fw-bestand installeert, vervolgens het .res-bestand en tenslotte het .gps-bestand. Je horloge zal opnieuw opstarten nadat je het .fw-bestand hebt geïnstalleerd.
+\n
+\nOpmerking: je hoeft .res en .gps niet te installeren als deze bestanden exact hetzelfde zijn als de eerder geïnstalleerde bestanden.
+\n
+\nVERDERGAAN IS OP EIGEN RISICO!</string>
+    <string name="fw_upgrade_notice_amazfitx">Je staat op het punt om de %s -firmware op je Amazfit X te installeren.
+\n
+\nZorg ervoor dat u het .fw-bestand installeert en daarna het .res-bestand. Je band zal opnieuw opstarten na het installeren van het .fw-bestand.
+\n
+\nOpmerking: je hoeft .res niet te installeren als het exact hetzelfde is als de eerder geïnstalleerde versie.
+\n
+\nVERDERGAAN IS OP EIGEN RISICO!</string>
+    <string name="about_links">Websites</string>
+    <string name="about_version">Versie %s</string>
+    <string name="widget_settings_select_device_title">Selecteer apparaat</string>
+    <string name="menuitem_pomodoro">Pomodoro-tracker</string>
+    <string name="menuitem_sleep">Slaap</string>
+    <string name="menuitem_goal">Activiteitdoel</string>
+    <string name="menuitem_stopwatch">Stopwatch</string>
+    <string name="menuitem_dnd">Niet storen</string>
+    <string name="menuitem_alexa">Alexa</string>
+    <string name="menuitem_takephoto">Neem een foto</string>
+    <string name="menuitem_mutephone">Telefoon dempen</string>
+    <string name="menuitem_findphone">Vind telefoon</string>
+    <string name="menuitem_spo2">SpO2</string>
+    <string name="devicetype_amazfit_vergel">Amazfit Verge Lite</string>
+    <string name="devicetype_waspos">Wasp-os</string>
+    <string name="devicetype_casiogbx100">Casio GBX-100</string>
+    <string name="devicetype_zepp_e">Zepp E</string>
+    <string name="devicetype_amazfit_x">Amazfit X</string>
+    <string name="devicetype_amazfit_gts2e">Amazfit GTS 2e</string>
+    <string name="devicetype_amazfit_gts2_mini">Amazfit GTS 2 Mini</string>
+    <string name="devicetype_amazfit_gts2">Amazfit GTS 2</string>
+    <string name="devicetype_amazfit_gtr2e">Amazfit GTR 2e</string>
+    <string name="devicetype_amazfit_gtr2">Amazfit GTR 2</string>
+    <string name="devicetype_amazfit_bipupro">Amazfit Bip U Pro</string>
+    <string name="devicetype_amazfit_bipu">Amazfit Bip U</string>
+    <string name="devicetype_amazfit_bips_lite">Amazfit Bip S Lite</string>
+    <string name="devicetype_amazfit_neo">Amazfit Neo</string>
+    <string name="devicetype_amazfit_band5">Amazfit Band 5</string>
+    <string name="activity_type_strength_training">Krachttraining</string>
+    <string name="dbmanagementactivity_export_finished">Verwijdering voltooid</string>
+    <string name="activity_db_management_clean_export_directory_text">Geëxporteerde bestanden in de export/import-directory zijn toegankelijk voor elke app op uw apparaat. Mogelijk wilt u deze bestanden verwijderen na synchronisatie of back-up. Zorg ervoor dat u een back-up hebt voordat u ze verwijdert. GPX-bestanden, submappen en automatisch geëxporteerde databasebestanden (indien aanwezig) worden niet verwijderd. Het pad naar de export/import-directory is:</string>
+    <string name="activity_DB_clean_export_directory_warning_message">Echt bestanden verwijderen in de export/import-directory\?</string>
+    <string name="activity_DB_clean_export_directory_warning_title">Bestanden verwijderen in de export/import-directory\?</string>
+    <string name="activity_db_management_clean_export_directory_label">Verwijder bestanden in de export/import-map</string>
+    <string name="activity_DB_ShowContentButton">Toon de inhoud van de export/import-map</string>
+    <string name="activity_data_management_directory_content_title">Directory-inhoud exporteren/importeren</string>
+    <string name="dbmanagementactivity_export_confirmation">Echt gegevens exporteren\? Eerder geëxporteerde activiteitsgegevens (indien aanwezig) en voorkeuren worden overschreven.</string>
+    <string name="dbmanagementactivity_export_data_title">Exporteer data\?</string>
+    <string name="dbmanagementactivity_error_cleaning_export_directory">Fout bij het wissen van bestanden uit de exportdirectory %1$s</string>
+    <string name="charts_legend_heartrate_average">Gemiddelde hartslag</string>
+    <string name="activity_prefs_step_length_cm">Stapgrootte in cm</string>
+    <string name="charts_min_max_heartrate_popup">Laagste hartslag: %1$d
+\nHoogste hartslag: %2$d
+\nIntensiteit beweging: %3$s</string>
+    <string name="movement_intensity">Intensiteit beweging</string>
+    <string name="show_ongoing_activity">Toon lopende activiteit pop-up</string>
+    <string name="dialog_hide">Verbergen</string>
+    <string name="activity_list_summary_activities">Activiteiten</string>
+    <string name="activity_list_summary_intensity">Intensiteit
+\nbeweging</string>
+    <string name="activity_list_summary_active_time">Actieve tijd</string>
+    <string name="activity_list_summary_distance">Afstand</string>
+    <string name="activity_list_summary_active_steps">Actieve stappen</string>
+    <string name="prefs_charts_tabs_summary">Zichtbare grafiekentabs</string>
+    <string name="prefs_charts_tabs">Grafiekentab</string>
+    <string name="discovery_entered_invalid_authkey">De ingevoerde geheime sleutel is niet correct! Druk lang op het apparaat om hem aan te passen.</string>
+    <string name="pref_summary_connected_advertisement">Maakt het apparaat vindbaar via Bluetooth zelfs wanneer het verbonden is</string>
+    <string name="pref_title_connected_advertisement">Zichtbaar wanneer verbonden</string>
+    <string name="calendar_year">Jaar</string>
+    <string name="calendar_six_months">Zes maanden</string>
+    <string name="calendar_month">Maand</string>
+    <string name="calendar_two_weeks">Twee weken</string>
+    <string name="calendar_week">Week</string>
+    <string name="calendar_day">Dag</string>
+    <string name="battery_level">Batterijniveau</string>
+    <string name="battery_detail_activity_title">Batterij-informatie</string>
+    <string name="devicetype_nut_mini">Nut mini</string>
+    <string name="medley">Wisselslag</string>
+    <string name="backstroke">Rugslag</string>
+    <string name="freestyle">Vrije slag</string>
+    <string name="breaststroke">Schoolslag</string>
+    <string name="activity_filter_to_placeholder">vandaag</string>
+    <string name="activity_filter_from_placeholder">ver verleden</string>
+    <string name="activity_summaries_all_devices">Alle apparaten</string>
+    <string name="sports_activity_quick_filter_select">Tijdsperiode</string>
+    <string name="sports_activity_quick_filter_30days">30 dagen</string>
+    <string name="sports_activity_quick_filter_7days">7 dagen</string>
+    <string name="sports_activity_quick_filter_last_month">Vorige maand</string>
+    <string name="sports_activity_quick_filter_this_month">Deze maand</string>
+    <string name="sports_activity_quick_filter_last_week">Vorige week</string>
+    <string name="sports_activity_quick_filter_this_week">Deze week</string>
+    <string name="activity_summaries_all_activities">Alle activiteiten</string>
+    <string name="activity_summaries_statistics">Statistieken</string>
+    <string name="no">Nee</string>
+    <string name="yes">Ja</string>
+    <string name="activity_filter_individual_items">Los geselecteerde items</string>
+    <string name="addto_filter">Toevoegen aan filter</string>
+    <string name="activity_filter_apply_filter">Filter toepassen</string>
+    <string name="activity_filter_name_contains">Naam</string>
+    <string name="activity_filter_filter_title">Filter</string>
+    <string name="activity_filter_reset_filter">Reset Filter</string>
+    <string name="activity_filter_date_to">Tot</string>
+    <string name="activity_filter_date_from">Van</string>
+    <string name="pref_header_statistics">Activiteitstatistieken</string>
+    <string name="pref_header_filter">Activiteitenfilter</string>
+    <string name="prefs_events_forwarding_broadcast_title">Broadcast-bericht</string>
+    <string name="prefs_events_forwarding_startnonwear">Bij niet-dragen</string>
+    <string name="prefs_events_forwarding_wokeup">Bij wakker worden</string>
+    <string name="prefs_events_forwarding_fellsleep">Bij in slaap vallen</string>
+    <string name="prefs_events_forwarding_title">Apparaatacties</string>
+    <string name="prefs_events_forwarding_summary">Gebruik apparaatevenementen om acties en Android Broadcasts te starten</string>
+    <string name="activity_detail_show_gps_label">Toon GPS-route</string>
+    <string name="activity_detail_duration_label">Duur</string>
+    <string name="activity_detail_end_label">Eind</string>
+    <string name="activity_detail_start_label">Begin</string>
+    <string name="Steps">Stappen</string>
+    <string name="Activity">Activiteit</string>
+    <string name="Speed">Snelheid</string>
+    <string name="Elevation">Hoogte</string>
+    <string name="averageLapPace">Gemiddelde rondetempo</string>
+    <string name="averageStrokesPerSecond">Gemiddelde slagen</string>
+    <string name="averageStrokeDistance">Gemiddelde slaglengte</string>
+    <string name="averageStride">Gemiddelde paslengte</string>
+    <string name="averageKMPaceSeconds">Tempo</string>
+    <string name="averageHR">Hartslag</string>
+    <string name="totalStride">Totaal aantal stappen</string>
+    <string name="maxPace">Snelste tempo</string>
+    <string name="minPace">Langzaamste tempo</string>
+    <string name="maxSpeed">Maximum</string>
+    <string name="caloriesBurnt">Calorieën</string>
+    <string name="activeSeconds">Actief</string>
+    <string name="steps">Stappen</string>
+    <string name="descentMeters">Bergaf</string>
+    <string name="ascentMeters">Bergop</string>
+    <string name="distanceMeters">Afstand</string>
+    <string name="pref_title_lower_button_function_double">Onderknop dubbel</string>
+    <string name="pref_title_middle_button_function_double">Middenknop dubbel</string>
+    <string name="pref_title_upper_button_function_double">Bovenknop dubbel</string>
+    <string name="pref_title_lower_button_function_long">Onderknop lang</string>
+    <string name="pref_title_middle_button_function_long">Middenknop lang</string>
+    <string name="pref_title_upper_button_function_long">Bovenknop lang</string>
+    <string name="pref_title_lower_button_function_short">Onderknop kort</string>
+    <string name="pref_title_middle_button_function_short">Middenknop kort</string>
+    <string name="pref_title_upper_button_function_short">Bovenknop kort</string>
+    <string name="devicetype_lefun">Lefun</string>
+    <string name="devicetype_sg2">Lemfo SG2</string>
+    <string name="devicetype_pinetime_jf">PineTime (JF Firmware)</string>
+    <string name="activity_error_no_app_for_png">Installeer een geschikte app om de schermafbeelding te delen.</string>
+    <string name="activity_summary_detail">Activiteitdetails</string>
+    <string name="activity_type_badminton">Badminton</string>
+    <string name="activity_type_cricket">Cricket</string>
+    <string name="activity_type_rowing_machine">Roeitrainer</string>
+    <string name="activity_type_jump_roping">Touwtjespringen</string>
+    <string name="activity_prefs_chart_min_session_length">Minimale activiteitsduur (minuten)</string>
+    <string name="activity_prefs_chart_max_idle_phase_length">Onderbrekingsduur om activiteiten te scheiden (minuten)</string>
+    <string name="activity_prefs_chart_min_steps_per_minute">Minimale stappen per minuut voor detectie activiteit</string>
+    <string name="activity_prefs_chart_min_steps_per_minute_for_run">Minimale stappen per minuut voor detectie rennen</string>
+    <string name="lefun_prefs_hydration_reminder_interval_title">Interval herinnering om te drinken (in minuten)</string>
+    <string name="lefun_prefs_hydration_reminder_title">Herinnering om te drinken</string>
+    <string name="devicestatus_disconnected">Apparaat is losgekoppeld!</string>
+    <string name="devicestatus_disconnecting">Apparaat wordt losgekoppeld!</string>
+    <string name="lefun_prefs_interface_language_title">Schermtaal</string>
+    <string name="lefun_prefs_antilost_summary">De band zal trillen als het de verbinding met de telefoon kwijt raakt</string>
+    <string name="lefun_prefs_antilost_title">Anti-verlies</string>
+    <string name="lefun_prefs_hydration_reminder_summary">De band zal trillen om je te herinneren dat je wat moet drinken</string>
+    <string name="firmware_update_progress">Upload is bezig
+\n%1d%% met %.2fkbps (gemiddeld %.2fkbps)
+\nDeel %1d van %1d</string>
+    <string name="devicestatus_upload_failed">Upload is mislukt</string>
+    <string name="devicestatus_upload_aborted">Upload is afgebroken!</string>
+    <string name="devicestatus_upload_validating">Upload wordt gecontroleerd</string>
+    <string name="devicestatus_upload_completed">Upload is voltooid</string>
+    <string name="devicestatus_upload_started">Upload is gestart</string>
+    <string name="devicestatus_upload_starting">Upload wordt gestart</string>
+    <string name="devicestatus_connected">Apparaat is verbonden</string>
+    <string name="devicestatus_connecting">Apparaat maakt verbinding</string>
+    <string name="charts_activity_list">Activiteitenoverzicht</string>
+    <string name="chart_get_active_and_synchronize">Voer een activiteit uit en synchroniseer apparaat.</string>
+    <string name="chart_no_active_data">Geen activiteiten gedetecteerd.</string>
+    <string name="find_lost_device_message">Zoeken naar %1$s\?</string>
 </resources>
