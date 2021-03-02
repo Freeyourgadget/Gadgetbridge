@@ -1193,4 +1193,6 @@
     <string name="calendar_week">Неделя</string>
     <string name="calendar_day">День</string>
     <string name="battery_level">Уровень заряда батареи</string>
+    <string name="show_ongoing_activity">Показать всплывающее окно с текущей активностью</string>
+    <string name="dialog_hide">Скрыть</string>
 </resources>
