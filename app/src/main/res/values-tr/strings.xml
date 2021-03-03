@@ -1208,7 +1208,7 @@
 \n
 \nİLERLEMENİZ DURUMUNDA RİSK SİZE AİTTİR!</string>
     <string name="calendar_year">Yıl</string>
-    <string name="calendar_six_months">Altı ay</string>
+    <string name="calendar_six_months">6 ay</string>
     <string name="calendar_month">Ay</string>
     <string name="calendar_two_weeks">İki hafta</string>
     <string name="calendar_week">Hafta</string>
@@ -1216,4 +1216,5 @@
     <string name="battery_level">Pil seviyesi</string>
     <string name="show_ongoing_activity">Devam eden etkinlik açılır penceresini göster</string>
     <string name="dialog_hide">Gizle</string>
+    <string name="calendar_three_months">3 ay</string>
 </resources>
