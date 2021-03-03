@@ -32,7 +32,8 @@
     <string name="calendar_week">Week</string>
     <string name="calendar_two_weeks">Two weeks</string>
     <string name="calendar_month">Month</string>
-    <string name="calendar_six_months">Six months</string>
+    <string name="calendar_three_months">3 months</string>
+    <string name="calendar_six_months">6 months</string>
     <string name="calendar_year">Year</string>
     <!-- Strings related to Debug Activity -->
     <string name="title_activity_debug">Debug</string>

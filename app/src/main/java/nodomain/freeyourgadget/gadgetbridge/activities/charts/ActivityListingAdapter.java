@@ -38,6 +38,7 @@ public class ActivityListingAdapter extends AbstractActivityListingAdapter<Activ
     protected static final Logger LOG = LoggerFactory.getLogger(AbstractWeekChartFragment.class);
     protected final int ANIM_TIME = 250;
     private final int SESSION_SUMMARY = ActivitySession.SESSION_SUMMARY;
+    private final int SESSION_EMPTY = ActivitySession.SESSION_EMPTY;
     ActivityUser activityUser = new ActivityUser();
     int stepsGoal = activityUser.getStepsGoal();
     int distanceGoalMeters = activityUser.getDistanceMeters();
@@ -257,6 +258,11 @@ public class ActivityListingAdapter extends AbstractActivityListingAdapter<Activ
             unit = "###.#km";
         }
 
+        if (distanceMeters > 999000) {
+            distanceFormatted = distanceMeters / 1000;
+            unit = "###km";
+        }
+
         String units = GBApplication.getPrefs().getString(SettingsActivity.PREF_MEASUREMENT_SYSTEM, GBApplication.getContext().getString(R.string.p_unit_metric));
         if (units.equals(GBApplication.getContext().getString(R.string.p_unit_imperial))) {
             unit = "###ft";
@@ -264,6 +270,10 @@ public class ActivityListingAdapter extends AbstractActivityListingAdapter<Activ
             if (distanceFeet > 6000) {
                 distanceFormatted = distanceFeet * 0.0001893939f;
                 unit = "###.#mi";
+            }
+            if (distanceFeet > 5274721) {
+                distanceFormatted = distanceFeet * 0.0001893939f;
+                unit = "###mi";
             }
         }
         DecimalFormat df = new DecimalFormat(unit);
@@ -337,6 +347,12 @@ public class ActivityListingAdapter extends AbstractActivityListingAdapter<Activ
     protected boolean isSummary(ActivitySession item, int position) {
         int sessionType = item.getSessionType();
         return sessionType == SESSION_SUMMARY;
+    }
+
+    @Override
+    protected boolean isEmptySession(ActivitySession item, int position) {
+        int sessionType = item.getSessionType();
+        return sessionType == SESSION_EMPTY;
     }
 
     @Override

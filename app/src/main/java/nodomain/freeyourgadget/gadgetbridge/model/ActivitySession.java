@@ -9,6 +9,7 @@ public class ActivitySession {
     public static int SESSION_NORMAL = 1;
     public static int SESSION_SUMMARY = 2;
     public static int SESSION_ONGOING = 3;
+    public static int SESSION_EMPTY = 4;
 
     private final Date startTime;
     private final Date endTime;
@@ -36,6 +37,16 @@ public class ActivitySession {
         this.distance = distance;
         this.activityKind = activityKind;
     }
+
+    public ActivitySession(){
+        this.startTime = null;
+        this.endTime = null;
+        this.activeSteps=0;
+        this.heartRateAverage = 0;
+        this.intensity = 0;
+        this.distance = 0;
+        this.activityKind = 0;
+    };
 
     public Date getStartTime() {
         return startTime;

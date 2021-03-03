@@ -22,9 +22,8 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/stepsDateView"
         android:layout_alignParentBottom="false"
+        android:layout_marginBottom="0dp"
         android:layout_marginTop="0dp">
-
-
     </ListView>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -37,8 +36,8 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
-        android:layout_marginBottom="8dp"
-        app:srcCompat="@drawable/ic_show_chart" />
+        android:layout_marginBottom="9dp"
+        app:srcCompat="@drawable/ic_insights" />
 
 
 

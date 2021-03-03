@@ -37,6 +37,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
@@ -368,6 +370,20 @@ public class DebugActivity extends AbstractGBActivity {
             @Override
             public void onClick(View v) {
                 deleteWidgetsPrefs();
+            }
+        });
+
+        CheckBox activity_list_debug_extra_time_range = findViewById(R.id.activity_list_debug_extra_time_range);
+        activity_list_debug_extra_time_range.setAllCaps(true);
+        boolean activity_list_debug_extra_time_range_value = GBApplication.getPrefs().getPreferences().getBoolean("activity_list_debug_extra_time_range", false);
+        activity_list_debug_extra_time_range.setChecked(activity_list_debug_extra_time_range_value);
+
+        activity_list_debug_extra_time_range.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                GBApplication.getPrefs().getPreferences().getBoolean("activity_list_debug_extra_time_range", false);
+                SharedPreferences.Editor editor = GBApplication.getPrefs().getPreferences().edit();
+                editor.putBoolean("activity_list_debug_extra_time_range", b).apply();
             }
         });
 

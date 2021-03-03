@@ -27,6 +27,8 @@ import android.view.ViewGroup;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import androidx.fragment.app.FragmentManager;
+
 import com.github.mikephil.charting.charts.Chart;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
@@ -48,7 +50,7 @@ import nodomain.freeyourgadget.gadgetbridge.util.DateTimeUtils;
 
 public class ActivityListingChartFragment extends AbstractChartFragment {
     protected static final Logger LOG = LoggerFactory.getLogger(ActivityListingChartFragment.class);
-    int tsDateFrom;
+    int tsDateTo;
 
     private View rootView;
     private ActivityListingAdapter stepListAdapter;
@@ -65,7 +67,13 @@ public class ActivityListingChartFragment extends AbstractChartFragment {
         stepsDateView = rootView.findViewById(R.id.stepsDateView);
         FloatingActionButton fab;
         fab = rootView.findViewById(R.id.fab);
-        fab.setVisibility(View.GONE);
+        fab.setVisibility(View.VISIBLE);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showDashboard(tsDateTo, getChartsHost().getDevice());
+            }
+        });
 
         refresh();
         return rootView;
@@ -103,7 +111,11 @@ public class ActivityListingChartFragment extends AbstractChartFragment {
             if (stepSessions.toArray().length == 0) {
                 isEmptySummary = true;
             }
-            stepSessions = stepAnalysis.calculateSummary(stepSessions, isEmptySummary);
+            ActivitySession stepSessionsSummary = stepAnalysis.calculateSummary(stepSessions, isEmptySummary);
+            stepSessions.add(0, stepSessionsSummary);
+            ActivitySession emptySession = new ActivitySession();
+            emptySession.setSessionType(ActivitySession.SESSION_EMPTY);
+            stepSessions.add(emptySession); //this is to have an empty item at the end to be able to use FAB without it blocking anything
             ongoingSession = stepAnalysis.getOngoingSessions(stepSessions);
         }
         return new MyChartsData(stepSessions, ongoingSession);
@@ -118,7 +130,7 @@ public class ActivityListingChartFragment extends AbstractChartFragment {
             getChartsHost().enableSwipeRefresh(false); //disable pull to refresh as it collides with swipable view
         }
 
-        stepsDateView.setText(DateTimeUtils.formatDate(new Date(tsDateFrom * 1000L)));
+        stepsDateView.setText(DateTimeUtils.formatDate(new Date(tsDateTo * 1000L)));
         if (GBApplication.getPrefs().getBoolean("charts_show_ongoing_activity", true)) {
             if (mcd.getOngoingSession() != null) {
                 showOngoingActivitySnackbar(mcd.getOngoingSession());
@@ -144,7 +156,7 @@ public class ActivityListingChartFragment extends AbstractChartFragment {
         day.set(Calendar.SECOND, 0);
         tsFrom = (int) (day.getTimeInMillis() / 1000);
         tsTo = tsFrom + 24 * 60 * 60 - 1;
-        tsDateFrom = tsFrom;
+        tsDateTo = tsTo;
         return getAllSamples(db, device, tsFrom, tsTo);
     }
 
@@ -174,6 +186,14 @@ public class ActivityListingChartFragment extends AbstractChartFragment {
                 }
         );
         snackbar.show();
+    }
+
+    private void showDashboard(int date, GBDevice device) {
+
+        FragmentManager fm = getActivity().getSupportFragmentManager();
+        ActivityListingDashboard editNameDialogFragment = ActivityListingDashboard.newInstance(date, device);
+        editNameDialogFragment.show(fm, "activity_list_total_dashboard");
+
     }
 
     private static class MyChartsData extends ChartsData {

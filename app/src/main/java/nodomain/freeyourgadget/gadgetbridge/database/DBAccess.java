@@ -39,6 +39,7 @@ public abstract class DBAccess extends AsyncTask {
     }
 
     protected abstract void doInBackground(DBHandler handler);
+    protected abstract void onPreExecute();
 
     @Override
     protected Object doInBackground(Object[] params) {
@@ -56,6 +57,8 @@ public abstract class DBAccess extends AsyncTask {
             displayError(mError);
         }
     }
+
+
 
     protected void displayError(Throwable error) {
         GB.toast(getContext(), getContext().getString(R.string.dbaccess_error_executing, error.getMessage()), Toast.LENGTH_LONG, GB.ERROR, error);

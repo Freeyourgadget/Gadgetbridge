@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/activity_battery_info_master_layout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="0dp"
+    android:layout_marginTop="10dp"
+    android:layout_marginBottom="10dp"
+    android:gravity="center|center_vertical"
+    android:minWidth="1000dp"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:id="@+id/activity_list_dashboard_loading_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <ImageView
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_marginStart="35dp"
+            android:layout_marginTop="35dp"
+            app:srcCompat="@drawable/gadgetbridge_img" />
+
+        <ProgressBar
+            android:layout_width="171dp"
+            android:layout_height="171dp"
+            android:indeterminate="true" />
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/activity_list_dashboard_results_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="30dp"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:baselineAligned="false"
+            android:gravity="bottom|center"
+            android:orientation="horizontal">
+
+            <include layout="@layout/layout_widget_active_steps" />
+
+            <include layout="@layout/layout_widget_distance" />
+
+            <include layout="@layout/layout_widget_duration" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:baselineAligned="false"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <include layout="@layout/layout_widget_total_steps" />
+
+            <ImageView
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                app:srcCompat="@drawable/gadgetbridge_img" />
+
+            <include layout="@layout/layout_widget_activities_count" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <include
+        layout="@layout/layout_widget_duration_selector"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+</LinearLayout>

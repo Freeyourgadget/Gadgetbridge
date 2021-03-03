@@ -398,6 +398,9 @@ public class ActivitySummariesAdapter extends AbstractActivityListingAdapter<Bas
     }
 
     @Override
+    protected boolean isEmptySession(BaseActivitySummary item, int position) { return false; }
+
+    @Override
     protected boolean isEmptySummary(BaseActivitySummary item) {
         return false;
     }

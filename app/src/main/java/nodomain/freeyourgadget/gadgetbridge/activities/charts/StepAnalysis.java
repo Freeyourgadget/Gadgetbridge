@@ -35,6 +35,7 @@ public class StepAnalysis {
     private int totalDailySteps = 0;
 
     public List<ActivitySession> calculateStepSessions(List<? extends ActivitySample> samples) {
+        LOG.debug("get all samples activitysessions: " + samples.toArray().length);
         List<ActivitySession> result = new ArrayList<>();
         ActivityUser activityUser = new ActivityUser();
         double STEP_LENGTH_M;
@@ -154,7 +155,7 @@ public class StepAnalysis {
         return result;
     }
 
-    public List<ActivitySession> calculateSummary(List<ActivitySession> sessions, boolean empty) {
+    public ActivitySession calculateSummary(List<ActivitySession> sessions, boolean empty) {
 
         Date startTime = null;
         Date endTime = null;
@@ -164,7 +165,7 @@ public class StepAnalysis {
         int distanceSum = 0;
         float intensitySum = 0;
         int sessionCount;
-        int durationSum = 0;
+        long durationSum = 0;
 
         for (ActivitySession session : sessions) {
             startTime = session.getStartTime();
@@ -192,11 +193,7 @@ public class StepAnalysis {
 
 
         stepSessionSummary.setTotalDaySteps(totalDailySteps);
-
-        List<ActivitySession> newList = new ArrayList<>();
-        newList.add(stepSessionSummary);
-        newList.addAll(sessions);
-        return newList;
+        return stepSessionSummary;
     }
 
     public ActivitySession getOngoingSessions(List<ActivitySession> sessions) {
