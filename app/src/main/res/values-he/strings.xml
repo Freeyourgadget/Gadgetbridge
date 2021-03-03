@@ -1180,7 +1180,7 @@
 \n
 \nהמשך התהליך הוא על אחריותך!</string>
     <string name="calendar_year">שנה</string>
-    <string name="calendar_six_months">שישה חודשים</string>
+    <string name="calendar_six_months">6 חודשים</string>
     <string name="calendar_month">חודש</string>
     <string name="calendar_two_weeks">שבועיים</string>
     <string name="calendar_week">שבוע</string>
@@ -1188,4 +1188,5 @@
     <string name="battery_level">רמת הסוללה</string>
     <string name="show_ongoing_activity">הצגת חלונית פעילות נוכחית</string>
     <string name="dialog_hide">הסתרה</string>
+    <string name="calendar_three_months">3 חודשים</string>
 </resources>
