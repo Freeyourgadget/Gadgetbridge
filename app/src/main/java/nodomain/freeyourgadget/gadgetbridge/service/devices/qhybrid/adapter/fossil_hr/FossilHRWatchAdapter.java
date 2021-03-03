@@ -54,6 +54,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
+import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHelper;
@@ -191,7 +192,7 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
         queueWrite(new SetDeviceStateRequest(GBDevice.State.INITIALIZING));
 
         if (!authenticated)
-            GB.toast("Authentication failed, limited functionality", Toast.LENGTH_LONG, GB.ERROR);
+            GB.toast(getContext().getString(R.string.fossil_hr_auth_failed), Toast.LENGTH_LONG, GB.ERROR);
 
         loadNotificationConfigurations();
         queueWrite(new NotificationFilterPutHRRequest(this.notificationConfigurations, this));
@@ -242,7 +243,7 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
     @Override
     public void setVibrationStrength(short strength) {
         if (connectionMode == CONNECTION_MODE.NOT_AUTHENTICATED) {
-            GB.toast("not available in unauthenticated mode", Toast.LENGTH_LONG, GB.ERROR);
+            GB.toast(getContext().getString(R.string.fossil_hr_unavailable_unauthed), Toast.LENGTH_LONG, GB.ERROR);
             return;
         }
 
@@ -739,7 +740,7 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
     @Override
     public void setTime() {
         if (connectionMode == CONNECTION_MODE.NOT_AUTHENTICATED) {
-            GB.toast("not available in unauthenticated mode", Toast.LENGTH_LONG, GB.ERROR);
+            GB.toast(getContext().getString(R.string.fossil_hr_unavailable_unauthed), Toast.LENGTH_LONG, GB.ERROR);
             return;
         }
         queueWrite(
@@ -786,7 +787,7 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
     @Override
     public void onFetchActivityData() {
         if (connectionMode == CONNECTION_MODE.NOT_AUTHENTICATED) {
-            GB.toast("not available in unauthenticated mode", Toast.LENGTH_LONG, GB.ERROR);
+            GB.toast(getContext().getString(R.string.fossil_hr_unavailable_unauthed), Toast.LENGTH_LONG, GB.ERROR);
             return;
         }
 
@@ -817,7 +818,7 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
                                 writeFile(String.valueOf(System.currentTimeMillis()), fileData);
                             }
                             queueWrite(new FileDeleteRequest(fileHandle));
-                            GB.toast("synced activity data", Toast.LENGTH_SHORT, GB.INFO);
+                            GB.toast(getContext().getString(R.string.fossil_hr_synced_activity_data), Toast.LENGTH_SHORT, GB.INFO);
                         } catch (Exception ex) {
                             GB.toast(getContext(), "Error saving steps data: " + ex.getLocalizedMessage(), Toast.LENGTH_LONG, GB.ERROR);
                             GB.updateTransferNotification(null, "Data transfer failed", false, 0, getContext());
@@ -856,7 +857,7 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
 
     private void syncSettings() {
         if (connectionMode == CONNECTION_MODE.NOT_AUTHENTICATED) {
-            GB.toast("not available in unauthenticated mode", Toast.LENGTH_LONG, GB.ERROR);
+            GB.toast(getContext().getString(R.string.fossil_hr_unavailable_unauthed), Toast.LENGTH_LONG, GB.ERROR);
             return;
         }
 
@@ -1325,7 +1326,7 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
                         return;
                     }
 
-                    queueWrite(new SetCommuteMenuMessage("Anfrage wird weitergeleitet...", false, this));
+                    queueWrite(new SetCommuteMenuMessage(getContext().getString(R.string.fossil_hr_commute_processing), false, this));
 
                     Intent menuIntent = new Intent(QHybridSupport.QHYBRID_EVENT_COMMUTE_MENU);
                     menuIntent.putExtra("EXTRA_ACTION", action);

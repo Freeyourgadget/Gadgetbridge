@@ -1142,4 +1142,8 @@
     <string name="prefs_operating_sounds">Operating Sounds</string>
     <string name="prefs_fake_ring_duration">Fake continuous ringing</string>
     <string name="prefs_autoremove_message">Automatically remove SMS notifications</string>
+    <string name="fossil_hr_commute_processing">Processing request...</string>
+    <string name="fossil_hr_synced_activity_data">Synchronised activity data</string>
+    <string name="fossil_hr_unavailable_unauthed">Not available in unauthenticated mode</string>
+    <string name="fossil_hr_auth_failed">Authentication failed, limited functionality</string>
 </resources>
