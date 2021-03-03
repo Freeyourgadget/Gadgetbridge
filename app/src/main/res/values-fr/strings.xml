@@ -1186,4 +1186,5 @@ Temps de sommeil préféré en heures</string>
     <string name="battery_level">Niveau de batterie</string>
     <string name="show_ongoing_activity">Afficher une popup pour l\'activité en cours</string>
     <string name="dialog_hide">Cacher</string>
+    <string name="calendar_three_months">3 mois</string>
 </resources>
