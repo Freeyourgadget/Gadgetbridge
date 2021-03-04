@@ -20,6 +20,7 @@ import android.bluetooth.BluetoothGatt;
 import android.bluetooth.BluetoothGattCharacteristic;
 import android.content.Context;
 import android.net.Uri;
+import android.text.format.DateFormat;
 import android.widget.Toast;
 
 import org.json.JSONArray;
@@ -30,11 +31,8 @@ import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.SimpleTimeZone;
 import java.util.UUID;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
@@ -241,10 +239,9 @@ public class WaspOSDeviceSupport extends AbstractBTLEDeviceSupport {
 
 
     void setTime(TransactionBuilder builder) {
-        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("(yyyy, MM, dd, HH, mm, ss)");
-        LocalDateTime now = LocalDateTime.now();
-        String cmd = "\u0010watch.rtc.set_localtime("+dtf.format(now)+")\n";
-        uartTx(builder, cmd+"\n");
+        CharSequence formattedDate = DateFormat.format("(yyyy, MM, dd, HH, mm, ss)", new java.util.Date());
+        String cmd = "\u0010watch.rtc.set_localtime(" + formattedDate + ")\n";
+        uartTx(builder, cmd + "\n");
     }
 
     @Override
