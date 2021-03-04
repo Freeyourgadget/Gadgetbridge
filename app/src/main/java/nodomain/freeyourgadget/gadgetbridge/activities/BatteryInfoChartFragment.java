@@ -53,6 +53,7 @@ import de.greenrobot.dao.query.QueryBuilder;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.activities.charts.AbstractChartFragment;
+import nodomain.freeyourgadget.gadgetbridge.database.DBAccess;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHelper;
 import nodomain.freeyourgadget.gadgetbridge.entities.BatteryLevel;
@@ -79,39 +80,15 @@ public class BatteryInfoChartFragment extends AbstractGBFragment {
         this.endTime = (int) endTime;
         this.gbDevice = gbDevice;
         try {
-            populate_charts_data();
+            createRefreshTask("Visualizing data", getActivity()).execute();
         } catch (Exception e) {
             LOG.debug("Unable to fill charts data right now:", e);
         }
     }
 
 
-    private void populate_charts_data() {
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try (DBHandler handler = GBApplication.acquireDB()) {
-                    List<? extends BatteryLevel> samples = getBatteryLevels(handler, gbDevice, startTime, endTime);
-                    DefaultBatteryChartsData dcd = null;
-                    try {
-                        dcd = fill_dcd(samples);
-                    } catch (Exception e) {
-                        LOG.debug("Unable to get charts data right now:", e);
-                    }
-                    if (dcd != null && mChart != null) {
-                        mChart.setTouchEnabled(true);
-                        mChart.setMarker(new batteryValuesAndDateMarker(getContext(), R.layout.custom_chart_marker, dcd.firstTs));
-                        mChart.getXAxis().setValueFormatter(dcd.getXValueFormatter());
-                        mChart.setData((LineData) dcd.getData());
-                        mChart.invalidate();
-                    }
-                } catch (Exception e) {
-                    LOG.error("Unable to get charts data:", e);
-                }
-
-            }
-        }).start();
-
+    protected RefreshTask createRefreshTask(String task, Context context) {
+        return new RefreshTask(task, context);
     }
 
     private DefaultBatteryChartsData fill_dcd(List<? extends BatteryLevel> samples) {
@@ -149,7 +126,6 @@ public class BatteryInfoChartFragment extends AbstractGBFragment {
         BATTERY_LABEL = getString(R.string.battery_level);
     }
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -158,7 +134,7 @@ public class BatteryInfoChartFragment extends AbstractGBFragment {
         mChart = rootView.findViewById(R.id.activitysleepchart);
         if (this.gbDevice != null) {
             setupChart();
-            populate_charts_data();
+            createRefreshTask("Visualizing data", getActivity()).execute();
         }
         return rootView;
     }
@@ -228,6 +204,35 @@ public class BatteryInfoChartFragment extends AbstractGBFragment {
             cal.setTimeInMillis(tsTranslation.toOriginalValue(ts) * 1000L);
             Date date = cal.getTime();
             return annotationDateFormat.format(date);
+        }
+    }
+
+    public class RefreshTask extends DBAccess {
+
+        public RefreshTask(String task, Context context) {
+            super(task, context);
+        }
+
+        @Override
+        protected void doInBackground(DBHandler handler) {
+            List<? extends BatteryLevel> samples = getBatteryLevels(handler, gbDevice, startTime, endTime);
+            DefaultBatteryChartsData dcd = null;
+            try {
+                dcd = fill_dcd(samples);
+            } catch (Exception e) {
+                LOG.debug("Unable to get charts data right now:", e);
+            }
+            if (dcd != null && mChart != null) {
+                mChart.setTouchEnabled(true);
+                mChart.setMarker(new batteryValuesAndDateMarker(getContext(), R.layout.custom_chart_marker, dcd.firstTs));
+                mChart.getXAxis().setValueFormatter(dcd.getXValueFormatter());
+                mChart.setData((LineData) dcd.getData());
+            }
+        }
+
+        @Override
+        protected void onPostExecute(Object o) {
+            mChart.invalidate();
         }
     }
 

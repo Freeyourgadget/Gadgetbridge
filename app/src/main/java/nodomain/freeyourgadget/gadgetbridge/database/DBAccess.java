@@ -39,7 +39,6 @@ public abstract class DBAccess extends AsyncTask {
     }
 
     protected abstract void doInBackground(DBHandler handler);
-    protected abstract void onPreExecute();
 
     @Override
     protected Object doInBackground(Object[] params) {

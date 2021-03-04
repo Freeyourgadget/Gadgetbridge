@@ -69,6 +69,7 @@ public class BatteryInfoActivity extends AbstractGBActivity {
 
         LinearLayout battery_status_date_to_layout = (LinearLayout) findViewById(R.id.battery_status_date_to_layout);
 
+        battery_status_time_span_seekbar.setMax(5);
         battery_status_time_span_seekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
 
             @Override

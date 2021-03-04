@@ -662,11 +662,6 @@ public abstract class AbstractChartFragment extends AbstractGBFragment {
         }
 
         @Override
-        protected void onPreExecute() {
-
-        }
-
-        @Override
         protected void onPostExecute(Object o) {
             super.onPostExecute(o);
             FragmentActivity activity = getActivity();

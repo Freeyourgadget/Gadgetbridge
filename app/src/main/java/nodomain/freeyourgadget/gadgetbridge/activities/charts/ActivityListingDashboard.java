@@ -38,7 +38,7 @@ import nodomain.freeyourgadget.gadgetbridge.util.DateTimeUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.DeviceHelper;
 
 public class ActivityListingDashboard extends DialogFragment {
-    protected static final Logger LOG = LoggerFactory.getLogger(AbstractWeekChartFragment.class);
+    protected static final Logger LOG = LoggerFactory.getLogger(ActivityListingDashboard.class);
     GBDevice gbDevice;
     ActivityListingAdapter stepListAdapter;
     ActivitySession stepSessionsSummary;
