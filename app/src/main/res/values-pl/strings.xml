@@ -1191,7 +1191,7 @@
 \n
 \nROBISZ TO NA WŁASNE RYZYKO!</string>
     <string name="calendar_year">Rok</string>
-    <string name="calendar_six_months">Sześć miesięcy</string>
+    <string name="calendar_six_months">6 miesięcy</string>
     <string name="calendar_month">Miesiąc</string>
     <string name="calendar_two_weeks">Dwa tygodnie</string>
     <string name="calendar_week">Tydzień</string>
@@ -1199,4 +1199,5 @@
     <string name="battery_level">Poziom baterii</string>
     <string name="show_ongoing_activity">Pokaż wyskakujące okienko aktywności</string>
     <string name="dialog_hide">Ukryj</string>
+    <string name="calendar_three_months">3 miesiące</string>
 </resources>
