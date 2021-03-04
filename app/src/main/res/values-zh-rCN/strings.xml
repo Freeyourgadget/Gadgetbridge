@@ -1197,4 +1197,5 @@
     <string name="battery_level">电池电量</string>
     <string name="show_ongoing_activity">显示正在进行活动的弹出窗口</string>
     <string name="dialog_hide">隐藏</string>
+    <string name="calendar_three_months">3个月</string>
 </resources>
