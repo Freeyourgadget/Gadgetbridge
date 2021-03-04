@@ -1187,4 +1187,8 @@ Temps de sommeil préféré en heures</string>
     <string name="show_ongoing_activity">Afficher une popup pour l\'activité en cours</string>
     <string name="dialog_hide">Cacher</string>
     <string name="calendar_three_months">3 mois</string>
+    <string name="fossil_hr_auth_failed">AUthentification ratée, fonctionnalités limitées</string>
+    <string name="fossil_hr_unavailable_unauthed">Indisponible en mode non authentifié</string>
+    <string name="fossil_hr_synced_activity_data">Données d\'activité synchronisées</string>
+    <string name="fossil_hr_commute_processing">En cours de traitement...</string>
 </resources>
