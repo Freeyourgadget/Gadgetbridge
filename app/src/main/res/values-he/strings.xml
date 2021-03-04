@@ -1189,4 +1189,8 @@
     <string name="show_ongoing_activity">הצגת חלונית פעילות נוכחית</string>
     <string name="dialog_hide">הסתרה</string>
     <string name="calendar_three_months">3 חודשים</string>
+    <string name="fossil_hr_auth_failed">האימות נכשל, היכולות תוגבלנה</string>
+    <string name="fossil_hr_unavailable_unauthed">לא זמין במצב בלתי־מאומת</string>
+    <string name="fossil_hr_synced_activity_data">נתוני פעילות מסונכרנים</string>
+    <string name="fossil_hr_commute_processing">הבקשה בהליכי עיבוד…</string>
 </resources>
