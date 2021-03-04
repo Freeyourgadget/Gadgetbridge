@@ -1217,4 +1217,8 @@
     <string name="show_ongoing_activity">Devam eden etkinlik açılır penceresini göster</string>
     <string name="dialog_hide">Gizle</string>
     <string name="calendar_three_months">3 ay</string>
+    <string name="fossil_hr_auth_failed">Kimlik doğrulama başarısız oldu, sınırlı işlevsellik</string>
+    <string name="fossil_hr_unavailable_unauthed">Kimliği doğrulanmamış modda kullanılamaz</string>
+    <string name="fossil_hr_synced_activity_data">Etkinlik verileri eşzamanlandı</string>
+    <string name="fossil_hr_commute_processing">İstek işleniyor...</string>
 </resources>
