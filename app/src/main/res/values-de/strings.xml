@@ -1193,7 +1193,7 @@
 \n
 \nINSTALLATION AUF EIGENE GEFAHR!</string>
     <string name="calendar_year">Jahr</string>
-    <string name="calendar_six_months">Sechs Monate</string>
+    <string name="calendar_six_months">6 Monate</string>
     <string name="calendar_month">Monat</string>
     <string name="calendar_two_weeks">Zwei Wochen</string>
     <string name="calendar_week">Woche</string>
@@ -1201,4 +1201,5 @@
     <string name="battery_level">Akkustand</string>
     <string name="show_ongoing_activity">Popup für laufende Aktivitäten anzeigen</string>
     <string name="dialog_hide">Ausblenden</string>
+    <string name="calendar_three_months">3 Monate</string>
 </resources>
