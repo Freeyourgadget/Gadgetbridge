@@ -12,10 +12,7 @@ Pebble, Mi Band, Amazfit Bip and HPlus device (and more) without the vendor's cl
 and without the need to create an account and transmit any of your data to the
 vendor's servers.
 
-
-[Homepage](https://gadgetbridge.org)
-
-[Blog](https://blog.freeyourgadget.org)
+[Homepage](https://gadgetbridge.org) - [Blog](https://blog.freeyourgadget.org) - [Wiki](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki)
 
 [![Donate](https://liberapay.com/assets/widgets/donate.svg)](https://liberapay.com/Gadgetbridge/donate)
 
@@ -122,6 +119,8 @@ Contributions are welcome, be it feedback, bug reports, documentation, translati
 on any of the open [issues](https://codeberg.org/Freeyourgadget/Gadgetbridge/issues);
 just leave a comment that you're working on one to avoid duplicated work.
 
+[Developer documentation](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Developer-Documentation) - [Support for a new Device](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Support-for-a-new-Device) - [New Device Tutorial](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/New-Device-Tutorial)
+
 Translations can be contributed via https://hosted.weblate.org/projects/freeyourgadget/gadgetbridge/
 
 ## Community
@@ -143,6 +142,6 @@ Feel free to open an issue on our issue tracker, but please:
 1. Open Gadgetbridge's settings and check the option to write log files
 2. Reproduce the problem you encountered
 3. Check the logfile at /sdcard/Android/data/nodomain.freeyourgadget.gadgetbridge/files/gadgetbridge.log
-4. File an issue at https://codeberg.org/Freeyourgadget/Gadgetbridge/issues/new and possibly provide the logfile
+4. File an issue at https://codeberg.org/Freeyourgadget/Gadgetbridge/issues/new/choose and possibly provide the logfile
 
 Alternatively you may use the standard logcat functionality to access the log.
