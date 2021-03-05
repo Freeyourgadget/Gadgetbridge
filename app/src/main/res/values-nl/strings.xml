@@ -7,7 +7,7 @@
     <string name="action_quit">Sluit af</string>
     <string name="action_donate">Doneer</string>
     <string name="controlcenter_fetch_activity_data">Synchroniseer</string>
-    <string name="controlcenter_find_device">Zoek verloren toestel</string>
+    <string name="controlcenter_find_device">Zoek verloren apparaat</string>
     <string name="controlcenter_take_screenshot">Screenshot maken</string>
     <string name="controlcenter_disconnect">Ontkoppel</string>
     <string name="controlcenter_delete_device">Verwijder apparaat</string>
@@ -34,7 +34,7 @@
     <string name="appmanager_weather_install_provider">Installeer de app voor weer meldingen</string>
     <string name="app_configure">Configureer</string>
     <string name="app_move_to_top">Verplaats naar de top</string>
-    <string name="title_activity_appblacklist">Melding zwarte lijst</string>
+    <string name="title_activity_appblacklist">Meldingen zwarte lijst</string>
     <string name="fw_upgrade_notice">U staat op het punt om firmware %s te installeren.</string>
     <string name="fw_upgrade_notice_amazfitbip">U staat op het punt om de firmware %s te installeren op uw Amazfit Bip.
 \n
@@ -131,8 +131,8 @@
     <string name="_pebble_watch_reply">Antwoord</string>
     <string name="installhandler_firmware_name">%1$s: %2$s %3$s</string>
     <string name="controlcenter_connect">Verbind…</string>
-    <string name="controlcenter_navigation_drawer_open">Open navigatie scherm</string>
-    <string name="controlcenter_navigation_drawer_close">Sluit navigatie scherm</string>
+    <string name="controlcenter_navigation_drawer_open">Open navigatiescherm</string>
+    <string name="controlcenter_navigation_drawer_close">Sluit navigatiescherm</string>
     <string name="appmanager_weather_deactivate">Deactiveer de systeem weer app</string>
     <string name="title_activity_calblacklist">Kalenders op de zwarte lijst</string>
     <string name="title_activity_fw_app_insaller">Firmware/Apps installeren</string>
@@ -204,9 +204,9 @@
     <string name="title_activity_discovery">Naar apparaten scannen</string>
     <string name="discovery_stop_scanning">Stop met scannen</string>
     <string name="discovery_start_scanning">Start met scannen</string>
-    <string name="action_discover">Nieuw toestel verbinden</string>
+    <string name="action_discover">Nieuw apparaat verbinden</string>
     <string name="device_with_rssi">%1$s (%2$s)</string>
-    <string name="title_activity_android_pairing">Toestel koppelen</string>
+    <string name="title_activity_android_pairing">Apparaat koppelen</string>
     <string name="android_pairing_hint">Gebruik het Android Bluetooth-venster om het toestel te koppelen.</string>
     <string name="title_activity_mi_band_pairing">Koppel uw Mi Band</string>
     <string name="pairing">Koppelen met %s…</string>
@@ -215,7 +215,7 @@
     <string name="pairing_in_progress">Bezig met koppelen: %1$s (%2$s)</string>
     <string name="pairing_already_bonded">Reeds gekoppeld met %1$s (%2$s), verbinden…</string>
     <string name="message_cannot_pair_no_mac">Geen MAC adres doorgegeven, kan niet koppelen.</string>
-    <string name="preferences_category_device_specific_settings">Toestel specifieke instellingen</string>
+    <string name="preferences_category_device_specific_settings">Apparaat-specifieke instellingen</string>
     <string name="preferences_miband_settings">Mi Band / Amazfit instellingen</string>
     <string name="male">Mannelijk</string>
     <string name="female">Vrouwelijk</string>
@@ -263,7 +263,7 @@
     <string name="stats_title">Snelheidszones</string>
     <string name="stats_x_axis_label">Totaal aantal minuten</string>
     <string name="stats_y_axis_label">Stappen per minuut</string>
-    <string name="control_center_find_lost_device">Zoek verloren toestel</string>
+    <string name="control_center_find_lost_device">Zoek verloren apparaat</string>
     <string name="control_center_cancel_to_stop_vibration">Annuleer om vibratie te stoppen.</string>
     <string name="title_activity_charts">Activiteit en Slaap</string>
     <string name="title_activity_set_alarm">Alarmen configureren</string>
@@ -339,7 +339,7 @@
     <string name="user_feedback_all_alarms_disabled">Alle alarmen uitgeschakeld</string>
     <string name="pref_title_keep_data_on_device">Houd activiteitsdata op het toestel</string>
     <string name="miband_fwinstaller_incompatible_version">Incompatibele firmware</string>
-    <string name="fwinstaller_firmware_not_compatible_to_device">Deze firmware is niet compatibel met het toestel</string>
+    <string name="fwinstaller_firmware_not_compatible_to_device">Deze firmware is niet compatibel met het apparaat</string>
     <string name="miband_prefs_reserve_alarm_calendar">Alarmen gereserveerd voor toekomstige gebeurtenissen</string>
     <string name="miband_prefs_hr_sleep_detection">Gebruik hartslag sensor om slaap detectie te verbeteren</string>
     <string name="miband_prefs_device_time_offset_hours">Toestel tijdsverschuiving in uren (voor het detecteren van slaap van ploegarbeiders)</string>
@@ -461,7 +461,7 @@
     <string name="discovery_attempting_to_pair">Proberen te koppelen met %1$s</string>
     <string name="discovery_bonding_failed_immediately">Koppelen met %1$s faalde onmiddellijk.</string>
     <string name="discovery_trying_to_connect_to">Proberen te verbinden met: %1$s</string>
-    <string name="discovery_enable_bluetooth">Schakel Bluetooth in om toestellen te vinden.</string>
+    <string name="discovery_enable_bluetooth">Schakel Bluetooth in om apparaten te vinden.</string>
     <string name="kind_firmware">Firmware</string>
     <string name="kind_invalid">Ongeldige data</string>
     <string name="kind_font">Lettertype</string>
@@ -558,7 +558,7 @@
     <string name="devicetype_mykronoz_zetime">MyKronoz ZeTime</string>
     <string name="menuitem_notifications">Meldingen</string>
     <string name="controlcenter_change_led_color">Wijzig ledkleur</string>
-    <string name="controlcenter_change_fm_frequency">Wijzig FM frequentie</string>
+    <string name="controlcenter_change_fm_frequency">Wijzig FM-frequentie</string>
     <string name="debugactivity_really_factoryreset_title">Weet U zeker dat u de fabrieksinstellingen wilt terugzetten\?</string>
     <string name="debugactivity_really_factoryreset">Het terugzetten van de fabrieksinstellingen zal alle data van het verbonden toestel verwijderen (indien ondersteund). Xiaomi/Huami toestellen veranderen ook van Bluetooth MAC-adres, zodat deze zullen verschijnen als nieuwe toestellen in Gadgetbridge.</string>
     <string name="pref_title_notifications_timeout">Minimum tijd tussen meldingen</string>
@@ -1081,7 +1081,7 @@
     <string name="pref_summary_connected_advertisement">Maakt het apparaat vindbaar via Bluetooth zelfs wanneer het verbonden is</string>
     <string name="pref_title_connected_advertisement">Zichtbaar wanneer verbonden</string>
     <string name="calendar_year">Jaar</string>
-    <string name="calendar_six_months">Zes maanden</string>
+    <string name="calendar_six_months">6 maanden</string>
     <string name="calendar_month">Maand</string>
     <string name="calendar_two_weeks">Twee weken</string>
     <string name="calendar_week">Week</string>
@@ -1192,4 +1192,9 @@
     <string name="chart_get_active_and_synchronize">Voer een activiteit uit en synchroniseer apparaat.</string>
     <string name="chart_no_active_data">Geen activiteiten gedetecteerd.</string>
     <string name="find_lost_device_message">Zoeken naar %1$s\?</string>
+    <string name="fossil_hr_auth_failed">Authenticatie mislukt, functionaliteit beperkt</string>
+    <string name="fossil_hr_unavailable_unauthed">Niet beschikbaar in ongeauthenticeerde modus</string>
+    <string name="fossil_hr_synced_activity_data">Activiteitsgegevens gesynchroniseerd</string>
+    <string name="fossil_hr_commute_processing">Aanvraag verwerken...</string>
+    <string name="calendar_three_months">3 maanden</string>
 </resources>
