@@ -1198,4 +1198,8 @@
     <string name="show_ongoing_activity">显示正在进行活动的弹出窗口</string>
     <string name="dialog_hide">隐藏</string>
     <string name="calendar_three_months">3个月</string>
+    <string name="fossil_hr_auth_failed">由于认证失败，功能受到限制</string>
+    <string name="fossil_hr_unavailable_unauthed">未认证模式下不可用</string>
+    <string name="fossil_hr_synced_activity_data">已同步的活动数据</string>
+    <string name="fossil_hr_commute_processing">正在处理请求……</string>
 </resources>
