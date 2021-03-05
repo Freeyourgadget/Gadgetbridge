@@ -1,5 +1,16 @@
 ### Changelog
 
+#### NEXT
+* InfiniTime: Fix music control for newer firmware releases
+* InfiniTime: Support call control and notification
+* Sony SWR12: Fix broken support since 0.53.0
+* Wasp-OS: Fix crash on Android 7 and lower
+* Add activity list dashboard summary calculations
+* Add battery level logging and graph activity
+* Use distinct icons for total step and distance values in widget
+* Flip and scale GPX canvas
+* Try to fix call notification on outgoing VoIP calls
+
 #### 0.54.1
 * Amazfit GTS2e: Really fix broken support
 * Amazfit Bip S Lite: Fix broken support (probably)
