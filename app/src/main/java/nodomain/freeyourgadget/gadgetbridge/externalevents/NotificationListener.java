@@ -472,7 +472,7 @@ public class NotificationListener extends NotificationListenerService {
     private void handleCallNotification(StatusBarNotification sbn) {
         String app = sbn.getPackageName();
         LOG.debug("got call from: " + app);
-        if (app.equals("com.android.dialer") || app.equals("com.android.incallui")) {
+        if (app.equals("com.android.dialer") || app.equals("com.android.incallui") || app.equals("com.google.android.dialer")) {
             LOG.debug("Ignoring non-voip call");
             return;
         }
@@ -786,6 +786,7 @@ public class NotificationListener extends NotificationListenerService {
         if (source.equals("android") ||
                 source.equals("com.android.systemui") ||
                 source.equals("com.android.dialer") ||
+                source.equals("com.google.android.dialer") ||
                 source.equals("com.cyanogenmod.eleven")) {
             LOG.info("Ignoring notification, is a system event");
             return true;
