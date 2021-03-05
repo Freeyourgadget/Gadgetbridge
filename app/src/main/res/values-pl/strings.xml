@@ -1200,4 +1200,8 @@
     <string name="show_ongoing_activity">Pokaż wyskakujące okienko aktywności</string>
     <string name="dialog_hide">Ukryj</string>
     <string name="calendar_three_months">3 miesiące</string>
+    <string name="fossil_hr_auth_failed">Uwierzytelnianie nie powiodło się, ograniczona funkcjonalność</string>
+    <string name="fossil_hr_unavailable_unauthed">Niedostępne w trybie bez uwierzytelnienia</string>
+    <string name="fossil_hr_synced_activity_data">Zsynchronizowane dane dotyczące aktywności</string>
+    <string name="fossil_hr_commute_processing">Przetwarzanie żądania…</string>
 </resources>
