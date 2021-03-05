@@ -1202,4 +1202,8 @@
     <string name="show_ongoing_activity">Popup für laufende Aktivitäten anzeigen</string>
     <string name="dialog_hide">Ausblenden</string>
     <string name="calendar_three_months">3 Monate</string>
+    <string name="fossil_hr_auth_failed">Authentifizierung fehlgeschlagen, eingeschränkte Funktionalität</string>
+    <string name="fossil_hr_unavailable_unauthed">Im unauthentifizierten Modus nicht verfügbar</string>
+    <string name="fossil_hr_synced_activity_data">Synchronisierte Aktivitätsdaten</string>
+    <string name="fossil_hr_commute_processing">Anfrage wird verarbeitet...</string>
 </resources>
