@@ -450,7 +450,7 @@
 \n
 \nNota: no es necesario instalar el archivo .res si es idéntico al instalado previamente.
 \n
-\nPROCEDA BAJO SU PROPIA CUENTA Y RIESGO.</string>
+\n¡PROCEDA BAJO SU PROPIA CUENTA Y RIESGO!</string>
     <string name="pref_title_charts_swipe">Permitir deslizar hacia izquierda/derecha en los gráficos de actividad</string>
     <string name="automatic">Automático</string>
     <string name="simplified_chinese">Chino simplificado</string>
@@ -529,7 +529,7 @@
 \n
 \nNota: no es necesario instalar el archivo .res si es idéntico al instalado previamente.
 \n
-\nPROCEDA BAJO SU PROPIA CUENTA Y RIESGO.</string>
+\n¡PROCEDA BAJO SU PROPIA CUENTA Y RIESGO!</string>
     <string name="pref_title_notifications_timeout">Tiempo mínimo entre notificaciones</string>
     <string name="pref_title_rtl">Derecha a Izquierda</string>
     <string name="pref_summary_rtl">Habilite esto si su dispositivo no puede mostrar idiomas de derecha a izquierda</string>
@@ -538,7 +538,7 @@
     <string name="pref_title_pebble_gatt_clientonly">Sólo cliente GATT</string>
     <string name="pref_summary_pebble_gatt_clientonly">Esto es solo para Pebble 2 y experimental, intente esto si tiene problemas de conectividad</string>
     <string name="prefs_screen_orientation">Orientación de pamtalla</string>
-    <string name="pref_auto_fetch_summary">La recuperación funciona luego de desbloquear la pantalla, y solo si se ha definido un mecanismo de bloqueo.</string>
+    <string name="pref_auto_fetch_summary">La recuperación funciona luego de desbloquear la pantalla. ¡Sólo funciona si se ha definido un mecanismo de bloqueo!</string>
     <string name="horizontal">Horizontal</string>
     <string name="vertical">Vertical</string>
     <string name="notif_battery_low">%1$s batería baja</string>
@@ -688,8 +688,8 @@
 \n
 \nNota: no es necesario instalar el archivo .res si es idéntico al instalado previamente.
 \n
-\nPROCEDA BAJO SU PROPIA CUENTA Y RIESGO.</string>
-    <string name="prefs_hr_alarm_activity">Alarma de frecuencia cardíaca durante actividad deportiva.</string>
+\n¡PROCEDA BAJO SU PROPIA CUENTA Y RIESGO!</string>
+    <string name="prefs_hr_alarm_activity">Alarma de frecuencia cardíaca durante actividad deportiva</string>
     <string name="prefs_hr_alarm_low">Límite bajo</string>
     <string name="prefs_hr_alarm_high">Límite alto</string>
     <string name="pref_screen_notification_profile_missed_call">Notificación de llamada perdida</string>
@@ -770,14 +770,14 @@
 \n
 \nNota: no es necesario instalar el archivo .res si es idéntico al instalado previamente.
 \n
-\nPROCEDA BAJO SU PROPIA CUENTA Y RIESGO.</string>
+\n¡PROCEDA BAJO SU PROPIA CUENTA Y RIESGO!</string>
     <string name="fw_upgrade_notice_amazfitgtr">Está a punto de instalar el «firmware» %s en su Amazfit GTR.
 \n
 \nAsegúrese de instalar el archivo .fw y, a continuación, el archivo .res. Se reiniciará el reloj tras instalar el archivo .fw.
 \n
 \nNota: no es necesario instalar los archivos .res y .gps si son idénticos a los instalados previamente.
 \n
-\nPROCEDA BAJO SU PROPIA CUENTA Y RIESGO.</string>
+\n¡PROCEDA BAJO SU PROPIA CUENTA Y RIESGO!</string>
     <string name="pref_chart_heartrate_color_red">Rojo</string>
     <string name="pref_chart_heartrate_color_orange">Naranja</string>
     <string name="pref_title_chart_heartrate_color">Color de frecuencia cardíaca</string>
@@ -1165,4 +1165,37 @@
 \nNota: No es necesario instalar los archivos .res y .gps si estos archivos son exactamente los mismos que los instalados anteriormente.
 \n
 \n¡PROCEDE BAJO TU PROPIO RIESGO!</string>
+    <string name="minutes_mi">min/mi</string>
+    <string name="ft">ft</string>
+    <string name="fossil_hr_auth_failed">Autenticación fallida, funcionalidad limitada</string>
+    <string name="fossil_hr_unavailable_unauthed">No está disponible en modo no autenticado</string>
+    <string name="fossil_hr_synced_activity_data">Datos de actividad sincronizados</string>
+    <string name="fossil_hr_commute_processing">Procesando la solicitud...</string>
+    <string name="mi">mi</string>
+    <string name="mi_h">km/h</string>
+    <string name="devicetype_waspos">Wasp-os</string>
+    <string name="devicetype_zepp_e">Zepp E</string>
+    <string name="devicetype_amazfit_x">Amazfit X</string>
+    <string name="devicetype_amazfit_gts2e">Amazfit GTS 2e</string>
+    <string name="devicetype_amazfit_gts2_mini">Amazfit GTS 2 Mini</string>
+    <string name="devicetype_amazfit_gtr2e">Amazfit GTR 2e</string>
+    <string name="activity_type_strength_training">Entrenamiento de fuerza</string>
+    <string name="show_ongoing_activity">Mostrar ventana emergente de actividad en curso</string>
+    <string name="dialog_hide">Ocultar</string>
+    <string name="fw_upgrade_notice_amazfitx">Estás a punto de instalar el firmware %s en tu Amazfit X.
+\n
+\nPor favor, asegúrese de instalar el archivo .fw, y después el archivo .res. Su banda se reiniciará después de instalar el archivo .fw.
+\n
+\nNota: No es necesario instalar .res si es exactamente el mismo que el instalado anteriormente.
+\n
+\n¡PROCEDA BAJO SU PROPIO RIESGO!</string>
+    <string name="calendar_year">Año</string>
+    <string name="calendar_six_months">6 meses</string>
+    <string name="calendar_three_months">3 meses</string>
+    <string name="calendar_month">Mes</string>
+    <string name="calendar_two_weeks">Dos semanas</string>
+    <string name="calendar_week">Semana</string>
+    <string name="calendar_day">Día</string>
+    <string name="battery_level">Nivel de la batería</string>
+    <string name="battery_detail_activity_title">Información sobre la batería</string>
 </resources>
