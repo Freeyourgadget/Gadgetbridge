@@ -1,6 +1,6 @@
 ### Changelog
 
-#### NEXT
+#### 0.55.0
 * InfiniTime: Fix music control for newer firmware releases
 * InfiniTime: Support call control and notification
 * Sony SWR12: Fix broken support since 0.53.0
