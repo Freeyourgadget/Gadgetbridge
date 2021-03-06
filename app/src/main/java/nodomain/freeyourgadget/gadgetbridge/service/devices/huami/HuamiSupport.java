@@ -1865,13 +1865,14 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
         Calendar calendar = Calendar.getInstance();
 
         int iteration = 0;
+        int iterationMax = 8;
 
         for (CalendarEvents.CalendarEvent calendarEvent : calendarEvents) {
             if (calendarEvent.isAllDay()) {
                 continue;
             }
 
-            if (iteration > 8) { // limit ?
+            if (iteration > iterationMax) { // limit ?
                 break;
             }
 
@@ -1901,6 +1902,19 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
             writeToChunked(builder, 2, buf.array());
 
             iteration++;
+        }
+
+        // Continue by deleting the events
+        for(;iteration < iterationMax; iteration++){
+            int length = 1 + 1 + 4 + 6 + 6 + 1 + 0 + 1;
+            ByteBuffer buf = ByteBuffer.allocate(length);
+
+            buf.order(ByteOrder.LITTLE_ENDIAN);
+            buf.put((byte) 0x0b); // always 0x0b?
+            buf.put((byte) iteration); // id
+            buf.putInt(0x08); // flags 0x01 = enable, 0x04 = end date present, 0x08 = has text
+            buf.put(new byte[6 + 6 + 1 + 1]); // default value is 0
+            writeToChunked(builder, 2, buf.array());
         }
 
         return this;
