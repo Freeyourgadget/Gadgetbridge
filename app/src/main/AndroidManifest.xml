@@ -69,11 +69,11 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:theme="@style/GadgetbridgeTheme">
-        <activity android:name=".devices.qhybrid.WidgetSettingsActivity" />
         <activity
             android:name=".activities.ControlCenterv2"
             android:label="@string/title_activity_controlcenter"
-            android:theme="@style/SplashTheme">
+            android:theme="@style/SplashTheme"
+            android:launchMode="singleTop">
             <intent-filter>
                 <category android:name="android.intent.category.DEFAULT" />
 
@@ -481,7 +481,8 @@
             android:parentActivityName=".activities.ControlCenterv2" />
         <activity
             android:name=".activities.devicesettings.DeviceSettingsActivity"
-            android:label="@string/title_activity_device_specific_settings" />
+            android:label="@string/title_activity_device_specific_settings"
+            android:parentActivityName=".activities.ControlCenterv2" />
         <activity
             android:name=".activities.AlarmDetails"
             android:label="@string/title_activity_alarm_details"
@@ -577,22 +578,40 @@
 
         <activity
             android:name=".devices.qhybrid.ConfigActivity"
-            android:exported="true" />
+            android:label="@string/qhybrid_title_watchface_apps"
+            android:exported="true"
+            android:parentActivityName=".activities.ControlCenterv2" />
         <activity
             android:name=".devices.qhybrid.QHybridAppChoserActivity"
-            android:exported="true" />
+            android:label="@string/qhybrid_title_apps"
+            android:exported="true"
+            android:parentActivityName=".devices.qhybrid.ConfigActivity" />
         <activity
             android:name=".devices.qhybrid.HRConfigActivity"
-            android:exported="true" />
+            android:label="@string/qhybrid_title_watchface_apps"
+            android:exported="true"
+            android:parentActivityName=".activities.ControlCenterv2" />
+        <activity android:name=".devices.qhybrid.WidgetSettingsActivity"
+            android:label="@string/add_widget"
+            android:parentActivityName=".devices.qhybrid.HRConfigActivity" />
         <activity
             android:name=".devices.qhybrid.ImageEditActivity"
-            android:exported="true" />
+            android:label="@string/qhybrid_title_background_image"
+            android:exported="true"
+            android:parentActivityName=".devices.qhybrid.HRConfigActivity" />
         <activity
             android:name=".devices.qhybrid.FileManagementActivity"
-            android:exported="true" />
+            android:label="@string/qhybrid_title_file_management"
+            android:exported="true"
+            android:parentActivityName=".devices.qhybrid.HRConfigActivity"/>
         <activity
             android:name=".devices.qhybrid.AppsManagementActivity"
-            android:exported="true" />
-        <activity android:name=".devices.qhybrid.CalibrationActivity" />
+            android:label="@string/qhybrid_title_apps_management"
+            android:exported="true"
+            android:parentActivityName=".devices.qhybrid.HRConfigActivity" />
+        <activity
+            android:name=".devices.qhybrid.CalibrationActivity"
+            android:label="@string/qhybrid_title_calibration"
+            android:parentActivityName=".devices.qhybrid.HRConfigActivity" />
     </application>
 </manifest>

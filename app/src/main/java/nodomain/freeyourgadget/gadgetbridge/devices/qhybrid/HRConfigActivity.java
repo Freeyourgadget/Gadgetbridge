@@ -421,13 +421,10 @@ public class HRConfigActivity extends AbstractGBActivity implements View.OnClick
                     .setTitle("create action")
                     .show();
         } else if(v.getId() == R.id.qhybrid_file_management_trigger) {
-            finish();
             startActivity(new Intent(getApplicationContext(), FileManagementActivity.class));
         } else if(v.getId() == R.id.qhybrid_apps_management_trigger) {
-            finish();
             startActivity(new Intent(getApplicationContext(), AppsManagementActivity.class));
         } else if(v.getId() == R.id.calibration_trigger) {
-            finish();
             startActivity(new Intent(getApplicationContext(), CalibrationActivity.class));
         }
     }

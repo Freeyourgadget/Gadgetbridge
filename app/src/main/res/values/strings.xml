@@ -1146,4 +1146,10 @@
     <string name="fossil_hr_synced_activity_data">Synchronised activity data</string>
     <string name="fossil_hr_unavailable_unauthed">Not available in unauthenticated mode</string>
     <string name="fossil_hr_auth_failed">Authentication failed, limited functionality</string>
+    <string name="qhybrid_title_watchface_apps">Watchface and apps</string>
+    <string name="qhybrid_title_apps">Apps</string>
+    <string name="qhybrid_title_background_image">Background image</string>
+    <string name="qhybrid_title_file_management">File management</string>
+    <string name="qhybrid_title_apps_management">Apps management</string>
+    <string name="qhybrid_title_calibration">Calibration</string>
 </resources>
