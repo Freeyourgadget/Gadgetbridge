@@ -1876,32 +1876,26 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
 
             calendar.setTimeInMillis(calendarEvent.getBegin());
             byte[] title;
-            byte[] body;
             if (calendarEvent.getTitle() != null) {
                 title = calendarEvent.getTitle().getBytes();
             } else {
                 title = new byte[]{};
             }
-            if (calendarEvent.getDescription() != null) {
-                body = calendarEvent.getDescription().getBytes();
-            } else {
-                body = new byte[]{};
-            }
 
-            int length = 18 + title.length + 1 + body.length + 1;
+            int length = 1 + 1 + 4 + 6 + 6 + 1 + title.length + 1;
+
             ByteBuffer buf = ByteBuffer.allocate(length);
 
             buf.order(ByteOrder.LITTLE_ENDIAN);
             buf.put((byte) 0x0b); // always 0x0b?
-            buf.put((byte) iteration); // îd
+            buf.put((byte) iteration); // id
             buf.putInt(0x08 | 0x04 | 0x01); // flags 0x01 = enable, 0x04 = end date present, 0x08 = has text
             calendar.setTimeInMillis(calendarEvent.getBegin());
             buf.put(BLETypeConversions.shortCalendarToRawBytes(calendar));
             calendar.setTimeInMillis(calendarEvent.getEnd());
             buf.put(BLETypeConversions.shortCalendarToRawBytes(calendar));
-            buf.put(title);
             buf.put((byte) 0); // 0 Terminated
-            buf.put(body);
+            buf.put(title);
             buf.put((byte) 0); // 0 Terminated
             writeToChunked(builder, 2, buf.array());
 
