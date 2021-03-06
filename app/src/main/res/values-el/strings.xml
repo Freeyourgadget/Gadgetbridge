@@ -997,9 +997,17 @@
     <string name="sonyswr12_settings_alarm_interval_summary">Το διάστημα έξυπνου συναγερμού είναι διάστημα πριν από το εγκατεστημένο συναγερμό Σε αυτό το διάστημα η συσκευή προσπαθεί να ανιχνεύσει την ελαφρύτερη φάση ύπνου για να ξυπνήσει ο χρήστης</string>
     <string name="activity_list_summary_activities">Δραστηριότητες</string>
     <string name="activity_list_summary_distance">Απόσταση</string>
-    <string name="charts_activity_list">Λίστα δραστηριωτήτων</string>
+    <string name="charts_activity_list">Λίστα δραστηριoτήτων</string>
     <string name="prefs_charts_tabs_summary">Ορατές καρτέλες γραφιμάτων</string>
     <string name="prefs_charts_tabs">Καρτέλες γραφιμάτων</string>
     <string name="battery_detail_activity_title">Πληροφορίες Μπαταρίας</string>
     <string name="find_lost_device_message">Αναζητηση για %1$s;</string>
+    <string name="calendar_year">Έτος</string>
+    <string name="calendar_six_months">6 μήνες</string>
+    <string name="calendar_three_months">3 μήνες</string>
+    <string name="calendar_month">Μήνας</string>
+    <string name="calendar_two_weeks">Δύο Εδομάδες</string>
+    <string name="calendar_week">Εβδομάδα</string>
+    <string name="calendar_day">Μέρα</string>
+    <string name="battery_level">Επίπεδο μπαταρίας</string>
 </resources>
