@@ -63,7 +63,7 @@ public class BLETypeConversions {
     /**
      * Similar to calendarToRawBytes, but only up to (and including) the MINUTES.
      * @param timestamp
-     * @return
+     * @return byte array of 6 bytes
      */
     public static byte[] shortCalendarToRawBytes(Calendar timestamp) {
         // MiBand2:
