@@ -140,4 +140,9 @@ public class UM25Coordinator extends AbstractDeviceCoordinator {
     public boolean supportsWeather() {
         return false;
     }
+
+    @Override
+    public int getBondingStyle() {
+        return BONDING_STYLE_NONE;
+    }
 }
