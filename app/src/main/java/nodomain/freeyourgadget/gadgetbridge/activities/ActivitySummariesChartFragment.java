@@ -17,10 +17,13 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.activities;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import androidx.annotation.Nullable;
 
 import com.github.mikephil.charting.charts.Chart;
 import com.github.mikephil.charting.charts.LineChart;
@@ -37,11 +40,11 @@ import org.slf4j.LoggerFactory;
 import java.util.ArrayList;
 import java.util.List;
 
-import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.activities.charts.AbstractChartFragment;
 import nodomain.freeyourgadget.gadgetbridge.activities.charts.ChartsData;
 import nodomain.freeyourgadget.gadgetbridge.activities.charts.ChartsHost;
+import nodomain.freeyourgadget.gadgetbridge.database.DBAccess;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
@@ -54,62 +57,40 @@ public class ActivitySummariesChartFragment extends AbstractChartFragment {
     private int startTime;
     private int endTime;
     private GBDevice gbDevice;
+    private View view;
 
     public void setDateAndGetData(GBDevice gbDevice, long startTime, long endTime) {
         this.startTime = (int) startTime;
         this.endTime = (int) endTime;
         this.gbDevice = gbDevice;
-        try {
-            populate_charts_data();
-        } catch (Exception e) {
-            LOG.debug("Unable to fill charts data right now:", e);
+        if (this.view != null) {
+            createLocalRefreshTask("Visualizing data", getActivity()).execute();
         }
     }
 
-
-
-    private void populate_charts_data() {
-        int LEGEND_TEXT_COLOR = 0;
-
-        try (DBHandler handler = GBApplication.acquireDB()) {
-            try {
-                LEGEND_TEXT_COLOR = GBApplication.getTextColor(getContext());
-            } catch (Exception e) {
-                LOG.debug("Unable to get color right now:", e);
-            }
-
-            List<? extends ActivitySample> samples = getSamples(handler, gbDevice, startTime, endTime);
-            DefaultChartsData dcd=null;
-            try {
-                dcd = refresh(gbDevice, samples);
-            }catch(Exception e){
-                LOG.debug("Unable to get charts data right now:", e);
-            }
-            if (dcd != null) {
-                mChart.getLegend().setTextColor(LEGEND_TEXT_COLOR);
-                mChart.setData(null); // workaround for https://github.com/PhilJay/MPAndroidChart/issues/2317
-                mChart.getXAxis().setValueFormatter(dcd.getXValueFormatter());
-                mChart.setData((LineData) dcd.getData());
-                mChart.invalidate();
-            }
-        } catch (Exception e) {
-            LOG.error("Unable to get charts data:", e);
-        }
-
+    protected RefreshTask createLocalRefreshTask(String task, Context context) {
+        return new RefreshTask(task, context);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        init();
         View rootView = inflater.inflate(R.layout.fragment_charts, container, false);
         mChart = rootView.findViewById(R.id.activitysleepchart);
-        if (this.gbDevice != null) {
-            setupChart();
-            populate_charts_data();
-        }
         return rootView;
     }
+
+    @Override
+    public void onViewCreated(final View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        init();
+        this.view = view;
+        if (this.gbDevice != null) {
+            setupChart();
+            createLocalRefreshTask("Visualizing data", getActivity()).execute();
+        }
+    }
+
 
     @Override
     public String getTitle() {
@@ -194,4 +175,32 @@ public class ActivitySummariesChartFragment extends AbstractChartFragment {
     protected void updateChartsnUIThread(ChartsData chartsData) {
     }
 
+    public class RefreshTask extends DBAccess {
+
+        public RefreshTask(String task, Context context) {
+            super(task, context);
+        }
+
+        @Override
+        protected void doInBackground(DBHandler handler) {
+            List<? extends ActivitySample> samples = getAllSamples(handler, gbDevice, startTime, endTime);
+
+            DefaultChartsData dcd = null;
+            try {
+                dcd = refresh(gbDevice, samples);
+            } catch (Exception e) {
+                LOG.debug("Unable to get charts data right now:", e);
+            }
+            if (dcd != null) {
+                mChart.setData(null); // workaround for https://github.com/PhilJay/MPAndroidChart/issues/2317
+                mChart.getXAxis().setValueFormatter(dcd.getXValueFormatter());
+                mChart.setData((LineData) dcd.getData());
+            }
+        }
+
+        @Override
+        protected void onPostExecute(Object o) {
+            mChart.invalidate();
+        }
+    }
 }
