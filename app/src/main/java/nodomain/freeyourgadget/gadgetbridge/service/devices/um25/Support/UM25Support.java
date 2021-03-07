@@ -69,7 +69,12 @@ public class UM25Support extends UM25BaseSupport {
 
     private void startLoop(){
         ScheduledThreadPoolExecutor executor = new ScheduledThreadPoolExecutor(1);
-        executor.scheduleWithFixedDelay(this::sendReadCommand, 0, LOOP_DELAY, TimeUnit.MILLISECONDS);
+        executor.scheduleWithFixedDelay(new Runnable() {
+            @Override
+            public void run() {
+                sendReadCommand();
+            }
+        }, 0, LOOP_DELAY, TimeUnit.MILLISECONDS);
     }
 
     private void sendReadCommand(){
