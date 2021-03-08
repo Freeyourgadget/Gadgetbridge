@@ -80,6 +80,11 @@
         android:defaultValue="false"
         android:key="save_raw_activity_files"
         android:title="@string/pref_qhybrid_save_raw_activity_files" />
+    <SwitchPreference
+        android:defaultValue="true"
+        android:key="autoremove_notifications"
+        android:summary="@string/pref_summary_autoremove_notifications"
+        android:title="@string/pref_title_autoremove_notifications" />
 
     <SeekBarPreference
         android:defaultValue="2"

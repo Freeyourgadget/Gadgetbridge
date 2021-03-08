@@ -54,6 +54,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -71,6 +72,7 @@ import nodomain.freeyourgadget.gadgetbridge.entities.NotificationFilter;
 import nodomain.freeyourgadget.gadgetbridge.entities.NotificationFilterDao;
 import nodomain.freeyourgadget.gadgetbridge.entities.NotificationFilterEntry;
 import nodomain.freeyourgadget.gadgetbridge.entities.NotificationFilterEntryDao;
+import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.AppNotificationType;
 import nodomain.freeyourgadget.gadgetbridge.model.CallSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.MusicSpec;
@@ -115,6 +117,7 @@ public class NotificationListener extends NotificationListenerService {
     );
 
     public static ArrayList<String> notificationStack = new ArrayList<>();
+    private static ArrayList<Integer> notificationsActive = new ArrayList<Integer>();
 
     private long activeCallPostTime;
     private int mLastCallCommand = CallSpec.CALL_UNDEFINED;
@@ -239,6 +242,7 @@ public class NotificationListener extends NotificationListenerService {
     public void onDestroy() {
         LocalBroadcastManager.getInstance(this).unregisterReceiver(mReceiver);
         notificationStack.clear();
+        notificationsActive.clear();
         super.onDestroy();
     }
 
@@ -423,6 +427,7 @@ public class NotificationListener extends NotificationListenerService {
         }else {
             LOG.info("This app might show old/duplicate notifications. notification.when is 0 for " + source);
         }
+        notificationsActive.add(notificationSpec.getId());
         GBApplication.deviceService().onNotification(notificationSpec);
     }
 
@@ -720,20 +725,41 @@ public class NotificationListener extends NotificationListenerService {
                 GBApplication.deviceService().onSetCallState(callSpec);
             }
         }
-        // FIXME: DISABLED for now
 
         if (shouldIgnoreNotification(sbn, true)) return;
 
-        Prefs prefs = GBApplication.getPrefs();
-        if (prefs.getBoolean("autoremove_notifications", true)) {
-            LOG.info("notification removed, will ask device to delete it");
-            Object o = mNotificationHandleLookup.lookupByValue(sbn.getPostTime());
+        // Build list of all currently active notifications
+        ArrayList<Integer> activeNotificationsIds = new ArrayList<Integer>();
+        for (StatusBarNotification notification : getActiveNotifications()) {
+            Object o = mNotificationHandleLookup.lookupByValue(notification.getPostTime());
             if(o != null) {
                 int id = (int) o;
-                GBApplication.deviceService().onDeleteNotification(id);
+                activeNotificationsIds.add(id);
             }
         }
 
+        // Build list of notifications that aren't active anymore
+        ArrayList<Integer> notificationsToRemove = new ArrayList<Integer>();
+        for (int notificationId : notificationsActive) {
+            if (!activeNotificationsIds.contains(notificationId)) {
+                notificationsToRemove.add(notificationId);
+            }
+        }
+
+        // Clean up removed notifications from internal list
+        notificationsActive.removeAll(notificationsToRemove);
+
+        // Send notification remove request to device
+        GBDevice connectedDevice = GBApplication.app().getDeviceManager().getSelectedDevice();
+        if (connectedDevice != null) {
+            Prefs prefs = new  Prefs(GBApplication.getDeviceSpecificSharedPrefs(connectedDevice.getAddress()));
+            if (prefs.getBoolean("autoremove_notifications", true)) {
+                for (int id : notificationsToRemove) {
+                    LOG.info("Notification " + id + " removed, will ask device to delete it");
+                    GBApplication.deviceService().onDeleteNotification(id);
+                }
+            }
+        }
     }
 
     private void logNotification(StatusBarNotification sbn, boolean posted) {

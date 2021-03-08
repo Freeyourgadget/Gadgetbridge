@@ -105,7 +105,7 @@ public class FossilWatchAdapter extends WatchAdapter {
 
     private int lastButtonIndex = -1;
 
-    protected Logger logger = LoggerFactory.getLogger(getClass().getSimpleName());
+    protected final Logger LOG = LoggerFactory.getLogger(getClass().getSimpleName());
 
     SupportedFileVersionsInfo supportedFileVersions;
 
@@ -740,7 +740,7 @@ public class FossilWatchAdapter extends WatchAdapter {
     }
 
     private void log(String message) {
-        logger.debug(message);
+        LOG.debug(message);
     }
 
     public void queueWrite(SetDeviceStateRequest request, boolean priorise) {
