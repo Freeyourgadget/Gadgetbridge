@@ -1191,4 +1191,11 @@ Temps de sommeil préféré en heures</string>
     <string name="fossil_hr_unavailable_unauthed">Indisponible en mode non authentifié</string>
     <string name="fossil_hr_synced_activity_data">Données d\'activité synchronisées</string>
     <string name="fossil_hr_commute_processing">En cours de traitement...</string>
+    <string name="qhybrid_title_calibration">Calibration</string>
+    <string name="qhybrid_title_apps_management">Gestion des apps</string>
+    <string name="qhybrid_title_file_management">Gestion de fichiers</string>
+    <string name="qhybrid_title_background_image">Image de fond</string>
+    <string name="qhybrid_title_apps">Apps</string>
+    <string name="qhybrid_title_watchface_apps">Écran et apps</string>
+    <string name="devicetype_um25">UM-25</string>
 </resources>
