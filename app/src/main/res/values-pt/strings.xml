@@ -529,7 +529,7 @@
     <string name="mi2_prefs_button_press_broadcast_summary">Enviar mensagem após um número definido de toques no botão</string>
     <string name="mi2_prefs_button_action">Ativar botão</string>
     <string name="mi2_prefs_button_action_vibrate">Ativar vibração</string>
-    <string name="debugactivity_really_factoryreset">Efetuar uma reposição de fábrica eliminará todos os dados do aparelhos ligado (caso seja suportado). Além disso, aparelhos Xiaomi/Huami mudarão os seus endereços MAC, aparecendo como aparelhos novos para o Gadgetbridge.</string>
+    <string name="debugactivity_really_factoryreset">Efetuar uma reposição de fábrica elemina todos os dados dos dispositivos ligados (caso seja suportado). Além disso, dispositivos Xiaomi/Huami mudam os endereços MAC, aparecendo como dispositivos novos para o Gadgetbridge.</string>
     <string name="mi2_prefs_button_press_broadcast_default_value" translatable="false">nodomain.freeyourgadget.gadgetbridge.ButtonPressed</string>
     <plurals name="widget_alarm_target_hours">
         <item quantity="one">%d hora</item>
@@ -1053,4 +1053,14 @@
     <string name="sonyswr12_settings_low_vibration_summary">Ativar baixa intensidade de vibração na banda</string>
     <string name="sonyswr12_settings_stamina_summary">O modo de economia de energia desativa a medição automática periódica da frequência cardíaca, aumentando assim o tempo de trabalho</string>
     <string name="sonyswr12_settings_alarm_interval_summary">O intervalo de alarme inteligente é o intervalo antes do alarme instalado. Neste intervalo, o dispositivo está tentando detectar a fase mais leve do sono para acordar o usuário</string>
+    <string name="calendar_year">Ano</string>
+    <string name="calendar_six_months">6 meses</string>
+    <string name="calendar_three_months">3 meses</string>
+    <string name="calendar_month">Mês</string>
+    <string name="calendar_two_weeks">Duas semanas</string>
+    <string name="calendar_week">Semana</string>
+    <string name="calendar_day">Dia</string>
+    <string name="battery_level">Nível de bateria</string>
+    <string name="battery_detail_activity_title">Informação da bateria</string>
+    <string name="find_lost_device_message">Procurar %1$s\?</string>
 </resources>
