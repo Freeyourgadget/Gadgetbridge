@@ -122,7 +122,7 @@
     <string name="pref_title_enable_calendar_sync">Synkroniser kalender</string>
     <string name="pref_summary_enable_calendar_sync">Send kalenderhendelser til tidslinjen</string>
     <string name="pref_title_autoremove_notifications">Fjern forkastede merknader automatisk</string>
-    <string name="pref_summary_autoremove_notifications">Merknader blir automatisk fjernet fra Pebble-enheten når de forkastes fra Android-enheten</string>
+    <string name="pref_summary_autoremove_notifications">Merknader blir automatisk fjernet fra enheten når de forkastes fra telefonen</string>
     <string name="pref_title_pebble_privacy_mode">Personvernsmodus</string>
     <string name="pref_pebble_privacy_mode_off">Normale merknader</string>
     <string name="pref_pebble_privacy_mode_content">Vis merknadsteksten utenfor skjermen</string>
@@ -371,8 +371,8 @@
     <string name="live_activity_heart_rate">Puls</string>
     <string name="pref_title_pebble_health_store_raw">Lagre rådata i databasen</string>
     <string name="pref_summary_pebble_health_store_raw">Hvis valgt blir dataen lagret \"som den er\", noe som øker databasebruk for senere fortolkning.</string>
-    <string name="action_db_management">Databasebehandling</string>
-    <string name="title_activity_db_management">Databasebehandling</string>
+    <string name="action_db_management">Databehandling</string>
+    <string name="title_activity_db_management">Databehandling</string>
     <string name="dbmanagementactivity_exported_to">Eksporter til: %1$s</string>
     <string name="dbmanagementactivity_error_exporting_db">Feil ved eksport av DB: %1$s</string>
     <string name="dbmanagementactivity_error_exporting_shared">Feil ved eksport av innstilling: %1$s</string>
@@ -437,7 +437,7 @@
     <string name="devicetype_miband">Mi Band</string>
     <string name="devicetype_miband2">Mi Band 2</string>
     <string name="pref_title_charts_swipe">Skru på venstre-/høyredragning i poengtavleaktiviteten</string>
-    <string name="pref_title_weather_location">Vær-plassering (CM/LOS)</string>
+    <string name="pref_title_weather_location">Vær-plassering (for LineageOS-værtilbyder)</string>
     <string name="pref_header_cannned_messages">Forhåndsutfylte meldinger</string>
     <string name="pref_title_canned_reply_suffix">Vanlig endelse</string>
     <string name="pref_title_canned_messages_dismisscall">Legg på røret</string>
@@ -500,7 +500,7 @@
     <string name="activity_type_walking">Gåing</string>
     <string name="activity_type_swimming">Svømming</string>
     <string name="activity_type_unknown">Ukjent aktivitet</string>
-    <string name="activity_summaries">Aktiviteter</string>
+    <string name="activity_summaries">Sportsaktiviteter</string>
     <string name="activity_type_biking">Sykling</string>
     <string name="activity_type_treadmill">Tredemølle</string>
     <string name="select_all">Velg alle</string>
@@ -727,8 +727,8 @@
     <string name="pref_summary_use_custom_font">Skru på dette hvis din enhet har egendefinert skrift-fastvare for emoji-støtte</string>
     <string name="activity_db_management_autoexport_explanation">Automatisk eksportplassering for database satt til:</string>
     <string name="activity_db_management_autoexport_label">Automatisk eksport</string>
-    <string name="activity_DB_ExportButton">Eksporter database</string>
-    <string name="activity_DB_import_button">Importer database</string>
+    <string name="activity_DB_ExportButton">Eksporter data</string>
+    <string name="activity_DB_import_button">Importer data</string>
     <string name="activity_DB_test_export_button">Kjør automatisk eksport nå</string>
     <string name="activity_DB_delete_legacy_button">Slett gammel database</string>
     <string name="activity_DB_empty_button">Tøm database</string>
@@ -757,7 +757,7 @@
     <string name="devicetype_makibes_hr3">Makibes HR3</string>
     <string name="devicetype_amazfit_bip_lite">Amazfit Bip Lite</string>
     <string name="prefs_find_phone">Finn telefon</string>
-    <string name="prefs_enable_find_phone">Skru på \"Finn telefon\"</string>
+    <string name="prefs_enable_find_phone">Skru på «Finn telefon»</string>
     <string name="prefs_find_phone_summary">Bruk båndet ditt til å spille av telefonens ringetone.</string>
     <string name="prefs_find_phone_duration">Anropsvarighet i sekunder</string>
     <string name="maximum_duration">Varighet</string>
@@ -898,10 +898,10 @@
     <string name="about_title">Om</string>
     <string name="menuitem_worldclock">Verdensklokke</string>
     <string name="menuitem_stress">Stress</string>
-    <string name="menuitem_cycles">Åndedrag</string>
+    <string name="menuitem_cycles">Periode</string>
     <string name="menuitem_breathing">Pusting</string>
     <string name="devicetype_miband5">Mi Band 5</string>
-    <string name="ascentSeconds">Stigning</string>
+    <string name="ascentSeconds">Stigende</string>
     <string name="descentSeconds">Fall</string>
     <string name="Activity">Aktivitet</string>
     <string name="Speed">Hastighet</string>
@@ -944,9 +944,9 @@
     <string name="ascentMeters">Oppoverbakke</string>
     <string name="distanceMeters">Distanse</string>
     <string name="activity_detail_show_gps_label">Vis GPS-spor</string>
-    <string name="activity_detail_duration_label">Varighet:</string>
-    <string name="activity_detail_end_label">Slutt:</string>
-    <string name="activity_detail_start_label">Start:</string>
+    <string name="activity_detail_duration_label">Varighet</string>
+    <string name="activity_detail_end_label">Slutt</string>
+    <string name="activity_detail_start_label">Start</string>
     <string name="Steps">Steg</string>
     <string name="activity_type_yoga">Yoga</string>
     <string name="bip_prefs_shotcuts_summary">Velg snarveiene på bånd-skjermen</string>
@@ -971,7 +971,7 @@
     <string name="seconds_m">sek/m</string>
     <string name="device_requires_key">NØKKEL KREVES</string>
     <string name="permission_granting_mandatory">Alle disse tilgangene er påkrevd og ustabilitet kan oppstå hvis de ikke innvilges</string>
-    <string name="about_additional_contributions">Mange takk til alle ulistede bidragsytere for kode, støtte, idéer, motivasjon, feilrapporter, penger… ✊</string>
+    <string name="about_additional_contributions">Mange takk til alle ulistede bidragsytere for kode, oversettelser, støtte, idéer, motivasjon, feilrapporter, penger… ✊</string>
     <string name="about_core_team_title">Kjernelag (sortert etter første kodebidrag)</string>
     <string name="devicetype_pinetime_jf">PineTime (JF-fastvare)</string>
     <string name="activity_summary_detail">Sportaktivitetsdetalj</string>
@@ -1189,4 +1189,15 @@
     <string name="calendar_week">Uke</string>
     <string name="calendar_day">Dag</string>
     <string name="battery_level">Batterinivå</string>
+    <string name="fossil_hr_auth_failed">Identitetsbekreftelse mislyktes, begrenset funksjonalitet</string>
+    <string name="fossil_hr_unavailable_unauthed">Ikke tilgjengelig i uten identitetsbekreftelse</string>
+    <string name="fossil_hr_synced_activity_data">Synkroniserte aktivitetsdata</string>
+    <string name="fossil_hr_commute_processing">Behandler forespørsel …</string>
+    <string name="qhybrid_title_watchface_apps">Urskive og programmer</string>
+    <string name="qhybrid_title_apps">Programmer</string>
+    <string name="qhybrid_title_background_image">Bakgrunnsbilde</string>
+    <string name="qhybrid_title_calibration">Kalibrering</string>
+    <string name="qhybrid_title_apps_management">Programbehandling</string>
+    <string name="qhybrid_title_file_management">Filbehandling</string>
+    <string name="devicetype_um25">UM-25</string>
 </resources>
