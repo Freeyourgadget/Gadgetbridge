@@ -181,6 +181,7 @@ public class PebbleCoordinator extends AbstractDeviceCoordinator {
     @Override
     public int[] getSupportedDeviceSpecificSettings(GBDevice device) {
         return new int[]{
+                R.xml.devicesettings_autoremove_notifications,
                 R.xml.devicesettings_canned_reply_16,
                 R.xml.devicesettings_canned_dismisscall_16
         };
