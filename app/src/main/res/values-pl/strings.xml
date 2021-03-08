@@ -382,7 +382,7 @@
     <string name="pref_title_call_privacy_mode">Tryb prywatności połączeń telefonicznych</string>
     <string name="pref_title_weather_location">Lokalizacja pogody (dla dostawcy pogody LineageOS)</string>
     <string name="pref_summary_enable_outgoing_call">Wyłączenie tej opcji spowoduje również, że Pebble 2/LE przestanie wibrować przy połączeniach wychodzących</string>
-    <string name="pref_summary_autoremove_notifications">Powiadomienia są automatycznie usuwane z Pebble po usunięciu z urządzenia Android</string>
+    <string name="pref_summary_autoremove_notifications">Powiadomienia są automatycznie usuwane z urządzenia po usunięciu z telefonu</string>
     <string name="pref_pebble_privacy_mode_content">Przesuń tekst powiadomienia poza ekran</string>
     <string name="pref_summary_location_keep_uptodate">Spróbuj uzyskać lokalizację w czasie uruchomienia, używa przechowywanych lokalizacji jako pomocy</string>
     <string name="controlcenter_change_led_color">Zmień kolor LED</string>
@@ -1204,4 +1204,11 @@
     <string name="fossil_hr_unavailable_unauthed">Niedostępne w trybie bez uwierzytelnienia</string>
     <string name="fossil_hr_synced_activity_data">Zsynchronizowane dane dotyczące aktywności</string>
     <string name="fossil_hr_commute_processing">Przetwarzanie żądania…</string>
+    <string name="qhybrid_title_watchface_apps">Watchface\'y i aplikacje</string>
+    <string name="qhybrid_title_calibration">Kalibracja</string>
+    <string name="qhybrid_title_apps_management">Zarządzanie aplikacjami</string>
+    <string name="qhybrid_title_file_management">Zarządzanie plikami</string>
+    <string name="qhybrid_title_background_image">Obraz tła</string>
+    <string name="qhybrid_title_apps">Aplikacje</string>
+    <string name="devicetype_um25">UM-25</string>
 </resources>
