@@ -115,7 +115,7 @@
     <string name="pref_title_enable_calendar_sync">Synchroniser le calendrier</string>
     <string name="pref_summary_enable_calendar_sync">Envoyer les événements du calendrier sur la timeline</string>
     <string name="pref_title_autoremove_notifications">Effacer automatiquement les notifications rejetées</string>
-    <string name="pref_summary_autoremove_notifications">Les notifications sont automatiquement effacées de la Pebble lorsqu\'elles sont rejetées sur l\'appareil Android</string>
+    <string name="pref_summary_autoremove_notifications">Les notifications sont automatiquement effacées de l\'appareil lorsqu\'elles sont rejetées sur le téléphone</string>
     <string name="pref_title_pebble_privacy_mode">Mode privé</string>
     <string name="pref_pebble_privacy_mode_off">Notifications normales</string>
     <string name="pref_pebble_privacy_mode_content">Déplace les notifications hors de l\'écran</string>
@@ -968,7 +968,7 @@ Temps de sommeil préféré en heures</string>
     <string name="flatSeconds">Plat</string>
     <string name="ascentSeconds">Ascendant</string>
     <string name="swimStyle">Type de nage</string>
-    <string name="swolfIndex">swolfIndex</string>
+    <string name="swolfIndex">index swolf</string>
     <string name="averageLapPace">Moyenne de pause</string>
     <string name="averageStrokesPerSecond">Foulées moyennes</string>
     <string name="averageStrokeDistance">Distance moyenne de foulée</string>
