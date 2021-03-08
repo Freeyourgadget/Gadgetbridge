@@ -154,6 +154,7 @@ public class ActivitySummariesChartFragment extends AbstractChartFragment {
         }
 
         chart.getLegend().setCustom(legendEntries);
+        chart.getLegend().setTextColor(LEGEND_TEXT_COLOR);
         chart.getLegend().setWordWrapEnabled(true);
         chart.getLegend().setHorizontalAlignment(Legend.LegendHorizontalAlignment.CENTER);
     }

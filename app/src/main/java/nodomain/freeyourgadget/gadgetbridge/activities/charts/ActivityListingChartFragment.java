@@ -73,7 +73,7 @@ public class ActivityListingChartFragment extends AbstractChartFragment {
                 if (item.getSessionType() != ActivitySession.SESSION_SUMMARY) {
                     int tsFrom = (int) (item.getStartTime().getTime() / 1000);
                     int tsTo = (int) (item.getEndTime().getTime() / 1000);
-                    showDetail(tsFrom, tsTo, getChartsHost().getDevice());
+                    showDetail(tsFrom, tsTo, item, getChartsHost().getDevice());
                 }
             }
         });
@@ -206,9 +206,9 @@ public class ActivityListingChartFragment extends AbstractChartFragment {
         listingDashboardFragment.show(fm, "activity_list_total_dashboard");
     }
 
-    private void showDetail(int tsFrom, int tsTo, GBDevice device) {
+    private void showDetail(int tsFrom, int tsTo, ActivitySession item, GBDevice device) {
         FragmentManager fm = getActivity().getSupportFragmentManager();
-        ActivityListingDetail listingDetailFragment = ActivityListingDetail.newInstance(tsFrom, tsTo, device);
+        ActivityListingDetail listingDetailFragment = ActivityListingDetail.newInstance(tsFrom, tsTo, item, device);
         listingDetailFragment.show(fm, "activity_list_detail");
     }
 

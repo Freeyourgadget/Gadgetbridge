@@ -1,10 +1,11 @@
 package nodomain.freeyourgadget.gadgetbridge.model;
 
+import java.io.Serializable;
 import java.util.Date;
 
 // ActivitySession holds activities detected by the steps/hr/intensity
 // and is used in the Activity List
-public class ActivitySession {
+public class ActivitySession implements Serializable {
 
     public static int SESSION_NORMAL = 1;
     public static int SESSION_SUMMARY = 2;

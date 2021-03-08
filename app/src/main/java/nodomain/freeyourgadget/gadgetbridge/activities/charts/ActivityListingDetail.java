@@ -1,9 +1,15 @@
 package nodomain.freeyourgadget.gadgetbridge.activities.charts;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewParent;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
@@ -14,6 +20,7 @@ import org.slf4j.LoggerFactory;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.activities.ActivitySummariesChartFragment;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
+import nodomain.freeyourgadget.gadgetbridge.model.ActivitySession;
 
 public class ActivityListingDetail extends DialogFragment {
     protected static final Logger LOG = LoggerFactory.getLogger(ActivityListingDetail.class);
@@ -22,11 +29,12 @@ public class ActivityListingDetail extends DialogFragment {
 
     }
 
-    public static ActivityListingDetail newInstance(int tsFrom, int tsTo, GBDevice device) {
+    public static ActivityListingDetail newInstance(int tsFrom, int tsTo, ActivitySession item, GBDevice device) {
         ActivityListingDetail frag = new ActivityListingDetail();
         Bundle args = new Bundle();
         args.putInt("tsFrom", tsFrom);
         args.putInt("tsTo", tsTo);
+        args.putSerializable("item", item);
         args.putParcelable(GBDevice.EXTRA_DEVICE, device);
         frag.setArguments(args);
         return frag;
@@ -45,6 +53,7 @@ public class ActivityListingDetail extends DialogFragment {
 
         int tsFrom = getArguments().getInt("tsFrom");
         int tsTo = getArguments().getInt("tsTo");
+        ActivitySession item = (ActivitySession) getArguments().getSerializable("item");
         GBDevice gbDevice;
         gbDevice = getArguments().getParcelable(GBDevice.EXTRA_DEVICE);
         if (gbDevice == null) {
@@ -57,5 +66,9 @@ public class ActivityListingDetail extends DialogFragment {
                 .replace(R.id.chartsFragmentHolder, activitySummariesChartFragment)
                 .commit();
         activitySummariesChartFragment.setDateAndGetData(gbDevice, tsFrom, tsTo);
+
+        ActivityListingAdapter stepListAdapter = new ActivityListingAdapter(getContext());
+        View activityItem = view.findViewById(R.id.activityItemHolder);
+        stepListAdapter.fill_item(item, 0, activityItem, null);
     }
 }

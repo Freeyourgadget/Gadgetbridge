@@ -10,9 +10,15 @@
     android:minWidth="1000dp"
     android:orientation="vertical">
 
+    <include layout="@layout/activity_list_item"
+        android:id="@+id/activityItemHolder"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent" />
+
     <FrameLayout
         android:id="@+id/chartsFragmentHolder"
         android:layout_width="match_parent"
         android:layout_height="300dp"></FrameLayout>
+
 
 </LinearLayout>

@@ -77,21 +77,20 @@ public abstract class AbstractActivityListingAdapter<T> extends ArrayAdapter<T> 
         if (isSummary(item, position)) {
             view = fill_dashboard(item, position, view, parent, context);
         } else if (isEmptySession(item, position)) {
-            view = fill_empty(item, position, view, parent);
+            view = fill_empty(parent);
         } else {
             view = fill_item(item, position, view, parent);
         }
 
         return view;
-
-
     }
 
-    private View fill_item(T item, int position, View view, ViewGroup parent) {
-        view = null;
-        LayoutInflater inflater = (LayoutInflater) context
-                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        view = inflater.inflate(R.layout.activity_list_item, parent, false);
+    public View fill_item(T item, int position, View view, ViewGroup parent) {
+        if (parent != null) {
+            LayoutInflater inflater = (LayoutInflater) context
+                    .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            view = inflater.inflate(R.layout.activity_list_item, parent, false);
+        }
         TextView timeFrom = view.findViewById(R.id.line_layout_time_from);
         TextView timeTo = view.findViewById(R.id.line_layout_time_to);
         TextView activityName = view.findViewById(R.id.line_layout_activity_name);
@@ -176,11 +175,10 @@ public abstract class AbstractActivityListingAdapter<T> extends ArrayAdapter<T> 
         return view;
     }
 
-    private View fill_empty(T item, int position, View view, ViewGroup parent) {
-        view = null;
+    private View fill_empty(ViewGroup parent) {
         LayoutInflater inflater = (LayoutInflater) context
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        view = inflater.inflate(R.layout.activity_list_item, parent, false);
+        View view = inflater.inflate(R.layout.activity_list_item, parent, false);
         view.setVisibility(View.GONE);
         return view;
     }
