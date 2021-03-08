@@ -147,7 +147,7 @@
     <string name="pref_title_weather">Weer</string>
     <string name="pref_title_weather_location">Weer locatie (voor LinageOS weer aanbieder)</string>
     <string name="pref_title_autoremove_notifications">Verwijder automatisch verworpen meldingen</string>
-    <string name="pref_summary_autoremove_notifications">Meldingen worden automatisch verwijderd op de Pebble als ze verwijderd worden op het Android toestel</string>
+    <string name="pref_summary_autoremove_notifications">Meldingen worden automatisch verwijderd op het apparaat als ze verwijderd worden op de telefoon</string>
     <string name="pref_pebble_privacy_mode_content">Schuif de meldingstekst van het scherm</string>
     <string name="pref_header_cannned_messages">Voorgedefinieerde berichten</string>
     <string name="pref_title_pebble_forceprotocol">Verplicht meldings protocol</string>
@@ -1197,4 +1197,11 @@
     <string name="fossil_hr_synced_activity_data">Activiteitsgegevens gesynchroniseerd</string>
     <string name="fossil_hr_commute_processing">Aanvraag verwerken...</string>
     <string name="calendar_three_months">3 maanden</string>
+    <string name="qhybrid_title_calibration">Kalibratie</string>
+    <string name="qhybrid_title_apps_management">Apps-beheer</string>
+    <string name="qhybrid_title_file_management">Bestandsbeheer</string>
+    <string name="qhybrid_title_background_image">Achtergrondafbeelding</string>
+    <string name="qhybrid_title_apps">Apps</string>
+    <string name="qhybrid_title_watchface_apps">Wijzerplaat en apps</string>
+    <string name="devicetype_um25">UM-25</string>
 </resources>
