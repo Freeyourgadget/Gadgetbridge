@@ -563,7 +563,7 @@
     <string name="pref_summary_allow_high_mtu">Aktarım hızını artırır, ancak bazı Android aygıtlarda çalışmayabilir.</string>
     <string name="pref_summary_authkey">Kimlik doğrulama anahtarını, bağlanmak istediğiniz tüm Android aygıtlarınızda ortak bir anahtar olarak değiştirin. Tüm aygıtlar için önceki öntanımlı anahtar: 0123456789@ABCDE</string>
     <string name="pref_summary_auto_export_interval">Her %d saatte bir dışa aktar</string>
-    <string name="pref_summary_autoremove_notifications">Bildirimler Android aygıtından silindiğinde otomatik olarak Pebble üzerinden kaldırılır</string>
+    <string name="pref_summary_autoremove_notifications">Telefondan kapatıldığında bildirimler aygıttan otomatik olarak kaldırılır</string>
     <string name="pref_summary_contextual_arabic">Arapça içeriği desteklemek için bunu etkinleştirin</string>
     <string name="pref_summary_custom_deviceicon">Bağlandığında Gadgetbridge simgesi yerine aygıta özel bir Android bildirim simgesi göster</string>
     <string name="pref_summary_datetime_syctimeonconnect">Bağlanırken ve Android aygıtında saat ve saat dilimi değiştiğinde saati Gadgetbridge aygıtına eşzamanla</string>
@@ -1221,4 +1221,11 @@
     <string name="fossil_hr_unavailable_unauthed">Kimliği doğrulanmamış modda kullanılamaz</string>
     <string name="fossil_hr_synced_activity_data">Etkinlik verileri eşzamanlandı</string>
     <string name="fossil_hr_commute_processing">İstek işleniyor...</string>
+    <string name="qhybrid_title_calibration">Kalibrasyon</string>
+    <string name="qhybrid_title_apps_management">Uygulama yönetimi</string>
+    <string name="qhybrid_title_file_management">Dosya yönetimi</string>
+    <string name="qhybrid_title_background_image">Arka plan görüntüsü</string>
+    <string name="qhybrid_title_apps">Uygulamalar</string>
+    <string name="qhybrid_title_watchface_apps">Saat arayüzü ve uygulamalar</string>
+    <string name="devicetype_um25">UM-25</string>
 </resources>
