@@ -101,7 +101,7 @@
     <string name="pref_title_sunrise_sunset">זריחה ושקיעה</string>
     <string name="pref_summary_sunrise_sunset">שליחת מועדי זריחה ושקיעה בהתבסס על המיקום לציר הזמן של Pebble</string>
     <string name="pref_title_autoremove_notifications">הסרה אוטומטית של דיווחים שהתעלמת מהם</string>
-    <string name="pref_summary_autoremove_notifications">דיווחים מוסרים אוטומטית מה־Pebble כשהתעלמת מהם בהתקן האנדרואיד</string>
+    <string name="pref_summary_autoremove_notifications">דיווחים מוסרים אוטומטית מהמכשיר כשהתעלמת מהם בטלפון</string>
     <string name="pref_title_pebble_privacy_mode">מצב פרטיות</string>
     <string name="pref_pebble_privacy_mode_off">דיווחים רגילים</string>
     <string name="pref_pebble_privacy_mode_content">החלקת טקסט הדיווח אל מחוץ למסך</string>
@@ -1193,4 +1193,11 @@
     <string name="fossil_hr_unavailable_unauthed">לא זמין במצב בלתי־מאומת</string>
     <string name="fossil_hr_synced_activity_data">נתוני פעילות מסונכרנים</string>
     <string name="fossil_hr_commute_processing">הבקשה בהליכי עיבוד…</string>
+    <string name="qhybrid_title_calibration">כיול</string>
+    <string name="qhybrid_title_apps_management">ניהול יישומונים</string>
+    <string name="qhybrid_title_file_management">ניהול קבצים</string>
+    <string name="qhybrid_title_background_image">תמונת רקע</string>
+    <string name="qhybrid_title_apps">יישומונים</string>
+    <string name="qhybrid_title_watchface_apps">פני השעון ויישומונים</string>
+    <string name="devicetype_um25">UM-25</string>
 </resources>
