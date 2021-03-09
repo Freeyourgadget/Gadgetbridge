@@ -124,7 +124,7 @@
     <string name="pref_title_enable_calendar_sync">同步记录</string>
     <string name="pref_summary_enable_calendar_sync">将记录发送到时间表</string>
     <string name="pref_title_autoremove_notifications">自动删除已错过的通知</string>
-    <string name="pref_summary_autoremove_notifications">当您从 Android 设备上删除时，通知将自动从 Pebble 中删除</string>
+    <string name="pref_summary_autoremove_notifications">当您从 Android 设备上删除时，通知将自动从设备中删除</string>
     <string name="pref_title_pebble_privacy_mode">隐私模式</string>
     <string name="pref_pebble_privacy_mode_off">正常通知</string>
     <string name="pref_pebble_privacy_mode_content">将通知文本移出屏幕</string>
@@ -1202,4 +1202,11 @@
     <string name="fossil_hr_unavailable_unauthed">未认证模式下不可用</string>
     <string name="fossil_hr_synced_activity_data">已同步的活动数据</string>
     <string name="fossil_hr_commute_processing">正在处理请求……</string>
+    <string name="qhybrid_title_calibration">校准</string>
+    <string name="qhybrid_title_apps_management">应用管理</string>
+    <string name="qhybrid_title_file_management">文件管理</string>
+    <string name="qhybrid_title_background_image">背景图片</string>
+    <string name="qhybrid_title_apps">应用</string>
+    <string name="qhybrid_title_watchface_apps">表盘与应用</string>
+    <string name="devicetype_um25">UM-25</string>
 </resources>
