@@ -60,6 +60,8 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fos
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.widget.CustomWidget;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.widget.CustomWidgetElement;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.widget.Widget;
+import nodomain.freeyourgadget.gadgetbridge.util.GB;
+import nodomain.freeyourgadget.gadgetbridge.util.Version;
 
 import static nodomain.freeyourgadget.gadgetbridge.devices.qhybrid.WidgetSettingsActivity.RESULT_CODE_WIDGET_DELETED;
 import static nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.QHybridSupport.QHYBRID_COMMAND_UPDATE_WIDGETS;
@@ -189,6 +191,21 @@ public class HRConfigActivity extends AbstractGBActivity implements View.OnClick
         }
 
         updateSettings();
+
+        // Disable some functions on watches with too new firmware (from official app 4.6.0 and higher)
+        String fwVersion_str = GBApplication.app().getDeviceManager().getSelectedDevice().getFirmwareVersion();
+        fwVersion_str = fwVersion_str.replaceFirst("^DN", "").replaceFirst("r\\.v.*", "");
+        Version fwVersion = new Version(fwVersion_str);
+        if (fwVersion.compareTo(new Version("1.0.2.20")) >= 0) {
+            findViewById(R.id.qhybrid_widget_add).setEnabled(false);
+            for (int i = 0; i < widgetButtonsMapping.size(); i++) {
+                final int widgetButtonId = widgetButtonsMapping.keyAt(i);
+                findViewById(widgetButtonId).setEnabled(false);
+            }
+            findViewById(R.id.qhybrid_set_background).setEnabled(false);
+            findViewById(R.id.qhybrid_unset_background).setEnabled(false);
+            GB.toast(getString(R.string.fossil_hr_warning_firmware_too_new), Toast.LENGTH_LONG, GB.INFO);
+        }
     }
 
     @Override
