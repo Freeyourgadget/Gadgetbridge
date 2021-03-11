@@ -921,10 +921,6 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
     public void onDeleteNotification(int id) {
         super.onDeleteNotification(id);
 
-        if (connectionMode == CONNECTION_MODE.NOT_AUTHENTICATED) {
-            return;
-        }
-
         // send notification dismissal message to watch
         try {
             queueWrite(new DismissTextNotificationRequest(id, this));
