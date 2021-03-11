@@ -108,7 +108,7 @@
     <string name="pref_title_sunrise_sunset">Východ a západ slunce</string>
     <string name="pref_summary_sunrise_sunset">Zasílat časy východu a západu slunce dle aktuální polohy do časové osy Pebble</string>
     <string name="pref_title_autoremove_notifications">Automaticky odstraňovat skryté notifikace</string>
-    <string name="pref_summary_autoremove_notifications">Notifikace budou z Pebble odstraněny automaticky, pokud byly skryty na zařízení s Androidem</string>
+    <string name="pref_summary_autoremove_notifications">Notifikace budou ze zařízení odstraněny automaticky po označení jako přečtené na telefonu</string>
     <string name="pref_title_pebble_privacy_mode">Soukromý režim</string>
     <string name="pref_pebble_privacy_mode_off">Běžné notifikace</string>
     <string name="pref_pebble_privacy_mode_content">Posunout text notifikace mimo displej</string>
@@ -1137,9 +1137,9 @@
     <string name="prefs_key_vibration">Vibrace kláves</string>
     <string name="prefs_autolight">Automatické podsvícení</string>
     <string name="menuitem_sleep">Spánek</string>
-    <string name="menuitem_goal">Cíle Aktivity</string>
+    <string name="menuitem_goal">Cíl aktivit</string>
     <string name="devicetype_amazfit_vergel">Amazfit Verge Lite</string>
-    <string name="discovery_entered_invalid_authkey">Vložený tajný klíč není platný. Podržte dlouze na jménu zařízení pro jeho editaci.</string>
+    <string name="discovery_entered_invalid_authkey">Zadaný autorizační klíč je neplatný! Podržte dlouze na jménu zařízení pro jeho editaci.</string>
     <string name="pref_title_connected_advertisement">Viditelné když připojeno</string>
     <string name="fw_upgrade_notice_amazfitvergel">Chystáte se nainstalovat firmvér %s na vašem Amazfit Verge Lite.
 \n
@@ -1160,13 +1160,13 @@
     <string name="activity_DB_clean_export_directory_warning_title">Chcete odstranit soubory z Export/Import složky\?</string>
     <string name="activity_db_management_clean_export_directory_label">Odstranění souborů ze složky Export/Import</string>
     <string name="dbmanagementactivity_error_cleaning_export_directory">Došlo k chybě při mazání souborů ze složky exportu %1$s</string>
-    <string name="fw_upgrade_notice_amazfitx">Chystáte se nainstalovat firmvér %s na vašem Amazfit X.
+    <string name="fw_upgrade_notice_amazfitx">Chystáte se nainstalovat firmvér %s na váš Amazfit X.
 \n
-\nProsím nezapomeňte nainstalovat soubor .fw, potom soubor .res a nakonec soubor .gps. Vaše hodinky se po instalaci souboru .fw restartují.
+\nProsím nezapomeňte nainstalovat soubor .fw a až potom soubor .res. Váš náramek se po instalaci souboru .fw restartuje.
 \n
-\nPoznámka: Nemusíte instalovat .res a .gps, pokud jsou tyto soubory přesně stejné jako ty, které byly nainstalovány dříve.
+\nPoznámka: Nemusíte instalovat .res, pokud je tento soubor přesně stejný jako ten, který byl nainstalovaný dříve.
 \n
-\nPOKRAČUJTE TO NA VLASTNÍ NEBEZPEČÍ!</string>
+\nPOKRAČUJTE NA VLASTNÍ NEBEZPEČÍ!</string>
     <string name="fossil_hr_auth_failed">Ověření selhalo</string>
     <string name="fossil_hr_unavailable_unauthed">Není dostupné v neověřeném módu</string>
     <string name="fossil_hr_synced_activity_data">Data aktivit synchronizována</string>
@@ -1186,12 +1186,19 @@
     <string name="show_ongoing_activity">Zobrazovat informaci o probíhající aktivitě</string>
     <string name="dialog_hide">Skrýt</string>
     <string name="calendar_year">Rok</string>
-    <string name="calendar_six_months">6 měsíců</string>
+    <string name="calendar_six_months">Půl roku</string>
     <string name="calendar_three_months">3 měsíce</string>
     <string name="calendar_month">Měsíc</string>
     <string name="calendar_two_weeks">Dva týdny</string>
     <string name="calendar_week">Týden</string>
     <string name="calendar_day">Den</string>
-    <string name="battery_level">Úroveň baterie</string>
+    <string name="battery_level">Úroveň nabití</string>
     <string name="battery_detail_activity_title">Informace o baterii</string>
+    <string name="qhybrid_title_calibration">Kalibrace</string>
+    <string name="qhybrid_title_apps_management">Správa aplikací</string>
+    <string name="qhybrid_title_file_management">Správa souborů</string>
+    <string name="qhybrid_title_background_image">Obrázek na pozadí</string>
+    <string name="qhybrid_title_apps">Aplikace</string>
+    <string name="qhybrid_title_watchface_apps">Ciferníky a aplikace</string>
+    <string name="devicetype_um25">UM-25</string>
 </resources>
