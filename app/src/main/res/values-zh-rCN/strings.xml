@@ -1209,4 +1209,5 @@
     <string name="qhybrid_title_apps">应用</string>
     <string name="qhybrid_title_watchface_apps">表盘与应用</string>
     <string name="devicetype_um25">UM-25</string>
+    <string name="fossil_hr_warning_firmware_too_new">由于手表固件过新，某些功能被禁用</string>
 </resources>
