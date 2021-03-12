@@ -183,7 +183,7 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
         negotiateSymmetricKey();
     }
 
-    private void listApplications(){
+    private void listApplications() {
         queueWrite(new ApplicationsListRequest(this));
     }
 
@@ -219,10 +219,10 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
 
     @Override
     public void uninstallApp(String appName) {
-        for(ApplicationInformation appInfo : this.installedApplications){
-            if(appInfo.getAppName().equals(appName)){
+        for (ApplicationInformation appInfo : this.installedApplications) {
+            if (appInfo.getAppName().equals(appName)) {
                 byte handle = appInfo.getFileHandle();
-                short fullFileHandle = (short)((FileHandle.APP_CODE.getMajorHandle()) << 8 | handle);
+                short fullFileHandle = (short) ((FileHandle.APP_CODE.getMajorHandle()) << 8 | handle);
                 queueWrite(new FileDeleteRequest(fullFileHandle));
                 listApplications();
                 break;
@@ -414,6 +414,10 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
     }
 
     private void renderWidgets() {
+        Version firmwareVersion = getCleanFWVersion();
+        if (firmwareVersion != null && firmwareVersion.compareTo(new Version("1.0.2.20")) >= 0) {
+            return; // this does not work on newer firmware versions
+        }
         Prefs prefs = new Prefs(GBApplication.getDeviceSpecificSharedPrefs(getDeviceSupport().getDevice().getAddress()));
         boolean forceWhiteBackground = prefs.getBoolean("force_white_color_scheme", false);
         boolean drawCircles = prefs.getBoolean("widget_draw_circles", false);
@@ -634,10 +638,10 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
             fis.read(fileData);
             fis.close();
 
-            short handleBytes = (short)(fileData[0] & 0xFF | ((fileData[1] & 0xFF) << 8));
+            short handleBytes = (short) (fileData[0] & 0xFF | ((fileData[1] & 0xFF) << 8));
             FileHandle handle = FileHandle.fromHandle(handleBytes);
 
-            if(handle == null){
+            if (handle == null) {
                 throw new RuntimeException("unknown handle");
             }
 
@@ -649,7 +653,7 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
                 }
             });
 
-            if(handle == FileHandle.APP_CODE){
+            if (handle == FileHandle.APP_CODE) {
                 listApplications();
             }
         } catch (Exception e) {
@@ -1159,30 +1163,27 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
 
             String singlePressEvent = "short_press_release";
 
-            String firmware = getDeviceSupport().getDevice().getFirmwareVersion();
-            Matcher matcher = Pattern.compile("[0-9]+\\.[0-9]+\\.[0-9]+\\.[0-9]+").matcher(firmware); // DN1.0.2.19r.v5
-            if (matcher.find()) {
-                firmware = matcher.group(0);
-                Version version = new Version(firmware);
-                if (version.compareTo(new Version("1.0.2.19")) == -1)
-                    singlePressEvent = "single_click";
+            Version firmwareVersion = getCleanFWVersion();
+            if (firmwareVersion != null && firmwareVersion.compareTo(new Version("1.0.2.19")) < 0) {
+                singlePressEvent = "single_click";
             }
             ArrayList<ButtonConfiguration> configs = new ArrayList<>(5);
             configs.add(new ButtonConfiguration("top_" + singlePressEvent, prefs.getString(DeviceSettingsPreferenceConst.PREF_BUTTON_1_FUNCTION_SHORT, "weatherApp")));
             configs.add(new ButtonConfiguration("top_hold", prefs.getString(DeviceSettingsPreferenceConst.PREF_BUTTON_1_FUNCTION_LONG, "weatherApp")));
-         // configs.add(new ButtonConfiguration("top_double_click", prefs.getString(DeviceSettingsPreferenceConst.PREF_BUTTON_1_FUNCTION_DOUBLE, "weatherApp")));
+            // configs.add(new ButtonConfiguration("top_double_click", prefs.getString(DeviceSettingsPreferenceConst.PREF_BUTTON_1_FUNCTION_DOUBLE, "weatherApp")));
             configs.add(new ButtonConfiguration("middle_" + singlePressEvent, prefs.getString(DeviceSettingsPreferenceConst.PREF_BUTTON_2_FUNCTION_SHORT, "commuteApp")));
-         // configs.add(new ButtonConfiguration("middle_hold", prefs.getString(DeviceSettingsPreferenceConst.PREF_BUTTON_2_FUNCTION_LONG, "commuteApp")));
-         // configs.add(new ButtonConfiguration("middle_double_click", prefs.getString(DeviceSettingsPreferenceConst.PREF_BUTTON_2_FUNCTION_DOUBLE, "commuteApp")));
+            // configs.add(new ButtonConfiguration("middle_hold", prefs.getString(DeviceSettingsPreferenceConst.PREF_BUTTON_2_FUNCTION_LONG, "commuteApp")));
+            // configs.add(new ButtonConfiguration("middle_double_click", prefs.getString(DeviceSettingsPreferenceConst.PREF_BUTTON_2_FUNCTION_DOUBLE, "commuteApp")));
             configs.add(new ButtonConfiguration("bottom_" + singlePressEvent, prefs.getString(DeviceSettingsPreferenceConst.PREF_BUTTON_3_FUNCTION_SHORT, "musicApp")));
             configs.add(new ButtonConfiguration("bottom_hold", prefs.getString(DeviceSettingsPreferenceConst.PREF_BUTTON_3_FUNCTION_LONG, "musicApp")));
-         // configs.add(new ButtonConfiguration("bottom_double_click", prefs.getString(DeviceSettingsPreferenceConst.PREF_BUTTON_3_FUNCTION_DOUBLE, "musicApp")));
+            // configs.add(new ButtonConfiguration("bottom_double_click", prefs.getString(DeviceSettingsPreferenceConst.PREF_BUTTON_3_FUNCTION_DOUBLE, "musicApp")));
 
             // filter out all apps not installed on watch
             ArrayList<ButtonConfiguration> availableConfigs = new ArrayList<>();
-            outerLoop: for (ButtonConfiguration config : configs){
-                for(ApplicationInformation installedApp : installedApplications){
-                    if(installedApp.getAppName().equals(config.getAction())){
+            outerLoop:
+            for (ButtonConfiguration config : configs) {
+                for (ApplicationInformation installedApp : installedApplications) {
+                    if (installedApp.getAppName().equals(config.getAction())) {
                         availableConfigs.add(config);
                         continue outerLoop;
                     }
@@ -1194,13 +1195,14 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
                     this
             ));
 
-            for(ApplicationInformation info : installedApplications){
-                if(info.getAppName().equals("commuteApp")){
+            for (ApplicationInformation info : installedApplications) {
+                if (info.getAppName().equals("commuteApp")) {
                     JSONArray jsonArray = new JSONArray(
                             GBApplication.getPrefs().getString(HRConfigActivity.CONFIG_KEY_Q_ACTIONS, "[]")
                     );
                     String[] menuItems = new String[jsonArray.length()];
-                    for (int i = 0; i < jsonArray.length(); i++) menuItems[i] = jsonArray.getString(i);
+                    for (int i = 0; i < jsonArray.length(); i++)
+                        menuItems[i] = jsonArray.getString(i);
                     queueWrite(new CommuteConfigPutRequest(menuItems, this));
                     break;
                 }
@@ -1417,5 +1419,15 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
 
     public byte getJsonIndex() {
         return jsonIndex++;
+    }
+
+    private Version getCleanFWVersion() {
+        String firmware = getDeviceSupport().getDevice().getFirmwareVersion();
+        Matcher matcher = Pattern.compile("[0-9]+\\.[0-9]+\\.[0-9]+\\.[0-9]+").matcher(firmware); // DN1.0.2.19r.v5
+        if (matcher.find()) {
+            firmware = matcher.group(0);
+            return new Version(firmware);
+        }
+        return null;
     }
 }
