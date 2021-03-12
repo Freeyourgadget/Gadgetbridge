@@ -1228,4 +1228,5 @@
     <string name="qhybrid_title_apps">Uygulamalar</string>
     <string name="qhybrid_title_watchface_apps">Saat arayüzü ve uygulamalar</string>
     <string name="devicetype_um25">UM-25</string>
+    <string name="fossil_hr_warning_firmware_too_new">Saatin ürün yazılımı çok yeni olduğu için bazı işlevler devre dışı bırakıldı</string>
 </resources>
