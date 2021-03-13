@@ -1,5 +1,15 @@
 ### Changelog
 
+#### 0.56.0 (NEXT)
+* Initial support for UM25 voltage meters
+* Pebble: Remove read/dismissed notifications on watch (can be disabled)
+* Fossil Hybrid HR: Remove read/dismissed notifications on watch (can be disabled)
+* Fossil Hybrid HR: Fixes for running firmware DN1.0.2.20 or newer (disable widget features, currently not supported)
+* Fossil Hybrid HR: Fix up/back navigation and add titles to Fossil specific menus
+* Add chart to each item in activity list
+* Add scroll view to activity detail to handle landscape view
+* Add header title to activity detail
+
 #### 0.55.0
 * InfiniTime: Fix music control for newer firmware releases
 * InfiniTime: Support call control and notification
