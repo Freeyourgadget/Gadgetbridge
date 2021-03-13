@@ -1204,4 +1204,5 @@
     <string name="qhybrid_title_apps">Apps</string>
     <string name="qhybrid_title_watchface_apps">Wijzerplaat en apps</string>
     <string name="devicetype_um25">UM-25</string>
+    <string name="fossil_hr_warning_firmware_too_new">Sommige functies zijn uitgeschakeld omdat de firmware van het horloge te nieuw is</string>
 </resources>
