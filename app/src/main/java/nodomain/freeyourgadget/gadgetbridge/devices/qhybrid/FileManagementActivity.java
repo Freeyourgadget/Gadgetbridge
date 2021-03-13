@@ -121,9 +121,14 @@ public class FileManagementActivity extends AbstractGBActivity implements View.O
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode != REQUEST_CODE_PICK_UPLOAD_FILE) return;
         if (resultCode != RESULT_OK) return;
-
-        String fileName = AndroidUtils.getFilePath(this, data.getData());
-        if (fileName == null) {
+        String fileName;
+        try {
+            fileName = AndroidUtils.getFilePath(this, data.getData());
+            if (fileName == null) {
+                return;
+            }
+        } catch (IllegalArgumentException e) {
+            GB.toast("please choose a local file", Toast.LENGTH_LONG, GB.WARN);
             return;
         }
 
