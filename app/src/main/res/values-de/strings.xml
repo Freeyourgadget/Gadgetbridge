@@ -115,7 +115,7 @@
     <string name="pref_title_enable_calendar_sync">Kalender synchronisieren</string>
     <string name="pref_summary_enable_calendar_sync">Kalenderereignisse an die Zeitleiste senden</string>
     <string name="pref_title_autoremove_notifications">Abgewiesene Benachrichtigungen automatisch entfernen</string>
-    <string name="pref_summary_autoremove_notifications">Wenn Benachrichtigungen vom Android-Gerät entfernt werden, geschieht das auch automatisch auf der Pebble</string>
+    <string name="pref_summary_autoremove_notifications">Benachrichtigungen werden automatisch vom Gerät entfernt, wenn sie vom Telefon entfernt werden</string>
     <string name="pref_title_pebble_privacy_mode">Datenschutzmodus</string>
     <string name="pref_pebble_privacy_mode_off">Normale Benachrichtigungen</string>
     <string name="pref_pebble_privacy_mode_content">Benachrichtigungstext außerhalb des Bildschirms verschieben</string>
@@ -1206,4 +1206,12 @@
     <string name="fossil_hr_unavailable_unauthed">Im unauthentifizierten Modus nicht verfügbar</string>
     <string name="fossil_hr_synced_activity_data">Synchronisierte Aktivitätsdaten</string>
     <string name="fossil_hr_commute_processing">Anfrage wird verarbeitet...</string>
+    <string name="qhybrid_title_watchface_apps">Zifferblatt und Apps</string>
+    <string name="fossil_hr_warning_firmware_too_new">Einige Funktionen sind deaktiviert, weil die Firmware der Uhr zu neu ist</string>
+    <string name="qhybrid_title_calibration">Kalibrierung</string>
+    <string name="qhybrid_title_apps_management">App-Verwaltung</string>
+    <string name="qhybrid_title_file_management">Dateiverwaltung</string>
+    <string name="qhybrid_title_background_image">Hintergrundbild</string>
+    <string name="qhybrid_title_apps">Apps</string>
+    <string name="devicetype_um25">UM-25</string>
 </resources>
