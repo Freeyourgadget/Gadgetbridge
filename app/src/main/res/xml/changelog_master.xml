@@ -1,5 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
+    <release version="0.56.0" versioncode="191">
+        <change>Initial support for UM25 voltage meters</change>
+        <change>Pebble: Remove read/dismissed notifications on watch (can be disabled)</change>
+        <change>Fossil Hybrid HR: Remove read/dismissed notifications on watch (can be disabled)</change>
+        <change>Fossil Hybrid HR: Fixes for running firmware DN1.0.2.20 or newer (disable widget features, currently not supported)</change>
+        <change>Fossil Hybrid HR: Fix up/back navigation and add titles to Fossil specific menus</change>
+        <change>Huami: Fix displaying title for calendar events</change>
+        <change>Use requestLegacyExternalStorage in manifest to fix file access problems in some Android 10 roms</change>
+        <change>Add chart to each item in activity list</change>
+        <change>Add scroll view to activity detail to handle landscape view</change>
+        <change>Add header title to activity detail</change>
+    </release>
     <release version="0.55.0" versioncode="190">
         <change>InfiniTime: Fix music control for newer firmware releases</change>
         <change>InfiniTime: Support call control and notification</change>
