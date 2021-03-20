@@ -111,7 +111,7 @@
     <string name="pref_title_enable_calendar_sync">Синхронизация календаря</string>
     <string name="pref_summary_enable_calendar_sync">Отображать события календаря на временной шкале pebble</string>
     <string name="pref_title_autoremove_notifications">Автоматическое удаление отклонённых уведомлений</string>
-    <string name="pref_summary_autoremove_notifications">Уведомления автоматически будут удалены из Pebble, при удалении с устройства Android</string>
+    <string name="pref_summary_autoremove_notifications">Уведомления автоматически удаляются с устройства при закрытии с телефона</string>
     <string name="pref_title_pebble_privacy_mode">Режим конфиденциальности</string>
     <string name="pref_pebble_privacy_mode_off">Обычные уведомления</string>
     <string name="pref_pebble_privacy_mode_content">Перенос текста уведомления, выходящим за границы экрана</string>
@@ -1187,7 +1187,7 @@
 \nДЕЙСТВУЙТЕ НА СВОЙ СТРАХ И РИСК!</string>
     <string name="devicetype_amazfit_x">Amazfit X</string>
     <string name="calendar_year">Год</string>
-    <string name="calendar_six_months">Шесть месяцев</string>
+    <string name="calendar_six_months">6 месяцев</string>
     <string name="calendar_month">Месяц</string>
     <string name="calendar_two_weeks">Две недели</string>
     <string name="calendar_week">Неделя</string>
@@ -1195,4 +1195,17 @@
     <string name="battery_level">Уровень заряда батареи</string>
     <string name="show_ongoing_activity">Показать всплывающее окно с текущей активностью</string>
     <string name="dialog_hide">Скрыть</string>
+    <string name="fossil_hr_warning_firmware_too_new">Некоторые функции отключены, потому что прошивка часов слишком новая</string>
+    <string name="qhybrid_title_calibration">Калибровка</string>
+    <string name="qhybrid_title_apps_management">Управление приложениями</string>
+    <string name="qhybrid_title_file_management">Управление файлами</string>
+    <string name="qhybrid_title_background_image">Фоновое изображение</string>
+    <string name="qhybrid_title_apps">Приложения</string>
+    <string name="qhybrid_title_watchface_apps">Циферблаты и приложения</string>
+    <string name="fossil_hr_auth_failed">Ошибка аутентификации, ограниченная функциональность</string>
+    <string name="fossil_hr_unavailable_unauthed">Недоступно в режиме без аутентификации</string>
+    <string name="fossil_hr_synced_activity_data">Синхронизированные данные об активности</string>
+    <string name="fossil_hr_commute_processing">Обработка запроса…</string>
+    <string name="devicetype_um25">UM-25</string>
+    <string name="calendar_three_months">3 месяца</string>
 </resources>
