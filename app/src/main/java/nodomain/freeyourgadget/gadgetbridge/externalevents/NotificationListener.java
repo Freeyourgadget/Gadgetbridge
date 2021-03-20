@@ -307,7 +307,10 @@ public class NotificationListener extends NotificationListenerService {
 
         Long notificationOldRepeatPreventionValue = notificationOldRepeatPrevention.get(source);
         if (notificationOldRepeatPreventionValue != null
-                && notification.when <= notificationOldRepeatPreventionValue) {
+                && notification.when <= notificationOldRepeatPreventionValue
+                && !shouldIgnoreRepeatPrevention(sbn)
+        )
+        {
             LOG.info("NOT processing notification, already sent newer notifications from this source.");
             return;
         }
@@ -836,6 +839,33 @@ public class NotificationListener extends NotificationListenerService {
         return false;
     }
 
+    private boolean shouldIgnoreRepeatPrevention(StatusBarNotification sbn) {
+        if (isFitnessApp(sbn)) {
+            return true;
+        }
+        return false;
+    }
+
+    private boolean shouldIgnoreOngoing(StatusBarNotification sbn) {
+        if (isFitnessApp(sbn)) {
+            return true;
+        }
+        return false;
+    }
+
+    private boolean isFitnessApp(StatusBarNotification sbn) {
+        String source = sbn.getPackageName();
+        if (source.equals("de.dennisguse.opentracks")
+                || source.equals("de.dennisguse.opentracks.debug")
+                || source.equals("de.tadris.fitness")
+                || source.equals("de.tadris.fitness.debug")
+        ) {
+            return true;
+        }
+
+        return false;
+    }
+
     private boolean shouldIgnoreNotification(StatusBarNotification sbn, boolean remove) {
         Notification notification = sbn.getNotification();
         String source = sbn.getPackageName();
@@ -862,6 +892,10 @@ public class NotificationListener extends NotificationListenerService {
                     return true;
                 }
             }
+        }
+
+        if (shouldIgnoreOngoing(sbn)){
+            return false;
         }
 
         return (notification.flags & Notification.FLAG_ONGOING_EVENT) == Notification.FLAG_ONGOING_EVENT;
