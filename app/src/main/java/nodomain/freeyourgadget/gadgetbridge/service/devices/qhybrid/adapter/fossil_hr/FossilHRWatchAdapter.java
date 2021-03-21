@@ -148,7 +148,7 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
     HashMap<String, Bitmap> appIconCache = new HashMap<>();
     String lastPostedApp = null;
 
-    List<ApplicationInformation> installedApplications;
+    List<ApplicationInformation> installedApplications = new ArrayList();
 
     enum CONNECTION_MODE {
         NOT_INITIALIZED,
