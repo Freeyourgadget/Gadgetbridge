@@ -52,7 +52,7 @@ import static nodomain.freeyourgadget.gadgetbridge.util.JavaExtensions.coalesce;
 public class GBDeviceService implements DeviceService {
     protected final Context mContext;
     private final Class<? extends Service> mServiceClass;
-    private final String[] transliterationExtras = new String[]{
+    public static final String[] transliterationExtras = new String[]{
             EXTRA_NOTIFICATION_PHONENUMBER,
             EXTRA_NOTIFICATION_SENDER,
             EXTRA_NOTIFICATION_SUBJECT,
@@ -78,13 +78,6 @@ public class GBDeviceService implements DeviceService {
     }
 
     protected void invokeService(Intent intent) {
-        if (LanguageUtils.transliterate()) {
-            for (String extra : transliterationExtras) {
-                if (intent.hasExtra(extra)) {
-                    intent.putExtra(extra, LanguageUtils.transliterate(intent.getStringExtra(extra)));
-                }
-            }
-        }
 
         if (RtlUtils.rtlSupport()) {
             for (String extra : transliterationExtras) {

@@ -53,6 +53,7 @@ public class DeviceSettingsActivity extends AbstractGBActivity implements
                 if (coordinator.supportsActivityTracking()) {
                     supportedSettings = ArrayUtils.addAll(supportedSettings, R.xml.devicesettings_chartstabs);
                 }
+                supportedSettings = ArrayUtils.addAll(supportedSettings, R.xml.devicesettings_transliteration);
                 fragment = DeviceSpecificSettingsFragment.newInstance(device.getAddress(), supportedSettings);
             }
             getSupportFragmentManager()

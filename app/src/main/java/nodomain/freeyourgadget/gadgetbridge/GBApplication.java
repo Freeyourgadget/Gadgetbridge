@@ -107,7 +107,7 @@ public class GBApplication extends Application {
     private static SharedPreferences sharedPrefs;
     private static final String PREFS_VERSION = "shared_preferences_version";
     //if preferences have to be migrated, increment the following and add the migration logic in migratePrefs below; see http://stackoverflow.com/questions/16397848/how-can-i-migrate-android-preferences-with-a-new-version
-    private static final int CURRENT_PREFS_VERSION = 8;
+    private static final int CURRENT_PREFS_VERSION = 9;
 
     private static final int ERROR_IN_GADGETBRIDGE_NOTIFICATION = 42;
 
@@ -939,6 +939,16 @@ public class GBApplication extends Application {
                 if (message != null) {
                     migrateStringPrefToPerDevicePref("canned_reply_" + i, "", "canned_reply_" + i, new ArrayList<>(Collections.singletonList(PEBBLE)));
                 }
+            }
+        }
+        if (oldVersion < 9) {
+            try (DBHandler db = acquireDB()) {
+                DaoSession daoSession = db.getDaoSession();
+                List<Device> activeDevices = DBHelper.getActiveDevices(daoSession);
+                migrateBooleanPrefToPerDevicePref("transliteration", false, "pref_transliteration_enabled", (ArrayList)activeDevices);
+                Log.w(TAG, "migrating transliteration settings");
+            } catch (Exception e) {
+                Log.w(TAG, "error acquiring DB lock and migrating prefs");
             }
         }
 

@@ -65,6 +65,7 @@ import nodomain.freeyourgadget.gadgetbridge.externalevents.SMSReceiver;
 import nodomain.freeyourgadget.gadgetbridge.externalevents.TimeChangeReceiver;
 import nodomain.freeyourgadget.gadgetbridge.externalevents.TinyWeatherForecastGermanyReceiver;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
+import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceService;
 import nodomain.freeyourgadget.gadgetbridge.model.Alarm;
 import nodomain.freeyourgadget.gadgetbridge.model.CalendarEventSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.CallSpec;
@@ -80,8 +81,10 @@ import nodomain.freeyourgadget.gadgetbridge.util.DeviceHelper;
 import nodomain.freeyourgadget.gadgetbridge.util.EmojiConverter;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 import nodomain.freeyourgadget.gadgetbridge.util.GBPrefs;
+import nodomain.freeyourgadget.gadgetbridge.util.LanguageUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 
+import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_TRANSLITERATION_ENABLED;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_ADD_CALENDAREVENT;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_APP_CONFIGURE;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_APP_REORDER;
@@ -380,6 +383,17 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
     }
 
     private void handleAction(Intent intent, String action, Prefs prefs) {
+        Prefs devicePrefs = new Prefs(GBApplication.getDeviceSpecificSharedPrefs(mGBDevice.getAddress()));
+        boolean transliterate = devicePrefs.getBoolean(PREF_TRANSLITERATION_ENABLED, false);
+
+        if (transliterate) {
+            for (String extra : GBDeviceService.transliterationExtras) {
+                if (intent.hasExtra(extra)) {
+                    intent.putExtra(extra, LanguageUtils.transliterate(intent.getStringExtra(extra)));
+                }
+            }
+        }
+
         switch (action) {
             case ACTION_REQUEST_DEVICEINFO:
                 mGBDevice.sendDeviceUpdateIntent(this);
@@ -410,7 +424,6 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
                     // I would rather like to save that as an array in SharedPreferences
                     // this would work but I dont know how to do the same in the Settings Activity's xml
                     ArrayList<String> replies = new ArrayList<>();
-                    SharedPreferences devicePrefs = GBApplication.getDeviceSpecificSharedPrefs(mGBDevice.getAddress());
                     for (int i = 1; i <= 16; i++) {
                         String reply = devicePrefs.getString("canned_reply_" + i, null);
                         if (reply != null && !reply.equals("")) {

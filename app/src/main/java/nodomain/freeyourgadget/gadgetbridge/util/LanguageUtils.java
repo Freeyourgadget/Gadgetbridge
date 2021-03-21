@@ -18,16 +18,24 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.util;
 
+import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_TRANSLITERATION_ENABLED;
+
+import android.content.SharedPreferences;
+
 import org.apache.commons.lang3.text.WordUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.text.Normalizer;
 import java.util.HashMap;
 import java.util.Map;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
+import nodomain.freeyourgadget.gadgetbridge.R;
+import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 
 public class LanguageUtils {
-
+    private static final Logger LOG = LoggerFactory.getLogger(LanguageUtils.class);
     // Transliteration map with english equivalent for unsupported chars
     @SuppressWarnings("OverwrittenKey")
     private static final Map<Character, String> transliterateMap = new HashMap<Character, String>() {
@@ -104,15 +112,6 @@ public class LanguageUtils {
             // all or nothing is really bad here
         }
     };
-
-    /**
-     * Checks the status of transliteration option
-     * @return true if transliterate option is On, and false, if Off or not exist
-     */
-    public static boolean transliterate()
-    {
-        return GBApplication.getPrefs().getBoolean("transliteration", false);
-    }
 
     /**
      * Replaces unsupported symbols to english

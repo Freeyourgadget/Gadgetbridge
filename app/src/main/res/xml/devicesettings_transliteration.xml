@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <SwitchPreference
+        android:defaultValue="false"
+        android:key="pref_transliteration_enabled"
+        android:icon="@drawable/ic_translate"
+        android:summary="@string/pref_summary_transliteration"
+        android:title="@string/pref_title_transliteration" />
+</androidx.preference.PreferenceScreen>

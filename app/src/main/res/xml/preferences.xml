@@ -56,13 +56,6 @@
                 android:key="measurement_system"
                 android:summary="%s"
                 android:title="@string/pref_title_unit_system" />
-            <CheckBoxPreference
-                android:layout="@layout/preference_checkbox"
-                android:defaultValue="false"
-                android:key="transliteration"
-                android:summary="@string/pref_summary_transliteration"
-                android:title="@string/pref_title_transliteration" />
-
             <PreferenceScreen
                 android:title="@string/preferences_rtl_settings">
                 <CheckBoxPreference
