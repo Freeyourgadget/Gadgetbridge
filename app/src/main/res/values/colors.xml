@@ -7,6 +7,7 @@
     <color name="primarydark_dark" type="color">#dd2c00</color>
 
     <color name="accent" type="color">#0091ea</color>
+    <color name="accent_disconnected" type="color">#ea0000</color>
 
     <color name="primarytext_light" type="color">#000000</color>
     <color name="primarytext_dark" type="color">#ffffff</color>
