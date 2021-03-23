@@ -83,13 +83,13 @@ public class AmazfitBipSSupport extends AmazfitBipSupport {
 
     @Override
     protected AmazfitBipSSupport setDisplayItems(TransactionBuilder builder) {
-        setDisplayItemsNew(builder, false, R.array.pref_bips_display_items_default);
+        setDisplayItemsNew(builder, false, true, R.array.pref_bips_display_items_default);
         return this;
     }
 
     @Override
     protected AmazfitBipSSupport setShortcuts(TransactionBuilder builder) {
-        setDisplayItemsNew(builder, true, R.array.pref_bips_display_items_default);
+        setDisplayItemsNew(builder, true, true, R.array.pref_bips_display_items_default);
         return this;
     }
 

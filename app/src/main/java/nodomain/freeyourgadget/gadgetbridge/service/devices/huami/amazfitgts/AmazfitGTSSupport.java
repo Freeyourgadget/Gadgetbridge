@@ -71,7 +71,7 @@ public class AmazfitGTSSupport extends AmazfitBipSupport {
 
     @Override
     protected AmazfitGTSSupport setDisplayItems(TransactionBuilder builder) {
-        setDisplayItemsNew(builder, false, R.array.pref_gts_display_items_default);
+        setDisplayItemsNew(builder, false, true, R.array.pref_gts_display_items_default);
         return this;
     }
 

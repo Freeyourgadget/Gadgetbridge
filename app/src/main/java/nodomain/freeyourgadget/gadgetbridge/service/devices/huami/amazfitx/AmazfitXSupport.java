@@ -35,13 +35,13 @@ public class AmazfitXSupport extends MiBand5Support {
 
     @Override
     protected AmazfitXSupport setDisplayItems(TransactionBuilder builder) {
-        setDisplayItemsNew(builder, false, R.array.pref_amazfitband5_display_items_default);
+        setDisplayItemsNew(builder, false, true, R.array.pref_amazfitband5_display_items_default);
         return this;
     }
 
     @Override
     protected AmazfitXSupport setShortcuts(TransactionBuilder builder) {
-        setDisplayItemsNew(builder, true, R.array.pref_amazfitband5_shortcuts_default);
+        setDisplayItemsNew(builder, true, true, R.array.pref_amazfitband5_shortcuts_default);
         return this;
     }
 

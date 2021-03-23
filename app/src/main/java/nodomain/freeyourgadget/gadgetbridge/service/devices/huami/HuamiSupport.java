@@ -2442,7 +2442,7 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
         return this;
     }
 
-    protected HuamiSupport setDisplayItemsNew(TransactionBuilder builder, boolean isShortcuts, int defaultSettings) {
+    protected HuamiSupport setDisplayItemsNew(TransactionBuilder builder, boolean isShortcuts, boolean forceWatchface, int defaultSettings) {
         SharedPreferences prefs = GBApplication.getDeviceSpecificSharedPrefs(gbDevice.getAddress());
         String pages;
         List<String> enabledList;
@@ -2461,18 +2461,15 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
         } else {
             enabledList = Arrays.asList(pages.split(","));
         }
+        if (forceWatchface) {
+            enabledList.add(0, "watchface");
+        }
         LOG.info("enabled items" + enabledList);
-
-        byte[] command = new byte[(enabledList.size() + 1) * 4 + 1];
+        byte[] command = new byte[enabledList.size() * 4 + 1];
         command[0] = 0x1e;
 
         int pos = 1;
         int index = 0;
-
-        command[pos++] = (byte) index++;
-        command[pos++] = 0x00;
-        command[pos++] = menuType;
-        command[pos++] = 0x12;
 
         for (String key : enabledList) {
             Integer id = HuamiMenuType.idLookup.get(key);

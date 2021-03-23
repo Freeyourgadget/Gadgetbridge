@@ -32,7 +32,6 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.amazfitbip.Ama
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.amazfitvergel.AmazfitVergeLFWHelper;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.operations.UpdateFirmwareOperation;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.operations.UpdateFirmwareOperation2020;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.operations.UpdateFirmwareOperationNew;
 
 public class AmazfitVergeLSupport extends AmazfitBipSupport {
     private static final Logger LOG = LoggerFactory.getLogger(AmazfitVergeLSupport.class);
@@ -49,7 +48,7 @@ public class AmazfitVergeLSupport extends AmazfitBipSupport {
 
     @Override
     protected AmazfitVergeLSupport setDisplayItems(TransactionBuilder builder) {
-        setDisplayItemsNew(builder, false, R.array.pref_gts_display_items_values);
+        setDisplayItemsNew(builder, false, true, R.array.pref_gts_display_items_values);
         return this;
     }
 

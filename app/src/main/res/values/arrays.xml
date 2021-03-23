@@ -415,9 +415,10 @@
         <item>@string/menuitem_weather</item>
         <item>@string/menuitem_stopwatch</item>
         <item>@string/menuitem_alarm</item>
-        <item>@string/menuitem_worldclock</item>
-        <item>@string/menuitem_activity</item>
-        <item>@string/menuitem_goal</item>
+        <item>@string/chart_steps</item>
+        <item>@string/distance</item>
+        <item>@string/calories</item>
+        <item>@string/battery</item>
     </string-array>
 
     <string-array name="pref_neo_display_items_values">
@@ -427,9 +428,10 @@
         <item>@string/p_menuitem_weather</item>
         <item>@string/p_menuitem_stopwatch</item>
         <item>@string/p_menuitem_alarm</item>
-        <item>@string/p_menuitem_worldclock</item>
-        <item>@string/p_menuitem_activity</item>
-        <item>@string/p_menuitem_goal</item>
+        <item>@string/p_steps</item>
+        <item>@string/p_distance</item>
+        <item>@string/p_calories</item>
+        <item>@string/p_battery</item>
     </string-array>
 
     <string-array name="pref_neo_display_items_default">
