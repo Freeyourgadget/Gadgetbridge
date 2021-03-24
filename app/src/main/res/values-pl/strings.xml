@@ -1212,4 +1212,6 @@
     <string name="qhybrid_title_apps">Aplikacje</string>
     <string name="devicetype_um25">UM-25</string>
     <string name="fossil_hr_warning_firmware_too_new">Niektóre funkcje są wyłączone, ponieważ oprogramowanie zegarka jest zbyt nowe</string>
+    <string name="prefs_sounds_summary">Skonfiguruj, kiedy urządzenie będzie emitować sygnał dźwiękowy</string>
+    <string name="prefs_sounds">Dźwięki</string>
 </resources>
