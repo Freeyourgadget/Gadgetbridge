@@ -1201,4 +1201,6 @@
     <string name="qhybrid_title_file_management">Filbehandling</string>
     <string name="devicetype_um25">UM-25</string>
     <string name="fossil_hr_warning_firmware_too_new">Noen funksjoner er skrudd av siden fastvaren på klokken er for ny.</string>
+    <string name="prefs_sounds_summary">Sett opp når enheten skal pipe</string>
+    <string name="prefs_sounds">Lyder</string>
 </resources>
