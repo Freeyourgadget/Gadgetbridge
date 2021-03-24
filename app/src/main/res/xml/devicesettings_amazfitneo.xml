@@ -19,4 +19,15 @@
         android:key="language"
         android:summary="%s"
         android:title="@string/pref_title_language" />
+
+    <MultiSelectListPreference
+        android:defaultValue="@array/pref_amazfitneo_sounds_default"
+        android:dialogTitle="@string/prefs_sounds"
+        android:entries="@array/pref_amazfitneo_sounds"
+        android:entryValues="@array/pref_amazfitneo_sounds_values"
+        android:key="sounds"
+        android:persistent="true"
+        android:summary="@string/prefs_sounds_summary"
+        android:title="@string/prefs_sounds" />
+
 </androidx.preference.PreferenceScreen>

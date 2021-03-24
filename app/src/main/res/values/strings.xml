@@ -469,6 +469,9 @@
     <string name="show_ongoing_activity">Show ongoing activity popup</string>
     <string name="lack_of_sleep">Lack of sleep: %1$s</string>
     <string name="overslept">Overslept: %1$s</string>
+    <string name="prefs_sounds">Sounds</string>
+    <string name="prefs_sounds_summary">Configure when the device will beep</string>
+
     <!-- Firmware updating -->
     <string name="devicestatus_connecting">Device is connecting</string>
     <string name="devicestatus_connected">Device is connected</string>

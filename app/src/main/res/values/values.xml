@@ -51,6 +51,12 @@
     <item name="p_menuitem_sleep" type="string">sleep</item>
     <item name="p_menuitem_pomodoro" type="string">pomodoro</item>
 
+    <!-- currently used for sounds -->
+    <item name="p_menuitem_button" type="string">button</item>
+    <item name="p_menuitem_calls" type="string">calls</item>
+    <item name="p_menuitem_inactivity_warning" type="string">inactivity_warning</item>
+    <item name="p_menuitem_sms" type="string">sms</item>
+
     <item name="p_off" type="string">off</item>
     <item name="p_on" type="string">on</item>
     <item name="p_sunset" type="string">sunset</item>

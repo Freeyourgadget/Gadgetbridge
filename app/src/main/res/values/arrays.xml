@@ -1479,4 +1479,34 @@
     </string-array>
 
 
+    <string-array name="pref_amazfitneo_sounds">
+        <item>@string/prefs_operating_sounds</item>
+        <item>@string/pref_title_notifications_call</item>
+        <item>@string/menuitem_alarm</item>
+        <item>@string/menuitem_notifications</item>
+        <item>@string/mi2_prefs_inactivity_warnings</item>
+        <item>@string/pref_title_notifications_sms</item>
+        <item>@string/menuitem_goal</item>
+    </string-array>
+
+    <string-array name="pref_amazfitneo_sounds_values">
+        <item>@string/p_menuitem_button</item>
+        <item>@string/p_menuitem_calls</item>
+        <item>@string/p_menuitem_alarm</item>
+        <item>@string/p_menuitem_notifications</item>
+        <item>@string/p_menuitem_inactivity_warning</item>
+        <item>@string/p_menuitem_sms</item>
+        <item>@string/p_menuitem_goal</item>
+    </string-array>
+
+    <string-array name="pref_amazfitneo_sounds_default">
+        <item>@string/p_menuitem_button</item>
+        <item>@string/p_menuitem_calls</item>
+        <item>@string/p_menuitem_alarm</item>
+        <item>@string/p_menuitem_notifications</item>
+        <item>@string/p_menuitem_inactivity_warning</item>
+        <item>@string/p_menuitem_sms</item>
+        <item>@string/p_menuitem_goal</item>
+    </string-array>
+
 </resources>

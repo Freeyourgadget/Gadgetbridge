@@ -147,6 +147,7 @@ import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.Dev
 import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_DATEFORMAT;
 import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_LANGUAGE;
 import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_RESERVER_ALARMS_CALENDAR;
+import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_SOUNDS;
 import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_SYNC_CALENDAR;
 import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_TIMEFORMAT;
 import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_WEARLOCATION;
@@ -1979,6 +1980,9 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
                 case PREF_WEARLOCATION:
                     setWearLocation(builder);
                     break;
+                case PREF_SOUNDS:
+                    setBeepSounds(builder);
+                    break;
             }
             builder.queue(getQueue());
         } catch (IOException e) {
@@ -2486,6 +2490,30 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
     }
 
     protected HuamiSupport setShortcuts(TransactionBuilder builder) {
+        return this;
+    }
+
+    protected HuamiSupport setBeepSounds(TransactionBuilder builder) {
+
+        SharedPreferences prefs = GBApplication.getDeviceSpecificSharedPrefs(gbDevice.getAddress());
+        Set<String> sounds = prefs.getStringSet(PREF_SOUNDS, new HashSet<>(Arrays.asList(getContext().getResources().getStringArray(R.array.pref_amazfitneo_sounds_default))));
+
+        LOG.info("Setting sounds to " + (sounds == null ? "none" : sounds));
+
+
+        if (sounds != null) {
+            final String[] soundOrder = new String[]{"button", "calls", "alarm", "notifications", "inactivity_warning", "sms", "goal"};
+            byte[] command = new byte[]{0x3c, 0, 0, 0, 1, 0, 0, 2, 0, 0, 3, 0, 0, 4, 0, 0, 5, 0, 0, 7, 0, 0};
+            int i = 3;
+            for (String sound : soundOrder) {
+                if (sounds.contains(sound)) {
+                    command[i] = 1;
+                }
+                i += 3;
+            }
+            writeToChunked(builder, 2, command);
+        }
+
         return this;
     }
 
