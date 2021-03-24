@@ -21,11 +21,17 @@ import org.slf4j.LoggerFactory;
 
 import nodomain.freeyourgadget.gadgetbridge.R;
 //import nodomain.freeyourgadget.gadgetbridge.devices.huami.amazfitneo.AmazfitBand5FWHelper;
+import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.miband5.MiBand5Support;
 
 public class AmazfitNeoSupport extends MiBand5Support {
     private static final Logger LOG = LoggerFactory.getLogger(AmazfitNeoSupport.class);
+
+    @Override
+    public void onNotification(NotificationSpec notificationSpec) {
+        super.sendNotificationNew(notificationSpec, false);
+    }
 
     @Override
     protected AmazfitNeoSupport setDisplayItems(TransactionBuilder builder) {
