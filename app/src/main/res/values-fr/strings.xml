@@ -1199,4 +1199,6 @@ Temps de sommeil préféré en heures</string>
     <string name="qhybrid_title_watchface_apps">Écran et apps</string>
     <string name="devicetype_um25">UM-25</string>
     <string name="fossil_hr_warning_firmware_too_new">Certaines fonctions sont désactivées en raison de la version trop récente du micrologiciel du bracelet</string>
+    <string name="prefs_sounds_summary">Configurer une fois que l\'appareil a bipé</string>
+    <string name="prefs_sounds">Sons</string>
 </resources>
