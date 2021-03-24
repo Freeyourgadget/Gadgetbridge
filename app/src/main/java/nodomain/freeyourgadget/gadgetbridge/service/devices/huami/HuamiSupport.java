@@ -2445,7 +2445,7 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
     protected HuamiSupport setDisplayItemsNew(TransactionBuilder builder, boolean isShortcuts, boolean forceWatchface, int defaultSettings) {
         SharedPreferences prefs = GBApplication.getDeviceSpecificSharedPrefs(gbDevice.getAddress());
         String pages;
-        List<String> enabledList;
+        ArrayList<String> enabledList;
         byte menuType;
         if (isShortcuts) {
             menuType = (byte) 0xfd;
@@ -2457,9 +2457,9 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
             LOG.info("Setting menu items");
         }
         if (pages == null) {
-            enabledList = Arrays.asList(getContext().getResources().getStringArray(defaultSettings));
+            enabledList = new ArrayList<>(Arrays.asList(getContext().getResources().getStringArray(defaultSettings)));
         } else {
-            enabledList = Arrays.asList(pages.split(","));
+            enabledList = new ArrayList<>(Arrays.asList(pages.split(",")));
         }
         if (forceWatchface) {
             enabledList.add(0, "watchface");
