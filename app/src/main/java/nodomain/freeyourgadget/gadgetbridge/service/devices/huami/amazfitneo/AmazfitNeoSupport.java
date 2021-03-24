@@ -16,14 +16,25 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.service.devices.huami.amazfitneo;
 
+import android.content.Context;
+import android.net.Uri;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.IOException;
+
 import nodomain.freeyourgadget.gadgetbridge.R;
-//import nodomain.freeyourgadget.gadgetbridge.devices.huami.amazfitneo.AmazfitBand5FWHelper;
+import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiFWHelper;
+import nodomain.freeyourgadget.gadgetbridge.devices.huami.amazfitneo.AmazfitNeoFWHelper;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.miband5.MiBand5Support;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.operations.UpdateFirmwareOperation;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.operations.UpdateFirmwareOperation2020;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.operations.UpdateFirmwareOperationNew;
+
+//import nodomain.freeyourgadget.gadgetbridge.devices.huami.amazfitneo.AmazfitBand5FWHelper;
 
 public class AmazfitNeoSupport extends MiBand5Support {
     private static final Logger LOG = LoggerFactory.getLogger(AmazfitNeoSupport.class);
@@ -39,8 +50,13 @@ public class AmazfitNeoSupport extends MiBand5Support {
         return this;
     }
 
-    //@Override
-    //public HuamiFWHelper createFWHelper(Uri uri, Context context) throws IOException {
-    //    return new AmazfitBand5FWHelper(uri, context);
-    //}
+    @Override
+    public HuamiFWHelper createFWHelper(Uri uri, Context context) throws IOException {
+        return new AmazfitNeoFWHelper(uri, context);
+    }
+
+    @Override
+    public UpdateFirmwareOperation createUpdateFirmwareOperation(Uri uri) {
+        return new UpdateFirmwareOperation2020(uri, this);
+    }
 }

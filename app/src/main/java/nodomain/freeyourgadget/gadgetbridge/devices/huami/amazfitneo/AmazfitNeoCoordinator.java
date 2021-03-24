@@ -79,11 +79,6 @@ public class AmazfitNeoCoordinator extends HuamiCoordinator {
         return true;
     }
 
-    //@Override
-    //public boolean supportsMusicInfo() {
-    //    return true;
-    //}
-
     @Override
     public int[] getSupportedDeviceSpecificSettings(GBDevice device) {
         return new int[]{

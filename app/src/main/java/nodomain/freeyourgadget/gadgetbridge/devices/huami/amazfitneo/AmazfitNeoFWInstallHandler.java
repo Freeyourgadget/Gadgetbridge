@@ -35,7 +35,7 @@ class AmazfitNeoFWInstallHandler extends AbstractMiBandFWInstallHandler {
 
     @Override
     protected String getFwUpgradeNotice() {
-        return mContext.getString(R.string.fw_upgrade_notice_miband5, helper.getHumanFirmwareVersion());
+        return mContext.getString(R.string.fw_upgrade_notice_amazfitneo, helper.getHumanFirmwareVersion());
     }
 
     @Override

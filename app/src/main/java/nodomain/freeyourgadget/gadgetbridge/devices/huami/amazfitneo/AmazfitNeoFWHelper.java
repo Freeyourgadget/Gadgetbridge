@@ -35,7 +35,7 @@ public class AmazfitNeoFWHelper extends HuamiFWHelper {
     protected void determineFirmwareInfo(byte[] wholeFirmwareBytes) {
         firmwareInfo = new AmazfitNeoFirmwareInfo(wholeFirmwareBytes);
         if (!firmwareInfo.isHeaderValid()) {
-            throw new IllegalArgumentException("Not even a Amazfit Band 5 firmware and you really want Amazfit Neo firmware");
+            throw new IllegalArgumentException("Not an Amazfit Neo firmware");
         }
     }
 }

@@ -29,10 +29,11 @@ import nodomain.freeyourgadget.gadgetbridge.util.ArrayUtils;
 public class AmazfitNeoFirmwareInfo extends HuamiFirmwareInfo {
 
     public static final byte[] FW_HEADER = new byte[]{
-            0x31, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, (byte) 0x9c, (byte) 0xe3, 0x7d, 0x5c, 0x00, 0x04
+            // this might be incorrect but found in 1.1.1.18 and 1.1.2.52
+            0x06, 0x68, 0x45, 0x68, (byte) 0x84, 0x68, (byte) 0xC1, 0x68, 0x02, (byte) 0x91, 0x01, 0x69, 0x01, (byte) 0x91, 0x41, 0x69
     };
 
-    public static final int FW_HEADER_OFFSET = 16;
+    public static final int FW_HEADER_OFFSET = 0x90;
 
     private static Map<Integer, String> crcToVersion = new HashMap<>();
 
@@ -46,32 +47,22 @@ public class AmazfitNeoFirmwareInfo extends HuamiFirmwareInfo {
 
     @Override
     protected HuamiFirmwareType determineFirmwareType(byte[] bytes) {
-        return HuamiFirmwareType.INVALID;
         /*
-        if (ArrayUtils.equals(bytes, RES_HEADER, COMPRESSED_RES_HEADER_OFFSET) || ArrayUtils.equals(bytes, NEWRES_HEADER, COMPRESSED_RES_HEADER_OFFSET_NEW) || ArrayUtils.equals(bytes, NEWRES_HEADER, COMPRESSED_RES_HEADER_OFFSET)) {
-            return HuamiFirmwareType.RES_COMPRESSED;
-        }
         if (ArrayUtils.equals(bytes, FW_HEADER, FW_HEADER_OFFSET)) {
             if (searchString32BitAligned(bytes, "Amazfit Neo")) {
                 return HuamiFirmwareType.FIRMWARE;
             }
             return HuamiFirmwareType.INVALID;
         }
-        if (ArrayUtils.startsWith(bytes, WATCHFACE_HEADER_UIHH)) {
-            return HuamiFirmwareType.WATCHFACE;
-        }
         if (ArrayUtils.startsWith(bytes, NEWFT_HEADER)) {
             if (bytes[10] == 0x03 || bytes[10] == 0x06) {
                 return HuamiFirmwareType.FONT;
             }
         }
-        // somebody might have unpacked the compressed res
-        if (ArrayUtils.startsWith(bytes, RES_HEADER)) {
-            return HuamiFirmwareType.RES;
-        }
-        return HuamiFirmwareType.INVALID;*/
-    }
 
+        */
+        return HuamiFirmwareType.INVALID;
+    }
 
     @Override
     public boolean isGenerallyCompatibleWith(GBDevice device) {
@@ -81,5 +72,11 @@ public class AmazfitNeoFirmwareInfo extends HuamiFirmwareInfo {
     @Override
     protected Map<Integer, String> getCrcMap() {
         return crcToVersion;
+    }
+
+    @Override
+    protected String searchFirmwareVersion(byte[] fwbytes) {
+        // Not implemented
+        return null;
     }
 }
