@@ -1201,4 +1201,9 @@ Temps de sommeil préféré en heures</string>
     <string name="fossil_hr_warning_firmware_too_new">Certaines fonctions sont désactivées en raison de la version trop récente du micrologiciel du bracelet</string>
     <string name="prefs_sounds_summary">Configurer une fois que l\'appareil a bipé</string>
     <string name="prefs_sounds">Sons</string>
+    <string name="fw_upgrade_notice_amazfitneo">Vous êtes sur le point d\'installer le micrologiciel %s dans votre Amazfit Neo.
+\n
+\n. Votre bracelet va redémarrer après l\'installation du micrologiciel.
+\n
+\nA VOS RISQUES ET PÉRILS !</string>
 </resources>
