@@ -1214,4 +1214,11 @@
     <string name="qhybrid_title_background_image">Hintergrundbild</string>
     <string name="qhybrid_title_apps">Apps</string>
     <string name="devicetype_um25">UM-25</string>
+    <string name="prefs_sounds_summary">Festlegen, wann das Gerät einen Signalton abgibt</string>
+    <string name="prefs_sounds">Töne</string>
+    <string name="fw_upgrade_notice_amazfitneo">Du bist dabei, die Firmware %s auf dein Amazfit Neo zu installieren.
+\n
+\nDein Band wird nach der Installation der .fw Datei neu starten.
+\n
+\nINSTALLATION AUF EIGENE GEFAHR!</string>
 </resources>
