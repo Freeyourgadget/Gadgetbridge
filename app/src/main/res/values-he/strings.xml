@@ -1201,4 +1201,11 @@
     <string name="qhybrid_title_watchface_apps">פני השעון ויישומונים</string>
     <string name="devicetype_um25">UM-25</string>
     <string name="fossil_hr_warning_firmware_too_new">חלק מהפונקציות מושבתות כיוון שהקושחה של השעון חדשה מדי</string>
+    <string name="prefs_sounds_summary">להגדיר מתי ההתקן יצפצף</string>
+    <string name="prefs_sounds">צלילים</string>
+    <string name="fw_upgrade_notice_amazfitneo">פעולה זו תתקין את הקושחה %s על ה־Amazfit Neo שלך.
+\n
+\n. השעון שלך יופעל מחדש לאחר התקנת קובץ ה־‎.fw
+\n
+\nהמשך התהליך הוא על אחריותך!</string>
 </resources>
