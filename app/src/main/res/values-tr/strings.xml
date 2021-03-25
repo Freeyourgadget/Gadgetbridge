@@ -1229,4 +1229,11 @@
     <string name="qhybrid_title_watchface_apps">Saat arayüzü ve uygulamalar</string>
     <string name="devicetype_um25">UM-25</string>
     <string name="fossil_hr_warning_firmware_too_new">Saatin ürün yazılımı çok yeni olduğu için bazı işlevler devre dışı bırakıldı</string>
+    <string name="prefs_sounds_summary">Aygıtın ne zaman bip sesi çıkaracağını yapılandırın</string>
+    <string name="prefs_sounds">Ses</string>
+    <string name="fw_upgrade_notice_amazfitneo">AmazFit Neo aygıtınıza %s ürün yazılımını kurmak üzeresiniz.
+\n
+\n.fw dosyasını kurduktan sonra saatiniz yeniden başlatılacak.
+\n
+\nİLERLEMENİZ DURUMUNDA RİSK SİZE AİTTİR!</string>
 </resources>
