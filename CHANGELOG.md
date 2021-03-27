@@ -1,5 +1,12 @@
 ### Changelog
 
+### NEXT
+* Fossil Hybrid HR: Fix compatibility for oder firmware revisions
+* Amazfit Neo: Imprement firmware update
+* Amazfit Neo: Support setting all menu items and fix menu cycling bug
+* Amazfit Neo: Fix notifications
+* Amazfit Neo: Support sound settings
+
 #### 0.56.0
 * Initial support for UM25 voltage meters
 * Pebble: Remove read/dismissed notifications on watch (can be disabled)
