@@ -1214,4 +1214,9 @@
     <string name="fossil_hr_warning_firmware_too_new">Niektóre funkcje są wyłączone, ponieważ oprogramowanie zegarka jest zbyt nowe</string>
     <string name="prefs_sounds_summary">Skonfiguruj, kiedy urządzenie będzie emitować sygnał dźwiękowy</string>
     <string name="prefs_sounds">Dźwięki</string>
+    <string name="fw_upgrade_notice_amazfitneo">Zamierzasz zainstalować firmware %s na Amazfit Neo.
+\n
+\n. Opaska uruchomi się ponownie po instalacji pliku .fw.
+\n
+\nROBISZ TO NA WŁASNE RYZYKO!</string>
 </resources>
