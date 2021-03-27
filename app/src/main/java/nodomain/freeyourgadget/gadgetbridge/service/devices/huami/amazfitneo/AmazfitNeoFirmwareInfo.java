@@ -47,20 +47,17 @@ public class AmazfitNeoFirmwareInfo extends HuamiFirmwareInfo {
 
     @Override
     protected HuamiFirmwareType determineFirmwareType(byte[] bytes) {
-        /*
+
         if (ArrayUtils.equals(bytes, FW_HEADER, FW_HEADER_OFFSET)) {
             if (searchString32BitAligned(bytes, "Amazfit Neo")) {
                 return HuamiFirmwareType.FIRMWARE;
             }
             return HuamiFirmwareType.INVALID;
         }
-        if (ArrayUtils.startsWith(bytes, NEWFT_HEADER)) {
-            if (bytes[10] == 0x03 || bytes[10] == 0x06) {
-                return HuamiFirmwareType.FONT;
-            }
+        if (ArrayUtils.startsWith(bytes, FT_HEADER)) {
+            return HuamiFirmwareType.FONT;
         }
 
-        */
         return HuamiFirmwareType.INVALID;
     }
 
