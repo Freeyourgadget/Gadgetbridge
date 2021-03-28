@@ -1203,4 +1203,9 @@
     <string name="fossil_hr_warning_firmware_too_new">Noen funksjoner er skrudd av siden fastvaren på klokken er for ny.</string>
     <string name="prefs_sounds_summary">Sett opp når enheten skal pipe</string>
     <string name="prefs_sounds">Lyder</string>
+    <string name="fw_upgrade_notice_amazfitneo">Du er i ferd med å installere %s-fastvaren på din Amazfit Neo.
+\n
+\nOmstart av båndet ditt vil bli utført etter installasjon av .fw-filen.
+\n
+\nFORTSETT PÅ EGEN RISIKO.</string>
 </resources>
