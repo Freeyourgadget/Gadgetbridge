@@ -1,5 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
+    <release version="0.56.1" versioncode="192">
+        <change>Fossil Hybrid HR: Fix compatibility for oder firmware revisions</change>
+        <change>Amazfit Neo: Implement firmware update</change>
+        <change>Amazfit Neo: Support setting all menu items and fix menu cycling bug</change>
+        <change>Amazfit Neo: Fix notifications</change>
+        <change>Amazfit Neo: Support sound settings</change>
+        <change>Allow OpenTracks and FitoTrack to send ongoing notifications</change>
+        <change>Make transliteration a per-device setting</change>
+    </release>
     <release version="0.56.0" versioncode="191">
         <change>Initial support for UM25 voltage meters</change>
         <change>Pebble: Remove read/dismissed notifications on watch (can be disabled)</change>

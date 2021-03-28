@@ -1,11 +1,13 @@
 ### Changelog
 
-### NEXT
+### 0.56.1
 * Fossil Hybrid HR: Fix compatibility for oder firmware revisions
-* Amazfit Neo: Imprement firmware update
+* Amazfit Neo: Implement firmware update
 * Amazfit Neo: Support setting all menu items and fix menu cycling bug
 * Amazfit Neo: Fix notifications
 * Amazfit Neo: Support sound settings
+* Allow OpenTracks and FitoTrack to send ongoing notifications
+* Make transliteration a per-device setting
 
 #### 0.56.0
 * Initial support for UM25 voltage meters
