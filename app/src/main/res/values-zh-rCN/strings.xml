@@ -1210,4 +1210,11 @@
     <string name="qhybrid_title_watchface_apps">表盘与应用</string>
     <string name="devicetype_um25">UM-25</string>
     <string name="fossil_hr_warning_firmware_too_new">由于手表固件过新，某些功能被禁用</string>
+    <string name="prefs_sounds_summary">进行配置时设备将会发出声响</string>
+    <string name="prefs_sounds">声音</string>
+    <string name="fw_upgrade_notice_amazfitneo">您即将在您的华米 Neo 上安装 %s 固件。
+\n
+\n您的手环将在安装了 .fw 文件后重启。
+\n
+\n风险自担！</string>
 </resources>
