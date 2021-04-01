@@ -72,6 +72,7 @@ vendor's servers.
 - Teclast H10, H30
 - TLW64
 - Vibratissimo (Experimental)
+- Wasp-OS devices
 - XWatch (Affordable Chinese Casio-like smartwatches)
 - [Zepp E](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Amazfit-GTR) [**\[!\]**](#special-pairing-procedures)
 
