@@ -86,7 +86,12 @@ public class AmazfitGTS2eCoordinator extends HuamiCoordinator {
     public boolean supportsMusicInfo() {
         return true;
     }
-    
+
+    @Override
+    public boolean supportsUnicodeEmojis() {
+        return true;
+    }
+
     public int[] getSupportedDeviceSpecificSettings(GBDevice device) {
         return new int[]{
                 R.xml.devicesettings_amazfitgtsgtr2,
