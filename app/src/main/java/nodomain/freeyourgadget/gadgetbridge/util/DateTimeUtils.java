@@ -189,4 +189,14 @@ public class DateTimeUtils {
         return (int) (day.getTimeInMillis() / 1000);
     }
 
+    /**
+     * Calculates difference in days between two timestamps
+     *
+     * @param time1
+     * @param time2
+     */
+    public static int  getDaysBetweenTimes(int time1, int time2) {
+        return (int) TimeUnit.MILLISECONDS.toDays((time2 - time1) * 1000L);
+    }
+
 }

@@ -191,11 +191,6 @@ public class ActivityListingDashboard extends DialogFragment {
         battery_status_time_span_seekbar.setProgress(2);
     }
 
-    private int daysBetweenTimes(int time1, int time2) {
-        return (int) TimeUnit.MILLISECONDS.toDays((time2 - time1) * 1000L);
-    }
-
-
     protected RefreshTask createRefreshTask(String task, Context context) {
         return new RefreshTask(task, context);
     }

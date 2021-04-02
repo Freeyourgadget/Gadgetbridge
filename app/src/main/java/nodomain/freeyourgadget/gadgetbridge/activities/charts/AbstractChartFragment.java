@@ -265,9 +265,18 @@ public abstract class AbstractChartFragment extends AbstractGBFragment {
         } else if (ChartsHost.DATE_PREV_WEEK.equals(action)) {
             handleDate(getStartDate(), getEndDate(),-7);
         } else if (ChartsHost.DATE_NEXT_MONTH.equals(action)) {
-            handleDate(getStartDate(), getEndDate(),+30);
+            //calculate dates to jump by month but keep subsequent logic working
+            int time1 = DateTimeUtils.shiftMonths((int )(getStartDate().getTime()/1000), 1);
+            int time2 = DateTimeUtils.shiftMonths((int )(getEndDate().getTime()/1000), 1);
+            Date date1 = DateTimeUtils.shiftByDays(new Date(time1 * 1000L), 30);
+            Date date2 = DateTimeUtils.shiftByDays(new Date(time2 * 1000L), 30);
+            handleDate(date1, date2,-30);
         } else if (ChartsHost.DATE_PREV_MONTH.equals(action)) {
-            handleDate(getStartDate(), getEndDate(),-30);
+            int time1 = DateTimeUtils.shiftMonths((int )(getStartDate().getTime()/1000), -1);
+            int time2 = DateTimeUtils.shiftMonths((int )(getEndDate().getTime()/1000), -1);
+            Date date1 = DateTimeUtils.shiftByDays(new Date(time1 * 1000L), -30);
+            Date date2 = DateTimeUtils.shiftByDays(new Date(time2 * 1000L), -30);
+            handleDate(date1, date2,30);
         }
     }
 
@@ -308,7 +317,11 @@ public abstract class AbstractChartFragment extends AbstractGBFragment {
     protected boolean shiftDates(Date startDate, Date endDate, int offset) {
         Date newStart = DateTimeUtils.shiftByDays(startDate, offset);
         Date newEnd = DateTimeUtils.shiftByDays(endDate, offset);
-
+        Date now = new Date();
+        if (newEnd.after(now)) { //allow to jump to the end (now) if week/month reach after now
+            newEnd=now;
+            newStart=DateTimeUtils.shiftByDays(now,-1);
+        }
         return setDateRange(newStart, newEnd);
     }
 
@@ -688,7 +701,8 @@ public abstract class AbstractChartFragment extends AbstractGBFragment {
             throw new IllegalArgumentException("Bad date range: " + from + ".." + to);
         }
         Date now = new Date();
-        if (to.after(now)) {
+        if (to.after(now) || //do not refresh chart if we reached now
+                to.getTime()/10000 == (getEndDate().getTime()/10000)) {
             return false;
         }
         setStartDate(from);
