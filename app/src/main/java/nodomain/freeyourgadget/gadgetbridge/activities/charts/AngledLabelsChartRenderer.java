@@ -32,15 +32,12 @@ public class AngledLabelsChartRenderer extends BarChartRenderer {
     public void drawValue(Canvas canvas, String valueText, float x, float y, int color) {
 
         mValuePaint.setColor(color);
-
         //move position to the center of bar
-        x=x+8;
-        y=y-25;
-
+        x = x + 8;
+        y = y - 32;
         canvas.save();
         canvas.rotate(-90, x, y);
-
         canvas.drawText(valueText, x, y, mValuePaint);
-
         canvas.restore();
-    }}
+    }
+}
