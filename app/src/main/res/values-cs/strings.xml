@@ -1201,4 +1201,12 @@
     <string name="qhybrid_title_apps">Aplikace</string>
     <string name="qhybrid_title_watchface_apps">Ciferníky a aplikace</string>
     <string name="devicetype_um25">UM-25</string>
+    <string name="fw_upgrade_notice_amazfitneo">Chystáte se nainstalovat firmvér %s na váš Amazfit Neo.
+\n
+\nVaše hodinky se po instalaci souboru .fw restartují.
+\n
+\nPOKRAČUJTE TO NA VLASTNÍ NEBEZPEČÍ!</string>
+    <string name="fossil_hr_warning_firmware_too_new">Některé funkce jsou vypnuté, protože firmware hodinek je příliš nový</string>
+    <string name="prefs_sounds_summary">Nakonfigurujte, kdy bude zařízení pípat</string>
+    <string name="prefs_sounds">Zvuky</string>
 </resources>
