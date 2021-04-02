@@ -284,7 +284,7 @@ public class ChartsActivity extends AbstractGBFragmentActivity implements Charts
         return mEndDate;
     }
 
-    private void handleButtonClicked(String Action) {
+    private void  handleButtonClicked(String Action) {
         LocalBroadcastManager.getInstance(this).sendBroadcast(new Intent(Action));
     }
 

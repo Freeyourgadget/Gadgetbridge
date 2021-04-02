@@ -21,6 +21,7 @@ import android.text.format.DateUtils;
 
 import com.github.pfichtner.durationformatter.DurationFormatter;
 
+import java.io.IOException;
 import java.text.FieldPosition;
 import java.text.ParseException;
 import java.text.ParsePosition;
@@ -156,4 +157,36 @@ public class DateTimeUtils {
     public static boolean isYesterday(Date d) {
         return DateUtils.isToday(d.getTime() + DateUtils.DAY_IN_MILLIS);
     }
+
+    /**
+     * Calculates new timestamp with a month offset (positive to add or negative to remove)
+     * from a given time
+     *
+     * @param time
+     * @param month
+     */
+    public static int shiftMonths(int time, int month) {
+        Calendar day = Calendar.getInstance();
+        day.setTimeInMillis(time * 1000L);
+        day.add(Calendar.MONTH, month);
+        return (int) (day.getTimeInMillis() / 1000);
+    }
+
+    /**
+     * Calculates new timestamp with a day offset (positive to add or negative to remove)
+     * from a given time
+     *
+     * @param time
+     * @param days
+     */
+    public static int shiftDays(int time, int days) {
+        int newTime = time + ((24 * 3600) - 1) * days;
+        Calendar day = Calendar.getInstance();
+        day.setTimeInMillis(newTime * 1000L);
+        day.set(Calendar.HOUR_OF_DAY, 0);
+        day.set(Calendar.MINUTE, 0);
+        day.set(Calendar.SECOND, 0);
+        return (int) (day.getTimeInMillis() / 1000);
+    }
+
 }

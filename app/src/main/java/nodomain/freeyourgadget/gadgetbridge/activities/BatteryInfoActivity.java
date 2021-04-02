@@ -27,7 +27,6 @@ public class BatteryInfoActivity extends AbstractGBActivity {
     GBDevice gbDevice;
     private int timeFrom;
     private int timeTo;
-    private int timeSpanDays = 14;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,7 +54,6 @@ public class BatteryInfoActivity extends AbstractGBActivity {
                 .commit();
 
         timeTo = (int) (System.currentTimeMillis() / 1000);
-        timeFrom = timeTo - 24 * 3600 * timeSpanDays;
 
         batteryInfoChartFragment.setDateAndGetData(gbDevice, timeFrom, timeTo);
 
@@ -63,8 +61,7 @@ public class BatteryInfoActivity extends AbstractGBActivity {
         TextView battery_status_battery_voltage = (TextView) findViewById(R.id.battery_status_battery_voltage);
         final TextView battery_status_date_from_text = (TextView) findViewById(R.id.battery_status_date_from_text);
         final TextView battery_status_date_to_text = (TextView) findViewById(R.id.battery_status_date_to_text);
-
-        SeekBar battery_status_time_span_seekbar = (SeekBar) findViewById(R.id.battery_status_time_span_seekbar);
+        final SeekBar battery_status_time_span_seekbar = (SeekBar) findViewById(R.id.battery_status_time_span_seekbar);
         final TextView battery_status_time_span_text = (TextView) findViewById(R.id.battery_status_time_span_text);
 
         LinearLayout battery_status_date_to_layout = (LinearLayout) findViewById(R.id.battery_status_date_to_layout);
@@ -78,35 +75,34 @@ public class BatteryInfoActivity extends AbstractGBActivity {
                 switch (i) {
                     case 0:
                         text = getString(R.string.calendar_day);
-                        timeSpanDays = 1;
+                        timeFrom = DateTimeUtils.shiftDays(timeTo, -1);
                         break;
                     case 1:
                         text = getString(R.string.calendar_week);
-                        timeSpanDays = 7;
+                        timeFrom = DateTimeUtils.shiftDays(timeTo, -7);
                         break;
                     case 2:
                         text = getString(R.string.calendar_two_weeks);
-                        timeSpanDays = 14;
+                        timeFrom = DateTimeUtils.shiftDays(timeTo, -14);
                         break;
                     case 3:
                         text = getString(R.string.calendar_month);
-                        timeSpanDays = 30;
+                        timeFrom = DateTimeUtils.shiftMonths(timeTo, -1);
                         break;
                     case 4:
                         text = getString(R.string.calendar_six_months);
-                        timeSpanDays = 182;
+                        timeFrom = DateTimeUtils.shiftMonths(timeTo, -6);
                         break;
                     case 5:
                         text = getString(R.string.calendar_year);
-                        timeSpanDays = 365;
+                        timeFrom = DateTimeUtils.shiftMonths(timeTo, -12);
                         break;
                     default:
                         text = getString(R.string.calendar_two_weeks);
-                        timeSpanDays = 14;
+                        timeFrom = DateTimeUtils.shiftDays(timeTo, -14);
                 }
 
                 battery_status_time_span_text.setText(text);
-                timeFrom = timeTo - 24 * 3600 * timeSpanDays;
                 battery_status_date_from_text.setText(DateTimeUtils.formatDate(new Date(timeFrom * 1000L)));
                 battery_status_date_to_text.setText(DateTimeUtils.formatDate(new Date(timeTo * 1000L)));
                 batteryInfoChartFragment.setDateAndGetData(gbDevice, timeFrom, timeTo);
@@ -141,9 +137,10 @@ public class BatteryInfoActivity extends AbstractGBActivity {
                             Calendar date = Calendar.getInstance();
                             date.set(year, monthOfYear, dayOfMonth);
                             timeTo = (int) (date.getTimeInMillis() / 1000);
-                            timeFrom = timeTo - 24 * 3600 * timeSpanDays;
-                            battery_status_date_from_text.setText(DateTimeUtils.formatDate(new Date(timeFrom * 1000L)));
                             battery_status_date_to_text.setText(DateTimeUtils.formatDate(new Date(timeTo * 1000L)));
+                            battery_status_time_span_seekbar.setProgress(0);
+                            battery_status_time_span_seekbar.setProgress(1);
+
                             batteryInfoChartFragment.setDateAndGetData(gbDevice, timeFrom, timeTo);
                         }
                     }, currentDate.get(Calendar.YEAR), currentDate.get(Calendar.MONTH), currentDate.get(Calendar.DATE)).show();

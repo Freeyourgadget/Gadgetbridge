@@ -113,35 +113,35 @@ public class ActivityListingDashboard extends DialogFragment {
                 switch (i) {
                     case 0:
                         text = getString(R.string.calendar_day);
-                        timeFrom = shiftDateBackDays(timeTo, 1);
+                        timeFrom = DateTimeUtils.shiftDays(timeTo, -1);
                         break;
                     case 1:
                         text = getString(R.string.calendar_week);
-                        timeFrom = shiftDateBackDays(timeTo, 7);
+                        timeFrom = DateTimeUtils.shiftDays(timeTo, -7);
                         break;
                     case 2:
                         text = getString(R.string.calendar_two_weeks);
-                        timeFrom = shiftDateBackDays(timeTo, 14);
+                        timeFrom = DateTimeUtils.shiftDays(timeTo, -14);
                         break;
                     case 3:
                         text = getString(R.string.calendar_month);
-                        timeFrom = subtractMonths(timeTo, -1);
+                        timeFrom = DateTimeUtils.shiftMonths(timeTo, -1);
                         break;
                     case 4:
                         text = getString(R.string.calendar_three_months);
-                        timeFrom = subtractMonths(timeTo, -3);
+                        timeFrom = DateTimeUtils.shiftMonths(timeTo, -3);
                         break;
                     case 5:
                         text = getString(R.string.calendar_six_months);
-                        timeFrom = subtractMonths(timeTo, -6);
+                        timeFrom = DateTimeUtils.shiftMonths(timeTo, -6);
                         break;
                     case 6:
                         text = getString(R.string.calendar_year);
-                        timeFrom = subtractMonths(timeTo, -12);
+                        timeFrom = DateTimeUtils.shiftMonths(timeTo, -12);
                         break;
                     default:
                         text = getString(R.string.calendar_two_weeks);
-                        timeFrom = shiftDateBackDays(timeTo, 14);
+                        timeFrom = DateTimeUtils.shiftDays(timeTo, -14);
 
                 }
 
@@ -191,26 +191,10 @@ public class ActivityListingDashboard extends DialogFragment {
         battery_status_time_span_seekbar.setProgress(2);
     }
 
-    private int subtractMonths(int timeTo, int month) {
-        Calendar day = Calendar.getInstance();
-        day.setTimeInMillis(timeTo * 1000L);
-        day.add(Calendar.MONTH, month);
-        return (int) (day.getTimeInMillis() / 1000);
-    }
-
     private int daysBetweenTimes(int time1, int time2) {
         return (int) TimeUnit.MILLISECONDS.toDays((time2 - time1) * 1000L);
     }
 
-    private int shiftDateBackDays(int timeTo, int days) {
-        int time = timeTo - ((24 * 3600) - 1) * days;
-        Calendar day = Calendar.getInstance();
-        day.setTimeInMillis(time * 1000L);
-        day.set(Calendar.HOUR_OF_DAY, 0);
-        day.set(Calendar.MINUTE, 0);
-        day.set(Calendar.SECOND, 0);
-        return (int) (day.getTimeInMillis() / 1000);
-    }
 
     protected RefreshTask createRefreshTask(String task, Context context) {
         return new RefreshTask(task, context);
