@@ -24,7 +24,7 @@
     <string name="pref_default">Mặc định</string>
     <string name="pref_header_datetime">Ngày giờ</string>
     <string name="pref_title_datetime_syctimeonconnect">Đồng bộ giờ</string>
-    <string name="pref_summary_datetime_syctimeonconnect">Đồng bộ thời gian đến thiết bị Gadgetbridge khi kết nối và khi thời gian hoặc múi giờ thay đổi trên thiết bị Android.</string>
+    <string name="pref_summary_datetime_syctimeonconnect">Đồng bộ thời gian đến thiết bị Gadgetbridge khi kết nối và khi thời gian hoặc múi giờ thay đổi trên thiết bị Android</string>
     <string name="pref_header_notifications">Thông báo</string>
     <string name="pref_title_notifications_repetitions">Lặp lại</string>
     <string name="pref_title_notifications_call">Các cuộc gọi</string>
@@ -215,4 +215,110 @@
     <string name="controlcenter_navigation_drawer_open">Mở ngăn điều hướng</string>
     <string name="find_lost_device_message">Tìm kiếm %1$s\?</string>
     <string name="pref_theme_system">Hệ thống</string>
+    <string name="pref_title_canned_replies">Trả lời</string>
+    <string name="pref_title_pebble_activitytracker">Trình theo dõi hoạt động được ưu tiên</string>
+    <string name="pref_header_activitytrackers">Trình theo dõi hoạt động</string>
+    <string name="pref_title_sunrise_sunset">Mặt trời mọc và mặt trời lặn</string>
+    <string name="pref_header_pebble_timeline">Dòng thời gian của Pebble</string>
+    <string name="appmanager_hrm_deactivate">Vô hiệu hoá HRM</string>
+    <string name="appmanager_hrm_activate">Kích hoạt HRM</string>
+    <string name="controlcenter_set_alias">Đặt bí danh</string>
+    <string name="miband_firmware_suggest_whitelist">Nếu bạn vẫn muốn tiếp tục và sau đó mọi thứ tiếp tục vận hành đúng, thì hãy bảo các nhà phát triển của Gadgetbridge cho phiên bản phần mềm %s vào danh sách trắng.</string>
+    <string name="miband_firmware_unknown_warning">Phần mềm hệ thống này chưa được thử nghiệm và có thể không tương thích với Gadgetbridge.
+\n
+\nBạn KHÔNG ĐƯỢC KHUYẾN KHÍCH cài đặt nó!</string>
+    <string name="miband_firmware_known">Phần mềm hệ thống này đã được thử nghiệm và đã được biết là tương thích với Gadgetbridge.</string>
+    <string name="fw_multi_upgrade_notice">Bạn sắp cài đặt phần mềm hệ thống %1$s và %2$s, thay vì phần mềm hiện tại đang trên Mi Band của bạn.</string>
+    <string name="fw_upgrade_notice_amazfitneo">Bạn sắp cài đặt phần mềm hệ thống %s lên Amazfit Neo của bạn.
+\n
+\nBăng đeo tay của bạn sẽ khởi động lại sau khi cài đặt tệp .fw.
+\n
+\nBẠN TỰ CHỊU RỦI RO KHI TIẾP TỤC!</string>
+    <string name="fw_upgrade_notice_amazfitx">Bạn sắp cài đặt phần mềm hệ thống %s lên Amazfit X của bạn.
+\n
+\nHãy chắc chắn bạn cài đặt tệp .fw, và sau đó là tệp .res. Băng đeo tay của bạn sẽ khởi động lại sau khi cài đặt tệp .fw.
+\n
+\nLưu ý: Bạn không cần phải cài đặt .res nếu tệp đó giống hệt với tệp đã cài đặt trước đó.
+\n
+\nBẠN TỰ CHỊU RỦI RO KHI TIẾP TỤC!</string>
+    <string name="fw_upgrade_notice_miband5">Bạn sắp cài đặt phần mềm hệ thống %s lên Mi Band 5 của bạn.
+\n
+\nHãy chắc chắn bạn cài đặt tệp .fw, và sau đó là tệp .res. Băng đeo tay của bạn sẽ khởi động lại sau khi cài đặt tệp .fw.
+\n
+\nLưu ý: Bạn không cần phải cài đặt .res nếu tệp đó giống hệt với tệp đã cài đặt trước đó.
+\n
+\nBẠN TỰ CHỊU RỦI RO KHI TIẾP TỤC!</string>
+    <string name="fw_upgrade_notice_miband4">Bạn sắp cài đặt phần mềm hệ thống %s lên Mi Band 4 của bạn.
+\n
+\nHãy chắc chắn bạn cài đặt tệp .fw, và sau đó là tệp .res. Băng đeo tay của bạn sẽ khởi động lại sau khi cài đặt tệp .fw.
+\n
+\nLưu ý: Bạn không cần phải cài đặt .res nếu tệp đó giống hệt với tệp đã cài đặt trước đó.
+\n
+\nBẠN TỰ CHỊU RỦI RO KHI TIẾP TỤC!</string>
+    <string name="fw_upgrade_notice_miband3">Bạn sắp cài đặt phần mềm hệ thống %s lên Mi Band 3 của bạn.
+\n
+\nHãy chắc chắn bạn cài đặt tệp .fw, và sau đó là tệp .res. Băng đeo tay của bạn sẽ khởi động lại sau khi cài đặt tệp .fw.
+\n
+\nLưu ý: Bạn không cần phải cài đặt .res nếu tệp đó giống hệt với tệp đã cài đặt trước đó.
+\n
+\nBẠN TỰ CHỊU RỦI RO KHI TIẾP TỤC!</string>
+    <string name="fw_upgrade_notice_amazfitvergel">Bạn sắp cài đặt phần mềm hệ thống %s lên Amazfit Verge Lite của bạn.
+\n
+\nHãy chắc chắn bạn cài đặt tệp .fw, sau đó là tệp .res, và cuối cùng là tệp .gps. Đồng hồ của bạn sẽ khởi động lại sau khi cài đặt tệp .fw.
+\n
+\nLưu ý: Bạn không cần phải cài đặt .res và .gps nếu các tệp đó giống hệt với các tệp đã cài đặt trước đó.
+\n
+\nBẠN TỰ CHỊU RỦI RO KHI TIẾP TỤC!</string>
+    <string name="fw_upgrade_notice_amazfit_trex">Bạn sắp cài đặt phần mềm hệ thống %s lên Amazfit T-Rex của bạn.
+\n
+\nHãy chắc chắn bạn cài đặt tệp .fw, sau đó là tệp .res, và cuối cùng là tệp .gps. Đồng hồ của bạn sẽ khởi động lại sau khi cài đặt tệp .fw.
+\n
+\nLưu ý: Bạn không cần phải cài đặt .res và .gps nếu các tệp đó giống hệt với các tệp đã cài đặt trước đó.
+\n
+\nBẠN TỰ CHỊU RỦI RO KHI TIẾP TỤC!</string>
+    <string name="fw_upgrade_notice_amazfitgts">Bạn sắp cài đặt phần mềm hệ thống %s lên Amazfit GTS của bạn.
+\n
+\nHãy chắc chắn bạn cài đặt tệp .fw, sau đó là tệp .res, và cuối cùng là tệp .gps. Đồng hồ của bạn sẽ khởi động lại sau khi cài đặt tệp .fw.
+\n
+\nLưu ý: Bạn không cần phải cài đặt .res và .gps nếu các tệp đó giống hệt với các tệp đã cài đặt trước đó.
+\n
+\nBẠN TỰ CHỊU RỦI RO KHI TIẾP TỤC!</string>
+    <string name="fw_upgrade_notice_amazfitgtr">Bạn sắp cài đặt phần mềm hệ thống %s lên Amazfit GTR của bạn.
+\n
+\nHãy chắc chắn bạn cài đặt tệp .fw, sau đó là tệp .res, và cuối cùng là tệp .gps. Đồng hồ của bạn sẽ khởi động lại sau khi cài đặt tệp .fw.
+\n
+\nLưu ý: Bạn không cần phải cài đặt .res và .gps nếu các tệp đó giống hệt với các tệp đã cài đặt trước đó.
+\n
+\nBẠN TỰ CHỊU RỦI RO KHI TIẾP TỤC!</string>
+    <string name="fw_upgrade_notice_amazfitcor2">Bạn sắp cài đặt phần mềm hệ thống %s lên Amazfit Cor 2 của bạn.
+\n
+\nHãy chắc chắn bạn cài đặt tệp .fw, và sau đó là tệp .res. Băng đeo tay của bạn sẽ khởi động lại sau khi cài đặt tệp .fw.
+\n
+\nLưu ý: Bạn không cần phải cài đặt .res nếu tệp đó giống hệt với tệp đã cài đặt trước đó.
+\n
+\nBẠN TỰ CHỊU RỦI RO KHI TIẾP TỤC!
+\n
+\nHOÀN TOÀN CHƯA ĐƯỢC THỬ NGHIỆM, CÓ THỂ BẠN CẦN CÀI ĐẶT PHẦN MỀM BEATS_W NẾU TÊN THIẾT BỊ CỦA BẠN LÀ \"Amazfit Band 2\"</string>
+    <string name="fw_upgrade_notice_amazfitcor">Bạn sắp cài đặt phần mềm hệ thống %s lên Amazfit Cor của bạn.
+\n
+\nHãy chắc chắn bạn cài đặt tệp .fw, và sau đó là tệp .res. Băng đeo tay của bạn sẽ khởi động lại sau khi cài đặt tệp .fw.
+\n
+\nLưu ý: Bạn không cần phải cài đặt .res nếu tệp đó giống hệt với tệp đã cài đặt trước đó.
+\n
+\nBẠN TỰ CHỊU RỦI RO KHI TIẾP TỤC!</string>
+    <string name="fw_upgrade_notice_amazfitbip_lite">Bạn sắp cài đặt phần mềm hệ thống %s lên Amazfit Bip Lite của bạn.
+\n
+\nHãy chắc chắn bạn cài đặt tệp .fw, và sau đó là tệp .res. Đồng hồ của bạn sẽ khởi động lại sau khi cài đặt tệp .fw.
+\n
+\nLưu ý: Bạn không cần phải cài đặt .res nếu tệp đó giống hệt với tệp đã cài đặt trước đó.
+\n
+\nBẠN TỰ CHỊU RỦI RO KHI TIẾP TỤC!</string>
+    <string name="fw_upgrade_notice_amazfitbip">Bạn sắp cài đặt phần mềm hệ thống %s lên Amazfit Bip của bạn.
+\n
+\nHãy chắc chắn bạn cài đặt tệp .fw, sau đó là tệp .res, và cuối cùng là tệp .gps. Đồng hồ của bạn sẽ khởi động lại sau khi cài đặt tệp .fw.
+\n
+\nLưu ý: Bạn không cần phải cài đặt .res và .gps nếu các tệp đó giống hệt với các tệp đã cài đặt trước đó.
+\n
+\nBẠN TỰ CHỊU RỦI RO KHI TIẾP TỤC!</string>
+    <string name="title_activity_calblacklist">Các lịch đã thêm vào danh sách đen</string>
 </resources>
