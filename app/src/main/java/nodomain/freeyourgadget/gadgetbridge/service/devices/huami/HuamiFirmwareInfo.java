@@ -41,7 +41,7 @@ public abstract class HuamiFirmwareInfo {
     };
 
     public static final byte[] WATCHFACE_HEADER_UIHH = new byte[]{
-            'U', 'I', 'H', 'H', 0x01
+            'U', 'I', 'H', 'H'
     };
 
     protected static final byte[] FT_HEADER = new byte[]{ // HMZK font file (*.ft, *.ft.xx)
