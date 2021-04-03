@@ -1216,7 +1216,7 @@
     <string name="prefs_sounds">Dźwięki</string>
     <string name="fw_upgrade_notice_amazfitneo">Zamierzasz zainstalować firmware %s na Amazfit Neo.
 \n
-\n. Opaska uruchomi się ponownie po instalacji pliku .fw.
+\nOpaska uruchomi się ponownie po instalacji pliku .fw.
 \n
 \nROBISZ TO NA WŁASNE RYZYKO!</string>
 </resources>
