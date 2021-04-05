@@ -42,6 +42,7 @@ import no.nordicsemi.android.dfu.DfuServiceController;
 import no.nordicsemi.android.dfu.DfuServiceInitiator;
 import no.nordicsemi.android.dfu.DfuServiceListenerHelper;
 import nodomain.freeyourgadget.gadgetbridge.R;
+import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventBatteryInfo;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventCallControl;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventMusicControl;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventVersionInfo;
@@ -68,13 +69,18 @@ import nodomain.freeyourgadget.gadgetbridge.service.btle.profiles.alertnotificat
 import nodomain.freeyourgadget.gadgetbridge.service.btle.profiles.alertnotification.AlertNotificationProfile;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.profiles.alertnotification.NewAlert;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.profiles.alertnotification.OverflowStrategy;
+import nodomain.freeyourgadget.gadgetbridge.service.btle.profiles.battery.BatteryInfoProfile;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.profiles.deviceinfo.DeviceInfoProfile;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
 public class PineTimeJFSupport extends AbstractBTLEDeviceSupport implements DfuLogListener {
     private static final Logger LOG = LoggerFactory.getLogger(PineTimeJFSupport.class);
     private final GBDeviceEventVersionInfo versionCmd = new GBDeviceEventVersionInfo();
+    private final GBDeviceEventBatteryInfo batteryCmd = new GBDeviceEventBatteryInfo();
+
     private final DeviceInfoProfile<PineTimeJFSupport> deviceInfoProfile;
+    private final BatteryInfoProfile<PineTimeJFSupport> batteryInfoProfile;
+
     private final int MaxNotificationLength = 100;
     private int firmwareVersionMajor = 0;
     private int firmwareVersionMinor = 0;
@@ -211,23 +217,37 @@ public class PineTimeJFSupport extends AbstractBTLEDeviceSupport implements DfuL
         addSupportedService(GattService.UUID_SERVICE_ALERT_NOTIFICATION);
         addSupportedService(GattService.UUID_SERVICE_CURRENT_TIME);
         addSupportedService(GattService.UUID_SERVICE_DEVICE_INFORMATION);
+        addSupportedService(GattService.UUID_SERVICE_BATTERY_SERVICE);
         addSupportedService(PineTimeJFConstants.UUID_SERVICE_MUSIC_CONTROL);
         addSupportedService(PineTimeJFConstants.UUID_CHARACTERISTIC_ALERT_NOTIFICATION_EVENT);
 
-        deviceInfoProfile = new DeviceInfoProfile<>(this);
         IntentListener mListener = new IntentListener() {
             @Override
             public void notify(Intent intent) {
                 String action = intent.getAction();
                 if (DeviceInfoProfile.ACTION_DEVICE_INFO.equals(action)) {
                     handleDeviceInfo((nodomain.freeyourgadget.gadgetbridge.service.btle.profiles.deviceinfo.DeviceInfo) intent.getParcelableExtra(DeviceInfoProfile.EXTRA_DEVICE_INFO));
+                } else if (BatteryInfoProfile.ACTION_BATTERY_INFO.equals(action)) {
+                    handleBatteryInfo((nodomain.freeyourgadget.gadgetbridge.service.btle.profiles.battery.BatteryInfo) intent.getParcelableExtra(BatteryInfoProfile.EXTRA_BATTERY_INFO));
                 }
             }
         };
+
+        deviceInfoProfile = new DeviceInfoProfile<>(this);
         deviceInfoProfile.addListener(mListener);
+        addSupportedProfile(deviceInfoProfile);
+
         AlertNotificationProfile<PineTimeJFSupport> alertNotificationProfile = new AlertNotificationProfile<>(this);
         addSupportedProfile(alertNotificationProfile);
-        addSupportedProfile(deviceInfoProfile);
+
+        batteryInfoProfile = new BatteryInfoProfile<>(this);
+        batteryInfoProfile.addListener(mListener);
+        addSupportedProfile(batteryInfoProfile);
+    }
+
+    private void handleBatteryInfo(nodomain.freeyourgadget.gadgetbridge.service.btle.profiles.battery.BatteryInfo info) {
+        batteryCmd.level = (short) info.getPercentCharged();
+        handleGBDeviceEvent(batteryCmd);
     }
 
     @Override
@@ -431,6 +451,8 @@ public class PineTimeJFSupport extends AbstractBTLEDeviceSupport implements DfuL
             builder.notify(alertNotificationEventCharacteristic, true);
         }
         setInitialized(builder);
+        batteryInfoProfile.requestBatteryInfo(builder);
+
         return builder;
     }
 
