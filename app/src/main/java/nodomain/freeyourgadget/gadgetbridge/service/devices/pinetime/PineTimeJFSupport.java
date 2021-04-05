@@ -405,9 +405,10 @@ public class PineTimeJFSupport extends AbstractBTLEDeviceSupport implements DfuL
 
     @Override
     public void onFindDevice(boolean start) {
-        TransactionBuilder builder = new TransactionBuilder("Enable alert");
-        builder.write(getCharacteristic(GattCharacteristic.UUID_CHARACTERISTIC_ALERT_LEVEL), new byte[]{(byte) (start ? 0x01 : 0x00)});
-        builder.queue(getQueue());
+        CallSpec callSpec = new CallSpec();
+        callSpec.command = start ? CallSpec.CALL_INCOMING : CallSpec.CALL_END;
+        callSpec.name = "Gadgetbridge";
+        onSetCallState(callSpec);
     }
 
     @Override
