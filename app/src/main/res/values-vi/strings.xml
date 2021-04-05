@@ -321,4 +321,5 @@
 \n
 \nBẠN TỰ CHỊU RỦI RO KHI TIẾP TỤC!</string>
     <string name="title_activity_calblacklist">Các lịch đã thêm vào danh sách đen</string>
+    <string name="pref_title_location_aquire">Lấy vị trí</string>
 </resources>
