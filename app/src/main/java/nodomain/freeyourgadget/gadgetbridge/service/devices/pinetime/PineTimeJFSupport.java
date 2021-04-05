@@ -258,19 +258,19 @@ public class PineTimeJFSupport extends AbstractBTLEDeviceSupport implements DfuL
     @Override
     public void onNotification(NotificationSpec notificationSpec) {
         TransactionBuilder builder = new TransactionBuilder("notification");
-        String message = notificationSpec.body;
-        if(!IsFirmwareAtLeastVersion0_9()) {
-            // Firmware versions prior to 0.9 ignore the last characters of the notification message
-            // Add an space character so that the whole message will be displayed
-            message += " ";
+
+        String message;
+
+        if (isFirmwareAtLeastVersion0_15()) {
+            String senderOrTitle = nodomain.freeyourgadget.gadgetbridge.util.StringUtils.getFirstOf(notificationSpec.sender, notificationSpec.title);
+            message = senderOrTitle + "\0" + notificationSpec.body;
+        } else {
+            message = notificationSpec.body;
         }
+
         NewAlert alert = new NewAlert(AlertCategory.CustomHuami, 1, message);
         AlertNotificationProfile<?> profile = new AlertNotificationProfile<>(this);
-        if(IsFirmwareAtLeastVersion0_9()) {
-            // InfiniTime 0.9+ support notification message of up to 100 characters
-            // Instead of 18 by default
-            profile.setMaxLength(MaxNotificationLength);
-        }
+        profile.setMaxLength(MaxNotificationLength);
         profile.newAlert(builder, alert, OverflowStrategy.TRUNCATE);
         builder.queue(getQueue());
     }
@@ -656,7 +656,7 @@ public class PineTimeJFSupport extends AbstractBTLEDeviceSupport implements DfuL
         if(versionCmd.fwVersion != null && !versionCmd.fwVersion.isEmpty()) {
             // FW version format : "major.minor.patch". Ex : "0.8.2"
             String[] tokens = StringUtils.split(versionCmd.fwVersion, ".");
-            if(tokens.length == 3) {
+            if (tokens.length == 3) {
                 firmwareVersionMajor = Integer.parseInt(tokens[0]);
                 firmwareVersionMinor = Integer.parseInt(tokens[1]);
                 firmwareVersionPatch = Integer.parseInt(tokens[2]);
@@ -666,8 +666,8 @@ public class PineTimeJFSupport extends AbstractBTLEDeviceSupport implements DfuL
         handleGBDeviceEvent(versionCmd);
     }
 
-    private boolean IsFirmwareAtLeastVersion0_9() {
-        return firmwareVersionMajor > 0 || firmwareVersionMinor >= 9;
+    private boolean isFirmwareAtLeastVersion0_15() {
+        return firmwareVersionMajor > 0 || firmwareVersionMinor >= 15;
     }
 
     /**
