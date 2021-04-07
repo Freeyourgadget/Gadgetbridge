@@ -1205,7 +1205,10 @@
     <string name="prefs_sounds">צלילים</string>
     <string name="fw_upgrade_notice_amazfitneo">פעולה זו תתקין את הקושחה %s על ה־Amazfit Neo שלך.
 \n
-\n. השעון שלך יופעל מחדש לאחר התקנת קובץ ה־‎.fw
+\nהשעון שלך יופעל מחדש לאחר התקנת קובץ ה־‎.fw
 \n
 \nהמשך התהליך הוא על אחריותך!</string>
+    <string name="menuitem_temperature">טמפרטורה</string>
+    <string name="menuitem_widgets">וידג׳טים</string>
+    <string name="menuitem_events">אירועים</string>
 </resources>
