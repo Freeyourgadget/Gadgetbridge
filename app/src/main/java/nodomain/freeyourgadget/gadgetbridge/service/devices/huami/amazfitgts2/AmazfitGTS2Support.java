@@ -34,6 +34,11 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.operations.Upd
 public class AmazfitGTS2Support extends AmazfitGTSSupport {
 
     @Override
+    public boolean supportsSunriseSunsetWindHumidity() {
+        return true;
+    }
+
+    @Override
     public HuamiFWHelper createFWHelper(Uri uri, Context context) throws IOException {
         return new AmazfitGTS2FWHelper(uri, context);
     }
