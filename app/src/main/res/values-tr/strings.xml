@@ -1236,4 +1236,7 @@
 \n.fw dosyasını kurduktan sonra saatiniz yeniden başlatılacak.
 \n
 \nİLERLEMENİZ DURUMUNDA RİSK SİZE AİTTİR!</string>
+    <string name="menuitem_temperature">Sıcaklık</string>
+    <string name="menuitem_widgets">Widget\'lar</string>
+    <string name="menuitem_events">Etkinlikler</string>
 </resources>
