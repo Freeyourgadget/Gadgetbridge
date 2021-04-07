@@ -50,12 +50,15 @@ class HuamiMenuType {
         put("goal", 0x21);
         put("sleep", 0x23);
         put("spo2", 0x24);
+        put("events", 0x26);
+        put("widgets", 0x28);
         put("breathing",0x33);
         put("steps",0x34);
         put("distance",0x35);
         put("calories",0x36);
         put("pomodoro", 0x38);
         put("alexa", 0x39);
+        put("temperature", 0x40);
         put("battery", 0x3a);
     }};
 }

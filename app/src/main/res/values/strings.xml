@@ -901,6 +901,9 @@
     <string name="menuitem_goal">Activity Goal</string>
     <string name="menuitem_sleep">Sleep</string>
     <string name="menuitem_pomodoro">Pomodoro Tracker</string>
+    <string name="menuitem_events">Events</string>
+    <string name="menuitem_widgets">Widgets</string>
+    <string name="menuitem_temperature">Temperature</string>
     <string name="watch9_time_minutes">Minutes:</string>
     <string name="watch9_time_hours">Hours:</string>
     <string name="watch9_time_seconds">Seconds:</string>

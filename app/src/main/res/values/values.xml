@@ -50,6 +50,9 @@
     <item name="p_menuitem_goal" type="string">goal</item>
     <item name="p_menuitem_sleep" type="string">sleep</item>
     <item name="p_menuitem_pomodoro" type="string">pomodoro</item>
+    <item name="p_menuitem_events" type="string">events</item>
+    <item name="p_menuitem_widgets" type="string">widgets</item>
+    <item name="p_menuitem_temperature" type="string">temperature</item>
 
     <!-- currently used for sounds -->
     <item name="p_menuitem_button" type="string">button</item>
