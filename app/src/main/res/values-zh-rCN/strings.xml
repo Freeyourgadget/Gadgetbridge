@@ -1217,4 +1217,7 @@
 \n您的手环将在安装了 .fw 文件后重启。
 \n
 \n风险自担！</string>
+    <string name="menuitem_temperature">温度</string>
+    <string name="menuitem_widgets">窗口小部件</string>
+    <string name="menuitem_events">事件</string>
 </resources>
