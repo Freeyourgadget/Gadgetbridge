@@ -1221,4 +1221,7 @@
 \nDein Band wird nach der Installation der .fw Datei neu starten.
 \n
 \nINSTALLATION AUF EIGENE GEFAHR!</string>
+    <string name="menuitem_temperature">Temperatur</string>
+    <string name="menuitem_widgets">Widgets</string>
+    <string name="menuitem_events">Ereignisse</string>
 </resources>
