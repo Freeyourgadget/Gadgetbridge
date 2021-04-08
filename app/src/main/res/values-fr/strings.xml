@@ -1203,7 +1203,10 @@ Temps de sommeil préféré en heures</string>
     <string name="prefs_sounds">Sons</string>
     <string name="fw_upgrade_notice_amazfitneo">Vous êtes sur le point d\'installer le micrologiciel %s dans votre Amazfit Neo.
 \n
-\n. Votre bracelet va redémarrer après l\'installation du micrologiciel.
+\n- Votre bracelet va redémarrer après l\'installation du micrologiciel.
 \n
 \nA VOS RISQUES ET PÉRILS !</string>
+    <string name="menuitem_temperature">Température</string>
+    <string name="menuitem_widgets">Widgets</string>
+    <string name="menuitem_events">Évènements</string>
 </resources>
