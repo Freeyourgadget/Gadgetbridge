@@ -322,4 +322,13 @@
 \nBẠN TỰ CHỊU RỦI RO KHI TIẾP TỤC!</string>
     <string name="title_activity_calblacklist">Các lịch đã thêm vào danh sách đen</string>
     <string name="pref_title_location_aquire">Lấy vị trí</string>
+    <string name="pref_title_allow_high_mtu">Cho phép MTU cao</string>
+    <string name="pref_summary_use_custom_font">Bật tuỳ chọn này nếu thiết bị của bạn có phần mềm phông chữ tuỳ chỉnh để hỗ trợ emoji</string>
+    <string name="pref_title_use_custom_font">Sử dụng phông chữ tuỳ chỉnh</string>
+    <string name="pref_summary_pebble_forceuntested">Bật các tính năng chưa được thử nghiệm. HÃY BIẾT BẠN ĐANG LÀM GÌ!</string>
+    <string name="pref_title_pebble_forceuntested">Bật các tính năng chưa được thử nghiệm</string>
+    <string name="pref_pebble_privacy_mode_content">Dịch chuyển văn bản thông báo ra ngoài màn hình</string>
+    <string name="pref_title_pebble_forcele">Luôn ưu tiên BLE</string>
+    <string name="pref_summary_location_keep_uptodate">Cố gắng lấy vị trí hiện tại khi chạy, sử dụng vị trí đã lưu trữ làm vị trí dự phòng</string>
+    <string name="pref_pebble_privacy_mode_complete">Chỉ hiện biểu tượng thông báo</string>
 </resources>
