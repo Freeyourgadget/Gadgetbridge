@@ -1219,4 +1219,7 @@
 \nOpaska uruchomi się ponownie po instalacji pliku .fw.
 \n
 \nROBISZ TO NA WŁASNE RYZYKO!</string>
+    <string name="menuitem_events">Wydarzenia</string>
+    <string name="menuitem_widgets">Widżety</string>
+    <string name="menuitem_temperature">Temperatura</string>
 </resources>
