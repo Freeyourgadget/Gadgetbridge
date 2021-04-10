@@ -364,8 +364,8 @@
     <string name="mi2_prefs_do_not_disturb_start">Ώρα έναρξης</string>
     <string name="mi2_prefs_do_not_disturb_end">Ώρα λήξης</string>
     <string name="automatic">Αυτόματα</string>
-    <string name="simplified_chinese">Απλοποιημένα Κινεζικά</string>
-    <string name="traditional_chinese">Παραδοσιακά Κινεζικά</string>
+    <string name="simplified_chinese">Απλοποιημένα Κινέζικα</string>
+    <string name="traditional_chinese">Παραδοσιακά Κινέζικα</string>
     <string name="english">Αγγλικά</string>
     <string name="FetchActivityOperation_about_to_transfer_since">Θα μεταφέρετε δεδομένα από %1$s</string>
     <string name="waiting_for_reconnect">Αναμονή για επανασύνδεση</string>
@@ -696,7 +696,7 @@
     <string name="ukrainian">Ουκρανικά</string>
     <string name="arabic">Αραβικά</string>
     <string name="indonesian">Ινδονησιακά</string>
-    <string name="thai">Ταϊλανδέζικα</string>
+    <string name="thai">Ταϊλανδικά</string>
     <string name="vietnamese">Βιετναμέζικα</string>
     <string name="portuguese">Πορτογαλικά</string>
     <string name="devicetype_amazfit_cor2">Amazfit Cor 2</string>
@@ -1010,4 +1010,5 @@
     <string name="calendar_week">Εβδομάδα</string>
     <string name="calendar_day">Μέρα</string>
     <string name="battery_level">Επίπεδο μπαταρίας</string>
+    <string name="lefun_prefs_interface_language_title">Γλώσσα</string>
 </resources>
