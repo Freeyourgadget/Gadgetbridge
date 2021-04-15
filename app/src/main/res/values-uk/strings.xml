@@ -3,7 +3,7 @@
     <string name="app_name">Gadgetbridge</string>
     <string name="title_activity_controlcenter">Gadgetbridge</string>
     <string name="action_settings">Налаштування</string>
-    <string name="action_debug">Налагодження</string>
+    <string name="action_debug">Відлагодження</string>
     <string name="action_quit">Вийти</string>
     <string name="controlcenter_fetch_activity_data">Синхронізувати</string>
     <string name="controlcenter_find_device">Знайти загублений пристрій</string>
@@ -58,7 +58,7 @@
     <string name="pref_title_notifications_pebblemsg">Повідомлення Pebble</string>
     <string name="pref_title_notifications_generic">Підтримка звичайних сповіщень</string>
     <string name="pref_title_whenscreenon">…навіть коли екран увімкнено</string>
-    <string name="pref_title_notification_filter">Не тубрувати</string>
+    <string name="pref_title_notification_filter">Не турбувати</string>
     <string name="always">Завжди</string>
     <string name="when_screen_off">Коли екран вимкнуто</string>
     <string name="never">Ніколи</string>
@@ -309,7 +309,7 @@
     <string name="controlcenter_calibrate_device">Калібрувати пристрій</string>
     <string name="pref_title_notifications_timeout">Мінімальний час між сповіщеннями</string>
     <string name="pref_title_autoremove_notifications">Автоматично видаляти відхилені сповіщення</string>
-    <string name="pref_summary_autoremove_notifications">Сповіщення автоматично видаляються з Pebble коли звільняються з Android пристрою</string>
+    <string name="pref_summary_autoremove_notifications">Сповіщення автоматично видаляються з пристрою, коли звільняються з Android пристрою</string>
     <string name="pref_title_pebble_privacy_mode">Приватний режим</string>
     <string name="pref_pebble_privacy_mode_off">Звичайні сповіщення</string>
     <string name="pref_pebble_privacy_mode_complete">Показувати лише іконку сповіщення</string>
@@ -497,8 +497,8 @@
     <string name="updatefirmwareoperation_firmware_not_sent">Мікропрограму не відправлено</string>
     <string name="charts_legend_heartrate">Пульс</string>
     <string name="live_activity_heart_rate">Пульс</string>
-    <string name="action_db_management">Керування базою даних</string>
-    <string name="title_activity_db_management">Керування базою даних</string>
+    <string name="action_db_management">Керування даними</string>
+    <string name="title_activity_db_management">Керування даними</string>
     <string name="activity_db_management_merge_old_title">Видалення застарілої бази даних</string>
     <string name="dbmanagementactivity_exported_to">Експортовано до: %1$s</string>
     <string name="dbmanagementactivity_error_exporting_db">Помилка експорту бази: %1$s</string>
@@ -605,8 +605,8 @@
     <string name="pref_title_expose_hr">Доступ до пульсометру сторонніх аплікацій</string>
     <string name="pref_title_use_custom_font">Нестандартний шрифт</string>
     <string name="pref_summary_use_custom_font">Увімкніть це, якщо ваш пристрій має нестандартну мікропрограму для підтримки емоджи</string>
-    <string name="activity_DB_ExportButton">Експортувати базу даних</string>
-    <string name="activity_DB_import_button">Імпортувати базу даних</string>
+    <string name="activity_DB_ExportButton">Експортувати дані</string>
+    <string name="activity_DB_import_button">Імпортувати дані</string>
     <string name="pref_display_add_device_fab">Кнопка під\'єднання нового пристрою</string>
     <string name="pref_display_add_device_fab_on">Завжди видно</string>
     <string name="pref_display_add_device_fab_off">Видно якщо не додано пристрій</string>
@@ -634,11 +634,16 @@
     <string name="error_creating_directory_for_logfiles">Помилка створення теки для log-файлу: %1$s</string>
     <string name="pref_title_pebble_health_store_raw">Зберігати сирі записи в базі даних</string>
     <string name="pref_summary_pebble_health_store_raw">Зберігає дані \"як вони є\", та збільшує використання бази даних для подальшої інтерпретації.</string>
-    <string name="activity_db_management_import_export_explanation">Для дій з базою даних використовується наступне місце в пам\'яті Вашого пристрою.
-\nЦя тека доступна для інших Android додатків і також на Вашому комп\'ютері.
-\nВи знайдете Вашу базу даних (або завантажте іншу базу даних, якою будете користуватися) тут:</string>
+    <string name="activity_db_management_import_export_explanation">Експорт/Імпорт використовує шлях до каталогу в пам\'яті Вашого пристрою вказаний нижче. Цей каталог доступний для інших Android додатків і також на Вашому комп\'ютері. Зауважте, що цей каталог та усі його файли буде видалено при видаленні Gadgetbridge. Ці дані включають:
+\nExport_preference - загальні налаштування
+\nExport_preference_MAC - налаштування конкретного пристрою
+\nGadgetbridge - база пристроїв та активностей
+\nGadgetbridge_date - база даних експортована у вказаний день
+\n*.gpx - записи GPS
+\n*.log - файли логування
+\nВи знайдете експортовані файли (також помістіть сюди файли бази даних для імпорту) тут:</string>
     <string name="dbmanagementactivvity_cannot_access_export_path">Немає доступу до теки експорту. Будь ласка зверніться до розробників.</string>
-    <string name="dbmanagementactivity_overwrite_database_confirmation">Дійсно перезаписати теперішню базу даних\? Всі теперішні дані Вашої активності (за їх наявності) будуть втрачені.</string>
+    <string name="dbmanagementactivity_overwrite_database_confirmation">Дійсно перезаписати поточні дані\? Всі поточні дані Вашої активності (якщо існують) будуть перезаписані.</string>
     <string name="dbmanagementactivity_really_delete_entire_db">Дійсно видалити всі дані\? Всі дані Вашої активності та інформація про Ваш пристрій буде втрачено.</string>
     <string name="dbmanagementactivity_delete_old_activity_db">Видалити стару базу даних Вашої активності\?</string>
     <string name="dbmanagementactivity_delete_old_activitydb_confirmation">Дійсно видалити стару базу даних Вашої активності\? Дані які не були попередньо імпортовані, будуть втрачені.</string>
@@ -748,7 +753,7 @@
     <string name="activity_DB_test_export_button">Запустити АвтоЕкспорт зараз</string>
     <string name="activity_DB_test_export_message">Експорт бази даних…</string>
     <string name="activity_DB_delete_legacy_button">Видалити стару БД</string>
-    <string name="activity_DB_empty_button">Спорожнити БД</string>
+    <string name="activity_DB_empty_button">Очистити базу даних</string>
     <string name="activity_db_management_empty_DB">Спорожнити базу даних</string>
     <string name="activity_db_management_exportimport_label">Експорт та імпорт</string>
     <string name="activity_db_management_empty_db_warning">Увага! Натисканням цієї кнопки Ви видалите вашу базу даних і почнете з нуля.</string>
@@ -769,16 +774,16 @@
     <string name="activity_error_no_app_for_gpx">Для відображення сліду Вашої активності, встановіть додаток який може обробляти GPX файли.</string>
     <string name="devicetype_makibes_hr3">Makibes HR3</string>
     <string name="devicetype_amazfit_bip_lite">Amazfit Bip Lite</string>
-    <string name="prefs_enable_find_phone">Увімкнути \\\'Знайти телефон\\\'</string>
+    <string name="prefs_enable_find_phone">Увімкнути \'Знайти телефон\'</string>
     <string name="prefs_find_phone_summary">Використовуйте свій браслет для відтворення мелодії на телефоні.</string>
     <string name="prefs_find_phone_duration">Тривалість дзвінка в секундах</string>
     <string name="maximum_duration">Тривалість</string>
     <string name="discovery_need_to_enter_authkey">Цей пристрій потребує ключа автентифікації, нажміть та утримуйте для переходу в меню введення ключа. Прочитайте Wiki.</string>
-    <string name="fw_upgrade_notice_amazfitbip_lite">Ви збираєтесь встановити %s прошивку на ваш Amazfit Bip Lite.
+    <string name="fw_upgrade_notice_amazfitbip_lite">Ви збираєтесь встановити мікропрограму %s на ваш Amazfit Bip Lite.
 \n
 \nПереконайтесь, що ви встановлюєте .fw файл, а після нього – .res файл. Ваш годинник перезавантажиться після встановлення .fw файлу.
 \n
-\nПримітка: вам не потрібно встановлювати .res файл, якщо такий самий був встановлений раніше.
+\nПримітка: вам не потрібно встановлювати .res файл, якщо аналогічний файл був встановлений раніше.
 \n
 \nДІЄТЕ НА ВЛАСНИЙ РИЗИК!</string>
     <string name="devicetype_amazfit_gtr">Amazfit GTR</string>
@@ -1012,13 +1017,13 @@
     <string name="about_additional_device_support">Підтримка додаткових пристроїв</string>
     <string name="about_contributors">Співавтори</string>
     <string name="about_core_team_title">Основна команда (впорядковано за датою допомоги)</string>
-    <string name="about_description">Безкоштовний, не залежний від cloud, замінник фірмової аплікаціі від виробника вашого пристрою.</string>
+    <string name="about_description">Не залежний від cloud, вільний замінник закритих аплікацій від інших виробників.</string>
     <string name="about_activity_title">Про Gadgetbridge</string>
     <string name="about_title">Про програму</string>
     <string name="hr_widget_last_notification">Останнє повідомлення</string>
     <string name="menuitem_worldclock">Світовий час</string>
     <string name="menuitem_stress">Стрес</string>
-    <string name="menuitem_cycles">Цикли</string>
+    <string name="menuitem_cycles">Період</string>
     <string name="menuitem_breathing">Дихання</string>
     <string name="devicetype_pinetime_jf">PineTime (Прошивка JF)</string>
     <string name="devicetype_tlw64">TLW64</string>
@@ -1059,4 +1064,157 @@
     <string name="sonyswr12_settings_low_vibration_summary">Увімкніть низьку інтенсивність вібрації на браслеті</string>
     <string name="sonyswr12_settings_stamina_summary">Режим енергозбереження вимикає періодичне автоматичне вимірювання частоти серцевих скорочень, таким чином збільшуючи час роботи</string>
     <string name="sonyswr12_settings_alarm_interval_summary">Інтервал інтелектуальної тривоги - це інтервал до встановленої сигналізації. У цей інтервал пристрій намагається виявити найлегшу фазу сну для пробудження користувача</string>
+    <string name="prefs_key_vibration">Вібрація клавіш</string>
+    <string name="activity_db_management_clean_export_directory_text">Експортовані файли в каталозі Експорту/Імпорту доступні аплікаціям з вашого пристрою. Можливо ви захочете видалити ці файли після синхронизації чи створення запасної копії. Перед видаленням переконайтесь, що створено запасну копію. Файли GPX, підкаталоги та авто-експортовані файли бази даних (якщо існують) не будуть видалені. Шлях до каталогу Експорту/Імпорту:</string>
+    <string name="activity_error_no_app_for_png">Щоб поділитись цим знімком екрану, встановіть аплікацію яка підтримує файли малюнків.</string>
+    <string name="prefs_fake_ring_duration">Несправжній безперервний дзвінок</string>
+    <string name="prefs_autoremove_message">Автоматично видаляти SMS-повідомлення</string>
+    <string name="fossil_hr_commute_processing">Обробка запиту...</string>
+    <string name="fossil_hr_unavailable_unauthed">Недоступно без аутентифікації</string>
+    <string name="fossil_hr_synced_activity_data">Синхронизовані дані активностей</string>
+    <string name="qhybrid_title_watchface_apps">Циферблати та аплікації</string>
+    <string name="fossil_hr_auth_failed">Аутентифікацію не пройдено, функціонал обмежено</string>
+    <string name="qhybrid_title_apps">Аплікації</string>
+    <string name="qhybrid_title_background_image">Малюнок тла</string>
+    <string name="qhybrid_title_file_management">Керування файлами</string>
+    <string name="fossil_hr_warning_firmware_too_new">Деякі функції вимкнено, бо опрограмування годинника занадто нове</string>
+    <string name="qhybrid_title_apps_management">Керування аплікаціями</string>
+    <string name="qhybrid_title_calibration">Калібрування</string>
+    <string name="prefs_operating_sounds">Робочі звуки</string>
+    <string name="prefs_autolight">Автоматичне світло</string>
+    <string name="qhybrid_calibration_align_hint">вирівняти стрілки на 12:00</string>
+    <string name="devicetype_nut_mini">Nut mini</string>
+    <string name="gps_track">GPS трек</string>
+    <string name="mi">миль</string>
+    <string name="minutes_mi">хв/милю</string>
+    <string name="mi_h">миль/год</string>
+    <string name="ft">футів</string>
+    <string name="descentSeconds">За зменшенням</string>
+    <string name="about_version">Версія %s</string>
+    <string name="pref_title_lower_button_function_double">Подвійне натиснення нижньої кнопки</string>
+    <string name="pref_title_middle_button_function_double">Подвійне натиснення середньої кнопки</string>
+    <string name="pref_title_upper_button_function_double">Подвійне натиснення верхньої кнопки</string>
+    <string name="pref_title_lower_button_function_long">Довге натиснення нижньої кнопки</string>
+    <string name="pref_title_middle_button_function_long">Довге натиснення середньої кнопки</string>
+    <string name="pref_title_upper_button_function_long">Довге натиснення верхньої кнопки</string>
+    <string name="pref_title_lower_button_function_short">Коротке натиснення нижньої кнопки</string>
+    <string name="pref_title_middle_button_function_short">Коротке натиснення середньої кнопки</string>
+    <string name="pref_title_upper_button_function_short">Коротке натиснення верхньої кнопки</string>
+    <string name="widget_settings_select_device_title">Оберіть пристрій</string>
+    <string name="menuitem_temperature">Температура</string>
+    <string name="menuitem_widgets">Віджети</string>
+    <string name="menuitem_events">Події</string>
+    <string name="menuitem_pomodoro">Трекер Pomodoro</string>
+    <string name="menuitem_sleep">Сон</string>
+    <string name="menuitem_goal">Мета активності</string>
+    <string name="menuitem_stopwatch">Секундомер</string>
+    <string name="menuitem_dnd">Тихий режим</string>
+    <string name="menuitem_alexa">Alexa</string>
+    <string name="menuitem_takephoto">Зробити фото</string>
+    <string name="menuitem_mutephone">Вимкнути звук телефону</string>
+    <string name="menuitem_findphone">Знайти телефон</string>
+    <string name="menuitem_spo2">SpO2</string>
+    <string name="devicetype_lefun">Lefun</string>
+    <string name="devicetype_amazfit_vergel">Amazfit Verge Lite</string>
+    <string name="devicetype_waspos">Wasp-os</string>
+    <string name="devicetype_casiogbx100">Casio GBX-100</string>
+    <string name="devicetype_um25">UM-25</string>
+    <string name="devicetype_zepp_e">Zepp E</string>
+    <string name="devicetype_amazfit_x">Amazfit X</string>
+    <string name="devicetype_amazfit_gts2e">Amazfit GTS 2e</string>
+    <string name="devicetype_amazfit_gts2_mini">Amazfit GTS 2 Mini</string>
+    <string name="devicetype_amazfit_gts2">Amazfit GTS 2</string>
+    <string name="devicetype_amazfit_gtr2e">Amazfit GTR 2e</string>
+    <string name="devicetype_amazfit_gtr2">Amazfit GTR 2</string>
+    <string name="devicetype_amazfit_bipupro">Amazfit Bip U Pro</string>
+    <string name="devicetype_amazfit_bipu">Amazfit Bip U</string>
+    <string name="devicetype_amazfit_bips_lite">Amazfit Bip S Lite</string>
+    <string name="devicetype_amazfit_neo">Amazfit Neo</string>
+    <string name="devicetype_amazfit_band5">Amazfit Band 5</string>
+    <string name="activity_type_strength_training">Силовий тренінг</string>
+    <string name="dbmanagementactivity_export_finished">Видалення завершено</string>
+    <string name="activity_DB_clean_export_directory_warning_message">Дійсно видалити файли з каталогу експорту/імпорту\?</string>
+    <string name="activity_DB_clean_export_directory_warning_title">Видалити файли з каталогу експорту/імпорту\?</string>
+    <string name="activity_db_management_clean_export_directory_label">Видалити файли з каталогу експорту/імпорту</string>
+    <string name="activity_DB_ShowContentButton">Показати вмісту каталогу експорту/імпорту</string>
+    <string name="activity_data_management_directory_content_title">Експорт/імпорт вмісту каталогу</string>
+    <string name="dbmanagementactivity_export_confirmation">Дійсно експортувати дані\? Попередньо експортовані дані (якщо існують) та налаштування будуть перезаписані.</string>
+    <string name="dbmanagementactivity_error_cleaning_export_directory">Помилка при видаленні файлів з директорії експорту %1$s</string>
+    <string name="dbmanagementactivity_export_data_title">Експортувати дані\?</string>
+    <string name="charts_legend_heartrate_average">Середній пульс</string>
+    <string name="activity_prefs_chart_min_session_length">Мінімальна тривалість активності (хв.)</string>
+    <string name="activity_prefs_chart_max_idle_phase_length">Довжина паузи для відокремлення активностей (хв.)</string>
+    <string name="prefs_charts_tabs">Вкладки діаграм</string>
+    <string name="battery_detail_activity_title">Інформація о батареї</string>
+    <string name="activity_prefs_chart_min_steps_per_minute">Мінімальна кількість кроків на хвилину для визначення активності</string>
+    <string name="activity_prefs_chart_min_steps_per_minute_for_run">Мінімальна кількість кроків на хвилину для визначення бігу</string>
+    <string name="activity_prefs_step_length_cm">Довжина кроку (см.)</string>
+    <string name="lefun_prefs_interface_language_title">Мова інтерфейсу</string>
+    <string name="lefun_prefs_antilost_summary">Браслет буде вібрувати, якщо ваш телефон відключиться від браслету</string>
+    <string name="lefun_prefs_antilost_title">Анті-втрата</string>
+    <string name="lefun_prefs_hydration_reminder_interval_title">Інтервал нагадування о гідратації (хв.)</string>
+    <string name="lefun_prefs_hydration_reminder_summary">Браслет буде вібрувати, щоб нагадати про пиття</string>
+    <string name="lefun_prefs_hydration_reminder_title">Нагадування о гідратації</string>
+    <string name="charts_min_max_heartrate_popup">Найнижчий пульс: %1$d
+\nНайвищий пульс: %2$d
+\nІнтенсивність руху: %3$s</string>
+    <string name="movement_intensity">Інтенсивність руху</string>
+    <string name="firmware_update_progress">Триває пересилання
+\n%1d%% на %.2fkbps (середня %.2fkbps)
+\nЧастина %1d з %1d</string>
+    <string name="devicestatus_upload_failed">Вивантаження не виконане</string>
+    <string name="devicestatus_upload_aborted">Вивантаження перервано!</string>
+    <string name="devicestatus_upload_validating">Вивантаження перевіряється</string>
+    <string name="devicestatus_upload_completed">Вивантаження завершено</string>
+    <string name="devicestatus_disconnected">Пристрій від\'єднався!</string>
+    <string name="devicestatus_disconnecting">Пристрій від\'єднується!</string>
+    <string name="devicestatus_upload_started">Вивантаження почалось</string>
+    <string name="devicestatus_upload_starting">Вивантаження починається</string>
+    <string name="devicestatus_connected">Пристрій під\'єднано</string>
+    <string name="devicestatus_connecting">Пристрій під\'єднується</string>
+    <string name="prefs_sounds_summary">Налаштуй, коли пристрій буде пищати</string>
+    <string name="prefs_sounds">Звуки</string>
+    <string name="show_ongoing_activity">Показати вікно з поточною активністю</string>
+    <string name="dialog_hide">Приховати</string>
+    <string name="activity_list_summary_activities">Активності</string>
+    <string name="activity_list_summary_intensity">Інтенсивність
+\nРуху</string>
+    <string name="activity_list_summary_active_time">Тривалість активності</string>
+    <string name="activity_list_summary_distance">Відстань</string>
+    <string name="activity_list_summary_active_steps">Активні кроки</string>
+    <string name="charts_activity_list">Список активностей</string>
+    <string name="prefs_charts_tabs_summary">Видимі закладки графіків</string>
+    <string name="chart_get_active_and_synchronize">Виконайте якусь дію та синхронізуйте пристрій.</string>
+    <string name="chart_no_active_data">Активність відсутня.</string>
+    <string name="discovery_entered_invalid_authkey">Вказаний ключ авторизації невірний! Натисніть і тримайте для редагування.</string>
+    <string name="pref_summary_connected_advertisement">Уможливлює пошук пристрою по Bluetooth, навіть коли він підключений</string>
+    <string name="pref_title_connected_advertisement">Видимий під час підключення</string>
+    <string name="fw_upgrade_notice_amazfitneo">Ви обрали встановлення прошивки %s на Amazfit Neo.
+\n
+\nВаш годинник перезавантажиться після встановлення файлу .fw.
+\n
+\nПРОДОВЖУЙТЕ НА СВІЙ РИЗИК!</string>
+    <string name="fw_upgrade_notice_amazfitx">Ви обрали встановлення прошивки %s на Amazfit X.
+\n
+\nПам\'ятайте, що спочатку треба встановити .fw, потім .res. Ваш годинник перезавантажиться після встановлення файлу .fw.
+\n
+\nУвага: Не мусите встановлювати файли .res, якщо вони такі ж які вже встановлено.
+\n
+\nПРОДОВЖУЙТЕ НА СВІЙ РИЗИК!</string>
+    <string name="fw_upgrade_notice_amazfitvergel">Ви обрали встановлення прошивки %s на Amazfit Verge Lite.
+\n
+\nПам\'ятайте, що спочатку треба встановити .fw, потім .res, а в кінці .gps. Ваш годинник перезавантажиться після встановлення файлу .fw.
+\n
+\nУвага: Не мусите встановлювати файли .res i .gps, якщо вони такі ж які вже встановлено.
+\n
+\nПРОДОВЖУЙТЕ НА СВІЙ РИЗИК!</string>
+    <string name="calendar_year">Рік</string>
+    <string name="calendar_six_months">6 місяців</string>
+    <string name="calendar_three_months">3 місяці</string>
+    <string name="calendar_month">Місяць</string>
+    <string name="calendar_two_weeks">Два тижні</string>
+    <string name="calendar_week">Тиждень</string>
+    <string name="calendar_day">День</string>
+    <string name="battery_level">Рівень заряду</string>
+    <string name="find_lost_device_message">Шукати %1$s\?</string>
 </resources>
