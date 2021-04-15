@@ -1138,7 +1138,7 @@
     <string name="devicetype_amazfit_bipu">Amazfit Bip U</string>
     <string name="menuitem_pomodoro">Minutnik Pomodoro</string>
     <string name="menuitem_sleep">Sen</string>
-    <string name="baseAltitude">Wysokość podstawowa</string>
+    <string name="baseAltitude">Bazowa wysokość</string>
     <string name="menuitem_goal">Cel dotyczący aktywności</string>
     <string name="pref_title_connected_advertisement">Widoczne po podłączeniu</string>
     <string name="pref_summary_connected_advertisement">Sprawia, że urządzenie jest wykrywalne przez Bluetooth, nawet po połączeniu</string>
@@ -1157,8 +1157,8 @@
     <string name="activity_DB_ShowContentButton">Pokaż zawartość katalogu eksportu/importu</string>
     <string name="activity_data_management_directory_content_title">Eksportuj/Importuj zawartość katalogu</string>
     <string name="prefs_fake_ring_duration">Fałszywe ciągłe dzwonienie</string>
-    <string name="prefs_operating_sounds">Dźwięki operacyjne</string>
-    <string name="prefs_key_vibration">Wibracje klawiszy</string>
+    <string name="prefs_operating_sounds">Dźwięki funkcjonowania</string>
+    <string name="prefs_key_vibration">Wibracja przycisków</string>
     <string name="prefs_autolight">Automatyczne podświetlenie</string>
     <string name="widget_settings_select_device_title">Wybierz urządzenie</string>
     <string name="devicetype_amazfit_bipupro">Amazfit Bip U Pro</string>
