@@ -23,12 +23,12 @@ import java.util.zip.CRC32;
 
 public class NotificationHRConfiguration implements Serializable {
     private String packageName;
-    private long id = -1;
+    private String iconName;
     private byte[] packageCrc;
 
-    public NotificationHRConfiguration(String packageName, long id) {
+    public NotificationHRConfiguration(String packageName, String iconName) {
         this.packageName = packageName;
-        this.id = id;
+        this.iconName = iconName;
 
         CRC32 crc = new CRC32();
         crc.update(packageName.getBytes());
@@ -40,18 +40,18 @@ public class NotificationHRConfiguration implements Serializable {
                 .array();
     }
 
-    public NotificationHRConfiguration(String packageName, byte[] packageCrc, long id) {
-        this.id = id;
+    public NotificationHRConfiguration(String packageName, byte[] packageCrc, String iconName) {
         this.packageCrc = packageCrc;
         this.packageName = packageName;
+        this.iconName = iconName;
     }
 
     public String getPackageName() {
         return packageName;
     }
 
-    public long getId() {
-        return id;
+    public String getIconName() {
+        return iconName;
     }
 
     public byte[] getPackageCrc() {

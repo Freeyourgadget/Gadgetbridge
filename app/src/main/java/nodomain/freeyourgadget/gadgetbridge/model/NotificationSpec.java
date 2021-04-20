@@ -40,6 +40,10 @@ public class NotificationSpec {
      * The application that generated the notification.
      */
     public String sourceAppId;
+    /**
+     * The notification's icon ID
+     */
+    public int iconId;
 
     /**
      * The color that should be assigned to this notification when displayed on a Pebble

@@ -17,6 +17,7 @@
 package nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.adapter.fossil_hr;
 
 import android.bluetooth.BluetoothGattCharacteristic;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -50,6 +51,8 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -109,6 +112,8 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fos
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.music.MusicControlRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.music.MusicInfoSetRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.notification.NotificationFilterPutHRRequest;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.notification.NotificationImage;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.notification.NotificationImagePutRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.widget.CustomBackgroundWidgetElement;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.widget.CustomTextWidgetElement;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.widget.CustomWidget;
@@ -123,6 +128,8 @@ import nodomain.freeyourgadget.gadgetbridge.util.Version;
 
 import static nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.music.MusicControlRequest.MUSIC_PHONE_REQUEST;
 import static nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.music.MusicControlRequest.MUSIC_WATCH_REQUEST;
+import static nodomain.freeyourgadget.gadgetbridge.util.BitmapUtil.convertDrawableToBitmap;
+import static nodomain.freeyourgadget.gadgetbridge.util.StringUtils.shortenPackageName;
 
 public class FossilHRWatchAdapter extends FossilWatchAdapter {
     private byte[] phoneRandomNumber;
@@ -193,8 +200,7 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
         if (!authenticated)
             GB.toast(getContext().getString(R.string.fossil_hr_auth_failed), Toast.LENGTH_LONG, GB.ERROR);
 
-        loadNotificationConfigurations();
-        queueWrite(new NotificationFilterPutHRRequest(this.notificationConfigurations, this));
+        setNotificationConfigurations();
 
         if (authenticated) {
             setVibrationStrength();
@@ -251,11 +257,37 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
         );
     }
 
-    private void loadNotificationConfigurations() {
-        this.notificationConfigurations = new NotificationHRConfiguration[]{
-                new NotificationHRConfiguration("generic", 0),
-                new NotificationHRConfiguration("call", new byte[]{(byte) 0x80, (byte) 0x00, (byte) 0x59, (byte) 0xB7}, 0)
-        };
+    private void setNotificationConfigurations() {
+        // Set default icons
+        ArrayList<NotificationImage> images = new ArrayList<>();
+        images.add(new NotificationImage("icIncomingCall.icon", NotificationImage.getEncodedIconFromDrawable(getContext().getResources().getDrawable(R.drawable.ic_phone_outline)), 24, 24));
+        images.add(new NotificationImage("icMissedCall.icon", NotificationImage.getEncodedIconFromDrawable(getContext().getResources().getDrawable(R.drawable.ic_phone_missed_outline)), 24,24));
+        images.add(new NotificationImage("icMessage.icon", NotificationImage.getEncodedIconFromDrawable(getContext().getResources().getDrawable(R.drawable.ic_message_outline)),24,24));
+        images.add(new NotificationImage("general_white.bin", NotificationImage.getEncodedIconFromDrawable(getContext().getResources().getDrawable(R.drawable.ic_alert_circle_outline)),24,24));
+
+        // Set default notification filters
+        ArrayList<NotificationHRConfiguration> notificationFilters = new ArrayList<>();
+        notificationFilters.add(new NotificationHRConfiguration("generic", "general_white.bin"));
+        notificationFilters.add(new NotificationHRConfiguration("call", new byte[]{(byte) 0x80, (byte) 0x00, (byte) 0x59, (byte) 0xB7}, "icIncomingCall.icon"));
+
+        // Add icons and notification filters from cached past notifications
+        Set<Map.Entry<String, Bitmap>> entrySet = this.appIconCache.entrySet();
+        for (Map.Entry<String, Bitmap> entry : entrySet) {
+            String iconName = shortenPackageName(entry.getKey()) + ".icon";
+            images.add(new NotificationImage(iconName, entry.getValue()));
+            notificationFilters.add(new NotificationHRConfiguration(entry.getKey(), iconName));
+        }
+
+        // Send notification icons
+        try {
+            queueWrite(new NotificationImagePutRequest(images.toArray(new NotificationImage[images.size()]), this));
+        } catch (IOException e) {
+            LOG.error("Error while sending notification icons", e);
+        }
+
+        // Send notification filters configuration
+        this.notificationConfigurations = notificationFilters.toArray(new NotificationHRConfiguration[notificationFilters.size()]);
+        queueWrite(new NotificationFilterPutHRRequest(this.notificationConfigurations, this));
     }
 
     private File getBackgroundFile() {
@@ -311,6 +343,10 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
     }
 
     private void loadWidgets() {
+        Version firmwareVersion = getCleanFWVersion();
+        if (firmwareVersion != null && firmwareVersion.compareTo(new Version("1.0.2.20")) >= 0) {
+            return; // this does not work on newer firmware versions
+        }
         Prefs prefs = new Prefs(GBApplication.getDeviceSpecificSharedPrefs(getDeviceSupport().getDevice().getAddress()));
         boolean forceWhiteBackground = prefs.getBoolean("force_white_color_scheme", false);
         String fontColor = forceWhiteBackground ? "black" : "default";
@@ -464,7 +500,7 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
 
                         if (this.lastPostedApp != null) {
 
-                            Bitmap icon = appIconCache.get(this.lastPostedApp);
+                            Bitmap icon = Bitmap.createScaledBitmap(appIconCache.get(this.lastPostedApp), 40, 40, true);
 
                             if (icon != null) {
 
@@ -883,37 +919,48 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
 
     public boolean playRawNotification(NotificationSpec notificationSpec) {
         String sourceAppId = notificationSpec.sourceAppId;
-
         String senderOrTitle = StringUtils.getFirstOf(notificationSpec.sender, notificationSpec.title);
 
+        // Retrieve and store notification or app icon
+        if (sourceAppId != null) {
+            if (appIconCache.get(sourceAppId) == null) {
+                try {
+                    Drawable icon = null;
+                    if (notificationSpec.iconId != 0) {
+                        Context sourcePackageContext = getContext().createPackageContext(sourceAppId, 0);
+                        icon = sourcePackageContext.getResources().getDrawable(notificationSpec.iconId);
+                    }
+                    if (icon == null) {
+                        PackageManager pm = getContext().getPackageManager();
+                        icon = pm.getApplicationIcon(sourceAppId);
+                    }
+                    Bitmap iconBitmap = convertDrawableToBitmap(icon);
+                    appIconCache.put(sourceAppId, iconBitmap);
+                    setNotificationConfigurations();
+                } catch (PackageManager.NameNotFoundException e) {
+                    LOG.error("Error while updating notification icons", e);
+                }
+            }
+        }
+
+        // Send notification to watch
         try {
             for (NotificationHRConfiguration configuration : this.notificationConfigurations) {
                 if (configuration.getPackageName().equals(sourceAppId)) {
+                    LOG.info("Package found in notificationConfigurations, using custom icon: " + sourceAppId);
                     queueWrite(new PlayTextNotificationRequest(sourceAppId, senderOrTitle, notificationSpec.body, notificationSpec.getId(), this));
                     return true;
                 }
             }
+            LOG.info("Package not found in notificationConfigurations, using generic icon: " + sourceAppId);
             queueWrite(new PlayTextNotificationRequest("generic", senderOrTitle, notificationSpec.body, notificationSpec.getId(), this));
         } catch (Exception e) {
             LOG.error("Error while forwarding notification", e);
         }
 
+        // Update notification icon custom widget
         if (isNotificationWidgetVisible() && sourceAppId != null) {
             if (!sourceAppId.equals(this.lastPostedApp)) {
-                if (appIconCache.get(sourceAppId) == null) {
-                    try {
-                        PackageManager pm = getContext().getPackageManager();
-                        Drawable icon = pm.getApplicationIcon(sourceAppId);
-
-                        Bitmap iconBitmap = Bitmap.createBitmap(40, 40, Bitmap.Config.ARGB_8888);
-                        icon.setBounds(0, 0, 40, 40);
-                        icon.draw(new Canvas(iconBitmap));
-
-                        appIconCache.put(sourceAppId, iconBitmap);
-                    } catch (PackageManager.NameNotFoundException e) {
-                        LOG.error("Error while updating notification widget", e);
-                    }
-                }
                 this.lastPostedApp = sourceAppId;
                 renderWidgets();
             }

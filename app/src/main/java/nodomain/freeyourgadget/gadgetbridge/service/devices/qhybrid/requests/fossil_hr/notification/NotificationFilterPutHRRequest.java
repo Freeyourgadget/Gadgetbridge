@@ -37,21 +37,39 @@ public class NotificationFilterPutHRRequest extends FilePutRequest {
     }
 
     private static byte[] createFile(NotificationHRConfiguration[] configs) {
-        int payloadLength = configs.length * 28;
+        int payloadLength = 0;
+        for (NotificationHRConfiguration config : configs) {
+            if (config.getIconName().equals("")) {
+                // Notification filters without icon are possible
+                payloadLength += 14;
+            } else {
+                payloadLength += config.getIconName().length() + 20;
+            }
+            if (config.getPackageName().equals("call")) {
+                // Extra payload space needed for call notifications due to multi-icon
+                payloadLength += 44;
+            }
+        }
+
         ByteBuffer buffer = ByteBuffer.allocate(payloadLength);
         buffer.order(ByteOrder.LITTLE_ENDIAN);
 
         for (NotificationHRConfiguration config : configs) {
-            payloadLength = 26;
+            if (config.getIconName().equals("")) {
+                payloadLength = 12;
+            } else {
+                payloadLength = config.getIconName().length() + 18;
+            }
+            if (config.getPackageName().equals("call")) {
+                payloadLength += 44;
+            }
 
-            buffer.putShort((short) payloadLength); //packet length
-
-            byte[] crcBytes = config.getPackageCrc();
+            buffer.putShort((short) payloadLength); // current filter config length
 
             // 6 bytes
             buffer.put(PacketID.PACKAGE_NAME_CRC.id)
-                    .put((byte) 4)
-                    .put(crcBytes);
+                    .put((byte) 4)  // crc length
+                    .put(config.getPackageCrc());
 
             // 3 bytes
             buffer.put(PacketID.GROUP_ID.id)
@@ -63,15 +81,35 @@ public class NotificationFilterPutHRRequest extends FilePutRequest {
                     .put((byte) 1)
                     .put((byte) 0xFF);
 
-            // 14 bytes
-            buffer.put(PacketID.ICON.id)
-                    .put((byte) 0x0C)
-                    .put((byte) 0xFF)
-                    .put((byte) 0x00)
-                    .put((byte) 0x09)
-                    .put(StringUtils.bytesToHex(crcBytes).getBytes())
-                    .put((byte) 0x00);
-
+            if (config.getPackageName().equals("call")) {
+                // Call notifications have a specific multi-icon filter config
+                buffer.put(PacketID.ICON.id)
+                        .put((byte) ("icIncomingCall.icon".length() + 4))
+                        .put((byte) 0x02)
+                        .put((byte) 0x00)
+                        .put((byte) ("icIncomingCall.icon".length() + 1))
+                        .put("icIncomingCall.icon".getBytes())
+                        .put((byte) 0x00)
+                        .put((byte) 0x40)
+                        .put((byte) 0x00)
+                        .put((byte) ("icMissedCall.icon".length() + 1))
+                        .put("icMissedCall.icon".getBytes())
+                        .put((byte) 0x00)
+                        .put((byte) 0xbd)
+                        .put((byte) 0x00)
+                        .put((byte) ("icIncomingCall.icon".length() + 1))
+                        .put("icIncomingCall.icon".getBytes())
+                        .put((byte) 0x00);
+            } else if (!config.getIconName().equals("")) {
+                // 6 bytes + icon name
+                buffer.put(PacketID.ICON.id)
+                        .put((byte) (config.getIconName().length() + 4))
+                        .put((byte) 0xFF)
+                        .put((byte) 0x00)
+                        .put((byte) (config.getIconName().length() + 1))
+                        .put(config.getIconName().getBytes())
+                        .put((byte) 0x00);
+            }
         }
 
         return buffer.array();

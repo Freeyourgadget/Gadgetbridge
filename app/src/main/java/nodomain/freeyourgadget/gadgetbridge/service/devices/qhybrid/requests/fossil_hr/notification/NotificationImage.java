@@ -16,24 +16,74 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.notification;
 
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.ColorMatrix;
+import android.graphics.ColorMatrixColorFilter;
+import android.graphics.Paint;
+import android.graphics.drawable.Drawable;
+
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.file.AssetFile;
 
+import static nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.encoder.RLEEncoder.RLEEncode;
+import static nodomain.freeyourgadget.gadgetbridge.util.BitmapUtil.convertDrawableToBitmap;
+
 public class NotificationImage extends AssetFile {
-    private String packageName;
-    private byte[] imageData;
+    public static final int MAX_ICON_WIDTH = 24;
+    public static final int MAX_ICON_HEIGHT = 24;
+    private int width;
+    private int height;
 
-    public NotificationImage(String packageName, byte[] imageData) {
-        //TODO this is defo not functional
-        super(packageName, imageData);
-        this.packageName = packageName;
-        this.imageData = imageData;
+    public NotificationImage(String fileName, byte[] imageData, int width, int height) {
+        super(fileName, imageData);
+        this.width = width;
+        this.height = height;
     }
 
-    public String getPackageName() {
-        return packageName;
+    public NotificationImage(String fileName, Bitmap iconBitmap) {
+        super(fileName, RLEEncode(get2BitsPixelsFromBitmap(convertIcon(iconBitmap))));
+        this.width = Math.min(iconBitmap.getWidth(), MAX_ICON_WIDTH);
+        this.height = Math.min(iconBitmap.getHeight(), MAX_ICON_HEIGHT);
     }
 
-    public byte[] getImageData() {
-        return imageData;
+    public byte[] getImageData() { return getFileData(); }
+    public String getFileName() { return super.getFileName(); }
+    public int getWidth() { return width; }
+    public int getHeight() { return height; }
+
+    private static Bitmap convertIcon(Bitmap bitmap) {
+        // Scale image only if necessary
+        if ((bitmap.getWidth() > MAX_ICON_WIDTH) || (bitmap.getHeight() > MAX_ICON_HEIGHT)) {
+            bitmap = Bitmap.createScaledBitmap(bitmap, MAX_ICON_WIDTH, MAX_ICON_HEIGHT, true);
+        }
+        // Convert to grayscale
+        Canvas c = new Canvas(bitmap);
+        Paint paint = new Paint();
+        ColorMatrix cm = new ColorMatrix();
+        cm.setSaturation(0);
+        ColorMatrixColorFilter f = new ColorMatrixColorFilter(cm);
+        paint.setColorFilter(f);
+        c.drawBitmap(bitmap, 0, 0, paint);
+        // Return result
+        return bitmap;
+    }
+
+    public static byte[] get2BitsPixelsFromBitmap(Bitmap bitmap) {
+        // Downsample to 2 bits image
+        int[] pixels = new int[bitmap.getWidth() * bitmap.getHeight()];
+        bitmap.getPixels(pixels, 0, bitmap.getWidth(), 0, 0, bitmap.getWidth(), bitmap.getHeight());
+        byte[] b_pixels = new byte[pixels.length];
+        for (int i = 0; i < pixels.length; i++) {
+            b_pixels[i] = (byte) (pixels[i] >> 6 & 0x03);
+        }
+        return b_pixels;
+    }
+
+    public static byte[] getEncodedIconFromDrawable(Drawable drawable) {
+        Bitmap icIncomingCallBitmap = convertDrawableToBitmap(drawable);
+        if ((icIncomingCallBitmap.getWidth() > MAX_ICON_WIDTH) || (icIncomingCallBitmap.getHeight() > MAX_ICON_HEIGHT)) {
+            icIncomingCallBitmap = Bitmap.createScaledBitmap(icIncomingCallBitmap, MAX_ICON_WIDTH, MAX_ICON_HEIGHT, true);
+        }
+        return RLEEncode(NotificationImage.get2BitsPixelsFromBitmap(icIncomingCallBitmap));
     }
 }

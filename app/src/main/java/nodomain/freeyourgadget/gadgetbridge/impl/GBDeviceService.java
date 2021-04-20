@@ -43,7 +43,6 @@ import nodomain.freeyourgadget.gadgetbridge.model.MusicStateSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.WeatherSpec;
 import nodomain.freeyourgadget.gadgetbridge.service.DeviceCommunicationService;
-import nodomain.freeyourgadget.gadgetbridge.util.LanguageUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.RtlUtils;
 
 import static nodomain.freeyourgadget.gadgetbridge.util.JavaExtensions.coalesce;
@@ -59,6 +58,7 @@ public class GBDeviceService implements DeviceService {
             EXTRA_NOTIFICATION_TITLE,
             EXTRA_NOTIFICATION_BODY,
             EXTRA_NOTIFICATION_SOURCENAME,
+            EXTRA_NOTIFICATION_ICONID,
             EXTRA_CALL_PHONENUMBER,
             EXTRA_CALL_DISPLAYNAME,
             EXTRA_MUSIC_ARTIST,
@@ -150,7 +150,8 @@ public class GBDeviceService implements DeviceService {
                 .putExtra(EXTRA_NOTIFICATION_ACTIONS, notificationSpec.attachedActions)
                 .putExtra(EXTRA_NOTIFICATION_SOURCENAME, notificationSpec.sourceName)
                 .putExtra(EXTRA_NOTIFICATION_PEBBLE_COLOR, notificationSpec.pebbleColor)
-                .putExtra(EXTRA_NOTIFICATION_SOURCEAPPID, notificationSpec.sourceAppId);
+                .putExtra(EXTRA_NOTIFICATION_SOURCEAPPID, notificationSpec.sourceAppId)
+                .putExtra(EXTRA_NOTIFICATION_ICONID, notificationSpec.iconId);
         invokeService(intent);
     }
 

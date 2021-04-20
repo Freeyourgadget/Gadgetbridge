@@ -16,54 +16,46 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.notification;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
-import java.util.zip.CRC32;
 
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.adapter.fossil.FossilWatchAdapter;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.file.FileHandle;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.file.AssetFile;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.file.AssetFilePutRequest;
-import nodomain.freeyourgadget.gadgetbridge.util.StringUtils;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.file.FilePutRequest;
 
-public class NotificationImagePutRequest extends AssetFilePutRequest {
-    private NotificationImagePutRequest(String packageName, AssetFile file, FossilWatchAdapter adapter) throws IOException {
-        super(file, FileHandle.ASSET_NOTIFICATION_IMAGES, adapter);
-    }
-
-    private NotificationImagePutRequest(NotificationImage image, FossilWatchAdapter adapter) throws IOException {
-        super(image, FileHandle.ASSET_NOTIFICATION_IMAGES, adapter);
-    }
-
+public class NotificationImagePutRequest extends FilePutRequest {
     public NotificationImagePutRequest(NotificationImage[] images, FossilWatchAdapter adapter) throws IOException {
-        super(images, FileHandle.ASSET_NOTIFICATION_IMAGES, adapter);
+        super(FileHandle.ASSET_NOTIFICATION_IMAGES, prepareFileData(images), adapter);
     }
 
+    private static byte[] prepareFileData(NotificationImage[] images) throws IOException {
+        ByteArrayOutputStream stream = new ByteArrayOutputStream();
 
-    private static byte[][] prepareFileCrc(String[] packageNames){
-        byte[][] names = new byte[packageNames.length][];
-        for (int i = 0; i < packageNames.length; i++){
-            names[i] = prepareFileCrc(packageNames[i]);
+        for (NotificationImage image : images) {
+            stream.write(
+                    prepareFileData(image)
+            );
         }
-        return names;
+
+        return stream.toByteArray();
     }
 
-    private static byte[] prepareFileCrc(String packageName){
-        CRC32 crc = new CRC32();
-        crc.update(packageName.getBytes());
+    private static byte[] prepareFileData(NotificationImage image){
+        int size = image.getFileName().length() + 3 + image.getFileData().length + 2;
+        ByteBuffer buffer = ByteBuffer.allocate(2 + size);
 
-        String crcString = StringUtils.bytesToHex(
-                ByteBuffer
-                        .allocate(4)
-                        .order(ByteOrder.LITTLE_ENDIAN)
-                        .putInt((int) crc.getValue())
-                        .array()
-        );
+        buffer.order(ByteOrder.LITTLE_ENDIAN);
 
-        ByteBuffer buffer = ByteBuffer.allocate(crcString.length() + 1)
-                .put(crcString.getBytes())
-                .put((byte) 0x00);
+        buffer.putShort((short)(size));
+        buffer.put(image.getFileName().getBytes());
+        buffer.put((byte) 0x00);
+        buffer.put((byte) image.getWidth());
+        buffer.put((byte) image.getHeight());
+        buffer.put(image.getImageData());
+        buffer.put((byte) 0xff);
+        buffer.put((byte) 0xff);
 
         return buffer.array();
     }
