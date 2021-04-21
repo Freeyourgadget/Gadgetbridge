@@ -29,6 +29,7 @@ import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiFWHelper;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.amazfitbips.AmazfitBipSFWHelper;
 import nodomain.freeyourgadget.gadgetbridge.model.CallSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
+import nodomain.freeyourgadget.gadgetbridge.model.WeatherSpec;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.amazfitbip.AmazfitBipSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.operations.UpdateFirmwareOperation;
@@ -59,6 +60,11 @@ public class AmazfitBipSSupport extends AmazfitBipSupport {
     public boolean supportsSunriseSunsetWindHumidity() {
         Version version = new Version(gbDevice.getFirmwareVersion());
         return (!isDTH(version) && (version.compareTo(new Version("2.1.1.50")) >= 0) || (version.compareTo(new Version("4.1.5.55")) >= 0));
+    }
+
+    @Override
+    public String windSpeedString(WeatherSpec weatherSpec){
+        return weatherSpec.windSpeed + "km/h";
     }
 
     @Override

@@ -22,6 +22,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 // FIXME: document me and my fields, including units
 public class WeatherSpec implements Parcelable {
@@ -52,6 +53,19 @@ public class WeatherSpec implements Parcelable {
 
     public WeatherSpec() {
 
+    }
+
+    // Lower bounds of beaufort regions 1 to 12
+    // Values from https://en.wikipedia.org/wiki/Beaufort_scale
+    static final float[] beaufort = new float[] { 2, 6, 12, 20, 29, 39, 50, 62, 75, 89, 103, 118 };
+    //                                    level: 0 1  2   3   4   5   6   7   8   9   10   11   12
+
+    public int windSpeedAsBeaufort() {
+        int l = 0;
+        while (l < beaufort.length && beaufort[l] < this.windSpeed) {
+            l++;
+        }
+        return l;
     }
 
     protected WeatherSpec(Parcel in) {

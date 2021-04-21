@@ -50,6 +50,12 @@ public class MiBand5Support extends MiBand4Support {
         return new MiBand5FWHelper(uri, context);
     }
 
+
+    @Override
+    public boolean supportsSunriseSunsetWindHumidity() {
+        return true;
+    }
+
     @Override
     public int getActivitySampleSize() {
         return 8;
