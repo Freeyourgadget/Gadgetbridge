@@ -1,5 +1,20 @@
 ### Changelog
 
+### NEXT
+* Amazfit GTR2: Improve firmware update support (still partly broken)
+* Amazfit GTR2/GTS2: Prevent emoji transliterating (Seems to support emoji)
+* Amazfit GTS2/GTR2: Fixes for setting menu items (Probably still partly broken)
+* Amazfit GTS2/GTR2: Send wind speed and sunrise/sunset
+* Huami: Remove unused calendar slots
+* Huami: Send wind speed in Beaufort for some devices
+* InfiniTime: Add support for battery info
+* InfiniTime: Support title for notifications on firmware 0.15
+* InfiniTime: Implement find device by simulating a phone call
+* Fossil Hybrid HR: Send actual application icons for notification on the  watch
+* Adjust Steps Charts steps values offset to account for large phone screen sizes
+* Make Activity Charts dates move as calendar months and to go to now if jumping past today
+* Make Battery Info time span jump as calendar months and not as days
+
 ### 0.56.1
 * Fossil Hybrid HR: Fix compatibility for oder firmware revisions
 * Amazfit Neo: Implement firmware update
