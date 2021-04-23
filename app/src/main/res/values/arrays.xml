@@ -3495,6 +3495,7 @@
         <item>@string/turkish</item>
         <item>@string/ukranian</item>
         <item>@string/hungarian</item>
+        <item>@string/armenian</item>
     </string-array>
 
     <string-array name="pref_transliteration_languages_values">
@@ -3521,6 +3522,7 @@
         <item>turkish</item>
         <item>ukranian</item>
         <item>hungarian</item>
+        <item>armenian</item>
     </string-array>
 
     <string-array name="pref_transliteration_languages_default">
