@@ -85,7 +85,7 @@
     <string name="pref_title_canned_replies">תגובות</string>
     <string name="pref_title_canned_reply_suffix">סיומת משותפת</string>
     <string name="pref_title_canned_messages_dismisscall">התעלמות משיחות</string>
-    <string name="pref_title_canned_messages_set">עדכון ב־Pebble</string>
+    <string name="pref_title_canned_messages_set">עדכון במכשיר</string>
     <string name="pref_header_development">אפשרויות פיתוח</string>
     <string name="pref_title_development_miaddr">כתובת </string>
     <string name="pref_title_pebble_settings">הגדרות Pebble</string>
