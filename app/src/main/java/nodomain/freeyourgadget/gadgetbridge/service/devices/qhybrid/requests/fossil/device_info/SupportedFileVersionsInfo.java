@@ -36,6 +36,9 @@ public class SupportedFileVersionsInfo implements DeviceInfo {
             supportedFileVersions.put(handle, version);
         }
 
+        // Add quick replies packet type
+        supportedFileVersions.put((byte) 0x13, (short) 0x0002);
+        // Add phone app packet type
         supportedFileVersions.put((byte) 0x15, (short) 0x0003);
     }
 

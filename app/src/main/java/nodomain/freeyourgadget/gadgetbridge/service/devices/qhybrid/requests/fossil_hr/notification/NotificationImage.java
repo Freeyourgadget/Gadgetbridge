@@ -64,6 +64,8 @@ public class NotificationImage extends AssetFile {
         ColorMatrixColorFilter f = new ColorMatrixColorFilter(cm);
         paint.setColorFilter(f);
         c.drawBitmap(bitmap, 0, 0, paint);
+        // Increase brightness
+//        bitmap = changeBitmapContrastBrightness(bitmap, 1, -50);
         // Return result
         return bitmap;
     }

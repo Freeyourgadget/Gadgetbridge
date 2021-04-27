@@ -30,6 +30,10 @@ public class NotificationImagePutRequest extends FilePutRequest {
         super(FileHandle.ASSET_NOTIFICATION_IMAGES, prepareFileData(images), adapter);
     }
 
+    public NotificationImagePutRequest(NotificationImage image, FossilWatchAdapter adapter) {
+        super(FileHandle.ASSET_REPLY_IMAGES, prepareFileData(image), adapter);
+    }
+
     private static byte[] prepareFileData(NotificationImage[] images) throws IOException {
         ByteArrayOutputStream stream = new ByteArrayOutputStream();
 

@@ -1,4 +1,4 @@
-/*  Copyright (C) 2020-2021 Daniel Dakhno
+/*  Copyright (C) 2020-2021 Arjan Schrijver
 
     This file is part of Gadgetbridge.
 
@@ -16,14 +16,22 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.notification;
 
-import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.adapter.fossil.FossilWatchAdapter;
+public enum NotificationType {
+    INCOMING_CALL(1),
+    TEXT(2),
+    NOTIFICATION(3),
+    EMAIL(4),
+    CALENDAR(5),
+    MISSED_CALL(6),
+    DISMISS_NOTIFICATION(7);
 
-public class PlayTextNotificationRequest extends PlayNotificationRequest {
-    public PlayTextNotificationRequest(String packageName, String sender, String message, int messageId, FossilWatchAdapter adapter) {
-        super(NotificationType.NOTIFICATION, 2, packageName, sender, message, messageId, adapter);
+    private int type;
+
+    NotificationType(int type) {
+        this.type = type;
     }
 
-    public PlayTextNotificationRequest(String packageName, FossilWatchAdapter adapter) {
-        super(NotificationType.NOTIFICATION, 2, packageName, adapter);
+    public int getType() {
+        return type;
     }
 }

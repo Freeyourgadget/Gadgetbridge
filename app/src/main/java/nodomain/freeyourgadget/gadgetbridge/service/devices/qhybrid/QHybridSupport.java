@@ -58,6 +58,7 @@ import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.Alarm;
 import nodomain.freeyourgadget.gadgetbridge.model.BatteryState;
 import nodomain.freeyourgadget.gadgetbridge.model.CallSpec;
+import nodomain.freeyourgadget.gadgetbridge.model.CannedMessagesSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.GenericItem;
 import nodomain.freeyourgadget.gadgetbridge.model.MusicSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.MusicStateSpec;
@@ -767,4 +768,10 @@ public class QHybridSupport extends QHybridBaseSupport {
         return watchAdapter.onCharacteristicChanged(gatt, characteristic);
     }
 
+    @Override
+    public void onSetCannedMessages(CannedMessagesSpec cannedMessagesSpec) {
+        if(this.watchAdapter instanceof FossilHRWatchAdapter){
+            ((FossilHRWatchAdapter) watchAdapter).setQuickRepliesConfiguration();
+        }
+    }
 }

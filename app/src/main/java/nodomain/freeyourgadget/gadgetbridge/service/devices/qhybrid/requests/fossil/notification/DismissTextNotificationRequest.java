@@ -20,6 +20,6 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.adapter.foss
 
 public class DismissTextNotificationRequest extends PlayNotificationRequest {
     public DismissTextNotificationRequest(int messageId, FossilWatchAdapter adapter) {
-        super(7, 2, "", "", "", messageId, adapter);
+        super(NotificationType.DISMISS_NOTIFICATION, 2, "", "", "", messageId, adapter);
     }
 }
