@@ -96,7 +96,7 @@
     <string name="pref_title_canned_replies">Antworten</string>
     <string name="pref_title_canned_reply_suffix">Gemeinsame Endung</string>
     <string name="pref_title_canned_messages_dismisscall">Anrufabweisung</string>
-    <string name="pref_title_canned_messages_set">Aktualisierung auf Pebble</string>
+    <string name="pref_title_canned_messages_set">Aktualisierung auf dem Gerät</string>
     <string name="pref_header_development">Entwickleroptionen</string>
     <string name="pref_title_development_miaddr">Mi Band-Adresse</string>
     <string name="pref_title_pebble_settings">Pebble-Einstellungen</string>
