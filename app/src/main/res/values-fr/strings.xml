@@ -96,7 +96,7 @@
     <string name="pref_title_canned_replies">Réponses</string>
     <string name="pref_title_canned_reply_suffix">Suffixe fréquent</string>
     <string name="pref_title_canned_messages_dismisscall">Raccrocher</string>
-    <string name="pref_title_canned_messages_set">Mise à jour Pebble</string>
+    <string name="pref_title_canned_messages_set">Mise à jour sur l\'appareil</string>
     <string name="pref_header_development">Options développeur</string>
     <string name="pref_title_development_miaddr">Adresse Mi Band</string>
     <string name="pref_title_pebble_settings">Paramètres Pebble</string>
@@ -1174,9 +1174,9 @@ Temps de sommeil préféré en heures</string>
 \n
 \nAssurez-vous d\'abord d\'installer le fichier .fw, puis ensuite le fichier .res. Votre bracelet va redémarrer après l\'installation du fichier .fw.
 \n
-\nRemarque: Vous n\'avez pas à réinstaller le fichiers .res si c\'est exactement le même que vous avez précédemment installé.
+\nRemarque : Vous n\'avez pas à réinstaller le fichiers .res si c\'est exactement le même que vous avez précédemment installé.
 \n
-\nA VOS RISQUES ET PÉRILS !</string>
+\nA VOS RISQUES ET PÉRILS !</string>
     <string name="calendar_year">Année</string>
     <string name="calendar_six_months">Semestre</string>
     <string name="calendar_month">Mois</string>
