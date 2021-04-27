@@ -610,7 +610,7 @@
     <string name="pref_title_autoremove_notifications">Yok sayılan bildirimleri otomatik kaldır</string>
     <string name="pref_title_call_privacy_mode">Çağrı gizlilik modu</string>
     <string name="pref_title_canned_messages_dismisscall">Çağrı Yok Sayma</string>
-    <string name="pref_title_canned_messages_set">Pebble Güncelleme</string>
+    <string name="pref_title_canned_messages_set">Aygıtta güncelleme</string>
     <string name="pref_title_canned_replies">Cevaplar</string>
     <string name="pref_title_canned_reply_suffix">Ortak son ek</string>
     <string name="pref_title_chart_heartrate_color">Kalp ritmi rengi</string>
