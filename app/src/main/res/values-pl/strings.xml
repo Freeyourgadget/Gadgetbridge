@@ -66,7 +66,7 @@
     <string name="pref_blacklist">Czarna lista aplikacji</string>
     <string name="pref_header_cannned_messages">Szablonowe odpowiedzi</string>
     <string name="pref_title_canned_replies">Odpowiedzi</string>
-    <string name="pref_title_canned_messages_set">Uaktualnij na Pebble</string>
+    <string name="pref_title_canned_messages_set">Uaktualnij na urządzeniu</string>
     <string name="pref_header_development">Ustawienia programisty</string>
     <string name="pref_title_development_miaddr">Adres Mi Band</string>
     <string name="pref_title_pebble_settings">Ustawienia Pebble</string>
