@@ -19,6 +19,7 @@ package nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fo
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.adapter.fossil_hr.FossilHRWatchAdapter;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.file.FileHandle;
@@ -36,7 +37,7 @@ public class QuickReplyConfigurationPutRequest extends FilePutRequest {
 
         byte[] mysteryHeader = new byte[]{(byte) 0x02, (byte) 0x0b, (byte) 0x46, (byte) 0x00, (byte) 0x03, (byte) 0x19, (byte) 0x00, (byte) 0x00, (byte) 0x00};
 
-        Charset charsetUTF8 = Charset.forName("UTF-8");
+        Charset charsetUTF8 = StandardCharsets.UTF_8;
         String iconName = StringUtils.terminateNull("icMessage.icon");
         byte[] iconNameBytes = iconName.getBytes(charsetUTF8);
 
@@ -46,7 +47,7 @@ public class QuickReplyConfigurationPutRequest extends FilePutRequest {
                 reply = reply.substring(0, 50);
             }
             processedReplies[index] = StringUtils.terminateNull(reply);
-            fileLength += 8 + processedReplies[index].length() + iconNameBytes.length;
+            fileLength += 8 + processedReplies[index].getBytes(charsetUTF8).length + iconNameBytes.length;
         }
 
         ByteBuffer mainBuffer = ByteBuffer.allocate(mysteryHeader.length + 4 + fileLength);
