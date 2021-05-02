@@ -326,8 +326,8 @@ public class PineTimeJFSupport extends AbstractBTLEDeviceSupport implements DfuL
         try {
             handler = new PineTimeInstallHandler(uri, getContext());
 
-            // TODO: Check validity more closely
-            if (true) {
+            if (handler.isValid()) {
+                gbDevice.setBusyTask("firmware upgrade");
                 DfuServiceInitiator starter = new DfuServiceInitiator(getDevice().getAddress())
                         .setDeviceName(getDevice().getName())
                         .setKeepBond(true)
@@ -346,13 +346,13 @@ public class PineTimeJFSupport extends AbstractBTLEDeviceSupport implements DfuL
                 LocalBroadcastManager.getInstance(getContext()).sendBroadcast(new Intent(GB.ACTION_SET_PROGRESS_TEXT)
                         .putExtra(GB.DISPLAY_MESSAGE_MESSAGE, getContext().getString(R.string.devicestatus_upload_starting))
                 );
-                gbDevice.setBusyTask("firmware upgrade");
             } else {
-                // TODO: Handle invalid firmware files
+                LocalBroadcastManager.getInstance(getContext()).sendBroadcast(new Intent(GB.ACTION_SET_PROGRESS_TEXT)
+                        .putExtra(GB.DISPLAY_MESSAGE_MESSAGE, getContext().getString(R.string.fwinstaller_firmware_not_compatible_to_device)));
             }
         } catch (Exception ex) {
             GB.toast(getContext(), getContext().getString(R.string.updatefirmwareoperation_write_failed) + ":" + ex.getMessage(), Toast.LENGTH_LONG, GB.ERROR, ex);
-            if (gbDevice.isBusy()) {
+            if (gbDevice.isBusy() && gbDevice.getBusyTask().equals("firmware upgrade")) {
                 gbDevice.unsetBusyTask();
             }
         }
