@@ -1,6 +1,6 @@
 ### Changelog
 
-### NEXT
+### 0.56.2
 * Amazfit GTR2: Improve firmware update support (still partly broken)
 * Amazfit GTR2/GTS2: Prevent emoji transliterating (Seems to support emoji)
 * Amazfit GTS2/GTR2: Fixes for setting menu items (Probably still partly broken)
