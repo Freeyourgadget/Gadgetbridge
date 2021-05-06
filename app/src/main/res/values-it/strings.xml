@@ -95,7 +95,7 @@
     <string name="pref_title_canned_replies">Risposte</string>
     <string name="pref_title_canned_reply_suffix">Suffisso applicato alle risposte automatiche</string>
     <string name="pref_title_canned_messages_dismisscall">Rifiuto chiamata</string>
-    <string name="pref_title_canned_messages_set">Invia al Pebble</string>
+    <string name="pref_title_canned_messages_set">Invia al dispositivo</string>
     <string name="pref_header_development">Opzioni sviluppatore</string>
     <string name="pref_title_development_miaddr">Indirizzo Mi Band</string>
     <string name="pref_title_pebble_settings">Impostazioni Pebble</string>
@@ -112,7 +112,7 @@
     <string name="pref_summary_sunrise_sunset">Mostra gli orari calcolati per l\'alba e il tramonto sulla timeline</string>
     <string name="pref_title_enable_calendar_sync">Sincronizza calendario</string>
     <string name="pref_title_autoremove_notifications">Rimuovi automaticamente le notifiche</string>
-    <string name="pref_summary_autoremove_notifications">Le notifiche vengono rimosse automaticamente dal Pebble dopo averle nascoste sul dispositivo Android</string>
+    <string name="pref_summary_autoremove_notifications">Le notifiche vengono rimosse automaticamente dal dispositivo dopo averle nascoste sul telefono</string>
     <string name="pref_title_pebble_privacy_mode">Impostazioni privacy</string>
     <string name="pref_pebble_privacy_mode_off">Notifiche normali</string>
     <string name="pref_pebble_privacy_mode_content">Sposta il testo delle notifiche fuori dallo schermo</string>
@@ -346,16 +346,23 @@
     <string name="live_activity_heart_rate">Battito cardiaco</string>
     <string name="pref_title_pebble_health_store_raw">Memorizza i record grezzi nel database</string>
     <string name="pref_summary_pebble_health_store_raw">Salva i dati \"as is\", aumentando l\'utilizzo del database in modo da permettere interrogazioni successive.</string>
-    <string name="action_db_management">Gestione del database</string>
-    <string name="title_activity_db_management">Gestione del database</string>
-    <string name="activity_db_management_import_export_explanation">Le operazioni sul database utilizzano il percorso qui sotto. \nQuesto percorso è accessibile ad altre applicazioni ed al tuo computer. \nDopo l\'esportazione il database si troverà qui (oppure copia qui il database che desideri importare):</string>
+    <string name="action_db_management">Gestione dei dati</string>
+    <string name="title_activity_db_management">Gestione dei dati</string>
+    <string name="activity_db_management_import_export_explanation">Le operazioni di importazione/esportazione utilizzano questo percorso (vedi sotto) a una cartella sul tuo dispositivo. Questa cartella è accessibile da altre applicazioni Android e dal tuo computer. Nota che questa cartella e tutti i file in essa contenuti vengono eliminati quando disinstalli Gadgetbridge. Tra i dati sono inclusi:
+\nExport_preference - impostazioni globali
+\nExport_preference_MAC - impostazioni specifiche del dispositivo
+\nGadgetbridge - database del dispositivo e delle attività
+\nGadgetbridge_data - database esportato in una data particolare
+\n*.gpx - registrazioni del GPS
+\n*.log - file di log
+\nLa posizione dei file esportati (o quella da cui vuoi importare i file) è la seguente:</string>
     <string name="activity_db_management_merge_old_title">Elimina database nel vecchio formato</string>
     <string name="dbmanagementactivvity_cannot_access_export_path">Impossibile accedere al path esterno. Per cortesia contatta gli sviluppatori del progetto.</string>
     <string name="dbmanagementactivity_exported_to">Esportato su: %1$s</string>
     <string name="dbmanagementactivity_error_exporting_db">Errore esportando il DB: %1$s</string>
     <string name="dbmanagementactivity_error_exporting_shared">"Errore nell\'esportazione delle preferenze: %1$s"</string>
     <string name="dbmanagementactivity_import_data_title">Importare i dati?</string>
-    <string name="dbmanagementactivity_overwrite_database_confirmation">Vuoi davvero sovrascrivere il database attuale? Tutte le tue attività saranno perse.</string>
+    <string name="dbmanagementactivity_overwrite_database_confirmation">Vuoi davvero sovrascrivere i dati attuali\? Tutti i dati delle tue attività e delle preferenze saranno sovrascritti.</string>
     <string name="dbmanagementactivity_import_successful">Importazione avvenuta con successo.</string>
     <string name="dbmanagementactivity_error_importing_db">Errore importando il DB: %1$s</string>
     <string name="dbmanagementactivity_error_importing_shared">"Errore nell\'importazione della preferenza: %1$s"</string>
@@ -722,12 +729,12 @@
     <string name="pref_summary_use_custom_font">Attiva se il tuo dispositivo ha un firmware personalizzato che supporta gli emoji</string>
     <string name="activity_db_management_autoexport_explanation">Il percorso di esportazione automatica del database è stato impostato su:</string>
     <string name="activity_db_management_autoexport_label">Esportazione automatica</string>
-    <string name="activity_DB_ExportButton">Esporta DB</string>
-    <string name="activity_DB_import_button">Importa DB</string>
+    <string name="activity_DB_ExportButton">Esporta dati</string>
+    <string name="activity_DB_import_button">Importa dati</string>
     <string name="activity_DB_test_export_button">Esegui esportazione automatica ora</string>
     <string name="activity_DB_test_export_message">Esportazione database in corso…</string>
     <string name="activity_DB_delete_legacy_button">Elimina db precedente</string>
-    <string name="activity_DB_empty_button">DB vuoto</string>
+    <string name="activity_DB_empty_button">Database vuoto</string>
     <string name="activity_db_management_empty_DB">Database vuoto</string>
     <string name="activity_db_management_exportimport_label">Esportazione e importazione</string>
     <string name="activity_db_management_empty_db_warning">Attenzione! Premendo questo pulsante si cancella il database e si riparte da zero.</string>
@@ -873,7 +880,7 @@
     <string name="about_additional_device_support">Supporto a dispositivi aggiuntivi</string>
     <string name="about_contributors">Contributori</string>
     <string name="about_core_team_title">Team principale (ordinati in base al primo contributo di codice)</string>
-    <string name="about_description">Un\'alternativa gratuita e senza cloud per le applicazioni Android a sorgente chiusa del tuo gadget.</string>
+    <string name="about_description">Un\'alternativa gratuita, libera e senza cloud alle applicazioni Android a sorgente chiusa del tuo dispositivo.</string>
     <string name="about_activity_title">Su Gadgetbridge</string>
     <string name="about_title">Informazioni</string>
     <string name="hr_widget_last_notification">Ultima notifica</string>
@@ -1142,4 +1149,68 @@
 \nNota: Non è necessario installare i file .res e .gps se questi sono gli stessi di quelli installati in precedenza.
 \n
 \nPROCEDI A TUO RISCHIO!</string>
+    <string name="devicetype_amazfit_gtr2e">Amazfit GTR 2e</string>
+    <string name="fossil_hr_warning_firmware_too_new">Alcune funzioni sono disabilitate perché il firmware dell\'orologio è troppo recente</string>
+    <string name="qhybrid_title_calibration">Calibrazione</string>
+    <string name="qhybrid_title_apps_management">Gestione delle applicazioni</string>
+    <string name="qhybrid_title_file_management">Gestione dei file</string>
+    <string name="qhybrid_title_background_image">Immagine di sfondo</string>
+    <string name="qhybrid_title_apps">Applicazioni</string>
+    <string name="qhybrid_title_watchface_apps">Applicazioni e watchface</string>
+    <string name="fossil_hr_auth_failed">Autenticazione non andata a buon fine, funzionalità limitate</string>
+    <string name="fossil_hr_unavailable_unauthed">Non disponibile nella modalità senza autenticazione</string>
+    <string name="fossil_hr_synced_activity_data">Dati delle attività sincronizzati</string>
+    <string name="fossil_hr_commute_processing">Esecuzione della richiesta in corso...</string>
+    <string name="mi">mi</string>
+    <string name="minutes_mi">min/mi</string>
+    <string name="mi_h">mi/h</string>
+    <string name="ft">ft</string>
+    <string name="widget_settings_select_device_title">Seleziona dispositivo</string>
+    <string name="menuitem_temperature">Temperatura corporea</string>
+    <string name="menuitem_widgets">Widget</string>
+    <string name="menuitem_events">Eventi</string>
+    <string name="devicetype_waspos">Wasp-os</string>
+    <string name="devicetype_um25">UM-25</string>
+    <string name="devicetype_zepp_e">Zepp E</string>
+    <string name="devicetype_amazfit_x">Amazfit X</string>
+    <string name="devicetype_amazfit_gts2e">Amazfit GTS 2e</string>
+    <string name="devicetype_amazfit_gts2_mini">Amazfit GTS 2 Mini</string>
+    <string name="devicetype_amazfit_bipupro">Amazfit Bip U Pro</string>
+    <string name="devicetype_amazfit_neo">Amazfit Neo</string>
+    <string name="activity_type_strength_training">Allenamento di forza</string>
+    <string name="dbmanagementactivity_export_finished">Eliminazione completata</string>
+    <string name="activity_db_management_clean_export_directory_text">I file esportati nella cartella di importazione/esportazione sono accessibili da qualsiasi app sul tuo dispositivo. Se vuoi puoi eliminare questi file dopo la sincronizzazione o il backup. Assicurati di avere un backup dei file prima di eliminarli. I file GPX, le sottocartelle e i file del database esportati automaticamente (se presenti) non saranno eliminati. Il percorso della cartella di esportazione/importazione è la seguente:</string>
+    <string name="activity_DB_clean_export_directory_warning_message">Vuoi davvero eliminare i file dalla cartella di importazione/esportazione\?</string>
+    <string name="activity_DB_clean_export_directory_warning_title">Vuoi eliminare i file dalla cartella di importazione/esportazione\?</string>
+    <string name="activity_db_management_clean_export_directory_label">Elimina i file nella cartella di importazione/esportazione</string>
+    <string name="activity_DB_ShowContentButton">Mostra i contenuti della cartella di importazione/esportazione</string>
+    <string name="activity_data_management_directory_content_title">Esporta/Importa i contenuti della cartella</string>
+    <string name="dbmanagementactivity_export_confirmation">Vuoi davvero esportare i dati\? I dati delle attività esportati precedentemente (se presenti) e le preferenza verranno sovrascritte.</string>
+    <string name="dbmanagementactivity_export_data_title">Vuoi esportare i dati\?</string>
+    <string name="dbmanagementactivity_error_cleaning_export_directory">Si è verificato un errore durante l\'eliminazione dei file dalla cartella di esportazione %1$s</string>
+    <string name="prefs_sounds_summary">Configura quando vuoi che il dispositivo emetta un suono</string>
+    <string name="prefs_sounds">Suoni</string>
+    <string name="show_ongoing_activity">Mostra la finestra dell\'attività in corso</string>
+    <string name="dialog_hide">Nascondi</string>
+    <string name="fw_upgrade_notice_amazfitneo">Stai per installare il firmware %s sul tuo Amazfit Neo.
+\n
+\nIl tuo bracciale si riavvierà dopo aver installato il file .fw.
+\n
+\nPROCEDI A TUO RISCHIO E PERICOLO!</string>
+    <string name="fw_upgrade_notice_amazfitx">Stai per installare il firmware %s sul tuo Amazfit X.
+\n
+\nAssicurati di installare prima il file .fw e poi quello .res. Il bracciale si riavvierà dopo aver installato il file .fw.
+\n
+\nNota: Non c\'è bisogno di installare il file .res se è usuale a quello installato in precedenza.
+\n
+\nPROCEDI A TUO RISCHIO E PERICOLO!</string>
+    <string name="calendar_year">Anno</string>
+    <string name="calendar_six_months">6 mesi</string>
+    <string name="calendar_three_months">3 mesi</string>
+    <string name="calendar_month">Mese</string>
+    <string name="calendar_two_weeks">Due settimane</string>
+    <string name="calendar_week">Settimana</string>
+    <string name="calendar_day">Giorno</string>
+    <string name="battery_level">Livello della batteria</string>
+    <string name="battery_detail_activity_title">Informazioni sulla batteria</string>
 </resources>
