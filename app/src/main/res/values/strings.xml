@@ -1166,4 +1166,8 @@
     <string name="qhybrid_title_apps_management">Apps management</string>
     <string name="qhybrid_title_calibration">Calibration</string>
     <string name="fossil_hr_warning_firmware_too_new">Some functions are disabled because the firmware of the watch is too new</string>
+    <string name="pref_title_physical_buttons">Physical buttons</string>
+    <string name="pref_summary_physical_buttons">Configure the functionality of the physical buttons on the watch</string>
+    <string name="qhybrid_summary_file_management">Upload and download files</string>
+    <string name="qhybrid_summary_calibration">Calibrate the watch hands</string>
 </resources>

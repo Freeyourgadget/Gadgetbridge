@@ -21,10 +21,8 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.util.SparseArray;
 import android.view.View;
 import android.view.ViewGroup;
@@ -46,7 +44,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -63,7 +60,6 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fos
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 import nodomain.freeyourgadget.gadgetbridge.util.Version;
 
-import static nodomain.freeyourgadget.gadgetbridge.devices.qhybrid.WidgetSettingsActivity.RESULT_CODE_WIDGET_DELETED;
 import static nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.QHybridSupport.QHYBRID_COMMAND_UPDATE_WIDGETS;
 
 public class HRConfigActivity extends AbstractGBActivity implements View.OnClickListener, DialogInterface.OnClickListener, AdapterView.OnItemClickListener {
@@ -86,9 +82,7 @@ public class HRConfigActivity extends AbstractGBActivity implements View.OnClick
         setContentView(R.layout.activity_qhybrid_hr_settings);
 
         findViewById(R.id.qhybrid_action_add).setOnClickListener(this);
-        findViewById(R.id.qhybrid_file_management_trigger).setOnClickListener(this);
         findViewById(R.id.qhybrid_apps_management_trigger).setOnClickListener(this);
-        findViewById(R.id.calibration_trigger).setOnClickListener(this);
 
         sharedPreferences = GBApplication.getPrefs().getPreferences();
 
@@ -437,12 +431,8 @@ public class HRConfigActivity extends AbstractGBActivity implements View.OnClick
                     .setPositiveButton("ok", this)
                     .setTitle("create action")
                     .show();
-        } else if(v.getId() == R.id.qhybrid_file_management_trigger) {
-            startActivity(new Intent(getApplicationContext(), FileManagementActivity.class));
         } else if(v.getId() == R.id.qhybrid_apps_management_trigger) {
             startActivity(new Intent(getApplicationContext(), AppsManagementActivity.class));
-        } else if(v.getId() == R.id.calibration_trigger) {
-            startActivity(new Intent(getApplicationContext(), CalibrationActivity.class));
         }
     }
 
