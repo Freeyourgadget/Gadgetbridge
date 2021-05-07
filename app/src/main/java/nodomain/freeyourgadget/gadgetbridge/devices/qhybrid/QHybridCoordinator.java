@@ -30,6 +30,8 @@ import androidx.annotation.Nullable;
 
 import java.util.Collection;
 import java.util.Collections;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.GBException;
@@ -43,8 +45,7 @@ import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceCandidate;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
-import nodomain.freeyourgadget.gadgetbridge.model.ItemWithDetails;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.QHybridSupport;
+import nodomain.freeyourgadget.gadgetbridge.util.Version;
 
 public class QHybridCoordinator extends AbstractDeviceCoordinator {
     @NonNull
@@ -192,6 +193,16 @@ public class QHybridCoordinator extends AbstractDeviceCoordinator {
 
     @Override
     public int[] getSupportedDeviceSpecificSettings(GBDevice device) {
+        if (isHybridHR() && getFirmwareVersion() != null && getFirmwareVersion().compareTo(new Version("1.0.2.20")) < 0) {
+            return new int[]{
+                    R.xml.devicesettings_fossilhybridhr_pre_fw20,
+                    R.xml.devicesettings_fossilhybridhr,
+                    R.xml.devicesettings_autoremove_notifications,
+                    R.xml.devicesettings_canned_dismisscall_16,
+                    R.xml.devicesettings_pairingkey,
+                    R.xml.devicesettings_custom_deviceicon
+            };
+        }
         if (isHybridHR()) {
             return new int[]{
                     R.xml.devicesettings_fossilhybridhr,
@@ -213,5 +224,17 @@ public class QHybridCoordinator extends AbstractDeviceCoordinator {
             return connectedDevice.getName().startsWith("Hybrid HR");
         }
         return false;
+    }
+
+    private Version getFirmwareVersion() {
+        String firmware = GBApplication.app().getDeviceManager().getSelectedDevice().getFirmwareVersion();
+        if (firmware != null) {
+            Matcher matcher = Pattern.compile("[0-9]+\\.[0-9]+\\.[0-9]+\\.[0-9]+").matcher(firmware); // DN1.0.2.19r.v5
+            if (matcher.find()) {
+                firmware = matcher.group(0);
+                return new Version(firmware);
+            }
+        }
+        return null;
     }
 }

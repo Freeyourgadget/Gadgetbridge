@@ -1170,4 +1170,6 @@
     <string name="pref_summary_physical_buttons">Configure the functionality of the physical buttons on the watch</string>
     <string name="qhybrid_summary_file_management">Upload and download files</string>
     <string name="qhybrid_summary_calibration">Calibrate the watch hands</string>
+    <string name="pref_summary_canned_messages_set">Send the messages configured below to your device</string>
+    <string name="pref_summary_canned_messages_dismisscall">Dismiss calls from the watch with an SMS message</string>
 </resources>

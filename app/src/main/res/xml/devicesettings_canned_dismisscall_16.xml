@@ -4,10 +4,12 @@
     <PreferenceScreen
         android:key="screen_canned_messages_dismisscall"
         android:persistent="false"
-        android:title="@string/pref_title_canned_messages_dismisscall">
+        android:title="@string/pref_title_canned_messages_dismisscall"
+        android:summary="@string/pref_summary_canned_messages_dismisscall">
         <Preference
             android:key="canned_messages_dismisscall_send"
-            android:title="@string/pref_title_canned_messages_set" />
+            android:title="@string/pref_title_canned_messages_set"
+            android:summary="@string/pref_summary_canned_messages_set"/>
         <EditTextPreference
             android:key="canned_message_dismisscall_1"
             android:maxLength="64"
