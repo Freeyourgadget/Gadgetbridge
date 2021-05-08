@@ -6,20 +6,20 @@
     <string name="action_debug">Depurar</string>
     <string name="action_quit">Sair</string>
     <string name="controlcenter_fetch_activity_data">Sincronizar</string>
-    <string name="controlcenter_find_device">Procurar dispositivo perdido</string>
+    <string name="controlcenter_find_device">Procurar aparelho perdido</string>
     <string name="controlcenter_take_screenshot">Captura de ecrã</string>
     <string name="controlcenter_change_led_color">Mudar cor do LED</string>
     <string name="controlcenter_change_fm_frequency">Mudar frequência FM</string>
     <string name="controlcenter_disconnect">Desconectar</string>
-    <string name="controlcenter_delete_device">Apagar dispositivo</string>
+    <string name="controlcenter_delete_device">Apagar aparelho</string>
     <string name="controlcenter_delete_device_name">Apagar %1$s</string>
-    <string name="controlcenter_delete_device_dialogmessage">Isto irá apagar o dispositivo e apagar todos os dados associados!</string>
+    <string name="controlcenter_delete_device_dialogmessage">Isto irá apagar o aparelho e apagar todos os dados associados!</string>
     <string name="controlcenter_navigation_drawer_open">Abrir gaveta de navegação</string>
     <string name="controlcenter_navigation_drawer_close">Fechar gaveta de navegação</string>
     <string name="controlcenter_snackbar_need_longpress">Pressione longo no cartão para desconectar</string>
     <string name="controlcenter_snackbar_disconnecting">A desconectar</string>
     <string name="controlcenter_snackbar_connecting">A conectar…</string>
-    <string name="controlcenter_snackbar_requested_screenshot">Capturar o ecrã do dispositivo</string>
+    <string name="controlcenter_snackbar_requested_screenshot">Capturar o ecrã do aparelho</string>
     <string name="title_activity_debug">Depurar</string>
     <!--Strings related to AppManager-->
     <string name="title_activity_appmanager">Gestor de apps</string>
@@ -53,14 +53,14 @@
     <!--Strings related to Settings-->
     <string name="title_activity_settings">Configurações</string>
     <string name="pref_header_general">Configurações gerais</string>
-    <string name="pref_title_general_autoconnectonbluetooth">Ligar ao dispositivo Gadgetbridge quando o Bluetooth estiver ligado</string>
+    <string name="pref_title_general_autoconnectonbluetooth">Ligar ao aparelho Gadgetbridge quando o Bluetooth estiver ligado</string>
     <string name="pref_title_general_autostartonboot">Iniciar automaticamente</string>
     <string name="pref_title_general_autoreconnect">Religar automaticamente</string>
     <string name="pref_title_audio_player">Aplicação de música preferida</string>
     <string name="pref_default">Padrão</string>
     <string name="pref_header_datetime">Data e Hora</string>
     <string name="pref_title_datetime_syctimeonconnect">Sincronizar hora</string>
-    <string name="pref_summary_datetime_syctimeonconnect">Sincronizar a hora com o dispositivo Gadgetbridge quando conecta e quando a hora ou fuso horário forem alterados no Android</string>
+    <string name="pref_summary_datetime_syctimeonconnect">Sincronizar a hora com o aparelho Gadgetbridge quando conecta e quando a hora ou fuso horário forem alterados no Android</string>
     <string name="pref_title_theme">Tema</string>
     <string name="pref_theme_light">Claro</string>
     <string name="pref_theme_dark">Escuro</string>
@@ -79,7 +79,7 @@
     <string name="pref_title_notification_filter">Não incomodar</string>
     <string name="pref_summary_notification_filter">As notificações não desejadas são interrompidas neste modo</string>
     <string name="pref_title_transliteration">Transliteração</string>
-    <string name="pref_summary_transliteration">Ativar apenas se o seu dispositivo não suportar a sua caracteres da sua língua (Atualmente apenas Cirílico)</string>
+    <string name="pref_summary_transliteration">Ativar apenas se o seu aparelho não suportar caracteres da sua língua (Atualmente apenas Cirílico)</string>
     <string name="always">Sempre</string>
     <string name="when_screen_off">Quando o ecrã estiver desligado</string>
     <string name="never">Nunca</string>
@@ -154,7 +154,7 @@
     <string name="tap_connected_device_for_app_mananger">Toque no aparelho conectado para o gestor de apps</string>
     <string name="tap_connected_device_for_activity">Toque no aparelho conectado para atividade</string>
     <string name="tap_connected_device_for_vibration">Toque no aparelho ligado para o fazer vibrar</string>
-    <string name="tap_a_device_to_connect">Toque num dispositivo para ligar</string>
+    <string name="tap_a_device_to_connect">Toque num aparelho para ligar</string>
     <string name="cannot_connect_bt_address_invalid_">Não foi possível conectar. Endereço de Bluetooth inválido\?</string>
     <string name="gadgetbridge_running">Gadgetbridge a executar</string>
     <string name="installing_binary_d_d">Instalando binário %1$d/%2$d</string>
@@ -189,7 +189,7 @@
     <string name="miband_pairing_using_dummy_userdata">Sem dados de utilizador. Por enquanto serão usados dados fictícios.</string>
     <string name="miband_pairing_tap_hint">Quando a sia Mi Band vibrar e piscar, dê-lhe alguns toques seguidos.</string>
     <string name="appinstaller_install">Instalar</string>
-    <string name="discovery_connected_devices_hint">Torne o seu dispositivo visível.  É improvável que os dispositivos atualmente ligados sejam apresentados. Ative a localização (i.e, GPS) no Android 6+. Desative também a Proteção de Privacidade para o Gadgetbridge, pois esta poderá bloquear e levar ao reinício do seu telefone. Se depois de alguns minutos não for encontrado qualquer dispositivo, tente outra vez após reiniciar o telefone.</string>
+    <string name="discovery_connected_devices_hint">Faça o seu aparelho visível. É improvável que os aparelho atualmente ligados sejam apresentados. Ative a localização (i.e, GPS) no Android 6+. Desative também a Proteção de Privacidade para o Gadgetbridge, pois esta poderá bloquear e levar ao reinício do seu telefone. Se depois de alguns minutos não for encontrado qualquer aparelho, tente outra vez após reiniciar o telefone.</string>
     <string name="discovery_note">Nota:</string>
     <string name="candidate_item_device_image">Imagem do aparelho</string>
     <string name="miband_prefs_alias">Nome/Apelido</string>
@@ -233,8 +233,8 @@
     <string name="alarm_sat_short">Sab</string>
     <string name="alarm_smart_wakeup">Despertar inteligente</string>
     <string name="user_feedback_miband_set_alarms_failed">Houve um erro ao definir os alarmes, por favor, tente novamente.</string>
-    <string name="user_feedback_miband_set_alarms_ok">Alarmes enviados ao dispositivo.</string>
-    <string name="chart_no_data_synchronize">Sem data. Sincronizar com o dispositivo?</string>
+    <string name="user_feedback_miband_set_alarms_ok">Alarmes enviados ao aparelho.</string>
+    <string name="chart_no_data_synchronize">Sem dados. Sincronizar com o aparelho\?</string>
     <string name="user_feedback_miband_activity_data_transfer">Prestes a transferir %1$s de dados desde %2$s</string>
     <string name="miband_prefs_fitness_goal">Meta diária de passos</string>
     <string name="dbaccess_error_executing">Erro ao executar \'%1$s\'</string>
@@ -244,7 +244,7 @@
     <string name="pbw_install_handler_unable_to_install">Não foi possível instalar o ficheiro: %1$s</string>
     <string name="pbw_install_handler_hw_revision_mismatch">Não é possível instalar o firmware fornecido: ele não corresponde à revisão do hardware do seu Pebble.</string>
     <string name="installer_activity_wait_while_determining_status">Aguarde enquanto se determina o estado da instalação…</string>
-    <string name="notif_battery_low_title">Dispositivo com bateria baixa!</string>
+    <string name="notif_battery_low_title">Aparelho com bateria baixa!</string>
     <string name="notif_battery_low_percent">%1$s bateria restante: %2$s%%</string>
     <string name="notif_battery_low_bigtext_last_charge_time">Última carga: %s \n</string>
     <string name="notif_battery_low_bigtext_number_of_charges">Número de cargas: %s</string>
@@ -258,7 +258,7 @@
     <string name="installhandler_firmware_name">%1$s: %2$s %3$s</string>
     <string name="miband_fwinstaller_compatible_version">Versão compatível</string>
     <string name="miband_fwinstaller_untested_version">Versão não testada!</string>
-    <string name="fwappinstaller_connection_state">Ligação do Dispositivo: %1$s</string>
+    <string name="fwappinstaller_connection_state">Ligação do aparelho: %1$s</string>
     <string name="pbw_installhandler_pebble_firmware">Firmware da Pebble: %1$s</string>
     <string name="pbwinstallhandler_correct_hw_revision">Revisão de hardware correta</string>
     <string name="pbwinstallhandler_incorrect_hw_revision">Revisão de hardware inválida!</string>
@@ -266,7 +266,7 @@
     <string name="updatefirmwareoperation_updateproblem_do_not_reboot">Ocorreu um erro com a transferência do firmware. NÃO REINICIE a sua Mi Band!</string>
     <string name="updatefirmwareoperation_metadata_updateproblem">Problemas ao transferir os metadados do firmware</string>
     <string name="updatefirmwareoperation_update_complete">Instalação do Firmware completa</string>
-    <string name="updatefirmwareoperation_update_complete_rebooting">Instalação do Firmware completa, reiniciando o dispositivo…</string>
+    <string name="updatefirmwareoperation_update_complete_rebooting">Instalação do firmware completa, a reiniciar o aparelho…</string>
     <string name="updatefirmwareoperation_write_failed">Falha ao instalar o firmware</string>
     <string name="chart_steps">Passos</string>
     <string name="calories">Calorias</string>
@@ -292,12 +292,12 @@
     <string name="abstract_chart_fragment_kind_not_worn">Não usado</string>
     <string name="device_not_connected">Desligado.</string>
     <string name="user_feedback_all_alarms_disabled">Todos os alarmes desligados</string>
-    <string name="pref_title_keep_data_on_device">Manter dados de atividade no dispositivo</string>
+    <string name="pref_title_keep_data_on_device">Manter dados de atividade no aparelho</string>
     <string name="miband_fwinstaller_incompatible_version">Firmware incompatível</string>
-    <string name="fwinstaller_firmware_not_compatible_to_device">Este firmware não é compatível com seu dispositivo</string>
+    <string name="fwinstaller_firmware_not_compatible_to_device">Este firmware não é compatível com o seu aparelho</string>
     <string name="miband_prefs_reserve_alarm_calendar">Alarmes reservados para eventos próximos</string>
     <string name="miband_prefs_hr_sleep_detection">Usar o sensor de frequência cardíaca para melhorar a detecção do sono</string>
-    <string name="miband_prefs_device_time_offset_hours">Compensação da hora do dispositivo em horas (para detetar o sono de trabalhadores por turnos)</string>
+    <string name="miband_prefs_device_time_offset_hours">Compensação da hora do aparelho em horas (para detetar o sono de trabalhadores por turnos)</string>
     <string name="miband2_prefs_dateformat">Formato da data</string>
     <string name="dateformat_time">Hora</string>
     <string name="dateformat_date_time">Horário &amp; data</string>
@@ -305,7 +305,7 @@
     <string name="mi2_prefs_goal_notification_summary">A pulseira vai vibrar quando o objectivo diário de passos for atingido.</string>
     <string name="mi2_prefs_display_items">Items do ecrã</string>
     <string name="mi2_prefs_display_items_summary">Escolher os items a mostrar no ecrã</string>
-    <string name="mi2_prefs_activate_display_on_lift">Ativar ecrã do dispositivo quando o levantar</string>
+    <string name="mi2_prefs_activate_display_on_lift">Ativar ecrã do aparelho quando o levantar</string>
     <string name="mi2_prefs_rotate_wrist_to_switch_info">Rodar o pulso para mudar de ecrã</string>
     <string name="mi2_prefs_do_not_disturb">Não incomodar</string>
     <string name="mi2_prefs_do_not_disturb_summary">A pulseira não recebe notificações enquanto activo</string>
@@ -340,7 +340,7 @@
     <string name="pref_summary_pebble_health_store_raw">Armazena os dados \"como estão\", aumentando o uso do banco de dados para permitir posterior interpretação.</string>
     <string name="action_db_management">Gestão de dados</string>
     <string name="title_activity_db_management">Gestão de dados</string>
-    <string name="activity_db_management_import_export_explanation">As operações de exportação/importação usam o seguinte caminho (veja abaixo) para um diretório no seu aparelho. Este diretório é acessível a outras apps Android e o seu computador. Observe que este diretório e todos os ficheiros que contêm são excluídos se desinstalar o Gadgetbridge. Os dados incluem:
+    <string name="activity_db_management_import_export_explanation">As operações de exportação/importação usam o seguinte caminho (veja abaixo) para um diretório no seu aparelho. Este diretório é acessível a outras apps Android e o seu computador. Observe que este diretório e todos os ficheiros que contêm são apagados se desinstalar o Gadgetbridge. Os dados incluem:
 \n Export_preference - configurações globais
 \n Export_preference_MAC - configurações específicas do aparelho
 \n Gadgetbridge - banco de dados de aparelhos e atividades
@@ -348,7 +348,7 @@
 \n *.gpx - gravações deGPS
 \n *.log - ficheiros de log
 \nEspere encontrar os seus ficheiros exportados (ou pôr os ficheiros que deseja importar) lá:</string>
-    <string name="activity_db_management_merge_old_title">Exclusão de banco de dados legado</string>
+    <string name="activity_db_management_merge_old_title">Apagar o banco de dados legado</string>
     <string name="dbmanagementactivvity_cannot_access_export_path">Não foi possível aceder ao caminho de exportação. Por favor contacte os programadores.</string>
     <string name="dbmanagementactivity_exported_to">Exportado para: %1$s</string>
     <string name="dbmanagementactivity_error_exporting_db">Erro ao exportar a Base de Dados: %1$s</string>
@@ -357,12 +357,12 @@
     <string name="dbmanagementactivity_import_successful">Importado.</string>
     <string name="dbmanagementactivity_error_importing_db">Erro ao importar a Base de Dados: %1$s</string>
     <string name="dbmanagementactivity_delete_activity_data_title">Apagar os dados de atividade?</string>
-    <string name="dbmanagementactivity_really_delete_entire_db">Apagar realmente toda a base de dados? Todos os seus dados de atividade e informação sobre os seus dispositivos irá perder-se.</string>
-    <string name="dbmanagementactivity_database_successfully_deleted">Dados excluídos.</string>
+    <string name="dbmanagementactivity_really_delete_entire_db">Apagar realmente toda a base de dados\? Todos os seus dados de atividade e informação sobre os seus aparelhos irá perder-se.</string>
+    <string name="dbmanagementactivity_database_successfully_deleted">Dados apagados.</string>
     <string name="dbmanagementactivity_db_deletion_failed">Não foi possível apagar a base de dados.</string>
     <string name="dbmanagementactivity_delete_old_activity_db">Apagar os dados de atividade antigos?</string>
     <string name="dbmanagementactivity_delete_old_activitydb_confirmation">Apagar realmente a base de dados antiga? Dados de atividade não importados irão perder-se.</string>
-    <string name="dbmanagementactivity_old_activity_db_successfully_deleted">Os dados de atividades antigos foram excluídos.</string>
+    <string name="dbmanagementactivity_old_activity_db_successfully_deleted">Os dados de atividades antigos foram apagados.</string>
     <string name="dbmanagementactivity_old_activity_db_deletion_failed">Não foi possível apagar a atividade antiga da base de dados.</string>
     <string name="dbmanagementactivity_overwrite">Escrever por cima</string>
     <string name="Cancel">Cancelar</string>
@@ -397,7 +397,7 @@
     <string name="mi2_dnd_automatic">Automático (deteção de sono)</string>
     <string name="mi2_dnd_scheduled">Agendado (intervalo de tempo)</string>
     <string name="discovery_attempting_to_pair">A tentar emparelhar com %1$s</string>
-    <string name="discovery_enable_bluetooth">Ative o Bluetooth para encontrar os dispositivos.</string>
+    <string name="discovery_enable_bluetooth">Ative o Bluetooth para encontrar os aparelhos.</string>
     <string name="discovery_pair_title">Emparelhar com %1$s?</string>
     <string name="discovery_yes_pair">Emparelhar</string>
     <string name="discovery_dont_pair">Não emparelhar</string>
@@ -422,7 +422,7 @@
     <string name="pref_title_weather">Meteorologia</string>
     <string name="pref_title_weather_location">Localização climática (para provedor de clina do LineageOS)</string>
     <string name="pref_blacklist_calendars">Bloquear Calendários</string>
-    <string name="controlcenter_calibrate_device">Calibrar dispositivo</string>
+    <string name="controlcenter_calibrate_device">Calibrar aparelho</string>
     <string name="blacklist_all_for_notifications">Bloquear todas as notificações</string>
     <string name="whitelist_all_for_notifications">Desbloquear todas as notificações</string>
     <string name="fw_upgrade_notice_miband3">Está prestes a instalar o firmware %s na sua Mi Band 3.
@@ -477,7 +477,7 @@
     <string name="activity_type_activity">Atividade</string>
     <string name="activity_type_light_sleep">Sono leve</string>
     <string name="activity_type_deep_sleep">Sono profundo</string>
-    <string name="activity_type_not_worn">Dispositivo não usado</string>
+    <string name="activity_type_not_worn">Aparelho não usado</string>
     <string name="activity_type_running">Corrida</string>
     <string name="activity_type_walking">Caminhada</string>
     <string name="activity_type_swimming">Natação</string>
@@ -493,8 +493,8 @@
     <string name="kind_gps_almanac">Almanac GPS</string>
     <string name="kind_gps_cep">Correção de erro GPS</string>
     <string name="kind_resources">Recursos</string>
-    <string name="devicetype_unknown">Dispositivo desconhecido</string>
-    <string name="devicetype_test">Dispositivo de Teste</string>
+    <string name="devicetype_unknown">Aparelho desconhecido</string>
+    <string name="devicetype_test">Aparelho de Teste</string>
     <string name="devicetype_pebble">Pebble</string>
     <string name="notification_channel_name">Notificações do Gadgetbridge</string>
     <string name="menuitem_shortcut_alipay">Alipay (Atalho)</string>
@@ -525,7 +525,7 @@
     <string name="debugactivity_really_factoryreset_title">Repor as configurações de fábrica\?</string>
     <string name="pref_title_notifications_timeout">Tempo mínimo entre notificações</string>
     <string name="pref_title_rtl">Da direita para a esquerda</string>
-    <string name="pref_summary_rtl">Ative isto se o seu dispositivo pode mostrar idiomas que se escrevem da direita para a esquerda</string>
+    <string name="pref_summary_rtl">Ative isto se o seu aparelho pode mostrar idiomas que se escrevem da direita para a esquerda</string>
     <string name="pref_rtl_max_line_length">Comprimento máximo da linha da direita para a esquerda</string>
     <string name="pref_rtl_max_line_length_summary">Alonga ou encurta as linhas da direita para a esquerda em que o texto é cortado</string>
     <string name="pref_summary_enable_calendar_sync">Envia eventos do calendário para linha do tempo</string>
@@ -538,7 +538,7 @@
     <string name="mi2_prefs_button_press_broadcast_summary">Mensagem de transmissão enviada com o evento. O parâmetro `button_id` é adicionado automaticamente a cada mensagem.</string>
     <string name="mi2_prefs_button_action">Ativar botão de ação</string>
     <string name="mi2_prefs_button_action_vibrate">Ativar vibração da pulseira</string>
-    <string name="debugactivity_really_factoryreset">Efetuar uma reposição de fábrica elemina todos os dados dos dispositivos ligados (caso seja suportado). Além disso, dispositivos Xiaomi/Huami mudam os endereços MAC, aparecendo como dispositivos novos para o Gadgetbridge.</string>
+    <string name="debugactivity_really_factoryreset">Efetuar uma reposição de fábrica apagar todos os dados dos aparelhos ligados (caso seja suportado). Além disso, aparelhos Xiaomi/Huami mudam os endereços MAC, aparecendo como aparelhos novos para o Gadgetbridge.</string>
     <string name="mi2_prefs_button_press_broadcast_default_value" translatable="false">nodomain.freeyourgadget.gadgetbridge.ButtonPressed</string>
     <plurals name="widget_alarm_target_hours">
         <item quantity="one">%d hora</item>
@@ -1061,7 +1061,7 @@
     <string name="sonyswr12_settings_alarm_interval">Intervalo de alarme inteligente em minutos</string>
     <string name="sonyswr12_settings_low_vibration_summary">Ativar baixa intensidade de vibração na banda</string>
     <string name="sonyswr12_settings_stamina_summary">O modo de economia de energia desativa a medição automática periódica da frequência cardíaca, aumentando assim o tempo de trabalho</string>
-    <string name="sonyswr12_settings_alarm_interval_summary">O intervalo de alarme inteligente é o intervalo antes do alarme instalado. Neste intervalo, o dispositivo está tentando detectar a fase mais leve do sono para acordar o usuário</string>
+    <string name="sonyswr12_settings_alarm_interval_summary">O intervalo de alarme inteligente é o intervalo antes do alarme instalado. Neste intervalo, o aparelho tenta detetar a fase mais leve do sono para acordar o utilizador</string>
     <string name="calendar_year">Ano</string>
     <string name="calendar_six_months">6 meses</string>
     <string name="calendar_three_months">3 meses</string>
