@@ -1211,4 +1211,12 @@
     <string name="menuitem_temperature">טמפרטורה</string>
     <string name="menuitem_widgets">וידג׳טים</string>
     <string name="menuitem_events">אירועים</string>
+    <string name="devicetype_miband6">Mi Band 6</string>
+    <string name="fw_upgrade_notice_miband6">פעולה זו תתקין את הקושחה %s ב־Mi Band 6 שלך.
+\n
+\nנא לוודא את התקנת קובץ ה־‎.fw בהתחלה, לאחר מכן את קובץ ה־‎.res השעון שלך יופעל מחדש לאחר התקנת קובץ ה־fw.
+\n
+\nלתשומת לבך: אין צורך בהתקנת קובץ ה־‎.res אם הוא כבר זהה לזה שהתקנת בעבר.
+\n
+\nהמשך התהליך הוא על אחריותך!</string>
 </resources>
