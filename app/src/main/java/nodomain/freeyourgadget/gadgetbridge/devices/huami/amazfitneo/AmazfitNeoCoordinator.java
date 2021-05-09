@@ -85,6 +85,7 @@ public class AmazfitNeoCoordinator extends HuamiCoordinator {
                 R.xml.devicesettings_amazfitneo,
                 R.xml.devicesettings_wearlocation,
                 R.xml.devicesettings_timeformat,
+                R.xml.devicesettings_liftwrist_display,
                 R.xml.devicesettings_disconnectnotification,
                 R.xml.devicesettings_expose_hr_thirdparty,
                 R.xml.devicesettings_bt_connected_advertisement,
