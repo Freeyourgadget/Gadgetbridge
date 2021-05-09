@@ -744,7 +744,7 @@
     <string name="average">Média: %1$s</string>
     <string name="prefs_hr_alarm_high">Limite alto</string>
     <string name="prefs_hr_alarm_low">Limite baixo</string>
-    <string name="prefs_hr_alarm_activity">Alarme de frequência cardíaca durante atividades esportivas</string>
+    <string name="prefs_hr_alarm_activity">Alarme de frequência cardíaca durante atividades desportivas</string>
     <string name="fw_upgrade_notice_miband4">Está prestes a instalar o firmware %s na sua Mi Band 4. 
 \n 
 \nCertifique-se de instalar o ficheiro .fw e depois o ficheiro .res. Sua pulseira vai reiniciar após instalar o ficheiro .fw. 
@@ -1132,17 +1132,17 @@
 \nFrequência cardíaca mais alta: %2$d
 \nIntensidade do movimento: %3$s</string>
     <string name="movement_intensity">Intensidade do movimento</string>
-    <string name="firmware_update_progress">O upload está em progresso
+    <string name="firmware_update_progress">O envio está em progresso
 \n%1d%% a %.2fkbps (média de %.2fkbps)
 \nParte %1d de %1d</string>
-    <string name="devicestatus_upload_failed">O upload falhou</string>
-    <string name="devicestatus_upload_aborted">O upload foi abortado!</string>
-    <string name="devicestatus_upload_validating">O upload está sendo validado</string>
-    <string name="devicestatus_upload_completed">O upload foi concluído</string>
+    <string name="devicestatus_upload_failed">O envio falhou</string>
+    <string name="devicestatus_upload_aborted">O envio foi abortado!</string>
+    <string name="devicestatus_upload_validating">O envio está a ser validado</string>
+    <string name="devicestatus_upload_completed">O envio foi concluído</string>
     <string name="devicestatus_disconnected">O aparelho foi desconectado!</string>
     <string name="devicestatus_disconnecting">O aparelho está desconectando!</string>
-    <string name="devicestatus_upload_started">O upload foi iniciado</string>
-    <string name="devicestatus_upload_starting">O upload está iniciando</string>
+    <string name="devicestatus_upload_started">O envio foi iniciado</string>
+    <string name="devicestatus_upload_starting">O envio está a iniciar</string>
     <string name="devicestatus_connected">O aparelho está conectado</string>
     <string name="devicestatus_connecting">O aparelho está conectando</string>
     <string name="activity_list_summary_activities">Atividades</string>
