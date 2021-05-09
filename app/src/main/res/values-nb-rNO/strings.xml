@@ -455,9 +455,17 @@
     <string name="mi2_prefs_button_press_count_max_delay">Maksimal forsinkelse mellom trykk</string>
     <string name="mi2_prefs_button_press_count_max_delay_summary">Maksimal forsinkelse mellom knappetrykk i millisekunder</string>
     <string name="mi2_prefs_activate_display_on_lift">Aktiver skjerm ved løfting</string>
-    <string name="activity_db_management_import_export_explanation">Databaseoperasjoner bruker følgende sti på din enhet.
-\nDenne stien er tilgjengelig for andre Android-programmer og din datamaskin.
-\nForvent å finne din eksporterte database (eller plasser databasen du ønsker å importere) der:</string>
+    <string name="activity_db_management_import_export_explanation">Eksport og import bruker følgende sti (vist nedenfor) på din enhet.
+\nDenne mappen er tilgjengelig for andre Android-programmer og din datamaskin.
+\nMerk at denne mappen og alle inneholdene filer slettes hvis du avinstallerer Gadgetbridge.
+\nDataen inkluderer:
+\nExport_preference - globale innstillinger
+\nExport_preference_MAC - enhetsspesifikke innstillinger
+\nGadgetbridge - enhets- og aktivitetsdatabase
+\nGadgetbride_date - database eksportert en gitt dato
+\n*.gpx - GPS-innspillinger
+\n*.log - loggfiler
+\nForvent å finne dine eksporterte filer (eller plasser filene du ønsker å importere) der:</string>
     <string name="activity_db_management_merge_old_title">Sletting av foreldet database</string>
     <string name="dbmanagementactivvity_cannot_access_export_path">Får ikke tilgang til eksportstien. Kontakt utviklerne.</string>
     <string name="weather_notification_label">Forsikre deg om at denne drakten er iført Værmeldingsprogrammet for å få varsel på din Pebble.
@@ -1208,4 +1216,15 @@
 \nOmstart av båndet ditt vil bli utført etter installasjon av .fw-filen.
 \n
 \nFORTSETT PÅ EGEN RISIKO.</string>
+    <string name="menuitem_events">Hendelser</string>
+    <string name="menuitem_temperature">Temperatur</string>
+    <string name="menuitem_widgets">Miniprogrammer</string>
+    <string name="devicetype_miband6">Mi Band 6</string>
+    <string name="fw_upgrade_notice_miband6">Du er i ferd med å installere %s-fastvaren på ditt Mi Band 6.
+\n
+\nForsikre deg om at du installerer .fw-fila, og så .res-fila. Båndet ditt vil starte på ny etter at .fw-fila er installert.
+\n
+\nMerk: Du må ikke installere .res hvis den er nøyaktig lik den som allerede er installert.
+\n
+\nFORTSETT PÅ EGEN RISIKO!</string>
 </resources>
