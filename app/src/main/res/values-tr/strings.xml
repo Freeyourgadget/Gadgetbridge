@@ -246,10 +246,10 @@
     <string name="find_device_you_found_it">Buldunuz!</string>
     <string name="find_lost_device_you_found_it">Buldunuz!</string>
     <string name="find_my_phone_notification">Telefonumu bul</string>
-    <string name="firmware_install_warning">BİR ÜRÜN YAZILIMI KURMAYA ÇALIŞIYORSUNUZ, RİSKİ GÖZE ALARAK İLERLEYİN.
+    <string name="firmware_install_warning">BİR ÜRÜN YAZILIMI KURMAYA ÇALIŞIYORSUNUZ, İLERLEMENİZ DURUMUNDA RİSK SİZE AİTTİR.
 \n
 \n
-\n Bu ürün yazılımı şu donanım revizyonu içindir: %s</string>
+\nBu ürün yazılımı şu donanım revizyonu içindir: %s</string>
     <string name="french">Fransızca</string>
     <string name="fw_multi_upgrade_notice">Şu anda Mi Band\'ınızda bulunanların yerine %1$s ve %2$s ürün yazılımını kurmak üzeresiniz.</string>
     <string name="fw_upgrade_notice">%s kurmak üzeresiniz.</string>
@@ -257,58 +257,58 @@
 \n
 \nLütfen .fw dosyasını, ardından .res dosyasını ve son olarak .gps dosyasını kurduğunuzdan emin olun. Saatiniz .fw dosyasını kurduktan sonra yeniden başlatılacak.
 \n
-\nNot: Bu dosyalar, daha önce kurulanlarla tamamen aynıysa, .res ve .gps kurmanız gerekmez.
+\nNot: Bu dosyalar, daha önce kurulanlarla tamamen aynıysa, .res ve .gps dosyalarını kurmanız gerekmez.
 \n
 \nİLERLEMENİZ DURUMUNDA RİSK SİZE AİTTİR!</string>
     <string name="fw_upgrade_notice_amazfitbip_lite">AmazFit Bip Lite aygıtınıza %s ürün yazılımını kurmak üzeresiniz.
 \n
-\nLütfen önce .fw dosyasını, sonra .res dosyasını, ve son olarak .gps dosyasını kurun. .fw dosyasını kurduktan sonra saatiniz yeniden başlatılacak.
+\nLütfen önce .fw dosyasını, sonra .res dosyasını kurun. Saatiniz .fw dosyasını kurduktan sonra yeniden başlatılacak.
 \n
-\nNote: Bu dosyalar önceden kurulanlarla tamamen aynıysa .res ve .gps dosyalarını kurmanız gerekmez.
+\nNot: Bu dosyalar önceden kurulanlarla tamamen aynıysa .res dosyasını kurmanız gerekmez.
 \n
 \nİLERLEMENİZ DURUMUNDA RİSK SİZE AİTTİR!</string>
     <string name="fw_upgrade_notice_amazfitcor">AmazFit Core aygıtınıza %s ürün yazılımını kurmak üzeresiniz.
 \n
-\nLütfen önce .fw dosyasını, sonra .res dosyasını, ve son olarak .gps dosyasını kurun. .fw dosyasını kurduktan sonra bilekliğiniz yeniden başlatılacak.
+\nLütfen önce .fw dosyasını, sonra .res dosyasını kurun. Bilekliğiniz .fw dosyasını kurduktan sonra yeniden başlatılacak.
 \n
-\nNot: Bu dosyalar önceden kurulanlarla tamamen aynıysa .res ve .gps dosyalarını kurmanız gerekmez.
+\nNot: Bu dosyalar önceden kurulanlarla tamamen aynıysa .res dosyasını kurmanız gerekmez.
 \n
 \nİLERLEMENİZ DURUMUNDA RİSK SİZE AİTTİR!</string>
     <string name="fw_upgrade_notice_amazfitcor2">AmazFit Core 2 aygıtınıza %s ürün yazılımını kurmak üzeresiniz.
 \n
-\nLütfen önce .fw dosyasını, sonra .res dosyasını, ve son olarak .gps dosyasını kurun. .fw dosyasını kurduktan sonra bilekliğiniz yeniden başlatılacak.
+\nLütfen önce .fw dosyasını, sonra .res dosyasını kurun. Bilekliğiniz .fw dosyasını kurduktan sonra yeniden başlatılacak.
 \n
-\nNot: Bu dosyalar önceden kurulanlarla tamamen aynıysa .res ve .gps dosyalarını kurmanız gerekmez.
+\nNot: Bu dosyalar önceden kurulanlarla tamamen aynıysa .res dosyasını kurmanız gerekmez.
 \n
 \nİLERLEMENİZ DURUMUNDA RİSK SİZE AİTTİR!
 \n
-\n TAM OLARAK TEST EDİLMEMİŞTİR, AYGITINIZIN İSMİ \"Amazfit Band 2\" İSE BEATS_W ÜRÜN YAZILIMINI KURMANIZ GEREKEBİLİR</string>
+\nTAM OLARAK TEST EDİLMEMİŞTİR, AYGITINIZIN İSMİ \"Amazfit Band 2\" İSE BEATS_W ÜRÜN YAZILIMINI KURMANIZ GEREKEBİLİR</string>
     <string name="fw_upgrade_notice_amazfitgtr">AmazFit GTR aygıtınıza %s ürün yazılımını kurmak üzeresiniz.
 \n
-\nLütfen önce .fw dosyasını, sonra .res dosyasını, ve son olarak .gps dosyasını kurun. .fw dosyasını kurduktan sonra saatiniz yeniden başlatılacak.
+\nLütfen önce .fw dosyasını, sonra .res dosyasını, ve son olarak .gps dosyasını kurun. Saatiniz .fw dosyasını kurduktan sonra yeniden başlatılacak.
 \n
-\nNote: Bu dosyalar önceden kurulanlarla tamamen aynıysa .res ve .gps dosyalarını kurmanız gerekmez.
+\nNot: Bu dosyalar önceden kurulanlarla tamamen aynıysa .res ve .gps dosyalarını kurmanız gerekmez.
 \n
 \nİLERLEMENİZ DURUMUNDA RİSK SİZE AİTTİR!</string>
     <string name="fw_upgrade_notice_amazfitgts">AmazFit GTS aygıtınıza %s ürün yazılımını kurmak üzeresiniz.
 \n
-\nLütfen önce .fw dosyasını, sonra .res dosyasını, ve son olarak .gps dosyasını kurun. .fw dosyasını kurduktan sonra saatiniz yeniden başlatılacak.
+\nLütfen önce .fw dosyasını, sonra .res dosyasını, ve son olarak .gps dosyasını kurun. Saatiniz .fw dosyasını kurduktan sonra yeniden başlatılacak.
 \n
-\nNote: Bu dosyalar önceden kurulanlarla tamamen aynıysa .res ve .gps dosyalarını kurmanız gerekmez.
+\nNot: Bu dosyalar önceden kurulanlarla tamamen aynıysa .res ve .gps dosyalarını kurmanız gerekmez.
 \n
 \nİLERLEMENİZ DURUMUNDA RİSK SİZE AİTTİR!</string>
     <string name="fw_upgrade_notice_miband3">Mi Band 3 aygıtınıza %s ürün yazılımını kurmak üzeresiniz.
 \n
-\nLütfen önce .fw dosyasını, sonra .res dosyasını, ve son olarak .gps dosyasını kurun. .fw dosyasını kurduktan sonra bilekliğiniz yeniden başlatılacak.
+\nLütfen önce .fw dosyasını, sonra .res dosyasını kurun. Bilekliğiniz .fw dosyasını kurduktan sonra yeniden başlatılacak.
 \n
-\nNote: Bu dosyalar önceden kurulanlarla tamamen aynıysa .res ve .gps dosyalarını kurmanız gerekmez.
+\nNot: Bu dosyalar önceden kurulanlarla tamamen aynıysa .res dosyasını kurmanız gerekmez.
 \n
 \nİLERLEMENİZ DURUMUNDA RİSK SİZE AİTTİR!</string>
     <string name="fw_upgrade_notice_miband4">Mi Band 4 aygıtınıza %s ürün yazılımını kurmak üzeresiniz.
 \n
-\nLütfen önce .fw dosyasını, sonra .res dosyasını, ve son olarak .gps dosyasını kurun. .fw dosyasını kurduktan sonra bilekliğiniz yeniden başlatılacak.
+\nLütfen önce .fw dosyasını, sonra .res dosyasını kurun. Bilekliğiniz .fw dosyasını kurduktan sonra yeniden başlatılacak.
 \n
-\nNote: Bu dosyalar önceden kurulanlarla tamamen aynıysa .res ve .gps dosyalarını kurmanız gerekmez.
+\nNot: Bu dosyalar önceden kurulanlarla tamamen aynıysa .res dosyasını kurmanız gerekmez.
 \n
 \nİLERLEMENİZ DURUMUNDA RİSK SİZE AİTTİR!</string>
     <string name="fwapp_install_device_not_ready">Dosya kurulamıyor, aygıt hazır değil.</string>
@@ -927,9 +927,9 @@
     <string name="controlcenter_set_alias">Takma Ad Ayarla</string>
     <string name="fw_upgrade_notice_amazfit_trex">Amazfit T-Rex aygıtınıza %s ürün yazılımını kurmak üzeresiniz.
 \n
-\nLütfen önce .fw dosyasını, sonra .res dosyasını, ve son olarak .gps dosyasını kurun. .fw dosyasını kurduktan sonra saatiniz yeniden başlatılacak.
+\nLütfen önce .fw dosyasını, sonra .res dosyasını, ve son olarak .gps dosyasını kurun. Saatiniz .fw dosyasını kurduktan sonra yeniden başlatılacak.
 \n
-\nNote: Bu dosyalar önceden kurulanlarla tamamen aynıysa .res ve .gps dosyalarını kurmanız gerekmez.
+\nNot: Bu dosyalar önceden kurulanlarla tamamen aynıysa .res ve .gps dosyalarını kurmanız gerekmez.
 \n
 \nİLERLEMENİZ DURUMUNDA RİSK SİZE AİTTİR!</string>
     <string name="devicetype_amazfit_trex">Amazfit T-Rex</string>
@@ -953,9 +953,9 @@
     <string name="devicetype_miband5">Mi Band 5</string>
     <string name="fw_upgrade_notice_miband5">Mi Band 5 aygıtınıza %s ürün yazılımını kurmak üzeresiniz.
 \n
-\nLütfen önce .fw dosyasını, sonra .res dosyasın kurun. .fw dosyasını kurduktan sonra bilekliğiniz yeniden başlatılacak.
+\nLütfen önce .fw dosyasını, sonra .res dosyasın kurun. Bilekliğiniz .fw dosyasını kurduktan sonra yeniden başlatılacak.
 \n
-\nNote: Bu dosyalar önceden kurulanlarla tamamen aynıysa .res dosyasını kurmanız gerekmez.
+\nNot: Bu dosyalar önceden kurulanlarla tamamen aynıysa .res dosyasını kurmanız gerekmez.
 \n
 \nİLERLEMENİZ DURUMUNDA RİSK SİZE AİTTİR!</string>
     <string name="devicetype_tlw64">TLW64</string>
@@ -1170,9 +1170,9 @@
     <string name="devicetype_amazfit_vergel">Amazfit Verge Lite</string>
     <string name="fw_upgrade_notice_amazfitvergel">Amazfit Verge Lite aygıtınıza %s ürün yazılımını kurmak üzeresiniz.
 \n
-\nLütfen önce .fw dosyasını, sonra .res dosyasını, ve son olarak .gps dosyasını kurun. .fw dosyasını kurduktan sonra saatiniz yeniden başlatılacak.
+\nLütfen önce .fw dosyasını, sonra .res dosyasını, ve son olarak .gps dosyasını kurun. Saatiniz .fw dosyasını kurduktan sonra yeniden başlatılacak.
 \n
-\nNote: Bu dosyalar önceden kurulanlarla tamamen aynıysa .res ve .gps dosyalarını kurmanız gerekmez.
+\nNot: Bu dosyalar önceden kurulanlarla tamamen aynıysa .res ve .gps dosyalarını kurmanız gerekmez.
 \n
 \nİLERLEMENİZ DURUMUNDA RİSK SİZE AİTTİR!</string>
     <string name="activity_DB_ShowContentButton">Dışa/İçe aktarma dizini içeriğini göster</string>
@@ -1202,7 +1202,7 @@
     <string name="devicetype_amazfit_x">Amazfit X</string>
     <string name="fw_upgrade_notice_amazfitx">AmazFit X aygıtınıza %s ürün yazılımını kurmak üzeresiniz.
 \n
-\nLütfen önce .fw dosyasını, sonra .res dosyasını kurun. .fw dosyasını kurduktan sonra bilekliğiniz yeniden başlatılacak.
+\nLütfen önce .fw dosyasını, sonra .res dosyasını kurun. Bilekliğiniz .fw dosyasını kurduktan sonra yeniden başlatılacak.
 \n
 \nNot: Bu dosyalar önceden kurulanlarla tamamen aynıysa .res dosyasını kurmanız gerekmez.
 \n
@@ -1233,10 +1233,18 @@
     <string name="prefs_sounds">Ses</string>
     <string name="fw_upgrade_notice_amazfitneo">AmazFit Neo aygıtınıza %s ürün yazılımını kurmak üzeresiniz.
 \n
-\n.fw dosyasını kurduktan sonra saatiniz yeniden başlatılacak.
+\nBilekliğiniz .fw dosyasını kurduktan sonra yeniden başlatılacak.
 \n
 \nİLERLEMENİZ DURUMUNDA RİSK SİZE AİTTİR!</string>
     <string name="menuitem_temperature">Sıcaklık</string>
     <string name="menuitem_widgets">Widget\'lar</string>
     <string name="menuitem_events">Etkinlikler</string>
+    <string name="fw_upgrade_notice_miband6">Mi Band 6 aygıtınıza %s ürün yazılımını kurmak üzeresiniz.
+\n
+\nLütfen önce .fw dosyasını, sonra .res dosyasını kurun. Bilekliğiniz .fw dosyasını kurduktan sonra yeniden başlatılacak.
+\n
+\nNot: Bu dosyalar önceden kurulanlarla tamamen aynıysa .res dosyasını kurmanız gerekmez.
+\n
+\nİLERLEMENİZ DURUMUNDA RİSK SİZE AİTTİR!</string>
+    <string name="devicetype_miband6">Mi Band 6</string>
 </resources>
