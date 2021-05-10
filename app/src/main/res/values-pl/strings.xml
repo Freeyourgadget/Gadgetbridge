@@ -1222,4 +1222,12 @@
     <string name="menuitem_events">Wydarzenia</string>
     <string name="menuitem_widgets">Widżety</string>
     <string name="menuitem_temperature">Temperatura</string>
+    <string name="devicetype_miband6">Mi Band 6</string>
+    <string name="fw_upgrade_notice_miband6">Właśnie instalujesz oprogramowanie sprzętowe %s na swojej opasce Mi Band 6.
+\n
+\nPamiętaj, aby najpierw zainstalować plik .fw, a następnie .res. Twoja opaska uruchomi się ponownie po zainstalowaniu pliku .fw.
+\n
+\nUwaga: Nie musisz instalować pliku .res, jeśli jest on dokładnie taki sam, jak poprzednio zainstalowany.
+\n
+\nROBISZ TO NA WŁASNE RYZYKO!</string>
 </resources>
