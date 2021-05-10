@@ -1224,4 +1224,12 @@
     <string name="menuitem_temperature">Temperatur</string>
     <string name="menuitem_widgets">Widgets</string>
     <string name="menuitem_events">Ereignisse</string>
+    <string name="devicetype_miband6">Mi Band 6</string>
+    <string name="fw_upgrade_notice_miband6">Du bist dabei, die Firmware %s auf dein Mi Band 6 zu installieren.
+\n
+\nBitte stelle sicher, dass du die .fw Datei und die .res Datei installierst. Dein Band wird nach der Installation der .fw Datei neu gestartet.
+\n
+\nHinweis: Du musst .res nicht installieren, wenn es genau die gleiche ist, wie die zuvor installierte.
+\n
+\nINSTALLATION AUF EIGENE GEFAHR!</string>
 </resources>
