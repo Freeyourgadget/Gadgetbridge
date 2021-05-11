@@ -1215,4 +1215,18 @@
     <string name="menuitem_temperature">Temperatuur</string>
     <string name="menuitem_widgets">Widgets</string>
     <string name="menuitem_events">Gebeurtenissen</string>
+    <string name="pref_summary_canned_messages_dismisscall">Inkomende telefoongesprekken afwijzen met een SMS-bericht</string>
+    <string name="pref_summary_canned_messages_set">Stuur de hieronder ingestelde berichten naar uw apparaat</string>
+    <string name="qhybrid_summary_calibration">Kalibreer de wijzers</string>
+    <string name="qhybrid_summary_file_management">Upload en download bestanden</string>
+    <string name="pref_summary_physical_buttons">Configureer de functionaliteit van de fysieke knoppen op het horloge</string>
+    <string name="pref_title_physical_buttons">Fysieke knoppen</string>
+    <string name="devicetype_miband6">Mi Band 6</string>
+    <string name="fw_upgrade_notice_miband6">U staat op het punt om de %s-firmware op je Mi Band 6 te installeren.
+\n
+\nZorg ervoor dat u het .fw-bestand installeert, en daarna het .res-bestand. Uw band wordt opnieuw opgestart na het installeren van het .fw-bestand.
+\n
+\nOpmerking: U hoeft .res niet te installeren als het precies hetzelfde is als het eerder geïnstalleerde .res.
+\n
+\nGA VERDER OP EIGEN RISICO!</string>
 </resources>
