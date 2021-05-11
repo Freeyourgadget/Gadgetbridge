@@ -1247,4 +1247,10 @@
 \n
 \nİLERLEMENİZ DURUMUNDA RİSK SİZE AİTTİR!</string>
     <string name="devicetype_miband6">Mi Band 6</string>
+    <string name="pref_summary_canned_messages_dismisscall">Çağrıları SMS mesajıyla saatten sonlandırın</string>
+    <string name="pref_summary_canned_messages_set">Aşağıda yapılandırılan mesajları aygıtınıza gönderin</string>
+    <string name="qhybrid_summary_calibration">Saatin ibrelerini kalibre edin</string>
+    <string name="qhybrid_summary_file_management">Dosyaları karşıya yükleyin ve indirin</string>
+    <string name="pref_summary_physical_buttons">Saatteki fiziksel düğmelerin işlevlerini yapılandırın</string>
+    <string name="pref_title_physical_buttons">Fiziksel düğmeler</string>
 </resources>
