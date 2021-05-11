@@ -1219,4 +1219,10 @@
 \nלתשומת לבך: אין צורך בהתקנת קובץ ה־‎.res אם הוא כבר זהה לזה שהתקנת בעבר.
 \n
 \nהמשך התהליך הוא על אחריותך!</string>
+    <string name="pref_summary_canned_messages_dismisscall">דחיית שיחות דרך השעון עם מסרון</string>
+    <string name="pref_summary_canned_messages_set">לשלוח את ההודעות שמוגדרות להלן אל השעון שלך</string>
+    <string name="qhybrid_summary_calibration">כיול מחוגי השעון</string>
+    <string name="qhybrid_summary_file_management">העלאה והורדה של קבצים</string>
+    <string name="pref_summary_physical_buttons">הגדרת אופן פעולת כפתורי החומרה שבשעון</string>
+    <string name="pref_title_physical_buttons">כפתורי חומרה</string>
 </resources>
