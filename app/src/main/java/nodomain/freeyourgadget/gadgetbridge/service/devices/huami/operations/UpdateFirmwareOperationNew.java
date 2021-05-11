@@ -33,7 +33,7 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.HuamiFirmwareT
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.HuamiSupport;
 import nodomain.freeyourgadget.gadgetbridge.util.ArrayUtils;
 
-import static nodomain.freeyourgadget.gadgetbridge.service.devices.huami.HuamiFirmwareInfo.WATCHFACE_HEADER_UIHH;
+import static nodomain.freeyourgadget.gadgetbridge.service.devices.huami.HuamiFirmwareInfo.UIHH_HEADER;
 
 public class UpdateFirmwareOperationNew extends UpdateFirmwareOperation {
     private static final Logger LOG = LoggerFactory.getLogger(UpdateFirmwareOperationNew.class);
@@ -67,7 +67,7 @@ public class UpdateFirmwareOperationNew extends UpdateFirmwareOperation {
 
             if (getFirmwareInfo().getFirmwareType() == HuamiFirmwareType.WATCHFACE) {
                 byte[] fwBytes = firmwareInfo.getBytes();
-                if (ArrayUtils.startsWith(fwBytes, WATCHFACE_HEADER_UIHH)) {
+                if (ArrayUtils.startsWith(fwBytes, UIHH_HEADER)) {
                     builder.write(getCharacteristic(HuamiService.UUID_CHARACTERISTIC_3_CONFIGURATION),
                             new byte[]{0x39, 0x00, 0x00, (byte) 0xff, (byte) 0xff, (byte) 0xff,
                                     fwBytes[18],

@@ -99,6 +99,9 @@ public class AmazfitBipSFirmwareInfo extends HuamiFirmwareInfo {
         if (ArrayUtils.startsWith(bytes, GPS_CEP_HEADER)) {
             return HuamiFirmwareType.GPS_CEP;
         }
+        if (ArrayUtils.startsWith(bytes, AGPS_UIHH_HEADER)) {
+            return HuamiFirmwareType.AGPS_UIHH;
+        }
         if (ArrayUtils.startsWith(bytes, NEWFT_HEADER)) {
             if (bytes[10] == 0x01 || bytes[10] == 0x06 || bytes[10] == 0x03) {
                 return HuamiFirmwareType.FONT;

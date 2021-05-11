@@ -70,7 +70,7 @@ public class MiBand5FirmwareInfo extends HuamiFirmwareInfo {
             }
             return HuamiFirmwareType.INVALID;
         }
-        if (ArrayUtils.startsWith(bytes, WATCHFACE_HEADER_UIHH)) {
+        if (ArrayUtils.startsWith(bytes, UIHH_HEADER) && (bytes[4] == 1 || bytes[4] == 2)) {
             return HuamiFirmwareType.WATCHFACE;
         }
         if (ArrayUtils.startsWith(bytes, NEWFT_HEADER)) {
