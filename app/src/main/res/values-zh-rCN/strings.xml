@@ -1220,4 +1220,12 @@
     <string name="menuitem_temperature">温度</string>
     <string name="menuitem_widgets">窗口小部件</string>
     <string name="menuitem_events">事件</string>
+    <string name="devicetype_miband6">小米手环6</string>
+    <string name="fw_upgrade_notice_miband6">您即将在您的小米手环6上安装 %s 固件。
+\n
+\n请确保先安装 .fw 文件，然后再安装 .res 文件。您的手环将会在安装了 .fw 文件后重新启动。
+\n
+\n注意：若相同版本的 .res 文件已经安装，则无需再次安装 .res 文件。
+\n
+\n风险自担！</string>
 </resources>
