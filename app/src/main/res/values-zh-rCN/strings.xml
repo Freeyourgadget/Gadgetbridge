@@ -1228,4 +1228,10 @@
 \n注意：若相同版本的 .res 文件已经安装，则无需再次安装 .res 文件。
 \n
 \n风险自担！</string>
+    <string name="pref_summary_canned_messages_dismisscall">以短信方式从手表上拒绝来电</string>
+    <string name="pref_summary_canned_messages_set">将下面配置的信息发送到您的设备上</string>
+    <string name="qhybrid_summary_calibration">校准手表指针</string>
+    <string name="qhybrid_summary_file_management">上载和下载文件</string>
+    <string name="pref_summary_physical_buttons">配置手表上的物理按键所对应的功能</string>
+    <string name="pref_title_physical_buttons">物理按键</string>
 </resources>
