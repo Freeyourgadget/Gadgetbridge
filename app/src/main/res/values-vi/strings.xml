@@ -174,7 +174,7 @@
     <string name="pref_call_privacy_mode_complete">Ẩn tên và số điện thoại</string>
     <string name="pref_title_weather">Thời tiết</string>
     <string name="pref_title_weather_location">Vị trí thời tiết (cho nhà cung cấp thời tiết của LineageOS)</string>
-    <string name="pref_title_canned_messages_set">Cập nhật trên Pebble</string>
+    <string name="pref_title_canned_messages_set">Cập nhật trên thiết bị</string>
     <string name="pref_title_pebble_sync_health">Đồng bộ Pebble Health</string>
     <string name="pref_title_pebble_sync_misfit">Đồng bộ Misfit</string>
     <string name="pref_title_pebble_sync_morpheuz">Đồng bộ Morpheuz</string>
@@ -331,4 +331,52 @@
     <string name="pref_title_pebble_forcele">Luôn ưu tiên BLE</string>
     <string name="pref_summary_location_keep_uptodate">Cố gắng lấy vị trí hiện tại khi chạy, sử dụng vị trí đã lưu trữ làm vị trí dự phòng</string>
     <string name="pref_pebble_privacy_mode_complete">Chỉ hiện biểu tượng thông báo</string>
+    <string name="pref_header_notifications_and_calls">Thông báo và Cuộc gọi</string>
+    <string name="preferences_hplus_settings">Cài đặt HPlus/Makibes</string>
+    <string name="prefs_title_all_day_heart_rate">Đo nhịp tim cả ngày</string>
+    <string name="pref_title_screentime">Thời gian bật màn hình</string>
+    <string name="pref_title_timeformat">Định dạng thời gian</string>
+    <string name="pref_title_unit_system">Đơn vị</string>
+    <string name="pref_display_add_device_fab_off">Chỉ nhìn thấy được nếu không có thiết bị nào được thêm</string>
+    <string name="pref_display_add_device_fab_on">Luôn nhìn thấy được</string>
+    <string name="pref_display_add_device_fab">Nút kết nối thiết bị mới</string>
+    <string name="pref_title_vibration_strength">Cường độ rung</string>
+    <string name="pref_title_relax_firmware_checks">Hãy bật tuỳ chọn này nếu bạn muốn cài đặt một firmware không dành cho thiết bị của bạn (bạn tự chịu rủi ro)</string>
+    <string name="pref_summary_relax_firmware_checks">Kiểm tra firmware không chặt</string>
+    <string name="pref_title_sync_caldendar">Đồng bộ các sự kiện trong lịch</string>
+    <string name="pref_summary_sync_calendar">Bật các cảnh báo lịch, kể cả khi đã ngắt kết nối</string>
+    <string name="pref_summary_allow_high_mtu">Tăng tốc độ truyền, nhưng có thể sẽ không hoạt động trên một số thiết bị Android.</string>
+    <string name="pref_summary_pebble_enable_applogs">Sẽ làm nhật ký từ các ứng dụng đồng hồ được Gadgetbridge ghi nhật ký (yêu cầu kết nối lại)</string>
+    <string name="pref_summary_pebble_gatt_clientonly">Tuỳ chọn này chỉ dành cho Pebble 2 và có tính thử nghiệm, hãy thử tuỳ chọn này nếu bạn có vấn đề về kết nối</string>
+    <string name="pref_title_pebble_gatt_clientonly">Chỉ có khách GATT</string>
+    <string name="pref_title_pebble_enable_applogs">Bật ghi nhật ký ứng dụng đồng hồ</string>
+    <string name="pref_summary_pebble_mtu_limit">Nếu Pebble 2/Pebble LE của bạn không hoạt động như mong đợi, hãy thử cài đặt này để giới hạn MTU (phạm vi hợp lệ 20-512)</string>
+    <string name="pref_title_pebble_mtu_limit">Giới hạn GATT MTU của Pebble 2/LE</string>
+    <string name="pref_summary_pebble_forcele">Sử dụng sự hỗ trợ Pebble LE có tính thử nghiệm cho tất cả thiết bị Pebble, thay vì BT cổ điển. Việc này yêu cầu ghép đôi với thiết bị không phải LE trước, và sau đó đến Pebble LE</string>
+    <string name="pref_summary_pebble_forceprotocol">Tuỳ chọn này buộc sử dụng giao thức thông báo mới nhất tuỳ vào phiên bản firmware. HÃY BIẾT BẠN ĐANG LÀM GÌ!</string>
+    <string name="pref_title_pebble_forceprotocol">Buộc giao thức thông báo</string>
+    <string name="toast_aqurired_networklocation">đã nhận được vị trí</string>
+    <string name="toast_enable_networklocationprovider">Vui lòng bật vị trí mạng</string>
+    <string name="pref_summary_autoremove_notifications">Các thông báo sẽ tự động được xoá khỏi thiết bị khi chúng bị bỏ qua từ điện thoại</string>
+    <string name="pref_title_autoremove_notifications">Tự động xoá các thông báo đã bị bỏ qua</string>
+    <string name="pref_summary_custom_deviceicon">Hiện biểu tượng thông báo Android cho riêng từng thiết bị thay vì biểu tượng Gadgetbridge khi được kết nối</string>
+    <string name="pref_title_custom_deviceicon">Hiện biểu tượng thông báo cho riêng từng thiết bị</string>
+    <string name="pref_summary_enable_pebblekit">Bật sự hỗ trợ có tính thử nghiệm cho các ứng dụng Android bằng PebbleKit</string>
+    <string name="pref_summary_enable_outgoing_call">Việc tắt tuỳ chọn này cũng sẽ dừng việc Pebble 2/LE rung khi có cuộc gọi đi</string>
+    <string name="pref_title_enable_outgoing_call">Hỗ trợ các cuộc gọi đi</string>
+    <string name="pref_title_canned_messages_dismisscall">Từ chối cuộc gọi</string>
+    <string name="pref_title_canned_reply_suffix">Hậu tố thường gặp</string>
+    <string name="pref_blacklist_calendars">Cho các lịch vào danh sách đen</string>
+    <string name="pref_title_weather_summary">Được sử dụng cho nhà cung cấp thời tiết của LineageOS, các phiên bản Android khác cần sử dụng một ứng dụng như \"Weather notification\". Hãy tìm thêm thông tin trong wiki của Gadgetbridge.</string>
+    <string name="pref_rtl_max_line_length_summary">Kéo dài hoặc rút ngắn các dòng mà văn bản Phải-Qua-Trái được tách thành</string>
+    <string name="pref_title_support_voip_calls">Bật các cuộc gọi ứng dụng VoIP</string>
+    <string name="fw_upgrade_notice_miband6">Bạn sắp cài đặt phần mềm hệ thống %s lên Mi Band 6 của bạn.
+\n
+\nHãy chắc chắn bạn cài đặt tệp .fw, và sau đó là tệp .res. Băng đeo tay của bạn sẽ khởi động lại sau khi cài đặt tệp .fw.
+\n
+\nLưu ý: Bạn không cần phải cài đặt .res nếu tệp đó giống hệt với tệp đã cài đặt trước đó.
+\n
+\nBẠN TỰ CHỊU RỦI RO KHI TIẾP TỤC!</string>
+    <string name="whitelist_all_for_notifications">Cho tất cả vào danh sách trắng đối với các thông báo</string>
+    <string name="blacklist_all_for_notifications">Cho tất cả vào danh sách đen đối với các thông báo</string>
 </resources>
