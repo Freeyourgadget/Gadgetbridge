@@ -152,6 +152,7 @@ public class GB {
                 .setSmallIcon(connected ? device.getNotificationIconConnected() : device.getNotificationIconDisconnected())
                 .setContentIntent(getContentIntent(context))
                 .setColor(context.getResources().getColor(R.color.accent))
+                .setShowWhen(false)
                 .setOngoing(true);
 
         Intent deviceCommunicationServiceIntent = new Intent(context, DeviceCommunicationService.class);
@@ -187,6 +188,7 @@ public class GB {
                 .setSmallIcon(R.drawable.ic_notification_disconnected)
                 .setContentIntent(getContentIntent(context))
                 .setColor(context.getResources().getColor(R.color.accent))
+                .setShowWhen(false)
                 .setOngoing(true);
         if (GBApplication.getPrefs().getString("last_device_address", null) != null) {
             Intent deviceCommunicationServiceIntent = new Intent(context, DeviceCommunicationService.class);
