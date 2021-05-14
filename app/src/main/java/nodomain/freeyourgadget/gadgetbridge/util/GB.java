@@ -64,6 +64,7 @@ public class GB {
     public static final String NOTIFICATION_CHANNEL_ID = "gadgetbridge";
     public static final String NOTIFICATION_CHANNEL_HIGH_PRIORITY_ID = "gadgetbridge_high_priority";
     public static final String NOTIFICATION_CHANNEL_ID_TRANSFER = "gadgetbridge transfer";
+    public static final String NOTIFICATION_CHANNEL_ID_LOW_BATTERY = "low_battery";
 
     public static final int NOTIFICATION_ID = 1;
     public static final int NOTIFICATION_ID_INSTALL = 2;
@@ -115,6 +116,12 @@ public class GB {
                     context.getString(R.string.notification_channel_transfer_name),
                     NotificationManager.IMPORTANCE_LOW);
             notificationManager.createNotificationChannel(channelTransfer);
+
+            NotificationChannel channelLowBattery = new NotificationChannel(
+                    NOTIFICATION_CHANNEL_ID_LOW_BATTERY,
+                    context.getString(R.string.notification_channel_low_battery_name),
+                    NotificationManager.IMPORTANCE_DEFAULT);
+            notificationManager.createNotificationChannel(channelLowBattery);
         }
 
         notificationChannelsCreated = true;
@@ -462,7 +469,7 @@ public class GB {
         PendingIntent pendingIntent = PendingIntent.getActivity(context, 0,
                 notificationIntent, 0);
 
-        NotificationCompat.Builder nb = new NotificationCompat.Builder(context, NOTIFICATION_CHANNEL_ID)
+        NotificationCompat.Builder nb = new NotificationCompat.Builder(context, NOTIFICATION_CHANNEL_ID_LOW_BATTERY)
                 .setContentTitle(context.getString(R.string.notif_battery_low_title))
                 .setContentText(text)
                 .setContentIntent(pendingIntent)

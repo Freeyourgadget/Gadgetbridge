@@ -870,6 +870,7 @@
     <string name="notification_channel_name">General</string>
     <string name="notification_channel_high_priority_name">High-priority</string>
     <string name="notification_channel_transfer_name">Data transfer</string>
+    <string name="notification_channel_low_battery_name">Low battery</string>
     <string name="devicetype_amazfit_gts">Amazfit GTS</string>
     <string name="devicetype_amazfit_vergel">Amazfit Verge Lite</string>
     <string name="devicetype_sg2">Lemfo SG2</string>
