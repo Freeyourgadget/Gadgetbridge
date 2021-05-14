@@ -867,8 +867,9 @@
     <string name="devicetype_waspos">Wasp-os</string>
     <string name="devicetype_domyos_t540"></string>
     <string name="choose_auto_export_location">Choose export location</string>
-    <string name="notification_channel_name">Gadgetbridge notifications</string>
-    <string name="notification_channel_high_priority_name">Gadgetbridge notifications high priority</string>
+    <string name="notification_channel_name">General</string>
+    <string name="notification_channel_high_priority_name">High-priority</string>
+    <string name="notification_channel_transfer_name">Data transfer</string>
     <string name="devicetype_amazfit_gts">Amazfit GTS</string>
     <string name="devicetype_amazfit_vergel">Amazfit Verge Lite</string>
     <string name="devicetype_sg2">Lemfo SG2</string>

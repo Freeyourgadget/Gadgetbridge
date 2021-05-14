@@ -112,7 +112,7 @@ public class GB {
 
             NotificationChannel channelTransfer = new NotificationChannel(
                     NOTIFICATION_CHANNEL_ID_TRANSFER,
-                    context.getString(R.string.notification_channel_name),
+                    context.getString(R.string.notification_channel_transfer_name),
                     NotificationManager.IMPORTANCE_LOW);
             notificationManager.createNotificationChannel(channelTransfer);
         }
