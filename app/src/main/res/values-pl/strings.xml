@@ -1230,4 +1230,6 @@
 \nUwaga: Nie musisz instalować pliku .res, jeśli jest on dokładnie taki sam, jak poprzednio zainstalowany.
 \n
 \nROBISZ TO NA WŁASNE RYZYKO!</string>
+    <string name="qhybrid_summary_calibration">Kalibracja wskazówek zegarka</string>
+    <string name="pref_title_physical_buttons">Przyciski fizyczne</string>
 </resources>
