@@ -20,7 +20,6 @@ package nodomain.freeyourgadget.gadgetbridge.activities;
 
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
-import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.appwidget.AppWidgetHost;
 import android.appwidget.AppWidgetManager;
@@ -474,8 +473,6 @@ public class DebugActivity extends AbstractGBActivity {
         PendingIntent pendingIntent = PendingIntent.getActivity(getApplicationContext(), 0,
                 notificationIntent, 0);
 
-        NotificationManager nManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-
         RemoteInput remoteInput = new RemoteInput.Builder(EXTRA_REPLY)
                 .build();
 
@@ -499,9 +496,7 @@ public class DebugActivity extends AbstractGBActivity {
                 .setContentIntent(pendingIntent)
                 .extend(wearableExtender);
 
-        if (nManager != null) {
-            nManager.notify((int) System.currentTimeMillis(), ncomp.build());
-        }
+        GB.notify((int) System.currentTimeMillis(), ncomp.build(), this);
     }
 
     private void testPebbleKitNotification() {

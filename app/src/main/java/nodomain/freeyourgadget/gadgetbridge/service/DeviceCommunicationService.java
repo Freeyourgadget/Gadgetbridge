@@ -22,7 +22,6 @@ package nodomain.freeyourgadget.gadgetbridge.service;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
-import android.app.NotificationManager;
 import android.app.Service;
 import android.bluetooth.BluetoothDevice;
 import android.content.BroadcastReceiver;
@@ -653,6 +652,7 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
 
     private void start() {
         if (!mStarted) {
+            GB.createNotificationChannels(this);
             startForeground(GB.NOTIFICATION_ID, GB.createNotification(getString(R.string.gadgetbridge_running), this));
             mStarted = true;
         }
@@ -866,10 +866,7 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
         setReceiversEnableState(false, false, null); // disable BroadcastReceivers
 
         setDeviceSupport(null);
-        NotificationManager nm = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-        if (nm != null) {
-            nm.cancel(GB.NOTIFICATION_ID); // need to do this because the updated notification won't be cancelled when service stops
-        }
+        GB.removeNotification(GB.NOTIFICATION_ID, this); // need to do this because the updated notification won't be cancelled when service stops
     }
 
     @Override

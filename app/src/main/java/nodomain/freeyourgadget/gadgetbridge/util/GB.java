@@ -31,7 +31,7 @@ import android.os.Handler;
 import android.os.Looper;
 import android.widget.Toast;
 
-import androidx.annotation.Nullable;
+import androidx.annotation.NonNull;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
@@ -71,6 +71,7 @@ public class GB {
     public static final int NOTIFICATION_ID_TRANSFER = 4;
     public static final int NOTIFICATION_ID_EXPORT_FAILED = 5;
     public static final int NOTIFICATION_ID_PHONE_FIND = 6;
+    public static final int NOTIFICATION_ID_ERROR = 42;
 
     private static final Logger LOG = LoggerFactory.getLogger(GB.class);
     public static final int INFO = 1;
@@ -88,6 +89,36 @@ public class GB {
     public static final String PROGRESS_BAR_PROGRESS = "progress";
     public static final String ACTION_SET_PROGRESS_TEXT = "GB_Set_Progress_Text";
     public static final String ACTION_SET_INFO_TEXT = "GB_Set_Info_Text";
+
+    private static boolean notificationChannelsCreated;
+
+    public static void createNotificationChannels(Context context) {
+        if (notificationChannelsCreated) return;
+
+        if (isRunningOreoOrLater()) {
+            NotificationManagerCompat notificationManager = NotificationManagerCompat.from(context);
+
+            NotificationChannel channelGeneral = new NotificationChannel(
+                    NOTIFICATION_CHANNEL_ID,
+                    context.getString(R.string.notification_channel_name),
+                    NotificationManager.IMPORTANCE_LOW);
+            notificationManager.createNotificationChannel(channelGeneral);
+
+            NotificationChannel channelHighPriority = new NotificationChannel(
+                    NOTIFICATION_CHANNEL_HIGH_PRIORITY_ID,
+                    context.getString(R.string.notification_channel_high_priority_name),
+                    NotificationManager.IMPORTANCE_HIGH);
+            notificationManager.createNotificationChannel(channelHighPriority);
+
+            NotificationChannel channelTransfer = new NotificationChannel(
+                    NOTIFICATION_CHANNEL_ID_TRANSFER,
+                    context.getString(R.string.notification_channel_name),
+                    NotificationManager.IMPORTANCE_LOW);
+            notificationManager.createNotificationChannel(channelTransfer);
+        }
+
+        notificationChannelsCreated = true;
+    }
 
     private static PendingIntent getContentIntent(Context context) {
         Intent notificationIntent = new Intent(context, ControlCenterv2.class);
@@ -167,24 +198,17 @@ public class GB {
 
     public static void updateNotification(GBDevice device, Context context) {
         Notification notification = createNotification(device, context);
-        updateNotification(notification, NOTIFICATION_ID, context);
+        notify(NOTIFICATION_ID, notification, context);
     }
 
-    private static void updateNotification(@Nullable Notification notification, int id, Context context) {
-        if (notification == null) {
-            return;
-        }
-//      TODO: I believe it's better do always use the NMC instead of the old call, but old code works
-        NotificationManagerCompat nm = NotificationManagerCompat.from(context);
-//        NotificationManager nm = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-        nm.notify(id, notification);
+    public static void notify(int id, @NonNull Notification notification, Context context) {
+        createNotificationChannels(context);
+
+        NotificationManagerCompat.from(context).notify(id, notification);
     }
 
-    private static void removeNotification(int id, Context context) {
-//      TODO: I believe it's better do always use the NMC instead of the old call, but old code works
-        NotificationManagerCompat nm = NotificationManagerCompat.from(context);
-//        NotificationManager nm = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-        nm.cancel(id);
+    public static void removeNotification(int id, Context context) {
+        NotificationManagerCompat.from(context).cancel(id);
     }
 
     public static boolean isBluetoothEnabled() {
@@ -366,16 +390,6 @@ public class GB {
     private static Notification createTransferNotification(String title, String text, boolean ongoing,
                                                            int percentage, Context context) {
         Intent notificationIntent = new Intent(context, ControlCenterv2.class);
-        NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-        if(isRunningOreoOrLater()) {
-            NotificationChannel channel = notificationManager.getNotificationChannel(NOTIFICATION_CHANNEL_ID_TRANSFER);
-            if(channel == null) {
-                channel = new NotificationChannel(NOTIFICATION_CHANNEL_ID_TRANSFER,
-                        context.getString(R.string.notification_channel_name),
-                        NotificationManager.IMPORTANCE_LOW);
-                notificationManager.createNotificationChannel(channel);
-            }
-        }
         notificationIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
                 | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         PendingIntent pendingIntent = PendingIntent.getActivity(context, 0,
@@ -401,18 +415,12 @@ public class GB {
         return nb.build();
     }
 
-    public static void removeAllNotifications(Context context) {
-        removeNotification(NOTIFICATION_ID_TRANSFER, context);
-        removeNotification(NOTIFICATION_ID_INSTALL, context);
-        removeNotification(NOTIFICATION_ID_LOW_BATTERY, context);
-    }
-
     public static void updateTransferNotification(String title, String text, boolean ongoing, int percentage, Context context) {
         if (percentage == 100) {
             removeNotification(NOTIFICATION_ID_TRANSFER, context);
         } else {
             Notification notification = createTransferNotification(title, text, ongoing, percentage, context);
-            updateNotification(notification, NOTIFICATION_ID_TRANSFER, context);
+            notify(NOTIFICATION_ID_TRANSFER, notification, context);
         }
     }
 
@@ -444,7 +452,7 @@ public class GB {
 
     public static void updateInstallNotification(String text, boolean ongoing, int percentage, Context context) {
         Notification notification = createInstallNotification(text, ongoing, percentage, context);
-        updateNotification(notification, NOTIFICATION_ID_INSTALL, context);
+        notify(NOTIFICATION_ID_INSTALL, notification, context);
     }
 
     private static Notification createBatteryNotification(String text, String bigText, Context context) {
@@ -474,7 +482,7 @@ public class GB {
             return;
         }
         Notification notification = createBatteryNotification(text, bigText, context);
-        updateNotification(notification, NOTIFICATION_ID_LOW_BATTERY, context);
+        notify(NOTIFICATION_ID_LOW_BATTERY, notification, context);
     }
 
     public static void removeBatteryNotification(Context context) {
@@ -504,13 +512,8 @@ public class GB {
             return;
         }
         Notification notification = createExportFailedNotification(text, context);
-        updateNotification(notification, NOTIFICATION_ID_EXPORT_FAILED, context);
+        notify(NOTIFICATION_ID_EXPORT_FAILED, notification, context);
     }
-
-    public static void removeExportFailedNotification(Context context) {
-        removeNotification(NOTIFICATION_ID_EXPORT_FAILED, context);
-    }
-
 
     public static void assertThat(boolean condition, String errorMessage) {
         if (!condition) {

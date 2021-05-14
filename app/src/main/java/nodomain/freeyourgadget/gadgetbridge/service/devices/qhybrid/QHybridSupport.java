@@ -18,7 +18,6 @@
 package nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid;
 
 import android.app.Notification;
-import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.bluetooth.BluetoothGatt;
 import android.bluetooth.BluetoothGattCharacteristic;
@@ -709,7 +708,7 @@ public class QHybridSupport extends QHybridBaseSupport {
             notificationBuilder.addAction(0, "report", intent);
         }
 
-        ((NotificationManager) getContext().getSystemService(Context.NOTIFICATION_SERVICE)).notify((int) System.currentTimeMillis(), notificationBuilder.build());
+        GB.notify((int) System.currentTimeMillis(), notificationBuilder.build(), getContext());
     }
 
     @Override

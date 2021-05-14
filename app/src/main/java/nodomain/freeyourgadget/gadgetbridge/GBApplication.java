@@ -20,7 +20,6 @@ package nodomain.freeyourgadget.gadgetbridge;
 
 import android.annotation.TargetApi;
 import android.app.Application;
-import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.NotificationManager.Policy;
 import android.app.UiModeManager;
@@ -90,7 +89,7 @@ import static nodomain.freeyourgadget.gadgetbridge.model.DeviceType.MIBAND3;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceType.PEBBLE;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceType.fromKey;
 import static nodomain.freeyourgadget.gadgetbridge.util.GB.NOTIFICATION_CHANNEL_HIGH_PRIORITY_ID;
-import static nodomain.freeyourgadget.gadgetbridge.util.GB.NOTIFICATION_CHANNEL_ID;
+import static nodomain.freeyourgadget.gadgetbridge.util.GB.NOTIFICATION_ID_ERROR;
 
 /**
  * Main Application class that initializes and provides access to certain things like
@@ -108,8 +107,6 @@ public class GBApplication extends Application {
     private static final String PREFS_VERSION = "shared_preferences_version";
     //if preferences have to be migrated, increment the following and add the migration logic in migratePrefs below; see http://stackoverflow.com/questions/16397848/how-can-i-migrate-android-preferences-with-a-new-version
     private static final int CURRENT_PREFS_VERSION = 9;
-
-    private static final int ERROR_IN_GADGETBRIDGE_NOTIFICATION = 42;
 
     private static LimitedQueue mIDSenderLookup = new LimitedQueue(16);
     private static Prefs prefs;
@@ -205,35 +202,19 @@ public class GBApplication extends Application {
 
         if (isRunningMarshmallowOrLater()) {
             notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-            //the following will ensure the notification manager is kept alive
             if (isRunningOreoOrLater()) {
-                NotificationChannel channel = notificationManager.getNotificationChannel(NOTIFICATION_CHANNEL_ID);
-                if (channel == null) {
-                    channel = new NotificationChannel(NOTIFICATION_CHANNEL_ID,
-                            getString(R.string.notification_channel_name),
-                            NotificationManager.IMPORTANCE_LOW);
-                    notificationManager.createNotificationChannel(channel);
-                }
-
-                NotificationChannel channelHighPr = notificationManager.getNotificationChannel(NOTIFICATION_CHANNEL_HIGH_PRIORITY_ID);
-                if (channelHighPr == null) {
-                    channelHighPr = new NotificationChannel(NOTIFICATION_CHANNEL_HIGH_PRIORITY_ID,
-                            getString(R.string.notification_channel_high_priority_name),
-                            NotificationManager.IMPORTANCE_HIGH);
-                    notificationManager.createNotificationChannel(channelHighPr);
-                }
-
                 bluetoothStateChangeReceiver = new BluetoothStateChangeReceiver();
                 registerReceiver(bluetoothStateChangeReceiver, new IntentFilter(BluetoothAdapter.ACTION_STATE_CHANGED));
             }
             try {
+                //the following will ensure the notification manager is kept alive
                 startService(new Intent(this, NotificationCollectorMonitorService.class));
             } catch (IllegalStateException e) {
                 String message = e.toString();
                 if (message == null) {
                     message = getString(R.string._unknown_);
                 }
-                notificationManager.notify(ERROR_IN_GADGETBRIDGE_NOTIFICATION,
+                GB.notify(NOTIFICATION_ID_ERROR,
                         new NotificationCompat.Builder(this, NOTIFICATION_CHANNEL_HIGH_PRIORITY_ID)
                                 .setSmallIcon(R.drawable.gadgetbridge_img)
                                 .setContentTitle(getString(R.string.error_background_service))
@@ -241,7 +222,7 @@ public class GBApplication extends Application {
                                 .setStyle(new NotificationCompat.BigTextStyle()
                                         .bigText(getString(R.string.error_background_service_reason) + "\"" + message + "\""))
                                 .setPriority(NotificationCompat.PRIORITY_DEFAULT)
-                                .build());
+                                .build(), context);
             }
         }
     }

@@ -19,7 +19,6 @@
 package nodomain.freeyourgadget.gadgetbridge.service;
 
 import android.app.Notification;
-import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.bluetooth.BluetoothAdapter;
 import android.companion.CompanionDeviceManager;
@@ -212,8 +211,6 @@ public abstract class AbstractDeviceSupport implements DeviceSupport {
 
         PendingIntent pi = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
-        NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-
         NotificationCompat.Builder notification = new NotificationCompat.Builder(context, NOTIFICATION_CHANNEL_HIGH_PRIORITY_ID )
                 .setSmallIcon(R.drawable.ic_notification)
                 .setOngoing(false)
@@ -226,11 +223,11 @@ public abstract class AbstractDeviceSupport implements DeviceSupport {
 
         CompanionDeviceManager manager = (CompanionDeviceManager) context.getSystemService(Context.COMPANION_DEVICE_SERVICE);
         if (manager.getAssociations().size() > 0) {
-            notificationManager.notify(GB.NOTIFICATION_ID_PHONE_FIND, notification.build());
+            GB.notify(GB.NOTIFICATION_ID_PHONE_FIND, notification.build(), context);
             context.startActivity(intent);
             LOG.debug("CompanionDeviceManager associations were found, starting intent");
         } else {
-            notificationManager.notify(GB.NOTIFICATION_ID_PHONE_FIND, notification.build());
+            GB.notify(GB.NOTIFICATION_ID_PHONE_FIND, notification.build(), context);
             LOG.warn("CompanionDeviceManager associations were not found, can't start intent");
         }
     }
@@ -343,8 +340,7 @@ public abstract class AbstractDeviceSupport implements DeviceSupport {
                     .setAutoCancel(true)
                     .build();
 
-            NotificationManager nm = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-            nm.notify(NOTIFICATION_ID_SCREENSHOT, notif);
+            GB.notify(NOTIFICATION_ID_SCREENSHOT, notif, context);
         } catch (IOException ex) {
             LOG.error("Error writing screenshot", ex);
         }
