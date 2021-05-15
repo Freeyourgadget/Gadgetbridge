@@ -96,6 +96,10 @@ public class AmazfitGTS2eFirmwareInfo extends HuamiFirmwareInfo {
             return HuamiFirmwareType.GPS_CEP;
         }
 
+        if (ArrayUtils.startsWith(bytes, AGPS_UIHH_HEADER)) {
+            return HuamiFirmwareType.AGPS_UIHH;
+        }
+
         for (byte[] gpsHeader : GPS_HEADERS) {
             if (ArrayUtils.startsWith(bytes, gpsHeader)) {
                 return HuamiFirmwareType.GPS;
