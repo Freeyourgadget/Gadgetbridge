@@ -1,5 +1,14 @@
 ### Changelog
 
+### 0.57.0 (WIP)
+* Initial limited support for Mi Band 6
+* Amazfit GTR2/GTS2: Fix for flashing watchfaces
+* Amazfit GTR/GTS/GTR2/GTS2/Bip S: Allow flashing AGPS bundles
+* Amazfit Neo: Add lift wrist setting
+* Fossil Hybrid HR: Restructure settings menus for calibration, file management and physical buttons
+* Fossil Hybrid HR: Hide old settings on newer firmwares
+* Improved PineTime/InfiniTime firmware DFU metadata parsing and checks
+
 ### 0.56.2
 * Amazfit GTR2: Improve firmware update support (still partly broken)
 * Amazfit GTR2/GTS2: Prevent emoji transliterating (Seems to support emoji)
