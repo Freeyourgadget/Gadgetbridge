@@ -34,7 +34,10 @@ import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.SetProgressActi
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.HuamiFirmwareInfo;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.HuamiFirmwareType;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.HuamiSupport;
+import nodomain.freeyourgadget.gadgetbridge.util.ArrayUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
+
+import static nodomain.freeyourgadget.gadgetbridge.service.devices.huami.HuamiFirmwareInfo.UIHH_HEADER;
 
 public class UpdateFirmwareOperation2020 extends UpdateFirmwareOperation {
     private static final Logger LOG = LoggerFactory.getLogger(UpdateFirmwareOperation2020.class);
@@ -171,6 +174,22 @@ public class UpdateFirmwareOperation2020 extends UpdateFirmwareOperation {
                     sizeBytes[3]
             };
 
+            if (getFirmwareInfo().getFirmwareType() == HuamiFirmwareType.WATCHFACE) {
+                byte[] fwBytes = firmwareInfo.getBytes();
+                if (ArrayUtils.startsWith(fwBytes, UIHH_HEADER)) {
+                    builder.write(getCharacteristic(HuamiService.UUID_CHARACTERISTIC_3_CONFIGURATION),
+                            new byte[]{0x39, 0x00,
+                                    sizeBytes[0],
+                                    sizeBytes[1],
+                                    sizeBytes[2],
+                                    sizeBytes[3],
+                                    fwBytes[18],
+                                    fwBytes[19],
+                                    fwBytes[20],
+                                    fwBytes[21]
+                            });
+                }
+            }
             builder.write(fwCControlChar, bytes);
             builder.queue(getQueue());
             return true;
