@@ -154,6 +154,9 @@ public abstract class HuamiFirmwareInfo {
                 case GPS_ALMANAC:
                     version = "(unknown ALM)";
                     break;
+                case AGPS_UIHH:
+                    version = "(unknown AGPS)";
+                    break;
                 case WATCHFACE:
                     version = "(unknown watchface)";
                     break;

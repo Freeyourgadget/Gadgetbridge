@@ -802,6 +802,7 @@
     <string name="kind_gps">GPS Firmware</string>
     <string name="kind_gps_almanac">GPS Almanac</string>
     <string name="kind_gps_cep">GPS Error Correction</string>
+    <string name="kind_agps_bundle">AGPS Bundle</string>
     <string name="kind_resources">Resources</string>
     <string name="kind_watchface">Watchface</string>
     <string name="devicetype_unknown">Unknown Device</string>

@@ -1,6 +1,6 @@
 ### Changelog
 
-### 0.57.0 (WIP)
+### 0.57.0
 * Initial limited support for Mi Band 6
 * Amazfit GTR2/GTS2: Fix for flashing watchfaces
 * Amazfit GTR/GTS/GTR2/GTS2/Bip S: Allow flashing AGPS bundles

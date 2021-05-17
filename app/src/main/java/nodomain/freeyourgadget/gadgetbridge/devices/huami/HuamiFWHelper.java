@@ -60,6 +60,9 @@ public abstract class HuamiFWHelper extends AbstractMiBandFWHelper {
             case GPS_CEP:
                 resId = R.string.kind_gps_cep;
                 break;
+            case AGPS_UIHH:
+                resId = R.string.kind_agps_bundle;
+                break;
             case RES:
             case RES_COMPRESSED:
                 resId = R.string.kind_resources;

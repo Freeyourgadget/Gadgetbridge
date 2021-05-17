@@ -1,0 +1,7 @@
+* Initial limited support for Mi Band 6
+* Amazfit GTR2/GTS2: Fix for flashing watchfaces
+* Amazfit GTR/GTS/GTR2/GTS2/Bip S: Allow flashing AGPS bundles
+* Amazfit Neo: Add lift wrist setting
+* Fossil Hybrid HR: Restructure settings menus for calibration, file management and physical buttons
+* Fossil Hybrid HR: Hide old settings on newer firmwares
+* Improved PineTime/InfiniTime firmware DFU metadata parsing and checks
