@@ -1253,4 +1253,5 @@
     <string name="qhybrid_summary_file_management">Dosyaları karşıya yükleyin ve indirin</string>
     <string name="pref_summary_physical_buttons">Saatteki fiziksel düğmelerin işlevlerini yapılandırın</string>
     <string name="pref_title_physical_buttons">Fiziksel düğmeler</string>
+    <string name="kind_agps_bundle">AGPS Paketi</string>
 </resources>
