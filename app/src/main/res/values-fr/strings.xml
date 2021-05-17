@@ -1209,4 +1209,19 @@ Temps de sommeil préféré en heures</string>
     <string name="menuitem_temperature">Température</string>
     <string name="menuitem_widgets">Widgets</string>
     <string name="menuitem_events">Évènements</string>
+    <string name="pref_summary_canned_messages_dismisscall">Refuser les appels depuis la montre avec un message SMS</string>
+    <string name="pref_summary_canned_messages_set">Envoyer le message saisi ci-dessous vers votre bracelet</string>
+    <string name="qhybrid_summary_calibration">Choisir la main du bracelet</string>
+    <string name="qhybrid_summary_file_management">Envoyer et recevoir des fichiers</string>
+    <string name="pref_summary_physical_buttons">Configurer les fonctions des boutons physiques du bracelet</string>
+    <string name="pref_title_physical_buttons">Boutons physiques</string>
+    <string name="devicetype_miband6">Mi Band 6</string>
+    <string name="kind_agps_bundle">Bundle AGPS</string>
+    <string name="fw_upgrade_notice_miband6">Vous êtes sur le point d\'installer le micro-logiciel %s dans votre Mi Band 6.
+\n
+\nAssurez-vous d\'installer le fichier .fw, et puis ensuite le fichier .res. Votre bracelet redémarrera après l\'installation du fichier .fw.
+\n
+\nRemarque. Vous n\'avez pas besoin d\'installer le fichier .res si c\'est exactement le même que celui précédemment installé.
+\n
+\nA VOS RISQUES ET PÉRILS !</string>
 </resources>
