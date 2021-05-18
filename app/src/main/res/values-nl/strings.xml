@@ -1229,4 +1229,5 @@
 \nOpmerking: U hoeft .res niet te installeren als het precies hetzelfde is als het eerder geïnstalleerde .res.
 \n
 \nGA VERDER OP EIGEN RISICO!</string>
+    <string name="kind_agps_bundle">AGPS-bundel</string>
 </resources>
