@@ -61,6 +61,7 @@ public class DomyosT540Support extends AbstractBTLEDeviceSupport {
     private static final byte[] COMMAND_START = new byte[]{(byte) 0xf0, (byte) 0xc8, (byte) 0x01, (byte) 0xb9};
     private static final byte[] COMMAND_SET_PARAMETERS = new byte[]{(byte) 0xf0, (byte) 0xad, (byte) 0xff, (byte) 0xff, 0x00, 0x00, (byte) 0xff, (byte) 0xff, (byte) 0xff, (byte) 0xff, (byte) 0xff, (byte) 0xff, (byte) 0xff, 0x00, 0x00, (byte) 0xff, (byte) 0xff, (byte) 0xff, (byte) 0x01, (byte) 0xff, (byte) 0xff, (byte) 0xff, (byte) 0x00};
     private static final byte[] COMMAND_INIT_DISPLAY = new byte[]{(byte) 0xf0, (byte) 0xcb, 0x02, 0x00, 0x08, (byte) 0xff, 0x01, 0x00, 0x00, 0x00, 0x01, 0x00, 0x00, 0x00, 0x01, 0x00, 0x00, 0x01, 0x01, 0x00, 0x00, 0x01, 0x01, 0x00, 0x00, 0x01, (byte) 0xcc};
+
     //private static final byte[] COMMAND_UNKNOWN_INIT4 = new byte[]{(byte) 0xf0, (byte) 0xa4, (byte) 0x94};
     //private static final byte[] COMMAND_UNKNOWN_INIT5 = new byte[]{(byte) 0xf0, (byte) 0xa5, (byte) 0x95};
     //private static final byte[] COMMAND_UNKNOWN_INIT6 = new byte[]{(byte) 0xf0, (byte) 0xab, (byte) 0x9b};
@@ -68,6 +69,8 @@ public class DomyosT540Support extends AbstractBTLEDeviceSupport {
     private final DeviceInfoProfile<DomyosT540Support> deviceInfoProfile;
     private final GBDeviceEventVersionInfo versionCmd = new GBDeviceEventVersionInfo();
     private final byte[] last_data;
+    private int start_time = 0;
+    private int last_time = 0;
 
     public DomyosT540Support() {
         super(LOG);
@@ -84,7 +87,7 @@ public class DomyosT540Support extends AbstractBTLEDeviceSupport {
                 if (s.equals(DeviceInfoProfile.ACTION_DEVICE_INFO)) {
                     DeviceInfo deviceInfo = intent.getParcelableExtra(DeviceInfoProfile.EXTRA_DEVICE_INFO);
                     if (deviceInfo != null) {
-                        handleDeviceInfo((nodomain.freeyourgadget.gadgetbridge.service.btle.profiles.deviceinfo.DeviceInfo) deviceInfo);
+                        handleDeviceInfo(deviceInfo);
                     }
                 }
             }
@@ -100,7 +103,7 @@ public class DomyosT540Support extends AbstractBTLEDeviceSupport {
         builder.add(new SetDeviceStateAction(getDevice(), GBDevice.State.INITIALIZING, getContext()));
         requestDeviceInfo(builder);
         enableNotifications(builder, true);
-        setParameters(builder, 1.0f, 0);
+        setParameters(builder, 1.0f, 0, true);
         writeChunked(builder, COMMAND_INIT_DISPLAY);
         setInitialized(builder);
         writeChunked(builder, COMMAND_REQUEST_DATA);
@@ -120,7 +123,47 @@ public class DomyosT540Support extends AbstractBTLEDeviceSupport {
         builder.add(new SetDeviceStateAction(getDevice(), GBDevice.State.INITIALIZED, getContext()));
     }
 
-    private void setParameters(TransactionBuilder builder, float speed, float incline) {
+    private void setDisplayValues(TransactionBuilder builder, int elapsedTime, int kCal, int heartRate, float incline, float speed, float distance) {
+        ByteBuffer buffer = ByteBuffer.allocate(27);
+        buffer.order(ByteOrder.BIG_ENDIAN);
+
+        buffer.putShort((short) 0xf0cb);
+
+        buffer.put((byte) 0x03);
+        buffer.put((byte) (elapsedTime / 60));
+        buffer.put((byte) (elapsedTime % 60));
+        buffer.put((byte) 0xff);
+
+        buffer.put((byte) 0x01);
+        buffer.putShort((short) kCal);
+        buffer.put((byte) 0x00);
+
+        buffer.put((byte) 0x01);
+        buffer.putShort((short) heartRate);
+        buffer.put((byte) 0x00);
+
+        buffer.put((byte) 0x01);
+        buffer.putShort(((short) (incline * 10)));
+        buffer.put((byte) 0x01);
+
+        buffer.put((byte) 0x01);
+        buffer.putShort((short) (speed * 10));
+        buffer.put((byte) 0x01);
+
+        buffer.put((byte) 0x01);
+        buffer.putShort((short) (distance * 10));
+        buffer.put((byte) 0x01);
+
+        buffer.put((byte) 0x00);
+
+        byte[] cmdSetDisplayValues = buffer.array();
+
+        cmdSetDisplayValues[cmdSetDisplayValues.length - 1] = getChecksum(cmdSetDisplayValues);
+
+        writeChunked(builder, cmdSetDisplayValues);
+    }
+
+    private void setParameters(TransactionBuilder builder, float speed, float incline, boolean btledOn) {
         byte[] cmdSetParameters = COMMAND_SET_PARAMETERS.clone();
         int intSpeed = (int) (speed * 10);
         int intIncline = (int) (incline * 10);
@@ -128,6 +171,7 @@ public class DomyosT540Support extends AbstractBTLEDeviceSupport {
         cmdSetParameters[5] = (byte) (intSpeed & 0xff);
         cmdSetParameters[13] = (byte) (intIncline >> 8);
         cmdSetParameters[14] = (byte) (intIncline & 0xff);
+        cmdSetParameters[18] = (byte) (btledOn ? 0x01 : 0x00);
 
         cmdSetParameters[cmdSetParameters.length - 1] = getChecksum(cmdSetParameters);
 
@@ -347,10 +391,19 @@ public class DomyosT540Support extends AbstractBTLEDeviceSupport {
                         writeChunked(builder, COMMAND_STOP);
                     } else {
                         writeChunked(builder, COMMAND_START);
+                        start_time = (int) (System.currentTimeMillis() / 1000);
                     }
                 }
                 builder.wait(200);
                 writeChunked(builder, COMMAND_REQUEST_DATA);
+
+                int time = (int) (System.currentTimeMillis() / 1000);
+                if (last_time != time) {
+                    int timeElapsed = time - start_time;
+                    setDisplayValues(builder, timeElapsed, calories, heartRate, incline, speed, distance);
+                    last_time = time;
+                }
+
                 builder.queue(getQueue());
 
                 LOG.debug("speed: " + speed + " incline: " + incline + " distance: " + distance + " calories: " + calories + " average speed: " + averageSpeed + " heart rate: " + heartRate);
@@ -388,6 +441,11 @@ public class DomyosT540Support extends AbstractBTLEDeviceSupport {
 
     @Override
     public void onTestNewFunction() {
+        TransactionBuilder builder = new TransactionBuilder("xxx");
+        //setDisplayValues(builder, 1, 10, 10, 10, 10);
+        //writeChunked(builder, COMMAND_SET_DISPLAY);
+
+        builder.queue(getQueue());
     }
 
     @Override
