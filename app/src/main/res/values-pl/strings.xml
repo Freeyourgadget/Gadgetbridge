@@ -1232,4 +1232,9 @@
 \nROBISZ TO NA WŁASNE RYZYKO!</string>
     <string name="qhybrid_summary_calibration">Kalibracja wskazówek zegarka</string>
     <string name="pref_title_physical_buttons">Przyciski fizyczne</string>
+    <string name="pref_summary_canned_messages_set">Wyślij skonfigurowane poniżej wiadomości na swoje urządzenie</string>
+    <string name="pref_summary_canned_messages_dismisscall">Odrzucaj połączenia na zegarku z wiadomością SMS</string>
+    <string name="qhybrid_summary_file_management">Przesyłanie i pobieranie plików</string>
+    <string name="pref_summary_physical_buttons">Konfiguracja funkcji przycisków fizycznych zegarka</string>
+    <string name="kind_agps_bundle">AGPS Bundle</string>
 </resources>
