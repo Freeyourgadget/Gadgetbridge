@@ -1128,7 +1128,7 @@
     <string name="activity_prefs_step_length_cm">Santimetre cinsinden adım uzunluğu</string>
     <string name="devicetype_amazfit_band5">Amazfit Band 5</string>
     <string name="menuitem_spo2">SpO2</string>
-    <string name="qhybrid_calibration_align_hint">ibreleri 12:00\'ye hizala</string>
+    <string name="qhybrid_calibration_align_hint">Saatin ibrelerini 12:00\'a hizalamak için aşağıdaki düğmeleri kullanın.</string>
     <string name="gps_track">GPS izleme</string>
     <string name="about_version">Sürüm %s</string>
     <string name="devicetype_amazfit_bips_lite">Amazfit Bip S Lite</string>
@@ -1259,4 +1259,9 @@
     <string name="fossil_hr_edit_action">Eylemi düzenle</string>
     <string name="fossil_hr_edit_action_delete">sil</string>
     <string name="fossil_hr_commute_actions_explanation">Burada yapılandırılan eylemler, saatinizdeki İşe Gidip Gelme uygulamasında görünecektir. Bu eylemlerin ürettiği amaçların nasıl ele alınacağı hakkında bilgi için wiki sayfasını okuyun.</string>
+    <string name="qhybrid_calibration_100_steps">100 adım</string>
+    <string name="qhybrid_calibration_10_steps">10 adım</string>
+    <string name="qhybrid_calibration_1_step">1 adım</string>
+    <string name="qhybrid_calibration_clockwise">Saat yönünde</string>
+    <string name="qhybrid_calibration_counterclockwise">Saat yönünün tersine</string>
 </resources>
