@@ -969,17 +969,22 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
             }
         }
 
+        boolean packageFound = false;
+
         // Send notification to watch
         try {
             for (NotificationHRConfiguration configuration : this.notificationConfigurations) {
                 if (configuration.getPackageName().equals(sourceAppId)) {
                     LOG.info("Package found in notificationConfigurations, using custom icon: " + sourceAppId);
                     queueWrite(new PlayTextNotificationRequest(sourceAppId, senderOrTitle, notificationSpec.body, notificationSpec.getId(), this));
-                    return true;
+                    packageFound = true;
                 }
             }
-            LOG.info("Package not found in notificationConfigurations, using generic icon: " + sourceAppId);
-            queueWrite(new PlayTextNotificationRequest("generic", senderOrTitle, notificationSpec.body, notificationSpec.getId(), this));
+
+            if(!packageFound) {
+                LOG.info("Package not found in notificationConfigurations, using generic icon: " + sourceAppId);
+                queueWrite(new PlayTextNotificationRequest("generic", senderOrTitle, notificationSpec.body, notificationSpec.getId(), this));
+            }
         } catch (Exception e) {
             LOG.error("Error while forwarding notification", e);
         }
