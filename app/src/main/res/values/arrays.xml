@@ -416,6 +416,7 @@
         <item>@string/menuitem_notifications</item>
         <item>@string/menuitem_alarm</item>
         <item>@string/menuitem_takephoto</item>
+        <item>@string/menuitem_pomodoro</item>
         <item>@string/menuitem_music</item>
         <item>@string/menuitem_stopwatch</item>
         <item>@string/menuitem_timer</item>
@@ -440,6 +441,7 @@
         <item>@string/p_menuitem_notifications</item>
         <item>@string/p_menuitem_alarm</item>
         <item>@string/p_menuitem_takephoto</item>
+        <item>@string/p_menuitem_pomodoro</item>
         <item>@string/p_menuitem_music</item>
         <item>@string/p_menuitem_stopwatch</item>
         <item>@string/p_menuitem_timer</item>
@@ -464,6 +466,7 @@
         <item>@string/menuitem_notifications</item>
         <item>@string/menuitem_alarm</item>
         <item>@string/menuitem_takephoto</item>
+        <item>@string/p_menuitem_pomodoro</item>
         <item>@string/menuitem_music</item>
         <item>@string/menuitem_stopwatch</item>
         <item>@string/menuitem_timer</item>
