@@ -16,7 +16,6 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.devices.qhybrid;
 
-import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -28,11 +27,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -62,16 +57,13 @@ import nodomain.freeyourgadget.gadgetbridge.util.Version;
 
 import static nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.QHybridSupport.QHYBRID_COMMAND_UPDATE_WIDGETS;
 
-public class HRConfigActivity extends AbstractGBActivity implements View.OnClickListener, DialogInterface.OnClickListener, AdapterView.OnItemClickListener {
+public class HRConfigActivity extends AbstractGBActivity implements View.OnClickListener {
     private SharedPreferences sharedPreferences;
-    private ActionListAdapter actionListAdapter;
     private WidgetListAdapter widgetListAdapter;
-    private ArrayList<MenuAction> menuActions = new ArrayList<>();
     private ArrayList<CustomWidget> customWidgets = new ArrayList<>();
 
     SparseArray<String> widgetButtonsMapping = new SparseArray<>(4);
 
-    static public final String CONFIG_KEY_Q_ACTIONS = "Q_ACTIONS";
     private static final int REQUEST_CODE_WIDGET_EDIT = 0;
     private static final int REQUEST_CODE_IMAGE_PICK = 1;
     private static final int REQUEST_CODE_IMAGE_EDIT = 2;
@@ -81,19 +73,12 @@ public class HRConfigActivity extends AbstractGBActivity implements View.OnClick
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_qhybrid_hr_settings);
 
-        findViewById(R.id.qhybrid_action_add).setOnClickListener(this);
         findViewById(R.id.qhybrid_apps_management_trigger).setOnClickListener(this);
 
         sharedPreferences = GBApplication.getPrefs().getPreferences();
 
         initMappings();
         loadWidgetConfigs();
-
-
-        ListView actionListView = findViewById(R.id.qhybrid_action_list);
-        actionListAdapter = new ActionListAdapter(menuActions);
-        actionListView.setAdapter(actionListAdapter);
-        actionListView.setOnItemClickListener(this);
 
         final ListView widgetListView = findViewById(R.id.qhybrid_widget_list);
         widgetListAdapter = new WidgetListAdapter(customWidgets);
@@ -183,8 +168,6 @@ public class HRConfigActivity extends AbstractGBActivity implements View.OnClick
                 }
             });
         }
-
-        updateSettings();
 
         // Disable some functions on watches with too new firmware (from official app 4.6.0 and higher)
         String fwVersion_str = GBApplication.app().getDeviceManager().getSelectedDevice().getFirmwareVersion();
@@ -417,130 +400,8 @@ public class HRConfigActivity extends AbstractGBActivity implements View.OnClick
 
     @Override
     public void onClick(View v) {
-        if (v.getId() == R.id.qhybrid_action_add) {
-            final EditText input = new EditText(this);
-            input.setId(0);
-            LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
-                    LinearLayout.LayoutParams.MATCH_PARENT,
-                    LinearLayout.LayoutParams.MATCH_PARENT);
-            input.setLayoutParams(lp);
-
-            new AlertDialog.Builder(this)
-                    .setView(input)
-                    .setNegativeButton("cancel", null)
-                    .setPositiveButton("ok", this)
-                    .setTitle("create action")
-                    .show();
-        } else if(v.getId() == R.id.qhybrid_apps_management_trigger) {
+        if (v.getId() == R.id.qhybrid_apps_management_trigger) {
             startActivity(new Intent(getApplicationContext(), AppsManagementActivity.class));
-        }
-    }
-
-    private void updateSettings() {
-        JSONArray actionArray = null;
-        try {
-            actionArray = new JSONArray(sharedPreferences.getString(CONFIG_KEY_Q_ACTIONS, "[]"));
-            menuActions.clear();
-            for (int i = 0; i < actionArray.length(); i++)
-                menuActions.add(new MenuAction(actionArray.getString(i)));
-
-            actionListAdapter.notifyDataSetChanged();
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-    }
-
-    @Override
-    public void onClick(DialogInterface dialog, int which) {
-        EditText actionEditText = ((AlertDialog) dialog).findViewById(0);
-
-        String action = actionEditText.getText().toString();
-        try {
-            JSONArray actionArray = new JSONArray(sharedPreferences.getString(CONFIG_KEY_Q_ACTIONS, "[]"));
-            actionArray.put(action);
-            sharedPreferences.edit().putString(CONFIG_KEY_Q_ACTIONS, actionArray.toString()).apply();
-            updateSettings();
-
-            LocalBroadcastManager.getInstance(HRConfigActivity.this).sendBroadcast(new Intent(QHybridSupport.QHYBRID_COMMAND_OVERWRITE_BUTTONS));
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-    }
-
-    @Override
-    public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
-        final EditText input = new EditText(this);
-        input.setId(0);
-        TextView subject = findViewById(0);
-        input.setText(subject.getText());
-        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.MATCH_PARENT,
-                LinearLayout.LayoutParams.MATCH_PARENT);
-        input.setLayoutParams(lp);
-
-        new AlertDialog.Builder(this)
-                .setView(input)
-                .setNegativeButton("delete", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        menuActions.remove(position);
-                        putActionItems(menuActions);
-                        updateSettings();
-
-                        LocalBroadcastManager.getInstance(HRConfigActivity.this).sendBroadcast(new Intent(QHybridSupport.QHYBRID_COMMAND_OVERWRITE_BUTTONS));
-                    }
-                })
-                .setPositiveButton("ok", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        menuActions.get(position).setAction(input.getText().toString());
-                        putActionItems(menuActions);
-                        updateSettings();
-
-                        LocalBroadcastManager.getInstance(HRConfigActivity.this).sendBroadcast(new Intent(QHybridSupport.QHYBRID_COMMAND_OVERWRITE_BUTTONS));
-                    }
-                })
-                .setTitle("edit action")
-                .show();
-    }
-
-    private void moveActionUp(int position){
-        this.menuActions.add(position - 1, this.menuActions.remove(position));
-        this.actionListAdapter.notifyDataSetChanged();
-        putActionItems(menuActions);
-
-        LocalBroadcastManager.getInstance(HRConfigActivity.this).sendBroadcast(new Intent(QHybridSupport.QHYBRID_COMMAND_OVERWRITE_BUTTONS));
-    }
-
-    private void moveActionDown(int position){
-        this.menuActions.add(position + 1, this.menuActions.remove(position));
-        this.actionListAdapter.notifyDataSetChanged();
-        putActionItems(menuActions);
-
-        LocalBroadcastManager.getInstance(HRConfigActivity.this).sendBroadcast(new Intent(QHybridSupport.QHYBRID_COMMAND_OVERWRITE_BUTTONS));
-    }
-
-    private void putActionItems(List<MenuAction> actions) {
-        JSONArray array = new JSONArray();
-        for (MenuAction action : actions) array.put(action.getAction());
-
-        sharedPreferences.edit().putString(CONFIG_KEY_Q_ACTIONS, array.toString()).apply();
-    }
-
-    class MenuAction {
-        private String action;
-
-        public MenuAction(String action) {
-            this.action = action;
-        }
-
-        public String getAction() {
-            return action;
-        }
-
-        public void setAction(String action) {
-            this.action = action;
         }
     }
 
@@ -560,68 +421,6 @@ public class HRConfigActivity extends AbstractGBActivity implements View.OnClick
             view.setTextSize(25);
 
             return view;
-        }
-    }
-
-    class ActionListAdapter extends ArrayAdapter<MenuAction> {
-        public ActionListAdapter(@NonNull ArrayList<MenuAction> objects) {
-            super(HRConfigActivity.this, 0, objects);
-        }
-
-        @SuppressLint("ResourceType")
-        @NonNull
-        @Override
-        public View getView(final int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-            RelativeLayout layout = new RelativeLayout(getContext());
-
-            TextView text = new TextView(getContext());
-            text.setId(0);
-
-            text.setText(getItem(position).getAction());
-            // view.setTextColor(Color.WHITE);
-            text.setTextSize(25);
-            RelativeLayout.LayoutParams textParams = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-            textParams.addRule(RelativeLayout.ALIGN_PARENT_START, RelativeLayout.TRUE);
-            layout.addView(text);
-
-            try {
-                getItem(position + 1);
-                ImageView downView = new ImageView(getContext());
-                downView.setImageResource(R.drawable.ic_arrow_upward);
-                downView.setRotation(180);
-                RelativeLayout.LayoutParams downParams = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.MATCH_PARENT);
-                downParams.addRule(RelativeLayout.ALIGN_PARENT_END, RelativeLayout.TRUE);
-                downView.setLayoutParams(downParams);
-                downView.setId(2);
-                downView.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        moveActionDown(position);
-                    }
-                });
-                layout.addView(downView);
-            }catch (IndexOutOfBoundsException e){
-                // no following item
-            }
-
-            if (position != 0) {
-                ImageView upView = new ImageView(getContext());
-                upView.setImageResource(R.drawable.ic_arrow_upward);
-                RelativeLayout.LayoutParams upParams = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.MATCH_PARENT);
-                upParams.setMarginEnd(100);
-                upParams.addRule(RelativeLayout.ALIGN_PARENT_END, RelativeLayout.TRUE);
-                upView.setLayoutParams(upParams);
-                upView.setId(1);
-                upView.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        moveActionUp(position);
-                    }
-                });
-                layout.addView(upView);
-            }
-
-            return layout;
         }
     }
 }

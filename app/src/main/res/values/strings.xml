@@ -1175,4 +1175,9 @@
     <string name="qhybrid_summary_calibration">Calibrate the watch hands</string>
     <string name="pref_summary_canned_messages_set">Send the messages configured below to your device</string>
     <string name="pref_summary_canned_messages_dismisscall">Dismiss calls from the watch with an SMS message</string>
+    <string name="fossil_hr_commute_actions_explanation">The actions configured here will appear in the Commute app on your watch. Read the wiki for information on how to configure Tasker to handle the actions.</string>
+    <string name="fossil_hr_edit_action_delete">delete</string>
+    <string name="fossil_hr_edit_action">Edit action</string>
+    <string name="fossil_hr_new_action_cancel">cancel</string>
+    <string name="fossil_hr_new_action">New action</string>
 </resources>

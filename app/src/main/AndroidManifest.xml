@@ -615,6 +615,10 @@
             android:label="@string/qhybrid_title_calibration"
             android:parentActivityName=".devices.qhybrid.HRConfigActivity" />
         <activity
+            android:name=".devices.qhybrid.CommuteActionsActivity"
+            android:label="Actions"
+            android:parentActivityName=".devices.qhybrid.HRConfigActivity" />
+        <activity
             android:name=".devices.um25.Activity.DataActivity"
             android:exported="true" />
     </application>

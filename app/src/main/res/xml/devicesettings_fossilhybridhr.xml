@@ -72,6 +72,14 @@
             -->
     </PreferenceScreen>
 
+    <Preference
+        android:title="Actions"
+        android:summary="Actions for the Commute app">
+        <intent
+            android:targetPackage="nodomain.freeyourgadget.gadgetbridge"
+            android:targetClass="nodomain.freeyourgadget.gadgetbridge.devices.qhybrid.CommuteActionsActivity" />
+    </Preference>
+
     <SeekBarPreference
         android:defaultValue="2"
         android:key="vibration_strength"

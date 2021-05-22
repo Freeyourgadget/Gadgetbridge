@@ -65,7 +65,7 @@ import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventCallContro
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventFindPhone;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventMusicControl;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventNotificationControl;
-import nodomain.freeyourgadget.gadgetbridge.devices.qhybrid.HRConfigActivity;
+import nodomain.freeyourgadget.gadgetbridge.devices.qhybrid.CommuteActionsActivity;
 import nodomain.freeyourgadget.gadgetbridge.devices.qhybrid.HybridHRActivitySampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.devices.qhybrid.NotificationHRConfiguration;
 import nodomain.freeyourgadget.gadgetbridge.entities.HybridHRActivitySample;
@@ -1279,7 +1279,7 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
             for (ApplicationInformation info : installedApplications) {
                 if (info.getAppName().equals("commuteApp")) {
                     JSONArray jsonArray = new JSONArray(
-                            GBApplication.getPrefs().getString(HRConfigActivity.CONFIG_KEY_Q_ACTIONS, "[]")
+                            GBApplication.getPrefs().getString(CommuteActionsActivity.CONFIG_KEY_Q_ACTIONS, "[]")
                     );
                     String[] menuItems = new String[jsonArray.length()];
                     for (int i = 0; i < jsonArray.length(); i++)

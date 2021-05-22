@@ -5,18 +5,6 @@
     android:orientation="vertical"
     android:weightSum="1">
 
-    <ListView
-        android:id="@+id/qhybrid_action_list"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="0.4" />
-
-    <Button
-        android:id="@+id/qhybrid_action_add"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="add action" />
-
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
