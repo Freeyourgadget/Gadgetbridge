@@ -1143,7 +1143,7 @@
     <string name="backstroke">Backstroke</string>
     <string name="medley">Medley</string>
     <string name="devicetype_nut_mini">Nut mini</string>
-    <string name="qhybrid_calibration_align_hint">align hands to 12:00</string>
+    <string name="qhybrid_calibration_align_hint">Use the buttons below to align the watch hands to 12:00.</string>
     <string translatable="false" name="lorem_ipsum">Lorem Ipsum</string>
 
     <plurals name="widget_alarm_target_hours">
@@ -1180,4 +1180,9 @@
     <string name="fossil_hr_edit_action">Edit action</string>
     <string name="fossil_hr_new_action_cancel">cancel</string>
     <string name="fossil_hr_new_action">New action</string>
+    <string name="qhybrid_calibration_counterclockwise">Counterclockwise</string>
+    <string name="qhybrid_calibration_clockwise">Clockwise</string>
+    <string name="qhybrid_calibration_1_step">1 step</string>
+    <string name="qhybrid_calibration_10_steps">10 steps</string>
+    <string name="qhybrid_calibration_100_steps">100 steps</string>
 </resources>

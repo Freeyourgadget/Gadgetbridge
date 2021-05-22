@@ -11,6 +11,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:padding="10dp"
             android:text="@string/qhybrid_calibration_align_hint" />
 
         <Spinner
@@ -34,25 +35,25 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="counter-dlockwise"/>
+                    android:text="@string/qhybrid_calibration_counterclockwise"/>
 
                 <Button
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/qhybrid_calibration_counter_clockwise_1"
-                    android:text="1" />
+                    android:text="@string/qhybrid_calibration_1_step" />
 
                 <Button
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/qhybrid_calibration_counter_clockwise_10"
-                    android:text="10" />
+                    android:text="@string/qhybrid_calibration_10_steps" />
 
                 <Button
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/qhybrid_calibration_counter_clockwise_100"
-                    android:text="100" />
+                    android:text="@string/qhybrid_calibration_100_steps" />
 
             </LinearLayout>
 
@@ -66,25 +67,25 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="clockwise"/>
+                    android:text="@string/qhybrid_calibration_clockwise"/>
 
                 <Button
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/qhybrid_calibration_clockwise_1"
-                    android:text="1" />
+                    android:text="@string/qhybrid_calibration_1_step" />
 
                 <Button
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/qhybrid_calibration_clockwise_10"
-                    android:text="10" />
+                    android:text="@string/qhybrid_calibration_10_steps" />
 
                 <Button
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/qhybrid_calibration_clockwise_100"
-                    android:text="100" />
+                    android:text="@string/qhybrid_calibration_100_steps" />
 
             </LinearLayout>
 
