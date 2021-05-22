@@ -1254,4 +1254,9 @@
     <string name="pref_summary_physical_buttons">Saatteki fiziksel düğmelerin işlevlerini yapılandırın</string>
     <string name="pref_title_physical_buttons">Fiziksel düğmeler</string>
     <string name="kind_agps_bundle">AGPS Paketi</string>
+    <string name="fossil_hr_new_action">Yeni eylem</string>
+    <string name="fossil_hr_new_action_cancel">iptal</string>
+    <string name="fossil_hr_edit_action">Eylemi düzenle</string>
+    <string name="fossil_hr_edit_action_delete">sil</string>
+    <string name="fossil_hr_commute_actions_explanation">Burada yapılandırılan eylemler, saatinizdeki İşe Gidip Gelme uygulamasında görünecektir. Bu eylemlerin ürettiği amaçların nasıl ele alınacağı hakkında bilgi için wiki sayfasını okuyun.</string>
 </resources>
