@@ -1100,7 +1100,7 @@
     <string name="activity_prefs_step_length_cm">אורך צעד בס״מ</string>
     <string name="devicetype_amazfit_band5">Amazfit Band 5</string>
     <string name="menuitem_spo2">ריווי חמצן בדם</string>
-    <string name="qhybrid_calibration_align_hint">לכוון את המחוגים ל־12:00</string>
+    <string name="qhybrid_calibration_align_hint">ניתן לכוון את המחוגים בעזרת הכפתורים שלהלן ל־12:00.</string>
     <string name="gps_track">מסלול GPS</string>
     <string name="about_version">גרסה %s</string>
     <string name="devicetype_amazfit_bips_lite">Amazfit Bip S Lite</string>
@@ -1226,4 +1226,13 @@
     <string name="pref_summary_physical_buttons">הגדרת אופן פעולת כפתורי החומרה שבשעון</string>
     <string name="pref_title_physical_buttons">כפתורי חומרה</string>
     <string name="kind_agps_bundle">מאגד AGPS</string>
+    <string name="qhybrid_calibration_100_steps">100 צעדים</string>
+    <string name="qhybrid_calibration_10_steps">10 צעדים</string>
+    <string name="qhybrid_calibration_1_step">צעד אחד</string>
+    <string name="qhybrid_calibration_clockwise">עם כיוון השעון</string>
+    <string name="qhybrid_calibration_counterclockwise">נגד כיוון השעון</string>
+    <string name="fossil_hr_new_action">פעולה חדשה</string>
+    <string name="fossil_hr_new_action_cancel">ביטול</string>
+    <string name="fossil_hr_edit_action">עריכת פעולה</string>
+    <string name="fossil_hr_edit_action_delete">מחיקה</string>
 </resources>
