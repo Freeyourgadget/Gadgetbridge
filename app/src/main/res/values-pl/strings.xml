@@ -1046,7 +1046,7 @@
     <string name="gps_track">Ścieżka GPS</string>
     <string name="descentSeconds">Czas zejścia</string>
     <string name="chart_no_active_data">Brak aktywności.</string>
-    <string name="qhybrid_calibration_align_hint">ustaw wskazówki na 12:00</string>
+    <string name="qhybrid_calibration_align_hint">Użyj poniższych przycisków, aby ustawić wskazówki zegara na 12:00.</string>
     <string name="sports_activity_quick_filter_select">Okres czasu</string>
     <string name="addto_filter">Dodaj do filtru</string>
     <string name="activity_filter_name_contains">Etykieta</string>
@@ -1237,4 +1237,13 @@
     <string name="qhybrid_summary_file_management">Przesyłanie i pobieranie plików</string>
     <string name="pref_summary_physical_buttons">Konfiguracja funkcji przycisków fizycznych zegarka</string>
     <string name="kind_agps_bundle">AGPS Bundle</string>
+    <string name="qhybrid_calibration_100_steps">100 kroków</string>
+    <string name="qhybrid_calibration_10_steps">10 kroków</string>
+    <string name="qhybrid_calibration_1_step">1 krok</string>
+    <string name="qhybrid_calibration_clockwise">Zgodnie z ruchem wskazówek zegara</string>
+    <string name="qhybrid_calibration_counterclockwise">Przeciwnie do ruchu wskazówek zegara</string>
+    <string name="fossil_hr_new_action">Nowe działanie</string>
+    <string name="fossil_hr_new_action_cancel">anuluj</string>
+    <string name="fossil_hr_edit_action">Edytuj działanie</string>
+    <string name="fossil_hr_edit_action_delete">usuń</string>
 </resources>
