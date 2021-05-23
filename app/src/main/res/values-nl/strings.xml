@@ -51,7 +51,7 @@
     <string name="miband_firmware_suggest_whitelist">Als u nog steeds wilt doorgaan en uw apparaat blijft goed functioneren, vertel dan alstublieft de ontwikkelaars van Gadgetbridge om de %s firmware-versie op de goedgekeurde lijst te zetten.</string>
     <string name="title_activity_settings">Instellingen</string>
     <string name="pref_header_general">Algemene instellingen</string>
-    <string name="pref_title_general_autoconnectonbluetooth">Verbind met Gadgetbridge apparaat wanneer Bluetooth is ingeschakeld</string>
+    <string name="pref_title_general_autoconnectonbluetooth">Verbind met Gadgetbridge-apparaat wanneer Bluetooth wordt ingeschakeld</string>
     <string name="pref_title_general_autostartonboot">Start automatisch</string>
     <string name="pref_title_general_autoreconnect">Verbind automatisch opnieuw</string>
     <string name="pref_title_audio_player">Gewenste audiospeler</string>
@@ -130,7 +130,7 @@
     <string name="_pebble_watch_mute">Dempen</string>
     <string name="_pebble_watch_reply">Antwoord</string>
     <string name="installhandler_firmware_name">%1$s: %2$s %3$s</string>
-    <string name="controlcenter_connect">Verbind…</string>
+    <string name="controlcenter_connect">Verbinden…</string>
     <string name="controlcenter_navigation_drawer_open">Open navigatiescherm</string>
     <string name="controlcenter_navigation_drawer_close">Sluit navigatiescherm</string>
     <string name="appmanager_weather_deactivate">Deactiveer de systeem weer app</string>
@@ -973,7 +973,7 @@
     <string name="prefs_operating_sounds">Bedieningsgeluiden</string>
     <string name="prefs_key_vibration">Knoptrilling</string>
     <string name="prefs_autolight">Automatisch licht</string>
-    <string name="qhybrid_calibration_align_hint">stel de wijzers in op 12:00</string>
+    <string name="qhybrid_calibration_align_hint">Gebruik de onderstaande knoppen om de wijzers in te stellen op 12:00.</string>
     <string name="prefs_events_forwarding_action_title">Actie uitvoeren</string>
     <string name="gps_track">GPS-track</string>
     <string name="Distance">Afstand</string>
@@ -1230,4 +1230,14 @@
 \n
 \nGA VERDER OP EIGEN RISICO!</string>
     <string name="kind_agps_bundle">AGPS-bundel</string>
+    <string name="qhybrid_calibration_100_steps">100 stappen</string>
+    <string name="qhybrid_calibration_10_steps">10 stappen</string>
+    <string name="qhybrid_calibration_1_step">1 stap</string>
+    <string name="qhybrid_calibration_clockwise">Met de klok mee</string>
+    <string name="qhybrid_calibration_counterclockwise">Tegen de klok in</string>
+    <string name="fossil_hr_new_action">Nieuwe actie</string>
+    <string name="fossil_hr_new_action_cancel">annuleren</string>
+    <string name="fossil_hr_edit_action">Actie aanpassen</string>
+    <string name="fossil_hr_edit_action_delete">verwijder</string>
+    <string name="fossil_hr_commute_actions_explanation">De acties die hier ingesteld worden zullen zichtbaar worden in de Reistijd-app op uw horloge. Lees de wiki voor informatie over hoe om te gaan met de intents die door deze acties geproduceerd worden.</string>
 </resources>
