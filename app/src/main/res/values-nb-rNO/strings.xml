@@ -1227,4 +1227,21 @@
 \nMerk: Du må ikke installere .res hvis den er nøyaktig lik den som allerede er installert.
 \n
 \nFORTSETT PÅ EGEN RISIKO!</string>
+    <string name="fossil_hr_commute_actions_explanation">Handlingene som settes opp her vil vises i pendler-programmet på klokken din. Les wiki-en for info om hvordan intensjoner produsert av disse handlingene håndteres.</string>
+    <string name="pref_summary_canned_messages_dismisscall">Avslå anrop fra klokken med en SMS-melding</string>
+    <string name="pref_summary_canned_messages_set">Send meldingene satt opp nedenfor til enheten din</string>
+    <string name="qhybrid_summary_calibration">Kalibrer klokkeviserne</string>
+    <string name="qhybrid_summary_file_management">Last opp og ned filer</string>
+    <string name="pref_summary_physical_buttons">Sett opp funksjoner for fysiske knapper på klokken</string>
+    <string name="kind_agps_bundle">AGPS-pakke</string>
+    <string name="qhybrid_calibration_100_steps">100 steg</string>
+    <string name="qhybrid_calibration_10_steps">10 steg</string>
+    <string name="qhybrid_calibration_1_step">1 steg</string>
+    <string name="qhybrid_calibration_clockwise">Med klokken</string>
+    <string name="qhybrid_calibration_counterclockwise">Mot klokken</string>
+    <string name="fossil_hr_new_action">Ny handling</string>
+    <string name="fossil_hr_new_action_cancel">avbryt</string>
+    <string name="fossil_hr_edit_action">Redigeringshandling</string>
+    <string name="fossil_hr_edit_action_delete">slett</string>
+    <string name="pref_title_physical_buttons">Fysiske knapper</string>
 </resources>
