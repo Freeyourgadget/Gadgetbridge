@@ -1109,7 +1109,7 @@
     <string name="activity_prefs_step_length_cm">步伐厘米长度</string>
     <string name="devicetype_amazfit_band5">华米手环 5</string>
     <string name="menuitem_spo2">血氧饱和度</string>
-    <string name="qhybrid_calibration_align_hint">将手对齐到 12:00</string>
+    <string name="qhybrid_calibration_align_hint">使用下面的按钮，将手表指针对准12点。</string>
     <string name="gps_track">GPS 跟踪</string>
     <string name="about_version">版本 %s</string>
     <string name="devicetype_amazfit_bips_lite">华米 Bip S Lite</string>
@@ -1235,4 +1235,14 @@
     <string name="pref_summary_physical_buttons">配置手表上的物理按键所对应的功能</string>
     <string name="pref_title_physical_buttons">物理按键</string>
     <string name="kind_agps_bundle">AGPS 包</string>
+    <string name="qhybrid_calibration_100_steps">第一百步</string>
+    <string name="qhybrid_calibration_10_steps">第十步</string>
+    <string name="qhybrid_calibration_1_step">第一步</string>
+    <string name="qhybrid_calibration_clockwise">顺时针</string>
+    <string name="qhybrid_calibration_counterclockwise">逆时针</string>
+    <string name="fossil_hr_new_action">新动作</string>
+    <string name="fossil_hr_new_action_cancel">取消</string>
+    <string name="fossil_hr_edit_action">编辑动作</string>
+    <string name="fossil_hr_edit_action_delete">删除</string>
+    <string name="fossil_hr_commute_actions_explanation">这里配置的动作将出现在你的手表上的通勤应用中。阅读Wiki以了解如何处理这些动作所产生的意图的信息。</string>
 </resources>
