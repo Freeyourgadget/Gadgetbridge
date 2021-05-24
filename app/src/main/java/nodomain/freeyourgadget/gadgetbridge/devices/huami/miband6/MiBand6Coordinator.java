@@ -55,6 +55,10 @@ public class MiBand6Coordinator extends HuamiCoordinator {
         return true;
     }
 
+    @Override
+    public boolean supportsUnicodeEmojis() {
+        return true;
+    }
 
     @Override
     public boolean supportsActivityTracks() {
