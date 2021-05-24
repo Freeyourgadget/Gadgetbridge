@@ -1,5 +1,11 @@
 ### Changelog
 
+### NEXT
+* Mi Band 6: Add Pomodoro to menu items
+* Mi Band 6: Support flashing firmware, res and watchfaces
+* Mi Band 6: Enable Unicode Emoji support
+* Fossil Hybrid HR: Move commute actions to device specific settings
+
 ### 0.57.0
 * Initial limited support for Mi Band 6
 * Amazfit GTR2/GTS2: Fix for flashing watchfaces
