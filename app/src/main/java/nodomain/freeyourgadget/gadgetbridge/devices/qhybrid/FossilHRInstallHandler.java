@@ -19,11 +19,7 @@ package nodomain.freeyourgadget.gadgetbridge.devices.qhybrid;
 import android.content.Context;
 import android.net.Uri;
 
-import java.io.BufferedInputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.nio.ByteBuffer;
-import java.nio.ByteOrder;
 
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.activities.InstallActivity;
@@ -31,50 +27,19 @@ import nodomain.freeyourgadget.gadgetbridge.devices.InstallHandler;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
 import nodomain.freeyourgadget.gadgetbridge.model.GenericItem;
-import nodomain.freeyourgadget.gadgetbridge.util.UriHelper;
 
 public class FossilHRInstallHandler implements InstallHandler {
+    private final Uri mUri;
     private final Context mContext;
-    private boolean mIsValid;
-    private String mVersion = "(Unknown version)";
+    private FossilFileReader fossilFile;
 
     FossilHRInstallHandler(Uri uri, Context context) {
+        mUri = uri;
         mContext = context;
-        UriHelper uriHelper;
         try {
-            uriHelper = UriHelper.get(uri, mContext);
-        } catch (IOException e) {
-            mIsValid = false;
-            return;
+            fossilFile = new FossilFileReader(uri, mContext);
+        } catch (IOException ignored) {
         }
-        try (InputStream in = new BufferedInputStream(uriHelper.openInputStream())) {
-            byte[] bytes = new byte[32];
-            int read = in.read(bytes);
-            if (read < 32) {
-                mIsValid = false;
-                return;
-            }
-
-            ByteBuffer buf = ByteBuffer.wrap(bytes);
-            buf.order(ByteOrder.LITTLE_ENDIAN);
-            int header0 = buf.getInt();
-            buf.getInt(); // size
-            int header2 = buf.getInt();
-            int header3 = buf.getInt();
-            if (header0 != 1 || header2 != 0x00012000 || header3 != 0x00012000) {
-                mIsValid = false;
-                return;
-            }
-
-            buf.getInt(); // unknown
-            int version1 = buf.get() % 0xff;
-            int version2 = buf.get() & 0xff;
-            mVersion = "DN1.0." + version1 + "." + version2;
-        } catch (Exception e) {
-            mIsValid = false;
-            return;
-        }
-        mIsValid = true;
     }
 
     @Override
@@ -84,17 +49,32 @@ public class FossilHRInstallHandler implements InstallHandler {
             installActivity.setInstallEnabled(false);
             return;
         }
-        if (device.getType() != DeviceType.FOSSILQHYBRID || !device.isConnected()) {
+        if (device.getType() != DeviceType.FOSSILQHYBRID || !device.isConnected() || !fossilFile.isValid()) {
             installActivity.setInfoText("Element cannot be installed");
             installActivity.setInstallEnabled(false);
             return;
         }
         GenericItem installItem = new GenericItem();
-        installItem.setIcon(R.drawable.ic_firmware);
-        installItem.setName("Fossil Hybrid HR Firmware");
-        installItem.setDetails(mVersion);
-
-        installActivity.setInfoText(mContext.getString(R.string.firmware_install_warning, "(unknown)"));
+        if (fossilFile.isFirmware()) {
+            installItem.setIcon(R.drawable.ic_firmware);
+            installItem.setName(fossilFile.getName());
+            installItem.setDetails(fossilFile.getVersion());
+            installActivity.setInfoText(mContext.getString(R.string.firmware_install_warning, "(unknown)"));
+        } else if (fossilFile.isApp()) {
+            installItem.setName(fossilFile.getName());
+            installItem.setDetails(fossilFile.getVersion());
+            installItem.setIcon(R.drawable.ic_watchapp);
+            installActivity.setInfoText(mContext.getString(R.string.app_install_info, installItem.getName(), fossilFile.getVersion(), "(unknown)"));
+        } else if (fossilFile.isWatchface()) {
+            installItem.setName(fossilFile.getName());
+            installItem.setDetails(fossilFile.getVersion());
+            installItem.setIcon(R.drawable.ic_watchface);
+            installActivity.setInfoText(mContext.getString(R.string.watchface_install_info, installItem.getName(), fossilFile.getVersion(), "(unknown)"));
+        } else {
+            installActivity.setInfoText("Element cannot be installed");
+            installActivity.setInstallEnabled(false);
+            return;
+        }
         installActivity.setInstallEnabled(true);
         installActivity.setInstallItem(installItem);
     }
@@ -106,6 +86,6 @@ public class FossilHRInstallHandler implements InstallHandler {
 
     @Override
     public boolean isValid() {
-        return mIsValid;
+        return fossilFile.isValid();
     }
 }

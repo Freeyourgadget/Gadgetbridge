@@ -28,6 +28,9 @@ import android.os.ParcelUuid;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.util.Collection;
 import java.util.Collections;
 import java.util.regex.Matcher;
@@ -48,6 +51,8 @@ import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
 import nodomain.freeyourgadget.gadgetbridge.util.Version;
 
 public class QHybridCoordinator extends AbstractDeviceCoordinator {
+    private static final Logger LOG = LoggerFactory.getLogger(QHybridCoordinator.class);
+
     @NonNull
     @Override
     public DeviceType getSupportedType(GBDeviceCandidate candidate) {
@@ -103,7 +108,12 @@ public class QHybridCoordinator extends AbstractDeviceCoordinator {
     public InstallHandler findInstallHandler(Uri uri, Context context) {
         if (isHybridHR()) {
             FossilHRInstallHandler installHandler = new FossilHRInstallHandler(uri, context);
-            return installHandler.isValid() ? installHandler : null;
+            if (!installHandler.isValid()) {
+                LOG.warn("Not a Fossil Hybrid firmware or app!");
+                return null;
+            } else {
+                return installHandler;
+            }
         }
         FossilInstallHandler installHandler = new FossilInstallHandler(uri, context);
         return installHandler.isValid() ? installHandler : null;

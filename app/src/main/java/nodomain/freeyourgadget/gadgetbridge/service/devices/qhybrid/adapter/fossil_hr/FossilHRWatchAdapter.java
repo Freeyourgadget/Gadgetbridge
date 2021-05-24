@@ -27,6 +27,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Handler;
 import android.os.Looper;
@@ -38,11 +39,13 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.BufferOverflowException;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
@@ -66,6 +69,7 @@ import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventFindPhone;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventMusicControl;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventNotificationControl;
 import nodomain.freeyourgadget.gadgetbridge.devices.qhybrid.CommuteActionsActivity;
+import nodomain.freeyourgadget.gadgetbridge.devices.qhybrid.FossilFileReader;
 import nodomain.freeyourgadget.gadgetbridge.devices.qhybrid.HybridHRActivitySampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.devices.qhybrid.NotificationHRConfiguration;
 import nodomain.freeyourgadget.gadgetbridge.entities.HybridHRActivitySample;
@@ -127,6 +131,7 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.mis
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 import nodomain.freeyourgadget.gadgetbridge.util.StringUtils;
+import nodomain.freeyourgadget.gadgetbridge.util.UriHelper;
 import nodomain.freeyourgadget.gadgetbridge.util.Version;
 
 import static nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.music.MusicControlRequest.MUSIC_PHONE_REQUEST;
@@ -692,36 +697,39 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
     @Override
     public void uploadFileIncludesHeader(String filePath) {
         final Intent resultIntent = new Intent(QHybridSupport.QHYBRID_ACTION_UPLOADED_FILE);
-        byte[] fileData;
-
         try {
             FileInputStream fis = new FileInputStream(filePath);
-            fileData = new byte[fis.available()];
-            fis.read(fileData);
+            uploadFileIncludesHeader(fis);
             fis.close();
-
-            short handleBytes = (short) (fileData[0] & 0xFF | ((fileData[1] & 0xFF) << 8));
-            FileHandle handle = FileHandle.fromHandle(handleBytes);
-
-            if (handle == null) {
-                throw new RuntimeException("unknown handle");
-            }
-
-            queueWrite(new FilePutRawRequest(handle, fileData, this) {
-                @Override
-                public void onFilePut(boolean success) {
-                    resultIntent.putExtra("EXTRA_SUCCESS", success);
-                    LocalBroadcastManager.getInstance(getContext()).sendBroadcast(resultIntent);
-                }
-            });
-
-            if (handle == FileHandle.APP_CODE) {
-                listApplications();
-            }
         } catch (Exception e) {
             LOG.error("Error while uploading file", e);
             resultIntent.putExtra("EXTRA_SUCCESS", false);
             LocalBroadcastManager.getInstance(getContext()).sendBroadcast(resultIntent);
+        }
+    }
+
+    private void uploadFileIncludesHeader(InputStream fis) throws IOException {
+        final Intent resultIntent = new Intent(QHybridSupport.QHYBRID_ACTION_UPLOADED_FILE);
+        byte[] fileData = new byte[fis.available()];
+        fis.read(fileData);
+
+        short handleBytes = (short) (fileData[0] & 0xFF | ((fileData[1] & 0xFF) << 8));
+        FileHandle handle = FileHandle.fromHandle(handleBytes);
+
+        if (handle == null) {
+            throw new RuntimeException("unknown handle");
+        }
+
+        queueWrite(new FilePutRawRequest(handle, fileData, this) {
+            @Override
+            public void onFilePut(boolean success) {
+                resultIntent.putExtra("EXTRA_SUCCESS", success);
+                LocalBroadcastManager.getInstance(getContext()).sendBroadcast(resultIntent);
+            }
+        });
+
+        if (handle == FileHandle.APP_CODE) {
+            listApplications();
         }
     }
 
@@ -773,6 +781,24 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
             });
         } catch (IllegalAccessException e) {
             GB.toast("error getting key: " + e.getMessage(), Toast.LENGTH_LONG, GB.ERROR, e);
+        }
+    }
+
+    @Override
+    public void onInstallApp(Uri uri) {
+        final Intent resultIntent = new Intent(QHybridSupport.QHYBRID_ACTION_UPLOADED_FILE);
+        FossilFileReader fossilFile;
+        try {
+            fossilFile = new FossilFileReader(uri, getContext());
+            if (fossilFile.isFirmware()) {
+                super.onInstallApp(uri);
+            } else if (fossilFile.isApp() || fossilFile.isWatchface()) {
+                UriHelper uriHelper = UriHelper.get(uri, getContext());
+                InputStream in = new BufferedInputStream(uriHelper.openInputStream());
+                uploadFileIncludesHeader(in);
+                in.close();
+            }
+        } catch (Exception ignored) {
         }
     }
 
