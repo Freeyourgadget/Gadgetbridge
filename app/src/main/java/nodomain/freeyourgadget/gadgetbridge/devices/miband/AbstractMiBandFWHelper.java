@@ -54,7 +54,7 @@ public abstract class AbstractMiBandFWHelper {
         }
 
         try (InputStream in = new BufferedInputStream(uriHelper.openInputStream())) {
-            this.fw = FileUtils.readAll(in, 1024 * 2048); // 2.0 MB
+            this.fw = FileUtils.readAll(in, 1024 * 3048); // 3.0 MB
             determineFirmwareInfo(fw);
         } catch (IOException ex) {
             throw ex; // pass through

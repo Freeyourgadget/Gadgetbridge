@@ -28,7 +28,19 @@ import nodomain.freeyourgadget.gadgetbridge.util.ArrayUtils;
 
 public class MiBand6FirmwareInfo extends HuamiFirmwareInfo {
 
+    public static final byte[] FW_HEADER = new byte[]{
+            0x31, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, (byte) 0x9c, (byte) 0xe3, 0x7d, 0x5c, 0x00, 0x04
+    };
+    public static final int FW_HEADER_OFFSET = 16;
+
     private static final Map<Integer, String> crcToVersion = new HashMap<>();
+
+    static {
+        // firmware
+        crcToVersion.put(47447, "1.0.1.36");
+        // resources
+        crcToVersion.put(54803, "1.0.1.36");
+    }
 
     public MiBand6FirmwareInfo(byte[] bytes) {
         super(bytes);
@@ -36,6 +48,16 @@ public class MiBand6FirmwareInfo extends HuamiFirmwareInfo {
 
     @Override
     protected HuamiFirmwareType determineFirmwareType(byte[] bytes) {
+        if (ArrayUtils.equals(bytes, NEWRES_HEADER, COMPRESSED_RES_HEADER_OFFSET_NEW) || ArrayUtils.equals(bytes, NEWRES_HEADER, COMPRESSED_RES_HEADER_OFFSET)) {
+            return HuamiFirmwareType.RES_COMPRESSED;
+        }
+        if (ArrayUtils.equals(bytes, FW_HEADER, FW_HEADER_OFFSET)) {
+            if (searchString32BitAligned(bytes, "Mi Smart Band 6")) {
+                return HuamiFirmwareType.FIRMWARE;
+            }
+            return HuamiFirmwareType.INVALID;
+        }
+
         if (ArrayUtils.startsWith(bytes, UIHH_HEADER) && (bytes[4] == 1 || bytes[4] == 2)) {
             return HuamiFirmwareType.WATCHFACE;
         }
