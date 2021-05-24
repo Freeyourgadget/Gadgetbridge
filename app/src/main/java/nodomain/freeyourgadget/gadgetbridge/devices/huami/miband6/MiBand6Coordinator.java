@@ -13,7 +13,6 @@ import org.slf4j.Logger;
 import nodomain.freeyourgadget.gadgetbridge.devices.InstallHandler;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiCoordinator;
-import nodomain.freeyourgadget.gadgetbridge.devices.huami.miband5.MiBand5Coordinator;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceCandidate;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
@@ -42,8 +41,8 @@ public class MiBand6Coordinator extends HuamiCoordinator {
 
     @Override
     public InstallHandler findInstallHandler(Uri uri, Context context) {
-        // TODO!
-        return null;
+        MiBand6FWInstallHandler handler = new MiBand6FWInstallHandler(uri, context);
+        return handler.isValid() ? handler : null;
     }
 
     @Override

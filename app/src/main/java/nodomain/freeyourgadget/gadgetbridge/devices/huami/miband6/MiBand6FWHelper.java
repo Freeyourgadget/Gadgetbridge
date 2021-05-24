@@ -22,7 +22,7 @@ import android.net.Uri;
 import java.io.IOException;
 
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiFWHelper;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.miband5.MiBand5FirmwareInfo;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.miband6.MiBand6FirmwareInfo;
 
 public class MiBand6FWHelper extends HuamiFWHelper {
 
@@ -32,6 +32,9 @@ public class MiBand6FWHelper extends HuamiFWHelper {
 
     @Override
     protected void determineFirmwareInfo(byte[] wholeFirmwareBytes) {
-            throw new IllegalArgumentException("Not implemented.");
+        firmwareInfo = new MiBand6FirmwareInfo(wholeFirmwareBytes);
+        if (!firmwareInfo.isHeaderValid()) {
+            throw new IllegalArgumentException("Not a Mi Band 6 firmware");
+        }
     }
 }
