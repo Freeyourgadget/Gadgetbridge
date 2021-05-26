@@ -169,10 +169,10 @@
 \n
 \n
 \nDiese Firmware ist für HW Revision: %s</string>
-    <string name="app_install_info">Du bist dabei die folgende App zu installieren: 
-\n 
-\n 
-\n%1$s Version %2$s von %3$s
+    <string name="app_install_info">Du bist dabei, die folgende App zu installieren:
+\n
+\n%1$s
+\nVersion %2$s von %3$s
 \n</string>
     <string name="n_a">N/A</string>
     <string name="initialized">initialisiert</string>
@@ -389,13 +389,13 @@
     <!--Strings related to Pebble Pairing Activity-->
     <string name="title_activity_pebble_pairing">Pebble koppeln</string>
     <string name="pebble_pairing_hint">Auf deinem Android-Gerät erscheint ein Koppeln-Dialog. Wenn nicht, schaue in die Benachrichtigungsübersicht und akzeptiere die Kopplungsanforderung. Akzeptiere es auch danach auf deiner Pebble.</string>
-    <string name="weather_notification_label">Stelle sicher, dass dieser Skin in der App \"Weather Notification\" aktiviert ist, damit du Wetterdaten auf deiner Pebble erhältst. 
-\n 
-\nHier ist keine Konfiguration nötig. 
-\n 
-\nDu kannst die Systemwetter-App deiner Pebble in App-Verwaltung aktivieren. 
-\n 
-\nUnterstützte Ziffernblätter zeigen das Wetter automatisch an.</string>
+    <string name="weather_notification_label">Stelle sicher, dass dieser Skin in der App \"Weather Notification\" aktiviert ist, damit du Wetterdaten auf deiner Pebble erhältst.
+\n
+\nHier ist keine Konfiguration nötig.
+\n
+\nDu kannst die Systemwetter-App deiner Pebble in App-Verwaltung aktivieren.
+\n
+\nUnterstützte Zifferblätter zeigen das Wetter automatisch an.</string>
     <string name="pref_title_setup_bt_pairing">Bluetooth-Kopplung aktivieren</string>
     <string name="pref_summary_setup_bt_pairing">Hier deaktivieren, wenn du Probleme beim Verbinden hast</string>
     <string name="unit_metric">Metrisch</string>
@@ -457,7 +457,7 @@
 \nINSTALLATION AUF EIGENE GEFAHR!</string>
     <string name="mi2_prefs_button_press_count">Anzahl der Tastendrücke</string>
     <string name="pref_title_charts_swipe">Streichen nach links/rechts im Diagrammbetrieb aktivieren</string>
-    <string name="pref_summary_pebble_enable_bgjs">Befähigt Zifferblätter Informationen zu Wetter, Akku usw. anzuzeigen</string>
+    <string name="pref_summary_pebble_enable_bgjs">Wenn aktiviert, können Zifferblätter Wetter, Akkuinfos, usw. anzeigen</string>
     <string name="prefs_title_heartrate_measurement_interval">Ganztägige Messung der Herzfrequenz</string>
     <string name="interval_one_minute">einmal pro Minute</string>
     <string name="interval_five_minutes">alle 5 Minuten</string>
@@ -1111,7 +1111,7 @@
     <string name="pref_title_middle_button_function_short">Mittlere Taste kurz</string>
     <string name="pref_title_upper_button_function_short">Obere Taste kurz</string>
     <string name="activity_prefs_step_length_cm">Schrittlänge in cm</string>
-    <string name="qhybrid_calibration_align_hint">Zeiger auf 12:00 ausrichten</string>
+    <string name="qhybrid_calibration_align_hint">Verwende die Tasten unten, um die Uhrzeiger auf 12:00 Uhr auszurichten.</string>
     <string name="devicetype_amazfit_band5">Amazfit Band 5</string>
     <string name="charts_min_max_heartrate_popup">Niedrigste Herzfrequenz: %1$d
 \nHöchste Herzfrequenz: %2$d
@@ -1232,4 +1232,26 @@
 \nHinweis: Du musst .res nicht installieren, wenn es genau die gleiche ist, wie die zuvor installierte.
 \n
 \nINSTALLATION AUF EIGENE GEFAHR!</string>
+    <string name="fossil_hr_commute_actions_explanation">Die hier konfigurierten Aktionen werden in der Commute-App auf deiner Uhr angezeigt. Lies das Wiki, um Informationen zum Umgang mit den durch diese Aktionen erzeugten Vorgaben zu erhalten.</string>
+    <string name="kind_agps_bundle">AGPS-Bundle</string>
+    <string name="qhybrid_calibration_100_steps">100 Schritte</string>
+    <string name="qhybrid_calibration_10_steps">10 Schritte</string>
+    <string name="qhybrid_calibration_1_step">1 Schritt</string>
+    <string name="qhybrid_calibration_clockwise">Im Uhrzeigersinn</string>
+    <string name="qhybrid_calibration_counterclockwise">Gegen den Uhrzeigersinn</string>
+    <string name="fossil_hr_new_action">Neue Aktion</string>
+    <string name="fossil_hr_new_action_cancel">abbrechen</string>
+    <string name="fossil_hr_edit_action">Aktion bearbeiten</string>
+    <string name="fossil_hr_edit_action_delete">löschen</string>
+    <string name="pref_summary_canned_messages_dismisscall">Abgewiesene Anrufe von der Uhr mit einer SMS-Nachricht beantworten</string>
+    <string name="pref_summary_canned_messages_set">Sende die unten konfigurierten Nachrichten an dein Gerät</string>
+    <string name="qhybrid_summary_calibration">Kalibrieren der Uhrzeiger</string>
+    <string name="qhybrid_summary_file_management">Hochladen und Herunterladen von Dateien</string>
+    <string name="pref_summary_physical_buttons">Konfiguriere die Funktionalität der physischen Tasten an der Uhr</string>
+    <string name="pref_title_physical_buttons">Physische Tasten</string>
+    <string name="watchface_install_info">Du bist dabei, das folgende Zifferblatt zu installieren:
+\n
+\n%1$s
+\nVersion %2$s von %3$s
+\n</string>
 </resources>
