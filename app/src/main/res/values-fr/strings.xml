@@ -1224,4 +1224,9 @@ Temps de sommeil préféré en heures</string>
 \nRemarque. Vous n\'avez pas besoin d\'installer le fichier .res si c\'est exactement le même que celui précédemment installé.
 \n
 \nA VOS RISQUES ET PÉRILS !</string>
+    <string name="watchface_install_info">Vous êtes sur le point d\'installer la facade suivante:
+\n
+\n%1$s
+\nVersion %2$s par %3$s
+\n</string>
 </resources>
