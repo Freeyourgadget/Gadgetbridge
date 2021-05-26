@@ -193,10 +193,10 @@
 \n
 \n
 \nDeze firmware is voor HW-revisie: %s</string>
-    <string name="app_install_info">U staat op het punt om volgende app te installeren:
+    <string name="app_install_info">U staat op het punt om de volgende app te installeren:
 \n
-\n
-\n%1$s Versie %2$s door %3$s
+\n%1$s
+\nVersie %2$s door %3$s
 \n</string>
     <string name="n_a">N/B</string>
     <string name="initialized">Geïnitialiseerd</string>
@@ -1240,4 +1240,9 @@
     <string name="fossil_hr_edit_action">Actie aanpassen</string>
     <string name="fossil_hr_edit_action_delete">verwijder</string>
     <string name="fossil_hr_commute_actions_explanation">De acties die hier ingesteld worden zullen zichtbaar worden in de Reistijd-app op uw horloge. Lees de wiki voor informatie over hoe om te gaan met de intents die door deze acties geproduceerd worden.</string>
+    <string name="watchface_install_info">U staat op het punt om de volgende wijzerplaat te installeren:
+\n
+\n%1$s
+\nVersie %2$s door %3$s
+\n</string>
 </resources>
