@@ -118,8 +118,8 @@
 \n Ten firmware jest przeznaczony dla wersji HW: %s</string>
     <string name="app_install_info">Zamierzasz zainstalować poniższą aplikację:
 \n
-\n
-\n%1$s wersja %2$s przez %3$s
+\n%1$s
+\nWersja %2$s od %3$s
 \n</string>
     <string name="n_a">Niedostępne</string>
     <string name="initialized">rozpoczęty</string>
@@ -1246,4 +1246,9 @@
     <string name="fossil_hr_new_action_cancel">anuluj</string>
     <string name="fossil_hr_edit_action">Edytuj działanie</string>
     <string name="fossil_hr_edit_action_delete">usuń</string>
+    <string name="watchface_install_info">Zamierzasz zainstalować następującą tarczę zegarka:
+\n
+\n%1$s
+\nWersja %2$s od %3$s
+\n</string>
 </resources>
