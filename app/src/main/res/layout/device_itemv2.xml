@@ -51,8 +51,8 @@
                     android:clickable="true"
                     android:contentDescription="@string/controlcenter_set_alias"
                     android:focusable="true"
-                    android:tint="?attr/textColorTertiary"
-                    card_view:srcCompat="@drawable/ic_create" />
+                    card_view:srcCompat="@drawable/ic_create"
+                    card_view:tint="?attr/textColorTertiary" />
 
                 <ImageView
                     android:id="@+id/device_action_remove"
@@ -65,8 +65,8 @@
                     android:clickable="true"
                     android:contentDescription="@string/controlcenter_delete_device"
                     android:focusable="true"
-                    android:tint="?attr/textColorTertiary"
-                    card_view:srcCompat="@drawable/ic_delete" />
+                    card_view:srcCompat="@drawable/ic_delete"
+                    card_view:tint="?attr/textColorTertiary" />
             </RelativeLayout>
 
             <ImageView
@@ -79,7 +79,7 @@
                 android:clickable="true"
                 android:longClickable="true"
                 android:background="?android:attr/selectableItemBackground"
-                android:src="@drawable/ic_device_pebble"
+                card_view:srcCompat="@drawable/ic_device_pebble"
                 android:layout_marginTop="2dp"
                 android:focusable="true" />
 
@@ -120,249 +120,255 @@
                 android:layout_marginTop="8dp"
                 android:clickable="true"
                 android:contentDescription="@string/candidate_item_device_image"
-                android:tint="@color/secondarytext"
                 android:background="?android:attr/selectableItemBackground"
                 card_view:srcCompat="@drawable/ic_more_vert"
-                android:focusable="true" />
-
-            <LinearLayout
-                android:id="@+id/device_battery_status_box"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/device_image"
-                android:layout_alignParentStart="true"
-                android:layout_margin="4dp"
-                android:orientation="vertical">
-
-                <ImageView
-                    android:id="@+id/device_battery_status"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:padding="4dp"
-                    android:scaleType="fitXY"
-                    android:tint="@color/secondarytext"
-                    card_view:srcCompat="@drawable/level_list_battery" />
-
-                <TextView
-                    android:id="@+id/battery_status"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_horizontal"
-                    android:minWidth="36dp"
-                    android:textColor="@color/secondarytext"
-                    android:textStyle="bold"
-                    tools:text="100%" />
-
-            </LinearLayout>
-
-            <ImageView
-                android:id="@+id/device_specific_settings"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_below="@id/device_image"
-                android:layout_marginStart="4dp"
-                android:layout_marginTop="4dp"
-                android:layout_marginEnd="4dp"
-                android:layout_marginBottom="4dp"
-                android:layout_toEndOf="@id/device_battery_status_box"
-                android:background="?android:attr/selectableItemBackground"
-                android:clickable="true"
                 android:focusable="true"
-                android:padding="4dp"
-                android:scaleType="fitXY"
-                android:tint="@color/secondarytext"
-                card_view:srcCompat="@drawable/ic_settings" />
+                card_view:tint="@color/secondarytext" />
 
-
-            <LinearLayout
-                android:id="@+id/device_fm_frequency_box"
-                android:layout_width="wrap_content"
+            <com.google.android.flexbox.FlexboxLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/device_image"
-                android:layout_toEndOf="@id/device_specific_settings"
-                android:layout_margin="4dp"
-                android:orientation="vertical">
+                card_view:flexWrap="wrap">
 
-                <ImageView
-                    android:id="@+id/device_fm_frequency"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:padding="4dp"
-                    android:scaleType="fitXY"
-                    android:tint="@color/secondarytext"
-                    card_view:srcCompat="@drawable/ic_radio" />
-
-                <TextView
-                    android:id="@+id/fm_frequency"
-                    android:layout_width="match_parent"
+                <LinearLayout
+                    android:id="@+id/device_battery_status_box"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:gravity="center_horizontal"
-                    android:minWidth="36dp"
-                    android:textColor="@color/secondarytext"
-                    android:textStyle="bold"
-                    tools:text="107.8" />
 
-            </LinearLayout>
+                    android:layout_alignParentStart="true"
+                    android:layout_margin="4dp"
+                    android:orientation="vertical">
 
-            <ImageView
-                android:id="@+id/device_led_color"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_below="@id/device_image"
-                android:layout_margin="4dp"
-                android:layout_toEndOf="@id/device_fm_frequency_box"
-                android:background="?android:attr/selectableItemBackground"
-                android:clickable="true"
-                android:padding="4dp"
-                android:scaleType="fitXY"
-                card_view:srcCompat="@drawable/ic_led_color"
-                android:focusable="true" />
+                    <ImageView
+                        android:id="@+id/device_battery_status"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:padding="4dp"
+                        android:scaleType="fitXY"
+                        card_view:srcCompat="@drawable/level_list_battery"
+                        card_view:tint="@color/secondarytext" />
 
-            <LinearLayout
-                android:id="@+id/device_action_fetch_activity_box"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/device_image"
-                android:layout_margin="4dp"
-                android:layout_toEndOf="@id/device_led_color"
-                android:gravity="center_vertical"
-                android:minWidth="36dp"
-                android:orientation="vertical">
+                    <TextView
+                        android:id="@+id/battery_status"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_horizontal"
+                        android:minWidth="36dp"
+                        android:textColor="@color/secondarytext"
+                        android:textStyle="bold"
+                        tools:text="100%" />
+
+                </LinearLayout>
 
                 <ImageView
-                    android:id="@+id/device_action_fetch_activity"
+                    android:id="@+id/device_specific_settings"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
-                    android:padding="4dp"
+                    android:layout_below="@id/device_image"
+                    android:layout_marginStart="4dp"
+                    android:layout_marginTop="4dp"
+                    android:layout_marginEnd="4dp"
+                    android:layout_marginBottom="4dp"
+                    android:layout_toEndOf="@id/device_battery_status_box"
                     android:background="?android:attr/selectableItemBackground"
                     android:clickable="true"
-                    android:contentDescription="@string/controlcenter_fetch_activity_data"
+                    android:focusable="true"
+                    android:padding="4dp"
                     android:scaleType="fitXY"
-                    android:tint="@color/secondarytext"
-                    card_view:srcCompat="@drawable/ic_refresh"
-                    android:focusable="true" />
+                    card_view:srcCompat="@drawable/ic_settings"
+                    card_view:tint="@color/secondarytext" />
 
-                <ProgressBar
-                    android:id="@+id/device_busy_indicator"
-                    style="@android:style/Widget.ProgressBar.Horizontal"
-                    android:layout_width="match_parent"
-                    android:layout_height="4dp"
-                    android:indeterminate="true"
-                    android:visibility="visible"
-                    tools:visibility="visible" />
 
-            </LinearLayout>
+                <LinearLayout
+                    android:id="@+id/device_fm_frequency_box"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/device_image"
+                    android:layout_margin="4dp"
+                    android:layout_toEndOf="@id/device_specific_settings"
+                    android:orientation="vertical">
 
-            <ImageView
-                android:id="@+id/device_action_take_screenshot"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_below="@id/device_image"
-                android:layout_margin="4dp"
-                android:layout_toEndOf="@id/device_action_fetch_activity_box"
-                android:background="?android:attr/selectableItemBackground"
-                android:clickable="true"
-                android:contentDescription="@string/controlcenter_take_screenshot"
-                android:padding="4dp"
-                android:scaleType="fitXY"
-                android:tint="@color/secondarytext"
-                card_view:srcCompat="@drawable/ic_screenshot"
-                android:focusable="true" />
+                    <ImageView
+                        android:id="@+id/device_fm_frequency"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:padding="4dp"
+                        android:scaleType="fitXY"
+                        card_view:srcCompat="@drawable/ic_radio"
+                        card_view:tint="@color/secondarytext" />
 
-            <ImageView
-                android:id="@+id/device_action_manage_apps"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_below="@id/device_image"
-                android:layout_margin="4dp"
-                android:layout_toEndOf="@id/device_action_take_screenshot"
-                android:background="?android:attr/selectableItemBackground"
-                android:clickable="true"
-                android:contentDescription="@string/title_activity_appmanager"
-                android:padding="4dp"
-                android:scaleType="fitXY"
-                android:tint="@color/secondarytext"
-                card_view:srcCompat="@drawable/ic_action_manage_apps"
-                android:focusable="true" />
+                    <TextView
+                        android:id="@+id/fm_frequency"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_horizontal"
+                        android:minWidth="36dp"
+                        android:textColor="@color/secondarytext"
+                        android:textStyle="bold"
+                        tools:text="107.8" />
 
-            <ImageView
-                android:id="@+id/device_action_set_alarms"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_below="@id/device_image"
-                android:layout_margin="4dp"
-                android:layout_toEndOf="@id/device_action_manage_apps"
-                android:background="?android:attr/selectableItemBackground"
-                android:clickable="true"
-                android:contentDescription="@string/controlcenter_start_configure_alarms"
-                android:padding="4dp"
-                android:scaleType="fitXY"
-                android:tint="@color/secondarytext"
-                card_view:srcCompat="@drawable/ic_access_alarms"
-                android:focusable="true" />
+                </LinearLayout>
 
-            <ImageView
-                android:id="@+id/device_action_show_activity_graphs"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_below="@id/device_image"
-                android:layout_margin="4dp"
-                android:layout_toEndOf="@id/device_action_set_alarms"
-                android:background="?android:attr/selectableItemBackground"
-                android:clickable="true"
-                android:contentDescription="@string/controlcenter_start_activitymonitor"
-                android:padding="4dp"
-                android:scaleType="fitXY"
-                android:tint="@color/secondarytext"
-                card_view:srcCompat="@drawable/ic_activity_graphs"
-                android:focusable="true" />
+                <ImageView
+                    android:id="@+id/device_led_color"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_below="@id/device_image"
+                    android:layout_margin="4dp"
+                    android:layout_toEndOf="@id/device_fm_frequency_box"
+                    android:background="?android:attr/selectableItemBackground"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:padding="4dp"
+                    android:scaleType="fitXY"
+                    card_view:srcCompat="@drawable/ic_led_color" />
 
-            <ImageView
-                android:id="@+id/device_action_show_activity_tracks"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_below="@id/device_image"
-                android:layout_margin="4dp"
-                android:layout_toEndOf="@id/device_action_show_activity_graphs"
-                android:background="?android:attr/selectableItemBackground"
-                android:clickable="true"
-                android:contentDescription="@string/controlcenter_start_activity_tracks"
-                android:padding="4dp"
-                android:scaleType="fitXY"
-                android:tint="@color/secondarytext"
-                card_view:srcCompat="@drawable/ic_activity_tracks"
-                android:focusable="true" />
+                <LinearLayout
+                    android:id="@+id/device_action_fetch_activity_box"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/device_image"
+                    android:layout_margin="4dp"
+                    android:layout_toEndOf="@id/device_led_color"
+                    android:gravity="center_vertical"
+                    android:minWidth="36dp"
+                    android:orientation="vertical">
 
-            <ImageView
-                android:id="@+id/device_action_find"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_below="@id/device_image"
-                android:layout_margin="4dp"
-                android:layout_toEndOf="@id/device_action_show_activity_tracks"
-                android:clickable="true"
-                android:contentDescription="@string/controlcenter_find_device"
-                android:padding="4dp"
-                android:scaleType="fitXY"
-                android:tint="@color/secondarytext"
-                card_view:srcCompat="@drawable/ic_action_find_lost_device"
-                android:focusable="true" />
+                    <ImageView
+                        android:id="@+id/device_action_fetch_activity"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:background="?android:attr/selectableItemBackground"
+                        android:clickable="true"
+                        android:contentDescription="@string/controlcenter_fetch_activity_data"
+                        android:focusable="true"
+                        android:padding="4dp"
+                        android:scaleType="fitXY"
+                        card_view:srcCompat="@drawable/ic_refresh"
+                        card_view:tint="@color/secondarytext" />
 
-            <ImageView
-                android:id="@+id/device_action_calibrate"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_below="@id/device_image"
-                android:layout_margin="4dp"
-                android:layout_toEndOf="@id/device_action_find"
-                android:clickable="true"
-                android:contentDescription="@string/controlcenter_calibrate_device"
-                android:padding="4dp"
-                android:scaleType="fitXY"
-                android:tint="@color/secondarytext"
-                card_view:srcCompat="@drawable/ic_activity_unknown"
-                android:focusable="true" />
+                    <ProgressBar
+                        android:id="@+id/device_busy_indicator"
+                        style="@android:style/Widget.ProgressBar.Horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="4dp"
+                        android:indeterminate="true"
+                        android:visibility="visible"
+                        tools:visibility="visible" />
 
+                </LinearLayout>
+
+                <ImageView
+                    android:id="@+id/device_action_take_screenshot"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_below="@id/device_image"
+                    android:layout_margin="4dp"
+                    android:layout_toEndOf="@id/device_action_fetch_activity_box"
+                    android:background="?android:attr/selectableItemBackground"
+                    android:clickable="true"
+                    android:contentDescription="@string/controlcenter_take_screenshot"
+                    android:focusable="true"
+                    android:padding="4dp"
+                    android:scaleType="fitXY"
+                    card_view:srcCompat="@drawable/ic_screenshot"
+                    card_view:tint="@color/secondarytext" />
+
+                <ImageView
+                    android:id="@+id/device_action_manage_apps"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_below="@id/device_image"
+                    android:layout_margin="4dp"
+                    android:layout_toEndOf="@id/device_action_take_screenshot"
+                    android:background="?android:attr/selectableItemBackground"
+                    android:clickable="true"
+                    android:contentDescription="@string/title_activity_appmanager"
+                    android:focusable="true"
+                    android:padding="4dp"
+                    android:scaleType="fitXY"
+                    card_view:srcCompat="@drawable/ic_action_manage_apps"
+                    card_view:tint="@color/secondarytext" />
+
+                <ImageView
+                    android:id="@+id/device_action_set_alarms"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_below="@id/device_image"
+                    android:layout_margin="4dp"
+                    android:layout_toEndOf="@id/device_action_manage_apps"
+                    android:background="?android:attr/selectableItemBackground"
+                    android:clickable="true"
+                    android:contentDescription="@string/controlcenter_start_configure_alarms"
+                    android:focusable="true"
+                    android:padding="4dp"
+                    android:scaleType="fitXY"
+                    card_view:srcCompat="@drawable/ic_access_alarms"
+                    card_view:tint="@color/secondarytext" />
+
+                <ImageView
+                    android:id="@+id/device_action_show_activity_graphs"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_below="@id/device_image"
+                    android:layout_margin="4dp"
+                    android:layout_toEndOf="@id/device_action_set_alarms"
+                    android:background="?android:attr/selectableItemBackground"
+                    android:clickable="true"
+                    android:contentDescription="@string/controlcenter_start_activitymonitor"
+                    android:focusable="true"
+                    android:padding="4dp"
+                    android:scaleType="fitXY"
+                    card_view:srcCompat="@drawable/ic_activity_graphs"
+                    card_view:tint="@color/secondarytext" />
+
+                <ImageView
+                    android:id="@+id/device_action_show_activity_tracks"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_below="@id/device_image"
+                    android:layout_margin="4dp"
+                    android:layout_toEndOf="@id/device_action_show_activity_graphs"
+                    android:background="?android:attr/selectableItemBackground"
+                    android:clickable="true"
+                    android:contentDescription="@string/controlcenter_start_activity_tracks"
+                    android:focusable="true"
+                    android:padding="4dp"
+                    android:scaleType="fitXY"
+                    card_view:srcCompat="@drawable/ic_activity_tracks"
+                    card_view:tint="@color/secondarytext" />
+
+                <ImageView
+                    android:id="@+id/device_action_find"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_below="@id/device_image"
+                    android:layout_margin="4dp"
+                    android:layout_toEndOf="@id/device_action_show_activity_tracks"
+                    android:clickable="true"
+                    android:contentDescription="@string/controlcenter_find_device"
+                    android:focusable="true"
+                    android:padding="4dp"
+                    android:scaleType="fitXY"
+                    card_view:srcCompat="@drawable/ic_action_find_lost_device"
+                    card_view:tint="@color/secondarytext" />
+
+                <ImageView
+                    android:id="@+id/device_action_calibrate"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_below="@id/device_image"
+                    android:layout_margin="4dp"
+                    android:layout_toEndOf="@id/device_action_find"
+                    android:clickable="true"
+                    android:contentDescription="@string/controlcenter_calibrate_device"
+                    android:focusable="true"
+                    android:padding="4dp"
+                    android:scaleType="fitXY"
+                    card_view:srcCompat="@drawable/ic_activity_unknown"
+                    card_view:tint="@color/secondarytext" />
+            </com.google.android.flexbox.FlexboxLayout>
         </RelativeLayout>
 
     </androidx.cardview.widget.CardView>
