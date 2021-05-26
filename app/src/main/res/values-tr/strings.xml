@@ -84,8 +84,8 @@
     <string name="app_configure">Yapılandır</string>
     <string name="app_install_info">Aşağıdaki uygulamayı kurmak üzeresiniz:
 \n
-\n
-\n%1$s Sürüm %2$s, %3$s tarafından
+\n%1$s
+\nSürüm %2$s, %3$s tarafından
 \n</string>
     <string name="app_move_to_top">Yukarı taşı</string>
     <string name="app_name">Gadgetbridge</string>
@@ -1264,4 +1264,9 @@
     <string name="qhybrid_calibration_1_step">1 adım</string>
     <string name="qhybrid_calibration_clockwise">Saat yönünde</string>
     <string name="qhybrid_calibration_counterclockwise">Saat yönünün tersine</string>
+    <string name="watchface_install_info">Aşağıdaki saat arayüzünü kurmak üzeresiniz:
+\n
+\n%1$s
+\nSürüm %2$s, %3$s tarafından
+\n</string>
 </resources>
