@@ -169,6 +169,11 @@ import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.VI
 import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.VIBRATION_PROFILE;
 import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.getNotificationPrefIntValue;
 import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.getNotificationPrefStringValue;
+import static nodomain.freeyourgadget.gadgetbridge.model.ActivityUser.PREF_USER_GENDER;
+import static nodomain.freeyourgadget.gadgetbridge.model.ActivityUser.PREF_USER_HEIGHT_CM;
+import static nodomain.freeyourgadget.gadgetbridge.model.ActivityUser.PREF_USER_NAME;
+import static nodomain.freeyourgadget.gadgetbridge.model.ActivityUser.PREF_USER_WEIGHT_KG;
+import static nodomain.freeyourgadget.gadgetbridge.model.ActivityUser.PREF_USER_YEAR_OF_BIRTH;
 import static nodomain.freeyourgadget.gadgetbridge.service.btle.GattCharacteristic.UUID_CHARACTERISTIC_ALERT_LEVEL;
 
 public class HuamiSupport extends AbstractBTLEDeviceSupport {
@@ -448,7 +453,7 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
 
         LOG.info("Attempting to set user info...");
         Prefs prefs = GBApplication.getPrefs();
-        String alias = prefs.getString(MiBandConst.PREF_USER_ALIAS, null);
+        String alias = prefs.getString(PREF_USER_NAME, null);
         ActivityUser activityUser = new ActivityUser();
         int height = activityUser.getHeightCm();
         int weight = activityUser.getWeightKg();
@@ -2010,6 +2015,13 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
                     break;
                 case PREF_SOUNDS:
                     setBeepSounds(builder);
+                    break;
+                case PREF_USER_NAME:
+                case PREF_USER_YEAR_OF_BIRTH:
+                case PREF_USER_WEIGHT_KG:
+                case PREF_USER_HEIGHT_CM:
+                case PREF_USER_GENDER:
+                    setUserInfo(builder);
                     break;
             }
             builder.queue(getQueue());

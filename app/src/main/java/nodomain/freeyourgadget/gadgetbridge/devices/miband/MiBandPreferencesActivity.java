@@ -49,9 +49,9 @@ import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.PR
 import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.PREF_MI2_INACTIVITY_WARNINGS_THRESHOLD;
 import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.PREF_MIBAND_ADDRESS;
 import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.PREF_MIBAND_USE_HR_FOR_SLEEP_DETECTION;
-import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.PREF_USER_ALIAS;
 import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.VIBRATION_COUNT;
 import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.getNotificationPrefKey;
+import static nodomain.freeyourgadget.gadgetbridge.model.ActivityUser.PREF_USER_NAME;
 
 public class MiBandPreferencesActivity extends AbstractSettingsActivity {
     @Override
@@ -261,7 +261,7 @@ public class MiBandPreferencesActivity extends AbstractSettingsActivity {
     @Override
     protected String[] getPreferenceKeysWithSummary() {
         Set<String> prefKeys = new HashSet<>();
-        prefKeys.add(PREF_USER_ALIAS);
+        prefKeys.add(PREF_USER_NAME);
         prefKeys.add(PREF_MIBAND_ADDRESS);
         prefKeys.add(ActivityUser.PREF_USER_STEPS_GOAL);
         prefKeys.add(PREF_MI2_INACTIVITY_WARNINGS_THRESHOLD);

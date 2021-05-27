@@ -228,4 +228,19 @@ public abstract class AbstractSettingsActivity extends AppCompatPreferenceActivi
         }
         AndroidUtils.setLanguage(this, language);
     }
+
+    protected void addPreferenceHandlerFor(final String preferenceKey) {
+        Preference pref = findPreference(preferenceKey);
+        if (pref != null) {
+            pref.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+                @Override
+                public boolean onPreferenceChange(Preference preference, Object newVal) {
+                    GBApplication.deviceService().onSendConfiguration(preferenceKey);
+                    return true;
+                }
+            });
+        } else {
+            LOG.warn("Could not find preference " + preferenceKey);
+        }
+    }
 }

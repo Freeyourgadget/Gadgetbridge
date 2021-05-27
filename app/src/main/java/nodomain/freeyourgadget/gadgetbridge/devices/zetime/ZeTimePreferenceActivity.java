@@ -22,7 +22,6 @@ import android.preference.Preference;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.activities.AbstractSettingsActivity;
-import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst;
 
 public class ZeTimePreferenceActivity extends AbstractSettingsActivity {
     @Override
@@ -91,16 +90,6 @@ public class ZeTimePreferenceActivity extends AbstractSettingsActivity {
         addPreferenceHandlerFor(ZeTimeConstants.PREF_USER_CALORIES_GOAL);
         addPreferenceHandlerFor(ZeTimeConstants.PREF_USER_DISTANCE_GOAL);
         addPreferenceHandlerFor(ZeTimeConstants.PREF_USER_ACTIVETIME_GOAL);
-    }
-
-    private void addPreferenceHandlerFor(final String preferenceKey) {
-        Preference pref = findPreference(preferenceKey);
-        pref.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
-            @Override public boolean onPreferenceChange(Preference preference, Object newVal) {
-                    GBApplication.deviceService().onSendConfiguration(preferenceKey);
-                return true;
-            }
-        });
     }
 
     /**

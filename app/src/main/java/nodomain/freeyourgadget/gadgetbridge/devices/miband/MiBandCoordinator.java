@@ -26,13 +26,14 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.ParcelUuid;
 
+import androidx.annotation.NonNull;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.Collection;
 import java.util.Collections;
 
-import androidx.annotation.NonNull;
 import de.greenrobot.dao.query.QueryBuilder;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.GBException;
@@ -50,6 +51,8 @@ import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceCandidate;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityUser;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
+
+import static nodomain.freeyourgadget.gadgetbridge.model.ActivityUser.PREF_USER_NAME;
 
 public class MiBandCoordinator extends AbstractDeviceCoordinator {
     private static final Logger LOG = LoggerFactory.getLogger(MiBandCoordinator.class);
@@ -218,7 +221,7 @@ public class MiBandCoordinator extends AbstractDeviceCoordinator {
 
         UserInfo info = UserInfo.create(
                 miBandAddress,
-                prefs.getString(MiBandConst.PREF_USER_ALIAS, null),
+                prefs.getString(PREF_USER_NAME, null),
                 activityUser.getGender(),
                 activityUser.getAge(),
                 activityUser.getHeightCm(),
