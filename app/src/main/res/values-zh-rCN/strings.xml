@@ -176,8 +176,8 @@
 \n该固件用于硬件(HW)版本：%s</string>
     <string name="app_install_info">您即将安装以下应用程序:
 \n
-\n
-\n%1$s 版本 %2$s by %3$s
+\n%1$s
+\n版本 %2$s 由 %3$s
 \n</string>
     <string name="n_a">N/A</string>
     <string name="initialized">已初始化</string>
@@ -1245,4 +1245,9 @@
     <string name="fossil_hr_edit_action">编辑动作</string>
     <string name="fossil_hr_edit_action_delete">删除</string>
     <string name="fossil_hr_commute_actions_explanation">这里配置的动作将出现在你的手表上的通勤应用中。阅读Wiki以了解如何处理这些动作所产生的意图的信息。</string>
+    <string name="watchface_install_info">您即将安装下列表盘：
+\n
+\n%1$s
+\n版本 %2$s 由 %3$s
+\n</string>
 </resources>
