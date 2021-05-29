@@ -16,24 +16,30 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.devices.pinetime;
 
+import androidx.annotation.Keep;
+
 import java.math.BigInteger;
 import java.util.List;
 
+@Keep
 public class InfiniTimeDFUPackage {
     InfiniTimeDFUPackageManifest manifest;
 }
 
+@Keep
 class InfiniTimeDFUPackageManifest {
     InfiniTimeDFUPackageApplication application;
     Float dfu_version;
 }
 
+@Keep
 class InfiniTimeDFUPackageApplication {
     String bin_file;
     String dat_file;
     InfiniTimeDFUPackagePacketData init_packet_data;
 }
 
+@Keep
 class InfiniTimeDFUPackagePacketData {
     BigInteger application_version;
     BigInteger device_revision;

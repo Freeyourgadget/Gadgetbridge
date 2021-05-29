@@ -16,6 +16,8 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.devices.pinetime;
 
+import static java.nio.charset.StandardCharsets.UTF_8;
+
 import android.content.Context;
 import android.net.Uri;
 import android.os.Build;
@@ -37,8 +39,6 @@ import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
 import nodomain.freeyourgadget.gadgetbridge.model.GenericItem;
 import nodomain.freeyourgadget.gadgetbridge.util.UriHelper;
-
-import static java.nio.charset.StandardCharsets.UTF_8;
 
 public class PineTimeInstallHandler implements InstallHandler {
     private static final Logger LOG = LoggerFactory.getLogger(PineTimeInstallHandler.class);
@@ -92,9 +92,15 @@ public class PineTimeInstallHandler implements InstallHandler {
             return;
         }
 
-        if (metadata != null) {
+        if (metadata != null &&
+                metadata.manifest != null &&
+                metadata.manifest.application != null &&
+                metadata.manifest.application.bin_file != null) {
             valid = true;
             version = metadata.manifest.application.bin_file;
+        } else {
+            valid = false;
+            LOG.error("Somehow metadata was found, but some data was missing");
         }
     }
 
