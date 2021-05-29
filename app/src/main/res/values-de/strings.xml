@@ -1254,4 +1254,6 @@
 \n%1$s
 \nVersion %2$s von %3$s
 \n</string>
+    <string name="qhybrid_watchface_configuration_old_firmware">Zifferblattkonfiguration für Uhren mit Firmware-Version DN1.0.2.19r und niedriger</string>
+    <string name="qhybrid_title_watchface">Zifferblattkonfiguration</string>
 </resources>
