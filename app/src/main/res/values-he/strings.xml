@@ -152,7 +152,11 @@
     <string name="installation_failed_">ההתקנה נכשלה</string>
     <string name="installation_successful">ההתקנה הצליחה</string>
     <string name="firmware_install_warning">זהו ניסיון להתקנת קושחה, ניתן להמשיך אם ברורות לך ההשלכות.\n\n\n קושחה זו מיועדת לחומרה במהדורה: %s</string>
-    <string name="app_install_info">היישומון המועמד להתקנה הוא:\n\n\n%1$s גרסה %2$s מאת %3$s\n</string>
+    <string name="app_install_info">היישומון המועמד להתקנה הוא:
+\n
+\n%1$s
+\nגרסה %2$s מאת %3$s
+\n</string>
     <string name="n_a">לא זמין</string>
     <string name="initialized">מאותחל</string>
     <string name="appversion_by_creator">%1$s מאת %2$s</string>
@@ -1235,4 +1239,11 @@
     <string name="fossil_hr_new_action_cancel">ביטול</string>
     <string name="fossil_hr_edit_action">עריכת פעולה</string>
     <string name="fossil_hr_edit_action_delete">מחיקה</string>
+    <string name="qhybrid_watchface_configuration_old_firmware">מסך הגדרות פני שעון לשעונים עם גרסת קושחה DN1.0.2.19r ומטה</string>
+    <string name="qhybrid_title_watchface">הגדרות פני השעון</string>
+    <string name="watchface_install_info">פני השעון הבאים מועמדים להתקנה:
+\n
+\n%1$s
+\nגרסה %2$s מאת %3$s
+\n</string>
 </resources>
