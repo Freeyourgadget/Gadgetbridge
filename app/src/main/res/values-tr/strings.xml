@@ -1269,4 +1269,6 @@
 \n%1$s
 \nSürüm %2$s, %3$s tarafından
 \n</string>
+    <string name="qhybrid_watchface_configuration_old_firmware">DN1.0.2.19r ve daha düşük ürün yazılımı sürümüne sahip saatler için saat arayüzü yapılandırma ekranı</string>
+    <string name="qhybrid_title_watchface">Saat arayüzü yapılandırması</string>
 </resources>
