@@ -1245,4 +1245,6 @@
 \n%1$s
 \nVersie %2$s door %3$s
 \n</string>
+    <string name="qhybrid_watchface_configuration_old_firmware">Wijzerplaat-instellingen voor horloges met firmware-versie DN1.0.2.19r en lager</string>
+    <string name="qhybrid_title_watchface">Wijzerplaat instellen</string>
 </resources>
