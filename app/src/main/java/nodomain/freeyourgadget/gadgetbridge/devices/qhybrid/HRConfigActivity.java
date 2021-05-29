@@ -57,7 +57,7 @@ import nodomain.freeyourgadget.gadgetbridge.util.Version;
 
 import static nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.QHybridSupport.QHYBRID_COMMAND_UPDATE_WIDGETS;
 
-public class HRConfigActivity extends AbstractGBActivity implements View.OnClickListener {
+public class HRConfigActivity extends AbstractGBActivity {
     private SharedPreferences sharedPreferences;
     private WidgetListAdapter widgetListAdapter;
     private ArrayList<CustomWidget> customWidgets = new ArrayList<>();
@@ -72,8 +72,6 @@ public class HRConfigActivity extends AbstractGBActivity implements View.OnClick
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_qhybrid_hr_settings);
-
-        findViewById(R.id.qhybrid_apps_management_trigger).setOnClickListener(this);
 
         sharedPreferences = GBApplication.getPrefs().getPreferences();
 
@@ -396,13 +394,6 @@ public class HRConfigActivity extends AbstractGBActivity implements View.OnClick
         widgetButtonsMapping.put(R.id.qhybrid_button_widget_right, "right");
         widgetButtonsMapping.put(R.id.qhybrid_button_widget_bottom, "bottom");
         widgetButtonsMapping.put(R.id.qhybrid_button_widget_left, "left");
-    }
-
-    @Override
-    public void onClick(View v) {
-        if (v.getId() == R.id.qhybrid_apps_management_trigger) {
-            startActivity(new Intent(getApplicationContext(), AppsManagementActivity.class));
-        }
     }
 
     class WidgetListAdapter extends ArrayAdapter<CustomWidget> {

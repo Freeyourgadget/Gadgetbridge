@@ -31,6 +31,8 @@ import androidx.annotation.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.regex.Matcher;
@@ -39,6 +41,7 @@ import java.util.regex.Pattern;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.GBException;
 import nodomain.freeyourgadget.gadgetbridge.R;
+import nodomain.freeyourgadget.gadgetbridge.activities.appmanager.AppManagerActivity;
 import nodomain.freeyourgadget.gadgetbridge.devices.AbstractDeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.InstallHandler;
 import nodomain.freeyourgadget.gadgetbridge.devices.SampleProvider;
@@ -48,6 +51,7 @@ import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceCandidate;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
+import nodomain.freeyourgadget.gadgetbridge.util.FileUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.Version;
 
 public class QHybridCoordinator extends AbstractDeviceCoordinator {
@@ -163,8 +167,37 @@ public class QHybridCoordinator extends AbstractDeviceCoordinator {
     }
 
     @Override
+    public boolean supportsAppListFetching() {
+        return true;
+    }
+
+    @Override
     public Class<? extends Activity> getAppsManagementActivity() {
-        return isHybridHR() ? HRConfigActivity.class : ConfigActivity.class;
+        return isHybridHR() ? AppManagerActivity.class : ConfigActivity.class;
+    }
+
+    /**
+     * Returns the directory containing the watch app cache.
+     * @throws IOException when the external files directory cannot be accessed
+     */
+    public File getAppCacheDir() throws IOException {
+        return new File(FileUtils.getExternalFilesDir(), "qhybrid-app-cache");
+    }
+
+    /**
+     * Returns a String containing the device app sort order filename.
+     */
+    @Override
+    public String getAppCacheSortFilename() {
+        return "wappcacheorder.txt";
+    }
+
+    /**
+     * Returns a String containing the file extension for watch apps.
+     */
+    @Override
+    public String getAppFileExtension() {
+        return ".wapp";
     }
 
     @Override

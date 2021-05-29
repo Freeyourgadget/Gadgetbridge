@@ -21,6 +21,7 @@ import java.util.List;
 import java.util.UUID;
 
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceApp;
+import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.pebble.PebbleProtocol;
 import nodomain.freeyourgadget.gadgetbridge.util.PebbleUtils;
 
@@ -29,6 +30,9 @@ public class AppManagerFragmentInstalledApps extends AbstractAppManagerFragment 
     @Override
     protected List<GBDeviceApp> getSystemAppsInCategory() {
         List<GBDeviceApp> systemApps = new ArrayList<>();
+        if (mGBDevice.getType() != DeviceType.PEBBLE) {
+            return systemApps;
+        }
         //systemApps.add(new GBDeviceApp(UUID.fromString("4dab81a6-d2fc-458a-992c-7a1f3b96a970"), "Sports (System)", "Pebble Inc.", "", GBDeviceApp.Type.APP_SYSTEM));
         //systemApps.add(new GBDeviceApp(UUID.fromString("cf1e816a-9db0-4511-bbb8-f60c48ca8fac"), "Golf (System)", "Pebble Inc.", "", GBDeviceApp.Type.APP_SYSTEM));
         systemApps.add(new GBDeviceApp(UUID.fromString("1f03293d-47af-4f28-b960-f2b02a6dd757"), "Music (System)", "Pebble Inc.", "", GBDeviceApp.Type.APP_SYSTEM));

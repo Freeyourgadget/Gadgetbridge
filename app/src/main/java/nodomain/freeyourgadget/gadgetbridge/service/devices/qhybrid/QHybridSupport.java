@@ -774,4 +774,31 @@ public class QHybridSupport extends QHybridBaseSupport {
             ((FossilHRWatchAdapter) watchAdapter).setQuickRepliesConfiguration();
         }
     }
+
+    @Override
+    public void onAppInfoReq() {
+        if(this.watchAdapter instanceof FossilHRWatchAdapter){
+            ((FossilHRWatchAdapter) watchAdapter).listApplications();
+        }
+    }
+
+    @Override
+    public void onAppStart(UUID uuid, boolean start) {
+        if(this.watchAdapter instanceof FossilHRWatchAdapter) {
+            String appName = ((FossilHRWatchAdapter) watchAdapter).getInstalledAppNameFromUUID(uuid);
+            if (appName != null) {
+                ((FossilHRWatchAdapter) watchAdapter).activateWatchface(appName);
+            }
+        }
+    }
+
+    @Override
+    public void onAppDelete(UUID uuid) {
+        if(this.watchAdapter instanceof FossilHRWatchAdapter) {
+            String appName = ((FossilHRWatchAdapter) watchAdapter).getInstalledAppNameFromUUID(uuid);
+            if (appName != null) {
+                watchAdapter.uninstallApp(appName);
+            }
+        }
+    }
 }

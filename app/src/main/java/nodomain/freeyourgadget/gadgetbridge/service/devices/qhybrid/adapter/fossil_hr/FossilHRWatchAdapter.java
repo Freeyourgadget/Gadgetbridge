@@ -29,8 +29,6 @@ import android.graphics.Paint;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
-import android.os.Handler;
-import android.os.Looper;
 import android.widget.Toast;
 
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
@@ -49,6 +47,7 @@ import java.io.InputStream;
 import java.nio.BufferOverflowException;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
@@ -56,6 +55,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -64,6 +64,7 @@ import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHelper;
+import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventAppInfo;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventCallControl;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventFindPhone;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventMusicControl;
@@ -75,6 +76,7 @@ import nodomain.freeyourgadget.gadgetbridge.devices.qhybrid.NotificationHRConfig
 import nodomain.freeyourgadget.gadgetbridge.entities.HybridHRActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.externalevents.NotificationListener;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
+import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceApp;
 import nodomain.freeyourgadget.gadgetbridge.model.CallSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.MusicSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.MusicStateSpec;
@@ -121,6 +123,7 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fos
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.notification.NotificationImagePutRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.quickreply.QuickReplyConfigurationPutRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.quickreply.QuickReplyConfirmationPutRequest;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.theme.SelectedThemePutRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.widget.CustomBackgroundWidgetElement;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.widget.CustomTextWidgetElement;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.widget.CustomWidget;
@@ -199,7 +202,7 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
         negotiateSymmetricKey();
     }
 
-    private void listApplications() {
+    public void listApplications() {
         queueWrite(new ApplicationsListRequest(this));
     }
 
@@ -244,6 +247,10 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
                 break;
             }
         }
+    }
+
+    public void activateWatchface(String appName) {
+        queueWrite(new SelectedThemePutRequest(this, appName));
     }
 
     private void setVibrationStrength() {
@@ -469,6 +476,21 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
 
     public void setInstalledApplications(List<ApplicationInformation> installedApplications) {
         this.installedApplications = installedApplications;
+        GBDeviceEventAppInfo appInfoEvent = new GBDeviceEventAppInfo();
+        appInfoEvent.apps = new GBDeviceApp[installedApplications.size()];
+        for (int i = 0; i < installedApplications.size(); i++) {
+            String appName = installedApplications.get(i).getAppName();
+            String appVersion = installedApplications.get(i).getAppVersion();
+            UUID appUUID = UUID.nameUUIDFromBytes(appName.getBytes(StandardCharsets.UTF_8));
+            GBDeviceApp.Type appType;
+            if (installedApplications.get(i).getAppName().endsWith("App")) {
+                appType = GBDeviceApp.Type.APP_GENERIC;
+            } else {
+                appType = GBDeviceApp.Type.WATCHFACE;
+            }
+            appInfoEvent.apps[i] = new GBDeviceApp(appUUID, appName, "(unknown)", appVersion, appType);
+        }
+        getDeviceSupport().evaluateGBDeviceEvent(appInfoEvent);
     }
 
     private void uploadWidgets() {
@@ -786,7 +808,6 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
 
     @Override
     public void onInstallApp(Uri uri) {
-        final Intent resultIntent = new Intent(QHybridSupport.QHYBRID_ACTION_UPLOADED_FILE);
         FossilFileReader fossilFile;
         try {
             fossilFile = new FossilFileReader(uri, getContext());
@@ -817,15 +838,6 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
             GB.toast("error getting key: " + e.getMessage(), Toast.LENGTH_LONG, GB.ERROR, e);
             this.handleAuthenticationResult(false);
         }
-    }
-
-    private void toast(final String data) {
-        new Handler(Looper.getMainLooper()).post(new Runnable() {
-            @Override
-            public void run() {
-                Toast.makeText(getContext(), data, Toast.LENGTH_LONG).show();
-            }
-        });
     }
 
     @Override
@@ -1560,6 +1572,15 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
         if (matcher.find()) {
             firmware = matcher.group(0);
             return new Version(firmware);
+        }
+        return null;
+    }
+
+    public String getInstalledAppNameFromUUID(UUID uuid) {
+        for (ApplicationInformation appInfo : installedApplications) {
+            if (UUID.nameUUIDFromBytes(appInfo.getAppName().getBytes(StandardCharsets.UTF_8)).equals(uuid)) {
+                return appInfo.getAppName();
+            }
         }
         return null;
     }

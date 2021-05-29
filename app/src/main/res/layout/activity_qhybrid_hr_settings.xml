@@ -106,10 +106,4 @@
 
     </LinearLayout>
 
-    <Button
-        android:id="@+id/qhybrid_apps_management_trigger"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Apps management" />
-
 </LinearLayout>

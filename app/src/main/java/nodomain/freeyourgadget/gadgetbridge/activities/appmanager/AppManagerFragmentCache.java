@@ -39,7 +39,7 @@ public class AppManagerFragmentCache extends AbstractAppManagerFragment {
 
     @Override
     public String getSortFilename() {
-        return "pbwcacheorder.txt";
+        return mCoordinator.getAppCacheSortFilename();
     }
 
     @Override

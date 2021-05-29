@@ -579,7 +579,7 @@
 
         <activity
             android:name=".devices.qhybrid.ConfigActivity"
-            android:label="@string/qhybrid_title_watchface_apps"
+            android:label="@string/qhybrid_title_watchface"
             android:exported="true"
             android:parentActivityName=".activities.ControlCenterv2" />
         <activity
@@ -589,7 +589,7 @@
             android:parentActivityName=".devices.qhybrid.ConfigActivity" />
         <activity
             android:name=".devices.qhybrid.HRConfigActivity"
-            android:label="@string/qhybrid_title_watchface_apps"
+            android:label="@string/qhybrid_title_watchface"
             android:exported="true"
             android:parentActivityName=".activities.ControlCenterv2" />
         <activity android:name=".devices.qhybrid.WidgetSettingsActivity"

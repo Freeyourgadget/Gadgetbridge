@@ -19,6 +19,8 @@ package nodomain.freeyourgadget.gadgetbridge.devices.qhybrid;
 import android.content.Context;
 import android.net.Uri;
 
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -28,8 +30,11 @@ import java.io.InputStream;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.UUID;
 
+import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceApp;
 import nodomain.freeyourgadget.gadgetbridge.util.UriHelper;
 
 /**
@@ -45,6 +50,8 @@ public class FossilFileReader {
     private boolean isWatchface = false;
     private String foundVersion = "(Unknown version)";
     private String foundName = "(unknown)";
+    private GBDeviceApp app;
+    private JSONObject mAppKeys;
 
     public FossilFileReader(Uri uri, Context context) throws IOException {
         uriHelper = UriHelper.get(uri, context);
@@ -104,7 +111,9 @@ public class FossilFileReader {
         foundName = "Fossil Hybrid HR firmware";
     }
 
-    private void parseApp() throws IOException {
+    private void parseApp() throws IOException, JSONException {
+        mAppKeys = new JSONObject();
+        mAppKeys.put("creator", "(unknown)");
         InputStream in = new BufferedInputStream(uriHelper.openInputStream());
         byte[] bytes = new byte[in.available()];
         in.read(bytes);
@@ -114,6 +123,7 @@ public class FossilFileReader {
         buf.position(8);  // skip file handle and version
         int fileSize = buf.getInt();
         foundVersion = (int)buf.get() + "." + (int)buf.get() + "." + (int)buf.get() + "." + (int)buf.get();
+        mAppKeys.put("version", foundVersion);
         buf.position(buf.position() + 8);  // skip null bytes
         int jerryStart = buf.getInt();
         int appIconStart = buf.getInt();
@@ -127,14 +137,21 @@ public class FossilFileReader {
         ArrayList<String> filenamesCode = parseAppFilenames(buf, appIconStart,false);
         if (filenamesCode.size() > 0) {
             foundName = filenamesCode.get(0);
+            mAppKeys.put("name", foundName);
+            mAppKeys.put("uuid", UUID.nameUUIDFromBytes(foundName.getBytes(StandardCharsets.UTF_8)));
         }
         ArrayList<String> filenamesIcons = parseAppFilenames(buf, layout_start,false);
         ArrayList<String> filenamesLayout = parseAppFilenames(buf, display_name_start,true);
         ArrayList<String> filenamesDisplayName = parseAppFilenames(buf, config_start,true);
+
         if (filenamesDisplayName.contains("theme_class")) {
             isApp = false;
             isWatchface = true;
+            mAppKeys.put("type", "WATCHFACE");
+        } else {
+            mAppKeys.put("type", "APP_GENERIC");
         }
+        app = new GBDeviceApp(mAppKeys, false);
     }
 
     private ArrayList<String> parseAppFilenames(ByteBuffer buf, int untilPosition, boolean cutTrailingNull) {
@@ -179,5 +196,13 @@ public class FossilFileReader {
 
     public String getName() {
         return foundName;
+    }
+
+    public GBDeviceApp getGBDeviceApp() {
+        return app;
+    }
+
+    public JSONObject getAppKeysJSON() {
+        return mAppKeys;
     }
 }

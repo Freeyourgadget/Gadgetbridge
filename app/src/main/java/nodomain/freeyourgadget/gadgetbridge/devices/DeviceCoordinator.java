@@ -25,6 +25,8 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Build;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.Collection;
 
 import androidx.annotation.NonNull;
@@ -241,6 +243,31 @@ public interface DeviceCoordinator {
      * @return
      */
     Class<? extends Activity> getAppsManagementActivity();
+
+    /**
+     * Returns the device app cache directory.
+     */
+    File getAppCacheDir() throws IOException;
+
+    /**
+     * Returns a String containing the device app sort order filename.
+     */
+    String getAppCacheSortFilename();
+
+    /**
+     * Returns a String containing the file extension for watch apps.
+     */
+    String getAppFileExtension();
+
+    /**
+     * Indicated whether the device supports fetching a list of its apps.
+     */
+    boolean supportsAppListFetching();
+
+    /**
+     * Indicates whether the device supports reordering of apps.
+     */
+    boolean supportsAppReordering();
 
     /**
      * Returns how/if the given device should be bonded before connecting to it.

@@ -8,6 +8,7 @@ import org.json.JSONObject;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.util.ArrayList;
+import java.util.Collections;
 
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.GenericItem;
@@ -47,6 +48,7 @@ public class ApplicationsListRequest extends FileLookupAndGetRequest{
                     handle
             ));
         }
+        Collections.sort(applicationInfos);
         ((FossilHRWatchAdapter) getAdapter()).setInstalledApplications(applicationInfos);
         GBDevice device = getAdapter().getDeviceSupport().getDevice();
         JSONArray array = new JSONArray();

@@ -1,6 +1,6 @@
 package nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.application;
 
-public class ApplicationInformation {
+public class ApplicationInformation implements Comparable<ApplicationInformation> {
     String appName, version;
     int hash;
     byte fileHandle;
@@ -16,7 +16,16 @@ public class ApplicationInformation {
         return appName;
     }
 
+    public String getAppVersion() {
+        return version;
+    }
+
     public byte getFileHandle() {
         return fileHandle;
+    }
+
+    @Override
+    public int compareTo(ApplicationInformation o) {
+        return this.appName.toLowerCase().compareTo(o.getAppName().toLowerCase());
     }
 }

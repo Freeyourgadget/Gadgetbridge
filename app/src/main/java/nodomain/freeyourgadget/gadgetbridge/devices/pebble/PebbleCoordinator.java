@@ -23,6 +23,9 @@ import android.net.Uri;
 
 import androidx.annotation.NonNull;
 
+import java.io.File;
+import java.io.IOException;
+
 import de.greenrobot.dao.query.QueryBuilder;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.GBException;
@@ -146,6 +149,39 @@ public class PebbleCoordinator extends AbstractDeviceCoordinator {
     @Override
     public Class<? extends Activity> getAppsManagementActivity() {
         return AppManagerActivity.class;
+    }
+
+    @Override
+    public File getAppCacheDir() throws IOException {
+        return PebbleUtils.getPbwCacheDir();
+    }
+
+    @Override
+    public String getAppCacheSortFilename() {
+        return "pbwcacheorder.txt";
+    }
+
+    @Override
+    public String getAppFileExtension() {
+        return ".pbw";
+    }
+
+    @Override
+    public boolean supportsAppListFetching() {
+        GBDevice mGBDevice = GBApplication.app().getDeviceManager().getSelectedDevice();
+        if (mGBDevice != null && mGBDevice.getFirmwareVersion() != null) {
+            return PebbleUtils.getFwMajor(mGBDevice.getFirmwareVersion()) >= 3;
+        }
+        return false;
+    }
+
+    @Override
+    public boolean supportsAppReordering() {
+        GBDevice mGBDevice = GBApplication.app().getDeviceManager().getSelectedDevice();
+        if (mGBDevice != null && mGBDevice.getFirmwareVersion() != null) {
+            return PebbleUtils.getFwMajor(mGBDevice.getFirmwareVersion()) >= 3;
+        }
+        return false;
     }
 
     @Override
