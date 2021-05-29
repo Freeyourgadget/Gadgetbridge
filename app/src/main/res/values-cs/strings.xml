@@ -92,7 +92,7 @@
     <string name="pref_title_canned_replies">Odpovědi</string>
     <string name="pref_title_canned_reply_suffix">Běžná přípona</string>
     <string name="pref_title_canned_messages_dismisscall">Zamítnutí volání</string>
-    <string name="pref_title_canned_messages_set">Aktualizovat na Pebble</string>
+    <string name="pref_title_canned_messages_set">Aktualizovat na zařízení</string>
     <string name="pref_header_development">Vývojářská nastavení</string>
     <string name="pref_title_development_miaddr">Adresa Mi Band</string>
     <string name="pref_title_pebble_settings">Nastaveni Pebble</string>
@@ -162,7 +162,11 @@
 \n
 \n
 \nTento firmvér je pro revizi HW: %s</string>
-    <string name="app_install_info">Instalujete aplikaci:\n\n\n%1$s Verze %2$s od %3$s\n</string>
+    <string name="app_install_info">Instalujete aplikaci:
+\n
+\n%1$s
+\nVerze %2$s od %3$s
+\n</string>
     <string name="n_a">Nedostupné</string>
     <string name="initialized">Spuštěno</string>
     <string name="appversion_by_creator">%1$s od %2$s</string>
@@ -1096,7 +1100,7 @@
 \nNejvyšší tep: %2$d
 \nIntenzita pohybu: %3$s</string>
     <string name="find_lost_device_message">Vyhledat %1$s\?</string>
-    <string name="qhybrid_calibration_align_hint">zarovnat ručičky na 12:00</string>
+    <string name="qhybrid_calibration_align_hint">Pomocí tlačítek níže srovnejte ručičky na 12:00.</string>
     <string name="gps_track">GPS záznam</string>
     <string name="about_version">Verze %s</string>
     <string name="pref_title_lower_button_function_double">Spodní tlačítko: dvojstisk</string>
@@ -1212,4 +1216,36 @@
     <string name="menuitem_temperature">Teplota</string>
     <string name="menuitem_widgets">Widgety</string>
     <string name="menuitem_events">Události</string>
+    <string name="qhybrid_watchface_configuration_old_firmware">Konfigurační obrazovka ciferníku pro hodinky s firmwarem verze DN1.0.2.19r a nižším</string>
+    <string name="qhybrid_calibration_100_steps">100 kroků</string>
+    <string name="qhybrid_calibration_10_steps">10 kroků</string>
+    <string name="qhybrid_calibration_1_step">1 krok</string>
+    <string name="qhybrid_calibration_clockwise">Po směru hodinových ručiček</string>
+    <string name="qhybrid_calibration_counterclockwise">Proti směru hodinových ručiček</string>
+    <string name="fossil_hr_new_action">Nová akce</string>
+    <string name="fossil_hr_new_action_cancel">zrušit</string>
+    <string name="fossil_hr_edit_action">Upravit akci</string>
+    <string name="fossil_hr_edit_action_delete">smazat</string>
+    <string name="fossil_hr_commute_actions_explanation">Zde nakonfigurované akce se zobrazí v aplikaci Commute na hodinkách. Informace o tom, jak zacházet se záměry vytvořenými těmito akcemi, najdete na wiki.</string>
+    <string name="pref_summary_canned_messages_dismisscall">Odmítněte hovory z hodinek pomocí SMS zprávy</string>
+    <string name="pref_summary_canned_messages_set">Odeslání níže nakonfigurovaných zpráv do zařízení</string>
+    <string name="qhybrid_summary_calibration">Kalibrace ručiček hodinek</string>
+    <string name="qhybrid_summary_file_management">Nahrávání a stahování souborů</string>
+    <string name="pref_summary_physical_buttons">Nastavte funkce fyzických tlačítek na hodinkách</string>
+    <string name="pref_title_physical_buttons">Fyzická tlačítka</string>
+    <string name="qhybrid_title_watchface">Nastavení ciferníku</string>
+    <string name="devicetype_miband6">Mi Band 6</string>
+    <string name="kind_agps_bundle">AGPS Balíček</string>
+    <string name="watchface_install_info">Instalujete ciferník:
+\n
+\n%1$s
+\nVerze %2$s by %3$s
+\n</string>
+    <string name="fw_upgrade_notice_miband6">Chystáte se nainstalovat firmvér %s do vašeho Mi Band 6.
+\n
+\nProsím, ujistěte se, že jste nainstalovali soubor .fw a potom soubor .res. Váš pásek se po instalaci souboru .fw restartuje.
+\n
+\nPoznámka: Nemusíte instalovat soubor .res, pokud je stejný jako nainstalován dříve.
+\n
+\nPOKRAČUJTE NA VLASTNÍ NEBEZPEČÍ!</string>
 </resources>
