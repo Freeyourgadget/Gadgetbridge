@@ -1,5 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
+    <release version="0.57.1" versioncode="195">
+        <change>Mi Band 6: Add Pomodoro to menu items</change>
+        <change>Mi Band 6: Support flashing firmware, res and watchfaces</change>
+        <change>Mi Band 6: Enable Unicode Emoji support</change>
+        <change>Fossil Hybrid HR: Move commute actions to device specific settings</change>
+        <change>Fossil Hybrid HR: Use Gadgetbridge App Manager (same as Pebble), allowing quick switching of watchfaces and caching apps for later re-(installation)</change>
+        <change>Huami: Send changed weight, birthday and height data to watch immediately</change>
+        <change>Use flexbox layout for icons in device cards, allowing line breaks for small phones</change>
+    </release>
     <release version="0.57.0" versioncode="194">
         <change>Initial limited support for Mi Band 6</change>
         <change>Amazfit GTR2/GTS2: Fix for flashing watchfaces</change>

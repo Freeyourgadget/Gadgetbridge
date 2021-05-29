@@ -1,0 +1,7 @@
+* Mi Band 6: Add Pomodoro to menu items
+* Mi Band 6: Support flashing firmware, res and watchfaces
+* Mi Band 6: Enable Unicode Emoji support
+* Fossil Hybrid HR: Move commute actions to device specific settings
+* Fossil Hybrid HR: Use Gadgetbridge App Manager (same as Pebble), allowing quick switching of watchfaces and caching apps for later re-(installation)
+* Huami: Send changed weight, birthday and height data to watch immediately
+* Use flexbox layout for icons in device cards, allowing line breaks for small phones
