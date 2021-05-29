@@ -33,8 +33,9 @@
 package nodomain.freeyourgadget.gadgetbridge.util;
 
 
-import android.bluetooth.BluetoothDevice;
 import android.content.Context;
+
+import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceCandidate;
 
 public interface BondingInterface {
     /**
@@ -45,7 +46,7 @@ public interface BondingInterface {
     /**
      * Should return the device that is currently being paired
      **/
-    BluetoothDevice getCurrentTarget();
+    GBDeviceCandidate getCurrentTarget();
 
     /**
      * This forces bonding activities to encapsulate the removal

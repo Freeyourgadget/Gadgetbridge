@@ -14,27 +14,14 @@
 
     You should have received a copy of the GNU Affero General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
-/*  Copyright (C) 2020 Andreas Shimokawa, Carsten Pfeiffer, Daniele
-    Gobbetti, Taavi Eomäe
-
-    This file is part of Gadgetbridge.
-
-    Gadgetbridge is free software: you can redistribute it and/or modify
-    it under the terms of the GNU Affero General Public License as published
-    by the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
-
-    Gadgetbridge is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU Affero General Public License for more details.
-
-    You should have received a copy of the GNU Affero General Public License
-    along with this program.  If not, see <https://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.util;
+
+import static androidx.core.app.ActivityCompat.startIntentSenderForResult;
+import static nodomain.freeyourgadget.gadgetbridge.util.GB.toast;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.bluetooth.BluetoothClass;
 import android.bluetooth.BluetoothDevice;
 import android.companion.AssociationRequest;
 import android.companion.BluetoothDeviceFilter;
@@ -54,15 +41,14 @@ import androidx.annotation.RequiresApi;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.Locale;
+
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.devices.DeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceCandidate;
-
-import static androidx.core.app.ActivityCompat.startIntentSenderForResult;
-import static nodomain.freeyourgadget.gadgetbridge.util.GB.toast;
 
 public class BondingUtil {
     public static final String STATE_DEVICE_CANDIDATE = "stateDeviceCandidate";
@@ -81,7 +67,7 @@ public class BondingUtil {
                 if (GBDevice.ACTION_DEVICE_CHANGED.equals(intent.getAction())) {
                     GBDevice device = intent.getParcelableExtra(GBDevice.EXTRA_DEVICE);
                     LOG.debug("Pairing receiver: device changed: " + device);
-                    if (activity.getCurrentTarget().getAddress().equals(device.getAddress())) {
+                    if (activity.getCurrentTarget().getDevice().getAddress().equals(device.getAddress())) {
                         if (device.isInitialized()) {
                             LOG.info("Device is initialized, finish things up");
                             activity.onBondingComplete(true);
@@ -103,7 +89,7 @@ public class BondingUtil {
             public void onReceive(Context context, Intent intent) {
                 if (BluetoothDevice.ACTION_BOND_STATE_CHANGED.equals(intent.getAction())) {
                     BluetoothDevice device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
-                    String bondingMacAddress = bondingInterface.getCurrentTarget().getAddress();
+                    String bondingMacAddress = bondingInterface.getCurrentTarget().getDevice().getAddress();
 
                     LOG.info("Bond state changed: " + device + ", state: " + device.getBondState() + ", expected address: " + bondingMacAddress);
                     if (bondingMacAddress != null && bondingMacAddress.equals(device.getAddress())) {
@@ -115,13 +101,13 @@ public class BondingUtil {
                                 if (isLePebble(device)) {
                                     // Do not initiate connection to LE Pebble!
                                 } else {
-                                    attemptToFirstConnect(bondingInterface.getCurrentTarget());
+                                    attemptToFirstConnect(bondingInterface.getCurrentTarget().getDevice());
                                 }
                                 return;
                             }
                             case BluetoothDevice.BOND_NONE: {
                                 LOG.info("Not bonded with " + device.getAddress() + ", attempting to connect anyway.");
-                                attemptToFirstConnect(bondingInterface.getCurrentTarget());
+                                attemptToFirstConnect(bondingInterface.getCurrentTarget().getDevice());
                                 return;
                             }
                             case BluetoothDevice.BOND_BONDING: {
@@ -235,12 +221,39 @@ public class BondingUtil {
      * Tries to create a BluetoothDevice bond
      * Do not call directly, use createBond(Activity, GBDeviceCandidate) instead!
      */
-    private static void bluetoothBond(BondingInterface context, BluetoothDevice device) {
+    private static void bluetoothBond(BondingInterface context, GBDeviceCandidate candidate) {
+        BluetoothDevice device = candidate.getDevice();
         if (device.createBond()) {
             // Async, results will be delivered via a broadcast
             LOG.info("Bonding in progress...");
         } else {
-            toast(context.getContext(), context.getContext().getString(R.string.discovery_bonding_failed_immediately, device.getName()), Toast.LENGTH_SHORT, GB.ERROR);
+            LOG.error(String.format(Locale.getDefault(),
+                    "Bonding failed immediately! %1$s (%2$s) %3$d",
+                    device.getName(),
+                    device.getAddress(),
+                    device.getType())
+            );
+
+            BluetoothClass bluetoothClass = device.getBluetoothClass();
+            if (bluetoothClass != null) {
+                LOG.error(String.format(Locale.getDefault(),
+                        "BluetoothClass: %1$s",
+                        bluetoothClass.toString()));
+            }
+
+            // Theoretically we shouldn't be doing this
+            // because this function shouldn't've been called
+            // with an already bonded device
+            if (device.getBondState() == BluetoothDevice.BOND_BONDED) {
+                LOG.warn("For some reason the device is already bonded, but let's try first connect");
+                attemptToFirstConnect(context.getCurrentTarget().getDevice());
+            } else if (device.getBondState() == BluetoothDevice.BOND_BONDING) {
+                LOG.warn("Device is still bonding after an error");
+                // TODO: Not sure we can handle this better, it's weird already.
+            } else {
+                LOG.warn("Bonding failed immediately and no bond was made");
+                toast(context.getContext(), context.getContext().getString(R.string.discovery_bonding_failed_immediately, device.getName()), Toast.LENGTH_SHORT, GB.ERROR);
+            }
         }
     }
 
@@ -256,7 +269,7 @@ public class BondingUtil {
                     data.getParcelableExtra(CompanionDeviceManager.EXTRA_DEVICE);
 
             if (deviceToPair != null) {
-                if (bondingInterface.getCurrentTarget().getAddress().equals(deviceToPair.getAddress())) {
+                if (bondingInterface.getCurrentTarget().getDevice().getAddress().equals(deviceToPair.getAddress())) {
                     if (deviceToPair.getBondState() != BluetoothDevice.BOND_BONDED) {
                         BondingUtil.bluetoothBond(bondingInterface, bondingInterface.getCurrentTarget());
                     } else {
@@ -300,7 +313,7 @@ public class BondingUtil {
                 LOG.info("The device has already been bonded through CompanionDeviceManager, using regular");
                 // If it's already "associated", we should immediately pair
                 // because the callback is never called (AFAIK?)
-                BondingUtil.bluetoothBond(bondingInterface, deviceCandidate.getDevice());
+                BondingUtil.bluetoothBond(bondingInterface, deviceCandidate);
                 return;
             }
         }
@@ -353,7 +366,7 @@ public class BondingUtil {
                 // TODO: It would theoretically be nice to check if it's already been granted,
                 //  but re-bond works
             } else {
-                attemptToFirstConnect(bondingInterface.getCurrentTarget());
+                attemptToFirstConnect(bondingInterface.getCurrentTarget().getDevice());
                 return;
             }
         } else if (bondState == BluetoothDevice.BOND_BONDING) {
@@ -367,7 +380,7 @@ public class BondingUtil {
                 Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             companionDeviceManagerBond(bondingInterface, deviceCandidate);
         } else {
-            bluetoothBond(bondingInterface, deviceCandidate.getDevice());
+            bluetoothBond(bondingInterface, deviceCandidate);
         }
     }
 

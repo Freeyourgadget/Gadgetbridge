@@ -16,7 +16,8 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.devices.watch9;
 
-import android.bluetooth.BluetoothDevice;
+import static nodomain.freeyourgadget.gadgetbridge.util.BondingUtil.STATE_DEVICE_CANDIDATE;
+
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -40,8 +41,6 @@ import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceCandidate;
 import nodomain.freeyourgadget.gadgetbridge.util.AndroidUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.BondingInterface;
 import nodomain.freeyourgadget.gadgetbridge.util.BondingUtil;
-
-import static nodomain.freeyourgadget.gadgetbridge.util.BondingUtil.STATE_DEVICE_CANDIDATE;
 
 public class Watch9PairingActivity extends AbstractGBActivity implements BondingInterface {
     private static final Logger LOG = LoggerFactory.getLogger(Watch9PairingActivity.class);
@@ -98,8 +97,8 @@ public class Watch9PairingActivity extends AbstractGBActivity implements Bonding
     }
 
     @Override
-    public BluetoothDevice getCurrentTarget() {
-        return this.deviceCandidate.getDevice();
+    public GBDeviceCandidate getCurrentTarget() {
+        return this.deviceCandidate;
     }
 
     @Override

@@ -18,6 +18,8 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.activities;
 
+import static nodomain.freeyourgadget.gadgetbridge.util.GB.toast;
+
 import android.Manifest;
 import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
@@ -77,8 +79,6 @@ import nodomain.freeyourgadget.gadgetbridge.util.DeviceHelper;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 
-import static nodomain.freeyourgadget.gadgetbridge.util.GB.toast;
-
 
 public class DiscoveryActivity extends AbstractGBActivity implements AdapterView.OnItemClickListener, AdapterView.OnItemLongClickListener, BondingInterface {
     private static final Logger LOG = LoggerFactory.getLogger(DiscoveryActivity.class);
@@ -97,6 +97,7 @@ public class DiscoveryActivity extends AbstractGBActivity implements AdapterView
     private ProgressBar bluetoothProgress;
     private ProgressBar bluetoothLEProgress;
     private DeviceCandidateAdapter deviceCandidateAdapter;
+    private GBDeviceCandidate deviceTarget;
     private final BluetoothAdapter.LeScanCallback leScanCallback = new BluetoothAdapter.LeScanCallback() {
         @Override
         public void onLeScan(BluetoothDevice device, int rssi, byte[] scanRecord) {
@@ -183,7 +184,6 @@ public class DiscoveryActivity extends AbstractGBActivity implements AdapterView
             }
         }
     };
-    private BluetoothDevice bluetoothTarget;
 
     public void logMessageContent(byte[] value) {
         if (value != null) {
@@ -744,7 +744,7 @@ public class DiscoveryActivity extends AbstractGBActivity implements AdapterView
             }
 
             try {
-                this.bluetoothTarget = deviceCandidate.getDevice();
+                this.deviceTarget = deviceCandidate;
                 BondingUtil.initiateCorrectBonding(this, deviceCandidate);
             } catch (Exception e) {
                 LOG.error("Error pairing device: " + deviceCandidate.getMacAddress());
@@ -777,8 +777,8 @@ public class DiscoveryActivity extends AbstractGBActivity implements AdapterView
         finish();
     }
 
-    public BluetoothDevice getCurrentTarget() {
-        return this.bluetoothTarget;
+    public GBDeviceCandidate getCurrentTarget() {
+        return this.deviceTarget;
     }
 
     public void unregisterBroadcastReceivers() {

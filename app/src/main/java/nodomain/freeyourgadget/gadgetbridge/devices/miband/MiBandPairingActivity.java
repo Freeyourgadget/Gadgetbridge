@@ -17,6 +17,8 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.devices.miband;
 
+import static nodomain.freeyourgadget.gadgetbridge.util.BondingUtil.STATE_DEVICE_CANDIDATE;
+
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.content.BroadcastReceiver;
@@ -48,8 +50,6 @@ import nodomain.freeyourgadget.gadgetbridge.util.BondingUtil;
 import nodomain.freeyourgadget.gadgetbridge.util.DeviceHelper;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
-
-import static nodomain.freeyourgadget.gadgetbridge.util.BondingUtil.STATE_DEVICE_CANDIDATE;
 
 public class MiBandPairingActivity extends AbstractGBActivity implements BondingInterface {
     private static final Logger LOG = LoggerFactory.getLogger(MiBandPairingActivity.class);
@@ -137,7 +137,7 @@ public class MiBandPairingActivity extends AbstractGBActivity implements Bonding
         message.setText(getString(R.string.pairing, deviceCandidate));
 
         if (!BondingUtil.shouldUseBonding()) {
-            BondingUtil.attemptToFirstConnect(getCurrentTarget());
+            BondingUtil.attemptToFirstConnect(getCurrentTarget().getDevice());
             return;
         }
 
@@ -177,8 +177,8 @@ public class MiBandPairingActivity extends AbstractGBActivity implements Bonding
     }
 
     @Override
-    public BluetoothDevice getCurrentTarget() {
-        return this.deviceCandidate.getDevice();
+    public GBDeviceCandidate getCurrentTarget() {
+        return this.deviceCandidate;
     }
 
     @Override
