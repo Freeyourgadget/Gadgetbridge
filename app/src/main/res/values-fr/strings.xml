@@ -166,7 +166,11 @@
     <string name="installation_failed_">Échec de l\'installation</string>
     <string name="installation_successful">Installé</string>
     <string name="firmware_install_warning">VOUS TENTEZ D\'INSTALLER UN MICROLOGICIEL, PROCÉDEZ À VOS RISQUES ET PÉRILS.\n\n\nCe micrologiciel est pour la version de matériel : %s</string>
-    <string name="app_install_info">Vous êtes sur le point d\'installer l\'application suivante :\n\n\n%1$s Version %2$s par %3$s\n</string>
+    <string name="app_install_info">Vous êtes sur le point d\'installer l\'application suivante :
+\n
+\n%1$s-
+\nVersion %2$s par %3$s
+\n</string>
     <string name="n_a">N.D.</string>
     <string name="initialized">Initialisé</string>
     <string name="appversion_by_creator">%1$s par %2$s</string>
@@ -486,7 +490,7 @@ Temps de sommeil préféré en heures</string>
     <string name="notif_export_failed_title">L\'exportation de la base de données a échoué ! Veuillez vérifier vos paramètres.</string>
     <string name="choose_auto_export_location">Choisissez l\'emplacement d\'exportation</string>
     <string name="spanish">Espagnol</string>
-    <string name="notification_channel_name">Notifications de Gadgetbridge</string>
+    <string name="notification_channel_name">Général</string>
     <string name="devicetype_xwatch">XWatch</string>
     <string name="on">Actif</string>
     <string name="activity_type_not_measured">Non mesurée</string>
@@ -839,7 +843,7 @@ Temps de sommeil préféré en heures</string>
     <string name="hr_appname_stopwatch">Chronomètre</string>
     <string name="hr_appname_workout">Entraînement</string>
     <string name="hr_appname_wellness">Bien-être</string>
-    <string name="notification_channel_high_priority_name">Priorité haute des notifications Gadgetbridge</string>
+    <string name="notification_channel_high_priority_name">Haute priorité</string>
     <string name="devicetype_amazfit_bips">Amazfit Bip S</string>
     <string name="find_my_phone_notification">Trouver mon téléphone</string>
     <string name="pref_title_vibration_strength">Puissance du vibreur</string>
@@ -1098,7 +1102,7 @@ Temps de sommeil préféré en heures</string>
     <string name="devicetype_amazfit_band5">Amazfit Band 5</string>
     <string name="activity_prefs_step_length_cm">Longueur de pas en cm</string>
     <string name="menuitem_spo2">SpO2</string>
-    <string name="qhybrid_calibration_align_hint">aligner les mains à midi</string>
+    <string name="qhybrid_calibration_align_hint">Utiliser les boutons ci-dessous pour aligner les mains du bracelet à midi.</string>
     <string name="gps_track">Trace GPS</string>
     <string name="about_version">Version %s</string>
     <string name="devicetype_amazfit_bips_lite">Amazfit Bip S Lite</string>
@@ -1229,4 +1233,18 @@ Temps de sommeil préféré en heures</string>
 \n%1$s
 \nVersion %2$s par %3$s
 \n</string>
+    <string name="qhybrid_watchface_configuration_old_firmware">Configuration de la façade pour les bracelets dont le micro-logiciel est en version DN1.0.2.19r ou inférieur</string>
+    <string name="qhybrid_calibration_100_steps">100 pas</string>
+    <string name="qhybrid_calibration_10_steps">10 pas</string>
+    <string name="qhybrid_calibration_1_step">1 pas</string>
+    <string name="qhybrid_calibration_clockwise">Dans le sens horaire</string>
+    <string name="qhybrid_calibration_counterclockwise">Dans le sens anti-horaire</string>
+    <string name="fossil_hr_new_action">Nouvelle action</string>
+    <string name="fossil_hr_new_action_cancel">annuler</string>
+    <string name="fossil_hr_edit_action">Modifier l\'action</string>
+    <string name="fossil_hr_edit_action_delete">supprimer</string>
+    <string name="fossil_hr_commute_actions_explanation">Les actions configurées ici apparaitront dans l\'app Commute dans votre bracelet. Consulter le wiki pour plus d\'informations sur la gestion des intentions générés par ces actions.</string>
+    <string name="qhybrid_title_watchface">Configuration de la facade</string>
+    <string name="notification_channel_low_battery_name">Batterie faible</string>
+    <string name="notification_channel_transfer_name">Transfert de données</string>
 </resources>
