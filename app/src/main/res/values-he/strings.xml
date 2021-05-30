@@ -489,7 +489,7 @@
     <string name="notif_export_failed_title">ייצוא מסד הנתונים נכשל! נא לבדוק את ההגדרות שלך.</string>
     <string name="choose_auto_export_location">נא לבחור את מיקום הייצוא</string>
     <string name="spanish">ספרדית</string>
-    <string name="notification_channel_name">הודעות של Gadgetbridge</string>
+    <string name="notification_channel_name">כללי</string>
     <string name="devicetype_xwatch">XWatch</string>
     <string name="on">פעיל</string>
     <string name="controlcenter_start_activity_tracks">מסלולי הפעילות שלך</string>
@@ -839,7 +839,7 @@
     <string name="pref_title_force_white_color_scheme">לאכוף ערכת צבעים שחור על לבן</string>
     <string name="pref_summary_force_white_color_scheme">שימושי לידיים כהות</string>
     <string name="find_my_phone_notification">איתור הטלפון שלי</string>
-    <string name="notification_channel_high_priority_name">התראות מ־Gadgetbridge בעדיפות גבוהה</string>
+    <string name="notification_channel_high_priority_name">עדיפות גבוהה</string>
     <string name="pref_title_custom_deviceicon">הצגת סמל התראה ייעודי למכשיר</string>
     <string name="pref_summary_custom_deviceicon">הצגת התראת Android תואמת מכשיר במקום הסמל של Gadgetbridge כשיש חיבור</string>
     <string name="hr_appname_wellness">רווחה</string>
@@ -1246,4 +1246,7 @@
 \n%1$s
 \nגרסה %2$s מאת %3$s
 \n</string>
+    <string name="fossil_hr_commute_actions_explanation">הפעולות שמופיעות כאן תופענה ביישומון התעבורה בשעון שלך. בוויקי יש מידע על אופן הטיפול ב־Intents שמיוצרים על ידי הפעולות האלו.</string>
+    <string name="notification_channel_low_battery_name">סוללה חלשה</string>
+    <string name="notification_channel_transfer_name">העברת נתונים</string>
 </resources>
