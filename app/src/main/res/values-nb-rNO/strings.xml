@@ -1244,4 +1244,13 @@
     <string name="fossil_hr_edit_action">Redigeringshandling</string>
     <string name="fossil_hr_edit_action_delete">slett</string>
     <string name="pref_title_physical_buttons">Fysiske knapper</string>
+    <string name="watchface_install_info">Du er i ferd med å installere følgende urskrive:
+\n
+\n%1$s
+\nVersjon %2$s av %3$s
+\n</string>
+    <string name="qhybrid_watchface_configuration_old_firmware">Urskiveoppsettsskjerm for klokker med fastvareversjon DN1.0.2.19r og lavere</string>
+    <string name="qhybrid_title_watchface">Urskive-oppsett</string>
+    <string name="notification_channel_low_battery_name">Lavt batterinivå</string>
+    <string name="notification_channel_transfer_name">Dataoverføring</string>
 </resources>
