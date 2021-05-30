@@ -462,8 +462,8 @@
     <string name="notif_battery_low_percent">%1$s pil kaldı: %2$s%%</string>
     <string name="notif_battery_low_title">Aygıt pili düşük!</string>
     <string name="notif_export_failed_title">Veri tabanını dışa aktarma başarısız oldu! Lütfen ayarlarınızı gözden geçirin.</string>
-    <string name="notification_channel_high_priority_name">Gadgetbridge bildirimlerine yüksek öncelik</string>
-    <string name="notification_channel_name">Gadgetbridge bildirimleri</string>
+    <string name="notification_channel_high_priority_name">Yüksek öncelik</string>
+    <string name="notification_channel_name">Genel</string>
     <string name="off">Kapalı</string>
     <string name="ok">Tamam</string>
     <string name="on">Açık</string>
@@ -1271,4 +1271,6 @@
 \n</string>
     <string name="qhybrid_watchface_configuration_old_firmware">DN1.0.2.19r ve daha düşük ürün yazılımı sürümüne sahip saatler için saat arayüzü yapılandırma ekranı</string>
     <string name="qhybrid_title_watchface">Saat arayüzü yapılandırması</string>
+    <string name="notification_channel_low_battery_name">Düşük pil</string>
+    <string name="notification_channel_transfer_name">Veri aktarımı</string>
 </resources>
