@@ -492,7 +492,7 @@
     <string name="notif_export_failed_title">Database exporteren mislukt! Controleer uw instellingen.</string>
     <string name="spanish">Spaans</string>
     <string name="choose_auto_export_location">Kies export locatie</string>
-    <string name="notification_channel_name">Gadgetbridge meldingen</string>
+    <string name="notification_channel_name">Algemeen</string>
     <string name="blacklist_all_for_notifications">Zwarte lijst voor alle meldingen</string>
     <string name="whitelist_all_for_notifications">Witte lijst voor alle meldingen</string>
     <string name="fw_upgrade_notice_miband3">U staat op het punt om de %s-firmware op je Mi Band 3 te installeren.
@@ -840,7 +840,7 @@
     <string name="pref_title_force_white_color_scheme">Zwart op wit kleurenschema forceren</string>
     <string name="pref_summary_force_white_color_scheme">Nuttig als je horloge donkere wijzers heeft</string>
     <string name="find_my_phone_notification">Vind mijn telefoon</string>
-    <string name="notification_channel_high_priority_name">Gadgetbridge hoge prioriteit meldingen</string>
+    <string name="notification_channel_high_priority_name">Hoge prioriteit</string>
     <string name="pref_title_custom_deviceicon">Toon apparaatspecifieke meldingspictogram</string>
     <string name="pref_summary_custom_deviceicon">Toon een apparaatspecifiek Android-meldpictogram in plaats van het Gadgetbridge-pictogram indien verbonden</string>
     <string name="hr_appname_wellness">Welzijn</string>
@@ -1247,4 +1247,6 @@
 \n</string>
     <string name="qhybrid_watchface_configuration_old_firmware">Wijzerplaat-instellingen voor horloges met firmware-versie DN1.0.2.19r en lager</string>
     <string name="qhybrid_title_watchface">Wijzerplaat instellen</string>
+    <string name="notification_channel_low_battery_name">Batterij bijna leeg</string>
+    <string name="notification_channel_transfer_name">Gegevensoverdracht</string>
 </resources>
