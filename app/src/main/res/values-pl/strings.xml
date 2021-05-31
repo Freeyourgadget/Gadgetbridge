@@ -516,7 +516,7 @@
     <string name="kind_watchface">Tarcza zegarka</string>
     <string name="devicetype_unknown">Nieznane urządzenie</string>
     <string name="choose_auto_export_location">Wybierz ścieżkę do eksportu</string>
-    <string name="notification_channel_name">Powiadomienia Gadgetbridge</string>
+    <string name="notification_channel_name">Ogólne</string>
     <string name="menuitem_shortcut_alipay">Alipay (Skrót)</string>
     <string name="menuitem_shortcut_weather">Pogoda (Skrót)</string>
     <string name="menuitem_more">Więcej</string>
@@ -848,7 +848,7 @@
     <string name="hr_widget_active_minutes">Minuty aktywności</string>
     <string name="pref_title_force_white_color_scheme">Wymuś schemat kolorów czarno na białym</string>
     <string name="pref_summary_force_white_color_scheme">Użyteczne, jeśli twój zegarek ma ciemne wskazówki</string>
-    <string name="notification_channel_high_priority_name">Powiadomienia Gadgetbridge o wysokim priorytecie</string>
+    <string name="notification_channel_high_priority_name">Wysoki priorytet</string>
     <string name="pref_summary_custom_deviceicon">Pokaż specyficzną dla urządzenia ikonę powiadomienia zamiast ikony Gadgetbridge, gdy połączono</string>
     <string name="hr_appname_workout">Trening</string>
     <string name="hr_appname_stopwatch">Stoper</string>
@@ -1251,4 +1251,9 @@
 \n%1$s
 \nWersja %2$s od %3$s
 \n</string>
+    <string name="qhybrid_watchface_configuration_old_firmware">Ekran konfiguracji tarczy zegarka dla zegarków z oprogramowaniem układowym w wersji DN1.0.2.19r i niższym</string>
+    <string name="fossil_hr_commute_actions_explanation">Akcje skonfigurowane w tym miejscu będą wyświetlane w aplikacji Commute na Twoim zegarku. Przeczytaj wiki, aby dowiedzieć się, jak obsługiwać intencje generowane przez te akcje.</string>
+    <string name="qhybrid_title_watchface">Konfiguracja tarczy zegarka</string>
+    <string name="notification_channel_low_battery_name">Niski poziom baterii</string>
+    <string name="notification_channel_transfer_name">Transfer danych</string>
 </resources>
