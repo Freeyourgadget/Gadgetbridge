@@ -483,7 +483,7 @@
     <string name="devicetype_vibratissimo">Vibratissimo</string>
     <string name="devicetype_hplus">HPlus</string>
     <string name="choose_auto_export_location">选择导出位置</string>
-    <string name="notification_channel_name">Gadgetbridge 通知</string>
+    <string name="notification_channel_name">一般</string>
     <string name="controlcenter_change_led_color">切换 LED 灯颜色</string>
     <string name="controlcenter_change_fm_frequency">更改 FM 频率</string>
     <string name="controlcenter_calibrate_device">校准设备</string>
@@ -843,7 +843,7 @@
     <string name="pref_title_force_white_color_scheme">当处于白色方案时始终使用黑色</string>
     <string name="pref_summary_force_white_color_scheme">如果您双手颜色较深，将会有帮助</string>
     <string name="find_my_phone_notification">查找我的手机</string>
-    <string name="notification_channel_high_priority_name">Gadgetbridge 通知高优先级</string>
+    <string name="notification_channel_high_priority_name">高优先级</string>
     <string name="pref_title_custom_deviceicon">显示设备特定的通知图标</string>
     <string name="pref_summary_custom_deviceicon">显示设备指定的 Android 通知图标以替代已连接时的 Gadgetbridge 图标</string>
     <string name="hr_appname_wellness">健康</string>
@@ -1250,4 +1250,8 @@
 \n%1$s
 \n版本 %2$s 由 %3$s
 \n</string>
+    <string name="qhybrid_watchface_configuration_old_firmware">为固件版本 DN1.0.2.19r 和更低版本的表盘配置屏幕</string>
+    <string name="qhybrid_title_watchface">表盘配置</string>
+    <string name="notification_channel_low_battery_name">低电量</string>
+    <string name="notification_channel_transfer_name">数据传输</string>
 </resources>
