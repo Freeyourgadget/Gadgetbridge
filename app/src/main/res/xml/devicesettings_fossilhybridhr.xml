@@ -73,8 +73,8 @@
     </PreferenceScreen>
 
     <Preference
-        android:title="Actions"
-        android:summary="Actions for the Commute app">
+        android:title="@string/qhybrid_pref_title_actions"
+        android:summary="@string/qhybrid_pref_summary_actions">
         <intent
             android:targetPackage="nodomain.freeyourgadget.gadgetbridge"
             android:targetClass="nodomain.freeyourgadget.gadgetbridge.devices.qhybrid.CommuteActionsActivity" />
@@ -88,24 +88,37 @@
         app:showSeekBarValue="true" />
 
     <Preference
-        android:title="@string/qhybrid_title_calibration"
-        android:summary="@string/qhybrid_summary_calibration">
+        android:title="@string/qhybrid_pref_title_calibration"
+        android:summary="@string/qhybrid_pref_summary_calibration">
         <intent
             android:targetPackage="nodomain.freeyourgadget.gadgetbridge"
             android:targetClass="nodomain.freeyourgadget.gadgetbridge.devices.qhybrid.CalibrationActivity" />
     </Preference>
 
-    <SwitchPreference
-        android:defaultValue="false"
-        android:key="save_raw_activity_files"
-        android:title="@string/pref_qhybrid_save_raw_activity_files" />
+    <PreferenceScreen
+        android:key="developer_settings"
+        android:title="@string/pref_title_developer_settings"
+        android:summary="@string/pref_summary_developer_settings">
 
-    <Preference
-        android:title="@string/qhybrid_title_file_management"
-        android:summary="@string/qhybrid_summary_file_management">
-        <intent
-            android:targetPackage="nodomain.freeyourgadget.gadgetbridge"
-            android:targetClass="nodomain.freeyourgadget.gadgetbridge.devices.qhybrid.FileManagementActivity" />
-    </Preference>
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="save_raw_activity_files"
+            android:title="@string/qhybrid_pref_save_raw_activity_files" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="dangerous_external_intents"
+            android:title="@string/qhybrid_pref_title_external_intents"
+            android:summary="@string/qhybrid_pref_summary_external_intents" />
+
+        <Preference
+            android:title="@string/qhybrid_title_file_management"
+            android:summary="@string/qhybrid_summary_file_management">
+            <intent
+                android:targetPackage="nodomain.freeyourgadget.gadgetbridge"
+                android:targetClass="nodomain.freeyourgadget.gadgetbridge.devices.qhybrid.FileManagementActivity" />
+        </Preference>
+
+    </PreferenceScreen>
 
 </androidx.preference.PreferenceScreen>
