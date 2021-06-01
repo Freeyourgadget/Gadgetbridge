@@ -1249,4 +1249,10 @@
     <string name="fossil_hr_commute_actions_explanation">הפעולות שמופיעות כאן תופענה ביישומון התעבורה בשעון שלך. בוויקי יש מידע על אופן הטיפול ב־Intents שמיוצרים על ידי הפעולות האלו.</string>
     <string name="notification_channel_low_battery_name">סוללה חלשה</string>
     <string name="notification_channel_transfer_name">העברת נתונים</string>
+    <string name="qhybrid_pref_summary_external_intents">יש להפעיל כדי לאפשר ליישומוני Android אחרים להעלות/לדרוס קבצים</string>
+    <string name="qhybrid_pref_title_external_intents">לאפשר intents חיצוניים מסוכנים</string>
+    <string name="pref_summary_developer_settings">הגדרות ויכולות לשימושם של מתכנתים</string>
+    <string name="pref_title_developer_settings">הגדרות פיתוח</string>
+    <string name="qhybrid_pref_summary_actions">פעולות ליישומון התעבורה</string>
+    <string name="qhybrid_pref_title_actions">פעולות</string>
 </resources>
