@@ -612,7 +612,7 @@
             android:parentActivityName=".devices.qhybrid.HRConfigActivity" />
         <activity
             android:name=".devices.qhybrid.CalibrationActivity"
-            android:label="@string/qhybrid_pref_title_calibration"
+            android:label="@string/qhybrid_title_calibration"
             android:parentActivityName=".devices.qhybrid.HRConfigActivity" />
         <activity
             android:name=".devices.qhybrid.CommuteActionsActivity"
