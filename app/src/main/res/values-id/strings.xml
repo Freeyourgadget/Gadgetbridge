@@ -153,4 +153,5 @@
     <string name="calendar_week">Minggu</string>
     <string name="calendar_day">Hari</string>
     <string name="battery_level">Tingkat baterai</string>
+    <string name="pref_theme_dark">Thema Malam</string>
 </resources>
