@@ -1273,4 +1273,10 @@
     <string name="qhybrid_title_watchface">Saat arayüzü yapılandırması</string>
     <string name="notification_channel_low_battery_name">Düşük pil</string>
     <string name="notification_channel_transfer_name">Veri aktarımı</string>
+    <string name="qhybrid_pref_summary_external_intents">Diğer Android uygulamalarının dosya yüklemesine/üzerine yazmasına izin vermek için etkinleştirin</string>
+    <string name="qhybrid_pref_title_external_intents">Tehlikeli harici amaçlara izin ver</string>
+    <string name="pref_summary_developer_settings">Geliştiriciler tarafından kullanılan ayarlar ve işlevler</string>
+    <string name="pref_title_developer_settings">Geliştirici ayarları</string>
+    <string name="qhybrid_pref_summary_actions">İşe Gidip Gelme uygulaması için eylemler</string>
+    <string name="qhybrid_pref_title_actions">Eylemler</string>
 </resources>
