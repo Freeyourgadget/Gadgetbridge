@@ -62,8 +62,7 @@ public class GBDevice implements Parcelable {
     public static final String EXTRA_DEVICE = "device";
     private static final String DEVINFO_HW_VER = "HW: ";
     private static final String DEVINFO_FW_VER = "FW: ";
-    private static final String DEVINFO_HR_VER = "HR: ";
-    private static final String DEVINFO_GPS_VER = "GPS: ";
+    private static final String DEVINFO_FW2_VER = "FW2: ";
     private static final String DEVINFO_ADDR = "ADDR: ";
     private static final String DEVINFO_ADDR2 = "ADDR2: ";
     private String mName;
@@ -562,12 +561,7 @@ public class GBDevice implements Parcelable {
             result.add(new GenericItem(DEVINFO_FW_VER, mFirmwareVersion));
         }
         if (mFirmwareVersion2 != null) {
-            // FIXME: This is ugly
-            if (mDeviceType == DeviceType.AMAZFITBIP) {
-                result.add(new GenericItem(DEVINFO_GPS_VER, mFirmwareVersion2));
-            } else {
-                result.add(new GenericItem(DEVINFO_HR_VER, mFirmwareVersion2));
-            }
+            result.add(new GenericItem(DEVINFO_FW2_VER, mFirmwareVersion2));
         }
         if (mAddress != null) {
             result.add(new GenericItem(DEVINFO_ADDR, mAddress));
