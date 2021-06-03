@@ -494,7 +494,7 @@
     <string name="notif_export_failed_title">¡La exportación de la base de datos ha fallado! Por favor, revisa los ajustes.</string>
     <string name="choose_auto_export_location">Elija la ubicación para exportación</string>
     <string name="spanish">Español</string>
-    <string name="notification_channel_name">Notificaciones de Gadgetbridge</string>
+    <string name="notification_channel_name">General</string>
     <string name="devicetype_xwatch">XWatch</string>
     <string name="controlcenter_change_led_color">Cambiar color del LED</string>
     <string name="controlcenter_change_fm_frequency">Cambiar frecuencia de FM</string>
@@ -961,7 +961,7 @@
     <string name="ascentMeters">Cuesta arriba</string>
     <string name="averageHR">Ritmo cardíaco</string>
     <string name="totalStride">Avance total</string>
-    <string name="qhybrid_calibration_align_hint">alinear las manos a las 12:00</string>
+    <string name="qhybrid_calibration_align_hint">Utiliza los botones de abajo para alinear las manecillas del reloj a las 12:00.</string>
     <string name="devicetype_nut_mini">Nut Mini</string>
     <string name="medley">Medley</string>
     <string name="backstroke">Estilo espalda</string>
@@ -1009,7 +1009,7 @@
     <string name="Elevation">Elevación</string>
     <string name="Distance">Distancia</string>
     <string name="companiondevice_pairing_details">Habilita el nuevo soporte de la API de CompanionDevice (sólo tiene efecto en Android 8 o superior) que aumentará la fiabilidad si el servicio necesita ser reiniciado en segundo plano, requiere un re-emparejamiento usando Gadgetbridge paraque surja efecto</string>
-    <string name="notification_channel_high_priority_name">Notificaciones de Gadgetbridge con alta prioridad</string>
+    <string name="notification_channel_high_priority_name">Alta prioridad</string>
     <string name="activity_error_no_app_for_png">Para compartir esta captura de pantalla, instale una aplicación que pueda manejar archivos de imagen.</string>
     <string name="activity_summary_yesterday">Ayer</string>
     <string name="activity_summary_today">Hoy</string>
@@ -1231,4 +1231,24 @@
 \nNota: no es necesario instalar el archivo .res si es idéntico al instalado previamente.
 \n
 \n¡PROCEDA BAJO SU PROPIA CUENTA Y RIESGO!</string>
+    <string name="qhybrid_pref_title_external_intents">Permitir intenciones externas peligrosas</string>
+    <string name="pref_summary_developer_settings">Ajustes y funcionalidades utilizadas por los desarrolladores</string>
+    <string name="pref_title_developer_settings">Configuración de los desarrolladores</string>
+    <string name="qhybrid_pref_title_actions">Acciones</string>
+    <string name="qhybrid_calibration_100_steps">100 pasos</string>
+    <string name="qhybrid_calibration_10_steps">10 pasos</string>
+    <string name="qhybrid_pref_summary_external_intents">Habilitar para permitir que otras aplicaciones de Android suban/sobreescriban archivos</string>
+    <string name="fossil_hr_new_action">Nueva acción</string>
+    <string name="fossil_hr_new_action_cancel">cancelar</string>
+    <string name="fossil_hr_edit_action">Editar acción</string>
+    <string name="fossil_hr_edit_action_delete">borrar</string>
+    <string name="fossil_hr_commute_actions_explanation">Las acciones configuradas aquí aparecerán en la aplicación Commute de su reloj. Lea la wiki para obtener información sobre cómo manejar los intentos producidos por estas acciones.</string>
+    <string name="qhybrid_title_watchface">Configuración de Watchface</string>
+    <string name="notification_channel_low_battery_name">Batería baja</string>
+    <string name="notification_channel_transfer_name">Transferencia de datos</string>
+    <string name="watchface_install_info">Está a punto de instalar el siguiente watchface:
+\n
+\n%1$s
+\nVersión %2$s por %3$s
+\n</string>
 </resources>
