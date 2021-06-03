@@ -518,7 +518,7 @@
     <string name="kind_watchface">Zifferblatt</string>
     <string name="devicetype_xwatch">XWatch</string>
     <string name="choose_auto_export_location">Speicherort für Export auswählen</string>
-    <string name="notification_channel_name">Benachrichtigungen von Gadgetbridge</string>
+    <string name="notification_channel_name">Allgemein</string>
     <string name="menuitem_status">Status</string>
     <string name="menuitem_activity">Aktivität</string>
     <string name="menuitem_weather">Wetter</string>
@@ -848,7 +848,7 @@
     <string name="pref_title_force_white_color_scheme">Schwarz-Weiß-Farbschema erzwingen</string>
     <string name="pref_summary_force_white_color_scheme">Nützlich, wenn deine Uhr dunkle Zeiger hat</string>
     <string name="find_my_phone_notification">Mein Telefon finden</string>
-    <string name="notification_channel_high_priority_name">Gadgetbridge-Benachrichtigungen mit hoher Priorität</string>
+    <string name="notification_channel_high_priority_name">Hohe Priorität</string>
     <string name="pref_title_custom_deviceicon">Gerätespezifisches Benachrichtigungssymbol anzeigen</string>
     <string name="pref_summary_custom_deviceicon">Zeige ein gerätespezifisches Android-Benachrichtigungssymbol anstelle des Gadgetbridge-Symbols, wenn eine Verbindung besteht</string>
     <string name="hr_appname_wellness">Wellness</string>
@@ -1256,4 +1256,12 @@
 \n</string>
     <string name="qhybrid_watchface_configuration_old_firmware">Zifferblattkonfiguration für Uhren mit Firmware-Version DN1.0.2.19r und niedriger</string>
     <string name="qhybrid_title_watchface">Zifferblattkonfiguration</string>
+    <string name="qhybrid_pref_title_external_intents">Gefährliche externe Eingriffe zulassen</string>
+    <string name="qhybrid_pref_summary_external_intents">Aktivieren, um anderen Android-Apps das Hochladen/Überschreiben von Dateien zu erlauben</string>
+    <string name="pref_summary_developer_settings">Von Entwicklern verwendete Einstellungen und Funktionen</string>
+    <string name="pref_title_developer_settings">Entwicklereinstellungen</string>
+    <string name="qhybrid_pref_summary_actions">Aktionen für die Commute-App</string>
+    <string name="qhybrid_pref_title_actions">Aktionen</string>
+    <string name="notification_channel_low_battery_name">Geringer Akkustand</string>
+    <string name="notification_channel_transfer_name">Datentransfer</string>
 </resources>
