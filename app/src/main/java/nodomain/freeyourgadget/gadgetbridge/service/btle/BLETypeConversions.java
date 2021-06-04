@@ -230,8 +230,8 @@ public class BLETypeConversions {
         if (false && timezoneFlags == TZ_FLAG_INCLUDE_DST_IN_TZ) {
             offsetMillis += timeZone.getDSTSavings();
         }
-        int utcOffsetInHours =  (offsetMillis / (1000 * 60 * 60));
-        return (byte) (utcOffsetInHours * 4);
+        int utcOffsetInQuarterHours = (offsetMillis / (1000 * 60 * 15));
+        return (byte) utcOffsetInQuarterHours;
     }
 
     /**
