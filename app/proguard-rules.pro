@@ -47,3 +47,8 @@
 # Keep logback classes
 -keep class ch.qos.** { *; }
 -keep class org.slf4j.** { *; }
+
+# Keep data classes
+-keepclassmembers,allowobfuscation class * {
+  @com.google.gson.annotations.SerializedName <fields>;
+}
