@@ -1195,4 +1195,5 @@
     <string name="pref_summary_developer_settings">Settings and functionality used by developers</string>
     <string name="qhybrid_pref_title_external_intents">Allow dangerous external intents</string>
     <string name="qhybrid_pref_summary_external_intents">Enable to allow other Android apps to upload/overwrite files</string>
+    <string name="devicetype_amazfit_trex_pro">Amazfit T-Rex Pro</string>
 </resources>
