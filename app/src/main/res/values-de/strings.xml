@@ -1264,4 +1264,5 @@
     <string name="qhybrid_pref_title_actions">Aktionen</string>
     <string name="notification_channel_low_battery_name">Geringer Akkustand</string>
     <string name="notification_channel_transfer_name">Datentransfer</string>
+    <string name="devicetype_amazfit_trex_pro">Amazfit T-Rex Pro</string>
 </resources>
