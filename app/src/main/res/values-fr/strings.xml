@@ -1253,4 +1253,5 @@ Temps de sommeil préféré en heures</string>
     <string name="pref_title_developer_settings">Réglages Développeurs</string>
     <string name="qhybrid_pref_summary_actions">Actions pour l\'app Commute</string>
     <string name="qhybrid_pref_title_actions">Actions</string>
+    <string name="devicetype_amazfit_trex_pro">Amazfit T-Rex Pro</string>
 </resources>
