@@ -1253,4 +1253,11 @@
     <string name="qhybrid_title_watchface">Urskive-oppsett</string>
     <string name="notification_channel_low_battery_name">Lavt batterinivå</string>
     <string name="notification_channel_transfer_name">Dataoverføring</string>
+    <string name="devicetype_amazfit_trex_pro">Amazfit T-Rex Pro</string>
+    <string name="qhybrid_pref_summary_external_intents">Lar Android-programmer laste opp/overskrive filer</string>
+    <string name="qhybrid_pref_title_external_intents">Tillat farlige eksterne intensjoner</string>
+    <string name="pref_summary_developer_settings">Innstillinger og funksjonalitet brukt til utvikling</string>
+    <string name="pref_title_developer_settings">Utviklerinnstillinger</string>
+    <string name="qhybrid_pref_summary_actions">Handlinger for pendlerprogrammet</string>
+    <string name="qhybrid_pref_title_actions">Handlinger</string>
 </resources>
