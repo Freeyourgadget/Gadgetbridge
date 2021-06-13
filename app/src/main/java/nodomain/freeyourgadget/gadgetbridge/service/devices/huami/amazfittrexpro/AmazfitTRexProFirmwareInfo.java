@@ -32,19 +32,6 @@ public class AmazfitTRexProFirmwareInfo extends HuamiFirmwareInfo {
             0x20, (byte) 0x99, 0x12, 0x01, 0x08 // completely nonsense probably
     };
 
-    private static final byte[] WATCHFACE_HEADER = new byte[]{
-            0x55, 0x49, 0x48, 0x48, 0x02, 0x00
-    };
-
-
-    private static final byte[] GPS_ALMANAC_HEADER = new byte[]{ // probably wrong
-            (byte) 0xa0, (byte) 0x80, 0x08, 0x00, (byte) 0x8b, 0x07
-    };
-
-    private static final byte[] GPS_CEP_HEADER = new byte[]{ // probably wrong
-            0x2a, 0x12, (byte) 0xa0, 0x02
-    };
-
     // gps detection is totally bogus, just the first 16 bytes
     private static final byte[][] GPS_HEADERS = {
             new byte[]{
@@ -64,7 +51,6 @@ public class AmazfitTRexProFirmwareInfo extends HuamiFirmwareInfo {
         // font
 
         // gps
-        crcToVersion.put(62532, "18344,eb2f43f,126");
     }
 
     public AmazfitTRexProFirmwareInfo(byte[] bytes) {
@@ -82,9 +68,10 @@ public class AmazfitTRexProFirmwareInfo extends HuamiFirmwareInfo {
             }
             return HuamiFirmwareType.INVALID;
         }
-        if (ArrayUtils.startsWith(bytes, WATCHFACE_HEADER) || ArrayUtils.equals(bytes, WATCHFACE_HEADER, COMPRESSED_RES_HEADER_OFFSET_NEW) || ArrayUtils.equals(bytes, WATCHFACE_HEADER, COMPRESSED_RES_HEADER_OFFSET)) {
+        if (ArrayUtils.startsWith(bytes, UIHH_HEADER) && (bytes[4] == 1 || bytes[4] == 2)) {
             return HuamiFirmwareType.WATCHFACE;
         }
+
         if (ArrayUtils.startsWith(bytes, NEWFT_HEADER)) {
             if (bytes[10] == 0x01) {
                 return HuamiFirmwareType.FONT;
@@ -96,8 +83,13 @@ public class AmazfitTRexProFirmwareInfo extends HuamiFirmwareInfo {
         if (ArrayUtils.startsWith(bytes, GPS_ALMANAC_HEADER)) {
             return HuamiFirmwareType.GPS_ALMANAC;
         }
+
         if (ArrayUtils.startsWith(bytes, GPS_CEP_HEADER)) {
             return HuamiFirmwareType.GPS_CEP;
+        }
+
+        if (ArrayUtils.startsWith(bytes, AGPS_UIHH_HEADER)) {
+            return HuamiFirmwareType.AGPS_UIHH;
         }
 
         for (byte[] gpsHeader : GPS_HEADERS) {
