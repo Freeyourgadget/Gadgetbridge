@@ -23,7 +23,7 @@ import java.io.IOException;
 
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiFWHelper;
-import nodomain.freeyourgadget.gadgetbridge.devices.huami.amazfittrex.AmazfitTRexFWHelper;
+import nodomain.freeyourgadget.gadgetbridge.devices.huami.amazfittrexpro.AmazfitTRexProFWHelper;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.amazfitgts.AmazfitGTSSupport;
 
@@ -31,7 +31,7 @@ public class AmazfitTRexProSupport extends AmazfitGTSSupport {
 
     @Override
     public HuamiFWHelper createFWHelper(Uri uri, Context context) throws IOException {
-        return new AmazfitTRexFWHelper(uri, context);
+        return new AmazfitTRexProFWHelper(uri, context);
     }
 
     @Override

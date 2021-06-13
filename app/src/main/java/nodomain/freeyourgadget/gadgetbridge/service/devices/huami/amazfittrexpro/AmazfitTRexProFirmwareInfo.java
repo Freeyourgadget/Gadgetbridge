@@ -32,6 +32,11 @@ public class AmazfitTRexProFirmwareInfo extends HuamiFirmwareInfo {
             0x20, (byte) 0x99, 0x12, 0x01, 0x08 // completely nonsense probably
     };
 
+    private static final byte[] WATCHFACE_HEADER = new byte[]{
+            0x55, 0x49, 0x48, 0x48, 0x02, 0x00
+    };
+
+
     private static final byte[] GPS_ALMANAC_HEADER = new byte[]{ // probably wrong
             (byte) 0xa0, (byte) 0x80, 0x08, 0x00, (byte) 0x8b, 0x07
     };

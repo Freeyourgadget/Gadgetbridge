@@ -88,7 +88,7 @@ public class AmazfitTRexProCoordinator extends HuamiCoordinator {
     }
     public int[] getSupportedDeviceSpecificSettings(GBDevice device) {
         return new int[]{
-                R.xml.devicesettings_amazfittrex,
+                R.xml.devicesettings_amazfittrexpro,
                 R.xml.devicesettings_wearlocation,
                 R.xml.devicesettings_timeformat,
                 R.xml.devicesettings_liftwrist_display,
