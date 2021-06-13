@@ -1,5 +1,13 @@
 ### Changelog
 
+### 0.58.0 (NEXT)
+* Initial experimental support for Amazfit T-Rex Pro
+* InfiniTime: Try to fix firmware upgrage by fiddleing with optimization rules
+* Huami: Fix lost samples bug with timezones that are have a 30 minute offset
+* Fossil Hybrid HR: Block dangerous intents by default and move some settings to developer settings submenu
+* Improved logging in bonding and tried to recover from weirdness
+* Use a seperate notification channel for low battery warnings
+
 ### 0.57.1
 * Mi Band 6: Add Pomodoro to menu items
 * Mi Band 6: Support flashing firmware, res and watchfaces
