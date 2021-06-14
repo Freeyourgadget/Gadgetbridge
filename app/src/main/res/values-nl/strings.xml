@@ -1249,10 +1249,11 @@
     <string name="qhybrid_title_watchface">Wijzerplaat instellen</string>
     <string name="notification_channel_low_battery_name">Batterij bijna leeg</string>
     <string name="notification_channel_transfer_name">Gegevensoverdracht</string>
-    <string name="qhybrid_pref_summary_external_intents">Inschakelen om toe te staan dat andere Android-apps bestanden uploaden/overschrijven</string>
+    <string name="qhybrid_pref_summary_external_intents">Staat andere Android-apps toe om bestanden te uploaden/overschrijven</string>
     <string name="qhybrid_pref_title_external_intents">Gevaarlijke externe intents toestaan</string>
     <string name="pref_summary_developer_settings">Instellingen en functionaliteit voor ontwikkelaars</string>
     <string name="pref_title_developer_settings">Ontwikkelaarsinstellingen</string>
     <string name="qhybrid_pref_summary_actions">Acties voor de Reistijd-app</string>
     <string name="qhybrid_pref_title_actions">Acties</string>
+    <string name="devicetype_amazfit_trex_pro">Amazfit T-Rex Pro</string>
 </resources>
