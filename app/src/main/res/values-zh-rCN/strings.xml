@@ -1254,10 +1254,11 @@
     <string name="qhybrid_title_watchface">表盘配置</string>
     <string name="notification_channel_low_battery_name">低电量</string>
     <string name="notification_channel_transfer_name">数据传输</string>
-    <string name="qhybrid_pref_summary_external_intents">启用以允许其他 Android 应用上传/覆盖文件</string>
+    <string name="qhybrid_pref_summary_external_intents">允许其他 Android 应用上传/覆盖文件</string>
     <string name="qhybrid_pref_title_external_intents">允许危险的外部意图</string>
     <string name="pref_summary_developer_settings">开发者使用的设置和功能</string>
     <string name="pref_title_developer_settings">开发者设置</string>
     <string name="qhybrid_pref_summary_actions">为通勤应用的动作</string>
     <string name="qhybrid_pref_title_actions">动作</string>
+    <string name="devicetype_amazfit_trex_pro">华米 T-Rex Pro</string>
 </resources>
