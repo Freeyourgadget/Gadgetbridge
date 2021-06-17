@@ -1257,7 +1257,7 @@
     <string name="qhybrid_watchface_configuration_old_firmware">Zifferblattkonfiguration für Uhren mit Firmware-Version DN1.0.2.19r und niedriger</string>
     <string name="qhybrid_title_watchface">Zifferblattkonfiguration</string>
     <string name="qhybrid_pref_title_external_intents">Gefährliche externe Eingriffe zulassen</string>
-    <string name="qhybrid_pref_summary_external_intents">Aktivieren, um anderen Android-Apps das Hochladen/Überschreiben von Dateien zu erlauben</string>
+    <string name="qhybrid_pref_summary_external_intents">Erlaubt anderen Android-Apps das Hochladen/Überschreiben von Dateien</string>
     <string name="pref_summary_developer_settings">Von Entwicklern verwendete Einstellungen und Funktionen</string>
     <string name="pref_title_developer_settings">Entwicklereinstellungen</string>
     <string name="qhybrid_pref_summary_actions">Aktionen für die Commute-App</string>
