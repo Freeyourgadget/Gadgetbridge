@@ -1165,7 +1165,7 @@
     <string name="dbmanagementactivity_export_confirmation">Czy naprawdę wyeksportować dane\? Wyeksportowane wcześniej dane o aktywnościach (jeśli takie istnieją) i ustawienia zostaną nadpisane.</string>
     <string name="dbmanagementactivity_export_data_title">Wyeksportować dane\?</string>
     <string name="activity_db_management_clean_export_directory_text">Eksportowane pliki w katalogu eksportu/importu są dostępne dla każdej aplikacji na Twoim urządzeniu. Możesz chcieć usunąć te pliki po synchronizacji lub utworzeniu kopii zapasowej. Upewnij się, że masz kopię zapasową przed ich usunięciem. Pliki GPX, podkatalogi i automatycznie wyeksportowane pliki bazy danych (jeśli istnieją) nie zostaną usunięte. Ścieżka do katalogu eksportu/ importu to:</string>
-    <string name="activity_db_management_clean_export_directory_label">Usuń pliki w katalogu eksportu/importu</string>
+    <string name="activity_db_management_clean_export_directory_label">Usuwanie plików z katalogu eksportu/importu</string>
     <string name="dbmanagementactivity_export_finished">Usuwanie ukończone</string>
     <string name="activity_DB_clean_export_directory_warning_message">Czy na pewno usunąć pliki z katalogu eksportu/importu\?</string>
     <string name="activity_DB_clean_export_directory_warning_title">Usunąć pliki z katalogu eksportu/importu\?</string>
@@ -1257,4 +1257,10 @@
     <string name="notification_channel_low_battery_name">Niski poziom baterii</string>
     <string name="notification_channel_transfer_name">Transfer danych</string>
     <string name="devicetype_amazfit_trex_pro">Amazfit T-Rex Pro</string>
+    <string name="qhybrid_pref_title_external_intents">Zezwalaj na niebezpieczne intencje zewnętrzne</string>
+    <string name="qhybrid_pref_summary_actions">Działania aplikacji Commute</string>
+    <string name="qhybrid_pref_title_actions">Działania</string>
+    <string name="qhybrid_pref_summary_external_intents">Umożliwia innym aplikacjom Androida na przesyłanie/nadpisywanie plików</string>
+    <string name="pref_summary_developer_settings">Ustawienia i funkcje wykorzystywane przez programistów</string>
+    <string name="pref_title_developer_settings">Opcje programistyczne</string>
 </resources>
