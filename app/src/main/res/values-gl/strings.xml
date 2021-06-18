@@ -522,4 +522,14 @@
     <string name="sonyswr12_settings_stamina_summary">O modo de aforro de enerxía desactiva a medición automática periódica da frecuencia cardíaca, polo que aumenta o tempo de traballo</string>
     <string name="sonyswr12_settings_alarm_interval_summary">O intervalo de alarma intelixente é o intervalo antes da alarma instalada. Neste intervalo o dispositivo está intentando detectar a fase máis lixeira do sono para espertar ao usuario</string>
     <string name="sonyswr12_settings_stamina">Modo de aforro de enerxía activado</string>
+    <string name="calendar_two_weeks">Dúas semanas</string>
+    <string name="calendar_week">Semana</string>
+    <string name="calendar_day">Día</string>
+    <string name="battery_level">Nivel da batería</string>
+    <string name="battery_detail_activity_title">Info da batería</string>
+    <string name="controlcenter_calibrate_device">Calibrar dispositivo</string>
+    <string name="controlcenter_set_alias">Establecer Alias</string>
+    <string name="controlcenter_change_fm_frequency">Cambiar frecuencia FM</string>
+    <string name="controlcenter_change_led_color">Cambiar cor LED</string>
+    <string name="find_lost_device_message">Buscar a %1$s\?</string>
 </resources>
