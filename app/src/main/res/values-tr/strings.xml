@@ -1280,4 +1280,5 @@
     <string name="qhybrid_pref_summary_actions">İşe Gidip Gelme uygulaması için eylemler</string>
     <string name="qhybrid_pref_title_actions">Eylemler</string>
     <string name="devicetype_amazfit_trex_pro">Amazfit T-Rex Pro</string>
+    <string name="menuitem_barometer">Barometre</string>
 </resources>
