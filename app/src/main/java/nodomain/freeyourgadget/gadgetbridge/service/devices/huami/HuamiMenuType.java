@@ -58,7 +58,8 @@ class HuamiMenuType {
         put("calories",0x36);
         put("pomodoro", 0x38);
         put("alexa", 0x39);
-        put("temperature", 0x40);
         put("battery", 0x3a);
+        put("temperature", 0x40);
+        put("barometer", 0x41);
     }};
 }

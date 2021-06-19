@@ -53,6 +53,7 @@
     <item name="p_menuitem_events" type="string">events</item>
     <item name="p_menuitem_widgets" type="string">widgets</item>
     <item name="p_menuitem_temperature" type="string">temperature</item>
+    <item name="p_menuitem_barometer" type="string">barometer</item>
 
     <!-- currently used for sounds -->
     <item name="p_menuitem_button" type="string">button</item>

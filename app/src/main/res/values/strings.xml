@@ -911,6 +911,7 @@
     <string name="menuitem_events">Events</string>
     <string name="menuitem_widgets">Widgets</string>
     <string name="menuitem_temperature">Temperature</string>
+    <string name="menuitem_barometer">Barometer</string>
     <string name="watch9_time_minutes">Minutes:</string>
     <string name="watch9_time_hours">Hours:</string>
     <string name="watch9_time_seconds">Seconds:</string>
