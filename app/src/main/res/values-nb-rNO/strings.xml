@@ -1260,4 +1260,5 @@
     <string name="pref_title_developer_settings">Utviklerinnstillinger</string>
     <string name="qhybrid_pref_summary_actions">Handlinger for pendlerprogrammet</string>
     <string name="qhybrid_pref_title_actions">Handlinger</string>
+    <string name="menuitem_barometer">Barometer</string>
 </resources>
