@@ -1247,11 +1247,12 @@ Temps de sommeil préféré en heures</string>
     <string name="qhybrid_title_watchface">Configuration de la facade</string>
     <string name="notification_channel_low_battery_name">Batterie faible</string>
     <string name="notification_channel_transfer_name">Transfert de données</string>
-    <string name="qhybrid_pref_summary_external_intents">Autorise d\'autres apps Android à envoyer/écraser des fichiers</string>
+    <string name="qhybrid_pref_summary_external_intents">Autoriser d\'autres apps Android à envoyer/écraser des fichiers</string>
     <string name="qhybrid_pref_title_external_intents">Autorise des intentions externes dangereux</string>
     <string name="pref_summary_developer_settings">Réglages et fonctionnalités utilisés par les développeurs</string>
     <string name="pref_title_developer_settings">Réglages Développeurs</string>
     <string name="qhybrid_pref_summary_actions">Actions pour l\'app Commute</string>
     <string name="qhybrid_pref_title_actions">Actions</string>
     <string name="devicetype_amazfit_trex_pro">Amazfit T-Rex Pro</string>
+    <string name="menuitem_barometer">Baromètre</string>
 </resources>
