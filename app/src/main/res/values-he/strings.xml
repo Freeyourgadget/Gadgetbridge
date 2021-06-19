@@ -1256,4 +1256,5 @@
     <string name="qhybrid_pref_summary_actions">פעולות ליישומון התעבורה</string>
     <string name="qhybrid_pref_title_actions">פעולות</string>
     <string name="devicetype_amazfit_trex_pro">Amazfit T-Rex Pro</string>
+    <string name="menuitem_barometer">מד לחץ</string>
 </resources>
