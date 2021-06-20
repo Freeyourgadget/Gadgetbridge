@@ -17,6 +17,7 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.activities.appmanager;
 
+import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -249,8 +250,6 @@ public abstract class AbstractAppManagerFragment extends Fragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        mGBDevice = ((AppManagerActivity) getActivity()).getGBDevice();
-        mCoordinator = DeviceHelper.getInstance().getCoordinator(mGBDevice);
 
         IntentFilter filter = new IntentFilter();
         filter.addAction(ACTION_REFRESH_APPLIST);
@@ -269,8 +268,12 @@ public abstract class AbstractAppManagerFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        mGBDevice = ((AppManagerActivity) getActivity()).getGBDevice();
+        mCoordinator = DeviceHelper.getInstance().getCoordinator(mGBDevice);
 
         final FloatingActionButton appListFab = ((FloatingActionButton) getActivity().findViewById(R.id.fab));
+        final FloatingActionButton appListFabNew = ((FloatingActionButton) getActivity().findViewById(R.id.fab_new));
+        final Class<? extends Activity> watchfaceDesignerActivity = mCoordinator.getWatchfaceDesignerActivity();
         View rootView = inflater.inflate(R.layout.activity_appmanager, container, false);
 
         RecyclerView appListView = (RecyclerView) (rootView.findViewById(R.id.appListView));
@@ -280,8 +283,12 @@ public abstract class AbstractAppManagerFragment extends Fragment {
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 if (dy > 0) {
                     appListFab.hide();
+                    appListFabNew.hide();
                 } else if (dy < 0) {
                     appListFab.show();
+                    if (watchfaceDesignerActivity != null) {
+                        appListFabNew.show();
+                    }
                 }
             }
         });
@@ -293,6 +300,19 @@ public abstract class AbstractAppManagerFragment extends Fragment {
         appManagementTouchHelper = new ItemTouchHelper(appItemTouchHelperCallback);
 
         appManagementTouchHelper.attachToRecyclerView(appListView);
+
+        if ((watchfaceDesignerActivity != null) && (appListFabNew != null)) {
+            appListFabNew.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent startIntent = new Intent(getContext(), watchfaceDesignerActivity);
+                    startIntent.putExtra(GBDevice.EXTRA_DEVICE, mGBDevice);
+                    getContext().startActivity(startIntent);
+                }
+            });
+            appListFabNew.show();
+        }
+
         return rootView;
     }
 
@@ -385,7 +405,7 @@ public abstract class AbstractAppManagerFragment extends Fragment {
         switch (item.getItemId()) {
             case R.id.appmanager_app_delete_cache:
                 String baseName = selectedApp.getUUID().toString();
-                String[] suffixToDelete = new String[]{mCoordinator.getAppFileExtension(), ".json", "_config.js", "_preset.json"};
+                String[] suffixToDelete = new String[]{mCoordinator.getAppFileExtension(), ".json", "_config.js", "_preset.json", ".png"};
                 for (String suffix : suffixToDelete) {
                     File fileToDelete = new File(appCacheDir,baseName + suffix);
                     if (!fileToDelete.delete()) {

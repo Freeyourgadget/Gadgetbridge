@@ -174,6 +174,12 @@ public abstract class AbstractDeviceCoordinator implements DeviceCoordinator {
         return false;
     }
 
+    @Nullable
+    @Override
+    public Class<? extends Activity> getWatchfaceDesignerActivity() {
+        return null;
+    }
+
     @Override
     public int getBondingStyle() {
         return BONDING_STYLE_ASK;

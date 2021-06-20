@@ -43,6 +43,7 @@ import nodomain.freeyourgadget.gadgetbridge.util.UriHelper;
  */
 public class FossilFileReader {
     private static final Logger LOG = LoggerFactory.getLogger(FossilFileReader.class);
+    private Uri uri;
     private final UriHelper uriHelper;
     private boolean isValid = false;
     private boolean isFirmware = false;
@@ -54,6 +55,7 @@ public class FossilFileReader {
     private JSONObject mAppKeys;
 
     public FossilFileReader(Uri uri, Context context) throws IOException {
+        this.uri = uri;
         uriHelper = UriHelper.get(uri, context);
 
         try (InputStream in = new BufferedInputStream(uriHelper.openInputStream())) {
@@ -188,6 +190,10 @@ public class FossilFileReader {
 
     public boolean isWatchface() {
         return isWatchface;
+    }
+
+    public Uri getUri() {
+        return uri;
     }
 
     public String getVersion() {

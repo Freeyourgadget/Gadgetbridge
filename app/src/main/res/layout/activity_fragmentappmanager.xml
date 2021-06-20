@@ -33,7 +33,20 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true"
         android:layout_gravity="bottom|end"
-        app:srcCompat="@drawable/ic_add"
+        app:srcCompat="@android:drawable/stat_sys_upload"
         android:layout_margin="16dp" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab_new"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_gravity="bottom|end"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="90dp"
+        app:srcCompat="@drawable/ic_add"
+        android:visibility="invisible"
+        />
 
 </android.widget.RelativeLayout>

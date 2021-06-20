@@ -245,6 +245,13 @@ public interface DeviceCoordinator {
     Class<? extends Activity> getAppsManagementActivity();
 
     /**
+     * Returns the Activity class that will be used to design watchfaces.
+     *
+     * @return
+     */
+    Class<? extends Activity> getWatchfaceDesignerActivity();
+
+    /**
      * Returns the device app cache directory.
      */
     File getAppCacheDir() throws IOException;

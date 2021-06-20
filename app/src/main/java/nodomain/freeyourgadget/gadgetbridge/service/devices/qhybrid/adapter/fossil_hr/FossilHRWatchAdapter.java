@@ -1,4 +1,4 @@
-/*  Copyright (C) 2019-2021 Andreas Shimokawa, Carsten Pfeiffer, Daniel Dakhno
+/*  Copyright (C) 2019-2021 Andreas Shimokawa, Carsten Pfeiffer, Daniel Dakhno, Arjan Schrijver
 
     This file is part of Gadgetbridge.
 
@@ -153,7 +153,6 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
     private CallSpec currentCallSpec = null;
     private MusicSpec currentSpec = null;
 
-    int imageNameIndex = 0;
     private byte jsonIndex = 0;
 
     private AssetImage backGroundImage = null;
@@ -1242,7 +1241,6 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
             }
         });*/
     }
-
 
     public byte[] getSecretKey() throws IllegalAccessException {
         byte[] authKeyBytes = new byte[16];

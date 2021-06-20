@@ -51,7 +51,7 @@ import nodomain.freeyourgadget.gadgetbridge.util.FileUtils;
 
 public class AppManagerActivity extends AbstractGBFragmentActivity {
 
-    private static final Logger LOG = LoggerFactory.getLogger(AbstractAppManagerFragment.class);
+    private static final Logger LOG = LoggerFactory.getLogger(AppManagerActivity.class);
     private int READ_REQUEST_CODE = 42;
 
     private GBDevice mGBDevice = null;

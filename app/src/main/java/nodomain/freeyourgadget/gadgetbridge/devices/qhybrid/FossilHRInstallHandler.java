@@ -18,6 +18,7 @@ package nodomain.freeyourgadget.gadgetbridge.devices.qhybrid;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.net.Uri;
 
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
@@ -29,6 +30,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Writer;
@@ -104,6 +106,12 @@ public class FossilHRInstallHandler implements InstallHandler {
         if (fossilFile.isFirmware()) {
             return;
         }
+        saveAppInCache(fossilFile, null, mCoordinator, mContext);
+        // refresh list
+        manager.sendBroadcast(new Intent(AbstractAppManagerFragment.ACTION_REFRESH_APPLIST));
+    }
+
+    public static void saveAppInCache(FossilFileReader fossilFile, Bitmap backgroundImg, DeviceCoordinator mCoordinator, Context mContext) {
         GBDeviceApp app;
         File destDir;
         // write app file
@@ -111,7 +119,7 @@ public class FossilHRInstallHandler implements InstallHandler {
             app = fossilFile.getGBDeviceApp();
             destDir = mCoordinator.getAppCacheDir();
             destDir.mkdirs();
-            FileUtils.copyURItoFile(mContext, mUri, new File(destDir, app.getUUID().toString() + mCoordinator.getAppFileExtension()));
+            FileUtils.copyURItoFile(mContext, fossilFile.getUri(), new File(destDir, app.getUUID().toString() + mCoordinator.getAppFileExtension()));
         } catch (IOException e) {
             LOG.error("Saving app in cache failed: " + e.getMessage(), e);
             return;
@@ -140,8 +148,17 @@ public class FossilHRInstallHandler implements InstallHandler {
         } catch (JSONException e) {
             LOG.error(e.getMessage(), e);
         }
-        // refresh list
-        manager.sendBroadcast(new Intent(AbstractAppManagerFragment.ACTION_REFRESH_APPLIST));
+        // write watchface background image
+        if (backgroundImg != null) {
+            outputFile = new File(destDir, app.getUUID().toString() + ".png");
+            try {
+                FileOutputStream fos = new FileOutputStream(outputFile);
+                backgroundImg.compress(Bitmap.CompressFormat.PNG, 9, fos);
+                fos.close();
+            } catch (IOException e) {
+                LOG.error("Failed to write to output file: " + e.getMessage(), e);
+            }
+        }
     }
 
     @Override

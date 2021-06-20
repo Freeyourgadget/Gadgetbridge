@@ -176,6 +176,11 @@ public class QHybridCoordinator extends AbstractDeviceCoordinator {
         return isHybridHR() ? AppManagerActivity.class : ConfigActivity.class;
     }
 
+    @Override
+    public Class<? extends Activity> getWatchfaceDesignerActivity() {
+        return isHybridHR() ? HybridHRWatchfaceDesignerActivity.class : null;
+    }
+
     /**
      * Returns the directory containing the watch app cache.
      * @throws IOException when the external files directory cannot be accessed

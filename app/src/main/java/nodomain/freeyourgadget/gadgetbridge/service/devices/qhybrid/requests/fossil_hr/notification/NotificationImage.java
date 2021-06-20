@@ -1,4 +1,4 @@
-/*  Copyright (C) 2019-2021 Daniel Dakhno
+/*  Copyright (C) 2019-2021 Daniel Dakhno, Arjan Schrijver
 
     This file is part of Gadgetbridge.
 
@@ -17,16 +17,13 @@
 package nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.notification;
 
 import android.graphics.Bitmap;
-import android.graphics.Canvas;
-import android.graphics.ColorMatrix;
-import android.graphics.ColorMatrixColorFilter;
-import android.graphics.Paint;
 import android.graphics.drawable.Drawable;
 
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.file.AssetFile;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.image.ImageConverter;
+import nodomain.freeyourgadget.gadgetbridge.util.BitmapUtil;
 
 import static nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.encoder.RLEEncoder.RLEEncode;
-import static nodomain.freeyourgadget.gadgetbridge.util.BitmapUtil.convertDrawableToBitmap;
 
 public class NotificationImage extends AssetFile {
     public static final int MAX_ICON_WIDTH = 24;
@@ -41,7 +38,7 @@ public class NotificationImage extends AssetFile {
     }
 
     public NotificationImage(String fileName, Bitmap iconBitmap) {
-        super(fileName, RLEEncode(get2BitsPixelsFromBitmap(convertIcon(iconBitmap))));
+        super(fileName, RLEEncode(ImageConverter.get2BitsRLEImageBytes(BitmapUtil.scaleWithMax(iconBitmap, MAX_ICON_WIDTH, MAX_ICON_HEIGHT))));
         this.width = Math.min(iconBitmap.getWidth(), MAX_ICON_WIDTH);
         this.height = Math.min(iconBitmap.getHeight(), MAX_ICON_HEIGHT);
     }
@@ -51,41 +48,8 @@ public class NotificationImage extends AssetFile {
     public int getWidth() { return width; }
     public int getHeight() { return height; }
 
-    private static Bitmap convertIcon(Bitmap bitmap) {
-        // Scale image only if necessary
-        if ((bitmap.getWidth() > MAX_ICON_WIDTH) || (bitmap.getHeight() > MAX_ICON_HEIGHT)) {
-            bitmap = Bitmap.createScaledBitmap(bitmap, MAX_ICON_WIDTH, MAX_ICON_HEIGHT, true);
-        }
-        // Convert to grayscale
-        Canvas c = new Canvas(bitmap);
-        Paint paint = new Paint();
-        ColorMatrix cm = new ColorMatrix();
-        cm.setSaturation(0);
-        ColorMatrixColorFilter f = new ColorMatrixColorFilter(cm);
-        paint.setColorFilter(f);
-        c.drawBitmap(bitmap, 0, 0, paint);
-        // Increase brightness
-//        bitmap = changeBitmapContrastBrightness(bitmap, 1, -50);
-        // Return result
-        return bitmap;
-    }
-
-    public static byte[] get2BitsPixelsFromBitmap(Bitmap bitmap) {
-        // Downsample to 2 bits image
-        int[] pixels = new int[bitmap.getWidth() * bitmap.getHeight()];
-        bitmap.getPixels(pixels, 0, bitmap.getWidth(), 0, 0, bitmap.getWidth(), bitmap.getHeight());
-        byte[] b_pixels = new byte[pixels.length];
-        for (int i = 0; i < pixels.length; i++) {
-            b_pixels[i] = (byte) (pixels[i] >> 6 & 0x03);
-        }
-        return b_pixels;
-    }
-
     public static byte[] getEncodedIconFromDrawable(Drawable drawable) {
-        Bitmap icIncomingCallBitmap = convertDrawableToBitmap(drawable);
-        if ((icIncomingCallBitmap.getWidth() > MAX_ICON_WIDTH) || (icIncomingCallBitmap.getHeight() > MAX_ICON_HEIGHT)) {
-            icIncomingCallBitmap = Bitmap.createScaledBitmap(icIncomingCallBitmap, MAX_ICON_WIDTH, MAX_ICON_HEIGHT, true);
-        }
-        return RLEEncode(NotificationImage.get2BitsPixelsFromBitmap(icIncomingCallBitmap));
+        Bitmap iconBitmap = BitmapUtil.scaleWithMax(BitmapUtil.convertDrawableToBitmap(drawable), MAX_ICON_WIDTH, MAX_ICON_HEIGHT);
+        return RLEEncode(ImageConverter.get2BitsRLEImageBytes(iconBitmap));
     }
 }

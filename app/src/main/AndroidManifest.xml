@@ -619,6 +619,10 @@
             android:label="@string/qhybrid_pref_title_actions"
             android:parentActivityName=".devices.qhybrid.HRConfigActivity" />
         <activity
+            android:name=".devices.qhybrid.HybridHRWatchfaceDesignerActivity"
+            android:label="Watchface designer"
+            android:parentActivityName=".activities.appmanager.AppManagerActivity" />
+        <activity
             android:name=".devices.um25.Activity.DataActivity"
             android:exported="true" />
 

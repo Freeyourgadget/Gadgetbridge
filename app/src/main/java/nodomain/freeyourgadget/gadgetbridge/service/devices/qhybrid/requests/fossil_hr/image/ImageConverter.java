@@ -1,4 +1,4 @@
-/*  Copyright (C) 2020-2021 Daniel Dakhno
+/*  Copyright (C) 2020-2021 Daniel Dakhno, Arjan Schrijver
 
     This file is part of Gadgetbridge.
 
@@ -17,6 +17,9 @@
 package nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.image;
 
 import android.graphics.Bitmap;
+import android.graphics.Color;
+
+import androidx.annotation.ColorInt;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -24,8 +27,35 @@ import java.io.IOException;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.encoder.RLEEncoder;
 
 public class ImageConverter {
-    public static void encodeToTwoBitImage(byte monochromeImage){
+    public static byte[] get2BitsRLEImageBytes(Bitmap bitmap) {
+        int[] pixels = new int[bitmap.getWidth() * bitmap.getHeight()];
+        bitmap.getPixels(pixels, 0, bitmap.getWidth(), 0, 0, bitmap.getWidth(), bitmap.getHeight());
+        byte[] b_pixels = new byte[pixels.length];
+        for (int i = 0; i < pixels.length; i++) {
+            int monochrome = convertToMonochrome(pixels[i]);
+            monochrome >>= 6;
 
+            int alpha = Color.alpha(pixels[i]);
+            monochrome |= (~((alpha & 0xFF) >> 4) & 0b00001100);
+
+            b_pixels[i] = (byte) monochrome;
+        }
+        return b_pixels;
+    }
+
+    public static byte[] get2BitsRAWImageBytes(Bitmap bitmap) {
+        int width = bitmap.getWidth();
+        int height = bitmap.getHeight();
+        byte[] pixelBytes = new byte[width * height];
+
+        for(int y = 0; y < height; y++){
+            for(int x = 0; x < width; x++){
+                int pixel = bitmap.getPixel(x, y);
+                int monochrome = convertToMonochrome(pixel);
+                pixelBytes[pixelBytes.length - 1 - (y * width + x)] = (byte) monochrome;
+            }
+        }
+        return pixelBytes;
     }
 
     public static byte[] encodeToRLEImage(byte[] monochromeImage, int height, int width) throws IOException {
@@ -56,5 +86,11 @@ public class ImageConverter {
         }
 
         return result;
+    }
+
+    public static @ColorInt int convertToMonochrome(@ColorInt int color){
+        int sum = Color.red(color) + Color.green(color) + Color.blue(color);
+        sum /= 3;
+        return sum;
     }
 }
