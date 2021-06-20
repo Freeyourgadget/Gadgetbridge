@@ -1261,4 +1261,5 @@
     <string name="qhybrid_pref_summary_actions">为通勤应用的动作</string>
     <string name="qhybrid_pref_title_actions">动作</string>
     <string name="devicetype_amazfit_trex_pro">华米 T-Rex Pro</string>
+    <string name="menuitem_barometer">气压计</string>
 </resources>
