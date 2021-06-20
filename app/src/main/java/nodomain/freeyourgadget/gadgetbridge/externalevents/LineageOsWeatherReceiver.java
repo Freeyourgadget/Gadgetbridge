@@ -16,6 +16,14 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.externalevents;
 
+import static lineageos.providers.WeatherContract.WeatherColumns.TempUnit.FAHRENHEIT;
+import static lineageos.providers.WeatherContract.WeatherColumns.WeatherCode.ISOLATED_THUNDERSHOWERS;
+import static lineageos.providers.WeatherContract.WeatherColumns.WeatherCode.NOT_AVAILABLE;
+import static lineageos.providers.WeatherContract.WeatherColumns.WeatherCode.SCATTERED_SNOW_SHOWERS;
+import static lineageos.providers.WeatherContract.WeatherColumns.WeatherCode.SCATTERED_THUNDERSTORMS;
+import static lineageos.providers.WeatherContract.WeatherColumns.WeatherCode.SHOWERS;
+import static lineageos.providers.WeatherContract.WeatherColumns.WindSpeedUnit.MPH;
+
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
@@ -42,14 +50,6 @@ import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.model.Weather;
 import nodomain.freeyourgadget.gadgetbridge.model.WeatherSpec;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
-
-import static lineageos.providers.WeatherContract.WeatherColumns.TempUnit.FAHRENHEIT;
-import static lineageos.providers.WeatherContract.WeatherColumns.WeatherCode.ISOLATED_THUNDERSHOWERS;
-import static lineageos.providers.WeatherContract.WeatherColumns.WeatherCode.NOT_AVAILABLE;
-import static lineageos.providers.WeatherContract.WeatherColumns.WeatherCode.SCATTERED_SNOW_SHOWERS;
-import static lineageos.providers.WeatherContract.WeatherColumns.WeatherCode.SCATTERED_THUNDERSTORMS;
-import static lineageos.providers.WeatherContract.WeatherColumns.WeatherCode.SHOWERS;
-import static lineageos.providers.WeatherContract.WeatherColumns.WindSpeedUnit.MPH;
 
 @RequiresApi(api = Build.VERSION_CODES.M)
 public class LineageOsWeatherReceiver extends BroadcastReceiver implements LineageWeatherManager.WeatherUpdateRequestListener, LineageWeatherManager.LookupCityRequestListener {
@@ -136,6 +136,26 @@ public class LineageOsWeatherReceiver extends BroadcastReceiver implements Linea
         }
     }
 
+    /**
+     * @param cmCondition LineageOS/CyanogenMod condition code
+     * @return Yahoo condition code
+     */
+    private static int LineageOSToYahooCondition(int cmCondition) {
+        int yahooCondition;
+        if (cmCondition <= SHOWERS) {
+            yahooCondition = cmCondition;
+        } else if (cmCondition <= SCATTERED_THUNDERSTORMS) {
+            yahooCondition = cmCondition + 1;
+        } else if (cmCondition <= SCATTERED_SNOW_SHOWERS) {
+            yahooCondition = cmCondition + 2;
+        } else if (cmCondition <= ISOLATED_THUNDERSHOWERS) {
+            yahooCondition = cmCondition + 3;
+        } else {
+            yahooCondition = NOT_AVAILABLE;
+        }
+        return yahooCondition;
+    }
+
     @Override
     public void onWeatherRequestCompleted(int status, WeatherInfo weatherInfo) {
         if (weatherInfo != null) {
@@ -160,7 +180,7 @@ public class LineageOsWeatherReceiver extends BroadcastReceiver implements Linea
             }
             weatherSpec.windDirection = (int) weatherInfo.getWindDirection();
 
-            weatherSpec.currentConditionCode = Weather.mapToOpenWeatherMapCondition(LineageOstoYahooCondintion(weatherInfo.getConditionCode()));
+            weatherSpec.currentConditionCode = Weather.mapToOpenWeatherMapCondition(LineageOSToYahooCondition(weatherInfo.getConditionCode()));
             weatherSpec.currentCondition = Weather.getConditionString(weatherSpec.currentConditionCode);
             weatherSpec.currentHumidity = (int) weatherInfo.getHumidity();
 
@@ -176,7 +196,7 @@ public class LineageOsWeatherReceiver extends BroadcastReceiver implements Linea
                     gbForecast.maxTemp = (int) cmForecast.getHigh() + 273;
                     gbForecast.minTemp = (int) cmForecast.getLow() + 273;
                 }
-                gbForecast.conditionCode = Weather.mapToOpenWeatherMapCondition(LineageOstoYahooCondintion(cmForecast.getConditionCode()));
+                gbForecast.conditionCode = Weather.mapToOpenWeatherMapCondition(LineageOSToYahooCondition(cmForecast.getConditionCode()));
                 weatherSpec.forecasts.add(gbForecast);
             }
             Weather.getInstance().setWeatherSpec(weatherSpec);
@@ -184,26 +204,6 @@ public class LineageOsWeatherReceiver extends BroadcastReceiver implements Linea
         } else {
             LOG.info("request has returned null for WeatherInfo");
         }
-    }
-
-    /**
-     * @param cmCondition
-     * @return
-     */
-    private int LineageOstoYahooCondintion(int cmCondition) {
-        int yahooCondition;
-        if (cmCondition <= SHOWERS) {
-            yahooCondition = cmCondition;
-        } else if (cmCondition <= SCATTERED_THUNDERSTORMS) {
-            yahooCondition = cmCondition + 1;
-        } else if (cmCondition <= SCATTERED_SNOW_SHOWERS) {
-            yahooCondition = cmCondition + 2;
-        } else if (cmCondition <= ISOLATED_THUNDERSHOWERS) {
-            yahooCondition = cmCondition + 3;
-        } else {
-            yahooCondition = NOT_AVAILABLE;
-        }
-        return yahooCondition;
     }
 
     @Override
