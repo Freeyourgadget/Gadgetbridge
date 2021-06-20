@@ -1256,4 +1256,5 @@
     <string name="qhybrid_pref_summary_actions">Acties voor de Reistijd-app</string>
     <string name="qhybrid_pref_title_actions">Acties</string>
     <string name="devicetype_amazfit_trex_pro">Amazfit T-Rex Pro</string>
+    <string name="menuitem_barometer">Barometer</string>
 </resources>
