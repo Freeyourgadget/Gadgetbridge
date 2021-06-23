@@ -35,6 +35,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.provider.MediaStore;
+import android.text.InputType;
 import android.util.DisplayMetrics;
 import android.view.View;
 import android.widget.EditText;
@@ -330,23 +331,21 @@ public class HybridHRWatchfaceDesignerActivity extends AppCompatActivity impleme
         typeSelector.setLayoutParams(lp);
         layout.addView(typeSelector);
         desc = new TextView(this);
-        desc.setText("X coordinate:");
+        desc.setText("X coordinate (max 240):");
         layout.addView(desc);
-        final NumberPicker posX = new NumberPicker(this);
-        posX.setMinValue(1);
-        posX.setMaxValue(240);
+        final EditText posX = new EditText(this);
+        posX.setInputType(InputType.TYPE_CLASS_NUMBER);
         if (widget != null) {
-            posX.setValue(widget.getPosX());
+            posX.setText(Integer.toString(widget.getPosX()));
         }
         layout.addView(posX);
         desc = new TextView(this);
-        desc.setText("Y coordinate:");
+        desc.setText("Y coordinate (max 240):");
         layout.addView(desc);
-        final NumberPicker posY = new NumberPicker(this);
-        posY.setMinValue(1);
-        posY.setMaxValue(240);
+        final EditText posY = new EditText(this);
+        posY.setInputType(InputType.TYPE_CLASS_NUMBER);
         if (widget != null) {
-            posY.setValue(widget.getPosY());
+            posY.setText(Integer.toString(widget.getPosY()));
         }
         layout.addView(posY);
         new AlertDialog.Builder(this)
@@ -364,8 +363,12 @@ public class HybridHRWatchfaceDesignerActivity extends AppCompatActivity impleme
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         int selectedRadioId = typeSelector.getCheckedRadioButtonId();
-                        int selectedPosX = posX.getValue();
-                        int selectedPosY = posY.getValue();
+                        int selectedPosX = Integer.parseInt(posX.getText().toString());
+                        if (selectedPosX < 1) selectedPosX = 1;
+                        if (selectedPosX > 240) selectedPosX = 240;
+                        int selectedPosY = Integer.parseInt(posY.getText().toString());
+                        if (selectedPosY < 1) selectedPosY = 1;
+                        if (selectedPosY > 240) selectedPosY = 240;
                         switch (selectedRadioId) {
                             case 0:
                                 if (index >= 0) {
