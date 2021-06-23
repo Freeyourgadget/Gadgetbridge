@@ -100,24 +100,24 @@ public class HybridHRWatchfaceFactory {
         InputStream backgroundStream = new ByteArrayInputStream(backgroundBytes);
         LinkedHashMap<String, InputStream> code = new LinkedHashMap<>();
         try {
-            code.put(watchfaceName, context.getAssets().open("fossil_hr/openSourceWatchface"));
-            code.put("widgetDate", context.getAssets().open("fossil_hr/widgetDate"));
-            code.put("widgetWeather", context.getAssets().open("fossil_hr/widgetWeather"));
+            code.put(watchfaceName, context.getAssets().open("fossil_hr/openSourceWatchface.bin"));
+            code.put("widgetDate", context.getAssets().open("fossil_hr/widgetDate.bin"));
+            code.put("widgetWeather", context.getAssets().open("fossil_hr/widgetWeather.bin"));
         } catch (IOException e) {
             LOG.warn("Unable to read asset file", e);
         }
         LinkedHashMap<String, InputStream> icons = new LinkedHashMap<>();
         try {
             icons.put("background.raw", backgroundStream);
-            icons.put("icWthClearDay", context.getAssets().open("fossil_hr/icWthClearDay"));
-            icons.put("icWthClearNite", context.getAssets().open("fossil_hr/icWthClearNite"));
-            icons.put("icWthCloudy", context.getAssets().open("fossil_hr/icWthCloudy"));
-            icons.put("icWthPartCloudyDay", context.getAssets().open("fossil_hr/icWthPartCloudyDay"));
-            icons.put("icWthPartCloudyNite", context.getAssets().open("fossil_hr/icWthPartCloudyNite"));
-            icons.put("icWthRainy", context.getAssets().open("fossil_hr/icWthRainy"));
-            icons.put("icWthSnowy", context.getAssets().open("fossil_hr/icWthSnowy"));
-            icons.put("icWthStormy", context.getAssets().open("fossil_hr/icWthStormy"));
-            icons.put("icWthWindy", context.getAssets().open("fossil_hr/icWthWindy"));
+            icons.put("icWthClearDay", context.getAssets().open("fossil_hr/icWthClearDay.rle"));
+            icons.put("icWthClearNite", context.getAssets().open("fossil_hr/icWthClearNite.rle"));
+            icons.put("icWthCloudy", context.getAssets().open("fossil_hr/icWthCloudy.rle"));
+            icons.put("icWthPartCloudyDay", context.getAssets().open("fossil_hr/icWthPartCloudyDay.rle"));
+            icons.put("icWthPartCloudyNite", context.getAssets().open("fossil_hr/icWthPartCloudyNite.rle"));
+            icons.put("icWthRainy", context.getAssets().open("fossil_hr/icWthRainy.rle"));
+            icons.put("icWthSnowy", context.getAssets().open("fossil_hr/icWthSnowy.rle"));
+            icons.put("icWthStormy", context.getAssets().open("fossil_hr/icWthStormy.rle"));
+            icons.put("icWthWindy", context.getAssets().open("fossil_hr/icWthWindy.rle"));
         } catch (IOException e) {
             LOG.warn("Unable to read asset file", e);
         }
