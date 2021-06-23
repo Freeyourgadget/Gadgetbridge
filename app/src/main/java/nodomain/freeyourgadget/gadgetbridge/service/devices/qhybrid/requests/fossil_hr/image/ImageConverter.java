@@ -88,7 +88,7 @@ public class ImageConverter {
         return result;
     }
 
-    public static @ColorInt int convertToMonochrome(@ColorInt int color){
+    public static int convertToMonochrome(@ColorInt int color){
         int sum = Color.red(color) + Color.green(color) + Color.blue(color);
         sum /= 3;
         return sum;

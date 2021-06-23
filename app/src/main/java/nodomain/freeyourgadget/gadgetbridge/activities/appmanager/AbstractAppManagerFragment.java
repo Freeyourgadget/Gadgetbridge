@@ -75,6 +75,7 @@ public abstract class AbstractAppManagerFragment extends Fragment {
     private GBDeviceAppAdapter mGBDeviceAppAdapter;
     protected GBDevice mGBDevice = null;
     protected DeviceCoordinator mCoordinator = null;
+    private Class<? extends Activity> watchfaceDesignerActivity;
 
     protected abstract List<GBDeviceApp> getSystemAppsInCategory();
 
@@ -273,7 +274,7 @@ public abstract class AbstractAppManagerFragment extends Fragment {
 
         final FloatingActionButton appListFab = ((FloatingActionButton) getActivity().findViewById(R.id.fab));
         final FloatingActionButton appListFabNew = ((FloatingActionButton) getActivity().findViewById(R.id.fab_new));
-        final Class<? extends Activity> watchfaceDesignerActivity = mCoordinator.getWatchfaceDesignerActivity();
+        watchfaceDesignerActivity = mCoordinator.getWatchfaceDesignerActivity();
         View rootView = inflater.inflate(R.layout.activity_appmanager, container, false);
 
         RecyclerView appListView = (RecyclerView) (rootView.findViewById(R.id.appListView));
@@ -328,6 +329,15 @@ public abstract class AbstractAppManagerFragment extends Fragment {
         GBApplication.deviceService().onAppReorder(uuids.toArray(new UUID[uuids.size()]));
     }
 
+    public void onItemClick(View view, GBDeviceApp deviceApp) {
+        if (isCacheManager()) {
+            openPopupMenu(view, deviceApp);
+        } else {
+            UUID uuid = deviceApp.getUUID();
+            GBApplication.deviceService().onAppStart(uuid, true);
+        }
+    }
+
     public boolean openPopupMenu(View view, GBDeviceApp deviceApp) {
         PopupMenu popupMenu = new PopupMenu(getContext(), view);
         popupMenu.getMenuInflater().inflate(R.menu.appmanager_context, popupMenu.getMenu());
@@ -335,6 +345,7 @@ public abstract class AbstractAppManagerFragment extends Fragment {
         final GBDeviceApp selectedApp = deviceApp;
 
         if (!selectedApp.isInCache()) {
+            menu.removeItem(R.id.appmanager_app_edit);
             menu.removeItem(R.id.appmanager_app_reinstall);
             menu.removeItem(R.id.appmanager_app_delete_cache);
         }
@@ -367,6 +378,10 @@ public abstract class AbstractAppManagerFragment extends Fragment {
                 menu.removeItem(R.id.appmanager_weather_activate);
                 menu.removeItem(R.id.appmanager_weather_deactivate);
             }
+        }
+
+        if ((mGBDevice.getType() != DeviceType.FOSSILQHYBRID) || (selectedApp.getType() != GBDeviceApp.Type.WATCHFACE)) {
+            menu.removeItem(R.id.appmanager_app_edit);
         }
 
         if (mGBDevice.getType() == DeviceType.PEBBLE) {
@@ -462,6 +477,12 @@ public abstract class AbstractAppManagerFragment extends Fragment {
                 Intent intent = new Intent(Intent.ACTION_VIEW);
                 intent.setData(Uri.parse(url));
                 startActivity(intent);
+                return true;
+            case R.id.appmanager_app_edit:
+                Intent editWatchfaceIntent = new Intent(getContext(), watchfaceDesignerActivity);
+                editWatchfaceIntent.putExtra(GBDevice.EXTRA_DEVICE, mGBDevice);
+                editWatchfaceIntent.putExtra(GBDevice.EXTRA_UUID, selectedApp.getUUID().toString());
+                getContext().startActivity(editWatchfaceIntent);
                 return true;
             default:
                 return super.onContextItemSelected(item);

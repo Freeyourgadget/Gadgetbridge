@@ -99,8 +99,7 @@ public class GBDeviceAppAdapter extends RecyclerView.Adapter<GBDeviceAppAdapter.
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                UUID uuid = deviceApp.getUUID();
-                GBApplication.deviceService().onAppStart(uuid, true);
+                mParentFragment.onItemClick(view, deviceApp);
             }
         });
 

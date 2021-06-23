@@ -25,6 +25,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Matrix;
@@ -45,15 +46,20 @@ import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.BufferedOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.UUID;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
@@ -86,10 +92,16 @@ public class HybridHRWatchfaceDesignerActivity extends AppCompatActivity impleme
         } else {
             throw new IllegalArgumentException("Must provide a device when invoking this activity");
         }
-        mCoordinator = DeviceHelper.getInstance().getCoordinator(mGBDevice);
 
+        mCoordinator = DeviceHelper.getInstance().getCoordinator(mGBDevice);
         calculateDisplayImageSize();
         backgroundImageView = findViewById(R.id.hybridhr_background_image);
+
+        if (bundle.containsKey(GBDevice.EXTRA_UUID)) {
+            String appUUID = bundle.getString(GBDevice.EXTRA_UUID);
+            loadConfigurationFromApp(appUUID);
+        }
+
         renderWatchfacePreview();
 
         findViewById(R.id.button_edit_name).setOnClickListener(this);
@@ -135,9 +147,7 @@ public class HybridHRWatchfaceDesignerActivity extends AppCompatActivity impleme
                     .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            watchfaceName = input.getText().toString();
-                            TextView watchfaceNameView = findViewById(R.id.watchface_name);
-                            watchfaceNameView.setText(watchfaceName);
+                            setWatchfaceName(input.getText().toString());
                         }
                     })
                     .setTitle("Set watchface name")
@@ -156,6 +166,78 @@ public class HybridHRWatchfaceDesignerActivity extends AppCompatActivity impleme
         }
     }
 
+    private void loadConfigurationFromApp(String appUUID) {
+        File appCacheDir;
+        try {
+            appCacheDir = mCoordinator.getAppCacheDir();
+        } catch (IOException e) {
+            LOG.warn("Could not get external dir while trying to access app cache.", e);
+            return;
+        }
+        File backgroundFile = new File(appCacheDir, appUUID + ".png");
+        try {
+            Bitmap cachedBackground = BitmapFactory.decodeStream(new FileInputStream(backgroundFile));
+            selectedBackgroundImage = BitmapUtil.convertToGrayscale(BitmapUtil.getCircularBitmap(cachedBackground));
+        } catch (IOException e) {
+            LOG.warn("Error loading cached background image", e);
+        }
+        File cachedFile = new File(appCacheDir, appUUID + mCoordinator.getAppFileExtension());
+        FossilFileReader fileReader;
+        try {
+            fileReader = new FossilFileReader(Uri.fromFile(cachedFile), this);
+        } catch (IOException e) {
+            LOG.warn("Could not open cached app file", e);
+            return;
+        }
+        setWatchfaceName(fileReader.getName());
+        JSONObject configJSON;
+        try {
+            configJSON = fileReader.getConfigJSON("customWatchFace");
+        } catch (IOException e) {
+            LOG.warn("Could not read config from cached app file", e);
+            return;
+        } catch (JSONException e) {
+            LOG.warn("JSON parsing error", e);
+            return;
+        }
+        if (configJSON == null) {
+            return;
+        }
+        for (Iterator<String> it = configJSON.keys(); it.hasNext(); ) {
+            String key = it.next();
+            if (key.equals("layout")) {
+                try {
+                    JSONArray layout = configJSON.getJSONArray(key);
+                    for (int i = 0; i < layout.length(); i++) {
+                        JSONObject layoutItem = layout.getJSONObject(i);
+                        if (layoutItem.getString("type").equals("comp")) {
+                            String widgetName = layoutItem.getString("name");
+                            switch (widgetName) {
+                                case "dateSSE":
+                                    widgetName = "widgetDate";
+                                    break;
+                                case "weatherSSE":
+                                    widgetName = "widgetWeather";
+                                    break;
+                            }
+                            widgets.add(new HybridHRWatchfaceWidget(widgetName,
+                                                                    layoutItem.getJSONObject("pos").getInt("x"),
+                                                                    layoutItem.getJSONObject("pos").getInt("y")));
+                        }
+                    }
+                } catch (JSONException e) {
+                    LOG.warn("JSON parsing error", e);
+                }
+            }
+        }
+    }
+
+    private void setWatchfaceName(String name) {
+        watchfaceName = name;
+        TextView watchfaceNameView = findViewById(R.id.watchface_name);
+        watchfaceNameView.setText(watchfaceName);
+    }
+
     private void renderWatchfacePreview() {
         int widgetSize = 50;
         if (selectedBackgroundImage == null) {
@@ -169,7 +251,7 @@ public class HybridHRWatchfaceDesignerActivity extends AppCompatActivity impleme
             circlePaint.setStyle(Paint.Style.STROKE);
             backgroundImageCanvas.drawCircle(displayImageSize/2f + 2, displayImageSize/2f + 2, displayImageSize/2f - 5, circlePaint);
         } else {
-            processedBackgroundImage = Bitmap.createScaledBitmap(selectedBackgroundImage, displayImageSize, displayImageSize, false);
+            processedBackgroundImage = Bitmap.createScaledBitmap(selectedBackgroundImage, displayImageSize, displayImageSize, true);
         }
         // Remove existing widget ImageViews
         RelativeLayout imageContainer = this.findViewById(R.id.watchface_preview_image);

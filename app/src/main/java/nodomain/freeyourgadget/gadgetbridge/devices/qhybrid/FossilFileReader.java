@@ -21,10 +21,12 @@ import android.net.Uri;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.json.JSONTokener;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.BufferedInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.ByteBuffer;
@@ -53,6 +55,15 @@ public class FossilFileReader {
     private String foundName = "(unknown)";
     private GBDeviceApp app;
     private JSONObject mAppKeys;
+
+    private int jerryStart;
+    private int appIconStart;
+    private int layout_start;
+    private int display_name_start;
+    private int display_name_start_2;
+    private int config_start;
+    private int file_end;
+
 
     public FossilFileReader(Uri uri, Context context) throws IOException {
         this.uri = uri;
@@ -127,13 +138,13 @@ public class FossilFileReader {
         foundVersion = (int)buf.get() + "." + (int)buf.get() + "." + (int)buf.get() + "." + (int)buf.get();
         mAppKeys.put("version", foundVersion);
         buf.position(buf.position() + 8);  // skip null bytes
-        int jerryStart = buf.getInt();
-        int appIconStart = buf.getInt();
-        int layout_start = buf.getInt();
-        int display_name_start = buf.getInt();
-        int display_name_start_2 = buf.getInt();
-        int config_start = buf.getInt();
-        int file_end = buf.getInt();
+        jerryStart = buf.getInt();
+        appIconStart = buf.getInt();
+        layout_start = buf.getInt();
+        display_name_start = buf.getInt();
+        display_name_start_2 = buf.getInt();
+        config_start = buf.getInt();
+        file_end = buf.getInt();
         buf.position(jerryStart);
 
         ArrayList<String> filenamesCode = parseAppFilenames(buf, appIconStart,false);
@@ -145,6 +156,7 @@ public class FossilFileReader {
         ArrayList<String> filenamesIcons = parseAppFilenames(buf, layout_start,false);
         ArrayList<String> filenamesLayout = parseAppFilenames(buf, display_name_start,true);
         ArrayList<String> filenamesDisplayName = parseAppFilenames(buf, config_start,true);
+        ArrayList<String> filenamesConfig = parseAppFilenames(buf, file_end,true);
 
         if (filenamesDisplayName.contains("theme_class")) {
             isApp = false;
@@ -174,6 +186,49 @@ public class FossilFileReader {
             }
         }
         return list;
+    }
+
+    public JSONObject getConfigJSON(String filename) throws IOException, JSONException {
+        byte[] fileBytes = getFileContentsByName(filename, config_start, file_end, true);
+        String fileString = new String(fileBytes, StandardCharsets.UTF_8);
+        JSONTokener jsonTokener = new JSONTokener(fileString);
+        return new JSONObject(jsonTokener);
+    }
+
+    private byte[] getImageFileContents(String filename) throws IOException {
+        return getFileContentsByName(filename, appIconStart, layout_start, false);
+    }
+
+    private byte[] getFileContentsByName(String filename, int startPos, int endPos, boolean cutTrailingNull) throws IOException {
+        InputStream in = new BufferedInputStream(uriHelper.openInputStream());
+        byte[] bytes = new byte[in.available()];
+        in.read(bytes);
+        in.close();
+        ByteBuffer buf = ByteBuffer.wrap(bytes);
+        buf.order(ByteOrder.LITTLE_ENDIAN);
+        buf.position(startPos);
+        while (buf.position() < endPos) {
+            int filenameLength = (int)buf.get();
+            byte[] filenameBytes = new byte[filenameLength - 1];
+            buf.get(filenameBytes);
+            buf.get();
+            String foundFilename = new String(filenameBytes, StandardCharsets.UTF_8);
+            int filesize = buf.getShort();
+            if (cutTrailingNull) {
+                filesize -= 1;
+            }
+            if (foundFilename.equals(filename)) {
+                byte[] fileBytes = new byte[filesize];
+                buf.get(fileBytes);
+                return fileBytes;
+            } else {
+                buf.position(buf.position() + filesize);
+            }
+            if (cutTrailingNull) {
+                buf.get();
+            }
+        }
+        throw new FileNotFoundException();
     }
 
     public boolean isValid() {

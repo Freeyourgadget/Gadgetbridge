@@ -60,6 +60,7 @@ public class GBDevice implements Parcelable {
     public static final short BATTERY_UNKNOWN = -1;
     private static final short BATTERY_THRESHOLD_PERCENT = 10;
     public static final String EXTRA_DEVICE = "device";
+    public static final String EXTRA_UUID = "extraUUID";
     private static final String DEVINFO_HW_VER = "HW: ";
     private static final String DEVINFO_FW_VER = "FW: ";
     private static final String DEVINFO_FW2_VER = "FW2: ";
