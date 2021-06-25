@@ -493,7 +493,7 @@
     <string name="devicetype_teclast_h30">Teclast H30</string>
     <string name="devicetype_xwatch">XWatch</string>
     <string name="choose_auto_export_location">Vyberte umístění exportu</string>
-    <string name="notification_channel_name">Gadgetbridge notifikace</string>
+    <string name="notification_channel_name">Obecné</string>
     <string name="pref_title_pebble_gatt_clientonly">pouze GATT klient</string>
     <string name="pref_summary_pebble_gatt_clientonly">Pebble 2 experimentální nastavení, zkuste máte-li problémy se spojením</string>
     <string name="on">Zapnuto</string>
@@ -841,7 +841,7 @@
     <string name="pref_title_force_white_color_scheme">Vynutit barevné schéma Černá na bílé</string>
     <string name="pref_summary_force_white_color_scheme">Užitečné, pokud máte hodinky s tmavými ručičkami</string>
     <string name="find_my_phone_notification">Najít telefon</string>
-    <string name="notification_channel_high_priority_name">Gadgetbridge oznámení s vysokou prioritou</string>
+    <string name="notification_channel_high_priority_name">Vysoká priorita</string>
     <string name="pref_title_custom_deviceicon">Zobrazit v oznámení ikonu připojeného zařízení</string>
     <string name="pref_summary_custom_deviceicon">Zobrazit ikonu konkrétního připojeného zařízení v oznámení Androidu namísto ikony Gadgetbridge</string>
     <string name="hr_appname_wellness">Wellness</string>
@@ -1248,4 +1248,14 @@
 \nPoznámka: Nemusíte instalovat soubor .res, pokud je stejný jako nainstalován dříve.
 \n
 \nPOKRAČUJTE NA VLASTNÍ NEBEZPEČÍ!</string>
+    <string name="devicetype_amazfit_trex_pro">Amazfit T-Rex Pro</string>
+    <string name="qhybrid_pref_summary_external_intents">Povolit ostatním Android aplikacím nahrát/přepsat soubory</string>
+    <string name="qhybrid_pref_title_external_intents">Povolit nebezpečné externí intenty</string>
+    <string name="pref_summary_developer_settings">Nastavení a funkce pro vývojáře</string>
+    <string name="pref_title_developer_settings">Vývojářská nastavení</string>
+    <string name="qhybrid_pref_summary_actions">Akce pro aplikaci Commute</string>
+    <string name="qhybrid_pref_title_actions">Akce</string>
+    <string name="menuitem_barometer">Barometr</string>
+    <string name="notification_channel_low_battery_name">Nízký stav baterie</string>
+    <string name="notification_channel_transfer_name">Přenos dat</string>
 </resources>
