@@ -73,7 +73,9 @@ public class PebblePairingActivity extends AbstractGBActivity implements Bonding
         setContentView(R.layout.activity_pebble_pairing);
 
         message = findViewById(R.id.pebble_pair_message);
-        deviceCandidate = getIntent().getParcelableExtra(DeviceCoordinator.EXTRA_DEVICE_CANDIDATE);
+        Intent intent = getIntent();
+        intent.setExtrasClassLoader(GBDeviceCandidate.class.getClassLoader());
+        deviceCandidate = intent.getParcelableExtra(DeviceCoordinator.EXTRA_DEVICE_CANDIDATE);
 
         String macAddress = null;
         if (deviceCandidate != null) {
