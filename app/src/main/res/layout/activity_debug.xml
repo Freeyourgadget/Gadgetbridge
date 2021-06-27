@@ -209,6 +209,14 @@
                 android:textColor="@android:color/white"
                 android:textStyle="bold"
                 grid:layout_columnSpan="2" />
+            <Button
+                android:id="@+id/addDeviceButtonDebug"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                grid:layout_columnSpan="2"
+                grid:layout_gravity="fill_horizontal"
+                android:text="Add test device manually" />
+
         </androidx.gridlayout.widget.GridLayout>
 
     </ScrollView>

@@ -18,6 +18,9 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.activities;
 
+import static android.content.Intent.EXTRA_SUBJECT;
+import static nodomain.freeyourgadget.gadgetbridge.util.GB.NOTIFICATION_CHANNEL_ID;
+
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.PendingIntent;
@@ -32,15 +35,22 @@ import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextUtils;
+import android.text.TextWatcher;
+import android.util.Pair;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.core.app.NavUtils;
@@ -55,26 +65,37 @@ import java.io.File;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.LinkedHashMap;
+import java.util.Locale;
+import java.util.Map;
 import java.util.Objects;
+import java.util.Random;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.Widget;
+import nodomain.freeyourgadget.gadgetbridge.adapter.SpinnerWithIconAdapter;
+import nodomain.freeyourgadget.gadgetbridge.adapter.SpinnerWithIconItem;
+import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
+import nodomain.freeyourgadget.gadgetbridge.database.DBHelper;
+import nodomain.freeyourgadget.gadgetbridge.devices.DeviceCoordinator;
+import nodomain.freeyourgadget.gadgetbridge.devices.DeviceManager;
+import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
+import nodomain.freeyourgadget.gadgetbridge.entities.Device;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.model.CallSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceService;
+import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
 import nodomain.freeyourgadget.gadgetbridge.model.MusicSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.MusicStateSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationType;
 import nodomain.freeyourgadget.gadgetbridge.model.RecordedDataTypes;
 import nodomain.freeyourgadget.gadgetbridge.service.serial.GBDeviceProtocol;
+import nodomain.freeyourgadget.gadgetbridge.util.DeviceHelper;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 import nodomain.freeyourgadget.gadgetbridge.util.WidgetPreferenceStorage;
-
-import static android.content.Intent.EXTRA_SUBJECT;
-import static nodomain.freeyourgadget.gadgetbridge.util.GB.NOTIFICATION_CHANNEL_ID;
 
 public class DebugActivity extends AbstractGBActivity {
     private static final Logger LOG = LoggerFactory.getLogger(DebugActivity.class);
@@ -104,6 +125,10 @@ public class DebugActivity extends AbstractGBActivity {
     };
     private Spinner sendTypeSpinner;
     private EditText editContent;
+    private static long SELECT_DEVICE = 999L;
+    private long selectedTestDeviceKey = SELECT_DEVICE;
+    private String selectedTestDeviceMAC;
+
 
     private void handleRealtimeSample(Serializable extra) {
         if (extra instanceof ActivitySample) {
@@ -125,7 +150,7 @@ public class DebugActivity extends AbstractGBActivity {
 
         editContent = findViewById(R.id.editContent);
 
-        ArrayList<String> spinnerArray = new ArrayList<>();
+        final ArrayList<String> spinnerArray = new ArrayList<>();
         for (NotificationType notificationType : NotificationType.values()) {
             spinnerArray.add(notificationType.name());
         }
@@ -372,6 +397,78 @@ public class DebugActivity extends AbstractGBActivity {
             }
         });
 
+        Button addDeviceButtonDebug = findViewById(R.id.addDeviceButtonDebug);
+        addDeviceButtonDebug.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                LinkedHashMap<String, Pair<Long, Integer>> allDevices;
+                allDevices = getAllSupportedDevices(getApplicationContext());
+
+                final LinearLayout linearLayout = new LinearLayout(DebugActivity.this);
+                linearLayout.setOrientation(LinearLayout.VERTICAL);
+
+                final LinearLayout macLayout = new LinearLayout(DebugActivity.this);
+                macLayout.setOrientation(LinearLayout.HORIZONTAL);
+                macLayout.setPadding(20, 0, 20, 0);
+
+                final TextView textView = new TextView(DebugActivity.this);
+                textView.setText("MAC Address: ");
+                final EditText editText = new EditText(DebugActivity.this);
+                selectedTestDeviceMAC = randomMac();
+                editText.setText(selectedTestDeviceMAC);
+                editText.addTextChangedListener(new TextWatcher() {
+                    @Override
+                    public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                    }
+
+                    @Override
+                    public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                    }
+
+                    @Override
+                    public void afterTextChanged(Editable editable) {
+                        selectedTestDeviceMAC = editable.toString();
+
+                    }
+                });
+
+                macLayout.addView(textView);
+                macLayout.addView(editText);
+
+                final Spinner deviceListSpinner = new Spinner(DebugActivity.this);
+                ArrayList<SpinnerWithIconItem> deviceListArray = new ArrayList<>();
+                for (Map.Entry<String, Pair<Long, Integer>> item : allDevices.entrySet()) {
+                    deviceListArray.add(new SpinnerWithIconItem(item.getKey(), item.getValue().first, item.getValue().second));
+                }
+                final SpinnerWithIconAdapter deviceListAdapter = new SpinnerWithIconAdapter(DebugActivity.this,
+                        R.layout.spinner_with_image_layout, R.id.spinner_item_text, deviceListArray);
+                deviceListSpinner.setAdapter(deviceListAdapter);
+                addListenerOnSpinnerDeviceSelection(deviceListSpinner);
+
+                linearLayout.addView(deviceListSpinner);
+                linearLayout.addView(macLayout);
+
+                new AlertDialog.Builder(DebugActivity.this)
+                        .setCancelable(true)
+                        .setTitle("Add test device")
+                        .setView(linearLayout)
+                        .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                createTestDevice();
+                            }
+                        })
+                        .setNegativeButton(R.string.Cancel, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                            }
+                        })
+                        .show();
+            }
+        });
+
         CheckBox activity_list_debug_extra_time_range = findViewById(R.id.activity_list_debug_extra_time_range);
         activity_list_debug_extra_time_range.setAllCaps(true);
         boolean activity_list_debug_extra_time_range_value = GBApplication.getPrefs().getPreferences().getBoolean("activity_list_debug_extra_time_range", false);
@@ -521,6 +618,79 @@ public class DebugActivity extends AbstractGBActivity {
         super.onDestroy();
         LocalBroadcastManager.getInstance(this).unregisterReceiver(mReceiver);
         unregisterReceiver(mReceiver);
+    }
+
+    private void addListenerOnSpinnerDeviceSelection(Spinner spinner) {
+        spinner.setOnItemSelectedListener(new CustomOnDeviceSelectedListener());
+    }
+
+    private void createTestDevice() {
+        if (selectedTestDeviceKey == SELECT_DEVICE) {
+            return;
+        }
+        DeviceType deviceType = DeviceType.fromKey((int) selectedTestDeviceKey);
+        try (
+                DBHandler db = GBApplication.acquireDB()) {
+            DaoSession daoSession = db.getDaoSession();
+            GBDevice gbDevice = new GBDevice(selectedTestDeviceMAC, deviceType.name(), "", deviceType);
+            gbDevice.setFirmwareVersion("V1.0");
+            gbDevice.setFirmwareVersion2("V1.0");
+
+            //this causes the attributes (fw version) to be stored as well. Not much useful, but still...
+            gbDevice.setState(GBDevice.State.INITIALIZED);
+
+            Device device = DBHelper.getDevice(gbDevice, daoSession);
+            Intent refreshIntent = new Intent(DeviceManager.ACTION_REFRESH_DEVICELIST);
+            LocalBroadcastManager.getInstance(DebugActivity.this).sendBroadcast(refreshIntent);
+            GB.toast(DebugActivity.this, "Added test device: " + deviceType.name(), Toast.LENGTH_SHORT, GB.INFO);
+
+        } catch (
+                Exception e) {
+            GB.log("Error accessing database", GB.ERROR, e);
+        }
+    }
+
+    private String randomMac() {
+        Random random = new Random();
+        String separator = ":";
+        String[] mac = {
+                String.format("%02x", random.nextInt(0xff)),
+                String.format("%02x", random.nextInt(0xff)),
+                String.format("%02x", random.nextInt(0xff)),
+                String.format("%02x", random.nextInt(0xff)),
+                String.format("%02x", random.nextInt(0xff)),
+                String.format("%02x", random.nextInt(0xff))
+        };
+        return TextUtils.join(separator, mac).toUpperCase(Locale.ROOT);
+    }
+
+    private LinkedHashMap getAllSupportedDevices(Context appContext) {
+        LinkedHashMap<String, Pair<Long, Integer>> newMap = new LinkedHashMap<>(1);
+        newMap.put("Select device", new Pair(SELECT_DEVICE, R.drawable.ic_create));
+        GBApplication app = (GBApplication) appContext;
+        for (DeviceCoordinator coordinator : DeviceHelper.getInstance().getAllCoordinators()) {
+            DeviceType deviceType = coordinator.getDeviceType();
+            int icon = deviceType.getIcon();
+            String name = app.getString(deviceType.getName()) + " (" + coordinator.getManufacturer() + ")";
+            long deviceId = deviceType.getKey();
+            newMap.put(name, new Pair(deviceId, icon));
+        }
+
+        return newMap;
+    }
+
+    public class CustomOnDeviceSelectedListener implements AdapterView.OnItemSelectedListener {
+
+        public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
+            SpinnerWithIconItem selectedItem = (SpinnerWithIconItem) parent.getItemAtPosition(pos);
+            selectedTestDeviceKey = selectedItem.getId();
+        }
+
+        @Override
+        public void onNothingSelected(AdapterView<?> arg0) {
+            // TODO Auto-generated method stub
+        }
+
     }
 
 }
