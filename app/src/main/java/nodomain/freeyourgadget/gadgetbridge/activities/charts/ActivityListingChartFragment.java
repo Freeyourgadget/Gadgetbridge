@@ -138,6 +138,14 @@ public class ActivityListingChartFragment extends AbstractChartFragment {
     @Override
     protected void updateChartsnUIThread(ChartsData chartsData) {
         MyChartsData mcd = (MyChartsData) chartsData;
+
+        if (mcd == null) {
+            return;
+        }
+        if (mcd.getStepSessions() == null) {
+            return;
+        }
+        
         if (mcd.getStepSessions().toArray().length == 0) {
             getChartsHost().enableSwipeRefresh(true); //enable pull to refresh, might be needed
         } else {
