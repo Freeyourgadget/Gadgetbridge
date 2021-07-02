@@ -93,7 +93,7 @@
     <string name="pref_title_canned_replies">Ответы</string>
     <string name="pref_title_canned_reply_suffix">Общий суффикс</string>
     <string name="pref_title_canned_messages_dismisscall">Отклонённые звонки</string>
-    <string name="pref_title_canned_messages_set">Обновить на Pebble</string>
+    <string name="pref_title_canned_messages_set">Обновить на устройстве</string>
     <string name="pref_header_development">Настройки для разработчиков</string>
     <string name="pref_title_development_miaddr">Адрес Mi Band</string>
     <string name="pref_title_pebble_settings">Настройки Pebble</string>
@@ -162,7 +162,11 @@
     <string name="installation_failed_">Установка не удалась</string>
     <string name="installation_successful">Установлено</string>
     <string name="firmware_install_warning">ВЫ ПЫТАЕТЕСЬ УСТАНОВИТЬ ПРОШИВКУ, ПРОДОЛЖАЙТЕ НА СВОЙ СТРАХ И РИСК.\n\n\n Эта прошивка для ревизии устройства: %s</string>
-    <string name="app_install_info">Вы собираетесь установить приложение:\n\n\n%1$s версия %2$s от %3$s\n</string>
+    <string name="app_install_info">Вы собираетесь установить приложение:
+\n
+\n%1$s
+\nВерсия %2$s от %3$s
+\n</string>
     <string name="n_a">Недоступно</string>
     <string name="initialized">Инициализировано</string>
     <string name="appversion_by_creator">%1$s от %2$s</string>
@@ -274,7 +278,7 @@
     <string name="chart_steps">Шаги</string>
     <string name="calories">Калории</string>
     <string name="distance">Расстояние</string>
-    <string name="liveactivity_live_activity">Жизненная активность</string>
+    <string name="liveactivity_live_activity">Текущая активность</string>
     <string name="weeksteps_today_steps_description">Шагов сегодня, цель: %1$s</string>
     <string name="lack_of_step">Не хватает: %1$d шагов</string>
     <string name="overstep">Пройдено на %1$d шагов больше</string>
@@ -333,11 +337,12 @@
     <string name="action_db_management">Управление данными</string>
     <string name="title_activity_db_management">Управление данными</string>
     <string name="activity_db_management_import_export_explanation">Операции с экспорта/импорта используют этот путь (см. ниже) в директорию на устройстве. Эта директория доступна для других приложений Android и компьютера.
-\nОбратите внимание, что эта директория и все файлы в ней будет удалено, если вы удалите Gadgetbridge. Эти данные включают:
+\nОбратите внимание, что эта директория и все файлы в ней будет удалены, если вы удалите Gadgetbridge. Эти данные включают:
 \n Export_preference - глобальные настройки
-\n Export_preference_МАК - настройки только для этого устройства
+\n Export_preference_MAC - настройки только для этого устройства
 \n Gadgetbridge - база данных устройств и активностей
 \n Gadgetbridge_date - база данных, экспортированная на дату
+\n
 \n *.gpx - GPS записи
 \n *.log - лог файлы
 \nВы можете найти экспортированную базу данных (или разместить файлы, которые вы хотите импортировать) здесь:</string>
@@ -549,7 +554,7 @@
     <string name="devicetype_no1_f1">No.1 F1</string>
     <string name="devicetype_id115">ID115</string>
     <string name="choose_auto_export_location">Куда сохранять данные при экспорте</string>
-    <string name="notification_channel_name">Уведомления Gadgetbridge</string>
+    <string name="notification_channel_name">Общий</string>
     <string name="menuitem_activity">Активность</string>
     <string name="menuitem_notifications">Уведомления</string>
     <string name="menuitem_more">Ещё</string>
@@ -873,7 +878,7 @@
     <string name="menuitem_stress">Стресс</string>
     <string name="menuitem_cycles">Период</string>
     <string name="menuitem_breathing">Дыхание</string>
-    <string name="notification_channel_high_priority_name">Уведомления Gadgetbridge высокий приоритет</string>
+    <string name="notification_channel_high_priority_name">Высокий приоритет</string>
     <string name="devicetype_watchxplus">Watch X Plus</string>
     <string name="devicetype_watchx">Watch X</string>
     <string name="devicetype_amazfit_bips">Amazfit Bip S</string>
@@ -1152,7 +1157,7 @@
 \nПримечание: вам не нужно устанавливать .res и .gps, если эти файлы точно такие же, как ранее установленные.
 \n
 \nДЕЙСТВУЙТЕ НА СВОЙ СТРАХ И РИСК!</string>
-    <string name="qhybrid_calibration_align_hint">Выровнять стрелки к 12:00</string>
+    <string name="qhybrid_calibration_align_hint">Использовать кнопки ниже, чтобы выровнять стрелки к 12:00.</string>
     <string name="dbmanagementactivity_export_confirmation">Действительно экспортировать данные\? Ранее экспортированные данные о активности (если таковые имеются) и настройки будут перезаписаны.</string>
     <string name="dbmanagementactivity_export_data_title">Экспорт данных\?</string>
     <string name="prefs_operating_sounds">Рабочие звуки</string>
@@ -1208,4 +1213,56 @@
     <string name="fossil_hr_commute_processing">Обработка запроса…</string>
     <string name="devicetype_um25">UM-25</string>
     <string name="calendar_three_months">3 месяца</string>
+    <string name="fw_upgrade_notice_miband6">Вы собираетесь установить прошивку %s на свой Mi Band 6.
+\n
+\nПожалуйста, установите сначала .fw файл, и только затем .res файл. Устройство перезагрузится после установки .fw файла.
+\n
+\nПримечание: Не нужно устанавливать .res если он ничем не отличаются от установленных ранее.
+\n
+\nДЕЙСТВУЙТЕ НА СВОЙ СТРАХ И РИСК!</string>
+    <string name="devicetype_amazfit_trex_pro">Amazfit T-Rex Pro</string>
+    <string name="qhybrid_pref_summary_external_intents">Позволяет другим приложениям Android загружать/перезаписывать файлы</string>
+    <string name="qhybrid_pref_title_external_intents">Разрешить опасные внешние намерения</string>
+    <string name="pref_summary_developer_settings">Настройки и функционал, используемый разработчиками</string>
+    <string name="pref_title_developer_settings">Настройки разработчика</string>
+    <string name="qhybrid_pref_summary_actions">Действия для приложения Commute</string>
+    <string name="qhybrid_pref_title_actions">Действия</string>
+    <string name="qhybrid_watchface_configuration_old_firmware">Экран настройки циферблата для часов с версией прошивки DN1.0.2.19r и ниже</string>
+    <string name="qhybrid_calibration_100_steps">100 шагов</string>
+    <string name="qhybrid_calibration_10_steps">10 шагов</string>
+    <string name="qhybrid_calibration_1_step">1 шаг</string>
+    <string name="qhybrid_calibration_clockwise">По часовой стрелке</string>
+    <string name="qhybrid_calibration_counterclockwise">Против часовой стрелки</string>
+    <string name="fossil_hr_new_action">Новое действие</string>
+    <string name="fossil_hr_new_action_cancel">отменить</string>
+    <string name="fossil_hr_edit_action">Редактировать действие</string>
+    <string name="fossil_hr_edit_action_delete">удалить</string>
+    <string name="fossil_hr_commute_actions_explanation">Действия, настроенные здесь, будут отображаться в приложении Commute на часах. Информацию о том, как обрабатывать намерения, создаваемые этими действиями, читайте в вики.</string>
+    <string name="pref_summary_canned_messages_dismisscall">Отклонить звонки с часов SMS-сообщением</string>
+    <string name="pref_summary_canned_messages_set">Отправка на устройство сообщений, настроенных ниже</string>
+    <string name="qhybrid_summary_calibration">Калибровка стрелок часов</string>
+    <string name="qhybrid_summary_file_management">Загрузка и скачивание файлов</string>
+    <string name="pref_summary_physical_buttons">Настроить функциональность физических кнопок на часах</string>
+    <string name="pref_title_physical_buttons">Физические кнопки</string>
+    <string name="qhybrid_title_watchface">Настройка циферблата</string>
+    <string name="menuitem_barometer">Барометр</string>
+    <string name="menuitem_temperature">Температура</string>
+    <string name="menuitem_widgets">Виджеты</string>
+    <string name="menuitem_events">События</string>
+    <string name="notification_channel_low_battery_name">Низкий заряд батареи</string>
+    <string name="notification_channel_transfer_name">Передача данных</string>
+    <string name="devicetype_miband6">Mi Band 6</string>
+    <string name="kind_agps_bundle">Пакет AGPS</string>
+    <string name="prefs_sounds_summary">Настроить, когда устройство будет пищать</string>
+    <string name="prefs_sounds">Звуки</string>
+    <string name="watchface_install_info">Вы собираетесь установить следующий циферблат:
+\n
+\n%1$s
+\nВерсия %2$s от %3$s
+\n</string>
+    <string name="fw_upgrade_notice_amazfitneo">Вы собираетесь установить прошивку %s на свой Amazfit Neo.
+\n
+\nПосле установки файла .fw устройство перезагрузится.
+\n
+\nДЕЙСТВУЙТЕ НА СВОЙ СТРАХ И РИСК!</string>
 </resources>
