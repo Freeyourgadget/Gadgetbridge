@@ -8,8 +8,10 @@
         <uses-permission android:name="android.permission.INTERNET" />
     -->
     <!-- Used for Bluetooth access -->
-    <uses-permission android:name="android.permission.BLUETOOTH" />
-    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+    <uses-permission android:name="android.permission.BLUETOOTH"
+        android:maxSdkVersion="30" />
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN"
+        android:maxSdkVersion="30" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 
     <!-- Since Android 10 -->
@@ -381,8 +383,7 @@
 
         <receiver
             android:name=".externalevents.BluetoothStateChangeReceiver"
-            android:exported="true"
-            android:permission="android.permission.BLUETOOTH,android.permission.BLUETOOTH_ADMIN">
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.bluetooth.adapter.action.STATE_CHANGED" />
                 <action android:name="android.bluetooth.adapter.action.CONNECTION_STATE_CHANGED" />
