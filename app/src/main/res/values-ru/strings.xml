@@ -1112,7 +1112,7 @@
     <string name="menuitem_dnd">DND</string>
     <string name="menuitem_alexa">Alexa</string>
     <string name="menuitem_takephoto">Сделать фото</string>
-    <string name="menuitem_mutephone">Отключение звука телефона</string>
+    <string name="menuitem_mutephone">Отключение звука</string>
     <string name="menuitem_spo2">SpO2</string>
     <string name="devicetype_casiogbx100">Casio GBX-100</string>
     <string name="devicetype_amazfit_gts2">Amazfit GTS 2</string>
