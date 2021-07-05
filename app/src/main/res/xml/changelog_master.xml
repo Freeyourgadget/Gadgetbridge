@@ -1,5 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
+    <release version="0.58.1" versioncode="197">
+        <change>Pebble: Fix broken app manager (regression from 0.57.1)</change>
+        <change>Bangle.js: Try to fix crash when attempting to load activity chart</change>
+        <change>Amazfit T-Rex Pro: Add barometer to menu items</change>
+        <change>Remove battery data when device is being removed</change>
+        <change>Add transliteration to PineTime</change>
+        <change>Debug: Allow adding fake testing devices manually</change>
+        <change>Reduce margin of icons in device_item to keep one row for typical amount of icons</change>
+    </release>
     <release version="0.58.0" versioncode="196">
         <change>Initial experimental support for Amazfit T-Rex Pro</change>
         <change>InfiniTime: Try to fix firmware upgrade by fiddling with optimization rules</change>
