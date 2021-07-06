@@ -1255,4 +1255,5 @@ Temps de sommeil préféré en heures</string>
     <string name="qhybrid_pref_title_actions">Actions</string>
     <string name="devicetype_amazfit_trex_pro">Amazfit T-Rex Pro</string>
     <string name="menuitem_barometer">Baromètre</string>
+    <string name="pref_theme_black_background">Utiliser un fond sombre en mode Thème Sombre</string>
 </resources>
