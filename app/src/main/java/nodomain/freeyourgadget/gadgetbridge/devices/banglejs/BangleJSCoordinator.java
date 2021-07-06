@@ -30,6 +30,7 @@ import androidx.annotation.NonNull;
 import java.util.Collection;
 import java.util.Collections;
 
+import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.devices.AbstractDeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.InstallHandler;
 import nodomain.freeyourgadget.gadgetbridge.devices.SampleProvider;
@@ -165,4 +166,11 @@ public class BangleJSCoordinator extends AbstractDeviceCoordinator {
     public InstallHandler findInstallHandler(Uri uri, Context context) {
         return null;
     }
+
+    public int[] getSupportedDeviceSpecificSettings(GBDevice device) {
+        return new int[]{
+                R.xml.devicesettings_transliteration
+        };
+    }
+
 }
