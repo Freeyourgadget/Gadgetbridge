@@ -573,7 +573,7 @@
     <string name="pref_summary_enable_outgoing_call">Bunun devre dışı bırakılması, Pebble 2/LE aygıtının giden aramalarda titremesini durduracaktır</string>
     <string name="pref_summary_enable_pebblekit">PebbleKit kullanırken Android uygulamaları için deneysel desteği etkinleştirin</string>
     <string name="pref_summary_expose_hr">Gadgetbridge bağlıyken diğer uygulamaların kalp ritmi verilerine gerçek zamanlı erişmesine izin verir</string>
-    <string name="pref_summary_force_white_color_scheme">Saatinizin karanlık görünümü varsa kullanışlıdır</string>
+    <string name="pref_summary_force_white_color_scheme">Saatinizin koyu renkli ibreleri varsa kullanışlıdır</string>
     <string name="pref_summary_keep_data_on_device">Eşzamanlamadan sonra bile etkinlik verilerini Mi Band üzerinde tutar. GB diğer uygulamalarla birlikte kullanılıyorsa kullanışlıdır.</string>
     <string name="pref_summary_location_keep_uptodate">Geçerli konumu çalışma zamanında almaya çalış, depolanan konumu yedek olarak kullan</string>
     <string name="pref_summary_low_latency_fw_update">Bu, ürün yazılımı kurulmasının başarısız olduğu aygıtlarda yardımcı olabilir.</string>
@@ -1281,4 +1281,5 @@
     <string name="qhybrid_pref_title_actions">Eylemler</string>
     <string name="devicetype_amazfit_trex_pro">Amazfit T-Rex Pro</string>
     <string name="menuitem_barometer">Barometre</string>
+    <string name="pref_theme_black_background">Koyu temada siyah arka plan kullan</string>
 </resources>
