@@ -14,18 +14,21 @@
 
         <SwitchPreference
             android:defaultValue="false"
+            android:icon="@drawable/ic_smart_button"
             android:key="button_action_enable"
             android:summary="@string/mi2_prefs_button_action_summary"
             android:title="@string/mi2_prefs_button_action" />
 
         <SwitchPreference
             android:defaultValue="false"
+            android:icon="@drawable/ic_vibration"
             android:dependency="button_action_enable"
             android:key="button_action_vibrate"
             android:summary="@string/mi2_prefs_button_action_vibrate_summary"
             android:title="@string/mi2_prefs_button_action_vibrate" />
 
         <ListPreference
+            android:icon="@drawable/ic_filter_1"
             android:dependency="button_action_enable"
             android:entries="@array/button_action_options"
             android:entryValues="@array/button_action_values"
@@ -35,6 +38,7 @@
             android:title="@string/prefs_button_single_press_action_selection_title" />
 
         <ListPreference
+            android:icon="@drawable/ic_filter_2"
             android:dependency="button_action_enable"
             android:entries="@array/button_action_options"
             android:entryValues="@array/button_action_values"
@@ -44,6 +48,7 @@
             android:title="@string/prefs_button_double_press_action_selection_title" />
 
         <ListPreference
+            android:icon="@drawable/ic_filter_3"
             android:dependency="button_action_enable"
             android:entries="@array/button_action_options"
             android:entryValues="@array/button_action_values"
@@ -55,6 +60,7 @@
         <PreferenceCategory android:title="@string/prefs_button_variable_actions">
 
             <EditTextPreference
+                android:icon="@drawable/ic_list_numbered"
                 android:defaultValue="6"
                 android:dependency="button_action_enable"
                 android:inputType="number"
@@ -65,11 +71,13 @@
             <EditTextPreference
                 android:defaultValue="@string/mi2_prefs_button_press_broadcast_default_value"
                 android:dependency="button_action_enable"
+                android:icon="@drawable/ic_message_outline"
                 android:key="button_action_broadcast"
                 android:summary="@string/mi2_prefs_button_press_broadcast_summary"
                 android:title="@string/mi2_prefs_button_press_broadcast" />
 
             <EditTextPreference
+                android:icon="@drawable/ic_timer"
                 android:defaultValue="2000"
                 android:dependency="button_action_enable"
                 android:inputType="number"

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
     <com.mobeta.android.dslv.DragSortListPreference
-        android:icon="@drawable/ic_activity_graphs"
+        android:icon="@drawable/ic_tabs"
         android:defaultValue="@array/pref_charts_tabs_items_default"
         android:dialogTitle="@string/mi2_prefs_display_items"
         android:entries="@array/pref_charts_tabs_items"

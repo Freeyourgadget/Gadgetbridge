@@ -11,6 +11,7 @@
         android:summary="@string/mi2_prefs_display_items_summary"
         android:title="@string/mi2_prefs_display_items" />
     <com.mobeta.android.dslv.DragSortListPreference
+        android:icon="@drawable/ic_shortcut"
         android:defaultValue="@array/pref_bip_shortcuts_default"
         android:dialogTitle="@string/bip_prefs_shortcuts"
         android:entries="@array/pref_bip_shortcuts"

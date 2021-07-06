@@ -48,7 +48,7 @@
     </PreferenceScreen>
 
     <PreferenceScreen
-        android:icon="@drawable/ic_widgets"
+        android:icon="@drawable/ic_settings"
         android:key="pref_category_device_spec_settings"
         android:title="@string/pref_header_device_spec_settings">
         <ListPreference
@@ -71,7 +71,7 @@
             android:title="@string/pref_title_device_spec_settings_show_raw_graph" />
     </PreferenceScreen>
     <PreferenceScreen
-        android:icon="@drawable/ic_activity_unknown"
+        android:icon="@drawable/ic_sensor_calibration"
         android:key="pref_sensors_calibration"
         android:title="@string/pref_header_sensors_calibration">
         <EditTextPreference

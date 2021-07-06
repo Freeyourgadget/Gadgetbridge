@@ -21,6 +21,7 @@
         android:title="@string/pref_title_language" />
 
     <MultiSelectListPreference
+        android:icon="@drawable/ic_beep"
         android:defaultValue="@array/pref_amazfitneo_sounds_default"
         android:dialogTitle="@string/prefs_sounds"
         android:entries="@array/pref_amazfitneo_sounds"

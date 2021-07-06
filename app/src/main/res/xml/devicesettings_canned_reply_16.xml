@@ -2,6 +2,7 @@
 <androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <PreferenceScreen
+        android:icon="@drawable/ic_reply"
         android:key="screen_canned_messages_reply"
         android:persistent="false"
         android:title="@string/pref_title_canned_replies">

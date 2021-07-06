@@ -2,6 +2,7 @@
 <androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
     <EditTextPreference
+        android:icon="@drawable/ic_access_alarms"
         android:defaultValue="0"
         android:digits="0123"
         android:inputType="number"
