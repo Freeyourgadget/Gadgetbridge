@@ -1257,4 +1257,5 @@
     <string name="qhybrid_pref_title_actions">פעולות</string>
     <string name="devicetype_amazfit_trex_pro">Amazfit T-Rex Pro</string>
     <string name="menuitem_barometer">מד לחץ</string>
+    <string name="pref_theme_black_background">להשתמש ברקע שחור בערכת עיצוב כהה</string>
 </resources>
