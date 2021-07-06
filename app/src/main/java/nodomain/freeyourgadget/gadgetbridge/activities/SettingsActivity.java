@@ -203,6 +203,8 @@ public class SettingsActivity extends AbstractSettingsActivity {
 
         });
 
+
+
         pref = findPreference("language");
         pref.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
             @Override
@@ -393,6 +395,27 @@ public class SettingsActivity extends AbstractSettingsActivity {
         audioPlayer.setEntries(newEntries);
         audioPlayer.setEntryValues(newValues);
         audioPlayer.setDefaultValue(newValues[0]);
+
+        final Preference theme = (ListPreference) findPreference("pref_key_theme");
+        final Preference amoled_black = findPreference("pref_key_theme_amoled_black");
+
+        String selectedTheme = prefs.getString("pref_key_theme", SettingsActivity.this.getString(R.string.pref_theme_value_system));
+        if (selectedTheme.equals("light"))
+            amoled_black.setEnabled(false);
+        else
+            amoled_black.setEnabled(true);
+
+        theme.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+            @Override
+            public boolean onPreferenceChange(Preference preference, Object newVal) {
+                final String val = newVal.toString();
+                if (val.equals("light"))
+                    amoled_black.setEnabled(false);
+                else
+                    amoled_black.setEnabled(true);
+                return true;
+            }
+        });
     }
 
     @Override

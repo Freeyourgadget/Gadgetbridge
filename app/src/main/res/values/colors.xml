@@ -14,6 +14,7 @@
     <color name="secondarytext" type="color">#ff808080</color>
     <color name="tertiarytext_light" type="color">#ffd0d0d0</color>
     <color name="tertiarytext_dark" type="color">#ff606060</color>
+    <color name="tertiarytext_black" type="color">#000000</color>
 
     <color name="divider" type="color">#1f000000</color>
 

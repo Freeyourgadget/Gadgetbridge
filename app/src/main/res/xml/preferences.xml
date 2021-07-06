@@ -31,13 +31,21 @@
             android:key="audio_player"
             android:title="@string/pref_title_audio_player"
             android:summary="%s" />
-        <ListPreference
-            android:key="pref_key_theme"
-            android:title="@string/pref_title_theme"
-            android:entries="@array/pref_theme_options"
-            android:entryValues="@array/pref_theme_values"
-            android:defaultValue="@string/pref_theme_value_light"
-            android:summary="%s" />
+
+        <PreferenceScreen android:title="@string/pref_title_theme">
+            <ListPreference
+                android:defaultValue="@string/pref_theme_value_light"
+                android:entries="@array/pref_theme_options"
+                android:entryValues="@array/pref_theme_values"
+                android:key="pref_key_theme"
+                android:summary="%s"
+                android:title="@string/pref_title_theme" />
+            <CheckBoxPreference
+                android:defaultValue="false"
+                android:key="pref_key_theme_amoled_black"
+                android:layout="@layout/preference_checkbox"
+                android:title="@string/pref_theme_black_background" />
+        </PreferenceScreen>
 
         <PreferenceScreen
             android:key="language_category"

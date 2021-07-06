@@ -47,6 +47,30 @@
 
     </style>
 
+    <!-- black theme -->
+    <style name="GadgetbridgeThemeBlack" parent="Theme.AppCompat">
+        <item name="textColorPrimary">@color/primarytext_dark</item>
+        <item name="textColorSecondary">@color/secondarytext</item>
+        <item name="textColorTertiary">@color/tertiarytext_dark</item>
+        <item name="android:windowBackground">@android:color/black</item>
+
+        <item name="colorPrimary">@color/primary_dark</item>
+        <item name="colorPrimaryDark">@color/primarydark_dark</item>
+        <item name="colorAccent">@color/accent</item>
+
+        <item name="android:buttonStyle">@style/ButtonDark</item>
+        <item name="buttonStyle">@style/ButtonDark</item>
+
+        <item name="chart_deep_sleep">@color/chart_deep_sleep_dark</item>
+        <item name="chart_light_sleep">@color/chart_light_sleep_dark</item>
+        <item name="chart_activity">@color/chart_activity_dark</item>
+        <item name="chart_not_worn">@color/chart_not_worn_dark</item>
+        <item name="alternate_row_background">@color/alternate_row_background_dark</item>
+        <item name="sports_activity_summary_background">@color/alternate_row_background_dark</item>
+
+    </style>
+
+
     <style name="ButtonDark" parent="Widget.AppCompat.Button.Colored">
         <item name="android:textColor">@color/btn_dark</item>
     </style>
@@ -55,6 +79,12 @@
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
     </style>
+
+    <style name="GadgetbridgeThemeBlack.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
 
     <style name="GadgetbridgeTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 

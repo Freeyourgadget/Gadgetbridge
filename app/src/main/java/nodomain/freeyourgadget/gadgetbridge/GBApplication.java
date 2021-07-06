@@ -975,6 +975,10 @@ public class GBApplication extends Application {
                         && (umm.getNightMode() == UiModeManager.MODE_NIGHT_YES));
     }
 
+    public static boolean isAmoledBlackEnabled() {
+        return prefs.getBoolean("pref_key_theme_amoled_black", false);
+    }
+
     public static int getTextColor(Context context) {
         TypedValue typedValue = new TypedValue();
         Resources.Theme theme = context.getTheme();
