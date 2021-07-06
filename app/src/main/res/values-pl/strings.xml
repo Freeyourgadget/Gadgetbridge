@@ -7,11 +7,11 @@
     <string name="action_quit">Wyjdź</string>
     <string name="controlcenter_fetch_activity_data">Synchronizuj</string>
     <string name="controlcenter_find_device">Znajdź zagubione urządzenie</string>
-    <string name="controlcenter_take_screenshot">Zrób zrzut ekranu</string>
+    <string name="controlcenter_take_screenshot">Wykonaj zrzut ekranu</string>
     <string name="controlcenter_disconnect">Rozłącz</string>
     <string name="controlcenter_delete_device">Usuń urządzenie</string>
     <string name="controlcenter_delete_device_name">Usuń %1$s</string>
-    <string name="controlcenter_delete_device_dialogmessage">Ta operacja usunie urządzenie oraz wszystkie zgromadzone dane!</string>
+    <string name="controlcenter_delete_device_dialogmessage">To działanie spowoduje usunięcie urządzenia oraz wszystkich powiązanych z nim danych!</string>
     <string name="title_activity_debug">Debuguj</string>
     <!--Strings related to AppManager-->
     <string name="title_activity_appmanager">Zarządzanie aplikacjami</string>
@@ -31,23 +31,23 @@
     <!--Strings related to AppBlacklist-->
     <string name="title_activity_appblacklist">Czarna lista powiadomień</string>
     <!--Strings related to FwAppInstaller-->
-    <string name="title_activity_fw_app_insaller">Instalator oprogramowania/aplikacji</string>
+    <string name="title_activity_fw_app_insaller">Instalator oprogramowania</string>
     <string name="fw_upgrade_notice">Zamierzasz zainstalować %s.</string>
-    <string name="miband_firmware_known">Ten firmware został przetestowany i jest kompatybilny z Gadgetbridge.</string>
-    <string name="miband_firmware_unknown_warning">To oprogramowanie nie zostało przetestowane i może być niezgodne z Gadgetbridge. 
-\n 
+    <string name="miband_firmware_known">To oprogramowanie układowe zostało przetestowane i jest ono kompatybilne z Gadgetbridge.</string>
+    <string name="miband_firmware_unknown_warning">To oprogramowanie układowe nie zostało przetestowane i może być niekompatybilne z Gadgetbridge.
+\n
 \nWgrywanie tego oprogramowania jest NIEZALECANE!</string>
-    <string name="miband_firmware_suggest_whitelist">Jeśli nadal chcesz kontynuować i po instalacji wszystko będzie działać prawidłowo, proszę powiadom programistów Gadgetbridge aby dodali wersję %s firmware do białej listy.</string>
+    <string name="miband_firmware_suggest_whitelist">Jeśli nadal chcesz kontynuować i po instalacji wszystko będzie działać prawidłowo, proszę powiadom programistów Gadgetbridge, aby dodali wersję %s firmware do białej listy.</string>
     <!--Strings related to Settings-->
     <string name="title_activity_settings">Ustawienia</string>
     <string name="pref_header_general">Ustawienia ogólne</string>
-    <string name="pref_title_general_autoconnectonbluetooth">Połącz z urządzeniem, gdy Bluetooth jest zostanie włączony</string>
+    <string name="pref_title_general_autoconnectonbluetooth">Połącz z urządzeniem, gdy Bluetooth jest włączony</string>
     <string name="pref_title_general_autoreconnect">Automatycznie ponawiaj połączenie</string>
     <string name="pref_title_audio_player">Preferowany odtwarzacz muzyki</string>
     <string name="pref_default">Domyślny</string>
     <string name="pref_header_datetime">Data i godzina</string>
     <string name="pref_title_datetime_syctimeonconnect">Synchronizuj czas</string>
-    <string name="pref_summary_datetime_syctimeonconnect">Synchronizuj czas urządzenia podczas połączenia, gdy czas lub strefa czasowa zmienia się na urządzeniu</string>
+    <string name="pref_summary_datetime_syctimeonconnect">Synchronizuj czas urządzenia podczas łączenia lub gdy czas albo strefa czasowa zmienią się w telefonie</string>
     <string name="pref_title_theme">Motyw</string>
     <string name="pref_theme_light">Jasny</string>
     <string name="pref_theme_dark">Ciemny</string>
@@ -58,7 +58,7 @@
     <string name="pref_title_notifications_sms">SMS</string>
     <string name="pref_title_notifications_pebblemsg">Wiadomości Pebble</string>
     <string name="pref_title_notifications_generic">Ogólna obsługa powiadomień</string>
-    <string name="pref_title_whenscreenon">…także gdy ekran jest włączony</string>
+    <string name="pref_title_whenscreenon">…także, gdy ekran jest włączony</string>
     <string name="pref_title_notification_filter">Nie przeszkadzać</string>
     <string name="always">Zawsze</string>
     <string name="when_screen_off">Gdy ekran jest wyłączony</string>
@@ -95,9 +95,9 @@
     <string name="pref_summary_pebble_mtu_limit">Jeśli Twój Pebble 2/ Pebble LE nie działa jak należy spróbuj ustawić ten limit MTU (zakres 20–512)</string>
     <string name="pref_title_pebble_enable_applogs">Włącz logi aplikacji zegarka/opaski</string>
     <string name="pref_title_pebble_reconnect_attempts">Próby ponownego połączenia</string>
-    <string name="not_connected">Niepołączony</string>
+    <string name="not_connected">Nie połączono</string>
     <string name="connecting">Łączenie</string>
-    <string name="connected">Połączony</string>
+    <string name="connected">Połączono</string>
     <string name="unknown_state">Nieznany stan</string>
     <string name="_unknown_">(nieznane)</string>
     <string name="test">Testuj</string>
@@ -127,7 +127,7 @@
     <string name="title_activity_discovery">Wyszukiwanie urządzeń</string>
     <string name="discovery_stop_scanning">Przerwij wyszukiwanie</string>
     <string name="discovery_start_scanning">Rozpocznij wyszukiwanie</string>
-    <string name="action_discover">Połącz nowe urządzenie</string>
+    <string name="action_discover">Dodaj nowe urządzenie</string>
     <string name="device_with_rssi">%1$s (%2$s)</string>
     <string name="title_activity_android_pairing">Sparuj urządzenie</string>
     <string name="android_pairing_hint">Użyj parowania Bluetooth na Androidzie by sparować urządzenie.</string>
@@ -270,18 +270,18 @@
     <string name="title_activity_vibration">Wibracje</string>
     <!--Strings related to Pebble Pairing Activity-->
     <string name="action_donate">Wspomóż</string>
-    <string name="controlcenter_snackbar_need_longpress">Naciśnij i przytrzymaj, aby ją rozłączyć</string>
+    <string name="controlcenter_snackbar_need_longpress">Naciśnij i przytrzymaj, aby rozłączyć</string>
     <string name="controlcenter_snackbar_disconnecting">Rozłączanie</string>
     <string name="controlcenter_snackbar_connecting">Łączenie…</string>
-    <string name="controlcenter_snackbar_requested_screenshot">Wykonaj zrzut ekranu urządzenia</string>
+    <string name="controlcenter_snackbar_requested_screenshot">Wykonywanie zrzutu ekranu urządzenia</string>
     <string name="appmanager_weather_activate">Aktywuj systemową aplikację pogody</string>
     <string name="appmanager_weather_deactivate">Dezaktywuj systemową aplikację pogody</string>
     <string name="appmanager_weather_install_provider">Zainstaluj aplikację Weather Notification</string>
     <string name="title_activity_calblacklist">Czarna lista kalendarzy</string>
     <string name="pref_title_general_autostartonboot">Uruchom automatycznie</string>
     <string name="pref_title_minimize_priority">Ukryj powiadomienia z Gadgetbridge</string>
-    <string name="pref_summary_minimize_priority_off">Ikona na pasku stanu i powiadomienia pokazują się na zablokowanym ekranie</string>
-    <string name="pref_summary_minimize_priority_on">Ikona na pasku stanu i powiadomienia są ukryte na zablokowanym ekranie</string>
+    <string name="pref_summary_minimize_priority_off">Ikona na pasku stanu i powiadomienia będą wyświetlane na zablokowanym ekranie</string>
+    <string name="pref_summary_minimize_priority_on">Ikona na pasku stanu i powiadomienia będą ukrywane na zablokowanym ekranie</string>
     <string name="pref_summary_notification_filter">Niechciane powiadomienia są wyłączone w tym trybie</string>
     <string name="pref_title_transliteration">Transliteracja</string>
     <string name="pref_summary_transliteration">Włącz tę opcję, jeśli twoje urządzenie nie obsługuje czcionki twojego języka</string>
@@ -291,11 +291,11 @@
     <string name="pref_call_privacy_mode_number">Ukryj numer, ale wyświetl nazwę</string>
     <string name="pref_call_privacy_mode_complete">Ukryj nazwę i numer</string>
     <string name="pref_blacklist_calendars">Czarna lista kalendarzy</string>
-    <string name="pref_title_canned_reply_suffix">Wspólny sufiks</string>
+    <string name="pref_title_canned_reply_suffix">Wspólny przyrostek</string>
     <string name="pref_title_enable_outgoing_call">Wspieraj rozmowy wychodzące</string>
     <string name="pref_header_pebble_timeline">Oś czasu Pebble</string>
     <string name="pref_title_enable_calendar_sync">Synchronizuj kalendarz</string>
-    <string name="pref_summary_enable_calendar_sync">Wyślij zdarzenie z kalendarza do osi czasu</string>
+    <string name="pref_summary_enable_calendar_sync">Wyślij zdarzenia z kalendarza na oś czasu</string>
     <string name="pref_title_autoremove_notifications">Automatycznie usuń odrzucone powiadomienia</string>
     <string name="pref_title_pebble_privacy_mode">Tryb prywatny</string>
     <string name="pref_pebble_privacy_mode_off">Normalne powiadomienia</string>
@@ -331,7 +331,7 @@
     <string name="mi2_prefs_button_press_count_max_delay">Maksymalny opóźnienie pomiędzy wciśnięciami</string>
     <string name="mi2_prefs_button_press_count_max_delay_summary">Maksymalny opóźnienie pomiędzy wciśnięciami w milisekundach</string>
     <string name="mi2_prefs_goal_notification_summary">Opaska zawibruje po osiągnięciu dziennego celu kroków</string>
-    <string name="mi2_prefs_do_not_disturb">Nie przeszkadzać</string>
+    <string name="mi2_prefs_do_not_disturb">Tryb „Nie przeszkadzać”</string>
     <string name="pref_summary_notifications_pebblemsg">Obsługa aplikacji wysyłających powiadomienia do Pebble za pośrednictwem PebbleKit.</string>
     <string name="pref_title_weather">Pogoda</string>
     <string name="pref_title_canned_messages_dismisscall">Odrzucenie połączenia</string>
@@ -355,28 +355,28 @@
     <string name="controlcenter_calibrate_device">Skalibruj urządzenie</string>
     <string name="blacklist_all_for_notifications">Zablokuj wszystkie powiadomienia</string>
     <string name="whitelist_all_for_notifications">Zezwól na wszystkie powiadomienia</string>
-    <string name="fw_upgrade_notice_amazfitbip">Zamierzasz zainstalować firmware %s na swoim Amazfit Bip.
+    <string name="fw_upgrade_notice_amazfitbip">Zamierzasz zainstalować oprogramowanie układowe %s na swoim urządzeniu Amazfit Bip.
 \n
-\nPamiętaj, aby instalować pliki w kolejności: .fw, potem .res, a na końcu .gps. Twój zegarek zresetuje się po instalacji pliku .fw.
+\nPamiętaj, aby najpierw zainstalować plik FW, następnie RES, a na końcu GPS. Zegarek uruchomi się ponownie po instalacji pliku FW.
 \n
-\nUwaga: Nie instaluj plików .res i .gps, jeśli są takie same jak poprzednio zainstalowane w zegarku.
+\nUwaga: Nie musisz instalować plików RES i GPS, jeśli są one takie same jak poprzednio zainstalowane pliki.
 \n
 \nROBISZ TO NA WŁASNE RYZYKO!</string>
-    <string name="fw_upgrade_notice_amazfitcor">Zamierzasz zainstalować firmware %s na swoim Amazfit Cor. 
-\n 
-\nPamiętaj, aby najpierw zainstalować plik .fw, a następnie plik .res. Twoja opaska zresetuje się po instalacji pliku .fw. 
-\n 
-\nUwaga: Nie instaluj pliku .res, jeśli jest taki sam jak poprzednio zainstalowany. 
-\n 
+    <string name="fw_upgrade_notice_amazfitcor">Zamierzasz zainstalować oprogramowanie układowe %s na swoim urządzeniu Amazfit Cor.
+\n
+\nPamiętaj, aby najpierw zainstalować plik FW, a następnie RES. Opaska uruchomi się ponownie po instalacji pliku FW.
+\n
+\nUwaga: Nie musisz instalować pliku RES, jeśli jest on taki sam jak poprzednio zainstalowany plik.
+\n
 \nROBISZ TO NA WŁASNE RYZYKO!</string>
-    <string name="fw_upgrade_notice_miband3">Zamierzasz zainstalować oprogramowanie %s na swoim Mi Band 3. 
-\n 
-\nPamiętaj, aby najpierw zainstalować plik .fw, a następnie .res. Twoja opaska zresetuje się po instalacji pliku .fw. 
-\n 
-\nUwaga: Nie musisz instalować pliku .res, jeśli jest taki sam jak poprzednio zainstalowany. 
-\n 
+    <string name="fw_upgrade_notice_miband3">Zamierzasz zainstalować oprogramowanie układowe %s na swoim urządzeniu Mi Band 3.
+\n
+\nPamiętaj, aby najpierw zainstalować plik FW, a następnie RES. Opaska uruchomi się ponownie po instalacji pliku FW.
+\n
+\nUwaga: Nie musisz instalować pliku RES, jeśli jest on taki sam jak poprzednio zainstalowany plik.
+\n
 \nROBISZ TO NA WŁASNE RYZYKO!</string>
-    <string name="fw_multi_upgrade_notice">Zamierzasz zainstalować oprogramowanie %1$s oraz %2$s, na miejsce obecnie zainstalowanego na opasce Mi Band.</string>
+    <string name="fw_multi_upgrade_notice">Zamierzasz zainstalować oprogramowanie układowe %1$s i %2$s na miejsce obecnie zainstalowanego na urządzeniu Mi Band.</string>
     <string name="pref_title_charts_swipe">Włącz gesty przesuwania w lewo i w prawo na kartach aktywności</string>
     <string name="pref_title_notifications_timeout">Minimalny czas pomiędzy powiadomieniami</string>
     <string name="pref_title_call_privacy_mode">Tryb prywatności połączeń telefonicznych</string>
@@ -388,9 +388,9 @@
     <string name="controlcenter_change_led_color">Zmień kolor LED</string>
     <string name="controlcenter_change_fm_frequency">Zmień częstotliwość FM</string>
     <string name="pref_title_rtl">Od prawej do lewej</string>
-    <string name="pref_summary_rtl">Włącz tę opcję, jeśli Twoje urządzenie nie może wyświetlać języków z pisownią od prawej do lewej</string>
-    <string name="pref_rtl_max_line_length">Maks. długość linii od prawej do lewej</string>
-    <string name="pref_rtl_max_line_length_summary">Wydłuża lub skraca długość tekstu pisanego od prawej do lewej</string>
+    <string name="pref_summary_rtl">Włącz tę opcję, jeśli twoje urządzenie nie obsługuje wyświetlania języków z pisownią od prawej do lewej</string>
+    <string name="pref_rtl_max_line_length">Maksymalna długość wiersza</string>
+    <string name="pref_rtl_max_line_length_summary">Wydłuża lub skraca długość wiersza pisanego od prawej do lewej</string>
     <string name="pref_summary_pebble_forcele">Użyj eksperymentalnego wsparcia Pebble LE (Low Energy), zamiast Bluetooth Classic, dla wszystkich typów Pebble. Wymaga sparowania poprzez BT Classic, a następnie LE</string>
     <string name="pref_title_pebble_gatt_clientonly">Tylko klient GATT</string>
     <string name="pref_summary_pebble_gatt_clientonly">Ta eksperymentalna opcja przeznaczona jest wyłącznie dla Pebble 2. Wypróbuj ją jeżeli masz problemy z połączeniem</string>
@@ -434,11 +434,11 @@
     <string name="mi2_prefs_button_action_vibrate_summary">Włącz wibrację zegarka (opaski) przy uruchomieniu akcji przycisku</string>
     <string name="mi2_prefs_goal_notification">Powiadomienie o osiągnięciu celu</string>
     <string name="mi2_prefs_display_items">Wyświetlane pozycje</string>
-    <string name="mi2_prefs_display_items_summary">Wybierz pozycje wyświetlane na ekranie zegarka (opaski)</string>
+    <string name="mi2_prefs_display_items_summary">Wybierz pozycje wyświetlane na ekranie urządzenia</string>
     <string name="mi2_prefs_activate_display_on_lift">Aktywuj ekran po podniesieniu nadgarstka</string>
     <string name="mi2_prefs_rotate_wrist_to_switch_info">Przekręć nadgarstek, aby przełączyć informacje</string>
     <string name="mi2_prefs_inactivity_warnings">Ostrzeżenia o nieaktywności</string>
-    <string name="mi2_prefs_inactivity_warnings_summary">Zegarek (opaska) będzie wibrować, jeśli byłeś(-aś) nieaktywny przez pewien czas</string>
+    <string name="mi2_prefs_inactivity_warnings_summary">Urządzenie zawibruje, gdy będziesz pozostawać w bezruchu przez pewien czas</string>
     <string name="mi2_prefs_inactivity_warnings_threshold">Okres nieaktywności (w minutach)</string>
     <string name="mi2_prefs_inactivity_warnings_dnd_summary">Wyłącz ostrzeżenie o nieaktywności dla zadanego przedziału czasu</string>
     <string name="mi3_prefs_night_mode">Tryb nocny</string>
@@ -491,7 +491,7 @@
     <string name="mi2_dnd_scheduled">Zaplanowane (przedział czasu)</string>
     <string name="discovery_attempting_to_pair">Próba sparowania z %1$s</string>
     <string name="discovery_trying_to_connect_to">Próba połączenia z: %1$s</string>
-    <string name="discovery_enable_bluetooth">Włącz Bluetooth aby wykryć urządzenia.</string>
+    <string name="discovery_enable_bluetooth">Włącz Bluetooth, aby wykryć urządzenia.</string>
     <string name="discovery_pair_title">Sparować z %1$s\?</string>
     <string name="discovery_yes_pair">Paruj</string>
     <string name="discovery_dont_pair">Nie paruj</string>
@@ -534,14 +534,14 @@
     <string name="language_and_region_prefs">Ustawienia językowe i regionalne</string>
     <string name="pref_title_auto_export_interval">Częstość eksportowania</string>
     <string name="unit_imperial">imperialne</string>
-    <string name="debugactivity_really_factoryreset_title">Czy na pewno chcesz zresetować do ustawień fabrycznych\?</string>
-    <string name="debugactivity_really_factoryreset">Po zresetowaniu fabrycznym wszelkie dane na urządzeniu zostaną usunięte (jeśli jest to wspierane). Urządzenia Xiaomi/Huami zmieniają także adres MAC Bluetooth, w ten sposób pojawiają się jako nowe urządzenia w Gadgetbridge.</string>
+    <string name="debugactivity_really_factoryreset_title">Przywrócić do ustawień fabrycznych\?</string>
+    <string name="debugactivity_really_factoryreset">To działanie usunie wszystkie dane z połączonego urządzenia (jeśli jest to wspierane). Ponadto urządzenia Xiaomi/Huami zmienią adres MAC Bluetooth i pojawiają się jako nowe urządzenia w Gadgetbridge.</string>
     <string name="overslept">Nadmiar snu: %1$s</string>
     <string name="overstep">Przekroczenie: %1$d</string>
     <string name="you_did_not_sleep">Nie spałeś(-aś)</string>
     <string name="mi2_prefs_button_press_broadcast">Wiadomość do rozgłoszenia</string>
     <string name="mi2_prefs_button_press_broadcast_summary">Wiadomość broadcast nadawana wraz z zdarzeniem. Do każdej wiadomości jest automatycznie dodawany parametr `button_id`.</string>
-    <string name="mi2_prefs_do_not_disturb_summary">Opaska nie będzie otrzymywać powiadomień gdy jest aktywne</string>
+    <string name="mi2_prefs_do_not_disturb_summary">Opaska nie będzie wyświetlać powiadomień, gdy ten tryb jest aktywny</string>
     <string name="mi2_prefs_do_not_disturb_start">Początek</string>
     <string name="mi2_prefs_do_not_disturb_end">Koniec</string>
     <string name="mi3_prefs_band_screen_unlock">Odblokowanie ekranu opaski</string>
@@ -554,8 +554,8 @@
     <string name="filter_mode_whitelist">Pokazuj gdy zawiera słowa</string>
     <string name="pref_chart_heartrate_color_red">Czerwony</string>
     <string name="mi2_prefs_button_press_broadcast_default_value" translatable="false">nodomain.freeyourgadget.gadgetbridge.ButtonPressed</string>
-    <string name="timeformat_24h">24H</string>
-    <string name="timeformat_am_pm">AM/PM</string>
+    <string name="timeformat_24h">24-godzinny</string>
+    <string name="timeformat_am_pm">12-godzinny</string>
     <string name="pref_screen_notification_profile_alarm_clock">Budzik</string>
     <string name="StringUtils_sender">(%1$s)</string>
     <string name="miband2_prefs_timeformat">Mi2: Format czasu</string>
@@ -649,18 +649,18 @@
     <string name="activity_prefs_distance_meters">Cel dzienny: odległość w metrach</string>
     <string name="activity_prefs_activetime_minutes">Cel dzienny: czas aktywności w minutach</string>
     <string name="devicetype_miscale2">Mi Scale 2</string>
-    <string name="title_activity_device_specific_settings">Ustawienia specyficzne dla urządzenia</string>
+    <string name="title_activity_device_specific_settings">Ustawienia danego urządzenia</string>
     <string name="pref_title_authkey">Klucz autoryzacji</string>
     <string name="devicetype_bfh16">BFH-16</string>
-    <string name="fw_upgrade_notice_amazfitcor2">Zamierzasz zainstalować firmware %s na swoim Amazfit Cor 2. 
-\n 
-\nPamiętaj, aby najpierw zainstalować plik .fw, a następnie plik .res. Twoja opaska zresetuje się po instalacji pliku .fw. 
-\n 
-\nUwaga: Nie instaluj pliku .res, jeśli jest taki sam jak poprzednio zainstalowany. 
-\n 
+    <string name="fw_upgrade_notice_amazfitcor2">Zamierzasz zainstalować oprogramowanie układowe %s na swoim urządzeniu Amazfit Cor 2.
+\n
+\nPamiętaj, aby najpierw zainstalować plik FW, a następnie RES. Zegarek uruchomi się ponownie po instalacji pliku FW.
+\n
+\nUwaga: Nie musisz instalować pliku RES, jeśli jest on taki sam jak poprzednio zainstalowany plik.
+\n
 \nROBISZ TO NA WŁASNE RYZYKO!
 \n
-\nZUPEŁNIE NIEPRZETESTOWANE, PRAWDOPODOBNIE MUSISZ WGRAĆ FIRMWARE BEATS_W, JEŚLI NAZWA TWOJEGO URZĄDZENIA TO \"Amazfit Band 2\"</string>
+\nZUPEŁNIE NIEPRZETESTOWANE. JEŚLI NAZWA TWOJEGO URZĄDZENIA TO „Amazfit Band 2”, PRAWDOPODOBNIE MUSISZ WGRAĆ OPROGRAMOWANIE UKŁADOWE BEATS_W.</string>
     <string name="dutch">Niderlandzki</string>
     <string name="turkish">Turecki</string>
     <string name="ukrainian">Ukraiński</string>
@@ -671,12 +671,12 @@
     <string name="portuguese">Portugalski</string>
     <string name="devicetype_amazfit_cor2">Amazfit Cor 2</string>
     <string name="devicetype_miband4">Mi Band 4</string>
-    <string name="fw_upgrade_notice_miband4">Zamierzasz zainstalować firmware %s na swoim Mi Band 4. 
-\n 
-\nPamiętaj, aby najpierw zainstalować plik .fw, a następnie .res. Twoja opaska zresetuje się po instalacji pliku .fw. 
-\n 
-\nUwaga: Nie musisz instalować pliku .res, jeśli jest taki sam jak poprzednio zainstalowany. 
-\n 
+    <string name="fw_upgrade_notice_miband4">Zamierzasz zainstalować oprogramowanie układowe %s na swoim urządzeniu Mi Band 4.
+\n
+\nPamiętaj, aby najpierw zainstalować plik FW, a następnie RES. Opaska uruchomi się ponownie po instalacji pliku FW.
+\n
+\nUwaga: Nie musisz instalować pliku RES, jeśli jest on taki sam jak poprzednio zainstalowany plik.
+\n
 \nROBISZ TO NA WŁASNE RYZYKO!</string>
     <string name="average">Średnia: %1$s</string>
     <string name="pref_header_charts">Ustawienia wykresów</string>
@@ -713,32 +713,32 @@
     <string name="prefs_enable_find_phone">Włącz \'Znajdź telefon\'</string>
     <string name="prefs_find_phone_summary">Użyj opaski, aby odtworzyć dzwonek telefonu.</string>
     <string name="prefs_find_phone_duration">Czas trwania dzwonka w sekundach</string>
-    <string name="fw_upgrade_notice_amazfitbip_lite">Zamierzasz zainstalować firmware %s na swoim Amazfit Bip Lite. 
-\n 
-\nPamiętaj, aby najpierw zainstalować plik .fw, a następnie plik .res. Twój zegarek zresetuje się po instalacji pliku .fw. 
-\n 
-\nUwaga: Nie instaluj pliku .res, jeśli jest taki sam jak poprzednio zainstalowany. 
-\n 
+    <string name="fw_upgrade_notice_amazfitbip_lite">Zamierzasz zainstalować oprogramowanie układowe %s na swoim urządzeniu Amazfit Bip Lite.
+\n
+\nPamiętaj, aby najpierw zainstalować plik FW, a następnie RES. Zegarek uruchomi się ponownie po instalacji pliku FW.
+\n
+\nUwaga: Nie musisz instalować pliku RES, jeśli jest on taki sam jak poprzednio zainstalowany plik.
+\n
 \nROBISZ TO NA WŁASNE RYZYKO!</string>
     <string name="devicetype_amazfit_gtr">Amazfit GTR</string>
-    <string name="fw_upgrade_notice_amazfitgtr">Zamierzasz zainstalować firmware %s na swoim Amazfit GTR. 
-\n 
-\nPamiętaj, aby instalować pliki w kolejności: .fw, potem .res, a na końcu .gps. Twój zegarek zresetuje się po instalacji pliku .fw. 
-\n 
-\nUwaga: Nie instaluj plików .res i .gps, jeśli są takie same jak poprzednio zainstalowane. 
-\n 
+    <string name="fw_upgrade_notice_amazfitgtr">Zamierzasz zainstalować oprogramowanie układowe %s na swoim urządzeniu Amazfit GTR.
+\n
+\nPamiętaj, aby najpierw zainstalować plik FW, następnie RES, a na końcu GPS. Zegarek uruchomi się ponownie po instalacji pliku FW.
+\n
+\nUwaga: Nie musisz instalować plików RES i GPS, jeśli są one takie same jak poprzednio zainstalowane pliki.
+\n
 \nROBISZ TO NA WŁASNE RYZYKO!</string>
     <string name="pref_chart_heartrate_color_orange">Pomarańczowy</string>
     <string name="pref_title_chart_sleep_rolling_24_hour">Zakres snu</string>
     <string name="pref_chart_sleep_rolling_24_on">Ostatnie 24 godziny</string>
     <string name="pref_chart_sleep_rolling_24_off">Od południa do południa</string>
     <string name="devicetype_amazfit_gts">Amazfit GTS</string>
-    <string name="fw_upgrade_notice_amazfitgts">Zamierzasz zainstalować firmware %s na swoim Amazfit GTS. 
-\n 
-\nPamiętaj, aby instalować pliki w kolejności: .fw, potem .res, a na końcu .gps. Twój zegarek zresetuje się po instalacji pliku .fw. 
-\n 
-\nUwaga: Nie instaluj plików .res i .gps, jeśli są takie same jak poprzednio zainstalowane. 
-\n 
+    <string name="fw_upgrade_notice_amazfitgts">Zamierzasz zainstalować oprogramowanie układowe %s na swoim urządzeniu Amazfit GTS.
+\n
+\nPamiętaj, aby najpierw zainstalować plik FW, następnie RES, a na końcu GPS. Zegarek uruchomi się ponownie po instalacji pliku FW.
+\n
+\nUwaga: Nie musisz instalować plików RES i GPS, jeśli są one takie same jak poprzednio zainstalowane pliki.
+\n
 \nROBISZ TO NA WŁASNE RYZYKO!</string>
     <string name="devicetype_qhybrid">Fossil Q Hybrid</string>
     <string name="preferences_qhybrid_settings">Ustawienia Q Hybrid</string>
@@ -747,14 +747,17 @@
     <string name="devicetype_banglejs">Bangle.js</string>
     <string name="devicetype_y5">Y5</string>
     <string name="alarm_snooze">Drzemka</string>
-    <string name="activity_db_management_import_export_explanation">Operacje importu/eksportu używają następującej ścieżki (zobacz poniżej) do katalogu na urządzeniu. Katalog jest dostępny dla innych aplikacji Androida i Twojego komputera. Należy pamiętać, że ten katalog i wszystkie zawarte tam pliki zostaną usunięte, jeśli odinstalujesz Gadgetbridge. Dane obejmują:
-\n Export_preference - ustawienia globalne
-\n Export_preference_MAC - ustawienia specyficzne dla urządzenia
-\n Gadgetbridge - baza danych urządzeń i aktywności
-\n Gadgetbridge_date - baza danych wyeksportowana w danym dniu
-\n *.gpx - trasy GPS
-\n *.log - pliki logów
-\nWyeksportowane pliki znajdziesz (lub pliki, które chcesz zaimportować umieść) tam:</string>
+    <string name="activity_db_management_import_export_explanation">Działanie importu/eksportu używa następującej ścieżki (zobacz poniżej) do katalogu na urządzeniu. Katalog ten jest dostępny dla innych aplikacji Androida i twojego komputera. Należy pamiętać, że ten katalog i wszystkie zawarte w nim pliki zostaną usunięte, jeśli odinstalujesz Gadgetbridge.
+\n
+\nDane eksportu obejmują:
+\n • Export_preference – ustawienia globalne
+\n • Export_preference_MAC – ustawienia danego urządzenia
+\n • Gadgetbridge – baza danych urządzeń i aktywności
+\n • Gadgetbridge_date – baza danych wyeksportowana w danym dniu
+\n • Pliki z rozszerzeniem GPX – trasy GPS
+\n • Pliki z rozszerzeniem LOG – pliki rejestrów dziennika
+\n
+\nWyeksportowane pliki znajdziesz tutaj (jest to również katalog importu):</string>
     <string name="activity_db_management_merge_old_title">Usuwanie starej bazy danych</string>
     <string name="dbmanagementactivity_error_exporting_shared">Błąd podczas eksportowania preferencji: %1$s</string>
     <string name="dbmanagementactivity_error_importing_shared">Błąd podczas importowania preferencji: %1$s</string>
@@ -778,14 +781,14 @@
     <string name="filter_mode_blacklist">Blokuj jeśli zawiera słowa</string>
     <string name="filter_mode">Tryb filtrowania</string>
     <string name="mode_configuration">Ustawienia trybu</string>
-    <string name="appwidget_not_connected">Nie połączony, alarm nie ustawiony.</string>
+    <string name="appwidget_not_connected">Nie połączono, alarm nieustawiony.</string>
     <string name="zetime_calories_type_active">Tylko aktywnie spalone kalorie</string>
     <string name="zetime_calories_type_all">Kalorie spalone aktywnie i nieaktywnie</string>
     <string name="zetime_title_alarm_signaling">Ustaw typ sygnalizacji alarmu</string>
     <string name="zetime_signaling_beep_once">Zabrzęcz raz</string>
     <string name="zetime_signaling_beep_twice">Zabrzęcz dwa razy</string>
     <string name="zetime_signaling_vibrate_beep_once">Wibracja i brzęczenie raz</string>
-    <string name="pref_title_support_voip_calls">Uwzględnij rozmowy przez internet (VoIP)</string>
+    <string name="pref_title_support_voip_calls">Uwzględnij rozmowy przez Internet (VoIP)</string>
     <string name="pref_summary_authkey">Zmień klucz autoryzacji na wspólny dla wszystkich urządzeń z Androidem, z których chcesz się połączyć. Dawniej, domyślnym kluczem dla wszystkich urządzeń był 0123456789@ABCDE</string>
     <string name="prefs_hr_alarm_activity">Alarm tętna podczas aktywności sportowej</string>
     <string name="prefs_hr_alarm_low">Dolny limit</string>
@@ -808,7 +811,7 @@
     <string name="maximum_duration">Czas trwania</string>
     <string name="discovery_need_to_enter_authkey">To urządzenie wymaga poufnego klucza autoryzacji, naciśnij i przytrzymaj, aby go wprowadzić. Przeczytaj wiki, aby uzyskać więcej informacji.</string>
     <string name="pref_title_chart_heartrate_color">Kolor tętna</string>
-    <string name="watch_not_connected">Zegarek nie połączony</string>
+    <string name="watch_not_connected">Zegarek niepołączony</string>
     <string name="qhybrid_vibration_strength">siła wibracji:</string>
     <string name="qhybrid_goal_in_steps">Cel w krokach</string>
     <string name="qhybrid_second_timezone_offset_relative_to_utc">przesunięcie drugiej strefy czasowej względem czasu UTC</string>
@@ -859,7 +862,7 @@
     <string name="devicetype_amazfit_bips">Amazfit Bip S</string>
     <string name="pref_title_relax_firmware_checks">Włącz to, jeśli chcesz sflashować oprogramowanie, które nie jest przeznaczone dla Twojego urządzenia (na własne ryzyko)</string>
     <string name="pref_summary_relax_firmware_checks">Rozluźnij sprawdzanie oprogramowania sprzętowego</string>
-    <string name="pref_theme_system">System</string>
+    <string name="pref_theme_system">Zgodny z systemowym</string>
     <string name="title_activity_LenovoWatch_calibration">Kalibracja Watch X Plus</string>
     <string name="pref_header_auto_fetch">Automatyczne pobieranie</string>
     <string name="power_mode_watch">Tylko zegarek</string>
@@ -908,7 +911,7 @@
     <string name="bip_prefs_shotcuts_summary">Wybierz skróty na wyświetlaczu opaski</string>
     <string name="bip_prefs_shortcuts">Skróty</string>
     <string name="hr_widget_last_notification">Ostatnie powiadomienie</string>
-    <string name="controlcenter_set_alias">Ustaw Alias</string>
+    <string name="controlcenter_set_alias">Ustaw własną nazwę</string>
     <string name="about_contributors">Współtwórcy</string>
     <string name="about_activity_title">O Gadgetbridge</string>
     <string name="devicetype_amazfit_trex">Amazfit T-Rex</string>
@@ -943,19 +946,19 @@
     <string name="devicetype_pinetime_jf">PineTime (Firmware JF)</string>
     <string name="activity_summary_detail">Szczegóły aktywności sportowej</string>
     <string name="activity_type_jump_roping">Skakanka</string>
-    <string name="pref_title_weather_summary">Używane przez dostawcę pogody LineageOS, inne wersje systemu Android powinny używać aplikacji \"Weather notification\". Więcej informacji znajdziesz w wiki Gadgetbridge.</string>
-    <string name="fw_upgrade_notice_miband5">Zamierzasz zainstalować firmware %s na Mi Band 5.
+    <string name="pref_title_weather_summary">Używane przez dostawcę pogody LineageOS. Inne wersje systemu Android powinny używać innej aplikacji, np. Weather notification. Więcej informacji znajdziesz na stronie projektu Gadgetbridge.</string>
+    <string name="fw_upgrade_notice_miband5">Zamierzasz zainstalować oprogramowanie układowe %s na swoim urządzeniu Mi Band 5.
 \n
-\nPamiętaj, aby najpierw zainstalować plik .fw, a następnie .res. Twoja opaska zresetuje się po instalacji pliku .fw.
+\nPamiętaj, aby najpierw zainstalować plik FW, a następnie RES. Opaska uruchomi się ponownie po instalacji pliku FW.
 \n
-\nUwaga: Nie musisz instalować pliku .res, jeśli jest taki sam jak poprzednio zainstalowany.
+\nUwaga: Nie musisz instalować pliku RES, jeśli jest on taki sam jak poprzednio zainstalowany plik.
 \n
 \nROBISZ TO NA WŁASNE RYZYKO!</string>
-    <string name="fw_upgrade_notice_amazfit_trex">Zamierzasz zainstalować firmware %s na Amazfit T-Rex.
+    <string name="fw_upgrade_notice_amazfit_trex">Zamierzasz zainstalować oprogramowanie układowe %s na swoim urządzeniu Amazfit T-Rex.
 \n
-\nPamiętaj, aby instalować pliki w kolejności: .fw, potem .res, a na końcu .gps. Twój zegarek zresetuje się po instalacji pliku .fw.
+\nPamiętaj, aby najpierw zainstalować plik FW, następnie RES, a na końcu GPS. Zegarek uruchomi się ponownie po instalacji pliku FW.
 \n
-\nUwaga: Nie instaluj plików .res i .gps, jeśli są takie same jak poprzednio zainstalowane.
+\nUwaga: Nie musisz instalować plików RES i GPS, jeśli są one takie same jak poprzednio zainstalowane pliki.
 \n
 \nROBISZ TO NA WŁASNE RYZYKO!</string>
     <string name="activity_type_swimming_openwater">Pływanie (na wodach otwartych)</string>
@@ -1142,11 +1145,11 @@
     <string name="menuitem_goal">Cel dotyczący aktywności</string>
     <string name="pref_title_connected_advertisement">Widoczne po podłączeniu</string>
     <string name="pref_summary_connected_advertisement">Sprawia, że urządzenie jest wykrywalne przez Bluetooth, nawet po połączeniu</string>
-    <string name="fw_upgrade_notice_amazfitvergel">Zamierzasz zainstalować firmware %s na Amazfit Verge Lite.
+    <string name="fw_upgrade_notice_amazfitvergel">Zamierzasz zainstalować oprogramowanie układowe %s na swoim urządzeniu Amazfit Verge Lite.
 \n
-\nPamiętaj, aby instalować pliki w kolejności: .fw, potem .res, a na końcu .gps. Twój zegarek zrestartuje się po instalacji pliku .fw.
+\nPamiętaj, aby najpierw zainstalować plik FW, następnie RES, a na końcu GPS. Zegarek uruchomi się ponownie po instalacji pliku FW.
 \n
-\nUwaga: Nie musisz instalować plików .res i .gps, jeśli są takie same jak poprzednio zainstalowane.
+\nUwaga: Nie musisz instalować plików RES i GPS, jeśli są one takie same jak poprzednio zainstalowane pliki.
 \n
 \nROBISZ TO NA WŁASNE RYZYKO!</string>
     <string name="devicetype_amazfit_vergel">Amazfit Verge Lite</string>
@@ -1164,7 +1167,9 @@
     <string name="devicetype_amazfit_bipupro">Amazfit Bip U Pro</string>
     <string name="dbmanagementactivity_export_confirmation">Czy naprawdę wyeksportować dane\? Wyeksportowane wcześniej dane o aktywnościach (jeśli takie istnieją) i ustawienia zostaną nadpisane.</string>
     <string name="dbmanagementactivity_export_data_title">Wyeksportować dane\?</string>
-    <string name="activity_db_management_clean_export_directory_text">Eksportowane pliki w katalogu eksportu/importu są dostępne dla każdej aplikacji na Twoim urządzeniu. Możesz chcieć usunąć te pliki po synchronizacji lub utworzeniu kopii zapasowej. Upewnij się, że masz kopię zapasową przed ich usunięciem. Pliki GPX, podkatalogi i automatycznie wyeksportowane pliki bazy danych (jeśli istnieją) nie zostaną usunięte. Ścieżka do katalogu eksportu/ importu to:</string>
+    <string name="activity_db_management_clean_export_directory_text">Eksportowane pliki w katalogu eksportu/importu dostępne są dla każdej aplikacji na tym urządzeniu. Możesz chcieć usunąć te dane po synchronizacji lub utworzeniu kopii zapasowej. Upewnij się, że posiadasz kopię zapasową tych danych przed ich usunięciem. Pliki GPX, podkatalogi i automatycznie wyeksportowane pliki bazy danych (jeśli istnieją) nie zostaną usunięte.
+\n
+\nŚcieżka do katalogu eksportu/importu:</string>
     <string name="activity_db_management_clean_export_directory_label">Usuwanie plików z katalogu eksportu/importu</string>
     <string name="dbmanagementactivity_export_finished">Usuwanie ukończone</string>
     <string name="activity_DB_clean_export_directory_warning_message">Czy na pewno usunąć pliki z katalogu eksportu/importu\?</string>
@@ -1183,11 +1188,11 @@
     <string name="devicetype_amazfit_gts2e">Amazfit GTS 2e</string>
     <string name="battery_detail_activity_title">Informacje o baterii</string>
     <string name="devicetype_amazfit_x">Amazfit X</string>
-    <string name="fw_upgrade_notice_amazfitx">Zamierzasz zainstalować firmware %s na swoim Amazfit X.
+    <string name="fw_upgrade_notice_amazfitx">Zamierzasz zainstalować oprogramowanie układowe %s na swoim urządzeniu Amazfit X.
 \n
-\nPamiętaj, aby najpierw zainstalować plik .fw, a następnie plik .res. Twoja opaska zrestartuje się po instalacji pliku .fw.
+\nPamiętaj, aby najpierw zainstalować plik FW, a następnie RES. Opaska uruchomi się ponownie po instalacji pliku FW.
 \n
-\nUwaga: Nie musisz instalować pliku .res, jeśli jest dokładnie taki sam jak poprzednio zainstalowany.
+\nUwaga: Nie musisz instalować pliku RES, jeśli jest on taki sam jak poprzednio zainstalowany plik.
 \n
 \nROBISZ TO NA WŁASNE RYZYKO!</string>
     <string name="calendar_year">Rok</string>
@@ -1214,20 +1219,20 @@
     <string name="fossil_hr_warning_firmware_too_new">Niektóre funkcje są wyłączone, ponieważ oprogramowanie zegarka jest zbyt nowe</string>
     <string name="prefs_sounds_summary">Skonfiguruj, kiedy urządzenie będzie emitować sygnał dźwiękowy</string>
     <string name="prefs_sounds">Dźwięki</string>
-    <string name="fw_upgrade_notice_amazfitneo">Zamierzasz zainstalować firmware %s na Amazfit Neo.
+    <string name="fw_upgrade_notice_amazfitneo">Zamierzasz zainstalować oprogramowanie układowe %s na swoim urządzeniu Amazfit Neo.
 \n
-\nOpaska uruchomi się ponownie po instalacji pliku .fw.
+\nOpaska uruchomi się ponownie po instalacji pliku FW.
 \n
 \nROBISZ TO NA WŁASNE RYZYKO!</string>
     <string name="menuitem_events">Wydarzenia</string>
     <string name="menuitem_widgets">Widżety</string>
     <string name="menuitem_temperature">Temperatura</string>
     <string name="devicetype_miband6">Mi Band 6</string>
-    <string name="fw_upgrade_notice_miband6">Właśnie instalujesz oprogramowanie sprzętowe %s na swojej opasce Mi Band 6.
+    <string name="fw_upgrade_notice_miband6">Zamierzasz zainstalować oprogramowanie układowe %s na swoim urządzeniu Mi Band 6.
 \n
-\nPamiętaj, aby najpierw zainstalować plik .fw, a następnie .res. Twoja opaska uruchomi się ponownie po zainstalowaniu pliku .fw.
+\nPamiętaj, aby najpierw zainstalować plik FW, a następnie RES. Opaska uruchomi się ponownie po instalacji pliku FW.
 \n
-\nUwaga: Nie musisz instalować pliku .res, jeśli jest on dokładnie taki sam, jak poprzednio zainstalowany.
+\nUwaga: Nie musisz instalować pliku RES, jeśli jest on taki sam jak poprzednio zainstalowany plik.
 \n
 \nROBISZ TO NA WŁASNE RYZYKO!</string>
     <string name="qhybrid_summary_calibration">Kalibracja wskazówek zegarka</string>
@@ -1252,7 +1257,7 @@
 \nWersja %2$s od %3$s
 \n</string>
     <string name="qhybrid_watchface_configuration_old_firmware">Ekran konfiguracji tarczy zegarka dla zegarków z oprogramowaniem układowym w wersji DN1.0.2.19r i niższym</string>
-    <string name="fossil_hr_commute_actions_explanation">Akcje skonfigurowane w tym miejscu będą wyświetlane w aplikacji Commute na Twoim zegarku. Przeczytaj wiki, aby dowiedzieć się, jak obsługiwać intencje generowane przez te akcje.</string>
+    <string name="fossil_hr_commute_actions_explanation">Działania skonfigurowane w tym miejscu będą wyświetlane na twoim zegarku w aplikacji Commute. Więcej informacji znajdziesz na stronie projektu.</string>
     <string name="qhybrid_title_watchface">Konfiguracja tarczy zegarka</string>
     <string name="notification_channel_low_battery_name">Niski poziom baterii</string>
     <string name="notification_channel_transfer_name">Transfer danych</string>
