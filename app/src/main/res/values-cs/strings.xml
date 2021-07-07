@@ -1258,4 +1258,5 @@
     <string name="menuitem_barometer">Barometr</string>
     <string name="notification_channel_low_battery_name">Nízký stav baterie</string>
     <string name="notification_channel_transfer_name">Přenos dat</string>
+    <string name="pref_theme_black_background">Použít černé pozadí v Tmavém Téma</string>
 </resources>
