@@ -38,6 +38,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -56,9 +57,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
+import java.io.FileFilter;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.DecimalFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
@@ -80,7 +85,6 @@ import nodomain.freeyourgadget.gadgetbridge.util.DateTimeUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.FileUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 import nodomain.freeyourgadget.gadgetbridge.util.SwipeEvents;
-//import nodomain.freeyourgadget.gadgetbridge.util.OnSwipeTouchListener;
 
 public class ActivitySummaryDetail extends AbstractGBActivity {
     private static final Logger LOG = LoggerFactory.getLogger(ActivitySummaryDetail.class);
@@ -89,6 +93,10 @@ public class ActivitySummaryDetail extends AbstractGBActivity {
     private boolean show_raw_data = false;
     private int alternateColor;
     private Menu mOptionsMenu;
+    List<String> filesGpxList = new ArrayList<>();
+    int selectedGpxIndex;
+    String selectedGpxFile;
+    File export_path = null;
 
     public static int getAlternateColor(Context context) {
         TypedValue typedValue = new TypedValue();
@@ -218,7 +226,6 @@ public class ActivitySummaryDetail extends AbstractGBActivity {
             } else {
                 hideCanvas();
             }
-
         }
 
 
@@ -274,6 +281,58 @@ public class ActivitySummaryDetail extends AbstractGBActivity {
                         .show();
             }
         });
+        ImageView activity_summary_detail_edit_gps = findViewById(R.id.activity_summary_detail_edit_gps);
+        activity_summary_detail_edit_gps.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View view) {
+                export_path = get_path();
+                filesGpxList = get_gpx_file_list();
+                AlertDialog.Builder builder = new AlertDialog.Builder(ActivitySummaryDetail.this);
+                builder.setTitle(R.string.activity_summary_detail_select_gpx_track);
+                ArrayAdapter<String> directory_listing = new ArrayAdapter<String>(ActivitySummaryDetail.this, android.R.layout.simple_list_item_1, filesGpxList);
+                builder.setSingleChoiceItems(directory_listing, 0, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        selectedGpxIndex = which;
+                        selectedGpxFile = export_path + "/" + filesGpxList.get(selectedGpxIndex);
+                        String message = String.format("%s %s?", getString(R.string.set), filesGpxList.get(selectedGpxIndex));
+                        if (selectedGpxIndex == 0) {
+                            selectedGpxFile = null;
+                            message = String.format("%s?", getString(R.string.activity_summary_detail_clear_gpx_track));
+                        }
+
+                        new AlertDialog.Builder(ActivitySummaryDetail.this)
+                                .setCancelable(true)
+                                .setIcon(R.drawable.ic_warning)
+                                .setTitle(R.string.activity_summary_detail_editing_gpx_track)
+                                .setMessage(message)
+                                .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        currentItem.setGpxTrack(selectedGpxFile);
+                                        currentItem.update();
+                                        if (get_gpx_file() != null) {
+                                            showCanvas();
+                                            activitySummariesGpsFragment.set_data(get_gpx_file());
+                                        } else {
+                                            hideCanvas();
+                                        }
+                                    }
+                                })
+                                .setNegativeButton(R.string.Cancel, new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                    }
+                                })
+                                .show();
+                        dialog.dismiss();
+                    }
+                });
+                AlertDialog dialog = builder.create();
+                dialog.show();
+            }
+        });
     }
 
     private void makeSummaryHeader(BaseActivitySummary item) {
@@ -308,6 +367,49 @@ public class ActivitySummaryDetail extends AbstractGBActivity {
         TextView activity_duration = findViewById(R.id.duration);
         activity_duration.setText(durationhms);
 
+    }
+
+    private File get_path() {
+        File path = null;
+        try {
+            path = FileUtils.getExternalFilesDir();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return path;
+    }
+
+    private List<String> get_gpx_file_list() {
+        List<String> list = new ArrayList<>();
+
+        File[] fileListing = export_path.listFiles(new FileFilter() {
+            @Override
+            public boolean accept(File file) {
+                return file.getPath().toLowerCase().endsWith(".gpx");
+            }
+        });
+
+        if (fileListing != null && fileListing.length > 1) {
+            Arrays.sort(fileListing, new Comparator<File>() {
+                @Override
+                public int compare(File fileA, File fileB) {
+                    if (fileA.lastModified() < fileB.lastModified()) {
+                        return 1;
+                    }
+                    if (fileA.lastModified() > fileB.lastModified()) {
+                        return -1;
+                    }
+                    return 0;
+                }
+            });
+        }
+
+        list.add(getString(R.string.activity_summary_detail_clear_gpx_track));
+
+        for (File file : fileListing) {
+            list.add(file.getName());
+        }
+        return list;
     }
 
     private void makeSummaryContent(BaseActivitySummary item) {

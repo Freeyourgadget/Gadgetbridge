@@ -715,6 +715,7 @@
     <string name="Cancel">Cancel</string>
     <string name="Delete">Delete</string>
     <string name="ok">OK</string>
+    <string name="set">Set</string>
     <string name="activity_data_management_directory_content_title">Export/Import directory content</string>
     <string name="activity_DB_ShowContentButton">Show Export/Import directory content</string>
     <string name="activity_db_management_clean_export_directory_label">Delete files in Export/Import directory</string>
@@ -788,6 +789,9 @@
     <string name="activity_summaries">Sport Activities</string>
     <string name="activity_summary_detail">Sport Activity Detail</string>
     <string name="activity_summary_edit_name_title">Edit label</string>
+    <string name="activity_summary_detail_select_gpx_track">Select GPX track</string>
+    <string name="activity_summary_detail_clear_gpx_track">Clear GPX track</string>
+    <string name="activity_summary_detail_editing_gpx_track">Editing linked GPX track</string>
     <string name="activity_summary_today">Today</string>
     <string name="activity_summary_yesterday">Yesterday</string>
     <string name="activity_type_biking">Biking</string>

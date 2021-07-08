@@ -62,10 +62,20 @@
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:layout_gravity="end"
-                        android:layout_weight="0.1"
+                        android:layout_weight="0"
                         android:contentDescription="@string/icon_placeholder"
                         android:scaleType="fitEnd"
-                        app:srcCompat="@drawable/ic_create" />
+                        app:srcCompat="@drawable/ic_edit" />
+
+                    <ImageView
+                        android:id="@+id/activity_summary_detail_edit_gps"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="end"
+                        android:layout_weight="0"
+                        android:contentDescription="@string/icon_placeholder"
+                        android:scaleType="fitEnd"
+                        app:srcCompat="@drawable/ic_gps_edit" />
                 </LinearLayout>
 
                 <TextView
