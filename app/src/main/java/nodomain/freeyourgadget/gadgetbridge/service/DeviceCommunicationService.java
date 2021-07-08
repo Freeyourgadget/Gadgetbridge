@@ -31,6 +31,7 @@ import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.net.Uri;
+import android.os.Binder;
 import android.os.Handler;
 import android.os.IBinder;
 import android.widget.Toast;
@@ -869,9 +870,16 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
         GB.removeNotification(GB.NOTIFICATION_ID, this); // need to do this because the updated notification won't be cancelled when service stops
     }
 
+    public class CommunicationServiceBinder extends Binder{
+        public DeviceSupport getDeviceSupport(){
+            if(mDeviceSupport == null) return null;
+            return ((ServiceDeviceSupport)DeviceCommunicationService.this.mDeviceSupport).getDelegate();
+        }
+    }
+
     @Override
     public IBinder onBind(Intent intent) {
-        return null;
+        return new CommunicationServiceBinder();
     }
 
     @Override
