@@ -108,4 +108,7 @@ public abstract class AbstractBleProfile<T extends AbstractBTLEDeviceSupport> ex
         return mSupport.getQueue();
     }
 
+    public void enableNotify(TransactionBuilder builder, boolean enable) {
+    }
+
 }

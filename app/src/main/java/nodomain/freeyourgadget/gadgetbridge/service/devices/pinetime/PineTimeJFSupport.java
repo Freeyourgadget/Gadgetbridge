@@ -453,6 +453,7 @@ public class PineTimeJFSupport extends AbstractBTLEDeviceSupport implements DfuL
         }
         setInitialized(builder);
         batteryInfoProfile.requestBatteryInfo(builder);
+        batteryInfoProfile.enableNotify(builder,true);
 
         return builder;
     }

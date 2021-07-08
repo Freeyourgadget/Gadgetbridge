@@ -53,8 +53,9 @@ public class BatteryInfoProfile<T extends AbstractBTLEDeviceSupport> extends Abs
         builder.read(getCharacteristic(UUID_CHARACTERISTIC_BATTERY_LEVEL));
     }
 
-    public void enableNotifiy() {
-        // TODO: notification
+    @Override
+    public void enableNotify(TransactionBuilder builder, boolean enable) {
+        builder.notify(getCharacteristic(BatteryInfoProfile.UUID_CHARACTERISTIC_BATTERY_LEVEL), enable);
     }
 
     @Override
@@ -71,6 +72,11 @@ public class BatteryInfoProfile<T extends AbstractBTLEDeviceSupport> extends Abs
             LOG.warn("error reading from characteristic:" + GattCharacteristic.toString(characteristic));
         }
         return false;
+    }
+
+    @Override
+    public boolean onCharacteristicChanged(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic) {
+        return onCharacteristicRead(gatt, characteristic, BluetoothGatt.GATT_SUCCESS);
     }
 
     private void handleBatteryLevel(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic) {
