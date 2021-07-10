@@ -1015,6 +1015,9 @@
     <string name="about_title">About</string>
     <string name="about_version">Version %s</string>
     <string name="about_activity_title">About Gadgetbridge</string>
+    <string name="gpx_receiver_activity_title">GPX Receiver Gadgetbridge</string>
+    <string name="gpx_receiver_files_received">GPX file(s) received:</string>
+    <string name="gpx_receiver_overwrite_some_files">Some file(s) already exist. Overwrite?</string>
     <string name="about_description">Cloudless copylefted libre replacement for closed source Android gadget apps from vendors.</string>
     <string name="about_core_team_title">Core Team (in order of first code contribution)</string>
     <string name="about_contributors">Contributors</string>

@@ -288,6 +288,7 @@ public class ActivitySummaryDetail extends AbstractGBActivity {
             public void onClick(View view) {
                 export_path = get_path();
                 filesGpxList = get_gpx_file_list();
+
                 AlertDialog.Builder builder = new AlertDialog.Builder(ActivitySummaryDetail.this);
                 builder.setTitle(R.string.activity_summary_detail_select_gpx_track);
                 ArrayAdapter<String> directory_listing = new ArrayAdapter<String>(ActivitySummaryDetail.this, android.R.layout.simple_list_item_1, filesGpxList);
@@ -374,7 +375,7 @@ public class ActivitySummaryDetail extends AbstractGBActivity {
         try {
             path = FileUtils.getExternalFilesDir();
         } catch (IOException e) {
-            e.printStackTrace();
+            LOG.error("Error getting path", e);
         }
         return path;
     }
@@ -576,7 +577,7 @@ public class ActivitySummaryDetail extends AbstractGBActivity {
             shareScreenshot(targetFile, context);
             GB.toast(getApplicationContext(), "Screenshot saved", Toast.LENGTH_LONG, GB.INFO);
         } catch (IOException e) {
-            e.printStackTrace();
+            LOG.error("Error getting screenshot", e);
         }
     }
 
