@@ -16,6 +16,12 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.devices.qhybrid;
 
+import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+
+import java.io.IOException;
+
 public class HybridHRWatchfaceWidget {
     private String widgetType;
     private int posX;
@@ -29,6 +35,10 @@ public class HybridHRWatchfaceWidget {
 
     public String getWidgetType() {
         return widgetType;
+    }
+
+    public Bitmap getPreviewImage(Context context) throws IOException {
+        return BitmapFactory.decodeStream(context.getAssets().open("fossil_hr/" + widgetType + "_preview.png"));
     }
 
     public int getPosX() {

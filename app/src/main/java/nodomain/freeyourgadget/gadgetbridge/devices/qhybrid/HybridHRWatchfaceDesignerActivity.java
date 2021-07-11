@@ -293,8 +293,8 @@ public class HybridHRWatchfaceDesignerActivity extends AbstractGBActivity implem
         widgetPaint.setColor(Color.RED);
         widgetPaint.setStyle(Paint.Style.STROKE);
         widgetPaint.setStrokeWidth(5);
-        Bitmap widgetBitmap = Bitmap.createBitmap((int)(widgetSize * scaleFactor), (int)(widgetSize * scaleFactor), Bitmap.Config.ARGB_8888);
-        Canvas widgetCanvas = new Canvas(widgetBitmap);
+        Bitmap widgetNoPreviewBitmap = Bitmap.createBitmap((int)(widgetSize * scaleFactor), (int)(widgetSize * scaleFactor), Bitmap.Config.ARGB_8888);
+        Canvas widgetCanvas = new Canvas(widgetNoPreviewBitmap);
         widgetCanvas.drawRect(0, 0, widgetSize * scaleFactor, widgetSize * scaleFactor, widgetPaint);
         for (int i=0; i<widgets.size(); i++) {
             HybridHRWatchfaceWidget widget = widgets.get(i);
@@ -304,7 +304,11 @@ public class HybridHRWatchfaceDesignerActivity extends AbstractGBActivity implem
             layoutParams.setMargins((int) ((widget.getPosX() - widgetSize/2) * scaleFactor), (int) ((widget.getPosY() - widgetSize/2) * scaleFactor), 0, 0);
             ImageView widgetView = new ImageView(this);
             widgetView.setId(i);
-            widgetView.setImageBitmap(widgetBitmap);
+            try {
+                widgetView.setImageBitmap(Bitmap.createScaledBitmap(widget.getPreviewImage(this), (int)(widgetSize * scaleFactor), (int)(widgetSize * scaleFactor), true));
+            } catch (IOException e) {
+                widgetView.setImageBitmap(widgetNoPreviewBitmap);
+            }
             widgetView.setLayoutParams(layoutParams);
             widgetView.setOnClickListener(new View.OnClickListener() {
                 @Override
