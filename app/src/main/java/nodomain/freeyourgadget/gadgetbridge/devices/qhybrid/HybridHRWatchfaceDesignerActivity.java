@@ -16,8 +16,6 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.devices.qhybrid;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.ContentResolver;
@@ -41,7 +39,6 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.NumberPicker;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
@@ -65,12 +62,13 @@ import java.util.UUID;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
+import nodomain.freeyourgadget.gadgetbridge.activities.AbstractGBActivity;
 import nodomain.freeyourgadget.gadgetbridge.devices.DeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.util.BitmapUtil;
 import nodomain.freeyourgadget.gadgetbridge.util.DeviceHelper;
 
-public class HybridHRWatchfaceDesignerActivity extends AppCompatActivity implements View.OnClickListener {
+public class HybridHRWatchfaceDesignerActivity extends AbstractGBActivity implements View.OnClickListener {
     private final Logger LOG = LoggerFactory.getLogger(HybridHRWatchfaceDesignerActivity.class);
     private GBDevice mGBDevice;
     private DeviceCoordinator mCoordinator;

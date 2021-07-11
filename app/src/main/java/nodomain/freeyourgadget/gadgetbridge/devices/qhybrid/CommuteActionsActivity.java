@@ -16,7 +16,6 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.devices.qhybrid;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -41,9 +40,10 @@ import java.util.List;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
+import nodomain.freeyourgadget.gadgetbridge.activities.AbstractGBActivity;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.QHybridSupport;
 
-public class CommuteActionsActivity extends AppCompatActivity  implements CommuteActionsListAdapter.ItemClickListener, DialogInterface.OnClickListener, View.OnClickListener {
+public class CommuteActionsActivity extends AbstractGBActivity implements CommuteActionsListAdapter.ItemClickListener, DialogInterface.OnClickListener, View.OnClickListener {
     protected final List<String> actionsList = new ArrayList<>();
     private static final Logger LOG = LoggerFactory.getLogger(CommuteActionsActivity.class);
     private SharedPreferences sharedPreferences;
