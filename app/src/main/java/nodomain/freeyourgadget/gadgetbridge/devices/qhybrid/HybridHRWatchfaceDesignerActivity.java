@@ -33,11 +33,11 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.provider.MediaStore;
-import android.text.InputType;
 import android.util.DisplayMetrics;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -45,10 +45,8 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
-import androidx.annotation.NonNull;
-
-import org.jetbrains.annotations.NotNull;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -72,6 +70,7 @@ import nodomain.freeyourgadget.gadgetbridge.devices.DeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.util.BitmapUtil;
 import nodomain.freeyourgadget.gadgetbridge.util.DeviceHelper;
+import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
 public class HybridHRWatchfaceDesignerActivity extends AbstractGBActivity implements View.OnClickListener {
     private final Logger LOG = LoggerFactory.getLogger(HybridHRWatchfaceDesignerActivity.class);
@@ -142,7 +141,7 @@ public class HybridHRWatchfaceDesignerActivity extends AbstractGBActivity implem
 
     // Handle action bar button presses
     @Override
-    public boolean onOptionsItemSelected(@NonNull @NotNull MenuItem item) {
+    public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.button_save_watchface) {
             sendToWatch(false);
@@ -322,53 +321,60 @@ public class HybridHRWatchfaceDesignerActivity extends AbstractGBActivity implem
     }
 
     private void showWidgetEditPopup(final int index) {
-        LinearLayout layout = new LinearLayout(this);
+        View layout = getLayoutInflater().inflate(R.layout.dialog_hybridhr_watchface_widget, null);
         HybridHRWatchfaceWidget widget = null;
         if (index >= 0) {
             widget = widgets.get(index);
         }
-        layout.setOrientation(LinearLayout.VERTICAL);
-        TextView desc = new TextView(this);
-        desc.setText("Type:");
-        layout.addView(desc);
-        final RadioGroup typeSelector = new RadioGroup(this);
-        RadioButton typeDate = new RadioButton(this);
-        typeDate.setText("Date");
-        typeDate.setId(0);
+        final RadioGroup typeSelector = layout.findViewById(R.id.watchface_widget_type_selector);
+        RadioButton typeDate = layout.findViewById(R.id.watchface_widget_type_date);
+        RadioButton typeWeather = layout.findViewById(R.id.watchface_widget_type_weather);
         if ((widget != null) && (widget.getWidgetType().equals("widgetDate"))) {
             typeDate.setChecked(true);
         }
-        typeSelector.addView(typeDate);
-        RadioButton typeWeather = new RadioButton(this);
-        typeWeather.setText("Weather");
-        typeWeather.setId(0+1);
         if ((widget != null) && (widget.getWidgetType().equals("widgetWeather"))) {
             typeWeather.setChecked(true);
         }
-        typeSelector.addView(typeWeather);
-        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.MATCH_PARENT,
-                LinearLayout.LayoutParams.MATCH_PARENT);
-        typeSelector.setLayoutParams(lp);
-        layout.addView(typeSelector);
-        desc = new TextView(this);
-        desc.setText("X coordinate (max 240):");
-        layout.addView(desc);
-        final EditText posX = new EditText(this);
-        posX.setInputType(InputType.TYPE_CLASS_NUMBER);
+        final EditText posX = layout.findViewById(R.id.watchface_widget_pos_x);
         if (widget != null) {
             posX.setText(Integer.toString(widget.getPosX()));
         }
-        layout.addView(posX);
-        desc = new TextView(this);
-        desc.setText("Y coordinate (max 240):");
-        layout.addView(desc);
-        final EditText posY = new EditText(this);
-        posY.setInputType(InputType.TYPE_CLASS_NUMBER);
+        final EditText posY = layout.findViewById(R.id.watchface_widget_pos_y);
         if (widget != null) {
             posY.setText(Integer.toString(widget.getPosY()));
         }
-        layout.addView(posY);
+        Button btnTop = layout.findViewById(R.id.watchface_widget_preset_top);
+        btnTop.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                posX.setText("120");
+                posY.setText("58");
+            }
+        });
+        Button btnBottom = layout.findViewById(R.id.watchface_widget_preset_bottom);
+        btnBottom.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                posX.setText("120");
+                posY.setText("182");
+            }
+        });
+        Button btnLeft = layout.findViewById(R.id.watchface_widget_preset_left);
+        btnLeft.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                posX.setText("58");
+                posY.setText("120");
+            }
+        });
+        Button btnRight = layout.findViewById(R.id.watchface_widget_preset_right);
+        btnRight.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                posX.setText("182");
+                posY.setText("120");
+            }
+        });
         new AlertDialog.Builder(this)
                 .setView(layout)
                 .setNegativeButton(R.string.fossil_hr_edit_action_delete, new DialogInterface.OnClickListener() {
@@ -383,22 +389,29 @@ public class HybridHRWatchfaceDesignerActivity extends AbstractGBActivity implem
                 .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        int selectedRadioId = typeSelector.getCheckedRadioButtonId();
-                        int selectedPosX = Integer.parseInt(posX.getText().toString());
+                        int selectedPosX;
+                        int selectedPosY;
+                        try {
+                            selectedPosX = Integer.parseInt(posX.getText().toString());
+                            selectedPosY = Integer.parseInt(posY.getText().toString());
+                        } catch (NumberFormatException e) {
+                            GB.toast("Settings incomplete, widget not added", Toast.LENGTH_SHORT, GB.WARN);
+                            LOG.warn("Error parsing input", e);
+                            return;
+                        }
                         if (selectedPosX < 1) selectedPosX = 1;
                         if (selectedPosX > 240) selectedPosX = 240;
-                        int selectedPosY = Integer.parseInt(posY.getText().toString());
                         if (selectedPosY < 1) selectedPosY = 1;
                         if (selectedPosY > 240) selectedPosY = 240;
-                        switch (selectedRadioId) {
-                            case 0:
+                        switch (typeSelector.getCheckedRadioButtonId()) {
+                            case R.id.watchface_widget_type_date:
                                 if (index >= 0) {
                                     widgets.set(index, new HybridHRWatchfaceWidget("widgetDate", selectedPosX, selectedPosY));
                                 } else {
                                     widgets.add(new HybridHRWatchfaceWidget("widgetDate", selectedPosX, selectedPosY));
                                 }
                                 break;
-                            case 1:
+                            case R.id.watchface_widget_type_weather:
                                 if (index >= 0) {
                                     widgets.set(index, new HybridHRWatchfaceWidget("widgetWeather", selectedPosX, selectedPosY));
                                 } else {
