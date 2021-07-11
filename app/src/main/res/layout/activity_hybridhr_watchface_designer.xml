@@ -63,17 +63,5 @@
         android:enabled="false"
         android:text="Watchface settings" />
 
-    <Button
-        android:id="@+id/button_preview_watchface"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Preview on watch" />
-
-    <Button
-        android:id="@+id/button_save_watchface"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Save and send to watch" />
-
 </LinearLayout>
 </ScrollView>

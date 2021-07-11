@@ -35,6 +35,8 @@ import android.os.Handler;
 import android.provider.MediaStore;
 import android.text.InputType;
 import android.util.DisplayMetrics;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -44,6 +46,9 @@ import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+
+import org.jetbrains.annotations.NotNull;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -107,8 +112,6 @@ public class HybridHRWatchfaceDesignerActivity extends AbstractGBActivity implem
         findViewById(R.id.button_set_background).setOnClickListener(this);
         findViewById(R.id.button_add_widget).setOnClickListener(this);
         findViewById(R.id.button_watchface_settings).setOnClickListener(this);
-        findViewById(R.id.button_preview_watchface).setOnClickListener(this);
-        findViewById(R.id.button_save_watchface).setOnClickListener(this);
     }
 
     @Override
@@ -128,6 +131,26 @@ public class HybridHRWatchfaceDesignerActivity extends AbstractGBActivity implem
             }
             renderWatchfacePreview();
         }
+    }
+
+    // Add action bar buttons
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.activity_hybridhr_watchface_designer_actionbar, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    // Handle action bar button presses
+    @Override
+    public boolean onOptionsItemSelected(@NonNull @NotNull MenuItem item) {
+        int id = item.getItemId();
+        if (id == R.id.button_save_watchface) {
+            sendToWatch(false);
+            finish();
+        } else if (id == R.id.button_preview_watchface) {
+            sendToWatch(true);
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
@@ -158,10 +181,6 @@ public class HybridHRWatchfaceDesignerActivity extends AbstractGBActivity implem
             startActivityForResult(intent, 42);
         } else if (v.getId() == R.id.button_add_widget) {
             showWidgetEditPopup(-1);
-        } else if (v.getId() == R.id.button_preview_watchface) {
-            sendToWatch(true);
-        } else if (v.getId() == R.id.button_save_watchface) {
-            sendToWatch(false);
         }
     }
 
