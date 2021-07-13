@@ -25,7 +25,7 @@
     <string name="controlcenter_calibrate_device">کالیبره کردن دستگاه</string>
     <string name="title_activity_debug">اشکال‌زدایی</string>
     <string name="debugactivity_really_factoryreset_title">آیا از بازنشانی دستگاه به حالت کارخانه مطمئنید؟</string>
-    <string name="debugactivity_really_factoryreset">انجام دادن بازنشانی به نسخه‌ی کارخانه تمام اطلاعات دستگاه‌های متصل را پاک خواهد کرد (اگر دستگاه این فرمان را پشتیبانی کند). کد MAC address بلوتوث دستگاه‌های Xiaomi/Huami هم تغییر خواهد کرد و به صورت دستگاه جدید در گجت‌بریج شناسایی خواهند شد.</string>
+    <string name="debugactivity_really_factoryreset">بازنشانی به نسخه‌ی کارخانه تمام اطلاعات دستگاه‌های متصل را پاک خواهد کرد (درصورت پشتیبانی). دستگاه‌های Xiaomi/Huami همچنین MAC addressنیز تغییر خواهد کرد و به صورت دستگاه جدید در گجت‌بریج شناسایی خواهند شد.</string>
     <string name="title_activity_appmanager">مدیر برنامه</string>
     <string name="appmanager_cached_watchapps_watchfaces">برنامه‌های درون حافظه‌ی پنهان (cache)</string>
     <string name="appmanager_installed_watchapps">برنامه‌های نصب شده</string>
@@ -48,7 +48,7 @@
     <string name="whitelist_all_for_notifications">همه را از لیست سیاه آگاهی خارج کن</string>
     <string name="title_activity_calblacklist">رخدادهای درون لیست سیاه</string>
     <string name="title_activity_fw_app_insaller">نصب کننده‌ی فرم‌ویر (FW)/برنامه</string>
-    <string name="fw_upgrade_notice">شما در حال نصب فرمویر %s به جای نسخه‌ی نصب شده برروی دستگاه Mi Band خود هستید.</string>
+    <string name="fw_upgrade_notice">شما در حال نصب فرمور %s به جای نسخه‌ی نصب شده بر روی دستگاه Mi Band خود هستید.</string>
     <string name="fw_upgrade_notice_amazfitbip">شما در حال نصب فرمویر %s به جای نسخه‌ی نصب شده برروی دستگاه Amazfit Bip خود هستید.
 \n
 \nلطفا مطمئن شوید که ابتدا فایل .fw، سپس فایل .res و در انتها فایل .gps را نصب کنید. دستگاه شما پس از نصب فایل .fw راه‌اندازی مجدد می‌شود.
@@ -132,4 +132,17 @@
     <string name="sonyswr12_settings_low_vibration">لرزش کم فعال است</string>
     <string name="sonyswr12_settings_stamina">حالت صرفه جویی در مصرف برق روشن است</string>
     <string name="sonyswr12_settings_alarm_interval">فاصله زنگ هوشمند در چند دقیقه</string>
+    <string name="calories">کالری</string>
+    <string name="bluetooth_is_disabled_">بلوتوث غیرفعال است</string>
+    <string name="calendar_two_weeks">۲ هفته</string>
+    <string name="calendar_month">ماه</string>
+    <string name="calendar_week">هفته</string>
+    <string name="calendar_day">روز</string>
+    <string name="calendar_three_months">۳ ماه</string>
+    <string name="battery_level">سطح باتری</string>
+    <string name="calendar_six_months">۶ ماه</string>
+    <string name="calendar_year">سال</string>
+    <string name="battery_detail_activity_title">اطلاعات باتری</string>
+    <string name="controlcenter_set_alias">تعیین نام مستعار</string>
+    <string name="find_lost_device_message">جستجو برای</string>
 </resources>
