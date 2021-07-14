@@ -1,5 +1,12 @@
 ### Changelog
 
+### 0.58.2
+* InfiniTime: Support notification for battery level
+* Allow associating an external GPX track to sports activities
+* Add option for black background to dark theme
+* BangleJS, WaspOS: Support for transliteration
+* Add missing icons to settings items
+
 ### 0.58.1
 * Pebble: Fix broken app manager (regression from 0.57.1)
 * Bangle.js: Try to fix crash when attempting to load activity chart

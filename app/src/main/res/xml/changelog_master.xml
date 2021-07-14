@@ -1,5 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
+    <release version="0.58.2" versioncode="198">
+        <change>InfiniTime: Support notification for battery level</change>
+        <change>Allow associating an external GPX track to sports activities</change>
+        <change>Add option for black background to dark theme</change>
+        <change>BangleJS, WaspOS: Support for transliteration</change>
+        <change>Add missing icons to settings items</change>
+    </release>
     <release version="0.58.1" versioncode="197">
         <change>Pebble: Fix broken app manager (regression from 0.57.1)</change>
         <change>Bangle.js: Try to fix crash when attempting to load activity chart</change>
