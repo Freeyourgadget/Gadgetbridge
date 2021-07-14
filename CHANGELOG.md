@@ -2,7 +2,7 @@
 
 ### 0.58.2
 * InfiniTime: Support notification for battery level
-* Allow associating an external GPX track to sports activities
+* Allow importing GPX tracks via Android Intent/Share system
 * Add option for black background to dark theme
 * BangleJS, WaspOS: Support for transliteration
 * Add missing icons to settings items
