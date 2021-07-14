@@ -1258,4 +1258,11 @@
     <string name="devicetype_amazfit_trex_pro">Amazfit T-Rex Pro</string>
     <string name="menuitem_barometer">מד לחץ</string>
     <string name="pref_theme_black_background">להשתמש ברקע שחור בערכת עיצוב כהה</string>
+    <string name="gpx_receiver_overwrite_some_files">חלק מהקבצים כבר קיימים. לדרוס\?</string>
+    <string name="gpx_receiver_files_received">קובצי GPX שהתקבלו:</string>
+    <string name="gpx_receiver_activity_title">מקלט GPX ל־Gadgetbridge</string>
+    <string name="activity_summary_detail_editing_gpx_track">עריכת מסלול GPX מקושר</string>
+    <string name="activity_summary_detail_clear_gpx_track">מחיקת מסלול GPX</string>
+    <string name="activity_summary_detail_select_gpx_track">בחירת מסלול GPX</string>
+    <string name="set">הגדרה</string>
 </resources>
