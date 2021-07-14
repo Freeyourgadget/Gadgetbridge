@@ -21,6 +21,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 
 import java.io.IOException;
+import java.util.LinkedHashMap;
 
 public class HybridHRWatchfaceWidget {
     private String widgetType;
@@ -31,6 +32,13 @@ public class HybridHRWatchfaceWidget {
         this.widgetType = widgetType;
         this.posX = posX;
         this.posY = posY;
+    }
+
+    public static LinkedHashMap<String, String> getAvailableWidgetTypes(Context context) {
+        LinkedHashMap<String, String> widgetTypes = new LinkedHashMap<>();
+        widgetTypes.put("widgetDate", "Date");
+        widgetTypes.put("widgetWeather", "Weather");
+        return widgetTypes;
     }
 
     public String getWidgetType() {

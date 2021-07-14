@@ -9,21 +9,10 @@
         android:layout_height="wrap_content"
         android:text="Type:" />
 
-    <RadioGroup
-        android:id="@+id/watchface_widget_type_selector"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
-        <RadioButton
-            android:id="@+id/watchface_widget_type_date"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Date"/>
-        <RadioButton
-            android:id="@+id/watchface_widget_type_weather"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Weather"/>
-    </RadioGroup>
+    <Spinner
+        android:id="@+id/watchface_widget_type_spinner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 
     <TextView
         android:layout_width="wrap_content"

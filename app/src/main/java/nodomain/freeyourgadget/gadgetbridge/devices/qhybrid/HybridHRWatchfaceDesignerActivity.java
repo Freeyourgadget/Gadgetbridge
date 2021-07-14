@@ -37,13 +37,13 @@ import android.util.DisplayMetrics;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -61,6 +61,7 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.UUID;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
@@ -326,23 +327,26 @@ public class HybridHRWatchfaceDesignerActivity extends AbstractGBActivity implem
         if (index >= 0) {
             widget = widgets.get(index);
         }
-        final RadioGroup typeSelector = layout.findViewById(R.id.watchface_widget_type_selector);
-        RadioButton typeDate = layout.findViewById(R.id.watchface_widget_type_date);
-        RadioButton typeWeather = layout.findViewById(R.id.watchface_widget_type_weather);
-        if ((widget != null) && (widget.getWidgetType().equals("widgetDate"))) {
-            typeDate.setChecked(true);
+        // Configure widget type dropdown
+        final Spinner typeSpinner = layout.findViewById(R.id.watchface_widget_type_spinner);
+        LinkedHashMap<String, String> widgetTypes = HybridHRWatchfaceWidget.getAvailableWidgetTypes(this);
+        ArrayAdapter<String> widgetTypeAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, widgetTypes.values().toArray(new String[0]));
+        typeSpinner.setAdapter(widgetTypeAdapter);
+        final ArrayList<String> widgetTypesArray = new ArrayList<>(widgetTypes.keySet());
+        if ((widget != null) && (widgetTypesArray.contains(widget.getWidgetType()))) {
+            typeSpinner.setSelection(widgetTypesArray.indexOf(widget.getWidgetType()));
         }
-        if ((widget != null) && (widget.getWidgetType().equals("widgetWeather"))) {
-            typeWeather.setChecked(true);
-        }
+        // Set X coordinate
         final EditText posX = layout.findViewById(R.id.watchface_widget_pos_x);
         if (widget != null) {
             posX.setText(Integer.toString(widget.getPosX()));
         }
+        // Set Y coordinate
         final EditText posY = layout.findViewById(R.id.watchface_widget_pos_y);
         if (widget != null) {
             posY.setText(Integer.toString(widget.getPosY()));
         }
+        // Configure position preset buttons
         Button btnTop = layout.findViewById(R.id.watchface_widget_preset_top);
         btnTop.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -403,21 +407,11 @@ public class HybridHRWatchfaceDesignerActivity extends AbstractGBActivity implem
                         if (selectedPosX > 240) selectedPosX = 240;
                         if (selectedPosY < 1) selectedPosY = 1;
                         if (selectedPosY > 240) selectedPosY = 240;
-                        switch (typeSelector.getCheckedRadioButtonId()) {
-                            case R.id.watchface_widget_type_date:
-                                if (index >= 0) {
-                                    widgets.set(index, new HybridHRWatchfaceWidget("widgetDate", selectedPosX, selectedPosY));
-                                } else {
-                                    widgets.add(new HybridHRWatchfaceWidget("widgetDate", selectedPosX, selectedPosY));
-                                }
-                                break;
-                            case R.id.watchface_widget_type_weather:
-                                if (index >= 0) {
-                                    widgets.set(index, new HybridHRWatchfaceWidget("widgetWeather", selectedPosX, selectedPosY));
-                                } else {
-                                    widgets.add(new HybridHRWatchfaceWidget("widgetWeather", selectedPosX, selectedPosY));
-                                }
-                                break;
+                        String selectedType = widgetTypesArray.get(typeSpinner.getSelectedItemPosition());
+                        if (index >= 0) {
+                            widgets.set(index, new HybridHRWatchfaceWidget(selectedType, selectedPosX, selectedPosY));
+                        } else {
+                            widgets.add(new HybridHRWatchfaceWidget(selectedType, selectedPosX, selectedPosY));
                         }
                         renderWatchfacePreview();
                     }
