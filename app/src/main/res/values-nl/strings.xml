@@ -1258,4 +1258,11 @@
     <string name="devicetype_amazfit_trex_pro">Amazfit T-Rex Pro</string>
     <string name="menuitem_barometer">Barometer</string>
     <string name="pref_theme_black_background">Gebruik zwarte achtergrond in Donker thema</string>
+    <string name="set">Gebruik</string>
+    <string name="gpx_receiver_overwrite_some_files">Sommige bestanden bestaan al. Overschrijven\?</string>
+    <string name="gpx_receiver_files_received">GPX-bestand(en) ontvangen:</string>
+    <string name="gpx_receiver_activity_title">GPX-ontvanger Gadgetbridge</string>
+    <string name="activity_summary_detail_editing_gpx_track">Gekoppelde GPX-track bewerken</string>
+    <string name="activity_summary_detail_clear_gpx_track">GPX-track wissen</string>
+    <string name="activity_summary_detail_select_gpx_track">Selecteer GPX-track</string>
 </resources>
