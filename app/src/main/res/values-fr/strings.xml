@@ -1256,4 +1256,11 @@ Temps de sommeil préféré en heures</string>
     <string name="devicetype_amazfit_trex_pro">Amazfit T-Rex Pro</string>
     <string name="menuitem_barometer">Baromètre</string>
     <string name="pref_theme_black_background">Utiliser un fond sombre en mode Thème Sombre</string>
+    <string name="gpx_receiver_overwrite_some_files">Certain(s) fichier(s) existe(nt) déja. Les écraser \?</string>
+    <string name="gpx_receiver_files_received">Fichier(s) GPX reçu(s):</string>
+    <string name="gpx_receiver_activity_title">Récepteur GPX Gadgetbridge</string>
+    <string name="activity_summary_detail_editing_gpx_track">Modifier les traces GPX liées</string>
+    <string name="activity_summary_detail_clear_gpx_track">Effacer la trace GPX</string>
+    <string name="activity_summary_detail_select_gpx_track">Choisir une trace GPX</string>
+    <string name="set">Configurer</string>
 </resources>
