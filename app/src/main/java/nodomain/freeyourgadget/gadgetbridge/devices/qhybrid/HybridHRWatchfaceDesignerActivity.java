@@ -237,6 +237,13 @@ public class HybridHRWatchfaceDesignerActivity extends AbstractGBActivity implem
                                 case "weatherSSE":
                                     widgetName = "widgetWeather";
                                     break;
+                                case "stepsSSE":
+                                    widgetName = "widgetSteps";
+                                    break;
+                                case "hrSSE":
+                                    widgetName = "widgetHR";
+                                    break;
+
                             }
                             widgets.add(new HybridHRWatchfaceWidget(widgetName,
                                                                     layoutItem.getJSONObject("pos").getInt("x"),

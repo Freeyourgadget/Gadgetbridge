@@ -38,6 +38,8 @@ public class HybridHRWatchfaceWidget {
         LinkedHashMap<String, String> widgetTypes = new LinkedHashMap<>();
         widgetTypes.put("widgetDate", "Date");
         widgetTypes.put("widgetWeather", "Weather");
+        widgetTypes.put("widgetSteps", "Steps");
+        widgetTypes.put("widgetHR", "Heart rate");
         return widgetTypes;
     }
 

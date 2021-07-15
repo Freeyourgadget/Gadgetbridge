@@ -71,6 +71,20 @@ public class HybridHRWatchfaceFactory {
                     widget.put("color", "white");
                     widget.put("bg", "_01.rle");
                     break;
+                case "widgetSteps":
+                    widget.put("type", "comp");
+                    widget.put("name", widgetDesc.getWidgetType());
+                    widget.put("goal_ring", false);
+                    widget.put("color", "white");
+                    widget.put("bg", "_02.rle");
+                    break;
+                case "widgetHR":
+                    widget.put("type", "comp");
+                    widget.put("name", widgetDesc.getWidgetType());
+                    widget.put("goal_ring", false);
+                    widget.put("color", "white");
+                    widget.put("bg", "_03.rle");
+                    break;
                 default:
                     LOG.warn("Invalid widget name: " + widgetDesc.getWidgetType());
                     return;
@@ -103,6 +117,8 @@ public class HybridHRWatchfaceFactory {
             code.put(watchfaceName, context.getAssets().open("fossil_hr/openSourceWatchface.bin"));
             code.put("widgetDate", context.getAssets().open("fossil_hr/widgetDate.bin"));
             code.put("widgetWeather", context.getAssets().open("fossil_hr/widgetWeather.bin"));
+            code.put("widgetSteps", context.getAssets().open("fossil_hr/widgetSteps.bin"));
+            code.put("widgetHR", context.getAssets().open("fossil_hr/widgetHR.bin"));
         } catch (IOException e) {
             LOG.warn("Unable to read asset file", e);
         }
@@ -118,6 +134,9 @@ public class HybridHRWatchfaceFactory {
             icons.put("icWthSnowy", context.getAssets().open("fossil_hr/icWthSnowy.rle"));
             icons.put("icWthStormy", context.getAssets().open("fossil_hr/icWthStormy.rle"));
             icons.put("icWthWindy", context.getAssets().open("fossil_hr/icWthWindy.rle"));
+            icons.put("icSteps", context.getAssets().open("fossil_hr/icSteps.rle"));
+            icons.put("icTrophy", context.getAssets().open("fossil_hr/icTrophy.rle"));
+            icons.put("icHeart", context.getAssets().open("fossil_hr/icHeart.rle"));
         } catch (IOException e) {
             LOG.warn("Unable to read asset file", e);
         }
