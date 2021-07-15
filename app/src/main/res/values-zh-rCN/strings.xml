@@ -1263,4 +1263,10 @@
     <string name="devicetype_amazfit_trex_pro">华米 T-Rex Pro</string>
     <string name="menuitem_barometer">气压计</string>
     <string name="pref_theme_black_background">在深色主题中使用黑色背景</string>
+    <string name="gpx_receiver_overwrite_some_files">某些文件已经存在，覆盖吗？</string>
+    <string name="gpx_receiver_files_received">已收到的 GPX 文件：</string>
+    <string name="gpx_receiver_activity_title">Gadgetbridge GPX 接收器</string>
+    <string name="activity_summary_detail_editing_gpx_track">编辑已连接的 GPX 跟踪</string>
+    <string name="activity_summary_detail_clear_gpx_track">清除 GPX 跟踪</string>
+    <string name="activity_summary_detail_select_gpx_track">选择 GPX 跟踪</string>
 </resources>
