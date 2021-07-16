@@ -11,6 +11,7 @@
     tools:context=".devices.qhybrid.HybridHRWatchfaceDesignerActivity">
 
     <RelativeLayout
+        android:id="@+id/watchface_name_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -32,7 +33,7 @@
     </RelativeLayout>
 
     <RelativeLayout
-        android:id="@+id/watchface_preview_image"
+        android:id="@+id/watchface_preview_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"

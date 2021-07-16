@@ -34,6 +34,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.provider.MediaStore;
 import android.util.DisplayMetrics;
+import android.view.DragEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -73,7 +74,7 @@ import nodomain.freeyourgadget.gadgetbridge.util.BitmapUtil;
 import nodomain.freeyourgadget.gadgetbridge.util.DeviceHelper;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
-public class HybridHRWatchfaceDesignerActivity extends AbstractGBActivity implements View.OnClickListener {
+public class HybridHRWatchfaceDesignerActivity extends AbstractGBActivity implements View.OnClickListener, View.OnLongClickListener, View.OnDragListener {
     private final Logger LOG = LoggerFactory.getLogger(HybridHRWatchfaceDesignerActivity.class);
     private GBDevice mGBDevice;
     private DeviceCoordinator mCoordinator;
@@ -108,6 +109,7 @@ public class HybridHRWatchfaceDesignerActivity extends AbstractGBActivity implem
 
         renderWatchfacePreview();
 
+        backgroundImageView.setOnDragListener(this);
         findViewById(R.id.button_edit_name).setOnClickListener(this);
         findViewById(R.id.button_set_background).setOnClickListener(this);
         findViewById(R.id.button_add_widget).setOnClickListener(this);
@@ -182,6 +184,33 @@ public class HybridHRWatchfaceDesignerActivity extends AbstractGBActivity implem
         } else if (v.getId() == R.id.button_add_widget) {
             showWidgetEditPopup(-1);
         }
+    }
+
+    @Override
+    public boolean onLongClick(View view) {
+        view.startDrag(null, new View.DragShadowBuilder(view), view, 0);
+        view.setVisibility(View.INVISIBLE);
+        return true;
+    }
+
+    @Override
+    public boolean onDrag(View targetView, DragEvent event) {
+        View draggedWidget = (View) event.getLocalState();
+        switch (event.getAction()) {
+            case DragEvent.ACTION_DROP:
+                int posX = (int)(event.getX() / scaleFactor);
+                int posY = (int)(event.getY() / scaleFactor);
+                widgets.get(draggedWidget.getId()).setPosX(posX);
+                widgets.get(draggedWidget.getId()).setPosY(posY);
+                renderWatchfacePreview();
+                break;
+            case DragEvent.ACTION_DRAG_ENDED:
+                if (!event.getResult()) {
+                    draggedWidget.setVisibility(View.VISIBLE);
+                }
+                break;
+        }
+        return true;
     }
 
     private void loadConfigurationFromApp(String appUUID) {
@@ -279,15 +308,15 @@ public class HybridHRWatchfaceDesignerActivity extends AbstractGBActivity implem
             processedBackgroundImage = Bitmap.createScaledBitmap(selectedBackgroundImage, displayImageSize, displayImageSize, true);
         }
         // Remove existing widget ImageViews
-        RelativeLayout imageContainer = this.findViewById(R.id.watchface_preview_image);
+        RelativeLayout previewLayout = this.findViewById(R.id.watchface_preview_layout);
         boolean onlyPreviewIsRemaining = false;
         while (!onlyPreviewIsRemaining) {
-            int childCount = imageContainer.getChildCount();
+            int childCount = previewLayout.getChildCount();
             int i;
             for(i=0; i<childCount; i++) {
-                View currentChild = imageContainer.getChildAt(i);
+                View currentChild = previewLayout.getChildAt(i);
                 if (currentChild.getId() != R.id.hybridhr_background_image) {
-                    imageContainer.removeView(currentChild);
+                    previewLayout.removeView(currentChild);
                     break;
                 }
             }
@@ -323,7 +352,8 @@ public class HybridHRWatchfaceDesignerActivity extends AbstractGBActivity implem
                     showWidgetEditPopup(v.getId());
                 }
             });
-            imageContainer.addView(widgetView);
+            widgetView.setOnLongClickListener(this);
+            previewLayout.addView(widgetView);
         }
         backgroundImageView.setImageBitmap(processedBackgroundImage);
     }
