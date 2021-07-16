@@ -106,7 +106,11 @@
 \n
 \n
 \nЦя мікропрограма для пристрою ревізії: %s</string>
-    <string name="app_install_info">Ви збираєтесь встановити додаток:\n\n\n%1$s версія %2$s від %3$s\n</string>
+    <string name="app_install_info">Ви збираєтесь встановити додаток:
+\n
+\n%1$s
+\nВерсія %2$s від %3$s
+\n</string>
     <string name="n_a">Недоступно</string>
     <string name="initialized">Ініціалізовано</string>
     <string name="appversion_by_creator">%1$s від %2$s</string>
@@ -241,7 +245,7 @@
     <string name="action_donate">Пожертвувати</string>
     <string name="controlcenter_connect">З\'єднання…</string>
     <string name="controlcenter_snackbar_connecting">З\'єднання…</string>
-    <string name="notification_channel_name">Сповіщення Gadgetbridge</string>
+    <string name="notification_channel_name">Загальні</string>
     <string name="controlcenter_navigation_drawer_open">Відкрити навігаційну панель</string>
     <string name="controlcenter_navigation_drawer_close">Закрити навігаційну панель</string>
     <string name="controlcenter_snackbar_disconnecting">Від\'єднання</string>
@@ -295,7 +299,7 @@
     <string name="pref_blacklist_calendars">Календарі чорного списку</string>
     <string name="pref_header_cannned_messages">Збережені повідомлення</string>
     <string name="pref_title_canned_messages_dismisscall">Пропущені виклики</string>
-    <string name="pref_title_canned_messages_set">Оновлення для Pebble</string>
+    <string name="pref_title_canned_messages_set">Оновити на пристрої</string>
     <string name="pref_title_enable_outgoing_call">Підтримка вихідних дзвінків</string>
     <string name="pref_summary_enable_outgoing_call">При вимкненні цого параметру Pebble 2/LE не вібруватиме підчас вихідних дзвінків</string>
     <string name="pref_header_pebble_timeline">Шкала часу Pebble</string>
@@ -858,7 +862,7 @@
     <string name="pref_summary_device_spec_settings_title_force_time">Примусова синхронізація часу при перез\'єднанні. Стрілки годинника можуть показувати неправильний час!</string>
     <string name="pref_summary_notifications_and_calls_title_shake_reject">Продублюйте дію кнопки годинника</string>
     <string name="pref_summary_force_white_color_scheme">Корисно, якщо стрілки годинника темного кольору</string>
-    <string name="notification_channel_high_priority_name">Високий пріоритет сповіщень Gadgetbridge</string>
+    <string name="notification_channel_high_priority_name">Високий пріоритет</string>
     <string name="pref_qhybrid_title_widget_draw_circles">Відобразити кола у віджеті</string>
     <string name="pref_qhybrid_save_raw_activity_files">Зберегти raw-файл активності</string>
     <string name="pref_title_middle_button_function">Середня кнопка</string>
@@ -1082,7 +1086,7 @@
     <string name="qhybrid_title_calibration">Калібрування</string>
     <string name="prefs_operating_sounds">Робочі звуки</string>
     <string name="prefs_autolight">Автоматичне світло</string>
-    <string name="qhybrid_calibration_align_hint">вирівняти стрілки на 12:00</string>
+    <string name="qhybrid_calibration_align_hint">Використовуйте кнопки внизу, щоб вирівняти стрілки на 12:00.</string>
     <string name="devicetype_nut_mini">Nut mini</string>
     <string name="gps_track">GPS трек</string>
     <string name="mi">миль</string>
@@ -1217,4 +1221,54 @@
     <string name="calendar_day">День</string>
     <string name="battery_level">Рівень заряду</string>
     <string name="find_lost_device_message">Шукати %1$s\?</string>
+    <string name="fw_upgrade_notice_miband6">Ви збираєтесь встановити прошивку %s на свій Mi Band 6.
+\n
+\nСпочатку встановіть файл .fw, а після цього файл .res. Пристрій буде перезавантажено після встановлення файлу .fw.
+\n
+\nПримітка: Немає потреби встановлювати файл .res, якщо він співпадає з тим який вже встановлено.
+\n
+\nДІЄТЕ НА ВЛАСНИЙ РИЗИК!</string>
+    <string name="fossil_hr_commute_actions_explanation">Дії налаштовані тут будуть відображені у застосунку Commute на годиннику. У вікі ви знайдете інформацію як обробляти наміри створені цими діями.</string>
+    <string name="qhybrid_watchface_configuration_old_firmware">Екран налаштування циферблату для годинників з версією прошивки DN1.0.2.19r та нижче</string>
+    <string name="qhybrid_pref_summary_external_intents">Дозволити іншими застосункам Android відправляти/отримувати файли</string>
+    <string name="devicetype_amazfit_trex_pro">Amazfit T-Rex Pro</string>
+    <string name="qhybrid_pref_title_external_intents">Дозволити небезпечні зовнішні наміри</string>
+    <string name="pref_summary_developer_settings">Налаштування і функції які використовують розробники</string>
+    <string name="pref_title_developer_settings">Налаштування розробника</string>
+    <string name="qhybrid_pref_summary_actions">Дії для застосунку Commute</string>
+    <string name="qhybrid_pref_title_actions">Дії</string>
+    <string name="qhybrid_calibration_100_steps">100 кроків</string>
+    <string name="qhybrid_calibration_10_steps">10 кроків</string>
+    <string name="qhybrid_calibration_1_step">1 крок</string>
+    <string name="qhybrid_calibration_clockwise">За годинниковою стрілкою</string>
+    <string name="qhybrid_calibration_counterclockwise">Проти годинникової стрілки</string>
+    <string name="fossil_hr_new_action">Нова дія</string>
+    <string name="fossil_hr_new_action_cancel">відмінити</string>
+    <string name="fossil_hr_edit_action">Редагувати дію</string>
+    <string name="fossil_hr_edit_action_delete">видалити</string>
+    <string name="pref_summary_canned_messages_dismisscall">Відмінити дзвінки з пристрою з повідомленням SMS</string>
+    <string name="pref_summary_canned_messages_set">Відправити на пристрій налаштовані нижче повідомлення</string>
+    <string name="gpx_receiver_overwrite_some_files">Деякі файли вже існують. Замінити\?</string>
+    <string name="gpx_receiver_files_received">Отримані файли GPX:</string>
+    <string name="gpx_receiver_activity_title">Приймач GPX Gadgetbridge</string>
+    <string name="menuitem_barometer">Барометр</string>
+    <string name="notification_channel_low_battery_name">Низький заряд батареї</string>
+    <string name="notification_channel_transfer_name">Передача даних</string>
+    <string name="devicetype_miband6">Mi Band 6</string>
+    <string name="kind_agps_bundle">Пакет AGPS</string>
+    <string name="activity_summary_detail_editing_gpx_track">Редагувати пов\'язану трасу GPX</string>
+    <string name="activity_summary_detail_clear_gpx_track">Очистити трасу GPX</string>
+    <string name="activity_summary_detail_select_gpx_track">Вибрати трасу GPX</string>
+    <string name="set">Встановити</string>
+    <string name="watchface_install_info">Ви збираєтесь встановити наступний циферблат:
+\n
+\n%1$s
+\nВерсія %2$s від %3$s
+\n</string>
+    <string name="pref_theme_black_background">Використати чорне тло при темній темі</string>
+    <string name="qhybrid_summary_calibration">Калібрування стрілок годинника</string>
+    <string name="qhybrid_summary_file_management">Відправка та завантаження файлів</string>
+    <string name="pref_summary_physical_buttons">Налаштувати функції фізичних кнопок годинника</string>
+    <string name="pref_title_physical_buttons">Фізичні кнопки</string>
+    <string name="qhybrid_title_watchface">Налаштування циферблату</string>
 </resources>
