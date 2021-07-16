@@ -1270,4 +1270,11 @@
     <string name="pref_title_developer_settings">Opcje programistyczne</string>
     <string name="menuitem_barometer">Barometer</string>
     <string name="pref_theme_black_background">Używaj czarnego tła w ciemnym motywie</string>
+    <string name="activity_summary_detail_editing_gpx_track">Edycja połączonej ścieżki GPX</string>
+    <string name="set">Ustaw</string>
+    <string name="gpx_receiver_files_received">Otrzymane pliki GPX:</string>
+    <string name="gpx_receiver_overwrite_some_files">Niektóre pliki już istnieją. Nadpisać\?</string>
+    <string name="gpx_receiver_activity_title">Odbiornik GPX Gadgetbridge</string>
+    <string name="activity_summary_detail_clear_gpx_track">Wyczyść trasę GPX</string>
+    <string name="activity_summary_detail_select_gpx_track">Wybierz trasę GPX</string>
 </resources>
