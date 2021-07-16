@@ -1215,4 +1215,16 @@
     <string name="watchface_widget_type_weather">Weather</string>
     <string name="watchface_widget_type_steps">Steps</string>
     <string name="watchface_widget_type_heart_rate">Heart rate</string>
+    <string name="button_watchface_preview">Preview on watch</string>
+    <string name="button_watchface_save_apply">Save and apply</string>
+    <string name="appmanager_app_edit">Edit</string>
+    <string name="watchface_dialog_widget_type">Type:</string>
+    <string name="watchface_dialog_widget_x_coordinate">X coordinate (max 240):</string>
+    <string name="watchface_dialog_widget_y_coordinate">Y coordinate (max 240):</string>
+    <string name="watchface_dialog_widget_presets">Position presets:</string>
+    <string name="watchface_dialog_widget_preset_top">Top</string>
+    <string name="watchface_dialog_widget_preset_bottom">Bottom</string>
+    <string name="watchface_dialog_widget_preset_left">Left</string>
+    <string name="watchface_dialog_widget_preset_right">Right</string>
+    <string name="qhybrid_title_watchface_designer">Watchface designer</string>
 </resources>

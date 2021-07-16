@@ -7,7 +7,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Type:" />
+        android:text="@string/watchface_dialog_widget_type" />
 
     <Spinner
         android:id="@+id/watchface_widget_type_spinner"
@@ -17,7 +17,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="X coordinate (max 240):" />
+        android:text="@string/watchface_dialog_widget_x_coordinate" />
 
     <EditText
         android:id="@+id/watchface_widget_pos_x"
@@ -28,7 +28,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Y coordinate (max 240):" />
+        android:text="@string/watchface_dialog_widget_y_coordinate" />
 
     <EditText
         android:id="@+id/watchface_widget_pos_y"
@@ -39,7 +39,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Position presets:" />
+        android:text="@string/watchface_dialog_widget_presets" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -48,22 +48,22 @@
             android:id="@+id/watchface_widget_preset_top"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Top"/>
+            android:text="@string/watchface_dialog_widget_preset_top"/>
         <Button
             android:id="@+id/watchface_widget_preset_bottom"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Bottom"/>
+            android:text="@string/watchface_dialog_widget_preset_bottom"/>
         <Button
             android:id="@+id/watchface_widget_preset_left"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Left"/>
+            android:text="@string/watchface_dialog_widget_preset_left"/>
         <Button
             android:id="@+id/watchface_widget_preset_right"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Right"/>
+            android:text="@string/watchface_dialog_widget_preset_right"/>
     </LinearLayout>
 
 </LinearLayout>
