@@ -61,28 +61,28 @@ public class HybridHRWatchfaceFactory {
                     widget.put("type", "comp");
                     widget.put("name", widgetDesc.getWidgetType());
                     widget.put("goal_ring", false);
-                    widget.put("color", "white");
+                    widget.put("color", widgetDesc.getColor() == HybridHRWatchfaceWidget.COLOR_WHITE_ON_BLACK ? "white" : "black");
                     widget.put("bg", "_00.rle");
                     break;
                 case "widgetWeather":
                     widget.put("type", "comp");
                     widget.put("name", widgetDesc.getWidgetType());
                     widget.put("goal_ring", false);
-                    widget.put("color", "white");
+                    widget.put("color", widgetDesc.getColor() == HybridHRWatchfaceWidget.COLOR_WHITE_ON_BLACK ? "white" : "black");
                     widget.put("bg", "_01.rle");
                     break;
                 case "widgetSteps":
                     widget.put("type", "comp");
                     widget.put("name", widgetDesc.getWidgetType());
                     widget.put("goal_ring", false);
-                    widget.put("color", "white");
+                    widget.put("color", widgetDesc.getColor() == HybridHRWatchfaceWidget.COLOR_WHITE_ON_BLACK ? "white" : "black");
                     widget.put("bg", "_02.rle");
                     break;
                 case "widgetHR":
                     widget.put("type", "comp");
                     widget.put("name", widgetDesc.getWidgetType());
                     widget.put("goal_ring", false);
-                    widget.put("color", "white");
+                    widget.put("color", widgetDesc.getColor() == HybridHRWatchfaceWidget.COLOR_WHITE_ON_BLACK ? "white" : "black");
                     widget.put("bg", "_03.rle");
                     break;
                 default:

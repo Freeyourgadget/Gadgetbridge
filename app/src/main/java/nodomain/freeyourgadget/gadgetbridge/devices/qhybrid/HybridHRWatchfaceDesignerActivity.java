@@ -274,9 +274,11 @@ public class HybridHRWatchfaceDesignerActivity extends AbstractGBActivity implem
                                     break;
 
                             }
+                            int widgetColor = layoutItem.getString("color").equals("white") ? HybridHRWatchfaceWidget.COLOR_WHITE_ON_BLACK : HybridHRWatchfaceWidget.COLOR_BLACK_ON_WHITE;
                             widgets.add(new HybridHRWatchfaceWidget(widgetName,
                                                                     layoutItem.getJSONObject("pos").getInt("x"),
-                                                                    layoutItem.getJSONObject("pos").getInt("y")));
+                                                                    layoutItem.getJSONObject("pos").getInt("y"),
+                                                                    widgetColor));
                         }
                     }
                 } catch (JSONException e) {
@@ -373,6 +375,13 @@ public class HybridHRWatchfaceDesignerActivity extends AbstractGBActivity implem
         if ((widget != null) && (widgetTypesArray.contains(widget.getWidgetType()))) {
             typeSpinner.setSelection(widgetTypesArray.indexOf(widget.getWidgetType()));
         }
+        // Configure widget color dropdown
+        final Spinner colorSpinner = layout.findViewById(R.id.watchface_widget_color_spinner);
+        ArrayAdapter<String> widgetColorAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, new String[]{getString(R.string.watchface_dialog_widget_color_white), getString(R.string.watchface_dialog_widget_color_black)});
+        colorSpinner.setAdapter(widgetColorAdapter);
+        if (widget != null) {
+            colorSpinner.setSelection(widget.getColor());
+        }
         // Set X coordinate
         final EditText posX = layout.findViewById(R.id.watchface_widget_pos_x);
         if (widget != null) {
@@ -446,9 +455,9 @@ public class HybridHRWatchfaceDesignerActivity extends AbstractGBActivity implem
                         if (selectedPosY > 240) selectedPosY = 240;
                         String selectedType = widgetTypesArray.get(typeSpinner.getSelectedItemPosition());
                         if (index >= 0) {
-                            widgets.set(index, new HybridHRWatchfaceWidget(selectedType, selectedPosX, selectedPosY));
+                            widgets.set(index, new HybridHRWatchfaceWidget(selectedType, selectedPosX, selectedPosY, colorSpinner.getSelectedItemPosition()));
                         } else {
-                            widgets.add(new HybridHRWatchfaceWidget(selectedType, selectedPosX, selectedPosY));
+                            widgets.add(new HybridHRWatchfaceWidget(selectedType, selectedPosX, selectedPosY, colorSpinner.getSelectedItemPosition()));
                         }
                         renderWatchfacePreview();
                     }

@@ -17,6 +17,16 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:text="@string/watchface_dialog_widget_color" />
+
+    <Spinner
+        android:id="@+id/watchface_widget_color_spinner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:text="@string/watchface_dialog_widget_x_coordinate" />
 
     <EditText

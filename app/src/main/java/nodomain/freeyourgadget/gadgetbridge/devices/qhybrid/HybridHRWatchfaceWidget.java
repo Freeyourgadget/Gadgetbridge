@@ -25,15 +25,22 @@ import java.util.LinkedHashMap;
 
 import nodomain.freeyourgadget.gadgetbridge.R;
 
+import static nodomain.freeyourgadget.gadgetbridge.util.BitmapUtil.invertBitmapColors;
+
 public class HybridHRWatchfaceWidget {
     private String widgetType;
     private int posX;
     private int posY;
+    private int color = 0;
 
-    public HybridHRWatchfaceWidget(String widgetType, int posX, int posY) {
+    public static int COLOR_WHITE_ON_BLACK = 0;
+    public static int COLOR_BLACK_ON_WHITE = 1;
+
+    public HybridHRWatchfaceWidget(String widgetType, int posX, int posY, int color) {
         this.widgetType = widgetType;
         this.posX = posX;
         this.posY = posY;
+        this.color = color;
     }
 
     public static LinkedHashMap<String, String> getAvailableWidgetTypes(Context context) {
@@ -50,7 +57,12 @@ public class HybridHRWatchfaceWidget {
     }
 
     public Bitmap getPreviewImage(Context context) throws IOException {
-        return BitmapFactory.decodeStream(context.getAssets().open("fossil_hr/" + widgetType + "_preview.png"));
+        Bitmap preview = BitmapFactory.decodeStream(context.getAssets().open("fossil_hr/" + widgetType + "_preview.png"));
+        if (color == COLOR_WHITE_ON_BLACK) {
+            return preview;
+        } else {
+            return invertBitmapColors(preview);
+        }
     }
 
     public int getPosX() {
@@ -67,5 +79,9 @@ public class HybridHRWatchfaceWidget {
 
     public void setPosY(int posY) {
         this.posY = posY;
+    }
+
+    public int getColor() {
+        return color;
     }
 }

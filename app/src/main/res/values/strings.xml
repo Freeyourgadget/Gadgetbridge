@@ -1227,4 +1227,7 @@
     <string name="watchface_dialog_widget_preset_left">Left</string>
     <string name="watchface_dialog_widget_preset_right">Right</string>
     <string name="qhybrid_title_watchface_designer">Watchface designer</string>
+    <string name="watchface_dialog_widget_color">Color:</string>
+    <string name="watchface_dialog_widget_color_white">White on black</string>
+    <string name="watchface_dialog_widget_color_black">Black on white</string>
 </resources>

@@ -119,6 +119,33 @@ public class BitmapUtil {
 
 
     /**
+     * Invert the colors of a Bitmap
+     *
+     * @param bmp input bitmap
+     * @return new bitmap
+     */
+    public static Bitmap invertBitmapColors(Bitmap bmp)
+    {
+        ColorMatrix colorMatrix_Inverted =
+                new ColorMatrix(new float[] {
+                        -1,  0,  0,  0, 255,
+                        0, -1,  0,  0, 255,
+                        0,  0, -1,  0, 255,
+                        0,  0,  0,  1,   0});
+
+        Bitmap ret = Bitmap.createBitmap(bmp.getWidth(), bmp.getHeight(), bmp.getConfig());
+
+        Canvas canvas = new Canvas(ret);
+
+        Paint paint = new Paint();
+        paint.setColorFilter(new ColorMatrixColorFilter(colorMatrix_Inverted));
+        canvas.drawBitmap(bmp, 0, 0, paint);
+
+        return ret;
+    }
+
+
+    /**
      * Crops a circular image from the center of the provided Bitmap.
      * From: https://www.tutorialspoint.com/android-how-to-crop-circular-area-from-bitmap
      * @param srcBitmap
