@@ -1204,4 +1204,15 @@
     <string name="qhybrid_pref_title_external_intents">Allow dangerous external intents</string>
     <string name="qhybrid_pref_summary_external_intents">Allows other Android apps to upload/overwrite files</string>
     <string name="devicetype_amazfit_trex_pro">Amazfit T-Rex Pro</string>
+    <string name="button_watchface_edit_name">Edit name</string>
+    <string name="button_watchface_select_image">Select background image</string>
+    <string name="button_watchface_add_widget">Add widget</string>
+    <string name="button_watchface_settings">Watchface settings</string>
+    <string name="watchface_dialog_title_set_name">Set watchface name</string>
+    <string name="watchface_toast_settings_incomplete">Settings incomplete, widget not added</string>
+    <string name="watchface_dialog_title_add_widget">Add widget</string>
+    <string name="watchface_widget_type_date">Date</string>
+    <string name="watchface_widget_type_weather">Weather</string>
+    <string name="watchface_widget_type_steps">Steps</string>
+    <string name="watchface_widget_type_heart_rate">Heart rate</string>
 </resources>

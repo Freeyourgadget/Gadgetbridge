@@ -174,7 +174,7 @@ public class HybridHRWatchfaceDesignerActivity extends AbstractGBActivity implem
                             setWatchfaceName(input.getText().toString());
                         }
                     })
-                    .setTitle("Set watchface name")
+                    .setTitle(R.string.watchface_dialog_title_set_name)
                     .show();
         } else if (v.getId() == R.id.button_set_background) {
             Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
@@ -436,7 +436,7 @@ public class HybridHRWatchfaceDesignerActivity extends AbstractGBActivity implem
                             selectedPosX = Integer.parseInt(posX.getText().toString());
                             selectedPosY = Integer.parseInt(posY.getText().toString());
                         } catch (NumberFormatException e) {
-                            GB.toast("Settings incomplete, widget not added", Toast.LENGTH_SHORT, GB.WARN);
+                            GB.toast(getString(R.string.watchface_toast_settings_incomplete), Toast.LENGTH_SHORT, GB.WARN);
                             LOG.warn("Error parsing input", e);
                             return;
                         }
@@ -453,7 +453,7 @@ public class HybridHRWatchfaceDesignerActivity extends AbstractGBActivity implem
                         renderWatchfacePreview();
                     }
                 })
-                .setTitle("Add widget")
+                .setTitle(R.string.watchface_dialog_title_add_widget)
                 .show();
     }
 

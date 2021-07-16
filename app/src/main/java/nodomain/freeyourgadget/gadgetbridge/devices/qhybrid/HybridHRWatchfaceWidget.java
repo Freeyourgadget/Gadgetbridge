@@ -23,6 +23,8 @@ import android.graphics.BitmapFactory;
 import java.io.IOException;
 import java.util.LinkedHashMap;
 
+import nodomain.freeyourgadget.gadgetbridge.R;
+
 public class HybridHRWatchfaceWidget {
     private String widgetType;
     private int posX;
@@ -36,10 +38,10 @@ public class HybridHRWatchfaceWidget {
 
     public static LinkedHashMap<String, String> getAvailableWidgetTypes(Context context) {
         LinkedHashMap<String, String> widgetTypes = new LinkedHashMap<>();
-        widgetTypes.put("widgetDate", "Date");
-        widgetTypes.put("widgetWeather", "Weather");
-        widgetTypes.put("widgetSteps", "Steps");
-        widgetTypes.put("widgetHR", "Heart rate");
+        widgetTypes.put("widgetDate", context.getString(R.string.watchface_widget_type_date));
+        widgetTypes.put("widgetWeather", context.getString(R.string.watchface_widget_type_weather));
+        widgetTypes.put("widgetSteps", context.getString(R.string.watchface_widget_type_steps));
+        widgetTypes.put("widgetHR", context.getString(R.string.watchface_widget_type_heart_rate));
         return widgetTypes;
     }
 
