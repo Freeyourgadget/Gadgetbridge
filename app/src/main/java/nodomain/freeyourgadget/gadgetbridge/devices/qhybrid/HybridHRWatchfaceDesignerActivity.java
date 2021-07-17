@@ -40,6 +40,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -84,6 +85,7 @@ public class HybridHRWatchfaceDesignerActivity extends AbstractGBActivity implem
     private Bitmap selectedBackgroundImage, processedBackgroundImage;
     private String watchfaceName = "NewWatchface";
     final private ArrayList<HybridHRWatchfaceWidget> widgets = new ArrayList<>();
+    private HybridHRWatchfaceSettings watchfaceSettings = new HybridHRWatchfaceSettings();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -183,6 +185,8 @@ public class HybridHRWatchfaceDesignerActivity extends AbstractGBActivity implem
             startActivityForResult(intent, 42);
         } else if (v.getId() == R.id.button_add_widget) {
             showWidgetEditPopup(-1);
+        } else if (v.getId() == R.id.button_watchface_settings) {
+            showWatchfaceSettingsPopup();
         }
     }
 
@@ -280,6 +284,30 @@ public class HybridHRWatchfaceDesignerActivity extends AbstractGBActivity implem
                                                                     layoutItem.getJSONObject("pos").getInt("y"),
                                                                     widgetColor));
                         }
+                    }
+                } catch (JSONException e) {
+                    LOG.warn("JSON parsing error", e);
+                }
+            } else if (key.equals("config")) {
+                try {
+                    JSONObject watchfaceConfig = configJSON.getJSONObject(key);
+                    if (watchfaceConfig.has("timeout_display_full")) {
+                        watchfaceSettings.setDisplayTimeoutFull(watchfaceConfig.getInt("timeout_display_full") / 60 / 1000);
+                    }
+                    if (watchfaceConfig.has("timeout_display_partial")) {
+                        watchfaceSettings.setDisplayTimeoutPartial(watchfaceConfig.getInt("timeout_display_partial") / 60 / 1000);
+                    }
+                    if (watchfaceConfig.has("wrist_flick_hands_relative")) {
+                        watchfaceSettings.setWristFlickHandsMoveRelative(watchfaceConfig.getBoolean("wrist_flick_hands_relative"));
+                    }
+                    if (watchfaceConfig.has("wrist_flick_duration")) {
+                        watchfaceSettings.setWristFlickDuration(watchfaceConfig.getInt("wrist_flick_duration"));
+                    }
+                    if (watchfaceConfig.has("wrist_flick_move_hour")) {
+                        watchfaceSettings.setWristFlickMoveHour(watchfaceConfig.getInt("wrist_flick_move_hour"));
+                    }
+                    if (watchfaceConfig.has("wrist_flick_move_minute")) {
+                        watchfaceSettings.setWristFlickMoveMinute(watchfaceConfig.getInt("wrist_flick_move_minute"));
                     }
                 } catch (JSONException e) {
                     LOG.warn("JSON parsing error", e);
@@ -466,6 +494,38 @@ public class HybridHRWatchfaceDesignerActivity extends AbstractGBActivity implem
                 .show();
     }
 
+    private void showWatchfaceSettingsPopup() {
+        View layout = getLayoutInflater().inflate(R.layout.dialog_hybridhr_watchface_settings, null);
+        final EditText displayTimeoutFullInput = layout.findViewById(R.id.watchface_setting_display_full);
+        displayTimeoutFullInput.setText(String.valueOf(watchfaceSettings.getDisplayTimeoutFull()));
+        final EditText displayTimeoutPartialInput = layout.findViewById(R.id.watchface_setting_display_partial);
+        displayTimeoutPartialInput.setText(String.valueOf(watchfaceSettings.getDisplayTimeoutPartial()));
+        final CheckBox wristFlickHandsMoveRelativeInput = layout.findViewById(R.id.watchface_setting_flick_relative);
+        wristFlickHandsMoveRelativeInput.setChecked(watchfaceSettings.isWristFlickHandsMoveRelative());
+        final EditText wristFlickDurationInput = layout.findViewById(R.id.watchface_setting_flick_timeout);
+        wristFlickDurationInput.setText(String.valueOf(watchfaceSettings.getWristFlickDuration()));
+        final EditText wristFlickMoveHourInput = layout.findViewById(R.id.watchface_setting_flick_hour);
+        wristFlickMoveHourInput.setText(String.valueOf(watchfaceSettings.getWristFlickMoveHour()));
+        final EditText wristFlickMoveMinuteInput = layout.findViewById(R.id.watchface_setting_flick_minute);
+        wristFlickMoveMinuteInput.setText(String.valueOf(watchfaceSettings.getWristFlickMoveMinute()));
+        new AlertDialog.Builder(this)
+                .setView(layout)
+                .setNegativeButton(R.string.fossil_hr_new_action_cancel, null)
+                .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        watchfaceSettings.setDisplayTimeoutFull(Integer.parseInt(displayTimeoutFullInput.getText().toString()));
+                        watchfaceSettings.setDisplayTimeoutPartial(Integer.parseInt(displayTimeoutPartialInput.getText().toString()));
+                        watchfaceSettings.setWristFlickHandsMoveRelative(wristFlickHandsMoveRelativeInput.isChecked());
+                        watchfaceSettings.setWristFlickDuration(Integer.parseInt(wristFlickDurationInput.getText().toString()));
+                        watchfaceSettings.setWristFlickMoveHour(Integer.parseInt(wristFlickMoveHourInput.getText().toString()));
+                        watchfaceSettings.setWristFlickMoveMinute(Integer.parseInt(wristFlickMoveMinuteInput.getText().toString()));
+                    }
+                })
+                .setTitle(R.string.watchface_dialog_title_settings)
+                .show();
+    }
+
     private void calculateDisplayImageSize() {
         DisplayMetrics displayMetrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
@@ -504,6 +564,7 @@ public class HybridHRWatchfaceDesignerActivity extends AbstractGBActivity implem
         } else {
             wfFactory = new HybridHRWatchfaceFactory(watchfaceName);
         }
+        wfFactory.setSettings(watchfaceSettings);
         wfFactory.setBackground(processedBackgroundImage);
         wfFactory.addWidgets(widgets);
         try {

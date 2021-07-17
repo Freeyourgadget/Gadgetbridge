@@ -1230,4 +1230,14 @@
     <string name="watchface_dialog_widget_color">Color:</string>
     <string name="watchface_dialog_widget_color_white">White on black</string>
     <string name="watchface_dialog_widget_color_black">Black on white</string>
+    <string name="watchface_dialog_title_settings">Watchface settings</string>
+    <string name="watchface_setting_title_display_refresh_timeout">Display refresh timeout</string>
+    <string name="watchface_setting_display_refresh_full">Full refresh (in minutes):</string>
+    <string name="watchface_setting_display_refresh_partial">Partial refresh (in minutes):</string>
+    <string name="watchface_setting_title_wrist_flick">Wrist flick</string>
+    <string name="watchface_setting_desc_wrist_flick">(to disable completely, enable relative movement and set all values to 0)</string>
+    <string name="watchface_setting_wrist_flick_move_relative">Hands move relative to time:</string>
+    <string name="watchface_setting_wrist_flick_hour">Hour hand (-360 to 360):</string>
+    <string name="watchface_setting_wrist_flick_minute">Minute hand (-360 to 360):</string>
+    <string name="watchface_setting_wrist_flick_duration">Duration (in ms):</string>
 </resources>

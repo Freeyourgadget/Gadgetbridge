@@ -36,6 +36,7 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fos
 public class HybridHRWatchfaceFactory {
     private final Logger LOG = LoggerFactory.getLogger(HybridHRWatchfaceFactory.class);
     private String watchfaceName;
+    private HybridHRWatchfaceSettings settings;
     private Bitmap background;
     private ArrayList<JSONObject> widgets = new ArrayList<>();
 
@@ -43,6 +44,10 @@ public class HybridHRWatchfaceFactory {
         watchfaceName = name.replaceAll("[^-A-Za-z0-9]", "");
         if (watchfaceName.equals("")) throw new AssertionError("name cannot be empty");
         if (watchfaceName.endsWith("App")) watchfaceName += "Watchface";
+    }
+
+    public void setSettings(HybridHRWatchfaceSettings settings) {
+        this.settings = settings;
     }
 
     public void setBackground(Bitmap background) {
@@ -259,8 +264,8 @@ public class HybridHRWatchfaceFactory {
 
     private String getConfiguration() throws JSONException {
         JSONObject configuration = new JSONObject();
-        JSONArray layout = new JSONArray();
 
+        JSONArray layout = new JSONArray();
         JSONObject background = new JSONObject();
         background.put("type", "image");
         background.put("name", "background.raw");
@@ -273,12 +278,20 @@ public class HybridHRWatchfaceFactory {
         pos.put("y", 120);
         background.put("pos", pos);
         layout.put(background);
-
         for (JSONObject widget : widgets) {
             layout.put(widget);
         }
-
         configuration.put("layout", layout);
+
+        JSONObject config = new JSONObject();
+        config.put("timeout_display_full", settings.getDisplayTimeoutFull() * 60 * 1000);
+        config.put("timeout_display_partial", settings.getDisplayTimeoutPartial() * 60 * 1000);
+        config.put("wrist_flick_hands_relative", settings.isWristFlickHandsMoveRelative());
+        config.put("wrist_flick_duration", settings.getWristFlickDuration());
+        config.put("wrist_flick_move_hour", settings.getWristFlickMoveHour());
+        config.put("wrist_flick_move_minute", settings.getWristFlickMoveMinute());
+        configuration.put("config", config);
+
         return configuration.toString();
     }
 }
