@@ -112,6 +112,7 @@ public class HybridHRWatchfaceDesignerActivity extends AbstractGBActivity implem
         renderWatchfacePreview();
 
         backgroundImageView.setOnDragListener(this);
+        findViewById(R.id.watchface_widget_delete_droparea).setOnDragListener(this);
         findViewById(R.id.button_edit_name).setOnClickListener(this);
         findViewById(R.id.button_set_background).setOnClickListener(this);
         findViewById(R.id.button_add_widget).setOnClickListener(this);
@@ -201,17 +202,37 @@ public class HybridHRWatchfaceDesignerActivity extends AbstractGBActivity implem
     public boolean onDrag(View targetView, DragEvent event) {
         View draggedWidget = (View) event.getLocalState();
         switch (event.getAction()) {
+            case DragEvent.ACTION_DRAG_STARTED:
+                findViewById(R.id.watchface_widget_delete_layout).setVisibility(View.VISIBLE);
+                break;
+            case DragEvent.ACTION_DRAG_ENTERED:
+                if (targetView.getId() == R.id.watchface_widget_delete_droparea) {
+                    findViewById(R.id.watchface_widget_delete_droparea).setBackgroundColor(Color.RED);
+                }
+                break;
+            case DragEvent.ACTION_DRAG_EXITED:
+                if (targetView.getId() == R.id.watchface_widget_delete_droparea) {
+                    findViewById(R.id.watchface_widget_delete_droparea).setBackgroundColor(Color.TRANSPARENT);
+                }
+                break;
             case DragEvent.ACTION_DROP:
-                int posX = (int)(event.getX() / scaleFactor);
-                int posY = (int)(event.getY() / scaleFactor);
-                widgets.get(draggedWidget.getId()).setPosX(posX);
-                widgets.get(draggedWidget.getId()).setPosY(posY);
-                renderWatchfacePreview();
+                if (targetView.getId() == R.id.watchface_widget_delete_droparea) {
+                    widgets.remove(draggedWidget.getId());
+                    renderWatchfacePreview();
+                } else if (targetView.getId() == R.id.hybridhr_background_image) {
+                    int posX = (int) (event.getX() / scaleFactor);
+                    int posY = (int) (event.getY() / scaleFactor);
+                    widgets.get(draggedWidget.getId()).setPosX(posX);
+                    widgets.get(draggedWidget.getId()).setPosY(posY);
+                    renderWatchfacePreview();
+                }
                 break;
             case DragEvent.ACTION_DRAG_ENDED:
                 if (!event.getResult()) {
                     draggedWidget.setVisibility(View.VISIBLE);
                 }
+                findViewById(R.id.watchface_widget_delete_droparea).setBackgroundColor(Color.TRANSPARENT);
+                findViewById(R.id.watchface_widget_delete_layout).setVisibility(View.GONE);
                 break;
         }
         return true;
