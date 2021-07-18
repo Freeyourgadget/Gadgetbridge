@@ -236,7 +236,7 @@ public class DataManagementActivity extends AbstractGBActivity {
                 SharedPreferences deviceSharedPrefs = GBApplication.getDeviceSpecificSharedPrefs(dbDevice.getIdentifier());
                 if (sharedPrefs != null) {
                     File myPath = FileUtils.getExternalFilesDir();
-                    File myFile = new File(myPath, "Export_preference_" + dbDevice.getIdentifier());
+                    File myFile = new File(myPath, "Export_preference_" + FileUtils.makeValidFileName(dbDevice.getIdentifier()));
                     try {
                         ImportExportSharedPreferences.exportToFile(deviceSharedPrefs, myFile, null);
                     } catch (Exception ignore) {
@@ -264,7 +264,15 @@ public class DataManagementActivity extends AbstractGBActivity {
                 SharedPreferences deviceSharedPrefs = GBApplication.getDeviceSpecificSharedPrefs(dbDevice.getIdentifier());
                 if (sharedPrefs != null) {
                     File myPath = FileUtils.getExternalFilesDir();
-                    File myFile = new File(myPath, "Export_preference_" + dbDevice.getIdentifier());
+                    File myFile = new File(myPath, "Export_preference_" + FileUtils.makeValidFileName(dbDevice.getIdentifier()));
+
+                    if (!myFile.exists()) { //first try to use file in new format de_ad_be_af, if doesn't exist use old format de:at:be:af
+                        myFile = new File(myPath, "Export_preference_" + dbDevice.getIdentifier());
+                        LOG.info("Trying to import with older filename");
+                    }else{
+                        LOG.info("Trying to import with new filename");
+                    }
+
                     try {
                         ImportExportSharedPreferences.importFromFile(deviceSharedPrefs, myFile);
                     } catch (Exception ignore) {
