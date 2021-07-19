@@ -22,7 +22,6 @@ import android.annotation.TargetApi;
 import android.app.Application;
 import android.app.NotificationManager;
 import android.app.NotificationManager.Policy;
-import android.app.UiModeManager;
 import android.bluetooth.BluetoothAdapter;
 import android.content.Context;
 import android.content.Intent;
@@ -975,12 +974,14 @@ public class GBApplication extends Application {
 
     public static boolean isDarkThemeEnabled() {
         String selectedTheme = prefs.getString("pref_key_theme", context.getString(R.string.pref_theme_value_system));
+        Resources resources = context.getResources();
 
-        UiModeManager umm = (UiModeManager) context.getSystemService(Context.UI_MODE_SERVICE);
-
-        return selectedTheme.equals(context.getString(R.string.pref_theme_value_dark)) ||
-                (selectedTheme.equals(context.getString(R.string.pref_theme_value_system))
-                        && (umm.getNightMode() == UiModeManager.MODE_NIGHT_YES));
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q &&
+                selectedTheme.equals(context.getString(R.string.pref_theme_value_system))) {
+            return (resources.getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK) == Configuration.UI_MODE_NIGHT_YES;
+        } else {
+            return selectedTheme.equals(context.getString(R.string.pref_theme_value_dark));
+        }
     }
 
     public static boolean isAmoledBlackEnabled() {
