@@ -1300,4 +1300,5 @@
     <string name="button_watchface_add_widget">הוספת וידג׳ט</string>
     <string name="button_watchface_select_image">בחירת תמונת רקע</string>
     <string name="button_watchface_edit_name">עריכת השם</string>
+    <string name="devicetype_smaq2oss">SMA-Q2 OSS</string>
 </resources>
