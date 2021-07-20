@@ -1,5 +1,12 @@
 ### Changelog
 
+### 0.59.0 (NEXT)
+* Initial support for SMA Q2 OSS firmware (Emeryth)
+* Fix broken UM25 support
+* Fossil Hybrid HR: Add watchface designer
+* use '_' instead ':' in exported and imported file names to fix problems with some Android versions
+* Fix applying theme as set by the system
+
 ### 0.58.2
 * InfiniTime: Support notification for battery level
 * Allow importing GPX tracks via Android Intent/Share system

@@ -27,8 +27,8 @@ android {
         multiDexEnabled true
 
         // Note: always bump BOTH versionCode and versionName!
-        versionName "0.58.2"
-        versionCode 198
+        versionName "0.59.0"
+        versionCode 199
         vectorDrawables.useSupportLibrary = true
         multiDexEnabled true
     }
