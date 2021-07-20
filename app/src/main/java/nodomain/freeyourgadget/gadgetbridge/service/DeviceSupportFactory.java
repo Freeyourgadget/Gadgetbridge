@@ -347,8 +347,10 @@ public class DeviceSupportFactory {
                         break;
                     case SMAQ2OSS:
                         deviceSupport = new ServiceDeviceSupport(new SMAQ2OSSSupport(), EnumSet.of(ServiceDeviceSupport.Flags.BUSY_CHECKING));
+                        break;
                     case UM25:
                         deviceSupport = new ServiceDeviceSupport(new UM25Support(), EnumSet.of(ServiceDeviceSupport.Flags.BUSY_CHECKING));
+                        break;
                     case DOMYOS_T540:
                         deviceSupport = new ServiceDeviceSupport(new DomyosT540Support(), EnumSet.of(ServiceDeviceSupport.Flags.THROTTLING, ServiceDeviceSupport.Flags.BUSY_CHECKING));
                         break;
