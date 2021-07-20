@@ -1206,7 +1206,7 @@
     <string name="qhybrid_pref_summary_external_intents">Allows other Android apps to upload/overwrite files</string>
     <string name="devicetype_amazfit_trex_pro">Amazfit T-Rex Pro</string>
     <string name="button_watchface_edit_name">Edit name</string>
-    <string name="button_watchface_select_image">Select background image</string>
+    <string name="button_watchface_select_image">Change background image</string>
     <string name="button_watchface_add_widget">Add widget</string>
     <string name="button_watchface_settings">Watchface settings</string>
     <string name="watchface_dialog_title_set_name">Set watchface name</string>
@@ -1229,8 +1229,8 @@
     <string name="watchface_dialog_widget_preset_right">Right</string>
     <string name="qhybrid_title_watchface_designer">Watchface designer</string>
     <string name="watchface_dialog_widget_color">Color:</string>
-    <string name="watchface_dialog_widget_color_white">White on black</string>
-    <string name="watchface_dialog_widget_color_black">Black on white</string>
+    <string name="watchface_dialog_widget_color_white">White</string>
+    <string name="watchface_dialog_widget_color_black">Black</string>
     <string name="watchface_dialog_title_settings">Watchface settings</string>
     <string name="watchface_setting_title_display_refresh_timeout">Display refresh timeout</string>
     <string name="watchface_setting_display_refresh_full">Full refresh (in minutes):</string>
