@@ -1299,4 +1299,5 @@ Temps de sommeil préféré en heures</string>
     <string name="button_watchface_add_widget">Ajouter un widget</string>
     <string name="button_watchface_select_image">Choisir l\'image d\'arrière-plan</string>
     <string name="button_watchface_edit_name">Modifier le nom</string>
+    <string name="devicetype_smaq2oss">SMA-Q2 OSS</string>
 </resources>
