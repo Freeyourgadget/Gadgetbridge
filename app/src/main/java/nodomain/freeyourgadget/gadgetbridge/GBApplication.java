@@ -146,6 +146,7 @@ public class GBApplication extends Application {
         Intent quitIntent = new Intent(GBApplication.ACTION_QUIT);
         LocalBroadcastManager.getInstance(context).sendBroadcast(quitIntent);
         GBApplication.deviceService().quit();
+        System.exit(0);
     }
 
     public GBApplication() {
