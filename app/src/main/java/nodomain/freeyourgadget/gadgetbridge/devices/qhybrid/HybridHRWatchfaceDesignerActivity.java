@@ -346,6 +346,13 @@ public class HybridHRWatchfaceDesignerActivity extends AbstractGBActivity implem
     private void renderWatchfacePreview() {
         int widgetSize = 50;
         if (selectedBackgroundImage == null) {
+            try {
+                selectedBackgroundImage = BitmapUtil.getCircularBitmap(BitmapFactory.decodeStream(getAssets().open("fossil_hr/default_background.png")));
+            } catch (IOException e) {
+                LOG.warn("Loading default watchface background failed", e);
+            }
+        }
+        if (selectedBackgroundImage == null) {
             processedBackgroundImage = Bitmap.createBitmap(displayImageSize, displayImageSize, Bitmap.Config.ARGB_8888);
             // Paint a gray circle around the watchface
             Canvas backgroundImageCanvas = new Canvas(processedBackgroundImage);
