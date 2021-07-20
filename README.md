@@ -69,6 +69,7 @@ vendor's servers.
 - Pebble
 	- [Pebble, Steel, Time, Time Steel, Time Round, 2](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Pebble)
 - PineTime (InfiniTime Firmware)
+- [SMA](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/SMA) Q2 (SMA-Q2-OSS Firmware)
 - Teclast H10, H30
 - TLW64
 - Vibratissimo (Experimental)

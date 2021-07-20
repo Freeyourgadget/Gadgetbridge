@@ -1,6 +1,7 @@
 apply plugin: "com.android.application"
 apply plugin: "com.github.spotbugs"
 apply plugin: "pmd"
+apply plugin: 'com.google.protobuf'
 
 def ABORT_ON_CHECK_FAILURE = false
 
@@ -29,6 +30,7 @@ android {
         versionName "0.58.2"
         versionCode 198
         vectorDrawables.useSupportLibrary = true
+        multiDexEnabled true
     }
     buildTypes {
         release {
@@ -98,7 +100,8 @@ dependencies {
     implementation 'com.jaredrummler:colorpicker:1.0.2'
 //    implementation project(":DaoCore")
     implementation 'com.github.wax911:android-emojify:0.1.7'
-
+    implementation 'com.google.protobuf:protobuf-lite:3.0.0'
+    implementation "androidx.multidex:multidex:2.0.1"
 }
 
 preBuild.dependsOn(":GBDaoGenerator:genSources")
@@ -153,7 +156,7 @@ task pmd(type: Pmd) {
 // this is just for spotbugs to let the plugin create the task
 sourceSets {
     main {
-        java.srcDirs = []
+        main.java.srcDirs += "${protobuf.generatedFilesBaseDir}/main/javalite"
     }
 }
 
@@ -176,6 +179,27 @@ tasks.withType(com.github.spotbugs.SpotBugsTask) {
         }
         html {
             destination file ("$project.buildDir/reports/spotbugs/spotbugs-output.html")
+        }
+    }
+}
+
+protobuf {
+    protoc {
+        artifact = 'com.google.protobuf:protoc:3.0.0'
+    }
+    plugins {
+        javalite {
+            artifact = 'com.google.protobuf:protoc-gen-javalite:3.0.0'
+        }
+    }
+    generateProtoTasks {
+        all().each { task ->
+            task.builtins {
+                remove java
+            }
+            task.plugins {
+                javalite { }
+            }
         }
     }
 }
