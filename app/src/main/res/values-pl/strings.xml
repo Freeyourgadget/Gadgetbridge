@@ -1277,4 +1277,16 @@
     <string name="gpx_receiver_activity_title">Odbiornik GPX Gadgetbridge</string>
     <string name="activity_summary_detail_clear_gpx_track">Wyczyść trasę GPX</string>
     <string name="activity_summary_detail_select_gpx_track">Wybierz trasę GPX</string>
+    <string name="watchface_dialog_widget_color">Kolor:</string>
+    <string name="appmanager_app_edit">Edytuj</string>
+    <string name="button_watchface_save_apply">Zapisz i zastosuj</string>
+    <string name="watchface_widget_type_heart_rate">Tętno</string>
+    <string name="watchface_widget_type_steps">Kroki</string>
+    <string name="watchface_widget_type_weather">Pogoda</string>
+    <string name="watchface_widget_type_date">Data</string>
+    <string name="watchface_dialog_title_add_widget">Dodaj widget</string>
+    <string name="button_watchface_add_widget">Dodaj widget</string>
+    <string name="button_watchface_select_image">Wybierz obraz tła</string>
+    <string name="button_watchface_edit_name">Edytuj nazwę</string>
+    <string name="devicetype_smaq2oss">SMA-Q2 OSS</string>
 </resources>
