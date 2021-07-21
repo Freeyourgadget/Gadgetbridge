@@ -1275,8 +1275,8 @@
     <string name="watchface_setting_display_refresh_full">Volledig (in minuten):</string>
     <string name="watchface_setting_title_display_refresh_timeout">Time-out schermverversing</string>
     <string name="watchface_dialog_title_settings">Wijzerplaat-instellingen</string>
-    <string name="watchface_dialog_widget_color_black">Zwart op wit</string>
-    <string name="watchface_dialog_widget_color_white">Wit op zwart</string>
+    <string name="watchface_dialog_widget_color_black">Zwart</string>
+    <string name="watchface_dialog_widget_color_white">Wit</string>
     <string name="watchface_dialog_widget_color">Kleur:</string>
     <string name="qhybrid_title_watchface_designer">Wijzerplaat ontwerpen</string>
     <string name="watchface_dialog_widget_preset_right">Rechts</string>
@@ -1299,6 +1299,7 @@
     <string name="watchface_dialog_title_set_name">Naam aanpassen</string>
     <string name="button_watchface_settings">Wijzerplaat-instellingen</string>
     <string name="button_watchface_add_widget">Widget toevoegen</string>
-    <string name="button_watchface_select_image">Selecteer achtergrond</string>
+    <string name="button_watchface_select_image">Verander achtergrond</string>
     <string name="button_watchface_edit_name">Naam aanpassen</string>
+    <string name="devicetype_smaq2oss">SMA-Q2 OSS</string>
 </resources>
