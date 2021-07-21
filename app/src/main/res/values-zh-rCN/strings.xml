@@ -1306,4 +1306,5 @@
     <string name="button_watchface_select_image">设置背景图片</string>
     <string name="button_watchface_edit_name">编辑名称</string>
     <string name="set">设置</string>
+    <string name="devicetype_smaq2oss">SMA-Q2 OSS</string>
 </resources>
