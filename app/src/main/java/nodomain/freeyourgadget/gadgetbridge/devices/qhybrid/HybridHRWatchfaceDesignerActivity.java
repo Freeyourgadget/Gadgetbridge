@@ -71,6 +71,7 @@ import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.activities.AbstractGBActivity;
 import nodomain.freeyourgadget.gadgetbridge.devices.DeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
+import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceApp;
 import nodomain.freeyourgadget.gadgetbridge.util.BitmapUtil;
 import nodomain.freeyourgadget.gadgetbridge.util.DeviceHelper;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
@@ -151,7 +152,6 @@ public class HybridHRWatchfaceDesignerActivity extends AbstractGBActivity implem
         int id = item.getItemId();
         if (id == R.id.button_save_watchface) {
             sendToWatch(false);
-            finish();
         } else if (id == R.id.button_preview_watchface) {
             sendToWatch(true);
         }
@@ -603,18 +603,38 @@ public class HybridHRWatchfaceDesignerActivity extends AbstractGBActivity implem
             bos.write(wfFactory.getWapp(this));
             bos.close();
             fos.close();
-            Uri tempAppFileUri = Uri.fromFile(tempFile);
-            GBApplication.deviceService().onInstallApp(tempAppFileUri);
+            final Uri tempAppFileUri = Uri.fromFile(tempFile);
             if (preview) {
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
+                        GBApplication.deviceService().onInstallApp(tempAppFileUri);
                         GBApplication.deviceService().onAppDelete(UUID.nameUUIDFromBytes("previewWatchface".getBytes(StandardCharsets.UTF_8)));
                     }
                 }, 10000);
             } else {
-                FossilFileReader fossilFile = new FossilFileReader(tempAppFileUri, this);
-                FossilHRInstallHandler.saveAppInCache(fossilFile, processedBackgroundImage, mCoordinator, this);
+                final FossilFileReader fossilFile = new FossilFileReader(tempAppFileUri, this);
+                GBDeviceApp app = fossilFile.getGBDeviceApp();
+                File cacheDir = mCoordinator.getAppCacheDir();
+                File destFile = new File(cacheDir, app.getUUID().toString() + mCoordinator.getAppFileExtension());
+                if (destFile.exists()) {
+                    new AlertDialog.Builder(this)
+                            .setMessage(R.string.watchface_cache_confirm_overwrite)
+                            .setNegativeButton(R.string.no, null)
+                            .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    GBApplication.deviceService().onInstallApp(tempAppFileUri);
+                                    FossilHRInstallHandler.saveAppInCache(fossilFile, processedBackgroundImage, mCoordinator, HybridHRWatchfaceDesignerActivity.this);
+                                    finish();
+                                }
+                            })
+                            .show();
+                } else {
+                    GBApplication.deviceService().onInstallApp(tempAppFileUri);
+                    FossilHRInstallHandler.saveAppInCache(fossilFile, processedBackgroundImage, mCoordinator, HybridHRWatchfaceDesignerActivity.this);
+                    finish();
+                }
             }
         } catch (IOException e) {
             LOG.warn("Error while creating and uploading watchface", e);
