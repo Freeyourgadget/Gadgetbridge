@@ -87,6 +87,7 @@ public class HybridHRWatchfaceDesignerActivity extends AbstractGBActivity implem
     private String watchfaceName = "NewWatchface";
     final private ArrayList<HybridHRWatchfaceWidget> widgets = new ArrayList<>();
     private HybridHRWatchfaceSettings watchfaceSettings = new HybridHRWatchfaceSettings();
+    private int defaultWidgetColor = HybridHRWatchfaceWidget.COLOR_WHITE;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -114,6 +115,7 @@ public class HybridHRWatchfaceDesignerActivity extends AbstractGBActivity implem
 
         backgroundImageView.setOnDragListener(this);
         findViewById(R.id.watchface_widget_delete_droparea).setOnDragListener(this);
+        findViewById(R.id.watchface_invert_colors).setOnClickListener(this);
         findViewById(R.id.button_edit_name).setOnClickListener(this);
         findViewById(R.id.button_set_background).setOnClickListener(this);
         findViewById(R.id.button_add_widget).setOnClickListener(this);
@@ -179,6 +181,16 @@ public class HybridHRWatchfaceDesignerActivity extends AbstractGBActivity implem
                     })
                     .setTitle(R.string.watchface_dialog_title_set_name)
                     .show();
+        } else if (v.getId() == R.id.watchface_invert_colors) {
+            if (selectedBackgroundImage != null) {
+                selectedBackgroundImage = BitmapUtil.invertBitmapColors(selectedBackgroundImage);
+                renderWatchfacePreview();
+                if (defaultWidgetColor == HybridHRWatchfaceWidget.COLOR_WHITE) {
+                    defaultWidgetColor = HybridHRWatchfaceWidget.COLOR_BLACK;
+                } else {
+                    defaultWidgetColor = HybridHRWatchfaceWidget.COLOR_WHITE;
+                }
+            }
         } else if (v.getId() == R.id.button_set_background) {
             Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
             intent.addCategory(Intent.CATEGORY_OPENABLE);
@@ -437,6 +449,8 @@ public class HybridHRWatchfaceDesignerActivity extends AbstractGBActivity implem
         colorSpinner.setAdapter(widgetColorAdapter);
         if (widget != null) {
             colorSpinner.setSelection(widget.getColor());
+        } else {
+            colorSpinner.setSelection(defaultWidgetColor);
         }
         // Set X coordinate
         final EditText posX = layout.findViewById(R.id.watchface_widget_pos_x);
