@@ -33,8 +33,8 @@ public class HybridHRWatchfaceWidget {
     private int posY;
     private int color = 0;
 
-    public static int COLOR_WHITE_ON_BLACK = 0;
-    public static int COLOR_BLACK_ON_WHITE = 1;
+    public static int COLOR_WHITE = 0;
+    public static int COLOR_BLACK = 1;
 
     public HybridHRWatchfaceWidget(String widgetType, int posX, int posY, int color) {
         this.widgetType = widgetType;
@@ -58,7 +58,7 @@ public class HybridHRWatchfaceWidget {
 
     public Bitmap getPreviewImage(Context context) throws IOException {
         Bitmap preview = BitmapFactory.decodeStream(context.getAssets().open("fossil_hr/" + widgetType + "_preview.png"));
-        if (color == COLOR_WHITE_ON_BLACK) {
+        if (color == COLOR_WHITE) {
             return preview;
         } else {
             return invertBitmapColors(preview);

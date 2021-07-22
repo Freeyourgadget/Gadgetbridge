@@ -299,7 +299,7 @@ public class HybridHRWatchfaceDesignerActivity extends AbstractGBActivity implem
                                     break;
 
                             }
-                            int widgetColor = layoutItem.getString("color").equals("white") ? HybridHRWatchfaceWidget.COLOR_WHITE_ON_BLACK : HybridHRWatchfaceWidget.COLOR_BLACK_ON_WHITE;
+                            int widgetColor = layoutItem.getString("color").equals("white") ? HybridHRWatchfaceWidget.COLOR_WHITE : HybridHRWatchfaceWidget.COLOR_BLACK;
                             widgets.add(new HybridHRWatchfaceWidget(widgetName,
                                                                     layoutItem.getJSONObject("pos").getInt("x"),
                                                                     layoutItem.getJSONObject("pos").getInt("y"),
