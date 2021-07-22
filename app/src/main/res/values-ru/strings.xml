@@ -1265,4 +1265,49 @@
 \nПосле установки файла .fw устройство перезагрузится.
 \n
 \nДЕЙСТВУЙТЕ НА СВОЙ СТРАХ И РИСК!</string>
+    <string name="watchface_setting_wrist_flick_duration">Продолжительность (в мс):</string>
+    <string name="watchface_setting_wrist_flick_minute">Минутная стрелка (от -360 до 360):</string>
+    <string name="watchface_setting_wrist_flick_hour">Часовая стрелка (от -360 до 360):</string>
+    <string name="watchface_setting_wrist_flick_move_relative">Двигайте стрелки относительно времени:</string>
+    <string name="watchface_setting_desc_wrist_flick">(чтобы полностью отключить, включите относительное движение и установите все значения на 0)</string>
+    <string name="watchface_setting_title_wrist_flick">Движение запястьем</string>
+    <string name="watchface_setting_display_refresh_partial">Частичное обновление (в минутах):</string>
+    <string name="watchface_setting_display_refresh_full">Полное обновление (в минутах):</string>
+    <string name="watchface_setting_title_display_refresh_timeout">Время ожидания обновления дисплея</string>
+    <string name="watchface_dialog_title_settings">Настройки циферблата</string>
+    <string name="watchface_dialog_widget_color_black">Черный на белом</string>
+    <string name="watchface_dialog_widget_color_white">Белый на черном</string>
+    <string name="watchface_dialog_widget_color">Цвет:</string>
+    <string name="qhybrid_title_watchface_designer">Дизайнер циферблатов</string>
+    <string name="watchface_dialog_widget_preset_right">Справа</string>
+    <string name="watchface_dialog_widget_preset_left">Слева</string>
+    <string name="watchface_dialog_widget_preset_bottom">Снизу</string>
+    <string name="watchface_dialog_widget_preset_top">Сверху</string>
+    <string name="watchface_dialog_widget_presets">Предустановки положения:</string>
+    <string name="watchface_dialog_widget_y_coordinate">Координата Y (не более 240):</string>
+    <string name="watchface_dialog_widget_x_coordinate">Координата X (не более 240):</string>
+    <string name="watchface_dialog_widget_type">Тип:</string>
+    <string name="appmanager_app_edit">Редактировать</string>
+    <string name="button_watchface_save_apply">Сохранить и применить</string>
+    <string name="button_watchface_preview">Предварительный просмотр на часах</string>
+    <string name="watchface_widget_type_heart_rate">Частота сердцебиения</string>
+    <string name="watchface_widget_type_steps">Шаги</string>
+    <string name="watchface_widget_type_weather">Погода</string>
+    <string name="watchface_widget_type_date">Дата</string>
+    <string name="watchface_dialog_title_add_widget">Добавить виджет</string>
+    <string name="watchface_toast_settings_incomplete">Настройки не завершены, виджет не добавлен</string>
+    <string name="watchface_dialog_title_set_name">Задать имя циферблата</string>
+    <string name="button_watchface_settings">Настройки циферблата</string>
+    <string name="button_watchface_add_widget">Добавить виджет</string>
+    <string name="button_watchface_select_image">Выбрать фоновое изображение</string>
+    <string name="button_watchface_edit_name">Изменить имя</string>
+    <string name="gpx_receiver_overwrite_some_files">Некоторый файл(ы) уже существует. Перезаписать\?</string>
+    <string name="gpx_receiver_files_received">Получен файл(ы) GPX:</string>
+    <string name="gpx_receiver_activity_title">GPX-приемник Gadgetbridge</string>
+    <string name="devicetype_smaq2oss">SMA-Q2 OSS</string>
+    <string name="activity_summary_detail_editing_gpx_track">Редактирование связанного GPX трека</string>
+    <string name="activity_summary_detail_clear_gpx_track">Очистить GPX трек</string>
+    <string name="activity_summary_detail_select_gpx_track">Выберите GPX трек</string>
+    <string name="set">Установить</string>
+    <string name="pref_theme_black_background">Использовать черный фон в темной теме</string>
 </resources>
