@@ -11,6 +11,15 @@
     android:orientation="vertical"
     tools:context=".devices.qhybrid.HybridHRWatchfaceDesignerActivity">
 
+    <ProgressBar
+        style="@android:style/Widget.DeviceDefault.ProgressBar.Horizontal"
+        android:id="@+id/watchface_upload_progress_bar"
+        android:layout_width="match_parent"
+        android:layout_height="10dp"
+        android:scaleY="3"
+        android:indeterminate="true"
+        android:visibility="gone" />
+
     <RelativeLayout
         android:id="@+id/watchface_name_layout"
         android:layout_width="match_parent"

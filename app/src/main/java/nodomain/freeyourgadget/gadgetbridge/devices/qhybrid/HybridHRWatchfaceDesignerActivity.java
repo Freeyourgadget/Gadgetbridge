@@ -18,9 +18,12 @@ package nodomain.freeyourgadget.gadgetbridge.devices.qhybrid;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.BroadcastReceiver;
 import android.content.ContentResolver;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -49,6 +52,8 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -72,6 +77,7 @@ import nodomain.freeyourgadget.gadgetbridge.activities.AbstractGBActivity;
 import nodomain.freeyourgadget.gadgetbridge.devices.DeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceApp;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.QHybridSupport;
 import nodomain.freeyourgadget.gadgetbridge.util.BitmapUtil;
 import nodomain.freeyourgadget.gadgetbridge.util.DeviceHelper;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
@@ -88,6 +94,28 @@ public class HybridHRWatchfaceDesignerActivity extends AbstractGBActivity implem
     final private ArrayList<HybridHRWatchfaceWidget> widgets = new ArrayList<>();
     private HybridHRWatchfaceSettings watchfaceSettings = new HybridHRWatchfaceSettings();
     private int defaultWidgetColor = HybridHRWatchfaceWidget.COLOR_WHITE;
+    private boolean readyToCloseActivity = false;
+
+    BroadcastReceiver fileUploadReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (intent.getAction().equals(QHybridSupport.QHYBRID_ACTION_UPLOADED_FILE)) {
+                boolean success = intent.getBooleanExtra("EXTRA_SUCCESS", false);
+                findViewById(R.id.watchface_upload_progress_bar).setVisibility(View.GONE);
+                if (success) {
+                    if (readyToCloseActivity) {
+                        finish();
+                    }
+                } else {
+                    readyToCloseActivity = false;
+                    new AlertDialog.Builder(HybridHRWatchfaceDesignerActivity.this)
+                            .setMessage(R.string.watchface_upload_failed)
+                            .setPositiveButton(R.string.ok, null)
+                            .show();
+                }
+            }
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -101,6 +129,10 @@ public class HybridHRWatchfaceDesignerActivity extends AbstractGBActivity implem
         } else {
             throw new IllegalArgumentException("Must provide a device when invoking this activity");
         }
+
+        IntentFilter intentFilter = new IntentFilter();
+        intentFilter.addAction(QHybridSupport.QHYBRID_ACTION_UPLOADED_FILE);
+        LocalBroadcastManager.getInstance(this).registerReceiver(fileUploadReceiver, intentFilter);
 
         mCoordinator = DeviceHelper.getInstance().getCoordinator(mGBDevice);
         calculateDisplayImageSize();
@@ -619,14 +651,16 @@ public class HybridHRWatchfaceDesignerActivity extends AbstractGBActivity implem
             fos.close();
             final Uri tempAppFileUri = Uri.fromFile(tempFile);
             if (preview) {
+                findViewById(R.id.watchface_upload_progress_bar).setVisibility(View.VISIBLE);
+                GBApplication.deviceService().onInstallApp(tempAppFileUri);
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        GBApplication.deviceService().onInstallApp(tempAppFileUri);
                         GBApplication.deviceService().onAppDelete(UUID.nameUUIDFromBytes("previewWatchface".getBytes(StandardCharsets.UTF_8)));
                     }
                 }, 10000);
             } else {
+                readyToCloseActivity = true;
                 final FossilFileReader fossilFile = new FossilFileReader(tempAppFileUri, this);
                 GBDeviceApp app = fossilFile.getGBDeviceApp();
                 File cacheDir = mCoordinator.getAppCacheDir();
@@ -638,16 +672,16 @@ public class HybridHRWatchfaceDesignerActivity extends AbstractGBActivity implem
                             .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
+                                    findViewById(R.id.watchface_upload_progress_bar).setVisibility(View.VISIBLE);
                                     GBApplication.deviceService().onInstallApp(tempAppFileUri);
                                     FossilHRInstallHandler.saveAppInCache(fossilFile, processedBackgroundImage, mCoordinator, HybridHRWatchfaceDesignerActivity.this);
-                                    finish();
                                 }
                             })
                             .show();
                 } else {
+                    findViewById(R.id.watchface_upload_progress_bar).setVisibility(View.VISIBLE);
                     GBApplication.deviceService().onInstallApp(tempAppFileUri);
                     FossilHRInstallHandler.saveAppInCache(fossilFile, processedBackgroundImage, mCoordinator, HybridHRWatchfaceDesignerActivity.this);
-                    finish();
                 }
             }
         } catch (IOException e) {

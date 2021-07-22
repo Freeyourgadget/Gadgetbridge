@@ -1242,4 +1242,5 @@
     <string name="watchface_setting_wrist_flick_minute">Minute hand (-360 to 360):</string>
     <string name="watchface_setting_wrist_flick_duration">Duration (in ms):</string>
     <string name="watchface_cache_confirm_overwrite">A watchface with this name already exists in the cache. Do you want to overwrite it?</string>
+    <string name="watchface_upload_failed">Upload of the watchface failed. Please try again.</string>
 </resources>
