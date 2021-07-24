@@ -1277,8 +1277,8 @@
     <string name="watchface_setting_display_refresh_full">Vollständige Aktualisierung (in Minuten):</string>
     <string name="watchface_setting_title_display_refresh_timeout">Zeitüberschreitung bei der Anzeigeaktualisierung</string>
     <string name="watchface_dialog_title_settings">Zifferblatteinstellungen</string>
-    <string name="watchface_dialog_widget_color_black">Schwarz auf Weiß</string>
-    <string name="watchface_dialog_widget_color_white">Weiß auf Schwarz</string>
+    <string name="watchface_dialog_widget_color_black">Schwarz</string>
+    <string name="watchface_dialog_widget_color_white">Weiß</string>
     <string name="watchface_dialog_widget_color">Farbe:</string>
     <string name="qhybrid_title_watchface_designer">Zifferblattdesigner</string>
     <string name="watchface_dialog_widget_preset_right">Rechts</string>
@@ -1301,7 +1301,7 @@
     <string name="watchface_dialog_title_set_name">Zifferblattnamen festlegen</string>
     <string name="button_watchface_settings">Zifferblatteinstellungen</string>
     <string name="button_watchface_add_widget">Widget hinzufügen</string>
-    <string name="button_watchface_select_image">Hintergrundbild auswählen</string>
+    <string name="button_watchface_select_image">Hintergrundbild ändern</string>
     <string name="button_watchface_edit_name">Name bearbeiten</string>
     <string name="gpx_receiver_overwrite_some_files">Einige Datei(en) sind bereits vorhanden. Überschreiben\?</string>
     <string name="gpx_receiver_files_received">GPX-Datei(en) empfangen:</string>
@@ -1311,4 +1311,6 @@
     <string name="activity_summary_detail_clear_gpx_track">GPX-Track löschen</string>
     <string name="activity_summary_detail_select_gpx_track">GPX-Track auswählen</string>
     <string name="set">Festlegen</string>
+    <string name="watchface_upload_failed">Hochladen des Zifferblatts ist fehlgeschlagen. Bitte versuche es erneut.</string>
+    <string name="watchface_cache_confirm_overwrite">Ein Zifferblatt mit diesem Namen existiert bereits im Cache. Willst du es überschreiben\?</string>
 </resources>
