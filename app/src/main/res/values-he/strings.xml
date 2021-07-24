@@ -1274,8 +1274,8 @@
     <string name="watchface_setting_display_refresh_full">רענון מלא (בדקות):</string>
     <string name="watchface_setting_title_display_refresh_timeout">תום זמן רענון התצוגה</string>
     <string name="watchface_dialog_title_settings">הגדרות פני שעון</string>
-    <string name="watchface_dialog_widget_color_black">שחור על לבן</string>
-    <string name="watchface_dialog_widget_color_white">לבן על שחור</string>
+    <string name="watchface_dialog_widget_color_black">שחור</string>
+    <string name="watchface_dialog_widget_color_white">לבן</string>
     <string name="watchface_dialog_widget_color">צבע:</string>
     <string name="qhybrid_title_watchface_designer">מעצב פני השעון</string>
     <string name="watchface_dialog_widget_preset_right">ימין</string>
@@ -1298,7 +1298,9 @@
     <string name="watchface_dialog_title_set_name">הגדרת שם לפני השעון</string>
     <string name="button_watchface_settings">הגדרות פני השעון</string>
     <string name="button_watchface_add_widget">הוספת וידג׳ט</string>
-    <string name="button_watchface_select_image">בחירת תמונת רקע</string>
+    <string name="button_watchface_select_image">החלפת תמונת הרקע</string>
     <string name="button_watchface_edit_name">עריכת השם</string>
     <string name="devicetype_smaq2oss">SMA-Q2 OSS</string>
+    <string name="watchface_upload_failed">העלאת פני השעון נכשלה. נא לנסות שוב.</string>
+    <string name="watchface_cache_confirm_overwrite">פני שעון בשם הזה כבר קיימים באחסון. לדרוס אותם\?</string>
 </resources>
