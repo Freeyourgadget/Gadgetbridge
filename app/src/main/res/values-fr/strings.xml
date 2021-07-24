@@ -1273,8 +1273,8 @@ Temps de sommeil préféré en heures</string>
     <string name="watchface_setting_display_refresh_full">Rafraichissement complet (en minutes):</string>
     <string name="watchface_setting_title_display_refresh_timeout">Intervalle de rafraîchissement de l\'écran</string>
     <string name="watchface_dialog_title_settings">Réglages du thème d\'écran</string>
-    <string name="watchface_dialog_widget_color_black">Noir sur blanc</string>
-    <string name="watchface_dialog_widget_color_white">Blanc sur noir</string>
+    <string name="watchface_dialog_widget_color_black">Noir</string>
+    <string name="watchface_dialog_widget_color_white">Blanc</string>
     <string name="watchface_dialog_widget_color">Couleur:</string>
     <string name="qhybrid_title_watchface_designer">Concepteur de thème d\'écran</string>
     <string name="watchface_dialog_widget_preset_right">Droite</string>
@@ -1297,7 +1297,9 @@ Temps de sommeil préféré en heures</string>
     <string name="watchface_dialog_title_set_name">Configurer le nom du thème d\'écran</string>
     <string name="button_watchface_settings">Réglages du thème d\'écran</string>
     <string name="button_watchface_add_widget">Ajouter un widget</string>
-    <string name="button_watchface_select_image">Choisir l\'image d\'arrière-plan</string>
+    <string name="button_watchface_select_image">Changer l\'image d\'arrière-plan</string>
     <string name="button_watchface_edit_name">Modifier le nom</string>
     <string name="devicetype_smaq2oss">SMA-Q2 OSS</string>
+    <string name="watchface_upload_failed">L\'envoi du thème d\'écran a raté. Merci de réessayer.</string>
+    <string name="watchface_cache_confirm_overwrite">Un thème d\'écran avec le même nom existe déja dans le cache. Voulez-vous l\'écraser \?</string>
 </resources>
