@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
-</change>
     <release version="0.59.0" versioncode="199">
         <change>Initial support for SMA Q2 OSS firmware (Emeryth)</change>
         <change>Fix broken UM25 support</change>
