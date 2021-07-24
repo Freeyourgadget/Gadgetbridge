@@ -1302,4 +1302,6 @@
     <string name="button_watchface_select_image">Verander achtergrond</string>
     <string name="button_watchface_edit_name">Naam aanpassen</string>
     <string name="devicetype_smaq2oss">SMA-Q2 OSS</string>
+    <string name="watchface_upload_failed">Uploaden van de wijzerplaat is mislukt. Probeer het opnieuw.</string>
+    <string name="watchface_cache_confirm_overwrite">Er bestaat al een wijzerplaat met deze naam in de cache. Wil je het overschrijven\?</string>
 </resources>
