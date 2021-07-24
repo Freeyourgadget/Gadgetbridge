@@ -1,11 +1,12 @@
 ### Changelog
 
-### 0.59.0 (NEXT)
+### 0.59.0
 * Initial support for SMA Q2 OSS firmware (Emeryth)
 * Fix broken UM25 support
 * Fossil Hybrid HR: Add watchface designer
 * use '_' instead ':' in exported and imported file names to fix problems with some Android versions
 * Fix applying theme as set by the system
+* Try to improve behavior when quitting Gadgetbridge
 
 ### 0.58.2
 * InfiniTime: Support notification for battery level

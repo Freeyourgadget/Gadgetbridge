@@ -1,5 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
+</change>
+    <release version="0.59.0" versioncode="199">
+        <change>Initial support for SMA Q2 OSS firmware (Emeryth)</change>
+        <change>Fix broken UM25 support</change>
+        <change>Fossil Hybrid HR: Add watchface designer</change>
+        <change>use '_' instead ':' in exported and imported file names to fix problems with some Android versions</change>
+        <change>Fix applying theme as set by the system</change>
+        <change>Try to improve behavior when quitting Gadgetbridge</change>
+    </release>
     <release version="0.58.2" versioncode="198">
         <change>InfiniTime: Support notification for battery level</change>
         <change>Allow importing GPX tracks via Android Intent/Share system</change>
