@@ -1282,8 +1282,8 @@
     <string name="watchface_setting_display_refresh_full">Повне оновлення (у хвилинах):</string>
     <string name="watchface_setting_title_display_refresh_timeout">Час оновлення екрана</string>
     <string name="watchface_dialog_title_settings">Налаштування циферблата</string>
-    <string name="watchface_dialog_widget_color_black">Чорне на білому</string>
-    <string name="watchface_dialog_widget_color_white">Біле на чорному</string>
+    <string name="watchface_dialog_widget_color_black">Чорний</string>
+    <string name="watchface_dialog_widget_color_white">Білий</string>
     <string name="watchface_dialog_widget_color">Колір:</string>
     <string name="qhybrid_title_watchface_designer">Дизайнер циферблата</string>
     <string name="watchface_dialog_widget_preset_right">Праворуч</string>
@@ -1293,7 +1293,7 @@
     <string name="watchface_dialog_title_set_name">Встановіть назву циферблата</string>
     <string name="button_watchface_settings">Налаштування циферблата</string>
     <string name="button_watchface_add_widget">Додати віджет</string>
-    <string name="button_watchface_select_image">Вибір зображення тла</string>
+    <string name="button_watchface_select_image">Змінити зображення тла</string>
     <string name="button_watchface_edit_name">Змінити назву</string>
     <string name="watchface_dialog_widget_preset_bottom">Внизу</string>
     <string name="watchface_dialog_widget_preset_top">Вгорі</string>
@@ -1309,4 +1309,6 @@
     <string name="watchface_dialog_title_add_widget">Додати віджет</string>
     <string name="watchface_toast_settings_incomplete">Налаштування незавершені, віджет не додано</string>
     <string name="devicetype_smaq2oss">SMA-Q2 OSS</string>
+    <string name="watchface_upload_failed">Не вдалося завантажити циферблат. Повторіть спробу.</string>
+    <string name="watchface_cache_confirm_overwrite">Циферблат із такою назвою вже існує в кеші. Бажаєте перезаписати його\?</string>
 </resources>
