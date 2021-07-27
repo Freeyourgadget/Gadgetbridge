@@ -10,4 +10,4 @@ $jerry generate -f '' widget_weather.js -o widgetWeather.bin
 $jerry generate -f '' widget_steps.js -o widgetSteps.bin
 $jerry generate -f '' widget_hr.js -o widgetHR.bin
 popd
-mv fossil-hr-watchface/*.bin app/src/main/assets/fossil_hr/
+mv fossil-hr-watchface/*.bin ../app/src/main/assets/fossil_hr/
