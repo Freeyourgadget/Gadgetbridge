@@ -1,0 +1,3 @@
+[submodule "fossil-hr-watchface"]
+	path = fossil-hr-watchface
+	url = https://github.com/arjan-s/fossil-hr-watchface
