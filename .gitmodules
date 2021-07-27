@@ -1,3 +1,6 @@
 [submodule "fossil-hr-watchface"]
 	path = fossil-hr-watchface
 	url = https://github.com/arjan-s/fossil-hr-watchface
+[submodule "jerryscript"]
+	path = jerryscript
+	url = https://github.com/jerryscript-project/jerryscript
