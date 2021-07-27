@@ -49,6 +49,8 @@ public class HybridHRWatchfaceWidget {
         widgetTypes.put("widgetWeather", context.getString(R.string.watchface_widget_type_weather));
         widgetTypes.put("widgetSteps", context.getString(R.string.watchface_widget_type_steps));
         widgetTypes.put("widgetHR", context.getString(R.string.watchface_widget_type_heart_rate));
+        widgetTypes.put("widgetBattery", context.getString(R.string.watchface_widget_type_battery));
+        widgetTypes.put("widgetCalories", context.getString(R.string.watchface_widget_type_calories));
         return widgetTypes;
     }
 
