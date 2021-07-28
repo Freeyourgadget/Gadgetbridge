@@ -347,6 +347,15 @@ public class HybridHRWatchfaceDesignerActivity extends AbstractGBActivity implem
                                 case "caloriesSSE":
                                     widgetName = "widgetCalories";
                                     break;
+                                case "activeMinutesSSE":
+                                    widgetName = "widgetActiveMins";
+                                    break;
+                                case "chanceOfRainSSE":
+                                    widgetName = "widgetChanceOfRain";
+                                    break;
+                                case "timeZone2SSE":
+                                    widgetName = "widget2ndTZ";
+                                    break;
                             }
                             int widgetColor = layoutItem.getString("color").equals("white") ? HybridHRWatchfaceWidget.COLOR_WHITE : HybridHRWatchfaceWidget.COLOR_BLACK;
                             widgets.add(new HybridHRWatchfaceWidget(widgetName,

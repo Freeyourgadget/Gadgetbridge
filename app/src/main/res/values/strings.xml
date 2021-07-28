@@ -1248,4 +1248,7 @@
     <string name="watchface_upload_failed">Upload of the watchface failed. Please try again.</string>
     <string name="watchface_widget_type_battery">Battery</string>
     <string name="watchface_widget_type_calories">Calories</string>
+    <string name="watchface_widget_type_2nd_tz">2nd time zone</string>
+    <string name="watchface_widget_type_active_mins">Active minutes</string>
+    <string name="watchface_widget_type_chance_rain">Chance of rain</string>
 </resources>

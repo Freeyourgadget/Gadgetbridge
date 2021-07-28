@@ -63,35 +63,14 @@ public class HybridHRWatchfaceFactory {
         try {
             switch (widgetDesc.getWidgetType()) {
                 case "widgetDate":
-                    widget.put("type", "comp");
-                    widget.put("name", widgetDesc.getWidgetType());
-                    widget.put("goal_ring", false);
-                    widget.put("color", widgetDesc.getColor() == HybridHRWatchfaceWidget.COLOR_WHITE ? "white" : "black");
-                    widget.put("bg", "_00.rle");
-                    break;
                 case "widgetWeather":
-                    widget.put("type", "comp");
-                    widget.put("name", widgetDesc.getWidgetType());
-                    widget.put("goal_ring", false);
-                    widget.put("color", widgetDesc.getColor() == HybridHRWatchfaceWidget.COLOR_WHITE ? "white" : "black");
-                    widget.put("bg", "_01.rle");
-                    break;
                 case "widgetSteps":
-                    widget.put("type", "comp");
-                    widget.put("name", widgetDesc.getWidgetType());
-                    widget.put("goal_ring", false);
-                    widget.put("color", widgetDesc.getColor() == HybridHRWatchfaceWidget.COLOR_WHITE ? "white" : "black");
-                    widget.put("bg", "_02.rle");
-                    break;
                 case "widgetHR":
-                    widget.put("type", "comp");
-                    widget.put("name", widgetDesc.getWidgetType());
-                    widget.put("goal_ring", false);
-                    widget.put("color", widgetDesc.getColor() == HybridHRWatchfaceWidget.COLOR_WHITE ? "white" : "black");
-                    widget.put("bg", "_03.rle");
-                    break;
                 case "widgetBattery":
                 case "widgetCalories":
+                case "widgetActiveMins":
+                case "widgetChanceOfRain":
+                case "widget2ndTZ":
                     widget.put("type", "comp");
                     widget.put("name", widgetDesc.getWidgetType());
                     widget.put("goal_ring", false);
@@ -133,6 +112,9 @@ public class HybridHRWatchfaceFactory {
             code.put("widgetHR", context.getAssets().open("fossil_hr/widgetHR.bin"));
             code.put("widgetBattery", context.getAssets().open("fossil_hr/widgetBattery.bin"));
             code.put("widgetCalories", context.getAssets().open("fossil_hr/widgetCalories.bin"));
+            code.put("widgetActiveMins", context.getAssets().open("fossil_hr/widgetActiveMins.bin"));
+            code.put("widgetChanceOfRain", context.getAssets().open("fossil_hr/widgetChanceOfRain.bin"));
+            code.put("widget2ndTZ", context.getAssets().open("fossil_hr/widget2ndTZ.bin"));
         } catch (IOException e) {
             LOG.warn("Unable to read asset file", e);
         }
@@ -155,6 +137,8 @@ public class HybridHRWatchfaceFactory {
             icons.put("icBattEmpty", context.getAssets().open("fossil_hr/icBattEmpty.rle"));
             icons.put("icBattery", context.getAssets().open("fossil_hr/icBattery.rle"));
             icons.put("icCalories", context.getAssets().open("fossil_hr/icCalories.rle"));
+            icons.put("icActiveMins", context.getAssets().open("fossil_hr/icActiveMins.rle"));
+            icons.put("icRainChance", context.getAssets().open("fossil_hr/icRainChance.rle"));
         } catch (IOException e) {
             LOG.warn("Unable to read asset file", e);
         }
