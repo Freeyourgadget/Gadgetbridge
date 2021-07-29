@@ -1,5 +1,5 @@
 apply plugin: 'java'
-apply plugin: 'maven'
+apply plugin: 'maven-publish'
 apply plugin:'application'
 
 archivesBaseName = 'gadgetbridge-daogenerator'
