@@ -227,7 +227,7 @@ public class BLETypeConversions {
      */
     public static byte mapTimeZone(TimeZone timeZone, int timezoneFlags) {
         int offsetMillis = timeZone.getRawOffset();
-        if (false && timezoneFlags == TZ_FLAG_INCLUDE_DST_IN_TZ) {
+        if (timezoneFlags == TZ_FLAG_INCLUDE_DST_IN_TZ) {
             offsetMillis += timeZone.getDSTSavings();
         }
         int utcOffsetInQuarterHours = (offsetMillis / (1000 * 60 * 15));
