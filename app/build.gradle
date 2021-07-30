@@ -104,7 +104,7 @@ dependencies {
     implementation 'com.jaredrummler:colorpicker:1.0.2'
 //    implementation project(":DaoCore")
     implementation 'com.github.wax911:android-emojify:0.1.7'
-    implementation 'com.google.protobuf:protobuf-lite:3.0.0'
+    implementation 'com.google.protobuf:protobuf-lite:3.0.1'
     implementation "androidx.multidex:multidex:2.0.1"
 }
 

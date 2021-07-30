@@ -32,3 +32,11 @@ artifacts {
 }
 sourceCompatibility = JavaVersion.VERSION_1_7
 targetCompatibility = JavaVersion.VERSION_1_7
+
+tasks.named("distTar") {
+    duplicatesStrategy = 'include'
+}
+
+tasks.named("distZip") {
+    duplicatesStrategy = 'include'
+}
