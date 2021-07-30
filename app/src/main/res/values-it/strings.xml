@@ -166,7 +166,11 @@
 \n
 \n
 \nQuesto firmware è per la versione HW: %s</string>
-    <string name="app_install_info">Si sta per installare la app:\n\n\n%1$s Versione %2$s di %3$s\n</string>
+    <string name="app_install_info">Stai per installare l\'app:
+\n
+\n%1$s
+\nVersione %2$s di %3$s
+\n</string>
     <string name="n_a">N/A</string>
     <string name="initialized">inizializzato</string>
     <string name="appversion_by_creator">%1$s di %2$s</string>
@@ -1213,4 +1217,17 @@
     <string name="calendar_day">Giorno</string>
     <string name="battery_level">Livello della batteria</string>
     <string name="battery_detail_activity_title">Informazioni sulla batteria</string>
+    <string name="watchface_install_info">Stai per installare la watchface seguente:
+\n
+\n%1$s
+\nVersione %2$s di %3$s
+\n</string>
+    <string name="pref_theme_black_background">Utilizza lo sfondo nero nel tema scuro</string>
+    <string name="fw_upgrade_notice_miband6">Stai per installare il firmware %s sulla tua Mi Band 6.
+\n
+\nAssicurati di installare prima il file .fw e dopo il file .res. L\'orologio si riavvierà al termine del caricamento del file .fw.
+\n
+\nNota: non devi installare il file .res se è uguale a quello installato in precedenza.
+\n
+\nPROCEDI A TUO RISCHIO E PERICOLO!</string>
 </resources>
