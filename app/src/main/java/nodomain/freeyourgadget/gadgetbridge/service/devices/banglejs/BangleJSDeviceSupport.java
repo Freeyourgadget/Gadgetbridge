@@ -20,7 +20,13 @@ import android.bluetooth.BluetoothGatt;
 import android.bluetooth.BluetoothGattCharacteristic;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.util.Base64;
 import android.widget.Toast;
 
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
@@ -75,6 +81,7 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
     private static final Logger LOG = LoggerFactory.getLogger(BangleJSDeviceSupport.class);
     private BluetoothGattCharacteristic rxCharacteristic = null;
     private BluetoothGattCharacteristic txCharacteristic = null;
+    private int mtuSize = 20;
 
     private String receivedLine = "";
     private boolean realtimeHRM = false;
@@ -123,9 +130,9 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
         LOG.info("UART TX: " + str);
         byte[] bytes;
         bytes = str.getBytes(StandardCharsets.ISO_8859_1);
-        for (int i=0;i<bytes.length;i+=20) {
+        for (int i=0;i<bytes.length;i+=mtuSize) {
             int l = bytes.length-i;
-            if (l>20) l=20;
+            if (l>mtuSize) l=mtuSize;
             byte[] packet = new byte[l];
             System.arraycopy(bytes, i, packet, 0, l);
             builder.write(txCharacteristic, packet);
@@ -275,6 +282,9 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
         }
         if (BangleJSConstants.UUID_CHARACTERISTIC_NORDIC_UART_RX.equals(characteristic.getUuid())) {
             byte[] chars = characteristic.getValue();
+            // check to see if we get more data - if so, increase out MTU for sending
+            if (chars.length > mtuSize)
+                mtuSize = chars.length;
             String packetStr = new String(chars);
             LOG.info("RX: " + packetStr);
             receivedLine += packetStr;
@@ -582,5 +592,59 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
         } catch (JSONException e) {
             LOG.info("JSONException: " + e.getLocalizedMessage());
         }
+    }
+
+    /** Convert an Android bitmap to a base64 string for use in Espruino.
+     * Currently only 1bpp, no scaling */
+    public static String bitmapToEspruino(Bitmap bitmap) {
+        int width = bitmap.getWidth();
+        int height = bitmap.getHeight();
+        byte bmp[] = new byte[((height * width + 7) >> 3) + 3];
+        int n = 0, c = 0, cn = 0;
+        bmp[n++] = (byte)width;
+        bmp[n++] = (byte)height;
+        bmp[n++] = 1;
+        for (int y = 0; y < height; y++) {
+            for (int x = 0; x < width; x++) {
+                boolean pixel = (bitmap.getPixel(x, y) & 255) > 128;
+                c = (c << 1) | (pixel?1:0);
+                cn++;
+                if (cn == 8) {
+                    bmp[n++] = (byte)c;
+                    cn = 0;
+                    c = 0;
+                }
+            }
+        }
+        if (cn > 0) bmp[n++] = (byte)c;
+        //LOG.info("BMP: " + width + "x"+height+" n "+n);
+        // Convert to base64
+        return Base64.encodeToString(bmp, Base64.DEFAULT).replaceAll("\n","");
+    }
+
+    /** Convert a drawable to a bitmap, for use with bitmapToEspruino */
+    public static Bitmap drawableToBitmap(Drawable drawable) {
+        if (drawable instanceof BitmapDrawable) {
+            BitmapDrawable bitmapDrawable = (BitmapDrawable) drawable;
+            if (bitmapDrawable.getBitmap() != null) {
+                return bitmapDrawable.getBitmap();
+            }
+        }
+        int w = 1;
+        int h = 8;
+        if (drawable.getIntrinsicWidth() > 0 && drawable.getIntrinsicHeight() > 0) {
+
+        } else {
+            w = drawable.getIntrinsicWidth();
+            h = drawable.getIntrinsicHeight();
+            if (w>64) w=64;
+            if (h>64) h=64;
+        }
+        Bitmap bitmap = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888); // Single color bitmap will be created of 1x1 pixel
+
+        Canvas canvas = new Canvas(bitmap);
+        drawable.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
+        drawable.draw(canvas);
+        return bitmap;
     }
 }
