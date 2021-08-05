@@ -1275,8 +1275,8 @@
     <string name="watchface_setting_display_refresh_full">Полное обновление (в минутах):</string>
     <string name="watchface_setting_title_display_refresh_timeout">Время ожидания обновления дисплея</string>
     <string name="watchface_dialog_title_settings">Настройки циферблата</string>
-    <string name="watchface_dialog_widget_color_black">Черный на белом</string>
-    <string name="watchface_dialog_widget_color_white">Белый на черном</string>
+    <string name="watchface_dialog_widget_color_black">Черный</string>
+    <string name="watchface_dialog_widget_color_white">Белый</string>
     <string name="watchface_dialog_widget_color">Цвет:</string>
     <string name="qhybrid_title_watchface_designer">Дизайнер циферблатов</string>
     <string name="watchface_dialog_widget_preset_right">Справа</string>
@@ -1299,7 +1299,7 @@
     <string name="watchface_dialog_title_set_name">Задать имя циферблата</string>
     <string name="button_watchface_settings">Настройки циферблата</string>
     <string name="button_watchface_add_widget">Добавить виджет</string>
-    <string name="button_watchface_select_image">Выбрать фоновое изображение</string>
+    <string name="button_watchface_select_image">Изменить фоновое изображение</string>
     <string name="button_watchface_edit_name">Изменить имя</string>
     <string name="gpx_receiver_overwrite_some_files">Некоторый файл(ы) уже существует. Перезаписать\?</string>
     <string name="gpx_receiver_files_received">Получен файл(ы) GPX:</string>
@@ -1310,4 +1310,6 @@
     <string name="activity_summary_detail_select_gpx_track">Выберите GPX трек</string>
     <string name="set">Установить</string>
     <string name="pref_theme_black_background">Использовать черный фон в темной теме</string>
+    <string name="watchface_upload_failed">Не удалось загрузить циферблат. Пожалуйста, попробуйте еще раз.</string>
+    <string name="watchface_cache_confirm_overwrite">Циферблат с таким именем уже существует в кеше. Вы хотите его перезаписать\?</string>
 </resources>
