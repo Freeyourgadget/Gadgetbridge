@@ -1286,7 +1286,17 @@
     <string name="watchface_widget_type_date">Data</string>
     <string name="watchface_dialog_title_add_widget">Dodaj widget</string>
     <string name="button_watchface_add_widget">Dodaj widget</string>
-    <string name="button_watchface_select_image">Wybierz obraz tła</string>
+    <string name="button_watchface_select_image">Zmień obraz tła</string>
     <string name="button_watchface_edit_name">Edytuj nazwę</string>
     <string name="devicetype_smaq2oss">SMA-Q2 OSS</string>
+    <string name="watchface_setting_wrist_flick_minute">Wskazówka minutowa (-360 do 360):</string>
+    <string name="watchface_setting_wrist_flick_hour">Wskazówka godzinowa (-360 do 360):</string>
+    <string name="watchface_setting_display_refresh_partial">Częściowe odświeżenie (w minutach):</string>
+    <string name="watchface_setting_display_refresh_full">Pełne odświeżenie (w minutach):</string>
+    <string name="watchface_dialog_widget_color_black">Czarny</string>
+    <string name="watchface_dialog_widget_color_white">Biały</string>
+    <string name="watchface_dialog_widget_preset_right">Prawa</string>
+    <string name="watchface_dialog_widget_preset_left">Lewa</string>
+    <string name="watchface_dialog_widget_preset_bottom">Dół</string>
+    <string name="watchface_dialog_widget_preset_top">Góra</string>
 </resources>
