@@ -942,12 +942,16 @@
         <item>@string/menuitem_weather</item>
         <item>@string/menuitem_music</item>
         <item>@string/menuitem_alarm</item>
-        <item>@string/menuitem_eventreminder</item>
+        <item>@string/menuitem_notifications</item>
         <item>@string/menuitem_stopwatch</item>
         <item>@string/menuitem_timer</item>
         <item>@string/menuitem_findphone</item>
         <item>@string/menuitem_compass</item>
         <item>@string/menuitem_barometer</item>
+        <item>@string/menuitem_stress</item>
+        <item>@string/menuitem_spo2</item>
+        <item>@string/menuitem_goal</item>
+        <item>@string/menuitem_events</item>
         <item>@string/menuitem_settings</item>
     </string-array>
 
@@ -960,12 +964,16 @@
         <item>@string/p_menuitem_weather</item>
         <item>@string/p_menuitem_music</item>
         <item>@string/p_menuitem_alarm</item>
-        <item>@string/p_menuitem_eventreminder</item>
+        <item>@string/p_menuitem_notifications</item>
         <item>@string/p_menuitem_stopwatch</item>
         <item>@string/p_menuitem_timer</item>
         <item>@string/p_menuitem_findphone</item>
         <item>@string/p_menuitem_compass</item>
         <item>@string/p_menuitem_barometer</item>
+        <item>@string/p_menuitem_stress</item>
+        <item>@string/p_menuitem_spo2</item>
+        <item>@string/p_menuitem_goal</item>
+        <item>@string/p_menuitem_events</item>
         <item>@string/p_menuitem_settings</item>
     </string-array>
 
@@ -978,12 +986,16 @@
         <item>@string/p_menuitem_weather</item>
         <item>@string/p_menuitem_music</item>
         <item>@string/p_menuitem_alarm</item>
-        <item>@string/p_menuitem_eventreminder</item>
+        <item>@string/p_menuitem_notifications</item>
         <item>@string/p_menuitem_stopwatch</item>
         <item>@string/p_menuitem_timer</item>
         <item>@string/p_menuitem_findphone</item>
         <item>@string/p_menuitem_compass</item>
         <item>@string/p_menuitem_barometer</item>
+        <item>@string/p_menuitem_stress</item>
+        <item>@string/p_menuitem_spo2</item>
+        <item>@string/p_menuitem_goal</item>
+        <item>@string/p_menuitem_events</item>
         <item>@string/p_menuitem_settings</item>
     </string-array>
 
