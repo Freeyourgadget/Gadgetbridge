@@ -30,6 +30,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.TimeZone;
 
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.image.ImageConverter;
 
@@ -70,11 +71,26 @@ public class HybridHRWatchfaceFactory {
                 case "widgetCalories":
                 case "widgetActiveMins":
                 case "widgetChanceOfRain":
+                    widget.put("type", "comp");
+                    widget.put("name", widgetDesc.getWidgetType());
+                    widget.put("goal_ring", false);
+                    widget.put("color", widgetDesc.getColor() == HybridHRWatchfaceWidget.COLOR_WHITE ? "white" : "black");
+                    break;
                 case "widget2ndTZ":
                     widget.put("type", "comp");
                     widget.put("name", widgetDesc.getWidgetType());
                     widget.put("goal_ring", false);
                     widget.put("color", widgetDesc.getColor() == HybridHRWatchfaceWidget.COLOR_WHITE ? "white" : "black");
+                    if (widgetDesc.getTimezone() != null) {
+                        JSONObject data = new JSONObject();
+                        TimeZone tz = TimeZone.getTimeZone(widgetDesc.getTimezone());
+                        String tzShortName = widgetDesc.getTimezone().replaceAll(".*/", "");
+                        int tzOffsetMins = tz.getRawOffset() / 1000 / 60;
+                        data.put("tzName", widgetDesc.getTimezone());
+                        data.put("loc", tzShortName);
+                        data.put("utc", tzOffsetMins);
+                        widget.put("data", data);
+                    }
                     break;
                 default:
                     LOG.warn("Invalid widget name: " + widgetDesc.getWidgetType());

@@ -41,6 +41,7 @@ import android.view.DragEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -67,8 +68,10 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
+import java.util.TimeZone;
 import java.util.UUID;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
@@ -328,6 +331,7 @@ public class HybridHRWatchfaceDesignerActivity extends AbstractGBActivity implem
                         JSONObject layoutItem = layout.getJSONObject(i);
                         if (layoutItem.getString("type").equals("comp")) {
                             String widgetName = layoutItem.getString("name");
+                            String widgetTimezone = null;
                             switch (widgetName) {
                                 case "dateSSE":
                                     widgetName = "widgetDate";
@@ -357,11 +361,20 @@ public class HybridHRWatchfaceDesignerActivity extends AbstractGBActivity implem
                                     widgetName = "widget2ndTZ";
                                     break;
                             }
+                            if (widgetName.equals("widget2ndTZ")) {
+                                try {
+                                    JSONObject widgetData = layoutItem.getJSONObject("data");
+                                    widgetTimezone = widgetData.getString("tzName");
+                                } catch (JSONException e) {
+                                    LOG.error("Couldn't determine tzName!", e);
+                                }
+                            }
                             int widgetColor = layoutItem.getString("color").equals("white") ? HybridHRWatchfaceWidget.COLOR_WHITE : HybridHRWatchfaceWidget.COLOR_BLACK;
                             widgets.add(new HybridHRWatchfaceWidget(widgetName,
                                                                     layoutItem.getJSONObject("pos").getInt("x"),
                                                                     layoutItem.getJSONObject("pos").getInt("y"),
-                                                                    widgetColor));
+                                                                    widgetColor,
+                                                                    widgetTimezone));
                         }
                     }
                 } catch (JSONException e) {
@@ -541,6 +554,33 @@ public class HybridHRWatchfaceDesignerActivity extends AbstractGBActivity implem
                 posY.setText("120");
             }
         });
+        // Populate timezone spinner
+        String[] timezonesList = TimeZone.getAvailableIDs();
+        final Spinner tzSpinner = layout.findViewById(R.id.watchface_widget_timezone_spinner);
+        final LinearLayout timezoneLayout = layout.findViewById(R.id.watchface_widget_timezone_layout);
+        timezoneLayout.setVisibility(View.GONE);
+        ArrayAdapter<String> widgetTZAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, timezonesList);
+        tzSpinner.setAdapter(widgetTZAdapter);
+        if ((widget != null) && (Arrays.asList(timezonesList).contains(widget.getTimezone()))) {
+            tzSpinner.setSelection(Arrays.asList(timezonesList).indexOf(widget.getTimezone()));
+        } else {
+            tzSpinner.setSelection(Arrays.asList(timezonesList).indexOf("Etc/UTC"));
+        }
+        // Show timezone spinner only when 2nd TZ widget is selected
+        typeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String selectedType = widgetTypesArray.get(typeSpinner.getSelectedItemPosition());
+                if (selectedType.equals("widget2ndTZ")) {
+                    timezoneLayout.setVisibility(View.VISIBLE);
+                } else {
+                    timezoneLayout.setVisibility(View.GONE);
+                }
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) { }
+        });
+        // Show dialog
         new AlertDialog.Builder(this)
                 .setView(layout)
                 .setNegativeButton(R.string.fossil_hr_edit_action_delete, new DialogInterface.OnClickListener() {
@@ -570,10 +610,17 @@ public class HybridHRWatchfaceDesignerActivity extends AbstractGBActivity implem
                         if (selectedPosY < 1) selectedPosY = 1;
                         if (selectedPosY > 240) selectedPosY = 240;
                         String selectedType = widgetTypesArray.get(typeSpinner.getSelectedItemPosition());
-                        if (index >= 0) {
-                            widgets.set(index, new HybridHRWatchfaceWidget(selectedType, selectedPosX, selectedPosY, colorSpinner.getSelectedItemPosition()));
+                        String selectedTZ = tzSpinner.getSelectedItem().toString();
+                        HybridHRWatchfaceWidget widgetConfig;
+                        if (selectedType.equals("widget2ndTZ")) {
+                            widgetConfig = new HybridHRWatchfaceWidget(selectedType, selectedPosX, selectedPosY, colorSpinner.getSelectedItemPosition(), selectedTZ);
                         } else {
-                            widgets.add(new HybridHRWatchfaceWidget(selectedType, selectedPosX, selectedPosY, colorSpinner.getSelectedItemPosition()));
+                            widgetConfig = new HybridHRWatchfaceWidget(selectedType, selectedPosX, selectedPosY, colorSpinner.getSelectedItemPosition());
+                        }
+                        if (index >= 0) {
+                            widgets.set(index, widgetConfig);
+                        } else {
+                            widgets.add(widgetConfig);
                         }
                         renderWatchfacePreview();
                     }

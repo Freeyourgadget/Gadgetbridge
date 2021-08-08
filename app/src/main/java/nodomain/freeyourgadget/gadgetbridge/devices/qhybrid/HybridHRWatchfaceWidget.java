@@ -32,6 +32,7 @@ public class HybridHRWatchfaceWidget {
     private int posX;
     private int posY;
     private int color = 0;
+    private String timezone;
 
     public static int COLOR_WHITE = 0;
     public static int COLOR_BLACK = 1;
@@ -42,6 +43,11 @@ public class HybridHRWatchfaceWidget {
         this.posY = posY;
         this.color = color;
     }
+    public HybridHRWatchfaceWidget(String widgetType, int posX, int posY, int color, String timezone) {
+        this(widgetType, posX, posY, color);
+        this.timezone = timezone;
+    }
+
 
     public static LinkedHashMap<String, String> getAvailableWidgetTypes(Context context) {
         LinkedHashMap<String, String> widgetTypes = new LinkedHashMap<>();
@@ -73,7 +79,6 @@ public class HybridHRWatchfaceWidget {
     public int getPosX() {
         return posX;
     }
-
     public int getPosY() {
         return posY;
     }
@@ -81,12 +86,15 @@ public class HybridHRWatchfaceWidget {
     public void setPosX(int posX) {
         this.posX = posX;
     }
-
     public void setPosY(int posY) {
         this.posY = posY;
     }
 
     public int getColor() {
         return color;
+    }
+
+    public String getTimezone() {
+        return timezone;
     }
 }
