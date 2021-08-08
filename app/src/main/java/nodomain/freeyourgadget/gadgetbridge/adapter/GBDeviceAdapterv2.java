@@ -59,6 +59,8 @@ import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.activities.ActivitySummariesActivity;
 import nodomain.freeyourgadget.gadgetbridge.activities.BatteryInfoActivity;
 import nodomain.freeyourgadget.gadgetbridge.activities.ConfigureAlarms;
+import nodomain.freeyourgadget.gadgetbridge.activities.ControlCenterv2;
+import nodomain.freeyourgadget.gadgetbridge.activities.HeartRateDialog;
 import nodomain.freeyourgadget.gadgetbridge.activities.VibrationActivity;
 import nodomain.freeyourgadget.gadgetbridge.activities.charts.ChartsActivity;
 import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsActivity;
@@ -69,6 +71,7 @@ import nodomain.freeyourgadget.gadgetbridge.devices.DeviceManager;
 import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
 import nodomain.freeyourgadget.gadgetbridge.entities.Device;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
+import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.model.BatteryState;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
 import nodomain.freeyourgadget.gadgetbridge.model.RecordedDataTypes;
@@ -173,6 +176,25 @@ public class GBDeviceAdapterv2 extends RecyclerView.Adapter<GBDeviceAdapterv2.Vi
                                                    }
         );
 
+        holder.heartRateStatusBox.setVisibility((device.isInitialized() && coordinator.supportsHeartRateMeasurement(device)) ? View.VISIBLE : View.GONE);
+        if (parent.getContext() instanceof ControlCenterv2) {
+            ActivitySample sample = ((ControlCenterv2) parent.getContext()).getCurrentHRSample();
+            if (sample != null) {
+                holder.heartRateStatusLabel.setText(String.valueOf(sample.getHeartRate()));
+            } else {
+                holder.heartRateStatusLabel.setText("");
+            }
+        }
+
+        holder.heartRateStatusBox.setOnClickListener(new View.OnClickListener() {
+                                                         @Override
+                                                         public void onClick(View v) {
+                                                             GBApplication.deviceService().onHeartRateTest();
+                                                             HeartRateDialog dialog = new HeartRateDialog(context);
+                                                             dialog.show();
+                                                         }
+                                                     }
+        );
 
         //device specific settings
         holder.deviceSpecificSettingsView.setVisibility(coordinator.getSupportedDeviceSpecificSettings(device) != null ? View.VISIBLE : View.GONE);
@@ -581,6 +603,10 @@ public class GBDeviceAdapterv2 extends RecyclerView.Adapter<GBDeviceAdapterv2.Vi
         ImageView showActivityGraphs;
         ImageView showActivityTracks;
         ImageView calibrateDevice;
+        LinearLayout heartRateStatusBox;
+        ImageView heartRateIcon;
+        TextView heartRateStatusLabel;
+
 
         ImageView deviceInfoView;
         //overflow
@@ -626,6 +652,9 @@ public class GBDeviceAdapterv2 extends RecyclerView.Adapter<GBDeviceAdapterv2.Vi
             fmFrequencyBox = view.findViewById(R.id.device_fm_frequency_box);
             fmFrequencyLabel = view.findViewById(R.id.fm_frequency);
             ledColor = view.findViewById(R.id.device_led_color);
+            heartRateStatusBox = view.findViewById(R.id.device_heart_rate_status_box);
+            heartRateStatusLabel = view.findViewById(R.id.heart_rate_status);
+            heartRateIcon = view.findViewById(R.id.device_heart_rate_status);
         }
 
     }
