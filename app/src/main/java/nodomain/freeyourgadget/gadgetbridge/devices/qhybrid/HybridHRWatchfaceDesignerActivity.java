@@ -401,6 +401,12 @@ public class HybridHRWatchfaceDesignerActivity extends AbstractGBActivity implem
                     if (watchfaceConfig.has("wrist_flick_move_minute")) {
                         watchfaceSettings.setWristFlickMoveMinute(watchfaceConfig.getInt("wrist_flick_move_minute"));
                     }
+                    if (watchfaceConfig.has("powersave_display")) {
+                        watchfaceSettings.setPowersaveDisplay(watchfaceConfig.getBoolean("powersave_display"));
+                    }
+                    if (watchfaceConfig.has("powersave_hands")) {
+                        watchfaceSettings.setPowersaveHands(watchfaceConfig.getBoolean("powersave_hands"));
+                    }
                 } catch (JSONException e) {
                     LOG.warn("JSON parsing error", e);
                 }
@@ -643,6 +649,10 @@ public class HybridHRWatchfaceDesignerActivity extends AbstractGBActivity implem
         wristFlickMoveHourInput.setText(String.valueOf(watchfaceSettings.getWristFlickMoveHour()));
         final EditText wristFlickMoveMinuteInput = layout.findViewById(R.id.watchface_setting_flick_minute);
         wristFlickMoveMinuteInput.setText(String.valueOf(watchfaceSettings.getWristFlickMoveMinute()));
+        final CheckBox powersaveDisplayInput = layout.findViewById(R.id.watchface_setting_powersave_display);
+        powersaveDisplayInput.setChecked(watchfaceSettings.getPowersaveDisplay());
+        final CheckBox powersaveHandsInput = layout.findViewById(R.id.watchface_setting_powersave_hands);
+        powersaveHandsInput.setChecked(watchfaceSettings.getPowersaveHands());
         new AlertDialog.Builder(this)
                 .setView(layout)
                 .setNegativeButton(R.string.fossil_hr_new_action_cancel, null)
@@ -655,6 +665,8 @@ public class HybridHRWatchfaceDesignerActivity extends AbstractGBActivity implem
                         watchfaceSettings.setWristFlickDuration(Integer.parseInt(wristFlickDurationInput.getText().toString()));
                         watchfaceSettings.setWristFlickMoveHour(Integer.parseInt(wristFlickMoveHourInput.getText().toString()));
                         watchfaceSettings.setWristFlickMoveMinute(Integer.parseInt(wristFlickMoveMinuteInput.getText().toString()));
+                        watchfaceSettings.setPowersaveDisplay(powersaveDisplayInput.isChecked());
+                        watchfaceSettings.setPowersaveHands(powersaveHandsInput.isChecked());
                     }
                 })
                 .setTitle(R.string.watchface_dialog_title_settings)

@@ -23,6 +23,8 @@ public class HybridHRWatchfaceSettings {
     private int wristFlickDuration = 2200;
     private int wristFlickMoveHour = 360;
     private int wristFlickMoveMinute = -360;
+    private boolean powersaveDisplay = false;
+    private boolean powersaveHands = false;
 
     public HybridHRWatchfaceSettings() {
     }
@@ -85,5 +87,21 @@ public class HybridHRWatchfaceSettings {
         } else {
             this.wristFlickMoveMinute = wristFlickMoveMinute;
         }
+    }
+
+    public boolean getPowersaveDisplay() {
+        return powersaveDisplay;
+    }
+
+    public void setPowersaveDisplay(boolean powersaveDisplay) {
+        this.powersaveDisplay = powersaveDisplay;
+    }
+
+    public boolean getPowersaveHands() {
+        return powersaveHands;
+    }
+
+    public void setPowersaveHands(boolean powersaveHands) {
+        this.powersaveHands = powersaveHands;
     }
 }

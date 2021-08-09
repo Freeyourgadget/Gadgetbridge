@@ -116,45 +116,57 @@ public class HybridHRWatchfaceFactory {
         }
     }
 
+    private boolean includeWidget(String name) {
+        for (JSONObject widget : this.widgets) {
+            try {
+                if (widget.get("name").equals(name)) {
+                    return true;
+                }
+            } catch (JSONException e) {
+            }
+        }
+        return false;
+    }
+
     public byte[] getWapp(Context context) throws IOException {
         byte[] backgroundBytes = ImageConverter.encodeToRawImage(ImageConverter.get2BitsRAWImageBytes(background));
         InputStream backgroundStream = new ByteArrayInputStream(backgroundBytes);
         LinkedHashMap<String, InputStream> code = new LinkedHashMap<>();
         try {
             code.put(watchfaceName, context.getAssets().open("fossil_hr/openSourceWatchface.bin"));
-            code.put("widgetDate", context.getAssets().open("fossil_hr/widgetDate.bin"));
-            code.put("widgetWeather", context.getAssets().open("fossil_hr/widgetWeather.bin"));
-            code.put("widgetSteps", context.getAssets().open("fossil_hr/widgetSteps.bin"));
-            code.put("widgetHR", context.getAssets().open("fossil_hr/widgetHR.bin"));
-            code.put("widgetBattery", context.getAssets().open("fossil_hr/widgetBattery.bin"));
-            code.put("widgetCalories", context.getAssets().open("fossil_hr/widgetCalories.bin"));
-            code.put("widgetActiveMins", context.getAssets().open("fossil_hr/widgetActiveMins.bin"));
-            code.put("widgetChanceOfRain", context.getAssets().open("fossil_hr/widgetChanceOfRain.bin"));
-            code.put("widget2ndTZ", context.getAssets().open("fossil_hr/widget2ndTZ.bin"));
+            if (includeWidget("widgetDate")) code.put("widgetDate", context.getAssets().open("fossil_hr/widgetDate.bin"));
+            if (includeWidget("widgetWeather")) code.put("widgetWeather", context.getAssets().open("fossil_hr/widgetWeather.bin"));
+            if (includeWidget("widgetSteps")) code.put("widgetSteps", context.getAssets().open("fossil_hr/widgetSteps.bin"));
+            if (includeWidget("widgetHR")) code.put("widgetHR", context.getAssets().open("fossil_hr/widgetHR.bin"));
+            if (includeWidget("widgetBattery")) code.put("widgetBattery", context.getAssets().open("fossil_hr/widgetBattery.bin"));
+            if (includeWidget("widgetCalories")) code.put("widgetCalories", context.getAssets().open("fossil_hr/widgetCalories.bin"));
+            if (includeWidget("widgetActiveMins")) code.put("widgetActiveMins", context.getAssets().open("fossil_hr/widgetActiveMins.bin"));
+            if (includeWidget("widgetChanceOfRain")) code.put("widgetChanceOfRain", context.getAssets().open("fossil_hr/widgetChanceOfRain.bin"));
+            if (includeWidget("widget2ndTZ")) code.put("widget2ndTZ", context.getAssets().open("fossil_hr/widget2ndTZ.bin"));
         } catch (IOException e) {
             LOG.warn("Unable to read asset file", e);
         }
         LinkedHashMap<String, InputStream> icons = new LinkedHashMap<>();
         try {
             icons.put("background.raw", backgroundStream);
-            icons.put("icWthClearDay", context.getAssets().open("fossil_hr/icWthClearDay.rle"));
-            icons.put("icWthClearNite", context.getAssets().open("fossil_hr/icWthClearNite.rle"));
-            icons.put("icWthCloudy", context.getAssets().open("fossil_hr/icWthCloudy.rle"));
-            icons.put("icWthPartCloudyDay", context.getAssets().open("fossil_hr/icWthPartCloudyDay.rle"));
-            icons.put("icWthPartCloudyNite", context.getAssets().open("fossil_hr/icWthPartCloudyNite.rle"));
-            icons.put("icWthRainy", context.getAssets().open("fossil_hr/icWthRainy.rle"));
-            icons.put("icWthSnowy", context.getAssets().open("fossil_hr/icWthSnowy.rle"));
-            icons.put("icWthStormy", context.getAssets().open("fossil_hr/icWthStormy.rle"));
-            icons.put("icWthWindy", context.getAssets().open("fossil_hr/icWthWindy.rle"));
-            icons.put("icSteps", context.getAssets().open("fossil_hr/icSteps.rle"));
             icons.put("icTrophy", context.getAssets().open("fossil_hr/icTrophy.rle"));
-            icons.put("icHeart", context.getAssets().open("fossil_hr/icHeart.rle"));
-            icons.put("icBattCharging", context.getAssets().open("fossil_hr/icBattCharging.rle"));
-            icons.put("icBattEmpty", context.getAssets().open("fossil_hr/icBattEmpty.rle"));
-            icons.put("icBattery", context.getAssets().open("fossil_hr/icBattery.rle"));
-            icons.put("icCalories", context.getAssets().open("fossil_hr/icCalories.rle"));
-            icons.put("icActiveMins", context.getAssets().open("fossil_hr/icActiveMins.rle"));
-            icons.put("icRainChance", context.getAssets().open("fossil_hr/icRainChance.rle"));
+            if (includeWidget("widgetWeather")) icons.put("icWthClearDay", context.getAssets().open("fossil_hr/icWthClearDay.rle"));
+            if (includeWidget("widgetWeather")) icons.put("icWthClearNite", context.getAssets().open("fossil_hr/icWthClearNite.rle"));
+            if (includeWidget("widgetWeather")) icons.put("icWthCloudy", context.getAssets().open("fossil_hr/icWthCloudy.rle"));
+            if (includeWidget("widgetWeather")) icons.put("icWthPartCloudyDay", context.getAssets().open("fossil_hr/icWthPartCloudyDay.rle"));
+            if (includeWidget("widgetWeather")) icons.put("icWthPartCloudyNite", context.getAssets().open("fossil_hr/icWthPartCloudyNite.rle"));
+            if (includeWidget("widgetWeather")) icons.put("icWthRainy", context.getAssets().open("fossil_hr/icWthRainy.rle"));
+            if (includeWidget("widgetWeather")) icons.put("icWthSnowy", context.getAssets().open("fossil_hr/icWthSnowy.rle"));
+            if (includeWidget("widgetWeather")) icons.put("icWthStormy", context.getAssets().open("fossil_hr/icWthStormy.rle"));
+            if (includeWidget("widgetWeather")) icons.put("icWthWindy", context.getAssets().open("fossil_hr/icWthWindy.rle"));
+            if (includeWidget("widgetSteps")) icons.put("icSteps", context.getAssets().open("fossil_hr/icSteps.rle"));
+            if (includeWidget("widgetHR")) icons.put("icHeart", context.getAssets().open("fossil_hr/icHeart.rle"));
+            if (includeWidget("widgetBattery")) icons.put("icBattCharging", context.getAssets().open("fossil_hr/icBattCharging.rle"));
+            if (includeWidget("widgetBattery")) icons.put("icBattEmpty", context.getAssets().open("fossil_hr/icBattEmpty.rle"));
+            if (includeWidget("widgetBattery")) icons.put("icBattery", context.getAssets().open("fossil_hr/icBattery.rle"));
+            if (includeWidget("widgetCalories")) icons.put("icCalories", context.getAssets().open("fossil_hr/icCalories.rle"));
+            if (includeWidget("widgetActiveMins")) icons.put("icActiveMins", context.getAssets().open("fossil_hr/icActiveMins.rle"));
+            if (includeWidget("widgetChanceOfRain")) icons.put("icRainChance", context.getAssets().open("fossil_hr/icRainChance.rle"));
         } catch (IOException e) {
             LOG.warn("Unable to read asset file", e);
         }
@@ -170,7 +182,7 @@ public class HybridHRWatchfaceFactory {
             LOG.warn("Could not generate image_layout", e);
         }
         try {
-            layout.put("battery_layout", getBatteryLayout());
+            if (includeWidget("widgetBattery")) layout.put("battery_layout", getBatteryLayout());
         } catch (JSONException e) {
             LOG.warn("Could not generate battery_layout", e);
         }
@@ -393,6 +405,8 @@ public class HybridHRWatchfaceFactory {
         config.put("wrist_flick_duration", settings.getWristFlickDuration());
         config.put("wrist_flick_move_hour", settings.getWristFlickMoveHour());
         config.put("wrist_flick_move_minute", settings.getWristFlickMoveMinute());
+        config.put("powersave_display", settings.getPowersaveDisplay());
+        config.put("powersave_hands", settings.getPowersaveHands());
         configuration.put("config", config);
 
         return configuration.toString();
