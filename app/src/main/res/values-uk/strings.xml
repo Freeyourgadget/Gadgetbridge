@@ -1311,4 +1311,7 @@
     <string name="devicetype_smaq2oss">SMA-Q2 OSS</string>
     <string name="watchface_upload_failed">Не вдалося завантажити циферблат. Повторіть спробу.</string>
     <string name="watchface_cache_confirm_overwrite">Циферблат із такою назвою вже існує в кеші. Бажаєте перезаписати його\?</string>
+    <string name="heart_rate_result">Результати вимірювань</string>
+    <string name="getting_heart_rate">Вимірювання</string>
+    <string name="blood_pressure">Артеріальний тиск</string>
 </resources>
