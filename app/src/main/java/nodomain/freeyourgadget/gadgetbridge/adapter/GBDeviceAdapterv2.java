@@ -176,7 +176,7 @@ public class GBDeviceAdapterv2 extends RecyclerView.Adapter<GBDeviceAdapterv2.Vi
                                                    }
         );
 
-        holder.heartRateStatusBox.setVisibility((device.isInitialized() && coordinator.supportsHeartRateMeasurement(device)) ? View.VISIBLE : View.GONE);
+        holder.heartRateStatusBox.setVisibility((device.isInitialized() && coordinator.supportsRealtimeData() && coordinator.supportsHeartRateMeasurement(device)) ? View.VISIBLE : View.GONE);
         if (parent.getContext() instanceof ControlCenterv2) {
             ActivitySample sample = ((ControlCenterv2) parent.getContext()).getCurrentHRSample();
             if (sample != null) {
