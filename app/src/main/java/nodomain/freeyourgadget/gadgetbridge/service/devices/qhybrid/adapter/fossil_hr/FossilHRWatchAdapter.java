@@ -16,6 +16,13 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.adapter.fossil_hr;
 
+import static nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.configuration.ConfigurationPutRequest.UnitsConfigItem;
+import static nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.configuration.ConfigurationPutRequest.VibrationStrengthConfigItem;
+import static nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.music.MusicControlRequest.MUSIC_PHONE_REQUEST;
+import static nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.music.MusicControlRequest.MUSIC_WATCH_REQUEST;
+import static nodomain.freeyourgadget.gadgetbridge.util.BitmapUtil.convertDrawableToBitmap;
+import static nodomain.freeyourgadget.gadgetbridge.util.StringUtils.shortenPackageName;
+
 import android.bluetooth.BluetoothGattCharacteristic;
 import android.content.Context;
 import android.content.Intent;
@@ -61,6 +68,7 @@ import java.util.regex.Pattern;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
+import nodomain.freeyourgadget.gadgetbridge.activities.SettingsActivity;
 import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHelper;
@@ -137,11 +145,6 @@ import nodomain.freeyourgadget.gadgetbridge.util.StringUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.UriHelper;
 import nodomain.freeyourgadget.gadgetbridge.util.Version;
 
-import static nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.music.MusicControlRequest.MUSIC_PHONE_REQUEST;
-import static nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.music.MusicControlRequest.MUSIC_WATCH_REQUEST;
-import static nodomain.freeyourgadget.gadgetbridge.util.BitmapUtil.convertDrawableToBitmap;
-import static nodomain.freeyourgadget.gadgetbridge.util.StringUtils.shortenPackageName;
-
 public class FossilHRWatchAdapter extends FossilWatchAdapter {
     private byte[] phoneRandomNumber;
     private byte[] watchRandomNumber;
@@ -216,6 +219,7 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
 
         if (authenticated) {
             setVibrationStrength();
+            setUnitsConfig();
             syncSettings();
             setTime();
         }
@@ -261,6 +265,19 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
         setVibrationStrength((short) (vibrationStrengh));
     }
 
+    private void setUnitsConfig() {
+        Prefs prefs = GBApplication.getPrefs();
+        String unit = prefs.getString(SettingsActivity.PREF_MEASUREMENT_SYSTEM, GBApplication.getContext().getString(R.string.p_unit_metric));
+        int value = 8; // dont know what this bit means but it was set for me before tampering
+        if (!unit.equals("metric")) {
+            value |= (4 | 1); // temperature and distance
+        }
+        queueWrite(
+                (FileEncryptedInterface) new ConfigurationPutRequest(new UnitsConfigItem(value), this)
+        );
+
+    }
+
     @Override
     public void setVibrationStrength(short strength) {
         if (connectionMode == CONNECTION_MODE.NOT_AUTHENTICATED) {
@@ -269,7 +286,7 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
         }
 
         queueWrite(
-                (FileEncryptedInterface) new ConfigurationPutRequest(new nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.configuration.ConfigurationPutRequest.VibrationStrengthConfigItem((byte) strength), this)
+                (FileEncryptedInterface) new ConfigurationPutRequest(new VibrationStrengthConfigItem((byte) strength), this)
         );
     }
 
@@ -1362,6 +1379,9 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
                 saveRawActivityFiles = getDeviceSpecificPreferences().getBoolean("save_raw_activity_files", false);
                 break;
             }
+            case SettingsActivity.PREF_MEASUREMENT_SYSTEM:
+                setUnitsConfig();
+                break;
         }
     }
 

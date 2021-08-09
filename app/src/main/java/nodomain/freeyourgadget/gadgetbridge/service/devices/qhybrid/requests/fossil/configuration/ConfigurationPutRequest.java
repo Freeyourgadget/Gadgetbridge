@@ -35,7 +35,8 @@ public class ConfigurationPutRequest extends FilePutRequest {
         itemsById.put((short)0x0A, VibrationStrengthConfigItem.class);
         itemsById.put((short)0x0C, TimeConfigItem.class);
         itemsById.put((short)0x0D, BatteryConfigItem.class);
-        itemsById.put((short)0x0E, HeartRateMeasurementModeItem.class);
+        itemsById.put((short) 0x0E, HeartRateMeasurementModeItem.class);
+        itemsById.put((short) 0x10, UnitsConfigItem.class);
     }
 
     public static ConfigItem[] parsePayload(byte[] data) {
@@ -264,7 +265,7 @@ public class ConfigurationPutRequest extends FilePutRequest {
     }
 
     static public class CurrentStepCountConfigItem extends GenericConfigItem<Integer> {
-        public CurrentStepCountConfigItem(){
+        public CurrentStepCountConfigItem() {
             this(-1);
         }
 
@@ -273,11 +274,21 @@ public class ConfigurationPutRequest extends FilePutRequest {
         }
     }
 
+    static public class UnitsConfigItem extends GenericConfigItem<Integer> {
+        public UnitsConfigItem() {
+            this(-1);
+        }
+
+        public UnitsConfigItem(Integer value) {
+            super((short) 16, value);
+        }
+    }
+
     static public class TimeConfigItem extends ConfigItem {
         private int epochSeconds;
         private short millis, offsetMinutes;
 
-        public TimeConfigItem(){
+        public TimeConfigItem() {
             this(-1, (short) -1, (short) -1);
         }
 
