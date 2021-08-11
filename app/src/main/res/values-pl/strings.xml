@@ -1025,7 +1025,7 @@
     <string name="error_background_service_reason">Uruchomienie usługi w tle nie powiodło się z powodu wyjątku. Błąd:</string>
     <string name="error_background_service_reason_truncated">Uruchomienie usługi w tle nie powiodło się, ponieważ…</string>
     <string name="error_background_service">Nie udało się uruchomić usługi w tle</string>
-    <string name="companiondevice_pairing_details">Włącza obsługę nowego interfejsu CompanionDevice API (ma wpływ tylko na Android 8 lub nowszy), który zwiększa niezawodność, jeśli usługa będzie musiała zostać ponownie uruchomiona w tle, aby odniosło skutek wymaga to ponownego sparowania przy użyciu Gadgetbridge</string>
+    <string name="companiondevice_pairing_details">Włącza obsługę nowego interfejsu API urządzeń towarzyszących (CompanionDevice) (ma wpływ tylko na Android 8 lub nowszy), który zwiększa niezawodność, jeśli usługa będzie musiała zostać ponownie uruchomiona w tle, aby odniosło skutek wymaga to ponownego sparowania przy użyciu Gadgetbridge</string>
     <string name="companiondevice_pairing">Parowanie urządzeń towarzyszących (CompanionDevice Pairing)</string>
     <string name="error_version_check_extreme_caution">UWAGA: Błąd przy sprawdzaniu informacji o wersji! Nie należy kontynuować! Nazwa wersji \"%s\"</string>
     <string name="about_links">Linki</string>
