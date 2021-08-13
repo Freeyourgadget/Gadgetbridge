@@ -835,7 +835,7 @@
     <string name="pref_summary_allow_high_mtu">Збільшує швидкість передачі, але може не працювати на деяких Android-пристроях.</string>
     <string name="hr_widget_steps">Кроки</string>
     <string name="hr_widget_calories">Калорії</string>
-    <string name="hr_widget_battery">Батарея</string>
+    <string name="hr_widget_battery">Акумулятор</string>
     <string name="hr_widget_weather">Погода</string>
     <string name="find_my_phone_notification">Знайти мій телефон</string>
     <string name="power_mode_watch">Лише годинник</string>
@@ -870,7 +870,7 @@
     <string name="pref_title_upper_button_function">Верхня кнопка</string>
     <string name="hr_appname_commute">Поїздки</string>
     <string name="hr_appname_stopwatch">Секундомір</string>
-    <string name="hr_widget_active_minutes">Активні хвилини</string>
+    <string name="hr_widget_active_minutes">Хвилини активності</string>
     <string name="hr_widget_date">Дата</string>
     <string name="hr_widget_heart_rate">Пульс</string>
     <string name="menuitem_workout">Тренування</string>
@@ -1314,4 +1314,12 @@
     <string name="heart_rate_result">Результати вимірювань</string>
     <string name="getting_heart_rate">Вимірювання</string>
     <string name="blood_pressure">Артеріальний тиск</string>
+    <string name="watchface_setting_power_saving_hands">Вимкніть рух рук, коли годинник не одягнено</string>
+    <string name="watchface_setting_power_saving_display">Вимкнути оновлення екрана, коли годинник не одягнено</string>
+    <string name="watchface_setting_title_power_saving">Заощадження енергії</string>
+    <string name="watchface_widget_type_chance_rain">Імовірність дощу</string>
+    <string name="watchface_widget_type_active_mins">Хвилини активності</string>
+    <string name="watchface_widget_type_2nd_tz">Другий часовий пояс</string>
+    <string name="watchface_widget_type_calories">Калорії</string>
+    <string name="watchface_widget_type_battery">Акумулятор</string>
 </resources>
