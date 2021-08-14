@@ -34,7 +34,7 @@ vendor's servers.
 - Amazfit
 	- [Band 5](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Mi-Band-5) [**\[!\]**](#special-pairing-procedures)
 	- [Bip](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Amazfit-Bip)
-	- [Bip Lite](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Amazfit-Bip-Lite), Bip S, Bip U [**\[!\]**](#special-pairing-procedures)
+	- [Bip Lite](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Amazfit-Bip-Lite), Bip S, [Bip U](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Amazfit-Bip-U) [**\[!\]**](#special-pairing-procedures)
 	- [Cor](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Amazfit-Cor), [Cor 2](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Amazfit-Cor-2)
 	- [GTR](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Amazfit-GTR), [GTR 2/2e](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Amazfit-GTR) [**\[!\]**](#special-pairing-procedures)
 	- [GTS](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Amazfit-GTS), [GTS 2/2e](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Amazfit-GTS) [**\[!\]**](#special-pairing-procedures) 
