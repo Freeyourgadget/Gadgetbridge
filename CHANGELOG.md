@@ -1,5 +1,14 @@
 ### Changelog
 
+### 0.59.1
+* Fossil Hybrid HR: Add power saving feature
+* Fossil Hybrid HR: Add timezone selector for second timezone widget
+* Fossil Hybrid HR: add many new widgets (battery, calories, 2nd TZ, chance of rain)
+* Fossil Hybrid HR: Support setting metric/imperial mode
+* add Heart Rate measurement screen, accessible via heart icon in device action icons
+* Amazfit T-Rex Pro: Try to fix some menu items
+* Huami: re-enable setting the timezone correctly with included DST
+
 ### 0.59.0
 * Initial support for SMA Q2 OSS firmware (Emeryth)
 * Fix broken UM25 support
