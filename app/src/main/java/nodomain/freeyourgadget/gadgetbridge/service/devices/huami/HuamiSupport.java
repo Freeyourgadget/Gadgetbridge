@@ -129,6 +129,7 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.miband2.Mi2Not
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.miband2.Mi2TextNotificationStrategy;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.operations.FetchActivityOperation;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.operations.InitOperation;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.operations.InitOperation2021;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.operations.UpdateFirmwareOperation;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.miband.NotificationStrategy;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.miband.RealtimeSamplesSupport;
@@ -200,6 +201,9 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
     private BluetoothGattCharacteristic characteristicHRControlPoint;
     private BluetoothGattCharacteristic characteristicChunked;
 
+    private BluetoothGattCharacteristic characteristicChunked2021Write;
+    private BluetoothGattCharacteristic characteristicChunked2021Read;
+
     private boolean needsAuth;
     private volatile boolean telephoneRinging;
     private volatile boolean isLocatingDevice;
@@ -248,7 +252,13 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
             heartRateNotifyEnabled = false;
             boolean authenticate = needsAuth && (cryptFlags == 0x00);
             needsAuth = false;
-            new InitOperation(authenticate, authFlags, cryptFlags, this, builder).perform();
+            characteristicChunked2021Write = getCharacteristic(HuamiService.UUID_CHARACTERISTIC_CHUNKEDTRANSFER_2021_WRITE);
+            characteristicChunked2021Read = getCharacteristic(HuamiService.UUID_CHARACTERISTIC_CHUNKEDTRANSFER_2021_READ);
+            if (characteristicChunked2021Write != null) {
+                new InitOperation2021(authenticate, authFlags, cryptFlags, this, builder).perform();
+            } else {
+                new InitOperation(authenticate, authFlags, cryptFlags, this, builder).perform();
+            }
             characteristicHRControlPoint = getCharacteristic(GattCharacteristic.UUID_CHARACTERISTIC_HEART_RATE_CONTROL_POINT);
             characteristicChunked = getCharacteristic(HuamiService.UUID_CHARACTERISTIC_CHUNKEDTRANSFER);
         } catch (IOException e) {
@@ -348,6 +358,9 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
         builder.notify(getCharacteristic(GattService.UUID_SERVICE_CURRENT_TIME), enable);
         // Notify CHARACTERISTIC9 to receive random auth code
         builder.notify(getCharacteristic(HuamiService.UUID_CHARACTERISTIC_AUTH), enable);
+        if (characteristicChunked2021Read != null) {
+            builder.notify(characteristicChunked2021Read, enable);
+        }
 
         return this;
     }
@@ -2817,6 +2830,41 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
         }
     }
 
+    public void writeToChunked2021(TransactionBuilder builder, short type, byte handle, byte[] data) {
+        int remaining = data.length;
+        byte count = 0;
+        int header_size = 11;
+        while (remaining > 0) {
+            int MAX_CHUNKLENGTH = mMTU - 3 - header_size;
+            int copybytes = Math.min(remaining, MAX_CHUNKLENGTH);
+            byte[] chunk = new byte[copybytes + header_size];
+
+            byte flags = 0;
+            if (count == 0) {
+                flags |= 0x01;
+                chunk[5] = (byte) (data.length & 0xff);
+                chunk[6] = (byte) ((data.length >> 8) & 0xff);
+                chunk[7] = (byte) ((data.length >> 16) & 0xff);
+                chunk[8] = (byte) ((data.length >> 24) & 0xff);
+                chunk[9] = (byte) (type & 0xff);
+                chunk[10] = (byte) ((type >> 8) & 0xff);
+            }
+            if (remaining <= MAX_CHUNKLENGTH) {
+                flags |= 0x06; // last chunk?
+            }
+            chunk[0] = 0x03;
+            chunk[1] = flags;
+            chunk[2] = 0;
+            chunk[3] = handle;
+            chunk[4] = count;
+
+            System.arraycopy(data, data.length-remaining, chunk, header_size, copybytes);
+            builder.write(characteristicChunked2021Write, chunk);
+            remaining -= copybytes;
+            header_size = 5;
+            count++;
+        }
+    }
 
     protected HuamiSupport requestGPSVersion(TransactionBuilder builder) {
         LOG.info("Requesting GPS version");

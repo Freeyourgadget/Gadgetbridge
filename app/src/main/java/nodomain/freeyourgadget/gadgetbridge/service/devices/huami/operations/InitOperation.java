@@ -48,11 +48,11 @@ import nodomain.freeyourgadget.gadgetbridge.util.GB;
 public class InitOperation extends AbstractBTLEOperation<HuamiSupport> {
     private static final Logger LOG = LoggerFactory.getLogger(InitOperation.class);
 
-    private final TransactionBuilder builder;
+    protected final TransactionBuilder builder;
     private final boolean needsAuth;
     private final byte authFlags;
     private final byte cryptFlags;
-    private final HuamiSupport huamiSupport;
+    protected final HuamiSupport huamiSupport;
 
     public InitOperation(boolean needsAuth, byte authFlags, byte cryptFlags, HuamiSupport support, TransactionBuilder builder) {
         super(support);
