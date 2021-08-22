@@ -169,7 +169,11 @@
 \n
 \n
 \n Este firmware es para la revisión de HW: %s</string>
-    <string name="app_install_info">Estás a punto de instalar la siguiente app:\n\n\n%1$s Versión %2$s de %3$s\n</string>
+    <string name="app_install_info">Estás a punto de instalar la siguiente app:
+\n
+\n%1$s
+\nVersión %2$s de %3$s
+\n</string>
     <string name="n_a">N/A</string>
     <string name="initialized">iniciado</string>
     <string name="appversion_by_creator">%1$s de %2$s</string>
@@ -1237,7 +1241,7 @@
     <string name="qhybrid_pref_title_actions">Acciones</string>
     <string name="qhybrid_calibration_100_steps">100 pasos</string>
     <string name="qhybrid_calibration_10_steps">10 pasos</string>
-    <string name="qhybrid_pref_summary_external_intents">Habilitar para permitir que otras aplicaciones de Android suban/sobreescriban archivos</string>
+    <string name="qhybrid_pref_summary_external_intents">Permite que otras aplicaciones de Android suban/sobreescriban archivos</string>
     <string name="fossil_hr_new_action">Nueva acción</string>
     <string name="fossil_hr_new_action_cancel">cancelar</string>
     <string name="fossil_hr_edit_action">Editar acción</string>
@@ -1251,4 +1255,69 @@
 \n%1$s
 \nVersión %2$s por %3$s
 \n</string>
+    <string name="watchface_setting_power_saving_hands">Desactivar el movimiento de las manos mientras esté fuera de la muñeca</string>
+    <string name="watchface_setting_power_saving_display">Desactivar las actualizaciones de la pantalla mientras esté fuera de la muñeca</string>
+    <string name="watchface_setting_title_power_saving">Ahorro de energía</string>
+    <string name="watchface_widget_type_chance_rain">Probabilidad de lluvia</string>
+    <string name="watchface_widget_type_active_mins">Minutos activos</string>
+    <string name="watchface_widget_type_2nd_tz">2ª zona horaria</string>
+    <string name="watchface_widget_type_calories">Calorías</string>
+    <string name="watchface_widget_type_battery">Batería</string>
+    <string name="watchface_upload_failed">La carga de la esfera del reloj ha fallado. Por favor, inténtelo de nuevo.</string>
+    <string name="watchface_cache_confirm_overwrite">Ya existe una esfera con este nombre en la caché. ¿Desea sobrescribirlo\?</string>
+    <string name="watchface_setting_wrist_flick_duration">Duración (en ms):</string>
+    <string name="watchface_setting_wrist_flick_minute">Manecilla de los minutos (-360 a 360):</string>
+    <string name="watchface_setting_wrist_flick_hour">Manecilla de las horas (-360 a 360):</string>
+    <string name="watchface_setting_wrist_flick_move_relative">Mover las manecillas en relación con el tiempo:</string>
+    <string name="watchface_setting_desc_wrist_flick">(para desactivar por completo, active el movimiento relativo y ponga todos los valores a 0)</string>
+    <string name="watchface_setting_title_wrist_flick">Golpe de muñeca</string>
+    <string name="watchface_setting_display_refresh_partial">Refresco parcial (en minutos):</string>
+    <string name="watchface_setting_display_refresh_full">Refresco total (en minutos):</string>
+    <string name="watchface_setting_title_display_refresh_timeout">Tiempo de refresco de la pantalla</string>
+    <string name="watchface_dialog_title_settings">Ajustes de la esfera</string>
+    <string name="watchface_dialog_widget_color_black">Negro</string>
+    <string name="watchface_dialog_widget_color_white">Blanco</string>
+    <string name="watchface_dialog_widget_color">Color:</string>
+    <string name="qhybrid_title_watchface_designer">Diseñador de la esfera</string>
+    <string name="watchface_dialog_widget_preset_right">Derecha</string>
+    <string name="watchface_dialog_widget_preset_left">Izquierda</string>
+    <string name="watchface_dialog_widget_preset_bottom">Inferior</string>
+    <string name="watchface_dialog_widget_preset_top">Superior</string>
+    <string name="watchface_dialog_widget_presets">Preajustes de posición:</string>
+    <string name="watchface_dialog_widget_y_coordinate">Coordenada Y (máximo 240):</string>
+    <string name="watchface_dialog_widget_x_coordinate">Coordenada X (máximo 240):</string>
+    <string name="watchface_dialog_widget_type">Tipo:</string>
+    <string name="appmanager_app_edit">Editar</string>
+    <string name="button_watchface_save_apply">Guardar y aplicar</string>
+    <string name="button_watchface_preview">Vista previa en el reloj</string>
+    <string name="watchface_widget_type_heart_rate">Ritmo cardíaco</string>
+    <string name="watchface_widget_type_steps">Pasos</string>
+    <string name="watchface_widget_type_weather">Tiempo</string>
+    <string name="watchface_widget_type_date">Fecha</string>
+    <string name="watchface_dialog_title_add_widget">Añadir widget</string>
+    <string name="watchface_toast_settings_incomplete">Configuración incompleta, widget no añadido</string>
+    <string name="watchface_dialog_title_set_name">Establecer el nombre de la esfera</string>
+    <string name="button_watchface_settings">Ajustes de la esfera</string>
+    <string name="button_watchface_add_widget">Añadir widget</string>
+    <string name="button_watchface_select_image">Cambiar imagen de fondo</string>
+    <string name="button_watchface_edit_name">Editar nombre</string>
+    <string name="devicetype_amazfit_trex_pro">Amazfit T-Rex Pro</string>
+    <string name="qhybrid_pref_summary_actions">Acciones para la aplicación Commute</string>
+    <string name="qhybrid_watchface_configuration_old_firmware">Pantalla de configuración de la esfera del reloj para los relojes con la versión de firmware DN1.0.2.19r e inferior</string>
+    <string name="qhybrid_calibration_1_step">1 paso</string>
+    <string name="qhybrid_calibration_clockwise">En sentido horario</string>
+    <string name="qhybrid_calibration_counterclockwise">En sentido antihorario</string>
+    <string name="gpx_receiver_overwrite_some_files">Algún(os) archivo(s) ya existen. ¿Sobreescribir\?</string>
+    <string name="gpx_receiver_files_received">Archivo(s) GPX recibido(s):</string>
+    <string name="gpx_receiver_activity_title">Receptor GPX Gadgetbridge</string>
+    <string name="menuitem_barometer">Barómetro</string>
+    <string name="devicetype_smaq2oss">SMA-Q2 OSS</string>
+    <string name="activity_summary_detail_editing_gpx_track">Edición de la pista GPX vinculada</string>
+    <string name="activity_summary_detail_clear_gpx_track">Borrar pista GPX</string>
+    <string name="activity_summary_detail_select_gpx_track">Seleccionar pista GPX</string>
+    <string name="set">Establecer</string>
+    <string name="heart_rate_result">Resultados de la medición</string>
+    <string name="getting_heart_rate">Medición</string>
+    <string name="blood_pressure">Presión arterial</string>
+    <string name="pref_theme_black_background">Usar fondo negro en el tema oscuro</string>
 </resources>
