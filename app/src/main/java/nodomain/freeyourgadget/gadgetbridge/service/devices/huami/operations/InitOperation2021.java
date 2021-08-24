@@ -27,6 +27,7 @@ import org.slf4j.LoggerFactory;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
+import java.util.Random;
 import java.util.UUID;
 
 import javax.crypto.BadPaddingException;
@@ -45,6 +46,15 @@ import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
 public class InitOperation2021 extends InitOperation {
 
+    private byte[] privateEC = new byte[24];
+    private byte[] publicEC;
+    private byte[] sharedEC;
+
+    static {
+        System.loadLibrary("tiny-edhc");
+    }
+
+
     private static final Logger LOG = LoggerFactory.getLogger(InitOperation2021.class);
 
     public InitOperation2021(boolean needsAuth, byte authFlags, byte cryptFlags, HuamiSupport support, TransactionBuilder builder) {
@@ -56,11 +66,22 @@ public class InitOperation2021 extends InitOperation {
         huamiSupport.enableNotifications(builder, true);
         builder.add(new SetDeviceStateAction(getDevice(), GBDevice.State.INITIALIZING, getContext()));
         // get random auth number
-        huamiSupport.writeToChunked2021(builder, (short) 0x82, (byte) 0x66, requestAuthNumber());
+        generateKeyPair();
+        byte[] sendPubkeyCommand = new byte[48 + 4];
+        sendPubkeyCommand[0] = 0x04;
+        sendPubkeyCommand[1] = 0x02;
+        sendPubkeyCommand[2] = 0x00;
+        sendPubkeyCommand[3] = 0x02;
+        System.arraycopy(publicEC, 0, sendPubkeyCommand, 4, 48);
+        huamiSupport.writeToChunked2021(builder, (short) 0x82, (byte) 0x66, sendPubkeyCommand);
     }
 
-    private byte[] requestAuthNumber() {
-        return new byte[]{0x04,0x02,0x00,0x02, (byte) 0xe3,0x16, (byte) 0xde,0x05, (byte) 0xe4, (byte) 0xa7,0x05,0x18,0x4b, (byte) 0xc9, (byte) 0x99, (byte) 0xd7, (byte) 0x90, (byte) 0x90,0x71, (byte) 0xdc,0x1c,0x58,0x55,0x1b,0x02,0x00,0x00,0x00, (byte) 0x96, (byte) 0xf1, (byte) 0x82,0x01, (byte) 0x98,0x6a, (byte) 0xd7, (byte) 0xe6,0x52,0x2e, (byte) 0xfd, (byte) 0xdc,0x4d, (byte) 0xe9,0x23, (byte) 0x81, (byte) 0x82,0x7d,0x76,0x6c,0x01,0x00,0x00,0x00};
+    private native byte[] ecdh_generate_public(byte[] privateEC);
+
+    private void generateKeyPair() {
+        Random r = new Random();
+        r.nextBytes(privateEC);
+        publicEC = ecdh_generate_public(privateEC);
     }
 
     private byte[] getSecretKey() {

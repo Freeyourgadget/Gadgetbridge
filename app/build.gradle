@@ -64,6 +64,11 @@ android {
             version "3.10.2"
         }
     }
+    sourceSets {
+        main {
+            jniLibs.srcDirs = ['libs'] // where libs is the name of the directory!
+        }
+    }
 }
 
 pmd {
