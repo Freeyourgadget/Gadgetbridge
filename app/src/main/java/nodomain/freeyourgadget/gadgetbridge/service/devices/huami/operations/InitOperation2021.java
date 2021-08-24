@@ -19,7 +19,6 @@ package nodomain.freeyourgadget.gadgetbridge.service.devices.huami.operations;
 import android.annotation.SuppressLint;
 import android.bluetooth.BluetoothGatt;
 import android.bluetooth.BluetoothGattCharacteristic;
-import android.content.SharedPreferences;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -36,7 +35,6 @@ import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
 import javax.crypto.spec.SecretKeySpec;
 
-import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiService;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
@@ -45,12 +43,12 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.HuamiSupport;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
 public class InitOperation2021 extends InitOperation {
-    private final byte[] privateEC = new byte[24];
+    private byte[] privateEC = new byte[24];
     private byte[] publicEC;
     private byte[] remotePublicEC = new byte[48];
-    private byte[] remoteRandom = new byte[16];
+    private final byte[] remoteRandom = new byte[16];
     private byte[] sharedEC;
-    private byte[] finalSharedSessionAES = new byte[16];
+    private final byte[] finalSharedSessionAES = new byte[16];
 
     private final byte[] reassembleBuffer = new byte[512];
     private int lastSequenceNumber = 0;
@@ -68,6 +66,23 @@ public class InitOperation2021 extends InitOperation {
         super(needsAuth, authFlags, cryptFlags, support, builder);
     }
 
+    private void testAuth() {
+        byte[] secretKey = getSecretKey();
+        privateEC = new byte[]{0x0b, 0x42, (byte) 0xb9, (byte) 0xe6, 0x1c, 0x23, 0x34, 0x0e, 0x35, (byte) 0xc1, 0x6e, 0x2e, 0x7d, (byte) 0xe4, 0x33, (byte) 0xf4, (byte) 0xb5, (byte) 0x85, (byte) 0x9a, 0x72, (byte) 0xec, 0x11, 0x40, 0x27};
+        remotePublicEC = new byte[]{(byte) 0xe6, 0x01, 0x6a, (byte) 0xba, 0x1d, (byte) 0xe7, (byte) 0xac, 0x0f, 0x0c, 0x7f, 0x0f, (byte) 0xf7, (byte) 0xe2, 0x24, 0x3e, 0x66, 0x62, (byte) 0xb5, (byte) 0xe0, 0x3b, 0x01, 0x00, 0x00, 0x00, (byte) 0xad, (byte) 0x8a, 0x4b, (byte) 0xed, (byte) 0xc7, 0x6a, 0x1e, (byte) 0xfd, (byte) 0xe7, 0x72, 0x5c, (byte) 0xc6, 0x62, (byte) 0xb5, 0x48, 0x35, 0x51, 0x3e, 0x3d, 0x57, 0x05, 0x00, 0x00, 0x00};
+
+        publicEC = ecdh_generate_public(privateEC);
+        sharedEC = ecdh_generate_shared(privateEC, remotePublicEC);
+        LOG.warn("publicEC: " + GB.hexdump(publicEC));
+        LOG.warn("privateEC: " + GB.hexdump(privateEC));
+        LOG.warn("remotepubEC: " + GB.hexdump(remotePublicEC));
+        LOG.warn("sharedEC: " + GB.hexdump(sharedEC));
+        for (int i = 0; i < 16; i++) {
+            finalSharedSessionAES[i] = (byte) (sharedEC[i + 8] ^ secretKey[i]);
+        }
+        LOG.warn("finalSharedAES: " + GB.hexdump(finalSharedSessionAES));
+    }
+
     @Override
     protected void doPerform() {
         huamiSupport.enableNotifications(builder, true);
@@ -80,6 +95,7 @@ public class InitOperation2021 extends InitOperation {
         sendPubkeyCommand[2] = 0x00;
         sendPubkeyCommand[3] = 0x02;
         System.arraycopy(publicEC, 0, sendPubkeyCommand, 4, 48);
+        //testAuth();
         huamiSupport.writeToChunked2021(builder, (short) 0x82, (byte) 0x66, sendPubkeyCommand);
     }
 
@@ -105,7 +121,6 @@ public class InitOperation2021 extends InitOperation {
         UUID characteristicUUID = characteristic.getUuid();
         if (HuamiService.UUID_CHARACTERISTIC_CHUNKEDTRANSFER_2021_READ.equals(characteristicUUID)) {
             byte[] value = characteristic.getValue();
-//            0x03 0x01 0x00 0x64 0x00 0x43 0x00 0x00 0x00 0x82 0x00 0x10 0x04 0x01 0x36 0x41 0xf2 0x5a 0x8f 0xb3
             if (value.length > 1 && value[0] == 0x03) {
                 int sequenceNumber = value[4];
                 int headerSize;
@@ -120,6 +135,20 @@ public class InitOperation2021 extends InitOperation {
                         return false;
                     }
                     headerSize = 5;
+                } else if (value[9] == (byte) 0x82 && value[10] == 0x00 && value[11] == 0x10 && value[12] == 0x05 && value[13] == 0x01) {
+                    try {
+                        TransactionBuilder builder = createTransactionBuilder("Authenticated, now initialize phase 2");
+                        builder.add(new SetDeviceStateAction(getDevice(), GBDevice.State.INITIALIZING, getContext()));
+                        huamiSupport.enableFurtherNotifications(builder, true);
+                        huamiSupport.requestDeviceInfo(builder);
+                        huamiSupport.phase2Initialize(builder);
+                        huamiSupport.phase3Initialize(builder);
+                        huamiSupport.setInitialized(builder);
+                        huamiSupport.performImmediately(builder);
+                    } catch (Exception e) {
+                        LOG.error("faild initializing device", e);
+                    }
+                    return true;
                 } else {
                     LOG.info("Unhandled characteristic changed: " + characteristicUUID);
                     return super.onCharacteristicChanged(gatt, characteristic);
@@ -132,12 +161,17 @@ public class InitOperation2021 extends InitOperation {
                 lastSequenceNumber = sequenceNumber;
                 if (reassembleBuffer_pointer == reassembleBuffer_expectedBytes) {
                     System.arraycopy(reassembleBuffer, 0, remoteRandom, 0, 16);
+                    LOG.info("remoteRandom: " + GB.hexdump(remoteRandom));
                     System.arraycopy(reassembleBuffer, 16, remotePublicEC, 0, 48);
+                    LOG.info("remotePublicEC: " + GB.hexdump(remotePublicEC));
                     sharedEC = ecdh_generate_shared(privateEC, remotePublicEC);
+                    LOG.info("sharedEC: " + GB.hexdump(sharedEC));
+
                     byte[] secretKey = getSecretKey();
                     for (int i = 0; i < 16; i++) {
                         finalSharedSessionAES[i] = (byte) (sharedEC[i + 8] ^ secretKey[i]);
                     }
+                    LOG.info("sharedSessionAES: " + GB.hexdump(finalSharedSessionAES));
                     try {
                         byte[] encryptedRandom1 = encryptAES(remoteRandom, secretKey);
                         byte[] encryptedRandom2 = encryptAES(remoteRandom, finalSharedSessionAES);

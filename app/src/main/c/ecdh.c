@@ -767,6 +767,14 @@ int ecdh_shared_secret(const uint8_t* private_key, const uint8_t* others_pub, ui
       output[i] = others_pub[i];
     }
 
+    /* Clear bits > CURVE_DEGREE in highest word to satisfy constraint 1 <= exp < n. */
+    int nbits = bitvec_degree(base_order);
+
+    for (int i = (nbits - 1); i < (BITVEC_NWORDS * 32); ++i)
+    {
+      bitvec_clr_bit((uint32_t*)private_key, i);
+    }
+
     /* Multiply other side's public key with own private key */
     gf2point_mul((uint32_t*)output,(uint32_t*)(output + BITVEC_NBYTES), (const uint32_t*)private_key);
 
