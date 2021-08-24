@@ -72,9 +72,9 @@
 \nبا مسئولیت خودتان این کار را انجام می‌دهید!</string>
     <string name="fw_multi_upgrade_notice">شما در حال نصب فرمویر %1$s و %2$s به جای نسخه‌های نصب شده برروی دستگاه Mi Band خود هستید.</string>
     <string name="miband_firmware_known">این نسخه‌ی فرمویر تست شده و با گجت‌بریج سازگار است.</string>
-    <string name="miband_firmware_unknown_warning">این فرمویر تست نشده و ممکن است با گجت‌بریج سازگار نباشد.
+    <string name="miband_firmware_unknown_warning">این سیستم عامل تست نشده است و ممکن است با Gadgetbridge سازگار نباشد.
 \n
-\nنصب این نسخه روی Mi Band پیشنهاد نمی‌شود!</string>
+\nاز چشمک زدن آن محروم می شوید!</string>
     <string name="miband_firmware_suggest_whitelist">اگر همچنان مایل به نصب هستید و بعد از نصب همه چیز درست کار کرد، لطفا به توسعه‌دهنده‌های گجت‌بریج اطلاع دهید تا فرمویر %s را به لیست سفید اضافه کنند.</string>
     <string name="title_activity_settings">تنظیمات</string>
     <string name="pref_header_general">تنظیمات عمومی</string>
@@ -133,7 +133,7 @@
     <string name="sonyswr12_settings_stamina">حالت صرفه جویی در مصرف برق روشن است</string>
     <string name="sonyswr12_settings_alarm_interval">فاصله زنگ هوشمند در چند دقیقه</string>
     <string name="calories">کالری</string>
-    <string name="bluetooth_is_disabled_">بلوتوث غیرفعال است</string>
+    <string name="bluetooth_is_disabled_">بلوتوث غیرفعال است.</string>
     <string name="calendar_two_weeks">۲ هفته</string>
     <string name="calendar_month">ماه</string>
     <string name="calendar_week">هفته</string>
@@ -144,5 +144,5 @@
     <string name="calendar_year">سال</string>
     <string name="battery_detail_activity_title">اطلاعات باتری</string>
     <string name="controlcenter_set_alias">تعیین نام مستعار</string>
-    <string name="find_lost_device_message">جستجو برای</string>
+    <string name="find_lost_device_message">جستجو برای %1$s؟</string>
 </resources>
