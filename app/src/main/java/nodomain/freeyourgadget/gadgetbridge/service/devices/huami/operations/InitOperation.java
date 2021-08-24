@@ -87,7 +87,7 @@ public class InitOperation extends AbstractBTLEOperation<HuamiSupport> {
         }
     }
 
-    private byte[] getSecretKey() {
+    protected byte[] getSecretKey() {
         byte[] authKeyBytes = new byte[]{0x30, 0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39, 0x40, 0x41, 0x42, 0x43, 0x44, 0x45};
 
         SharedPreferences sharedPrefs = GBApplication.getDeviceSpecificSharedPrefs(getDevice().getAddress());
