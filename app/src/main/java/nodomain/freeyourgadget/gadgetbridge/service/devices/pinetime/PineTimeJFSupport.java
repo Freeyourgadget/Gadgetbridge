@@ -260,6 +260,9 @@ public class PineTimeJFSupport extends AbstractBTLEDeviceSupport implements DfuL
         TransactionBuilder builder = new TransactionBuilder("notification");
 
         String message;
+        if (notificationSpec.body == null) {
+            notificationSpec.body = "";
+        }
 
         if (isFirmwareAtLeastVersion0_15()) {
             String senderOrTitle = nodomain.freeyourgadget.gadgetbridge.util.StringUtils.getFirstOf(notificationSpec.sender, notificationSpec.title);
