@@ -1314,4 +1314,6 @@
     <string name="watchface_widget_type_2nd_tz">אזור זמן משני</string>
     <string name="watchface_widget_type_calories">קלוריות</string>
     <string name="watchface_widget_type_battery">סוללה</string>
+    <string name="pref_summary_huami_force_new_protocol">יש להפעיל אם המכשיר שלך לא מתחבר עוד לאחר שדרוג חומרה</string>
+    <string name="pref_title_huami_force_new_protocol">פרוטוקול אימות חדש</string>
 </resources>
