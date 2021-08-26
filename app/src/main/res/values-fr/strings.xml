@@ -1313,4 +1313,6 @@ Temps de sommeil préféré en heures</string>
     <string name="watchface_widget_type_2nd_tz">Zone temps intermédiaire</string>
     <string name="watchface_widget_type_calories">Calories</string>
     <string name="watchface_widget_type_battery">Batterie</string>
+    <string name="pref_summary_huami_force_new_protocol">A activer si votre appareil ne se connecte plus après une mise à jour du micrologiciel</string>
+    <string name="pref_title_huami_force_new_protocol">Nouveau protocole d\'identification</string>
 </resources>
