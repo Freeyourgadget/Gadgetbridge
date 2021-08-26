@@ -1320,4 +1320,6 @@
     <string name="watchface_widget_type_2nd_tz">第二时区</string>
     <string name="watchface_widget_type_calories">卡路里</string>
     <string name="watchface_widget_type_battery">电池</string>
+    <string name="pref_summary_huami_force_new_protocol">若您的设备升级固件后无法连接，请启用该选项</string>
+    <string name="pref_title_huami_force_new_protocol">新认证协议</string>
 </resources>
