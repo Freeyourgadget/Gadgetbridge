@@ -1339,4 +1339,6 @@
     <string name="watchface_widget_type_2nd_tz">2. saat dilimi</string>
     <string name="watchface_widget_type_calories">Kalori</string>
     <string name="watchface_widget_type_battery">Pil</string>
+    <string name="pref_summary_huami_force_new_protocol">Aygıtınız bir ürün yazılımı yükseltmesinden sonra artık bağlanmıyorsa etkinleştirin</string>
+    <string name="pref_title_huami_force_new_protocol">Yeni Kimlik Doğrulama Protokolü</string>
 </resources>
