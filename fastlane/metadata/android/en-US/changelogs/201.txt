@@ -1,0 +1,2 @@
+* Mi Band 6: Support firmware 1.0.4.38 (experimental, still missing features)
+* InfiniTime: Fix null being displayed as notification title

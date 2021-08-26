@@ -1,4 +1,7 @@
 ### Changelog
+### 0.59.2
+* Mi Band 6: Support firmware 1.0.4.38 (experimental, still missing features)
+* InfiniTime: Fix null being displayed as notification title
 
 ### 0.59.1
 * Fossil Hybrid HR: Add power saving feature and many new widgets for the official Gadgetbridge watchface (battery, calories, 2nd TZ, chance of rain)
