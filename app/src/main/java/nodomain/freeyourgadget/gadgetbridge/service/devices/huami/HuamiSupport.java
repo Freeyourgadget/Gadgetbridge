@@ -254,7 +254,7 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
             needsAuth = false;
             characteristicChunked2021Write = getCharacteristic(HuamiService.UUID_CHARACTERISTIC_CHUNKEDTRANSFER_2021_WRITE);
             characteristicChunked2021Read = getCharacteristic(HuamiService.UUID_CHARACTERISTIC_CHUNKEDTRANSFER_2021_READ);
-            if (characteristicChunked2021Write != null) {
+            if (characteristicChunked2021Write != null && GBApplication.getDeviceSpecificSharedPrefs(gbDevice.getAddress()).getBoolean("force_new_protocol", false)) {
                 new InitOperation2021(authenticate, authFlags, cryptFlags, this, builder).perform();
             } else {
                 new InitOperation(authenticate, authFlags, cryptFlags, this, builder).perform();

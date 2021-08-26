@@ -146,7 +146,7 @@ public class InitOperation2021 extends InitOperation {
                         huamiSupport.setInitialized(builder);
                         huamiSupport.performImmediately(builder);
                     } catch (Exception e) {
-                        LOG.error("faild initializing device", e);
+                        LOG.error("failed initializing device", e);
                     }
                     return true;
                 } else {
@@ -161,17 +161,13 @@ public class InitOperation2021 extends InitOperation {
                 lastSequenceNumber = sequenceNumber;
                 if (reassembleBuffer_pointer == reassembleBuffer_expectedBytes) {
                     System.arraycopy(reassembleBuffer, 0, remoteRandom, 0, 16);
-                    LOG.info("remoteRandom: " + GB.hexdump(remoteRandom));
                     System.arraycopy(reassembleBuffer, 16, remotePublicEC, 0, 48);
-                    LOG.info("remotePublicEC: " + GB.hexdump(remotePublicEC));
                     sharedEC = ecdh_generate_shared(privateEC, remotePublicEC);
-                    LOG.info("sharedEC: " + GB.hexdump(sharedEC));
 
                     byte[] secretKey = getSecretKey();
                     for (int i = 0; i < 16; i++) {
                         finalSharedSessionAES[i] = (byte) (sharedEC[i + 8] ^ secretKey[i]);
                     }
-                    LOG.info("sharedSessionAES: " + GB.hexdump(finalSharedSessionAES));
                     try {
                         byte[] encryptedRandom1 = encryptAES(remoteRandom, secretKey);
                         byte[] encryptedRandom2 = encryptAES(remoteRandom, finalSharedSessionAES);

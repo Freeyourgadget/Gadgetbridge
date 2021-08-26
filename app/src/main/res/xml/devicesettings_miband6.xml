@@ -28,4 +28,9 @@
         android:key="language"
         android:summary="%s"
         android:title="@string/pref_title_language" />
+    <SwitchPreference
+        android:defaultValue="false"
+        android:key="force_new_protocol"
+        android:summary="@string/pref_summary_huami_force_new_protocol"
+        android:title="@string/pref_title_huami_force_new_protocol" />
 </androidx.preference.PreferenceScreen>
