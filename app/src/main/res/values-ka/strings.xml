@@ -173,7 +173,7 @@
     <string name="debugactivity_really_factoryreset">ქარხნის გადატვირთვისას წაიშლება ყველა მონაცემი დაკავშირებული მოწყობილობიდან (თუ მხარდაჭერილია). Xiaomi/Huami მოწყობილობები ასევე ცვლის Bluetooth MAC მისამართს, ამიტომ ისინი Gadgetbridge- ისთვის ახალი მოწყობილობებით გამოჩნდებიან.</string>
     <string name="title_activity_debug">გამართვა</string>
     <string name="calendar_year">წელი</string>
-    <string name="calendar_six_months">ექვსი თვე</string>
+    <string name="calendar_six_months">6 თვე</string>
     <string name="calendar_month">თვე</string>
     <string name="calendar_two_weeks">ორი კვირა</string>
     <string name="calendar_week">კვირა</string>
@@ -184,4 +184,5 @@
     <string name="find_lost_device_message">ეძებთ გაჯეტს\?</string>
     <string name="controlcenter_take_screenshot">გაკეთება სკრინშოტი</string>
     <string name="action_debug">გამართვა</string>
+    <string name="calendar_three_months">3 თვე</string>
 </resources>
