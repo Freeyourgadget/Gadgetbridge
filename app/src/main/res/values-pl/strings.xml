@@ -1325,4 +1325,6 @@
     <string name="watchface_widget_type_2nd_tz">Druga strefa czasowa</string>
     <string name="watchface_widget_type_calories">Kalorie</string>
     <string name="watchface_widget_type_battery">Bateria</string>
+    <string name="pref_summary_huami_force_new_protocol">Włącz, jeśli urządzenie nie łączy się po aktualizacji oprogramowania układowego</string>
+    <string name="pref_title_huami_force_new_protocol">Nowy protokół uwierzytelnienia</string>
 </resources>
