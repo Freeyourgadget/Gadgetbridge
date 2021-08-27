@@ -731,8 +731,8 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
 
         int subject_length = 0;
         int body_length = notificationSpec.body.getBytes(StandardCharsets.UTF_8).length;
-        if (body_length > 256) {
-            body_length = 256;
+        if (body_length > 255) {
+            body_length = 255;
         }
         int notification_length = body_length;
         byte[] subject = null;
