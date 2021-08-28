@@ -1315,4 +1315,6 @@
     <string name="watchface_widget_type_2nd_tz">2e tijdzone</string>
     <string name="watchface_widget_type_calories">Calorieën</string>
     <string name="watchface_widget_type_battery">Batterij</string>
+    <string name="pref_summary_huami_force_new_protocol">Inschakelen als uw apparaat geen verbinding meer maakt na een firmware-upgrade</string>
+    <string name="pref_title_huami_force_new_protocol">Nieuw authenticatieprotocol</string>
 </resources>
