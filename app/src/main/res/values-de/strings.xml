@@ -33,8 +33,8 @@
     <string name="appmanager_health_deactivate">Deaktivieren</string>
     <string name="appmanager_hrm_activate">HRM aktivieren</string>
     <string name="appmanager_hrm_deactivate">HRM deaktivieren</string>
-    <string name="appmanager_weather_activate">Aktiviere die Wetter App des Systems</string>
-    <string name="appmanager_weather_deactivate">Deaktiviere die Wetter App des Systems</string>
+    <string name="appmanager_weather_activate">Aktiviere die Wetter-App des Systems</string>
+    <string name="appmanager_weather_deactivate">Deaktiviere die Wetter-App des Systems</string>
     <string name="appmanager_weather_install_provider">App \"Weather Notification\" installieren</string>
     <string name="app_configure">Konfigurieren</string>
     <string name="app_move_to_top">Nach oben</string>
@@ -1322,4 +1322,8 @@
     <string name="watchface_widget_type_2nd_tz">Zweite Zeitzone</string>
     <string name="watchface_widget_type_calories">Kalorien</string>
     <string name="watchface_widget_type_battery">Akku</string>
+    <string name="watchface_setting_power_saving_hands">Handbewegung ohne Handgelenk deaktivieren</string>
+    <string name="watchface_setting_power_saving_display">Bildschirmaktualisierungen ohne Handgelenk deaktivieren</string>
+    <string name="pref_summary_huami_force_new_protocol">Aktivieren, wenn das Gerät nach einem Firmware-Upgrade keine Verbindung mehr herstellt</string>
+    <string name="pref_title_huami_force_new_protocol">Neues Auth-Protokoll</string>
 </resources>
