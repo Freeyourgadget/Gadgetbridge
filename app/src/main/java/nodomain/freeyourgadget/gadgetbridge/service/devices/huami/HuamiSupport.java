@@ -135,6 +135,8 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.miband.NotificationS
 import nodomain.freeyourgadget.gadgetbridge.service.devices.miband.RealtimeSamplesSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.serial.GBDeviceProtocol;
 import nodomain.freeyourgadget.gadgetbridge.util.AlarmUtils;
+import nodomain.freeyourgadget.gadgetbridge.util.CheckSums;
+import nodomain.freeyourgadget.gadgetbridge.util.CryptoUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.DeviceHelper;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 import nodomain.freeyourgadget.gadgetbridge.util.GBPrefs;
@@ -184,6 +186,15 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
     private static int currentButtonPressCount = 0;
     private static long currentButtonPressTime = 0;
     private static long currentButtonTimerActivationTime = 0;
+
+    public byte[] sharedSessionKey;
+    public int encryptedSequenceNr;
+    public byte handle;
+    public byte getNextHandle() {
+        return handle++;
+    }
+
+
     private Timer buttonActionTimer = null;
 
     private static final Logger LOG = LoggerFactory.getLogger(HuamiSupport.class);
@@ -221,6 +232,7 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
     private boolean heartRateNotifyEnabled;
     private int mMTU = 23;
     protected int mActivitySampleSize = 4;
+    private boolean force2021Protocol = false;
 
     public HuamiSupport() {
         this(LOG);
@@ -255,6 +267,7 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
             characteristicChunked2021Write = getCharacteristic(HuamiService.UUID_CHARACTERISTIC_CHUNKEDTRANSFER_2021_WRITE);
             characteristicChunked2021Read = getCharacteristic(HuamiService.UUID_CHARACTERISTIC_CHUNKEDTRANSFER_2021_READ);
             if (characteristicChunked2021Write != null && GBApplication.getDeviceSpecificSharedPrefs(gbDevice.getAddress()).getBoolean("force_new_protocol", false)) {
+                force2021Protocol = true;
                 new InitOperation2021(authenticate, authFlags, cryptFlags, this, builder).perform();
             } else {
                 new InitOperation(authenticate, authFlags, cryptFlags, this, builder).perform();
@@ -1811,14 +1824,21 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
             }
         }
 
-        byte[] alarmMessage = new byte[] {
+        byte[] alarmMessage = new byte[]{
                 (byte) 0x2, // TODO what is this?
                 (byte) (actionMask | alarm.getPosition()), // action mask + alarm slot
                 (byte) calendar.get(Calendar.HOUR_OF_DAY),
                 (byte) calendar.get(Calendar.MINUTE),
                 (byte) daysMask,
         };
-        builder.write(characteristic, alarmMessage);
+        if (force2021Protocol) {
+            alarmMessage = ArrayUtils.insert(0, alarmMessage, (byte) 0x01);
+            writeToChunked2021(builder, HuamiService.CHUNKED2021_ENDPOINT_COMPAT, getNextHandle(), alarmMessage, true);
+        } else {
+            builder.write(characteristic, alarmMessage);
+        }
+
+
         // TODO: react on 0x10, 0x02, 0x01 on notification (success)
     }
 
@@ -2830,22 +2850,60 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
         }
     }
 
-    public void writeToChunked2021(TransactionBuilder builder, short type, byte handle, byte[] data) {
+    public void writeToChunked2021(TransactionBuilder builder, short type, byte handle, byte[] data, boolean encrypt) {
         int remaining = data.length;
+        int length = data.length;
         byte count = 0;
         int header_size = 11;
+
+        if (encrypt) {
+            byte[] messagekey = new byte[16];
+            for (int i = 0; i < 16; i++) {
+                messagekey[i] = (byte) (sharedSessionKey[i] ^ handle);
+            }
+            int encrypted_length = length + 8;
+            int overflow = encrypted_length % 16;
+            if (overflow > 0) {
+                encrypted_length += (16 - overflow);
+            }
+
+            byte[] encryptable_payload = new byte[encrypted_length];
+            System.arraycopy(data, 0, encryptable_payload, 0, length);
+            encryptable_payload[length] = (byte) (encryptedSequenceNr & 0xff);
+            encryptable_payload[length + 1] = (byte) ((encryptedSequenceNr >> 8) & 0xff);
+            encryptable_payload[length + 2] = (byte) ((encryptedSequenceNr >> 16) & 0xff);
+            encryptable_payload[length + 3] = (byte) ((encryptedSequenceNr >> 24) & 0xff);
+            encryptedSequenceNr++;
+            int checksum = CheckSums.getCRC32(encryptable_payload, 0, length + 4);
+            encryptable_payload[length + 4] = (byte) (checksum & 0xff);
+            encryptable_payload[length + 5] = (byte) ((checksum >> 8) & 0xff);
+            encryptable_payload[length + 6] = (byte) ((checksum >> 16) & 0xff);
+            encryptable_payload[length + 7] = (byte) ((checksum >> 24) & 0xff);
+            remaining = encrypted_length;
+            try {
+                data = CryptoUtils.encryptAES(encryptable_payload, messagekey);
+            } catch (Exception e) {
+                LOG.error("error while encrypting", e);
+                return;
+            }
+
+        }
+
         while (remaining > 0) {
             int MAX_CHUNKLENGTH = mMTU - 3 - header_size;
             int copybytes = Math.min(remaining, MAX_CHUNKLENGTH);
             byte[] chunk = new byte[copybytes + header_size];
 
             byte flags = 0;
+            if (encrypt) {
+                flags |= 0x08;
+            }
             if (count == 0) {
                 flags |= 0x01;
-                chunk[5] = (byte) (data.length & 0xff);
-                chunk[6] = (byte) ((data.length >> 8) & 0xff);
-                chunk[7] = (byte) ((data.length >> 16) & 0xff);
-                chunk[8] = (byte) ((data.length >> 24) & 0xff);
+                chunk[5] = (byte) (length & 0xff);
+                chunk[6] = (byte) ((length >> 8) & 0xff);
+                chunk[7] = (byte) ((length >> 16) & 0xff);
+                chunk[8] = (byte) ((length >> 24) & 0xff);
                 chunk[9] = (byte) (type & 0xff);
                 chunk[10] = (byte) ((type >> 8) & 0xff);
             }

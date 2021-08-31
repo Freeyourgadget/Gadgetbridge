@@ -64,6 +64,12 @@ public class CheckSums {
         return (int) (crc.getValue());
     }
 
+    public static int getCRC32(byte[] seq,int offset, int length) {
+        CRC32 crc = new CRC32();
+        crc.update(seq,offset,length);
+        return (int) (crc.getValue());
+    }
+
     public static void main(String[] args) throws IOException {
         if (args == null || args.length == 0) {
             throw new IllegalArgumentException("Pass the files to be checksummed as arguments");

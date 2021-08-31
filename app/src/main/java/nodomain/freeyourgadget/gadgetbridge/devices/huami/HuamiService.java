@@ -225,6 +225,13 @@ public class HuamiService {
 
     public static final byte[] COMMAND_TEXT_NOTIFICATION = new byte[] {0x05, 0x01};
 
+    /**
+     * Endpoints for 2021 chunked protocol
+     *
+     */
+    public static final short CHUNKED2021_ENDPOINT_AUTH = 0x82;
+    public static final short CHUNKED2021_ENDPOINT_COMPAT = 0x90;
+
     static {
         MIBAND_DEBUG = new HashMap<>();
         MIBAND_DEBUG.put(UUID_SERVICE_MIBAND_SERVICE, "MiBand Service");

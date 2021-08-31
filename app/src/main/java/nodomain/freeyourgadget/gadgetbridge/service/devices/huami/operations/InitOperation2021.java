@@ -16,30 +16,21 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.service.devices.huami.operations;
 
-import android.annotation.SuppressLint;
 import android.bluetooth.BluetoothGatt;
 import android.bluetooth.BluetoothGattCharacteristic;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.security.InvalidKeyException;
-import java.security.NoSuchAlgorithmException;
-import java.util.Arrays;
 import java.util.Random;
 import java.util.UUID;
-
-import javax.crypto.BadPaddingException;
-import javax.crypto.Cipher;
-import javax.crypto.IllegalBlockSizeException;
-import javax.crypto.NoSuchPaddingException;
-import javax.crypto.spec.SecretKeySpec;
 
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiService;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.SetDeviceStateAction;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.HuamiSupport;
+import nodomain.freeyourgadget.gadgetbridge.util.CryptoUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
 public class InitOperation2021 extends InitOperation {
@@ -96,7 +87,7 @@ public class InitOperation2021 extends InitOperation {
         sendPubkeyCommand[3] = 0x02;
         System.arraycopy(publicEC, 0, sendPubkeyCommand, 4, 48);
         //testAuth();
-        huamiSupport.writeToChunked2021(builder, (short) 0x82, (byte) 0x66, sendPubkeyCommand);
+        huamiSupport.writeToChunked2021(builder, HuamiService.CHUNKED2021_ENDPOINT_AUTH, huamiSupport.getNextHandle(), sendPubkeyCommand, false);
     }
 
     private native byte[] ecdh_generate_public(byte[] privateEC);
@@ -124,7 +115,7 @@ public class InitOperation2021 extends InitOperation {
             if (value.length > 1 && value[0] == 0x03) {
                 int sequenceNumber = value[4];
                 int headerSize;
-                if (sequenceNumber == 0 && value[9] == (byte) 0x82 && value[10] == 0x00 && value[11] == 0x10 && value[12] == 0x04 && value[13] == 0x01) {
+                if (sequenceNumber == 0 && value[9] == (byte) HuamiService.CHUNKED2021_ENDPOINT_AUTH && value[10] == 0x00 && value[11] == 0x10 && value[12] == 0x04 && value[13] == 0x01) {
                     reassembleBuffer_pointer = 0;
                     headerSize = 14;
                     reassembleBuffer_expectedBytes = value[5] - 3;
@@ -135,7 +126,7 @@ public class InitOperation2021 extends InitOperation {
                         return false;
                     }
                     headerSize = 5;
-                } else if (value[9] == (byte) 0x82 && value[10] == 0x00 && value[11] == 0x10 && value[12] == 0x05 && value[13] == 0x01) {
+                } else if (value[9] == (byte) HuamiService.CHUNKED2021_ENDPOINT_AUTH && value[10] == 0x00 && value[11] == 0x10 && value[12] == 0x05 && value[13] == 0x01) {
                     try {
                         TransactionBuilder builder = createTransactionBuilder("Authenticated, now initialize phase 2");
                         builder.add(new SetDeviceStateAction(getDevice(), GBDevice.State.INITIALIZING, getContext()));
@@ -163,21 +154,23 @@ public class InitOperation2021 extends InitOperation {
                     System.arraycopy(reassembleBuffer, 0, remoteRandom, 0, 16);
                     System.arraycopy(reassembleBuffer, 16, remotePublicEC, 0, 48);
                     sharedEC = ecdh_generate_shared(privateEC, remotePublicEC);
+                    huamiSupport.encryptedSequenceNr = ((sharedEC[0] & 0xff) | ((sharedEC[1] & 0xff) << 8) | ((sharedEC[2] & 0xff) << 16) | ((sharedEC[3] & 0xff) << 24));
 
                     byte[] secretKey = getSecretKey();
                     for (int i = 0; i < 16; i++) {
                         finalSharedSessionAES[i] = (byte) (sharedEC[i + 8] ^ secretKey[i]);
                     }
+                    huamiSupport.sharedSessionKey =  finalSharedSessionAES;
                     try {
-                        byte[] encryptedRandom1 = encryptAES(remoteRandom, secretKey);
-                        byte[] encryptedRandom2 = encryptAES(remoteRandom, finalSharedSessionAES);
+                        byte[] encryptedRandom1 = CryptoUtils.encryptAES(remoteRandom, secretKey);
+                        byte[] encryptedRandom2 = CryptoUtils.encryptAES(remoteRandom, finalSharedSessionAES);
                         if (encryptedRandom1.length == 16 && encryptedRandom2.length == 16) {
                             byte[] command = new byte[33];
                             command[0] = 0x05;
                             System.arraycopy(encryptedRandom1, 0, command, 1, 16);
                             System.arraycopy(encryptedRandom2, 0, command, 17, 16);
                             TransactionBuilder builder = createTransactionBuilder("Sending double encryted random to device");
-                            huamiSupport.writeToChunked2021(builder, (short) 0x82, (byte) 0x67, command);
+                            huamiSupport.writeToChunked2021(builder, HuamiService.CHUNKED2021_ENDPOINT_AUTH, huamiSupport.getNextHandle(), command, false);
                             huamiSupport.performImmediately(builder);
                         }
                     } catch (Exception e) {
@@ -194,13 +187,5 @@ public class InitOperation2021 extends InitOperation {
             return super.onCharacteristicChanged(gatt, characteristic);
         }
 
-    }
-
-    private byte[] encryptAES(byte[] value, byte[] secretKey) throws InvalidKeyException, NoSuchPaddingException, NoSuchAlgorithmException, BadPaddingException, IllegalBlockSizeException {
-        byte[] mValue = Arrays.copyOfRange(value, 0, 16);
-        @SuppressLint("GetInstance") Cipher ecipher = Cipher.getInstance("AES/ECB/NoPadding");
-        SecretKeySpec newKey = new SecretKeySpec(secretKey, "AES");
-        ecipher.init(Cipher.ENCRYPT_MODE, newKey);
-        return ecipher.doFinal(mValue);
     }
 }
