@@ -1792,7 +1792,6 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
      *
      * @param alarm
      * @param builder
-     * @param characteristic
      */
     private void queueAlarm(Alarm alarm, TransactionBuilder builder) {
         Calendar calendar = AlarmUtils.toCalendar(alarm);
@@ -2547,6 +2546,7 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
                 command[pos++] = id.byteValue();
             }
         }
+
         writeToChunked(builder, 2, command);
 
         return this;
@@ -2818,6 +2818,15 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
     }
 
     protected void writeToChunked(TransactionBuilder builder, int type, byte[] data) {
+        if (force2021Protocol && type > 0) {
+            byte[] command = ArrayUtils.addAll(new byte[]{0x00, 0x00, (byte) (0xc0 | type), 0x00}, data);
+            writeToChunked2021(builder, HuamiService.CHUNKED2021_ENDPOINT_COMPAT, getNextHandle(), command, type != 1);
+        } else {
+            writeToChunkedOld(builder, type, data);
+        }
+    }
+
+    protected void writeToChunkedOld(TransactionBuilder builder, int type, byte[] data) {
         final int MAX_CHUNKLENGTH = mMTU - 6;
         int remaining = data.length;
         byte count = 0;
