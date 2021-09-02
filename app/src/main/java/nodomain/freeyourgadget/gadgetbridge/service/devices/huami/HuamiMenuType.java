@@ -61,5 +61,6 @@ class HuamiMenuType {
         put("battery", 0x3a);
         put("temperature", 0x40);
         put("barometer", 0x41);
+        put("flashlight", 0x43);
     }};
 }
