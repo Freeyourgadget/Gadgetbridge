@@ -1322,4 +1322,5 @@
     <string name="pref_theme_black_background">Usar fondo negro en el tema oscuro</string>
     <string name="pref_summary_huami_force_new_protocol">Activar si su dispositivo ya no se conecta después de una actualización de firmware</string>
     <string name="pref_title_huami_force_new_protocol">Nuevo protocolo de autenticación</string>
+    <string name="menuitem_flashlight">Linterna</string>
 </resources>
