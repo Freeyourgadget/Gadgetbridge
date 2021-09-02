@@ -1324,4 +1324,5 @@
     <string name="watchface_widget_type_battery">Акумулятор</string>
     <string name="pref_summary_huami_force_new_protocol">Увімкніть, якщо ваш пристрій більше не під\'єднується після оновлення мікропрограми</string>
     <string name="pref_title_huami_force_new_protocol">Новий протокол автентифікації</string>
+    <string name="menuitem_flashlight">Ліхтарик</string>
 </resources>
