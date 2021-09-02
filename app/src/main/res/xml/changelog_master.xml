@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
+    <release version="0.59.3" versioncode="202">
+	<change>Mi Band 6: Properly support firmware 1.0.4.38</change>
+	<change>Mi Band 6: Add Flashlight to menu items</change>
+	<change>ZeTime: Fix corruption on long notifications</change>
+    </release>
     <release version="0.59.2" versioncode="201">
 	<change>Mi Band 6: Support firmware 1.0.4.38 (experimental, still missing features)</change>
 	<change>InfiniTime: Fix null being displayed as notification title</change>

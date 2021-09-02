@@ -1,4 +1,10 @@
 ### Changelog
+
+### 0.59.3
+* Mi Band 6: Properly support firmware 1.0.4.38
+* Mi Band 6: Add Flashlight to menu items
+* ZeTime: Fix corruption on long notifications
+
 ### 0.59.2
 * Mi Band 6: Support firmware 1.0.4.38 (experimental, still missing features)
 * InfiniTime: Fix null being displayed as notification title
