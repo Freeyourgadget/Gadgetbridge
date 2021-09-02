@@ -1315,4 +1315,5 @@ Temps de sommeil préféré en heures</string>
     <string name="watchface_widget_type_battery">Batterie</string>
     <string name="pref_summary_huami_force_new_protocol">A activer si votre appareil ne se connecte plus après une mise à jour du micrologiciel</string>
     <string name="pref_title_huami_force_new_protocol">Nouveau protocole d\'identification</string>
+    <string name="menuitem_flashlight">Flash</string>
 </resources>
