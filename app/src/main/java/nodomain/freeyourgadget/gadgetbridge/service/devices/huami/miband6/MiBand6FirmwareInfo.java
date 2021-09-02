@@ -38,8 +38,10 @@ public class MiBand6FirmwareInfo extends HuamiFirmwareInfo {
     static {
         // firmware
         crcToVersion.put(47447, "1.0.1.36");
+        crcToVersion.put(41380, "1.0.4.38");
         // resources
         crcToVersion.put(54803, "1.0.1.36");
+        crcToVersion.put(14596, "1.0.4.38");
     }
 
     public MiBand6FirmwareInfo(byte[] bytes) {
