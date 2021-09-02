@@ -177,7 +177,7 @@ public class UpdateFirmwareOperation2020 extends UpdateFirmwareOperation {
             if (getFirmwareInfo().getFirmwareType() == HuamiFirmwareType.WATCHFACE) {
                 byte[] fwBytes = firmwareInfo.getBytes();
                 if (ArrayUtils.startsWith(fwBytes, UIHH_HEADER)) {
-                    builder.write(getCharacteristic(HuamiService.UUID_CHARACTERISTIC_3_CONFIGURATION),
+                    getSupport().writeToConfiguration(builder,
                             new byte[]{0x39, 0x00,
                                     sizeBytes[0],
                                     sizeBytes[1],

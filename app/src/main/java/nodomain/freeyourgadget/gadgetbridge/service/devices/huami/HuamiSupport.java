@@ -2928,7 +2928,7 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
         }
     }
 
-    protected void writeToConfiguration(TransactionBuilder builder, byte[] data) {
+    public void writeToConfiguration(TransactionBuilder builder, byte[] data) {
         if (force2021Protocol) {
             data = ArrayUtils.insert(0, data, (byte) 1);
             writeToChunked2021(builder, HuamiService.CHUNKED2021_ENDPOINT_COMPAT, getNextHandle(), data, true);
