@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+<PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
     <PreferenceCategory
         android:key="pref_key_general"
         android:title="@string/pref_header_general">
@@ -129,6 +130,11 @@
         android:key="pref_key_notifications"
         android:title="@string/pref_header_notifications">
 
+        <Preference
+            android:id="@+id/preference"
+            android:key="ping_tone"
+            android:title="@string/pref_title_ping_tone"
+            app:summary="%s" />
         <ListPreference
             android:defaultValue="always"
             android:entries="@array/notification_mode_toggle"

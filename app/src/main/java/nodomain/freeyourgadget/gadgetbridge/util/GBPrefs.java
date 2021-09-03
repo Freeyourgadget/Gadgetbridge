@@ -45,6 +45,7 @@ public class GBPrefs {
     private static final String AUTO_START = "general_autostartonboot";
     public static final String AUTO_EXPORT_ENABLED = "auto_export_enabled";
     public static final String AUTO_EXPORT_LOCATION = "auto_export_location";
+    public static final String PING_TONE = "ping_tone";
     public static final String AUTO_EXPORT_INTERVAL = "auto_export_interval";
     private static final boolean AUTO_START_DEFAULT = true;
     private static final String BG_JS_ENABLED = "pebble_enable_background_javascript";

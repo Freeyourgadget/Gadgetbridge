@@ -38,8 +38,11 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
+
+import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
+import nodomain.freeyourgadget.gadgetbridge.util.GBPrefs;
 
 
 public class FindPhoneActivity extends AbstractGBActivity {
@@ -112,7 +115,7 @@ public class FindPhoneActivity extends AbstractGBActivity {
         }
         mp = new MediaPlayer();
 
-        Uri ringtoneUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_RINGTONE);
+        Uri ringtoneUri = Uri.parse(GBApplication.getPrefs().getString(GBPrefs.PING_TONE, RingtoneManager.getDefaultUri(RingtoneManager.TYPE_RINGTONE).toString()));
 
         try {
             mp.setDataSource(this, ringtoneUri);
