@@ -1329,4 +1329,5 @@
     <string name="pref_title_huami_force_new_protocol">Nowy protokół uwierzytelnienia</string>
     <string name="watchface_setting_power_saving_hands">Wyłącz ruch wskazówek po zdjęciu zegarka</string>
     <string name="watchface_setting_power_saving_display">Wyłącz aktualizacje wyświetlacza po zdjęciu zegarka</string>
+    <string name="menuitem_flashlight">Latarka</string>
 </resources>
