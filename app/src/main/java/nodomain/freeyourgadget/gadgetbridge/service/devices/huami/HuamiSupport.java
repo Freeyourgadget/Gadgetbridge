@@ -1448,7 +1448,7 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
             writeToConfiguration(builder,AmazfitBipService.COMMAND_ACK_FIND_PHONE_IN_PROGRESS);
             builder.queue(getQueue());
         } catch (Exception ex) {
-            LOG.error("Error sending current weather", ex);
+            LOG.error("Error while ending acknowledge find phone", ex);
         }
     }
 
@@ -2819,8 +2819,13 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
 
     protected void writeToChunked(TransactionBuilder builder, int type, byte[] data) {
         if (force2021Protocol && type > 0) {
+            boolean encrypt = true;
+            if (type == 1 && (data[1] == 2)) { // don't encypt current weather
+                encrypt = false;
+            }
+
             byte[] command = ArrayUtils.addAll(new byte[]{0x00, 0x00, (byte) (0xc0 | type), 0x00}, data);
-            writeToChunked2021(builder, HuamiService.CHUNKED2021_ENDPOINT_COMPAT, getNextHandle(), command, type != 1);
+            writeToChunked2021(builder, HuamiService.CHUNKED2021_ENDPOINT_COMPAT, getNextHandle(), command, encrypt);
         } else {
             writeToChunkedOld(builder, type, data);
         }
