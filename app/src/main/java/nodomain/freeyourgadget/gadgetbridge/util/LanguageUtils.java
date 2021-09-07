@@ -108,6 +108,13 @@ public class LanguageUtils {
             put('Ö', "O"); put('Õ', "O");
             put('ü', "u"); put('Ü', "U");
 
+            // Icelandic
+            put('Þ',"Th"); put('þ',"th"); put('Ð',"D"); put('ð',"d");
+
+            // Czech
+            put('ř',"r"); put('ě',"e"); put('ý',"y"); put('á',"a"); put('í',"i"); put('é',"e");
+            put('ó',"o"); put('ú',"u"); put('ů',"u"); put('ď',"d"); put('ť',"t"); put('ň',"n");
+
             //TODO: these must be configurable. If someone wants to transliterate cyrillic it does not mean his device has no German umlauts
             // all or nothing is really bad here
         }
