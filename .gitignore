@@ -35,3 +35,4 @@ fw.dirs
 **/.settings
 **/.classpath
 app/release/output-metadata.json
+app/.cxx/
