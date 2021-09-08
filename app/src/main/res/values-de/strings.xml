@@ -1326,4 +1326,5 @@
     <string name="watchface_setting_power_saving_display">Bildschirmaktualisierungen ohne Handgelenk deaktivieren</string>
     <string name="pref_summary_huami_force_new_protocol">Aktivieren, wenn das Gerät nach einem Firmware-Upgrade keine Verbindung mehr herstellt</string>
     <string name="pref_title_huami_force_new_protocol">Neues Auth-Protokoll</string>
+    <string name="menuitem_flashlight">Taschenlampe</string>
 </resources>
