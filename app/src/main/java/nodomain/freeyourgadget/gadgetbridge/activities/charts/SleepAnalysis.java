@@ -45,6 +45,14 @@ public class SleepAnalysis {
                 sleepEnd = getDateFromSample(sample);
 
                 durationSinceLastSleep = 0;
+            } else {
+                //exclude "not worn" times from sleep sessions as this makes a discrepancy with the charts
+                if (lightSleepDuration + deepSleepDuration > MIN_SESSION_LENGTH)
+                    result.add(new SleepSession(sleepStart, sleepEnd, lightSleepDuration, deepSleepDuration));
+                sleepStart = null;
+                sleepEnd = null;
+                lightSleepDuration = 0;
+                deepSleepDuration = 0;
             }
 
             if (previousSample != null) {
