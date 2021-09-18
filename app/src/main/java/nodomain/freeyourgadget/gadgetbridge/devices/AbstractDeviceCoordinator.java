@@ -94,6 +94,8 @@ public abstract class AbstractDeviceCoordinator implements DeviceCoordinator {
             prefs.getPreferences().edit().remove(MiBandConst.PREF_MIBAND_ADDRESS).apply();
         }
 
+        GBApplication.deleteDeviceSpecificSharedPrefs(gbDevice.getAddress());
+
         try (DBHandler dbHandler = GBApplication.acquireDB()) {
             DaoSession session = dbHandler.getDaoSession();
             Device device = DBHelper.findDevice(gbDevice, session);

@@ -217,6 +217,14 @@
                 grid:layout_gravity="fill_horizontal"
                 android:text="Add test device manually" />
 
+            <Button
+                android:id="@+id/removeDevicePreferences"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Remove device preferences"
+                grid:layout_columnSpan="2"
+                grid:layout_gravity="fill_horizontal" />
+
         </androidx.gridlayout.widget.GridLayout>
 
     </ScrollView>

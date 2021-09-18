@@ -397,6 +397,17 @@ public class DebugActivity extends AbstractGBActivity {
             }
         });
 
+        Button removeDevicePreferencesButton = findViewById(R.id.removeDevicePreferences);
+        removeDevicePreferencesButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Context context = getApplicationContext();
+                GBApplication gbApp = (GBApplication) context;
+                final GBDevice device = gbApp.getDeviceManager().getSelectedDevice();
+                GBApplication.deleteDeviceSpecificSharedPrefs(device.getAddress());
+            }
+        });
+
         Button addDeviceButtonDebug = findViewById(R.id.addDeviceButtonDebug);
         addDeviceButtonDebug.setOnClickListener(new View.OnClickListener() {
             @Override

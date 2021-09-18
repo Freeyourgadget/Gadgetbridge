@@ -952,6 +952,14 @@ public class GBApplication extends Application {
         return context.getSharedPreferences("devicesettings_" + deviceIdentifier, Context.MODE_PRIVATE);
     }
 
+    public static void deleteDeviceSpecificSharedPrefs(String deviceIdentifier) {
+        if (deviceIdentifier == null || deviceIdentifier.isEmpty()) {
+            return;
+        }
+        context.getSharedPreferences("devicesettings_" + deviceIdentifier, Context.MODE_PRIVATE).edit().clear().apply();
+    }
+
+
     public static void setLanguage(String lang) {
         if (lang.equals("default")) {
             language = Resources.getSystem().getConfiguration().locale;
