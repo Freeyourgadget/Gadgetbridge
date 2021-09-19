@@ -494,7 +494,7 @@
     <string name="devicetype_no1_f1">No.1 F1</string>
     <string name="devicetype_teclast_h30">Teclast H30</string>
     <string name="choose_auto_export_location">Seleziona percorso di esportazione</string>
-    <string name="notification_channel_name">Notifiche Gadgetbridge</string>
+    <string name="notification_channel_name">Generale</string>
     <string name="devicetype_xwatch">XWatch</string>
     <string name="on">Acceso</string>
     <string name="blacklist_all_for_notifications">Blocca tutte le notifiche</string>
@@ -847,7 +847,7 @@
     <string name="hr_appname_wellness">Benessere</string>
     <string name="qhybrid_use_activity_hand_as_notification_counter">utilizzare la mano di attività come contatore di notifica</string>
     <string name="qhybrid_overwrite_buttons">sovrascrivere i pulsanti</string>
-    <string name="notification_channel_high_priority_name">Notifiche di Gadgetbridge ad alta priorità</string>
+    <string name="notification_channel_high_priority_name">Alta priorità</string>
     <string name="find_my_phone_notification">Trova il mio telefono</string>
     <string name="pref_title_vibration_strength">Resistenza alle vibrazioni</string>
     <string name="pref_title_relax_firmware_checks">Attiva questo se vuoi flashare un firmware non destinato al tuo dispositivo (a proprio rischio e pericolo)</string>
@@ -1127,7 +1127,7 @@
     <string name="prefs_operating_sounds">Suoni di operazione</string>
     <string name="prefs_key_vibration">Vibrazione chiave</string>
     <string name="prefs_autolight">Luce automatica</string>
-    <string name="qhybrid_calibration_align_hint">posiziona le mani alle 12:00</string>
+    <string name="qhybrid_calibration_align_hint">Usa i tasti in basso per allineare le lancette dell\'orologio alle ore 12:00.</string>
     <string name="devicetype_nut_mini">Nut mini</string>
     <string name="prefs_events_forwarding_summary">Utilizza gli eventi del dispositivo per avviare azioni e broadcast di Android</string>
     <string name="seconds_m">sec/m</string>
@@ -1230,4 +1230,13 @@
 \nNota: non devi installare il file .res se è uguale a quello installato in precedenza.
 \n
 \nPROCEDI A TUO RISCHIO E PERICOLO!</string>
+    <string name="watchface_setting_title_power_saving">Risparmio energetico</string>
+    <string name="activity_summary_detail_select_gpx_track">Seleziona traccia GPX</string>
+    <string name="set">Imposta</string>
+    <string name="blood_pressure">Pressione sanguigna</string>
+    <string name="getting_heart_rate">Misurazione in corso</string>
+    <string name="heart_rate_result">Risultato della misurazione</string>
+    <string name="devicetype_miband6">Mi Band 6</string>
+    <string name="pref_title_huami_force_new_protocol">Nuovo protocollo di autenticazione</string>
+    <string name="pref_summary_huami_force_new_protocol">Abilita se il tuo dispositivo non si riesce più a connettere dopo un aggiornamento del firmware</string>
 </resources>
