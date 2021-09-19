@@ -404,7 +404,9 @@ public class DebugActivity extends AbstractGBActivity {
                 Context context = getApplicationContext();
                 GBApplication gbApp = (GBApplication) context;
                 final GBDevice device = gbApp.getDeviceManager().getSelectedDevice();
-                GBApplication.deleteDeviceSpecificSharedPrefs(device.getAddress());
+                if (device != null) {
+                    GBApplication.deleteDeviceSpecificSharedPrefs(device.getAddress());
+                }
             }
         });
 
