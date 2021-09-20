@@ -24,11 +24,9 @@ import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationManager;
 import android.text.format.DateFormat;
+import android.util.Log;
 
 import androidx.core.app.ActivityCompat;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.text.ParseException;
 import java.util.Date;
@@ -37,7 +35,8 @@ import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst;
 
 public class GBPrefs {
-    private static final Logger LOG = LoggerFactory.getLogger(GBPrefs.class);
+    // Since this class must not log to slf4j, we use plain android.util.Log
+    private static final String TAG = "GBPrefs";
 
     public static final String PACKAGE_BLACKLIST = "package_blacklist";
     public static final String PACKAGE_PEBBLEMSG_BLACKLIST = "package_pebblemsg_blacklist";
@@ -118,7 +117,7 @@ public class GBPrefs {
 
         float latitude = prefs.getFloat("location_latitude", 0);
         float longitude = prefs.getFloat("location_longitude", 0);
-        LOG.info("got longitude/latitude from preferences: " + latitude + "/" + longitude);
+        Log.i(TAG, "got longitude/latitude from preferences: " + latitude + "/" + longitude);
 
         if (ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED &&
                 prefs.getBoolean("use_updated_location_if_available", false)) {
@@ -130,7 +129,7 @@ public class GBPrefs {
                 if (lastKnownLocation != null) {
                     latitude = (float) lastKnownLocation.getLatitude();
                     longitude = (float) lastKnownLocation.getLongitude();
-                    LOG.info("got longitude/latitude from last known location: " + latitude + "/" + longitude);
+                    Log.i(TAG, "got longitude/latitude from last known location: " + latitude + "/" + longitude);
                 }
             }
         }
