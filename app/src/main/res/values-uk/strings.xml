@@ -1325,4 +1325,17 @@
     <string name="pref_summary_huami_force_new_protocol">Увімкніть, якщо ваш пристрій більше не під\'єднується після оновлення мікропрограми</string>
     <string name="pref_title_huami_force_new_protocol">Новий протокол автентифікації</string>
     <string name="menuitem_flashlight">Ліхтарик</string>
+    <string name="prefs_autoheartrate_interval">Частота вимірювань</string>
+    <string name="prefs_autoheartrate_sleep">Вимірювати під час сну</string>
+    <string name="prefs_autoheartrate_measurement">Автоматичне вимірювання частоти серцебиття</string>
+    <string name="prefs_autoheartrate_summary">Періодичні вимірювання частоти серцебиття впродовж дня, а також під час сну</string>
+    <string name="prefs_autoheartrate">Автовизначення серцебиття</string>
+    <string name="enable_notifications_summary">Сповіщення про виклики, повідомлення тощо</string>
+    <string name="enable_vibrations_summary">Вібрація для викликів, повідомлень, сповіщень тощо</string>
+    <string name="prefs_notifications_enable">Увімкнути сповіщення</string>
+    <string name="prefs_vibration_enable">Увімкнути вібрацію</string>
+    <string name="prefs_sleep_time_summary">Визначає час, коли розпізнано сон</string>
+    <string name="prefs_sleep_time_label">Визначення годин сну</string>
+    <string name="prefs_sleep_time">Час сну</string>
+    <string name="devicetype_fitpro">FitPro</string>
 </resources>
