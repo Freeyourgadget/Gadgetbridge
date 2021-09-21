@@ -86,7 +86,7 @@ public class Weather {
     }
 
     private static final Weather weather = new Weather();
-    public static Weather getInstance() {return weather;}
+    public static Weather getInstance() { return weather; }
 
     public static byte mapToPebbleCondition(int openWeatherMapCondition) {
 /* deducted values:
@@ -878,6 +878,97 @@ public class Weather {
 //Group 90x: Extreme
             case 903:  //cold
                 return 5;
+        }
+    }
+
+    public static byte mapToFitProCondition(int openWeatherMapCondition) {
+        switch (openWeatherMapCondition) {
+            case 100:
+                return 1;
+            case 104:
+                return 2;
+            case 101:
+            case 102:
+            case 103:
+                return 3;
+            case 305:
+            case 309:
+                return 4;
+            case 306:
+            case 314:
+            case 399:
+                return 5;
+            case 307:
+            case 308:
+            case 310:
+            case 311:
+            case 312:
+            case 315:
+            case 316:
+            case 317:
+            case 318:
+                return 6;
+            case 300:
+            case 301:
+            case 302:
+            case 303:
+                return 7;
+            case 400:
+            case 407:
+                return 8;
+            case 401:
+            case 408:
+            case 499:
+                return 9;
+            case 402:
+            case 403:
+            case 409:
+            case 410:
+                return 10;
+            case 404:
+            case 405:
+            case 406:
+                return 11;
+            case 500:
+            case 501:
+            case 502:
+            case 509:
+            case 510:
+            case 511:
+            case 512:
+            case 513:
+            case 514:
+            case 515:
+                return 12;
+            case 304:
+            case 313:
+                return 13;
+            case 503:
+            case 504:
+            case 507:
+            case 508:
+                return 14;
+            case 200:
+            case 201:
+            case 202:
+            case 203:
+            case 204:
+                return 15;
+            case 205:
+            case 206:
+            case 207:
+            case 208:
+                return 16;
+            case 209:
+            case 210:
+            case 211:
+                return 17;
+            case 212:
+                return 18;
+            case 231:
+                return 19;
+            default:
+                return 3;
         }
     }
 }

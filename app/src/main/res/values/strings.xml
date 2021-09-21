@@ -876,6 +876,7 @@
     <string name="devicetype_sonyswr12" translatable="false">Sony SWR12</string>
     <string name="devicetype_waspos">Wasp-os</string>
     <string name="devicetype_smaq2oss">SMA-Q2 OSS</string>
+    <string name="devicetype_fitpro">FitPro</string>
     <string name="devicetype_domyos_t540"/>
     <string name="choose_auto_export_location">Choose export location</string>
     <string name="notification_channel_name">General</string>
@@ -1257,4 +1258,16 @@
     <string name="watchface_setting_title_power_saving">Power saving</string>
     <string name="watchface_setting_power_saving_display">Disable display updates while off wrist</string>
     <string name="watchface_setting_power_saving_hands">Disable hands movement while off wrist</string>
+<string name="prefs_sleep_time">Sleep times</string>
+    <string name="prefs_sleep_time_label">Define sleep hours</string>
+    <string name="prefs_sleep_time_summary">Specifies times when sleep is registered</string>
+    <string name="prefs_vibration_enable">Enable vibrations</string>
+    <string name="prefs_notifications_enable">Enable notifications</string>
+    <string name="enable_vibrations_summary">Vibrations for calls, messages, notifications and more</string>
+    <string name="enable_notifications_summary">Notifications for calls, messages and more</string>
+    <string name="prefs_autoheartrate">Automatic Heart Rate</string>
+    <string name="prefs_autoheartrate_summary">Periodical Heart Rate measurements during the day and also while asleep</string>
+    <string name="prefs_autoheartrate_measurement">Automatic Heart Rate measurements</string>
+    <string name="prefs_autoheartrate_sleep">Take measurements during sleep</string>
+    <string name="prefs_autoheartrate_interval">Frequency of measurements</string>
 </resources>

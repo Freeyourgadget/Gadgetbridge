@@ -52,6 +52,34 @@
         <item>sk</item>
     </string-array>
 
+    <string-array name="pref_fitpro_language_options">
+        <item>@string/automatic</item>
+        <item>@string/simplified_chinese</item>
+        <item>@string/english</item>
+        <item>@string/turkish</item>
+        <item>@string/polish</item>
+        <item>@string/portuguese</item>
+        <item>@string/russian</item>
+        <item>@string/spanish</item>
+        <item>@string/german</item>
+        <item>@string/french</item>
+        <item>@string/czesh</item>
+    </string-array>
+
+    <string-array name="pref_fitpro_language_values">
+        <item>auto</item>
+        <item>zh_CN</item>
+        <item>en_US</item>
+        <item>tr_TR</item>
+        <item>pl_PL</item>
+        <item>pt_BR</item>
+        <item>ru_RU</item>
+        <item>es_ES</item>
+        <item>de_DE</item>
+        <item>fr_FR</item>
+        <item>cs_CZ</item>
+    </string-array>
+
     <string-array name="notification_mode">
         <item>@string/always</item>
         <item>@string/when_screen_off</item>
@@ -1724,4 +1752,28 @@
         <item>@string/p_menuitem_goal</item>
     </string-array>
 
+    <string-array name="inactivity_minutes">
+        <item>45</item>
+        <item>60</item>
+        <item>75</item>
+        <item>90</item>
+        <item>105</item>
+        <item>120</item>
+    </string-array>
+
+    <string-array name="inactivity_minutes_values">
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+        <item>8</item>
+    </string-array>
+
+    <string-array name="autoheartrate_interval_hours">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+    </string-array>
 </resources>
+

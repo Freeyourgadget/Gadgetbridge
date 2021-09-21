@@ -91,6 +91,7 @@ public enum DeviceType {
     MIJIA_LYWSD02(200, R.drawable.ic_device_pebble, R.drawable.ic_device_pebble_disabled, R.string.devicetype_mijia_lywsd02),
     LEFUN(210, R.drawable.ic_device_h30_h10, R.drawable.ic_device_h30_h10_disabled, R.string.devicetype_lefun),
     SMAQ2OSS(220, R.drawable.ic_device_default, R.drawable.ic_device_default, R.string.devicetype_smaq2oss),
+    FITPRO(230, R.drawable.ic_device_default, R.drawable.ic_device_default_disabled, R.string.devicetype_fitpro),
     ITAG(250, R.drawable.ic_device_itag, R.drawable.ic_device_itag_disabled, R.string.devicetype_itag),
     NUTMINI(251, R.drawable.ic_device_itag, R.drawable.ic_device_itag_disabled, R.string.devicetype_nut_mini),
     VIBRATISSIMO(300, R.drawable.ic_device_lovetoy, R.drawable.ic_device_lovetoy_disabled, R.string.devicetype_vibratissimo),

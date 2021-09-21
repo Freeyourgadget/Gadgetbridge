@@ -65,6 +65,8 @@ import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.Dev
 import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_DATEFORMAT;
 import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_DISCONNECTNOTIF_NOSHED;
 import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_DO_NOT_DISTURB_NOAUTO;
+import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_DO_NOT_DISTURB_NOAUTO_END;
+import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_DO_NOT_DISTURB_NOAUTO_START;
 import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_FAKE_RING_DURATION;
 import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_FIND_PHONE_ENABLED;
 import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_HYBRID_HR_DANGEROUS_EXTERNAL_INTENTS;
@@ -79,9 +81,20 @@ import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.Dev
 import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_LIFTWRIST_NOSHED;
 import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_LONGSIT_PERIOD;
 import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_LONGSIT_SWITCH;
+import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_LONGSIT_START;
+import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_LONGSIT_END;
+import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_AUTOHEARTRATE_SWITCH;
+import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_AUTOHEARTRATE_SLEEP;
+import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_AUTOHEARTRATE_INTERVAL;
+import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_AUTOHEARTRATE_START;
+import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_AUTOHEARTRATE_END;
+import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_NOTIFICATION_ENABLE;
 import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_OPERATING_SOUNDS;
 import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_POWER_MODE;
 import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_SCREEN_ORIENTATION;
+import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_SLEEP_TIME;
+import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_SLEEP_TIME_END;
+import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_SLEEP_TIME_START;
 import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_SONYSWR12_LOW_VIBRATION;
 import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_SONYSWR12_SMART_INTERVAL;
 import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_SONYSWR12_STAMINA;
@@ -90,6 +103,7 @@ import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.Dev
 import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_TRANSLITERATION_ENABLED;
 import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_VIBRATION_STRENGH_PERCENTAGE;
 import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_WEARLOCATION;
+import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_VIBRATION_ENABLE;
 import static nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst.PREF_ACTIVATE_DISPLAY_ON_LIFT;
 import static nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst.PREF_DEVICE_ACTION_FELL_SLEEP_BROADCAST;
 import static nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst.PREF_DEVICE_ACTION_FELL_SLEEP_SELECTION;
@@ -372,6 +386,8 @@ public class DeviceSpecificSettingsFragment extends PreferenceFragmentCompat {
         addPreferenceHandlerFor(PREF_EXPOSE_HR_THIRDPARTY);
         addPreferenceHandlerFor(PREF_BT_CONNECTED_ADVERTISEMENT);
         addPreferenceHandlerFor(PREF_WEARLOCATION);
+        addPreferenceHandlerFor(PREF_VIBRATION_ENABLE);
+        addPreferenceHandlerFor(PREF_NOTIFICATION_ENABLE);
         addPreferenceHandlerFor(PREF_SCREEN_ORIENTATION);
         addPreferenceHandlerFor(PREF_TIMEFORMAT);
         addPreferenceHandlerFor(PREF_BUTTON_1_FUNCTION_SHORT);
@@ -391,7 +407,16 @@ public class DeviceSpecificSettingsFragment extends PreferenceFragmentCompat {
         addPreferenceHandlerFor(PREF_ALTITUDE_CALIBRATE);
         addPreferenceHandlerFor(PREF_LONGSIT_PERIOD);
         addPreferenceHandlerFor(PREF_LONGSIT_SWITCH);
+        addPreferenceHandlerFor(PREF_LONGSIT_START);
+        addPreferenceHandlerFor(PREF_LONGSIT_END);
+        addPreferenceHandlerFor(PREF_AUTOHEARTRATE_SWITCH);
+        addPreferenceHandlerFor(PREF_AUTOHEARTRATE_SLEEP);
+        addPreferenceHandlerFor(PREF_AUTOHEARTRATE_INTERVAL);
+        addPreferenceHandlerFor(PREF_AUTOHEARTRATE_START);
+        addPreferenceHandlerFor(PREF_AUTOHEARTRATE_END);
         addPreferenceHandlerFor(PREF_DO_NOT_DISTURB_NOAUTO);
+        addPreferenceHandlerFor(PREF_DO_NOT_DISTURB_NOAUTO_START);
+        addPreferenceHandlerFor(PREF_DO_NOT_DISTURB_NOAUTO_END);
         addPreferenceHandlerFor(PREF_FIND_PHONE_ENABLED);
         addPreferenceHandlerFor(PREF_AUTOLIGHT);
         addPreferenceHandlerFor(PREF_AUTOREMOVE_MESSAGE);
@@ -415,6 +440,81 @@ public class DeviceSpecificSettingsFragment extends PreferenceFragmentCompat {
         addPreferenceHandlerFor(PREF_SONYSWR12_LOW_VIBRATION);
         addPreferenceHandlerFor(PREF_SONYSWR12_SMART_INTERVAL);
 
+        String sleepTimeState = prefs.getString(PREF_SLEEP_TIME, PREF_DO_NOT_DISTURB_OFF);
+        boolean sleepTimeScheduled = sleepTimeState.equals(PREF_DO_NOT_DISTURB_SCHEDULED);
+
+        final Preference sleepTimeInfo = findPreference(PREF_SLEEP_TIME);
+        if (sleepTimeInfo != null) {
+            //sleepTimeInfo.setEnabled(!PREF_DO_NOT_DISTURB_OFF.equals(sleepTimeInfo));
+            sleepTimeInfo.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+                @Override
+                public boolean onPreferenceChange(Preference preference, Object newVal) {
+                    invokeLater(new Runnable() {
+                        @Override
+                        public void run() {
+                            GBApplication.deviceService().onSendConfiguration(PREF_SLEEP_TIME);
+                        }
+                    });
+                    return true;
+                }
+            });
+        }
+
+        final Preference sleepTimeStart = findPreference(PREF_SLEEP_TIME_START);
+        if (sleepTimeStart != null) {
+            sleepTimeStart.setEnabled(sleepTimeScheduled);
+            sleepTimeStart.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+                @Override
+                public boolean onPreferenceChange(Preference preference, Object newVal) {
+                    invokeLater(new Runnable() {
+                        @Override
+                        public void run() {
+                            GBApplication.deviceService().onSendConfiguration(PREF_SLEEP_TIME_START);
+                        }
+                    });
+                    return true;
+                }
+            });
+        }
+
+        final Preference sleepTimeEnd = findPreference(PREF_SLEEP_TIME_END);
+        if (sleepTimeEnd != null) {
+            sleepTimeEnd.setEnabled(sleepTimeScheduled);
+            sleepTimeEnd.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+                @Override
+                public boolean onPreferenceChange(Preference preference, Object newVal) {
+                    invokeLater(new Runnable() {
+                        @Override
+                        public void run() {
+                            GBApplication.deviceService().onSendConfiguration(PREF_SLEEP_TIME_END);
+                        }
+                    });
+                    return true;
+                }
+            });
+        }
+
+        final Preference sleepTime = findPreference(PREF_SLEEP_TIME);
+        if (sleepTime != null) {
+            sleepTime.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+                @Override
+                public boolean onPreferenceChange(Preference preference, Object newVal) {
+                    final boolean scheduled = PREF_DO_NOT_DISTURB_SCHEDULED.equals(newVal.toString());
+                    Objects.requireNonNull(sleepTimeStart).setEnabled(scheduled);
+                    Objects.requireNonNull(sleepTimeEnd).setEnabled(scheduled);
+                    if (sleepTimeInfo != null) {
+                        //sleepTimeInfo.setEnabled(!PREF_DO_NOT_DISTURB_OFF.equals(newVal.toString()));
+                    }
+                    invokeLater(new Runnable() {
+                        @Override
+                        public void run() {
+                            GBApplication.deviceService().onSendConfiguration(PREF_SLEEP_TIME);
+                        }
+                    });
+                    return true;
+                }
+            });
+        }
         String displayOnLiftState = prefs.getString(PREF_ACTIVATE_DISPLAY_ON_LIFT, PREF_DO_NOT_DISTURB_OFF);
         boolean displayOnLiftScheduled = displayOnLiftState.equals(PREF_DO_NOT_DISTURB_SCHEDULED);
 

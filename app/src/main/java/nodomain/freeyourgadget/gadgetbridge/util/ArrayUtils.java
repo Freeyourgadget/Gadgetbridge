@@ -80,4 +80,18 @@ public class ArrayUtils {
     public static boolean startsWith(byte[] array, byte[] values) {
         return equals(array, values, 0);
     }
+
+    /**
+     * Converts an array to string representation
+     *
+     * @param array the array to convert
+     * @return
+     */
+    public static String arrayToString(byte[] array) {
+        StringBuilder stringBuilder = new StringBuilder();
+        for (byte i : array) {
+            stringBuilder.append(String.format("0x%02X ", i));
+        }
+        return stringBuilder.toString();
+    }
 }

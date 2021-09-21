@@ -46,6 +46,8 @@ vendor's servers.
 - Casio
 	- [GB-5600B/GB-6900B/GB-X6900B](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Casio-GB-5600B%2FGB-6900B%2FGB-X6900B)
 	- [GBX-100](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Casio-GBX-100)
+
+- [FitPro](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/FitPro)
 - Fossil
 	- [Hybrid HR](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Fossil-Hybrid-HR) [**\[!\]**](#special-pairing-procedures)
 	- Q Hybrid
@@ -114,6 +116,7 @@ Please see [FEATURES.md](https://codeberg.org/Freeyourgadget/Gadgetbridge/src/ma
 * Taavi Eomäe (iTag)
 * Erik Bloß (TLW64)
 * Yukai Li (Lefun)
+* Petr Vaněk (FitPro)
 
 ## Contribute
 

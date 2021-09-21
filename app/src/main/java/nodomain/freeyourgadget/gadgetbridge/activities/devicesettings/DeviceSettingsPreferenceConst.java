@@ -21,6 +21,8 @@ public class DeviceSettingsPreferenceConst {
     public static final String PREF_DATEFORMAT = "dateformat";
     public static final String PREF_TIMEFORMAT = "timeformat";
     public static final String PREF_WEARLOCATION = "wearlocation";
+    public static final String PREF_VIBRATION_ENABLE = "vibration_enable";
+    public static final String PREF_NOTIFICATION_ENABLE = "notification_enable";
     public static final String PREF_SCREEN_ORIENTATION = "screen_orientation";
     public static final String PREF_RESERVER_ALARMS_CALENDAR = "reserve_alarms_calendar";
     public static final String PREF_ALLOW_HIGH_MTU = "allow_high_mtu";
@@ -43,8 +45,25 @@ public class DeviceSettingsPreferenceConst {
     public static final String PREF_HYBRID_HR_SAVE_RAW_ACTIVITY_FILES = "save_raw_activity_files";
     public static final String PREF_HYBRID_HR_DANGEROUS_EXTERNAL_INTENTS = "dangerous_external_intents";
 
+    public static final String PREF_ACTIVATE_DISPLAY_ON_LIFT = "activate_display_on_lift_wrist";
+    public static final String PREF_DISPLAY_ON_LIFT_START = "display_on_lift_start";
+    public static final String PREF_DISPLAY_ON_LIFT_END = "display_on_lift_end";
+
+    public static final String PREF_SLEEP_TIME = "prefs_enable_sleep_time";
+    public static final String PREF_SLEEP_TIME_START = "prefs_sleep_time_start";
+    public static final String PREF_SLEEP_TIME_END = "prefs_sleep_time_end";
+
     public static final String PREF_LIFTWRIST_NOSHED = "activate_display_on_lift_wrist_noshed";
     public static final String PREF_DISCONNECTNOTIF_NOSHED = "disconnect_notification_noshed";
+    public static final String PREF_LONGSIT_START = "pref_longsit_start";
+    public static final String PREF_LONGSIT_END = "pref_longsit_end";
+
+    public static final String PREF_AUTOHEARTRATE_SWITCH = "pref_autoheartrate_switch";
+    public static final String PREF_AUTOHEARTRATE_SLEEP = "pref_autoheartrate_sleep";
+    public static final String PREF_AUTOHEARTRATE_INTERVAL = "pref_autoheartrate_interval";
+    public static final String PREF_AUTOHEARTRATE_START = "pref_autoheartrate_start";
+    public static final String PREF_AUTOHEARTRATE_END = "pref_autoheartrate_end";
+
     public static final String PREF_POWER_MODE = "power_mode";
     public static final String PREF_BUTTON_BP_CALIBRATE = "prefs_sensors_button_bp_calibration";
     public static final String PREF_ALTITUDE_CALIBRATE = "pref_sensors_altitude";
@@ -52,6 +71,9 @@ public class DeviceSettingsPreferenceConst {
     public static final String PREF_LONGSIT_SWITCH = "pref_longsit_switch";
     public static final String PREF_LONGSIT_SWITCH_NOSHED = "screen_longsit_noshed";
     public static final String PREF_DO_NOT_DISTURB_NOAUTO = "do_not_disturb_no_auto";
+    public static final String PREF_DO_NOT_DISTURB_NOAUTO_START = "do_not_disturb_no_auto_start";
+    public static final String PREF_DO_NOT_DISTURB_NOAUTO_END = "do_not_disturb_no_auto_end";
+
     public static final String PREF_FIND_PHONE_ENABLED = "prefs_find_phone";
     public static final String PREF_AUTOLIGHT = "autolight";
     public static final String PREF_AUTOREMOVE_MESSAGE = "autoremove_message";
@@ -74,4 +96,5 @@ public class DeviceSettingsPreferenceConst {
     public static final String PREF_TRANSLITERATION_ENABLED = "pref_transliteration_enabled";
 
     public static final String PREF_SOUNDS = "sounds";
+    public static final String PREF_AUTH_KEY = "authkey";
 }
