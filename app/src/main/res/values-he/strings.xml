@@ -1318,4 +1318,18 @@
     <string name="pref_title_huami_force_new_protocol">פרוטוקול אימות חדש</string>
     <string name="watchface_setting_title_wrist_flick">סיבוב השעון במהירות</string>
     <string name="menuitem_flashlight">פנס</string>
+    <string name="prefs_autoheartrate_interval">תדירות הבדיקות</string>
+    <string name="prefs_autoheartrate_sleep">למדוד בזמן השינה</string>
+    <string name="prefs_autoheartrate_measurement">מדידת דופק אוטומטית</string>
+    <string name="prefs_autoheartrate_summary">מדידות דופק מחזוריות במהלך היום וגם בזמן השינה</string>
+    <string name="prefs_autoheartrate">דופק אוטומטי</string>
+    <string name="enable_notifications_summary">התראות על שיחות, הודעות ועוד</string>
+    <string name="prefs_notifications_enable">הפעלת התראות</string>
+    <string name="enable_vibrations_summary">רטט לשיחות, הודעות, התראות ועוד</string>
+    <string name="prefs_vibration_enable">הפעלת רטט</string>
+    <string name="prefs_sleep_time_summary">מציין זמנים בהם נרשמת שינה</string>
+    <string name="prefs_sleep_time_label">הגדרת שעות שינה</string>
+    <string name="prefs_sleep_time">זמני שינה</string>
+    <string name="devicetype_fitpro">FitPro</string>
+    <string name="pref_title_ping_tone">צליל פינג</string>
 </resources>
