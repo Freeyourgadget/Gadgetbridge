@@ -217,7 +217,7 @@
     <string name="vibration_profile_waterdrop">Goute d\'eau</string>
     <string name="vibration_profile_ring">Sonnette</string>
     <string name="vibration_profile_alarm_clock">Réveil</string>
-    <string name="miband_prefs_vibration">Vibration</string>
+    <string name="miband_prefs_vibration">Vibreur</string>
     <string name="vibration_try">Essayer</string>
     <string name="pref_screen_notification_profile_sms">Notification Texto</string>
     <string name="pref_header_vibration_settings">Paramètres des vibrations</string>
@@ -267,7 +267,7 @@
     <string name="activity_sleepchart_activity_and_sleep">Activité</string>
     <string name="updating_firmware">Installation du micrologiciel…</string>
     <string name="fwapp_install_device_not_ready">Le fichier ne peut pas être installé, l\'appareil n\'est pas prêt.</string>
-    <string name="installhandler_firmware_name">%1$s: %2$s %3$s</string>
+    <string name="installhandler_firmware_name">%1$s : %2$s %3$s</string>
     <string name="miband_fwinstaller_compatible_version">Version compatible</string>
     <string name="miband_fwinstaller_untested_version">Version non testée !</string>
     <string name="fwappinstaller_connection_state">Connexion  à l\'appareil : %1$s</string>
@@ -1107,9 +1107,9 @@ Temps de sommeil préféré en heures</string>
     <string name="about_version">Version %s</string>
     <string name="devicetype_amazfit_bips_lite">Amazfit Bip S Lite</string>
     <string name="charts_legend_heartrate_average">Rythme cardiaque moyen</string>
-    <string name="charts_min_max_heartrate_popup">Rythme cardiaque le plus bas: %1$d
-\nRythme cardiaque le plus élevé: %2$d
-\nIntensité du mouvement: %3$s</string>
+    <string name="charts_min_max_heartrate_popup">Rythme cardiaque le plus bas : %1$d
+\nRythme cardiaque le plus élevé : %2$d
+\nIntensité du mouvement : %3$s</string>
     <string name="find_lost_device_message">Rechercher %1$s \?</string>
     <string name="devicetype_amazfit_gtr2">Amazfit GTR 2</string>
     <string name="menuitem_stopwatch">Étape</string>
@@ -1156,7 +1156,7 @@ Temps de sommeil préféré en heures</string>
     <string name="dbmanagementactivity_export_data_title">Exporter les Données \?</string>
     <string name="devicetype_amazfit_bipupro">Amazfit Bip U Pro</string>
     <string name="dbmanagementactivity_export_finished">Suppression terminée</string>
-    <string name="activity_db_management_clean_export_directory_text">Les fichiers exportés dans le répertoire d\'Import/Export sont accessibles depuis n\'importe quelle application sur votre appareil. Il est préférable de supprimer ces fichiers après synchronisation ou sauvegarde. Assurez-vous d\'avoir une sauvegarde avant de supprimer les fichiers. Les fichiers GPX, les sous-répertoires, et les fichiers de base de données auto-exportés (s\'ils existent) ne seront pas supprimés. Le chemin du répertoire d\'Import/Export est:</string>
+    <string name="activity_db_management_clean_export_directory_text">Les fichiers exportés dans le répertoire d\'Import/Export sont accessibles depuis n\'importe quelle application sur votre appareil. Il est préférable de supprimer ces fichiers après synchronisation ou sauvegarde. Assurez-vous d\'avoir une sauvegarde avant de supprimer les fichiers. Les fichiers GPX, les sous-répertoires, et les fichiers de base de données auto-exportés (s\'ils existent) ne seront pas supprimés. Le chemin du répertoire d\'Import/Export est :</string>
     <string name="activity_DB_clean_export_directory_warning_message">Vraiment effacer les fichiers dans le répertoire d\'Import/Export \?</string>
     <string name="activity_DB_clean_export_directory_warning_title">Effacer les fichiers dans le répertoire d\'Import/Export \?</string>
     <string name="activity_db_management_clean_export_directory_label">Effacer les fichiers dans le répertoire d\'Import/Export</string>
@@ -1228,7 +1228,7 @@ Temps de sommeil préféré en heures</string>
 \nRemarque. Vous n\'avez pas besoin d\'installer le fichier .res si c\'est exactement le même que celui précédemment installé.
 \n
 \nA VOS RISQUES ET PÉRILS !</string>
-    <string name="watchface_install_info">Vous êtes sur le point d\'installer la facade suivante:
+    <string name="watchface_install_info">Vous êtes sur le point d\'installer la façade suivante :
 \n
 \n%1$s
 \nVersion %2$s par %3$s
@@ -1316,4 +1316,17 @@ Temps de sommeil préféré en heures</string>
     <string name="pref_summary_huami_force_new_protocol">A activer si votre appareil ne se connecte plus après une mise à jour du micrologiciel</string>
     <string name="pref_title_huami_force_new_protocol">Nouveau protocole d\'identification</string>
     <string name="menuitem_flashlight">Flash</string>
+    <string name="prefs_autoheartrate_interval">Fréquence des mesures</string>
+    <string name="prefs_autoheartrate_sleep">Prendre des mesures pendant le sommeil</string>
+    <string name="prefs_autoheartrate_measurement">Mesures automatiques du rythme cardiaque</string>
+    <string name="prefs_autoheartrate_summary">Mesures périodiques du rythme cardiaque durant la journée et également pendant le sommeil</string>
+    <string name="prefs_autoheartrate">Rythme cardiaque automatique</string>
+    <string name="enable_notifications_summary">Notifications pour les appels, les messsages et autres</string>
+    <string name="enable_vibrations_summary">Vibrant pour les appels, messages, notifications et autres</string>
+    <string name="prefs_notifications_enable">Activer les notifications</string>
+    <string name="prefs_vibration_enable">Activer le mode vibreur</string>
+    <string name="prefs_sleep_time_summary">Configurer les périodes horaires durant lesquelles le sommeil est enregistré</string>
+    <string name="prefs_sleep_time_label">Configurer les heures de sommeil</string>
+    <string name="prefs_sleep_time">Durées de sommeil</string>
+    <string name="devicetype_fitpro">FitPro</string>
 </resources>
