@@ -1329,4 +1329,5 @@ Temps de sommeil préféré en heures</string>
     <string name="prefs_sleep_time_label">Configurer les heures de sommeil</string>
     <string name="prefs_sleep_time">Durées de sommeil</string>
     <string name="devicetype_fitpro">FitPro</string>
+    <string name="pref_title_ping_tone">Sonnerie du Ping</string>
 </resources>
