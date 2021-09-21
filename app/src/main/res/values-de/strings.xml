@@ -1327,4 +1327,18 @@
     <string name="pref_summary_huami_force_new_protocol">Aktivieren, wenn das Gerät nach einem Firmware-Upgrade keine Verbindung mehr herstellt</string>
     <string name="pref_title_huami_force_new_protocol">Neues Auth-Protokoll</string>
     <string name="menuitem_flashlight">Taschenlampe</string>
+    <string name="prefs_autoheartrate_interval">Häufigkeit der Messungen</string>
+    <string name="prefs_autoheartrate_sleep">Im Schlaf Messungen vornehmen</string>
+    <string name="prefs_autoheartrate_measurement">Automatische Herzfrequenzmessungen</string>
+    <string name="prefs_autoheartrate_summary">Periodische Herzfrequenzmessungen während des Tages und auch während des Schlafens</string>
+    <string name="prefs_autoheartrate">Automatische Herzfrequenz</string>
+    <string name="enable_notifications_summary">Benachrichtigungen für Anrufe, Nachrichten und mehr</string>
+    <string name="enable_vibrations_summary">Vibrationen für Anrufe, Nachrichten, Benachrichtigungen und mehr</string>
+    <string name="prefs_notifications_enable">Benachrichtigungen aktivieren</string>
+    <string name="prefs_vibration_enable">Vibrationen aktivieren</string>
+    <string name="prefs_sleep_time_summary">Gibt Zeiten an, zu denen Schlaf registriert wird</string>
+    <string name="prefs_sleep_time_label">Schlafstunden definieren</string>
+    <string name="prefs_sleep_time">Schlafzeiten</string>
+    <string name="devicetype_fitpro">FitPro</string>
+    <string name="pref_title_ping_tone">Klingelton</string>
 </resources>
