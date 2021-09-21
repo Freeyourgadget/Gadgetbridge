@@ -1342,4 +1342,17 @@
     <string name="pref_summary_huami_force_new_protocol">Aygıtınız bir ürün yazılımı yükseltmesinden sonra artık bağlanmıyorsa etkinleştirin</string>
     <string name="pref_title_huami_force_new_protocol">Yeni Kimlik Doğrulama Protokolü</string>
     <string name="menuitem_flashlight">El Feneri</string>
+    <string name="prefs_autoheartrate_interval">Ölçüm sıklığı</string>
+    <string name="prefs_autoheartrate_sleep">Uyku sırasında ölçüm yap</string>
+    <string name="prefs_autoheartrate_measurement">Otomatik kalp ritmi ölçümleri</string>
+    <string name="prefs_autoheartrate_summary">Gün içinde ve ayrıca uykudayken periyodik kalp ritmi ölçümleri</string>
+    <string name="prefs_autoheartrate">Otomatik Kalp Ritmi</string>
+    <string name="enable_notifications_summary">Çağrılar, mesajlar ve daha fazlası için bildirimler</string>
+    <string name="enable_vibrations_summary">Çağrılar, mesajlar, bildirimler ve daha fazlası için titreşimler</string>
+    <string name="prefs_notifications_enable">Bildirimleri etkinleştir</string>
+    <string name="prefs_vibration_enable">Titreşimleri etkinleştir</string>
+    <string name="prefs_sleep_time_summary">Uykunun kaydedildiği zamanları belirtir</string>
+    <string name="prefs_sleep_time_label">Uyku saatlerini tanımla</string>
+    <string name="prefs_sleep_time">Uyku zamanları</string>
+    <string name="devicetype_fitpro">FitPro</string>
 </resources>
