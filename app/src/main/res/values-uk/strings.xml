@@ -287,7 +287,7 @@
     <string name="pref_summary_minimize_priority_off">Піктограма в рядку стану та сповіщення на екрані блокування відображаються</string>
     <string name="pref_summary_minimize_priority_on">Піктограма в рядку стану та сповіщення на екрані блокування не відображаються</string>
     <string name="pref_summary_notifications_pebblemsg">Підтримка застосунків, які надсилають сповіщення Pebble через PebbleKit.</string>
-    <string name="pref_summary_notification_filter">Запобігати надсилання небажаних сповіщень у режимі \"Не турбувати\"</string>
+    <string name="pref_summary_notification_filter">Запобігати надсиланню небажаних сповіщень у режимі «Не турбувати»</string>
     <string name="pref_title_transliteration">Транслітерація</string>
     <string name="pref_summary_transliteration">Увімкніть цей параметр, якщо пристрій не підтримує шрифт вашої мови</string>
     <string name="pref_title_call_privacy_mode">Режим приватності викликів</string>
@@ -312,7 +312,7 @@
     <string name="DEVINFO_HR_VER">"HR: "</string>
     <string name="menuitem_alipay">Alipay</string>
     <string name="controlcenter_calibrate_device">Калібрувати пристрій</string>
-    <string name="pref_title_notifications_timeout">Мінімальний час між сповіщеннями</string>
+    <string name="pref_title_notifications_timeout">Найменший час між сповіщеннями</string>
     <string name="pref_title_autoremove_notifications">Автоматично видаляти відхилені сповіщення</string>
     <string name="pref_summary_autoremove_notifications">Сповіщення автоматично видаляються з пристрою, коли звільняються з Android пристрою</string>
     <string name="pref_title_pebble_privacy_mode">Приватний режим</string>
@@ -587,7 +587,7 @@
     <string name="pref_screen_notification_profile_anti_loss">Попередження про втрату</string>
     <string name="interval_fifteen_minutes">кожні 15 хв</string>
     <string name="interval_forty_five_minutes">кожні 45 хв</string>
-    <string name="pref_title_support_voip_calls">Увімкніть VoIP дзвінки</string>
+    <string name="pref_title_support_voip_calls">Увімкнути VoIP дзвінки</string>
     <string name="title_activity_device_specific_settings">Специфічні налаштування пристрою</string>
     <string name="pref_title_authkey">Ключ авторизації</string>
     <string name="dutch">Нідерландська</string>
@@ -1338,4 +1338,5 @@
     <string name="prefs_sleep_time_label">Визначення годин сну</string>
     <string name="prefs_sleep_time">Час сну</string>
     <string name="devicetype_fitpro">FitPro</string>
+    <string name="pref_title_ping_tone">Звуковий сигнал</string>
 </resources>
