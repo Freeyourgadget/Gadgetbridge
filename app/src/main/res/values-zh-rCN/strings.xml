@@ -1323,4 +1323,18 @@
     <string name="pref_summary_huami_force_new_protocol">若您的设备升级固件后无法连接，请启用该选项</string>
     <string name="pref_title_huami_force_new_protocol">新认证协议</string>
     <string name="menuitem_flashlight">手电筒</string>
+    <string name="prefs_autoheartrate_interval">测量频率</string>
+    <string name="prefs_autoheartrate_sleep">在睡眠中进行测量</string>
+    <string name="prefs_autoheartrate_measurement">自动测量心率</string>
+    <string name="prefs_autoheartrate_summary">在白天和睡眠时定期测量心率</string>
+    <string name="prefs_autoheartrate">自动心率</string>
+    <string name="enable_notifications_summary">为来电、消息和其他启用通知</string>
+    <string name="enable_vibrations_summary">为来电、信息、通知以及其他进行震动</string>
+    <string name="prefs_notifications_enable">启用通知</string>
+    <string name="prefs_vibration_enable">启用震动</string>
+    <string name="prefs_sleep_time_summary">已记录睡眠时指定时间</string>
+    <string name="prefs_sleep_time_label">定义睡眠小时</string>
+    <string name="prefs_sleep_time">睡眠时间</string>
+    <string name="devicetype_fitpro">FitPro</string>
+    <string name="pref_title_ping_tone">Ping 铃声</string>
 </resources>
