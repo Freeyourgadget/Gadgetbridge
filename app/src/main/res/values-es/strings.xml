@@ -80,7 +80,7 @@
     <string name="pref_title_notification_filter">No Molestar</string>
     <string name="pref_summary_notification_filter">Se detendrán notificaciones no deseadas en este modo</string>
     <string name="pref_title_transliteration">Transcripción</string>
-    <string name="pref_summary_transliteration">Utilizar en caso de que tu dispositivo no soporte la fuente de tu idioma</string>
+    <string name="pref_summary_transliteration">Activar en caso de que su dispositivo no soporte la fuente de su idioma</string>
     <string name="always">Siempre</string>
     <string name="when_screen_off">Cuando la pantalla está apagada</string>
     <string name="never">Nunca</string>
@@ -108,7 +108,7 @@
     <string name="pref_title_enable_outgoing_call">Soporte para llamadas salientes</string>
     <string name="pref_summary_enable_outgoing_call">Desactivar esto evitará que el Pebble 2/LE vibre en llamadas salientes</string>
     <string name="pref_title_enable_pebblekit">Permitir el acceso a aplicaciones Android de terceros</string>
-    <string name="pref_summary_enable_pebblekit">Habilitar el soporte experimental para aplicaciones Android que usan PebbleKit</string>
+    <string name="pref_summary_enable_pebblekit">Activar el soporte experimental para aplicaciones Android que usan PebbleKit</string>
     <string name="pref_header_pebble_timeline">Timeline Pebble</string>
     <string name="pref_title_sunrise_sunset">Salida y puesta de Sol</string>
     <string name="pref_summary_sunrise_sunset">Enviar las horas de salida y puesta de Sol basándose en la localización a la timeline del Pebble</string>
@@ -126,17 +126,17 @@
     <string name="pref_title_location_longitude">Longitud</string>
     <string name="pref_title_location_keep_uptodate">Mantener la localización actualizada</string>
     <string name="pref_summary_location_keep_uptodate">Intentar conseguir la localización en marcha, usar la guardada como respaldo</string>
-    <string name="toast_enable_networklocationprovider">Por favor, activa la localización por red</string>
+    <string name="toast_enable_networklocationprovider">Por favor, active la ubicación por red</string>
     <string name="toast_aqurired_networklocation">localización encontrada</string>
     <string name="pref_title_pebble_forceprotocol">Forzar protocolo de notificación</string>
     <string name="pref_summary_pebble_forceprotocol">Esta opción obliga a usar el último protocolo de notificación dependiendo de la versión del firmware. ¡SABE LO QUE ESTÁS HACIENDO!</string>
-    <string name="pref_title_pebble_forceuntested">Habilitar características no probadas</string>
-    <string name="pref_summary_pebble_forceuntested">Habilitar funciones no probadas. ¡HABILÍTALO SÓLO SI SABES LO QUE ESTÁS HACIENDO!</string>
+    <string name="pref_title_pebble_forceuntested">Activar características no probadas</string>
+    <string name="pref_summary_pebble_forceuntested">Activar funciones no probadas. ¡ACTÍVELO SÓLO SI SABE LO QUE ESTÁ HACIENDO!</string>
     <string name="pref_title_pebble_forcele">Preferir siempre BLE</string>
     <string name="pref_summary_pebble_forcele">Usar el soporte experimental de Pebble LE para todos los Pebble en lugar del Bluetooth clásico. Esto requiere vincular primero con Pebble no LE, y luego Pebble LE</string>
     <string name="pref_title_pebble_mtu_limit">Pebble 2/LE límite de GATT MTU</string>
     <string name="pref_summary_pebble_mtu_limit">Si tu Pebble 2/Pebble LE no funciona correctamente, prueba esta opción para limitar el MTU (rango válido 20–512)</string>
-    <string name="pref_title_pebble_enable_applogs">Habilitar el registro de la aplicación del reloj</string>
+    <string name="pref_title_pebble_enable_applogs">Activar el registro de la aplicación del reloj</string>
     <string name="pref_summary_pebble_enable_applogs">Producirá registros de las apps del reloj que Gadgetbridge guardará (necesita reconexión)</string>
     <string name="pref_title_pebble_always_ack_pebblekit">ACK antes de tiempo de PebbleKit</string>
     <string name="pref_summary_pebble_always_ack_pebblekit">Permitirá a los mensajes enviados a apps de terceros ser reconocidos siempre e inmediatamente</string>
@@ -158,7 +158,7 @@
     <string name="bluetooth_is_disabled_">El Bluetooth está desactivado.</string>
     <string name="tap_connected_device_for_app_mananger">Toque el dispositivo conectado para el administrador de aplicaciones</string>
     <string name="tap_connected_device_for_activity">Toca el dispositivo conectado para actividad</string>
-    <string name="tap_connected_device_for_vibration">Toca el dispositivo conectado para vibración</string>
+    <string name="tap_connected_device_for_vibration">Toque el dispositivo conectado para la vibración</string>
     <string name="tap_a_device_to_connect">Toca un dispositivo para conectarlo</string>
     <string name="cannot_connect_bt_address_invalid_">No se puede conectar. ¿Dirección BT incorrecta?</string>
     <string name="gadgetbridge_running">Gadgetbridge funcionando</string>
@@ -536,7 +536,7 @@
 \n¡PROCEDA BAJO SU PROPIA CUENTA Y RIESGO!</string>
     <string name="pref_title_notifications_timeout">Tiempo mínimo entre notificaciones</string>
     <string name="pref_title_rtl">Derecha a Izquierda</string>
-    <string name="pref_summary_rtl">Habilite esto si su dispositivo no puede mostrar idiomas de derecha a izquierda</string>
+    <string name="pref_summary_rtl">Activar si su dispositivo no puede mostrar idiomas de derecha a izquierda</string>
     <string name="pref_rtl_max_line_length">Longitud de línea máxima de derecha a izquierda</string>
     <string name="pref_rtl_max_line_length_summary">Alarga o acorta las líneas de texto de derecha a izquierda si contiene separaciones</string>
     <string name="pref_title_pebble_gatt_clientonly">Sólo cliente GATT</string>
@@ -673,7 +673,7 @@
     <string name="zetime_signaling_beep_once">Sonar una vez</string>
     <string name="zetime_signaling_beep_twice">Sonar dos veces</string>
     <string name="zetime_signaling_vibrate_beep_once">Vibrar y sonar una vez</string>
-    <string name="pref_title_support_voip_calls">Habilitar llamadas a la aplicación VoIP</string>
+    <string name="pref_title_support_voip_calls">Activar llamadas a la aplicación VoIP</string>
     <string name="title_activity_device_specific_settings">Configuraciones específicas del dispositivo</string>
     <string name="pref_title_authkey">Clave de autenticación</string>
     <string name="pref_summary_authkey">Cambie la clave de autenticación a una clave común en todos sus dispositivos Android desde los que desea conectarse. La clave predeterminada anterior para todos los dispositivos es 0123456789@ABCDE</string>
@@ -710,7 +710,7 @@
     <string name="menuitem_nfc">NFC</string>
     <string name="menuitem_shortcut_alipay">Alipay (Acceso directo)</string>
     <string name="pref_title_contextual_arabic">Árabe contextual</string>
-    <string name="pref_summary_contextual_arabic">Habilita esto para el soporte de Árabe contextual</string>
+    <string name="pref_summary_contextual_arabic">Activar esto para el soporte de Árabe contextual</string>
     <string name="zetime_calories_type_all">Calorías quemadas activas e inactivas</string>
     <string name="pref_screen_notification_profile_low_power">Aviso de batería baja</string>
     <string name="pref_screen_notification_profile_anti_loss">Aviso anti pérdida</string>
@@ -735,7 +735,7 @@
     <string name="pref_summary_expose_hr">Permite a otras aplicaciones acceder a los datos de frecuencia cardíaca en tiempo real mientras Gadgetbridge está conectado</string>
     <string name="pref_title_expose_hr">Acceso terceros frec. cardíaca</string>
     <string name="pref_title_use_custom_font">Utilizar tipo de letra personalizado</string>
-    <string name="pref_summary_use_custom_font">Actívelo si su dispositivo incluye «firmware» de tipo de letra personalizado para admitir emoyis</string>
+    <string name="pref_summary_use_custom_font">Actívelo si su dispositivo incluye «firmware» de tipo de letra personalizado para admitir emojis</string>
     <string name="activity_db_management_autoexport_explanation">La ubicación de exportación automática se definió en:</string>
     <string name="activity_db_management_autoexport_label">Exportación automática</string>
     <string name="activity_DB_ExportButton">Exportar datos</string>
@@ -803,7 +803,7 @@
 \n
 \n¡PROCEDE BAJO TU PROPIO RIESGO!</string>
     <string name="watch_not_connected">Reloj no conectado</string>
-    <string name="qhybrid_vibration_strength">Fuerza de vibración:</string>
+    <string name="qhybrid_vibration_strength">Intensidad de la vibración:</string>
     <string name="qhybrid_goal_in_steps">Objetivo en pasos</string>
     <string name="qhybrid_time_shift">diferencia horaria</string>
     <string name="qhybrid_second_timezone_offset_relative_to_utc">segunda compensación de huso horario en relación a UTC</string>
@@ -847,8 +847,8 @@
     <string name="hr_appname_wellness">Bienestar</string>
     <string name="pref_summary_force_white_color_scheme">Útil si tu reloj tiene manecillas oscuras</string>
     <string name="find_my_phone_notification">Encuentra mi teléfono</string>
-    <string name="pref_title_vibration_strength">Resistencia a la vibración</string>
-    <string name="pref_title_relax_firmware_checks">Habilite esto si deseas instalar un firmware no destinado a tu dispositivo (bajo tu propio riesgo)</string>
+    <string name="pref_title_vibration_strength">Intensidad de la vibración</string>
+    <string name="pref_title_relax_firmware_checks">Activar si desea instalar un firmware no destinado a su dispositivo (bajo su propio riesgo)</string>
     <string name="pref_summary_relax_firmware_checks">Relaje las comprobaciones de firmware</string>
     <string name="pref_title_allow_high_mtu">Permitir MTU alta</string>
     <string name="pref_summary_custom_deviceicon">Mostrar un icono de notificación de Android específico del dispositivo en lugar del icono de Gadgetbridge cuando esté conectado</string>
@@ -863,7 +863,7 @@
     <string name="title_activity_LenovoWatch_calibration">Calibración Watch X Plus</string>
     <string name="controlcenter_set_alias">Establecer Alias</string>
     <string name="sonyswr12_settings_title">Configuración de Sony SWR12</string>
-    <string name="sonyswr12_settings_low_vibration">Baja vibración habilitada</string>
+    <string name="sonyswr12_settings_low_vibration">Baja vibración activada</string>
     <string name="sonyswr12_settings_stamina">El modo de ahorro de energía está activado</string>
     <string name="sonyswr12_settings_alarm_interval">Intervalo de alarma inteligente en minutos</string>
     <string name="sonyswr12_settings_low_vibration_summary">Activar baja intensidad de vibración en la pulsera</string>
@@ -1012,7 +1012,7 @@
     <string name="Speed">Velocidad</string>
     <string name="Elevation">Elevación</string>
     <string name="Distance">Distancia</string>
-    <string name="companiondevice_pairing_details">Habilita el nuevo soporte de la API de CompanionDevice (sólo tiene efecto en Android 8 o superior) que aumentará la fiabilidad si el servicio necesita ser reiniciado en segundo plano, requiere un re-emparejamiento usando Gadgetbridge paraque surja efecto</string>
+    <string name="companiondevice_pairing_details">Activar el nuevo soporte de la API de CompanionDevice (sólo tiene efecto en Android 8 o superior) que aumentará la fiabilidad si el servicio necesita ser reiniciado en segundo plano, requiere un re-emparejamiento usando Gadgetbridge paraque surja efecto</string>
     <string name="notification_channel_high_priority_name">Alta prioridad</string>
     <string name="activity_error_no_app_for_png">Para compartir esta captura de pantalla, instale una aplicación que pueda manejar archivos de imagen.</string>
     <string name="activity_summary_yesterday">Ayer</string>
@@ -1072,7 +1072,7 @@
     <string name="steps">Pasos</string>
     <string name="minAltitude">Mínimo</string>
     <string name="maxAltitude">Máximo</string>
-    <string name="error_location_enabled_mandatory">La localización debe estar activada para buscar dispositivos</string>
+    <string name="error_location_enabled_mandatory">La ubicación debe estar activada para buscar dispositivos</string>
     <string name="ignore_bonded_devices_description">Al activar esta opción se ignoran los dispositivos que ya han sido vinculados/emparejados al escanear</string>
     <string name="ignore_bonded_devices">Ignorar los dispositivos vinculados</string>
     <string name="error_retrieving_devices_database">Error al recuperar los dispositivos de la base de datos</string>
@@ -1086,7 +1086,7 @@
     <string name="error_background_service_reason_truncated">El inicio del servicio en segundo plano falló porque…</string>
     <string name="error_background_service">Fallo al iniciar el servicio en segundo plano</string>
     <string name="companiondevice_pairing">Emparejamiento de dispositivos de compañía</string>
-    <string name="require_location_provider">La localización debe estar activada</string>
+    <string name="require_location_provider">La ubicación debe estar activada</string>
     <string name="error_version_check_extreme_caution">ATENCIÓN: ¡Error al comprobar la información de la versión! ¡No debes continuar! Nombre de la versión visto \"%s\"</string>
     <string name="about_links">Enlaces</string>
     <string name="about_additional_contributions">Muchas gracias a todos los colaboradores no incluidos en la lista por aportar código, traducciones, apoyo, ideas, motivación, informes de errores, dinero... ✊</string>
@@ -1323,4 +1323,18 @@
     <string name="pref_summary_huami_force_new_protocol">Activar si su dispositivo ya no se conecta después de una actualización de firmware</string>
     <string name="pref_title_huami_force_new_protocol">Nuevo protocolo de autenticación</string>
     <string name="menuitem_flashlight">Linterna</string>
+    <string name="enable_vibrations_summary">Vibración para llamadas, mensajes, notificaciones y más</string>
+    <string name="prefs_vibration_enable">Activar vibración</string>
+    <string name="prefs_autoheartrate_interval">Frecuencia de las mediciones</string>
+    <string name="prefs_autoheartrate_sleep">Tomar medidas durante el sueño</string>
+    <string name="prefs_autoheartrate_measurement">Mediciones automáticas del ritmo cardíaco</string>
+    <string name="prefs_autoheartrate_summary">Mediciones periódicas del ritmo cardíaco durante el día y también mientras duerme</string>
+    <string name="prefs_autoheartrate">Ritmo cardíaco automático</string>
+    <string name="enable_notifications_summary">Notificaciones de llamadas, mensajes y más</string>
+    <string name="prefs_notifications_enable">Activar notificaciones</string>
+    <string name="prefs_sleep_time_summary">Especifica las horas en las que se registra el sueño</string>
+    <string name="prefs_sleep_time_label">Definir las horas de sueño</string>
+    <string name="prefs_sleep_time">Horas de sueño</string>
+    <string name="devicetype_fitpro">FitPro</string>
+    <string name="pref_title_ping_tone">Tono de ping</string>
 </resources>
