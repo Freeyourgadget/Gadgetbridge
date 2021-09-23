@@ -71,6 +71,11 @@ public interface DeviceCoordinator {
     int BONDING_STYLE_REQUIRE_KEY = 3;
 
     /**
+     * Lazy pairing, i.e. device initiated pairing is requested
+     */
+    int BONDING_STYLE_LAZY = 4;
+
+    /**
      * Checks whether this coordinator handles the given candidate.
      * Returns the supported device type for the given candidate or
      * DeviceType.UNKNOWN

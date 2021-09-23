@@ -190,7 +190,8 @@ public class BondingUtil {
      */
     public static void initiateCorrectBonding(final BondingInterface bondingInterface, final GBDeviceCandidate deviceCandidate) {
         int bondingStyle = DeviceHelper.getInstance().getCoordinator(deviceCandidate).getBondingStyle();
-        if (bondingStyle == DeviceCoordinator.BONDING_STYLE_NONE) {
+        if (bondingStyle == DeviceCoordinator.BONDING_STYLE_NONE ||
+            bondingStyle == DeviceCoordinator.BONDING_STYLE_LAZY ) {
             // Do nothing
             return;
         } else if (bondingStyle == DeviceCoordinator.BONDING_STYLE_ASK) {

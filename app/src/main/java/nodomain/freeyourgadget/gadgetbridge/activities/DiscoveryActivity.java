@@ -737,7 +737,8 @@ public class DiscoveryActivity extends AbstractGBActivity implements AdapterView
             intent.putExtra(DeviceCoordinator.EXTRA_DEVICE_CANDIDATE, deviceCandidate);
             startActivity(intent);
         } else {
-            if (coordinator.getBondingStyle() == DeviceCoordinator.BONDING_STYLE_NONE) {
+            if (coordinator.getBondingStyle() == DeviceCoordinator.BONDING_STYLE_NONE ||
+                coordinator.getBondingStyle() == DeviceCoordinator.BONDING_STYLE_LAZY) {
                 LOG.info("No bonding needed, according to coordinator, so connecting right away");
                 BondingUtil.connectThenComplete(this, deviceCandidate);
                 return;
