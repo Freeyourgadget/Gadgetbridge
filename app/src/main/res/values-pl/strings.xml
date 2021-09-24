@@ -1330,4 +1330,12 @@
     <string name="watchface_setting_power_saving_hands">Wyłącz ruch wskazówek po zdjęciu zegarka</string>
     <string name="watchface_setting_power_saving_display">Wyłącz aktualizacje wyświetlacza po zdjęciu zegarka</string>
     <string name="menuitem_flashlight">Latarka</string>
+    <string name="pref_title_ping_tone">Dźwięk pingu</string>
+    <string name="prefs_sleep_time_summary">Określa godziny, w których rejestrowany jest sen</string>
+    <string name="prefs_sleep_time_label">Określ godziny snu</string>
+    <string name="prefs_sleep_time">Godziny snu</string>
+    <string name="prefs_autoheartrate_interval">Częstotliwość pomiarów</string>
+    <string name="prefs_notifications_enable">Włącz powiadomienia</string>
+    <string name="prefs_vibration_enable">Włącz wibracje</string>
+    <string name="devicetype_fitpro">FitPro</string>
 </resources>
