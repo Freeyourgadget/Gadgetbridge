@@ -1,5 +1,16 @@
 ### Changelog
 
+### 0.60.0
+* Initial support for FitPro bands
+* Mi Band 6: really fix weather on new firmware
+* Casio GBX-100: Fix connection
+* Fossil Hybrid HR: Lower battery level warning threshold to 10%
+* Add ringtine preference setting for find your phone feature
+* Fix a bug where GB_LOGFILES_DIR_IS_UNDEFINED is used as a logfile directory
+* Remove per-device preferences upon device removal (backup your keys if you do that)
+* Exclude not worn sleep times from sleep sessions
+* Add Icelandic and Czech transliteration
+
 ### 0.59.3
 * Mi Band 6: Properly support firmware 1.0.4.38
 * Mi Band 6: Add Flashlight to menu items

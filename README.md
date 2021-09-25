@@ -96,6 +96,7 @@ Please see [FEATURES.md](https://codeberg.org/Freeyourgadget/Gadgetbridge/src/ma
 * Andreas Shimokawa
 * Carsten Pfeiffer
 * Daniele Gobbetti
+* Petr Vaněk
 
 ### Additional device support
 * João Paulo Barraca (HPlus)
@@ -116,7 +117,6 @@ Please see [FEATURES.md](https://codeberg.org/Freeyourgadget/Gadgetbridge/src/ma
 * Taavi Eomäe (iTag)
 * Erik Bloß (TLW64)
 * Yukai Li (Lefun)
-* Petr Vaněk (FitPro)
 
 ## Contribute
 
