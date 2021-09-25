@@ -1319,4 +1319,18 @@
     <string name="menuitem_flashlight">Svítilna</string>
     <string name="pref_summary_huami_force_new_protocol">Povolit, pokud se zařízení po aktualizaci firmwaru nepřipojuje</string>
     <string name="pref_title_huami_force_new_protocol">Nový Protokol Ověřování</string>
+    <string name="pref_title_ping_tone">Melodie při hledání telefonu</string>
+    <string name="prefs_autoheartrate_interval">Četnost měření</string>
+    <string name="prefs_autoheartrate_sleep">Měření během spánku</string>
+    <string name="prefs_autoheartrate_measurement">Automatické měření srdečního tepu</string>
+    <string name="prefs_autoheartrate_summary">Pravidelné měření srdeční frekvence během dne a také ve spánku</string>
+    <string name="prefs_autoheartrate">Automatická měření srdeční frekvence</string>
+    <string name="enable_notifications_summary">Upozornění na hovory, zprávy a další</string>
+    <string name="enable_vibrations_summary">Vibrace pro hovory, zprávy, oznámení a další funkce</string>
+    <string name="prefs_notifications_enable">Povolit oznámení</string>
+    <string name="prefs_vibration_enable">Povolit vibrace</string>
+    <string name="prefs_sleep_time_summary">Určuje časy, kdy se registruje spánek</string>
+    <string name="prefs_sleep_time_label">Definujte hodiny spánku</string>
+    <string name="prefs_sleep_time">Čas spánku</string>
+    <string name="devicetype_fitpro">FitPro</string>
 </resources>
