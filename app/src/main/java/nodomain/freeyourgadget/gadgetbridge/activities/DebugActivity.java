@@ -410,6 +410,15 @@ public class DebugActivity extends AbstractGBActivity {
             }
         });
 
+        Button runDebugFunction = findViewById(R.id.runDebugFunction);
+        runDebugFunction.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //SharedPreferences.Editor editor = GBApplication.getPrefs().getPreferences().edit();
+                //editor.remove("notification_list_is_blacklist").apply();
+            }
+        });
+
         Button addDeviceButtonDebug = findViewById(R.id.addDeviceButtonDebug);
         addDeviceButtonDebug.setOnClickListener(new View.OnClickListener() {
             @Override

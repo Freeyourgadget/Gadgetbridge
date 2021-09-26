@@ -73,8 +73,6 @@ public class SettingsActivity extends AbstractSettingsActivity {
     public static final String PREF_MEASUREMENT_SYSTEM = "measurement_system";
 
     private static final int FILE_REQUEST_CODE = 4711;
-    private static final int RINGTONE_REQUEST_CODE = 4712;
-    private static final String DEFAULT_RINGTONE_URI = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_RINGTONE).toString();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,17 +85,7 @@ public class SettingsActivity extends AbstractSettingsActivity {
         super.onPostCreate(savedInstanceState);
 
         Prefs prefs = GBApplication.getPrefs();
-
-        Preference pref = findPreference("notifications_generic");
-        pref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-            public boolean onPreferenceClick(Preference preference) {
-                Intent enableIntent = new Intent("android.settings.ACTION_NOTIFICATION_LISTENER_SETTINGS");
-                startActivity(enableIntent);
-                return true;
-            }
-        });
-
-        pref = findPreference("pref_category_activity_personal");
+        Preference pref = findPreference("pref_category_activity_personal");
         pref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             public boolean onPreferenceClick(Preference preference) {
                 Intent enableIntent = new Intent(SettingsActivity.this, AboutUserPreferencesActivity.class);
@@ -138,15 +126,6 @@ public class SettingsActivity extends AbstractSettingsActivity {
         pref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             public boolean onPreferenceClick(Preference preference) {
                 Intent enableIntent = new Intent(SettingsActivity.this, ZeTimePreferenceActivity.class);
-                startActivity(enableIntent);
-                return true;
-            }
-        });
-
-        pref = findPreference("pref_key_blacklist");
-        pref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-            public boolean onPreferenceClick(Preference preference) {
-                Intent enableIntent = new Intent(SettingsActivity.this, AppBlacklistActivity.class);
                 startActivity(enableIntent);
                 return true;
             }
@@ -244,12 +223,6 @@ public class SettingsActivity extends AbstractSettingsActivity {
             }
         });
 
-        if (!GBApplication.isRunningMarshmallowOrLater()) {
-            pref = findPreference("notification_filter");
-            PreferenceCategory category = (PreferenceCategory) findPreference("pref_key_notifications");
-            category.removePreference(pref);
-        }
-
         pref = findPreference("location_aquire");
         pref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             public boolean onPreferenceClick(Preference preference) {
@@ -309,20 +282,6 @@ public class SettingsActivity extends AbstractSettingsActivity {
             }
         });
 
-        pref = findPreference(GBPrefs.PING_TONE);
-        pref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-          @Override
-            public boolean onPreferenceClick(Preference preference) {
-                Intent intent = new Intent(RingtoneManager.ACTION_RINGTONE_PICKER);
-                intent.putExtra(RingtoneManager.EXTRA_RINGTONE_TITLE, "Set Ping tone");
-                intent.putExtra(RingtoneManager.EXTRA_RINGTONE_SHOW_SILENT, false);
-                intent.putExtra(RingtoneManager.EXTRA_RINGTONE_SHOW_DEFAULT, true);
-                intent.putExtra(RingtoneManager.EXTRA_RINGTONE_TYPE, RingtoneManager.TYPE_ALL);
-                startActivityForResult(intent, RINGTONE_REQUEST_CODE);
-                return true;
-            }
-        });
-        pref.setSummary(RingtoneManager.getRingtone(this, Uri.parse(prefs.getString(GBPrefs.PING_TONE, DEFAULT_RINGTONE_URI))).getTitle(this));
 
         pref = findPreference(GBPrefs.AUTO_EXPORT_LOCATION);
         pref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
@@ -454,20 +413,6 @@ public class SettingsActivity extends AbstractSettingsActivity {
             int autoExportPeriod = GBApplication
                     .getPrefs().getInt(GBPrefs.AUTO_EXPORT_INTERVAL, 0);
             PeriodicExporter.sheduleAlarm(getApplicationContext(), autoExportPeriod, autoExportEnabled);
-        }
-        if (requestCode == RINGTONE_REQUEST_CODE && intent != null) {
-            if(intent.getExtras().getParcelable(RingtoneManager.EXTRA_RINGTONE_PICKED_URI)!= null){
-                Uri uri = intent.getExtras().getParcelable(RingtoneManager.EXTRA_RINGTONE_PICKED_URI);
-                Ringtone r = RingtoneManager.getRingtone(this ,uri);
-                findPreference(GBPrefs.PING_TONE).setSummary(r.toString());
-
-                PreferenceManager
-                        .getDefaultSharedPreferences(this)
-                        .edit()
-                        .putString(GBPrefs.PING_TONE, uri.toString())
-                        .apply();
-                findPreference(GBPrefs.PING_TONE).setSummary(r.getTitle(this));
-            }
         }
     }
 

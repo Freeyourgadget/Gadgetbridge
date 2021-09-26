@@ -79,11 +79,11 @@ public class AppBlacklistActivity extends AbstractGBActivity {
             case android.R.id.home:
                 NavUtils.navigateUpFromSameTask(this);
                 return true;
-            case R.id.blacklist_all_notif:
-                appBlacklistAdapter.blacklistAllNotif();
+            case R.id.check_all_applications:
+                appBlacklistAdapter.checkAllApplications();
                 return true;
-            case R.id.whitelist_all_notif:
-                appBlacklistAdapter.whitelistAllNotif();
+            case R.id.uncheck_all_applications:
+                appBlacklistAdapter.uncheckAllApplications();
                 return true;
         }
         return super.onOptionsItemSelected(item);

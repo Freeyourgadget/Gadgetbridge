@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
         <item
-            android:id="@+id/blacklist_all_notif"
-            android:title="@string/blacklist_all_for_notifications">
+            android:id="@+id/check_all_applications"
+            android:title="@string/check_all_applications">
 
         </item>
         <item
-            android:id="@+id/whitelist_all_notif"
-            android:title="@string/whitelist_all_for_notifications" />
+            android:id="@+id/uncheck_all_applications"
+            android:title="@string/uncheck_all_applications" />
 </menu>

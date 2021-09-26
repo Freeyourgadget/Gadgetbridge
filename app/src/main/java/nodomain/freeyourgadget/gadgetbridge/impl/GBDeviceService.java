@@ -138,13 +138,17 @@ public class GBDeviceService implements DeviceService {
 
     @Override
     public void onNotification(NotificationSpec notificationSpec) {
+        boolean hideMessageDetails = GBApplication.getPrefs().getString("pref_message_privacy_mode",
+                GBApplication.getContext().getString(R.string.p_message_privacy_mode_off))
+                .equals(GBApplication.getContext().getString(R.string.p_message_privacy_mode_complete));
+
         Intent intent = createIntent().setAction(ACTION_NOTIFICATION)
                 .putExtra(EXTRA_NOTIFICATION_FLAGS, notificationSpec.flags)
-                .putExtra(EXTRA_NOTIFICATION_PHONENUMBER, notificationSpec.phoneNumber)
-                .putExtra(EXTRA_NOTIFICATION_SENDER, coalesce(notificationSpec.sender, getContactDisplayNameByNumber(notificationSpec.phoneNumber)))
-                .putExtra(EXTRA_NOTIFICATION_SUBJECT, notificationSpec.subject)
-                .putExtra(EXTRA_NOTIFICATION_TITLE, notificationSpec.title)
-                .putExtra(EXTRA_NOTIFICATION_BODY, notificationSpec.body)
+                .putExtra(EXTRA_NOTIFICATION_PHONENUMBER, hideMessageDetails ? null : notificationSpec.phoneNumber)
+                .putExtra(EXTRA_NOTIFICATION_SENDER, hideMessageDetails ? null : coalesce(notificationSpec.sender, getContactDisplayNameByNumber(notificationSpec.phoneNumber)))
+                .putExtra(EXTRA_NOTIFICATION_SUBJECT, hideMessageDetails ? null : notificationSpec.subject)
+                .putExtra(EXTRA_NOTIFICATION_TITLE, hideMessageDetails ? null : notificationSpec.title)
+                .putExtra(EXTRA_NOTIFICATION_BODY, hideMessageDetails ? null : notificationSpec.body)
                 .putExtra(EXTRA_NOTIFICATION_ID, notificationSpec.getId())
                 .putExtra(EXTRA_NOTIFICATION_TYPE, notificationSpec.type)
                 .putExtra(EXTRA_NOTIFICATION_ACTIONS, notificationSpec.attachedActions)

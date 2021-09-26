@@ -114,7 +114,7 @@
             android:parentActivityName=".activities.ControlCenterv2" />
         <activity
             android:name=".activities.AppBlacklistActivity"
-            android:label="@string/title_activity_appblacklist"
+            android:label="@string/title_activity_notification_management"
             android:parentActivityName=".activities.SettingsActivity" />
         <activity
             android:name=".activities.CalBlacklistActivity"
@@ -445,6 +445,11 @@
         <activity
             android:name=".activities.DataManagementActivity"
             android:label="@string/title_activity_db_management"
+            android:parentActivityName=".activities.ControlCenterv2"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name=".activities.NotificationManagementActivity"
+            android:label="@string/title_activity_notification_management"
             android:parentActivityName=".activities.ControlCenterv2"
             android:windowSoftInputMode="stateHidden" />
         <activity

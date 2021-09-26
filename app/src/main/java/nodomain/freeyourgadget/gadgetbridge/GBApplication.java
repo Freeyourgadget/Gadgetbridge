@@ -361,6 +361,11 @@ public class GBApplication extends Application {
         return VERSION.SDK_INT >= Build.VERSION_CODES.O;
     }
 
+    public static boolean isRunningTenOrLater() {
+        return VERSION.SDK_INT >= Build.VERSION_CODES.Q;
+    }
+
+
     public static boolean isRunningPieOrLater() {
         return VERSION.SDK_INT >= Build.VERSION_CODES.P;
     }

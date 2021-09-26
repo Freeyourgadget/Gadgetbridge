@@ -76,9 +76,16 @@ public class PebbleReceiver extends BroadcastReceiver {
         if (notificationSpec.title != null) {
             notificationSpec.type = NotificationType.UNKNOWN;
             String sender = intent.getStringExtra("sender");
-            if (GBApplication.appIsPebbleBlacklisted(sender)) {
-                LOG.info("Ignoring Pebble message, application "+ sender +" is blacklisted");
-                return;
+            if (GBApplication.getPrefs().getString("notification_list_is_blacklist", "true").equals("true")) {
+                if (GBApplication.appIsPebbleBlacklisted(sender)) {
+                    LOG.info("Ignoring Pebble message, application " + sender + " is blacklisted");
+                    return;
+                }
+            } else {
+                if (!GBApplication.appIsPebbleBlacklisted(sender)) {
+                    LOG.info("Ignoring Pebble message, application " + sender + " is not whitelisted");
+                    return;
+                }
             }
 
             if ("Conversations".equals(sender)) {

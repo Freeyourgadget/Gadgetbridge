@@ -225,6 +225,14 @@
                 grid:layout_columnSpan="2"
                 grid:layout_gravity="fill_horizontal" />
 
+            <Button
+                android:id="@+id/runDebugFunction"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Run Debug Function"
+                grid:layout_columnSpan="2"
+                grid:layout_gravity="fill_horizontal" />
+
         </androidx.gridlayout.widget.GridLayout>
 
     </ScrollView>

@@ -307,8 +307,8 @@ public class ControlCenterv2 extends AppCompatActivity
                 Intent dbIntent = new Intent(this, DataManagementActivity.class);
                 startActivity(dbIntent);
                 return true;
-            case R.id.action_blacklist:
-                Intent blIntent = new Intent(this, AppBlacklistActivity.class);
+            case R.id.action_notification_management:
+                Intent blIntent = new Intent(this, NotificationManagementActivity.class);
                 startActivity(blIntent);
                 return true;
             case R.id.device_action_discover:

@@ -137,18 +137,28 @@ public class AppBlacklistAdapter extends RecyclerView.Adapter<AppBlacklistAdapte
             @Override
             public void onClick(View view) {
 
-                if (holder.blacklist_checkbox.isChecked()) {
-                    GB.toast(mContext, mContext.getString(R.string.toast_app_must_not_be_blacklisted), Toast.LENGTH_SHORT, GB.INFO);
+                if (GBApplication.getPrefs().getString("notification_list_is_blacklist", "true").equals("true")) {
+                    if (holder.blacklist_checkbox.isChecked()) {
+                        GB.toast(mContext, mContext.getString(R.string.toast_app_must_not_be_selected), Toast.LENGTH_SHORT, GB.INFO);
+                    } else {
+                        Intent intentStartNotificationFilterActivity = new Intent(mContext, NotificationFilterActivity.class);
+                        intentStartNotificationFilterActivity.putExtra(STRING_EXTRA_PACKAGE_NAME, appInfo.packageName);
+                        mContext.startActivity(intentStartNotificationFilterActivity);
+                    }
                 } else {
-                    Intent intentStartNotificationFilterActivity = new Intent(mContext, NotificationFilterActivity.class);
-                    intentStartNotificationFilterActivity.putExtra(STRING_EXTRA_PACKAGE_NAME, appInfo.packageName);
-                    mContext.startActivity(intentStartNotificationFilterActivity);
+                    if (holder.blacklist_checkbox.isChecked()) {
+                        Intent intentStartNotificationFilterActivity = new Intent(mContext, NotificationFilterActivity.class);
+                        intentStartNotificationFilterActivity.putExtra(STRING_EXTRA_PACKAGE_NAME, appInfo.packageName);
+                        mContext.startActivity(intentStartNotificationFilterActivity);
+                    } else {
+                        GB.toast(mContext, mContext.getString(R.string.toast_app_must_be_selected), Toast.LENGTH_SHORT, GB.INFO);
+                    }
                 }
             }
         });
     }
 
-    public void blacklistAllNotif() {
+    public void checkAllApplications() {
         Set<String> apps_blacklist = new HashSet<>();
         List<ApplicationInfo> allApps = mPm.getInstalledApplications(PackageManager.GET_META_DATA);
         for (ApplicationInfo ai : allApps) {
@@ -158,7 +168,7 @@ public class AppBlacklistAdapter extends RecyclerView.Adapter<AppBlacklistAdapte
         notifyDataSetChanged();
     }
 
-    public void whitelistAllNotif() {
+    public void uncheckAllApplications() {
         Set<String> apps_blacklist = new HashSet<>();
         GBApplication.setAppsNotifBlackList(apps_blacklist);
         notifyDataSetChanged();
