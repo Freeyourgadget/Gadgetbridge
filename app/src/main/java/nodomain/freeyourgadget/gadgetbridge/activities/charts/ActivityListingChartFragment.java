@@ -21,6 +21,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.text.format.DateUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -157,28 +158,11 @@ public class ActivityListingChartFragment extends AbstractChartFragment {
         stepsDateView.setText(DateTimeUtils.formatDate(activityDate));
 
         if (GBApplication.getPrefs().getBoolean("charts_show_ongoing_activity", true)) {
-            if (mcd.getOngoingSession() != null && isActivityToday(activityDate)) {
+            if (mcd.getOngoingSession() != null && DateUtils.isToday(activityDate.getTime())) {
                 showOngoingActivitySnackbar(mcd.getOngoingSession());
             }
         }
         stepListAdapter.setItems(mcd.getStepSessions(), true);
-    }
-
-    private boolean isActivityToday(Date activityDate) {
-        Calendar calendarActivity = GregorianCalendar.getInstance();
-        calendarActivity.setTime(activityDate);
-        calendarActivity.set(Calendar.HOUR_OF_DAY, 0);
-        calendarActivity.set(Calendar.MINUTE, 0);
-        calendarActivity.set(Calendar.SECOND, 0);
-        calendarActivity.set(Calendar.MILLISECOND, 0);
-
-        Calendar calendarToday = GregorianCalendar.getInstance();
-        calendarToday.set(Calendar.HOUR_OF_DAY, 0);
-        calendarToday.set(Calendar.MINUTE, 0);
-        calendarToday.set(Calendar.SECOND, 0);
-        calendarToday.set(Calendar.MILLISECOND, 0);
-
-        return calendarToday.equals(calendarActivity);
     }
 
     @Override
