@@ -39,6 +39,7 @@ import org.slf4j.LoggerFactory;
 
 import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
@@ -152,13 +153,32 @@ public class ActivityListingChartFragment extends AbstractChartFragment {
             getChartsHost().enableSwipeRefresh(false); //disable pull to refresh as it collides with swipable view
         }
 
-        stepsDateView.setText(DateTimeUtils.formatDate(new Date(tsDateTo * 1000L)));
+        Date activityDate = new Date(tsDateTo * 1000L);
+        stepsDateView.setText(DateTimeUtils.formatDate(activityDate));
+
         if (GBApplication.getPrefs().getBoolean("charts_show_ongoing_activity", true)) {
-            if (mcd.getOngoingSession() != null) {
+            if (mcd.getOngoingSession() != null && isActivityToday(activityDate)) {
                 showOngoingActivitySnackbar(mcd.getOngoingSession());
             }
         }
         stepListAdapter.setItems(mcd.getStepSessions(), true);
+    }
+
+    private boolean isActivityToday(Date activityDate) {
+        Calendar calendarActivity = GregorianCalendar.getInstance();
+        calendarActivity.setTime(activityDate);
+        calendarActivity.set(Calendar.HOUR_OF_DAY, 0);
+        calendarActivity.set(Calendar.MINUTE, 0);
+        calendarActivity.set(Calendar.SECOND, 0);
+        calendarActivity.set(Calendar.MILLISECOND, 0);
+
+        Calendar calendarToday = GregorianCalendar.getInstance();
+        calendarToday.set(Calendar.HOUR_OF_DAY, 0);
+        calendarToday.set(Calendar.MINUTE, 0);
+        calendarToday.set(Calendar.SECOND, 0);
+        calendarToday.set(Calendar.MILLISECOND, 0);
+
+        return calendarToday.equals(calendarActivity);
     }
 
     @Override
