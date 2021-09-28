@@ -1318,4 +1318,18 @@
     <string name="pref_summary_huami_force_new_protocol">Inschakelen als uw apparaat geen verbinding meer maakt na een firmware-upgrade</string>
     <string name="pref_title_huami_force_new_protocol">Nieuw authenticatieprotocol</string>
     <string name="menuitem_flashlight">Zaklamp</string>
+    <string name="prefs_autoheartrate_interval">Frequentie van metingen</string>
+    <string name="prefs_autoheartrate_sleep">Hartslag meten tijdens slaap</string>
+    <string name="prefs_autoheartrate_measurement">Automatische hartslagmetingen</string>
+    <string name="prefs_autoheartrate_summary">Periodieke hartslagmetingen tijdens dag en nacht</string>
+    <string name="prefs_autoheartrate">Automatische hartslagmeting</string>
+    <string name="prefs_vibration_enable">Trillen inschakelen</string>
+    <string name="enable_notifications_summary">Notificaties voor telefoongesprekken, berichten en meer</string>
+    <string name="enable_vibrations_summary">Trillen bij telefoongesprekken, berichten, notificaties en meer</string>
+    <string name="prefs_notifications_enable">Notificaties inschakelen</string>
+    <string name="prefs_sleep_time_summary">Geeft aan wanneer slaap is gedetecteerd</string>
+    <string name="prefs_sleep_time_label">Slaaptijden instellen</string>
+    <string name="prefs_sleep_time">Slaaptijden</string>
+    <string name="devicetype_fitpro">FitPro</string>
+    <string name="pref_title_ping_tone">Ping-geluid</string>
 </resources>
