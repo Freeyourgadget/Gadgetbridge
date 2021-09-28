@@ -58,7 +58,7 @@
             android:title="@string/activity_prefs_calories_burnt" />
 
         <EditTextPreference
-            android:defaultValue="5"
+            android:defaultValue="5000"
             android:inputType="number"
             android:key="activity_user_distance_meters"
             android:maxLength="5"
