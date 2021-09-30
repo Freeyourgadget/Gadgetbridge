@@ -1339,4 +1339,5 @@
     <string name="prefs_sleep_time">Час сну</string>
     <string name="devicetype_fitpro">FitPro</string>
     <string name="pref_title_ping_tone">Звуковий сигнал</string>
+    <string name="devicetype_nothingear1">Нічого прослуховувати (1)</string>
 </resources>
