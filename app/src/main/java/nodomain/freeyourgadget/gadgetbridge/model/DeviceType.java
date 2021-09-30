@@ -100,6 +100,7 @@ public enum DeviceType {
     WASPOS(330, R.drawable.ic_device_pebble, R.drawable.ic_device_pebble_disabled, R.string.devicetype_waspos),
     UM25(350, R.drawable.ic_device_default, R.drawable.ic_device_default_disabled, R.string.devicetype_um25),
     DOMYOS_T540(400, R.drawable.ic_device_lovetoy, R.drawable.ic_device_lovetoy_disabled, R.string.devicetype_domyos_t540),
+    NOTHING_EAR1(410, R.drawable.ic_device_nothingear, R.drawable.ic_device_nothingear_disabled, R.string.devicetype_nothingear1),
     TEST(1000, R.drawable.ic_device_default, R.drawable.ic_device_default_disabled, R.string.devicetype_test);
 
     private final int key;

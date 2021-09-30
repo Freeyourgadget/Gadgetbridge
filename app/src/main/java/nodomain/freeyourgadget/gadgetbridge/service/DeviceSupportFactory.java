@@ -80,6 +80,7 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.miband.MiBandSupport
 import nodomain.freeyourgadget.gadgetbridge.service.devices.mijia_lywsd02.MijiaLywsd02Support;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.miscale2.MiScale2DeviceSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.no1f1.No1F1Support;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.nothing.Ear1Support;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.nut.NutSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.pebble.PebbleSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.pinetime.PineTimeJFSupport;
@@ -357,6 +358,9 @@ public class DeviceSupportFactory {
                         break;
                     case FITPRO:
                         deviceSupport = new ServiceDeviceSupport(new FitProDeviceSupport(), EnumSet.of(ServiceDeviceSupport.Flags.THROTTLING, ServiceDeviceSupport.Flags.BUSY_CHECKING));
+                        break;
+                    case NOTHING_EAR1:
+                        deviceSupport = new ServiceDeviceSupport(new Ear1Support(), EnumSet.of(ServiceDeviceSupport.Flags.BUSY_CHECKING));
                         break;
                 }
                 if (deviceSupport != null) {

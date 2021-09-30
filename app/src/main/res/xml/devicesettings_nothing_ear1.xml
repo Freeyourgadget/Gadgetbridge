@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <SwitchPreference
+        android:defaultValue="true"
+        android:icon="@drawable/ic_extension"
+        android:key="pref_nothing_inear_detection"
+        android:summary="Play/pause the music depending if you wear the earbuds"
+        android:title="In-Ear detection" />
+    <ListPreference
+        android:icon="@drawable/ic_extension"
+        android:entryValues="@array/nothing_ear1_audio_mode"
+        android:entries="@array/nothing_ear1_audio_mode"
+        android:key="pref_nothing_audiomode"
+        android:summary="%s"
+        android:title="Audio mode" />
+</androidx.preference.PreferenceScreen>

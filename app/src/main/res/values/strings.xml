@@ -1271,4 +1271,5 @@
     <string name="prefs_autoheartrate_measurement">Automatic Heart Rate measurements</string>
     <string name="prefs_autoheartrate_sleep">Take measurements during sleep</string>
     <string name="prefs_autoheartrate_interval">Frequency of measurements</string>
+    <string name="devicetype_nothingear1">Nothing Ear (1)</string>
 </resources>

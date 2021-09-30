@@ -57,6 +57,24 @@ public class CheckSums {
         crc &= 0xffff;
         return crc;
     }
+    
+    public static int getCRC16ansi(byte[] seq) {
+        int crc = 0xffff;
+        int polynomial = 0xA001;
+
+        for (int i = 0; i < seq.length; i++) {
+            crc ^= seq[i] & 0xFF;
+            for (int j = 0; j < 8; j++) {
+                if ((crc & 1) != 0) {
+                    crc = (crc >>> 1) ^ polynomial;
+                } else {
+                    crc = crc >>> 1;
+                }
+            }
+        }
+
+        return crc & 0xFFFF;
+    }
 
     public static int getCRC32(byte[] seq) {
         CRC32 crc = new CRC32();
