@@ -1338,4 +1338,11 @@
     <string name="prefs_notifications_enable">Włącz powiadomienia</string>
     <string name="prefs_vibration_enable">Włącz wibracje</string>
     <string name="devicetype_fitpro">FitPro</string>
+    <string name="prefs_autoheartrate_summary">Okresowe pomiary tętna w ciągu dnia, a także podczas snu</string>
+    <string name="devicetype_nothingear1">Nothing Ear (1)</string>
+    <string name="prefs_autoheartrate_sleep">Wykonuj pomiary podczas snu</string>
+    <string name="prefs_autoheartrate_measurement">Automatyczne pomiary tętna</string>
+    <string name="prefs_autoheartrate">Automatyczny pomiar tętna</string>
+    <string name="enable_notifications_summary">Powiadomienia o połączeniach, wiadomościach i innych</string>
+    <string name="enable_vibrations_summary">Wibracje dla połączeń, wiadomości, powiadomień i innych</string>
 </resources>
