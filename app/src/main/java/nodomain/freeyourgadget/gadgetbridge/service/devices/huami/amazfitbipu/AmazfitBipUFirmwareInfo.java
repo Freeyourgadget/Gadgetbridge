@@ -19,7 +19,6 @@ package nodomain.freeyourgadget.gadgetbridge.service.devices.huami.amazfitbipu;
 import java.util.HashMap;
 import java.util.Map;
 
-import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.HuamiFirmwareInfo;
@@ -42,30 +41,22 @@ public class AmazfitBipUFirmwareInfo extends HuamiFirmwareInfo {
     @Override
     protected HuamiFirmwareType determineFirmwareType(byte[] bytes) {
 
-        GBDevice device = GBApplication.app().getDeviceManager().getSelectedDevice();
-
         if (ArrayUtils.equals(bytes, MiBand4FirmwareInfo.FW_HEADER, MiBand4FirmwareInfo.FW_HEADER_OFFSET)) {
-            if (searchString32BitAligned(bytes, "Amazfit Bip U")) {
+            if (searchString32BitAligned(bytes, "\0\0Amazfit Bip U")) {
                 return HuamiFirmwareType.FIRMWARE;
             }
             return HuamiFirmwareType.INVALID;
 
         }
 
-        if (ArrayUtils.equals(bytes, NEWRES_HEADER, COMPRESSED_RES_HEADER_OFFSET) ||
-                ArrayUtils.equals(bytes, NEWRES_HEADER, COMPRESSED_RES_HEADER_OFFSET_NEW)) {
-            return HuamiFirmwareType.RES_COMPRESSED;
+        if (ArrayUtils.startsWith(bytes,NEWRES_HEADER)) {
+            return HuamiFirmwareType.RES;
         }
 
         if (ArrayUtils.startsWith(bytes, WATCHFACE_HEADER)) {
             return HuamiFirmwareType.WATCHFACE;
         }
-        if (ArrayUtils.startsWith(bytes, GPS_ALMANAC_HEADER)) {
-            return HuamiFirmwareType.GPS_ALMANAC;
-        }
-        if (ArrayUtils.startsWith(bytes, GPS_CEP_HEADER)) {
-            return HuamiFirmwareType.GPS_CEP;
-        }
+
         if (ArrayUtils.startsWith(bytes, NEWFT_HEADER)) {
             if (bytes[10] == 0x01 || bytes[10] == 0x06 || bytes[10] == 0x03) {
                 return HuamiFirmwareType.FONT;
@@ -73,11 +64,7 @@ public class AmazfitBipUFirmwareInfo extends HuamiFirmwareInfo {
                 return HuamiFirmwareType.FONT_LATIN;
             }
         }
-        for (byte[] gpsHeader : GPS_HEADERS) {
-            if (ArrayUtils.startsWith(bytes, gpsHeader)) {
-                return HuamiFirmwareType.GPS;
-            }
-        }
+
         return HuamiFirmwareType.INVALID;
     }
 
