@@ -31,7 +31,15 @@ public class AmazfitBipUFirmwareInfo extends HuamiFirmwareInfo {
     private static Map<Integer, String> crcToVersion = new HashMap<>();
 
     static {
-        // no known fw yet
+        // fw
+        crcToVersion.put(50652, "1.0.2.95");
+
+        // resources
+        crcToVersion.put(52508, "1.0.2.95");
+
+        // font
+        crcToVersion.put(60101, "8");
+
     }
 
     public AmazfitBipUFirmwareInfo(byte[] bytes) {
