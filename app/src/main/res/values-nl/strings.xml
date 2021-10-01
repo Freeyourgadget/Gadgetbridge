@@ -1332,4 +1332,5 @@
     <string name="prefs_sleep_time">Slaaptijden</string>
     <string name="devicetype_fitpro">FitPro</string>
     <string name="pref_title_ping_tone">Ping-geluid</string>
+    <string name="devicetype_nothingear1">Nothing Ear (1)</string>
 </resources>
