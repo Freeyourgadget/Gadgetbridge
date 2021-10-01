@@ -54,22 +54,19 @@ public class AmazfitBipUFirmwareInfo extends HuamiFirmwareInfo {
                 return HuamiFirmwareType.FIRMWARE;
             }
             return HuamiFirmwareType.INVALID;
-
         }
 
         if (ArrayUtils.startsWith(bytes,NEWRES_HEADER)) {
             return HuamiFirmwareType.RES;
         }
 
-        if (ArrayUtils.startsWith(bytes, WATCHFACE_HEADER)) {
+        if (ArrayUtils.startsWith(bytes, UIHH_HEADER) && (bytes[4] == 1 || bytes[4] == 2)) {
             return HuamiFirmwareType.WATCHFACE;
         }
 
         if (ArrayUtils.startsWith(bytes, NEWFT_HEADER)) {
             if (bytes[10] == 0x01 || bytes[10] == 0x06 || bytes[10] == 0x03) {
                 return HuamiFirmwareType.FONT;
-            } else if (bytes[10] == 0x02 || bytes[10] == 0x0A) {
-                return HuamiFirmwareType.FONT_LATIN;
             }
         }
 
