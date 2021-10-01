@@ -84,6 +84,11 @@ public class AmazfitBipUCoordinator extends HuamiCoordinator {
     }
 
     @Override
+    public boolean supportsUnicodeEmojis() {
+        return true;
+    }
+
+    @Override
     public int[] getSupportedDeviceSpecificSettings(GBDevice device) {
         return new int[]{
                 R.xml.devicesettings_amazfitbipu,
