@@ -1308,4 +1308,16 @@
     <string name="activity_summary_detail_editing_gpx_track">Rediger lenket GPX-spor</string>
     <string name="activity_summary_detail_select_gpx_track">Velg GPX-spor</string>
     <string name="set">Sett</string>
+    <string name="pref_summary_huami_force_new_protocol">Skru på dette hvis enheten ikke kobler til etter fastvareoppgradering</string>
+    <string name="devicetype_fitpro">FitPro</string>
+    <string name="heart_rate_result">Målingsresultater</string>
+    <string name="getting_heart_rate">Måling</string>
+    <string name="prefs_autoheartrate_interval">Målingsfrekvens</string>
+    <string name="prefs_autoheartrate">Automatisk puls</string>
+    <string name="watchface_widget_type_active_mins">Aktive minutter</string>
+    <string name="watchface_widget_type_2nd_tz">Andre tidssone</string>
+    <string name="watchface_widget_type_calories">Kalorier</string>
+    <string name="watchface_widget_type_battery">Batteri</string>
+    <string name="menuitem_flashlight">Lommelykt</string>
+    <string name="blood_pressure">Blodtrykk</string>
 </resources>
