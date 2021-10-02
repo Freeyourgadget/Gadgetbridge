@@ -1279,6 +1279,7 @@
         <item name="fr_FR">@string/french</item>
         <item name="pt_BR">@string/portuguese</item>
         <item name="tr_TR">@string/turkish</item>
+        <item name="cs_CZ">@string/czesh</item>
         <item name="ru_RU">@string/russian</item>
     </string-array>
 
@@ -1293,6 +1294,7 @@
         <item>fr_FR</item>
         <item>pt_BR</item>
         <item>tr_TR</item>
+        <item>cs_CZ</item>
         <item>ru_RU</item>
     </string-array>
 
