@@ -20,10 +20,16 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.um25.Support.UM25Sup
 public class DataActivity extends AbstractGBActivity {
     private HashMap<Integer, TextView> valueViews = new HashMap<>(ValueDisplay.values().length);
 
+    private TextView chargeDurationTextView;
+
     private enum ValueDisplay{
         VOLTAGE("voltage", "%.3fV", R.id.um25_text_voltage, 1000),
         CURRENT("current", "%.4fA", R.id.um25_text_current, 10000),
+        CURRENT_SUM("chargedCurrent", "%.0fmAh", R.id.um25_text_current_sum, 1),
         WATTAGE("wattage", "%.3fW", R.id.um25_text_wattage, 1000),
+        WATTAGE_SUM("chargedWattage", "%.3fWh", R.id.um25_text_wattage_sum, 1000),
+        TEMPERATURE_CELCIUS("temperatureCelcius", "%.0f°", R.id.um25_text_temperature, 1),
+        CABLE_RESISTANCE("cableResistance", "%.1fΩ", R.id.um25_cable_resistance, 10),
         ;
 
         private String variableName;
@@ -43,6 +49,8 @@ public class DataActivity extends AbstractGBActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_um25_data);
+
+        chargeDurationTextView = findViewById(R.id.um25_text_charge_duration);
     }
 
     @Override
@@ -81,6 +89,19 @@ public class DataActivity extends AbstractGBActivity {
                 e.printStackTrace();
             }
         }
+
+        int durationSeconds = data.getChargingSeconds();
+        int hours = durationSeconds / 3600;
+        int minutes = durationSeconds % 3600 / 60;
+        int seconds = durationSeconds % 60;
+
+        String timeString = String.format("%02d:%02d:%02d", hours, minutes, seconds);
+
+        int thresholdCurrent = data.getThresholdCurrent();
+        int current = data.getCurrent() / 10;
+
+        chargeDurationTextView.setTextColor(current > thresholdCurrent ? 0xff669900 : 0xffcc0000);
+        chargeDurationTextView.setText(timeString);
     }
 
     private BroadcastReceiver measurementReceiver = new BroadcastReceiver() {

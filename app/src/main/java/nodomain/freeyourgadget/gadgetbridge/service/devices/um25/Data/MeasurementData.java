@@ -74,7 +74,7 @@ public class MeasurementData implements Serializable {
     }
 
     public int getThresholdCurrent() {
-        return thresholdCurrent;
+        return thresholdCurrent * 10;
     }
 
     public int getChargingSeconds() {

@@ -15,4 +15,5 @@ http://developer.android.com/guide/topics/appwidgets/index.html#CreatingLayout
     <dimen name="fab_margin">16dp</dimen>
     <dimen name="dialog_margin">20dp</dimen>
     <dimen name="um25_value_text_size">60dp</dimen>
+    <dimen name="um25_value_text_size_small">30dp</dimen>
 </resources>
