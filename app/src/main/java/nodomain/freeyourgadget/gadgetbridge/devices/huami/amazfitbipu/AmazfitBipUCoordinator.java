@@ -106,6 +106,33 @@ public class AmazfitBipUCoordinator extends HuamiCoordinator {
     }
 
     @Override
+    public String[] getSupportedLanguageSettings(GBDevice device) {
+        return new String[]{
+                "auto",
+                "zh_CH",
+                "zh_TW",
+                "cs_CZ",
+                "de_DE",
+                "el_GR",
+                "en_US",
+                "es_ES",
+                "fr_FR",
+                "id_ID",
+                "it_IT",
+                "ja_JP",
+                "ko_KO",
+                "nl_NL",
+                "pl_PL",
+                "pt_BR",
+                "ru_RU",
+                "th_TH",
+                "uk_UA",
+                "vi_VN",
+                "tr_TR",
+        };
+    }
+
+    @Override
     public int getBondingStyle() {
         return BONDING_STYLE_REQUIRE_KEY;
     }

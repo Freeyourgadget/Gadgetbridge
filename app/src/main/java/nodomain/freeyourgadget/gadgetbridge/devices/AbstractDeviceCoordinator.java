@@ -236,6 +236,11 @@ public abstract class AbstractDeviceCoordinator implements DeviceCoordinator {
         return null;
     }
 
+    @Override
+    public String[] getSupportedLanguageSettings(GBDevice device) {
+        return null;
+    }
+
     @Nullable
     @Override
     public Class<? extends Activity> getCalibrationActivity() {

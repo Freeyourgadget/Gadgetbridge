@@ -34,11 +34,18 @@ public class HuamiLanguageType {
         put("de_DE", 0x07);
         put("de_AT", 0x07);
         put("de_CH", 0x07);
+        put("id_ID", 0x08);
         put("pl_PL", 0x09);
         put("it_IT", 0x0a);
+        put("ja_JP", 0x0b);
+        put("th_TH", 0x0c);
+        put("vi_VN", 0x0e);
         put("pt_PT", 0x0f);
+        put("nl_NL", 0x10);
         put("tr_TR", 0x11);
+        put("uk_UA", 0x12);
         put("pt_BR", 0x14);
         put("cs_CZ", 0x16);
+        put("el_GR", 0x17);
     }};
 }

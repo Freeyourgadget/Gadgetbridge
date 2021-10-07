@@ -342,4 +342,10 @@ public interface DeviceCoordinator {
      * Indicates which device specific settings the device supports (not per device type or family, but unique per device).
      */
     int[] getSupportedDeviceSpecificSettings(GBDevice device);
+
+    /**
+     * Indicates which device specific language the device supports
+     */
+    String[] getSupportedLanguageSettings(GBDevice device);
+
 }

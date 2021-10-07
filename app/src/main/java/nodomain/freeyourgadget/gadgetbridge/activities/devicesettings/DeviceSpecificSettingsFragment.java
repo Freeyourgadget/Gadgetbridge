@@ -23,12 +23,14 @@ import android.widget.EditText;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.DialogFragment;
 import androidx.preference.EditTextPreference;
+import androidx.preference.ListPreference;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
 
 import com.mobeta.android.dslv.DragSortListPreference;
 import com.mobeta.android.dslv.DragSortListPreferenceFragment;
 
+import org.apache.commons.lang3.ArrayUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -36,6 +38,7 @@ import java.util.ArrayList;
 import java.util.Objects;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
+import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst;
 import nodomain.freeyourgadget.gadgetbridge.devices.makibeshr3.MakibesHR3Constants;
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst;
@@ -145,10 +148,11 @@ public class DeviceSpecificSettingsFragment extends PreferenceFragmentCompat {
 
     static final String FRAGMENT_TAG = "DEVICE_SPECIFIC_SETTINGS_FRAGMENT";
 
-    private void setSettingsFileSuffix(String settingsFileSuffix, @NonNull int[] supportedSettings) {
+    private void setSettingsFileSuffix(String settingsFileSuffix, @NonNull int[] supportedSettings, String[] supportedLanguages) {
         Bundle args = new Bundle();
         args.putString("settingsFileSuffix", settingsFileSuffix);
         args.putIntArray("supportedSettings", supportedSettings);
+        args.putStringArray("supportedLanguages", supportedLanguages);
         setArguments(args);
     }
 
@@ -161,6 +165,8 @@ public class DeviceSpecificSettingsFragment extends PreferenceFragmentCompat {
         }
         String settingsFileSuffix = arguments.getString("settingsFileSuffix", null);
         int[] supportedSettings = arguments.getIntArray("supportedSettings");
+        String[] supportedLanguages = arguments.getStringArray("supportedLanguages");
+
         if (settingsFileSuffix == null || supportedSettings == null) {
             return;
         }
@@ -176,6 +182,19 @@ public class DeviceSpecificSettingsFragment extends PreferenceFragmentCompat {
                     first = false;
                 } else {
                     addPreferencesFromResource(setting);
+                }
+                if (setting == R.xml.devicesettings_language_generic) {
+                    ListPreference languageListPreference = findPreference("language");
+                    CharSequence[] entries = languageListPreference.getEntries();
+                    CharSequence[] values = languageListPreference.getEntryValues();
+                    for (int i=entries.length-1;i>=0;i--) {
+                        if (!ArrayUtils.contains(supportedLanguages,values[i])) {
+                            entries = ArrayUtils.remove(entries,i);
+                            values = ArrayUtils.remove(values,i);
+                        }
+                    }
+                    languageListPreference.setEntries(entries);
+                    languageListPreference.setEntryValues(values);
                 }
             }
         } else {
@@ -678,9 +697,9 @@ public class DeviceSpecificSettingsFragment extends PreferenceFragmentCompat {
         }
     }
 
-    static DeviceSpecificSettingsFragment newInstance(String settingsFileSuffix, @NonNull int[] supportedSettings) {
+    static DeviceSpecificSettingsFragment newInstance(String settingsFileSuffix, @NonNull int[] supportedSettings, String[] supportedLanguages) {
         DeviceSpecificSettingsFragment fragment = new DeviceSpecificSettingsFragment();
-        fragment.setSettingsFileSuffix(settingsFileSuffix, supportedSettings);
+        fragment.setSettingsFileSuffix(settingsFileSuffix, supportedSettings, supportedLanguages);
 
         return fragment;
     }

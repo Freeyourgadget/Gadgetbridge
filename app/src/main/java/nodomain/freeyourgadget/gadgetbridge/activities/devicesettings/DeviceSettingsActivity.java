@@ -50,13 +50,20 @@ public class DeviceSettingsActivity extends AbstractGBActivity implements
             if (fragment == null) {
                 DeviceCoordinator coordinator = DeviceHelper.getInstance().getCoordinator(device);
                 int[] supportedSettings = coordinator.getSupportedDeviceSpecificSettings(device);
+                String[] supportedLanguages = coordinator.getSupportedLanguageSettings(device);
+
+                if (supportedLanguages != null) {
+                    supportedSettings = ArrayUtils.insert(0, supportedSettings, R.xml.devicesettings_language_generic);
+                }
                 if (coordinator.supportsActivityTracking()) {
                     supportedSettings = ArrayUtils.addAll(supportedSettings, R.xml.devicesettings_chartstabs);
                 }
+
+                // FIXME: this does not belong here
                 if (!ArrayUtils.contains(supportedSettings, R.xml.devicesettings_transliteration)) {
                     supportedSettings = ArrayUtils.addAll(supportedSettings, R.xml.devicesettings_transliteration);
                 }
-                fragment = DeviceSpecificSettingsFragment.newInstance(device.getAddress(), supportedSettings);
+                fragment = DeviceSpecificSettingsFragment.newInstance(device.getAddress(), supportedSettings, supportedLanguages);
             }
             getSupportFragmentManager()
                     .beginTransaction()
@@ -70,11 +77,17 @@ public class DeviceSettingsActivity extends AbstractGBActivity implements
     public boolean onPreferenceStartScreen(PreferenceFragmentCompat caller, PreferenceScreen preferenceScreen) {
         DeviceCoordinator coordinator = DeviceHelper.getInstance().getCoordinator(device);
         int[] supportedSettings = coordinator.getSupportedDeviceSpecificSettings(device);
+        String[] supportedLanguages = coordinator.getSupportedLanguageSettings(device);
+
+        if (supportedLanguages != null) {
+            supportedSettings = ArrayUtils.insert(0, supportedSettings, R.xml.devicesettings_language_generic);
+        }
+
         if (coordinator.supportsActivityTracking()) {
             supportedSettings = ArrayUtils.addAll(supportedSettings, R.xml.devicesettings_chartstabs);
         }
 
-        PreferenceFragmentCompat fragment = DeviceSpecificSettingsFragment.newInstance(device.getAddress(), supportedSettings);
+        PreferenceFragmentCompat fragment = DeviceSpecificSettingsFragment.newInstance(device.getAddress(), supportedSettings, supportedLanguages);
         Bundle args = fragment.getArguments();
         args.putString(PreferenceFragmentCompat.ARG_PREFERENCE_ROOT, preferenceScreen.getKey());
         fragment.setArguments(args);
