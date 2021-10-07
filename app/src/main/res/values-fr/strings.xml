@@ -1331,4 +1331,7 @@ Temps de sommeil préféré en heures</string>
     <string name="devicetype_fitpro">FitPro</string>
     <string name="pref_title_ping_tone">Sonnerie du Ping</string>
     <string name="devicetype_nothingear1">Nothing Ear (1)</string>
+    <string name="nothing_prefs_inear_summary">Mettre en lecture/pause la musique selon si vous portez les écouteurs ou pas</string>
+    <string name="nothing_prefs_audiomode_title">Mode Audio</string>
+    <string name="nothing_prefs_inear_title">Détection In-Ear</string>
 </resources>
