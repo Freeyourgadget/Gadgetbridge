@@ -1340,4 +1340,7 @@
     <string name="devicetype_fitpro">FitPro</string>
     <string name="pref_title_ping_tone">Звуковий сигнал</string>
     <string name="devicetype_nothingear1">Нічого прослуховувати (1)</string>
+    <string name="nothing_prefs_inear_title">Виявлення одягання на вуха</string>
+    <string name="nothing_prefs_inear_summary">Відтворення/зупинка музики залежно від того, чи одягнено навушники</string>
+    <string name="nothing_prefs_audiomode_title">Аудіорежим</string>
 </resources>
