@@ -109,8 +109,6 @@ public class AmazfitBipUCoordinator extends HuamiCoordinator {
     public String[] getSupportedLanguageSettings(GBDevice device) {
         return new String[]{
                 "auto",
-                "zh_CH",
-                "zh_TW",
                 "cs_CZ",
                 "de_DE",
                 "el_GR",
@@ -126,9 +124,11 @@ public class AmazfitBipUCoordinator extends HuamiCoordinator {
                 "pt_BR",
                 "ru_RU",
                 "th_TH",
+                "tr_TR",
                 "uk_UA",
                 "vi_VN",
-                "tr_TR",
+                "zh_CH",
+                "zh_TW",
         };
     }
 

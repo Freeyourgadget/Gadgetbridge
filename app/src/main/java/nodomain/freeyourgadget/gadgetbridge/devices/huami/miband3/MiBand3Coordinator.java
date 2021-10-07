@@ -117,4 +117,30 @@ public class MiBand3Coordinator extends HuamiCoordinator {
                 R.xml.devicesettings_pairingkey
         };
     }
+
+    @Override
+    public String[] getSupportedLanguageSettings(GBDevice device) {
+        return new String[]{
+                "auto",
+                "ar_SA",
+                "de_DE",
+                "en_US",
+                "es_ES",
+                "fr_FR",
+                "id_ID",
+                "it_IT",
+                "ja_JP",
+                "ko_KO",
+                "pt_PT",
+                "nl_NL",
+                "pl_PL",
+                "ru_RU",
+                "th_TH",
+                "tr_TR",
+                "uk_UA",
+                "vi_VN",
+                "zh_CN",
+                "zh_TW",
+        };
+    }
 }
