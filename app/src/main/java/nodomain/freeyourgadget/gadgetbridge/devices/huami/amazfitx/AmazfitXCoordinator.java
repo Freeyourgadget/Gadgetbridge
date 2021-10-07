@@ -108,6 +108,15 @@ public class AmazfitXCoordinator extends HuamiCoordinator {
         };
     }
 
+    public String[] getSupportedLanguageSettings(GBDevice device) {
+        return new String[]{
+                "auto",
+                "en_US",
+                "zh_CN",
+                "zh_TW",
+        };
+    }
+
     @Override
     public int getBondingStyle() {
         return BONDING_STYLE_REQUIRE_KEY;

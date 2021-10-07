@@ -117,8 +117,6 @@ public class MiBand4Coordinator extends HuamiCoordinator {
                 "fr_FR",
                 "id_ID",
                 "it_IT",
-                "ja_JP",
-                "ko_KO",
                 "pt_PT",
                 "pl_PL",
                 "ru_RU",

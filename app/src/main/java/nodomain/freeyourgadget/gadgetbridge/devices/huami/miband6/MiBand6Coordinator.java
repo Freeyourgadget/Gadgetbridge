@@ -89,6 +89,34 @@ public class MiBand6Coordinator extends HuamiCoordinator {
     }
 
     @Override
+    public String[] getSupportedLanguageSettings(GBDevice device) {
+        return new String[]{
+                "auto",
+                "ar_SA",
+                "cs_CZ",
+                "de_DE",
+                "el_GR",
+                "en_US",
+                "es_ES",
+                "fr_FR",
+                "he_IL",
+                "id_ID",
+                "it_IT",
+                "nl_NL",
+                "pt_PT",
+                "pl_PL",
+                "ro_RO",
+                "ru_RU",
+                "th_TH",
+                "tr_TR",
+                "uk_UA",
+                "vi_VN",
+                "zh_CN",
+                "zh_TW",
+        };
+    }
+
+    @Override
     public int getBondingStyle() {
         return BONDING_STYLE_REQUIRE_KEY;
     }

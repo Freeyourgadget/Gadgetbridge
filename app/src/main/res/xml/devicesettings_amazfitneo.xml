@@ -11,15 +11,6 @@
         android:summary="@string/mi2_prefs_display_items_summary"
         android:title="@string/mi2_prefs_display_items" />
 
-    <ListPreference
-        android:icon="@drawable/ic_language"
-        android:defaultValue="auto"
-        android:entries="@array/pref_miband5_language"
-        android:entryValues="@array/pref_miband5_language_values"
-        android:key="language"
-        android:summary="%s"
-        android:title="@string/pref_title_language" />
-
     <MultiSelectListPreference
         android:icon="@drawable/ic_beep"
         android:defaultValue="@array/pref_amazfitneo_sounds_default"
