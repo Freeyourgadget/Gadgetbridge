@@ -1337,4 +1337,8 @@
     <string name="prefs_sleep_time">Horas de sueño</string>
     <string name="devicetype_fitpro">FitPro</string>
     <string name="pref_title_ping_tone">Tono de ping</string>
+    <string name="nothing_prefs_inear_summary">Reproducir/pausar la música dependiendo de si lleva los auriculares</string>
+    <string name="nothing_prefs_inear_title">Detección de la oreja</string>
+    <string name="nothing_prefs_audiomode_title">Modo de sonido</string>
+    <string name="devicetype_nothingear1">Nothing Ear (1)</string>
 </resources>
