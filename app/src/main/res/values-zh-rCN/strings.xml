@@ -1338,4 +1338,7 @@
     <string name="devicetype_fitpro">FitPro</string>
     <string name="pref_title_ping_tone">Ping 铃声</string>
     <string name="devicetype_nothingear1">Nothing Ear (1)</string>
+    <string name="nothing_prefs_inear_summary">当佩戴或取下耳塞式耳机时自动播放或暂停音乐</string>
+    <string name="nothing_prefs_inear_title">入耳检测</string>
+    <string name="nothing_prefs_audiomode_title">音频模式</string>
 </resources>
