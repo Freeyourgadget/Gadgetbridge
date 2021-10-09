@@ -1345,4 +1345,7 @@
     <string name="prefs_autoheartrate">Automatyczny pomiar tętna</string>
     <string name="enable_notifications_summary">Powiadomienia o połączeniach, wiadomościach i innych</string>
     <string name="enable_vibrations_summary">Wibracje dla połączeń, wiadomości, powiadomień i innych</string>
+    <string name="nothing_prefs_inear_summary">Odtwórz/wstrzymaj muzykę w zależności od tego, czy nosisz słuchawki</string>
+    <string name="nothing_prefs_inear_title">Wykrywanie włożenia słuchawki do ucha</string>
+    <string name="nothing_prefs_audiomode_title">Tryb audio</string>
 </resources>
