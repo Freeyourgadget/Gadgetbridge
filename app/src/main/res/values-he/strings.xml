@@ -1336,4 +1336,17 @@
     <string name="nothing_prefs_inear_summary">נגינה/השהיה של המוזיקה בהתאם להרכבת אוזניות</string>
     <string name="nothing_prefs_inear_title">זיהוי תוך אוזני</string>
     <string name="nothing_prefs_audiomode_title">מצב שמע</string>
+    <string name="uncheck_all_applications">ביטול סימון כל היישומונים</string>
+    <string name="pref_title_notification_use_as_allow">לאפשר התראות מהיישומונים הנבחרים</string>
+    <string name="title_activity_notification_management">הגדרות התראה</string>
+    <string name="pref_title_message_privacy_mode">מצב פרטיות הודעות</string>
+    <string name="pref_header_notification_application_settings">הגדרות נפרדות לכל יישומון</string>
+    <string name="toast_app_must_not_be_selected">יישומון צריך להיות לא מסומן כדי שיוגדר</string>
+    <string name="toast_app_must_be_selected">יישומון חייב להיות מסומן כדי שיוגדר</string>
+    <string name="pref_message_privacy_mode_complete">הסתרת תוכן</string>
+    <string name="pref_applications_settings">רשימת יישומונים</string>
+    <string name="check_all_applications">סימון כל היישומונים</string>
+    <string name="pref_title_notification_use_as">להשתמש ברשימת היישומונים כדי…</string>
+    <string name="pref_title_notification_use_as_deny">לדחות התראות מהיישומונים הנבחרים</string>
+    <string name="pref_message_privacy_mode_off">הצגת תוכן</string>
 </resources>
