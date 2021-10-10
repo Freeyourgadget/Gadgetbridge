@@ -1341,4 +1341,17 @@
     <string name="nothing_prefs_inear_summary">当佩戴或取下耳塞式耳机时自动播放或暂停音乐</string>
     <string name="nothing_prefs_inear_title">入耳检测</string>
     <string name="nothing_prefs_audiomode_title">音频模式</string>
+    <string name="check_all_applications">选中所有的应用</string>
+    <string name="uncheck_all_applications">取消选择所有的应用</string>
+    <string name="pref_title_notification_use_as">使用应用列表至…</string>
+    <string name="pref_title_message_privacy_mode">消息隐私模式</string>
+    <string name="pref_message_privacy_mode_off">显示内容</string>
+    <string name="pref_applications_settings">应用列表</string>
+    <string name="toast_app_must_be_selected">应用必须被选中才能被配置</string>
+    <string name="toast_app_must_not_be_selected">应用必须未被选中才能被配置</string>
+    <string name="title_activity_notification_management">通知设定</string>
+    <string name="pref_header_notification_application_settings">单个应用设定</string>
+    <string name="pref_title_notification_use_as_deny">拒绝选中应用的通知</string>
+    <string name="pref_title_notification_use_as_allow">允许选中应用的通知</string>
+    <string name="pref_message_privacy_mode_complete">隐藏内容</string>
 </resources>
