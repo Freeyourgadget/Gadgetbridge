@@ -1333,4 +1333,21 @@
     <string name="prefs_sleep_time_label">Definujte hodiny spánku</string>
     <string name="prefs_sleep_time">Čas spánku</string>
     <string name="devicetype_fitpro">FitPro</string>
+    <string name="devicetype_nothingear1">Nothing Ear (1)</string>
+    <string name="nothing_prefs_inear_summary">Přehrávat/Pauzovat dle detekce nošení</string>
+    <string name="nothing_prefs_audiomode_title">Audio mód</string>
+    <string name="nothing_prefs_inear_title">Detekce nošení</string>
+    <string name="pref_title_notification_use_as">Použít seznam aplikací k...</string>
+    <string name="pref_title_notification_use_as_deny">Zakázaní oznámení z vybraných aplikací</string>
+    <string name="title_activity_notification_management">Nastavení oznámení</string>
+    <string name="check_all_applications">Označit všechny aplikace</string>
+    <string name="uncheck_all_applications">Odznačit všechny aplikace</string>
+    <string name="pref_header_notification_application_settings">Nastavení jednotlivých aplikací</string>
+    <string name="pref_title_notification_use_as_allow">Povolení oznámení z vybraných aplikací</string>
+    <string name="pref_title_message_privacy_mode">Nastavení soukromí pro oznámení</string>
+    <string name="pref_message_privacy_mode_off">Zobrazit text v oznámení</string>
+    <string name="pref_message_privacy_mode_complete">Skrýt text v oznámení</string>
+    <string name="pref_applications_settings">Seznam aplikací</string>
+    <string name="toast_app_must_be_selected">Aplikace musí být označena, aby ji bylo možno konfigurovat</string>
+    <string name="toast_app_must_not_be_selected">Aplikace nesmí být označena, aby ji bylo možno konfigurovat</string>
 </resources>
