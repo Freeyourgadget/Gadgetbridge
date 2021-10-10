@@ -1315,4 +1315,17 @@
     <string name="heart_rate_result">Результаты измерений</string>
     <string name="getting_heart_rate">Измерение</string>
     <string name="blood_pressure">Артериальное давление</string>
+    <string name="pref_title_huami_force_new_protocol">Новый протокол авторизации</string>
+    <string name="devicetype_fitpro">FitPro</string>
+    <string name="menuitem_flashlight">Фонарик</string>
+    <string name="pref_title_ping_tone">Звуковой сигнал</string>
+    <string name="pref_header_notification_application_settings">Настройки для каждого приложения</string>
+    <string name="pref_title_notification_use_as_allow">Разрешить уведомления от выбранных приложений</string>
+    <string name="pref_message_privacy_mode_complete">Скрыть содержимое</string>
+    <string name="pref_summary_huami_force_new_protocol">Включите, если устройство перестало подключаться после обновления прошивки</string>
+    <string name="toast_app_must_not_be_selected">Приложение не должно быть выбрано для настройки</string>
+    <string name="title_activity_notification_management">Настройки уведомлений</string>
+    <string name="pref_title_message_privacy_mode">Режим конфиденциальности сообщений</string>
+    <string name="pref_message_privacy_mode_off">Отображение содержимого</string>
+    <string name="pref_applications_settings">Список приложений</string>
 </resources>
