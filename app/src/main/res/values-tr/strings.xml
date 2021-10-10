@@ -1360,4 +1360,17 @@
     <string name="nothing_prefs_inear_summary">Kulaklıkları takmanıza bağlı olarak müziği oynat/duraklat</string>
     <string name="nothing_prefs_inear_title">Kulak içi algılama</string>
     <string name="nothing_prefs_audiomode_title">Ses modu</string>
+    <string name="pref_applications_settings">Uygulamalar listesi</string>
+    <string name="pref_title_notification_use_as">Uygulamalar listesini kullanarak...</string>
+    <string name="toast_app_must_not_be_selected">Yapılandırmak için uygulama seçili olmamalıdır</string>
+    <string name="pref_header_notification_application_settings">Uygulama başına ayarlar</string>
+    <string name="title_activity_notification_management">Bildirim ayarları</string>
+    <string name="check_all_applications">Tüm uygulamaları işaretle</string>
+    <string name="uncheck_all_applications">Tüm uygulamaların işaretini kaldır</string>
+    <string name="pref_title_notification_use_as_deny">Seçili uygulamalardan gelen bildirimleri reddet</string>
+    <string name="pref_title_notification_use_as_allow">Seçili uygulamalardan gelen bildirimlere izin ver</string>
+    <string name="pref_title_message_privacy_mode">Mesaj gizlilik modu</string>
+    <string name="pref_message_privacy_mode_off">İçeriği görüntüle</string>
+    <string name="pref_message_privacy_mode_complete">İçeriği gizle</string>
+    <string name="toast_app_must_be_selected">Yapılandırmak için uygulama seçili olmalıdır</string>
 </resources>
