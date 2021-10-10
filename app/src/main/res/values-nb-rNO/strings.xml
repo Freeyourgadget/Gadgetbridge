@@ -1320,4 +1320,17 @@
     <string name="watchface_widget_type_battery">Batteri</string>
     <string name="menuitem_flashlight">Lommelykt</string>
     <string name="blood_pressure">Blodtrykk</string>
+    <string name="pref_title_ping_tone">Pingetone</string>
+    <string name="nothing_prefs_audiomode_title">Lydmodus</string>
+    <string name="check_all_applications">Velg alle programmer</string>
+    <string name="pref_title_notification_use_as">Bruk programlisten til å …</string>
+    <string name="pref_title_notification_use_as_deny">Nekt merknader fra valgte programmer</string>
+    <string name="pref_message_privacy_mode_off">Vis innhold</string>
+    <string name="pref_message_privacy_mode_complete">Skjul innhold</string>
+    <string name="pref_applications_settings">Programliste</string>
+    <string name="pref_header_notification_application_settings">Innstillinger per program</string>
+    <string name="pref_title_notification_use_as_allow">Tillat merknader fra valgte programmer</string>
+    <string name="title_activity_notification_management">Merknadsinnstillinger</string>
+    <string name="uncheck_all_applications">Fravelg alle programmer</string>
+    <string name="watchface_setting_title_power_saving">Energisparing</string>
 </resources>
