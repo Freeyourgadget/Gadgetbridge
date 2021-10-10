@@ -1334,4 +1334,17 @@ Temps de sommeil préféré en heures</string>
     <string name="nothing_prefs_inear_summary">Mettre en lecture/pause la musique selon si vous portez les écouteurs ou pas</string>
     <string name="nothing_prefs_audiomode_title">Mode Audio</string>
     <string name="nothing_prefs_inear_title">Détection In-Ear</string>
+    <string name="check_all_applications">Activer toutes les applications</string>
+    <string name="uncheck_all_applications">Désactiver toutes les applications</string>
+    <string name="pref_title_notification_use_as">Utiliser la liste des applications pour...</string>
+    <string name="pref_title_notification_use_as_deny">Bloquer les notifications des apps sélectionnées</string>
+    <string name="pref_title_message_privacy_mode">Mode messages privés</string>
+    <string name="pref_message_privacy_mode_off">Afficher le contenu</string>
+    <string name="pref_message_privacy_mode_complete">Cacher le contenu</string>
+    <string name="pref_applications_settings">Liste des applications</string>
+    <string name="toast_app_must_be_selected">L\'app doit être sélectionnée pour être configurée</string>
+    <string name="pref_title_notification_use_as_allow">Autoriser les notifications des apps sélectionnées</string>
+    <string name="title_activity_notification_management">Configuration des notifications</string>
+    <string name="pref_header_notification_application_settings">Réglages par application</string>
+    <string name="toast_app_must_not_be_selected">L\'app ne doit pas être sélectionnée pour être configurable</string>
 </resources>
