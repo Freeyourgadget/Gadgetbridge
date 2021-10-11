@@ -1343,4 +1343,17 @@
     <string name="nothing_prefs_inear_title">Виявлення одягання на вуха</string>
     <string name="nothing_prefs_inear_summary">Відтворення/зупинка музики залежно від того, чи одягнено навушники</string>
     <string name="nothing_prefs_audiomode_title">Аудіорежим</string>
+    <string name="check_all_applications">Вибрати всі застосунки</string>
+    <string name="uncheck_all_applications">Прибрати вибір з усіх застосунків</string>
+    <string name="pref_title_notification_use_as_allow">Дозволити сповіщення з вибраних застосунків</string>
+    <string name="title_activity_notification_management">Налаштування сповіщень</string>
+    <string name="pref_header_notification_application_settings">Налаштування для кожного застосунку</string>
+    <string name="pref_title_notification_use_as">Використати список застосунків для...</string>
+    <string name="pref_title_notification_use_as_deny">Заборонити сповіщення з вибраних застосунків</string>
+    <string name="pref_title_message_privacy_mode">Режим приватності повідомлень</string>
+    <string name="pref_message_privacy_mode_off">Показ вмісту</string>
+    <string name="pref_message_privacy_mode_complete">Сховати вміст</string>
+    <string name="pref_applications_settings">Список застосунків</string>
+    <string name="toast_app_must_not_be_selected">Застосунок не повинен бути вибираним для налаштування</string>
+    <string name="toast_app_must_be_selected">Потрібно вибрати застосунок для налаштування</string>
 </resources>
