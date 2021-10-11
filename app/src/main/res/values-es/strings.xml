@@ -1341,4 +1341,17 @@
     <string name="nothing_prefs_inear_title">Detección de la oreja</string>
     <string name="nothing_prefs_audiomode_title">Modo de sonido</string>
     <string name="devicetype_nothingear1">Nothing Ear (1)</string>
+    <string name="uncheck_all_applications">Desmarcar todas las aplicaciones</string>
+    <string name="check_all_applications">Marcar todas las aplicaciones</string>
+    <string name="pref_title_notification_use_as_deny">Denegar las notificaciones de las aplicaciones seleccionadas</string>
+    <string name="pref_title_message_privacy_mode">Modo de privacidad de los mensajes</string>
+    <string name="pref_message_privacy_mode_complete">Ocultar contenido</string>
+    <string name="pref_message_privacy_mode_off">Mostrar contenido</string>
+    <string name="pref_applications_settings">Lista de aplicaciones</string>
+    <string name="title_activity_notification_management">Ajustes de las notificaciones</string>
+    <string name="pref_header_notification_application_settings">Por ajustes de la aplicación</string>
+    <string name="pref_title_notification_use_as">Usar la lista de aplicaciones para…</string>
+    <string name="pref_title_notification_use_as_allow">Permitir las notificaciones de las aplicaciones seleccionadas</string>
+    <string name="toast_app_must_not_be_selected">La aplicación no debe ser seleccionada para ser configurada</string>
+    <string name="toast_app_must_be_selected">La aplicación debe ser seleccionada para ser configurada</string>
 </resources>
