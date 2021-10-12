@@ -1336,4 +1336,17 @@
     <string name="nothing_prefs_inear_summary">Speel/pauzeer de muziek afhankelijk van of je de oordopjes draagt</string>
     <string name="nothing_prefs_inear_title">In-oor-detectie</string>
     <string name="nothing_prefs_audiomode_title">Audiomodus</string>
+    <string name="check_all_applications">Selecteer alle apps</string>
+    <string name="pref_header_notification_application_settings">App-instellingen</string>
+    <string name="toast_app_must_not_be_selected">App mag niet geselecteerd zijn om ingesteld te worden</string>
+    <string name="pref_title_notification_use_as_deny">Blokkeren van meldingen van geselecteerde apps</string>
+    <string name="pref_title_notification_use_as_allow">Toestaan van meldingen van geselecteerde apps</string>
+    <string name="title_activity_notification_management">Notificatie-instellingen</string>
+    <string name="pref_title_message_privacy_mode">Privacymodus berichten</string>
+    <string name="uncheck_all_applications">Deselecteer alle apps</string>
+    <string name="pref_title_notification_use_as">Gebruik de app-lijst voor...</string>
+    <string name="pref_message_privacy_mode_off">Toon inhoud</string>
+    <string name="pref_message_privacy_mode_complete">Verberg inhoud</string>
+    <string name="pref_applications_settings">App-lijst</string>
+    <string name="toast_app_must_be_selected">App moet geselecteerd zijn om ingesteld te worden</string>
 </resources>
