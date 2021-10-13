@@ -1341,4 +1341,17 @@
     <string name="nothing_prefs_inear_summary">Reproduzir/pausar a música dependendo se você usa os fones de ouvido</string>
     <string name="nothing_prefs_inear_title">Deteção no ouvido</string>
     <string name="nothing_prefs_audiomode_title">Modo de áudio</string>
+    <string name="pref_title_notification_use_as">Usar a lista de aplicativos para...</string>
+    <string name="pref_title_notification_use_as_allow">Permitir notificações de aplicativos selecionados</string>
+    <string name="pref_title_message_privacy_mode">Modo de privacidade de mensagens</string>
+    <string name="pref_message_privacy_mode_off">Exibir conteúdo</string>
+    <string name="pref_message_privacy_mode_complete">Ocultar conteúdo</string>
+    <string name="title_activity_notification_management">Configurações de notificação</string>
+    <string name="check_all_applications">Marcar todos os aplicativos</string>
+    <string name="uncheck_all_applications">Desmarcar todos os aplicativos</string>
+    <string name="pref_title_notification_use_as_deny">Negar notificações dos aplicativos selecionados</string>
+    <string name="pref_header_notification_application_settings">Configurações por aplicativo</string>
+    <string name="pref_applications_settings">Lista de aplicativos</string>
+    <string name="toast_app_must_not_be_selected">O aplicativo não deve ser selecionado para ser configurado</string>
+    <string name="toast_app_must_be_selected">O aplicativo deve ser selecionado para ser configurado</string>
 </resources>
