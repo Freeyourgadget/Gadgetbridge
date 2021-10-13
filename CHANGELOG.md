@@ -1,5 +1,15 @@
 ### Changelog
 
+### 0.61.0 (NEXT)
+* Initial support for Nothing Ear(1)
+* Amazfit Bip U/Pro: Fix flashing firmware and watchfaces
+* Amazfit Bip U/Pro: Fix language setting
+* Amazfit Bip U/Pro: allow unicode emoji
+* Huami: fix supported languages list on many devices
+* UM25: show more measured data
+* Much improved notification management
+* Fix default daily target distance from 5 to 5000 meters
+
 ### 0.60.0
 * Initial support for FitPro bands
 * Mi Band 6: really fix weather on new firmware
