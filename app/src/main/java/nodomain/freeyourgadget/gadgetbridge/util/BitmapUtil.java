@@ -21,6 +21,7 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.ColorMatrix;
 import android.graphics.ColorMatrixColorFilter;
+import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
@@ -176,5 +177,17 @@ public class BitmapUtil {
         srcBitmap.recycle();
         // Return the circular bitmap
         return dstBitmap;
+    }
+
+    /**
+     * Rotates a given Bitmap
+     * @param bitmap input bitmap
+     * @param degree int Degree of rotation
+     * @return new bitmap
+     */
+    public static Bitmap rotateImage(Bitmap bitmap, int degree) {
+        Matrix matrix = new Matrix();
+        matrix.postRotate(degree);
+        return Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
     }
 }

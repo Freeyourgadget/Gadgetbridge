@@ -155,6 +155,9 @@ public class HybridHRWatchfaceDesignerActivity extends AbstractGBActivity implem
         findViewById(R.id.button_set_background).setOnClickListener(this);
         findViewById(R.id.button_add_widget).setOnClickListener(this);
         findViewById(R.id.button_watchface_settings).setOnClickListener(this);
+        findViewById(R.id.watchface_rotate_left).setOnClickListener(this);
+        findViewById(R.id.watchface_rotate_right).setOnClickListener(this);
+
     }
 
     @Override
@@ -235,6 +238,18 @@ public class HybridHRWatchfaceDesignerActivity extends AbstractGBActivity implem
             showWidgetEditPopup(-1);
         } else if (v.getId() == R.id.button_watchface_settings) {
             showWatchfaceSettingsPopup();
+        }
+        else if (v.getId() == R.id.watchface_rotate_left) {
+            if (selectedBackgroundImage != null) {
+                selectedBackgroundImage = BitmapUtil.rotateImage(selectedBackgroundImage, -90);
+                renderWatchfacePreview();
+            }
+        }
+        else if (v.getId() == R.id.watchface_rotate_right) {
+            if (selectedBackgroundImage != null) {
+                selectedBackgroundImage = BitmapUtil.rotateImage(selectedBackgroundImage, 90);
+                renderWatchfacePreview();
+            }
         }
     }
 
