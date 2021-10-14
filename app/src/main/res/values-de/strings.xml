@@ -1345,4 +1345,14 @@
     <string name="nothing_prefs_inear_summary">Wiedergabe/Pause der Musik, je nachdem, ob du die Ohrhörer trägst</string>
     <string name="nothing_prefs_inear_title">In-Ear-Erkennung</string>
     <string name="nothing_prefs_audiomode_title">Audiomodus</string>
+    <string name="title_activity_notification_management">Benachrichtigungseinstellungen</string>
+    <string name="pref_header_notification_application_settings">Pro App einstellen</string>
+    <string name="uncheck_all_applications">Alle Apps abwählen</string>
+    <string name="pref_message_privacy_mode_complete">Inhalt ausblenden</string>
+    <string name="pref_title_notification_use_as">Verwende die App-Liste, um...</string>
+    <string name="pref_title_notification_use_as_deny">Benachrichtigungen von ausgewählten Apps ablehnen</string>
+    <string name="pref_title_notification_use_as_allow">Benachrichtigungen von ausgewählten Apps zulassen</string>
+    <string name="pref_title_message_privacy_mode">Datenschutzmodus für Nachrichten</string>
+    <string name="pref_message_privacy_mode_off">Inhalt anzeigen</string>
+    <string name="check_all_applications">Alle Apps auswählen</string>
 </resources>
