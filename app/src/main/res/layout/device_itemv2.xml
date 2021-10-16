@@ -161,6 +161,67 @@
 
                 </LinearLayout>
 
+                <LinearLayout
+                    android:id="@+id/device_battery_status_box1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+
+                    android:layout_alignParentStart="true"
+                    android:layout_margin="3dp"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:id="@+id/device_battery_status1"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:padding="3dp"
+                        android:scaleType="fitXY"
+                        card_view:srcCompat="@drawable/level_list_battery"
+                        card_view:tint="@color/secondarytext" />
+
+                    <TextView
+                        android:id="@+id/battery_status1"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_horizontal"
+                        android:minWidth="36dp"
+                        android:textColor="@color/secondarytext"
+                        android:textStyle="bold"
+                        tools:text="100%" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/device_battery_status_box2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+
+                    android:layout_alignParentStart="true"
+                    android:layout_margin="3dp"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:id="@+id/device_battery_status2"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:padding="3dp"
+                        android:scaleType="fitXY"
+                        card_view:srcCompat="@drawable/level_list_battery"
+                        card_view:tint="@color/secondarytext" />
+
+                    <TextView
+                        android:id="@+id/battery_status2"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_horizontal"
+                        android:minWidth="36dp"
+                        android:textColor="@color/secondarytext"
+                        android:textStyle="bold"
+                        tools:text="100%" />
+
+                </LinearLayout>
+
+
                 <ImageView
                     android:id="@+id/device_specific_settings"
                     android:layout_width="40dp"

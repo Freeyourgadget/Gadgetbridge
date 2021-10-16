@@ -246,4 +246,9 @@ public abstract class AbstractDeviceCoordinator implements DeviceCoordinator {
     public Class<? extends Activity> getCalibrationActivity() {
         return null;
     }
+
+    @Override
+    public int getBatteryCount() {
+        return 1;
+    } //multiple battery support, default is 1, maximum is 3, 0 will disable the battery in UI
 }

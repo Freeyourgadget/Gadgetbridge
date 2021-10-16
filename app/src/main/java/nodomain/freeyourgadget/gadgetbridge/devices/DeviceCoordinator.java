@@ -348,4 +348,12 @@ public interface DeviceCoordinator {
      */
     String[] getSupportedLanguageSettings(GBDevice device);
 
+    /**
+     *
+     * Multiple battery support: Indicates how many batteries the device has.
+     * 1 is default, 3 is maximum at the moment (as per UI layout)
+     * 0 will disable the battery from the UI
+     */
+    int getBatteryCount();
+
 }

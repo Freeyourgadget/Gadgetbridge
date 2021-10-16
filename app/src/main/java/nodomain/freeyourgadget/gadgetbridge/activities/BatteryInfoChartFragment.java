@@ -74,11 +74,13 @@ public class BatteryInfoChartFragment extends AbstractGBFragment {
     private int startTime;
     private int endTime;
     private GBDevice gbDevice;
+    private int batteryIndex;
 
-    public void setDateAndGetData(GBDevice gbDevice, long startTime, long endTime) {
+    public void setDateAndGetData(GBDevice gbDevice, int batteryIndex, long startTime, long endTime) {
         this.startTime = (int) startTime;
         this.endTime = (int) endTime;
         this.gbDevice = gbDevice;
+        this.batteryIndex = batteryIndex;
         try {
             createRefreshTask("Visualizing data", getActivity()).execute();
         } catch (Exception e) {
@@ -174,12 +176,13 @@ public class BatteryInfoChartFragment extends AbstractGBFragment {
         yAxisRight.setTextColor(CHART_TEXT_COLOR);
     }
 
-    private List<? extends BatteryLevel> getBatteryLevels(DBHandler db, GBDevice device, int tsFrom, int tsTo) {
+    private List<? extends BatteryLevel> getBatteryLevels(DBHandler db, GBDevice device, int batteryIndex, int tsFrom, int tsTo) {
         BatteryLevelDao batteryLevelDao = db.getDaoSession().getBatteryLevelDao();
         Device dbDevice = DBHelper.findDevice(device, db.getDaoSession());
         QueryBuilder<BatteryLevel> qb = batteryLevelDao.queryBuilder();
 
         qb.where(BatteryLevelDao.Properties.DeviceId.eq(dbDevice.getId())).orderAsc(BatteryLevelDao.Properties.Timestamp);
+        qb.where(BatteryLevelDao.Properties.BatteryIndex.eq(batteryIndex));
         qb.where(BatteryLevelDao.Properties.Timestamp.gt(tsFrom));
         qb.where(BatteryLevelDao.Properties.Timestamp.lt(tsTo));
 
@@ -215,7 +218,7 @@ public class BatteryInfoChartFragment extends AbstractGBFragment {
 
         @Override
         protected void doInBackground(DBHandler handler) {
-            List<? extends BatteryLevel> samples = getBatteryLevels(handler, gbDevice, startTime, endTime);
+            List<? extends BatteryLevel> samples = getBatteryLevels(handler, gbDevice, batteryIndex, startTime, endTime);
             DefaultBatteryChartsData dcd = null;
             try {
                 dcd = fill_dcd(samples);

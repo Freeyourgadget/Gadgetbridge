@@ -43,7 +43,7 @@ public class GBDaoGenerator {
 
 
     public static void main(String[] args) throws Exception {
-        Schema schema = new Schema(34, MAIN_PACKAGE + ".entities");
+        Schema schema = new Schema(35, MAIN_PACKAGE + ".entities");
 
         Entity userAttributes = addUserAttributes(schema);
         Entity user = addUserInfo(schema, userAttributes);
@@ -613,6 +613,7 @@ public class GBDaoGenerator {
         Property deviceId = batteryLevel.addLongProperty("deviceId").primaryKey().notNull().getProperty();
         batteryLevel.addToOne(device, deviceId);
         batteryLevel.addIntProperty("level").notNull();
+        batteryLevel.addIntProperty("batteryIndex").notNull().primaryKey();;
         return batteryLevel;
     }
 

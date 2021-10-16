@@ -395,9 +395,9 @@ public abstract class AbstractDeviceSupport implements DeviceSupport {
     protected void handleGBDeviceEvent(GBDeviceEventBatteryInfo deviceEvent) {
         Context context = getContext();
         LOG.info("Got BATTERY_INFO device event");
-        gbDevice.setBatteryLevel(deviceEvent.level);
+        gbDevice.setBatteryLevel(deviceEvent.level, deviceEvent.batteryIndex);
         gbDevice.setBatteryState(deviceEvent.state);
-        gbDevice.setBatteryVoltage(deviceEvent.voltage);
+        gbDevice.setBatteryVoltage(deviceEvent.voltage, deviceEvent.batteryIndex);
 
         if (deviceEvent.level == GBDevice.BATTERY_UNKNOWN) {
             // no level available, just "high" or "low"
@@ -455,6 +455,7 @@ public abstract class AbstractDeviceSupport implements DeviceSupport {
             int ts = (int) (System.currentTimeMillis() / 1000);
             BatteryLevel batteryLevel = new BatteryLevel();
             batteryLevel.setTimestamp(ts);
+            batteryLevel.setBatteryIndex(deviceEvent.batteryIndex);
             batteryLevel.setDevice(device);
             batteryLevel.setLevel(deviceEvent.level);
             handler.getDaoSession().getBatteryLevelDao().insert(batteryLevel);
