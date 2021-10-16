@@ -1,0 +1,9 @@
+* Initial support for Nothing Ear(1)
+* Amazfit Bip U/Pro: Fix flashing firmware and watchfaces
+* Amazfit Bip U/Pro: Fix language setting
+* Amazfit Bip U/Pro: Allow unicode emoji
+* Huami: fix supported languages list on many devices
+* Fossil Hybrid HR: Support rotation of backgrounds in watchface editor
+* UM25: Show more measured data
+* Improved notification management including blacklist or whitelist apps settings or discrete notifications with removed text
+* Fix default daily target distance from 5 to 5000 meters
