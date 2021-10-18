@@ -116,7 +116,8 @@ public final class CasioConstants {
         MODEL_CASIO_GENERIC,
         MODEL_CASIO_6900B,
         MODEL_CASIO_5600B,
-        MODEL_CASIO_GBX100
+        MODEL_CASIO_GBX100,
+        MODEL_CASIO_STB1000,
     }
 
     public enum ConfigurationOption {

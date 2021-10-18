@@ -48,7 +48,8 @@ public class CasioGB6900DeviceCoordinator extends AbstractDeviceCoordinator {
     public DeviceType getSupportedType(GBDeviceCandidate candidate) {
         String name = candidate.getDevice().getName();
         if (name != null) {
-            if (name.startsWith("CASIO") && (name.contains("6900B") || name.contains("5600B"))) {
+            if (name.startsWith("CASIO") && (name.contains("6900B") || name.contains("5600B") ||
+                    name.contains("STB-1000"))) {
                 return DeviceType.CASIOGB6900;
             }
         }

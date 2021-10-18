@@ -153,19 +153,21 @@ public class CasioGB6900DeviceSupport extends AbstractBTLEDeviceSupport {
             mModel = CasioConstants.Model.MODEL_CASIO_5600B;
         } else if(name.contains("6900B")) {
             mModel = CasioConstants.Model.MODEL_CASIO_6900B;
+        } else if(name.contains("STB-1000")) {
+            mModel = CasioConstants.Model.MODEL_CASIO_STB1000;
         } else {
             mModel = CasioConstants.Model.MODEL_CASIO_GENERIC;
         }
 
-        try {
-            new InitOperationGB6900(this, builder).perform();
-        } catch (IOException e) {
-            GB.toast(getContext(), "Initializing Casio watch failed", Toast.LENGTH_SHORT, GB.ERROR, e);
+        // We skip configuring BLE settings for the STB-1000 since it powers off
+        // BLE on the watch.
+        if(mModel != CasioConstants.Model.MODEL_CASIO_STB1000) {
+            try {
+                new InitOperationGB6900(this, builder).perform();
+            } catch (IOException e) {
+                GB.toast(getContext(), "Initializing Casio watch failed", Toast.LENGTH_SHORT, GB.ERROR, e);
+            }
         }
-        /*
-        gbDevice.setState(GBDevice.State.INITIALIZING);
-        gbDevice.sendDeviceUpdateIntent(getContext());
-        */
 
         getDevice().setFirmwareVersion("N/A");
         getDevice().setFirmwareVersion2("N/A");
@@ -779,6 +781,31 @@ public class CasioGB6900DeviceSupport extends AbstractBTLEDeviceSupport {
         return true;
     }
 
+    private GBDeviceEventMusicControl.Event parse5Button(int button) {
+        GBDeviceEventMusicControl.Event event;
+        switch(button) {
+            case 5:
+                event = GBDeviceEventMusicControl.Event.PLAYPAUSE;
+                break;
+            case 4:
+                event = GBDeviceEventMusicControl.Event.NEXT;
+                break;
+            case 3:
+                event = GBDeviceEventMusicControl.Event.VOLUMEUP;
+                break;
+            case 2:
+                event = GBDeviceEventMusicControl.Event.PREVIOUS;
+                break;
+            case 1:
+                event = GBDeviceEventMusicControl.Event.VOLUMEDOWN;
+                break;
+            default:
+                LOG.warn("Unhandled button received: " + button);
+                event =  GBDeviceEventMusicControl.Event.UNKNOWN;
+        }
+        return event;
+    }
+
     private GBDeviceEventMusicControl.Event parse3Button(int button) {
         GBDeviceEventMusicControl.Event event;
         switch(button) {
@@ -834,6 +861,9 @@ public class CasioGB6900DeviceSupport extends AbstractBTLEDeviceSupport {
                     break;
                 case MODEL_CASIO_6900B:
                     musicCmd.event = parse3Button(button);
+                    break;
+                case MODEL_CASIO_STB1000:
+                    musicCmd.event = parse5Button(button);
                     break;
                 case MODEL_CASIO_GENERIC:
                     musicCmd.event = parse3Button(button);
