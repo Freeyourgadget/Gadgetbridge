@@ -601,7 +601,7 @@ Temps de sommeil préféré en heures</string>
     <string name="title_activity_watch9_calibration">Calibration de la Watch 9</string>
     <string name="preferences_rtl_settings">Support Droite-à-Gauche</string>
     <string name="share_log">Partager les journaux</string>
-    <string name="share_log_warning">Veuillez garder à l\'esprit que les fichiers de journalisation de Gadgetbridge peuvent contenir des tas d\'informations personnelles, incluant entre autre des données relatives à la santé, des identifiants uniques (telles que des adresses MAC), des préférences musicales, etc. Pensez à modifier le fichier et retirer ces informations personnelles avant toute publication sur un rapport de bug public.</string>
+    <string name="share_log_warning">Veuillez garder à l\'esprit que les fichiers de journalisation de Gadgetbridge peuvent contenir beaucoup d\'informations personnelles, incluant entre autre des données relatives à la santé, des identifiants uniques (telles que des adresses MAC), des préférences musicales, etc. Pensez à modifier le fichier et à retirer ces informations personnelles avant toute publication sur un rapport de bug public.</string>
     <string name="warning">Attention !</string>
     <string name="no_data">Pas de données</string>
     <string name="preferences_led_color">Couleur de la DEL</string>
