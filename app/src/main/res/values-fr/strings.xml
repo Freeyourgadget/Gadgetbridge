@@ -18,13 +18,13 @@
     <string name="controlcenter_snackbar_need_longpress">Presser longuement l\'icône pour déconnecter</string>
     <string name="controlcenter_snackbar_disconnecting">Déconnexion</string>
     <string name="controlcenter_snackbar_connecting">Connexion…</string>
-    <string name="controlcenter_snackbar_requested_screenshot">Capturer l\'écran de l\'appareil</string>
+    <string name="controlcenter_snackbar_requested_screenshot">Faire une capture d\'écran de l\'appareil</string>
     <string name="title_activity_debug">Déboguer</string>
     <!--Strings related to AppManager-->
     <string name="title_activity_appmanager">Gestionnaire d\'application</string>
     <string name="appmanager_cached_watchapps_watchfaces">Applis en cache</string>
     <string name="appmanager_installed_watchapps">Applis installées</string>
-    <string name="appmanager_installed_watchfaces">Watchfaces installées</string>
+    <string name="appmanager_installed_watchfaces">Cadrans installés</string>
     <string name="appmananger_app_delete">Supprimer</string>
     <string name="appmananger_app_delete_cache">Supprimer et effacer du cache</string>
     <string name="appmananger_app_reinstall">Réinstaller</string>
@@ -387,7 +387,13 @@ Temps de sommeil préféré en heures</string>
     <!--Strings related to Pebble Pairing Activity-->
     <string name="title_activity_pebble_pairing">Jumelage avec une Pebble</string>
     <string name="pebble_pairing_hint">Une fenêtre de jumelage va s’afficher sur votre téléphone. Si cela ne se produit pas, regardez dans vos notifications et acceptez-la. Acceptez ensuite la demande de jumelage sur votre Pebble.</string>
-    <string name="weather_notification_label">Assurez vous que ce thème soit activé dans l\'application de notification de la météo pour recevoir les informations sur votre Pebble.\n\nAucune configuration n\'est requise.\n\nVous pouvez activer l\'application météo système de votre Pebble depuis la configuration de l\'application.\n\nLes watchfaces supportées afficheront la météo automatiquement.</string>
+    <string name="weather_notification_label">Assurez vous que ce thème soit activé dans l\'application de notification de la météo pour recevoir les informations sur votre Pebble.
+\n
+\nAucune configuration n\'est requise.
+\n
+\nVous pouvez activer l\'application météo système de votre Pebble depuis la configuration de l\'application.
+\n
+\nLes cadrans supportés afficheront la météo automatiquement.</string>
     <string name="pref_title_setup_bt_pairing">Activer le jumelage Bluetooth</string>
     <string name="pref_summary_setup_bt_pairing">Désactivez ceci si vous avez des problèmes de connexion</string>
     <string name="unit_metric">Métrique</string>
@@ -476,7 +482,7 @@ Temps de sommeil préféré en heures</string>
     <string name="devicetype_amazfit_bip">Amazfit Bip</string>
     <string name="devicetype_amazfit_cor">Amazfit Cor</string>
     <string name="devicetype_vibratissimo">Vibratissimo</string>
-    <string name="devicetype_liveview">Vue en directe</string>
+    <string name="devicetype_liveview">Vue en direct</string>
     <string name="devicetype_hplus">HPlus</string>
     <string name="devicetype_makibes_f68">Makibes F68</string>
     <string name="devicetype_exrizu_k8">Exrizu K8</string>
@@ -680,8 +686,8 @@ Temps de sommeil préféré en heures</string>
     <string name="devicetype_miscale2">Mi Scale 2</string>
     <string name="pref_title_support_voip_calls">Activer les applications d\'appel VoIP</string>
     <string name="title_activity_device_specific_settings">Paramètres spécifiques de l\'appareil</string>
-    <string name="pref_title_authkey">Clé Auteur</string>
-    <string name="pref_summary_authkey">Changez la clé auteur à une clé générale sur tous vos appareils Android sur lesquels vous souhaitez vous connecter. La précédente clé par défaut était 0123456789@ABCDE</string>
+    <string name="pref_title_authkey">Clé d\'autorisation</string>
+    <string name="pref_summary_authkey">Changez la clé d\'autorisation pour une clé commune à tous vos appareils Android sur lesquels vous souhaitez vous connecter. La précédente clé par défaut est 0123456789@ABCDE</string>
     <string name="devicetype_bfh16">BFH-16</string>
     <string name="fw_upgrade_notice_amazfitcor2">Vous êtes sur le point d\'installer le micrologiciel %s sur votre Amazfit Cor 2. 
 \n 
@@ -1102,7 +1108,7 @@ Temps de sommeil préféré en heures</string>
     <string name="devicetype_amazfit_band5">Amazfit Band 5</string>
     <string name="activity_prefs_step_length_cm">Longueur de pas en cm</string>
     <string name="menuitem_spo2">SpO2</string>
-    <string name="qhybrid_calibration_align_hint">Utiliser les boutons ci-dessous pour aligner les mains du bracelet à midi.</string>
+    <string name="qhybrid_calibration_align_hint">Utiliser les boutons ci-dessous pour aligner les aiguilles du bracelet sur midi.</string>
     <string name="gps_track">Trace GPS</string>
     <string name="about_version">Version %s</string>
     <string name="devicetype_amazfit_bips_lite">Amazfit Bip S Lite</string>
@@ -1191,7 +1197,7 @@ Temps de sommeil préféré en heures</string>
     <string name="show_ongoing_activity">Afficher une popup pour l\'activité en cours</string>
     <string name="dialog_hide">Cacher</string>
     <string name="calendar_three_months">3 mois</string>
-    <string name="fossil_hr_auth_failed">AUthentification ratée, fonctionnalités limitées</string>
+    <string name="fossil_hr_auth_failed">Authentification échouée, fonctionnalités limitées</string>
     <string name="fossil_hr_unavailable_unauthed">Indisponible en mode non authentifié</string>
     <string name="fossil_hr_synced_activity_data">Données d\'activité synchronisées</string>
     <string name="fossil_hr_commute_processing">En cours de traitement...</string>
@@ -1215,7 +1221,7 @@ Temps de sommeil préféré en heures</string>
     <string name="menuitem_events">Évènements</string>
     <string name="pref_summary_canned_messages_dismisscall">Refuser les appels depuis la montre avec un message SMS</string>
     <string name="pref_summary_canned_messages_set">Envoyer le message saisi ci-dessous vers votre bracelet</string>
-    <string name="qhybrid_summary_calibration">Choisir la main du bracelet</string>
+    <string name="qhybrid_summary_calibration">Calibrer les aiguilles de la montre</string>
     <string name="qhybrid_summary_file_management">Envoyer et recevoir des fichiers</string>
     <string name="pref_summary_physical_buttons">Configurer les fonctions des boutons physiques du bracelet</string>
     <string name="pref_title_physical_buttons">Boutons physiques</string>
@@ -1228,12 +1234,12 @@ Temps de sommeil préféré en heures</string>
 \nRemarque. Vous n\'avez pas besoin d\'installer le fichier .res si c\'est exactement le même que celui précédemment installé.
 \n
 \nA VOS RISQUES ET PÉRILS !</string>
-    <string name="watchface_install_info">Vous êtes sur le point d\'installer la façade suivante :
+    <string name="watchface_install_info">Vous êtes sur le point d\'installer le cadran suivant :
 \n
 \n%1$s
 \nVersion %2$s par %3$s
 \n</string>
-    <string name="qhybrid_watchface_configuration_old_firmware">Configuration de la façade pour les bracelets dont le micro-logiciel est en version DN1.0.2.19r ou inférieur</string>
+    <string name="qhybrid_watchface_configuration_old_firmware">Configuration du cadran pour les bracelets dont le micro-logiciel est en version DN1.0.2.19r ou inférieur</string>
     <string name="qhybrid_calibration_100_steps">100 pas</string>
     <string name="qhybrid_calibration_10_steps">10 pas</string>
     <string name="qhybrid_calibration_1_step">1 pas</string>
@@ -1244,7 +1250,7 @@ Temps de sommeil préféré en heures</string>
     <string name="fossil_hr_edit_action">Modifier l\'action</string>
     <string name="fossil_hr_edit_action_delete">supprimer</string>
     <string name="fossil_hr_commute_actions_explanation">Les actions configurées ici apparaitront dans l\'app Commute dans votre bracelet. Consulter le wiki pour plus d\'informations sur la gestion des intentions générés par ces actions.</string>
-    <string name="qhybrid_title_watchface">Configuration de la facade</string>
+    <string name="qhybrid_title_watchface">Configuration du cadran</string>
     <string name="notification_channel_low_battery_name">Batterie faible</string>
     <string name="notification_channel_transfer_name">Transfert de données</string>
     <string name="qhybrid_pref_summary_external_intents">Autoriser d\'autres apps Android à envoyer/écraser des fichiers</string>
@@ -1264,8 +1270,8 @@ Temps de sommeil préféré en heures</string>
     <string name="activity_summary_detail_select_gpx_track">Choisir une trace GPX</string>
     <string name="set">Configurer</string>
     <string name="watchface_setting_wrist_flick_duration">Durée (en ms):</string>
-    <string name="watchface_setting_wrist_flick_minute">Orientation minute (-360 à 360):</string>
-    <string name="watchface_setting_wrist_flick_hour">Orientation de l\'heure (-360 à +360):</string>
+    <string name="watchface_setting_wrist_flick_minute">Grande aiguille (-360 à 360):</string>
+    <string name="watchface_setting_wrist_flick_hour">Petite aiguille (-360 à +360):</string>
     <string name="watchface_setting_wrist_flick_move_relative">Déplacement des mains en fonction du temps:</string>
     <string name="watchface_setting_desc_wrist_flick">(pour désactiver complètement, permettre le mouvement relatif et configurer toutes les valeurs à 0)</string>
     <string name="watchface_setting_title_wrist_flick">Mouvement du poignet</string>
@@ -1300,7 +1306,7 @@ Temps de sommeil préféré en heures</string>
     <string name="button_watchface_select_image">Changer l\'image d\'arrière-plan</string>
     <string name="button_watchface_edit_name">Modifier le nom</string>
     <string name="devicetype_smaq2oss">SMA-Q2 OSS</string>
-    <string name="watchface_upload_failed">L\'envoi du thème d\'écran a raté. Merci de réessayer.</string>
+    <string name="watchface_upload_failed">L\'envoi du thème d\'écran a échoué. Merci de réessayer.</string>
     <string name="watchface_cache_confirm_overwrite">Un thème d\'écran avec le même nom existe déja dans le cache. Voulez-vous l\'écraser \?</string>
     <string name="heart_rate_result">Résultats des mesures</string>
     <string name="getting_heart_rate">Mesure en cours</string>
@@ -1313,7 +1319,7 @@ Temps de sommeil préféré en heures</string>
     <string name="watchface_widget_type_2nd_tz">Zone temps intermédiaire</string>
     <string name="watchface_widget_type_calories">Calories</string>
     <string name="watchface_widget_type_battery">Batterie</string>
-    <string name="pref_summary_huami_force_new_protocol">A activer si votre appareil ne se connecte plus après une mise à jour du micrologiciel</string>
+    <string name="pref_summary_huami_force_new_protocol">À activer si votre appareil ne se connecte plus après une mise à jour du micrologiciel</string>
     <string name="pref_title_huami_force_new_protocol">Nouveau protocole d\'identification</string>
     <string name="menuitem_flashlight">Flash</string>
     <string name="prefs_autoheartrate_interval">Fréquence des mesures</string>
@@ -1346,5 +1352,5 @@ Temps de sommeil préféré en heures</string>
     <string name="pref_title_notification_use_as_allow">Autoriser les notifications des apps sélectionnées</string>
     <string name="title_activity_notification_management">Configuration des notifications</string>
     <string name="pref_header_notification_application_settings">Réglages par application</string>
-    <string name="toast_app_must_not_be_selected">L\'app ne doit pas être sélectionnée pour être configurable</string>
+    <string name="toast_app_must_not_be_selected">L\'app ne doit pas être sélectionnée pour être configurée</string>
 </resources>
