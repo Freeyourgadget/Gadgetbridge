@@ -66,6 +66,7 @@ import nodomain.freeyourgadget.gadgetbridge.externalevents.IntentApiReceiver;
 import nodomain.freeyourgadget.gadgetbridge.externalevents.LineageOsWeatherReceiver;
 import nodomain.freeyourgadget.gadgetbridge.externalevents.MusicPlaybackReceiver;
 import nodomain.freeyourgadget.gadgetbridge.externalevents.OmniJawsObserver;
+import nodomain.freeyourgadget.gadgetbridge.externalevents.OsmandEventReceiver;
 import nodomain.freeyourgadget.gadgetbridge.externalevents.PebbleReceiver;
 import nodomain.freeyourgadget.gadgetbridge.externalevents.PhoneCallReceiver;
 import nodomain.freeyourgadget.gadgetbridge.externalevents.SMSReceiver;
@@ -325,7 +326,7 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
     private BluetoothPairingRequestReceiver mBlueToothPairingRequestReceiver = null;
     private AlarmClockReceiver mAlarmClockReceiver = null;
     private GBAutoFetchReceiver mGBAutoFetchReceiver = null;
-    private AutoConnectIntervalReceiver mAutoConnectInvervalReceiver= null;
+    private AutoConnectIntervalReceiver mAutoConnectInvervalReceiver = null;
 
     private AlarmReceiver mAlarmReceiver = null;
     private List<CalendarReceiver> mCalendarReceiver = new ArrayList<>();
@@ -336,6 +337,8 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
     private OmniJawsObserver mOmniJawsObserver = null;
     private final DeviceSettingsReceiver deviceSettingsReceiver = new DeviceSettingsReceiver();
     private final IntentApiReceiver intentApiReceiver = new IntentApiReceiver();
+
+    private OsmandEventReceiver mOsmandAidlHelper = null;
 
     private final String[] mMusicActions = {
             "com.android.music.metachanged",
@@ -1253,6 +1256,9 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
                         //Nothing wrong, it just means we're not running on omnirom.
                     }
                 }
+                if (mOsmandAidlHelper == null) {
+                    mOsmandAidlHelper = new OsmandEventReceiver(this.getApplication());
+                }
             }
 
             if (GBApplication.getPrefs().getBoolean("auto_fetch_enabled", false) &&
@@ -1305,6 +1311,10 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
             if (mTinyWeatherForecastGermanyReceiver != null) {
                 unregisterReceiver(mTinyWeatherForecastGermanyReceiver);
                 mTinyWeatherForecastGermanyReceiver = null;
+            }
+            if (mOsmandAidlHelper != null) {
+                mOsmandAidlHelper.cleanupResources();
+                mOsmandAidlHelper = null;
             }
             if (mGBAutoFetchReceiver != null) {
                 unregisterReceiver(mGBAutoFetchReceiver);
