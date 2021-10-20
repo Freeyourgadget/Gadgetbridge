@@ -81,6 +81,7 @@ import nodomain.freeyourgadget.gadgetbridge.model.CannedMessagesSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.Contact;
 import nodomain.freeyourgadget.gadgetbridge.model.MusicSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.MusicStateSpec;
+import nodomain.freeyourgadget.gadgetbridge.model.NavigationInfoSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationType;
 import nodomain.freeyourgadget.gadgetbridge.model.Reminder;
@@ -125,6 +126,7 @@ import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_SE
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_SETCANNEDMESSAGES;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_SETMUSICINFO;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_SETMUSICSTATE;
+import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_SETNAVIGATIONINFO;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_SETTIME;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_SET_ALARMS;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_SET_CONSTANT_VIBRATION;
@@ -181,6 +183,9 @@ import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_MUS
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_MUSIC_TRACK;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_MUSIC_TRACKCOUNT;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_MUSIC_TRACKNR;
+import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_NAVIGATION_DISTANCE_TO_TURN;
+import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_NAVIGATION_INSTRUCTION;
+import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_NAVIGATION_NEXT_ACTION;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_NOTIFICATION_ACTIONS;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_NOTIFICATION_BODY;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_NOTIFICATION_DNDSUPPRESSED;
@@ -867,6 +872,13 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
                 stateSpec.playRate = intent.getIntExtra(EXTRA_MUSIC_RATE, 0);
                 stateSpec.state = intent.getByteExtra(EXTRA_MUSIC_STATE, (byte) 0);
                 deviceSupport.onSetMusicState(stateSpec);
+                break;
+            case ACTION_SETNAVIGATIONINFO:
+                NavigationInfoSpec navigationInfoSpec = new NavigationInfoSpec();
+                navigationInfoSpec.instruction = intent.getStringExtra(EXTRA_NAVIGATION_INSTRUCTION);
+                navigationInfoSpec.nextAction = intent.getIntExtra(EXTRA_NAVIGATION_NEXT_ACTION,0);
+                navigationInfoSpec.distanceToTurn = intent.getIntExtra(EXTRA_NAVIGATION_DISTANCE_TO_TURN,0);
+                mDeviceSupport.onSetNavigationInfo(navigationInfoSpec);
                 break;
             case ACTION_REQUEST_APPINFO:
                 deviceSupport.onAppInfoReq();
