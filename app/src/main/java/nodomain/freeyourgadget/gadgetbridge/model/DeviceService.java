@@ -40,6 +40,7 @@ public interface DeviceService extends EventHandler {
     String ACTION_SETMUSICINFO = PREFIX + ".action.setmusicinfo";
     String ACTION_SETMUSICSTATE = PREFIX + ".action.setmusicstate";
     String ACTION_SET_PHONE_VOLUME = PREFIX + ".action.set_phone_volume";
+    String ACTION_SETNAVIGATIONINFO = PREFIX + ".action.setnavigationinfo";
     String ACTION_REQUEST_DEVICEINFO = PREFIX + ".action.request_deviceinfo";
     String ACTION_REQUEST_APPINFO = PREFIX + ".action.request_appinfo";
     String ACTION_REQUEST_SCREENSHOT = PREFIX + ".action.request_screenshot";
@@ -110,6 +111,9 @@ public interface DeviceService extends EventHandler {
     String EXTRA_MUSIC_POSITION = "music_position";
     String EXTRA_MUSIC_RATE = "music_rate";
     String EXTRA_PHONE_VOLUME = "phone_volume";
+    String EXTRA_NAVIGATION_INSTRUCTION = "navigation_instruction";
+    String EXTRA_NAVIGATION_DISTANCE_TO_TURN = "navigation_distance_to_turn";
+    String EXTRA_NAVIGATION_NEXT_ACTION = "navigation_next_action";
     String EXTRA_APP_UUID = "app_uuid";
     String EXTRA_APP_START = "app_start";
     String EXTRA_APP_CONFIG = "app_config";
