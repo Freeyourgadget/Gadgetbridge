@@ -15,6 +15,7 @@ import net.osmand.aidlapi.IOsmAndAidlInterface;
 import net.osmand.aidlapi.gpx.AGpxBitmap;
 import net.osmand.aidlapi.navigation.ADirectionInfo;
 import net.osmand.aidlapi.navigation.ANavigationUpdateParams;
+import net.osmand.aidlapi.navigation.ANavigationVoiceRouterMessageParams;
 import net.osmand.aidlapi.navigation.OnVoiceNavigationParams;
 import net.osmand.aidlapi.search.SearchResult;
 
@@ -53,7 +54,7 @@ public class OsmandEventReceiver {
 
         @Override
         public void updateNavigationInfo(ADirectionInfo directionInfo) {
-            LOG.error("Distance: " + directionInfo.getDistanceTo());
+            LOG.error("Distance: " + directionInfo.getDistanceTo() + " turnType: " + directionInfo.getTurnType());
         }
 
         @Override
@@ -62,6 +63,11 @@ public class OsmandEventReceiver {
 
         @Override
         public void onVoiceRouterNotify(OnVoiceNavigationParams params) {
+            List<String>  played = params.getPlayed();
+            for (String play : played) {
+                LOG.error("played: " + play);
+            }
+
         }
 
         @Override
@@ -76,6 +82,9 @@ public class OsmandEventReceiver {
             mIOsmAndAidlInterface = IOsmAndAidlInterface.Stub.asInterface(service);
             GB.toast("OsmAnd service conncted", Toast.LENGTH_SHORT, GB.INFO);
             registerForNavigationUpdates(true, 6666); // what is this id for?
+            registerForVoiceRouterMessages(true,6667);
+//            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("osmand.api://GET_INFO"));
+//            OsmandEventReceiver.this.startActivityForResult(intent,666);
         }
 
         public void onServiceDisconnected(ComponentName className) {
@@ -130,4 +139,24 @@ public class OsmandEventReceiver {
         return -1L;
     }
 
+        /**
+         * Method to register for Voice Router voice messages during navigation. Notifies user about voice messages.
+         *
+         * @param subscribeToUpdates (boolean) - boolean flag to subscribe or unsubscribe from messages
+         * @param callbackId         (long) - id of callback, needed to unsubscribe from messages
+         * @param callback           (IOsmAndAidlCallback) - callback to notify user on voice message
+         */
+        public long registerForVoiceRouterMessages(boolean subscribeToUpdates, long callbackId) {
+            ANavigationVoiceRouterMessageParams params = new ANavigationVoiceRouterMessageParams();
+            params.setCallbackId(callbackId);
+            params.setSubscribeToUpdates(subscribeToUpdates);
+            if (mIOsmAndAidlInterface != null) {
+                try {
+                    return mIOsmAndAidlInterface.registerForVoiceRouterMessages(params, mIOsmAndAidlCallback);
+                } catch (RemoteException e) {
+                    e.printStackTrace();
+                }
+            }
+            return -1L;
+        }
 }
