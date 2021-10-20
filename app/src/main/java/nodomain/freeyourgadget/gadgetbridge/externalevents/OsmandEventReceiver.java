@@ -24,6 +24,8 @@ import org.slf4j.LoggerFactory;
 
 import java.util.List;
 
+import nodomain.freeyourgadget.gadgetbridge.GBApplication;
+import nodomain.freeyourgadget.gadgetbridge.model.NavigationInfoSpec;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
 public class OsmandEventReceiver {
@@ -34,6 +36,8 @@ public class OsmandEventReceiver {
 
     private final Application app;
     private IOsmAndAidlInterface mIOsmAndAidlInterface;
+
+    private NavigationInfoSpec navigationInfoSpec = new NavigationInfoSpec();
 
     private final IOsmAndAidlCallback.Stub mIOsmAndAidlCallback = new IOsmAndAidlCallback.Stub() {
         @Override
@@ -54,6 +58,10 @@ public class OsmandEventReceiver {
 
         @Override
         public void updateNavigationInfo(ADirectionInfo directionInfo) {
+            navigationInfoSpec.nextAction = directionInfo.getTurnType();
+            navigationInfoSpec.distanceToTurn = directionInfo.getDistanceTo();
+            GBApplication.deviceService().onSetNavigationInfo(navigationInfoSpec);
+
             LOG.error("Distance: " + directionInfo.getDistanceTo() + " turnType: " + directionInfo.getTurnType());
         }
 
@@ -63,11 +71,13 @@ public class OsmandEventReceiver {
 
         @Override
         public void onVoiceRouterNotify(OnVoiceNavigationParams params) {
-            List<String>  played = params.getPlayed();
-            for (String play : played) {
-                LOG.error("played: " + play);
+            List<String> played = params.getPlayed();
+            for (String instuction : played) {
+                navigationInfoSpec.instruction = instuction;
+                LOG.error("instruction: " + instuction);
+                // only first one for now
+                break;
             }
-
         }
 
         @Override
