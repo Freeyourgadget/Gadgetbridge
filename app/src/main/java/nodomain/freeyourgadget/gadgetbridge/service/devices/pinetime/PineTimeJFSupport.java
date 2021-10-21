@@ -360,13 +360,11 @@ public class PineTimeJFSupport extends AbstractBTLEDeviceSupport implements DfuL
                 break;
             case NavigationInfoSpec.ACTION_UTURN_LEFT:
             case NavigationInfoSpec.ACTION_UTURN_RIGHT:
-                iconname = "iturn";
+                iconname = "uturn";
                 break;
             case NavigationInfoSpec.ACTION_ROUNDABOUT_RIGHT:
-                iconname = "roundabout-right";
-                break;
             case NavigationInfoSpec.ACTION_ROUNDABOUT_LEFT:
-                iconname = "roundabout-left";
+                iconname = "roundabout";
                 break;
             default:
                 iconname = "invalid";
