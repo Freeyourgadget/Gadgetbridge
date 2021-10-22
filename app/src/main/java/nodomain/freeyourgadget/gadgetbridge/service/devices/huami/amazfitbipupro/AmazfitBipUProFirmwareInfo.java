@@ -69,12 +69,8 @@ public class AmazfitBipUProFirmwareInfo extends HuamiFirmwareInfo {
             }
         }
 
-        if (ArrayUtils.startsWith(bytes, GPS_ALMANAC_HEADER)) {
-            return HuamiFirmwareType.GPS_ALMANAC;
-        }
-
-        if (ArrayUtils.startsWith(bytes, GPS_CEP_HEADER)) {
-            return HuamiFirmwareType.GPS_CEP;
+        if (ArrayUtils.startsWith(bytes, AGPS_UIHH_HEADER)) {
+            return HuamiFirmwareType.AGPS_UIHH;
         }
 
         for (byte[] gpsHeader : GPS_HEADERS) {
