@@ -1601,6 +1601,13 @@
     <string name="pref_media_forward_value" translatable="false">FORWARD</string>
     <string name="pref_media_rewind_value" translatable="false">REWIND</string>
     <string name="pref_device_action_broadcast_value" translatable="false">BROADCAST</string>
+    <string name="pref_title_touch_voice_assistant">Voice Assistant</string>
+    <string name="pref_title_touch_quick_ambient">Quick Ambient Sound</string>
+    <string name="pref_title_touch_volume">Volume</string>
+    <string name="pref_title_touch_ambient">Ambient Sound</string>
+    <string name="pref_title_touch_spotify">Spotify</string>
+    <string name="pref_title_touch_other_l">Other Left</string>
+    <string name="pref_title_touch_other_r">Other Right</string>
 
     <string-array name="device_action_options">
         <item>@string/pref_button_action_disabled</item>
@@ -1786,6 +1793,45 @@
     <string-array name="notification_list_is_blacklist_values">
         <item>true</item>
         <item>false</item>
+    </string-array>
+
+    <string-array name="ambient_volume_values">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+    </string-array>
+
+    <string-array name="galaxy_eqalizer_modes">
+        <item>@string/pref_title_equalizer_bass_boost</item>
+        <item>@string/pref_title_equalizer_soft</item>
+        <item>@string/pref_title_equalizer_dynamic</item>
+        <item>@string/pref_title_equalizer_clear</item>
+        <item>@string/pref_title_equalizer_trebble</item>
+    </string-array>
+
+    <string-array name="galaxy_eqalizer_values">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+    </string-array>
+
+    <string-array name="galaxy_touch_options">
+        <!-- <item>@string/pref_title_touch_voice_assistant</item> -->
+        <item>@string/pref_title_touch_quick_ambient</item>
+        <!-- <item>@string/pref_title_touch_volume</item> -->
+        <item>@string/pref_title_touch_ambient</item>
+
+    </string-array>
+
+    <string-array name="galaxy_touch_options_values">
+        <!-- <item>0</item> -->
+        <item>1</item>
+        <!-- <item>2</item> -->
+        <item>3</item>
     </string-array>
 
 </resources>

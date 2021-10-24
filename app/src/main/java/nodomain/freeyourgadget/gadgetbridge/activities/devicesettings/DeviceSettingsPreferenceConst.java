@@ -98,6 +98,17 @@ public class DeviceSettingsPreferenceConst {
     public static final String PREF_NOTHING_EAR1_INEAR = "pref_nothing_inear_detection";
     public static final String PREF_NOTHING_EAR1_AUDIOMODE = "pref_nothing_audiomode";
 
+    public static final String PREF_GALAXY_BUDS_AMBIENT_MODE = "pref_galaxy_buds_ambient_mode";
+    public static final String PREF_GALAXY_BUDS_AMBIENT_VOICE_FOCUS = "pref_galaxy_buds_ambient_voice_focus";
+    public static final String PREF_GALAXY_BUDS_AMBIENT_VOLUME = "pref_galaxy_buds_ambient_volume";
+    public static final String PREF_GALAXY_BUDS_LOCK_TOUCH = "pref_galaxy_buds_lock_touch";
+    public static final String PREF_GALAXY_BUDS_GAME_MODE = "pref_galaxy_buds_game_mode";
+    public static final String PREF_GALAXY_BUDS_EQUALIZER = "pref_galaxy_buds_equalizer";
+    public static final String PREF_GALAXY_BUDS_EQUALIZER_DOLBY = "pref_galaxy_buds_equalizer_dolby";
+    public static final String PREF_GALAXY_BUDS_EQUALIZER_MODE = "pref_galaxy_buds_equalizer_mode";
+    public static final String PREF_GALAXY_BUDS_TOUCH_LEFT = "pref_galaxy_buds_touch_left";
+    public static final String PREF_GALAXY_BUDS_TOUCH_RIGHT = "pref_galaxy_buds_touch_right";
+
     public static final String PREF_SOUNDS = "sounds";
     public static final String PREF_AUTH_KEY = "authkey";
 }

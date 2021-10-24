@@ -1,4 +1,6 @@
-package nodomain.freeyourgadget.gadgetbridge.service.devices.nothing;
+package nodomain.freeyourgadget.gadgetbridge.service.devices.galaxy_buds;
+
+import static nodomain.freeyourgadget.gadgetbridge.util.GB.hexdump;
 
 import android.bluetooth.BluetoothAdapter;
 import android.content.Context;
@@ -17,22 +19,20 @@ import java.util.UUID;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.service.btclassic.BtClassicIoThread;
 
-import static nodomain.freeyourgadget.gadgetbridge.util.GB.hexdump;
+public class GalaxyBudsIOThread extends BtClassicIoThread {
+    private static final Logger LOG = LoggerFactory.getLogger(GalaxyBudsIOThread.class);
 
-public class NothingIOThread extends BtClassicIoThread {
-    private static final Logger LOG = LoggerFactory.getLogger(NothingIOThread.class);
-
-    private final NothingProtocol mNothingProtocol;
+    private final GalaxyBudsProtocol galaxyBudsProtocol;
 
     @NonNull
     protected UUID getUuidToConnect(@NonNull ParcelUuid[] uuids) {
-        return mNothingProtocol.UUID_DEVICE_CTRL;
+        return galaxyBudsProtocol.UUID_DEVICE_CTRL;
     }
 
-    public NothingIOThread(GBDevice device, Context context, NothingProtocol deviceProtocol,
-                           Ear1Support ear1Support, BluetoothAdapter bluetoothAdapter) {
-        super(device, context, deviceProtocol, ear1Support, bluetoothAdapter);
-        mNothingProtocol = deviceProtocol;
+    public GalaxyBudsIOThread(GBDevice device, Context context, GalaxyBudsProtocol deviceProtocol,
+                              GalaxyBudsDeviceSupport galaxyBudsDeviceSupport, BluetoothAdapter bluetoothAdapter) {
+        super(device, context, deviceProtocol, galaxyBudsDeviceSupport, bluetoothAdapter);
+        galaxyBudsProtocol = deviceProtocol;
     }
 
     @Override

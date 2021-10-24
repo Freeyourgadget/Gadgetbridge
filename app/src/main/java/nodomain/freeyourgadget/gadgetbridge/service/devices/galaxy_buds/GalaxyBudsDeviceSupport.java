@@ -1,4 +1,4 @@
-package nodomain.freeyourgadget.gadgetbridge.service.devices.nothing;
+package nodomain.freeyourgadget.gadgetbridge.service.devices.galaxy_buds;
 
 import android.net.Uri;
 
@@ -13,8 +13,8 @@ import nodomain.freeyourgadget.gadgetbridge.service.serial.AbstractSerialDeviceS
 import nodomain.freeyourgadget.gadgetbridge.service.serial.GBDeviceIoThread;
 import nodomain.freeyourgadget.gadgetbridge.service.serial.GBDeviceProtocol;
 
-public class Ear1Support extends AbstractSerialDeviceSupport {
-    private static final Logger LOG = LoggerFactory.getLogger(Ear1Support.class);
+public class GalaxyBudsDeviceSupport extends AbstractSerialDeviceSupport {
+    private static final Logger LOG = LoggerFactory.getLogger(GalaxyBudsDeviceSupport.class);
 
 
     @Override
@@ -59,7 +59,7 @@ public class Ear1Support extends AbstractSerialDeviceSupport {
 
     @Override
     public void onTestNewFunction() {
-        //getDeviceIOThread().write(((NothingProtocol) getDeviceProtocol()).encodeBatteryStatusReq());
+        super.onTestNewFunction();
     }
 
     @Override
@@ -69,8 +69,8 @@ public class Ear1Support extends AbstractSerialDeviceSupport {
     }
 
     @Override
-    public synchronized NothingIOThread getDeviceIOThread() {
-        return (NothingIOThread) super.getDeviceIOThread();
+    public synchronized GalaxyBudsIOThread getDeviceIOThread() {
+        return (GalaxyBudsIOThread) super.getDeviceIOThread();
     }
 
     @Override
@@ -79,12 +79,12 @@ public class Ear1Support extends AbstractSerialDeviceSupport {
     }
 
     protected GBDeviceProtocol createDeviceProtocol() {
-        return new NothingProtocol(getDevice());
+        return new GalaxyBudsProtocol(getDevice());
     }
 
     @Override
     protected GBDeviceIoThread createDeviceIOThread() {
-        return new NothingIOThread(getDevice(), getContext(), (NothingProtocol) getDeviceProtocol(),
-                Ear1Support.this, getBluetoothAdapter());
+        return new GalaxyBudsIOThread(getDevice(), getContext(), (GalaxyBudsProtocol) getDeviceProtocol(),
+                GalaxyBudsDeviceSupport.this, getBluetoothAdapter());
     }
 }

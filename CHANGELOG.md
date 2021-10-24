@@ -1,5 +1,8 @@
 ### Changelog
 
+### {next}
+* Support for Galaxy Buds 2019
+
 ### 0.61.0
 * Initial support for Nothing Ear(1)
 * Amazfit Bip U/Pro: Fix flashing firmware and watchfaces
