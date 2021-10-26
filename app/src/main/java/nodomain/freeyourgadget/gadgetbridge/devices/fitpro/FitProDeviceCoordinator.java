@@ -60,9 +60,10 @@ public class FitProDeviceCoordinator extends AbstractDeviceCoordinator {
             BluetoothDevice device = candidate.getDevice();
             String name = device.getName();
 
-            if (name != null &&
-                    (name.equals("M6") ||
-                            name.equals("M4"))
+            if (name != null && (
+                    name.equals("M6") ||
+                    name.equals("M4") ||
+                    name.equals("LH716"))
             ) {
                 return DeviceType.FITPRO;
             }
