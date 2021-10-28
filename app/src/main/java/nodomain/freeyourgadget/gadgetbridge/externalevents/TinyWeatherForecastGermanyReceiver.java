@@ -21,10 +21,12 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.widget.Toast;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.model.Weather;
 import nodomain.freeyourgadget.gadgetbridge.model.WeatherSpec;
+import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
 public class TinyWeatherForecastGermanyReceiver extends BroadcastReceiver {
 
@@ -33,11 +35,15 @@ public class TinyWeatherForecastGermanyReceiver extends BroadcastReceiver {
         if (intent != null) {
             Bundle bundle = intent.getExtras();
             if (bundle != null) {
-                WeatherSpec weatherSpec = bundle.getParcelable("WeatherSpec");
-                if (weatherSpec != null) {
-                    Weather.getInstance().setWeatherSpec(weatherSpec);
-                    weatherSpec.timestamp = (int) (System.currentTimeMillis() / 1000);
-                    GBApplication.deviceService().onSendWeather(weatherSpec);
+                try {
+                    WeatherSpec weatherSpec = bundle.getParcelable("WeatherSpec");
+                    if (weatherSpec != null) {
+                        Weather.getInstance().setWeatherSpec(weatherSpec);
+                        weatherSpec.timestamp = (int) (System.currentTimeMillis() / 1000);
+                        GBApplication.deviceService().onSendWeather(weatherSpec);
+                    }
+                } catch (Exception e) {
+                    GB.toast("Gadgetbridge received broken or incompatible weather data", Toast.LENGTH_SHORT, GB.ERROR, e);
                 }
             }
         }
