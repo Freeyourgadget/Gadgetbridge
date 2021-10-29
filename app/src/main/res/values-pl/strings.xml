@@ -1348,4 +1348,15 @@
     <string name="nothing_prefs_inear_summary">Odtwórz/wstrzymaj muzykę w zależności od tego, czy nosisz słuchawki</string>
     <string name="nothing_prefs_inear_title">Wykrywanie włożenia słuchawki do ucha</string>
     <string name="nothing_prefs_audiomode_title">Tryb audio</string>
+    <string name="pref_header_notification_application_settings">Ustawienia dla poszczególnych aplikacji</string>
+    <string name="pref_title_notification_use_as_allow">Zezwól na powiadomienia z wybranych aplikacji</string>
+    <string name="pref_applications_settings">Lista aplikacji</string>
+    <string name="uncheck_all_applications">Odznacz wszystkie aplikacje</string>
+    <string name="title_activity_notification_management">Ustawienia powiadomień</string>
+    <string name="check_all_applications">Zaznacz wszystkie aplikacje</string>
+    <string name="pref_title_notification_use_as">Użyj listy aplikacji, aby...</string>
+    <string name="pref_title_message_privacy_mode">Tryb prywatności wiadomości</string>
+    <string name="pref_message_privacy_mode_off">Wyświetlaj zawartość</string>
+    <string name="pref_title_notification_use_as_deny">Odrzucaj powiadomienia z wybranych aplikacji</string>
+    <string name="pref_message_privacy_mode_complete">Ukryj zawartość</string>
 </resources>
