@@ -118,6 +118,7 @@ import nodomain.freeyourgadget.gadgetbridge.entities.Device;
 import nodomain.freeyourgadget.gadgetbridge.entities.DeviceAttributes;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceCandidate;
+import nodomain.freeyourgadget.gadgetbridge.model.BatteryConfig;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
 
 public class DeviceHelper {
@@ -340,6 +341,12 @@ public class DeviceHelper {
     public GBDevice toGBDevice(Device dbDevice) {
         DeviceType deviceType = DeviceType.fromKey(dbDevice.getType());
         GBDevice gbDevice = new GBDevice(dbDevice.getIdentifier(), dbDevice.getName(), dbDevice.getAlias(), deviceType);
+        DeviceCoordinator coordinator = getCoordinator(gbDevice);
+        for (BatteryConfig batteryConfig : coordinator.getBatteryConfig()) {
+            gbDevice.setBatteryIcon(batteryConfig.icon(), batteryConfig.getBatteryIndex());
+            gbDevice.setBatteryLabel(batteryConfig.label(), batteryConfig.getBatteryIndex());
+        }
+
         List<DeviceAttributes> deviceAttributesList = dbDevice.getDeviceAttributesList();
         if (deviceAttributesList.size() > 0) {
             gbDevice.setModel(dbDevice.getModel());

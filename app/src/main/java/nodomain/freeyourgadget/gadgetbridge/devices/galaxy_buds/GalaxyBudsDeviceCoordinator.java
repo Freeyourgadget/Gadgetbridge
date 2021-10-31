@@ -17,6 +17,7 @@ import nodomain.freeyourgadget.gadgetbridge.entities.Device;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceCandidate;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
+import nodomain.freeyourgadget.gadgetbridge.model.BatteryConfig;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
 
 public class GalaxyBudsDeviceCoordinator extends AbstractDeviceCoordinator {
@@ -43,6 +44,13 @@ public class GalaxyBudsDeviceCoordinator extends AbstractDeviceCoordinator {
     @Override
     public int getBatteryCount() {
         return 2;
+    }
+
+    @Override
+    public BatteryConfig[] getBatteryConfig() {
+        BatteryConfig battery1 = new BatteryConfig(0, R.drawable.ic_earbuds_battery, R.string.left);
+        BatteryConfig battery2 = new BatteryConfig(1, R.drawable.ic_earbuds_battery, R.string.right);
+        return new BatteryConfig[]{battery1, battery2};
     }
 
     @Nullable
@@ -132,6 +140,8 @@ public class GalaxyBudsDeviceCoordinator extends AbstractDeviceCoordinator {
             device, @NonNull DaoSession session) throws GBException {
 
     }
+
+
 
     @Override
     public int[] getSupportedDeviceSpecificSettings(GBDevice device) {

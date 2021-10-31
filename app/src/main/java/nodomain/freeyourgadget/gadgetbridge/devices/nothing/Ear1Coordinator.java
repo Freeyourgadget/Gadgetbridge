@@ -17,6 +17,7 @@ import nodomain.freeyourgadget.gadgetbridge.entities.Device;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceCandidate;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
+import nodomain.freeyourgadget.gadgetbridge.model.BatteryConfig;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
 
 public class Ear1Coordinator extends AbstractDeviceCoordinator {
@@ -118,6 +119,19 @@ public class Ear1Coordinator extends AbstractDeviceCoordinator {
     @Override
     protected void deleteDevice(@NonNull GBDevice gbDevice, @NonNull Device device, @NonNull DaoSession session) throws GBException {
 
+    }
+
+    @Override
+    public int getBatteryCount() {
+        return 3;
+    }
+
+    @Override
+    public BatteryConfig[] getBatteryConfig() {
+        BatteryConfig battery1 = new BatteryConfig(0, R.drawable.ic_cases, R.string.box);
+        BatteryConfig battery2 = new BatteryConfig(1, R.drawable.ic_earbuds_battery, R.string.right);
+        BatteryConfig battery3 = new BatteryConfig(2, R.drawable.ic_earbuds_battery, R.string.left);
+        return new BatteryConfig[]{battery1, battery2, battery3};
     }
 
     @Override

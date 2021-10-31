@@ -155,34 +155,40 @@ public class GBDeviceAdapterv2 extends RecyclerView.Adapter<GBDeviceAdapterv2.Vi
         TextView[] batteryStatusLabels = {holder.batteryStatusLabel0, holder.batteryStatusLabel1, holder.batteryStatusLabel2};
         ImageView[] batteryIcons = {holder.batteryIcon0, holder.batteryIcon1, holder.batteryIcon2};
 
-        for (int battery = 0; battery < coordinator.getBatteryCount(); battery++) {
+        for (int batteryIndex = 0; batteryIndex < coordinator.getBatteryCount(); batteryIndex++) {
 
-            int batteryLevel = device.getBatteryLevel(battery);
-            float batteryVoltage = device.getBatteryVoltage(battery);
-            BatteryState batteryState = device.getBatteryState(battery);
+            int batteryLevel = device.getBatteryLevel(batteryIndex);
+            float batteryVoltage = device.getBatteryVoltage(batteryIndex);
+            BatteryState batteryState = device.getBatteryState(batteryIndex);
+            int batteryIcon = device.getBatteryIcon(batteryIndex);
+            int batteryLabel = device.getBatteryLabel(batteryIndex);
+            LOG.debug("battery icon: " + batteryIcon);
+            LOG.debug("battery index: " + batteryIndex);
+
+            if (batteryIcon != GBDevice.BATTERY_ICON_DEFAULT){
+                batteryIcons[batteryIndex].setImageResource(batteryIcon);
+            }
 
             if (batteryLevel != GBDevice.BATTERY_UNKNOWN) {
-                batteryStatusBoxes[battery].setVisibility(View.VISIBLE);
-                batteryStatusLabels[battery].setText(device.getBatteryLevel(battery) + "%");
+                batteryStatusLabels[batteryIndex].setText(device.getBatteryLevel(batteryIndex) + "%");
                 if (BatteryState.BATTERY_CHARGING.equals(batteryState) ||
                         BatteryState.BATTERY_CHARGING_FULL.equals(batteryState)) {
-                    batteryIcons[battery].setImageLevel(device.getBatteryLevel(battery) + 100);
+                    batteryIcons[batteryIndex].setImageLevel(device.getBatteryLevel(batteryIndex) + 100);
                 } else {
-                    batteryIcons[battery].setImageLevel(device.getBatteryLevel(battery));
+                    batteryIcons[batteryIndex].setImageLevel(device.getBatteryLevel(batteryIndex));
                 }
             } else if (BatteryState.NO_BATTERY.equals(batteryState) && batteryVoltage != GBDevice.BATTERY_UNKNOWN) {
-                batteryStatusBoxes[battery].setVisibility(View.VISIBLE);
-                batteryStatusLabels[battery].setText(String.format(Locale.getDefault(), "%.2f", batteryVoltage));
-                batteryIcons[battery].setImageLevel(200);
+                batteryStatusLabels[batteryIndex].setText(String.format(Locale.getDefault(), "%.2f", batteryVoltage));
+                batteryIcons[batteryIndex].setImageLevel(200);
             }
-            final int finalBattery = battery;
-            batteryStatusBoxes[battery].setOnClickListener(new View.OnClickListener() {
+            final int finalBatteryIndex = batteryIndex;
+            batteryStatusBoxes[batteryIndex].setOnClickListener(new View.OnClickListener() {
                                                                @Override
                                                                public void onClick(View v) {
                                                                    Intent startIntent;
                                                                    startIntent = new Intent(context, BatteryInfoActivity.class);
                                                                    startIntent.putExtra(GBDevice.EXTRA_DEVICE, device);
-                                                                   startIntent.putExtra("BATTERY_INDEX", finalBattery);
+                                                                   startIntent.putExtra(GBDevice.BATTERY_INDEX, finalBatteryIndex);
                                                                    context.startActivity(startIntent);
                                                                }
                                                            }

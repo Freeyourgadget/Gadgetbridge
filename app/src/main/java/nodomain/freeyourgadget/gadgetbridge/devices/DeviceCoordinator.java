@@ -36,6 +36,7 @@ import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceCandidate;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
+import nodomain.freeyourgadget.gadgetbridge.model.BatteryConfig;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
 
 /**
@@ -355,5 +356,7 @@ public interface DeviceCoordinator {
      * 0 will disable the battery from the UI
      */
     int getBatteryCount();
+
+    BatteryConfig[] getBatteryConfig();
 
 }

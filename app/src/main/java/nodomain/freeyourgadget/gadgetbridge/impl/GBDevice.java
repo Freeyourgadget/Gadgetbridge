@@ -60,6 +60,8 @@ public class GBDevice implements Parcelable {
     private static final Logger LOG = LoggerFactory.getLogger(GBDevice.class);
     public static final short RSSI_UNKNOWN = 0;
     public static final short BATTERY_UNKNOWN = -1;
+    public static final short BATTERY_ICON_DEFAULT = -1;
+    public static final short BATTERY_LABEL_DEFAULT = -1;
     private static final short BATTERY_THRESHOLD_PERCENT = 10;
     public static final String EXTRA_DEVICE = "device";
     public static final String EXTRA_UUID = "extraUUID";
@@ -68,6 +70,7 @@ public class GBDevice implements Parcelable {
     private static final String DEVINFO_FW2_VER = "FW2: ";
     private static final String DEVINFO_ADDR = "ADDR: ";
     private static final String DEVINFO_ADDR2 = "ADDR2: ";
+    public static final String BATTERY_INDEX = "battery_index";
     private String mName;
     private String mAlias;
     private final String mAddress;
@@ -83,6 +86,8 @@ public class GBDevice implements Parcelable {
     private float[] mBatteryVoltage = {BATTERY_UNKNOWN, BATTERY_UNKNOWN, BATTERY_UNKNOWN};
     private short mBatteryThresholdPercent = BATTERY_THRESHOLD_PERCENT;
     private BatteryState[] mBatteryState = {UNKNOWN, UNKNOWN, UNKNOWN};
+    private int[] mBatteryIcons = {BATTERY_ICON_DEFAULT, BATTERY_ICON_DEFAULT, BATTERY_ICON_DEFAULT};
+    private int[] mBatteryLabels = {BATTERY_LABEL_DEFAULT, BATTERY_LABEL_DEFAULT, BATTERY_LABEL_DEFAULT};
 
     private short mRssi = RSSI_UNKNOWN;
     private String mBusyTask;
@@ -120,6 +125,8 @@ public class GBDevice implements Parcelable {
         mBatteryVoltage = in.createFloatArray();
         mBatteryThresholdPercent = (short) in.readInt();
         mBatteryState = ordinalsToEnums(in.createIntArray());
+        mBatteryIcons = in.createIntArray();
+        mBatteryLabels = in.createIntArray();
         mRssi = (short) in.readInt();
         mBusyTask = in.readString();
         mDeviceInfos = in.readArrayList(getClass().getClassLoader());
@@ -146,6 +153,8 @@ public class GBDevice implements Parcelable {
         dest.writeFloatArray(mBatteryVoltage);
         dest.writeInt(mBatteryThresholdPercent);
         dest.writeIntArray(enumsToOrdinals(mBatteryState));
+        dest.writeIntArray(mBatteryIcons);
+        dest.writeIntArray(mBatteryLabels);
         dest.writeInt(mRssi);
         dest.writeString(mBusyTask);
         dest.writeList(mDeviceInfos);
@@ -347,6 +356,7 @@ public class GBDevice implements Parcelable {
     }
 
     private void unsetDynamicState() {
+
         setBatteryLevel(BATTERY_UNKNOWN, 0);
         setBatteryLevel(BATTERY_UNKNOWN, 1);
         setBatteryLevel(BATTERY_UNKNOWN, 2);
@@ -567,6 +577,22 @@ public class GBDevice implements Parcelable {
 
     public void setBatteryThresholdPercent(short batteryThresholdPercent) {
         this.mBatteryThresholdPercent = batteryThresholdPercent;
+    }
+
+    public int getBatteryIcon(int index) {
+        return this.mBatteryIcons[index];
+    }
+
+    public void setBatteryIcon(int icon, int index) {
+        this.mBatteryIcons[index] = icon;
+    }
+
+    public int getBatteryLabel(int index) {
+        return this.mBatteryLabels[index];
+    }
+
+    public void setBatteryLabel(int label, int index) {
+        this.mBatteryLabels[index] = label;
     }
 
     @Override

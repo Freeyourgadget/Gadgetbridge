@@ -44,7 +44,7 @@ BatteryInfoActivity extends AbstractGBActivity {
         Bundle bundle = intent.getExtras();
         if (bundle != null) {
             gbDevice = bundle.getParcelable(GBDevice.EXTRA_DEVICE);
-            batteryIndex = bundle.getInt("BATTERY_INDEX", 0);
+            batteryIndex = bundle.getInt(GBDevice.BATTERY_INDEX, 0);
         } else {
             throw new IllegalArgumentException("Must provide a device when invoking this activity");
         }
