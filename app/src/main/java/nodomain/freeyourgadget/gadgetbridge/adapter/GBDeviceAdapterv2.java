@@ -159,7 +159,7 @@ public class GBDeviceAdapterv2 extends RecyclerView.Adapter<GBDeviceAdapterv2.Vi
 
             int batteryLevel = device.getBatteryLevel(battery);
             float batteryVoltage = device.getBatteryVoltage(battery);
-            BatteryState batteryState = device.getBatteryState();
+            BatteryState batteryState = device.getBatteryState(battery);
 
             if (batteryLevel != GBDevice.BATTERY_UNKNOWN) {
                 batteryStatusBoxes[battery].setVisibility(View.VISIBLE);
