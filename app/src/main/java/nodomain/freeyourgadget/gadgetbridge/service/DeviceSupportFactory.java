@@ -94,6 +94,7 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.um25.Support.UM25Sup
 import nodomain.freeyourgadget.gadgetbridge.service.devices.vibratissimo.VibratissimoSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.waspos.WaspOSDeviceSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.watch9.Watch9DeviceSupport;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.sony.wh1000xm3.SonyWh1000Xm3Support;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.xwatch.XWatchSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.zetime.ZeTimeDeviceSupport;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
@@ -366,7 +367,9 @@ public class DeviceSupportFactory {
                     case GALAXY_BUDS:
                         deviceSupport = new ServiceDeviceSupport(new GalaxyBudsDeviceSupport(), EnumSet.of(ServiceDeviceSupport.Flags.BUSY_CHECKING));
                         break;
-
+                    case SONY_WH_1000XM3:
+                        deviceSupport = new ServiceDeviceSupport(new SonyWh1000Xm3Support(), EnumSet.of(ServiceDeviceSupport.Flags.BUSY_CHECKING));
+                        break;
                 }
                 if (deviceSupport != null) {
                     deviceSupport.setContext(gbDevice, mBtAdapter, mContext);

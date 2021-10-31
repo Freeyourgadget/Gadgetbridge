@@ -109,6 +109,35 @@ public class DeviceSettingsPreferenceConst {
     public static final String PREF_GALAXY_BUDS_TOUCH_LEFT = "pref_galaxy_buds_touch_left";
     public static final String PREF_GALAXY_BUDS_TOUCH_RIGHT = "pref_galaxy_buds_touch_right";
 
+    public static final String PREF_SONY_WH1000XM3_AMBIENT_SOUND_CONTROL = "pref_sony_wh1000xm3_ambient_sound_control";
+    public static final String PREF_SONY_WH1000XM3_FOCUS_VOICE = "pref_sony_wh1000xm3_focus_voice";
+    public static final String PREF_SONY_WH1000XM3_AMBIENT_SOUND_LEVEL = "pref_sony_wh1000xm3_ambient_sound_level";
+    public static final String PREF_SONY_WH1000XM3_SOUND_POSITION = "pref_sony_wh1000xm3_sound_position";
+    public static final String PREF_SONY_WH1000XM3_SURROUND_MODE = "pref_sony_wh1000xm3_surround_mode";
+    public static final String PREF_SONY_WH1000XM3_EQUALIZER_MODE = "pref_sony_wh1000xm3_equalizer_mode";
+    public static final String PREF_SONY_WH1000XM3_DSEE_HX = "pref_sony_wh1000xm3_dsee_hx";
+    public static final String PREF_SONY_WH1000XM3_EQUALIZER_MANUAL_BAND_400 = "pref_sony_wh1000xm3_equalizer_manual_band_400";
+    public static final String PREF_SONY_WH1000XM3_EQUALIZER_MANUAL_BAND_1000 = "pref_sony_wh1000xm3_equalizer_manual_band_1000";
+    public static final String PREF_SONY_WH1000XM3_EQUALIZER_MANUAL_BAND_2500 = "pref_sony_wh1000xm3_equalizer_manual_band_2500";
+    public static final String PREF_SONY_WH1000XM3_EQUALIZER_MANUAL_BAND_6300 = "pref_sony_wh1000xm3_equalizer_manual_band_6300";
+    public static final String PREF_SONY_WH1000XM3_EQUALIZER_MANUAL_BAND_16000 = "pref_sony_wh1000xm3_equalizer_manual_band_16000";
+    public static final String PREF_SONY_WH1000XM3_EQUALIZER_MANUAL_CLEAR_BASS = "pref_sony_wh1000xm3_equalizer_manual_clear_bass";
+    public static final String PREF_SONY_WH1000XM3_EQUALIZER_CUSTOM_1_BAND_400 = "pref_sony_wh1000xm3_equalizer_custom_1_band_400";
+    public static final String PREF_SONY_WH1000XM3_EQUALIZER_CUSTOM_1_BAND_1000 = "pref_sony_wh1000xm3_equalizer_custom_1_band_1000";
+    public static final String PREF_SONY_WH1000XM3_EQUALIZER_CUSTOM_1_BAND_2500 = "pref_sony_wh1000xm3_equalizer_custom_1_band_2500";
+    public static final String PREF_SONY_WH1000XM3_EQUALIZER_CUSTOM_1_BAND_6300 = "pref_sony_wh1000xm3_equalizer_custom_1_band_6300";
+    public static final String PREF_SONY_WH1000XM3_EQUALIZER_CUSTOM_1_BAND_16000 = "pref_sony_wh1000xm3_equalizer_custom_1_band_16000";
+    public static final String PREF_SONY_WH1000XM3_EQUALIZER_CUSTOM_1_CLEAR_BASS = "pref_sony_wh1000xm3_equalizer_custom_1_clear_bass";
+    public static final String PREF_SONY_WH1000XM3_EQUALIZER_CUSTOM_2_BAND_400 = "pref_sony_wh1000xm3_equalizer_custom_2_band_400";
+    public static final String PREF_SONY_WH1000XM3_EQUALIZER_CUSTOM_2_BAND_1000 = "pref_sony_wh1000xm3_equalizer_custom_2_band_1000";
+    public static final String PREF_SONY_WH1000XM3_EQUALIZER_CUSTOM_2_BAND_2500 = "pref_sony_wh1000xm3_equalizer_custom_2_band_2500";
+    public static final String PREF_SONY_WH1000XM3_EQUALIZER_CUSTOM_2_BAND_6300 = "pref_sony_wh1000xm3_equalizer_custom_2_band_6300";
+    public static final String PREF_SONY_WH1000XM3_EQUALIZER_CUSTOM_2_BAND_16000 = "pref_sony_wh1000xm3_equalizer_custom_2_band_16000";
+    public static final String PREF_SONY_WH1000XM3_EQUALIZER_CUSTOM_2_CLEAR_BASS = "pref_sony_wh1000xm3_equalizer_custom_2_clear_bass";
+    public static final String PREF_SONY_WH1000XM3_TOUCH_SENSOR = "pref_sony_wh1000xm3_touch_sensor";
+    public static final String PREF_SONY_WH1000XM3_AUTOMATIC_POWER_OFF = "pref_sony_wh1000xm3_automatic_power_off";
+    public static final String PREF_SONY_WH1000XM3_NOTIFICATION_VOICE_GUIDE = "pref_sony_wh1000xm3_notification_voice_guide";
+
     public static final String PREF_SOUNDS = "sounds";
     public static final String PREF_AUTH_KEY = "authkey";
 }
