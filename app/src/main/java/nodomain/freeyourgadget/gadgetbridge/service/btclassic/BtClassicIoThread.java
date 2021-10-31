@@ -170,10 +170,14 @@ public abstract class BtClassicIoThread extends GBDeviceIoThread {
             return false;
         }
 
-        write(mProtocol.encodeSetTime());
-        setUpdateState(GBDevice.State.INITIALIZED);
+        initialize();
 
         return true;
+    }
+
+    protected void initialize() {
+        write(mProtocol.encodeSetTime());
+        setUpdateState(GBDevice.State.INITIALIZED);
     }
 
     /**

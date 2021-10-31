@@ -218,14 +218,6 @@ public class NothingProtocol extends GBDeviceProtocol {
         return super.encodeSendConfiguration(config);
     }
 
-    @Override
-    public byte[] encodeSetTime() {
-        // This are earphones, there is no time to set here. However this method gets called soon
-        // after connecting, hence we use it to perform some initializations.
-        // TODO: Find a way to send more requests during the first connection
-        return encodeAudioModeStatusReq();
-    }
-
     private GBDeviceEvent handleBatteryInfo(byte[] payload) {
         //LOG.debug("Battery payload: " + hexdump(payload));
 
