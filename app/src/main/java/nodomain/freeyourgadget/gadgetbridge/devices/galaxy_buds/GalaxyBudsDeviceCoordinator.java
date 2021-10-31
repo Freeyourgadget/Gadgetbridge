@@ -40,10 +40,10 @@ public class GalaxyBudsDeviceCoordinator extends AbstractDeviceCoordinator {
         return DeviceType.GALAXY_BUDS;
     }
 
-    //@Override
-    //public int getBatteryCount() {
-    //    return 2;
-    //}
+    @Override
+    public int getBatteryCount() {
+        return 2;
+    }
 
     @Nullable
     @Override

@@ -225,18 +225,18 @@ public class GalaxyBudsProtocol extends GBDeviceProtocol {
         int batteryLevel2 = payload[1];
 
         GBDeviceEventBatteryInfo evBattery1 = new GBDeviceEventBatteryInfo();
-        //evBattery1.batteryIndex = 0;
+        evBattery1.batteryIndex = 0;
         evBattery1.level = GBDevice.BATTERY_UNKNOWN;
-        evBattery1.level = (batteryLevel1 > 0) ? (short) batteryLevel1 : GBDevice.BATTERY_UNKNOWN;
+        evBattery1.level = (batteryLevel1 > 0) ? batteryLevel1 : GBDevice.BATTERY_UNKNOWN;
         evBattery1.state = (batteryLevel1 > 0) ? BatteryState.BATTERY_NORMAL : BatteryState.UNKNOWN;
         deviceEvents.add(evBattery1);
 
         GBDeviceEventBatteryInfo evBattery2 = new GBDeviceEventBatteryInfo();
-        //evBattery2.batteryIndex = 1;
+        evBattery2.batteryIndex = 1;
         evBattery2.level = GBDevice.BATTERY_UNKNOWN;
-        evBattery2.level = (batteryLevel2 > 0) ? (short) batteryLevel2 : GBDevice.BATTERY_UNKNOWN;
+        evBattery2.level = (batteryLevel2 > 0) ? batteryLevel2 : GBDevice.BATTERY_UNKNOWN;
         evBattery2.state = (batteryLevel2 > 0) ? BatteryState.BATTERY_NORMAL : BatteryState.UNKNOWN;
-        //deviceEvents.add(evBattery2);
+        deviceEvents.add(evBattery2);
 
         return deviceEvents;
     }
