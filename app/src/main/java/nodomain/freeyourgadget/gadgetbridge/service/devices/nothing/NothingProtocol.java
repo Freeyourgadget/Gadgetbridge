@@ -10,6 +10,7 @@ import java.nio.ByteOrder;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.UUID;
@@ -60,6 +61,12 @@ public class NothingProtocol extends GBDeviceProtocol {
     private static final short in_ear_detection = (short) 0xf004;
     private static final short audio_mode = (short) 0xf00f;
 
+
+    private HashMap<Byte, GBDeviceEventBatteryInfo> batteries;
+    private static final byte battery_earphone_left = 0x02;
+    private static final byte battery_earphone_right = 0x03;
+    private static final byte battery_case = 0x04;
+
     @Override
     public GBDeviceEvent[] decodeResponse(byte[] responseData) {
         List<GBDeviceEvent> devEvts = new ArrayList<>();
@@ -97,7 +104,7 @@ public class NothingProtocol extends GBDeviceProtocol {
         switch (getRequestCommand(command)) {
             case battery_status:
             case battery_status2:
-                devEvts.add(handleBatteryInfo(payload));
+                devEvts.addAll(handleBatteryInfo(payload));
                 break;
             case audio_mode_status:
                 devEvts.add(handleAudioModeStatus(payload));
@@ -218,7 +225,17 @@ public class NothingProtocol extends GBDeviceProtocol {
         return super.encodeSendConfiguration(config);
     }
 
-    private GBDeviceEvent handleBatteryInfo(byte[] payload) {
+    @Override
+    public byte[] encodeSetTime() {
+        // This are earphones, there is no time to set here. However this method gets called soon
+        // after connecting, hence we use it to perform some initializations.
+        // TODO: Find a way to send more requests during the first connection
+        return encodeAudioModeStatusReq();
+    }
+
+    private List<GBDeviceEvent> handleBatteryInfo(byte[] payload) {
+        List<GBDeviceEvent> batEvts = new ArrayList<>();
+
         //LOG.debug("Battery payload: " + hexdump(payload));
 
         /* payload:
@@ -234,22 +251,31 @@ public class NothingProtocol extends GBDeviceProtocol {
         If one of the batteries is recharging, we consider the battery as recharging.
          */
 
-        GBDeviceEventBatteryInfo evBattery = new GBDeviceEventBatteryInfo();
-        evBattery.level = 0;
-        boolean batteryCharging = false;
+//        GBDeviceEventBatteryInfo evBattery = new GBDeviceEventBatteryInfo();
+//        evBattery.level = 0;
+//        boolean batteryCharging = false;
 
         int numBatteries = payload[0];
         for (int i = 0; i < numBatteries; i++) {
-            evBattery.level += (short) ((payload[2 + 2 * i] & MASK_BATTERY) / numBatteries);
-            if (!batteryCharging)
-                batteryCharging = ((payload[2 + 2 * i] & MASK_BATTERY_CHARGING) == MASK_BATTERY_CHARGING);
-            //LOG.debug("single battery level: " + hexdump(payload, 2+2*i,1) +"-"+ ((payload[2+2*i] & 0xff))+":" + evBattery.level);
-        }
 
-        evBattery.state = BatteryState.UNKNOWN;
-        evBattery.state = batteryCharging ? BatteryState.BATTERY_CHARGING : evBattery.state;
+            batteries.get(payload[1 + 2 * i]).level = (payload[2 + 2 * i] & MASK_BATTERY);
+            batteries.get(payload[1 + 2 * i]).state =
+                    ((payload[2 + 2 * i] & MASK_BATTERY_CHARGING) == MASK_BATTERY_CHARGING) ? BatteryState.BATTERY_CHARGING : BatteryState.BATTERY_NORMAL;
 
-        return evBattery;
+            batEvts.add(batteries.get(payload[1 + 2 * i]));
+
+//            evBattery.level += (short) ((payload[2 + 2 * i] & MASK_BATTERY) / numBatteries);
+//            if (!batteryCharging) {
+//                batteryCharging = ((payload[2 + 2 * i] & MASK_BATTERY_CHARGING) == MASK_BATTERY_CHARGING);
+//            }
+//            LOG.debug("single battery level: " + hexdump(payload, 2+2*i,1) +"-"+ ((payload[2+2*i] & 0xff))+":" + evBattery.level);
+            }
+
+//        evBattery.state = BatteryState.UNKNOWN;
+//        evBattery.state = batteryCharging ? BatteryState.BATTERY_CHARGING : evBattery.state;
+
+//        return evBattery;
+        return batEvts;
     }
 
     private short getRequestCommand(short command) {
@@ -270,6 +296,15 @@ public class NothingProtocol extends GBDeviceProtocol {
 
     protected NothingProtocol(GBDevice device) {
         super(device);
+        batteries = new HashMap<>(3);
+
+        batteries.put(battery_earphone_left, new GBDeviceEventBatteryInfo());
+        batteries.put(battery_earphone_right, new GBDeviceEventBatteryInfo());
+        batteries.put(battery_case, new GBDeviceEventBatteryInfo());
+
+        batteries.get(battery_case).batteryIndex=0;
+        batteries.get(battery_earphone_left).batteryIndex=1;
+        batteries.get(battery_earphone_right).batteryIndex=2;
 
     }
 }
