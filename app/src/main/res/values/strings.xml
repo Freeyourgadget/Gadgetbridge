@@ -1302,7 +1302,6 @@
     <string name="prefs_touch_lock_summary">Disable touch events</string>
     <string name="prefs_galaxy_buds_experimental">Experimental</string>
     <string name="prefs_ambient_volume">Ambient volume</string>
-    <string name="prefs_ambient_volume_summary">pref_galaxy_buds_ambient_volume</string>
     <string name="prefs_ambient_voice_focus">Voice Focus</string>
     <string name="prefs_ambient_voice_summary">Make voice stand out</string>
     <string name="prefs_ambient_sound">Ambient Sound</string>
