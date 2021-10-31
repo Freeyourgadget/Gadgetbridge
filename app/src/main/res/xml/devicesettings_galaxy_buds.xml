@@ -25,7 +25,7 @@
                 android:entries="@array/ambient_volume_values"
                 android:entryValues="@array/ambient_volume_values"
                 android:icon="@drawable/ic_volume_up"
-                android:key="@string/prefs_ambient_volume_summary"
+                android:key="pref_galaxy_buds_ambient_volume"
                 android:summary="%s"
                 android:title="@string/prefs_ambient_volume" />
         </PreferenceCategory>
