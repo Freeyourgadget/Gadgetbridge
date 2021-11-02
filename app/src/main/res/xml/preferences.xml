@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
     <PreferenceCategory
         android:key="pref_key_general"
         android:title="@string/pref_header_general">
@@ -119,9 +118,31 @@
             android:summary="@string/pref_summary_datetime_syctimeonconnect"
             android:title="@string/pref_title_datetime_syctimeonconnect" />
     </PreferenceCategory>
-
-    <PreferenceCategory
-        android:title="@string/preferences_category_device_specific_settings">
+    <PreferenceCategory android:title="@string/pref_header_location">
+        <Preference
+            android:key="location_aquire"
+            android:title="@string/pref_title_location_aquire" />
+        <EditTextPreference
+            android:defaultValue="0"
+            android:inputType="numberDecimal|numberSigned"
+            android:key="location_latitude"
+            android:maxLength="7"
+            android:title="@string/pref_title_location_latitude" />
+        <EditTextPreference
+            android:defaultValue="0"
+            android:inputType="numberDecimal|numberSigned"
+            android:key="location_longitude"
+            android:maxLength="7"
+            android:title="@string/pref_title_location_longitude" />
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:dependency="location_aquire"
+            android:key="use_updated_location_if_available"
+            android:layout="@layout/preference_checkbox"
+            android:summary="@string/pref_summary_location_keep_uptodate"
+            android:title="@string/pref_title_location_keep_uptodate" />
+    </PreferenceCategory>
+    <PreferenceCategory android:title="@string/preferences_category_device_specific_settings">
 
         <Preference
             android:icon="@drawable/ic_device_pebble"
@@ -211,31 +232,6 @@
                     android:defaultValue="true"
                     android:key="pebble_sync_morpheuz"
                     android:title="@string/pref_title_pebble_sync_morpheuz" />
-            </PreferenceCategory>
-            <PreferenceCategory
-                android:title="@string/pref_header_location">
-            <Preference
-                android:key="location_aquire"
-                android:title="@string/pref_title_location_aquire"/>
-            <EditTextPreference
-                android:maxLength="7"
-                android:inputType="numberDecimal|numberSigned"
-                android:defaultValue="0"
-                android:key="location_latitude"
-                android:title="@string/pref_title_location_latitude" />
-            <EditTextPreference
-                android:maxLength="7"
-                android:inputType="numberDecimal|numberSigned"
-                android:defaultValue="0"
-                android:key="location_longitude"
-                android:title="@string/pref_title_location_longitude" />
-                <CheckBoxPreference
-            android:layout="@layout/preference_checkbox"
-                    android:defaultValue="true"
-                    android:dependency="location_aquire"
-                    android:key="use_updated_location_if_available"
-                    android:summary="@string/pref_summary_location_keep_uptodate"
-                    android:title="@string/pref_title_location_keep_uptodate" />
             </PreferenceCategory>
             <PreferenceCategory
                 android:title="@string/pref_header_development">
