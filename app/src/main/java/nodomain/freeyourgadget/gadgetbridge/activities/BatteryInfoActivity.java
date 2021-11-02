@@ -19,8 +19,11 @@ import java.util.Date;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
+import nodomain.freeyourgadget.gadgetbridge.devices.DeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
+import nodomain.freeyourgadget.gadgetbridge.model.BatteryConfig;
 import nodomain.freeyourgadget.gadgetbridge.util.DateTimeUtils;
+import nodomain.freeyourgadget.gadgetbridge.util.DeviceHelper;
 
 public class
 BatteryInfoActivity extends AbstractGBActivity {
@@ -62,6 +65,7 @@ BatteryInfoActivity extends AbstractGBActivity {
 
         TextView battery_status_device_name_text = (TextView) findViewById(R.id.battery_status_device_name);
         TextView battery_status_battery_voltage = (TextView) findViewById(R.id.battery_status_battery_voltage);
+        TextView battery_status_extra_name = (TextView) findViewById(R.id.battery_status_extra_name);
         final TextView battery_status_date_from_text = (TextView) findViewById(R.id.battery_status_date_from_text);
         final TextView battery_status_date_to_text = (TextView) findViewById(R.id.battery_status_date_to_text);
         final SeekBar battery_status_time_span_seekbar = (SeekBar) findViewById(R.id.battery_status_time_span_seekbar);
@@ -164,6 +168,17 @@ BatteryInfoActivity extends AbstractGBActivity {
         battery_status_device_name_text.setText(gbDevice.getName());
         battery_status_battery_level_text.setText(level);
         battery_status_battery_voltage.setText(voltage);
+
+        DeviceCoordinator coordinator = DeviceHelper.getInstance().getCoordinator(gbDevice);
+        for (BatteryConfig batteryConfig : coordinator.getBatteryConfig()) {
+            if (batteryConfig.getBatteryIndex() == batteryIndex) {
+                battery_status_extra_name.setText(batteryConfig.getBatteryLabel());
+                battery_status_device_icon.setImageResource(batteryConfig.getBatteryIcon());
+                if (gbDevice.isInitialized()) {
+                    battery_status_device_icon.setColorFilter(this.getResources().getColor(R.color.accent));
+                }
+            }
+        }
     }
 
 }

@@ -48,8 +48,8 @@ public class GalaxyBudsDeviceCoordinator extends AbstractDeviceCoordinator {
 
     @Override
     public BatteryConfig[] getBatteryConfig() {
-        BatteryConfig battery1 = new BatteryConfig(0, R.drawable.ic_earbuds_battery, R.string.left);
-        BatteryConfig battery2 = new BatteryConfig(1, R.drawable.ic_earbuds_battery, R.string.right);
+        BatteryConfig battery1 = new BatteryConfig(0, R.drawable.ic_tws_bud_l, R.string.left_earbud);
+        BatteryConfig battery2 = new BatteryConfig(1, R.drawable.ic_tws_bud_r, R.string.right_earbud);
         return new BatteryConfig[]{battery1, battery2};
     }
 
@@ -140,7 +140,6 @@ public class GalaxyBudsDeviceCoordinator extends AbstractDeviceCoordinator {
             device, @NonNull DaoSession session) throws GBException {
 
     }
-
 
 
     @Override

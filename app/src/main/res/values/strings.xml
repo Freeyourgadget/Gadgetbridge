@@ -383,7 +383,6 @@
     <string name="other">Other</string>
     <string name="left">Left</string>
     <string name="right">Right</string>
-    <string name="box">Case</string>
     <string name="horizontal">Horizontal</string>
     <string name="vertical">Vertical</string>
     <string name="miband_pairing_using_dummy_userdata">No valid user data given, using dummy user data for now.</string>
@@ -1310,4 +1309,7 @@
     <string name="prefs_left">Left</string>
     <string name="prefs_right">Right</string>
     <string name="prefs_galaxy_touch_options">Touch Options</string>
+    <string name="battery_case">Battery case</string>
+    <string name="left_earbud">Left earbud</string>
+    <string name="right_earbud">Right earbud</string>
 </resources>

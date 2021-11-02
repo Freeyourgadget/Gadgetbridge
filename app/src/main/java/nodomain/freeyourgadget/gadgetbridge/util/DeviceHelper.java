@@ -343,8 +343,8 @@ public class DeviceHelper {
         GBDevice gbDevice = new GBDevice(dbDevice.getIdentifier(), dbDevice.getName(), dbDevice.getAlias(), deviceType);
         DeviceCoordinator coordinator = getCoordinator(gbDevice);
         for (BatteryConfig batteryConfig : coordinator.getBatteryConfig()) {
-            gbDevice.setBatteryIcon(batteryConfig.icon(), batteryConfig.getBatteryIndex());
-            gbDevice.setBatteryLabel(batteryConfig.label(), batteryConfig.getBatteryIndex());
+            gbDevice.setBatteryIcon(batteryConfig.getBatteryIcon(), batteryConfig.getBatteryIndex());
+            gbDevice.setBatteryLabel(batteryConfig.getBatteryLabel(), batteryConfig.getBatteryIndex());
         }
 
         List<DeviceAttributes> deviceAttributesList = dbDevice.getDeviceAttributesList();

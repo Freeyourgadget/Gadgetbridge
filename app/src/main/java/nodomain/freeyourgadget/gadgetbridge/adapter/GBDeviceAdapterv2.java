@@ -161,9 +161,8 @@ public class GBDeviceAdapterv2 extends RecyclerView.Adapter<GBDeviceAdapterv2.Vi
             float batteryVoltage = device.getBatteryVoltage(batteryIndex);
             BatteryState batteryState = device.getBatteryState(batteryIndex);
             int batteryIcon = device.getBatteryIcon(batteryIndex);
-            int batteryLabel = device.getBatteryLabel(batteryIndex);
-            LOG.debug("battery icon: " + batteryIcon);
-            LOG.debug("battery index: " + batteryIndex);
+            int batteryLabel = device.getBatteryLabel(batteryIndex); //unused for now
+            batteryIcons[batteryIndex].setImageResource(R.drawable.level_list_battery);
 
             if (batteryIcon != GBDevice.BATTERY_ICON_DEFAULT){
                 batteryIcons[batteryIndex].setImageResource(batteryIcon);
