@@ -1,7 +1,13 @@
 ### Changelog
 
-### {next}
-* Support for Galaxy Buds 2019
+### 0.62.0
+* Iniital support for Galaxy Buds 2019
+* Huami: Fix syncing of data in non-DST time
+* InfiniTime: Fix wrong time zone being sent in non-DST mode
+* Amazfit Bip U Pro: Support flashing AGPS updates
+* FitPro: recognize LH716 devices
+* Add support for Casio STB-1000. Limitations of GB-5600B/GB-6900B apply
+* Prevent crash when receiving broken weather data from TinyWeatherForecastGermany
 
 ### 0.61.0
 * Initial support for Nothing Ear(1)
