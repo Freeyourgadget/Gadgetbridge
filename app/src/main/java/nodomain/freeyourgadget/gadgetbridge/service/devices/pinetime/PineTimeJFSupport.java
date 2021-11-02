@@ -288,7 +288,7 @@ public class PineTimeJFSupport extends AbstractBTLEDeviceSupport implements DfuL
         // Since this is a standard we should generalize this in Gadgetbridge (properly)
         GregorianCalendar now = BLETypeConversions.createCalendar();
         byte[] bytes = BLETypeConversions.calendarToRawBytes(now);
-        byte[] tail = new byte[]{0, BLETypeConversions.mapTimeZone(now.getTimeZone(), BLETypeConversions.TZ_FLAG_INCLUDE_DST_IN_TZ)};
+        byte[] tail = new byte[]{0, BLETypeConversions.mapTimeZone(now, BLETypeConversions.TZ_FLAG_INCLUDE_DST_IN_TZ)};
         byte[] all = BLETypeConversions.join(bytes, tail);
 
         TransactionBuilder builder = new TransactionBuilder("set time");
