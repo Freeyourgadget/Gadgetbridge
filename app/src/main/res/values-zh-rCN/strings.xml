@@ -1379,4 +1379,7 @@
     <string name="pref_title_equalizer_clear">清晰</string>
     <string name="prefs_game_mode_summary">仅在您的手机支持游戏模式时</string>
     <string name="prefs_ambient_volume_summary">pref_galaxy_buds_ambient_volume</string>
+    <string name="left_earbud">左耳耳塞</string>
+    <string name="right_earbud">右耳耳塞</string>
+    <string name="battery_case">充电盒</string>
 </resources>
