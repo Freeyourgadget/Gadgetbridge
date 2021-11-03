@@ -1373,4 +1373,7 @@
     <string name="prefs_ambient_voice_summary">Laat stemmen opvallen</string>
     <string name="prefs_right">Rechts</string>
     <string name="prefs_galaxy_touch_options">Aanraakopties</string>
+    <string name="battery_case">Hoes</string>
+    <string name="left_earbud">Linker oordopje</string>
+    <string name="right_earbud">Rechter oordopje</string>
 </resources>
