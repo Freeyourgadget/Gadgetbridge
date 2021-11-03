@@ -1,2 +1,55 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources></resources>
+<resources>
+    <string name="action_settings">الاعدادات</string>
+    <string name="action_quit">أخرج</string>
+    <string name="controlcenter_connect">اتصل…</string>
+    <string name="battery_level">مستوى البطارية</string>
+    <string name="title_activity_settings">إعدادات</string>
+    <string name="action_donate">تبرع</string>
+    <string name="find_lost_device_message">ابحث عن %1$s؟</string>
+    <string name="controlcenter_delete_device">حذف الجهاز</string>
+    <string name="controlcenter_delete_device_name">حذف %1$s</string>
+    <string name="controlcenter_delete_device_dialogmessage">سيؤدي هذا إلى حذف الجهاز وجميع البيانات المرتبطة به!</string>
+    <string name="controlcenter_set_alias">تعيين الاسم المستعار</string>
+    <string name="controlcenter_snackbar_disconnecting">يتم قطع الاتصال</string>
+    <string name="controlcenter_snackbar_connecting">توصيل…</string>
+    <string name="controlcenter_snackbar_requested_screenshot">أخذ لقطة شاشة للجهاز</string>
+    <string name="controlcenter_calibrate_device">معايرة الجهاز</string>
+    <string name="battery_detail_activity_title">معلومات البطارية</string>
+    <string name="calendar_six_months">6 اشهر</string>
+    <string name="calendar_year">سنة</string>
+    <string name="title_activity_appmanager">مدير التطبيق</string>
+    <string name="appmanager_installed_watchfaces">مثبتة watchfaces</string>
+    <string name="appmananger_app_delete">حذف</string>
+    <string name="appmananger_app_delete_cache">حذف وإزالة من ذاكرة التخزين المؤقت</string>
+    <string name="appmananger_app_reinstall">أعد التثبيت</string>
+    <string name="appmanager_weather_install_provider">قم بتثبيت تطبيق إخطارات الطقس</string>
+    <string name="app_move_to_top">انقل إلى الأعلى</string>
+    <string name="title_activity_notification_management">إعدادات التنبيه</string>
+    <string name="uncheck_all_applications">إلغاء تحديد جميع التطبيقات</string>
+    <string name="check_all_applications">تحديد جميع التطبيقات</string>
+    <string name="fw_upgrade_notice">توشك على تثبيت %s.</string>
+    <string name="pref_header_general">الاعدادات العامة</string>
+    <string name="pref_default">افتراضي</string>
+    <string name="pref_header_datetime">التاريخ و الوقت</string>
+    <string name="pref_title_datetime_syctimeonconnect">مزامنة التوقيت</string>
+    <string name="pref_theme_light">فاتح</string>
+    <string name="pref_theme_dark">داكن</string>
+    <string name="controlcenter_change_led_color">تغيير لون ال LED</string>
+    <string name="calendar_day">يوم</string>
+    <string name="calendar_week">أسبوع</string>
+    <string name="calendar_two_weeks">إسبوعين</string>
+    <string name="calendar_month">شهر</string>
+    <string name="controlcenter_snackbar_need_longpress">اضغط لفترة طويلة على البطاقة لقطع الاتصال</string>
+    <string name="debugactivity_really_factoryreset">سيؤدي إجراء إعادة ضبط المصنع إلى حذف جميع البيانات من الجهاز المتصل (إذا كان مدعومًا). تقوم أجهزة Xiaomi / Huami أيضًا بتغيير Bluetooth MAC address ، بحيث تظهر كأجهزة جديدة في Gadgetbridge.</string>
+    <string name="controlcenter_take_screenshot">خد لقطة للشاشة</string>
+    <string name="controlcenter_change_fm_frequency">تغيير تردد FM</string>
+    <string name="controlcenter_disconnect">قطع الاتصال</string>
+    <string name="calendar_three_months">3 اشهر</string>
+    <string name="debugactivity_really_factoryreset_title">حقا إعادة ضبط المصنع؟</string>
+    <string name="appmanager_cached_watchapps_watchfaces">تطبيقات في ذاكرة التخزين المؤقت</string>
+    <string name="appmanager_installed_watchapps">التطبيقات المثبتة</string>
+    <string name="pref_title_general_autostartonboot">ابدأ تلقائيًا</string>
+    <string name="pref_title_general_autoreconnect">أعد الاتصال تلقائيًا</string>
+    <string name="pref_title_theme">سمة</string>
+</resources>
