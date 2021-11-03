@@ -367,6 +367,9 @@ public class DeviceSupportFactory {
                     case GALAXY_BUDS:
                         deviceSupport = new ServiceDeviceSupport(new GalaxyBudsDeviceSupport(), EnumSet.of(ServiceDeviceSupport.Flags.BUSY_CHECKING));
                         break;
+                    case GALAXY_BUDS_LIVE:
+                        deviceSupport = new ServiceDeviceSupport(new GalaxyBudsDeviceSupport(), EnumSet.of(ServiceDeviceSupport.Flags.BUSY_CHECKING));
+			break;
                     case SONY_WH_1000XM3:
                         deviceSupport = new ServiceDeviceSupport(new SonyWh1000Xm3Support(), EnumSet.of(ServiceDeviceSupport.Flags.BUSY_CHECKING));
                         break;

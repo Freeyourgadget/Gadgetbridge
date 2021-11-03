@@ -1287,10 +1287,12 @@
     <string name="prefs_autoheartrate_interval">Frequency of measurements</string>
     <string name="devicetype_nothingear1">Nothing Ear (1)</string>
     <string name="devicetype_galaxybuds">Galaxy Buds</string>
+    <string name="devicetype_galaxybuds_live">Galaxy Buds Live</string>
     <string name="nothing_prefs_inear_summary">Play/pause the music depending if you wear the earbuds</string>
     <string name="nothing_prefs_inear_title">In-Ear detection</string>
     <string name="nothing_prefs_audiomode_title">Audio mode</string>
     <string name="prefs_equalizer_preset">Equalizer Preset</string>
+    <string name="pref_title_equalizer_normal">Normal</string>
     <string name="pref_title_equalizer_bass_boost">Bass boost</string>
     <string name="pref_title_equalizer_soft">Soft</string>
     <string name="pref_title_equalizer_dynamic">Dynamic</string>
@@ -1310,6 +1312,10 @@
     <string name="prefs_ambient_voice_summary">Make voice stand out</string>
     <string name="prefs_ambient_sound">Ambient Sound</string>
     <string name="prefs_ambient_mode">Ambient Mode</string>
+    <string name="prefs_active_noise_cancelling">Active Noise Cancelling</string>
+    <string name="prefs_active_noise_cancelling_summary">Block noises of the surroundings</string>
+    <string name="prefs_pressure_relief">Pressure relief with ambient sound</string>
+    <string name="pressure_relief_summary">Prevent feeling of pressure in ears when not using Active Noise Cancelling</string>
     <string name="prefs_left">Left</string>
     <string name="prefs_right">Right</string>
     <string name="prefs_galaxy_touch_options">Touch Options</string>

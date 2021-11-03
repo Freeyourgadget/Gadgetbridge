@@ -23,14 +23,23 @@ import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventBatteryInf
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventVersionInfo;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.BatteryState;
+import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
 import nodomain.freeyourgadget.gadgetbridge.service.serial.GBDeviceProtocol;
 
 public class GalaxyBudsProtocol extends GBDeviceProtocol {
     private static final Logger LOG = LoggerFactory.getLogger(GalaxyBudsProtocol.class);
 
-    final UUID UUID_DEVICE_CTRL = UUID.fromString("00001102-0000-1000-8000-00805f9b34fd");
-    private static final byte SOM = (byte) 0xFE;
-    private static final byte EOM = (byte) 0xEE;
+    final UUID UUID_GALAXY_BUDS_DEVICE_CTRL = UUID.fromString("00001102-0000-1000-8000-00805f9b34fd");
+    final UUID UUID_GALAXY_BUDS_LIVE_DEVICE_CTRL = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB");
+
+    private static final byte SOMBuds = (byte) 0xFE;
+    private static final byte EOMBuds = (byte) 0xEE;
+    private static final byte SOMPlus = (byte) 0xFD;
+    private static final byte EOMPlus = (byte) 0xDD;
+
+    private static byte SOM = SOMBuds;
+    private static byte EOM = EOMBuds;
+
     private boolean isFirstExchange = true;
 
     //incoming
@@ -58,6 +67,11 @@ public class GalaxyBudsProtocol extends GBDeviceProtocol {
     private static final byte get_debug_get_all_data = (byte) 0x26;
     private static final byte get_debug_get_version = (byte) 0x24;
 
+    //Live
+    private static final byte set_automatic_noise_cancelling = (byte) 0x98; //0x0/0x1
+    private static final byte set_live_game_mode = (byte) 0x85; // 0x0/0x1 no idea if this is doing anything
+    private static final byte set_pressure_relief = (byte) 0x9f; //0x0/0x1
+
     @Override
     public GBDeviceEvent[] decodeResponse(byte[] responseData) {
         List<GBDeviceEvent> devEvts = new ArrayList<>();
@@ -72,13 +86,23 @@ public class GalaxyBudsProtocol extends GBDeviceProtocol {
         ByteBuffer incoming = ByteBuffer.wrap(responseData);
         incoming.order(ByteOrder.LITTLE_ENDIAN);
 
+        int length = 9;
+        byte type = 0;
+
         byte sof = incoming.get();
         if (sof != SOM) {
             LOG.error("Error in message, wrong start of frame: " + hexdump(responseData));
             return null;
         }
-        byte type = incoming.get();
-        int length = (int) (incoming.get() & 0xff);
+
+        if (SOM == SOMPlus) {
+            length = (int) (incoming.get() & 0xff);
+            type = incoming.get();
+        } else {
+            type = incoming.get();
+            length = (int) (incoming.get() & 0xff);
+        }
+
         byte message_id = incoming.get();
         byte[] payload;
         try {
@@ -90,10 +114,10 @@ public class GalaxyBudsProtocol extends GBDeviceProtocol {
 
         switch (message_id) {
             case battery_status:
-                devEvts.addAll(handleBatteryInfo(Arrays.copyOfRange(payload, 1, 3)));
+                devEvts.addAll(handleBatteryInfo(Arrays.copyOfRange(payload, 1, 11))); //11
                 break;
             case battery_status2:
-                devEvts.addAll(handleBatteryInfo(Arrays.copyOfRange(payload, 2, 4)));
+                devEvts.addAll(handleBatteryInfo(Arrays.copyOfRange(payload, 2, 12))); //12
                 break;
             default:
                 LOG.debug("Unhandled: " + hexdump(responseData));
@@ -107,8 +131,14 @@ public class GalaxyBudsProtocol extends GBDeviceProtocol {
         ByteBuffer msgBuf = ByteBuffer.allocate(7);
         msgBuf.order(ByteOrder.LITTLE_ENDIAN);
         msgBuf.put(SOM);
-        msgBuf.put((byte) 0x0); //0x0 for sending
-        msgBuf.put((byte) 0x3); //size
+        byte size = 0x3;
+        if (SOM == SOMPlus) {
+            msgBuf.put((byte) size);
+            msgBuf.put((byte) 0x0); //0x0 for sending
+        } else {
+            msgBuf.put((byte) 0x0); //0x0 for sending
+            msgBuf.put((byte) size); //size
+        }
         msgBuf.put((byte) command); //command id
         msgBuf.putShort((short) crc16_ccitt(new byte[]{command}));
         msgBuf.put(EOM);
@@ -120,8 +150,14 @@ public class GalaxyBudsProtocol extends GBDeviceProtocol {
         ByteBuffer msgBuf = ByteBuffer.allocate(8);
         msgBuf.order(ByteOrder.LITTLE_ENDIAN);
         msgBuf.put(SOM);
-        msgBuf.put((byte) 0x0); //0x0 for sending
-        msgBuf.put((byte) 0x4); //size
+        byte size = 0x4;
+        if (SOM == SOMPlus) {
+            msgBuf.put((byte) size);
+            msgBuf.put((byte) 0x0); //0x0 for sending
+        } else {
+            msgBuf.put((byte) 0x0); //0x0 for sending
+            msgBuf.put((byte) size); //size
+        }
         msgBuf.put((byte) command); //command id
         msgBuf.put((byte) parameter);
         msgBuf.putShort((short) crc16_ccitt(new byte[]{command, parameter}));
@@ -134,8 +170,14 @@ public class GalaxyBudsProtocol extends GBDeviceProtocol {
         ByteBuffer msgBuf = ByteBuffer.allocate(9);
         msgBuf.order(ByteOrder.LITTLE_ENDIAN);
         msgBuf.put(SOM);
-        msgBuf.put((byte) 0x0); //0x0 for sending
-        msgBuf.put((byte) 0x5); //size
+        byte size = 0x5;
+        if (SOM == SOMPlus) {
+            msgBuf.put((byte) size);
+            msgBuf.put((byte) 0x0); //0x0 for sending
+        } else {
+            msgBuf.put((byte) 0x0); //0x0 for sending
+            msgBuf.put((byte) size); //size
+        }
         msgBuf.put((byte) command);
         msgBuf.put((byte) parameter);
         msgBuf.put((byte) value);
@@ -185,20 +227,31 @@ public class GalaxyBudsProtocol extends GBDeviceProtocol {
                 byte set_lock = (byte) (prefs.getBoolean(DeviceSettingsPreferenceConst.PREF_GALAXY_BUDS_LOCK_TOUCH, false) ? 0x01 : 0x00);
                 return encodeMessage(set_lock_touch, set_lock);
             case DeviceSettingsPreferenceConst.PREF_GALAXY_BUDS_GAME_MODE:
-                byte game_mode = (byte) (prefs.getBoolean(DeviceSettingsPreferenceConst.PREF_GALAXY_BUDS_GAME_MODE, false) ? 0x2 : 0x00);
-                return encodeMessage(set_game_mode, game_mode);
+                if (SOM == SOMPlus) {
+                    byte game_mode = (byte) (prefs.getBoolean(DeviceSettingsPreferenceConst.PREF_GALAXY_BUDS_GAME_MODE, false) ? 0x1 : 0x00);
+                    return encodeMessage(set_live_game_mode, game_mode);
+                } else {
+                    byte game_mode = (byte) (prefs.getBoolean(DeviceSettingsPreferenceConst.PREF_GALAXY_BUDS_GAME_MODE, false) ? 0x2 : 0x00);
+                    return encodeMessage(set_game_mode, game_mode);
+                }
+
             case DeviceSettingsPreferenceConst.PREF_GALAXY_BUDS_EQUALIZER:
             case DeviceSettingsPreferenceConst.PREF_GALAXY_BUDS_EQUALIZER_DOLBY:
             case DeviceSettingsPreferenceConst.PREF_GALAXY_BUDS_EQUALIZER_MODE:
                 byte equalizer = (byte) (prefs.getBoolean(DeviceSettingsPreferenceConst.PREF_GALAXY_BUDS_EQUALIZER, false) ? 0x1 : 0x00);
                 boolean equalizer_dolby = prefs.getBoolean(DeviceSettingsPreferenceConst.PREF_GALAXY_BUDS_EQUALIZER_DOLBY, false);
                 int dolby = 0;
-                if (equalizer_dolby) {
+                if (!equalizer_dolby) {
                     dolby = 5;
                 }
                 String equalizer_mode = prefs.getString(DeviceSettingsPreferenceConst.PREF_GALAXY_BUDS_EQUALIZER_MODE, "0");
-                byte mode = (byte) (Integer.parseInt(equalizer_mode) + dolby);
-                return encodeMessage(set_equalizer, equalizer, mode);
+
+                if (SOM == SOMPlus) {
+                    return encodeMessage(set_equalizer, (byte) (Integer.parseInt(equalizer_mode)));
+                } else {
+                    byte mode = (byte) (Integer.parseInt(equalizer_mode) + dolby);
+                    return encodeMessage(set_equalizer, equalizer, mode);
+                }
 
             case DeviceSettingsPreferenceConst.PREF_GALAXY_BUDS_TOUCH_LEFT:
             case DeviceSettingsPreferenceConst.PREF_GALAXY_BUDS_TOUCH_RIGHT:
@@ -207,6 +260,14 @@ public class GalaxyBudsProtocol extends GBDeviceProtocol {
                 byte touchmode_left = (byte) Integer.parseInt(touch_left);
                 byte touchmode_right = (byte) Integer.parseInt(touch_right);
                 return encodeMessage(set_touchpad_options, touchmode_left, touchmode_right);
+
+            case DeviceSettingsPreferenceConst.PREF_GALAXY_BUDS_LIVE_ANC:
+                byte enable_anc = (byte) (prefs.getBoolean(DeviceSettingsPreferenceConst.PREF_GALAXY_BUDS_LIVE_ANC, false) ? 0x1 : 0x00);
+                return encodeMessage(set_automatic_noise_cancelling, enable_anc);
+
+            case DeviceSettingsPreferenceConst.PREF_GALAXY_BUDS_PRESSURE_RELIEF:
+                byte enable_pressure_relief = (byte) (prefs.getBoolean(DeviceSettingsPreferenceConst.PREF_GALAXY_BUDS_PRESSURE_RELIEF, false) ? 0x1 : 0x00);
+                return encodeMessage(set_pressure_relief, enable_pressure_relief);
 
             default:
                 LOG.debug("CONFIG: " + config);
@@ -221,9 +282,11 @@ public class GalaxyBudsProtocol extends GBDeviceProtocol {
         LOG.debug("pl: " + payload.length);
         LOG.debug("p0: " + payload[0]);
         LOG.debug("p1: " + payload[1]);
+        LOG.debug("p2: " + payload[5]);
 
         int batteryLevel1 = payload[0];
         int batteryLevel2 = payload[1];
+        int batteryLevel3 = payload[5];
 
         GBDeviceEventBatteryInfo evBattery1 = new GBDeviceEventBatteryInfo();
         evBattery1.batteryIndex = 0;
@@ -232,6 +295,7 @@ public class GalaxyBudsProtocol extends GBDeviceProtocol {
         evBattery1.state = (batteryLevel1 > 0) ? BatteryState.BATTERY_NORMAL : BatteryState.UNKNOWN;
         deviceEvents.add(evBattery1);
 
+
         GBDeviceEventBatteryInfo evBattery2 = new GBDeviceEventBatteryInfo();
         evBattery2.batteryIndex = 1;
         evBattery2.level = GBDevice.BATTERY_UNKNOWN;
@@ -239,11 +303,30 @@ public class GalaxyBudsProtocol extends GBDeviceProtocol {
         evBattery2.state = (batteryLevel2 > 0) ? BatteryState.BATTERY_NORMAL : BatteryState.UNKNOWN;
         deviceEvents.add(evBattery2);
 
+
+        if (SOM == SOMPlus) {
+            GBDeviceEventBatteryInfo evBattery3 = new GBDeviceEventBatteryInfo();
+            // reorder for the non OG version
+            evBattery1.batteryIndex = 1; //left
+            evBattery2.batteryIndex = 2; //right
+            evBattery3.batteryIndex = 0; //case
+
+            evBattery3.level = GBDevice.BATTERY_UNKNOWN;
+            evBattery3.level = (batteryLevel3 > 0) ? batteryLevel3 : GBDevice.BATTERY_UNKNOWN;
+            evBattery3.state = (batteryLevel3 > 0) ? BatteryState.BATTERY_NORMAL : BatteryState.UNKNOWN;
+            deviceEvents.add(evBattery3);
+        }
+
         return deviceEvents;
     }
 
     protected GalaxyBudsProtocol(GBDevice device) {
         super(device);
-
+        LOG.debug("PETR, " + device.getType());
+        if (device.getType().equals(DeviceType.GALAXY_BUDS_LIVE)) {
+            LOG.debug("set som");
+            SOM = SOMPlus;
+            EOM = EOMPlus;
+        }
     }
 }

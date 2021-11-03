@@ -17,22 +17,32 @@ import java.util.Arrays;
 import java.util.UUID;
 
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
+import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
 import nodomain.freeyourgadget.gadgetbridge.service.btclassic.BtClassicIoThread;
 
 public class GalaxyBudsIOThread extends BtClassicIoThread {
     private static final Logger LOG = LoggerFactory.getLogger(GalaxyBudsIOThread.class);
 
     private final GalaxyBudsProtocol galaxyBudsProtocol;
+    private final GBDevice gbDevice;
 
     @NonNull
     protected UUID getUuidToConnect(@NonNull ParcelUuid[] uuids) {
-        return galaxyBudsProtocol.UUID_DEVICE_CTRL;
+        if (gbDevice.getType().equals(DeviceType.GALAXY_BUDS)) {
+            return galaxyBudsProtocol.UUID_GALAXY_BUDS_DEVICE_CTRL;
+        }
+        if (gbDevice.getType().equals(DeviceType.GALAXY_BUDS_LIVE)) {
+            return galaxyBudsProtocol.UUID_GALAXY_BUDS_LIVE_DEVICE_CTRL;
+        }
+        return galaxyBudsProtocol.UUID_GALAXY_BUDS_DEVICE_CTRL;
+
     }
 
     public GalaxyBudsIOThread(GBDevice device, Context context, GalaxyBudsProtocol deviceProtocol,
                               GalaxyBudsDeviceSupport galaxyBudsDeviceSupport, BluetoothAdapter bluetoothAdapter) {
         super(device, context, deviceProtocol, galaxyBudsDeviceSupport, bluetoothAdapter);
         galaxyBudsProtocol = deviceProtocol;
+        gbDevice = device;
     }
 
     @Override

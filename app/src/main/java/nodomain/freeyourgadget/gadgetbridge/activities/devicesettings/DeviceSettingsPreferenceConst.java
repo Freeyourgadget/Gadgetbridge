@@ -108,6 +108,8 @@ public class DeviceSettingsPreferenceConst {
     public static final String PREF_GALAXY_BUDS_EQUALIZER_MODE = "pref_galaxy_buds_equalizer_mode";
     public static final String PREF_GALAXY_BUDS_TOUCH_LEFT = "pref_galaxy_buds_touch_left";
     public static final String PREF_GALAXY_BUDS_TOUCH_RIGHT = "pref_galaxy_buds_touch_right";
+    public static final String PREF_GALAXY_BUDS_LIVE_ANC = "pref_galaxy_buds_live_anc";
+    public static final String PREF_GALAXY_BUDS_PRESSURE_RELIEF = "pref_galaxy_buds_live_pressure_relief";
 
     public static final String PREF_SONY_WH1000XM3_AMBIENT_SOUND_CONTROL = "pref_sony_wh1000xm3_ambient_sound_control";
     public static final String PREF_SONY_WH1000XM3_FOCUS_VOICE = "pref_sony_wh1000xm3_focus_voice";

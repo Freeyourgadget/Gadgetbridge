@@ -82,6 +82,8 @@ import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.Dev
 import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_GALAXY_BUDS_LOCK_TOUCH;
 import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_GALAXY_BUDS_TOUCH_LEFT;
 import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_GALAXY_BUDS_TOUCH_RIGHT;
+import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_GALAXY_BUDS_LIVE_ANC;
+import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_GALAXY_BUDS_PRESSURE_RELIEF;
 import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_HYBRID_HR_DANGEROUS_EXTERNAL_INTENTS;
 import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_HYBRID_HR_DRAW_WIDGET_CIRCLES;
 import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_HYBRID_HR_FORCE_WHITE_COLOR;
@@ -512,6 +514,9 @@ public class DeviceSpecificSettingsFragment extends PreferenceFragmentCompat {
         addPreferenceHandlerFor(PREF_GALAXY_BUDS_EQUALIZER_MODE);
         addPreferenceHandlerFor(PREF_GALAXY_BUDS_TOUCH_LEFT);
         addPreferenceHandlerFor(PREF_GALAXY_BUDS_TOUCH_RIGHT);
+        addPreferenceHandlerFor(PREF_GALAXY_BUDS_LIVE_ANC);
+        addPreferenceHandlerFor(PREF_GALAXY_BUDS_PRESSURE_RELIEF);
+
 
         addPreferenceHandlerFor(PREF_SONY_WH1000XM3_AMBIENT_SOUND_CONTROL);
         addPreferenceHandlerFor(PREF_SONY_WH1000XM3_FOCUS_VOICE);
