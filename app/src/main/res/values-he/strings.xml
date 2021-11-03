@@ -1373,4 +1373,7 @@
     <string name="prefs_galaxy_touch_options">אפשרויות מגע</string>
     <string name="prefs_dolby_summary">ערכת Dolby לאקוולייזר</string>
     <string name="prefs_game_mode_summary">רק אם המכשיר שלך תומך במצב משחק</string>
+    <string name="battery_case">אריזת סוללה</string>
+    <string name="left_earbud">אוזנית שמאלית</string>
+    <string name="right_earbud">אוזנית ימנית</string>
 </resources>
