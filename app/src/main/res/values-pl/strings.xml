@@ -1387,6 +1387,6 @@
     <string name="pref_title_equalizer_dynamic">Dynamiczne</string>
     <string name="toast_app_must_not_be_selected">Aplikacja nie może być wybrana, aby mogła być skonfigurowana</string>
     <string name="left_earbud">Lewa słuchawka</string>
-    <string name="battery_case">Obudowa baterii</string>
+    <string name="battery_case">Etui ładujące</string>
     <string name="right_earbud">Prawa słuchawka</string>
 </resources>
