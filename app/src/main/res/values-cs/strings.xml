@@ -1375,4 +1375,7 @@
     <string name="prefs_ambient_voice_focus">Zaměření hlasu</string>
     <string name="prefs_ambient_mode">Režim zvuku okolí</string>
     <string name="prefs_galaxy_buds_experimental">Experimentální</string>
+    <string name="battery_case">Bateriové pouzdro</string>
+    <string name="left_earbud">Levé sluchátko</string>
+    <string name="right_earbud">Pravé sluchátko</string>
 </resources>
