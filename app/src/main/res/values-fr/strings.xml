@@ -1377,4 +1377,7 @@ Temps de sommeil préféré en heures</string>
     <string name="devicetype_galaxybuds">Galaxy Buds</string>
     <string name="pref_title_equalizer_dynamic">Dynamique</string>
     <string name="prefs_game_mode_summary">Uniquement si votre téléphone gère le mode jeu</string>
+    <string name="left_earbud">Écouteur gauche</string>
+    <string name="right_earbud">Écouteur droit</string>
+    <string name="battery_case">Boîtier batterie</string>
 </resources>
