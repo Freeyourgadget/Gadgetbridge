@@ -1380,4 +1380,7 @@
     <string name="prefs_ambient_sound">Навколишній звук</string>
     <string name="prefs_ambient_mode">Режим звуку довкілля</string>
     <string name="prefs_galaxy_touch_options">Параметри дотику</string>
+    <string name="battery_case">Корпус акумулятора</string>
+    <string name="left_earbud">Лівий навушник</string>
+    <string name="right_earbud">Правий навушник</string>
 </resources>
