@@ -196,7 +196,8 @@ public class WatchXPlusDeviceCoordinator extends AbstractDeviceCoordinator {
                 R.xml.devicesettings_find_phone,
                 R.xml.devicesettings_timeformat,
                 R.xml.devicesettings_power_mode,
-                R.xml.devicesettings_watchxplus
+                R.xml.devicesettings_watchxplus,
+                R.xml.devicesettings_transliteration
         };
     }
 

@@ -167,6 +167,7 @@ public class LefunDeviceCoordinator extends AbstractDeviceCoordinator {
                 R.xml.devicesettings_longsit,
                 R.xml.devicesettings_hydration_reminder,
                 R.xml.devicesettings_lefun_interface_language,
+                R.xml.devicesettings_transliteration
         };
     }
 }

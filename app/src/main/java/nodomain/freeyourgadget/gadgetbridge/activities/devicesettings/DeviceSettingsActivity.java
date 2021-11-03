@@ -59,10 +59,6 @@ public class DeviceSettingsActivity extends AbstractGBActivity implements
                     supportedSettings = ArrayUtils.addAll(supportedSettings, R.xml.devicesettings_chartstabs);
                 }
 
-                // FIXME: this does not belong here
-                if (!ArrayUtils.contains(supportedSettings, R.xml.devicesettings_transliteration)) {
-                    supportedSettings = ArrayUtils.addAll(supportedSettings, R.xml.devicesettings_transliteration);
-                }
                 fragment = DeviceSpecificSettingsFragment.newInstance(device.getAddress(), supportedSettings, supportedLanguages);
             }
             getSupportFragmentManager()

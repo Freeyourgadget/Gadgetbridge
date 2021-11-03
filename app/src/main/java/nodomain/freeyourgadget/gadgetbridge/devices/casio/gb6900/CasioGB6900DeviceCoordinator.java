@@ -155,7 +155,8 @@ public class CasioGB6900DeviceCoordinator extends AbstractDeviceCoordinator {
     @Override
     public int[] getSupportedDeviceSpecificSettings(GBDevice device) {
         return new int[] {
-                R.xml.devicesettings_disconnectnotification_noshed
+                R.xml.devicesettings_disconnectnotification_noshed,
+                R.xml.devicesettings_transliteration
         };
     }
 }

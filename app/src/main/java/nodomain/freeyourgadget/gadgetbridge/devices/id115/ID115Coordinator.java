@@ -160,7 +160,8 @@ public class ID115Coordinator extends AbstractDeviceCoordinator {
     public int[] getSupportedDeviceSpecificSettings(GBDevice device) {
         return new int[]{
                 R.xml.devicesettings_wearlocation,
-                R.xml.devicesettings_screenorientation
+                R.xml.devicesettings_screenorientation,
+                R.xml.devicesettings_transliteration
         };
     }
 }

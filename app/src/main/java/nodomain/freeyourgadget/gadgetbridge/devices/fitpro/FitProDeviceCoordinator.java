@@ -181,6 +181,7 @@ public class FitProDeviceCoordinator extends AbstractDeviceCoordinator {
                 R.xml.devicesettings_vibrations_enable,
                 R.xml.devicesettings_notifications_enable,
                 R.xml.devicesettings_fitpro,
+                R.xml.devicesettings_transliteration
         };
     }
 }

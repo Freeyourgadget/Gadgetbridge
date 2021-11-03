@@ -248,7 +248,8 @@ public class QHybridCoordinator extends AbstractDeviceCoordinator {
                     R.xml.devicesettings_autoremove_notifications,
                     R.xml.devicesettings_canned_dismisscall_16,
                     R.xml.devicesettings_pairingkey,
-                    R.xml.devicesettings_custom_deviceicon
+                    R.xml.devicesettings_custom_deviceicon,
+                    R.xml.devicesettings_transliteration
             };
         }
         if (isHybridHR()) {

@@ -167,6 +167,7 @@ public class ZeTimeCoordinator extends AbstractDeviceCoordinator {
                 R.xml.devicesettings_timeformat,
                 R.xml.devicesettings_wearlocation,
                 R.xml.devicesettings_sync_calendar,
+                R.xml.devicesettings_transliteration
         };
     }
 }

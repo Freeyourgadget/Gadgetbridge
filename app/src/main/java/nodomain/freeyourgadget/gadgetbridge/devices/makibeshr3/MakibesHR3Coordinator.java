@@ -272,7 +272,8 @@ public class MakibesHR3Coordinator extends AbstractDeviceCoordinator {
                 R.xml.devicesettings_liftwrist_display,
                 R.xml.devicesettings_disconnectnotification,
                 R.xml.devicesettings_donotdisturb_no_auto,
-                R.xml.devicesettings_find_phone
+                R.xml.devicesettings_find_phone,
+                R.xml.devicesettings_transliteration
         };
     }
 }
