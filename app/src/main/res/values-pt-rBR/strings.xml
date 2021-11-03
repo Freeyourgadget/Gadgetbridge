@@ -1378,4 +1378,6 @@
     <string name="pref_title_equalizer_dynamic">Dinâmico</string>
     <string name="prefs_game_mode">Modo jogo</string>
     <string name="prefs_dolby_summary">Predefinição de Dolby para equalizador</string>
+    <string name="left_earbud">Fone de ouvido esquerdo</string>
+    <string name="right_earbud">Fone de ouvido direito</string>
 </resources>
