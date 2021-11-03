@@ -1398,4 +1398,7 @@
     <string name="prefs_equalizer_summary">Dengeleyiciyi etkinleştirin veya devre dışı bırakın</string>
     <string name="prefs_touch_lock">Dokunma Kilidi</string>
     <string name="prefs_touch_lock_summary">Dokunma etkinliklerini devre dışı bırakın</string>
+    <string name="battery_case">Pil kutusu</string>
+    <string name="left_earbud">Sol kulaklık</string>
+    <string name="right_earbud">Sağ kulaklık</string>
 </resources>
