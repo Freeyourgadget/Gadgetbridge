@@ -1820,17 +1820,16 @@
     </string-array>
 
     <string-array name="galaxy_touch_options">
-        <!-- <item>@string/pref_title_touch_voice_assistant</item> -->
+        <item>@string/pref_title_touch_voice_assistant</item>
         <item>@string/pref_title_touch_quick_ambient</item>
-        <!-- <item>@string/pref_title_touch_volume</item> -->
+        <item>@string/pref_title_touch_volume</item>
         <item>@string/pref_title_touch_ambient</item>
-
     </string-array>
 
     <string-array name="galaxy_touch_options_values">
-        <!-- <item>0</item> -->
+        <item>0</item>
         <item>1</item>
-        <!-- <item>2</item> -->
+        <item>2</item>
         <item>3</item>
     </string-array>
 
