@@ -1239,4 +1239,26 @@
     <string name="devicetype_miband6">Mi Band 6</string>
     <string name="pref_title_huami_force_new_protocol">Nuovo protocollo di autenticazione</string>
     <string name="pref_summary_huami_force_new_protocol">Abilita se il tuo dispositivo non si riesce più a connettere dopo un aggiornamento del firmware</string>
+    <string name="pref_title_notification_use_as_deny">Nega le notifiche dalle applicazioni selezionate</string>
+    <string name="title_activity_notification_management">Impostazioni Notifiche</string>
+    <string name="pref_message_privacy_mode_complete">Nascondi contenuto</string>
+    <string name="menuitem_barometer">Barometro</string>
+    <string name="menuitem_flashlight">Torcia</string>
+    <string name="gpx_receiver_overwrite_some_files">Alcuni file(s) esistono già. Sovrascrivere\?</string>
+    <string name="pref_header_notification_application_settings">Impostazioni per applicazione</string>
+    <string name="uncheck_all_applications">Deseleziona tutte le applicazioni</string>
+    <string name="button_watchface_select_image">Cambia immagine di sfondo</string>
+    <string name="pref_applications_settings">Lista applicazioni</string>
+    <string name="pref_title_notification_use_as_allow">Permetti le notifiche dalle applicazioni selezionate</string>
+    <string name="pref_title_physical_buttons">Pulsanti fisici</string>
+    <string name="qhybrid_calibration_counterclockwise">Senso contro-orario</string>
+    <string name="qhybrid_summary_file_management">Carica e scarica files</string>
+    <string name="devicetype_amazfit_trex_pro">Amazfit T-Rex Pro</string>
+    <string name="watchface_dialog_title_add_widget">Aggiungi widget</string>
+    <string name="qhybrid_calibration_clockwise">Senso orario</string>
+    <string name="pref_summary_developer_settings">Impostazioni e funzionalità utilizzate da sviluppatori</string>
+    <string name="qhybrid_pref_summary_external_intents">Permette ad altre app di caricare/sovrascrivere files</string>
+    <string name="pref_title_developer_settings">Impostazioni sviluppatore</string>
+    <string name="button_watchface_add_widget">Aggiungi widget</string>
+    <string name="watchface_toast_settings_incomplete">Impostazioni incomplete, widget non aggiunto</string>
 </resources>
