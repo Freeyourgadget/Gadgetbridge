@@ -179,6 +179,10 @@ public class GBDeviceAdapterv2 extends RecyclerView.Adapter<GBDeviceAdapterv2.Vi
             } else if (BatteryState.NO_BATTERY.equals(batteryState) && batteryVoltage != GBDevice.BATTERY_UNKNOWN) {
                 batteryStatusLabels[batteryIndex].setText(String.format(Locale.getDefault(), "%.2f", batteryVoltage));
                 batteryIcons[batteryIndex].setImageLevel(200);
+            } else {
+                //should be the "default" status, shown when the device is not connected
+                batteryStatusLabels[batteryIndex].setText("");
+                batteryIcons[batteryIndex].setImageLevel(50);
             }
             final int finalBatteryIndex = batteryIndex;
             batteryStatusBoxes[batteryIndex].setOnClickListener(new View.OnClickListener() {
