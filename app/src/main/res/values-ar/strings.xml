@@ -198,4 +198,10 @@
     <string name="watchface_widget_type_battery">بطارية</string>
     <string name="prefs_galaxy_buds_experimental">تجريبي</string>
     <string name="prefs_right">يمين</string>
+    <string name="controlcenter_fetch_activity_data">مزامنه</string>
+    <string name="controlcenter_find_device">ابحث عن الجهاز المفقود</string>
+    <string name="app_configure">تهيئة</string>
+    <string name="title_activity_fw_app_insaller">FW / مثبت التطبيق</string>
+    <string name="pref_title_audio_player">مشغل الصوت المفضل</string>
+    <string name="pref_theme_black_background">استخدام خلفية سوداء في السمة الداكنة</string>
 </resources>
