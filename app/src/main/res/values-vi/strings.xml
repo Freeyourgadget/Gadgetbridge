@@ -379,4 +379,28 @@
 \nBẠN TỰ CHỊU RỦI RO KHI TIẾP TỤC!</string>
     <string name="whitelist_all_for_notifications">Cho tất cả vào danh sách trắng đối với các thông báo</string>
     <string name="blacklist_all_for_notifications">Cho tất cả vào danh sách đen đối với các thông báo</string>
+    <string name="pref_title_notification_use_as_deny">Từ chối thông báo từ các ứng dụng đã chọn</string>
+    <string name="title_activity_notification_management">Cài đặt thông báo</string>
+    <string name="pref_title_message_privacy_mode">Chế độ bảo mật tin nhắn</string>
+    <string name="pref_title_pebble_enable_bgjs">Bật nền JS</string>
+    <string name="pref_summary_pebble_enable_bgjs">Khi được bật, cho phép hiển thị thời tiết, pin... trên mặt đồng hồ.</string>
+    <string name="pref_summary_expose_hr">Cho phép các ứng dụng khác truy cập dữ liệu HR trong thời gian thực khi Gadgetbridge được kết nối</string>
+    <string name="pref_summary_connected_advertisement">Cho phép thiết bị được phát hiện khi quét bằng Bluetooth kể cả khi đã kết nối</string>
+    <string name="prefs_notifications_and_calls_shake_reject">Lắc cổ tay để bỏ qua/từ chối cuộc gọi</string>
+    <string name="pref_header_device_spec_settings">Cài đặt thiết bị</string>
+    <string name="pref_theme_black_background">Sử dụng nền đen trong chủ đề Tối</string>
+    <string name="pref_title_notification_use_as_allow">Cho phép thông báo từ các ứng dụng đã chọn</string>
+    <string name="pref_title_notification_use_as">Sử dụng danh sách ứng dụng để...</string>
+    <string name="pref_message_privacy_mode_off">Hiện thị nội dung</string>
+    <string name="pref_message_privacy_mode_complete">Ẩn nội dung</string>
+    <string name="pref_applications_settings">Danh sách ứng dụng</string>
+    <string name="pref_title_expose_hr">Chia sẻ HR với app thứ ba theo thời gian thực</string>
+    <string name="pref_title_connected_advertisement">Hiện khi đã kết nối</string>
+    <string name="pref_title_notifications_and_calls_repeat_on_call">Lặp lại thông báo cuộc gọi</string>
+    <string name="prefs_notifications_and_calls_continious_ring">Thông báo khi điện thoại đổ chuông</string>
+    <string name="pref_notifications_and_calls_enable_misscall">Thông báo cuộc gọi nhỡ</string>
+    <string name="pref_summary_notifications_and_calls_enable_misscall">Lặp lại mỗi phút</string>
+    <string name="pref_title_notifications_and_calls_repeat_on_misscall">Lặp lại trong X phút</string>
+    <string name="prefs_notifications_and_calls_reject">Nút bỏ qua/từ chối cuộc gọi</string>
+    <string name="pref_summary_notifications_and_calls_title_reject">Tắt - bỏ qua, Bật - từ chối</string>
 </resources>
