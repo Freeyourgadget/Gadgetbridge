@@ -1795,14 +1795,6 @@
         <item>false</item>
     </string-array>
 
-    <string-array name="ambient_volume_values">
-        <item>1</item>
-        <item>2</item>
-        <item>3</item>
-        <item>4</item>
-        <item>5</item>
-    </string-array>
-
     <string-array name="galaxy_eqalizer_modes">
         <item>@string/pref_title_equalizer_bass_boost</item>
         <item>@string/pref_title_equalizer_soft</item>

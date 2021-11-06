@@ -29,7 +29,7 @@ public class GalaxyBudsDeviceCoordinator extends AbstractDeviceCoordinator {
         String name = candidate.getName();
 
         if (name != null && (
-                name.startsWith("Galaxy Buds")
+                name.startsWith("Galaxy Buds (")
         )) {
             return DeviceType.GALAXY_BUDS;
         }
@@ -51,6 +51,11 @@ public class GalaxyBudsDeviceCoordinator extends AbstractDeviceCoordinator {
         BatteryConfig battery1 = new BatteryConfig(0, R.drawable.ic_galaxy_buds_l, R.string.left_earbud);
         BatteryConfig battery2 = new BatteryConfig(1, R.drawable.ic_galaxy_buds_r, R.string.right_earbud);
         return new BatteryConfig[]{battery1, battery2};
+    }
+
+    @Override
+    public int getBondingStyle() {
+        return BONDING_STYLE_BOND;
     }
 
     @Nullable

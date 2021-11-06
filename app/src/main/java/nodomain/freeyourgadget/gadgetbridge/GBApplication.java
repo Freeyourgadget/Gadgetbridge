@@ -58,6 +58,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
+import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHelper;
 import nodomain.freeyourgadget.gadgetbridge.database.DBOpenHelper;
@@ -82,6 +83,7 @@ import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceType.AMAZFITBIP;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceType.AMAZFITCOR;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceType.AMAZFITCOR2;
+import static nodomain.freeyourgadget.gadgetbridge.model.DeviceType.GALAXY_BUDS;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceType.MIBAND;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceType.MIBAND2;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceType.MIBAND3;
@@ -107,7 +109,7 @@ public class GBApplication extends Application {
     private static SharedPreferences sharedPrefs;
     private static final String PREFS_VERSION = "shared_preferences_version";
     //if preferences have to be migrated, increment the following and add the migration logic in migratePrefs below; see http://stackoverflow.com/questions/16397848/how-can-i-migrate-android-preferences-with-a-new-version
-    private static final int CURRENT_PREFS_VERSION = 9;
+    private static final int CURRENT_PREFS_VERSION = 10;
 
     private static LimitedQueue mIDSenderLookup = new LimitedQueue(16);
     private static Prefs prefs;
@@ -945,7 +947,27 @@ public class GBApplication extends Application {
                 Log.w(TAG, "error acquiring DB lock and migrating prefs");
             }
         }
+        if (oldVersion < 10) {
+            //migrate the string version of pref_galaxy_buds_ambient_volume to int due to transition to SeekBarPreference
+            try (DBHandler db = acquireDB()) {
+                DaoSession daoSession = db.getDaoSession();
+                List<Device> activeDevices = DBHelper.getActiveDevices(daoSession);
+                for (Device dbDevice : activeDevices) {
+                    SharedPreferences deviceSharedPrefs = GBApplication.getDeviceSpecificSharedPrefs(dbDevice.getIdentifier());
+                    SharedPreferences.Editor deviceSharedPrefsEdit = deviceSharedPrefs.edit();
+                    DeviceType deviceType = fromKey(dbDevice.getType());
 
+                    if (deviceType == GALAXY_BUDS) {
+                        GB.log("migrating Galaxy Buds volume", GB.INFO, null);
+                        String volume = deviceSharedPrefs.getString(DeviceSettingsPreferenceConst.PREF_GALAXY_BUDS_AMBIENT_VOLUME, "1");
+                        deviceSharedPrefsEdit.putInt(DeviceSettingsPreferenceConst.PREF_GALAXY_BUDS_AMBIENT_VOLUME, Integer.parseInt(volume));
+                    }
+                    deviceSharedPrefsEdit.apply();
+                }
+            } catch (Exception e) {
+                Log.w(TAG, "error acquiring DB lock");
+            }
+        }
         editor.putString(PREFS_VERSION, Integer.toString(CURRENT_PREFS_VERSION));
         editor.apply();
     }

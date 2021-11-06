@@ -178,8 +178,8 @@ public class GalaxyBudsProtocol extends GBDeviceProtocol {
                 byte enable_voice = (byte) (prefs.getBoolean(DeviceSettingsPreferenceConst.PREF_GALAXY_BUDS_AMBIENT_VOICE_FOCUS, false) ? 0x01 : 0x00);
                 return encodeMessage(set_ambient_voice_focus, enable_voice);
             case DeviceSettingsPreferenceConst.PREF_GALAXY_BUDS_AMBIENT_VOLUME:
-                String ambient_volume = prefs.getString(DeviceSettingsPreferenceConst.PREF_GALAXY_BUDS_AMBIENT_VOLUME, "1");
-                byte ambient_volume_byte = (byte) Integer.parseInt(ambient_volume);
+                int ambient_volume = prefs.getInt(DeviceSettingsPreferenceConst.PREF_GALAXY_BUDS_AMBIENT_VOLUME, 0);
+                byte ambient_volume_byte = (byte) (ambient_volume + 1); //seek bar is 0-4, we need 1-5
                 return encodeMessage(set_ambient_volume, ambient_volume_byte);
             case DeviceSettingsPreferenceConst.PREF_GALAXY_BUDS_LOCK_TOUCH:
                 byte set_lock = (byte) (prefs.getBoolean(DeviceSettingsPreferenceConst.PREF_GALAXY_BUDS_LOCK_TOUCH, false) ? 0x01 : 0x00);

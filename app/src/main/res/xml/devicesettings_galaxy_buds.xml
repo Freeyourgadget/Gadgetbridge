@@ -20,13 +20,12 @@
                 android:key="pref_galaxy_buds_ambient_voice_focus"
                 android:summary="@string/prefs_ambient_voice_summary"
                 android:title="@string/prefs_ambient_voice_focus" />
-            <ListPreference
-                android:dependency="pref_galaxy_buds_ambient_mode"
-                android:entries="@array/ambient_volume_values"
-                android:entryValues="@array/ambient_volume_values"
+
+            <SeekBarPreference
                 android:icon="@drawable/ic_volume_up"
                 android:key="pref_galaxy_buds_ambient_volume"
-                android:summary="%s"
+                android:max="4"
+                android:min="1"
                 android:title="@string/prefs_ambient_volume" />
         </PreferenceCategory>
     </PreferenceScreen>
