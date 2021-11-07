@@ -2,7 +2,8 @@
     android:width="45sp"
     android:height="45sp"
     android:viewportWidth="25"
-    android:viewportHeight="25">
+    android:viewportHeight="25"
+    android:tint="#7E7E7E">
   <path
       android:pathData="M8.1975,3L16.8025,3A5.7287,5.7287 0,0 1,22.5312 8.7287L22.5312,16.2713A5.7287,5.7287 0,0 1,16.8025 22L8.1975,22A5.7287,5.7287 0,0 1,2.4688 16.2713L2.4688,8.7287A5.7287,5.7287 0,0 1,8.1975 3z"
       android:strokeWidth="2"
