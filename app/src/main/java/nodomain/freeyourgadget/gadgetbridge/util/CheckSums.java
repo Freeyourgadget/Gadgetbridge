@@ -45,8 +45,10 @@ public class CheckSums {
 
     //thanks http://stackoverflow.com/questions/13209364/convert-c-crc16-to-java-crc16
     public static int getCRC16(byte[] seq) {
-        int crc = 0xFFFF;
-
+        return getCRC16(seq, 0xFFFF);
+    }
+    
+    public static int getCRC16(byte[] seq, int crc) {
         for (byte b : seq) {
             crc = ((crc >>> 8) | (crc << 8)) & 0xffff;
             crc ^= (b & 0xff);//byte to int, trunc sign
