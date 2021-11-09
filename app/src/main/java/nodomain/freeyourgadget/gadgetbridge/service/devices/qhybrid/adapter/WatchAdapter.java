@@ -156,4 +156,8 @@ public abstract class WatchAdapter {
 
     public void uninstallApp(String appName) {
     }
+
+    public void pushConfigJson(String configJson){
+
+    }
 }

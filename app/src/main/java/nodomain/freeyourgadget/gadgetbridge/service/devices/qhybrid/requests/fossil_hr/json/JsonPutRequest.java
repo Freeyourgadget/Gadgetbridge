@@ -23,6 +23,10 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fos
 
 public class JsonPutRequest extends FilePutRawRequest {
     public JsonPutRequest(JSONObject object, FossilHRWatchAdapter adapter) {
-        super((short)(0x0500 | (adapter.getJsonIndex() & 0xFF)), object.toString().getBytes(), adapter);
+        this(object.toString(), adapter);
+    }
+
+    public JsonPutRequest(String json, FossilHRWatchAdapter adapter) {
+        super((short)(0x0500 | (adapter.getJsonIndex() & 0xFF)), json.getBytes(), adapter);
     }
 }

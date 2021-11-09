@@ -1224,39 +1224,29 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
 
     @Override
     public void onTestNewFunction() {
-        /*queueWrite(new ButtonConfigurationPutRequest(
-                new String[]{"test"},
-                new ButtonConfiguration[]{
-                        new ButtonConfiguration(
-                            "short_press_release", "stopwatchApp"
-                        )
-                },
-                this
-        ));*/
-        /*queueWrite(new FileLookupAndGetRequest(FileHandle.APP_CODE, this) {
-            @Override
-            public void handleFileData(byte[] fileData) {
-                log("test");
-            }
 
-            @Override
-            public void handleFileLookupError(FILE_LOOKUP_ERROR error) {
+        try{
+            JSONObject data = new JSONObject()
+                    .put("push", new JSONObject()
+                            .put("set", new JSONObject()
+                                    .put("widgetCustom0._.config.upper_text", "0 up")
+                                    .put("widgetCustom0._.config.lower_text", "0 low")
 
-            }
-        });*/
-        /*queueWrite(new TranslationsGetRequest(this){
-            @Override
-            public void handleTranslations(TranslationData translationData) {
-                translationData.replaceByOriginal("ON", "oi m8");
-                translationData.replaceByOriginal("OFF", "nah go away");
-                translationData.replaceByOriginal("Device is about to reset.", "oh frick no no no");
-                translationData.replaceByOriginal("Release button to stop reset.", "please don't let me die like that");
-                translationData.replaceByOriginal("Serial number", "Gadgetbridge :)");
-                translationData.replaceByOriginal("Dial Info", "Widgets");
-                TranslationsPutRequest request = new TranslationsPutRequest(translationData, FossilHRWatchAdapter.this);
-                queueWrite(request);
-            }
-        });*/
+                                    .put("widgetCustom1._.config.upper_text", "1 up")
+                                    .put("widgetCustom1._.config.lower_text", "1 low")
+
+                                    .put("widgetCustom2._.config.upper_text", "2 up")
+                                    .put("widgetCustom2._.config.lower_text", "2 low")
+
+                                    .put("widgetCustom3._.config.upper_text", "3 up")
+                                    .put("widgetCustom3._.config.lower_text", "3 low")
+
+                            )
+                    );
+            queueWrite(new JsonPutRequest(data, this));
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public byte[] getSecretKey() throws IllegalAccessException {
@@ -1277,6 +1267,12 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
         }
 
         return authKeyBytes;
+    }
+
+    @Override
+    public void pushConfigJson(String configJson){
+        configJson = configJson.replace("\n", "");
+        queueWrite(new JsonPutRequest(configJson, this));
     }
 
     public void setPhoneRandomNumber(byte[] phoneRandomNumber) {
