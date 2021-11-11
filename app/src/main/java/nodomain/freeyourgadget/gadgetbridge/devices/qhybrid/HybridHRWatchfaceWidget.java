@@ -59,6 +59,10 @@ public class HybridHRWatchfaceWidget {
         widgetTypes.put("widgetCalories", context.getString(R.string.watchface_widget_type_calories));
         widgetTypes.put("widget2ndTZ", context.getString(R.string.watchface_widget_type_2nd_tz));
         widgetTypes.put("widgetActiveMins", context.getString(R.string.watchface_widget_type_active_mins));
+        widgetTypes.put("widgetCustom0", context.getString(R.string.watchface_widget_type_custom_0));
+        widgetTypes.put("widgetCustom1", context.getString(R.string.watchface_widget_type_custom_1));
+        widgetTypes.put("widgetCustom2", context.getString(R.string.watchface_widget_type_custom_2));
+        widgetTypes.put("widgetCustom3", context.getString(R.string.watchface_widget_type_custom_3));
 //        widgetTypes.put("widgetChanceOfRain", context.getString(R.string.watchface_widget_type_chance_rain));  // Disabled due to missing support in Gadgetbridge
         return widgetTypes;
     }

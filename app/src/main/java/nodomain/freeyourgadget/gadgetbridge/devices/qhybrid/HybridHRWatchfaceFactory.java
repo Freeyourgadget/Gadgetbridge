@@ -71,6 +71,10 @@ public class HybridHRWatchfaceFactory {
                 case "widgetCalories":
                 case "widgetActiveMins":
                 case "widgetChanceOfRain":
+                case "widgetCustom0":
+                case "widgetCustom1":
+                case "widgetCustom2":
+                case "widgetCustom3":
                     widget.put("type", "comp");
                     widget.put("name", widgetDesc.getWidgetType());
                     widget.put("goal_ring", false);
@@ -143,6 +147,10 @@ public class HybridHRWatchfaceFactory {
             if (includeWidget("widgetActiveMins")) code.put("widgetActiveMins", context.getAssets().open("fossil_hr/widgetActiveMins.bin"));
             if (includeWidget("widgetChanceOfRain")) code.put("widgetChanceOfRain", context.getAssets().open("fossil_hr/widgetChanceOfRain.bin"));
             if (includeWidget("widget2ndTZ")) code.put("widget2ndTZ", context.getAssets().open("fossil_hr/widget2ndTZ.bin"));
+            if (includeWidget("widgetCustom0")) code.put("widgetCustom0", context.getAssets().open("fossil_hr/widgetCustom0.bin"));
+            if (includeWidget("widgetCustom1")) code.put("widgetCustom1", context.getAssets().open("fossil_hr/widgetCustom1.bin"));
+            if (includeWidget("widgetCustom2")) code.put("widgetCustom2", context.getAssets().open("fossil_hr/widgetCustom2.bin"));
+            if (includeWidget("widgetCustom3")) code.put("widgetCustom3", context.getAssets().open("fossil_hr/widgetCustom3.bin"));
         } catch (IOException e) {
             LOG.warn("Unable to read asset file", e);
         }
