@@ -376,13 +376,17 @@ public class HybridHRWatchfaceDesignerActivity extends AbstractGBActivity implem
                                     widgetName = "widget2ndTZ";
                                     break;
                             }
-                            if (widgetName.equals("widget2ndTZ")) {
+                            if (widgetName.startsWith("widget2ndTZ")) {
                                 try {
+                                    widgetName = "widget2ndTZ";
                                     JSONObject widgetData = layoutItem.getJSONObject("data");
                                     widgetTimezone = widgetData.getString("tzName");
                                 } catch (JSONException e) {
                                     LOG.error("Couldn't determine tzName!", e);
                                 }
+                            }
+                            if (widgetName.startsWith("widgetCustom")) {
+                                widgetName = "widgetCustom";
                             }
                             int widgetColor = layoutItem.getString("color").equals("white") ? HybridHRWatchfaceWidget.COLOR_WHITE : HybridHRWatchfaceWidget.COLOR_BLACK;
                             widgets.add(new HybridHRWatchfaceWidget(widgetName,

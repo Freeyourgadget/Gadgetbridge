@@ -1234,13 +1234,6 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
 
                                     .put("widgetCustom1._.config.upper_text", "1 up")
                                     .put("widgetCustom1._.config.lower_text", "1 low")
-
-                                    .put("widgetCustom2._.config.upper_text", "2 up")
-                                    .put("widgetCustom2._.config.lower_text", "2 low")
-
-                                    .put("widgetCustom3._.config.upper_text", "3 up")
-                                    .put("widgetCustom3._.config.lower_text", "3 low")
-
                             )
                     );
             queueWrite(new JsonPutRequest(data, this));

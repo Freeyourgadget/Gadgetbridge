@@ -1376,9 +1376,6 @@
     <string name="sony_automatic_power_off_30_min">30 minutes</string>
     <string name="sony_automatic_power_off_1_hour">1 hour</string>
     <string name="sony_automatic_power_off_3_hour">3 hours</string>
-    <string name="watchface_widget_type_custom_0">Custom widget 0</string>
-    <string name="watchface_widget_type_custom_1">Custom widget 1</string>
-    <string name="watchface_widget_type_custom_2">Custom widget 2</string>
-    <string name="watchface_widget_type_custom_3">Custom widget 3</string>
+    <string name="watchface_widget_type_custom">Custom widget</string>
 
 </resources>

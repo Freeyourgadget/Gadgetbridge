@@ -71,10 +71,7 @@ public class HybridHRWatchfaceFactory {
                 case "widgetCalories":
                 case "widgetActiveMins":
                 case "widgetChanceOfRain":
-                case "widgetCustom0":
-                case "widgetCustom1":
-                case "widgetCustom2":
-                case "widgetCustom3":
+                case "widgetCustom":
                     widget.put("type", "comp");
                     widget.put("name", widgetDesc.getWidgetType());
                     widget.put("goal_ring", false);
@@ -120,16 +117,17 @@ public class HybridHRWatchfaceFactory {
         }
     }
 
-    private boolean includeWidget(String name) {
+    private int includeWidget(String name) {
+        int count = 0;
         for (JSONObject widget : this.widgets) {
             try {
                 if (widget.get("name").equals(name)) {
-                    return true;
+                    count++;
                 }
             } catch (JSONException e) {
             }
         }
-        return false;
+        return count;
     }
 
     public byte[] getWapp(Context context) throws IOException {
@@ -138,19 +136,20 @@ public class HybridHRWatchfaceFactory {
         LinkedHashMap<String, InputStream> code = new LinkedHashMap<>();
         try {
             code.put(watchfaceName, context.getAssets().open("fossil_hr/openSourceWatchface.bin"));
-            if (includeWidget("widgetDate")) code.put("widgetDate", context.getAssets().open("fossil_hr/widgetDate.bin"));
-            if (includeWidget("widgetWeather")) code.put("widgetWeather", context.getAssets().open("fossil_hr/widgetWeather.bin"));
-            if (includeWidget("widgetSteps")) code.put("widgetSteps", context.getAssets().open("fossil_hr/widgetSteps.bin"));
-            if (includeWidget("widgetHR")) code.put("widgetHR", context.getAssets().open("fossil_hr/widgetHR.bin"));
-            if (includeWidget("widgetBattery")) code.put("widgetBattery", context.getAssets().open("fossil_hr/widgetBattery.bin"));
-            if (includeWidget("widgetCalories")) code.put("widgetCalories", context.getAssets().open("fossil_hr/widgetCalories.bin"));
-            if (includeWidget("widgetActiveMins")) code.put("widgetActiveMins", context.getAssets().open("fossil_hr/widgetActiveMins.bin"));
-            if (includeWidget("widgetChanceOfRain")) code.put("widgetChanceOfRain", context.getAssets().open("fossil_hr/widgetChanceOfRain.bin"));
-            if (includeWidget("widget2ndTZ")) code.put("widget2ndTZ", context.getAssets().open("fossil_hr/widget2ndTZ.bin"));
-            if (includeWidget("widgetCustom0")) code.put("widgetCustom0", context.getAssets().open("fossil_hr/widgetCustom0.bin"));
-            if (includeWidget("widgetCustom1")) code.put("widgetCustom1", context.getAssets().open("fossil_hr/widgetCustom1.bin"));
-            if (includeWidget("widgetCustom2")) code.put("widgetCustom2", context.getAssets().open("fossil_hr/widgetCustom2.bin"));
-            if (includeWidget("widgetCustom3")) code.put("widgetCustom3", context.getAssets().open("fossil_hr/widgetCustom3.bin"));
+            if (includeWidget("widgetDate") > 0) code.put("widgetDate", context.getAssets().open("fossil_hr/widgetDate.bin"));
+            if (includeWidget("widgetWeather") > 0) code.put("widgetWeather", context.getAssets().open("fossil_hr/widgetWeather.bin"));
+            if (includeWidget("widgetSteps") > 0) code.put("widgetSteps", context.getAssets().open("fossil_hr/widgetSteps.bin"));
+            if (includeWidget("widgetHR") > 0) code.put("widgetHR", context.getAssets().open("fossil_hr/widgetHR.bin"));
+            if (includeWidget("widgetBattery") > 0) code.put("widgetBattery", context.getAssets().open("fossil_hr/widgetBattery.bin"));
+            if (includeWidget("widgetCalories") > 0) code.put("widgetCalories", context.getAssets().open("fossil_hr/widgetCalories.bin"));
+            if (includeWidget("widgetActiveMins") > 0) code.put("widgetActiveMins", context.getAssets().open("fossil_hr/widgetActiveMins.bin"));
+            if (includeWidget("widgetChanceOfRain") > 0) code.put("widgetChanceOfRain", context.getAssets().open("fossil_hr/widgetChanceOfRain.bin"));
+            for (int i=0; i<includeWidget("widget2ndTZ"); i++) {
+                code.put("widget2ndTZ" + i, context.getAssets().open("fossil_hr/widget2ndTZ.bin"));
+            }
+            for (int i=0; i<includeWidget("widgetCustom"); i++) {
+                code.put("widgetCustom" + i, context.getAssets().open("fossil_hr/widgetCustom.bin"));
+            }
         } catch (IOException e) {
             LOG.warn("Unable to read asset file", e);
         }
@@ -158,23 +157,23 @@ public class HybridHRWatchfaceFactory {
         try {
             icons.put("background.raw", backgroundStream);
             icons.put("icTrophy", context.getAssets().open("fossil_hr/icTrophy.rle"));
-            if (includeWidget("widgetWeather")) icons.put("icWthClearDay", context.getAssets().open("fossil_hr/icWthClearDay.rle"));
-            if (includeWidget("widgetWeather")) icons.put("icWthClearNite", context.getAssets().open("fossil_hr/icWthClearNite.rle"));
-            if (includeWidget("widgetWeather")) icons.put("icWthCloudy", context.getAssets().open("fossil_hr/icWthCloudy.rle"));
-            if (includeWidget("widgetWeather")) icons.put("icWthPartCloudyDay", context.getAssets().open("fossil_hr/icWthPartCloudyDay.rle"));
-            if (includeWidget("widgetWeather")) icons.put("icWthPartCloudyNite", context.getAssets().open("fossil_hr/icWthPartCloudyNite.rle"));
-            if (includeWidget("widgetWeather")) icons.put("icWthRainy", context.getAssets().open("fossil_hr/icWthRainy.rle"));
-            if (includeWidget("widgetWeather")) icons.put("icWthSnowy", context.getAssets().open("fossil_hr/icWthSnowy.rle"));
-            if (includeWidget("widgetWeather")) icons.put("icWthStormy", context.getAssets().open("fossil_hr/icWthStormy.rle"));
-            if (includeWidget("widgetWeather")) icons.put("icWthWindy", context.getAssets().open("fossil_hr/icWthWindy.rle"));
-            if (includeWidget("widgetSteps")) icons.put("icSteps", context.getAssets().open("fossil_hr/icSteps.rle"));
-            if (includeWidget("widgetHR")) icons.put("icHeart", context.getAssets().open("fossil_hr/icHeart.rle"));
-            if (includeWidget("widgetBattery")) icons.put("icBattCharging", context.getAssets().open("fossil_hr/icBattCharging.rle"));
-            if (includeWidget("widgetBattery")) icons.put("icBattEmpty", context.getAssets().open("fossil_hr/icBattEmpty.rle"));
-            if (includeWidget("widgetBattery")) icons.put("icBattery", context.getAssets().open("fossil_hr/icBattery.rle"));
-            if (includeWidget("widgetCalories")) icons.put("icCalories", context.getAssets().open("fossil_hr/icCalories.rle"));
-            if (includeWidget("widgetActiveMins")) icons.put("icActiveMins", context.getAssets().open("fossil_hr/icActiveMins.rle"));
-            if (includeWidget("widgetChanceOfRain")) icons.put("icRainChance", context.getAssets().open("fossil_hr/icRainChance.rle"));
+            if (includeWidget("widgetWeather") > 0) icons.put("icWthClearDay", context.getAssets().open("fossil_hr/icWthClearDay.rle"));
+            if (includeWidget("widgetWeather") > 0) icons.put("icWthClearNite", context.getAssets().open("fossil_hr/icWthClearNite.rle"));
+            if (includeWidget("widgetWeather") > 0) icons.put("icWthCloudy", context.getAssets().open("fossil_hr/icWthCloudy.rle"));
+            if (includeWidget("widgetWeather") > 0) icons.put("icWthPartCloudyDay", context.getAssets().open("fossil_hr/icWthPartCloudyDay.rle"));
+            if (includeWidget("widgetWeather") > 0) icons.put("icWthPartCloudyNite", context.getAssets().open("fossil_hr/icWthPartCloudyNite.rle"));
+            if (includeWidget("widgetWeather") > 0) icons.put("icWthRainy", context.getAssets().open("fossil_hr/icWthRainy.rle"));
+            if (includeWidget("widgetWeather") > 0) icons.put("icWthSnowy", context.getAssets().open("fossil_hr/icWthSnowy.rle"));
+            if (includeWidget("widgetWeather") > 0) icons.put("icWthStormy", context.getAssets().open("fossil_hr/icWthStormy.rle"));
+            if (includeWidget("widgetWeather") > 0) icons.put("icWthWindy", context.getAssets().open("fossil_hr/icWthWindy.rle"));
+            if (includeWidget("widgetSteps") > 0) icons.put("icSteps", context.getAssets().open("fossil_hr/icSteps.rle"));
+            if (includeWidget("widgetHR") > 0) icons.put("icHeart", context.getAssets().open("fossil_hr/icHeart.rle"));
+            if (includeWidget("widgetBattery") > 0) icons.put("icBattCharging", context.getAssets().open("fossil_hr/icBattCharging.rle"));
+            if (includeWidget("widgetBattery") > 0) icons.put("icBattEmpty", context.getAssets().open("fossil_hr/icBattEmpty.rle"));
+            if (includeWidget("widgetBattery") > 0) icons.put("icBattery", context.getAssets().open("fossil_hr/icBattery.rle"));
+            if (includeWidget("widgetCalories") > 0) icons.put("icCalories", context.getAssets().open("fossil_hr/icCalories.rle"));
+            if (includeWidget("widgetActiveMins") > 0) icons.put("icActiveMins", context.getAssets().open("fossil_hr/icActiveMins.rle"));
+            if (includeWidget("widgetChanceOfRain") > 0) icons.put("icRainChance", context.getAssets().open("fossil_hr/icRainChance.rle"));
         } catch (IOException e) {
             LOG.warn("Unable to read asset file", e);
         }
@@ -190,7 +189,7 @@ public class HybridHRWatchfaceFactory {
             LOG.warn("Could not generate image_layout", e);
         }
         try {
-            if (includeWidget("widgetBattery")) layout.put("battery_layout", getBatteryLayout());
+            if (includeWidget("widgetBattery") > 0) layout.put("battery_layout", getBatteryLayout());
         } catch (JSONException e) {
             LOG.warn("Could not generate battery_layout", e);
         }
@@ -401,8 +400,20 @@ public class HybridHRWatchfaceFactory {
         pos.put("y", 120);
         background.put("pos", pos);
         layout.put(background);
+        int count_widget2ndTZ = 0;
+        int count_widgetCustom = 0;
         for (JSONObject widget : widgets) {
-            layout.put(widget);
+            if (widget.get("name").equals("widget2ndTZ")) {
+                widget.put("name", "widget2ndTZ" + count_widget2ndTZ);
+                layout.put(widget);
+                count_widget2ndTZ++;
+            } else if (widget.get("name").equals("widgetCustom")) {
+                widget.put("name", "widgetCustom" + count_widgetCustom);
+                layout.put(widget);
+                count_widgetCustom++;
+            } else {
+                layout.put(widget);
+            }
         }
         configuration.put("layout", layout);
 
