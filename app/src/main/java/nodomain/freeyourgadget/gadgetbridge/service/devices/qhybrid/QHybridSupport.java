@@ -369,12 +369,11 @@ public class QHybridSupport extends QHybridBaseSupport {
                         break;
                     }
                     case QHYBRID_COMMAND_UPLOAD_FILE:{
-                        if(!externalAccessAllowed()) break;
+                        if(!dangerousIntentsAllowed()) break;
                         handleFileUploadIntent(intent);
                         break;
                     }
                     case QHYBRID_COMMAND_PUSH_CONFIG:{
-                        if(!externalAccessAllowed()) break;
                         handleConfigSetIntent(intent);
                         break;
                     }
@@ -389,7 +388,7 @@ public class QHybridSupport extends QHybridBaseSupport {
         watchAdapter.pushConfigJson(configJson);
     }
 
-    private boolean externalAccessAllowed(){
+    private boolean dangerousIntentsAllowed(){
         return GBApplication.getDeviceSpecificSharedPrefs(gbDevice.getAddress()).getBoolean(DeviceSettingsPreferenceConst.PREF_HYBRID_HR_DANGEROUS_EXTERNAL_INTENTS, true);
     }
 
