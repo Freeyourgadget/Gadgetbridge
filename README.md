@@ -42,14 +42,20 @@ vendor's servers.
 	- Verge Lite [**\[!\]**](#special-pairing-procedures)
 	- [X ](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Mi-Band-5) [**\[!\]**](#special-pairing-procedures)
 - BFH-16
-- Casio
-	- [GB-5600B/GB-6900B/GB-X6900B](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Casio-GB-5600B%2FGB-6900B%2FGB-X6900B)
-	- [GBX-100](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Casio-GBX-100)
-
+- [Casio](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Casio)
+    - Casio GB-X6900B
+    - Casio GB-6900B
+    - Casio GB-5600B
+    - Casio STB-1000
+    - Casio GBX-100
 - [FitPro](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/FitPro)
 - Fossil
 	- [Hybrid HR](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Fossil-Hybrid-HR) [**\[!\]**](#special-pairing-procedures)
 	- Q Hybrid
+- [Galaxy Buds](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Galaxy-Buds)
+    - [Galaxy Buds](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Galaxy-Buds#user-content-galaxy-buds)
+    - [Galaxy Buds Live](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Galaxy-Buds#user-content-galaxy-buds-live)
+
 - [HPlus Devices (e.g. ZeBand)](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/HPlus)
 - ID115
 - [iTag](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/iTag)
@@ -66,11 +72,13 @@ vendor's servers.
 	- Scale 2 (Currently only displays a toast after stepping on the scale)
 - [MyKronoz ZeTime](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/MyKronoz-ZeTime)
 - NO.1 F1
+- [Nothing Ear (1)](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Nothing-Ear-%281%29)
 - [Nut Mini 3, Nut 2 and possibly others](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Nut)
 - Pebble
 	- [Pebble, Steel, Time, Time Steel, Time Round, 2](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Pebble)
 - PineTime (InfiniTime Firmware)
 - [SMA](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/SMA) Q2 (SMA-Q2-OSS Firmware)
+- Sony WH-1000XM3
 - Teclast H10, H30
 - TLW64
 - Vibratissimo (Experimental)
