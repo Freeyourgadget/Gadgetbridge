@@ -37,8 +37,8 @@ public class GalaxyBudsProtocol extends GBDeviceProtocol {
     private static final byte SOMPlus = (byte) 0xFD;
     private static final byte EOMPlus = (byte) 0xDD;
 
-    private static byte SOM = SOMBuds;
-    private static byte EOM = EOMBuds;
+    private byte SOM = SOMBuds;
+    private byte EOM = EOMBuds;
 
     private boolean isFirstExchange = true;
 
@@ -322,9 +322,7 @@ public class GalaxyBudsProtocol extends GBDeviceProtocol {
 
     protected GalaxyBudsProtocol(GBDevice device) {
         super(device);
-        LOG.debug("PETR, " + device.getType());
         if (device.getType().equals(DeviceType.GALAXY_BUDS_LIVE)) {
-            LOG.debug("set som");
             SOM = SOMPlus;
             EOM = EOMPlus;
         }

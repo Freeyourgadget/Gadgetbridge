@@ -1,5 +1,13 @@
 ### Changelog
 
+### 0.63.0
+* Galaxy Buds Live: Initial Support
+* Sony WH-1000XM3: Initial Support
+* Add Nekogram X to Telegram notifications
+* Move location settings out of pebble menu
+* Nothing Ear (1): add multiple batteries support
+* Galaxy Buds: add multiple batteries support
+
 ### 0.62.0
 * Iniital support for Galaxy Buds 2019
 * Huami: Fix syncing of data in non-DST time
