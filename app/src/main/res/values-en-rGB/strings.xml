@@ -16,7 +16,7 @@
     <string name="appversion_by_creator">%1$s by %2$s</string>
     <string name="pref_qhybrid_title_widget_draw_circles">Draw widget circles</string>
     <string name="pref_header_auto_fetch">Auto fetch</string>
-    <string name="pref_title_relax_firmware_checks">Enable this if you want to flash a firmware not intended for you device (at your own risk)</string>
+    <string name="pref_title_relax_firmware_checks">Enable this if you want to flash a firmware not intended for your device (at your own risk)</string>
     <string name="pref_summary_relax_firmware_checks">Relax firmware checks</string>
     <string name="devicetype_amazfit_bips">Amazfit Bip S</string>
     <string name="pref_title_vibration_strength">Vibration strength</string>
@@ -29,7 +29,7 @@
     <string name="hr_appname_wellness">Wellness</string>
     <string name="pref_summary_custom_deviceicon">Show a device specific Android notification icon instead the Gadgetbridge icon when connected</string>
     <string name="pref_title_custom_deviceicon">Show device specific notification icon</string>
-    <string name="notification_channel_high_priority_name">Gadgetbridge notifications high priority</string>
+    <string name="notification_channel_high_priority_name">High-priority</string>
     <string name="find_my_phone_notification">Find my phone</string>
     <string name="pref_summary_force_white_color_scheme">Useful if you your watch has dark hands</string>
     <string name="find_lost_device_you_found_it">Found it!</string>
@@ -126,12 +126,12 @@
     <string name="activity_db_management_empty_db_warning">Warning! By pushing this button you will wipe your database and start from scratch.</string>
     <string name="activity_db_management_exportimport_label">Export and Import</string>
     <string name="activity_db_management_empty_DB">Empty Database</string>
-    <string name="activity_DB_empty_button">Empty DB</string>
+    <string name="activity_DB_empty_button">Empty Database</string>
     <string name="activity_DB_delete_legacy_button">Delete old DB</string>
     <string name="activity_DB_test_export_message">Exporting database…</string>
     <string name="activity_DB_test_export_button">Run AutoExport Now</string>
     <string name="activity_DB_import_button">Import DB</string>
-    <string name="activity_DB_ExportButton">Export DB</string>
+    <string name="activity_DB_ExportButton">Export Data</string>
     <string name="activity_db_management_autoexport_label">AutoExport</string>
     <string name="activity_db_management_autoexport_explanation">Database autoexport location has been set to:</string>
     <string name="pref_summary_use_custom_font">Enable this if your device has a custom font firmware for emoji support</string>
@@ -347,7 +347,7 @@
     <string name="pref_title_general_autoreconnect">Reconnect automatically</string>
     <string name="activity_type_treadmill">Treadmill</string>
     <string name="activity_type_biking">Biking</string>
-    <string name="activity_summaries">Activities</string>
+    <string name="activity_summaries">Sport Activities</string>
     <string name="activity_type_unknown">Unknown activity</string>
     <string name="activity_type_swimming">Swimming</string>
     <string name="activity_type_walking">Walking</string>
@@ -360,7 +360,7 @@
     <string name="controlcenter_start_activity_tracks">Your activity tracks</string>
     <string name="on">On</string>
     <string name="devicetype_xwatch">XWatch</string>
-    <string name="notification_channel_name">Gadgetbridge notifications</string>
+    <string name="notification_channel_name">General</string>
     <string name="spanish">Spanish</string>
     <string name="choose_auto_export_location">Choose export location</string>
     <string name="notif_export_failed_title">Export database failed! Please check your settings.</string>
@@ -392,7 +392,7 @@
     <string name="kind_font">Font</string>
     <string name="kind_invalid">Invalid data</string>
     <string name="kind_firmware">Firmware</string>
-    <string name="pref_title_weather_location">Weather location (CM/LOS)</string>
+    <string name="pref_title_weather_location">Weather location (for LineageOS weather provider)</string>
     <string name="interval_one_hour">once an hour</string>
     <string name="interval_thirty_minutes">every 30 minutes</string>
     <string name="interval_ten_minutes">every 10 minutes</string>
@@ -486,7 +486,7 @@
     <string name="dbmanagementactivity_error_importing_shared">Error importing preference: %1$s</string>
     <string name="dbmanagementactivity_error_importing_db">Error importing DB: %1$s</string>
     <string name="dbmanagementactivity_import_successful">Imported.</string>
-    <string name="dbmanagementactivity_overwrite_database_confirmation">Really overwrite the current database\? All your current activity data (if any) will be lost.</string>
+    <string name="dbmanagementactivity_overwrite_database_confirmation">Really overwrite the current data\? All your current activity data (if any) and preferences will be overwritten.</string>
     <string name="pref_summary_pebble_health_store_raw">Stores the data \"as is\", increasing the database usage to allow for later interpretation.</string>
     <string name="pref_title_pebble_health_store_raw">Store raw record in the database</string>
     <string name="live_activity_heart_rate">Heart rate</string>
@@ -546,7 +546,7 @@
     <string name="pref_summary_low_latency_fw_update">This might help on devices where firmware flashing fails.</string>
     <string name="pref_title_low_latency_fw_update">Use low-latency mode for firmware flashing</string>
     <string name="pref_summary_keep_data_on_device">Will keep activity data on the Mi Band even after synchronisation. Useful if GB is used together with other apps.</string>
-    <string name="pref_summary_dont_ack_transfers">If the activity data are not acked to the band, they will not be cleared. Useful if GB is used together with other apps.</string>
+    <string name="pref_summary_dont_ack_transfers">If not ACKed to the band, activity data is not cleared. Useful if GB is used together with other apps.</string>
     <string name="pref_title_dont_ack_transfer">Do not ACK activity data transfer</string>
     <string name="weeksteps_today_steps_description">Steps today, target: %1$s</string>
     <string name="liveactivity_live_activity">Live activity</string>
@@ -674,8 +674,8 @@
     <string name="n_a">N/A</string>
     <string name="app_install_info">You are about to install the following app:
 \n
-\n
-\n%1$s Version %2$s by %3$s
+\n%1$s
+\nVersion %2$s by %3$s
 \n</string>
     <string name="firmware_install_warning">YOU ARE TRYING TO INSTALL A FIRMWARE, PROCEED AT YOUR OWN RISK.
 \n
@@ -730,7 +730,7 @@
     <string name="pref_pebble_privacy_mode_content">Shift the notification text off-screen</string>
     <string name="pref_pebble_privacy_mode_off">Normal notifications</string>
     <string name="pref_title_pebble_privacy_mode">Privacy mode</string>
-    <string name="pref_summary_autoremove_notifications">Notifications are automatically removed from the Pebble when dismissed from the Android device</string>
+    <string name="pref_summary_autoremove_notifications">Notifications are automatically removed from the device when dismissed from the phone</string>
     <string name="pref_title_autoremove_notifications">Autoremove dismissed notifications</string>
     <string name="pref_summary_enable_calendar_sync">Send calendar events to the timeline</string>
     <string name="pref_title_enable_calendar_sync">Sync calendar</string>
@@ -749,7 +749,7 @@
     <string name="pref_title_pebble_settings">Pebble settings</string>
     <string name="pref_title_development_miaddr">Mi Band address</string>
     <string name="pref_header_development">Developer options</string>
-    <string name="pref_title_canned_messages_set">Update on Pebble</string>
+    <string name="pref_title_canned_messages_set">Update on device</string>
     <string name="pref_title_canned_messages_dismisscall">Call Dismissal</string>
     <string name="pref_title_canned_reply_suffix">Common suffix</string>
     <string name="pref_title_canned_replies">Replies</string>
@@ -803,11 +803,16 @@
     <string name="dbmanagementactivity_exported_to">Exported to: %1$s</string>
     <string name="dbmanagementactivvity_cannot_access_export_path">Cannot access export path. Please contact the developers.</string>
     <string name="activity_db_management_merge_old_title">Legacy database delete</string>
-    <string name="activity_db_management_import_export_explanation">The database operations use the following path on your device. 
-\nThis path is accessible to other Android apps and your computer. 
-\nExpect to find your exported database (or place the database you want to import) there:</string>
+    <string name="activity_db_management_import_export_explanation">The export/import operations use the following path (see below) to a directory on your device. This directory is accessible to other Android apps and your computer. Do note, that this directory and all containing files are deleted if you uninstall Gadgetbridge. The data includes:
+\n Export_preference - global settings
+\n Export_preference_MAC - device specific settings
+\n Gadgetbridge - device and activity database
+\n Gadgetbridge_date - database exported on a date
+\n *.gpx - GPS recordings
+\n *.log - log files
+\nExpect to find your exported files (or place the files you want to import) there:</string>
     <string name="title_activity_db_management">Database management</string>
-    <string name="action_db_management">Database management</string>
+    <string name="action_db_management">Data management</string>
     <string name="fw_multi_upgrade_notice">You are about to install the %1$s and %2$s firmware, instead of the ones currently on your Mi Band.</string>
     <string name="fw_upgrade_notice">You are about to install the %s.</string>
     <string name="title_activity_fw_app_insaller">FW/App installer</string>
@@ -903,4 +908,535 @@
     <string name="sonyswr12_settings_low_vibration_summary">Enable low intensity of vibration on wristband</string>
     <string name="sonyswr12_settings_stamina_summary">Power saving mode turns off periodic auto measuring of heart rate thus increases working time</string>
     <string name="sonyswr12_settings_alarm_interval_summary">Smart alarm interval is interval before of installed alarm. In this interval device is trying to detect lightest phase of sleep to awake user</string>
+    <string name="battery_detail_activity_title">Battery info</string>
+    <string name="find_lost_device_message">Search for %1$s\?</string>
+    <string name="error_setting_alias">Error setting alias:</string>
+    <string name="calendar_year">Year</string>
+    <string name="calendar_week">Week</string>
+    <string name="calendar_two_weeks">Two weeks</string>
+    <string name="calendar_month">Month</string>
+    <string name="pref_header_other">Other</string>
+    <string name="pref_header_notification_application_settings">Per application settings</string>
+    <string name="pref_title_notification_use_as_deny">Deny notifications from selected apps</string>
+    <string name="pref_message_privacy_mode_off">Display content</string>
+    <string name="pref_applications_settings">Applications list</string>
+    <string name="pref_title_huami_force_new_protocol">New Auth Protocol</string>
+    <string name="chart_get_active_and_synchronize">Do some activity and synchronize device.</string>
+    <string name="prefs_sounds">Sounds</string>
+    <string name="prefs_sounds_summary">Configure when the device will beep</string>
+    <string name="lefun_prefs_hydration_reminder_title">Hydration reminder</string>
+    <string name="activity_prefs_chart_min_steps_per_minute">Minimal steps per minute to detect activity</string>
+    <string name="activity_prefs_chart_min_session_length">Minimal activity length (minutes)</string>
+    <string name="charts_legend_heartrate_average">Heart rate average</string>
+    <string name="dbmanagementactivity_error_cleaning_export_directory">Error erasing files from export directory %1$s</string>
+    <string name="activity_data_management_directory_content_title">Export/Import directory content</string>
+    <string name="activity_DB_clean_export_directory_warning_title">Delete files in the Export/Import directory\?</string>
+    <string name="activity_DB_clean_export_directory_warning_message">Really delete files in the Export/Import directory\?</string>
+    <string name="dbmanagementactivity_export_finished">Deletion finished</string>
+    <string name="activity_type_yoga">Yoga</string>
+    <string name="activity_type_rowing_machine">Rowing Machine</string>
+    <string name="activity_type_cricket">Cricket</string>
+    <string name="activity_type_badminton">Badminton</string>
+    <string name="activity_summary_detail_select_gpx_track">Select GPX track</string>
+    <string name="activity_summary_detail_clear_gpx_track">Clear GPX track</string>
+    <string name="activity_summary_detail_editing_gpx_track">Editing linked GPX track</string>
+    <string name="kind_agps_bundle">AGPS Bundle</string>
+    <string name="devicetype_miband6">Mi Band 6</string>
+    <string name="devicetype_amazfit_trex">Amazfit T-Rex</string>
+    <string name="devicetype_amazfit_gts2_mini">Amazfit GTS 2 Mini</string>
+    <string name="devicetype_um25">UM-25</string>
+    <string name="devicetype_casiogbx100">Casio GBX-100</string>
+    <string name="devicetype_sony_wh_1000xm3">Sony WH-1000XM3</string>
+    <string name="notification_channel_transfer_name">Data transfer</string>
+    <string name="notification_channel_low_battery_name">Low battery</string>
+    <string name="devicetype_lefun">Lefun</string>
+    <string name="menuitem_cycles">Period</string>
+    <string name="menuitem_stress">Stress</string>
+    <string name="menuitem_dnd">DND</string>
+    <string name="menuitem_stopwatch">Stopwatch</string>
+    <string name="menuitem_events">Events</string>
+    <string name="pref_title_lower_button_function_short">Lower Button short</string>
+    <string name="about_core_team_title">Core Team (in order of first code contribution)</string>
+    <string name="about_contributors">Contributors</string>
+    <string name="error_version_check_extreme_caution">CAUTION: Error when checking version information! You should not continue! Saw version name \"%s\"</string>
+    <string name="require_location_provider">Location must be enabled</string>
+    <string name="error_exporting_device_preferences">Error exporting device specific preferences</string>
+    <string name="averageStrokesPerSecond">Average Strokes</string>
+    <string name="ascentSeconds">Ascending</string>
+    <string name="descentSeconds">Descending</string>
+    <string name="baseAltitude">Base Elevation</string>
+    <string name="averageSpeed">Average Speed</string>
+    <string name="swolf_index">swolf index</string>
+    <string name="swim_style">swim style</string>
+    <string name="laps_unit">laps</string>
+    <string name="calories_unit">kcal</string>
+    <string name="seconds_m">sec/m</string>
+    <string name="minutes_km">min/km</string>
+    <string name="km">km</string>
+    <string name="mi">mi</string>
+    <string name="Strokes">Strokes</string>
+    <string name="Swimming">Swimming</string>
+    <string name="Distance">Distance</string>
+    <string name="Elevation">Elevation</string>
+    <string name="Speed">Speed</string>
+    <string name="Activity">Activity</string>
+    <string name="Steps">Steps</string>
+    <string name="activity_detail_start_label">Start</string>
+    <string name="activity_detail_end_label">End</string>
+    <string name="activity_detail_duration_label">Duration</string>
+    <string name="activity_detail_show_gps_label">Show GPS Track</string>
+    <string name="prefs_events_forwarding_title">Device actions</string>
+    <string name="prefs_events_forwarding_fellsleep">On Fall Asleep</string>
+    <string name="prefs_events_forwarding_wokeup">On Wake Up</string>
+    <string name="prefs_events_forwarding_startnonwear">On Not Wearing</string>
+    <string name="prefs_events_forwarding_broadcast_title">Broadcast message</string>
+    <string name="pref_header_filter">Sports Activities Filter</string>
+    <string name="activity_summaries_all_devices">All devices</string>
+    <string name="medley">Medley</string>
+    <string name="activity_filter_from_placeholder">Distant Past</string>
+    <string name="activity_filter_to_placeholder">Today</string>
+    <string name="prefs_key_vibration">Key Vibration</string>
+    <string name="breaststroke">Breaststroke</string>
+    <string name="devicetype_nut_mini">Nut mini</string>
+    <string name="prefs_autolight">Automatic Light</string>
+    <string name="qhybrid_calibration_align_hint">Use the buttons below to align the watch hands to 12:00.</string>
+    <string name="qhybrid_summary_file_management">Upload and download files</string>
+    <string name="prefs_operating_sounds">Operating Sounds</string>
+    <string name="prefs_fake_ring_duration">Fake continuous ringing</string>
+    <string name="fossil_hr_commute_processing">Processing request...</string>
+    <string name="fossil_hr_synced_activity_data">Synchronised activity data</string>
+    <string name="pref_summary_canned_messages_set">Send the messages configured below to your device</string>
+    <string name="fossil_hr_commute_actions_explanation">The actions configured here will appear in the Commute app on your watch. Read the wiki for information on how to handle the intents produced by these actions.</string>
+    <string name="fossil_hr_edit_action">Edit action</string>
+    <string name="fossil_hr_new_action_cancel">Cancel</string>
+    <string name="fossil_hr_new_action">New action</string>
+    <string name="qhybrid_calibration_clockwise">Clockwise</string>
+    <string name="qhybrid_calibration_1_step">1 step</string>
+    <string name="qhybrid_calibration_10_steps">10 steps</string>
+    <string name="qhybrid_calibration_100_steps">100 steps</string>
+    <string name="qhybrid_watchface_configuration_old_firmware">Watchface configuration screen for watches with firmware version DN1.0.2.19r and lower</string>
+    <string name="qhybrid_pref_title_actions">Actions</string>
+    <string name="qhybrid_pref_summary_actions">Actions for the Commute app</string>
+    <string name="button_watchface_edit_name">Edit name</string>
+    <string name="button_watchface_add_widget">Add widget</string>
+    <string name="watchface_dialog_title_set_name">Set watchface name</string>
+    <string name="watchface_toast_settings_incomplete">Settings incomplete, widget not added</string>
+    <string name="watchface_dialog_title_add_widget">Add widget</string>
+    <string name="watchface_widget_type_weather">Weather</string>
+    <string name="watchface_widget_type_steps">Steps</string>
+    <string name="watchface_widget_type_heart_rate">Heart rate</string>
+    <string name="prefs_active_noise_cancelling">Active Noise Cancelling</string>
+    <string name="pref_header_sony_ambient_sound_control">Ambient Sound Control</string>
+    <string name="sony_ambient_sound">Mode</string>
+    <string name="sony_ambient_sound_off">Off</string>
+    <string name="sony_ambient_sound_noise_cancelling">Noise Cancelling</string>
+    <string name="sony_ambient_sound_wind_noise_reduction">Wind Noise Reduction</string>
+    <string name="sony_sound_position_front_right">Front Right</string>
+    <string name="sony_sound_position_rear_left">Rear Left</string>
+    <string name="watchface_dialog_widget_color_black">Black</string>
+    <string name="devicetype_waspos">Wasp-os</string>
+    <string name="devicetype_amazfit_gts2">Amazfit GTS 2</string>
+    <string name="devicetype_amazfit_gts2e">Amazfit GTS 2e</string>
+    <string name="watchface_widget_type_battery">Battery</string>
+    <string name="mi_h">mph</string>
+    <string name="movement_intensity">Movement intensity</string>
+    <string name="lefun_prefs_antilost_summary">The band will vibrate if your phone disconnects from the band</string>
+    <string name="lefun_prefs_interface_language_title">Interface language</string>
+    <string name="activity_type_soccer">Football</string>
+    <string name="activity_type_pingpong">Ping Pong</string>
+    <string name="activity_summary_today">Today</string>
+    <string name="activity_type_basketball">Basketball</string>
+    <string name="devicetype_amazfit_band5">Amazfit Band 5</string>
+    <string name="swolfIndex">swolfIndex</string>
+    <string name="meters">m</string>
+    <string name="pref_header_statistics">Sports Activities Statistics</string>
+    <string name="activity_error_no_app_for_png">To share this screenshot, install an app which can handle image files.</string>
+    <string name="devicetype_amazfit_neo">Amazfit Neo</string>
+    <string name="devicetype_amazfit_vergel">Amazfit Verge Lite</string>
+    <string name="pref_title_lower_button_function_long">Lower Button long</string>
+    <string name="pref_title_lower_button_function_double">Lower Button double</string>
+    <string name="gpx_receiver_activity_title">GPX Receiver Gadgetbridge</string>
+    <string name="activity_filter_name_contains">Label</string>
+    <string name="sony_equalizer_band_1000">1k</string>
+    <string name="watchface_dialog_widget_preset_right">Right</string>
+    <string name="prefs_notifications_enable">Enable notifications</string>
+    <string name="battery_level">Battery level</string>
+    <string name="calendar_three_months">3 months</string>
+    <string name="fw_upgrade_notice_amazfitvergel">You are about to install the %s firmware on your Amazfit Verge Lite.
+\n
+\nPlease make sure to install the .fw file, then the .res file, and finally the .gps file. Your watch will reboot after installing the .fw file.
+\n
+\nNote: You do not have to install .res and .gps if these files are exactly the same as the ones previously installed.
+\n
+\nPROCEED AT YOUR OWN RISK!</string>
+    <string name="pref_header_system">System</string>
+    <string name="pref_header_equalizer">Equalizer</string>
+    <string name="pref_title_notification_use_as">Use the Applications list to...</string>
+    <string name="calendar_six_months">6 months</string>
+    <string name="fw_upgrade_notice_amazfitneo">You are about to install the %s firmware on your Amazfit Neo.
+\n
+\nYour band will reboot after installing the .fw file.
+\n
+\nPROCEED AT YOUR OWN RISK!</string>
+    <string name="pref_title_message_privacy_mode">Message privacy mode</string>
+    <string name="pref_message_privacy_mode_complete">Hide content</string>
+    <string name="watchface_install_info">You are about to install the following watchface:
+\n
+\n%1$s
+\nVersion %2$s by %3$s
+\n</string>
+    <string name="chart_no_active_data">No activities detected.</string>
+    <string name="calendar_day">Day</string>
+    <string name="pref_title_notification_use_as_allow">Allow notifications from selected apps</string>
+    <string name="steps_unit">steps</string>
+    <string name="meters_second">m/s</string>
+    <string name="pref_title_connected_advertisement">Visible while connected</string>
+    <string name="pref_summary_connected_advertisement">Makes the device discoverable via Bluetooth even when connected</string>
+    <string name="pref_summary_huami_force_new_protocol">Enable if your device no longer connects after a firmware upgrade</string>
+    <string name="devicestatus_upload_validating">Upload is being validated</string>
+    <string name="devicestatus_upload_aborted">Upload has been aborted!</string>
+    <string name="qhybrid_calibration_counterclockwise">Anti-clockwise</string>
+    <string name="lefun_prefs_hydration_reminder_summary">The band will vibrate to remind you to drink water</string>
+    <string name="lefun_prefs_antilost_title">Anti-loss</string>
+    <string name="lefun_prefs_hydration_reminder_interval_title">Hydration reminder interval (in minutes)</string>
+    <string name="set">Set</string>
+    <string name="activity_type_swimming_openwater">Swimming (Open water)</string>
+    <string name="activity_type_indoor_cycling">Indoor Cycling</string>
+    <string name="activity_type_elliptical_trainer">Elliptical Trainer</string>
+    <string name="activity_summary_detail">Sport Activity Detail</string>
+    <string name="activity_summary_edit_name_title">Edit label</string>
+    <string name="devicetype_amazfit_bips_lite">Amazfit Bip S Lite</string>
+    <string name="devicetype_amazfit_bipu">Amazfit Bip U</string>
+    <string name="devicetype_amazfit_bipupro">Amazfit Bip U Pro</string>
+    <string name="devicetype_amazfit_gtr2e">Amazfit GTR 2e</string>
+    <string name="devicetype_tlw64">TLW64</string>
+    <string name="devicetype_smaq2oss">SMA-Q2 OSS</string>
+    <string name="toast_app_must_not_be_selected">App must not be selected to be configured</string>
+    <string name="widget_settings_select_device_title">Select device</string>
+    <string name="activity_db_management_clean_export_directory_text">Exported files in the Export/Import directory are accessible by any app on your device. You might like to remove these files after synchronisation or backup. Make sure to have a backup before deleting them. GPX files, sub-directories and auto-exported database file (if exist) will not be deleted. The path to the Export/Import directory is:</string>
+    <string name="activity_type_strength_training">Strength Training</string>
+    <string name="devicetype_amazfit_gtr2">Amazfit GTR 2</string>
+    <string name="toast_app_must_be_selected">App must be selected to be configured</string>
+    <string name="companiondevice_pairing">CompanionDevice Pairing</string>
+    <string name="averageLapPace">Average Lap Pace</string>
+    <string name="laps">Laps</string>
+    <string name="cm">cm</string>
+    <string name="activity_summaries_statistics">Statistics</string>
+    <string name="pref_title_upper_button_function_short">Upper Button short</string>
+    <string name="pref_title_upper_button_function_double">Upper Button double</string>
+    <string name="about_activity_title">About Gadgetbridge</string>
+    <string name="gpx_receiver_files_received">GPX file(s) received:</string>
+    <string name="gpx_receiver_overwrite_some_files">Some file(s) already exist. Overwrite\?</string>
+    <string name="about_additional_contributions">Many thanks to all unlisted contributors for contributing code, translations, support, ideas, motivation, bug reports, money… ✊</string>
+    <string name="maxPace">Fastest Pace</string>
+    <string name="averageStride">Average Stride</string>
+    <string name="swimStyle">swimStyle</string>
+    <string name="km_h">km/h</string>
+    <string name="strokes_second">str/s</string>
+    <string name="strokes_unit">str</string>
+    <string name="seconds">sec</string>
+    <string name="prefs_events_forwarding_summary">Use device events to trigger actions and Android broadcasts</string>
+    <string name="activity_filter_date_from">From</string>
+    <string name="activity_filter_reset_filter">Reset Filter</string>
+    <string name="no">No</string>
+    <string name="sports_activity_quick_filter_this_week">This week</string>
+    <string name="qhybrid_pref_summary_external_intents">Allows other Android apps to upload/overwrite files</string>
+    <string name="devicetype_amazfit_trex_pro">Amazfit T-Rex Pro</string>
+    <string name="gps_track">GPS track</string>
+    <string name="prefs_events_forwarding_action_title">Run action</string>
+    <string name="activity_filter_date_to">To</string>
+    <string name="activity_filter_filter_title">Filter</string>
+    <string name="addto_filter">Add to filter</string>
+    <string name="qhybrid_title_apps_management">Apps management</string>
+    <string name="qhybrid_title_calibration">Calibration</string>
+    <string name="sony_automatic_power_off_3_hour">3 hours</string>
+    <string name="activity_filter_apply_filter">Apply Filter</string>
+    <string name="activity_filter_individual_items">Individually selected items</string>
+    <string name="activity_summaries_all_activities">All Activities</string>
+    <string name="sports_activity_quick_filter_7days">7 days</string>
+    <string name="fossil_hr_unavailable_unauthed">Not available in unauthenticated mode</string>
+    <string name="fossil_hr_auth_failed">Authentication failed, limited functionality</string>
+    <string name="pref_title_physical_buttons">Physical buttons</string>
+    <string name="yes">Yes</string>
+    <string name="watchface_widget_type_custom">Custom widget</string>
+    <string name="qhybrid_title_watchface">Watchface configuration</string>
+    <string name="qhybrid_title_apps">Apps</string>
+    <string name="qhybrid_title_background_image">Background image</string>
+    <string name="watchface_widget_type_date">Date</string>
+    <string name="pref_title_developer_settings">Developer settings</string>
+    <string name="pref_summary_developer_settings">Settings and functionality used by developers</string>
+    <string name="qhybrid_pref_title_external_intents">Allow dangerous external intents</string>
+    <string name="fw_upgrade_notice_miband5">You are about to install the %s firmware on your Mi Band 5.
+\n
+\nPlease make sure to install the .fw file, and after that the .res file. Your band will reboot after installing the .fw file.
+\n
+\nNote: You do not have to install .res if it is exactly the same as the one previously installed.
+\n
+\nPROCEED AT YOUR OWN RISK!</string>
+    <string name="activity_type_jump_roping">Jump Rope</string>
+    <string name="sony_automatic_power_off_off">Do not turn off</string>
+    <string name="sony_equalizer_band_400">400</string>
+    <string name="button_watchface_save_apply">Save and apply</string>
+    <string name="sony_touch_sensor">Touch sensor control</string>
+    <string name="sony_dsee_hx">DSEE HX</string>
+    <string name="pref_header_sony_equalizer_preset_custom_2">Custom Preset 2</string>
+    <string name="pref_header_sony_equalizer_preset_custom_1">Custom Preset 1</string>
+    <string name="pref_header_sony_equalizer_preset_manual">Manual Preset</string>
+    <string name="sony_equalizer_preset_custom_2">Custom 2</string>
+    <string name="sony_equalizer_preset_treble_boost">Treble Boost</string>
+    <string name="sony_automatic_power_off_30_min">30 minutes</string>
+    <string name="sony_automatic_power_off_1_hour">1 hour</string>
+    <string name="sony_automatic_power_off_5_min">5 minutes</string>
+    <string name="sony_automatic_power_off">Automatic Power Off</string>
+    <string name="sony_equalizer_clear_bass">Clear Bass</string>
+    <string name="sony_equalizer_band_6300">6.3k</string>
+    <string name="sony_equalizer_preset_custom_1">Custom 1</string>
+    <string name="sony_equalizer_preset_off">Off</string>
+    <string name="sony_warn_sbc_codec">Warning: These settings only work for the SBC audio codec.</string>
+    <string name="sony_notification_voice_guide">Notifications &amp; Voice Guide</string>
+    <string name="sony_equalizer_band_16000">16k</string>
+    <string name="sony_equalizer_band_2500">2.5k</string>
+    <string name="sony_equalizer_preset_manual">Manual</string>
+    <string name="sony_equalizer_preset_speech">Speech</string>
+    <string name="sony_equalizer_preset_bass_boost">Bass Boost</string>
+    <string name="sony_equalizer_preset_vocal">Vocal</string>
+    <string name="sony_equalizer_preset_relaxed">Relaxed</string>
+    <string name="sony_equalizer_preset_mellow">Mellow</string>
+    <string name="sony_equalizer_preset_excited">Excited</string>
+    <string name="sony_equalizer_preset_bright">Bright</string>
+    <string name="sony_equalizer">Equalizer</string>
+    <string name="sony_surround_position_mutually_exclusive">Warning: The sound position / surround mode settings are mutually exclusive.</string>
+    <string name="sony_surround_mode_concert_hall">Concert Hall</string>
+    <string name="sony_surround_mode_outdoor_stage">Outdoor Stage</string>
+    <string name="sony_surround_mode_club">Club</string>
+    <string name="sony_surround_mode_arena">Arena</string>
+    <string name="sony_surround_mode_off">Off</string>
+    <string name="button_watchface_preview">Preview on watch</string>
+    <string name="sony_surround_mode">Surround Mode</string>
+    <string name="sony_sound_position_rear_right">Rear Right</string>
+    <string name="appmanager_app_edit">Edit</string>
+    <string name="prefs_sleep_time_summary">Specifies times when sleep is registered</string>
+    <string name="sony_ambient_sound_level">Ambient Sound Level</string>
+    <string name="watchface_dialog_widget_type">Type:</string>
+    <string name="watchface_dialog_widget_y_coordinate">Y coordinate (max 240):</string>
+    <string name="watchface_dialog_widget_preset_top">Top</string>
+    <string name="watchface_dialog_widget_preset_bottom">Bottom</string>
+    <string name="watchface_dialog_widget_preset_left">Left</string>
+    <string name="qhybrid_title_watchface_designer">Watchface designer</string>
+    <string name="watchface_dialog_widget_color_white">White</string>
+    <string name="watchface_dialog_widget_x_coordinate">X coordinate (max 240):</string>
+    <string name="watchface_dialog_widget_color">Colour:</string>
+    <string name="watchface_setting_wrist_flick_move_relative">Move hands relative to time:</string>
+    <string name="watchface_dialog_title_settings">Watchface settings</string>
+    <string name="watchface_setting_title_display_refresh_timeout">Display refresh timeout</string>
+    <string name="watchface_setting_display_refresh_full">Full refresh (in minutes):</string>
+    <string name="watchface_setting_display_refresh_partial">Partial refresh (in minutes):</string>
+    <string name="watchface_setting_desc_wrist_flick">(to disable completely, enable relative movement and set all values to 0)</string>
+    <string name="watchface_setting_wrist_flick_hour">Hour hand (-360 to 360):</string>
+    <string name="watchface_setting_wrist_flick_minute">Minute hand (-360 to 360):</string>
+    <string name="watchface_setting_wrist_flick_duration">Duration (in ms):</string>
+    <string name="watchface_cache_confirm_overwrite">A watchface with this name already exists in the cache. Do you want to overwrite it\?</string>
+    <string name="watchface_widget_type_2nd_tz">2nd time zone</string>
+    <string name="watchface_widget_type_chance_rain">Chance of rain</string>
+    <string name="watchface_setting_power_saving_display">Disable display updates while off wrist</string>
+    <string name="prefs_sleep_time_label">Define sleep hours</string>
+    <string name="prefs_autoheartrate_measurement">Automatic Heart Rate measurements</string>
+    <string name="watchface_upload_failed">Upload of the watchface failed. Please try again.</string>
+    <string name="watchface_widget_type_active_mins">Active minutes</string>
+    <string name="watchface_setting_title_power_saving">Power saving</string>
+    <string name="watchface_setting_power_saving_hands">Disable hands movement while off wrist</string>
+    <string name="prefs_vibration_enable">Enable vibrations</string>
+    <string name="enable_vibrations_summary">Vibrations for calls, messages, notifications and more</string>
+    <string name="prefs_sleep_time">Sleep times</string>
+    <string name="nothing_prefs_inear_title">In-Ear detection</string>
+    <string name="prefs_pressure_relief">Pressure relief with ambient sound</string>
+    <string name="sony_sound_position_front_left">Front Left</string>
+    <string name="enable_notifications_summary">Notifications for calls, messages and more</string>
+    <string name="prefs_autoheartrate">Automatic Heart Rate</string>
+    <string name="prefs_autoheartrate_interval">Frequency of measurements</string>
+    <string name="devicetype_galaxybuds_live">Galaxy Buds Live</string>
+    <string name="nothing_prefs_audiomode_title">Audio mode</string>
+    <string name="sony_sound_position">Sound Position</string>
+    <string name="sony_sound_position_off">Off</string>
+    <string name="prefs_autoheartrate_summary">Periodical Heart Rate measurements during the day and also while asleep</string>
+    <string name="prefs_autoheartrate_sleep">Take measurements during sleep</string>
+    <string name="sony_sound_position_front">Front</string>
+    <string name="pref_title_equalizer_normal">Normal</string>
+    <string name="prefs_active_noise_cancelling_summary">Block noises of the surroundings</string>
+    <string name="pressure_relief_summary">Prevent feeling of pressure in ears when not using Active Noise Cancelling</string>
+    <string name="sony_ambient_sound_ambient_sound">Ambient Sound</string>
+    <string name="sony_ambient_sound_focus_voice">Focus on Voice</string>
+    <string name="menuitem_sleep">Sleep</string>
+    <string name="menuitem_pomodoro">Pomodoro Tracker</string>
+    <string name="devicetype_fitpro">FitPro</string>
+    <string name="menuitem_spo2">SpO2</string>
+    <string name="menuitem_mutephone">Mute Phone</string>
+    <string name="menuitem_goal">Activity Goal</string>
+    <string name="menuitem_widgets">Widgets</string>
+    <string name="menuitem_temperature">Temperature</string>
+    <string name="about_version">Version %s</string>
+    <string name="about_title">About</string>
+    <string name="about_description">Cloudless copylefted libre replacement for closed source Android gadget apps from vendors.</string>
+    <string name="sports_activity_quick_filter_30days">30 days</string>
+    <string name="sports_activity_quick_filter_select">Time period</string>
+    <string name="device_is_currently_bonded">Already bonded</string>
+    <string name="sports_activity_quick_filter_last_month">Previous month</string>
+    <string name="about_additional_device_support">Additional device support</string>
+    <string name="backstroke">Backstroke</string>
+    <string name="prefs_autoremove_message">Automatically remove SMS notifications</string>
+    <string name="pref_title_ping_tone">Ping tone</string>
+    <string name="devicestatus_disconnected">Device has disconnected!</string>
+    <string name="devicestatus_upload_completed">Upload has completed</string>
+    <string name="prefs_charts_tabs">Charts tabs</string>
+    <string name="prefs_charts_tabs_summary">Visible chart tabs</string>
+    <string name="activity_list_summary_active_steps">Active steps</string>
+    <string name="activity_list_summary_distance">Distance</string>
+    <string name="activity_list_summary_active_time">Active time</string>
+    <string name="activity_list_summary_intensity">Movement
+\nIntensity</string>
+    <string name="activity_list_summary_activities">Activities</string>
+    <string name="dialog_hide">Hide</string>
+    <string name="show_ongoing_activity">Show ongoing activity popup</string>
+    <string name="devicestatus_connecting">Device is connecting</string>
+    <string name="devicestatus_connected">Device is connected</string>
+    <string name="devicestatus_upload_starting">Upload is starting</string>
+    <string name="devicestatus_upload_started">Upload has started</string>
+    <string name="devicestatus_disconnecting">Device is disconnecting!</string>
+    <string name="blood_pressure">Blood pressure</string>
+    <string name="getting_heart_rate">Measuring</string>
+    <string name="heart_rate_result">Measurement results</string>
+    <string name="charts_min_max_heartrate_popup">Lowest heart rate: %1$d
+\nHighest heart rate: %2$d
+\nMovement intensity: %3$s</string>
+    <string name="button_watchface_settings">Watchface settings</string>
+    <string name="watchface_setting_title_wrist_flick">Wrist flick</string>
+    <string name="watchface_dialog_widget_presets">Position presets:</string>
+    <string name="pref_theme_black_background">Use black background in Dark Theme</string>
+    <string name="pref_title_weather_summary">Used for the LineageOS weather provider, other Android versions need to use an app like \"Weather notification\". Find more information in the Gadgetbridge wiki.</string>
+    <string name="discovery_entered_invalid_authkey">The secret auth key you entered is invalid! Long press on the device to edit.</string>
+    <string name="charts_activity_list">Activity list</string>
+    <string name="devicestatus_upload_failed">Upload has failed</string>
+    <string name="firmware_update_progress">Upload is in progress
+\n%1d%% at %.2fkbps (average %.2fkbps)
+\nPart %1d of %1d</string>
+    <string name="activity_prefs_step_length_cm">Step length in cm</string>
+    <string name="activity_prefs_chart_min_steps_per_minute_for_run">Minimal steps per minute to detect run</string>
+    <string name="activity_prefs_chart_max_idle_phase_length">Pause length to separate activities (minutes)</string>
+    <string name="activity_DB_ShowContentButton">Show Export/Import directory content</string>
+    <string name="dbmanagementactivity_export_data_title">Export Data\?</string>
+    <string name="dbmanagementactivity_export_confirmation">Really export data\? Previously exported activity data (if any) and preferences will be overwritten.</string>
+    <string name="activity_db_management_clean_export_directory_label">Delete files in Export/Import directory</string>
+    <string name="devicetype_amazfit_x">Amazfit X</string>
+    <string name="devicetype_zepp_e">Zepp E</string>
+    <string name="menuitem_findphone">Find Phone</string>
+    <string name="menuitem_takephoto">Take a photo</string>
+    <string name="menuitem_alexa">Alexa</string>
+    <string name="pref_title_middle_button_function_short">Middle Button short</string>
+    <string name="pref_title_upper_button_function_long">Upper Button long</string>
+    <string name="ft">ft</string>
+    <string name="bpm">bpm</string>
+    <string name="sports_activity_quick_filter_this_month">This month</string>
+    <string name="fossil_hr_warning_firmware_too_new">Some functions are disabled because the firmware of the watch is too new</string>
+    <string name="pref_summary_physical_buttons">Configure the functionality of the physical buttons on the watch</string>
+    <string name="sports_activity_quick_filter_last_week">Previous week</string>
+    <string name="freestyle">Freestyle</string>
+    <string name="qhybrid_title_file_management">File management</string>
+    <string name="qhybrid_summary_calibration">Calibrate the watch hands</string>
+    <string name="fossil_hr_edit_action_delete">Delete</string>
+    <string name="button_watchface_select_image">Change background image</string>
+    <string name="pref_title_middle_button_function_double">Middle Button double</string>
+    <string name="flatSeconds">Flat</string>
+    <string name="menuitem_barometer">Barometer</string>
+    <string name="pref_title_middle_button_function_long">Middle Button long</string>
+    <string name="minutes_mi">min/mi</string>
+    <string name="pref_summary_canned_messages_dismisscall">Dismiss calls from the watch with an SMS message</string>
+    <string name="devicetype_galaxybuds">Galaxy Buds</string>
+    <string name="prefs_equalizer_preset">Equalizer Preset</string>
+    <string name="pref_title_equalizer_bass_boost">Bass boost</string>
+    <string name="pref_title_equalizer_soft">Soft</string>
+    <string name="pref_title_equalizer_dynamic">Dynamic</string>
+    <string name="pref_title_equalizer_clear">Clear</string>
+    <string name="pref_title_equalizer_trebble">Treble boost</string>
+    <string name="prefs_dolby_mode">Dolby Mode</string>
+    <string name="prefs_equalizer">Equalizer</string>
+    <string name="prefs_equalizer_summary">Enable or disable equalizer</string>
+    <string name="prefs_dolby_summary">Dolby preset for equalizer</string>
+    <string name="prefs_game_mode">Game mode</string>
+    <string name="prefs_game_mode_summary">Only if your phone supports game mode</string>
+    <string name="prefs_touch_lock">Touch Lock</string>
+    <string name="prefs_touch_lock_summary">Disable touch events</string>
+    <string name="prefs_galaxy_buds_experimental">Experimental</string>
+    <string name="prefs_ambient_volume">Ambient volume</string>
+    <string name="menuitem_flashlight">Flashlight</string>
+    <string name="watchface_widget_type_calories">Calories</string>
+    <string name="devicetype_nothingear1">Nothing Ear (1)</string>
+    <string name="seconds_km">sec/km</string>
+    <string name="averageStrokeDistance">Average Stroke Distance</string>
+    <string name="averageHR">Heartrate</string>
+    <string name="averageKMPaceSeconds">Pace</string>
+    <string name="totalStride">Total stride</string>
+    <string name="activeSeconds">Active</string>
+    <string name="caloriesBurnt">Calories</string>
+    <string name="maxSpeed">Maximum</string>
+    <string name="minPace">Slowest Pace</string>
+    <string name="maxAltitude">Maximum</string>
+    <string name="steps">Steps</string>
+    <string name="minAltitude">Minimum</string>
+    <string name="distanceMeters">Distance</string>
+    <string name="ascentMeters">Uphill</string>
+    <string name="descentMeters">Downhill</string>
+    <string name="error_location_enabled_mandatory">Location must be turned on to scan for devices</string>
+    <string name="ignore_bonded_devices">Ignore bonded devices</string>
+    <string name="ignore_bonded_devices_description">Enabling this option will ignore devices that have been bonded/paired already when scanning</string>
+    <string name="error_retrieving_devices_database">Error retrieving devices from database</string>
+    <string name="pref_check_permission_status_summary">Check and ask for missing permissions even when they might not be instantly needed. Disable this only if your devices actually doesn\'t support any of these features. Not granting a permission might cause issues!</string>
+    <string name="pref_check_permission_status">Check permission status</string>
+    <string name="error_background_service_reason">Starting the background service failed because of an exception. Error:</string>
+    <string name="device_requires_key">Key required</string>
+    <string name="error_background_service_reason_truncated">Starting the background service failed because…</string>
+    <string name="error_background_service">Failed to start background service</string>
+    <string name="companiondevice_pairing_details">Enables the new CompanionDevice API support (only has an effect on Android 8 or above) which will increase reliability if the service needs to be restarted in the background, requires re-pairing using Gadgetbridge to have an effect</string>
+    <string name="permission_granting_mandatory">All these permissions are required and instability might occur if not granted</string>
+    <string name="about_links">Links</string>
+    <string name="menuitem_worldclock">World Clock</string>
+    <string name="menuitem_breathing">Breathing</string>
+    <string name="devicetype_sg2">Lemfo SG2</string>
+    <string name="devicetype_pinetime_jf">PineTime (JF Firmware)</string>
+    <string name="devicetype_miband5">Mi Band 5</string>
+    <string name="activity_summary_yesterday">Yesterday</string>
+    <string name="prefs_right">Right</string>
+    <string name="prefs_galaxy_touch_options">Touch Options</string>
+    <string name="prefs_ambient_voice_focus">Voice Focus</string>
+    <string name="prefs_ambient_voice_summary">Make voice stand out</string>
+    <string name="prefs_ambient_sound">Ambient Sound</string>
+    <string name="prefs_ambient_mode">Ambient Mode</string>
+    <string name="prefs_left">Left</string>
+    <string name="nothing_prefs_inear_summary">Play/pause the music depending if you wear the earbuds</string>
+    <string name="title_activity_notification_management">Notification settings</string>
+    <string name="check_all_applications">Check all applications</string>
+    <string name="uncheck_all_applications">Uncheck all applications</string>
+    <string name="fw_upgrade_notice_amazfit_trex">You are about to install the %s firmware on your Amazfit T-Rex.
+\n
+\nPlease make sure to install the .fw file, then the .res file, and finally the .gps file. Your watch will reboot after installing the .fw file.
+\n
+\nNote: You do not have to install .res and .gps if these files are exactly the same as the ones previously installed.
+\n
+\nPROCEED AT YOUR OWN RISK!</string>
+    <string name="fw_upgrade_notice_miband6">You are about to install the %s firmware on your Mi Band 6.
+\n
+\nPlease make sure to install the .fw file, and after that the .res file. Your band will reboot after installing the .fw file.
+\n
+\nNote: You do not have to install .res if it is exactly the same as the one previously installed.
+\n
+\nPROCEED AT YOUR OWN RISK!</string>
+    <string name="fw_upgrade_notice_amazfitx">You are about to install the %s firmware on your Amazfit X.
+\n
+\nPlease make sure to install the .fw file, and after that the .res file. Your band will reboot after installing the .fw file.
+\n
+\nNote: You do not have to install .res if it is exactly the same as the one previously installed.
+\n
+\nPROCEED AT YOUR OWN RISK!</string>
+    <string name="battery_case">Battery case</string>
+    <string name="left_earbud">Left earbud</string>
+    <string name="right_earbud">Right earbud</string>
 </resources>
