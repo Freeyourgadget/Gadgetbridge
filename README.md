@@ -77,6 +77,7 @@ vendor's servers.
 - Pebble
 	- [Pebble, Steel, Time, Time Steel, Time Round, 2](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Pebble)
 - PineTime (InfiniTime Firmware)
+- Roidmi, Roidmi 3 (Bluetooth FM Transmitters)
 - [SMA](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/SMA) Q2 (SMA-Q2-OSS Firmware)
 - Sony WH-1000XM3
 - Teclast H10, H30
