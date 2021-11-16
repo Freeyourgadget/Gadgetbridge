@@ -48,8 +48,8 @@ public class SonyWh1000Xm3Protocol extends GBDeviceProtocol {
      * Packet format:
      * <p>
      * - PACKET_HEADER
-     * - Command type? - almost always 0x0c?
-     * - Sequence Number - needs to be updated with the one sent in the responses
+     * - Command type? - almost always 0x0c or 0x0e?
+     * - Sequence Number - needs to be updated with the one sent in the ACK responses
      * - 4-byte big endian int with number of bytes that will follow
      * - N bytes of data
      * - Checksum (1-byte sum, excluding header)
@@ -96,16 +96,15 @@ public class SonyWh1000Xm3Protocol extends GBDeviceProtocol {
             return null;
         }
 
-        sequenceNumber = message[1];
-
         if (message[0] == MSG_TYPE_ACK) {
             LOG.info("Received ACK: {}", hexdump);
-            return new GBDeviceEvent[]{};
+            sequenceNumber = message[1];
+            return new GBDeviceEvent[]{new GBDeviceEventSendBytes(encodeAck())};
         }
 
         LOG.warn("Unknown message: {}", hexdump);
 
-        return new GBDeviceEvent[]{new GBDeviceEventSendBytes(encodeAck())};
+        return null;
     }
 
     @Override
@@ -239,7 +238,7 @@ public class SonyWh1000Xm3Protocol extends GBDeviceProtocol {
         buf.order(ByteOrder.BIG_ENDIAN);
 
         buf.put((byte) 0x0c);
-        buf.put(sequenceNumber++);
+        buf.put(sequenceNumber);
         buf.putInt(8);
 
         buf.put((byte) 0x68);
@@ -362,7 +361,7 @@ public class SonyWh1000Xm3Protocol extends GBDeviceProtocol {
         buf.order(ByteOrder.BIG_ENDIAN);
 
         buf.put(type);
-        buf.put(sequenceNumber++);
+        buf.put(sequenceNumber);
         buf.putInt(content.length);
         buf.put(content);
 
