@@ -168,7 +168,7 @@ public class DeviceManager {
             @Override
             public int compare(GBDevice lhs, GBDevice rhs) {
                 if (rhs.getStateOrdinal() - lhs.getStateOrdinal() == 0) {
-                    return Collator.getInstance().compare(lhs.getName(), rhs.getName());
+                    return Collator.getInstance().compare(lhs.getAliasOrName(), rhs.getAliasOrName());
                 }
                 return (rhs.getStateOrdinal() - lhs.getStateOrdinal());
             }
