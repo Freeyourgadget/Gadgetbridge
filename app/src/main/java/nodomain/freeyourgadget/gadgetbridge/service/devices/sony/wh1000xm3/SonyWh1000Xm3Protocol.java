@@ -89,9 +89,9 @@ public class SonyWh1000Xm3Protocol extends GBDeviceProtocol {
             return null;
         }
 
-        int payloadLength = ((message[2] << 24) & 0xFF000000) | ((message[3] << 16) & 0xFF0000) | ((message[4] << 8) & 0xFF00) | ((message[5] << 24) & 0xFF000000);
+        int payloadLength = ((message[2] << 24) & 0xFF000000) | ((message[3] << 16) & 0xFF0000) | ((message[4] << 8) & 0xFF00) | (message[5] & 0xFF);
         if (payloadLength != message.length - 7) {
-            LOG.error("Unexpected payload length {}, expected {}", message.length - 6, payloadLength);
+            LOG.error("Unexpected payload length {}, expected {}", message.length - 7, payloadLength);
             return null;
         }
 
