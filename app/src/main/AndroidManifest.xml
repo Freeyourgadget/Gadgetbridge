@@ -627,7 +627,13 @@
             android:name=".devices.qhybrid.HybridHRWatchfaceDesignerActivity"
             android:label="@string/qhybrid_title_watchface_designer"
             android:screenOrientation="portrait"
+            android:launchMode="singleTop"
             android:parentActivityName=".activities.appmanager.AppManagerActivity" />
+        <activity
+            android:name=".devices.qhybrid.HybridHRWatchfaceSettingsActivity"
+            android:label="@string/watchface_dialog_title_settings"
+            android:parentActivityName=".devices.qhybrid.HybridHRWatchfaceDesignerActivity" />
+
         <activity
             android:name=".devices.um25.Activity.DataActivity"
             android:exported="true" />

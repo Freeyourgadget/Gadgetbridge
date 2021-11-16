@@ -44,7 +44,6 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -98,6 +97,9 @@ public class HybridHRWatchfaceDesignerActivity extends AbstractGBActivity implem
     private HybridHRWatchfaceSettings watchfaceSettings = new HybridHRWatchfaceSettings();
     private int defaultWidgetColor = HybridHRWatchfaceWidget.COLOR_WHITE;
     private boolean readyToCloseActivity = false;
+
+    private final int CHILD_ACTIVITY_IMAGE_CHOOSER = 0;
+    private final int CHILD_ACTIVITY_SETTINGS = 1;
 
     BroadcastReceiver fileUploadReceiver = new BroadcastReceiver() {
         @Override
@@ -163,7 +165,7 @@ public class HybridHRWatchfaceDesignerActivity extends AbstractGBActivity implem
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent resultData) {
         super.onActivityResult(requestCode, resultCode, resultData);
-        if (requestCode == 42 && resultCode == Activity.RESULT_OK) {
+        if (requestCode == CHILD_ACTIVITY_IMAGE_CHOOSER && resultCode == Activity.RESULT_OK) {
             Uri imageUri = resultData.getData();
             if (imageUri == null) {
                 LOG.warn("No image selected");
@@ -176,6 +178,8 @@ public class HybridHRWatchfaceDesignerActivity extends AbstractGBActivity implem
                 return;
             }
             renderWatchfacePreview();
+        } else if (requestCode == CHILD_ACTIVITY_SETTINGS && resultCode == Activity.RESULT_OK && resultData != null) {
+            watchfaceSettings = (HybridHRWatchfaceSettings) resultData.getSerializableExtra("watchfaceSettings");
         }
     }
 
@@ -233,7 +237,7 @@ public class HybridHRWatchfaceDesignerActivity extends AbstractGBActivity implem
             Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
             intent.addCategory(Intent.CATEGORY_OPENABLE);
             intent.setType("image/*");
-            startActivityForResult(intent, 42);
+            startActivityForResult(intent, CHILD_ACTIVITY_IMAGE_CHOOSER);
         } else if (v.getId() == R.id.button_add_widget) {
             showWidgetEditPopup(-1);
         } else if (v.getId() == R.id.button_watchface_settings) {
@@ -655,41 +659,9 @@ public class HybridHRWatchfaceDesignerActivity extends AbstractGBActivity implem
     }
 
     private void showWatchfaceSettingsPopup() {
-        View layout = getLayoutInflater().inflate(R.layout.dialog_hybridhr_watchface_settings, null);
-        final EditText displayTimeoutFullInput = layout.findViewById(R.id.watchface_setting_display_full);
-        displayTimeoutFullInput.setText(String.valueOf(watchfaceSettings.getDisplayTimeoutFull()));
-        final EditText displayTimeoutPartialInput = layout.findViewById(R.id.watchface_setting_display_partial);
-        displayTimeoutPartialInput.setText(String.valueOf(watchfaceSettings.getDisplayTimeoutPartial()));
-        final CheckBox wristFlickHandsMoveRelativeInput = layout.findViewById(R.id.watchface_setting_flick_relative);
-        wristFlickHandsMoveRelativeInput.setChecked(watchfaceSettings.isWristFlickHandsMoveRelative());
-        final EditText wristFlickDurationInput = layout.findViewById(R.id.watchface_setting_flick_timeout);
-        wristFlickDurationInput.setText(String.valueOf(watchfaceSettings.getWristFlickDuration()));
-        final EditText wristFlickMoveHourInput = layout.findViewById(R.id.watchface_setting_flick_hour);
-        wristFlickMoveHourInput.setText(String.valueOf(watchfaceSettings.getWristFlickMoveHour()));
-        final EditText wristFlickMoveMinuteInput = layout.findViewById(R.id.watchface_setting_flick_minute);
-        wristFlickMoveMinuteInput.setText(String.valueOf(watchfaceSettings.getWristFlickMoveMinute()));
-        final CheckBox powersaveDisplayInput = layout.findViewById(R.id.watchface_setting_powersave_display);
-        powersaveDisplayInput.setChecked(watchfaceSettings.getPowersaveDisplay());
-        final CheckBox powersaveHandsInput = layout.findViewById(R.id.watchface_setting_powersave_hands);
-        powersaveHandsInput.setChecked(watchfaceSettings.getPowersaveHands());
-        new AlertDialog.Builder(this)
-                .setView(layout)
-                .setNegativeButton(R.string.fossil_hr_new_action_cancel, null)
-                .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        watchfaceSettings.setDisplayTimeoutFull(Integer.parseInt(displayTimeoutFullInput.getText().toString()));
-                        watchfaceSettings.setDisplayTimeoutPartial(Integer.parseInt(displayTimeoutPartialInput.getText().toString()));
-                        watchfaceSettings.setWristFlickHandsMoveRelative(wristFlickHandsMoveRelativeInput.isChecked());
-                        watchfaceSettings.setWristFlickDuration(Integer.parseInt(wristFlickDurationInput.getText().toString()));
-                        watchfaceSettings.setWristFlickMoveHour(Integer.parseInt(wristFlickMoveHourInput.getText().toString()));
-                        watchfaceSettings.setWristFlickMoveMinute(Integer.parseInt(wristFlickMoveMinuteInput.getText().toString()));
-                        watchfaceSettings.setPowersaveDisplay(powersaveDisplayInput.isChecked());
-                        watchfaceSettings.setPowersaveHands(powersaveHandsInput.isChecked());
-                    }
-                })
-                .setTitle(R.string.watchface_dialog_title_settings)
-                .show();
+        Intent intent = new Intent(this, HybridHRWatchfaceSettingsActivity.class);
+        intent.putExtra("watchfaceSettings", watchfaceSettings);
+        startActivityForResult(intent, CHILD_ACTIVITY_SETTINGS);
     }
 
     private void calculateDisplayImageSize() {

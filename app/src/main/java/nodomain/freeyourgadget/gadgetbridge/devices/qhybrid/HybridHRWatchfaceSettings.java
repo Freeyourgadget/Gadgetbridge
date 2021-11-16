@@ -16,7 +16,9 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.devices.qhybrid;
 
-public class HybridHRWatchfaceSettings {
+import java.io.Serializable;
+
+public class HybridHRWatchfaceSettings implements Serializable {
     private int displayTimeoutFull = 60;
     private int displayTimeoutPartial = 15;
     private boolean wristFlickHandsMoveRelative = true;

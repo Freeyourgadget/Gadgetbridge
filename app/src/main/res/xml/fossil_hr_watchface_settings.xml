@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory
+        android:title="@string/watchface_setting_title_display_refresh_timeout">
+
+        <EditTextPreference
+            android:persistent="false"
+            android:key="pref_hybridhr_watchface_refresh_full"
+            android:title="@string/watchface_setting_display_refresh_full" />
+        <EditTextPreference
+            android:persistent="false"
+            android:key="pref_hybridhr_watchface_refresh_partial"
+            android:title="@string/watchface_setting_display_refresh_partial" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="@string/watchface_setting_title_wrist_flick">
+
+        <Preference
+            android:selectable="false"
+            android:enabled="false"
+            android:singleLineTitle="false"
+            android:title="@string/watchface_setting_desc_wrist_flick" />
+        <SwitchPreference
+            android:persistent="false"
+            android:key="pref_hybridhr_watchface_wrist_flick_relative"
+            android:title="@string/watchface_setting_wrist_flick_move_relative"
+            android:singleLineTitle="false" />
+        <EditTextPreference
+            android:persistent="false"
+            android:key="pref_hybridhr_watchface_wrist_flick_hour_hand"
+            android:title="@string/watchface_setting_wrist_flick_hour" />
+        <EditTextPreference
+            android:persistent="false"
+            android:key="pref_hybridhr_watchface_wrist_flick_minute_hand"
+            android:title="@string/watchface_setting_wrist_flick_minute" />
+        <EditTextPreference
+            android:persistent="false"
+            android:key="pref_hybridhr_watchface_wrist_flick_duration"
+            android:title="@string/watchface_setting_wrist_flick_duration" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="@string/watchface_setting_title_power_saving">
+
+        <SwitchPreference
+            android:persistent="false"
+            android:key="pref_hybridhr_watchface_power_saving_display"
+            android:title="@string/watchface_setting_power_saving_display"
+            android:singleLineTitle="false" />
+        <SwitchPreference
+            android:persistent="false"
+            android:key="pref_hybridhr_watchface_power_saving_hands"
+            android:title="@string/watchface_setting_power_saving_hands"
+            android:singleLineTitle="false" />
+
+    </PreferenceCategory>
+</PreferenceScreen>
