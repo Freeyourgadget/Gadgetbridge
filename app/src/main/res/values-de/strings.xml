@@ -1356,4 +1356,15 @@
     <string name="pref_message_privacy_mode_off">Inhalt anzeigen</string>
     <string name="check_all_applications">Alle Apps auswählen</string>
     <string name="pref_applications_settings">Liste der Apps</string>
+    <string name="pref_header_other">Andere</string>
+    <string name="devicetype_sony_wh_1000xm3">Sony WH-1000XM3</string>
+    <string name="devicetype_galaxybuds_live">Galaxy Buds Live</string>
+    <string name="pref_title_equalizer_normal">Normal</string>
+    <string name="pref_header_equalizer">Equalizer</string>
+    <string name="pref_header_system">System</string>
+    <string name="devicetype_galaxybuds">Galaxy Buds</string>
+    <string name="prefs_equalizer_preset">Equalizer-Voreinstellungen</string>
+    <string name="pref_title_equalizer_dynamic">Dynamisch</string>
+    <string name="prefs_equalizer">Equalizer</string>
+    <string name="prefs_equalizer_summary">Equalizer aktivieren oder deaktivieren</string>
 </resources>
