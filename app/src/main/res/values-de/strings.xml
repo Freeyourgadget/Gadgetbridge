@@ -1367,4 +1367,9 @@
     <string name="pref_title_equalizer_dynamic">Dynamisch</string>
     <string name="prefs_equalizer">Equalizer</string>
     <string name="prefs_equalizer_summary">Equalizer aktivieren oder deaktivieren</string>
+    <string name="pref_title_equalizer_soft">Soft</string>
+    <string name="pref_title_equalizer_clear">Klar</string>
+    <string name="prefs_dolby_mode">Dolby-Modus</string>
+    <string name="prefs_dolby_summary">Dolby-Voreinstellung für Equalizer</string>
+    <string name="prefs_galaxy_buds_experimental">Experimentell</string>
 </resources>
