@@ -17,9 +17,15 @@
 package nodomain.freeyourgadget.gadgetbridge.devices.sony.wh1000xm3;
 
 public enum SurroundMode {
-    OFF,
-    ARENA,
-    CLUB,
-    OUTDOOR_STAGE,
-    CONCERT_HALL
+    OFF((byte) 0x00),
+    ARENA((byte) 0x02),
+    CLUB((byte) 0x04),
+    OUTDOOR_STAGE((byte) 0x01),
+    CONCERT_HALL((byte) 0x03);
+
+    public final byte code;
+
+    SurroundMode(final byte code) {
+        this.code = code;
+    }
 }

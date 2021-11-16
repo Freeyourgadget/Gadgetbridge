@@ -30,6 +30,7 @@ import java.util.Arrays;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEvent;
+import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventSendBytes;
 import nodomain.freeyourgadget.gadgetbridge.devices.sony.wh1000xm3.AmbientSoundControl;
 import nodomain.freeyourgadget.gadgetbridge.devices.sony.wh1000xm3.AutomaticPowerOff;
 import nodomain.freeyourgadget.gadgetbridge.devices.sony.wh1000xm3.EqualizerCustomBands;
@@ -45,7 +46,7 @@ public class SonyWh1000Xm3Protocol extends GBDeviceProtocol {
 
     /**
      * Packet format:
-     *
+     * <p>
      * - PACKET_HEADER
      * - Command type? - almost always 0x0c?
      * - Sequence Number - needs to be updated with the one sent in the responses
@@ -53,7 +54,7 @@ public class SonyWh1000Xm3Protocol extends GBDeviceProtocol {
      * - N bytes of data
      * - Checksum (1-byte sum, excluding header)
      * - PACKET_TRAILER
-     *
+     * <p>
      * Data between PACKET_HEADER and PACKET_TRAILER is escaped with PACKET_ESCAPE, and the
      * following byte masked with PACKET_ESCAPE_MASK.
      */
@@ -68,7 +69,7 @@ public class SonyWh1000Xm3Protocol extends GBDeviceProtocol {
     private static final byte CMD_SOUND_SURROUND = 0x01;
     private static final byte CMD_SOUND_POSITION = 0x02;
 
-    private int sequenceNumber = 0;
+    private byte sequenceNumber = 0;
 
     public SonyWh1000Xm3Protocol(GBDevice device) {
         super(device);
@@ -104,7 +105,7 @@ public class SonyWh1000Xm3Protocol extends GBDeviceProtocol {
 
         LOG.warn("Unknown message: {}", hexdump);
 
-        return null;
+        return new GBDeviceEvent[]{new GBDeviceEventSendBytes(encodeAck())};
     }
 
     @Override
@@ -212,23 +213,21 @@ public class SonyWh1000Xm3Protocol extends GBDeviceProtocol {
         return super.encodeSendConfiguration(config);
     }
 
+    public byte[] encodeAck() {
+        return encodeMessage(
+                MSG_TYPE_ACK,
+                new byte[]{}
+        );
+    }
+
     public byte[] encodeTriggerNoiseCancellingOptimizer() {
         // This successfully triggers the noise cancelling optimizer. However, we don't get the
         // optimization progress messages.
 
-        ByteBuffer buf = ByteBuffer.allocate(10);
-        buf.order(ByteOrder.BIG_ENDIAN);
-
-        buf.put((byte) 0x0c);
-        buf.put((byte) sequenceNumber++);
-        buf.putInt(4);
-
-        buf.put((byte) 0x84);
-        buf.put((byte) 0x01);
-        buf.put((byte) 0x00);
-        buf.put((byte) 0x01);
-
-        return encodeMessage(buf.array());
+        return encodeMessage(
+                (byte) 0x0c,
+                new byte[]{(byte) 0x84, (byte) 0x01, (byte) 0x00, (byte) 0x01}
+        );
     }
 
     private byte[] encodeSoundControl(AmbientSoundControl ambientSoundControl, boolean focusOnVoice, int ambientSound) {
@@ -240,7 +239,7 @@ public class SonyWh1000Xm3Protocol extends GBDeviceProtocol {
         buf.order(ByteOrder.BIG_ENDIAN);
 
         buf.put((byte) 0x0c);
-        buf.put((byte) sequenceNumber++);
+        buf.put(sequenceNumber++);
         buf.putInt(8);
 
         buf.put((byte) 0x68);
@@ -274,123 +273,24 @@ public class SonyWh1000Xm3Protocol extends GBDeviceProtocol {
     }
 
     private byte[] encodeSoundPosition(SoundPosition position) {
-        final ByteBuffer buf = ByteBuffer.allocate(9);
-        buf.order(ByteOrder.BIG_ENDIAN);
-
-        buf.put((byte) 0x0c);
-        buf.put((byte) sequenceNumber++);
-        buf.putInt(3);
-
-        buf.put((byte) 0x48);
-        buf.put(CMD_SOUND_POSITION);
-
-        switch (position) {
-            case OFF:
-                buf.put((byte) 0x00);
-                break;
-            case FRONT:
-                buf.put((byte) 0x03);
-                break;
-            case FRONT_LEFT:
-                buf.put((byte) 0x01);
-                break;
-            case FRONT_RIGHT:
-                buf.put((byte) 0x02);
-                break;
-            case REAR_LEFT:
-                buf.put((byte) 0x11);
-                break;
-            case REAR_RIGHT:
-                buf.put((byte) 0x12);
-                break;
-        }
-
-        return encodeMessage(buf.array());
+        return encodeMessage(
+                (byte) 0x0c,
+                new byte[]{(byte) 0x48, CMD_SOUND_POSITION, position.code}
+        );
     }
 
     private byte[] encodeSurroundMode(SurroundMode mode) {
-        final ByteBuffer buf = ByteBuffer.allocate(9);
-        buf.order(ByteOrder.BIG_ENDIAN);
-
-        buf.put((byte) 0x0c);
-        buf.put((byte) sequenceNumber++);
-        buf.putInt(3);
-
-        buf.put((byte) 0x48);
-        buf.put(CMD_SOUND_SURROUND);
-
-        switch (mode) {
-            case OFF:
-                buf.put((byte) 0x00);
-                break;
-            case ARENA:
-                buf.put((byte) 0x02);
-                break;
-            case CLUB:
-                buf.put((byte) 0x04);
-                break;
-            case OUTDOOR_STAGE:
-                buf.put((byte) 0x01);
-                break;
-            case CONCERT_HALL:
-                buf.put((byte) 0x03);
-                break;
-        }
-
-        return encodeMessage(buf.array());
+        return encodeMessage(
+                (byte) 0x0c,
+                new byte[]{(byte) 0x48, CMD_SOUND_SURROUND, mode.code}
+        );
     }
 
     private byte[] encodeEqualizerPreset(EqualizerPreset preset) {
-        final ByteBuffer buf = ByteBuffer.allocate(10);
-        buf.order(ByteOrder.BIG_ENDIAN);
-
-        buf.put((byte) 0x0c);
-        buf.put((byte) sequenceNumber++);
-        buf.putInt(4);
-
-        buf.put((byte) 0x58);
-        buf.put((byte) 0x01);
-
-        switch (preset) {
-            case OFF:
-                buf.put((byte) 0x00).put((byte) 0x00);
-                break;
-            case BRIGHT:
-                buf.put((byte) 0x10).put((byte) 0x00);
-                break;
-            case EXCITED:
-                buf.put((byte) 0x11).put((byte) 0x00);
-                break;
-            case MELLOW:
-                buf.put((byte) 0x12).put((byte) 0x00);
-                break;
-            case RELAXED:
-                buf.put((byte) 0x13).put((byte) 0x00);
-                break;
-            case VOCAL:
-                buf.put((byte) 0x14).put((byte) 0x00);
-                break;
-            case TREBLE_BOOST:
-                buf.put((byte) 0x15).put((byte) 0x00);
-                break;
-            case BASS_BOOST:
-                buf.put((byte) 0x16).put((byte) 0x00);
-                break;
-            case SPEECH:
-                buf.put((byte) 0x17).put((byte) 0x00);
-                break;
-            case MANUAL:
-                buf.put((byte) 0xa0).put((byte) 0x00);
-                break;
-            case CUSTOM_1:
-                buf.put((byte) 0xa1).put((byte) 0x00);
-                break;
-            case CUSTOM_2:
-                buf.put((byte) 0xa2).put((byte) 0x00);
-                break;
-        }
-
-        return encodeMessage(buf.array());
+        return encodeMessage(
+                (byte) 0x0c,
+                new byte[]{(byte) 0x58, (byte) 0x01, preset.code[0], preset.code[1]}
+        );
     }
 
     private byte[] encodeEqualizerCustomBands(EqualizerPreset preset, EqualizerPreset previousPreset, EqualizerCustomBands equalizer) {
@@ -403,12 +303,6 @@ public class SonyWh1000Xm3Protocol extends GBDeviceProtocol {
             }
 
             cmdStream.write(encodeEqualizerCustomBands(equalizer));
-
-            if (preset != previousPreset) {
-                // And then we swap back to the previous preset
-                // FIXME: this is not working, the new preset stays
-                //cmdStream.write(encodeEqualizerPreset(previousPreset));
-            }
         } catch (IOException e) {
             LOG.error("This should never happen", e);
         }
@@ -417,12 +311,7 @@ public class SonyWh1000Xm3Protocol extends GBDeviceProtocol {
     }
 
     private byte[] encodeEqualizerCustomBands(EqualizerCustomBands equalizer) {
-        final ByteBuffer buf = ByteBuffer.allocate(16);
-        buf.order(ByteOrder.BIG_ENDIAN);
-
-        buf.put((byte) 0x0c);
-        buf.put((byte) sequenceNumber++);
-        buf.putInt(10);
+        final ByteBuffer buf = ByteBuffer.allocate(10);
 
         buf.put((byte) 0x58);
         buf.put((byte) 0x01);
@@ -434,86 +323,48 @@ public class SonyWh1000Xm3Protocol extends GBDeviceProtocol {
             buf.put((byte) (band + 10));
         }
 
-        return encodeMessage(buf.array());
+        return encodeMessage(
+                (byte) 0x0c,
+                buf.array()
+        );
     }
 
     private byte[] encodeDSEEHX(boolean enabled) {
-        ByteBuffer buf = ByteBuffer.allocate(10);
-        buf.order(ByteOrder.BIG_ENDIAN);
-
-        buf.put((byte) 0x0c);
-        buf.put((byte) sequenceNumber++);
-        buf.putInt(4);
-
-        buf.put((byte) 0xe8);
-        buf.put((byte) 0x02);
-        buf.put((byte) 0x00);
-        buf.put((byte) (enabled ? 0x01 : 0x00));
-
-        return encodeMessage(buf.array());
+        return encodeMessage(
+                (byte) 0x0c,
+                new byte[]{(byte) 0xe8, (byte) 0x02, (byte) 0x00, (byte) (enabled ? 0x01 : 0x00)}
+        );
     }
 
     private byte[] encodeTouchSensor(boolean enabled) {
-        ByteBuffer buf = ByteBuffer.allocate(10);
-        buf.order(ByteOrder.BIG_ENDIAN);
-
-        buf.put((byte) 0x0c);
-        buf.put((byte) sequenceNumber++);
-        buf.putInt(4);
-
-        buf.put((byte) 0xd8);
-        buf.put((byte) 0xd2);
-        buf.put((byte) 0x01);
-        buf.put((byte) (enabled ? 0x01 : 0x00));
-
-        return encodeMessage(buf.array());
+        return encodeMessage(
+                (byte) 0x0c,
+                new byte[]{(byte) 0xd8, (byte) 0xd2, (byte) 0x01, (byte) (enabled ? 0x01 : 0x00)}
+        );
     }
 
     private byte[] encodeAutomaticPowerOff(AutomaticPowerOff automaticPowerOff) {
-        ByteBuffer buf = ByteBuffer.allocate(11);
-        buf.order(ByteOrder.BIG_ENDIAN);
-
-        buf.put((byte) 0x0c);
-        buf.put((byte) sequenceNumber++);
-        buf.putInt(5);
-
-        buf.put((byte) 0xf8);
-        buf.put((byte) 0x04);
-        buf.put((byte) 0x01);
-
-        switch (automaticPowerOff) {
-            case OFF:
-                buf.put((byte) 0x11).put((byte) 0x00);
-                break;
-            case AFTER_5_MIN:
-                buf.put((byte) 0x00).put((byte) 0x00);
-                break;
-            case AFTER_30_MIN:
-                buf.put((byte) 0x01).put((byte) 0x01);
-                break;
-            case AFTER_1_HOUR:
-                buf.put((byte) 0x02).put((byte) 0x02);
-                break;
-            case AFTER_3_HOUR:
-                buf.put((byte) 0x03).put((byte) 0x03);
-                break;
-        }
-
-        return encodeMessage(buf.array());
+        return encodeMessage(
+                (byte) 0x0c,
+                new byte[]{(byte) 0xf8, (byte) 0x04, (byte) 0x01, automaticPowerOff.code[0], automaticPowerOff.code[1]}
+        );
     }
 
     private byte[] encodeVoiceNotifications(boolean enabled) {
-        ByteBuffer buf = ByteBuffer.allocate(10);
+        return encodeMessage(
+                (byte) 0x0e,
+                new byte[]{(byte) 0x48, (byte) 0x01, (byte) 0x01, (byte) (enabled ? 0x01 : 0x00)}
+        );
+    }
+
+    private byte[] encodeMessage(byte type, byte[] content) {
+        ByteBuffer buf = ByteBuffer.allocate(content.length + 6);
         buf.order(ByteOrder.BIG_ENDIAN);
 
-        buf.put((byte) 0x0e);
-        buf.put((byte) sequenceNumber++);
-        buf.putInt(4);
-
-        buf.put((byte) 0x48);
-        buf.put((byte) 0x01);
-        buf.put((byte) 0x01);
-        buf.put((byte) (enabled ? 0x01 : 0x00));
+        buf.put(type);
+        buf.put(sequenceNumber++);
+        buf.putInt(content.length);
+        buf.put(content);
 
         return encodeMessage(buf.array());
     }

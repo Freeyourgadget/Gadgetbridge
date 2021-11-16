@@ -17,9 +17,15 @@
 package nodomain.freeyourgadget.gadgetbridge.devices.sony.wh1000xm3;
 
 public enum AutomaticPowerOff {
-    OFF,
-    AFTER_5_MIN,
-    AFTER_30_MIN,
-    AFTER_1_HOUR,
-    AFTER_3_HOUR
+    OFF(new byte[]{(byte) 0x11, (byte) 0x00}),
+    AFTER_5_MIN(new byte[]{(byte) 0x00, (byte) 0x00}),
+    AFTER_30_MIN(new byte[]{(byte) 0x01, (byte) 0x01}),
+    AFTER_1_HOUR(new byte[]{(byte) 0x02, (byte) 0x02}),
+    AFTER_3_HOUR(new byte[]{(byte) 0x03, (byte) 0x03});
+
+    public final byte[] code;
+
+    AutomaticPowerOff(final byte[] code) {
+        this.code = code;
+    }
 }

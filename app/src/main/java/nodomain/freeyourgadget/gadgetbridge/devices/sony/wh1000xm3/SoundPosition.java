@@ -17,10 +17,16 @@
 package nodomain.freeyourgadget.gadgetbridge.devices.sony.wh1000xm3;
 
 public enum SoundPosition {
-    OFF,
-    FRONT,
-    FRONT_LEFT,
-    FRONT_RIGHT,
-    REAR_LEFT,
-    REAR_RIGHT
+    OFF((byte) 0x00),
+    FRONT((byte) 0x03),
+    FRONT_LEFT((byte) 0x01),
+    FRONT_RIGHT((byte) 0x02),
+    REAR_LEFT((byte) 0x11),
+    REAR_RIGHT((byte) 0x12);
+
+    public final byte code;
+
+    SoundPosition(final byte code) {
+        this.code = code;
+    }
 }
