@@ -159,7 +159,7 @@ public class HybridHRWatchfaceDesignerActivity extends AbstractGBActivity implem
         findViewById(R.id.button_watchface_settings).setOnClickListener(this);
         findViewById(R.id.watchface_rotate_left).setOnClickListener(this);
         findViewById(R.id.watchface_rotate_right).setOnClickListener(this);
-
+        findViewById(R.id.watchface_remove_image).setOnClickListener(this);
     }
 
     @Override
@@ -242,18 +242,19 @@ public class HybridHRWatchfaceDesignerActivity extends AbstractGBActivity implem
             showWidgetEditPopup(-1);
         } else if (v.getId() == R.id.button_watchface_settings) {
             showWatchfaceSettingsPopup();
-        }
-        else if (v.getId() == R.id.watchface_rotate_left) {
+        } else if (v.getId() == R.id.watchface_rotate_left) {
             if (selectedBackgroundImage != null) {
                 selectedBackgroundImage = BitmapUtil.rotateImage(selectedBackgroundImage, -90);
                 renderWatchfacePreview();
             }
-        }
-        else if (v.getId() == R.id.watchface_rotate_right) {
+        } else if (v.getId() == R.id.watchface_rotate_right) {
             if (selectedBackgroundImage != null) {
                 selectedBackgroundImage = BitmapUtil.rotateImage(selectedBackgroundImage, 90);
                 renderWatchfacePreview();
             }
+        } else if (v.getId() == R.id.watchface_remove_image) {
+            deleteWatchfaceBackground();
+            renderWatchfacePreview();
         }
     }
 
@@ -453,15 +454,7 @@ public class HybridHRWatchfaceDesignerActivity extends AbstractGBActivity implem
             }
         }
         if (selectedBackgroundImage == null) {
-            processedBackgroundImage = Bitmap.createBitmap(displayImageSize, displayImageSize, Bitmap.Config.ARGB_8888);
-            // Paint a gray circle around the watchface
-            Canvas backgroundImageCanvas = new Canvas(processedBackgroundImage);
-            Paint circlePaint = new Paint();
-            circlePaint.setColor(Color.GRAY);
-            circlePaint.setAntiAlias(true);
-            circlePaint.setStrokeWidth(3);
-            circlePaint.setStyle(Paint.Style.STROKE);
-            backgroundImageCanvas.drawCircle(displayImageSize/2f + 2, displayImageSize/2f + 2, displayImageSize/2f - 5, circlePaint);
+            deleteWatchfaceBackground();
         } else {
             processedBackgroundImage = Bitmap.createScaledBitmap(selectedBackgroundImage, displayImageSize, displayImageSize, true);
         }
@@ -482,6 +475,14 @@ public class HybridHRWatchfaceDesignerActivity extends AbstractGBActivity implem
                 onlyPreviewIsRemaining = true;
             }
         }
+        // Paint a gray circle around the watchface
+        Canvas backgroundImageCanvas = new Canvas(processedBackgroundImage);
+        Paint circlePaint = new Paint();
+        circlePaint.setColor(Color.GRAY);
+        circlePaint.setAntiAlias(true);
+        circlePaint.setStrokeWidth(3);
+        circlePaint.setStyle(Paint.Style.STROKE);
+        backgroundImageCanvas.drawCircle(displayImageSize/2f, displayImageSize/2f, displayImageSize/2f - 2, circlePaint);
         // Dynamically add an ImageView for each widget
         Paint widgetPaint = new Paint();
         widgetPaint.setColor(Color.RED);
@@ -693,6 +694,12 @@ public class HybridHRWatchfaceDesignerActivity extends AbstractGBActivity implem
         }
 
         return BitmapUtil.convertToGrayscale(BitmapUtil.getCircularBitmap(bitmap));
+    }
+
+    private void deleteWatchfaceBackground() {
+        selectedBackgroundImage = Bitmap.createBitmap(displayImageSize, displayImageSize, Bitmap.Config.ARGB_8888);
+        selectedBackgroundImage.eraseColor(Color.BLACK);
+        selectedBackgroundImage = BitmapUtil.getCircularBitmap(selectedBackgroundImage);
     }
 
     private void sendToWatch(boolean preview) {

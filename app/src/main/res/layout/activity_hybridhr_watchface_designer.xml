@@ -67,6 +67,13 @@
             android:layout_alignStart="@+id/watchface_rotate_left"
             android:rotationY="180"
             app:srcCompat="@drawable/ic_rotate_left" />
+
+        <ImageView
+            android:id="@+id/watchface_remove_image"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_alignStart="@+id/watchface_rotate_right"
+            app:srcCompat="@drawable/ic_remove_image" />
     </LinearLayout>
 
     <RelativeLayout
