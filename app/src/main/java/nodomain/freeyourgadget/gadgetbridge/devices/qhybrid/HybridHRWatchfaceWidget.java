@@ -33,6 +33,7 @@ public class HybridHRWatchfaceWidget {
     private int posY;
     private int color = 0;
     private String timezone;
+    private int updateTimeout = -1;
 
     public static int COLOR_WHITE = 0;
     public static int COLOR_BLACK = 1;
@@ -46,6 +47,10 @@ public class HybridHRWatchfaceWidget {
     public HybridHRWatchfaceWidget(String widgetType, int posX, int posY, int color, String timezone) {
         this(widgetType, posX, posY, color);
         this.timezone = timezone;
+    }
+    public HybridHRWatchfaceWidget(String widgetType, int posX, int posY, int color, int updateTimeout) {
+        this(widgetType, posX, posY, color);
+        this.updateTimeout = updateTimeout;
     }
 
 
@@ -97,5 +102,8 @@ public class HybridHRWatchfaceWidget {
 
     public String getTimezone() {
         return timezone;
+    }
+    public int getUpdateTimeout() {
+        return updateTimeout;
     }
 }

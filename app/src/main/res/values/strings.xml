@@ -1388,5 +1388,7 @@
     <string name="sony_automatic_power_off_3_hour">3 hours</string>
     <string name="sony_automatic_power_off_when_taken_off">When taken off</string>
     <string name="watchface_widget_type_custom">Custom widget</string>
+    <string name="watchface_dialog_widget_timezone">Time zone:</string>
+    <string name="watchface_dialog_widget_update_timeout">Update timeout in minutes:</string>
 
 </resources>

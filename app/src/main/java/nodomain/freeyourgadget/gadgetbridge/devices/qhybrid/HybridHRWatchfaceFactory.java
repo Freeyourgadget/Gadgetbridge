@@ -76,6 +76,11 @@ public class HybridHRWatchfaceFactory {
                     widget.put("name", widgetDesc.getWidgetType());
                     widget.put("goal_ring", false);
                     widget.put("color", widgetDesc.getColor() == HybridHRWatchfaceWidget.COLOR_WHITE ? "white" : "black");
+                    if (widgetDesc.getUpdateTimeout() >= 0) {
+                        JSONObject data = new JSONObject();
+                        data.put("update_timeout", widgetDesc.getUpdateTimeout());
+                        widget.put("data", data);
+                    }
                     break;
                 case "widget2ndTZ":
                     widget.put("type", "comp");

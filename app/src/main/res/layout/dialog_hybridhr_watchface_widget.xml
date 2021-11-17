@@ -84,11 +84,27 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Time zone:" />
+            android:text="@string/watchface_dialog_widget_timezone" />
         <Spinner
             android:id="@+id/watchface_widget_timezone_spinner"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/watchface_widget_update_timeout_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/watchface_dialog_widget_update_timeout" />
+        <EditText
+            android:id="@+id/watchface_widget_update_timeout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="number"/>
     </LinearLayout>
 
 </LinearLayout>
