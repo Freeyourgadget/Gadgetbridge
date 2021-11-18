@@ -2,7 +2,8 @@
 <resources>
     <string name="app_name">Gadgetbridge</string>
     <string name="title_activity_controlcenter">Gadgetbridge</string>
-    <string name="action_settings">הגדרות</string>
+    <string name="action_settings">הגדרות
+\n</string>
     <string name="action_debug">ניפוי שגיאות</string>
     <string name="action_quit">יציאה</string>
     <string name="controlcenter_fetch_activity_data">סנכרון</string>
@@ -1441,4 +1442,12 @@
     <string name="sony_automatic_power_off_1_hour">שעה</string>
     <string name="watchface_widget_type_custom">וידג׳ט מותאם אישית</string>
     <string name="sony_automatic_power_off_off">לא לכבות</string>
+    <string name="device_card_activity_card_title">פרטי פעילות על כרטיס מכשיר</string>
+    <string name="device_card_activity_card_title_summary">נא לבחור אילו פרטי פעילות מופיעים בכרטיס המכשיר</string>
+    <string name="prefs_activity_in_device_card_title">הצגת פרטי פעילות בכרטיס המכשיר</string>
+    <string name="prefs_activity_in_device_card_title_summary">הצגת הצעדים הנוכחיים, המרחק או השינה בכרטיס המכשיר</string>
+    <string name="prefs_activity_in_device_card_sleep_title">שינה</string>
+    <string name="prefs_activity_in_device_card_distance_title_summary">המרחק מחושב מצעדים ואורך צעד (אפשר להגדיר תחת הגדרות - עליך)</string>
+    <string name="prefs_activity_in_device_card_steps_title_summary">הצגת סך כל הצעדים</string>
+    <string name="prefs_activity_in_device_card_sleep_title_summary">הצגת משך שינה</string>
 </resources>
