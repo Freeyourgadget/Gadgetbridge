@@ -1238,7 +1238,7 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
                 registerReceiver(mAlarmClockReceiver, filter);
             }
 
-            if (mOsmandAidlHelper == null) {
+            if (mOsmandAidlHelper == null && coordinator != null && coordinator.supportsNavigation(mGBDevice)) {
                 mOsmandAidlHelper = new OsmandEventReceiver(this.getApplication());
             }
 
