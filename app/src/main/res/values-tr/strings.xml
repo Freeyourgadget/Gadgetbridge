@@ -1467,4 +1467,12 @@
     <string name="sony_equalizer_band_1000">1b</string>
     <string name="sony_touch_sensor">Dokunma sensörü denetimi</string>
     <string name="sony_notification_voice_guide">Bildirimler ve Sesli Rehber</string>
+    <string name="prefs_activity_in_device_card_title_summary">Aygıt kartında geçerli adımları, mesafeyi veya uykuyu göster</string>
+    <string name="prefs_activity_in_device_card_sleep_title">Uyku</string>
+    <string name="prefs_activity_in_device_card_sleep_title_summary">Uyku süresini göster</string>
+    <string name="prefs_activity_in_device_card_steps_title_summary">Toplam adımları göster</string>
+    <string name="device_card_activity_card_title">Aygıt kartındaki etkinlik bilgileri</string>
+    <string name="device_card_activity_card_title_summary">Aygıt kartında hangi etkinlik ayrıntılarının görüntüleneceğini seçin</string>
+    <string name="prefs_activity_in_device_card_title">Aygıt kartında etkinlik bilgilerini göster</string>
+    <string name="prefs_activity_in_device_card_distance_title_summary">Mesafe, adımlardan ve adım uzunluğundan hesaplanır (Ayarlar - Hakkınızda bölümünden ayarlanabilir)</string>
 </resources>
