@@ -2,7 +2,8 @@
 <resources>
     <string name="app_name">Gadgetbridge</string>
     <string name="title_activity_controlcenter">Gadgetbridge</string>
-    <string name="action_settings">Ustawienia</string>
+    <string name="action_settings">Ustawienia
+\n</string>
     <string name="action_debug">Debuguj</string>
     <string name="action_quit">Wyjdź</string>
     <string name="controlcenter_fetch_activity_data">Synchronizuj</string>
