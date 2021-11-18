@@ -1448,4 +1448,12 @@
     <string name="sony_warn_sbc_codec">警告：这些设置仅在SBC音频编码下工作。</string>
     <string name="sony_equalizer_preset_speech">演讲</string>
     <string name="sony_equalizer_band_2500">2.5K</string>
+    <string name="prefs_activity_in_device_card_title_summary">在设备卡片上显示当前的步数、距离或睡眠时间</string>
+    <string name="prefs_activity_in_device_card_sleep_title">睡眠</string>
+    <string name="prefs_activity_in_device_card_distance_title_summary">距离由步数和步长计算（在“设置-关于您”中可调整）</string>
+    <string name="prefs_activity_in_device_card_steps_title_summary">显示总计步数</string>
+    <string name="device_card_activity_card_title">设备卡片上的活动信息</string>
+    <string name="device_card_activity_card_title_summary">选择在设备卡片上显示的活动详细信息</string>
+    <string name="prefs_activity_in_device_card_title">在设备卡片上显示活动信息</string>
+    <string name="prefs_activity_in_device_card_sleep_title_summary">显示睡眠时间</string>
 </resources>
