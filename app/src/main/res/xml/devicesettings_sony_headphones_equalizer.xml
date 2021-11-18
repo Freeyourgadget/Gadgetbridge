@@ -1,48 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
     <PreferenceCategory
-        android:key="pref_key_header_sony_ambient_sound_control"
-        android:title="@string/pref_header_sony_ambient_sound_control">
-
-        <ListPreference
-            android:defaultValue="noise_cancelling"
-            android:entries="@array/sony_wh1000xm3_ambient_sound_control_names"
-            android:entryValues="@array/sony_wh1000xm3_ambient_sound_control_values"
-            android:icon="@drawable/ic_hearing"
-            android:key="pref_sony_wh1000xm3_ambient_sound_control"
-            android:summary="%s"
-            android:title="@string/sony_ambient_sound" />
-
-        <SeekBarPreference
-            android:defaultValue="0"
-            android:icon="@drawable/ic_volume_up"
-            android:key="pref_sony_wh1000xm3_ambient_sound_level"
-            android:max="19"
-            android:title="@string/sony_ambient_sound_level" />
-
-        <SwitchPreference
-            android:defaultValue="true"
-            android:icon="@drawable/ic_voice"
-            android:key="pref_sony_wh1000xm3_focus_voice"
-            android:title="@string/sony_ambient_sound_focus_voice" />
-
-    </PreferenceCategory>
-
-    <PreferenceCategory
         android:key="pref_key_equalizer"
         android:title="@string/pref_header_equalizer">
 
-        <Preference
-            android:icon="@drawable/ic_warning"
-            android:key="pref_sony_wh1000xm3_warning_sbc_codec_1"
-            android:summary="@string/sony_warn_sbc_codec" />
-
         <ListPreference
             android:defaultValue="off"
-            android:entries="@array/sony_wh1000xm3_equalizer_mode_names"
-            android:entryValues="@array/sony_wh1000xm3_equalizer_mode_values"
+            android:entries="@array/sony_equalizer_mode_names"
+            android:entryValues="@array/sony_equalizer_mode_values"
             android:icon="@drawable/ic_graphic_eq"
-            android:key="pref_sony_wh1000xm3_equalizer_mode"
+            android:key="pref_sony_equalizer_mode"
             android:summary="%s"
             android:title="@string/sony_equalizer" />
 
@@ -59,37 +26,37 @@
                 <SeekBarPreference
                     android:defaultValue="10"
                     android:icon="@drawable/ic_graphic_eq"
-                    android:key="pref_sony_wh1000xm3_equalizer_manual_band_400"
+                    android:key="pref_sony_equalizer_manual_band_400"
                     android:max="20"
                     android:title="@string/sony_equalizer_band_400" />
                 <SeekBarPreference
                     android:defaultValue="10"
                     android:icon="@drawable/ic_graphic_eq"
-                    android:key="pref_sony_wh1000xm3_equalizer_manual_band_1000"
+                    android:key="pref_sony_equalizer_manual_band_1000"
                     android:max="20"
                     android:title="@string/sony_equalizer_band_1000" />
                 <SeekBarPreference
                     android:defaultValue="10"
                     android:icon="@drawable/ic_graphic_eq"
-                    android:key="pref_sony_wh1000xm3_equalizer_manual_band_2500"
+                    android:key="pref_sony_equalizer_manual_band_2500"
                     android:max="20"
                     android:title="@string/sony_equalizer_band_2500" />
                 <SeekBarPreference
                     android:defaultValue="10"
                     android:icon="@drawable/ic_graphic_eq"
-                    android:key="pref_sony_wh1000xm3_equalizer_manual_band_6300"
+                    android:key="pref_sony_equalizer_manual_band_6300"
                     android:max="20"
                     android:title="@string/sony_equalizer_band_6300" />
                 <SeekBarPreference
                     android:defaultValue="10"
                     android:icon="@drawable/ic_graphic_eq"
-                    android:key="pref_sony_wh1000xm3_equalizer_manual_band_16000"
+                    android:key="pref_sony_equalizer_manual_band_16000"
                     android:max="20"
                     android:title="@string/sony_equalizer_band_16000" />
                 <SeekBarPreference
                     android:defaultValue="10"
                     android:icon="@drawable/ic_speaker"
-                    android:key="pref_sony_wh1000xm3_equalizer_manual_clear_bass"
+                    android:key="pref_sony_equalizer_manual_clear_bass"
                     android:max="20"
                     android:title="@string/sony_equalizer_clear_bass" />
             </PreferenceCategory>
@@ -108,37 +75,37 @@
                 <SeekBarPreference
                     android:defaultValue="10"
                     android:icon="@drawable/ic_graphic_eq"
-                    android:key="pref_sony_wh1000xm3_equalizer_custom_1_band_400"
+                    android:key="pref_sony_equalizer_custom_1_band_400"
                     android:max="20"
                     android:title="@string/sony_equalizer_band_400" />
                 <SeekBarPreference
                     android:defaultValue="10"
                     android:icon="@drawable/ic_graphic_eq"
-                    android:key="pref_sony_wh1000xm3_equalizer_custom_1_band_1000"
+                    android:key="pref_sony_equalizer_custom_1_band_1000"
                     android:max="20"
                     android:title="@string/sony_equalizer_band_1000" />
                 <SeekBarPreference
                     android:defaultValue="10"
                     android:icon="@drawable/ic_graphic_eq"
-                    android:key="pref_sony_wh1000xm3_equalizer_custom_1_band_2500"
+                    android:key="pref_sony_equalizer_custom_1_band_2500"
                     android:max="20"
                     android:title="@string/sony_equalizer_band_2500" />
                 <SeekBarPreference
                     android:defaultValue="10"
                     android:icon="@drawable/ic_graphic_eq"
-                    android:key="pref_sony_wh1000xm3_equalizer_custom_1_band_6300"
+                    android:key="pref_sony_equalizer_custom_1_band_6300"
                     android:max="20"
                     android:title="@string/sony_equalizer_band_6300" />
                 <SeekBarPreference
                     android:defaultValue="10"
                     android:icon="@drawable/ic_graphic_eq"
-                    android:key="pref_sony_wh1000xm3_equalizer_custom_1_band_16000"
+                    android:key="pref_sony_equalizer_custom_1_band_16000"
                     android:max="20"
                     android:title="@string/sony_equalizer_band_16000" />
                 <SeekBarPreference
                     android:defaultValue="10"
                     android:icon="@drawable/ic_speaker"
-                    android:key="pref_sony_wh1000xm3_equalizer_custom_1_clear_bass"
+                    android:key="pref_sony_equalizer_custom_1_clear_bass"
                     android:max="20"
                     android:title="@string/sony_equalizer_clear_bass" />
             </PreferenceCategory>
@@ -157,105 +124,40 @@
                 <SeekBarPreference
                     android:defaultValue="10"
                     android:icon="@drawable/ic_graphic_eq"
-                    android:key="pref_sony_wh1000xm3_equalizer_custom_2_band_400"
+                    android:key="pref_sony_equalizer_custom_2_band_400"
                     android:max="20"
                     android:title="@string/sony_equalizer_band_400" />
                 <SeekBarPreference
                     android:defaultValue="10"
                     android:icon="@drawable/ic_graphic_eq"
-                    android:key="pref_sony_wh1000xm3_equalizer_custom_2_band_1000"
+                    android:key="pref_sony_equalizer_custom_2_band_1000"
                     android:max="20"
                     android:title="@string/sony_equalizer_band_1000" />
                 <SeekBarPreference
                     android:defaultValue="10"
                     android:icon="@drawable/ic_graphic_eq"
-                    android:key="pref_sony_wh1000xm3_equalizer_custom_2_band_2500"
+                    android:key="pref_sony_equalizer_custom_2_band_2500"
                     android:max="20"
                     android:title="@string/sony_equalizer_band_2500" />
                 <SeekBarPreference
                     android:defaultValue="10"
                     android:icon="@drawable/ic_graphic_eq"
-                    android:key="pref_sony_wh1000xm3_equalizer_custom_2_band_6300"
+                    android:key="pref_sony_equalizer_custom_2_band_6300"
                     android:max="20"
                     android:title="@string/sony_equalizer_band_6300" />
                 <SeekBarPreference
                     android:defaultValue="10"
                     android:icon="@drawable/ic_graphic_eq"
-                    android:key="pref_sony_wh1000xm3_equalizer_custom_2_band_16000"
+                    android:key="pref_sony_equalizer_custom_2_band_16000"
                     android:max="20"
                     android:title="@string/sony_equalizer_band_16000" />
                 <SeekBarPreference
                     android:defaultValue="10"
                     android:icon="@drawable/ic_speaker"
-                    android:key="pref_sony_wh1000xm3_equalizer_custom_2_clear_bass"
+                    android:key="pref_sony_equalizer_custom_2_clear_bass"
                     android:max="20"
                     android:title="@string/sony_equalizer_clear_bass" />
             </PreferenceCategory>
         </PreferenceScreen>
-    </PreferenceCategory>
-
-    <PreferenceCategory
-        android:key="pref_key_other"
-        android:title="@string/pref_header_other">
-
-        <Preference
-            android:icon="@drawable/ic_warning"
-            android:key="pref_sony_wh1000xm3_warning_position_surround"
-            android:summary="@string/sony_surround_position_mutually_exclusive" />
-
-        <Preference
-            android:icon="@drawable/ic_warning"
-            android:key="pref_sony_wh1000xm3_warning_sbc_codec_2"
-            android:summary="@string/sony_warn_sbc_codec" />
-
-        <ListPreference
-            android:defaultValue="off"
-            android:entries="@array/sony_wh1000xm3_sound_position_names"
-            android:entryValues="@array/sony_wh1000xm3_sound_position_values"
-            android:icon="@drawable/ic_switch_left"
-            android:key="pref_sony_wh1000xm3_sound_position"
-            android:summary="%s"
-            android:title="@string/sony_sound_position" />
-
-        <ListPreference
-            android:defaultValue="off"
-            android:entries="@array/sony_wh1000xm3_surround_mode_names"
-            android:entryValues="@array/sony_wh1000xm3_surround_mode_values"
-            android:icon="@drawable/ic_surround"
-            android:key="pref_sony_wh1000xm3_surround_mode"
-            android:summary="%s"
-            android:title="@string/sony_surround_mode" />
-
-        <SwitchPreference
-            android:defaultValue="false"
-            android:icon="@drawable/ic_extension"
-            android:key="pref_sony_wh1000xm3_dsee_hx"
-            android:title="@string/sony_dsee_hx" />
-    </PreferenceCategory>
-
-    <PreferenceCategory
-        android:key="pref_key_other"
-        android:title="@string/pref_header_system">
-
-        <SwitchPreference
-            android:defaultValue="true"
-            android:icon="@drawable/ic_touch"
-            android:key="pref_sony_wh1000xm3_touch_sensor"
-            android:title="@string/sony_touch_sensor" />
-
-        <ListPreference
-            android:defaultValue="off"
-            android:entries="@array/sony_wh1000xm3_automatic_power_off_names"
-            android:entryValues="@array/sony_wh1000xm3_automatic_power_off_values"
-            android:icon="@drawable/ic_power_settings_new"
-            android:key="pref_sony_wh1000xm3_automatic_power_off"
-            android:summary="%s"
-            android:title="@string/sony_automatic_power_off" />
-
-        <SwitchPreference
-            android:defaultValue="true"
-            android:icon="@drawable/ic_notifications"
-            android:key="pref_sony_wh1000xm3_notification_voice_guide"
-            android:title="@string/sony_notification_voice_guide" />
     </PreferenceCategory>
 </androidx.preference.PreferenceScreen>

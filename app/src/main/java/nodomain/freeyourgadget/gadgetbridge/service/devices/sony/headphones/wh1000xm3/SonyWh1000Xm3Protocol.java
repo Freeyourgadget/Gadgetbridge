@@ -14,18 +14,13 @@
 
     You should have received a copy of the GNU Affero General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
-package nodomain.freeyourgadget.gadgetbridge.devices.sony.wh1000xm3;
+package nodomain.freeyourgadget.gadgetbridge.service.devices.sony.headphones.wh1000xm3;
 
-public enum SurroundMode {
-    OFF((byte) 0x00),
-    ARENA((byte) 0x02),
-    CLUB((byte) 0x04),
-    OUTDOOR_STAGE((byte) 0x01),
-    CONCERT_HALL((byte) 0x03);
+import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.sony.headphones.SonyHeadphonesProtocol;
 
-    public final byte code;
-
-    SurroundMode(final byte code) {
-        this.code = code;
+public class SonyWh1000Xm3Protocol extends SonyHeadphonesProtocol {
+    public SonyWh1000Xm3Protocol(GBDevice device) {
+        super(device);
     }
 }

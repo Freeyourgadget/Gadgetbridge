@@ -1853,21 +1853,21 @@
         <item>3</item>
     </string-array>
 
-    <string-array name="sony_wh1000xm3_ambient_sound_control_names">
+    <string-array name="sony_ambient_sound_control_names">
         <item>@string/sony_ambient_sound_off</item>
         <item>@string/sony_ambient_sound_noise_cancelling</item>
         <item>@string/sony_ambient_sound_wind_noise_reduction</item>
         <item>@string/sony_ambient_sound_ambient_sound</item>
     </string-array>
 
-    <string-array name="sony_wh1000xm3_ambient_sound_control_values">
+    <string-array name="sony_ambient_sound_control_values">
         <item>off</item>
         <item>noise_cancelling</item>
         <item>wind_noise_reduction</item>
         <item>ambient_sound</item>
     </string-array>
 
-    <string-array name="sony_wh1000xm3_sound_position_names">
+    <string-array name="sony_sound_position_names">
         <item>@string/sony_sound_position_off</item>
         <item>@string/sony_sound_position_front</item>
         <item>@string/sony_sound_position_front_left</item>
@@ -1876,7 +1876,7 @@
         <item>@string/sony_sound_position_rear_right</item>
     </string-array>
 
-    <string-array name="sony_wh1000xm3_sound_position_values">
+    <string-array name="sony_sound_position_values">
         <item>off</item>
         <item>front</item>
         <item>front_left</item>
@@ -1885,7 +1885,7 @@
         <item>rear_right</item>
     </string-array>
 
-    <string-array name="sony_wh1000xm3_surround_mode_names">
+    <string-array name="sony_surround_mode_names">
         <item>@string/sony_surround_mode_off</item>
         <item>@string/sony_surround_mode_arena</item>
         <item>@string/sony_surround_mode_club</item>
@@ -1893,7 +1893,7 @@
         <item>@string/sony_surround_mode_concert_hall</item>
     </string-array>
 
-    <string-array name="sony_wh1000xm3_surround_mode_values">
+    <string-array name="sony_surround_mode_values">
         <item>off</item>
         <item>arena</item>
         <item>club</item>
@@ -1901,7 +1901,7 @@
         <item>concert_hall</item>
     </string-array>
 
-    <string-array name="sony_wh1000xm3_equalizer_mode_names">
+    <string-array name="sony_equalizer_mode_names">
         <item>@string/sony_equalizer_preset_off</item>
         <item>@string/sony_equalizer_preset_bright</item>
         <item>@string/sony_equalizer_preset_excited</item>
@@ -1916,7 +1916,7 @@
         <item>@string/sony_equalizer_preset_custom_2</item>
     </string-array>
 
-    <string-array name="sony_wh1000xm3_equalizer_mode_values">
+    <string-array name="sony_equalizer_mode_values">
         <item>off</item>
         <item>bright</item>
         <item>excited</item>
@@ -1931,7 +1931,7 @@
         <item>custom_2</item>
     </string-array>
 
-    <string-array name="sony_wh1000xm3_automatic_power_off_names">
+    <string-array name="sony_automatic_power_off_names">
         <item>@string/sony_automatic_power_off_off</item>
         <item>@string/sony_automatic_power_off_5_min</item>
         <item>@string/sony_automatic_power_off_30_min</item>
@@ -1939,7 +1939,7 @@
         <item>@string/sony_automatic_power_off_3_hour</item>
     </string-array>
 
-    <string-array name="sony_wh1000xm3_automatic_power_off_values">
+    <string-array name="sony_automatic_power_off_values">
         <item>off</item>
         <item>after_5_min</item>
         <item>after_30_min</item>

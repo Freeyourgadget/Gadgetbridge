@@ -14,7 +14,7 @@
 
     You should have received a copy of the GNU Affero General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
-package nodomain.freeyourgadget.gadgetbridge.devices.sony.wh1000xm3;
+package nodomain.freeyourgadget.gadgetbridge.devices.sony.headphones;
 
 import java.util.List;
 

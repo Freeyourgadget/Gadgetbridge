@@ -14,7 +14,7 @@
 
     You should have received a copy of the GNU Affero General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
-package nodomain.freeyourgadget.gadgetbridge.devices.sony.wh1000xm3;
+package nodomain.freeyourgadget.gadgetbridge.devices.sony.headphones;
 
 import android.app.Activity;
 import android.content.Context;
@@ -23,38 +23,16 @@ import android.net.Uri;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import nodomain.freeyourgadget.gadgetbridge.GBException;
-import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.devices.AbstractDeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.InstallHandler;
 import nodomain.freeyourgadget.gadgetbridge.devices.SampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
 import nodomain.freeyourgadget.gadgetbridge.entities.Device;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
-import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceCandidate;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
-import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
 
-public class SonyWh1000Xm3Coordinator extends AbstractDeviceCoordinator {
-    private static final Logger LOG = LoggerFactory.getLogger(SonyWh1000Xm3Coordinator.class);
-
-    @NonNull
-    @Override
-    public DeviceType getSupportedType(GBDeviceCandidate candidate) {
-        if (candidate.getName().contains("WH-1000XM3")) {
-            return DeviceType.SONY_WH_1000XM3;
-        }
-        return DeviceType.UNKNOWN;
-    }
-
-    @Override
-    public DeviceType getDeviceType() {
-        return DeviceType.SONY_WH_1000XM3;
-    }
-
+public abstract class SonyHeadphonesCoordinator extends AbstractDeviceCoordinator {
     @Override
     public String getManufacturer() {
         return "Sony";
@@ -138,12 +116,5 @@ public class SonyWh1000Xm3Coordinator extends AbstractDeviceCoordinator {
     @Override
     public boolean supportsFindDevice() {
         return false;
-    }
-
-    @Override
-    public int[] getSupportedDeviceSpecificSettings(final GBDevice device) {
-        return new int[]{
-                R.xml.devicesettings_sony_1000xm3
-        };
     }
 }

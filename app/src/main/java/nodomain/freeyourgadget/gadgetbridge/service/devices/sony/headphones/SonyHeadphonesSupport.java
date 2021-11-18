@@ -14,7 +14,7 @@
 
     You should have received a copy of the GNU Affero General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
-package nodomain.freeyourgadget.gadgetbridge.service.devices.sony.wh1000xm3;
+package nodomain.freeyourgadget.gadgetbridge.service.devices.sony.headphones;
 
 import android.net.Uri;
 
@@ -25,12 +25,14 @@ import java.util.ArrayList;
 import java.util.UUID;
 
 import nodomain.freeyourgadget.gadgetbridge.model.Alarm;
+import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.sony.headphones.wh1000xm3.SonyWh1000Xm3Protocol;
 import nodomain.freeyourgadget.gadgetbridge.service.serial.AbstractSerialDeviceSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.serial.GBDeviceIoThread;
 import nodomain.freeyourgadget.gadgetbridge.service.serial.GBDeviceProtocol;
 
-public class SonyWh1000Xm3Support extends AbstractSerialDeviceSupport {
-    private static final Logger LOG = LoggerFactory.getLogger(SonyWh1000Xm3Support.class);
+public class SonyHeadphonesSupport extends AbstractSerialDeviceSupport {
+    private static final Logger LOG = LoggerFactory.getLogger(SonyHeadphonesSupport.class);
 
     @Override
     public boolean connect() {
@@ -41,17 +43,24 @@ public class SonyWh1000Xm3Support extends AbstractSerialDeviceSupport {
 
     @Override
     protected GBDeviceProtocol createDeviceProtocol() {
-        return new SonyWh1000Xm3Protocol(getDevice());
+        DeviceType deviceType = getDevice().getType();
+        switch (deviceType) {
+            case SONY_WH_1000XM3:
+                return new SonyWh1000Xm3Protocol(getDevice());
+            default:
+                LOG.error("Unsupported Sony device type '{}' with key '{}", deviceType, deviceType.getKey());
+                return null;
+        }
     }
 
     @Override
     protected GBDeviceIoThread createDeviceIOThread() {
-        return new SonyWh1000Xm3IoThread(getDevice(), getContext(), (SonyWh1000Xm3Protocol) getDeviceProtocol(), SonyWh1000Xm3Support.this, getBluetoothAdapter());
+        return new SonyHeadphonesIoThread(getDevice(), getContext(), (SonyHeadphonesProtocol) getDeviceProtocol(), SonyHeadphonesSupport.this, getBluetoothAdapter());
     }
 
     @Override
-    public synchronized SonyWh1000Xm3IoThread getDeviceIOThread() {
-        return (SonyWh1000Xm3IoThread) super.getDeviceIOThread();
+    public synchronized SonyHeadphonesIoThread getDeviceIOThread() {
+        return (SonyHeadphonesIoThread) super.getDeviceIOThread();
     }
 
     @Override

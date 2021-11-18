@@ -88,13 +88,13 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.pinetime.PineTimeJFS
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.QHybridSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.roidmi.RoidmiSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.smaq2oss.SMAQ2OSSSupport;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.sony.headphones.SonyHeadphonesSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.sonyswr12.SonySWR12DeviceSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.tlw64.TLW64Support;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.um25.Support.UM25Support;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.vibratissimo.VibratissimoSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.waspos.WaspOSDeviceSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.watch9.Watch9DeviceSupport;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.sony.wh1000xm3.SonyWh1000Xm3Support;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.xwatch.XWatchSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.zetime.ZeTimeDeviceSupport;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
@@ -369,9 +369,9 @@ public class DeviceSupportFactory {
                         break;
                     case GALAXY_BUDS_LIVE:
                         deviceSupport = new ServiceDeviceSupport(new GalaxyBudsDeviceSupport(), EnumSet.of(ServiceDeviceSupport.Flags.BUSY_CHECKING));
-			break;
+                        break;
                     case SONY_WH_1000XM3:
-                        deviceSupport = new ServiceDeviceSupport(new SonyWh1000Xm3Support(), EnumSet.of(ServiceDeviceSupport.Flags.BUSY_CHECKING));
+                        deviceSupport = new ServiceDeviceSupport(new SonyHeadphonesSupport(), EnumSet.of(ServiceDeviceSupport.Flags.BUSY_CHECKING));
                         break;
                 }
                 if (deviceSupport != null) {

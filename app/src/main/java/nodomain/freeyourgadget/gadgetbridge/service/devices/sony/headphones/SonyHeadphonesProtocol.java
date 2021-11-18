@@ -14,7 +14,7 @@
 
     You should have received a copy of the GNU Affero General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
-package nodomain.freeyourgadget.gadgetbridge.service.devices.sony.wh1000xm3;
+package nodomain.freeyourgadget.gadgetbridge.service.devices.sony.headphones;
 
 import android.content.SharedPreferences;
 
@@ -31,18 +31,18 @@ import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEvent;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventSendBytes;
-import nodomain.freeyourgadget.gadgetbridge.devices.sony.wh1000xm3.AmbientSoundControl;
-import nodomain.freeyourgadget.gadgetbridge.devices.sony.wh1000xm3.AutomaticPowerOff;
-import nodomain.freeyourgadget.gadgetbridge.devices.sony.wh1000xm3.EqualizerCustomBands;
-import nodomain.freeyourgadget.gadgetbridge.devices.sony.wh1000xm3.EqualizerPreset;
-import nodomain.freeyourgadget.gadgetbridge.devices.sony.wh1000xm3.SoundPosition;
-import nodomain.freeyourgadget.gadgetbridge.devices.sony.wh1000xm3.SurroundMode;
+import nodomain.freeyourgadget.gadgetbridge.devices.sony.headphones.AmbientSoundControl;
+import nodomain.freeyourgadget.gadgetbridge.devices.sony.headphones.AutomaticPowerOff;
+import nodomain.freeyourgadget.gadgetbridge.devices.sony.headphones.EqualizerCustomBands;
+import nodomain.freeyourgadget.gadgetbridge.devices.sony.headphones.EqualizerPreset;
+import nodomain.freeyourgadget.gadgetbridge.devices.sony.headphones.SoundPosition;
+import nodomain.freeyourgadget.gadgetbridge.devices.sony.headphones.SurroundMode;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.service.serial.GBDeviceProtocol;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
-public class SonyWh1000Xm3Protocol extends GBDeviceProtocol {
-    private static final Logger LOG = LoggerFactory.getLogger(SonyWh1000Xm3Protocol.class);
+public abstract class SonyHeadphonesProtocol extends GBDeviceProtocol {
+    private static final Logger LOG = LoggerFactory.getLogger(SonyHeadphonesProtocol.class);
 
     /**
      * Packet format:
@@ -71,7 +71,7 @@ public class SonyWh1000Xm3Protocol extends GBDeviceProtocol {
 
     private byte sequenceNumber = 0;
 
-    public SonyWh1000Xm3Protocol(GBDevice device) {
+    public SonyHeadphonesProtocol(GBDevice device) {
         super(device);
     }
 
@@ -110,100 +110,100 @@ public class SonyWh1000Xm3Protocol extends GBDeviceProtocol {
     @Override
     public byte[] encodeSendConfiguration(String config) {
         final SharedPreferences prefs = GBApplication.getDeviceSpecificSharedPrefs(getDevice().getAddress());
-        EqualizerPreset equalizerPreset = EqualizerPreset.valueOf(prefs.getString(DeviceSettingsPreferenceConst.PREF_SONY_WH1000XM3_EQUALIZER_MODE, "off").toUpperCase());
+        EqualizerPreset equalizerPreset = EqualizerPreset.valueOf(prefs.getString(DeviceSettingsPreferenceConst.PREF_SONY_EQUALIZER_MODE, "off").toUpperCase());
 
         switch (config) {
-            case DeviceSettingsPreferenceConst.PREF_SONY_WH1000XM3_AMBIENT_SOUND_CONTROL:
-            case DeviceSettingsPreferenceConst.PREF_SONY_WH1000XM3_FOCUS_VOICE:
-            case DeviceSettingsPreferenceConst.PREF_SONY_WH1000XM3_AMBIENT_SOUND_LEVEL:
-                String soundControl = prefs.getString(DeviceSettingsPreferenceConst.PREF_SONY_WH1000XM3_AMBIENT_SOUND_CONTROL, "noise_cancelling");
-                boolean focusVoice = prefs.getBoolean(DeviceSettingsPreferenceConst.PREF_SONY_WH1000XM3_FOCUS_VOICE, false);
-                int level = prefs.getInt(DeviceSettingsPreferenceConst.PREF_SONY_WH1000XM3_AMBIENT_SOUND_LEVEL, 0);
+            case DeviceSettingsPreferenceConst.PREF_SONY_AMBIENT_SOUND_CONTROL:
+            case DeviceSettingsPreferenceConst.PREF_SONY_FOCUS_VOICE:
+            case DeviceSettingsPreferenceConst.PREF_SONY_AMBIENT_SOUND_LEVEL:
+                String soundControl = prefs.getString(DeviceSettingsPreferenceConst.PREF_SONY_AMBIENT_SOUND_CONTROL, "noise_cancelling");
+                boolean focusVoice = prefs.getBoolean(DeviceSettingsPreferenceConst.PREF_SONY_FOCUS_VOICE, false);
+                int level = prefs.getInt(DeviceSettingsPreferenceConst.PREF_SONY_AMBIENT_SOUND_LEVEL, 0);
                 return encodeSoundControl(AmbientSoundControl.valueOf(soundControl.toUpperCase()), focusVoice, level);
 
-            case DeviceSettingsPreferenceConst.PREF_SONY_WH1000XM3_SOUND_POSITION:
+            case DeviceSettingsPreferenceConst.PREF_SONY_SOUND_POSITION:
                 return encodeSoundPosition(
-                        SoundPosition.valueOf(prefs.getString(DeviceSettingsPreferenceConst.PREF_SONY_WH1000XM3_SOUND_POSITION, "off").toUpperCase())
+                        SoundPosition.valueOf(prefs.getString(DeviceSettingsPreferenceConst.PREF_SONY_SOUND_POSITION, "off").toUpperCase())
                 );
 
-            case DeviceSettingsPreferenceConst.PREF_SONY_WH1000XM3_SURROUND_MODE:
+            case DeviceSettingsPreferenceConst.PREF_SONY_SURROUND_MODE:
                 return encodeSurroundMode(
-                        SurroundMode.valueOf(prefs.getString(DeviceSettingsPreferenceConst.PREF_SONY_WH1000XM3_SURROUND_MODE, "off").toUpperCase())
+                        SurroundMode.valueOf(prefs.getString(DeviceSettingsPreferenceConst.PREF_SONY_SURROUND_MODE, "off").toUpperCase())
                 );
 
-            case DeviceSettingsPreferenceConst.PREF_SONY_WH1000XM3_EQUALIZER_MODE:
+            case DeviceSettingsPreferenceConst.PREF_SONY_EQUALIZER_MODE:
                 return encodeEqualizerPreset(equalizerPreset);
 
-            case DeviceSettingsPreferenceConst.PREF_SONY_WH1000XM3_EQUALIZER_MANUAL_BAND_400:
-            case DeviceSettingsPreferenceConst.PREF_SONY_WH1000XM3_EQUALIZER_MANUAL_BAND_1000:
-            case DeviceSettingsPreferenceConst.PREF_SONY_WH1000XM3_EQUALIZER_MANUAL_BAND_2500:
-            case DeviceSettingsPreferenceConst.PREF_SONY_WH1000XM3_EQUALIZER_MANUAL_BAND_6300:
-            case DeviceSettingsPreferenceConst.PREF_SONY_WH1000XM3_EQUALIZER_MANUAL_BAND_16000:
-            case DeviceSettingsPreferenceConst.PREF_SONY_WH1000XM3_EQUALIZER_MANUAL_CLEAR_BASS:
-                int m_band1 = prefs.getInt(DeviceSettingsPreferenceConst.PREF_SONY_WH1000XM3_EQUALIZER_MANUAL_BAND_400, 10) - 10;
-                int m_band2 = prefs.getInt(DeviceSettingsPreferenceConst.PREF_SONY_WH1000XM3_EQUALIZER_MANUAL_BAND_1000, 10) - 10;
-                int m_band3 = prefs.getInt(DeviceSettingsPreferenceConst.PREF_SONY_WH1000XM3_EQUALIZER_MANUAL_BAND_2500, 10) - 10;
-                int m_band4 = prefs.getInt(DeviceSettingsPreferenceConst.PREF_SONY_WH1000XM3_EQUALIZER_MANUAL_BAND_6300, 10) - 10;
-                int m_band5 = prefs.getInt(DeviceSettingsPreferenceConst.PREF_SONY_WH1000XM3_EQUALIZER_MANUAL_BAND_16000, 10) - 10;
-                int m_bass = prefs.getInt(DeviceSettingsPreferenceConst.PREF_SONY_WH1000XM3_EQUALIZER_MANUAL_CLEAR_BASS, 10) - 10;
+            case DeviceSettingsPreferenceConst.PREF_SONY_EQUALIZER_MANUAL_BAND_400:
+            case DeviceSettingsPreferenceConst.PREF_SONY_EQUALIZER_MANUAL_BAND_1000:
+            case DeviceSettingsPreferenceConst.PREF_SONY_EQUALIZER_MANUAL_BAND_2500:
+            case DeviceSettingsPreferenceConst.PREF_SONY_EQUALIZER_MANUAL_BAND_6300:
+            case DeviceSettingsPreferenceConst.PREF_SONY_EQUALIZER_MANUAL_BAND_16000:
+            case DeviceSettingsPreferenceConst.PREF_SONY_EQUALIZER_MANUAL_CLEAR_BASS:
+                int m_band1 = prefs.getInt(DeviceSettingsPreferenceConst.PREF_SONY_EQUALIZER_MANUAL_BAND_400, 10) - 10;
+                int m_band2 = prefs.getInt(DeviceSettingsPreferenceConst.PREF_SONY_EQUALIZER_MANUAL_BAND_1000, 10) - 10;
+                int m_band3 = prefs.getInt(DeviceSettingsPreferenceConst.PREF_SONY_EQUALIZER_MANUAL_BAND_2500, 10) - 10;
+                int m_band4 = prefs.getInt(DeviceSettingsPreferenceConst.PREF_SONY_EQUALIZER_MANUAL_BAND_6300, 10) - 10;
+                int m_band5 = prefs.getInt(DeviceSettingsPreferenceConst.PREF_SONY_EQUALIZER_MANUAL_BAND_16000, 10) - 10;
+                int m_bass = prefs.getInt(DeviceSettingsPreferenceConst.PREF_SONY_EQUALIZER_MANUAL_CLEAR_BASS, 10) - 10;
 
                 // Set the equalizer preset, since changing the bands will switch it
                 // TODO: This is not updating the UI once the user returns to the previous screen
-                prefs.edit().putString(DeviceSettingsPreferenceConst.PREF_SONY_WH1000XM3_EQUALIZER_MODE, EqualizerPreset.MANUAL.toString().toLowerCase()).apply();
+                prefs.edit().putString(DeviceSettingsPreferenceConst.PREF_SONY_EQUALIZER_MODE, EqualizerPreset.MANUAL.toString().toLowerCase()).apply();
 
                 return encodeEqualizerCustomBands(EqualizerPreset.MANUAL, equalizerPreset, new EqualizerCustomBands(Arrays.asList(m_band1, m_band2, m_band3, m_band4, m_band5), m_bass));
 
-            case DeviceSettingsPreferenceConst.PREF_SONY_WH1000XM3_EQUALIZER_CUSTOM_1_BAND_400:
-            case DeviceSettingsPreferenceConst.PREF_SONY_WH1000XM3_EQUALIZER_CUSTOM_1_BAND_1000:
-            case DeviceSettingsPreferenceConst.PREF_SONY_WH1000XM3_EQUALIZER_CUSTOM_1_BAND_2500:
-            case DeviceSettingsPreferenceConst.PREF_SONY_WH1000XM3_EQUALIZER_CUSTOM_1_BAND_6300:
-            case DeviceSettingsPreferenceConst.PREF_SONY_WH1000XM3_EQUALIZER_CUSTOM_1_BAND_16000:
-            case DeviceSettingsPreferenceConst.PREF_SONY_WH1000XM3_EQUALIZER_CUSTOM_1_CLEAR_BASS:
-                int c1_band1 = prefs.getInt(DeviceSettingsPreferenceConst.PREF_SONY_WH1000XM3_EQUALIZER_CUSTOM_1_BAND_400, 10) - 10;
-                int c1_band2 = prefs.getInt(DeviceSettingsPreferenceConst.PREF_SONY_WH1000XM3_EQUALIZER_CUSTOM_1_BAND_1000, 10) - 10;
-                int c1_band3 = prefs.getInt(DeviceSettingsPreferenceConst.PREF_SONY_WH1000XM3_EQUALIZER_CUSTOM_1_BAND_2500, 10) - 10;
-                int c1_band4 = prefs.getInt(DeviceSettingsPreferenceConst.PREF_SONY_WH1000XM3_EQUALIZER_CUSTOM_1_BAND_6300, 10) - 10;
-                int c1_band5 = prefs.getInt(DeviceSettingsPreferenceConst.PREF_SONY_WH1000XM3_EQUALIZER_CUSTOM_1_BAND_16000, 10) - 10;
-                int c1_bass = prefs.getInt(DeviceSettingsPreferenceConst.PREF_SONY_WH1000XM3_EQUALIZER_CUSTOM_1_CLEAR_BASS, 10) - 10;
+            case DeviceSettingsPreferenceConst.PREF_SONY_EQUALIZER_CUSTOM_1_BAND_400:
+            case DeviceSettingsPreferenceConst.PREF_SONY_EQUALIZER_CUSTOM_1_BAND_1000:
+            case DeviceSettingsPreferenceConst.PREF_SONY_EQUALIZER_CUSTOM_1_BAND_2500:
+            case DeviceSettingsPreferenceConst.PREF_SONY_EQUALIZER_CUSTOM_1_BAND_6300:
+            case DeviceSettingsPreferenceConst.PREF_SONY_EQUALIZER_CUSTOM_1_BAND_16000:
+            case DeviceSettingsPreferenceConst.PREF_SONY_EQUALIZER_CUSTOM_1_CLEAR_BASS:
+                int c1_band1 = prefs.getInt(DeviceSettingsPreferenceConst.PREF_SONY_EQUALIZER_CUSTOM_1_BAND_400, 10) - 10;
+                int c1_band2 = prefs.getInt(DeviceSettingsPreferenceConst.PREF_SONY_EQUALIZER_CUSTOM_1_BAND_1000, 10) - 10;
+                int c1_band3 = prefs.getInt(DeviceSettingsPreferenceConst.PREF_SONY_EQUALIZER_CUSTOM_1_BAND_2500, 10) - 10;
+                int c1_band4 = prefs.getInt(DeviceSettingsPreferenceConst.PREF_SONY_EQUALIZER_CUSTOM_1_BAND_6300, 10) - 10;
+                int c1_band5 = prefs.getInt(DeviceSettingsPreferenceConst.PREF_SONY_EQUALIZER_CUSTOM_1_BAND_16000, 10) - 10;
+                int c1_bass = prefs.getInt(DeviceSettingsPreferenceConst.PREF_SONY_EQUALIZER_CUSTOM_1_CLEAR_BASS, 10) - 10;
 
                 // Set the equalizer preset, since changing the bands will switch it
                 // TODO: This is not updating the UI once the user returns to the previous screen
-                prefs.edit().putString(DeviceSettingsPreferenceConst.PREF_SONY_WH1000XM3_EQUALIZER_MODE, EqualizerPreset.CUSTOM_1.toString().toLowerCase()).apply();
+                prefs.edit().putString(DeviceSettingsPreferenceConst.PREF_SONY_EQUALIZER_MODE, EqualizerPreset.CUSTOM_1.toString().toLowerCase()).apply();
 
                 return encodeEqualizerCustomBands(EqualizerPreset.CUSTOM_1, equalizerPreset, new EqualizerCustomBands(Arrays.asList(c1_band1, c1_band2, c1_band3, c1_band4, c1_band5), c1_bass));
 
-            case DeviceSettingsPreferenceConst.PREF_SONY_WH1000XM3_EQUALIZER_CUSTOM_2_BAND_400:
-            case DeviceSettingsPreferenceConst.PREF_SONY_WH1000XM3_EQUALIZER_CUSTOM_2_BAND_1000:
-            case DeviceSettingsPreferenceConst.PREF_SONY_WH1000XM3_EQUALIZER_CUSTOM_2_BAND_2500:
-            case DeviceSettingsPreferenceConst.PREF_SONY_WH1000XM3_EQUALIZER_CUSTOM_2_BAND_6300:
-            case DeviceSettingsPreferenceConst.PREF_SONY_WH1000XM3_EQUALIZER_CUSTOM_2_BAND_16000:
-            case DeviceSettingsPreferenceConst.PREF_SONY_WH1000XM3_EQUALIZER_CUSTOM_2_CLEAR_BASS:
-                int c2_band1 = prefs.getInt(DeviceSettingsPreferenceConst.PREF_SONY_WH1000XM3_EQUALIZER_CUSTOM_2_BAND_400, 10) - 10;
-                int c2_band2 = prefs.getInt(DeviceSettingsPreferenceConst.PREF_SONY_WH1000XM3_EQUALIZER_CUSTOM_2_BAND_1000, 10) - 10;
-                int c2_band3 = prefs.getInt(DeviceSettingsPreferenceConst.PREF_SONY_WH1000XM3_EQUALIZER_CUSTOM_2_BAND_2500, 10) - 10;
-                int c2_band4 = prefs.getInt(DeviceSettingsPreferenceConst.PREF_SONY_WH1000XM3_EQUALIZER_CUSTOM_2_BAND_6300, 10) - 10;
-                int c2_band5 = prefs.getInt(DeviceSettingsPreferenceConst.PREF_SONY_WH1000XM3_EQUALIZER_CUSTOM_2_BAND_16000, 10) - 10;
-                int c2_bass = prefs.getInt(DeviceSettingsPreferenceConst.PREF_SONY_WH1000XM3_EQUALIZER_CUSTOM_2_CLEAR_BASS, 10) - 10;
+            case DeviceSettingsPreferenceConst.PREF_SONY_EQUALIZER_CUSTOM_2_BAND_400:
+            case DeviceSettingsPreferenceConst.PREF_SONY_EQUALIZER_CUSTOM_2_BAND_1000:
+            case DeviceSettingsPreferenceConst.PREF_SONY_EQUALIZER_CUSTOM_2_BAND_2500:
+            case DeviceSettingsPreferenceConst.PREF_SONY_EQUALIZER_CUSTOM_2_BAND_6300:
+            case DeviceSettingsPreferenceConst.PREF_SONY_EQUALIZER_CUSTOM_2_BAND_16000:
+            case DeviceSettingsPreferenceConst.PREF_SONY_EQUALIZER_CUSTOM_2_CLEAR_BASS:
+                int c2_band1 = prefs.getInt(DeviceSettingsPreferenceConst.PREF_SONY_EQUALIZER_CUSTOM_2_BAND_400, 10) - 10;
+                int c2_band2 = prefs.getInt(DeviceSettingsPreferenceConst.PREF_SONY_EQUALIZER_CUSTOM_2_BAND_1000, 10) - 10;
+                int c2_band3 = prefs.getInt(DeviceSettingsPreferenceConst.PREF_SONY_EQUALIZER_CUSTOM_2_BAND_2500, 10) - 10;
+                int c2_band4 = prefs.getInt(DeviceSettingsPreferenceConst.PREF_SONY_EQUALIZER_CUSTOM_2_BAND_6300, 10) - 10;
+                int c2_band5 = prefs.getInt(DeviceSettingsPreferenceConst.PREF_SONY_EQUALIZER_CUSTOM_2_BAND_16000, 10) - 10;
+                int c2_bass = prefs.getInt(DeviceSettingsPreferenceConst.PREF_SONY_EQUALIZER_CUSTOM_2_CLEAR_BASS, 10) - 10;
 
                 // Set the equalizer preset, since changing the bands will switch it
                 // TODO: This is not updating the UI once the user returns to the previous screen
-                prefs.edit().putString(DeviceSettingsPreferenceConst.PREF_SONY_WH1000XM3_EQUALIZER_MODE, EqualizerPreset.CUSTOM_2.toString().toLowerCase()).apply();
+                prefs.edit().putString(DeviceSettingsPreferenceConst.PREF_SONY_EQUALIZER_MODE, EqualizerPreset.CUSTOM_2.toString().toLowerCase()).apply();
 
                 return encodeEqualizerCustomBands(EqualizerPreset.CUSTOM_2, equalizerPreset, new EqualizerCustomBands(Arrays.asList(c2_band1, c2_band2, c2_band3, c2_band4, c2_band5), c2_bass));
 
-            case DeviceSettingsPreferenceConst.PREF_SONY_WH1000XM3_DSEE_HX:
-                return encodeDSEEHX(prefs.getBoolean(DeviceSettingsPreferenceConst.PREF_SONY_WH1000XM3_DSEE_HX, false));
+            case DeviceSettingsPreferenceConst.PREF_SONY_DSEE_HX:
+                return encodeDSEEHX(prefs.getBoolean(DeviceSettingsPreferenceConst.PREF_SONY_DSEE_HX, false));
 
-            case DeviceSettingsPreferenceConst.PREF_SONY_WH1000XM3_TOUCH_SENSOR:
-                return encodeTouchSensor(prefs.getBoolean(DeviceSettingsPreferenceConst.PREF_SONY_WH1000XM3_TOUCH_SENSOR, true));
+            case DeviceSettingsPreferenceConst.PREF_SONY_TOUCH_SENSOR:
+                return encodeTouchSensor(prefs.getBoolean(DeviceSettingsPreferenceConst.PREF_SONY_TOUCH_SENSOR, true));
 
-            case DeviceSettingsPreferenceConst.PREF_SONY_WH1000XM3_AUTOMATIC_POWER_OFF:
+            case DeviceSettingsPreferenceConst.PREF_SONY_AUTOMATIC_POWER_OFF:
                 return encodeAutomaticPowerOff(
-                        AutomaticPowerOff.valueOf(prefs.getString(DeviceSettingsPreferenceConst.PREF_SONY_WH1000XM3_AUTOMATIC_POWER_OFF, "off").toUpperCase())
+                        AutomaticPowerOff.valueOf(prefs.getString(DeviceSettingsPreferenceConst.PREF_SONY_AUTOMATIC_POWER_OFF, "off").toUpperCase())
                 );
 
-            case DeviceSettingsPreferenceConst.PREF_SONY_WH1000XM3_NOTIFICATION_VOICE_GUIDE:
-                return encodeVoiceNotifications(prefs.getBoolean(DeviceSettingsPreferenceConst.PREF_SONY_WH1000XM3_NOTIFICATION_VOICE_GUIDE, true));
+            case DeviceSettingsPreferenceConst.PREF_SONY_NOTIFICATION_VOICE_GUIDE:
+                return encodeVoiceNotifications(prefs.getBoolean(DeviceSettingsPreferenceConst.PREF_SONY_NOTIFICATION_VOICE_GUIDE, true));
 
             default:
                 LOG.warn("Unknown config '{}'", config);

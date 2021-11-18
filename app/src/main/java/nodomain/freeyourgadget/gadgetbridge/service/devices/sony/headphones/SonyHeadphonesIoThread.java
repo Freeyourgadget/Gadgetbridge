@@ -14,7 +14,7 @@
 
     You should have received a copy of the GNU Affero General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
-package nodomain.freeyourgadget.gadgetbridge.service.devices.sony.wh1000xm3;
+package nodomain.freeyourgadget.gadgetbridge.service.devices.sony.headphones;
 
 import android.bluetooth.BluetoothAdapter;
 import android.content.Context;
@@ -34,11 +34,11 @@ import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.service.btclassic.BtClassicIoThread;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
-public class SonyWh1000Xm3IoThread extends BtClassicIoThread {
-    private static final Logger LOG = LoggerFactory.getLogger(SonyWh1000Xm3IoThread.class);
+public class SonyHeadphonesIoThread extends BtClassicIoThread {
+    private static final Logger LOG = LoggerFactory.getLogger(SonyHeadphonesIoThread.class);
 
-    public SonyWh1000Xm3IoThread(GBDevice gbDevice, Context context, SonyWh1000Xm3Protocol xm3protocol, SonyWh1000Xm3Support xm3support, BluetoothAdapter roidmiBtAdapter) {
-        super(gbDevice, context, xm3protocol, xm3support, roidmiBtAdapter);
+    public SonyHeadphonesIoThread(GBDevice gbDevice, Context context, SonyHeadphonesProtocol protocol, SonyHeadphonesSupport support, BluetoothAdapter btAdapter) {
+        super(gbDevice, context, protocol, support, btAdapter);
     }
 
     @Override
@@ -49,12 +49,12 @@ public class SonyWh1000Xm3IoThread extends BtClassicIoThread {
         while (true) {
             inputStream.read(incoming);
 
-            if (incoming[0] == SonyWh1000Xm3Protocol.PACKET_HEADER) {
+            if (incoming[0] == SonyHeadphonesProtocol.PACKET_HEADER) {
                 msgStream.reset();
                 continue;
             }
 
-            if (incoming[0] == SonyWh1000Xm3Protocol.PACKET_TRAILER) {
+            if (incoming[0] == SonyHeadphonesProtocol.PACKET_TRAILER) {
                 break;
             }
 

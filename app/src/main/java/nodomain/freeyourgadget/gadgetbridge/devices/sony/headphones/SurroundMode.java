@@ -14,18 +14,18 @@
 
     You should have received a copy of the GNU Affero General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
-package nodomain.freeyourgadget.gadgetbridge.devices.sony.wh1000xm3;
+package nodomain.freeyourgadget.gadgetbridge.devices.sony.headphones;
 
-public enum AutomaticPowerOff {
-    OFF(new byte[]{(byte) 0x11, (byte) 0x00}),
-    AFTER_5_MIN(new byte[]{(byte) 0x00, (byte) 0x00}),
-    AFTER_30_MIN(new byte[]{(byte) 0x01, (byte) 0x01}),
-    AFTER_1_HOUR(new byte[]{(byte) 0x02, (byte) 0x02}),
-    AFTER_3_HOUR(new byte[]{(byte) 0x03, (byte) 0x03});
+public enum SurroundMode {
+    OFF((byte) 0x00),
+    ARENA((byte) 0x02),
+    CLUB((byte) 0x04),
+    OUTDOOR_STAGE((byte) 0x01),
+    CONCERT_HALL((byte) 0x03);
 
-    public final byte[] code;
+    public final byte code;
 
-    AutomaticPowerOff(final byte[] code) {
+    SurroundMode(final byte code) {
         this.code = code;
     }
 }

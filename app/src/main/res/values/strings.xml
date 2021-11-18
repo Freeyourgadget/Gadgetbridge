@@ -1352,7 +1352,7 @@
     <string name="sony_surround_mode_outdoor_stage">Outdoor Stage</string>
     <string name="sony_surround_mode_concert_hall">Concert Hall</string>
     <string name="sony_surround_position_mutually_exclusive">Warning: The sound position / surround mode settings are mutually exclusive.</string>
-    <string name="sony_warn_sbc_codec">Warning: These settings only work for the SBC audio codec.</string>
+    <string name="sony_warn_sbc_codec">Warning: The equalizer, audio position and surround settings only work for the SBC audio codec.</string>
     <string name="sony_equalizer">Equalizer</string>
     <string name="sony_equalizer_preset_off">Off</string>
     <string name="sony_equalizer_preset_bright">Bright</string>
@@ -1384,6 +1384,7 @@
     <string name="sony_automatic_power_off_30_min">30 minutes</string>
     <string name="sony_automatic_power_off_1_hour">1 hour</string>
     <string name="sony_automatic_power_off_3_hour">3 hours</string>
+    <string name="sony_automatic_power_off_when_taken_off">When taken off</string>
     <string name="watchface_widget_type_custom">Custom widget</string>
 
 </resources>

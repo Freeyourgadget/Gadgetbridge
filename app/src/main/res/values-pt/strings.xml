@@ -1188,7 +1188,7 @@
     <string name="sony_surround_mode_outdoor_stage">Palco exterior</string>
     <string name="sony_surround_mode_concert_hall">Sala de concertos</string>
     <string name="sony_surround_position_mutually_exclusive">Aviso: As preferencias de posição de som / modo surround são mutuamente exclusivas.</string>
-    <string name="sony_warn_sbc_codec">Aviso: Estas preferencias só funcionam com o codec de audio SBC.</string>
+    <string name="sony_warn_sbc_codec">Aviso: As preferencias de equalizador, modo surround e posição do som só funcionam com o codec de audio SBC.</string>
     <string name="sony_equalizer">Equalizador</string>
     <string name="sony_equalizer_preset_off">Desligado</string>
     <string name="sony_equalizer_preset_bright">Brilhante</string>
@@ -1220,6 +1220,7 @@
     <string name="sony_automatic_power_off_30_min">30 minutos</string>
     <string name="sony_automatic_power_off_1_hour">1 hora</string>
     <string name="sony_automatic_power_off_3_hour">3 horas</string>
+    <string name="sony_automatic_power_off_when_taken_off">Quando retirar os auscultadores</string>
     <string name="uncheck_all_applications">Desmarcar todos as aplicações</string>
     <string name="fw_upgrade_notice_amazfitx">Está prestes a instalar o firmware %s no seu Amazfit X.
 \n

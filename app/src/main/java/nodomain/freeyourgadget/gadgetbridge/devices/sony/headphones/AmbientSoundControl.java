@@ -14,19 +14,11 @@
 
     You should have received a copy of the GNU Affero General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
-package nodomain.freeyourgadget.gadgetbridge.devices.sony.wh1000xm3;
+package nodomain.freeyourgadget.gadgetbridge.devices.sony.headphones;
 
-public enum SoundPosition {
-    OFF((byte) 0x00),
-    FRONT((byte) 0x03),
-    FRONT_LEFT((byte) 0x01),
-    FRONT_RIGHT((byte) 0x02),
-    REAR_LEFT((byte) 0x11),
-    REAR_RIGHT((byte) 0x12);
-
-    public final byte code;
-
-    SoundPosition(final byte code) {
-        this.code = code;
-    }
+public enum AmbientSoundControl {
+    OFF,
+    NOISE_CANCELLING,
+    WIND_NOISE_REDUCTION,
+    AMBIENT_SOUND
 }
