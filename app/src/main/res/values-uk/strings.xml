@@ -1449,4 +1449,12 @@
     <string name="sony_equalizer_clear_bass">Чистий бас</string>
     <string name="sony_equalizer_band_16000">16к</string>
     <string name="sony_dsee_hx">DSEE HX</string>
+    <string name="prefs_activity_in_device_card_title">Показати відомості про діяльність на картці пристрою</string>
+    <string name="prefs_activity_in_device_card_sleep_title">Сон</string>
+    <string name="prefs_activity_in_device_card_steps_title_summary">Показати загальну кількість кроків</string>
+    <string name="device_card_activity_card_title">Дані про діяльність на картці пристрою</string>
+    <string name="device_card_activity_card_title_summary">Виберіть відомості про дії, які відбиватимуться на картці пристрою</string>
+    <string name="prefs_activity_in_device_card_title_summary">Показувати поточні кроки, відстань або сон на картці пристрою</string>
+    <string name="prefs_activity_in_device_card_sleep_title_summary">Показати тривалість сну</string>
+    <string name="prefs_activity_in_device_card_distance_title_summary">Відстань розраховується на основі кроків і довжини кроку (змінюється в Налаштування - Про вас)</string>
 </resources>
