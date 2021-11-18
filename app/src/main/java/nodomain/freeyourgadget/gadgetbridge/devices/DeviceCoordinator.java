@@ -143,6 +143,8 @@ public interface DeviceCoordinator {
     /**
      * Returns true if activity data fetching is supported by the device
      * (with this coordinator).
+     * This enables the sync button in control center and the device can thus be asked to send the data
+     * (as opposed the device pushing the data to us by itself)
      *
      * @return
      */
@@ -151,6 +153,7 @@ public interface DeviceCoordinator {
     /**
      * Returns true if activity tracking is supported by the device
      * (with this coordinator).
+     * This enables the ChartsActivity.
      *
      * @return
      */

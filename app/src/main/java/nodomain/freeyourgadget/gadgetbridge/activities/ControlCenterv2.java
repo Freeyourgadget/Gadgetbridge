@@ -513,7 +513,7 @@ public class ControlCenterv2 extends AppCompatActivity
         protected void doInBackground(DBHandler db) {
             for (GBDevice gbDevice : deviceList) {
                 final DeviceCoordinator coordinator = DeviceHelper.getInstance().getCoordinator(gbDevice);
-                if (coordinator.supportsActivityDataFetching()) {
+                if (coordinator.supportsActivityTracking()) {
                     long[] steps = getSteps(gbDevice, db);
                     deviceActivityHashMap.put(gbDevice.getAddress(), steps);
                 }
