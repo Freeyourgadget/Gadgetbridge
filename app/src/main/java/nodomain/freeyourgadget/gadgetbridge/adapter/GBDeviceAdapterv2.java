@@ -22,6 +22,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
 import android.text.InputType;
@@ -30,11 +31,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.NumberPicker;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -45,7 +48,6 @@ import androidx.cardview.widget.CardView;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
@@ -438,27 +440,107 @@ public class GBDeviceAdapterv2 extends RecyclerView.Adapter<GBDeviceAdapterv2.Vi
             holder.fmFrequencyLabel.setText(String.format(Locale.getDefault(), "%.1f", (float) device.getExtraInfo("fm_frequency")));
         }
         final TextView fmFrequencyLabel = holder.fmFrequencyLabel;
+        final float FREQ_MIN = 87.5F;
+        final float FREQ_MAX = 108.0F;
+        final int FREQ_MIN_INT = (int) Math.floor(FREQ_MIN);
+        final int FREQ_MAX_INT = (int) Math.round(FREQ_MAX);
+        final AlertDialog alert[] = new AlertDialog[1];
+
         holder.fmFrequencyBox.setOnClickListener(new View.OnClickListener() {
+
             @Override
             public void onClick(View view) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                final AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                LayoutInflater inflater = LayoutInflater.from(context);
+                View frequency_picker_view = inflater.inflate(R.layout.dialog_frequency_picker, null);
                 builder.setTitle(R.string.preferences_fm_frequency);
+                final float[] fm_presets = new float[3];
 
-                final EditText input = new EditText(context);
+                fm_presets[0] = GBApplication.getDeviceSpecificSharedPrefs(device.getAddress()).getFloat("fm_preset0", 99);
+                fm_presets[1] = GBApplication.getDeviceSpecificSharedPrefs(device.getAddress()).getFloat("fm_preset1", 100);
+                fm_presets[2] = GBApplication.getDeviceSpecificSharedPrefs(device.getAddress()).getFloat("fm_preset2", 101);
 
-                input.setSelection(input.getText().length());
-                input.setRawInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
-                input.setText(String.format(Locale.getDefault(), "%.1f", (float) device.getExtraInfo("fm_frequency")));
-                builder.setView(input);
+                final NumberPicker frequency_decimal_picker = frequency_picker_view.findViewById(R.id.frequency_dec);
+                frequency_decimal_picker.setMinValue(FREQ_MIN_INT);
+                frequency_decimal_picker.setMaxValue(FREQ_MAX_INT);
+
+                final NumberPicker frequency_fraction_picker = frequency_picker_view.findViewById(R.id.frequency_fraction);
+                frequency_fraction_picker.setMinValue(0);
+                frequency_fraction_picker.setMaxValue(9);
+
+                final NumberPicker.OnValueChangeListener picker_listener = new NumberPicker.OnValueChangeListener() {
+                    @Override
+                    public void onValueChange(NumberPicker numberPicker, int oldVal, int newVal) {
+
+                        int decimal_value = numberPicker.getValue();
+                        if (decimal_value == FREQ_MIN_INT) {
+                            frequency_fraction_picker.setMinValue(5);
+                            frequency_fraction_picker.setMaxValue(9);
+                        } else if (decimal_value == FREQ_MAX_INT) {
+                            frequency_fraction_picker.setMinValue(0);
+                            frequency_fraction_picker.setMaxValue(0);
+                        } else {
+                            frequency_fraction_picker.setMinValue(0);
+                            frequency_fraction_picker.setMaxValue(9);
+                        }
+                    }
+                };
+
+                frequency_decimal_picker.setOnValueChangedListener(picker_listener);
+
+                final Button[] button_presets = new Button[]{
+                        frequency_picker_view.findViewById(R.id.frequency_preset1),
+                        frequency_picker_view.findViewById(R.id.frequency_preset2),
+                        frequency_picker_view.findViewById(R.id.frequency_preset3)
+                };
+
+                for (int i = 0; i < button_presets.length; i++) {
+                    final int index = i;
+                    button_presets[index].setText(String.valueOf(fm_presets[index]));
+                    button_presets[index].setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            float frequency = Float.parseFloat(String.format(Locale.getDefault(), "%.1f", fm_presets[index]));
+                            device.setExtraInfo("fm_frequency", frequency);
+                            // Trim to 1 decimal place, discard the rest
+                            fmFrequencyLabel.setText(String.format(Locale.getDefault(), "%.1f", (float) frequency));
+                            GBApplication.deviceService().onSetFmFrequency(frequency);
+                            alert[0].dismiss();
+                        }
+                    });
+                    button_presets[index].setOnLongClickListener(new View.OnLongClickListener() {
+                        @Override
+                        public boolean onLongClick(View view) {
+                            float frequency = (float) (frequency_decimal_picker.getValue() + (0.1 * frequency_fraction_picker.getValue()));
+                            frequency = Float.parseFloat(String.format(Locale.getDefault(), "%.1f", frequency));
+                            fm_presets[index] = frequency;
+                            button_presets[index].setText(String.valueOf(frequency));
+                            SharedPreferences.Editor editor = GBApplication.getDeviceSpecificSharedPrefs(device.getAddress()).edit();
+                            editor.putFloat((String.format("fm_preset%s", index)), frequency);
+                            editor.apply();
+                            editor.commit();
+                            return true;
+                        }
+                    });
+
+                }
+
+                float frequency = (float) device.getExtraInfo("fm_frequency");
+                int decimal = (int) frequency;
+                int fraction = Math.round((frequency - decimal) * 10);
+                frequency_decimal_picker.setValue(decimal);
+                picker_listener.onValueChange(frequency_decimal_picker, frequency_decimal_picker.getValue(), decimal);
+                frequency_fraction_picker.setValue(fraction);
+
+                builder.setView(frequency_picker_view);
 
                 builder.setPositiveButton(context.getResources().getString(android.R.string.ok),
                         new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                float frequency = Float.parseFloat(input.getText().toString());
-                                // Trim to 1 decimal place, discard the rest
+                                float frequency = (float) (frequency_decimal_picker.getValue() + (0.1 * frequency_fraction_picker.getValue()));
                                 frequency = Float.parseFloat(String.format(Locale.getDefault(), "%.1f", frequency));
-                                if (frequency < 87.5 || frequency > 108.0) {
+                                if (frequency < FREQ_MIN || frequency > FREQ_MAX) {
                                     new AlertDialog.Builder(context)
                                             .setTitle(R.string.pref_invalid_frequency_title)
                                             .setMessage(R.string.pref_invalid_frequency_message)
@@ -481,7 +563,8 @@ public class GBDeviceAdapterv2 extends RecyclerView.Adapter<GBDeviceAdapterv2.Vi
                     }
                 });
 
-                builder.show();
+                alert[0] = builder.create();
+                alert[0].show();
             }
         });
 

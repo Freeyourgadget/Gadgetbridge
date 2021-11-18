@@ -968,6 +968,8 @@
     <string name="pref_invalid_frequency_title">Invalid frequency</string>
     <string name="pref_invalid_frequency_message">Please enter a frequency between 87.5 and 108.0</string>
     <string name="language_and_region_prefs">Language and region settings</string>
+    <string name="prefs_fm_preset_instructions">Long press the button to store preset</string>
+    <string name="prefs_fm_presets_presets">Presets</string>
     <!--Notification Filter Black-/ Whitelist-->
     <string name="title_activity_notification_filter">Notification Filter</string>
     <string name="toast_app_must_not_be_selected">App must not be selected to be configured</string>
