@@ -25,6 +25,14 @@
     <string name="controlcenter_snackbar_connecting">Connecting…</string>
     <string name="controlcenter_snackbar_requested_screenshot">Taking a screenshot of the device</string>
     <string name="controlcenter_calibrate_device">Calibrate Device</string>
+    <string name="device_card_activity_card_title">Activity info on device card</string>
+    <string name="device_card_activity_card_title_summary">Choose what activity details are displayed on device card</string>
+    <string name="prefs_activity_in_device_card_title">Show Activity info on device card</string>
+    <string name="prefs_activity_in_device_card_title_summary">Show current steps, distance or sleep on device card</string>
+    <string name="prefs_activity_in_device_card_sleep_title">Sleep</string>
+    <string name="prefs_activity_in_device_card_sleep_title_summary">Show sleep duration</string>
+    <string name="prefs_activity_in_device_card_distance_title_summary">Distance is calculated from steps and step length (adjustable in Settings - About you)</string>
+    <string name="prefs_activity_in_device_card_steps_title_summary">Show total steps</string>
     <!-- Strings related to battery Info Activity -->
     <string name="battery_detail_activity_title">Battery info</string>
     <string name="battery_level">Battery level</string>

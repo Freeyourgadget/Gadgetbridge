@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceScreen
+        android:icon="@drawable/ic_settings_applications"
+        android:key="device_card_activity_card"
+        android:persistent="false"
+        android:summary="@string/device_card_activity_card_title_summary"
+        android:title="@string/device_card_activity_card_title">
+
+        <SwitchPreference
+            android:defaultValue="true"
+            android:icon="@drawable/ic_activity_unknown_small"
+            android:key="prefs_activity_in_device_card"
+            android:persistent="true"
+            android:summary="@string/prefs_activity_in_device_card_title_summary"
+            android:title="@string/prefs_activity_in_device_card_title" />
+
+        <SwitchPreference
+            android:defaultValue="true"
+            android:dependency="prefs_activity_in_device_card"
+            android:icon="@drawable/ic_shoe_prints_many"
+            android:key="prefs_activity_in_device_card_steps"
+            android:persistent="true"
+            android:summary="@string/prefs_activity_in_device_card_steps_title_summary"
+            android:title="@string/Steps" />
+
+        <SwitchPreference
+            android:defaultValue="true"
+            android:dependency="prefs_activity_in_device_card"
+            android:icon="@drawable/ic_distance_total"
+            android:key="prefs_activity_in_device_card_distance"
+            android:persistent="true"
+            android:summary="@string/prefs_activity_in_device_card_distance_title_summary"
+            android:title="@string/Distance" />
+
+        <SwitchPreference
+            android:defaultValue="true"
+            android:dependency="prefs_activity_in_device_card"
+            android:icon="@drawable/ic_activity_sleep"
+            android:key="prefs_activity_in_device_card_sleep"
+            android:persistent="true"
+            android:summary="@string/prefs_activity_in_device_card_sleep_title_summary"
+            android:title="@string/prefs_activity_in_device_card_sleep_title" />
+
+    </PreferenceScreen>
+</androidx.preference.PreferenceScreen>

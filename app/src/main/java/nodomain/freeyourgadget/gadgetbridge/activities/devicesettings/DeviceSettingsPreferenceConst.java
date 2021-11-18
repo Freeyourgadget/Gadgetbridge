@@ -140,6 +140,11 @@ public class DeviceSettingsPreferenceConst {
     public static final String PREF_SONY_WH1000XM3_AUTOMATIC_POWER_OFF = "pref_sony_wh1000xm3_automatic_power_off";
     public static final String PREF_SONY_WH1000XM3_NOTIFICATION_VOICE_GUIDE = "pref_sony_wh1000xm3_notification_voice_guide";
 
+    public static final String PREFS_ACTIVITY_IN_DEVICE_CARD = "prefs_activity_in_device_card";
+    public static final String PREFS_ACTIVITY_IN_DEVICE_CARD_STEPS = "prefs_activity_in_device_card_steps";
+    public static final String PREFS_ACTIVITY_IN_DEVICE_CARD_SLEEP = "prefs_activity_in_device_card_sleep";
+    public static final String PREFS_ACTIVITY_IN_DEVICE_CARD_DISTANCE = "prefs_activity_in_device_card_distance";
+
     public static final String PREF_SOUNDS = "sounds";
     public static final String PREF_AUTH_KEY = "authkey";
 }

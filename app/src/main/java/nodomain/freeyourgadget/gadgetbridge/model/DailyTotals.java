@@ -68,6 +68,15 @@ public class DailyTotals {
     public long[] getDailyTotalsForDevice(GBDevice device, Calendar day) {
 
         try (DBHandler handler = GBApplication.acquireDB()) {
+            return getDailyTotalsForDevice(device, day, handler);
+
+        } catch (Exception e) {
+            //GB.toast("Error loading sleep/steps widget data for device: " + device, Toast.LENGTH_SHORT, GB.ERROR, e);
+            return new long[]{0, 0};
+        }
+    }
+
+    public long[] getDailyTotalsForDevice(GBDevice device, Calendar day, DBHandler handler) {
             ActivityAnalysis analysis = new ActivityAnalysis();
             ActivityAmounts amountsSteps;
             ActivityAmounts amountsSleep;
@@ -79,11 +88,6 @@ public class DailyTotals {
             long steps = getTotalsStepsForActivityAmounts(amountsSteps);
 
             return new long[]{steps, sleep[0] + sleep[1]};
-
-        } catch (Exception e) {
-            //GB.toast("Error loading sleep/steps widget data for device: " + device, Toast.LENGTH_SHORT, GB.ERROR, e);
-            return new long[]{0, 0};
-        }
     }
 
     private long[] getTotalsSleepForActivityAmounts(ActivityAmounts activityAmounts) {

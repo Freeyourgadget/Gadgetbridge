@@ -57,6 +57,7 @@ public class DeviceSettingsActivity extends AbstractGBActivity implements
                 }
                 if (coordinator.supportsActivityTracking()) {
                     supportedSettings = ArrayUtils.addAll(supportedSettings, R.xml.devicesettings_chartstabs);
+                    supportedSettings = ArrayUtils.addAll(supportedSettings, R.xml.devicesettings_device_card_activity_card_preferences);
                 }
 
                 fragment = DeviceSpecificSettingsFragment.newInstance(device.getAddress(), supportedSettings, supportedLanguages);
@@ -81,6 +82,7 @@ public class DeviceSettingsActivity extends AbstractGBActivity implements
 
         if (coordinator.supportsActivityTracking()) {
             supportedSettings = ArrayUtils.addAll(supportedSettings, R.xml.devicesettings_chartstabs);
+            supportedSettings = ArrayUtils.addAll(supportedSettings, R.xml.devicesettings_device_card_activity_card_preferences);
         }
 
         PreferenceFragmentCompat fragment = DeviceSpecificSettingsFragment.newInstance(device.getAddress(), supportedSettings, supportedLanguages);

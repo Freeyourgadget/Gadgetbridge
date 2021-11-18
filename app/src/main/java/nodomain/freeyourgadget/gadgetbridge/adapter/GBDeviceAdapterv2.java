@@ -41,6 +41,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
+import androidx.fragment.app.FragmentActivity;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -51,8 +52,13 @@ import com.jaredrummler.android.colorpicker.ColorPickerDialogListener;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.text.DecimalFormat;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.concurrent.TimeUnit;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
@@ -61,9 +67,13 @@ import nodomain.freeyourgadget.gadgetbridge.activities.BatteryInfoActivity;
 import nodomain.freeyourgadget.gadgetbridge.activities.ConfigureAlarms;
 import nodomain.freeyourgadget.gadgetbridge.activities.ControlCenterv2;
 import nodomain.freeyourgadget.gadgetbridge.activities.HeartRateDialog;
+import nodomain.freeyourgadget.gadgetbridge.activities.SettingsActivity;
 import nodomain.freeyourgadget.gadgetbridge.activities.VibrationActivity;
+import nodomain.freeyourgadget.gadgetbridge.activities.charts.ActivityListingDashboard;
 import nodomain.freeyourgadget.gadgetbridge.activities.charts.ChartsActivity;
 import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsActivity;
+import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst;
+import nodomain.freeyourgadget.gadgetbridge.database.DBAccess;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHelper;
 import nodomain.freeyourgadget.gadgetbridge.devices.DeviceCoordinator;
@@ -72,9 +82,12 @@ import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
 import nodomain.freeyourgadget.gadgetbridge.entities.Device;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
+import nodomain.freeyourgadget.gadgetbridge.model.ActivityUser;
 import nodomain.freeyourgadget.gadgetbridge.model.BatteryState;
+import nodomain.freeyourgadget.gadgetbridge.model.DailyTotals;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
 import nodomain.freeyourgadget.gadgetbridge.model.RecordedDataTypes;
+import nodomain.freeyourgadget.gadgetbridge.util.DateTimeUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.DeviceHelper;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
@@ -88,10 +101,12 @@ public class GBDeviceAdapterv2 extends RecyclerView.Adapter<GBDeviceAdapterv2.Vi
     private List<GBDevice> deviceList;
     private int expandedDevicePosition = RecyclerView.NO_POSITION;
     private ViewGroup parent;
+    private HashMap<String, long[]> deviceActivityMap = new HashMap();
 
-    public GBDeviceAdapterv2(Context context, List<GBDevice> deviceList) {
+    public GBDeviceAdapterv2(Context context, List<GBDevice> deviceList, HashMap<String,long[]> deviceMap) {
         this.context = context;
         this.deviceList = deviceList;
+        this.deviceActivityMap = deviceMap;
     }
 
     @NonNull
@@ -105,12 +120,18 @@ public class GBDeviceAdapterv2 extends RecyclerView.Adapter<GBDeviceAdapterv2.Vi
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, final int position) {
         final GBDevice device = deviceList.get(position);
+        long[] dailyTotals = new long[]{0, 0};
+        if (deviceActivityMap.containsKey(device.getAddress())) {
+            dailyTotals = deviceActivityMap.get(device.getAddress());
+        }
+
         final DeviceCoordinator coordinator = DeviceHelper.getInstance().getCoordinator(device);
 
         holder.container.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
+                
                 if (device.isInitialized() || device.isConnected()) {
                     showTransientSnackbar(R.string.controlcenter_snackbar_need_longpress);
                 } else {
@@ -596,6 +617,22 @@ public class GBDeviceAdapterv2 extends RecyclerView.Adapter<GBDeviceAdapterv2.Vi
                         .show();
             }
         });
+
+        holder.cardViewActivityCardLayout.setVisibility(coordinator.supportsActivityTracking() ? View.VISIBLE : View.GONE);
+        holder.cardViewActivityCardLayout.setMinimumWidth(coordinator.supportsActivityTracking() ? View.VISIBLE : View.GONE);
+        holder.cardViewActivityCardLayout.setOnClickListener(new View.OnClickListener() {
+                                                                 @Override
+                                                                 public void onClick(View v) {
+                                                                     Intent startIntent;
+                                                                     startIntent = new Intent(context, ChartsActivity.class);
+                                                                     startIntent.putExtra(GBDevice.EXTRA_DEVICE, device);
+                                                                     context.startActivity(startIntent);
+                                                                 }
+                                                             }
+        );
+        if (coordinator.supportsActivityDataFetching()) {
+            setActivityCard(holder, device, dailyTotals);
+        }
     }
 
     @Override
@@ -647,8 +684,20 @@ public class GBDeviceAdapterv2 extends RecyclerView.Adapter<GBDeviceAdapterv2.Vi
         TextView fmFrequencyLabel;
         ImageView ledColor;
 
+        LinearLayout cardViewActivityCardLayout;
+        LinearLayout cardViewActivityCardStepsLayout;
+        LinearLayout cardViewActivityCardSleepLayout;
+        LinearLayout cardViewActivityCardDistanceLayout;
+        TextView cardViewActivityCardSteps;
+        TextView cardViewActivityCardDistance;
+        TextView cardViewActivityCardSleep;
+        ProgressBar cardViewActivityCardStepsProgress;
+        ProgressBar cardViewActivityCardDistanceProgress;
+        ProgressBar cardViewActivityCardSleepProgress;
+
         ViewHolder(View view) {
             super(view);
+
             container = view.findViewById(R.id.card_view);
 
             deviceImageView = view.findViewById(R.id.device_image);
@@ -692,6 +741,19 @@ public class GBDeviceAdapterv2 extends RecyclerView.Adapter<GBDeviceAdapterv2.Vi
             heartRateStatusBox = view.findViewById(R.id.device_heart_rate_status_box);
             heartRateStatusLabel = view.findViewById(R.id.heart_rate_status);
             heartRateIcon = view.findViewById(R.id.device_heart_rate_status);
+            
+            cardViewActivityCardLayout = view.findViewById(R.id.card_view_activity_card_layout);
+            cardViewActivityCardStepsLayout = view.findViewById(R.id.card_view_activity_card_steps_layout);
+            cardViewActivityCardSleepLayout = view.findViewById(R.id.card_view_activity_card_sleep_layout);
+            cardViewActivityCardDistanceLayout = view.findViewById(R.id.card_view_activity_card_distance_layout);
+
+            cardViewActivityCardSteps = view.findViewById(R.id.card_view_activity_card_steps);
+            cardViewActivityCardDistance = view.findViewById(R.id.card_view_activity_card_distance);
+            cardViewActivityCardSleep = view.findViewById(R.id.card_view_activity_card_sleep);
+            cardViewActivityCardStepsProgress = view.findViewById(R.id.card_view_activity_card_steps_progress);
+            cardViewActivityCardDistanceProgress = view.findViewById(R.id.card_view_activity_card_distance_progress);
+            cardViewActivityCardSleepProgress = view.findViewById(R.id.card_view_activity_card_sleep_progress);
+
         }
 
     }
@@ -757,4 +819,65 @@ public class GBDeviceAdapterv2 extends RecyclerView.Adapter<GBDeviceAdapterv2.Vi
         snackbar.show();
     }
 
+    private void setActivityCard(ViewHolder holder, GBDevice device, long[] dailyTotals) {
+        int steps = (int) dailyTotals[0];
+        int sleep = (int) dailyTotals[1];
+        ActivityUser activityUser = new ActivityUser();
+        int stepGoal = activityUser.getStepsGoal();
+        int sleepGoal = activityUser.getSleepDuration();
+        int sleepGoalMinutes = sleepGoal * 60;
+        int distanceGoal = activityUser.getDistanceMeters() * 100;
+        int stepLength = activityUser.getStepLengthCm();
+        double distanceMeters = dailyTotals[0] * stepLength / 100;
+        double distanceFeet = distanceMeters * 3.28084f;
+        double distanceFormatted = 0;
+
+        String unit = "###m";
+        distanceFormatted = distanceMeters;
+        if (distanceMeters > 2000) {
+            distanceFormatted = distanceMeters / 1000;
+            unit = "###.#km";
+        }
+        String units = GBApplication.getPrefs().getString(SettingsActivity.PREF_MEASUREMENT_SYSTEM, GBApplication.getContext().getString(R.string.p_unit_metric));
+        if (units.equals(GBApplication.getContext().getString(R.string.p_unit_imperial))) {
+            unit = "###ft";
+            distanceFormatted = distanceFeet;
+            if (distanceFeet > 6000) {
+                distanceFormatted = distanceFeet * 0.0001893939f;
+                unit = "###.#mi";
+            }
+        }
+        DecimalFormat df = new DecimalFormat(unit);
+
+
+        holder.cardViewActivityCardSteps.setText(String.format("%1s", steps));
+        holder.cardViewActivityCardSleep.setText(String.format("%1s", getHM(sleep)));
+        holder.cardViewActivityCardDistance.setText(df.format(distanceFormatted));
+
+        holder.cardViewActivityCardStepsProgress.setMax(stepGoal);
+        holder.cardViewActivityCardStepsProgress.setProgress(steps);
+
+        holder.cardViewActivityCardSleepProgress.setMax(sleepGoalMinutes);
+        holder.cardViewActivityCardSleepProgress.setProgress(sleep);
+
+        holder.cardViewActivityCardDistanceProgress.setMax(distanceGoal);
+        holder.cardViewActivityCardDistanceProgress.setProgress(steps * stepLength);
+
+        boolean showActivityCard = GBApplication.getDeviceSpecificSharedPrefs(device.getAddress()).getBoolean(DeviceSettingsPreferenceConst.PREFS_ACTIVITY_IN_DEVICE_CARD, true);
+        holder.cardViewActivityCardLayout.setVisibility(showActivityCard ? View.VISIBLE : View.GONE);
+
+        boolean showActivitySteps = GBApplication.getDeviceSpecificSharedPrefs(device.getAddress()).getBoolean(DeviceSettingsPreferenceConst.PREFS_ACTIVITY_IN_DEVICE_CARD_STEPS, true);
+        holder.cardViewActivityCardStepsLayout.setVisibility(showActivitySteps ? View.VISIBLE : View.GONE);
+
+        boolean showActivitySleep = GBApplication.getDeviceSpecificSharedPrefs(device.getAddress()).getBoolean(DeviceSettingsPreferenceConst.PREFS_ACTIVITY_IN_DEVICE_CARD_SLEEP, true);
+        holder.cardViewActivityCardSleepLayout.setVisibility(showActivitySleep ? View.VISIBLE : View.GONE);
+
+        boolean showActivityDistance = GBApplication.getDeviceSpecificSharedPrefs(device.getAddress()).getBoolean(DeviceSettingsPreferenceConst.PREFS_ACTIVITY_IN_DEVICE_CARD_DISTANCE, true);
+        holder.cardViewActivityCardDistanceLayout.setVisibility(showActivityDistance ? View.VISIBLE : View.GONE);
+
+    }
+
+    private String getHM(long value) {
+        return DateTimeUtils.formatDurationHoursMinutes(value, TimeUnit.MINUTES);
+    }
 }

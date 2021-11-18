@@ -53,6 +53,9 @@ import com.google.android.material.navigation.NavigationView;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
@@ -63,11 +66,16 @@ import de.cketti.library.changelog.ChangeLog;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.adapter.GBDeviceAdapterv2;
+import nodomain.freeyourgadget.gadgetbridge.database.DBAccess;
+import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
+import nodomain.freeyourgadget.gadgetbridge.devices.DeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.DeviceManager;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
+import nodomain.freeyourgadget.gadgetbridge.model.DailyTotals;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceService;
 import nodomain.freeyourgadget.gadgetbridge.util.AndroidUtils;
+import nodomain.freeyourgadget.gadgetbridge.util.DeviceHelper;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 
@@ -88,6 +96,9 @@ public class ControlCenterv2 extends AppCompatActivity
     private RecyclerView deviceListView;
     private FloatingActionButton fab;
     private boolean isLanguageInvalid = false;
+    List<GBDevice> deviceList;
+    private  HashMap<String,long[]> deviceActivityHashMap = new HashMap();
+
     private final BroadcastReceiver mReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -100,12 +111,13 @@ public class ControlCenterv2 extends AppCompatActivity
                     finish();
                     break;
                 case DeviceManager.ACTION_DEVICES_CHANGED:
+                case GBApplication.ACTION_NEW_DATA:
+                    createRefreshTask("get activity data", getApplication()).execute();
                     refreshPairedDevices();
                     break;
                 case DeviceService.ACTION_REALTIME_SAMPLES:
                     handleRealtimeSample(intent.getSerializableExtra(DeviceService.EXTRA_REALTIME_SAMPLE));
                     break;
-
             }
         }
     };
@@ -155,8 +167,12 @@ public class ControlCenterv2 extends AppCompatActivity
         deviceListView.setHasFixedSize(true);
         deviceListView.setLayoutManager(new LinearLayoutManager(this));
 
-        List<GBDevice> deviceList = deviceManager.getDevices();
-        mGBDeviceAdapter = new GBDeviceAdapterv2(this, deviceList);
+        deviceList = deviceManager.getDevices();
+        mGBDeviceAdapter = new GBDeviceAdapterv2(this, deviceList, deviceActivityHashMap);
+
+        // get activity data asynchronously, this fills the deviceActivityHashMap
+        // and calls refreshPairedDevices() → notifyDataSetChanged
+        createRefreshTask("get activity data", getApplication()).execute();
 
         deviceListView.setAdapter(this.mGBDeviceAdapter);
 
@@ -210,6 +226,7 @@ public class ControlCenterv2 extends AppCompatActivity
         IntentFilter filterLocal = new IntentFilter();
         filterLocal.addAction(GBApplication.ACTION_LANGUAGE_CHANGE);
         filterLocal.addAction(GBApplication.ACTION_QUIT);
+        filterLocal.addAction(GBApplication.ACTION_NEW_DATA);
         filterLocal.addAction(DeviceManager.ACTION_DEVICES_CHANGED);
         filterLocal.addAction(DeviceService.ACTION_REALTIME_SAMPLES);
         LocalBroadcastManager.getInstance(this).registerReceiver(mReceiver, filterLocal);
@@ -474,5 +491,39 @@ public class ControlCenterv2 extends AppCompatActivity
             isLanguageInvalid = true;
         }
         AndroidUtils.setLanguage(this, language);
+    }
+
+    private long[] getSteps(GBDevice device, DBHandler db) {
+        Calendar day = GregorianCalendar.getInstance();
+
+        DailyTotals ds = new DailyTotals();
+        return ds.getDailyTotalsForDevice(device, day, db);
+    }
+
+    protected RefreshTask createRefreshTask(String task, Context context) {
+        return new RefreshTask(task, context);
+    }
+
+    public class RefreshTask extends DBAccess {
+        public RefreshTask(String task, Context context) {
+            super(task, context);
+        }
+
+        @Override
+        protected void doInBackground(DBHandler db) {
+            for (GBDevice gbDevice : deviceList) {
+                final DeviceCoordinator coordinator = DeviceHelper.getInstance().getCoordinator(gbDevice);
+                if (coordinator.supportsActivityDataFetching()) {
+                    long[] steps = getSteps(gbDevice, db);
+                    deviceActivityHashMap.put(gbDevice.getAddress(), steps);
+                }
+            }
+        }
+
+        @Override
+        protected void onPostExecute(Object o) {
+            refreshPairedDevices();
+        }
+
     }
 }
