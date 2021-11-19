@@ -50,6 +50,8 @@ public class NotificationSpec {
      */
     public byte pebbleColor;
 
+    public int dndSuppressed;
+
     public NotificationSpec() {
         this.id = c.incrementAndGet();
     }

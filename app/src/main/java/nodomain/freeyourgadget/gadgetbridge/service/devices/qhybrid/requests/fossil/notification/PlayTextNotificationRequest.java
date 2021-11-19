@@ -16,14 +16,15 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.notification;
 
+import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.adapter.fossil.FossilWatchAdapter;
 
 public class PlayTextNotificationRequest extends PlayNotificationRequest {
-    public PlayTextNotificationRequest(String packageName, String sender, String message, int messageId, FossilWatchAdapter adapter) {
-        super(NotificationType.NOTIFICATION, 2, packageName, sender, message, messageId, adapter);
+    public PlayTextNotificationRequest(String packageName, String sender, NotificationSpec notificationSpec, FossilWatchAdapter adapter) {
+        super(NotificationType.NOTIFICATION, 0x02 | notificationSpec.dndSuppressed, packageName, sender, notificationSpec.body, notificationSpec.getId(), adapter);
     }
 
     public PlayTextNotificationRequest(String packageName, FossilWatchAdapter adapter) {
-        super(NotificationType.NOTIFICATION, 2, packageName, adapter);
+        super(NotificationType.NOTIFICATION, 0x02, packageName, adapter);
     }
 }

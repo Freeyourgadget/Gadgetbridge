@@ -281,14 +281,19 @@ public class NotificationListener extends NotificationListenerService {
 
         if (handleMediaSessionNotification(sbn)) return;
 
+        int dndSuppressed = 0;
+        if (GBApplication.isRunningLollipopOrLater() && rankingMap != null) {
+            // Handle priority notifications for Do Not Disturb
+            Ranking ranking = new Ranking();
+            if (rankingMap.getRanking(sbn.getKey(), ranking)) {
+                if (!ranking.matchesInterruptionFilter()) dndSuppressed = 1;
+            }
+        }
+
         Prefs prefs = GBApplication.getPrefs();
         if (GBApplication.isRunningLollipopOrLater()) {
-            if (prefs.getBoolean("notification_filter", false) && rankingMap != null) {
-                // Handle priority notifications for Do Not Disturb
-                Ranking ranking = new Ranking();
-                if (rankingMap.getRanking(sbn.getKey(), ranking)) {
-                    if (!ranking.matchesInterruptionFilter()) return;
-                }
+            if (prefs.getBoolean("notification_filter", false) && dndSuppressed == 1) {
+                return;
             }
             if (NotificationCompat.CATEGORY_CALL.equals(sbn.getNotification().category)
                     && prefs.getBoolean("notification_support_voip_calls", false)
@@ -392,6 +397,7 @@ public class NotificationListener extends NotificationListenerService {
         }
 
         notificationSpec.attachedActions = new ArrayList<>();
+        notificationSpec.dndSuppressed = dndSuppressed;
 
         // DISMISS action
         NotificationSpec.Action dismissAction = new NotificationSpec.Action();
