@@ -1407,7 +1407,7 @@ Temps de sommeil préféré en heures</string>
     <string name="sony_surround_mode_outdoor_stage">Scène extérieure</string>
     <string name="sony_surround_mode_concert_hall">Hall de concert</string>
     <string name="sony_surround_position_mutually_exclusive">Avertissement : les réglages surround et de position sont mutuellement exclusifs.</string>
-    <string name="sony_warn_sbc_codec">Avertissement : Ces réglages ne s\'appliquent qu\'au codec audio SBC.</string>
+    <string name="sony_warn_sbc_codec">Avertissement : L\'équaliseur, la position audio et les réglages surrond ne s\'appliquent qu\'au codec audio SBC.</string>
     <string name="sony_equalizer">Egalisateur</string>
     <string name="sony_equalizer_preset_off">Off</string>
     <string name="sony_equalizer_preset_bright">Lumineux</string>
@@ -1454,4 +1454,5 @@ Temps de sommeil préféré en heures</string>
     <string name="sony_equalizer_band_1000">1k</string>
     <string name="sony_automatic_power_off_5_min">5 minutes</string>
     <string name="sony_automatic_power_off_1_hour">1 heure</string>
+    <string name="sony_automatic_power_off_when_taken_off">Lorsqu\'éteint</string>
 </resources>
