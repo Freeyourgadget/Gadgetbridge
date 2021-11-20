@@ -1406,7 +1406,7 @@
     <string name="sony_surround_mode_club">מועדון</string>
     <string name="sony_surround_mode_outdoor_stage">במה באוויר הפתוח</string>
     <string name="sony_surround_mode_concert_hall">היכל מופעים</string>
-    <string name="sony_warn_sbc_codec">אזהרה: ההגדרות האלו עובדות רק מול מפענח השמע SBC.</string>
+    <string name="sony_warn_sbc_codec">אזהרה: ההגדרות של האקוולייזר, מיקום השמע והגדרות השמע ההיקפי עובדות רק מול מפענח השמע SBC.</string>
     <string name="sony_equalizer">אקוולייזר</string>
     <string name="sony_equalizer_preset_off">כבוי</string>
     <string name="sony_equalizer_preset_bright">בהיר</string>
@@ -1450,4 +1450,5 @@
     <string name="prefs_activity_in_device_card_distance_title_summary">המרחק מחושב מצעדים ואורך צעד (אפשר להגדיר תחת הגדרות - עליך)</string>
     <string name="prefs_activity_in_device_card_steps_title_summary">הצגת סך כל הצעדים</string>
     <string name="prefs_activity_in_device_card_sleep_title_summary">הצגת משך שינה</string>
+    <string name="sony_automatic_power_off_when_taken_off">עם ההסרה</string>
 </resources>
