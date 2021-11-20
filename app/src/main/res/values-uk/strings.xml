@@ -1433,7 +1433,7 @@
     <string name="sony_ambient_sound_off">Вимк.</string>
     <string name="sony_sound_position">Положення звуку</string>
     <string name="sony_sound_position_front_left">Спереду ліворуч</string>
-    <string name="sony_warn_sbc_codec">Попередження: ці налаштування працюють лише для аудіокодека SBC.</string>
+    <string name="sony_warn_sbc_codec">Попередження: Еквалайзер, положення звуку та параметри об\'єму працюють лише для аудіокодека SBC.</string>
     <string name="sony_equalizer_preset_off">Вимк.</string>
     <string name="sony_equalizer">Еквалайзер</string>
     <string name="pref_header_sony_equalizer_preset_custom_2">Власні налаштування 2</string>
@@ -1457,4 +1457,5 @@
     <string name="prefs_activity_in_device_card_title_summary">Показувати поточні кроки, відстань або сон на картці пристрою</string>
     <string name="prefs_activity_in_device_card_sleep_title_summary">Показати тривалість сну</string>
     <string name="prefs_activity_in_device_card_distance_title_summary">Відстань розраховується на основі кроків і довжини кроку (змінюється в Налаштування - Про вас)</string>
+    <string name="sony_automatic_power_off_when_taken_off">При знятті</string>
 </resources>
