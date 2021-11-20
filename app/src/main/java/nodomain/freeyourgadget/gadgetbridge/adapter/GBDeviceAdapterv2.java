@@ -872,13 +872,13 @@ public class GBDeviceAdapterv2 extends RecyclerView.Adapter<GBDeviceAdapterv2.Vi
         holder.cardViewActivityCardDistanceProgress.setProgress(steps * stepLength);
 
         setUpChart(holder.TotalStepsChart);
-        setChartsData(holder.TotalStepsChart, steps, stepGoal, context.getString(R.string.live_activity_total_steps), context);
+        setChartsData(holder.TotalStepsChart, steps, stepGoal, context.getString(R.string.steps), context);
 
         setUpChart(holder.TotalDistanceChart);
-        setChartsData(holder.TotalDistanceChart, steps * stepLength, distanceGoal, context.getString(R.string.live_activity_total_distance), context);
+        setChartsData(holder.TotalDistanceChart, steps * stepLength, distanceGoal, context.getString(R.string.distance), context);
 
         setUpChart(holder.SleepTimeChart);
-        setChartsData(holder.SleepTimeChart, sleep, sleepGoalMinutes, context.getString(R.string.live_activity_sleep_duration), context);
+        setChartsData(holder.SleepTimeChart, sleep, sleepGoalMinutes, context.getString(R.string.prefs_activity_in_device_card_sleep_title), context);
 
         boolean showActivityCard = GBApplication.getDeviceSpecificSharedPrefs(device.getAddress()).getBoolean(DeviceSettingsPreferenceConst.PREFS_ACTIVITY_IN_DEVICE_CARD, true);
         holder.cardViewActivityCardLayout.setVisibility(showActivityCard ? View.VISIBLE : View.GONE);
@@ -900,6 +900,7 @@ public class GBDeviceAdapterv2 extends RecyclerView.Adapter<GBDeviceAdapterv2.Vi
         return DateTimeUtils.formatDurationHoursMinutes(value, TimeUnit.MINUTES);
     }
     private void setUpChart(PieChart DashboardChart) {
+        DashboardChart.setTouchEnabled(false);
         DashboardChart.setNoDataText("");
         DashboardChart.getLegend().setEnabled(false);
         DashboardChart.setDrawHoleEnabled(true);
