@@ -1475,4 +1475,6 @@
     <string name="device_card_activity_card_title_summary">Aygıt kartında hangi etkinlik ayrıntılarının görüntüleneceğini seçin</string>
     <string name="prefs_activity_in_device_card_title">Aygıt kartında etkinlik bilgilerini göster</string>
     <string name="prefs_activity_in_device_card_distance_title_summary">Mesafe, adımlardan ve adım uzunluğundan hesaplanır (Ayarlar - Hakkınızda bölümünden ayarlanabilir)</string>
+    <string name="live_activity_sleep_duration">Uyku zamanı</string>
+    <string name="live_activity_total_distance">Toplam mesafe</string>
 </resources>
