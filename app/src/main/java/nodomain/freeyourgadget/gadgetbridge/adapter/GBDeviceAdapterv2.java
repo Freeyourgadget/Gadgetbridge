@@ -22,6 +22,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
 import android.text.InputType;
 import android.transition.TransitionManager;
@@ -44,6 +45,12 @@ import androidx.cardview.widget.CardView;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.github.mikephil.charting.animation.Easing;
+import com.github.mikephil.charting.charts.PieChart;
+import com.github.mikephil.charting.data.PieData;
+import com.github.mikephil.charting.data.PieDataSet;
+import com.github.mikephil.charting.data.PieEntry;
+import com.github.mikephil.charting.utils.MPPointF;
 import com.google.android.material.snackbar.Snackbar;
 import com.jaredrummler.android.colorpicker.ColorPickerDialog;
 import com.jaredrummler.android.colorpicker.ColorPickerDialogListener;
@@ -52,6 +59,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -677,6 +685,7 @@ public class GBDeviceAdapterv2 extends RecyclerView.Adapter<GBDeviceAdapterv2.Vi
         TextView fmFrequencyLabel;
         ImageView ledColor;
 
+        //activity card
         LinearLayout cardViewActivityCardLayout;
         LinearLayout cardViewActivityCardStepsLayout;
         LinearLayout cardViewActivityCardSleepLayout;
@@ -687,6 +696,9 @@ public class GBDeviceAdapterv2 extends RecyclerView.Adapter<GBDeviceAdapterv2.Vi
         ProgressBar cardViewActivityCardStepsProgress;
         ProgressBar cardViewActivityCardDistanceProgress;
         ProgressBar cardViewActivityCardSleepProgress;
+        PieChart TotalStepsChart;
+        PieChart TotalDistanceChart;
+        PieChart SleepTimeChart;
 
         ViewHolder(View view) {
             super(view);
@@ -747,6 +759,9 @@ public class GBDeviceAdapterv2 extends RecyclerView.Adapter<GBDeviceAdapterv2.Vi
             cardViewActivityCardDistanceProgress = view.findViewById(R.id.card_view_activity_card_distance_progress);
             cardViewActivityCardSleepProgress = view.findViewById(R.id.card_view_activity_card_sleep_progress);
 
+            TotalStepsChart = view.findViewById(R.id.activity_dashboard_piechart1);
+            TotalDistanceChart = view.findViewById(R.id.activity_dashboard_piechart2);
+            SleepTimeChart = view.findViewById(R.id.activity_dashboard_piechart3);
         }
 
     }
@@ -856,21 +871,95 @@ public class GBDeviceAdapterv2 extends RecyclerView.Adapter<GBDeviceAdapterv2.Vi
         holder.cardViewActivityCardDistanceProgress.setMax(distanceGoal);
         holder.cardViewActivityCardDistanceProgress.setProgress(steps * stepLength);
 
+        setUpChart(holder.TotalStepsChart);
+        setChartsData(holder.TotalStepsChart, steps, stepGoal, context.getString(R.string.live_activity_total_steps), context);
+
+        setUpChart(holder.TotalDistanceChart);
+        setChartsData(holder.TotalDistanceChart, steps * stepLength, distanceGoal, context.getString(R.string.live_activity_total_distance), context);
+
+        setUpChart(holder.SleepTimeChart);
+        setChartsData(holder.SleepTimeChart, sleep, sleepGoalMinutes, context.getString(R.string.live_activity_sleep_duration), context);
+
         boolean showActivityCard = GBApplication.getDeviceSpecificSharedPrefs(device.getAddress()).getBoolean(DeviceSettingsPreferenceConst.PREFS_ACTIVITY_IN_DEVICE_CARD, true);
         holder.cardViewActivityCardLayout.setVisibility(showActivityCard ? View.VISIBLE : View.GONE);
 
         boolean showActivitySteps = GBApplication.getDeviceSpecificSharedPrefs(device.getAddress()).getBoolean(DeviceSettingsPreferenceConst.PREFS_ACTIVITY_IN_DEVICE_CARD_STEPS, true);
         holder.cardViewActivityCardStepsLayout.setVisibility(showActivitySteps ? View.VISIBLE : View.GONE);
+        holder.TotalStepsChart.setVisibility(showActivitySteps ? View.VISIBLE : View.GONE);
 
         boolean showActivitySleep = GBApplication.getDeviceSpecificSharedPrefs(device.getAddress()).getBoolean(DeviceSettingsPreferenceConst.PREFS_ACTIVITY_IN_DEVICE_CARD_SLEEP, true);
         holder.cardViewActivityCardSleepLayout.setVisibility(showActivitySleep ? View.VISIBLE : View.GONE);
+        holder.SleepTimeChart.setVisibility(showActivitySleep ? View.VISIBLE : View.GONE);
 
         boolean showActivityDistance = GBApplication.getDeviceSpecificSharedPrefs(device.getAddress()).getBoolean(DeviceSettingsPreferenceConst.PREFS_ACTIVITY_IN_DEVICE_CARD_DISTANCE, true);
         holder.cardViewActivityCardDistanceLayout.setVisibility(showActivityDistance ? View.VISIBLE : View.GONE);
-
+        holder.TotalDistanceChart.setVisibility(showActivityDistance ? View.VISIBLE : View.GONE);
     }
 
     private String getHM(long value) {
         return DateTimeUtils.formatDurationHoursMinutes(value, TimeUnit.MINUTES);
     }
+    private void setUpChart(PieChart DashboardChart) {
+        DashboardChart.setNoDataText("");
+        DashboardChart.getLegend().setEnabled(false);
+        DashboardChart.setDrawHoleEnabled(true);
+        DashboardChart.setHoleColor(Color.WHITE);
+        DashboardChart.getDescription().setText("");
+        DashboardChart.setTransparentCircleColor(Color.WHITE);
+        DashboardChart.setTransparentCircleAlpha(110);
+        DashboardChart.setHoleRadius(70f);
+        DashboardChart.setTransparentCircleRadius(75f);
+        DashboardChart.setDrawCenterText(true);
+        DashboardChart.setRotationEnabled(true);
+        DashboardChart.setHighlightPerTapEnabled(true);
+        DashboardChart.setCenterTextOffset(0, 0);
+    }
+    private void setChartsData(PieChart pieChart, float value, float target, String label, Context context) {
+        final String CHART_COLOR_START = "#e74c3c";
+        final String CHART_COLOR_END = "#2ecc71";
+
+        ArrayList<PieEntry> entries = new ArrayList<>();
+        entries.add(new PieEntry((float) value, context.getResources().getDrawable(R.drawable.ic_star_gold)));
+
+        if (value < target) {
+            entries.add(new PieEntry((float) (target - value)));
+        }
+
+        pieChart.setCenterText(String.format("%d%%\n%s", (int) (value * 100 / target), label));
+        float colorValue = Math.max(0, Math.min(1, value / target));
+        int chartColor = interpolateColor(Color.parseColor(CHART_COLOR_START), Color.parseColor(CHART_COLOR_END), colorValue);
+
+        PieDataSet dataSet = new PieDataSet(entries, "");
+        dataSet.setDrawIcons(false);
+        dataSet.setIconsOffset(new MPPointF(0, -66));
+
+        if (colorValue == 1) {
+            dataSet.setDrawIcons(true);
+        }
+        dataSet.setSliceSpace(0f);
+        dataSet.setSelectionShift(5f);
+        dataSet.setColors(chartColor, Color.LTGRAY);
+
+        PieData data = new PieData(dataSet);
+        data.setValueTextSize(0f);
+        data.setValueTextColor(Color.WHITE);
+
+        pieChart.setData(data);
+        pieChart.invalidate();
+    }
+    private float interpolate(float a, float b, float proportion) {
+        return (a + ((b - a) * proportion));
+    }
+
+    private int interpolateColor(int a, int b, float proportion) {
+        float[] hsva = new float[3];
+        float[] hsvb = new float[3];
+        Color.colorToHSV(a, hsva);
+        Color.colorToHSV(b, hsvb);
+        for (int i = 0; i < 3; i++) {
+            hsvb[i] = interpolate(hsva[i], hsvb[i], proportion);
+        }
+        return Color.HSVToColor(hsvb);
+    }
+
 }
