@@ -51,7 +51,8 @@ public class CasioGBX100DeviceCoordinator extends AbstractDeviceCoordinator {
     public DeviceType getSupportedType(GBDeviceCandidate candidate) {
         String name = candidate.getDevice().getName();
         if (name != null) {
-            if (name.startsWith("CASIO") && name.endsWith("GBX-100")) {
+            if (name.startsWith("CASIO") && (name.endsWith("GBX-100") ||
+                    name.endsWith("GBD-200") || name.endsWith("GBD-100"))) {
                 return DeviceType.CASIOGBX100;
             }
         }
