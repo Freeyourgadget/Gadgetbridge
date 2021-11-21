@@ -32,14 +32,14 @@ public class HuamiIcon {
     public static final byte SNAPCHAT = 6;
     public static final byte WHATSAPP = 7;
     public static final byte RED_WHITE_FIRE_8 = 8;
-    public static final byte CHINESE_9 = 9;
+    public static final byte CHINESE_9 = 9; //taobao
     public static final byte ALARM_CLOCK = 10;
     public static final byte APP_11 = 11;
     public static final byte INSTAGRAM = 12;
     public static final byte CHAT_BLUE_13 = 13;
     public static final byte COW_14 = 14;
-    public static final byte CHINESE_15 = 15;
-    public static final byte CHINESE_16 = 16;
+    public static final byte CHINESE_15 = 15; // sender disregarded (amazfit)
+    public static final byte CHINESE_16 = 16; // sender disregarded (amazfit)
     public static final byte STAR_17 = 17;
     public static final byte APP_18 = 18;
     public static final byte CHINESE_19 = 19;
