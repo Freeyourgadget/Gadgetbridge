@@ -2,8 +2,7 @@
 <resources>
     <string name="app_name">Gadgetbridge</string>
     <string name="title_activity_controlcenter">Gadgetbridge</string>
-    <string name="action_settings">Nastavení
-\n</string>
+    <string name="action_settings">Nastavení</string>
     <string name="action_debug">Ladění</string>
     <string name="action_quit">Ukončit</string>
     <string name="controlcenter_fetch_activity_data">Synchronizovat</string>
@@ -1452,4 +1451,5 @@
     <string name="sony_equalizer_band_400">400</string>
     <string name="pref_header_sony_equalizer_preset_manual">Ruční předvolba</string>
     <string name="pref_header_sony_equalizer_preset_custom_2">Vlastní předvolba 2</string>
+    <string name="sony_automatic_power_off_when_taken_off">Při sundání</string>
 </resources>
