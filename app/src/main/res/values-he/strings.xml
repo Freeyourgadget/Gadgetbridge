@@ -2,8 +2,7 @@
 <resources>
     <string name="app_name">Gadgetbridge</string>
     <string name="title_activity_controlcenter">Gadgetbridge</string>
-    <string name="action_settings">הגדרות
-\n</string>
+    <string name="action_settings">הגדרות</string>
     <string name="action_debug">ניפוי שגיאות</string>
     <string name="action_quit">יציאה</string>
     <string name="controlcenter_fetch_activity_data">סנכרון</string>
