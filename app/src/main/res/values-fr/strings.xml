@@ -2,8 +2,7 @@
 <resources>
     <string name="app_name">Gadgetbridge</string>
     <string name="title_activity_controlcenter">Gadgetbridge</string>
-    <string name="action_settings">Paramètres
-\n</string>
+    <string name="action_settings">Paramètres</string>
     <string name="action_debug">Déboguer</string>
     <string name="action_quit">Quitter</string>
     <string name="action_donate">Faire un don</string>
