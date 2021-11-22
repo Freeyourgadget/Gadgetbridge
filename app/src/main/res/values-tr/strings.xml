@@ -18,8 +18,7 @@
     <string name="action_discover">Yeni aygıt bağla</string>
     <string name="action_donate">Bağış Yap</string>
     <string name="action_quit">Çıkış</string>
-    <string name="action_settings">Ayarlar
-\n</string>
+    <string name="action_settings">Ayarlar</string>
     <string name="activity_DB_ExportButton">Verileri Dışa Aktar</string>
     <string name="activity_DB_delete_legacy_button">Eski veri tabanını sil</string>
     <string name="activity_DB_empty_button">Veri Tabanını Boşalt</string>
@@ -1477,4 +1476,5 @@
     <string name="prefs_activity_in_device_card_distance_title_summary">Mesafe, adımlardan ve adım uzunluğundan hesaplanır (Ayarlar - Hakkınızda bölümünden ayarlanabilir)</string>
     <string name="live_activity_sleep_duration">Uyku zamanı</string>
     <string name="live_activity_total_distance">Toplam mesafe</string>
+    <string name="sony_automatic_power_off_when_taken_off">Çıkarıldığında</string>
 </resources>
