@@ -44,6 +44,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -353,6 +354,8 @@ public class HybridHRWatchfaceDesignerActivity extends AbstractGBActivity implem
                             String widgetName = layoutItem.getString("name");
                             String widgetTimezone = null;
                             int widgetUpdateTimeout = -1;
+                            boolean widgetTimeoutHideText = true;
+                            boolean widgetTimeoutShowCircle = true;
                             switch (widgetName) {
                                 case "dateSSE":
                                     widgetName = "widgetDate";
@@ -400,11 +403,15 @@ public class HybridHRWatchfaceDesignerActivity extends AbstractGBActivity implem
                                 widgetName = "widgetCustom";
                                 JSONObject widgetData = layoutItem.getJSONObject("data");
                                 widgetUpdateTimeout = widgetData.getInt("update_timeout");
+                                widgetTimeoutHideText = widgetData.getBoolean("timeout_hide_text");
+                                widgetTimeoutShowCircle = widgetData.getBoolean("timeout_show_circle");
                                 widgets.add(new HybridHRWatchfaceWidget(widgetName,
                                         layoutItem.getJSONObject("pos").getInt("x"),
                                         layoutItem.getJSONObject("pos").getInt("y"),
                                         widgetColor,
-                                        widgetUpdateTimeout));
+                                        widgetUpdateTimeout,
+                                        widgetTimeoutHideText,
+                                        widgetTimeoutShowCircle));
                             } else {
                                 widgets.add(new HybridHRWatchfaceWidget(widgetName,
                                         layoutItem.getJSONObject("pos").getInt("x"),
@@ -615,6 +622,14 @@ public class HybridHRWatchfaceDesignerActivity extends AbstractGBActivity implem
         if ((widget != null) && (widget.getUpdateTimeout() >= 0)) {
             updateTimeout.setText(Integer.toString(widget.getUpdateTimeout()));
         }
+        final CheckBox timeoutHideText = layout.findViewById(R.id.watchface_widget_timeout_hide_text);
+        if ((widget != null) && (widget.getTimeoutHideText())) {
+            timeoutHideText.setChecked(widget.getTimeoutHideText());
+        }
+        final CheckBox timeoutShowCircle = layout.findViewById(R.id.watchface_widget_timeout_show_circle);
+        if ((widget != null) && (widget.getTimeoutShowCircle())) {
+            timeoutShowCircle.setChecked(widget.getTimeoutShowCircle());
+        }
         // Show certain input fields only when the relevant TZ widget is selected
         typeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -673,11 +688,13 @@ public class HybridHRWatchfaceDesignerActivity extends AbstractGBActivity implem
                             LOG.warn("Error parsing input", e);
                             return;
                         }
+                        boolean selectedTimeoutHideText = timeoutHideText.isChecked();
+                        boolean selectedTimeoutShowCircle = timeoutShowCircle.isChecked();
                         HybridHRWatchfaceWidget widgetConfig;
                         if (selectedType.equals("widget2ndTZ")) {
                             widgetConfig = new HybridHRWatchfaceWidget(selectedType, selectedPosX, selectedPosY, colorSpinner.getSelectedItemPosition(), selectedTZ);
                         } else if (selectedType.equals("widgetCustom")) {
-                            widgetConfig = new HybridHRWatchfaceWidget(selectedType, selectedPosX, selectedPosY, colorSpinner.getSelectedItemPosition(), selectedUpdateTimeout);
+                            widgetConfig = new HybridHRWatchfaceWidget(selectedType, selectedPosX, selectedPosY, colorSpinner.getSelectedItemPosition(), selectedUpdateTimeout, selectedTimeoutHideText, selectedTimeoutShowCircle);
                         } else {
                             widgetConfig = new HybridHRWatchfaceWidget(selectedType, selectedPosX, selectedPosY, colorSpinner.getSelectedItemPosition());
                         }
