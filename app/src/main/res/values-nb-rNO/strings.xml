@@ -1340,4 +1340,25 @@
     <string name="watchface_widget_type_custom">Egendefinert miniprogram</string>
     <string name="sony_automatic_power_off_1_hour">1 time</string>
     <string name="sony_automatic_power_off_3_hour">3 timer</string>
+    <string name="pref_header_other">Annet</string>
+    <string name="pref_header_system">System</string>
+    <string name="devicetype_sony_wh_1000xm3">Sony WH-1000XM3</string>
+    <string name="prefs_activity_in_device_card_title_summary">Vis nåværende steg, avstand eller søvn på enhetsskjerm</string>
+    <string name="prefs_activity_in_device_card_sleep_title">Søvn</string>
+    <string name="prefs_activity_in_device_card_sleep_title_summary">Vis sovetid</string>
+    <string name="prefs_activity_in_device_card_distance_title_summary">Avstand utregnet fra steg og steglengde (kan justeres i «Innstillinger → Om deg»)</string>
+    <string name="prefs_activity_in_device_card_steps_title_summary">Vis totalt antall steg</string>
+    <string name="toast_app_must_not_be_selected">Programmet kan ikke være valgt for å kunne settes opp</string>
+    <string name="toast_app_must_be_selected">Programmet må velges for å settes opp</string>
+    <string name="devicetype_galaxybuds">Galaxy Buds</string>
+    <string name="watchface_widget_type_chance_rain">Mulighet for regn</string>
+    <string name="prefs_sleep_time_label">Definer sovetid</string>
+    <string name="prefs_sleep_time">Sovetider</string>
+    <string name="devicetype_nothingear1">Nothing Ear (1)</string>
+    <string name="devicetype_galaxybuds_live">Galaxy Buds Live</string>
+    <string name="prefs_sleep_time_summary">Angir tider der søvn registreres</string>
+    <string name="prefs_vibration_enable">Skru på vibrasjoner</string>
+    <string name="prefs_notifications_enable">Skru på merknader</string>
+    <string name="enable_vibrations_summary">Vibrasjoner for anrop, meldinger, merknader og mer</string>
+    <string name="enable_notifications_summary">Merknader for anrop, meldinger og mer</string>
 </resources>
