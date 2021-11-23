@@ -1455,4 +1455,6 @@
     <string name="battery_case">Caixa de bateria</string>
     <string name="prefs_activity_in_device_card_title">Mostrar Informações de atividades no cartão do dispositivo</string>
     <string name="sony_automatic_power_off_when_taken_off">Quando retirados os fones</string>
+    <string name="prefs_fm_preset_instructions">Pressione longamente o botão para armazenar a predefinição</string>
+    <string name="prefs_fm_presets_presets">Predefinições</string>
 </resources>
