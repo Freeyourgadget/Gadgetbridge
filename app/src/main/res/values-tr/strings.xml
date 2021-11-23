@@ -1477,4 +1477,6 @@
     <string name="live_activity_sleep_duration">Uyku zamanı</string>
     <string name="live_activity_total_distance">Toplam mesafe</string>
     <string name="sony_automatic_power_off_when_taken_off">Çıkarıldığında</string>
+    <string name="prefs_fm_presets_presets">Ön ayarlar</string>
+    <string name="prefs_fm_preset_instructions">Ön ayarı saklamak için düğmeye uzun basın</string>
 </resources>
