@@ -56,23 +56,39 @@ public class AmazfitGTS2MiniSupport extends AmazfitGTS2Support {
 
     @Override
     protected void sendNotificationNew(NotificationSpec notificationSpec, boolean hasExtraHeader, int maxLength) {
+        // step 1: bail out if this is an alarm clock notification
+
         if (notificationSpec.type == NotificationType.GENERIC_ALARM_CLOCK) {
             onAlarmClock(notificationSpec);
             return;
         }
 
-        String senderOrTitle = StringUtils.getFirstOf(notificationSpec.sender, notificationSpec.title);
+        // step 2: (formerly in try block) get notification type
+        AlertCategory alertCategory = AlertCategory.CustomHuami;
+        byte customIconId = HuamiIcon.mapToIconId(notificationSpec.type);
 
-        String message = StringUtils.truncate(senderOrTitle, 64) + "\0";
+        // step 3: build notification (sender+body)
+        /*
+         * Format followed by the device:
+         * <SENDER> \0 <BODY> \0 <APP SUFFIX>
+         * sender will get ignored except for the icons
+         * specified on the HuamiIcon class.
+         * for email, App Suffix will be taken as sender
+         */
+        String senderOrTitle = StringUtils.getFirstOf(notificationSpec.sender, notificationSpec.title);
+        boolean acceptsSender = HuamiIcon.acceptsSender(customIconId);
+        String message;
+
+        if (!acceptsSender && !senderOrTitle.equals(notificationSpec.sourceName)) {
+            // make sure we always include the notification sender/title
+            message = "-\0"; //leave title blank, it's useless
+            message += StringUtils.truncate(senderOrTitle, 64) + "\n";
+        } else {
+            message = StringUtils.truncate(senderOrTitle, 64) + "\0";
+        }
 
         if (notificationSpec.subject != null) {
             message += StringUtils.truncate(notificationSpec.subject, 128) + "\n\n";
-        } else {
-            if (!notificationSpec.type.getGenericType().equals("generic_chat") && !senderOrTitle.equals(notificationSpec.sourceName)) {
-                // amazfit devices will disregard the title if not a chat app, so we have to include it again
-                message = "-\0"; //leave title blank, it's useless
-                message += StringUtils.truncate(senderOrTitle, 64) + "\n";
-            }
         }
         if (notificationSpec.body != null) {
             message += StringUtils.truncate(notificationSpec.body, 512);
@@ -84,24 +100,23 @@ public class AmazfitGTS2MiniSupport extends AmazfitGTS2Support {
         try {
             TransactionBuilder builder = performInitialized("new notification");
 
-            byte customIconId = HuamiIcon.mapToIconId(notificationSpec.type);
-            AlertCategory alertCategory = AlertCategory.CustomHuami;
-
+            // step 4: append suffix
+            byte[] appSuffix = "\0 \0".getBytes();
+            int suffixlength = appSuffix.length;
             // The SMS icon for AlertCategory.SMS is unique and not available as iconId
             if (notificationSpec.type == NotificationType.GENERIC_SMS) {
                 alertCategory = AlertCategory.SMS;
             }
-            // EMAIL icon does not work in FW 0.0.8.74, it did in 0.0.7.90
+            // EMAIL icon does not work in FW 0.0.8.74, it did in 0.0.7.90 (old comment)
+            // EMAIL will take the sender from the suffix instead
             else if (customIconId == HuamiIcon.EMAIL) {
                 alertCategory = AlertCategory.Email;
+                appSuffix = ("\0"+senderOrTitle+"\0").getBytes();
+                suffixlength = appSuffix.length;
             }
 
             // if I understood correctly, we don't need the extra logic for mi band 2 here
             int prefixlength = 2;
-
-            // We also need a (fake) source name for Mi Band 3 for SMS/EMAIL, else the message is not displayed
-            byte[] appSuffix = "\0 \0".getBytes();
-            int suffixlength = appSuffix.length;
 
             if (alertCategory == AlertCategory.CustomHuami) {
                 String appName;
@@ -113,10 +128,10 @@ public class AmazfitGTS2MiniSupport extends AmazfitGTS2Support {
                 } catch (PackageManager.NameNotFoundException ignored) {
                 }
 
-                if (ai != null) {
-                    appName = "\0" + pm.getApplicationLabel(ai) + "\0";
-                } else {
+                if (ai == null) {
                     appName = "\0" + "UNKNOWN" + "\0";
+                } else {
+                    appName = "\0" + pm.getApplicationLabel(ai) + "\0";
                 }
                 appSuffix = appName.getBytes();
                 suffixlength = appSuffix.length;
@@ -125,6 +140,7 @@ public class AmazfitGTS2MiniSupport extends AmazfitGTS2Support {
                 prefixlength += 4;
             }
 
+            // final step: build command
             byte[] rawmessage = message.getBytes();
             int length = Math.min(rawmessage.length, maxLength - prefixlength);
             if (length < rawmessage.length) {

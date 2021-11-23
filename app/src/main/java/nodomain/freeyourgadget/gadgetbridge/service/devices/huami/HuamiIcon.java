@@ -32,14 +32,14 @@ public class HuamiIcon {
     public static final byte SNAPCHAT = 6;
     public static final byte WHATSAPP = 7;
     public static final byte RED_WHITE_FIRE_8 = 8;
-    public static final byte CHINESE_9 = 9; //taobao
+    public static final byte CHINESE_9 = 9;
     public static final byte ALARM_CLOCK = 10;
     public static final byte APP_11 = 11;
     public static final byte INSTAGRAM = 12;
     public static final byte CHAT_BLUE_13 = 13;
     public static final byte COW_14 = 14;
-    public static final byte CHINESE_15 = 15; // sender disregarded (amazfit)
-    public static final byte CHINESE_16 = 16; // sender disregarded (amazfit)
+    public static final byte CHINESE_15 = 15;
+    public static final byte CHINESE_16 = 16;
     public static final byte STAR_17 = 17;
     public static final byte APP_18 = 18;
     public static final byte CHINESE_19 = 19;
@@ -99,7 +99,6 @@ public class HuamiIcon {
                 return LINE;
             case WIRE:
             case THREEMA:
-            case DISCORD:
                 return CHAT_BLUE_13;
             case TWITTER:
                 return TWITTER;
@@ -110,6 +109,7 @@ public class HuamiIcon {
             case TELEGRAM:
                 return TELEGRAM;
             case VIBER:
+            case DISCORD:
                 return VIBER;
             case WHATSAPP:
                 return WHATSAPP;
@@ -117,5 +117,31 @@ public class HuamiIcon {
                 return ALARM_CLOCK;
         }
         return APP_11;
+    }
+
+    //amazfit workaround
+    public static boolean acceptsSender(byte iconId){
+        switch(iconId){
+            case WECHAT:
+            case PENGUIN_1:
+            case MI_CHAT_2:
+            case SNAPCHAT:
+            case WHATSAPP:
+            case RED_WHITE_FIRE_8:
+            case INSTAGRAM:
+            case CHAT_BLUE_13:
+            case COW_14:
+            case CHINESE_20:
+            case FACEBOOK_MESSENGER:
+            case VIBER:
+            case LINE:
+            case TELEGRAM:
+            case VKONTAKTE:
+            case CHINESE_32:
+            case EMAIL:
+                return true;
+        }
+
+        return false;
     }
 }
