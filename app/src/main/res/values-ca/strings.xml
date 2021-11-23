@@ -77,7 +77,7 @@
     <string name="pref_theme_light">Clar</string>
     <string name="pref_theme_dark">Fosc</string>
     <string name="pref_title_language">Llengua</string>
-    <string name="pref_title_minimize_priority">Oculta la notificació del Gadgetbridge</string>
+    <string name="pref_title_minimize_priority">Amaga la notificació del Gadgetbridge</string>
     <string name="pref_summary_minimize_priority_off">La icona a la barra d\'estat i la notificació a la pantalla de bloqueig es mostren</string>
     <string name="pref_summary_minimize_priority_on">La icona a la barra d\'estat i la notificació a la pantalla de bloqueig no es mostren</string>
     <string name="pref_header_notifications">Notificacions</string>
@@ -107,7 +107,7 @@
     <string name="pref_title_canned_replies">Respostes</string>
     <string name="pref_title_canned_reply_suffix">Sufix automàtic</string>
     <string name="pref_title_canned_messages_dismisscall">Rebuig de trucada</string>
-    <string name="pref_title_canned_messages_set">Actualitza al Pebble</string>
+    <string name="pref_title_canned_messages_set">Actualitza a l\'aparell</string>
     <string name="pref_header_development">Opcions per a desenvolupadors</string>
     <string name="pref_title_development_miaddr">Adreça de Mi Band</string>
     <string name="pref_title_pebble_settings">Configuració del Pebble</string>
@@ -126,7 +126,7 @@
     <string name="pref_title_enable_calendar_sync">Sincronitza el calendari</string>
     <string name="pref_summary_enable_calendar_sync">Envia els esdeveniments del calendari a la cronologia</string>
     <string name="pref_title_autoremove_notifications">Suprimeix automàticament les notificacions rebutjades</string>
-    <string name="pref_summary_autoremove_notifications">Les notificacions se suprimeixen automàticament del Pebble quan es rebutgen a l\'aparell Android</string>
+    <string name="pref_summary_autoremove_notifications">Les notificacions se suprimeixen automàticament de l\'aparell quan es rebutgen al telèfon</string>
     <string name="pref_title_pebble_privacy_mode">Mode de privacitat</string>
     <string name="pref_pebble_privacy_mode_off">Notificacions normals</string>
     <string name="pref_pebble_privacy_mode_content">Desplaça la notificació fora de la pantalla</string>
@@ -185,10 +185,10 @@
     <string name="pref_title_auto_export_location">Ubicació de l\'exportació</string>
     <string name="pref_title_auto_export_interval">Interval de l\'exportació</string>
     <string name="pref_summary_auto_export_interval">Exporta cada %d hores</string>
-    <string name="app_install_info">Esteu a punt d\'instal·lar la següent aplicació:
+    <string name="app_install_info">Sou a punt d\'instal·lar la següent aplicació:
 \n
-\n
-\n%1$s Versió %2$s per %3$s
+\n%1$s
+\nVersió %2$s per %3$s
 \n</string>
     <string name="n_a">NO DISPONIBLE</string>
     <string name="initialized">inicialitzat</string>
@@ -530,7 +530,7 @@
     <string name="devicetype_no1_f1">No.1 F1</string>
     <string name="devicetype_teclast_h30">Teclast H30</string>
     <string name="choose_auto_export_location">Tria la ubicació de l\'exportació</string>
-    <string name="notification_channel_name">Notificacions del Gadgetbridge</string>
+    <string name="notification_channel_name">General</string>
     <string name="devicetype_xwatch">XWatch</string>
     <string name="on">Activat</string>
     <string name="controlcenter_start_activity_tracks">Les vostres pistes d\'activitat</string>
@@ -835,7 +835,7 @@
     <string name="pref_title_force_white_color_scheme">Força l\'esquema de color blanc sobre negre</string>
     <string name="pref_summary_force_white_color_scheme">Útil si el teu rellotge té les manetes negres</string>
     <string name="find_my_phone_notification">Troba el meu telèfon</string>
-    <string name="notification_channel_high_priority_name">Notificacions de Gadgetbridge d\'alta prioritat</string>
+    <string name="notification_channel_high_priority_name">Alta prioritat</string>
     <string name="pref_title_custom_deviceicon">Mostra l\'icona de notificació específica de l\'aparell</string>
     <string name="pref_summary_custom_deviceicon">Mostra l\'icona de notificació d\'Android específica de l\'aparell enlloc de l\'icona de Gadgetbridge quan estigui connectat</string>
     <string name="hr_appname_wellness">Benestar</string>
@@ -883,7 +883,7 @@
     <string name="sonyswr12_settings_stamina_summary">El mode d’estalvi d’energia desactiva la mesura automàtica periòdica de la freqüència cardíaca i, per tant, augmenta el temps de treball</string>
     <string name="sonyswr12_settings_alarm_interval_summary">L\'interval d\'alarma intel·ligent és l\'interval abans de l\'alarma instal·lada. En aquest interval, el dispositiu intenta detectar la fase més lleugera del son per despertar l\'usuari</string>
     <string name="sonyswr12_settings_stamina">Mode d\'estalvi d\'energia activat</string>
-    <string name="qhybrid_calibration_align_hint">alinea les manetes a les 12:00</string>
+    <string name="qhybrid_calibration_align_hint">Utilitza els botons de sota per a alinear les manetes del rellotge a les 12:00.</string>
     <string name="devicetype_nut_mini">Nut mini</string>
     <string name="backstroke">Esquena</string>
     <string name="freestyle">Estil lliure</string>
@@ -1142,11 +1142,122 @@
     <string name="pref_summary_connected_advertisement">Fes que l\'aparell sigui visible per Bluetooth inclús quan estigui connectat</string>
     <string name="pref_title_connected_advertisement">Visible mentre estigui connectat</string>
     <string name="calendar_year">Any</string>
-    <string name="calendar_six_months">Sis mesos</string>
+    <string name="calendar_six_months">6 mesos</string>
     <string name="calendar_month">Mes</string>
     <string name="calendar_two_weeks">Dues setmanes</string>
     <string name="calendar_week">Setmana</string>
     <string name="calendar_day">Dia</string>
     <string name="battery_level">Nivell de bateria</string>
     <string name="battery_detail_activity_title">Informació de la bateria</string>
+    <string name="prefs_sounds">Sons</string>
+    <string name="watchface_widget_type_date">Data</string>
+    <string name="watchface_widget_type_weather">Temps</string>
+    <string name="watchface_dialog_title_add_widget">Afegeix un giny</string>
+    <string name="fw_upgrade_notice_amazfitneo">Sou a punt d’instal·lar el microprogramari %s a la vostra Amazfit Neo.
+\n
+\nLa vostra polsera es reiniciarà després d’instal·lar el fitxer .fw.
+\n
+\nPROCEDIU SOTA LA VOSTRA PRÒPIA RESPONSABILITAT!</string>
+    <string name="qhybrid_pref_title_actions">Accions</string>
+    <string name="watchface_widget_type_chance_rain">Possibilitat de pluja</string>
+    <string name="dialog_hide">Amaga</string>
+    <string name="fossil_hr_commute_processing">S\'està processant la sol·licitud…</string>
+    <string name="fossil_hr_synced_activity_data">Dades d\'activitat sincronitzades</string>
+    <string name="watchface_setting_title_wrist_flick">Moviment de canell</string>
+    <string name="prefs_autoheartrate">Freqüència cardíaca automàtica</string>
+    <string name="blood_pressure">Pressió sanguínea</string>
+    <string name="menuitem_temperature">Temperatura</string>
+    <string name="qhybrid_title_file_management">Gestió de fitxers</string>
+    <string name="qhybrid_calibration_counterclockwise">En sentit antihorari</string>
+    <string name="qhybrid_calibration_clockwise">En sentit horari</string>
+    <string name="appmanager_app_edit">Edita</string>
+    <string name="watchface_widget_type_heart_rate">Ritme cardíac</string>
+    <string name="prefs_sleep_time">Temps de son</string>
+    <string name="button_watchface_edit_name">Edita el nom</string>
+    <string name="button_watchface_add_widget">Afegeix un giny</string>
+    <string name="prefs_activity_in_device_card_sleep_title">Son</string>
+    <string name="prefs_activity_in_device_card_sleep_title_summary">Mostra la durada del son</string>
+    <string name="prefs_activity_in_device_card_steps_title_summary">Mostra les passes totals</string>
+    <string name="calendar_three_months">3 mesos</string>
+    <string name="pref_header_other">Altres</string>
+    <string name="pref_header_system">Sistema</string>
+    <string name="pref_header_equalizer">Equalitzador</string>
+    <string name="pref_message_privacy_mode_off">Mostra el contingut</string>
+    <string name="pref_message_privacy_mode_complete">Amaga el contingut</string>
+    <string name="pref_applications_settings">Llistat d\'aplicacions</string>
+    <string name="pref_title_huami_force_new_protocol">Nou protocol d\'autenticació</string>
+    <string name="show_ongoing_activity">Mostra una finestra emergent d\'activitat en curs</string>
+    <string name="getting_heart_rate">Mesurant</string>
+    <string name="devicetype_miband6">Mi Band 6</string>
+    <string name="devicetype_um25">UM-25</string>
+    <string name="devicetype_fitpro">FitPro</string>
+    <string name="menuitem_events">Esdeveniments</string>
+    <string name="menuitem_widgets">Ginys</string>
+    <string name="menuitem_flashlight">Llanterna</string>
+    <string name="swim_style">estil de natació</string>
+    <string name="fossil_hr_edit_action_delete">esborra</string>
+    <string name="watchface_dialog_widget_preset_left">Esquerra</string>
+    <string name="watchface_dialog_widget_preset_right">Dreta</string>
+    <string name="watchface_dialog_widget_color">Color:</string>
+    <string name="watchface_dialog_widget_color_white">Blanc</string>
+    <string name="watchface_widget_type_battery">Bateria</string>
+    <string name="prefs_autoheartrate_measurement">Mesures automàtiques del ritme cardíac</string>
+    <string name="sony_equalizer">Equalitzador</string>
+    <string name="sony_equalizer_preset_off">Apagat</string>
+    <string name="qhybrid_title_apps">Aplicacions</string>
+    <string name="fossil_hr_new_action_cancel">cancel·la</string>
+    <string name="fossil_hr_new_action">Nova acció</string>
+    <string name="pref_title_equalizer_soft">Suau</string>
+    <string name="pref_title_equalizer_dynamic">Dinàmic</string>
+    <string name="pref_title_equalizer_clear">Clar</string>
+    <string name="prefs_equalizer">Equalitzador</string>
+    <string name="prefs_galaxy_buds_experimental">Experimental</string>
+    <string name="prefs_left">Esquerra</string>
+    <string name="prefs_right">Dreta</string>
+    <string name="activity_filter_individual_items">Elements seleccionats individualment</string>
+    <string name="strokes_second">b/s</string>
+    <string name="swimStyle">estil de natació</string>
+    <string name="swolfIndex">índex swolf</string>
+    <string name="set">Establir</string>
+    <string name="menuitem_barometer">Baròmetre</string>
+    <string name="strokes_unit">b</string>
+    <string name="Strokes">Braçades</string>
+    <string name="qhybrid_title_calibration">Calibratge</string>
+    <string name="qhybrid_title_background_image">Imatge de fons</string>
+    <string name="watchface_dialog_widget_preset_top">Superior</string>
+    <string name="watchface_dialog_widget_preset_bottom">Inferior</string>
+    <string name="watchface_dialog_widget_color_black">Negre</string>
+    <string name="watchface_widget_type_calories">Calories</string>
+    <string name="pref_title_equalizer_normal">Normal</string>
+    <string name="sony_ambient_sound">Mode</string>
+    <string name="sony_ambient_sound_off">Apagat</string>
+    <string name="watchface_setting_title_power_saving">Estalvi d\'energia</string>
+    <string name="prefs_notifications_enable">Activa les notificacions</string>
+    <string name="devicetype_amazfit_trex_pro">Amazfit T-Rex Pro</string>
+    <string name="button_watchface_select_image">Canvia la imatge de fons</string>
+    <string name="watchface_setting_wrist_flick_duration">Durada (en ms):</string>
+    <string name="watchface_dialog_widget_y_coordinate">Coordenada Y (màxim 240):</string>
+    <string name="watchface_setting_wrist_flick_move_relative">Mou les mans en relació amb el temps:</string>
+    <string name="sony_sound_position_off">Apagat</string>
+    <string name="sony_sound_position_front">Frontal</string>
+    <string name="sony_surround_mode_off">Apagat</string>
+    <string name="sony_surround_mode_arena">Arena</string>
+    <string name="sony_surround_mode_club">Club</string>
+    <string name="sony_equalizer_preset_manual">Manual</string>
+    <string name="sony_equalizer_band_400">400</string>
+    <string name="sony_equalizer_band_1000">1k</string>
+    <string name="sony_equalizer_band_2500">2.5k</string>
+    <string name="sony_equalizer_band_6300">6.3k</string>
+    <string name="sony_equalizer_band_16000">16k</string>
+    <string name="title_activity_notification_management">Configuració de les notificacions</string>
+    <string name="fw_upgrade_notice_miband6">Sou a punt d\'instal·lar el microprogramari %s en la vostra Mi Band 6.
+\n
+\nSi us plau, assegureu-vos d\'instal·lar el fitxer .fw, i després el fitxer .res. La vostra polsera es reiniciarà després d\'instal·lar el fitxer .fw.
+\n
+\nNota: no heu d\'instal·lar el fitxer .res si és exactament el mateix que el prèviament instal·lat.
+\n
+\nPROCEDIU SOTA LA VOSTRA PRÒPIA RESPONSABILITAT!</string>
+    <string name="watchface_widget_type_steps">Passes</string>
+    <string name="watchface_dialog_widget_type">Tipus:</string>
+    <string name="watchface_dialog_widget_x_coordinate">Coordenada X (màxim 240):</string>
 </resources>
