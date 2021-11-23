@@ -83,10 +83,10 @@ import static nodomain.freeyourgadget.gadgetbridge.model.ActivityUser.PREF_USER_
 import static nodomain.freeyourgadget.gadgetbridge.model.ActivityUser.PREF_USER_WEIGHT_KG;
 import static nodomain.freeyourgadget.gadgetbridge.model.ActivityUser.PREF_USER_YEAR_OF_BIRTH;
 
-public class CasioGBX100DeviceSupport extends AbstractBTLEDeviceSupport implements SharedPreferences.OnSharedPreferenceChangeListener {
+public class CasioGBX100DeviceSupport extends CasioSupport implements SharedPreferences.OnSharedPreferenceChangeListener {
     private static final Logger LOG = LoggerFactory.getLogger(CasioGBX100DeviceSupport.class);
 
-    private boolean mFirstConnect = false;
+
     private boolean mGetConfigurationPending = false;
     private boolean mRingNotificationPending = false;
     private final ArrayList<Integer> mSyncedNotificationIDs = new ArrayList<>();
@@ -99,19 +99,6 @@ public class CasioGBX100DeviceSupport extends AbstractBTLEDeviceSupport implemen
     public CasioGBX100DeviceSupport() {
         super(LOG);
 
-        addSupportedService(CasioConstants.WATCH_FEATURES_SERVICE_UUID);
-    }
-
-    @Override
-    public boolean connectFirstTime() {
-        mFirstConnect = true;
-        return connect();
-    }
-
-    public void setInitialized() {
-        mFirstConnect = false;
-        gbDevice.setState(GBDevice.State.INITIALIZED);
-        gbDevice.sendDeviceUpdateIntent(getContext());
     }
 
     @Override
@@ -249,11 +236,6 @@ public class CasioGBX100DeviceSupport extends AbstractBTLEDeviceSupport implemen
 
         LOG.info("Unhandled characteristic change: " + characteristicUUID + " code: " + String.format("0x%1x ...", data[0]));
         return super.onCharacteristicChanged(gatt, characteristic);
-    }
-
-    @Override
-    public boolean useAutoConnect() {
-        return true;
     }
 
     public void syncProfile() {
@@ -442,23 +424,8 @@ public class CasioGBX100DeviceSupport extends AbstractBTLEDeviceSupport implemen
 
     public void writeCurrentTime(TransactionBuilder builder) {
         byte[] arr = new byte[11];
-        Calendar cal = Calendar.getInstance();
-
-        int year = cal.get(Calendar.YEAR);
-        arr[0] = CasioConstants.characteristicToByte.get("CASIO_CURRENT_TIME");
-        arr[1] = (byte)(year & 0xff);
-        arr[2] = (byte)((year >>> 8) & 0xff);
-        arr[3] = (byte)(1 + cal.get(Calendar.MONTH));
-        arr[4] = (byte)cal.get(Calendar.DAY_OF_MONTH);
-        arr[5] = (byte)cal.get(Calendar.HOUR_OF_DAY);
-        arr[6] = (byte)cal.get(Calendar.MINUTE);
-        arr[7] = (byte)(1 + cal.get(Calendar.SECOND));
-        byte dayOfWk = (byte)(cal.get(Calendar.DAY_OF_WEEK) - 1);
-        if(dayOfWk == 0)
-            dayOfWk = 7;
-        arr[8] = dayOfWk;
-        arr[9] = (byte)(int) TimeUnit.MILLISECONDS.toSeconds(256 * cal.get(Calendar.MILLISECOND));
-        arr[10] = 1; // or 0?
+        byte[] tmp = prepareCurrentTime();
+        System.arraycopy(tmp, 0, arr, 1, 10);
 
         writeAllFeatures(builder, arr);
     }
@@ -473,7 +440,6 @@ public class CasioGBX100DeviceSupport extends AbstractBTLEDeviceSupport implemen
 
     @Override
     public void onSetAlarms(ArrayList<? extends Alarm> alarms) {
-        int alarmOffset = 4;
         byte[] data1 = new byte[5];
         byte[] data2 = new byte[17];
 
@@ -491,9 +457,6 @@ public class CasioGBX100DeviceSupport extends AbstractBTLEDeviceSupport implemen
                 settings[0] = 0x40;
             } else {
                 settings[0] = 0;
-            }
-            if(alm.getRepetition(Alarm.ALARM_ONCE)) {
-                settings[i * alarmOffset] |= 0x20;
             }
             settings[1] = 0x40;
             settings[2] = (byte)alm.getHour();
@@ -558,111 +521,12 @@ public class CasioGBX100DeviceSupport extends AbstractBTLEDeviceSupport implemen
     }
 
     @Override
-    public void onSetCannedMessages(CannedMessagesSpec cannedMessagesSpec) {
-
-    }
-
-    @Override
-    public void onSetMusicState(MusicStateSpec stateSpec) {
-
-    }
-
-    @Override
-    public void onSetMusicInfo(MusicSpec musicSpec) {
-
-    }
-
-    @Override
-    public void onEnableRealtimeSteps(boolean enable) {
-    }
-
-    @Override
-    public void onInstallApp(Uri uri) {
-
-    }
-
-    @Override
-    public void onAppInfoReq() {
-
-    }
-
-    @Override
-    public void onAppStart(UUID uuid, boolean start) {
-
-    }
-
-    @Override
-    public void onAppDelete(UUID uuid) {
-
-    }
-
-    @Override
-    public void onAppConfiguration(UUID appUuid, String config, Integer id) {
-
-    }
-
-    @Override
-    public void onAppReorder(UUID[] uuids) {
-
-    }
-
-    @Override
     public void onFetchRecordedData(int dataTypes) {
         try {
             new FetchStepCountDataOperation(this).perform();
         } catch(IOException e) {
             GB.toast(getContext(), "Error fetching data", Toast.LENGTH_SHORT, GB.ERROR, e);
         }
-    }
-
-    @Override
-    public void onReset(int flags) {
-
-    }
-
-    @Override
-    public void onHeartRateTest() {
-
-    }
-
-    @Override
-    public void onEnableRealtimeHeartRateMeasurement(boolean enable) {
-
-    }
-
-    @Override
-    public void onFindDevice(boolean start) {
-
-    }
-
-    @Override
-    public void onSetConstantVibration(int integer) {
-
-    }
-
-    @Override
-    public void onScreenshotReq() {
-
-    }
-
-    @Override
-    public void onEnableHeartRateSleepSupport(boolean enable) {
-
-    }
-
-    @Override
-    public void onSetHeartRateMeasurementInterval(int seconds) {
-
-    }
-
-    @Override
-    public void onAddCalendarEvent(CalendarEventSpec calendarEventSpec) {
-
-    }
-
-    @Override
-    public void onDeleteCalendarEvent(byte type, long id) {
-
     }
 
     @Override
@@ -702,11 +566,6 @@ public class CasioGBX100DeviceSupport extends AbstractBTLEDeviceSupport implemen
         } catch(IOException e) {
             LOG.error("Error setting alarm: " + e.getMessage());
         }
-    }
-
-    @Override
-    public void onSendWeather(WeatherSpec weatherSpec) {
-
     }
 
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
