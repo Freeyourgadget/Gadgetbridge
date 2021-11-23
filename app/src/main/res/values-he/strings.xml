@@ -1450,4 +1450,6 @@
     <string name="prefs_activity_in_device_card_steps_title_summary">הצגת סך כל הצעדים</string>
     <string name="prefs_activity_in_device_card_sleep_title_summary">הצגת משך שינה</string>
     <string name="sony_automatic_power_off_when_taken_off">עם ההסרה</string>
+    <string name="prefs_fm_presets_presets">ערכות</string>
+    <string name="prefs_fm_preset_instructions">לחיצה ארוכה על הכפתור תאחסן ערכה</string>
 </resources>
