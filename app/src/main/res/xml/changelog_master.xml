@@ -3,10 +3,14 @@
     <release version="0.63.0" versioncode="206">
         <change>Galaxy Buds Live: Initial Support</change>
         <change>Sony WH-1000XM3: Initial Support</change>
+        <change>Add support for Casio GBD-200 and untested support for GBD-100</change>
+        <change>Casio: Fix alarm handling on all devices</change>
         <change>Fossil Hybrid HR: Add button for removing the watchface background image</change>
         <change>Fossil Hybrid HR: Support multiple 2nd-TZ and Custom widgets</change>
+        <change>Fossil Hybrid HR: Add support for native DND functionality</change>
         <change>Nothing Ear (1): Add multiple batteries support</change>
         <change>Galaxy Buds: Add multiple batteries support</change>
+        <change>Roidmi: New FM Frequency selector with presets</change>
         <change>Add activity info to device cards</change>
         <change>Add Nekogram X to Telegram notifications</change>
         <change>Move location settings out of pebble menu</change>
