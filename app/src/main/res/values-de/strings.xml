@@ -1372,4 +1372,19 @@
     <string name="prefs_dolby_mode">Dolby-Modus</string>
     <string name="prefs_dolby_summary">Dolby-Voreinstellung für Equalizer</string>
     <string name="prefs_galaxy_buds_experimental">Experimentell</string>
+    <string name="sony_surround_mode_off">Aus</string>
+    <string name="sony_automatic_power_off_off">Nicht ausschalten</string>
+    <string name="sony_automatic_power_off_5_min">5 Minuten</string>
+    <string name="sony_automatic_power_off_1_hour">1 Stunde</string>
+    <string name="prefs_fm_presets_presets">Voreinstellungen</string>
+    <string name="sony_automatic_power_off_30_min">30 Minuten</string>
+    <string name="sony_automatic_power_off_3_hour">3 Stunden</string>
+    <string name="prefs_activity_in_device_card_sleep_title">Schlaf</string>
+    <string name="prefs_activity_in_device_card_sleep_title_summary">Schlafdauer anzeigen</string>
+    <string name="sony_ambient_sound_off">Aus</string>
+    <string name="sony_sound_position_off">Aus</string>
+    <string name="sony_equalizer_preset_off">Aus</string>
+    <string name="prefs_left">Links</string>
+    <string name="prefs_right">Rechts</string>
+    <string name="sony_automatic_power_off">Automatisches Ausschalten</string>
 </resources>
