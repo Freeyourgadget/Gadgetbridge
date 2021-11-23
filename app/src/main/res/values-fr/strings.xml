@@ -1454,4 +1454,6 @@ Temps de sommeil préféré en heures</string>
     <string name="sony_automatic_power_off_5_min">5 minutes</string>
     <string name="sony_automatic_power_off_1_hour">1 heure</string>
     <string name="sony_automatic_power_off_when_taken_off">Lorsqu\'éteint</string>
+    <string name="prefs_fm_preset_instructions">Faire un appui long sur le bouton pour enregistrer cette configuration</string>
+    <string name="prefs_fm_presets_presets">Configurations</string>
 </resources>
