@@ -1456,4 +1456,8 @@ Temps de sommeil préféré en heures</string>
     <string name="sony_automatic_power_off_when_taken_off">Lorsqu\'éteint</string>
     <string name="prefs_fm_preset_instructions">Faire un appui long sur le bouton pour enregistrer cette configuration</string>
     <string name="prefs_fm_presets_presets">Configurations</string>
+    <string name="watchface_dialog_widget_timeout_show_circle">Montrer le cercle en cas de perte de connexion :</string>
+    <string name="watchface_dialog_widget_timezone">Fuseau horaire :</string>
+    <string name="watchface_dialog_widget_timeout_hide_text">Cacher le texte en cas de perte de communication :</string>
+    <string name="watchface_dialog_widget_update_timeout">Mettre à jour le temps de déconnexion en minutes :</string>
 </resources>
