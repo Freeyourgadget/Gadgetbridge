@@ -1456,4 +1456,6 @@
     <string name="prefs_activity_in_device_card_title">在设备卡片上显示活动信息</string>
     <string name="prefs_activity_in_device_card_sleep_title_summary">显示睡眠时间</string>
     <string name="sony_automatic_power_off_when_taken_off">摘下时</string>
+    <string name="prefs_fm_preset_instructions">长按按钮以存储预设</string>
+    <string name="prefs_fm_presets_presets">预设</string>
 </resources>
