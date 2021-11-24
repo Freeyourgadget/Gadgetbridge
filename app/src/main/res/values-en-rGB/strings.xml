@@ -1439,4 +1439,19 @@
     <string name="battery_case">Battery case</string>
     <string name="left_earbud">Left earbud</string>
     <string name="right_earbud">Right earbud</string>
+    <string name="prefs_fm_preset_instructions">Long press the button to store preset</string>
+    <string name="prefs_fm_presets_presets">Presets</string>
+    <string name="watchface_dialog_widget_timezone">Time zone:</string>
+    <string name="watchface_dialog_widget_timeout_show_circle">Show circle on timeout:</string>
+    <string name="watchface_dialog_widget_timeout_hide_text">Hide text on timeout:</string>
+    <string name="sony_automatic_power_off_when_taken_off">When taken off</string>
+    <string name="watchface_dialog_widget_update_timeout">Update timeout in minutes:</string>
+    <string name="device_card_activity_card_title">Activity info on device card</string>
+    <string name="prefs_activity_in_device_card_steps_title_summary">Show total steps</string>
+    <string name="device_card_activity_card_title_summary">Choose what activity details are displayed on device card</string>
+    <string name="prefs_activity_in_device_card_distance_title_summary">Distance is calculated from steps and step length (adjustable in Settings - About you)</string>
+    <string name="prefs_activity_in_device_card_sleep_title">Sleep</string>
+    <string name="prefs_activity_in_device_card_title">Show Activity info on device card</string>
+    <string name="prefs_activity_in_device_card_title_summary">Show current steps, distance or sleep on device card</string>
+    <string name="prefs_activity_in_device_card_sleep_title_summary">Show sleep duration</string>
 </resources>
