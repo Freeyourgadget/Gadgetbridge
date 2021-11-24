@@ -2,8 +2,7 @@
 <resources>
     <string name="app_name">Gadgetbridge</string>
     <string name="title_activity_controlcenter">Gadgetbridge</string>
-    <string name="action_settings">Instellingen
-\n</string>
+    <string name="action_settings">Instellingen</string>
     <string name="action_debug">Debug</string>
     <string name="action_quit">Sluit af</string>
     <string name="action_donate">Doneer</string>
@@ -1450,4 +1449,7 @@
     <string name="prefs_activity_in_device_card_title_summary">Toon aantal stappen, afstand of hoeveelheid slaap op apparaatkaart</string>
     <string name="prefs_activity_in_device_card_sleep_title_summary">Toon hoeveelheid slaap</string>
     <string name="prefs_activity_in_device_card_steps_title_summary">Toon totaal aantal stappen</string>
+    <string name="sony_automatic_power_off_when_taken_off">Wanneer afgedaan</string>
+    <string name="prefs_fm_presets_presets">Voorinstellingen</string>
+    <string name="prefs_fm_preset_instructions">Druk lang op de knop om de voorinstelling op te slaan</string>
 </resources>
