@@ -1457,4 +1457,8 @@
     <string name="sony_automatic_power_off_when_taken_off">Quando retirados os fones</string>
     <string name="prefs_fm_preset_instructions">Pressione longamente o botão para armazenar a predefinição</string>
     <string name="prefs_fm_presets_presets">Predefinições</string>
+    <string name="watchface_dialog_widget_timezone">Fuso horário:</string>
+    <string name="watchface_dialog_widget_update_timeout">Tempo limite de atualização em minutos:</string>
+    <string name="watchface_dialog_widget_timeout_hide_text">Ocultar texto ao exceder o tempo limite:</string>
+    <string name="watchface_dialog_widget_timeout_show_circle">Mostrar círculo ao exceder o tempo limite:</string>
 </resources>
