@@ -1452,4 +1452,6 @@
     <string name="sony_automatic_power_off_when_taken_off">Wanneer afgedaan</string>
     <string name="prefs_fm_presets_presets">Voorinstellingen</string>
     <string name="prefs_fm_preset_instructions">Druk lang op de knop om de voorinstelling op te slaan</string>
+    <string name="watchface_dialog_widget_timezone">Tijdzone:</string>
+    <string name="watchface_dialog_widget_update_timeout">Update-time-out in minuten:</string>
 </resources>
