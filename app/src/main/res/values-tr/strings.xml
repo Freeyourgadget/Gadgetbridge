@@ -1479,4 +1479,8 @@
     <string name="sony_automatic_power_off_when_taken_off">Çıkarıldığında</string>
     <string name="prefs_fm_presets_presets">Ön ayarlar</string>
     <string name="prefs_fm_preset_instructions">Ön ayarı saklamak için düğmeye uzun basın</string>
+    <string name="watchface_dialog_widget_timezone">Saat dilimi:</string>
+    <string name="watchface_dialog_widget_timeout_show_circle">Zaman aşımında çember göster:</string>
+    <string name="watchface_dialog_widget_timeout_hide_text">Zaman aşımında metni gizle:</string>
+    <string name="watchface_dialog_widget_update_timeout">Dakika cinsinden güncelleme zaman aşımı:</string>
 </resources>
