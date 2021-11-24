@@ -1454,4 +1454,6 @@
     <string name="prefs_fm_preset_instructions">Druk lang op de knop om de voorinstelling op te slaan</string>
     <string name="watchface_dialog_widget_timezone">Tijdzone:</string>
     <string name="watchface_dialog_widget_update_timeout">Update-time-out in minuten:</string>
+    <string name="watchface_dialog_widget_timeout_hide_text">Tekst verbergen bij time-out:</string>
+    <string name="watchface_dialog_widget_timeout_show_circle">Toon cirkel bij time-out:</string>
 </resources>
