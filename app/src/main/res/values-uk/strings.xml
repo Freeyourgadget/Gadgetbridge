@@ -1459,4 +1459,8 @@
     <string name="sony_automatic_power_off_when_taken_off">При знятті</string>
     <string name="prefs_fm_preset_instructions">Утримуйте кнопку, щоб зберегти налаштування</string>
     <string name="prefs_fm_presets_presets">Попередні налаштування</string>
+    <string name="watchface_dialog_widget_update_timeout">Час очікування оновлення у хвилинах:</string>
+    <string name="watchface_dialog_widget_timeout_hide_text">Сховати текст після очікування:</string>
+    <string name="watchface_dialog_widget_timeout_show_circle">Показати коло на час очікування:</string>
+    <string name="watchface_dialog_widget_timezone">Часовий пояс:</string>
 </resources>
