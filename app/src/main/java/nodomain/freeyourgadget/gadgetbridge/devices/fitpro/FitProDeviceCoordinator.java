@@ -61,8 +61,8 @@ public class FitProDeviceCoordinator extends AbstractDeviceCoordinator {
             String name = device.getName();
 
             if (name != null && (
-                    name.equals("M6") ||
-                    name.equals("M4") ||
+                    name.startsWith("M6") ||
+                    name.startsWith("M4") ||
                     name.equals("LH716"))
             ) {
                 return DeviceType.FITPRO;
