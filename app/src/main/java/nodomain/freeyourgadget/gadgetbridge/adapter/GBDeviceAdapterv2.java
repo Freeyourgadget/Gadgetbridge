@@ -770,15 +770,6 @@ public class GBDeviceAdapterv2 extends RecyclerView.Adapter<GBDeviceAdapterv2.Vi
 
         //activity card
         LinearLayout cardViewActivityCardLayout;
-        LinearLayout cardViewActivityCardStepsLayout;
-        LinearLayout cardViewActivityCardSleepLayout;
-        LinearLayout cardViewActivityCardDistanceLayout;
-        TextView cardViewActivityCardSteps;
-        TextView cardViewActivityCardDistance;
-        TextView cardViewActivityCardSleep;
-        ProgressBar cardViewActivityCardStepsProgress;
-        ProgressBar cardViewActivityCardDistanceProgress;
-        ProgressBar cardViewActivityCardSleepProgress;
         PieChart TotalStepsChart;
         PieChart TotalDistanceChart;
         PieChart SleepTimeChart;
@@ -831,16 +822,6 @@ public class GBDeviceAdapterv2 extends RecyclerView.Adapter<GBDeviceAdapterv2.Vi
             heartRateIcon = view.findViewById(R.id.device_heart_rate_status);
             
             cardViewActivityCardLayout = view.findViewById(R.id.card_view_activity_card_layout);
-            cardViewActivityCardStepsLayout = view.findViewById(R.id.card_view_activity_card_steps_layout);
-            cardViewActivityCardSleepLayout = view.findViewById(R.id.card_view_activity_card_sleep_layout);
-            cardViewActivityCardDistanceLayout = view.findViewById(R.id.card_view_activity_card_distance_layout);
-
-            cardViewActivityCardSteps = view.findViewById(R.id.card_view_activity_card_steps);
-            cardViewActivityCardDistance = view.findViewById(R.id.card_view_activity_card_distance);
-            cardViewActivityCardSleep = view.findViewById(R.id.card_view_activity_card_sleep);
-            cardViewActivityCardStepsProgress = view.findViewById(R.id.card_view_activity_card_steps_progress);
-            cardViewActivityCardDistanceProgress = view.findViewById(R.id.card_view_activity_card_distance_progress);
-            cardViewActivityCardSleepProgress = view.findViewById(R.id.card_view_activity_card_sleep_progress);
 
             TotalStepsChart = view.findViewById(R.id.activity_dashboard_piechart1);
             TotalDistanceChart = view.findViewById(R.id.activity_dashboard_piechart2);
@@ -940,43 +921,26 @@ public class GBDeviceAdapterv2 extends RecyclerView.Adapter<GBDeviceAdapterv2.Vi
         }
         DecimalFormat df = new DecimalFormat(unit);
 
-
-        holder.cardViewActivityCardSteps.setText(String.format("%1s", steps));
-        holder.cardViewActivityCardSleep.setText(String.format("%1s", getHM(sleep)));
-        holder.cardViewActivityCardDistance.setText(df.format(distanceFormatted));
-
-        holder.cardViewActivityCardStepsProgress.setMax(stepGoal);
-        holder.cardViewActivityCardStepsProgress.setProgress(steps);
-
-        holder.cardViewActivityCardSleepProgress.setMax(sleepGoalMinutes);
-        holder.cardViewActivityCardSleepProgress.setProgress(sleep);
-
-        holder.cardViewActivityCardDistanceProgress.setMax(distanceGoal);
-        holder.cardViewActivityCardDistanceProgress.setProgress(steps * stepLength);
-
         setUpChart(holder.TotalStepsChart);
-        setChartsData(holder.TotalStepsChart, steps, stepGoal, context.getString(R.string.steps), context);
+        setChartsData(holder.TotalStepsChart, steps, stepGoal, context.getString(R.string.steps), String.valueOf(steps), context);
 
         setUpChart(holder.TotalDistanceChart);
-        setChartsData(holder.TotalDistanceChart, steps * stepLength, distanceGoal, context.getString(R.string.distance), context);
+        setChartsData(holder.TotalDistanceChart, steps * stepLength, distanceGoal, context.getString(R.string.distance), df.format(distanceFormatted), context);
 
         setUpChart(holder.SleepTimeChart);
-        setChartsData(holder.SleepTimeChart, sleep, sleepGoalMinutes, context.getString(R.string.prefs_activity_in_device_card_sleep_title), context);
+        setChartsData(holder.SleepTimeChart, sleep, sleepGoalMinutes, context.getString(R.string.prefs_activity_in_device_card_sleep_title), String.format("%1s", getHM(sleep)), context);
 
         boolean showActivityCard = GBApplication.getDeviceSpecificSharedPrefs(device.getAddress()).getBoolean(DeviceSettingsPreferenceConst.PREFS_ACTIVITY_IN_DEVICE_CARD, true);
         holder.cardViewActivityCardLayout.setVisibility(showActivityCard ? View.VISIBLE : View.GONE);
 
         boolean showActivitySteps = GBApplication.getDeviceSpecificSharedPrefs(device.getAddress()).getBoolean(DeviceSettingsPreferenceConst.PREFS_ACTIVITY_IN_DEVICE_CARD_STEPS, true);
-        holder.cardViewActivityCardStepsLayout.setVisibility(showActivitySteps ? View.VISIBLE : View.GONE);
-        holder.TotalStepsChart.setVisibility(showActivitySteps ? View.VISIBLE : View.GONE);
+        holder.TotalStepsChart.setVisibility((showActivitySteps && steps > 0) ? View.VISIBLE : View.GONE);
 
         boolean showActivitySleep = GBApplication.getDeviceSpecificSharedPrefs(device.getAddress()).getBoolean(DeviceSettingsPreferenceConst.PREFS_ACTIVITY_IN_DEVICE_CARD_SLEEP, true);
-        holder.cardViewActivityCardSleepLayout.setVisibility(showActivitySleep ? View.VISIBLE : View.GONE);
-        holder.SleepTimeChart.setVisibility(showActivitySleep ? View.VISIBLE : View.GONE);
+        holder.SleepTimeChart.setVisibility((showActivitySleep && sleep > 0) ? View.VISIBLE : View.GONE);
 
         boolean showActivityDistance = GBApplication.getDeviceSpecificSharedPrefs(device.getAddress()).getBoolean(DeviceSettingsPreferenceConst.PREFS_ACTIVITY_IN_DEVICE_CARD_DISTANCE, true);
-        holder.cardViewActivityCardDistanceLayout.setVisibility(showActivityDistance ? View.VISIBLE : View.GONE);
-        holder.TotalDistanceChart.setVisibility(showActivityDistance ? View.VISIBLE : View.GONE);
+        holder.TotalDistanceChart.setVisibility((showActivityDistance && steps > 0) ? View.VISIBLE : View.GONE);
     }
 
     private String getHM(long value) {
@@ -998,7 +962,7 @@ public class GBDeviceAdapterv2 extends RecyclerView.Adapter<GBDeviceAdapterv2.Vi
         DashboardChart.setHighlightPerTapEnabled(true);
         DashboardChart.setCenterTextOffset(0, 0);
     }
-    private void setChartsData(PieChart pieChart, float value, float target, String label, Context context) {
+    private void setChartsData(PieChart pieChart, float value, float target, String label, String stringValue, Context context) {
         final String CHART_COLOR_START = "#e74c3c";
         final String CHART_COLOR_END = "#2ecc71";
 
@@ -1009,7 +973,7 @@ public class GBDeviceAdapterv2 extends RecyclerView.Adapter<GBDeviceAdapterv2.Vi
             entries.add(new PieEntry((float) (target - value)));
         }
 
-        pieChart.setCenterText(String.format("%d%%\n%s", (int) (value * 100 / target), label));
+        pieChart.setCenterText(String.format("%s\n%s", stringValue, label));
         float colorValue = Math.max(0, Math.min(1, value / target));
         int chartColor = interpolateColor(Color.parseColor(CHART_COLOR_START), Color.parseColor(CHART_COLOR_END), colorValue);
 
