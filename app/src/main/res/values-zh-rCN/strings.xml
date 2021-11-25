@@ -1458,4 +1458,8 @@
     <string name="sony_automatic_power_off_when_taken_off">摘下时</string>
     <string name="prefs_fm_preset_instructions">长按按钮以存储预设</string>
     <string name="prefs_fm_presets_presets">预设</string>
+    <string name="watchface_dialog_widget_timezone">时区：</string>
+    <string name="watchface_dialog_widget_update_timeout">更新超时时间（分钟）：</string>
+    <string name="watchface_dialog_widget_timeout_hide_text">隐藏文字超时：</string>
+    <string name="watchface_dialog_widget_timeout_show_circle">显示圆圈超时：</string>
 </resources>
