@@ -11,6 +11,8 @@
 * Nothing Ear (1): Add multiple batteries support
 * Galaxy Buds: Add multiple batteries support
 * Roidmi: New FM Frequency selector with presets
+* Mi Band 6: Try to add Alipay to menu settings, untested
+* FitPro: Support more bands with different bluetooth names
 * Add activity info to device cards
 * Add Nekogram X to Telegram notifications
 * Move location settings out of pebble menu
