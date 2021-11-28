@@ -4,11 +4,6 @@
         android:key="pref_key_other"
         android:title="@string/pref_header_other">
 
-        <Preference
-            android:icon="@drawable/ic_warning"
-            android:key="pref_sony_warning_position_surround"
-            android:summary="@string/sony_surround_position_mutually_exclusive" />
-
         <ListPreference
             android:defaultValue="off"
             android:entries="@array/sony_sound_position_names"

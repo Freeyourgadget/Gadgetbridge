@@ -118,6 +118,9 @@ public class DeviceSettingsPreferenceConst {
     public static final String PREF_SONY_SURROUND_MODE = "pref_sony_surround_mode";
     public static final String PREF_SONY_EQUALIZER_MODE = "pref_sony_equalizer_mode";
     public static final String PREF_SONY_DSEE_HX = "pref_sony_dsee_hx";
+    public static final String PREF_SONY_EQUALIZER_PRESET_MANUAL = "pref_sony_equalizer_preset_manual";
+    public static final String PREF_SONY_EQUALIZER_PRESET_CUSTOM_1 = "pref_sony_equalizer_preset_custom_1";
+    public static final String PREF_SONY_EQUALIZER_PRESET_CUSTOM_2 = "pref_sony_equalizer_preset_custom_2";
     public static final String PREF_SONY_EQUALIZER_MANUAL_BAND_400 = "pref_sony_equalizer_manual_band_400";
     public static final String PREF_SONY_EQUALIZER_MANUAL_BAND_1000 = "pref_sony_equalizer_manual_band_1000";
     public static final String PREF_SONY_EQUALIZER_MANUAL_BAND_2500 = "pref_sony_equalizer_manual_band_2500";

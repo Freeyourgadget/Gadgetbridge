@@ -147,11 +147,7 @@ public abstract class SonyHeadphonesProtocol extends GBDeviceProtocol {
                 int m_band5 = prefs.getInt(DeviceSettingsPreferenceConst.PREF_SONY_EQUALIZER_MANUAL_BAND_16000, 10) - 10;
                 int m_bass = prefs.getInt(DeviceSettingsPreferenceConst.PREF_SONY_EQUALIZER_MANUAL_CLEAR_BASS, 10) - 10;
 
-                // Set the equalizer preset, since changing the bands will switch it
-                // TODO: This is not updating the UI once the user returns to the previous screen
-                prefs.edit().putString(DeviceSettingsPreferenceConst.PREF_SONY_EQUALIZER_MODE, EqualizerPreset.MANUAL.toString().toLowerCase()).apply();
-
-                return encodeEqualizerCustomBands(EqualizerPreset.MANUAL, equalizerPreset, new EqualizerCustomBands(Arrays.asList(m_band1, m_band2, m_band3, m_band4, m_band5), m_bass));
+                return encodeEqualizerCustomBands(new EqualizerCustomBands(Arrays.asList(m_band1, m_band2, m_band3, m_band4, m_band5), m_bass));
 
             case DeviceSettingsPreferenceConst.PREF_SONY_EQUALIZER_CUSTOM_1_BAND_400:
             case DeviceSettingsPreferenceConst.PREF_SONY_EQUALIZER_CUSTOM_1_BAND_1000:
@@ -166,11 +162,7 @@ public abstract class SonyHeadphonesProtocol extends GBDeviceProtocol {
                 int c1_band5 = prefs.getInt(DeviceSettingsPreferenceConst.PREF_SONY_EQUALIZER_CUSTOM_1_BAND_16000, 10) - 10;
                 int c1_bass = prefs.getInt(DeviceSettingsPreferenceConst.PREF_SONY_EQUALIZER_CUSTOM_1_CLEAR_BASS, 10) - 10;
 
-                // Set the equalizer preset, since changing the bands will switch it
-                // TODO: This is not updating the UI once the user returns to the previous screen
-                prefs.edit().putString(DeviceSettingsPreferenceConst.PREF_SONY_EQUALIZER_MODE, EqualizerPreset.CUSTOM_1.toString().toLowerCase()).apply();
-
-                return encodeEqualizerCustomBands(EqualizerPreset.CUSTOM_1, equalizerPreset, new EqualizerCustomBands(Arrays.asList(c1_band1, c1_band2, c1_band3, c1_band4, c1_band5), c1_bass));
+                return encodeEqualizerCustomBands(new EqualizerCustomBands(Arrays.asList(c1_band1, c1_band2, c1_band3, c1_band4, c1_band5), c1_bass));
 
             case DeviceSettingsPreferenceConst.PREF_SONY_EQUALIZER_CUSTOM_2_BAND_400:
             case DeviceSettingsPreferenceConst.PREF_SONY_EQUALIZER_CUSTOM_2_BAND_1000:
@@ -185,11 +177,7 @@ public abstract class SonyHeadphonesProtocol extends GBDeviceProtocol {
                 int c2_band5 = prefs.getInt(DeviceSettingsPreferenceConst.PREF_SONY_EQUALIZER_CUSTOM_2_BAND_16000, 10) - 10;
                 int c2_bass = prefs.getInt(DeviceSettingsPreferenceConst.PREF_SONY_EQUALIZER_CUSTOM_2_CLEAR_BASS, 10) - 10;
 
-                // Set the equalizer preset, since changing the bands will switch it
-                // TODO: This is not updating the UI once the user returns to the previous screen
-                prefs.edit().putString(DeviceSettingsPreferenceConst.PREF_SONY_EQUALIZER_MODE, EqualizerPreset.CUSTOM_2.toString().toLowerCase()).apply();
-
-                return encodeEqualizerCustomBands(EqualizerPreset.CUSTOM_2, equalizerPreset, new EqualizerCustomBands(Arrays.asList(c2_band1, c2_band2, c2_band3, c2_band4, c2_band5), c2_bass));
+                return encodeEqualizerCustomBands(new EqualizerCustomBands(Arrays.asList(c2_band1, c2_band2, c2_band3, c2_band4, c2_band5), c2_bass));
 
             case DeviceSettingsPreferenceConst.PREF_SONY_DSEE_HX:
                 return encodeDSEEHX(prefs.getBoolean(DeviceSettingsPreferenceConst.PREF_SONY_DSEE_HX, false));
@@ -290,23 +278,6 @@ public abstract class SonyHeadphonesProtocol extends GBDeviceProtocol {
                 (byte) 0x0c,
                 new byte[]{(byte) 0x58, (byte) 0x01, preset.code[0], preset.code[1]}
         );
-    }
-
-    private byte[] encodeEqualizerCustomBands(EqualizerPreset preset, EqualizerPreset previousPreset, EqualizerCustomBands equalizer) {
-        ByteArrayOutputStream cmdStream = new ByteArrayOutputStream(16);
-
-        try {
-            if (preset != previousPreset) {
-                // If we're not on the preset that is being changed, we need to swap to it
-                cmdStream.write(encodeEqualizerPreset(preset));
-            }
-
-            cmdStream.write(encodeEqualizerCustomBands(equalizer));
-        } catch (IOException e) {
-            LOG.error("This should never happen", e);
-        }
-
-        return cmdStream.toByteArray();
     }
 
     private byte[] encodeEqualizerCustomBands(EqualizerCustomBands equalizer) {

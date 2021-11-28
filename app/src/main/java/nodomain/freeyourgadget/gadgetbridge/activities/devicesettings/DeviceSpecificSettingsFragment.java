@@ -191,7 +191,13 @@ import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.PR
 import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.PREF_NIGHT_MODE_START;
 import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.PREF_SWIPE_UNLOCK;
 
-public class DeviceSpecificSettingsFragment extends PreferenceFragmentCompat {
+public class DeviceSpecificSettingsFragment extends PreferenceFragmentCompat implements DeviceSpecificSettingsHandler {
+
+    private final DeviceSpecificSettingsCustomizer deviceSpecificSettingsCustomizer;
+
+    public DeviceSpecificSettingsFragment(final DeviceSpecificSettingsCustomizer deviceSpecificSettingsCustomizer) {
+        this.deviceSpecificSettingsCustomizer = deviceSpecificSettingsCustomizer;
+    }
 
     private static final Logger LOG = LoggerFactory.getLogger(DeviceSpecificSettingsFragment.class);
 
@@ -816,10 +822,17 @@ public class DeviceSpecificSettingsFragment extends PreferenceFragmentCompat {
                 preferenceInControlCenter.setOnPreferenceClickListener(sendIntentRefreshDeviceListListener);
             }
         }
+
+        if (deviceSpecificSettingsCustomizer != null) {
+            deviceSpecificSettingsCustomizer.customizeSettings(this);
+        }
     }
 
-    static DeviceSpecificSettingsFragment newInstance(String settingsFileSuffix, @NonNull int[] supportedSettings, String[] supportedLanguages) {
-        DeviceSpecificSettingsFragment fragment = new DeviceSpecificSettingsFragment();
+    static DeviceSpecificSettingsFragment newInstance(String settingsFileSuffix,
+                                                      @NonNull int[] supportedSettings,
+                                                      String[] supportedLanguages,
+                                                      DeviceSpecificSettingsCustomizer deviceSpecificSettingsCustomizer) {
+        DeviceSpecificSettingsFragment fragment = new DeviceSpecificSettingsFragment(deviceSpecificSettingsCustomizer);
         fragment.setSettingsFileSuffix(settingsFileSuffix, supportedSettings, supportedLanguages);
 
         return fragment;
@@ -851,7 +864,13 @@ public class DeviceSpecificSettingsFragment extends PreferenceFragmentCompat {
         }
     }
 
-    private void addPreferenceHandlerFor(final String preferenceKey) {
+    @Override
+    public void addPreferenceHandlerFor(final String preferenceKey) {
+        addPreferenceHandlerFor(preferenceKey, null);
+    }
+
+    @Override
+    public void addPreferenceHandlerFor(final String preferenceKey, final Preference.OnPreferenceChangeListener extraListener) {
         Preference pref = findPreference(preferenceKey);
         if (pref != null) {
             pref.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
@@ -862,6 +881,11 @@ public class DeviceSpecificSettingsFragment extends PreferenceFragmentCompat {
                             GBApplication.deviceService().onSendConfiguration(preferenceKey);
                         }
                     });
+
+                    if (extraListener != null) {
+                        return extraListener.onPreferenceChange(preference, newVal);
+                    }
+
                     return true;
                 }
             });

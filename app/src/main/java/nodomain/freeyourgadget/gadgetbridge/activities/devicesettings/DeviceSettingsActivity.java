@@ -60,7 +60,8 @@ public class DeviceSettingsActivity extends AbstractGBActivity implements
                     supportedSettings = ArrayUtils.addAll(supportedSettings, R.xml.devicesettings_device_card_activity_card_preferences);
                 }
 
-                fragment = DeviceSpecificSettingsFragment.newInstance(device.getAddress(), supportedSettings, supportedLanguages);
+                final DeviceSpecificSettingsCustomizer deviceSpecificSettingsCustomizer = coordinator.getDeviceSpecificSettingsCustomizer(device);
+                fragment = DeviceSpecificSettingsFragment.newInstance(device.getAddress(), supportedSettings, supportedLanguages, deviceSpecificSettingsCustomizer);
             }
             getSupportFragmentManager()
                     .beginTransaction()
@@ -85,7 +86,8 @@ public class DeviceSettingsActivity extends AbstractGBActivity implements
             supportedSettings = ArrayUtils.addAll(supportedSettings, R.xml.devicesettings_device_card_activity_card_preferences);
         }
 
-        PreferenceFragmentCompat fragment = DeviceSpecificSettingsFragment.newInstance(device.getAddress(), supportedSettings, supportedLanguages);
+        final DeviceSpecificSettingsCustomizer deviceSpecificSettingsCustomizer = coordinator.getDeviceSpecificSettingsCustomizer(device);
+        PreferenceFragmentCompat fragment = DeviceSpecificSettingsFragment.newInstance(device.getAddress(), supportedSettings, supportedLanguages, deviceSpecificSettingsCustomizer);
         Bundle args = fragment.getArguments();
         args.putString(PreferenceFragmentCompat.ARG_PREFERENCE_ROOT, preferenceScreen.getKey());
         fragment.setArguments(args);

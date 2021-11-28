@@ -1353,7 +1353,6 @@
     <string name="sony_surround_mode_club">Club</string>
     <string name="sony_surround_mode_outdoor_stage">Outdoor Stage</string>
     <string name="sony_surround_mode_concert_hall">Concert Hall</string>
-    <string name="sony_surround_position_mutually_exclusive">Warning: The sound position / surround mode settings are mutually exclusive.</string>
     <string name="sony_warn_sbc_codec">Warning: The equalizer, audio position and surround settings only work for the SBC audio codec.</string>
     <string name="sony_equalizer">Equalizer</string>
     <string name="sony_equalizer_preset_off">Off</string>
