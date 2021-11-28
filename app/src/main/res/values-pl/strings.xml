@@ -2,8 +2,7 @@
 <resources>
     <string name="app_name">Gadgetbridge</string>
     <string name="title_activity_controlcenter">Gadgetbridge</string>
-    <string name="action_settings">Ustawienia
-\n</string>
+    <string name="action_settings">Ustawienia</string>
     <string name="action_debug">Debuguj</string>
     <string name="action_quit">Wyjdź</string>
     <string name="controlcenter_fetch_activity_data">Synchronizuj</string>
@@ -1390,4 +1389,16 @@
     <string name="left_earbud">Lewa słuchawka</string>
     <string name="battery_case">Etui ładujące</string>
     <string name="right_earbud">Prawa słuchawka</string>
+    <string name="devicetype_galaxybuds_live">Galaxy Buds Live</string>
+    <string name="sony_automatic_power_off_1_hour">1 godzina</string>
+    <string name="sony_equalizer_band_400">400</string>
+    <string name="sony_equalizer_band_1000">1k</string>
+    <string name="sony_equalizer_band_2500">2.5k</string>
+    <string name="sony_equalizer_band_6300">6.3k</string>
+    <string name="sony_equalizer_band_16000">16k</string>
+    <string name="sony_dsee_hx">DSEE HX</string>
+    <string name="sony_automatic_power_off_30_min">30 minut</string>
+    <string name="sony_automatic_power_off_3_hour">3 godziny</string>
+    <string name="devicetype_sony_wh_1000xm3">Sony WH-1000XM3</string>
+    <string name="sony_automatic_power_off_5_min">5 minut</string>
 </resources>
