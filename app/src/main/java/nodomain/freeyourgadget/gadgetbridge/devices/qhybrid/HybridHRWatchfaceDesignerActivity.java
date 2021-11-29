@@ -680,13 +680,15 @@ public class HybridHRWatchfaceDesignerActivity extends AbstractGBActivity implem
                         if (selectedPosY > 240) selectedPosY = 240;
                         String selectedType = widgetTypesArray.get(typeSpinner.getSelectedItemPosition());
                         String selectedTZ = tzSpinner.getSelectedItem().toString();
-                        int selectedUpdateTimeout;
-                        try {
-                            selectedUpdateTimeout = Integer.parseInt(updateTimeout.getText().toString());
-                        } catch (NumberFormatException e) {
-                            GB.toast(getString(R.string.watchface_toast_settings_incomplete), Toast.LENGTH_SHORT, GB.WARN);
-                            LOG.warn("Error parsing input", e);
-                            return;
+                        int selectedUpdateTimeout = 0;
+                        if (selectedType.equals("widgetCustom")) {
+                            try {
+                                selectedUpdateTimeout = Integer.parseInt(updateTimeout.getText().toString());
+                            } catch (NumberFormatException e) {
+                                GB.toast(getString(R.string.watchface_toast_settings_incomplete), Toast.LENGTH_SHORT, GB.WARN);
+                                LOG.warn("Error parsing input", e);
+                                return;
+                            }
                         }
                         boolean selectedTimeoutHideText = timeoutHideText.isChecked();
                         boolean selectedTimeoutShowCircle = timeoutShowCircle.isChecked();
