@@ -162,8 +162,8 @@ BatteryInfoActivity extends AbstractGBActivity {
         battery_status_device_icon.setImageResource(gbDevice.isInitialized() ? gbDevice.getType().getIcon() : gbDevice.getType().getDisabledIcon());
         TextView battery_status_battery_level_text = (TextView) findViewById(R.id.battery_status_battery_level);
 
-        String level = gbDevice.getBatteryLevel() > 0 ? String.format("%1s%%", gbDevice.getBatteryLevel()) : "";
-        String voltage = gbDevice.getBatteryVoltage() > 0 ? String.format("%1sV", gbDevice.getBatteryVoltage()) : "";
+        String level = gbDevice.getBatteryLevel(batteryIndex) > 0 ? String.format("%1s%%", gbDevice.getBatteryLevel(batteryIndex)) : "";
+        String voltage = gbDevice.getBatteryVoltage(batteryIndex) > 0 ? String.format("%1sV", gbDevice.getBatteryVoltage(batteryIndex)) : "";
 
         battery_status_device_name_text.setText(gbDevice.getName());
         battery_status_battery_level_text.setText(level);
