@@ -27,6 +27,7 @@ import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
 import android.text.InputType;
 import android.transition.TransitionManager;
+import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -63,8 +64,10 @@ import org.slf4j.LoggerFactory;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Hashtable;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
@@ -925,47 +928,31 @@ public class GBDeviceAdapterv2 extends RecyclerView.Adapter<GBDeviceAdapterv2.Vi
         holder.cardViewActivityCardLayout.setVisibility(showActivityCard ? View.VISIBLE : View.GONE);
 
         boolean showActivitySteps = GBApplication.getDeviceSpecificSharedPrefs(device.getAddress()).getBoolean(DeviceSettingsPreferenceConst.PREFS_ACTIVITY_IN_DEVICE_CARD_STEPS, true);
-        holder.TotalStepsChart.setVisibility((showActivitySteps && steps > 0) ? View.VISIBLE : View.GONE);
-        holder.TotalStepsChart.setOnClickListener(new View.OnClickListener() {
-                                                      @Override
-                                                      public void onClick(View v) {
-                                                          Intent startIntent;
-                                                          startIntent = new Intent(context, ChartsActivity.class);
-                                                          startIntent.putExtra(GBDevice.EXTRA_DEVICE, device);
-                                                          startIntent.putExtra(ChartsActivity.EXTRA_FRAGMENT_ID, ChartsActivity.getChartsTabIndex("stepsweek", device, context));
-                                                          context.startActivity(startIntent);
-                                                      }
-                                                  }
-        );
-
         boolean showActivitySleep = GBApplication.getDeviceSpecificSharedPrefs(device.getAddress()).getBoolean(DeviceSettingsPreferenceConst.PREFS_ACTIVITY_IN_DEVICE_CARD_SLEEP, true);
-        holder.SleepTimeChart.setVisibility((showActivitySleep && sleep > 0) ? View.VISIBLE : View.GONE);
-        holder.SleepTimeChart.setOnClickListener(new View.OnClickListener() {
-                                                     @Override
-                                                     public void onClick(View v) {
-                                                         Intent startIntent;
-                                                         startIntent = new Intent(context, ChartsActivity.class);
-                                                         startIntent.putExtra(GBDevice.EXTRA_DEVICE, device);
-                                                         startIntent.putExtra(ChartsActivity.EXTRA_FRAGMENT_ID, ChartsActivity.getChartsTabIndex("sleep", device, context));
-                                                         context.startActivity(startIntent);
-                                                     }
-                                                 }
-        );
-
-
         boolean showActivityDistance = GBApplication.getDeviceSpecificSharedPrefs(device.getAddress()).getBoolean(DeviceSettingsPreferenceConst.PREFS_ACTIVITY_IN_DEVICE_CARD_DISTANCE, true);
-        holder.TotalDistanceChart.setVisibility((showActivityDistance && steps > 0) ? View.VISIBLE : View.GONE);
-        holder.TotalDistanceChart.setOnClickListener(new View.OnClickListener() {
-                                                         @Override
-                                                         public void onClick(View v) {
-                                                             Intent startIntent;
-                                                             startIntent = new Intent(context, ChartsActivity.class);
-                                                             startIntent.putExtra(GBDevice.EXTRA_DEVICE, device);
-                                                             startIntent.putExtra(ChartsActivity.EXTRA_FRAGMENT_ID, ChartsActivity.getChartsTabIndex("activity", device, context));
-                                                             context.startActivity(startIntent);
-                                                         }
-                                                     }
-        );
+
+        //do the multiple mini-charts for activities in a loop
+        Hashtable<PieChart, Pair<Boolean, Integer>> activitiesStatusMiniCharts = new Hashtable<>();
+        activitiesStatusMiniCharts.put(holder.TotalStepsChart, new Pair<>(showActivitySteps && steps > 0, ChartsActivity.getChartsTabIndex("stepsweek", device, context)));
+        activitiesStatusMiniCharts.put(holder.SleepTimeChart, new Pair<>(showActivitySleep && sleep > 0, ChartsActivity.getChartsTabIndex("sleep", device, context)));
+        activitiesStatusMiniCharts.put(holder.TotalDistanceChart, new Pair<>(showActivityDistance && steps > 0, ChartsActivity.getChartsTabIndex("activity", device, context)));
+
+        for (Map.Entry<PieChart, Pair<Boolean, Integer>> miniCharts : activitiesStatusMiniCharts.entrySet()) {
+            PieChart miniChart = miniCharts.getKey();
+            final Pair<Boolean, Integer> parameters = miniCharts.getValue();
+            miniChart.setVisibility(parameters.first ? View.VISIBLE : View.GONE);
+            miniChart.setOnClickListener(new View.OnClickListener() {
+                                             @Override
+                                             public void onClick(View v) {
+                                                 Intent startIntent;
+                                                 startIntent = new Intent(context, ChartsActivity.class);
+                                                 startIntent.putExtra(GBDevice.EXTRA_DEVICE, device);
+                                                 startIntent.putExtra(ChartsActivity.EXTRA_FRAGMENT_ID, parameters.second);
+                                                 context.startActivity(startIntent);
+                                             }
+                                         }
+            );
+        }
     }
 
     private String getHM(long value) {

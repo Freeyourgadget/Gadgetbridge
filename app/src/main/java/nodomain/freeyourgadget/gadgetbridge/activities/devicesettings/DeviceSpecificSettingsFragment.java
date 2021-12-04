@@ -156,6 +156,7 @@ import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.Dev
 import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREFS_ACTIVITY_IN_DEVICE_CARD_DISTANCE;
 import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREFS_ACTIVITY_IN_DEVICE_CARD_SLEEP;
 import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREFS_ACTIVITY_IN_DEVICE_CARD_STEPS;
+import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREFS_DEVICE_CHARTS_TABS;
 
 import static nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst.PREF_ACTIVATE_DISPLAY_ON_LIFT;
 import static nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst.PREF_DEVICE_ACTION_FELL_SLEEP_BROADCAST;
@@ -524,6 +525,7 @@ public class DeviceSpecificSettingsFragment extends PreferenceFragmentCompat {
         addPreferenceHandlerFor(PREF_GALAXY_BUDS_TOUCH_RIGHT);
         addPreferenceHandlerFor(PREF_GALAXY_BUDS_LIVE_ANC);
         addPreferenceHandlerFor(PREF_GALAXY_BUDS_PRESSURE_RELIEF);
+        addPreferenceHandlerFor(PREFS_DEVICE_CHARTS_TABS);
 
 
         addPreferenceHandlerFor(PREF_SONY_AMBIENT_SOUND_CONTROL);
@@ -787,11 +789,12 @@ public class DeviceSpecificSettingsFragment extends PreferenceFragmentCompat {
             deviceActionsStartNonWearBroadcast.setEnabled(deviceActionsStartNonWearSelectionBroadcast);
         }
 
-
+        // this is to ensure that Control Center device cards are refreshed on preference changes
         final Preference activityInDeviceCard = findPreference(PREFS_ACTIVITY_IN_DEVICE_CARD);
         final Preference activityInDeviceSteps = findPreference(PREFS_ACTIVITY_IN_DEVICE_CARD_STEPS);
         final Preference activityInDeviceSleep = findPreference(PREFS_ACTIVITY_IN_DEVICE_CARD_SLEEP);
         final Preference activityInDeviceDistance = findPreference(PREFS_ACTIVITY_IN_DEVICE_CARD_DISTANCE);
+        final Preference chartsTabsOrderSelection = findPreference(PREFS_DEVICE_CHARTS_TABS);
 
         Preference.OnPreferenceClickListener sendIntentRefreshDeviceListListener = new Preference.OnPreferenceClickListener() {
             @Override
@@ -802,19 +805,19 @@ public class DeviceSpecificSettingsFragment extends PreferenceFragmentCompat {
             }
         };
 
-        if (activityInDeviceCard != null) {
-            activityInDeviceCard.setOnPreferenceClickListener(sendIntentRefreshDeviceListListener);
-        }
-        if (activityInDeviceSteps != null) {
-            activityInDeviceSteps.setOnPreferenceClickListener(sendIntentRefreshDeviceListListener);
-        }
-        if (activityInDeviceSleep != null) {
-            activityInDeviceSleep.setOnPreferenceClickListener(sendIntentRefreshDeviceListListener);
-        }
-        if (activityInDeviceDistance != null) {
-            activityInDeviceDistance.setOnPreferenceClickListener(sendIntentRefreshDeviceListListener);
-        }
+        Preference[] preferencesInControlCenter = {
+                activityInDeviceCard,
+                activityInDeviceSteps,
+                activityInDeviceSleep,
+                activityInDeviceDistance,
+                chartsTabsOrderSelection
+        };
 
+        for (Preference preferenceInControlCenter : preferencesInControlCenter) {
+            if (preferenceInControlCenter != null) {
+                preferenceInControlCenter.setOnPreferenceClickListener(sendIntentRefreshDeviceListListener);
+            }
+        }
     }
 
     static DeviceSpecificSettingsFragment newInstance(String settingsFileSuffix, @NonNull int[] supportedSettings, String[] supportedLanguages) {
