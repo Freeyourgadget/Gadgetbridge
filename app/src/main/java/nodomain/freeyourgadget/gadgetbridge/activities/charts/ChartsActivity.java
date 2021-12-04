@@ -47,13 +47,13 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
-import java.util.List;
 import java.util.Objects;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.activities.AbstractFragmentPagerAdapter;
 import nodomain.freeyourgadget.gadgetbridge.activities.AbstractGBFragmentActivity;
+import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst;
 import nodomain.freeyourgadget.gadgetbridge.devices.DeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.RecordedDataTypes;
@@ -65,6 +65,7 @@ import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 
 public class ChartsActivity extends AbstractGBFragmentActivity implements ChartsHost {
     private static final Logger LOG = LoggerFactory.getLogger(ChartsActivity.class);
+    public static final String EXTRA_FRAGMENT_ID = "fragment";
 
     private TextView mDateControl;
 
@@ -73,7 +74,7 @@ public class ChartsActivity extends AbstractGBFragmentActivity implements Charts
     private SwipeRefreshLayout swipeLayout;
 
     LimitedQueue mActivityAmountCache = new LimitedQueue(60);
-    List<String> enabledTabsList;
+    ArrayList<String> enabledTabsList;
 
     public static class ShowDurationDialog extends Dialog {
         private final String mDuration;
@@ -134,6 +135,7 @@ public class ChartsActivity extends AbstractGBFragmentActivity implements Charts
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_charts);
+        int tabFragmentToOpen = -1;
 
         initDates();
 
@@ -144,22 +146,12 @@ public class ChartsActivity extends AbstractGBFragmentActivity implements Charts
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             mGBDevice = extras.getParcelable(GBDevice.EXTRA_DEVICE);
+            tabFragmentToOpen = extras.getInt(EXTRA_FRAGMENT_ID);
+
         } else {
             throw new IllegalArgumentException("Must provide a device when invoking this activity");
         }
-        Prefs prefs = new Prefs(GBApplication.getDeviceSpecificSharedPrefs(getDevice().getAddress()));
-        String myTabs = prefs.getString("charts_tabs", null);
-
-        if (myTabs == null) {
-            //make list mutable to be able to remove items later
-            enabledTabsList = new ArrayList<String>(Arrays.asList(this.getResources().getStringArray(R.array.pref_charts_tabs_items_default)));
-        } else {
-            enabledTabsList = new ArrayList<String>(Arrays.asList(myTabs.split(",")));
-        }
-        DeviceCoordinator coordinator = DeviceHelper.getInstance().getCoordinator(mGBDevice);
-        if (!coordinator.supportsRealtimeData()) {
-            enabledTabsList.remove("livestats");
-        }
+        enabledTabsList = fillChartsTabsList(getDevice(), this);
 
         swipeLayout = findViewById(R.id.activity_swipe_layout);
         swipeLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -173,6 +165,10 @@ public class ChartsActivity extends AbstractGBFragmentActivity implements Charts
         // Set up the ViewPager with the sections adapter.
         NonSwipeableViewPager viewPager = findViewById(R.id.charts_pager);
         viewPager.setAdapter(getPagerAdapter());
+        if (tabFragmentToOpen > -1) {
+            viewPager.setCurrentItem(tabFragmentToOpen); //open the tab as specified in the intent
+        }
+
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
@@ -244,6 +240,30 @@ public class ChartsActivity extends AbstractGBFragmentActivity implements Charts
         });
 
 
+    }
+
+    private static ArrayList<String> fillChartsTabsList(GBDevice device, Context context) {
+        ArrayList<String> arrayList = new ArrayList();
+        Prefs prefs = new Prefs(GBApplication.getDeviceSpecificSharedPrefs(device.getAddress()));
+        String myTabs = prefs.getString(DeviceSettingsPreferenceConst.PREFS_DEVICE_CHARTS_TABS, null);
+
+        if (myTabs == null) {
+            //make list mutable to be able to remove items later
+            arrayList = new ArrayList<String>(Arrays.asList(context.getResources().getStringArray(R.array.pref_charts_tabs_items_default)));
+        } else {
+            arrayList = new ArrayList<String>(Arrays.asList(myTabs.split(",")));
+        }
+        DeviceCoordinator coordinator = DeviceHelper.getInstance().getCoordinator(device);
+        if (!coordinator.supportsRealtimeData()) {
+            arrayList.remove("livestats");
+        }
+        return arrayList;
+    }
+
+    public static int getChartsTabIndex(String tab, GBDevice device, Context context) {
+        ArrayList<String> enabledTabsList = new ArrayList();
+        enabledTabsList = fillChartsTabsList(device, context);
+        return enabledTabsList.indexOf(tab);
     }
 
     private String formatDetailedDuration() {

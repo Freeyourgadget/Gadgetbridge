@@ -704,16 +704,7 @@ public class GBDeviceAdapterv2 extends RecyclerView.Adapter<GBDeviceAdapterv2.Vi
 
         holder.cardViewActivityCardLayout.setVisibility(coordinator.supportsActivityTracking() ? View.VISIBLE : View.GONE);
         holder.cardViewActivityCardLayout.setMinimumWidth(coordinator.supportsActivityTracking() ? View.VISIBLE : View.GONE);
-        holder.cardViewActivityCardLayout.setOnClickListener(new View.OnClickListener() {
-                                                                 @Override
-                                                                 public void onClick(View v) {
-                                                                     Intent startIntent;
-                                                                     startIntent = new Intent(context, ChartsActivity.class);
-                                                                     startIntent.putExtra(GBDevice.EXTRA_DEVICE, device);
-                                                                     context.startActivity(startIntent);
-                                                                 }
-                                                             }
-        );
+
         if (coordinator.supportsActivityTracking()) {
             setActivityCard(holder, device, dailyTotals);
         }
@@ -891,7 +882,7 @@ public class GBDeviceAdapterv2 extends RecyclerView.Adapter<GBDeviceAdapterv2.Vi
         snackbar.show();
     }
 
-    private void setActivityCard(ViewHolder holder, GBDevice device, long[] dailyTotals) {
+    private void setActivityCard(ViewHolder holder, final GBDevice device, long[] dailyTotals) {
         int steps = (int) dailyTotals[0];
         int sleep = (int) dailyTotals[1];
         ActivityUser activityUser = new ActivityUser();
@@ -935,12 +926,46 @@ public class GBDeviceAdapterv2 extends RecyclerView.Adapter<GBDeviceAdapterv2.Vi
 
         boolean showActivitySteps = GBApplication.getDeviceSpecificSharedPrefs(device.getAddress()).getBoolean(DeviceSettingsPreferenceConst.PREFS_ACTIVITY_IN_DEVICE_CARD_STEPS, true);
         holder.TotalStepsChart.setVisibility((showActivitySteps && steps > 0) ? View.VISIBLE : View.GONE);
+        holder.TotalStepsChart.setOnClickListener(new View.OnClickListener() {
+                                                      @Override
+                                                      public void onClick(View v) {
+                                                          Intent startIntent;
+                                                          startIntent = new Intent(context, ChartsActivity.class);
+                                                          startIntent.putExtra(GBDevice.EXTRA_DEVICE, device);
+                                                          startIntent.putExtra(ChartsActivity.EXTRA_FRAGMENT_ID, ChartsActivity.getChartsTabIndex("stepsweek", device, context));
+                                                          context.startActivity(startIntent);
+                                                      }
+                                                  }
+        );
 
         boolean showActivitySleep = GBApplication.getDeviceSpecificSharedPrefs(device.getAddress()).getBoolean(DeviceSettingsPreferenceConst.PREFS_ACTIVITY_IN_DEVICE_CARD_SLEEP, true);
         holder.SleepTimeChart.setVisibility((showActivitySleep && sleep > 0) ? View.VISIBLE : View.GONE);
+        holder.SleepTimeChart.setOnClickListener(new View.OnClickListener() {
+                                                     @Override
+                                                     public void onClick(View v) {
+                                                         Intent startIntent;
+                                                         startIntent = new Intent(context, ChartsActivity.class);
+                                                         startIntent.putExtra(GBDevice.EXTRA_DEVICE, device);
+                                                         startIntent.putExtra(ChartsActivity.EXTRA_FRAGMENT_ID, ChartsActivity.getChartsTabIndex("sleep", device, context));
+                                                         context.startActivity(startIntent);
+                                                     }
+                                                 }
+        );
+
 
         boolean showActivityDistance = GBApplication.getDeviceSpecificSharedPrefs(device.getAddress()).getBoolean(DeviceSettingsPreferenceConst.PREFS_ACTIVITY_IN_DEVICE_CARD_DISTANCE, true);
         holder.TotalDistanceChart.setVisibility((showActivityDistance && steps > 0) ? View.VISIBLE : View.GONE);
+        holder.TotalDistanceChart.setOnClickListener(new View.OnClickListener() {
+                                                         @Override
+                                                         public void onClick(View v) {
+                                                             Intent startIntent;
+                                                             startIntent = new Intent(context, ChartsActivity.class);
+                                                             startIntent.putExtra(GBDevice.EXTRA_DEVICE, device);
+                                                             startIntent.putExtra(ChartsActivity.EXTRA_FRAGMENT_ID, ChartsActivity.getChartsTabIndex("activity", device, context));
+                                                             context.startActivity(startIntent);
+                                                         }
+                                                     }
+        );
     }
 
     private String getHM(long value) {

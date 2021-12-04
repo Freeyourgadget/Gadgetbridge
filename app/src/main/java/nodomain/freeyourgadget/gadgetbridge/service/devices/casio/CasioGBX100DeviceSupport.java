@@ -123,7 +123,7 @@ public class CasioGBX100DeviceSupport extends CasioSupport implements SharedPref
             SharedPreferences preferences = GBApplication.getDeviceSpecificSharedPrefs(this.getDevice().getAddress());
             SharedPreferences.Editor editor = preferences.edit();
 
-            editor.putString("charts_tabs", "activity,activitylist,stepsweek");
+            editor.putString(DeviceSettingsPreferenceConst.PREFS_DEVICE_CHARTS_TABS, "activity,activitylist,stepsweek");
             editor.apply();
         }
 
