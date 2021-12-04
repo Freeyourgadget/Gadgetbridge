@@ -25,6 +25,7 @@ public class DeviceSettingsPreferenceConst {
     public static final String PREF_NOTIFICATION_ENABLE = "notification_enable";
     public static final String PREF_SCREEN_ORIENTATION = "screen_orientation";
     public static final String PREF_RESERVER_ALARMS_CALENDAR = "reserve_alarms_calendar";
+    public static final String PREF_RESERVER_REMINDERS_CALENDAR = "reserve_reminders_calendar";
     public static final String PREF_ALLOW_HIGH_MTU = "allow_high_mtu";
     public static final String PREF_SYNC_CALENDAR = "sync_calendar";
     public static final String PREF_USE_CUSTOM_DEVICEICON = "use_custom_deviceicon";

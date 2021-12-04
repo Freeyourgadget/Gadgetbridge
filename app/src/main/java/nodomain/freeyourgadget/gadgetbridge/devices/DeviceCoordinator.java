@@ -322,6 +322,16 @@ public interface DeviceCoordinator {
     boolean supportsMusicInfo();
 
     /**
+     * Indicates the maximum reminder message length.
+     */
+    int getMaximumReminderMessageLength();
+
+    /**
+     * Indicates the maximum number of reminder slots available in the device.
+     */
+    int getReminderSlotCount();
+
+    /**
      * Indicates whether the device has an led which supports custom colors
      */
     boolean supportsLedColor();

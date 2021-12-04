@@ -1490,6 +1490,14 @@
         <item>1800</item>
     </string-array>
 
+    <string-array name="reminder_repeat">
+        <item>@string/reminder_once</item>
+        <item>@string/reminder_every_day</item>
+        <item>@string/reminder_every_week</item>
+        <item>@string/reminder_every_month</item>
+        <item>@string/reminder_every_year</item>
+    </string-array>
+
     <string-array name="notification_filter_modes_entries">
         <item>@string/filter_mode_none</item>
         <item>@string/filter_mode_whitelist</item>

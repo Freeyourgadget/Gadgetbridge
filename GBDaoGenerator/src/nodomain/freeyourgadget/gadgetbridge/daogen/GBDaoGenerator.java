@@ -43,7 +43,7 @@ public class GBDaoGenerator {
 
 
     public static void main(String[] args) throws Exception {
-        Schema schema = new Schema(36, MAIN_PACKAGE + ".entities");
+        final Schema schema = new Schema(37, MAIN_PACKAGE + ".entities");
 
         Entity userAttributes = addUserAttributes(schema);
         Entity user = addUserInfo(schema, userAttributes);
@@ -86,6 +86,7 @@ public class GBDaoGenerator {
         addHybridHRActivitySample(schema, user, device);
         addCalendarSyncState(schema, device);
         addAlarms(schema, user, device);
+        addReminders(schema, user, device);
 
         Entity notificationFilter = addNotificationFilters(schema);
 
@@ -539,6 +540,25 @@ public class GBDaoGenerator {
         alarm.addStringProperty("description");
         alarm.addToOne(user, userId);
         alarm.addToOne(device, deviceId);
+    }
+
+    private static void addReminders(Schema schema, Entity user, Entity device) {
+        Entity reminder = addEntity(schema, "Reminder");
+        reminder.implementsInterface("nodomain.freeyourgadget.gadgetbridge.model.Reminder");
+        Property deviceId = reminder.addLongProperty("deviceId").notNull().getProperty();
+        Property userId = reminder.addLongProperty("userId").notNull().getProperty();
+        Property reminderId = reminder.addStringProperty("reminderId").notNull().primaryKey().getProperty();
+        Index indexUnique = new Index();
+        indexUnique.addProperty(deviceId);
+        indexUnique.addProperty(userId);
+        indexUnique.addProperty(reminderId);
+        indexUnique.makeUnique();
+        reminder.addIndex(indexUnique);
+        reminder.addStringProperty("message").notNull();
+        reminder.addDateProperty("date").notNull();
+        reminder.addIntProperty("repetition").notNull();
+        reminder.addToOne(user, userId);
+        reminder.addToOne(device, deviceId);
     }
 
     private static void addNotificationFilterEntry(Schema schema, Entity notificationFilterEntity) {

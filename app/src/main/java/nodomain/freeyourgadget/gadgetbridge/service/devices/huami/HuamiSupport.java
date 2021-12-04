@@ -107,6 +107,7 @@ import nodomain.freeyourgadget.gadgetbridge.model.MusicSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.MusicStateSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationType;
+import nodomain.freeyourgadget.gadgetbridge.model.Reminder;
 import nodomain.freeyourgadget.gadgetbridge.model.Weather;
 import nodomain.freeyourgadget.gadgetbridge.model.WeatherSpec;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.AbstractBTLEDeviceSupport;
@@ -150,6 +151,7 @@ import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.Dev
 import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_DATEFORMAT;
 import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_LANGUAGE;
 import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_RESERVER_ALARMS_CALENDAR;
+import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_RESERVER_REMINDERS_CALENDAR;
 import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_SOUNDS;
 import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_SYNC_CALENDAR;
 import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_TIMEFORMAT;
@@ -776,6 +778,117 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
         } catch (IOException ex) {
             LOG.error("Unable to send notification to device", ex);
         }
+    }
+
+    @Override
+    public void onSetReminders(ArrayList<? extends Reminder> reminders) {
+        final TransactionBuilder builder;
+        try {
+            builder = performInitialized("onSetReminders");
+        } catch (final IOException e) {
+            LOG.error("Unable to send reminders to device", e);
+            return;
+        }
+
+        sendReminders(builder, reminders);
+
+        builder.queue(getQueue());
+    }
+
+    private void sendReminders(final TransactionBuilder builder) {
+        final List<? extends Reminder> reminders = DBHelper.getReminders(gbDevice);
+        sendReminders(builder, reminders);
+    }
+
+    private void sendReminders(final TransactionBuilder builder, final List<? extends Reminder> reminders) {
+        final DeviceCoordinator coordinator = DeviceHelper.getInstance().getCoordinator(gbDevice);
+
+        final Prefs prefs = new Prefs(GBApplication.getDeviceSpecificSharedPrefs(gbDevice.getAddress()));
+        int reservedSlots = prefs.getInt(PREF_RESERVER_REMINDERS_CALENDAR, 9);
+        LOG.info("On Set Reminders. Reminders: {}, Reserved slots: {}", reminders.size(), reservedSlots);
+
+        // Send the reminders, skipping the reserved slots for calendar events
+        for (int i = 0; i < reminders.size(); i++) {
+            LOG.debug("Sending reminder at position {}", i + reservedSlots);
+
+            sendReminderToDevice(builder, i + reservedSlots, reminders.get(i));
+        }
+
+        // Delete the remaining slots, skipping the sent reminders and reserved slots
+        for (int i = reminders.size() + reservedSlots; i < coordinator.getReminderSlotCount(); i++) {
+            LOG.debug("Deleting reminder at position {}", i);
+
+            sendReminderToDevice(builder, i, null);
+        }
+    }
+
+    private void sendReminderToDevice(final TransactionBuilder builder, int position, final Reminder reminder) {
+        if (characteristicChunked == null) {
+            LOG.warn("characteristicChunked is null, not sending reminder");
+            return;
+        }
+
+        final DeviceCoordinator coordinator = DeviceHelper.getInstance().getCoordinator(gbDevice);
+
+        if (position + 1 > coordinator.getReminderSlotCount()) {
+            LOG.error("Reminder for position {} is over the limit of {} reminders", position, coordinator.getReminderSlotCount());
+            return;
+        }
+
+        if (reminder == null) {
+            // Delete reminder
+            writeToChunked(builder, 3, new byte[]{(byte) (position & 0xFF), 0, 0, 0, 0, 0});
+
+            return;
+        }
+
+        final ByteBuffer buf = ByteBuffer.allocate(14 + reminder.getMessage().getBytes().length);
+        buf.order(ByteOrder.LITTLE_ENDIAN);
+
+        buf.put((byte) 0x0B);
+        buf.put((byte) (position & 0xFF));
+
+        switch(reminder.getRepetition()) {
+            case Reminder.ONCE:
+                buf.put(new byte[]{0x09, 0x00});
+                break;
+            case Reminder.EVERY_DAY:
+                buf.put(new byte[]{(byte) 0xE9, 0x0F});
+                break;
+            case Reminder.EVERY_WEEK:
+                buf.put(new byte[]{0x09, 0x01});
+                break;
+            case Reminder.EVERY_MONTH:
+                buf.put(new byte[]{0x09, 0x10});
+                break;
+            case Reminder.EVERY_YEAR:
+                buf.put(new byte[]{0x09, 0x20});
+                break;
+            default:
+                LOG.warn("Unknown repetition for reminder in position {}, defaulting to once", position);
+                buf.put(new byte[]{0x09, 0x00});
+        }
+
+        buf.put(new byte[]{0x00, 0x00}); // unknown
+
+        final Calendar cal = Calendar.getInstance();
+        cal.setTime(reminder.getDate());
+
+        buf.put(BLETypeConversions.shortCalendarToRawBytes(cal));
+        buf.put((byte) 0x00);
+
+        if (reminder.getMessage().getBytes().length > coordinator.getMaximumReminderMessageLength()) {
+            LOG.warn("The reminder message length {} is longer than {}, will be truncated",
+                    reminder.getMessage().getBytes().length,
+                    coordinator.getMaximumReminderMessageLength()
+            );
+            buf.put(Arrays.copyOf(reminder.getMessage().getBytes(), coordinator.getMaximumReminderMessageLength()));
+        } else {
+            buf.put(reminder.getMessage().getBytes());
+        }
+        buf.put((byte) 0x00);
+
+        writeToChunked(builder, 2, buf.array());
     }
 
     @Override
@@ -1903,19 +2016,21 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
             return this;
         }
 
+        final Prefs prefs = new Prefs(GBApplication.getDeviceSpecificSharedPrefs(gbDevice.getAddress()));
+        int availableSlots = prefs.getInt(PREF_RESERVER_REMINDERS_CALENDAR, 9);
+
         CalendarEvents upcomingEvents = new CalendarEvents();
         List<CalendarEvents.CalendarEvent> calendarEvents = upcomingEvents.getCalendarEventList(getContext());
         Calendar calendar = Calendar.getInstance();
 
         int iteration = 0;
-        int iterationMax = 8;
 
         for (CalendarEvents.CalendarEvent calendarEvent : calendarEvents) {
             if (calendarEvent.isAllDay()) {
                 continue;
             }
 
-            if (iteration > iterationMax) { // limit ?
+            if (iteration >= availableSlots) {
                 break;
             }
 
@@ -1948,7 +2063,7 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
         }
 
         // Continue by deleting the events
-        for(;iteration < iterationMax; iteration++){
+        for(;iteration < availableSlots; iteration++){
             int length = 1 + 1 + 4 + 6 + 6 + 1 + 0 + 1;
             ByteBuffer buf = ByteBuffer.allocate(length);
 
@@ -3014,6 +3129,7 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
         setDisconnectNotification(builder);
         setExposeHRThridParty(builder);
         setHeartrateMeasurementInterval(builder, getHeartRateMeasurementInterval());
+        sendReminders(builder);
         requestAlarms(builder);
     }
 

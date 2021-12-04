@@ -55,6 +55,8 @@ import nodomain.freeyourgadget.gadgetbridge.entities.Device;
 import nodomain.freeyourgadget.gadgetbridge.entities.DeviceAttributes;
 import nodomain.freeyourgadget.gadgetbridge.entities.DeviceAttributesDao;
 import nodomain.freeyourgadget.gadgetbridge.entities.DeviceDao;
+import nodomain.freeyourgadget.gadgetbridge.entities.Reminder;
+import nodomain.freeyourgadget.gadgetbridge.entities.ReminderDao;
 import nodomain.freeyourgadget.gadgetbridge.entities.Tag;
 import nodomain.freeyourgadget.gadgetbridge.entities.TagDao;
 import nodomain.freeyourgadget.gadgetbridge.entities.User;
@@ -617,6 +619,60 @@ public class DBHelper {
             daoSession.insertOrReplace(alarm);
         } catch (Exception e) {
              LOG.error("Error acquiring database", e);
+        }
+    }
+
+    /**
+     * Returns all user-configurable reminders for the given user and device. The list is sorted by
+     * {@link Reminder#getDate}. Calendar events that may also be modeled as reminders are not stored
+     * in the database and hence not returned by this method.
+     * @param gbDevice the device for which the alarms shall be loaded
+     * @return the list of reminders for the given device
+     */
+    @NonNull
+    public static List<Reminder> getReminders(@NonNull GBDevice gbDevice) {
+        final DeviceCoordinator coordinator = DeviceHelper.getInstance().getCoordinator(gbDevice);
+        final Prefs prefs = new Prefs(GBApplication.getDeviceSpecificSharedPrefs(gbDevice.getAddress()));
+
+        int reservedSlots = prefs.getInt(DeviceSettingsPreferenceConst.PREF_RESERVER_REMINDERS_CALENDAR, 9);
+
+        final int reminderSlots = coordinator.getReminderSlotCount();
+
+        try (DBHandler db = GBApplication.acquireDB()) {
+            final DaoSession daoSession = db.getDaoSession();
+            final User user = getUser(daoSession);
+            final Device dbDevice = DBHelper.findDevice(gbDevice, daoSession);
+            if (dbDevice != null) {
+                final ReminderDao reminderDao = daoSession.getReminderDao();
+                final Long deviceId = dbDevice.getId();
+                final QueryBuilder<Reminder> qb = reminderDao.queryBuilder();
+                qb.where(
+                        ReminderDao.Properties.UserId.eq(user.getId()),
+                        ReminderDao.Properties.DeviceId.eq(deviceId)).orderAsc(ReminderDao.Properties.Date).limit(reminderSlots - reservedSlots);
+                return qb.build().list();
+            }
+        } catch (final Exception e) {
+            LOG.error("Error reading reminders from db", e);
+        }
+
+        return Collections.emptyList();
+    }
+
+    public static void store(final Reminder reminder) {
+        try (DBHandler db = GBApplication.acquireDB()) {
+            final DaoSession daoSession = db.getDaoSession();
+            daoSession.insertOrReplace(reminder);
+        } catch (final Exception e) {
+            LOG.error("Error acquiring database", e);
+        }
+    }
+
+    public static void delete(final Reminder reminder) {
+        try (DBHandler db = GBApplication.acquireDB()) {
+            final DaoSession daoSession = db.getDaoSession();
+            daoSession.delete(reminder);
+        } catch (final Exception e) {
+            LOG.error("Error acquiring database", e);
         }
     }
 
