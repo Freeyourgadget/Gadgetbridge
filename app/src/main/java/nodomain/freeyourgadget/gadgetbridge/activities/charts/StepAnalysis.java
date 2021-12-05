@@ -38,20 +38,13 @@ public class StepAnalysis {
         LOG.debug("get all samples activitysessions: " + samples.toArray().length);
         List<ActivitySession> result = new ArrayList<>();
         ActivityUser activityUser = new ActivityUser();
-        double STEP_LENGTH_M;
         final int MIN_SESSION_LENGTH = 60 * GBApplication.getPrefs().getInt("chart_list_min_session_length", 5);
         final int MAX_IDLE_PHASE_LENGTH = 60 * GBApplication.getPrefs().getInt("chart_list_max_idle_phase_length", 5);
         final int MIN_STEPS_PER_MINUTE = GBApplication.getPrefs().getInt("chart_list_min_steps_per_minute", 40);
         int stepLengthCm = activityUser.getStepLengthCm();
-        int heightCm = activityUser.getHeightCm();
-        totalDailySteps = 0;
-
-        if (stepLengthCm == 0 && heightCm != 0) {
-            STEP_LENGTH_M = heightCm * 0.43 * 0.01;
-        } else {
-            STEP_LENGTH_M = stepLengthCm * 0.01;
-        }
+        final double STEP_LENGTH_M = stepLengthCm * 0.01;
         final double MIN_SESSION_INTENSITY = Math.max(0, Math.min(1, MIN_STEPS_PER_MINUTE * 0.01));
+        totalDailySteps = 0;
 
         ActivitySample previousSample = null;
         Date sessionStart = null;

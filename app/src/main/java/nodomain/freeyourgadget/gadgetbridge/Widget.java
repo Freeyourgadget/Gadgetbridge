@@ -158,11 +158,11 @@ public class Widget extends AppWidgetProvider {
         int sleep = (int) dailyTotals[1];
         ActivityUser activityUser = new ActivityUser();
         int stepGoal = activityUser.getStepsGoal();
-        int sleepGoal = activityUser.getSleepDuration();
+        int sleepGoal = activityUser.getSleepDurationGoal();
         int sleepGoalMinutes = sleepGoal * 60;
-        int distanceGoal = activityUser.getDistanceMeters() * 100;
+        int distanceGoal = activityUser.getDistanceGoalMeters() * 100;
         int stepLength = activityUser.getStepLengthCm();
-        double distanceMeters = dailyTotals[0] * stepLength / 100;
+        double distanceMeters = dailyTotals[0] * stepLength * 0.01;
         double distanceFeet = distanceMeters * 3.28084f;
         double distanceFormatted = 0;
 

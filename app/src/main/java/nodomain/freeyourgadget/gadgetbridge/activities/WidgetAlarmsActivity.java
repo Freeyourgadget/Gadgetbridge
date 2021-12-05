@@ -68,7 +68,7 @@ public class WidgetAlarmsActivity extends Activity implements View.OnClickListen
 
             } else {
                 setContentView(R.layout.widget_alarms_activity_list);
-                int userSleepDuration = new ActivityUser().getSleepDuration();
+                int userSleepDuration = new ActivityUser().getSleepDurationGoal();
                 textView = findViewById(R.id.alarm5);
                 if (userSleepDuration > 0) {
                     Resources res = getResources();
@@ -117,7 +117,7 @@ public class WidgetAlarmsActivity extends Activity implements View.OnClickListen
         if (duration > 0) {
             calendar.add(Calendar.MINUTE, duration);
         } else {
-            int userSleepDuration = new ActivityUser().getSleepDuration();
+            int userSleepDuration = new ActivityUser().getSleepDurationGoal();
             // add preferred sleep duration
             if (userSleepDuration > 0) {
                 calendar.add(Calendar.HOUR_OF_DAY, userSleepDuration);

@@ -525,8 +525,6 @@ public class DeviceSpecificSettingsFragment extends PreferenceFragmentCompat {
         addPreferenceHandlerFor(PREF_GALAXY_BUDS_TOUCH_RIGHT);
         addPreferenceHandlerFor(PREF_GALAXY_BUDS_LIVE_ANC);
         addPreferenceHandlerFor(PREF_GALAXY_BUDS_PRESSURE_RELIEF);
-        addPreferenceHandlerFor(PREFS_DEVICE_CHARTS_TABS);
-
 
         addPreferenceHandlerFor(PREF_SONY_AMBIENT_SOUND_CONTROL);
         addPreferenceHandlerFor(PREF_SONY_FOCUS_VOICE);
@@ -810,7 +808,7 @@ public class DeviceSpecificSettingsFragment extends PreferenceFragmentCompat {
                 activityInDeviceSteps,
                 activityInDeviceSleep,
                 activityInDeviceDistance,
-                chartsTabsOrderSelection
+                chartsTabsOrderSelection,
         };
 
         for (Preference preferenceInControlCenter : preferencesInControlCenter) {

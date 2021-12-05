@@ -39,11 +39,11 @@ public class ActivityUser {
     private int activityUserYearOfBirth;
     private int activityUserHeightCm;
     private int activityUserWeightKg;
-    private int activityUserSleepDuration;
+    private int activityUserSleepDurationGoal;
     private int activityUserStepsGoal;
-    private int activityUserCaloriesBurnt;
-    private int activityUserDistanceMeters;
-    private int activityUserActiveTimeMinutes;
+    private int activityUserCaloriesBurntGoal;
+    private int activityUserDistanceGoalMeters;
+    private int activityUserActiveTimeGoalMinutes;
     private int activityUserStepLengthCm;
 
     private static final String defaultUserName = "gadgetbridge-user";
@@ -52,11 +52,11 @@ public class ActivityUser {
     public static final int defaultUserAge = 0;
     public static final int defaultUserHeightCm = 175;
     public static final int defaultUserWeightKg = 70;
-    public static final int defaultUserSleepDuration = 7;
+    public static final int defaultUserSleepDurationGoal = 7;
     public static final int defaultUserStepsGoal = 8000;
-    public static final int defaultUserCaloriesBurnt = 2000;
-    public static final int defaultUserDistanceMeters = 5000;
-    public static final int defaultUserActiveTimeMinutes = 60;
+    public static final int defaultUserCaloriesBurntGoal = 2000;
+    public static final int defaultUserDistanceGoalMeters = 5000;
+    public static final int defaultUserActiveTimeGoalMinutes = 60;
     public static final int defaultUserStepLengthCm = 0;
 
     public static final String PREF_USER_NAME = "mi_user_alias";
@@ -96,11 +96,26 @@ public class ActivityUser {
         return activityUserYearOfBirth;
     }
 
+    /**
+     * @return the user defined height or a default value when none is set or the stored
+     * value is 0.
+     */
+
     public int getHeightCm() {
+        if (activityUserHeightCm < 1) {
+            activityUserHeightCm = defaultUserHeightCm;
+        }
         return activityUserHeightCm;
     }
 
+    /**
+     * @return the user defined step length or the calculated default value when none is set or the stored
+     * value is 0.
+     */
     public int getStepLengthCm() {
+        if (activityUserStepLengthCm < 1) {
+            activityUserStepLengthCm = (int) (getHeightCm() * 0.43);
+        }
         return activityUserStepLengthCm;
     }
 
@@ -108,11 +123,11 @@ public class ActivityUser {
      * @return the user defined sleep duration or the default value when none is set or the stored
      * value is out of any logical bounds.
      */
-    public int getSleepDuration() {
-        if (activityUserSleepDuration < 1 || activityUserSleepDuration > 24) {
-            activityUserSleepDuration = defaultUserSleepDuration;
+    public int getSleepDurationGoal() {
+        if (activityUserSleepDurationGoal < 1 || activityUserSleepDurationGoal > 24) {
+            activityUserSleepDurationGoal = defaultUserSleepDurationGoal;
         }
-        return activityUserSleepDuration;
+        return activityUserSleepDurationGoal;
     }
 
     public int getStepsGoal() {
@@ -141,11 +156,11 @@ public class ActivityUser {
         activityUserHeightCm = prefs.getInt(PREF_USER_HEIGHT_CM, defaultUserHeightCm);
         activityUserWeightKg = prefs.getInt(PREF_USER_WEIGHT_KG, defaultUserWeightKg);
         activityUserYearOfBirth = prefs.getInt(PREF_USER_YEAR_OF_BIRTH, defaultUserYearOfBirth);
-        activityUserSleepDuration = prefs.getInt(PREF_USER_SLEEP_DURATION, defaultUserSleepDuration);
+        activityUserSleepDurationGoal = prefs.getInt(PREF_USER_SLEEP_DURATION, defaultUserSleepDurationGoal);
         activityUserStepsGoal = prefs.getInt(PREF_USER_STEPS_GOAL, defaultUserStepsGoal);
-        activityUserCaloriesBurnt = prefs.getInt(PREF_USER_CALORIES_BURNT, defaultUserCaloriesBurnt);
-        activityUserDistanceMeters = prefs.getInt(PREF_USER_DISTANCE_METERS, defaultUserDistanceMeters);
-        activityUserActiveTimeMinutes = prefs.getInt(PREF_USER_ACTIVETIME_MINUTES, defaultUserActiveTimeMinutes);
+        activityUserCaloriesBurntGoal = prefs.getInt(PREF_USER_CALORIES_BURNT, defaultUserCaloriesBurntGoal);
+        activityUserDistanceGoalMeters = prefs.getInt(PREF_USER_DISTANCE_METERS, defaultUserDistanceGoalMeters);
+        activityUserActiveTimeGoalMinutes = prefs.getInt(PREF_USER_ACTIVETIME_MINUTES, defaultUserActiveTimeGoalMinutes);
         activityUserStepLengthCm = prefs.getInt(PREF_USER_STEP_LENGTH_CM, defaultUserStepLengthCm);
     }
 
@@ -155,27 +170,27 @@ public class ActivityUser {
         return cal.getTime();
     }
 
-    public int getCaloriesBurnt()
+    public int getCaloriesBurntGoal()
     {
-        if (activityUserCaloriesBurnt < 1) {
-            activityUserCaloriesBurnt = defaultUserCaloriesBurnt;
+        if (activityUserCaloriesBurntGoal < 1) {
+            activityUserCaloriesBurntGoal = defaultUserCaloriesBurntGoal;
         }
-        return activityUserCaloriesBurnt;
+        return activityUserCaloriesBurntGoal;
     }
 
-    public int getDistanceMeters()
+    public int getDistanceGoalMeters()
     {
-        if (activityUserDistanceMeters < 1) {
-            activityUserDistanceMeters = defaultUserDistanceMeters;
+        if (activityUserDistanceGoalMeters < 1) {
+            activityUserDistanceGoalMeters = defaultUserDistanceGoalMeters;
         }
-        return activityUserDistanceMeters;
+        return activityUserDistanceGoalMeters;
     }
 
-    public int getActiveTimeMinutes()
+    public int getActiveTimeGoalMinutes()
     {
-        if (activityUserActiveTimeMinutes < 1) {
-            activityUserActiveTimeMinutes = defaultUserActiveTimeMinutes;
+        if (activityUserActiveTimeGoalMinutes < 1) {
+            activityUserActiveTimeGoalMinutes = defaultUserActiveTimeGoalMinutes;
         }
-        return activityUserActiveTimeMinutes;
+        return activityUserActiveTimeGoalMinutes;
     }
 }

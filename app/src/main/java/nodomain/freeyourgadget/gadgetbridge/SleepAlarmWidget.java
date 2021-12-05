@@ -90,7 +90,7 @@ public class SleepAlarmWidget extends AppWidgetProvider {
     public void onReceive(Context context, Intent intent) {
         super.onReceive(context, intent);
         if (ACTION.equals(intent.getAction())) {
-            int userSleepDuration = new ActivityUser().getSleepDuration();
+            int userSleepDuration = new ActivityUser().getSleepDurationGoal();
             // current timestamp
             GregorianCalendar calendar = new GregorianCalendar();
             // add preferred sleep duration

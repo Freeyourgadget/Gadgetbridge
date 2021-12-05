@@ -514,8 +514,8 @@ public class ControlCenterv2 extends AppCompatActivity
             for (GBDevice gbDevice : deviceList) {
                 final DeviceCoordinator coordinator = DeviceHelper.getInstance().getCoordinator(gbDevice);
                 if (coordinator.supportsActivityTracking()) {
-                    long[] steps = getSteps(gbDevice, db);
-                    deviceActivityHashMap.put(gbDevice.getAddress(), steps);
+                    long[] stepsAndSleepData = getSteps(gbDevice, db);
+                    deviceActivityHashMap.put(gbDevice.getAddress(), stepsAndSleepData);
                 }
             }
         }

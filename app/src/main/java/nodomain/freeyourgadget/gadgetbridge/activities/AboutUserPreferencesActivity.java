@@ -47,6 +47,12 @@ public class AboutUserPreferencesActivity extends AbstractSettingsActivity {
         addPreferenceHandlerFor(PREF_USER_WEIGHT_KG);
         addPreferenceHandlerFor(PREF_USER_GENDER);
         addPreferenceHandlerFor(PREF_USER_STEPS_GOAL);
+
+        addIntentNotificationListener(PREF_USER_STEPS_GOAL);
+        addIntentNotificationListener(PREF_USER_HEIGHT_CM);
+        addIntentNotificationListener(PREF_USER_SLEEP_DURATION);
+        addIntentNotificationListener(PREF_USER_STEP_LENGTH_CM);
+        addIntentNotificationListener(PREF_USER_DISTANCE_METERS);
     }
 
     @Override

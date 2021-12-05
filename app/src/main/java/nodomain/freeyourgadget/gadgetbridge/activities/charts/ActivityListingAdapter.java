@@ -41,8 +41,8 @@ public class ActivityListingAdapter extends AbstractActivityListingAdapter<Activ
     private final int SESSION_EMPTY = ActivitySession.SESSION_EMPTY;
     ActivityUser activityUser = new ActivityUser();
     int stepsGoal = activityUser.getStepsGoal();
-    int distanceGoalMeters = activityUser.getDistanceMeters();
-    long activeTimeGoalTimeMillis = activityUser.getActiveTimeMinutes() * 60 * 1000L;
+    int distanceGoalMeters = activityUser.getDistanceGoalMeters();
+    long activeTimeGoalTimeMillis = activityUser.getActiveTimeGoalMinutes() * 60 * 1000L;
 
     public ActivityListingAdapter(Context context) {
         super(context);

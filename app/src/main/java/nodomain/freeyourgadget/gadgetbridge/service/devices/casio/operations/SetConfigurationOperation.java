@@ -171,7 +171,7 @@ public class SetConfigurationOperation  extends AbstractBTLEOperation<CasioGBX10
                 if(option == CasioConstants.ConfigurationOption.OPTION_DISTANCE_GOAL || all) {
                     // The watch requires a monthly goal, so we multiply that with 30
                     // and divide it by 100 because the value is set in 100m units
-                    int distance = user.getDistanceMeters() * 30;
+                    int distance = user.getDistanceGoalMeters() * 30;
                     distance = distance / 100;
                     data[6] = (byte)(distance & 0xff);
                     data[7] = (byte)((distance >> 8) & 0xff);
@@ -179,7 +179,7 @@ public class SetConfigurationOperation  extends AbstractBTLEOperation<CasioGBX10
 
                 if(option == CasioConstants.ConfigurationOption.OPTION_ACTIVITY_GOAL || all) {
                     // The watch requires a monthly goal, so we multiply that with 30
-                    int time = user.getActiveTimeMinutes() * 30;
+                    int time = user.getActiveTimeGoalMinutes() * 30;
                     data[9] = (byte)(time & 0xff);
                     data[10] = (byte)((time >> 8) & 0xff);
                 }

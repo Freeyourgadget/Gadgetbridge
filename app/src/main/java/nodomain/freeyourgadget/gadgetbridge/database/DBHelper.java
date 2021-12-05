@@ -282,7 +282,7 @@ public class DBHelper {
         attributes.setValidFromUTC(now.getTime());
         attributes.setHeightCM(prefsUser.getHeightCm());
         attributes.setWeightKG(prefsUser.getWeightKg());
-        attributes.setSleepGoalHPD(prefsUser.getSleepDuration());
+        attributes.setSleepGoalHPD(prefsUser.getSleepDurationGoal());
         attributes.setStepsGoalSPD(prefsUser.getStepsGoal());
         attributes.setUserId(user.getId());
         session.getUserAttributesDao().insert(attributes);
@@ -343,8 +343,8 @@ public class DBHelper {
             LOG.info("user changed to " + prefsUser.getWeightKg() + " from " + attr.getWeightKG());
             return false;
         }
-        if (!Integer.valueOf(prefsUser.getSleepDuration()).equals(attr.getSleepGoalHPD())) {
-            LOG.info("user sleep goal changed to " + prefsUser.getSleepDuration() + " from " + attr.getSleepGoalHPD());
+        if (!Integer.valueOf(prefsUser.getSleepDurationGoal()).equals(attr.getSleepGoalHPD())) {
+            LOG.info("user sleep goal changed to " + prefsUser.getSleepDurationGoal() + " from " + attr.getSleepGoalHPD());
             return false;
         }
         if (!Integer.valueOf(prefsUser.getStepsGoal()).equals(attr.getStepsGoalSPD())) {
