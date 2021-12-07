@@ -124,6 +124,12 @@
                 android:targetClass="nodomain.freeyourgadget.gadgetbridge.devices.qhybrid.FileManagementActivity" />
         </Preference>
 
+        <SwitchPreference
+            android:defaultValue="true"
+            android:key="enable_on_device_confirmation"
+            android:title="@string/qhybrid_title_on_device_confirmation"
+            android:summary="@string/qhybrid_summary_on_device_confirmation" />
+
     </PreferenceScreen>
 
 </androidx.preference.PreferenceScreen>

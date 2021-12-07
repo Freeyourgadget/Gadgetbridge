@@ -1392,5 +1392,7 @@
     <string name="watchface_dialog_widget_update_timeout">Update timeout in minutes:</string>
     <string name="watchface_dialog_widget_timeout_hide_text">Hide text on timeout:</string>
     <string name="watchface_dialog_widget_timeout_show_circle">Show circle on timeout:</string>
+    <string name="qhybrid_title_on_device_confirmation">Enable on-device pairing confirmation</string>
+    <string name="qhybrid_summary_on_device_confirmation">On-device pairing confirmations can get annoying. Disabling them might lose you functionality.</string>
 
 </resources>

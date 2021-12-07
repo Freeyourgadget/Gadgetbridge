@@ -110,6 +110,8 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fos
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.application.ApplicationInformation;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.application.ApplicationsListRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.async.ConfirmAppStatusRequest;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.authentication.CheckDeviceNeedsConfirmationRequest;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.authentication.ConfirmOnDeviceRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.authentication.VerifyPrivateKeyRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.buttons.ButtonConfiguration;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.buttons.ButtonConfigurationPutRequest;
@@ -211,9 +213,44 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
     private void initializeAfterAuthentication(boolean authenticated) {
         queueWrite(new SetDeviceStateRequest(GBDevice.State.INITIALIZING));
 
-        if (!authenticated)
+        if (!authenticated) {
             GB.toast(getContext().getString(R.string.fossil_hr_auth_failed), Toast.LENGTH_LONG, GB.ERROR);
+            initializeAfterWatchConfirmation(false);
+            return;
+        }
+        boolean shouldAuthenticateOnWatch = getDeviceSpecificPreferences().getBoolean("enable_on_device_confirmation", true);
+        if(!shouldAuthenticateOnWatch){
+            GB.toast("Skipping on-device confirmation", Toast.LENGTH_SHORT, GB.INFO);
+            initializeAfterWatchConfirmation(false);
+            return;
+        }
+        confirmOnWatch();
+    }
 
+    private void confirmOnWatch() {
+        queueWrite(new CheckDeviceNeedsConfirmationRequest() {
+            @Override
+            public void onResult(boolean needsConfirmation) {
+                GB.log("needs confirmation: " + needsConfirmation, GB.INFO, null);
+                if(needsConfirmation){
+                    GB.toast("please confirm on device.", Toast.LENGTH_SHORT, GB.INFO);
+                    queueWrite( new ConfirmOnDeviceRequest(){
+                        @Override
+                        public void onResult(boolean confirmationSuccess) {
+                            if(!confirmationSuccess){
+                                GB.toast("connection unconfirmed on watch, unauthenticated mode", Toast.LENGTH_LONG, GB.ERROR);
+                            }
+                            initializeAfterWatchConfirmation(confirmationSuccess);
+                        }
+                    }, true);
+                }else{
+                    initializeAfterWatchConfirmation(true);
+                }
+            }
+        });
+    }
+
+    private void initializeAfterWatchConfirmation(boolean authenticated){
         setNotificationConfigurations();
         setQuickRepliesConfiguration();
 
@@ -1224,22 +1261,23 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
 
     @Override
     public void onTestNewFunction() {
+        queueWrite(new FossilRequest() {
+            @Override
+            public boolean isFinished() {
+                return true;
+            }
 
-        try{
-            JSONObject data = new JSONObject()
-                    .put("push", new JSONObject()
-                            .put("set", new JSONObject()
-                                    .put("widgetCustom0._.config.upper_text", "0 up")
-                                    .put("widgetCustom0._.config.lower_text", "0 low")
+            @Override
+            public byte[] getStartSequence() {
+                return new byte[]{0x01, 0x07};
+            }
 
-                                    .put("widgetCustom1._.config.upper_text", "1 up")
-                                    .put("widgetCustom1._.config.lower_text", "1 low")
-                            )
-                    );
-            queueWrite(new JsonPutRequest(data, this));
-        }catch (Exception e) {
-            e.printStackTrace();
-        }
+            @Override
+            public UUID getRequestUUID() {
+                return UUID.fromString("3dda0005-957f-7d4a-34a6-74696673696d");
+            }
+        });
+        queueWrite(new ConfirmOnDeviceRequest());
     }
 
     public byte[] getSecretKey() throws IllegalAccessException {
@@ -1480,6 +1518,14 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
             } catch (JSONException e) {
                 LOG.error("Error while handling received characteristic", e);
             }
+        }
+    }
+
+    @Override
+    public void onFindDevice(boolean start) {
+        super.onFindDevice(start);
+        if(start){
+            queueWrite(new ConfirmOnDeviceRequest());
         }
     }
 

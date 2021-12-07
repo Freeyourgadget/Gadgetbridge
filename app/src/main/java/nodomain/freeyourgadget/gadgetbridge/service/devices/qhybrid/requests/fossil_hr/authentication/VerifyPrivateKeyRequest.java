@@ -37,7 +37,7 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.adapter.foss
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.FossilRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.file.ResultCode;
 
-public class VerifyPrivateKeyRequest extends FossilRequest {
+public class VerifyPrivateKeyRequest extends AuthenticationRequest {
     private final FossilHRWatchAdapter adapter;
     private byte[] key, randomPhoneNumber;
     private boolean isFinished = false;
@@ -131,10 +131,5 @@ public class VerifyPrivateKeyRequest extends FossilRequest {
         buffer.put(randomPhoneNumber);
 
         return buffer.array();
-    }
-
-    @Override
-    public UUID getRequestUUID() {
-        return UUID.fromString("3dda0005-957f-7d4a-34a6-74696673696d");
     }
 }
