@@ -1483,4 +1483,6 @@
     <string name="watchface_dialog_widget_timeout_show_circle">Zaman aşımında çember göster:</string>
     <string name="watchface_dialog_widget_timeout_hide_text">Zaman aşımında metni gizle:</string>
     <string name="watchface_dialog_widget_update_timeout">Dakika cinsinden güncelleme zaman aşımı:</string>
+    <string name="qhybrid_summary_on_device_confirmation">Aygıt üzerinde eşleştirme onayları can sıkıcı olabilir. Bunları devre dışı bırakmak, işlevsellik kaybına neden olabilir.</string>
+    <string name="qhybrid_title_on_device_confirmation">Aygıt üzerinde eşleştirme onayını etkinleştir</string>
 </resources>
