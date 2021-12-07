@@ -1462,4 +1462,6 @@
     <string name="watchface_dialog_widget_update_timeout">更新超时时间（分钟）：</string>
     <string name="watchface_dialog_widget_timeout_hide_text">隐藏文字超时：</string>
     <string name="watchface_dialog_widget_timeout_show_circle">显示圆圈超时：</string>
+    <string name="qhybrid_title_on_device_confirmation">启用设备侧的配对确认</string>
+    <string name="qhybrid_summary_on_device_confirmation">设备侧配对确认可能会有些恼人。禁用它可能会失去部分功能。</string>
 </resources>
