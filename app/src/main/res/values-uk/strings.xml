@@ -1463,4 +1463,6 @@
     <string name="watchface_dialog_widget_timeout_hide_text">Сховати текст після очікування:</string>
     <string name="watchface_dialog_widget_timeout_show_circle">Показати коло на час очікування:</string>
     <string name="watchface_dialog_widget_timezone">Часовий пояс:</string>
+    <string name="qhybrid_title_on_device_confirmation">Увімкнути підтвердження підʼєднання пристрою</string>
+    <string name="qhybrid_summary_on_device_confirmation">Підтвердження підʼєднання пристрою можуть дратувати. Вимкнення їх може зменшити функціональність.</string>
 </resources>
