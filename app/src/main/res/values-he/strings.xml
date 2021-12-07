@@ -1456,4 +1456,6 @@
     <string name="watchface_dialog_widget_timeout_show_circle">הצגת עיגול עם תום הזמן:</string>
     <string name="watchface_dialog_widget_update_timeout">תום זמן עדכון בשניות:</string>
     <string name="watchface_dialog_widget_timezone">אזור זמן:</string>
+    <string name="qhybrid_summary_on_device_confirmation">אישורי צימוד בהתקנים יכולים להרגיז. השבתתם עשויה לאבד מהיכולות.</string>
+    <string name="qhybrid_title_on_device_confirmation">הפעלת אישור צימוד במכשיר</string>
 </resources>
