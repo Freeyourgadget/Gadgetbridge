@@ -1456,4 +1456,6 @@
     <string name="watchface_dialog_widget_update_timeout">Update-time-out in minuten:</string>
     <string name="watchface_dialog_widget_timeout_hide_text">Tekst verbergen bij time-out:</string>
     <string name="watchface_dialog_widget_timeout_show_circle">Toon cirkel bij time-out:</string>
+    <string name="qhybrid_title_on_device_confirmation">Koppelingsbevestiging op het apparaat inschakelen</string>
+    <string name="qhybrid_summary_on_device_confirmation">Koppelingsbevestigingen op het apparaat kunnen vervelend worden. Als u ze uitschakelt, verliest u mogelijk functionaliteit.</string>
 </resources>
