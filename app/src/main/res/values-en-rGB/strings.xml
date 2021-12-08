@@ -1454,4 +1454,6 @@
     <string name="prefs_activity_in_device_card_title">Show Activity info on device card</string>
     <string name="prefs_activity_in_device_card_title_summary">Show current steps, distance or sleep on device card</string>
     <string name="prefs_activity_in_device_card_sleep_title_summary">Show sleep duration</string>
+    <string name="qhybrid_title_on_device_confirmation">Enable on-device pairing confirmation</string>
+    <string name="qhybrid_summary_on_device_confirmation">On-device pairing confirmations can get annoying. Disabling them might lose you functionality.</string>
 </resources>
