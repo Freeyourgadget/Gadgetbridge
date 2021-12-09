@@ -633,15 +633,14 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
                 return bitmapDrawable.getBitmap();
             }
         }
-        int w = 1;
-        int h = 8;
+        int w = 24;
+        int h = 24;
         if (drawable.getIntrinsicWidth() > 0 && drawable.getIntrinsicHeight() > 0) {
-
-        } else {
             w = drawable.getIntrinsicWidth();
             h = drawable.getIntrinsicHeight();
-            if (w>64) w=64;
-            if (h>64) h=64;
+            // don't allocate anything too big
+            if (w>24) w=24;
+            if (h>24) h=24;
         }
         Bitmap bitmap = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888); // Single color bitmap will be created of 1x1 pixel
 
