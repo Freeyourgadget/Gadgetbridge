@@ -579,7 +579,7 @@
     <string name="pref_summary_low_latency_fw_update">Bu, ürün yazılımı kurulmasının başarısız olduğu aygıtlarda yardımcı olabilir.</string>
     <string name="pref_summary_minimize_priority_off">Durum çubuğunda simge ve kilit ekranında bildirim gösterilir</string>
     <string name="pref_summary_minimize_priority_on">Durum çubuğunda simge ve kilit ekranında bildirim gizlenir</string>
-    <string name="pref_summary_notification_filter">İstenmeyen bildirimler, bu modda durdurulmuştur</string>
+    <string name="pref_summary_notification_filter">Telefonda Rahatsız Etme özelliği etkinleştirildiğinde tüm bildirimleri engelle</string>
     <string name="pref_summary_notifications_pebblemsg">PebbleKit üzerinden Pebble aygıtına bildirim gönderen uygulamalar için destek.</string>
     <string name="pref_summary_pebble_always_ack_pebblekit">Harici 3. taraf uygulamalarına gönderilen mesajların her zaman ve hemen onaylanmasına neden olur</string>
     <string name="pref_summary_pebble_enable_applogs">Saat uygulamalarındaki günlüklerin Gadgetbridge tarafından günlüğe kaydedilmesine neden olur (yeniden bağlanma gerekir)</string>
