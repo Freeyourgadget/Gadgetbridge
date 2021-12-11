@@ -1361,4 +1361,12 @@
     <string name="prefs_notifications_enable">Skru på merknader</string>
     <string name="enable_vibrations_summary">Vibrasjoner for anrop, meldinger, merknader og mer</string>
     <string name="enable_notifications_summary">Merknader for anrop, meldinger og mer</string>
+    <string name="pref_title_equalizer_soft">Myk</string>
+    <string name="pref_title_equalizer_dynamic">Dynamisk</string>
+    <string name="prefs_equalizer">Tonekontroll</string>
+    <string name="prefs_equalizer_summary">Skru på eller av tonekontroll</string>
+    <string name="prefs_dolby_summary">Dolby-forhåndsinnstilling for tonekontroll</string>
+    <string name="pref_title_equalizer_clear">Klar</string>
+    <string name="pref_title_equalizer_trebble">Diskantforsterkning</string>
+    <string name="prefs_dolby_mode">Dolby-modus</string>
 </resources>
