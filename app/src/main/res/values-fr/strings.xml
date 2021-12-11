@@ -78,7 +78,7 @@
     <string name="pref_title_notifications_generic">Support des notifications génériques</string>
     <string name="pref_title_whenscreenon">…y compris quand l\'écran est allumé</string>
     <string name="pref_title_notification_filter">Ne Pas Déranger</string>
-    <string name="pref_summary_notification_filter">Les notifications non-sollicitées sont suspendues dans ce mode</string>
+    <string name="pref_summary_notification_filter">Toutes les notifications sont suspendues dans le mode Ne Pas Déranger</string>
     <string name="pref_title_transliteration">Transcription</string>
     <string name="pref_summary_transliteration">Activez ceci si votre appareil ne supporte pas la police de caractères</string>
     <string name="always">Toujours</string>
@@ -1460,4 +1460,6 @@ Temps de sommeil préféré en heures</string>
     <string name="watchface_dialog_widget_timezone">Fuseau horaire :</string>
     <string name="watchface_dialog_widget_timeout_hide_text">Cacher le texte en cas de perte de communication :</string>
     <string name="watchface_dialog_widget_update_timeout">Mettre à jour le temps de déconnexion en minutes :</string>
+    <string name="qhybrid_title_on_device_confirmation">Activer la confirmation de pairage sur l\'appareil</string>
+    <string name="qhybrid_summary_on_device_confirmation">La confirmation de pairage sur l\'appareil peut être ennuyeuse. Sa désactivation peut entrainer la perte de fonctions.</string>
 </resources>
