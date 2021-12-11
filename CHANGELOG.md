@@ -1,5 +1,15 @@
 ### Changelog
 
+### 0.63.1
+* Huami: Support native reminders
+* InfiniTime: Initial support for step counting (currently very limited by the device firmware)
+* Bangle.js: Fix Gadgetbridge crashes when playing music with some players
+* Fossil Hybrid HR: Add support for on-device paring confirmation, for watches that are in a state which makes this neccessary
+* Fossil Hybrid HR: Fix widget configuration bug
+* Activity card: Open specific Charts tab for each activity
+* Activity Card: React to User settings, unify step length
+* Activity card: simplify the layout and only show each chart if there is data (Cleaner layout for users with multiple devices)
+
 ### 0.63.0
 * Galaxy Buds Live: Initial Support
 * Sony WH-1000XM3: Initial Support
