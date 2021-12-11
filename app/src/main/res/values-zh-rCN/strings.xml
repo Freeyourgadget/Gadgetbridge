@@ -88,7 +88,7 @@
     <string name="pref_title_notifications_generic">通知使用权</string>
     <string name="pref_title_whenscreenon">即使屏幕开启时也通知</string>
     <string name="pref_title_notification_filter">勿扰模式</string>
-    <string name="pref_summary_notification_filter">此模式下将停止“不想要的通知”</string>
+    <string name="pref_summary_notification_filter">当在手机上启用勿扰模式时屏蔽所有通知</string>
     <string name="pref_title_transliteration">音译</string>
     <string name="pref_summary_transliteration">如果您的设备不支持您语言的字体, 请启用此功能</string>
     <string name="always">总是</string>
