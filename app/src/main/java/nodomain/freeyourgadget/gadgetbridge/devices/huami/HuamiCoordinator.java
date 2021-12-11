@@ -328,4 +328,14 @@ public abstract class HuamiCoordinator extends AbstractDeviceCoordinator {
     public boolean supportsAlarmSnoozing() {
         return true;
     }
+
+    @Override
+    public int getMaximumReminderMessageLength() {
+        return 16;
+    }
+
+    @Override
+    public int getReminderSlotCount() {
+        return 22; // At least, Mi Fit still allows more
+    }
 }

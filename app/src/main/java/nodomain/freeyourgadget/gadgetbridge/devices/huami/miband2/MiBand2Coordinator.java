@@ -75,6 +75,16 @@ public class MiBand2Coordinator extends HuamiCoordinator {
     }
 
     @Override
+    public int getMaximumReminderMessageLength() {
+        return 16;
+    }
+
+    @Override
+    public int getReminderSlotCount() {
+        return 0;
+    }
+
+    @Override
     public int[] getSupportedDeviceSpecificSettings(GBDevice device) {
         return new int[]{
                 R.xml.devicesettings_miband2,
