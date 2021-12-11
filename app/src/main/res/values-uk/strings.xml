@@ -287,7 +287,7 @@
     <string name="pref_summary_minimize_priority_off">Піктограма в рядку стану та сповіщення на екрані блокування відображаються</string>
     <string name="pref_summary_minimize_priority_on">Піктограма в рядку стану та сповіщення на екрані блокування не відображаються</string>
     <string name="pref_summary_notifications_pebblemsg">Підтримка застосунків, які надсилають сповіщення Pebble через PebbleKit.</string>
-    <string name="pref_summary_notification_filter">Запобігати надсиланню небажаних сповіщень у режимі «Не турбувати»</string>
+    <string name="pref_summary_notification_filter">Блокувати всі сповіщення, якщо на телефоні ввімкнено режим «Не турбувати»</string>
     <string name="pref_title_transliteration">Транслітерація</string>
     <string name="pref_summary_transliteration">Увімкніть цей параметр, якщо пристрій не підтримує шрифт вашої мови</string>
     <string name="pref_title_call_privacy_mode">Режим приватності викликів</string>
