@@ -108,6 +108,7 @@ public class MiBand3Coordinator extends HuamiCoordinator {
                 R.xml.devicesettings_nightmode,
                 R.xml.devicesettings_donotdisturb_withauto,
                 R.xml.devicesettings_liftwrist_display,
+                R.xml.devicesettings_donotdisturb_lift_wrist,
                 R.xml.devicesettings_swipeunlock,
                 R.xml.devicesettings_sync_calendar,
                 R.xml.devicesettings_reserve_reminders_calendar,
