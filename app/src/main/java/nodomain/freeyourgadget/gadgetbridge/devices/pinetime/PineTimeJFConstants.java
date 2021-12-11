@@ -35,4 +35,10 @@ public class PineTimeJFConstants {
     public static final UUID UUID_CHARACTERISTICS_MUSIC_SHUFFLE = UUID.fromString("0000000c-78fc-48fe-8e23-433b3a1942d0");
 
     public static final UUID UUID_CHARACTERISTIC_ALERT_NOTIFICATION_EVENT = UUID.fromString("00020001-78fc-48fe-8e23-433b3a1942d0");
+
+    // since 1.7. https://github.com/InfiniTimeOrg/InfiniTime/blob/develop/doc/MotionService.md
+    public static final UUID UUID_SERVICE_MOTION = UUID.fromString("00030000-78fc-48fe-8e23-433b3a1942d0");
+    public static final UUID UUID_CHARACTERISTIC_MOTION_STEP_COUNT = UUID.fromString("00030001-78fc-48fe-8e23-433b3a1942d0");
+    public static final UUID UUID_CHARACTERISTIC_MOTION_RAW_XYZ_VALUES = UUID.fromString("00030002-78fc-48fe-8e23-433b3a1942d0");
+
 }

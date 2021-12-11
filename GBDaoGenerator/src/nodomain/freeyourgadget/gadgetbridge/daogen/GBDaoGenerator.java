@@ -43,7 +43,7 @@ public class GBDaoGenerator {
 
 
     public static void main(String[] args) throws Exception {
-        Schema schema = new Schema(35, MAIN_PACKAGE + ".entities");
+        Schema schema = new Schema(36, MAIN_PACKAGE + ".entities");
 
         Entity userAttributes = addUserAttributes(schema);
         Entity user = addUserInfo(schema, userAttributes);
@@ -81,6 +81,7 @@ public class GBDaoGenerator {
         addBangleJSActivitySample(schema, user, device);
         addCasioGBX100Sample(schema, user, device);
         addFitProActivitySample(schema, user, device);
+        addPineTimeActivitySample(schema, user, device);
 
         addHybridHRActivitySample(schema, user, device);
         addCalendarSyncState(schema, device);
@@ -633,4 +634,13 @@ public class GBDaoGenerator {
         return activitySample;
     }
 
+    private static Entity addPineTimeActivitySample(Schema schema, Entity user, Entity device) {
+        Entity activitySample = addEntity(schema, "PineTimeActivitySample");
+        activitySample.implementsSerializable();
+        addCommonActivitySampleProperties("AbstractActivitySample", activitySample, user, device);
+        activitySample.addIntProperty(SAMPLE_RAW_KIND).notNull().codeBeforeGetterAndSetter(OVERRIDE);
+        activitySample.addIntProperty(SAMPLE_STEPS).notNull().codeBeforeGetterAndSetter(OVERRIDE);
+        addHeartRateProperties(activitySample);
+        return activitySample;
+    }
 }

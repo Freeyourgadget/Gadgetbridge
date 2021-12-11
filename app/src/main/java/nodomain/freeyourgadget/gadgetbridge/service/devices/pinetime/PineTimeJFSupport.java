@@ -23,37 +23,48 @@ import android.content.Intent;
 import android.net.Uri;
 import android.widget.Toast;
 
-import androidx.localbroadcastmanager.content.LocalBroadcastManager;
-
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.GregorianCalendar;
+import java.util.List;
 import java.util.Locale;
 import java.util.UUID;
 
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import no.nordicsemi.android.dfu.DfuLogListener;
 import no.nordicsemi.android.dfu.DfuProgressListener;
 import no.nordicsemi.android.dfu.DfuProgressListenerAdapter;
 import no.nordicsemi.android.dfu.DfuServiceController;
 import no.nordicsemi.android.dfu.DfuServiceInitiator;
 import no.nordicsemi.android.dfu.DfuServiceListenerHelper;
+import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
+import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
+import nodomain.freeyourgadget.gadgetbridge.database.DBHelper;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventBatteryInfo;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventCallControl;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventMusicControl;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventVersionInfo;
+import nodomain.freeyourgadget.gadgetbridge.devices.pinetime.PineTimeActivitySampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.devices.pinetime.PineTimeDFUService;
 import nodomain.freeyourgadget.gadgetbridge.devices.pinetime.PineTimeInstallHandler;
 import nodomain.freeyourgadget.gadgetbridge.devices.pinetime.PineTimeJFConstants;
+import nodomain.freeyourgadget.gadgetbridge.entities.Device;
+import nodomain.freeyourgadget.gadgetbridge.entities.PineTimeActivitySample;
+import nodomain.freeyourgadget.gadgetbridge.entities.User;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
+import nodomain.freeyourgadget.gadgetbridge.model.ActivityKind;
+import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.model.Alarm;
 import nodomain.freeyourgadget.gadgetbridge.model.CalendarEventSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.CallSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.CannedMessagesSpec;
+import nodomain.freeyourgadget.gadgetbridge.model.DeviceService;
 import nodomain.freeyourgadget.gadgetbridge.model.MusicSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.MusicStateSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
@@ -85,6 +96,7 @@ public class PineTimeJFSupport extends AbstractBTLEDeviceSupport implements DfuL
     private int firmwareVersionMajor = 0;
     private int firmwareVersionMinor = 0;
     private int firmwareVersionPatch = 0;
+
     /**
      * These are used to keep track when long strings haven't changed,
      * thus avoiding unnecessary transfers that are (potentially) very slow.
@@ -220,6 +232,7 @@ public class PineTimeJFSupport extends AbstractBTLEDeviceSupport implements DfuL
         addSupportedService(GattService.UUID_SERVICE_BATTERY_SERVICE);
         addSupportedService(PineTimeJFConstants.UUID_SERVICE_MUSIC_CONTROL);
         addSupportedService(PineTimeJFConstants.UUID_CHARACTERISTIC_ALERT_NOTIFICATION_EVENT);
+        addSupportedService(PineTimeJFConstants.UUID_SERVICE_MOTION);
 
         IntentListener mListener = new IntentListener() {
             @Override
@@ -454,9 +467,15 @@ public class PineTimeJFSupport extends AbstractBTLEDeviceSupport implements DfuL
         if (alertNotificationEventCharacteristic != null) {
             builder.notify(alertNotificationEventCharacteristic, true);
         }
+
+        if (getSupportedServices().contains(PineTimeJFConstants.UUID_SERVICE_MOTION)) {
+            builder.notify(getCharacteristic(PineTimeJFConstants.UUID_CHARACTERISTIC_MOTION_STEP_COUNT), true);
+            builder.notify(getCharacteristic(PineTimeJFConstants.UUID_CHARACTERISTIC_MOTION_RAW_XYZ_VALUES), true);
+        }
+
         setInitialized(builder);
         batteryInfoProfile.requestBatteryInfo(builder);
-        batteryInfoProfile.enableNotify(builder,true);
+        batteryInfoProfile.enableNotify(builder, true);
 
         return builder;
     }
@@ -613,6 +632,14 @@ public class PineTimeJFSupport extends AbstractBTLEDeviceSupport implements DfuL
             }
             evaluateGBDeviceEvent(deviceEventCallControl);
             return true;
+        } else if (characteristicUUID.equals(PineTimeJFConstants.UUID_CHARACTERISTIC_MOTION_STEP_COUNT)) {
+            int steps = BLETypeConversions.toUint32(characteristic.getValue());
+            if (LOG.isDebugEnabled()) {
+                GB.toast("Steps count: " + steps, Toast.LENGTH_SHORT, GB.INFO);
+                LOG.debug("onCharacteristicChanged: MotionService:Steps=" + steps);
+            }
+            onReceiveStepsSample(steps);
+            return true;
         }
 
         LOG.info("Unhandled characteristic changed: " + characteristicUUID);
@@ -682,4 +709,110 @@ public class PineTimeJFSupport extends AbstractBTLEDeviceSupport implements DfuL
     public void onLogEvent(final String deviceAddress, final int level, final String message) {
         LOG.debug(message);
     }
+
+    private void onReceiveStepsSample(int steps) {
+        this.onReceiveStepsSample((int) (Calendar.getInstance().getTimeInMillis() / 1000l), steps);
+    }
+
+    private void onReceiveStepsSample(int timeStamp, int steps) {
+        PineTimeActivitySample sample = new PineTimeActivitySample();
+
+        int dayStepCount = this.getStepsOnDay(timeStamp);
+        int diff = steps - dayStepCount;
+
+        if (diff > 0) {
+            LOG.debug("adding " + diff + " steps");
+
+            sample.setSteps(diff);
+            sample.setTimestamp(timeStamp);
+
+            // since it's a local timestamp, it should NOT be treated as Activity because it will spoil activity charts
+            sample.setRawKind(ActivityKind.TYPE_UNKNOWN);
+
+            this.addGBActivitySample(sample);
+
+            Intent intent = new Intent(DeviceService.ACTION_REALTIME_SAMPLES)
+                    .putExtra(DeviceService.EXTRA_REALTIME_SAMPLE, sample)
+                    .putExtra(DeviceService.EXTRA_TIMESTAMP, sample.getTimestamp());
+            LocalBroadcastManager.getInstance(getContext()).sendBroadcast(intent);
+        }
+
+    }
+
+    /**
+     * @param timeStamp Time stamp (in seconds)  at some point during the requested day.
+     */
+    private int getStepsOnDay(int timeStamp) {
+        try (DBHandler dbHandler = GBApplication.acquireDB()) {
+
+            Calendar dayStart = new GregorianCalendar();
+            Calendar dayEnd = new GregorianCalendar();
+
+            this.getDayStartEnd(timeStamp, dayStart, dayEnd);
+
+            PineTimeActivitySampleProvider provider = new PineTimeActivitySampleProvider(this.getDevice(), dbHandler.getDaoSession());
+
+            List<PineTimeActivitySample> samples = provider.getAllActivitySamples(
+                    (int) (dayStart.getTimeInMillis() / 1000L),
+                    (int) (dayEnd.getTimeInMillis() / 1000L));
+
+            int totalSteps = 0;
+
+            for (PineTimeActivitySample sample : samples) {
+                totalSteps += sample.getSteps();
+            }
+
+            return totalSteps;
+
+        } catch (Exception ex) {
+            LOG.error(ex.getMessage());
+
+            return 0;
+        }
+    }
+
+    /**
+     * @param timeStamp in seconds
+     */
+    private void getDayStartEnd(int timeStamp, Calendar start, Calendar end) {
+        final int DAY = (24 * 60 * 60);
+
+        int timeStampStart = ((timeStamp / DAY) * DAY);
+        int timeStampEnd = (timeStampStart + DAY);
+
+        start.setTimeInMillis(timeStampStart * 1000L);
+        end.setTimeInMillis(timeStampEnd * 1000L);
+    }
+
+
+    private void addGBActivitySamples(PineTimeActivitySample[] samples) {
+        try (DBHandler dbHandler = GBApplication.acquireDB()) {
+
+            User user = DBHelper.getUser(dbHandler.getDaoSession());
+            Device device = DBHelper.getDevice(this.getDevice(), dbHandler.getDaoSession());
+
+            PineTimeActivitySampleProvider provider = new PineTimeActivitySampleProvider(this.getDevice(), dbHandler.getDaoSession());
+
+            for (PineTimeActivitySample sample : samples) {
+                sample.setDevice(device);
+                sample.setUser(user);
+                sample.setProvider(provider);
+
+                sample.setRawIntensity(ActivitySample.NOT_MEASURED);
+
+                provider.addGBActivitySample(sample);
+            }
+
+        } catch (Exception ex) {
+            GB.toast(getContext(), "Error saving samples: " + ex.getLocalizedMessage(), Toast.LENGTH_LONG, GB.ERROR);
+            GB.updateTransferNotification(null, "Data transfer failed", false, 0, getContext());
+
+            LOG.error(ex.getMessage());
+        }
+    }
+
+    private void addGBActivitySample(PineTimeActivitySample sample) {
+        this.addGBActivitySamples(new PineTimeActivitySample[]{sample});
+    }
+
 }

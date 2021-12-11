@@ -68,12 +68,12 @@ public class PineTimeJFCoordinator extends AbstractDeviceCoordinator {
 
     @Override
     public boolean supportsActivityTracking() {
-        return false;
+        return true;
     }
 
     @Override
     public SampleProvider<? extends ActivitySample> getSampleProvider(GBDevice device, DaoSession session) {
-        return null;
+        return new PineTimeActivitySampleProvider(device, session);
     }
 
     @Override
