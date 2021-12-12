@@ -1465,4 +1465,27 @@
     <string name="watchface_dialog_widget_timezone">Часовий пояс:</string>
     <string name="qhybrid_title_on_device_confirmation">Увімкнути підтвердження підʼєднання пристрою</string>
     <string name="qhybrid_summary_on_device_confirmation">Підтвердження підʼєднання пристрою можуть дратувати. Вимкнення їх може зменшити функціональність.</string>
+    <string name="reminder_repeat">Повтор</string>
+    <string name="reminder_date">Дата</string>
+    <string name="reminder_time">Час</string>
+    <string name="reminder_once">Один раз</string>
+    <string name="reminder_every_day">Щодня</string>
+    <string name="reminder_every_week">Щотижня</string>
+    <string name="reminder_every_month">Щомісяця</string>
+    <string name="reminder_every_year">Щороку</string>
+    <string name="reminder_delete_confirm_description">Ви впевнені, що хочете видалити нагадування\?</string>
+    <string name="title_activity_reminder_details">Подробиці нагадування</string>
+    <string name="miband_prefs_reserve_reminder_calendar">Нагадування для резервування майбутніх подій</string>
+    <string name="prefs_reserve_reminder_calendar_summary">Кількість подій календаря, які буде синхронізовано</string>
+    <string name="reminder_time_every_week">%1$s, щотижня</string>
+    <string name="title_activity_set_reminders">Налаштувати нагадування</string>
+    <string name="controlcenter_start_configure_reminders">Налаштувати нагадування</string>
+    <string name="reminder_message">Повідомлення</string>
+    <string name="reminder_time_once">%1$s, один раз</string>
+    <string name="reminder_time_every_day">%1$s, щодня</string>
+    <string name="reminder_time_every_month">%1$s, щомісяця</string>
+    <string name="reminder_time_every_year">%1$s, щороку</string>
+    <string name="reminder_delete_confirm_title">Видалити нагадування</string>
+    <string name="reminder_no_free_slots_title">Немає вільних комірок</string>
+    <string name="reminder_no_free_slots_description">На пристрої немає вільних комірок для нагадувань (загальна кількість комірок: %1$s)</string>
 </resources>
