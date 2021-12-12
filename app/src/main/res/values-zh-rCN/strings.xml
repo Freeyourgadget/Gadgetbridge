@@ -1464,4 +1464,27 @@
     <string name="watchface_dialog_widget_timeout_show_circle">显示圆圈超时：</string>
     <string name="qhybrid_title_on_device_confirmation">启用设备侧的配对确认</string>
     <string name="qhybrid_summary_on_device_confirmation">设备侧配对确认可能会有些恼人。禁用它可能会失去部分功能。</string>
+    <string name="title_activity_set_reminders">配置提醒</string>
+    <string name="reminder_date">日期</string>
+    <string name="reminder_time">时间</string>
+    <string name="reminder_message">信息</string>
+    <string name="reminder_time_once">%1$s，一次</string>
+    <string name="reminder_time_every_day">%1$s，每天</string>
+    <string name="reminder_time_every_week">%1$s，每周</string>
+    <string name="reminder_time_every_month">%1$s，每月</string>
+    <string name="reminder_once">单次</string>
+    <string name="reminder_every_day">每天</string>
+    <string name="reminder_every_week">每周</string>
+    <string name="reminder_every_month">每月</string>
+    <string name="reminder_every_year">每年</string>
+    <string name="reminder_delete_confirm_title">删除提醒</string>
+    <string name="reminder_delete_confirm_description">您确认要删除此提醒？</string>
+    <string name="title_activity_reminder_details">提醒详情</string>
+    <string name="miband_prefs_reserve_reminder_calendar">为即将到来的事件保留提醒</string>
+    <string name="reminder_time_every_year">%1$s，每年</string>
+    <string name="controlcenter_start_configure_reminders">配置提醒</string>
+    <string name="prefs_reserve_reminder_calendar_summary">即将同步的事件数</string>
+    <string name="reminder_repeat">重复</string>
+    <string name="reminder_no_free_slots_title">没有可用空位</string>
+    <string name="reminder_no_free_slots_description">该设备已经没有可用于提醒的可用的空位（总计空位：%1$s）</string>
 </resources>
