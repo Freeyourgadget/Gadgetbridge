@@ -17,6 +17,7 @@
 package nodomain.freeyourgadget.gadgetbridge.activities.devicesettings;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.InputType;
 import android.widget.EditText;
@@ -27,7 +28,12 @@ import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.preference.EditTextPreference;
 import androidx.preference.ListPreference;
 import androidx.preference.Preference;
+import androidx.preference.PreferenceCategory;
 import androidx.preference.PreferenceFragmentCompat;
+import androidx.preference.PreferenceGroup;
+import androidx.preference.PreferenceScreen;
+import androidx.preference.SeekBarPreference;
+import androidx.preference.SwitchPreference;
 
 import com.mobeta.android.dslv.DragSortListPreference;
 import com.mobeta.android.dslv.DragSortListPreferenceFragment;
@@ -204,6 +210,8 @@ public class DeviceSpecificSettingsFragment extends PreferenceFragmentCompat imp
 
     static final String FRAGMENT_TAG = "DEVICE_SPECIFIC_SETTINGS_FRAGMENT";
 
+    private final SharedPreferencesChangeHandler sharedPreferencesChangeHandler = new SharedPreferencesChangeHandler();
+
     private void setSettingsFileSuffix(String settingsFileSuffix, @NonNull int[] supportedSettings, String[] supportedLanguages) {
         Bundle args = new Bundle();
         args.putString("settingsFileSuffix", settingsFileSuffix);
@@ -265,6 +273,24 @@ public class DeviceSpecificSettingsFragment extends PreferenceFragmentCompat imp
             }
         }
         setChangeListener();
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        final SharedPreferences sharedPreferences = getPreferenceManager().getSharedPreferences();
+
+        reloadPreferences(sharedPreferences, getPreferenceScreen());
+
+        sharedPreferences.registerOnSharedPreferenceChangeListener(sharedPreferencesChangeHandler);
+    }
+
+    @Override
+    public void onStop() {
+        getPreferenceManager().getSharedPreferences().unregisterOnSharedPreferenceChangeListener(sharedPreferencesChangeHandler);
+
+        super.onStop();
     }
 
     /*
@@ -904,6 +930,61 @@ public class DeviceSpecificSettingsFragment extends PreferenceFragmentCompat imp
                     editText.setInputType(editTypeFlags);
                 }
             });
+        }
+    }
+
+    /**
+     * Reload the preferences in the current screen. This is needed when the user enters or exists a PreferenceScreen,
+     * otherwise the settings won't be reloaded by the {@link SharedPreferencesChangeHandler}, as the preferences return
+     * null, since they're not visible.
+     *
+     * @param sharedPreferences the {@link SharedPreferences} instance
+     * @param preferenceGroup the {@link PreferenceGroup} for which preferences will be reloaded
+     */
+    private void reloadPreferences(final SharedPreferences sharedPreferences, final PreferenceGroup preferenceGroup) {
+        for (int i = 0; i < preferenceGroup.getPreferenceCount(); i++) {
+            final Preference preference = preferenceGroup.getPreference(i);
+
+            LOG.debug("Reloading {}", preference.getKey());
+
+            if (preference instanceof PreferenceCategory) {
+                reloadPreferences(sharedPreferences, (PreferenceCategory) preference);
+                continue;
+            }
+
+            sharedPreferencesChangeHandler.onSharedPreferenceChanged(sharedPreferences, preference.getKey());
+        }
+    }
+
+    /**
+     * Handler for preference changes, update UI accordingly (if device updates the preferences).
+     */
+    private class SharedPreferencesChangeHandler implements SharedPreferences.OnSharedPreferenceChangeListener {
+        @Override
+        public void onSharedPreferenceChanged(SharedPreferences prefs, String key) {
+            LOG.debug("Preference changed: {}", key);
+
+            final Preference preference = findPreference(key);
+            if (preference == null) {
+                LOG.warn("Preference {} not found, ignoring", key);
+
+                return;
+            }
+
+            if (preference instanceof SeekBarPreference) {
+                final SeekBarPreference seekBarPreference = (SeekBarPreference) preference;
+                seekBarPreference.setValue(prefs.getInt(key, seekBarPreference.getValue()));
+            } else if (preference instanceof SwitchPreference) {
+                final SwitchPreference switchPreference = (SwitchPreference) preference;
+                switchPreference.setChecked(prefs.getBoolean(key, switchPreference.isChecked()));
+            } else if (preference instanceof ListPreference) {
+                final ListPreference listPreference = (ListPreference) preference;
+                listPreference.setValue(prefs.getString(key, listPreference.getValue()));
+            } else if (preference instanceof PreferenceScreen) {
+                // Ignoring
+            } else {
+                LOG.warn("Unknown preference class {}, ignoring", preference.getClass());
+            }
         }
     }
 }

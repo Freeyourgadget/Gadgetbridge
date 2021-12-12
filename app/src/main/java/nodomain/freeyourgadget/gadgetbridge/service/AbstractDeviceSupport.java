@@ -61,9 +61,12 @@ import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventCallContro
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventDisplayMessage;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventFindPhone;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventFmFrequency;
+import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventUpdateDeviceInfo;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventLEDColor;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventMusicControl;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventNotificationControl;
+import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventUpdateDeviceState;
+import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventUpdatePreferences;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventScreenshot;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventVersionInfo;
 import nodomain.freeyourgadget.gadgetbridge.entities.BatteryLevel;
@@ -172,6 +175,12 @@ public abstract class AbstractDeviceSupport implements DeviceSupport {
             handleGBDeviceEvent((GBDeviceEventFindPhone) deviceEvent);
         } else if (deviceEvent instanceof GBDeviceEventLEDColor) {
             handleGBDeviceEvent((GBDeviceEventLEDColor) deviceEvent);
+        } else if (deviceEvent instanceof GBDeviceEventUpdateDeviceInfo) {
+            handleGBDeviceEvent((GBDeviceEventUpdateDeviceInfo) deviceEvent);
+        } else if (deviceEvent instanceof GBDeviceEventUpdatePreferences) {
+            handleGBDeviceEvent((GBDeviceEventUpdatePreferences) deviceEvent);
+        } else if (deviceEvent instanceof GBDeviceEventUpdateDeviceState) {
+            handleGBDeviceEvent((GBDeviceEventUpdateDeviceState) deviceEvent);
         } else if (deviceEvent instanceof GBDeviceEventFmFrequency) {
             handleGBDeviceEvent((GBDeviceEventFmFrequency) deviceEvent);
         }
@@ -277,6 +286,32 @@ public abstract class AbstractDeviceSupport implements DeviceSupport {
         }
         gbDevice.setExtraInfo("led_color", colorEvent.color);
         gbDevice.sendDeviceUpdateIntent(context);
+    }
+
+    protected void handleGBDeviceEvent(GBDeviceEventUpdateDeviceInfo itemEvent) {
+        if (gbDevice == null) {
+            return;
+        }
+
+        gbDevice.addDeviceInfo(itemEvent.item);
+        gbDevice.sendDeviceUpdateIntent(context);
+    }
+
+    protected void handleGBDeviceEvent(GBDeviceEventUpdatePreferences savePreferencesEvent) {
+        if (gbDevice == null) {
+            return;
+        }
+
+        savePreferencesEvent.update(GBApplication.getDeviceSpecificSharedPrefs(getDevice().getAddress()));
+    }
+
+    protected void handleGBDeviceEvent(GBDeviceEventUpdateDeviceState updateDeviceState) {
+        if (gbDevice == null) {
+            return;
+        }
+
+        gbDevice.setState(updateDeviceState.state);
+        gbDevice.sendDeviceUpdateIntent(getContext());
     }
 
     protected void handleGBDeviceEvent(GBDeviceEventFmFrequency frequencyEvent) {
