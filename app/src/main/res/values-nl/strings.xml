@@ -75,7 +75,7 @@
     <string name="pref_title_notifications_generic">Algemene meldingondersteuning</string>
     <string name="pref_title_whenscreenon">… ook als het scherm is ingeschakeld</string>
     <string name="pref_title_notification_filter">Niet Storen</string>
-    <string name="pref_summary_notification_filter">Ongewenste meldingen worden tegengehouden in deze modus</string>
+    <string name="pref_summary_notification_filter">Blokkeer alle meldingen wanneer Niet Storen is ingeschakeld op de telefoon</string>
     <string name="pref_title_transliteration">Transliteratie</string>
     <string name="pref_summary_transliteration">Schakel dit in als uw apparaat geen ondersteuning heeft voor het lettertype van uw taal</string>
     <string name="always">Altijd</string>
@@ -1458,4 +1458,26 @@
     <string name="watchface_dialog_widget_timeout_show_circle">Toon cirkel bij time-out:</string>
     <string name="qhybrid_title_on_device_confirmation">Koppelingsbevestiging op het apparaat inschakelen</string>
     <string name="qhybrid_summary_on_device_confirmation">Koppelingsbevestigingen op het apparaat kunnen vervelend worden. Als u ze uitschakelt, verliest u mogelijk functionaliteit.</string>
+    <string name="controlcenter_start_configure_reminders">Herinneringen instellen</string>
+    <string name="reminder_repeat">Herhaal</string>
+    <string name="reminder_date">Datum</string>
+    <string name="reminder_time">Tijd</string>
+    <string name="reminder_message">Bericht</string>
+    <string name="reminder_time_once">%1$s, eenmaal</string>
+    <string name="reminder_time_every_day">%1$s, elke dag</string>
+    <string name="reminder_once">Eenmalig</string>
+    <string name="reminder_every_day">Elke dag</string>
+    <string name="reminder_every_week">Elke week</string>
+    <string name="reminder_every_month">Elke maand</string>
+    <string name="reminder_every_year">Elk jaar</string>
+    <string name="reminder_delete_confirm_title">Herinnering verwijderen</string>
+    <string name="reminder_no_free_slots_description">Het apparaat heeft geen vrije plaatsen voor herinneringen (totaal aantal plaatsen: %1$s)</string>
+    <string name="title_activity_reminder_details">Details</string>
+    <string name="miband_prefs_reserve_reminder_calendar">Herinneringen om te reserveren voor aankomende evenementen</string>
+    <string name="prefs_reserve_reminder_calendar_summary">Aantal agenda-afspraken dat wordt gesynchroniseerd</string>
+    <string name="reminder_time_every_month">%1$s, elke maand</string>
+    <string name="reminder_time_every_year">%1$s, elk jaar</string>
+    <string name="reminder_time_every_week">%1$s, elke week</string>
+    <string name="reminder_delete_confirm_description">Weet je zeker dat je de herinnering wilt verwijderen\?</string>
+    <string name="reminder_no_free_slots_title">Geen vrije plekken</string>
 </resources>
