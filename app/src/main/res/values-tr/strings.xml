@@ -1485,4 +1485,27 @@
     <string name="watchface_dialog_widget_update_timeout">Dakika cinsinden güncelleme zaman aşımı:</string>
     <string name="qhybrid_summary_on_device_confirmation">Aygıt üzerinde eşleştirme onayları can sıkıcı olabilir. Bunları devre dışı bırakmak, işlevsellik kaybına neden olabilir.</string>
     <string name="qhybrid_title_on_device_confirmation">Aygıt üzerinde eşleştirme onayını etkinleştir</string>
+    <string name="title_activity_set_reminders">Hatırlatıcıları yapılandır</string>
+    <string name="controlcenter_start_configure_reminders">Hatırlatıcıları yapılandır</string>
+    <string name="reminder_repeat">Tekrarla</string>
+    <string name="reminder_time_once">%1$s, bir defa</string>
+    <string name="reminder_time_every_day">%1$s, her gün</string>
+    <string name="reminder_time_every_week">%1$s, her hafta</string>
+    <string name="reminder_every_day">Her gün</string>
+    <string name="reminder_every_week">Her hafta</string>
+    <string name="reminder_every_month">Her ay</string>
+    <string name="reminder_every_year">Her yıl</string>
+    <string name="reminder_delete_confirm_title">Hatırlatıcıyı sil</string>
+    <string name="reminder_no_free_slots_title">Boş yuva yok</string>
+    <string name="reminder_no_free_slots_description">Aygıtta hatırlatıcılar için boş yuva yok (toplam yuva: %1$s)</string>
+    <string name="title_activity_reminder_details">Hatırlatıcı ayrıntıları</string>
+    <string name="miband_prefs_reserve_reminder_calendar">Gelecek etkinlikler için ayrılacak hatırlatıcılar</string>
+    <string name="prefs_reserve_reminder_calendar_summary">Eşzamanlanacak takvim etkinliklerinin sayısı</string>
+    <string name="reminder_time">Saat</string>
+    <string name="reminder_time_every_month">%1$s, her ay</string>
+    <string name="reminder_date">Tarih</string>
+    <string name="reminder_message">Mesaj</string>
+    <string name="reminder_time_every_year">%1$s, her yıl</string>
+    <string name="reminder_once">Bir defa</string>
+    <string name="reminder_delete_confirm_description">Hatırlatıcıyı silmek istediğinizden emin misiniz\?</string>
 </resources>
