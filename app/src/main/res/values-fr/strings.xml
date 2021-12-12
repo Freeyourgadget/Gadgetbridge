@@ -1462,4 +1462,27 @@ Temps de sommeil préféré en heures</string>
     <string name="watchface_dialog_widget_update_timeout">Mettre à jour le temps de déconnexion en minutes :</string>
     <string name="qhybrid_title_on_device_confirmation">Activer la confirmation de pairage sur l\'appareil</string>
     <string name="qhybrid_summary_on_device_confirmation">La confirmation de pairage sur l\'appareil peut être ennuyeuse. Sa désactivation peut entrainer la perte de fonctions.</string>
+    <string name="title_activity_set_reminders">Configurer les rappels</string>
+    <string name="controlcenter_start_configure_reminders">Configurer les rappels</string>
+    <string name="reminder_repeat">Répéter</string>
+    <string name="reminder_date">Date</string>
+    <string name="reminder_time">Heure</string>
+    <string name="reminder_message">Message</string>
+    <string name="reminder_time_every_week">%1$s, toutes les semaines</string>
+    <string name="reminder_time_every_month">%1$s, tous les mois</string>
+    <string name="reminder_time_every_year">%1$s, tous les ans</string>
+    <string name="reminder_once">Une fois</string>
+    <string name="reminder_every_year">Annuel</string>
+    <string name="reminder_delete_confirm_title">Effacer le rappel</string>
+    <string name="reminder_delete_confirm_description">Êtes-vous sûr de vouloir effacer ce rappel \?</string>
+    <string name="reminder_no_free_slots_title">Pas d\'emplacement disponible</string>
+    <string name="reminder_time_once">%1$s, une fois</string>
+    <string name="reminder_time_every_day">%1$s, tous les jours</string>
+    <string name="reminder_every_day">quotidien</string>
+    <string name="reminder_every_week">Hebdomadaire</string>
+    <string name="reminder_every_month">Mensuel</string>
+    <string name="reminder_no_free_slots_description">Plus d\'emplacement pour rappel disponible (emplacements totaux : %1$s)</string>
+    <string name="miband_prefs_reserve_reminder_calendar">Rappels réservés pour des évènements futurs</string>
+    <string name="prefs_reserve_reminder_calendar_summary">Nombre d\'évènements du calendrier qui seront synchronisés</string>
+    <string name="title_activity_reminder_details">Détails du rappel</string>
 </resources>
