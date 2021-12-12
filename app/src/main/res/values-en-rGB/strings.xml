@@ -767,7 +767,7 @@
     <string name="always">Always</string>
     <string name="pref_summary_transliteration">Enable this if your device has no support for your language\'s font</string>
     <string name="pref_title_transliteration">Transliteration</string>
-    <string name="pref_summary_notification_filter">Unwanted notifications are stopped in this mode</string>
+    <string name="pref_summary_notification_filter">Block all notifications when Do Not Disturb is enabled on the phone</string>
     <string name="pref_title_notification_filter">Do Not Disturb</string>
     <string name="pref_title_whenscreenon">…also when screen is on</string>
     <string name="pref_title_notifications_generic">Generic notification support</string>
@@ -1456,4 +1456,27 @@
     <string name="prefs_activity_in_device_card_sleep_title_summary">Show sleep duration</string>
     <string name="qhybrid_title_on_device_confirmation">Enable on-device pairing confirmation</string>
     <string name="qhybrid_summary_on_device_confirmation">On-device pairing confirmations can get annoying. Disabling them might lose you functionality.</string>
+    <string name="title_activity_set_reminders">Configure reminders</string>
+    <string name="controlcenter_start_configure_reminders">Configure reminders</string>
+    <string name="reminder_repeat">Repeat</string>
+    <string name="reminder_date">Date</string>
+    <string name="reminder_time">Time</string>
+    <string name="reminder_message">Message</string>
+    <string name="reminder_time_once">%1$s, once</string>
+    <string name="reminder_time_every_day">%1$s, every day</string>
+    <string name="reminder_time_every_week">%1$s, every week</string>
+    <string name="reminder_time_every_year">%1$s, every year</string>
+    <string name="reminder_every_day">Every day</string>
+    <string name="reminder_every_week">Every week</string>
+    <string name="reminder_every_year">Every year</string>
+    <string name="reminder_delete_confirm_title">Delete reminder</string>
+    <string name="reminder_delete_confirm_description">Are you sure you want to delete the reminder\?</string>
+    <string name="reminder_no_free_slots_title">No free slots</string>
+    <string name="title_activity_reminder_details">Reminder details</string>
+    <string name="miband_prefs_reserve_reminder_calendar">Reminders to reserve for upcoming events</string>
+    <string name="reminder_time_every_month">%1$s, every month</string>
+    <string name="reminder_once">Once</string>
+    <string name="reminder_every_month">Every month</string>
+    <string name="reminder_no_free_slots_description">The device has no free slots for reminders (total slots: %1$s)</string>
+    <string name="prefs_reserve_reminder_calendar_summary">Number of calendar events that will be synchronized</string>
 </resources>
