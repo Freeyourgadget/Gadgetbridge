@@ -14,7 +14,7 @@
 
     You should have received a copy of the GNU Affero General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
-package nodomain.freeyourgadget.gadgetbridge.devices.sony.headphones.wh1000xm3;
+package nodomain.freeyourgadget.gadgetbridge.devices.sony.headphones.coordinators;
 
 import androidx.annotation.NonNull;
 
@@ -24,13 +24,14 @@ import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceCandidate;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
 
-public class SonyWh1000Xm3Coordinator extends SonyHeadphonesCoordinator {
+public class SonyWH1000XM3Coordinator extends SonyHeadphonesCoordinator {
     @NonNull
     @Override
     public DeviceType getSupportedType(GBDeviceCandidate candidate) {
         if (candidate.getName().contains("WH-1000XM3")) {
             return DeviceType.SONY_WH_1000XM3;
         }
+
         return DeviceType.UNKNOWN;
     }
 
@@ -44,9 +45,15 @@ public class SonyWh1000Xm3Coordinator extends SonyHeadphonesCoordinator {
         return new int[]{
                 R.xml.devicesettings_sony_warning_wh1000xm3,
                 R.xml.devicesettings_sony_headphones_ambient_sound_control,
+                R.xml.devicesettings_header_other,
                 R.xml.devicesettings_sony_headphones_equalizer,
-                R.xml.devicesettings_sony_headphones_other,
-                R.xml.devicesettings_sony_wh_1000xm3
+                R.xml.devicesettings_sony_headphones_sound_position,
+                R.xml.devicesettings_sony_headphones_surround_mode,
+                R.xml.devicesettings_sony_headphones_audio_upsampling,
+                R.xml.devicesettings_header_system,
+                R.xml.devicesettings_sony_headphones_touch_sensor_single,
+                R.xml.devicesettings_automatic_power_off,
+                R.xml.devicesettings_sony_headphones_notifications_voice_guide
         };
     }
 }

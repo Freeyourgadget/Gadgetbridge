@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <ListPreference
+        android:defaultValue="off"
+        android:entries="@array/sony_automatic_power_off_names"
+        android:entryValues="@array/sony_automatic_power_off_values"
+        android:icon="@drawable/ic_power_settings_new"
+        android:key="pref_sony_automatic_power_off"
+        android:summary="%s"
+        android:title="@string/sony_automatic_power_off" />
+</androidx.preference.PreferenceScreen>

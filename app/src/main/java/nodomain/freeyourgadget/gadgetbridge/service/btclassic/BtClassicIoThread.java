@@ -82,7 +82,7 @@ public abstract class BtClassicIoThread extends GBDeviceIoThread {
             LOG.error("mOutStream is null");
             return;
         }
-        LOG.debug("writing:" + GB.hexdump(bytes, 0, bytes.length));
+        LOG.debug("writing: {}", GB.hexdump(bytes, 0, bytes.length));
         try {
             mOutStream.write(bytes);
             mOutStream.flush();

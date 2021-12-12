@@ -24,9 +24,9 @@ import org.slf4j.LoggerFactory;
 import java.util.ArrayList;
 import java.util.UUID;
 
+import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEvent;
 import nodomain.freeyourgadget.gadgetbridge.model.Alarm;
-import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.sony.headphones.wh1000xm3.SonyWh1000Xm3Protocol;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.sony.headphones.deviceevents.SonyHeadphonesEnqueueRequestEvent;
 import nodomain.freeyourgadget.gadgetbridge.service.serial.AbstractSerialDeviceSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.serial.GBDeviceIoThread;
 import nodomain.freeyourgadget.gadgetbridge.service.serial.GBDeviceProtocol;
@@ -37,20 +37,12 @@ public class SonyHeadphonesSupport extends AbstractSerialDeviceSupport {
     @Override
     public boolean connect() {
         getDeviceIOThread().start();
-
         return true;
     }
 
     @Override
     protected GBDeviceProtocol createDeviceProtocol() {
-        DeviceType deviceType = getDevice().getType();
-        switch (deviceType) {
-            case SONY_WH_1000XM3:
-                return new SonyWh1000Xm3Protocol(getDevice());
-            default:
-                LOG.error("Unsupported Sony device type '{}' with key '{}", deviceType, deviceType.getKey());
-                return null;
-        }
+        return new SonyHeadphonesProtocol(getDevice());
     }
 
     @Override
@@ -61,6 +53,25 @@ public class SonyHeadphonesSupport extends AbstractSerialDeviceSupport {
     @Override
     public synchronized SonyHeadphonesIoThread getDeviceIOThread() {
         return (SonyHeadphonesIoThread) super.getDeviceIOThread();
+    }
+
+    @Override
+    public void evaluateGBDeviceEvent(GBDeviceEvent deviceEvent) {
+        final SonyHeadphonesProtocol sonyProtocol = (SonyHeadphonesProtocol) getDeviceProtocol();
+
+        if (deviceEvent instanceof SonyHeadphonesEnqueueRequestEvent) {
+            final SonyHeadphonesEnqueueRequestEvent enqueueRequestEvent = (SonyHeadphonesEnqueueRequestEvent) deviceEvent;
+            sonyProtocol.enqueueRequests(enqueueRequestEvent.getRequests());
+
+            if (sonyProtocol.getPendingAcks() == 0) {
+                // There are no pending acks, send one request from the queue
+                // TODO: A more elegant way of scheduling these?
+                SonyHeadphonesIoThread deviceIOThread = getDeviceIOThread();
+                deviceIOThread.write(sonyProtocol.getFromQueue());
+            }
+        }
+
+        super.evaluateGBDeviceEvent(deviceEvent);
     }
 
     @Override

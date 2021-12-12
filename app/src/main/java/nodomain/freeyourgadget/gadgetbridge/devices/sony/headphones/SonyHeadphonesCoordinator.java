@@ -41,7 +41,7 @@ public abstract class SonyHeadphonesCoordinator extends AbstractDeviceCoordinato
 
     @Override
     public DeviceSpecificSettingsCustomizer getDeviceSpecificSettingsCustomizer(final GBDevice device) {
-        return new SonySettingsCustomizer();
+        return new SonyHeadphonesSettingsCustomizer();
     }
 
     @Override

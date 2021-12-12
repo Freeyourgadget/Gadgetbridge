@@ -1401,7 +1401,7 @@
     <string name="sony_equalizer_preset_manual">Manual</string>
     <string name="sony_equalizer_preset_custom_1">Custom 1</string>
     <string name="sony_equalizer_preset_custom_2">Custom 2</string>
-    <string name="pref_header_sony_equalizer_preset_manual">Manual Preset</string>
+    <string name="pref_header_sony_equalizer_bands">Bands</string>
     <string name="pref_header_sony_equalizer_preset_custom_1">Custom Preset 1</string>
     <string name="pref_header_sony_equalizer_preset_custom_2">Custom Preset 2</string>
     <string name="sony_equalizer_band_400">400</string>
@@ -1410,7 +1410,7 @@
     <string name="sony_equalizer_band_6300">6.3k</string>
     <string name="sony_equalizer_band_16000">16k</string>
     <string name="sony_equalizer_clear_bass">Clear Bass</string>
-    <string name="sony_dsee_hx">DSEE HX</string>
+    <string name="sony_audio_upsampling">Audio Upsampling</string>
     <string name="sony_touch_sensor">Touch sensor control</string>
     <string name="sony_notification_voice_guide">Notifications &amp; Voice Guide</string>
     <string name="sony_automatic_power_off">Automatic Power Off</string>
