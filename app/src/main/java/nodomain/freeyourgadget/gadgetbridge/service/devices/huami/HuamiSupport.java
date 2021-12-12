@@ -848,31 +848,33 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
         buf.put((byte) 0x0B);
         buf.put((byte) (position & 0xFF));
 
+        final Calendar cal = Calendar.getInstance();
+        cal.setTime(reminder.getDate());
+
+        int eventConfig = 0x01 | 0x08; // flags 0x01 = enable, 0x04 = end date present (not on reminders), 0x08 = has text
+
         switch(reminder.getRepetition()) {
             case Reminder.ONCE:
-                buf.put(new byte[]{0x09, 0x00});
+                // Default is once, nothing to do
                 break;
             case Reminder.EVERY_DAY:
-                buf.put(new byte[]{(byte) 0xE9, 0x0F});
+                eventConfig |= 0x0fe0; // all week day bits set
                 break;
             case Reminder.EVERY_WEEK:
-                buf.put(new byte[]{0x09, 0x01});
+                int dayOfWeek = BLETypeConversions.dayOfWeekToRawBytes(cal) - 1; // Monday = 0
+                eventConfig |= 0x20 << dayOfWeek;
                 break;
             case Reminder.EVERY_MONTH:
-                buf.put(new byte[]{0x09, 0x10});
+                eventConfig |= 0x1000;
                 break;
             case Reminder.EVERY_YEAR:
-                buf.put(new byte[]{0x09, 0x20});
+                eventConfig |= 0x2000;
                 break;
             default:
                 LOG.warn("Unknown repetition for reminder in position {}, defaulting to once", position);
-                buf.put(new byte[]{0x09, 0x00});
         }
 
-        buf.put(new byte[]{0x00, 0x00}); // unknown
-
-        final Calendar cal = Calendar.getInstance();
-        cal.setTime(reminder.getDate());
+        buf.putInt(eventConfig);
 
         buf.put(BLETypeConversions.shortCalendarToRawBytes(cal));
         buf.put((byte) 0x00);

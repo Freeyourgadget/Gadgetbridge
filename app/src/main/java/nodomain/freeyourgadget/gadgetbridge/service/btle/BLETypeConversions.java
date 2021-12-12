@@ -89,7 +89,7 @@ public class BLETypeConversions {
         return rawOffset;
     }
 
-    private static byte dayOfWeekToRawBytes(Calendar cal) {
+    public static byte dayOfWeekToRawBytes(Calendar cal) {
         int calValue = cal.get(Calendar.DAY_OF_WEEK);
         switch (calValue) {
             case Calendar.SUNDAY:
