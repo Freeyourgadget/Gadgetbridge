@@ -837,7 +837,7 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
 
         if (reminder == null) {
             // Delete reminder
-            writeToChunked(builder, 3, new byte[]{(byte) (position & 0xFF), 0, 0, 0, 0, 0});
+            writeToChunked(builder, 2, new byte[]{(byte) 0x0b, (byte) (position & 0xFF), 0x08, 0, 0, 0, 0});
 
             return;
         }
