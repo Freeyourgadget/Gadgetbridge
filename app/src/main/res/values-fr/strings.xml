@@ -1485,4 +1485,5 @@ Temps de sommeil préféré en heures</string>
     <string name="miband_prefs_reserve_reminder_calendar">Rappels réservés pour des évènements futurs</string>
     <string name="prefs_reserve_reminder_calendar_summary">Nombre d\'évènements du calendrier qui seront synchronisés</string>
     <string name="title_activity_reminder_details">Détails du rappel</string>
+    <string name="mi2_prefs_do_not_disturb_lift_wrist">Activer l\'écran lors d\'un retournement en mode Ne Pas Déranger</string>
 </resources>
