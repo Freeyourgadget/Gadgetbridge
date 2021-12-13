@@ -26,7 +26,9 @@ import androidx.annotation.NonNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.devices.InstallHandler;
+import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceCandidate;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
 
@@ -57,5 +59,23 @@ public class AmazfitGTS2MiniCoordinator extends AmazfitGTS2Coordinator {
     public InstallHandler findInstallHandler(Uri uri, Context context) {
         AmazfitGTS2MiniFWInstallHandler handler = new AmazfitGTS2MiniFWInstallHandler(uri, context);
         return handler.isValid() ? handler : null;
+    }
+
+    public int[] getSupportedDeviceSpecificSettings(GBDevice device) {
+        return new int[]{
+                R.xml.devicesettings_amazfitgts2mini,
+                R.xml.devicesettings_wearlocation,
+                R.xml.devicesettings_timeformat,
+                R.xml.devicesettings_liftwrist_display,
+                R.xml.devicesettings_disconnectnotification,
+                R.xml.devicesettings_sync_calendar,
+                R.xml.devicesettings_reserve_reminders_calendar,
+                R.xml.devicesettings_expose_hr_thirdparty,
+                R.xml.devicesettings_bt_connected_advertisement,
+                R.xml.devicesettings_device_actions,
+                R.xml.devicesettings_pairingkey,
+                R.xml.devicesettings_high_mtu,
+                R.xml.devicesettings_transliteration
+        };
     }
 }
