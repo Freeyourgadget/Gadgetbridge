@@ -62,6 +62,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -219,7 +221,7 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
             return;
         }
         boolean shouldAuthenticateOnWatch = getDeviceSpecificPreferences().getBoolean("enable_on_device_confirmation", true);
-        if(!shouldAuthenticateOnWatch){
+        if (!shouldAuthenticateOnWatch) {
             GB.toast("Skipping on-device confirmation", Toast.LENGTH_SHORT, GB.INFO);
             initializeAfterWatchConfirmation(false);
             return;
@@ -227,30 +229,45 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
         confirmOnWatch();
     }
 
+    TimerTask confirmTimeoutRunnable = new TimerTask() {
+        @Override
+        public void run() {
+            if (!(fossilRequest instanceof ConfirmOnDeviceRequest)) {
+                return;
+            }
+            GB.toast("Confirmation timeout, continuing", Toast.LENGTH_SHORT, GB.INFO);
+            ((ConfirmOnDeviceRequest) fossilRequest).onResult(false);
+        }
+    };
+
     private void confirmOnWatch() {
         queueWrite(new CheckDeviceNeedsConfirmationRequest() {
             @Override
             public void onResult(boolean needsConfirmation) {
                 GB.log("needs confirmation: " + needsConfirmation, GB.INFO, null);
-                if(needsConfirmation){
+                if (needsConfirmation) {
+                    final Timer timer = new Timer();
                     GB.toast("please confirm on device.", Toast.LENGTH_SHORT, GB.INFO);
-                    queueWrite( new ConfirmOnDeviceRequest(){
+                    queueWrite(new ConfirmOnDeviceRequest() {
                         @Override
                         public void onResult(boolean confirmationSuccess) {
-                            if(!confirmationSuccess){
+                            isFinished = true;
+                            timer.cancel();
+                            if (!confirmationSuccess) {
                                 GB.toast("connection unconfirmed on watch, unauthenticated mode", Toast.LENGTH_LONG, GB.ERROR);
                             }
                             initializeAfterWatchConfirmation(confirmationSuccess);
                         }
                     }, true);
-                }else{
+                    timer.schedule(confirmTimeoutRunnable, 30000);
+                } else {
                     initializeAfterWatchConfirmation(true);
                 }
             }
         });
     }
 
-    private void initializeAfterWatchConfirmation(boolean authenticated){
+    private void initializeAfterWatchConfirmation(boolean authenticated) {
         setNotificationConfigurations();
         setQuickRepliesConfiguration();
 
@@ -331,9 +348,9 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
         // Set default icons
         ArrayList<NotificationImage> images = new ArrayList<>();
         images.add(new NotificationImage("icIncomingCall.icon", NotificationImage.getEncodedIconFromDrawable(getContext().getResources().getDrawable(R.drawable.ic_phone_outline)), 24, 24));
-        images.add(new NotificationImage("icMissedCall.icon", NotificationImage.getEncodedIconFromDrawable(getContext().getResources().getDrawable(R.drawable.ic_phone_missed_outline)), 24,24));
-        images.add(new NotificationImage("icMessage.icon", NotificationImage.getEncodedIconFromDrawable(getContext().getResources().getDrawable(R.drawable.ic_message_outline)),24,24));
-        images.add(new NotificationImage("general_white.bin", NotificationImage.getEncodedIconFromDrawable(getContext().getResources().getDrawable(R.drawable.ic_alert_circle_outline)),24,24));
+        images.add(new NotificationImage("icMissedCall.icon", NotificationImage.getEncodedIconFromDrawable(getContext().getResources().getDrawable(R.drawable.ic_phone_missed_outline)), 24, 24));
+        images.add(new NotificationImage("icMessage.icon", NotificationImage.getEncodedIconFromDrawable(getContext().getResources().getDrawable(R.drawable.ic_message_outline)), 24, 24));
+        images.add(new NotificationImage("general_white.bin", NotificationImage.getEncodedIconFromDrawable(getContext().getResources().getDrawable(R.drawable.ic_alert_circle_outline)), 24, 24));
 
         // Set default notification filters
         ArrayList<NotificationHRConfiguration> notificationFilters = new ArrayList<>();
@@ -363,7 +380,7 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
     private String[] getQuickReplies() {
         ArrayList<String> configuredReplies = new ArrayList<>();
         Prefs prefs = new Prefs(getDeviceSpecificPreferences());
-        for (int i=1; i<=16; i++) {
+        for (int i = 1; i <= 16; i++) {
             String quickReply = prefs.getString("canned_message_dismisscall_" + i, null);
             if (quickReply != null) {
                 configuredReplies.add(quickReply);
@@ -1072,7 +1089,7 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
                 }
             }
 
-            if(!packageFound) {
+            if (!packageFound) {
                 LOG.info("Package not found in notificationConfigurations, using generic icon: " + sourceAppId);
                 queueWrite(new PlayTextNotificationRequest("generic", senderOrTitle, notificationSpec, this));
             }
@@ -1301,7 +1318,7 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
     }
 
     @Override
-    public void pushConfigJson(String configJson){
+    public void pushConfigJson(String configJson) {
         configJson = configJson.replace("\n", "");
         queueWrite(new JsonPutRequest(configJson, this));
     }
@@ -1524,7 +1541,7 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
     @Override
     public void onFindDevice(boolean start) {
         super.onFindDevice(start);
-        if(start){
+        if (start) {
             queueWrite(new ConfirmOnDeviceRequest());
         }
     }

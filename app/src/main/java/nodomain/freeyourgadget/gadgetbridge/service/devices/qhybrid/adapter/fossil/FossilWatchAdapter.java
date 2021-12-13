@@ -91,7 +91,7 @@ import static nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.QHybr
 public class FossilWatchAdapter extends WatchAdapter {
     private ArrayList<Request> requestQueue = new ArrayList<>();
 
-    private FossilRequest fossilRequest;
+    protected FossilRequest fossilRequest;
 
     private int MTU = 23;
 
