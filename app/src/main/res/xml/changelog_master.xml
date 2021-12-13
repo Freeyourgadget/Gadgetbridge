@@ -1,5 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
+    <release version="0.63.1" versioncode="207">
+        <change>Huami: Support native reminders</change>
+        <change>InfiniTime: Initial support for step counting (currently very limited by the device firmware)</change>
+        <change>Bangle.js: Fix Gadgetbridge crashes when playing music with some players</change>
+        <change>Fossil Hybrid HR: Add support for on-device paring confirmation, for watches that are in a state which makes this neccessary</change>
+        <change>Fossil Hybrid HR: Fix widget configuration bug</change>
+        <change>Mi Band 3: Support lift wrist during DND setting</change>
+        <change>Amazfit GTS 2 Mini: Fix language setting</change>
+        <change>Amazfit GTS 2 Mini: Fix setting menu items on the watch</change>
+        <change>Activity card: Open specific Charts tab for each activity</change>
+        <change>Activity Card: React to User settings, unify step length</change>
+        <change>Activity card: simplify the layout and only show each chart if there is data (Cleaner layout for users with multiple devices)</change>
+    </release>
     <release version="0.63.0" versioncode="206">
         <change>Galaxy Buds Live: Initial Support</change>
         <change>Sony WH-1000XM3: Initial Support</change>

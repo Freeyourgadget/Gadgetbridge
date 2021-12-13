@@ -6,7 +6,7 @@
 * Bangle.js: Fix Gadgetbridge crashes when playing music with some players
 * Fossil Hybrid HR: Add support for on-device paring confirmation, for watches that are in a state which makes this neccessary
 * Fossil Hybrid HR: Fix widget configuration bug
-* Mi Band 3: Support lift writst during DND setting
+* Mi Band 3: Support lift wrist during DND setting
 * Amazfit GTS 2 Mini: Fix language setting
 * Amazfit GTS 2 Mini: Fix setting menu items on the watch
 * Activity card: Open specific Charts tab for each activity
