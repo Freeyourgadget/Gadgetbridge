@@ -1458,4 +1458,26 @@
     <string name="watchface_dialog_widget_timezone">אזור זמן:</string>
     <string name="qhybrid_summary_on_device_confirmation">אישורי צימוד בהתקנים יכולים להרגיז. השבתתם עשויה לאבד מהיכולות.</string>
     <string name="qhybrid_title_on_device_confirmation">הפעלת אישור צימוד במכשיר</string>
+    <string name="title_activity_set_reminders">הגדרת תזכורות</string>
+    <string name="controlcenter_start_configure_reminders">הגדרת תזכורות</string>
+    <string name="reminder_repeat">חזרה</string>
+    <string name="reminder_time_every_month">%1$s, בכל חודש</string>
+    <string name="reminder_every_month">כל חודש</string>
+    <string name="miband_prefs_reserve_reminder_calendar">תזכורות לשימור לאירועים קרובים</string>
+    <string name="title_activity_reminder_details">פרטי תזכורת</string>
+    <string name="reminder_date">תאריך</string>
+    <string name="reminder_time">שעה</string>
+    <string name="reminder_time_once">%1$s, פעם אחת</string>
+    <string name="reminder_message">הודעה</string>
+    <string name="reminder_time_every_week">%1$s, בכל שבוע</string>
+    <string name="reminder_time_every_day">%1$s, בכל יום</string>
+    <string name="reminder_time_every_year">%1$s, בכל שנה</string>
+    <string name="reminder_delete_confirm_title">מחיקת תזכורת</string>
+    <string name="reminder_delete_confirm_description">למחוק את התזכורת\?</string>
+    <string name="reminder_no_free_slots_description">למכשיר אין חלונות פנויים לתזכורות (סך כל החלונות: %1$s)</string>
+    <string name="reminder_once">פעם אחת</string>
+    <string name="reminder_every_day">כל יום</string>
+    <string name="reminder_every_week">כל שבוע</string>
+    <string name="reminder_every_year">כל שנה</string>
+    <string name="reminder_no_free_slots_title">אין חלונות פנויים</string>
 </resources>
