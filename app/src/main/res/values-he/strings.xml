@@ -1480,4 +1480,5 @@
     <string name="reminder_every_week">כל שבוע</string>
     <string name="reminder_every_year">כל שנה</string>
     <string name="reminder_no_free_slots_title">אין חלונות פנויים</string>
+    <string name="prefs_reserve_reminder_calendar_summary">מספר אירועי לוח השנה שיסונכרנו</string>
 </resources>
