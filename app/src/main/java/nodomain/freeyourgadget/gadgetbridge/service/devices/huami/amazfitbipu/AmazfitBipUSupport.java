@@ -21,13 +21,10 @@ import android.content.Context;
 import android.net.Uri;
 
 import java.io.IOException;
-import java.util.Locale;
 
-import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiFWHelper;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.amazfitbipu.AmazfitBipUFWHelper;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.HuamiLanguageType;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.HuamiSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.amazfitbips.AmazfitBipSSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.operations.UpdateFirmwareOperation;
@@ -37,24 +34,7 @@ public class AmazfitBipUSupport extends AmazfitBipSSupport {
 
     @Override
     protected HuamiSupport setLanguage(TransactionBuilder builder) {
-        byte language_code = 0x02; // english default
-
-        String localeString = GBApplication.getDeviceSpecificSharedPrefs(gbDevice.getAddress()).getString("language", "auto");
-        if (localeString == null || localeString.equals("auto")) {
-            String language = Locale.getDefault().getLanguage();
-            String country = Locale.getDefault().getCountry();
-
-            localeString = language + "_" + country.toUpperCase();
-        }
-
-        Integer id = HuamiLanguageType.idLookup.get(localeString);
-        if (id != null) {
-            language_code = id.byteValue();
-        }
-
-        final byte[] command = new byte[]{0x06, 0x3b, 0x00, language_code, 0x03};
-        writeToConfiguration(builder, command);
-        return this;
+        return setLanguageByIdNew(builder);
     }
 
     @Override

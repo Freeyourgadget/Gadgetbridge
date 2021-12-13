@@ -24,8 +24,15 @@ import java.io.IOException;
 
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiFWHelper;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.amazfitgts2.AmazfitGTS2MiniFWHelper;
+import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.HuamiSupport;
 
 public class AmazfitGTS2MiniSupport extends AmazfitGTS2Support {
+
+    @Override
+    protected HuamiSupport setLanguage(TransactionBuilder builder) {
+        return setLanguageByIdNew(builder);
+    }
 
     @Override
     public HuamiFWHelper createFWHelper(Uri uri, Context context) throws IOException {

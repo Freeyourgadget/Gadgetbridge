@@ -2907,6 +2907,30 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
         return this;
     }
 
+    /*
+        Some newer devices seem to support setting the language by id again instead of a locale string
+        Amazfit Bip U and GTS 2 mini tested so far
+     */
+    protected HuamiSupport setLanguageByIdNew(TransactionBuilder builder) {
+        byte language_code = 0x02; // english default
+
+        String localeString = GBApplication.getDeviceSpecificSharedPrefs(gbDevice.getAddress()).getString("language", "auto");
+        if (localeString == null || localeString.equals("auto")) {
+            String language = Locale.getDefault().getLanguage();
+            String country = Locale.getDefault().getCountry();
+
+            localeString = language + "_" + country.toUpperCase();
+        }
+
+        Integer id = HuamiLanguageType.idLookup.get(localeString);
+        if (id != null) {
+            language_code = id.byteValue();
+        }
+
+        final byte[] command = new byte[]{0x06, 0x3b, 0x00, language_code, 0x03};
+        writeToConfiguration(builder, command);
+        return this;
+    }
 
     private HuamiSupport setExposeHRThridParty(TransactionBuilder builder) {
         boolean enable = HuamiCoordinator.getExposeHRThirdParty(gbDevice.getAddress());
