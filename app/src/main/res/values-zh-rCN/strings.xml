@@ -586,10 +586,10 @@
     <string name="menuitem_shortcut_weather">天气（快捷方式）</string>
     <string name="menuitem_status">状态</string>
     <string name="menuitem_notifications">通知</string>
-    <string name="menuitem_activity">活动</string>
+    <string name="menuitem_activity">锻炼历史</string>
     <string name="menuitem_weather">天气</string>
     <string name="menuitem_alarm">闹钟</string>
-    <string name="menuitem_timer">计时器</string>
+    <string name="menuitem_timer">倒计时</string>
     <string name="menuitem_compass">指南针</string>
     <string name="menuitem_settings">设置</string>
     <string name="menuitem_alipay">支付宝</string>
@@ -928,7 +928,7 @@
     <string name="error_background_service">启动后台服务失败</string>
     <string name="error_version_check_extreme_caution">注意：检查版本信息时发生错误！您不应该继续下去，已知版本名“%s”</string>
     <string name="menuitem_stress">压力</string>
-    <string name="menuitem_cycles">周期</string>
+    <string name="menuitem_cycles">周期跟踪</string>
     <string name="menuitem_breathing">呼吸</string>
     <string name="devicetype_miband5">小米手环5</string>
     <string name="fw_upgrade_notice_miband5">您即将在您的 小米手环5 上安装 %s 固件。
@@ -1122,7 +1122,7 @@
     <string name="menuitem_stopwatch">秒表</string>
     <string name="menuitem_dnd">勿扰</string>
     <string name="menuitem_alexa">Alexa</string>
-    <string name="menuitem_takephoto">拍照</string>
+    <string name="menuitem_takephoto">相机遥控</string>
     <string name="menuitem_mutephone">静音手机</string>
     <string name="menuitem_findphone">查找手机</string>
     <string name="movement_intensity">运动强度</string>
