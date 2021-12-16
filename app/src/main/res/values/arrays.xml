@@ -1173,6 +1173,7 @@
         <item>@string/menuitem_sleep</item>
         <item>@string/menuitem_weather</item>
         <item>@string/menuitem_alarm</item>
+        <item>@string/menuitem_eventreminder</item>
         <item>@string/menuitem_stress</item>
         <item>@string/menuitem_spo2</item>
         <item>@string/menuitem_breathing</item>
@@ -1197,6 +1198,7 @@
         <item>@string/p_menuitem_sleep</item>
         <item>@string/p_menuitem_weather</item>
         <item>@string/p_menuitem_alarm</item>
+        <item>@string/p_menuitem_eventreminder</item>
         <item>@string/p_menuitem_stress</item>
         <item>@string/p_menuitem_spo2</item>
         <item>@string/p_menuitem_breathing</item>
@@ -1234,6 +1236,7 @@
         <item>@string/menuitem_sleep</item>
         <item>@string/menuitem_weather</item>
         <item>@string/menuitem_alarm</item>
+        <item>@string/menuitem_eventreminder</item>
         <item>@string/menuitem_stress</item>
         <item>@string/menuitem_spo2</item>
         <item>@string/menuitem_breathing</item>
@@ -1260,6 +1263,7 @@
         <item>@string/p_menuitem_sleep</item>
         <item>@string/p_menuitem_weather</item>
         <item>@string/p_menuitem_alarm</item>
+        <item>@string/p_menuitem_eventreminder</item>
         <item>@string/p_menuitem_stress</item>
         <item>@string/p_menuitem_spo2</item>
         <item>@string/p_menuitem_breathing</item>
