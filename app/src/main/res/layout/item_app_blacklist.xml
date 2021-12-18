@@ -80,6 +80,6 @@
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        app:srcCompat="@drawable/ic_menu" />
+        app:srcCompat="@drawable/ic_settings" />
 
 </RelativeLayout>
