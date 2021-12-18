@@ -26,6 +26,7 @@ import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
 import android.text.InputType;
+import android.text.TextUtils;
 import android.transition.TransitionManager;
 import android.util.Pair;
 import android.view.LayoutInflater;
@@ -225,6 +226,12 @@ public class GBDeviceAdapterv2 extends RecyclerView.Adapter<GBDeviceAdapterv2.Vi
                                                            }
             );
 
+            // Hide the battery status level, if it has no text
+            if (TextUtils.isEmpty(batteryStatusLabels[batteryIndex].getText())) {
+                batteryStatusLabels[batteryIndex].setVisibility(View.GONE);
+            } else {
+                batteryStatusLabels[batteryIndex].setVisibility(View.VISIBLE);
+            }
         }
         holder.heartRateStatusBox.setVisibility((device.isInitialized() && coordinator.supportsRealtimeData() && coordinator.supportsHeartRateMeasurement(device)) ? View.VISIBLE : View.GONE);
         if (parent.getContext() instanceof ControlCenterv2) {
