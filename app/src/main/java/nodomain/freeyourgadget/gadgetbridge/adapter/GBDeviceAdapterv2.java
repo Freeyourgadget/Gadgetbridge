@@ -241,6 +241,13 @@ public class GBDeviceAdapterv2 extends RecyclerView.Adapter<GBDeviceAdapterv2.Vi
             } else {
                 holder.heartRateStatusLabel.setText("");
             }
+
+            // Hide the level, if it has no text
+            if (TextUtils.isEmpty(holder.heartRateStatusLabel.getText())) {
+                holder.heartRateStatusLabel.setVisibility(View.GONE);
+            } else {
+                holder.heartRateStatusLabel.setVisibility(View.VISIBLE);
+            }
         }
 
         holder.heartRateStatusBox.setOnClickListener(new View.OnClickListener() {
