@@ -1546,6 +1546,14 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
     @Override
     public void onFindDevice(boolean start) {
         super.onFindDevice(start);
+
+        boolean versionSupportsConfirmation = getCleanFWVersion().compareTo(new Version("1.0.2.22")) != -1;
+
+        if(!versionSupportsConfirmation){
+            GB.toast("not supported in this version", Toast.LENGTH_SHORT, GB.ERROR);
+            return;
+        }
+
         if (start) {
             queueWrite(new ConfirmOnDeviceRequest());
         }
