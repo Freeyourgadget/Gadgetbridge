@@ -145,10 +145,10 @@ public class ActivitySummaryJsonSummary {
     private JSONObject createActivitySummaryGroups(){
         String groupDefinitions = "{'Strokes':['averageStrokeDistance','averageStrokesPerSecond','strokes'], " +
                 "'Swimming':['swolfIndex','swimStyle'], " +
-                "'Elevation':['ascentMeters','descentMeters','maxAltitude','minAltitude','ascentSeconds','descentSeconds','flatSeconds', 'baseAltitude'], " +
-                "'Speed':['maxSpeed','minPace','maxPace','averageKMPaceSeconds', 'averageSpeed', 'averageSpeed2'], " +
+                "'Elevation':['ascentMeters','descentMeters','maxAltitude','minAltitude','averageAltitude','ascentSeconds','descentSeconds','flatSeconds', 'baseAltitude'], " +
+                "'Speed':['averageSpeed','maxSpeed','minSpeed','averageKMPaceSeconds','minPace','maxPace','averageSpeed2','averageCadence','maxCadence','minCadence'], " +
                 "'Activity':['distanceMeters','steps','activeSeconds','caloriesBurnt','totalStride'," +
-                "'averageHR','averageStride'], " +
+                "'averageHR','maxHR','minHR','averageStride','maxStride','minStride'], " +
                 "'Laps':['averageLapPace','laps']}";
         JSONObject data = null;
         try {

@@ -92,17 +92,29 @@ public class HuamiActivitySummaryParser implements ActivitySummaryParser {
         int minLongitude;
         float caloriesBurnt;
         float distanceMeters;
+        float distanceMeters2 = 0;
         float ascentMeters = 0;
         float descentMeters = 0;
         float maxAltitude = 0;
         float minAltitude = 0;
+        float averageAltitude = 0;
         float maxSpeed = 0;
-        float minPace;
-        float maxPace;
+        float minSpeed = 0;
+        float averageSpeed = 0;
+        float minPace = 0;
+        float maxPace = 0;
+        float averagePace = 0;
+        int maxCadence = 0;
+        int minCadence = 0;
+        int averageCadence = 0;
+        int maxStride = 0;
+        int minStride = 0;
+        int averageStride2 = 0;
         float totalStride = 0;
         float averageStride;
         short averageHR;
         short maxHR = 0;
+        short minHR = 0;
         short averageKMPaceSeconds;
         int ascentSeconds = 0;
         int descentSeconds = 0;
@@ -121,31 +133,45 @@ public class HuamiActivitySummaryParser implements ActivitySummaryParser {
         // Bip S now has 518 so assuming 512+x, might be wrong
 
         if (version >= 512) {
+            buffer.get(); // skip one byte
+            minHR  = buffer.getShort();
             if (version == 519) {
                 // hack that skips data on yet unknown summary version 519 data
                 buffer.position(0x8c);
             }
             steps = buffer.getInt();
             activeSeconds = buffer.getInt();
-            //unknown
-            buffer.getLong();
-            buffer.getLong();
+
+            maxLatitude = buffer.getInt();
+            minLatitude = buffer.getInt();
+            maxLongitude = buffer.getInt();
+            minLongitude = buffer.getInt();
+            
             caloriesBurnt = buffer.getFloat();
             distanceMeters = buffer.getFloat();
+            
             ascentMeters = buffer.getFloat();
             descentMeters = buffer.getFloat();
             maxAltitude = buffer.getFloat();
             minAltitude = buffer.getFloat();
-            //unknown
-            buffer.getLong();
-            buffer.getLong();
-            minPace = buffer.getFloat();
+            averageAltitude = buffer.getFloat();
+
+            maxSpeed = buffer.getFloat(); // in meter/second
+            minSpeed = buffer.getFloat();
+            averageSpeed = buffer.getFloat();
+            minPace = buffer.getFloat(); // in seconds/meter
             maxPace = buffer.getFloat();
-            //unknown
-            buffer.getLong();
-            buffer.getLong();
-            buffer.getLong();
-            buffer.getLong();
+            averagePace = buffer.getFloat();
+            
+            maxCadence = Math.round(buffer.getFloat() * 60);
+            minCadence = Math.round(buffer.getFloat() * 60);
+            averageCadence = Math.round(buffer.getFloat() * 60);
+
+            maxStride = Math.round(buffer.getFloat() * 100);
+            minStride = Math.round(buffer.getFloat() * 100);
+            averageStride2 = Math.round(buffer.getFloat() * 100);
+            
+            distanceMeters2 = buffer.getFloat(); // this distance is 87-97% of distanceMeters, so probably length of the GPS track (difference is larger, when GPS took longer to get a precise position)
             buffer.getInt();
             averageHR = buffer.getShort();
             averageKMPaceSeconds = buffer.getShort();
@@ -274,6 +300,7 @@ public class HuamiActivitySummaryParser implements ActivitySummaryParser {
         addSummaryData("flatSeconds", flatSeconds, "seconds");
 
         addSummaryData("distanceMeters", distanceMeters, "meters");
+        // addSummaryData("distanceMeters2", distanceMeters2, "meters");
         addSummaryData("ascentMeters", ascentMeters, "meters");
         addSummaryData("descentMeters", descentMeters, "meters");
         if (maxAltitude != -100000) {
@@ -282,10 +309,18 @@ public class HuamiActivitySummaryParser implements ActivitySummaryParser {
         if (minAltitude != 100000) {
             addSummaryData("minAltitude", minAltitude, "meters");
         }
+        if (minAltitude != 100000) {
+            addSummaryData("averageAltitude", averageAltitude, "meters");
+        }
         addSummaryData("steps", steps, "steps_unit");
         addSummaryData("activeSeconds", activeSeconds, "seconds");
         addSummaryData("caloriesBurnt", caloriesBurnt, "calories_unit");
         addSummaryData("maxSpeed", maxSpeed, "meters_second");
+        addSummaryData("minSpeed", minSpeed, "meters_second");
+        addSummaryData("averageSpeed", averageSpeed, "meters_second");
+        addSummaryData("maxCadence", maxCadence, "spm");
+        addSummaryData("minCadence", minCadence, "spm");
+        addSummaryData("averageCadence", averageCadence, "spm");
 
         if (!(activityKind == ActivityKind.TYPE_ELLIPTICAL_TRAINER ||
                 activityKind == ActivityKind.TYPE_JUMP_ROPING ||
@@ -294,13 +329,18 @@ public class HuamiActivitySummaryParser implements ActivitySummaryParser {
                 activityKind == ActivityKind.TYPE_INDOOR_CYCLING)) {
             addSummaryData("minPace", minPace, "seconds_m");
             addSummaryData("maxPace", maxPace, "seconds_m");
+            // addSummaryData("averagePace", averagePace, "seconds_m");
         }
 
         addSummaryData("totalStride", totalStride, "meters");
         addSummaryData("averageHR", averageHR, "bpm");
         addSummaryData("maxHR", maxHR, "bpm");
+        addSummaryData("minHR", minHR, "bpm");
         addSummaryData("averageKMPaceSeconds", averageKMPaceSeconds, "seconds_km");
         addSummaryData("averageStride", averageStride, "cm");
+        addSummaryData("maxStride", maxStride, "cm");
+        addSummaryData("minStride", minStride, "cm");
+        // addSummaryData("averageStride2", averageStride2, "cm");
 
         if (activityKind == ActivityKind.TYPE_SWIMMING || activityKind == ActivityKind.TYPE_SWIMMING_OPENWATER) {
             addSummaryData("averageStrokeDistance", averageStrokeDistance, "meters");
