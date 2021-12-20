@@ -133,9 +133,9 @@ public class HuamiActivitySummaryParser implements ActivitySummaryParser {
         // Bip S now has 518 so assuming 512+x, might be wrong
 
         if (version >= 512) {
-            buffer.get(); // skip one byte
-            minHR  = buffer.getShort();
             if (version == 519) {
+                buffer.get(); // skip one byte
+                minHR  = buffer.getShort();
                 // hack that skips data on yet unknown summary version 519 data
                 buffer.position(0x8c);
             }
