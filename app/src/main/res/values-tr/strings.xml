@@ -1509,7 +1509,13 @@
     <string name="reminder_once">Bir defa</string>
     <string name="reminder_delete_confirm_description">Hatırlatıcıyı silmek istediğinizden emin misiniz\?</string>
     <string name="mi2_prefs_do_not_disturb_lift_wrist">Rahatsız Etme sırasında kaldırıldığında ekranı etkinleştir</string>
-    <string name="maxHR">Azami Kalp Ritmi</string>
+    <string name="maxHR">En Yüksek Kalp Ritmi</string>
     <string name="averageAltitude">Ortalama</string>
     <string name="minSpeed">Asgari</string>
+    <string name="minHR">En Düşük Kalp Ritmi</string>
+    <string name="maxCadence">En Yüksek Tempo</string>
+    <string name="maxStride">En Uzun Adım</string>
+    <string name="minStride">En Kısa Adım</string>
+    <string name="averageCadence">Ortalama Tempo</string>
+    <string name="minCadence">En Düşük Tempo</string>
 </resources>
