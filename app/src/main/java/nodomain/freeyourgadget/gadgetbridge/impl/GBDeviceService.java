@@ -53,14 +53,11 @@ public class GBDeviceService implements DeviceService {
     protected final Context mContext;
     private final Class<? extends Service> mServiceClass;
     public static final String[] transliterationExtras = new String[]{
-            EXTRA_NOTIFICATION_PHONENUMBER,
             EXTRA_NOTIFICATION_SENDER,
             EXTRA_NOTIFICATION_SUBJECT,
             EXTRA_NOTIFICATION_TITLE,
             EXTRA_NOTIFICATION_BODY,
             EXTRA_NOTIFICATION_SOURCENAME,
-            EXTRA_NOTIFICATION_ICONID,
-            EXTRA_CALL_PHONENUMBER,
             EXTRA_CALL_DISPLAYNAME,
             EXTRA_MUSIC_ARTIST,
             EXTRA_MUSIC_ALBUM,
