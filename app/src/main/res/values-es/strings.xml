@@ -1487,4 +1487,14 @@
     <string name="qhybrid_title_on_device_confirmation">Activar la confirmación del emparejamiento en el dispositivo</string>
     <string name="qhybrid_summary_on_device_confirmation">Las confirmaciones de emparejamiento en el dispositivo pueden resultar molestas. Desactivarlas puede hacer que pierda funcionalidad.</string>
     <string name="mi2_prefs_do_not_disturb_lift_wrist">Activar la pantalla al levantarse durante la función \"No molestar\"</string>
+    <string name="averageAltitude">Media</string>
+    <string name="minSpeed">Mínimo</string>
+    <string name="maxHR">Ritmo cardíaco máximo</string>
+    <string name="minHR">Ritmo cardíaco mínimo</string>
+    <string name="minStride">Zancada mínima</string>
+    <string name="averageCadence">Cadencia media</string>
+    <string name="minCadence">Cadencia mínima</string>
+    <string name="spm">pasos/min</string>
+    <string name="maxStride">Zancada máxima</string>
+    <string name="maxCadence">Cadencia máxima</string>
 </resources>
