@@ -514,7 +514,7 @@
     <string name="menuitem_shortcut_alipay">Alipay (Zástupce)</string>
     <string name="menuitem_shortcut_weather">Počasí (Zástupce)</string>
     <string name="menuitem_status">Stav</string>
-    <string name="menuitem_activity">Aktivita</string>
+    <string name="menuitem_activity">Historie Aktivit</string>
     <string name="menuitem_weather">Počasí</string>
     <string name="menuitem_alarm">Budík</string>
     <string name="menuitem_timer">Časovač</string>
@@ -988,7 +988,7 @@
     <string name="companiondevice_pairing">Párování systémem Doprovodného Zařízení</string>
     <string name="require_location_provider">Poloha musí být povolena</string>
     <string name="menuitem_stress">Stres</string>
-    <string name="menuitem_cycles">Cykly</string>
+    <string name="menuitem_cycles">Záznam cyklistiky</string>
     <string name="menuitem_breathing">Dýchání</string>
     <string name="devicetype_pinetime_jf">PineTime (JF Firmware)</string>
     <string name="devicetype_tlw64">TLW64</string>
@@ -1483,4 +1483,15 @@
     <string name="watchface_dialog_widget_timezone">Časová zóna:</string>
     <string name="watchface_dialog_widget_update_timeout">Časový limit aktualizace v minutách:</string>
     <string name="watchface_dialog_widget_timeout_hide_text">Skrytí textu při vypršení časového limitu:</string>
+    <string name="averageAltitude">Průměr</string>
+    <string name="minSpeed">Minimum</string>
+    <string name="maxStride">Max krok</string>
+    <string name="minStride">Min krok</string>
+    <string name="averageCadence">Průměrný rytmus</string>
+    <string name="maxCadence">Max rytmus</string>
+    <string name="spm">kroky/min</string>
+    <string name="mi2_prefs_do_not_disturb_lift_wrist">Zapnout displej při zvednutí během režimu Nerušit</string>
+    <string name="minHR">Min Tepová frekvence</string>
+    <string name="maxHR">Max Tepová frekvence</string>
+    <string name="minCadence">Min rytmus</string>
 </resources>
