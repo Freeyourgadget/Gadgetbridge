@@ -516,10 +516,10 @@ Temps de sommeil préféré en heures</string>
     <string name="share">Partager</string>
     <string name="reset_index">Réinitialiser la date de récupération</string>
     <string name="menuitem_status">État</string>
-    <string name="menuitem_activity">Activité</string>
+    <string name="menuitem_activity">Historique d\'activité</string>
     <string name="menuitem_weather">Météo</string>
     <string name="menuitem_alarm">Alarme</string>
-    <string name="menuitem_timer">Minuteur</string>
+    <string name="menuitem_timer">Décompte</string>
     <string name="menuitem_compass">Boussole</string>
     <string name="menuitem_settings">Réglages</string>
     <string name="menuitem_alipay">Alipay</string>
@@ -1121,7 +1121,7 @@ Temps de sommeil préféré en heures</string>
     <string name="menuitem_stopwatch">Étape</string>
     <string name="menuitem_dnd">NPD</string>
     <string name="menuitem_alexa">Alexa</string>
-    <string name="menuitem_takephoto">Prendre une photo</string>
+    <string name="menuitem_takephoto">Appareil photo à distance</string>
     <string name="menuitem_mutephone">Téléphone muet</string>
     <string name="menuitem_findphone">Trouver mon téléphone</string>
     <string name="movement_intensity">Intensité du mouvement</string>
@@ -1486,4 +1486,14 @@ Temps de sommeil préféré en heures</string>
     <string name="prefs_reserve_reminder_calendar_summary">Nombre d\'évènements du calendrier qui seront synchronisés</string>
     <string name="title_activity_reminder_details">Détails du rappel</string>
     <string name="mi2_prefs_do_not_disturb_lift_wrist">Activer l\'écran lors d\'un retournement en mode Ne Pas Déranger</string>
+    <string name="maxHR">Rythme cardiaque max</string>
+    <string name="maxStride">Distance de pas max</string>
+    <string name="minStride">Distance de pas min</string>
+    <string name="minCadence">Cadence min</string>
+    <string name="spm">pas/min</string>
+    <string name="averageAltitude">Moyenne</string>
+    <string name="averageCadence">Cadence moyenne</string>
+    <string name="minSpeed">Minimum</string>
+    <string name="minHR">Rythme cardiaque min</string>
+    <string name="maxCadence">Cadence max</string>
 </resources>
