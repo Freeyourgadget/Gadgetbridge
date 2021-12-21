@@ -1480,4 +1480,14 @@
     <string name="reminder_no_free_slots_description">The device has no free slots for reminders (total slots: %1$s)</string>
     <string name="prefs_reserve_reminder_calendar_summary">Number of calendar events that will be synchronized</string>
     <string name="mi2_prefs_do_not_disturb_lift_wrist">Activate display upon lift during Do Not Disturb</string>
+    <string name="maxHR">Max Heartrate</string>
+    <string name="spm">steps/min</string>
+    <string name="minSpeed">Minimum</string>
+    <string name="averageCadence">Average Cadence</string>
+    <string name="averageAltitude">Average</string>
+    <string name="maxCadence">Max Cadence</string>
+    <string name="minCadence">Min Cadence</string>
+    <string name="minHR">Min Heartrate</string>
+    <string name="maxStride">Max Stride</string>
+    <string name="minStride">Min Stride</string>
 </resources>
