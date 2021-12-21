@@ -1482,4 +1482,14 @@
     <string name="reminder_no_free_slots_title">Geen vrije plekken</string>
     <string name="title_activity_set_reminders">Herinneringen instellen</string>
     <string name="mi2_prefs_do_not_disturb_lift_wrist">Activeer het display bij het optillen tijdens Niet Storen</string>
+    <string name="maxHR">Max hartslag</string>
+    <string name="maxStride">Max paslengte</string>
+    <string name="averageCadence">Gemiddelde cadans</string>
+    <string name="minHR">Min hartslag</string>
+    <string name="minSpeed">Minimum</string>
+    <string name="averageAltitude">Gemiddeld</string>
+    <string name="minStride">Min paslengte</string>
+    <string name="minCadence">Min cadans</string>
+    <string name="spm">stappen/min</string>
+    <string name="maxCadence">Max cadans</string>
 </resources>
