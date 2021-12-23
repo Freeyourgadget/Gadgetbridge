@@ -1494,4 +1494,6 @@
     <string name="minHR">Min Tepová frekvence</string>
     <string name="maxHR">Max Tepová frekvence</string>
     <string name="minCadence">Min rytmus</string>
+    <string name="pref_header_sony_equalizer_bands">Rozsahy</string>
+    <string name="sony_audio_upsampling">Převzorkování zvuku</string>
 </resources>
