@@ -22,6 +22,7 @@ import static nodomain.freeyourgadget.gadgetbridge.util.GB.toast;
 
 import android.Manifest;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothManager;
@@ -35,6 +36,7 @@ import android.content.BroadcastReceiver;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
@@ -48,11 +50,14 @@ import android.os.ParcelUuid;
 import android.os.Parcelable;
 import android.provider.Settings;
 import android.text.TextUtils;
+import android.util.Pair;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ProgressBar;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -63,14 +68,18 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.Objects;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsActivity;
 import nodomain.freeyourgadget.gadgetbridge.adapter.DeviceCandidateAdapter;
+import nodomain.freeyourgadget.gadgetbridge.adapter.SpinnerWithIconAdapter;
+import nodomain.freeyourgadget.gadgetbridge.adapter.SpinnerWithIconItem;
 import nodomain.freeyourgadget.gadgetbridge.devices.DeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceCandidate;
@@ -112,6 +121,7 @@ public class DiscoveryActivity extends AbstractGBActivity implements AdapterView
     private BluetoothAdapter adapter;
     private Button startButton;
     private Scanning isScanning = Scanning.SCANNING_OFF;
+    private long selectedUnsupportedDeviceKey = DebugActivity.SELECT_DEVICE;
     private final Runnable stopRunnable = new Runnable() {
         @Override
         public void run() {
@@ -783,17 +793,57 @@ public class DiscoveryActivity extends AbstractGBActivity implements AdapterView
 
     @Override
     public boolean onItemLongClick(AdapterView<?> adapterView, View view, int position, long id) {
-        GBDeviceCandidate deviceCandidate = deviceCandidates.get(position);
+        stopDiscovery();
+        final GBDeviceCandidate deviceCandidate = deviceCandidates.get(position);
         if (deviceCandidate == null) {
             LOG.error("Device candidate clicked, but item not found");
             return true;
         }
         if (!deviceCandidate.getDeviceType().isSupported()) {
             LOG.error("Unsupported device candidate");
-            ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
-            ClipData clip = ClipData.newPlainText(deviceCandidate.getName(), deviceCandidate.getMacAddress());
-            clipboard.setPrimaryClip(clip);
-            toast(this, "Bluetooth address copied to clipboard", Toast.LENGTH_SHORT, GB.INFO);
+            LinkedHashMap<String, Pair<Long, Integer>> allDevices;
+            allDevices = DebugActivity.getAllSupportedDevices(getApplicationContext());
+
+            final LinearLayout linearLayout = new LinearLayout(DiscoveryActivity.this);
+            linearLayout.setOrientation(LinearLayout.VERTICAL);
+
+            final LinearLayout macLayout = new LinearLayout(DiscoveryActivity.this);
+            macLayout.setOrientation(LinearLayout.HORIZONTAL);
+            macLayout.setPadding(20, 0, 20, 0);
+
+            final Spinner deviceListSpinner = new Spinner(DiscoveryActivity.this);
+            ArrayList<SpinnerWithIconItem> deviceListArray = new ArrayList<>();
+            for (Map.Entry<String, Pair<Long, Integer>> item : allDevices.entrySet()) {
+                deviceListArray.add(new SpinnerWithIconItem(item.getKey(), item.getValue().first, item.getValue().second));
+            }
+            final SpinnerWithIconAdapter deviceListAdapter = new SpinnerWithIconAdapter(DiscoveryActivity.this,
+                    R.layout.spinner_with_image_layout, R.id.spinner_item_text, deviceListArray);
+            deviceListSpinner.setAdapter(deviceListAdapter);
+            addListenerOnSpinnerDeviceSelection(deviceListSpinner);
+
+            linearLayout.addView(deviceListSpinner);
+            linearLayout.addView(macLayout);
+
+            new AlertDialog.Builder(DiscoveryActivity.this)
+                    .setCancelable(true)
+                    .setTitle(R.string.add_test_device)
+                    .setView(linearLayout)
+                    .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            if (selectedUnsupportedDeviceKey != DebugActivity.SELECT_DEVICE) {
+                                DebugActivity.createTestDevice(DiscoveryActivity.this, selectedUnsupportedDeviceKey, deviceCandidate.getMacAddress());
+                                finish();
+                            }
+                        }
+                    })
+                    .setNegativeButton(R.string.Cancel, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                        }
+                    })
+                    .show();
+
             return true;
         }
 
@@ -808,6 +858,24 @@ public class DiscoveryActivity extends AbstractGBActivity implements AdapterView
         startIntent.putExtra(GBDevice.EXTRA_DEVICE, device);
         startActivity(startIntent);
         return true;
+    }
+
+    private void addListenerOnSpinnerDeviceSelection(Spinner spinner) {
+        spinner.setOnItemSelectedListener(new CustomOnDeviceSelectedListener());
+    }
+
+    public class CustomOnDeviceSelectedListener implements AdapterView.OnItemSelectedListener {
+
+        public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
+            SpinnerWithIconItem selectedItem = (SpinnerWithIconItem) parent.getItemAtPosition(pos);
+            selectedUnsupportedDeviceKey = selectedItem.getId();
+        }
+
+        @Override
+        public void onNothingSelected(AdapterView<?> arg0) {
+            // TODO Auto-generated method stub
+        }
+
     }
 
     public void onBondingComplete(boolean success) {

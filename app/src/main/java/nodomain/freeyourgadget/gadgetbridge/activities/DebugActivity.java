@@ -70,6 +70,7 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Random;
+import java.util.TreeMap;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
@@ -125,7 +126,7 @@ public class DebugActivity extends AbstractGBActivity {
     };
     private Spinner sendTypeSpinner;
     private EditText editContent;
-    private static long SELECT_DEVICE = 999L;
+    public static final long SELECT_DEVICE = 999L;
     private long selectedTestDeviceKey = SELECT_DEVICE;
     private String selectedTestDeviceMAC;
 
@@ -474,12 +475,12 @@ public class DebugActivity extends AbstractGBActivity {
 
                 new AlertDialog.Builder(DebugActivity.this)
                         .setCancelable(true)
-                        .setTitle("Add test device")
+                        .setTitle(R.string.add_test_device)
                         .setView(linearLayout)
                         .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                createTestDevice();
+                                createTestDevice(DebugActivity.this, selectedTestDeviceKey, selectedTestDeviceMAC);
                             }
                         })
                         .setNegativeButton(R.string.Cancel, new DialogInterface.OnClickListener() {
@@ -646,25 +647,25 @@ public class DebugActivity extends AbstractGBActivity {
         spinner.setOnItemSelectedListener(new CustomOnDeviceSelectedListener());
     }
 
-    private void createTestDevice() {
-        if (selectedTestDeviceKey == SELECT_DEVICE) {
+    protected static void createTestDevice(Context context, long deviceKey, String deviceMac) {
+        if (deviceKey == SELECT_DEVICE) {
             return;
         }
-        DeviceType deviceType = DeviceType.fromKey((int) selectedTestDeviceKey);
+        DeviceType deviceType = DeviceType.fromKey((int) deviceKey);
         try (
-                DBHandler db = GBApplication.acquireDB()) {
+            DBHandler db = GBApplication.acquireDB()) {
             DaoSession daoSession = db.getDaoSession();
-            GBDevice gbDevice = new GBDevice(selectedTestDeviceMAC, deviceType.name(), "", deviceType);
-            gbDevice.setFirmwareVersion("V1.0");
-            gbDevice.setFirmwareVersion2("V1.0");
+            GBDevice gbDevice = new GBDevice(deviceMac, deviceType.name(), "", deviceType);
+            gbDevice.setFirmwareVersion("N/A");
+            gbDevice.setFirmwareVersion2("N/A");
 
             //this causes the attributes (fw version) to be stored as well. Not much useful, but still...
             gbDevice.setState(GBDevice.State.INITIALIZED);
 
-            Device device = DBHelper.getDevice(gbDevice, daoSession);
+            Device device = DBHelper.getDevice(gbDevice, daoSession); //the addition happens here
             Intent refreshIntent = new Intent(DeviceManager.ACTION_REFRESH_DEVICELIST);
-            LocalBroadcastManager.getInstance(DebugActivity.this).sendBroadcast(refreshIntent);
-            GB.toast(DebugActivity.this, "Added test device: " + deviceType.name(), Toast.LENGTH_SHORT, GB.INFO);
+            LocalBroadcastManager.getInstance(context).sendBroadcast(refreshIntent);
+            GB.toast(context, "Added test device: " + deviceType.name(), Toast.LENGTH_SHORT, GB.INFO);
 
         } catch (
                 Exception e) {
@@ -686,9 +687,8 @@ public class DebugActivity extends AbstractGBActivity {
         return TextUtils.join(separator, mac).toUpperCase(Locale.ROOT);
     }
 
-    private LinkedHashMap getAllSupportedDevices(Context appContext) {
+    public static LinkedHashMap getAllSupportedDevices(Context appContext) {
         LinkedHashMap<String, Pair<Long, Integer>> newMap = new LinkedHashMap<>(1);
-        newMap.put("Select device", new Pair(SELECT_DEVICE, R.drawable.ic_create));
         GBApplication app = (GBApplication) appContext;
         for (DeviceCoordinator coordinator : DeviceHelper.getInstance().getAllCoordinators()) {
             DeviceType deviceType = coordinator.getDeviceType();
@@ -697,6 +697,10 @@ public class DebugActivity extends AbstractGBActivity {
             long deviceId = deviceType.getKey();
             newMap.put(name, new Pair(deviceId, icon));
         }
+        TreeMap <String, Pair<Long, Integer>> sortedMap = new TreeMap<>(newMap);
+        newMap = new LinkedHashMap<>(1);
+        newMap.put(app.getString(R.string.widget_settings_select_device_title), new Pair(SELECT_DEVICE, R.drawable.ic_device_unknown));
+        newMap.putAll(sortedMap);
 
         return newMap;
     }

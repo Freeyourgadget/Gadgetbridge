@@ -864,6 +864,7 @@
     <string name="kind_watchface">Watchface</string>
     <string name="devicetype_unknown">Unknown Device</string>
     <string name="devicetype_test">Test Device</string>
+    <string name="add_test_device">Add test device</string>
     <string name="devicetype_pebble">Pebble</string>
     <string name="devicetype_miband">Mi Band</string>
     <string name="devicetype_miband2">Mi Band 2</string>
@@ -1102,7 +1103,7 @@
     <string name="ignore_bonded_devices">Ignore bonded devices</string>
     <string name="ignore_bonded_devices_description">Enabling this option will ignore devices that have been bonded/paired already when scanning</string>
     <string name="discover_unsupported_devices">Discover unsupported devices</string>
-    <string name="discover_unsupported_devices_description">Enabling this option will display all discovered bluetooth devices when scanning. They cannot be used in Gadgetbridge.</string>
+    <string name="discover_unsupported_devices_description">Enabling this option will display all discovered bluetooth devices when scanning. Short tap will copy device name and mac address to clipboard. Long press will launch `Add test device` dialog.</string>
     <string name="error_location_enabled_mandatory">Location must be turned on to scan for devices</string>
     <string name="sonyswr12_settings_title">Sony SWR12 Settings</string>
     <string name="sonyswr12_settings_low_vibration">Low vibration enabled</string>
