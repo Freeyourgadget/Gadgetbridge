@@ -216,4 +216,12 @@
     <string name="pref_title_notification_use_as_allow">Salli ilmoitukset valituista sovelluksista</string>
     <string name="pref_title_transliteration">Translitterointi</string>
     <string name="pref_summary_transliteration">Ota tämä käyttöön, jos laitteesi ei tue kielesi fonttia</string>
+    <string name="fossil_hr_edit_action_delete">poista</string>
+    <string name="prefs_activity_in_device_card_sleep_title">Uni</string>
+    <string name="prefs_activity_in_device_card_sleep_title_summary">Näytä unen kesto</string>
+    <string name="prefs_activity_in_device_card_distance_title_summary">Etäisyys lasketaan askelista ja askelpituudesta (muutettavissa Asetuksissa - Tietoja sinusta)</string>
+    <string name="prefs_activity_in_device_card_steps_title_summary">Näytä kokonaisaskeleet</string>
+    <string name="miband_fwinstaller_untested_version">Testaamaton versio!</string>
+    <string name="find_lost_device_you_found_it">Löytyi!</string>
+    <string name="fossil_hr_new_action_cancel">peruuta</string>
 </resources>
