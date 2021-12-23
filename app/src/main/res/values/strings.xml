@@ -1100,6 +1100,8 @@
     <string name="error_retrieving_devices_database">Error retrieving devices from database</string>
     <string name="ignore_bonded_devices">Ignore bonded devices</string>
     <string name="ignore_bonded_devices_description">Enabling this option will ignore devices that have been bonded/paired already when scanning</string>
+    <string name="discover_unsupported_devices">Discover unsupported devices</string>
+    <string name="discover_unsupported_devices_description">Enabling this option will display all discovered bluetooth devices when scanning. They cannot be used in Gadgetbridge.</string>
     <string name="error_location_enabled_mandatory">Location must be turned on to scan for devices</string>
     <string name="sonyswr12_settings_title">Sony SWR12 Settings</string>
     <string name="sonyswr12_settings_low_vibration">Low vibration enabled</string>

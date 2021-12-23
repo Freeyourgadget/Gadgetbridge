@@ -32,6 +32,8 @@ import android.bluetooth.le.ScanRecord;
 import android.bluetooth.le.ScanResult;
 import android.bluetooth.le.ScanSettings;
 import android.content.BroadcastReceiver;
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
@@ -45,6 +47,7 @@ import android.os.Message;
 import android.os.ParcelUuid;
 import android.os.Parcelable;
 import android.provider.Settings;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -94,6 +97,7 @@ public class DiscoveryActivity extends AbstractGBActivity implements AdapterView
      * If already bonded devices are to be ignored when scanning
      */
     private boolean ignoreBonded = true;
+    private boolean discoverUnsupported = false;
     private ProgressBar bluetoothProgress;
     private ProgressBar bluetoothLEProgress;
     private DeviceCandidateAdapter deviceCandidateAdapter;
@@ -248,6 +252,7 @@ public class DiscoveryActivity extends AbstractGBActivity implements AdapterView
 
         Prefs prefs = GBApplication.getPrefs();
         ignoreBonded = prefs.getBoolean("ignore_bonded_devices", true);
+        discoverUnsupported = prefs.getBoolean("discover_unsupported_devices", false);
 
         oldBleScanning = prefs.getBoolean("disable_new_ble_scanning", false);
         if (oldBleScanning) {
@@ -392,9 +397,9 @@ public class DiscoveryActivity extends AbstractGBActivity implements AdapterView
 
         GBDeviceCandidate candidate = new GBDeviceCandidate(device, rssi, uuids);
         DeviceType deviceType = DeviceHelper.getInstance().getSupportedType(candidate);
-        if (deviceType.isSupported()) {
+        if (deviceType.isSupported() || discoverUnsupported) {
             candidate.setDeviceType(deviceType);
-            LOG.info("Recognized supported device: " + candidate);
+            LOG.info("Recognized device: " + candidate);
             int index = deviceCandidates.indexOf(candidate);
             if (index >= 0) {
                 deviceCandidates.set(index, candidate); // replace
@@ -713,6 +718,25 @@ public class DiscoveryActivity extends AbstractGBActivity implements AdapterView
             LOG.error("Device candidate clicked, but item not found");
             return;
         }
+        if (!deviceCandidate.getDeviceType().isSupported()){
+            LOG.error("Unsupported device candidate");
+            ArrayList deviceDetails = new ArrayList<>();
+            deviceDetails.add(deviceCandidate.getName());
+            deviceDetails.add(deviceCandidate.getMacAddress());
+            try {
+                for (ParcelUuid uuid : deviceCandidate.getServiceUuids()) {
+                    deviceDetails.add(uuid.getUuid().toString());
+                }
+            } catch (Exception e) {
+                LOG.error("Error collecting device uuids: " + e);
+            }
+            String clipboardData = TextUtils.join(", ", deviceDetails);
+            ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+            ClipData clip = ClipData.newPlainText(deviceCandidate.getName(), clipboardData);
+            clipboard.setPrimaryClip(clip);
+            toast(this, "Device details copied to clipboard", Toast.LENGTH_SHORT, GB.INFO);
+            return;
+        }
 
         stopDiscovery();
         DeviceCoordinator coordinator = DeviceHelper.getInstance().getCoordinator(deviceCandidate);
@@ -758,6 +782,14 @@ public class DiscoveryActivity extends AbstractGBActivity implements AdapterView
         GBDeviceCandidate deviceCandidate = deviceCandidates.get(position);
         if (deviceCandidate == null) {
             LOG.error("Device candidate clicked, but item not found");
+            return true;
+        }
+        if (!deviceCandidate.getDeviceType().isSupported()) {
+            LOG.error("Unsupported device candidate");
+            ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+            ClipData clip = ClipData.newPlainText(deviceCandidate.getName(), deviceCandidate.getMacAddress());
+            clipboard.setPrimaryClip(clip);
+            toast(this, "Bluetooth address copied to clipboard", Toast.LENGTH_SHORT, GB.INFO);
             return true;
         }
 
