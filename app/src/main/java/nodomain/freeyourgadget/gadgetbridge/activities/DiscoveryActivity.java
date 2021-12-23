@@ -250,21 +250,22 @@ public class DiscoveryActivity extends AbstractGBActivity implements AdapterView
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        Prefs prefs = GBApplication.getPrefs();
-        ignoreBonded = prefs.getBoolean("ignore_bonded_devices", true);
-        discoverUnsupported = prefs.getBoolean("discover_unsupported_devices", false);
-
-        oldBleScanning = prefs.getBoolean("disable_new_ble_scanning", false);
-        if (oldBleScanning) {
-            LOG.info("New BLE scanning disabled via settings, using old method");
-        }
-
+        loadSettingsValues();
         setContentView(R.layout.activity_discovery);
         startButton = findViewById(R.id.discovery_start);
         startButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 onStartButtonClick(startButton);
+            }
+        });
+
+        Button settingsButton = findViewById(R.id.discovery_preferences);
+        settingsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent enableIntent = new Intent(DiscoveryActivity.this, DiscoveryPairingPreferenceActivity.class);
+                startActivity(enableIntent);
             }
         });
 
@@ -296,6 +297,8 @@ public class DiscoveryActivity extends AbstractGBActivity implements AdapterView
         if (isScanning()) {
             stopDiscovery();
         } else {
+            deviceCandidates.clear();
+            deviceCandidateAdapter.notifyDataSetChanged();
             if (GB.supportsBluetoothLE()) {
                 startDiscovery(Scanning.SCANNING_BT_NEXT_BLE);
             } else {
@@ -345,6 +348,7 @@ public class DiscoveryActivity extends AbstractGBActivity implements AdapterView
 
     @Override
     protected void onResume() {
+        loadSettingsValues();
         registerBroadcastReceivers();
         super.onResume();
     }
@@ -828,6 +832,16 @@ public class DiscoveryActivity extends AbstractGBActivity implements AdapterView
         bluetoothIntents.addAction(BluetoothAdapter.ACTION_STATE_CHANGED);
 
         registerReceiver(bluetoothReceiver, bluetoothIntents);
+    }
+
+    private void loadSettingsValues() {
+        Prefs prefs = GBApplication.getPrefs();
+        ignoreBonded = prefs.getBoolean("ignore_bonded_devices", true);
+        discoverUnsupported = prefs.getBoolean("discover_unsupported_devices", false);
+        oldBleScanning = prefs.getBoolean("disable_new_ble_scanning", false);
+        if (oldBleScanning) {
+            LOG.info("New BLE scanning disabled via settings, using old method");
+        }
     }
 
     @Override
