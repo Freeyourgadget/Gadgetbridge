@@ -1004,6 +1004,27 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
 
     @Override
     public void onSetCannedMessages(CannedMessagesSpec cannedMessagesSpec) {
+        if (cannedMessagesSpec.type == CannedMessagesSpec.TYPE_REJECTEDCALLS) {
+            try {
+                TransactionBuilder builder = performInitialized("Set canned messages");
+
+                int handle = 0x12345678;
+                for (String cannedMessage : cannedMessagesSpec.cannedMessages) {
+                    int length = cannedMessage.getBytes().length + 5;
+                    ByteBuffer buf = ByteBuffer.allocate(length);
+                    buf.order(ByteOrder.LITTLE_ENDIAN);
+
+                    buf.put((byte) 0x05); // create
+                    buf.putInt(handle++);
+                    buf.put(cannedMessage.getBytes());
+
+                    writeToChunked2021(builder, (short) 0x0013, getNextHandle(), buf.array(), false, false);
+                }
+                builder.queue(getQueue());
+            } catch (IOException ex) {
+                LOG.error("Unable to set time on Huami device", ex);
+            }
+        }
     }
 
     private boolean isAlarmClockRinging() {
@@ -2976,7 +2997,7 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
             }
 
             byte[] command = ArrayUtils.addAll(new byte[]{0x00, 0x00, (byte) (0xc0 | type), 0x00}, data);
-            writeToChunked2021(builder, HuamiService.CHUNKED2021_ENDPOINT_COMPAT, getNextHandle(), command, encrypt);
+            writeToChunked2021(builder, HuamiService.CHUNKED2021_ENDPOINT_COMPAT, getNextHandle(), command, true, encrypt);
         } else {
             writeToChunkedOld(builder, type, data);
         }
@@ -3010,13 +3031,17 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
         }
     }
 
-    public void writeToChunked2021(TransactionBuilder builder, short type, byte handle, byte[] data, boolean encrypt) {
+    public void writeToChunked2021(TransactionBuilder builder, short type, byte handle, byte[] data, boolean extended_flags, boolean encrypt) {
         int remaining = data.length;
         int length = data.length;
         byte count = 0;
-        int header_size = 11;
+        int header_size = 10;
 
-        if (encrypt) {
+        if (extended_flags) {
+            header_size++;
+        }
+
+        if (extended_flags && encrypt) {
             byte[] messagekey = new byte[16];
             for (int i = 0; i < 16; i++) {
                 messagekey[i] = (byte) (sharedSessionKey[i] ^ handle);
@@ -3060,26 +3085,40 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
             }
             if (count == 0) {
                 flags |= 0x01;
-                chunk[5] = (byte) (length & 0xff);
-                chunk[6] = (byte) ((length >> 8) & 0xff);
-                chunk[7] = (byte) ((length >> 16) & 0xff);
-                chunk[8] = (byte) ((length >> 24) & 0xff);
-                chunk[9] = (byte) (type & 0xff);
-                chunk[10] = (byte) ((type >> 8) & 0xff);
+                int i = 4;
+                if (extended_flags) {
+                    i++;
+                }
+                chunk[i++] = (byte) (length & 0xff);
+                chunk[i++] = (byte) ((length >> 8) & 0xff);
+                chunk[i++] = (byte) ((length >> 16) & 0xff);
+                chunk[i++] = (byte) ((length >> 24) & 0xff);
+                chunk[i++] = (byte) (type & 0xff);
+                chunk[i] = (byte) ((type >> 8) & 0xff);
             }
             if (remaining <= MAX_CHUNKLENGTH) {
                 flags |= 0x06; // last chunk?
             }
             chunk[0] = 0x03;
             chunk[1] = flags;
-            chunk[2] = 0;
-            chunk[3] = handle;
-            chunk[4] = count;
+            if (extended_flags) {
+                chunk[2] = 0;
+                chunk[3] = handle;
+                chunk[4] = count;
+            } else {
+                chunk[2] = handle;
+                chunk[3] = count;
+            }
 
             System.arraycopy(data, data.length - remaining, chunk, header_size, copybytes);
             builder.write(characteristicChunked2021Write, chunk);
             remaining -= copybytes;
-            header_size = 5;
+            header_size = 4;
+
+            if (extended_flags) {
+                header_size++;
+            }
+
             count++;
         }
     }
@@ -3087,7 +3126,7 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
     public void writeToConfiguration(TransactionBuilder builder, byte[] data) {
         if (force2021Protocol) {
             data = ArrayUtils.insert(0, data, (byte) 1);
-            writeToChunked2021(builder, HuamiService.CHUNKED2021_ENDPOINT_COMPAT, getNextHandle(), data, true);
+            writeToChunked2021(builder, HuamiService.CHUNKED2021_ENDPOINT_COMPAT, getNextHandle(), data, true, true);
         } else {
             builder.write(getCharacteristic(HuamiService.UUID_CHARACTERISTIC_3_CONFIGURATION), data);
         }

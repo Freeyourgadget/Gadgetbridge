@@ -97,6 +97,7 @@ public class AmazfitBipUCoordinator extends HuamiCoordinator {
     public int[] getSupportedDeviceSpecificSettings(GBDevice device) {
         return new int[]{
                 R.xml.devicesettings_amazfitbipu,
+                //R.xml.devicesettings_canned_dismisscall_16,
                 R.xml.devicesettings_timeformat,
                 R.xml.devicesettings_wearlocation,
                 R.xml.devicesettings_custom_emoji_font,

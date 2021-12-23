@@ -87,7 +87,7 @@ public class InitOperation2021 extends InitOperation {
         sendPubkeyCommand[3] = 0x02;
         System.arraycopy(publicEC, 0, sendPubkeyCommand, 4, 48);
         //testAuth();
-        huamiSupport.writeToChunked2021(builder, HuamiService.CHUNKED2021_ENDPOINT_AUTH, huamiSupport.getNextHandle(), sendPubkeyCommand, false);
+        huamiSupport.writeToChunked2021(builder, HuamiService.CHUNKED2021_ENDPOINT_AUTH, huamiSupport.getNextHandle(), sendPubkeyCommand, true, false);
     }
 
     private native byte[] ecdh_generate_public(byte[] privateEC);
@@ -170,7 +170,7 @@ public class InitOperation2021 extends InitOperation {
                             System.arraycopy(encryptedRandom1, 0, command, 1, 16);
                             System.arraycopy(encryptedRandom2, 0, command, 17, 16);
                             TransactionBuilder builder = createTransactionBuilder("Sending double encryted random to device");
-                            huamiSupport.writeToChunked2021(builder, HuamiService.CHUNKED2021_ENDPOINT_AUTH, huamiSupport.getNextHandle(), command, false);
+                            huamiSupport.writeToChunked2021(builder, HuamiService.CHUNKED2021_ENDPOINT_AUTH, huamiSupport.getNextHandle(), command, true, false);
                             huamiSupport.performImmediately(builder);
                         }
                     } catch (Exception e) {
