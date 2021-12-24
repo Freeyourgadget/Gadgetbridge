@@ -78,34 +78,46 @@ public class SonyProtocolImplV1 extends AbstractSonyProtocolImpl {
 
         buf.put(PayloadType.AMBIENT_SOUND_CONTROL_SET.getCode());
         buf.put((byte) 0x02);
+
         if (AmbientSoundControl.Mode.OFF.equals(ambientSoundControl.getMode())) {
             buf.put((byte) 0x00);
         } else {
             buf.put((byte) 0x11);
         }
-        buf.put((byte) 0x01);
 
-        switch (ambientSoundControl.getMode()) {
-            case NOISE_CANCELLING:
-                buf.put((byte) 2);
-                break;
-            case WIND_NOISE_REDUCTION:
+        if (supportsWindNoiseCancelling()) {
+            buf.put((byte) 0x02);
+
+            switch (ambientSoundControl.getMode()) {
+                case NOISE_CANCELLING:
+                    buf.put((byte) 2);
+                    break;
+                case WIND_NOISE_REDUCTION:
+                    buf.put((byte) 1);
+                    break;
+                case OFF:
+                case AMBIENT_SOUND:
+                default:
+                    buf.put((byte) 0);
+                    break;
+            }
+        } else {
+            buf.put((byte) 0x00);
+
+            if (AmbientSoundControl.Mode.NOISE_CANCELLING.equals(ambientSoundControl.getMode())) {
                 buf.put((byte) 1);
-                break;
-            case OFF:
-            case AMBIENT_SOUND:
-            default:
+            } else {
                 buf.put((byte) 0);
-                break;
+            }
         }
 
-        buf.put((byte) 0x01);
+        buf.put((byte) 0x01);  // ?
         buf.put((byte) (ambientSoundControl.isFocusOnVoice() ? 0x01 : 0x00));
 
         switch (ambientSoundControl.getMode()) {
             case OFF:
             case AMBIENT_SOUND:
-                buf.put((byte) (ambientSoundControl.getAmbientSound() + 1));
+                buf.put((byte) (ambientSoundControl.getAmbientSound()));
                 break;
             case WIND_NOISE_REDUCTION:
             case NOISE_CANCELLING:
@@ -442,13 +454,22 @@ public class SonyProtocolImplV1 extends AbstractSonyProtocolImpl {
         } else if (payload[2] == (byte) 0x01) {
             // Enabled, determine mode
 
-            if (payload[4] == (byte) 0x00) {
-                mode = AmbientSoundControl.Mode.AMBIENT_SOUND;
-            } else if (payload[4] == (byte) 0x01) {
-                // FIXME: ANC gets incorrectly identified wind reduction for WF-SP800N
-                mode = AmbientSoundControl.Mode.WIND_NOISE_REDUCTION;
-            } else if (payload[4] == (byte) 0x02) {
-                mode = AmbientSoundControl.Mode.NOISE_CANCELLING;
+            if (payload[3] == 0x00) {
+                // Only ANC  and Ambient Sound supported?
+                if (payload[4] == (byte) 0x00) {
+                    mode = AmbientSoundControl.Mode.AMBIENT_SOUND;
+                } else if (payload[4] == (byte) 0x01) {
+                    mode = AmbientSoundControl.Mode.NOISE_CANCELLING;
+                }
+            } else if (payload[3] == 0x02) {
+                // Supports wind noise reduction
+                if (payload[4] == (byte) 0x00) {
+                    mode = AmbientSoundControl.Mode.AMBIENT_SOUND;
+                } else if (payload[4] == (byte) 0x01) {
+                    mode = AmbientSoundControl.Mode.WIND_NOISE_REDUCTION;
+                } else if (payload[4] == (byte) 0x02) {
+                    mode = AmbientSoundControl.Mode.NOISE_CANCELLING;
+                }
             }
         }
 
@@ -825,5 +846,19 @@ public class SonyProtocolImplV1 extends AbstractSonyProtocolImpl {
                 .withPreferences(new VoiceNotifications(enabled).toPreferences());
 
         return Collections.singletonList(event);
+    }
+
+    private boolean supportsWindNoiseCancelling() {
+        // TODO: We should be able to determine this dynamically...
+
+        final DeviceType deviceType = getDevice().getType();
+
+        switch (deviceType) {
+            case SONY_WH_1000XM3:
+                return true;
+            default:
+                LOG.error("Unknown Sony device type '{}' with key '{}'", deviceType, deviceType.getKey());
+                return false;
+        }
     }
 }
