@@ -34,8 +34,10 @@ import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventUpdateDevi
 import nodomain.freeyourgadget.gadgetbridge.devices.sony.headphones.prefs.AmbientSoundControl;
 import nodomain.freeyourgadget.gadgetbridge.devices.sony.headphones.prefs.AudioUpsampling;
 import nodomain.freeyourgadget.gadgetbridge.devices.sony.headphones.prefs.AutomaticPowerOff;
+import nodomain.freeyourgadget.gadgetbridge.devices.sony.headphones.prefs.ButtonModes;
 import nodomain.freeyourgadget.gadgetbridge.devices.sony.headphones.prefs.EqualizerCustomBands;
 import nodomain.freeyourgadget.gadgetbridge.devices.sony.headphones.prefs.EqualizerPreset;
+import nodomain.freeyourgadget.gadgetbridge.devices.sony.headphones.prefs.PauseWhenTakenOff;
 import nodomain.freeyourgadget.gadgetbridge.devices.sony.headphones.prefs.VoiceNotifications;
 import nodomain.freeyourgadget.gadgetbridge.devices.sony.headphones.prefs.SoundPosition;
 import nodomain.freeyourgadget.gadgetbridge.devices.sony.headphones.prefs.SurroundMode;
@@ -175,6 +177,13 @@ public class SonyHeadphonesProtocol extends GBDeviceProtocol {
             case DeviceSettingsPreferenceConst.PREF_SONY_AUTOMATIC_POWER_OFF:
                 configRequest = protocolImpl.setAutomaticPowerOff(AutomaticPowerOff.fromPreferences(prefs));
                 break;
+            case DeviceSettingsPreferenceConst.PREF_SONY_BUTTON_MODE_LEFT:
+            case DeviceSettingsPreferenceConst.PREF_SONY_BUTTON_MODE_RIGHT:
+                configRequest = protocolImpl.setButtonModes(ButtonModes.fromPreferences(prefs));
+                break;
+            case DeviceSettingsPreferenceConst.PREF_SONY_PAUSE_WHEN_TAKEN_OFF:
+                configRequest = protocolImpl.setPauseWhenTakenOff(PauseWhenTakenOff.fromPreferences(prefs));
+                break;
             case DeviceSettingsPreferenceConst.PREF_SONY_NOTIFICATION_VOICE_GUIDE:
                 configRequest = protocolImpl.setVoiceNotifications(VoiceNotifications.fromPreferences(prefs));
                 break;
@@ -198,6 +207,15 @@ public class SonyHeadphonesProtocol extends GBDeviceProtocol {
         }
 
         return null;
+    }
+
+    @Override
+    public byte[] encodePowerOff() {
+        if (protocolImpl != null) {
+            return protocolImpl.powerOff().encode(sequenceNumber);
+        }
+
+        return super.encodePowerOff();
     }
 
     public byte[] encodeAck(byte sequenceNumber) {
@@ -224,6 +242,10 @@ public class SonyHeadphonesProtocol extends GBDeviceProtocol {
 
     public int getPendingAcks() {
         return pendingAcks;
+    }
+
+    public void decreasePendingAcks() {
+        pendingAcks--;
     }
 
     public byte[] getFromQueue() {

@@ -102,6 +102,7 @@ import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_FI
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_HEARTRATE_TEST;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_INSTALL;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_NOTIFICATION;
+import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_POWER_OFF;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_READ_CONFIGURATION;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_REQUEST_APPINFO;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_REQUEST_DEVICEINFO;
@@ -631,6 +632,9 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
                 if (color != 0) {
                     mDeviceSupport.onSetLedColor(color);
                 }
+                break;
+            case ACTION_POWER_OFF:
+                mDeviceSupport.onPowerOff();
                 break;
             case ACTION_SET_FM_FREQUENCY:
                 float frequency = intent.getFloatExtra(EXTRA_FM_FREQUENCY, -1);

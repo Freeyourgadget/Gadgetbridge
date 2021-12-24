@@ -266,6 +266,12 @@ public abstract class AbstractSerialDeviceSupport extends AbstractDeviceSupport 
     }
 
     @Override
+    public void onPowerOff() {
+        byte[] bytes = gbDeviceProtocol.encodePowerOff();
+        sendToDevice(bytes);
+    }
+
+    @Override
     public void onSetReminders(ArrayList<? extends Reminder> reminders) {
         byte[] bytes = gbDeviceProtocol.encodeReminders(reminders);
         sendToDevice(bytes);

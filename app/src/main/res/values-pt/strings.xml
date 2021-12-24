@@ -1235,6 +1235,10 @@
     <string name="sony_automatic_power_off_1_hour">1 hora</string>
     <string name="sony_automatic_power_off_3_hour">3 horas</string>
     <string name="sony_automatic_power_off_when_taken_off">Quando retirar os auscultadores</string>
+    <string name="sony_button_mode_off">Desligado</string>
+    <string name="sony_button_mode_ambient_sound_control">Controlo Som Ambiente</string>
+    <string name="sony_button_mode_playback_control">Controlo da reprodução</string>
+    <string name="sony_button_mode_volume_control">Controlo do Volume</string>
     <string name="uncheck_all_applications">Desmarcar todos as aplicações</string>
     <string name="fw_upgrade_notice_amazfitx">Está prestes a instalar o firmware %s no seu Amazfit X.
 \n

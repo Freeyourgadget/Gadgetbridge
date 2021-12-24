@@ -104,6 +104,7 @@ public enum DeviceType {
     GALAXY_BUDS_LIVE(419, R.drawable.ic_device_galaxy_buds_live, R.drawable.ic_device_galaxy_buds_live_disabled, R.string.devicetype_galaxybuds_live),
     GALAXY_BUDS(420, R.drawable.ic_device_galaxy_buds, R.drawable.ic_device_galaxy_buds_disabled, R.string.devicetype_galaxybuds),
     SONY_WH_1000XM3(430, R.drawable.ic_device_headphones, R.drawable.ic_device_headphones_disabled, R.string.devicetype_sony_wh_1000xm3),
+    SONY_WF_SP800N(431, R.drawable.ic_device_galaxy_buds, R.drawable.ic_device_galaxy_buds_disabled, R.string.devicetype_sony_wf_sp800n),
     TEST(1000, R.drawable.ic_device_default, R.drawable.ic_device_default_disabled, R.string.devicetype_test);
 
     private final int key;

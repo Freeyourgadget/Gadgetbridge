@@ -139,7 +139,7 @@ public class GBDeviceAdapterv2 extends RecyclerView.Adapter<GBDeviceAdapterv2.Vi
 
             @Override
             public void onClick(View v) {
-                
+
                 if (device.isInitialized() || device.isConnected()) {
                     showTransientSnackbar(R.string.controlcenter_snackbar_need_longpress);
                 } else {
@@ -647,6 +647,27 @@ public class GBDeviceAdapterv2 extends RecyclerView.Adapter<GBDeviceAdapterv2.Vi
             });
         }
 
+        holder.powerOff.setVisibility(View.GONE);
+        if (device.isInitialized() && coordinator.supportsPowerOff()) {
+            holder.powerOff.setVisibility(View.VISIBLE);
+            holder.powerOff.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    new AlertDialog.Builder(context)
+                            .setTitle(R.string.controlcenter_power_off_confirm_title)
+                            .setMessage(R.string.controlcenter_power_off_confirm_description)
+                            .setIcon(R.drawable.ic_power_settings_new)
+                            .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                                public void onClick(final DialogInterface dialog, final int whichButton) {
+                                    GBApplication.deviceService().onPowerOff();
+                                }
+                            })
+                            .setNegativeButton(android.R.string.no, null)
+                            .show();
+                }
+            });
+        }
+
         //remove device, hidden under details
         holder.removeDevice.setOnClickListener(new View.OnClickListener()
 
@@ -789,6 +810,7 @@ public class GBDeviceAdapterv2 extends RecyclerView.Adapter<GBDeviceAdapterv2.Vi
         LinearLayout fmFrequencyBox;
         TextView fmFrequencyLabel;
         ImageView ledColor;
+        ImageView powerOff;
 
         //activity card
         LinearLayout cardViewActivityCardLayout;
@@ -840,10 +862,11 @@ public class GBDeviceAdapterv2 extends RecyclerView.Adapter<GBDeviceAdapterv2.Vi
             fmFrequencyBox = view.findViewById(R.id.device_fm_frequency_box);
             fmFrequencyLabel = view.findViewById(R.id.fm_frequency);
             ledColor = view.findViewById(R.id.device_led_color);
+            powerOff = view.findViewById(R.id.device_action_power_off);
             heartRateStatusBox = view.findViewById(R.id.device_heart_rate_status_box);
             heartRateStatusLabel = view.findViewById(R.id.heart_rate_status);
             heartRateIcon = view.findViewById(R.id.device_heart_rate_status);
-            
+
             cardViewActivityCardLayout = view.findViewById(R.id.card_view_activity_card_layout);
 
             TotalStepsChart = view.findViewById(R.id.activity_dashboard_piechart1);

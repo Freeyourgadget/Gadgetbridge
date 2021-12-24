@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory
+        android:key="pref_key_header_sony_ambient_sound_control"
+        android:title="@string/pref_header_sony_ambient_sound_control">
+
+        <ListPreference
+            android:defaultValue="noise_cancelling"
+            android:entries="@array/sony_ambient_sound_control_wind_noise_reduction_names"
+            android:entryValues="@array/sony_ambient_sound_control_wind_noise_reduction_values"
+            android:icon="@drawable/ic_hearing"
+            android:key="pref_sony_ambient_sound_control"
+            android:summary="%s"
+            android:title="@string/sony_ambient_sound" />
+
+        <!-- [0, 19], which maps to [1, 20] on the device, as we can't configure the min on the current API level -->
+        <SeekBarPreference
+            android:defaultValue="0"
+            android:icon="@drawable/ic_volume_up"
+            android:key="pref_sony_ambient_sound_level"
+            android:max="19"
+            android:title="@string/sony_ambient_sound_level" />
+
+        <SwitchPreference
+            android:defaultValue="true"
+            android:icon="@drawable/ic_voice"
+            android:key="pref_sony_focus_voice"
+            android:title="@string/sony_ambient_sound_focus_voice" />
+
+    </PreferenceCategory>
+</androidx.preference.PreferenceScreen>

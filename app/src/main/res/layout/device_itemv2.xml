@@ -477,6 +477,20 @@
 
                 </LinearLayout>
 
+                <ImageView
+                    android:id="@+id/device_action_power_off"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_margin="3dp"
+                    android:layout_toEndOf="@id/device_heart_rate_status_box"
+                    android:background="?android:attr/selectableItemBackground"
+                    android:clickable="true"
+                    android:contentDescription="@string/controlcenter_power_off"
+                    android:focusable="true"
+                    android:padding="3dp"
+                    android:scaleType="fitXY"
+                    card_view:srcCompat="@drawable/ic_power_settings_new"
+                    card_view:tint="@color/secondarytext" />
 
             </com.google.android.flexbox.FlexboxLayout>
 

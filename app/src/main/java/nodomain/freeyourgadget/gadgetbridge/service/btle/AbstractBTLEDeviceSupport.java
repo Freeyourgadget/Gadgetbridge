@@ -22,6 +22,7 @@ import android.bluetooth.BluetoothGatt;
 import android.bluetooth.BluetoothGattCharacteristic;
 import android.bluetooth.BluetoothGattDescriptor;
 import android.bluetooth.BluetoothGattService;
+import android.content.Intent;
 
 import org.slf4j.Logger;
 
@@ -364,6 +365,11 @@ public abstract class AbstractBTLEDeviceSupport extends AbstractDeviceSupport im
 
     @Override
     public void onSetLedColor(int color) {
+
+    }
+
+    @Override
+    public void onPowerOff() {
 
     }
 

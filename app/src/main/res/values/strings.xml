@@ -10,6 +10,9 @@
     <string name="controlcenter_find_device">Find lost device</string>
     <string name="find_lost_device_message">Search for %1$s?</string>
     <string name="controlcenter_take_screenshot">Take Screenshot</string>
+    <string name="controlcenter_power_off">Power Off</string>
+    <string name="controlcenter_power_off_confirm_title">Power Off</string>
+    <string name="controlcenter_power_off_confirm_description">Are you sure you want to power off the device?</string>
     <string name="controlcenter_change_led_color">Change LED Color</string>
     <string name="controlcenter_change_fm_frequency">Change FM Frequency</string>
     <string name="controlcenter_connect">Connect…</string>
@@ -926,6 +929,7 @@
     <string name="devicetype_fitpro">FitPro</string>
     <string name="devicetype_domyos_t540"/>
     <string name="devicetype_sony_wh_1000xm3">Sony WH-1000XM3</string>
+    <string name="devicetype_sony_wf_sp800n">Sony WF-SP800N</string>
     <string name="choose_auto_export_location">Choose export location</string>
     <string name="notification_channel_name">General</string>
     <string name="notification_channel_high_priority_name">High-priority</string>
@@ -1424,6 +1428,13 @@
     <string name="sony_automatic_power_off_1_hour">1 hour</string>
     <string name="sony_automatic_power_off_3_hour">3 hours</string>
     <string name="sony_automatic_power_off_when_taken_off">When taken off</string>
+    <string name="sony_pause_when_taken_off">Pause when headphones are taken off</string>
+    <string name="sony_button_mode_left">Button Mode (Left)</string>
+    <string name="sony_button_mode_right">Button Mode (Right)</string>
+    <string name="sony_button_mode_off">Off</string>
+    <string name="sony_button_mode_ambient_sound_control">Ambient Sound Control</string>
+    <string name="sony_button_mode_playback_control">Playback Control</string>
+    <string name="sony_button_mode_volume_control">Volume Control</string>
     <string name="watchface_widget_type_custom">Custom widget</string>
     <string name="watchface_dialog_widget_timezone">Time zone:</string>
     <string name="watchface_dialog_widget_update_timeout">Update timeout in minutes:</string>

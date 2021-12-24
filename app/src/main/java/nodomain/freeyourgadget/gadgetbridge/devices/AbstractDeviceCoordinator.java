@@ -279,5 +279,8 @@ public abstract class AbstractDeviceCoordinator implements DeviceCoordinator {
         return new BatteryConfig[0];
     }
 
-
+    @Override
+    public boolean supportsPowerOff() {
+        return false;
+    }
 }

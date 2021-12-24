@@ -378,4 +378,5 @@ public interface DeviceCoordinator {
 
     BatteryConfig[] getBatteryConfig();
 
+    boolean supportsPowerOff();
 }

@@ -36,6 +36,8 @@ public enum PayloadType {
     AUDIO_CODEC_REPLY(MessageType.COMMAND_1, 0x19),
     AUDIO_CODEC_NOTIFY(MessageType.COMMAND_1, 0x1b),
 
+    POWER_OFF(MessageType.COMMAND_1, 0x22),
+
     SOUND_POSITION_OR_MODE_GET(MessageType.COMMAND_1, 0x46),
     SOUND_POSITION_OR_MODE_RET(MessageType.COMMAND_1, 0x47),
     SOUND_POSITION_OR_MODE_SET(MessageType.COMMAND_1, 0x48),

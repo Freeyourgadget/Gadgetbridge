@@ -143,6 +143,10 @@ public abstract class GBDeviceProtocol {
         return null;
     }
 
+    public byte[] encodePowerOff() {
+        return null;
+    }
+
     public byte[] encodeReminders(ArrayList<? extends Reminder> reminders) {
         return null;
     }
