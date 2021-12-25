@@ -186,9 +186,9 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
     private boolean mStarted = false;
 
     private DeviceSupportFactory mFactory;
-    private GBDevice mGBDevice = null;
-    private DeviceSupport mDeviceSupport;
-    private DeviceCoordinator mCoordinator = null;
+    private ArrayList<GBDevice> mGBDevices = null;
+    private ArrayList<DeviceSupport> mDeviceSupports;
+    private ArrayList<DeviceCoordinator> mCoordinators = null;
 
     private PhoneCallReceiver mPhoneCallReceiver = null;
     private SMSReceiver mSMSReceiver = null;
@@ -237,6 +237,17 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
     private final BroadcastReceiver mReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
+            String action = intent.getAction();
+            GBDevice device = intent.getParcelableExtra(GBDevice.EXTRA_DEVICE);
+            boolean enableReceivers = false;
+            boolean anyDeviceInitialized = false;
+            if(GBDevice.ACTION_DEVICE_CHANGED.equals(action)){
+                for(GBDevice gbDevice : mGBDevices){
+
+                }
+            }
+
+
             String action = intent.getAction();
             if (GBDevice.ACTION_DEVICE_CHANGED.equals(action)) {
                 GBDevice device = intent.getParcelableExtra(GBDevice.EXTRA_DEVICE);
