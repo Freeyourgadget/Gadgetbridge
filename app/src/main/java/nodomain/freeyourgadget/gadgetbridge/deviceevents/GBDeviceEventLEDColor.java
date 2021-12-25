@@ -17,5 +17,9 @@
 package nodomain.freeyourgadget.gadgetbridge.deviceevents;
 
 public class GBDeviceEventLEDColor extends GBDeviceEvent {
-    public int color;
+    public final int color;
+
+    public GBDeviceEventLEDColor(final int color) {
+        this.color = color;
+    }
 }

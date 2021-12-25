@@ -31,9 +31,9 @@ public class Roidmi3Coordinator extends RoidmiCoordinator {
 
     @NonNull
     @Override
-    public DeviceType getSupportedType(GBDeviceCandidate candidate) {
+    public DeviceType getSupportedType(final GBDeviceCandidate candidate) {
         try {
-            BluetoothDevice device = candidate.getDevice();
+            final BluetoothDevice device = candidate.getDevice();
             final String name = device.getName();
 
             if (name == null) {

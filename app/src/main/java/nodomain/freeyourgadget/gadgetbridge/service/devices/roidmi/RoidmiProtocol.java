@@ -54,7 +54,7 @@ public abstract class RoidmiProtocol extends GBDeviceProtocol {
     public abstract byte[] packetTrailer();
 
     public byte[] encodeCommand(byte... params) {
-        byte[] cmd = new byte[packetHeader().length + packetTrailer().length + params.length + 2];
+        final byte[] cmd = new byte[packetHeader().length + packetTrailer().length + params.length + 2];
 
         for (int i = 0; i < packetHeader().length; i++)
             cmd[i] = packetHeader()[i];
@@ -79,13 +79,13 @@ public abstract class RoidmiProtocol extends GBDeviceProtocol {
     }
 
     public byte[] frequencyToBytes(float frequency) {
-        byte[] res = new byte[2];
-        String format = String.format(Locale.getDefault(), "%04d", (int) (10.0f * frequency));
+        final byte[] res = new byte[2];
+        final String format = String.format(Locale.ROOT, "%04d", (int) (10.0f * frequency));
         try {
             res[0] = (byte) (Integer.parseInt(format.substring(0, 2), 16) & 255);
             res[1] = (byte) (Integer.parseInt(format.substring(2), 16) & 255);
-        } catch (Exception e) {
-            LOG.error(e.getMessage());
+        } catch (final Exception e) {
+            LOG.error("Failed to format frequency {}", frequency, e);
         }
 
         return res;

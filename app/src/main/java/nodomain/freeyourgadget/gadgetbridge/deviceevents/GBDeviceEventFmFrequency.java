@@ -17,5 +17,9 @@
 package nodomain.freeyourgadget.gadgetbridge.deviceevents;
 
 public class GBDeviceEventFmFrequency extends GBDeviceEvent {
-    public float frequency;
+    public final float frequency;
+
+    public GBDeviceEventFmFrequency(final float frequency) {
+        this.frequency = frequency;
+    }
 }
