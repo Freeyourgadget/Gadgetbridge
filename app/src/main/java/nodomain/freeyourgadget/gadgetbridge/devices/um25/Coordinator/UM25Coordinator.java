@@ -142,6 +142,11 @@ public class UM25Coordinator extends AbstractDeviceCoordinator {
     }
 
     @Override
+    public int getBatteryCount() {
+        return 0;
+    }
+
+    @Override
     public int getBondingStyle() {
         return BONDING_STYLE_NONE;
     }
