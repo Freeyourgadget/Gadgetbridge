@@ -145,7 +145,7 @@ public class ActivitySummaryJsonSummary {
     private JSONObject createActivitySummaryGroups(){
         String groupDefinitions = "{'Strokes':['averageStrokeDistance','averageStrokesPerSecond','strokes'], " +
                 "'Swimming':['swolfIndex','swimStyle'], " +
-                "'Elevation':['ascentMeters','descentMeters','maxAltitude','minAltitude','averageAltitude','ascentSeconds','descentSeconds','flatSeconds', 'baseAltitude'], " +
+                "'Elevation':['ascentMeters','descentMeters','maxAltitude','minAltitude','averageAltitude', 'baseAltitude','ascentSeconds','descentSeconds','flatSeconds','ascentDistance','descentDistance','flatDistance'], " +
                 "'Speed':['averageSpeed','maxSpeed','minSpeed','averageKMPaceSeconds','minPace','maxPace','averageSpeed2','averageCadence','maxCadence','minCadence'], " +
                 "'Activity':['distanceMeters','steps','activeSeconds','caloriesBurnt','totalStride'," +
                 "'averageHR','maxHR','minHR','averageStride','maxStride','minStride'], " +

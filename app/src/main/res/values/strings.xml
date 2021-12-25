@@ -1120,6 +1120,8 @@
     <string name="distanceMeters">Distance</string>
     <string name="ascentMeters">Uphill</string>
     <string name="descentMeters">Downhill</string>
+    <string name="ascentDistance">Uphill distance</string>
+    <string name="descentDistance">Downhill distance</string>
     <string name="maxAltitude">Maximum</string>
     <string name="minAltitude">Minimum</string>
     <string name="averageAltitude">Average</string>
