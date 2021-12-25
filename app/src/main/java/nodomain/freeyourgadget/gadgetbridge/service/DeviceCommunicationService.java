@@ -180,7 +180,7 @@ import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_VIB
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_WEATHER;
 
 public class DeviceCommunicationService extends Service implements SharedPreferences.OnSharedPreferenceChangeListener {
-    private static class DeviceStruct{
+    public static class DeviceStruct{
         private GBDevice device;
         private DeviceCoordinator coordinator;
         private DeviceSupport deviceSupport;
@@ -215,6 +215,10 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
 
         public DeviceNotFoundException(GBDevice device) {
             this.address = device.getAddress();
+        }
+
+        public DeviceNotFoundException(String address) {
+            this.address = address;
         }
 
         @Nullable
@@ -748,13 +752,22 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
         deviceStructs.add(struct);
     }
 
-    private DeviceStruct getDeviceStruct(GBDevice device) throws DeviceNotFoundException {
+    public DeviceStruct getDeviceStruct(GBDevice device) throws DeviceNotFoundException {
         for(DeviceStruct struct : deviceStructs){
             if(struct.getDevice().equals(device)){
                 return struct;
             }
         }
         throw new DeviceNotFoundException(device);
+    }
+
+    public GBDevice getDeviceByAddress(String deviceAddress) throws DeviceNotFoundException {
+        for(DeviceStruct struct : deviceStructs){
+            if(struct.getDevice().getAddress().equals(deviceAddress)){
+                return struct.getDevice();
+            }
+        }
+        throw new DeviceNotFoundException(deviceAddress);
     }
 
     private DeviceSupport getDeviceSupport(GBDevice device) throws DeviceNotFoundException {

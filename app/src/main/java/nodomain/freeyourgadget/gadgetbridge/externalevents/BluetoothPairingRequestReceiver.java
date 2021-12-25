@@ -47,21 +47,26 @@ public class BluetoothPairingRequestReceiver extends BroadcastReceiver {
         if (!action.equals(BluetoothDevice.ACTION_PAIRING_REQUEST)) {
             return;
         }
-
-        GBDevice gbDevice = service.getGBDevice();
         BluetoothDevice device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
-        if (gbDevice == null || device == null) {
+        if (device == null) {
             return;
         }
 
-        DeviceCoordinator coordinator = DeviceHelper.getInstance().getCoordinator(gbDevice);
+        GBDevice gbDevice = null;
         try {
-            if (coordinator.getBondingStyle() == DeviceCoordinator.BONDING_STYLE_NONE) {
-                LOG.info("Aborting unwanted pairing request");
-                abortBroadcast();
+            gbDevice = service.getDeviceByAddress(device.getAddress());
+
+            DeviceCoordinator coordinator = DeviceHelper.getInstance().getCoordinator(gbDevice);
+            try {
+                if (coordinator.getBondingStyle() == DeviceCoordinator.BONDING_STYLE_NONE) {
+                    LOG.info("Aborting unwanted pairing request");
+                    abortBroadcast();
+                }
+            } catch (Exception e) {
+                LOG.warn("Could not abort pairing request process");
             }
-        } catch (Exception e) {
-            LOG.warn("Could not abort pairing request process");
+        } catch (DeviceCommunicationService.DeviceNotFoundException e) {
+            e.printStackTrace();
         }
     }
 }

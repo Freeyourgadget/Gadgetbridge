@@ -48,12 +48,14 @@ public class BluetoothConnectReceiver extends BroadcastReceiver {
         BluetoothDevice device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
         LOG.info("connection attempt detected from or to " + device.getAddress() + "(" + device.getName() + ")");
 
-        GBDevice gbDevice = service.getGBDevice();
-        if (gbDevice != null) {
-            if (device.getAddress().equals(gbDevice.getAddress()) && gbDevice.getState() == GBDevice.State.WAITING_FOR_RECONNECT) {
+        try {
+            GBDevice gbDevice = service.getDeviceByAddress(device.getAddress());
+            if (gbDevice.getState() == GBDevice.State.WAITING_FOR_RECONNECT) {
                 LOG.info("Will re-connect to " + gbDevice.getAddress() + "(" + gbDevice.getName() + ")");
-                GBApplication.deviceService().connect();
+                GBApplication.deviceService().connect(gbDevice);
             }
+        } catch (DeviceCommunicationService.DeviceNotFoundException e) {
+            // ACL_CONNECTED from wrong device
         }
     }
 }
