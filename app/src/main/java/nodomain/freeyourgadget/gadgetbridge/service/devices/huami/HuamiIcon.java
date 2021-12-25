@@ -64,28 +64,28 @@ public class HuamiIcon {
     public static byte mapToIconId(NotificationType type) {
         switch (type) {
             case UNKNOWN:
+            case GENERIC_NAVIGATION:
                 return APP_11;
             case CONVERSATIONS:
             case RIOT:
             case HIPCHAT:
             case KONTALK:
             case ANTOX:
+            case GENERIC_SMS:
+            case WECHAT:
                 return WECHAT;
             case GENERIC_EMAIL:
             case GMAIL:
             case YAHOO_MAIL:
             case OUTLOOK:
                 return EMAIL;
-            case GENERIC_NAVIGATION:
-                return APP_11;
-            case GENERIC_SMS:
-                return WECHAT;
             case GENERIC_CALENDAR:
             case BUSINESS_CALENDAR:
                 return CALENDAR;
             case FACEBOOK:
                 return FACEBOOK;
             case FACEBOOK_MESSENGER:
+            case SIGNAL:
                 return FACEBOOK_MESSENGER;
             case GOOGLE_HANGOUTS:
             case GOOGLE_MESSENGER:
@@ -97,9 +97,8 @@ public class HuamiIcon {
                 return KAKAOTALK;
             case LINE:
                 return LINE;
-            case SIGNAL:
-                return FACEBOOK_MESSENGER;
             case WIRE:
+            case THREEMA:
                 return CHAT_BLUE_13;
             case TWITTER:
                 return TWITTER;
@@ -109,17 +108,40 @@ public class HuamiIcon {
                 return SNAPCHAT;
             case TELEGRAM:
                 return TELEGRAM;
-            case THREEMA:
-                return CHAT_BLUE_13;
             case VIBER:
+            case DISCORD:
                 return VIBER;
-            case WECHAT:
-                return WECHAT;
             case WHATSAPP:
                 return WHATSAPP;
             case GENERIC_ALARM_CLOCK:
                 return ALARM_CLOCK;
         }
         return APP_11;
+    }
+
+    //amazfit workaround
+    public static boolean acceptsSender(byte iconId){
+        switch(iconId){
+            case WECHAT:
+            case PENGUIN_1:
+            case MI_CHAT_2:
+            case SNAPCHAT:
+            case WHATSAPP:
+            case RED_WHITE_FIRE_8:
+            case INSTAGRAM:
+            case CHAT_BLUE_13:
+            case COW_14:
+            case CHINESE_20:
+            case FACEBOOK_MESSENGER:
+            case VIBER:
+            case LINE:
+            case TELEGRAM:
+            case VKONTAKTE:
+            case CHINESE_32:
+            case EMAIL:
+                return true;
+        }
+
+        return false;
     }
 }

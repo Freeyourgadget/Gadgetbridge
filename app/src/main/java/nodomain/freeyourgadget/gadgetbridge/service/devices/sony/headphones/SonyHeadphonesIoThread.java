@@ -18,6 +18,7 @@ package nodomain.freeyourgadget.gadgetbridge.service.devices.sony.headphones;
 
 import android.bluetooth.BluetoothAdapter;
 import android.content.Context;
+import android.os.Handler;
 import android.os.ParcelUuid;
 
 import androidx.annotation.NonNull;
@@ -32,43 +33,91 @@ import java.util.UUID;
 
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.service.btclassic.BtClassicIoThread;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.sony.headphones.protocol.Message;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
 public class SonyHeadphonesIoThread extends BtClassicIoThread {
     private static final Logger LOG = LoggerFactory.getLogger(SonyHeadphonesIoThread.class);
 
+    private final SonyHeadphonesProtocol mProtocol;
+
+    // Track whether we got the first reply
+    private boolean firstReply = false;
+    private final Handler handler = new Handler();
+    private int initRetries = 0;
+
+    /**
+     * Sometimes the headphones will ignore the first init request, so we retry a few times
+     * TODO: Implement this in a more elegant way. Ideally, we should retry every command for which we didn't get an ACK.
+     */
+    private final Runnable initSendRunnable = new Runnable() {
+        public void run() {
+            // If we still haven't got any reply, re-send the init
+            if (!firstReply) {
+                if (initRetries++ < 2) {
+                    LOG.warn("Init retry {}", initRetries);
+
+                    write(mProtocol.encodeInit());
+                    scheduleInitRetry();
+                } else {
+                    LOG.error("Failed to start headphones init after {} tries", initRetries);
+                    quit();
+                }
+            }
+        }
+    };
+
     public SonyHeadphonesIoThread(GBDevice gbDevice, Context context, SonyHeadphonesProtocol protocol, SonyHeadphonesSupport support, BluetoothAdapter btAdapter) {
         super(gbDevice, context, protocol, support, btAdapter);
+        mProtocol = protocol;
+    }
+
+    @Override
+    protected void initialize() {
+        write(mProtocol.encodeInit());
+        scheduleInitRetry();
+        setUpdateState(GBDevice.State.INITIALIZING);
+    }
+
+    @Override
+    public synchronized void write(byte[] bytes) {
+        // Log the human-readable message, for debugging
+        LOG.info("Writing {}", Message.fromBytes(bytes));
+
+        super.write(bytes);
     }
 
     @Override
     protected byte[] parseIncoming(InputStream inputStream) throws IOException {
-        ByteArrayOutputStream msgStream = new ByteArrayOutputStream();
-        byte[] incoming = new byte[1];
+        final ByteArrayOutputStream msgStream = new ByteArrayOutputStream();
+        final byte[] incoming = new byte[1];
 
-        while (true) {
+        do {
             inputStream.read(incoming);
 
-            if (incoming[0] == SonyHeadphonesProtocol.PACKET_HEADER) {
+            if (incoming[0] == Message.MESSAGE_HEADER) {
                 msgStream.reset();
-                continue;
-            }
-
-            if (incoming[0] == SonyHeadphonesProtocol.PACKET_TRAILER) {
-                break;
             }
 
             msgStream.write(incoming);
-        }
+        } while (incoming[0] != Message.MESSAGE_TRAILER);
 
-        byte[] msgArray = msgStream.toByteArray();
-        LOG.debug("Received: " + GB.hexdump(msgArray, 0, msgArray.length));
-        return msgArray;
+        firstReply = true;
+
+        LOG.trace("Raw message: {}", GB.hexdump(msgStream.toByteArray()));
+
+        return msgStream.toByteArray();
     }
 
     @NonNull
     @Override
     protected UUID getUuidToConnect(@NonNull ParcelUuid[] uuids) {
         return UUID.fromString("96CC203E-5068-46ad-B32D-E316F5E069BA");
+    }
+
+    private void scheduleInitRetry() {
+        LOG.info("Scheduling init retry");
+
+        handler.postDelayed(initSendRunnable, 1250);
     }
 }

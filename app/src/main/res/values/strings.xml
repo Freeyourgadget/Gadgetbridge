@@ -936,12 +936,12 @@
     <!-- Menus on the smart device -->
     <string name="menuitem_status">Status</string>
     <string name="menuitem_notifications">Notifications</string>
-    <string name="menuitem_activity">Activity</string>
+    <string name="menuitem_activity">Workout History</string>
     <string name="menuitem_weather">Weather</string>
     <string name="menuitem_breathing">Breathing</string>
-    <string name="menuitem_cycles">Period</string>
+    <string name="menuitem_cycles">Cycle Tracking</string>
     <string name="menuitem_alarm">Alarm</string>
-    <string name="menuitem_timer">Timer</string>
+    <string name="menuitem_timer">Countdown</string>
     <string name="menuitem_compass">Compass</string>
     <string name="menuitem_settings">Settings</string>
     <string name="menuitem_alipay">Alipay</string>
@@ -959,7 +959,7 @@
     <string name="menuitem_worldclock">World Clock</string>
     <string name="menuitem_findphone">Find Phone</string>
     <string name="menuitem_mutephone">Mute Phone</string>
-    <string name="menuitem_takephoto">Take a photo</string>
+    <string name="menuitem_takephoto">Camera Remote</string>
     <string name="menuitem_alexa">Alexa</string>
     <string name="menuitem_dnd">DND</string>
     <string name="menuitem_stopwatch">Stopwatch</string>
@@ -1317,7 +1317,7 @@
     <string name="watchface_setting_title_power_saving">Power saving</string>
     <string name="watchface_setting_power_saving_display">Disable display updates while off wrist</string>
     <string name="watchface_setting_power_saving_hands">Disable hands movement while off wrist</string>
-<string name="prefs_sleep_time">Sleep times</string>
+    <string name="prefs_sleep_time">Sleep times</string>
     <string name="prefs_sleep_time_label">Define sleep hours</string>
     <string name="prefs_sleep_time_summary">Specifies times when sleep is registered</string>
     <string name="prefs_vibration_enable">Enable vibrations</string>
@@ -1401,7 +1401,7 @@
     <string name="sony_equalizer_preset_manual">Manual</string>
     <string name="sony_equalizer_preset_custom_1">Custom 1</string>
     <string name="sony_equalizer_preset_custom_2">Custom 2</string>
-    <string name="pref_header_sony_equalizer_preset_manual">Manual Preset</string>
+    <string name="pref_header_sony_equalizer_bands">Bands</string>
     <string name="pref_header_sony_equalizer_preset_custom_1">Custom Preset 1</string>
     <string name="pref_header_sony_equalizer_preset_custom_2">Custom Preset 2</string>
     <string name="sony_equalizer_band_400">400</string>
@@ -1410,7 +1410,7 @@
     <string name="sony_equalizer_band_6300">6.3k</string>
     <string name="sony_equalizer_band_16000">16k</string>
     <string name="sony_equalizer_clear_bass">Clear Bass</string>
-    <string name="sony_dsee_hx">DSEE HX</string>
+    <string name="sony_audio_upsampling">Audio Upsampling</string>
     <string name="sony_touch_sensor">Touch sensor control</string>
     <string name="sony_notification_voice_guide">Notifications &amp; Voice Guide</string>
     <string name="sony_automatic_power_off">Automatic Power Off</string>
@@ -1427,5 +1427,4 @@
     <string name="watchface_dialog_widget_timeout_show_circle">Show circle on timeout:</string>
     <string name="qhybrid_title_on_device_confirmation">Enable on-device pairing confirmation</string>
     <string name="qhybrid_summary_on_device_confirmation">On-device pairing confirmations can get annoying. Disabling them might lose you functionality.</string>
-
 </resources>

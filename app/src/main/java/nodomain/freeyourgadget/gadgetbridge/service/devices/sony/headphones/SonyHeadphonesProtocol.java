@@ -21,55 +21,44 @@ import android.content.SharedPreferences;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.nio.ByteBuffer;
-import java.nio.ByteOrder;
-import java.util.Arrays;
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Queue;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEvent;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventSendBytes;
-import nodomain.freeyourgadget.gadgetbridge.devices.sony.headphones.AmbientSoundControl;
-import nodomain.freeyourgadget.gadgetbridge.devices.sony.headphones.AutomaticPowerOff;
-import nodomain.freeyourgadget.gadgetbridge.devices.sony.headphones.EqualizerCustomBands;
-import nodomain.freeyourgadget.gadgetbridge.devices.sony.headphones.EqualizerPreset;
-import nodomain.freeyourgadget.gadgetbridge.devices.sony.headphones.SoundPosition;
-import nodomain.freeyourgadget.gadgetbridge.devices.sony.headphones.SurroundMode;
+import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventUpdateDeviceState;
+import nodomain.freeyourgadget.gadgetbridge.devices.sony.headphones.prefs.AmbientSoundControl;
+import nodomain.freeyourgadget.gadgetbridge.devices.sony.headphones.prefs.AudioUpsampling;
+import nodomain.freeyourgadget.gadgetbridge.devices.sony.headphones.prefs.AutomaticPowerOff;
+import nodomain.freeyourgadget.gadgetbridge.devices.sony.headphones.prefs.EqualizerCustomBands;
+import nodomain.freeyourgadget.gadgetbridge.devices.sony.headphones.prefs.EqualizerPreset;
+import nodomain.freeyourgadget.gadgetbridge.devices.sony.headphones.prefs.VoiceNotifications;
+import nodomain.freeyourgadget.gadgetbridge.devices.sony.headphones.prefs.SoundPosition;
+import nodomain.freeyourgadget.gadgetbridge.devices.sony.headphones.prefs.SurroundMode;
+import nodomain.freeyourgadget.gadgetbridge.devices.sony.headphones.prefs.TouchSensor;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.sony.headphones.protocol.Request;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.sony.headphones.protocol.Message;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.sony.headphones.protocol.MessageType;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.sony.headphones.protocol.impl.AbstractSonyProtocolImpl;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.sony.headphones.protocol.impl.v1.SonyProtocolImplV1;
 import nodomain.freeyourgadget.gadgetbridge.service.serial.GBDeviceProtocol;
-import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
-public abstract class SonyHeadphonesProtocol extends GBDeviceProtocol {
+public class SonyHeadphonesProtocol extends GBDeviceProtocol {
     private static final Logger LOG = LoggerFactory.getLogger(SonyHeadphonesProtocol.class);
 
-    /**
-     * Packet format:
-     * <p>
-     * - PACKET_HEADER
-     * - Command type? - almost always 0x0c or 0x0e?
-     * - Sequence Number - needs to be updated with the one sent in the ACK responses
-     * - 4-byte big endian int with number of bytes that will follow
-     * - N bytes of data
-     * - Checksum (1-byte sum, excluding header)
-     * - PACKET_TRAILER
-     * <p>
-     * Data between PACKET_HEADER and PACKET_TRAILER is escaped with PACKET_ESCAPE, and the
-     * following byte masked with PACKET_ESCAPE_MASK.
-     */
-
-    public static final byte PACKET_HEADER = 0x3e;
-    public static final byte PACKET_TRAILER = 0x3c;
-    public static final byte PACKET_ESCAPE = 0x3d;
-    public static final byte PACKET_ESCAPE_MASK = (byte) 0b11101111;
-
-    private static final byte MSG_TYPE_ACK = 0x01;
-
-    private static final byte CMD_SOUND_SURROUND = 0x01;
-    private static final byte CMD_SOUND_POSITION = 0x02;
-
     private byte sequenceNumber = 0;
+
+    // Request queue, sent every ACK, as we can't send them all at once
+    // Initially, it should contain all the init requests
+    private final Queue<Request> requestQueue = new LinkedList<>();
+    private int pendingAcks = 0;
+
+    private AbstractSonyProtocolImpl protocolImpl = null;
 
     public SonyHeadphonesProtocol(GBDevice device) {
         super(device);
@@ -77,330 +66,188 @@ public abstract class SonyHeadphonesProtocol extends GBDeviceProtocol {
 
     @Override
     public GBDeviceEvent[] decodeResponse(byte[] res) {
-        byte[] message = unescape(res);
-        String hexdump = GB.hexdump(message, 0, message.length);
-
-        LOG.debug("Received {}", hexdump);
-
-        byte messageChecksum = message[message.length - 1];
-        byte expectedChecksum = calcChecksum(message, true);
-
-        if (messageChecksum != expectedChecksum) {
-            LOG.error("Invalid checksum for {}", hexdump);
+        final Message message = Message.fromBytes(res);
+        if (message == null) {
             return null;
         }
 
-        int payloadLength = ((message[2] << 24) & 0xFF000000) | ((message[3] << 16) & 0xFF0000) | ((message[4] << 8) & 0xFF00) | (message[5] & 0xFF);
-        if (payloadLength != message.length - 7) {
-            LOG.error("Unexpected payload length {}, expected {}", message.length - 7, payloadLength);
+        LOG.info("Received {}", message);
+
+        final MessageType messageType = message.getType();
+
+        if (messageType == MessageType.ACK) {
+            if (sequenceNumber == message.getSequenceNumber()) {
+                LOG.warn("Unexpected ACK sequence number {}", message.getSequenceNumber());
+                return null;
+            }
+
+            sequenceNumber = message.getSequenceNumber();
+
+            return new GBDeviceEvent[]{handleAck()};
+        }
+
+        if (message.getPayload().length == 0) {
+            LOG.warn("Empty message: {}", message);
             return null;
         }
 
-        if (message[0] == MSG_TYPE_ACK) {
-            LOG.info("Received ACK: {}", hexdump);
-            sequenceNumber = message[1];
-            return new GBDeviceEvent[]{new GBDeviceEventSendBytes(encodeAck())};
+        final List<Object> events = new ArrayList<>();
+
+        if (protocolImpl == null) {
+            // Check if we got an init response, which should indicate the protocol version
+            if (MessageType.COMMAND_1.equals(messageType) && message.getPayload()[0] == 0x01) {
+                // Init reply, set the protocol version
+                if (message.getPayload().length == 4) {
+                    protocolImpl = new SonyProtocolImplV1(getDevice());
+                } else if (message.getPayload().length == 6) {
+                    LOG.warn("Sony Headphones protocol v2 is not yet supported");
+                    return null;
+                }
+
+                return null;
+            }
         }
 
-        LOG.warn("Unknown message: {}", hexdump);
+        if (protocolImpl == null) {
+            LOG.error("No protocol implementation, ignoring message");
+            return null;
+        }
 
-        return null;
+        try {
+            switch (messageType) {
+                case COMMAND_1:
+                case COMMAND_2:
+                    events.add(new GBDeviceEventSendBytes(encodeAck(message.getSequenceNumber())));
+                    events.addAll(protocolImpl.handlePayload(messageType, message.getPayload()));
+                    break;
+                default:
+                    LOG.warn("Unknown message type for {}", message);
+                    return null;
+            }
+        } catch (final Exception e) {
+            // Don't crash the app if we somehow fail to handle the payload
+            LOG.error("Error handling payload", e);
+        }
+
+        return events.toArray(new GBDeviceEvent[0]);
     }
 
     @Override
     public byte[] encodeSendConfiguration(String config) {
+        if (protocolImpl == null) {
+            LOG.error("No protocol implementation, ignoring config {}", config);
+            return super.encodeSendConfiguration(config);
+        }
+
         final SharedPreferences prefs = GBApplication.getDeviceSpecificSharedPrefs(getDevice().getAddress());
-        EqualizerPreset equalizerPreset = EqualizerPreset.valueOf(prefs.getString(DeviceSettingsPreferenceConst.PREF_SONY_EQUALIZER_MODE, "off").toUpperCase());
+
+        final Request configRequest;
 
         switch (config) {
             case DeviceSettingsPreferenceConst.PREF_SONY_AMBIENT_SOUND_CONTROL:
             case DeviceSettingsPreferenceConst.PREF_SONY_FOCUS_VOICE:
             case DeviceSettingsPreferenceConst.PREF_SONY_AMBIENT_SOUND_LEVEL:
-                String soundControl = prefs.getString(DeviceSettingsPreferenceConst.PREF_SONY_AMBIENT_SOUND_CONTROL, "noise_cancelling");
-                boolean focusVoice = prefs.getBoolean(DeviceSettingsPreferenceConst.PREF_SONY_FOCUS_VOICE, false);
-                int level = prefs.getInt(DeviceSettingsPreferenceConst.PREF_SONY_AMBIENT_SOUND_LEVEL, 0);
-                return encodeSoundControl(AmbientSoundControl.valueOf(soundControl.toUpperCase()), focusVoice, level);
-
+                configRequest = protocolImpl.setAmbientSoundControl(AmbientSoundControl.fromPreferences(prefs));
+                break;
             case DeviceSettingsPreferenceConst.PREF_SONY_SOUND_POSITION:
-                return encodeSoundPosition(
-                        SoundPosition.valueOf(prefs.getString(DeviceSettingsPreferenceConst.PREF_SONY_SOUND_POSITION, "off").toUpperCase())
-                );
-
+                configRequest = protocolImpl.setSoundPosition(SoundPosition.fromPreferences(prefs));
+                break;
             case DeviceSettingsPreferenceConst.PREF_SONY_SURROUND_MODE:
-                return encodeSurroundMode(
-                        SurroundMode.valueOf(prefs.getString(DeviceSettingsPreferenceConst.PREF_SONY_SURROUND_MODE, "off").toUpperCase())
-                );
-
+                configRequest = protocolImpl.setSurroundMode(SurroundMode.fromPreferences(prefs));
+                break;
             case DeviceSettingsPreferenceConst.PREF_SONY_EQUALIZER_MODE:
-                return encodeEqualizerPreset(equalizerPreset);
-
-            case DeviceSettingsPreferenceConst.PREF_SONY_EQUALIZER_MANUAL_BAND_400:
-            case DeviceSettingsPreferenceConst.PREF_SONY_EQUALIZER_MANUAL_BAND_1000:
-            case DeviceSettingsPreferenceConst.PREF_SONY_EQUALIZER_MANUAL_BAND_2500:
-            case DeviceSettingsPreferenceConst.PREF_SONY_EQUALIZER_MANUAL_BAND_6300:
-            case DeviceSettingsPreferenceConst.PREF_SONY_EQUALIZER_MANUAL_BAND_16000:
-            case DeviceSettingsPreferenceConst.PREF_SONY_EQUALIZER_MANUAL_CLEAR_BASS:
-                int m_band1 = prefs.getInt(DeviceSettingsPreferenceConst.PREF_SONY_EQUALIZER_MANUAL_BAND_400, 10) - 10;
-                int m_band2 = prefs.getInt(DeviceSettingsPreferenceConst.PREF_SONY_EQUALIZER_MANUAL_BAND_1000, 10) - 10;
-                int m_band3 = prefs.getInt(DeviceSettingsPreferenceConst.PREF_SONY_EQUALIZER_MANUAL_BAND_2500, 10) - 10;
-                int m_band4 = prefs.getInt(DeviceSettingsPreferenceConst.PREF_SONY_EQUALIZER_MANUAL_BAND_6300, 10) - 10;
-                int m_band5 = prefs.getInt(DeviceSettingsPreferenceConst.PREF_SONY_EQUALIZER_MANUAL_BAND_16000, 10) - 10;
-                int m_bass = prefs.getInt(DeviceSettingsPreferenceConst.PREF_SONY_EQUALIZER_MANUAL_CLEAR_BASS, 10) - 10;
-
-                return encodeEqualizerCustomBands(new EqualizerCustomBands(Arrays.asList(m_band1, m_band2, m_band3, m_band4, m_band5), m_bass));
-
-            case DeviceSettingsPreferenceConst.PREF_SONY_EQUALIZER_CUSTOM_1_BAND_400:
-            case DeviceSettingsPreferenceConst.PREF_SONY_EQUALIZER_CUSTOM_1_BAND_1000:
-            case DeviceSettingsPreferenceConst.PREF_SONY_EQUALIZER_CUSTOM_1_BAND_2500:
-            case DeviceSettingsPreferenceConst.PREF_SONY_EQUALIZER_CUSTOM_1_BAND_6300:
-            case DeviceSettingsPreferenceConst.PREF_SONY_EQUALIZER_CUSTOM_1_BAND_16000:
-            case DeviceSettingsPreferenceConst.PREF_SONY_EQUALIZER_CUSTOM_1_CLEAR_BASS:
-                int c1_band1 = prefs.getInt(DeviceSettingsPreferenceConst.PREF_SONY_EQUALIZER_CUSTOM_1_BAND_400, 10) - 10;
-                int c1_band2 = prefs.getInt(DeviceSettingsPreferenceConst.PREF_SONY_EQUALIZER_CUSTOM_1_BAND_1000, 10) - 10;
-                int c1_band3 = prefs.getInt(DeviceSettingsPreferenceConst.PREF_SONY_EQUALIZER_CUSTOM_1_BAND_2500, 10) - 10;
-                int c1_band4 = prefs.getInt(DeviceSettingsPreferenceConst.PREF_SONY_EQUALIZER_CUSTOM_1_BAND_6300, 10) - 10;
-                int c1_band5 = prefs.getInt(DeviceSettingsPreferenceConst.PREF_SONY_EQUALIZER_CUSTOM_1_BAND_16000, 10) - 10;
-                int c1_bass = prefs.getInt(DeviceSettingsPreferenceConst.PREF_SONY_EQUALIZER_CUSTOM_1_CLEAR_BASS, 10) - 10;
-
-                return encodeEqualizerCustomBands(new EqualizerCustomBands(Arrays.asList(c1_band1, c1_band2, c1_band3, c1_band4, c1_band5), c1_bass));
-
-            case DeviceSettingsPreferenceConst.PREF_SONY_EQUALIZER_CUSTOM_2_BAND_400:
-            case DeviceSettingsPreferenceConst.PREF_SONY_EQUALIZER_CUSTOM_2_BAND_1000:
-            case DeviceSettingsPreferenceConst.PREF_SONY_EQUALIZER_CUSTOM_2_BAND_2500:
-            case DeviceSettingsPreferenceConst.PREF_SONY_EQUALIZER_CUSTOM_2_BAND_6300:
-            case DeviceSettingsPreferenceConst.PREF_SONY_EQUALIZER_CUSTOM_2_BAND_16000:
-            case DeviceSettingsPreferenceConst.PREF_SONY_EQUALIZER_CUSTOM_2_CLEAR_BASS:
-                int c2_band1 = prefs.getInt(DeviceSettingsPreferenceConst.PREF_SONY_EQUALIZER_CUSTOM_2_BAND_400, 10) - 10;
-                int c2_band2 = prefs.getInt(DeviceSettingsPreferenceConst.PREF_SONY_EQUALIZER_CUSTOM_2_BAND_1000, 10) - 10;
-                int c2_band3 = prefs.getInt(DeviceSettingsPreferenceConst.PREF_SONY_EQUALIZER_CUSTOM_2_BAND_2500, 10) - 10;
-                int c2_band4 = prefs.getInt(DeviceSettingsPreferenceConst.PREF_SONY_EQUALIZER_CUSTOM_2_BAND_6300, 10) - 10;
-                int c2_band5 = prefs.getInt(DeviceSettingsPreferenceConst.PREF_SONY_EQUALIZER_CUSTOM_2_BAND_16000, 10) - 10;
-                int c2_bass = prefs.getInt(DeviceSettingsPreferenceConst.PREF_SONY_EQUALIZER_CUSTOM_2_CLEAR_BASS, 10) - 10;
-
-                return encodeEqualizerCustomBands(new EqualizerCustomBands(Arrays.asList(c2_band1, c2_band2, c2_band3, c2_band4, c2_band5), c2_bass));
-
-            case DeviceSettingsPreferenceConst.PREF_SONY_DSEE_HX:
-                return encodeDSEEHX(prefs.getBoolean(DeviceSettingsPreferenceConst.PREF_SONY_DSEE_HX, false));
-
+                configRequest = protocolImpl.setEqualizerPreset(EqualizerPreset.fromPreferences(prefs));
+                break;
+            case DeviceSettingsPreferenceConst.PREF_SONY_EQUALIZER_BAND_400:
+            case DeviceSettingsPreferenceConst.PREF_SONY_EQUALIZER_BAND_1000:
+            case DeviceSettingsPreferenceConst.PREF_SONY_EQUALIZER_BAND_2500:
+            case DeviceSettingsPreferenceConst.PREF_SONY_EQUALIZER_BAND_6300:
+            case DeviceSettingsPreferenceConst.PREF_SONY_EQUALIZER_BAND_16000:
+            case DeviceSettingsPreferenceConst.PREF_SONY_EQUALIZER_BASS:
+                configRequest = protocolImpl.setEqualizerCustomBands(EqualizerCustomBands.fromPreferences(prefs));
+                break;
+            case DeviceSettingsPreferenceConst.PREF_SONY_AUDIO_UPSAMPLING:
+                configRequest = protocolImpl.setAudioUpsampling(AudioUpsampling.fromPreferences(prefs));
+                break;
             case DeviceSettingsPreferenceConst.PREF_SONY_TOUCH_SENSOR:
-                return encodeTouchSensor(prefs.getBoolean(DeviceSettingsPreferenceConst.PREF_SONY_TOUCH_SENSOR, true));
-
+                configRequest = protocolImpl.setTouchSensor(TouchSensor.fromPreferences(prefs));
+                break;
             case DeviceSettingsPreferenceConst.PREF_SONY_AUTOMATIC_POWER_OFF:
-                return encodeAutomaticPowerOff(
-                        AutomaticPowerOff.valueOf(prefs.getString(DeviceSettingsPreferenceConst.PREF_SONY_AUTOMATIC_POWER_OFF, "off").toUpperCase())
-                );
-
+                configRequest = protocolImpl.setAutomaticPowerOff(AutomaticPowerOff.fromPreferences(prefs));
+                break;
             case DeviceSettingsPreferenceConst.PREF_SONY_NOTIFICATION_VOICE_GUIDE:
-                return encodeVoiceNotifications(prefs.getBoolean(DeviceSettingsPreferenceConst.PREF_SONY_NOTIFICATION_VOICE_GUIDE, true));
+                configRequest = protocolImpl.setVoiceNotifications(VoiceNotifications.fromPreferences(prefs));
+                break;
 
             default:
                 LOG.warn("Unknown config '{}'", config);
+                return super.encodeSendConfiguration(config);
         }
 
-        return super.encodeSendConfiguration(config);
+        pendingAcks++;
+
+        return configRequest.encode(sequenceNumber);
     }
 
-    public byte[] encodeAck() {
-        return encodeMessage(
-                MSG_TYPE_ACK,
-                new byte[]{}
-        );
-    }
+    @Override
+    public byte[] encodeTestNewFunction() {
+        //return Request.fromHex(MessageType.COMMAND_1, "c40100").encode(sequenceNumber);
 
-    public byte[] encodeTriggerNoiseCancellingOptimizer() {
-        // This successfully triggers the noise cancelling optimizer. However, we don't get the
-        // optimization progress messages.
-
-        return encodeMessage(
-                (byte) 0x0c,
-                new byte[]{(byte) 0x84, (byte) 0x01, (byte) 0x00, (byte) 0x01}
-        );
-    }
-
-    private byte[] encodeSoundControl(AmbientSoundControl ambientSoundControl, boolean focusOnVoice, int ambientSound) {
-        if (ambientSound < 0 || ambientSound > 19) {
-            throw new IllegalArgumentException("Level must be between 0 and 19");
+        if (protocolImpl != null) {
+            return protocolImpl.startNoiseCancellingOptimizer().encode(sequenceNumber);
         }
 
-        ByteBuffer buf = ByteBuffer.allocate(14);
-        buf.order(ByteOrder.BIG_ENDIAN);
-
-        buf.put((byte) 0x0c);
-        buf.put(sequenceNumber);
-        buf.putInt(8);
-
-        buf.put((byte) 0x68);
-        buf.put((byte) 0x02);
-        if (AmbientSoundControl.OFF.equals(ambientSoundControl)) {
-            buf.put((byte) 0x00);
-        } else {
-            buf.put((byte) 0x11);
-        }
-        buf.put((byte) 0x01);
-
-        switch (ambientSoundControl) {
-            case NOISE_CANCELLING:
-                buf.put((byte) 2);
-                break;
-            case WIND_NOISE_REDUCTION:
-                buf.put((byte) 1);
-                break;
-            case OFF:
-            case AMBIENT_SOUND:
-            default:
-                buf.put((byte) 0);
-                break;
-        }
-
-        buf.put((byte) 0x01);
-        buf.put((byte) (focusOnVoice ? 0x01 : 0x00));
-        buf.put((byte) (ambientSound + 1));
-
-        return encodeMessage(buf.array());
+        return null;
     }
 
-    private byte[] encodeSoundPosition(SoundPosition position) {
-        return encodeMessage(
-                (byte) 0x0c,
-                new byte[]{(byte) 0x48, CMD_SOUND_POSITION, position.code}
-        );
+    public byte[] encodeAck(byte sequenceNumber) {
+        return new Message(MessageType.ACK, (byte) (1 - sequenceNumber), new byte[0]).encode();
     }
 
-    private byte[] encodeSurroundMode(SurroundMode mode) {
-        return encodeMessage(
-                (byte) 0x0c,
-                new byte[]{(byte) 0x48, CMD_SOUND_SURROUND, mode.code}
-        );
-    }
-
-    private byte[] encodeEqualizerPreset(EqualizerPreset preset) {
-        return encodeMessage(
-                (byte) 0x0c,
-                new byte[]{(byte) 0x58, (byte) 0x01, preset.code[0], preset.code[1]}
-        );
-    }
-
-    private byte[] encodeEqualizerCustomBands(EqualizerCustomBands equalizer) {
-        final ByteBuffer buf = ByteBuffer.allocate(10);
-
-        buf.put((byte) 0x58);
-        buf.put((byte) 0x01);
-        buf.put((byte) 0xff);
-        buf.put((byte) 0x06);
-
-        buf.put((byte) (equalizer.getClearBass() + 10));
-        for (final Integer band : equalizer.getBands()) {
-            buf.put((byte) (band + 10));
-        }
-
-        return encodeMessage(
-                (byte) 0x0c,
-                buf.array()
-        );
-    }
-
-    private byte[] encodeDSEEHX(boolean enabled) {
-        return encodeMessage(
-                (byte) 0x0c,
-                new byte[]{(byte) 0xe8, (byte) 0x02, (byte) 0x00, (byte) (enabled ? 0x01 : 0x00)}
-        );
-    }
-
-    private byte[] encodeTouchSensor(boolean enabled) {
-        return encodeMessage(
-                (byte) 0x0c,
-                new byte[]{(byte) 0xd8, (byte) 0xd2, (byte) 0x01, (byte) (enabled ? 0x01 : 0x00)}
-        );
-    }
-
-    private byte[] encodeAutomaticPowerOff(AutomaticPowerOff automaticPowerOff) {
-        return encodeMessage(
-                (byte) 0x0c,
-                new byte[]{(byte) 0xf8, (byte) 0x04, (byte) 0x01, automaticPowerOff.code[0], automaticPowerOff.code[1]}
-        );
-    }
-
-    private byte[] encodeVoiceNotifications(boolean enabled) {
-        return encodeMessage(
-                (byte) 0x0e,
-                new byte[]{(byte) 0x48, (byte) 0x01, (byte) 0x01, (byte) (enabled ? 0x01 : 0x00)}
-        );
-    }
-
-    private byte[] encodeMessage(byte type, byte[] content) {
-        ByteBuffer buf = ByteBuffer.allocate(content.length + 6);
-        buf.order(ByteOrder.BIG_ENDIAN);
-
-        buf.put(type);
-        buf.put(sequenceNumber);
-        buf.putInt(content.length);
-        buf.put(content);
-
-        return encodeMessage(buf.array());
-    }
-
-    private byte[] encodeMessage(byte[] message) {
-        ByteArrayOutputStream cmdStream = new ByteArrayOutputStream(message.length + 2);
-
-        cmdStream.write(PACKET_HEADER);
-
-        byte checksum = calcChecksum(message, false);
-
-        try {
-            cmdStream.write(escape(message));
-            cmdStream.write(escape(new byte[]{checksum}));
-        } catch (IOException e) {
-            LOG.error("This should never happen", e);
-        }
-
-        cmdStream.write(PACKET_TRAILER);
-
-        return cmdStream.toByteArray();
-    }
-
-    private byte[] escape(byte[] bytes) {
-        ByteArrayOutputStream escapedStream = new ByteArrayOutputStream(bytes.length);
-
-        for (byte b : bytes) {
-            switch (b) {
-                case PACKET_HEADER:
-                case PACKET_TRAILER:
-                case PACKET_ESCAPE:
-                    escapedStream.write(PACKET_ESCAPE);
-                    escapedStream.write(b & PACKET_ESCAPE_MASK);
-                    break;
-                default:
-                    escapedStream.write(b);
-                    break;
-            }
-        }
-
-        return escapedStream.toByteArray();
-    }
-
-    private byte[] unescape(byte[] bytes) {
-        ByteArrayOutputStream unescapedStream = new ByteArrayOutputStream(bytes.length);
-
-        for (int i = 0; i < bytes.length; i++) {
-            byte b = bytes[i];
-            if (b == PACKET_ESCAPE) {
-                if (++i >= bytes.length) {
-                    throw new IllegalArgumentException("Invalid escape character at end of array");
+    public byte[] encodeInit() {
+        pendingAcks++;
+        return new Message(
+                MessageType.COMMAND_1,
+                sequenceNumber,
+                new byte[]{
+                        (byte) 0x00,
+                        (byte) 0x00
                 }
-                unescapedStream.write(b & ~PACKET_ESCAPE_MASK);
-            } else {
-                unescapedStream.write(b);
-            }
-        }
-
-        return unescapedStream.toByteArray();
+        ).encode();
     }
 
-    public byte calcChecksum(byte[] message, boolean ignoreLastByte) {
-        int chk = 0;
-        for (int i = 0; i < message.length - (ignoreLastByte ? 1 : 0); i++) {
-            chk += message[i] & 255;
+    public void enqueueRequests(final List<Request> requests) {
+        LOG.debug("Enqueueing {} requests", requests.size());
+
+        requestQueue.addAll(requests);
+    }
+
+    public int getPendingAcks() {
+        return pendingAcks;
+    }
+
+    public byte[] getFromQueue() {
+        return requestQueue.remove().encode(sequenceNumber);
+    }
+
+    private GBDeviceEvent handleAck() {
+        pendingAcks--;
+
+        if (!requestQueue.isEmpty()) {
+            LOG.debug("Outstanding requests in queue: {}", requestQueue.size());
+
+            final Request request = requestQueue.remove();
+
+            return new GBDeviceEventSendBytes(request.encode(sequenceNumber));
         }
-        return (byte) chk;
+
+        if (GBDevice.State.INITIALIZING.equals(getDevice().getState())) {
+            // The queue is now empty, so we have got all the information from the device
+            // Mark it as initialized
+
+            return new GBDeviceEventUpdateDeviceState(GBDevice.State.INITIALIZED);
+        }
+
+        return null;
     }
 }

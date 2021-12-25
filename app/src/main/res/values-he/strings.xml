@@ -509,10 +509,10 @@
     <string name="share">שיתוף</string>
     <string name="reset_index">איפוס מועד הקבלה</string>
     <string name="menuitem_status">מצב</string>
-    <string name="menuitem_activity">פעילות</string>
+    <string name="menuitem_activity">היסטוריית אימונים</string>
     <string name="menuitem_weather">מזג אוויר</string>
     <string name="menuitem_alarm">שעון מעורר</string>
-    <string name="menuitem_timer">קוצב זמן</string>
+    <string name="menuitem_timer">ספירה לאחור</string>
     <string name="menuitem_compass">מצפן</string>
     <string name="menuitem_settings">הגדרות</string>
     <string name="menuitem_alipay">Alipay</string>
@@ -931,7 +931,7 @@
 \n
 \nהמשך מעבר לנקודה זו הוא על אחריותך!</string>
     <string name="menuitem_stress">לחץ</string>
-    <string name="menuitem_cycles">משך</string>
+    <string name="menuitem_cycles">מעקב מחזוריות</string>
     <string name="menuitem_breathing">נשימה</string>
     <string name="devicetype_miband5">Mi Band 5</string>
     <string name="ignore_bonded_devices_description">הפעלת אפשרות זו תתעלם ממכשירים שכבר אוגדו/צומדו טרם הסריקה</string>
@@ -1117,7 +1117,7 @@
     <string name="menuitem_stopwatch">שעון עצר</string>
     <string name="menuitem_dnd">לא להפריע</string>
     <string name="menuitem_alexa">Alexa</string>
-    <string name="menuitem_takephoto">צילום תמונה</string>
+    <string name="menuitem_takephoto">שליטה במצלמה</string>
     <string name="menuitem_mutephone">השתקת הטלפון</string>
     <string name="menuitem_findphone">איתור הטלפון</string>
     <string name="movement_intensity">חוזק תנועה</string>
@@ -1481,4 +1481,15 @@
     <string name="reminder_every_year">כל שנה</string>
     <string name="reminder_no_free_slots_title">אין חלונות פנויים</string>
     <string name="prefs_reserve_reminder_calendar_summary">מספר אירועי לוח השנה שיסונכרנו</string>
+    <string name="mi2_prefs_do_not_disturb_lift_wrist">הפעלת התצוגה עקב הנפה במצב לא להפריע</string>
+    <string name="averageAltitude">ממוצע</string>
+    <string name="minCadence">קצב מזערי</string>
+    <string name="minSpeed">מזערי</string>
+    <string name="maxHR">דופק מרבי</string>
+    <string name="minHR">דופק מזערי</string>
+    <string name="averageCadence">קצב ממוצע</string>
+    <string name="maxCadence">קצב מרבי</string>
+    <string name="spm">צעדים לדקה</string>
+    <string name="maxStride">צעד מרבי</string>
+    <string name="minStride">צעד מזערי</string>
 </resources>

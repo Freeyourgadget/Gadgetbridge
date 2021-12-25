@@ -13,6 +13,7 @@
             android:summary="%s"
             android:title="@string/sony_ambient_sound" />
 
+        <!-- [0, 19], which maps to [1, 20] on the device, as we can't configure the min on the current API level -->
         <SeekBarPreference
             android:defaultValue="0"
             android:icon="@drawable/ic_volume_up"

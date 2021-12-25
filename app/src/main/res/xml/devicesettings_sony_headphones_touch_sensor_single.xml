@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <SwitchPreference
+        android:defaultValue="true"
+        android:icon="@drawable/ic_touch"
+        android:key="pref_sony_touch_sensor"
+        android:title="@string/sony_touch_sensor" />
+</androidx.preference.PreferenceScreen>

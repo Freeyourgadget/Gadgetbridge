@@ -457,7 +457,7 @@
 \nINSTALLATION AUF EIGENE GEFAHR!</string>
     <string name="mi2_prefs_button_press_count">Anzahl der Tastendrücke</string>
     <string name="pref_title_charts_swipe">Streichen nach links/rechts im Diagrammbetrieb aktivieren</string>
-    <string name="pref_summary_pebble_enable_bgjs">Wenn aktiviert, können Zifferblätter Wetter, Akkuinfos, usw. anzeigen</string>
+    <string name="pref_summary_pebble_enable_bgjs">Wenn aktiviert, kann die Uhr Wetter, Akkuinfos, usw. anzeigen</string>
     <string name="prefs_title_heartrate_measurement_interval">Ganztägige Messung der Herzfrequenz</string>
     <string name="interval_one_minute">einmal pro Minute</string>
     <string name="interval_five_minutes">alle 5 Minuten</string>
@@ -520,10 +520,10 @@
     <string name="choose_auto_export_location">Speicherort für Export auswählen</string>
     <string name="notification_channel_name">Allgemein</string>
     <string name="menuitem_status">Status</string>
-    <string name="menuitem_activity">Aktivität</string>
+    <string name="menuitem_activity">Trainingsverlauf</string>
     <string name="menuitem_weather">Wetter</string>
     <string name="menuitem_alarm">Alarm</string>
-    <string name="menuitem_timer">Timer</string>
+    <string name="menuitem_timer">Countdown</string>
     <string name="menuitem_compass">Kompass</string>
     <string name="menuitem_settings">Einstellungen</string>
     <string name="menuitem_alipay">Alipay</string>
@@ -764,8 +764,8 @@
     <string name="widget_listing_label">Status und Wecker</string>
     <string name="widget_set_alarm_after">Wecker einstellen nach:</string>
     <plurals name="widget_alarm_target_hours">
-        <item quantity="one">%d Std</item>
-        <item quantity="other">%d Std</item>
+        <item quantity="one">%d Stunde</item>
+        <item quantity="other">%d Stunden</item>
     </plurals>
     <string name="preferences_makibes_hr3_settings">Makibes HR3-Einstellungen</string>
     <string name="devicetype_makibes_hr3">Makibes HR3</string>
@@ -866,7 +866,7 @@
     <string name="pref_header_auto_fetch">Automatischer Abruf</string>
     <string name="pref_qhybrid_save_raw_activity_files">Raw Activity Dateien speichern</string>
     <string name="menuitem_workout">Training</string>
-    <string name="menuitem_hr">Herzfrequenz</string>
+    <string name="menuitem_hr">Puls</string>
     <string name="devicetype_watchxplus">Watch X Plus</string>
     <string name="devicetype_watchx">Watch X</string>
     <string name="prefs_sensors_button_bp_calibration">Kalibrierung</string>
@@ -886,7 +886,7 @@
     <string name="power_mode_title">Uhr-Energiesparmodus</string>
     <string name="menuitem_eventreminder">Ereigniserinnerung</string>
     <string name="menuitem_pai">PAI</string>
-    <string name="pref_summary_device_spec_settings_title_force_time">Erzwinge die automatische Zeitsynchronisation beim erneuten Verbinden. Analoge Zeiger können die falsche Zeit anzeigen!</string>
+    <string name="pref_summary_device_spec_settings_title_force_time">Erzwinge automatische Zeitsynchronisation beim erneuten Verbinden. Analoge Uhrzeiger können dabei die falsche Uhrzeit anzeigen!</string>
     <string name="pref_summary_notifications_and_calls_title_shake_reject">Kopiere Aktion vom Uhr-Knopf</string>
     <string name="prefs_notifications_and_calls_shake_reject">Schüttelgeste Anruf ignorieren/zurückzuweisen</string>
     <string name="pref_summary_notifications_and_calls_title_reject">Aus - ignorieren, An - zurückweisen</string>
@@ -926,15 +926,15 @@
     <string name="about_activity_title">Über Gadgetbridge</string>
     <string name="about_title">Über</string>
     <string name="pref_title_weather_summary">Wird für den LineageOS Wetterdienst genutzt, andere Android-Versionen müssen eine Anwendung wie Weather notification nutzen. Mehr Informationen gibt es im Gadgetbride-Wiki.</string>
-    <string name="menuitem_worldclock">Weltzeit</string>
+    <string name="menuitem_worldclock">Weltzeituhr</string>
     <string name="error_version_check_extreme_caution">ACHTUNG: Fehler beim Prüfen der Information zur Version! Du solltest nicht fortfahren! Versionsname \"%s\" gefunden</string>
     <string name="permission_granting_mandatory">Alle Berechtigungen sind notwendig und es kann zu Problemen führen, wenn sie nicht genehmigt werden</string>
     <string name="menuitem_stress">Stress</string>
-    <string name="menuitem_cycles">Periode</string>
+    <string name="menuitem_cycles">Zyklus-Tracking</string>
     <string name="error_background_service_reason">Start des Hintergrunddienstes fehlgeschlagen wegen einem Fehler. Fehlermeldung:</string>
     <string name="error_background_service_reason_truncated">Hintergrunddienst konnte nicht gestartet werden, wegen…</string>
     <string name="error_background_service">Start des Hintergrunddienstes fehlgeschlagen</string>
-    <string name="menuitem_breathing">Atmung</string>
+    <string name="menuitem_breathing">Atemübungen</string>
     <string name="devicetype_miband5">Mi Band 5</string>
     <string name="fw_upgrade_notice_miband5">Du bist dabei, die Firmware %s auf dein Mi Band 5 zu installieren.
 \n
@@ -996,12 +996,12 @@
     <string name="prefs_events_forwarding_fellsleep">Beim Einschlafen</string>
     <string name="activity_type_yoga">Yoga</string>
     <string name="activity_type_swimming_openwater">Schwimmen (Freiwasser)</string>
-    <string name="Strokes">Schläge</string>
+    <string name="Strokes">Züge</string>
     <string name="calories_unit">kcal</string>
     <string name="activity_type_jump_roping">Seilspringen</string>
     <string name="activity_type_elliptical_trainer">Crosstrainer</string>
-    <string name="activity_type_indoor_cycling">Indoor Cycling</string>
-    <string name="strokes_second">str/s</string>
+    <string name="activity_type_indoor_cycling">Spinning</string>
+    <string name="strokes_second">Züge/s</string>
     <string name="swimStyle">Schwimmstil</string>
     <string name="seconds">sek</string>
     <string name="minutes_km">min/km</string>
@@ -1031,7 +1031,7 @@
     <string name="Elevation">Höhe</string>
     <string name="bpm">bpm</string>
     <string name="seconds_km">sek/km</string>
-    <string name="strokes_unit">str</string>
+    <string name="strokes_unit">Züge</string>
     <string name="flatSeconds">Flach</string>
     <string name="averageStrokesPerSecond">Durchschnittliche Schläge</string>
     <string name="averageStrokeDistance">Durchschnittliche Schlag Distanz</string>
@@ -1079,8 +1079,8 @@
     <string name="activity_error_no_app_for_png">Um diesen Screenshot zu teilen, installiere eine App, die Bilddateien verarbeiten kann.</string>
     <string name="activity_prefs_chart_min_session_length">Minimale Aktivitätsdauer (Minuten)</string>
     <string name="activity_prefs_chart_max_idle_phase_length">Pausenlänge zum Trennen von Aktivitäten (Minuten)</string>
-    <string name="activity_prefs_chart_min_steps_per_minute">Minimale Schritte pro Minute zur Erkennung von Aktivität</string>
-    <string name="activity_prefs_chart_min_steps_per_minute_for_run">Minimale Schritte pro Minute zur Lauferkennung</string>
+    <string name="activity_prefs_chart_min_steps_per_minute">Minimale Schritte pro Minute zur Erkennung einer Aktivität (Gehen)</string>
+    <string name="activity_prefs_chart_min_steps_per_minute_for_run">Minimale Schritte pro Minute zur Erkennung einer Laufaktivität</string>
     <string name="lefun_prefs_interface_language_title">Sprache der Benutzeroberfläche</string>
     <string name="lefun_prefs_antilost_summary">Das Band wird vibrieren, wenn dein Telefon die Verbindung zum Band unterbricht</string>
     <string name="lefun_prefs_antilost_title">Anti-Verlust</string>
@@ -1125,9 +1125,9 @@
     <string name="menuitem_stopwatch">Stoppuhr</string>
     <string name="menuitem_dnd">Nicht stören</string>
     <string name="menuitem_alexa">Alexa</string>
-    <string name="menuitem_takephoto">Foto machen</string>
-    <string name="menuitem_mutephone">Telefon stumm schalten</string>
-    <string name="menuitem_findphone">Telefon finden</string>
+    <string name="menuitem_takephoto">Kamera-Fernauslösung</string>
+    <string name="menuitem_mutephone">Telefon stummschalten</string>
+    <string name="menuitem_findphone">Telefon suchen</string>
     <string name="devicetype_amazfit_gtr2">Amazfit GTR 2</string>
     <string name="devicetype_amazfit_gts2">Amazfit GTS 2</string>
     <string name="movement_intensity">Bewegungsintensität</string>
@@ -1322,8 +1322,8 @@
     <string name="watchface_widget_type_2nd_tz">Zweite Zeitzone</string>
     <string name="watchface_widget_type_calories">Kalorien</string>
     <string name="watchface_widget_type_battery">Akku</string>
-    <string name="watchface_setting_power_saving_hands">Handbewegung ohne Handgelenk deaktivieren</string>
-    <string name="watchface_setting_power_saving_display">Bildschirmaktualisierungen ohne Handgelenk deaktivieren</string>
+    <string name="watchface_setting_power_saving_hands">Bewegungserkennung deaktivieren wenn Uhr nicht getragen</string>
+    <string name="watchface_setting_power_saving_display">Bildschirmaktualisierungen deaktivieren wenn Uhr nicht getragen</string>
     <string name="pref_summary_huami_force_new_protocol">Aktivieren, wenn das Gerät nach einem Firmware-Upgrade keine Verbindung mehr herstellt</string>
     <string name="pref_title_huami_force_new_protocol">Neues Auth-Protokoll</string>
     <string name="menuitem_flashlight">Taschenlampe</string>
@@ -1482,4 +1482,13 @@
     <string name="toast_app_must_be_selected">App muss zum Konfigurieren ausgewählt sein</string>
     <string name="prefs_pressure_relief">Druckentlastung mit Umgebungsgeräuschen</string>
     <string name="pressure_relief_summary">Verhindert Druckgefühl in den Ohren, wenn Active Noise Cancelling nicht verwendet wird</string>
+    <string name="mi2_prefs_do_not_disturb_lift_wrist">Im Ruhemodes Anzeige beim Anheben aktivieren</string>
+    <string name="watchface_dialog_widget_update_timeout">Aktualisierungszeit in Minuten:</string>
+    <string name="device_card_activity_card_title">Aktivitätsinfo in der Geräteübersicht</string>
+    <string name="device_card_activity_card_title_summary">Auswahl der Aktivitätsinfos in der Geräteübersicht</string>
+    <string name="prefs_activity_in_device_card_title">Aktivitätsinfos in der Geräteübersicht anzeigen</string>
+    <string name="prefs_activity_in_device_card_title_summary">Zeige Schritte, Distanz oder Schlaf in der Geräteübersicht</string>
+    <string name="prefs_activity_in_device_card_distance_title_summary">Strecke basiert auf Schrittzahl und Schrittlänge (siehe Einstellungen - Über Dich)</string>
+    <string name="sony_equalizer_preset_excited">Angeregt</string>
+    <string name="battery_case">Batteriefach</string>
 </resources>

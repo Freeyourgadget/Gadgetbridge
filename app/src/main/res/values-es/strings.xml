@@ -513,7 +513,7 @@
     <string name="menuitem_notifications">Notificaciones</string>
     <string name="menuitem_weather">Tiempo</string>
     <string name="menuitem_alarm">Alarma</string>
-    <string name="menuitem_timer">Temporizador</string>
+    <string name="menuitem_timer">Cuenta atrás</string>
     <string name="menuitem_compass">Brújula</string>
     <string name="menuitem_settings">Ajustes</string>
     <string name="menuitem_music">Música</string>
@@ -605,7 +605,7 @@
     <string name="devicetype_roidmi3">Roidmi 3</string>
     <string name="devicetype_casiogb6900">Casio GB-6900</string>
     <string name="menuitem_status">Estado</string>
-    <string name="menuitem_activity">Actividad</string>
+    <string name="menuitem_activity">Historial del entrenamiento</string>
     <string name="menuitem_alipay">Alipay</string>
     <string name="watch9_calibration_hint">Establezca la hora que su dispositivo le está mostrando en este momento.</string>
     <string name="share_log_warning">Tenga en cuenta que Gadgetbridge registra archivos que pueden contener mucha información personal, incluidos, entre otros, datos de salud, identificadores únicos (como la dirección MAC de un dispositivo), preferencias de música, etc. Considere editar el archivo y eliminar esta información antes de enviar el archivo a un informe público.</string>
@@ -1118,7 +1118,7 @@
     <string name="menuitem_stopwatch">Cronómetro</string>
     <string name="menuitem_dnd">No molestar</string>
     <string name="menuitem_alexa">Alexa</string>
-    <string name="menuitem_takephoto">Tomar una foto</string>
+    <string name="menuitem_takephoto">Control remoto de la cámara</string>
     <string name="menuitem_mutephone">Silenciar teléfono</string>
     <string name="menuitem_findphone">Encontrar teléfono</string>
     <string name="menuitem_worldclock">Reloj mundial</string>
@@ -1128,7 +1128,7 @@
     <string name="menuitem_spo2">SpO2</string>
     <string name="menuitem_hr">Ritmo cardíaco</string>
     <string name="menuitem_pai">PAI</string>
-    <string name="menuitem_cycles">Periodo</string>
+    <string name="menuitem_cycles">Seguimiento del ciclo</string>
     <string name="menuitem_breathing">Respiración</string>
     <string name="devicetype_lefun">Lefun</string>
     <string name="devicetype_sg2">Lemfo SG2</string>
@@ -1486,4 +1486,15 @@
     <string name="prefs_reserve_reminder_calendar_summary">Número de eventos del calendario que se sincronizarán</string>
     <string name="qhybrid_title_on_device_confirmation">Activar la confirmación del emparejamiento en el dispositivo</string>
     <string name="qhybrid_summary_on_device_confirmation">Las confirmaciones de emparejamiento en el dispositivo pueden resultar molestas. Desactivarlas puede hacer que pierda funcionalidad.</string>
+    <string name="mi2_prefs_do_not_disturb_lift_wrist">Activar la pantalla al levantarse durante la función \"No molestar\"</string>
+    <string name="averageAltitude">Media</string>
+    <string name="minSpeed">Mínimo</string>
+    <string name="maxHR">Ritmo cardíaco máximo</string>
+    <string name="minHR">Ritmo cardíaco mínimo</string>
+    <string name="minStride">Zancada mínima</string>
+    <string name="averageCadence">Cadencia media</string>
+    <string name="minCadence">Cadencia mínima</string>
+    <string name="spm">pasos/min</string>
+    <string name="maxStride">Zancada máxima</string>
+    <string name="maxCadence">Cadencia máxima</string>
 </resources>

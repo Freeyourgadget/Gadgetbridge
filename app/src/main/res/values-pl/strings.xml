@@ -282,7 +282,7 @@
     <string name="pref_title_minimize_priority">Ukryj powiadomienia z Gadgetbridge</string>
     <string name="pref_summary_minimize_priority_off">Ikona na pasku stanu i powiadomienia będą wyświetlane na zablokowanym ekranie</string>
     <string name="pref_summary_minimize_priority_on">Ikona na pasku stanu i powiadomienia będą ukrywane na zablokowanym ekranie</string>
-    <string name="pref_summary_notification_filter">Niechciane powiadomienia są wyłączone w tym trybie</string>
+    <string name="pref_summary_notification_filter">Blokuj wszystkie powiadomienia, gdy tryb \"Nie przeszkadzać\" jest włączony w telefonie</string>
     <string name="pref_title_transliteration">Transliteracja</string>
     <string name="pref_summary_transliteration">Włącz tę opcję, jeśli twoje urządzenie nie obsługuje czcionki twojego języka</string>
     <string name="pref_header_privacy">Prywatność</string>
@@ -576,10 +576,10 @@
     <string name="devicetype_teclast_h30">Teclast H30</string>
     <string name="devicetype_xwatch">XWatch</string>
     <string name="menuitem_status">Status</string>
-    <string name="menuitem_activity">Aktywność</string>
+    <string name="menuitem_activity">Historia treningów</string>
     <string name="menuitem_weather">Pogoda</string>
     <string name="menuitem_alarm">Budzik</string>
-    <string name="menuitem_timer">Minutnik</string>
+    <string name="menuitem_timer">Odliczanie</string>
     <string name="menuitem_compass">Kompas</string>
     <string name="menuitem_settings">Ustawienia</string>
     <string name="menuitem_alipay">Alipay</string>
@@ -941,7 +941,7 @@
     <string name="require_location_provider">Lokalizacja musi być włączona</string>
     <string name="permission_granting_mandatory">Wszystkie te uprawnienia są wymagane, a ich brak może spowodować niestabilność</string>
     <string name="about_additional_device_support">Dodatkowe wsparcie dla urządzeń</string>
-    <string name="menuitem_cycles">Okres</string>
+    <string name="menuitem_cycles">Śledzenie cyklu</string>
     <string name="menuitem_breathing">Oddychanie</string>
     <string name="devicetype_pinetime_jf">PineTime (Firmware JF)</string>
     <string name="activity_summary_detail">Szczegóły aktywności sportowej</string>
@@ -1123,7 +1123,7 @@
     <string name="menuitem_stopwatch">Stoper</string>
     <string name="menuitem_dnd">Nie przeszkadzać</string>
     <string name="menuitem_alexa">Alexa</string>
-    <string name="menuitem_takephoto">Zrób zdjęcie</string>
+    <string name="menuitem_takephoto">Zdalna kamera</string>
     <string name="menuitem_mutephone">Wycisz telefon</string>
     <string name="menuitem_findphone">Znajdź telefon</string>
     <string name="activity_list_summary_distance">Dystans</string>
@@ -1401,4 +1401,15 @@
     <string name="sony_automatic_power_off_3_hour">3 godziny</string>
     <string name="devicetype_sony_wh_1000xm3">Sony WH-1000XM3</string>
     <string name="sony_automatic_power_off_5_min">5 minut</string>
+    <string name="reminder_date">Data</string>
+    <string name="reminder_time">Czas</string>
+    <string name="reminder_message">Wiadomość</string>
+    <string name="sony_equalizer_preset_speech">Mowa</string>
+    <string name="sony_equalizer_preset_bass_boost">Podbicie basu</string>
+    <string name="sony_surround_mode_club">Klub</string>
+    <string name="sony_equalizer_preset_vocal">Wokal</string>
+    <string name="pref_header_equalizer">Korektor dźwięku</string>
+    <string name="watchface_dialog_widget_timezone">Strefa czasowa:</string>
+    <string name="sony_equalizer_preset_off">Wyłączony</string>
+    <string name="sony_equalizer">Korektor dźwięku</string>
 </resources>

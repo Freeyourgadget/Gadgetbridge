@@ -14,11 +14,30 @@
 
     You should have received a copy of the GNU Affero General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
-package nodomain.freeyourgadget.gadgetbridge.devices.sony.headphones;
+package nodomain.freeyourgadget.gadgetbridge.service.devices.sony.headphones.protocol.impl.v1.params;
 
-public enum AmbientSoundControl {
-    OFF,
-    NOISE_CANCELLING,
-    WIND_NOISE_REDUCTION,
-    AMBIENT_SOUND
+public enum VirtualSoundParam {
+    SURROUND_MODE(0x01),
+    SOUND_POSITION(0x02),
+    ;
+
+    private final byte code;
+
+    VirtualSoundParam(final int code) {
+        this.code = (byte) code;
+    }
+
+    public byte getCode() {
+        return this.code;
+    }
+
+    public static VirtualSoundParam fromCode(final byte code) {
+        for (final VirtualSoundParam virtualSound : values()) {
+            if (virtualSound.code == code) {
+                return virtualSound;
+            }
+        }
+
+        return null;
+    }
 }

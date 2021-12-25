@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <ListPreference
+        android:defaultValue="off"
+        android:entries="@array/sony_surround_mode_names"
+        android:entryValues="@array/sony_surround_mode_values"
+        android:icon="@drawable/ic_surround"
+        android:key="pref_sony_surround_mode"
+        android:summary="%s"
+        android:title="@string/sony_surround_mode" />
+</androidx.preference.PreferenceScreen>

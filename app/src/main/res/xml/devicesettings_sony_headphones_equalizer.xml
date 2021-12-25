@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
-    <PreferenceCategory
+
+    <PreferenceScreen
+        android:icon="@drawable/ic_graphic_eq"
         android:key="pref_key_equalizer"
+        android:persistent="false"
         android:title="@string/pref_header_equalizer">
 
         <ListPreference
@@ -13,151 +16,43 @@
             android:summary="%s"
             android:title="@string/sony_equalizer" />
 
-        <PreferenceScreen
-            android:icon="@drawable/ic_extension"
-            android:key="pref_sony_equalizer_preset_manual"
-            android:persistent="false"
-            android:title="@string/pref_header_sony_equalizer_preset_manual">
+        <SeekBarPreference
+            android:defaultValue="10"
+            android:icon="@drawable/ic_graphic_eq"
+            android:key="pref_sony_equalizer_band_400"
+            android:max="20"
+            android:title="@string/sony_equalizer_band_400" />
+        <SeekBarPreference
+            android:defaultValue="10"
+            android:icon="@drawable/ic_graphic_eq"
+            android:key="pref_sony_equalizer_band_1000"
+            android:max="20"
+            android:title="@string/sony_equalizer_band_1000" />
+        <SeekBarPreference
+            android:defaultValue="10"
+            android:icon="@drawable/ic_graphic_eq"
+            android:key="pref_sony_equalizer_band_2500"
+            android:max="20"
+            android:title="@string/sony_equalizer_band_2500" />
+        <SeekBarPreference
+            android:defaultValue="10"
+            android:icon="@drawable/ic_graphic_eq"
+            android:key="pref_sony_equalizer_band_6300"
+            android:max="20"
+            android:title="@string/sony_equalizer_band_6300" />
+        <SeekBarPreference
+            android:defaultValue="10"
+            android:icon="@drawable/ic_graphic_eq"
+            android:key="pref_sony_equalizer_band_16000"
+            android:max="20"
+            android:title="@string/sony_equalizer_band_16000" />
 
-            <PreferenceCategory
-                android:key="pref_key_equalizer"
-                android:title="@string/pref_header_sony_equalizer_preset_manual">
+        <SeekBarPreference
+            android:defaultValue="10"
+            android:icon="@drawable/ic_speaker"
+            android:key="pref_sony_equalizer_bass"
+            android:max="20"
+            android:title="@string/sony_equalizer_clear_bass" />
+    </PreferenceScreen>
 
-                <SeekBarPreference
-                    android:defaultValue="10"
-                    android:icon="@drawable/ic_graphic_eq"
-                    android:key="pref_sony_equalizer_manual_band_400"
-                    android:max="20"
-                    android:title="@string/sony_equalizer_band_400" />
-                <SeekBarPreference
-                    android:defaultValue="10"
-                    android:icon="@drawable/ic_graphic_eq"
-                    android:key="pref_sony_equalizer_manual_band_1000"
-                    android:max="20"
-                    android:title="@string/sony_equalizer_band_1000" />
-                <SeekBarPreference
-                    android:defaultValue="10"
-                    android:icon="@drawable/ic_graphic_eq"
-                    android:key="pref_sony_equalizer_manual_band_2500"
-                    android:max="20"
-                    android:title="@string/sony_equalizer_band_2500" />
-                <SeekBarPreference
-                    android:defaultValue="10"
-                    android:icon="@drawable/ic_graphic_eq"
-                    android:key="pref_sony_equalizer_manual_band_6300"
-                    android:max="20"
-                    android:title="@string/sony_equalizer_band_6300" />
-                <SeekBarPreference
-                    android:defaultValue="10"
-                    android:icon="@drawable/ic_graphic_eq"
-                    android:key="pref_sony_equalizer_manual_band_16000"
-                    android:max="20"
-                    android:title="@string/sony_equalizer_band_16000" />
-                <SeekBarPreference
-                    android:defaultValue="10"
-                    android:icon="@drawable/ic_speaker"
-                    android:key="pref_sony_equalizer_manual_clear_bass"
-                    android:max="20"
-                    android:title="@string/sony_equalizer_clear_bass" />
-            </PreferenceCategory>
-        </PreferenceScreen>
-
-        <PreferenceScreen
-            android:icon="@drawable/ic_extension"
-            android:key="pref_sony_equalizer_preset_custom_1"
-            android:persistent="false"
-            android:title="@string/pref_header_sony_equalizer_preset_custom_1">
-
-            <PreferenceCategory
-                android:key="pref_key_equalizer"
-                android:title="@string/pref_header_sony_equalizer_preset_custom_1">
-
-                <SeekBarPreference
-                    android:defaultValue="10"
-                    android:icon="@drawable/ic_graphic_eq"
-                    android:key="pref_sony_equalizer_custom_1_band_400"
-                    android:max="20"
-                    android:title="@string/sony_equalizer_band_400" />
-                <SeekBarPreference
-                    android:defaultValue="10"
-                    android:icon="@drawable/ic_graphic_eq"
-                    android:key="pref_sony_equalizer_custom_1_band_1000"
-                    android:max="20"
-                    android:title="@string/sony_equalizer_band_1000" />
-                <SeekBarPreference
-                    android:defaultValue="10"
-                    android:icon="@drawable/ic_graphic_eq"
-                    android:key="pref_sony_equalizer_custom_1_band_2500"
-                    android:max="20"
-                    android:title="@string/sony_equalizer_band_2500" />
-                <SeekBarPreference
-                    android:defaultValue="10"
-                    android:icon="@drawable/ic_graphic_eq"
-                    android:key="pref_sony_equalizer_custom_1_band_6300"
-                    android:max="20"
-                    android:title="@string/sony_equalizer_band_6300" />
-                <SeekBarPreference
-                    android:defaultValue="10"
-                    android:icon="@drawable/ic_graphic_eq"
-                    android:key="pref_sony_equalizer_custom_1_band_16000"
-                    android:max="20"
-                    android:title="@string/sony_equalizer_band_16000" />
-                <SeekBarPreference
-                    android:defaultValue="10"
-                    android:icon="@drawable/ic_speaker"
-                    android:key="pref_sony_equalizer_custom_1_clear_bass"
-                    android:max="20"
-                    android:title="@string/sony_equalizer_clear_bass" />
-            </PreferenceCategory>
-        </PreferenceScreen>
-
-        <PreferenceScreen
-            android:icon="@drawable/ic_extension"
-            android:key="pref_sony_equalizer_preset_custom_2"
-            android:persistent="false"
-            android:title="@string/pref_header_sony_equalizer_preset_custom_2">
-
-            <PreferenceCategory
-                android:key="pref_key_equalizer"
-                android:title="@string/pref_header_sony_equalizer_preset_custom_2">
-
-                <SeekBarPreference
-                    android:defaultValue="10"
-                    android:icon="@drawable/ic_graphic_eq"
-                    android:key="pref_sony_equalizer_custom_2_band_400"
-                    android:max="20"
-                    android:title="@string/sony_equalizer_band_400" />
-                <SeekBarPreference
-                    android:defaultValue="10"
-                    android:icon="@drawable/ic_graphic_eq"
-                    android:key="pref_sony_equalizer_custom_2_band_1000"
-                    android:max="20"
-                    android:title="@string/sony_equalizer_band_1000" />
-                <SeekBarPreference
-                    android:defaultValue="10"
-                    android:icon="@drawable/ic_graphic_eq"
-                    android:key="pref_sony_equalizer_custom_2_band_2500"
-                    android:max="20"
-                    android:title="@string/sony_equalizer_band_2500" />
-                <SeekBarPreference
-                    android:defaultValue="10"
-                    android:icon="@drawable/ic_graphic_eq"
-                    android:key="pref_sony_equalizer_custom_2_band_6300"
-                    android:max="20"
-                    android:title="@string/sony_equalizer_band_6300" />
-                <SeekBarPreference
-                    android:defaultValue="10"
-                    android:icon="@drawable/ic_graphic_eq"
-                    android:key="pref_sony_equalizer_custom_2_band_16000"
-                    android:max="20"
-                    android:title="@string/sony_equalizer_band_16000" />
-                <SeekBarPreference
-                    android:defaultValue="10"
-                    android:icon="@drawable/ic_speaker"
-                    android:key="pref_sony_equalizer_custom_2_clear_bass"
-                    android:max="20"
-                    android:title="@string/sony_equalizer_clear_bass" />
-            </PreferenceCategory>
-        </PreferenceScreen>
-    </PreferenceCategory>
 </androidx.preference.PreferenceScreen>

@@ -63,6 +63,7 @@ public enum NotificationType {
     THREEMA(PebbleIconID.NOTIFICATION_HIPCHAT, PebbleColor.JaegerGreen),
     KONTALK(PebbleIconID.NOTIFICATION_HIPCHAT, PebbleColor.JaegerGreen),
     ANTOX(PebbleIconID.NOTIFICATION_HIPCHAT, PebbleColor.JaegerGreen),
+    DISCORD(PebbleIconID.NOTIFICATION_HIPCHAT, PebbleColor.Purpureus),
     TRANSIT(PebbleIconID.LOCATION, PebbleColor.JaegerGreen),
     TWITTER(PebbleIconID.NOTIFICATION_TWITTER, PebbleColor.BlueMoon),
     VIBER(PebbleIconID.NOTIFICATION_VIBER, PebbleColor.VividViolet),
@@ -122,6 +123,7 @@ public enum NotificationType {
             case SLACK:
             case LINE:
             case VIBER:
+            case DISCORD:
                 return "generic_chat";
             case GMAIL:
             case GOOGLE_INBOX:

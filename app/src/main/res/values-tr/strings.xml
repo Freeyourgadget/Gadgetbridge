@@ -372,7 +372,7 @@
     <string name="liveactivity_live_activity">Canlı etkinlik</string>
     <string name="male">Erkek</string>
     <string name="maximum_duration">Süre</string>
-    <string name="menuitem_activity">Etkinlik</string>
+    <string name="menuitem_activity">Egzersiz Geçmişi</string>
     <string name="menuitem_alarm">Alarm</string>
     <string name="menuitem_alipay">Alipay</string>
     <string name="menuitem_compass">Pusula</string>
@@ -384,7 +384,7 @@
     <string name="menuitem_shortcut_alipay">Alipay (Kısayol)</string>
     <string name="menuitem_shortcut_weather">Hava Durumu (Kısayol)</string>
     <string name="menuitem_status">Durum</string>
-    <string name="menuitem_timer">Zamanlama</string>
+    <string name="menuitem_timer">Geri Sayım</string>
     <string name="menuitem_weather">Hava Durumu</string>
     <string name="message_cannot_pair_no_mac">MAC adresi verilmedi, eşleştirilemiyor.</string>
     <string name="mi2_dnd_automatic">Otomatik (uyku algılama)</string>
@@ -948,7 +948,7 @@
     <string name="error_background_service_reason">Bir istisna nedeniyle arka plan hizmetini başlatma başarısız oldu. Hata:</string>
     <string name="error_background_service">Arka plan hizmeti başlatılamadı</string>
     <string name="menuitem_stress">Stres</string>
-    <string name="menuitem_cycles">Döngü</string>
+    <string name="menuitem_cycles">Döngü İzleme</string>
     <string name="menuitem_breathing">Nefes Alma</string>
     <string name="devicetype_miband5">Mi Band 5</string>
     <string name="fw_upgrade_notice_miband5">Mi Band 5 aygıtınıza %s ürün yazılımını kurmak üzeresiniz.
@@ -1139,9 +1139,9 @@
     <string name="find_lost_device_message">%1$s aransın mı\?</string>
     <string name="devicetype_amazfit_gtr2">Amazfit GTR 2</string>
     <string name="menuitem_stopwatch">Kronometre</string>
-    <string name="menuitem_dnd">Rahatsız etmeyin</string>
+    <string name="menuitem_dnd">Rahatsız Etme</string>
     <string name="menuitem_alexa">Alexa</string>
-    <string name="menuitem_takephoto">Fotoğraf çek</string>
+    <string name="menuitem_takephoto">Kamera Kumandası</string>
     <string name="menuitem_mutephone">Telefonun Sesini Kapat</string>
     <string name="menuitem_findphone">Telefonu Bul</string>
     <string name="movement_intensity">Hareket yoğunluğu</string>
@@ -1508,4 +1508,14 @@
     <string name="reminder_time_every_year">%1$s, her yıl</string>
     <string name="reminder_once">Bir defa</string>
     <string name="reminder_delete_confirm_description">Hatırlatıcıyı silmek istediğinizden emin misiniz\?</string>
+    <string name="mi2_prefs_do_not_disturb_lift_wrist">Rahatsız Etme sırasında kaldırıldığında ekranı etkinleştir</string>
+    <string name="maxHR">En Yüksek Kalp Ritmi</string>
+    <string name="averageAltitude">Ortalama</string>
+    <string name="minSpeed">Asgari</string>
+    <string name="minHR">En Düşük Kalp Ritmi</string>
+    <string name="maxCadence">En Yüksek Tempo</string>
+    <string name="maxStride">En Uzun Adım</string>
+    <string name="minStride">En Kısa Adım</string>
+    <string name="averageCadence">Ortalama Tempo</string>
+    <string name="minCadence">En Düşük Tempo</string>
 </resources>

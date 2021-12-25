@@ -14,7 +14,15 @@
 
     You should have received a copy of the GNU Affero General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
-package nodomain.freeyourgadget.gadgetbridge.devices.sony.headphones;
+package nodomain.freeyourgadget.gadgetbridge.devices.sony.headphones.prefs;
+
+import android.content.SharedPreferences;
+
+import java.util.HashMap;
+import java.util.Locale;
+import java.util.Map;
+
+import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst;
 
 public enum AutomaticPowerOff {
     OFF(new byte[]{(byte) 0x11, (byte) 0x00}),
@@ -24,9 +32,23 @@ public enum AutomaticPowerOff {
     AFTER_3_HOUR(new byte[]{(byte) 0x03, (byte) 0x03}),
     WHEN_TAKEN_OFF(new byte[]{(byte) 0x10, (byte) 0x00});
 
-    public final byte[] code;
+    private final byte[] code;
 
     AutomaticPowerOff(final byte[] code) {
         this.code = code;
+    }
+
+    public byte[] getCode() {
+        return this.code;
+    }
+
+    public Map<String, Object> toPreferences() {
+        return new HashMap<String, Object>() {{
+            put(DeviceSettingsPreferenceConst.PREF_SONY_AUTOMATIC_POWER_OFF, name().toLowerCase(Locale.getDefault()));
+        }};
+    }
+
+    public static AutomaticPowerOff fromPreferences(final SharedPreferences prefs) {
+        return AutomaticPowerOff.valueOf(prefs.getString(DeviceSettingsPreferenceConst.PREF_SONY_AUTOMATIC_POWER_OFF, "off").toUpperCase());
     }
 }

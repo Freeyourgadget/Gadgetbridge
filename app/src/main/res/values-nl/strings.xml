@@ -530,10 +530,10 @@
     <string name="menuitem_shortcut_alipay">Alipay (snelkoppeling)</string>
     <string name="menuitem_shortcut_weather">Weer (snelkoppeling)</string>
     <string name="menuitem_status">Status</string>
-    <string name="menuitem_activity">Activiteit</string>
+    <string name="menuitem_activity">Trainingsgeschiedenis</string>
     <string name="menuitem_weather">Weer</string>
     <string name="menuitem_alarm">Alarm</string>
-    <string name="menuitem_timer">Timer</string>
+    <string name="menuitem_timer">Aftellen</string>
     <string name="menuitem_compass">Kompas</string>
     <string name="menuitem_settings">Instellingen</string>
     <string name="menuitem_alipay">Alipay</string>
@@ -925,7 +925,7 @@
     <string name="error_version_check_extreme_caution">LET OP: Fout bij het controleren van versie-informatie! Je moet niet doorgaan! Zag versienaam \"%s\"</string>
     <string name="permission_granting_mandatory">Al deze toestemmingen zijn vereist en er kan instabiliteit ontstaan als ze niet worden verleend</string>
     <string name="menuitem_stress">Spanning</string>
-    <string name="menuitem_cycles">Cycli</string>
+    <string name="menuitem_cycles">Cyclus volgen</string>
     <string name="menuitem_breathing">Ademhaling</string>
     <string name="devicetype_miband5">Mi Band 5</string>
     <string name="fw_upgrade_notice_miband5">U staat op het punt om de %s-firmware op je Mi Band 5 te installeren.
@@ -1031,7 +1031,7 @@
     <string name="menuitem_stopwatch">Stopwatch</string>
     <string name="menuitem_dnd">Niet storen</string>
     <string name="menuitem_alexa">Alexa</string>
-    <string name="menuitem_takephoto">Neem een foto</string>
+    <string name="menuitem_takephoto">Camera-afstandsbediening</string>
     <string name="menuitem_mutephone">Telefoon dempen</string>
     <string name="menuitem_findphone">Vind telefoon</string>
     <string name="menuitem_spo2">SpO2</string>
@@ -1481,4 +1481,15 @@
     <string name="reminder_delete_confirm_description">Weet je zeker dat je de herinnering wilt verwijderen\?</string>
     <string name="reminder_no_free_slots_title">Geen vrije plekken</string>
     <string name="title_activity_set_reminders">Herinneringen instellen</string>
+    <string name="mi2_prefs_do_not_disturb_lift_wrist">Activeer het display bij het optillen tijdens Niet Storen</string>
+    <string name="maxHR">Max hartslag</string>
+    <string name="maxStride">Max paslengte</string>
+    <string name="averageCadence">Gemiddelde cadans</string>
+    <string name="minHR">Min hartslag</string>
+    <string name="minSpeed">Minimum</string>
+    <string name="averageAltitude">Gemiddeld</string>
+    <string name="minStride">Min paslengte</string>
+    <string name="minCadence">Min cadans</string>
+    <string name="spm">stappen/min</string>
+    <string name="maxCadence">Max cadans</string>
 </resources>

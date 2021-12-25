@@ -435,10 +435,10 @@
     <string name="choose_auto_export_location">Вибрати теку експорту</string>
     <string name="menuitem_status">Стан</string>
     <string name="menuitem_notifications">Сповіщення</string>
-    <string name="menuitem_activity">Активність</string>
+    <string name="menuitem_activity">Історія тренувань</string>
     <string name="menuitem_weather">Погода</string>
     <string name="menuitem_alarm">Будильник</string>
-    <string name="menuitem_timer">Таймер</string>
+    <string name="menuitem_timer">Відлік</string>
     <string name="menuitem_compass">Компас</string>
     <string name="menuitem_settings">Налаштування</string>
     <string name="menuitem_music">Музика</string>
@@ -990,7 +990,7 @@
     <string name="totalStride">Звичайний крок</string>
     <string name="maxPace">Швидки темп</string>
     <string name="minPace">Найповільніший темп</string>
-    <string name="maxSpeed">Максимум</string>
+    <string name="maxSpeed">Максимальна</string>
     <string name="caloriesBurnt">Калорії</string>
     <string name="activeSeconds">Активно</string>
     <string name="steps">Кроки</string>
@@ -1028,7 +1028,7 @@
     <string name="hr_widget_last_notification">Останнє сповіщення</string>
     <string name="menuitem_worldclock">Світовий час</string>
     <string name="menuitem_stress">Стрес</string>
-    <string name="menuitem_cycles">Період</string>
+    <string name="menuitem_cycles">Відстеження циклу</string>
     <string name="menuitem_breathing">Дихання</string>
     <string name="devicetype_pinetime_jf">PineTime (Прошивка JF)</string>
     <string name="devicetype_tlw64">TLW64</string>
@@ -1115,7 +1115,7 @@
     <string name="menuitem_stopwatch">Секундомер</string>
     <string name="menuitem_dnd">Тихий режим</string>
     <string name="menuitem_alexa">Alexa</string>
-    <string name="menuitem_takephoto">Зробити фото</string>
+    <string name="menuitem_takephoto">Віддалене керування камерою</string>
     <string name="menuitem_mutephone">Вимкнути звук телефону</string>
     <string name="menuitem_findphone">Знайти телефон</string>
     <string name="menuitem_spo2">SpO2</string>
@@ -1488,4 +1488,15 @@
     <string name="reminder_delete_confirm_title">Видалити нагадування</string>
     <string name="reminder_no_free_slots_title">Немає вільних комірок</string>
     <string name="reminder_no_free_slots_description">На пристрої немає вільних комірок для нагадувань (загальна кількість комірок: %1$s)</string>
+    <string name="mi2_prefs_do_not_disturb_lift_wrist">Вмикати дисплей під час підйому у режимі «Не турбувати»</string>
+    <string name="averageAltitude">Середня</string>
+    <string name="minSpeed">Мінімальна</string>
+    <string name="maxHR">Максимальний пульс</string>
+    <string name="spm">кроків/хв</string>
+    <string name="averageCadence">Середній темп</string>
+    <string name="maxCadence">Максимальний темп</string>
+    <string name="minHR">Мінімальний пульс</string>
+    <string name="maxStride">Максимальний крок</string>
+    <string name="minStride">Мінімальний крок</string>
+    <string name="minCadence">Мінімальний темп</string>
 </resources>

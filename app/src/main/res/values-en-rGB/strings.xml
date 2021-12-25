@@ -335,10 +335,10 @@
     <string name="menuitem_alipay">Alipay</string>
     <string name="menuitem_settings">Settings</string>
     <string name="menuitem_compass">Compass</string>
-    <string name="menuitem_timer">Timer</string>
+    <string name="menuitem_timer">Countdown</string>
     <string name="menuitem_alarm">Alarm</string>
     <string name="menuitem_weather">Weather</string>
-    <string name="menuitem_activity">Activity</string>
+    <string name="menuitem_activity">Workout History</string>
     <string name="menuitem_status">Status</string>
     <string name="reset_index">Reset fetch date</string>
     <string name="share">Share</string>
@@ -950,7 +950,7 @@
     <string name="notification_channel_transfer_name">Data transfer</string>
     <string name="notification_channel_low_battery_name">Low battery</string>
     <string name="devicetype_lefun">Lefun</string>
-    <string name="menuitem_cycles">Period</string>
+    <string name="menuitem_cycles">Cycle Tracking</string>
     <string name="menuitem_stress">Stress</string>
     <string name="menuitem_dnd">DND</string>
     <string name="menuitem_stopwatch">Stopwatch</string>
@@ -1329,7 +1329,7 @@
     <string name="devicetype_amazfit_x">Amazfit X</string>
     <string name="devicetype_zepp_e">Zepp E</string>
     <string name="menuitem_findphone">Find Phone</string>
-    <string name="menuitem_takephoto">Take a photo</string>
+    <string name="menuitem_takephoto">Camera Remote</string>
     <string name="menuitem_alexa">Alexa</string>
     <string name="pref_title_middle_button_function_short">Middle Button short</string>
     <string name="pref_title_upper_button_function_long">Upper Button long</string>
@@ -1479,4 +1479,15 @@
     <string name="reminder_every_month">Every month</string>
     <string name="reminder_no_free_slots_description">The device has no free slots for reminders (total slots: %1$s)</string>
     <string name="prefs_reserve_reminder_calendar_summary">Number of calendar events that will be synchronized</string>
+    <string name="mi2_prefs_do_not_disturb_lift_wrist">Activate display upon lift during Do Not Disturb</string>
+    <string name="maxHR">Max Heartrate</string>
+    <string name="spm">steps/min</string>
+    <string name="minSpeed">Minimum</string>
+    <string name="averageCadence">Average Cadence</string>
+    <string name="averageAltitude">Average</string>
+    <string name="maxCadence">Max Cadence</string>
+    <string name="minCadence">Min Cadence</string>
+    <string name="minHR">Min Heartrate</string>
+    <string name="maxStride">Max Stride</string>
+    <string name="minStride">Min Stride</string>
 </resources>
