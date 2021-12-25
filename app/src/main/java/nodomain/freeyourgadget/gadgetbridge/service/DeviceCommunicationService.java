@@ -401,31 +401,36 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
                     autoReconnect = getGBPrefs().getAutoReconnect();
                 }
 
+                DeviceStruct struct = null;
                 try{
-                    DeviceStruct struct = getDeviceStruct(gbDevice);
+                    struct = getDeviceStruct(gbDevice);
+                }catch (DeviceNotFoundException e){
+                    // e.printStackTrace();
+                }
+                if(struct != null){
                     if(!isDeviceConnecting(struct.getDevice()) && !isDeviceConnected(struct.getDevice())){
                         setDeviceSupport(gbDevice, null);
-                        try {
-                            DeviceSupport deviceSupport = mFactory.createDeviceSupport(gbDevice);
-                            if (deviceSupport != null) {
-                                setDeviceSupport(gbDevice, deviceSupport);
-                                if (firstTime) {
-                                    deviceSupport.connectFirstTime();
-                                } else {
-                                    deviceSupport.setAutoReconnect(autoReconnect);
-                                    deviceSupport.connect();
-                                }
-                            } else {
-                                GB.toast(this, getString(R.string.cannot_connect, "Can't create device support"), Toast.LENGTH_SHORT, GB.ERROR);
-                            }
-                        } catch (Exception e) {
-                            GB.toast(this, getString(R.string.cannot_connect, e.getMessage()), Toast.LENGTH_SHORT, GB.ERROR, e);
-                            setDeviceSupport(gbDevice, null);
-                        }
                     }
-                    break;
-                }catch (DeviceNotFoundException e){
-                    e.printStackTrace();
+                }else{
+                    struct = new DeviceStruct();
+                    struct.setDevice(gbDevice);
+                }
+                try {
+                    DeviceSupport deviceSupport = mFactory.createDeviceSupport(gbDevice);
+                    if (deviceSupport != null) {
+                        setDeviceSupport(gbDevice, deviceSupport);
+                        if (firstTime) {
+                            deviceSupport.connectFirstTime();
+                        } else {
+                            deviceSupport.setAutoReconnect(autoReconnect);
+                            deviceSupport.connect();
+                        }
+                    } else {
+                        GB.toast(this, getString(R.string.cannot_connect, "Can't create device support"), Toast.LENGTH_SHORT, GB.ERROR);
+                    }
+                } catch (Exception e) {
+                    GB.toast(this, getString(R.string.cannot_connect, e.getMessage()), Toast.LENGTH_SHORT, GB.ERROR, e);
+                    setDeviceSupport(gbDevice, null);
                 }
 
                 for(DeviceStruct struct2 : deviceStructs){
@@ -463,6 +468,9 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
     }
 
     private DeviceCoordinator getDeviceCoordinator(GBDevice device) throws DeviceNotFoundException {
+        if(device == null){
+            throw new DeviceNotFoundException("null");
+        }
         for(DeviceStruct struct : deviceStructs){
             if(struct.getDevice().equals(device)){
                 return struct.getCoordinator();
@@ -753,6 +761,9 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
     }
 
     public DeviceStruct getDeviceStruct(GBDevice device) throws DeviceNotFoundException {
+        if(device == null){
+            throw new DeviceNotFoundException("null");
+        }
         for(DeviceStruct struct : deviceStructs){
             if(struct.getDevice().equals(device)){
                 return struct;
@@ -762,6 +773,9 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
     }
 
     public GBDevice getDeviceByAddress(String deviceAddress) throws DeviceNotFoundException {
+        if(deviceAddress == null){
+            throw new DeviceNotFoundException(deviceAddress);
+        }
         for(DeviceStruct struct : deviceStructs){
             if(struct.getDevice().getAddress().equals(deviceAddress)){
                 return struct.getDevice();
@@ -771,6 +785,9 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
     }
 
     private DeviceSupport getDeviceSupport(GBDevice device) throws DeviceNotFoundException {
+        if(device == null){
+            throw new DeviceNotFoundException("null");
+        }
         for(DeviceStruct struct : deviceStructs){
             if(struct.getDevice().equals(device)){
                 return struct.getDeviceSupport();
