@@ -34,9 +34,13 @@ public class Roidmi3Coordinator extends RoidmiCoordinator {
     public DeviceType getSupportedType(GBDeviceCandidate candidate) {
         try {
             BluetoothDevice device = candidate.getDevice();
-            String name = device.getName();
+            final String name = device.getName();
 
-            if (name != null && name.contains("Roidmi Music Blue C")) {
+            if (name == null) {
+                return DeviceType.UNKNOWN;
+            }
+
+            if (name.contains("Roidmi Music Blue C") || name.contains("Mojietu Music Blue C")) {
                 return DeviceType.ROIDMI3;
             }
         } catch (Exception ex) {
