@@ -375,7 +375,7 @@ public abstract class AbstractDeviceSupport implements DeviceSupport {
                     .setAutoCancel(true)
                     .build();
 
-            GB.notify(NOTIFICATION_ID_SCREENSHOT, notif, context);
+            GB.notify(NOTIFICATION_ID_SCREENSHOT, notification, context);
         } catch (IOException ex) {
             LOG.error("Error writing screenshot", ex);
         }

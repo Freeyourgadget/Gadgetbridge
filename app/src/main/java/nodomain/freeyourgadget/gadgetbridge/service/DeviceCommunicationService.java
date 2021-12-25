@@ -365,6 +365,7 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
                     intentGBDevice.sendDeviceUpdateIntent(this);
                 }
                 break;
+            }
             default:
                 if (mDeviceSupport == null || mGBDevice == null) {
                     LOG.warn("device support:" + mDeviceSupport + ", device: " + mGBDevice + ", aborting");
@@ -409,7 +410,6 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
             case ACTION_REQUEST_DEVICEINFO:
                 mGBDevice.sendDeviceUpdateIntent(this);
                 break;
-            }
             case ACTION_NOTIFICATION: {
                 int desiredId = intent.getIntExtra(EXTRA_NOTIFICATION_ID, -1);
                 NotificationSpec notificationSpec = new NotificationSpec(desiredId);
@@ -436,7 +436,7 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
                         || (notificationSpec.type == NotificationType.GENERIC_SMS && notificationSpec.phoneNumber != null)) {
                     // NOTE: maybe not where it belongs
                     // I would rather like to save that as an array in SharedPreferences
-                    // this would work but I don't know how to do the same in the Settings Activity's xml
+                    // this would work but I dont know how to do the same in the Settings Activity's xml
                     ArrayList<String> replies = new ArrayList<>();
                     for (int i = 1; i <= 16; i++) {
                         String reply = devicePrefs.getString("canned_reply_" + i, null);
@@ -447,11 +447,11 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
                     notificationSpec.cannedReplies = replies.toArray(new String[0]);
                 }
 
-                intentGBDeviceContainer.getDeviceSupport().onNotification(notificationSpec);
+                mDeviceSupport.onNotification(notificationSpec);
                 break;
             }
             case ACTION_DELETE_NOTIFICATION: {
-                intentGBDeviceContainer.getDeviceSupport().onDeleteNotification(intent.getIntExtra(EXTRA_NOTIFICATION_ID, -1));
+                mDeviceSupport.onDeleteNotification(intent.getIntExtra(EXTRA_NOTIFICATION_ID, -1));
                 break;
             }
             case ACTION_ADD_CALENDAREVENT: {
@@ -463,27 +463,27 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
                 calendarEventSpec.title = sanitizeNotifText(intent.getStringExtra(EXTRA_CALENDAREVENT_TITLE));
                 calendarEventSpec.description = sanitizeNotifText(intent.getStringExtra(EXTRA_CALENDAREVENT_DESCRIPTION));
                 calendarEventSpec.location = sanitizeNotifText(intent.getStringExtra(EXTRA_CALENDAREVENT_LOCATION));
-                intentGBDeviceContainer.getDeviceSupport().onAddCalendarEvent(calendarEventSpec);
+                mDeviceSupport.onAddCalendarEvent(calendarEventSpec);
                 break;
             }
             case ACTION_DELETE_CALENDAREVENT: {
                 long id = intent.getLongExtra(EXTRA_CALENDAREVENT_ID, -1);
                 byte type = intent.getByteExtra(EXTRA_CALENDAREVENT_TYPE, (byte) -1);
-                intentGBDeviceContainer.getDeviceSupport().onDeleteCalendarEvent(type, id);
+                mDeviceSupport.onDeleteCalendarEvent(type, id);
                 break;
             }
             case ACTION_RESET: {
                 int flags = intent.getIntExtra(EXTRA_RESET_FLAGS, 0);
-                intentGBDeviceContainer.getDeviceSupport().onReset(flags);
+                mDeviceSupport.onReset(flags);
                 break;
             }
             case ACTION_HEARTRATE_TEST: {
-                intentGBDeviceContainer.getDeviceSupport().onHeartRateTest();
+                mDeviceSupport.onHeartRateTest();
                 break;
             }
             case ACTION_FETCH_RECORDED_DATA: {
                 int dataTypes = intent.getIntExtra(EXTRA_RECORDED_DATA_TYPES, 0);
-                intentGBDeviceContainer.getDeviceSupport().onFetchRecordedData(dataTypes);
+                mDeviceSupport.onFetchRecordedData(dataTypes);
                 break;
             }
             case ACTION_DISCONNECT: {
@@ -500,37 +500,34 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
             }
             case ACTION_FIND_DEVICE: {
                 boolean start = intent.getBooleanExtra(EXTRA_FIND_START, false);
-                intentGBDeviceContainer.getDeviceSupport().onFindDevice(start);
+                mDeviceSupport.onFindDevice(start);
                 break;
             }
             case ACTION_SET_CONSTANT_VIBRATION: {
                 int intensity = intent.getIntExtra(EXTRA_VIBRATION_INTENSITY, 0);
-                intentGBDeviceContainer.getDeviceSupport().onSetConstantVibration(intensity);
+                mDeviceSupport.onSetConstantVibration(intensity);
                 break;
             }
-            case ACTION_CALLSTATE: {
+            case ACTION_CALLSTATE:
                 CallSpec callSpec = new CallSpec();
                 callSpec.command = intent.getIntExtra(EXTRA_CALL_COMMAND, CallSpec.CALL_UNDEFINED);
                 callSpec.number = intent.getStringExtra(EXTRA_CALL_PHONENUMBER);
                 callSpec.name = sanitizeNotifText(intent.getStringExtra(EXTRA_CALL_DISPLAYNAME));
-                intentGBDeviceContainer.getDeviceSupport().onSetCallState(callSpec);
+                mDeviceSupport.onSetCallState(callSpec);
                 break;
-            }
-            case ACTION_SETCANNEDMESSAGES: {
+            case ACTION_SETCANNEDMESSAGES:
                 int type = intent.getIntExtra(EXTRA_CANNEDMESSAGES_TYPE, -1);
                 String[] cannedMessages = intent.getStringArrayExtra(EXTRA_CANNEDMESSAGES);
 
                 CannedMessagesSpec cannedMessagesSpec = new CannedMessagesSpec();
                 cannedMessagesSpec.type = type;
                 cannedMessagesSpec.cannedMessages = cannedMessages;
-                intentGBDeviceContainer.getDeviceSupport().onSetCannedMessages(cannedMessagesSpec);
+                mDeviceSupport.onSetCannedMessages(cannedMessagesSpec);
                 break;
-            }
-            case ACTION_SETTIME: {
-                intentGBDeviceContainer.getDeviceSupport().onSetTime();
+            case ACTION_SETTIME:
+                mDeviceSupport.onSetTime();
                 break;
-            }
-            case ACTION_SETMUSICINFO: {
+            case ACTION_SETMUSICINFO:
                 MusicSpec musicSpec = new MusicSpec();
                 musicSpec.artist = sanitizeNotifText(intent.getStringExtra(EXTRA_MUSIC_ARTIST));
                 musicSpec.album = sanitizeNotifText(intent.getStringExtra(EXTRA_MUSIC_ALBUM));
@@ -538,36 +535,32 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
                 musicSpec.duration = intent.getIntExtra(EXTRA_MUSIC_DURATION, 0);
                 musicSpec.trackCount = intent.getIntExtra(EXTRA_MUSIC_TRACKCOUNT, 0);
                 musicSpec.trackNr = intent.getIntExtra(EXTRA_MUSIC_TRACKNR, 0);
-                intentGBDeviceContainer.getDeviceSupport().onSetMusicInfo(musicSpec);
+                mDeviceSupport.onSetMusicInfo(musicSpec);
                 break;
-            }
-            case ACTION_SETMUSICSTATE: {
+            case ACTION_SETMUSICSTATE:
                 MusicStateSpec stateSpec = new MusicStateSpec();
                 stateSpec.shuffle = intent.getByteExtra(EXTRA_MUSIC_SHUFFLE, (byte) 0);
                 stateSpec.repeat = intent.getByteExtra(EXTRA_MUSIC_REPEAT, (byte) 0);
                 stateSpec.position = intent.getIntExtra(EXTRA_MUSIC_POSITION, 0);
                 stateSpec.playRate = intent.getIntExtra(EXTRA_MUSIC_RATE, 0);
                 stateSpec.state = intent.getByteExtra(EXTRA_MUSIC_STATE, (byte) 0);
-                intentGBDeviceContainer.getDeviceSupport().onSetMusicState(stateSpec);
+                mDeviceSupport.onSetMusicState(stateSpec);
                 break;
-            }
-            case ACTION_REQUEST_APPINFO: {
-                intentGBDeviceContainer.getDeviceSupport().onAppInfoReq();
+            case ACTION_REQUEST_APPINFO:
+                mDeviceSupport.onAppInfoReq();
                 break;
-            }
-            case ACTION_REQUEST_SCREENSHOT: {
-                intentGBDeviceContainer.getDeviceSupport().onScreenshotReq();
+            case ACTION_REQUEST_SCREENSHOT:
+                mDeviceSupport.onScreenshotReq();
                 break;
-            }
             case ACTION_STARTAPP: {
                 UUID uuid = (UUID) intent.getSerializableExtra(EXTRA_APP_UUID);
                 boolean start = intent.getBooleanExtra(EXTRA_APP_START, true);
-                intentGBDeviceContainer.getDeviceSupport().onAppStart(uuid, start);
+                mDeviceSupport.onAppStart(uuid, start);
                 break;
             }
             case ACTION_DELETEAPP: {
                 UUID uuid = (UUID) intent.getSerializableExtra(EXTRA_APP_UUID);
-                intentGBDeviceContainer.getDeviceSupport().onAppDelete(uuid);
+                mDeviceSupport.onAppDelete(uuid);
                 break;
             }
             case ACTION_APP_CONFIGURE: {
@@ -577,54 +570,52 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
                 if (intent.hasExtra(EXTRA_APP_CONFIG_ID)) {
                     id = intent.getIntExtra(EXTRA_APP_CONFIG_ID, 0);
                 }
-                intentGBDeviceContainer.getDeviceSupport().onAppConfiguration(uuid, config, id);
+                mDeviceSupport.onAppConfiguration(uuid, config, id);
                 break;
             }
             case ACTION_APP_REORDER: {
                 UUID[] uuids = (UUID[]) intent.getSerializableExtra(EXTRA_APP_UUID);
-                intentGBDeviceContainer.getDeviceSupport().onAppReorder(uuids);
+                mDeviceSupport.onAppReorder(uuids);
                 break;
             }
-            case ACTION_INSTALL: {
+            case ACTION_INSTALL:
                 Uri uri = intent.getParcelableExtra(EXTRA_URI);
                 if (uri != null) {
                     LOG.info("will try to install app/fw");
-                    intentGBDeviceContainer.getDeviceSupport().onInstallApp(uri);
+                    mDeviceSupport.onInstallApp(uri);
                 }
                 break;
-            }
-            case ACTION_SET_ALARMS: {
+            case ACTION_SET_ALARMS:
                 ArrayList<? extends Alarm> alarms = (ArrayList<? extends Alarm>) intent.getSerializableExtra(EXTRA_ALARMS);
-                intentGBDeviceContainer.getDeviceSupport().onSetAlarms(alarms);
+                mDeviceSupport.onSetAlarms(alarms);
                 break;
             case ACTION_SET_REMINDERS:
                 ArrayList<? extends Reminder> reminders = (ArrayList<? extends Reminder>) intent.getSerializableExtra(EXTRA_REMINDERS);
                 mDeviceSupport.onSetReminders(reminders);
                 break;
-            }
             case ACTION_ENABLE_REALTIME_STEPS: {
                 boolean enable = intent.getBooleanExtra(EXTRA_BOOLEAN_ENABLE, false);
-                intentGBDeviceContainer.getDeviceSupport().onEnableRealtimeSteps(enable);
+                mDeviceSupport.onEnableRealtimeSteps(enable);
                 break;
             }
             case ACTION_ENABLE_HEARTRATE_SLEEP_SUPPORT: {
                 boolean enable = intent.getBooleanExtra(EXTRA_BOOLEAN_ENABLE, false);
-                intentGBDeviceContainer.getDeviceSupport().onEnableHeartRateSleepSupport(enable);
+                mDeviceSupport.onEnableHeartRateSleepSupport(enable);
                 break;
             }
             case ACTION_SET_HEARTRATE_MEASUREMENT_INTERVAL: {
                 int seconds = intent.getIntExtra(EXTRA_INTERVAL_SECONDS, 0);
-                intentGBDeviceContainer.getDeviceSupport().onSetHeartRateMeasurementInterval(seconds);
+                mDeviceSupport.onSetHeartRateMeasurementInterval(seconds);
                 break;
             }
             case ACTION_ENABLE_REALTIME_HEARTRATE_MEASUREMENT: {
                 boolean enable = intent.getBooleanExtra(EXTRA_BOOLEAN_ENABLE, false);
-                intentGBDeviceContainer.getDeviceSupport().onEnableRealtimeHeartRateMeasurement(enable);
+                mDeviceSupport.onEnableRealtimeHeartRateMeasurement(enable);
                 break;
             }
             case ACTION_SEND_CONFIGURATION: {
                 String config = intent.getStringExtra(EXTRA_CONFIG);
-                intentGBDeviceContainer.getDeviceSupport().onSendConfiguration(config);
+                mDeviceSupport.onSendConfiguration(config);
                 break;
             }
             case ACTION_READ_CONFIGURATION: {
@@ -633,13 +624,13 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
                 break;
             }
             case ACTION_TEST_NEW_FUNCTION: {
-                intentGBDeviceContainer.getDeviceSupport().onTestNewFunction();
+                mDeviceSupport.onTestNewFunction();
                 break;
             }
             case ACTION_SEND_WEATHER: {
                 WeatherSpec weatherSpec = intent.getParcelableExtra(EXTRA_WEATHER);
                 if (weatherSpec != null) {
-                    intentGBDeviceContainer.getDeviceSupport().onSendWeather(weatherSpec);
+                    mDeviceSupport.onSendWeather(weatherSpec);
                 }
                 break;
             }
