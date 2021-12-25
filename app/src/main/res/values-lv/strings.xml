@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="controlcenter_take_screenshot">Veikt ekrānuzņēmumu</string>
+    <string name="controlcenter_find_device">Atrast zaudēto ierīci</string>
+    <string name="controlcenter_fetch_activity_data">Sinhronizēt</string>
+    <string name="action_donate">Ziedot</string>
+    <string name="action_quit">Iziet</string>
+    <string name="action_debug">Atkļūdošana</string>
+    <string name="action_settings">Iestatījumi</string>
+    <string name="live_activity_steps_per_minute_history">Vēsture par soļiem minūtē</string>
+    <string name="live_activity_total_steps">Kopējais soļu skaits</string>
+    <string name="live_activity_current_steps_per_minute">Pašreizējie soļi / min</string>
+    <string name="live_activity_steps_history">Soļu vēsture</string>
+    <string name="prefs_find_phone">Atrast tālruni</string>
+    <string name="sonyswr12_settings_low_vibration_summary">Iespējot zemu vibrācijas intensitāti joslā</string>
+    <string name="sonyswr12_settings_stamina_summary">Enerģijas taupīšanas režīms izslēdz periodisku automātisku sirdsdarbības mērīšanu, tādējādi palielinot darba laiku</string>
+    <string name="sonyswr12_settings_alarm_interval_summary">Viedā trauksmes intervāls ir intervāls pirms instalētās trauksmes. Šajā intervālā ierīce mēģina noteikt vieglāko miega fāzi, lai pamodinātu lietotāju</string>
+    <string name="sonyswr12_settings_title">Sony SWR12 iestatījumi</string>
+    <string name="sonyswr12_settings_low_vibration">Iespējota zema vibrācija</string>
+    <string name="sonyswr12_settings_stamina">Ieslēgts enerģijas taupīšanas režīms</string>
+    <string name="sonyswr12_settings_alarm_interval">Viedā trauksmes intervāls minūtēs</string>
+</resources>

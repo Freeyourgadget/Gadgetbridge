@@ -1,5 +1,5 @@
-/*  Copyright (C) 2015-2018 Andreas Shimokawa, Carsten Pfeiffer, Daniele
-    Gobbetti, Vebryn
+/*  Copyright (C) 2015-2020 Andreas Shimokawa, Carsten Pfeiffer, Daniele
+    Gobbetti, Pavel Elagin, vanous, Vebryn
 
     This file is part of Gadgetbridge.
 
@@ -17,27 +17,26 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.activities.charts;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.HashMap;
+import java.util.List;
 
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityAmount;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityAmounts;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityKind;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
 
-class ActivityAnalysis {
-    private static final Logger LOG = LoggerFactory.getLogger(ActivityAnalysis.class);
+public class ActivityAnalysis {
+    public static final Logger LOG = LoggerFactory.getLogger(ActivityAnalysis.class);
 
     // store raw steps and duration
     protected HashMap<Integer, Long> stats = new HashMap<Integer, Long>();
     // max speed determined from samples
     private int maxSpeed = 0;
 
-    ActivityAmounts calculateActivityAmounts(List<? extends ActivitySample> samples) {
+    public ActivityAmounts calculateActivityAmounts(List<? extends ActivitySample> samples) {
         ActivityAmount deepSleep = new ActivityAmount(ActivityKind.TYPE_DEEP_SLEEP);
         ActivityAmount lightSleep = new ActivityAmount(ActivityKind.TYPE_LIGHT_SLEEP);
         ActivityAmount notWorn = new ActivityAmount(ActivityKind.TYPE_NOT_WORN);
@@ -85,15 +84,18 @@ class ActivityAnalysis {
                     }
 
                     if (!stats.containsKey(steps)) {
-                        LOG.info("Adding: " + steps);
+//                        LOG.debug("Adding: " + steps);
                         stats.put(steps, timeDifference);
                     } else {
                         long time = stats.get(steps);
-                        LOG.info("Updating: " + steps + " " + timeDifference + time);
+//                        LOG.debug("Updating: " + steps + " " + timeDifference + time);
                         stats.put(steps, timeDifference + time);
                     }
                 }
             }
+
+            amount.setStartDate(sample.getTimestamp());
+            amount.setEndDate(sample.getTimestamp());
 
             previousAmount = amount;
             previousSample = sample;
@@ -109,6 +111,10 @@ class ActivityAnalysis {
         if (activity.getTotalSeconds() > 0) {
             result.addAmount(activity);
         }
+        if (notWorn.getTotalSeconds() > 0) {
+            result.addAmount(notWorn);
+        }
+
         result.calculatePercentages();
 
         return result;
@@ -119,7 +125,7 @@ class ActivityAnalysis {
         for (ActivitySample sample : samples) {
             int steps = sample.getSteps();
             if (steps > 0) {
-                totalSteps += sample.getSteps();
+                totalSteps += steps;
             }
         }
         return totalSteps;

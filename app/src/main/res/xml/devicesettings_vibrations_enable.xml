@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <SwitchPreference
+        android:defaultValue="false"
+        android:icon="@drawable/ic_vibration"
+        android:key="vibration_enable"
+        android:summary="@string/enable_vibrations_summary"
+        android:title="@string/prefs_vibration_enable" />
+</androidx.preference.PreferenceScreen>

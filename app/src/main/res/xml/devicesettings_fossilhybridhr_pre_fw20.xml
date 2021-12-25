@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <Preference
+        android:title="@string/qhybrid_title_watchface"
+        android:icon="@drawable/ic_watch"
+        android:summary="@string/qhybrid_watchface_configuration_old_firmware">
+        <intent
+            android:targetPackage="nodomain.freeyourgadget.gadgetbridge"
+            android:targetClass="nodomain.freeyourgadget.gadgetbridge.devices.qhybrid.HRConfigActivity" />
+    </Preference>
+
+    <SwitchPreference
+        android:defaultValue="false"
+        android:icon="@drawable/ic_filter_b_and_w"
+        android:key="force_white_color_scheme"
+        android:summary="@string/pref_summary_force_white_color_scheme"
+        android:title="@string/pref_title_force_white_color_scheme" />
+    <SwitchPreference
+        android:defaultValue="false"
+        android:icon="@drawable/ic_circle"
+        android:key="widget_draw_circles"
+        android:title="@string/pref_qhybrid_title_widget_draw_circles" />
+
+</androidx.preference.PreferenceScreen>

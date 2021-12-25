@@ -1,4 +1,5 @@
-/*  Copyright (C) 2015-2018 Andreas Shimokawa, Carsten Pfeiffer
+/*  Copyright (C) 2015-2020 Andreas Shimokawa, Carsten Pfeiffer, Daniele
+    Gobbetti
 
     This file is part of Gadgetbridge.
 
@@ -61,7 +62,6 @@ public class PebbleReceiver extends BroadcastReceiver {
         }
 
         NotificationSpec notificationSpec = new NotificationSpec();
-        notificationSpec.id = -1;
 
         String notificationData = intent.getStringExtra("notificationData");
         try {
@@ -76,6 +76,18 @@ public class PebbleReceiver extends BroadcastReceiver {
         if (notificationSpec.title != null) {
             notificationSpec.type = NotificationType.UNKNOWN;
             String sender = intent.getStringExtra("sender");
+            if (GBApplication.getPrefs().getString("notification_list_is_blacklist", "true").equals("true")) {
+                if (GBApplication.appIsPebbleBlacklisted(sender)) {
+                    LOG.info("Ignoring Pebble message, application " + sender + " is blacklisted");
+                    return;
+                }
+            } else {
+                if (!GBApplication.appIsPebbleBlacklisted(sender)) {
+                    LOG.info("Ignoring Pebble message, application " + sender + " is not whitelisted");
+                    return;
+                }
+            }
+
             if ("Conversations".equals(sender)) {
                 notificationSpec.type = NotificationType.CONVERSATIONS;
             }

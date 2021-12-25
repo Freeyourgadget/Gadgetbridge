@@ -1,5 +1,5 @@
-/*  Copyright (C) 2016-2018 Andreas Shimokawa, Carsten Pfeiffer, João
-    Paulo Barraca
+/*  Copyright (C) 2016-2021 Andreas Shimokawa, Carsten Pfeiffer, João
+    Paulo Barraca, Lesur Frederic
 
     This file is part of Gadgetbridge.
 
@@ -16,10 +16,6 @@
     You should have received a copy of the GNU Affero General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.devices.hplus;
-
-/*
-* @author João Paulo Barraca &lt;jpbarraca@gmail.com&gt;
-*/
 
 import java.util.HashMap;
 import java.util.Map;
@@ -88,6 +84,7 @@ public final class HPlusConstants {
     public static final byte CMD_SET_PREFS = 0x50;
     public static final byte CMD_SET_SIT_INTERVAL = 0x51;
     public static final byte CMD_SET_HEARTRATE_STATE = 0x32;
+    public static final byte CMD_SET_WEATHER_STATE = 0x5f;
 
     //GET messages
     public static final byte CMD_GET_VERSION = 0x17;
@@ -128,13 +125,13 @@ public final class HPlusConstants {
 
     public static final String PREF_HPLUS_SCREENTIME = "hplus_screentime";
     public static final String PREF_HPLUS_ALLDAYHR = "hplus_alldayhr";
-    public static final String PREF_HPLUS_TIMEFORMAT = "hplus_timeformat";
-    public static final String PREF_HPLUS_WRIST = "hplus_wrist";
     public static final String PREF_HPLUS_SIT_START_TIME = "hplus_sit_start_time";
     public static final String PREF_HPLUS_SIT_END_TIME = "hplus_sit_end_time";
     public static final String PREF_HPLUS_UNICODE = "hplus_unicode";
+    public static final String PREF_HPLUS_DISPLAY_NOTIFICATION_ICON = "hplus_display_notification_icon";
+    public static final String PREF_HPLUS_NOTIFICATION_LINES = "hplus_notification_lines";
 
-    public static final Map<Character, byte[]> transliterateMap = new HashMap<Character, byte[]>(){
+    public static final Map<Character, byte[]> transliterateMap = new HashMap<Character, byte[]>() {
         {
             //These are missing
             put('ó', new byte[]{(byte) 111});

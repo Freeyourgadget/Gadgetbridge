@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <SwitchPreference
+        android:defaultValue="true"
+        android:icon="@drawable/ic_extension"
+        android:key="pref_nothing_inear_detection"
+        android:summary="@string/nothing_prefs_inear_summary"
+        android:title="@string/nothing_prefs_inear_title" />
+    <ListPreference
+        android:icon="@drawable/ic_extension"
+        android:entryValues="@array/nothing_ear1_audio_mode"
+        android:entries="@array/nothing_ear1_audio_mode"
+        android:key="pref_nothing_audiomode"
+        android:summary="%s"
+        android:title="@string/nothing_prefs_audiomode_title" />
+</androidx.preference.PreferenceScreen>

@@ -1,4 +1,4 @@
-/*  Copyright (C) 2015-2018 Andreas Shimokawa, Carsten Pfeiffer, Daniele
+/*  Copyright (C) 2015-2020 Andreas Shimokawa, Carsten Pfeiffer, Daniele
     Gobbetti, Felix Konstantin Maurer, JohnnySun
 
     This file is part of Gadgetbridge.
@@ -21,9 +21,9 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.net.Uri;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -33,6 +33,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -43,14 +44,19 @@ import de.greenrobot.dao.query.Query;
 import de.greenrobot.dao.query.QueryBuilder;
 import de.greenrobot.dao.query.WhereCondition;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
+import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst;
 import nodomain.freeyourgadget.gadgetbridge.devices.DeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.entities.ActivityDescription;
 import nodomain.freeyourgadget.gadgetbridge.entities.ActivityDescriptionDao;
+import nodomain.freeyourgadget.gadgetbridge.entities.Alarm;
+import nodomain.freeyourgadget.gadgetbridge.entities.AlarmDao;
 import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
 import nodomain.freeyourgadget.gadgetbridge.entities.Device;
 import nodomain.freeyourgadget.gadgetbridge.entities.DeviceAttributes;
 import nodomain.freeyourgadget.gadgetbridge.entities.DeviceAttributesDao;
 import nodomain.freeyourgadget.gadgetbridge.entities.DeviceDao;
+import nodomain.freeyourgadget.gadgetbridge.entities.Reminder;
+import nodomain.freeyourgadget.gadgetbridge.entities.ReminderDao;
 import nodomain.freeyourgadget.gadgetbridge.entities.Tag;
 import nodomain.freeyourgadget.gadgetbridge.entities.TagDao;
 import nodomain.freeyourgadget.gadgetbridge.entities.User;
@@ -62,10 +68,11 @@ import nodomain.freeyourgadget.gadgetbridge.model.ValidByDate;
 import nodomain.freeyourgadget.gadgetbridge.util.DateTimeUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.DeviceHelper;
 import nodomain.freeyourgadget.gadgetbridge.util.FileUtils;
+import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 
 
 /**
- * Provides utiliy access to some common entities, so you won't need to use
+ * Provides utility access to some common entities, so you won't need to use
  * their DAO classes.
  * <p/>
  * Maybe this code should actually be in the DAO classes themselves, but then
@@ -277,7 +284,7 @@ public class DBHelper {
         attributes.setValidFromUTC(now.getTime());
         attributes.setHeightCM(prefsUser.getHeightCm());
         attributes.setWeightKG(prefsUser.getWeightKg());
-        attributes.setSleepGoalHPD(prefsUser.getSleepDuration());
+        attributes.setSleepGoalHPD(prefsUser.getSleepDurationGoal());
         attributes.setStepsGoalSPD(prefsUser.getStepsGoal());
         attributes.setUserId(user.getId());
         session.getUserAttributesDao().insert(attributes);
@@ -338,8 +345,8 @@ public class DBHelper {
             LOG.info("user changed to " + prefsUser.getWeightKg() + " from " + attr.getWeightKG());
             return false;
         }
-        if (!Integer.valueOf(prefsUser.getSleepDuration()).equals(attr.getSleepGoalHPD())) {
-            LOG.info("user sleep goal changed to " + prefsUser.getSleepDuration() + " from " + attr.getSleepGoalHPD());
+        if (!Integer.valueOf(prefsUser.getSleepDurationGoal()).equals(attr.getSleepGoalHPD())) {
+            LOG.info("user sleep goal changed to " + prefsUser.getSleepDurationGoal() + " from " + attr.getSleepGoalHPD());
             return false;
         }
         if (!Integer.valueOf(prefsUser.getStepsGoal()).equals(attr.getStepsGoalSPD())) {
@@ -362,6 +369,13 @@ public class DBHelper {
         return true;
     }
 
+    /**
+     * Finds the corresponding Device entity for the given GBDevice.
+     * @param gbDevice
+     * @param session
+     * @return the corresponding Device entity, or null if none
+     */
+    @Nullable
     public static Device findDevice(GBDevice gbDevice, DaoSession session) {
         DeviceDao deviceDao = session.getDeviceDao();
         Query<Device> query = deviceDao.queryBuilder().where(DeviceDao.Properties.Identifier.eq(gbDevice.getAddress())).build();
@@ -416,6 +430,7 @@ public class DBHelper {
         if (!isDeviceUpToDate(device, gbDevice)) {
             device.setIdentifier(gbDevice.getAddress());
             device.setName(gbDevice.getName());
+            device.setAlias(gbDevice.getAlias());
             DeviceCoordinator coordinator = DeviceHelper.getInstance().getCoordinator(gbDevice);
             device.setManufacturer(coordinator.getManufacturer());
             device.setType(gbDevice.getType().getKey());
@@ -434,6 +449,9 @@ public class DBHelper {
             return false;
         }
         if (!Objects.equals(device.getName(), gbDevice.getName())) {
+            return false;
+        }
+        if (!Objects.equals(device.getAlias(), gbDevice.getAlias())) {
             return false;
         }
         DeviceCoordinator coordinator = DeviceHelper.getInstance().getCoordinator(gbDevice);
@@ -559,6 +577,103 @@ public class DBHelper {
         tag.setDescription(description);
         session.getTagDao().insertOrReplace(tag);
         return tag;
+    }
+
+    /**
+     * Returns all user-configurable alarms for the given user and device. The list is sorted by
+     * {@link Alarm#position}. Calendar events that may also be modeled as alarms are not stored
+     * in the database and hence not returned by this method.
+     * @param gbDevice the device for which the alarms shall be loaded
+     * @return the list of alarms for the given device
+     */
+    @NonNull
+    public static List<Alarm> getAlarms(@NonNull GBDevice gbDevice) {
+        DeviceCoordinator coordinator = DeviceHelper.getInstance().getCoordinator(gbDevice);
+        Prefs prefs = new Prefs(GBApplication.getDeviceSpecificSharedPrefs(gbDevice.getAddress()));
+
+        int reservedSlots = prefs.getInt(DeviceSettingsPreferenceConst.PREF_RESERVER_ALARMS_CALENDAR, 0);
+        int alarmSlots = coordinator.getAlarmSlotCount();
+
+        try (DBHandler db = GBApplication.acquireDB()) {
+            DaoSession daoSession = db.getDaoSession();
+            User user = getUser(daoSession);
+            Device dbDevice = DBHelper.findDevice(gbDevice, daoSession);
+            if (dbDevice != null) {
+                AlarmDao alarmDao = daoSession.getAlarmDao();
+                Long deviceId = dbDevice.getId();
+                QueryBuilder<Alarm> qb = alarmDao.queryBuilder();
+                qb.where(
+                        AlarmDao.Properties.UserId.eq(user.getId()),
+                        AlarmDao.Properties.DeviceId.eq(deviceId)).orderAsc(AlarmDao.Properties.Position).limit(alarmSlots - reservedSlots);
+                return qb.build().list();
+            }
+        } catch (Exception e) {
+            LOG.warn("Error reading alarms from db", e);
+        }
+        return Collections.emptyList();
+    }
+
+    public static void store(Alarm alarm) {
+        try (DBHandler db = GBApplication.acquireDB()) {
+            DaoSession daoSession = db.getDaoSession();
+            daoSession.insertOrReplace(alarm);
+        } catch (Exception e) {
+             LOG.error("Error acquiring database", e);
+        }
+    }
+
+    /**
+     * Returns all user-configurable reminders for the given user and device. The list is sorted by
+     * {@link Reminder#getDate}. Calendar events that may also be modeled as reminders are not stored
+     * in the database and hence not returned by this method.
+     * @param gbDevice the device for which the alarms shall be loaded
+     * @return the list of reminders for the given device
+     */
+    @NonNull
+    public static List<Reminder> getReminders(@NonNull GBDevice gbDevice) {
+        final DeviceCoordinator coordinator = DeviceHelper.getInstance().getCoordinator(gbDevice);
+        final Prefs prefs = new Prefs(GBApplication.getDeviceSpecificSharedPrefs(gbDevice.getAddress()));
+
+        int reservedSlots = prefs.getInt(DeviceSettingsPreferenceConst.PREF_RESERVER_REMINDERS_CALENDAR, 9);
+
+        final int reminderSlots = coordinator.getReminderSlotCount();
+
+        try (DBHandler db = GBApplication.acquireDB()) {
+            final DaoSession daoSession = db.getDaoSession();
+            final User user = getUser(daoSession);
+            final Device dbDevice = DBHelper.findDevice(gbDevice, daoSession);
+            if (dbDevice != null) {
+                final ReminderDao reminderDao = daoSession.getReminderDao();
+                final Long deviceId = dbDevice.getId();
+                final QueryBuilder<Reminder> qb = reminderDao.queryBuilder();
+                qb.where(
+                        ReminderDao.Properties.UserId.eq(user.getId()),
+                        ReminderDao.Properties.DeviceId.eq(deviceId)).orderAsc(ReminderDao.Properties.Date).limit(reminderSlots - reservedSlots);
+                return qb.build().list();
+            }
+        } catch (final Exception e) {
+            LOG.error("Error reading reminders from db", e);
+        }
+
+        return Collections.emptyList();
+    }
+
+    public static void store(final Reminder reminder) {
+        try (DBHandler db = GBApplication.acquireDB()) {
+            final DaoSession daoSession = db.getDaoSession();
+            daoSession.insertOrReplace(reminder);
+        } catch (final Exception e) {
+            LOG.error("Error acquiring database", e);
+        }
+    }
+
+    public static void delete(final Reminder reminder) {
+        try (DBHandler db = GBApplication.acquireDB()) {
+            final DaoSession daoSession = db.getDaoSession();
+            daoSession.delete(reminder);
+        } catch (final Exception e) {
+            LOG.error("Error acquiring database", e);
+        }
     }
 
     public static void clearSession() {

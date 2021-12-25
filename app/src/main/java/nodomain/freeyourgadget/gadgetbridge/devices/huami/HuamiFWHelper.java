@@ -1,4 +1,5 @@
-/*  Copyright (C) 2016-2018 Andreas Shimokawa, Carsten Pfeiffer
+/*  Copyright (C) 2016-2021 Andreas Shimokawa, Carsten Pfeiffer, Daniele
+    Gobbetti
 
     This file is part of Gadgetbridge.
 
@@ -18,15 +19,16 @@ package nodomain.freeyourgadget.gadgetbridge.devices.huami;
 
 import android.content.Context;
 import android.net.Uri;
-import android.support.annotation.NonNull;
 
 import java.io.IOException;
 
+import androidx.annotation.NonNull;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.AbstractMiBandFWHelper;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.HuamiFirmwareInfo;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.HuamiFirmwareType;
 
 public abstract class HuamiFWHelper extends AbstractMiBandFWHelper {
     protected HuamiFirmwareInfo firmwareInfo;
@@ -57,6 +59,9 @@ public abstract class HuamiFWHelper extends AbstractMiBandFWHelper {
                 break;
             case GPS_CEP:
                 resId = R.string.kind_gps_cep;
+                break;
+            case AGPS_UIHH:
+                resId = R.string.kind_agps_bundle;
                 break;
             case RES:
             case RES_COMPRESSED:
@@ -109,6 +114,10 @@ public abstract class HuamiFWHelper extends AbstractMiBandFWHelper {
         firmwareInfo.checkValid();
     }
 
+    @Override
+    public HuamiFirmwareType getFirmwareType() {
+        return firmwareInfo.getFirmwareType();
+    }
     public HuamiFirmwareInfo getFirmwareInfo() {
         return firmwareInfo;
     }

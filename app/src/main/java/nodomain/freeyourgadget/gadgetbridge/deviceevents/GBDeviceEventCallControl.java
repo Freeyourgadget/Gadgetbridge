@@ -1,4 +1,4 @@
-/*  Copyright (C) 2015-2018 Andreas Shimokawa
+/*  Copyright (C) 2015-2021 Andreas Böhler, Andreas Shimokawa
 
     This file is part of Gadgetbridge.
 
@@ -28,5 +28,6 @@ public class GBDeviceEventCallControl extends GBDeviceEvent {
         OUTGOING,
         REJECT,
         START,
+        IGNORE,
     }
 }

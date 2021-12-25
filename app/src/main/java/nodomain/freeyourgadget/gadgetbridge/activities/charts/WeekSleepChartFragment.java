@@ -1,4 +1,5 @@
-/*  Copyright (C) 2017-2018 Andreas Shimokawa, Carsten Pfeiffer
+/*  Copyright (C) 2017-2020 Andreas Shimokawa, Carsten Pfeiffer, Pavel
+    Elagin, vanous
 
     This file is part of Gadgetbridge.
 
@@ -17,12 +18,9 @@
 package nodomain.freeyourgadget.gadgetbridge.activities.charts;
 
 import com.github.mikephil.charting.charts.Chart;
-import com.github.mikephil.charting.components.AxisBase;
+import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.components.LegendEntry;
-import com.github.mikephil.charting.data.Entry;
-import com.github.mikephil.charting.formatter.IAxisValueFormatter;
-import com.github.mikephil.charting.formatter.IValueFormatter;
-import com.github.mikephil.charting.utils.ViewPortHandler;
+import com.github.mikephil.charting.formatter.ValueFormatter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,7 +37,12 @@ import nodomain.freeyourgadget.gadgetbridge.util.DateTimeUtils;
 public class WeekSleepChartFragment extends AbstractWeekChartFragment {
     @Override
     public String getTitle() {
-        return getString(R.string.weeksleepchart_sleep_a_week);
+        if (GBApplication.getPrefs().getBoolean("charts_range", true)) {
+            return getString(R.string.weeksleepchart_sleep_a_month);
+        }
+        else{
+            return getString(R.string.weeksleepchart_sleep_a_week);
+        }
     }
 
     @Override
@@ -57,6 +60,31 @@ public class WeekSleepChartFragment extends AbstractWeekChartFragment {
         return -12;
     }
 
+
+    @Override
+    protected long calculateBalance(ActivityAmounts activityAmounts) {
+        long balance = 0;
+
+        for (ActivityAmount amount : activityAmounts.getAmounts()) {
+            if (amount.getActivityKind() == ActivityKind.TYPE_DEEP_SLEEP || amount.getActivityKind() == ActivityKind.TYPE_LIGHT_SLEEP) {
+                balance += amount.getTotalSeconds();
+            }
+        }
+        return (int) (balance / 60);
+    }
+
+    @Override
+    protected String getBalanceMessage(long balance, int targetValue) {
+        if (balance > 0) {
+            final long totalBalance = balance - ((long)targetValue * TOTAL_DAYS_FOR_AVERAGE);
+            if (totalBalance > 0)
+                return getString(R.string.overslept, getHM(totalBalance));
+            else
+                return getString(R.string.lack_of_sleep, getHM(Math.abs(totalBalance)));
+        } else
+            return getString(R.string.no_data);
+    }
+
     @Override
     float[] getTotalsForActivityAmounts(ActivityAmounts activityAmounts) {
         long totalSecondsDeepSleep = 0;
@@ -68,12 +96,14 @@ public class WeekSleepChartFragment extends AbstractWeekChartFragment {
                 totalSecondsLightSleep += amount.getTotalSeconds();
             }
         }
-        return new float[]{(int) (totalSecondsDeepSleep / 60), (int) (totalSecondsLightSleep / 60)};
+        int totalMinutesDeepSleep = (int) (totalSecondsDeepSleep / 60);
+        int totalMinutesLightSleep = (int) (totalSecondsLightSleep / 60);
+        return new float[]{totalMinutesDeepSleep, totalMinutesLightSleep};
     }
 
     @Override
-    protected String formatPieValue(int value) {
-        return DateTimeUtils.formatDurationHoursMinutes((long) value, TimeUnit.MINUTES);
+    protected String formatPieValue(long value) {
+        return DateTimeUtils.formatDurationHoursMinutes(value, TimeUnit.MINUTES);
     }
 
     @Override
@@ -82,30 +112,30 @@ public class WeekSleepChartFragment extends AbstractWeekChartFragment {
     }
 
     @Override
-    IValueFormatter getPieValueFormatter() {
-        return new IValueFormatter() {
+    ValueFormatter getPieValueFormatter() {
+        return new ValueFormatter() {
             @Override
-            public String getFormattedValue(float value, Entry entry, int dataSetIndex, ViewPortHandler viewPortHandler) {
-                return formatPieValue((int) value);
+            public String getFormattedValue(float value) {
+                return formatPieValue((long) value);
             }
         };
     }
 
     @Override
-    IValueFormatter getBarValueFormatter() {
-        return new IValueFormatter() {
+    ValueFormatter getBarValueFormatter() {
+        return new ValueFormatter() {
             @Override
-            public String getFormattedValue(float value, Entry entry, int dataSetIndex, ViewPortHandler viewPortHandler) {
+            public String getFormattedValue(float value) {
                 return DateTimeUtils.minutesToHHMM((int) value);
             }
         };
     }
 
     @Override
-    IAxisValueFormatter getYAxisFormatter() {
-        return new IAxisValueFormatter() {
+    ValueFormatter getYAxisFormatter() {
+        return new ValueFormatter() {
             @Override
-            public String getFormattedValue(float value, AxisBase axis) {
+            public String getFormattedValue(float value) {
                 return DateTimeUtils.minutesToHHMM((int) value);
             }
         };
@@ -132,5 +162,17 @@ public class WeekSleepChartFragment extends AbstractWeekChartFragment {
 
         chart.getLegend().setCustom(legendEntries);
         chart.getLegend().setTextColor(LEGEND_TEXT_COLOR);
+        chart.getLegend().setWordWrapEnabled(true);
+        chart.getLegend().setHorizontalAlignment(Legend.LegendHorizontalAlignment.CENTER);
     }
+
+    private String getHM(long value) {
+        return DateTimeUtils.formatDurationHoursMinutes(value, TimeUnit.MINUTES);
+    }
+
+    @Override
+    String getAverage(float value) {
+        return getHM((long)value);
+    }
+
 }

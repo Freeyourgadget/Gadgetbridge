@@ -1,0 +1,10 @@
+* Initial support for UM25 voltage meters
+* Pebble: Remove read/dismissed notifications on watch (can be disabled)
+* Fossil Hybrid HR: Remove read/dismissed notifications on watch (can be disabled)
+* Fossil Hybrid HR: Fixes for running firmware DN1.0.2.20 or newer (disable widget features, currently not supported)
+* Fossil Hybrid HR: Fix up/back navigation and add titles to Fossil specific menus
+* Huami: Fix displaying title for calendar events
+* Use requestLegacyExternalStorage in manifest to fix file access problems in some Android 10 roms
+* Add chart to each item in activity list
+* Add scroll view to activity detail to handle landscape view
+* Add header title to activity detail

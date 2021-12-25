@@ -1,5 +1,5 @@
-/*  Copyright (C) 2015-2018 Andreas Shimokawa, Carsten Pfeiffer, Christian
-    Fischer, Daniele Gobbetti, Szymon Tomasz Stefanek
+/*  Copyright (C) 2015-2021 Andreas Shimokawa, Carsten Pfeiffer, Christian
+    Fischer, Daniele Gobbetti, José Rebelo, Szymon Tomasz Stefanek
 
     This file is part of Gadgetbridge.
 
@@ -25,7 +25,8 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Build;
 import android.os.ParcelUuid;
-import android.support.annotation.NonNull;
+
+import androidx.annotation.NonNull;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -37,7 +38,7 @@ import de.greenrobot.dao.query.QueryBuilder;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.GBException;
 import nodomain.freeyourgadget.gadgetbridge.R;
-import nodomain.freeyourgadget.gadgetbridge.activities.charts.ChartsActivity;
+import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst;
 import nodomain.freeyourgadget.gadgetbridge.devices.AbstractDeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.InstallHandler;
 import nodomain.freeyourgadget.gadgetbridge.devices.SampleProvider;
@@ -50,6 +51,8 @@ import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceCandidate;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityUser;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
+
+import static nodomain.freeyourgadget.gadgetbridge.model.ActivityUser.PREF_USER_NAME;
 
 public class MiBandCoordinator extends AbstractDeviceCoordinator {
     private static final Logger LOG = LoggerFactory.getLogger(MiBandCoordinator.class);
@@ -132,8 +135,8 @@ public class MiBandCoordinator extends AbstractDeviceCoordinator {
     }
 
     @Override
-    public boolean supportsAlarmConfiguration() {
-        return true;
+    public int getAlarmSlotCount() {
+        return 3;
     }
 
     @Override
@@ -176,6 +179,11 @@ public class MiBandCoordinator extends AbstractDeviceCoordinator {
         return false;
     }
 
+    @Override
+    public boolean supportsFindDevice() {
+        return true;
+    }
+
     public static boolean hasValidUserInfo() {
         String dummyMacAddress = MiBandService.MAC_ADDRESS_FILTER_1_1A + ":00:00:00";
         try {
@@ -213,7 +221,7 @@ public class MiBandCoordinator extends AbstractDeviceCoordinator {
 
         UserInfo info = UserInfo.create(
                 miBandAddress,
-                prefs.getString(MiBandConst.PREF_USER_ALIAS, null),
+                prefs.getString(PREF_USER_NAME, null),
                 activityUser.getGender(),
                 activityUser.getAge(),
                 activityUser.getHeightCm(),
@@ -223,17 +231,17 @@ public class MiBandCoordinator extends AbstractDeviceCoordinator {
         return info;
     }
 
-    public static int getWearLocation(String miBandAddress) throws IllegalArgumentException {
+    public static int getWearLocation(String deviceAddress) throws IllegalArgumentException {
         int location = 0; //left hand
-        Prefs prefs = GBApplication.getPrefs();
-        if ("right".equals(prefs.getString(MiBandConst.PREF_MIBAND_WEARSIDE, "left"))) {
+        Prefs prefs = new Prefs(GBApplication.getDeviceSpecificSharedPrefs(deviceAddress));
+        if ("right".equals(prefs.getString(DeviceSettingsPreferenceConst.PREF_WEARLOCATION, "left"))) {
             location = 1; // right hand
         }
         return location;
     }
 
-	public static int getDeviceTimeOffsetHours() throws IllegalArgumentException {
-		Prefs prefs = GBApplication.getPrefs();
+    public static int getDeviceTimeOffsetHours(String deviceAddress) throws IllegalArgumentException {
+        Prefs prefs = new Prefs(GBApplication.getDeviceSpecificSharedPrefs(deviceAddress));
 		return prefs.getInt(MiBandConst.PREF_MIBAND_DEVICE_TIME_OFFSET_HOURS, 0);
 	}
 
@@ -243,14 +251,24 @@ public class MiBandCoordinator extends AbstractDeviceCoordinator {
     }
 
     public static int getReservedAlarmSlots(String miBandAddress) throws IllegalArgumentException {
-        Prefs prefs = GBApplication.getPrefs();
-        return prefs.getInt(MiBandConst.PREF_MIBAND_RESERVE_ALARM_FOR_CALENDAR, 0);
+        Prefs prefs = new Prefs(GBApplication.getDeviceSpecificSharedPrefs(miBandAddress));
+        return prefs.getInt(DeviceSettingsPreferenceConst.PREF_RESERVER_ALARMS_CALENDAR, 0);
     }
 
     @Override
     public boolean supportsHeartRateMeasurement(GBDevice device) {
         String hwVersion = device.getModel();
         return isMi1S(hwVersion) || isMiPro(hwVersion);
+    }
+
+    @Override
+    public int[] getSupportedDeviceSpecificSettings(GBDevice device) {
+        return new int[]{
+                R.xml.devicesettings_wearlocation,
+                R.xml.devicesettings_lowlatency_fwupdate,
+                R.xml.devicesettings_reserve_alarms_calendar,
+                R.xml.devicesettings_fake_timeoffset
+        };
     }
 
     private boolean isMi1S(String hardwareVersion) {

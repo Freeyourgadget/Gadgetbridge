@@ -1,4 +1,5 @@
-/*  Copyright (C) 2015-2018 Andreas Shimokawa, Daniele Gobbetti
+/*  Copyright (C) 2015-2020 Andreas Shimokawa, Carsten Pfeiffer, Daniele
+    Gobbetti, Taavi Eomäe
 
     This file is part of Gadgetbridge.
 
@@ -56,6 +57,10 @@ public class ParcelableWeather2 implements Parcelable {
             conditionBundle.getStringArray("weather_condition_types");
             weatherSpec.currentTemp = conditionBundle.getInt("weather_current_temp");
 
+            weatherSpec.windDirection = mapDirToDeg(conditionBundle.getString("weather_wind_direction"));
+            weatherSpec.windSpeed = getSpeedInKMH(conditionBundle.getInt("weather_wind_speed"),
+                    conditionBundle.getString("weather_wind_speed_unit"));
+
             String[] currentConditionType = conditionBundle.getStringArray("weather_condition_types");
             if (currentConditionType != null) {
                 weatherSpec.currentConditionCode = weatherConditionTypesToOpenWeatherMapIds(currentConditionType[0]);
@@ -70,7 +75,7 @@ public class ParcelableWeather2 implements Parcelable {
             JSONArray list = new JSONArray();
             JSONObject city = new JSONObject();
             while (--conditions > 0) {
-                timeOffset += 86400000; //manually determined
+                timeOffset += 86400; //manually determined
                 JSONObject item = new JSONObject();
                 JSONObject condition = new JSONObject();
                 JSONObject main = new JSONObject();
@@ -78,7 +83,7 @@ public class ParcelableWeather2 implements Parcelable {
                 Bundle forecastBundle = in.readBundle(getClass().getClassLoader());
                 String[] forecastConditionType = forecastBundle.getStringArray("weather_condition_types");
                 int forecastConditionCode = 0;
-                if (forecastConditionType != null) {
+                if (forecastConditionType != null && forecastConditionType.length > 0) {
                     forecastConditionCode = weatherConditionTypesToOpenWeatherMapIds(forecastConditionType[0]);
                 }
                 int forecastLowTemp = forecastBundle.getInt("weather_low_temp");
@@ -120,7 +125,7 @@ public class ParcelableWeather2 implements Parcelable {
             } catch (JSONException e) {
                 LOG.error("error while construction JSON", e);
             }
-            LOG.debug("Forecast JSON for WEBVIEW: " + reconstructedOWMForecast.toString());
+            LOG.debug("Forecast JSON for Webview: " + reconstructedOWMForecast);
         }
     }
 
@@ -252,6 +257,30 @@ public class ParcelableWeather2 implements Parcelable {
                 return 906;
         }
         return 3200;
+    }
+
+    private int getSpeedInKMH(int speed, String incomingUnit) {
+        float kmhSpeed = 0;
+        switch (incomingUnit) {
+            case "MPS":
+                kmhSpeed = speed * 3.6f;
+                break;
+            case "MPH":
+                kmhSpeed = speed * 1.6093f;
+                break;
+            case "KPH":
+                kmhSpeed = speed;
+                break;
+        }
+        return Math.round(kmhSpeed);
+    }
+
+    private int mapDirToDeg(String dir) {
+        return Math.round(WindDirection.valueOf(dir).ordinal() * 22.5f);
+    }
+
+    private enum WindDirection { // see upstream code, we can't be more precise than getting the quadrant
+        N, NNE, NE, ENE, E, ESE, SE, SSE, S, SSW, SW, WSW, W, WNW, NW, NNW
     }
 
 }

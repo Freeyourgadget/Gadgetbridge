@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <SwitchPreference
+        android:defaultValue="false"
+        android:icon="@drawable/ic_radio"
+        android:key="operating_sounds"
+        android:title="@string/prefs_operating_sounds" />
+</androidx.preference.PreferenceScreen>

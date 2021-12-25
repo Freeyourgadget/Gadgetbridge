@@ -1,4 +1,4 @@
-/*  Copyright (C) 2015-2018 Andreas Shimokawa, Carsten Pfeiffer
+/*  Copyright (C) 2015-2021 Andreas Shimokawa, Carsten Pfeiffer
 
     This file is part of Gadgetbridge.
 
@@ -18,6 +18,8 @@ package nodomain.freeyourgadget.gadgetbridge.service.btle.actions;
 
 import android.bluetooth.BluetoothGatt;
 import android.content.Context;
+
+import androidx.annotation.NonNull;
 
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 
@@ -43,6 +45,7 @@ public class SetDeviceStateAction extends PlainAction {
         return context;
     }
 
+    @NonNull
     @Override
     public String toString() {
         return super.toString() + " to " + deviceState;

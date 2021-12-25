@@ -1,4 +1,4 @@
-/*  Copyright (C) 2016-2018 Andreas Shimokawa, Carsten Pfeiffer, Daniele
+/*  Copyright (C) 2016-2020 Andreas Shimokawa, Carsten Pfeiffer, Daniele
     Gobbetti, Lem Dulfo, Uwe Hermann
 
     This file is part of Gadgetbridge.
@@ -20,8 +20,6 @@ package nodomain.freeyourgadget.gadgetbridge.activities;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.v4.app.NavUtils;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,6 +28,9 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.widget.FrameLayout;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.core.app.NavUtils;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -188,6 +189,7 @@ public class ExternalPebbleJSActivity extends AbstractGBActivity {
         myWebView.setWebViewClient(new GBWebClient());
         myWebView.setWebChromeClient(new GBChromeClient());
         WebSettings webSettings = myWebView.getSettings();
+        //noinspection SetJavaScriptEnabled
         webSettings.setJavaScriptEnabled(true);
         //needed to access the DOM
         webSettings.setDomStorageEnabled(true);

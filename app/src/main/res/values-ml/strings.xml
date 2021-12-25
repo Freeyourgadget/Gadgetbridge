@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="fw_upgrade_notice_amazfitcor2">നിങ്ങളുടെ അമാസ്ഫിറ്റ് കോർ 2 ൽ %s ഫേംവെയർ ഇൻസ്റ്റാൾ ചെയ്യാൻ പോകുന്നു.
+\n
+\n.Fw ഫയൽ ഇൻസ്റ്റാൾ ചെയ്യുന്നുവെന്ന് ഉറപ്പാക്കുക, അതിനുശേഷം .res ഫയൽ. .Fw ഫയൽ ഇൻസ്റ്റാൾ ചെയ്ത ശേഷം നിങ്ങളുടെ വാച്ച് റീബൂട്ട് ചെയ്യും
+\n
+\nകുറിപ്പ്: നിങ്ങൾ മുമ്പ് ഇൻസ്റ്റാൾ ചെയ്തതുപോലെയാണെങ്കിൽ .res ഇൻസ്റ്റാൾ ചെയ്യേണ്ടതില്ല.
+\n
+\nനിങ്ങളുടെ സ്വന്തം അപകടസാധ്യതയിൽ പ്രോസസ്സ് ചെയ്തു!
+\n
+\nനിങ്ങളുടെ ഉപകരണത്തിന്റെ പേര് \"അമാസ്ഫിറ്റ് ബാൻഡ് 2\" ആണെങ്കിൽ, പൂർണ്ണമായും അൺസ്റ്റെസ്റ്റുചെയ്തത്, ഒരുപക്ഷേ നിങ്ങൾ ഒരു ബീറ്റ്സ്_ഡബ്ല്യു ഫേംവെയർ ഫ്ലാഷ് ചെയ്യേണ്ടതുണ്ട്</string>
+    <string name="fw_upgrade_notice_amazfitcor">നിങ്ങളുടെ അമാസ്ഫിറ്റ് കോറിൽ %s ഫേംവെയർ ഇൻസ്റ്റാൾ ചെയ്യാൻ പോകുന്നു.
+\n
+\n.Fw ഫയൽ ഇൻസ്റ്റാൾ ചെയ്യുന്നുവെന്ന് ഉറപ്പാക്കുക, അതിനുശേഷം .res ഫയൽ. .Fw ഫയൽ ഇൻസ്റ്റാൾ ചെയ്ത ശേഷം നിങ്ങളുടെ വാച്ച് റീബൂട്ട് ചെയ്യും
+\n
+\nകുറിപ്പ്: നിങ്ങൾ മുമ്പ് ഇൻസ്റ്റാൾ ചെയ്തതുപോലെയാണെങ്കിൽ .res ഇൻസ്റ്റാൾ ചെയ്യേണ്ടതില്ല.
+\n
+\nനിങ്ങളുടെ സ്വന്തം അപകടസാധ്യതയിൽ പ്രോസസ്സ് ചെയ്തു!</string>
+    <string name="fw_upgrade_notice_amazfitbip_lite">നിങ്ങളുടെ അമാസ്ഫിറ്റ് ബിപ് ലൈറ്റിൽ %s ഫേംവെയർ ഇൻസ്റ്റാൾ ചെയ്യാൻ പോകുന്നു.
+\n
+\n.Fw ഫയൽ ഇൻസ്റ്റാൾ ചെയ്യുന്നുവെന്ന് ഉറപ്പാക്കുക, അതിനുശേഷം .res ഫയൽ. .Fw ഫയൽ ഇൻസ്റ്റാൾ ചെയ്ത ശേഷം നിങ്ങളുടെ വാച്ച് റീബൂട്ട് ചെയ്യും
+\n
+\nകുറിപ്പ്: നിങ്ങൾ മുമ്പ് ഇൻസ്റ്റാൾ ചെയ്തതുപോലെയാണെങ്കിൽ .res ഇൻസ്റ്റാൾ ചെയ്യേണ്ടതില്ല.
+\n
+\nനിങ്ങളുടെ സ്വന്തം അപകടസാധ്യതയിൽ പ്രോസസ്സ് ചെയ്തു!</string>
+    <string name="fw_upgrade_notice_amazfitbip">നിങ്ങളുടെ Amazfit Bip- ൽ %s ഫേംവെയർ ഇൻസ്റ്റാൾ ചെയ്യാൻ പോകുന്നു
+\n
+\n.Fw ഫയലും .res ഫയലും ഒടുവിൽ .gps ഫയലും ഇൻസ്റ്റാൾ ചെയ്യുന്നുവെന്ന് ഉറപ്പാക്കുക. .Fw ഫയൽ ഇൻസ്റ്റാൾ ചെയ്ത ശേഷം നിങ്ങളുടെ വാച്ച് റീബൂട്ട് ചെയ്യും.
+\n
+\nകുറിപ്പ്: ഈ ഫയലുകൾ മുമ്പ് ഇൻസ്റ്റാൾ ചെയ്ത ഫയലുകൾക്ക് സമാനമാണെങ്കിൽ നിങ്ങൾ .res, .gps എന്നിവ ഇൻസ്റ്റാൾ ചെയ്യേണ്ടതില്ല.
+\n
+\nനിങ്ങളുടെ സ്വന്തം അപകടസാധ്യതയിൽ പ്രോസസ്സ് ചെയ്തു!</string>
+    <string name="fw_upgrade_notice">നിങ്ങൾ %s ഇൻസ്റ്റാൾ ചെയ്യാൻ പോകുന്നു.</string>
+    <string name="title_activity_fw_app_insaller">FW / അപ്ലിക്കേഷൻ ഇൻസ്റ്റാളർ</string>
+    <string name="title_activity_calblacklist">ബ്ലാക്ക്‌ലിസ്റ് ചെയ്ത കലണ്ടറുകൾ</string>
+    <string name="whitelist_all_for_notifications">നോട്ടിഫിക്കേഷനുകൾ എല്ലാം വൈറ്റ്‌ലിസ്റ്റ് ചെയ്യുക</string>
+    <string name="blacklist_all_for_notifications">നോട്ടിഫിക്കേഷനുകൾ എല്ലാം ബ്ലാക്ക്‌ലിസ്റ്റിൽ ഉൾപെടുത്തുക</string>
+    <string name="title_activity_appblacklist">നോട്ടിഫിക്കേഷൻ ബ്ലാക്ക്‌ലിസ്റ്റ്</string>
+    <string name="app_move_to_top">മുകളിലേക്ക് നീക്കുക</string>
+    <string name="app_configure">കോൺഫിഗർ ചെയ്യുക</string>
+    <string name="appmanager_weather_install_provider">Weather Notification അപ്ലിക്കേഷൻ ഇൻസ്റ്റാൾ ചെയ്യുക</string>
+    <string name="appmanager_weather_deactivate">സിസ്റ്റത്തിലെ കാലാവസ്ഥാ അപ്ലിക്കേഷൻ നിർജ്ജീവമാക്കുക</string>
+    <string name="appmanager_weather_activate">സിസ്റ്റത്തിലെ കാലാവസ്ഥാ അപ്ലിക്കേഷൻ സജീവമാക്കുക</string>
+    <string name="appmanager_hrm_activate">എച്ച്ആർ‌എം സജീവമാക്കുക</string>
+    <string name="appmanager_hrm_deactivate">എച്ച്ആർ‌എം നിർജ്ജീവമാക്കുക</string>
+    <string name="appmanager_health_deactivate">നിർജ്ജീവമാക്കുക</string>
+    <string name="appmanager_health_activate">സജീവമാക്കുക</string>
+    <string name="appmanager_app_openinstore">പെബിൾ ആപ്‌സ്റ്റോറിൽ തിരയുക</string>
+    <string name="appmananger_app_reinstall">വീണ്ടും ഇൻസ്റ്റാൾ ചെയ്യുക</string>
+    <string name="appmananger_app_delete_cache">കാഷെയിൽ നിന്ന് ഇല്ലാതാക്കുകയും നീക്കംചെയ്യുകയും ചെയ്യുക</string>
+    <string name="appmananger_app_delete">ഇല്ലാതാക്കുക</string>
+    <string name="appmanager_installed_watchfaces">ഇൻസ്റ്റാൾ ചെയ്ത വാച്ച്ഫേസുകൾ</string>
+    <string name="appmanager_installed_watchapps">ഇൻസ്റ്റാൾ ചെയ്ത അപ്പ്ലിക്കേഷനുകൾ</string>
+    <string name="appmanager_cached_watchapps_watchfaces">കാഷെയിലുള്ള അപ്ലിക്കേഷനുകൾ</string>
+    <string name="title_activity_appmanager">അപ്ലിക്കേഷൻ മാനേജർ</string>
+    <string name="debugactivity_really_factoryreset">ഫാക്ടറി റീസെറ്റിനു വിദേയമാക്കിയാൽ ഉപകരണത്തിൽ നിന്ന് എല്ലാ ഡാറ്റയും ഇല്ലാതാക്കും (പിന്തുണയ്‌ക്കുന്നുവെങ്കിൽ).Xiaomi / Huami ഉപകരണങ്ങളും ബ്ലൂടൂത്ത് MAC വിലാസത്തെ മാറ്റുന്നു, അതിനാൽ അവ ഗാഡ്‌ജെറ്റ്ബ്രിഡ്ജിലേക്ക് ഒരു പുതിയ ഉപകരണമായി ദൃശ്യമാകുന്നു.</string>
+    <string name="debugactivity_really_factoryreset_title">ഫാക്ടറി റീസെറ്റിനു സജ്ജമാക്കണോ \?</string>
+    <string name="title_activity_debug">തെറ്റുകൾ തിരുത്തുക</string>
+    <string name="controlcenter_calibrate_device">ഉപകരണം കാലിബ്രേറ്റ് ചെയ്യുക</string>
+    <string name="controlcenter_snackbar_requested_screenshot">ഉപകരണത്തിന്റെ സ്ക്രീൻഷോട്ട് എടുക്കുന്നു</string>
+    <string name="controlcenter_snackbar_connecting">ബന്ധിപ്പിക്കുന്നു</string>
+    <string name="controlcenter_snackbar_disconnecting">വിച്ഛേദിക്കുന്നു</string>
+    <string name="controlcenter_snackbar_need_longpress">വിച്ഛേദിക്കുന്നതിന് കാർഡ് ദീർഘനേരം അമർത്തുക</string>
+    <string name="controlcenter_navigation_drawer_close">നാവിഗേഷൻ ഡ്രോയർ അടയ്‌ക്കുക</string>
+    <string name="controlcenter_navigation_drawer_open">നാവിഗേഷൻ ഡ്രോയർ തുറക്കുക</string>
+    <string name="controlcenter_set_alias">അപരനാമം സജ്ജമാക്കുക</string>
+    <string name="controlcenter_delete_device_dialogmessage">ഇത് ഉപകരണത്തെയും ബന്ധപ്പെട്ട എല്ലാ ഡാറ്റയെയും ഇല്ലാതാക്കും!</string>
+    <string name="controlcenter_delete_device_name">ഇല്ലാതാക്കുക %1$s</string>
+    <string name="controlcenter_delete_device">ഉപകരണം ഇല്ലാതാക്കുക</string>
+    <string name="controlcenter_disconnect">വിച്ഛേദിക്കുക</string>
+    <string name="controlcenter_connect">ബന്ധിപ്പിക്കുക</string>
+    <string name="controlcenter_change_fm_frequency">എഫ്എം ആവൃത്തി മാറ്റുക</string>
+    <string name="controlcenter_change_led_color">LED നിറം മാറ്റുക</string>
+    <string name="controlcenter_take_screenshot">സ്ക്രീൻ ഷോട്ട് എടുക്കുക</string>
+    <string name="controlcenter_find_device">നഷ്ടപ്പെട്ട ഉപകരണം കണ്ടെത്തുക</string>
+    <string name="controlcenter_fetch_activity_data">സമകാലികമാക്കുക</string>
+    <string name="action_donate">സംഭാവന ചെയ്യുക</string>
+    <string name="action_quit">പുറത്തു കടക്കുക</string>
+    <string name="action_debug">തെറ്റുകൾ തിരുത്തുക</string>
+    <string name="action_settings">ക്രമീകരണങ്ങൾ</string>
+    <string name="title_activity_controlcenter">ഗാഡ്ജക്‌റ്റ് ബ്രിഡ്ജ്</string>
+    <string name="app_name">ഗാഡ്ജക്‌റ്റ് ബ്രിഡ്ജ്</string>
+    <string name="sonyswr12_settings_low_vibration_summary">ബാൻഡിൽ വൈബ്രേഷന്റെ കുറഞ്ഞ തീവ്രത പ്രവർത്തനക്ഷമമാക്കുക</string>
+    <string name="sonyswr12_settings_stamina_summary">പവർ സേവിംഗ് മോഡ് ഹൃദയമിടിപ്പിന്റെ ആനുകാലിക യാന്ത്രിക അളവ് ഓഫുചെയ്യുന്നത് പ്രവർത്തന സമയം വർദ്ധിപ്പിക്കുന്നു</string>
+    <string name="sonyswr12_settings_alarm_interval_summary">ഇൻസ്റ്റാൾ ചെയ്ത അലാറത്തിന് മുമ്പുള്ള ഇടവേളയാണ് സ്മാർട്ട് അലാറം ഇടവേള. ഈ ഇടവേള ഉപകരണം ഉപയോക്താവിനെ ഉണർത്താൻ ഉറക്കത്തിന്റെ ഭാരം കുറഞ്ഞ ഘട്ടം കണ്ടെത്താൻ ശ്രമിക്കുന്നു</string>
+    <string name="sonyswr12_settings_title">Sony SWR12 ക്രമീകരണങ്ങൾ</string>
+    <string name="sonyswr12_settings_low_vibration">കുറഞ്ഞ വൈബ്രേഷൻ പ്രവർത്തനക്ഷമമാക്കി</string>
+    <string name="sonyswr12_settings_stamina">പവർ സേവിംഗ് മോഡ് ഓണാണ്</string>
+    <string name="sonyswr12_settings_alarm_interval">മിനിറ്റുകൾക്കുള്ളിൽ സ്മാർട്ട് അലാറം ഇടവേള</string>
+</resources>

@@ -1,5 +1,5 @@
-/*  Copyright (C) 2015-2018 Andreas Shimokawa, Carsten Pfeiffer, Julien
-    Pivotto, Steffen Liebergeld
+/*  Copyright (C) 2015-2021 Andreas Shimokawa, Carsten Pfeiffer, José Rebelo,
+    Julien Pivotto, Steffen Liebergeld
 
     This file is part of Gadgetbridge.
 
@@ -17,6 +17,7 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.service.serial;
 
+import java.util.ArrayList;
 import java.util.UUID;
 
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEvent;
@@ -28,6 +29,7 @@ import nodomain.freeyourgadget.gadgetbridge.model.CannedMessagesSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.MusicSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.MusicStateSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
+import nodomain.freeyourgadget.gadgetbridge.model.Reminder;
 import nodomain.freeyourgadget.gadgetbridge.model.WeatherSpec;
 import nodomain.freeyourgadget.gadgetbridge.service.AbstractDeviceSupport;
 
@@ -180,14 +182,14 @@ public abstract class AbstractSerialDeviceSupport extends AbstractDeviceSupport 
     }
 
     @Override
-    public void onFetchActivityData() {
+    public void onFetchRecordedData(int dataTypes) {
         byte[] bytes = gbDeviceProtocol.encodeSynchronizeActivityData();
         sendToDevice(bytes);
     }
 
     @Override
-    public void onReboot() {
-        byte[] bytes = gbDeviceProtocol.encodeReboot();
+    public void onReset(int flags) {
+        byte[] bytes = gbDeviceProtocol.encodeReset(flags);
         sendToDevice(bytes);
     }
 
@@ -248,6 +250,24 @@ public abstract class AbstractSerialDeviceSupport extends AbstractDeviceSupport 
     @Override
     public void onSendWeather(WeatherSpec weatherSpec) {
         byte[] bytes = gbDeviceProtocol.encodeSendWeather(weatherSpec);
+        sendToDevice(bytes);
+    }
+
+    @Override
+    public void onSetFmFrequency(float frequency) {
+        byte[] bytes = gbDeviceProtocol.encodeFmFrequency(frequency);
+        sendToDevice(bytes);
+    }
+
+    @Override
+    public void onSetLedColor(int color) {
+        byte[] bytes = gbDeviceProtocol.encodeLedColor(color);
+        sendToDevice(bytes);
+    }
+
+    @Override
+    public void onSetReminders(ArrayList<? extends Reminder> reminders) {
+        byte[] bytes = gbDeviceProtocol.encodeReminders(reminders);
         sendToDevice(bytes);
     }
 }

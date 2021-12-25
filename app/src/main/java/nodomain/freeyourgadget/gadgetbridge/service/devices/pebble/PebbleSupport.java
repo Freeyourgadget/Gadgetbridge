@@ -1,5 +1,5 @@
-/*  Copyright (C) 2015-2018 Andreas Shimokawa, Carsten Pfeiffer, Daniele
-    Gobbetti, Kasha, Steffen Liebergeld
+/*  Copyright (C) 2015-2021 Andreas Shimokawa, Carsten Pfeiffer, Daniele
+    Gobbetti, Kasha, Sebastian Kranz, Steffen Liebergeld, Taavi Eomäe
 
     This file is part of Gadgetbridge.
 
@@ -73,7 +73,7 @@ public class PebbleSupport extends AbstractSerialDeviceSupport {
     public void onInstallApp(Uri uri) {
         PebbleProtocol pebbleProtocol = (PebbleProtocol) getDeviceProtocol();
         PebbleIoThread pebbleIoThread = getDeviceIOThread();
-        // catch fake urls first
+        // Catch fake URLs first
         if (uri.equals(Uri.parse("fake://health"))) {
             getDeviceIOThread().write(pebbleProtocol.encodeActivateHealth(true));
             String units = GBApplication.getPrefs().getString(SettingsActivity.PREF_MEASUREMENT_SYSTEM, getContext().getString(R.string.p_unit_metric));
@@ -236,6 +236,11 @@ public class PebbleSupport extends AbstractSerialDeviceSupport {
         if (reconnect()) {
             super.onSendConfiguration(config);
         }
+    }
+
+    @Override
+    public void onReadConfiguration(String config) {
+
     }
 
     @Override

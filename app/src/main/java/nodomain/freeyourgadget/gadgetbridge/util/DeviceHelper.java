@@ -1,5 +1,10 @@
-/*  Copyright (C) 2015-2018 0nse, Andreas Shimokawa, Carsten Pfeiffer, Daniele
-    Gobbetti, João Paulo Barraca, ladbsoft, protomors, Quallenauge, Sami Alaoui
+/*  Copyright (C) 2015-2021 0nse, 115ek, Andreas Böhler, Andreas Shimokawa,
+    angelpup, Carsten Pfeiffer, Cre3per, DanialHanif, Daniel Dakhno, Daniele
+    Gobbetti, Dmytro Bielik, Gordon Williams, Jean-François Greffier, João Paulo
+    Barraca, José Rebelo, ksiwczynski, ladbsoft, Lesur Frederic, Manuel Ruß,
+    maxirnilian, mkusnierz, odavo32nof, opavlov, pangwalla, Pavel Elagin,
+    protomors, Quallenauge, Sami Alaoui, Sebastian Kranz, Sophanimus, Taavi
+    Eomäe, tiparega, Vadim Kaushan, Yukai Li
 
     This file is part of Gadgetbridge.
 
@@ -38,40 +43,96 @@ import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHelper;
 import nodomain.freeyourgadget.gadgetbridge.devices.DeviceCoordinator;
+import nodomain.freeyourgadget.gadgetbridge.devices.fitpro.FitProDeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.UnknownDeviceCoordinator;
+import nodomain.freeyourgadget.gadgetbridge.devices.banglejs.BangleJSCoordinator;
+import nodomain.freeyourgadget.gadgetbridge.devices.casio.gb6900.CasioGB6900DeviceCoordinator;
+import nodomain.freeyourgadget.gadgetbridge.devices.casio.gbx100.CasioGBX100DeviceCoordinator;
+import nodomain.freeyourgadget.gadgetbridge.devices.domyos.DomyosT540Cooridnator;
+import nodomain.freeyourgadget.gadgetbridge.devices.galaxy_buds.GalaxyBudsDeviceCoordinator;
+import nodomain.freeyourgadget.gadgetbridge.devices.galaxy_buds.GalaxyBudsLiveDeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.hplus.EXRIZUK8Coordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.hplus.HPlusCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.hplus.MakibesF68Coordinator;
+import nodomain.freeyourgadget.gadgetbridge.devices.hplus.Q8Coordinator;
+import nodomain.freeyourgadget.gadgetbridge.devices.hplus.SG2Coordinator;
+import nodomain.freeyourgadget.gadgetbridge.devices.huami.amazfitband5.AmazfitBand5Coordinator;
+import nodomain.freeyourgadget.gadgetbridge.devices.huami.amazfitbips.AmazfitBipSLiteCoordinator;
+import nodomain.freeyourgadget.gadgetbridge.devices.huami.amazfitgts2.AmazfitGTS2MiniCoordinator;
+import nodomain.freeyourgadget.gadgetbridge.devices.huami.amazfitgts2.AmazfitGTS2eCoordinator;
+import nodomain.freeyourgadget.gadgetbridge.devices.huami.amazfitneo.AmazfitNeoCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.amazfitbip.AmazfitBipCoordinator;
+import nodomain.freeyourgadget.gadgetbridge.devices.huami.amazfitbip.AmazfitBipLiteCoordinator;
+import nodomain.freeyourgadget.gadgetbridge.devices.huami.amazfitbips.AmazfitBipSCoordinator;
+import nodomain.freeyourgadget.gadgetbridge.devices.huami.amazfitbipu.AmazfitBipUCoordinator;
+import nodomain.freeyourgadget.gadgetbridge.devices.huami.amazfitbipupro.AmazfitBipUProCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.amazfitcor.AmazfitCorCoordinator;
+import nodomain.freeyourgadget.gadgetbridge.devices.huami.amazfitcor2.AmazfitCor2Coordinator;
+import nodomain.freeyourgadget.gadgetbridge.devices.huami.amazfitgtr.AmazfitGTRCoordinator;
+import nodomain.freeyourgadget.gadgetbridge.devices.huami.amazfitgtr.AmazfitGTRLiteCoordinator;
+import nodomain.freeyourgadget.gadgetbridge.devices.huami.amazfitgtr2.AmazfitGTR2Coordinator;
+import nodomain.freeyourgadget.gadgetbridge.devices.huami.amazfittrexpro.AmazfitTRexProCoordinator;
+import nodomain.freeyourgadget.gadgetbridge.devices.huami.amazfitx.AmazfitXCoordinator;
+import nodomain.freeyourgadget.gadgetbridge.devices.huami.miband6.MiBand6Coordinator;
+import nodomain.freeyourgadget.gadgetbridge.devices.huami.zeppe.ZeppECoordinator;
+import nodomain.freeyourgadget.gadgetbridge.devices.huami.amazfitgtr2.AmazfitGTR2eCoordinator;
+import nodomain.freeyourgadget.gadgetbridge.devices.huami.amazfitgts.AmazfitGTSCoordinator;
+import nodomain.freeyourgadget.gadgetbridge.devices.huami.amazfitgts2.AmazfitGTS2Coordinator;
+import nodomain.freeyourgadget.gadgetbridge.devices.huami.amazfitvergel.AmazfitVergeLCoordinator;
+import nodomain.freeyourgadget.gadgetbridge.devices.huami.amazfittrex.AmazfitTRexCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.miband2.MiBand2Coordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.miband2.MiBand2HRXCoordinator;
-import nodomain.freeyourgadget.gadgetbridge.devices.jyou.TeclastH30Coordinator;
+import nodomain.freeyourgadget.gadgetbridge.devices.huami.miband3.MiBand3Coordinator;
+import nodomain.freeyourgadget.gadgetbridge.devices.huami.miband4.MiBand4Coordinator;
+import nodomain.freeyourgadget.gadgetbridge.devices.huami.miband5.MiBand5Coordinator;
+import nodomain.freeyourgadget.gadgetbridge.devices.id115.ID115Coordinator;
+import nodomain.freeyourgadget.gadgetbridge.devices.itag.ITagCoordinator;
+import nodomain.freeyourgadget.gadgetbridge.devices.jyou.BFH16DeviceCoordinator;
+import nodomain.freeyourgadget.gadgetbridge.devices.jyou.TeclastH30.TeclastH30Coordinator;
+import nodomain.freeyourgadget.gadgetbridge.devices.jyou.y5.Y5Coordinator;
+import nodomain.freeyourgadget.gadgetbridge.devices.lefun.LefunDeviceCoordinator;
+import nodomain.freeyourgadget.gadgetbridge.devices.lenovo.watchxplus.WatchXPlusDeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.liveview.LiveviewCoordinator;
+import nodomain.freeyourgadget.gadgetbridge.devices.makibeshr3.MakibesHR3Coordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst;
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandCoordinator;
+import nodomain.freeyourgadget.gadgetbridge.devices.mijia_lywsd02.MijiaLywsd02Coordinator;
+import nodomain.freeyourgadget.gadgetbridge.devices.miscale2.MiScale2DeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.no1f1.No1F1Coordinator;
+import nodomain.freeyourgadget.gadgetbridge.devices.nothing.Ear1Coordinator;
+import nodomain.freeyourgadget.gadgetbridge.devices.nut.NutCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.pebble.PebbleCoordinator;
+import nodomain.freeyourgadget.gadgetbridge.devices.pinetime.PineTimeJFCoordinator;
+import nodomain.freeyourgadget.gadgetbridge.devices.qhybrid.QHybridCoordinator;
+import nodomain.freeyourgadget.gadgetbridge.devices.roidmi.Roidmi1Coordinator;
+import nodomain.freeyourgadget.gadgetbridge.devices.roidmi.Roidmi3Coordinator;
+import nodomain.freeyourgadget.gadgetbridge.devices.smaq2oss.SMAQ2OSSCoordinator;
+import nodomain.freeyourgadget.gadgetbridge.devices.sonyswr12.SonySWR12DeviceCoordinator;
+import nodomain.freeyourgadget.gadgetbridge.devices.tlw64.TLW64Coordinator;
+import nodomain.freeyourgadget.gadgetbridge.devices.um25.Coordinator.UM25Coordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.vibratissimo.VibratissimoCoordinator;
+import nodomain.freeyourgadget.gadgetbridge.devices.waspos.WaspOSCoordinator;
+import nodomain.freeyourgadget.gadgetbridge.devices.watch9.Watch9DeviceCoordinator;
+import nodomain.freeyourgadget.gadgetbridge.devices.sony.headphones.coordinators.SonyWH1000XM3Coordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.xwatch.XWatchCoordinator;
+import nodomain.freeyourgadget.gadgetbridge.devices.zetime.ZeTimeCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.entities.Device;
 import nodomain.freeyourgadget.gadgetbridge.entities.DeviceAttributes;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceCandidate;
+import nodomain.freeyourgadget.gadgetbridge.model.BatteryConfig;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
 
 public class DeviceHelper {
-
     private static final Logger LOG = LoggerFactory.getLogger(DeviceHelper.class);
 
     private static final DeviceHelper instance = new DeviceHelper();
+    // lazily created
+    private List<DeviceCoordinator> coordinators;
 
     public static DeviceHelper getInstance() {
         return instance;
     }
-
-    // lazily created
-    private List<DeviceCoordinator> coordinators;
 
     public DeviceType getSupportedType(GBDeviceCandidate candidate) {
         for (DeviceCoordinator coordinator : getAllCoordinators()) {
@@ -115,32 +176,24 @@ public class DeviceHelper {
     public Set<GBDevice> getAvailableDevices(Context context) {
         BluetoothAdapter btAdapter = BluetoothAdapter.getDefaultAdapter();
 
-        Set<GBDevice> availableDevices = new LinkedHashSet<GBDevice>();
-
         if (btAdapter == null) {
             GB.toast(context, context.getString(R.string.bluetooth_is_not_supported_), Toast.LENGTH_SHORT, GB.WARN);
         } else if (!btAdapter.isEnabled()) {
             GB.toast(context, context.getString(R.string.bluetooth_is_disabled_), Toast.LENGTH_SHORT, GB.WARN);
         }
-        List<GBDevice> dbDevices = getDatabaseDevices();
-        // these come first, as they have the most information already
-        availableDevices.addAll(dbDevices);
-        if (btAdapter != null) {
-            List<GBDevice> bondedDevices = getBondedDevices(btAdapter);
-            availableDevices.addAll(bondedDevices);
-        }
 
+        Set<GBDevice> availableDevices = new LinkedHashSet<>(getDatabaseDevices());
         Prefs prefs = GBApplication.getPrefs();
-        String miAddr = prefs.getString(MiBandConst.PREF_MIBAND_ADDRESS, "");
-        if (miAddr.length() > 0) {
-            GBDevice miDevice = new GBDevice(miAddr, "MI", DeviceType.MIBAND);
+        String miAddress = prefs.getString(MiBandConst.PREF_MIBAND_ADDRESS, "");
+        if (miAddress.length() > 0) {
+            GBDevice miDevice = new GBDevice(miAddress, "MI", null, DeviceType.MIBAND);
             availableDevices.add(miDevice);
         }
 
         String pebbleEmuAddr = prefs.getString("pebble_emu_addr", "");
         String pebbleEmuPort = prefs.getString("pebble_emu_port", "");
         if (pebbleEmuAddr.length() >= 7 && pebbleEmuPort.length() > 0) {
-            GBDevice pebbleEmuDevice = new GBDevice(pebbleEmuAddr + ":" + pebbleEmuPort, "Pebble qemu", DeviceType.PEBBLE);
+            GBDevice pebbleEmuDevice = new GBDevice(pebbleEmuAddr + ":" + pebbleEmuPort, "Pebble qemu", "", DeviceType.PEBBLE);
             availableDevices.add(pebbleEmuDevice);
         }
         return availableDevices;
@@ -191,10 +244,36 @@ public class DeviceHelper {
 
     private List<DeviceCoordinator> createCoordinators() {
         List<DeviceCoordinator> result = new ArrayList<>();
-        result.add(new AmazfitBipCoordinator()); // Note: must come before MiBand2 because detection is hacky, atm
-        result.add(new AmazfitCorCoordinator()); // Note: must come before MiBand2 because detection is hacky, atm
-        result.add(new MiBand2HRXCoordinator()); // Note: must come before MiBand2 because detection is hacky, atm
-        result.add(new MiBand2Coordinator()); // Note: MiBand2 must come before MiBand because detection is hacky, atm
+        result.add(new MiScale2DeviceCoordinator());
+        result.add(new AmazfitXCoordinator());
+        result.add(new AmazfitBipCoordinator());
+        result.add(new AmazfitBipLiteCoordinator());
+        result.add(new AmazfitCorCoordinator());
+        result.add(new AmazfitCor2Coordinator());
+        result.add(new AmazfitGTRCoordinator());
+        result.add(new AmazfitGTRLiteCoordinator());
+        result.add(new AmazfitGTR2Coordinator());
+        result.add(new ZeppECoordinator());
+        result.add(new AmazfitGTR2eCoordinator());
+        result.add(new AmazfitTRexCoordinator());
+        result.add(new AmazfitTRexProCoordinator());
+        result.add(new AmazfitGTSCoordinator());
+        result.add(new AmazfitGTS2Coordinator());
+        result.add(new AmazfitGTS2eCoordinator());
+        result.add(new AmazfitGTS2MiniCoordinator());
+        result.add(new AmazfitVergeLCoordinator());
+        result.add(new AmazfitBipSCoordinator());
+        result.add(new AmazfitBipSLiteCoordinator());
+        result.add(new AmazfitBipUCoordinator());
+        result.add(new AmazfitBipUProCoordinator());
+        result.add(new AmazfitBand5Coordinator());
+        result.add(new AmazfitNeoCoordinator());
+        result.add(new MiBand3Coordinator());
+        result.add(new MiBand4Coordinator());
+        result.add(new MiBand5Coordinator());
+        result.add(new MiBand6Coordinator());
+        result.add(new MiBand2HRXCoordinator());
+        result.add(new MiBand2Coordinator()); // Note: MiBand2 and all of the above  must come before MiBand because detection is hacky, atm
         result.add(new MiBandCoordinator());
         result.add(new PebbleCoordinator());
         result.add(new VibratissimoCoordinator());
@@ -202,9 +281,40 @@ public class DeviceHelper {
         result.add(new HPlusCoordinator());
         result.add(new No1F1Coordinator());
         result.add(new MakibesF68Coordinator());
+        result.add(new Q8Coordinator());
         result.add(new EXRIZUK8Coordinator());
         result.add(new TeclastH30Coordinator());
         result.add(new XWatchCoordinator());
+        result.add(new QHybridCoordinator());
+        result.add(new ZeTimeCoordinator());
+        result.add(new ID115Coordinator());
+        result.add(new Watch9DeviceCoordinator());
+        result.add(new WatchXPlusDeviceCoordinator());
+        result.add(new Roidmi1Coordinator());
+        result.add(new Roidmi3Coordinator());
+        result.add(new Y5Coordinator());
+        result.add(new CasioGB6900DeviceCoordinator());
+        result.add(new CasioGBX100DeviceCoordinator());
+        result.add(new BFH16DeviceCoordinator());
+        result.add(new MijiaLywsd02Coordinator());
+        result.add(new ITagCoordinator());
+        result.add(new NutCoordinator());
+        result.add(new MakibesHR3Coordinator());
+        result.add(new BangleJSCoordinator());
+        result.add(new TLW64Coordinator());
+        result.add(new PineTimeJFCoordinator());
+        result.add(new SG2Coordinator());
+        result.add(new LefunDeviceCoordinator());
+        result.add(new SonySWR12DeviceCoordinator());
+        result.add(new WaspOSCoordinator());
+        result.add(new SMAQ2OSSCoordinator());
+        result.add(new UM25Coordinator());
+        result.add(new DomyosT540Cooridnator());
+        result.add(new FitProDeviceCoordinator());
+        result.add(new Ear1Coordinator());
+        result.add(new GalaxyBudsDeviceCoordinator());
+        result.add(new GalaxyBudsLiveDeviceCoordinator());
+        result.add(new SonyWH1000XM3Coordinator());
 
         return result;
     }
@@ -222,7 +332,7 @@ public class DeviceHelper {
             return result;
 
         } catch (Exception e) {
-            GB.toast("Error retrieving devices from database", Toast.LENGTH_SHORT, GB.ERROR);
+            GB.toast(GBApplication.getContext().getString(R.string.error_retrieving_devices_database), Toast.LENGTH_SHORT, GB.ERROR, e);
             return Collections.emptyList();
         }
     }
@@ -235,7 +345,13 @@ public class DeviceHelper {
      */
     public GBDevice toGBDevice(Device dbDevice) {
         DeviceType deviceType = DeviceType.fromKey(dbDevice.getType());
-        GBDevice gbDevice = new GBDevice(dbDevice.getIdentifier(), dbDevice.getName(), deviceType);
+        GBDevice gbDevice = new GBDevice(dbDevice.getIdentifier(), dbDevice.getName(), dbDevice.getAlias(), deviceType);
+        DeviceCoordinator coordinator = getCoordinator(gbDevice);
+        for (BatteryConfig batteryConfig : coordinator.getBatteryConfig()) {
+            gbDevice.setBatteryIcon(batteryConfig.getBatteryIcon(), batteryConfig.getBatteryIndex());
+            gbDevice.setBatteryLabel(batteryConfig.getBatteryLabel(), batteryConfig.getBatteryIndex());
+        }
+
         List<DeviceAttributes> deviceAttributesList = dbDevice.getDeviceAttributesList();
         if (deviceAttributesList.size() > 0) {
             gbDevice.setModel(dbDevice.getModel());
@@ -246,22 +362,6 @@ public class DeviceHelper {
         }
 
         return gbDevice;
-    }
-
-    private List<GBDevice> getBondedDevices(BluetoothAdapter btAdapter) {
-        Set<BluetoothDevice> pairedDevices = btAdapter.getBondedDevices();
-        List<GBDevice> result = new ArrayList<>(pairedDevices.size());
-        DeviceHelper deviceHelper = DeviceHelper.getInstance();
-        for (BluetoothDevice pairedDevice : pairedDevices) {
-            if (pairedDevice.getName() != null && (pairedDevice.getName().startsWith("Pebble-LE ") || pairedDevice.getName().startsWith("Pebble Time LE "))) {
-                continue; // ignore LE Pebble (this is part of the main device now (volatileAddress)
-            }
-            GBDevice device = deviceHelper.toSupportedDevice(pairedDevice);
-            if (device != null) {
-                result.add(device);
-            }
-        }
-        return result;
     }
 
     /**

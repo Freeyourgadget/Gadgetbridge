@@ -1,5 +1,5 @@
-/*  Copyright (C) 2015-2018 Andreas Shimokawa, Carsten Pfeiffer, Daniele
-    Gobbetti, Gabe Schrecker
+/*  Copyright (C) 2015-2021 Andreas Shimokawa, Carsten Pfeiffer, Daniele
+    Gobbetti, Gabe Schrecker, Petr Vaněk
 
     This file is part of Gadgetbridge.
 
@@ -64,6 +64,12 @@ public class GBMusicControlReceiver extends BroadcastReceiver {
             case PLAYPAUSE:
                 keyCode = KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE;
                 break;
+            case REWIND:
+                keyCode = KeyEvent.KEYCODE_MEDIA_REWIND;
+                break;
+            case FORWARD:
+                keyCode = KeyEvent.KEYCODE_MEDIA_FAST_FORWARD;
+                break;
             case VOLUMEUP:
                 // change default and fall through, :P
                 volumeAdjust = AudioManager.ADJUST_RAISE;
@@ -106,14 +112,17 @@ public class GBMusicControlReceiver extends BroadcastReceiver {
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
             MediaSessionManager mediaSessionManager =
                     (MediaSessionManager) context.getSystemService(Context.MEDIA_SESSION_SERVICE);
-
-            List<MediaController> controllers = mediaSessionManager.getActiveSessions(
-                    new ComponentName(context, NotificationListener.class));
             try {
-                MediaController controller = controllers.get(0);
-                audioPlayer = controller.getPackageName();
-            } catch (IndexOutOfBoundsException e) {
-                LOG.error("No media controller available", e);
+                List<MediaController> controllers = mediaSessionManager.getActiveSessions(
+                        new ComponentName(context, NotificationListener.class));
+                try {
+                    MediaController controller = controllers.get(0);
+                    audioPlayer = controller.getPackageName();
+                } catch (IndexOutOfBoundsException e) {
+                    LOG.error("No media controller available", e);
+                }
+            } catch (SecurityException e) {
+                LOG.warn("No permission to get media sessions - did not grant notification access?", e);
             }
         }
         return audioPlayer;

@@ -1,4 +1,4 @@
-/*  Copyright (C) 2015-2018 Andreas Shimokawa, Carsten Pfeiffer, Christian
+/*  Copyright (C) 2015-2020 Andreas Shimokawa, Carsten Pfeiffer, Christian
     Fischer, Daniele Gobbetti, Lem Dulfo
 
     This file is part of Gadgetbridge.
@@ -26,10 +26,11 @@ import android.preference.EditTextPreference;
 import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceManager;
-import android.support.v4.app.NavUtils;
-import android.support.v4.content.LocalBroadcastManager;
 import android.text.InputType;
 import android.view.MenuItem;
+
+import androidx.core.app.NavUtils;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -37,6 +38,7 @@ import org.slf4j.LoggerFactory;
 import java.util.Locale;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
+import nodomain.freeyourgadget.gadgetbridge.devices.DeviceManager;
 import nodomain.freeyourgadget.gadgetbridge.util.AndroidUtils;
 
 /**
@@ -189,7 +191,7 @@ public abstract class AbstractSettingsActivity extends AppCompatPreferenceActivi
      */
     private static void bindPreferenceSummaryToValue(Preference preference) {
         // Set the listener to watch for value changes.
-        SimpleSetSummaryOnChangeListener listener = null;
+        SimpleSetSummaryOnChangeListener listener;
         Preference.OnPreferenceChangeListener existingListener = preference.getOnPreferenceChangeListener();
         if (existingListener != null) {
             listener = new ExtraSetSummaryOnChangeListener(existingListener);
@@ -227,4 +229,41 @@ public abstract class AbstractSettingsActivity extends AppCompatPreferenceActivi
         }
         AndroidUtils.setLanguage(this, language);
     }
+
+    protected void addPreferenceHandlerFor(final String preferenceKey) {
+        Preference pref = findPreference(preferenceKey);
+        if (pref != null) {
+            pref.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+                @Override
+                public boolean onPreferenceChange(Preference preference, Object newVal) {
+                    GBApplication.deviceService().onSendConfiguration(preferenceKey);
+                    return true;
+                }
+            });
+        } else {
+            LOG.warn("Could not find preference " + preferenceKey);
+        }
+    }
+
+    // Ensure that the Control center is re-rendered when user preferences change
+    protected void addIntentNotificationListener(final String preferenceKey) {
+        Preference pref = findPreference(preferenceKey);
+
+        if (pref != null) {
+            pref.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+                @Override
+                public boolean onPreferenceChange(Preference preference, Object newVal) {
+                    Intent refreshIntent = new Intent(DeviceManager.ACTION_REFRESH_DEVICELIST);
+                    LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(refreshIntent);
+                    return true;
+                }
+            });
+        } else {
+            LOG.warn("Could not find preference " + preferenceKey);
+        }
+    }
+
+
+
+
 }

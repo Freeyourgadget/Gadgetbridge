@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <ListPreference
+        android:icon="@drawable/ic_power_settings_new"
+        android:defaultValue="0"
+        android:entries="@array/power_mode"
+        android:entryValues="@array/power_mode_values"
+        android:key="power_mode"
+        android:summary="%s"
+        android:title="@string/power_mode_title" />
+</androidx.preference.PreferenceScreen>

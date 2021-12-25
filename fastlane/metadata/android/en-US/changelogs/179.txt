@@ -1,0 +1,10 @@
+* Initial experimental support for Pinetime-JF (not yet usable)
+* HPlus; Recognize Lemfo SG2
+* Huami: Support events forwarding via intents or direct triggering of certain actions (eg. stop music when fall asleep)
+* Huami: Add Sports Activity Detail screen from decoded sports summary values
+* Huami: Recogize and decode lot more activity (workout) types
+* Amazfit Cor/Cor2: Allow workout syncing
+* Add Sports Activity Summary filtering and statistics
+* Many icons have been re-drawn as vectors, also several new device and sports activity icons added
+* Many improvements to the Bluetooth discovery and scanning
+* Fix crash when opening GPX files

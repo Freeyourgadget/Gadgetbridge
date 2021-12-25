@@ -1,4 +1,5 @@
-/*  Copyright (C) 2015-2018 Andreas Shimokawa, Carsten Pfeiffer
+/*  Copyright (C) 2015-2021 Andreas Shimokawa, AndrewH, Carsten Pfeiffer,
+    Daniele Gobbetti, Pavel Elagin, Petr Vaněk
 
     This file is part of Gadgetbridge.
 
@@ -20,7 +21,10 @@ import android.text.format.DateUtils;
 
 import com.github.pfichtner.durationformatter.DurationFormatter;
 
+import java.io.IOException;
+import java.text.FieldPosition;
 import java.text.ParseException;
+import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -33,9 +37,52 @@ import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 
 public class DateTimeUtils {
     private static SimpleDateFormat DAY_STORAGE_FORMAT = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
+    private static SimpleDateFormat HOURS_MINUTES_FORMAT = new SimpleDateFormat("HH:mm", Locale.US);
+    public static SimpleDateFormat ISO_8601_FORMAT = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ", Locale.US){
+        //see https://github.com/Freeyourgadget/Gadgetbridge/issues/1076#issuecomment-383834116 and https://stackoverflow.com/a/30221245
+
+        @Override
+        public Date parse(String text, ParsePosition pos) {
+            if (text.length() > 3) {
+                text = text.substring(0, text.length() - 3) + text.substring(text.length() - 2);
+            }
+            return super.parse(text, pos);
+
+        }
+
+        @Override
+        public StringBuffer format(Date date, StringBuffer toAppendTo, FieldPosition pos) {
+            StringBuffer rfcFormat = super.format(date, toAppendTo, pos);
+            if (this.getTimeZone().equals(TimeZone.getTimeZone("UTC"))) {
+                rfcFormat.setLength(rfcFormat.length()-5);
+                return rfcFormat.append("Z");
+            } else {
+                return rfcFormat.insert(rfcFormat.length() - 2, ":");
+            }
+        }
+
+    }; //no public access, we have to workaround Android bugs
 
     public static String formatDateTime(Date date) {
-        return DateUtils.formatDateTime(GBApplication.getContext(), date.getTime(), DateUtils.FORMAT_SHOW_DATE | DateUtils.FORMAT_SHOW_TIME);
+        return DateUtils.formatDateTime(GBApplication.getContext(), date.getTime(), DateUtils.FORMAT_SHOW_DATE | DateUtils.FORMAT_SHOW_TIME | DateUtils.FORMAT_NO_YEAR);
+    }
+
+    public static String formatIso8601(Date date) {
+        if(GBApplication.isRunningNougatOrLater()){
+            return new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssXXX", Locale.US).format(date);
+        }
+        ISO_8601_FORMAT.setTimeZone(TimeZone.getDefault());
+        return ISO_8601_FORMAT.format(date);
+    }
+
+    public static String formatIso8601UTC(Date date) {
+        if(GBApplication.isRunningNougatOrLater()){
+            final SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssXXX", Locale.US);
+            sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
+            return sdf.format(date);
+        }
+        ISO_8601_FORMAT.setTimeZone(TimeZone.getTimeZone("UTC"));
+        return ISO_8601_FORMAT.format(date);
     }
 
     public static String formatDate(Date date) {
@@ -86,6 +133,15 @@ public class DateTimeUtils {
         return DAY_STORAGE_FORMAT.parse(day);
     }
 
+    public static String timeToString(Date date) {
+        return HOURS_MINUTES_FORMAT.format(date);
+    }
+
+    public static String formatTime(int hours, int minutes) {
+        return String.format(Locale.US, "%02d", hours) + ":" + String.format(Locale.US, "%02d", minutes);
+    }
+
+
     public static Date todayUTC() {
         Calendar cal = getCalendarUTC();
         return cal.getTime();
@@ -98,4 +154,49 @@ public class DateTimeUtils {
     public static String minutesToHHMM(int minutes) {
         return String.format(Locale.US, "%d:%02d", minutes / 60, minutes % 60); // no I do not want to use durationformatter :P
     }
+    public static boolean isYesterday(Date d) {
+        return DateUtils.isToday(d.getTime() + DateUtils.DAY_IN_MILLIS);
+    }
+
+    /**
+     * Calculates new timestamp with a month offset (positive to add or negative to remove)
+     * from a given time
+     *
+     * @param time
+     * @param month
+     */
+    public static int shiftMonths(int time, int month) {
+        Calendar day = Calendar.getInstance();
+        day.setTimeInMillis(time * 1000L);
+        day.add(Calendar.MONTH, month);
+        return (int) (day.getTimeInMillis() / 1000);
+    }
+
+    /**
+     * Calculates new timestamp with a day offset (positive to add or negative to remove)
+     * from a given time
+     *
+     * @param time
+     * @param days
+     */
+    public static int shiftDays(int time, int days) {
+        int newTime = time + ((24 * 3600) - 1) * days;
+        Calendar day = Calendar.getInstance();
+        day.setTimeInMillis(newTime * 1000L);
+        day.set(Calendar.HOUR_OF_DAY, 0);
+        day.set(Calendar.MINUTE, 0);
+        day.set(Calendar.SECOND, 0);
+        return (int) (day.getTimeInMillis() / 1000);
+    }
+
+    /**
+     * Calculates difference in days between two timestamps
+     *
+     * @param time1
+     * @param time2
+     */
+    public static int  getDaysBetweenTimes(int time1, int time2) {
+        return (int) TimeUnit.MILLISECONDS.toDays((time2 - time1) * 1000L);
+    }
+
 }

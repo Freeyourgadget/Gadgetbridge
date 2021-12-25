@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:svg="http://www.w3.org/2000/svg" xmlns="http://www.w3.org/2000/svg" xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd" xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape" enable-background="new 0 0 24 24" height="24" viewBox="0 0 27 24" width="27" version="1.1" id="svg1685" sodipodi:docname="ic_shoe.svg" inkscape:version="1.0.1 (3bc2e813f5, 2020-09-07)">
+    <metadata id="metadata1691">
+        <rdf:RDF>
+            <cc:Work rdf:about="">
+                <dc:format/>
+                <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
+                <dc:title/>
+            </cc:Work>
+        </rdf:RDF>
+    </metadata>
+    <defs id="defs1689"/>
+    <sodipodi:namedview pagecolor="#ffffff" bordercolor="#666666" borderopacity="1" objecttolerance="10" gridtolerance="10" guidetolerance="10" inkscape:pageopacity="0" inkscape:pageshadow="2" inkscape:window-width="1920" inkscape:window-height="1042" id="namedview1687" showgrid="false" showguides="true" inkscape:guide-bbox="true" inkscape:zoom="22.185475" inkscape:cx="11.936505" inkscape:cy="9.4419739" inkscape:window-x="0" inkscape:window-y="38" inkscape:window-maximized="1" inkscape:current-layer="g1683" inkscape:document-rotation="0" lock-margins="false" fit-margin-left="2.5" fit-margin-right="2.5" fit-margin-top="2.5" fit-margin-bottom="2.5" inkscape:pagecheckerboard="true">
+        <sodipodi:guide position="8.418941,13.042708" orientation="1,0" id="guide2254"/>
+        <sodipodi:guide position="8.914761,13.752632" orientation="0,-1" id="guide2256"/>
+    </sodipodi:namedview>
+    <g id="g1683" transform="translate(1.5,0.4999999)">
+        <rect fill="none" height="24" width="24" id="rect1679" x="0" y="0"/>
+    </g>
+</svg>

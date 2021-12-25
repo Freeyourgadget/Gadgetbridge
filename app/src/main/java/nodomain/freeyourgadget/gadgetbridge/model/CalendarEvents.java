@@ -1,4 +1,4 @@
-/*  Copyright (C) 2015-2018 Andreas Shimokawa, Carsten Pfeiffer, Daniele
+/*  Copyright (C) 2015-2020 Andreas Shimokawa, Carsten Pfeiffer, Daniele
     Gobbetti, Daniel Hauck
 
     This file is part of Gadgetbridge.
@@ -43,7 +43,7 @@ public class CalendarEvents {
     //further: primaryColor, secondaryColor, backgroundColor, headings, paragraphs, lastUpdated
     // taken from: https://developer.getpebble.com/guides/timeline/pin-structure/
 
-    // needed for miband:
+    // needed for MiBand:
     // time
 
     private static final String[] EVENT_INSTANCE_PROJECTION = new String[]{
@@ -71,9 +71,9 @@ public class CalendarEvents {
     private boolean fetchSystemEvents(Context mContext) {
 
         Calendar cal = GregorianCalendar.getInstance();
-        Long dtStart = cal.getTimeInMillis();
+        long dtStart = cal.getTimeInMillis();
         cal.add(Calendar.DATE, lookahead_days);
-        Long dtEnd = cal.getTimeInMillis();
+        long dtEnd = cal.getTimeInMillis();
 
         Uri.Builder eventsUriBuilder = Instances.CONTENT_URI.buildUpon();
         ContentUris.appendId(eventsUriBuilder, dtStart);

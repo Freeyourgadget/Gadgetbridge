@@ -1,4 +1,4 @@
-/*  Copyright (C) 2017-2018 Andreas Shimokawa
+/*  Copyright (C) 2017-2021 Andreas Shimokawa
 
     This file is part of Gadgetbridge.
 
@@ -40,6 +40,14 @@ public abstract class HuamiFirmwareInfo {
             0x48, 0x4d, 0x44, 0x49, 0x41, 0x4c
     };
 
+    public static final byte[] UIHH_HEADER = new byte[]{
+            'U', 'I', 'H', 'H'
+    };
+
+    public static final byte[] AGPS_UIHH_HEADER = new byte[]{
+            'U', 'I', 'H', 'H', 0x04
+    };
+
     protected static final byte[] FT_HEADER = new byte[]{ // HMZK font file (*.ft, *.ft.xx)
             0x48, 0x4d, 0x5a, 0x4b
     };
@@ -48,7 +56,55 @@ public abstract class HuamiFirmwareInfo {
             0x4e, 0x45, 0x5a, 0x4b
     };
 
-    private HuamiFirmwareType firmwareType = HuamiFirmwareType.FIRMWARE;
+    public static final byte[] GPS_ALMANAC_HEADER = new byte[]{ // probably wrong
+            (byte) 0xa0, (byte) 0x80, 0x08, 0x00, (byte) 0x8b
+    };
+
+    public static final byte[] GPS_CEP_HEADER = new byte[]{ // probably wrong
+            0x2a, 0x12, (byte) 0xa0, 0x02
+    };
+
+    // gps detection is totally bogus, just the first 16 bytes
+    protected static final byte[][] GPS_HEADERS = {
+            new byte[]{
+                    (byte) 0xcb, 0x51, (byte) 0xc1, 0x30, 0x41, (byte) 0x9e, 0x5e, (byte) 0xd3,
+                    0x51, 0x35, (byte) 0xdf, 0x66, (byte) 0xed, (byte) 0xd9, 0x5f, (byte) 0xa7
+            },
+            new byte[]{
+                    0x10, 0x50, 0x26, 0x76, (byte) 0x8f, 0x4a, (byte) 0xa1, 0x49,
+                    (byte) 0xa7, 0x26, (byte) 0xd0, (byte) 0xe6, 0x4a, 0x21, (byte) 0x88, (byte) 0xd4
+            },
+            new byte[]{
+                    (byte) 0xeb, (byte) 0xfa, (byte) 0xc5, (byte) 0x89, (byte) 0xf0, 0x5c, 0x2e, (byte) 0xcc,
+                    (byte) 0xfa, (byte) 0xf3, 0x62, (byte) 0xeb, (byte) 0x92, (byte) 0xc6, (byte) 0xa1, (byte) 0xbb
+            },
+            new byte[]{
+                    0x0b, 0x61, 0x53, (byte) 0xed, (byte) 0x83, (byte) 0xac, 0x07, 0x21,
+                    (byte) 0x8c, 0x36, 0x2e, (byte) 0x8c, (byte) 0x9c, 0x08, 0x54, (byte) 0xa6
+            },
+            new byte[]{
+                    (byte) 0xec, 0x51, 0x73, 0x22, 0x60, 0x02, 0x14, (byte) 0xb7,
+                    (byte) 0xb5, (byte) 0xea, 0x4b, 0x22, 0x5d, 0x23, (byte) 0xe5, 0x4f
+            },
+            new byte[]{
+                    0x73, 0x75, 0x68, (byte) 0xd0, 0x70, 0x73, (byte) 0xbb, 0x5a,
+                    0x3e, (byte) 0xc3, (byte) 0xd3, 0x09, (byte) 0x9e, 0x1d, (byte) 0xd3, (byte) 0xc9
+            },
+            new byte[]{
+                    0x00, 0x00, 0x00, 0x01, 0x00, 0x09, 0x6F, (byte) 0xD0,
+                    0x00, 0x01, 0x00, 0x02, 0x3D, (byte) 0xE0, 0x00, 0x69
+            },
+            new byte[]{
+                    0x00, 0x00, 0x00, 0x01, 0x00, 0x09, 0x32, 0x70,
+                    0x00, 0x01, 0x00, 0x02, 0x3D, (byte) 0xE0, 0x00, (byte) 0xCC
+            }
+    };
+
+    protected static final int FONT_TYPE_OFFSET = 0x9;
+    protected static final int COMPRESSED_RES_HEADER_OFFSET = 0x9;
+    protected static final int COMPRESSED_RES_HEADER_OFFSET_NEW = 0xd;
+
+    private HuamiFirmwareType firmwareType;
 
     public String toVersion(int crc16) {
         String version = getCrcMap().get(crc16);
@@ -58,16 +114,25 @@ public abstract class HuamiFirmwareInfo {
                     version = searchFirmwareVersion(bytes);
                     break;
                 case RES:
-                    version = "RES " + Integer.toString(bytes[5]);
+                    version = "RES " + bytes[5];
                     break;
                 case RES_COMPRESSED:
-                    version = "RES " + Integer.toString(bytes[14]);
+                    byte versionByte;
+                    // there are two possible locations of the version for compressed res, probe the format in a dirty way :P
+                    if (bytes[COMPRESSED_RES_HEADER_OFFSET + 2] == 0x52 &&
+                            bytes[COMPRESSED_RES_HEADER_OFFSET + 3] == 0x45 &&
+                            bytes[COMPRESSED_RES_HEADER_OFFSET + 4] == 0x53) {
+                        versionByte = bytes[14];
+                    } else {
+                        versionByte = bytes[18];
+                    }
+                    version = "RES " + (versionByte & 0xff);
                     break;
                 case FONT:
-                    version = "FONT " + Integer.toString(bytes[4]);
+                    version = "FONT " + bytes[4];
                     break;
                 case FONT_LATIN:
-                    version = "FONT LATIN " + Integer.toString(bytes[4]);
+                    version = "FONT LATIN " + bytes[4];
                     break;
             }
         }
@@ -89,6 +154,9 @@ public abstract class HuamiFirmwareInfo {
                 case GPS_ALMANAC:
                     version = "(unknown ALM)";
                     break;
+                case AGPS_UIHH:
+                    version = "(unknown AGPS)";
+                    break;
                 case WATCHFACE:
                     version = "(unknown watchface)";
                     break;
@@ -102,12 +170,14 @@ public abstract class HuamiFirmwareInfo {
     }
 
     private final int crc16;
+    private final int crc32;
 
     private byte[] bytes;
 
     public HuamiFirmwareInfo(byte[] bytes) {
         this.bytes = bytes;
         crc16 = CheckSums.getCRC16(bytes);
+        crc32 = CheckSums.getCRC32(bytes);
         firmwareType = determineFirmwareType(bytes);
     }
 
@@ -121,9 +191,7 @@ public abstract class HuamiFirmwareInfo {
     }
 
     /**
-     * Returns the size of the firmware in number of bytes.
-     *
-     * @return
+     * @return the size of the firmware in number of bytes.
      */
     public int getSize() {
         return bytes.length;
@@ -135,6 +203,9 @@ public abstract class HuamiFirmwareInfo {
 
     public int getCrc16() {
         return crc16;
+    }
+    public int getCrc32() {
+        return crc32;
     }
 
     public int getFirmwareVersion() {
@@ -161,7 +232,7 @@ public abstract class HuamiFirmwareInfo {
                     if (word == 0x642e2564) {
                         word = buf.getInt();
                         if (word == 0x00000000) {
-                            byte version[] = new byte[8];
+                            byte[] version = new byte[8];
                             buf.get(version);
                             return new String(version);
                         }
@@ -172,4 +243,25 @@ public abstract class HuamiFirmwareInfo {
         return null;
     }
 
+    protected boolean searchString32BitAligned(byte[] fwbytes, String findString) {
+        ByteBuffer stringBuf = ByteBuffer.wrap((findString + "\0").getBytes());
+        stringBuf.order(ByteOrder.BIG_ENDIAN);
+        int[] findArray = new int[stringBuf.remaining() / 4];
+        for (int i = 0; i < findArray.length; i++) {
+            findArray[i] = stringBuf.getInt();
+        }
+
+        ByteBuffer buf = ByteBuffer.wrap(fwbytes);
+        buf.order(ByteOrder.BIG_ENDIAN);
+        while (buf.remaining() > 3) {
+            int arrayPos = 0;
+            while (arrayPos < findArray.length && buf.remaining() > 3 && (buf.getInt() == findArray[arrayPos])) {
+                arrayPos++;
+            }
+            if (arrayPos == findArray.length) {
+                return true;
+            }
+        }
+        return false;
+    }
 }

@@ -1,5 +1,5 @@
-/*  Copyright (C) 2015-2018 Andreas Shimokawa, Carsten Pfeiffer, Daniele
-    Gobbetti
+/*  Copyright (C) 2015-2021 Andreas Shimokawa, Carsten Pfeiffer, Daniele
+    Gobbetti, Taavi Eomäe
 
     This file is part of Gadgetbridge.
 
@@ -49,9 +49,6 @@ import nodomain.freeyourgadget.gadgetbridge.util.DateTimeUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 
-//import java.util.concurrent.Executors;
-//import java.util.concurrent.ScheduledExecutorService;
-//import java.util.concurrent.ScheduledFuture;
 
 /**
  * An operation that fetches activity data. For every fetch, a new operation must
@@ -71,7 +68,7 @@ public class FetchActivityOperation extends AbstractMiBand1Operation {
     private final boolean hasPacketCounter;
 
     private class ActivityStruct {
-        private int maxDataPacketLength = 20;
+        private int maxDataPacketLength;
         private int lastNotifiedProgress;
         private final byte[] activityDataHolder;
         private final int activityDataHolderSize;
@@ -154,8 +151,14 @@ public class FetchActivityOperation extends AbstractMiBand1Operation {
 
     private ActivityStruct activityStruct;
 
-    public FetchActivityOperation(MiBandSupport support) {
+    public FetchActivityOperation(MiBandSupport support) throws IOException {
         super(support);
+        if (support == null) {
+            throw new IOException("MiBandSupport was null");
+        }
+        if (support.getDeviceInfo() == null) {
+            throw new IOException("MiBandSupport getDeviceInfo returned null");
+        }
         hasExtendedActivityData = support.getDeviceInfo().supportsHeartrate();
         hasPacketCounter = support.getDeviceInfo().getProfileVersion() >= 0x02000700;
         //temporary buffer, size is a multiple of 60 because we want to store complete minutes (1 minute = 3 or 4 bytes)
@@ -197,6 +200,7 @@ public class FetchActivityOperation extends AbstractMiBand1Operation {
         activityStruct = null;
         operationFinished();
         unsetBusy();
+        GB.signalActivityDataFinish();
     }
 
     /**
@@ -236,12 +240,12 @@ public class FetchActivityOperation extends AbstractMiBand1Operation {
         // avoid too many notifications overloading the system
         if (progress - activityStruct.lastNotifiedProgress >= 8) {
             activityStruct.lastNotifiedProgress = progress;
-            GB.updateTransferNotification(getContext().getString(R.string.busy_task_fetch_activity_data), true, progress, getContext());
+            GB.updateTransferNotification(null, getContext().getString(R.string.busy_task_fetch_activity_data), true, progress, getContext());
         }
 
         if (activityStruct.isBlockFinished()) {
             sendAckDataTransfer(activityStruct.activityDataTimestampToAck, activityStruct.activityDataUntilNextHeader);
-            GB.updateTransferNotification("", false, 100, getContext());
+            GB.updateTransferNotification(null, "", false, 100, getContext());
         }
     }
 
@@ -254,7 +258,7 @@ public class FetchActivityOperation extends AbstractMiBand1Operation {
         // byte 0 is the data type: 1 means that each minute is represented by a triplet of bytes
         int dataType = value[0];
         // byte 1 to 6 represent a timestamp
-        GregorianCalendar timestamp = MiBandDateConverter.rawBytesToCalendar(value, 1);
+        GregorianCalendar timestamp = MiBandDateConverter.rawBytesToCalendar(value, 1, getDevice().getAddress());
 
         // counter of all data held by the band
         int totalDataToRead = (value[7] & 0xff) | ((value[8] & 0xff) << 8);
@@ -271,9 +275,10 @@ public class FetchActivityOperation extends AbstractMiBand1Operation {
         // as we just did
 
         if (activityStruct.isFirstChunk() && dataUntilNextHeader != 0) {
-            GB.toast(getContext().getString(R.string.user_feedback_miband_activity_data_transfer,
+
+            GB.updateTransferNotification(getContext().getString(R.string.busy_task_fetch_activity_data), getContext().getString(R.string.user_feedback_miband_activity_data_transfer,
                     DateTimeUtils.formatDurationHoursMinutes((totalDataToRead / getBytesPerMinuteOfActivityData()), TimeUnit.MINUTES),
-                    DateFormat.getDateTimeInstance().format(timestamp.getTime())), Toast.LENGTH_LONG, GB.INFO);
+                    DateFormat.getDateTimeInstance().format(timestamp.getTime())), true, 0, getContext());
         }
         LOG.info("total data to read: " + totalDataToRead + " len: " + (totalDataToRead / getBytesPerMinuteOfActivityData()) + " minute(s)");
         LOG.info("data to read until next header: " + dataUntilNextHeader + " len: " + (dataUntilNextHeader / getBytesPerMinuteOfActivityData()) + " minute(s)");
@@ -326,7 +331,7 @@ public class FetchActivityOperation extends AbstractMiBand1Operation {
                 TransactionBuilder builder = performInitialized("send stop sync data");
                 builder.write(getCharacteristic(MiBandService.UUID_CHARACTERISTIC_CONTROL_POINT), new byte[]{MiBandService.COMMAND_STOP_SYNC_DATA});
                 builder.queue(getQueue());
-                GB.updateTransferNotification("Data transfer failed", false, 0, getContext());
+                GB.updateTransferNotification(null,"Data transfer failed", false, 0, getContext());
                 handleActivityFetchFinish();
 
             } catch (IOException e) {
@@ -404,7 +409,7 @@ public class FetchActivityOperation extends AbstractMiBand1Operation {
      * @param bytesTransferred
      */
     private void sendAckDataTransfer(Calendar time, int bytesTransferred) {
-        byte[] ackTime = MiBandDateConverter.calendarToRawBytes(time);
+        byte[] ackTime = MiBandDateConverter.calendarToRawBytes(time, getDevice().getAddress());
         Prefs prefs = GBApplication.getPrefs();
 
         byte[] ackChecksum = new byte[]{

@@ -1,5 +1,5 @@
-/*  Copyright (C) 2015-2018 Andreas Shimokawa, Carsten Pfeiffer, Daniele
-    Gobbetti, Lem Dulfo
+/*  Copyright (C) 2015-2020 Andreas Shimokawa, Carsten Pfeiffer, Daniele
+    Gobbetti, Lem Dulfo, vanous
 
     This file is part of Gadgetbridge.
 
@@ -17,35 +17,47 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.activities;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.MenuItem;
 
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
+import androidx.annotation.NonNull;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.util.List;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.adapter.GBAlarmListAdapter;
-import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst;
-import nodomain.freeyourgadget.gadgetbridge.impl.GBAlarm;
+import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
+import nodomain.freeyourgadget.gadgetbridge.database.DBHelper;
+import nodomain.freeyourgadget.gadgetbridge.devices.DeviceCoordinator;
+import nodomain.freeyourgadget.gadgetbridge.entities.Alarm;
+import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
+import nodomain.freeyourgadget.gadgetbridge.entities.Device;
+import nodomain.freeyourgadget.gadgetbridge.entities.User;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
-import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
-
-import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.PREF_MIBAND_ALARMS;
+import nodomain.freeyourgadget.gadgetbridge.model.DeviceService;
+import nodomain.freeyourgadget.gadgetbridge.util.AlarmUtils;
+import nodomain.freeyourgadget.gadgetbridge.util.DeviceHelper;
 
 
 public class ConfigureAlarms extends AbstractGBActivity {
+    private static final Logger LOG = LoggerFactory.getLogger(ConfigureAlarms.class);
 
     private static final int REQ_CONFIGURE_ALARM = 1;
 
     private GBAlarmListAdapter mGBAlarmListAdapter;
-    private Set<String> preferencesAlarmListSet;
     private boolean avoidSendAlarmsToDevice;
-    private GBDevice device;
+    private GBDevice gbDevice;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,28 +65,24 @@ public class ConfigureAlarms extends AbstractGBActivity {
 
         setContentView(R.layout.activity_configure_alarms);
 
-        device = getIntent().getParcelableExtra(GBDevice.EXTRA_DEVICE);
+        IntentFilter filterLocal = new IntentFilter();
+        filterLocal.addAction(DeviceService.ACTION_SAVE_ALARMS);
+        LocalBroadcastManager.getInstance(this).registerReceiver(mReceiver, filterLocal);
 
-        Prefs prefs = GBApplication.getPrefs();
-        preferencesAlarmListSet = prefs.getStringSet(PREF_MIBAND_ALARMS, new HashSet<String>());
-        if (preferencesAlarmListSet.isEmpty()) {
-            //initialize the preferences
-            preferencesAlarmListSet = new HashSet<>(Arrays.asList(GBAlarm.DEFAULT_ALARMS));
-            prefs.getPreferences().edit().putStringSet(PREF_MIBAND_ALARMS, preferencesAlarmListSet).apply();
-        }
+        gbDevice = getIntent().getParcelableExtra(GBDevice.EXTRA_DEVICE);
 
-        mGBAlarmListAdapter = new GBAlarmListAdapter(this, preferencesAlarmListSet);
+        mGBAlarmListAdapter = new GBAlarmListAdapter(this);
 
-        RecyclerView alarmsRecyclerView = (RecyclerView) findViewById(R.id.alarm_list);
+        RecyclerView alarmsRecyclerView = findViewById(R.id.alarm_list);
         alarmsRecyclerView.setHasFixedSize(true);
         alarmsRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         alarmsRecyclerView.setAdapter(mGBAlarmListAdapter);
-        updateAlarmsFromPrefs();
+        updateAlarmsFromDB();
     }
 
     @Override
     protected void onPause() {
-        if (!avoidSendAlarmsToDevice) {
+        if (!avoidSendAlarmsToDevice && gbDevice.isInitialized()) {
             sendAlarmsToDevice();
         }
         super.onPause();
@@ -82,19 +90,63 @@ public class ConfigureAlarms extends AbstractGBActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQ_CONFIGURE_ALARM) {
             avoidSendAlarmsToDevice = false;
-            updateAlarmsFromPrefs();
+            updateAlarmsFromDB();
         }
     }
 
-    private void updateAlarmsFromPrefs() {
-        Prefs prefs = GBApplication.getPrefs();
-        preferencesAlarmListSet = prefs.getStringSet(PREF_MIBAND_ALARMS, new HashSet<String>());
-        int reservedSlots = prefs.getInt(MiBandConst.PREF_MIBAND_RESERVE_ALARM_FOR_CALENDAR, 0);
+    /**
+     * Reads the available alarms from the database and updates the view afterwards.
+     */
+    private void updateAlarmsFromDB() {
+        List<Alarm> alarms = DBHelper.getAlarms(getGbDevice());
+        if (alarms.isEmpty()) {
+            alarms = AlarmUtils.readAlarmsFromPrefs(getGbDevice());
+            storeMigratedAlarms(alarms);
+        }
+        addMissingAlarms(alarms);
 
-        mGBAlarmListAdapter.setAlarmList(preferencesAlarmListSet, reservedSlots);
+        mGBAlarmListAdapter.setAlarmList(alarms);
         mGBAlarmListAdapter.notifyDataSetChanged();
+    }
+
+    private void storeMigratedAlarms(List<Alarm> alarms) {
+        for (Alarm alarm : alarms) {
+            DBHelper.store(alarm);
+        }
+    }
+
+    private void addMissingAlarms(List<Alarm> alarms) {
+        DeviceCoordinator coordinator = DeviceHelper.getInstance().getCoordinator(getGbDevice());
+        int supportedNumAlarms = coordinator.getAlarmSlotCount();
+        if (supportedNumAlarms > alarms.size()) {
+            try (DBHandler db = GBApplication.acquireDB()) {
+                DaoSession daoSession = db.getDaoSession();
+                Device device = DBHelper.getDevice(getGbDevice(), daoSession);
+                User user = DBHelper.getUser(daoSession);
+                for (int position = 0; position < supportedNumAlarms; position++) {
+                    boolean found = false;
+                    for (Alarm alarm : alarms) {
+                        if (alarm.getPosition() == position) {
+                            found = true;
+                            break;
+                        }
+                    }
+                    if (!found) {
+                        LOG.info("adding missing alarm at position " + position);
+                        alarms.add(position, createDefaultAlarm(device, user, position));
+                    }
+                }
+            } catch (Exception e) {
+                LOG.error("Error accessing database", e);
+            }
+        }
+    }
+
+    private Alarm createDefaultAlarm(@NonNull Device device, @NonNull User user, int position) {
+        return new Alarm(device.getId(), user.getId(), position, false, false, false, 0, 6, 30, false, null, null);
     }
 
     @Override
@@ -108,19 +160,40 @@ public class ConfigureAlarms extends AbstractGBActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void configureAlarm(GBAlarm alarm) {
+    public void configureAlarm(Alarm alarm) {
         avoidSendAlarmsToDevice = true;
         Intent startIntent = new Intent(getApplicationContext(), AlarmDetails.class);
-        startIntent.putExtra("alarm", alarm);
-        startIntent.putExtra(GBDevice.EXTRA_DEVICE, getDevice());
+        startIntent.putExtra(Alarm.EXTRA_ALARM, alarm);
+        startIntent.putExtra(GBDevice.EXTRA_DEVICE, getGbDevice());
         startActivityForResult(startIntent, REQ_CONFIGURE_ALARM);
     }
 
-    private GBDevice getDevice() {
-        return device;
+    private GBDevice getGbDevice() {
+        return gbDevice;
     }
 
     private void sendAlarmsToDevice() {
         GBApplication.deviceService().onSetAlarms(mGBAlarmListAdapter.getAlarmList());
     }
+
+    private final BroadcastReceiver mReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            String action = intent.getAction();
+
+            switch (action) {
+                case DeviceService.ACTION_SAVE_ALARMS: {
+                    updateAlarmsFromDB();
+                    break;
+                }
+            }
+        }
+    };
+
+    @Override
+    protected void onDestroy() {
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(mReceiver);
+        super.onDestroy();
+    }
+
 }

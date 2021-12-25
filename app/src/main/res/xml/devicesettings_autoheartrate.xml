@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceScreen
+        android:icon="@drawable/ic_heartrate"
+        android:key="screen_autoheartrate"
+        android:persistent="false"
+        android:summary="@string/prefs_autoheartrate_summary"
+        android:title="@string/prefs_autoheartrate">
+
+        <!-- workaround for missing toolbar -->
+        <PreferenceCategory android:title="@string/prefs_autoheartrate_summary" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="pref_autoheartrate_switch"
+            android:title="@string/prefs_autoheartrate_measurement" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:dependency="pref_autoheartrate_switch"
+            android:key="pref_autoheartrate_sleep"
+            android:title="@string/prefs_autoheartrate_sleep" />
+
+        <ListPreference
+            android:defaultValue="2"
+            android:dependency="pref_autoheartrate_switch"
+            android:entries="@array/autoheartrate_interval_hours"
+            android:entryValues="@array/autoheartrate_interval_hours"
+            android:key="pref_autoheartrate_interval"
+            android:summary="%s"
+            android:title="@string/prefs_autoheartrate_interval" />
+
+        <nodomain.freeyourgadget.gadgetbridge.util.XTimePreference
+            android:defaultValue="06:00"
+            android:key="pref_autoheartrate_start"
+            android:title="@string/mi2_prefs_do_not_disturb_start" />
+
+        <nodomain.freeyourgadget.gadgetbridge.util.XTimePreference
+            android:defaultValue="23:00"
+            android:key="pref_autoheartrate_end"
+            android:title="@string/mi2_prefs_do_not_disturb_end" />
+    </PreferenceScreen>
+</androidx.preference.PreferenceScreen>

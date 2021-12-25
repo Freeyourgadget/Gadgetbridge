@@ -23,12 +23,17 @@ public class Tryout extends TestBase {
         byte b = (byte) v;
         LOG.info("v: " + v);
         Logging.logBytes(LOG, new byte[] { b });
+
+        byte[] bs = new byte[] {(byte) 0xf0,0x28,0x00,0x00 };
+        LOG.warn("uint32: " + BLETypeConversions.toUint32(bs));
+        LOG.warn("uint16: " + BLETypeConversions.toUint16(bs));
+
     }
 
     @Test
     public void testCalendarBytes() {
         GregorianCalendar calendar = MiBandDateConverter.createCalendar();
-        byte[] bytes = MiBandDateConverter.calendarToRawBytes(calendar);
+        byte[] bytes = MiBandDateConverter.calendarToRawBytes(calendar,"fake");
         LOG.info("Calender: " + DateTimeUtils.formatDateTime(calendar.getTime()));
         Logging.logBytes(LOG, bytes);
     }

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <EditTextPreference
+        android:dialogTitle="Packet key"
+        android:icon="@drawable/ic_lock_open"
+        android:key="nut_packet_challenge"
+        android:title="Challenge" />
+    <EditTextPreference
+        android:dialogTitle="Challenge key"
+        android:icon="@drawable/ic_lock_open"
+        android:key="nut_packet_response"
+        android:title="Response" />
+    <EditTextPreference
+        android:dialogTitle="Challenge key"
+        android:icon="@drawable/ic_lock_open"
+        android:key="nut_packet_key_1"
+        android:title="Known key 1 (overrides)" />
+    <EditTextPreference
+        android:dialogTitle="Challenge key"
+        android:icon="@drawable/ic_lock_open"
+        android:key="nut_packet_key_2"
+        android:title="Known key 2 (overrides)" />
+</androidx.preference.PreferenceScreen>

@@ -1,6 +1,6 @@
-/*  Copyright (C) 2016-2018 Andreas Shimokawa, AnthonyDiGirolamo, Daniele
-    Gobbetti, Frank Slezak, Kaz Wolfe, Kevin Richter, Lukas Veneziano, michaelneu,
-    NotAFIle, Tomas Radej
+/*  Copyright (C) 2016-2020 Andreas Shimokawa, AnthonyDiGirolamo, Daniele
+    Gobbetti, Frank Slezak, Kaz Wolfe, Kevin Richter, Lukas Veneziano, Marvin D,
+    Matthieu Baerts, michaelneu, NotAFIle, Tomas Radej, w2q
 
     This file is part of Gadgetbridge.
 
@@ -39,6 +39,8 @@ public class AppNotificationType extends HashMap<String, NotificationType> {
         put("com.imaeses.squeaky", NotificationType.GENERIC_EMAIL);
         put("com.android.email", NotificationType.GENERIC_EMAIL);
         put("ch.protonmail.android", NotificationType.GENERIC_EMAIL);
+        put("security.pEp", NotificationType.GENERIC_EMAIL);
+        put("eu.faircode.email", NotificationType.GENERIC_EMAIL);
 
         // Generic SMS
         put("com.moez.QKSMS", NotificationType.GENERIC_SMS);
@@ -49,6 +51,7 @@ public class AppNotificationType extends HashMap<String, NotificationType> {
 
         // Generic Calendar
         put("com.android.calendar", NotificationType.GENERIC_CALENDAR);
+        put("mikado.bizcalpro", NotificationType.BUSINESS_CALENDAR);
 
         // Google
         put("com.google.android.gm", NotificationType.GMAIL);
@@ -61,6 +64,7 @@ public class AppNotificationType extends HashMap<String, NotificationType> {
 
         // Conversations
         put("eu.siacs.conversations", NotificationType.CONVERSATIONS);
+        put("de.pixart.messenger", NotificationType.CONVERSATIONS);
 
         // Riot
         put("im.vector.alpha", NotificationType.RIOT);
@@ -68,11 +72,16 @@ public class AppNotificationType extends HashMap<String, NotificationType> {
         // Signal
         put("org.thoughtcrime.securesms", NotificationType.SIGNAL);
 
+        // Wire
+        put("com.wire", NotificationType.WIRE);
+
         // Telegram
         put("org.telegram.messenger", NotificationType.TELEGRAM);
         put("org.telegram.messenger.beta", NotificationType.TELEGRAM);
+        put("org.telegram.messenger.web", NotificationType.TELEGRAM);
         put("org.telegram.plus", NotificationType.TELEGRAM); // "Plus Messenger"
         put("org.thunderdog.challegram", NotificationType.TELEGRAM);
+        put("nekox.messenger", NotificationType.TELEGRAM);
 
         // Threema
         put("ch.threema.app", NotificationType.THREEMA);
@@ -108,6 +117,9 @@ public class AppNotificationType extends HashMap<String, NotificationType> {
 
         // Skype
         put("com.skype.raider", NotificationType.SKYPE);
+
+        // Skype for business
+        put("com.microsoft.office.lync15", NotificationType.SKYPE);
 
         // Mailbox
         put("com.mailboxapp", NotificationType.MAILBOX);
@@ -159,6 +171,9 @@ public class AppNotificationType extends HashMap<String, NotificationType> {
 
         // Etar
         put("ws.xsoh.etar", NotificationType.GENERIC_CALENDAR);
+
+        // Discord
+        put("com.discord", NotificationType.DISCORD);
     }
 
 }

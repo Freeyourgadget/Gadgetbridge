@@ -1,0 +1,60 @@
+syntax = "proto3";
+
+option java_package = "nodomain.freeyourgadget.gadgetbridge";
+option java_outer_classname = "SMAQ2OSSProtos";
+
+message SetTime
+{
+    int32 timestamp = 1;
+}
+
+message MusicControl
+{
+    int32 music_event = 1;
+}
+
+message CallControl
+{
+    int32 call_event = 1;
+}
+
+message Forecast
+{
+    int32 condition = 1;
+    int32 temperature_min = 2;
+    int32 temperature_max = 3;
+}
+
+message SetWeather
+{
+    int32 timestamp = 1;
+    int32 condition = 2;
+    int32 temperature = 3;
+    int32 temperature_min = 4;
+    int32 temperature_max = 5;
+    int32 humidity = 6;
+    repeated Forecast forecasts = 7;
+}
+
+message MessageNotification
+{
+    uint32 timestamp = 1;
+    int32 type = 2;
+    string sender = 3;
+    string subject = 4;
+    string body = 5;
+}
+
+message CallNotification
+{
+    string number = 1;
+    string name = 2;
+    int32 command = 3;
+}
+
+message MusicInfo
+{
+    string artist = 1;
+    string album = 2;
+    string track = 3;
+}

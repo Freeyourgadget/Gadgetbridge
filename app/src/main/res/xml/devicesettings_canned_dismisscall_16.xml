@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <PreferenceScreen
+        android:icon="@drawable/ic_phone_msg"
+        android:key="screen_canned_messages_dismisscall"
+        android:persistent="false"
+        android:title="@string/pref_title_canned_messages_dismisscall"
+        android:summary="@string/pref_summary_canned_messages_dismisscall">
+        <Preference
+            android:key="canned_messages_dismisscall_send"
+            android:title="@string/pref_title_canned_messages_set"
+            android:summary="@string/pref_summary_canned_messages_set"/>
+        <EditTextPreference
+            android:key="canned_message_dismisscall_1"
+            android:maxLength="64"
+            app:useSimpleSummaryProvider="true" />
+        <EditTextPreference
+            android:key="canned_message_dismisscall_2"
+            android:maxLength="64"
+            app:useSimpleSummaryProvider="true" />
+        <EditTextPreference
+            android:key="canned_message_dismisscall_3"
+            android:maxLength="64"
+            app:useSimpleSummaryProvider="true" />
+        <EditTextPreference
+            android:key="canned_message_dismisscall_4"
+            android:maxLength="64"
+            app:useSimpleSummaryProvider="true" />
+        <EditTextPreference
+            android:key="canned_message_dismisscall_5"
+            android:maxLength="64"
+            app:useSimpleSummaryProvider="true" />
+        <EditTextPreference
+            android:key="canned_message_dismisscall_6"
+            android:maxLength="64"
+            app:useSimpleSummaryProvider="true" />
+        <EditTextPreference
+            android:key="canned_message_dismisscall_7"
+            android:maxLength="64"
+            app:useSimpleSummaryProvider="true" />
+        <EditTextPreference
+            android:key="canned_message_dismisscall_8"
+            android:maxLength="64"
+            app:useSimpleSummaryProvider="true" />
+        <EditTextPreference
+            android:key="canned_message_dismisscall_9"
+            android:maxLength="64"
+            app:useSimpleSummaryProvider="true" />
+        <EditTextPreference
+            android:key="canned_message_dismisscall_10"
+            android:maxLength="64"
+            app:useSimpleSummaryProvider="true" />
+        <EditTextPreference
+            android:key="canned_message_dismisscall_11"
+            android:maxLength="64"
+            app:useSimpleSummaryProvider="true" />
+        <EditTextPreference
+            android:key="canned_message_dismisscall_12"
+            android:maxLength="64"
+            app:useSimpleSummaryProvider="true" />
+        <EditTextPreference
+            android:key="canned_message_dismisscall_13"
+            android:maxLength="64"
+            app:useSimpleSummaryProvider="true" />
+        <EditTextPreference
+            android:key="canned_message_dismisscall_14"
+            android:maxLength="64"
+            app:useSimpleSummaryProvider="true" />
+        <EditTextPreference
+            android:key="canned_message_dismisscall_15"
+            android:maxLength="64"
+            app:useSimpleSummaryProvider="true" />
+        <EditTextPreference
+            android:key="canned_message_dismisscall_16"
+            android:maxLength="64"
+            app:useSimpleSummaryProvider="true" />
+    </PreferenceScreen>
+</androidx.preference.PreferenceScreen>

@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   inkscape:version="1.0 (4035a4fb49, 2020-05-01)"
+   sodipodi:docname="ic_activity_bike_trainer.svg"
+   version="1.1"
+   id="vector"
+   viewBox="0 0 24 24">
+  <metadata
+     id="metadata8">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <defs
+     id="defs6" />
+  <sodipodi:namedview
+     inkscape:current-layer="vector"
+     inkscape:window-maximized="1"
+     inkscape:window-y="38"
+     inkscape:window-x="0"
+     inkscape:cy="10.532374"
+     inkscape:cx="4.6563454"
+     inkscape:zoom="22.185475"
+     inkscape:guide-bbox="true"
+     showguides="true"
+     showgrid="false"
+     id="namedview4"
+     inkscape:window-height="1042"
+     inkscape:window-width="1920"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="0"
+     guidetolerance="10"
+     gridtolerance="10"
+     objecttolerance="10"
+     borderopacity="1"
+     bordercolor="#666666"
+     pagecolor="#ffffff">
+    <sodipodi:guide
+       id="guide833"
+       orientation="0,-1"
+       position="12.722976,2.3032605" />
+  </sodipodi:namedview>
+  <path
+     sodipodi:nodetypes="cccccsccscccccccsssss"
+     fill="#000000"
+     d="m 13.748344,10.511707 h 4.2 V 8.7117075 h -3.2 l -1.94,-3.27 c -0.29,-0.5 -0.86,-0.83 -1.46,-0.83 -0.47,0 -0.9,0.19 -1.2,0.5 l -3.6999997,3.69 c -0.31,0.31 -0.5,0.71 -0.5,1.2099995 0,0.63 0.33,1.16 0.85,1.47 l 3.3499997,2.03 0.08147,2.922976 h 1.8 l -0.08147,-4.422976 -2.2499997,-1.65 2.3199997,-2.3499995 m 2.93,-2.7 c 1,0 1.8,-0.8 1.8,-1.8 0,-1 -0.8,-1.8 -1.8,-1.8 -1,0 -1.8,0.8 -1.8,1.8 0,1 0.8,1.8 1.8,1.8 z"
+     id="path" />
+  <path
+     sodipodi:nodetypes="ccccc"
+     id="path835"
+     d="M 1.8662052,21.696739 H 21.648561 l -6.442351,-10.036462 3.446621,-0.06429 1.618603,-1.9916461"
+     style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+  <path
+     id="path837"
+     d="M 4.4629733,21.696739 16.703565,14.024667"
+     style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+  <circle
+     r="2.5"
+     cy="17.809311"
+     cx="19.149721"
+     id="path855"
+     style="opacity:1;fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:1;stroke-linecap:square;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:0.997028;paint-order:fill markers stroke" />
+  <path
+     id="path857"
+     d="m 5.832492,11.992861 2.739362,0.106092"
+     style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+  <circle
+     r="1"
+     style="opacity:1;fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:1;stroke-linecap:square;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:0.997028;paint-order:fill markers stroke"
+     id="path855-3"
+     cx="9.7781563"
+     cy="18.29324" />
+</svg>

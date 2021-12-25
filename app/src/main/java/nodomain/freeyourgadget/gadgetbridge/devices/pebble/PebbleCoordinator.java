@@ -1,5 +1,5 @@
-/*  Copyright (C) 2015-2018 Andreas Shimokawa, Carsten Pfeiffer, Daniele
-    Gobbetti
+/*  Copyright (C) 2015-2021 Andreas Shimokawa, Carsten Pfeiffer, Daniele
+    Gobbetti, José Rebelo, Matthieu Baerts
 
     This file is part of Gadgetbridge.
 
@@ -20,11 +20,16 @@ package nodomain.freeyourgadget.gadgetbridge.devices.pebble;
 import android.app.Activity;
 import android.content.Context;
 import android.net.Uri;
-import android.support.annotation.NonNull;
+
+import androidx.annotation.NonNull;
+
+import java.io.File;
+import java.io.IOException;
 
 import de.greenrobot.dao.query.QueryBuilder;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.GBException;
+import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.activities.appmanager.AppManagerActivity;
 import nodomain.freeyourgadget.gadgetbridge.devices.AbstractDeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.InstallHandler;
@@ -117,8 +122,8 @@ public class PebbleCoordinator extends AbstractDeviceCoordinator {
     }
 
     @Override
-    public boolean supportsAlarmConfiguration() {
-        return false;
+    public int getAlarmSlotCount() {
+        return 0;
     }
 
     @Override
@@ -147,6 +152,39 @@ public class PebbleCoordinator extends AbstractDeviceCoordinator {
     }
 
     @Override
+    public File getAppCacheDir() throws IOException {
+        return PebbleUtils.getPbwCacheDir();
+    }
+
+    @Override
+    public String getAppCacheSortFilename() {
+        return "pbwcacheorder.txt";
+    }
+
+    @Override
+    public String getAppFileExtension() {
+        return ".pbw";
+    }
+
+    @Override
+    public boolean supportsAppListFetching() {
+        GBDevice mGBDevice = GBApplication.app().getDeviceManager().getSelectedDevice();
+        if (mGBDevice != null && mGBDevice.getFirmwareVersion() != null) {
+            return PebbleUtils.getFwMajor(mGBDevice.getFirmwareVersion()) < 3;
+        }
+        return false;
+    }
+
+    @Override
+    public boolean supportsAppReordering() {
+        GBDevice mGBDevice = GBApplication.app().getDeviceManager().getSelectedDevice();
+        if (mGBDevice != null && mGBDevice.getFirmwareVersion() != null) {
+            return PebbleUtils.getFwMajor(mGBDevice.getFirmwareVersion()) >= 3;
+        }
+        return false;
+    }
+
+    @Override
     public boolean supportsCalendarEvents() {
         return true;
     }
@@ -159,5 +197,30 @@ public class PebbleCoordinator extends AbstractDeviceCoordinator {
     @Override
     public boolean supportsWeather() {
         return true;
+    }
+
+    @Override
+    public boolean supportsFindDevice() {
+        return true;
+    }
+
+    @Override
+    public boolean supportsMusicInfo() {
+        return true;
+    }
+
+    @Override
+    public boolean supportsUnicodeEmojis() {
+        return true;
+    }
+
+    @Override
+    public int[] getSupportedDeviceSpecificSettings(GBDevice device) {
+        return new int[]{
+                R.xml.devicesettings_autoremove_notifications,
+                R.xml.devicesettings_canned_reply_16,
+                R.xml.devicesettings_canned_dismisscall_16,
+                R.xml.devicesettings_transliteration
+        };
     }
 }

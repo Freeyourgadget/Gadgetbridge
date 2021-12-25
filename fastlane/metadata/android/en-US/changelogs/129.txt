@@ -1,0 +1,4 @@
+* Amazfit Bip: Add proper mime type to shared gpx files
+* Amazfit Bip: allow to set displayed menu items
+* Amazfit Bip: fix fetching logs from device via debug menu
+* Amazfit Bip: Raise .res limit to 700000 bytes for modded files

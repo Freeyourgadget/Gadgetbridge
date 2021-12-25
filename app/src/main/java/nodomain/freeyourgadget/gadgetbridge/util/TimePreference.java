@@ -1,4 +1,4 @@
-/*  Copyright (C) 2017-2018 José Rebelo
+/*  Copyright (C) 2017-2021 Carsten Pfeiffer, José Rebelo
 
     This file is part of Gadgetbridge.
 
@@ -85,7 +85,11 @@ public class TimePreference extends DialogPreference {
                 time = getPersistedString(defaultValue.toString());
             }
         } else {
-            time = defaultValue.toString();
+            if (defaultValue != null) {
+                time = defaultValue.toString();
+            } else {
+                time = "00:00";
+            }
         }
 
         String[] pieces = time.split(":");

@@ -1,4 +1,4 @@
-/*  Copyright (C) 2016-2018 Andreas Shimokawa, Carsten Pfeiffer
+/*  Copyright (C) 2016-2021 Andreas Shimokawa, Carsten Pfeiffer, Petr Vaněk
 
     This file is part of Gadgetbridge.
 
@@ -16,7 +16,9 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.util;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 public class ArrayUtils {
     /**
@@ -77,5 +79,19 @@ public class ArrayUtils {
      */
     public static boolean startsWith(byte[] array, byte[] values) {
         return equals(array, values, 0);
+    }
+
+    /**
+     * Converts an array to string representation
+     *
+     * @param array the array to convert
+     * @return
+     */
+    public static String arrayToString(byte[] array) {
+        StringBuilder stringBuilder = new StringBuilder();
+        for (byte i : array) {
+            stringBuilder.append(String.format("0x%02X ", i));
+        }
+        return stringBuilder.toString();
     }
 }

@@ -1,4 +1,5 @@
-/*  Copyright (C) 2015-2018 Andreas Shimokawa, Carsten Pfeiffer
+/*  Copyright (C) 2015-2020 Andreas Shimokawa, Carsten Pfeiffer, Cre3per,
+    Daniele Gobbetti, Dikay900, Pavel, Pavel Elagin
 
     This file is part of Gadgetbridge.
 
@@ -22,13 +23,11 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Paint;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.content.LocalBroadcastManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.github.mikephil.charting.charts.BarLineChartBase;
@@ -54,14 +53,17 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
+import androidx.annotation.Nullable;
+import androidx.fragment.app.FragmentActivity;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.activities.HeartRateUtils;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
+import nodomain.freeyourgadget.gadgetbridge.model.ActivityUser;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceService;
-import nodomain.freeyourgadget.gadgetbridge.model.Measurement;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
 public class LiveActivityFragment extends AbstractChartFragment {
@@ -78,13 +80,14 @@ public class LiveActivityFragment extends AbstractChartFragment {
     private BarLineChartBase mStepsPerMinuteHistoryChart;
     private CustomBarChart mStepsPerMinuteCurrentChart;
     private CustomBarChart mTotalStepsChart;
+    private TextView mMaxHeartRateView;
 
     private final Steps mSteps = new Steps();
     private ScheduledExecutorService pulseScheduler;
     private int maxStepsResetCounter;
-    private List<Measurement> heartRateValues;
     private LineDataSet mHeartRateSet;
     private int mHeartRate;
+    private int mMaxHeartRate = 0;
     private TimestampTranslation tsTranslation;
 
     private class Steps {
@@ -168,11 +171,11 @@ public class LiveActivityFragment extends AbstractChartFragment {
     private void addSample(ActivitySample sample) {
         int heartRate = sample.getHeartRate();
         int timestamp = tsTranslation.shorten(sample.getTimestamp());
-        if (isValidHeartRateValue(heartRate)) {
+        if (HeartRateUtils.getInstance().isValidHeartRateValue(heartRate)) {
             setCurrentHeartRate(heartRate, timestamp);
         }
         int steps = sample.getSteps();
-        if (steps != ActivitySample.NOT_MEASURED) {
+        if (steps > 0) {
             addEntries(steps, timestamp);
         }
     }
@@ -189,6 +192,10 @@ public class LiveActivityFragment extends AbstractChartFragment {
     private void setCurrentHeartRate(int heartRate, int timestamp) {
         addHistoryDataSet(true);
         mHeartRate = heartRate;
+        if (mMaxHeartRate < mHeartRate) {
+            mMaxHeartRate = mHeartRate;
+        }
+        mMaxHeartRateView.setText(getContext().getString(R.string.live_activity_max_heart_rate, heartRate, mMaxHeartRate));
     }
 
     private int getCurrentHeartRate() {
@@ -233,10 +240,9 @@ public class LiveActivityFragment extends AbstractChartFragment {
         }
         mHistorySet.addEntry(new Entry(timestamp, stepsPerMinute));
         int hr = getCurrentHeartRate();
-        if (hr < 0) {
-            hr = 0;
+        if (hr > HeartRateUtils.getInstance().getMinHeartRate()) {
+            mHeartRateSet.addEntry(new Entry(timestamp, hr));
         }
-        mHeartRateSet.addEntry(new Entry(timestamp, hr));
     }
 
     private boolean addHistoryDataSet(boolean force) {
@@ -259,21 +265,25 @@ public class LiveActivityFragment extends AbstractChartFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         IntentFilter filterLocal = new IntentFilter();
         filterLocal.addAction(DeviceService.ACTION_REALTIME_SAMPLES);
-        heartRateValues = new ArrayList<>();
         tsTranslation = new TimestampTranslation();
 
         View rootView = inflater.inflate(R.layout.fragment_live_activity, container, false);
 
-        mStepsPerMinuteCurrentChart = (CustomBarChart) rootView.findViewById(R.id.livechart_steps_per_minute_current);
-        mTotalStepsChart = (CustomBarChart) rootView.findViewById(R.id.livechart_steps_total);
-        mStepsPerMinuteHistoryChart = (BarLineChartBase) rootView.findViewById(R.id.livechart_steps_per_minute_history);
+        mStepsPerMinuteCurrentChart = rootView.findViewById(R.id.livechart_steps_per_minute_current);
+        mTotalStepsChart = rootView.findViewById(R.id.livechart_steps_total);
+        mStepsPerMinuteHistoryChart = rootView.findViewById(R.id.livechart_steps_per_minute_history);
 
         totalStepsEntry = new BarEntry(1, 0);
         stepsPerMinuteEntry = new BarEntry(1, 0);
 
         mStepsPerMinuteData = setupCurrentChart(mStepsPerMinuteCurrentChart, stepsPerMinuteEntry, getString(R.string.live_activity_current_steps_per_minute));
+        mStepsPerMinuteData.setDrawValues(true);
+        mStepsPerMinuteData.setValueTextColor(DESCRIPTION_COLOR);
         mTotalStepsData = setupTotalStepsChart(mTotalStepsChart, totalStepsEntry, getString(R.string.live_activity_total_steps));
+        mTotalStepsData.setDrawValues(true);
+        mTotalStepsData.setValueTextColor(DESCRIPTION_COLOR);
         setupHistoryChart(mStepsPerMinuteHistoryChart);
+        mMaxHeartRateView = rootView.findViewById(R.id.livechart_max_heart_rate);
 
         LocalBroadcastManager.getInstance(getActivity()).registerReceiver(mReceiver, filterLocal);
 
@@ -336,7 +346,7 @@ public class LiveActivityFragment extends AbstractChartFragment {
 
         renderCharts();
 
-        // have to enable it again and again to keep it measureing
+        // have to enable it again and again to keep it measuring
         GBApplication.deviceService().onEnableRealtimeHeartRateMeasurement(true);
     }
 
@@ -385,7 +395,7 @@ public class LiveActivityFragment extends AbstractChartFragment {
     }
 
     private BarDataSet setupCurrentChart(CustomBarChart chart, BarEntry entry, String title) {
-        mStepsPerMinuteCurrentChart.getAxisLeft().setAxisMaxValue(MAX_STEPS_PER_MINUTE);
+        mStepsPerMinuteCurrentChart.getAxisLeft().setAxisMaximum(MAX_STEPS_PER_MINUTE);
         return setupCommonChart(chart, entry, title);
     }
 
@@ -408,9 +418,7 @@ public class LiveActivityFragment extends AbstractChartFragment {
         List<BarEntry> entries = new ArrayList<>();
         List<Integer> colors = new ArrayList<>();
 
-        entries.add(new BarEntry(0, 0));
         entries.add(entry);
-        entries.add(new BarEntry(2, 0));
         colors.add(akActivity.color);
         colors.add(akActivity.color);
         colors.add(akActivity.color);
@@ -432,7 +440,9 @@ public class LiveActivityFragment extends AbstractChartFragment {
     }
 
     private BarDataSet setupTotalStepsChart(CustomBarChart chart, BarEntry entry, String label) {
-        mTotalStepsChart.getAxisLeft().setAxisMaximum(5000); // TODO: use daily goal - already reached steps
+        mTotalStepsChart.getAxisLeft().addLimitLine(new LimitLine(GBApplication.getPrefs().getInt(ActivityUser.PREF_USER_STEPS_GOAL, ActivityUser.defaultUserStepsGoal), "ss")); // TODO: use daily goal - already reached steps
+        mTotalStepsChart.getAxisLeft().setAxisMinimum(0);
+        mTotalStepsChart.setAutoScaleMinMaxEnabled(true);
         return setupCommonChart(chart, entry, label); // at the moment, these look the same
     }
 
@@ -455,6 +465,7 @@ public class LiveActivityFragment extends AbstractChartFragment {
         x.setDrawGridLines(false);
         x.setEnabled(true);
         x.setTextColor(CHART_TEXT_COLOR);
+        x.setValueFormatter(new SampleXLabelFormatter(tsTranslation));
         x.setDrawLimitLinesBehindData(true);
 
         YAxis y = chart.getAxisLeft();
@@ -470,8 +481,6 @@ public class LiveActivityFragment extends AbstractChartFragment {
         yAxisRight.setDrawLabels(true);
         yAxisRight.setDrawTopYLabelEntry(false);
         yAxisRight.setTextColor(CHART_TEXT_COLOR);
-        yAxisRight.setAxisMaximum(HeartRateUtils.MAX_HEART_RATE_VALUE);
-        yAxisRight.setAxisMinimum(HeartRateUtils.MIN_HEART_RATE_VALUE);
 
         mHistorySet = new LineDataSet(new ArrayList<Entry>(), getString(R.string.live_activity_steps_history));
         mHistorySet.setAxisDependency(YAxis.AxisDependency.LEFT);

@@ -1,0 +1,1 @@
+* Fix crashes and connection problems on Android 6 and lower

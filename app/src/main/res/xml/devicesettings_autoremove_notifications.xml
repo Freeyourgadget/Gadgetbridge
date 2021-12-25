@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <SwitchPreference
+        android:icon="@drawable/ic_done_all"
+        android:defaultValue="true"
+        android:key="autoremove_notifications"
+        android:summary="@string/pref_summary_autoremove_notifications"
+        android:title="@string/pref_title_autoremove_notifications" />
+</androidx.preference.PreferenceScreen>

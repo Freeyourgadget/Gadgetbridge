@@ -1,4 +1,5 @@
-/*  Copyright (C) 2017-2018 Andreas Shimokawa, João Paulo Barraca
+/*  Copyright (C) 2017-2021 Andreas Shimokawa, Daniele Gobbetti, João
+    Paulo Barraca, Matthieu Baerts
 
     This file is part of Gadgetbridge.
 
@@ -19,11 +20,13 @@ package nodomain.freeyourgadget.gadgetbridge.devices.huami.amazfitcor;
 import android.bluetooth.BluetoothDevice;
 import android.content.Context;
 import android.net.Uri;
-import android.support.annotation.NonNull;
+
+import androidx.annotation.NonNull;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.devices.InstallHandler;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
@@ -65,7 +68,38 @@ public class AmazfitCorCoordinator extends HuamiCoordinator {
     }
 
     @Override
+    public boolean supportsActivityTracks() {
+        return true;
+    }
+
+    @Override
     public boolean supportsWeather() {
         return true;
+    }
+
+    @Override
+    public boolean supportsMusicInfo() {
+        return true;
+    }
+
+    @Override
+    public boolean supportsUnicodeEmojis() { return true; }
+
+    @Override
+    public int[] getSupportedDeviceSpecificSettings(GBDevice device) {
+        return new int[]{
+                R.xml.devicesettings_amazfitcor,
+                R.xml.devicesettings_wearlocation,
+                R.xml.devicesettings_timeformat,
+                R.xml.devicesettings_custom_emoji_font,
+                R.xml.devicesettings_liftwrist_display,
+                R.xml.devicesettings_disconnectnotification,
+                R.xml.devicesettings_sync_calendar,
+                R.xml.devicesettings_reserve_reminders_calendar,
+                R.xml.devicesettings_bt_connected_advertisement,
+                R.xml.devicesettings_device_actions,
+                R.xml.devicesettings_pairingkey,
+                R.xml.devicesettings_transliteration
+        };
     }
 }

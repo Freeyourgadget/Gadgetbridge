@@ -1,0 +1,102 @@
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:key="pref_key_notifications"
+        android:title="@string/pref_header_notifications">
+
+        <Preference
+            android:key="notifications_generic"
+            android:title="@string/pref_title_notifications_generic" />
+
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="notifications_generic_whenscreenon"
+            android:layout="@layout/preference_checkbox"
+            android:title="@string/pref_title_whenscreenon" />
+
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="minimize_priority"
+            android:layout="@layout/preference_checkbox"
+            android:summaryOff="@string/pref_summary_minimize_priority_off"
+            android:summaryOn="@string/pref_summary_minimize_priority_on"
+            android:title="@string/pref_title_minimize_priority" />
+
+        <Preference
+            android:id="@+id/preference"
+            android:key="ping_tone"
+            android:title="@string/pref_title_ping_tone"
+            app:summary="%s" />
+        <ListPreference
+            android:defaultValue="always"
+            android:entries="@array/notification_mode_toggle"
+            android:entryValues="@array/notification_mode_values_toggle"
+            android:key="notification_mode_calls"
+            android:summary="%s"
+            android:title="@string/pref_title_notifications_call" />
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="notification_support_voip_calls"
+            android:layout="@layout/preference_checkbox"
+            android:title="@string/pref_title_support_voip_calls" />
+
+        <ListPreference
+            android:defaultValue="when_screen_off"
+            android:entries="@array/notification_mode"
+            android:entryValues="@array/notification_mode_values"
+            android:key="notification_mode_sms"
+            android:summary="%s"
+            android:title="@string/pref_title_notifications_sms" />
+
+        <ListPreference
+            android:defaultValue="when_screen_off"
+            android:entries="@array/notification_mode"
+            android:entryValues="@array/notification_mode_values"
+            android:key="notification_mode_pebblemsg"
+            android:summary="@string/pref_summary_notifications_pebblemsg"
+            android:title="@string/pref_title_notifications_pebblemsg" />
+
+        <ListPreference
+            android:defaultValue="0"
+            android:entries="@array/notifications_timeout"
+            android:entryValues="@array/notifications_timeout_values"
+            android:key="notifications_timeout"
+            android:summary="%s"
+            android:title="@string/pref_title_notifications_timeout" />
+
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="notification_filter"
+            android:layout="@layout/preference_checkbox"
+            android:summary="@string/pref_summary_notification_filter"
+            android:title="@string/pref_title_notification_filter" />
+    </PreferenceCategory>
+    <PreferenceCategory android:title="@string/pref_header_notification_application_settings">
+        <ListPreference
+            android:defaultValue="true"
+            android:entries="@array/notification_list_is_blacklist_names"
+            android:entryValues="@array/notification_list_is_blacklist_values"
+            android:key="notification_list_is_blacklist"
+            android:summary="%s"
+            android:title="@string/pref_title_notification_use_as" />
+        <Preference
+            android:key="pref_key_blacklist"
+            android:title="@string/pref_applications_settings" />
+    </PreferenceCategory>
+    <PreferenceCategory android:title="@string/pref_header_privacy">
+        <ListPreference
+            android:defaultValue="@string/p_call_privacy_mode_off"
+            android:entries="@array/pref_call_privacy_mode"
+            android:entryValues="@array/pref_call_privacy_mode_values"
+            android:key="pref_call_privacy_mode"
+            android:summary="%s"
+            android:title="@string/pref_title_call_privacy_mode" />
+        <ListPreference
+            android:defaultValue="off"
+            android:entries="@array/pref_message_privacy_mode"
+            android:entryValues="@array/pref_message_privacy_mode_values"
+            android:key="pref_message_privacy_mode"
+            android:summary="%s"
+            android:title="@string/pref_title_message_privacy_mode" />
+    </PreferenceCategory>
+
+</PreferenceScreen>

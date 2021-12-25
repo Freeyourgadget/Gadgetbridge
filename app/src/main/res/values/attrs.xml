@@ -8,4 +8,6 @@
     <attr name="chart_light_sleep" format="color" />
     <attr name="chart_activity" format="color" />
     <attr name="chart_not_worn" format="color" />
+    <attr name="alternate_row_background" format="color" />
+    <attr name="sports_activity_summary_background" format="color" />
 </resources>

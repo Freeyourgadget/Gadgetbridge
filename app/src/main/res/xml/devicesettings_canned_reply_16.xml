@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <PreferenceScreen
+        android:icon="@drawable/ic_reply"
+        android:key="screen_canned_messages_reply"
+        android:persistent="false"
+        android:title="@string/pref_title_canned_replies">
+        <EditTextPreference
+            android:defaultValue=" (canned reply)"
+            android:key="canned_reply_suffix"
+            android:maxLength="64"
+            android:title="@string/pref_title_canned_reply_suffix"
+            app:useSimpleSummaryProvider="true" />
+        <EditTextPreference
+            android:key="canned_reply_1"
+            android:maxLength="64"
+            app:useSimpleSummaryProvider="true" />
+        <EditTextPreference
+            android:key="canned_reply_2"
+            android:maxLength="64"
+            app:useSimpleSummaryProvider="true" />
+        <EditTextPreference
+            android:key="canned_reply_3"
+            android:maxLength="64"
+            app:useSimpleSummaryProvider="true" />
+        <EditTextPreference
+            android:key="canned_reply_4"
+            android:maxLength="64"
+            app:useSimpleSummaryProvider="true" />
+        <EditTextPreference
+            android:key="canned_reply_5"
+            android:maxLength="64"
+            app:useSimpleSummaryProvider="true" />
+        <EditTextPreference
+            android:key="canned_reply_6"
+            android:maxLength="64"
+            app:useSimpleSummaryProvider="true" />
+        <EditTextPreference
+            android:key="canned_reply_7"
+            android:maxLength="64"
+            app:useSimpleSummaryProvider="true" />
+        <EditTextPreference
+            android:key="canned_reply_8"
+            android:maxLength="64"
+            app:useSimpleSummaryProvider="true" />
+        <EditTextPreference
+            android:key="canned_reply_9"
+            android:maxLength="64"
+            app:useSimpleSummaryProvider="true" />
+        <EditTextPreference
+            android:key="canned_reply_10"
+            android:maxLength="64"
+            app:useSimpleSummaryProvider="true" />
+        <EditTextPreference
+            android:key="canned_reply_11"
+            android:maxLength="64"
+            app:useSimpleSummaryProvider="true" />
+        <EditTextPreference
+            android:key="canned_reply_12"
+            android:maxLength="64"
+            app:useSimpleSummaryProvider="true" />
+        <EditTextPreference
+            android:key="canned_reply_13"
+            android:maxLength="64"
+            app:useSimpleSummaryProvider="true" />
+        <EditTextPreference
+            android:key="canned_reply_14"
+            android:maxLength="64"
+            app:useSimpleSummaryProvider="true" />
+        <EditTextPreference
+            android:key="canned_reply_15"
+            android:maxLength="64"
+            app:useSimpleSummaryProvider="true" />
+        <EditTextPreference
+            android:key="canned_reply_16"
+            android:maxLength="64"
+            app:useSimpleSummaryProvider="true" />
+    </PreferenceScreen>
+</androidx.preference.PreferenceScreen>
+
+

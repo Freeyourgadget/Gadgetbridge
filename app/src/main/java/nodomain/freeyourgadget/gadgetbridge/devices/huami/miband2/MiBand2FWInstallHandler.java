@@ -1,4 +1,4 @@
-/*  Copyright (C) 2016-2018 Andreas Shimokawa, Carsten Pfeiffer
+/*  Copyright (C) 2016-2021 Andreas Shimokawa, Carsten Pfeiffer, Taavi Eomäe
 
     This file is part of Gadgetbridge.
 
@@ -37,7 +37,7 @@ import nodomain.freeyourgadget.gadgetbridge.util.Version;
 public class MiBand2FWInstallHandler extends AbstractMiBandFWInstallHandler {
     private static final Logger LOG = LoggerFactory.getLogger(MiBand2FWInstallHandler.class);
 
-    public MiBand2FWInstallHandler(Uri uri, Context context) {
+    MiBand2FWInstallHandler(Uri uri, Context context) {
         super(uri, context);
     }
 
@@ -67,8 +67,19 @@ public class MiBand2FWInstallHandler extends AbstractMiBandFWInstallHandler {
             Version v53 = MiBandConst.MI2_FW_VERSION_INTERMEDIATE_UPGRADE_53;
             if (deviceVersion.compareTo(v53) < 0) {
                 String vInstall = getHelper().format(getHelper().getFirmwareVersion());
-                if (vInstall == null || new Version(vInstall).compareTo(v53) > 0) {
-                    String newInfoText = getContext().getString(R.string.mi2_fw_installhandler_fw53_hint, v53.get()) + "\n\n" + installActivity.getInfoText();
+                try {
+                    if (vInstall == null || new Version(vInstall).compareTo(v53) > 0) {
+                        String newInfoText = getContext().getString(R.string.mi2_fw_installhandler_fw53_hint, v53.get()) +
+                                "\n\n" +
+                                installActivity.getInfoText();
+                        installActivity.setInfoText(newInfoText);
+                    }
+                } catch (IllegalArgumentException e) {
+                    String newInfoText = getContext().getString(R.string.mi2_fw_installhandler_fw53_hint, v53.get()) +
+                            "\n\n" +
+                            installActivity.getInfoText() +
+                            "\n\n" +
+                            getContext().getString(R.string.error_version_check_extreme_caution, vInstall);
                     installActivity.setInfoText(newInfoText);
                 }
             }

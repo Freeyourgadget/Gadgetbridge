@@ -1,4 +1,4 @@
-/*  Copyright (C) 2015-2018 Andreas Shimokawa
+/*  Copyright (C) 2015-2021 Andreas Shimokawa
 
     This file is part of Gadgetbridge.
 
@@ -18,4 +18,11 @@ package nodomain.freeyourgadget.gadgetbridge.deviceevents;
 
 public class GBDeviceEventSendBytes extends GBDeviceEvent {
     public byte[] encodedBytes;
+
+    public GBDeviceEventSendBytes() {
+    }
+
+    public GBDeviceEventSendBytes(final byte[] encodedBytes) {
+        this.encodedBytes = encodedBytes;
+    }
 }

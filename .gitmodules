@@ -1,0 +1,6 @@
+[submodule "fossil-hr-watchface"]
+	path = external/fossil-hr-watchface
+	url = https://github.com/arjan-s/fossil-hr-watchface
+[submodule "jerryscript"]
+	path = external/jerryscript
+	url = https://github.com/jerryscript-project/jerryscript

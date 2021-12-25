@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory
+        android:key="pref_category_activity_personal"
+        android:title="@string/activity_prefs_about_you">
+
+        <EditTextPreference
+            android:inputType="number"
+            android:key="activity_user_year_of_birth"
+            android:maxLength="4"
+            android:title="@string/activity_prefs_year_birth" />
+
+        <ListPreference
+            android:defaultValue="2"
+            android:entries="@array/gender"
+            android:entryValues="@array/gender_values"
+            android:key="activity_user_gender"
+            android:summary="%s"
+            android:title="@string/activity_prefs_gender" />
+
+        <!--TODO: support localized heights and weights -->
+        <EditTextPreference
+            android:inputType="number"
+            android:key="activity_user_height_cm"
+            android:maxLength="3"
+            android:title="@string/activity_prefs_height_cm" />
+
+        <EditTextPreference
+            android:inputType="number"
+            android:key="activity_user_weight_kg"
+            android:maxLength="3"
+            android:title="@string/activity_prefs_weight_kg" />
+
+        <EditTextPreference
+            android:inputType="number"
+            android:key="activity_user_step_length_cm"
+            android:maxLength="3"
+            android:title="@string/activity_prefs_step_length_cm" />
+
+        <EditTextPreference
+            android:defaultValue="10000"
+            android:inputType="number"
+            android:key="mi_fitness_goal"
+            android:maxLength="5"
+            android:title="@string/miband_prefs_fitness_goal" />
+
+        <EditTextPreference
+            android:inputType="number"
+            android:key="activity_user_sleep_duration"
+            android:maxLength="2"
+            android:title="@string/activity_prefs_sleep_duration" />
+
+        <EditTextPreference
+            android:defaultValue="2000"
+            android:inputType="number"
+            android:key="activity_user_calories_burnt"
+            android:maxLength="4"
+            android:title="@string/activity_prefs_calories_burnt" />
+
+        <EditTextPreference
+            android:defaultValue="5000"
+            android:inputType="number"
+            android:key="activity_user_distance_meters"
+            android:maxLength="5"
+            android:title="@string/activity_prefs_distance_meters" />
+
+        <EditTextPreference
+            android:defaultValue="60"
+            android:inputType="number"
+            android:key="activity_user_activetime_minutes"
+            android:maxLength="3"
+            android:title="@string/activity_prefs_activetime_minutes" />
+    </PreferenceCategory>
+</PreferenceScreen>

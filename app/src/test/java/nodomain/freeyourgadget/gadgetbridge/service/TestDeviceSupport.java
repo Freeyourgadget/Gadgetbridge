@@ -115,12 +115,12 @@ class TestDeviceSupport extends AbstractDeviceSupport {
     }
 
     @Override
-    public void onFetchActivityData() {
+    public void onFetchRecordedData(int dataTypes) {
 
     }
 
     @Override
-    public void onReboot() {
+    public void onReset(int flags) {
 
     }
 
@@ -180,12 +180,27 @@ class TestDeviceSupport extends AbstractDeviceSupport {
     }
 
     @Override
+    public void onReadConfiguration(String config) {
+
+    }
+
+    @Override
     public void onTestNewFunction() {
 
     }
 
     @Override
     public void onSendWeather(WeatherSpec weatherSpec) {
+
+    }
+
+    @Override
+    public void onSetFmFrequency(float frequency) {
+
+    }
+
+    @Override
+    public void onSetLedColor(int color) {
 
     }
 }

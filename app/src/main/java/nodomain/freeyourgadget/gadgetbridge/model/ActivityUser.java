@@ -1,5 +1,5 @@
-/*  Copyright (C) 2016-2018 0nse, Andreas Shimokawa, Carsten Pfeiffer,
-    Daniele Gobbetti
+/*  Copyright (C) 2016-2020 0nse, Andreas Shimokawa, Carsten Pfeiffer,
+    Daniele Gobbetti, Sebastian Kranz
 
     This file is part of Gadgetbridge.
 
@@ -39,8 +39,12 @@ public class ActivityUser {
     private int activityUserYearOfBirth;
     private int activityUserHeightCm;
     private int activityUserWeightKg;
-    private int activityUserSleepDuration;
+    private int activityUserSleepDurationGoal;
     private int activityUserStepsGoal;
+    private int activityUserCaloriesBurntGoal;
+    private int activityUserDistanceGoalMeters;
+    private int activityUserActiveTimeGoalMinutes;
+    private int activityUserStepLengthCm;
 
     private static final String defaultUserName = "gadgetbridge-user";
     public static final int defaultUserGender = GENDER_FEMALE;
@@ -48,8 +52,12 @@ public class ActivityUser {
     public static final int defaultUserAge = 0;
     public static final int defaultUserHeightCm = 175;
     public static final int defaultUserWeightKg = 70;
-    public static final int defaultUserSleepDuration = 7;
+    public static final int defaultUserSleepDurationGoal = 7;
     public static final int defaultUserStepsGoal = 8000;
+    public static final int defaultUserCaloriesBurntGoal = 2000;
+    public static final int defaultUserDistanceGoalMeters = 5000;
+    public static final int defaultUserActiveTimeGoalMinutes = 60;
+    public static final int defaultUserStepLengthCm = 0;
 
     public static final String PREF_USER_NAME = "mi_user_alias";
     public static final String PREF_USER_YEAR_OF_BIRTH = "activity_user_year_of_birth";
@@ -58,6 +66,10 @@ public class ActivityUser {
     public static final String PREF_USER_WEIGHT_KG = "activity_user_weight_kg";
     public static final String PREF_USER_SLEEP_DURATION = "activity_user_sleep_duration";
     public static final String PREF_USER_STEPS_GOAL = "mi_fitness_goal"; // FIXME: for compatibility
+    public static final String PREF_USER_CALORIES_BURNT = "activity_user_calories_burnt";
+    public static final String PREF_USER_DISTANCE_METERS = "activity_user_distance_meters";
+    public static final String PREF_USER_ACTIVETIME_MINUTES = "activity_user_activetime_minutes";
+    public static final String PREF_USER_STEP_LENGTH_CM = "activity_user_step_length_cm";
 
     public ActivityUser() {
         fetchPreferences();
@@ -84,23 +96,42 @@ public class ActivityUser {
         return activityUserYearOfBirth;
     }
 
+    /**
+     * @return the user defined height or a default value when none is set or the stored
+     * value is 0.
+     */
+
     public int getHeightCm() {
+        if (activityUserHeightCm < 1) {
+            activityUserHeightCm = defaultUserHeightCm;
+        }
         return activityUserHeightCm;
+    }
+
+    /**
+     * @return the user defined step length or the calculated default value when none is set or the stored
+     * value is 0.
+     */
+    public int getStepLengthCm() {
+        if (activityUserStepLengthCm < 1) {
+            activityUserStepLengthCm = (int) (getHeightCm() * 0.43);
+        }
+        return activityUserStepLengthCm;
     }
 
     /**
      * @return the user defined sleep duration or the default value when none is set or the stored
      * value is out of any logical bounds.
      */
-    public int getSleepDuration() {
-        if (activityUserSleepDuration < 1 || activityUserSleepDuration > 24) {
-            activityUserSleepDuration = defaultUserSleepDuration;
+    public int getSleepDurationGoal() {
+        if (activityUserSleepDurationGoal < 1 || activityUserSleepDurationGoal > 24) {
+            activityUserSleepDurationGoal = defaultUserSleepDurationGoal;
         }
-        return activityUserSleepDuration;
+        return activityUserSleepDurationGoal;
     }
 
     public int getStepsGoal() {
-        if (activityUserStepsGoal < 0) {
+        if (activityUserStepsGoal < 1) {
             activityUserStepsGoal = defaultUserStepsGoal;
         }
         return activityUserStepsGoal;
@@ -125,13 +156,41 @@ public class ActivityUser {
         activityUserHeightCm = prefs.getInt(PREF_USER_HEIGHT_CM, defaultUserHeightCm);
         activityUserWeightKg = prefs.getInt(PREF_USER_WEIGHT_KG, defaultUserWeightKg);
         activityUserYearOfBirth = prefs.getInt(PREF_USER_YEAR_OF_BIRTH, defaultUserYearOfBirth);
-        activityUserSleepDuration = prefs.getInt(PREF_USER_SLEEP_DURATION, defaultUserSleepDuration);
+        activityUserSleepDurationGoal = prefs.getInt(PREF_USER_SLEEP_DURATION, defaultUserSleepDurationGoal);
         activityUserStepsGoal = prefs.getInt(PREF_USER_STEPS_GOAL, defaultUserStepsGoal);
+        activityUserCaloriesBurntGoal = prefs.getInt(PREF_USER_CALORIES_BURNT, defaultUserCaloriesBurntGoal);
+        activityUserDistanceGoalMeters = prefs.getInt(PREF_USER_DISTANCE_METERS, defaultUserDistanceGoalMeters);
+        activityUserActiveTimeGoalMinutes = prefs.getInt(PREF_USER_ACTIVETIME_MINUTES, defaultUserActiveTimeGoalMinutes);
+        activityUserStepLengthCm = prefs.getInt(PREF_USER_STEP_LENGTH_CM, defaultUserStepLengthCm);
     }
 
     public Date getUserBirthday() {
         Calendar cal = DateTimeUtils.getCalendarUTC();
         cal.set(GregorianCalendar.YEAR, getYearOfBirth());
         return cal.getTime();
+    }
+
+    public int getCaloriesBurntGoal()
+    {
+        if (activityUserCaloriesBurntGoal < 1) {
+            activityUserCaloriesBurntGoal = defaultUserCaloriesBurntGoal;
+        }
+        return activityUserCaloriesBurntGoal;
+    }
+
+    public int getDistanceGoalMeters()
+    {
+        if (activityUserDistanceGoalMeters < 1) {
+            activityUserDistanceGoalMeters = defaultUserDistanceGoalMeters;
+        }
+        return activityUserDistanceGoalMeters;
+    }
+
+    public int getActiveTimeGoalMinutes()
+    {
+        if (activityUserActiveTimeGoalMinutes < 1) {
+            activityUserActiveTimeGoalMinutes = defaultUserActiveTimeGoalMinutes;
+        }
+        return activityUserActiveTimeGoalMinutes;
     }
 }

@@ -1,4 +1,4 @@
-/*  Copyright (C) 2015-2018 Andreas Shimokawa, Carsten Pfeiffer, Christian
+/*  Copyright (C) 2015-2021 Andreas Shimokawa, Carsten Pfeiffer, Christian
     Fischer, Daniele Gobbetti, José Rebelo, Michal Novotny, Szymon Tomasz Stefanek
 
     This file is part of Gadgetbridge.
@@ -17,49 +17,32 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.devices.miband;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 import nodomain.freeyourgadget.gadgetbridge.util.Version;
 
 public final class MiBandConst {
-    private static final Logger LOG = LoggerFactory.getLogger(MiBandConst.class);
-
-    public static final String PREF_USER_ALIAS = "mi_user_alias";
-    public static final String PREF_MIBAND_WEARSIDE = "mi_wearside";
     public static final String PREF_MIBAND_ADDRESS = "development_miaddr";  // FIXME: should be prefixed mi_
     public static final String PREF_MIBAND_ALARMS = "mi_alarms";
     public static final String PREF_MIBAND_DONT_ACK_TRANSFER = "mi_dont_ack_transfer";
-    public static final String PREF_MIBAND_RESERVE_ALARM_FOR_CALENDAR = "mi_reserve_alarm_calendar";
-    public static final String PREF_MIBAND_BUTTON_ACTION_ENABLE = "mi2_enable_button_action";
-    public static final String PREF_MIBAND_BUTTON_ACTION_VIBRATE = "mi2_button_action_vibrate";
-    public static final String PREF_MIBAND_BUTTON_PRESS_COUNT = "mi_button_press_count";
-    public static final String PREF_MIBAND_BUTTON_PRESS_MAX_DELAY = "mi_button_press_count_max_delay";
-    public static final String PREF_MIBAND_BUTTON_ACTION_DELAY = "mi_button_press_count_match_delay";
-    public static final String PREF_MIBAND_BUTTON_PRESS_BROADCAST = "mi_button_press_broadcast";
     public static final String PREF_MIBAND_USE_HR_FOR_SLEEP_DETECTION = "mi_hr_sleep_detection";
-	public static final String PREF_MIBAND_DEVICE_TIME_OFFSET_HOURS = "mi_device_time_offset_hours";
+    public static final String PREF_MIBAND_DEVICE_TIME_OFFSET_HOURS = "device_time_offset_hours";
 	public static final String PREF_MI2_DATEFORMAT = "mi2_dateformat";
     public static final String PREF_MI2_GOAL_NOTIFICATION = "mi2_goal_notification";
-	public static final String PREF_MI2_DISPLAY_ITEMS = "mi2_display_items";
 	public static final String PREF_MI2_DISPLAY_ITEM_CLOCK = "clock";
 	public static final String PREF_MI2_DISPLAY_ITEM_STEPS = "steps";
 	public static final String PREF_MI2_DISPLAY_ITEM_DISTANCE = "distance";
 	public static final String PREF_MI2_DISPLAY_ITEM_CALORIES = "calories";
 	public static final String PREF_MI2_DISPLAY_ITEM_HEART_RATE = "heart_rate";
 	public static final String PREF_MI2_DISPLAY_ITEM_BATTERY = "battery";
-	public static final String PREF_ACTIVATE_DISPLAY_ON_LIFT = "activate_display_on_lift_wrist";
-    public static final String PREF_DISPLAY_ON_LIFT_START = "display_on_lift_start";
-    public static final String PREF_DISPLAY_ON_LIFT_END = "display_on_lift_end";
-    public static final String PREF_MI2_ROTATE_WRIST_TO_SWITCH_INFO = "mi2_rotate_wrist_to_switch_info";
+    public static final String PREF_MI2_ROTATE_WRIST_TO_SWITCH_INFO = "rotate_wrist_to_cycle_info";
 	public static final String PREF_MI2_ENABLE_TEXT_NOTIFICATIONS = "mi2_enable_text_notifications";
-    public static final String PREF_MI2_DO_NOT_DISTURB = "mi2_do_not_disturb";
-    public static final String PREF_MI2_DO_NOT_DISTURB_OFF = "off";
-    public static final String PREF_MI2_DO_NOT_DISTURB_AUTOMATIC = "automatic";
-    public static final String PREF_MI2_DO_NOT_DISTURB_SCHEDULED = "scheduled";
-    public static final String PREF_MI2_DO_NOT_DISTURB_START = "mi2_do_not_disturb_start";
-    public static final String PREF_MI2_DO_NOT_DISTURB_END = "mi2_do_not_disturb_end";
+    public static final String PREF_DO_NOT_DISTURB = "do_not_disturb";
+    public static final String PREF_DO_NOT_DISTURB_LIFT_WRIST = "do_not_disturb_lift_wrist";
+    public static final String PREF_DO_NOT_DISTURB_OFF = "off";
+    public static final String PREF_DO_NOT_DISTURB_AUTOMATIC = "automatic";
+    public static final String PREF_DO_NOT_DISTURB_SCHEDULED = "scheduled";
+    public static final String PREF_DO_NOT_DISTURB_START = "do_not_disturb_start";
+    public static final String PREF_DO_NOT_DISTURB_END = "do_not_disturb_end";
     public static final String PREF_MI2_INACTIVITY_WARNINGS = "mi2_inactivity_warnings";
     public static final String PREF_MI2_INACTIVITY_WARNINGS_THRESHOLD = "mi2_inactivity_warnings_threshold";
     public static final String PREF_MI2_INACTIVITY_WARNINGS_START = "mi2_inactivity_warnings_start";
@@ -69,12 +52,17 @@ public final class MiBandConst {
     public static final String PREF_MI2_INACTIVITY_WARNINGS_DND_END = "mi2_inactivity_warnings_dnd_end";
     public static final String PREF_MIBAND_SETUP_BT_PAIRING = "mi_setup_bt_pairing";
 
+    public static final String PREF_SWIPE_UNLOCK = "swipe_unlock";
+    public static final String PREF_NIGHT_MODE = "night_mode";
+    public static final String PREF_NIGHT_MODE_START = "night_mode_start";
+    public static final String PREF_NIGHT_MODE_END = "night_mode_end";
+    public static final String PREF_NIGHT_MODE_OFF = "off";
+    public static final String PREF_NIGHT_MODE_SUNSET = "sunset";
+    public static final String PREF_NIGHT_MODE_SCHEDULED = "scheduled";
 
     public static final String ORIGIN_INCOMING_CALL = "incoming_call";
     public static final String ORIGIN_ALARM_CLOCK = "alarm_clock";
     public static final String MI_GENERAL_NAME_PREFIX = "MI";
-    public static final String MI_BAND2_NAME = "MI Band 2";
-    public static final String MI_BAND2_NAME_HRX = "Mi Band HRX";
     public static final String MI_1 = "1";
     public static final String MI_1A = "1A";
     public static final String MI_1S = "1S";

@@ -1,4 +1,4 @@
-/*  Copyright (C) 2016-2018 Andreas Shimokawa, Carsten Pfeiffer, Daniele
+/*  Copyright (C) 2016-2021 Andreas Shimokawa, Carsten Pfeiffer, Daniele
     Gobbetti, Taavi Eomäe
 
     This file is part of Gadgetbridge.
@@ -22,8 +22,6 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.support.annotation.Nullable;
-import android.support.v4.content.LocalBroadcastManager;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -35,11 +33,14 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Set;
 
+import androidx.annotation.Nullable;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHelper;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.util.DeviceHelper;
+import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
 /**
  * Provides access to the list of devices managed by Gadgetbridge.
@@ -149,6 +150,8 @@ public class DeviceManager {
                 }
             }
         }
+        GB.updateNotification(selectedDevice, context);
+
     }
 
     private void refreshPairedDevices() {
@@ -164,7 +167,7 @@ public class DeviceManager {
             @Override
             public int compare(GBDevice lhs, GBDevice rhs) {
                 if (rhs.getStateOrdinal() - lhs.getStateOrdinal() == 0) {
-                    return Collator.getInstance().compare(lhs.getName(), rhs.getName());
+                    return Collator.getInstance().compare(lhs.getAliasOrName(), rhs.getAliasOrName());
                 }
                 return (rhs.getStateOrdinal() - lhs.getStateOrdinal());
             }

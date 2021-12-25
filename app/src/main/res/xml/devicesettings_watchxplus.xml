@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <PreferenceScreen
+        android:icon="@drawable/ic_vibration"
+        android:key="pref_category_notifications_and_calls"
+        android:title="@string/pref_header_notifications_and_calls">
+            <PreferenceCategory
+                android:title="@string/pref_screen_notification_profile_incoming_call"/>
+                <SeekBarPreference
+                    android:icon="@drawable/ic_rotate_left"
+                    android:defaultValue="0"
+                    android:key="notification_repeat_ring"
+                    android:max="10"
+                    android:title="@string/pref_title_notifications_and_calls_repeat_on_call"
+                    app:showSeekBarValue="true" />
+                <SwitchPreference
+                    android:defaultValue="false"
+                    android:key="notification_enable_continious_ring"
+                    android:title="@string/prefs_notifications_and_calls_continious_ring" />
+            <PreferenceCategory
+                android:title="@string/pref_screen_notification_profile_missed_call"/>
+                <SwitchPreference
+                    android:defaultValue="false"
+                    android:key="notification_enable_missed_call"
+                    android:title="@string/pref_notifications_and_calls_enable_misscall"
+                    android:summary="@string/pref_summary_notifications_and_calls_enable_misscall"/>
+                <SeekBarPreference
+                    android:icon="@drawable/ic_rotate_left"
+                    android:defaultValue="0"
+                    android:dependency="notification_enable_missed_call"
+                    android:key="notification_repeat_missed_call"
+                    android:max="10"
+                    android:title="@string/pref_title_notifications_and_calls_repeat_on_misscall"
+                    app:showSeekBarValue="true" />
+            <PreferenceCategory
+                android:title="@string/pref_header_notifications_and_calls_callhandling"/>
+                <SwitchPreference
+                    android:defaultValue="false"
+                    android:key="notification_button_reject"
+                    android:summary="@string/pref_summary_notifications_and_calls_title_reject"
+                    android:title="@string/prefs_notifications_and_calls_reject" />
+                <SwitchPreference
+                    android:defaultValue="false"
+                    android:key="notification_shake_reject"
+                    android:summary="@string/pref_summary_notifications_and_calls_title_shake_reject"
+                    android:title="@string/prefs_notifications_and_calls_shake_reject" />
+    </PreferenceScreen>
+
+    <PreferenceScreen
+        android:icon="@drawable/ic_settings"
+        android:key="pref_category_device_spec_settings"
+        android:title="@string/pref_header_device_spec_settings">
+        <ListPreference
+            android:icon="@drawable/ic_language"
+            android:defaultValue="1"
+            android:title="@string/pref_title_language"
+            android:entries="@array/language_only_EN_CH"
+            android:entryValues="@array/language_only_EN_CH_values"
+            android:key="language"
+            android:summary="%s" />
+        <SwitchPreference
+            android:icon="@drawable/ic_access_time"
+            android:defaultValue="false"
+            android:key="pref_device_spec_settings_force_time"
+            android:summary="@string/pref_summary_device_spec_settings_title_force_time"
+            android:title="@string/pref_title_device_spec_settings_force_time" />
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="show_raw_graph"
+            android:title="@string/pref_title_device_spec_settings_show_raw_graph" />
+    </PreferenceScreen>
+    <PreferenceScreen
+        android:icon="@drawable/ic_sensor_calibration"
+        android:key="pref_sensors_calibration"
+        android:title="@string/pref_header_sensors_calibration">
+        <EditTextPreference
+            android:icon="@drawable/ic_arrow_upward"
+            android:defaultValue="200"
+            android:key="pref_sensors_altitude"
+            android:title="@string/pref_title_sensors_altitude"/>
+        <PreferenceScreen
+            android:key="pref_sensors_bp_calibration"
+            android:title="@string/pref_sensors_bp_calibration">
+            <PreferenceCategory
+                android:title="@string/pref_sensors_bp_calibration"/>
+            <EditTextPreference
+                android:inputType="number"
+                android:key="pref_sensors_bp_calibration_high"
+                android:defaultValue="130"
+                android:title="@string/pref_sensors_bp_calibration_high" />
+            <EditTextPreference
+                android:inputType="number"
+                android:key="pref_sensors_bp_calibration_low"
+                android:defaultValue="80"
+                android:title="@string/pref_sensors_bp_calibration_low" />
+            <ListPreference
+                android:defaultValue="1"
+                android:title="@string/prefs_sensors_button_bp_calibration"
+                android:entries="@array/sensors_bp_cal"
+                android:entryValues="@array/sensors_bp_cal_values"
+                android:key="prefs_sensors_button_bp_calibration"
+                android:summary="@string/prefs_sensors_button_bp_calibration_sum" />
+        </PreferenceScreen>
+    </PreferenceScreen>
+</androidx.preference.PreferenceScreen>

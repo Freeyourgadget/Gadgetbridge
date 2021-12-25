@@ -1,0 +1,2 @@
+* Mi Band 3: Recognize "Xiaomi Band 3"
+* Amazfit Bip: Add German, Italian, French and Turkish to language settings

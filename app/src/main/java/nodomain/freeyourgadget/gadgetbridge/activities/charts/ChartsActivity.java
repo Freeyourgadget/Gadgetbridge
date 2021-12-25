@@ -1,5 +1,5 @@
-/*  Copyright (C) 2015-2018 Andreas Shimokawa, Carsten Pfeiffer, Daniele
-    Gobbetti, Vebryn
+/*  Copyright (C) 2015-2020 Andreas Shimokawa, Carsten Pfeiffer, Daniele
+    Gobbetti, vanous, Vebryn
 
     This file is part of Gadgetbridge.
 
@@ -23,12 +23,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentStatePagerAdapter;
-import android.support.v4.content.LocalBroadcastManager;
-import android.support.v4.view.ViewPager;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.AttributeSet;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -36,43 +30,53 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentStatePagerAdapter;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+import androidx.viewpager.widget.ViewPager;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
+import java.util.Objects;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.activities.AbstractFragmentPagerAdapter;
 import nodomain.freeyourgadget.gadgetbridge.activities.AbstractGBFragmentActivity;
+import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst;
 import nodomain.freeyourgadget.gadgetbridge.devices.DeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
+import nodomain.freeyourgadget.gadgetbridge.model.RecordedDataTypes;
 import nodomain.freeyourgadget.gadgetbridge.util.DateTimeUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.DeviceHelper;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 import nodomain.freeyourgadget.gadgetbridge.util.LimitedQueue;
+import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 
 public class ChartsActivity extends AbstractGBFragmentActivity implements ChartsHost {
-
     private static final Logger LOG = LoggerFactory.getLogger(ChartsActivity.class);
+    public static final String EXTRA_FRAGMENT_ID = "fragment";
 
-    private Button mPrevButton;
-    private Button mNextButton;
     private TextView mDateControl;
 
     private Date mStartDate;
     private Date mEndDate;
     private SwipeRefreshLayout swipeLayout;
-    private NonSwipeableViewPager viewPager;
 
     LimitedQueue mActivityAmountCache = new LimitedQueue(60);
+    ArrayList<String> enabledTabsList;
 
-    private static class ShowDurationDialog extends Dialog {
+    public static class ShowDurationDialog extends Dialog {
         private final String mDuration;
         private TextView durationLabel;
 
@@ -86,7 +90,7 @@ public class ChartsActivity extends AbstractGBFragmentActivity implements Charts
             super.onCreate(savedInstanceState);
             setContentView(R.layout.activity_charts_durationdialog);
 
-            durationLabel = (TextView) findViewById(R.id.charts_duration_label);
+            durationLabel = findViewById(R.id.charts_duration_label);
             setDuration(mDuration);
         }
 
@@ -103,7 +107,7 @@ public class ChartsActivity extends AbstractGBFragmentActivity implements Charts
         @Override
         public void onReceive(Context context, Intent intent) {
             String action = intent.getAction();
-            switch (action) {
+            switch (Objects.requireNonNull(action)) {
                 case GBDevice.ACTION_DEVICE_CHANGED:
                     GBDevice dev = intent.getParcelableExtra(GBDevice.EXTRA_DEVICE);
                     refreshBusyState(dev);
@@ -131,6 +135,7 @@ public class ChartsActivity extends AbstractGBFragmentActivity implements Charts
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_charts);
+        int tabFragmentToOpen = -1;
 
         initDates();
 
@@ -141,11 +146,14 @@ public class ChartsActivity extends AbstractGBFragmentActivity implements Charts
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             mGBDevice = extras.getParcelable(GBDevice.EXTRA_DEVICE);
+            tabFragmentToOpen = extras.getInt(EXTRA_FRAGMENT_ID);
+
         } else {
             throw new IllegalArgumentException("Must provide a device when invoking this activity");
         }
+        enabledTabsList = fillChartsTabsList(getDevice(), this);
 
-        swipeLayout = (SwipeRefreshLayout) findViewById(R.id.activity_swipe_layout);
+        swipeLayout = findViewById(R.id.activity_swipe_layout);
         swipeLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -155,8 +163,12 @@ public class ChartsActivity extends AbstractGBFragmentActivity implements Charts
         enableSwipeRefresh(true);
 
         // Set up the ViewPager with the sections adapter.
-        viewPager = (NonSwipeableViewPager) findViewById(R.id.charts_pager);
+        NonSwipeableViewPager viewPager = findViewById(R.id.charts_pager);
         viewPager.setAdapter(getPagerAdapter());
+        if (tabFragmentToOpen > -1) {
+            viewPager.setCurrentItem(tabFragmentToOpen); //open the tab as specified in the intent
+        }
+
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
@@ -172,8 +184,8 @@ public class ChartsActivity extends AbstractGBFragmentActivity implements Charts
             }
         });
 
-        dateBar = (ViewGroup) findViewById(R.id.charts_date_bar);
-        mDateControl = (TextView) findViewById(R.id.charts_text_date);
+        dateBar = findViewById(R.id.charts_date_bar);
+        mDateControl = findViewById(R.id.charts_text_date);
         mDateControl.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -182,22 +194,76 @@ public class ChartsActivity extends AbstractGBFragmentActivity implements Charts
             }
         });
 
-        mPrevButton = (Button) findViewById(R.id.charts_previous);
+        Button mPrevButton = findViewById(R.id.charts_previous_day);
         mPrevButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                handlePrevButtonClicked();
+                handleButtonClicked(DATE_PREV_DAY);
             }
         });
-        mNextButton = (Button) findViewById(R.id.charts_next);
+        Button mNextButton = findViewById(R.id.charts_next_day);
         mNextButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                handleNextButtonClicked();
+                handleButtonClicked(DATE_NEXT_DAY);
             }
         });
 
-        LinearLayout mainLayout = (LinearLayout) findViewById(R.id.charts_main_layout);
+        Button mPrevWeekButton = findViewById(R.id.charts_previous_week);
+        mPrevWeekButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                handleButtonClicked(DATE_PREV_WEEK);
+            }
+        });
+        Button mNextWeekButton = findViewById(R.id.charts_next_week);
+        mNextWeekButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                handleButtonClicked(DATE_NEXT_WEEK);
+            }
+        });
+
+        Button mPrevMonthButton = findViewById(R.id.charts_previous_month);
+        mPrevMonthButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                handleButtonClicked(DATE_PREV_MONTH);
+            }
+        });
+        Button mNextMonthButton = findViewById(R.id.charts_next_month);
+        mNextMonthButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                handleButtonClicked(DATE_NEXT_MONTH);
+            }
+        });
+
+
+    }
+
+    private static ArrayList<String> fillChartsTabsList(GBDevice device, Context context) {
+        ArrayList<String> arrayList = new ArrayList();
+        Prefs prefs = new Prefs(GBApplication.getDeviceSpecificSharedPrefs(device.getAddress()));
+        String myTabs = prefs.getString(DeviceSettingsPreferenceConst.PREFS_DEVICE_CHARTS_TABS, null);
+
+        if (myTabs == null) {
+            //make list mutable to be able to remove items later
+            arrayList = new ArrayList<String>(Arrays.asList(context.getResources().getStringArray(R.array.pref_charts_tabs_items_default)));
+        } else {
+            arrayList = new ArrayList<String>(Arrays.asList(myTabs.split(",")));
+        }
+        DeviceCoordinator coordinator = DeviceHelper.getInstance().getCoordinator(device);
+        if (!coordinator.supportsRealtimeData()) {
+            arrayList.remove("livestats");
+        }
+        return arrayList;
+    }
+
+    public static int getChartsTabIndex(String tab, GBDevice device, Context context) {
+        ArrayList<String> enabledTabsList = new ArrayList();
+        enabledTabsList = fillChartsTabsList(device, context);
+        return enabledTabsList.indexOf(tab);
     }
 
     private String formatDetailedDuration() {
@@ -238,12 +304,8 @@ public class ChartsActivity extends AbstractGBFragmentActivity implements Charts
         return mEndDate;
     }
 
-    private void handleNextButtonClicked() {
-        LocalBroadcastManager.getInstance(this).sendBroadcast(new Intent(DATE_NEXT));
-    }
-
-    private void handlePrevButtonClicked() {
-        LocalBroadcastManager.getInstance(this).sendBroadcast(new Intent(DATE_PREV));
+    private void  handleButtonClicked(String Action) {
+        LocalBroadcastManager.getInstance(this).sendBroadcast(new Intent(Action));
     }
 
     @Override
@@ -265,10 +327,22 @@ public class ChartsActivity extends AbstractGBFragmentActivity implements Charts
     }
 
     @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 1) {
+            this.recreate();
+        }
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.charts_fetch_activity_data:
                 fetchActivityData();
+                return true;
+            case R.id.prefs_charts_menu:
+                Intent settingsIntent = new Intent(this, ChartsPreferencesActivity.class);
+                startActivityForResult(settingsIntent,1);
                 return true;
             default:
                 break;
@@ -277,14 +351,15 @@ public class ChartsActivity extends AbstractGBFragmentActivity implements Charts
         return super.onOptionsItemSelected(item);
     }
 
-    private void enableSwipeRefresh(boolean enable) {
+    @Override
+    public void enableSwipeRefresh(boolean enable) {
         DeviceCoordinator coordinator = DeviceHelper.getInstance().getCoordinator(mGBDevice);
         swipeLayout.setEnabled(enable && coordinator.allowFetchActivityData(mGBDevice));
     }
 
     private void fetchActivityData() {
         if (getDevice().isInitialized()) {
-            GBApplication.deviceService().onFetchActivityData();
+            GBApplication.deviceService().onFetchRecordedData(RecordedDataTypes.TYPE_ACTIVITY);
         } else {
             swipeLayout.setRefreshing(false);
             GB.toast(this, getString(R.string.device_not_connected), Toast.LENGTH_SHORT, GB.ERROR);
@@ -307,31 +382,35 @@ public class ChartsActivity extends AbstractGBFragmentActivity implements Charts
     }
 
 
+
+
     /**
      * A {@link FragmentStatePagerAdapter} that returns a fragment corresponding to
      * one of the sections/tabs/pages.
      */
     public class SectionsPagerAdapter extends AbstractFragmentPagerAdapter {
-
         SectionsPagerAdapter(FragmentManager fm) {
             super(fm);
         }
 
+
         @Override
         public Fragment getItem(int position) {
             // getItem is called to instantiate the fragment for the given page.
-            switch (position) {
-                case 0:
+            switch (enabledTabsList.get(position)) {
+                case "activity":
                     return new ActivitySleepChartFragment();
-                case 1:
+                case "activitylist":
+                    return new ActivityListingChartFragment();
+                case "sleep":
                     return new SleepChartFragment();
-                case 2:
+                case "sleepweek":
                     return new WeekSleepChartFragment();
-                case 3:
+                case "stepsweek":
                     return new WeekStepsChartFragment();
-                case 4:
+                case "speedzones":
                     return new SpeedZonesFragment();
-                case 5:
+                case "livestats":
                     return new LiveActivityFragment();
             }
             return null;
@@ -339,28 +418,44 @@ public class ChartsActivity extends AbstractGBFragmentActivity implements Charts
 
         @Override
         public int getCount() {
-            // Show 5 or 6 total pages.
-            DeviceCoordinator coordinator = DeviceHelper.getInstance().getCoordinator(mGBDevice);
-            if (coordinator.supportsRealtimeData()) {
-                return 6;
+            return enabledTabsList.toArray().length;
+        }
+
+        private String getSleepTitle() {
+            if (GBApplication.getPrefs().getBoolean("charts_range", true)) {
+                return getString(R.string.weeksleepchart_sleep_a_month);
             }
-            return 5;
+            else{
+                return getString(R.string.weeksleepchart_sleep_a_week);
+            }
+        }
+
+        public String getStepsTitle() {
+            if (GBApplication.getPrefs().getBoolean("charts_range", true)) {
+                return getString(R.string.weekstepschart_steps_a_month);
+            }
+            else{
+                return getString(R.string.weekstepschart_steps_a_week);
+            }
         }
 
         @Override
         public CharSequence getPageTitle(int position) {
-            switch (position) {
-                case 0:
+
+            switch (enabledTabsList.get(position)) {
+                case "activity":
                     return getString(R.string.activity_sleepchart_activity_and_sleep);
-                case 1:
+                case "activitylist":
+                    return getString(R.string.charts_activity_list);
+                case "sleep":
                     return getString(R.string.sleepchart_your_sleep);
-                case 2:
-                    return getString(R.string.weeksleepchart_sleep_a_week);
-                case 3:
-                    return getString(R.string.weekstepschart_steps_a_week);
-                case 4:
+                case "sleepweek":
+                    return getSleepTitle();
+                case "stepsweek":
+                    return getStepsTitle();
+                case "speedzones":
                     return getString(R.string.stats_title);
-                case 5:
+                case "livestats":
                     return getString(R.string.liveactivity_live_activity);
             }
             return super.getPageTitle(position);

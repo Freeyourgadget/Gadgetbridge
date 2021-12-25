@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceScreen
+        android:icon="@drawable/ic_drink"
+        android:key="screen_hydration_reminder"
+        android:persistent="false"
+        android:summary="@string/lefun_prefs_hydration_reminder_summary"
+        android:title="@string/lefun_prefs_hydration_reminder_title">
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="pref_hydration_switch"
+            android:title="@string/lefun_prefs_hydration_reminder_title" />
+        <EditTextPreference
+            android:defaultValue="60"
+            android:key="pref_hydration_period"
+            android:summary="@string/lefun_prefs_hydration_reminder_summary"
+            android:title="@string/lefun_prefs_hydration_reminder_interval_title"/>
+    </PreferenceScreen>
+</androidx.preference.PreferenceScreen>

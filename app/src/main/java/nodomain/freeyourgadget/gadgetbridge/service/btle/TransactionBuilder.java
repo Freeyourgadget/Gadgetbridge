@@ -1,4 +1,5 @@
-/*  Copyright (C) 2015-2018 Andreas Shimokawa, Carsten Pfeiffer
+/*  Copyright (C) 2015-2021 Andreas Shimokawa, Carsten Pfeiffer, Daniel
+    Dakhno, Daniele Gobbetti
 
     This file is part of Gadgetbridge.
 
@@ -17,13 +18,17 @@
 package nodomain.freeyourgadget.gadgetbridge.service.btle;
 
 import android.bluetooth.BluetoothGattCharacteristic;
-import android.support.annotation.Nullable;
+import android.os.Build;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
+
 import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.NotifyAction;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.ReadAction;
+import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.RequestMtuAction;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.WaitAction;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.WriteAction;
 
@@ -55,6 +60,13 @@ public class TransactionBuilder {
         return add(action);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+    public TransactionBuilder requestMtu(int mtu){
+        return add(
+                new RequestMtuAction(mtu)
+        );
+    }
+
     public TransactionBuilder notify(BluetoothGattCharacteristic characteristic, boolean enable) {
         if (characteristic == null) {
             LOG.warn("Unable to notify characteristic: null");
@@ -68,6 +80,12 @@ public class TransactionBuilder {
         return new NotifyAction(characteristic, enable);
     }
 
+    /**
+     * Causes the queue to sleep for the specified time.
+     * Note that this is usually a bad idea, since it will not be able to process messages
+     * during that time. It is also likely to cause race conditions.
+     * @param millis the number of milliseconds to sleep
+     */
     public TransactionBuilder wait(int millis) {
         WaitAction action = new WaitAction(millis);
         return add(action);
@@ -109,5 +127,9 @@ public class TransactionBuilder {
 
     public Transaction getTransaction() {
         return mTransaction;
+    }
+
+    public String getTaskName() {
+        return mTransaction.getTaskName();
     }
 }

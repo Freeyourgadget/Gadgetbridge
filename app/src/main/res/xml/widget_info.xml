@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<appwidget-provider xmlns:android="http://schemas.android.com/apk/res/android"
+    android:initialKeyguardLayout="@layout/widget"
+    android:initialLayout="@layout/widget"
+    android:minHeight="1dp"
+    android:minWidth="1dp"
+    minResizeHeight="1dp"
+    minResizeWidth="1dp"
+    android:resizeMode="horizontal|vertical"
+    android:previewImage="@drawable/widget_preview"
+    android:updatePeriodMillis="86400000"
+    android:configure="nodomain.freeyourgadget.gadgetbridge.activities.WidgetConfigurationActivity"
+    android:widgetCategory="home_screen|keyguard|searchbox">
+</appwidget-provider>
+

@@ -1,4 +1,5 @@
-/*  Copyright (C) 2015-2018 Andreas Shimokawa, Carsten Pfeiffer, Taavi Eomäe
+/*  Copyright (C) 2015-2020 Andreas Shimokawa, Carsten Pfeiffer, Daniele
+    Gobbetti
 
     This file is part of Gadgetbridge.
 
@@ -20,11 +21,11 @@ import android.bluetooth.BluetoothAdapter;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.support.v4.content.LocalBroadcastManager;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.devices.DeviceManager;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
@@ -36,7 +37,7 @@ public class BluetoothStateChangeReceiver extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
         String action = intent.getAction();
 
-        if (action.equals(BluetoothAdapter.ACTION_STATE_CHANGED)) {
+        if (BluetoothAdapter.ACTION_STATE_CHANGED.equals(action)) {
             if (intent.getIntExtra(BluetoothAdapter.EXTRA_STATE, -1) == BluetoothAdapter.STATE_ON) {
 
                 Intent refreshIntent = new Intent(DeviceManager.ACTION_REFRESH_DEVICELIST);
@@ -47,9 +48,10 @@ public class BluetoothStateChangeReceiver extends BroadcastReceiver {
                     return;
                 }
 
-                LOG.info("Bluetooth turned on => connecting...");
+                LOG.info("Bluetooth turned on (ACTION_STATE_CHANGED) => connecting...");
                 //GBApplication.deviceService().connect(); TODO: FIX ME!
             } else if (intent.getIntExtra(BluetoothAdapter.EXTRA_STATE, -1) == BluetoothAdapter.STATE_OFF) {
+                LOG.info("Bluetooth turned off => disconnecting...");
                 //GBApplication.deviceService().disconnect();TODO: FIX ME!
             }
         }

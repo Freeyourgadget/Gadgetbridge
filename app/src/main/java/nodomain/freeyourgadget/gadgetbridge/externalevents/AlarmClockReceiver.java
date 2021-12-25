@@ -1,4 +1,5 @@
-/*  Copyright (C) 2017-2018 Andreas Shimokawa, Carsten Pfeiffer
+/*  Copyright (C) 2017-2020 Andreas Shimokawa, Carsten Pfeiffer, Daniele
+    Gobbetti
 
     This file is part of Gadgetbridge.
 
@@ -20,6 +21,8 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 
+import java.util.ArrayList;
+
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationType;
@@ -40,18 +43,20 @@ public class AlarmClockReceiver extends BroadcastReceiver {
 
     /** A public action sent by AlarmService when the alarm has started. */
     public static final String ALARM_ALERT_ACTION = "com.android.deskclock.ALARM_ALERT";
+    public static final String GOOGLE_CLOCK_ALARM_ALERT_ACTION = "com.google.android.deskclock.action.ALARM_ALERT";
 
     /** A public action sent by AlarmService when the alarm has stopped for any reason. */
     public static final String ALARM_DONE_ACTION = "com.android.deskclock.ALARM_DONE";
+    public static final String GOOGLE_CLOCK_ALARM_DONE_ACTION = "com.google.android.deskclock.action.ALARM_DONE";
     private int lastId;
 
 
     @Override
     public void onReceive(Context context, Intent intent) {
         String action = intent.getAction();
-        if (ALARM_ALERT_ACTION.equals(action)) {
+        if (ALARM_ALERT_ACTION.equals(action) || GOOGLE_CLOCK_ALARM_ALERT_ACTION.equals(action)) {
             sendAlarm(true);
-        } else if (ALARM_DONE_ACTION.equals(action)) {
+        } else if (ALARM_DONE_ACTION.equals(action) || GOOGLE_CLOCK_ALARM_DONE_ACTION.equals(action)) {
             sendAlarm(false);
         }
     }
@@ -61,13 +66,21 @@ public class AlarmClockReceiver extends BroadcastReceiver {
     private synchronized void sendAlarm(boolean on) {
         dismissLastAlarm();
         if (on) {
-            lastId = generateId();
-            NotificationSpec spec = new NotificationSpec();
-            spec.type = NotificationType.GENERIC_ALARM_CLOCK;
-            spec.id = lastId;
-            spec.sourceName = "ALARMCLOCKRECEIVER";
+            NotificationSpec notificationSpec = new NotificationSpec();
+            //TODO: can we attach a dismiss action to the notification and not use the notification ID explicitly?
+            lastId = notificationSpec.getId();
+            notificationSpec.type = NotificationType.GENERIC_ALARM_CLOCK;
+            notificationSpec.sourceName = "ALARMCLOCKRECEIVER";
+            notificationSpec.attachedActions = new ArrayList<>();
+
+            // DISMISS ALL action
+            NotificationSpec.Action dismissAllAction = new NotificationSpec.Action();
+            dismissAllAction.title = "Dismiss All";
+            dismissAllAction.type = NotificationSpec.Action.TYPE_SYNTECTIC_DISMISS_ALL;
+            notificationSpec.attachedActions.add(dismissAllAction);
+
             // can we get the alarm title somehow?
-            GBApplication.deviceService().onNotification(spec);
+            GBApplication.deviceService().onNotification(notificationSpec);
         }
     }
 
@@ -78,8 +91,4 @@ public class AlarmClockReceiver extends BroadcastReceiver {
         }
     }
 
-    private int generateId() {
-        // lacks negative values, but should be sufficient
-        return (int) (Math.random() * Integer.MAX_VALUE);
-    }
 }

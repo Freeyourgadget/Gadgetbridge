@@ -1,5 +1,5 @@
-/*  Copyright (C) 2016-2018 Andreas Shimokawa, Carsten Pfeiffer, Daniele
-    Gobbetti, Lukas Veneziano
+/*  Copyright (C) 2016-2021 Andreas Shimokawa, Carsten Pfeiffer, Daniele
+    Gobbetti, Lukas Veneziano, Maxim Baz
 
     This file is part of Gadgetbridge.
 
@@ -30,6 +30,9 @@ import nodomain.freeyourgadget.gadgetbridge.service.btle.profiles.alertnotificat
  * Provides methods to convert standard BLE units to byte sequences and vice versa.
  */
 public class BLETypeConversions {
+    public static final int TZ_FLAG_NONE = 0;
+    public static final int TZ_FLAG_INCLUDE_DST_IN_TZ = 1;
+
     /**
      * Converts a timestamp to the byte sequence to be sent to the current time characteristic
      *
@@ -37,22 +40,7 @@ public class BLETypeConversions {
      * @return
      * @see GattCharacteristic#UUID_CHARACTERISTIC_CURRENT_TIME
      */
-    public static byte[] calendarToRawBytes(Calendar timestamp, boolean honorDeviceTimeOffset) {
-
-        // The mi-band device currently records sleep
-        // only if it happens after 10pm and before 7am.
-        // The offset is used to trick the device to record sleep
-        // in non-standard hours.
-        // If you usually sleep, say, from 6am to 2pm, set the
-        // shift to -8, so at 6am the device thinks it's still 10pm
-        // of the day before.
-        if (honorDeviceTimeOffset) {
-            int offsetInHours = MiBandCoordinator.getDeviceTimeOffsetHours();
-            if (offsetInHours != 0) {
-                timestamp.add(Calendar.HOUR_OF_DAY, offsetInHours);
-            }
-        }
-
+    public static byte[] calendarToRawBytes(Calendar timestamp) {
         // MiBand2:
         // year,year,month,dayofmonth,hour,minute,second,dayofweek,0,0,tz
 
@@ -75,25 +63,9 @@ public class BLETypeConversions {
     /**
      * Similar to calendarToRawBytes, but only up to (and including) the MINUTES.
      * @param timestamp
-     * @param honorDeviceTimeOffset
-     * @return
+     * @return byte array of 6 bytes
      */
-    public static byte[] shortCalendarToRawBytes(Calendar timestamp, boolean honorDeviceTimeOffset) {
-
-        // The mi-band device currently records sleep
-        // only if it happens after 10pm and before 7am.
-        // The offset is used to trick the device to record sleep
-        // in non-standard hours.
-        // If you usually sleep, say, from 6am to 2pm, set the
-        // shift to -8, so at 6am the device thinks it's still 10pm
-        // of the day before.
-        if (honorDeviceTimeOffset) {
-            int offsetInHours = MiBandCoordinator.getDeviceTimeOffsetHours();
-            if (offsetInHours != 0) {
-                timestamp.add(Calendar.HOUR_OF_DAY, offsetInHours);
-            }
-        }
-
+    public static byte[] shortCalendarToRawBytes(Calendar timestamp) {
         // MiBand2:
         // year,year,month,dayofmonth,hour,minute
 
@@ -117,7 +89,7 @@ public class BLETypeConversions {
         return rawOffset;
     }
 
-    private static byte dayOfWeekToRawBytes(Calendar cal) {
+    public static byte dayOfWeekToRawBytes(Calendar cal) {
         int calValue = cal.get(Calendar.DAY_OF_WEEK);
         switch (calValue) {
             case Calendar.SUNDAY:
@@ -133,7 +105,7 @@ public class BLETypeConversions {
      * @param value
      * @return
      */
-    public static GregorianCalendar rawBytesToCalendar(byte[] value, boolean honorDeviceTimeOffset) {
+    public static GregorianCalendar rawBytesToCalendar(byte[] value) {
         if (value.length >= 7) {
             int year = toUint16(value[0], value[1]);
             GregorianCalendar timestamp = new GregorianCalendar(
@@ -146,26 +118,43 @@ public class BLETypeConversions {
             );
 
             if (value.length > 7) {
-                TimeZone timeZone = TimeZone.getDefault();
+                /* when we get a timezone offset via BLE, we cannot know which timeszone this is (only its offset), so
+                   set to UTC which does not use DST to prevent bugs when setting the raw offset below */
+                TimeZone timeZone = TimeZone.getTimeZone("UTC");
                 timeZone.setRawOffset(value[7] * 15 * 60 * 1000);
                 timestamp.setTimeZone(timeZone);
             }
-
-            if (honorDeviceTimeOffset) {
-                int offsetInHours = MiBandCoordinator.getDeviceTimeOffsetHours();
-                if (offsetInHours != 0) {
-                    timestamp.add(Calendar.HOUR_OF_DAY,-offsetInHours);
-                }
-            }
-
             return timestamp;
         }
 
         return createCalendar();
     }
 
+    public static long toUnsigned(int unsignedInt) {
+        return ((long) unsignedInt) & 0xffffffffL;
+    }
+    public static int toUnsigned(short value) {
+        return value & 0xffff;
+    }
+
+    public static int toUnsigned(byte value) {
+        return value & 0xff;
+    }
+
+    public static int toUint16(byte value) {
+        return toUnsigned(value);
+    }
+
     public static int toUint16(byte... bytes) {
         return (bytes[0] & 0xff) | ((bytes[1] & 0xff) << 8);
+    }
+
+    public static int toInt16(byte... bytes) {
+        return (short) (bytes[0] & 0xff | ((bytes[1] & 0xff) << 8));
+    }
+
+    public static int toUint32(byte... bytes) {
+        return (bytes[0] & 0xff) | ((bytes[1] & 0xff) << 8) | ((bytes[2] & 0xff) << 16) | ((bytes[3] & 0xff) << 24);
     }
 
     public static byte[] fromUint16(int value) {
@@ -230,8 +219,24 @@ public class BLETypeConversions {
      * @return sint8 value from -48..+56
      */
     public static byte mapTimeZone(TimeZone timeZone) {
-        int utcOffsetInHours =  (timeZone.getRawOffset() / (1000 * 60 * 60));
-        return (byte) (utcOffsetInHours * 4);
+        int offsetMillis = timeZone.getRawOffset();
+        int utcOffsetInQuarterHours = (offsetMillis / (1000 * 60 * 15));
+        return (byte) utcOffsetInQuarterHours;
+    }
+
+    /**
+     * https://www.bluetooth.com/specifications/gatt/viewer?attributeXmlFile=org.bluetooth.characteristic.time_zone.xml
+     *
+     * @param calendar
+     * @return sint8 value from -48..+56
+     */
+    public static byte mapTimeZone(Calendar calendar, int timezoneFlags) {
+        int offsetMillis = calendar.getTimeZone().getRawOffset();
+        if (timezoneFlags == TZ_FLAG_INCLUDE_DST_IN_TZ) {
+            offsetMillis = calendar.getTimeZone().getOffset(calendar.getTimeInMillis());
+        }
+        int utcOffsetInQuarterHours = (offsetMillis / (1000 * 60 * 15));
+        return (byte) utcOffsetInQuarterHours;
     }
 
     /**
@@ -286,6 +291,7 @@ public class BLETypeConversions {
             case LINE:
             case RIOT:
             case SIGNAL:
+            case WIRE:
             case SKYPE:
             case SNAPCHAT:
             case TELEGRAM:

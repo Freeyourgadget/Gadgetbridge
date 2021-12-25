@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <SwitchPreference
+        android:icon="@drawable/ic_signal_cellular_connected_no_internet_4_bar"
+        android:defaultValue="false"
+        android:key="disconnect_notification_noshed"
+        android:title="@string/prefs_disconnect_notification" />
+</androidx.preference.PreferenceScreen>

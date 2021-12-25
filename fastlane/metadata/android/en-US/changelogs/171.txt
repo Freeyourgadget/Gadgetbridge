@@ -1,0 +1,8 @@
+* Fossil Hybrid HR: Allow choosing and cropping image to be set as watch background
+* Fossil Hybrid HR: Option to draw circles around widgets
+* Fossil Hybrid HR: Experimenal firmware update support
+* Fossil Hybrid HR: Fix vibration strength setting
+* Huami: Do not display firmware information and whitelist information when flashing watchfaces
+* Huami: Disable air quality indicator on Huami devices instead of showing 0
+* Bangle.js: Change encoded char set to match Espruino's 8 bit fonts
+* Steps/Sleep averages: Skip days with zero data

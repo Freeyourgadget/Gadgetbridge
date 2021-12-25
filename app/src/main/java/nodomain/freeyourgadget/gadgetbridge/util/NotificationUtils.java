@@ -1,5 +1,5 @@
-/*  Copyright (C) 2017-2018 Andreas Shimokawa, Carsten Pfeiffer, Daniele
-    Gobbetti, Lukas Veneziano
+/*  Copyright (C) 2017-2021 Andreas Shimokawa, Carsten Pfeiffer, Daniele
+    Gobbetti, Lukas Veneziano, Maxim Baz
 
     This file is part of Gadgetbridge.
 
@@ -18,8 +18,8 @@
 package nodomain.freeyourgadget.gadgetbridge.util;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
 
+import androidx.annotation.NonNull;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.model.CallSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
@@ -44,6 +44,7 @@ public class NotificationUtils {
             case LINE:
             case RIOT:
             case SIGNAL:
+            case WIRE:
             case SKYPE:
             case SNAPCHAT:
             case TELEGRAM:

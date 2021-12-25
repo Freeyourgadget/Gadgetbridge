@@ -1,5 +1,5 @@
-/*  Copyright (C) 2016-2018 Andreas Shimokawa, Carsten Pfeiffer, Daniele
-    Gobbetti, Taavi Eomäe
+/*  Copyright (C) 2016-2020 Andreas Shimokawa, Carsten Pfeiffer, Daniele
+    Gobbetti, Johannes Tysiak, Taavi Eomäe, vanous
 
     This file is part of Gadgetbridge.
 
@@ -19,46 +19,63 @@ package nodomain.freeyourgadget.gadgetbridge.activities;
 
 import android.Manifest;
 import android.annotation.TargetApi;
+import android.app.NotificationManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
-import android.graphics.Canvas;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.NavigationView;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
-import android.support.v4.content.LocalBroadcastManager;
-import android.support.v4.view.GravityCompat;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.app.AppCompatDelegate;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
-import android.support.v7.widget.helper.ItemTouchHelper;
+import android.telephony.PhoneStateListener;
+import android.telephony.TelephonyManager;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.ActivityCompat;
+import androidx.core.app.NotificationManagerCompat;
+import androidx.core.content.ContextCompat;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.navigation.NavigationView;
+
+import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
+import java.util.Objects;
+import java.util.Set;
 
 import de.cketti.library.changelog.ChangeLog;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.adapter.GBDeviceAdapterv2;
+import nodomain.freeyourgadget.gadgetbridge.database.DBAccess;
+import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
+import nodomain.freeyourgadget.gadgetbridge.devices.DeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.DeviceManager;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
+import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
+import nodomain.freeyourgadget.gadgetbridge.model.DailyTotals;
+import nodomain.freeyourgadget.gadgetbridge.model.DeviceService;
 import nodomain.freeyourgadget.gadgetbridge.util.AndroidUtils;
+import nodomain.freeyourgadget.gadgetbridge.util.DeviceHelper;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 
@@ -66,25 +83,27 @@ import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 public class ControlCenterv2 extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, GBActivity {
 
+    public static final int MENU_REFRESH_CODE = 1;
+    private static PhoneStateListener fakeStateListener;
+
     //needed for KK compatibility
     static {
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
     }
 
     private DeviceManager deviceManager;
-    private ImageView background;
-
-    private List<GBDevice> deviceList;
     private GBDeviceAdapterv2 mGBDeviceAdapter;
     private RecyclerView deviceListView;
-
+    private FloatingActionButton fab;
     private boolean isLanguageInvalid = false;
+    List<GBDevice> deviceList;
+    private  HashMap<String,long[]> deviceActivityHashMap = new HashMap();
 
     private final BroadcastReceiver mReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
             String action = intent.getAction();
-            switch (action) {
+            switch (Objects.requireNonNull(action)) {
                 case GBApplication.ACTION_LANGUAGE_CHANGE:
                     setLanguage(GBApplication.getLanguage(), true);
                     break;
@@ -92,11 +111,36 @@ public class ControlCenterv2 extends AppCompatActivity
                     finish();
                     break;
                 case DeviceManager.ACTION_DEVICES_CHANGED:
+                case GBApplication.ACTION_NEW_DATA:
+                    createRefreshTask("get activity data", getApplication()).execute();
                     refreshPairedDevices();
+                    break;
+                case DeviceService.ACTION_REALTIME_SAMPLES:
+                    handleRealtimeSample(intent.getSerializableExtra(DeviceService.EXTRA_REALTIME_SAMPLE));
                     break;
             }
         }
     };
+    private boolean pesterWithPermissions = true;
+    private ActivitySample currentHRSample;
+
+    public ActivitySample getCurrentHRSample() {
+        return currentHRSample;
+    }
+
+    private void setCurrentHRSample(ActivitySample sample) {
+        if (HeartRateUtils.getInstance().isValidHeartRateValue(sample.getHeartRate())) {
+            currentHRSample = sample;
+            refreshPairedDevices();
+        }
+    }
+
+    private void handleRealtimeSample(Serializable extra) {
+        if (extra instanceof ActivitySample) {
+            ActivitySample sample = (ActivitySample) extra;
+            setCurrentHRSample(sample);
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -104,10 +148,35 @@ public class ControlCenterv2 extends AppCompatActivity
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_controlcenterv2);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                this, drawer, toolbar, R.string.controlcenter_navigation_drawer_open, R.string.controlcenter_navigation_drawer_close);
+        drawer.setDrawerListener(toggle);
+        toggle.syncState();
+
+        NavigationView navigationView = findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
+
+        //end of material design boilerplate
+        deviceManager = ((GBApplication) getApplication()).getDeviceManager();
+
+        deviceListView = findViewById(R.id.deviceListView);
+        deviceListView.setHasFixedSize(true);
+        deviceListView.setLayoutManager(new LinearLayoutManager(this));
+
+        deviceList = deviceManager.getDevices();
+        mGBDeviceAdapter = new GBDeviceAdapterv2(this, deviceList, deviceActivityHashMap);
+
+        // get activity data asynchronously, this fills the deviceActivityHashMap
+        // and calls refreshPairedDevices() → notifyDataSetChanged
+        createRefreshTask("get activity data", getApplication()).execute();
+
+        deviceListView.setAdapter(this.mGBDeviceAdapter);
+
+        fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -115,27 +184,9 @@ public class ControlCenterv2 extends AppCompatActivity
             }
         });
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.controlcenter_navigation_drawer_open, R.string.controlcenter_navigation_drawer_close);
-        drawer.setDrawerListener(toggle);
-        toggle.syncState();
+        showFabIfNeccessary();
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
-
-        //end of material design boilerplate
-        deviceManager = ((GBApplication) getApplication()).getDeviceManager();
-
-        deviceListView = (RecyclerView) findViewById(R.id.deviceListView);
-        deviceListView.setHasFixedSize(true);
-        deviceListView.setLayoutManager(new LinearLayoutManager(this));
-        background = (ImageView) findViewById(R.id.no_items_bg);
-
-        deviceList = deviceManager.getDevices();
-        mGBDeviceAdapter = new GBDeviceAdapterv2(this, deviceList);
-
-        deviceListView.setAdapter(this.mGBDeviceAdapter);
+        /* uncomment to enable fixed-swipe to reveal more actions
 
         ItemTouchHelper swipeToDismissTouchHelper = new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(
                 ItemTouchHelper.LEFT , ItemTouchHelper.RIGHT) {
@@ -167,16 +218,17 @@ public class ControlCenterv2 extends AppCompatActivity
             }
         });
 
-        //uncomment to enable fixed-swipe to reveal more actions
-        //swipeToDismissTouchHelper.attachToRecyclerView(deviceListView);
-
+        swipeToDismissTouchHelper.attachToRecyclerView(deviceListView);
+        */
 
         registerForContextMenu(deviceListView);
 
         IntentFilter filterLocal = new IntentFilter();
         filterLocal.addAction(GBApplication.ACTION_LANGUAGE_CHANGE);
         filterLocal.addAction(GBApplication.ACTION_QUIT);
+        filterLocal.addAction(GBApplication.ACTION_NEW_DATA);
         filterLocal.addAction(DeviceManager.ACTION_DEVICES_CHANGED);
+        filterLocal.addAction(DeviceService.ACTION_REALTIME_SAMPLES);
         LocalBroadcastManager.getInstance(this).registerReceiver(mReceiver, filterLocal);
 
         refreshPairedDevices();
@@ -185,18 +237,28 @@ public class ControlCenterv2 extends AppCompatActivity
          * Ask for permission to intercept notifications on first run.
          */
         Prefs prefs = GBApplication.getPrefs();
-        if (prefs.getBoolean("firstrun", true)) {
-            prefs.getPreferences().edit().putBoolean("firstrun", false).apply();
-            Intent enableIntent = new Intent("android.settings.ACTION_NOTIFICATION_LISTENER_SETTINGS");
-            startActivity(enableIntent);
+        pesterWithPermissions = prefs.getBoolean("permission_pestering", true);
+
+        Set<String> set = NotificationManagerCompat.getEnabledListenerPackages(this);
+        if (pesterWithPermissions) {
+            if (!set.contains(this.getPackageName())) { // If notification listener access hasn't been granted
+                Intent enableIntent = new Intent("android.settings.ACTION_NOTIFICATION_LISTENER_SETTINGS");
+                startActivity(enableIntent);
+            }
         }
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             checkAndRequestPermissions();
         }
 
         ChangeLog cl = createChangeLog();
         if (cl.isFirstRun()) {
-            cl.getLogDialog().show();
+            try {
+                cl.getLogDialog().show();
+            } catch (Exception ignored) {
+                GB.toast(getBaseContext(), "Error showing Changelog", Toast.LENGTH_LONG, GB.ERROR);
+
+            }
         }
 
         GBApplication.deviceService().start();
@@ -228,7 +290,7 @@ public class ControlCenterv2 extends AppCompatActivity
 
     @Override
     public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
@@ -237,23 +299,39 @@ public class ControlCenterv2 extends AppCompatActivity
     }
 
     @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == MENU_REFRESH_CODE) {
+            showFabIfNeccessary();
+        }
+    }
+
+
+    @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
 
         switch (item.getItemId()) {
             case R.id.action_settings:
                 Intent settingsIntent = new Intent(this, SettingsActivity.class);
-                startActivity(settingsIntent);
+                startActivityForResult(settingsIntent, MENU_REFRESH_CODE);
                 return true;
             case R.id.action_debug:
                 Intent debugIntent = new Intent(this, DebugActivity.class);
                 startActivity(debugIntent);
                 return true;
-            case R.id.action_db_management:
-                Intent dbIntent = new Intent(this, DbManagementActivity.class);
+            case R.id.action_data_management:
+                Intent dbIntent = new Intent(this, DataManagementActivity.class);
                 startActivity(dbIntent);
+                return true;
+            case R.id.action_notification_management:
+                Intent blIntent = new Intent(this, NotificationManagementActivity.class);
+                startActivity(blIntent);
+                return true;
+            case R.id.device_action_discover:
+                launchDiscoveryActivity();
                 return true;
             case R.id.action_quit:
                 GBApplication.quit();
@@ -265,7 +343,15 @@ public class ControlCenterv2 extends AppCompatActivity
                 return true;
             case R.id.external_changelog:
                 ChangeLog cl = createChangeLog();
-                cl.getFullLogDialog().show();
+                try {
+                    cl.getLogDialog().show();
+                } catch (Exception ignored) {
+                    GB.toast(getBaseContext(), "Error showing Changelog", Toast.LENGTH_LONG, GB.ERROR);
+                }
+                return true;
+            case R.id.about:
+                Intent aboutIntent = new Intent(this, AboutActivity.class);
+                startActivity(aboutIntent);
                 return true;
         }
 
@@ -279,20 +365,26 @@ public class ControlCenterv2 extends AppCompatActivity
                 + "background-color: " + AndroidUtils.getBackgroundColorHex(getBaseContext()) + ";" +
                 "}";
         return new ChangeLog(this, css);
-}
+    }
+
     private void launchDiscoveryActivity() {
         startActivity(new Intent(this, DiscoveryActivity.class));
     }
 
     private void refreshPairedDevices() {
-        List<GBDevice> deviceList = deviceManager.getDevices();
-        if (deviceList.isEmpty()) {
-            background.setVisibility(View.VISIBLE);
-        } else {
-            background.setVisibility(View.INVISIBLE);
-        }
-
         mGBDeviceAdapter.notifyDataSetChanged();
+    }
+
+    private void showFabIfNeccessary() {
+        if (GBApplication.getPrefs().getBoolean("display_add_device_fab", true)) {
+            fab.show();
+        } else {
+            if (deviceManager.getDevices().size() < 1) {
+                fab.show();
+            } else {
+                fab.hide();
+            }
+        }
     }
 
     @TargetApi(Build.VERSION_CODES.M)
@@ -307,6 +399,8 @@ public class ControlCenterv2 extends AppCompatActivity
             wantedPermissions.add(Manifest.permission.READ_CONTACTS);
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.CALL_PHONE) == PackageManager.PERMISSION_DENIED)
             wantedPermissions.add(Manifest.permission.CALL_PHONE);
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_CALL_LOG) == PackageManager.PERMISSION_DENIED)
+            wantedPermissions.add(Manifest.permission.READ_CALL_LOG);
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_PHONE_STATE) == PackageManager.PERMISSION_DENIED)
             wantedPermissions.add(Manifest.permission.READ_PHONE_STATE);
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.PROCESS_OUTGOING_CALLS) == PackageManager.PERMISSION_DENIED)
@@ -321,9 +415,77 @@ public class ControlCenterv2 extends AppCompatActivity
             wantedPermissions.add(Manifest.permission.READ_EXTERNAL_STORAGE);
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_CALENDAR) == PackageManager.PERMISSION_DENIED)
             wantedPermissions.add(Manifest.permission.READ_CALENDAR);
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_DENIED)
+            wantedPermissions.add(Manifest.permission.ACCESS_FINE_LOCATION);
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_DENIED)
+            wantedPermissions.add(Manifest.permission.ACCESS_COARSE_LOCATION);
 
-        if (!wantedPermissions.isEmpty())
-            ActivityCompat.requestPermissions(this, wantedPermissions.toArray(new String[wantedPermissions.size()]), 0);
+        try {
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.MEDIA_CONTENT_CONTROL) == PackageManager.PERMISSION_DENIED)
+                wantedPermissions.add(Manifest.permission.MEDIA_CONTENT_CONTROL);
+        } catch (Exception ignored) {
+        }
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            if (pesterWithPermissions) {
+                if (ContextCompat.checkSelfPermission(this, Manifest.permission.ANSWER_PHONE_CALLS) == PackageManager.PERMISSION_DENIED) {
+                    wantedPermissions.add(Manifest.permission.ANSWER_PHONE_CALLS);
+                }
+            }
+        }
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            if (ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.ACCESS_BACKGROUND_LOCATION) == PackageManager.PERMISSION_DENIED) {
+                wantedPermissions.add(Manifest.permission.ACCESS_BACKGROUND_LOCATION);
+            }
+        }
+
+        if (!wantedPermissions.isEmpty()) {
+            Prefs prefs = GBApplication.getPrefs();
+            // If this is not the first run, we can rely on
+            // shouldShowRequestPermissionRationale(String permission)
+            // and ignore permissions that shouldn't or can't be requested again
+            if (prefs.getBoolean("permissions_asked", false)) {
+                // Don't request permissions that we shouldn't show a prompt for
+                // e.g. permissions that are "Never" granted by the user or never granted by the system
+                Set<String> shouldNotAsk = new HashSet<>();
+                for (String wantedPermission : wantedPermissions) {
+                    if (!shouldShowRequestPermissionRationale(wantedPermission)) {
+                        shouldNotAsk.add(wantedPermission);
+                    }
+                }
+                wantedPermissions.removeAll(shouldNotAsk);
+            } else {
+                // Permissions have not been asked yet, but now will be
+                prefs.getPreferences().edit().putBoolean("permissions_asked", true).apply();
+            }
+
+            if (!wantedPermissions.isEmpty()) {
+                GB.toast(this, getString(R.string.permission_granting_mandatory), Toast.LENGTH_LONG, GB.ERROR);
+                ActivityCompat.requestPermissions(this, wantedPermissions.toArray(new String[0]), 0);
+                GB.toast(this, getString(R.string.permission_granting_mandatory), Toast.LENGTH_LONG, GB.ERROR);
+            }
+        }
+
+        /* In order to be able to set ringer mode to silent in GB's PhoneCallReceiver
+           the permission to access notifications is needed above Android M
+           ACCESS_NOTIFICATION_POLICY is also needed in the manifest */
+        if (pesterWithPermissions) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                if (!((NotificationManager) this.getSystemService(Context.NOTIFICATION_SERVICE)).isNotificationPolicyAccessGranted()) {
+                    GB.toast(this, getString(R.string.permission_granting_mandatory), Toast.LENGTH_LONG, GB.ERROR);
+                    startActivity(new Intent(android.provider.Settings.ACTION_NOTIFICATION_POLICY_ACCESS_SETTINGS));
+                }
+            }
+        }
+
+        // HACK: On Lineage we have to do this so that the permission dialog pops up
+        if (fakeStateListener == null) {
+            fakeStateListener = new PhoneStateListener();
+            TelephonyManager telephonyManager = (TelephonyManager) getSystemService(TELEPHONY_SERVICE);
+            telephonyManager.listen(fakeStateListener, PhoneStateListener.LISTEN_CALL_STATE);
+            telephonyManager.listen(fakeStateListener, PhoneStateListener.LISTEN_NONE);
+        }
     }
 
     public void setLanguage(Locale language, boolean invalidateLanguage) {
@@ -331,5 +493,39 @@ public class ControlCenterv2 extends AppCompatActivity
             isLanguageInvalid = true;
         }
         AndroidUtils.setLanguage(this, language);
+    }
+
+    private long[] getSteps(GBDevice device, DBHandler db) {
+        Calendar day = GregorianCalendar.getInstance();
+
+        DailyTotals ds = new DailyTotals();
+        return ds.getDailyTotalsForDevice(device, day, db);
+    }
+
+    protected RefreshTask createRefreshTask(String task, Context context) {
+        return new RefreshTask(task, context);
+    }
+
+    public class RefreshTask extends DBAccess {
+        public RefreshTask(String task, Context context) {
+            super(task, context);
+        }
+
+        @Override
+        protected void doInBackground(DBHandler db) {
+            for (GBDevice gbDevice : deviceList) {
+                final DeviceCoordinator coordinator = DeviceHelper.getInstance().getCoordinator(gbDevice);
+                if (coordinator.supportsActivityTracking()) {
+                    long[] stepsAndSleepData = getSteps(gbDevice, db);
+                    deviceActivityHashMap.put(gbDevice.getAddress(), stepsAndSleepData);
+                }
+            }
+        }
+
+        @Override
+        protected void onPostExecute(Object o) {
+            refreshPairedDevices();
+        }
+
     }
 }

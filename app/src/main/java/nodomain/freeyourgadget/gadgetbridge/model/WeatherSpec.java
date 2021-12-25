@@ -1,4 +1,5 @@
-/*  Copyright (C) 2016-2018 Andreas Shimokawa, Carsten Pfeiffer
+/*  Copyright (C) 2016-2020 Andreas Shimokawa, Carsten Pfeiffer, Daniele
+    Gobbetti
 
     This file is part of Gadgetbridge.
 
@@ -14,12 +15,14 @@
 
     You should have received a copy of the GNU Affero General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
+
 package nodomain.freeyourgadget.gadgetbridge.model;
 
 import android.os.Parcel;
 import android.os.Parcelable;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 // FIXME: document me and my fields, including units
 public class WeatherSpec implements Parcelable {
@@ -34,6 +37,7 @@ public class WeatherSpec implements Parcelable {
             return new WeatherSpec[size];
         }
     };
+    public static final int VERSION = 2;
     public int timestamp;
     public String location;
     public int currentTemp;
@@ -42,22 +46,43 @@ public class WeatherSpec implements Parcelable {
     public int currentHumidity;
     public int todayMaxTemp;
     public int todayMinTemp;
+    public float windSpeed; //km per hour
+    public int windDirection; //deg
+
     public ArrayList<Forecast> forecasts = new ArrayList<>();
 
     public WeatherSpec() {
 
     }
 
+    // Lower bounds of beaufort regions 1 to 12
+    // Values from https://en.wikipedia.org/wiki/Beaufort_scale
+    static final float[] beaufort = new float[] { 2, 6, 12, 20, 29, 39, 50, 62, 75, 89, 103, 118 };
+    //                                    level: 0 1  2   3   4   5   6   7   8   9   10   11   12
+
+    public int windSpeedAsBeaufort() {
+        int l = 0;
+        while (l < beaufort.length && beaufort[l] < this.windSpeed) {
+            l++;
+        }
+        return l;
+    }
+
     protected WeatherSpec(Parcel in) {
-        timestamp = in.readInt();
-        location = in.readString();
-        currentTemp = in.readInt();
-        currentConditionCode = in.readInt();
-        currentCondition = in.readString();
-        currentHumidity = in.readInt();
-        todayMaxTemp = in.readInt();
-        todayMinTemp = in.readInt();
-        in.readList(forecasts, Forecast.class.getClassLoader());
+        int version = in.readInt();
+        if (version == VERSION) {
+            timestamp = in.readInt();
+            location = in.readString();
+            currentTemp = in.readInt();
+            currentConditionCode = in.readInt();
+            currentCondition = in.readString();
+            currentHumidity = in.readInt();
+            todayMaxTemp = in.readInt();
+            todayMinTemp = in.readInt();
+            windSpeed = in.readFloat();
+            windDirection = in.readInt();
+            in.readList(forecasts, Forecast.class.getClassLoader());
+        }
     }
 
     @Override
@@ -67,6 +92,7 @@ public class WeatherSpec implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(VERSION);
         dest.writeInt(timestamp);
         dest.writeString(location);
         dest.writeInt(currentTemp);
@@ -75,6 +101,8 @@ public class WeatherSpec implements Parcelable {
         dest.writeInt(currentHumidity);
         dest.writeInt(todayMaxTemp);
         dest.writeInt(todayMinTemp);
+        dest.writeFloat(windSpeed);
+        dest.writeInt(windDirection);
         dest.writeList(forecasts);
     }
 

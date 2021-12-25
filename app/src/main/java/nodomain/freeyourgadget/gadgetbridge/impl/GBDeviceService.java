@@ -1,5 +1,7 @@
-/*  Copyright (C) 2015-2018 Alberto, Andreas Shimokawa, Carsten Pfeiffer,
-    criogenic, Frank Slezak, ivanovlev, Julien Pivotto, Kasha, Steffen Liebergeld,
+/*  Copyright (C) 2015-2021 Alberto, Andreas Böhler, Andreas Shimokawa,
+    Carsten Pfeiffer, criogenic, Daniel Dakhno, Daniele Gobbetti, Frank Slezak,
+    ivanovlev, José Rebelo, Julien Pivotto, Kasha, Roi Greenberg, Sebastian
+    Kranz, Steffen Liebergeld,
     Taavi Eomäe
 
     This file is part of Gadgetbridge.
@@ -23,11 +25,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
+import android.os.Build;
 import android.provider.ContactsContract;
 
 import java.util.ArrayList;
 import java.util.UUID;
 
+import androidx.annotation.Nullable;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.model.Alarm;
@@ -38,23 +42,23 @@ import nodomain.freeyourgadget.gadgetbridge.model.DeviceService;
 import nodomain.freeyourgadget.gadgetbridge.model.MusicSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.MusicStateSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
+import nodomain.freeyourgadget.gadgetbridge.model.Reminder;
 import nodomain.freeyourgadget.gadgetbridge.model.WeatherSpec;
 import nodomain.freeyourgadget.gadgetbridge.service.DeviceCommunicationService;
-import nodomain.freeyourgadget.gadgetbridge.util.LanguageUtils;
+import nodomain.freeyourgadget.gadgetbridge.util.RtlUtils;
 
 import static nodomain.freeyourgadget.gadgetbridge.util.JavaExtensions.coalesce;
+
 
 public class GBDeviceService implements DeviceService {
     protected final Context mContext;
     private final Class<? extends Service> mServiceClass;
-    private final String[] transliterationExtras = new String[]{
-            EXTRA_NOTIFICATION_PHONENUMBER,
+    public static final String[] transliterationExtras = new String[]{
             EXTRA_NOTIFICATION_SENDER,
             EXTRA_NOTIFICATION_SUBJECT,
             EXTRA_NOTIFICATION_TITLE,
             EXTRA_NOTIFICATION_BODY,
             EXTRA_NOTIFICATION_SOURCENAME,
-            EXTRA_CALL_PHONENUMBER,
             EXTRA_CALL_DISPLAYNAME,
             EXTRA_MUSIC_ARTIST,
             EXTRA_MUSIC_ALBUM,
@@ -79,10 +83,11 @@ public class GBDeviceService implements DeviceService {
     }
 
     protected void invokeService(Intent intent) {
-        if (LanguageUtils.transliterate()) {
+
+        if (RtlUtils.rtlSupport()) {
             for (String extra : transliterationExtras) {
                 if (intent.hasExtra(extra)) {
-                    intent.putExtra(extra, LanguageUtils.transliterate(intent.getStringExtra(extra)));
+                    intent.putExtra(extra, RtlUtils.fixRtl(intent.getStringExtra(extra)));
                 }
             }
         }
@@ -139,18 +144,26 @@ public class GBDeviceService implements DeviceService {
 
     @Override
     public void onNotification(NotificationSpec notificationSpec) {
+        boolean hideMessageDetails = GBApplication.getPrefs().getString("pref_message_privacy_mode",
+                GBApplication.getContext().getString(R.string.p_message_privacy_mode_off))
+                .equals(GBApplication.getContext().getString(R.string.p_message_privacy_mode_complete));
+
         Intent intent = createIntent().setAction(ACTION_NOTIFICATION)
                 .putExtra(GBDevice.EXTRA_DEVICE, mGBDevice)
                 .putExtra(EXTRA_NOTIFICATION_FLAGS, notificationSpec.flags)
-                .putExtra(EXTRA_NOTIFICATION_PHONENUMBER, notificationSpec.phoneNumber)
-                .putExtra(EXTRA_NOTIFICATION_SENDER, coalesce(notificationSpec.sender, getContactDisplayNameByNumber(notificationSpec.phoneNumber)))
-                .putExtra(EXTRA_NOTIFICATION_SUBJECT, notificationSpec.subject)
-                .putExtra(EXTRA_NOTIFICATION_TITLE, notificationSpec.title)
-                .putExtra(EXTRA_NOTIFICATION_BODY, notificationSpec.body)
-                .putExtra(EXTRA_NOTIFICATION_ID, notificationSpec.id)
+                .putExtra(EXTRA_NOTIFICATION_PHONENUMBER, hideMessageDetails ? null : notificationSpec.phoneNumber)
+                .putExtra(EXTRA_NOTIFICATION_SENDER, hideMessageDetails ? null : coalesce(notificationSpec.sender, getContactDisplayNameByNumber(notificationSpec.phoneNumber)))
+                .putExtra(EXTRA_NOTIFICATION_SUBJECT, hideMessageDetails ? null : notificationSpec.subject)
+                .putExtra(EXTRA_NOTIFICATION_TITLE, hideMessageDetails ? null : notificationSpec.title)
+                .putExtra(EXTRA_NOTIFICATION_BODY, hideMessageDetails ? null : notificationSpec.body)
+                .putExtra(EXTRA_NOTIFICATION_ID, notificationSpec.getId())
                 .putExtra(EXTRA_NOTIFICATION_TYPE, notificationSpec.type)
+                .putExtra(EXTRA_NOTIFICATION_ACTIONS, notificationSpec.attachedActions)
                 .putExtra(EXTRA_NOTIFICATION_SOURCENAME, notificationSpec.sourceName)
-                .putExtra(EXTRA_NOTIFICATION_PEBBLE_COLOR, notificationSpec.pebbleColor);
+                .putExtra(EXTRA_NOTIFICATION_PEBBLE_COLOR, notificationSpec.pebbleColor)
+                .putExtra(EXTRA_NOTIFICATION_SOURCEAPPID, notificationSpec.sourceAppId)
+                .putExtra(EXTRA_NOTIFICATION_ICONID, notificationSpec.iconId)
+                .putExtra(EXTRA_NOTIFICATION_DNDSUPPRESSED, notificationSpec.dndSuppressed);
         invokeService(intent);
     }
 
@@ -173,8 +186,7 @@ public class GBDeviceService implements DeviceService {
     @Override
     public void onSetAlarms(ArrayList<? extends Alarm> alarms) {
         Intent intent = createIntent().setAction(ACTION_SET_ALARMS)
-                .putExtra(GBDevice.EXTRA_DEVICE, mGBDevice)
-                .putParcelableArrayListExtra(EXTRA_ALARMS, alarms);
+                .putExtra(EXTRA_ALARMS, alarms);
         invokeService(intent);
     }
 
@@ -222,6 +234,13 @@ public class GBDeviceService implements DeviceService {
                 .putExtra(EXTRA_MUSIC_STATE, stateSpec.state)
                 .putExtra(EXTRA_MUSIC_SHUFFLE, stateSpec.shuffle)
                 .putExtra(EXTRA_MUSIC_POSITION, stateSpec.position);
+        invokeService(intent);
+    }
+
+    @Override
+    public void onSetReminders(ArrayList<? extends Reminder> reminders) {
+        Intent intent = createIntent().setAction(ACTION_SET_REMINDERS)
+                .putExtra(EXTRA_REMINDERS, reminders);
         invokeService(intent);
     }
 
@@ -292,15 +311,17 @@ public class GBDeviceService implements DeviceService {
     }
 
     @Override
-    public void onFetchActivityData() {
-        Intent intent = createIntent().setAction(ACTION_FETCH_ACTIVITY_DATA)
+    public void onFetchRecordedData(int dataTypes) {
+        Intent intent = createIntent().setAction(ACTION_FETCH_RECORDED_DATA)
+                .putExtra(EXTRA_RECORDED_DATA_TYPES, dataTypes)
                 .putExtra(GBDevice.EXTRA_DEVICE, mGBDevice);
         invokeService(intent);
     }
 
     @Override
-    public void onReboot() {
-        Intent intent = createIntent().setAction(ACTION_REBOOT)
+    public void onReset(int flags) {
+        Intent intent = createIntent().setAction(ACTION_RESET)
+                .putExtra(EXTRA_RESET_FLAGS, flags)
                 .putExtra(GBDevice.EXTRA_DEVICE, mGBDevice);
         invokeService(intent);
     }
@@ -399,6 +420,13 @@ public class GBDeviceService implements DeviceService {
     }
 
     @Override
+    public void onReadConfiguration(String config) {
+        Intent intent = createIntent().setAction(ACTION_READ_CONFIGURATION)
+                .putExtra(EXTRA_CONFIG, config);
+        invokeService(intent);
+    }
+
+    @Override
     public void onTestNewFunction() {
         Intent intent = createIntent().setAction(ACTION_TEST_NEW_FUNCTION)
                 .putExtra(GBDevice.EXTRA_DEVICE, mGBDevice);
@@ -420,7 +448,12 @@ public class GBDeviceService implements DeviceService {
      * @return contact DisplayName, if found it
      */
     private String getContactDisplayNameByNumber(String number) {
-        Uri uri = Uri.withAppendedPath(ContactsContract.PhoneLookup.CONTENT_FILTER_URI, Uri.encode(number));
+        Uri uri;
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            uri = Uri.withAppendedPath(ContactsContract.PhoneLookup.ENTERPRISE_CONTENT_FILTER_URI, Uri.encode(number));
+        } else {
+            uri = Uri.withAppendedPath(ContactsContract.PhoneLookup.CONTENT_FILTER_URI, Uri.encode(number));
+        }
         String name = number;
 
         if (number == null || number.equals("")) {
@@ -437,5 +470,19 @@ public class GBDeviceService implements DeviceService {
         }
 
         return name;
+    }
+
+    @Override
+    public void onSetFmFrequency(float frequency) {
+        Intent intent = createIntent().setAction(ACTION_SET_FM_FREQUENCY)
+                .putExtra(EXTRA_FM_FREQUENCY, frequency);
+        invokeService(intent);
+    }
+
+    @Override
+    public void onSetLedColor(int color) {
+        Intent intent = createIntent().setAction(ACTION_SET_LED_COLOR)
+                .putExtra(EXTRA_LED_COLOR, color);
+        invokeService(intent);
     }
 }

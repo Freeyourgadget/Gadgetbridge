@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <SwitchPreference
+        android:icon="@drawable/ic_bolt"
+        android:key="stamina_preference"
+        android:title="@string/sonyswr12_settings_stamina"
+        android:defaultValue="false"
+        android:summary="@string/sonyswr12_settings_stamina_summary" />
+    <SwitchPreference
+        android:icon="@drawable/ic_vibration"
+        android:key="vibration_preference"
+        android:title="@string/sonyswr12_settings_low_vibration"
+        android:defaultValue="false"
+        android:summary="@string/sonyswr12_settings_low_vibration_summary" />
+    <ListPreference
+        android:key="smart_alarm_interval_preference"
+        android:title="@string/sonyswr12_settings_alarm_interval"
+        android:icon="@drawable/ic_access_alarms"
+        android:defaultValue="10"
+        android:entries="@array/sonyswr12_smart_alarm_intervals"
+        android:entryValues="@array/sonyswr12_smart_alarm_interval_values"
+        android:summary="@string/sonyswr12_settings_alarm_interval_summary" />
+</PreferenceScreen>

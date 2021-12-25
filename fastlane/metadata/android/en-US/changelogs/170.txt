@@ -1,0 +1,7 @@
+* Initial support for Amazfit Bip S (incomplete, needs the official app once to obtain the pairing key)
+* Amazift Bip Lite: Allow relaxing firmware checks to allow flashing of the regular Bip firmware (for the brave)
+* Fossil Hybrid HR: Fix notification history on newer firmwares
+* Fossil Hybrid HR: Add option to disable widget circle
+* Bangle.js: Don't set time if the option is turned off in settings
+* Bangle.js: DST and time zone fixes
+* Add Arabic-style Eastern Arabic numerals to transliteration

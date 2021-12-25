@@ -33,7 +33,7 @@ import static org.junit.Assert.assertNotNull;
  * directory.
  */
 @RunWith(RobolectricTestRunner.class)
-@Config(constants = BuildConfig.class, sdk = 19)
+@Config(sdk = 19)
 // need sdk 19 because "WITHOUT ROWID" is not supported in robolectric/sqlite4java
 public abstract class TestBase {
     protected static File logFilesDir;
@@ -85,7 +85,7 @@ public abstract class TestBase {
     }
 
     protected GBDevice createDummyGDevice(String macAddress) {
-        GBDevice dummyGBDevice = new GBDevice(macAddress, "Testie", DeviceType.TEST);
+        GBDevice dummyGBDevice = new GBDevice(macAddress, "Testie", "Tesie Alias", DeviceType.TEST);
         dummyGBDevice.setFirmwareVersion("1.2.3");
         dummyGBDevice.setModel("4.0");
         return dummyGBDevice;

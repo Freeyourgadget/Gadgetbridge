@@ -1,4 +1,4 @@
-/*  Copyright (C) 2015-2018 Andreas Shimokawa, AnthonyDiGirolamo, Carsten
+/*  Copyright (C) 2015-2020 Andreas Shimokawa, AnthonyDiGirolamo, Carsten
     Pfeiffer, Daniele Gobbetti, Frank Slezak, Julien Pivotto, Kaz Wolfe, Kevin
     Richter, Lukas Veneziano
 
@@ -55,6 +55,7 @@ public enum NotificationType {
     BUSINESS_CALENDAR(PebbleIconID.TIMELINE_CALENDAR, PebbleColor.BlueMoon),
     RIOT(PebbleIconID.NOTIFICATION_HIPCHAT, PebbleColor.LavenderIndigo),
     SIGNAL(PebbleIconID.NOTIFICATION_HIPCHAT, PebbleColor.BlueMoon),
+    WIRE(PebbleIconID.NOTIFICATION_HIPCHAT, PebbleColor.BlueMoon),
     SKYPE(PebbleIconID.NOTIFICATION_SKYPE, PebbleColor.VividCerulean),
     SLACK(PebbleIconID.NOTIFICATION_SLACK, PebbleColor.Folly),
     SNAPCHAT(PebbleIconID.NOTIFICATION_SNAPCHAT, PebbleColor.Icterine),
@@ -62,6 +63,7 @@ public enum NotificationType {
     THREEMA(PebbleIconID.NOTIFICATION_HIPCHAT, PebbleColor.JaegerGreen),
     KONTALK(PebbleIconID.NOTIFICATION_HIPCHAT, PebbleColor.JaegerGreen),
     ANTOX(PebbleIconID.NOTIFICATION_HIPCHAT, PebbleColor.JaegerGreen),
+    DISCORD(PebbleIconID.NOTIFICATION_HIPCHAT, PebbleColor.Purpureus),
     TRANSIT(PebbleIconID.LOCATION, PebbleColor.JaegerGreen),
     TWITTER(PebbleIconID.NOTIFICATION_TWITTER, PebbleColor.BlueMoon),
     VIBER(PebbleIconID.NOTIFICATION_VIBER, PebbleColor.VividViolet),
@@ -105,6 +107,7 @@ public enum NotificationType {
             case FACEBOOK_MESSENGER:
             case RIOT:
             case SIGNAL:
+            case WIRE:
             case TELEGRAM:
             case THREEMA:
             case KONTALK:
@@ -120,6 +123,7 @@ public enum NotificationType {
             case SLACK:
             case LINE:
             case VIBER:
+            case DISCORD:
                 return "generic_chat";
             case GMAIL:
             case GOOGLE_INBOX:

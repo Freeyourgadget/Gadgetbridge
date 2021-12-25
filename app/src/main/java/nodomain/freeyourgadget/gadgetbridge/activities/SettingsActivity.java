@@ -1,5 +1,6 @@
-/*  Copyright (C) 2015-2018 0nse, Andreas Shimokawa, Carsten Pfeiffer,
-    Daniele Gobbetti, Felix Konstantin Maurer, Normano64
+/*  Copyright (C) 2015-2020 0nse, Andreas Shimokawa, Carsten Pfeiffer,
+    Daniel Dakhno, Daniele Gobbetti, Felix Konstantin Maurer, José Rebelo,
+    Martin, Normano64, Pavel Elagin, Sebastian Kranz, vanous
 
     This file is part of Gadgetbridge.
 
@@ -18,7 +19,6 @@
 package nodomain.freeyourgadget.gadgetbridge.activities;
 
 import android.Manifest;
-import android.content.ContentUris;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -28,48 +28,44 @@ import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.media.Ringtone;
+import android.media.RingtoneManager;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
-import android.os.Environment;
 import android.preference.EditTextPreference;
 import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceCategory;
 import android.preference.PreferenceManager;
 import android.provider.DocumentsContract;
-import android.provider.MediaStore;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.LocalBroadcastManager;
 import android.widget.Toast;
+
+import androidx.core.app.ActivityCompat;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
-import java.net.URISyntaxException;
-import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
+import java.util.Set;
 
 import nodomain.freeyourgadget.gadgetbridge.BuildConfig;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
+import nodomain.freeyourgadget.gadgetbridge.activities.charts.ChartsPreferencesActivity;
 import nodomain.freeyourgadget.gadgetbridge.database.PeriodicExporter;
 import nodomain.freeyourgadget.gadgetbridge.devices.DeviceManager;
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandPreferencesActivity;
-import nodomain.freeyourgadget.gadgetbridge.model.CannedMessagesSpec;
+import nodomain.freeyourgadget.gadgetbridge.devices.qhybrid.ConfigActivity;
+import nodomain.freeyourgadget.gadgetbridge.devices.zetime.ZeTimePreferenceActivity;
 import nodomain.freeyourgadget.gadgetbridge.util.AndroidUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.FileUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 import nodomain.freeyourgadget.gadgetbridge.util.GBPrefs;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
-
-import static nodomain.freeyourgadget.gadgetbridge.model.ActivityUser.PREF_USER_HEIGHT_CM;
-import static nodomain.freeyourgadget.gadgetbridge.model.ActivityUser.PREF_USER_SLEEP_DURATION;
-import static nodomain.freeyourgadget.gadgetbridge.model.ActivityUser.PREF_USER_STEPS_GOAL;
-import static nodomain.freeyourgadget.gadgetbridge.model.ActivityUser.PREF_USER_WEIGHT_KG;
-import static nodomain.freeyourgadget.gadgetbridge.model.ActivityUser.PREF_USER_YEAR_OF_BIRTH;
 
 public class SettingsActivity extends AbstractSettingsActivity {
     private static final Logger LOG = LoggerFactory.getLogger(SettingsActivity.class);
@@ -88,14 +84,26 @@ public class SettingsActivity extends AbstractSettingsActivity {
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
 
-        Preference pref = findPreference("notifications_generic");
+        Prefs prefs = GBApplication.getPrefs();
+        Preference pref = findPreference("pref_category_activity_personal");
         pref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             public boolean onPreferenceClick(Preference preference) {
-                Intent enableIntent = new Intent("android.settings.ACTION_NOTIFICATION_LISTENER_SETTINGS");
+                Intent enableIntent = new Intent(SettingsActivity.this, AboutUserPreferencesActivity.class);
                 startActivity(enableIntent);
                 return true;
             }
         });
+
+
+        pref = findPreference("pref_charts");
+        pref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            public boolean onPreferenceClick(Preference preference) {
+                Intent enableIntent = new Intent(SettingsActivity.this, ChartsPreferencesActivity.class);
+                startActivity(enableIntent);
+                return true;
+            }
+        });
+
         pref = findPreference("pref_key_miband");
         pref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             public boolean onPreferenceClick(Preference preference) {
@@ -105,10 +113,19 @@ public class SettingsActivity extends AbstractSettingsActivity {
             }
         });
 
-        pref = findPreference("pref_key_blacklist");
+        pref = findPreference("pref_key_qhybrid");
+        pref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+                startActivity(new Intent(SettingsActivity.this, ConfigActivity.class));
+                return true;
+            }
+        });
+
+        pref = findPreference("pref_key_zetime");
         pref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             public boolean onPreferenceClick(Preference preference) {
-                Intent enableIntent = new Intent(SettingsActivity.this, AppBlacklistActivity.class);
+                Intent enableIntent = new Intent(SettingsActivity.this, ZeTimePreferenceActivity.class);
                 startActivity(enableIntent);
                 return true;
             }
@@ -169,6 +186,8 @@ public class SettingsActivity extends AbstractSettingsActivity {
 
         });
 
+
+
         pref = findPreference("language");
         pref.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
             @Override
@@ -203,12 +222,6 @@ public class SettingsActivity extends AbstractSettingsActivity {
                 return true;
             }
         });
-
-        if (!GBApplication.isRunningMarshmallowOrLater()) {
-            pref = findPreference("notification_filter");
-            PreferenceCategory category = (PreferenceCategory) findPreference("pref_key_notifications");
-            category.removePreference(pref);
-        }
 
         pref = findPreference("location_aquire");
         pref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
@@ -255,38 +268,20 @@ public class SettingsActivity extends AbstractSettingsActivity {
             }
         });
 
-        pref = findPreference("canned_messages_dismisscall_send");
-        pref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-            public boolean onPreferenceClick(Preference preference) {
-                Prefs prefs = GBApplication.getPrefs();
-                ArrayList<String> messages = new ArrayList<>();
-                for (int i = 1; i <= 16; i++) {
-                    String message = prefs.getString("canned_message_dismisscall_" + i, null);
-                    if (message != null && !message.equals("")) {
-                        messages.add(message);
-                    }
-                }
-                CannedMessagesSpec cannedMessagesSpec = new CannedMessagesSpec();
-                cannedMessagesSpec.type = CannedMessagesSpec.TYPE_MISSEDCALLS;
-                cannedMessagesSpec.cannedMessages = messages.toArray(new String[messages.size()]);
-                GBApplication.deviceService().onSetCannedMessages(cannedMessagesSpec);
+        pref = findPreference("weather_city");
+        pref.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+            @Override
+            public boolean onPreferenceChange(Preference preference, Object newVal) {
+                // reset city id and force a new lookup
+                GBApplication.getPrefs().getPreferences().edit().putString("weather_cityid", null).apply();
+                preference.setSummary(newVal.toString());
+                Intent intent = new Intent("GB_UPDATE_WEATHER");
+                intent.setPackage(BuildConfig.APPLICATION_ID);
+                sendBroadcast(intent);
                 return true;
             }
         });
 
-        pref = findPreference("weather_city");
-        pref.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
-           @Override
-           public boolean onPreferenceChange(Preference preference, Object newVal) {
-               // reset city id and force a new lookup
-               GBApplication.getPrefs().getPreferences().edit().putString("weather_cityid", null).apply();
-               preference.setSummary(newVal.toString());
-               Intent intent = new Intent("GB_UPDATE_WEATHER");
-               intent.setPackage(BuildConfig.APPLICATION_ID);
-               sendBroadcast(intent);
-               return true;
-           }
-        });
 
         pref = findPreference(GBPrefs.AUTO_EXPORT_LOCATION);
         pref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
@@ -330,6 +325,24 @@ public class SettingsActivity extends AbstractSettingsActivity {
             }
         });
 
+        pref = findPreference("auto_fetch_interval_limit");
+        pref.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+            @Override
+            public boolean onPreferenceChange(Preference preference, Object autoFetchInterval) {
+                String summary = String.format(
+                        getApplicationContext().getString(R.string.pref_auto_fetch_limit_fetches_summary),
+                        Integer.valueOf((String) autoFetchInterval));
+                preference.setSummary(summary);
+                return true;
+            }
+        });
+
+        int autoFetchInterval = GBApplication.getPrefs().getInt("auto_fetch_interval_limit", 0);
+        summary = String.format(
+                getApplicationContext().getString(R.string.pref_auto_fetch_limit_fetches_summary),
+                autoFetchInterval);
+        pref.setSummary(summary);
+
         // Get all receivers of Media Buttons
         Intent mediaButtonIntent = new Intent(Intent.ACTION_MEDIA_BUTTON);
 
@@ -344,8 +357,14 @@ public class SettingsActivity extends AbstractSettingsActivity {
         newValues[0] = "default";
 
         int i = 1;
+        Set<String> existingNames = new HashSet<>();
         for (ResolveInfo resolveInfo : mediaReceivers) {
-            newEntries[i] = resolveInfo.activityInfo.loadLabel(pm);
+            newEntries[i] = resolveInfo.activityInfo.loadLabel(pm) + " (" + resolveInfo.activityInfo.packageName + ")";
+            if (existingNames.contains(newEntries[i].toString().trim())) {
+                newEntries[i] = resolveInfo.activityInfo.loadLabel(pm) + " (" + resolveInfo.activityInfo.name + ")";
+            } else {
+                existingNames.add(newEntries[i].toString().trim());
+            }
             newValues[i] = resolveInfo.activityInfo.packageName;
             i++;
         }
@@ -354,6 +373,27 @@ public class SettingsActivity extends AbstractSettingsActivity {
         audioPlayer.setEntries(newEntries);
         audioPlayer.setEntryValues(newValues);
         audioPlayer.setDefaultValue(newValues[0]);
+
+        final Preference theme = (ListPreference) findPreference("pref_key_theme");
+        final Preference amoled_black = findPreference("pref_key_theme_amoled_black");
+
+        String selectedTheme = prefs.getString("pref_key_theme", SettingsActivity.this.getString(R.string.pref_theme_value_system));
+        if (selectedTheme.equals("light"))
+            amoled_black.setEnabled(false);
+        else
+            amoled_black.setEnabled(true);
+
+        theme.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+            @Override
+            public boolean onPreferenceChange(Preference preference, Object newVal) {
+                final String val = newVal.toString();
+                if (val.equals("light"))
+                    amoled_black.setEnabled(false);
+                else
+                    amoled_black.setEnabled(true);
+                return true;
+            }
+        });
     }
 
     @Override
@@ -379,7 +419,7 @@ public class SettingsActivity extends AbstractSettingsActivity {
     /*
     Either returns the file path of the selected document, or the display name, or an empty string
      */
-    private String getAutoExportLocationSummary() {
+    public String getAutoExportLocationSummary() {
         String autoExportLocation = GBApplication.getPrefs().getString(GBPrefs.AUTO_EXPORT_LOCATION, null);
         if (autoExportLocation == null) {
             return "";
@@ -388,13 +428,17 @@ public class SettingsActivity extends AbstractSettingsActivity {
         try {
             return AndroidUtils.getFilePath(getApplicationContext(), uri);
         } catch (IllegalArgumentException e) {
-            Cursor cursor = getContentResolver().query(
-                    uri,
-                    new String[] { DocumentsContract.Document.COLUMN_DISPLAY_NAME },
-                    null, null, null, null
-            );
-            if (cursor != null && cursor.moveToFirst()) {
-                return cursor.getString(cursor.getColumnIndex(DocumentsContract.Document.COLUMN_DISPLAY_NAME));
+            try {
+                Cursor cursor = getContentResolver().query(
+                        uri,
+                        new String[]{DocumentsContract.Document.COLUMN_DISPLAY_NAME},
+                        null, null, null, null
+                );
+                if (cursor != null && cursor.moveToFirst()) {
+                    return cursor.getString(cursor.getColumnIndex(DocumentsContract.Document.COLUMN_DISPLAY_NAME));
+                }
+            } catch (Exception fdfsdfds) {
+                LOG.warn("fuck");
             }
         }
         return "";
@@ -415,44 +459,6 @@ public class SettingsActivity extends AbstractSettingsActivity {
                 "pebble_reconnect_attempts",
                 "location_latitude",
                 "location_longitude",
-                "canned_reply_suffix",
-                "canned_reply_1",
-                "canned_reply_2",
-                "canned_reply_3",
-                "canned_reply_4",
-                "canned_reply_5",
-                "canned_reply_6",
-                "canned_reply_7",
-                "canned_reply_8",
-                "canned_reply_9",
-                "canned_reply_10",
-                "canned_reply_11",
-                "canned_reply_12",
-                "canned_reply_13",
-                "canned_reply_14",
-                "canned_reply_15",
-                "canned_reply_16",
-                "canned_message_dismisscall_1",
-                "canned_message_dismisscall_2",
-                "canned_message_dismisscall_3",
-                "canned_message_dismisscall_4",
-                "canned_message_dismisscall_5",
-                "canned_message_dismisscall_6",
-                "canned_message_dismisscall_7",
-                "canned_message_dismisscall_8",
-                "canned_message_dismisscall_9",
-                "canned_message_dismisscall_10",
-                "canned_message_dismisscall_11",
-                "canned_message_dismisscall_12",
-                "canned_message_dismisscall_13",
-                "canned_message_dismisscall_14",
-                "canned_message_dismisscall_15",
-                "canned_message_dismisscall_16",
-                PREF_USER_YEAR_OF_BIRTH,
-                PREF_USER_HEIGHT_CM,
-                PREF_USER_WEIGHT_KG,
-                PREF_USER_SLEEP_DURATION,
-                PREF_USER_STEPS_GOAL,
                 "weather_city",
         };
     }

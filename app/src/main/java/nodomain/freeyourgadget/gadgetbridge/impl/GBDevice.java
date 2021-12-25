@@ -1,5 +1,5 @@
-/*  Copyright (C) 2015-2018 Andreas Shimokawa, Carsten Pfeiffer, Daniele
-    Gobbetti, Uwe Hermann
+/*  Copyright (C) 2015-2021 Andreas Shimokawa, Carsten Pfeiffer, Daniel
+    Dakhno, Daniele Gobbetti, José Rebelo, Taavi Eomäe, Uwe Hermann
 
     This file is part of Gadgetbridge.
 
@@ -17,19 +17,23 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.impl;
 
+import static nodomain.freeyourgadget.gadgetbridge.model.BatteryState.UNKNOWN;
+
 import android.content.Context;
 import android.content.Intent;
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v4.content.LocalBroadcastManager;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
@@ -56,15 +60,19 @@ public class GBDevice implements Parcelable {
     private static final Logger LOG = LoggerFactory.getLogger(GBDevice.class);
     public static final short RSSI_UNKNOWN = 0;
     public static final short BATTERY_UNKNOWN = -1;
+    public static final short BATTERY_ICON_DEFAULT = -1;
+    public static final short BATTERY_LABEL_DEFAULT = -1;
     private static final short BATTERY_THRESHOLD_PERCENT = 10;
     public static final String EXTRA_DEVICE = "device";
+    public static final String EXTRA_UUID = "extraUUID";
     private static final String DEVINFO_HW_VER = "HW: ";
     private static final String DEVINFO_FW_VER = "FW: ";
-    private static final String DEVINFO_HR_VER = "HR: ";
-    private static final String DEVINFO_GPS_VER = "GPS: ";
+    private static final String DEVINFO_FW2_VER = "FW2: ";
     private static final String DEVINFO_ADDR = "ADDR: ";
     private static final String DEVINFO_ADDR2 = "ADDR2: ";
+    public static final String BATTERY_INDEX = "battery_index";
     private String mName;
+    private String mAlias;
     private final String mAddress;
     private String mVolatileAddress;
     private final DeviceType mDeviceType;
@@ -72,27 +80,40 @@ public class GBDevice implements Parcelable {
     private String mFirmwareVersion2;
     private String mModel;
     private State mState = State.NOT_CONNECTED;
-    private short mBatteryLevel = BATTERY_UNKNOWN;
+
+    // multiple battery support: at this point we support up to three batteries
+    private int[] mBatteryLevel = {BATTERY_UNKNOWN, BATTERY_UNKNOWN, BATTERY_UNKNOWN};
+    private float[] mBatteryVoltage = {BATTERY_UNKNOWN, BATTERY_UNKNOWN, BATTERY_UNKNOWN};
     private short mBatteryThresholdPercent = BATTERY_THRESHOLD_PERCENT;
-    private BatteryState mBatteryState;
+    private BatteryState[] mBatteryState = {UNKNOWN, UNKNOWN, UNKNOWN};
+    private int[] mBatteryIcons = {BATTERY_ICON_DEFAULT, BATTERY_ICON_DEFAULT, BATTERY_ICON_DEFAULT};
+    private int[] mBatteryLabels = {BATTERY_LABEL_DEFAULT, BATTERY_LABEL_DEFAULT, BATTERY_LABEL_DEFAULT};
+
     private short mRssi = RSSI_UNKNOWN;
     private String mBusyTask;
     private List<ItemWithDetails> mDeviceInfos;
+    private HashMap<String, Object> mExtraInfos;
 
-    public GBDevice(String address, String name, DeviceType deviceType) {
-        this(address, null, name, deviceType);
+    private int mNotificationIconConnected = R.drawable.ic_notification;
+    private int mNotificationIconDisconnected = R.drawable.ic_notification_disconnected;
+    private int mNotificationIconLowBattery = R.drawable.ic_notification_low_battery;
+
+    public GBDevice(String address, String name, String alias, DeviceType deviceType) {
+        this(address, null, name, alias, deviceType);
     }
 
-    public GBDevice(String address, String address2, String name, DeviceType deviceType) {
+    public GBDevice(String address, String address2, String name, String alias, DeviceType deviceType) {
         mAddress = address;
         mVolatileAddress = address2;
         mName = (name != null) ? name : mAddress;
+        mAlias = alias;
         mDeviceType = deviceType;
         validate();
     }
 
     private GBDevice(Parcel in) {
         mName = in.readString();
+        mAlias = in.readString();
         mAddress = in.readString();
         mVolatileAddress = in.readString();
         mDeviceType = DeviceType.values()[in.readInt()];
@@ -100,12 +121,19 @@ public class GBDevice implements Parcelable {
         mFirmwareVersion2 = in.readString();
         mModel = in.readString();
         mState = State.values()[in.readInt()];
-        mBatteryLevel = (short) in.readInt();
+        mBatteryLevel = in.createIntArray();
+        mBatteryVoltage = in.createFloatArray();
         mBatteryThresholdPercent = (short) in.readInt();
-        mBatteryState = (BatteryState) in.readSerializable();
+        mBatteryState = ordinalsToEnums(in.createIntArray());
+        mBatteryIcons = in.createIntArray();
+        mBatteryLabels = in.createIntArray();
         mRssi = (short) in.readInt();
         mBusyTask = in.readString();
         mDeviceInfos = in.readArrayList(getClass().getClassLoader());
+        mExtraInfos = (HashMap) in.readSerializable();
+        mNotificationIconConnected = in.readInt();
+        mNotificationIconDisconnected = in.readInt();
+        mNotificationIconLowBattery = in.readInt();
 
         validate();
     }
@@ -113,6 +141,7 @@ public class GBDevice implements Parcelable {
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(mName);
+        dest.writeString(mAlias);
         dest.writeString(mAddress);
         dest.writeString(mVolatileAddress);
         dest.writeInt(mDeviceType.ordinal());
@@ -120,12 +149,19 @@ public class GBDevice implements Parcelable {
         dest.writeString(mFirmwareVersion2);
         dest.writeString(mModel);
         dest.writeInt(mState.ordinal());
-        dest.writeInt(mBatteryLevel);
+        dest.writeIntArray(mBatteryLevel);
+        dest.writeFloatArray(mBatteryVoltage);
         dest.writeInt(mBatteryThresholdPercent);
-        dest.writeSerializable(mBatteryState);
+        dest.writeIntArray(enumsToOrdinals(mBatteryState));
+        dest.writeIntArray(mBatteryIcons);
+        dest.writeIntArray(mBatteryLabels);
         dest.writeInt(mRssi);
         dest.writeString(mBusyTask);
         dest.writeList(mDeviceInfos);
+        dest.writeSerializable(mExtraInfos);
+        dest.writeInt(mNotificationIconConnected);
+        dest.writeInt(mNotificationIconDisconnected);
+        dest.writeInt(mNotificationIconLowBattery);
     }
 
     private void validate() {
@@ -134,7 +170,35 @@ public class GBDevice implements Parcelable {
         }
     }
 
+    private int[] enumsToOrdinals(BatteryState[] arrayEnum) {
+        int[] ordinals = new int[arrayEnum.length];
+        for (int i = 0; i < arrayEnum.length; i++) {
+            ordinals[i] = arrayEnum[i].ordinal();
+        }
+        return ordinals;
+    }
+
+    private BatteryState[] ordinalsToEnums(int[] arrayInt){
+        BatteryState[] enums = new BatteryState[arrayInt.length];
+        for(int i = 0; i<arrayInt.length; i++){
+            enums[i]=BatteryState.values()[arrayInt[i]];
+        }
+        return enums;
+    }
+
+
     public String getName() {
+        return mName;
+    }
+
+    public String getAlias() {
+        return mAlias;
+    }
+
+    public String getAliasOrName() {
+        if (mAlias != null && !mAlias.equals("")) {
+            return mAlias;
+        }
         return mName;
     }
 
@@ -144,6 +208,10 @@ public class GBDevice implements Parcelable {
             return;
         }
         mName = name;
+    }
+
+    public void setAlias(String alias) {
+        mAlias = alias;
     }
 
     public String getAddress() {
@@ -216,6 +284,30 @@ public class GBDevice implements Parcelable {
         return mBusyTask;
     }
 
+    public int getNotificationIconConnected() {
+        return mNotificationIconConnected;
+    }
+
+    public void setNotificationIconConnected(int mNotificationIconConnected) {
+        this.mNotificationIconConnected = mNotificationIconConnected;
+    }
+
+    public int getNotificationIconDisconnected() {
+        return mNotificationIconDisconnected;
+    }
+
+    public void setNotificationIconDisconnected(int notificationIconDisconnected) {
+        this.mNotificationIconDisconnected = notificationIconDisconnected;
+    }
+
+    public int getNotificationIconLowBattery() {
+        return mNotificationIconLowBattery;
+    }
+
+    public void setNotificationIconLowBattery(int mNotificationIconLowBattery) {
+        this.mNotificationIconLowBattery = mNotificationIconLowBattery;
+    }
+
     /**
      * Marks the device as busy, performing a certain task. While busy, no other operations will
      * be performed on the device.
@@ -264,11 +356,17 @@ public class GBDevice implements Parcelable {
     }
 
     private void unsetDynamicState() {
-        setBatteryLevel(BATTERY_UNKNOWN);
-        setBatteryState(BatteryState.UNKNOWN);
+
+        setBatteryLevel(BATTERY_UNKNOWN, 0);
+        setBatteryLevel(BATTERY_UNKNOWN, 1);
+        setBatteryLevel(BATTERY_UNKNOWN, 2);
+        setBatteryState(UNKNOWN, 0);
+        setBatteryState(UNKNOWN, 1);
+        setBatteryState(UNKNOWN, 2);
         setFirmwareVersion(null);
         setFirmwareVersion2(null);
         setRssi(RSSI_UNKNOWN);
+        resetExtraInfos();
         if (mBusyTask != null) {
             unsetBusyTask();
         }
@@ -371,29 +469,106 @@ public class GBDevice implements Parcelable {
         return mAddress.hashCode() ^ 37;
     }
 
+
+    /**
+     * Returns the extra info value if it is set, null otherwise
+     * @param key the extra info key
+     * @return the extra info value if set, null otherwise
+     */
+    public Object getExtraInfo(String key) {
+        if (mExtraInfos == null) {
+            return null;
+        }
+
+        return mExtraInfos.get(key);
+    }
+
+    /**
+     * Sets an extra info value, overwriting the current one, if any
+     * @param key the extra info key
+     * @param info the extra info value
+     */
+    public void setExtraInfo(String key, Object info) {
+        if (mExtraInfos == null) {
+            mExtraInfos = new HashMap<>();
+        }
+
+        mExtraInfos.put(key, info);
+    }
+
+    /**
+     * Deletes all the extra infos
+     */
+    public void resetExtraInfos() {
+        mExtraInfos = null;
+    }
+
     /**
      * Ranges from 0-100 (percent), or -1 if unknown
      *
      * @return the battery level in range 0-100, or -1 if unknown
      */
-    public short getBatteryLevel() {
-        return mBatteryLevel;
+    public int getBatteryLevel() {
+        return getBatteryLevel(0);
     }
 
-    public void setBatteryLevel(short batteryLevel) {
+    public int getBatteryLevel(int index) {
+        return mBatteryLevel[index];
+    }
+
+
+    public void setBatteryLevel(int batteryLevel) {
+        setBatteryLevel(batteryLevel, 0);
+    }
+
+    public void setBatteryLevel(int batteryLevel, int index) {
         if ((batteryLevel >= 0 && batteryLevel <= 100) || batteryLevel == BATTERY_UNKNOWN) {
-            mBatteryLevel = batteryLevel;
+            mBatteryLevel[index] = batteryLevel;
         } else {
             LOG.error("Battery level musts be within range 0-100: " + batteryLevel);
         }
     }
 
+    public void setBatteryVoltage(float batteryVoltage) {
+        setBatteryVoltage(batteryVoltage, 0);
+    }
+
+
+    public void setBatteryVoltage(float batteryVoltage, int index) {
+        if (batteryVoltage >= 0 || batteryVoltage == BATTERY_UNKNOWN) {
+            mBatteryVoltage[index] = batteryVoltage;
+        } else {
+            LOG.error("Battery voltage must be > 0: " + batteryVoltage);
+        }
+    }
+
+    /**
+     * Voltage greater than zero (unit: Volt), or -1 if unknown
+     *
+     * @return the battery voltage, or -1 if unknown
+     */
+    public float getBatteryVoltage() {
+        return getBatteryVoltage(0);
+    }
+
+    public float getBatteryVoltage(int index) {
+        return mBatteryVoltage[index];
+    }
+
     public BatteryState getBatteryState() {
-        return mBatteryState;
+        return getBatteryState(0);
+    }
+
+    public BatteryState getBatteryState(int index) {
+        return mBatteryState[index];
     }
 
     public void setBatteryState(BatteryState mBatteryState) {
-        this.mBatteryState = mBatteryState;
+        setBatteryState(mBatteryState, 0);
+    }
+
+    public void setBatteryState(BatteryState mBatteryState, int index) {
+        this.mBatteryState[index] = mBatteryState;
     }
 
     public short getBatteryThresholdPercent() {
@@ -402,6 +577,22 @@ public class GBDevice implements Parcelable {
 
     public void setBatteryThresholdPercent(short batteryThresholdPercent) {
         this.mBatteryThresholdPercent = batteryThresholdPercent;
+    }
+
+    public int getBatteryIcon(int index) {
+        return this.mBatteryIcons[index];
+    }
+
+    public void setBatteryIcon(int icon, int index) {
+        this.mBatteryIcons[index] = icon;
+    }
+
+    public int getBatteryLabel(int index) {
+        return this.mBatteryLabels[index];
+    }
+
+    public void setBatteryLabel(int label, int index) {
+        this.mBatteryLabels[index] = label;
     }
 
     @Override
@@ -450,12 +641,7 @@ public class GBDevice implements Parcelable {
             result.add(new GenericItem(DEVINFO_FW_VER, mFirmwareVersion));
         }
         if (mFirmwareVersion2 != null) {
-            // FIXME: This is ugly
-            if (mDeviceType == DeviceType.AMAZFITBIP) {
-                result.add(new GenericItem(DEVINFO_GPS_VER, mFirmwareVersion2));
-            } else {
-                result.add(new GenericItem(DEVINFO_HR_VER, mFirmwareVersion2));
-            }
+            result.add(new GenericItem(DEVINFO_FW2_VER, mFirmwareVersion2));
         }
         if (mAddress != null) {
             result.add(new GenericItem(DEVINFO_ADDR, mAddress));

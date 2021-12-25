@@ -1,11 +1,11 @@
-<?xml version='1.0' encoding='UTF-8'?>
-<resources><string name="action_settings">Asetukset</string>
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="action_settings">Asetukset</string>
     <string name="controlcenter_fetch_activity_data">Synkronisoi</string>
     <string name="controlcenter_find_device">Löydä kadonnut laite</string>
     <string name="app_name">Gadgetbridge</string>
-
     <string name="title_activity_controlcenter">Gadgetbridge</string>
-    <string name="action_quit">Sulje</string>
+    <string name="action_quit">Lopeta</string>
     <string name="action_donate">Lahjoita</string>
     <string name="controlcenter_take_screenshot">Ota ruutukaappaus</string>
     <string name="controlcenter_disconnect">Katkaise yhteys</string>
@@ -16,10 +16,8 @@
     <string name="controlcenter_navigation_drawer_close">Sulje navigointivetolaatikko</string>
     <string name="controlcenter_snackbar_need_longpress">Paina korttia pitkään katkaistaksesi yhteyden</string>
     <string name="controlcenter_snackbar_disconnecting">Yhteyttä katkaistaan</string>
-    <string name="controlcenter_snackbar_connecting">Yhdistetään</string>
-    <string name="controlcenter_snackbar_requested_screenshot">Otataan ruutukaappausta laitteesta</string>
-
-
+    <string name="controlcenter_snackbar_connecting">Yhdistetään…</string>
+    <string name="controlcenter_snackbar_requested_screenshot">Otetaan ruutukaappausta laitteesta</string>
     <string name="title_activity_appmanager">Sovellusten hallinta</string>
     <string name="appmanager_cached_watchapps_watchfaces">Välimuistissa olevat sovellukset</string>
     <string name="appmanager_installed_watchapps">Asennetut sovellukset</string>
@@ -27,7 +25,7 @@
     <string name="appmananger_app_delete">Poista</string>
     <string name="appmananger_app_delete_cache">Poista laitteesta ja välimuistista</string>
     <string name="appmananger_app_reinstall">Asenna uudelleen</string>
-    <string name="appmanager_app_openinstore">Etsi Pebble Appstoresta</string>
+    <string name="appmanager_app_openinstore">Etsi Pebble appstoresta</string>
     <string name="appmanager_health_activate">Aktivoi</string>
     <string name="appmanager_health_deactivate">Poista käytöstä</string>
     <string name="appmanager_hrm_activate">Aktivoi sykemittari</string>
@@ -36,6 +34,186 @@
     <string name="appmanager_weather_deactivate">Ota järjestelmän sääsovellus pois käytöstä</string>
     <string name="appmanager_weather_install_provider">Asenna sääilmoitussovellus</string>
     <string name="app_configure">Määritä</string>
-    <string name="app_move_to_top">Siirrä ylös</string>
-
-    </resources>
+    <string name="app_move_to_top">Siirrä ylimmäksi</string>
+    <string name="mi2_prefs_button_press_broadcast_default_value" translatable="false">nodomain.freeyourgadget.gadgetbridge.ButtonPressed</string>
+    <string name="sonyswr12_settings_title">Sony SWR12 asetukset</string>
+    <string name="sonyswr12_settings_low_vibration">Matala tärinä käytössä</string>
+    <string name="sonyswr12_settings_stamina">Virransäästötila on päällä</string>
+    <string name="sonyswr12_settings_alarm_interval">Älykäs hälytysväli minuutteina</string>
+    <string name="sonyswr12_settings_low_vibration_summary">Ota käyttöön matala tärinän voimakkuus kaistalla</string>
+    <string name="sonyswr12_settings_stamina_summary">Virransäästötila poistaa säännöllisen automaattisen sykemittauksen käytöstä, mikä pidentää työaikaa</string>
+    <string name="sonyswr12_settings_alarm_interval_summary">Älykäs hälytysväli on aikaväli ennen asennettua hälytystä. Tässä välissä laite yrittää tunnistaa käyttäjän herättämisen unen kevyimmän vaiheen</string>
+    <string name="miband_firmware_known">Tämä laiteohjelmisto on testattu ja sen tiedetään olevan yhteensopiva Gadgetbridgen kanssa.</string>
+    <string name="fw_multi_upgrade_notice">Olet asentamassa %1$s, sekä %2$s laiteohjelmistoa, Mi Bandin nykyisten laitteiden sijasta.</string>
+    <string name="fw_upgrade_notice_amazfitneo">Olet asentamassa %s laiteohjelmistoa laitteeseen Amazfit Neo.
+\n
+\nRannekkeesi käynnistyy uudelleen .fw-tiedoston asentamisen jälkeen.
+\n
+\nJATKA OMALLA VASTUULLA!</string>
+    <string name="fw_upgrade_notice_amazfitx">Olet asentamassa %s laiteohjelmistoa laitteeseen Amazfit X.
+\n
+\nVarmista että asennat ensin .fw-tiedoston, sen jälkeen .res-tiedoston ja lopuksi .gps-tiedoston. Kellosi käynnistyy uudelleen .fw-tiedoston asentamisen jälkeen.
+\n
+\nHuomio: Sinun ei tarvitse asentaa .res tai .gps tiedostoja jos nämä tiedostot ovat samat kuin jo asennetut.
+\n
+\nJATKA OMALLA VASTUULLA!</string>
+    <string name="fw_upgrade_notice_miband3">Olet asentamassa %s laiteohjelmistoa laitteeseen Mi Band 3.
+\n
+\nVarmista että asennat ensin .fw-tiedoston, sen jälkeen .res-tiedoston ja lopuksi .gps-tiedoston. Kellosi käynnistyy uudelleen .fw-tiedoston asentamisen jälkeen.
+\n
+\nHuomio: Sinun ei tarvitse asentaa .res tai .gps tiedostoja jos nämä tiedostot ovat samat kuin jo asennetut.
+\n
+\nJATKA OMALLA VASTUULLA!</string>
+    <string name="fw_upgrade_notice_amazfitvergel">Olet asentamassa %s laiteohjelmistoa laitteeseen Amazfit Verge Lite.
+\n
+\nVarmista että asennat ensin .fw-tiedoston, sen jälkeen .res-tiedoston ja lopuksi .gps-tiedoston. Kellosi käynnistyy uudelleen .fw-tiedoston asentamisen jälkeen.
+\n
+\nHuomio: Sinun ei tarvitse asentaa .res tai .gps tiedostoja jos nämä tiedostot ovat samat kuin jo asennetut.
+\n
+\nJATKA OMALLA VASTUULLA!</string>
+    <string name="fw_upgrade_notice_amazfit_trex">Olet asentamassa %s laiteohjelmistoa laitteeseen Amazfit T-Rex.
+\n
+\nVarmista että asennat ensin .fw-tiedoston, sen jälkeen .res-tiedoston ja lopuksi .gps-tiedoston. Kellosi käynnistyy uudelleen .fw-tiedoston asentamisen jälkeen.
+\n
+\nHuomio: Sinun ei tarvitse asentaa .res tai .gps tiedostoja jos nämä tiedostot ovat samat kuin jo asennetut.
+\n
+\nJATKA OMALLA VASTUULLA!</string>
+    <string name="fw_upgrade_notice_amazfitgts">Olet asentamassa %s laiteohjelmistoa laitteeseen Amazfit GTS.
+\n
+\nVarmista että asennat ensin .fw-tiedoston, sen jälkeen .res-tiedoston ja lopuksi .gps-tiedoston. Kellosi käynnistyy uudelleen .fw-tiedoston asentamisen jälkeen.
+\n
+\nHuomio: Sinun ei tarvitse asentaa .res tai .gps tiedostoja jos nämä tiedostot ovat samat kuin jo asennetut.
+\n
+\nJATKA OMALLA VASTUULLA!</string>
+    <string name="fw_upgrade_notice_amazfitgtr">Olet asentamassa %s laiteohjelmistoa laitteeseen Amazfit GTR.
+\n
+\nVarmista että asennat ensin .fw-tiedoston, sen jälkeen .res-tiedoston ja lopuksi .gps-tiedoston. Kellosi käynnistyy uudelleen .fw-tiedoston asentamisen jälkeen.
+\n
+\nHuomio: Sinun ei tarvitse asentaa .res tai .gps tiedostoja jos nämä tiedostot ovat samat kuin jo asennetut.
+\n
+\nJATKA OMALLA VASTUULLA!</string>
+    <string name="fw_upgrade_notice_amazfitcor2">Olet asentamassa %s laiteohjelmistoa laitteeseen Amazfit Cor 2.
+\n
+\nVarmista että asennat ensin .fw-tiedoston, sen jälkeen .res-tiedoston ja lopuksi .gps-tiedoston. Kellosi käynnistyy uudelleen .fw-tiedoston asentamisen jälkeen.
+\n
+\nHuomio: Sinun ei tarvitse asentaa .res tai .gps tiedostoja jos nämä tiedostot ovat samat kuin jo asennetut.
+\n
+\nJATKA OMALLA VASTUULLA!
+\n
+\nTÄYSIN TESTAAMATON, TODENNÄKÖISESTI SINUN TARVITSEE ASENTAA BEATS_W LAITEOHJELMISTO JOS LAITTEESI NIMI ON \"Amazfit Band 2\"</string>
+    <string name="fw_upgrade_notice_amazfitcor">Olet asentamassa %s laiteohjelmistoa laitteeseen Amazfit Cor.
+\n
+\nVarmista että asennat ensin .fw-tiedoston, sen jälkeen .res-tiedoston ja lopuksi .gps-tiedoston. Kellosi käynnistyy uudelleen .fw-tiedoston asentamisen jälkeen.
+\n
+\nHuomio: Sinun ei tarvitse asentaa .res tai .gps tiedostoja jos nämä tiedostot ovat samat kuin jo asennetut.
+\n
+\nJATKA OMALLA VASTUULLA!</string>
+    <string name="fw_upgrade_notice_amazfitbip_lite">Olet asentamassa %s laiteohjelmistoa laitteeseen Amazfit Bip Lite.
+\n
+\nVarmista että asennat ensin .fw-tiedoston, sen jälkeen .res-tiedoston ja lopuksi .gps-tiedoston. Kellosi käynnistyy uudelleen .fw-tiedoston asentamisen jälkeen.
+\n
+\nHuomio: Sinun ei tarvitse asentaa .res tai .gps tiedostoja jos nämä tiedostot ovat samat kuin jo asennetut.
+\n
+\nJATKA OMALLA VASTUULLA!</string>
+    <string name="fw_upgrade_notice_amazfitbip">Olet asentamassa %s laiteohjelmistoa laitteeseen Amazfit Bip.
+\n
+\nVarmista että asennat ensin .fw-tiedoston, sen jälkeen .res-tiedoston ja lopuksi .gps-tiedoston. Kellosi käynnistyy uudelleen .fw-tiedoston asentamisen jälkeen.
+\n
+\nHuomio: Sinun ei tarvitse asentaa .res tai .gps tiedostoja jos nämä tiedostot ovat samat kuin jo asennetut.
+\n
+\nJATKA OMALLA VASTUULLA!</string>
+    <string name="fw_upgrade_notice_miband4">Olet asentamassa %s laiteohjelmistoa laitteeseen Mi Band 4.
+\n
+\nVarmista että asennat ensin .fw-tiedoston, sen jälkeen .res-tiedoston ja lopuksi .gps-tiedoston. Kellosi käynnistyy uudelleen .fw-tiedoston asentamisen jälkeen.
+\n
+\nHuomio: Sinun ei tarvitse asentaa .res tai .gps tiedostoja jos nämä tiedostot ovat samat kuin jo asennetut.
+\n
+\nJATKA OMALLA VASTUULLA!</string>
+    <string name="fw_upgrade_notice_miband5">Olet asentamassa %s laiteohjelmistoa laitteeseen Mi Band 5.
+\n
+\nVarmista että asennat ensin .fw-tiedoston, sen jälkeen .res-tiedoston ja lopuksi .gps-tiedoston. Kellosi käynnistyy uudelleen .fw-tiedoston asentamisen jälkeen.
+\n
+\nHuomio: Sinun ei tarvitse asentaa .res tai .gps tiedostoja jos nämä tiedostot ovat samat kuin jo asennetut.
+\n
+\nJATKA OMALLA VASTUULLA!</string>
+    <string name="fw_upgrade_notice_miband6">Olet asentamassa %s laiteohjelmistoa laitteeseen Mi Band 6.
+\n
+\nVarmista että asennat ensin .fw-tiedoston, sen jälkeen .res-tiedoston ja lopuksi .gps-tiedoston. Kellosi käynnistyy uudelleen .fw-tiedoston asentamisen jälkeen.
+\n
+\nHuomio: Sinun ei tarvitse asentaa .res tai .gps tiedostoja jos nämä tiedostot ovat samat kuin jo asennetut.
+\n
+\nJATKA OMALLA VASTUULLA!</string>
+    <string name="fw_upgrade_notice">Olet asentamassa %s.</string>
+    <string name="title_activity_fw_app_insaller">Laiteohjelmiston/ohjelmiston asennusohjelma</string>
+    <string name="title_activity_calblacklist">Mustalla listalla olevat Kalenterit</string>
+    <string name="whitelist_all_for_notifications">Lisää kaikki ilmoitukset valkoiselle listalle</string>
+    <string name="blacklist_all_for_notifications">Lisää kaikki ilmoitukset mustalle listalle</string>
+    <string name="title_activity_appblacklist">Ilmoitusten musta lista</string>
+    <string name="debugactivity_really_factoryreset">Tehdasastetuksien palauttaminen poistaa yhdistetystä laitteesta kaikki tiedot (jos tämä on tuettu). Xiaomin ja Huamin laitteet myös muuttavat Bluetooth MAC-osoitteen, joten ne näkyvät uusina laitteina Gadgetbridgessä.</string>
+    <string name="debugactivity_really_factoryreset_title">Tahdotko varmasti palauttaa tehdasasteukset\?</string>
+    <string name="title_activity_debug">Virheenetsintä</string>
+    <string name="calendar_year">Vuosi</string>
+    <string name="calendar_two_weeks">2 viikkoa</string>
+    <string name="calendar_three_months">3 kuukautta</string>
+    <string name="calendar_six_months">6 kuukautta</string>
+    <string name="calendar_month">Kuukausi</string>
+    <string name="calendar_week">Viikko</string>
+    <string name="calendar_day">Päivä</string>
+    <string name="battery_level">Akun varaustaso</string>
+    <string name="battery_detail_activity_title">Akun tiedot</string>
+    <string name="controlcenter_calibrate_device">Laitteen kalibrointi</string>
+    <string name="controlcenter_set_alias">Määritä alias</string>
+    <string name="controlcenter_connect">Yhdistä…</string>
+    <string name="controlcenter_change_fm_frequency">Muuta FM-taajuutta</string>
+    <string name="controlcenter_change_led_color">Muuta LED-väriä</string>
+    <string name="find_lost_device_message">Etsi %1$s\?</string>
+    <string name="action_debug">Virheenetsintä</string>
+    <string name="title_activity_notification_management">Ilmoitusasetukset</string>
+    <string name="pref_header_general">Yleiset asetukset</string>
+    <string name="pref_title_language">Kieli</string>
+    <string name="pref_summary_minimize_priority_off">Tilapalkin kuvake ja lukitusnäytön ilmoitus näkyvät</string>
+    <string name="pref_title_general_autoconnectonbluetooth">Yhteyden muodostaminen Gadgetbridge-laitteeseen, kun Bluetooth on päällä</string>
+    <string name="pref_title_audio_player">Ensisijainen äänentoisto</string>
+    <string name="pref_summary_datetime_syctimeonconnect">Synkronoi aika Gadgetbridge-laitteeseen, kun muodostat yhteyden, ja kun aika tai aikavyöhyke muuttuu Android-laitteessa</string>
+    <string name="pref_title_notifications_call">Puhelut</string>
+    <string name="uncheck_all_applications">Poista valinta kaikista sovelluksista</string>
+    <string name="pref_header_notifications">Ilmoitukset</string>
+    <string name="pref_title_general_autoreconnect">Uudelleenyhdistä automaattisesti</string>
+    <string name="pref_summary_minimize_priority_on">Tilapalkin kuvake ja lukitusnäytön ilmoitus on piilotettu</string>
+    <string name="pref_title_notifications_repetitions">Toistot</string>
+    <string name="pref_title_notifications_generic">Yleinen ilmoitustuki</string>
+    <string name="pref_title_notification_use_as">Käytä sovellusluetteloa...</string>
+    <string name="pref_title_whenscreenon">...myös näytön ollessa päällä</string>
+    <string name="pref_header_notification_application_settings">Sovelluskohtaiset asetukset</string>
+    <string name="pref_title_notification_use_as_deny">Estä ilmoitukset valituista sovelluksista</string>
+    <string name="pref_title_ping_tone">Ping-ääni</string>
+    <string name="pref_title_notifications_sms">Tekstiviesti</string>
+    <string name="pref_title_notifications_timeout">Ilmoitusten välinen vähimmäisaika</string>
+    <string name="pref_title_notifications_pebblemsg">Pebble-viestit</string>
+    <string name="pref_summary_notifications_pebblemsg">Tuki sovelluksille, jotka lähettävät ilmoituksia Pebbleen PebbleKitin kautta.</string>
+    <string name="pref_title_notification_filter">Älä häiritse</string>
+    <string name="pref_theme_black_background">Käytä mustaa taustaa Tummassa Teemassa</string>
+    <string name="pref_title_support_voip_calls">Ota VoIP-sovelluspuhelut käyttöön</string>
+    <string name="pref_title_minimize_priority">Piilota Gadgetbridge-ilmoitus</string>
+    <string name="pref_theme_dark">Tumma</string>
+    <string name="pref_theme_system">Järjestelmä</string>
+    <string name="pref_theme_light">Vaalea</string>
+    <string name="pref_title_theme">Teema</string>
+    <string name="pref_title_datetime_syctimeonconnect">Synkronoi aika</string>
+    <string name="pref_header_datetime">Päivämäärä ja aika</string>
+    <string name="pref_default">Oletus</string>
+    <string name="pref_title_general_autostartonboot">Käynnistä automaattisesti</string>
+    <string name="title_activity_settings">Asetukset</string>
+    <string name="miband_firmware_suggest_whitelist">Jos haluat silti jatkaa ja asiat toimivat kunnolla myös sen jälkeen, pyydä Gadgetbridgen kehittäjiä merkitsemään %s-firmware-versio valkoiselle listalle.</string>
+    <string name="miband_firmware_unknown_warning">Tätä laiteohjelmistoa ei ole testattu, eikä se välttämättä ole yhteensopiva Gadgetbridgen kanssa.
+\n
+\nSuosittelemme ettet korvaa sitä!</string>
+    <string name="pref_summary_rtl">Ota tämä käyttöön, jos laitteesi ei voi näyttää oikealta vasemmalle kieliä</string>
+    <string name="pref_rtl_max_line_length">Oikealta vasemmalle enimmäisrivin pituus</string>
+    <string name="pref_title_rtl">Oikealta vasemmalle</string>
+    <string name="check_all_applications">Valitse kaikki sovellukset</string>
+    <string name="pref_summary_notification_filter">Ei-toivotut ilmoitukset pysäytetään tässä tilassa</string>
+    <string name="pref_title_notification_use_as_allow">Salli ilmoitukset valituista sovelluksista</string>
+    <string name="pref_title_transliteration">Translitterointi</string>
+    <string name="pref_summary_transliteration">Ota tämä käyttöön, jos laitteesi ei tue kielesi fonttia</string>
+</resources>

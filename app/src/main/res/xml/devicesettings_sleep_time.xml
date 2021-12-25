@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceScreen
+        android:icon="@drawable/ic_access_time"
+        android:key="prefs_sleep_time"
+        android:persistent="false"
+        android:summary="@string/prefs_sleep_time_summary"
+        android:title="@string/prefs_sleep_time">
+
+        <!-- workaround for missing toolbar -->
+        <PreferenceCategory android:title="@string/prefs_sleep_time_label" />
+
+        <ListPreference
+            android:defaultValue="@string/p_off"
+            android:enabled="true"
+            android:entries="@array/do_not_disturb_no_auto"
+            android:entryValues="@array/do_not_disturb_no_auto_values"
+            android:key="prefs_enable_sleep_time"
+            android:summary="%s"
+            android:title="@string/prefs_sleep_time" />
+
+        <nodomain.freeyourgadget.gadgetbridge.util.XTimePreference
+            android:defaultValue="22:00"
+            android:key="prefs_sleep_time_start"
+            android:title="@string/mi2_prefs_do_not_disturb_start" />
+
+        <nodomain.freeyourgadget.gadgetbridge.util.XTimePreference
+            android:defaultValue="06:00"
+            android:key="prefs_sleep_time_end"
+            android:title="@string/mi2_prefs_do_not_disturb_end" />
+    </PreferenceScreen>
+</androidx.preference.PreferenceScreen>

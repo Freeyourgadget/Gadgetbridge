@@ -1,4 +1,4 @@
-/*  Copyright (C) 2015-2018 Andreas Shimokawa, Carsten Pfeiffer, Daniele
+/*  Copyright (C) 2015-2020 Andreas Shimokawa, Carsten Pfeiffer, Daniele
     Gobbetti, JohnnySun
 
     This file is part of Gadgetbridge.
@@ -24,7 +24,7 @@ import nodomain.freeyourgadget.gadgetbridge.entities.DaoMaster;
 import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
 
 /**
- * Provides lowlevel access to the database.
+ * Provides low-level access to the database.
  */
 public interface DBHandler extends AutoCloseable {
     /**

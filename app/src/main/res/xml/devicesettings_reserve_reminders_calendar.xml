@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <EditTextPreference
+        android:icon="@drawable/ic_access_alarms"
+        android:defaultValue="9"
+        android:dependency="sync_calendar"
+        android:digits="0123"
+        android:inputType="number"
+        android:key="reserve_reminders_calendar"
+        android:maxLength="1"
+        android:title="@string/miband_prefs_reserve_reminder_calendar"
+        android:summary="@string/prefs_reserve_reminder_calendar_summary" />
+
+</androidx.preference.PreferenceScreen>

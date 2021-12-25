@@ -9,7 +9,7 @@ navigator.geolocation.getCurrentPosition = function(success, failure, options) {
         reportedPositionFailures = 0;
         success(geoposition);
     }
-}
+};
 
 if (window.Storage){
     var prefix = GBjs.getAppLocalstoragePrefix();

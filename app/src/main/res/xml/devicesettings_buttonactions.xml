@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceScreen
+        android:key="screen_button_actions"
+        android:icon="@drawable/ic_smart_button"
+        android:persistent="false"
+        android:summary="@string/mi2_prefs_button_actions_summary"
+        android:title="@string/mi2_prefs_button_actions">
+
+        <!-- workaround for missing toolbar -->
+        <PreferenceCategory android:title="@string/mi2_prefs_button_action" />
+
+        public static final String PREF_BUTTON_ACTION_PRESS_DELAY = "button_action_press_count_delay";
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:icon="@drawable/ic_smart_button"
+            android:key="button_action_enable"
+            android:summary="@string/mi2_prefs_button_action_summary"
+            android:title="@string/mi2_prefs_button_action" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:icon="@drawable/ic_vibration"
+            android:dependency="button_action_enable"
+            android:key="button_action_vibrate"
+            android:summary="@string/mi2_prefs_button_action_vibrate_summary"
+            android:title="@string/mi2_prefs_button_action_vibrate" />
+
+        <ListPreference
+            android:icon="@drawable/ic_filter_1"
+            android:dependency="button_action_enable"
+            android:entries="@array/button_action_options"
+            android:entryValues="@array/button_action_values"
+            android:key="button_single_press_action_selection"
+            android:defaultValue="@string/pref_button_action_disabled_value"
+            android:summary="%s"
+            android:title="@string/prefs_button_single_press_action_selection_title" />
+
+        <ListPreference
+            android:icon="@drawable/ic_filter_2"
+            android:dependency="button_action_enable"
+            android:entries="@array/button_action_options"
+            android:entryValues="@array/button_action_values"
+            android:key="button_double_press_action_selection"
+            android:summary="%s"
+            android:defaultValue="@string/pref_button_action_disabled_value"
+            android:title="@string/prefs_button_double_press_action_selection_title" />
+
+        <ListPreference
+            android:icon="@drawable/ic_filter_3"
+            android:dependency="button_action_enable"
+            android:entries="@array/button_action_options"
+            android:entryValues="@array/button_action_values"
+            android:key="button_triple_press_action_selection"
+            android:summary="%s"
+            android:defaultValue="@string/pref_button_action_disabled_value"
+            android:title="@string/prefs_button_triple_press_action_selection_title" />
+
+        <PreferenceCategory android:title="@string/prefs_button_variable_actions">
+
+            <EditTextPreference
+                android:icon="@drawable/ic_list_numbered"
+                android:defaultValue="6"
+                android:dependency="button_action_enable"
+                android:inputType="number"
+                android:key="button_action_press_count"
+                android:summary="@string/mi2_prefs_button_press_count_summary"
+                android:title="@string/mi2_prefs_button_press_count" />
+
+            <EditTextPreference
+                android:defaultValue="@string/mi2_prefs_button_press_broadcast_default_value"
+                android:dependency="button_action_enable"
+                android:icon="@drawable/ic_message_outline"
+                android:key="button_action_broadcast"
+                android:summary="@string/mi2_prefs_button_press_broadcast_summary"
+                android:title="@string/mi2_prefs_button_press_broadcast" />
+
+            <EditTextPreference
+                android:icon="@drawable/ic_timer"
+                android:defaultValue="2000"
+                android:dependency="button_action_enable"
+                android:inputType="number"
+                android:key="button_action_press_max_interval"
+                android:summary="@string/mi2_prefs_button_press_count_max_delay_summary"
+                android:title="@string/mi2_prefs_button_press_count_max_delay" />
+
+        </PreferenceCategory>
+
+    </PreferenceScreen>
+</androidx.preference.PreferenceScreen>

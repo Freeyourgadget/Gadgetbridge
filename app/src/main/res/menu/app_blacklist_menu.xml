@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+        <item
+            android:id="@+id/check_all_applications"
+            android:title="@string/check_all_applications">
+
+        </item>
+        <item
+            android:id="@+id/uncheck_all_applications"
+            android:title="@string/uncheck_all_applications" />
+</menu>

@@ -1,4 +1,5 @@
-/*  Copyright (C) 2016-2018 Andreas Shimokawa, Carsten Pfeiffer, José Rebelo
+/*  Copyright (C) 2016-2021 Andreas Shimokawa, Carsten Pfeiffer, Daniele
+    Gobbetti, José Rebelo, Nephiel
 
     This file is part of Gadgetbridge.
 
@@ -20,9 +21,11 @@ import android.annotation.TargetApi;
 import android.app.Activity;
 import android.bluetooth.le.ScanFilter;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.ParcelUuid;
-import android.support.annotation.NonNull;
+
+import androidx.annotation.NonNull;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -32,13 +35,13 @@ import java.text.SimpleDateFormat;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
-import java.util.Set;
 
 import de.greenrobot.dao.query.QueryBuilder;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.GBException;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.activities.SettingsActivity;
+import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst;
 import nodomain.freeyourgadget.gadgetbridge.devices.AbstractDeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.SampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.DateTimeDisplay;
@@ -104,8 +107,8 @@ public abstract class HuamiCoordinator extends AbstractDeviceCoordinator {
     }
 
     @Override
-    public boolean supportsAlarmConfiguration() {
-        return true;
+    public int getAlarmSlotCount() {
+        return 10;
     }
 
     @Override
@@ -119,27 +122,32 @@ public abstract class HuamiCoordinator extends AbstractDeviceCoordinator {
     }
 
     @Override
+    public int[] getSupportedDeviceSpecificSettings(GBDevice device) {
+        return new int[]{R.xml.devicesettings_pairingkey};
+    }
+
+    @Override
     public SampleProvider<? extends AbstractActivitySample> getSampleProvider(GBDevice device, DaoSession session) {
         return new MiBand2SampleProvider(device, session);
     }
 
-    public static DateTimeDisplay getDateDisplay(Context context) throws IllegalArgumentException {
-        Prefs prefs = GBApplication.getPrefs();
+    public static DateTimeDisplay getDateDisplay(Context context, String deviceAddress) throws IllegalArgumentException {
+        SharedPreferences sharedPrefs = GBApplication.getDeviceSpecificSharedPrefs(deviceAddress);
         String dateFormatTime = context.getString(R.string.p_dateformat_time);
-        if (dateFormatTime.equals(prefs.getString(MiBandConst.PREF_MI2_DATEFORMAT, dateFormatTime))) {
+        if (dateFormatTime.equals(sharedPrefs.getString(MiBandConst.PREF_MI2_DATEFORMAT, dateFormatTime))) {
             return DateTimeDisplay.TIME;
         }
         return DateTimeDisplay.DATE_TIME;
     }
 
-    public static ActivateDisplayOnLift getActivateDisplayOnLiftWrist(Context context) {
-        Prefs prefs = GBApplication.getPrefs();
+    public static ActivateDisplayOnLift getActivateDisplayOnLiftWrist(Context context, String deviceAddress) {
+        SharedPreferences prefs = GBApplication.getDeviceSpecificSharedPrefs(deviceAddress);
 
         String liftOff = context.getString(R.string.p_off);
         String liftOn = context.getString(R.string.p_on);
         String liftScheduled = context.getString(R.string.p_scheduled);
 
-        String pref = prefs.getString(MiBandConst.PREF_ACTIVATE_DISPLAY_ON_LIFT, liftOff);
+        String pref = prefs.getString(HuamiConst.PREF_ACTIVATE_DISPLAY_ON_LIFT, liftOff);
 
         if (liftOn.equals(pref)) {
             return ActivateDisplayOnLift.ON;
@@ -150,17 +158,43 @@ public abstract class HuamiCoordinator extends AbstractDeviceCoordinator {
         return ActivateDisplayOnLift.OFF;
     }
 
-    public static Date getDisplayOnLiftStart() {
-        return getTimePreference( MiBandConst.PREF_DISPLAY_ON_LIFT_START, "00:00");
+    public static Date getDisplayOnLiftStart(String deviceAddress) {
+        return getTimePreference(HuamiConst.PREF_DISPLAY_ON_LIFT_START, "00:00", deviceAddress);
     }
 
-    public static Date getDisplayOnLiftEnd() {
-        return getTimePreference( MiBandConst.PREF_DISPLAY_ON_LIFT_END, "00:00");
+    public static Date getDisplayOnLiftEnd(String deviceAddress) {
+        return getTimePreference(HuamiConst.PREF_DISPLAY_ON_LIFT_END, "00:00", deviceAddress);
     }
 
-    public static Set<String> getDisplayItems() {
-        Prefs prefs = GBApplication.getPrefs();
-        return prefs.getStringSet(MiBandConst.PREF_MI2_DISPLAY_ITEMS, null);
+    public static DisconnectNotificationSetting getDisconnectNotificationSetting(Context context, String deviceAddress) {
+        Prefs prefs = new Prefs(GBApplication.getDeviceSpecificSharedPrefs(deviceAddress));
+
+        String liftOff = context.getString(R.string.p_off);
+        String liftOn = context.getString(R.string.p_on);
+        String liftScheduled = context.getString(R.string.p_scheduled);
+
+        String pref = prefs.getString(HuamiConst.PREF_DISCONNECT_NOTIFICATION, liftOff);
+
+        if (liftOn.equals(pref)) {
+            return DisconnectNotificationSetting.ON;
+        } else if (liftScheduled.equals(pref)) {
+            return DisconnectNotificationSetting.SCHEDULED;
+        }
+
+        return DisconnectNotificationSetting.OFF;
+    }
+
+    public static Date getDisconnectNotificationStart(String deviceAddress) {
+        return getTimePreference(HuamiConst.PREF_DISCONNECT_NOTIFICATION_START, "00:00", deviceAddress);
+    }
+
+    public static Date getDisconnectNotificationEnd(String deviceAddress) {
+        return getTimePreference(HuamiConst.PREF_DISCONNECT_NOTIFICATION_END, "00:00", deviceAddress);
+    }
+
+    public static boolean getUseCustomFont(String deviceAddress) {
+        SharedPreferences prefs = GBApplication.getDeviceSpecificSharedPrefs(deviceAddress);
+        return prefs.getBoolean(HuamiConst.PREF_USE_CUSTOM_FONT, false);
     }
 
     public static boolean getGoalNotification() {
@@ -168,8 +202,8 @@ public abstract class HuamiCoordinator extends AbstractDeviceCoordinator {
         return prefs.getBoolean(MiBandConst.PREF_MI2_GOAL_NOTIFICATION, false);
     }
 
-    public static boolean getRotateWristToSwitchInfo() {
-        Prefs prefs = GBApplication.getPrefs();
+    public static boolean getRotateWristToSwitchInfo(String deviceAddress) {
+        SharedPreferences prefs = GBApplication.getDeviceSpecificSharedPrefs(deviceAddress);
         return prefs.getBoolean(MiBandConst.PREF_MI2_ROTATE_WRIST_TO_SWITCH_INFO, false);
     }
 
@@ -204,26 +238,51 @@ public abstract class HuamiCoordinator extends AbstractDeviceCoordinator {
         return getTimePreference(MiBandConst.PREF_MI2_INACTIVITY_WARNINGS_DND_END, "14:00");
     }
 
-    public static Date getDoNotDisturbStart() {
-        return getTimePreference(MiBandConst.PREF_MI2_DO_NOT_DISTURB_START, "01:00");
+    public static Date getDoNotDisturbStart(String deviceAddress) {
+        return getTimePreference(MiBandConst.PREF_DO_NOT_DISTURB_START, "01:00", deviceAddress);
     }
 
-    public static Date getDoNotDisturbEnd() {
-        return getTimePreference(MiBandConst.PREF_MI2_DO_NOT_DISTURB_END, "06:00");
+    public static Date getDoNotDisturbEnd(String deviceAddress) {
+        return getTimePreference(MiBandConst.PREF_DO_NOT_DISTURB_END, "06:00", deviceAddress);
     }
 
-    public static Date getTimePreference(String key, String defaultValue) {
-        Prefs prefs = GBApplication.getPrefs();
+    public static boolean getBandScreenUnlock(String deviceAddress) {
+        Prefs prefs = new Prefs(GBApplication.getDeviceSpecificSharedPrefs(deviceAddress));
+        return prefs.getBoolean(MiBandConst.PREF_SWIPE_UNLOCK, false);
+    }
+
+    public static boolean getExposeHRThirdParty(String deviceAddress) {
+        Prefs prefs = new Prefs(GBApplication.getDeviceSpecificSharedPrefs(deviceAddress));
+        return prefs.getBoolean(HuamiConst.PREF_EXPOSE_HR_THIRDPARTY, false);
+    }
+
+    public static boolean getBtConnectedAdvertising(String deviceAddress) {
+        Prefs prefs = new Prefs(GBApplication.getDeviceSpecificSharedPrefs(deviceAddress));
+        return prefs.getBoolean(DeviceSettingsPreferenceConst.PREF_BT_CONNECTED_ADVERTISEMENT, false);
+    }
+
+    protected static Date getTimePreference(String key, String defaultValue, String deviceAddress) {
+        Prefs prefs;
+
+        if (deviceAddress == null) {
+            prefs = GBApplication.getPrefs();
+        } else {
+            prefs = new Prefs(GBApplication.getDeviceSpecificSharedPrefs(deviceAddress));
+        }
         String time = prefs.getString(key, defaultValue);
 
         DateFormat df = new SimpleDateFormat("HH:mm");
         try {
             return df.parse(time);
-        } catch(Exception e) {
+        } catch (Exception e) {
             LOG.error("Unexpected exception in MiBand2Coordinator.getTime: " + e.getMessage());
         }
 
         return new Date();
+    }
+
+    protected static Date getTimePreference(String key, String defaultValue) {
+        return getTimePreference(key, defaultValue, null);
     }
 
     public static MiBandConst.DistanceUnit getDistanceUnit() {
@@ -236,22 +295,24 @@ public abstract class HuamiCoordinator extends AbstractDeviceCoordinator {
         }
     }
 
-    public static DoNotDisturb getDoNotDisturb(Context context) {
-        Prefs prefs = GBApplication.getPrefs();
+    public static DoNotDisturb getDoNotDisturb(String deviceAddress) {
+        SharedPreferences prefs = GBApplication.getDeviceSpecificSharedPrefs(deviceAddress);
 
-        String dndOff = context.getString(R.string.p_off);
-        String dndAutomatic = context.getString(R.string.p_automatic);
-        String dndScheduled = context.getString(R.string.p_scheduled);
+        String pref = prefs.getString(MiBandConst.PREF_DO_NOT_DISTURB, MiBandConst.PREF_DO_NOT_DISTURB_OFF);
 
-        String pref = prefs.getString(MiBandConst.PREF_MI2_DO_NOT_DISTURB, dndOff);
-
-        if (dndAutomatic.equals(pref)) {
+        if (MiBandConst.PREF_DO_NOT_DISTURB_AUTOMATIC.equals(pref)) {
             return DoNotDisturb.AUTOMATIC;
-        } else if (dndScheduled.equals(pref)) {
+        } else if (MiBandConst.PREF_DO_NOT_DISTURB_SCHEDULED.equals(pref)) {
             return DoNotDisturb.SCHEDULED;
         }
 
         return DoNotDisturb.OFF;
+    }
+
+    public static boolean getDoNotDisturbLiftWrist(String deviceAddress) {
+        SharedPreferences prefs = GBApplication.getDeviceSpecificSharedPrefs(deviceAddress);
+
+        return prefs.getBoolean(MiBandConst.PREF_DO_NOT_DISTURB_LIFT_WRIST, false);
     }
 
     @Override
@@ -262,5 +323,25 @@ public abstract class HuamiCoordinator extends AbstractDeviceCoordinator {
     @Override
     public boolean supportsSmartWakeup(GBDevice device) {
         return false;
+    }
+
+    @Override
+    public boolean supportsFindDevice() {
+        return true;
+    }
+
+    @Override
+    public boolean supportsAlarmSnoozing() {
+        return true;
+    }
+
+    @Override
+    public int getMaximumReminderMessageLength() {
+        return 16;
+    }
+
+    @Override
+    public int getReminderSlotCount() {
+        return 22; // At least, Mi Fit still allows more
     }
 }

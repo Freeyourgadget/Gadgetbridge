@@ -1,5 +1,6 @@
-/*  Copyright (C) 2015-2018 Andreas Shimokawa, Carsten Pfeiffer, Daniele
-    Gobbetti, Julien Pivotto, Kasha, Steffen Liebergeld
+/*  Copyright (C) 2015-2021 Andreas Shimokawa, Carsten Pfeiffer, Daniel
+    Dakhno, Daniele Gobbetti, José Rebelo, Julien Pivotto, Kasha, Sebastian
+    Kranz, Steffen Liebergeld
 
     This file is part of Gadgetbridge.
 
@@ -36,6 +37,7 @@ import nodomain.freeyourgadget.gadgetbridge.model.CannedMessagesSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.MusicSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.MusicStateSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
+import nodomain.freeyourgadget.gadgetbridge.model.Reminder;
 import nodomain.freeyourgadget.gadgetbridge.model.WeatherSpec;
 
 /**
@@ -110,6 +112,11 @@ public class ServiceDeviceSupport implements DeviceSupport {
     @Override
     public Context getContext() {
         return delegate.getContext();
+    }
+
+    @Override
+    public String customStringFilter(String inputString) {
+        return delegate.customStringFilter(inputString);
     }
 
     @Override
@@ -248,19 +255,19 @@ public class ServiceDeviceSupport implements DeviceSupport {
     }
 
     @Override
-    public void onFetchActivityData() {
+    public void onFetchRecordedData(int dataTypes) {
         if (checkBusy("fetch activity data")) {
             return;
         }
-        delegate.onFetchActivityData();
+        delegate.onFetchRecordedData(dataTypes);
     }
 
     @Override
-    public void onReboot() {
-        if (checkBusy("reboot")) {
+    public void onReset(int flags) {
+        if (checkBusy("reset")) {
             return;
         }
-        delegate.onReboot();
+        delegate.onReset(flags);
     }
 
     @Override
@@ -301,6 +308,14 @@ public class ServiceDeviceSupport implements DeviceSupport {
             return;
         }
         delegate.onSetAlarms(alarms);
+    }
+
+    @Override
+    public void onSetReminders(ArrayList<? extends Reminder> reminders) {
+        if (checkBusy("set reminders")) {
+            return;
+        }
+        delegate.onSetReminders(reminders);
     }
 
     @Override
@@ -360,6 +375,14 @@ public class ServiceDeviceSupport implements DeviceSupport {
     }
 
     @Override
+    public void onReadConfiguration(String config) {
+        if (checkBusy("read configuration: " + config)) {
+            return;
+        }
+        delegate.onReadConfiguration(config);
+    }
+
+    @Override
     public void onTestNewFunction() {
         if (checkBusy("test new function event")) {
             return;
@@ -373,5 +396,21 @@ public class ServiceDeviceSupport implements DeviceSupport {
             return;
         }
         delegate.onSendWeather(weatherSpec);
+    }
+
+    @Override
+    public void onSetFmFrequency(float frequency) {
+        if (checkBusy("set frequency event")) {
+            return;
+        }
+        delegate.onSetFmFrequency(frequency);
+    }
+
+    @Override
+    public void onSetLedColor(int color) {
+        if (checkBusy("set led color event")) {
+            return;
+        }
+        delegate.onSetLedColor(color);
     }
 }

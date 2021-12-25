@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory
+        android:key="pref_charts"
+        android:title="@string/activity_prefs_charts">
+
+        <EditTextPreference
+            android:defaultValue="250"
+            android:inputType="number"
+            android:key="chart_max_heart_rate"
+            android:maxLength="3"
+            android:title="@string/activity_prefs_chart_max_heart_rate" />
+
+        <EditTextPreference
+            android:defaultValue="10"
+            android:inputType="number"
+            android:key="chart_min_heart_rate"
+            android:maxLength="3"
+            android:title="@string/activity_prefs_chart_min_heart_rate" />
+
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="chart_heartrate_color"
+            android:summaryOff="@string/pref_chart_heartrate_color_orange"
+            android:summaryOn="@string/pref_chart_heartrate_color_red"
+            android:title="@string/pref_title_chart_heartrate_color" />
+
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="charts_allow_swipe"
+            android:title="@string/pref_title_charts_swipe" />
+
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="chart_sleep_range_24h"
+            android:summaryOff="@string/pref_chart_sleep_rolling_24_off"
+            android:summaryOn="@string/pref_chart_sleep_rolling_24_on"
+            android:title="@string/pref_title_chart_sleep_rolling_24_hour" />
+
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="charts_show_average"
+            android:title="@string/pref_title_charts_average" />
+
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="charts_range"
+            android:summaryOff="@string/pref_charts_range_off"
+            android:summaryOn="@string/pref_charts_range_on"
+            android:title="@string/pref_title_charts_range" />
+
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="charts_show_ongoing_activity"
+            android:title="@string/show_ongoing_activity" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:key="pref_charts_activity_list"
+        android:title="@string/charts_activity_list">
+
+        <EditTextPreference
+            android:defaultValue="5"
+            android:inputType="number"
+            android:key="chart_list_min_session_length"
+            android:maxLength="2"
+            android:title="@string/activity_prefs_chart_min_session_length" />
+
+        <EditTextPreference
+            android:defaultValue="5"
+            android:inputType="number"
+            android:key="chart_list_max_idle_phase_length"
+            android:maxLength="2"
+            android:title="@string/activity_prefs_chart_max_idle_phase_length" />
+
+        <EditTextPreference
+            android:defaultValue="20"
+            android:inputType="number"
+            android:key="chart_list_min_steps_per_minute"
+            android:maxLength="3"
+            android:title="@string/activity_prefs_chart_min_steps_per_minute" />
+
+        <EditTextPreference
+            android:defaultValue="120"
+            android:inputType="number"
+            android:key="chart_list_min_steps_per_minute_for_run"
+            android:maxLength="3"
+            android:title="@string/activity_prefs_chart_min_steps_per_minute_for_run" />
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:key="pref_category_activity_personal_title"
+        android:title="@string/activity_prefs_about_you">
+
+        <Preference
+            android:key="pref_category_activity_personal"
+            android:title="@string/activity_prefs_about_you" />
+    </PreferenceCategory>
+</PreferenceScreen>

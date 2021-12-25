@@ -1,4 +1,4 @@
-/*  Copyright (C) 2016-2018 Andreas Shimokawa
+/*  Copyright (C) 2016-2020 Andreas Shimokawa
 
     This file is part of Gadgetbridge.
 
@@ -39,7 +39,7 @@ public class AppManagerFragmentCache extends AbstractAppManagerFragment {
 
     @Override
     public String getSortFilename() {
-        return "pbwcacheorder.txt";
+        return mCoordinator.getAppCacheSortFilename();
     }
 
     @Override

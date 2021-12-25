@@ -1,5 +1,5 @@
-/*  Copyright (C) 2015-2018 Andreas Shimokawa, Carsten Pfeiffer, Felix
-    Konstantin Maurer, JohnnySun
+/*  Copyright (C) 2015-2021 Andreas Shimokawa, Carsten Pfeiffer, Daniele
+    Gobbetti, Felix Konstantin Maurer, JohnnySun, Taavi Eomäe
 
     This file is part of Gadgetbridge.
 
@@ -19,10 +19,8 @@ package nodomain.freeyourgadget.gadgetbridge.util;
 
 import android.content.ContentResolver;
 import android.content.Context;
-import android.icu.util.Output;
 import android.net.Uri;
 import android.os.Environment;
-import android.support.annotation.NonNull;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
@@ -41,6 +39,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.annotation.NonNull;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.GBEnvironment;
 
@@ -185,6 +184,25 @@ public class FileUtils {
         throw new IOException("no writable external directory found");
     }
 
+    /**
+     * Returns a File object representing the "child" argument, but relative
+     * to the Android "external files directory" (e.g. /sdcard).
+     * It doesn't matter whether child shall represent a file or a directory.
+     * The parent directory will automatically be created, if necessary.
+     * @param child the path to become relative to the external files directory
+     * @throws IOException
+     * @see #getExternalFilesDir()
+     */
+    public static File getExternalFile(String child) throws IOException {
+        File file = new File(getExternalFilesDir(), child);
+        File dir = file.getParentFile();
+        if (!dir.exists() && !dir.mkdirs()) {
+            throw new IOException("Unable to create directory " + file.getParent());
+        }
+        return file;
+    }
+
+
     private static boolean canWriteTo(File dir) {
         File file = new File(dir, "gbtest");
         try {
@@ -220,7 +238,7 @@ public class FileUtils {
         try {
             dirs = context.getExternalFilesDirs(null);
         } catch (NullPointerException | UnsupportedOperationException ex) {
-            // workaround for robolectric 3.1.2 not implementinc getExternalFilesDirs()
+            // workaround for robolectric 3.1.2 not implementing getExternalFilesDirs()
             // https://github.com/robolectric/robolectric/issues/2531
             File dir = context.getExternalFilesDir(null);
             if (dir != null) {
@@ -309,5 +327,27 @@ public class FileUtils {
             }
         }
         throw new IOException("Cannot create temporary directory in " + parent);
+    }
+
+    /**
+     * Replaces some wellknown invalid characters in the given filename
+     * to underscrores.
+     * @param name the file name to make valid
+     * @return the valid file name
+     */
+    public static String makeValidFileName(String name) {
+        return name.replaceAll("[\0/:\\r\\n\\\\]", "_");
+    }
+    /**
+     *Returns extension of a file
+     * @param file string filename
+     */
+    public static String getExtension(String file) {
+        int i = file.lastIndexOf('.');
+        String extension = "";
+        if (i > 0) {
+            extension = file.substring(i + 1);
+        }
+        return extension;
     }
 }

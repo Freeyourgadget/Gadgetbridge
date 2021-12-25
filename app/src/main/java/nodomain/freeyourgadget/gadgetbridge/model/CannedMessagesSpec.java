@@ -1,4 +1,4 @@
-/*  Copyright (C) 2016-2018 Andreas Shimokawa
+/*  Copyright (C) 2016-2020 Andreas Shimokawa
 
     This file is part of Gadgetbridge.
 
@@ -18,7 +18,7 @@ package nodomain.freeyourgadget.gadgetbridge.model;
 
 public class CannedMessagesSpec {
     public static final byte TYPE_GENERIC = 0;
-    public static final byte TYPE_MISSEDCALLS = 1;
+    public static final byte TYPE_REJECTEDCALLS = 1;
     public static final byte TYPE_NEWSMS = 2;
 
     public int type;

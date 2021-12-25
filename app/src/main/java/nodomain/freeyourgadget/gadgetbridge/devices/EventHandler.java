@@ -1,5 +1,6 @@
-/*  Copyright (C) 2015-2018 Andreas Shimokawa, Carsten Pfeiffer, Daniele
-    Gobbetti, Julien Pivotto, Kasha, Steffen Liebergeld, Uwe Hermann
+/*  Copyright (C) 2015-2021 Andreas Shimokawa, Carsten Pfeiffer, Daniele
+    Gobbetti, José Rebelo, Julien Pivotto, Kasha, Sebastian Kranz, Steffen
+    Liebergeld, Uwe Hermann
 
     This file is part of Gadgetbridge.
 
@@ -29,6 +30,7 @@ import nodomain.freeyourgadget.gadgetbridge.model.CannedMessagesSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.MusicSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.MusicStateSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
+import nodomain.freeyourgadget.gadgetbridge.model.Reminder;
 import nodomain.freeyourgadget.gadgetbridge.model.WeatherSpec;
 
 /**
@@ -44,6 +46,8 @@ public interface EventHandler {
     void onSetTime();
 
     void onSetAlarms(ArrayList<? extends Alarm> alarms);
+
+    void onSetReminders(ArrayList<? extends Reminder> reminders);
 
     void onSetCallState(CallSpec callSpec);
 
@@ -67,9 +71,9 @@ public interface EventHandler {
 
     void onAppReorder(UUID uuids[]);
 
-    void onFetchActivityData();
+    void onFetchRecordedData(int dataTypes);
 
-    void onReboot();
+    void onReset(int flags);
 
     void onHeartRateTest();
 
@@ -96,7 +100,22 @@ public interface EventHandler {
      */
     void onSendConfiguration(String config);
 
+    /**
+     * Gets the given option from the device, sets the values in the preferences.
+     * The config name is device specific.
+     * @param config the device specific option to get from the device
+     */
+    void onReadConfiguration(String config);
+
     void onTestNewFunction();
 
     void onSendWeather(WeatherSpec weatherSpec);
+
+    void onSetFmFrequency(float frequency);
+
+    /**
+     * Set the device's led color.
+     * @param color the new color, in ARGB, with alpha = 255
+     */
+    void onSetLedColor(int color);
 }

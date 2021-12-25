@@ -1,5 +1,5 @@
-/*  Copyright (C) 2015-2018 0nse, Andreas Shimokawa, Carsten Pfeiffer,
-    Daniele Gobbetti
+/*  Copyright (C) 2015-2020 0nse, Andreas Shimokawa, Carsten Pfeiffer,
+    Daniele Gobbetti, Pavel Elagin, vanous
 
     This file is part of Gadgetbridge.
 
@@ -18,8 +18,7 @@
 package nodomain.freeyourgadget.gadgetbridge.activities.charts;
 
 import com.github.mikephil.charting.charts.Chart;
-import com.github.mikephil.charting.formatter.IAxisValueFormatter;
-import com.github.mikephil.charting.formatter.IValueFormatter;
+import com.github.mikephil.charting.formatter.ValueFormatter;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
@@ -30,7 +29,12 @@ import nodomain.freeyourgadget.gadgetbridge.model.ActivityUser;
 public class WeekStepsChartFragment extends AbstractWeekChartFragment {
     @Override
     public String getTitle() {
-        return getString(R.string.weekstepschart_steps_a_week);
+        if (GBApplication.getPrefs().getBoolean("charts_range", true)) {
+            return getString(R.string.weekstepschart_steps_a_month);
+        }
+        else{
+                return getString(R.string.weekstepschart_steps_a_week);
+        }
     }
 
     @Override
@@ -40,7 +44,7 @@ public class WeekStepsChartFragment extends AbstractWeekChartFragment {
 
     @Override
     int getGoal() {
-        return GBApplication.getPrefs().getInt(ActivityUser.PREF_USER_STEPS_GOAL, 10000);
+        return GBApplication.getPrefs().getInt(ActivityUser.PREF_USER_STEPS_GOAL, ActivityUser.defaultUserStepsGoal);
     }
 
     @Override
@@ -50,16 +54,24 @@ public class WeekStepsChartFragment extends AbstractWeekChartFragment {
 
     @Override
     float[] getTotalsForActivityAmounts(ActivityAmounts activityAmounts) {
-        int totalSteps = 0;
+        long totalSteps = 0;
         for (ActivityAmount amount : activityAmounts.getAmounts()) {
             totalSteps += amount.getTotalSteps();
-            amount.getTotalSteps();
         }
         return new float[]{totalSteps};
     }
 
     @Override
-    protected String formatPieValue(int value) {
+    protected long calculateBalance(ActivityAmounts activityAmounts) {
+        long balance = 0;
+        for (ActivityAmount amount : activityAmounts.getAmounts()) {
+            balance += amount.getTotalSteps();
+        }
+        return balance;
+    }
+
+    @Override
+    protected String formatPieValue(long value) {
         return String.valueOf(value);
     }
 
@@ -69,17 +81,17 @@ public class WeekStepsChartFragment extends AbstractWeekChartFragment {
     }
 
     @Override
-    IValueFormatter getPieValueFormatter() {
+    ValueFormatter getPieValueFormatter() {
         return null;
     }
 
     @Override
-    IValueFormatter getBarValueFormatter() {
+    ValueFormatter getBarValueFormatter() {
         return null;
     }
 
     @Override
-    IAxisValueFormatter getYAxisFormatter() {
+    ValueFormatter getYAxisFormatter() {
         return null;
     }
 
@@ -92,5 +104,22 @@ public class WeekStepsChartFragment extends AbstractWeekChartFragment {
     protected void setupLegend(Chart chart) {
         // no legend here, it is all about the steps here
         chart.getLegend().setEnabled(false);
+    }
+
+    @Override
+    protected String getBalanceMessage(long balance, int targetValue) {
+        if (balance > 0) {
+            final long totalBalance = balance - ((long)targetValue * TOTAL_DAYS_FOR_AVERAGE);
+            if (totalBalance > 0)
+                return getString(R.string.overstep, Math.abs(totalBalance));
+            else
+                return getString(R.string.lack_of_step, Math.abs(totalBalance));
+        } else
+            return getString(R.string.no_data);
+    }
+
+    @Override
+    String getAverage(float value) {
+        return String.format("%.0f", value);
     }
 }

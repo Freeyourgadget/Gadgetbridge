@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceScreen
+        android:icon="@drawable/ic_vibration"
+        android:key="screen_prefs_find_phone"
+        android:persistent="false"
+        android:summary="@string/prefs_find_phone_summary"
+        android:title="@string/prefs_find_phone">
+
+        <ListPreference
+            android:defaultValue="@string/p_off"
+            android:entries="@array/prefs_find_phone"
+            android:entryValues="@array/prefs_find_phone_values"
+            android:key="prefs_find_phone"
+            android:title="@string/prefs_enable_find_phone" />
+
+        <EditTextPreference
+            android:defaultValue="60"
+            android:inputType="number"
+            android:key="prefs_find_phone_duration"
+            android:title="@string/prefs_find_phone_duration" />
+
+    </PreferenceScreen>
+</androidx.preference.PreferenceScreen>

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <SwitchPreference
+        android:defaultValue="false"
+        android:icon="@drawable/ic_settings_remote"
+        android:key="bt_connected_advertisement"
+        android:summary="@string/pref_summary_connected_advertisement"
+        android:title="@string/pref_title_connected_advertisement"/>
+</androidx.preference.PreferenceScreen>

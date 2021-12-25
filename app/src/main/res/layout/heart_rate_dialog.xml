@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/activity_battery_info_master_layout"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="0dp"
+    android:layout_marginTop="10dp"
+    android:layout_marginBottom="10dp"
+    android:gravity="center|center_vertical"
+    android:minWidth="1000dp"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/heart_rate_dialog_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:maxLines="2"
+        android:scrollHorizontally="false"
+        android:text="@string/getting_heart_rate"
+        android:textAllCaps="true"
+        android:textColor="@color/accent"
+        android:textStyle="bold" />
+
+    <RelativeLayout
+        android:id="@+id/heart_rate_dialog_loading_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <ImageView
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_marginStart="35dp"
+            android:layout_marginTop="35dp"
+            android:contentDescription="@string/app_name"
+            app:srcCompat="@drawable/gadgetbridge_img" />
+
+        <ProgressBar
+            android:layout_width="171dp"
+            android:layout_height="171dp"
+            android:indeterminate="true" />
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/heart_rate_dialog_results_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="30dp"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="0dp"
+            android:layout_marginBottom="10dp"
+            android:baselineAligned="false"
+            android:gravity="bottom|center"
+            android:orientation="horizontal">
+
+            <include
+                android:id="@+id/heart_rate_measurements1"
+                layout="@layout/layout_widget_generic" />
+
+            <include
+                android:id="@+id/heart_rate_measurements2"
+                layout="@layout/layout_widget_generic" />
+
+            <include
+                android:id="@+id/heart_rate_measurements3"
+                layout="@layout/layout_widget_generic" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>

@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:id="@+id/no_items_bg"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:alpha="0.1"
+        android:contentDescription="@string/icon_placeholder"
+        app:tint="?attr/textColorPrimary"
+        app:srcCompat="@drawable/gadgetbridge_img" />
+
+    <ScrollView
+        android:id="@+id/about_background"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingLeft="@dimen/about_margin"
+        android:paddingRight="@dimen/about_margin"
+        tools:context="nodomain.freeyourgadget.gadgetbridge.activities.AboutActivity">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/about_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/app_name"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                android:textColor="@color/accent" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:paddingLeft="@dimen/about_margin"
+                android:paddingRight="@dimen/about_margin">
+
+                <TextView
+                    android:id="@+id/about_desc"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/about_description" />
+
+                <TextView
+                    android:id="@+id/about_version"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/links_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/about_links"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                android:textColor="@color/accent" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:paddingLeft="@dimen/about_margin"
+                android:paddingRight="@dimen/about_margin">
+
+                <TextView
+                    android:id="@+id/links1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/homepage_url" />
+
+                <TextView
+                    android:id="@+id/links2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/codeberg_url" />
+
+                <TextView
+                    android:id="@+id/links3"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/fdroid_url" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/contrib_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/about_contributors"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                android:textColor="@color/accent" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:paddingLeft="@dimen/about_margin"
+                android:paddingRight="@dimen/about_margin">
+
+                <TextView
+                    android:id="@+id/contrib_core_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/about_core_team_title"
+                    android:textColor="@color/accent" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:paddingLeft="@dimen/about_margin"
+                    android:paddingRight="@dimen/about_margin">
+
+                    <TextView
+                        android:id="@+id/contrib_core_members"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/about_core_team_members" />
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:paddingStart="@dimen/about_margin"
+                android:paddingEnd="@dimen/about_margin">
+
+                <TextView
+                    android:id="@+id/contrib_add_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/about_additional_device_support"
+                    android:textColor="@color/accent" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:paddingLeft="@dimen/about_margin"
+                    android:paddingRight="@dimen/about_margin">
+
+                    <TextView
+                        android:id="@+id/contrib_add_members"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/about_additional_contributors" />
+
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/contrib_add_title2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/about_additional_contributions"
+                    android:textColor="@color/accent" />
+
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+</RelativeLayout>

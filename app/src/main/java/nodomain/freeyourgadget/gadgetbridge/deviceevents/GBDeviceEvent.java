@@ -1,4 +1,5 @@
-/*  Copyright (C) 2015-2018 Andreas Shimokawa, Daniele Gobbetti, Taavi Eomäe
+/*  Copyright (C) 2015-2021 Andreas Shimokawa, Carsten Pfeiffer, Daniele
+    Gobbetti, Taavi Eomäe
 
     This file is part of Gadgetbridge.
 
@@ -19,6 +20,11 @@ package nodomain.freeyourgadget.gadgetbridge.deviceevents;
 
 public abstract class GBDeviceEvent {
     private String address;
+
+    @Override
+    public String toString() {
+        return getClass().getSimpleName() + ": ";
+    }
 
     public String getAddress() {
         return address;

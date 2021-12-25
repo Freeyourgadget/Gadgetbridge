@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <ListPreference
+        android:defaultValue="auto"
+        android:entries="@array/pref_fitpro_language_options"
+        android:entryValues="@array/pref_fitpro_language_values"
+        android:icon="@drawable/ic_language"
+        android:key="language"
+        android:summary="%s"
+        android:title="@string/pref_title_language" />
+    
+</androidx.preference.PreferenceScreen>

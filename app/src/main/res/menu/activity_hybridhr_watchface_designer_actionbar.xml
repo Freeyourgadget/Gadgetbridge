@@ -1,0 +1,15 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/button_preview_watchface"
+        android:title="@string/button_watchface_preview"
+        app:showAsAction="always"
+        android:icon="@drawable/ic_watch_bw"
+        />
+    <item
+        android:id="@+id/button_save_watchface"
+        android:title="@string/button_watchface_save_apply"
+        app:showAsAction="always"
+        android:icon="@drawable/ic_done"
+        />
+</menu>

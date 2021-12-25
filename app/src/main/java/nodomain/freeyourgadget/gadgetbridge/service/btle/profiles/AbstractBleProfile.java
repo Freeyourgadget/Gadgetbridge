@@ -1,4 +1,4 @@
-/*  Copyright (C) 2016-2018 Carsten Pfeiffer
+/*  Copyright (C) 2016-2021 Carsten Pfeiffer, Daniele Gobbetti, Taavi Eomäe
 
     This file is part of Gadgetbridge.
 
@@ -19,9 +19,11 @@ package nodomain.freeyourgadget.gadgetbridge.service.btle.profiles;
 import android.bluetooth.BluetoothGattCharacteristic;
 import android.content.Context;
 import android.content.Intent;
-import android.support.v4.content.LocalBroadcastManager;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.UUID;
 
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
@@ -33,7 +35,7 @@ import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
 /**
  * Base class for all BLE profiles, with things that all implementations are
  * expected to use.
- *
+ * <p>
  * Instances are used in the context of a concrete AbstractBTLEDeviceSupport instance,
  * i.e. a concrete device.
  *
@@ -44,8 +46,24 @@ import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
 public abstract class AbstractBleProfile<T extends AbstractBTLEDeviceSupport> extends AbstractGattCallback {
     private final T mSupport;
 
+    private List<IntentListener> listeners = new ArrayList<IntentListener>(1);
+
     public AbstractBleProfile(T support) {
         this.mSupport = support;
+    }
+
+    public void addListener(IntentListener listener) {
+        if (listener != null && !listeners.contains(listener)) {
+            listeners.add(listener);
+        }
+    }
+
+    public boolean removeListener(IntentListener listener) {
+        return listeners.remove(listener);
+    }
+
+    protected List<IntentListener> getListeners() {
+        return Collections.unmodifiableList(listeners);
     }
 
     /**
@@ -53,7 +71,11 @@ public abstract class AbstractBleProfile<T extends AbstractBTLEDeviceSupport> ex
      * @param intent the intent to broadcast
      */
     protected void notify(Intent intent) {
-        LocalBroadcastManager.getInstance(getContext()).sendBroadcast(intent);
+        // note: we send synchronously in order to keep the processing order of BLE events
+        // in BtleQueue and the reception of results.
+        for (IntentListener listener : listeners) {
+            listener.notify(intent);
+        }
     }
 
     /**
@@ -84,6 +106,9 @@ public abstract class AbstractBleProfile<T extends AbstractBTLEDeviceSupport> ex
 
     protected BtLEQueue getQueue() {
         return mSupport.getQueue();
+    }
+
+    public void enableNotify(TransactionBuilder builder, boolean enable) {
     }
 
 }

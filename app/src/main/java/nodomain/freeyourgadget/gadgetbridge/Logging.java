@@ -1,4 +1,4 @@
-/*  Copyright (C) 2016-2018 Carsten Pfeiffer
+/*  Copyright (C) 2016-2021 Carsten Pfeiffer, Daniele Gobbetti, Pavel Elagin
 
     This file is part of Gadgetbridge.
 
@@ -30,6 +30,7 @@ import ch.qos.logback.core.FileAppender;
 import ch.qos.logback.core.encoder.Encoder;
 import ch.qos.logback.core.encoder.LayoutWrappingEncoder;
 import ch.qos.logback.core.util.StatusPrinter;
+import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
 public abstract class Logging {
     public static final String PROP_LOGFILES_DIR = "GB_LOGFILES_DIR";
@@ -51,6 +52,13 @@ public abstract class Logging {
             Log.e("GBApplication", "External files dir not available, cannot log to file", ex);
             stopFileLogger();
         }
+    }
+
+    public String getLogPath() {
+        if (fileLogger != null)
+            return fileLogger.getFile();
+        else
+            return null;
     }
 
     public void debugLoggingConfiguration() {
@@ -148,7 +156,7 @@ public abstract class Logging {
         }
         StringBuilder builder = new StringBuilder(bytes.length * 5);
         for (byte b : bytes) {
-            builder.append(String.format("0x%2x", b));
+            builder.append(String.format("0x%02x", b));
             builder.append(" ");
         }
         return builder.toString().trim();
@@ -156,9 +164,7 @@ public abstract class Logging {
 
     public static void logBytes(Logger logger, byte[] value) {
         if (value != null) {
-            for (byte b : value) {
-                logger.warn("DATA: " + String.format("0x%2x", b));
-            }
+            logger.warn("DATA: " + GB.hexdump(value, 0, value.length));
         }
     }
 }

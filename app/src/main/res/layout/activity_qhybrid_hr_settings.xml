@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:weightSum="1">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/qhybrid_button_top_single_press"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="top button single press"
+            android:textSize="20dp" />
+
+        <TextView
+            android:id="@+id/qhybrid_button_middle_single_press"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="middle button single press"
+            android:textSize="20dp" />
+
+        <TextView
+            android:id="@+id/qhybrid_button_bottom_single_press"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="bottom button single press"
+            android:textSize="20dp" />
+
+    </LinearLayout>
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="20dp" />
+
+    <TextView
+        android:id="@+id/qhybrid_button_widget_top"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="top widget"
+        android:textSize="20dp" />
+
+    <TextView
+        android:id="@+id/qhybrid_button_widget_right"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="right widget"
+        android:textSize="20dp" />
+
+    <TextView
+        android:id="@+id/qhybrid_button_widget_bottom"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="bottom widget"
+        android:textSize="20dp" />
+
+    <TextView
+        android:id="@+id/qhybrid_button_widget_left"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="left widget"
+        android:textSize="20dp" />
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="custom widgets" />
+
+    <ListView
+        android:id="@+id/qhybrid_widget_list"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.4" />
+
+    <Button
+        android:id="@+id/qhybrid_widget_add"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="add widget" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:weightSum="2"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/qhybrid_unset_background"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="delete background"
+            android:layout_weight="1"/>
+
+        <Button
+            android:id="@+id/qhybrid_set_background"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="set background"
+            android:layout_weight="1" />
+
+    </LinearLayout>
+
+</LinearLayout>

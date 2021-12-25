@@ -1,4 +1,5 @@
-/*  Copyright (C) 2016-2018 Andreas Shimokawa, Daniele Gobbetti
+/*  Copyright (C) 2016-2020 Andreas Shimokawa, Daniele Gobbetti, Sebastian
+    Kranz
 
     This file is part of Gadgetbridge.
 
@@ -45,6 +46,7 @@ public class Weather {
         JSONArray weather = new JSONArray();
         JSONObject condition = new JSONObject();
         JSONObject main = new JSONObject();
+        JSONObject wind = new JSONObject();
 
         try {
             condition.put("id", weatherSpec.currentConditionCode);
@@ -53,14 +55,19 @@ public class Weather {
             condition.put("icon", Weather.mapToOpenWeatherMapIcon(weatherSpec.currentConditionCode));
             weather.put(condition);
 
+
             main.put("temp", weatherSpec.currentTemp);
             main.put("humidity", weatherSpec.currentHumidity);
             main.put("temp_min", weatherSpec.todayMinTemp);
             main.put("temp_max", weatherSpec.todayMaxTemp);
-            main.put("name", weatherSpec.location);
+
+            wind.put("speed", (weatherSpec.windSpeed / 3.6f)); //meter per second
+            wind.put("deg", weatherSpec.windDirection);
 
             reconstructedOWMWeather.put("weather", weather);
             reconstructedOWMWeather.put("main", main);
+            reconstructedOWMWeather.put("name", weatherSpec.location);
+            reconstructedOWMWeather.put("wind", wind);
 
         } catch (JSONException e) {
             LOG.error("Error while reconstructing OWM weather reply");
@@ -79,7 +86,7 @@ public class Weather {
     }
 
     private static final Weather weather = new Weather();
-    public static Weather getInstance() {return weather;}
+    public static Weather getInstance() { return weather; }
 
     public static byte mapToPebbleCondition(int openWeatherMapCondition) {
 /* deducted values:
@@ -427,7 +434,7 @@ public class Weather {
                 return 801;
             case 45:  //thundershowers
             case 47:  //isolated thundershowers
-                return 621;
+                return 211;
             case 3200:  //not available
             default:
                 return -1;
@@ -591,6 +598,377 @@ public class Weather {
                 return "hurricane";
             default:
                 return "";
+        }
+    }
+
+    public static byte mapToZeTimeConditionOld(int openWeatherMapCondition) {
+/* deducted values:
+    0 = partly cloudy
+    1 = cloudy
+    2 = sunny
+    3 = windy/gale
+    4 = heavy rain
+    5 = snowy
+    6 = storm
+ */
+        switch (openWeatherMapCondition) {
+//Group 2xx: Thunderstorm
+            case 200:  //thunderstorm with light rain:  //11d
+            case 201:  //thunderstorm with rain:  //11d
+            case 202:  //thunderstorm with heavy rain:  //11d
+            case 210:  //light thunderstorm::  //11d
+            case 211:  //thunderstorm:  //11d
+            case 230:  //thunderstorm with light drizzle:  //11d
+            case 231:  //thunderstorm with drizzle:  //11d
+            case 232:  //thunderstorm with heavy drizzle:  //11d
+            case 212:  //heavy thunderstorm:  //11d
+            case 221:  //ragged thunderstorm:  //11d
+//Group 7xx: Atmosphere
+            case 771:  //squalls:  //[[file:50d.png]]
+            case 781:  //tornado:  //[[file:50d.png]]
+//Group 90x: Extreme
+            case 900:  //tornado
+            case 901:  //tropical storm
+//Group 9xx: Additional
+            case 960:  //storm
+            case 961:  //violent storm
+            case 902:  //hurricane
+            case 962:  //hurricane
+                return 6;
+//Group 3xx: Drizzle
+            case 300:  //light intensity drizzle:  //09d
+            case 301:  //drizzle:  //09d
+            case 302:  //heavy intensity drizzle:  //09d
+            case 310:  //light intensity drizzle rain:  //09d
+            case 311:  //drizzle rain:  //09d
+            case 312:  //heavy intensity drizzle rain:  //09d
+            case 313:  //shower rain and drizzle:  //09d
+            case 314:  //heavy shower rain and drizzle:  //09d
+            case 321:  //shower drizzle:  //09d
+//Group 5xx: Rain
+            case 500:  //light rain:  //10d
+            case 501:  //moderate rain:  //10d
+            case 502:  //heavy intensity rain:  //10d
+            case 503:  //very heavy rain:  //10d
+            case 504:  //extreme rain:  //10d
+            case 511:  //freezing rain:  //13d
+            case 520:  //light intensity shower rain:  //09d
+            case 521:  //shower rain:  //09d
+            case 522:  //heavy intensity shower rain:  //09d
+            case 531:  //ragged shower rain:  //09d
+//Group 90x: Extreme
+            case 906:  //hail
+                return 4;
+//Group 6xx: Snow
+            case 600:  //light snow:  //[[file:13d.png]]
+            case 601:  //snow:  //[[file:13d.png]]
+            case 620:  //light shower snow:  //[[file:13d.png]]
+            case 602:  //heavy snow:  //[[file:13d.png]]
+            case 611:  //sleet:  //[[file:13d.png]]
+            case 612:  //shower sleet:  //[[file:13d.png]]
+            case 621:  //shower snow:  //[[file:13d.png]]
+            case 622:  //heavy shower snow:  //[[file:13d.png]]
+            case 615:  //light rain and snow:  //[[file:13d.png]]
+            case 616:  //rain and snow:  //[[file:13d.png]]
+//Group 90x: Extreme
+            case 903:  //cold
+                return 5;
+//Group 7xx: Atmosphere
+            case 701:  //mist:  //[[file:50d.png]]
+            case 711:  //smoke:  //[[file:50d.png]]
+            case 721:  //haze:  //[[file:50d.png]]
+            case 731:  //sandcase  dust whirls:  //[[file:50d.png]]
+            case 741:  //fog:  //[[file:50d.png]]
+            case 751:  //sand:  //[[file:50d.png]]
+            case 761:  //dust:  //[[file:50d.png]]
+            case 762:  //volcanic ash:  //[[file:50d.png]]
+                return 1;
+//Group 800: Clear
+            case 800:  //clear sky:  //[[file:01d.png]] [[file:01n.png]]
+//Group 90x: Extreme
+            case 904:  //hot
+                return 2;
+//Group 80x: Clouds
+            case 801:  //few clouds:  //[[file:02d.png]] [[file:02n.png]]
+            case 802:  //scattered clouds:  //[[file:03d.png]] [[file:03d.png]]
+            case 803:  //broken clouds:  //[[file:04d.png]] [[file:03d.png]]
+            case 804:  //overcast clouds:  //[[file:04d.png]] [[file:04d.png]]
+            default:
+                return 0;
+
+//Group 9xx: Additional
+            case 905:  //windy
+            case 951:  //calm
+            case 952:  //light breeze
+            case 953:  //gentle breeze
+            case 954:  //moderate breeze
+            case 955:  //fresh breeze
+            case 956:  //strong breeze
+            case 957:  //high windcase  near gale
+            case 958:  //gale
+            case 959:  //severe gale
+                return 3;
+        }
+    }
+
+    public static byte mapToZeTimeCondition(int openWeatherMapCondition) {
+/* deducted values:
+    0 = tornado
+    1 = typhoon
+    2 = hurricane
+    3 = thunderstorm
+    4 = rain and snow
+    5 = unavailable
+    6 = freezing rain
+    7 = drizzle
+    8 = showers
+    9 = snow flurries
+    10 = blowing snow
+    11 = snow
+    12 = sleet
+    13 = foggy
+    14 = windy
+    15 = cloudy
+    16 = partly cloudy (night)
+    17 = partly cloudy (day)
+    18 = clear night
+    19 = sunny
+    20 = thundershower
+    21 = hot
+    22 = scattered thunders
+    23 = snow showers
+    24 = heavy snow
+ */
+        switch (openWeatherMapCondition) {
+//Group 2xx: Thunderstorm
+            case 210:  //light thunderstorm::  //11d
+                return 22;
+
+//Group 2xx: Thunderstorm
+            case 200:  //thunderstorm with light rain:  //11d
+            case 201:  //thunderstorm with rain:  //11d
+            case 202:  //thunderstorm with heavy rain:  //11d
+            case 230:  //thunderstorm with light drizzle:  //11d
+            case 231:  //thunderstorm with drizzle:  //11d
+            case 232:  //thunderstorm with heavy drizzle:  //11d
+                return 20;
+
+//Group 2xx: Thunderstorm
+            case 211:  //thunderstorm:  //11d
+            case 212:  //heavy thunderstorm:  //11d
+            case 221:  //ragged thunderstorm:  //11d
+                return 3;
+
+//Group 7xx: Atmosphere
+            case 781:  //tornado:  //[[file:50d.png]]
+//Group 90x: Extreme
+            case 900:  //tornado
+                return 0;
+
+//Group 90x: Extreme
+            case 901:  //tropical storm
+                return 1;
+
+// Group 7xx: Atmosphere
+            case 771:  //squalls:  //[[file:50d.png]]
+//Group 9xx: Additional
+            case 960:  //storm
+            case 961:  //violent storm
+            case 902:  //hurricane
+            case 962:  //hurricane
+                return 2;
+
+//Group 3xx: Drizzle
+            case 300:  //light intensity drizzle:  //09d
+            case 301:  //drizzle:  //09d
+            case 302:  //heavy intensity drizzle:  //09d
+            case 310:  //light intensity drizzle rain:  //09d
+            case 311:  //drizzle rain:  //09d
+            case 312:  //heavy intensity drizzle rain:  //09d
+            case 313:  //shower rain and drizzle:  //09d
+            case 314:  //heavy shower rain and drizzle:  //09d
+            case 321:  //shower drizzle:  //09d
+                return 7;
+
+//Group 5xx: Rain
+            case 500:  //light rain:  //10d
+            case 501:  //moderate rain:  //10d
+            case 502:  //heavy intensity rain:  //10d
+            case 503:  //very heavy rain:  //10d
+            case 504:  //extreme rain:  //10d
+            case 520:  //light intensity shower rain:  //09d
+            case 521:  //shower rain:  //09d
+            case 522:  //heavy intensity shower rain:  //09d
+            case 531:  //ragged shower rain:  //09d
+//Group 90x: Extreme
+            case 906:  //hail
+                return 8;
+
+//Group 5xx: Rain
+            case 511:  //freezing rain:  //13d
+                return 6;
+
+//Group 6xx: Snow
+            case 620:  //light shower snow:  //[[file:13d.png]]
+            case 621:  //shower snow:  //[[file:13d.png]]
+            case 622:  //heavy shower snow:  //[[file:13d.png]]
+                return 23;
+
+//Group 6xx: Snow
+            case 615:  //light rain and snow:  //[[file:13d.png]]
+            case 616:  //rain and snow:  //[[file:13d.png]]
+                return 4;
+
+//Group 6xx: Snow
+            case 611:  //sleet:  //[[file:13d.png]]
+            case 612:  //shower sleet:  //[[file:13d.png]]
+                return 12;
+
+//Group 6xx: Snow
+            case 600:  //light snow:  //[[file:13d.png]]
+            case 601:  //snow:  //[[file:13d.png]]
+                return 11;
+//Group 6xx: Snow
+            case 602:  //heavy snow:  //[[file:13d.png]]
+                return 24;
+
+//Group 7xx: Atmosphere
+            case 701:  //mist:  //[[file:50d.png]]
+            case 711:  //smoke:  //[[file:50d.png]]
+            case 721:  //haze:  //[[file:50d.png]]
+            case 731:  //sandcase  dust whirls:  //[[file:50d.png]]
+            case 741:  //fog:  //[[file:50d.png]]
+            case 751:  //sand:  //[[file:50d.png]]
+            case 761:  //dust:  //[[file:50d.png]]
+            case 762:  //volcanic ash:  //[[file:50d.png]]
+                return 13;
+
+//Group 800: Clear
+            case 800:  //clear sky:  //[[file:01d.png]] [[file:01n.png]]
+                return 19;
+
+//Group 90x: Extreme
+            case 904:  //hot
+                return 21;
+
+//Group 80x: Clouds
+            case 801:  //few clouds:  //[[file:02d.png]] [[file:02n.png]]
+            case 802:  //scattered clouds:  //[[file:03d.png]] [[file:03d.png]]
+            case 803:  //broken clouds:  //[[file:04d.png]] [[file:03d.png]]
+                return 17;
+
+//Group 80x: Clouds
+            case 804:  //overcast clouds:  //[[file:04d.png]] [[file:04d.png]]
+                return 15;
+
+//Group 9xx: Additional
+            case 905:  //windy
+            case 951:  //calm
+            case 952:  //light breeze
+            case 953:  //gentle breeze
+            case 954:  //moderate breeze
+            case 955:  //fresh breeze
+            case 956:  //strong breeze
+            case 957:  //high windcase  near gale
+            case 958:  //gale
+            case 959:  //severe gale
+                return 14;
+
+            default:
+//Group 90x: Extreme
+            case 903:  //cold
+                return 5;
+        }
+    }
+
+    public static byte mapToFitProCondition(int openWeatherMapCondition) {
+        switch (openWeatherMapCondition) {
+            case 100:
+                return 1;
+            case 104:
+                return 2;
+            case 101:
+            case 102:
+            case 103:
+                return 3;
+            case 305:
+            case 309:
+                return 4;
+            case 306:
+            case 314:
+            case 399:
+                return 5;
+            case 307:
+            case 308:
+            case 310:
+            case 311:
+            case 312:
+            case 315:
+            case 316:
+            case 317:
+            case 318:
+                return 6;
+            case 300:
+            case 301:
+            case 302:
+            case 303:
+                return 7;
+            case 400:
+            case 407:
+                return 8;
+            case 401:
+            case 408:
+            case 499:
+                return 9;
+            case 402:
+            case 403:
+            case 409:
+            case 410:
+                return 10;
+            case 404:
+            case 405:
+            case 406:
+                return 11;
+            case 500:
+            case 501:
+            case 502:
+            case 509:
+            case 510:
+            case 511:
+            case 512:
+            case 513:
+            case 514:
+            case 515:
+                return 12;
+            case 304:
+            case 313:
+                return 13;
+            case 503:
+            case 504:
+            case 507:
+            case 508:
+                return 14;
+            case 200:
+            case 201:
+            case 202:
+            case 203:
+            case 204:
+                return 15;
+            case 205:
+            case 206:
+            case 207:
+            case 208:
+                return 16;
+            case 209:
+            case 210:
+            case 211:
+                return 17;
+            case 212:
+                return 18;
+            case 231:
+                return 19;
+            default:
+                return 3;
         }
     }
 }

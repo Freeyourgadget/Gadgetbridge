@@ -1,4 +1,4 @@
-/*  Copyright (C) 2016-2018 Andreas Shimokawa, Avamander, Carsten Pfeiffer,
+/*  Copyright (C) 2016-2020 Andreas Shimokawa, Avamander, Carsten Pfeiffer,
     Daniele Gobbetti, Steffen Liebergeld
 
     This file is part of Gadgetbridge.
@@ -17,20 +17,26 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.model;
 
-/**
- * Created by steffen on 07.06.16.
- */
 public class MusicStateSpec {
-    public static final int STATE_PLAYING = 0;
-    public static final int STATE_PAUSED  = 1;
-    public static final int STATE_STOPPED = 2;
-    public static final int STATE_UNKNOWN = 3;
+    public static final int STATE_UNKNOWN = -1;
 
-    public byte state;
-    public int position; // Position of the current media in seconds
-    public int playRate; // Speed of playback, usually 0 or 100 (full speed)
-    public byte shuffle;
-    public byte repeat;
+    public static final int STATE_PLAYING = 0;
+    public static final int STATE_PAUSED = 1;
+    public static final int STATE_STOPPED = 2;
+
+    public static final int STATE_SHUFFLE_ENABLED = 1;
+
+    public byte state = STATE_UNKNOWN;
+    /**
+     * Position of the current media in seconds
+     */
+    public int position = STATE_UNKNOWN;
+    /**
+     * Speed of playback, usually 0 or 100 (full speed)
+     */
+    public int playRate = STATE_UNKNOWN;
+    public byte shuffle = STATE_UNKNOWN;
+    public byte repeat = STATE_UNKNOWN;
 
     public MusicStateSpec() {
 
@@ -70,5 +76,16 @@ public class MusicStateSpec {
         result = 31 * result + (int) shuffle;
         result = 31 * result + (int) repeat;
         return result;
+    }
+
+    @Override
+    public String toString() {
+        return "MusicStateSpec{" +
+                "state=" + state +
+                ", position=" + position +
+                ", playRate=" + playRate +
+                ", shuffle=" + shuffle +
+                ", repeat=" + repeat +
+                '}';
     }
 }

@@ -1,4 +1,5 @@
-/*  Copyright (C) 2018 ladbsoft
+/*  Copyright (C) 2018-2021 Andreas Shimokawa, Carsten Pfeiffer, ladbsoft,
+    mamucho, Sebastian Kranz
 
     This file is part of Gadgetbridge.
 
@@ -64,7 +65,6 @@ public class XWatchSupport extends AbstractBTLEDeviceSupport {
     private static final Logger LOG = LoggerFactory.getLogger(XWatchSupport.class);
     private final GBDeviceEventVersionInfo versionCmd = new GBDeviceEventVersionInfo();
     TransactionBuilder builder = null;
-    private DeviceInfo mDeviceInfo;
     private byte dayToFetch; //0 = Today; 1 = Yesterday ...
     private byte maxDayToFetch;
     long lastButtonTimestamp;
@@ -233,7 +233,7 @@ public class XWatchSupport extends AbstractBTLEDeviceSupport {
     }
 
     @Override
-    public void onReboot() {
+    public void onReset(int flags) {
         //Not supported
     }
 
@@ -258,7 +258,7 @@ public class XWatchSupport extends AbstractBTLEDeviceSupport {
     }
 
     @Override
-    public void onFetchActivityData() {
+    public void onFetchRecordedData(int dataTypes) {
         try {
             if(builder == null) {
                 builder = performInitialized("fetchActivityData");
@@ -358,7 +358,7 @@ public class XWatchSupport extends AbstractBTLEDeviceSupport {
 
     private void handleDeviceInfo(byte[] value, int status) {
         if (status == BluetoothGatt.GATT_SUCCESS) {
-            mDeviceInfo = new DeviceInfo(value);
+            DeviceInfo mDeviceInfo = new DeviceInfo(value);
             LOG.warn("Device info: " + mDeviceInfo);
             versionCmd.hwVersion = "1.0";
             versionCmd.fwVersion = "1.0";
@@ -369,6 +369,11 @@ public class XWatchSupport extends AbstractBTLEDeviceSupport {
     @Override
     public void onSendConfiguration(String config) {
         // nothing yet
+    }
+
+    @Override
+    public void onReadConfiguration(String config) {
+
     }
 
     @Override
@@ -455,7 +460,7 @@ public class XWatchSupport extends AbstractBTLEDeviceSupport {
                         try {
                             builder = performInitialized("fetchActivityData");
                             requestDetailedData(builder);
-                            performConnected(builder.getTransaction());
+                            builder.queue(getQueue());
                         } catch (IOException e) {
                             GB.toast(getContext(), "Error fetching activity data: " + e.getLocalizedMessage(), Toast.LENGTH_LONG, GB.ERROR);
                         }
@@ -548,9 +553,9 @@ public class XWatchSupport extends AbstractBTLEDeviceSupport {
         int yearInt, monthInt, dayInt, hoursMinutesInt = 0;
         int hours, minutes = 0;
 
-        yearInt = Integer.valueOf(String.format("%02x", year, 16));
-        monthInt = Integer.valueOf(String.format("%02x", month, 16));
-        dayInt = Integer.valueOf(String.format("%02x", day, 16));
+        yearInt = Integer.valueOf(String.format("%02x", year), 16);
+        monthInt = Integer.valueOf(String.format("%02x", month), 16);
+        dayInt = Integer.valueOf(String.format("%02x", day), 16);
         hoursMinutesInt = Integer.valueOf(String.format("%02x", hoursminutes), 16);
 
         minutes = hoursMinutesInt % 4;

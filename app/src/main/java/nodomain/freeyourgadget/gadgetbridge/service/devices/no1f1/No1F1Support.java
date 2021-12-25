@@ -1,4 +1,5 @@
-/*  Copyright (C) 2017-2018 Andreas Shimokawa, Daniele Gobbetti, protomors
+/*  Copyright (C) 2017-2021 Andreas Shimokawa, Carsten Pfeiffer, Daniele
+    Gobbetti, Pavel Elagin, protomors, Sebastian Kranz
 
     This file is part of Gadgetbridge.
 
@@ -57,6 +58,7 @@ import nodomain.freeyourgadget.gadgetbridge.model.WeatherSpec;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.AbstractBTLEDeviceSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.SetDeviceBusyAction;
+import nodomain.freeyourgadget.gadgetbridge.util.AlarmUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
 import static org.apache.commons.lang3.math.NumberUtils.min;
@@ -89,6 +91,7 @@ public class No1F1Support extends AbstractBTLEDeviceSupport {
         builder.setGattCallback(this);
         builder.notify(measureCharacteristic, true);
 
+        setTime(builder);
         sendSettings(builder);
 
         builder.write(ctrlCharacteristic, new byte[]{No1F1Constants.CMD_FIRMWARE_VERSION});
@@ -173,18 +176,8 @@ public class No1F1Support extends AbstractBTLEDeviceSupport {
     public void onSetTime() {
         try {
             TransactionBuilder builder = performInitialized("setTime");
-            Calendar c = GregorianCalendar.getInstance();
-            byte[] datetimeBytes = new byte[]{
-                    No1F1Constants.CMD_DATETIME,
-                    (byte) ((c.get(Calendar.YEAR) / 256) & 0xff),
-                    (byte) (c.get(Calendar.YEAR) % 256),
-                    (byte) (c.get(Calendar.MONTH) + 1),
-                    (byte) c.get(Calendar.DAY_OF_MONTH),
-                    (byte) c.get(Calendar.HOUR_OF_DAY),
-                    (byte) c.get(Calendar.MINUTE),
-                    (byte) c.get(Calendar.SECOND)
-            };
-            builder.write(ctrlCharacteristic, datetimeBytes);
+            setTime(builder);
+            builder.queue(getQueue());
         } catch (IOException e) {
             GB.toast(getContext(), "Error setting time: " + e.getLocalizedMessage(), Toast.LENGTH_LONG, GB.ERROR);
         }
@@ -196,20 +189,20 @@ public class No1F1Support extends AbstractBTLEDeviceSupport {
             TransactionBuilder builder = performInitialized("Set alarm");
             boolean anyAlarmEnabled = false;
             for (Alarm alarm : alarms) {
-                anyAlarmEnabled |= alarm.isEnabled();
-                Calendar calendar = alarm.getAlarmCal();
+                anyAlarmEnabled |= alarm.getEnabled();
+                Calendar calendar = AlarmUtils.toCalendar(alarm);
 
                 int maxAlarms = 3;
-                if (alarm.getIndex() >= maxAlarms) {
-                    if (alarm.isEnabled()) {
+                if (alarm.getPosition() >= maxAlarms) {
+                    if (alarm.getEnabled()) {
                         GB.toast(getContext(), "Only 3 alarms are supported.", Toast.LENGTH_LONG, GB.WARN);
                     }
                     return;
                 }
 
                 int daysMask = 0;
-                if (alarm.isEnabled()) {
-                    daysMask = alarm.getRepetitionMask();
+                if (alarm.getEnabled()) {
+                    daysMask = alarm.getRepetition();
                     // Mask for this device starts from sunday and not from monday.
                     daysMask = (daysMask / 64) + (daysMask >> 1);
                 }
@@ -218,11 +211,11 @@ public class No1F1Support extends AbstractBTLEDeviceSupport {
                         (byte) daysMask,
                         (byte) calendar.get(Calendar.HOUR_OF_DAY),
                         (byte) calendar.get(Calendar.MINUTE),
-                        (byte) (alarm.isEnabled() ? 2 : 0), // vibration duration
-                        (byte) (alarm.isEnabled() ? 10 : 0), // vibration count
-                        (byte) (alarm.isEnabled() ? 2 : 0), // unknown
+                        (byte) (alarm.getEnabled() ? 2 : 0), // vibration duration
+                        (byte) (alarm.getEnabled() ? 10 : 0), // vibration count
+                        (byte) (alarm.getEnabled() ? 2 : 0), // unknown
                         (byte) 0,
-                        (byte) (alarm.getIndex() + 1)
+                        (byte) (alarm.getPosition() + 1)
                 };
                 builder.write(ctrlCharacteristic, alarmMessage);
             }
@@ -299,12 +292,12 @@ public class No1F1Support extends AbstractBTLEDeviceSupport {
     }
 
     @Override
-    public void onFetchActivityData() {
+    public void onFetchRecordedData(int dataTypes) {
         sendFetchCommand(No1F1Constants.CMD_FETCH_STEPS);
     }
 
     @Override
-    public void onReboot() {
+    public void onReset(int flags) {
     }
 
     @Override
@@ -316,7 +309,7 @@ public class No1F1Support extends AbstractBTLEDeviceSupport {
                     (byte) 0x11
             };
             builder.write(ctrlCharacteristic, msg);
-            performConnected(builder.getTransaction());
+            builder.queue(getQueue());
         } catch (IOException e) {
             GB.toast(getContext(), "Error starting heart rate measurement: " + e.getLocalizedMessage(), Toast.LENGTH_LONG, GB.ERROR);
         }
@@ -382,6 +375,11 @@ public class No1F1Support extends AbstractBTLEDeviceSupport {
     }
 
     @Override
+    public void onReadConfiguration(String config) {
+
+    }
+
+    @Override
     public void onTestNewFunction() {
 
     }
@@ -394,6 +392,21 @@ public class No1F1Support extends AbstractBTLEDeviceSupport {
     @Override
     public boolean useAutoConnect() {
         return true;
+    }
+
+    private void setTime(TransactionBuilder transaction) {
+        Calendar c = GregorianCalendar.getInstance();
+        byte[] datetimeBytes = new byte[]{
+                No1F1Constants.CMD_DATETIME,
+                (byte) ((c.get(Calendar.YEAR) / 256) & 0xff),
+                (byte) (c.get(Calendar.YEAR) % 256),
+                (byte) (c.get(Calendar.MONTH) + 1),
+                (byte) c.get(Calendar.DAY_OF_MONTH),
+                (byte) c.get(Calendar.HOUR_OF_DAY),
+                (byte) c.get(Calendar.MINUTE),
+                (byte) c.get(Calendar.SECOND)
+        };
+        transaction.write(ctrlCharacteristic, datetimeBytes);
     }
 
     /**
@@ -493,7 +506,7 @@ public class No1F1Support extends AbstractBTLEDeviceSupport {
                     1
             };
             builder.write(ctrlCharacteristic, msg);
-            performConnected(builder.getTransaction());
+            builder.queue(getQueue());
         } catch (IOException e) {
             LOG.warn("Unable to set vibration", e);
         }
@@ -507,7 +520,7 @@ public class No1F1Support extends AbstractBTLEDeviceSupport {
                     (byte) iconId
             };
             builder.write(ctrlCharacteristic, msg);
-            performConnected(builder.getTransaction());
+            builder.queue(getQueue());
         } catch (IOException e) {
             GB.toast(getContext(), "Error showing icon: " + e.getLocalizedMessage(), Toast.LENGTH_LONG, GB.ERROR);
         }
@@ -522,7 +535,7 @@ public class No1F1Support extends AbstractBTLEDeviceSupport {
             byte[] msg;
 
             // send header
-            bytes = header.toString().getBytes("EUC-JP");
+            bytes = header.getBytes("EUC-JP");
             length = min(bytes.length, 18);
             msg = new byte[length + 2];
             msg[0] = No1F1Constants.CMD_NOTIFICATION;
@@ -531,7 +544,7 @@ public class No1F1Support extends AbstractBTLEDeviceSupport {
             builder.write(ctrlCharacteristic, msg);
 
             // send body
-            bytes = header.toString().getBytes("EUC-JP");
+            bytes = header.getBytes("EUC-JP");
             length = min(bytes.length, 18);
             msg = new byte[length + 2];
             msg[0] = No1F1Constants.CMD_NOTIFICATION;
@@ -539,7 +552,7 @@ public class No1F1Support extends AbstractBTLEDeviceSupport {
             System.arraycopy(bytes, 0, msg, 2, length);
             builder.write(ctrlCharacteristic, msg);
 
-            performConnected(builder.getTransaction());
+            builder.queue(getQueue());
         } catch (IOException e) {
             GB.toast(getContext(), "Error showing notificaton: " + e.getLocalizedMessage(), Toast.LENGTH_LONG, GB.ERROR);
         }
@@ -553,7 +566,7 @@ public class No1F1Support extends AbstractBTLEDeviceSupport {
                     No1F1Constants.NOTIFICATION_STOP
             };
             builder.write(ctrlCharacteristic, msg);
-            performConnected(builder.getTransaction());
+            builder.queue(getQueue());
         } catch (IOException e) {
             LOG.warn("Unable to stop notification", e);
         }
@@ -571,7 +584,7 @@ public class No1F1Support extends AbstractBTLEDeviceSupport {
                     (byte) 0xfa
             };
             builder.write(ctrlCharacteristic, msg);
-            performConnected(builder.getTransaction());
+            builder.queue(getQueue());
         } catch (IOException e) {
             GB.toast(getContext(), "Error fetching activity data: " + e.getLocalizedMessage(), Toast.LENGTH_LONG, GB.ERROR);
         }
@@ -582,7 +595,7 @@ public class No1F1Support extends AbstractBTLEDeviceSupport {
             LOG.info("CRC received: " + (data[2] & 0xff) + ", calculated: " + (crc & 0xff));
             if (data[2] != crc) {
                 GB.toast(getContext(), "Incorrect CRC. Try fetching data again.", Toast.LENGTH_LONG, GB.ERROR);
-                GB.updateTransferNotification("Data transfer failed", false, 0, getContext());
+                GB.updateTransferNotification(null,"Data transfer failed", false, 0, getContext());
                 if (getDevice().isBusy()) {
                     getDevice().unsetBusyTask();
                     getDevice().sendDeviceUpdateIntent(getContext());
@@ -598,7 +611,7 @@ public class No1F1Support extends AbstractBTLEDeviceSupport {
                         if (data[0] == No1F1Constants.CMD_FETCH_STEPS) {
                             samples.get(i).setRawKind(ActivityKind.TYPE_ACTIVITY);
                             samples.get(i).setRawIntensity(samples.get(i).getSteps());
-                        } else if (data[0] == No1F1Constants.CMD_FETCH_STEPS) {
+                        } else if (data[0] == No1F1Constants.CMD_FETCH_SLEEP) {
                             if (samples.get(i).getRawIntensity() < 7)
                                 samples.get(i).setRawKind(ActivityKind.TYPE_DEEP_SLEEP);
                             else
@@ -612,15 +625,15 @@ public class No1F1Support extends AbstractBTLEDeviceSupport {
                     } else if (data[0] == No1F1Constants.CMD_FETCH_SLEEP) {
                         sendFetchCommand(No1F1Constants.CMD_FETCH_HEARTRATE);
                     } else {
-                        GB.updateTransferNotification("", false, 100, getContext());
+                        GB.updateTransferNotification(null,"", false, 100, getContext());
                         if (getDevice().isBusy()) {
                             getDevice().unsetBusyTask();
-                            getDevice().sendDeviceUpdateIntent(getContext());
+                            GB.signalActivityDataFinish();
                         }
                     }
                 } catch (Exception ex) {
                     GB.toast(getContext(), "Error saving activity data: " + ex.getLocalizedMessage(), Toast.LENGTH_LONG, GB.ERROR);
-                    GB.updateTransferNotification("Data transfer failed", false, 0, getContext());
+                    GB.updateTransferNotification(null,"Data transfer failed", false, 0, getContext());
                 }
             }
         } else {
@@ -657,7 +670,7 @@ public class No1F1Support extends AbstractBTLEDeviceSupport {
                 firstTimestamp = sample.getTimestamp();
             int progress = startProgress + 33 * (sample.getTimestamp() - firstTimestamp) /
                     ((int) (Calendar.getInstance().getTimeInMillis() / 1000L) - firstTimestamp);
-            GB.updateTransferNotification(getContext().getString(R.string.busy_task_fetch_activity_data), true, progress, getContext());
+            GB.updateTransferNotification(null, getContext().getString(R.string.busy_task_fetch_activity_data), true, progress, getContext());
         }
     }
 

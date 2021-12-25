@@ -1,4 +1,5 @@
-/*  Copyright (C) 2018 Andreas Shimokawa
+/*  Copyright (C) 2018-2020 Andreas Shimokawa, Carsten Pfeiffer, Cre3per,
+    Daniele Gobbetti
 
     This file is part of Gadgetbridge.
 
@@ -24,9 +25,10 @@ import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.media.RingtoneManager;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
-import android.support.v4.app.RemoteInput;
-import android.support.v4.content.LocalBroadcastManager;
+import android.os.VibrationEffect;
+import android.os.Vibrator;
 import android.view.View;
 import android.widget.Button;
 
@@ -35,9 +37,12 @@ import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
+
+import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
-import nodomain.freeyourgadget.gadgetbridge.model.DeviceService;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
+import nodomain.freeyourgadget.gadgetbridge.util.GBPrefs;
 
 
 public class FindPhoneActivity extends AbstractGBActivity {
@@ -60,6 +65,7 @@ public class FindPhoneActivity extends AbstractGBActivity {
         }
     };
 
+    Vibrator mVibrator;
     AudioManager mAudioManager;
     int userVolume;
     MediaPlayer mp;
@@ -71,7 +77,6 @@ public class FindPhoneActivity extends AbstractGBActivity {
 
         IntentFilter filter = new IntentFilter();
         filter.addAction(ACTION_FOUND);
-        filter.addAction(DeviceService.ACTION_HEARTRATE_MEASUREMENT);
         LocalBroadcastManager.getInstance(this).registerReceiver(mReceiver, filter);
         registerReceiver(mReceiver, filter); // for ACTION_FOUND
 
@@ -82,17 +87,35 @@ public class FindPhoneActivity extends AbstractGBActivity {
                 finish();
             }
         });
+
+        GB.removeNotification(GB.NOTIFICATION_ID_PHONE_FIND, this);
+
+        vibrate();
         playRingtone();
     }
 
-    public void playRingtone(){
+    private void vibrate(){
+        mVibrator = (Vibrator)getSystemService(Context.VIBRATOR_SERVICE);
+
+        long[] vibrationPattern = new long[]{ 1000, 1000 };
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            VibrationEffect vibrationEffect = VibrationEffect.createWaveform(vibrationPattern, 0);
+
+            mVibrator.vibrate(vibrationEffect);
+        } else {
+            mVibrator.vibrate(vibrationPattern, 0);
+        }
+    }
+
+    private void playRingtone(){
         mAudioManager = (AudioManager)getSystemService(Context.AUDIO_SERVICE);
         if (mAudioManager != null) {
             userVolume = mAudioManager.getStreamVolume(AudioManager.STREAM_ALARM);
         }
         mp = new MediaPlayer();
 
-        Uri ringtoneUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_RINGTONE);
+        Uri ringtoneUri = Uri.parse(GBApplication.getPrefs().getString(GBPrefs.PING_TONE, RingtoneManager.getDefaultUri(RingtoneManager.TYPE_RINGTONE).toString()));
 
         try {
             mp.setDataSource(this, ringtoneUri);
@@ -101,12 +124,20 @@ public class FindPhoneActivity extends AbstractGBActivity {
             mp.prepare();
             mp.start();
         } catch (IOException ignore) {
+            LOG.warn("problem playing ringtone");
         }
-        mAudioManager.setStreamVolume(AudioManager.STREAM_ALARM, mAudioManager.getStreamMaxVolume(AudioManager.STREAM_ALARM), AudioManager.FLAG_PLAY_SOUND);
 
+        if (mAudioManager != null) {
+            userVolume = mAudioManager.getStreamVolume(AudioManager.STREAM_ALARM);
+            mAudioManager.setStreamVolume(AudioManager.STREAM_ALARM, mAudioManager.getStreamMaxVolume(AudioManager.STREAM_ALARM), AudioManager.FLAG_PLAY_SOUND);
+        }
     }
 
-    public void stopSound() {
+    private void stopVibration() {
+        mVibrator.cancel();
+    }
+
+    private void stopSound() {
         mAudioManager.setStreamVolume(AudioManager.STREAM_ALARM, userVolume, AudioManager.FLAG_PLAY_SOUND);
         mp.stop();
         mp.reset();
@@ -115,7 +146,10 @@ public class FindPhoneActivity extends AbstractGBActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
+
+        stopVibration();
         stopSound();
+
         LocalBroadcastManager.getInstance(this).unregisterReceiver(mReceiver);
         unregisterReceiver(mReceiver);
     }

@@ -1,4 +1,5 @@
-/*  Copyright (C) 2017-2018 Andreas Shimokawa, João Paulo Barraca
+/*  Copyright (C) 2017-2021 Andreas Shimokawa, Carsten Pfeiffer, Daniele
+    Gobbetti, Dmitry Markin, João Paulo Barraca
 
     This file is part of Gadgetbridge.
 
@@ -19,12 +20,15 @@ package nodomain.freeyourgadget.gadgetbridge.devices.huami.miband2;
 import android.bluetooth.BluetoothDevice;
 import android.content.Context;
 import android.net.Uri;
-import android.support.annotation.NonNull;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import androidx.annotation.NonNull;
+
+import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.devices.InstallHandler;
+import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceCandidate;
@@ -44,7 +48,7 @@ public class MiBand2HRXCoordinator extends HuamiCoordinator {
         try {
             BluetoothDevice device = candidate.getDevice();
             String name = device.getName();
-            if (name != null && (name.equalsIgnoreCase("Mi Band HRX") || name.equalsIgnoreCase("Mi Band 2i"))) {
+            if (name != null && (name.equalsIgnoreCase(HuamiConst.MI_BAND2_NAME_HRX) || name.equalsIgnoreCase("Mi Band 2i"))) {
                 return DeviceType.MIBAND2;
             }
         } catch (Exception ex) {
@@ -64,6 +68,11 @@ public class MiBand2HRXCoordinator extends HuamiCoordinator {
     }
 
     @Override
+    public boolean supportsAlarmSnoozing() {
+        return true;
+    }
+
+    @Override
     public boolean supportsHeartRateMeasurement(GBDevice device) {
         return false;
     }
@@ -73,4 +82,16 @@ public class MiBand2HRXCoordinator extends HuamiCoordinator {
         return false;
     }
 
+    @Override
+    public int[] getSupportedDeviceSpecificSettings(GBDevice device) {
+        return new int[]{
+                R.xml.devicesettings_miband2,
+                R.xml.devicesettings_wearlocation,
+                R.xml.devicesettings_donotdisturb_withauto,
+                R.xml.devicesettings_liftwrist_display,
+                R.xml.devicesettings_rotatewrist_cycleinfo,
+                R.xml.devicesettings_pairingkey,
+                R.xml.devicesettings_transliteration
+        };
+    }
 }

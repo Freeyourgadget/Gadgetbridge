@@ -1,5 +1,5 @@
-/*  Copyright (C) 2016-2018 Andreas Shimokawa, Carsten Pfeiffer, Daniele
-    Gobbetti, Lem Dulfo, Uwe Hermann
+/*  Copyright (C) 2016-2021 Andreas Shimokawa, Carsten Pfeiffer, Daniele
+    Gobbetti, Lem Dulfo, Taavi Eomäe, Uwe Hermann
 
     This file is part of Gadgetbridge.
 
@@ -32,10 +32,11 @@ import android.os.Looper;
 import android.os.Message;
 import android.os.Messenger;
 import android.os.RemoteException;
-import android.support.annotation.NonNull;
 import android.webkit.WebResourceResponse;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
+
+import androidx.annotation.NonNull;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -55,7 +56,7 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.pebble.webview.JSInt
 public class WebViewSingleton {
 
     private static final Logger LOG = LoggerFactory.getLogger(WebViewSingleton.class);
-    private static WebViewSingleton instance = new WebViewSingleton();
+    private static final WebViewSingleton instance = new WebViewSingleton();
 
     private WebView webView = null;
     private MutableContextWrapper contextWrapper;
@@ -71,27 +72,8 @@ public class WebViewSingleton {
     private WebViewSingleton() {
     }
 
-    public static synchronized void ensureCreated(Activity context) {
-        if (instance.webView == null) {
-            instance.contextWrapper = new MutableContextWrapper(context);
-            instance.mainLooper = context.getMainLooper();
-            instance.webView = new WebView(instance.contextWrapper);
-            WebView.setWebContentsDebuggingEnabled(true);
-            instance.webView.setWillNotDraw(true);
-            instance.webView.clearCache(true);
-            instance.webView.setWebViewClient(new GBWebClient());
-            instance.webView.setWebChromeClient(new GBChromeClient());
-            WebSettings webSettings = instance.webView.getSettings();
-            webSettings.setJavaScriptEnabled(true);
-            //needed to access the DOM
-            webSettings.setDomStorageEnabled(true);
-            //needed for localstorage
-            webSettings.setDatabaseEnabled(true);
-        }
-    }
-
     //Internet helper outgoing connection
-    private ServiceConnection internetHelperConnection = new ServiceConnection() {
+    private final ServiceConnection internetHelperConnection = new ServiceConnection() {
         public void onServiceConnected(ComponentName className, IBinder service) {
             LOG.info("internet helper service bound");
             internetHelperBound = true;
@@ -104,6 +86,26 @@ public class WebViewSingleton {
             internetHelperBound = false;
         }
     };
+
+    public static synchronized void ensureCreated(Activity context) {
+        if (instance.webView == null) {
+            instance.contextWrapper = new MutableContextWrapper(context);
+            instance.mainLooper = context.getMainLooper();
+            instance.webView = new WebView(instance.contextWrapper);
+            WebView.setWebContentsDebuggingEnabled(true);
+            instance.webView.setWillNotDraw(true);
+            instance.webView.clearCache(true);
+            instance.webView.setWebViewClient(new GBWebClient());
+            instance.webView.setWebChromeClient(new GBChromeClient());
+            WebSettings webSettings = instance.webView.getSettings();
+            //noinspection SetJavaScriptEnabled
+            webSettings.setJavaScriptEnabled(true);
+            //needed to access the DOM
+            webSettings.setDomStorageEnabled(true);
+            //needed for localstorage
+            webSettings.setDatabaseEnabled(true);
+        }
+    }
 
     public static WebViewSingleton getInstance() {
         return instance;
@@ -190,7 +192,7 @@ public class WebViewSingleton {
                     webView.loadUrl("file:///android_asset/app_config/configure.html?rand=" + Math.random() * 500);
                 }
             });
-            if (!internetHelperBound && !internetHelperInstalled) {
+            if (contextWrapper != null && !internetHelperBound && !internetHelperInstalled) {
                 String internetHelperPkg = "nodomain.freeyourgadget.internethelper";
                 String internetHelperCls = internetHelperPkg + ".MyService";
                 try {

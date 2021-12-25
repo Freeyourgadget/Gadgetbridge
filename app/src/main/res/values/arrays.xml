@@ -1,19 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array name="pref_theme_options">
+        <item>@string/pref_theme_system</item>
         <item>@string/pref_theme_light</item>
         <item>@string/pref_theme_dark</item>
     </string-array>
     <string-array name="pref_theme_values">
+        <item>@string/pref_theme_value_system</item>
         <item>@string/pref_theme_value_light</item>
         <item>@string/pref_theme_value_dark</item>
     </string-array>
+    <string name="pref_theme_value_system" translatable="false">system</string>
     <string name="pref_theme_value_light" translatable="false">light</string>
     <string name="pref_theme_value_dark" translatable="false">dark</string>
 
     <string-array name="pref_language_options">
         <item name="default">System Default</item>
-        <item name="cz">Čeština</item>
+        <item name="ca">Català</item>
+        <item name="cs">Čeština</item>
         <item name="de">Deutsch</item>
         <item name="en">English</item>
         <item name="es">Español</item>
@@ -31,7 +35,8 @@
 
     <string-array name="pref_language_values">
         <item>default</item>
-        <item>cz</item>
+        <item>ca</item>
+        <item>cs</item>
         <item>de</item>
         <item>en</item>
         <item>es</item>
@@ -45,6 +50,34 @@
         <item>ja</item>
         <item>hu</item>
         <item>sk</item>
+    </string-array>
+
+    <string-array name="pref_fitpro_language_options">
+        <item>@string/automatic</item>
+        <item>@string/simplified_chinese</item>
+        <item>@string/english</item>
+        <item>@string/turkish</item>
+        <item>@string/polish</item>
+        <item>@string/portuguese</item>
+        <item>@string/russian</item>
+        <item>@string/spanish</item>
+        <item>@string/german</item>
+        <item>@string/french</item>
+        <item>@string/czesh</item>
+    </string-array>
+
+    <string-array name="pref_fitpro_language_values">
+        <item>auto</item>
+        <item>zh_CN</item>
+        <item>en_US</item>
+        <item>tr_TR</item>
+        <item>pl_PL</item>
+        <item>pt_BR</item>
+        <item>ru_RU</item>
+        <item>es_ES</item>
+        <item>de_DE</item>
+        <item>fr_FR</item>
+        <item>cs_CZ</item>
     </string-array>
 
     <string-array name="notification_mode">
@@ -67,6 +100,34 @@
         <item>never</item>
     </string-array>
 
+    <string-array name="language_only_EN_CH">
+        <item name="0">@string/simplified_chinese</item>
+        <item name="1">@string/english</item>
+    </string-array>
+    <string-array name="language_only_EN_CH_values">
+        <item>0</item>
+        <item>1</item>
+    </string-array>
+    <string-array name="sensors_bp_cal">
+        <item name="0">@string/prefs_sensors_button_bp_calibration</item>
+        <item name="1">@string/Cancel</item>
+    </string-array>
+    <string-array name="sensors_bp_cal_values">
+        <item>0</item>
+        <item>1</item>
+    </string-array>
+
+    <string-array name="power_mode">
+        <item name="0">@string/power_mode_normal</item>
+        <item name="1">@string/power_mode_saving</item>
+        <item name="2">@string/power_mode_watch</item>
+    </string-array>
+    <string-array name="power_mode_values">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+    </string-array>
+
     <string-array name="gender">
         <item name="1">@string/male</item>
         <item name="0">@string/female</item>
@@ -84,6 +145,15 @@
     <string-array name="wearside_values">
         <item>left</item>
         <item>right</item>
+    </string-array>
+
+    <string-array name="orientation">
+        <item>@string/horizontal</item>
+        <item>@string/vertical</item>
+    </string-array>
+    <string-array name="orientation_values">
+        <item>horizontal</item>
+        <item>vertical</item>
     </string-array>
 
     <string-array name="vibration_profile">
@@ -130,6 +200,18 @@
         <item>@string/p_pebble_privacy_mode_complete</item>
     </string-array>
 
+    <string-array name="prefs_find_phone">
+        <item>@string/off</item>
+        <item>@string/on</item>
+        <item>@string/maximum_duration</item>
+    </string-array>
+
+    <string-array name="prefs_find_phone_values">
+        <item>@string/p_off</item>
+        <item>@string/p_on</item>
+        <item>@string/p_scheduled</item>
+    </string-array>
+
     <string-array name="mi2_dateformats">
         <item>@string/dateformat_time</item>
         <item>@string/dateformat_date_time</item>
@@ -137,6 +219,27 @@
     <string-array name="mi2_dateformats_values">
         <item>@string/p_dateformat_time</item>
         <item>@string/p_dateformat_datetime</item>
+    </string-array>
+
+    <string-array name="dateformats">
+        <item>dd.MM.yyyy</item>
+        <item>dd/MM/yyyy</item>
+        <item>MM/dd/yyyy</item>
+    </string-array>
+
+    <string-array name="dateformats_values">
+        <item>dd.MM.yyyy</item>
+        <item>dd/MM/yyyy</item>
+        <item>MM/dd/yyyy</item>
+    </string-array>
+
+    <string-array name="do_not_disturb_no_auto">
+        <item>@string/mi2_dnd_off</item>
+        <item>@string/mi2_dnd_scheduled</item>
+    </string-array>
+    <string-array name="do_not_disturb_no_auto_values">
+        <item>@string/p_off</item>
+        <item>@string/p_scheduled</item>
     </string-array>
 
     <string-array name="mi2_do_not_disturb">
@@ -150,6 +253,15 @@
         <item>@string/p_scheduled</item>
     </string-array>
 
+    <string-array name="zetime_do_not_disturb">
+        <item>@string/mi2_dnd_off</item>
+        <item>@string/mi2_dnd_scheduled</item>
+    </string-array>
+    <string-array name="zetime_do_not_disturb_values">
+        <item>@string/p_off</item>
+        <item>@string/p_scheduled</item>
+    </string-array>
+
     <string-array name="activate_display_on_lift">
         <item>@string/off</item>
         <item>@string/on</item>
@@ -158,6 +270,21 @@
     <string-array name="activate_display_on_lift_values">
         <item>@string/p_off</item>
         <item>@string/p_on</item>
+        <item>@string/p_scheduled</item>
+    </string-array>
+
+    <string-array name="mi3_night_mode">
+        <item>@string/off</item>
+        <!--
+        <item>@string/mi3_night_mode_sunset</item>
+        -->
+        <item>@string/mi2_dnd_scheduled</item>
+    </string-array>
+    <string-array name="mi3_night_mode_values">
+        <item>@string/p_off</item>
+        <!--
+        <item>@string/p_sunset</item>
+        -->
         <item>@string/p_scheduled</item>
     </string-array>
 
@@ -183,6 +310,1016 @@
         <item>@string/p_battery</item>
     </string-array>
 
+    <string-array name="pref_miband3_display_items">
+        <item>@string/menuitem_notifications</item>
+        <item>@string/menuitem_weather</item>
+        <item>@string/menuitem_activity</item>
+        <item>@string/menuitem_more</item>
+        <item>@string/menuitem_status</item>
+        <item>@string/heart_rate</item>
+        <item>@string/menuitem_timer</item>
+        <item>@string/menuitem_nfc</item>
+    </string-array>
+
+    <string-array name="pref_miband3_display_items_values">
+        <item>@string/p_menuitem_notifications</item>
+        <item>@string/p_menuitem_weather</item>
+        <item>@string/p_menuitem_activity</item>
+        <item>@string/p_menuitem_more</item>
+        <item>@string/p_menuitem_status</item>
+        <item>@string/p_heart_rate</item>
+        <item>@string/p_menuitem_timer</item>
+        <item>@string/p_menuitem_nfc</item>
+    </string-array>
+
+    <string-array name="pref_miband3_display_items_default">
+        <item>@string/p_menuitem_notifications</item>
+        <item>@string/p_menuitem_weather</item>
+        <item>@string/p_menuitem_activity</item>
+        <item>@string/p_menuitem_more</item>
+        <item>@string/p_menuitem_status</item>
+        <item>@string/p_heart_rate</item>
+    </string-array>
+
+    <string-array name="pref_miband5_display_items">
+        <item>@string/menuitem_status</item>
+        <item>@string/menuitem_pai</item>
+        <item>@string/menuitem_hr</item>
+        <item>@string/menuitem_notifications</item>
+        <item>@string/menuitem_breathing</item>
+        <item>@string/menuitem_eventreminder</item>
+        <item>@string/menuitem_weather</item>
+        <item>@string/menuitem_workout</item>
+        <item>@string/menuitem_more</item>
+        <item>@string/menuitem_stress</item>
+        <item>@string/menuitem_cycles</item>
+        <item>@string/menuitem_nfc</item>
+    </string-array>
+
+    <string-array name="pref_miband5_display_items_values">
+        <item>@string/p_menuitem_status</item>
+        <item>@string/p_menuitem_pai</item>
+        <item>@string/p_menuitem_hr</item>
+        <item>@string/p_menuitem_notifications</item>
+        <item>@string/p_menuitem_breathing</item>
+        <item>@string/p_menuitem_eventreminder</item>
+        <item>@string/p_menuitem_weather</item>
+        <item>@string/p_menuitem_workout</item>
+        <item>@string/p_menuitem_more</item>
+        <item>@string/p_menuitem_stress</item>
+        <item>@string/p_menuitem_cycles</item>
+        <item>@string/p_menuitem_nfc</item>
+    </string-array>
+
+    <string-array name="pref_miband5_display_items_default">
+        <item>@string/p_menuitem_status</item>
+        <item>@string/p_menuitem_pai</item>
+        <item>@string/p_menuitem_hr</item>
+        <item>@string/p_menuitem_notifications</item>
+        <item>@string/p_menuitem_breathing</item>
+        <item>@string/p_menuitem_eventreminder</item>
+        <item>@string/p_menuitem_weather</item>
+        <item>@string/p_menuitem_workout</item>
+        <item>@string/p_menuitem_more</item>
+        <item>@string/p_menuitem_stress</item>
+        <item>@string/p_menuitem_cycles</item>
+        <item>@string/p_menuitem_nfc</item>
+    </string-array>
+
+    <string-array name="pref_miband5_shortcuts">
+        <item>@string/menuitem_notifications</item>
+        <item>@string/menuitem_weather</item>
+        <item>@string/menuitem_music</item>
+        <item>@string/menuitem_timer</item>
+        <item>@string/menuitem_alarm</item>
+        <item>@string/menuitem_findphone</item>
+        <item>@string/menuitem_worldclock</item>
+        <item>@string/menuitem_status</item>
+        <item>@string/menuitem_pai</item>
+        <item>@string/menuitem_hr</item>
+        <item>@string/menuitem_stress</item>
+        <item>@string/menuitem_eventreminder</item>
+        <item>@string/menuitem_dnd</item>
+        <item>@string/menuitem_stopwatch</item>
+        <item>@string/menuitem_workout</item>
+        <item>@string/menuitem_mutephone</item>
+        <item>@string/menuitem_cycles</item>
+        <item>@string/menuitem_takephoto</item>
+        <item>@string/menuitem_nfc</item>
+    </string-array>
+
+    <string-array name="pref_miband5_shortcuts_values">
+        <item>@string/p_menuitem_notifications</item>
+        <item>@string/p_menuitem_weather</item>
+        <item>@string/p_menuitem_music</item>
+        <item>@string/p_menuitem_timer</item>
+        <item>@string/p_menuitem_alarm</item>
+        <item>@string/p_menuitem_findphone</item>
+        <item>@string/p_menuitem_worldclock</item>
+        <item>@string/p_menuitem_status</item>
+        <item>@string/p_menuitem_pai</item>
+        <item>@string/p_menuitem_hr</item>
+        <item>@string/p_menuitem_stress</item>
+        <item>@string/p_menuitem_eventreminder</item>
+        <item>@string/p_menuitem_dnd</item>
+        <item>@string/p_menuitem_stopwatch</item>
+        <item>@string/p_menuitem_workout</item>
+        <item>@string/p_menuitem_mutephone</item>
+        <item>@string/p_menuitem_cycles</item>
+        <item>@string/p_menuitem_takephoto</item>
+        <item>@string/p_menuitem_nfc</item>
+    </string-array>
+
+    <string-array name="pref_miband5_shortcuts_default">
+        <item>@string/p_menuitem_notifications</item>
+        <item>@string/p_menuitem_weather</item>
+        <item>@string/p_menuitem_music</item>
+    </string-array>
+
+    <string-array name="pref_miband6_display_items">
+        <item>@string/menuitem_status</item>
+        <item>@string/menuitem_hr</item>
+        <item>@string/menuitem_workout</item>
+        <item>@string/menuitem_weather</item>
+        <item>@string/menuitem_notifications</item>
+        <item>@string/menuitem_alarm</item>
+        <item>@string/menuitem_takephoto</item>
+        <item>@string/menuitem_pomodoro</item>
+        <item>@string/menuitem_music</item>
+        <item>@string/menuitem_stopwatch</item>
+        <item>@string/menuitem_timer</item>
+        <item>@string/menuitem_findphone</item>
+        <item>@string/menuitem_mutephone</item>
+        <item>@string/menuitem_settings</item>
+        <item>@string/menuitem_activity</item>
+        <item>@string/menuitem_eventreminder</item>
+        <item>@string/menuitem_pai</item>
+        <item>@string/menuitem_worldclock</item>
+        <item>@string/menuitem_stress</item>
+        <item>@string/menuitem_cycles</item>
+        <item>@string/menuitem_spo2</item>
+        <item>@string/menuitem_breathing</item>
+        <item>@string/menuitem_flashlight</item>
+        <item>@string/menuitem_alipay</item>
+    </string-array>
+
+    <string-array name="pref_miband6_display_items_values">
+        <item>@string/p_menuitem_status</item>
+        <item>@string/p_menuitem_hr</item>
+        <item>@string/p_menuitem_workout</item>
+        <item>@string/p_menuitem_weather</item>
+        <item>@string/p_menuitem_notifications</item>
+        <item>@string/p_menuitem_alarm</item>
+        <item>@string/p_menuitem_takephoto</item>
+        <item>@string/p_menuitem_pomodoro</item>
+        <item>@string/p_menuitem_music</item>
+        <item>@string/p_menuitem_stopwatch</item>
+        <item>@string/p_menuitem_timer</item>
+        <item>@string/p_menuitem_findphone</item>
+        <item>@string/p_menuitem_mutephone</item>
+        <item>@string/p_menuitem_settings</item>
+        <item>@string/p_menuitem_activity</item>
+        <item>@string/p_menuitem_eventreminder</item>
+        <item>@string/p_menuitem_pai</item>
+        <item>@string/p_menuitem_worldclock</item>
+        <item>@string/p_menuitem_stress</item>
+        <item>@string/p_menuitem_cycles</item>
+        <item>@string/p_menuitem_spo2</item>
+        <item>@string/p_menuitem_breathing</item>
+        <item>@string/p_menuitem_flashlight</item>
+        <item>@string/p_menuitem_alipay</item>
+    </string-array>
+
+    <string-array name="pref_miband6_display_items_default">
+        <item>@string/p_menuitem_status</item>
+        <item>@string/p_menuitem_hr</item>
+        <item>@string/p_menuitem_workout</item>
+        <item>@string/p_menuitem_weather</item>
+        <item>@string/p_menuitem_notifications</item>
+        <item>@string/p_menuitem_alarm</item>
+        <item>@string/p_menuitem_takephoto</item>
+        <item>@string/p_menuitem_pomodoro</item>
+        <item>@string/p_menuitem_music</item>
+        <item>@string/p_menuitem_stopwatch</item>
+        <item>@string/p_menuitem_timer</item>
+        <item>@string/p_menuitem_findphone</item>
+        <item>@string/p_menuitem_mutephone</item>
+        <item>@string/p_menuitem_settings</item>
+        <item>@string/p_menuitem_activity</item>
+        <item>@string/p_menuitem_eventreminder</item>
+        <item>@string/p_menuitem_pai</item>
+        <item>@string/p_menuitem_worldclock</item>
+        <item>@string/p_menuitem_stress</item>
+        <item>@string/p_menuitem_cycles</item>
+        <item>@string/p_menuitem_spo2</item>
+        <item>@string/p_menuitem_breathing</item>
+        <item>@string/p_menuitem_flashlight</item>
+    </string-array>
+
+    <string-array name="pref_miband6_shortcuts">
+        <item>@string/menuitem_status</item>
+        <item>@string/menuitem_hr</item>
+        <item>@string/menuitem_workout</item>
+        <item>@string/menuitem_weather</item>
+        <item>@string/menuitem_notifications</item>
+        <item>@string/menuitem_dnd</item>
+        <item>@string/menuitem_alarm</item>
+        <item>@string/menuitem_takephoto</item>
+        <item>@string/menuitem_music</item>
+        <item>@string/menuitem_stopwatch</item>
+        <item>@string/menuitem_timer</item>
+        <item>@string/menuitem_findphone</item>
+        <item>@string/menuitem_mutephone</item>
+        <item>@string/menuitem_eventreminder</item>
+        <item>@string/menuitem_pai</item>
+        <item>@string/menuitem_worldclock</item>
+        <item>@string/menuitem_stress</item>
+        <item>@string/menuitem_cycles</item>
+        <item>@string/menuitem_spo2</item>
+        <item>@string/menuitem_breathing</item>
+        <item>@string/menuitem_flashlight</item>
+        <item>@string/menuitem_alipay</item>
+    </string-array>
+
+    <string-array name="pref_miband6_shortcuts_values">
+        <item>@string/p_menuitem_status</item>
+        <item>@string/p_menuitem_hr</item>
+        <item>@string/p_menuitem_workout</item>
+        <item>@string/p_menuitem_weather</item>
+        <item>@string/p_menuitem_notifications</item>
+        <item>@string/p_menuitem_dnd</item>
+        <item>@string/p_menuitem_alarm</item>
+        <item>@string/p_menuitem_takephoto</item>
+        <item>@string/p_menuitem_music</item>
+        <item>@string/p_menuitem_stopwatch</item>
+        <item>@string/p_menuitem_timer</item>
+        <item>@string/p_menuitem_findphone</item>
+        <item>@string/p_menuitem_mutephone</item>
+        <item>@string/p_menuitem_eventreminder</item>
+        <item>@string/p_menuitem_pai</item>
+        <item>@string/p_menuitem_worldclock</item>
+        <item>@string/p_menuitem_stress</item>
+        <item>@string/p_menuitem_cycles</item>
+        <item>@string/p_menuitem_spo2</item>
+        <item>@string/p_menuitem_breathing</item>
+        <item>@string/p_menuitem_flashlight</item>
+        <item>@string/p_menuitem_alipay</item>
+    </string-array>
+
+    <string-array name="pref_miband6_shortcuts_default">
+        <item>@string/p_menuitem_notifications</item>
+        <item>@string/p_menuitem_weather</item>
+        <item>@string/p_menuitem_music</item>
+    </string-array>
+
+    <string-array name="pref_neo_display_items">
+        <item>@string/menuitem_pai</item>
+        <item>@string/menuitem_dnd</item>
+        <item>@string/menuitem_hr</item>
+        <item>@string/menuitem_weather</item>
+        <item>@string/menuitem_stopwatch</item>
+        <item>@string/menuitem_alarm</item>
+        <item>@string/menuitem_worldclock</item>
+        <item>@string/chart_steps</item>
+        <item>@string/distance</item>
+        <item>@string/calories</item>
+        <item>@string/battery</item>
+    </string-array>
+
+    <string-array name="pref_neo_display_items_values">
+        <item>@string/p_menuitem_pai</item>
+        <item>@string/p_menuitem_dnd</item>
+        <item>@string/p_menuitem_hr</item>
+        <item>@string/p_menuitem_weather</item>
+        <item>@string/p_menuitem_stopwatch</item>
+        <item>@string/p_menuitem_alarm</item>
+        <item>@string/p_menuitem_worldclock</item>
+        <item>@string/p_steps</item>
+        <item>@string/p_distance</item>
+        <item>@string/p_calories</item>
+        <item>@string/p_battery</item>
+    </string-array>
+
+    <string-array name="pref_neo_display_items_default">
+        <item>@string/p_menuitem_pai</item>
+        <item>@string/p_menuitem_dnd</item>
+        <item>@string/p_menuitem_hr</item>
+        <item>@string/p_menuitem_weather</item>
+        <item>@string/p_menuitem_stopwatch</item>
+        <item>@string/p_menuitem_alarm</item>
+        <item>@string/p_menuitem_worldclock</item>
+        <item>@string/p_steps</item>
+        <item>@string/p_distance</item>
+        <item>@string/p_calories</item>
+        <item>@string/p_battery</item>
+    </string-array>
+
+    <string-array name="pref_amazfitband5_display_items">
+        <item>@string/menuitem_status</item>
+        <item>@string/menuitem_pai</item>
+        <item>@string/menuitem_hr</item>
+        <item>@string/menuitem_spo2</item>
+        <item>@string/menuitem_notifications</item>
+        <item>@string/menuitem_breathing</item>
+        <item>@string/menuitem_eventreminder</item>
+        <item>@string/menuitem_weather</item>
+        <item>@string/menuitem_workout</item>
+        <item>@string/menuitem_more</item>
+        <item>@string/menuitem_stress</item>
+        <item>@string/menuitem_cycles</item>
+    </string-array>
+
+    <string-array name="pref_amazfitband5_display_items_values">
+        <item>@string/p_menuitem_status</item>
+        <item>@string/p_menuitem_pai</item>
+        <item>@string/p_menuitem_hr</item>
+        <item>@string/p_menuitem_spo2</item>
+        <item>@string/p_menuitem_notifications</item>
+        <item>@string/p_menuitem_breathing</item>
+        <item>@string/p_menuitem_eventreminder</item>
+        <item>@string/p_menuitem_weather</item>
+        <item>@string/p_menuitem_workout</item>
+        <item>@string/p_menuitem_more</item>
+        <item>@string/p_menuitem_stress</item>
+        <item>@string/p_menuitem_cycles</item>
+    </string-array>
+
+    <string-array name="pref_amazfitband5_display_items_default">
+        <item>@string/p_menuitem_status</item>
+        <item>@string/p_menuitem_pai</item>
+        <item>@string/p_menuitem_hr</item>
+        <item>@string/p_menuitem_spo2</item>
+        <item>@string/p_menuitem_notifications</item>
+        <item>@string/p_menuitem_breathing</item>
+        <item>@string/p_menuitem_eventreminder</item>
+        <item>@string/p_menuitem_weather</item>
+        <item>@string/p_menuitem_workout</item>
+        <item>@string/p_menuitem_more</item>
+        <item>@string/p_menuitem_stress</item>
+        <item>@string/p_menuitem_cycles</item>
+    </string-array>
+
+    <string-array name="pref_amazfitband5_shortcuts">
+        <item>@string/menuitem_notifications</item>
+        <item>@string/menuitem_weather</item>
+        <item>@string/menuitem_music</item>
+        <item>@string/menuitem_timer</item>
+        <item>@string/menuitem_alarm</item>
+        <item>@string/menuitem_findphone</item>
+        <item>@string/menuitem_worldclock</item>
+        <item>@string/menuitem_status</item>
+        <item>@string/menuitem_pai</item>
+        <item>@string/menuitem_hr</item>
+        <item>@string/menuitem_spo2</item>
+        <item>@string/menuitem_stress</item>
+        <item>@string/menuitem_eventreminder</item>
+        <item>@string/menuitem_dnd</item>
+        <item>@string/menuitem_stopwatch</item>
+        <item>@string/menuitem_workout</item>
+        <item>@string/menuitem_mutephone</item>
+        <item>@string/menuitem_cycles</item>
+        <item>@string/menuitem_takephoto</item>
+        <item>@string/menuitem_alexa</item>
+    </string-array>
+
+    <string-array name="pref_amazfitband5_shortcuts_values">
+        <item>@string/p_menuitem_notifications</item>
+        <item>@string/p_menuitem_weather</item>
+        <item>@string/p_menuitem_music</item>
+        <item>@string/p_menuitem_timer</item>
+        <item>@string/p_menuitem_alarm</item>
+        <item>@string/p_menuitem_findphone</item>
+        <item>@string/p_menuitem_worldclock</item>
+        <item>@string/p_menuitem_status</item>
+        <item>@string/p_menuitem_pai</item>
+        <item>@string/p_menuitem_hr</item>
+        <item>@string/p_menuitem_spo2</item>
+        <item>@string/p_menuitem_stress</item>
+        <item>@string/p_menuitem_eventreminder</item>
+        <item>@string/p_menuitem_dnd</item>
+        <item>@string/p_menuitem_stopwatch</item>
+        <item>@string/p_menuitem_workout</item>
+        <item>@string/p_menuitem_mutephone</item>
+        <item>@string/p_menuitem_cycles</item>
+        <item>@string/p_menuitem_takephoto</item>
+        <item>@string/p_menuitem_alexa</item>
+    </string-array>
+
+    <string-array name="pref_amazfitband5_shortcuts_default">
+        <item>@string/p_menuitem_notifications</item>
+        <item>@string/p_menuitem_weather</item>
+        <item>@string/p_menuitem_music</item>
+    </string-array>
+
+    <string-array name="pref_bip_display_items">
+        <item>@string/menuitem_status</item>
+        <item>@string/menuitem_activity</item>
+        <item>@string/menuitem_weather</item>
+        <item>@string/menuitem_alarm</item>
+        <item>@string/menuitem_timer</item>
+        <item>@string/menuitem_compass</item>
+        <item>@string/menuitem_settings</item>
+        <item>@string/menuitem_alipay</item>
+    </string-array>
+
+    <string-array name="pref_bip_display_items_values">
+        <item>@string/p_menuitem_status</item>
+        <item>@string/p_menuitem_activity</item>
+        <item>@string/p_menuitem_weather</item>
+        <item>@string/p_menuitem_alarm</item>
+        <item>@string/p_menuitem_timer</item>
+        <item>@string/p_menuitem_compass</item>
+        <item>@string/p_menuitem_settings</item>
+        <item>@string/p_menuitem_alipay</item>
+    </string-array>
+
+    <string-array name="pref_bip_display_items_default">
+        <item>@string/p_menuitem_status</item>
+        <item>@string/p_menuitem_activity</item>
+        <item>@string/p_menuitem_weather</item>
+        <item>@string/p_menuitem_alarm</item>
+        <item>@string/p_menuitem_timer</item>
+        <item>@string/p_menuitem_compass</item>
+        <item>@string/p_menuitem_settings</item>
+    </string-array>
+
+    <string-array name="pref_bip_shortcuts">
+        <item>@string/menuitem_alipay</item>
+        <item>@string/menuitem_weather</item>
+    </string-array>
+
+    <string-array name="pref_bip_shortcuts_values">
+        <item>@string/p_menuitem_alipay</item>
+        <item>@string/p_menuitem_weather</item>
+    </string-array>
+
+    <string-array name="pref_bip_shortcuts_default">
+        <item>@string/p_menuitem_weather</item>
+    </string-array>
+
+    <string-array name="pref_cor_display_items">
+        <item>@string/menuitem_status</item>
+        <item>@string/menuitem_notifications</item>
+        <item>@string/menuitem_activity</item>
+        <item>@string/menuitem_weather</item>
+        <item>@string/menuitem_alarm</item>
+        <item>@string/menuitem_timer</item>
+        <item>@string/menuitem_settings</item>
+        <item>@string/menuitem_alipay</item>
+        <item>@string/menuitem_music</item>
+    </string-array>
+
+    <string-array name="pref_cor_display_items_values">
+        <item>@string/p_menuitem_status</item>
+        <item>@string/p_menuitem_notifications</item>
+        <item>@string/p_menuitem_activity</item>
+        <item>@string/p_menuitem_weather</item>
+        <item>@string/p_menuitem_alarm</item>
+        <item>@string/p_menuitem_timer</item>
+        <item>@string/p_menuitem_settings</item>
+        <item>@string/p_menuitem_alipay</item>
+        <item>@string/p_menuitem_music</item>
+    </string-array>
+
+    <string-array name="pref_cor_display_items_default">
+        <item>@string/p_menuitem_status</item>
+        <item>@string/p_menuitem_notifications</item>
+        <item>@string/p_menuitem_activity</item>
+        <item>@string/p_menuitem_weather</item>
+        <item>@string/p_menuitem_alarm</item>
+        <item>@string/p_menuitem_timer</item>
+        <item>@string/p_menuitem_settings</item>
+        <item>@string/p_menuitem_music</item>
+    </string-array>
+
+    <string-array name="pref_gts_display_items">
+        <item>@string/menuitem_status</item>
+        <item>@string/menuitem_pai</item>
+        <item>@string/menuitem_hr</item>
+        <item>@string/menuitem_workout</item>
+        <item>@string/menuitem_activity</item>
+        <item>@string/menuitem_weather</item>
+        <item>@string/menuitem_music</item>
+        <item>@string/menuitem_notifications</item>
+        <item>@string/menuitem_alarm</item>
+        <item>@string/menuitem_eventreminder</item>
+        <item>@string/menuitem_more</item>
+        <item>@string/menuitem_settings</item>
+    </string-array>
+
+    <string-array name="pref_gts_display_items_values">
+        <item>@string/p_menuitem_status</item>
+        <item>@string/p_menuitem_pai</item>
+        <item>@string/p_menuitem_hr</item>
+        <item>@string/p_menuitem_workout</item>
+        <item>@string/p_menuitem_activity</item>
+        <item>@string/p_menuitem_weather</item>
+        <item>@string/p_menuitem_music</item>
+        <item>@string/p_menuitem_notifications</item>
+        <item>@string/p_menuitem_alarm</item>
+        <item>@string/p_menuitem_eventreminder</item>
+        <item>@string/p_menuitem_more</item>
+        <item>@string/p_menuitem_settings</item>
+    </string-array>
+
+    <string-array name="pref_gts_display_items_default">
+        <item>@string/p_menuitem_status</item>
+        <item>@string/p_menuitem_pai</item>
+        <item>@string/p_menuitem_hr</item>
+        <item>@string/p_menuitem_workout</item>
+        <item>@string/p_menuitem_activity</item>
+        <item>@string/p_menuitem_weather</item>
+        <item>@string/p_menuitem_music</item>
+        <item>@string/p_menuitem_notifications</item>
+        <item>@string/p_menuitem_alarm</item>
+        <item>@string/p_menuitem_eventreminder</item>
+        <item>@string/p_menuitem_more</item>
+        <item>@string/p_menuitem_settings</item>
+    </string-array>
+
+    <string-array name="pref_gtsgtr2_display_items">
+        <item>@string/menuitem_status</item>
+        <item>@string/menuitem_goal</item>
+        <item>@string/menuitem_hr</item>
+        <item>@string/menuitem_pai</item>
+        <item>@string/menuitem_workout</item>
+        <item>@string/menuitem_activity</item>
+        <item>@string/menuitem_sleep</item>
+        <item>@string/menuitem_weather</item>
+        <item>@string/menuitem_alarm</item>
+        <item>@string/menuitem_events</item>
+        <item>@string/menuitem_stopwatch</item>
+        <item>@string/menuitem_timer</item>
+        <item>@string/menuitem_breathing</item>
+        <item>@string/menuitem_stress</item>
+        <item>@string/menuitem_spo2</item>
+        <item>@string/menuitem_worldclock</item>
+        <item>@string/menuitem_pomodoro</item>
+        <item>@string/menuitem_music</item>
+        <item>@string/menuitem_cycles</item>
+        <item>@string/menuitem_compass</item>
+        <item>@string/menuitem_temperature</item>
+        <item>@string/menuitem_widgets</item>
+        <item>@string/menuitem_settings</item>
+        <item>@string/menuitem_more</item>
+    </string-array>
+
+    <string-array name="pref_gtsgtr2_display_items_values">
+        <item>@string/p_menuitem_status</item>
+        <item>@string/p_menuitem_goal</item>
+        <item>@string/p_menuitem_hr</item>
+        <item>@string/p_menuitem_pai</item>
+        <item>@string/p_menuitem_workout</item>
+        <item>@string/p_menuitem_activity</item>
+        <item>@string/p_menuitem_sleep</item>
+        <item>@string/p_menuitem_weather</item>
+        <item>@string/p_menuitem_alarm</item>
+        <item>@string/p_menuitem_events</item>
+        <item>@string/p_menuitem_stopwatch</item>
+        <item>@string/p_menuitem_timer</item>
+        <item>@string/p_menuitem_breathing</item>
+        <item>@string/p_menuitem_stress</item>
+        <item>@string/p_menuitem_spo2</item>
+        <item>@string/p_menuitem_worldclock</item>
+        <item>@string/p_menuitem_pomodoro</item>
+        <item>@string/p_menuitem_music</item>
+        <item>@string/p_menuitem_cycles</item>
+        <item>@string/p_menuitem_compass</item>
+        <item>@string/p_menuitem_temperature</item>
+        <item>@string/p_menuitem_widgets</item>
+        <item>@string/p_menuitem_settings</item>
+        <item>@string/p_menuitem_more</item>
+    </string-array>
+
+    <string-array name="pref_gtsgtr2_display_items_default">
+        <item>@string/p_menuitem_status</item>
+        <item>@string/p_menuitem_goal</item>
+        <item>@string/p_menuitem_hr</item>
+        <item>@string/p_menuitem_pai</item>
+        <item>@string/p_menuitem_workout</item>
+        <item>@string/p_menuitem_activity</item>
+        <item>@string/p_menuitem_sleep</item>
+        <item>@string/p_menuitem_weather</item>
+        <item>@string/p_menuitem_alarm</item>
+        <item>@string/p_menuitem_events</item>
+        <item>@string/p_menuitem_stopwatch</item>
+        <item>@string/p_menuitem_timer</item>
+        <item>@string/p_menuitem_breathing</item>
+        <item>@string/p_menuitem_stress</item>
+        <item>@string/p_menuitem_spo2</item>
+        <item>@string/p_menuitem_worldclock</item>
+        <item>@string/p_menuitem_pomodoro</item>
+        <item>@string/p_menuitem_music</item>
+        <item>@string/p_menuitem_cycles</item>
+        <item>@string/p_menuitem_compass</item>
+        <item>@string/p_menuitem_temperature</item>
+        <item>@string/p_menuitem_widgets</item>
+        <item>@string/p_menuitem_settings</item>
+        <item>@string/p_menuitem_more</item>
+    </string-array>
+
+    <string-array name="pref_gts2mini_display_items">
+        <item>@string/menuitem_goal</item>
+        <item>@string/menuitem_hr</item>
+        <item>@string/menuitem_pai</item>
+        <item>@string/menuitem_workout</item>
+        <item>@string/menuitem_activity</item>
+        <item>@string/menuitem_sleep</item>
+        <item>@string/menuitem_weather</item>
+        <item>@string/menuitem_alarm</item>
+        <item>@string/menuitem_eventreminder</item>
+        <item>@string/menuitem_stopwatch</item>
+        <item>@string/menuitem_timer</item>
+        <item>@string/menuitem_breathing</item>
+        <item>@string/menuitem_stress</item>
+        <item>@string/menuitem_spo2</item>
+        <item>@string/menuitem_worldclock</item>
+        <item>@string/menuitem_pomodoro</item>
+        <item>@string/menuitem_music</item>
+        <item>@string/menuitem_cycles</item>
+        <item>@string/menuitem_compass</item>
+        <item>@string/menuitem_findphone</item>
+        <item>@string/menuitem_takephoto</item>
+        <item>@string/menuitem_alexa</item>
+        <item>@string/menuitem_settings</item>
+        <item>@string/menuitem_more</item>
+    </string-array>
+
+    <string-array name="pref_gts2mini_display_items_values">
+        <item>@string/p_menuitem_goal</item>
+        <item>@string/p_menuitem_hr</item>
+        <item>@string/p_menuitem_pai</item>
+        <item>@string/p_menuitem_workout</item>
+        <item>@string/p_menuitem_activity</item>
+        <item>@string/p_menuitem_sleep</item>
+        <item>@string/p_menuitem_weather</item>
+        <item>@string/p_menuitem_alarm</item>
+        <item>@string/p_menuitem_eventreminder</item>
+        <item>@string/p_menuitem_stopwatch</item>
+        <item>@string/p_menuitem_timer</item>
+        <item>@string/p_menuitem_breathing</item>
+        <item>@string/p_menuitem_stress</item>
+        <item>@string/p_menuitem_spo2</item>
+        <item>@string/p_menuitem_worldclock</item>
+        <item>@string/p_menuitem_pomodoro</item>
+        <item>@string/p_menuitem_music</item>
+        <item>@string/p_menuitem_cycles</item>
+        <item>@string/p_menuitem_compass</item>
+        <item>@string/p_menuitem_findphone</item>
+        <item>@string/p_menuitem_takephoto</item>
+        <item>@string/p_menuitem_alexa</item>
+        <item>@string/p_menuitem_settings</item>
+        <item>@string/p_menuitem_more</item>
+    </string-array>
+
+    <string-array name="pref_gts2mini_display_items_default">
+        <item>@string/p_menuitem_goal</item>
+        <item>@string/p_menuitem_hr</item>
+        <item>@string/p_menuitem_pai</item>
+        <item>@string/p_menuitem_workout</item>
+        <item>@string/p_menuitem_activity</item>
+        <item>@string/p_menuitem_sleep</item>
+        <item>@string/p_menuitem_weather</item>
+        <item>@string/p_menuitem_alarm</item>
+        <item>@string/p_menuitem_eventreminder</item>
+        <item>@string/p_menuitem_stopwatch</item>
+        <item>@string/p_menuitem_timer</item>
+        <item>@string/p_menuitem_breathing</item>
+        <item>@string/p_menuitem_stress</item>
+        <item>@string/p_menuitem_spo2</item>
+        <item>@string/p_menuitem_worldclock</item>
+        <item>@string/p_menuitem_pomodoro</item>
+        <item>@string/p_menuitem_music</item>
+        <item>@string/p_menuitem_cycles</item>
+        <item>@string/p_menuitem_compass</item>
+        <item>@string/p_menuitem_findphone</item>
+        <item>@string/p_menuitem_takephoto</item>
+        <item>@string/p_menuitem_settings</item>
+        <item>@string/p_menuitem_more</item>
+    </string-array>
+
+    <string-array name="pref_trex_display_items">
+        <item>@string/menuitem_status</item>
+        <item>@string/menuitem_pai</item>
+        <item>@string/menuitem_hr</item>
+        <item>@string/menuitem_workout</item>
+        <item>@string/menuitem_activity</item>
+        <item>@string/menuitem_weather</item>
+        <item>@string/menuitem_music</item>
+        <item>@string/menuitem_alarm</item>
+        <item>@string/menuitem_eventreminder</item>
+        <item>@string/menuitem_stopwatch</item>
+        <item>@string/menuitem_timer</item>
+        <item>@string/menuitem_findphone</item>
+        <item>@string/menuitem_compass</item>
+        <item>@string/menuitem_settings</item>
+    </string-array>
+
+    <string-array name="pref_trex_display_items_values">
+        <item>@string/p_menuitem_status</item>
+        <item>@string/p_menuitem_pai</item>
+        <item>@string/p_menuitem_hr</item>
+        <item>@string/p_menuitem_workout</item>
+        <item>@string/p_menuitem_activity</item>
+        <item>@string/p_menuitem_weather</item>
+        <item>@string/p_menuitem_music</item>
+        <item>@string/p_menuitem_alarm</item>
+        <item>@string/p_menuitem_eventreminder</item>
+        <item>@string/p_menuitem_stopwatch</item>
+        <item>@string/p_menuitem_timer</item>
+        <item>@string/p_menuitem_findphone</item>
+        <item>@string/p_menuitem_compass</item>
+        <item>@string/p_menuitem_settings</item>
+    </string-array>
+
+    <string-array name="pref_trex_display_items_default">
+        <item>@string/p_menuitem_status</item>
+        <item>@string/p_menuitem_pai</item>
+        <item>@string/p_menuitem_hr</item>
+        <item>@string/p_menuitem_workout</item>
+        <item>@string/p_menuitem_activity</item>
+        <item>@string/p_menuitem_weather</item>
+        <item>@string/p_menuitem_music</item>
+        <item>@string/p_menuitem_alarm</item>
+        <item>@string/p_menuitem_eventreminder</item>
+        <item>@string/p_menuitem_stopwatch</item>
+        <item>@string/p_menuitem_timer</item>
+        <item>@string/p_menuitem_findphone</item>
+        <item>@string/p_menuitem_compass</item>
+        <item>@string/p_menuitem_settings</item>
+    </string-array>
+
+
+    <string-array name="pref_trex_pro_display_items">
+        <item>@string/menuitem_status</item>
+        <item>@string/menuitem_pai</item>
+        <item>@string/menuitem_hr</item>
+        <item>@string/menuitem_workout</item>
+        <item>@string/menuitem_activity</item>
+        <item>@string/menuitem_weather</item>
+        <item>@string/menuitem_music</item>
+        <item>@string/menuitem_alarm</item>
+        <item>@string/menuitem_notifications</item>
+        <item>@string/menuitem_stopwatch</item>
+        <item>@string/menuitem_timer</item>
+        <item>@string/menuitem_findphone</item>
+        <item>@string/menuitem_compass</item>
+        <item>@string/menuitem_barometer</item>
+        <item>@string/menuitem_stress</item>
+        <item>@string/menuitem_spo2</item>
+        <item>@string/menuitem_goal</item>
+        <item>@string/menuitem_events</item>
+        <item>@string/menuitem_settings</item>
+    </string-array>
+
+    <string-array name="pref_trex_pro_display_items_values">
+        <item>@string/p_menuitem_status</item>
+        <item>@string/p_menuitem_pai</item>
+        <item>@string/p_menuitem_hr</item>
+        <item>@string/p_menuitem_workout</item>
+        <item>@string/p_menuitem_activity</item>
+        <item>@string/p_menuitem_weather</item>
+        <item>@string/p_menuitem_music</item>
+        <item>@string/p_menuitem_alarm</item>
+        <item>@string/p_menuitem_notifications</item>
+        <item>@string/p_menuitem_stopwatch</item>
+        <item>@string/p_menuitem_timer</item>
+        <item>@string/p_menuitem_findphone</item>
+        <item>@string/p_menuitem_compass</item>
+        <item>@string/p_menuitem_barometer</item>
+        <item>@string/p_menuitem_stress</item>
+        <item>@string/p_menuitem_spo2</item>
+        <item>@string/p_menuitem_goal</item>
+        <item>@string/p_menuitem_events</item>
+        <item>@string/p_menuitem_settings</item>
+    </string-array>
+
+    <string-array name="pref_trex_pro_display_items_default">
+        <item>@string/p_menuitem_status</item>
+        <item>@string/p_menuitem_pai</item>
+        <item>@string/p_menuitem_hr</item>
+        <item>@string/p_menuitem_workout</item>
+        <item>@string/p_menuitem_activity</item>
+        <item>@string/p_menuitem_weather</item>
+        <item>@string/p_menuitem_music</item>
+        <item>@string/p_menuitem_alarm</item>
+        <item>@string/p_menuitem_notifications</item>
+        <item>@string/p_menuitem_stopwatch</item>
+        <item>@string/p_menuitem_timer</item>
+        <item>@string/p_menuitem_findphone</item>
+        <item>@string/p_menuitem_compass</item>
+        <item>@string/p_menuitem_barometer</item>
+        <item>@string/p_menuitem_stress</item>
+        <item>@string/p_menuitem_spo2</item>
+        <item>@string/p_menuitem_goal</item>
+        <item>@string/p_menuitem_events</item>
+        <item>@string/p_menuitem_settings</item>
+    </string-array>
+
+    <string-array name="pref_bips_display_items">
+        <item>@string/menuitem_status</item>
+        <item>@string/menuitem_hr</item>
+        <item>@string/menuitem_pai</item>
+        <item>@string/menuitem_workout</item>
+        <item>@string/menuitem_alipay</item>
+        <item>@string/menuitem_nfc</item>
+        <item>@string/menuitem_weather</item>
+        <item>@string/menuitem_alarm</item>
+        <item>@string/menuitem_timer</item>
+        <item>@string/menuitem_compass</item>
+        <item>@string/menuitem_worldclock</item>
+        <item>@string/menuitem_music</item>
+        <item>@string/menuitem_settings</item>
+    </string-array>
+
+    <string-array name="pref_bips_display_items_values">
+        <item>@string/p_menuitem_status</item>
+        <item>@string/p_menuitem_hr</item>
+        <item>@string/p_menuitem_pai</item>
+        <item>@string/p_menuitem_workout</item>
+        <item>@string/p_menuitem_alipay</item>
+        <item>@string/p_menuitem_nfc</item>
+        <item>@string/p_menuitem_weather</item>
+        <item>@string/p_menuitem_alarm</item>
+        <item>@string/p_menuitem_timer_stopwatch</item>
+        <item>@string/p_menuitem_compass</item>
+        <item>@string/p_menuitem_worldclock</item>
+        <item>@string/p_menuitem_music</item>
+        <item>@string/p_menuitem_settings</item>
+    </string-array>
+
+    <string-array name="pref_bips_display_items_default">
+        <item>@string/p_menuitem_status</item>
+        <item>@string/p_menuitem_hr</item>
+        <item>@string/p_menuitem_pai</item>
+        <item>@string/p_menuitem_workout</item>
+        <item>@string/p_menuitem_alipay</item>
+        <item>@string/p_menuitem_nfc</item>
+        <item>@string/p_menuitem_weather</item>
+        <item>@string/p_menuitem_alarm</item>
+        <item>@string/p_menuitem_timer</item>
+        <item>@string/p_menuitem_compass</item>
+        <item>@string/p_menuitem_worldclock</item>
+        <item>@string/p_menuitem_music</item>
+        <item>@string/p_menuitem_settings</item>
+    </string-array>
+
+    <string-array name="pref_bipu_display_items">
+        <item>@string/menuitem_hr</item>
+        <item>@string/menuitem_pai</item>
+        <item>@string/menuitem_goal</item>
+        <item>@string/menuitem_workout</item>
+        <item>@string/menuitem_activity</item>
+        <item>@string/menuitem_sleep</item>
+        <item>@string/menuitem_weather</item>
+        <item>@string/menuitem_alarm</item>
+        <item>@string/menuitem_eventreminder</item>
+        <item>@string/menuitem_stress</item>
+        <item>@string/menuitem_spo2</item>
+        <item>@string/menuitem_breathing</item>
+        <item>@string/menuitem_stopwatch</item>
+        <item>@string/menuitem_timer</item>
+        <item>@string/menuitem_worldclock</item>
+        <item>@string/menuitem_pomodoro</item>
+        <item>@string/menuitem_music</item>
+        <item>@string/menuitem_cycles</item>
+        <item>@string/menuitem_settings</item>
+        <item>@string/menuitem_more</item>
+        <item>@string/menuitem_findphone</item>
+        <item>@string/menuitem_takephoto</item>
+    </string-array>
+
+    <string-array name="pref_bipu_display_items_values">
+        <item>@string/p_menuitem_hr</item>
+        <item>@string/p_menuitem_pai</item>
+        <item>@string/p_menuitem_goal</item>
+        <item>@string/p_menuitem_workout</item>
+        <item>@string/p_menuitem_activity</item>
+        <item>@string/p_menuitem_sleep</item>
+        <item>@string/p_menuitem_weather</item>
+        <item>@string/p_menuitem_alarm</item>
+        <item>@string/p_menuitem_eventreminder</item>
+        <item>@string/p_menuitem_stress</item>
+        <item>@string/p_menuitem_spo2</item>
+        <item>@string/p_menuitem_breathing</item>
+        <item>@string/p_menuitem_stopwatch</item>
+        <item>@string/p_menuitem_timer</item>
+        <item>@string/p_menuitem_worldclock</item>
+        <item>@string/p_menuitem_pomodoro</item>
+        <item>@string/p_menuitem_music</item>
+        <item>@string/p_menuitem_cycles</item>
+        <item>@string/p_menuitem_settings</item>
+        <item>@string/p_menuitem_more</item>
+        <item>@string/p_menuitem_findphone</item>
+        <item>@string/p_menuitem_takephoto</item>
+    </string-array>
+
+    <string-array name="pref_bipu_display_items_default">
+        <item>@string/p_menuitem_hr</item>
+        <item>@string/p_menuitem_pai</item>
+        <item>@string/p_menuitem_workout</item>
+        <item>@string/p_menuitem_weather</item>
+        <item>@string/p_menuitem_alarm</item>
+        <item>@string/p_menuitem_timer</item>
+        <item>@string/p_menuitem_music</item>
+        <item>@string/p_menuitem_settings</item>
+        <item>@string/p_menuitem_more</item>
+        <item>@string/p_menuitem_worldclock</item>
+    </string-array>
+
+    <string-array name="pref_bipupro_display_items">
+        <item>@string/menuitem_hr</item>
+        <item>@string/menuitem_pai</item>
+        <item>@string/menuitem_goal</item>
+        <item>@string/menuitem_workout</item>
+        <item>@string/menuitem_activity</item>
+        <item>@string/menuitem_sleep</item>
+        <item>@string/menuitem_weather</item>
+        <item>@string/menuitem_alarm</item>
+        <item>@string/menuitem_eventreminder</item>
+        <item>@string/menuitem_stress</item>
+        <item>@string/menuitem_spo2</item>
+        <item>@string/menuitem_breathing</item>
+        <item>@string/menuitem_stopwatch</item>
+        <item>@string/menuitem_timer</item>
+        <item>@string/menuitem_worldclock</item>
+        <item>@string/menuitem_pomodoro</item>
+        <item>@string/menuitem_music</item>
+        <item>@string/menuitem_cycles</item>
+        <item>@string/menuitem_settings</item>
+        <item>@string/menuitem_more</item>
+        <item>@string/menuitem_compass</item>
+        <item>@string/menuitem_findphone</item>
+        <item>@string/menuitem_takephoto</item>
+        <item>@string/menuitem_alexa</item>
+    </string-array>
+
+    <string-array name="pref_bipupro_display_items_values">
+        <item>@string/p_menuitem_hr</item>
+        <item>@string/p_menuitem_pai</item>
+        <item>@string/p_menuitem_goal</item>
+        <item>@string/p_menuitem_workout</item>
+        <item>@string/p_menuitem_activity</item>
+        <item>@string/p_menuitem_sleep</item>
+        <item>@string/p_menuitem_weather</item>
+        <item>@string/p_menuitem_alarm</item>
+        <item>@string/p_menuitem_eventreminder</item>
+        <item>@string/p_menuitem_stress</item>
+        <item>@string/p_menuitem_spo2</item>
+        <item>@string/p_menuitem_breathing</item>
+        <item>@string/p_menuitem_stopwatch</item>
+        <item>@string/p_menuitem_timer</item>
+        <item>@string/p_menuitem_worldclock</item>
+        <item>@string/p_menuitem_pomodoro</item>
+        <item>@string/p_menuitem_music</item>
+        <item>@string/p_menuitem_cycles</item>
+        <item>@string/p_menuitem_settings</item>
+        <item>@string/p_menuitem_more</item>
+        <item>@string/p_menuitem_compass</item>
+        <item>@string/p_menuitem_findphone</item>
+        <item>@string/p_menuitem_takephoto</item>
+        <item>@string/p_menuitem_alexa</item>
+
+    </string-array>
+
+    <string-array name="pref_bipupro_display_items_default">
+        <item>@string/p_menuitem_hr</item>
+        <item>@string/p_menuitem_pai</item>
+        <item>@string/p_menuitem_workout</item>
+        <item>@string/p_menuitem_weather</item>
+        <item>@string/p_menuitem_alarm</item>
+        <item>@string/p_menuitem_timer</item>
+        <item>@string/p_menuitem_music</item>
+        <item>@string/p_menuitem_settings</item>
+        <item>@string/p_menuitem_more</item>
+        <item>@string/p_menuitem_worldclock</item>
+    </string-array>
+
+    <string-array name="pref_bips_shortcuts">
+        <item>@string/menuitem_status</item>
+        <item>@string/menuitem_alipay</item>
+        <item>@string/menuitem_nfc</item>
+        <item>@string/menuitem_pai</item>
+        <item>@string/menuitem_hr</item>
+        <item>@string/menuitem_music</item>
+        <item>@string/menuitem_weather</item>
+    </string-array>
+
+    <string-array name="pref_bips_shortcuts_values">
+        <item>@string/p_menuitem_status</item>
+        <item>@string/p_menuitem_alipay</item>
+        <item>@string/p_menuitem_nfc</item>
+        <item>@string/p_menuitem_pai</item>
+        <item>@string/p_menuitem_hr</item>
+        <item>@string/p_menuitem_music</item>
+        <item>@string/p_menuitem_weather</item>
+    </string-array>
+
+    <string-array name="pref_bips_shortcuts_default">
+        <item>@string/p_menuitem_music</item>
+        <item>@string/p_menuitem_weather</item>
+    </string-array>
+
     <string-array name="pref_entries_unit_system">
         <item>@string/unit_metric</item>
         <item>@string/unit_imperial</item>
@@ -194,11 +1331,13 @@
     </string-array>
 
     <string-array name="pref_timeformat_entries">
+        <item>@string/automatic</item>
         <item>@string/timeformat_24h</item>
         <item>@string/timeformat_am_pm</item>
     </string-array>
 
     <string-array name="pref_timeformat_values">
+        <item>@string/p_timeformat_auto</item>
         <item>@string/p_timeformat_24h</item>
         <item>@string/p_timeformat_am_pm</item>
     </string-array>
@@ -217,20 +1356,161 @@
         <item>@string/p_call_privacy_mode_complete</item>
     </string-array>
 
+    <string-array name="pref_message_privacy_mode">
+        <item name="off">@string/pref_message_privacy_mode_off</item>
+        <item name="complete">@string/pref_message_privacy_mode_complete</item>
+    </string-array>
+
+    <string-array name="pref_message_privacy_mode_values">
+        <item>@string/p_message_privacy_mode_off</item>
+        <item>@string/p_message_privacy_mode_complete</item>
+    </string-array>
+
+
+    <string-array name="pref_language_all">
+        <item name="auto">@string/automatic</item>
+        <item name="zh_CN">@string/simplified_chinese</item>
+        <item name="zh_TW">@string/traditional_chinese</item>
+        <item name="en_US">@string/english</item>
+        <item name="es_ES">@string/spanish</item>
+        <item name="de_DE">@string/german</item>
+        <item name="it_IT">@string/italian</item>
+        <item name="fr_FR">@string/french</item>
+        <item name="pt_BR">@string/portuguese</item>
+        <item name="nl_NL">@string/dutch</item>
+        <item name="pl_PL">@string/polish</item>
+        <item name="cs_CZ">@string/czesh</item>
+        <item name="tr_TR">@string/turkish</item>
+        <item name="el_GR">@string/greek</item>
+        <item name="ru_RU">@string/russian</item>
+        <item name="uk_UA">@string/ukrainian</item>
+        <item name="ar_SA">@string/arabic</item>
+        <item name="id_ID">@string/indonesian</item>
+        <item name="th_TH">@string/thai</item>
+        <item name="vi_VN">@string/vietnamese</item>
+        <item name="ja_JP">@string/japanese</item>
+        <item name="ko_KO">@string/korean</item>
+        <item name="he_IL">@string/hebrew</item>
+    </string-array>
+
+    <string-array name="pref_language_all_values">
+        <item>auto</item>
+        <item>zh_CN</item>
+        <item>zh_TW</item>
+        <item>en_US</item>
+        <item>es_ES</item>
+        <item>de_DE</item>
+        <item>it_IT</item>
+        <item>fr_FR</item>
+        <item>pt_BR</item>
+        <item>nl_NL</item>
+        <item>pl_PL</item>
+        <item>cs_CZ</item>
+        <item>tr_TR</item>
+        <item>el_GR</item>
+        <item>ru_RU</item>
+        <item>uk_UA</item>
+        <item>ar_SA</item>
+        <item>id_ID</item>
+        <item>th_TH</item>
+        <item>vi_VN</item>
+        <item>ja_JP</item>
+        <item>ko_KO</item>
+        <item>he_IL</item>
+    </string-array>
+
     <string-array name="pref_amazfitbip_language">
-        <item name="-1">@string/automatic</item>
-        <item name="0">@string/simplified_chinese</item>
-        <item name="1">@string/traditional_chinese</item>
-        <item name="2">@string/english</item>
-        <item name="3">@string/spanish</item>
+        <item name="auto">@string/automatic</item>
+        <item name="zh_CN">@string/simplified_chinese</item>
+        <item name="zh_TW">@string/traditional_chinese</item>
+        <item name="en_US">@string/english</item>
+        <item name="es_ES">@string/spanish</item>
+        <item name="de_DE">@string/german</item>
+        <item name="it_IT">@string/italian</item>
+        <item name="fr_FR">@string/french</item>
+        <item name="pt_BR">@string/portuguese</item>
+        <item name="tr_TR">@string/turkish</item>
+        <item name="cs_CZ">@string/czesh</item>
+        <item name="ru_RU">@string/russian</item>
     </string-array>
 
     <string-array name="pref_amazfitbip_language_values">
-        <item>-1</item>
-        <item>0</item>
-        <item>1</item>
-        <item>2</item>
-        <item>3</item>
+        <item>auto</item>
+        <item>zh_CN</item>
+        <item>zh_TW</item>
+        <item>en_US</item>
+        <item>es_ES</item>
+        <item>de_DE</item>
+        <item>it_IT</item>
+        <item>fr_FR</item>
+        <item>pt_BR</item>
+        <item>tr_TR</item>
+        <item>cs_CZ</item>
+        <item>ru_RU</item>
+    </string-array>
+
+    <string-array name="pref_amazfitcor_language">
+        <item name="auto">@string/automatic</item>
+        <item name="zh_CN">@string/simplified_chinese</item>
+        <item name="zh_TW">@string/traditional_chinese</item>
+        <item name="en_US">@string/english</item>
+        <item name="es_ES">@string/spanish</item>
+        <item name="ru_RU">@string/russian</item>
+    </string-array>
+
+    <string-array name="pref_amazfitcor_language_values">
+        <item>auto</item>
+        <item>zh_CN</item>
+        <item>zh_TW</item>
+        <item>en_US</item>
+        <item>es_ES</item>
+        <item>ru_RU</item>
+    </string-array>
+
+    <string-array name="pref_zetime_language">
+        <item name="auto">@string/automatic</item>
+        <item name="zh_CN">@string/simplified_chinese</item>
+        <item name="zh_TW">@string/traditional_chinese</item>
+        <item name="en_US">@string/english</item>
+        <item name="es_ES">@string/spanish</item>
+        <item name="de_DE">@string/german</item>
+        <item name="it_IT">@string/italian</item>
+        <item name="fr_FR">@string/french</item>
+        <item name="pt_PT">@string/portuguese</item>
+        <item name="nl_NL">@string/dutch</item>
+        <item name="sv_SE">@string/swedish</item>
+        <item name="pl_PL">@string/polish</item>
+        <item name="cs_CZ">@string/czesh</item>
+        <item name="el_GR">@string/greek</item>
+        <item name="ru_RU">@string/russian</item>
+        <item name="he_IL">@string/hebrew</item>
+        <item name="ar_SA">@string/arabic</item>
+        <item name="ja_JP">@string/japanese</item>
+        <item name="ko_KO">@string/korean</item>
+        <item name="th_TH">@string/thai</item>
+    </string-array>
+
+    <string-array name="pref_zetime_language_values">
+        <item>auto</item>
+        <item>zh_CN</item>
+        <item>zh_TW</item>
+        <item>en_US</item>
+        <item>es_ES</item>
+        <item>de_DE</item>
+        <item>it_IT</item>
+        <item>fr_FR</item>
+        <item>pt_PT</item>
+        <item>nl_NL</item>
+        <item>sv_SE</item>
+        <item>pl_PL</item>
+        <item>cs_CZ</item>
+        <item>el_GR</item>
+        <item>ru_RU</item>
+        <item>he_IL</item>
+        <item>ar_SA</item>
+        <item>ja_JP</item>
+        <item>ko_KO</item>
+        <item>th_TH</item>
     </string-array>
 
     <string-array name="prefs_heartrate_measurement_interval">
@@ -250,4 +1530,517 @@
         <item>1800</item>
         <item>3600</item>
     </string-array>
+
+    <string-array name="prefs_zetime_heartrate_measurement_interval">
+        <item name="0">@string/off</item>
+        <item name="300">@string/interval_five_minutes</item>
+        <item name="600">@string/interval_ten_minutes</item>
+        <item name="900">@string/interval_fifteen_minutes</item>
+        <item name="1800">@string/interval_thirty_minutes</item>
+        <item name="2700">@string/interval_forty_five_minutes</item>
+        <item name="3600">@string/interval_one_hour</item>
+    </string-array>
+
+    <string-array name="prefs_zetime_heartrate_measurement_interval_values">
+        <item>0</item>
+        <item>300</item>
+        <item>600</item>
+        <item>900</item>
+        <item>1800</item>
+        <item>2700</item>
+        <item>3600</item>
+    </string-array>
+
+    <string-array name="notifications_timeout">
+        <item>@string/no_limit</item>
+        <item>@string/seconds_5</item>
+        <item>@string/seconds_10</item>
+        <item>@string/seconds_20</item>
+        <item>@string/seconds_30</item>
+        <item>@string/minutes_1</item>
+        <item>@string/minutes_5</item>
+        <item>@string/minutes_10</item>
+        <item>@string/minutes_30</item>
+    </string-array>
+    <string-array name="notifications_timeout_values">
+        <item>0</item>
+        <item>5</item>
+        <item>10</item>
+        <item>20</item>
+        <item>30</item>
+        <item>60</item>
+        <item>300</item>
+        <item>600</item>
+        <item>1800</item>
+    </string-array>
+
+    <string-array name="reminder_repeat">
+        <item>@string/reminder_once</item>
+        <item>@string/reminder_every_day</item>
+        <item>@string/reminder_every_week</item>
+        <item>@string/reminder_every_month</item>
+        <item>@string/reminder_every_year</item>
+    </string-array>
+
+    <string-array name="notification_filter_modes_entries">
+        <item>@string/filter_mode_none</item>
+        <item>@string/filter_mode_whitelist</item>
+        <item>@string/filter_mode_blacklist</item>
+    </string-array>
+
+    <string-array name="notification_filter_submodes_entries">
+        <item>@string/filter_submode_at_least_one</item>
+        <item>@string/filter_submode_all</item>
+    </string-array>
+
+    <!-- Note: ZeTime preferences -->
+    <string-array name="zetime_analog_mode">
+        <item name="0">@string/zetime_analog_mode_hands</item>
+        <item name="1">@string/zetime_analog_mode_handsandsteps</item>
+    </string-array>
+    <string-array name="zetime_analog_mode_values">
+        <item>0</item>
+        <item>1</item>
+    </string-array>
+    <string-array name="zetime_calories_type">
+        <item name="0">@string/zetime_calories_type_active</item>
+        <item name="1">@string/zetime_calories_type_all</item>
+    </string-array>
+    <string-array name="zetime_calories_type_values">
+        <item>0</item>
+        <item>1</item>
+    </string-array>
+    <string-array name="zetime_date_format">
+        <item name="1">@string/zetime_date_format_1</item>
+        <item name="2">@string/zetime_date_format_2</item>
+        <item name="3">@string/zetime_date_format_3</item>
+    </string-array>
+    <string-array name="zetime_date_format_values">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+    </string-array>
+    <string-array name="zetime_signaling_types">
+        <item name="2">@string/zetime_signaling_vibrate_once</item>
+        <item name="4">@string/zetime_signaling_vibrate_twice</item>
+        <item name="7">@string/zetime_signaling_vibrate</item>
+        <item name="9">@string/zetime_signaling_beep_once</item>
+        <item name="10">@string/zetime_signaling_beep_twice</item>
+        <item name="11">@string/zetime_signaling_beep</item>
+        <item name="12">@string/zetime_signaling_vibrate_beep_once</item>
+        <item name="13">@string/zetime_signaling_vibrate_beep</item>
+        <item name="14">@string/zetime_signaling_none</item>
+    </string-array>
+    <string-array name="zetime_signaling_types_values">
+        <item>2</item>
+        <item>4</item>
+        <item>7</item>
+        <item>9</item>
+        <item>10</item>
+        <item>11</item>
+        <item>12</item>
+        <item>13</item>
+        <item>14</item>
+    </string-array>
+
+    <string-array name="button_action_options">
+        <item>@string/pref_button_action_disabled</item>
+        <item>@string/pref_media_play</item>
+        <item>@string/pref_media_pause</item>
+        <item>@string/pref_media_playpause</item>
+        <item>@string/pref_media_next</item>
+        <item>@string/pref_media_previous</item>
+        <item>@string/pref_media_volumeup</item>
+        <item>@string/pref_media_volumedown</item>
+        <item>@string/pref_media_forward</item>
+        <item>@string/pref_media_rewind</item>
+        <item>@string/pref_device_action_broadcast</item>
+    </string-array>
+
+    <string name="pref_button_action_disabled">Disabled</string>
+    <string name="pref_media_play">Media Play</string>
+    <string name="pref_media_pause">Media Pause</string>
+    <string name="pref_media_playpause">Toggle playback</string>
+    <string name="pref_media_next">Next Track</string>
+    <string name="pref_media_previous">Previous Track</string>
+    <string name="pref_media_volumeup">Volume Up</string>
+    <string name="pref_media_volumedown">Volume Down</string>
+    <string name="pref_media_forward">Skip forward</string>
+    <string name="pref_media_rewind">Skip back</string>
+    <string name="pref_device_action_broadcast">Send Broadcast</string>
+
+
+    <string-array name="button_action_values">
+        <item>@string/pref_button_action_disabled_value</item>
+        <item>@string/pref_media_play_value</item>
+        <item>@string/pref_media_pause_value</item>
+        <item>@string/pref_media_playpause_value</item>
+        <item>@string/pref_media_next_value</item>
+        <item>@string/pref_media_previous_value</item>
+        <item>@string/pref_media_volumeup_value</item>
+        <item>@string/pref_media_volumedown_value</item>
+        <item>@string/pref_media_forward_value</item>
+        <item>@string/pref_media_rewind_value</item>
+        <item>@string/pref_device_action_broadcast_value</item>
+
+
+    </string-array>
+
+    <string name="pref_button_action_disabled_value" translatable="false">UNKNOWN</string>
+    <string name="pref_media_play_value" translatable="false">PLAY</string>
+    <string name="pref_media_pause_value" translatable="false">PAUSE</string>
+    <string name="pref_media_playpause_value" translatable="false">PLAYPAUSE</string>
+    <string name="pref_media_next_value" translatable="false">NEXT</string>
+    <string name="pref_media_previous_value" translatable="false">PREVIOUS</string>
+    <string name="pref_media_volumeup_value" translatable="false">VOLUMEUP</string>
+    <string name="pref_media_volumedown_value" translatable="false">VOLUMEDOWN</string>
+    <string name="pref_media_forward_value" translatable="false">FORWARD</string>
+    <string name="pref_media_rewind_value" translatable="false">REWIND</string>
+    <string name="pref_device_action_broadcast_value" translatable="false">BROADCAST</string>
+    <string name="pref_title_touch_voice_assistant">Voice Assistant</string>
+    <string name="pref_title_touch_anc">Active Noise Cancelling</string>
+    <string name="pref_title_touch_quick_ambient">Quick Ambient Sound</string>
+    <string name="pref_title_touch_volume">Volume</string>
+    <string name="pref_title_touch_ambient">Ambient Sound</string>
+
+    <string-array name="device_action_options">
+        <item>@string/pref_button_action_disabled</item>
+        <item>@string/pref_media_play</item>
+        <item>@string/pref_media_pause</item>
+        <item>@string/pref_media_playpause</item>
+        <item>@string/pref_device_action_broadcast</item>
+    </string-array>
+
+    <string-array name="device_action_values">
+        <item>@string/pref_button_action_disabled_value</item>
+        <item>@string/pref_media_play_value</item>
+        <item>@string/pref_media_pause_value</item>
+        <item>@string/pref_media_playpause_value</item>
+        <item>@string/pref_device_action_broadcast_value</item>
+    </string-array>
+
+    <string-array name="pref_hybridhr_buttonfunctions">
+        <item name="notificationsPanelApp">@string/menuitem_notifications</item>
+        <item name="weatherApp">@string/menuitem_weather</item>
+        <item name="musicApp">@string/menuitem_music</item>
+        <item name="stopwatchApp">@string/hr_appname_stopwatch</item>
+        <item name="timerApp">@string/menuitem_timer</item>
+        <item name="commuteApp">@string/hr_appname_commute</item>
+        <item name="wellnessApp">@string/hr_appname_wellness</item>
+        <item name="workoutApp">@string/hr_appname_workout</item>
+    </string-array>
+    <string-array name="pref_hybridhr_buttonfunctions_values">
+        <item>notificationsPanelApp</item>
+        <item>weatherApp</item>
+        <item>musicApp</item>
+        <item>stopwatchApp</item>
+        <item>timerApp</item>
+        <item>commuteApp"</item>
+        <item>wellnessApp</item>
+        <item>workoutApp</item>
+    </string-array>
+
+    <string-array name="activity_filter_quick_filter_period_items">
+        <item>@string/sports_activity_quick_filter_select</item>
+        <item>@string/sports_activity_quick_filter_this_week</item>
+        <item>@string/sports_activity_quick_filter_this_month</item>
+        <item>@string/sports_activity_quick_filter_last_week</item>
+        <item>@string/sports_activity_quick_filter_last_month</item>
+        <item>@string/sports_activity_quick_filter_7days</item>
+        <item>@string/sports_activity_quick_filter_30days</item>
+    </string-array>
+    <string-array name="activity_filter_quick_filter_period_values">
+        <item>noselection</item>
+        <item>thisweek</item>
+        <item>thismonth</item>
+        <item>lastweek</item>
+        <item>lastmonth</item>
+        <item>7days</item>
+        <item>30days</item>
+    </string-array>
+
+    <string-array name="lefun_interface_language_names">
+        <item>@string/english</item>
+        <item>@string/simplified_chinese</item>
+    </string-array>
+
+    <string-array name="lefun_interface_language_values">
+        <item>0</item>
+        <item>1</item>
+    </string-array>
+    <string-array name="sonyswr12_smart_alarm_intervals">
+        <item>0 minutes</item>
+        <item>10 minutes</item>
+        <item>20 minutes</item>
+        <item>30 minutes</item>
+        <item>40 minutes</item>
+        <item>50 minutes</item>
+        <item>60 minutes</item>
+    </string-array>
+    <string-array name="sonyswr12_smart_alarm_interval_values">
+        <item>0</item>
+        <item>10</item>
+        <item>20</item>
+        <item>30</item>
+        <item>40</item>
+        <item>50</item>
+        <item>60</item>
+    </string-array>
+
+    <string-array name="pref_charts_tabs_items">
+        <item>@string/activity_sleepchart_activity_and_sleep</item>
+        <item>@string/charts_activity_list</item>
+        <item>@string/weeksleepchart_sleep_a_week</item>
+        <item>@string/weeksleepchart_sleep_a_month</item>
+        <item>@string/weekstepschart_steps_a_month</item>
+        <item>@string/stats_title</item>
+        <item>@string/liveactivity_live_activity</item>
+    </string-array>
+
+    <string-array name="pref_charts_tabs_values">
+        <item>@string/p_activity</item>
+        <item>@string/p_activity_list</item>
+        <item>@string/p_sleep</item>
+        <item>@string/p_sleep_week</item>
+        <item>@string/p_steps_week</item>
+        <item>@string/p_speed_zones</item>
+        <item>@string/p_live_stats</item>
+    </string-array>
+
+    <string-array name="pref_charts_tabs_items_default">
+        <item>@string/p_activity</item>
+        <item>@string/p_activity_list</item>
+        <item>@string/p_sleep</item>
+        <item>@string/p_sleep_week</item>
+        <item>@string/p_steps_week</item>
+        <item>@string/p_speed_zones</item>
+        <item>@string/p_live_stats</item>
+    </string-array>
+
+
+    <string-array name="pref_amazfitneo_sounds">
+        <item>@string/prefs_operating_sounds</item>
+        <item>@string/pref_title_notifications_call</item>
+        <item>@string/menuitem_alarm</item>
+        <item>@string/menuitem_notifications</item>
+        <item>@string/mi2_prefs_inactivity_warnings</item>
+        <item>@string/pref_title_notifications_sms</item>
+        <item>@string/menuitem_goal</item>
+    </string-array>
+
+    <string-array name="pref_amazfitneo_sounds_values">
+        <item>@string/p_menuitem_button</item>
+        <item>@string/p_menuitem_calls</item>
+        <item>@string/p_menuitem_alarm</item>
+        <item>@string/p_menuitem_notifications</item>
+        <item>@string/p_menuitem_inactivity_warning</item>
+        <item>@string/p_menuitem_sms</item>
+        <item>@string/p_menuitem_goal</item>
+    </string-array>
+
+    <string-array name="pref_amazfitneo_sounds_default">
+        <item>@string/p_menuitem_button</item>
+        <item>@string/p_menuitem_calls</item>
+        <item>@string/p_menuitem_alarm</item>
+        <item>@string/p_menuitem_notifications</item>
+        <item>@string/p_menuitem_inactivity_warning</item>
+        <item>@string/p_menuitem_sms</item>
+        <item>@string/p_menuitem_goal</item>
+    </string-array>
+
+    <string-array name="inactivity_minutes">
+        <item>45</item>
+        <item>60</item>
+        <item>75</item>
+        <item>90</item>
+        <item>105</item>
+        <item>120</item>
+    </string-array>
+
+    <string-array name="inactivity_minutes_values">
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+        <item>8</item>
+    </string-array>
+
+    <string-array name="autoheartrate_interval_hours">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+    </string-array>
+    
+    <string-array name="nothing_ear1_audio_mode">
+        <item>anc</item>
+        <item>anc-light</item>
+        <item>transparency</item>
+        <item>off</item>
+    </string-array>
+
+    <string-array name="notification_list_is_blacklist_names">
+        <item>@string/pref_title_notification_use_as_deny</item>
+        <item>@string/pref_title_notification_use_as_allow</item>
+    </string-array>
+
+    <string-array name="notification_list_is_blacklist_values">
+        <item>true</item>
+        <item>false</item>
+    </string-array>
+
+    <string-array name="galaxy_eqalizer_modes">
+        <item>@string/pref_title_equalizer_bass_boost</item>
+        <item>@string/pref_title_equalizer_soft</item>
+        <item>@string/pref_title_equalizer_dynamic</item>
+        <item>@string/pref_title_equalizer_clear</item>
+        <item>@string/pref_title_equalizer_trebble</item>
+    </string-array>
+
+    <string-array name="galaxy_eqalizer_values">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+    </string-array>
+
+    <string-array name="galaxy_buds_live_equalizer_modes">
+        <item>@string/pref_title_equalizer_normal</item>
+        <item>@string/pref_title_equalizer_bass_boost</item>
+        <item>@string/pref_title_equalizer_soft</item>
+        <item>@string/pref_title_equalizer_dynamic</item>
+        <item>@string/pref_title_equalizer_clear</item>
+        <item>@string/pref_title_equalizer_trebble</item>
+    </string-array>
+
+    <string-array name="galaxy_buds_live_equalizer_values">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+    </string-array>
+
+    <string-array name="galaxy_touch_options">
+        <item>@string/pref_title_touch_voice_assistant</item>
+        <item>@string/pref_title_touch_quick_ambient</item>
+        <item>@string/pref_title_touch_volume</item>
+        <item>@string/pref_title_touch_ambient</item>
+    </string-array>
+
+    <string-array name="galaxy_touch_options_values">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+    </string-array>
+
+    <string-array name="galaxy_buds_live_touch_options">
+        <item>@string/pref_title_touch_voice_assistant</item>
+        <item>@string/pref_title_touch_anc</item>
+        <item>@string/pref_title_touch_volume</item>
+    </string-array>
+
+    <string-array name="galaxy_buds_live_touch_options_values">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+    </string-array>
+
+    <string-array name="sony_ambient_sound_control_names">
+        <item>@string/sony_ambient_sound_off</item>
+        <item>@string/sony_ambient_sound_noise_cancelling</item>
+        <item>@string/sony_ambient_sound_wind_noise_reduction</item>
+        <item>@string/sony_ambient_sound_ambient_sound</item>
+    </string-array>
+
+    <string-array name="sony_ambient_sound_control_values">
+        <item>off</item>
+        <item>noise_cancelling</item>
+        <item>wind_noise_reduction</item>
+        <item>ambient_sound</item>
+    </string-array>
+
+    <string-array name="sony_sound_position_names">
+        <item>@string/sony_sound_position_off</item>
+        <item>@string/sony_sound_position_front</item>
+        <item>@string/sony_sound_position_front_left</item>
+        <item>@string/sony_sound_position_front_right</item>
+        <item>@string/sony_sound_position_rear_left</item>
+        <item>@string/sony_sound_position_rear_right</item>
+    </string-array>
+
+    <string-array name="sony_sound_position_values">
+        <item>off</item>
+        <item>front</item>
+        <item>front_left</item>
+        <item>front_right</item>
+        <item>rear_left</item>
+        <item>rear_right</item>
+    </string-array>
+
+    <string-array name="sony_surround_mode_names">
+        <item>@string/sony_surround_mode_off</item>
+        <item>@string/sony_surround_mode_arena</item>
+        <item>@string/sony_surround_mode_club</item>
+        <item>@string/sony_surround_mode_outdoor_stage</item>
+        <item>@string/sony_surround_mode_concert_hall</item>
+    </string-array>
+
+    <string-array name="sony_surround_mode_values">
+        <item>off</item>
+        <item>arena</item>
+        <item>club</item>
+        <item>outdoor_stage</item>
+        <item>concert_hall</item>
+    </string-array>
+
+    <string-array name="sony_equalizer_mode_names">
+        <item>@string/sony_equalizer_preset_off</item>
+        <item>@string/sony_equalizer_preset_bright</item>
+        <item>@string/sony_equalizer_preset_excited</item>
+        <item>@string/sony_equalizer_preset_mellow</item>
+        <item>@string/sony_equalizer_preset_relaxed</item>
+        <item>@string/sony_equalizer_preset_vocal</item>
+        <item>@string/sony_equalizer_preset_treble_boost</item>
+        <item>@string/sony_equalizer_preset_bass_boost</item>
+        <item>@string/sony_equalizer_preset_speech</item>
+        <item>@string/sony_equalizer_preset_manual</item>
+        <item>@string/sony_equalizer_preset_custom_1</item>
+        <item>@string/sony_equalizer_preset_custom_2</item>
+    </string-array>
+
+    <string-array name="sony_equalizer_mode_values">
+        <item>off</item>
+        <item>bright</item>
+        <item>excited</item>
+        <item>mellow</item>
+        <item>relaxed</item>
+        <item>vocal</item>
+        <item>treble_boost</item>
+        <item>bass_boost</item>
+        <item>speech</item>
+        <item>manual</item>
+        <item>custom_1</item>
+        <item>custom_2</item>
+    </string-array>
+
+    <string-array name="sony_automatic_power_off_names">
+        <item>@string/sony_automatic_power_off_off</item>
+        <item>@string/sony_automatic_power_off_5_min</item>
+        <item>@string/sony_automatic_power_off_30_min</item>
+        <item>@string/sony_automatic_power_off_1_hour</item>
+        <item>@string/sony_automatic_power_off_3_hour</item>
+    </string-array>
+
+    <string-array name="sony_automatic_power_off_values">
+        <item>off</item>
+        <item>after_5_min</item>
+        <item>after_30_min</item>
+        <item>after_1_hour</item>
+        <item>after_3_hour</item>
+    </string-array>
 </resources>
+

@@ -1,4 +1,4 @@
-/*  Copyright (C) 2016-2018 Carsten Pfeiffer, Daniele Gobbetti
+/*  Copyright (C) 2016-2021 Carsten Pfeiffer, Daniele Gobbetti, José Rebelo
 
     This file is part of Gadgetbridge.
 
@@ -21,21 +21,19 @@ import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
 import android.content.Context;
 import android.os.ParcelUuid;
-import android.support.annotation.NonNull;
+
+import androidx.annotation.NonNull;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.SocketTimeoutException;
-import java.nio.ByteBuffer;
 import java.util.UUID;
 
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEvent;
-import nodomain.freeyourgadget.gadgetbridge.devices.liveview.LiveviewConstants;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.service.serial.AbstractSerialDeviceSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.serial.GBDeviceIoThread;
@@ -47,7 +45,6 @@ public abstract class BtClassicIoThread extends GBDeviceIoThread {
 
     private final GBDeviceProtocol mProtocol;
     private final AbstractSerialDeviceSupport mDeviceSupport;
-
 
     private BluetoothAdapter mBtAdapter = null;
     private BluetoothSocket mBtSocket = null;
@@ -81,7 +78,11 @@ public abstract class BtClassicIoThread extends GBDeviceIoThread {
     public synchronized void write(byte[] bytes) {
         if (null == bytes)
             return;
-        LOG.debug("writing:" + GB.hexdump(bytes, 0, bytes.length));
+        if (mOutStream == null) {
+            LOG.error("mOutStream is null");
+            return;
+        }
+        LOG.debug("writing: {}", GB.hexdump(bytes, 0, bytes.length));
         try {
             mOutStream.write(bytes);
             mOutStream.flush();
@@ -160,7 +161,7 @@ public abstract class BtClassicIoThread extends GBDeviceIoThread {
             mOutStream = mBtSocket.getOutputStream();
             setUpdateState(GBDevice.State.CONNECTED);
         } catch (IOException e) {
-            LOG.error("Server socket cannot be started.");
+            LOG.error("Server socket cannot be started.", e);
             //LOG.error(e.getMessage());
             setUpdateState(originalState);
             mInStream = null;
@@ -169,10 +170,14 @@ public abstract class BtClassicIoThread extends GBDeviceIoThread {
             return false;
         }
 
-        write(mProtocol.encodeSetTime());
-        setUpdateState(GBDevice.State.INITIALIZED);
+        initialize();
 
         return true;
+    }
+
+    protected void initialize() {
+        write(mProtocol.encodeSetTime());
+        setUpdateState(GBDevice.State.INITIALIZED);
     }
 
     /**

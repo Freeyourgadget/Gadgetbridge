@@ -1,0 +1,5 @@
+* Fix autoreconnect at boot on recent Android versions
+* Bluetooth connection is more stable on Oreo
+* Potentially fix the watch continuously vibrating after call pickup
+* Amazfit Bip: Add setting to configure shortcuts (swipe to right from watchface)
+* Recognize Q8 as a HPlus device

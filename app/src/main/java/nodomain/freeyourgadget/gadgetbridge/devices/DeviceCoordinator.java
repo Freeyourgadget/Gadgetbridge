@@ -1,5 +1,6 @@
-/*  Copyright (C) 2015-2018 Andreas Shimokawa, Carsten Pfeiffer, Daniele
-    Gobbetti, JohnnySun, Uwe Hermann
+/*  Copyright (C) 2015-2021 Andreas Shimokawa, Carsten Pfeiffer, Daniele
+    Gobbetti, Dmitry Markin, JohnnySun, José Rebelo, Matthieu Baerts, Nephiel,
+    Uwe Hermann
 
     This file is part of Gadgetbridge.
 
@@ -23,16 +24,20 @@ import android.bluetooth.le.ScanFilter;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Build;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.Collection;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import nodomain.freeyourgadget.gadgetbridge.GBException;
+import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSpecificSettingsCustomizer;
 import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceCandidate;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
+import nodomain.freeyourgadget.gadgetbridge.model.BatteryConfig;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
 
 /**
@@ -61,6 +66,16 @@ public interface DeviceCoordinator {
      * Prefer this over #BONDING_STYLE_BOND
      */
     int BONDING_STYLE_ASK = 2;
+
+    /**
+     * A secret key has to be entered before connecting
+     */
+    int BONDING_STYLE_REQUIRE_KEY = 3;
+
+    /**
+     * Lazy pairing, i.e. device initiated pairing is requested
+     */
+    int BONDING_STYLE_LAZY = 4;
 
     /**
      * Checks whether this coordinator handles the given candidate.
@@ -123,9 +138,14 @@ public interface DeviceCoordinator {
     @Nullable
     Class<? extends Activity> getPairingActivity();
 
+    @Nullable
+    Class<? extends Activity> getCalibrationActivity();
+
     /**
      * Returns true if activity data fetching is supported by the device
      * (with this coordinator).
+     * This enables the sync button in control center and the device can thus be asked to send the data
+     * (as opposed the device pushing the data to us by itself)
      *
      * @return
      */
@@ -134,10 +154,19 @@ public interface DeviceCoordinator {
     /**
      * Returns true if activity tracking is supported by the device
      * (with this coordinator).
+     * This enables the ChartsActivity.
      *
      * @return
      */
     boolean supportsActivityTracking();
+
+    /**
+     * Indicates whether the device supports recording dedicated activity tracks, like
+     * walking, hiking, running, swimming, etc. and retrieving the recorded
+     * data. This is different from the constant activity tracking since the tracks are
+     * usually recorded with additional features, like e.g. GPS.
+     */
+    boolean supportsActivityTracks();
 
     /**
      * Returns true if activity data fetching is supported AND possible at this
@@ -174,17 +203,31 @@ public interface DeviceCoordinator {
     boolean supportsScreenshots();
 
     /**
-     * Returns true if this device/coordinator supports setting alarms.
+     * Returns the number of alarms this device/coordinator supports
+     * Shall return 0 also if it is not possible to set alarms via
+     * protocol, but only on the smart device itself.
      *
      * @return
      */
-    boolean supportsAlarmConfiguration();
+    int getAlarmSlotCount();
 
     /**
      * Returns true if this device/coordinator supports alarms with smart wakeup
      * @return
      */
     boolean supportsSmartWakeup(GBDevice device);
+
+    /**
+     * Returns true if this device/coordinator supports alarm snoozing
+     * @return
+     */
+    boolean supportsAlarmSnoozing();
+
+    /**
+     * Returns true if this device/coordinator supports alarm descriptions
+     * @return
+     */
+    boolean supportsAlarmDescription(GBDevice device);
 
     /**
      * Returns true if the given device supports heart rate measurements.
@@ -212,10 +255,41 @@ public interface DeviceCoordinator {
     Class<? extends Activity> getAppsManagementActivity();
 
     /**
-     * Returns how/if the given device should be bonded before connecting to it.
-     * @param device
+     * Returns the Activity class that will be used to design watchfaces.
+     *
+     * @return
      */
-    int getBondingStyle(GBDevice device);
+    Class<? extends Activity> getWatchfaceDesignerActivity();
+
+    /**
+     * Returns the device app cache directory.
+     */
+    File getAppCacheDir() throws IOException;
+
+    /**
+     * Returns a String containing the device app sort order filename.
+     */
+    String getAppCacheSortFilename();
+
+    /**
+     * Returns a String containing the file extension for watch apps.
+     */
+    String getAppFileExtension();
+
+    /**
+     * Indicated whether the device supports fetching a list of its apps.
+     */
+    boolean supportsAppListFetching();
+
+    /**
+     * Indicates whether the device supports reordering of apps.
+     */
+    boolean supportsAppReordering();
+
+    /**
+     * Returns how/if the given device should be bonded before connecting to it.
+     */
+    int getBondingStyle();
 
     /**
      * Indicates whether the device has some kind of calender we can sync to.
@@ -234,4 +308,74 @@ public interface DeviceCoordinator {
      * forecast display.
      */
     boolean supportsWeather();
+
+    /**
+     * Indicates whether the device supports being found by vibrating, 
+     * making some sound or lighting up
+     */
+    boolean supportsFindDevice();
+
+    /**
+     * Indicates whether the device supports displaying music information
+     * like artist, title, album, play state etc.
+     */
+    boolean supportsMusicInfo();
+
+    /**
+     * Indicates the maximum reminder message length.
+     */
+    int getMaximumReminderMessageLength();
+
+    /**
+     * Indicates the maximum number of reminder slots available in the device.
+     */
+    int getReminderSlotCount();
+
+    /**
+     * Indicates whether the device has an led which supports custom colors
+     */
+    boolean supportsLedColor();
+
+    /**
+     * Indicates whether the device's led supports any RGB color,
+     * or only preset colors
+     */
+    boolean supportsRgbLedColor();
+
+    /**
+     * Returns the preset colors supported by the device, if any, in ARGB, with alpha = 255
+     */
+    @NonNull
+    int[] getColorPresets();
+
+    /**
+     * Indicates whether the device supports unicode emojis.
+     */
+    boolean supportsUnicodeEmojis();
+
+    /**
+     * Indicates which device specific settings the device supports (not per device type or family, but unique per device).
+     */
+    int[] getSupportedDeviceSpecificSettings(GBDevice device);
+
+    /**
+     * Returns the {@link DeviceSpecificSettingsCustomizer}, allowing for the customization of the devices specific settings screen.
+     */
+    DeviceSpecificSettingsCustomizer getDeviceSpecificSettingsCustomizer(GBDevice device);
+
+    /**
+     * Indicates which device specific language the device supports
+     */
+    String[] getSupportedLanguageSettings(GBDevice device);
+
+    /**
+     *
+     * Multiple battery support: Indicates how many batteries the device has.
+     * 1 is default, 3 is maximum at the moment (as per UI layout)
+     * 0 will disable the battery from the UI
+     */
+    int getBatteryCount();
+
+    BatteryConfig[] getBatteryConfig();
+
 }

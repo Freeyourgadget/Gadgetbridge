@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<gpx xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:gpxtpx="http://www.garmin.com/xmlschemas/TrackPointExtension/v1" xmlns="http://www.topografix.com/GPX/1/1" xmlns:opentracks="http://opentracksapp.com/xmlschemas/v1" version="1.1" creator="Gadgetbridge Test" xsi:schemaLocation="http://www.topografix.com/GPX/1/1 http://www.topografix.com/GPX/1/1/gpx.xsd http://opentracksapp.com/xmlschemas/v1 http://opentracksapp.com/xmlschemas/OpenTracks_v1.xsd">
+  <metadata>
+    <name>Test Track</name>
+    <author>
+      <name>Test User</name>
+    </author>
+    <time>2021-01-16T23:27:34+01:00</time>
+  </metadata>
+  <trk>
+    <extensions>
+      <opentracks:trackid>0555e104-e8ea-4e10-b3e9-8b58abae257f</opentracks:trackid>
+    </extensions>
+    <trkseg>
+      <trkpt lon="-68.200293" lat="44.152462">
+        <ele>40.000000</ele>
+        <time>2019-01-01T00:00:00Z</time>
+      </trkpt>
+      <trkpt lon="-68.200270" lat="44.152460">
+        <ele>40.000000</ele>
+        <time>2019-01-01T00:00:01Z</time>
+      </trkpt>
+      <trkpt lon="-68.200260" lat="44.152462">
+        <ele>40.000000</ele>
+        <time>2019-01-01T00:00:02Z</time>
+      </trkpt>
+      <trkpt lon="-68.200242" lat="44.152493">
+        <ele>40.000000</ele>
+        <time>2019-01-01T00:00:03Z</time>
+      </trkpt>
+      <trkpt lon="-68.200237" lat="44.152528">
+        <ele>40.000000</ele>
+        <time>2019-01-01T00:00:04Z</time>
+      </trkpt>
+      <trkpt lon="-68.200232" lat="44.152567">
+        <ele>40.000000</ele>
+        <time>2019-01-01T00:00:05Z</time>
+      </trkpt>
+      <trkpt lon="-68.200248" lat="44.152612">
+        <ele>40.000000</ele>
+        <time>2019-01-01T00:00:06Z</time>
+      </trkpt>
+      <trkpt lon="-68.200253" lat="44.152657">
+        <ele>40.000000</ele>
+        <time>2019-01-01T00:00:07Z</time>
+      </trkpt>
+      <trkpt lon="-68.200245" lat="44.152675">
+        <ele>46.000000</ele>
+        <time>2019-01-01T00:00:08Z</time>
+      </trkpt>
+      <trkpt lon="-68.200232" lat="44.152695">
+        <ele>46.000000</ele>
+        <time>2019-01-01T00:00:09Z</time>
+      </trkpt>
+      <trkpt lon="-68.200215" lat="44.152720">
+        <ele>46.000000</ele>
+        <time>2019-01-01T00:00:10Z</time>
+      </trkpt>
+      <trkpt lon="-68.200205" lat="44.152753">
+        <ele>46.000000</ele>
+        <time>2019-01-01T00:00:11Z</time>
+      </trkpt>
+      <trkpt lon="-68.200197" lat="44.152808">
+        <ele>46.000000</ele>
+        <time>2019-01-01T00:00:12Z</time>
+      </trkpt>
+      <trkpt lon="-68.200203" lat="44.152877">
+        <ele>46.000000</ele>
+        <time>2019-01-01T00:00:13Z</time>
+      </trkpt>
+    </trkseg>
+  </trk>
+</gpx>

@@ -1,5 +1,5 @@
-/*  Copyright (C) 2015-2018 Andreas Shimokawa, Carsten Pfeiffer, Julien
-    Pivotto, Steffen Liebergeld
+/*  Copyright (C) 2015-2021 Andreas Shimokawa, Carsten Pfeiffer, José Rebelo,
+    Julien Pivotto, Steffen Liebergeld
 
     This file is part of Gadgetbridge.
 
@@ -17,6 +17,7 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.service.serial;
 
+import java.util.ArrayList;
 import java.util.UUID;
 
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEvent;
@@ -24,9 +25,13 @@ import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.CalendarEventSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.CannedMessagesSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
+import nodomain.freeyourgadget.gadgetbridge.model.Reminder;
 import nodomain.freeyourgadget.gadgetbridge.model.WeatherSpec;
 
 public abstract class GBDeviceProtocol {
+
+    public static final int RESET_FLAGS_REBOOT = 1;
+    public static final int RESET_FLAGS_FACTORY_RESET = 2;
 
     private GBDevice mDevice;
 
@@ -90,7 +95,7 @@ public abstract class GBDeviceProtocol {
         return null;
     }
 
-    public byte[] encodeReboot() {
+    public byte[] encodeReset(int flags) {
         return null;
     }
 
@@ -131,6 +136,18 @@ public abstract class GBDeviceProtocol {
     }
 
     public byte[] encodeSendWeather(WeatherSpec weatherSpec) {
+        return null;
+    }
+
+    public byte[] encodeLedColor(int color) {
+        return null;
+    }
+
+    public byte[] encodeReminders(ArrayList<? extends Reminder> reminders) {
+        return null;
+    }
+
+    public byte[] encodeFmFrequency(float frequency) {
         return null;
     }
 }

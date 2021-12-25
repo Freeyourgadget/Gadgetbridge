@@ -1,0 +1,4 @@
+* Fix a bug with Toasts appearing every time a notification arrives when bluetooth is disabled
+* Pebble 2: Add optional GATT client only mode that might help with connection stability
+* Amazfit Cor: Fix detection of newer firmwares
+* Mi Band 2: Fix text notifcations not appearing with short vibration patterns

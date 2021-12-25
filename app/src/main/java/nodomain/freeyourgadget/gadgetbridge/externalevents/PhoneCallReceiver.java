@@ -1,4 +1,5 @@
-/*  Copyright (C) 2015-2018 Andreas Shimokawa, Carsten Pfeiffer, Normano64
+/*  Copyright (C) 2015-2020 Andreas Böhler, Andreas Shimokawa, Carsten
+    Pfeiffer, Daniele Gobbetti, Johannes Tysiak, Normano64
 
     This file is part of Gadgetbridge.
 
@@ -18,10 +19,15 @@ package nodomain.freeyourgadget.gadgetbridge.externalevents;
 
 import android.app.NotificationManager;
 import android.app.NotificationManager.Policy;
+import android.app.Service;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.media.AudioManager;
 import android.telephony.TelephonyManager;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.model.CallSpec;
@@ -29,26 +35,37 @@ import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 
 
 public class PhoneCallReceiver extends BroadcastReceiver {
+    private static final Logger LOG = LoggerFactory.getLogger(PhoneCallReceiver.class);
 
     private static int mLastState = TelephonyManager.CALL_STATE_IDLE;
     private static String mSavedNumber;
+    private boolean mRestoreMutedCall = false;
+    private int mLastRingerMode;
 
     @Override
     public void onReceive(Context context, Intent intent) {
+        TelephonyManager tm = (TelephonyManager) context.getSystemService(Service.TELEPHONY_SERVICE);
         if (intent.getAction().equals("android.intent.action.NEW_OUTGOING_CALL")) {
             mSavedNumber = intent.getExtras().getString("android.intent.extra.PHONE_NUMBER");
-        } else {
-            String stateStr = intent.getExtras().getString(TelephonyManager.EXTRA_STATE);
-            String number = intent.getExtras().getString(TelephonyManager.EXTRA_INCOMING_NUMBER);
-            int state = 0;
-            if (TelephonyManager.EXTRA_STATE_IDLE.equals(stateStr)) {
-                state = TelephonyManager.CALL_STATE_IDLE;
-            } else if (TelephonyManager.EXTRA_STATE_OFFHOOK.equals(stateStr)) {
-                state = TelephonyManager.CALL_STATE_OFFHOOK;
-            } else if (TelephonyManager.EXTRA_STATE_RINGING.equals(stateStr)) {
-                state = TelephonyManager.CALL_STATE_RINGING;
+        } else if(intent.getAction().equals("nodomain.freeyourgadget.gadgetbridge.MUTE_CALL")) {
+            // Handle the mute request only if the phone is currently ringing
+            if (mLastState != TelephonyManager.CALL_STATE_RINGING)
+                return;
+
+            AudioManager audioManager = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
+            mLastRingerMode = audioManager.getRingerMode();
+            try {
+                audioManager.setRingerMode(AudioManager.RINGER_MODE_SILENT);
+            } catch (SecurityException e) {
+                LOG.error("SecurityException when trying to set ringer (no permission granted :/ ?), not setting it then.");
             }
-            onCallStateChanged(context, state, number);
+            mRestoreMutedCall = true;
+        } else {
+            if (intent.hasExtra(TelephonyManager.EXTRA_INCOMING_NUMBER)) {
+                String number = intent.getExtras().getString(TelephonyManager.EXTRA_INCOMING_NUMBER);
+                int state = tm.getCallState();
+                onCallStateChanged(context, state, number);
+            }
         }
     }
 
@@ -77,6 +94,11 @@ public class PhoneCallReceiver extends BroadcastReceiver {
                     callCommand = CallSpec.CALL_END;
                 } else {
                     callCommand = CallSpec.CALL_END;
+                }
+                if(mRestoreMutedCall) {
+                    mRestoreMutedCall = false;
+                    AudioManager audioManager = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
+                    audioManager.setRingerMode(mLastRingerMode);
                 }
                 break;
         }

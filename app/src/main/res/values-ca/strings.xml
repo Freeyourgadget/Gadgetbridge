@@ -1,99 +1,85 @@
-<?xml version='1.0' encoding='UTF-8'?>
-<resources><string name="app_name">Gadgetbridge</string>
-
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Gadgetbridge</string>
     <string name="title_activity_controlcenter">Gadgetbridge</string>
-    <string name="action_settings">Paràmetres</string>
+    <string name="action_settings">Configuració</string>
     <string name="action_debug">Depuració</string>
-    <string name="action_quit">Sortir</string>
+    <string name="action_quit">Surt</string>
     <string name="action_donate">Donació</string>
     <string name="controlcenter_fetch_activity_data">Sincronitza</string>
-    <string name="controlcenter_start_sleepmonitor">Seguiment del son (ALPHA)</string>
-    <string name="controlcenter_find_device">Cercar dispositiu perdut</string>
-    <string name="controlcenter_take_screenshot">Fer captura de pantalla</string>
-    <string name="controlcenter_connect">Connectar</string>
+    <string name="controlcenter_find_device">Cerca un aparell perdut</string>
+    <string name="controlcenter_take_screenshot">Fes una captura de pantalla</string>
+    <string name="controlcenter_connect">Connecta…</string>
     <string name="controlcenter_disconnect">Desconnecta</string>
-    <string name="controlcenter_delete_device">Esborra dispositiu</string>
-    <string name="controlcenter_delete_device_name">Esborrar %1$s</string>
-    <string name="controlcenter_delete_device_dialogmessage">Aquesta acció esborrarà el dispositiu i tota la seva informació associada!</string>
-    <string name="controlcenter_navigation_drawer_open">Obrir el calaix de navegació</string>
-    <string name="controlcenter_navigation_drawer_close">Tancar el calaix de navegació</string>
-    <string name="controlcenter_snackbar_need_longpress">Mantenir premut la icona per desconnecta</string>
-    <string name="controlcenter_snackbar_disconnecting">Desconnectant</string>
-    <string name="controlcenter_snackbar_connecting">Connectant</string>
-    <string name="controlcenter_snackbar_requested_screenshot">Fer captura de pantalla del dispositiu</string>
-
-
+    <string name="controlcenter_delete_device">Esborra l\'aparell</string>
+    <string name="controlcenter_delete_device_name">Esborra %1$s</string>
+    <string name="controlcenter_delete_device_dialogmessage">Aquesta acció esborrarà l\'aparell i tota la seva informació associada!</string>
+    <string name="controlcenter_navigation_drawer_open">Obre el calaix de navegació</string>
+    <string name="controlcenter_navigation_drawer_close">Tanca el calaix de navegació</string>
+    <string name="controlcenter_snackbar_need_longpress">Mantingueu premut l\'element per desconnectar</string>
+    <string name="controlcenter_snackbar_disconnecting">S\'està desconnectant</string>
+    <string name="controlcenter_snackbar_connecting">S\'està connectant…</string>
+    <string name="controlcenter_snackbar_requested_screenshot">S\'està fent una captura de pantalla de l\'aparell</string>
     <string name="title_activity_debug">Depuració</string>
-
-    <string name="title_activity_appmanager">Gestor de l\'aplicació</string>
-    <string name="appmanager_cached_watchapps_watchfaces">Aplicació en memòria cau</string>
+    <string name="title_activity_appmanager">Gestor d\'aplicacions</string>
+    <string name="appmanager_cached_watchapps_watchfaces">Aplicacions a la memòria cau</string>
     <string name="appmanager_installed_watchapps">Aplicacions instal·lades</string>
-    <string name="appmanager_installed_watchfaces">Esferes instal·lades</string>
-    <string name="appmananger_app_delete">Esborrar</string>
-    <string name="appmananger_app_delete_cache">Esborra i treu de la memòria cau</string>
-    <string name="appmananger_app_reinstall">Reinstal·lar</string>
-    <string name="appmanager_app_openinstore">Cerca a Pebble Appstore</string>
-    <string name="appmanager_health_activate">Activar</string>
-    <string name="appmanager_health_deactivate">Desactivar</string>
-    <string name="appmanager_hrm_activate">Activar seguiment d\'activitat cardíaca</string>
-    <string name="appmanager_hrm_deactivate">Desactivar seguiment d\'activitat cardíaca</string>
-    <string name="appmanager_weather_activate">Activar l\'aplicació del temps del sistema</string>
-    <string name="appmanager_weather_deactivate">Desactivar l\'aplicació del temps del sistema</string>
-    <string name="appmanager_weather_install_provider">Instal·lar l\'aplicació del temps del sistema</string>
-    <string name="app_configure">Configurar</string>
-    <string name="app_move_to_top">Moure a la part superior</string>
-
-    <string name="title_activity_appblacklist">Llista negra de notificacions</string>
-
-    <string name="title_activity_calblacklist">Calendaris en llista negra</string>
-
-    <string name="title_activity_fw_app_insaller">Instal·lador de FW/App</string>
-    <string name="fw_upgrade_notice">Estàs a punt d\'instal·lar el firmware %s en lloc del que està a la teva MiBand.</string>
-    <string name="fw_upgrade_notice_amazfitbip">Esteu a punt d\'instal·lar el firmware %s en el vostre Amazfit Bip. 
-\n 
-\nSi us plau, assegure-vos d\'instal·lar el fitxer .fw, el fitxer .res i, finalment, el fitxer .gps. El vostre rellotge reiniciarà després d\'instal·lar l\'arxiu .fw. 
-\n 
-\nNota: no heu d\'instal·lar .res i .gps si aquests fitxers són els mateixos que els prèviament instal·lats. 
-\n 
+    <string name="appmanager_installed_watchfaces">Caràtules instal·lades</string>
+    <string name="appmananger_app_delete">Esborra</string>
+    <string name="appmananger_app_delete_cache">Esborra i suprimeix de la memòria cau</string>
+    <string name="appmananger_app_reinstall">Reinstal·la</string>
+    <string name="appmanager_app_openinstore">Cerca a la botiga d\'aplicacions de Pebble</string>
+    <string name="appmanager_health_activate">Activa</string>
+    <string name="appmanager_health_deactivate">Desactiva</string>
+    <string name="appmanager_hrm_activate">Activa el seguiment de ritme cardíac</string>
+    <string name="appmanager_hrm_deactivate">Desactiva el seguiment de ritme cardíac</string>
+    <string name="appmanager_weather_activate">Activa l\'aplicació del temps del sistema</string>
+    <string name="appmanager_weather_deactivate">Desactiva l\'aplicació del temps del sistema</string>
+    <string name="appmanager_weather_install_provider">Instal·la l\'aplicació del temps del sistema</string>
+    <string name="app_configure">Configura</string>
+    <string name="app_move_to_top">Mou a la part superior</string>
+    <string name="title_activity_appblacklist">Bloqueig de notificacions</string>
+    <string name="title_activity_calblacklist">Calendaris bloquejats</string>
+    <string name="title_activity_fw_app_insaller">Instal·lador de microprogramari i aplicacions</string>
+    <string name="fw_upgrade_notice">Sou a punt d\'instal·lar el %s.</string>
+    <string name="fw_upgrade_notice_amazfitbip">Esteu a punt d\'instal·lar el microprogramari %s en el vostre Amazfit Bip.
+\n
+\nSi us plau, assegureu-vos d\'instal·lar el fitxer .fw, el fitxer .res i, finalment, el fitxer .gps. El vostre rellotge es reiniciarà després d\'instal·lar l\'arxiu .fw.
+\n
+\nNota: no heu d\'instal·lar els fitxers .res i .gps si aquests fitxers són exactament els mateixos que els prèviament instal·lats.
+\n
 \nPROCEDIU SOTA LA VOSTRA PRÒPIA RESPONSABILITAT!</string>
-    <string name="fw_upgrade_notice_amazfitcor">Esteu a punt d\'instal·lar el firmware %s en el vostre Amazfit Cor.
+    <string name="fw_upgrade_notice_amazfitcor">Sou a punt d\'instal·lar el microprogramari %s en la vostra Amazfit Cor.
 \n
-\nSi us plau, assegure-vos d\'instal·lar el fitxer .fw i el fitxer .res. El vostre rellotge reiniciarà després d\'instal·lar l\'arxiu .fw.
+\nSi us plau, assegureu-vos d\'instal·lar el fitxer .fw, i després el fitxer .res. La vostra polsera es reiniciarà després d\'instal·lar el fitxer .fw.
 \n
-\nNota: no heu d\'instal·lar .res si aquest fitxer és el mateix que el prèviament instal·lat.
+\nNota: no heu d\'instal·lar el fitxer .res si és exactament el mateix que el prèviament instal·lat.
 \n
-\nNO TESTAT. POT ESTAVELLAR EL VOSTRE DISPOSITIU. PROCEDIU SOTA LA VOSTRA PRÒPIA RESPONSABILITAT!</string>
-    <string name="fw_multi_upgrade_notice">Estàs a punt d\'instal·lar els firmwares %1$s i %2$s en lloc dels de la vostra MiBand.</string>
-    <string name="miband_firmware_known">Aquest firmware ha estat provat i se sap que és compatible amb Gadgetbridge.</string>
-    <string name="miband_firmware_unknown_warning">Aquest firmware no ha estat provat i pot ser que no sigui compatible amb Gadgetbridge.
-\n
-\nNO es recomana la instal·lació en el teu MiBand!</string>
-    <string name="miband_firmware_suggest_whitelist">Si tot i així vols seguir i les coses continuen funcionant correctament, si us plau indica\'ls als desenvolupadors de Gadgetbridge que aquesta versió del firmware funciona bé: %s</string>
-
-    <string name="title_activity_settings">Paràmetres</string>
-
-    <string name="pref_header_general">Paràmetres generals</string>
-    <string name="pref_title_general_autoconnectonbluetooth">Connectar-se al dispositiu quan el Bluetooth estigui activat</string>
+\nPROCEDIU SOTA LA VOSTRA PRÒPIA RESPONSABILITAT!</string>
+    <string name="fw_multi_upgrade_notice">Sou a punt d\'instal·lar els microprogramaris %1$s i %2$s en lloc dels que hi ha actualment a la vostra Mi Band.</string>
+    <string name="miband_firmware_known">Aquest microprogramari ha estat provat i se sap que és compatible amb el Gadgetbridge.</string>
+    <string name="miband_firmware_unknown_warning">Aquest microprogramari no ha estat provat i pot ser que no sigui compatible amb el Gadgetbridge. 
+\n 
+\nNO es recomana instal·lar-lo!</string>
+    <string name="miband_firmware_suggest_whitelist">Si tot i així voleu continuar i les coses continuen funcionant correctament, si us plau informeu els desenvolupadors del Gadgetbridge que la versió %s del microprogramari funciona bé.</string>
+    <string name="title_activity_settings">Configuració</string>
+    <string name="pref_header_general">Configuració general</string>
+    <string name="pref_title_general_autoconnectonbluetooth">Connecta\'t a l\'aparell Gadgetbridge quan el Bluetooth estigui activat</string>
     <string name="pref_title_general_autostartonboot">Inicia automàticament</string>
-    <string name="pref_title_general_autocreonnect">Reconnecta automàticament</string>
-    <string name="pref_title_audo_player">Reproductor preferit</string>
+    <string name="pref_title_general_autoreconnect">Reconnecta automàticament</string>
+    <string name="pref_title_audio_player">Reproductor d\'àudio preferit</string>
     <string name="pref_default">Per defecte</string>
-    <string name="pref_title_charts_swipe">Permetre lliscar cap a l\'esquerra/dreta en els gràfics d\'activitat</string>
-
+    <string name="pref_title_charts_swipe">Permet lliscar cap a l\'esquerra i la dreta en els gràfics d\'activitat</string>
     <string name="pref_header_datetime">Data i Hora</string>
     <string name="pref_title_datetime_syctimeonconnect">Sincronitza l\'hora</string>
-    <string name="pref_summary_datetime_syctimeonconnect">Sincronitza l\'hora en el dispositiu quan es connecti o es canviï l\'hora o zona horària en Android</string>
-
+    <string name="pref_summary_datetime_syctimeonconnect">Sincronitza l\'hora en l\'aparell Gadgetbridge quan es connecti o quan es canviï l\'hora o zona horària en l\'aparell Android</string>
     <string name="pref_title_theme">Aparença</string>
     <string name="pref_theme_light">Clar</string>
     <string name="pref_theme_dark">Fosc</string>
-
-    <string name="pref_title_language">Idioma</string>
-
-    <string name="pref_title_minimize_priority">Oculta la notificació de Gadgetbridge</string>
-    <string name="pref_summary_minimize_priority_off">La icona a la barra d\'estat i la notificació a la pantalla de bloqueig estan actius</string>
-    <string name="pref_summary_minimize_priority_on">La icona a la barra d\'estat i la notificació a la pantalla de bloqueig estan ocults</string>
-
+    <string name="pref_title_language">Llengua</string>
+    <string name="pref_title_minimize_priority">Amaga la notificació del Gadgetbridge</string>
+    <string name="pref_summary_minimize_priority_off">La icona a la barra d\'estat i la notificació a la pantalla de bloqueig es mostren</string>
+    <string name="pref_summary_minimize_priority_on">La icona a la barra d\'estat i la notificació a la pantalla de bloqueig no es mostren</string>
     <string name="pref_header_notifications">Notificacions</string>
     <string name="pref_title_notifications_repetitions">Repeticions</string>
     <string name="pref_title_notifications_call">Trucades telefòniques</string>
@@ -101,150 +87,128 @@
     <string name="pref_title_notifications_pebblemsg">Missatges de Pebble</string>
     <string name="pref_summary_notifications_pebblemsg">Suport per a aplicacions que envien notificacions a Pebble a través de PebbleKit.</string>
     <string name="pref_title_notifications_generic">Suport per a notificacions genèriques</string>
-    <string name="pref_title_whenscreenon">... també amb la pantalla encesa</string>
-    <string name="pref_title_notification_filter">No molestar</string>
-    <string name="pref_summary_notification_filter">Deixar d\'enviar notificacions no desitjades basant-se en el mode No Molestar</string>
-    <string name="pref_title_transliteration">Transcripció</string>
-    <string name="pref_summary_transliteration">Utilitzar en cas que el teu dispositiu no suporti la font del teu idioma</string>
-
+    <string name="pref_title_whenscreenon">… també amb la pantalla encesa</string>
+    <string name="pref_title_notification_filter">No molesteu</string>
+    <string name="pref_summary_notification_filter">Blocar totes les notificacions quan el \"No molesteu\" estigui activat al telèfon</string>
+    <string name="pref_title_transliteration">Transliteració</string>
+    <string name="pref_summary_transliteration">Activeu aquesta opció si el vostre aparell no pot mostrar els caràcters de la vostra llengua</string>
     <string name="always">Sempre</string>
     <string name="when_screen_off">Quan la pantalla està apagada</string>
     <string name="never">Mai</string>
-
     <string name="pref_header_privacy">Privacitat</string>
     <string name="pref_title_call_privacy_mode">Mode de privacitat de trucada</string>
-    <string name="pref_call_privacy_mode_off">Mostrar nom i número</string>
-    <string name="pref_call_privacy_mode_name">Oculta nom però mostrar número</string>
-    <string name="pref_call_privacy_mode_number">Ocultar número però mostrar nom</string>
-    <string name="pref_call_privacy_mode_complete">Ocultar nom i número</string>
-
-
-    <string name="pref_blacklist">Llista negra d\'aplicacions</string>
-    <string name="pref_blacklist_calendars">Llista negra de calendaris</string>
-
-    <string name="pref_header_cannned_messages">Missatges predeterminants</string>
+    <string name="pref_call_privacy_mode_off">Mostra el nom i el número</string>
+    <string name="pref_call_privacy_mode_name">Amaga el nom però mostra el número</string>
+    <string name="pref_call_privacy_mode_number">Amaga el número però mostra el nom</string>
+    <string name="pref_call_privacy_mode_complete">Amaga el nom i el número</string>
+    <string name="pref_blacklist">Bloqueig d\'aplicacions</string>
+    <string name="pref_blacklist_calendars">Bloqueig de calendaris</string>
+    <string name="pref_header_cannned_messages">Missatges predefinits</string>
     <string name="pref_title_canned_replies">Respostes</string>
-    <string name="pref_title_canned_reply_suffix">Sufixe habitual</string>
-    <string name="pref_title_canned_messages_dismisscall">Rebutjar trucada</string>
-    <string name="pref_title_canned_messages_set">Actualitza a Pebble</string>
-
-    <string name="pref_header_development">Opcions de desenvolupadors</string>
-    <string name="pref_title_development_miaddr">Direcció de MiBand</string>
-
-    <string name="pref_title_pebble_settings">Paràmetres de Pebble</string>
-
-    <string name="pref_header_activitytrackers">Seguiment d\'activitat</string>
-    <string name="pref_title_pebble_activitytracker">Seguiment d\'activitat preferit</string>
-    <string name="pref_title_pebble_sync_health">Sincronitzar amb Pebble Health</string>
-    <string name="pref_title_pebble_sync_misfit">Sincronitzar amb Misfit</string>
-    <string name="pref_title_pebble_sync_morpheuz">Sincronitzar amb Morpheuz</string>
-
-    <string name="pref_title_enable_outgoing_call">Suport per trucades sortints</string>
+    <string name="pref_title_canned_reply_suffix">Sufix automàtic</string>
+    <string name="pref_title_canned_messages_dismisscall">Rebuig de trucada</string>
+    <string name="pref_title_canned_messages_set">Actualitza a l\'aparell</string>
+    <string name="pref_header_development">Opcions per a desenvolupadors</string>
+    <string name="pref_title_development_miaddr">Adreça de Mi Band</string>
+    <string name="pref_title_pebble_settings">Configuració del Pebble</string>
+    <string name="pref_header_activitytrackers">Sistemes de seguiment d\'activitat</string>
+    <string name="pref_title_pebble_activitytracker">Sistema preferit per al seguiment d\'activitat</string>
+    <string name="pref_title_pebble_sync_health">Sincronitza amb Pebble Health</string>
+    <string name="pref_title_pebble_sync_misfit">Sincronitza amb Misfit</string>
+    <string name="pref_title_pebble_sync_morpheuz">Sincronitza amb Morpheuz</string>
+    <string name="pref_title_enable_outgoing_call">Suport per a trucades sortints</string>
     <string name="pref_summary_enable_outgoing_call">Desactivar això evitarà que Pebble 2/LE vibri en trucades sortints</string>
-
-    <string name="pref_title_enable_pebblekit">Permetre l\'accés a aplicacions Android de tercers</string>
-    <string name="pref_summary_enable_pebblekit">Permetre el suport experimental per aplicacions Android que fan servir PebbleKit</string>
-
-    <string name="pref_header_pebble_timeline">Timeline Pebble</string>
+    <string name="pref_title_enable_pebblekit">Permet l\'accés a aplicacions Android de tercers</string>
+    <string name="pref_summary_enable_pebblekit">Permet aplicacions d\'Android experimentals que fan servir PebbleKit</string>
+    <string name="pref_header_pebble_timeline">Cronologia del Pebble</string>
     <string name="pref_title_sunrise_sunset">Sortida i posta de sol</string>
-    <string name="pref_summary_sunrise_sunset">Envia les hores de sortida i posta de sol basant-se en la localització a la timeline del Pebble</string>
-    <string name="pref_title_enable_calendar_sync">Sincronitzar calendari</string>
-    <string name="pref_summary_enable_calendar_sync">Envia els esdeveniments del calendari a la línia de temps</string>
-
-    <string name="pref_title_autoremove_notifications">Esborra automàticament les notificacions rebutjades</string>
-    <string name="pref_summary_autoremove_notifications">Les notificacions s\'esborren automàticament de Pebble quan es rebutgen a Android</string>
-
-    <string name="pref_title_pebble_privacy_mode">Mode privat</string>
-    <string name="pref_pebble_privacy_mode_off">Notificació normal</string>
+    <string name="pref_summary_sunrise_sunset">Envia les hores de sortida i posta de sol basades en la ubicació a la cronologia del Pebble</string>
+    <string name="pref_title_enable_calendar_sync">Sincronitza el calendari</string>
+    <string name="pref_summary_enable_calendar_sync">Envia els esdeveniments del calendari a la cronologia</string>
+    <string name="pref_title_autoremove_notifications">Suprimeix automàticament les notificacions rebutjades</string>
+    <string name="pref_summary_autoremove_notifications">Les notificacions se suprimeixen automàticament de l\'aparell quan es rebutgen al telèfon</string>
+    <string name="pref_title_pebble_privacy_mode">Mode de privacitat</string>
+    <string name="pref_pebble_privacy_mode_off">Notificacions normals</string>
     <string name="pref_pebble_privacy_mode_content">Desplaça la notificació fora de la pantalla</string>
-    <string name="pref_pebble_privacy_mode_complete">Mostra només la icona de notificació</string>
-
-    <string name="pref_header_location">Localització</string>
-    <string name="pref_title_location_aquire">Obtenir localització</string>
+    <string name="pref_pebble_privacy_mode_complete">Mostra només la icona de la notificació</string>
+    <string name="pref_header_location">Ubicació</string>
+    <string name="pref_title_location_aquire">Obté la localització</string>
     <string name="pref_title_location_latitude">Latitud</string>
     <string name="pref_title_location_longitude">Longitud</string>
-    <string name="pref_title_location_keep_uptodate">Mantenir la localització actualitzada</string>
-    <string name="pref_summary_location_keep_uptodate">Intentar aconseguir la localització en marxa, fer servir la desada com a alternatiu</string>
-
-    <string name="toast_enable_networklocationprovider">Si us plau, activa la localització per xarxa</string>
-    <string name="toast_aqurired_networklocation">Localització trobada</string>
-
-    <string name="pref_title_pebble_forceprotocol">Forçar el protocol de notificació</string>
-    <string name="pref_summary_pebble_forceprotocol">Aquesta opció força l\'ús del darrer protocol de notificació en funció de la versió del firmware. ACTIVA-HO NOMÉS SI SAPS EL QUE ESTÀS FENT!</string>
-    <string name="pref_title_pebble_forceuntested">Activar característiques no provades</string>
-    <string name="pref_summary_pebble_forceuntested">Activar les característiques que no han estat provades. ACTIVA-HO NOMÉS SI SAPS EL QUE ESTÀS FENT!</string>
-    <string name="pref_title_pebble_forcele">Preferir sempre BLE</string>
-    <string name="pref_summary_pebble_forcele">Utilitza el suport experimental de Pebble LE a tots els Pebble en lloc del Bluetooth clàssic, la qual cosa requereix vincular \"Pebble LE\" si un Pebble no-LI ha estat vinculat abans</string>
-    <string name="pref_title_pebble_mtu_limit">Pebble 2/LI límit de GATT MTU</string>
-    <string name="pref_summary_pebble_mtu_limit">Si el teu Pebble 2/Pebble LE no funciona correctament, prova aquesta opció per limitar l\'MTU (rang vàlid 20-512)</string>
+    <string name="pref_title_location_keep_uptodate">Mantingues la ubicació actualitzada</string>
+    <string name="pref_summary_location_keep_uptodate">Intenta aconseguir la ubicació constantment, i si això no és possible fes servir la ubicació desada prèviament</string>
+    <string name="toast_enable_networklocationprovider">Si us plau, activeu la ubicació per xarxa</string>
+    <string name="toast_aqurired_networklocation">S\'ha trobat la ubicació</string>
+    <string name="pref_title_pebble_forceprotocol">Força el protocol de notificació</string>
+    <string name="pref_summary_pebble_forceprotocol">Aquesta opció força l\'ús del darrer protocol de notificació en funció de la versió del microprogramari. VIGILEU AMB EL QUE FEU!</string>
+    <string name="pref_title_pebble_forceuntested">Activa característiques no provades</string>
+    <string name="pref_summary_pebble_forceuntested">Activa les característiques que no han estat provades. VIGILEU AMB EL QUE FEU!</string>
+    <string name="pref_title_pebble_forcele">Prefereix sempre BLE</string>
+    <string name="pref_summary_pebble_forcele">Utilitza el suport experimental de Pebble LE a tots els Pebble, enlloc del Bluetooth clàssic. Primer cal aparellar primer un Pebble sense LE i després un Pebble LE</string>
+    <string name="pref_title_pebble_mtu_limit">Límit de l\'MTU del GATT del Pebble 2/LE</string>
+    <string name="pref_summary_pebble_mtu_limit">Si el teu Pebble 2/Pebble LE no funciona correctament, prova aquesta opció per limitar l\'MTU (rang vàlid: 20–512)</string>
     <string name="pref_title_pebble_enable_applogs">Activa els registres de les aplicacions del rellotge</string>
-    <string name="pref_summary_pebble_enable_applogs">Produirà registres de les apps del rellotge que Gadgetbridge guardarà (necessita reconnexió)</string>
-    <string name="pref_title_pebble_always_ack_pebblekit">ACK abans d\'hora de PebbleKit</string>
-    <string name="pref_summary_pebble_always_ack_pebblekit">Permetrà als missatges enviats a apps de tercers ser reconeguts sempre i immediatament</string>
+    <string name="pref_summary_pebble_enable_applogs">Produirà registres de les apps del rellotge que el Gadgetbridge guardarà (necessita reconnexió)</string>
+    <string name="pref_title_pebble_always_ack_pebblekit">Envia l\'ACK al PebbleKit abans d\'hora</string>
+    <string name="pref_summary_pebble_always_ack_pebblekit">Permetrà que missatges enviats a aplicacions de tercers siguin reconeguts sempre i immediatament</string>
     <string name="pref_title_pebble_enable_bgjs">Activa JS en segon pla</string>
-    <string name="pref_summary_pebble_enable_bgjs">Permet a les pantalles mostrar el temps, informació de bateria, etc.</string>
-
-    <string name="pref_title_pebble_reconnect_attempts">Intents de reconnexions</string>
-
-    <string name="pref_title_unit_system">Preferències HPlus</string>
+    <string name="pref_summary_pebble_enable_bgjs">Permet a les caràtules mostrar el temps, informació de bateria, etc.</string>
+    <string name="pref_title_pebble_reconnect_attempts">Intents de reconnexió</string>
+    <string name="pref_title_unit_system">Unitats</string>
     <string name="pref_title_timeformat">Format d\'hora</string>
-    <string name="pref_title_screentime">Temps de pantalla encesa</string>
+    <string name="pref_title_screentime">Durada de pantalla encesa</string>
     <string name="prefs_title_all_day_heart_rate">Mesura el ritme cardíac tot el dia</string>
-    <string name="preferences_hplus_settings">Paràmetres HPlus/Makibes</string>
-
+    <string name="preferences_hplus_settings">Configuració de HPlus/Makibes</string>
     <string name="not_connected">No connectat</string>
-    <string name="connecting">Connectant</string>
+    <string name="connecting">S\'està connectant</string>
     <string name="connected">Connectat</string>
     <string name="unknown_state">Estat desconegut</string>
     <string name="_unknown_">(desconegut)</string>
     <string name="test">Prova</string>
-    <string name="test_notification">Prova notificació</string>
-    <string name="this_is_a_test_notification_from_gadgetbridge">Això és una notificació de prova des de Gadgetbridge</string>
-    <string name="bluetooth_is_not_supported_">El Bluetooth no està suportat.</string>
-    <string name="bluetooth_is_disabled_">El Bluetooth està inhabilitat.</string>
-    <string name="tap_connected_device_for_app_mananger">Fes un toc al dispositiu connectat per a configurar les aplicacions</string>
-    <string name="tap_connected_device_for_activity">Fes un toc al dispositiu connectat per activitat</string>
-    <string name="tap_connected_device_for_vibration">Fes un toc al dispositiu per vibració</string>
-    <string name="tap_a_device_to_connect">Fes un toc a un dispositius per connectar</string>
-    <string name="cannot_connect_bt_address_invalid_">No és pot connectar. Direcció BT incorrecta?</string>
-    <string name="gadgetbridge_running">Gadgetbridge funcionant</string>
-    <string name="installing_binary_d_d">Instal·lat binari $1$d/%2$d</string>
+    <string name="test_notification">Notificació de prova</string>
+    <string name="this_is_a_test_notification_from_gadgetbridge">Això és una notificació de prova des del Gadgetbridge</string>
+    <string name="bluetooth_is_not_supported_">El Bluetooth no és compatible o no està implementat.</string>
+    <string name="bluetooth_is_disabled_">El Bluetooth està desactivat.</string>
+    <string name="tap_connected_device_for_app_mananger">Toca l\'aparell connectat per obrir el gestor d\'aplicacions</string>
+    <string name="tap_connected_device_for_activity">Toca l\'aparell connectat per gestionar-ne l\'activitat</string>
+    <string name="tap_connected_device_for_vibration">Toca l\'aparell per fer-lo vibrar</string>
+    <string name="tap_a_device_to_connect">Toca un aparell per connectar-hi</string>
+    <string name="cannot_connect_bt_address_invalid_">No es pot connectar. Potser la direcció Bluetooth és incorrecta\?</string>
+    <string name="gadgetbridge_running">El Gadgetbridge està funcionant</string>
+    <string name="installing_binary_d_d">S\'està instal·lant el binari %1$d/%2$d</string>
     <string name="installation_failed_">La instal·lació ha fallat</string>
-    <string name="installation_successful">Instal·lació correcta</string>
+    <string name="installation_successful">Instal·lat</string>
     <string name="pref_title_weather">El temps</string>
-    <string name="pref_title_weather_location">Ubicació del temps (CM/LOS)</string>
-
+    <string name="pref_title_weather_location">Ubicació del temps (per al proveïdor de temps de LineageOS)</string>
     <string name="pref_header_auto_export">Exportació automàtica</string>
     <string name="pref_title_auto_export_enabled">Exportació automàtica activada</string>
     <string name="pref_title_auto_export_location">Ubicació de l\'exportació</string>
     <string name="pref_title_auto_export_interval">Interval de l\'exportació</string>
     <string name="pref_summary_auto_export_interval">Exporta cada %d hores</string>
-
-    <string name="app_install_info">Esteu a punt d\'instal·lar la següent aplicació:
+    <string name="app_install_info">Sou a punt d\'instal·lar la següent aplicació:
 \n
-\n
-\n%1$s Versió %2$s per %3$s</string>
+\n%1$s
+\nVersió %2$s per %3$s
+\n</string>
     <string name="n_a">NO DISPONIBLE</string>
     <string name="initialized">inicialitzat</string>
     <string name="appversion_by_creator">%1$s per %2$s</string>
-    <string name="title_activity_discovery">Detecció de dispositius</string>
-
+    <string name="title_activity_discovery">Detecció d\'aparells</string>
     <string name="discovery_stop_scanning">Atura l\'escaneig</string>
     <string name="discovery_start_scanning">Inicia la detecció</string>
-    <string name="action_discover">Connecteu un dispositiu nou</string>
+    <string name="action_discover">Connecta un aparell nou</string>
     <string name="device_with_rssi">%1$s (%2$s)</string>
-    <string name="title_activity_android_pairing">Emparelleu el dispositiu</string>
-    <string name="android_pairing_hint">Utilitza el diàleg d\'emparellament Android Bluetooth per emparellar el dispositiu.</string>
-    <string name="title_activity_mi_band_pairing">Emparelleu Mi Band</string>
-    <string name="pairing">Emparellant amb %s…</string>
-    <string name="pairing_creating_bond_with">Creant vincle amb %1$*s (%2$*s)</string>
-    <string name="pairing_unable_to_pair_with">No s\'ha pogut emparellar amb %1$s (%2$s)</string>
-    <string name="pairing_in_progress">Emparellament en curs: %1$s (%2$s)</string>
-    <string name="pairing_already_bonded">Ja emparellat amb %1$s (%2$s), connectant…</string>
-    <string name="message_cannot_pair_no_mac">No s\'ha obtingut cap adreça MAC. No es pot emparellar.</string>
-    <string name="preferences_category_device_specific_settings">Configuració específica del dispositiu</string>
+    <string name="title_activity_android_pairing">Aparella l\'aparell</string>
+    <string name="android_pairing_hint">Utilitzeu el diàleg d\'aparellament Bluetooth de l\'Android per aparellar l\'aparell.</string>
+    <string name="title_activity_mi_band_pairing">Aparelleu la vostra Mi Band</string>
+    <string name="pairing">S\'està aparellant amb %s…</string>
+    <string name="pairing_creating_bond_with">S\'està creant un vincle amb %1$s (%2$s)</string>
+    <string name="pairing_unable_to_pair_with">No s\'ha pogut aparellar amb %1$s (%2$s)</string>
+    <string name="pairing_in_progress">Aparellament en curs: %1$s (%2$s)</string>
+    <string name="pairing_already_bonded">Ja s\'ha aparellat amb %1$s (%2$s). Connectant…</string>
+    <string name="message_cannot_pair_no_mac">No s\'ha proporcionat cap adreça MAC. No es pot emparellar.</string>
+    <string name="preferences_category_device_specific_settings">Configuració d\'aparells específics</string>
     <string name="preferences_miband_settings">Configuració de Mi Band / Amazfit</string>
-    <string name="preferences_amazfitbip_settings">Configuració d\'Amazfit Bip</string>
     <string name="male">Home</string>
     <string name="female">Dona</string>
     <string name="other">Altre</string>
@@ -252,28 +216,25 @@
     <string name="right">Dreta</string>
     <string name="appinstaller_install">Instal·la</string>
     <string name="discovery_note">Nota:</string>
-    <string name="candidate_item_device_image">Imatge de dispositiu</string>
+    <string name="candidate_item_device_image">Imatge de l\'aparell</string>
     <string name="miband_prefs_alias">Nom/Àlies</string>
     <string name="pref_header_vibration_count">Recompte de vibracions</string>
-
     <string name="title_activity_sleepmonitor">Monitor de son</string>
     <string name="pref_write_logfiles">Escriu fitxers de registre</string>
     <string name="initializing">S\'està inicialitzant</string>
-    <string name="busy_task_fetch_activity_data">S\'està obtenint les dades d\'activitat</string>
-    <string name="sleep_activity_date_range">Des de %1$s a %2$s</string>
-    <string name="miband_prefs_wearside">Rellotge a l\'esquerra o la dreta?</string>
+    <string name="busy_task_fetch_activity_data">S\'estàn recollint les dades d\'activitat</string>
+    <string name="sleep_activity_date_range">De %1$s a %2$s</string>
+    <string name="prefs_wearside">A quina mà porteu l\'aparell\?</string>
     <string name="pref_screen_vibration_profile">Perfil de vibració</string>
-
-    <string name="vibration_profile_staccato">Molt curt</string>
-    <string name="vibration_profile_short">Curt</string>
-    <string name="vibration_profile_medium">Mitjà</string>
-    <string name="vibration_profile_long">Llarg</string>
-    <string name="vibration_profile_waterdrop">Molt llarg</string>
+    <string name="vibration_profile_staccato">Molt curta</string>
+    <string name="vibration_profile_short">Curta</string>
+    <string name="vibration_profile_medium">Mitjana</string>
+    <string name="vibration_profile_long">Llarga</string>
+    <string name="vibration_profile_waterdrop">Gota d\'aigua</string>
     <string name="vibration_profile_ring">Timbre</string>
-    <string name="vibration_profile_alarm_clock">Alarma</string>
+    <string name="vibration_profile_alarm_clock">Despertador</string>
     <string name="miband_prefs_vibration">Vibració</string>
-
-    <string name="vibration_try">Proveu-ho</string>
+    <string name="vibration_try">Prova-ho</string>
     <string name="pref_screen_notification_profile_sms">Notificació de SMS</string>
     <string name="pref_header_vibration_settings">Configuració de vibració</string>
     <string name="pref_screen_notification_profile_generic">Notificació genèrica</string>
@@ -282,23 +243,20 @@
     <string name="pref_screen_notification_profile_generic_chat">Xat</string>
     <string name="pref_screen_notification_profile_generic_navigation">Navegació</string>
     <string name="pref_screen_notification_profile_generic_social">Xarxa social</string>
-
-    <string name="prefs_title_heartrate_measurement_interval">Mesura del ritme cardíac tot el dia</string>
-    <string name="interval_one_minute">cada minut</string>
-    <string name="interval_five_minutes">Cada 5 minuts</string>
-    <string name="interval_ten_minutes">Cada 10 minuts</string>
-    <string name="interval_thirty_minutes">Cada 30 minuts</string>
-    <string name="interval_one_hour">Cada hora</string>
-
+    <string name="prefs_title_heartrate_measurement_interval">Mesura el ritme cardíac tot el dia</string>
+    <string name="interval_one_minute">una vegada per minut</string>
+    <string name="interval_five_minutes">cada 5 minuts</string>
+    <string name="interval_ten_minutes">cada 10 minuts</string>
+    <string name="interval_thirty_minutes">cada 30 minuts</string>
+    <string name="interval_one_hour">cada hora</string>
     <string name="stats_title">Zones de velocitat</string>
     <string name="stats_x_axis_label">Minuts totals</string>
-    <string name="stats_y_axis_label">Passos per minut</string>
-
-    <string name="control_center_find_lost_device">Troba el dispositiu perdut</string>
+    <string name="stats_y_axis_label">Passes per minut</string>
+    <string name="control_center_find_lost_device">Troba l\'aparell perdut</string>
     <string name="control_center_cancel_to_stop_vibration">Cancel·leu per aturar la vibració.</string>
-    <string name="title_activity_charts">La vostra activitat</string>
-    <string name="title_activity_set_alarm">Configureu les alarmes</string>
-    <string name="controlcenter_start_configure_alarms">Configureu les alarmes</string>
+    <string name="title_activity_charts">Activitat i son</string>
+    <string name="title_activity_set_alarm">Configura les alarmes</string>
+    <string name="controlcenter_start_configure_alarms">Configura les alarmes</string>
     <string name="title_activity_alarm_details">Detalls d\'alarma</string>
     <string name="alarm_sun_short">Dg.</string>
     <string name="alarm_mon_short">Dl.</string>
@@ -307,132 +265,1071 @@
     <string name="alarm_thu_short">Dj.</string>
     <string name="alarm_fri_short">Dv.</string>
     <string name="alarm_sat_short">Ds.</string>
-    <string name="alarm_smart_wakeup">Alarma intel·ligent</string>
-    <string name="user_feedback_miband_set_alarms_failed">Hi ha hagut un error en posar les alarmes. Si us plau, intenteu-ho de nou!</string>
-    <string name="user_feedback_miband_set_alarms_ok">Les alarmes han sigut enviades al dispositiu!</string>
-    <string name="chart_no_data_synchronize">No hi ha dades. Sincronitzo el dispositiu?</string>
+    <string name="alarm_smart_wakeup">Reactivació intel·ligent</string>
+    <string name="user_feedback_miband_set_alarms_failed">Hi ha hagut un error en definir les alarmes. Si us plau, intenteu-ho de nou.</string>
+    <string name="user_feedback_miband_set_alarms_ok">S\'han enviat les alarmes a l\'aparell.</string>
+    <string name="chart_no_data_synchronize">No hi ha dades. Sincronitzo l\'aparell\?</string>
     <string name="user_feedback_miband_activity_data_transfer">A punt de transferir %1$s de dades des de %2$s</string>
-    <string name="miband_prefs_fitness_goal">Objectiu de passos diaris</string>
+    <string name="miband_prefs_fitness_goal">Objectiu de passes diàries</string>
     <string name="dbaccess_error_executing">Error en executar \'%1$s\'</string>
     <string name="controlcenter_start_activitymonitor">La vostra activitat (ALPHA)</string>
     <string name="cannot_connect">No es pot connectar: %1$s</string>
-    <string name="installer_activity_unable_to_find_handler">No s\'ha trobar un controlador per instal·lar el fitxer.</string>
+    <string name="installer_activity_unable_to_find_handler">No s\'ha trobat cap controlador per instal·lar aquest fitxer.</string>
     <string name="pbw_install_handler_unable_to_install">No s\'ha pogut instal·lar el fitxer: %1$s</string>
-    <string name="pbw_install_handler_hw_revision_mismatch">No s\'ha pogut instal·lar el microprogramari: no coincideix amb revisió del maquinari de Peeble.</string>
-    <string name="installer_activity_wait_while_determining_status">Si us plau, espereu mentre que es determina l\'estat de la instal·lació…</string>
-    <string name="notif_battery_low_title">Bateria del gadget baixa!</string>
-    <string name="notif_battery_low_percent">A %1$s li roman: %2$s%% de bateria</string>
-    <string name="notif_battery_low_bigtext_last_charge_time">Darrera càrrega: %s</string>
+    <string name="pbw_install_handler_hw_revision_mismatch">No s\'ha pogut instal·lar el microprogramari: no coincideix amb la revisió de maquinari del vostre Pebble.</string>
+    <string name="installer_activity_wait_while_determining_status">Si us plau, espereu mentre s\'esbrina l\'estat de la instal·lació…</string>
+    <string name="notif_battery_low_title">L\'aparell té poca bateria!</string>
+    <string name="notif_battery_low_percent">A %1$s li roman un %2$s%% de bateria</string>
+    <string name="notif_battery_low_bigtext_last_charge_time">Darrera càrrega: %s
+\n</string>
     <string name="notif_battery_low_bigtext_number_of_charges">Nombre de càrregues: %s</string>
     <string name="notif_export_failed_title">L\'exportació de la base de dades ha fallat! Si us plau, comproveu la configuració.</string>
-    <string name="sleepchart_your_sleep">El vostre son</string>
+    <string name="sleepchart_your_sleep">Son</string>
     <string name="weeksleepchart_sleep_a_week">Son per setmana</string>
     <string name="weeksleepchart_today_sleep_description">Son avui, objectiu: %1$s</string>
-    <string name="weekstepschart_steps_a_week">Passos per setmana</string>
-    <string name="activity_sleepchart_activity_and_sleep">La vostra activitat i son</string>
-    <string name="updating_firmware">El microprogramari s\'està actualitzant…</string>
-    <string name="fwapp_install_device_not_ready">No es pot instal·lar el fitxer. El dispositiu no està preparat.</string>
+    <string name="weekstepschart_steps_a_week">Passes per setmana</string>
+    <string name="activity_sleepchart_activity_and_sleep">Activitat</string>
+    <string name="updating_firmware">El microprogramari s\'està instal·lant…</string>
+    <string name="fwapp_install_device_not_ready">No es pot instal·lar el fitxer. L\'aparell no està preparat.</string>
     <string name="installhandler_firmware_name">%1$s: %2$s %3$s</string>
     <string name="miband_fwinstaller_compatible_version">Versió compatible</string>
     <string name="miband_fwinstaller_untested_version">Versió no provada!</string>
-    <string name="fwappinstaller_connection_state">Connexió a dispositiu: %1$s</string>
+    <string name="fwappinstaller_connection_state">Connexió a l\'aparell: %1$s</string>
     <string name="pbw_installhandler_pebble_firmware">Microprogramari Pebble %1$s</string>
     <string name="pbwinstallhandler_correct_hw_revision">Revisió del maquinari correcta</string>
     <string name="pbwinstallhandler_incorrect_hw_revision">La revisió del maquinari no coincideix!</string>
     <string name="pbwinstallhandler_app_item">%1$s (%2$s)</string>
-    <string name="updatefirmwareoperation_updateproblem_do_not_reboot">Hi ha hagut un problema amb la transferència del microprogramari. NO REINICIEU Mi Band!</string>
+    <string name="updatefirmwareoperation_updateproblem_do_not_reboot">Hi ha hagut un problema amb la transferència del microprogramari. NO REINICIEU la vostra Mi Band!</string>
     <string name="updatefirmwareoperation_metadata_updateproblem">Hi ha hagut un problema amb la transferència de metadades del microprogramari</string>
     <string name="updatefirmwareoperation_update_complete">S\'ha completat la instal·lació del microprogramari</string>
-    <string name="updatefirmwareoperation_update_complete_rebooting">S\'ha completat la instal·lació del microprogramari. Es va a reiniciar el dispositiu…</string>
+    <string name="updatefirmwareoperation_update_complete_rebooting">S\'ha completat la instal·lació del microprogramari. S\'està reiniciant l\'aparell…</string>
     <string name="updatefirmwareoperation_write_failed">La instal·lació del microprogramari ha fallat</string>
-    <string name="chart_steps">Passos</string>
+    <string name="chart_steps">Passes</string>
     <string name="calories">Calories</string>
     <string name="distance">Distància</string>
     <string name="clock">Rellotge</string>
-    <string name="heart_rate">Freqüència cardíaca</string>
+    <string name="heart_rate">Ritme cardíac</string>
     <string name="battery">Bateria</string>
-    <string name="liveactivity_live_activity">Activitat en directe</string>
-    <string name="weeksteps_today_steps_description">Passos avui, objectiu: %1$s</string>
+    <string name="liveactivity_live_activity">Activitat en temps real</string>
+    <string name="weeksteps_today_steps_description">Passes avui, objectiu: %1$s</string>
     <string name="pref_title_low_latency_fw_update">Utilitza el mode de baixa latència per actualitzar el microprogramari</string>
-    <string name="pref_summary_low_latency_fw_update">Això podria ajudar en dispositius on l\'actualització del microprogramari falla</string>
-
-    <string name="live_activity_steps_history">Historial de passos</string>
-    <string name="live_activity_current_steps_per_minute">Passos actuals / min</string>
-    <string name="live_activity_total_steps">Passos totals</string>
-    <string name="live_activity_steps_per_minute_history">Historial de passos per minut</string>
+    <string name="pref_summary_low_latency_fw_update">Això podria ajudar en aparells on l\'actualització del microprogramari falla.</string>
+    <string name="live_activity_steps_history">Historial de passes</string>
+    <string name="live_activity_current_steps_per_minute">Passes actuals / min</string>
+    <string name="live_activity_total_steps">Passes totals</string>
+    <string name="live_activity_steps_per_minute_history">Historial de passes per minut</string>
     <string name="live_activity_start_your_activity">Inicieu la vostra activitat</string>
     <string name="abstract_chart_fragment_kind_activity">Activitat</string>
     <string name="abstract_chart_fragment_kind_light_sleep">Son lleuger</string>
     <string name="abstract_chart_fragment_kind_deep_sleep">Son profund</string>
     <string name="abstract_chart_fragment_kind_not_worn">No portat</string>
     <string name="device_not_connected">No connectat.</string>
-    <string name="user_feedback_all_alarms_disabled">Totes les alarmes són desactivades</string>
-    <string name="pref_title_keep_data_on_device">Manté les dades d\'activitat al dispositiu</string>
+    <string name="user_feedback_all_alarms_disabled">Totes les alarmes estan desactivades</string>
+    <string name="pref_title_keep_data_on_device">Mantingues les dades d\'activitat a l\'aparell</string>
     <string name="miband_fwinstaller_incompatible_version">Microprogramari incompatible</string>
-    <string name="fwinstaller_firmware_not_compatible_to_device">Aquest microprogramari no és compatible amb el dispositiu</string>
-    <string name="miband_prefs_reserve_alarm_calendar">Alarmes de reserva per als propers esdeveniments</string>
+    <string name="fwinstaller_firmware_not_compatible_to_device">Aquest microprogramari no és compatible amb l\'aparell</string>
+    <string name="miband_prefs_reserve_alarm_calendar">Alarmes a reservar per a esdeveniments futurs</string>
     <string name="miband_prefs_hr_sleep_detection">Utilitza el sensor de ritme cardíac per millorar la detecció del son</string>
-	<string name="miband_prefs_device_time_offset_hours">Temps de desplaçament en hores del dispositiu (per detectar el son de treballadors/es de torns)</string>
-    <string name="miband2_prefs_dateformat">Mi2: format de data</string>
+    <string name="miband_prefs_device_time_offset_hours">Desplaçament de temps de l\'aparell, en hores (per detectar el son de treballadors/es de torns)</string>
+    <string name="miband2_prefs_dateformat">Format de data</string>
     <string name="dateformat_time">Temps</string>
     <string name="dateformat_date_time">Hora i data</string>
-    <string name="mi2_prefs_button_actions">Accions dels botó</string>
-    <string name="mi2_prefs_button_actions_summary">Especifiqueu les accions en prémer el botó del Mi Band 2</string>
-    <string name="mi2_prefs_button_press_count">Compte de pulsacions del botó</string>
-    <string name="mi2_prefs_button_press_count_summary">Nombre de pulsacions del botó per activar la difusió de missatge</string>
+    <string name="mi2_prefs_button_actions">Accions del botó</string>
+    <string name="mi2_prefs_button_actions_summary">Especifiqueu les accions en prémer el botó</string>
+    <string name="mi2_prefs_button_press_count">Nombre de pulsacions del botó</string>
+    <string name="mi2_prefs_button_press_count_summary">Nombre de vegades que cal prémer el botó per activar un Esdeveniment 1. Després, prémer el mateix nombre de vegades crearà un Esdeveniment 2, i successivament.</string>
     <string name="mi2_prefs_button_press_broadcast">Missatge de difusió a enviar</string>
     <string name="mi2_prefs_button_action">Activa el botó d\'acció</string>
-    <string name="mi2_prefs_button_action_summary">Activa l\'acció en fer el nombre de pulsacions especificades del botó</string>
-    <string name="mi2_prefs_button_action_vibrate">Activa la vibració de la pulsera</string>
+    <string name="mi2_prefs_button_action_summary">Activa un acció en prémer un botó un cert nombre de vegades</string>
+    <string name="mi2_prefs_button_action_vibrate">Activa la vibració de la polsera</string>
     <string name="mi2_prefs_button_action_vibrate_summary">Activa la vibració de la pulsera en prémer el botó d\'acció</string>
     <string name="mi2_prefs_button_press_count_max_delay">Retard màxim entre pulsacions</string>
     <string name="mi2_prefs_button_press_count_max_delay_summary">Retard màxim entre pulsacions del botó en mil·lisegons</string>
-    <string name="mi2_prefs_button_press_count_match_delay">Retard després de l\'acció de botó</string>
     <string name="mi2_prefs_goal_notification">Notificació d\'objectiu</string>
-    <string name="mi2_prefs_goal_notification_summary">La banda vibrarà quan l\'objectiu diari de passos siga assolit</string>
+    <string name="mi2_prefs_goal_notification_summary">La polsera vibrarà quan l\'objectiu diari de passes siga assolit</string>
     <string name="mi2_prefs_display_items">Elements a mostrar</string>
-    <string name="mi2_prefs_display_items_summary">Escolliu els elements a mostrar en la pantalla del rellotge</string>
+    <string name="mi2_prefs_display_items_summary">Escolliu els elements a mostrar a la pantalla de la polsera</string>
     <string name="mi2_prefs_activate_display_on_lift">Activa la pantalla en alçar-la</string>
     <string name="mi2_prefs_rotate_wrist_to_switch_info">Gira el canell per canviar la informació</string>
-    <string name="mi2_prefs_do_not_disturb">No molestis</string>
-    <string name="mi2_prefs_do_not_disturb_summary">La pulsera no rebrà notificacions mentre siga activa</string>
+    <string name="mi2_prefs_do_not_disturb">No molesteu</string>
+    <string name="mi2_prefs_do_not_disturb_summary">La polsera no rebrà notificacions mentre aquesta opció estigui activada</string>
     <string name="mi2_prefs_inactivity_warnings">Avisos d\'inactivitat</string>
-    <string name="mi2_prefs_inactivity_warnings_summary">La banda vibrarà quan hàgiu estat inactius durant una estona</string>
+    <string name="mi2_prefs_inactivity_warnings_summary">La polsera vibrarà quan hàgiu estat inactius durant una estona</string>
     <string name="mi2_prefs_inactivity_warnings_threshold">Llindar d\'inactivitat (en minuts)</string>
     <string name="mi2_prefs_inactivity_warnings_dnd_summary">Desactiva els avisos d\'inactivitat durant un interval de temps</string>
     <string name="mi2_prefs_do_not_disturb_start">Hora d\'inici</string>
     <string name="mi2_prefs_do_not_disturb_end">Hora de finalització</string>
-
     <string name="automatic">Automàtic</string>
     <string name="simplified_chinese">Xinès simplificat</string>
     <string name="traditional_chinese">Xinès tradicional</string>
     <string name="english">Anglès</string>
-    <string name="spanish">Espanyol</string>
-
+    <string name="spanish">Castellà</string>
     <string name="FetchActivityOperation_about_to_transfer_since">A punt de transferir dades des de %1$s</string>
-
-    <string name="waiting_for_reconnect">Esperant a reconectar</string>
-
+    <string name="waiting_for_reconnect">S\'està esperant per reconectar</string>
     <string name="activity_prefs_about_you">Quant a tu</string>
     <string name="activity_prefs_year_birth">Any de naixement</string>
-    <string name="activity_prefs_gender">Sexe</string>
+    <string name="activity_prefs_gender">Gènere</string>
     <string name="activity_prefs_height_cm">Alçada en cm</string>
     <string name="activity_prefs_weight_kg">Pes en kg</string>
-
     <string name="authenticating">S\'està autenticant</string>
     <string name="authentication_required">Es requereix autenticació</string>
-
     <string name="appwidget_text">Zzz</string>
     <string name="add_widget">Afegeix un giny</string>
-    <string name="activity_prefs_sleep_duration">Duració preferida del son en hores</string>
-    <string name="appwidget_alarms_set">S\'ha creat una alarma a les %1$02d:%2$02d</string>
+    <string name="activity_prefs_sleep_duration">Durada preferida del son en hores</string>
+    <string name="appwidget_setting_alarm">S\'ha fixat una alarma a les %1$02d:%2$02d</string>
     <string name="device_hw">Revisió del maquinari: %1$s</string>
     <string name="device_fw">Versió del microprogramari: %1$s</string>
-    <string name="error_creating_directory_for_logfiles">S\'ha produït un error al crear un directori per als fitxers de registre: %1$s</string>
-    <string name="DEVINFO_HR_VER">Activitat cardiaca</string>
-    <string name="updatefirmwareoperation_update_in_progress">S\'està actualitzant el programari</string>
+    <string name="error_creating_directory_for_logfiles">S\'ha produït un error en crear un directori per als fitxers de registre: %1$s</string>
+    <string name="DEVINFO_HR_VER">"Ritme cardíac: "</string>
+    <string name="updatefirmwareoperation_update_in_progress">S\'està instal·lant el microprogramari</string>
     <string name="updatefirmwareoperation_firmware_not_sent">No s\'ha enviat el microprogramari</string>
-    <string name="charts_legend_heartrate">Freqüència cardíaca</string>
-    <string name="live_activity_heart_rate">Freqüència cardíaca</string>
-
-    </resources>
+    <string name="charts_legend_heartrate">Ritme cardíac</string>
+    <string name="live_activity_heart_rate">Ritme cardíac</string>
+    <string name="pref_title_pebble_gatt_clientonly">Només client GATT</string>
+    <string name="pref_summary_pebble_gatt_clientonly">Això només és per a Pebble 2 i és experimental. Proveu-ho si teniu problemes de connexió</string>
+    <string name="fw_upgrade_notice_miband3">Sou a punt d\'instal·lar el microprogramari %s en la vostra Mi Band 3.
+\n
+\nSi us plau, assegureu-vos d\'instal·lar el fitxer .fw, i després el fitxer .res. La vostra polsera es reiniciarà després d\'instal·lar el fitxer .fw.
+\n
+\nObservació: No cal que instal·leu el fitxer .res si és exactament el mateix que ja estava instal·lat.
+\n
+\nPROCEDIU SOTA LA VOSTRA PRÒPIA RESPONSABILITAT!</string>
+    <string name="blacklist_all_for_notifications">Bloqueja totes les notifications</string>
+    <string name="whitelist_all_for_notifications">Permet totes les notificacions</string>
+    <string name="prefs_screen_orientation">Orientació de la pantalla</string>
+    <string name="controlcenter_calibrate_device">Calibra l\'aparell</string>
+    <string name="pref_title_notifications_timeout">Temps mínim entre notificacions</string>
+    <string name="controlcenter_change_led_color">Canvia el color del LED</string>
+    <string name="controlcenter_change_fm_frequency">Canvia la freqüència FM</string>
+    <string name="pref_title_rtl">De dreta a esquerra</string>
+    <string name="pref_summary_rtl">Activeu això si el vostre aparell no pot mostrar llengües que s\'escriuen de dreta esquerra</string>
+    <string name="pref_rtl_max_line_length">Llargada màxima de línia de dreta a esquerra</string>
+    <string name="pref_rtl_max_line_length_summary">Allarga o escurça les línies en què se separa el text escrit de dreta a esquerra</string>
+    <string name="debugactivity_really_factoryreset_title">De debò voleu restablir als paràmetres de fàbrica\?</string>
+    <string name="debugactivity_really_factoryreset">Restablir als paràmetres de fàbrica esborrarà totes les dades de l\'aparell connectat (si és compatible). En el cas dels aparells Xiaomi o Huami, també canvia la seva adreça MAC, de manera que per al Gadgetbridge apareixeran com a un aparell nou.</string>
+    <string name="zetime_title_settings">Configuració de ZeTime</string>
+    <string name="zetime_title_heartrate">Configuració del rítme cardíac</string>
+    <string name="zetime_title_screentime">Durada de la pantalla encesa en segons</string>
+    <string name="zetime_title_heart_rate_alarm">Alarma del ritme cardíac</string>
+    <string name="zetime_title_heart_rate_alarm_summary">El rellotge us avisarà quan el vostre ritme cardíac superi els límits.</string>
+    <string name="zetime_heart_rate_alarm_enable">Activa l\'alarma del ritme cardíac</string>
+    <string name="activity_prefs_alarm_max_heart_rate">Ritme cardíac màxim</string>
+    <string name="activity_prefs_alarm_min_heart_rate">Ritme cardíac mínim</string>
+    <string name="zetime_analog_mode">Mode analògic</string>
+    <string name="zetime_analog_mode_hands">Només mans</string>
+    <string name="zetime_analog_mode_handsandsteps">Mans i passes</string>
+    <string name="pref_title_support_voip_calls">Activa les trucades de VoIP</string>
+    <string name="fw_upgrade_notice_amazfitcor2">Sou a punt d\'instal·lar el microprogramari %s en la vostra Amazfit Cor 2.
+\n
+\nSi us plau, assegureu-vos d\'instal·lar el fitxer .fw, i després el fitxer .res. La vostra polsera es reiniciarà després d\'instal·lar el fitxer .fw.
+\n
+\nObservació: No cal que instal·leu el fitxer .res si és exactament el mateix que ja estava instal·lat.
+\n
+\nPROCEDIU SOTA LA VOSTRA PRÒPIA RESPONSABILITAT!
+\n
+\nAIXÒ NO HA ESTAT PROVAT ABANS. PROBABLEMENT CAL QUE INSTAL·LEU UN MICROPROGRAMARI BEATS_W SI EL NOM DEL VOSTRE APARELL ÉS \"Amazfit Band 2\"</string>
+    <string name="firmware_install_warning">ESTEU PROVANT D\'INSTAL·LAR UN MICROPROGRAMARI. CONTINUEU SOTA LA VOSTRA RESPONSABILITAT.
+\n
+\n
+\nAquest microprogramari és per a la revisió del maquinari: %s</string>
+    <string name="miband_pairing_using_dummy_userdata">No s\'han introduït dades vàlides. De moment es fan servir dades fictícies.</string>
+    <string name="miband_pairing_tap_hint">Quan la vostra Mi Band vibri i parpallegi, toqueu-la vàries vegades seguides.</string>
+    <string name="discovery_connected_devices_hint">Feu que el vostre aparell es pugui detectar. Els aparells que ara estan connectats probablement no seran detectats. Activeu la localització (per exemple, el GPS) a Android 6+. Desactiveu el Privacy Guard per al Gadgetbridge, perquè podria penjar-se i fer que el telèfon es reniciés. Si després d\'uns quants minuts no s\'ha trobat cap aparell, torneu-ho a provar després de reiniciar el telèfon.</string>
+    <string name="pref_title_dont_ack_transfer">No enviïs l\'ACK de les dades d\'activitats</string>
+    <string name="pref_summary_dont_ack_transfers">Si no són notificades a la polsera, les dades d\'activitat no s\'eliminaran. Pot ser útil si feu servir el Gadgebridge junt amb altres aplicacions.</string>
+    <string name="pref_summary_keep_data_on_device">Les dades d\'activitats de la Mi Band es guardaran fins i tot després de sincronitzar. Aquesta opció pot ser útil si feu servir el Gadgebridge també amb altres aplicacions.</string>
+    <string name="mi2_prefs_button_press_broadcast_summary">Difón el missatge enviat amb l\'esdeveniment. El paràmetre `button_id` és afegit automàticament a cada missatge.</string>
+    <string name="pref_title_pebble_health_store_raw">Desa dades sense processar a la base de dades</string>
+    <string name="pref_summary_pebble_health_store_raw">Desa les dades \"tal qual\", tot augmentant l\'ús de la base de dades per tal de permetre possibles interpretacions més tard.</string>
+    <string name="action_db_management">Gestió de dades</string>
+    <string name="title_activity_db_management">Gestió de dades</string>
+    <string name="activity_db_management_import_export_explanation">Les operacions de base de dades fan servir el següent camí al vostre aparell.
+\nAquest camí és accessible des d\'altres aparells Android i des del vostre ordinador.
+\nQuan exporteu una base de dades, la trobareu aquí, i quan vulgueu importar una base de dades, heu de deixar els fitxers també aquí:</string>
+    <string name="activity_db_management_merge_old_title">Esborra la base de dades antiga</string>
+    <string name="dbmanagementactivvity_cannot_access_export_path">No es pot accedir al camí d\'exportació. Si us plau, contacteu els desenvolupadors.</string>
+    <string name="dbmanagementactivity_exported_to">S\'ha exportat a: %1$s</string>
+    <string name="dbmanagementactivity_error_exporting_db">Hi ha hagut un error en esborrar la base de dades: %1$s</string>
+    <string name="dbmanagementactivity_error_exporting_shared">Hi ha hagut un error en exportar la preferència: %1$s</string>
+    <string name="dbmanagementactivity_import_data_title">Voleu importar les dades\?</string>
+    <string name="dbmanagementactivity_overwrite_database_confirmation">De debò voleu sobreescriure les dades actuals\? Totes les vostres dades actuals d\'activitats (si en teniu) i les preferències es sobreescriuran.</string>
+    <string name="dbmanagementactivity_import_successful">S\'ha importat.</string>
+    <string name="dbmanagementactivity_error_importing_db">Hi ha hagut un error en importar la base de dades: %1$s</string>
+    <string name="dbmanagementactivity_error_importing_shared">Hi ha hagut un error en importar la preferència: %1$s</string>
+    <string name="dbmanagementactivity_delete_activity_data_title">Voleu esborrar les dades d\'activitats\?</string>
+    <string name="dbmanagementactivity_really_delete_entire_db">De debò voleu esborrar tota la base de dades\? Totes les vostres dades d\'activitats i tota la informació sobre els vostres aparells es perdran.</string>
+    <string name="dbmanagementactivity_database_successfully_deleted">S\'han esborrat les dades.</string>
+    <string name="dbmanagementactivity_db_deletion_failed">Ha fallat la supressió de la base de dades.</string>
+    <string name="dbmanagementactivity_delete_old_activity_db">Voleu esborrar la base de dades antiga d\'activitats\?</string>
+    <string name="dbmanagementactivity_delete_old_activitydb_confirmation">De debò voleu esborrar la base de dades antiga d\'activitats\? Les dades d\'activitats que no haguessin estat importades es perdran.</string>
+    <string name="dbmanagementactivity_old_activity_db_successfully_deleted">Les dades antigues d\'activitats s\'han esborrat.</string>
+    <string name="dbmanagementactivity_old_activity_db_deletion_failed">Ha fallat la supressió de la base de dades antiga d\'activitats.</string>
+    <string name="dbmanagementactivity_overwrite">Sobreescriu</string>
+    <string name="Cancel">Cancel·la</string>
+    <string name="Delete">Esborra</string>
+    <string name="title_activity_vibration">Vibració</string>
+    <string name="title_activity_pebble_pairing">Aparellament amb Pebble</string>
+    <string name="pebble_pairing_hint">Apareixerà un diàleg d\'aparellament al vostre aparell Android. Si no, cerqueu-lo entre les notificacions i accepteu la petició d\'aparellament. Després accepteu l\'aparellament també al Pebble.</string>
+    <string name="weather_notification_label">Assegureu-vos que aquesta aparença està activada en l\'aplicació de notificació del temps per obtenir informació del temps al vostre Pebble.
+\n
+\nAquí no cal configurar res.
+\n
+\nPodeu activar l\'aplicació del temps del sistema del vostre Pebble des de la gestió d\'aplicacions.
+\n
+\nLes caràtules compatibles mostraran el temps automàticament.</string>
+    <string name="pref_title_setup_bt_pairing">Activa l\'aparellament per Bluetooth</string>
+    <string name="pref_summary_setup_bt_pairing">Desactiveu això si teniu problemes de connexió</string>
+    <string name="unit_metric">Sistema mètric</string>
+    <string name="unit_imperial">Sistema imperial</string>
+    <string name="timeformat_24h">24h</string>
+    <string name="timeformat_am_pm">AM/PM</string>
+    <string name="pref_screen_notification_profile_alarm_clock">Despertador</string>
+    <string name="activity_web_view">Activitat Web View</string>
+    <string name="StringUtils_sender">(%1$s)</string>
+    <string name="find_device_you_found_it">L\'heu trobat!</string>
+    <string name="miband2_prefs_timeformat">Mi2: format d\'hora</string>
+    <string name="mi2_fw_installhandler_fw53_hint">Heu d\'instal·lar la versió %1$s abans d\'instal·lar aquest microprogramari!</string>
+    <string name="mi2_enable_text_notifications">Notifications de text</string>
+    <string name="mi2_enable_text_notifications_summary">Necessita tenir instal·lats el microrprogramari &gt;= 1.10.1.28 i Mili_pro.ft*.</string>
+    <string name="off">Desactivat</string>
+    <string name="mi2_dnd_off">Desactivat</string>
+    <string name="mi2_dnd_automatic">Automàtic (detecció de son)</string>
+    <string name="mi2_dnd_scheduled">Programat (interval de temps)</string>
+    <string name="discovery_attempting_to_pair">S\'està intentant aparellar amb %1$s</string>
+    <string name="discovery_bonding_failed_immediately">El vincle amb %1$s ha fallat immediatament.</string>
+    <string name="discovery_trying_to_connect_to">S\'està intentant connectar amb: %1$s</string>
+    <string name="discovery_enable_bluetooth">Activa el Bluetooth per detectar aparells.</string>
+    <string name="discovery_successfully_bonded">Enllaçat amb %1$s.</string>
+    <string name="discovery_pair_title">Voleu aparellar amb %1$s\?</string>
+    <string name="discovery_pair_question">Seleccioneu \"Aparella\" per aparellar els vostres aparells. Si no funciona, torneu-ho a provar sense aparellar.</string>
+    <string name="discovery_yes_pair">Aparella</string>
+    <string name="discovery_dont_pair">No aparellis</string>
+    <string name="_pebble_watch_open_on_phone">Obre a l\'aparell Android</string>
+    <string name="_pebble_watch_mute">Silencia</string>
+    <string name="_pebble_watch_reply">Respon</string>
+    <string name="kind_firmware">Microprogramari</string>
+    <string name="kind_invalid">Les dades no són vàlides</string>
+    <string name="kind_font">Tipus de lletra</string>
+    <string name="kind_gps">Microprogramari del GPS</string>
+    <string name="kind_gps_almanac">Almanac GPS</string>
+    <string name="kind_gps_cep">Correcció d\'errors del GPS</string>
+    <string name="kind_resources">Recursos</string>
+    <string name="kind_watchface">Caràtula</string>
+    <string name="devicetype_unknown">Aparell desconegut</string>
+    <string name="devicetype_test">Aparell de prova</string>
+    <string name="devicetype_pebble">Pebble</string>
+    <string name="devicetype_miband">Mi Band</string>
+    <string name="devicetype_miband2">Mi Band 2</string>
+    <string name="devicetype_amazfit_bip">Amazfit Bip</string>
+    <string name="devicetype_amazfit_cor">Amazfit Cor</string>
+    <string name="devicetype_vibratissimo">Vibratissimo</string>
+    <string name="devicetype_liveview">LiveView</string>
+    <string name="devicetype_hplus">HPlus</string>
+    <string name="devicetype_makibes_f68">Makibes F68</string>
+    <string name="devicetype_exrizu_k8">Exrizu K8</string>
+    <string name="devicetype_no1_f1">No.1 F1</string>
+    <string name="devicetype_teclast_h30">Teclast H30</string>
+    <string name="choose_auto_export_location">Tria la ubicació de l\'exportació</string>
+    <string name="notification_channel_name">General</string>
+    <string name="devicetype_xwatch">XWatch</string>
+    <string name="on">Activat</string>
+    <string name="controlcenter_start_activity_tracks">Les vostres pistes d\'activitat</string>
+    <string name="activity_type_not_measured">No mesurat</string>
+    <string name="activity_type_activity">Activitat</string>
+    <string name="activity_type_light_sleep">Son lleuger</string>
+    <string name="activity_type_deep_sleep">Son profund</string>
+    <string name="activity_type_not_worn">Aparell no usat</string>
+    <string name="activity_type_running">Córrer</string>
+    <string name="activity_type_walking">Caminar</string>
+    <string name="activity_type_swimming">Nedar</string>
+    <string name="activity_type_unknown">Activitat desconeguda</string>
+    <string name="activity_summaries">Activitats esportives</string>
+    <string name="activity_type_biking">Ciclisme</string>
+    <string name="activity_type_treadmill">Cinta de córrer</string>
+    <string name="select_all">Selecciona-ho tot</string>
+    <string name="share">Comparteix</string>
+    <string name="reset_index">Reinicialitza la dada d\'extracció</string>
+    <string name="menuitem_status">Estat</string>
+    <string name="menuitem_activity">Historial d\'entrenaments</string>
+    <string name="menuitem_weather">El Temps</string>
+    <string name="menuitem_alarm">Alarma</string>
+    <string name="menuitem_timer">Compte enrere</string>
+    <string name="menuitem_compass">Brúixola</string>
+    <string name="menuitem_settings">Configuració</string>
+    <string name="menuitem_alipay">Alipay</string>
+    <string name="menuitem_shortcut_alipay">Alipay (drecera)</string>
+    <string name="menuitem_shortcut_weather">El temps (drecera)</string>
+    <string name="devicetype_q8">Q8</string>
+    <string name="devicetype_miband3">Mi Band 3</string>
+    <string name="pref_auto_fetch">Recull automàticament les dades d\'activitats</string>
+    <string name="pref_auto_fetch_summary">Es recullen dades quan es bloqueja la pantalla. Només funciona si hi ha un sistema de bloqueig establert!</string>
+    <string name="pref_auto_fetch_limit_fetches">Temps mínim entre extraccions</string>
+    <string name="pref_auto_fetch_limit_fetches_summary">Extraccions cada %d minuts</string>
+    <string name="devicetype_mykronoz_zetime">MyKronoz ZeTime</string>
+    <string name="russian">Rus</string>
+    <string name="horizontal">Horitzontal</string>
+    <string name="vertical">Vertical</string>
+    <string name="devicetype_id115">ID115</string>
+    <string name="menuitem_notifications">Notificacions</string>
+    <string name="menuitem_more">Més</string>
+    <string name="menuitem_music">Música</string>
+    <string name="watch9_pairing_tap_hint">Quan el vostre aparell vibri, sacsegeu-lo o premeu-ne el botó.</string>
+    <string name="devicetype_watch9">Watch 9</string>
+    <string name="watch9_time_minutes">Minuts:</string>
+    <string name="watch9_time_hours">Hores:</string>
+    <string name="watch9_time_seconds">Segons:</string>
+    <string name="watch9_calibration_hint">Establiu l\'hora que l\'aparell us mostra ara mateix.</string>
+    <string name="watch9_calibration_button">Calibra</string>
+    <string name="title_activity_watch9_pairing">Aparellament del Watch 9</string>
+    <string name="title_activity_watch9_calibration">Calibratge del Watch 9</string>
+    <string name="mi3_prefs_band_screen_unlock">Desbloqueig de la pantalla de la polsera</string>
+    <string name="mi3_prefs_band_screen_unlock_summary">Passa el dit cap amunt per desbloquejar la pantalla de la polsera</string>
+    <string name="german">Alemany</string>
+    <string name="italian">Italià</string>
+    <string name="french">Francès</string>
+    <string name="polish">Polonès</string>
+    <string name="korean">Coreà</string>
+    <string name="japanese">Japonès</string>
+    <string name="you_slept">Heu dormit de %1$s a %2$s</string>
+    <string name="you_did_not_sleep">No heu dormit</string>
+    <string name="norwegian_bokmal">Noruec bokmål</string>
+    <string name="no_limit">Sense límit</string>
+    <string name="seconds_5">5 segons</string>
+    <string name="seconds_10">10 segons</string>
+    <string name="seconds_20">20 segons</string>
+    <string name="seconds_30">30 segons</string>
+    <string name="minutes_1">1 minut</string>
+    <string name="minutes_5">5 minuts</string>
+    <string name="minutes_10">10 minuts</string>
+    <string name="minutes_30">30 minuts</string>
+    <string name="mi3_prefs_night_mode">Mode nocturn</string>
+    <string name="mi3_prefs_night_mode_summary">Rebaixa la brillantor de la pantalla de la polsera automàticament a la nit</string>
+    <string name="mi3_night_mode_sunset">Al capvespre</string>
+    <string name="ok">D\'acord</string>
+    <string name="share_log">Comparteix el registre</string>
+    <string name="share_log_warning">Si us plau, tingueu en compte que els fitxers de registre del Gadgetbridge poden contenir molta informació personal, incloent-hi, entre d\'altres, dades relacionades amb la salut, identificadors únics (com ara adreces MAC), preferències musicals, etc. Considereu editar el fitxer i suprimir aquesta informació abans d\'enviar-lo a un informe públic d\'error.</string>
+    <string name="warning">Atenció!</string>
+    <string name="devicetype_roidmi">Roidmi</string>
+    <string name="devicetype_roidmi3">Roidmi 3</string>
+    <string name="preferences_led_color">Color del LED</string>
+    <string name="preferences_fm_frequency">Freqüència de FM</string>
+    <string name="pref_invalid_frequency_title">La freqüència no és vàlida</string>
+    <string name="pref_invalid_frequency_message">Si us plau, introduïu una freqüència entre 87,5 i 108,0</string>
+    <string name="activity_prefs_charts">Configuració dels gràfics</string>
+    <string name="activity_prefs_chart_max_heart_rate">Ritme cardíac màxim</string>
+    <string name="activity_prefs_chart_min_heart_rate">Ritme cardíac mínim</string>
+    <string name="notif_battery_low">%1$s nivell de bateria baix</string>
+    <string name="notif_battery_low_extended">%1$s nivell de bateria baix: %2$s</string>
+    <string name="pref_title_contextual_arabic">Àrab contextual</string>
+    <string name="pref_summary_contextual_arabic">Activeu això per a compatibilitat amb l\'àrab contextual</string>
+    <string name="preferences_rtl_settings">Compatibilitat amb escriptura de dreta a esquerra</string>
+    <string name="language_and_region_prefs">Configuració de llengua i regió</string>
+    <string name="lack_of_sleep">Manca de son: %1$s</string>
+    <string name="overslept">Son de més: %1$s</string>
+    <string name="lack_of_step">Manca de passes: %1$d</string>
+    <string name="overstep">Passes de més: %1$d</string>
+    <string name="no_data">No hi ha dades</string>
+    <string name="live_activity_max_heart_rate">Ritme cardíac actual / màxim: %1$d / %2$d</string>
+    <string name="devicetype_casiogb6900">Casio GB-6900</string>
+    <string name="title_activity_notification_filter">Filtre de notificacions</string>
+    <string name="toast_app_must_not_be_blacklisted">L\'aplicació no ha d\'estar bloquejada per poder-la configurar</string>
+    <string name="edittext_notification_filter_words_hint">Introduïu les paraules desitjades, cadascuna en una línia nova</string>
+    <string name="toast_notification_filter_saved_successfully">S\'ha desat el filtre de notificacions</string>
+    <string name="filter_mode_none">No filtris</string>
+    <string name="filter_mode_whitelist">Mostra quan es contenen les paraules</string>
+    <string name="filter_mode_blacklist">Bloca quan es contenen les paraules</string>
+    <string name="filter_submode_at_least_one">Almenys una de les paraules</string>
+    <string name="filter_submode_all">Totes les paraules</string>
+    <string name="toast_notification_filter_words_empty_hint">Si us plau, introduïu com a mínim una paraula</string>
+    <string name="filter_mode">Mode de filtratge</string>
+    <string name="mode_configuration">Configuració del mode</string>
+    <string name="save_configuration">Desa la configuració</string>
+    <string name="appwidget_not_connected">No està connectat, no s\'ha establert l\'alarma.</string>
+    <string name="activity_type_exercise">Exercici</string>
+    <string name="prefs_disconnect_notification">Notificació de desconnexió</string>
+    <string name="zetime_activity_tracking">Seguiment d\'activitats</string>
+    <string name="zetime_activity_tracking_summary">Activeu aquesta opció per comptar les vostres passes i altres activitats.</string>
+    <string name="zetime_handmove_display">Moviment de la mà</string>
+    <string name="zetime_handmove_display_summary">Moveu el canell per activar o desactivar la pantalla.</string>
+    <string name="zetime_calories_type">Tipus de calories</string>
+    <string name="zetime_calories_type_active">Només les calories cremades de forma activa</string>
+    <string name="zetime_calories_type_all">Calories cremades de forma activa i en repòs</string>
+    <string name="zetime_date_format">Format de data</string>
+    <string name="zetime_date_format_1">AA/MM/DD</string>
+    <string name="zetime_date_format_2">DD/MM/AA</string>
+    <string name="zetime_date_format_3">MM/DD/AA</string>
+    <string name="zetime_prefs_inactivity_repetitions">Repeticions</string>
+    <string name="zetime_prefs_inactivity_mo">Dilluns</string>
+    <string name="zetime_prefs_inactivity_tu">Dimarts</string>
+    <string name="zetime_prefs_inactivity_we">Dimecres</string>
+    <string name="zetime_prefs_inactivity_th">Dijous</string>
+    <string name="zetime_prefs_inactivity_fr">Divendres</string>
+    <string name="zetime_prefs_inactivity_sa">Dissabte</string>
+    <string name="zetime_prefs_inactivity_su">Diumenge</string>
+    <string name="zetime_title_alarm_signaling">Defineix el tipus de senyal per a l\'alarma</string>
+    <string name="zetime_signaling_none">Silenciós</string>
+    <string name="zetime_signaling_vibrate">Vibració contínua</string>
+    <string name="zetime_signaling_beep">Timbre continu</string>
+    <string name="zetime_signaling_vibrate_beep">Vibració i timbre continus</string>
+    <string name="zetime_signaling_vibrate_once">Vibra una vegada</string>
+    <string name="zetime_signaling_vibrate_twice">Vibra dues vegades</string>
+    <string name="zetime_signaling_beep_once">Fes sonar un timbre una vegada</string>
+    <string name="zetime_signaling_beep_twice">Fes sonar un timbre dues vegades</string>
+    <string name="zetime_signaling_vibrate_beep_once">Vibra i fes sonar un timbre una vegada</string>
+    <string name="pref_screen_notification_profile_missed_call">Notificació de trucada perduda</string>
+    <string name="pref_screen_notification_profile_calendar">Notificació de calendari</string>
+    <string name="pref_screen_notification_profile_inactivity">Notificació d\'inactivitat</string>
+    <string name="pref_screen_notification_profile_low_power">Avís de bateria baixa</string>
+    <string name="pref_screen_notification_profile_anti_loss">Avís anti-pèrdua</string>
+    <string name="interval_fifteen_minutes">cada 15 minuts</string>
+    <string name="interval_forty_five_minutes">cada 45 minuts</string>
+    <string name="activity_prefs_calories_burnt">Objectiu diari: calories cremades</string>
+    <string name="activity_prefs_distance_meters">Objectiu diari: distància en metres</string>
+    <string name="activity_prefs_activetime_minutes">Objectiu diari: temps d\'activitat en minuts</string>
+    <string name="devicetype_miscale2">Mi Scale 2</string>
+    <string name="title_activity_device_specific_settings">Configuració específica de l\'aparell</string>
+    <string name="pref_title_authkey">Clau d\'autenticació</string>
+    <string name="pref_summary_authkey">Canvia la clau d\'autenticació en tots els aparells Android des dels quals et vulguis connectar. La clau anterior per defecte per a tots els aparells és 0123456789@ABCDE</string>
+    <string name="devicetype_bfh16">BFH-16</string>
+    <string name="dutch">Neerlandès</string>
+    <string name="turkish">Turc</string>
+    <string name="ukrainian">Ucraïnès</string>
+    <string name="arabic">Àrab</string>
+    <string name="indonesian">Indonesi</string>
+    <string name="thai">Tailandès</string>
+    <string name="vietnamese">Vietnamita</string>
+    <string name="portuguese">Portuguès</string>
+    <string name="devicetype_amazfit_cor2">Amazfit Cor 2</string>
+    <string name="devicetype_miband4">Mi Band 4</string>
+    <string name="mi2_prefs_button_press_broadcast_default_value" translatable="false">nodomain.freeyourgadget.gadgetbridge.ButtonPressed</string>
+    <string name="fw_upgrade_notice_miband4">Esteu a punt d\'instal·lar el microprogramari %s en la vostra Mi Band 4.
+\n
+\nSi us plau, assegureu-vos d\'instal·lar el fitxer .fw, i després el fitxer .res. La vostra polsera es reiniciarà després d\'instal·lar l\'arxiu .fw.
+\n
+\nNota: no heu d\'instal·lar el fitxer .res si és exactament el mateix que ja estava instal·lat.
+\n
+\nPROCEDIU SOTA LA VOSTRA PRÒPIA RESPONSABILITAT!</string>
+    <string name="prefs_hr_alarm_low">Límit baix</string>
+    <string name="prefs_hr_alarm_high">Límit alt</string>
+    <string name="average">Mitjana: %1$s</string>
+    <string name="pref_header_charts">Configuració dels gràfics</string>
+    <string name="pref_title_charts_average">Mostra mitjanes als gràfics</string>
+    <string name="pref_title_charts_range">Rang dels gràfics</string>
+    <string name="weekstepschart_steps_a_month">Passes per mes</string>
+    <string name="weeksleepchart_sleep_a_month">Son per mes</string>
+    <string name="devicetype_mijia_lywsd02">Mijia Smart Clock</string>
+    <string name="menuitem_nfc">NFC</string>
+    <string name="pref_summary_expose_hr">Permet altres aplicacions accedir a les dades de freqüència cardíaca en temps real mentre Gadgetbridge estigui connectat</string>
+    <string name="pref_title_expose_hr">Accés a tercers a freqüència cardíaca en temps real</string>
+    <string name="pref_title_use_custom_font">Utilitza un tipus de lletra personalitzat</string>
+    <string name="pref_summary_use_custom_font">Activa-ho si el vostre dispositiu inclou microprogramari de tipus de lletra personalitzat amb suport per a emojis</string>
+    <string name="activity_db_management_autoexport_label">Exportació automàtica</string>
+    <string name="activity_DB_ExportButton">Exporta les dades</string>
+    <string name="activity_DB_import_button">Importa les dades</string>
+    <string name="activity_DB_test_export_button">Executa l\'exportació automàtica ara</string>
+    <string name="activity_DB_test_export_message">Exportant base de dades…</string>
+    <string name="activity_DB_delete_legacy_button">Esborra BD antiga</string>
+    <string name="activity_DB_empty_button">Buida la BD</string>
+    <string name="appwidget_sleep_alarm_widget_label">Alarma de son</string>
+    <string name="widget_steps_label">Passes: %1$02d</string>
+    <string name="widget_sleep_label">Son: %1$s</string>
+    <string name="widget_listing_label">Estat i alarmes</string>
+    <string name="widget_5_minutes">5 minuts</string>
+    <string name="widget_10_minutes">10 minuts</string>
+    <string name="widget_20_minutes">20 minuts</string>
+    <string name="widget_1_hour">1 hora</string>
+    <plurals name="widget_alarm_target_hours">
+        <item quantity="one">%d hora</item>
+        <item quantity="other">%d hores</item>
+    </plurals>
+    <string name="pref_display_add_device_fab">Botó d\'afegir nou dispositiu</string>
+    <string name="pref_display_add_device_fab_on">Sempre visible</string>
+    <string name="pref_display_add_device_fab_off">Visible només si no hi ha cap dispositiu afegit</string>
+    <string name="preferences_makibes_hr3_settings">Configuració de Makibes HR3</string>
+    <string name="devicetype_makibes_hr3">Makibes HR3</string>
+    <string name="devicetype_amazfit_bip_lite">Amazfit Bip Lite</string>
+    <string name="prefs_find_phone">Troba el telèfon</string>
+    <string name="prefs_enable_find_phone">Activa «Troba el telèfon»</string>
+    <string name="prefs_find_phone_duration">Durada del to en segons</string>
+    <string name="maximum_duration">Durada</string>
+    <string name="fw_upgrade_notice_amazfitbip_lite">Esteu a punt d\'instal·lar el microprogramari %s en el vostre Amazfit Bip Lite.
+\n
+\nSi us plau, assegureu-vos d\'instal·lar el fitxer .fw, i després el fitxer .res. El vostre rellotge es reiniciarà després d\'instal·lar l\'arxiu .fw.
+\n
+\nNota: no heu d\'instal·lar el fitxer .res si és exactament el mateix que ja estava instal·lat.
+\n
+\nPROCEDIU SOTA LA VOSTRA PRÒPIA RESPONSABILITAT!</string>
+    <string name="devicetype_amazfit_gtr">Amazfit GTR</string>
+    <string name="fw_upgrade_notice_amazfitgtr">Esteu a punt d\'instal·lar el microprogramari %s en el vostre Amazfit GTR.
+\n
+\nSi us plau, assegureu-vos d\'instal·lar el fitxer .fw, el fitxer .res i, finalment, el fitxer .gps. El vostre rellotge es reiniciarà després d\'instal·lar l\'arxiu .fw.
+\n
+\nNota: no heu d\'instal·lar els fitxers .res i .gps si aquests fitxers són exactament els mateixos que els prèviament instal·lats.
+\n
+\nPROCEDIU SOTA LA VOSTRA PRÒPIA RESPONSABILITAT!</string>
+    <string name="pref_chart_heartrate_color_red">Vermell</string>
+    <string name="pref_chart_heartrate_color_orange">Taronja</string>
+    <string name="pref_title_chart_heartrate_color">Color de freqüència cardíaca</string>
+    <string name="pref_title_chart_sleep_rolling_24_hour">Interval de son</string>
+    <string name="pref_chart_sleep_rolling_24_on">Últimes 24 hores</string>
+    <string name="pref_chart_sleep_rolling_24_off">De migdia a migdia</string>
+    <string name="devicetype_amazfit_gts">Amazfit GTS</string>
+    <string name="fw_upgrade_notice_amazfitgts">Esteu a punt d\'instal·lar el microprogramari %s en el vostre Amazfit GTS.
+\n
+\nSi us plau, assegureu-vos d\'instal·lar el fitxer .fw, el fitxer .res i, finalment, el fitxer .gps. El vostre rellotge es reiniciarà després d\'instal·lar l\'arxiu .fw.
+\n
+\nNota: no heu d\'instal·lar els fitxers .res i .gps si aquests fitxers són exactament els mateixos que els prèviament instal·lats.
+\n
+\nPROCEDIU SOTA LA VOSTRA PRÒPIA RESPONSABILITAT!</string>
+    <string name="prefs_hr_alarm_activity">Alarma de freqüència cardíaca durant activitat esportiva</string>
+    <string name="pref_charts_range_on">El rang dels gràfics està configurat a un mes</string>
+    <string name="pref_charts_range_off">El rang dels gràfics està configurat a una setmana</string>
+    <string name="activity_db_management_autoexport_explanation">La ubicació de l\'exportació automàtica s\'ha definit a:</string>
+    <string name="activity_db_management_empty_DB">Buida la base de dades</string>
+    <string name="activity_db_management_exportimport_label">Exportar i importar</string>
+    <string name="activity_db_management_empty_db_warning">Atenció! En prémer aquest botó esborrareu tota la base de dades i començareu de zero.</string>
+    <string name="widget_set_alarm_after">Fixa una alarma al cap de:</string>
+    <string name="activity_error_no_app_for_gpx">Per a veure la traça d\'activitat, instal·leu una app que pugui manejar fitxers GPX.</string>
+    <string name="prefs_find_phone_summary">Fes servir la teva banda per a reproduir el to del telèfon.</string>
+    <string name="discovery_need_to_enter_authkey">Aquest aparell requereix una clau d\'autenticació secreta, mantingueu premut sobre l\'aparell per a introduir-la. Consulteu la wiki.</string>
+    <string name="pref_summary_allow_high_mtu">Augmenta la velocitat de transferència, però pot ser que no funcioni en alguns aparells Android.</string>
+    <string name="devicetype_qhybrid">Fossil Q Hybrid</string>
+    <string name="preferences_qhybrid_settings">Configuració de Q Hybrid</string>
+    <string name="watch_not_connected">Rellotge no connectat</string>
+    <string name="qhybrid_vibration_strength">intensitat de vibració:</string>
+    <string name="qhybrid_goal_in_steps">Objectiu en passes</string>
+    <string name="qhybrid_time_shift">decalat horari</string>
+    <string name="qhybrid_second_timezone_offset_relative_to_utc">decalat del segon fus horari relatiu a UTC</string>
+    <string name="qhybrid_overwrite_buttons">sobreescriu els botons</string>
+    <string name="qhybrid_use_activity_hand_as_notification_counter">utilitza la maneta d\'activitat com a comptador de notificacions</string>
+    <string name="qhybrid_prompt_million_steps">Si us plau, estableix el comptador de passes a un milió per a activar-ho.</string>
+    <string name="qhybrid_buttons_overwrite_success">Botons sobreescrits</string>
+    <string name="qhybrid_buttons_overwrite_error">Error al sobreescriure botons</string>
+    <string name="qhybrid_offset_timezone">decala el fus horari en</string>
+    <string name="qhybrid_changes_delay_prompt">el canvi pot trigar uns segons…</string>
+    <string name="qhybrid_offset_time_by">temps decalat en</string>
+    <string name="pref_disable_new_ble_scanning">Desactiva el nou escaneig BLE</string>
+    <string name="pref_summary_disable_new_ble_scanning">Marca aquesta opció si el teu aparell no pot ser trobat durant la detecció</string>
+    <string name="devicetype_banglejs">Bangle.js</string>
+    <string name="devicetype_y5">Y5</string>
+    <string name="prefs_button_single_press_action_selection_title">Acció d\'esdeveniment 1</string>
+    <string name="prefs_button_double_press_action_selection_title">Acció d\'esdeveniment 2</string>
+    <string name="prefs_button_triple_press_action_selection_title">Acció d\'esdeveniment 3</string>
+    <string name="prefs_button_variable_actions">Configuració detallada de premuda de botó</string>
+    <string name="prefs_button_long_press_action_selection_title">Acció de premuda llarga de botó</string>
+    <string name="alarm_snooze">Posposa</string>
+    <string name="error_no_location_access">S\'ha de permetre i activar l\'accés a la localitztació per al correcte funcionament de l\'escaneig</string>
+    <string name="devicetype_itag">iTag</string>
+    <string name="pref_title_allow_high_mtu">Permet una alta MTU</string>
+    <string name="pref_summary_sync_calendar">Activa les alertes de calendari, fins i tot quan estigui desconnectat</string>
+    <string name="pref_title_sync_caldendar">Sincronitza els esdeveniments del calendari</string>
+    <string name="hr_widget_heart_rate">Ritme cardíac</string>
+    <string name="hr_widget_steps">Passes</string>
+    <string name="hr_widget_date">Data</string>
+    <string name="hr_widget_active_minutes">Minuts actius</string>
+    <string name="hr_widget_calories">Calories</string>
+    <string name="hr_widget_battery">Bateria</string>
+    <string name="hr_widget_weather">El temps</string>
+    <string name="hr_widget_nothing">Res</string>
+    <string name="find_lost_device_you_found_it">Trobat!</string>
+    <string name="pref_title_force_white_color_scheme">Força l\'esquema de color blanc sobre negre</string>
+    <string name="pref_summary_force_white_color_scheme">Útil si el teu rellotge té les manetes negres</string>
+    <string name="find_my_phone_notification">Troba el meu telèfon</string>
+    <string name="notification_channel_high_priority_name">Alta prioritat</string>
+    <string name="pref_title_custom_deviceicon">Mostra l\'icona de notificació específica de l\'aparell</string>
+    <string name="pref_summary_custom_deviceicon">Mostra l\'icona de notificació d\'Android específica de l\'aparell enlloc de l\'icona de Gadgetbridge quan estigui connectat</string>
+    <string name="hr_appname_wellness">Benestar</string>
+    <string name="hr_appname_workout">Entrenament</string>
+    <string name="hr_appname_stopwatch">Cronòmetre</string>
+    <string name="hr_appname_commute">Desplçament</string>
+    <string name="pref_title_upper_button_function">Botó superior</string>
+    <string name="pref_title_middle_button_function">Botó mitger</string>
+    <string name="pref_title_lower_button_function">Botó inferior</string>
+    <string name="pref_title_relax_firmware_checks">Activeu-ho si voleu instal·lar microprogramari no destinat al vostre aparell (sota la vostra responsabilitat)</string>
+    <string name="pref_summary_relax_firmware_checks">Relaxa les comprovacions de microprogramari</string>
+    <string name="devicetype_amazfit_bips">Amazfit Bip S</string>
+    <string name="pref_title_vibration_strength">Intensitat de vibració</string>
+    <string name="pref_header_auto_fetch">Recollida automàtica</string>
+    <string name="menuitem_workout">Entrenament</string>
+    <string name="menuitem_eventreminder">Recordatori d\'esdeveniment</string>
+    <string name="menuitem_hr">Ritme cardíac</string>
+    <string name="devicetype_watchxplus">Watch X Plus</string>
+    <string name="devicetype_watchx">Watch X</string>
+    <string name="power_mode_watch">Només rellotge</string>
+    <string name="power_mode_saving">Estalvi d\'energia</string>
+    <string name="power_mode_normal">Normal</string>
+    <string name="prefs_sensors_button_bp_calibration_sum">Prem aquí per començar la calibració</string>
+    <string name="prefs_sensors_button_bp_calibration">Calibració</string>
+    <string name="pref_sensors_bp_calibration">Calibració de la pressió sanguínia</string>
+    <string name="pref_title_sensors_altitude">Calibració d\'altitud</string>
+    <string name="pref_header_sensors_calibration">Calibració de sensor</string>
+    <string name="pref_header_device_spec_settings">Configuració de l\'aparell</string>
+    <string name="pref_summary_notifications_and_calls_title_shake_reject">Duplica l\'acció del botó del rellotge</string>
+    <string name="prefs_notifications_and_calls_shake_reject">Sacseja el canell per a ignorar/rebutjar la trucada</string>
+    <string name="pref_summary_notifications_and_calls_title_reject">Off - ignora, On - rebutja</string>
+    <string name="prefs_notifications_and_calls_reject">Botó d\'ignorar/rebutjar trucada</string>
+    <string name="pref_header_notifications_and_calls_callhandling">Gestió de trucades</string>
+    <string name="pref_title_notifications_and_calls_repeat_on_misscall">Repetex durant X minuts</string>
+    <string name="pref_summary_notifications_and_calls_enable_misscall">Es repeteix a cada minut</string>
+    <string name="pref_notifications_and_calls_enable_misscall">Notifica les trucades perdudes</string>
+    <string name="prefs_notifications_and_calls_continious_ring">Notificació durant el to de trucada</string>
+    <string name="pref_title_notifications_and_calls_repeat_on_call">Repeteix la notificació de trucada</string>
+    <string name="pref_header_notifications_and_calls">Notificacions i trucades</string>
+    <string name="title_activity_LenovoWatch_calibration">Calibració del Watch X Plus</string>
+    <string name="sonyswr12_settings_title">Configuració de Sony SWR12</string>
+    <string name="sonyswr12_settings_low_vibration">Vibració baixa activada</string>
+    <string name="sonyswr12_settings_alarm_interval">Interval d\'alarma intel·ligent en minuts</string>
+    <string name="sonyswr12_settings_low_vibration_summary">Activa la baixa intensitat de vibració a la banda</string>
+    <string name="sonyswr12_settings_stamina_summary">El mode d’estalvi d’energia desactiva la mesura automàtica periòdica de la freqüència cardíaca i, per tant, augmenta el temps de treball</string>
+    <string name="sonyswr12_settings_alarm_interval_summary">L\'interval d\'alarma intel·ligent és l\'interval abans de l\'alarma instal·lada. En aquest interval, el dispositiu intenta detectar la fase més lleugera del son per despertar l\'usuari</string>
+    <string name="sonyswr12_settings_stamina">Mode d\'estalvi d\'energia activat</string>
+    <string name="qhybrid_calibration_align_hint">Utilitza els botons de sota per a alinear les manetes del rellotge a les 12:00.</string>
+    <string name="devicetype_nut_mini">Nut mini</string>
+    <string name="backstroke">Esquena</string>
+    <string name="freestyle">Estil lliure</string>
+    <string name="breaststroke">Braça</string>
+    <string name="activity_filter_apply_filter">Aplica el filtre</string>
+    <string name="activity_filter_reset_filter">Restableix filtre</string>
+    <string name="baseAltitude">Elevació base</string>
+    <string name="descentSeconds">Descendent</string>
+    <string name="ascentSeconds">Ascendent</string>
+    <string name="averageLapPace">Ritme de volta mitjà</string>
+    <string name="averageHR">Ritme cardíac</string>
+    <string name="error_location_enabled_mandatory">La ubicació ha d\'estar activada per cercar aparells</string>
+    <string name="error_retrieving_devices_database">Error al recuperar els aparells de la base de dades</string>
+    <string name="error_setting_alias">Error a l\'establir pseudònim:</string>
+    <string name="error_exporting_device_preferences">Error a l\'exportar les preferències específiques d\'aparell</string>
+    <string name="pref_check_permission_status">Comprova l\'estat dels permisos</string>
+    <string name="error_background_service_reason">L\'inici del servei en segon pla ha fallat per una excepció. Error:</string>
+    <string name="error_background_service_reason_truncated">L\'inici del servei en segon pla ha fallat perquè…</string>
+    <string name="error_background_service">Ha fallat l\'inici del servei en segon pla</string>
+    <string name="permission_granting_mandatory">Tots aquests permisos són requerits i pot haver-hi inestabilitat si no s\'atorguen</string>
+    <string name="about_additional_contributions">Moltes gràcies a tots els col·laboradors no mencionats per contribuir-hi codi, traduccions, suport, idees, motivació, informes d\'error, diners… ✊</string>
+    <string name="about_additional_device_support">Support d\'aparell addicional</string>
+    <string name="about_contributors">Col·laboradors</string>
+    <string name="about_core_team_title">Equip principal (en ordre de primera contribució de codi)</string>
+    <string name="about_description">Substitut lliure, copyleft i sense núvol per a les aplicacions Android de codi tancat dels fabricants dels aparells.</string>
+    <string name="menuitem_dnd">No molestis</string>
+    <string name="menuitem_spo2">SpO2</string>
+    <string name="menuitem_pai">PAI</string>
+    <string name="activity_error_no_app_for_png">Per compartir aquesta captura de pantalla, instal·la una app que pugui manegar fitxers d\'imatge.</string>
+    <string name="bip_prefs_shotcuts_summary">Tria les dreceres a la pantalla de la polsera</string>
+    <string name="charts_min_max_heartrate_popup">Ritme cardíac mínim: %1$d
+\nRitme cardíac màxim: %2$d
+\nIntensitat de moviment: %3$s</string>
+    <string name="devicestatus_upload_aborted">S\'ha avortat la càrrega!</string>
+    <string name="activity_list_summary_active_steps">Passes actives</string>
+    <string name="chart_get_active_and_synchronize">Fes alguna activitat i sincronitza l\'aparell.</string>
+    <string name="pref_sensors_bp_calibration_high">Pressió arterial sistòlica (alta)</string>
+    <string name="pref_sensors_bp_calibration_low">Pressió arterial diastòlica (baixa)</string>
+    <string name="pref_summary_device_spec_settings_title_force_time">Força la sincronització automàtica de l\'hora al reconnectar. Les manetes analògiques poden mostrar una hora incorrecta!</string>
+    <string name="pref_title_device_spec_settings_force_time">Força la sincronització de l\'hora</string>
+    <string name="pref_title_weather_summary">Usat per el proveïdor de temps de LineageOS, altres versions d\'Android requereixen fer servir una app com \"Weather notification\". Troba\'n més informació a la wiki de Gadgetbridge.</string>
+    <string name="controlcenter_set_alias">Establir pseudònim</string>
+    <string name="find_lost_device_message">Cercar %1$s\?</string>
+    <string name="activity_filter_to_placeholder">avui</string>
+    <string name="activity_filter_from_placeholder">passat llunyà</string>
+    <string name="activity_summaries_all_devices">Tots els aparells</string>
+    <string name="sports_activity_quick_filter_select">Període de temps</string>
+    <string name="sports_activity_quick_filter_30days">30 dies</string>
+    <string name="sports_activity_quick_filter_7days">7 dies</string>
+    <string name="sports_activity_quick_filter_last_month">El mes passat</string>
+    <string name="sports_activity_quick_filter_this_month">Aquest mes</string>
+    <string name="sports_activity_quick_filter_last_week">La setmana passada</string>
+    <string name="sports_activity_quick_filter_this_week">Aquesta setmana</string>
+    <string name="activity_summaries_all_activities">Totes les activitats</string>
+    <string name="activity_summaries_statistics">Estadístiques</string>
+    <string name="no">No</string>
+    <string name="yes">Sí</string>
+    <string name="addto_filter">Afegeix al filtre</string>
+    <string name="activity_filter_name_contains">Etiqueta</string>
+    <string name="activity_filter_filter_title">Filtre</string>
+    <string name="activity_filter_date_to">A</string>
+    <string name="activity_filter_date_from">Des de</string>
+    <string name="pref_header_statistics">Estadístiques d\'activitats esportives</string>
+    <string name="pref_header_filter">Filtre d\'activitats esportives</string>
+    <string name="prefs_events_forwarding_action_title">Executa acció</string>
+    <string name="prefs_events_forwarding_broadcast_title">Difon missatge</string>
+    <string name="prefs_events_forwarding_startnonwear">Quan no s\'esta portant</string>
+    <string name="prefs_events_forwarding_wokeup">Al despertar-te</string>
+    <string name="prefs_events_forwarding_fellsleep">A l\'adormir-te</string>
+    <string name="prefs_events_forwarding_title">Accions de l\'aparell</string>
+    <string name="gps_track">Pista GPS</string>
+    <string name="activity_detail_show_gps_label">Mostra la pista GPS</string>
+    <string name="activity_detail_duration_label">Durada</string>
+    <string name="activity_detail_end_label">Final</string>
+    <string name="activity_detail_start_label">Inici</string>
+    <string name="Steps">Passes</string>
+    <string name="Activity">Activitat</string>
+    <string name="Speed">Velocitat</string>
+    <string name="Elevation">Elevació</string>
+    <string name="Distance">Distància</string>
+    <string name="Swimming">Natació</string>
+    <string name="km">km</string>
+    <string name="minutes_km">min/km</string>
+    <string name="seconds_m">seg/m</string>
+    <string name="seconds_km">seg/km</string>
+    <string name="calories_unit">kcal</string>
+    <string name="laps_unit">voltes</string>
+    <string name="seconds">seg</string>
+    <string name="km_h">km/h</string>
+    <string name="meters_second">m/s</string>
+    <string name="steps_unit">passes</string>
+    <string name="cm">cm</string>
+    <string name="meters">m</string>
+    <string name="averageSpeed">Velocitat mitjana</string>
+    <string name="flatSeconds">Pla</string>
+    <string name="laps">Voltes</string>
+    <string name="averageKMPaceSeconds">Ritme</string>
+    <string name="maxPace">Ritme més ràpid</string>
+    <string name="minPace">Ritme més lent</string>
+    <string name="maxSpeed">Màxim</string>
+    <string name="caloriesBurnt">Calories</string>
+    <string name="activeSeconds">Actiu</string>
+    <string name="steps">Passes</string>
+    <string name="minAltitude">Mínim</string>
+    <string name="maxAltitude">Màxim</string>
+    <string name="descentMeters">En baixada</string>
+    <string name="ascentMeters">En pujada</string>
+    <string name="distanceMeters">Distància</string>
+    <string name="device_requires_key">ES REQUEREIX CLAU</string>
+    <string name="require_location_provider">La ubicació ha d\'estar activada</string>
+    <string name="about_links">Enllaços</string>
+    <string name="about_activity_title">Quant a Gadgetbridge</string>
+    <string name="about_version">Versió %s</string>
+    <string name="about_title">Quant a</string>
+    <string name="hr_widget_last_notification">Última notificació</string>
+    <string name="menuitem_stopwatch">Cronòmetre</string>
+    <string name="menuitem_alexa">Alexa</string>
+    <string name="menuitem_takephoto">Comandament de la càmera</string>
+    <string name="menuitem_mutephone">Silencia el telèfon</string>
+    <string name="menuitem_findphone">Troba el telèfon</string>
+    <string name="menuitem_worldclock">Rellotge mundial</string>
+    <string name="menuitem_unknown">Desconegut</string>
+    <string name="menuitem_stress">Estrès</string>
+    <string name="menuitem_cycles">Seguiment del cicle</string>
+    <string name="menuitem_breathing">Respiració</string>
+    <string name="devicetype_lefun">Lefun</string>
+    <string name="devicetype_sg2">Lemfo SG2</string>
+    <string name="devicetype_pinetime_jf">PineTime (JF Firmware)</string>
+    <string name="devicetype_tlw64">TLW64</string>
+    <string name="devicetype_amazfit_gts2">Amazfit GTS 2</string>
+    <string name="devicetype_amazfit_gtr2">Amazfit GTR 2</string>
+    <string name="devicetype_amazfit_bips_lite">Amazfit Bip S Lite</string>
+    <string name="devicetype_amazfit_trex">Amazfit T-Rex</string>
+    <string name="devicetype_amazfit_band5">Amazfit Band 5</string>
+    <string name="devicetype_miband5">Mi Band 5</string>
+    <string name="activity_summary_yesterday">Ahir</string>
+    <string name="activity_summary_today">Avui</string>
+    <string name="activity_summary_edit_name_title">Edita l\'etiqueta</string>
+    <string name="activity_summary_detail">Detall d\'activitats esportives</string>
+    <string name="activity_type_badminton">Bàdminton</string>
+    <string name="activity_type_pingpong">Tennis de taula</string>
+    <string name="activity_type_basketball">Bàsquet</string>
+    <string name="activity_type_cricket">Criquet</string>
+    <string name="activity_type_rowing_machine">Màquina de rem</string>
+    <string name="activity_type_soccer">Futbol</string>
+    <string name="activity_type_yoga">Ioga</string>
+    <string name="activity_type_jump_roping">Salt de corda</string>
+    <string name="activity_type_elliptical_trainer">Màquina el·líptica</string>
+    <string name="activity_type_indoor_cycling">Ciclisme d\'interior</string>
+    <string name="activity_type_swimming_openwater">Natació (Aigües obertes)</string>
+    <string name="charts_legend_heartrate_average">Ritme cardíac mitjà</string>
+    <string name="activity_prefs_chart_min_session_length">Durada mínima d\'activitat</string>
+    <string name="activity_prefs_chart_max_idle_phase_length">Duració de la pausa per a separar activitats (minuts)</string>
+    <string name="activity_prefs_chart_min_steps_per_minute_for_run">Passes per minut mínimes per a detectar correguda</string>
+    <string name="activity_prefs_chart_min_steps_per_minute">Passes per minut mínimes per a detectar activitat</string>
+    <string name="activity_prefs_step_length_cm">Llargada de passa en cm</string>
+    <string name="czesh">Txec</string>
+    <string name="swedish">Suec</string>
+    <string name="hebrew">Hebreu</string>
+    <string name="greek">Grec</string>
+    <string name="hungarian">Hongarès</string>
+    <string name="romanian">Romanès</string>
+    <string name="lefun_prefs_interface_language_title">Idioma de la interfície</string>
+    <string name="lefun_prefs_antilost_summary">La polsera vibrarà si el teu mòbil es desconnecta de la polsera</string>
+    <string name="lefun_prefs_antilost_title">Antipèrdua</string>
+    <string name="lefun_prefs_hydration_reminder_interval_title">Interval de recordatori d\'hidratació (en minuts)</string>
+    <string name="lefun_prefs_hydration_reminder_summary">La polsera vibrarà per a recordar-te que beguis aigua</string>
+    <string name="lefun_prefs_hydration_reminder_title">Recordatori d\'hidratació</string>
+    <string name="bip_prefs_shortcuts">Dreceres</string>
+    <string name="movement_intensity">Intensitat de moviment</string>
+    <string name="firmware_update_progress">La càrrega és en procés
+\n%1d%% a %.2fkbps (mitjana %.2fkbps)
+\nPart %1d de %1d</string>
+    <string name="devicestatus_upload_failed">Ha fallat la càrrega</string>
+    <string name="devicestatus_upload_started">Ha començat la càrrega</string>
+    <string name="devicestatus_upload_completed">S\'ha completat la càrrega</string>
+    <string name="devicestatus_upload_validating">S\'està validant la càrrega</string>
+    <string name="devicestatus_connecting">S\'està connectant l\'aparell</string>
+    <string name="devicestatus_connected">L\'aparell està connectat</string>
+    <string name="devicestatus_disconnecting">L\'aparell s\'està desconnectant!</string>
+    <string name="devicestatus_disconnected">L\'aparell s\'ha desconnectat!</string>
+    <string name="devicestatus_upload_starting">La càrrega està començant</string>
+    <string name="activity_list_summary_activities">Activitats</string>
+    <string name="activity_list_summary_intensity">Moviment
+\nIntensitat</string>
+    <string name="activity_list_summary_active_time">Temps actiu</string>
+    <string name="activity_list_summary_distance">Distància</string>
+    <string name="charts_activity_list">Llista d\'activitats</string>
+    <string name="chart_no_active_data">No s\'han detectat activitats.</string>
+    <string name="pref_theme_system">Sistema</string>
+    <string name="fw_upgrade_notice_amazfitx">Sou a punt d\'instal·lar el microprogramari %s en la vostra Amazfit X.
+\n
+\nSi us plau, assegureu-vos d\'instal·lar el fitxer .fw, i després el fitxer .res. La vostra polsera es reiniciarà després d\'instal·lar el fitxer .fw.
+\n
+\nNota: no heu d\'instal·lar el fitxer .res si és exactament el mateix que el prèviament instal·lat.
+\n
+\nPROCEDIU SOTA LA VOSTRA PRÒPIA RESPONSABILITAT!</string>
+    <string name="fw_upgrade_notice_miband5">Sou a punt d\'instal·lar el microprogramari %s en la vostra Mi Band 5.
+\n
+\nSi us plau, assegureu-vos d\'instal·lar el fitxer .fw, i després el fitxer .res. La vostra polsera es reiniciarà després d\'instal·lar el fitxer .fw.
+\n
+\nNota: no heu d\'instal·lar el fitxer .res si és exactament el mateix que el prèviament instal·lat.
+\n
+\nPROCEDIU SOTA LA VOSTRA PRÒPIA RESPONSABILITAT!</string>
+    <string name="fw_upgrade_notice_amazfitvergel">Sou a punt d\'instal·lar el microprogramari %s en la vostra Amazfit Verge Lite.
+\n
+\nSi us plau, assegureu-vos d\'instal·lar el fitxer .fw, i després el fitxer .res. La vostra polsera es reiniciarà després d\'instal·lar el fitxer .fw.
+\n
+\nNota: no heu d\'instal·lar el fitxer .res si és exactament el mateix que el prèviament instal·lat.
+\n
+\nPROCEDIU SOTA LA VOSTRA PRÒPIA RESPONSABILITAT!</string>
+    <string name="fw_upgrade_notice_amazfit_trex">Sou a punt d\'instal·lar el microprogramari %s en la vostra Amazfit T-Rex.
+\n
+\nSi us plau, assegureu-vos d\'instal·lar el fitxer .fw, i després el fitxer .res. La vostra polsera es reiniciarà després d\'instal·lar el fitxer .fw.
+\n
+\nNota: no heu d\'instal·lar el fitxer .res si és exactament el mateix que el prèviament instal·lat.
+\n
+\nPROCEDIU SOTA LA VOSTRA PRÒPIA RESPONSABILITAT!</string>
+    <string name="prefs_autoremove_message">Suprimeix automàticament les notificacions d\'SMS</string>
+    <string name="prefs_key_vibration">Vibració de les tecles</string>
+    <string name="prefs_autolight">Llum automàtica</string>
+    <string name="mi">mi</string>
+    <string name="minutes_mi">min/mi</string>
+    <string name="mi_h">mi/h</string>
+    <string name="ft">ft</string>
+    <string name="device_is_currently_bonded">JA ESTÀ APARELLAT</string>
+    <string name="pref_qhybrid_save_raw_activity_files">Guarda els arxius d\'activitat sense processar</string>
+    <string name="widget_settings_select_device_title">Seleccionar aparell</string>
+    <string name="menuitem_sleep">Dormir</string>
+    <string name="menuitem_goal">Objectiu d\'activitat</string>
+    <string name="devicetype_amazfit_vergel">Amazfit Verge Lite</string>
+    <string name="devicetype_waspos">Wasp-os</string>
+    <string name="devicetype_casiogbx100">Casio GBX-100</string>
+    <string name="devicetype_zepp_e">Zepp E</string>
+    <string name="devicetype_amazfit_x">Amazfit X</string>
+    <string name="devicetype_amazfit_gts2e">Amazfit GTS 2e</string>
+    <string name="devicetype_amazfit_gts2_mini">Amazfit GTS 2 Mini</string>
+    <string name="devicetype_amazfit_gtr2e">Amazfit GTR 2e</string>
+    <string name="devicetype_amazfit_bipupro">Amazfit Bip U Pro</string>
+    <string name="devicetype_amazfit_bipu">Amazfit Bip U</string>
+    <string name="devicetype_amazfit_neo">Amazfit Neo</string>
+    <string name="activity_type_strength_training">Entrenament de força</string>
+    <string name="dbmanagementactivity_export_finished">Supressió finalitzada</string>
+    <string name="activity_DB_clean_export_directory_warning_message">De debò voleu esborrar els fitxers del directori d\'exportació/importació\?</string>
+    <string name="activity_DB_clean_export_directory_warning_title">Voleu esborrar els fitxers del directori d\'exportació/importació\?</string>
+    <string name="activity_db_management_clean_export_directory_label">Esborra els fitxers del directori d\'exportació/importació</string>
+    <string name="activity_DB_ShowContentButton">Mostra el contingut del directori d\'exportació/importació</string>
+    <string name="activity_data_management_directory_content_title">Exporta/Importa el contingut del directori</string>
+    <string name="dbmanagementactivity_export_data_title">Voleu exportar les dades\?</string>
+    <string name="dbmanagementactivity_error_cleaning_export_directory">Hi ha hagut un error en esborrar fitxers del directori d\'exportació %1$s</string>
+    <string name="prefs_charts_tabs_summary">Pestanyes de gràfics visibles</string>
+    <string name="prefs_charts_tabs">Pestanyes de gràfics</string>
+    <string name="discovery_entered_invalid_authkey">La clau secreta d\'autenticació que heu introduït no és vàlida! Mantingueu premut sobre l\'aparell per a editar-la.</string>
+    <string name="power_mode_title">Mode d\'energia del rellotge</string>
+    <string name="pref_title_device_spec_settings_show_raw_graph">Mostra les dades RAW al gràfic d\'activitat</string>
+    <string name="pref_summary_connected_advertisement">Fes que l\'aparell sigui visible per Bluetooth inclús quan estigui connectat</string>
+    <string name="pref_title_connected_advertisement">Visible mentre estigui connectat</string>
+    <string name="calendar_year">Any</string>
+    <string name="calendar_six_months">6 mesos</string>
+    <string name="calendar_month">Mes</string>
+    <string name="calendar_two_weeks">Dues setmanes</string>
+    <string name="calendar_week">Setmana</string>
+    <string name="calendar_day">Dia</string>
+    <string name="battery_level">Nivell de bateria</string>
+    <string name="battery_detail_activity_title">Informació de la bateria</string>
+    <string name="prefs_sounds">Sons</string>
+    <string name="watchface_widget_type_date">Data</string>
+    <string name="watchface_widget_type_weather">Temps</string>
+    <string name="watchface_dialog_title_add_widget">Afegeix un giny</string>
+    <string name="fw_upgrade_notice_amazfitneo">Sou a punt d’instal·lar el microprogramari %s a la vostra Amazfit Neo.
+\n
+\nLa vostra polsera es reiniciarà després d’instal·lar el fitxer .fw.
+\n
+\nPROCEDIU SOTA LA VOSTRA PRÒPIA RESPONSABILITAT!</string>
+    <string name="qhybrid_pref_title_actions">Accions</string>
+    <string name="watchface_widget_type_chance_rain">Possibilitat de pluja</string>
+    <string name="dialog_hide">Amaga</string>
+    <string name="fossil_hr_commute_processing">S\'està processant la sol·licitud…</string>
+    <string name="fossil_hr_synced_activity_data">Dades d\'activitat sincronitzades</string>
+    <string name="watchface_setting_title_wrist_flick">Moviment de canell</string>
+    <string name="prefs_autoheartrate">Freqüència cardíaca automàtica</string>
+    <string name="blood_pressure">Pressió sanguínea</string>
+    <string name="menuitem_temperature">Temperatura</string>
+    <string name="qhybrid_title_file_management">Gestió de fitxers</string>
+    <string name="qhybrid_calibration_counterclockwise">En sentit antihorari</string>
+    <string name="qhybrid_calibration_clockwise">En sentit horari</string>
+    <string name="appmanager_app_edit">Edita</string>
+    <string name="watchface_widget_type_heart_rate">Ritme cardíac</string>
+    <string name="prefs_sleep_time">Temps de son</string>
+    <string name="button_watchface_edit_name">Edita el nom</string>
+    <string name="button_watchface_add_widget">Afegeix un giny</string>
+    <string name="prefs_activity_in_device_card_sleep_title">Son</string>
+    <string name="prefs_activity_in_device_card_sleep_title_summary">Mostra la durada del son</string>
+    <string name="prefs_activity_in_device_card_steps_title_summary">Mostra les passes totals</string>
+    <string name="calendar_three_months">3 mesos</string>
+    <string name="pref_header_other">Altres</string>
+    <string name="pref_header_system">Sistema</string>
+    <string name="pref_header_equalizer">Equalitzador</string>
+    <string name="pref_message_privacy_mode_off">Mostra el contingut</string>
+    <string name="pref_message_privacy_mode_complete">Amaga el contingut</string>
+    <string name="pref_applications_settings">Llistat d\'aplicacions</string>
+    <string name="pref_title_huami_force_new_protocol">Nou protocol d\'autenticació</string>
+    <string name="show_ongoing_activity">Mostra una finestra emergent d\'activitat en curs</string>
+    <string name="getting_heart_rate">Mesurant</string>
+    <string name="devicetype_miband6">Mi Band 6</string>
+    <string name="devicetype_um25">UM-25</string>
+    <string name="devicetype_fitpro">FitPro</string>
+    <string name="menuitem_events">Esdeveniments</string>
+    <string name="menuitem_widgets">Ginys</string>
+    <string name="menuitem_flashlight">Llanterna</string>
+    <string name="swim_style">estil de natació</string>
+    <string name="fossil_hr_edit_action_delete">esborra</string>
+    <string name="watchface_dialog_widget_preset_left">Esquerra</string>
+    <string name="watchface_dialog_widget_preset_right">Dreta</string>
+    <string name="watchface_dialog_widget_color">Color:</string>
+    <string name="watchface_dialog_widget_color_white">Blanc</string>
+    <string name="watchface_widget_type_battery">Bateria</string>
+    <string name="prefs_autoheartrate_measurement">Mesures automàtiques del ritme cardíac</string>
+    <string name="sony_equalizer">Equalitzador</string>
+    <string name="sony_equalizer_preset_off">Apagat</string>
+    <string name="qhybrid_title_apps">Aplicacions</string>
+    <string name="fossil_hr_new_action_cancel">cancel·la</string>
+    <string name="fossil_hr_new_action">Nova acció</string>
+    <string name="pref_title_equalizer_soft">Suau</string>
+    <string name="pref_title_equalizer_dynamic">Dinàmic</string>
+    <string name="pref_title_equalizer_clear">Clar</string>
+    <string name="prefs_equalizer">Equalitzador</string>
+    <string name="prefs_galaxy_buds_experimental">Experimental</string>
+    <string name="prefs_left">Esquerra</string>
+    <string name="prefs_right">Dreta</string>
+    <string name="activity_filter_individual_items">Elements seleccionats individualment</string>
+    <string name="strokes_second">b/s</string>
+    <string name="swimStyle">estil de natació</string>
+    <string name="swolfIndex">índex swolf</string>
+    <string name="set">Establir</string>
+    <string name="menuitem_barometer">Baròmetre</string>
+    <string name="strokes_unit">b</string>
+    <string name="Strokes">Braçades</string>
+    <string name="qhybrid_title_calibration">Calibratge</string>
+    <string name="qhybrid_title_background_image">Imatge de fons</string>
+    <string name="watchface_dialog_widget_preset_top">Superior</string>
+    <string name="watchface_dialog_widget_preset_bottom">Inferior</string>
+    <string name="watchface_dialog_widget_color_black">Negre</string>
+    <string name="watchface_widget_type_calories">Calories</string>
+    <string name="pref_title_equalizer_normal">Normal</string>
+    <string name="sony_ambient_sound">Mode</string>
+    <string name="sony_ambient_sound_off">Apagat</string>
+    <string name="watchface_setting_title_power_saving">Estalvi d\'energia</string>
+    <string name="prefs_notifications_enable">Activa les notificacions</string>
+    <string name="devicetype_amazfit_trex_pro">Amazfit T-Rex Pro</string>
+    <string name="button_watchface_select_image">Canvia la imatge de fons</string>
+    <string name="watchface_setting_wrist_flick_duration">Durada (en ms):</string>
+    <string name="watchface_dialog_widget_y_coordinate">Coordenada Y (màxim 240):</string>
+    <string name="watchface_setting_wrist_flick_move_relative">Mou les mans en relació amb el temps:</string>
+    <string name="sony_sound_position_off">Apagat</string>
+    <string name="sony_sound_position_front">Frontal</string>
+    <string name="sony_surround_mode_off">Apagat</string>
+    <string name="sony_surround_mode_arena">Arena</string>
+    <string name="sony_surround_mode_club">Club</string>
+    <string name="sony_equalizer_preset_manual">Manual</string>
+    <string name="sony_equalizer_band_400">400</string>
+    <string name="sony_equalizer_band_1000">1k</string>
+    <string name="sony_equalizer_band_2500">2.5k</string>
+    <string name="sony_equalizer_band_6300">6.3k</string>
+    <string name="sony_equalizer_band_16000">16k</string>
+    <string name="title_activity_notification_management">Configuració de les notificacions</string>
+    <string name="fw_upgrade_notice_miband6">Sou a punt d\'instal·lar el microprogramari %s en la vostra Mi Band 6.
+\n
+\nSi us plau, assegureu-vos d\'instal·lar el fitxer .fw, i després el fitxer .res. La vostra polsera es reiniciarà després d\'instal·lar el fitxer .fw.
+\n
+\nNota: no heu d\'instal·lar el fitxer .res si és exactament el mateix que el prèviament instal·lat.
+\n
+\nPROCEDIU SOTA LA VOSTRA PRÒPIA RESPONSABILITAT!</string>
+    <string name="watchface_widget_type_steps">Passes</string>
+    <string name="watchface_dialog_widget_type">Tipus:</string>
+    <string name="watchface_dialog_widget_x_coordinate">Coordenada X (màxim 240):</string>
+    <string name="title_activity_set_reminders">Configureu els recordatoris</string>
+    <string name="controlcenter_start_configure_reminders">Configureu els recordatoris</string>
+    <string name="reminder_time">Hora</string>
+    <string name="reminder_time_once">%1$s, una vegada</string>
+    <string name="reminder_time_every_week">%1$s, cada setmana</string>
+    <string name="reminder_once">una vegada</string>
+    <string name="reminder_every_year">Cada any</string>
+    <string name="reminder_delete_confirm_title">Esborrar recordatori</string>
+    <string name="reminder_delete_confirm_description">Esteu segur que voleu esborrar el recordatori\?</string>
+    <string name="reminder_no_free_slots_title">No hi ha espais lliures</string>
+    <string name="reminder_no_free_slots_description">El dispositiu no té espais lliures per a recordatoris (espais totals: %1$s)</string>
+    <string name="title_activity_reminder_details">Detalls del recordatori</string>
+    <string name="heart_rate_result">Resultats de la mesura</string>
+    <string name="miband_prefs_reserve_reminder_calendar">Recordatoris a reservar per esdeveniments futurs</string>
+    <string name="prefs_reserve_reminder_calendar_summary">Nombre d\'esdeveniments del calendari que seran sincronitzats</string>
+    <string name="prefs_sounds_summary">Configureu quan l\'aparell pitarà</string>
+    <string name="prefs_fm_presets_presets">Preconfiguracions</string>
+    <string name="device_card_activity_card_title">Informació d\'activitat a la tarja de l\'aparell</string>
+    <string name="pref_header_notification_application_settings">Configuració per aplicació</string>
+    <string name="pref_title_notification_use_as">Useu la llista d\'aplicacions per a ...</string>
+    <string name="pref_title_notification_use_as_deny">Rebutgeu les notificacions de les aplicacions triades</string>
+    <string name="pref_title_notification_use_as_allow">Permeteu les notificacions de les aplicacions triades</string>
+    <string name="notification_channel_transfer_name">Transferència de dades</string>
+    <string name="notification_channel_low_battery_name">Bateria baixa</string>
+    <string name="reminder_every_day">Cada dia</string>
+    <string name="reminder_message">Missatge</string>
+    <string name="reminder_time_every_day">%1$s, cada dia</string>
+    <string name="prefs_activity_in_device_card_distance_title_summary">La distància es calcula a partir de les passes i la llargada de la passa (configurable a “Configuració - Sobre tu”)</string>
+    <string name="pref_theme_black_background">Useu fons negre amb el Tema Fosc</string>
+    <string name="pref_summary_huami_force_new_protocol">Activeu en cas que l\'aparell no es connecti després d\'una actualització de microprogramari</string>
+    <string name="reminder_repeat">Repetir</string>
+    <string name="reminder_date">Data</string>
+    <string name="reminder_time_every_month">%1$s, cada mes</string>
+    <string name="reminder_time_every_year">%1$s, cada any</string>
+    <string name="reminder_every_month">Cada mes</string>
+    <string name="reminder_every_week">Cada setmana</string>
+    <string name="menuitem_pomodoro">Seguiment Pomodoro</string>
+    <string name="dbmanagementactivity_export_confirmation">Voleu exportar dades\? Les dades d’activitat exportades anteriorment (si n’hi ha) i les preferències se sobreescriuran.</string>
+    <string name="devicetype_sony_wh_1000xm3">Sony WH-1000XM3</string>
+    <string name="prefs_fm_preset_instructions">Premeu una estona el botó per desar la preconfiguració</string>
+    <string name="check_all_applications">Activar totes les aplicacions</string>
+    <string name="uncheck_all_applications">Desactivar totes les aplicacions</string>
+    <string name="averageStrokeDistance">Llargada mitjana d\'una braçada</string>
+    <string name="toast_app_must_not_be_selected">L\'aplicació no ha d\'estar seleccionar per a ser configurada</string>
+    <string name="toast_app_must_be_selected">L\'aplicació ha d\'estar seleccionar per a ser configurada</string>
+    <string name="qhybrid_calibration_10_steps">10 passes</string>
+    <string name="qhybrid_calibration_100_steps">100 passes</string>
+    <string name="qhybrid_pref_summary_actions">Accions per a l\'aplicació Commute</string>
+    <string name="pref_title_developer_settings">Configuració per a programadors</string>
+    <string name="qhybrid_summary_file_management">Envieu i descarregueu fitxers</string>
+    <string name="pref_summary_physical_buttons">Configureu la funcionalitat dels botons físics del rellotge</string>
+    <string name="bpm">bpm</string>
+    <string name="qhybrid_title_apps_management">Gestió d\'apps</string>
+    <string name="fossil_hr_edit_action">Acció d\'editar</string>
+    <string name="pref_summary_canned_messages_set">Envieu els missatges configurats més avall al vostre aparell</string>
+    <string name="pref_summary_developer_settings">Configuració i funcionalitat usada per programadors</string>
+    <string name="qhybrid_pref_title_external_intents">Permetre el intents externs perillosos</string>
+    <string name="devicetype_smaq2oss">SMA-Q2 OSS</string>
+    <string name="gpx_receiver_overwrite_some_files">Algun(s) fitxer(s) ja existeixen. Sobreescriure\'ls\?</string>
+    <string name="ignore_bonded_devices_description">Activant aquesta opció farà que s\'ignorin els aparells que ja han estat vinculats/aparellats a l\'escanejar</string>
+    <string name="gpx_receiver_files_received">Fitxer(s) GPX rebut(s):</string>
+    <string name="fossil_hr_auth_failed">Autenticació fallada, funcionalitat limitada</string>
+    <string name="fossil_hr_unavailable_unauthed">No disponible en mode no autenticat</string>
+    <string name="qhybrid_calibration_1_step">1 passa</string>
+    <string name="pref_check_permission_status_summary">Comproveu i demaneu els permisos que faltin tot i que poden no ser necessitats en aquest moment. Desactiveu això només si el vostre aparell realment no suporta cap d\'aquestes característiques. No donar un permís pot causar problemes!</string>
+    <string name="fossil_hr_warning_firmware_too_new">Algunes funcions estan desactivades perquè el microprogramari del rellotge és massa nou</string>
+    <string name="companiondevice_pairing_details">Activa el suport de la nova API de CompanionDevice (només té efecte en Android 8 o superior) que incrementarà la fiabilitat si el servei s\'ha de reiniciar en segon pla; requereix re-aparellar amb Gadgetbridge per tenir efecte</string>
+    <string name="error_version_check_extreme_caution">COMPTE: Error al comprovar la informació de versió! No hauríeu de continuar! Nom de versió vist: \"%s\"</string>
+    <string name="averageStrokesPerSecond">Mitjana de braçades</string>
+    <string name="fossil_hr_commute_actions_explanation">Les accions configurades aquí apareixeran a l\'aplicació Commute del rellotge. Llegiu la wiki per obtenir informació sobre com gestionar els intents produïts per aquestes accions.</string>
+    <string name="pref_summary_canned_messages_dismisscall">Ignoreu les trucades del rellotge amb un missatge SMS</string>
+    <string name="pref_title_physical_buttons">Botons físics</string>
+</resources>

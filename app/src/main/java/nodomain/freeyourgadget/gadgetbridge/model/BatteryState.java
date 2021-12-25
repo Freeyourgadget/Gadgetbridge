@@ -1,4 +1,4 @@
-/*  Copyright (C) 2015-2018 Daniele Gobbetti
+/*  Copyright (C) 2015-2020 Daniele Gobbetti, José Rebelo
 
     This file is part of Gadgetbridge.
 
@@ -22,5 +22,6 @@ public enum BatteryState {
     BATTERY_LOW,
     BATTERY_CHARGING,
     BATTERY_CHARGING_FULL,
-    BATTERY_NOT_CHARGING_FULL
+    BATTERY_NOT_CHARGING_FULL,
+    NO_BATTERY
 }

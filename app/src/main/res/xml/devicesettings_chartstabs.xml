@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <com.mobeta.android.dslv.DragSortListPreference
+        android:icon="@drawable/ic_tabs"
+        android:defaultValue="@array/pref_charts_tabs_items_default"
+        android:dialogTitle="@string/mi2_prefs_display_items"
+        android:entries="@array/pref_charts_tabs_items"
+        android:entryValues="@array/pref_charts_tabs_values"
+        android:key="charts_tabs"
+        android:persistent="true"
+        android:summary="@string/prefs_charts_tabs_summary"
+        android:title="@string/prefs_charts_tabs" />
+</androidx.preference.PreferenceScreen>
+

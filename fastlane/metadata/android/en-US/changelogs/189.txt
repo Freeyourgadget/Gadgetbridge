@@ -1,0 +1,2 @@
+* Amazfit GTS2e: Really fix broken support
+* Amazfit Bip S Lite: Fix broken support (probably)

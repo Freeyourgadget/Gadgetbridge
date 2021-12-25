@@ -1,4 +1,4 @@
-/*  Copyright (C) 2017-2018 Andreas Shimokawa, Carsten Pfeiffer, Daniele
+/*  Copyright (C) 2017-2020 Andreas Shimokawa, Carsten Pfeiffer, Daniele
     Gobbetti, Daniel Hauck
 
     This file is part of Gadgetbridge.
@@ -101,7 +101,7 @@ public class CalendarReceiver extends BroadcastReceiver {
             DaoSession session = dbHandler.getDaoSession();
             syncCalendar(eventList, session);
         } catch (Exception e1) {
-            GB.toast("Database Error while syncing Calendar", Toast.LENGTH_SHORT, GB.ERROR);
+            GB.toast("Database Error while syncing Calendar", Toast.LENGTH_SHORT, GB.ERROR, e1);
         }
     }
 
@@ -139,7 +139,7 @@ public class CalendarReceiver extends BroadcastReceiver {
         for (CalendarSyncState CalendarSyncState : CalendarSyncStateList) {
             if (!eventState.containsKey(CalendarSyncState.getCalendarEntryId())) {
                 eventState.put(CalendarSyncState.getCalendarEntryId(), new EventSyncState(null, EventState.NEEDS_DELETE));
-                LOG.info("insert null event for orphanded calendar id=" + CalendarSyncState.getCalendarEntryId() + " for device=" + mGBDevice.getName());
+                LOG.info("insert null event for orphaned calendar id=" + CalendarSyncState.getCalendarEntryId() + " for device=" + mGBDevice.getName());
             }
         }
 
