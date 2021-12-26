@@ -303,12 +303,14 @@ public class ConfigActivity extends AbstractGBActivity {
             }
         });
 
-        device = GBApplication.app().getDeviceManager().getSelectedDevice();
-        if (device == null || device.getType() != DeviceType.FOSSILQHYBRID || device.getFirmwareVersion().charAt(2) != '0') {
-            setSettingsError(getString(R.string.watch_not_connected));
-        } else {
-            updateSettings();
+        List<GBDevice> devices = GBApplication.app().getDeviceManager().getSelectedDevices();
+        for(GBDevice device : devices){
+            if (device.getType() == DeviceType.FOSSILQHYBRID && device.getFirmwareVersion().charAt(2) == '0') {
+                updateSettings();
+                return;
+            }
         }
+        setSettingsError(getString(R.string.watch_not_connected));
     }
 
     private void updateTimeOffset() {

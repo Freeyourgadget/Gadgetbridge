@@ -245,13 +245,16 @@ public class FwAppInstallerActivity extends AbstractGBActivity implements Instal
         List<DeviceCoordinator> allCoordinators = DeviceHelper.getInstance().getAllCoordinators();
         List<DeviceCoordinator> sortedCoordinators = new ArrayList<>(allCoordinators.size());
 
-        GBDevice connectedDevice = deviceManager.getSelectedDevice();
-        if (connectedDevice != null && connectedDevice.isConnected()) {
-            DeviceCoordinator coordinator = DeviceHelper.getInstance().getCoordinator(connectedDevice);
-            if (coordinator != null) {
-                connectedCoordinators.add(coordinator);
+        List<GBDevice> devices = deviceManager.getSelectedDevices();
+        for(GBDevice connectedDevice : devices){
+            if (connectedDevice.isConnected()) {
+                DeviceCoordinator coordinator = DeviceHelper.getInstance().getCoordinator(connectedDevice);
+                if (coordinator != null) {
+                    connectedCoordinators.add(coordinator);
+                }
             }
         }
+
 
         sortedCoordinators.addAll(connectedCoordinators);
         for (DeviceCoordinator coordinator : allCoordinators) {

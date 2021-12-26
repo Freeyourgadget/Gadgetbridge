@@ -28,6 +28,7 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+import java.util.List;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
@@ -131,8 +132,17 @@ public class WidgetAlarmsActivity extends Activity implements View.OnClickListen
         Context appContext = this.getApplicationContext();
         if (appContext instanceof GBApplication) {
             GBApplication gbApp = (GBApplication) appContext;
-            GBDevice selectedDevice = gbApp.getDeviceManager().getSelectedDevice();
-            if (selectedDevice == null || !selectedDevice.isInitialized()) {
+
+            List<GBDevice> devices = gbApp.getDeviceManager().getSelectedDevices();
+            boolean oneInitialized = false;
+            for(GBDevice device : devices){
+                if(device.getState() == GBDevice.State.INITIALIZED){
+                    oneInitialized = true;
+                    break;
+                }
+            }
+
+            if (!oneInitialized) {
                 GB.toast(this,
                         this.getString(R.string.appwidget_not_connected),
                         Toast.LENGTH_LONG, GB.WARN);

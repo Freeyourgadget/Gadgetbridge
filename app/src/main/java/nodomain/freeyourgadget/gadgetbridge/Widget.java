@@ -77,15 +77,15 @@ public class Widget extends AppWidgetProvider {
 
     private static final Logger LOG = LoggerFactory.getLogger(Widget.class);
     static BroadcastReceiver broadcastReceiver = null;
-    GBDevice selectedDevice;
+    List<GBDevice> selectedDevices;
 
-    private GBDevice getSelectedDevice() {
+    private List<GBDevice> getSelectedDevices() {
         Context context = GBApplication.getContext();
         if (!(context instanceof GBApplication)) {
             return null;
         }
         GBApplication gbApp = (GBApplication) context;
-        return gbApp.getDeviceManager().getSelectedDevice();
+        return gbApp.getDeviceManager().getSelectedDevices();
     }
 
     private GBDevice getDeviceByMAC(Context appContext, String HwAddress) {
@@ -108,6 +108,8 @@ public class Widget extends AppWidgetProvider {
             return new long[]{0, 0, 0};
         }
         DailyTotals ds = new DailyTotals();
+        // TODO: handle multiple
+        GBDevice selectedDevice = selectedDevices.get(0);
         return ds.getDailyTotalsForDevice(selectedDevice, day);
         //return ds.getDailyTotalsForAllDevices(day);
     }
@@ -119,11 +121,14 @@ public class Widget extends AppWidgetProvider {
     private void updateAppWidget(Context context, AppWidgetManager appWidgetManager,
                                  int appWidgetId) {
 
-        selectedDevice = getSelectedDevice();
+        selectedDevices = getSelectedDevices();
+        // TODO: handle multiple devices
+        GBDevice selectedDevice = selectedDevices.get(0);
         WidgetPreferenceStorage widgetPreferenceStorage = new WidgetPreferenceStorage();
         String savedDeviceAddress = widgetPreferenceStorage.getSavedDeviceAddress(context, appWidgetId);
         if (savedDeviceAddress != null) {
-            selectedDevice = getDeviceByMAC(context.getApplicationContext(), savedDeviceAddress); //this would probably only happen if device no longer exists in GB
+            // TODO: handle or delete this
+            // selectedDevice = getDeviceByMAC(context.getApplicationContext(), savedDeviceAddress); //this would probably only happen if device no longer exists in GB
         }
 
         RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.widget);
@@ -211,8 +216,9 @@ public class Widget extends AppWidgetProvider {
 
     public void refreshData() {
         Context context = GBApplication.getContext();
-        GBDevice device = getSelectedDevice();
-
+        List<GBDevice> devices = getSelectedDevices();
+        // TODO: handle multiple
+        GBDevice device = devices.get(0);
         if (device == null || !device.isInitialized()) {
             GB.toast(context,
                     context.getString(R.string.device_not_connected),

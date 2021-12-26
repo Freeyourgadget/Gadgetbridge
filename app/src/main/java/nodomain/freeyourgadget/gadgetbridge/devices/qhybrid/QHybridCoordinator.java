@@ -35,6 +35,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -89,8 +90,13 @@ public class QHybridCoordinator extends AbstractDeviceCoordinator {
 
     @Override
     public boolean supportsActivityDataFetching() {
-        GBDevice connectedDevice = GBApplication.app().getDeviceManager().getSelectedDevice();
-        return connectedDevice != null && connectedDevice.getType() == DeviceType.FOSSILQHYBRID && connectedDevice.getState() == GBDevice.State.INITIALIZED;
+        List<GBDevice> devices = GBApplication.app().getDeviceManager().getSelectedDevices();
+        for(GBDevice device : devices){
+            if(isFossilHybrid(device) && device.getState() == GBDevice.State.INITIALIZED){
+                return true;
+            }
+        }
+        return false;
     }
 
     @Override
@@ -129,11 +135,14 @@ public class QHybridCoordinator extends AbstractDeviceCoordinator {
     }
 
     private boolean supportsAlarmConfiguration() {
-        GBDevice connectedDevice = GBApplication.app().getDeviceManager().getSelectedDevice();
-        if(connectedDevice == null || connectedDevice.getType() != DeviceType.FOSSILQHYBRID || connectedDevice.getState() != GBDevice.State.INITIALIZED){
-            return false;
+        List<GBDevice> devices = GBApplication.app().getDeviceManager().getSelectedDevices();
+        LOG.debug("devices count: " + devices.size());
+        for(GBDevice device : devices){
+            if(isFossilHybrid(device) && device.getState() == GBDevice.State.INITIALIZED){
+                return true;
+            }
         }
-        return true;
+        return false;
     }
 
     @Override
@@ -268,22 +277,34 @@ public class QHybridCoordinator extends AbstractDeviceCoordinator {
     }
 
     private boolean isHybridHR() {
-        GBDevice connectedDevice = GBApplication.app().getDeviceManager().getSelectedDevice();
-        if (connectedDevice != null) {
-            return connectedDevice.getName().startsWith("Hybrid HR");
+        List<GBDevice> devices = GBApplication.app().getDeviceManager().getSelectedDevices();
+        for(GBDevice device : devices){
+            if(isFossilHybrid(device) && device.getName().startsWith("Hybrid HR")){
+                return true;
+            }
         }
         return false;
     }
 
     private Version getFirmwareVersion() {
-        String firmware = GBApplication.app().getDeviceManager().getSelectedDevice().getFirmwareVersion();
-        if (firmware != null) {
-            Matcher matcher = Pattern.compile("[0-9]+\\.[0-9]+\\.[0-9]+\\.[0-9]+").matcher(firmware); // DN1.0.2.19r.v5
-            if (matcher.find()) {
-                firmware = matcher.group(0);
-                return new Version(firmware);
+        List<GBDevice> devices = GBApplication.app().getDeviceManager().getSelectedDevices();
+        for(GBDevice device : devices){
+            if(isFossilHybrid(device)){
+                String firmware = device.getFirmwareVersion();
+                if (firmware != null) {
+                    Matcher matcher = Pattern.compile("[0-9]+\\.[0-9]+\\.[0-9]+\\.[0-9]+").matcher(firmware); // DN1.0.2.19r.v5
+                    if (matcher.find()) {
+                        firmware = matcher.group(0);
+                        return new Version(firmware);
+                    }
+                }
             }
         }
+
         return null;
+    }
+
+    private boolean isFossilHybrid(GBDevice device){
+        return device.getType() == DeviceType.FOSSILQHYBRID;
     }
 }

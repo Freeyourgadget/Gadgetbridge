@@ -30,6 +30,7 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+import java.util.List;
 
 import nodomain.freeyourgadget.gadgetbridge.activities.ConfigureAlarms;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
@@ -105,8 +106,16 @@ public class SleepAlarmWidget extends AppWidgetProvider {
             Context appContext = context.getApplicationContext();
             if (appContext instanceof GBApplication) {
                 GBApplication gbApp = (GBApplication) appContext;
-                GBDevice selectedDevice = gbApp.getDeviceManager().getSelectedDevice();
-                if (selectedDevice == null || !selectedDevice.isInitialized()) {
+
+                List<GBDevice> devices = GBApplication.app().getDeviceManager().getSelectedDevices();
+                boolean atLeastOneInitialized = false;
+                for(GBDevice selectedDevice : devices){
+                    if(selectedDevice.getState() == GBDevice.State.INITIALIZED){
+                        atLeastOneInitialized = true;
+                        break;
+                    }
+                }
+                if (!atLeastOneInitialized) {
                     GB.toast(context,
                             context.getString(R.string.appwidget_not_connected),
                             Toast.LENGTH_LONG, GB.WARN);
