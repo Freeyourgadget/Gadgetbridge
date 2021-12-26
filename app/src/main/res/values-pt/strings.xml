@@ -6,14 +6,14 @@
     <string name="action_debug">Depurar</string>
     <string name="action_quit">Sair</string>
     <string name="controlcenter_fetch_activity_data">Sincronizar</string>
-    <string name="controlcenter_find_device">Procurar aparelho perdido</string>
+    <string name="controlcenter_find_device">Encontrar dispositivo perdido</string>
     <string name="controlcenter_take_screenshot">Captura de ecrã</string>
     <string name="controlcenter_change_led_color">Mudar cor do LED</string>
     <string name="controlcenter_change_fm_frequency">Mudar frequência FM</string>
     <string name="controlcenter_disconnect">Desconectar</string>
     <string name="controlcenter_delete_device">Apagar aparelho</string>
     <string name="controlcenter_delete_device_name">Apagar %1$s</string>
-    <string name="controlcenter_delete_device_dialogmessage">Isto irá apagar o aparelho e apagar todos os dados associados!</string>
+    <string name="controlcenter_delete_device_dialogmessage">Isto irá apagar o dispositivo e todos os dados associados!</string>
     <string name="controlcenter_navigation_drawer_open">Abrir gaveta de navegação</string>
     <string name="controlcenter_navigation_drawer_close">Fechar gaveta de navegação</string>
     <string name="controlcenter_snackbar_need_longpress">Pressione longo no cartão para desconectar</string>
@@ -123,7 +123,7 @@
     <string name="pref_summary_location_keep_uptodate">Tente obter a localização online, use dados armazenados como alternativa</string>
     <string name="toast_enable_networklocationprovider">Por favor, ative a localização de rede</string>
     <string name="toast_aqurired_networklocation">localização obtida</string>
-    <string name="pref_title_pebble_forceprotocol">Forçar o protocolo de notificação</string>
+    <string name="pref_title_pebble_forceprotocol">Forçar protocolo de notificação</string>
     <string name="pref_summary_pebble_forceprotocol">Esta opção força o uso do protocolo de notificação mais recente dependendo da versão do firmware. FAÇA ISSO APENAS SE SOUBER O QUE ESTÁ FAZENDO!</string>
     <string name="pref_title_pebble_forceuntested">Permitir recursos não certificados</string>
     <string name="pref_summary_pebble_forceuntested">Ativar recursos não testados. FAÇA ISSO APENAS SE SOUBER O QUE ESTÁ FAZENDO!</string>
@@ -543,7 +543,7 @@
     <string name="pref_summary_rtl">Ative isto se o seu aparelho pode mostrar idiomas que se escrevem da direita para a esquerda</string>
     <string name="pref_rtl_max_line_length">Comprimento máximo da linha da direita para a esquerda</string>
     <string name="pref_rtl_max_line_length_summary">Alonga ou encurta as linhas da direita para a esquerda em que o texto é cortado</string>
-    <string name="pref_summary_enable_calendar_sync">Envia eventos do calendário para linha do tempo</string>
+    <string name="pref_summary_enable_calendar_sync">Enviar eventos do calendário para a linha do tempo</string>
     <string name="pref_title_pebble_enable_bgjs">Ativar JS em segundo plano</string>
     <string name="pref_summary_pebble_enable_bgjs">Quando ativado, permite que as mostradores mostrem o clima, informações da bateria, etc.</string>
     <string name="prefs_title_heartrate_measurement_interval">Medição diária dos batimentos cardíacos</string>
@@ -1446,4 +1446,7 @@
     <string name="watchface_dialog_widget_preset_right">Direita</string>
     <string name="watchface_widget_type_2nd_tz">2º fuso horário</string>
     <string name="watchface_widget_type_active_mins">Minutos ativos</string>
+    <string name="controlcenter_power_off_confirm_description">Tem a certeza que pretende desligar o dispositivo\?</string>
+    <string name="controlcenter_power_off">Desligar</string>
+    <string name="controlcenter_power_off_confirm_title">Desligar</string>
 </resources>
