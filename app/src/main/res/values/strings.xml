@@ -1428,5 +1428,5 @@
     <string name="qhybrid_title_on_device_confirmation">Enable on-device pairing confirmation</string>
     <string name="qhybrid_summary_on_device_confirmation">On-device pairing confirmations can get annoying. Disabling them might lose you functionality.</string>
     <string name="info_no_devices_connected">no devices connected</string>
-    <string name="info_connected_count">\"%i devices connected\"</string>
+    <string name="info_connected_count">%d devices connected</string>
 </resources>

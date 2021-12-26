@@ -1491,4 +1491,6 @@
     <string name="prefs_activity_in_device_card_distance_title_summary">Strecke basiert auf Schrittzahl und Schrittlänge (siehe Einstellungen - Über Dich)</string>
     <string name="sony_equalizer_preset_excited">Angeregt</string>
     <string name="battery_case">Batteriefach</string>
+    <string name="info_connected_count">%d Geräte verbunden</string>
+    <string name="info_no_devices_connected">Keine Geräte verbunden</string>
 </resources>
