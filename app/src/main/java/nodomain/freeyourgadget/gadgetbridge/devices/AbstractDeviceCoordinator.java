@@ -26,6 +26,7 @@ import android.bluetooth.le.ScanFilter;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import org.apache.commons.lang3.ArrayUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -37,6 +38,7 @@ import java.util.Collections;
 import de.greenrobot.dao.query.QueryBuilder;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.GBException;
+import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSpecificSettingsCustomizer;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHelper;
@@ -249,8 +251,23 @@ public abstract class AbstractDeviceCoordinator implements DeviceCoordinator {
     }
 
     @Override
+    public int[] getSupportedDeviceSpecificConnectionSettings() {
+        int[] settings = new int[0];
+        ConnectionType connectionType = getConnectionType();
+
+        if(connectionType.usesBluetoothLE()){
+            settings = ArrayUtils.insert(0, settings, R.xml.devicesettings_reconnect_ble);
+        }
+        if(connectionType.usesBluetoothClassic()){
+            settings = ArrayUtils.insert(0, settings, R.xml.devicesettings_reconnect_bl_classic);
+        }
+
+        return settings;
+    }
+
+    @Override
     public int[] getSupportedDeviceSpecificSettings(GBDevice device) {
-        return null;
+        return new int[0];
     }
 
     @Override

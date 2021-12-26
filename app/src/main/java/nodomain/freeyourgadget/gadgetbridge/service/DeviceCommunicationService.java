@@ -387,6 +387,9 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
         LocalBroadcastManager.getInstance(this).registerReceiver(mReceiver, new IntentFilter(GBDevice.ACTION_DEVICE_CHANGED));
         mFactory = getDeviceSupportFactory();
 
+        mBlueToothConnectReceiver = new BluetoothConnectReceiver(this);
+        registerReceiver(mBlueToothConnectReceiver, new IntentFilter(BluetoothDevice.ACTION_ACL_CONNECTED));
+
         if (hasPrefs()) {
             getPrefs().getPreferences().registerOnSharedPreferenceChangeListener(this);
         }
@@ -464,7 +467,7 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
                 boolean autoReconnect = GBPrefs.AUTO_RECONNECT_DEFAULT;
                 if (prefs != null && prefs.getPreferences() != null) {
                     prefs.getPreferences().edit().putString("last_device_address", btDeviceAddress).apply();
-                    autoReconnect = getGBPrefs().getAutoReconnect();
+                    autoReconnect = getGBPrefs().getAutoReconnect(gbDevice);
                 }
 
                 DeviceStruct registeredStruct = getDeviceStructOrNull(gbDevice);
@@ -871,6 +874,16 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
         throw new DeviceNotFoundException(deviceAddress);
     }
 
+    public GBDevice getDeviceByAddressOrNull(String deviceAddress){
+        GBDevice device = null;
+        try {
+            device = getDeviceByAddress(deviceAddress);
+        } catch (DeviceNotFoundException e) {
+            e.printStackTrace();
+        }
+        return device;
+    }
+
     private DeviceSupport getDeviceSupport(GBDevice device) throws DeviceNotFoundException {
         if(device == null){
             throw new DeviceNotFoundException("null");
@@ -988,10 +1001,6 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
                 filter.addAction("android.intent.action.TIMEZONE_CHANGED");
                 registerReceiver(mTimeChangeReceiver, filter);
             }
-            if (mBlueToothConnectReceiver == null) {
-                mBlueToothConnectReceiver = new BluetoothConnectReceiver(this);
-                registerReceiver(mBlueToothConnectReceiver, new IntentFilter(BluetoothDevice.ACTION_ACL_CONNECTED));
-            }
             if (mBlueToothPairingRequestReceiver == null) {
                 mBlueToothPairingRequestReceiver = new BluetoothPairingRequestReceiver(this);
                 registerReceiver(mBlueToothPairingRequestReceiver, new IntentFilter(BluetoothDevice.ACTION_PAIRING_REQUEST));
@@ -1064,10 +1073,6 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
                 unregisterReceiver(mTimeChangeReceiver);
                 mTimeChangeReceiver = null;
             }
-            if (mBlueToothConnectReceiver != null) {
-                unregisterReceiver(mBlueToothConnectReceiver);
-                mBlueToothConnectReceiver = null;
-            }
 
             if (mBlueToothPairingRequestReceiver != null) {
                 unregisterReceiver(mBlueToothPairingRequestReceiver);
@@ -1117,6 +1122,8 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
         LocalBroadcastManager.getInstance(this).unregisterReceiver(mReceiver);
         setReceiversEnableState(false, false, null); // disable BroadcastReceivers
 
+        unregisterReceiver(mBlueToothConnectReceiver);
+
         for(GBDevice device : getGBDevices()){
             try {
                 removeDeviceSupport(device);
@@ -1134,9 +1141,9 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
 
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-        if (GBPrefs.AUTO_RECONNECT.equals(key)) {
-            boolean autoReconnect = getGBPrefs().getAutoReconnect();
+        if (GBPrefs.DEVICE_AUTO_RECONNECT.equals(key)) {
             for(DeviceStruct deviceStruct : deviceStructs){
+                boolean autoReconnect = getGBPrefs().getAutoReconnect(deviceStruct.getDevice());
                 deviceStruct.getDeviceSupport().setAutoReconnect(autoReconnect);
             }
         }

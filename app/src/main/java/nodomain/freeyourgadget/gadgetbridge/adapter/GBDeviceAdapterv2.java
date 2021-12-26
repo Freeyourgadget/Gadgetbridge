@@ -261,7 +261,7 @@ public class GBDeviceAdapterv2 extends RecyclerView.Adapter<GBDeviceAdapterv2.Vi
         );
 
         //device specific settings
-        holder.deviceSpecificSettingsView.setVisibility(coordinator.getSupportedDeviceSpecificSettings(device) != null ? View.VISIBLE : View.GONE);
+        holder.deviceSpecificSettingsView.setVisibility(coordinator.getSupportedDeviceSpecificConnectionSettings() != null ? View.VISIBLE : View.GONE);
         holder.deviceSpecificSettingsView.setOnClickListener(new View.OnClickListener()
 
                                                 {

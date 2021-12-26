@@ -354,6 +354,13 @@ public interface DeviceCoordinator {
     boolean supportsUnicodeEmojis();
 
     /**
+     * Returns device specific settings related to connection
+     *
+     * @return int[]
+     */
+    int[] getSupportedDeviceSpecificConnectionSettings();
+
+    /**
      * Indicates which device specific settings the device supports (not per device type or family, but unique per device).
      */
     int[] getSupportedDeviceSpecificSettings(GBDevice device);

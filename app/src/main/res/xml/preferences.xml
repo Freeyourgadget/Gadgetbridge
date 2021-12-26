@@ -17,7 +17,9 @@
             android:layout="@layout/preference_checkbox"
             android:defaultValue="false"
             android:key="general_autocreconnect"
-            android:title="@string/pref_title_general_autoreconnect" />
+            android:title="@string/pref_title_general_autoreconnect"
+            android:enabled="false"
+            android:summary="setting has been moved to device specific settings"/>
         <CheckBoxPreference
             android:layout="@layout/preference_checkbox"
             android:defaultValue="true"
