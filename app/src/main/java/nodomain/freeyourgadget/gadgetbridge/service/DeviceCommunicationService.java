@@ -512,7 +512,11 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
                 if(targetedDevice != null){
                     targetedDevices.add(targetedDevice);
                 }else{
-                    targetedDevices.addAll(Arrays.asList(getGBDevices()));
+                    for(GBDevice device : getGBDevices()){
+                        if(isDeviceInitialized(device)){
+                            targetedDevices.add(device);
+                        }
+                    }
                 }
                 for (GBDevice device1 : targetedDevices) {
                     try {
