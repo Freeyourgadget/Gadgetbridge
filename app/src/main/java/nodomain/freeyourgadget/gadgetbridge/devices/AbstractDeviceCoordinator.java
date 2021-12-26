@@ -86,7 +86,7 @@ public abstract class AbstractDeviceCoordinator implements DeviceCoordinator {
     public void deleteDevice(final GBDevice gbDevice) throws GBException {
         LOG.info("will try to delete device: " + gbDevice.getName());
         if (gbDevice.isConnected() || gbDevice.isConnecting()) {
-            GBApplication.deviceService().disconnect();
+            GBApplication.deviceService().disconnect(gbDevice);
         }
         Prefs prefs = getPrefs();
 

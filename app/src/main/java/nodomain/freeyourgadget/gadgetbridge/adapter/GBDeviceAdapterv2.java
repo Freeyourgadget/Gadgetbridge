@@ -154,7 +154,7 @@ public class GBDeviceAdapterv2 extends RecyclerView.Adapter<GBDeviceAdapterv2.Vi
             public boolean onLongClick(View v) {
                 if (device.getState() != GBDevice.State.NOT_CONNECTED) {
                     showTransientSnackbar(R.string.controlcenter_snackbar_disconnecting);
-                    GBApplication.deviceService().disconnect();
+                    GBApplication.deviceService().disconnect(device);
                 }
                 return true;
             }
