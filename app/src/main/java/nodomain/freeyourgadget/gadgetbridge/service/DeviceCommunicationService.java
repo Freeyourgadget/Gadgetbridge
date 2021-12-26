@@ -401,20 +401,24 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
                     autoReconnect = getGBPrefs().getAutoReconnect();
                 }
 
-                DeviceStruct struct = null;
-                try{
-                    struct = getDeviceStruct(gbDevice);
-                }catch (DeviceNotFoundException e){
-                    // e.printStackTrace();
-                }
-                if(struct != null){
-                    if(!isDeviceConnecting(struct.getDevice()) && !isDeviceConnected(struct.getDevice())){
-                        setDeviceSupport(gbDevice, null);
+                DeviceStruct registeredStruct = getDeviceStructOrNull(gbDevice);
+                if(registeredStruct != null){
+                    boolean deviceAlreadyConnected = isDeviceConnecting(registeredStruct.getDevice()) || isDeviceConnected(registeredStruct.getDevice());
+                    if(deviceAlreadyConnected){
+                        break;
+                    }
+                    try {
+                        removeDeviceSupport(gbDevice);
+                    } catch (DeviceNotFoundException e) {
+                        e.printStackTrace();
                     }
                 }else{
-                    struct = new DeviceStruct();
-                    struct.setDevice(gbDevice);
+                    registeredStruct = new DeviceStruct();
+                    registeredStruct.setDevice(gbDevice);
+                    registeredStruct.setCoordinator(DeviceHelper.getInstance().getCoordinator(gbDevice));
+                    deviceStructs.add(registeredStruct);
                 }
+
                 try {
                     DeviceSupport deviceSupport = mFactory.createDeviceSupport(gbDevice);
                     if (deviceSupport != null) {
@@ -430,7 +434,6 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
                     }
                 } catch (Exception e) {
                     GB.toast(this, getString(R.string.cannot_connect, e.getMessage()), Toast.LENGTH_SHORT, GB.ERROR, e);
-                    setDeviceSupport(gbDevice, null);
                 }
 
                 for(DeviceStruct struct2 : deviceStructs){
@@ -738,26 +741,31 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
      *
      * @param deviceSupport deviceSupport to reokace/add
      */
-    private void setDeviceSupport(GBDevice device, @Nullable DeviceSupport deviceSupport) {
-        try{
-            DeviceStruct deviceStruct = getDeviceStruct(device);
-            DeviceSupport mDeviceSupport = deviceStruct.getDeviceSupport();
-            if (deviceSupport != mDeviceSupport && mDeviceSupport != null) {
-                mDeviceSupport.dispose();
-            }
-            deviceStruct.setDeviceSupport(deviceSupport);
-            deviceStruct.setCoordinator(DeviceHelper.getInstance().getCoordinator(device));
-            return;
-        }catch (DeviceNotFoundException e){
-            // device was not connected yet
-        }
-        // TODO: something to do if device was not connected yet, but deviceSupport is null
-        DeviceStruct struct = new DeviceStruct();
-        struct.setDevice(device);
-        struct.setDeviceSupport(deviceSupport);
-        struct.setCoordinator(DeviceHelper.getInstance().getCoordinator(device));
+    private void setDeviceSupport(GBDevice device, DeviceSupport deviceSupport) throws DeviceNotFoundException {
+       DeviceStruct deviceStruct = getDeviceStruct(device);
+       DeviceSupport cachedDeviceSupport = deviceStruct.getDeviceSupport();
+       if (deviceSupport != cachedDeviceSupport && cachedDeviceSupport != null) {
+           cachedDeviceSupport.dispose();
+       }
+       deviceStruct.setDeviceSupport(deviceSupport);
+    }
 
-        deviceStructs.add(struct);
+    private void removeDeviceSupport(GBDevice device) throws DeviceNotFoundException {
+        DeviceStruct struct = getDeviceStruct(device);
+        if(struct.getDeviceSupport() != null){
+            struct.getDeviceSupport().dispose();
+        }
+        struct.setDeviceSupport(null);
+    }
+
+    private DeviceStruct getDeviceStructOrNull(GBDevice device){
+        DeviceStruct deviceStruct = null;
+        try {
+            deviceStruct = getDeviceStruct(device);
+        } catch (DeviceNotFoundException e) {
+            e.printStackTrace();
+        }
+        return deviceStruct;
     }
 
     public DeviceStruct getDeviceStruct(GBDevice device) throws DeviceNotFoundException {
@@ -1039,7 +1047,11 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
         setReceiversEnableState(false, false, null); // disable BroadcastReceivers
 
         for(GBDevice device : getGBDevices()){
-            setDeviceSupport(device, null);
+            try {
+                removeDeviceSupport(device);
+            } catch (DeviceNotFoundException e) {
+                e.printStackTrace();
+            }
         }
         GB.removeNotification(GB.NOTIFICATION_ID, this); // need to do this because the updated notification won't be cancelled when service stops
     }

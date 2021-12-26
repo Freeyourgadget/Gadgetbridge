@@ -143,7 +143,6 @@ public class GB {
     public static Notification createNotification(List<GBDevice> devices, Context context) {
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context, NOTIFICATION_CHANNEL_ID);
         if(devices.size() == 0){
-            // TODO: extract
             builder.setContentTitle(context.getString(R.string.info_no_devices_connected))
                     .setSmallIcon(R.drawable.ic_notification_disconnected)
                     .setContentIntent(getContentIntent(context))
