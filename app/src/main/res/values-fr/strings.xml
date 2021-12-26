@@ -1496,4 +1496,7 @@ Temps de sommeil préféré en heures</string>
     <string name="minSpeed">Minimum</string>
     <string name="minHR">Rythme cardiaque min</string>
     <string name="maxCadence">Cadence max</string>
+    <string name="activity_prefs_discovery_pairing">Options de découverte et de pairage</string>
+    <string name="discover_unsupported_devices">Découvrir les appareils non pris en charge</string>
+    <string name="add_test_device">Ajouter un appareil de test</string>
 </resources>
