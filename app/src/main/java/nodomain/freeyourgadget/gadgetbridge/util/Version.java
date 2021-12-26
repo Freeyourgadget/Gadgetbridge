@@ -35,6 +35,26 @@ public class Version implements Comparable<Version> {
         this.version = version;
     }
 
+    public boolean smallerOrEqualThan(Version that){
+        return !greaterThan(that);
+    }
+
+    public boolean greaterOrEqualThan(Version that){
+        return !smallerThan(that);
+    }
+
+    public boolean smallerThan(Version that){
+        return compareTo(that) == -1;
+    }
+
+    public boolean greaterThan(Version that){
+        return compareTo(that) == 1;
+    }
+
+    public boolean sameAs(Version that){
+        return compareTo(that) == 0;
+    }
+
     @Override public int compareTo(Version that) {
         if(that == null)
             return 1;
