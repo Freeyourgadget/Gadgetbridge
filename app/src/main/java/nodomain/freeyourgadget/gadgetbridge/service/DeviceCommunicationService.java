@@ -43,6 +43,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.UUID;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
@@ -505,33 +506,17 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
                     struct2.getDevice().sendDeviceUpdateIntent(this);
                 }
                 break;
-            case ACTION_DISCONNECT:
-                GBDevice device = intent.getParcelableExtra(GBDevice.EXTRA_DEVICE);
-                ArrayList<GBDevice> devicesToDisconnect = new ArrayList<>();
-                if(device != null){
-                    devicesToDisconnect.add(device);
-                }else{
-                    for(DeviceStruct struct : deviceStructs){
-                        if(struct.getDevice().getState() != GBDevice.State.NOT_CONNECTED){
-                            devicesToDisconnect.add(struct.getDevice());
-                        }
-                    }
-                }
-                for(GBDevice deviceToDisconnect : devicesToDisconnect){
-                    try {
-                        removeDeviceSupport(deviceToDisconnect);
-                    } catch (DeviceNotFoundException e) {
-                        e.printStackTrace();
-                    }
-                    deviceToDisconnect.setState(GBDevice.State.NOT_CONNECTED);
-                    deviceToDisconnect.sendDeviceUpdateIntent(this);
-                }
-                updateReceiversState();
-                break;
             default:
-                for(DeviceStruct struct2 : deviceStructs){
+                GBDevice targetedDevice = intent.getParcelableExtra(GBDevice.EXTRA_DEVICE);
+                ArrayList<GBDevice> targetedDevices = new ArrayList<>();
+                if(targetedDevice != null){
+                    targetedDevices.add(targetedDevice);
+                }else{
+                    targetedDevices.addAll(Arrays.asList(getGBDevices()));
+                }
+                for (GBDevice device1 : targetedDevices) {
                     try {
-                        handleAction(intent, action, struct2.getDevice());
+                        handleAction(intent, action, device1);
                     } catch (DeviceNotFoundException e) {
                         e.printStackTrace();
                     }
@@ -664,6 +649,16 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
                 deviceSupport.onFetchRecordedData(dataTypes);
                 break;
             }
+            case ACTION_DISCONNECT:
+                try {
+                    removeDeviceSupport(device);
+                } catch (DeviceNotFoundException e) {
+                    e.printStackTrace();
+                }
+                device.setState(GBDevice.State.NOT_CONNECTED);
+                device.sendDeviceUpdateIntent(this);
+                updateReceiversState();
+                break;
             case ACTION_FIND_DEVICE: {
                 boolean start = intent.getBooleanExtra(EXTRA_FIND_START, false);
                 deviceSupport.onFindDevice(start);
