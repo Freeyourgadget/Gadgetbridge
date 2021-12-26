@@ -64,6 +64,11 @@ public abstract class AbstractDeviceCoordinator implements DeviceCoordinator {
     }
 
     @Override
+    public ConnectionType getConnectionType() {
+        return ConnectionType.BOTH;
+    }
+
+    @Override
     public boolean supports(GBDevice device) {
         return getDeviceType().equals(device.getType());
     }
