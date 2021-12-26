@@ -100,7 +100,7 @@ public class Widget extends AppWidgetProvider {
     }
 
 
-    private long[] getSteps() {
+    private long[] getSteps(int appWidgetId) {
         Context context = GBApplication.getContext();
         Calendar day = GregorianCalendar.getInstance();
 
@@ -108,8 +108,20 @@ public class Widget extends AppWidgetProvider {
             return new long[]{0, 0, 0};
         }
         DailyTotals ds = new DailyTotals();
-        // TODO: handle multiple
-        GBDevice selectedDevice = selectedDevices.get(0);
+
+        WidgetPreferenceStorage widgetPreferenceStorage = new WidgetPreferenceStorage();
+        String savedDeviceAddress = widgetPreferenceStorage.getSavedDeviceAddress(context, appWidgetId);
+        if (savedDeviceAddress == null) {
+            GB.toast("no device configured", Toast.LENGTH_SHORT, GB.ERROR);
+            return new long[]{0, 0, 0};
+        }
+        GBDevice selectedDevice = getDeviceByMAC(context.getApplicationContext(), savedDeviceAddress);
+
+        if (selectedDevice == null || !selectedDevice.isInitialized()) {
+            GB.toast(context.getString(R.string.device_not_connected), Toast.LENGTH_SHORT, GB.ERROR);
+            return new long[]{0, 0, 0};
+        }
+
         return ds.getDailyTotalsForDevice(selectedDevice, day);
         //return ds.getDailyTotalsForAllDevices(day);
     }
@@ -122,13 +134,21 @@ public class Widget extends AppWidgetProvider {
                                  int appWidgetId) {
 
         selectedDevices = getSelectedDevices();
-        // TODO: handle multiple devices
-        GBDevice selectedDevice = selectedDevices.get(0);
+        GBDevice selectedDevice = null;
+        if(selectedDevices.size() > 0){
+            selectedDevice = selectedDevices.get(0);
+        }
         WidgetPreferenceStorage widgetPreferenceStorage = new WidgetPreferenceStorage();
         String savedDeviceAddress = widgetPreferenceStorage.getSavedDeviceAddress(context, appWidgetId);
         if (savedDeviceAddress != null) {
-            // TODO: handle or delete this
-            // selectedDevice = getDeviceByMAC(context.getApplicationContext(), savedDeviceAddress); //this would probably only happen if device no longer exists in GB
+            selectedDevice = getDeviceByMAC(context.getApplicationContext(), savedDeviceAddress);
+        }
+
+        if (selectedDevice == null || !selectedDevice.isInitialized()) {
+            GB.toast(context,
+                    context.getString(R.string.device_not_connected),
+                    Toast.LENGTH_SHORT, GB.ERROR);
+            return;
         }
 
         RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.widget);
@@ -158,7 +178,7 @@ public class Widget extends AppWidgetProvider {
         PendingIntent startChartsPIntent = PendingIntent.getActivity(context, appWidgetId, startChartsIntent, PendingIntent.FLAG_CANCEL_CURRENT);
         views.setOnClickPendingIntent(R.id.todaywidget_bottom_layout, startChartsPIntent);
 
-        long[] dailyTotals = getSteps();
+        long[] dailyTotals = getSteps(appWidgetId);
         int steps = (int) dailyTotals[0];
         int sleep = (int) dailyTotals[1];
         ActivityUser activityUser = new ActivityUser();
@@ -214,11 +234,19 @@ public class Widget extends AppWidgetProvider {
         appWidgetManager.updateAppWidget(appWidgetId, views);
     }
 
-    public void refreshData() {
+    public void refreshData(int appWidgetId) {
         Context context = GBApplication.getContext();
-        List<GBDevice> devices = getSelectedDevices();
-        // TODO: handle multiple
-        GBDevice device = devices.get(0);
+
+        GBDevice device = null;
+        if(selectedDevices.size() > 0){
+            device = selectedDevices.get(0); // fallback
+        }
+        WidgetPreferenceStorage widgetPreferenceStorage = new WidgetPreferenceStorage();
+        String savedDeviceAddress = widgetPreferenceStorage.getSavedDeviceAddress(context, appWidgetId);
+        if (savedDeviceAddress != null) {
+            device = getDeviceByMAC(context.getApplicationContext(), savedDeviceAddress);
+        }
+
         if (device == null || !device.isInitialized()) {
             GB.toast(context,
                     context.getString(R.string.device_not_connected),
@@ -289,11 +317,16 @@ public class Widget extends AppWidgetProvider {
         super.onReceive(context, intent);
         LOG.debug("gbwidget LOCAL onReceive, action: " + intent.getAction() + intent);
         Bundle extras = intent.getExtras();
-        int appWidgetId = -1;
+        int appWidgetId = AppWidgetManager.INVALID_APPWIDGET_ID;
         if (extras != null) {
             appWidgetId = extras.getInt(
                     AppWidgetManager.EXTRA_APPWIDGET_ID,
                     AppWidgetManager.INVALID_APPWIDGET_ID);
+        }
+
+        if(appWidgetId == AppWidgetManager.INVALID_APPWIDGET_ID){
+            GB.toast("invalid widget id", Toast.LENGTH_LONG, GB.ERROR);
+            return;
         }
 
         //this handles widget re-connection after apk updates
@@ -301,7 +334,7 @@ public class Widget extends AppWidgetProvider {
             if (broadcastReceiver == null) {
                 onEnabled(context);
             }
-                refreshData();
+                refreshData(appWidgetId);
             //updateWidget();
         } else if (APPWIDGET_DELETED.equals(intent.getAction())) {
             onDisabled(context);
