@@ -210,6 +210,60 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
         }
     }
 
+    private class FeatureSet{
+        private boolean supportsWeather = false;
+        private boolean supportsActivityDataFetching = false;
+        private boolean supportsCalendarEvents = false;
+        private boolean supportsMusicInfo = false;
+
+        public boolean supportsWeather() {
+            return supportsWeather;
+        }
+
+        public void setSupportsWeather(boolean supportsWeather) {
+            this.supportsWeather = supportsWeather;
+        }
+
+        public boolean supportsActivityDataFetching() {
+            return supportsActivityDataFetching;
+        }
+
+        public void setSupportsActivityDataFetching(boolean supportsActivityDataFetching) {
+            this.supportsActivityDataFetching = supportsActivityDataFetching;
+        }
+
+        public boolean supportsCalendarEvents() {
+            return supportsCalendarEvents;
+        }
+
+        public void setSupportsCalendarEvents(boolean supportsCalendarEvents) {
+            this.supportsCalendarEvents = supportsCalendarEvents;
+        }
+
+        public boolean supportsMusicInfo() {
+            return supportsMusicInfo;
+        }
+
+        public void setSupportsMusicInfo(boolean supportsMusicInfo) {
+            this.supportsMusicInfo = supportsMusicInfo;
+        }
+
+        public void logicalOr(DeviceCoordinator operand){
+            if(operand.supportsCalendarEvents()){
+                setSupportsCalendarEvents(true);
+            }
+            if(operand.supportsWeather()){
+                setSupportsWeather(true);
+            }
+            if(operand.supportsActivityDataFetching()){
+                setSupportsActivityDataFetching(true);
+            }
+            if(operand.supportsMusicInfo()){
+                setSupportsMusicInfo(true);
+            }
+        }
+    }
+
     public static class DeviceNotFoundException extends GBException{
         private final String address;
 
@@ -288,31 +342,42 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
             String action = intent.getAction();
             if(GBDevice.ACTION_DEVICE_CHANGED.equals(action)){
                 GBDevice device = intent.getParcelableExtra(GBDevice.EXTRA_DEVICE);
-                boolean enableReceivers = false;
-                boolean anyDeviceInitialized = false;
 
-                try {
-                    DeviceStruct cachedStruct = getDeviceStruct(device);
+                // create a new instance of the changed devices coordinator, in case it's capabilities changed
+                DeviceStruct cachedStruct = getDeviceStructOrNull(device);
+                if(cachedStruct != null) {
                     cachedStruct.setDevice(device);
                     DeviceCoordinator newCoordinator = DeviceHelper.getInstance().getCoordinator(device);
                     cachedStruct.setCoordinator(newCoordinator);
-                }catch (DeviceNotFoundException e){
-                    // is okay
                 }
-
-                for(DeviceStruct struct: deviceStructs){
-                    if(struct.getDeviceSupport().useAutoConnect() || isDeviceInitialized(struct.getDevice())){
-                        enableReceivers = true;
-                    }
-                    if(struct.getDevice().isInitialized()){
-                        anyDeviceInitialized = true;
-                    }
-                }
-
-                setReceiversEnableState(enableReceivers, anyDeviceInitialized, null);
+                updateReceiversState();
             }
         }
     };
+
+    private void updateReceiversState(){
+        boolean enableReceivers = false;
+        boolean anyDeviceInitialized = false;
+
+        FeatureSet features = new FeatureSet();
+
+        for(DeviceStruct struct: deviceStructs){
+            DeviceSupport deviceSupport = struct.getDeviceSupport();
+            if((deviceSupport != null && deviceSupport.useAutoConnect()) || isDeviceInitialized(struct.getDevice())){
+                enableReceivers = true;
+            }
+            if(isDeviceInitialized(struct.getDevice())){
+                anyDeviceInitialized = true;
+            }
+
+            DeviceCoordinator coordinator = struct.getCoordinator();
+            if(coordinator != null){
+                features.logicalOr(coordinator);
+            }
+        }
+
+        setReceiversEnableState(enableReceivers, anyDeviceInitialized, features);
+    }
 
     @Override
     public void onCreate() {
@@ -439,6 +504,29 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
                 for(DeviceStruct struct2 : deviceStructs){
                     struct2.getDevice().sendDeviceUpdateIntent(this);
                 }
+                break;
+            case ACTION_DISCONNECT:
+                GBDevice device = intent.getParcelableExtra(GBDevice.EXTRA_DEVICE);
+                ArrayList<GBDevice> devicesToDisconnect = new ArrayList<>();
+                if(device != null){
+                    devicesToDisconnect.add(device);
+                }else{
+                    for(DeviceStruct struct : deviceStructs){
+                        if(struct.getDevice().getState() != GBDevice.State.NOT_CONNECTED){
+                            devicesToDisconnect.add(struct.getDevice());
+                        }
+                    }
+                }
+                for(GBDevice deviceToDisconnect : devicesToDisconnect){
+                    try {
+                        removeDeviceSupport(deviceToDisconnect);
+                    } catch (DeviceNotFoundException e) {
+                        e.printStackTrace();
+                    }
+                    deviceToDisconnect.setState(GBDevice.State.NOT_CONNECTED);
+                    deviceToDisconnect.sendDeviceUpdateIntent(this);
+                }
+                updateReceiversState();
                 break;
             default:
                 for(DeviceStruct struct2 : deviceStructs){
@@ -574,14 +662,6 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
             case ACTION_FETCH_RECORDED_DATA: {
                 int dataTypes = intent.getIntExtra(EXTRA_RECORDED_DATA_TYPES, 0);
                 deviceSupport.onFetchRecordedData(dataTypes);
-                break;
-            }
-            case ACTION_DISCONNECT: {
-                deviceSupport.dispose();
-                device.setState(GBDevice.State.NOT_CONNECTED);
-                device.sendDeviceUpdateIntent(this);
-                setReceiversEnableState(false, false, null);
-                // TODO: remove devices
                 break;
             }
             case ACTION_FIND_DEVICE: {
@@ -844,22 +924,14 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
     }
 
 
-    private void setReceiversEnableState(boolean enable, boolean initialized, GBDevice device) {
+    private void setReceiversEnableState(boolean enable, boolean initialized, FeatureSet features) {
         LOG.info("Setting broadcast receivers to: " + enable);
 
-        DeviceCoordinator coordinator = null;
-
-        try {
-            coordinator = getDeviceCoordinator(device);
-        }catch (DeviceNotFoundException e){
-            e.printStackTrace();
+        if(enable && features == null){
+            throw new RuntimeException("features cannot be null when enabling receivers");
         }
 
-        if(coordinator == null){
-            return;
-        }
-
-        if (enable && initialized && coordinator.supportsCalendarEvents()) {
+        if (enable && initialized && features.supportsCalendarEvents()) {
             if (mCalendarReceiver == null && getPrefs().getBoolean("enable_calendar_sync", true)) {
                 if (!(GBApplication.isRunningMarshmallowOrLater() && ContextCompat.checkSelfPermission(this, Manifest.permission.READ_CALENDAR) == PackageManager.PERMISSION_DENIED)) {
                     IntentFilter calendarIntentFilter = new IntentFilter();
@@ -902,7 +974,7 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
                 mPebbleReceiver = new PebbleReceiver();
                 registerReceiver(mPebbleReceiver, new IntentFilter("com.getpebble.action.SEND_NOTIFICATION"));
             }
-            if (mMusicPlaybackReceiver == null && coordinator.supportsMusicInfo()) {
+            if (mMusicPlaybackReceiver == null && features.supportsMusicInfo()) {
                 mMusicPlaybackReceiver = new MusicPlaybackReceiver();
                 IntentFilter filter = new IntentFilter();
                 for (String action : mMusicActions) {
@@ -936,7 +1008,7 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
             }
 
             // Weather receivers
-            if (coordinator.supportsWeather()) {
+            if (features.supportsWeather()) {
                 if (GBApplication.isRunningOreoOrLater()) {
                     if (mLineageOsWeatherReceiver == null) {
                         mLineageOsWeatherReceiver = new LineageOsWeatherReceiver();
@@ -964,7 +1036,7 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
             }
 
             if (GBApplication.getPrefs().getBoolean("auto_fetch_enabled", false) &&
-                    coordinator.supportsActivityDataFetching() && mGBAutoFetchReceiver == null) {
+                    features.supportsActivityDataFetching() && mGBAutoFetchReceiver == null) {
                 mGBAutoFetchReceiver = new GBAutoFetchReceiver();
                 registerReceiver(mGBAutoFetchReceiver, new IntentFilter("android.intent.action.USER_PRESENT"));
             }
