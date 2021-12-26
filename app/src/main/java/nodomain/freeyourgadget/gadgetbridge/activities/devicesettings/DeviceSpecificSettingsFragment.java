@@ -938,6 +938,11 @@ public class DeviceSpecificSettingsFragment extends PreferenceFragmentCompat imp
         public void onSharedPreferenceChanged(SharedPreferences prefs, String key) {
             LOG.debug("Preference changed: {}", key);
 
+            if(key == null){
+                LOG.warn("Preference null, ignoring");
+                return;
+            }
+
             final Preference preference = findPreference(key);
             if (preference == null) {
                 LOG.warn("Preference {} not found, ignoring", key);
