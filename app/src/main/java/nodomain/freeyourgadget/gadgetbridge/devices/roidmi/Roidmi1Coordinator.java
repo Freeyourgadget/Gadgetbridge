@@ -50,4 +50,10 @@ public class Roidmi1Coordinator extends RoidmiCoordinator {
     public DeviceType getDeviceType() {
         return DeviceType.ROIDMI;
     }
+
+    @Override
+    public int getBatteryCount() {
+        // Roidmi 1 does not have voltage support
+        return 0;
+    }
 }
