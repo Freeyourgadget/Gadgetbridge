@@ -988,7 +988,7 @@
     <string name="companiondevice_pairing">Párování systémem Doprovodného Zařízení</string>
     <string name="require_location_provider">Poloha musí být povolena</string>
     <string name="menuitem_stress">Stres</string>
-    <string name="menuitem_cycles">Záznam cyklistiky</string>
+    <string name="menuitem_cycles">Cyklus</string>
     <string name="menuitem_breathing">Dýchání</string>
     <string name="devicetype_pinetime_jf">PineTime (JF Firmware)</string>
     <string name="devicetype_tlw64">TLW64</string>
@@ -1496,4 +1496,19 @@
     <string name="minCadence">Min rytmus</string>
     <string name="pref_header_sony_equalizer_bands">Rozsahy</string>
     <string name="sony_audio_upsampling">Převzorkování zvuku</string>
+    <string name="activity_prefs_discovery_pairing">Možnosti vyhledávání a párování</string>
+    <string name="sony_button_mode_ambient_sound_control">Nastavení zvuku okolí</string>
+    <string name="sony_button_mode_playback_control">Nastavení přehrávání</string>
+    <string name="sony_button_mode_volume_control">Ovládání hlasitosti</string>
+    <string name="controlcenter_power_off_confirm_title">Vypnout</string>
+    <string name="controlcenter_power_off">Vypnutí</string>
+    <string name="controlcenter_power_off_confirm_description">Opravdu chcete zařízení vypnout\?</string>
+    <string name="add_test_device">Přidat testovacího zařízení</string>
+    <string name="devicetype_sony_wf_sp800n">Sony WF-SP800N</string>
+    <string name="discover_unsupported_devices">Vyhledávat nepodporovaná zařízení</string>
+    <string name="discover_unsupported_devices_description">Povolením této volby budou vyhledávána i nepodporovaná zařízení. Kliknutí zkopíruje jméno a MAC adresu zařízení do schránky. Podržení spustí dialog `Přidat testovací zařízení`.</string>
+    <string name="sony_pause_when_taken_off">Pozastavení přehrávání při sundání sluchátek</string>
+    <string name="sony_button_mode_left">Režim tlačítka (vlevo)</string>
+    <string name="sony_button_mode_off">Vypnout</string>
+    <string name="sony_button_mode_right">Režim tlačítka (vpravo)</string>
 </resources>
