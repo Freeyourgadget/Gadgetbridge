@@ -1500,4 +1500,19 @@
     <string name="spm">步数/分钟</string>
     <string name="pref_header_sony_equalizer_bands">乐队</string>
     <string name="sony_audio_upsampling">音频提升采样</string>
+    <string name="controlcenter_power_off_confirm_title">关机</string>
+    <string name="controlcenter_power_off">关机</string>
+    <string name="controlcenter_power_off_confirm_description">您确定想要关闭此设备的电源吗？</string>
+    <string name="devicetype_sony_wf_sp800n">索尼 WF-SP800N</string>
+    <string name="activity_prefs_discovery_pairing">发现和配对选项</string>
+    <string name="add_test_device">添加测试设备</string>
+    <string name="discover_unsupported_devices">发现未支持的设备</string>
+    <string name="discover_unsupported_devices_description">启用该选项将会显示扫描时所有已发现的设备。短按将会复制设备名称和MAC地址到剪切板。长按将会显示“添加测试设备”对话框。</string>
+    <string name="sony_button_mode_off">关</string>
+    <string name="sony_pause_when_taken_off">当摘下耳机时暂停</string>
+    <string name="sony_button_mode_left">按钮模式（左）</string>
+    <string name="sony_button_mode_right">按钮模式（右）</string>
+    <string name="sony_button_mode_ambient_sound_control">环境音控制</string>
+    <string name="sony_button_mode_playback_control">回放控制</string>
+    <string name="sony_button_mode_volume_control">音量控制</string>
 </resources>
