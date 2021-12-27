@@ -996,8 +996,8 @@
     <string name="steps">Кроки</string>
     <string name="minAltitude">Мінімум</string>
     <string name="maxAltitude">Максимум</string>
-    <string name="descentMeters">З гори</string>
-    <string name="ascentMeters">Вгору</string>
+    <string name="descentMeters">Спуск</string>
+    <string name="ascentMeters">Підйом</string>
     <string name="distanceMeters">Відстань</string>
     <string name="error_location_enabled_mandatory">Для сканування пристроїв потрібне визначення розташування</string>
     <string name="ignore_bonded_devices_description">Увімкнення цієї опції ігнорує пристрої, які вже були пов\'язані перед скануванням</string>
@@ -1516,4 +1516,8 @@
     <string name="sony_button_mode_right">Режим кнопки (Праворуч)</string>
     <string name="sony_button_mode_ambient_sound_control">Керування навколишнім звуком</string>
     <string name="sony_button_mode_playback_control">Керування відтворенням</string>
+    <string name="devicetype_bose_qc35">Bose QC35</string>
+    <string name="ascentDistance">Відстань підйому</string>
+    <string name="descentDistance">Відстань спуску</string>
+    <string name="devicetype_vesc">VESC</string>
 </resources>
