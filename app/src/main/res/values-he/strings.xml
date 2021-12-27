@@ -1509,4 +1509,5 @@
     <string name="sony_pause_when_taken_off">להשהות כאשר האוזניות מוסרות</string>
     <string name="sony_button_mode_ambient_sound_control">בקרת שמע אופף</string>
     <string name="sony_button_mode_playback_control">בקרת נגינה</string>
+    <string name="devicetype_bose_qc35">Bose QC35</string>
 </resources>
