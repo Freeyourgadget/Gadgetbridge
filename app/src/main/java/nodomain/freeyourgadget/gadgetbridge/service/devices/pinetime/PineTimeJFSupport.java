@@ -470,7 +470,7 @@ public class PineTimeJFSupport extends AbstractBTLEDeviceSupport implements DfuL
 
         if (getSupportedServices().contains(PineTimeJFConstants.UUID_SERVICE_MOTION)) {
             builder.notify(getCharacteristic(PineTimeJFConstants.UUID_CHARACTERISTIC_MOTION_STEP_COUNT), true);
-            builder.notify(getCharacteristic(PineTimeJFConstants.UUID_CHARACTERISTIC_MOTION_RAW_XYZ_VALUES), true);
+            //builder.notify(getCharacteristic(PineTimeJFConstants.UUID_CHARACTERISTIC_MOTION_RAW_XYZ_VALUES), false); // issue #2527
         }
 
         setInitialized(builder);
@@ -635,7 +635,6 @@ public class PineTimeJFSupport extends AbstractBTLEDeviceSupport implements DfuL
         } else if (characteristicUUID.equals(PineTimeJFConstants.UUID_CHARACTERISTIC_MOTION_STEP_COUNT)) {
             int steps = BLETypeConversions.toUint32(characteristic.getValue());
             if (LOG.isDebugEnabled()) {
-                GB.toast("Steps count: " + steps, Toast.LENGTH_SHORT, GB.INFO);
                 LOG.debug("onCharacteristicChanged: MotionService:Steps=" + steps);
             }
             onReceiveStepsSample(steps);
