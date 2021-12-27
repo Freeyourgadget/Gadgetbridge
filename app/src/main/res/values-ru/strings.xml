@@ -460,8 +460,8 @@
     <string name="mi2_prefs_inactivity_warnings_summary">Когда вы мало двигаетесь, браслет время от времени вибрирует</string>
     <string name="mi2_prefs_inactivity_warnings_threshold">Период низкой активности (в минутах)</string>
     <string name="mi2_prefs_inactivity_warnings_dnd_summary">Отключить уведомления о низкой активности во время режима \"Не беспокоить\"</string>
-    <string name="mi2_prefs_do_not_disturb_start">Начало режим \"Не беспокоить\"</string>
-    <string name="mi2_prefs_do_not_disturb_end">Окончание режима \"Не беспокоить\"</string>
+    <string name="mi2_prefs_do_not_disturb_start">Начальное время</string>
+    <string name="mi2_prefs_do_not_disturb_end">Время окончания</string>
     <string name="automatic">Автоматически</string>
     <string name="simplified_chinese">Упрощённый китайский язык</string>
     <string name="traditional_chinese">Традиционный китайский язык</string>

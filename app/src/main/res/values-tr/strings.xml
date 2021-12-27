@@ -1521,4 +1521,19 @@
     <string name="spm">adım/dak</string>
     <string name="pref_header_sony_equalizer_bands">Bant</string>
     <string name="sony_audio_upsampling">Ses Üst Örnekleme</string>
+    <string name="sony_button_mode_right">Düğme Modu (Sağ)</string>
+    <string name="sony_button_mode_playback_control">Oynatım Denetimi</string>
+    <string name="discover_unsupported_devices_description">Bu seçeneğin etkinleştirilmesi, tarama sırasında keşfedilen tüm bluetooth aygıtlarını görüntüleyecektir. Kısa dokunma, aygıt adını ve MAC adresini panoya kopyalayacaktır. Uzun basıldığında, `Test aygıtı ekle` iletişim kutusu açılacaktır.</string>
+    <string name="controlcenter_power_off_confirm_description">Aygıtı kapatmak istediğinizden emin misiniz\?</string>
+    <string name="controlcenter_power_off_confirm_title">Kapat</string>
+    <string name="devicetype_sony_wf_sp800n">Sony WF-SP800N</string>
+    <string name="controlcenter_power_off">Kapat</string>
+    <string name="activity_prefs_discovery_pairing">Keşif ve Eşleştirme seçenekleri</string>
+    <string name="add_test_device">Test aygıtı ekle</string>
+    <string name="discover_unsupported_devices">Desteklenmeyen aygıtları keşfet</string>
+    <string name="sony_button_mode_off">Kapalı</string>
+    <string name="sony_pause_when_taken_off">Kulaklıklar çıkarıldığında duraklat</string>
+    <string name="sony_button_mode_left">Düğme Modu (Sol)</string>
+    <string name="sony_button_mode_ambient_sound_control">Ortam Sesi Denetimi</string>
+    <string name="sony_button_mode_volume_control">Ses Denetimi</string>
 </resources>

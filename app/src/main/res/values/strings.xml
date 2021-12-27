@@ -1120,6 +1120,8 @@
     <string name="distanceMeters">Distance</string>
     <string name="ascentMeters">Uphill</string>
     <string name="descentMeters">Downhill</string>
+    <string name="ascentDistance">Uphill distance</string>
+    <string name="descentDistance">Downhill distance</string>
     <string name="maxAltitude">Maximum</string>
     <string name="minAltitude">Minimum</string>
     <string name="averageAltitude">Average</string>
@@ -1442,6 +1444,8 @@
     <string name="watchface_dialog_widget_timeout_show_circle">Show circle on timeout:</string>
     <string name="qhybrid_title_on_device_confirmation">Enable on-device pairing confirmation</string>
     <string name="qhybrid_summary_on_device_confirmation">On-device pairing confirmations can get annoying. Disabling them might lose you functionality.</string>
+    <string name="devicetype_vesc">VESC</string>
+    <string name="devicetype_bose_qc35">Bose QC35</string>
     <string name="info_no_devices_connected">no devices connected</string>
     <string name="info_connected_count">%d devices connected</string>
 </resources>

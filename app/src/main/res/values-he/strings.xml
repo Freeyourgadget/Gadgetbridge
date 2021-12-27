@@ -1494,4 +1494,20 @@
     <string name="minStride">צעד מזערי</string>
     <string name="pref_header_sony_equalizer_bands">צמידים</string>
     <string name="sony_audio_upsampling">Upsampling לשמע</string>
+    <string name="controlcenter_power_off_confirm_description">לכבות את ההתקן\?</string>
+    <string name="sony_button_mode_volume_control">בקרת שמע</string>
+    <string name="activity_prefs_discovery_pairing">אפשרויות גילוי וצימוד</string>
+    <string name="sony_button_mode_right">מצב הכפתור (ימין)</string>
+    <string name="discover_unsupported_devices">גילוי התקנים שאינם נתמכים</string>
+    <string name="controlcenter_power_off">כיבוי</string>
+    <string name="controlcenter_power_off_confirm_title">כיבוי</string>
+    <string name="add_test_device">הוספת התקן בדיקה</string>
+    <string name="sony_button_mode_left">מצב כפתור (שמאל)</string>
+    <string name="sony_button_mode_off">כבוי</string>
+    <string name="devicetype_sony_wf_sp800n">Sony WF-SP800N</string>
+    <string name="discover_unsupported_devices_description">הפעלת אפשרות זו תציג התקני Bluetooth בעת הסריקה. נגיעה קצרה תעתיק את שם ההתקן ואת כתובת החומרה שלו ללוח הגזירים. לחיצה ארוכה תפעיל את חלונית `הוספת התקן בדיקה`.</string>
+    <string name="sony_pause_when_taken_off">להשהות כאשר האוזניות מוסרות</string>
+    <string name="sony_button_mode_ambient_sound_control">בקרת שמע אופף</string>
+    <string name="sony_button_mode_playback_control">בקרת נגינה</string>
+    <string name="devicetype_bose_qc35">Bose QC35</string>
 </resources>

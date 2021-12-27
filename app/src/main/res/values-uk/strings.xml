@@ -1505,4 +1505,15 @@
     <string name="add_test_device">Додати тестовий пристрій</string>
     <string name="discover_unsupported_devices">Виявляти непідтримувані пристрої</string>
     <string name="discover_unsupported_devices_description">Якщо ввімкнути цей параметр, під час сканування буде показано всі виявлені Bluetooth-пристрої. Короткий дотик призведе до копіювання імені пристрою та mac-адреси до буфера обміну. Тривале натискання відкриє діалогове вікно «Додати тестовий пристрій».</string>
+    <string name="sony_button_mode_left">Режим кнопки (Ліворуч)</string>
+    <string name="devicetype_sony_wf_sp800n">Sony WF-SP800N</string>
+    <string name="sony_button_mode_volume_control">Регулювання гучності</string>
+    <string name="controlcenter_power_off_confirm_description">Ви впевнені, що хочете вимкнути пристрій\?</string>
+    <string name="controlcenter_power_off">Вимкнути</string>
+    <string name="controlcenter_power_off_confirm_title">Вимкнути</string>
+    <string name="sony_pause_when_taken_off">Зупиняти, коли знімаються навушники</string>
+    <string name="sony_button_mode_off">Вимкнути</string>
+    <string name="sony_button_mode_right">Режим кнопки (Праворуч)</string>
+    <string name="sony_button_mode_ambient_sound_control">Керування навколишнім звуком</string>
+    <string name="sony_button_mode_playback_control">Керування відтворенням</string>
 </resources>

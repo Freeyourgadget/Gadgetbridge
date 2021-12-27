@@ -93,6 +93,9 @@ public class HuamiActivitySummaryParser implements ActivitySummaryParser {
         float caloriesBurnt;
         float distanceMeters;
         float distanceMeters2 = 0;
+        float ascentDistance = 0;
+        float descentDistance = 0;
+        float flatDistance = 0;
         float ascentMeters = 0;
         float descentMeters = 0;
         float maxAltitude = 0;
@@ -183,11 +186,11 @@ public class HuamiActivitySummaryParser implements ActivitySummaryParser {
                 // for cycling it seems to work... hmm...
                 // 28 bytes
                 buffer.getInt(); // unknown
-                buffer.getInt(); // unknown
+                ascentDistance = buffer.getFloat();
                 ascentSeconds = buffer.getInt() / 1000; //ms?
-                buffer.getInt(); // unknown;
+                descentDistance = buffer.getFloat();
                 descentSeconds = buffer.getInt() / 1000; //ms?
-                buffer.getInt(); // unknown;
+                flatDistance = buffer.getFloat();
                 flatSeconds = buffer.getInt() / 1000; // ms?
             } else if (activityKind == ActivityKind.TYPE_SWIMMING || activityKind == ActivityKind.TYPE_SWIMMING_OPENWATER) {
                 // offset 0x8c
@@ -253,11 +256,11 @@ public class HuamiActivitySummaryParser implements ActivitySummaryParser {
             } else {
                 // 28 bytes
                 buffer.getInt(); // unknown
-                buffer.getInt(); // unknown
+                buffer.getInt(); // unknown probably ascentDistance = buffer.getFloat();
                 ascentSeconds = buffer.getInt() / 1000; //ms?
-                buffer.getInt(); // unknown;
+                buffer.getInt(); // unknown probably descentDistance = buffer.getFloat();
                 descentSeconds = buffer.getInt() / 1000; //ms?
-                buffer.getInt(); // unknown;
+                buffer.getInt(); // unknown probably flatDistance = buffer.getFloat();
                 flatSeconds = buffer.getInt() / 1000; // ms?
 
                 addSummaryData("ascentSeconds", ascentSeconds, "seconds");
@@ -298,6 +301,9 @@ public class HuamiActivitySummaryParser implements ActivitySummaryParser {
         addSummaryData("ascentSeconds", ascentSeconds, "seconds");
         addSummaryData("descentSeconds", descentSeconds, "seconds");
         addSummaryData("flatSeconds", flatSeconds, "seconds");
+        addSummaryData("ascentDistance", ascentDistance, "meters");
+        addSummaryData("descentDistance", descentDistance, "meters");
+        addSummaryData("flatDistance", flatDistance, "meters");
 
         addSummaryData("distanceMeters", distanceMeters, "meters");
         // addSummaryData("distanceMeters2", distanceMeters2, "meters");

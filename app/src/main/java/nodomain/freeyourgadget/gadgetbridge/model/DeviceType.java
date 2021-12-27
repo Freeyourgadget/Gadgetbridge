@@ -105,6 +105,9 @@ public enum DeviceType {
     GALAXY_BUDS(420, R.drawable.ic_device_galaxy_buds, R.drawable.ic_device_galaxy_buds_disabled, R.string.devicetype_galaxybuds),
     SONY_WH_1000XM3(430, R.drawable.ic_device_headphones, R.drawable.ic_device_headphones_disabled, R.string.devicetype_sony_wh_1000xm3),
     SONY_WF_SP800N(431, R.drawable.ic_device_galaxy_buds, R.drawable.ic_device_galaxy_buds_disabled, R.string.devicetype_sony_wf_sp800n),
+    BOSE_QC35(440, R.drawable.ic_device_headphones, R.drawable.ic_device_headphones_disabled, R.string.devicetype_bose_qc35),
+    VESC_NRF(500, R.drawable.ic_devices_other, R.drawable.ic_devices_other, R.string.devicetype_vesc),
+    VESC_HM10(501, R.drawable.ic_devices_other, R.drawable.ic_devices_other, R.string.devicetype_vesc),
     TEST(1000, R.drawable.ic_device_default, R.drawable.ic_device_default_disabled, R.string.devicetype_test);
 
     private final int key;

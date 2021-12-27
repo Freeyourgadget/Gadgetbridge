@@ -1490,4 +1490,21 @@
     <string name="minHR">Min Heartrate</string>
     <string name="maxStride">Max Stride</string>
     <string name="minStride">Min Stride</string>
+    <string name="controlcenter_power_off">Power Off</string>
+    <string name="sony_pause_when_taken_off">Pause when headphones are taken off</string>
+    <string name="sony_button_mode_ambient_sound_control">Ambient Sound Control</string>
+    <string name="activity_prefs_discovery_pairing">Discovery and Pairing options</string>
+    <string name="controlcenter_power_off_confirm_title">Power Off</string>
+    <string name="add_test_device">Add test device</string>
+    <string name="devicetype_sony_wf_sp800n">Sony WF-SP800N</string>
+    <string name="controlcenter_power_off_confirm_description">Are you sure you want to power off the device\?</string>
+    <string name="sony_button_mode_left">Button Mode (Left)</string>
+    <string name="discover_unsupported_devices">Discover unsupported devices</string>
+    <string name="sony_button_mode_volume_control">Volume Control</string>
+    <string name="discover_unsupported_devices_description">Enabling this option will display all discovered Bluetooth devices when scanning. Short tap will copy device name and MAC address to the clipboard. Long press will launch `Add test device` dialog.</string>
+    <string name="sony_button_mode_right">Button Mode (Right)</string>
+    <string name="sony_button_mode_off">Off</string>
+    <string name="sony_button_mode_playback_control">Playback Control</string>
+    <string name="pref_header_sony_equalizer_bands">Bands</string>
+    <string name="sony_audio_upsampling">Audio Upsampling</string>
 </resources>
