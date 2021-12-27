@@ -93,6 +93,7 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.sony.headphones.Sony
 import nodomain.freeyourgadget.gadgetbridge.service.devices.sonyswr12.SonySWR12DeviceSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.tlw64.TLW64Support;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.um25.Support.UM25Support;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.vesc.VescDeviceSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.vibratissimo.VibratissimoSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.waspos.WaspOSDeviceSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.watch9.Watch9DeviceSupport;
@@ -376,6 +377,10 @@ public class DeviceSupportFactory {
                         break;
                     case SONY_WF_SP800N:
                         deviceSupport = new ServiceDeviceSupport(new SonyHeadphonesSupport(), EnumSet.of(ServiceDeviceSupport.Flags.BUSY_CHECKING));
+                        break;
+                    case VESC_NRF:
+                    case VESC_HM10:
+                        deviceSupport = new ServiceDeviceSupport(new VescDeviceSupport(gbDevice.getType()), EnumSet.of(ServiceDeviceSupport.Flags.BUSY_CHECKING));
                         break;
                     case BOSE_QC35:
                         deviceSupport = new ServiceDeviceSupport(new QC35BaseSupport(), EnumSet.of(ServiceDeviceSupport.Flags.BUSY_CHECKING));
