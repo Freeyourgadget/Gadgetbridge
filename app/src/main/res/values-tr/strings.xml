@@ -1536,4 +1536,8 @@
     <string name="sony_button_mode_left">Düğme Modu (Sol)</string>
     <string name="sony_button_mode_ambient_sound_control">Ortam Sesi Denetimi</string>
     <string name="sony_button_mode_volume_control">Ses Denetimi</string>
+    <string name="descentDistance">Yokuş aşağı mesafe</string>
+    <string name="ascentDistance">Yokuş yukarı mesafe</string>
+    <string name="devicetype_vesc">VESC</string>
+    <string name="devicetype_bose_qc35">Bose QC35</string>
 </resources>
