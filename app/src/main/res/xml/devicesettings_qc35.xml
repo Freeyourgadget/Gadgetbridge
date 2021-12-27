@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <SeekBarPreference
+        android:title="Noice cancelling level"
+        android:max="2"
+        android:key="qc35_noise_cancelling_level" />
+
+</PreferenceScreen>
