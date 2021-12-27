@@ -394,6 +394,15 @@ public class SettingsActivity extends AbstractSettingsActivity {
                 return true;
             }
         });
+        pref = findPreference("pref_discovery_pairing");
+        pref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            public boolean onPreferenceClick(Preference preference) {
+                Intent enableIntent = new Intent(SettingsActivity.this, DiscoveryPairingPreferenceActivity.class);
+                startActivity(enableIntent);
+                return true;
+            }
+        });
+
     }
 
     @Override

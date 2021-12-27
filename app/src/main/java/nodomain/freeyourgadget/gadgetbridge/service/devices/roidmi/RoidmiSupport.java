@@ -70,7 +70,7 @@ public class RoidmiSupport extends AbstractSerialDeviceSupport {
                         LOG.error("Failed to get Roidmi infos after 6 tries");
                     }
                 }
-            } catch (Exception e) {
+            } catch (final Exception e) {
                 LOG.error("Failed to get Roidmi infos", e);
             }
         }
@@ -91,13 +91,17 @@ public class RoidmiSupport extends AbstractSerialDeviceSupport {
 
     @Override
     protected GBDeviceProtocol createDeviceProtocol() {
-        if (getDevice().getType() == DeviceType.ROIDMI) {
-            return new Roidmi1Protocol(getDevice());
-        } else if (getDevice().getType() == DeviceType.ROIDMI3) {
-            return new Roidmi3Protocol(getDevice());
+        final DeviceType deviceType = getDevice().getType();
+
+        switch(deviceType) {
+            case ROIDMI:
+                return new Roidmi1Protocol(getDevice());
+            case ROIDMI3:
+                return new Roidmi3Protocol(getDevice());
+            default:
+                LOG.error("Unsupported device type {} with key = {}", deviceType, deviceType.getKey());
         }
 
-        LOG.error("Unsupported device type with key = " + getDevice().getType().getKey());
         return null;
     }
 
@@ -105,8 +109,8 @@ public class RoidmiSupport extends AbstractSerialDeviceSupport {
     public void onSendConfiguration(final String config) {
         LOG.debug("onSendConfiguration " + config);
 
-        RoidmiIoThread roidmiIoThread = getDeviceIOThread();
-        RoidmiProtocol roidmiProtocol = (RoidmiProtocol) getDeviceProtocol();
+        final RoidmiIoThread roidmiIoThread = getDeviceIOThread();
+        final RoidmiProtocol roidmiProtocol = (RoidmiProtocol) getDeviceProtocol();
 
         switch (config) {
             case RoidmiConst.ACTION_GET_LED_COLOR:

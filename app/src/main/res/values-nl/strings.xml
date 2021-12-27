@@ -1492,4 +1492,6 @@
     <string name="minCadence">Min cadans</string>
     <string name="spm">stappen/min</string>
     <string name="maxCadence">Max cadans</string>
+    <string name="pref_header_sony_equalizer_bands">Banden</string>
+    <string name="sony_audio_upsampling">Audio-upsampling</string>
 </resources>

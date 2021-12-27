@@ -73,37 +73,37 @@ public class Roidmi3Protocol extends RoidmiProtocol {
             LOG.warn("Potentially unsupported response: " + GB.hexdump(res, 0, res.length));
         }
 
-        if (res[1] == RESPONSE_VOLTAGE) {
-            String voltageHex = GB.hexdump(res, 3, 2);
-            float voltage = Float.valueOf(voltageHex) / 100.0f;
-            LOG.debug("Got voltage: " + voltage);
-            GBDeviceEventBatteryInfo evBattery = new GBDeviceEventBatteryInfo();
-            evBattery.state = BatteryState.NO_BATTERY;
-            evBattery.level = GBDevice.BATTERY_UNKNOWN;
-            evBattery.voltage = voltage;
-            return new GBDeviceEvent[]{evBattery};
-        } else if (res[1] == RESPONSE_COLOR) {
-            LOG.debug("Got color: #" + GB.hexdump(res, 3, 3));
-            int color = 0xFF000000 | ((res[3] << 16) & 0xFF0000) | ((res[4] << 8) & 0xFF00) | (res[5] & 0xFF);
-            GBDeviceEventLEDColor evColor = new GBDeviceEventLEDColor();
-            evColor.color = color;
-            return new GBDeviceEvent[]{evColor};
-        } else if (res[1] == RESPONSE_FREQUENCY) {
-            String frequencyHex = GB.hexdump(res, 3, 2);
-            float frequency = Float.valueOf(frequencyHex) / 10.0f;
-            LOG.debug("Got frequency: " + frequency);
-            GBDeviceEventFmFrequency evFrequency = new GBDeviceEventFmFrequency();
-            evFrequency.frequency = frequency;
-            return new GBDeviceEvent[]{evFrequency};
-        } else {
-            LOG.error("Unrecognized response: " + GB.hexdump(res, 0, res.length));
-            return null;
+        switch(res[1]) {
+            case RESPONSE_VOLTAGE:
+                final String voltageHex = GB.hexdump(res, 3, 2);
+                final float voltage = Float.parseFloat(voltageHex) / 100.0f;
+                LOG.debug("Got voltage: " + voltage);
+                GBDeviceEventBatteryInfo evBattery = new GBDeviceEventBatteryInfo();
+                evBattery.state = BatteryState.NO_BATTERY;
+                evBattery.level = GBDevice.BATTERY_UNKNOWN;
+                evBattery.voltage = voltage;
+                return new GBDeviceEvent[]{evBattery};
+            case RESPONSE_COLOR:
+                LOG.debug("Got color: #" + GB.hexdump(res, 3, 3));
+                final int color = 0xFF000000 | ((res[3] << 16) & 0xFF0000) | ((res[4] << 8) & 0xFF00) | (res[5] & 0xFF);
+                final GBDeviceEventLEDColor evColor = new GBDeviceEventLEDColor(color);
+                return new GBDeviceEvent[]{evColor};
+            case RESPONSE_FREQUENCY:
+                final String frequencyHex = GB.hexdump(res, 3, 2);
+                final float frequency = Float.parseFloat(frequencyHex) / 10.0f;
+                LOG.debug("Got frequency: " + frequency);
+                final GBDeviceEventFmFrequency evFrequency = new GBDeviceEventFmFrequency(frequency);
+                return new GBDeviceEvent[]{evFrequency};
+            default:
+                LOG.error("Unrecognized response: " + GB.hexdump(res, 0, res.length));
         }
+
+        return null;
     }
 
     @Override
-    public byte[] encodeLedColor(int color) {
-        byte[] cmd = COMMAND_SET_COLOR.clone();
+    public byte[] encodeLedColor(final int color) {
+        final byte[] cmd = COMMAND_SET_COLOR.clone();
 
         cmd[2] = (byte) (color >> 16);
         cmd[3] = (byte) (color >> 8);
@@ -113,12 +113,12 @@ public class Roidmi3Protocol extends RoidmiProtocol {
     }
 
     @Override
-    public byte[] encodeFmFrequency(float frequency) {
+    public byte[] encodeFmFrequency(final float frequency) {
         if (frequency < 87.5 || frequency > 108.0)
             throw new IllegalArgumentException("Frequency must be >= 87.5 and <= 180.0");
 
-        byte[] cmd = COMMAND_SET_FREQUENCY.clone();
-        byte[] freq = frequencyToBytes(frequency);
+        final byte[] cmd = COMMAND_SET_FREQUENCY.clone();
+        final byte[] freq = frequencyToBytes(frequency);
         cmd[2] = freq[0];
         cmd[3] = freq[1];
 
@@ -149,8 +149,8 @@ public class Roidmi3Protocol extends RoidmiProtocol {
         return encodeCommand(COMMAND_GET_VOLTAGE);
     }
 
-    public byte[] encodeDenoise(boolean enabled) {
-        byte[] cmd = enabled ? COMMAND_DENOISE_ON : COMMAND_DENOISE_OFF;
+    public byte[] encodeDenoise(final boolean enabled) {
+        final byte[] cmd = enabled ? COMMAND_DENOISE_ON : COMMAND_DENOISE_OFF;
         return encodeCommand(cmd);
     }
 }

@@ -45,16 +45,16 @@ public class RoidmiIoThread extends BtClassicIoThread {
 
     @Override
     protected byte[] parseIncoming(InputStream inputStream) throws IOException {
-        ByteArrayOutputStream msgStream = new ByteArrayOutputStream();
+        final ByteArrayOutputStream msgStream = new ByteArrayOutputStream();
 
         boolean finished = false;
-        byte[] incoming = new byte[1];
+        final byte[] incoming = new byte[1];
 
         while (!finished) {
             inputStream.read(incoming);
             msgStream.write(incoming);
 
-            byte[] arr = msgStream.toByteArray();
+            final byte[] arr = msgStream.toByteArray();
             if (arr.length > HEADER.length) {
                 int expectedLength = HEADER.length + TRAILER.length + arr[HEADER.length] + 2;
                 if (arr.length == expectedLength) {
@@ -63,7 +63,7 @@ public class RoidmiIoThread extends BtClassicIoThread {
             }
         }
 
-        byte[] msgArray = msgStream.toByteArray();
+        final byte[] msgArray = msgStream.toByteArray();
         LOG.debug("Packet: " + GB.hexdump(msgArray, 0, msgArray.length));
         return msgArray;
     }

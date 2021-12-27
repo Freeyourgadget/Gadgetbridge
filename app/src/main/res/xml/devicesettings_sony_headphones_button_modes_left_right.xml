@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <ListPreference
+        android:defaultValue="off"
+        android:entries="@array/sony_wfsp800n_button_mode_names"
+        android:entryValues="@array/sony_wfsp800n_button_mode_values"
+        android:icon="@drawable/ic_touch"
+        android:key="pref_sony_button_mode_left"
+        android:summary="%s"
+        android:title="@string/sony_button_mode_left" />
+
+    <ListPreference
+        android:defaultValue="off"
+        android:entries="@array/sony_wfsp800n_button_mode_names"
+        android:entryValues="@array/sony_wfsp800n_button_mode_values"
+        android:icon="@drawable/ic_touch"
+        android:key="pref_sony_button_mode_right"
+        android:summary="%s"
+        android:title="@string/sony_button_mode_right" />
+</androidx.preference.PreferenceScreen>

@@ -22,6 +22,7 @@ import static nodomain.freeyourgadget.gadgetbridge.util.GB.toast;
 
 import android.Manifest;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothManager;
@@ -32,7 +33,10 @@ import android.bluetooth.le.ScanRecord;
 import android.bluetooth.le.ScanResult;
 import android.bluetooth.le.ScanSettings;
 import android.content.BroadcastReceiver;
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
@@ -45,11 +49,15 @@ import android.os.Message;
 import android.os.ParcelUuid;
 import android.os.Parcelable;
 import android.provider.Settings;
+import android.text.TextUtils;
+import android.util.Pair;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ProgressBar;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -60,14 +68,18 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.Objects;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsActivity;
 import nodomain.freeyourgadget.gadgetbridge.adapter.DeviceCandidateAdapter;
+import nodomain.freeyourgadget.gadgetbridge.adapter.SpinnerWithIconAdapter;
+import nodomain.freeyourgadget.gadgetbridge.adapter.SpinnerWithIconItem;
 import nodomain.freeyourgadget.gadgetbridge.devices.DeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceCandidate;
@@ -94,6 +106,7 @@ public class DiscoveryActivity extends AbstractGBActivity implements AdapterView
      * If already bonded devices are to be ignored when scanning
      */
     private boolean ignoreBonded = true;
+    private boolean discoverUnsupported = false;
     private ProgressBar bluetoothProgress;
     private ProgressBar bluetoothLEProgress;
     private DeviceCandidateAdapter deviceCandidateAdapter;
@@ -108,6 +121,7 @@ public class DiscoveryActivity extends AbstractGBActivity implements AdapterView
     private BluetoothAdapter adapter;
     private Button startButton;
     private Scanning isScanning = Scanning.SCANNING_OFF;
+    private long selectedUnsupportedDeviceKey = DebugActivity.SELECT_DEVICE;
     private final Runnable stopRunnable = new Runnable() {
         @Override
         public void run() {
@@ -246,20 +260,22 @@ public class DiscoveryActivity extends AbstractGBActivity implements AdapterView
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        Prefs prefs = GBApplication.getPrefs();
-        ignoreBonded = prefs.getBoolean("ignore_bonded_devices", true);
-
-        oldBleScanning = prefs.getBoolean("disable_new_ble_scanning", false);
-        if (oldBleScanning) {
-            LOG.info("New BLE scanning disabled via settings, using old method");
-        }
-
+        loadSettingsValues();
         setContentView(R.layout.activity_discovery);
         startButton = findViewById(R.id.discovery_start);
         startButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 onStartButtonClick(startButton);
+            }
+        });
+
+        Button settingsButton = findViewById(R.id.discovery_preferences);
+        settingsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent enableIntent = new Intent(DiscoveryActivity.this, DiscoveryPairingPreferenceActivity.class);
+                startActivity(enableIntent);
             }
         });
 
@@ -291,6 +307,8 @@ public class DiscoveryActivity extends AbstractGBActivity implements AdapterView
         if (isScanning()) {
             stopDiscovery();
         } else {
+            deviceCandidates.clear();
+            deviceCandidateAdapter.notifyDataSetChanged();
             if (GB.supportsBluetoothLE()) {
                 startDiscovery(Scanning.SCANNING_BT_NEXT_BLE);
             } else {
@@ -340,6 +358,7 @@ public class DiscoveryActivity extends AbstractGBActivity implements AdapterView
 
     @Override
     protected void onResume() {
+        loadSettingsValues();
         registerBroadcastReceivers();
         super.onResume();
     }
@@ -392,9 +411,9 @@ public class DiscoveryActivity extends AbstractGBActivity implements AdapterView
 
         GBDeviceCandidate candidate = new GBDeviceCandidate(device, rssi, uuids);
         DeviceType deviceType = DeviceHelper.getInstance().getSupportedType(candidate);
-        if (deviceType.isSupported()) {
+        if (deviceType.isSupported() || discoverUnsupported) {
             candidate.setDeviceType(deviceType);
-            LOG.info("Recognized supported device: " + candidate);
+            LOG.info("Recognized device: " + candidate);
             int index = deviceCandidates.indexOf(candidate);
             if (index >= 0) {
                 deviceCandidates.set(index, candidate); // replace
@@ -713,6 +732,25 @@ public class DiscoveryActivity extends AbstractGBActivity implements AdapterView
             LOG.error("Device candidate clicked, but item not found");
             return;
         }
+        if (!deviceCandidate.getDeviceType().isSupported()){
+            LOG.error("Unsupported device candidate");
+            ArrayList deviceDetails = new ArrayList<>();
+            deviceDetails.add(deviceCandidate.getName());
+            deviceDetails.add(deviceCandidate.getMacAddress());
+            try {
+                for (ParcelUuid uuid : deviceCandidate.getServiceUuids()) {
+                    deviceDetails.add(uuid.getUuid().toString());
+                }
+            } catch (Exception e) {
+                LOG.error("Error collecting device uuids: " + e);
+            }
+            String clipboardData = TextUtils.join(", ", deviceDetails);
+            ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+            ClipData clip = ClipData.newPlainText(deviceCandidate.getName(), clipboardData);
+            clipboard.setPrimaryClip(clip);
+            toast(this, "Device details copied to clipboard", Toast.LENGTH_SHORT, GB.INFO);
+            return;
+        }
 
         stopDiscovery();
         DeviceCoordinator coordinator = DeviceHelper.getInstance().getCoordinator(deviceCandidate);
@@ -755,9 +793,57 @@ public class DiscoveryActivity extends AbstractGBActivity implements AdapterView
 
     @Override
     public boolean onItemLongClick(AdapterView<?> adapterView, View view, int position, long id) {
-        GBDeviceCandidate deviceCandidate = deviceCandidates.get(position);
+        stopDiscovery();
+        final GBDeviceCandidate deviceCandidate = deviceCandidates.get(position);
         if (deviceCandidate == null) {
             LOG.error("Device candidate clicked, but item not found");
+            return true;
+        }
+        if (!deviceCandidate.getDeviceType().isSupported()) {
+            LOG.error("Unsupported device candidate");
+            LinkedHashMap<String, Pair<Long, Integer>> allDevices;
+            allDevices = DebugActivity.getAllSupportedDevices(getApplicationContext());
+
+            final LinearLayout linearLayout = new LinearLayout(DiscoveryActivity.this);
+            linearLayout.setOrientation(LinearLayout.VERTICAL);
+
+            final LinearLayout macLayout = new LinearLayout(DiscoveryActivity.this);
+            macLayout.setOrientation(LinearLayout.HORIZONTAL);
+            macLayout.setPadding(20, 0, 20, 0);
+
+            final Spinner deviceListSpinner = new Spinner(DiscoveryActivity.this);
+            ArrayList<SpinnerWithIconItem> deviceListArray = new ArrayList<>();
+            for (Map.Entry<String, Pair<Long, Integer>> item : allDevices.entrySet()) {
+                deviceListArray.add(new SpinnerWithIconItem(item.getKey(), item.getValue().first, item.getValue().second));
+            }
+            final SpinnerWithIconAdapter deviceListAdapter = new SpinnerWithIconAdapter(DiscoveryActivity.this,
+                    R.layout.spinner_with_image_layout, R.id.spinner_item_text, deviceListArray);
+            deviceListSpinner.setAdapter(deviceListAdapter);
+            addListenerOnSpinnerDeviceSelection(deviceListSpinner);
+
+            linearLayout.addView(deviceListSpinner);
+            linearLayout.addView(macLayout);
+
+            new AlertDialog.Builder(DiscoveryActivity.this)
+                    .setCancelable(true)
+                    .setTitle(R.string.add_test_device)
+                    .setView(linearLayout)
+                    .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            if (selectedUnsupportedDeviceKey != DebugActivity.SELECT_DEVICE) {
+                                DebugActivity.createTestDevice(DiscoveryActivity.this, selectedUnsupportedDeviceKey, deviceCandidate.getMacAddress());
+                                finish();
+                            }
+                        }
+                    })
+                    .setNegativeButton(R.string.Cancel, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                        }
+                    })
+                    .show();
+
             return true;
         }
 
@@ -772,6 +858,24 @@ public class DiscoveryActivity extends AbstractGBActivity implements AdapterView
         startIntent.putExtra(GBDevice.EXTRA_DEVICE, device);
         startActivity(startIntent);
         return true;
+    }
+
+    private void addListenerOnSpinnerDeviceSelection(Spinner spinner) {
+        spinner.setOnItemSelectedListener(new CustomOnDeviceSelectedListener());
+    }
+
+    public class CustomOnDeviceSelectedListener implements AdapterView.OnItemSelectedListener {
+
+        public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
+            SpinnerWithIconItem selectedItem = (SpinnerWithIconItem) parent.getItemAtPosition(pos);
+            selectedUnsupportedDeviceKey = selectedItem.getId();
+        }
+
+        @Override
+        public void onNothingSelected(AdapterView<?> arg0) {
+            // TODO Auto-generated method stub
+        }
+
     }
 
     public void onBondingComplete(boolean success) {
@@ -796,6 +900,16 @@ public class DiscoveryActivity extends AbstractGBActivity implements AdapterView
         bluetoothIntents.addAction(BluetoothAdapter.ACTION_STATE_CHANGED);
 
         registerReceiver(bluetoothReceiver, bluetoothIntents);
+    }
+
+    private void loadSettingsValues() {
+        Prefs prefs = GBApplication.getPrefs();
+        ignoreBonded = prefs.getBoolean("ignore_bonded_devices", true);
+        discoverUnsupported = prefs.getBoolean("discover_unsupported_devices", false);
+        oldBleScanning = prefs.getBoolean("disable_new_ble_scanning", false);
+        if (oldBleScanning) {
+            LOG.info("New BLE scanning disabled via settings, using old method");
+        }
     }
 
     @Override

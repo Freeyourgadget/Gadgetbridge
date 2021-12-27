@@ -96,6 +96,10 @@
             android:label="@string/activity_prefs_charts"
             android:parentActivityName=".activities.charts.ChartsPreferencesActivity" />
         <activity
+            android:name=".activities.DiscoveryPairingPreferenceActivity"
+            android:label="@string/activity_prefs_discovery_pairing"
+            android:parentActivityName=".activities.SettingsActivity" />
+        <activity
             android:name=".devices.miband.MiBandPreferencesActivity"
             android:label="@string/preferences_miband_settings"
             android:parentActivityName=".activities.SettingsActivity" />

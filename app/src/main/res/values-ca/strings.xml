@@ -1332,4 +1332,14 @@
     <string name="fossil_hr_commute_actions_explanation">Les accions configurades aquí apareixeran a l\'aplicació Commute del rellotge. Llegiu la wiki per obtenir informació sobre com gestionar els intents produïts per aquestes accions.</string>
     <string name="pref_summary_canned_messages_dismisscall">Ignoreu les trucades del rellotge amb un missatge SMS</string>
     <string name="pref_title_physical_buttons">Botons físics</string>
+    <string name="averageAltitude">Mitjana</string>
+    <string name="minSpeed">Mínim</string>
+    <string name="maxHR">Ritme cardíac màxim</string>
+    <string name="averageCadence">Cadència mitjana</string>
+    <string name="maxCadence">Cadència màxima</string>
+    <string name="minCadence">Cadència mínima</string>
+    <string name="spm">passes/min</string>
+    <string name="watchface_dialog_widget_presets">Preconfiguracions de posició:</string>
+    <string name="ignore_bonded_devices">Ignora els dispositius vinculats</string>
+    <string name="minHR">Ritme cardíac mínim</string>
 </resources>

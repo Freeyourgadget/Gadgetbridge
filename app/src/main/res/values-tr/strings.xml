@@ -1518,4 +1518,7 @@
     <string name="minStride">En Kısa Adım</string>
     <string name="averageCadence">Ortalama Tempo</string>
     <string name="minCadence">En Düşük Tempo</string>
+    <string name="spm">adım/dak</string>
+    <string name="pref_header_sony_equalizer_bands">Bant</string>
+    <string name="sony_audio_upsampling">Ses Üst Örnekleme</string>
 </resources>

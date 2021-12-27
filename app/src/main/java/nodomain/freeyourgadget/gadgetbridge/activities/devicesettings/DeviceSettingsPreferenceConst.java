@@ -127,6 +127,9 @@ public class DeviceSettingsPreferenceConst {
     public static final String PREF_SONY_EQUALIZER_BAND_16000 = "pref_sony_equalizer_band_16000";
     public static final String PREF_SONY_EQUALIZER_BASS = "pref_sony_equalizer_bass";
     public static final String PREF_SONY_TOUCH_SENSOR = "pref_sony_touch_sensor";
+    public static final String PREF_SONY_PAUSE_WHEN_TAKEN_OFF = "sony_pause_when_taken_off";
+    public static final String PREF_SONY_BUTTON_MODE_LEFT = "pref_sony_button_mode_left";
+    public static final String PREF_SONY_BUTTON_MODE_RIGHT = "pref_sony_button_mode_right";
     public static final String PREF_SONY_AUTOMATIC_POWER_OFF = "pref_sony_automatic_power_off";
     public static final String PREF_SONY_NOTIFICATION_VOICE_GUIDE = "pref_sony_notification_voice_guide";
 

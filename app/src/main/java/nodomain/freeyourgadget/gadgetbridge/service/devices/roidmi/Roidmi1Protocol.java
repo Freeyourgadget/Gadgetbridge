@@ -56,7 +56,7 @@ public class Roidmi1Protocol extends RoidmiProtocol {
     private static final byte[] COMMAND_PERIODIC = new byte[]{(byte) 0xaa, 0x55, 0x02, 0x01, (byte) 0x85, (byte) 0x88, (byte) 0xc3, 0x3c};
 
     @Override
-    public GBDeviceEvent[] decodeResponse(byte[] responseData) {
+    public GBDeviceEvent[] decodeResponse(final byte[] responseData) {
         if (responseData.length <= PACKET_MIN_LENGTH) {
             LOG.info("Response too small");
             return null;
@@ -83,17 +83,15 @@ public class Roidmi1Protocol extends RoidmiProtocol {
 
         switch (responseData[3]) {
             case COMMAND_GET_COLOR:
-                int color = responseData[5];
+                final int color = responseData[5];
                 LOG.debug("Got color: " + color);
-                GBDeviceEventLEDColor evColor = new GBDeviceEventLEDColor();
-                evColor.color = RoidmiConst.COLOR_PRESETS[color - 1];
+                final GBDeviceEventLEDColor evColor = new GBDeviceEventLEDColor(RoidmiConst.COLOR_PRESETS[color - 1]);
                 return new GBDeviceEvent[]{evColor};
             case COMMAND_GET_FREQUENCY:
-                String frequencyHex = GB.hexdump(responseData, 4, 2);
-                float frequency = Float.valueOf(frequencyHex) / 10.0f;
+                final String frequencyHex = GB.hexdump(responseData, 4, 2);
+                final float frequency = Float.parseFloat(frequencyHex) / 10.0f;
                 LOG.debug("Got frequency: " + frequency);
-                GBDeviceEventFmFrequency evFrequency = new GBDeviceEventFmFrequency();
-                evFrequency.frequency = frequency;
+                final GBDeviceEventFmFrequency evFrequency = new GBDeviceEventFmFrequency(frequency);
                 return new GBDeviceEvent[]{evFrequency};
             default:
                 LOG.error("Unrecognized response type 0x" + GB.hexdump(responseData, packetHeader().length, 1));
@@ -102,8 +100,8 @@ public class Roidmi1Protocol extends RoidmiProtocol {
     }
 
     @Override
-    public byte[] encodeLedColor(int color) {
-        int[] presets = RoidmiConst.COLOR_PRESETS;
+    public byte[] encodeLedColor(final int color) {
+        final int[] presets = RoidmiConst.COLOR_PRESETS;
         int color_id = -1;
         for (int i = 0; i < presets.length; i++) {
             if (presets[i] == color) {
@@ -119,11 +117,11 @@ public class Roidmi1Protocol extends RoidmiProtocol {
     }
 
     @Override
-    public byte[] encodeFmFrequency(float frequency) {
+    public byte[] encodeFmFrequency(final float frequency) {
         if (frequency < 87.5 || frequency > 108.0)
             throw new IllegalArgumentException("Frequency must be >= 87.5 and <= 180.0");
 
-        byte[] freq = frequencyToBytes(frequency);
+        final byte[] freq = frequencyToBytes(frequency);
 
         return encodeCommand(COMMAND_SET_FREQUENCY, freq[0], freq[1]);
     }

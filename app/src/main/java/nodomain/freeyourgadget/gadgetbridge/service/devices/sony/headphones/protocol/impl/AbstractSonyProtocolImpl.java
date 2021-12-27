@@ -22,8 +22,10 @@ import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEvent;
 import nodomain.freeyourgadget.gadgetbridge.devices.sony.headphones.prefs.AmbientSoundControl;
 import nodomain.freeyourgadget.gadgetbridge.devices.sony.headphones.prefs.AudioUpsampling;
 import nodomain.freeyourgadget.gadgetbridge.devices.sony.headphones.prefs.AutomaticPowerOff;
+import nodomain.freeyourgadget.gadgetbridge.devices.sony.headphones.prefs.ButtonModes;
 import nodomain.freeyourgadget.gadgetbridge.devices.sony.headphones.prefs.EqualizerCustomBands;
 import nodomain.freeyourgadget.gadgetbridge.devices.sony.headphones.prefs.EqualizerPreset;
+import nodomain.freeyourgadget.gadgetbridge.devices.sony.headphones.prefs.PauseWhenTakenOff;
 import nodomain.freeyourgadget.gadgetbridge.devices.sony.headphones.prefs.SoundPosition;
 import nodomain.freeyourgadget.gadgetbridge.devices.sony.headphones.prefs.SurroundMode;
 import nodomain.freeyourgadget.gadgetbridge.devices.sony.headphones.prefs.TouchSensor;
@@ -62,6 +64,14 @@ public abstract class AbstractSonyProtocolImpl {
 
     public abstract Request setAutomaticPowerOff(final AutomaticPowerOff config);
 
+    public abstract Request getButtonModes();
+
+    public abstract Request setButtonModes(final ButtonModes config);
+
+    public abstract Request getPauseWhenTakenOff();
+
+    public abstract Request setPauseWhenTakenOff(final PauseWhenTakenOff config);
+
     public abstract Request getEqualizer();
 
     public abstract Request setEqualizerPreset(final EqualizerPreset config);
@@ -85,6 +95,8 @@ public abstract class AbstractSonyProtocolImpl {
     public abstract Request setVoiceNotifications(final VoiceNotifications config);
 
     public abstract Request startNoiseCancellingOptimizer();
+
+    public abstract Request powerOff();
 
     public abstract List<? extends GBDeviceEvent> handlePayload(final MessageType messageType, final byte[] payload);
 }

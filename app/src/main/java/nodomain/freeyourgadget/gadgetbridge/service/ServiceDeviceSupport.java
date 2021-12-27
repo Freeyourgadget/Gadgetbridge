@@ -413,4 +413,12 @@ public class ServiceDeviceSupport implements DeviceSupport {
         }
         delegate.onSetLedColor(color);
     }
+
+    @Override
+    public void onPowerOff() {
+        if (checkBusy("power off event")) {
+            return;
+        }
+        delegate.onPowerOff();
+    }
 }

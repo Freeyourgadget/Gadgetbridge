@@ -1492,4 +1492,6 @@
     <string name="spm">צעדים לדקה</string>
     <string name="maxStride">צעד מרבי</string>
     <string name="minStride">צעד מזערי</string>
+    <string name="pref_header_sony_equalizer_bands">צמידים</string>
+    <string name="sony_audio_upsampling">Upsampling לשמע</string>
 </resources>

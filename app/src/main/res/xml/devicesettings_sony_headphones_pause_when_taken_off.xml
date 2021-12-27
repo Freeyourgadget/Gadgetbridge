@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <SwitchPreference
+        android:defaultValue="false"
+        android:icon="@drawable/ic_pause"
+        android:key="pref_sony_pause_when_taken_off"
+        android:title="@string/sony_pause_when_taken_off" />
+</androidx.preference.PreferenceScreen>

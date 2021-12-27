@@ -1498,4 +1498,6 @@
     <string name="minHR">最小心率</string>
     <string name="minStride">最小步幅</string>
     <string name="spm">步数/分钟</string>
+    <string name="pref_header_sony_equalizer_bands">乐队</string>
+    <string name="sony_audio_upsampling">音频提升采样</string>
 </resources>

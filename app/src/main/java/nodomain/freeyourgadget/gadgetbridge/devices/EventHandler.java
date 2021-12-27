@@ -118,4 +118,6 @@ public interface EventHandler {
      * @param color the new color, in ARGB, with alpha = 255
      */
     void onSetLedColor(int color);
+
+    void onPowerOff();
 }

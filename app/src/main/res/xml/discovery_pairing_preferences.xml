@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory
+        android:key="pref_discovery_pairing"
+        android:title="@string/activity_prefs_discovery_pairing">
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="ignore_bonded_devices"
+            android:layout="@layout/preference_checkbox"
+            android:summary="@string/ignore_bonded_devices_description"
+            android:title="@string/ignore_bonded_devices" />
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="disable_new_ble_scanning"
+            android:layout="@layout/preference_checkbox"
+            android:summary="@string/pref_summary_disable_new_ble_scanning"
+            android:title="@string/pref_disable_new_ble_scanning" />
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="enable_companiondevice_pairing"
+            android:layout="@layout/preference_checkbox"
+            android:summary="@string/companiondevice_pairing_details"
+            android:title="@string/companiondevice_pairing" />
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="discover_unsupported_devices"
+            android:layout="@layout/preference_checkbox"
+            android:summary="@string/discover_unsupported_devices_description"
+            android:title="@string/discover_unsupported_devices" />
+    </PreferenceCategory>
+</PreferenceScreen>

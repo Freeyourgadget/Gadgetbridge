@@ -1499,4 +1499,10 @@
     <string name="maxStride">Максимальний крок</string>
     <string name="minStride">Мінімальний крок</string>
     <string name="minCadence">Мінімальний темп</string>
+    <string name="pref_header_sony_equalizer_bands">Діапазон</string>
+    <string name="sony_audio_upsampling">Підвищення дискретизації звуку</string>
+    <string name="activity_prefs_discovery_pairing">Параметри виявлення та зʼєднання</string>
+    <string name="add_test_device">Додати тестовий пристрій</string>
+    <string name="discover_unsupported_devices">Виявляти непідтримувані пристрої</string>
+    <string name="discover_unsupported_devices_description">Якщо ввімкнути цей параметр, під час сканування буде показано всі виявлені Bluetooth-пристрої. Короткий дотик призведе до копіювання імені пристрою та mac-адреси до буфера обміну. Тривале натискання відкриє діалогове вікно «Додати тестовий пристрій».</string>
 </resources>

@@ -456,4 +456,10 @@ public class GBDeviceService implements DeviceService {
                 .putExtra(EXTRA_LED_COLOR, color);
         invokeService(intent);
     }
+
+    @Override
+    public void onPowerOff() {
+        Intent intent = createIntent().setAction(ACTION_POWER_OFF);
+        invokeService(intent);
+    }
 }

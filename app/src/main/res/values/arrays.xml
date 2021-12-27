@@ -1949,17 +1949,29 @@
         <item>3</item>
     </string-array>
 
-    <string-array name="sony_ambient_sound_control_names">
+    <string-array name="sony_ambient_sound_control_wind_noise_reduction_names">
         <item>@string/sony_ambient_sound_off</item>
         <item>@string/sony_ambient_sound_noise_cancelling</item>
         <item>@string/sony_ambient_sound_wind_noise_reduction</item>
         <item>@string/sony_ambient_sound_ambient_sound</item>
     </string-array>
 
-    <string-array name="sony_ambient_sound_control_values">
+    <string-array name="sony_ambient_sound_control_wind_noise_reduction_values">
         <item>off</item>
         <item>noise_cancelling</item>
         <item>wind_noise_reduction</item>
+        <item>ambient_sound</item>
+    </string-array>
+
+    <string-array name="sony_ambient_sound_control_names">
+        <item>@string/sony_ambient_sound_off</item>
+        <item>@string/sony_ambient_sound_noise_cancelling</item>
+        <item>@string/sony_ambient_sound_ambient_sound</item>
+    </string-array>
+
+    <string-array name="sony_ambient_sound_control_values">
+        <item>off</item>
+        <item>noise_cancelling</item>
         <item>ambient_sound</item>
     </string-array>
 
@@ -2041,6 +2053,30 @@
         <item>after_30_min</item>
         <item>after_1_hour</item>
         <item>after_3_hour</item>
+    </string-array>
+
+    <string-array name="sony_wfsp800n_automatic_power_off_names">
+        <item>@string/sony_automatic_power_off_off</item>
+        <item>@string/sony_automatic_power_off_when_taken_off</item>
+    </string-array>
+
+    <string-array name="sony_wfsp800n_automatic_power_off_values">
+        <item>off</item>
+        <item>when_taken_off</item>
+    </string-array>
+
+    <string-array name="sony_wfsp800n_button_mode_names">
+        <item>@string/sony_button_mode_off</item>
+        <item>@string/sony_button_mode_ambient_sound_control</item>
+        <item>@string/sony_button_mode_playback_control</item>
+        <item>@string/sony_button_mode_volume_control</item>
+    </string-array>
+
+    <string-array name="sony_wfsp800n_button_mode_values">
+        <item>off</item>
+        <item>ambient_sound_control</item>
+        <item>playback_control</item>
+        <item>volume_control</item>
     </string-array>
 </resources>
 

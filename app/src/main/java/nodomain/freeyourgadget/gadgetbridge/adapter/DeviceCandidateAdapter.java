@@ -73,6 +73,10 @@ public class DeviceCandidateAdapter extends ArrayAdapter<GBDeviceCandidate> {
             }
         }
 
+        if (!device.getDeviceType().isSupported()) {
+            status += " UNSUPPORTED";
+        }
+
         DeviceCoordinator coordinator = DeviceHelper.getInstance().getCoordinator(device);
         if (coordinator.getBondingStyle() == DeviceCoordinator.BONDING_STYLE_REQUIRE_KEY) {
             if (device.getDevice().getBondState() == BluetoothDevice.BOND_BONDED) {

@@ -31,15 +31,15 @@ public class Roidmi1Coordinator extends RoidmiCoordinator {
 
     @NonNull
     @Override
-    public DeviceType getSupportedType(GBDeviceCandidate candidate) {
+    public DeviceType getSupportedType(final GBDeviceCandidate candidate) {
         try {
-            BluetoothDevice device = candidate.getDevice();
-            String name = device.getName();
+            final BluetoothDevice device = candidate.getDevice();
+            final String name = device.getName();
 
             if (name != null && name.contains("睿米车载蓝牙播放器")) {
                 return DeviceType.ROIDMI;
             }
-        } catch (Exception ex) {
+        } catch (final Exception ex) {
             LOG.error("unable to check device support", ex);
         }
 
@@ -49,5 +49,11 @@ public class Roidmi1Coordinator extends RoidmiCoordinator {
     @Override
     public DeviceType getDeviceType() {
         return DeviceType.ROIDMI;
+    }
+
+    @Override
+    public int getBatteryCount() {
+        // Roidmi 1 does not have voltage support
+        return 0;
     }
 }

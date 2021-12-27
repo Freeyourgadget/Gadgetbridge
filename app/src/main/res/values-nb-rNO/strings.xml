@@ -1484,4 +1484,17 @@
     <string name="battery_case">Batteriomslag</string>
     <string name="left_earbud">Venstre ørepropp</string>
     <string name="right_earbud">Høyre ørepropp</string>
+    <string name="maxHR">Makspuls</string>
+    <string name="minStride">Minste steglengde</string>
+    <string name="averageCadence">Gjennomsnittlig takt</string>
+    <string name="maxCadence">Maksimal takt</string>
+    <string name="minCadence">Minste takt</string>
+    <string name="mi2_prefs_do_not_disturb_lift_wrist">Aktiver skjermvisning ved løft under «Ikke forstyrr».</string>
+    <string name="averageAltitude">Gjennomsnittlig</string>
+    <string name="minSpeed">Minimum</string>
+    <string name="minHR">Laveste puls</string>
+    <string name="maxStride">Maksimal steglengde</string>
+    <string name="spm">steg/min</string>
+    <string name="pref_header_sony_equalizer_bands">Bånd</string>
+    <string name="sony_audio_upsampling">Lydoppsampling</string>
 </resources>

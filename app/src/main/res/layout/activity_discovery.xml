@@ -89,5 +89,10 @@
             android:textColor="@color/secondarytext"
             android:textIsSelectable="true" />
 
+        <Button
+            android:id="@+id/discovery_preferences"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/activity_prefs_discovery_pairing" />
     </LinearLayout>
 </LinearLayout>

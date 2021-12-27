@@ -36,8 +36,10 @@ import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventVersionInf
 import nodomain.freeyourgadget.gadgetbridge.devices.sony.headphones.prefs.AmbientSoundControl;
 import nodomain.freeyourgadget.gadgetbridge.devices.sony.headphones.prefs.AudioUpsampling;
 import nodomain.freeyourgadget.gadgetbridge.devices.sony.headphones.prefs.AutomaticPowerOff;
+import nodomain.freeyourgadget.gadgetbridge.devices.sony.headphones.prefs.ButtonModes;
 import nodomain.freeyourgadget.gadgetbridge.devices.sony.headphones.prefs.EqualizerCustomBands;
 import nodomain.freeyourgadget.gadgetbridge.devices.sony.headphones.prefs.EqualizerPreset;
+import nodomain.freeyourgadget.gadgetbridge.devices.sony.headphones.prefs.PauseWhenTakenOff;
 import nodomain.freeyourgadget.gadgetbridge.devices.sony.headphones.prefs.SoundPosition;
 import nodomain.freeyourgadget.gadgetbridge.devices.sony.headphones.prefs.SurroundMode;
 import nodomain.freeyourgadget.gadgetbridge.devices.sony.headphones.prefs.TouchSensor;
@@ -78,34 +80,46 @@ public class SonyProtocolImplV1 extends AbstractSonyProtocolImpl {
 
         buf.put(PayloadType.AMBIENT_SOUND_CONTROL_SET.getCode());
         buf.put((byte) 0x02);
+
         if (AmbientSoundControl.Mode.OFF.equals(ambientSoundControl.getMode())) {
             buf.put((byte) 0x00);
         } else {
             buf.put((byte) 0x11);
         }
-        buf.put((byte) 0x01);
 
-        switch (ambientSoundControl.getMode()) {
-            case NOISE_CANCELLING:
-                buf.put((byte) 2);
-                break;
-            case WIND_NOISE_REDUCTION:
+        if (supportsWindNoiseCancelling()) {
+            buf.put((byte) 0x02);
+
+            switch (ambientSoundControl.getMode()) {
+                case NOISE_CANCELLING:
+                    buf.put((byte) 2);
+                    break;
+                case WIND_NOISE_REDUCTION:
+                    buf.put((byte) 1);
+                    break;
+                case OFF:
+                case AMBIENT_SOUND:
+                default:
+                    buf.put((byte) 0);
+                    break;
+            }
+        } else {
+            buf.put((byte) 0x00);
+
+            if (AmbientSoundControl.Mode.NOISE_CANCELLING.equals(ambientSoundControl.getMode())) {
                 buf.put((byte) 1);
-                break;
-            case OFF:
-            case AMBIENT_SOUND:
-            default:
+            } else {
                 buf.put((byte) 0);
-                break;
+            }
         }
 
-        buf.put((byte) 0x01);
+        buf.put((byte) 0x01);  // ?
         buf.put((byte) (ambientSoundControl.isFocusOnVoice() ? 0x01 : 0x00));
 
         switch (ambientSoundControl.getMode()) {
             case OFF:
             case AMBIENT_SOUND:
-                buf.put((byte) (ambientSoundControl.getAmbientSound() + 1));
+                buf.put((byte) (ambientSoundControl.getAmbientSound()));
                 break;
             case WIND_NOISE_REDUCTION:
             case NOISE_CANCELLING:
@@ -194,6 +208,53 @@ public class SonyProtocolImplV1 extends AbstractSonyProtocolImpl {
                         (byte) 0x01,
                         config.getCode()[0],
                         config.getCode()[1]
+                }
+        );
+    }
+
+    public Request getButtonModes() {
+        return new Request(
+                PayloadType.AUTOMATIC_POWER_OFF_BUTTON_MODE_GET.getMessageType(),
+                new byte[]{
+                        PayloadType.AUTOMATIC_POWER_OFF_BUTTON_MODE_GET.getCode(),
+                        (byte) 0x06
+                }
+        );
+    }
+
+    public Request setButtonModes(final ButtonModes config) {
+        return new Request(
+                PayloadType.AUTOMATIC_POWER_OFF_BUTTON_MODE_SET.getMessageType(),
+                new byte[]{
+                        PayloadType.AUTOMATIC_POWER_OFF_BUTTON_MODE_SET.getCode(),
+                        (byte) 0x06,
+                        (byte) 0x02,
+                        config.getModeLeft().getCode(),
+                        config.getModeRight().getCode()
+                }
+        );
+    }
+
+    @Override
+    public Request getPauseWhenTakenOff() {
+        return new Request(
+                PayloadType.AUTOMATIC_POWER_OFF_BUTTON_MODE_GET.getMessageType(),
+                new byte[]{
+                        PayloadType.AUTOMATIC_POWER_OFF_BUTTON_MODE_GET.getCode(),
+                        (byte) 0x03
+                }
+        );
+    }
+
+    @Override
+    public Request setPauseWhenTakenOff(final PauseWhenTakenOff config) {
+        return new Request(
+                PayloadType.AUTOMATIC_POWER_OFF_BUTTON_MODE_SET.getMessageType(),
+                new byte[]{
+                        PayloadType.AUTOMATIC_POWER_OFF_BUTTON_MODE_SET.getCode(),
+                        (byte) 0x03,
+                        (byte) 0x00,
+                        (byte) (config.isEnabled() ? 0x01 : 0x00)
                 }
         );
     }
@@ -351,6 +412,18 @@ public class SonyProtocolImplV1 extends AbstractSonyProtocolImpl {
     }
 
     @Override
+    public Request powerOff() {
+        return new Request(
+                PayloadType.POWER_OFF.getMessageType(),
+                new byte[]{
+                        PayloadType.POWER_OFF.getCode(),
+                        (byte) 0x00,
+                        (byte) 0x01
+                }
+        );
+    }
+
+    @Override
     public List<? extends GBDeviceEvent> handlePayload(final MessageType messageType, final byte[] payload) {
         final PayloadType payloadType = PayloadType.fromCode(messageType, payload[0]);
 
@@ -382,7 +455,7 @@ public class SonyProtocolImplV1 extends AbstractSonyProtocolImpl {
                 return handleAudioUpsampling(payload);
             case AUTOMATIC_POWER_OFF_BUTTON_MODE_RET:
             case AUTOMATIC_POWER_OFF_BUTTON_MODE_NOTIFY:
-                return handleAutomaticPowerOff(payload);
+                return handleAutomaticPowerOffButtonMode(payload);
             case VOICE_NOTIFICATIONS_RET:
             case VOICE_NOTIFICATIONS_NOTIFY:
                 return handleVoiceNotifications(payload);
@@ -421,6 +494,18 @@ public class SonyProtocolImplV1 extends AbstractSonyProtocolImpl {
                 capabilityRequests.add(getSoundPosition());
                 capabilityRequests.add(getEqualizer());
                 break;
+            case SONY_WF_SP800N:
+                capabilityRequests.add(getFirmwareVersion());
+                capabilityRequests.add(getBattery(BatteryType.DUAL));
+                capabilityRequests.add(getBattery(BatteryType.CASE));
+                capabilityRequests.add(getAudioCodec());
+                capabilityRequests.add(getAmbientSoundControl());
+                capabilityRequests.add(getVoiceNotifications());
+                capabilityRequests.add(getAutomaticPowerOff());
+                capabilityRequests.add(getEqualizer());
+                capabilityRequests.add(getButtonModes());
+                capabilityRequests.add(getPauseWhenTakenOff());
+                break;
             default:
                 LOG.error("Unsupported Sony device type '{}' with key '{}'", deviceType, deviceType.getKey());
                 return null;
@@ -442,13 +527,22 @@ public class SonyProtocolImplV1 extends AbstractSonyProtocolImpl {
         } else if (payload[2] == (byte) 0x01) {
             // Enabled, determine mode
 
-            if (payload[4] == (byte) 0x00) {
-                mode = AmbientSoundControl.Mode.AMBIENT_SOUND;
-            } else if (payload[4] == (byte) 0x01) {
-                // FIXME: ANC gets incorrectly identified wind reduction for WF-SP800N
-                mode = AmbientSoundControl.Mode.WIND_NOISE_REDUCTION;
-            } else if (payload[4] == (byte) 0x02) {
-                mode = AmbientSoundControl.Mode.NOISE_CANCELLING;
+            if (payload[3] == 0x00) {
+                // Only ANC  and Ambient Sound supported?
+                if (payload[4] == (byte) 0x00) {
+                    mode = AmbientSoundControl.Mode.AMBIENT_SOUND;
+                } else if (payload[4] == (byte) 0x01) {
+                    mode = AmbientSoundControl.Mode.NOISE_CANCELLING;
+                }
+            } else if (payload[3] == 0x02) {
+                // Supports wind noise reduction
+                if (payload[4] == (byte) 0x00) {
+                    mode = AmbientSoundControl.Mode.AMBIENT_SOUND;
+                } else if (payload[4] == (byte) 0x01) {
+                    mode = AmbientSoundControl.Mode.WIND_NOISE_REDUCTION;
+                } else if (payload[4] == (byte) 0x02) {
+                    mode = AmbientSoundControl.Mode.NOISE_CANCELLING;
+                }
             }
         }
 
@@ -548,6 +642,69 @@ public class SonyProtocolImplV1 extends AbstractSonyProtocolImpl {
         return Collections.singletonList(event);
     }
 
+    public List<? extends GBDeviceEvent> handleButtonModes(final byte[] payload) {
+        if (payload.length != 5) {
+            LOG.warn("Unexpected payload length {}", payload.length);
+            return Collections.emptyList();
+        }
+
+        ButtonModes.Mode modeLeft = null;
+        for (ButtonModes.Mode value : ButtonModes.Mode.values()) {
+            if (value.getCode() == payload[3]) {
+                modeLeft = value;
+                break;
+            }
+        }
+
+        ButtonModes.Mode modeRight = null;
+        for (ButtonModes.Mode value : ButtonModes.Mode.values()) {
+            if (value.getCode() == payload[4]) {
+                modeRight = value;
+                break;
+            }
+        }
+
+        if (modeLeft == null || modeRight == null) {
+            LOG.warn("Unknown button mode codes {}", String.format("%02x %02x", payload[3], payload[4]));
+            return Collections.emptyList();
+        }
+
+        LOG.debug("Button Modes: L: {}, R: {}", modeLeft, modeRight);
+
+        final GBDeviceEventUpdatePreferences event = new GBDeviceEventUpdatePreferences()
+                .withPreferences(new ButtonModes(modeLeft, modeRight).toPreferences());
+
+        return Collections.singletonList(event);
+    }
+
+    public List<? extends GBDeviceEvent> handlePauseWhenTakenOff(final byte[] payload) {
+        if (payload.length != 4) {
+            LOG.warn("Unexpected payload length {}", payload.length);
+            return Collections.emptyList();
+        }
+
+        boolean enabled;
+
+        switch (payload[3]) {
+            case 0x00:
+                enabled = false;
+                break;
+            case 0x01:
+                enabled = true;
+                break;
+            default:
+                LOG.warn("Unknown pause when taken off code {}", String.format("%02x", payload[3]));
+                return Collections.emptyList();
+        }
+
+        LOG.debug("Touch Sensor: {}", enabled);
+
+        final GBDeviceEventUpdatePreferences event = new GBDeviceEventUpdatePreferences()
+                .withPreferences(new PauseWhenTakenOff(enabled).toPreferences());
+
+        return Collections.singletonList(event);
+    }
+
     public List<? extends GBDeviceEvent> handleBattery(final byte[] payload) {
         final BatteryType batteryType = BatteryType.fromCode(payload[1]);
 
@@ -564,8 +721,8 @@ public class SonyProtocolImplV1 extends AbstractSonyProtocolImpl {
 
             final GBDeviceEventBatteryInfo singleBatteryInfo = new GBDeviceEventBatteryInfo();
             singleBatteryInfo.batteryIndex = 0;
-            singleBatteryInfo.state = BatteryState.BATTERY_NORMAL;
             singleBatteryInfo.level = payload[2];
+            singleBatteryInfo.state = payload[3] == 1 ? BatteryState.BATTERY_CHARGING : BatteryState.BATTERY_NORMAL;
 
             batteryEvents.add(singleBatteryInfo);
         } else if (BatteryType.DUAL.equals(batteryType)) {
@@ -576,8 +733,8 @@ public class SonyProtocolImplV1 extends AbstractSonyProtocolImpl {
                 final GBDeviceEventBatteryInfo gbDeviceEventBatteryInfoLeft = new GBDeviceEventBatteryInfo();
 
                 gbDeviceEventBatteryInfoLeft.batteryIndex = 1;
-                gbDeviceEventBatteryInfoLeft.state = BatteryState.BATTERY_NORMAL;
                 gbDeviceEventBatteryInfoLeft.level = payload[2];
+                gbDeviceEventBatteryInfoLeft.state = payload[3] == 1 ? BatteryState.BATTERY_CHARGING : BatteryState.BATTERY_NORMAL;
 
                 batteryEvents.add(gbDeviceEventBatteryInfoLeft);
             }
@@ -586,8 +743,8 @@ public class SonyProtocolImplV1 extends AbstractSonyProtocolImpl {
                 final GBDeviceEventBatteryInfo gbDeviceEventBatteryInfoRight = new GBDeviceEventBatteryInfo();
 
                 gbDeviceEventBatteryInfoRight.batteryIndex = 2;
-                gbDeviceEventBatteryInfoRight.state = BatteryState.BATTERY_NORMAL;
                 gbDeviceEventBatteryInfoRight.level = payload[4];
+                gbDeviceEventBatteryInfoRight.state = payload[5] == 1 ? BatteryState.BATTERY_CHARGING : BatteryState.BATTERY_NORMAL;
 
                 batteryEvents.add(gbDeviceEventBatteryInfoRight);
             }
@@ -689,6 +846,19 @@ public class SonyProtocolImplV1 extends AbstractSonyProtocolImpl {
         final String jsonString = new String(Arrays.copyOfRange(payload, 4, payload.length));
 
         LOG.debug("Got json: {}", jsonString);
+
+        return Collections.emptyList();
+    }
+
+    public List<? extends GBDeviceEvent> handleAutomaticPowerOffButtonMode(final byte[] payload) {
+        switch (payload[1]) {
+            case 0x04:
+                return handleAutomaticPowerOff(payload);
+            case 0x03:
+                return handlePauseWhenTakenOff(payload);
+            case 0x06:
+                return handleButtonModes(payload);
+        }
 
         return Collections.emptyList();
     }
@@ -825,5 +995,21 @@ public class SonyProtocolImplV1 extends AbstractSonyProtocolImpl {
                 .withPreferences(new VoiceNotifications(enabled).toPreferences());
 
         return Collections.singletonList(event);
+    }
+
+    private boolean supportsWindNoiseCancelling() {
+        // TODO: We should be able to determine this dynamically...
+
+        final DeviceType deviceType = getDevice().getType();
+
+        switch (deviceType) {
+            case SONY_WH_1000XM3:
+                return true;
+            case SONY_WF_SP800N:
+                return false;
+            default:
+                LOG.error("Unknown Sony device type '{}' with key '{}'", deviceType, deviceType.getKey());
+                return false;
+        }
     }
 }

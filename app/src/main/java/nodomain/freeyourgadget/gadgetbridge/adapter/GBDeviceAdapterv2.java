@@ -139,7 +139,7 @@ public class GBDeviceAdapterv2 extends RecyclerView.Adapter<GBDeviceAdapterv2.Vi
 
             @Override
             public void onClick(View v) {
-                
+
                 if (device.isInitialized() || device.isConnected()) {
                     showTransientSnackbar(R.string.controlcenter_snackbar_need_longpress);
                 } else {
@@ -484,8 +484,8 @@ public class GBDeviceAdapterv2 extends RecyclerView.Adapter<GBDeviceAdapterv2.Vi
             @Override
             public void onClick(View view) {
                 final AlertDialog.Builder builder = new AlertDialog.Builder(context);
-                LayoutInflater inflater = LayoutInflater.from(context);
-                View frequency_picker_view = inflater.inflate(R.layout.dialog_frequency_picker, null);
+                final LayoutInflater inflater = LayoutInflater.from(context);
+                final View frequency_picker_view = inflater.inflate(R.layout.dialog_frequency_picker, null);
                 builder.setTitle(R.string.preferences_fm_frequency);
                 final float[] fm_presets = new float[3];
 
@@ -533,9 +533,8 @@ public class GBDeviceAdapterv2 extends RecyclerView.Adapter<GBDeviceAdapterv2.Vi
                     button_presets[index].setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                            float frequency = Float.parseFloat(String.format(Locale.getDefault(), "%.1f", fm_presets[index]));
-                            device.setExtraInfo("fm_frequency", frequency);
-                            // Trim to 1 decimal place, discard the rest
+                            final float frequency = fm_presets[index];
+                            device.setExtraInfo("fm_frequency", fm_presets[index]);
                             fmFrequencyLabel.setText(String.format(Locale.getDefault(), "%.1f", (float) frequency));
                             GBApplication.deviceService().onSetFmFrequency(frequency);
                             alert[0].dismiss();
@@ -544,8 +543,7 @@ public class GBDeviceAdapterv2 extends RecyclerView.Adapter<GBDeviceAdapterv2.Vi
                     button_presets[index].setOnLongClickListener(new View.OnLongClickListener() {
                         @Override
                         public boolean onLongClick(View view) {
-                            float frequency = (float) (frequency_decimal_picker.getValue() + (0.1 * frequency_fraction_picker.getValue()));
-                            frequency = Float.parseFloat(String.format(Locale.getDefault(), "%.1f", frequency));
+                            final float frequency = (float) (frequency_decimal_picker.getValue() + (0.1 * frequency_fraction_picker.getValue()));
                             fm_presets[index] = frequency;
                             button_presets[index].setText(String.valueOf(frequency));
                             SharedPreferences.Editor editor = GBApplication.getDeviceSpecificSharedPrefs(device.getAddress()).edit();
@@ -558,9 +556,9 @@ public class GBDeviceAdapterv2 extends RecyclerView.Adapter<GBDeviceAdapterv2.Vi
 
                 }
 
-                float frequency = (float) device.getExtraInfo("fm_frequency");
-                int decimal = (int) frequency;
-                int fraction = Math.round((frequency - decimal) * 10);
+                final float frequency = (float) device.getExtraInfo("fm_frequency");
+                final int decimal = (int) frequency;
+                final int fraction = Math.round((frequency - decimal) * 10);
                 frequency_decimal_picker.setValue(decimal);
                 picker_listener.onValueChange(frequency_decimal_picker, frequency_decimal_picker.getValue(), decimal);
                 frequency_fraction_picker.setValue(fraction);
@@ -572,7 +570,6 @@ public class GBDeviceAdapterv2 extends RecyclerView.Adapter<GBDeviceAdapterv2.Vi
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 float frequency = (float) (frequency_decimal_picker.getValue() + (0.1 * frequency_fraction_picker.getValue()));
-                                frequency = Float.parseFloat(String.format(Locale.getDefault(), "%.1f", frequency));
                                 if (frequency < FREQ_MIN || frequency > FREQ_MAX) {
                                     new AlertDialog.Builder(context)
                                             .setTitle(R.string.pref_invalid_frequency_title)
@@ -584,7 +581,7 @@ public class GBDeviceAdapterv2 extends RecyclerView.Adapter<GBDeviceAdapterv2.Vi
                                             .show();
                                 } else {
                                     device.setExtraInfo("fm_frequency", frequency);
-                                    fmFrequencyLabel.setText(String.format(Locale.getDefault(), "%.1f", (float) device.getExtraInfo("fm_frequency")));
+                                    fmFrequencyLabel.setText(String.format(Locale.getDefault(), "%.1f", frequency));
                                     GBApplication.deviceService().onSetFmFrequency(frequency);
                                 }
                             }
@@ -646,6 +643,27 @@ public class GBDeviceAdapterv2 extends RecyclerView.Adapter<GBDeviceAdapterv2.Vi
                         }
                     });
                     dialog.show(((Activity) context).getFragmentManager(), "color-picker-dialog");
+                }
+            });
+        }
+
+        holder.powerOff.setVisibility(View.GONE);
+        if (device.isInitialized() && coordinator.supportsPowerOff()) {
+            holder.powerOff.setVisibility(View.VISIBLE);
+            holder.powerOff.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    new AlertDialog.Builder(context)
+                            .setTitle(R.string.controlcenter_power_off_confirm_title)
+                            .setMessage(R.string.controlcenter_power_off_confirm_description)
+                            .setIcon(R.drawable.ic_power_settings_new)
+                            .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                                public void onClick(final DialogInterface dialog, final int whichButton) {
+                                    GBApplication.deviceService().onPowerOff();
+                                }
+                            })
+                            .setNegativeButton(android.R.string.no, null)
+                            .show();
                 }
             });
         }
@@ -792,6 +810,7 @@ public class GBDeviceAdapterv2 extends RecyclerView.Adapter<GBDeviceAdapterv2.Vi
         LinearLayout fmFrequencyBox;
         TextView fmFrequencyLabel;
         ImageView ledColor;
+        ImageView powerOff;
 
         //activity card
         LinearLayout cardViewActivityCardLayout;
@@ -843,10 +862,11 @@ public class GBDeviceAdapterv2 extends RecyclerView.Adapter<GBDeviceAdapterv2.Vi
             fmFrequencyBox = view.findViewById(R.id.device_fm_frequency_box);
             fmFrequencyLabel = view.findViewById(R.id.fm_frequency);
             ledColor = view.findViewById(R.id.device_led_color);
+            powerOff = view.findViewById(R.id.device_action_power_off);
             heartRateStatusBox = view.findViewById(R.id.device_heart_rate_status_box);
             heartRateStatusLabel = view.findViewById(R.id.heart_rate_status);
             heartRateIcon = view.findViewById(R.id.device_heart_rate_status);
-            
+
             cardViewActivityCardLayout = view.findViewById(R.id.card_view_activity_card_layout);
 
             TotalStepsChart = view.findViewById(R.id.activity_dashboard_piechart1);

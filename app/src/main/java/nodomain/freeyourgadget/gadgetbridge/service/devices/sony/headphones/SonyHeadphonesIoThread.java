@@ -57,6 +57,7 @@ public class SonyHeadphonesIoThread extends BtClassicIoThread {
                 if (initRetries++ < 2) {
                     LOG.warn("Init retry {}", initRetries);
 
+                    mProtocol.decreasePendingAcks();
                     write(mProtocol.encodeInit());
                     scheduleInitRetry();
                 } else {
