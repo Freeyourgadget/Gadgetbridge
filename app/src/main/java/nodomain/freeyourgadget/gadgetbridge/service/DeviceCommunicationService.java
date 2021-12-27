@@ -810,7 +810,7 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
                 }
                 break;
             case ACTION_POWER_OFF:
-                mDeviceSupport.onPowerOff();
+                deviceSupport.onPowerOff();
                 break;
             case ACTION_SET_FM_FREQUENCY:
                 float frequency = intent.getFloatExtra(EXTRA_FM_FREQUENCY, -1);
