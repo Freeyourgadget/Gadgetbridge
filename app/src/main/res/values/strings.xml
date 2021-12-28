@@ -826,6 +826,7 @@
     <string name="activity_type_not_worn">Device not worn</string>
     <string name="activity_type_running">Running</string>
     <string name="activity_type_walking">Walking</string>
+    <string name="activity_type_hiking">Hiking</string>
     <string name="activity_type_swimming">Swimming</string>
     <string name="activity_type_swimming_openwater">Swimming (Open water)</string>
     <string name="activity_type_indoor_cycling">Indoor Cycling</string>

@@ -102,6 +102,9 @@ public class FetchSportsDetailsOperation extends AbstractFetchOperation {
                     case ActivityKind.TYPE_WALKING:
                         trackType = getContext().getString(R.string.activity_type_walking);
                         break;
+                    case ActivityKind.TYPE_HIKING:
+                        trackType = getContext().getString(R.string.activity_type_hiking);
+                        break;
                     case ActivityKind.TYPE_SWIMMING:
                         trackType = getContext().getString(R.string.activity_type_swimming);
                         break;

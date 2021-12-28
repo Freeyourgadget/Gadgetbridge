@@ -181,7 +181,7 @@ public class HuamiActivitySummaryParser implements ActivitySummaryParser {
             averageStride = buffer.getShort();
             maxHR = buffer.getShort();
 
-            if (activityKind == ActivityKind.TYPE_CYCLING || activityKind == ActivityKind.TYPE_RUNNING) {
+            if (activityKind == ActivityKind.TYPE_CYCLING || activityKind == ActivityKind.TYPE_RUNNING || activityKind == ActivityKind.TYPE_HIKING) {
                 // this had nonsense data with treadmill on bip s, need to test it with running
                 // for cycling it seems to work... hmm...
                 // 28 bytes

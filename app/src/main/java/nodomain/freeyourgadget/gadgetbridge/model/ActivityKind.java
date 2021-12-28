@@ -51,8 +51,9 @@ public class ActivityKind {
     public static final int TYPE_PINGPONG = 0x00080000;
     public static final int TYPE_BADMINTON = 0x00100000;
     public static final int TYPE_STRENGTH_TRAINING = 0x00200000;
+    public static final int TYPE_HIKING = 0x00400000;
 
-    private static final int TYPES_COUNT = 24;
+    private static final int TYPES_COUNT = 25;
 
     public static final int TYPE_SLEEP = TYPE_LIGHT_SLEEP | TYPE_DEEP_SLEEP;
     public static final int TYPE_ALL = TYPE_ACTIVITY | TYPE_SLEEP | TYPE_NOT_WORN;
@@ -77,6 +78,9 @@ public class ActivityKind {
         }
         if ((types & ActivityKind.TYPE_WALKING) != 0) {
             result[i++] = provider.toRawActivityKind(TYPE_WALKING);
+        }
+        if ((types & ActivityKind.TYPE_HIKING) != 0) {
+            result[i++] = provider.toRawActivityKind(TYPE_HIKING);
         }
         if ((types & ActivityKind.TYPE_SWIMMING) != 0) {
             result[i++] = provider.toRawActivityKind(TYPE_SWIMMING);
@@ -143,6 +147,8 @@ public class ActivityKind {
                 return context.getString(R.string.activity_type_running);
             case TYPE_WALKING:
                 return context.getString(R.string.activity_type_walking);
+            case TYPE_HIKING:
+                return context.getString(R.string.activity_type_hiking);
             case TYPE_SWIMMING:
                 return context.getString(R.string.activity_type_swimming);
             case TYPE_CYCLING:
@@ -193,6 +199,7 @@ public class ActivityKind {
             case TYPE_RUNNING:
                 return R.drawable.ic_activity_running;
             case TYPE_WALKING:
+            case TYPE_HIKING:
                 return R.drawable.ic_activity_walking;
             case TYPE_CYCLING:
                 return R.drawable.ic_activity_biking;
