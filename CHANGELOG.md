@@ -1,6 +1,6 @@
 ### Changelog
 
-### 0.64.0 (WIP)
+### 0.64.0
 * Initial support for VESC NRF/HM10 devices
 * Initial support vor Bose QC35
 * Initial support for Sony WF-SP800N
@@ -10,10 +10,11 @@
 * InfiniTime: Remove debug Toast and subscription to UUID_CHARACTERISTIC_MOTION_RAW_XYZ_VALUES
 * Roidmi: Fix frequency configuration on some non-english languages
 * Roidmi 3: Add support for Mojietu 3 rebrand
+* Huami: Support hiking and climbing activities, decode some more activity details
 * Amazfit GTS 2 mini: Fix notification title not appearing for non-chat apps
 * Amazfit Bip U/Pro: Disable event reminder feature, it is not supported by the device.
 * Amazfit Bip U/Pro: Allow enabling Todo List menu (feature still not supported)
-* Bangle.js: send weather confition code to device
+* Bangle.js: send weather condition code to device
 * Allow adding test device directly from the discovery screen
 * Keep device info on the correct device during reordering
 
