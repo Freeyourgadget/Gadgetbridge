@@ -1540,4 +1540,5 @@
     <string name="ascentDistance">Yokuş yukarı mesafe</string>
     <string name="devicetype_vesc">VESC</string>
     <string name="devicetype_bose_qc35">Bose QC35</string>
+    <string name="activity_type_hiking">Doğa Yürüyüşü</string>
 </resources>
