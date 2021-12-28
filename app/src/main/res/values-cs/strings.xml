@@ -1441,7 +1441,7 @@
     <string name="pref_header_equalizer">Equalizér</string>
     <string name="device_card_activity_card_title">Informace o aktivitě na kartě zařízení</string>
     <string name="prefs_activity_in_device_card_sleep_title">Spánek</string>
-    <string name="prefs_activity_in_device_card_distance_title_summary">Vzdálenost je vypočítána z kroků a délky kroku (nastavte v Nastavení - O vás)</string>
+    <string name="prefs_activity_in_device_card_distance_title_summary">Vzdálenost je vypočítána z kroků a délky kroku (nastavte v Nastavení - Vaše údaje)</string>
     <string name="pref_header_system">Systém</string>
     <string name="prefs_activity_in_device_card_title">Zobrazit informace o aktivitě na kartě zařízení</string>
     <string name="sony_equalizer_band_1000">1k</string>
@@ -1503,7 +1503,7 @@
     <string name="controlcenter_power_off_confirm_title">Vypnout</string>
     <string name="controlcenter_power_off">Vypnutí</string>
     <string name="controlcenter_power_off_confirm_description">Opravdu chcete zařízení vypnout\?</string>
-    <string name="add_test_device">Přidat testovacího zařízení</string>
+    <string name="add_test_device">Přidat testovací zařízení</string>
     <string name="devicetype_sony_wf_sp800n">Sony WF-SP800N</string>
     <string name="discover_unsupported_devices">Vyhledávat nepodporovaná zařízení</string>
     <string name="discover_unsupported_devices_description">Povolením této volby budou vyhledávána i nepodporovaná zařízení. Kliknutí zkopíruje jméno a MAC adresu zařízení do schránky. Podržení spustí dialog `Přidat testovací zařízení`.</string>
@@ -1516,4 +1516,5 @@
     <string name="activity_type_hiking">Turistika</string>
     <string name="ascentDistance">Vzdálenost do kopce</string>
     <string name="descentDistance">Vzdálenost z kopce</string>
+    <string name="activity_type_climbing">Lezení</string>
 </resources>
