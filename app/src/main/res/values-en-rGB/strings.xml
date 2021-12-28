@@ -1507,4 +1507,8 @@
     <string name="sony_button_mode_playback_control">Playback Control</string>
     <string name="pref_header_sony_equalizer_bands">Bands</string>
     <string name="sony_audio_upsampling">Audio Upsampling</string>
+    <string name="devicetype_bose_qc35">Bose QC35</string>
+    <string name="devicetype_vesc">VESC</string>
+    <string name="descentDistance">Downhill distance</string>
+    <string name="ascentDistance">Uphill distance</string>
 </resources>
