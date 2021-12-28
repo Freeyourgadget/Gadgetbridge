@@ -1521,4 +1521,5 @@
     <string name="descentDistance">Відстань спуску</string>
     <string name="devicetype_vesc">VESC</string>
     <string name="activity_type_hiking">Піший туризм</string>
+    <string name="activity_type_climbing">Альпінізм</string>
 </resources>
