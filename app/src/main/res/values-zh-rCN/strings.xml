@@ -1515,4 +1515,8 @@
     <string name="sony_button_mode_ambient_sound_control">环境音控制</string>
     <string name="sony_button_mode_playback_control">回放控制</string>
     <string name="sony_button_mode_volume_control">音量控制</string>
+    <string name="devicetype_vesc">VESC</string>
+    <string name="ascentDistance">上坡距离</string>
+    <string name="descentDistance">下坡距离</string>
+    <string name="devicetype_bose_qc35">Bose QC35</string>
 </resources>
