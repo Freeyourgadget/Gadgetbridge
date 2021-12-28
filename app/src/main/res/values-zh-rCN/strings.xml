@@ -1519,4 +1519,5 @@
     <string name="ascentDistance">上坡距离</string>
     <string name="descentDistance">下坡距离</string>
     <string name="devicetype_bose_qc35">Bose QC35</string>
+    <string name="activity_type_hiking">徒步</string>
 </resources>
