@@ -372,4 +372,18 @@
     <string name="pref_summary_enable_calendar_sync">Lähetä kalenteritapahtumat aikajanalle</string>
     <string name="pref_title_custom_deviceicon">Näytä laitekohtainen ilmoituskuvake</string>
     <string name="pref_rtl_max_line_length_summary">Lyhentää tai pidentää oikealta vasemmalle tekstien jakamista</string>
+    <string name="prefs_sounds">Äänet</string>
+    <string name="menuitem_nfc">NFC</string>
+    <string name="menuitem_stress">Stressi</string>
+    <string name="menuitem_hr">Syke</string>
+    <string name="sony_automatic_power_off_3_hour">3 tuntia</string>
+    <string name="devicetype_bose_qc35">Bose QC35</string>
+    <string name="menuitem_notifications">Ilmoitukset</string>
+    <string name="prefs_right">Oikea</string>
+    <string name="sony_automatic_power_off_1_hour">1 tunti</string>
+    <string name="sony_automatic_power_off_5_min">5 minuuttia</string>
+    <string name="sony_automatic_power_off_30_min">30 minuuttia</string>
+    <string name="prefs_equalizer">Taajuuskorjain</string>
+    <string name="menuitem_status">Tila</string>
+    <string name="prefs_left">Vasen</string>
 </resources>
