@@ -52,7 +52,6 @@ import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.text.DecimalFormat;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
@@ -68,6 +67,7 @@ import nodomain.freeyourgadget.gadgetbridge.model.DailyTotals;
 import nodomain.freeyourgadget.gadgetbridge.model.RecordedDataTypes;
 import nodomain.freeyourgadget.gadgetbridge.util.AndroidUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.DateTimeUtils;
+import nodomain.freeyourgadget.gadgetbridge.util.FormatUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 import nodomain.freeyourgadget.gadgetbridge.util.WidgetPreferenceStorage;
 
@@ -163,29 +163,11 @@ public class Widget extends AppWidgetProvider {
         int distanceGoal = activityUser.getDistanceGoalMeters() * 100;
         int stepLength = activityUser.getStepLengthCm();
         double distanceMeters = dailyTotals[0] * stepLength * 0.01;
-        double distanceFeet = distanceMeters * 3.28084f;
-        double distanceFormatted = 0;
-
-        String unit = "###m";
-        distanceFormatted = distanceMeters;
-        if (distanceMeters > 2000) {
-            distanceFormatted = distanceMeters / 1000;
-            unit = "###.#km";
-        }
-        String units = GBApplication.getPrefs().getString(SettingsActivity.PREF_MEASUREMENT_SYSTEM, GBApplication.getContext().getString(R.string.p_unit_metric));
-        if (units.equals(GBApplication.getContext().getString(R.string.p_unit_imperial))) {
-            unit = "###ft";
-            distanceFormatted = distanceFeet;
-            if (distanceFeet > 6000) {
-                distanceFormatted = distanceFeet * 0.0001893939f;
-                unit = "###.#mi";
-            }
-        }
-        DecimalFormat df = new DecimalFormat(unit);
+        String distanceFormatted = FormatUtils.getFormattedDistanceLabel(distanceMeters);
 
         views.setTextViewText(R.id.todaywidget_steps, String.format("%1s", steps));
         views.setTextViewText(R.id.todaywidget_sleep, String.format("%1s", getHM(sleep)));
-        views.setTextViewText(R.id.todaywidget_distance, df.format(distanceFormatted));
+        views.setTextViewText(R.id.todaywidget_distance, distanceFormatted);
         views.setProgressBar(R.id.todaywidget_steps_progress, stepGoal, steps, false);
         views.setProgressBar(R.id.todaywidget_sleep_progress, sleepGoalMinutes, sleep, false);
         views.setProgressBar(R.id.todaywidget_distance_progress, distanceGoal, steps * stepLength, false);

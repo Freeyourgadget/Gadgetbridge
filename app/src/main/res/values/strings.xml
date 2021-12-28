@@ -1459,4 +1459,12 @@
     <string name="pref_media_forward">Skip forward</string>
     <string name="pref_media_rewind">Skip back</string>
     <string name="pref_device_action_broadcast">Send Broadcast</string>
+    <!-- Translators: the ### indicate number of digits, keep intact -->
+    <string name="distance_format_meters">###m</string>
+    <!-- Translators: the ### indicate number of digits, keep intact -->
+    <string name="distance_format_kilometers">###.#km</string>
+    <!-- Translators: the ### indicate number of digits, keep intact -->
+    <string name="distance_format_miles">###.#mi</string>
+    <!-- Translators: the ### indicate number of digits, keep intact -->
+    <string name="distance_format_feet">###ft</string>
 </resources>
