@@ -103,7 +103,7 @@
     <string name="pref_blacklist">Svartelist programmer</string>
     <string name="pref_blacklist_calendars">Svartelist kalendre</string>
     <string name="pref_title_canned_replies">Svar</string>
-    <string name="pref_title_canned_messages_set">Oppdater på Pebble</string>
+    <string name="pref_title_canned_messages_set">Oppdater på enheten</string>
     <string name="pref_header_development">Utviklervalg</string>
     <string name="pref_title_development_miaddr">Mi Band-adresse</string>
     <string name="pref_title_pebble_settings">Pebble-innstillinger</string>
@@ -495,7 +495,7 @@
     <string name="notif_export_failed_title">Eksport av database mislyktes. Sjekk innstillingene dine.</string>
     <string name="choose_auto_export_location">Velg eksportplassering</string>
     <string name="spanish">Spansk</string>
-    <string name="notification_channel_name">Gadgetbridge-merknader</string>
+    <string name="notification_channel_name">Generelt</string>
     <string name="devicetype_xwatch">XWatch</string>
     <string name="on">På</string>
     <string name="controlcenter_start_activity_tracks">Dine aktivitetsspor</string>
@@ -515,10 +515,10 @@
     <string name="share">Del</string>
     <string name="reset_index">Tilbakestill innhentingsdato</string>
     <string name="menuitem_status">Status</string>
-    <string name="menuitem_activity">Aktivitet</string>
+    <string name="menuitem_activity">Treningshistorikk</string>
     <string name="menuitem_weather">Vær</string>
     <string name="menuitem_alarm">Alarm</string>
-    <string name="menuitem_timer">Tidsur</string>
+    <string name="menuitem_timer">Nedtelling</string>
     <string name="menuitem_compass">Kompass</string>
     <string name="menuitem_settings">Innstillinger</string>
     <string name="menuitem_alipay">Alipay</string>
@@ -850,7 +850,7 @@
     <string name="find_lost_device_you_found_it">Fant den!</string>
     <string name="pref_title_vibration_strength">Vibrasjonsstyrke</string>
     <string name="hr_appname_commute">Pendle</string>
-    <string name="notification_channel_high_priority_name">Gadgetbridge-varsler har høy prioritet</string>
+    <string name="notification_channel_high_priority_name">Høy prioritet</string>
     <string name="pref_summary_force_white_color_scheme">Nyttig hvis klokken din har mørke hender</string>
     <string name="pref_title_force_white_color_scheme">Tving svart på hvitt fargevalg</string>
     <string name="find_my_phone_notification">Finn min telefon</string>
@@ -1121,7 +1121,7 @@
     <string name="menuitem_dnd">Ikke forstyrr</string>
     <string name="menuitem_stopwatch">Stoppeklokke</string>
     <string name="menuitem_alexa">Alexa</string>
-    <string name="menuitem_takephoto">Ta et bilde</string>
+    <string name="menuitem_takephoto">Kamerafjernutløser</string>
     <string name="menuitem_mutephone">Forstum telefon</string>
     <string name="menuitem_findphone">Finn telefon</string>
     <string name="activity_list_summary_active_steps">Aktive steg</string>
@@ -1497,4 +1497,25 @@
     <string name="spm">steg/min</string>
     <string name="pref_header_sony_equalizer_bands">Bånd</string>
     <string name="sony_audio_upsampling">Lydoppsampling</string>
+    <string name="discover_unsupported_devices">Oppdag ustøttede enheter</string>
+    <string name="discover_unsupported_devices_description">Å skru på dette viser alle oppdagede Blåtannsenheter ved skanning. Et kort trykk kopierer enhetsnavn og MAC-adresse til utklippstavlen. Trykk lenge for å kjøre «Legg til testenhet»-dialogen.</string>
+    <string name="controlcenter_power_off">Slå av</string>
+    <string name="devicetype_sony_wf_sp800n">Sony WF-SP800N</string>
+    <string name="devicetype_bose_qc35">Bose QC35</string>
+    <string name="devicetype_vesc">VESC</string>
+    <string name="ascentDistance">Oppoverbakke</string>
+    <string name="sony_button_mode_ambient_sound_control">Innstilling for omgivelseslyd</string>
+    <string name="activity_type_hiking">Turgåing</string>
+    <string name="sony_button_mode_left">Knappemodus (venstre)</string>
+    <string name="sony_button_mode_volume_control">Lydstyrkejustering</string>
+    <string name="controlcenter_power_off_confirm_description">Skru av enheten\?</string>
+    <string name="activity_prefs_discovery_pairing">Oppdagelse og parringsvalg</string>
+    <string name="controlcenter_power_off_confirm_title">Slå av</string>
+    <string name="activity_type_climbing">Klatring</string>
+    <string name="sony_pause_when_taken_off">Sett på pause når hodetelefoner tas av</string>
+    <string name="sony_button_mode_off">Av</string>
+    <string name="sony_button_mode_playback_control">Avspillingskontroll</string>
+    <string name="add_test_device">Legg til testenhet</string>
+    <string name="descentDistance">Nedoverbakke</string>
+    <string name="sony_button_mode_right">Knappemodus (høyre)</string>
 </resources>
