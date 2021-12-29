@@ -1513,4 +1513,6 @@
     <string name="discover_unsupported_devices">Ontdek niet-ondersteunde apparaten</string>
     <string name="ascentDistance">Afstand bergopwaarts</string>
     <string name="sony_button_mode_playback_control">Afspeelbediening</string>
+    <string name="activity_type_hiking">Wandeltocht</string>
+    <string name="activity_type_climbing">Klimmen</string>
 </resources>
