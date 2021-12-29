@@ -1514,4 +1514,5 @@
     <string name="descentDistance">מרחק במורד</string>
     <string name="ascentDistance">מרחק במעלה</string>
     <string name="activity_type_hiking">טיול</string>
+    <string name="activity_type_climbing">טיפוס</string>
 </resources>
