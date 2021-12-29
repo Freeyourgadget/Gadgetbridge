@@ -1511,4 +1511,6 @@
     <string name="devicetype_vesc">VESC</string>
     <string name="descentDistance">Downhill distance</string>
     <string name="ascentDistance">Uphill distance</string>
+    <string name="activity_type_hiking">Hiking</string>
+    <string name="activity_type_climbing">Climbing</string>
 </resources>
