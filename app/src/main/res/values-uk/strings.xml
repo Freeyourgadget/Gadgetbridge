@@ -1522,4 +1522,9 @@
     <string name="devicetype_vesc">VESC</string>
     <string name="activity_type_hiking">Піший туризм</string>
     <string name="activity_type_climbing">Альпінізм</string>
+    <string name="distance_format_kilometers">###.#км</string>
+    <string name="distance_format_miles">###.#миль</string>
+    <string name="pref_button_action_disabled">Вимкнено</string>
+    <string name="distance_format_meters">###м</string>
+    <string name="distance_format_feet">###футів</string>
 </resources>
