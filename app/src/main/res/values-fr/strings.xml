@@ -1519,4 +1519,19 @@ Temps de sommeil préféré en heures</string>
     <string name="sony_button_mode_playback_control">Contrôle de la lecture</string>
     <string name="sony_button_mode_volume_control">Contrôle du volume</string>
     <string name="pref_header_sony_equalizer_bands">Bandes</string>
+    <string name="pref_button_action_disabled">Désactivé</string>
+    <string name="pref_media_play">Lecteure média</string>
+    <string name="pref_media_pause">Pause Média</string>
+    <string name="pref_media_playpause">Changer l\'état de lecture</string>
+    <string name="pref_media_volumedown">Volume moins</string>
+    <string name="distance_format_miles">###.#mi</string>
+    <string name="pref_media_previous">Piste précédente</string>
+    <string name="pref_media_volumeup">Volume plus</string>
+    <string name="pref_media_next">Piste suivante</string>
+    <string name="pref_media_rewind">Piste précédente</string>
+    <string name="pref_device_action_broadcast">Envoyer un message Broadcast</string>
+    <string name="distance_format_meters">###m</string>
+    <string name="pref_media_forward">Piste suivante</string>
+    <string name="distance_format_kilometers">###.#km</string>
+    <string name="distance_format_feet">###ft</string>
 </resources>
