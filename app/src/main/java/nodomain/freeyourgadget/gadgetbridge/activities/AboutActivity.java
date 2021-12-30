@@ -31,8 +31,11 @@ public class AboutActivity extends AbstractGBActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_about);
         TextView about_version = findViewById(R.id.about_version);
+        TextView about_hash = findViewById(R.id.about_hash);
         String versionName = BuildConfig.VERSION_NAME;
+        String versionHASH = BuildConfig.GIT_HASH_SHORT;
         about_version.setText(String.format(getString(R.string.about_version), versionName));
+        about_hash.setText(String.format(getString(R.string.about_hash), versionHASH));
 
         TextView link1 = findViewById(R.id.links1);
         link1.setMovementMethod(LinkMovementMethod.getInstance());
