@@ -1534,4 +1534,5 @@ Temps de sommeil préféré en heures</string>
     <string name="pref_media_forward">Piste suivante</string>
     <string name="distance_format_kilometers">###.#km</string>
     <string name="distance_format_feet">###ft</string>
+    <string name="about_hash">Commit %s</string>
 </resources>
