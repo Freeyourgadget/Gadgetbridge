@@ -1518,6 +1518,10 @@
     <string name="sony_button_mode_volume_control">Lautstärkeregelung</string>
     <string name="pref_header_sony_equalizer_bands">Bänder</string>
     <string name="sony_audio_upsampling">Audio Upsampling</string>
+    <string name="devicetype_bose_qc35">Bose QC35</string>
+    <string name="descentDistance">Bergab Distanz</string>
+    <string name="ascentDistance">Bergauf Distanz</string>
+    <string name="devicetype_vesc">VESC</string>
     <string name="info_connected_count">%d Geräte verbunden</string>
     <string name="info_no_devices_connected">Keine Geräte verbunden</string>
 </resources>

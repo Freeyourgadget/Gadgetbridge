@@ -1,0 +1,16 @@
+* Initial support for VESC NRF/HM10 devices
+* Initial support vor Bose QC35
+* Initial support for Sony WF-SP800N
+* Fossil Hybrid HR: Fix on-device confirmation for older firmwares
+* Sony WH-1000XM3: Fix Ambient Sound Control commands, potentially improving ANC quality
+* Sony WH-1000XM3: Read configuration from device
+* InfiniTime: Remove debug Toast and subscription to UUID_CHARACTERISTIC_MOTION_RAW_XYZ_VALUES
+* Roidmi: Fix frequency configuration on some non-english languages
+* Roidmi 3: Add support for Mojietu 3 rebrand
+* Huami: Support hiking and climbing activities, decode some more activity details
+* Amazfit GTS 2 mini: Fix notification title not appearing for non-chat apps
+* Amazfit Bip U/Pro: Disable event reminder feature, it is not supported by the device.
+* Amazfit Bip U/Pro: Allow enabling Todo List menu (feature still not supported)
+* Bangle.js: send weather condition code to device
+* Allow adding test device directly from the discovery screen
+* Keep device info on the correct device during reordering

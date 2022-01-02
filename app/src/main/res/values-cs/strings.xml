@@ -1511,4 +1511,9 @@
     <string name="sony_button_mode_left">Režim tlačítka (vlevo)</string>
     <string name="sony_button_mode_off">Vypnout</string>
     <string name="sony_button_mode_right">Režim tlačítka (vpravo)</string>
+    <string name="devicetype_bose_qc35">Bose QC35</string>
+    <string name="devicetype_vesc">VESC</string>
+    <string name="activity_type_hiking">Turistika</string>
+    <string name="ascentDistance">Vzdálenost do kopce</string>
+    <string name="descentDistance">Vzdálenost z kopce</string>
 </resources>

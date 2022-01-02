@@ -28,6 +28,8 @@ public enum HuamiSportsActivityType {
     OpenWaterSwimming(7),
     IndoorCycling(8),
     EllipticalTrainer(9),
+    OutdoorHiking(15),
+    Climbing(10),
     Soccer(0x12),
     JumpRope(0x15),
     RowingMachine(0x17),
@@ -49,6 +51,10 @@ public enum HuamiSportsActivityType {
         switch (this) {
             case OutdoorRunning:
                 return ActivityKind.TYPE_RUNNING;
+            case OutdoorHiking:
+                return ActivityKind.TYPE_HIKING;
+            case Climbing:
+                return ActivityKind.TYPE_CLIMBING;
             case Treadmill:
                 return ActivityKind.TYPE_TREADMILL;
             case Cycling:
@@ -100,6 +106,10 @@ public enum HuamiSportsActivityType {
         switch (activityKind) {
             case ActivityKind.TYPE_RUNNING:
                 return OutdoorRunning;
+            case ActivityKind.TYPE_HIKING:
+                return OutdoorHiking;
+            case ActivityKind.TYPE_CLIMBING:
+                return Climbing;
             case ActivityKind.TYPE_TREADMILL:
                 return Treadmill;
             case ActivityKind.TYPE_CYCLING:

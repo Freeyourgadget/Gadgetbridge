@@ -95,4 +95,25 @@
     <item name="p_message_privacy_mode_off" type="string">off</item>
     <item name="p_message_privacy_mode_complete" type="string">complete</item>
 
+    <item name="pref_button_action_disabled_value" translatable="false" type="string">UNKNOWN</item>
+    <item name="pref_media_play_value" translatable="false" type="string">PLAY</item>
+    <item name="pref_media_pause_value" translatable="false" type="string">PAUSE</item>
+    <item name="pref_media_playpause_value" translatable="false" type="string">PLAYPAUSE</item>
+    <item name="pref_media_next_value" translatable="false" type="string">NEXT</item>
+    <item name="pref_media_previous_value" translatable="false" type="string">PREVIOUS</item>
+    <item name="pref_media_volumeup_value" translatable="false" type="string">VOLUMEUP</item>
+    <item name="pref_media_volumedown_value" translatable="false" type="string">VOLUMEDOWN</item>
+    <item name="pref_media_forward_value" translatable="false" type="string">FORWARD</item>
+    <item name="pref_media_rewind_value" translatable="false" type="string">REWIND</item>
+    <item name="pref_device_action_broadcast_value" translatable="false" type="string">BROADCAST</item>
+    <item name="pref_title_touch_voice_assistant" type="string">Voice Assistant</item>
+    <item name="pref_title_touch_anc" type="string">Active Noise Cancelling</item>
+    <item name="pref_title_touch_quick_ambient" type="string">Quick Ambient Sound</item>
+    <item name="pref_title_touch_volume" type="string">Volume</item>
+    <item name="pref_title_touch_ambient" type="string">Ambient Sound</item>
+
+    <item name="pref_theme_value_system" translatable="false" type="string">system</item>
+    <item name="pref_theme_value_light" translatable="false" type="string">light</item>
+    <item name="pref_theme_value_dark" translatable="false" type="string">dark</item>
+
 </resources>

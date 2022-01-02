@@ -15,6 +15,19 @@ tasks.withType(Test) {
     systemProperty "GB_LOGFILES_DIR", Files.createTempDirectory("gblog").toString()
 }
 
+def getGitHashShort = { ->
+    try {
+        def stdout = new ByteArrayOutputStream()
+        exec {
+            commandLine 'git', 'rev-parse', '--short', 'HEAD'
+            standardOutput = stdout
+        }
+        return stdout.toString().trim()
+    } catch (ignored){
+        return null
+    }
+}
+
 android {
     compileOptions {
         // for KitKat
@@ -31,10 +44,11 @@ android {
         multiDexEnabled true
 
         // Note: always bump BOTH versionCode and versionName!
-        versionName "0.63.1"
-        versionCode 207
+        versionName "0.64.0"
+        versionCode 208
         vectorDrawables.useSupportLibrary = true
         multiDexEnabled true
+        buildConfigField "String", "GIT_HASH_SHORT", "\"${getGitHashShort()}\""
     }
     buildTypes {
         release {

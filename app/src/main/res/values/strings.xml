@@ -826,6 +826,8 @@
     <string name="activity_type_not_worn">Device not worn</string>
     <string name="activity_type_running">Running</string>
     <string name="activity_type_walking">Walking</string>
+    <string name="activity_type_hiking">Hiking</string>
+    <string name="activity_type_climbing">Climbing</string>
     <string name="activity_type_swimming">Swimming</string>
     <string name="activity_type_swimming_openwater">Swimming (Open water)</string>
     <string name="activity_type_indoor_cycling">Indoor Cycling</string>
@@ -1077,6 +1079,7 @@
     <string name="fdroid_url" translatable="false">F-Droid: <a href="https://f-droid.org/packages/nodomain.freeyourgadget.gadgetbridge/">https://f-droid.org/packages/nodomain.freeyourgadget.gadgetbridge/</a></string>
     <string name="about_title">About</string>
     <string name="about_version">Version %s</string>
+    <string name="about_hash">Commit %s</string>
     <string name="about_activity_title">About Gadgetbridge</string>
     <string name="gpx_receiver_activity_title">GPX Receiver Gadgetbridge</string>
     <string name="gpx_receiver_files_received">GPX file(s) received:</string>
@@ -1446,6 +1449,25 @@
     <string name="qhybrid_summary_on_device_confirmation">On-device pairing confirmations can get annoying. Disabling them might lose you functionality.</string>
     <string name="devicetype_vesc">VESC</string>
     <string name="devicetype_bose_qc35">Bose QC35</string>
+    <string name="pref_button_action_disabled">Disabled</string>
+    <string name="pref_media_play">Media Play</string>
+    <string name="pref_media_pause">Media Pause</string>
+    <string name="pref_media_playpause">Toggle playback</string>
+    <string name="pref_media_next">Next Track</string>
+    <string name="pref_media_previous">Previous Track</string>
+    <string name="pref_media_volumeup">Volume Up</string>
+    <string name="pref_media_volumedown">Volume Down</string>
+    <string name="pref_media_forward">Skip forward</string>
+    <string name="pref_media_rewind">Skip back</string>
+    <string name="pref_device_action_broadcast">Send Broadcast</string>
+    <!-- Translators: the ### indicate number of digits, keep intact -->
+    <string name="distance_format_meters">###m</string>
+    <!-- Translators: the ### indicate number of digits, keep intact -->
+    <string name="distance_format_kilometers">###.#km</string>
+    <!-- Translators: the ### indicate number of digits, keep intact -->
+    <string name="distance_format_miles">###.#mi</string>
+    <!-- Translators: the ### indicate number of digits, keep intact -->
+    <string name="distance_format_feet">###ft</string>
     <string name="info_no_devices_connected">no devices connected</string>
     <string name="info_connected_count">%d devices connected</string>
 </resources>

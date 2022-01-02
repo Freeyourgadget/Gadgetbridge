@@ -1494,4 +1494,23 @@
     <string name="maxCadence">Max cadans</string>
     <string name="pref_header_sony_equalizer_bands">Banden</string>
     <string name="sony_audio_upsampling">Audio-upsampling</string>
+    <string name="controlcenter_power_off">Uitschakelen</string>
+    <string name="devicetype_bose_qc35">Bose QC35</string>
+    <string name="devicetype_vesc">VESC</string>
+    <string name="sony_button_mode_off">Uit</string>
+    <string name="sony_button_mode_ambient_sound_control">Omgevingsgeluidregeling</string>
+    <string name="sony_button_mode_left">Knopmodus (links)</string>
+    <string name="controlcenter_power_off_confirm_title">Uitschakelen</string>
+    <string name="controlcenter_power_off_confirm_description">Weet u zeker dat u het apparaat wilt uitschakelen\?</string>
+    <string name="discover_unsupported_devices_description">Als u deze optie inschakelt, worden alle gedetecteerde Bluetooth-apparaten weergegeven tijdens het scannen. Kort tikken kopieert de apparaatnaam en het mac-adres naar het klembord. Als u lang drukt, wordt het dialoogvenster \'Testapparaat toevoegen\' geopend.</string>
+    <string name="sony_button_mode_right">Knopmodus (rechts)</string>
+    <string name="activity_prefs_discovery_pairing">Detectie- en koppelingsopties</string>
+    <string name="sony_pause_when_taken_off">Pauzeer wanneer de koptelefoon wordt afgezet</string>
+    <string name="sony_button_mode_volume_control">Volumeregeling</string>
+    <string name="add_test_device">Testapparaat toevoegen</string>
+    <string name="devicetype_sony_wf_sp800n">Sony WF-SP800N</string>
+    <string name="descentDistance">Afstand bergafwaarts</string>
+    <string name="discover_unsupported_devices">Ontdek niet-ondersteunde apparaten</string>
+    <string name="ascentDistance">Afstand bergopwaarts</string>
+    <string name="sony_button_mode_playback_control">Afspeelbediening</string>
 </resources>
