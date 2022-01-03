@@ -1342,4 +1342,14 @@
     <string name="watchface_dialog_widget_presets">Preconfiguracions de posició:</string>
     <string name="ignore_bonded_devices">Ignora els dispositius vinculats</string>
     <string name="minHR">Ritme cardíac mínim</string>
+    <string name="prefs_sleep_time_label">Definiu les hores de son</string>
+    <string name="nothing_prefs_inear_summary">Reprodueix / pausa la música segons si porteu els auriculars</string>
+    <string name="enable_vibrations_summary">Vibracions per a trucades, missatges, notificacions i molt més</string>
+    <string name="button_watchface_save_apply">Deseu i apliqueu</string>
+    <string name="prefs_sleep_time_summary">Especifica els moments en què es registra el son</string>
+    <string name="enable_notifications_summary">Notificacions de trucades, missatges i més</string>
+    <string name="prefs_autoheartrate_summary">Mesures periòdiques del ritme cardíac durant el dia i també durant el son</string>
+    <string name="prefs_autoheartrate_sleep">Prendre mesures durant el son</string>
+    <string name="watchface_setting_desc_wrist_flick">(per desactivar-lo completament, habiliteu el moviment relatiu i establiu tots els valors a 0)</string>
+    <string name="button_watchface_preview">Previsualització del rellotge</string>
 </resources>
