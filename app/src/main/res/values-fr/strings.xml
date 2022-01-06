@@ -1535,4 +1535,9 @@ Temps de sommeil préféré en heures</string>
     <string name="distance_format_kilometers">###.#km</string>
     <string name="distance_format_feet">###ft</string>
     <string name="about_hash">Commit %s</string>
+    <string name="menuitem_menu">Menu</string>
+    <string name="fossil_hr_button_config_info">Certains boutons ne peuvent pas être configurés car leurs fonctions sont encodées en dur dans le micro-logiciel de l\'appareil.
+\n
+\nAvertissement : Un appui long sur le bouton du haut quand l\'appareil a une application Fossil officielle installée provoquera l\'activation/déactivation des widgets.</string>
+    <string name="devicetype_domyos_t540">Domyos T540</string>
 </resources>
