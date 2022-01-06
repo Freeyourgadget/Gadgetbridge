@@ -1531,4 +1531,17 @@
     <string name="pref_media_pause">השהית מדיה</string>
     <string name="pref_media_volumedown">הנמכת עצמת השמע</string>
     <string name="distance_format_miles">###.# מי׳</string>
+    <string name="pref_activity_recognize_rowing">זיהוי חתירה</string>
+    <string name="menuitem_menu">תפריט</string>
+    <string name="pref_activity_recognize_running">זיהוי ריצה</string>
+    <string name="pref_activity_recognition_mode_ask">לשאול</string>
+    <string name="prefs_activity_recognition">הגדרות זיהוי פעילות</string>
+    <string name="pref_activity_recognition_mode_none">כלום</string>
+    <string name="pref_activity_recognize_walking">זיהוי הליכה</string>
+    <string name="pref_activity_recognize_biking">זיהוי רכיבת אופניים</string>
+    <string name="pref_activity_recognition_mode_auto">אוטומטי</string>
+    <string name="fossil_hr_button_config_info">לא ניתן להגדיר חלק מהכפתורים כיוון שהתכונות שלהן כתובות באופן מובנה בחומרה של השעון.
+\n
+\nאזהרה: לחיצה ארוכה על הכפתור העליון כאשר מותקנים פני שעון מהיישומון הרשמי של Fossil גם תחליף בין הצגה/הסתרה של וידג׳טים.</string>
+    <string name="devicetype_domyos_t540">Domyos T540</string>
 </resources>
