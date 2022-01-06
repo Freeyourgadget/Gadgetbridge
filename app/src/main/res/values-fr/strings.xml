@@ -1540,4 +1540,12 @@ Temps de sommeil préféré en heures</string>
 \n
 \nAvertissement : Un appui long sur le bouton du haut quand l\'appareil a une application Fossil officielle installée provoquera l\'activation/déactivation des widgets.</string>
     <string name="devicetype_domyos_t540">Domyos T540</string>
+    <string name="prefs_activity_recognition">Réglages de la détection d\'activité</string>
+    <string name="pref_activity_recognize_running">détection de course à pieds</string>
+    <string name="pref_activity_recognize_biking">détection de pédalage</string>
+    <string name="pref_activity_recognize_walking">détection de marche</string>
+    <string name="pref_activity_recognize_rowing">détection de pagayage</string>
+    <string name="pref_activity_recognition_mode_ask">demander</string>
+    <string name="pref_activity_recognition_mode_none">aucune</string>
+    <string name="pref_activity_recognition_mode_auto">auto</string>
 </resources>
