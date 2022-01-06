@@ -54,6 +54,41 @@
             android:summary="@string/fossil_hr_button_config_info" />
     </PreferenceScreen>
 
+    <PreferenceScreen
+        android:icon="@drawable/ic_activity_unknown_small"
+        android:title="@string/prefs_activity_recognition"
+        android:key="activity_recognition_settings">
+
+        <ListPreference
+            android:key="activity_recognize_running"
+            android:title="@string/pref_activity_recognize_running"
+            android:icon="@drawable/ic_activity_running"
+            android:entryValues="@array/fossil_hr_activity_recognition_mode_values"
+            android:entries="@array/fossil_hr_activity_recognition_modes"/>
+
+        <ListPreference
+            android:key="activity_recognize_biking"
+            android:title="@string/pref_activity_recognize_biking"
+            android:icon="@drawable/ic_activity_biking"
+            android:entryValues="@array/fossil_hr_activity_recognition_mode_values"
+            android:entries="@array/fossil_hr_activity_recognition_modes"/>
+
+        <ListPreference
+            android:key="activity_recognize_walking"
+            android:title="@string/pref_activity_recognize_walking"
+            android:icon="@drawable/ic_activity_walking"
+            android:entryValues="@array/fossil_hr_activity_recognition_mode_values"
+            android:entries="@array/fossil_hr_activity_recognition_modes"/>
+
+        <ListPreference
+            android:key="activity_recognize_rowing"
+            android:title="@string/pref_activity_recognize_rowing"
+            android:icon="@drawable/ic_activity_rowing"
+            android:entryValues="@array/fossil_hr_activity_recognition_mode_values"
+            android:entries="@array/fossil_hr_activity_recognition_modes"/>
+
+    </PreferenceScreen>
+
     <Preference
         android:title="@string/qhybrid_pref_title_actions"
         android:icon="@drawable/ic_pending_actions"

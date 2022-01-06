@@ -2043,5 +2043,17 @@
         <item>playback_control</item>
         <item>volume_control</item>
     </string-array>
+
+    <string-array name="fossil_hr_activity_recognition_modes">
+        <item>@string/pref_activity_recognition_mode_none</item>
+        <item>@string/pref_activity_recognition_mode_ask</item>
+        <item>@string/pref_activity_recognition_mode_auto</item>
+    </string-array>
+
+    <string-array name="fossil_hr_activity_recognition_mode_values">
+        <item>mode_none</item>
+        <item>mode_ask</item>
+        <item>mode_auto</item>
+    </string-array>
 </resources>
 

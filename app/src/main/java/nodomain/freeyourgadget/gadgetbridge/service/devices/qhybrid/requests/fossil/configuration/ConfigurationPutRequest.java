@@ -16,6 +16,12 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.configuration;
 
+import static android.content.ContentValues.TAG;
+
+import android.util.Log;
+
+import androidx.annotation.NonNull;
+
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.util.ArrayList;
@@ -25,18 +31,20 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.adapter.foss
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.file.FileHandle;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.file.FilePutRequest;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
+import nodomain.freeyourgadget.gadgetbridge.util.StringUtils;
 
 public class ConfigurationPutRequest extends FilePutRequest {
     private static final HashMap<Short, Class<? extends ConfigItem>> itemsById = new HashMap<>();
 
     static {
-        itemsById.put((short)0x02, CurrentStepCountConfigItem.class);
-        itemsById.put((short)0x03, DailyStepGoalConfigItem.class);
-        itemsById.put((short)0x0A, VibrationStrengthConfigItem.class);
-        itemsById.put((short)0x0C, TimeConfigItem.class);
-        itemsById.put((short)0x0D, BatteryConfigItem.class);
+        itemsById.put((short) 0x02, CurrentStepCountConfigItem.class);
+        itemsById.put((short) 0x03, DailyStepGoalConfigItem.class);
+        itemsById.put((short) 0x0A, VibrationStrengthConfigItem.class);
+        itemsById.put((short) 0x0C, TimeConfigItem.class);
+        itemsById.put((short) 0x0D, BatteryConfigItem.class);
         itemsById.put((short) 0x0E, HeartRateMeasurementModeItem.class);
         itemsById.put((short) 0x10, UnitsConfigItem.class);
+        itemsById.put((short) 0x14, FitnessConfigItem.class);
     }
 
     public static ConfigItem[] parsePayload(byte[] data) {
@@ -45,7 +53,7 @@ public class ConfigurationPutRequest extends FilePutRequest {
 
         ArrayList<ConfigItem> configItems = new ArrayList<>();
 
-        while(buffer.hasRemaining()){
+        while (buffer.hasRemaining()) {
             short id = buffer.getShort();
             byte length = buffer.get();
             byte[] payload = new byte[length];
@@ -84,12 +92,12 @@ public class ConfigurationPutRequest extends FilePutRequest {
 
     private static byte[] createFileContent(ConfigItem[] items) {
         int overallSize = 0;
-        for(ConfigItem item : items){
+        for (ConfigItem item : items) {
             overallSize += item.getItemSize() + 3;
         }
         ByteBuffer buffer = ByteBuffer.allocate(overallSize);
         buffer.order(ByteOrder.LITTLE_ENDIAN);
-        for(ConfigItem item : items){
+        for (ConfigItem item : items) {
             buffer.putShort(item.getId());
             buffer.put((byte) item.getItemSize());
             buffer.put(item.getContent());
@@ -117,7 +125,7 @@ public class ConfigurationPutRequest extends FilePutRequest {
             this.configId = configId;
         }
 
-        public T getValue(){
+        public T getValue() {
             return value;
         }
 
@@ -171,20 +179,20 @@ public class ConfigurationPutRequest extends FilePutRequest {
             ByteBuffer buffer = ByteBuffer.wrap(data);
             buffer.order(ByteOrder.LITTLE_ENDIAN);
 
-            switch (data.length){
-                case 1:{
+            switch (data.length) {
+                case 1: {
                     this.value = (T) (Byte) buffer.get();
                     break;
                 }
-                case 2:{
+                case 2: {
                     this.value = (T) (Short) buffer.getShort();
                     break;
                 }
-                case 4:{
+                case 4: {
                     this.value = (T) (Integer) buffer.getInt();
                     break;
                 }
-                case 8:{
+                case 8: {
                     this.value = (T) (Long) buffer.getLong();
                     break;
                 }
@@ -192,7 +200,7 @@ public class ConfigurationPutRequest extends FilePutRequest {
         }
     }
 
-    static public class BatteryConfigItem extends ConfigItem{
+    static public class BatteryConfigItem extends ConfigItem {
         private int batteryPercentage, batteryVoltage;
 
         public int getBatteryPercentage() {
@@ -228,9 +236,9 @@ public class ConfigurationPutRequest extends FilePutRequest {
         }
     }
 
-    static public class HeartRateMeasurementModeItem extends GenericConfigItem<Byte>{
+    static public class HeartRateMeasurementModeItem extends GenericConfigItem<Byte> {
         public HeartRateMeasurementModeItem() {
-            this((byte)-1);
+            this((byte) -1);
         }
 
         public HeartRateMeasurementModeItem(byte value) {
@@ -239,7 +247,7 @@ public class ConfigurationPutRequest extends FilePutRequest {
     }
 
     static public class DailyStepGoalConfigItem extends GenericConfigItem<Integer> {
-        public DailyStepGoalConfigItem(){
+        public DailyStepGoalConfigItem() {
             this(-1);
         }
 
@@ -255,7 +263,7 @@ public class ConfigurationPutRequest extends FilePutRequest {
     }
 
     static public class VibrationStrengthConfigItem extends GenericConfigItem<Byte> {
-        public VibrationStrengthConfigItem(){
+        public VibrationStrengthConfigItem() {
             this((byte) -1);
         }
 
@@ -321,7 +329,7 @@ public class ConfigurationPutRequest extends FilePutRequest {
 
         @Override
         public void parseData(byte[] data) {
-            if(data.length != 8) throw new RuntimeException("wrong data");
+            if (data.length != 8) throw new RuntimeException("wrong data");
 
             ByteBuffer buffer = ByteBuffer.wrap(data);
             buffer.order(ByteOrder.LITTLE_ENDIAN);
@@ -329,6 +337,104 @@ public class ConfigurationPutRequest extends FilePutRequest {
             this.epochSeconds = buffer.getInt();
             this.millis = buffer.getShort();
             this.offsetMinutes = buffer.getShort();
+        }
+    }
+
+
+    static public class FitnessConfigItem extends ConfigItem {
+        boolean recognizeRunning = false;
+        boolean askRunning = false;
+
+        boolean recognizeBiking = false;
+        boolean askBiking = false;
+
+        boolean recognizeWalk = false;
+        boolean askWalk = false;
+
+        boolean recognizeRudder = false;
+        boolean askRudder = false;
+
+        public FitnessConfigItem(boolean recognizeRunning, boolean askRunning, boolean recognizeBiking, boolean askBiking, boolean recognizeWalk, boolean askWalk, boolean recognizeRudder, boolean askRudder) {
+            this.recognizeRunning = recognizeRunning;
+            this.askRunning = askRunning;
+            this.recognizeBiking = recognizeBiking;
+            this.askBiking = askBiking;
+            this.recognizeWalk = recognizeWalk;
+            this.askWalk = askWalk;
+            this.recognizeRudder = recognizeRudder;
+            this.askRudder = askRudder;
+        }
+
+        public FitnessConfigItem() {
+        }
+
+        ;
+
+        @Override
+        public int getItemSize() {
+            return 30;
+        }
+
+        @Override
+        public short getId() {
+            return 0x14;
+        }
+
+        @Override
+        public byte[] getContent() {
+            byte[] data = new byte[]{
+                    (byte) 0x01, (byte) 0x00, (byte) 0x03, (byte) 0x01, (byte) 0x01, (byte) 0x05, (byte) 0x02, (byte) 0x00, (byte) 0x0A, (byte) 0x01, (byte) 0x01, (byte) 0x01, (byte) 0x04, (byte) 0x00, (byte) 0xFF, (byte) 0xFF, (byte) 0xFF, (byte) 0xFF, (byte) 0x08, (byte) 0x00, (byte) 0x0A, (byte) 0x01, (byte) 0x01, (byte) 0x05, (byte) 0x09, (byte) 0x00, (byte) 0x03, (byte) 0x01, (byte) 0x01, (byte) 0x01
+            };
+            if (recognizeRunning) {
+                data[1] |= 0x01;
+                if (askRunning) {
+                    data[1] |= 0x02;
+                }
+            }
+            if (recognizeBiking) {
+                data[7] |= 0x01;
+                if (askBiking) {
+                    data[7] |= 0x02;
+                }
+            }
+            if (recognizeWalk) {
+                data[19] |= 0x01;
+                if (askWalk) {
+                    data[19] |= 0x02;
+                }
+            }
+            if (recognizeRudder) {
+                data[25] |= 0x01;
+                if (askRudder) {
+                    data[25] |= 0x02;
+                }
+            }
+            return data;
+        }
+
+        @Override
+        public void parseData(byte[] data) {
+            recognizeRunning = (data[1] & 0x01) == 0x01;
+            askRunning = (data[1] & 0x02) == 0x02;
+
+            recognizeBiking = (data[7] & 0x01) == 0x01;
+            askBiking = (data[7] & 0x02) == 0x02;
+
+            recognizeWalk = (data[19] & 0x01) == 0x01;
+            askWalk = (data[19] & 0x02) == 0x02;
+
+            recognizeRudder = (data[25] & 0x01) == 0x01;
+            askRudder = (data[25] & 0x02) == 0x02;
+        }
+
+        @NonNull
+        @Override
+        public String toString() {
+            return
+                    "recognizeRunning: " + recognizeRunning + "   askRunning: " + askRunning + "\n" +
+                            "recognizeBiking: " + recognizeBiking + "   askBiking: " + askBiking + "\n" +
+                            "recognizeWalking: " + recognizeWalk + "   askWalk: " + askWalk + "\n" +
+                            "recognizeRudder: " + recognizeRudder + "   askRudder: " + askRudder;
         }
     }
 }

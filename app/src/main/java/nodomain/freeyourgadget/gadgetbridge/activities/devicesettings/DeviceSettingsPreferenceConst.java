@@ -45,6 +45,11 @@ public class DeviceSettingsPreferenceConst {
     public static final String PREF_HYBRID_HR_DRAW_WIDGET_CIRCLES = "widget_draw_circles";
     public static final String PREF_HYBRID_HR_SAVE_RAW_ACTIVITY_FILES = "save_raw_activity_files";
     public static final String PREF_HYBRID_HR_DANGEROUS_EXTERNAL_INTENTS = "dangerous_external_intents";
+    public static final String PREF_HYBRID_HR_ACTIVITY_RECOGNITION_RUNNING = "activity_recognize_running";
+    public static final String PREF_HYBRID_HR_ACTIVITY_RECOGNITION_BIKING = "activity_recognize_biking";
+    public static final String PREF_HYBRID_HR_ACTIVITY_RECOGNITION_WALKING = "activity_recognize_walking";
+    public static final String PREF_HYBRID_HR_ACTIVITY_RECOGNITION_ROWING = "activity_recognize_rowing";
+
 
     public static final String PREF_ACTIVATE_DISPLAY_ON_LIFT = "activate_display_on_lift_wrist";
     public static final String PREF_DISPLAY_ON_LIFT_START = "display_on_lift_start";

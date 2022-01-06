@@ -71,6 +71,8 @@ public class ConfigurationGetRequest extends FileEncryptedLookupAndGetRequest im
         }
 
         device.sendDeviceUpdateIntent(getAdapter().getContext());
+
+        handleConfiguration(items);
     }
 
     @Override
@@ -81,4 +83,6 @@ public class ConfigurationGetRequest extends FileEncryptedLookupAndGetRequest im
             throw new RuntimeException("strange lookup stuff");
         }
     }
+
+    protected void handleConfiguration(ConfigurationPutRequest.ConfigItem[] items){}
 }
