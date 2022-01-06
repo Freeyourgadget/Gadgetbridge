@@ -1542,4 +1542,23 @@
     <string name="devicetype_bose_qc35">Bose QC35</string>
     <string name="activity_type_hiking">Doğa Yürüyüşü</string>
     <string name="activity_type_climbing">Tırmanma</string>
+    <string name="distance_format_meters">###m</string>
+    <string name="distance_format_miles">###,#mil</string>
+    <string name="pref_activity_recognize_running">koşmayı tanı</string>
+    <string name="pref_activity_recognize_rowing">kürek çekmeyi tanı</string>
+    <string name="prefs_activity_recognition">Etkinlik tanıma ayarları</string>
+    <string name="pref_activity_recognize_walking">yürümeyi tanı</string>
+    <string name="distance_format_kilometers">###,#km</string>
+    <string name="pref_activity_recognize_biking">bisiklet sürmeyi tanı</string>
+    <string name="pref_activity_recognition_mode_auto">otomatik</string>
+    <string name="fossil_hr_button_config_info">Bazı düğmeler, işlevleri saatin ürün yazılımında kodlanmış olduğundan yapılandırılamaz.
+\n
+\nUyarı: Resmi Fossil uygulamasından bir saat arayüzü kurulduğunda üst düğmeye uzun basmak, widget\'ları gösterme/gizleme arasında geçiş yapacaktır.</string>
+    <string name="pref_activity_recognition_mode_none">hiçbiri</string>
+    <string name="pref_activity_recognition_mode_ask">sor</string>
+    <string name="menuitem_menu">Menü</string>
+    <string name="about_hash">Kayıt %s</string>
+    <string name="devicetype_domyos_t540">Domyos T540</string>
+    <string name="pref_device_action_broadcast">Yayın Gönder</string>
+    <string name="distance_format_feet">###ft</string>
 </resources>
