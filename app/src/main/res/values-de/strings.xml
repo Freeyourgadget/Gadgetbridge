@@ -1522,6 +1522,26 @@
     <string name="descentDistance">Bergab Distanz</string>
     <string name="ascentDistance">Bergauf Distanz</string>
     <string name="devicetype_vesc">VESC</string>
+
+    <string name="activity_type_hiking">Wandern</string>
+    <string name="activity_type_climbing">Klettern</string>
+    <string name="pref_button_action_disabled">Deaktiviert</string>
+    <string name="pref_media_play">Medienwiedergabe</string>
+    <string name="pref_media_next">Nächster Titel</string>
+    <string name="pref_media_previous">Vorheriger Titel</string>
+    <string name="pref_media_volumeup">Lauter</string>
+    <string name="pref_media_pause">Medienpause</string>
+    <string name="pref_media_playpause">Wiedergabe ein-/ausschalten</string>
+    <string name="pref_media_rewind">Zurück springen</string>
+    <string name="distance_format_meters">###m</string>
+    <string name="distance_format_miles">###.#mi</string>
+    <string name="distance_format_feet">###ft</string>
+    <string name="pref_device_action_broadcast">Broadcast senden</string>
+    <string name="pref_media_volumedown">Leiser</string>
+    <string name="pref_media_forward">Vorwärts springen</string>
+    <string name="distance_format_kilometers">###.#km</string>
+    <string name="about_hash">Commit %s</string>
+
     <string name="info_connected_count">%d Geräte verbunden</string>
     <string name="info_no_devices_connected">Keine Geräte verbunden</string>
 </resources>

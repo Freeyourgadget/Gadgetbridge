@@ -16,6 +16,7 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.adapter.fossil_hr;
 
+import static nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.configuration.ConfigurationPutRequest.*;
 import static nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.configuration.ConfigurationPutRequest.UnitsConfigItem;
 import static nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.configuration.ConfigurationPutRequest.VibrationStrengthConfigItem;
 import static nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.music.MusicControlRequest.MUSIC_PHONE_REQUEST;
@@ -1283,23 +1284,13 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
 
     @Override
     public void onTestNewFunction() {
-        queueWrite(new FossilRequest() {
+        queueWrite((FileEncryptedInterface) new ConfigurationGetRequest(this){
             @Override
-            public boolean isFinished() {
-                return true;
-            }
-
-            @Override
-            public byte[] getStartSequence() {
-                return new byte[]{0x01, 0x07};
-            }
-
-            @Override
-            public UUID getRequestUUID() {
-                return UUID.fromString("3dda0005-957f-7d4a-34a6-74696673696d");
+            protected void handleConfiguration(ConfigItem[] items) {
+                super.handleConfiguration(items);
+                LOG.debug(items[items.length - 1].toString());
             }
         });
-        queueWrite(new ConfirmOnDeviceRequest());
     }
 
     public byte[] getSecretKey() throws IllegalAccessException {
@@ -1400,6 +1391,27 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
         }
     }
 
+    private void setActivityRecognition(){
+        SharedPreferences prefs = getDeviceSpecificPreferences();
+        String modeRunning = prefs.getString(DeviceSettingsPreferenceConst.PREF_HYBRID_HR_ACTIVITY_RECOGNITION_RUNNING, "none");
+        String modeBiking = prefs.getString(DeviceSettingsPreferenceConst.PREF_HYBRID_HR_ACTIVITY_RECOGNITION_BIKING, "none");
+        String modeWalking = prefs.getString(DeviceSettingsPreferenceConst.PREF_HYBRID_HR_ACTIVITY_RECOGNITION_WALKING, "none");
+        String modeRowing = prefs.getString(DeviceSettingsPreferenceConst.PREF_HYBRID_HR_ACTIVITY_RECOGNITION_ROWING, "none");
+
+        FitnessConfigItem fitnessConfigItem = new FitnessConfigItem(
+                !modeRunning.equals("none"),
+                modeRunning.equals("ask"),
+                !modeBiking.equals("none"),
+                modeBiking.equals("ask"),
+                !modeWalking.equals("none"),
+                modeWalking.equals("ask"),
+                !modeRowing.equals("none"),
+                modeRowing.equals("ask")
+        );
+
+        queueWrite((FileEncryptedInterface) new ConfigurationPutRequest(fitnessConfigItem, this));
+    }
+
     @Override
     public void onSendConfiguration(String config) {
         switch (config) {
@@ -1430,6 +1442,12 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
             }
             case SettingsActivity.PREF_MEASUREMENT_SYSTEM:
                 setUnitsConfig();
+                break;
+            case DeviceSettingsPreferenceConst.PREF_HYBRID_HR_ACTIVITY_RECOGNITION_RUNNING:
+            case DeviceSettingsPreferenceConst.PREF_HYBRID_HR_ACTIVITY_RECOGNITION_BIKING:
+            case DeviceSettingsPreferenceConst.PREF_HYBRID_HR_ACTIVITY_RECOGNITION_WALKING:
+            case DeviceSettingsPreferenceConst.PREF_HYBRID_HR_ACTIVITY_RECOGNITION_ROWING:
+                setActivityRecognition();
                 break;
         }
     }

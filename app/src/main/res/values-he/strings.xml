@@ -1514,4 +1514,21 @@
     <string name="descentDistance">מרחק במורד</string>
     <string name="ascentDistance">מרחק במעלה</string>
     <string name="activity_type_hiking">טיול</string>
+    <string name="activity_type_climbing">טיפוס</string>
+    <string name="distance_format_kilometers">###.# ק״מ</string>
+    <string name="distance_format_feet">### רגל</string>
+    <string name="about_hash">הגשה %s</string>
+    <string name="pref_media_play">נגינת מדיה</string>
+    <string name="pref_media_playpause">החלפת מצב נגינה</string>
+    <string name="pref_media_next">הרצועה הבאה</string>
+    <string name="pref_media_previous">הרצועה הקודמת</string>
+    <string name="pref_media_volumeup">הגברת עצמת השמע</string>
+    <string name="pref_media_forward">לדלג קדימה</string>
+    <string name="pref_media_rewind">לדלג אחורה</string>
+    <string name="pref_device_action_broadcast">שליחת שידור</string>
+    <string name="distance_format_meters">### מ׳</string>
+    <string name="pref_button_action_disabled">מושבת</string>
+    <string name="pref_media_pause">השהית מדיה</string>
+    <string name="pref_media_volumedown">הנמכת עצמת השמע</string>
+    <string name="distance_format_miles">###.# מי׳</string>
 </resources>

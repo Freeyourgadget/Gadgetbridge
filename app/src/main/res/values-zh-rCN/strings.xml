@@ -1520,4 +1520,22 @@
     <string name="descentDistance">下坡距离</string>
     <string name="devicetype_bose_qc35">Bose QC35</string>
     <string name="activity_type_hiking">徒步</string>
+    <string name="activity_type_climbing">攀登</string>
+    <string name="devicetype_domyos_t540">Domyos T540</string>
+    <string name="pref_media_next">下一首</string>
+    <string name="pref_button_action_disabled">已停用</string>
+    <string name="pref_media_play">媒体播放</string>
+    <string name="pref_media_pause">媒体暂停</string>
+    <string name="pref_media_playpause">切换播放</string>
+    <string name="pref_media_previous">上一首</string>
+    <string name="pref_media_volumeup">音量加</string>
+    <string name="about_hash">提交 %s</string>
+    <string name="pref_media_forward">快进</string>
+    <string name="pref_media_rewind">倒带</string>
+    <string name="distance_format_meters">###米</string>
+    <string name="distance_format_kilometers">###.#千米</string>
+    <string name="distance_format_miles">###.#英里</string>
+    <string name="distance_format_feet">###英尺</string>
+    <string name="pref_media_volumedown">音量减</string>
+    <string name="pref_device_action_broadcast">发送广播</string>
 </resources>

@@ -1521,4 +1521,22 @@
     <string name="descentDistance">Відстань спуску</string>
     <string name="devicetype_vesc">VESC</string>
     <string name="activity_type_hiking">Піший туризм</string>
+    <string name="activity_type_climbing">Альпінізм</string>
+    <string name="distance_format_kilometers">###.#км</string>
+    <string name="distance_format_miles">###.#миль</string>
+    <string name="pref_button_action_disabled">Вимкнено</string>
+    <string name="distance_format_meters">###м</string>
+    <string name="distance_format_feet">###футів</string>
+    <string name="pref_media_next">Наступна доріжка</string>
+    <string name="pref_media_previous">Попередня доріжка</string>
+    <string name="pref_device_action_broadcast">Надіслати Broadcast</string>
+    <string name="pref_media_playpause">Перемикнути відтворення</string>
+    <string name="pref_media_volumeup">Гучніше</string>
+    <string name="about_hash">Коміт %s</string>
+    <string name="pref_media_play">Відтворити медіа</string>
+    <string name="pref_media_pause">Зупинити медіа</string>
+    <string name="pref_media_volumedown">Тихіше</string>
+    <string name="devicetype_domyos_t540">" "</string>
+    <string name="pref_media_forward">Прокрутити вперед</string>
+    <string name="pref_media_rewind">Прокрутити назад</string>
 </resources>

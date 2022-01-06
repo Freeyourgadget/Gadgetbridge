@@ -1513,4 +1513,22 @@
     <string name="discover_unsupported_devices">Ontdek niet-ondersteunde apparaten</string>
     <string name="ascentDistance">Afstand bergopwaarts</string>
     <string name="sony_button_mode_playback_control">Afspeelbediening</string>
+    <string name="activity_type_hiking">Wandeltocht</string>
+    <string name="activity_type_climbing">Klimmen</string>
+    <string name="pref_media_play">Media afspelen</string>
+    <string name="pref_button_action_disabled">Uitgeschakeld</string>
+    <string name="pref_media_playpause">Afspelen in-/uitschakelen</string>
+    <string name="pref_media_next">Volgende nummer</string>
+    <string name="pref_media_previous">Vorige nummer</string>
+    <string name="pref_media_volumeup">Volume omhoog</string>
+    <string name="pref_media_volumedown">Volume omlaag</string>
+    <string name="pref_media_rewind">Spring achteruit</string>
+    <string name="pref_device_action_broadcast">Stuur Broadcast</string>
+    <string name="distance_format_meters">###m</string>
+    <string name="distance_format_miles">###.#mi</string>
+    <string name="distance_format_feet">###ft</string>
+    <string name="pref_media_pause">Media pauzeren</string>
+    <string name="pref_media_forward">Spring vooruit</string>
+    <string name="about_hash">Commit %s</string>
+    <string name="distance_format_kilometers">###.#km</string>
 </resources>

@@ -178,7 +178,7 @@
     <string name="pref_title_notifications_call">Puhelut</string>
     <string name="uncheck_all_applications">Poista valinta kaikista sovelluksista</string>
     <string name="pref_header_notifications">Ilmoitukset</string>
-    <string name="pref_title_general_autoreconnect">Uudelleenyhdistä automaattisesti</string>
+    <string name="pref_title_general_autoreconnect">Yhdistä uudelleen automaattisesti</string>
     <string name="pref_summary_minimize_priority_on">Tilapalkin kuvake ja lukitusnäytön ilmoitus ovat piilotettu</string>
     <string name="pref_title_notifications_repetitions">Toistot</string>
     <string name="pref_title_notifications_generic">Yleinen ilmoitustuki</string>
@@ -207,12 +207,12 @@
     <string name="miband_firmware_suggest_whitelist">Jos haluat silti jatkaa ja asiat toimivat kunnolla myös sen jälkeen, pyydä Gadgetbridgen kehittäjiä merkitsemään %s-firmware-versio valkoiselle listalle.</string>
     <string name="miband_firmware_unknown_warning">Tätä laiteohjelmistoa ei ole testattu, eikä se välttämättä ole yhteensopiva Gadgetbridgen kanssa.
 \n
-\nSuosittelemme ETTET päivitä sitä!</string>
+\nEmme suosittele sen asentamista!</string>
     <string name="pref_summary_rtl">Ota tämä käyttöön, jos laitteesi ei voi näyttää oikealta vasemmalle kieliä</string>
     <string name="pref_rtl_max_line_length">Oikealta vasemmalle enimmäisrivin pituus</string>
     <string name="pref_title_rtl">Oikealta vasemmalle</string>
     <string name="check_all_applications">Valitse kaikki sovellukset</string>
-    <string name="pref_summary_notification_filter">Kaikki ilmoitukset estetään, kun Älä Häiritse on kytketty puhelimesta</string>
+    <string name="pref_summary_notification_filter">Estä kaikki ilmoitukset, kun älä häiritse tila on valittuna puhelimessa</string>
     <string name="pref_title_notification_use_as_allow">Salli ilmoitukset valituista sovelluksista</string>
     <string name="pref_title_transliteration">Translitterointi</string>
     <string name="pref_summary_transliteration">Ota tämä käyttöön, jos laitteesi ei tue kielesi fonttia</string>
@@ -278,7 +278,7 @@
     <string name="pref_title_message_privacy_mode">Viestien yksityisyystila</string>
     <string name="pref_title_canned_messages_set">Päivitä laitteessa</string>
     <string name="pref_title_pebble_settings">Pebble asetukset</string>
-    <string name="pref_title_enable_outgoing_call">Tuki lähteville puheluille</string>
+    <string name="pref_title_enable_outgoing_call">Tue lähteviä puheluita</string>
     <string name="pref_header_notifications_and_calls">Ilmoitukset ja puhelut</string>
     <string name="this_is_a_test_notification_from_gadgetbridge">Tämä on Gadgetbridgestä lähetetty testi-ilmoitus</string>
     <string name="alarm_fri_short">Pe</string>
@@ -316,7 +316,7 @@
     <string name="devicestatus_connected">Laite on yhdistetty</string>
     <string name="Delete">Poista</string>
     <string name="pref_message_privacy_mode_off">Näytä sisältö</string>
-    <string name="pref_title_weather_location">Sään sijainti (LineageOS:n sääpalvelua varten)</string>
+    <string name="pref_title_weather_location">Sään sijainti (LineageOS:n sään tarjoajaa varten)</string>
     <string name="pref_header_development">Kehittäjä asetukset</string>
     <string name="pref_call_privacy_mode_number">Piilota numero, mutta näytä nimi</string>
     <string name="devicetype_pinetime_jf">PineTime (JF-laiteohjelmisto)</string>
@@ -345,7 +345,7 @@
     <string name="activity_type_strength_training">Voimaharjoittelu</string>
     <string name="activity_summary_yesterday">Eilen</string>
     <string name="controlcenter_power_off_confirm_description">Oletko varma, että haluat sammuttaa laitteen\?</string>
-    <string name="pref_display_add_device_fab">Lisää uusi laite nappi</string>
+    <string name="pref_display_add_device_fab">Nappi uuden laitteen lisäämiseksi</string>
     <string name="pref_summary_notifications_and_calls_enable_misscall">Toistaa joka minuutti</string>
     <string name="activity_type_running">Juoksu</string>
     <string name="activity_type_walking">Kävely</string>
@@ -386,4 +386,52 @@
     <string name="prefs_equalizer">Taajuuskorjain</string>
     <string name="menuitem_status">Tila</string>
     <string name="prefs_left">Vasen</string>
+    <string name="activity_prefs_chart_min_heart_rate">Minimisyke</string>
+    <string name="pref_title_charts_average">Näytä keskiarvot taulukoissa</string>
+    <string name="charts_legend_heartrate">Syke</string>
+    <string name="hr_widget_heart_rate">Syke</string>
+    <string name="pref_title_chart_heartrate_color">Sykkeen väri</string>
+    <string name="weekstepschart_steps_a_month">Askeleet kuukaudessa</string>
+    <string name="pref_chart_heartrate_color_orange">Oranssi</string>
+    <string name="pref_chart_heartrate_color_red">Punainen</string>
+    <string name="Cancel">Peruuta</string>
+    <string name="ok">OK</string>
+    <string name="activity_prefs_gender">Sukupuoli</string>
+    <string name="pref_header_charts">Taulukoiden asetukset</string>
+    <string name="activity_prefs_height_cm">Pituus (cm)</string>
+    <string name="activity_prefs_step_length_cm">Askeleen pituus (cm)</string>
+    <string name="pref_chart_sleep_rolling_24_on">Viimeiset 24h</string>
+    <string name="live_activity_heart_rate">Syke</string>
+    <string name="action_db_management">Tietojen hallinta</string>
+    <string name="watch9_time_hours">Tunnit:</string>
+    <string name="language_and_region_prefs">Kieli- ja alueasetukset</string>
+    <string name="device_fw">Laiteohjelmiston versio: %1$s</string>
+    <string name="DEVINFO_HR_VER">"SYKE: "</string>
+    <string name="charts_legend_heartrate_average">Keskisyke</string>
+    <string name="activity_type_hiking">Patikointi</string>
+    <string name="kind_resources">Resurssit</string>
+    <string name="yes">Kyllä</string>
+    <string name="activity_type_climbing">Kiipeily</string>
+    <string name="devicetype_waspos">Wasp-OS</string>
+    <string name="menuitem_music">Musiikki</string>
+    <string name="menuitem_more">Enemmän</string>
+    <string name="menuitem_alexa">Alexa</string>
+    <string name="menuitem_flashlight">Taskulamppu</string>
+    <string name="menuitem_temperature">Lämpötila</string>
+    <string name="watch9_time_minutes">Minuutit:</string>
+    <string name="watch9_time_seconds">Sekunnit:</string>
+    <string name="watch9_calibration_button">Kalibroi</string>
+    <string name="menuitem_mutephone">Mykistä puhelin</string>
+    <string name="appwidget_text">Zzz</string>
+    <string name="activity_prefs_chart_max_heart_rate">Maksimisyke</string>
+    <string name="activity_prefs_weight_kg">Paino (kg)</string>
+    <string name="activity_prefs_year_birth">Syntymävuosi</string>
+    <string name="activity_prefs_charts">Taulukoiden asetukset</string>
+    <string name="set">Aseta</string>
+    <string name="maximum_duration">Kesto</string>
+    <string name="_pebble_watch_mute">Mykistä</string>
+    <string name="_pebble_watch_reply">Vastaa</string>
+    <string name="notification_channel_low_battery_name">Akku vähissä</string>
+    <string name="waiting_for_reconnect">Odottaa yhteyden muodostumista</string>
+    <string name="activity_prefs_about_you">Tietoja sinusta</string>
 </resources>
