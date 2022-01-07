@@ -2,7 +2,7 @@
 <resources>
     <string name="app_name">Gadgetbridge</string>
     <string name="title_activity_controlcenter">Gadgetbridge</string>
-    <string name="action_settings">Configurações</string>
+    <string name="action_settings">Definições</string>
     <string name="action_debug">Depurar</string>
     <string name="action_quit">Sair</string>
     <string name="controlcenter_fetch_activity_data">Sincronizar</string>
@@ -77,7 +77,7 @@
     <string name="pref_title_notifications_generic">Suportar notificações genéricas</string>
     <string name="pref_title_whenscreenon">… e quando o ecrã estiver ligado</string>
     <string name="pref_title_notification_filter">Não incomodar</string>
-    <string name="pref_summary_notification_filter">As notificações não desejadas são interrompidas neste modo</string>
+    <string name="pref_summary_notification_filter">Bloqueia todas as notificações quando o modo Não Incomodar está ativo no telemóvel</string>
     <string name="pref_title_transliteration">Transliteração</string>
     <string name="pref_summary_transliteration">Ativar apenas se o seu aparelho não suportar caracteres da sua língua (Atualmente apenas Cirílico)</string>
     <string name="always">Sempre</string>
@@ -94,7 +94,7 @@
     <string name="pref_title_canned_replies">Respostas</string>
     <string name="pref_title_canned_reply_suffix">Sufixo comum</string>
     <string name="pref_title_canned_messages_dismisscall">Chamadas recusadas</string>
-    <string name="pref_title_canned_messages_set">Atualizar no Pebble</string>
+    <string name="pref_title_canned_messages_set">Atualizar no dispositivo</string>
     <string name="pref_header_development">Opções de programador</string>
     <string name="pref_title_development_miaddr">Endereço do Mi Band</string>
     <string name="pref_title_pebble_settings">Configurações Pebble</string>
@@ -110,7 +110,7 @@
     <string name="pref_title_sunrise_sunset">Despertar e pôr-do-sol</string>
     <string name="pref_summary_sunrise_sunset">Enviar despertar e pôr-do-sol baseado na localização do Pebble</string>
     <string name="pref_title_autoremove_notifications">Remover automaticamente as notificações ignoradas</string>
-    <string name="pref_summary_autoremove_notifications">Notificações são automaticamente removidas quando rejeitadas no Android</string>
+    <string name="pref_summary_autoremove_notifications">Notificações são automaticamente removidas do dispositivo quando removidas no telemóvel</string>
     <string name="pref_title_pebble_privacy_mode">Modo de privacidade</string>
     <string name="pref_pebble_privacy_mode_off">Notificações</string>
     <string name="pref_pebble_privacy_mode_content">Deslocar texto de notificações que extravasar o ecrã</string>
@@ -161,7 +161,11 @@
     <string name="installation_failed_">A instalação falhou</string>
     <string name="installation_successful">Instalado</string>
     <string name="firmware_install_warning">ESTÁ A TENTAR INSTALAR UM FIRMWARE, CONTINUE À SUA RESPONSABILIDADE.\n\n\n Este firmware é para a Versão de HW: %s</string>
-    <string name="app_install_info">Está prestes a instalar a aplicação seguinte::\n\n\n%1$s Versão %2$s por %3$s\n</string>
+    <string name="app_install_info">Está prestes a instalar a seguinte aplicação:
+\n
+\n%1$s
+\nVersão %2$s por %3$s
+\n</string>
     <string name="n_a">N/D</string>
     <string name="initialized">inicializado</string>
     <string name="appversion_by_creator">%1$s por %2$s</string>
@@ -511,12 +515,12 @@
     <string name="devicetype_unknown">Aparelho desconhecido</string>
     <string name="devicetype_test">Aparelho de Teste</string>
     <string name="devicetype_pebble">Pebble</string>
-    <string name="notification_channel_name">Notificações do Gadgetbridge</string>
+    <string name="notification_channel_name">Geral</string>
     <string name="menuitem_shortcut_alipay">Alipay (Atalho)</string>
     <string name="menuitem_shortcut_weather">Meteorologia (Atalho)</string>
     <string name="menuitem_status">Estado</string>
     <string name="menuitem_notifications">Notificações</string>
-    <string name="menuitem_activity">Atividade</string>
+    <string name="menuitem_activity">Histórico de treino</string>
     <string name="menuitem_weather">Meteorologia</string>
     <string name="menuitem_alarm">Alarme</string>
     <string name="menuitem_timer">Temporizador</string>
@@ -641,7 +645,7 @@
     <string name="hr_appname_wellness">Bem-estar</string>
     <string name="pref_summary_custom_deviceicon">Mostra o ícone de notificação Android específico de um aparelho em vez do ícone do Gadgetbridge quando conectado</string>
     <string name="pref_title_custom_deviceicon">Mostrar ícone de notificação específica do aparelho</string>
-    <string name="notification_channel_high_priority_name">Notificações de Gadgetbridge de alta prioridade</string>
+    <string name="notification_channel_high_priority_name">Alta prioridade</string>
     <string name="find_my_phone_notification">Localizar meu telefone</string>
     <string name="pref_summary_force_white_color_scheme">Útil se seu relógio possui ponteiros escuros</string>
     <string name="pref_title_force_white_color_scheme">Forçar preto no esquema de cores branco</string>
@@ -1093,7 +1097,7 @@
     <string name="prefs_operating_sounds">Sons de operações</string>
     <string name="prefs_key_vibration">Vibração de tecla</string>
     <string name="prefs_autolight">Luz automática</string>
-    <string name="qhybrid_calibration_align_hint">alinhar as mãos às 12:00</string>
+    <string name="qhybrid_calibration_align_hint">Use os botões abaixo para alinhar as mãos do relógio às 12:00.</string>
     <string name="devicetype_nut_mini">Nut mini</string>
     <string name="gps_track">Rastro GPS</string>
     <string name="descentSeconds">Descendente</string>
@@ -1449,4 +1453,92 @@
     <string name="controlcenter_power_off_confirm_description">Tem a certeza que pretende desligar o dispositivo\?</string>
     <string name="controlcenter_power_off">Desligar</string>
     <string name="controlcenter_power_off_confirm_title">Desligar</string>
+    <string name="pref_activity_recognize_walking">reconhecer caminhada</string>
+    <string name="pref_activity_recognize_rowing">reconhecer remada</string>
+    <string name="menuitem_menu">Menu</string>
+    <string name="reminder_repeat">Repetir</string>
+    <string name="prefs_reserve_reminder_calendar_summary">Número de eventos de calendário que serão sincronizados</string>
+    <string name="reminder_date">Data</string>
+    <string name="reminder_time">Hora</string>
+    <string name="ascentDistance">Distância em subida</string>
+    <string name="averageAltitude">Média</string>
+    <string name="maxCadence">Cadência máxima</string>
+    <string name="pref_title_equalizer_normal">Normal</string>
+    <string name="sony_pause_when_taken_off">Pausar quando os headphones são removidos</string>
+    <string name="pref_media_volumedown">Reduzir Volume</string>
+    <string name="about_hash">Commit %s</string>
+    <string name="descentDistance">Distância em descida</string>
+    <string name="minHR">Frequência cardíaca mínima</string>
+    <string name="minCadence">Cadência mínima</string>
+    <string name="prefs_active_noise_cancelling">Cancelamento Ativo de Ruído</string>
+    <string name="averageCadence">Cadência média</string>
+    <string name="prefs_activity_recognition">Definições de reconhecimento de atividade</string>
+    <string name="sony_button_mode_left">Modo do botão (esquerdo)</string>
+    <string name="sony_button_mode_right">Modo do botão (direito)</string>
+    <string name="pref_activity_recognize_biking">reconhecer ciclismo</string>
+    <string name="fossil_hr_button_config_info">Alguns botões não podem ser configurados porque as suas funções estão pre-configuradas na firmware do relógio.
+\n
+\nAviso: pressionar longo no botão de cima quando o mostrador da aplicação oficial Fossil está instalada vai também alternar entre mostrar/ocultar widgets.</string>
+    <string name="qhybrid_summary_on_device_confirmation">Confirmações de emparelhamento no dispositivo podem tornar-se irritantes. Desactivar pode causar perda de funcionalidade.</string>
+    <string name="pref_media_previous">Faixa Anterior</string>
+    <string name="pref_media_volumeup">Aumentar Volume</string>
+    <string name="distance_format_miles">###.#mi</string>
+    <string name="pref_activity_recognize_running">reconhecer corrida</string>
+    <string name="pref_activity_recognition_mode_ask">perguntar</string>
+    <string name="pref_activity_recognition_mode_auto">automático</string>
+    <string name="pref_activity_recognition_mode_none">nenhum</string>
+    <string name="watchface_dialog_widget_update_timeout">Tempo de actualização em minutos:</string>
+    <string name="prefs_activity_in_device_card_title">Mostrar informações de atividade no cartão do dispositivo</string>
+    <string name="prefs_activity_in_device_card_title_summary">Mostrar passos, distância ou sono atual no cartão do dispositivo</string>
+    <string name="prefs_activity_in_device_card_sleep_title">Sono</string>
+    <string name="prefs_activity_in_device_card_sleep_title_summary">Mostrar duração do sono</string>
+    <string name="prefs_activity_in_device_card_distance_title_summary">A distância é calculada em função do número de passos e tamanho do passo (ajustável em Definições - Sobre você)</string>
+    <string name="prefs_activity_in_device_card_steps_title_summary">Mostar passos totais</string>
+    <string name="pref_header_equalizer">Equalizador</string>
+    <string name="reminder_message">Mensagem</string>
+    <string name="reminder_no_free_slots_title">Sem posições livres</string>
+    <string name="reminder_no_free_slots_description">O dispositivo não tem mais posições livres para lembretes (total de posições: %1$s)</string>
+    <string name="miband_prefs_reserve_reminder_calendar">Lembretes a reservar para eventos de calendário futuros</string>
+    <string name="mi2_prefs_do_not_disturb_lift_wrist">Activar ecrã do aparelho ao levantar durante modo Não Incomodar</string>
+    <string name="activity_prefs_discovery_pairing">Definições de busca e emparelhamento</string>
+    <string name="prefs_fm_preset_instructions">Pressione longo no botão para guardar predefinição</string>
+    <string name="devicetype_galaxybuds_live">Galaxy Buds Live</string>
+    <string name="pressure_relief_summary">Evita o sentimento de pressão nos ouvidos enquanto não estiver a usar o Calcelamento de Ruído Ativo</string>
+    <string name="devicetype_bose_qc35">Bose QC35</string>
+    <string name="devicetype_vesc">VESC</string>
+    <string name="spm">passos/min</string>
+    <string name="add_test_device">Adicionar dispositivo de teste</string>
+    <string name="devicetype_sony_wh_1000xm3">Sony WH-1000XM3</string>
+    <string name="devicetype_sony_wf_sp800n">Sony WF-SP800N</string>
+    <string name="activity_type_climbing">Escalada</string>
+    <string name="prefs_fm_presets_presets">Predefinições</string>
+    <string name="discover_unsupported_devices">Mostrar dispositivos não suportados</string>
+    <string name="device_card_activity_card_title">Informações de atividade no cartão do dispositivo</string>
+    <string name="device_card_activity_card_title_summary">Escolher que detalhes de actividade são mostrados no cartão do dispositivo</string>
+    <string name="pref_header_other">Outros</string>
+    <string name="pref_header_system">Sistema</string>
+    <string name="devicetype_domyos_t540">Domyos T540</string>
+    <string name="discover_unsupported_devices_description">Activar esta opção irá mostrar todos os dispositivos bluetooth encontrados durante a procura. Pressionar o dispositivo irá copiar o sei nome e endereço mac para o clipboard. Pressionar longo irá lançar o diálogo de \"Adicionar dispositivo de teste\".</string>
+    <string name="pref_button_action_disabled">Desactivado</string>
+    <string name="pref_media_next">Faixa Seguinte</string>
+    <string name="pref_media_rewind">Saltar para trás</string>
+    <string name="distance_format_feet">###ft</string>
+    <string name="minSpeed">Mínimo</string>
+    <string name="maxHR">Frequência cardíaca máxima</string>
+    <string name="maxStride">Distância de passo máx</string>
+    <string name="minStride">Distância de passo min</string>
+    <string name="watchface_setting_title_display_refresh_timeout">Tempo de actualização do ecrã</string>
+    <string name="prefs_pressure_relief">Alívio de pressão com som ambiente</string>
+    <string name="prefs_active_noise_cancelling_summary">Bloqueia ruídos do redor</string>
+    <string name="watchface_dialog_widget_timezone">Fuso horário:</string>
+    <string name="qhybrid_title_on_device_confirmation">Ativar confirmação de emparelhamento no dispositivo</string>
+    <string name="watchface_widget_type_custom">Widget customizada</string>
+    <string name="watchface_dialog_widget_timeout_hide_text">Ocultar texto ao terminar o tempo:</string>
+    <string name="watchface_dialog_widget_timeout_show_circle">Mostrar círculo ao terminar o tempo:</string>
+    <string name="pref_media_forward">Saltar para a frente</string>
+    <string name="pref_device_action_broadcast">Enviar transmissão</string>
+    <string name="distance_format_meters">###m</string>
+    <string name="distance_format_kilometers">###.#km</string>
+    <string name="pref_header_sony_equalizer_bands">Bandas</string>
+    <string name="battery_case">Caixa com bateria</string>
 </resources>
