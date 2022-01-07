@@ -1539,4 +1539,16 @@
     <string name="devicetype_domyos_t540">" "</string>
     <string name="pref_media_forward">Прокрутити вперед</string>
     <string name="pref_media_rewind">Прокрутити назад</string>
+    <string name="prefs_activity_recognition">Налаштування розпізнавання активності</string>
+    <string name="pref_activity_recognize_biking">розпізнавати їзду на велосипеді</string>
+    <string name="pref_activity_recognize_walking">розпізнавати ходьбу</string>
+    <string name="pref_activity_recognize_rowing">розпізнавати веслування</string>
+    <string name="pref_activity_recognition_mode_ask">запитувати</string>
+    <string name="pref_activity_recognition_mode_auto">автоматично</string>
+    <string name="menuitem_menu">Меню</string>
+    <string name="pref_activity_recognize_running">розпізнавати біг</string>
+    <string name="pref_activity_recognition_mode_none">не розпізнавати</string>
+    <string name="fossil_hr_button_config_info">Деякі кнопки не можна налаштувати, оскільки їхні функції закодовані в мікропрограму годинника.
+\n
+\nПопередження: тривале натискання верхньої кнопки, якщо встановлено годинник з офіційного застосунку Fossil, також перемикається між показом/хованням віджетів.</string>
 </resources>
