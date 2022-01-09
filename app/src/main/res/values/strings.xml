@@ -379,6 +379,8 @@
     <string name="title_activity_discovery">Device discovery</string>
     <string name="discovery_stop_scanning">Stop scanning</string>
     <string name="discovery_start_scanning">Start discovery</string>
+    <string name="discovery_bluetooth_scan">Bluetooth scan:</string>
+    <string name="discovery_bluetooth_le_scan">Bluetooth LE scan:</string>
     <string name="action_discover">Connect new device</string>
     <string name="device_with_rssi">%1$s (%2$s)</string>
     <string name="title_activity_android_pairing">Pair device</string>
@@ -1102,6 +1104,7 @@
     <string name="error_background_service_reason_truncated">Starting the background service failed because…</string>
     <string name="device_is_currently_bonded">ALREADY BONDED</string>
     <string name="device_requires_key">KEY REQUIRED</string>
+    <string name="device_unsupported">UNSUPPORTED</string>
     <string name="error_background_service_reason">Starting the background service failed because of an exception. Error: </string>
     <string name="pref_check_permission_status">Check permission status</string>
     <string name="pref_check_permission_status_summary">Check and ask for missing permissions even when they might not be instantly needed. Disable this only if your devices actually doesn\'t support any of these features. Not granting a permission might cause issues!</string>
