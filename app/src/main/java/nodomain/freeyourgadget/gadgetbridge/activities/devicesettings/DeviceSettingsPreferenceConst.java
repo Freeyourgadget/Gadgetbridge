@@ -137,6 +137,11 @@ public class DeviceSettingsPreferenceConst {
     public static final String PREF_SONY_BUTTON_MODE_RIGHT = "pref_sony_button_mode_right";
     public static final String PREF_SONY_AUTOMATIC_POWER_OFF = "pref_sony_automatic_power_off";
     public static final String PREF_SONY_NOTIFICATION_VOICE_GUIDE = "pref_sony_notification_voice_guide";
+    public static final String PREF_SONY_SPEAK_TO_CHAT = "pref_sony_speak_to_chat";
+    public static final String PREF_SONY_SPEAK_TO_CHAT_SENSITIVITY = "pref_sony_speak_to_chat_sensitivity";
+    public static final String PREF_SONY_SPEAK_TO_CHAT_FOCUS_ON_VOICE = "pref_sony_speak_to_chat_focus_on_voice";
+    public static final String PREF_SONY_SPEAK_TO_CHAT_TIMEOUT = "pref_sony_speak_to_chat_timeout";
+    public static final String PREF_SONY_CONNECT_TWO_DEVICES = "pref_sony_connect_two_devices";
 
     public static final String PREF_QC35_NOISE_CANCELLING_LEVEL = "qc35_noise_cancelling_level";
 

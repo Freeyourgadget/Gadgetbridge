@@ -494,6 +494,18 @@ public class SonyProtocolImplV1 extends AbstractSonyProtocolImpl {
                 capabilityRequests.add(getSoundPosition());
                 capabilityRequests.add(getEqualizer());
                 break;
+            case SONY_WH_1000XM4:
+                capabilityRequests.add(getFirmwareVersion());
+                capabilityRequests.add(getBattery(BatteryType.SINGLE));
+                capabilityRequests.add(getAudioCodec());
+                capabilityRequests.add(getAmbientSoundControl());
+                capabilityRequests.add(getAudioUpsampling());
+                capabilityRequests.add(getVoiceNotifications());
+                capabilityRequests.add(getAutomaticPowerOff());
+                capabilityRequests.add(getTouchSensor());
+                capabilityRequests.add(getEqualizer());
+                capabilityRequests.add(getPauseWhenTakenOff());
+                break;
             case SONY_WF_SP800N:
                 capabilityRequests.add(getFirmwareVersion());
                 capabilityRequests.add(getBattery(BatteryType.DUAL));
@@ -1004,6 +1016,7 @@ public class SonyProtocolImplV1 extends AbstractSonyProtocolImpl {
 
         switch (deviceType) {
             case SONY_WH_1000XM3:
+            case SONY_WH_1000XM4:
                 return true;
             case SONY_WF_SP800N:
                 return false;

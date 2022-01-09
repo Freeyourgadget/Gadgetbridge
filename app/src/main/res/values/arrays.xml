@@ -2020,14 +2020,40 @@
         <item>after_3_hour</item>
     </string-array>
 
-    <string-array name="sony_wfsp800n_automatic_power_off_names">
+    <string-array name="sony_automatic_power_off_when_taken_off_names">
         <item>@string/sony_automatic_power_off_off</item>
         <item>@string/sony_automatic_power_off_when_taken_off</item>
     </string-array>
 
-    <string-array name="sony_wfsp800n_automatic_power_off_values">
+    <string-array name="sony_automatic_power_off_when_taken_off_values">
         <item>off</item>
         <item>when_taken_off</item>
+    </string-array>
+
+    <string-array name="sony_speak_to_chat_voice_sensitivity_names">
+        <item>@string/sony_speak_to_chat_sensitivity_auto</item>
+        <item>@string/sony_speak_to_chat_sensitivity_high</item>
+        <item>@string/sony_speak_to_chat_sensitivity_low</item>
+    </string-array>
+
+    <string-array name="sony_speak_to_chat_voice_sensitivity_values">
+        <item>auto</item>
+        <item>high</item>
+        <item>low</item>
+    </string-array>
+
+    <string-array name="sony_speak_to_chat_voice_timeout_names">
+        <item>@string/sony_speak_to_chat_timeout_off</item>
+        <item>@string/sony_speak_to_chat_timeout_short</item>
+        <item>@string/sony_speak_to_chat_timeout_standard</item>
+        <item>@string/sony_speak_to_chat_timeout_long</item>
+    </string-array>
+
+    <string-array name="sony_speak_to_chat_voice_timeout_values">
+        <item>off</item>
+        <item>short</item>
+        <item>standard</item>
+        <item>long</item>
     </string-array>
 
     <string-array name="sony_wfsp800n_button_mode_names">

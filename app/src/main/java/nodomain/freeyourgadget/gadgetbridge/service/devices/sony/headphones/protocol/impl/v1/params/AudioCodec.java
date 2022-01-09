@@ -17,6 +17,7 @@
 package nodomain.freeyourgadget.gadgetbridge.service.devices.sony.headphones.protocol.impl.v1.params;
 
 public enum AudioCodec {
+    UNKNOWN(0x00),
     SBC(0x01),
     AAC(0x02),
     LDAC(0x10),

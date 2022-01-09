@@ -187,7 +187,15 @@ public class SonyHeadphonesProtocol extends GBDeviceProtocol {
             case DeviceSettingsPreferenceConst.PREF_SONY_NOTIFICATION_VOICE_GUIDE:
                 configRequest = protocolImpl.setVoiceNotifications(VoiceNotifications.fromPreferences(prefs));
                 break;
-
+            case DeviceSettingsPreferenceConst.PREF_SONY_CONNECT_TWO_DEVICES:
+                LOG.warn("Connection to two devices not implemented ('{}')", config);
+                return super.encodeSendConfiguration(config);
+            case DeviceSettingsPreferenceConst.PREF_SONY_SPEAK_TO_CHAT:
+            case DeviceSettingsPreferenceConst.PREF_SONY_SPEAK_TO_CHAT_SENSITIVITY:
+            case DeviceSettingsPreferenceConst.PREF_SONY_SPEAK_TO_CHAT_FOCUS_ON_VOICE:
+            case DeviceSettingsPreferenceConst.PREF_SONY_SPEAK_TO_CHAT_TIMEOUT:
+                LOG.warn("Speak-to-chat is not implemented ('{}')", config);
+                return super.encodeSendConfiguration(config);
             default:
                 LOG.warn("Unknown config '{}'", config);
                 return super.encodeSendConfiguration(config);

@@ -931,6 +931,7 @@
     <string name="devicetype_fitpro">FitPro</string>
     <string name="devicetype_domyos_t540"/>
     <string name="devicetype_sony_wh_1000xm3">Sony WH-1000XM3</string>
+    <string name="devicetype_sony_wh_1000xm4">Sony WH-1000XM4</string>
     <string name="devicetype_sony_wf_sp800n">Sony WF-SP800N</string>
     <string name="choose_auto_export_location">Choose export location</string>
     <string name="notification_channel_name">General</string>
@@ -1425,6 +1426,18 @@
     <string name="sony_equalizer_clear_bass">Clear Bass</string>
     <string name="sony_audio_upsampling">Audio Upsampling</string>
     <string name="sony_touch_sensor">Touch sensor control</string>
+    <string name="sony_speak_to_chat">Speak-to-chat</string>
+    <string name="sony_speak_to_chat_sensitivity">Voice Detection Sensitivity</string>
+    <string name="sony_speak_to_chat_sensitivity_auto">Automatic</string>
+    <string name="sony_speak_to_chat_sensitivity_high">High</string>
+    <string name="sony_speak_to_chat_sensitivity_low">Low</string>
+    <string name="sony_speak_to_chat_focus_on_voice">Focus on Voice</string>
+    <string name="sony_speak_to_chat_timeout">Timeout</string>
+    <string name="sony_speak_to_chat_timeout_off">Off</string>
+    <string name="sony_speak_to_chat_timeout_short">Short (15s)</string>
+    <string name="sony_speak_to_chat_timeout_standard">Standard (30s)</string>
+    <string name="sony_speak_to_chat_timeout_long">Long (1m)</string>
+    <string name="sony_connect_two_devices">Connect to 2 devices simultaneously</string>
     <string name="sony_notification_voice_guide">Notifications &amp; Voice Guide</string>
     <string name="sony_automatic_power_off">Automatic Power Off</string>
     <string name="sony_automatic_power_off_off">Do not turn off</string>

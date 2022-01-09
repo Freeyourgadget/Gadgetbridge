@@ -108,6 +108,7 @@ import nodomain.freeyourgadget.gadgetbridge.devices.qhybrid.QHybridCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.roidmi.Roidmi1Coordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.roidmi.Roidmi3Coordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.smaq2oss.SMAQ2OSSCoordinator;
+import nodomain.freeyourgadget.gadgetbridge.devices.sony.headphones.coordinators.SonyWH1000XM4Coordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.sonyswr12.SonySWR12DeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.tlw64.TLW64Coordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.um25.Coordinator.UM25Coordinator;
@@ -319,6 +320,7 @@ public class DeviceHelper {
         result.add(new GalaxyBudsLiveDeviceCoordinator());
         result.add(new VescCoordinator());
         result.add(new SonyWH1000XM3Coordinator());
+        result.add(new SonyWH1000XM4Coordinator());
         result.add(new SonyWFSP800NCoordinator());
         result.add(new QC35Coordinator());
 

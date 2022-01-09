@@ -27,7 +27,7 @@ import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
 public class SonyWH1000XM3Coordinator extends SonyHeadphonesCoordinator {
     @NonNull
     @Override
-    public DeviceType getSupportedType(GBDeviceCandidate candidate) {
+    public DeviceType getSupportedType(final GBDeviceCandidate candidate) {
         if (candidate.getName().contains("WH-1000XM3")) {
             return DeviceType.SONY_WH_1000XM3;
         }
@@ -52,7 +52,7 @@ public class SonyWH1000XM3Coordinator extends SonyHeadphonesCoordinator {
                 R.xml.devicesettings_sony_headphones_audio_upsampling,
                 R.xml.devicesettings_header_system,
                 R.xml.devicesettings_sony_headphones_touch_sensor_single,
-                R.xml.devicesettings_automatic_power_off,
+                R.xml.devicesettings_automatic_power_off_by_time,
                 R.xml.devicesettings_sony_headphones_notifications_voice_guide
         };
     }
