@@ -20,6 +20,7 @@
         <item name="es">Español</item>
         <item name="fr">Français</item>
         <item name="pl">Polski</item>
+        <item name="pt">Português</item>
         <item name="ru">Русский</item>
         <item name="vi">Tiếng Việt</item>
         <item name="tr">Türkçe</item>
@@ -39,6 +40,7 @@
         <item>es</item>
         <item>fr</item>
         <item>pl</item>
+        <item>pt</item>
         <item>ru</item>
         <item>vi</item>
         <item>tr</item>
