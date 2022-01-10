@@ -394,6 +394,8 @@ public class HybridHRWatchfaceDesignerActivity extends AbstractGBActivity implem
                                     widgets.add(new HybridHRWatchfaceWidget(widgetName,
                                             layoutItem.getJSONObject("pos").getInt("x"),
                                             layoutItem.getJSONObject("pos").getInt("y"),
+                                            layoutItem.getJSONObject("size").getInt("w"),
+                                            layoutItem.getJSONObject("size").getInt("h"),
                                             widgetColor,
                                             widgetTimezone));
                                 } catch (JSONException e) {
@@ -408,6 +410,8 @@ public class HybridHRWatchfaceDesignerActivity extends AbstractGBActivity implem
                                 widgets.add(new HybridHRWatchfaceWidget(widgetName,
                                         layoutItem.getJSONObject("pos").getInt("x"),
                                         layoutItem.getJSONObject("pos").getInt("y"),
+                                        layoutItem.getJSONObject("size").getInt("w"),
+                                        layoutItem.getJSONObject("size").getInt("h"),
                                         widgetColor,
                                         widgetUpdateTimeout,
                                         widgetTimeoutHideText,
@@ -416,6 +420,8 @@ public class HybridHRWatchfaceDesignerActivity extends AbstractGBActivity implem
                                 widgets.add(new HybridHRWatchfaceWidget(widgetName,
                                         layoutItem.getJSONObject("pos").getInt("x"),
                                         layoutItem.getJSONObject("pos").getInt("y"),
+                                        layoutItem.getJSONObject("size").getInt("w"),
+                                        layoutItem.getJSONObject("size").getInt("h"),
                                         widgetColor));
                             }
                         }
@@ -603,6 +609,13 @@ public class HybridHRWatchfaceDesignerActivity extends AbstractGBActivity implem
                 posY.setText("120");
             }
         });
+        // Set widget size
+        final LinearLayout sizeLayout = layout.findViewById(R.id.watchface_widget_size_layout);
+        sizeLayout.setVisibility(View.GONE);
+        final EditText widgetWidth = layout.findViewById(R.id.watchface_widget_width);
+        if ((widget != null) && (widget.getWidth() >= 0)) {
+            widgetWidth.setText(Integer.toString(widget.getWidth()));
+        }
         // Populate timezone spinner
         String[] timezonesList = TimeZone.getAvailableIDs();
         final Spinner tzSpinner = layout.findViewById(R.id.watchface_widget_timezone_spinner);
@@ -641,8 +654,10 @@ public class HybridHRWatchfaceDesignerActivity extends AbstractGBActivity implem
                     timezoneLayout.setVisibility(View.GONE);
                 }
                 if (selectedType.equals("widgetCustom")) {
+                    sizeLayout.setVisibility(View.VISIBLE);
                     updateTimeoutLayout.setVisibility(View.VISIBLE);
                 } else {
+                    sizeLayout.setVisibility(View.GONE);
                     updateTimeoutLayout.setVisibility(View.GONE);
                 }
             }
@@ -678,6 +693,12 @@ public class HybridHRWatchfaceDesignerActivity extends AbstractGBActivity implem
                         if (selectedPosX > 240) selectedPosX = 240;
                         if (selectedPosY < 1) selectedPosY = 1;
                         if (selectedPosY > 240) selectedPosY = 240;
+                        int selectedWidth = 76;
+                        try {
+                            selectedWidth = Integer.parseInt(widgetWidth.getText().toString());
+                        } catch (NumberFormatException e) {
+                            LOG.warn("Error parsing input", e);
+                        }
                         String selectedType = widgetTypesArray.get(typeSpinner.getSelectedItemPosition());
                         String selectedTZ = tzSpinner.getSelectedItem().toString();
                         int selectedUpdateTimeout = 0;
@@ -694,11 +715,11 @@ public class HybridHRWatchfaceDesignerActivity extends AbstractGBActivity implem
                         boolean selectedTimeoutShowCircle = timeoutShowCircle.isChecked();
                         HybridHRWatchfaceWidget widgetConfig;
                         if (selectedType.equals("widget2ndTZ")) {
-                            widgetConfig = new HybridHRWatchfaceWidget(selectedType, selectedPosX, selectedPosY, colorSpinner.getSelectedItemPosition(), selectedTZ);
+                            widgetConfig = new HybridHRWatchfaceWidget(selectedType, selectedPosX, selectedPosY, 76, 76, colorSpinner.getSelectedItemPosition(), selectedTZ);
                         } else if (selectedType.equals("widgetCustom")) {
-                            widgetConfig = new HybridHRWatchfaceWidget(selectedType, selectedPosX, selectedPosY, colorSpinner.getSelectedItemPosition(), selectedUpdateTimeout, selectedTimeoutHideText, selectedTimeoutShowCircle);
+                            widgetConfig = new HybridHRWatchfaceWidget(selectedType, selectedPosX, selectedPosY, selectedWidth, 76, colorSpinner.getSelectedItemPosition(), selectedUpdateTimeout, selectedTimeoutHideText, selectedTimeoutShowCircle);
                         } else {
-                            widgetConfig = new HybridHRWatchfaceWidget(selectedType, selectedPosX, selectedPosY, colorSpinner.getSelectedItemPosition());
+                            widgetConfig = new HybridHRWatchfaceWidget(selectedType, selectedPosX, selectedPosY, 76, 76, colorSpinner.getSelectedItemPosition());
                         }
                         if (index >= 0) {
                             widgets.set(index, widgetConfig);
