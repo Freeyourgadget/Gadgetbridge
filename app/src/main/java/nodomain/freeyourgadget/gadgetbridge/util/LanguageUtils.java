@@ -115,6 +115,9 @@ public class LanguageUtils {
             put('ř',"r"); put('ě',"e"); put('ý',"y"); put('á',"a"); put('í',"i"); put('é',"e");
             put('ó',"o"); put('ú',"u"); put('ů',"u"); put('ď',"d"); put('ť',"t"); put('ň',"n");
 
+            // Turkish
+            put('ı',"i");
+
             //TODO: these must be configurable. If someone wants to transliterate cyrillic it does not mean his device has no German umlauts
             // all or nothing is really bad here
         }
