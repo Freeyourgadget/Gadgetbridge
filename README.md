@@ -48,6 +48,8 @@ vendor's servers.
     - Casio GB-5600B
     - Casio STB-1000
     - Casio GBX-100
+    - Casio GBD-100
+    - Casio GBD-200
 - [FitPro](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/FitPro)
 - Fossil
 	- [Hybrid HR](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Fossil-Hybrid-HR) [**\[!\]**](#special-pairing-procedures)
