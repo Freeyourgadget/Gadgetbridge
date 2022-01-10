@@ -104,9 +104,10 @@ public class SonyHeadphonesProtocol extends GBDeviceProtocol {
                 } else if (message.getPayload().length == 6) {
                     LOG.warn("Sony Headphones protocol v2 is not yet supported");
                     return null;
+                } else {
+                    LOG.error("Unexpected init response payload length: {}", message.getPayload().length);
+                    return null;
                 }
-
-                return null;
             }
         }
 
@@ -258,6 +259,10 @@ public class SonyHeadphonesProtocol extends GBDeviceProtocol {
 
     public byte[] getFromQueue() {
         return requestQueue.remove().encode(sequenceNumber);
+    }
+
+    public boolean hasProtocolImplementation() {
+        return protocolImpl != null;
     }
 
     private GBDeviceEvent handleAck() {
