@@ -89,6 +89,7 @@ import nodomain.freeyourgadget.gadgetbridge.externalevents.NotificationListener;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceApp;
 import nodomain.freeyourgadget.gadgetbridge.model.CallSpec;
+import nodomain.freeyourgadget.gadgetbridge.model.GenericItem;
 import nodomain.freeyourgadget.gadgetbridge.model.MusicSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.MusicStateSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
@@ -210,7 +211,19 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
     }
 
     public void listApplications() {
-        queueWrite(new ApplicationsListRequest(this));
+        queueWrite(new ApplicationsListRequest(this){
+            @Override
+            public void handleApplicationsList(List<ApplicationInformation> installedApplications) {
+                ((FossilHRWatchAdapter) getAdapter()).setInstalledApplications(installedApplications);
+                GBDevice device = getAdapter().getDeviceSupport().getDevice();
+                JSONArray array = new JSONArray();
+                for(ApplicationInformation info : installedApplications){
+                    array.put(info.getAppName());
+                }
+                device.addDeviceInfo(new GenericItem("INSTALLED_APPS", array.toString()));
+                device.sendDeviceUpdateIntent(getAdapter().getContext());
+            }
+        });
     }
 
     private void initializeAfterAuthentication(boolean authenticated) {
