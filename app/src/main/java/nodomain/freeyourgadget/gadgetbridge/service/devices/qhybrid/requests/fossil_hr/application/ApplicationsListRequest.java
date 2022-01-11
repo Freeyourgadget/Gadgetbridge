@@ -9,6 +9,7 @@ import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.GenericItem;
@@ -49,15 +50,13 @@ public class ApplicationsListRequest extends FileLookupAndGetRequest{
             ));
         }
         Collections.sort(applicationInfos);
-        ((FossilHRWatchAdapter) getAdapter()).setInstalledApplications(applicationInfos);
-        GBDevice device = getAdapter().getDeviceSupport().getDevice();
-        JSONArray array = new JSONArray();
-        for(ApplicationInformation info : applicationInfos){
-            array.put(info.getAppName());
-        }
-        device.addDeviceInfo(new GenericItem("INSTALLED_APPS", array.toString()));
-        device.sendDeviceUpdateIntent(getAdapter().getContext());
+        this.handleApplicationsList(applicationInfos);
     }
+
+    public void handleApplicationsList(List<ApplicationInformation> installedApplications){
+
+    }
+
     public void handleFileLookupError(FILE_LOOKUP_ERROR error){
 
     }
