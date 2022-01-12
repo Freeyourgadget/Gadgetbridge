@@ -1544,4 +1544,6 @@
 \n
 \nאזהרה: לחיצה ארוכה על הכפתור העליון כאשר מותקנים פני שעון מהיישומון הרשמי של Fossil גם תחליף בין הצגה/הסתרה של וידג׳טים.</string>
     <string name="devicetype_domyos_t540">Domyos T540</string>
+    <string name="sony_speak_to_chat_sensitivity">רגישות זיהוי קולי</string>
+    <string name="devicetype_sony_wh_1000xm4">Sony WH-1000XM4</string>
 </resources>
