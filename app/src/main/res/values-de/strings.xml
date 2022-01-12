@@ -1552,4 +1552,17 @@
 \n
 \nAchtung: Ein langer Druck auf den oberen Knopf, wenn ein Zifferblatt aus der offiziellen Fossil-App installiert ist, schaltet auch zwischen dem Ein- und Ausblenden von Widgets um.</string>
     <string name="menuitem_menu">Menü</string>
+    <string name="sony_speak_to_chat_sensitivity_auto">Automatisch</string>
+    <string name="sony_speak_to_chat_sensitivity_low">Niedrig</string>
+    <string name="sony_speak_to_chat_focus_on_voice">Fokus auf Stimme</string>
+    <string name="sony_speak_to_chat_timeout">Zeitüberschreitung</string>
+    <string name="sony_speak_to_chat_timeout_short">Kurz (15Sek)</string>
+    <string name="sony_speak_to_chat_timeout_standard">Normal (30Sek)</string>
+    <string name="sony_speak_to_chat_timeout_long">Lang (1Min)</string>
+    <string name="sony_connect_two_devices">Gleichzeitige Verbindung mit 2 Geräten</string>
+    <string name="sony_speak_to_chat">Sprechen-im-Chat</string>
+    <string name="sony_speak_to_chat_sensitivity_high">Hoch</string>
+    <string name="sony_speak_to_chat_timeout_off">Aus</string>
+    <string name="devicetype_sony_wh_1000xm4">Sony WH-1000XM4</string>
+    <string name="sony_speak_to_chat_sensitivity">Empfindlichkeit Spracherkennung</string>
 </resources>
