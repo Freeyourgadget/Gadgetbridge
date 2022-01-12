@@ -1558,4 +1558,7 @@
     <string name="sony_speak_to_chat_timeout_long">ארוך (דקה)</string>
     <string name="sony_connect_two_devices">התחברות לשני מכשירים בו־זמנית</string>
     <string name="watchface_dialog_widget_width">רוחב:</string>
+    <string name="discovery_bluetooth_le_scan">סריקת Bluetooth LE:</string>
+    <string name="discovery_bluetooth_scan">סריקת Bluetooth:</string>
+    <string name="device_unsupported">לא נתמך</string>
 </resources>
