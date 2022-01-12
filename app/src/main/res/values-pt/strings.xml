@@ -1546,4 +1546,19 @@
     <string name="pref_media_play">Reproduzir media</string>
     <string name="pref_media_pause">Pausar media</string>
     <string name="sony_audio_upsampling">Aumentar resolução do áudio</string>
+    <string name="devicetype_sony_wh_1000xm4">Sony WH-1000XM4</string>
+    <string name="sony_speak_to_chat_focus_on_voice">Foco em voz</string>
+    <string name="sony_speak_to_chat_timeout_off">Desligado</string>
+    <string name="sony_speak_to_chat_timeout_short">Curto (15s)</string>
+    <string name="sony_speak_to_chat_timeout_standard">Normal (30s)</string>
+    <string name="sony_speak_to_chat_timeout_long">Longo (1m)</string>
+    <string name="sony_connect_two_devices">Ligar a 2 dispositivos em simultâneo</string>
+    <string name="discovery_bluetooth_le_scan">Busca Bluetooth LE:</string>
+    <string name="sony_speak_to_chat_sensitivity_low">Baixa</string>
+    <string name="discovery_bluetooth_scan">Busca Bluetooth:</string>
+    <string name="device_unsupported">NÃO SUPORTADO</string>
+    <string name="sony_speak_to_chat">Falar-para-conversar</string>
+    <string name="sony_speak_to_chat_sensitivity">Sensibilidade de deteção de voz</string>
+    <string name="sony_speak_to_chat_sensitivity_high">Alta</string>
+    <string name="sony_speak_to_chat_sensitivity_auto">Automática</string>
 </resources>
