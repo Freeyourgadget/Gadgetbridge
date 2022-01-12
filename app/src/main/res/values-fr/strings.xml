@@ -1548,4 +1548,21 @@ Temps de sommeil préféré en heures</string>
     <string name="pref_activity_recognition_mode_ask">demander</string>
     <string name="pref_activity_recognition_mode_none">aucune</string>
     <string name="pref_activity_recognition_mode_auto">auto</string>
+    <string name="watchface_dialog_widget_width">Largeur :</string>
+    <string name="discovery_bluetooth_scan">Scan Bluetooth :</string>
+    <string name="discovery_bluetooth_le_scan">Scan Bluetooth LE :</string>
+    <string name="sony_speak_to_chat">Speak-to-chat</string>
+    <string name="sony_speak_to_chat_sensitivity_auto">Automatique</string>
+    <string name="sony_speak_to_chat_timeout">Délai expiré</string>
+    <string name="sony_speak_to_chat_timeout_off">Éteint</string>
+    <string name="sony_speak_to_chat_timeout_short">Court (15s)</string>
+    <string name="sony_speak_to_chat_timeout_standard">Standard (30s)</string>
+    <string name="sony_speak_to_chat_timeout_long">Long (1m)</string>
+    <string name="sony_connect_two_devices">Connecter à 2 appareils simultanément</string>
+    <string name="devicetype_sony_wh_1000xm4">Sony WH-1000XM4</string>
+    <string name="sony_speak_to_chat_sensitivity_low">Bas</string>
+    <string name="sony_speak_to_chat_sensitivity">Sensibilité de la détection de voix</string>
+    <string name="sony_speak_to_chat_sensitivity_high">Haut</string>
+    <string name="sony_speak_to_chat_focus_on_voice">Focus sur la voix</string>
+    <string name="device_unsupported">Non supporté</string>
 </resources>
