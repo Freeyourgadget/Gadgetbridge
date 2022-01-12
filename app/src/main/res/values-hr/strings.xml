@@ -1531,4 +1531,5 @@
     <string name="battery_case">Kućište za baterije</string>
     <string name="left_earbud">Lijeva slušalica</string>
     <string name="right_earbud">Desna slušalica</string>
+    <string name="devicetype_sony_wh_1000xm4">Sony WH-1000XM4</string>
 </resources>
