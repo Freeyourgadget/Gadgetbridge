@@ -1556,13 +1556,17 @@
     <string name="sony_speak_to_chat_sensitivity_low">Niedrig</string>
     <string name="sony_speak_to_chat_focus_on_voice">Fokus auf Stimme</string>
     <string name="sony_speak_to_chat_timeout">Zeitüberschreitung</string>
-    <string name="sony_speak_to_chat_timeout_short">Kurz (15Sek)</string>
-    <string name="sony_speak_to_chat_timeout_standard">Normal (30Sek)</string>
-    <string name="sony_speak_to_chat_timeout_long">Lang (1Min)</string>
+    <string name="sony_speak_to_chat_timeout_short">Kurz (15 Sek.)</string>
+    <string name="sony_speak_to_chat_timeout_standard">Normal (30 Sek.)</string>
+    <string name="sony_speak_to_chat_timeout_long">Lang (1 Min.)</string>
     <string name="sony_connect_two_devices">Gleichzeitige Verbindung mit 2 Geräten</string>
     <string name="sony_speak_to_chat">Sprechen-im-Chat</string>
     <string name="sony_speak_to_chat_sensitivity_high">Hoch</string>
     <string name="sony_speak_to_chat_timeout_off">Aus</string>
     <string name="devicetype_sony_wh_1000xm4">Sony WH-1000XM4</string>
     <string name="sony_speak_to_chat_sensitivity">Empfindlichkeit Spracherkennung</string>
+    <string name="watchface_dialog_widget_width">Breite:</string>
+    <string name="discovery_bluetooth_scan">Bluetooth-Scan:</string>
+    <string name="discovery_bluetooth_le_scan">Bluetooth-LE-Scan:</string>
+    <string name="device_unsupported">NICHT UNTERSTÜTZT</string>
 </resources>
