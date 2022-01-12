@@ -1564,4 +1564,8 @@
     <string name="sony_speak_to_chat_sensitivity_low">Низька</string>
     <string name="sony_speak_to_chat_timeout_off">Вимкнено</string>
     <string name="sony_speak_to_chat_timeout_short">Коротка (15 с)</string>
+    <string name="watchface_dialog_widget_width">Ширина:</string>
+    <string name="discovery_bluetooth_scan">Сканування Bluetooth:</string>
+    <string name="discovery_bluetooth_le_scan">Сканування LE Bluetooth:</string>
+    <string name="device_unsupported">НЕ ПІДТРИМУЄТЬСЯ</string>
 </resources>
