@@ -1551,4 +1551,17 @@
     <string name="fossil_hr_button_config_info">Деякі кнопки не можна налаштувати, оскільки їхні функції закодовані в мікропрограму годинника.
 \n
 \nПопередження: тривале натискання верхньої кнопки, якщо встановлено годинник з офіційного застосунку Fossil, також перемикається між показом/хованням віджетів.</string>
+    <string name="sony_speak_to_chat_timeout_standard">Стандартна (30 с)</string>
+    <string name="sony_speak_to_chat_timeout_long">Довга (1 хв)</string>
+    <string name="sony_connect_two_devices">Одночасне під\'єднання до 2 пристроїв</string>
+    <string name="devicetype_sony_wh_1000xm4">Sony WH-1000XM4</string>
+    <string name="sony_speak_to_chat">Голосові повідомлення у чат</string>
+    <string name="sony_speak_to_chat_sensitivity">Чутливість розпізнавання голосу</string>
+    <string name="sony_speak_to_chat_sensitivity_auto">Автоматична</string>
+    <string name="sony_speak_to_chat_sensitivity_high">Висока</string>
+    <string name="sony_speak_to_chat_focus_on_voice">Зосередитися на голосі</string>
+    <string name="sony_speak_to_chat_timeout">Затримка</string>
+    <string name="sony_speak_to_chat_sensitivity_low">Низька</string>
+    <string name="sony_speak_to_chat_timeout_off">Вимкнено</string>
+    <string name="sony_speak_to_chat_timeout_short">Коротка (15 с)</string>
 </resources>
