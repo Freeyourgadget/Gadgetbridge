@@ -1561,4 +1561,21 @@
     <string name="devicetype_domyos_t540">Domyos T540</string>
     <string name="pref_device_action_broadcast">Yayın Gönder</string>
     <string name="distance_format_feet">###ft</string>
+    <string name="devicetype_sony_wh_1000xm4">Sony WH-1000XM4</string>
+    <string name="sony_speak_to_chat_sensitivity">Ses Algılama Hassasiyeti</string>
+    <string name="discovery_bluetooth_le_scan">Bluetooth LE taraması:</string>
+    <string name="discovery_bluetooth_scan">Bluetooth taraması:</string>
+    <string name="sony_speak_to_chat">Sohbet için konuş</string>
+    <string name="sony_speak_to_chat_sensitivity_auto">Otomatik</string>
+    <string name="sony_speak_to_chat_sensitivity_high">Yüksek</string>
+    <string name="sony_speak_to_chat_sensitivity_low">Düşük</string>
+    <string name="watchface_dialog_widget_width">Genişlik:</string>
+    <string name="device_unsupported">DESTEKLENMİYOR</string>
+    <string name="sony_speak_to_chat_focus_on_voice">Sese Odaklan</string>
+    <string name="sony_speak_to_chat_timeout">Zaman aşımı</string>
+    <string name="sony_speak_to_chat_timeout_off">Kapalı</string>
+    <string name="sony_speak_to_chat_timeout_long">Uzun (1dak)</string>
+    <string name="sony_connect_two_devices">Aynı anda 2 aygıta bağlan</string>
+    <string name="sony_speak_to_chat_timeout_short">Kısa (15sn)</string>
+    <string name="sony_speak_to_chat_timeout_standard">Standart (30sn)</string>
 </resources>
