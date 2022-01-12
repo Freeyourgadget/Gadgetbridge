@@ -1546,4 +1546,16 @@
     <string name="devicetype_domyos_t540">Domyos T540</string>
     <string name="sony_speak_to_chat_sensitivity">רגישות זיהוי קולי</string>
     <string name="devicetype_sony_wh_1000xm4">Sony WH-1000XM4</string>
+    <string name="sony_speak_to_chat_sensitivity_auto">אוטומטית</string>
+    <string name="sony_speak_to_chat_sensitivity_high">גבוהה</string>
+    <string name="sony_speak_to_chat">לחיצה לדיבור</string>
+    <string name="sony_speak_to_chat_sensitivity_low">נמוכה</string>
+    <string name="sony_speak_to_chat_focus_on_voice">התמקדות בקול</string>
+    <string name="sony_speak_to_chat_timeout">זמן להמתנה</string>
+    <string name="sony_speak_to_chat_timeout_off">כבוי</string>
+    <string name="sony_speak_to_chat_timeout_short">קצר (15 שנ׳)</string>
+    <string name="sony_speak_to_chat_timeout_standard">רגיל (30 שנ׳)</string>
+    <string name="sony_speak_to_chat_timeout_long">ארוך (דקה)</string>
+    <string name="sony_connect_two_devices">התחברות לשני מכשירים בו־זמנית</string>
+    <string name="watchface_dialog_widget_width">רוחב:</string>
 </resources>
