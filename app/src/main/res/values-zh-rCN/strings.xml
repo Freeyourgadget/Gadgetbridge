@@ -1563,4 +1563,8 @@
     <string name="sony_speak_to_chat_sensitivity_low">低</string>
     <string name="sony_speak_to_chat_timeout_off">关</string>
     <string name="sony_speak_to_chat_timeout_short">短（15秒）</string>
+    <string name="watchface_dialog_widget_width">宽度：</string>
+    <string name="discovery_bluetooth_scan">蓝牙扫描：</string>
+    <string name="discovery_bluetooth_le_scan">低功耗蓝牙扫描：</string>
+    <string name="device_unsupported">不支持</string>
 </resources>
