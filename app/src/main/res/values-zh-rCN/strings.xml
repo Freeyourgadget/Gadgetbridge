@@ -1550,4 +1550,17 @@
     <string name="pref_activity_recognize_running">正在运行识别</string>
     <string name="pref_activity_recognize_walking">识别到步行</string>
     <string name="pref_activity_recognize_biking">识别到骑自行车</string>
+    <string name="devicetype_sony_wh_1000xm4">Sony WH-1000XM4</string>
+    <string name="sony_connect_two_devices">同时连接两台设备</string>
+    <string name="sony_speak_to_chat_sensitivity">语音检测灵敏度</string>
+    <string name="sony_speak_to_chat_sensitivity_auto">自动</string>
+    <string name="sony_speak_to_chat_focus_on_voice">聚焦语音</string>
+    <string name="sony_speak_to_chat_timeout">超时</string>
+    <string name="sony_speak_to_chat_timeout_standard">标准（30秒）</string>
+    <string name="sony_speak_to_chat_timeout_long">长（1分钟）</string>
+    <string name="sony_speak_to_chat">对讲</string>
+    <string name="sony_speak_to_chat_sensitivity_high">高</string>
+    <string name="sony_speak_to_chat_sensitivity_low">低</string>
+    <string name="sony_speak_to_chat_timeout_off">关</string>
+    <string name="sony_speak_to_chat_timeout_short">短（15秒）</string>
 </resources>
