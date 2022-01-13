@@ -220,7 +220,7 @@
     <string name="vibration_profile_waterdrop">Wassertropfen</string>
     <string name="vibration_profile_ring">Klingel</string>
     <string name="vibration_profile_alarm_clock">Wecker</string>
-    <string name="miband_prefs_vibration">Vibration</string>
+    <string name="miband_prefs_vibration">Vibrieren</string>
     <string name="vibration_try">Versuchen</string>
     <string name="pref_screen_notification_profile_sms">SMS-Benachrichtigung</string>
     <string name="pref_header_vibration_settings">Vibrationseinstellungen</string>
@@ -457,7 +457,7 @@
 \nINSTALLATION AUF EIGENE GEFAHR!</string>
     <string name="mi2_prefs_button_press_count">Anzahl der Tastendrücke</string>
     <string name="pref_title_charts_swipe">Streichen nach links/rechts im Diagrammbetrieb aktivieren</string>
-    <string name="pref_summary_pebble_enable_bgjs">Wenn aktiviert, kann die Uhr Wetter, Akkuinfos, usw. anzeigen</string>
+    <string name="pref_summary_pebble_enable_bgjs">Wenn aktiviert, kann Zifferblatt Wetter, Akkuinfos, usw. anzeigen</string>
     <string name="prefs_title_heartrate_measurement_interval">Ganztägige Messung der Herzfrequenz</string>
     <string name="interval_one_minute">einmal pro Minute</string>
     <string name="interval_five_minutes">alle 5 Minuten</string>
@@ -1064,7 +1064,7 @@
     <string name="activity_filter_to_placeholder">Heute</string>
     <string name="activity_filter_from_placeholder">Vergangenheit</string>
     <string name="chart_no_active_data">Keine Aktivitäten festgestellt.</string>
-    <string name="devicetype_sonyswr12">Sony SWR12</string>
+    <string name="devicetype_sonyswr12">Sony-SWR12</string>
     <string name="sonyswr12_settings_title">Sony SWR12 Einstellungen</string>
     <string name="sonyswr12_settings_low_vibration">Geringe Vibration aktiviert</string>
     <string name="sonyswr12_settings_stamina">Der Energiesparmodus ist aktiviert</string>
@@ -1569,4 +1569,5 @@
     <string name="discovery_bluetooth_scan">Bluetooth-Scan:</string>
     <string name="discovery_bluetooth_le_scan">Bluetooth-LE-Scan:</string>
     <string name="device_unsupported">NICHT UNTERSTÜTZT</string>
+    <string name="devicetype_domyos_t540">Domyos-T540</string>
 </resources>
