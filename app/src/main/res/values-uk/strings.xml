@@ -1536,7 +1536,7 @@
     <string name="pref_media_play">Відтворити медіа</string>
     <string name="pref_media_pause">Зупинити медіа</string>
     <string name="pref_media_volumedown">Тихіше</string>
-    <string name="devicetype_domyos_t540">" "</string>
+    <string name="devicetype_domyos_t540">Domyos T540</string>
     <string name="pref_media_forward">Прокрутити вперед</string>
     <string name="pref_media_rewind">Прокрутити назад</string>
     <string name="prefs_activity_recognition">Налаштування розпізнавання активності</string>
@@ -1568,4 +1568,5 @@
     <string name="discovery_bluetooth_scan">Сканування Bluetooth:</string>
     <string name="discovery_bluetooth_le_scan">Сканування LE Bluetooth:</string>
     <string name="device_unsupported">НЕ ПІДТРИМУЄТЬСЯ</string>
+    <string name="devicetype_sonyswr12">Sony SWR12</string>
 </resources>
