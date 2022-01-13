@@ -1558,4 +1558,9 @@
     <string name="distance_format_kilometers">###.# km</string>
     <string name="prefs_activity_recognition">Innstillinger for gjenkjenning av aktivitet</string>
     <string name="pref_activity_recognition_mode_ask">spør</string>
+    <string name="fossil_hr_button_config_info">Noen knapper kan ikke settes opp fordi funksjonene deres er hardkodet i armbåndsur-fastvaren.
+\n
+\nAdvarsel: Lang-trykk på øvre knapp når en urskive fra det offisielle Fossil-programmet er installert vil også veksle mellom visnings/skjuling av miniprogrammer.</string>
+    <string name="devicetype_domyos_t540">Domyos T540</string>
+    <string name="sony_speak_to_chat_sensitivity">Sensitivitet for oppdagelse av stemme</string>
 </resources>
