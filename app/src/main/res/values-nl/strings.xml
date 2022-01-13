@@ -1544,4 +1544,21 @@
 \n
 \nWaarschuwing: lang indrukken van de bovenste knop wanneer een wijzerplaat van de officiële Fossil-app is geïnstalleerd, schakelt ook tussen tonen/verbergen van widgets.</string>
     <string name="devicetype_domyos_t540">Domyos T540</string>
+    <string name="devicetype_sony_wh_1000xm4">Sony WH-1000XM4</string>
+    <string name="sony_speak_to_chat">Spreek-om-te-chatten</string>
+    <string name="sony_speak_to_chat_sensitivity">Gevoeligheid van stemdetectie</string>
+    <string name="sony_speak_to_chat_sensitivity_auto">Automatisch</string>
+    <string name="sony_speak_to_chat_sensitivity_high">Hoog</string>
+    <string name="sony_speak_to_chat_sensitivity_low">Laag</string>
+    <string name="sony_speak_to_chat_timeout_standard">Standaard (30s)</string>
+    <string name="watchface_dialog_widget_width">Breedte:</string>
+    <string name="discovery_bluetooth_scan">Bluetooth scan:</string>
+    <string name="discovery_bluetooth_le_scan">Bluetooth LE scan:</string>
+    <string name="sony_speak_to_chat_focus_on_voice">Focus op stem</string>
+    <string name="sony_speak_to_chat_timeout">Time-out</string>
+    <string name="sony_speak_to_chat_timeout_off">Uit</string>
+    <string name="sony_speak_to_chat_timeout_short">Kort (15s)</string>
+    <string name="sony_speak_to_chat_timeout_long">Lang (1m)</string>
+    <string name="sony_connect_two_devices">Met 2 apparaten tegelijk verbinden</string>
+    <string name="device_unsupported">NIET ONDERSTEUND</string>
 </resources>
