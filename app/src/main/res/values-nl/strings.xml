@@ -1561,4 +1561,5 @@
     <string name="sony_speak_to_chat_timeout_long">Lang (1m)</string>
     <string name="sony_connect_two_devices">Met 2 apparaten tegelijk verbinden</string>
     <string name="device_unsupported">NIET ONDERSTEUND</string>
+    <string name="devicetype_sonyswr12">Sony SWR12</string>
 </resources>
