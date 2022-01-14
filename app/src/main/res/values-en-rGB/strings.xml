@@ -1559,4 +1559,5 @@
     <string name="sony_speak_to_chat">Speak-to-chat</string>
     <string name="device_unsupported">UNSUPPORTED</string>
     <string name="discovery_bluetooth_scan">Bluetooth scan:</string>
+    <string name="devicetype_sonyswr12">Sony SWR12</string>
 </resources>
