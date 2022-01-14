@@ -16,11 +16,13 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.activities.devicesettings;
 
+import android.os.Parcelable;
+
 /**
  * A device-specific preference handler, that allows for concrete implementations to customize the preferences in
  * the {@link DeviceSpecificSettingsFragment}.
  */
-public interface DeviceSpecificSettingsCustomizer {
+public interface DeviceSpecificSettingsCustomizer extends Parcelable {
     /**
      * Customize the settings on the {@link DeviceSpecificSettingsFragment}.
      *

@@ -20,6 +20,8 @@ import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.Dev
 import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_SONY_AMBIENT_SOUND_LEVEL;
 import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_SONY_FOCUS_VOICE;
 
+import android.os.Parcel;
+
 import androidx.preference.ListPreference;
 import androidx.preference.Preference;
 
@@ -52,5 +54,27 @@ public class SonyHeadphonesSettingsCustomizer implements DeviceSpecificSettingsC
             ambientSoundControlPrefListener.onPreferenceChange(ambientSoundControl, ambientSoundControl.getValue());
             handler.addPreferenceHandlerFor(PREF_SONY_AMBIENT_SOUND_CONTROL, ambientSoundControlPrefListener);
         }
+    }
+
+    public static final Creator<SonyHeadphonesSettingsCustomizer> CREATOR = new Creator<SonyHeadphonesSettingsCustomizer>() {
+        @Override
+        public SonyHeadphonesSettingsCustomizer createFromParcel(final Parcel in) {
+            return new SonyHeadphonesSettingsCustomizer();
+        }
+
+        @Override
+        public SonyHeadphonesSettingsCustomizer[] newArray(final int size) {
+            return new SonyHeadphonesSettingsCustomizer[size];
+        }
+    };
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(final Parcel dest, final int flags) {
+        // Nothing to do
     }
 }

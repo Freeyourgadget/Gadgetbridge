@@ -93,17 +93,13 @@ import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.PR
 
 public class DeviceSpecificSettingsFragment extends PreferenceFragmentCompat implements DeviceSpecificSettingsHandler {
 
-    private final DeviceSpecificSettingsCustomizer deviceSpecificSettingsCustomizer;
-
-    public DeviceSpecificSettingsFragment(final DeviceSpecificSettingsCustomizer deviceSpecificSettingsCustomizer) {
-        this.deviceSpecificSettingsCustomizer = deviceSpecificSettingsCustomizer;
-    }
-
     private static final Logger LOG = LoggerFactory.getLogger(DeviceSpecificSettingsFragment.class);
 
     static final String FRAGMENT_TAG = "DEVICE_SPECIFIC_SETTINGS_FRAGMENT";
 
     private final SharedPreferencesChangeHandler sharedPreferencesChangeHandler = new SharedPreferencesChangeHandler();
+
+    private DeviceSpecificSettingsCustomizer deviceSpecificSettingsCustomizer;
 
     private void setSettingsFileSuffix(String settingsFileSuffix, @NonNull int[] supportedSettings, String[] supportedLanguages) {
         Bundle args = new Bundle();
@@ -113,6 +109,11 @@ public class DeviceSpecificSettingsFragment extends PreferenceFragmentCompat imp
         setArguments(args);
     }
 
+    private void setDeviceSpecificSettingsCustomizer(final DeviceSpecificSettingsCustomizer customizer) {
+        final Bundle args = getArguments() != null ? getArguments() : new Bundle();
+        args.putParcelable("deviceSpecificSettingsCustomizer", customizer);
+        setArguments(args);
+    }
 
     @Override
     public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
@@ -123,6 +124,7 @@ public class DeviceSpecificSettingsFragment extends PreferenceFragmentCompat imp
         String settingsFileSuffix = arguments.getString("settingsFileSuffix", null);
         int[] supportedSettings = arguments.getIntArray("supportedSettings");
         String[] supportedLanguages = arguments.getStringArray("supportedLanguages");
+        this.deviceSpecificSettingsCustomizer = arguments.getParcelable("deviceSpecificSettingsCustomizer");
 
         if (settingsFileSuffix == null || supportedSettings == null) {
             return;
@@ -756,8 +758,9 @@ public class DeviceSpecificSettingsFragment extends PreferenceFragmentCompat imp
                                                       @NonNull int[] supportedSettings,
                                                       String[] supportedLanguages,
                                                       DeviceSpecificSettingsCustomizer deviceSpecificSettingsCustomizer) {
-        DeviceSpecificSettingsFragment fragment = new DeviceSpecificSettingsFragment(deviceSpecificSettingsCustomizer);
+        final DeviceSpecificSettingsFragment fragment = new DeviceSpecificSettingsFragment();
         fragment.setSettingsFileSuffix(settingsFileSuffix, supportedSettings, supportedLanguages);
+        fragment.setDeviceSpecificSettingsCustomizer(deviceSpecificSettingsCustomizer);
 
         return fragment;
     }
