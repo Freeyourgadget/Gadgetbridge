@@ -869,7 +869,7 @@ public class DeviceSpecificSettingsFragment extends PreferenceFragmentCompat imp
 
             final Preference preference = findPreference(key);
             if (preference == null) {
-                LOG.warn("Preference {} not found, ignoring", key);
+                LOG.warn("Preference {} not found", key);
 
                 return;
             }
@@ -883,10 +883,17 @@ public class DeviceSpecificSettingsFragment extends PreferenceFragmentCompat imp
             } else if (preference instanceof ListPreference) {
                 final ListPreference listPreference = (ListPreference) preference;
                 listPreference.setValue(prefs.getString(key, listPreference.getValue()));
+            } else if (preference instanceof EditTextPreference) {
+                final EditTextPreference editTextPreference = (EditTextPreference) preference;
+                editTextPreference.setText(prefs.getString(key, editTextPreference.getText()));
             } else if (preference instanceof PreferenceScreen) {
                 // Ignoring
             } else {
                 LOG.warn("Unknown preference class {}, ignoring", preference.getClass());
+            }
+
+            if (deviceSpecificSettingsCustomizer != null) {
+                deviceSpecificSettingsCustomizer.onPreferenceChange(preference, DeviceSpecificSettingsFragment.this);
             }
         }
     }

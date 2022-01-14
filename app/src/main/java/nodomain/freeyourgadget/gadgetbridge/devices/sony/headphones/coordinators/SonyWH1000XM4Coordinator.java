@@ -54,7 +54,8 @@ public class SonyWH1000XM4Coordinator extends SonyHeadphonesCoordinator {
                 R.xml.devicesettings_sony_headphones_touch_sensor_single,
                 R.xml.devicesettings_sony_headphones_pause_when_taken_off,
                 R.xml.devicesettings_automatic_power_off_when_taken_off,
-                R.xml.devicesettings_sony_headphones_notifications_voice_guide
+                R.xml.devicesettings_sony_headphones_notifications_voice_guide,
+                R.xml.devicesettings_sony_headphones_device_info
         };
     }
 }

@@ -123,6 +123,7 @@ public class DeviceSettingsPreferenceConst {
     public static final String PREF_SONY_AMBIENT_SOUND_LEVEL = "pref_sony_ambient_sound_level";
     public static final String PREF_SONY_SOUND_POSITION = "pref_sony_sound_position";
     public static final String PREF_SONY_SURROUND_MODE = "pref_sony_surround_mode";
+    public static final String PREF_SONY_EQUALIZER = "pref_sony_equalizer";
     public static final String PREF_SONY_EQUALIZER_MODE = "pref_sony_equalizer_mode";
     public static final String PREF_SONY_AUDIO_UPSAMPLING = "pref_sony_audio_upsampling";
     public static final String PREF_SONY_EQUALIZER_BAND_400 = "pref_sony_equalizer_band_400";

@@ -1383,7 +1383,9 @@
     <string name="battery_case">Battery case</string>
     <string name="left_earbud">Left earbud</string>
     <string name="right_earbud">Right earbud</string>
+    <string name="audio_codec">Audio Codec</string>
     <string name="pref_header_sony_ambient_sound_control">Ambient Sound Control</string>
+    <string name="pref_header_sony_device_info">Device Information</string>
     <string name="sony_ambient_sound">Mode</string>
     <string name="sony_ambient_sound_off">Off</string>
     <string name="sony_ambient_sound_noise_cancelling">Noise Cancelling</string>
