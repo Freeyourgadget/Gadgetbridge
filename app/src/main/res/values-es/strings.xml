@@ -1562,4 +1562,9 @@
     <string name="sony_speak_to_chat_timeout_long">Larga (1 min)</string>
     <string name="sony_pause_when_taken_off">Pausar cuando se quitan los auriculares</string>
     <string name="distance_format_kilometers">###.# km</string>
+    <string name="discovery_bluetooth_le_scan">Escaneo Bluetooth LE:</string>
+    <string name="device_unsupported">NO SOPORTADO</string>
+    <string name="discovery_bluetooth_scan">Escaneo Bluetooth:</string>
+    <string name="devicetype_sonyswr12">Sony SWR12</string>
+    <string name="watchface_dialog_widget_width">Ancho:</string>
 </resources>
