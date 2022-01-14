@@ -280,7 +280,7 @@
     <string name="averageStrokesPerSecond">Prosječni udarci</string>
     <string name="averageLapPace">Prosječni tempo kruga</string>
     <string name="swolfIndex">swolfIndex</string>
-    <string name="swimStyle">swimStyle</string>
+    <string name="swimStyle">stil plivanja</string>
     <string name="descentSeconds">Silazno</string>
     <string name="flatSeconds">Ravno</string>
     <string name="baseAltitude">Bazna visina</string>
@@ -288,9 +288,9 @@
     <string name="meters">m</string>
     <string name="steps_unit">koraci</string>
     <string name="km_h">km/h</string>
-    <string name="strokes_second">str/s</string>
-    <string name="strokes_unit">str</string>
-    <string name="seconds">sek</string>
+    <string name="strokes_second">zamaha/s</string>
+    <string name="strokes_unit">zamah</string>
+    <string name="seconds">s</string>
     <string name="swolf_index">swolf index</string>
     <string name="swim_style">swim style</string>
     <string name="laps_unit">krugovi</string>
@@ -585,7 +585,7 @@
     <string name="menuitem_alexa">Alexa</string>
     <string name="menuitem_dnd">DND</string>
     <string name="menuitem_stopwatch">Štoperica</string>
-    <string name="menuitem_pomodoro">Pomodoro Tracker</string>
+    <string name="menuitem_pomodoro">Pomodoro praćenje vremena</string>
     <string name="menuitem_events">Događaji</string>
     <string name="menuitem_widgets">Widgeti</string>
     <string name="menuitem_temperature">Temperatura</string>
@@ -902,7 +902,7 @@
     <string name="lefun_prefs_hydration_reminder_title">Podsjetnik za hidrataciju</string>
     <string name="lefun_prefs_hydration_reminder_summary">Band će vibrirati kako bi vas podsjetio da pijete vodu</string>
     <string name="lefun_prefs_hydration_reminder_interval_title">Interval podsjetnika za hidrataciju (u minutama)</string>
-    <string name="lefun_prefs_antilost_title">Anti-loss</string>
+    <string name="lefun_prefs_antilost_title">Bez gubitka</string>
     <string name="lefun_prefs_antilost_summary">Band će vibrirati ako se vaš telefon odvoji od banda</string>
     <string name="lefun_prefs_interface_language_title">Jezik sučelja</string>
     <string name="simplified_chinese">Pojednostavljeni kineski</string>
