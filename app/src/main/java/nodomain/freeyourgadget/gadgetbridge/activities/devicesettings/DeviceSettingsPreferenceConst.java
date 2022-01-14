@@ -121,6 +121,10 @@ public class DeviceSettingsPreferenceConst {
     public static final String PREF_SONY_AMBIENT_SOUND_CONTROL = "pref_sony_ambient_sound_control";
     public static final String PREF_SONY_FOCUS_VOICE = "pref_sony_focus_voice";
     public static final String PREF_SONY_AMBIENT_SOUND_LEVEL = "pref_sony_ambient_sound_level";
+    public static final String PREF_SONY_NOISE_OPTIMIZER_START = "pref_sony_noise_optimizer_start";
+    public static final String PREF_SONY_NOISE_OPTIMIZER_CANCEL = "pref_sony_noise_optimizer_cancel";
+    public static final String PREF_SONY_NOISE_OPTIMIZER_STATUS = "pref_sony_noise_optimizer_status";
+    public static final String PREF_SONY_NOISE_OPTIMIZER_STATE_PRESSURE = "pref_sony_noise_optimizer_state_pressure";
     public static final String PREF_SONY_SOUND_POSITION = "pref_sony_sound_position";
     public static final String PREF_SONY_SURROUND_MODE = "pref_sony_surround_mode";
     public static final String PREF_SONY_EQUALIZER = "pref_sony_equalizer";

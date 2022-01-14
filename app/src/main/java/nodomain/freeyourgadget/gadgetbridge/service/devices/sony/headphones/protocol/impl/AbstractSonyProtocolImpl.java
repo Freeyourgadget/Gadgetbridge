@@ -50,6 +50,8 @@ public abstract class AbstractSonyProtocolImpl {
 
     public abstract Request setAmbientSoundControl(final AmbientSoundControl config);
 
+    public abstract Request getNoiseCancellingOptimizerState();
+
     public abstract Request getAudioCodec();
 
     public abstract Request getBattery(final BatteryType batteryType);
@@ -94,7 +96,7 @@ public abstract class AbstractSonyProtocolImpl {
 
     public abstract Request setVoiceNotifications(final VoiceNotifications config);
 
-    public abstract Request startNoiseCancellingOptimizer();
+    public abstract Request startNoiseCancellingOptimizer(final boolean start);
 
     public abstract Request powerOff();
 

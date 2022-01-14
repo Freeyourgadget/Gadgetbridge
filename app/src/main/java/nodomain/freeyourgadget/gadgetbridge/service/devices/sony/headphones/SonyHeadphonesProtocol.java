@@ -152,6 +152,12 @@ public class SonyHeadphonesProtocol extends GBDeviceProtocol {
             case DeviceSettingsPreferenceConst.PREF_SONY_AMBIENT_SOUND_LEVEL:
                 configRequest = protocolImpl.setAmbientSoundControl(AmbientSoundControl.fromPreferences(prefs));
                 break;
+            case DeviceSettingsPreferenceConst.PREF_SONY_NOISE_OPTIMIZER_START:
+                configRequest = protocolImpl.startNoiseCancellingOptimizer(true);
+                break;
+            case DeviceSettingsPreferenceConst.PREF_SONY_NOISE_OPTIMIZER_CANCEL:
+                configRequest = protocolImpl.startNoiseCancellingOptimizer(false);
+                break;
             case DeviceSettingsPreferenceConst.PREF_SONY_SOUND_POSITION:
                 configRequest = protocolImpl.setSoundPosition(SoundPosition.fromPreferences(prefs));
                 break;
@@ -210,10 +216,6 @@ public class SonyHeadphonesProtocol extends GBDeviceProtocol {
     @Override
     public byte[] encodeTestNewFunction() {
         //return Request.fromHex(MessageType.COMMAND_1, "c40100").encode(sequenceNumber);
-
-        if (protocolImpl != null) {
-            return protocolImpl.startNoiseCancellingOptimizer().encode(sequenceNumber);
-        }
 
         return null;
     }

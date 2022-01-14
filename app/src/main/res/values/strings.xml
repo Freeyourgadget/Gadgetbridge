@@ -355,6 +355,7 @@
     <string name="connected">Connected</string>
     <string name="unknown_state">Unknown state</string>
     <string name="_unknown_">(unknown)</string>
+    <string name="unknown">Unknown</string>
     <string name="test">Test</string>
     <string name="test_notification">Test notification</string>
     <string name="this_is_a_test_notification_from_gadgetbridge">This is a test notification from Gadgetbridge</string>
@@ -771,6 +772,7 @@
     <string name="Cancel">Cancel</string>
     <string name="Delete">Delete</string>
     <string name="ok">OK</string>
+    <string name="start">Start</string>
     <string name="set">Set</string>
     <string name="activity_data_management_directory_content_title">Export/Import directory content</string>
     <string name="activity_DB_ShowContentButton">Show Export/Import directory content</string>
@@ -1393,6 +1395,12 @@
     <string name="sony_ambient_sound_ambient_sound">Ambient Sound</string>
     <string name="sony_ambient_sound_focus_voice">Focus on Voice</string>
     <string name="sony_ambient_sound_level">Ambient Sound Level</string>
+    <string name="pref_header_sony_anc_optimizer">Noise Cancelling Optimizer</string>
+    <string name="sony_anc_optimize_title">Optimize</string>
+    <string name="sony_anc_optimize_description">Click to start the noise cancelling optimizer.</string>
+    <string name="sony_anc_optimize_confirmation_title">Noise Cancelling Optimizer</string>
+    <string name="sony_anc_optimize_confirmation_description">Use the headphones as you normally would. If the wearing condition or atmospheric pressure change, run the optimizer again.</string>
+    <string name="pref_anc_optimizer_state_pressure">Atmospheric pressure</string>
     <string name="sony_sound_position">Sound Position</string>
     <string name="sony_sound_position_off">Off</string>
     <string name="sony_sound_position_front">Front</string>
@@ -1408,6 +1416,12 @@
     <string name="sony_surround_mode_concert_hall">Concert Hall</string>
     <string name="sony_warn_sbc_codec">Warning: The equalizer, audio position and surround settings only work for the SBC audio codec.</string>
     <string name="sony_equalizer">Equalizer</string>
+    <string name="sony_anc_optimizer_status_starting">Starting…</string>
+    <string name="sony_anc_optimizer_status_not_running">Not Running</string>
+    <string name="sony_anc_optimizer_status_wearing_condition">Measuring wearing condition…</string>
+    <string name="sony_anc_optimizer_status_atmospheric_pressure">Measuring atmostpheric pressure…</string>
+    <string name="sony_anc_optimizer_status_analyzing">Analyzing…</string>
+    <string name="sony_anc_optimizer_status_finished">Finishing…</string>
     <string name="sony_equalizer_preset_off">Off</string>
     <string name="sony_equalizer_preset_bright">Bright</string>
     <string name="sony_equalizer_preset_excited">Excited</string>

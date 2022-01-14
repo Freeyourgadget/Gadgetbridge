@@ -16,6 +16,9 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.service.devices.sony.headphones.protocol.impl.v1;
 
+import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_SONY_NOISE_OPTIMIZER_STATE_PRESSURE;
+import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_SONY_NOISE_OPTIMIZER_STATUS;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -53,6 +56,7 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.sony.headphones.prot
 import nodomain.freeyourgadget.gadgetbridge.service.devices.sony.headphones.protocol.impl.AbstractSonyProtocolImpl;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.sony.headphones.protocol.impl.v1.params.AudioCodec;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.sony.headphones.protocol.impl.v1.params.BatteryType;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.sony.headphones.protocol.impl.v1.params.NoiseCancellingOptimizerStatus;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.sony.headphones.protocol.impl.v1.params.VirtualSoundParam;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
@@ -128,6 +132,17 @@ public class SonyProtocolImplV1 extends AbstractSonyProtocolImpl {
         }
 
         return new Request(PayloadType.AMBIENT_SOUND_CONTROL_SET.getMessageType(), buf.array());
+    }
+
+    @Override
+    public Request getNoiseCancellingOptimizerState() {
+        return new Request(
+                PayloadType.NOISE_CANCELLING_OPTIMIZER_STATE_GET.getMessageType(),
+                new byte[]{
+                        PayloadType.NOISE_CANCELLING_OPTIMIZER_STATE_GET.getCode(),
+                        (byte) 0x01
+                }
+        );
     }
 
     @Override
@@ -399,14 +414,14 @@ public class SonyProtocolImplV1 extends AbstractSonyProtocolImpl {
     }
 
     @Override
-    public Request startNoiseCancellingOptimizer() {
+    public Request startNoiseCancellingOptimizer(final boolean start) {
         return new Request(
-                PayloadType.NOISE_CANCELLING_OPTIMIZER_START_REQUEST.getMessageType(),
+                PayloadType.NOISE_CANCELLING_OPTIMIZER_START.getMessageType(),
                 new byte[]{
-                        PayloadType.NOISE_CANCELLING_OPTIMIZER_START_REQUEST.getCode(),
+                        PayloadType.NOISE_CANCELLING_OPTIMIZER_START.getCode(),
                         (byte) 0x01,
                         (byte) 0x00,
-                        (byte) 0x01
+                        (byte) (start ? 0x01 : 0x00)
                 }
         );
     }
@@ -447,6 +462,11 @@ public class SonyProtocolImplV1 extends AbstractSonyProtocolImpl {
             case AMBIENT_SOUND_CONTROL_RET:
             case AMBIENT_SOUND_CONTROL_NOTIFY:
                 return handleAmbientSoundControl(payload);
+            case NOISE_CANCELLING_OPTIMIZER_STATUS:
+                return handleNoiseCancellingOptimizerStatus(payload);
+            case NOISE_CANCELLING_OPTIMIZER_STATE_RET:
+            case NOISE_CANCELLING_OPTIMIZER_STATE_NOTIFY:
+                return handleNoiseCancellingOptimizerState(payload);
             case TOUCH_SENSOR_RET:
             case TOUCH_SENSOR_NOTIFY:
                 return handleTouchSensor(payload);
@@ -486,6 +506,7 @@ public class SonyProtocolImplV1 extends AbstractSonyProtocolImpl {
                 capabilityRequests.add(getBattery(BatteryType.SINGLE));
                 capabilityRequests.add(getAudioCodec());
                 capabilityRequests.add(getAmbientSoundControl());
+                capabilityRequests.add(getNoiseCancellingOptimizerState());
                 capabilityRequests.add(getAudioUpsampling());
                 capabilityRequests.add(getVoiceNotifications());
                 capabilityRequests.add(getAutomaticPowerOff());
@@ -499,6 +520,7 @@ public class SonyProtocolImplV1 extends AbstractSonyProtocolImpl {
                 capabilityRequests.add(getBattery(BatteryType.SINGLE));
                 capabilityRequests.add(getAudioCodec());
                 capabilityRequests.add(getAmbientSoundControl());
+                capabilityRequests.add(getNoiseCancellingOptimizerState());
                 capabilityRequests.add(getAudioUpsampling());
                 capabilityRequests.add(getVoiceNotifications());
                 capabilityRequests.add(getAutomaticPowerOff());
@@ -591,6 +613,50 @@ public class SonyProtocolImplV1 extends AbstractSonyProtocolImpl {
 
         return Collections.singletonList(eventUpdatePreferences);
     }
+
+    public List<? extends GBDeviceEvent> handleNoiseCancellingOptimizerStatus(final byte[] payload) {
+        if (payload.length != 4) {
+            LOG.warn("Unexpected payload length {}", payload.length);
+            return Collections.emptyList();
+        }
+
+        final NoiseCancellingOptimizerStatus status = NoiseCancellingOptimizerStatus.fromCode(payload[3]);
+
+        if (status == null) {
+            LOG.warn("Unable to determine noise cancelling opptimizer status from {}", GB.hexdump(payload));
+            return Collections.emptyList();
+        }
+
+        LOG.info("Noise Cancelling Optimizer status: {}", status);
+
+        final GBDeviceEventUpdatePreferences event = new GBDeviceEventUpdatePreferences()
+                .withPreference(PREF_SONY_NOISE_OPTIMIZER_STATUS, status.name().toLowerCase(Locale.ROOT));
+
+        return Collections.singletonList(event);
+    }
+
+    public List<? extends GBDeviceEvent> handleNoiseCancellingOptimizerState(final byte[] payload) {
+        // 89 01 01 01 01 0A
+        if (payload.length != 6) {
+            LOG.warn("Unexpected payload length {}", payload.length);
+            return Collections.emptyList();
+        }
+
+        final float pressure = payload[5] / 10.0f;
+
+        if (pressure <= 0 || pressure >  1.0f) {
+            LOG.warn("Invalid Noise Cancelling Optimizer pressure: {} atm, ignoring", pressure);
+            return Collections.emptyList();
+        }
+
+        LOG.info("Noise Cancelling Optimizer pressure: {} atm", pressure);
+
+        final GBDeviceEventUpdatePreferences event = new GBDeviceEventUpdatePreferences()
+                .withPreference(PREF_SONY_NOISE_OPTIMIZER_STATE_PRESSURE, String.format(Locale.getDefault(), "%.2f atm", pressure));
+
+        return Collections.singletonList(event);
+    }
+
 
     public List<? extends GBDeviceEvent> handleAudioUpsampling(final byte[] payload) {
         if (payload.length != 4) {

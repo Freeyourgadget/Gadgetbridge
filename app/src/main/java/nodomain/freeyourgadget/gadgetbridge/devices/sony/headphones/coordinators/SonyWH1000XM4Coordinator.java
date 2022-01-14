@@ -45,6 +45,7 @@ public class SonyWH1000XM4Coordinator extends SonyHeadphonesCoordinator {
         return new int[]{
                 // TODO: Function of [CUSTOM] button
                 R.xml.devicesettings_sony_headphones_ambient_sound_control_wind_noise_reduction,
+                R.xml.devicesettings_sony_headphones_anc_optimizer,
                 R.xml.devicesettings_header_other,
                 R.xml.devicesettings_sony_headphones_equalizer,
                 R.xml.devicesettings_sony_headphones_audio_upsampling,

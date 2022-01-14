@@ -28,12 +28,21 @@ import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.Dev
 import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_SONY_EQUALIZER_BASS;
 import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_SONY_EQUALIZER_MODE;
 import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_SONY_FOCUS_VOICE;
+import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_SONY_NOISE_OPTIMIZER_CANCEL;
+import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_SONY_NOISE_OPTIMIZER_START;
+import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_SONY_NOISE_OPTIMIZER_STATUS;
 import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_SONY_SOUND_POSITION;
 import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_SONY_SURROUND_MODE;
 
+import android.app.AlertDialog;
+import android.content.Context;
 import android.os.Parcel;
 
 import androidx.preference.EditTextPreference;
+
+import android.app.ProgressDialog;
+import android.content.DialogInterface;
+
 import androidx.preference.ListPreference;
 import androidx.preference.Preference;
 
@@ -41,13 +50,17 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 
+import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSpecificSettingsCustomizer;
 import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSpecificSettingsHandler;
 import nodomain.freeyourgadget.gadgetbridge.devices.sony.headphones.prefs.AmbientSoundControl;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.sony.headphones.protocol.impl.v1.params.NoiseCancellingOptimizerStatus;
 
 public class SonyHeadphonesSettingsCustomizer implements DeviceSpecificSettingsCustomizer {
+    private ProgressDialog ancOptimizerProgressDialog;
+
     final GBDevice device;
 
     public SonyHeadphonesSettingsCustomizer(final GBDevice device) {
@@ -80,6 +93,24 @@ public class SonyHeadphonesSettingsCustomizer implements DeviceSpecificSettingsC
                 }
             }
         }
+
+        // Handle ANC Optimizer status
+        if (preference.getKey().equals(PREF_SONY_NOISE_OPTIMIZER_STATUS)) {
+            final EditTextPreference optimizerStatusPreference = (EditTextPreference) preference;
+            final NoiseCancellingOptimizerStatus optimizerStatus = NoiseCancellingOptimizerStatus.valueOf(optimizerStatusPreference.getText().toUpperCase(Locale.ROOT));
+
+            if (ancOptimizerProgressDialog != null) {
+                switch (optimizerStatus) {
+                    case FINISHED:
+                    case NOT_RUNNING:
+                        ancOptimizerProgressDialog.dismiss();
+                        ancOptimizerProgressDialog = null;
+                        break;
+                    default:
+                        ancOptimizerProgressDialog.setMessage(optimizerStatus.i18n(preference.getContext()));
+                }
+            }
+        }
     }
 
     @Override
@@ -103,6 +134,54 @@ public class SonyHeadphonesSettingsCustomizer implements DeviceSpecificSettingsC
 
             ambientSoundControlPrefListener.onPreferenceChange(ambientSoundControl, ambientSoundControl.getValue());
             handler.addPreferenceHandlerFor(PREF_SONY_AMBIENT_SOUND_CONTROL, ambientSoundControlPrefListener);
+        }
+
+        // ANC Optimizer
+
+        final Preference ancOptimizer = handler.findPreference("pref_sony_anc_optimizer");
+
+        if (ancOptimizer != null) {
+            ancOptimizer.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                @Override
+                public boolean onPreferenceClick(final Preference preference) {
+                    if (ancOptimizerProgressDialog != null) {
+                        // Already optimizing
+                        return true;
+                    }
+
+                    final Context context = preference.getContext();
+
+                    new AlertDialog.Builder(context)
+                            .setTitle(R.string.sony_anc_optimize_confirmation_title)
+                            .setMessage(R.string.sony_anc_optimize_confirmation_description)
+                            .setIcon(R.drawable.ic_hearing)
+                            .setPositiveButton(R.string.start, new DialogInterface.OnClickListener() {
+                                public void onClick(final DialogInterface dialog, final int whichButton) {
+                                    handler.notifyPreferenceChanged(PREF_SONY_NOISE_OPTIMIZER_START);
+
+                                    ancOptimizerProgressDialog = new ProgressDialog(context);
+                                    ancOptimizerProgressDialog.setCancelable(false);
+                                    ancOptimizerProgressDialog.setMessage(context.getString(R.string.sony_anc_optimizer_status_starting));
+                                    ancOptimizerProgressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+                                    ancOptimizerProgressDialog.setProgress(0);
+                                    ancOptimizerProgressDialog.setButton(DialogInterface.BUTTON_NEGATIVE, context.getString(R.string.Cancel), new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(final DialogInterface dialog, final int which) {
+                                            dialog.dismiss();
+                                            ancOptimizerProgressDialog = null;
+                                            handler.notifyPreferenceChanged(PREF_SONY_NOISE_OPTIMIZER_CANCEL);
+                                        }
+                                    });
+
+                                    ancOptimizerProgressDialog.show();
+                                }
+                            })
+                            .setNegativeButton(android.R.string.cancel, null)
+                            .show();
+
+                    return true;
+                }
+            });
         }
     }
 

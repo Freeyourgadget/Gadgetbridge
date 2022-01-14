@@ -195,6 +195,19 @@ public class DeviceSpecificSettingsFragment extends PreferenceFragmentCompat imp
         getListView().post(runnable);
     }
 
+    /*
+     * delayed execution so that the preferences are applied first
+     */
+    @Override
+    public void notifyPreferenceChanged(final String preferenceKey) {
+        invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                GBApplication.deviceService().onSendConfiguration(preferenceKey);
+            }
+        });
+    }
+
     private void setChangeListener() {
         final Prefs prefs = new Prefs(getPreferenceManager().getSharedPreferences());
         String disconnectNotificationState = prefs.getString(PREF_DISCONNECT_NOTIFICATION, PREF_DO_NOT_DISTURB_OFF);
@@ -206,12 +219,7 @@ public class DeviceSpecificSettingsFragment extends PreferenceFragmentCompat imp
             disconnectNotificationStart.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
                 @Override
                 public boolean onPreferenceChange(Preference preference, Object newVal) {
-                    invokeLater(new Runnable() {
-                        @Override
-                        public void run() {
-                            GBApplication.deviceService().onSendConfiguration(PREF_DISCONNECT_NOTIFICATION_START);
-                        }
-                    });
+                    notifyPreferenceChanged(PREF_DISCONNECT_NOTIFICATION_START);
                     return true;
                 }
             });
@@ -223,12 +231,7 @@ public class DeviceSpecificSettingsFragment extends PreferenceFragmentCompat imp
             disconnectNotificationEnd.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
                 @Override
                 public boolean onPreferenceChange(Preference preference, Object newVal) {
-                    invokeLater(new Runnable() {
-                        @Override
-                        public void run() {
-                            GBApplication.deviceService().onSendConfiguration(PREF_DISCONNECT_NOTIFICATION_END);
-                        }
-                    });
+                    notifyPreferenceChanged(PREF_DISCONNECT_NOTIFICATION_END);
                     return true;
                 }
             });
@@ -243,12 +246,7 @@ public class DeviceSpecificSettingsFragment extends PreferenceFragmentCompat imp
 
                     Objects.requireNonNull(disconnectNotificationStart).setEnabled(scheduled);
                     Objects.requireNonNull(disconnectNotificationEnd).setEnabled(scheduled);
-                    invokeLater(new Runnable() {
-                        @Override
-                        public void run() {
-                            GBApplication.deviceService().onSendConfiguration(PREF_DISCONNECT_NOTIFICATION);
-                        }
-                    });
+                    notifyPreferenceChanged(PREF_DISCONNECT_NOTIFICATION);
                     return true;
                 }
             });
@@ -264,12 +262,7 @@ public class DeviceSpecificSettingsFragment extends PreferenceFragmentCompat imp
             nightModeStart.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
                 @Override
                 public boolean onPreferenceChange(Preference preference, Object newVal) {
-                    invokeLater(new Runnable() {
-                        @Override
-                        public void run() {
-                            GBApplication.deviceService().onSendConfiguration(PREF_NIGHT_MODE_START);
-                        }
-                    });
+                    notifyPreferenceChanged(PREF_NIGHT_MODE_START);
                     return true;
                 }
             });
@@ -281,12 +274,7 @@ public class DeviceSpecificSettingsFragment extends PreferenceFragmentCompat imp
             nightModeEnd.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
                 @Override
                 public boolean onPreferenceChange(Preference preference, Object newVal) {
-                    invokeLater(new Runnable() {
-                        @Override
-                        public void run() {
-                            GBApplication.deviceService().onSendConfiguration(PREF_NIGHT_MODE_END);
-                        }
-                    });
+                    notifyPreferenceChanged(PREF_NIGHT_MODE_END);
                     return true;
                 }
             });
@@ -303,12 +291,7 @@ public class DeviceSpecificSettingsFragment extends PreferenceFragmentCompat imp
                     Objects.requireNonNull(nightModeStart).setEnabled(scheduled);
                     Objects.requireNonNull(nightModeEnd).setEnabled(scheduled);
 
-                    invokeLater(new Runnable() {
-                        @Override
-                        public void run() {
-                            GBApplication.deviceService().onSendConfiguration(PREF_NIGHT_MODE);
-                        }
-                    });
+                    notifyPreferenceChanged(PREF_NIGHT_MODE);
                     return true;
                 }
             });
@@ -324,12 +307,7 @@ public class DeviceSpecificSettingsFragment extends PreferenceFragmentCompat imp
             doNotDisturbStart.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
                 @Override
                 public boolean onPreferenceChange(Preference preference, Object newVal) {
-                    invokeLater(new Runnable() {
-                        @Override
-                        public void run() {
-                            GBApplication.deviceService().onSendConfiguration(PREF_DO_NOT_DISTURB_START);
-                        }
-                    });
+                    notifyPreferenceChanged(PREF_DO_NOT_DISTURB_START);
                     return true;
                 }
             });
@@ -341,12 +319,7 @@ public class DeviceSpecificSettingsFragment extends PreferenceFragmentCompat imp
             doNotDisturbEnd.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
                 @Override
                 public boolean onPreferenceChange(Preference preference, Object newVal) {
-                    invokeLater(new Runnable() {
-                        @Override
-                        public void run() {
-                            GBApplication.deviceService().onSendConfiguration(PREF_DO_NOT_DISTURB_END);
-                        }
-                    });
+                    notifyPreferenceChanged(PREF_DO_NOT_DISTURB_END);
                     return true;
                 }
             });
@@ -362,12 +335,7 @@ public class DeviceSpecificSettingsFragment extends PreferenceFragmentCompat imp
                     Objects.requireNonNull(doNotDisturbStart).setEnabled(scheduled);
                     Objects.requireNonNull(doNotDisturbEnd).setEnabled(scheduled);
 
-                    invokeLater(new Runnable() {
-                        @Override
-                        public void run() {
-                            GBApplication.deviceService().onSendConfiguration(PREF_DO_NOT_DISTURB);
-                        }
-                    });
+                    notifyPreferenceChanged(PREF_DO_NOT_DISTURB);
                     return true;
                 }
             });
@@ -495,12 +463,7 @@ public class DeviceSpecificSettingsFragment extends PreferenceFragmentCompat imp
             sleepTimeInfo.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
                 @Override
                 public boolean onPreferenceChange(Preference preference, Object newVal) {
-                    invokeLater(new Runnable() {
-                        @Override
-                        public void run() {
-                            GBApplication.deviceService().onSendConfiguration(PREF_SLEEP_TIME);
-                        }
-                    });
+                    notifyPreferenceChanged(PREF_SLEEP_TIME);
                     return true;
                 }
             });
@@ -512,12 +475,7 @@ public class DeviceSpecificSettingsFragment extends PreferenceFragmentCompat imp
             sleepTimeStart.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
                 @Override
                 public boolean onPreferenceChange(Preference preference, Object newVal) {
-                    invokeLater(new Runnable() {
-                        @Override
-                        public void run() {
-                            GBApplication.deviceService().onSendConfiguration(PREF_SLEEP_TIME_START);
-                        }
-                    });
+                    notifyPreferenceChanged(PREF_SLEEP_TIME_START);
                     return true;
                 }
             });
@@ -529,12 +487,7 @@ public class DeviceSpecificSettingsFragment extends PreferenceFragmentCompat imp
             sleepTimeEnd.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
                 @Override
                 public boolean onPreferenceChange(Preference preference, Object newVal) {
-                    invokeLater(new Runnable() {
-                        @Override
-                        public void run() {
-                            GBApplication.deviceService().onSendConfiguration(PREF_SLEEP_TIME_END);
-                        }
-                    });
+                    notifyPreferenceChanged(PREF_SLEEP_TIME_END);
                     return true;
                 }
             });
@@ -551,12 +504,7 @@ public class DeviceSpecificSettingsFragment extends PreferenceFragmentCompat imp
                     if (sleepTimeInfo != null) {
                         //sleepTimeInfo.setEnabled(!PREF_DO_NOT_DISTURB_OFF.equals(newVal.toString()));
                     }
-                    invokeLater(new Runnable() {
-                        @Override
-                        public void run() {
-                            GBApplication.deviceService().onSendConfiguration(PREF_SLEEP_TIME);
-                        }
-                    });
+                    notifyPreferenceChanged(PREF_SLEEP_TIME);
                     return true;
                 }
             });
@@ -570,12 +518,7 @@ public class DeviceSpecificSettingsFragment extends PreferenceFragmentCompat imp
             rotateWristCycleInfo.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
                 @Override
                 public boolean onPreferenceChange(Preference preference, Object newVal) {
-                    invokeLater(new Runnable() {
-                        @Override
-                        public void run() {
-                            GBApplication.deviceService().onSendConfiguration(PREF_MI2_ROTATE_WRIST_TO_SWITCH_INFO);
-                        }
-                    });
+                    notifyPreferenceChanged(PREF_MI2_ROTATE_WRIST_TO_SWITCH_INFO);
                     return true;
                 }
             });
@@ -587,12 +530,7 @@ public class DeviceSpecificSettingsFragment extends PreferenceFragmentCompat imp
             displayOnLiftStart.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
                 @Override
                 public boolean onPreferenceChange(Preference preference, Object newVal) {
-                    invokeLater(new Runnable() {
-                        @Override
-                        public void run() {
-                            GBApplication.deviceService().onSendConfiguration(PREF_DISPLAY_ON_LIFT_START);
-                        }
-                    });
+                    notifyPreferenceChanged(PREF_DISPLAY_ON_LIFT_START);
                     return true;
                 }
             });
@@ -604,12 +542,7 @@ public class DeviceSpecificSettingsFragment extends PreferenceFragmentCompat imp
             displayOnLiftEnd.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
                 @Override
                 public boolean onPreferenceChange(Preference preference, Object newVal) {
-                    invokeLater(new Runnable() {
-                        @Override
-                        public void run() {
-                            GBApplication.deviceService().onSendConfiguration(PREF_DISPLAY_ON_LIFT_END);
-                        }
-                    });
+                    notifyPreferenceChanged(PREF_DISPLAY_ON_LIFT_END);
                     return true;
                 }
             });
@@ -626,12 +559,7 @@ public class DeviceSpecificSettingsFragment extends PreferenceFragmentCompat imp
                     if (rotateWristCycleInfo != null) {
                         rotateWristCycleInfo.setEnabled(!PREF_DO_NOT_DISTURB_OFF.equals(newVal.toString()));
                     }
-                    invokeLater(new Runnable() {
-                        @Override
-                        public void run() {
-                            GBApplication.deviceService().onSendConfiguration(PREF_ACTIVATE_DISPLAY_ON_LIFT);
-                        }
-                    });
+                    notifyPreferenceChanged(PREF_ACTIVATE_DISPLAY_ON_LIFT);
                     return true;
                 }
             });
@@ -802,12 +730,7 @@ public class DeviceSpecificSettingsFragment extends PreferenceFragmentCompat imp
         if (pref != null) {
             pref.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
                 public boolean onPreferenceChange(Preference preference, Object newVal) {
-                    invokeLater(new Runnable() {
-                        @Override
-                        public void run() {
-                            GBApplication.deviceService().onSendConfiguration(preferenceKey);
-                        }
-                    });
+                    notifyPreferenceChanged(preferenceKey);
 
                     if (extraListener != null) {
                         return extraListener.onPreferenceChange(preference, newVal);

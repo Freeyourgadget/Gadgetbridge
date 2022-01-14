@@ -44,6 +44,7 @@ public class SonyWH1000XM3Coordinator extends SonyHeadphonesCoordinator {
     public int[] getSupportedDeviceSpecificSettings(final GBDevice device) {
         return new int[]{
                 R.xml.devicesettings_sony_headphones_ambient_sound_control_wind_noise_reduction,
+                R.xml.devicesettings_sony_headphones_anc_optimizer,
                 R.xml.devicesettings_header_other,
                 R.xml.devicesettings_sony_warning_wh1000xm3,
                 R.xml.devicesettings_sony_headphones_equalizer,

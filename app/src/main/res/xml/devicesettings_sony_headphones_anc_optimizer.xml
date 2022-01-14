@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <PreferenceCategory
+        android:key="pref_key_header_sony_anc_optimizer"
+        android:title="@string/pref_header_sony_anc_optimizer">
+
+        <EditTextPreference
+            android:defaultValue="@string/unknown"
+            android:enabled="false"
+            android:icon="@drawable/ic_pressure"
+            android:key="pref_sony_noise_optimizer_state_pressure"
+            android:shouldDisableView="false"
+            android:title="@string/pref_anc_optimizer_state_pressure"
+            app:useSimpleSummaryProvider="true" />
+
+        <Preference
+            android:icon="@drawable/ic_auto_awesome"
+            android:key="pref_sony_anc_optimizer"
+            android:summary="@string/sony_anc_optimize_description"
+            android:title="@string/sony_anc_optimize_title" />
+
+        <EditTextPreference
+            android:defaultValue="NOT_RUNNING"
+            android:enabled="false"
+            android:key="pref_sony_noise_optimizer_status"
+            android:shouldDisableView="false"
+            android:title="pref_sony_noise_optimizer_status"
+            app:isPreferenceVisible="false" />
+    </PreferenceCategory>
+</androidx.preference.PreferenceScreen>

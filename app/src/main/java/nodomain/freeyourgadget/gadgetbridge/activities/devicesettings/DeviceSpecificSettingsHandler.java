@@ -40,6 +40,13 @@ public interface DeviceSpecificSettingsHandler {
     void addPreferenceHandlerFor(final String preferenceKey);
 
     /**
+     * Notify the device that a preference changed.
+     *
+     * @param preferenceKey the preference key.
+     */
+    void notifyPreferenceChanged(final String preferenceKey);
+
+    /**
      * Adds a preference handler for a preference key. On change, this handler calls the provided extra listener, and then sends the preference to the device.
      *
      * @param preferenceKey the preference key.
