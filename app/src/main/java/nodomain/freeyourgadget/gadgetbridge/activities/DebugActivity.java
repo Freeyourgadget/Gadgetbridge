@@ -101,6 +101,8 @@ import nodomain.freeyourgadget.gadgetbridge.util.WidgetPreferenceStorage;
 public class DebugActivity extends AbstractGBActivity {
     private static final Logger LOG = LoggerFactory.getLogger(DebugActivity.class);
 
+    private static Bundle dataLossSave;
+
     private static final String EXTRA_REPLY = "reply";
     private static final String ACTION_REPLY
             = "nodomain.freeyourgadget.gadgetbridge.DebugActivity.action.reply";
@@ -506,6 +508,29 @@ public class DebugActivity extends AbstractGBActivity {
             }
         });
 
+    }
+
+
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if (dataLossSave != null ) {
+            dataLossSave.clear();
+            dataLossSave = null ;
+        }
+        dataLossSave = new Bundle();
+        dataLossSave.putString("editContent", editContent.getText().toString());
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (dataLossSave != null ) {
+            editContent.setText(dataLossSave.getString("editContent", ""));
+        }else{
+            editContent.setText("Test");
+        }
     }
 
     private void deleteWidgetsPrefs() {
