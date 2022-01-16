@@ -1565,4 +1565,6 @@ Temps de sommeil préféré en heures</string>
     <string name="sony_speak_to_chat_sensitivity_high">Haut</string>
     <string name="sony_speak_to_chat_focus_on_voice">Focus sur la voix</string>
     <string name="device_unsupported">Non supporté</string>
+    <string name="audio_codec">Codec Audio</string>
+    <string name="pref_header_sony_device_info">Information de l\'appareil</string>
 </resources>
