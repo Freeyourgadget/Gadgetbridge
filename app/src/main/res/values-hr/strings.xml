@@ -1550,4 +1550,6 @@
     <string name="sony_speak_to_chat_timeout_long">Duga (1 min)</string>
     <string name="sony_connect_two_devices">Poveži se na dva uređaja istovremeno</string>
     <string name="sony_speak_to_chat">Speak-to-chat</string>
+    <string name="pref_header_sony_device_info">Informacije urađaja</string>
+    <string name="audio_codec">Audio kodek</string>
 </resources>
