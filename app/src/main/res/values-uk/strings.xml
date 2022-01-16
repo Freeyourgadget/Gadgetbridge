@@ -1569,4 +1569,6 @@
     <string name="discovery_bluetooth_le_scan">Сканування LE Bluetooth:</string>
     <string name="device_unsupported">НЕ ПІДТРИМУЄТЬСЯ</string>
     <string name="devicetype_sonyswr12">Sony SWR12</string>
+    <string name="pref_header_sony_device_info">Відомості про пристрій</string>
+    <string name="audio_codec">Аудіокодек</string>
 </resources>
