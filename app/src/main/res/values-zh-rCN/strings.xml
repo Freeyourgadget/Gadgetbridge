@@ -1567,4 +1567,6 @@
     <string name="discovery_bluetooth_scan">蓝牙扫描：</string>
     <string name="discovery_bluetooth_le_scan">低功耗蓝牙扫描：</string>
     <string name="device_unsupported">不支持</string>
+    <string name="audio_codec">音频编解码器</string>
+    <string name="pref_header_sony_device_info">设备信息</string>
 </resources>
