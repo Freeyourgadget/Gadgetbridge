@@ -1561,4 +1561,6 @@
     <string name="discovery_bluetooth_le_scan">סריקת Bluetooth LE:</string>
     <string name="discovery_bluetooth_scan">סריקת Bluetooth:</string>
     <string name="device_unsupported">לא נתמך</string>
+    <string name="audio_codec">מפענח שמע</string>
+    <string name="pref_header_sony_device_info">פרטי התקן</string>
 </resources>
