@@ -505,4 +505,6 @@
     <string name="find_lost_device_message">%1$s keresése\?</string>
     <string name="controlcenter_power_off">Kikapcsolás</string>
     <string name="controlcenter_power_off_confirm_title">Kikapcsolás</string>
+    <string name="controlcenter_set_alias">Álnév beállítása</string>
+    <string name="controlcenter_power_off_confirm_description">Biztosan ki akarod kapcsolni az eszközt\?</string>
 </resources>
