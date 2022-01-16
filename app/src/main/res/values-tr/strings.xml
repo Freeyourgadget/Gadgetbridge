@@ -1578,4 +1578,6 @@
     <string name="sony_connect_two_devices">Aynı anda 2 aygıta bağlan</string>
     <string name="sony_speak_to_chat_timeout_short">Kısa (15sn)</string>
     <string name="sony_speak_to_chat_timeout_standard">Standart (30sn)</string>
+    <string name="pref_header_sony_device_info">Aygıt Bilgileri</string>
+    <string name="audio_codec">Ses Kod Çözücü</string>
 </resources>
