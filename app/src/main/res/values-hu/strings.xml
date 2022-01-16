@@ -502,4 +502,7 @@
     <string name="sonyswr12_settings_low_vibration_summary">Engedélyezze a vibráció alacsony intenzitását a sávon</string>
     <string name="sonyswr12_settings_stamina_summary">Az energiatakarékos üzemmód kikapcsolja a pulzus időszakos automatikus mérését, így megnő a munkaidő</string>
     <string name="sonyswr12_settings_alarm_interval_summary">Az intelligens riasztási intervallum a telepített riasztás előtti intervallum. Ebben az intervallumban az eszköz megpróbálja észlelni az alvás legkönnyebb fázisát a felhasználó felébresztésére</string>
+    <string name="find_lost_device_message">%1$s keresése\?</string>
+    <string name="controlcenter_power_off">Kikapcsolás</string>
+    <string name="controlcenter_power_off_confirm_title">Kikapcsolás</string>
 </resources>
