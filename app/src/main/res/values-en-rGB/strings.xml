@@ -1560,4 +1560,20 @@
     <string name="device_unsupported">UNSUPPORTED</string>
     <string name="discovery_bluetooth_scan">Bluetooth scan:</string>
     <string name="devicetype_sonyswr12">Sony SWR12</string>
+    <string name="sony_anc_optimize_confirmation_title">Noise Cancelling Optimiser</string>
+    <string name="sony_anc_optimizer_status_wearing_condition">Measuring wearing condition…</string>
+    <string name="start">Start</string>
+    <string name="pref_header_sony_device_info">Device Information</string>
+    <string name="sony_anc_optimizer_status_not_running">Not Running</string>
+    <string name="sony_anc_optimizer_status_atmospheric_pressure">Measuring atmostpheric pressure…</string>
+    <string name="sony_anc_optimizer_status_analyzing">Analyzing…</string>
+    <string name="sony_anc_optimizer_status_finished">Finishing…</string>
+    <string name="sony_anc_optimize_description">Click to start the noise cancelling optimiser.</string>
+    <string name="sony_anc_optimize_title">Optimise</string>
+    <string name="unknown">Unknown</string>
+    <string name="pref_anc_optimizer_state_pressure">Atmospheric pressure</string>
+    <string name="sony_anc_optimizer_status_starting">Starting…</string>
+    <string name="audio_codec">Audio Codec</string>
+    <string name="pref_header_sony_anc_optimizer">Noise Cancelling Optimiser</string>
+    <string name="sony_anc_optimize_confirmation_description">Use the headphones as you normally would. If the wearing condition or atmospheric pressure change, run the optimiser again.</string>
 </resources>
