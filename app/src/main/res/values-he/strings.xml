@@ -1563,4 +1563,18 @@
     <string name="device_unsupported">לא נתמך</string>
     <string name="audio_codec">מפענח שמע</string>
     <string name="pref_header_sony_device_info">פרטי התקן</string>
+    <string name="unknown">לא ידוע</string>
+    <string name="sony_anc_optimize_title">שיפור</string>
+    <string name="sony_anc_optimize_description">משפר ביטול הרעשים יופעל בלחיצה.</string>
+    <string name="sony_anc_optimizer_status_wearing_condition">מצב הבלאי נמדד…</string>
+    <string name="sony_anc_optimizer_status_atmospheric_pressure">הלחץ האטמוספרי נמדד…</string>
+    <string name="sony_anc_optimizer_status_analyzing">מתבצע ניתוח…</string>
+    <string name="sony_anc_optimizer_status_finished">התהליך מסתיים…</string>
+    <string name="start">התחלה</string>
+    <string name="pref_header_sony_anc_optimizer">משפר ביטול רעשים</string>
+    <string name="sony_anc_optimize_confirmation_title">משפר ביטול הרעשים</string>
+    <string name="pref_anc_optimizer_state_pressure">לחץ אטמוספרי</string>
+    <string name="sony_anc_optimizer_status_not_running">לא פועל</string>
+    <string name="sony_anc_optimizer_status_starting">מופעל…</string>
+    <string name="sony_anc_optimize_confirmation_description">ניתן להשתמש באוזניות כרגיל. אם מצב הבלאי או הלחץ האטמוספרי משתנה, יש להריץ את המשפר שוב.</string>
 </resources>
