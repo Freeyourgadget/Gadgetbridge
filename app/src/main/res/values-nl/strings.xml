@@ -1562,4 +1562,20 @@
     <string name="sony_connect_two_devices">Met 2 apparaten tegelijk verbinden</string>
     <string name="device_unsupported">NIET ONDERSTEUND</string>
     <string name="devicetype_sonyswr12">Sony SWR12</string>
+    <string name="pref_header_sony_anc_optimizer">Ruisonderdrukking-optimalisator</string>
+    <string name="sony_anc_optimize_description">Klik om de optimalisatie voor ruisonderdrukking te starten.</string>
+    <string name="sony_anc_optimize_confirmation_title">Ruisonderdrukking-optimalisator</string>
+    <string name="pref_anc_optimizer_state_pressure">Luchtdruk</string>
+    <string name="sony_anc_optimizer_status_wearing_condition">Het meten van de draagconditie…</string>
+    <string name="sony_anc_optimizer_status_atmospheric_pressure">Luchtdruk aan het meten…</string>
+    <string name="sony_anc_optimizer_status_analyzing">Analyseren…</string>
+    <string name="sony_anc_optimizer_status_finished">Afronden…</string>
+    <string name="sony_anc_optimize_title">Optimaliseren</string>
+    <string name="pref_header_sony_device_info">Apparaatinformatie</string>
+    <string name="unknown">Onbekend</string>
+    <string name="start">Start</string>
+    <string name="audio_codec">Audio-codec</string>
+    <string name="sony_anc_optimize_confirmation_description">Gebruik de hoofdtelefoon zoals u gewend bent. Als de draagconditie of de atmosferische druk verandert, voert u de optimizer opnieuw uit.</string>
+    <string name="sony_anc_optimizer_status_not_running">Niet actief</string>
+    <string name="sony_anc_optimizer_status_starting">Starten…</string>
 </resources>
