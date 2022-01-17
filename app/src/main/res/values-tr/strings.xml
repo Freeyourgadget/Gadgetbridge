@@ -1580,4 +1580,18 @@
     <string name="sony_speak_to_chat_timeout_standard">Standart (30sn)</string>
     <string name="pref_header_sony_device_info">Aygıt Bilgileri</string>
     <string name="audio_codec">Ses Kod Çözücü</string>
+    <string name="unknown">Bilinmeyen</string>
+    <string name="start">Başla</string>
+    <string name="sony_anc_optimize_title">İyileştir</string>
+    <string name="sony_anc_optimize_confirmation_title">Gürültü Engelleme İyileştirici</string>
+    <string name="pref_anc_optimizer_state_pressure">Atmosfer basıncı</string>
+    <string name="sony_anc_optimizer_status_wearing_condition">Takma durumu ölçülüyor…</string>
+    <string name="sony_anc_optimizer_status_analyzing">Çözümleniyor…</string>
+    <string name="sony_anc_optimize_confirmation_description">Kulaklıkları normalde yaptığınız gibi kullanın. Takma durumu veya atmosfer basıncı değişirse, iyileştiriciyi yeniden çalıştırın.</string>
+    <string name="pref_header_sony_anc_optimizer">Gürültü Engelleme İyileştirici</string>
+    <string name="sony_anc_optimizer_status_starting">Başlatılıyor…</string>
+    <string name="sony_anc_optimize_description">Gürültü engelleme iyileştiriciyi başlatmak için tıklayın.</string>
+    <string name="sony_anc_optimizer_status_not_running">Çalışmıyor</string>
+    <string name="sony_anc_optimizer_status_atmospheric_pressure">Atmosfer basıncı ölçülüyor…</string>
+    <string name="sony_anc_optimizer_status_finished">Bitiriliyor…</string>
 </resources>
