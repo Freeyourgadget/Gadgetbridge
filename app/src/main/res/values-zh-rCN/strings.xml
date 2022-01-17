@@ -1569,4 +1569,18 @@
     <string name="device_unsupported">不支持</string>
     <string name="audio_codec">音频编解码器</string>
     <string name="pref_header_sony_device_info">设备信息</string>
+    <string name="start">开始</string>
+    <string name="sony_anc_optimize_confirmation_title">降噪优化</string>
+    <string name="sony_anc_optimize_confirmation_description">请正常使用耳机，如果感觉到耳道气压变化，请再次运行优化。</string>
+    <string name="sony_anc_optimizer_status_wearing_condition">正在测量佩戴环境…</string>
+    <string name="sony_anc_optimizer_status_atmospheric_pressure">正在测量大气压力…</string>
+    <string name="sony_anc_optimizer_status_analyzing">分析中…</string>
+    <string name="pref_anc_optimizer_state_pressure">大气压力</string>
+    <string name="pref_header_sony_anc_optimizer">降噪优化</string>
+    <string name="sony_anc_optimize_description">点击开始以进行降噪优化。</string>
+    <string name="unknown">未知</string>
+    <string name="sony_anc_optimize_title">优化</string>
+    <string name="sony_anc_optimizer_status_not_running">没有运行</string>
+    <string name="sony_anc_optimizer_status_finished">即将完成…</string>
+    <string name="sony_anc_optimizer_status_starting">正在开始…</string>
 </resources>
