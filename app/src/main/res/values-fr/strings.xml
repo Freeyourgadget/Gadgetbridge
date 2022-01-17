@@ -1567,4 +1567,18 @@ Temps de sommeil préféré en heures</string>
     <string name="device_unsupported">Non supporté</string>
     <string name="audio_codec">Codec Audio</string>
     <string name="pref_header_sony_device_info">Information de l\'appareil</string>
+    <string name="start">Départ</string>
+    <string name="pref_header_sony_anc_optimizer">Optimisation de l\'annulation de bruits</string>
+    <string name="sony_anc_optimize_description">Cliquer pour lancer l\'optimiseur d\'annulation de bruits.</string>
+    <string name="sony_anc_optimize_confirmation_title">Optimiseur d\'annulation de bruits</string>
+    <string name="pref_anc_optimizer_state_pressure">Pression atmosphérique</string>
+    <string name="sony_anc_optimizer_status_starting">Démarrage…</string>
+    <string name="sony_anc_optimizer_status_atmospheric_pressure">Mesure de la pression atmosphérique…</string>
+    <string name="sony_anc_optimizer_status_analyzing">Analyse…</string>
+    <string name="sony_anc_optimizer_status_finished">Fin…</string>
+    <string name="sony_anc_optimize_title">Optimisation</string>
+    <string name="sony_anc_optimize_confirmation_description">Utiliser les écouteurs comme d\'habitude. Si les conditions ambiantes ou la pression atmosphérique change, relancer l\'optimiseur.</string>
+    <string name="unknown">Inconnu</string>
+    <string name="sony_anc_optimizer_status_not_running">Pas en service</string>
+    <string name="sony_anc_optimizer_status_wearing_condition">Mesure des conditions actuelles…</string>
 </resources>
