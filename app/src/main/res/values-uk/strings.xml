@@ -1585,4 +1585,6 @@
     <string name="sony_anc_optimize_confirmation_description">Використовуйте навушники, як зазвичай. Якщо середовище або атмосферний тиск змінюються, запустіть оптимізатор ще раз.</string>
     <string name="sony_anc_optimizer_status_atmospheric_pressure">Вимірювання атмосферного тиску…</string>
     <string name="sony_anc_optimizer_status_finished">Завершення…</string>
+    <string name="devicetype_amazfit_pop">Amazfit Pop</string>
+    <string name="devicetype_amazfit_pop_pro">Amazfit Pop Pro</string>
 </resources>
