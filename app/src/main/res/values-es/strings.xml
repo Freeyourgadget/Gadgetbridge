@@ -1567,4 +1567,22 @@
     <string name="discovery_bluetooth_scan">Escaneo Bluetooth:</string>
     <string name="devicetype_sonyswr12">Sony SWR12</string>
     <string name="watchface_dialog_widget_width">Ancho:</string>
+    <string name="unknown">Desconocido</string>
+    <string name="start">Iniciar</string>
+    <string name="devicetype_amazfit_pop_pro">Amazfit Pop Pro</string>
+    <string name="pref_header_sony_anc_optimizer">Optimizador de cancelación de ruido</string>
+    <string name="sony_anc_optimize_title">Optimizar</string>
+    <string name="sony_anc_optimize_confirmation_title">Optimizador de cancelación de ruido</string>
+    <string name="pref_anc_optimizer_state_pressure">Presión atmosférica</string>
+    <string name="sony_anc_optimizer_status_starting">Iniciando…</string>
+    <string name="sony_anc_optimizer_status_not_running">No se está ejecutando</string>
+    <string name="sony_anc_optimizer_status_wearing_condition">Midiendo el estado de uso…</string>
+    <string name="sony_anc_optimizer_status_atmospheric_pressure">Midiendo la presión atmosférica…</string>
+    <string name="sony_anc_optimizer_status_analyzing">Analizando…</string>
+    <string name="sony_anc_optimizer_status_finished">Finalizando…</string>
+    <string name="devicetype_amazfit_pop">Amazfit Pop</string>
+    <string name="sony_anc_optimize_confirmation_description">Use los auriculares como lo haría normalmente. Si las condiciones de uso o la presión atmosférica cambian, vuelva a ejecutar el optimizador.</string>
+    <string name="audio_codec">Códec de audio</string>
+    <string name="pref_header_sony_device_info">Información del dispositivo</string>
+    <string name="sony_anc_optimize_description">Pulse para iniciar el optimizador de cancelación de ruido.</string>
 </resources>
