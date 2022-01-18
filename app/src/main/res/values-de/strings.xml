@@ -1570,4 +1570,20 @@
     <string name="discovery_bluetooth_le_scan">Bluetooth-LE-Scan:</string>
     <string name="device_unsupported">NICHT UNTERSTÜTZT</string>
     <string name="devicetype_domyos_t540">Domyos-T540</string>
+    <string name="unknown">Unbekannt</string>
+    <string name="pref_header_sony_anc_optimizer">Optimierer zur Geräuschunterdrückung</string>
+    <string name="pref_anc_optimizer_state_pressure">Luftdruck</string>
+    <string name="sony_anc_optimizer_status_atmospheric_pressure">Luftdruck messen…</string>
+    <string name="sony_anc_optimize_confirmation_title">Optimierer zur Geräuschunterdrückung</string>
+    <string name="sony_anc_optimize_title">Optimieren</string>
+    <string name="start">Start</string>
+    <string name="audio_codec">Audio-Codec</string>
+    <string name="sony_anc_optimizer_status_wearing_condition">Tragezustand messen…</string>
+    <string name="sony_anc_optimizer_status_finished">Beende…</string>
+    <string name="pref_header_sony_device_info">Geräteinformation</string>
+    <string name="sony_anc_optimizer_status_starting">Starte…</string>
+    <string name="sony_anc_optimizer_status_not_running">Läuft nicht</string>
+    <string name="sony_anc_optimizer_status_analyzing">Analysiere…</string>
+    <string name="sony_anc_optimize_description">Klicke, um die Optimierung der Geräuschunterdrückung zu starten.</string>
+    <string name="sony_anc_optimize_confirmation_description">Verwende den Kopfhörer wie gewohnt. Wenn sich die Tragebedingungen oder der Luftdruck ändern, führe den Optimierer erneut aus.</string>
 </resources>
