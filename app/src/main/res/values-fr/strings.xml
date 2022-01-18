@@ -1581,4 +1581,6 @@ Temps de sommeil préféré en heures</string>
     <string name="unknown">Inconnu</string>
     <string name="sony_anc_optimizer_status_not_running">Pas en service</string>
     <string name="sony_anc_optimizer_status_wearing_condition">Mesure des conditions actuelles…</string>
+    <string name="devicetype_amazfit_pop">Amazfit Pop</string>
+    <string name="devicetype_amazfit_pop_pro">Amazfit Pop Pro</string>
 </resources>
