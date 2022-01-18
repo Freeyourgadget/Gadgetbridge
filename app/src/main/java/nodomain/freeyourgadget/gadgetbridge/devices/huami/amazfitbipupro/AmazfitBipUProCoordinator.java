@@ -48,7 +48,7 @@ public class AmazfitBipUProCoordinator extends HuamiCoordinator {
         try {
             BluetoothDevice device = candidate.getDevice();
             String name = device.getName();
-            if (name != null && (name.equalsIgnoreCase("Amazfit Bip U Pro")||name.equalsIgnoreCase("Amazfit Pop Pro"))) {
+            if (name != null && (name.equalsIgnoreCase("Amazfit Bip U Pro"))) {
                 return DeviceType.AMAZFITBIPUPRO;
             }
         } catch (Exception ex) {
