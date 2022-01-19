@@ -1578,4 +1578,6 @@
     <string name="sony_anc_optimize_confirmation_description">Gebruik de hoofdtelefoon zoals u gewend bent. Als de draagconditie of de atmosferische druk verandert, voert u de optimizer opnieuw uit.</string>
     <string name="sony_anc_optimizer_status_not_running">Niet actief</string>
     <string name="sony_anc_optimizer_status_starting">Starten…</string>
+    <string name="devicetype_amazfit_pop_pro">Amazfit Pop Pro</string>
+    <string name="devicetype_amazfit_pop">Amazfit Pop</string>
 </resources>
