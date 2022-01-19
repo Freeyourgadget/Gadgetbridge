@@ -1594,4 +1594,6 @@
     <string name="sony_anc_optimizer_status_not_running">Çalışmıyor</string>
     <string name="sony_anc_optimizer_status_atmospheric_pressure">Atmosfer basıncı ölçülüyor…</string>
     <string name="sony_anc_optimizer_status_finished">Bitiriliyor…</string>
+    <string name="devicetype_amazfit_pop_pro">Amazfit Pop Pro</string>
+    <string name="devicetype_amazfit_pop">Amazfit Pop</string>
 </resources>
