@@ -1583,4 +1583,6 @@
     <string name="sony_anc_optimizer_status_not_running">没有运行</string>
     <string name="sony_anc_optimizer_status_finished">即将完成…</string>
     <string name="sony_anc_optimizer_status_starting">正在开始…</string>
+    <string name="devicetype_amazfit_pop_pro">华米 Pop Pro</string>
+    <string name="devicetype_amazfit_pop">华米 Pop</string>
 </resources>
