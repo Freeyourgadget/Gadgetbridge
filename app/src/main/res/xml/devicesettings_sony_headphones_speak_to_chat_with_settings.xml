@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceScreen
+        android:icon="@drawable/ic_voice"
+        android:key="pref_sony_speak_to_chat_header"
+        android:persistent="false"
+        android:title="@string/sony_speak_to_chat">
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:icon="@drawable/ic_voice"
+            android:key="pref_sony_speak_to_chat"
+            android:title="@string/sony_speak_to_chat" />
+
+        <PreferenceCategory
+            android:key="pref_key_sony_speak_to_chat_settings_header"
+            android:title="@string/sony_speak_to_chat">
+
+            <ListPreference
+                android:defaultValue="auto"
+                android:dependency="pref_sony_speak_to_chat"
+                android:entries="@array/sony_speak_to_chat_voice_sensitivity_names"
+                android:entryValues="@array/sony_speak_to_chat_voice_sensitivity_values"
+                android:key="pref_sony_speak_to_chat_sensitivity"
+                android:summary="%s"
+                android:title="@string/sony_speak_to_chat_sensitivity" />
+
+            <SwitchPreference
+                android:defaultValue="false"
+                android:dependency="pref_sony_speak_to_chat"
+                android:icon="@drawable/ic_voice"
+                android:key="pref_sony_speak_to_chat_focus_on_voice"
+                android:title="@string/sony_speak_to_chat_focus_on_voice" />
+
+            <ListPreference
+                android:defaultValue="standard"
+                android:dependency="pref_sony_speak_to_chat"
+                android:entries="@array/sony_speak_to_chat_voice_timeout_names"
+                android:entryValues="@array/sony_speak_to_chat_voice_timeout_values"
+                android:icon="@drawable/ic_timer"
+                android:key="pref_sony_speak_to_chat_timeout"
+                android:summary="%s"
+                android:title="@string/sony_speak_to_chat_timeout" />
+        </PreferenceCategory>
+    </PreferenceScreen>
+
+</androidx.preference.PreferenceScreen>

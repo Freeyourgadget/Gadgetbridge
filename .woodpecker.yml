@@ -1,6 +1,0 @@
-pipeline:
-  test:
-    image: androidsdk/android-30
-    commands:
-      - pwd #bump
-      - ./gradlew assembleDebug --stacktrace

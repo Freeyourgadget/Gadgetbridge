@@ -105,8 +105,8 @@ public class HybridHRWatchfaceFactory {
                     return;
             }
             JSONObject size = new JSONObject();
-            size.put("w", 76);
-            size.put("h", 76);
+            size.put("w", widgetDesc.getWidth());
+            size.put("h", widgetDesc.getHeight());
             widget.put("size", size);
             JSONObject pos = new JSONObject();
             pos.put("x", widgetDesc.getPosX());
@@ -336,8 +336,8 @@ public class HybridHRWatchfaceFactory {
         complicationContent.put("inversion", "#$e");
         dimension = new JSONObject();
         dimension.put("type", "rigid");
-        dimension.put("width", 76);
-        dimension.put("height", 76);
+        dimension.put("width", "#size.w");
+        dimension.put("height", "#size.h");
         complicationContent.put("dimension", dimension);
         placement = new JSONObject();
         placement.put("type", "relative");

@@ -24,12 +24,12 @@ import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceCandidate;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
 
-public class SonyWH1000XM3Coordinator extends SonyHeadphonesCoordinator {
+public class SonyWH1000XM4Coordinator extends SonyHeadphonesCoordinator {
     @NonNull
     @Override
     public DeviceType getSupportedType(final GBDeviceCandidate candidate) {
-        if (candidate.getName().contains("WH-1000XM3")) {
-            return DeviceType.SONY_WH_1000XM3;
+        if (candidate.getName().contains("WH-1000XM4")) {
+            return DeviceType.SONY_WH_1000XM4;
         }
 
         return DeviceType.UNKNOWN;
@@ -37,23 +37,24 @@ public class SonyWH1000XM3Coordinator extends SonyHeadphonesCoordinator {
 
     @Override
     public DeviceType getDeviceType() {
-        return DeviceType.SONY_WH_1000XM3;
+        return DeviceType.SONY_WH_1000XM4;
     }
 
     @Override
     public int[] getSupportedDeviceSpecificSettings(final GBDevice device) {
         return new int[]{
+                // TODO: Function of [CUSTOM] button
                 R.xml.devicesettings_sony_headphones_ambient_sound_control_wind_noise_reduction,
                 R.xml.devicesettings_sony_headphones_anc_optimizer,
                 R.xml.devicesettings_header_other,
-                R.xml.devicesettings_sony_warning_wh1000xm3,
                 R.xml.devicesettings_sony_headphones_equalizer,
-                R.xml.devicesettings_sony_headphones_sound_position,
-                R.xml.devicesettings_sony_headphones_surround_mode,
                 R.xml.devicesettings_sony_headphones_audio_upsampling,
                 R.xml.devicesettings_header_system,
+                // TODO R.xml.devicesettings_connect_two_devices,
+                // TODO R.xml.devicesettings_sony_headphones_speak_to_chat_with_settings,
                 R.xml.devicesettings_sony_headphones_touch_sensor_single,
-                R.xml.devicesettings_automatic_power_off_by_time,
+                R.xml.devicesettings_sony_headphones_pause_when_taken_off,
+                R.xml.devicesettings_automatic_power_off_when_taken_off,
                 R.xml.devicesettings_sony_headphones_notifications_voice_guide,
                 R.xml.devicesettings_sony_headphones_device_info
         };

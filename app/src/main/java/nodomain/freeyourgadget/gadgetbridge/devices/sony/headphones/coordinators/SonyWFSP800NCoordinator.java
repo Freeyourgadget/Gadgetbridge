@@ -69,8 +69,9 @@ public class SonyWFSP800NCoordinator extends SonyHeadphonesCoordinator {
                 R.xml.devicesettings_header_system,
                 R.xml.devicesettings_sony_headphones_button_modes_left_right,
                 R.xml.devicesettings_sony_headphones_pause_when_taken_off,
-                R.xml.devicesettings_sony_wf_sp800n,
-                R.xml.devicesettings_sony_headphones_notifications_voice_guide
+                R.xml.devicesettings_automatic_power_off_when_taken_off,
+                R.xml.devicesettings_sony_headphones_notifications_voice_guide,
+                R.xml.devicesettings_sony_headphones_device_info
         };
     }
 }

@@ -104,9 +104,10 @@ public class SonyHeadphonesProtocol extends GBDeviceProtocol {
                 } else if (message.getPayload().length == 6) {
                     LOG.warn("Sony Headphones protocol v2 is not yet supported");
                     return null;
+                } else {
+                    LOG.error("Unexpected init response payload length: {}", message.getPayload().length);
+                    return null;
                 }
-
-                return null;
             }
         }
 
@@ -151,6 +152,12 @@ public class SonyHeadphonesProtocol extends GBDeviceProtocol {
             case DeviceSettingsPreferenceConst.PREF_SONY_AMBIENT_SOUND_LEVEL:
                 configRequest = protocolImpl.setAmbientSoundControl(AmbientSoundControl.fromPreferences(prefs));
                 break;
+            case DeviceSettingsPreferenceConst.PREF_SONY_NOISE_OPTIMIZER_START:
+                configRequest = protocolImpl.startNoiseCancellingOptimizer(true);
+                break;
+            case DeviceSettingsPreferenceConst.PREF_SONY_NOISE_OPTIMIZER_CANCEL:
+                configRequest = protocolImpl.startNoiseCancellingOptimizer(false);
+                break;
             case DeviceSettingsPreferenceConst.PREF_SONY_SOUND_POSITION:
                 configRequest = protocolImpl.setSoundPosition(SoundPosition.fromPreferences(prefs));
                 break;
@@ -187,7 +194,15 @@ public class SonyHeadphonesProtocol extends GBDeviceProtocol {
             case DeviceSettingsPreferenceConst.PREF_SONY_NOTIFICATION_VOICE_GUIDE:
                 configRequest = protocolImpl.setVoiceNotifications(VoiceNotifications.fromPreferences(prefs));
                 break;
-
+            case DeviceSettingsPreferenceConst.PREF_SONY_CONNECT_TWO_DEVICES:
+                LOG.warn("Connection to two devices not implemented ('{}')", config);
+                return super.encodeSendConfiguration(config);
+            case DeviceSettingsPreferenceConst.PREF_SONY_SPEAK_TO_CHAT:
+            case DeviceSettingsPreferenceConst.PREF_SONY_SPEAK_TO_CHAT_SENSITIVITY:
+            case DeviceSettingsPreferenceConst.PREF_SONY_SPEAK_TO_CHAT_FOCUS_ON_VOICE:
+            case DeviceSettingsPreferenceConst.PREF_SONY_SPEAK_TO_CHAT_TIMEOUT:
+                LOG.warn("Speak-to-chat is not implemented ('{}')", config);
+                return super.encodeSendConfiguration(config);
             default:
                 LOG.warn("Unknown config '{}'", config);
                 return super.encodeSendConfiguration(config);
@@ -201,10 +216,6 @@ public class SonyHeadphonesProtocol extends GBDeviceProtocol {
     @Override
     public byte[] encodeTestNewFunction() {
         //return Request.fromHex(MessageType.COMMAND_1, "c40100").encode(sequenceNumber);
-
-        if (protocolImpl != null) {
-            return protocolImpl.startNoiseCancellingOptimizer().encode(sequenceNumber);
-        }
 
         return null;
     }
@@ -250,6 +261,10 @@ public class SonyHeadphonesProtocol extends GBDeviceProtocol {
 
     public byte[] getFromQueue() {
         return requestQueue.remove().encode(sequenceNumber);
+    }
+
+    public boolean hasProtocolImplementation() {
+        return protocolImpl != null;
     }
 
     private GBDeviceEvent handleAck() {
