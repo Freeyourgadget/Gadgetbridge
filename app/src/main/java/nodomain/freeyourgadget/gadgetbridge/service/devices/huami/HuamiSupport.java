@@ -1835,7 +1835,7 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
         boolean[] alarmsEnabled = new boolean[maxAlarms];
         byte[] alarmsMinute = new byte[maxAlarms];
         byte[] alarmsHour = new byte[maxAlarms];
-        byte[] alarmsRepeat = new byte[maxAlarms];
+        byte[] alarmsRepetition = new byte[maxAlarms];
 
         int nr_alarms;
         byte enable_flag;
@@ -1850,9 +1850,6 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
             int offset;
             if (withTimes) {
                 offset = i * 4;
-                alarmsHour[i] = response[offset + 1];
-                alarmsMinute[i] = response[offset + 2];
-                alarmsRepeat[i] = response[offset + 3];
             } else {
                 offset = 9 + i;
             }
@@ -1865,20 +1862,26 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
             alarmsInUse[index] = true;
             boolean enabled = (alarm_data & enable_flag) == enable_flag;
             alarmsEnabled[index] = enabled;
+            if (withTimes) {
+                alarmsHour[index] = response[offset + 1];
+                alarmsMinute[index] = response[offset + 2];
+                alarmsRepetition[index] = response[offset + 3];
+            }
+
             LOG.info("alarm " + index + " is enabled:" + enabled);
         }
         for (nodomain.freeyourgadget.gadgetbridge.entities.Alarm alarm : alarms) {
             int pos = alarm.getPosition();
             boolean enabled = alarmsEnabled[pos];
             boolean unused = !alarmsInUse[pos];
-            if (alarm.getEnabled() != enabled || alarm.getUnused() != unused) {
+            if (alarm.getEnabled() != enabled || alarm.getUnused() != unused || (withTimes && !unused && (alarm.getHour() != alarmsHour[pos] || alarm.getMinute() != alarmsMinute[pos] || alarm.getRepetition() != alarmsRepetition[pos]))) {
                 LOG.info("updating alarm index " + pos + " unused=" + unused + ", enabled=" + enabled);
                 alarm.setEnabled(enabled);
                 alarm.setUnused(unused);
-                if (withTimes) {
+                if (withTimes && !unused) {
                     alarm.setHour(alarmsHour[pos]);
                     alarm.setMinute(alarmsMinute[pos]);
-                    alarm.setRepetition(alarmsRepeat[pos]);
+                    alarm.setRepetition(alarmsRepetition[pos]);
                 }
                 DBHelper.store(alarm);
                 Intent intent = new Intent(DeviceService.ACTION_SAVE_ALARMS);
