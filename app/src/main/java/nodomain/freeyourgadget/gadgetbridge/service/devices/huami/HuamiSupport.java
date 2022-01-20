@@ -1473,7 +1473,8 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
                 processDeviceEvent(HuamiDeviceEvent.START_NONWEAR);
                 break;
             case HuamiDeviceEvent.ALARM_TOGGLED:
-                LOG.info("An alarm was toggled");
+            case HuamiDeviceEvent.ALARM_CHANGED:
+                LOG.info("An alarm was toggled or changed");
                 TransactionBuilder builder = new TransactionBuilder("requestAlarms");
                 requestAlarms(builder);
                 builder.queue(getQueue());
@@ -1810,40 +1811,75 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
                 gbDevice.setFirmwareVersion2(gpsVersion);
             } else if (value[1] == 0x0d) {
                 LOG.info("got alarms from watch");
-                decodeAndUpdateAlarmStatus(value);
+                decodeAndUpdateAlarmStatus(value, false);
             } else {
                 LOG.warn("got configuration info we do not handle yet " + GB.hexdump(value, 3, -1));
             }
+        } else if (value[0] == ((byte) 0x80) && value[1] == 0x01 && value[2] == (byte) 0xc0 && value[3] == 0x00 &&
+                value[4] == 0x01 && value[5] == 0x00 && value[6] == 0x00 && value[7] == 0x00 && value[8] == 0x01) {
+            LOG.info("got full alarm configuration."); // TODO: with low mtu they come in chunks
+            byte[] alarmData = new byte[value.length - 9];
+            System.arraycopy(value, 9, alarmData, 0, alarmData.length);
+            decodeAndUpdateAlarmStatus(alarmData, true);
         } else {
-            LOG.warn("error received from configuration request " + GB.hexdump(value, 0, -1));
+            LOG.warn("unknown response got from configuration request " + GB.hexdump(value, 0, -1));
         }
     }
 
-    private void decodeAndUpdateAlarmStatus(byte[] response) {
+    private void decodeAndUpdateAlarmStatus(byte[] response, boolean withTimes) {
         List<nodomain.freeyourgadget.gadgetbridge.entities.Alarm> alarms = DBHelper.getAlarms(gbDevice);
         int maxAlarms = 10;
+
+        //FIXME: we can rather have a full struct here probably
         boolean[] alarmsInUse = new boolean[maxAlarms];
         boolean[] alarmsEnabled = new boolean[maxAlarms];
-        int nr_alarms = response[8];
+        byte[] alarmsMinute = new byte[maxAlarms];
+        byte[] alarmsHour = new byte[maxAlarms];
+        byte[] alarmsRepeat = new byte[maxAlarms];
+
+        int nr_alarms;
+        byte enable_flag;
+        if (withTimes) {
+            nr_alarms = response.length / 4;
+            enable_flag = (byte) 0x80;
+        } else {
+            nr_alarms = response[8];
+            enable_flag = (byte) 0x10;
+        }
         for (int i = 0; i < nr_alarms; i++) {
-            byte alarm_data = response[9 + i];
+            int offset;
+            if (withTimes) {
+                offset = i * 4;
+                alarmsHour[i] = response[offset + 1];
+                alarmsMinute[i] = response[offset + 2];
+                alarmsRepeat[i] = response[offset + 3];
+            } else {
+                offset = 9 + i;
+            }
+            byte alarm_data = response[offset];
             int index = alarm_data & 0xf;
             if (index >= maxAlarms) {
                 GB.toast("Unexpected alarm index from device, ignoring: " + index, Toast.LENGTH_SHORT, GB.ERROR);
                 return;
             }
             alarmsInUse[index] = true;
-            boolean enabled = (alarm_data & 0x10) == 0x10;
+            boolean enabled = (alarm_data & enable_flag) == enable_flag;
             alarmsEnabled[index] = enabled;
             LOG.info("alarm " + index + " is enabled:" + enabled);
         }
         for (nodomain.freeyourgadget.gadgetbridge.entities.Alarm alarm : alarms) {
-            boolean enabled = alarmsEnabled[alarm.getPosition()];
-            boolean unused = !alarmsInUse[alarm.getPosition()];
+            int pos = alarm.getPosition();
+            boolean enabled = alarmsEnabled[pos];
+            boolean unused = !alarmsInUse[pos];
             if (alarm.getEnabled() != enabled || alarm.getUnused() != unused) {
-                LOG.info("updating alarm index " + alarm.getPosition() + " unused=" + unused + ", enabled=" + enabled);
+                LOG.info("updating alarm index " + pos + " unused=" + unused + ", enabled=" + enabled);
                 alarm.setEnabled(enabled);
                 alarm.setUnused(unused);
+                if (withTimes) {
+                    alarm.setHour(alarmsHour[pos]);
+                    alarm.setMinute(alarmsMinute[pos]);
+                    alarm.setRepetition(alarmsRepeat[pos]);
+                }
                 DBHelper.store(alarm);
                 Intent intent = new Intent(DeviceService.ACTION_SAVE_ALARMS);
                 LocalBroadcastManager.getInstance(getContext()).sendBroadcast(intent);
@@ -3140,7 +3176,9 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
 
     private HuamiSupport requestAlarms(TransactionBuilder builder) {
         LOG.info("Requesting alarms");
-        writeToConfiguration(builder,  HuamiService.COMMAND_REQUEST_ALARMS);
+        //FIXME: on older devices only the first one works, and on newer only the last is sufficiant
+        writeToConfiguration(builder, HuamiService.COMMAND_REQUEST_ALARMS);
+        writeToConfiguration(builder, HuamiService.COMMAND_REQUEST_ALARMS_WITH_TIMES);
         return this;
     }
 
