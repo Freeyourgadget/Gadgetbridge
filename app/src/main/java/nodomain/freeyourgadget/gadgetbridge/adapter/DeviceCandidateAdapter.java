@@ -18,6 +18,7 @@ package nodomain.freeyourgadget.gadgetbridge.adapter;
 
 import android.bluetooth.BluetoothDevice;
 import android.content.Context;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,6 +26,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
@@ -65,27 +67,24 @@ public class DeviceCandidateAdapter extends ArrayAdapter<GBDeviceCandidate> {
         deviceAddressLabel.setText(device.getMacAddress());
         deviceImageView.setImageResource(device.getDeviceType().getIcon());
 
-        String status = "";
+        final List<String> statusLines = new ArrayList<>();
         if (device.getDevice().getBondState() == BluetoothDevice.BOND_BONDED) {
-            status += getContext().getString(R.string.device_is_currently_bonded);
+            statusLines.add(getContext().getString(R.string.device_is_currently_bonded));
             if (!GBApplication.getPrefs().getBoolean("ignore_bonded_devices", true)) { // This could be passed to the constructor instead
                 deviceImageView.setImageResource(device.getDeviceType().getDisabledIcon());
             }
         }
 
         if (!device.getDeviceType().isSupported()) {
-            status += " UNSUPPORTED";
+            statusLines.add(getContext().getString(R.string.device_unsupported));
         }
 
         DeviceCoordinator coordinator = DeviceHelper.getInstance().getCoordinator(device);
         if (coordinator.getBondingStyle() == DeviceCoordinator.BONDING_STYLE_REQUIRE_KEY) {
-            if (device.getDevice().getBondState() == BluetoothDevice.BOND_BONDED) {
-                status += "\n";
-            }
-            status += getContext().getString(R.string.device_requires_key);
+            statusLines.add(getContext().getString(R.string.device_requires_key));
         }
 
-        deviceStatus.setText(status);
+        deviceStatus.setText(TextUtils.join("\n", statusLines));
         return view;
     }
 

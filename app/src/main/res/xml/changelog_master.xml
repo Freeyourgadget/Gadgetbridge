@@ -1,5 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
+    <release version="next" versioncode="209">
+        <change>Sony WH-1000XM4: Initial Support</change>
+        <change>Sony WH-1000XM3: Disable equalizer, surround and sound position while in SBC codec</change>
+        <change>Improve Sony Headphones initialization on connection</change>
+        <change>Fixed accidentally disabled time synchronization and pairing of new Casio GBX/GBD-series watches</change>
+        <change>Fossil HR: improved Device Applications List handling. Added ability to change activity recognition settings on the watch</change>
+        <change>Fossil HR: Make width of custom widget configurable. Disable non-configurable buttons preferences</change>
+        <change>Add Support for Bip U series China Variant</change>
+        <change>Add icon for VESC devices</change>
+        <change>Add commit id into About screen</change>
+        <change>Make debug activity notification test to persist text while switching apps</change>
+        <change>Add Portuguese to the list of language options</change>
+        <change>Update configuration button icon in app notification settings</change>
+    </release>
     <release version="0.64.0" versioncode="208">
         <change>Initial support for VESC NRF/HM10 devices</change>
         <change>Initial support vor Bose QC35</change>

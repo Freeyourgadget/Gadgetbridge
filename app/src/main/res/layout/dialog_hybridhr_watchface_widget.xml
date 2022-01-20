@@ -77,6 +77,23 @@
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/watchface_widget_size_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/watchface_dialog_widget_width" />
+        <EditText
+            android:id="@+id/watchface_widget_width"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="number"
+            android:text="76"/>
+        </LinearLayout>
+
+    <LinearLayout
         android:id="@+id/watchface_widget_timezone_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -104,7 +121,8 @@
             android:id="@+id/watchface_widget_update_timeout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="number"/>
+            android:inputType="number"
+            android:text="60"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

@@ -1,4 +1,4 @@
-/*  Copyright (C) 2021 José Rebelo
+/*  Copyright (C) 2022 Andreas Shimokawa
 
     This file is part of Gadgetbridge.
 
@@ -14,33 +14,20 @@
 
     You should have received a copy of the GNU Affero General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
-package nodomain.freeyourgadget.gadgetbridge.service.devices.sony.headphones.protocol.impl.v1.params;
+package nodomain.freeyourgadget.gadgetbridge.service.devices.huami.amazfitpop;
 
-public enum AudioCodec {
-    UNKNOWN(0x00),
-    SBC(0x01),
-    AAC(0x02),
-    LDAC(0x10),
-    APTX(0x20),
-    APTX_HD(0x21);
+import android.content.Context;
+import android.net.Uri;
 
-    private final byte code;
+import java.io.IOException;
 
-    AudioCodec(final int code) {
-        this.code = (byte) code;
-    }
+import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiFWHelper;
+import nodomain.freeyourgadget.gadgetbridge.devices.huami.amazfitpop.AmazfitPopFWHelper;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.amazfitbipu.AmazfitBipUSupport;
 
-    public byte getCode() {
-        return this.code;
-    }
-
-    public static AudioCodec fromCode(final byte code) {
-        for (final AudioCodec audioCodec : values()) {
-            if (audioCodec.code == code) {
-                return audioCodec;
-            }
-        }
-
-        return null;
+public class AmazfitPopSupport extends AmazfitBipUSupport {
+    @Override
+    public HuamiFWHelper createFWHelper(Uri uri, Context context) throws IOException {
+        return new AmazfitPopFWHelper(uri, context);
     }
 }

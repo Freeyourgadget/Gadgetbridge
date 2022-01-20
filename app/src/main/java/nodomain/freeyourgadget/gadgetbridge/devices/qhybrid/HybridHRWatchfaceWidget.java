@@ -31,7 +31,9 @@ public class HybridHRWatchfaceWidget {
     private String widgetType;
     private int posX;
     private int posY;
-    private int color = 0;
+    private int width;
+    private int height;
+    private int color;
     private String timezone;
     private int updateTimeout = -1;
     private boolean timeoutHideText = true;
@@ -40,18 +42,20 @@ public class HybridHRWatchfaceWidget {
     public static int COLOR_WHITE = 0;
     public static int COLOR_BLACK = 1;
 
-    public HybridHRWatchfaceWidget(String widgetType, int posX, int posY, int color) {
+    public HybridHRWatchfaceWidget(String widgetType, int posX, int posY, int width, int height, int color) {
         this.widgetType = widgetType;
         this.posX = posX;
         this.posY = posY;
+        this.width = width;
+        this.height = height;
         this.color = color;
     }
-    public HybridHRWatchfaceWidget(String widgetType, int posX, int posY, int color, String timezone) {
-        this(widgetType, posX, posY, color);
+    public HybridHRWatchfaceWidget(String widgetType, int posX, int posY, int width, int height, int color, String timezone) {
+        this(widgetType, posX, posY, width, height, color);
         this.timezone = timezone;
     }
-    public HybridHRWatchfaceWidget(String widgetType, int posX, int posY, int color, int updateTimeout, boolean timeoutHideText, boolean timeoutShowCircle) {
-        this(widgetType, posX, posY, color);
+    public HybridHRWatchfaceWidget(String widgetType, int posX, int posY, int width, int height, int color, int updateTimeout, boolean timeoutHideText, boolean timeoutShowCircle) {
+        this(widgetType, posX, posY, width, height, color);
         this.updateTimeout = updateTimeout;
         this.timeoutHideText = timeoutHideText;
         this.timeoutShowCircle = timeoutShowCircle;
@@ -98,6 +102,20 @@ public class HybridHRWatchfaceWidget {
     }
     public void setPosY(int posY) {
         this.posY = posY;
+    }
+
+    public int getWidth() {
+        return width;
+    }
+    public int getHeight() {
+        return height;
+    }
+
+    public void setWidth(int width) {
+        this.width = width;
+    }
+    public void setHeight(int height) {
+        this.height = height;
     }
 
     public int getColor() {

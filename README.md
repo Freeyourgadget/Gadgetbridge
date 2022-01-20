@@ -48,6 +48,8 @@ vendor's servers.
     - Casio GB-5600B
     - Casio STB-1000
     - Casio GBX-100
+    - Casio GBD-100
+    - Casio GBD-200
 - [FitPro](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/FitPro)
 - Fossil
 	- [Hybrid HR](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Fossil-Hybrid-HR) [**\[!\]**](#special-pairing-procedures)
@@ -79,7 +81,7 @@ vendor's servers.
 - PineTime (InfiniTime Firmware)
 - Roidmi, Roidmi 3, Mojietu 3 (Bluetooth FM Transmitters)
 - [SMA](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/SMA) Q2 (SMA-Q2-OSS Firmware)
-- Sony WH-1000XM3, WF-SP800N
+- [Sony WH-1000XM3, WH-1000XM4, WF-SP800N](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Sony-Headphones)
 - Teclast H10, H30
 - TLW64
 - Vibratissimo (Experimental)

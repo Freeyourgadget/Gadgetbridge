@@ -3,7 +3,7 @@
 
     <PreferenceScreen
         android:icon="@drawable/ic_graphic_eq"
-        android:key="pref_key_equalizer"
+        android:key="pref_sony_equalizer"
         android:persistent="false"
         android:title="@string/pref_header_equalizer">
 

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <PreferenceCategory
+        android:key="pref_key_header_sony_device_info"
+        android:title="@string/pref_header_sony_device_info">
+
+        <EditTextPreference
+            android:defaultValue="\?"
+            android:enabled="false"
+            android:icon="@drawable/ic_music_note"
+            android:key="pref_sony_audio_codec"
+            android:shouldDisableView="false"
+            android:title="@string/audio_codec"
+            app:useSimpleSummaryProvider="true" />
+
+    </PreferenceCategory>
+</androidx.preference.PreferenceScreen>

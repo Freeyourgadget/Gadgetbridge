@@ -41,8 +41,7 @@ public class SonyHeadphonesIoThread extends BtClassicIoThread {
 
     private final SonyHeadphonesProtocol mProtocol;
 
-    // Track whether we got the first reply
-    private boolean firstReply = false;
+    // Track whether we got the first init reply
     private final Handler handler = new Handler();
     private int initRetries = 0;
 
@@ -53,7 +52,7 @@ public class SonyHeadphonesIoThread extends BtClassicIoThread {
     private final Runnable initSendRunnable = new Runnable() {
         public void run() {
             // If we still haven't got any reply, re-send the init
-            if (!firstReply) {
+            if (!mProtocol.hasProtocolImplementation()) {
                 if (initRetries++ < 2) {
                     LOG.warn("Init retry {}", initRetries);
 
@@ -102,8 +101,6 @@ public class SonyHeadphonesIoThread extends BtClassicIoThread {
 
             msgStream.write(incoming);
         } while (incoming[0] != Message.MESSAGE_TRAILER);
-
-        firstReply = true;
 
         LOG.trace("Raw message: {}", GB.hexdump(msgStream.toByteArray()));
 

@@ -424,6 +424,7 @@ public class CasioGBX100DeviceSupport extends CasioSupport implements SharedPref
 
     public void writeCurrentTime(TransactionBuilder builder) {
         byte[] arr = new byte[11];
+        arr[0] = CasioConstants.characteristicToByte.get("CASIO_CURRENT_TIME");
         byte[] tmp = prepareCurrentTime();
         System.arraycopy(tmp, 0, arr, 1, 10);
 

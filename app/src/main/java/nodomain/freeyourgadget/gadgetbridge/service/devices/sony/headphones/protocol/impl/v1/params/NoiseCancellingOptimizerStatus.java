@@ -16,17 +16,21 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.service.devices.sony.headphones.protocol.impl.v1.params;
 
-public enum AudioCodec {
-    UNKNOWN(0x00),
-    SBC(0x01),
-    AAC(0x02),
-    LDAC(0x10),
-    APTX(0x20),
-    APTX_HD(0x21);
+import android.content.Context;
+
+import java.util.Locale;
+
+public enum NoiseCancellingOptimizerStatus {
+    NOT_RUNNING(0x00),
+    WEARING_CONDITION(0x01),
+    ATMOSPHERIC_PRESSURE(0x02),
+    ANALYZING(0x10),
+    FINISHED(0x11),
+    ;
 
     private final byte code;
 
-    AudioCodec(final int code) {
+    NoiseCancellingOptimizerStatus(final int code) {
         this.code = (byte) code;
     }
 
@@ -34,13 +38,19 @@ public enum AudioCodec {
         return this.code;
     }
 
-    public static AudioCodec fromCode(final byte code) {
-        for (final AudioCodec audioCodec : values()) {
+    public static NoiseCancellingOptimizerStatus fromCode(final byte code) {
+        for (final NoiseCancellingOptimizerStatus audioCodec : values()) {
             if (audioCodec.code == code) {
                 return audioCodec;
             }
         }
 
         return null;
+    }
+
+    public String i18n(final Context context) {
+        final String stringName = String.format("sony_anc_optimizer_status_%s", name().toLowerCase(Locale.ROOT));
+        final int stringId = context.getResources().getIdentifier(stringName, "string", context.getPackageName());
+        return context.getString(stringId);
     }
 }

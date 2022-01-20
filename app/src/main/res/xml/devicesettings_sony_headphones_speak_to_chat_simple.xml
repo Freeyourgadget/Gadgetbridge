@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <SwitchPreference
+        android:defaultValue="false"
+        android:icon="@drawable/ic_voice"
+        android:key="pref_sony_speak_to_chat"
+        android:title="@string/sony_speak_to_chat" />
+
+</androidx.preference.PreferenceScreen>
