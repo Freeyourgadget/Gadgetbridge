@@ -1800,6 +1800,8 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
         }
     }
 
+    byte[] alarmConfigurationReassemblyBuffer;
+
     private void handleConfigurationInfo(byte[] value) {
         if (value == null || value.length < 4) {
             return;
@@ -1815,12 +1817,29 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
             } else {
                 LOG.warn("got configuration info we do not handle yet " + GB.hexdump(value, 3, -1));
             }
-        } else if (value[0] == ((byte) 0x80) && value[1] == 0x01 && value[2] == (byte) 0xc0 && value[3] == 0x00 &&
-                value[4] == 0x01 && value[5] == 0x00 && value[6] == 0x00 && value[7] == 0x00 && value[8] == 0x01) {
-            LOG.info("got full alarm configuration."); // TODO: with low mtu they come in chunks
-            byte[] alarmData = new byte[value.length - 9];
-            System.arraycopy(value, 9, alarmData, 0, alarmData.length);
-            decodeAndUpdateAlarmStatus(alarmData, true);
+        } else if (value[0] == ((byte) 0x80) && value[1] == 0x01) {
+            boolean done = false;
+            if (value[2] == 0x00 || value[2] == (byte) 0xc0 && (value[4] == 0x01 && value[5] == 0x00 && value[6] == 0x00 && value[7] == 0x00 && value[8] == 0x01)) { // first chunk or complete data
+                alarmConfigurationReassemblyBuffer = new byte[value.length - 8];
+                System.arraycopy(value, 8, alarmConfigurationReassemblyBuffer, 0, alarmConfigurationReassemblyBuffer.length);
+                if (value[2] == (byte) 0xc0) {
+                    done = true;
+                }
+            } else if (alarmConfigurationReassemblyBuffer != null && (value[2] == 0x40 || value[2] == (byte) 0x80)) {
+                byte[] payload = new byte[value.length - 4];
+                System.arraycopy(value, 4, payload, 0, payload.length);
+                alarmConfigurationReassemblyBuffer = ArrayUtils.addAll(alarmConfigurationReassemblyBuffer, payload);
+                if (value[2] == (byte) 0x80) {
+                    done = true;
+                }
+            }
+            if (!done) {
+                LOG.info("got chunk of alarm configuration data");
+            } else {
+                LOG.info("got full/reassembled configuration data");
+                decodeAndUpdateAlarmStatus(alarmConfigurationReassemblyBuffer, true);
+                alarmConfigurationReassemblyBuffer = null;
+            }
         } else {
             LOG.warn("unknown response got from configuration request " + GB.hexdump(value, 0, -1));
         }
@@ -1840,7 +1859,7 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
         int nr_alarms;
         byte enable_flag;
         if (withTimes) {
-            nr_alarms = response.length / 4;
+            nr_alarms = (response.length - 1) / 4;
             enable_flag = (byte) 0x80;
         } else {
             nr_alarms = response[8];
@@ -1849,7 +1868,7 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
         for (int i = 0; i < nr_alarms; i++) {
             int offset;
             if (withTimes) {
-                offset = i * 4;
+                offset = i * 4 + 1;
             } else {
                 offset = 9 + i;
             }
@@ -2239,6 +2258,7 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
 
     @Override
     public void onTestNewFunction() {
+        //requestMTU(23);
         /*
         try {
             boolean test = false;
@@ -3179,7 +3199,7 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
 
     private HuamiSupport requestAlarms(TransactionBuilder builder) {
         LOG.info("Requesting alarms");
-        //FIXME: on older devices only the first one works, and on newer only the last is sufficiant
+        //FIXME: on older devices only the first one works, and on newer only the last is sufficient
         writeToConfiguration(builder, HuamiService.COMMAND_REQUEST_ALARMS);
         writeToConfiguration(builder, HuamiService.COMMAND_REQUEST_ALARMS_WITH_TIMES);
         return this;
