@@ -1586,4 +1586,6 @@
     <string name="sony_anc_optimizer_status_analyzing">Analysiere…</string>
     <string name="sony_anc_optimize_description">Klicke, um die Optimierung der Geräuschunterdrückung zu starten.</string>
     <string name="sony_anc_optimize_confirmation_description">Verwende den Kopfhörer wie gewohnt. Wenn sich die Tragebedingungen oder der Luftdruck ändern, führe den Optimierer erneut aus.</string>
+    <string name="devicetype_amazfit_pop">Amazfit Pop</string>
+    <string name="devicetype_amazfit_pop_pro">Amazfit Pop Pro</string>
 </resources>
