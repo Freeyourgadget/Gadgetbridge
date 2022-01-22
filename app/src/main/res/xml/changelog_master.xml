@@ -1,13 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
-    <release version="next" versioncode="209">
+    <release version="0.65.0" versioncode="209">
+        <change>Amazfit Pop/Pro: Initial Support (probably the same as Bip U but has a different firmware)</change>
         <change>Sony WH-1000XM4: Initial Support</change>
         <change>Sony WH-1000XM3: Disable equalizer, surround and sound position while in SBC codec</change>
-        <change>Improve Sony Headphones initialization on connection</change>
-        <change>Fixed accidentally disabled time synchronization and pairing of new Casio GBX/GBD-series watches</change>
-        <change>Fossil HR: improved Device Applications List handling. Added ability to change activity recognition settings on the watch</change>
-        <change>Fossil HR: Make width of custom widget configurable. Disable non-configurable buttons preferences</change>
-        <change>Add Support for Bip U series China Variant</change>
+        <change>Sony Headphones: Improve initialization on connection</change>
+        <change>Sony Headphones: Implement Noise Cancelling Optimizer</change>
+        <change>Casio: Fix accidentally disabled time synchronization and pairing of new Casio GBX/GBD-series watches</change>
+        <change>Fossil Hybrid HR: Improve Device Applications List handling</change>
+        <change>Fossil Hybrid HR: Added ability to change activity recognition settings on the watch</change>
+        <change>Fossil Hybrid HR: Make width of custom widget configurable</change>
+        <change>Fossil Hybrid HR: Disable non-configurable buttons preferences</change>
+        <change>Amazfip Bip U: Read alarm from the watch on connect and update in Gadgetbrige when changing alarms on the watch (might work on other Huami devices)</change>
         <change>Add icon for VESC devices</change>
         <change>Add commit id into About screen</change>
         <change>Make debug activity notification test to persist text while switching apps</change>
