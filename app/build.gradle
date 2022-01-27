@@ -14,6 +14,18 @@ tasks.withType(Test) {
     systemProperty "logback.configurationFile", System.getProperty("user.dir", null) + "/app/src/main/assets/logback.xml"
     systemProperty "GB_LOGFILES_DIR", Files.createTempDirectory("gblog").toString()
 }
+def getVersionCode = { ->
+    try {
+        def stdout = new ByteArrayOutputStream()
+        exec {
+            commandLine 'git', 'rev-list', 'HEAD', '--count'
+            standardOutput = stdout
+        }
+        return Integer.valueOf(stdout.toString().trim())
+    } catch (ignored) {
+        return null
+    }
+}
 
 def getGitHashShort = { ->
     try {
@@ -49,12 +61,65 @@ android {
         vectorDrawables.useSupportLibrary = true
         multiDexEnabled true
         buildConfigField "String", "GIT_HASH_SHORT", "\"${getGitHashShort()}\""
+        resValue "string", "pebble_content_provider", "com.getpebble.android.provider"
+    }
+    signingConfigs {
+        nightly {
+            if (System.getProperty("nightly_store_file") != null) {
+                storeFile file(System.getProperty("nightly_store_file"))
+                storePassword System.getProperty("nightly_store_password")
+                keyAlias System.getProperty("nightly_key_alias")
+                keyPassword System.getProperty("nightly_key_password")
+            }
+        }
     }
     buildTypes {
         release {
             minifyEnabled true
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
+            resValue "string", "pebble_content_provider", "com.getpebble.android.provider"
         }
+
+        nightly {
+            applicationIdSuffix ".nightly"
+            versionNameSuffix "-${getGitHashShort}"
+            minifyEnabled true
+            if (System.getProperty("nightly_store_file") != null) {
+                signingConfig signingConfigs.nightly
+            } else {
+                signingConfig signingConfigs.debug
+            }
+            proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
+            resValue "string", "pebble_content_provider", "com.getpebble.android.provider"
+            debuggable true
+        }
+        nopebble {
+            applicationIdSuffix ".nightly_nopebble"
+            versionNameSuffix "-${getGitHashShort}"
+            minifyEnabled true
+            if (System.getProperty("nightly_store_file") != null) {
+                signingConfig signingConfigs.nightly
+            } else {
+                signingConfig signingConfigs.debug
+            }
+            proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
+            resValue "string", "pebble_content_provider", "com.getpebble.android.nopebble.provider"
+            debuggable true
+        }
+
+        applicationVariants.all { variant ->
+            variant.resValue "string", "applicationId", variant.applicationId
+
+            if (variant.buildType.name == 'nightly' || variant.buildType.name == 'nopebble') {
+                variant.outputs.all {
+                    setVersionCodeOverride(getVersionCode())
+                    //setVersionNameOverride(getGitHashShort())
+                    setVersionNameOverride(variant.versionName)
+                    outputFileName = "${applicationId}_${variant.versionName}.apk"
+                }
+            }
+        }
+
     }
 
     lintOptions {
