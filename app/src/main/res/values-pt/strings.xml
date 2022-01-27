@@ -1566,4 +1566,10 @@
     <string name="sony_speak_to_chat_timeout">Tempo limite</string>
     <string name="watchface_dialog_widget_width">Largura:</string>
     <string name="devicetype_sonyswr12">Sony SWR12</string>
+    <string name="unknown">Desconhecido</string>
+    <string name="start">Começar</string>
+    <string name="sony_anc_optimize_title">Otimizar</string>
+    <string name="pref_header_sony_anc_optimizer">Optimizador de cancelamento de ruído</string>
+    <string name="devicetype_amazfit_pop">Amazfit Pop</string>
+    <string name="devicetype_amazfit_pop_pro">Amazfit Pop Pro</string>
 </resources>
