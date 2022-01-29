@@ -155,7 +155,7 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
 
         if (">Uncaught ReferenceError: \"GB\" is not defined".equals(line))
           GB.toast(getContext(), "Gadgetbridge plugin not installed on Bangle.js", Toast.LENGTH_LONG, GB.ERROR);
-        else if (line.charAt(0)=='{') {
+        else if (line.length() > 0 && line.charAt(0)=='{') {
             // JSON - we hope!
             try {
                 JSONObject json = new JSONObject(line);
