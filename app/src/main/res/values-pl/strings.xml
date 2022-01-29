@@ -1573,4 +1573,12 @@
     <string name="pref_activity_recognition_mode_auto">automatyczny</string>
     <string name="menuitem_menu">Menu</string>
     <string name="devicetype_domyos_t540">Domyos T540</string>
+    <string name="unknown">Nieznany</string>
+    <string name="devicetype_amazfit_pop_pro">Amazfit Pop Pro</string>
+    <string name="start">Start</string>
+    <string name="devicetype_amazfit_pop">Amazfit Pop</string>
+    <string name="audio_codec">Kodek audio</string>
+    <string name="pref_header_sony_device_info">Informacje o urządzeniu</string>
+    <string name="pref_anc_optimizer_state_pressure">Ciśnienie atmosferyczne</string>
+    <string name="sony_anc_optimizer_status_analyzing">Analizowanie…</string>
 </resources>
