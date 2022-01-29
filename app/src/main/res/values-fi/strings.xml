@@ -468,4 +468,10 @@
     <string name="zetime_prefs_inactivity_fr">Perjantai</string>
     <string name="pref_title_location_latitude">Leveysaste</string>
     <string name="pref_title_location_longitude">Pituusaste</string>
+    <string name="distance_format_feet">###ft</string>
+    <string name="distance_format_kilometers">###.#km</string>
+    <string name="distance_format_meters">###m</string>
+    <string name="devicetype_vesc">VESC</string>
+    <string name="watchface_dialog_widget_width">Leveys:</string>
+    <string name="watchface_dialog_widget_timezone">Aikavyöhyke:</string>
 </resources>
