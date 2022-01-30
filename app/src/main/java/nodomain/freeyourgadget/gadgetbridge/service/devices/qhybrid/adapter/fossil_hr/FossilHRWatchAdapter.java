@@ -1565,6 +1565,72 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
                     getContext().sendBroadcast(menuIntent);
                 } else if (request.has("master._.config.app_status")) {
                     queueWrite(new ConfirmAppStatusRequest(requestId, this));
+                } else if (request.has("workoutApp")) {
+                    JSONObject workoutRequest = request.getJSONObject("workoutApp");
+                    String workoutState = workoutRequest.optString("state");
+                    String workoutType = workoutRequest.optString("type");
+                    LOG.info("Got workoutApp request, state=" + workoutState + ", type=" + workoutType);
+                    JSONObject workoutResponse = new JSONObject();
+                    if (workoutRequest.optString("state").equals("started") && workoutRequest.optString("gps").equals("on")) {
+                        int activityType = workoutRequest.optInt("activity", -1);
+                        LOG.info("Workout started, activity type is " + Integer.toString(activityType));
+                        workoutResponse.put("workoutApp._.config.response", new JSONObject()
+                            .put("message", "")
+                            .put("type", "success")
+                        );
+                        Intent intent = new Intent();
+                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        intent.setClassName("de.dennisguse.opentracks.debug", "de.dennisguse.opentracks.publicapi.StartRecording");
+                        getContext().startActivity(intent);
+                    }
+                    if (workoutRequest.optString("type").equals("req_distance")) {
+                        workoutResponse.put("workoutApp._.config.gps", new JSONObject()
+                            .put("distance", -2)
+                            .put("duration", 10)
+                        );
+                    }
+                    if (workoutRequest.optString("state").equals("paused")) {
+                        LOG.info("Workout paused");
+                        workoutResponse.put("workoutApp._.config.response", new JSONObject()
+                                .put("message", "")
+                                .put("type", "success")
+                        );
+                        // Pause OpenTracks recording?
+                    }
+                    if (workoutRequest.optString("state").equals("resumed")) {
+                        LOG.info("Workout resumed");
+                        workoutResponse.put("workoutApp._.config.response", new JSONObject()
+                                .put("message", "")
+                                .put("type", "success")
+                        );
+                        // Resume OpenTracks recording?
+                    }
+                    if (workoutRequest.optString("state").equals("end")) {
+                        LOG.info("Workout stopped");
+                        workoutResponse.put("workoutApp._.config.response", new JSONObject()
+                            .put("message", "")
+                            .put("type", "success")
+                        );
+                        Intent intent = new Intent();
+                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        intent.setClassName("de.dennisguse.opentracks.debug", "de.dennisguse.opentracks.publicapi.StopRecording");
+                        getContext().startActivity(intent);
+                    }
+                    if (workoutRequest.optString("type").equals("req_route")) {
+                        // Send the traveled route as an RLE encoded image (example name: 58270405)
+                        // Send back a JSON packet, example:
+                        // {"res":{"id":21,"set":{"workoutApp._.config.images":{"session_id":1213693133,"route":{"name":"58270405"},"layout_type":"vertical"}}}}
+                        // or
+                        // {"res":{"id":34,"set":{"workoutApp._.config.images":{"session_id":504875,"route":{"name":"211631088"},"layout_type":"horizontal"}}}}
+                    }
+                    if (workoutResponse.length() > 0) {
+                        JSONObject responseObject = new JSONObject()
+                            .put("res", new JSONObject()
+                                .put("id", requestId)
+                                .put("set", workoutResponse)
+                            );
+                        queueWrite(new JsonPutRequest(responseObject, this));
+                    }
                 } else {
                     LOG.warn("Unhandled request from watch: " + requestJson.toString());
                 }
