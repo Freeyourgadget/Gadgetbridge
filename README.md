@@ -50,6 +50,7 @@ vendor's servers.
     - Casio GBX-100
     - Casio GBD-100
     - Casio GBD-200
+    - Casio GBD-H1000
 - [FitPro](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/FitPro)
 - Fossil
 	- [Hybrid HR](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Fossil-Hybrid-HR) [**\[!\]**](#special-pairing-procedures)
