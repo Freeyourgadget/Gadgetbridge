@@ -50,6 +50,7 @@ import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHelper;
+import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventBatteryInfo;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventCallControl;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventFindPhone;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventMusicControl;
@@ -99,6 +100,7 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
 
         gbDevice.setState(GBDevice.State.INITIALIZING);
         gbDevice.sendDeviceUpdateIntent(getContext());
+        gbDevice.setBatteryThresholdPercent((short) 30);
 
         rxCharacteristic = getCharacteristic(BangleJSConstants.UUID_CHARACTERISTIC_NORDIC_UART_RX);
         txCharacteristic = getCharacteristic(BangleJSConstants.UUID_CHARACTERISTIC_NORDIC_UART_TX);
@@ -184,23 +186,17 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
                     getDevice().setFirmwareVersion2(json.getString("fw2"));
             } break;
             case "status": {
-                Context context = getContext();
+                GBDeviceEventBatteryInfo batteryInfo = new GBDeviceEventBatteryInfo();
                 if (json.has("bat")) {
                     int b = json.getInt("bat");
-                    if (b<0) b=0;
-                    if (b>100) b=100;
-                    gbDevice.setBatteryLevel((short)b);
-                    if (b < 30) {
-                        gbDevice.setBatteryState(BatteryState.BATTERY_LOW);
-                        GB.updateBatteryNotification(context.getString(R.string.notif_battery_low_percent, gbDevice.getName(), String.valueOf(b)), "", context);
-                    } else {
-                        gbDevice.setBatteryState(BatteryState.BATTERY_NORMAL);
-                        GB.removeBatteryNotification(context);
-                    }
+                    if (b < 0) b = 0;
+                    if (b > 100) b = 100;
+                    batteryInfo.level = b;
+                    batteryInfo.state = BatteryState.BATTERY_NORMAL;
                 }
                 if (json.has("volt"))
-                    gbDevice.setBatteryVoltage((float)json.getDouble("volt"));
-                gbDevice.sendDeviceUpdateIntent(context);
+                    batteryInfo.voltage = (float) json.getDouble("volt");
+                handleGBDeviceEvent(batteryInfo);
             } break;
             case "findPhone": {
                 boolean start = json.has("n") && json.getBoolean("n");
