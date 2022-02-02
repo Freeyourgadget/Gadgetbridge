@@ -229,10 +229,10 @@ public class HuamiService {
 
     /**
      * Endpoints for 2021 chunked protocol
-     *
      */
-    public static final short CHUNKED2021_ENDPOINT_AUTH = 0x82;
-    public static final short CHUNKED2021_ENDPOINT_COMPAT = 0x90;
+    public static final short CHUNKED2021_ENDPOINT_AUTH = 0x0082;
+    public static final short CHUNKED2021_ENDPOINT_COMPAT = 0x0090;
+    public static final short CHUNKED2021_ENDPOINT_SMSREPLY = 0x0013;
 
     static {
         MIBAND_DEBUG = new HashMap<>();

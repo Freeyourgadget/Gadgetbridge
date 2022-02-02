@@ -18,4 +18,11 @@ public class CryptoUtils {
         ecipher.init(Cipher.ENCRYPT_MODE, newKey);
         return ecipher.doFinal(value);
     }
+
+    public static byte[] decryptAES(byte[] value, byte[] secretKey) throws InvalidKeyException, NoSuchPaddingException, NoSuchAlgorithmException, BadPaddingException, IllegalBlockSizeException {
+        @SuppressLint("GetInstance") Cipher ecipher = Cipher.getInstance("AES/ECB/NoPadding");
+        SecretKeySpec newKey = new SecretKeySpec(secretKey, "AES");
+        ecipher.init(Cipher.DECRYPT_MODE, newKey);
+        return ecipher.doFinal(value);
+    }
 }
