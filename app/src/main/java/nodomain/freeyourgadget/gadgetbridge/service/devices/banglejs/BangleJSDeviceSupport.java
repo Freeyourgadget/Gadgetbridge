@@ -194,6 +194,9 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
                     batteryInfo.level = b;
                     batteryInfo.state = BatteryState.BATTERY_NORMAL;
                 }
+                if (json.has("chg") && json.getInt("chg") == 1) {
+                    batteryInfo.state = BatteryState.BATTERY_CHARGING;
+                }
                 if (json.has("volt"))
                     batteryInfo.voltage = (float) json.getDouble("volt");
                 handleGBDeviceEvent(batteryInfo);
