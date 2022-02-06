@@ -86,6 +86,7 @@ import nodomain.freeyourgadget.gadgetbridge.devices.qhybrid.HybridHRActivitySamp
 import nodomain.freeyourgadget.gadgetbridge.devices.qhybrid.NotificationHRConfiguration;
 import nodomain.freeyourgadget.gadgetbridge.entities.HybridHRActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.externalevents.NotificationListener;
+import nodomain.freeyourgadget.gadgetbridge.externalevents.OpenTracksController;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceApp;
 import nodomain.freeyourgadget.gadgetbridge.model.CallSpec;
@@ -1578,10 +1579,7 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
                             .put("message", "")
                             .put("type", "success")
                         );
-                        Intent intent = new Intent();
-                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                        intent.setClassName("de.dennisguse.opentracks.debug", "de.dennisguse.opentracks.publicapi.StartRecording");
-                        getContext().startActivity(intent);
+                        OpenTracksController.startRecording(getContext());
                     }
                     if (workoutRequest.optString("type").equals("req_distance")) {
                         workoutResponse.put("workoutApp._.config.gps", new JSONObject()
@@ -1611,10 +1609,7 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
                             .put("message", "")
                             .put("type", "success")
                         );
-                        Intent intent = new Intent();
-                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                        intent.setClassName("de.dennisguse.opentracks.debug", "de.dennisguse.opentracks.publicapi.StopRecording");
-                        getContext().startActivity(intent);
+                        OpenTracksController.stopRecording(getContext());
                     }
                     if (workoutRequest.optString("type").equals("req_route")) {
                         // Send the traveled route as an RLE encoded image (example name: 58270405)
