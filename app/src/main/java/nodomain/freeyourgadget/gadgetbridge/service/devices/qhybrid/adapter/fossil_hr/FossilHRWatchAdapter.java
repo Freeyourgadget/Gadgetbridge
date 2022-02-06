@@ -86,7 +86,6 @@ import nodomain.freeyourgadget.gadgetbridge.devices.qhybrid.HybridHRActivitySamp
 import nodomain.freeyourgadget.gadgetbridge.devices.qhybrid.NotificationHRConfiguration;
 import nodomain.freeyourgadget.gadgetbridge.entities.HybridHRActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.externalevents.NotificationListener;
-import nodomain.freeyourgadget.gadgetbridge.externalevents.OpenTracksController;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceApp;
 import nodomain.freeyourgadget.gadgetbridge.model.CallSpec;
@@ -145,6 +144,7 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fos
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.widget.CustomWidgetElement;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.widget.Widget;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.widget.WidgetsPutRequest;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.workout.WorkoutRequestHandler;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.misfit.FactoryResetRequest;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
@@ -1571,53 +1571,7 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
                     String workoutState = workoutRequest.optString("state");
                     String workoutType = workoutRequest.optString("type");
                     LOG.info("Got workoutApp request, state=" + workoutState + ", type=" + workoutType);
-                    JSONObject workoutResponse = new JSONObject();
-                    if (workoutRequest.optString("state").equals("started") && workoutRequest.optString("gps").equals("on")) {
-                        int activityType = workoutRequest.optInt("activity", -1);
-                        LOG.info("Workout started, activity type is " + Integer.toString(activityType));
-                        workoutResponse.put("workoutApp._.config.response", new JSONObject()
-                            .put("message", "")
-                            .put("type", "success")
-                        );
-                        OpenTracksController.startRecording(getContext());
-                    }
-                    if (workoutRequest.optString("type").equals("req_distance")) {
-                        workoutResponse.put("workoutApp._.config.gps", new JSONObject()
-                            .put("distance", -2)
-                            .put("duration", 10)
-                        );
-                    }
-                    if (workoutRequest.optString("state").equals("paused")) {
-                        LOG.info("Workout paused");
-                        workoutResponse.put("workoutApp._.config.response", new JSONObject()
-                                .put("message", "")
-                                .put("type", "success")
-                        );
-                        // Pause OpenTracks recording?
-                    }
-                    if (workoutRequest.optString("state").equals("resumed")) {
-                        LOG.info("Workout resumed");
-                        workoutResponse.put("workoutApp._.config.response", new JSONObject()
-                                .put("message", "")
-                                .put("type", "success")
-                        );
-                        // Resume OpenTracks recording?
-                    }
-                    if (workoutRequest.optString("state").equals("end")) {
-                        LOG.info("Workout stopped");
-                        workoutResponse.put("workoutApp._.config.response", new JSONObject()
-                            .put("message", "")
-                            .put("type", "success")
-                        );
-                        OpenTracksController.stopRecording(getContext());
-                    }
-                    if (workoutRequest.optString("type").equals("req_route")) {
-                        // Send the traveled route as an RLE encoded image (example name: 58270405)
-                        // Send back a JSON packet, example:
-                        // {"res":{"id":21,"set":{"workoutApp._.config.images":{"session_id":1213693133,"route":{"name":"58270405"},"layout_type":"vertical"}}}}
-                        // or
-                        // {"res":{"id":34,"set":{"workoutApp._.config.images":{"session_id":504875,"route":{"name":"211631088"},"layout_type":"horizontal"}}}}
-                    }
+                    JSONObject workoutResponse = WorkoutRequestHandler.handleRequest(getContext(), requestId, workoutRequest);
                     if (workoutResponse.length() > 0) {
                         JSONObject responseObject = new JSONObject()
                             .put("res", new JSONObject()
