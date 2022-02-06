@@ -1587,4 +1587,5 @@
     <string name="sony_anc_optimizer_status_finished">Завершення…</string>
     <string name="devicetype_amazfit_pop">Amazfit Pop</string>
     <string name="devicetype_amazfit_pop_pro">Amazfit Pop Pro</string>
+    <string name="menuitem_nothing">Порожньо</string>
 </resources>
