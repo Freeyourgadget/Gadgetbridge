@@ -5,9 +5,9 @@ pipeline:
       - pwd #bump
       - ./gradlew assembleDebug --stacktrace
 
+    when:
+      repo: Freeyourgadget/Gadgetbridge
+      branch: master
 #this doesn't work yet:
 #https://github.com/woodpecker-ci/woodpecker/issues/687
-#when:
-  #repo: Freeyourgadget/Gadgetbridge
-  #branch: master
 

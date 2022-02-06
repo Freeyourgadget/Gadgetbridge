@@ -37,6 +37,7 @@ import java.util.UUID;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
+import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventBatteryInfo;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventCallControl;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventFindPhone;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventMusicControl;
@@ -152,23 +153,17 @@ public class WaspOSDeviceSupport extends AbstractBTLEDeviceSupport {
                 GB.toast(getContext(), "Bangle.js: " + json.getString("msg"), Toast.LENGTH_LONG, GB.ERROR);
                 break;
             case "status": {
-                Context context = getContext();
+                GBDeviceEventBatteryInfo batteryInfo = new GBDeviceEventBatteryInfo();
                 if (json.has("bat")) {
                     int b = json.getInt("bat");
-                    if (b<0) b=0;
-                    if (b>100) b=100;
-                    gbDevice.setBatteryLevel((short)b);
-                    if (b < 30) {
-                        gbDevice.setBatteryState(BatteryState.BATTERY_LOW);
-                        GB.updateBatteryNotification(context.getString(R.string.notif_battery_low_percent, gbDevice.getName(), String.valueOf(b)), "", context);
-                    } else {
-                        gbDevice.setBatteryState(BatteryState.BATTERY_NORMAL);
-                        GB.removeBatteryNotification(context);
-                    }
+                    if (b < 0) b = 0;
+                    if (b > 100) b = 100;
+                    batteryInfo.level = b;
+                    batteryInfo.state = BatteryState.BATTERY_NORMAL;
                 }
                 if (json.has("volt"))
-                    gbDevice.setBatteryVoltage((float)json.getDouble("volt"));
-                gbDevice.sendDeviceUpdateIntent(context);
+                    batteryInfo.voltage = (float) json.getDouble("volt");
+                handleGBDeviceEvent(batteryInfo);
             } break;
             case "findPhone": {
                 boolean start = json.has("n") && json.getBoolean("n");
@@ -493,6 +488,7 @@ public class WaspOSDeviceSupport extends AbstractBTLEDeviceSupport {
             o.put("t", "weather");
             o.put("temp", weatherSpec.currentTemp);
             o.put("hum", weatherSpec.currentHumidity);
+            o.put("code", weatherSpec.currentConditionCode);
             o.put("txt", weatherSpec.currentCondition);
             o.put("wind", weatherSpec.windSpeed);
             o.put("loc", weatherSpec.location);

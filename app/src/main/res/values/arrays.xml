@@ -1687,6 +1687,7 @@
     </string-array>
 
     <string-array name="pref_hybridhr_buttonfunctions">
+        <item name="">@string/menuitem_nothing</item>
         <item name="notificationsPanelApp">@string/menuitem_notifications</item>
         <item name="weatherApp">@string/menuitem_weather</item>
         <item name="musicApp">@string/menuitem_music</item>
@@ -1697,6 +1698,7 @@
         <item name="workoutApp">@string/hr_appname_workout</item>
     </string-array>
     <string-array name="pref_hybridhr_buttonfunctions_values">
+        <item></item>
         <item>notificationsPanelApp</item>
         <item>weatherApp</item>
         <item>musicApp</item>

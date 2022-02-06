@@ -234,7 +234,8 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
     private boolean heartRateNotifyEnabled;
     private int mMTU = 23;
     protected int mActivitySampleSize = 4;
-    private boolean force2021Protocol = false;
+    protected boolean force2021Protocol = false;
+    private HuamiChunked2021Decoder huamiChunked2021Decoder;
 
     public HuamiSupport() {
         this(LOG);
@@ -266,8 +267,11 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
             heartRateNotifyEnabled = false;
             boolean authenticate = needsAuth && (cryptFlags == 0x00);
             needsAuth = false;
-            characteristicChunked2021Write = getCharacteristic(HuamiService.UUID_CHARACTERISTIC_CHUNKEDTRANSFER_2021_WRITE);
             characteristicChunked2021Read = getCharacteristic(HuamiService.UUID_CHARACTERISTIC_CHUNKEDTRANSFER_2021_READ);
+            if (characteristicChunked2021Read != null) {
+                huamiChunked2021Decoder = new HuamiChunked2021Decoder(this);
+            }
+            characteristicChunked2021Write = getCharacteristic(HuamiService.UUID_CHARACTERISTIC_CHUNKEDTRANSFER_2021_WRITE);
             if (characteristicChunked2021Write != null && GBApplication.getDeviceSpecificSharedPrefs(gbDevice.getAddress()).getBoolean("force_new_protocol", false)) {
                 force2021Protocol = true;
                 new InitOperation2021(authenticate, authFlags, cryptFlags, this, builder).perform();
@@ -386,6 +390,9 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
         builder.notify(getCharacteristic(HuamiService.UUID_CHARACTERISTIC_AUDIO), enable);
         builder.notify(getCharacteristic(HuamiService.UUID_CHARACTERISTIC_AUDIODATA), enable);
         builder.notify(getCharacteristic(HuamiService.UUID_CHARACTERISTIC_DEVICEEVENT), enable);
+        if (characteristicChunked2021Read != null) {
+            builder.notify(characteristicChunked2021Read, enable);
+        }
 
         return this;
     }
@@ -1007,18 +1014,23 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
         if (cannedMessagesSpec.type == CannedMessagesSpec.TYPE_REJECTEDCALLS) {
             try {
                 TransactionBuilder builder = performInitialized("Set canned messages");
-
                 int handle = 0x12345678;
+
+                for (int i = 0; i < 16; i++) {
+                    byte[] delete_command = new byte[]{0x07, (byte) (handle & 0xff), (byte) ((handle & 0xff00) >> 8), (byte) ((handle & 0xff0000) >> 16), (byte) ((handle & 0xff000000) >> 24)};
+                    writeToChunked2021(builder, (short) 0x0013, getNextHandle(), delete_command, force2021Protocol, false);
+                    handle++;
+                }
+                handle = 0x12345678;
                 for (String cannedMessage : cannedMessagesSpec.cannedMessages) {
-                    int length = cannedMessage.getBytes().length + 5;
+                    int length = cannedMessage.getBytes().length + 6;
                     ByteBuffer buf = ByteBuffer.allocate(length);
                     buf.order(ByteOrder.LITTLE_ENDIAN);
-
                     buf.put((byte) 0x05); // create
                     buf.putInt(handle++);
                     buf.put(cannedMessage.getBytes());
-
-                    writeToChunked2021(builder, (short) 0x0013, getNextHandle(), buf.array(), false, false);
+                    buf.put((byte) 0x00);
+                    writeToChunked2021(builder, (short) 0x0013, getNextHandle(), buf.array(), force2021Protocol, false);
                 }
                 builder.queue(getQueue());
             } catch (IOException ex) {
@@ -1706,6 +1718,12 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
         } else if (HuamiService.UUID_CHARACTERISTIC_3_CONFIGURATION.equals(characteristicUUID)) {
             handleConfigurationInfo(characteristic.getValue());
             return true;
+        } else if (HuamiService.UUID_CHARACTERISTIC_CHUNKEDTRANSFER_2021_READ.equals(characteristicUUID) && huamiChunked2021Decoder != null) {
+            byte[] decoded_data = huamiChunked2021Decoder.decode(characteristic.getValue());
+            if (decoded_data != null) {
+                handleConfigurationInfo(decoded_data);
+            }
+            return true;
         } else {
             LOG.info("Unhandled characteristic changed: " + characteristicUUID);
             logMessageContent(characteristic.getValue());
@@ -1800,6 +1818,8 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
         }
     }
 
+    byte[] alarmConfigurationReassemblyBuffer;
+
     private void handleConfigurationInfo(byte[] value) {
         if (value == null || value.length < 4) {
             return;
@@ -1815,12 +1835,29 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
             } else {
                 LOG.warn("got configuration info we do not handle yet " + GB.hexdump(value, 3, -1));
             }
-        } else if (value[0] == ((byte) 0x80) && value[1] == 0x01 && value[2] == (byte) 0xc0 && value[3] == 0x00 &&
-                value[4] == 0x01 && value[5] == 0x00 && value[6] == 0x00 && value[7] == 0x00 && value[8] == 0x01) {
-            LOG.info("got full alarm configuration."); // TODO: with low mtu they come in chunks
-            byte[] alarmData = new byte[value.length - 9];
-            System.arraycopy(value, 9, alarmData, 0, alarmData.length);
-            decodeAndUpdateAlarmStatus(alarmData, true);
+        } else if (value[0] == ((byte) 0x80) && value[1] == 0x01) {
+            boolean done = false;
+            if (value[2] == 0x00 || value[2] == (byte) 0xc0 && (value[4] == 0x01 && value[5] == 0x00 && value[6] == 0x00 && value[7] == 0x00 && value[8] == 0x01)) { // first chunk or complete data
+                alarmConfigurationReassemblyBuffer = new byte[value.length - 8];
+                System.arraycopy(value, 8, alarmConfigurationReassemblyBuffer, 0, alarmConfigurationReassemblyBuffer.length);
+                if (value[2] == (byte) 0xc0) {
+                    done = true;
+                }
+            } else if (alarmConfigurationReassemblyBuffer != null && (value[2] == 0x40 || value[2] == (byte) 0x80)) {
+                byte[] payload = new byte[value.length - 4];
+                System.arraycopy(value, 4, payload, 0, payload.length);
+                alarmConfigurationReassemblyBuffer = ArrayUtils.addAll(alarmConfigurationReassemblyBuffer, payload);
+                if (value[2] == (byte) 0x80) {
+                    done = true;
+                }
+            }
+            if (!done) {
+                LOG.info("got chunk of alarm configuration data");
+            } else {
+                LOG.info("got full/reassembled configuration data");
+                decodeAndUpdateAlarmStatus(alarmConfigurationReassemblyBuffer, true);
+                alarmConfigurationReassemblyBuffer = null;
+            }
         } else {
             LOG.warn("unknown response got from configuration request " + GB.hexdump(value, 0, -1));
         }
@@ -1840,7 +1877,7 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
         int nr_alarms;
         byte enable_flag;
         if (withTimes) {
-            nr_alarms = response.length / 4;
+            nr_alarms = (response.length - 1) / 4;
             enable_flag = (byte) 0x80;
         } else {
             nr_alarms = response[8];
@@ -1849,7 +1886,7 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
         for (int i = 0; i < nr_alarms; i++) {
             int offset;
             if (withTimes) {
-                offset = i * 4;
+                offset = i * 4 + 1;
             } else {
                 offset = 9 + i;
             }
@@ -2239,6 +2276,7 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
 
     @Override
     public void onTestNewFunction() {
+        //requestMTU(23);
         /*
         try {
             boolean test = false;
@@ -3179,7 +3217,7 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
 
     private HuamiSupport requestAlarms(TransactionBuilder builder) {
         LOG.info("Requesting alarms");
-        //FIXME: on older devices only the first one works, and on newer only the last is sufficiant
+        //FIXME: on older devices only the first one works, and on newer only the last is sufficient
         writeToConfiguration(builder, HuamiService.COMMAND_REQUEST_ALARMS);
         writeToConfiguration(builder, HuamiService.COMMAND_REQUEST_ALARMS_WITH_TIMES);
         return this;

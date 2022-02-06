@@ -220,7 +220,7 @@
     <string name="vibration_profile_waterdrop">Wassertropfen</string>
     <string name="vibration_profile_ring">Klingel</string>
     <string name="vibration_profile_alarm_clock">Wecker</string>
-    <string name="miband_prefs_vibration">Vibration</string>
+    <string name="miband_prefs_vibration">Vibrieren</string>
     <string name="vibration_try">Versuchen</string>
     <string name="pref_screen_notification_profile_sms">SMS-Benachrichtigung</string>
     <string name="pref_header_vibration_settings">Vibrationseinstellungen</string>
@@ -457,7 +457,7 @@
 \nINSTALLATION AUF EIGENE GEFAHR!</string>
     <string name="mi2_prefs_button_press_count">Anzahl der Tastendrücke</string>
     <string name="pref_title_charts_swipe">Streichen nach links/rechts im Diagrammbetrieb aktivieren</string>
-    <string name="pref_summary_pebble_enable_bgjs">Wenn aktiviert, kann die Uhr Wetter, Akkuinfos, usw. anzeigen</string>
+    <string name="pref_summary_pebble_enable_bgjs">Wenn aktiviert, kann Zifferblatt Wetter, Akkuinfos, usw. anzeigen</string>
     <string name="prefs_title_heartrate_measurement_interval">Ganztägige Messung der Herzfrequenz</string>
     <string name="interval_one_minute">einmal pro Minute</string>
     <string name="interval_five_minutes">alle 5 Minuten</string>
@@ -519,6 +519,7 @@
     <string name="devicetype_xwatch">XWatch</string>
     <string name="choose_auto_export_location">Speicherort für Export auswählen</string>
     <string name="notification_channel_name">Allgemein</string>
+    <string name="menuitem_nothing">Nichts</string>
     <string name="menuitem_status">Status</string>
     <string name="menuitem_activity">Trainingsverlauf</string>
     <string name="menuitem_weather">Wetter</string>
@@ -1064,7 +1065,7 @@
     <string name="activity_filter_to_placeholder">Heute</string>
     <string name="activity_filter_from_placeholder">Vergangenheit</string>
     <string name="chart_no_active_data">Keine Aktivitäten festgestellt.</string>
-    <string name="devicetype_sonyswr12">Sony SWR12</string>
+    <string name="devicetype_sonyswr12">Sony-SWR12</string>
     <string name="sonyswr12_settings_title">Sony SWR12 Einstellungen</string>
     <string name="sonyswr12_settings_low_vibration">Geringe Vibration aktiviert</string>
     <string name="sonyswr12_settings_stamina">Der Energiesparmodus ist aktiviert</string>
@@ -1522,7 +1523,6 @@
     <string name="descentDistance">Bergab Distanz</string>
     <string name="ascentDistance">Bergauf Distanz</string>
     <string name="devicetype_vesc">VESC</string>
-
     <string name="activity_type_hiking">Wandern</string>
     <string name="activity_type_climbing">Klettern</string>
     <string name="pref_button_action_disabled">Deaktiviert</string>
@@ -1541,6 +1541,54 @@
     <string name="pref_media_forward">Vorwärts springen</string>
     <string name="distance_format_kilometers">###.#km</string>
     <string name="about_hash">Commit %s</string>
+    <string name="prefs_activity_recognition">Einstellungen für die Aktivitätserkennung</string>
+    <string name="pref_activity_recognize_running">Laufen erkennen</string>
+    <string name="pref_activity_recognize_biking">Radfahren erkennen</string>
+    <string name="pref_activity_recognize_walking">Gehen erkennen</string>
+    <string name="pref_activity_recognize_rowing">Rudern erkennen</string>
+    <string name="pref_activity_recognition_mode_none">keine</string>
+    <string name="pref_activity_recognition_mode_ask">fragen</string>
+    <string name="pref_activity_recognition_mode_auto">automatisch</string>
+    <string name="fossil_hr_button_config_info">Einige Tasten können nicht konfiguriert werden, da ihre Funktionen in der Firmware der Uhr fest programmiert sind.
+\n
+\nAchtung: Ein langer Druck auf den oberen Knopf, wenn ein Zifferblatt aus der offiziellen Fossil-App installiert ist, schaltet auch zwischen dem Ein- und Ausblenden von Widgets um.</string>
+    <string name="menuitem_menu">Menü</string>
+    <string name="sony_speak_to_chat_sensitivity_auto">Automatisch</string>
+    <string name="sony_speak_to_chat_sensitivity_low">Niedrig</string>
+    <string name="sony_speak_to_chat_focus_on_voice">Fokus auf Stimme</string>
+    <string name="sony_speak_to_chat_timeout">Zeitüberschreitung</string>
+    <string name="sony_speak_to_chat_timeout_short">Kurz (15 Sek.)</string>
+    <string name="sony_speak_to_chat_timeout_standard">Normal (30 Sek.)</string>
+    <string name="sony_speak_to_chat_timeout_long">Lang (1 Min.)</string>
+    <string name="sony_connect_two_devices">Gleichzeitige Verbindung mit 2 Geräten</string>
+    <string name="sony_speak_to_chat">Sprechen-im-Chat</string>
+    <string name="sony_speak_to_chat_sensitivity_high">Hoch</string>
+    <string name="sony_speak_to_chat_timeout_off">Aus</string>
+    <string name="devicetype_sony_wh_1000xm4">Sony WH-1000XM4</string>
+    <string name="sony_speak_to_chat_sensitivity">Empfindlichkeit Spracherkennung</string>
+    <string name="watchface_dialog_widget_width">Breite:</string>
+    <string name="discovery_bluetooth_scan">Bluetooth-Scan:</string>
+    <string name="discovery_bluetooth_le_scan">Bluetooth-LE-Scan:</string>
+    <string name="device_unsupported">NICHT UNTERSTÜTZT</string>
+    <string name="devicetype_domyos_t540">Domyos-T540</string>
+    <string name="unknown">Unbekannt</string>
+    <string name="pref_header_sony_anc_optimizer">Optimierer zur Geräuschunterdrückung</string>
+    <string name="pref_anc_optimizer_state_pressure">Luftdruck</string>
+    <string name="sony_anc_optimizer_status_atmospheric_pressure">Luftdruck messen…</string>
+    <string name="sony_anc_optimize_confirmation_title">Optimierer zur Geräuschunterdrückung</string>
+    <string name="sony_anc_optimize_title">Optimieren</string>
+    <string name="start">Start</string>
+    <string name="audio_codec">Audio-Codec</string>
+    <string name="sony_anc_optimizer_status_wearing_condition">Tragezustand messen…</string>
+    <string name="sony_anc_optimizer_status_finished">Beende…</string>
+    <string name="pref_header_sony_device_info">Geräteinformation</string>
+    <string name="sony_anc_optimizer_status_starting">Starte…</string>
+    <string name="sony_anc_optimizer_status_not_running">Läuft nicht</string>
+    <string name="sony_anc_optimizer_status_analyzing">Analysiere…</string>
+    <string name="sony_anc_optimize_description">Klicke, um die Optimierung der Geräuschunterdrückung zu starten.</string>
+    <string name="sony_anc_optimize_confirmation_description">Verwende den Kopfhörer wie gewohnt. Wenn sich die Tragebedingungen oder der Luftdruck ändern, führe den Optimierer erneut aus.</string>
+    <string name="devicetype_amazfit_pop">Amazfit Pop</string>
+    <string name="devicetype_amazfit_pop_pro">Amazfit Pop Pro</string>
 
     <string name="info_connected_count">%d Geräte verbunden</string>
     <string name="info_no_devices_connected">Keine Geräte verbunden</string>

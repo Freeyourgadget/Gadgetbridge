@@ -1534,4 +1534,36 @@
     <string name="distance_format_meters">###m</string>
     <string name="pref_media_volumeup">Zvýšit hlasitost</string>
     <string name="pref_media_volumedown">Snížit hlasitost</string>
+    <string name="prefs_activity_recognition">Nastavení rozpoznávání aktivit</string>
+    <string name="fossil_hr_button_config_info">Některá tlačítka nelze konfigurovat, protože jejich funkce jsou pevně zakódovány ve firmwaru hodinek.
+\n
+\nUpozornění: Dlouhým stisknutím horního tlačítka při nainstalovaném ciferníku hodinek z oficiální aplikace Fossil se přepíná i zobrazení/skrytí widgetů.</string>
+    <string name="menuitem_menu">Nabídka</string>
+    <string name="devicetype_sony_wh_1000xm4">Sony WH-1000XM4</string>
+    <string name="discovery_bluetooth_scan">Skenování Bluetooth:</string>
+    <string name="sony_speak_to_chat_sensitivity">Citlivost detekce hlasu</string>
+    <string name="sony_speak_to_chat_sensitivity_auto">Automatická</string>
+    <string name="sony_speak_to_chat_sensitivity_high">Vysoká</string>
+    <string name="sony_speak_to_chat_sensitivity_low">Nízká</string>
+    <string name="sony_speak_to_chat_focus_on_voice">Zaměření na hlas</string>
+    <string name="sony_speak_to_chat_timeout">Časový limit</string>
+    <string name="sony_speak_to_chat_timeout_off">Vypnuto</string>
+    <string name="sony_speak_to_chat_timeout_short">Krátký (15s)</string>
+    <string name="sony_speak_to_chat_timeout_standard">Standardní (30s)</string>
+    <string name="sony_speak_to_chat_timeout_long">Dlouhý (1m)</string>
+    <string name="sony_connect_two_devices">Připojení ke 2 zařízením současně</string>
+    <string name="pref_activity_recognize_running">rozpoznat běh</string>
+    <string name="pref_activity_recognize_biking">rozpoznat cyklistiku</string>
+    <string name="pref_activity_recognize_walking">rozpoznat chůzi</string>
+    <string name="pref_activity_recognition_mode_none">nic</string>
+    <string name="pref_activity_recognition_mode_auto">automaticky</string>
+    <string name="watchface_dialog_widget_width">Šířka:</string>
+    <string name="device_unsupported">NEPODPOROVÁNO</string>
+    <string name="discovery_bluetooth_le_scan">Bluetooth LE skenování:</string>
+    <string name="sony_speak_to_chat">Mluvení s lidmi</string>
+    <string name="pref_activity_recognize_rowing">rozpoznat veslování</string>
+    <string name="pref_activity_recognition_mode_ask">dotázat se</string>
+    <string name="devicetype_sonyswr12">Sony SWR12</string>
+    <string name="audio_codec">Zvukový kodek</string>
+    <string name="pref_header_sony_device_info">Informace o zařízení</string>
 </resources>

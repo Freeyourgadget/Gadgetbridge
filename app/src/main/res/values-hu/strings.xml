@@ -502,4 +502,46 @@
     <string name="sonyswr12_settings_low_vibration_summary">Engedélyezze a vibráció alacsony intenzitását a sávon</string>
     <string name="sonyswr12_settings_stamina_summary">Az energiatakarékos üzemmód kikapcsolja a pulzus időszakos automatikus mérését, így megnő a munkaidő</string>
     <string name="sonyswr12_settings_alarm_interval_summary">Az intelligens riasztási intervallum a telepített riasztás előtti intervallum. Ebben az intervallumban az eszköz megpróbálja észlelni az alvás legkönnyebb fázisát a felhasználó felébresztésére</string>
+    <string name="find_lost_device_message">%1$s keresése\?</string>
+    <string name="controlcenter_power_off">Kikapcsolás</string>
+    <string name="controlcenter_power_off_confirm_title">Kikapcsolás</string>
+    <string name="controlcenter_set_alias">Álnév beállítása</string>
+    <string name="controlcenter_power_off_confirm_description">Biztosan ki akarod kapcsolni az eszközt\?</string>
+    <string name="prefs_activity_in_device_card_title_summary">Jelenlegi lépésszám, távolság vagy alvásidő megjelenítése az eszközlapon</string>
+    <string name="activity_prefs_step_length_cm">Lépés hossza cm-ben</string>
+    <string name="prefs_activity_in_device_card_steps_title_summary">Összes lépésszám megjelenítése</string>
+    <string name="title_activity_notification_management">Értesítési beállítások</string>
+    <string name="fw_upgrade_notice_amazfitbip">Ön a %s firmware-t telepíti az Amazfit Bip-re.
+\n
+\nGyőződjön meg róla, hogy sorrendben a .fw, a .res és végül a .gps fájl is telepítésre kerül! Az óra a .fw fájl telepítése után újra fog indulni.
+\n
+\nMegjegyzés: Nem feltétlenül kell telepíteni a .res és .gps fájlokat, ha pontosan azonos verziót már korábban telepített belőlük.
+\n
+\nCSAK SAJÁT FELELŐSSÉGÉRE FOLYTASSA!</string>
+    <string name="fw_upgrade_notice_amazfitbip_lite">Ön a %s firmware-t telepíti az Amazfit Bip Lite-ra.
+\n
+\nGyőződjön meg róla, hogy sorrendben a .fw, majd pedig a .res fájl is telepítésre kerül! Az óra a .fw fájl telepítése után újra fog indulni.
+\n
+\nMegjegyzés: Nem feltétlenül kell telepíteni a .res fájlt, ha az pontosan azonos a már korábban telepítettel.
+\n
+\nCSAK SAJÁT FELELŐSSÉGÉRE FOLYTASSA!</string>
+    <string name="calendar_three_months">3 hónap</string>
+    <string name="device_card_activity_card_title_summary">Válaszd ki hogy mely tevékenységek részletei jelenjenek meg az eszközlapon</string>
+    <string name="prefs_activity_in_device_card_title">Tevékenységi adatok megjelenítése az eszközlapon</string>
+    <string name="prefs_activity_in_device_card_sleep_title">Alvás</string>
+    <string name="prefs_activity_in_device_card_sleep_title_summary">Az alvás időtartamának megjelenítése</string>
+    <string name="prefs_activity_in_device_card_distance_title_summary">A távolságot a lépések és a lépéshossz alapján számítja ki (beállítható a Beállítások - Rólad menüpontban)</string>
+    <string name="battery_detail_activity_title">Akkumulátor információ</string>
+    <string name="calendar_day">Nap</string>
+    <string name="calendar_week">Hét</string>
+    <string name="calendar_two_weeks">Két hét</string>
+    <string name="calendar_month">Hónap</string>
+    <string name="calendar_six_months">6 hónap</string>
+    <string name="calendar_year">Év</string>
+    <string name="device_card_activity_card_title">Tevékenységi adatok az eszközlapon</string>
+    <string name="battery_level">Az akkumulátor töltöttségi szintje</string>
+    <string name="whitelist_all_for_notifications">Értesítések engedélyezése ezekből</string>
+    <string name="blacklist_all_for_notifications">Értesítések letiltása ezekből</string>
+    <string name="check_all_applications">Az összes alkalmazás kijelölése</string>
+    <string name="uncheck_all_applications">Az összes alkalmazás kijelölésének törlése</string>
 </resources>
