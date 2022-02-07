@@ -214,6 +214,19 @@ public class FwAppInstallerActivity extends AbstractGBActivity implements Instal
         } else {
             setInfoText(getString(R.string.installer_activity_wait_while_determining_status));
 
+            List<GBDevice> selectedDevices = GBApplication.app().getDeviceManager().getSelectedDevices();
+            if(selectedDevices.size() == 0){
+                GB.toast("please connect the device you want to send to", Toast.LENGTH_LONG, GB.ERROR);
+                finish();
+                return;
+            }
+            if(selectedDevices.size() != 1){
+                GB.toast("please connect ONLY the device you want to send to", Toast.LENGTH_LONG, GB.ERROR);
+                finish();
+                return;
+            }
+            device = selectedDevices.get(0);
+
             // needed to get the device
             if (device == null || !device.isConnected()) {
                 connect();
