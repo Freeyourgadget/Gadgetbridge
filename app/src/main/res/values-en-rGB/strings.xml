@@ -1578,4 +1578,5 @@
     <string name="sony_anc_optimize_confirmation_description">Use the headphones as you normally would. If the wearing condition or atmospheric pressure change, run the optimiser again.</string>
     <string name="devicetype_amazfit_pop_pro">Amazfit Pop Pro</string>
     <string name="devicetype_amazfit_pop">Amazfit Pop</string>
+    <string name="menuitem_nothing">Nothing</string>
 </resources>
