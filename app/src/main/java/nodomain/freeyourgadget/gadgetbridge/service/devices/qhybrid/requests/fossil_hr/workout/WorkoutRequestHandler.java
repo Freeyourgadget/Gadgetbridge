@@ -24,12 +24,13 @@ import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.externalevents.OpenTracksController;
 
 public class WorkoutRequestHandler {
-    public static void addStateResponse(JSONObject workoutResponse, String type) throws JSONException {
+    public static void addStateResponse(JSONObject workoutResponse, String type, String msg) throws JSONException {
         workoutResponse.put("workoutApp._.config.response", new JSONObject()
-                .put("message", "")
+                .put("message", msg)
                 .put("type", type)
         );
     }
@@ -41,36 +42,38 @@ public class WorkoutRequestHandler {
         if (workoutRequest.optString("state").equals("started") && workoutRequest.optString("gps").equals("on")) {
             int activityType = workoutRequest.optInt("activity", -1);
             LOG.info("Workout started, activity type is " + activityType);
-            addStateResponse(workoutResponse, "success");
+            addStateResponse(workoutResponse, "success", "");
             OpenTracksController.startRecording(context);
-        }
-        if (workoutRequest.optString("type").equals("req_distance")) {
+        } else if (workoutRequest.optString("type").equals("req_distance")) {
+            long timeSecs = GBApplication.app().getOpenTracksObserver().getTimeMillisChange() / 1000;
+            float distanceCM = GBApplication.app().getOpenTracksObserver().getDistanceMeterChange() * 100;
+            LOG.info("Workout distance requested, returning " + distanceCM + " cm, " + timeSecs + " sec");
             workoutResponse.put("workoutApp._.config.gps", new JSONObject()
-                    .put("distance", -2)
-                    .put("duration", 10)
+                    .put("distance", distanceCM)
+                    .put("duration", timeSecs)
             );
-        }
-        if (workoutRequest.optString("state").equals("paused")) {
+        } else if (workoutRequest.optString("state").equals("paused")) {
             LOG.info("Workout paused");
-            addStateResponse(workoutResponse, "success");
+            addStateResponse(workoutResponse, "success", "");
             // Pause OpenTracks recording?
-        }
-        if (workoutRequest.optString("state").equals("resumed")) {
+        } else if (workoutRequest.optString("state").equals("resumed")) {
             LOG.info("Workout resumed");
-            addStateResponse(workoutResponse, "success");
+            addStateResponse(workoutResponse, "success", "");
             // Resume OpenTracks recording?
-        }
-        if (workoutRequest.optString("state").equals("end")) {
+        } else if (workoutRequest.optString("state").equals("end")) {
             LOG.info("Workout stopped");
-            addStateResponse(workoutResponse, "success");
+            addStateResponse(workoutResponse, "success", "");
             OpenTracksController.stopRecording(context);
-        }
-        if (workoutRequest.optString("type").equals("req_route")) {
+        } else if (workoutRequest.optString("type").equals("req_route")) {
+            LOG.info("Workout route image requested, returning error");
+            addStateResponse(workoutResponse, "error", "");
             // Send the traveled route as an RLE encoded image (example name: 58270405)
             // Send back a JSON packet, example:
             // {"res":{"id":21,"set":{"workoutApp._.config.images":{"session_id":1213693133,"route":{"name":"58270405"},"layout_type":"vertical"}}}}
             // or
             // {"res":{"id":34,"set":{"workoutApp._.config.images":{"session_id":504875,"route":{"name":"211631088"},"layout_type":"horizontal"}}}}
+        } else {
+            LOG.info("Request not recognized: " + workoutRequest);
         }
         return workoutResponse;
     }

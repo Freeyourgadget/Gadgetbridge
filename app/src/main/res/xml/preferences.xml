@@ -145,8 +145,8 @@
             android:inputType="text"
             android:key="opentracks_packagename"
             android:defaultValue="de.dennisguse.opentracks"
-            android:title="OpenTracks package name"
-            android:summary="Used for starting/stopping GPS track recording from certain wearables that don't have built-in GPS" />
+            android:title="@string/pref_title_opentracks_packagename"
+            android:summary="@string/pref_summary_opentracks_packagename" />
     </PreferenceCategory>
     <PreferenceCategory android:title="@string/preferences_category_device_specific_settings">
 

@@ -668,5 +668,10 @@
                 <data android:mimeType="*/*" />
             </intent-filter>
         </activity>
+
+        <activity
+            android:name=".externalevents.OpenTracksController"
+            android:label="OpenTracks controller and intent receiver"
+            android:exported="true"/>
     </application>
 </manifest>

@@ -17,24 +17,49 @@
 
 package nodomain.freeyourgadget.gadgetbridge.externalevents;
 
-import android.content.BroadcastReceiver;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.util.ArrayList;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 
-public class OpenTracksController extends BroadcastReceiver {
+public class OpenTracksController extends Activity {
+    private static final String EXTRAS_PROTOCOL_VERSION = "PROTOCOL_VERSION";
+    private static final String ACTION_DASHBOARD = "Intent.OpenTracks-Dashboard";
+    private static final String ACTION_DASHBOARD_PAYLOAD = ACTION_DASHBOARD + ".Payload";
+
+    private final Logger LOG = LoggerFactory.getLogger(OpenTracksController.class);
 
     @Override
-    public void onReceive(Context context, Intent intent) {
-        if (intent != null) {
-            Bundle bundle = intent.getExtras();
-            if (bundle != null) {
-                // Handle received OpenTracks Dashboard API intent
+    public void onCreate(Bundle bundle) {
+        super.onCreate(bundle);
+        GBApplication gbApp = GBApplication.app();
+        Intent intent = getIntent();
+        int protocolVersion = intent.getIntExtra(EXTRAS_PROTOCOL_VERSION, 1);
+        final ArrayList<Uri> uris = intent.getParcelableArrayListExtra(ACTION_DASHBOARD_PAYLOAD);
+        if (uris != null) {
+            if (gbApp.getOpenTracksObserver() != null) {
+                LOG.info("Unregistering old OpenTracksContentObserver");
+                gbApp.getOpenTracksObserver().unregister();
+            }
+            Uri tracksUri = uris.get(0);
+            LOG.info("Registering OpenTracksContentObserver with tracks URI: " + tracksUri);
+            gbApp.setOpenTracksObserver(new OpenTracksContentObserver(this, tracksUri, protocolVersion));
+            try {
+                getContentResolver().registerContentObserver(tracksUri, false, gbApp.getOpenTracksObserver());
+            } catch (final SecurityException se) {
+                LOG.error("Error registering OpenTracksContentObserver", se);
             }
         }
+        moveTaskToBack(true);
     }
 
     public static void sendIntent(Context context, String className) {
@@ -43,6 +68,8 @@ public class OpenTracksController extends BroadcastReceiver {
         Intent intent = new Intent();
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         intent.setClassName(packageName, className);
+        intent.putExtra("STATS_TARGET_PACKAGE", context.getPackageName());
+        intent.putExtra("STATS_TARGET_CLASS", "nodomain.freeyourgadget.gadgetbridge.externalevents.OpenTracksController");
         context.startActivity(intent);
     }
 
@@ -52,5 +79,6 @@ public class OpenTracksController extends BroadcastReceiver {
 
     public static void stopRecording(Context context) {
         sendIntent(context, "de.dennisguse.opentracks.publicapi.StopRecording");
+        GBApplication.app().getOpenTracksObserver().finish();
     }
 }
