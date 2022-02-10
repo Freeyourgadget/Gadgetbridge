@@ -61,6 +61,7 @@ android {
         vectorDrawables.useSupportLibrary = true
         multiDexEnabled true
         buildConfigField "String", "GIT_HASH_SHORT", "\"${getGitHashShort()}\""
+        buildConfigField "boolean", "INTERNET_ACCESS", "false"
         resValue "string", "pebble_content_provider", "com.getpebble.android.provider"
     }
     signingConfigs {
@@ -120,6 +121,22 @@ android {
             }
         }
 
+    }
+
+    flavorDimensions "device_type"
+    productFlavors {
+        main {
+            // the default build product flavor
+            dimension "device_type"
+            //applicationIdSuffix ""
+            //versionNameSuffix ""
+        }
+        banglejs {
+            dimension "device_type"
+            applicationIdSuffix ".banglejs"
+            versionNameSuffix "-banglejs"
+            buildConfigField "boolean", "INTERNET_ACCESS", "true"
+        }
     }
 
     lintOptions {
