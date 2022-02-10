@@ -31,6 +31,13 @@ import android.widget.Toast;
 
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.RequestQueue;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -266,6 +273,39 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
                             .putExtra(DeviceService.EXTRA_REALTIME_SAMPLE, sample);
                     LocalBroadcastManager.getInstance(getContext()).sendBroadcast(intent);
                 }
+            } break;
+            case "http": {
+                // FIXME: This should be behind a default-off option in Gadgetbridge settings
+                RequestQueue queue = Volley.newRequestQueue(getContext());
+                String url = json.getString("url");
+                // Request a string response from the provided URL.
+                StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
+                        new Response.Listener<String>() {
+                            @Override
+                            public void onResponse(String response) {
+                                JSONObject o = new JSONObject();
+                                try {
+                                    o.put("t", "http");
+                                    o.put("resp", response);
+                                } catch (JSONException e) {
+                                    GB.toast(getContext(), "HTTP: " + e.getLocalizedMessage(), Toast.LENGTH_LONG, GB.ERROR);
+                                }
+                                uartTxJSON("http", o);
+                            }
+                        }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        JSONObject o = new JSONObject();
+                        try {
+                            o.put("t", "http");
+                            o.put("err", error.toString());
+                        } catch (JSONException e) {
+                            GB.toast(getContext(), "HTTP: " + e.getLocalizedMessage(), Toast.LENGTH_LONG, GB.ERROR);
+                        }
+                        uartTxJSON("http", o);
+                    }
+                });
+                queue.add(stringRequest);
             } break;
         }
     }

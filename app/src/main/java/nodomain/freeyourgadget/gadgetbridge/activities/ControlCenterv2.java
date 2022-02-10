@@ -65,6 +65,7 @@ import java.util.Set;
 import de.cketti.library.changelog.ChangeLog;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
+import nodomain.freeyourgadget.gadgetbridge.BuildConfig;
 import nodomain.freeyourgadget.gadgetbridge.adapter.GBDeviceAdapterv2;
 import nodomain.freeyourgadget.gadgetbridge.database.DBAccess;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
@@ -435,6 +436,12 @@ public class ControlCenterv2 extends AppCompatActivity
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
             if (ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.ACCESS_BACKGROUND_LOCATION) == PackageManager.PERMISSION_DENIED) {
                 wantedPermissions.add(Manifest.permission.ACCESS_BACKGROUND_LOCATION);
+            }
+        }
+
+        if (BuildConfig.INTERNET_ACCESS) {
+            if (ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.INTERNET) == PackageManager.PERMISSION_DENIED) {
+                wantedPermissions.add(Manifest.permission.INTERNET);
             }
         }
 
