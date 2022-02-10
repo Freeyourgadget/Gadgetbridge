@@ -1467,7 +1467,7 @@
     <string name="add_test_device">Dodaj urządzenie testowe</string>
     <string name="ascentDistance">Dystans pod górę</string>
     <string name="descentDistance">Dystans w dół</string>
-    <string name="maxStride">Maksymalny Krok</string>
+    <string name="maxStride">Maksymalny krok</string>
     <string name="activity_type_climbing">Wspinaczka</string>
     <string name="devicetype_sonyswr12">Sony SWR12</string>
     <string name="devicetype_sony_wf_sp800n">Sony WF-SP800N</string>
@@ -1581,4 +1581,5 @@
     <string name="pref_header_sony_device_info">Informacje o urządzeniu</string>
     <string name="pref_anc_optimizer_state_pressure">Ciśnienie atmosferyczne</string>
     <string name="sony_anc_optimizer_status_analyzing">Analizowanie…</string>
+    <string name="sony_anc_optimize_title">Zoptymalizuj</string>
 </resources>
