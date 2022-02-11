@@ -150,6 +150,9 @@ public class DeviceSettingsPreferenceConst {
 
     public static final String PREF_QC35_NOISE_CANCELLING_LEVEL = "qc35_noise_cancelling_level";
 
+    public static final String PREF_CYCLING_SENSOR_WHEEL_CIRCUMFERENCE = "pref_wheel_circumference";
+    public static final String PREF_CYCLING_SENSOR_SAVE_INTERVAL = "pref_save_interval";
+
     public static final String PREFS_ACTIVITY_IN_DEVICE_CARD = "prefs_activity_in_device_card";
     public static final String PREFS_ACTIVITY_IN_DEVICE_CARD_STEPS = "prefs_activity_in_device_card_steps";
     public static final String PREFS_ACTIVITY_IN_DEVICE_CARD_SLEEP = "prefs_activity_in_device_card_sleep";

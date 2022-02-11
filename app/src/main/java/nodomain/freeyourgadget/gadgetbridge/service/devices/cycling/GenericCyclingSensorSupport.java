@@ -1,14 +1,20 @@
-package nodomain.freeyourgadget.gadgetbridge.service.devices;
+package nodomain.freeyourgadget.gadgetbridge.service.devices.cycling;
 
+import android.bluetooth.BluetoothAdapter;
+import android.bluetooth.BluetoothGatt;
 import android.bluetooth.BluetoothGattCharacteristic;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.net.Uri;
+import android.widget.Toast;
 
-import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.UUID;
 
+import nodomain.freeyourgadget.gadgetbridge.GBApplication;
+import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst;
 import nodomain.freeyourgadget.gadgetbridge.devices.cycling.CyclingSensorCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.Alarm;
@@ -22,13 +28,38 @@ import nodomain.freeyourgadget.gadgetbridge.model.WeatherSpec;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.AbstractBTLEDeviceSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.SetDeviceStateAction;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.cycling.protocol.CSCMeasurement;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.cycling.protocol.CSCProtocol;
+import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
 public class GenericCyclingSensorSupport extends AbstractBTLEDeviceSupport {
     public static String UUID_CSC_MESAUREMENT = "00002a5b-0000-1000-8000-00805f9b34fb";
 
+    private int wheelCircumference;
+    private int saveIntervalMinutes;
+
+    BluetoothGattCharacteristic measurementCharacteristic;
+
+    private CSCProtocol protocol;
+
     public GenericCyclingSensorSupport() {
         super(LoggerFactory.getLogger(GenericCyclingSensorSupport.class));
         addSupportedService(UUID.fromString(CyclingSensorCoordinator.UUID_CSC));
+
+        protocol = new CSCProtocol();
+    }
+
+    private void loadPrefs(){
+        SharedPreferences deviceSpecificSharedPrefs = GBApplication.getDeviceSpecificSharedPrefs(getDevice().getAddress());
+        wheelCircumference = Integer.parseInt(deviceSpecificSharedPrefs.getString(DeviceSettingsPreferenceConst.PREF_CYCLING_SENSOR_WHEEL_CIRCUMFERENCE, "0"));
+        saveIntervalMinutes = Integer.parseInt(deviceSpecificSharedPrefs.getString(DeviceSettingsPreferenceConst.PREF_CYCLING_SENSOR_SAVE_INTERVAL, "5"));
+
+        if(wheelCircumference == 0){
+            GB.toast("please enter wheel circumference in device settings", Toast.LENGTH_LONG, GB.ERROR);
+        }
+        if(saveIntervalMinutes == 0){
+            GB.toast("Save interval is 0, data will not be saved", Toast.LENGTH_LONG, GB.ERROR);
+        }
     }
 
     @Override
@@ -39,11 +70,28 @@ public class GenericCyclingSensorSupport extends AbstractBTLEDeviceSupport {
     @Override
     protected TransactionBuilder initializeDevice(TransactionBuilder builder) {
         builder.add(new SetDeviceStateAction(getDevice(), GBDevice.State.INITIALIZING, getContext()));
-        BluetoothGattCharacteristic measurementCharacteristic = getCharacteristic(UUID.fromString(UUID_CSC_MESAUREMENT));
+        measurementCharacteristic = getCharacteristic(UUID.fromString(UUID_CSC_MESAUREMENT));
         builder.notify(measurementCharacteristic, true);
         builder.add(new SetDeviceStateAction(getDevice(), GBDevice.State.INITIALIZED, getContext()));
 
+        loadPrefs();
+
         return builder;
+    }
+
+    @Override
+    public boolean onCharacteristicChanged(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic) {
+        if(characteristic.equals(measurementCharacteristic)){
+            CSCMeasurement measurement = protocol.parsePacket(characteristic.getValue());
+            GB.log(measurement.toString(), GB.INFO, null);
+        }
+
+        return true;
+    }
+
+    @Override
+    public void dispose() {
+        super.dispose();
     }
 
     @Override
@@ -173,7 +221,7 @@ public class GenericCyclingSensorSupport extends AbstractBTLEDeviceSupport {
 
     @Override
     public void onSendConfiguration(String config) {
-
+        loadPrefs();
     }
 
     @Override

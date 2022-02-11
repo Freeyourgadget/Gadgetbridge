@@ -11,6 +11,7 @@ import androidx.annotation.Nullable;
 import java.util.UUID;
 
 import nodomain.freeyourgadget.gadgetbridge.GBException;
+import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.devices.AbstractDeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.InstallHandler;
 import nodomain.freeyourgadget.gadgetbridge.devices.SampleProvider;
@@ -100,6 +101,13 @@ public class CyclingSensorCoordinator extends AbstractDeviceCoordinator {
     @Override
     public String getManufacturer() {
         return "Generic";
+    }
+
+    @Override
+    public int[] getSupportedDeviceSpecificSettings(GBDevice device) {
+        return new int[]{
+                R.xml.devicesettings_generic_cycling_sensor
+        };
     }
 
     @Override

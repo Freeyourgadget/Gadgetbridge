@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <EditTextPreference
+        android:title="Wheel circumference"
+        android:key="pref_wheel_circumference"
+        android:defaultValue="2100"
+        android:inputType="numberDecimal" />
+
+    <EditTextPreference
+        android:title="Travel distance save interval"
+        android:key="pref_save_interval"
+        android:defaultValue="5"
+        android:inputType="numberDecimal"
+        android:summary="The interval, that the travel distance will be saved in, in minutes. 5 minutes would mean that the traveled distance gets accumulated and stored every 5 minutes." />
+
+</PreferenceScreen>

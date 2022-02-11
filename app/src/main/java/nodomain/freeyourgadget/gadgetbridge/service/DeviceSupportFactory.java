@@ -31,10 +31,9 @@ import java.util.EnumSet;
 
 import nodomain.freeyourgadget.gadgetbridge.GBException;
 import nodomain.freeyourgadget.gadgetbridge.R;
-import nodomain.freeyourgadget.gadgetbridge.devices.cycling.CyclingSensorCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.GenericCyclingSensorSupport;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.cycling.GenericCyclingSensorSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.fitpro.FitProDeviceSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.banglejs.BangleJSDeviceSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.casio.CasioGB6900DeviceSupport;
