@@ -185,22 +185,15 @@ public class HybridHRWatchfaceFactory {
         } catch (IOException e) {
             LOG.warn("Unable to read asset file", e);
         }
-        LinkedHashMap<String, String> layout = new LinkedHashMap<>();
-        try {
-            layout.put("complication_layout", getComplicationLayout());
-        } catch (JSONException e) {
-            LOG.warn("Could not generate complication_layout", e);
+        LinkedHashMap<String, InputStream> layout = new LinkedHashMap<>();
+        layout.put("complication_layout", context.getAssets().open("fossil_hr/complication_layout.json"));
+        layout.put("image_layout", context.getAssets().open("fossil_hr/image_layout.json"));
+        layout.put("menu_layout", context.getAssets().open("fossil_hr/menu_layout.json"));
+
+        if (includeWidget("widgetBattery") > 0) {
+            layout.put("battery_layout", context.getAssets().open("fossil_hr/battery_layout.json"));
         }
-        try {
-            layout.put("image_layout", getImageLayout());
-        } catch (JSONException e) {
-            LOG.warn("Could not generate image_layout", e);
-        }
-        try {
-            if (includeWidget("widgetBattery") > 0) layout.put("battery_layout", getBatteryLayout());
-        } catch (JSONException e) {
-            LOG.warn("Could not generate battery_layout", e);
-        }
+
         LinkedHashMap<String, String> displayName = new LinkedHashMap<>();
         displayName.put("display_name", watchfaceName);
         displayName.put("theme_class", "complications");
