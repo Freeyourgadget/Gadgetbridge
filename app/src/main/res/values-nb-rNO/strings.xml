@@ -1579,4 +1579,8 @@
     <string name="sony_anc_optimize_confirmation_description">Bruk hodetelefonene som vanlig. Hvis måten du bruker dem på eller lufttrykket endrer seg kan du kjøre optimalisatoren igjen.</string>
     <string name="pref_header_sony_device_info">Enhetsinfo</string>
     <string name="sony_anc_optimize_title">Optimaliser</string>
+    <string name="menuitem_nothing">Ingenting</string>
+    <string name="devicetype_amazfit_pop">Amazfit Pop</string>
+    <string name="devicetype_amazfit_pop_pro">Amazfit Pop Pro</string>
+    <string name="devicetype_sony_wh_1000xm4">Sony WH-1000XM4</string>
 </resources>
