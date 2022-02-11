@@ -164,158 +164,155 @@ public class DeviceSupportFactory {
     private ServiceDeviceSupport createServiceDeviceSupport(GBDevice device){
         switch (device.getType()) {
             case PEBBLE:
-                return new ServiceDeviceSupport(new PebbleSupport(), EnumSet.of(ServiceDeviceSupport.Flags.BUSY_CHECKING)); 
+                return new ServiceDeviceSupport(new PebbleSupport()); 
             case MIBAND:
-                return new ServiceDeviceSupport(new MiBandSupport(), EnumSet.of(ServiceDeviceSupport.Flags.THROTTLING, ServiceDeviceSupport.Flags.BUSY_CHECKING)); 
+                return new ServiceDeviceSupport(new MiBandSupport(), ServiceDeviceSupport.Flags.THROTTLING, ServiceDeviceSupport.Flags.BUSY_CHECKING); 
             case MIBAND2:
-                return new ServiceDeviceSupport(new HuamiSupport(), EnumSet.of(ServiceDeviceSupport.Flags.THROTTLING, ServiceDeviceSupport.Flags.BUSY_CHECKING)); 
+                return new ServiceDeviceSupport(new HuamiSupport(), ServiceDeviceSupport.Flags.THROTTLING, ServiceDeviceSupport.Flags.BUSY_CHECKING); 
             case MIBAND3:
-                return new ServiceDeviceSupport(new MiBand3Support(), EnumSet.of(ServiceDeviceSupport.Flags.BUSY_CHECKING)); 
+                return new ServiceDeviceSupport(new MiBand3Support()); 
             case MIBAND4:
-                return new ServiceDeviceSupport(new MiBand4Support(), EnumSet.of(ServiceDeviceSupport.Flags.BUSY_CHECKING)); 
+                return new ServiceDeviceSupport(new MiBand4Support()); 
             case MIBAND5:
-                return new ServiceDeviceSupport(new MiBand5Support(), EnumSet.of(ServiceDeviceSupport.Flags.BUSY_CHECKING)); 
+                return new ServiceDeviceSupport(new MiBand5Support()); 
             case MIBAND6:
-                return new ServiceDeviceSupport(new MiBand6Support(), EnumSet.of(ServiceDeviceSupport.Flags.BUSY_CHECKING)); 
+                return new ServiceDeviceSupport(new MiBand6Support()); 
             case AMAZFITBIP:
-                return new ServiceDeviceSupport(new AmazfitBipSupport(), EnumSet.of(ServiceDeviceSupport.Flags.BUSY_CHECKING)); 
+                return new ServiceDeviceSupport(new AmazfitBipSupport()); 
             case AMAZFITBIP_LITE:
-                return new ServiceDeviceSupport(new AmazfitBipLiteSupport(), EnumSet.of(ServiceDeviceSupport.Flags.BUSY_CHECKING)); 
+                return new ServiceDeviceSupport(new AmazfitBipLiteSupport()); 
             case AMAZFITBIPS:
-                return new ServiceDeviceSupport(new AmazfitBipSSupport(), EnumSet.of(ServiceDeviceSupport.Flags.BUSY_CHECKING)); 
+                return new ServiceDeviceSupport(new AmazfitBipSSupport()); 
             case AMAZFITBIPS_LITE:
-                return new ServiceDeviceSupport(new AmazfitBipSLiteSupport(), EnumSet.of(ServiceDeviceSupport.Flags.BUSY_CHECKING)); 
+                return new ServiceDeviceSupport(new AmazfitBipSLiteSupport()); 
             case AMAZFITBIPU:
-                return new ServiceDeviceSupport(new AmazfitBipUSupport(), EnumSet.of(ServiceDeviceSupport.Flags.BUSY_CHECKING)); 
+                return new ServiceDeviceSupport(new AmazfitBipUSupport()); 
             case AMAZFITBIPUPRO:
-                return new ServiceDeviceSupport(new AmazfitBipUProSupport(), EnumSet.of(ServiceDeviceSupport.Flags.BUSY_CHECKING)); 
+                return new ServiceDeviceSupport(new AmazfitBipUProSupport()); 
             case AMAZFITPOP:
-                return new ServiceDeviceSupport(new AmazfitPopSupport(), EnumSet.of(ServiceDeviceSupport.Flags.BUSY_CHECKING)); 
+                return new ServiceDeviceSupport(new AmazfitPopSupport()); 
             case AMAZFITPOPPRO:
-                return new ServiceDeviceSupport(new AmazfitPopProSupport(), EnumSet.of(ServiceDeviceSupport.Flags.BUSY_CHECKING)); 
+                return new ServiceDeviceSupport(new AmazfitPopProSupport()); 
             case AMAZFITGTR:
-                return new ServiceDeviceSupport(new AmazfitGTRSupport(), EnumSet.of(ServiceDeviceSupport.Flags.BUSY_CHECKING)); 
+                return new ServiceDeviceSupport(new AmazfitGTRSupport()); 
             case AMAZFITGTR_LITE:
-                return new ServiceDeviceSupport(new AmazfitGTRLiteSupport(), EnumSet.of(ServiceDeviceSupport.Flags.BUSY_CHECKING)); 
+                return new ServiceDeviceSupport(new AmazfitGTRLiteSupport()); 
             case AMAZFITGTR2:
-                return new ServiceDeviceSupport(new AmazfitGTR2Support(), EnumSet.of(ServiceDeviceSupport.Flags.BUSY_CHECKING)); 
+                return new ServiceDeviceSupport(new AmazfitGTR2Support()); 
             case ZEPP_E:
-                return new ServiceDeviceSupport(new ZeppESupport(), EnumSet.of(ServiceDeviceSupport.Flags.BUSY_CHECKING)); 
+                return new ServiceDeviceSupport(new ZeppESupport()); 
             case AMAZFITGTR2E:
-                return new ServiceDeviceSupport(new AmazfitGTR2eSupport(), EnumSet.of(ServiceDeviceSupport.Flags.BUSY_CHECKING)); 
+                return new ServiceDeviceSupport(new AmazfitGTR2eSupport()); 
             case AMAZFITTREX:
-                return new ServiceDeviceSupport(new AmazfitTRexSupport(), EnumSet.of(ServiceDeviceSupport.Flags.BUSY_CHECKING)); 
+                return new ServiceDeviceSupport(new AmazfitTRexSupport()); 
             case AMAZFITTREXPRO:
-                return new ServiceDeviceSupport(new AmazfitTRexProSupport(), EnumSet.of(ServiceDeviceSupport.Flags.BUSY_CHECKING)); 
+                return new ServiceDeviceSupport(new AmazfitTRexProSupport()); 
             case AMAZFITGTS:
-                return new ServiceDeviceSupport(new AmazfitGTSSupport(), EnumSet.of(ServiceDeviceSupport.Flags.BUSY_CHECKING)); 
+                return new ServiceDeviceSupport(new AmazfitGTSSupport()); 
             case AMAZFITVERGEL:
-                return new ServiceDeviceSupport(new AmazfitVergeLSupport(), EnumSet.of(ServiceDeviceSupport.Flags.BUSY_CHECKING)); 
+                return new ServiceDeviceSupport(new AmazfitVergeLSupport()); 
             case AMAZFITGTS2:
-                return new ServiceDeviceSupport(new AmazfitGTS2Support(), EnumSet.of(ServiceDeviceSupport.Flags.BUSY_CHECKING)); 
+                return new ServiceDeviceSupport(new AmazfitGTS2Support()); 
             case AMAZFITGTS2_MINI:
-                return new ServiceDeviceSupport(new AmazfitGTS2MiniSupport(), EnumSet.of(ServiceDeviceSupport.Flags.BUSY_CHECKING)); 
+                return new ServiceDeviceSupport(new AmazfitGTS2MiniSupport()); 
             case AMAZFITGTS2E:
-                return new ServiceDeviceSupport(new AmazfitGTS2eSupport(), EnumSet.of(ServiceDeviceSupport.Flags.BUSY_CHECKING)); 
+                return new ServiceDeviceSupport(new AmazfitGTS2eSupport()); 
             case AMAZFITCOR:
-                return new ServiceDeviceSupport(new AmazfitCorSupport(), EnumSet.of(ServiceDeviceSupport.Flags.BUSY_CHECKING)); 
+                return new ServiceDeviceSupport(new AmazfitCorSupport()); 
             case AMAZFITCOR2:
-                return new ServiceDeviceSupport(new AmazfitCor2Support(), EnumSet.of(ServiceDeviceSupport.Flags.BUSY_CHECKING)); 
+                return new ServiceDeviceSupport(new AmazfitCor2Support()); 
             case AMAZFITBAND5:
-                return new ServiceDeviceSupport(new AmazfitBand5Support(), EnumSet.of(ServiceDeviceSupport.Flags.BUSY_CHECKING)); 
+                return new ServiceDeviceSupport(new AmazfitBand5Support()); 
             case AMAZFITX:
-                return new ServiceDeviceSupport(new AmazfitXSupport(), EnumSet.of(ServiceDeviceSupport.Flags.BUSY_CHECKING)); 
+                return new ServiceDeviceSupport(new AmazfitXSupport()); 
             case AMAZFITNEO:
-                return new ServiceDeviceSupport(new AmazfitNeoSupport(), EnumSet.of(ServiceDeviceSupport.Flags.BUSY_CHECKING)); 
+                return new ServiceDeviceSupport(new AmazfitNeoSupport()); 
             case VIBRATISSIMO:
-                return new ServiceDeviceSupport(new VibratissimoSupport(), EnumSet.of(ServiceDeviceSupport.Flags.THROTTLING, ServiceDeviceSupport.Flags.BUSY_CHECKING)); 
+                return new ServiceDeviceSupport(new VibratissimoSupport(), ServiceDeviceSupport.Flags.THROTTLING, ServiceDeviceSupport.Flags.BUSY_CHECKING); 
             case LIVEVIEW:
-                return new ServiceDeviceSupport(new LiveviewSupport(), EnumSet.of(ServiceDeviceSupport.Flags.BUSY_CHECKING)); 
+                return new ServiceDeviceSupport(new LiveviewSupport()); 
             case HPLUS:
-                return new ServiceDeviceSupport(new HPlusSupport(DeviceType.HPLUS), EnumSet.of(ServiceDeviceSupport.Flags.BUSY_CHECKING)); 
             case MAKIBESF68:
-                return new ServiceDeviceSupport(new HPlusSupport(DeviceType.MAKIBESF68), EnumSet.of(ServiceDeviceSupport.Flags.BUSY_CHECKING)); 
             case EXRIZUK8:
-                return new ServiceDeviceSupport(new HPlusSupport(DeviceType.EXRIZUK8), EnumSet.of(ServiceDeviceSupport.Flags.BUSY_CHECKING)); 
             case Q8:
-                return new ServiceDeviceSupport(new HPlusSupport(DeviceType.Q8), EnumSet.of(ServiceDeviceSupport.Flags.BUSY_CHECKING)); 
+                return new ServiceDeviceSupport(new HPlusSupport(device.getType()));
             case NO1F1:
-                return new ServiceDeviceSupport(new No1F1Support(), EnumSet.of(ServiceDeviceSupport.Flags.BUSY_CHECKING)); 
+                return new ServiceDeviceSupport(new No1F1Support()); 
             case TECLASTH30:
-                return new ServiceDeviceSupport(new TeclastH30Support(), EnumSet.of(ServiceDeviceSupport.Flags.BUSY_CHECKING)); 
+                return new ServiceDeviceSupport(new TeclastH30Support()); 
             case XWATCH:
-                return new ServiceDeviceSupport(new XWatchSupport(), EnumSet.of(ServiceDeviceSupport.Flags.BUSY_CHECKING)); 
+                return new ServiceDeviceSupport(new XWatchSupport()); 
             case FOSSILQHYBRID:
-                return new ServiceDeviceSupport(new QHybridSupport(), EnumSet.of(ServiceDeviceSupport.Flags.BUSY_CHECKING)); 
+                return new ServiceDeviceSupport(new QHybridSupport()); 
             case ZETIME:
-                return new ServiceDeviceSupport(new ZeTimeDeviceSupport(), EnumSet.of(ServiceDeviceSupport.Flags.BUSY_CHECKING)); 
+                return new ServiceDeviceSupport(new ZeTimeDeviceSupport()); 
             case ID115:
-                return new ServiceDeviceSupport(new ID115Support(), EnumSet.of(ServiceDeviceSupport.Flags.BUSY_CHECKING)); 
+                return new ServiceDeviceSupport(new ID115Support()); 
             case WATCH9:
-                return new ServiceDeviceSupport(new Watch9DeviceSupport(), EnumSet.of(ServiceDeviceSupport.Flags.THROTTLING, ServiceDeviceSupport.Flags.BUSY_CHECKING)); 
+                return new ServiceDeviceSupport(new Watch9DeviceSupport(), ServiceDeviceSupport.Flags.THROTTLING, ServiceDeviceSupport.Flags.BUSY_CHECKING); 
             case WATCHXPLUS:
-                return new ServiceDeviceSupport(new WatchXPlusDeviceSupport(), EnumSet.of(ServiceDeviceSupport.Flags.THROTTLING, ServiceDeviceSupport.Flags.BUSY_CHECKING)); 
+                return new ServiceDeviceSupport(new WatchXPlusDeviceSupport(), ServiceDeviceSupport.Flags.THROTTLING, ServiceDeviceSupport.Flags.BUSY_CHECKING); 
             case ROIDMI:
-                return new ServiceDeviceSupport(new RoidmiSupport(), EnumSet.of(ServiceDeviceSupport.Flags.BUSY_CHECKING)); 
+                return new ServiceDeviceSupport(new RoidmiSupport()); 
             case ROIDMI3:
-                return new ServiceDeviceSupport(new RoidmiSupport(), EnumSet.of(ServiceDeviceSupport.Flags.BUSY_CHECKING)); 
+                return new ServiceDeviceSupport(new RoidmiSupport()); 
             case Y5:
-                return new ServiceDeviceSupport(new Y5Support(), EnumSet.of(ServiceDeviceSupport.Flags.BUSY_CHECKING)); 
+                return new ServiceDeviceSupport(new Y5Support()); 
             case CASIOGB6900:
-                return new ServiceDeviceSupport(new CasioGB6900DeviceSupport(), EnumSet.of(ServiceDeviceSupport.Flags.BUSY_CHECKING)); 
+                return new ServiceDeviceSupport(new CasioGB6900DeviceSupport()); 
             case CASIOGBX100:
-                return new ServiceDeviceSupport(new CasioGBX100DeviceSupport(), EnumSet.of(ServiceDeviceSupport.Flags.BUSY_CHECKING)); 
+                return new ServiceDeviceSupport(new CasioGBX100DeviceSupport()); 
             case MISCALE2:
-                return new ServiceDeviceSupport(new MiScale2DeviceSupport(), EnumSet.of(ServiceDeviceSupport.Flags.BUSY_CHECKING)); 
+                return new ServiceDeviceSupport(new MiScale2DeviceSupport()); 
             case BFH16:
-                return new ServiceDeviceSupport(new BFH16DeviceSupport(), EnumSet.of(ServiceDeviceSupport.Flags.BUSY_CHECKING)); 
+                return new ServiceDeviceSupport(new BFH16DeviceSupport()); 
             case MIJIA_LYWSD02:
-                return new ServiceDeviceSupport(new MijiaLywsd02Support(), EnumSet.of(ServiceDeviceSupport.Flags.BUSY_CHECKING)); 
+                return new ServiceDeviceSupport(new MijiaLywsd02Support()); 
             case MAKIBESHR3:
-                return new ServiceDeviceSupport(new MakibesHR3DeviceSupport(), EnumSet.of(ServiceDeviceSupport.Flags.BUSY_CHECKING)); 
+                return new ServiceDeviceSupport(new MakibesHR3DeviceSupport()); 
             case ITAG:
-                return new ServiceDeviceSupport(new ITagSupport(), EnumSet.of(ServiceDeviceSupport.Flags.BUSY_CHECKING)); 
+                return new ServiceDeviceSupport(new ITagSupport()); 
             case NUTMINI:
-                return new ServiceDeviceSupport(new NutSupport(), EnumSet.of(ServiceDeviceSupport.Flags.BUSY_CHECKING)); 
+                return new ServiceDeviceSupport(new NutSupport()); 
             case BANGLEJS:
-                return new ServiceDeviceSupport(new BangleJSDeviceSupport(), EnumSet.of(ServiceDeviceSupport.Flags.BUSY_CHECKING)); 
+                return new ServiceDeviceSupport(new BangleJSDeviceSupport()); 
             case TLW64:
-                return new ServiceDeviceSupport(new TLW64Support(), EnumSet.of(ServiceDeviceSupport.Flags.BUSY_CHECKING)); 
+                return new ServiceDeviceSupport(new TLW64Support()); 
             case PINETIME_JF:
-                return new ServiceDeviceSupport(new PineTimeJFSupport(), EnumSet.of(ServiceDeviceSupport.Flags.BUSY_CHECKING)); 
+                return new ServiceDeviceSupport(new PineTimeJFSupport()); 
             case SG2:
-                return new ServiceDeviceSupport(new HPlusSupport(DeviceType.SG2), EnumSet.of(ServiceDeviceSupport.Flags.BUSY_CHECKING)); 
+                return new ServiceDeviceSupport(new HPlusSupport(DeviceType.SG2)); 
             case LEFUN:
-                return new ServiceDeviceSupport(new LefunDeviceSupport(), EnumSet.of(ServiceDeviceSupport.Flags.BUSY_CHECKING)); 
+                return new ServiceDeviceSupport(new LefunDeviceSupport()); 
             case SONY_SWR12:
-                return new ServiceDeviceSupport(new SonySWR12DeviceSupport(), EnumSet.of(ServiceDeviceSupport.Flags.BUSY_CHECKING)); 
+                return new ServiceDeviceSupport(new SonySWR12DeviceSupport()); 
             case WASPOS:
-                return new ServiceDeviceSupport(new WaspOSDeviceSupport(), EnumSet.of(ServiceDeviceSupport.Flags.BUSY_CHECKING)); 
+                return new ServiceDeviceSupport(new WaspOSDeviceSupport()); 
             case SMAQ2OSS:
-                return new ServiceDeviceSupport(new SMAQ2OSSSupport(), EnumSet.of(ServiceDeviceSupport.Flags.BUSY_CHECKING)); 
+                return new ServiceDeviceSupport(new SMAQ2OSSSupport()); 
             case UM25:
-                return new ServiceDeviceSupport(new UM25Support(), EnumSet.of(ServiceDeviceSupport.Flags.BUSY_CHECKING)); 
+                return new ServiceDeviceSupport(new UM25Support()); 
             case DOMYOS_T540:
-                return new ServiceDeviceSupport(new DomyosT540Support(), EnumSet.of(ServiceDeviceSupport.Flags.THROTTLING, ServiceDeviceSupport.Flags.BUSY_CHECKING)); 
+                return new ServiceDeviceSupport(new DomyosT540Support(), ServiceDeviceSupport.Flags.THROTTLING, ServiceDeviceSupport.Flags.BUSY_CHECKING); 
             case FITPRO:
-                return new ServiceDeviceSupport(new FitProDeviceSupport(), EnumSet.of(ServiceDeviceSupport.Flags.THROTTLING, ServiceDeviceSupport.Flags.BUSY_CHECKING)); 
+                return new ServiceDeviceSupport(new FitProDeviceSupport(), ServiceDeviceSupport.Flags.THROTTLING, ServiceDeviceSupport.Flags.BUSY_CHECKING); 
             case NOTHING_EAR1:
-                return new ServiceDeviceSupport(new Ear1Support(), EnumSet.of(ServiceDeviceSupport.Flags.BUSY_CHECKING)); 
+                return new ServiceDeviceSupport(new Ear1Support()); 
             case GALAXY_BUDS:
-                return new ServiceDeviceSupport(new GalaxyBudsDeviceSupport(), EnumSet.of(ServiceDeviceSupport.Flags.BUSY_CHECKING)); 
+                return new ServiceDeviceSupport(new GalaxyBudsDeviceSupport()); 
             case GALAXY_BUDS_LIVE:
-                return new ServiceDeviceSupport(new GalaxyBudsDeviceSupport(), EnumSet.of(ServiceDeviceSupport.Flags.BUSY_CHECKING)); 
+                return new ServiceDeviceSupport(new GalaxyBudsDeviceSupport()); 
             case SONY_WH_1000XM3:
-                return new ServiceDeviceSupport(new SonyHeadphonesSupport(), EnumSet.of(ServiceDeviceSupport.Flags.BUSY_CHECKING)); 
+                return new ServiceDeviceSupport(new SonyHeadphonesSupport()); 
             case SONY_WH_1000XM4:
-                return new ServiceDeviceSupport(new SonyHeadphonesSupport(), EnumSet.of(ServiceDeviceSupport.Flags.BUSY_CHECKING)); 
+                return new ServiceDeviceSupport(new SonyHeadphonesSupport()); 
             case SONY_WF_SP800N:
-                return new ServiceDeviceSupport(new SonyHeadphonesSupport(), EnumSet.of(ServiceDeviceSupport.Flags.BUSY_CHECKING)); 
+                return new ServiceDeviceSupport(new SonyHeadphonesSupport()); 
             case VESC_NRF:
             case VESC_HM10:
-                return new ServiceDeviceSupport(new VescDeviceSupport(device.getType()), EnumSet.of(ServiceDeviceSupport.Flags.BUSY_CHECKING));
+                return new ServiceDeviceSupport(new VescDeviceSupport(device.getType()));
             case BOSE_QC35:
-                return new ServiceDeviceSupport(new QC35BaseSupport(), EnumSet.of(ServiceDeviceSupport.Flags.BUSY_CHECKING)); 
+                return new ServiceDeviceSupport(new QC35BaseSupport()); 
         }
         return null;
     }
@@ -337,7 +334,7 @@ public class DeviceSupportFactory {
 
     private DeviceSupport createTCPDeviceSupport(GBDevice gbDevice) throws GBException {
         try {
-            DeviceSupport deviceSupport = new ServiceDeviceSupport(new PebbleSupport(), EnumSet.of(ServiceDeviceSupport.Flags.BUSY_CHECKING));
+            DeviceSupport deviceSupport = new ServiceDeviceSupport(new PebbleSupport(), ServiceDeviceSupport.Flags.BUSY_CHECKING);
             deviceSupport.setContext(gbDevice, mBtAdapter, mContext);
             return deviceSupport;
         } catch (Exception e) {
