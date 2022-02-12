@@ -28,12 +28,14 @@ import nodomain.freeyourgadget.gadgetbridge.model.WeatherSpec;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.AbstractBTLEDeviceSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.SetDeviceStateAction;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.cycling.data.DataAccumulator;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.cycling.protocol.CSCMeasurement;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.cycling.protocol.CSCProtocol;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
 public class GenericCyclingSensorSupport extends AbstractBTLEDeviceSupport {
     public static String UUID_CSC_MESAUREMENT = "00002a5b-0000-1000-8000-00805f9b34fb";
+    final int AVERAGE_CALCULATION_MIN_TIME_UNITS = 1024 * 3; // a bit more than 3 seconds since sensor counts a seconds in 1024 units
 
     private int wheelCircumference;
     private int saveIntervalMinutes;
@@ -41,12 +43,14 @@ public class GenericCyclingSensorSupport extends AbstractBTLEDeviceSupport {
     BluetoothGattCharacteristic measurementCharacteristic;
 
     private CSCProtocol protocol;
+    private DataAccumulator accumulator;
 
     public GenericCyclingSensorSupport() {
         super(LoggerFactory.getLogger(GenericCyclingSensorSupport.class));
         addSupportedService(UUID.fromString(CyclingSensorCoordinator.UUID_CSC));
 
         protocol = new CSCProtocol();
+        accumulator = new DataAccumulator();
     }
 
     private void loadPrefs(){
@@ -79,11 +83,16 @@ public class GenericCyclingSensorSupport extends AbstractBTLEDeviceSupport {
         return builder;
     }
 
+    private void handleMeasurement(byte[] value){
+        long timeOfArrival = System.currentTimeMillis();
+        CSCMeasurement measurement = protocol.parsePacket(timeOfArrival, value);
+        accumulator.captureCSCMeasurement(measurement);
+    }
+
     @Override
     public boolean onCharacteristicChanged(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic) {
         if(characteristic.equals(measurementCharacteristic)){
-            CSCMeasurement measurement = protocol.parsePacket(characteristic.getValue());
-            GB.log(measurement.toString(), GB.INFO, null);
+            handleMeasurement(characteristic.getValue());
         }
 
         return true;

@@ -7,7 +7,7 @@ public class CSCProtocol {
     final int FLAG_WHEEL_DATA_AVAILABKE = 1;
     final int FLAG_CRANK_DATA_AVAILABLE = 2;
 
-    public CSCMeasurement parsePacket(byte[] packet){
+    public CSCMeasurement parsePacket(long timeOfArrival, byte[] packet){
         ByteBuffer buffer = ByteBuffer.wrap(packet);
         buffer.order(ByteOrder.LITTLE_ENDIAN);
 
@@ -27,6 +27,6 @@ public class CSCProtocol {
             crankDataAvailable = true;
         }
 
-        return new CSCMeasurement(wheelRevolutions, lastWheelEvent, wheelDataAvailable, crankRevolutions, lastCrankEvent, crankDataAvailable);
+        return new CSCMeasurement(timeOfArrival, wheelRevolutions, lastWheelEvent, wheelDataAvailable, crankRevolutions, lastCrankEvent, crankDataAvailable);
     }
 }
