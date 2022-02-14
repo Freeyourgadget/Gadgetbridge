@@ -6,6 +6,7 @@ import android.bluetooth.BluetoothGattCharacteristic;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.net.Uri;
+import android.util.Log;
 import android.widget.Toast;
 
 import org.slf4j.LoggerFactory;
@@ -28,6 +29,7 @@ import nodomain.freeyourgadget.gadgetbridge.model.WeatherSpec;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.AbstractBTLEDeviceSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.SetDeviceStateAction;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.cycling.data.AverageCalculator;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.cycling.data.DataAccumulator;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.cycling.protocol.CSCMeasurement;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.cycling.protocol.CSCProtocol;
@@ -36,6 +38,7 @@ import nodomain.freeyourgadget.gadgetbridge.util.GB;
 public class GenericCyclingSensorSupport extends AbstractBTLEDeviceSupport {
     public static String UUID_CSC_MESAUREMENT = "00002a5b-0000-1000-8000-00805f9b34fb";
     final int AVERAGE_CALCULATION_MIN_TIME_UNITS = 1024 * 3; // a bit more than 3 seconds since sensor counts a seconds in 1024 units
+    private static final String TAG = "GenericCyclingSensorSup";
 
     private int wheelCircumference;
     private int saveIntervalMinutes;
@@ -44,6 +47,7 @@ public class GenericCyclingSensorSupport extends AbstractBTLEDeviceSupport {
 
     private CSCProtocol protocol;
     private DataAccumulator accumulator;
+    private AverageCalculator averageCalculator;
 
     public GenericCyclingSensorSupport() {
         super(LoggerFactory.getLogger(GenericCyclingSensorSupport.class));
@@ -51,6 +55,7 @@ public class GenericCyclingSensorSupport extends AbstractBTLEDeviceSupport {
 
         protocol = new CSCProtocol();
         accumulator = new DataAccumulator();
+        averageCalculator = new AverageCalculator(accumulator);
     }
 
     private void loadPrefs(){
@@ -87,6 +92,9 @@ public class GenericCyclingSensorSupport extends AbstractBTLEDeviceSupport {
         long timeOfArrival = System.currentTimeMillis();
         CSCMeasurement measurement = protocol.parsePacket(timeOfArrival, value);
         accumulator.captureCSCMeasurement(measurement);
+        double rpm = averageCalculator.calculateAverageRevolutionsPerSecond(3000);
+
+        Log.d(TAG, "handleMeasurement: " + rpm);
     }
 
     @Override

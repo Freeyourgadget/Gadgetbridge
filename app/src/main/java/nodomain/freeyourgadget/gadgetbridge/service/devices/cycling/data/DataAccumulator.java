@@ -25,7 +25,7 @@ public class DataAccumulator {
     public CSCMeasurement[] getMeasurementsInTimeSpan(long timespanMillis) throws NotEnoughMeasurementsException{
         int listSize = 1;
         int accumulatedTimeDelta = 0;
-        for(int i = measurements.size() - 2; i > 0; i--){
+        for(int i = measurements.size() - 1; i > 0; i--){
             CSCMeasurement previousMeasurement;
             CSCMeasurement currentMeasurement;
             try{
