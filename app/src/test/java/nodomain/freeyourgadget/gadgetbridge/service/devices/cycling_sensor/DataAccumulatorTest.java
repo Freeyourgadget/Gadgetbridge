@@ -42,9 +42,10 @@ public class DataAccumulatorTest {
         enrichAccumulator(accumulator, testData);
 
         assertEquals(accumulator.getMeasurementsInTimeSpan(1000).length, 2);
-        assertEquals(accumulator.getMeasurementsInTimeSpan(1024).length, 2);
-        assertEquals(accumulator.getMeasurementsInTimeSpan(1025).length, 3);
-        assertEquals(accumulator.getMeasurementsInTimeSpan(7 * 1000).length, 8);
+        assertEquals(accumulator.getMeasurementsInTimeSpan(1024).length, 3);
+        assertEquals(accumulator.getMeasurementsInTimeSpan(2000).length, 3);
+        assertEquals(accumulator.getMeasurementsInTimeSpan(2001).length, 4);
+        assertEquals(accumulator.getMeasurementsInTimeSpan(7000).length, 8);
     }
 
     @Test
