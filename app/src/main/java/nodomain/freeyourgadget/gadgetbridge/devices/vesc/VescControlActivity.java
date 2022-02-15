@@ -72,8 +72,8 @@ public class VescControlActivity extends AbstractGBActivity {
     }
 
     private void restoreValues(){
-        rpmEditText.setText(preferences.getInt(PREFS_KEY_LAST_RPM, 0));
-        breakCurrentEditText.setText(preferences.getInt(PREFS_KEY_LAST_BREAK_CURRENT, 0));
+        rpmEditText.setText(String.valueOf(preferences.getInt(PREFS_KEY_LAST_RPM, 0)));
+        breakCurrentEditText.setText(String.valueOf(preferences.getInt(PREFS_KEY_LAST_BREAK_CURRENT, 0)));
     }
 
     @Override
