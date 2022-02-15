@@ -61,9 +61,9 @@ public class FossilAppWriter {
     }
 
     public byte[] getWapp() throws IOException {
-        byte[] codeData = loadFiles(code);
-        byte[] iconsData = loadFiles(icons);
-        byte[] layoutData = loadFiles(layout);
+        byte[] codeData = loadFiles(code, false);
+        byte[] iconsData = loadFiles(icons, false);
+        byte[] layoutData = loadFiles(layout, true);
         byte[] displayNameData = loadStringFiles(displayName);
         byte[] configData = loadStringFiles(config);
 
@@ -118,16 +118,23 @@ public class FossilAppWriter {
         return wapp.toByteArray();
     }
 
-    public byte[] loadFiles(LinkedHashMap<String, InputStream> filesMap) throws IOException {
+    public byte[] loadFiles(LinkedHashMap<String, InputStream> filesMap, boolean appendNull) throws IOException {
         ByteArrayOutputStream output = new ByteArrayOutputStream();
         for (String filename : filesMap.keySet()) {
             InputStream in = filesMap.get(filename);
             output.write((byte)filename.length() + 1);
             output.write(StringUtils.terminateNull(filename).getBytes(StandardCharsets.UTF_8));
-            output.write(shortToLEBytes((short)in.available()));
+            int fileLength = in.available();
+            if(appendNull){
+                fileLength++;
+            }
+            output.write(shortToLEBytes((short)fileLength));
             byte[] fileBytes = new byte[in.available()];
             in.read(fileBytes);
             output.write(fileBytes);
+            if(appendNull){
+                output.write(0x00);
+            }
         }
         return output.toByteArray();
     }
