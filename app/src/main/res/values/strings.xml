@@ -1520,4 +1520,5 @@
     <string name="watchface_dialog_widget_width">Width:</string>
     <string name="pref_title_opentracks_packagename">OpenTracks package name</string>
     <string name="pref_summary_opentracks_packagename">Used for starting/stopping GPS track recording from certain wearables that don\'t have built-in GPS</string>
+    <string name="watchface_setting_light_up_on_notification">Light up on new notification</string>
 </resources>
