@@ -456,6 +456,9 @@ public class HybridHRWatchfaceDesignerActivity extends AbstractGBActivity implem
                     if (watchfaceConfig.has("powersave_hands")) {
                         watchfaceSettings.setPowersaveHands(watchfaceConfig.getBoolean("powersave_hands"));
                     }
+                    if (watchfaceConfig.has("light_up_on_notification")) {
+                        watchfaceSettings.setLightUpOnNotification(watchfaceConfig.getBoolean("light_up_on_notification"));
+                    }
                 } catch (JSONException e) {
                     LOG.warn("JSON parsing error", e);
                 }
