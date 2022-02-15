@@ -29,6 +29,9 @@ public class XWatchService {
     public static final byte COMMAND_ACTION_BUTTON = 0x4c;
     public static final byte COMMAND_ACTIVITY_DATA = 0x43;
     public static final byte COMMAND_ACTIVITY_TOTALS = 0x46;
+    public static final byte COMMAND_NOTIFICATION = 0x4d;
+    public static final byte COMMAND_NOTIFICATION_PHONE = 0x00;
+    public static final byte COMMAND_NOTIFICATION_MESSAGE = 0x01;
 
     private static final Map<UUID, String> XWATCH_DEBUG;
 
