@@ -1588,4 +1588,6 @@
     <string name="devicetype_amazfit_pop">Amazfit Pop</string>
     <string name="devicetype_amazfit_pop_pro">Amazfit Pop Pro</string>
     <string name="menuitem_nothing">Порожньо</string>
+    <string name="pref_title_opentracks_packagename">Назва пакунка OpenTracks</string>
+    <string name="pref_summary_opentracks_packagename">Використовується для запуску/зупинки запису треків GPS з деяких натільних пристроїв, які не мають вбудованого GPS</string>
 </resources>
