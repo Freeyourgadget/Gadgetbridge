@@ -1586,4 +1586,6 @@
     <string name="devicetype_amazfit_pop_pro">华米 Pop Pro</string>
     <string name="devicetype_amazfit_pop">华米 Pop</string>
     <string name="menuitem_nothing">无</string>
+    <string name="pref_title_opentracks_packagename">OpenTracks 包名</string>
+    <string name="pref_summary_opentracks_packagename">用于启动/停止某些没有内置GPS的可穿戴设备的GPS轨迹记录</string>
 </resources>
