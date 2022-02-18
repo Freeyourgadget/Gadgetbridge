@@ -1582,4 +1582,14 @@
     <string name="pref_anc_optimizer_state_pressure">Ciśnienie atmosferyczne</string>
     <string name="sony_anc_optimizer_status_analyzing">Analizowanie…</string>
     <string name="sony_anc_optimize_title">Zoptymalizuj</string>
+    <string name="menuitem_nothing">Nic</string>
+    <string name="pref_header_sony_anc_optimizer">Optymalizator redukcji szumów</string>
+    <string name="pref_title_opentracks_packagename">Nazwa pakietu aplikacji OpenTracks</string>
+    <string name="pref_summary_opentracks_packagename">Służy do uruchamiania/zatrzymywania rejestracji śladów GPS z niektórych urządzeń do noszenia, które nie mają wbudowanego GPS</string>
+    <string name="sony_anc_optimize_description">Kliknij, aby uruchomić optymalizator redukcji szumów.</string>
+    <string name="sony_anc_optimize_confirmation_title">Optymalizator redukcji szumów</string>
+    <string name="sony_anc_optimizer_status_starting">Uruchamianie…</string>
+    <string name="sony_anc_optimizer_status_not_running">Nieuruchomiony</string>
+    <string name="sony_anc_optimizer_status_atmospheric_pressure">Pomiar ciśnienia atmosferycznego…</string>
+    <string name="sony_anc_optimizer_status_finished">Kończenie…</string>
 </resources>
