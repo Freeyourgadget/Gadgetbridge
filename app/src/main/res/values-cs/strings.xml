@@ -1582,4 +1582,8 @@
     <string name="sony_anc_optimize_confirmation_title">Optimalizátor potlačení šumu</string>
     <string name="pref_anc_optimizer_state_pressure">Atmosférický tlak</string>
     <string name="sony_anc_optimizer_status_wearing_condition">Měření stavu nošení…</string>
+    <string name="menuitem_nothing">Nic</string>
+    <string name="pref_device_action_fitness_app_control_start">Start Sledování Sportovní aplikací</string>
+    <string name="pref_device_action_fitness_app_control_stop">Stop Sledování Sportovní aplikací</string>
+    <string name="pref_title_opentracks_packagename">OpenTracks aplikační jméno</string>
 </resources>
