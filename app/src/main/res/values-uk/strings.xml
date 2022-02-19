@@ -1590,4 +1590,6 @@
     <string name="menuitem_nothing">Порожньо</string>
     <string name="pref_title_opentracks_packagename">Назва пакунка OpenTracks</string>
     <string name="pref_summary_opentracks_packagename">Використовується для запуску/зупинки запису треків GPS з деяких натільних пристроїв, які не мають вбудованого GPS</string>
+    <string name="pref_device_action_fitness_app_control_start">Початок відстеження застосунку для фітнесу</string>
+    <string name="pref_device_action_fitness_app_control_stop">Зупинка відстеження застосунку для фітнесу</string>
 </resources>
