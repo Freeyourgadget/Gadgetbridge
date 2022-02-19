@@ -1586,4 +1586,6 @@ Temps de sommeil préféré en heures</string>
     <string name="menuitem_nothing">Rien</string>
     <string name="pref_title_opentracks_packagename">Nom du logiciel OpenTracks</string>
     <string name="pref_summary_opentracks_packagename">Utilisé pour démarrer/arrêter l\'enregistrement GPS pour certains appareils qui n\'ont pas de GPS intégré</string>
+    <string name="pref_device_action_fitness_app_control_start">Démarrage de l\'enregistrement dans l\'app Fitness</string>
+    <string name="pref_device_action_fitness_app_control_stop">Arrêt de l\'enregistrement dans l\'app Fitness</string>
 </resources>
