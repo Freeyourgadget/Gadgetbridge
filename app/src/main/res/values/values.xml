@@ -106,6 +106,8 @@
     <item name="pref_media_forward_value" translatable="false" type="string">FORWARD</item>
     <item name="pref_media_rewind_value" translatable="false" type="string">REWIND</item>
     <item name="pref_device_action_broadcast_value" translatable="false" type="string">BROADCAST</item>
+    <item name="pref_device_action_fitness_app_control_start_value" translatable="false" type="string">FITNESS_CONTROL_START</item>
+    <item name="pref_device_action_fitness_app_control_stop_value" translatable="false" type="string">FITNESS_CONTROL_STOP</item>
     <item name="pref_title_touch_voice_assistant" type="string">Voice Assistant</item>
     <item name="pref_title_touch_anc" type="string">Active Noise Cancelling</item>
     <item name="pref_title_touch_quick_ambient" type="string">Quick Ambient Sound</item>

@@ -22,6 +22,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.widget.Toast;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,6 +30,7 @@ import org.slf4j.LoggerFactory;
 import java.util.ArrayList;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
+import nodomain.freeyourgadget.gadgetbridge.util.GB;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 
 public class OpenTracksController extends Activity {
@@ -70,7 +72,11 @@ public class OpenTracksController extends Activity {
         intent.setClassName(packageName, className);
         intent.putExtra("STATS_TARGET_PACKAGE", context.getPackageName());
         intent.putExtra("STATS_TARGET_CLASS", "nodomain.freeyourgadget.gadgetbridge.externalevents.OpenTracksController");
-        context.startActivity(intent);
+        try {
+            context.startActivity(intent);
+        } catch (Exception e) {
+            GB.toast(e.getMessage(), Toast.LENGTH_LONG, GB.WARN);
+        }
     }
 
     public static void startRecording(Context context) {
