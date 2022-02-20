@@ -85,6 +85,10 @@ public class OpenTracksController extends Activity {
 
     public static void stopRecording(Context context) {
         sendIntent(context, "de.dennisguse.opentracks.publicapi.StopRecording");
-        GBApplication.app().getOpenTracksObserver().finish();
+        OpenTracksContentObserver openTracksObserver = GBApplication.app().getOpenTracksObserver();
+        if (openTracksObserver != null) {
+            openTracksObserver.finish();
+        }
+        GBApplication.app().setOpenTracksObserver(null);
     }
 }
