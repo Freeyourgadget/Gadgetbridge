@@ -881,6 +881,7 @@ public class NotificationListener extends NotificationListenerService {
         String source = sbn.getPackageName();
         if (source.equals("de.dennisguse.opentracks")
                 || source.equals("de.dennisguse.opentracks.debug")
+                || source.equals("de.dennisguse.opentracks.nightly")
                 || source.equals("de.tadris.fitness")
                 || source.equals("de.tadris.fitness.debug")
         ) {
