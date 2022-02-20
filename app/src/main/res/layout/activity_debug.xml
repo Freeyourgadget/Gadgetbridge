@@ -233,6 +233,29 @@
                 grid:layout_columnSpan="2"
                 grid:layout_gravity="fill_horizontal" />
 
+            <Button
+                android:id="@+id/startFitnessAppTracking"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/pref_device_action_fitness_app_control_start"
+                grid:layout_columnSpan="2"
+                grid:layout_gravity="fill_horizontal" />
+
+            <Button
+                android:id="@+id/stopFitnessAppTracking"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/pref_device_action_fitness_app_control_stop"
+                grid:layout_columnSpan="2"
+                grid:layout_gravity="fill_horizontal" />
+
+            <Button
+                android:id="@+id/showStatusFitnessAppTracking"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Show Fit.App.Track. Status"
+                grid:layout_columnSpan="2"
+                grid:layout_gravity="fill_horizontal" />
         </androidx.gridlayout.widget.GridLayout>
 
     </ScrollView>
