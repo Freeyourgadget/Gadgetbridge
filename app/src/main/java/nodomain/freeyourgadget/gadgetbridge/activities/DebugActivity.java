@@ -35,6 +35,7 @@ import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
@@ -70,6 +71,8 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Random;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.TreeMap;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
@@ -83,6 +86,8 @@ import nodomain.freeyourgadget.gadgetbridge.devices.DeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.DeviceManager;
 import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
 import nodomain.freeyourgadget.gadgetbridge.entities.Device;
+import nodomain.freeyourgadget.gadgetbridge.externalevents.OpenTracksContentObserver;
+import nodomain.freeyourgadget.gadgetbridge.externalevents.OpenTracksController;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.model.CallSpec;
@@ -508,6 +513,72 @@ public class DebugActivity extends AbstractGBActivity {
             }
         });
 
+        Button startFitnessAppTracking = findViewById(R.id.startFitnessAppTracking);
+        startFitnessAppTracking.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                OpenTracksController.startRecording(DebugActivity.this);
+            }
+        });
+
+        Button stopFitnessAppTracking = findViewById(R.id.stopFitnessAppTracking);
+        stopFitnessAppTracking.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                OpenTracksController.stopRecording(DebugActivity.this);
+            }
+        });
+
+        Button showStatusFitnessAppTracking = findViewById(R.id.showStatusFitnessAppTracking);
+        final int delay = 2 * 1000;
+
+        showStatusFitnessAppTracking.setOnClickListener(new View.OnClickListener() {
+            final Handler handler = new Handler();
+            Runnable runnable;
+
+            @Override
+            public void onClick(View v) {
+                final AlertDialog.Builder fitnesStatusBuilder = new AlertDialog.Builder(DebugActivity.this);
+                fitnesStatusBuilder
+                        .setCancelable(false)
+                        .setTitle("openTracksObserver Status")
+                        .setMessage("Starting openTracksObserver watcher, waiting for an update, refreshing every: " + delay + "ms")
+                        .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                handler.removeCallbacks(runnable);
+                            }
+                        });
+                final AlertDialog alert = fitnesStatusBuilder.show();
+
+
+                runnable = new Runnable() {
+                    @Override
+                    public void run() {
+                        LOG.debug("openTracksObserver debug watch dialog running");
+                        handler.postDelayed(this, delay); //schedule next execution
+
+                        OpenTracksContentObserver openTracksObserver = GBApplication.app().getOpenTracksObserver();
+                        if (openTracksObserver == null) {
+                            LOG.debug("openTracksObserver is null");
+                            alert.cancel();
+                            alert.setMessage("openTracksObserver not running");
+                            alert.show();
+                            return;
+                        }
+                        LOG.debug("openTracksObserver is not null, updating debug view");
+                        long timeSecs = openTracksObserver.getTimeMillisChange() / 1000;
+                        float distanceCM = openTracksObserver.getDistanceMeterChange() * 100;
+
+                        LOG.debug("Time: " + timeSecs + " distanceCM " + distanceCM);
+                        alert.cancel();
+                        alert.setMessage("TimeSec: " + timeSecs + " distanceCM " + distanceCM);
+                        alert.show();
+                    }
+                };
+                handler.postDelayed(runnable, delay);
+            }
+        });
     }
 
 
