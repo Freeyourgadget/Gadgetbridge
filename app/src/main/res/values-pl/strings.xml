@@ -1522,7 +1522,7 @@
     <string name="pref_header_sony_equalizer_preset_custom_1">Niestandardowe ustawienie 1</string>
     <string name="pref_header_sony_equalizer_preset_custom_2">Niestandardowe ustawienie 2</string>
     <string name="sony_equalizer_clear_bass">Czysty bas</string>
-    <string name="sony_audio_upsampling">Upsampling dzięku</string>
+    <string name="sony_audio_upsampling">Upsampling dźwięku</string>
     <string name="sony_speak_to_chat_sensitivity">Czułość wykrywania głosu</string>
     <string name="sony_speak_to_chat_sensitivity_auto">Automatyczny</string>
     <string name="sony_speak_to_chat_sensitivity_high">Wysoki</string>
