@@ -89,5 +89,6 @@ public class OpenTracksController extends Activity {
         if (openTracksObserver != null) {
             openTracksObserver.finish();
         }
+        GBApplication.app().setOpenTracksObserver(null);
     }
 }
