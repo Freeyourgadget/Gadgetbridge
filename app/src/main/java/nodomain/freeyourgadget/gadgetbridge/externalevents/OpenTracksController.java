@@ -34,6 +34,28 @@ import nodomain.freeyourgadget.gadgetbridge.util.GB;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 
 public class OpenTracksController extends Activity {
+    /*
+     * A short explanation of how this integration with OpenTracks works:
+     * Starting the recording from a device requires calling `startRecording()`
+     * on this class. For a simple example, check out the implementation in
+     * `WorkoutRequestHandler`, used by the Fossil HR series.
+     * The OpenTracks class can be set in the Gadgetbridge settings and depends
+     * on the installation source used for OpenTracks. Details can be found in
+     * their documentation here: https://github.com/OpenTracksApp/OpenTracks#api
+     * `startRecording()` sends an explicit Intent to OpenTracks signalling it
+     * to start recording. It passes along the package name and class name of
+     * our `OpenTracksController` which OpenTracks will use to send the 
+     * statistics URIs to. After starting the recording service, OpenTracks
+     * uses a new explicit Intent to start our `OpenTracksController` and passes
+     * along the URIs and the read permissions for those URIs (using
+     * `Intent.FLAG_GRANT_READ_URI_PERMISSION`). So at that point
+     * `OpenTracksController` is started as a new `Activity` (or `Context`)
+     * which has the read permissions for the statistics URIs. The controller
+     * saves its `Context` into the `OpenTracksContentObserver` in the GB main
+     * process, so it can keep running and read the statistics with the correct
+     * `Context`. So, whatever class, device or activity calls the methods on
+     * the `OpenTracksContentObserver` from, it will always work.
+     */
     private static final String EXTRAS_PROTOCOL_VERSION = "PROTOCOL_VERSION";
     private static final String ACTION_DASHBOARD = "Intent.OpenTracks-Dashboard";
     private static final String ACTION_DASHBOARD_PAYLOAD = ACTION_DASHBOARD + ".Payload";
