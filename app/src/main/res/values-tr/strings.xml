@@ -1601,4 +1601,5 @@
     <string name="pref_summary_opentracks_packagename">Dahili GPS\'i olmayan belirli giyilebilir aygıtlardan GPS izleme kaydını başlatmak/durdurmak için kullanılır</string>
     <string name="pref_device_action_fitness_app_control_stop">Fitness Uygulaması İzlemesini Durdur</string>
     <string name="pref_device_action_fitness_app_control_start">Fitness Uygulaması İzlemesini Başlat</string>
+    <string name="pref_title_notifications_generic_settings">Android bildirim ayarları</string>
 </resources>
