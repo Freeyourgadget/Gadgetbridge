@@ -1586,4 +1586,5 @@
     <string name="pref_device_action_fitness_app_control_start">Start Sledování Sportovní aplikací</string>
     <string name="pref_device_action_fitness_app_control_stop">Stop Sledování Sportovní aplikací</string>
     <string name="pref_title_opentracks_packagename">OpenTracks aplikační jméno</string>
+    <string name="pref_title_notifications_generic_settings">Systémové nastavení notifikací</string>
 </resources>
