@@ -142,6 +142,7 @@
     <string name="pref_title_notifications_pebblemsg">Pebble Messages</string>
     <string name="pref_summary_notifications_pebblemsg">Support for apps that send notifications to the Pebble via PebbleKit.</string>
     <string name="pref_title_notifications_generic">Generic notification support</string>
+    <string name="pref_title_notifications_generic_settings">Android notification settings</string>
     <string name="pref_title_whenscreenon">…also when screen is on</string>
     <string name="pref_title_notification_filter">Do Not Disturb</string>
     <string name="pref_summary_notification_filter">Block all notifications when Do Not Disturb is enabled on the phone</string>
