@@ -1585,4 +1585,5 @@
     <string name="pref_title_opentracks_packagename">OpenTracks-pakketnaam</string>
     <string name="pref_device_action_fitness_app_control_start">Fitness-app-tracking starten</string>
     <string name="pref_device_action_fitness_app_control_stop">Fitness-app-tracking stoppen</string>
+    <string name="pref_title_notifications_generic_settings">Instellingen voor Android-meldingen</string>
 </resources>
