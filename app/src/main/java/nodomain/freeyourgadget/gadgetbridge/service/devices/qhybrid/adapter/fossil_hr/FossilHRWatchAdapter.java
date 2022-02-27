@@ -1559,8 +1559,6 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
                         return;
                     }
 
-                    queueWrite(new SetCommuteMenuMessage(getContext().getString(R.string.fossil_hr_commute_processing), false, this));
-
                     Intent menuIntent = new Intent(QHybridSupport.QHYBRID_EVENT_COMMUTE_MENU);
                     menuIntent.putExtra("EXTRA_ACTION", action);
                     getContext().sendBroadcast(menuIntent);
