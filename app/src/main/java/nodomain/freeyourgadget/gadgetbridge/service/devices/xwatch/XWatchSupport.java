@@ -194,7 +194,15 @@ public class XWatchSupport extends AbstractBTLEDeviceSupport {
 
     @Override
     public void onNotification(NotificationSpec notificationSpec) {
-        //TODO: Implement
+        try {
+            TransactionBuilder builder = performInitialized("xwatch notification");
+            BluetoothGattCharacteristic deviceData = getCharacteristic(XWatchService.UUID_WRITE);
+            byte[] data = new byte[]{XWatchService.COMMAND_NOTIFICATION, XWatchService.COMMAND_NOTIFICATION_MESSAGE, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
+            builder.write(deviceData, crcChecksum(data));
+            builder.queue(getQueue());
+        } catch (IOException ex) {
+            LOG.error("Unable to send message notification on XWatch device", ex);
+        }
     }
 
     @Override
@@ -215,7 +223,18 @@ public class XWatchSupport extends AbstractBTLEDeviceSupport {
 
     @Override
     public void onSetCallState(CallSpec callSpec) {
-        //TODO: Implement (if necessary)
+        if (callSpec.command == CallSpec.CALL_INCOMING) {
+            LOG.debug("Incoming call8");
+            try {
+                TransactionBuilder builder = performInitialized("callnotification");
+                BluetoothGattCharacteristic deviceData = getCharacteristic(XWatchService.UUID_WRITE);
+                byte[] data = new byte[]{XWatchService.COMMAND_NOTIFICATION, XWatchService.COMMAND_NOTIFICATION_PHONE, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
+                builder.write(deviceData, crcChecksum(data));
+                builder.queue(getQueue());
+            } catch (IOException ex) {
+                LOG.error("Unable to send call notification on XWatch device", ex);
+            }
+        }
     }
 
     @Override
@@ -260,7 +279,7 @@ public class XWatchSupport extends AbstractBTLEDeviceSupport {
     @Override
     public void onFetchRecordedData(int dataTypes) {
         try {
-            if(builder == null) {
+            if (builder == null) {
                 builder = performInitialized("fetchActivityData");
             }
             requestSummarizedData(builder);
@@ -456,7 +475,7 @@ public class XWatchSupport extends AbstractBTLEDeviceSupport {
 
                 if (value[5] == 95) {
                     dayToFetch++;
-                    if(dayToFetch <= maxDayToFetch) {
+                    if (dayToFetch <= maxDayToFetch) {
                         try {
                             builder = performInitialized("fetchActivityData");
                             requestDetailedData(builder);
@@ -475,8 +494,8 @@ public class XWatchSupport extends AbstractBTLEDeviceSupport {
     private void handleButtonPressed(byte[] value) {
         long currentTimestamp = System.currentTimeMillis();
 
-        AudioManager audioManager = (AudioManager)getContext().getSystemService(Context.AUDIO_SERVICE);
-        if(audioManager.isWiredHeadsetOn()) {
+        AudioManager audioManager = (AudioManager) getContext().getSystemService(Context.AUDIO_SERVICE);
+        if (audioManager.isWiredHeadsetOn()) {
             if (currentTimestamp - lastButtonTimestamp < 1000) {
                 if (audioManager.isMusicActive()) {
                     audioManager.dispatchMediaKeyEvent(new KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_MEDIA_NEXT));
@@ -570,7 +589,7 @@ public class XWatchSupport extends AbstractBTLEDeviceSupport {
                 minutes
         );
 
-        timestamp = (int)(cal.getTimeInMillis() / 1000);
+        timestamp = (int) (cal.getTimeInMillis() / 1000);
 
         return timestamp;
     }
