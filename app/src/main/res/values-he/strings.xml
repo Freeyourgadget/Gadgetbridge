@@ -931,7 +931,7 @@
 \n
 \nהמשך מעבר לנקודה זו הוא על אחריותך!</string>
     <string name="menuitem_stress">לחץ</string>
-    <string name="menuitem_cycles">מעקב מחזוריות</string>
+    <string name="menuitem_cycles">מעקב מחזור</string>
     <string name="menuitem_breathing">נשימה</string>
     <string name="devicetype_miband5">Mi Band 5</string>
     <string name="ignore_bonded_devices_description">הפעלת אפשרות זו תתעלם ממכשירים שכבר אוגדו/צומדו טרם הסריקה</string>
