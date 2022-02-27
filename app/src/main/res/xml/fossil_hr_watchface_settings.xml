@@ -57,6 +57,11 @@
             android:key="pref_hybridhr_watchface_power_saving_hands"
             android:title="@string/watchface_setting_power_saving_hands"
             android:singleLineTitle="false" />
+        <SwitchPreference
+            android:persistent="false"
+            android:key="pref_hybridhr_watchface_light_up_on_notification"
+            android:title="@string/watchface_setting_light_up_on_notification"
+            android:singleLineTitle="false" />
 
     </PreferenceCategory>
 </PreferenceScreen>
