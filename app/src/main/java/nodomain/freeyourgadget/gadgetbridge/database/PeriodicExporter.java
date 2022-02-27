@@ -44,24 +44,30 @@ public class PeriodicExporter extends BroadcastReceiver {
 
     public static void enablePeriodicExport(Context context) {
         Prefs prefs = GBApplication.getPrefs();
+        GBApplication gbApp = GBApplication.app();
+        long autoExportScheduled = gbApp.getAutoExportScheduledTimestamp();
         boolean autoExportEnabled = prefs.getBoolean(GBPrefs.AUTO_EXPORT_ENABLED, false);
         Integer autoExportInterval = prefs.getInt(GBPrefs.AUTO_EXPORT_INTERVAL, 0);
-        sheduleAlarm(context, autoExportInterval, autoExportEnabled);
+        scheduleAlarm(context, autoExportInterval, autoExportEnabled && autoExportScheduled == 0);
     }
 
-    public static void sheduleAlarm(Context context, Integer autoExportInterval, boolean autoExportEnabled) {
+    public static void scheduleAlarm(Context context, Integer autoExportInterval, boolean autoExportEnabled) {
         Intent i = new Intent(context, PeriodicExporter.class);
-        PendingIntent pi = PendingIntent.getBroadcast(context, 0 , i, 0);
+        PendingIntent pi = PendingIntent.getBroadcast(context, 0, i, 0);
         AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
         am.cancel(pi);
         if (!autoExportEnabled) {
+            LOG.info("Not scheduling periodic export, either already scheduled or not enabled");
             return;
         }
         int exportPeriod = autoExportInterval * 60 * 60 * 1000;
         if (exportPeriod == 0) {
+            LOG.info("Not scheduling periodic export, interval set to 0");
             return;
         }
-        LOG.info("Enabling periodic export");
+        LOG.info("Scheduling periodic export");
+        GBApplication gbApp = GBApplication.app();
+        gbApp.setAutoExportScheduledTimestamp(System.currentTimeMillis() + exportPeriod);
         am.setInexactRepeating(
                 AlarmManager.ELAPSED_REALTIME,
                 SystemClock.elapsedRealtime() + exportPeriod,
@@ -72,21 +78,46 @@ public class PeriodicExporter extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        LOG.info("Exporting DB");
-        try (DBHandler dbHandler = GBApplication.acquireDB()) {
-            DBHelper helper = new DBHelper(context);
-            String dst = GBApplication.getPrefs().getString(GBPrefs.AUTO_EXPORT_LOCATION, null);
-            if (dst == null) {
-                LOG.info("Unable to export DB, export location not set");
-                return;
+        LOG.info("Received command to export DB");
+        createRefreshTask("Export database", context).execute();
+    }
+
+    protected RefreshTask createRefreshTask(String task, Context context) {
+        return new RefreshTask(task, context);
+    }
+
+    public class RefreshTask extends DBAccess {
+        Context localContext;
+
+        public RefreshTask(String task, Context context) {
+            super(task, context);
+            localContext = context;
+        }
+
+        @Override
+        protected void doInBackground(DBHandler handler) {
+            LOG.info("Exporting DB in a background thread");
+            try (DBHandler dbHandler = GBApplication.acquireDB()) {
+                DBHelper helper = new DBHelper(localContext);
+                String dst = GBApplication.getPrefs().getString(GBPrefs.AUTO_EXPORT_LOCATION, null);
+                if (dst == null) {
+                    LOG.info("Unable to export DB, export location not set");
+                    return;
+                }
+                Uri dstUri = Uri.parse(dst);
+                try (OutputStream out = localContext.getContentResolver().openOutputStream(dstUri)) {
+                    helper.exportDB(dbHandler, out);
+                    GBApplication gbApp = GBApplication.app();
+                    gbApp.setLastAutoExportTimestamp(System.currentTimeMillis());
+                }
+            } catch (Exception ex) {
+                GB.updateExportFailedNotification(localContext.getString(R.string.notif_export_failed_title), localContext);
+                LOG.info("Exception while exporting DB: ", ex);
             }
-            Uri dstUri = Uri.parse(dst);
-            try (OutputStream out = context.getContentResolver().openOutputStream(dstUri)) {
-                helper.exportDB(dbHandler, out);
-            }
-        } catch (Exception ex) {
-            GB.updateExportFailedNotification(context.getString(R.string.notif_export_failed_title), context);
-            LOG.info("Exception while exporting DB: ", ex);
+        }
+
+        @Override
+        protected void onPostExecute(Object o) {
         }
     }
 }

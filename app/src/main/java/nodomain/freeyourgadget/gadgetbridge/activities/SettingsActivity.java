@@ -313,7 +313,7 @@ public class SettingsActivity extends AbstractSettingsActivity {
                         Integer.valueOf((String) autoExportInterval));
                 preference.setSummary(summary);
                 boolean auto_export_enabled = GBApplication.getPrefs().getBoolean(GBPrefs.AUTO_EXPORT_ENABLED, false);
-                PeriodicExporter.sheduleAlarm(getApplicationContext(), Integer.valueOf((String) autoExportInterval), auto_export_enabled);
+                PeriodicExporter.scheduleAlarm(getApplicationContext(), Integer.valueOf((String) autoExportInterval), auto_export_enabled);
                 return true;
             }
         });
@@ -327,7 +327,7 @@ public class SettingsActivity extends AbstractSettingsActivity {
             @Override
             public boolean onPreferenceChange(Preference preference, Object autoExportEnabled) {
                 int autoExportInterval = GBApplication.getPrefs().getInt(GBPrefs.AUTO_EXPORT_INTERVAL, 0);
-                PeriodicExporter.sheduleAlarm(getApplicationContext(), autoExportInterval, (boolean) autoExportEnabled);
+                PeriodicExporter.scheduleAlarm(getApplicationContext(), autoExportInterval, (boolean) autoExportEnabled);
                 return true;
             }
         });
@@ -492,7 +492,7 @@ public class SettingsActivity extends AbstractSettingsActivity {
                     .getPrefs().getBoolean(GBPrefs.AUTO_EXPORT_ENABLED, false);
             int autoExportPeriod = GBApplication
                     .getPrefs().getInt(GBPrefs.AUTO_EXPORT_INTERVAL, 0);
-            PeriodicExporter.sheduleAlarm(getApplicationContext(), autoExportPeriod, autoExportEnabled);
+            PeriodicExporter.scheduleAlarm(getApplicationContext(), autoExportPeriod, autoExportEnabled);
         }
     }
 

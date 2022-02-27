@@ -100,7 +100,7 @@
                 android:text="@string/activity_db_management_clean_export_directory_label" />
 
             <TextView
-                android:id="@+id/autoExportLocation_label"
+                android:id="@+id/autoExportTitleLabel"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
@@ -109,7 +109,29 @@
                 android:textColor="@color/accent" />
 
             <TextView
-                android:id="@+id/autoExportLocation_intro"
+                android:id="@+id/autoExportEnabled"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text=""
+                android:textAppearance="?android:attr/textAppearanceSmall" />
+
+            <TextView
+                android:id="@+id/autoExportScheduled"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/activity_db_management_autoexport_scheduled_no"
+                android:textAppearance="?android:attr/textAppearanceSmall" />
+
+
+            <TextView
+                android:id="@+id/autoExport_lastTime_label"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/autoExport_lastTime_label"
+                android:textAppearance="?android:attr/textAppearanceSmall" />
+
+            <TextView
+                android:id="@+id/autoExportLocation_label"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/activity_db_management_autoexport_explanation"

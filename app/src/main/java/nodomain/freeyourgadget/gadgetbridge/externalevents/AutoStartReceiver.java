@@ -38,7 +38,7 @@ public class AutoStartReceiver extends BroadcastReceiver {
             } else {
                 GBApplication.deviceService().start();
             }
-
+            Log.i(TAG, "Going to enable periodic exporter");
             PeriodicExporter.enablePeriodicExport(context);
         }
     }
