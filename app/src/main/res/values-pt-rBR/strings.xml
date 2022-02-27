@@ -938,7 +938,7 @@
     <string name="error_background_service_reason">A inicialização do serviço de segundo plano falhou por causa de uma exceção. Erro:</string>
     <string name="error_background_service">Falha ao iniciar o serviço de segundo plano</string>
     <string name="menuitem_stress">Estresse</string>
-    <string name="menuitem_cycles">Período</string>
+    <string name="menuitem_cycles">Acompanhamento de ciclo</string>
     <string name="menuitem_breathing">Respiração</string>
     <string name="devicetype_miband5">Mi Band 5</string>
     <string name="devicetype_tlw64">TLW64</string>
