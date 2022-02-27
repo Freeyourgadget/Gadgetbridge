@@ -1495,6 +1495,8 @@
     <string name="pref_media_forward">Skip forward</string>
     <string name="pref_media_rewind">Skip back</string>
     <string name="pref_device_action_broadcast">Send Broadcast</string>
+    <string name="pref_device_action_fitness_app_control_start">Fitness App Tracking Start</string>
+    <string name="pref_device_action_fitness_app_control_stop">Fitness App Tracking Stop</string>
     <!-- Translators: the ### indicate number of digits, keep intact -->
     <string name="distance_format_meters">###m</string>
     <!-- Translators: the ### indicate number of digits, keep intact -->
@@ -1516,5 +1518,8 @@
     <string name="menuitem_menu">Menu</string>
     <string name="fossil_hr_button_config_info">Some buttons cannot be configured because their functions are hard-coded in the watch firmware.\n\nWarning: long-pressing the upper button when a watchface from the official Fossil app is installed will also toggle between showing/hiding widgets.</string>
     <string name="watchface_dialog_widget_width">Width:</string>
+    <string name="pref_title_opentracks_packagename">OpenTracks package name</string>
+    <string name="pref_summary_opentracks_packagename">Used for starting/stopping GPS track recording from certain wearables that don\'t have built-in GPS</string>
+    <string name="watchface_setting_light_up_on_notification">Light up on new notification</string>
     <string name="watchface_setting_light_up_on_notification">Light up on new notification</string>
 </resources>

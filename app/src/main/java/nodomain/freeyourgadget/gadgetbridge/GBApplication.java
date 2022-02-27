@@ -67,6 +67,7 @@ import nodomain.freeyourgadget.gadgetbridge.entities.DaoMaster;
 import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
 import nodomain.freeyourgadget.gadgetbridge.entities.Device;
 import nodomain.freeyourgadget.gadgetbridge.externalevents.BluetoothStateChangeReceiver;
+import nodomain.freeyourgadget.gadgetbridge.externalevents.OpenTracksContentObserver;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceService;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityUser;
@@ -142,6 +143,8 @@ public class GBApplication extends Application {
 
     private DeviceManager deviceManager;
     private BluetoothStateChangeReceiver bluetoothStateChangeReceiver;
+
+    private OpenTracksContentObserver openTracksObserver;
 
     public static void quit() {
         GB.log("Quitting Gadgetbridge...", GB.INFO, null);
@@ -1089,5 +1092,13 @@ public class GBApplication extends Application {
             GB.log("Unable to determine Gadgetbridge's name/version", GB.WARN, e);
             return "Gadgetbridge";
         }
+    }
+
+    public void setOpenTracksObserver(OpenTracksContentObserver openTracksObserver) {
+        this.openTracksObserver = openTracksObserver;
+    }
+
+    public OpenTracksContentObserver getOpenTracksObserver() {
+        return openTracksObserver;
     }
 }

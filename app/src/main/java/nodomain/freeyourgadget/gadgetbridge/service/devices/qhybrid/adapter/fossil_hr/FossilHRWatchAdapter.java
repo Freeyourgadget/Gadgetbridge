@@ -144,6 +144,7 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fos
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.widget.CustomWidgetElement;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.widget.Widget;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.widget.WidgetsPutRequest;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.workout.WorkoutRequestHandler;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.misfit.FactoryResetRequest;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
@@ -1565,6 +1566,20 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
                     getContext().sendBroadcast(menuIntent);
                 } else if (request.has("master._.config.app_status")) {
                     queueWrite(new ConfirmAppStatusRequest(requestId, this));
+                } else if (request.has("workoutApp")) {
+                    JSONObject workoutRequest = request.getJSONObject("workoutApp");
+                    String workoutState = workoutRequest.optString("state");
+                    String workoutType = workoutRequest.optString("type");
+                    LOG.info("Got workoutApp request, state=" + workoutState + ", type=" + workoutType);
+                    JSONObject workoutResponse = WorkoutRequestHandler.handleRequest(getContext(), requestId, workoutRequest);
+                    if (workoutResponse.length() > 0) {
+                        JSONObject responseObject = new JSONObject()
+                            .put("res", new JSONObject()
+                                .put("id", requestId)
+                                .put("set", workoutResponse)
+                            );
+                        queueWrite(new JsonPutRequest(responseObject, this));
+                    }
                 } else {
                     LOG.warn("Unhandled request from watch: " + requestJson.toString());
                 }

@@ -93,6 +93,7 @@ import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
 import nodomain.freeyourgadget.gadgetbridge.entities.Device;
 import nodomain.freeyourgadget.gadgetbridge.entities.MiBandActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.entities.User;
+import nodomain.freeyourgadget.gadgetbridge.externalevents.OpenTracksController;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice.State;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityUser;
@@ -157,6 +158,8 @@ import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.Dev
 import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_TIMEFORMAT;
 import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_WEARLOCATION;
 import static nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst.PREF_BUTTON_ACTION_SELECTION_BROADCAST;
+import static nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst.PREF_BUTTON_ACTION_SELECTION_FITNESS_APP_START;
+import static nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst.PREF_BUTTON_ACTION_SELECTION_FITNESS_APP_STOP;
 import static nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst.PREF_BUTTON_ACTION_SELECTION_OFF;
 import static nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst.PREF_DEVICE_ACTION_FELL_SLEEP_BROADCAST;
 import static nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst.PREF_DEVICE_ACTION_FELL_SLEEP_SELECTION;
@@ -1408,10 +1411,18 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
         if (prefs.getBoolean(HuamiConst.PREF_BUTTON_ACTION_VIBRATE, false)) {
             vibrateOnce();
         }
-        if (buttonPreference.equals(PREF_BUTTON_ACTION_SELECTION_BROADCAST)) {
-            sendSystemBroadcastWithButtonId();
-        } else {
-            handleMediaButton(buttonPreference);
+        switch (buttonPreference) {
+            case PREF_BUTTON_ACTION_SELECTION_BROADCAST:
+                sendSystemBroadcastWithButtonId();
+                break;
+            case PREF_BUTTON_ACTION_SELECTION_FITNESS_APP_START:
+                OpenTracksController.startRecording(this.getContext());
+                break;
+            case PREF_BUTTON_ACTION_SELECTION_FITNESS_APP_STOP:
+                OpenTracksController.stopRecording(this.getContext());
+                break;
+            default:
+                handleMediaButton(buttonPreference);
         }
     }
 
@@ -1419,10 +1430,18 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
         if (deviceAction.equals(PREF_DEVICE_ACTION_SELECTION_OFF)) {
             return;
         }
-        if (deviceAction.equals(PREF_DEVICE_ACTION_SELECTION_BROADCAST)) {
-            sendSystemBroadcast(message);
-        }else {
-            handleMediaButton(deviceAction);
+        switch (deviceAction) {
+            case PREF_BUTTON_ACTION_SELECTION_BROADCAST:
+                sendSystemBroadcast(message);
+                break;
+            case PREF_BUTTON_ACTION_SELECTION_FITNESS_APP_START:
+                OpenTracksController.startRecording(this.getContext());
+                break;
+            case PREF_BUTTON_ACTION_SELECTION_FITNESS_APP_STOP:
+                OpenTracksController.stopRecording(this.getContext());
+                break;
+            default:
+                handleMediaButton(deviceAction);
         }
     }
 
