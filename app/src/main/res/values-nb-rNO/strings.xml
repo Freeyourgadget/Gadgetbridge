@@ -906,7 +906,7 @@
     <string name="about_title">Om</string>
     <string name="menuitem_worldclock">Verdensklokke</string>
     <string name="menuitem_stress">Stress</string>
-    <string name="menuitem_cycles">Periode</string>
+    <string name="menuitem_cycles">Følg m.-syklus</string>
     <string name="menuitem_breathing">Pusting</string>
     <string name="devicetype_miband5">Mi Band 5</string>
     <string name="ascentSeconds">Stigende</string>
