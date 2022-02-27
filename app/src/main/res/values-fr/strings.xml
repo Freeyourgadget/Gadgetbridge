@@ -914,7 +914,7 @@ Temps de sommeil préféré en heures</string>
     <string name="prefs_events_forwarding_fellsleep">Au sommeil</string>
     <string name="prefs_events_forwarding_title">Actions de l\'appareil</string>
     <string name="prefs_events_forwarding_summary">Utiliser les évènements de l\'appareil pour déclencher des actions et des messages diffusé Android</string>
-    <string name="menuitem_cycles">Période</string>
+    <string name="menuitem_cycles">Suivi des Cycles féminins</string>
     <string name="freestyle">Style libre</string>
     <string name="breaststroke">Rythme mammaire</string>
     <string name="activity_filter_to_placeholder">aujourd\'hui</string>
