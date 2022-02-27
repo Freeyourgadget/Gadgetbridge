@@ -19,8 +19,11 @@
 package nodomain.freeyourgadget.gadgetbridge.activities;
 
 import android.Manifest;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.database.Cursor;
@@ -28,16 +31,19 @@ import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
-import android.media.Ringtone;
-import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.EditTextPreference;
 import android.preference.ListPreference;
 import android.preference.Preference;
-import android.preference.PreferenceCategory;
 import android.preference.PreferenceManager;
 import android.provider.DocumentsContract;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import androidx.core.app.ActivityCompat;
@@ -73,7 +79,8 @@ public class SettingsActivity extends AbstractSettingsActivity {
     public static final String PREF_MEASUREMENT_SYSTEM = "measurement_system";
 
     private static final int FILE_REQUEST_CODE = 4711;
-
+    private EditText fitnessAppEditText = null;
+    private int fitnessAppSelectionListSpinnerFirstRun = 0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -403,6 +410,70 @@ public class SettingsActivity extends AbstractSettingsActivity {
             }
         });
 
+        //fitness app (OpenTracks) package name selection for OpenTracks observer
+        pref = findPreference("pref_key_opentracks_packagename");
+        pref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            public boolean onPreferenceClick(Preference preference) {
+
+                final LinearLayout outerLayout = new LinearLayout(SettingsActivity.this);
+                outerLayout.setOrientation(LinearLayout.VERTICAL);
+                final LinearLayout innerLayout = new LinearLayout(SettingsActivity.this);
+                innerLayout.setOrientation(LinearLayout.HORIZONTAL);
+                innerLayout.setPadding(20, 0, 20, 0);
+                final Spinner selectionListSpinner = new Spinner(SettingsActivity.this);
+                String[] appListArray = getResources().getStringArray(R.array.fitness_tracking_apps_package_names);
+                ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>(SettingsActivity.this,
+                        android.R.layout.simple_spinner_dropdown_item, appListArray);
+                selectionListSpinner.setAdapter(spinnerArrayAdapter);
+                fitnessAppSelectionListSpinnerFirstRun = 0;
+                addListenerOnSpinnerDeviceSelection(selectionListSpinner);
+                Prefs prefs = GBApplication.getPrefs();
+                String packageName = prefs.getString("opentracks_packagename", "de.dennisguse.opentracks");
+                fitnessAppEditText = new EditText(SettingsActivity.this);
+                fitnessAppEditText.setText(packageName);
+                innerLayout.addView(fitnessAppEditText);
+                outerLayout.addView(selectionListSpinner);
+                outerLayout.addView(innerLayout);
+
+                new AlertDialog.Builder(SettingsActivity.this)
+                        .setCancelable(true)
+                        .setTitle(R.string.pref_title_opentracks_packagename)
+                        .setView(outerLayout)
+                        .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                SharedPreferences.Editor editor = GBApplication.getPrefs().getPreferences().edit();
+                                editor.putString("opentracks_packagename", fitnessAppEditText.getText().toString());
+                                editor.apply();
+                                editor.commit();
+                            }
+                        })
+                        .setNegativeButton(R.string.Cancel, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                            }
+                        })
+                        .show();
+                return false;
+            }
+        });
+    }
+
+    private void addListenerOnSpinnerDeviceSelection(Spinner spinner) {
+        spinner.setOnItemSelectedListener(new SettingsActivity.CustomOnDeviceSelectedListener());
+    }
+
+    public class CustomOnDeviceSelectedListener implements AdapterView.OnItemSelectedListener {
+        public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
+            if (++fitnessAppSelectionListSpinnerFirstRun > 1) { //this prevents the setText to be set when spinner just is being initialized
+                fitnessAppEditText.setText(parent.getItemAtPosition(pos).toString());
+            }
+        }
+
+        @Override
+        public void onNothingSelected(AdapterView<?> arg0) {
+            // TODO Auto-generated method stub
+        }
     }
 
     @Override

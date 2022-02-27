@@ -2109,5 +2109,13 @@
         <item>mode_ask</item>
         <item>mode_auto</item>
     </string-array>
+
+    <string-array name="fitness_tracking_apps_package_names">
+        <item>de.dennisguse.opentracks</item>
+        <item>de.dennisguse.opentracks.playStore</item>
+        <item>de.dennisguse.opentracks.debug</item>
+        <item>de.dennisguse.opentracks.nightly</item>
+    </string-array>
+
 </resources>
 

@@ -34,7 +34,7 @@ Here go lines of your log.
 
 *Please specify model and firmware version if possible*
 
-#### Your android version is:
+#### Your Android version/manufacturer flavor is:
 
 #### Your Gadgetbridge version is:
 
