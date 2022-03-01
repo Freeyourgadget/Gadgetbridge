@@ -1581,7 +1581,7 @@
     <string name="devicetype_amazfit_pop_pro">Amazfit Pop Pro</string>
     <string name="devicetype_amazfit_pop">Amazfit Pop</string>
     <string name="menuitem_nothing">Niets</string>
-    <string name="pref_summary_opentracks_packagename">Wordt gebruikt voor het starten/stoppen van GPS-trackregistratie door bepaalde wearables die geen ingebouwde GPS hebben</string>
+    <string name="pref_summary_opentracks_packagename">Wordt gebruikt voor het starten/stoppen van GPS-trackregistratie in externe fitness-app.</string>
     <string name="pref_title_opentracks_packagename">OpenTracks-pakketnaam</string>
     <string name="pref_device_action_fitness_app_control_start">Fitness-app-tracking starten</string>
     <string name="pref_device_action_fitness_app_control_stop">Fitness-app-tracking stoppen</string>
