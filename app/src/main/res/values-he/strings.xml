@@ -1585,4 +1585,10 @@
     <string name="pref_device_action_fitness_app_control_stop">עצירת מעקב יישומון חיטוב</string>
     <string name="pref_device_action_fitness_app_control_start">התחלת מעקב יישומון חיטוב</string>
     <string name="pref_title_notifications_generic_settings">הגדרות הודעות של Android</string>
+    <string name="autoExport_lastTime_label">הייצוא האוטומטי האחרון: %1$s</string>
+    <string name="activity_db_management_autoexport_enabled_yes">ייצוא אוטומטי מופעל.</string>
+    <string name="activity_db_management_autoexport_enabled_no">ייצוא אוטומטי מושבת.</string>
+    <string name="activity_db_management_autoexport_scheduled_no">הייצוא האוטומטי לא תוזמן.</string>
+    <string name="activity_db_management_autoexport_scheduled_yes">הייצוא האוטומטי תוזמן (במקור) ל־%1$s</string>
+    <string name="activity_db_management_autoexport_location">לא ניתן לפענח את המיקום. כנראה תקלה במערכת ההרשאות החדשה של Android. סביר להניח שהייצוא האוטומטי לא עובד כרגע.</string>
 </resources>
