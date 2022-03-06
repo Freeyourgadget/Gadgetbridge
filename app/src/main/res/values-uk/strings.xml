@@ -1593,4 +1593,10 @@
     <string name="pref_device_action_fitness_app_control_start">Початок відстеження застосунку для фітнесу</string>
     <string name="pref_device_action_fitness_app_control_stop">Зупинка відстеження застосунку для фітнесу</string>
     <string name="pref_title_notifications_generic_settings">Налаштування сповіщень Android</string>
+    <string name="activity_db_management_autoexport_scheduled_yes">Автоекспорт (початково) було заплановано на %1$s</string>
+    <string name="activity_db_management_autoexport_enabled_yes">Автоекспорт увімкнено.</string>
+    <string name="activity_db_management_autoexport_enabled_no">Автоекспорт не ввімкнено.</string>
+    <string name="activity_db_management_autoexport_scheduled_no">Автоекспорт не заплановано.</string>
+    <string name="autoExport_lastTime_label">Останній автоекспорт: %1$s</string>
+    <string name="activity_db_management_autoexport_location">Не вдалося встановити місцеперебування. Ймовірно, проблема з новішою системою дозволів Android. Швидше за все, автоекспорт зараз не працює.</string>
 </resources>
