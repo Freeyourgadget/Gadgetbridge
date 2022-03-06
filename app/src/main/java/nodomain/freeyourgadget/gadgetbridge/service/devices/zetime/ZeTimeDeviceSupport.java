@@ -215,7 +215,7 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
                 case ZeTimeConstants.PREF_ZETIME_MIN_HEARTRATE:
                     setHeartRateLimits(builder);
                     break;
-                case ZeTimeConstants.PREF_USER_FITNESS_GOAL:
+                case DeviceSettingsPreferenceConst.PREF_USER_FITNESS_GOAL:
                 case ZeTimeConstants.PREF_USER_SLEEP_GOAL:
                 case ZeTimeConstants.PREF_USER_CALORIES_GOAL:
                 case ZeTimeConstants.PREF_USER_DISTANCE_GOAL:
