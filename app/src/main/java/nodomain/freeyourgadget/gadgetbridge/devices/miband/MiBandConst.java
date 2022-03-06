@@ -36,13 +36,6 @@ public final class MiBandConst {
 	public static final String PREF_MI2_DISPLAY_ITEM_BATTERY = "battery";
     public static final String PREF_MI2_ROTATE_WRIST_TO_SWITCH_INFO = "rotate_wrist_to_cycle_info";
 	public static final String PREF_MI2_ENABLE_TEXT_NOTIFICATIONS = "mi2_enable_text_notifications";
-    public static final String PREF_DO_NOT_DISTURB = "do_not_disturb";
-    public static final String PREF_DO_NOT_DISTURB_LIFT_WRIST = "do_not_disturb_lift_wrist";
-    public static final String PREF_DO_NOT_DISTURB_OFF = "off";
-    public static final String PREF_DO_NOT_DISTURB_AUTOMATIC = "automatic";
-    public static final String PREF_DO_NOT_DISTURB_SCHEDULED = "scheduled";
-    public static final String PREF_DO_NOT_DISTURB_START = "do_not_disturb_start";
-    public static final String PREF_DO_NOT_DISTURB_END = "do_not_disturb_end";
     public static final String PREF_MI2_INACTIVITY_WARNINGS = "mi2_inactivity_warnings";
     public static final String PREF_MI2_INACTIVITY_WARNINGS_THRESHOLD = "mi2_inactivity_warnings_threshold";
     public static final String PREF_MI2_INACTIVITY_WARNINGS_START = "mi2_inactivity_warnings_start";

@@ -986,7 +986,7 @@ public class WatchXPlusDeviceSupport extends AbstractBTLEDeviceSupport {
                 case DeviceSettingsPreferenceConst.PREF_TIMEFORMAT:
                     setLanguageAndTimeFormat(builder);
                     break;
-                case WatchXPlusConstants.PREF_DO_NOT_DISTURB:
+                case DeviceSettingsPreferenceConst.PREF_DO_NOT_DISTURB_NOAUTO:
                     setDNDHours(builder);
                     break;
             }

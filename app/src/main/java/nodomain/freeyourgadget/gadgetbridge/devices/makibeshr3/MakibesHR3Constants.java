@@ -24,9 +24,6 @@ public final class MakibesHR3Constants {
     // TODO: breaking someone else's device support.
     public static final String PREF_HEADS_UP_SCREEN = "activate_display_on_lift_wrist";
     public static final String PREF_LOST_REMINDER = "disconnect_notification";
-    public static final String PREF_DO_NOT_DISTURB = "do_not_disturb_no_auto";
-    public static final String PREF_DO_NOT_DISTURB_START = "do_not_disturb_no_auto_start";
-    public static final String PREF_DO_NOT_DISTURB_END = "do_not_disturb_no_auto_end";
     public static final String PREF_FIND_PHONE = "prefs_find_phone";
     public static final String PREF_FIND_PHONE_DURATION = "prefs_find_phone_duration";
 

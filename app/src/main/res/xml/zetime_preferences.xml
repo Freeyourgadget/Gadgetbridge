@@ -173,18 +173,18 @@
                 android:defaultValue="@string/p_off"
                 android:entries="@array/zetime_do_not_disturb"
                 android:entryValues="@array/zetime_do_not_disturb_values"
-                android:key="zetime_do_not_disturb"
+                android:key="do_not_disturb"
                 android:title="@string/mi2_prefs_do_not_disturb"
                 android:summary="%s" />
 
             <nodomain.freeyourgadget.gadgetbridge.util.TimePreference
                 android:defaultValue="22:00"
-                android:key="zetime_do_not_disturb_start"
+                android:key="do_not_disturb_start"
                 android:title="@string/mi2_prefs_do_not_disturb_start" />
 
             <nodomain.freeyourgadget.gadgetbridge.util.TimePreference
                 android:defaultValue="07:00"
-                android:key="zetime_do_not_disturb_end"
+                android:key="do_not_disturb_end"
                 android:title="@string/mi2_prefs_do_not_disturb_end" />
 
         </PreferenceScreen>

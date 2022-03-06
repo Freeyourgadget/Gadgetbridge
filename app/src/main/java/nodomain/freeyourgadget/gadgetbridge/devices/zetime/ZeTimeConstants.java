@@ -135,10 +135,6 @@ public class ZeTimeConstants {
     public static final String PREF_ZETIME_MIN_HEARTRATE = "alarm_min_heart_rate";
     public static final String PREF_ZETIME_HEARTRATE_INTERVAL = "heartrate_measurement_interval";
 
-    public static final String PREF_DO_NOT_DISTURB = "zetime_do_not_disturb";
-    public static final String PREF_DO_NOT_DISTURB_START = "zetime_do_not_disturb_start";
-    public static final String PREF_DO_NOT_DISTURB_END = "zetime_do_not_disturb_end";
-
     public static final String PREF_INACTIVITY_KEY =  "zetime_inactivity_warning_key";
     public static final String PREF_INACTIVITY_ENABLE = "zetime_inactivity_warnings";
     public static final String PREF_INACTIVITY_START = "zetime_inactivity_warnings_start";

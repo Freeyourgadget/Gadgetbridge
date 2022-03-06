@@ -46,10 +46,6 @@ public final class WatchXPlusConstants extends LenovoWatchConstants {
     public static final String PREF_BP_CAL_LOW = "pref_sensors_bp_calibration_low";
     public static final String PREF_BP_CAL_HIGH = "pref_sensors_bp_calibration_high";
 
-    public static final String PREF_DO_NOT_DISTURB = "do_not_disturb_no_auto";
-    public static final String PREF_DO_NOT_DISTURB_START = "do_not_disturb_no_auto_start";
-    public static final String PREF_DO_NOT_DISTURB_END = "do_not_disturb_no_auto_end";
-
     public static final String PREF_LONGSIT_START = "pref_longsit_start";
     public static final String PREF_LONGSIT_END = "pref_longsit_end";
     public static final String PREF_SHOW_RAW_GRAPH = "show_raw_graph";

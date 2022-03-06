@@ -49,10 +49,6 @@ public class ZeTimePreferenceActivity extends AbstractSettingsActivity {
 
         addPreferenceHandlerFor(ZeTimeConstants.PREF_HANDMOVE_DISPLAY);
 
-        addPreferenceHandlerFor(ZeTimeConstants.PREF_DO_NOT_DISTURB);
-        addPreferenceHandlerFor(ZeTimeConstants.PREF_DO_NOT_DISTURB_START);
-        addPreferenceHandlerFor(ZeTimeConstants.PREF_DO_NOT_DISTURB_END);
-
         addPreferenceHandlerFor(ZeTimeConstants.PREF_CALORIES_TYPE);
 
         addPreferenceHandlerFor(ZeTimeConstants.PREF_DATE_FORMAT);

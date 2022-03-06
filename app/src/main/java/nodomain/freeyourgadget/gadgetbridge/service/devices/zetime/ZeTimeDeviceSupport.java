@@ -169,9 +169,9 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
                 case ZeTimeConstants.PREF_HANDMOVE_DISPLAY:
                     setDisplayOnMovement(builder);
                     break;
-                case ZeTimeConstants.PREF_DO_NOT_DISTURB:
-                case ZeTimeConstants.PREF_DO_NOT_DISTURB_START:
-                case ZeTimeConstants.PREF_DO_NOT_DISTURB_END:
+                case DeviceSettingsPreferenceConst.PREF_DO_NOT_DISTURB:
+                case DeviceSettingsPreferenceConst.PREF_DO_NOT_DISTURB_START:
+                case DeviceSettingsPreferenceConst.PREF_DO_NOT_DISTURB_END:
                     setDoNotDisturb(builder);
                     break;
                 case ZeTimeConstants.PREF_CALORIES_TYPE:
@@ -1713,10 +1713,10 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
 
     private void setDoNotDisturb(TransactionBuilder builder) {
         Prefs prefs = GBApplication.getPrefs();
-        String scheduled = prefs.getString(ZeTimeConstants.PREF_DO_NOT_DISTURB, "off");
+        String scheduled = prefs.getString(DeviceSettingsPreferenceConst.PREF_DO_NOT_DISTURB, "off");
         String dndScheduled = getContext().getString(R.string.p_scheduled);
-        String start = prefs.getString(ZeTimeConstants.PREF_DO_NOT_DISTURB_START, "22:00");
-        String end = prefs.getString(ZeTimeConstants.PREF_DO_NOT_DISTURB_END, "07:00");
+        String start = prefs.getString(DeviceSettingsPreferenceConst.PREF_DO_NOT_DISTURB_START, "22:00");
+        String end = prefs.getString(DeviceSettingsPreferenceConst.PREF_DO_NOT_DISTURB_END, "07:00");
         DateFormat df_start = new SimpleDateFormat("HH:mm");
         DateFormat df_end = new SimpleDateFormat("HH:mm");
         Calendar calendar = GregorianCalendar.getInstance();
@@ -2086,12 +2086,12 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
         String endtime = String.format("%02d:%02d", msg[8], msg[9]);
 
         if (0x1 == msg[5]) {
-            prefs.putString(ZeTimeConstants.PREF_DO_NOT_DISTURB, "scheduled");
+            prefs.putString(DeviceSettingsPreferenceConst.PREF_DO_NOT_DISTURB, "scheduled");
         } else {
-            prefs.putString(ZeTimeConstants.PREF_DO_NOT_DISTURB, "off");
+            prefs.putString(DeviceSettingsPreferenceConst.PREF_DO_NOT_DISTURB, "off");
         }
-        prefs.putString(ZeTimeConstants.PREF_DO_NOT_DISTURB_START, starttime);
-        prefs.putString(ZeTimeConstants.PREF_DO_NOT_DISTURB_END, endtime);
+        prefs.putString(DeviceSettingsPreferenceConst.PREF_DO_NOT_DISTURB_START, starttime);
+        prefs.putString(DeviceSettingsPreferenceConst.PREF_DO_NOT_DISTURB_END, endtime);
         prefs.apply();
     }
 

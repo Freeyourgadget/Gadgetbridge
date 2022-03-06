@@ -79,6 +79,13 @@ public class DeviceSettingsPreferenceConst {
     public static final String PREF_DO_NOT_DISTURB_NOAUTO = "do_not_disturb_no_auto";
     public static final String PREF_DO_NOT_DISTURB_NOAUTO_START = "do_not_disturb_no_auto_start";
     public static final String PREF_DO_NOT_DISTURB_NOAUTO_END = "do_not_disturb_no_auto_end";
+    public static final String PREF_DO_NOT_DISTURB = "do_not_disturb";
+    public static final String PREF_DO_NOT_DISTURB_START = "do_not_disturb_start";
+    public static final String PREF_DO_NOT_DISTURB_END = "do_not_disturb_end";
+    public static final String PREF_DO_NOT_DISTURB_LIFT_WRIST = "do_not_disturb_lift_wrist";
+    public static final String PREF_DO_NOT_DISTURB_OFF = "off";
+    public static final String PREF_DO_NOT_DISTURB_AUTOMATIC = "automatic";
+    public static final String PREF_DO_NOT_DISTURB_SCHEDULED = "scheduled";
 
     public static final String PREF_FIND_PHONE_ENABLED = "prefs_find_phone";
     public static final String PREF_AUTOLIGHT = "autolight";

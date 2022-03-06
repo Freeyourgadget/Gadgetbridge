@@ -241,7 +241,7 @@ public class WatchXPlusDeviceCoordinator extends AbstractDeviceCoordinator {
      */
     public static boolean getDNDHours(String deviceAddress, Calendar startOut, Calendar endOut) {
         SharedPreferences prefs = GBApplication.getDeviceSpecificSharedPrefs(deviceAddress);
-        String doNotDisturb = prefs.getString(WatchXPlusConstants.PREF_DO_NOT_DISTURB, getContext().getString(R.string.p_off));
+        String doNotDisturb = prefs.getString(DeviceSettingsPreferenceConst.PREF_DO_NOT_DISTURB_NOAUTO, getContext().getString(R.string.p_off));
 
         assert doNotDisturb != null;
         if (doNotDisturb.equals(getContext().getString(R.string.p_off))) {
@@ -249,8 +249,8 @@ public class WatchXPlusDeviceCoordinator extends AbstractDeviceCoordinator {
             return false;
         } else {
 
-            String start = prefs.getString(WatchXPlusConstants.PREF_DO_NOT_DISTURB_START, "01:00");
-            String end = prefs.getString(WatchXPlusConstants.PREF_DO_NOT_DISTURB_END, "06:00");
+            String start = prefs.getString(DeviceSettingsPreferenceConst.PREF_DO_NOT_DISTURB_NOAUTO_START, "01:00");
+            String end = prefs.getString(DeviceSettingsPreferenceConst.PREF_DO_NOT_DISTURB_NOAUTO_END, "06:00");
 
             DateFormat df = new SimpleDateFormat("HH:mm");
 

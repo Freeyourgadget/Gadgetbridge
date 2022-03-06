@@ -239,11 +239,11 @@ public abstract class HuamiCoordinator extends AbstractDeviceCoordinator {
     }
 
     public static Date getDoNotDisturbStart(String deviceAddress) {
-        return getTimePreference(MiBandConst.PREF_DO_NOT_DISTURB_START, "01:00", deviceAddress);
+        return getTimePreference(DeviceSettingsPreferenceConst.PREF_DO_NOT_DISTURB_START, "01:00", deviceAddress);
     }
 
     public static Date getDoNotDisturbEnd(String deviceAddress) {
-        return getTimePreference(MiBandConst.PREF_DO_NOT_DISTURB_END, "06:00", deviceAddress);
+        return getTimePreference(DeviceSettingsPreferenceConst.PREF_DO_NOT_DISTURB_END, "06:00", deviceAddress);
     }
 
     public static boolean getBandScreenUnlock(String deviceAddress) {
@@ -298,11 +298,11 @@ public abstract class HuamiCoordinator extends AbstractDeviceCoordinator {
     public static DoNotDisturb getDoNotDisturb(String deviceAddress) {
         SharedPreferences prefs = GBApplication.getDeviceSpecificSharedPrefs(deviceAddress);
 
-        String pref = prefs.getString(MiBandConst.PREF_DO_NOT_DISTURB, MiBandConst.PREF_DO_NOT_DISTURB_OFF);
+        String pref = prefs.getString(DeviceSettingsPreferenceConst.PREF_DO_NOT_DISTURB, DeviceSettingsPreferenceConst.PREF_DO_NOT_DISTURB_OFF);
 
-        if (MiBandConst.PREF_DO_NOT_DISTURB_AUTOMATIC.equals(pref)) {
+        if (DeviceSettingsPreferenceConst.PREF_DO_NOT_DISTURB_AUTOMATIC.equals(pref)) {
             return DoNotDisturb.AUTOMATIC;
-        } else if (MiBandConst.PREF_DO_NOT_DISTURB_SCHEDULED.equals(pref)) {
+        } else if (DeviceSettingsPreferenceConst.PREF_DO_NOT_DISTURB_SCHEDULED.equals(pref)) {
             return DoNotDisturb.SCHEDULED;
         }
 
@@ -312,7 +312,7 @@ public abstract class HuamiCoordinator extends AbstractDeviceCoordinator {
     public static boolean getDoNotDisturbLiftWrist(String deviceAddress) {
         SharedPreferences prefs = GBApplication.getDeviceSpecificSharedPrefs(deviceAddress);
 
-        return prefs.getBoolean(MiBandConst.PREF_DO_NOT_DISTURB_LIFT_WRIST, false);
+        return prefs.getBoolean(DeviceSettingsPreferenceConst.PREF_DO_NOT_DISTURB_LIFT_WRIST, false);
     }
 
     @Override
