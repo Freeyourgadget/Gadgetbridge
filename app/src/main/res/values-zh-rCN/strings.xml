@@ -1591,4 +1591,10 @@
     <string name="pref_device_action_fitness_app_control_start">Fitness 应用追踪开始</string>
     <string name="pref_device_action_fitness_app_control_stop">Fitness 应用追踪结束</string>
     <string name="pref_title_notifications_generic_settings">Android 通知设置</string>
+    <string name="activity_db_management_autoexport_scheduled_yes">为 %1$s 自动导出（原始的）已经启用计划</string>
+    <string name="activity_db_management_autoexport_scheduled_no">尚未计划自动导出。</string>
+    <string name="activity_db_management_autoexport_location">位置无法理解。 可能是较新的 Android 权限系统的问题。 最有可能的是，自动导出现在不起作用。</string>
+    <string name="autoExport_lastTime_label">最后一次自动导出：%1$s</string>
+    <string name="activity_db_management_autoexport_enabled_no">自动导出未开启。</string>
+    <string name="activity_db_management_autoexport_enabled_yes">自动导出已开启。</string>
 </resources>
