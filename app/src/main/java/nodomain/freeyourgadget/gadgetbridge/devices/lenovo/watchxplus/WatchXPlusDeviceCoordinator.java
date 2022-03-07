@@ -192,7 +192,7 @@ public class WatchXPlusDeviceCoordinator extends AbstractDeviceCoordinator {
                 R.xml.devicesettings_liftwrist_display_noshed,
                 R.xml.devicesettings_disconnectnotification_noshed,
                 R.xml.devicesettings_donotdisturb_no_auto,
-                R.xml.devicesettings_longsit,
+                R.xml.devicesettings_inactivity,
                 R.xml.devicesettings_find_phone,
                 R.xml.devicesettings_timeformat,
                 R.xml.devicesettings_power_mode,
