@@ -110,7 +110,6 @@ public class DeviceSettingsPreferenceConst {
     public static final String PREF_HYDRATION_SWITCH = "pref_hydration_switch";
     public static final String PREF_HYDRATION_PERIOD = "pref_hydration_period";
     public static final String PREF_AMPM_ENABLED = "pref_ampm_enabled";
-    public static final String PREF_LEFUN_INTERFACE_LANGUAGE = "pref_lefun_interface_language";
 
     public static final String PREF_SONYSWR12_LOW_VIBRATION = "vibration_preference";
     public static final String PREF_SONYSWR12_STAMINA = "stamina_preference";

@@ -402,7 +402,6 @@ public class DeviceSpecificSettingsFragment extends PreferenceFragmentCompat imp
         addPreferenceHandlerFor(PREF_HYDRATION_SWITCH);
         addPreferenceHandlerFor(PREF_HYDRATION_PERIOD);
         addPreferenceHandlerFor(PREF_AMPM_ENABLED);
-        addPreferenceHandlerFor(PREF_LEFUN_INTERFACE_LANGUAGE);
         addPreferenceHandlerFor(PREF_SOUNDS);
 
         addPreferenceHandlerFor(PREF_HYBRID_HR_DRAW_WIDGET_CIRCLES);

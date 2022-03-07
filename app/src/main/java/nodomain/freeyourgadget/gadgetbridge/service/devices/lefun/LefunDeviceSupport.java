@@ -445,8 +445,8 @@ public class LefunDeviceSupport extends AbstractBTLEDeviceSupport {
                 sendUnitsSetting(null);
                 break;
             }
-            case DeviceSettingsPreferenceConst.PREF_LEFUN_INTERFACE_LANGUAGE: {
-                String value = prefs.getString(DeviceSettingsPreferenceConst.PREF_LEFUN_INTERFACE_LANGUAGE, "0");
+            case DeviceSettingsPreferenceConst.PREF_LANGUAGE: {
+                String value = prefs.getString(DeviceSettingsPreferenceConst.PREF_LANGUAGE, "0");
                 int intValue = Integer.parseInt(value);
                 sendLanguageSetting((byte) intValue);
                 break;
