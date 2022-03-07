@@ -183,18 +183,18 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
                 case ZeTimeConstants.PREF_DATE_FORMAT:
                     setDateFormate(builder);
                     break;
-                case ZeTimeConstants.PREF_INACTIVITY_KEY:
-                case ZeTimeConstants.PREF_INACTIVITY_ENABLE:
-                case ZeTimeConstants.PREF_INACTIVITY_START:
-                case ZeTimeConstants.PREF_INACTIVITY_END:
-                case ZeTimeConstants.PREF_INACTIVITY_THRESHOLD:
-                case ZeTimeConstants.PREF_INACTIVITY_MO:
-                case ZeTimeConstants.PREF_INACTIVITY_TU:
-                case ZeTimeConstants.PREF_INACTIVITY_WE:
-                case ZeTimeConstants.PREF_INACTIVITY_TH:
-                case ZeTimeConstants.PREF_INACTIVITY_FR:
-                case ZeTimeConstants.PREF_INACTIVITY_SA:
-                case ZeTimeConstants.PREF_INACTIVITY_SU:
+                case DeviceSettingsPreferenceConst.PREF_INACTIVITY_KEY:
+                case DeviceSettingsPreferenceConst.PREF_INACTIVITY_ENABLE:
+                case DeviceSettingsPreferenceConst.PREF_INACTIVITY_START:
+                case DeviceSettingsPreferenceConst.PREF_INACTIVITY_END:
+                case DeviceSettingsPreferenceConst.PREF_INACTIVITY_THRESHOLD:
+                case DeviceSettingsPreferenceConst.PREF_INACTIVITY_MO:
+                case DeviceSettingsPreferenceConst.PREF_INACTIVITY_TU:
+                case DeviceSettingsPreferenceConst.PREF_INACTIVITY_WE:
+                case DeviceSettingsPreferenceConst.PREF_INACTIVITY_TH:
+                case DeviceSettingsPreferenceConst.PREF_INACTIVITY_FR:
+                case DeviceSettingsPreferenceConst.PREF_INACTIVITY_SA:
+                case DeviceSettingsPreferenceConst.PREF_INACTIVITY_SU:
                     setInactivityAlert(builder);
                     break;
                 case ZeTimeConstants.PREF_SMS_SIGNALING:
@@ -1817,8 +1817,8 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
 
     private void setInactivityAlert(TransactionBuilder builder) {
         Prefs prefs = GBApplication.getPrefs();
-        boolean enabled = prefs.getBoolean(ZeTimeConstants.PREF_INACTIVITY_ENABLE, false);
-        int threshold = prefs.getInt(ZeTimeConstants.PREF_INACTIVITY_THRESHOLD, 60);
+        boolean enabled = prefs.getBoolean(DeviceSettingsPreferenceConst.PREF_INACTIVITY_ENABLE, false);
+        int threshold = prefs.getInt(DeviceSettingsPreferenceConst.PREF_INACTIVITY_THRESHOLD, 60);
 
         if (threshold > 0xff) {
             threshold = 0xff;
@@ -1843,21 +1843,21 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
         };
 
         if (enabled) {
-            String start = prefs.getString(ZeTimeConstants.PREF_INACTIVITY_START, "06:00");
-            String end = prefs.getString(ZeTimeConstants.PREF_INACTIVITY_END, "22:00");
+            String start = prefs.getString(DeviceSettingsPreferenceConst.PREF_INACTIVITY_START, "06:00");
+            String end = prefs.getString(DeviceSettingsPreferenceConst.PREF_INACTIVITY_END, "22:00");
             DateFormat df_start = new SimpleDateFormat("HH:mm");
             DateFormat df_end = new SimpleDateFormat("HH:mm");
             Calendar calendar = GregorianCalendar.getInstance();
             Calendar calendar_end = GregorianCalendar.getInstance();
 
             int reps = (1 << 7); // set inactivity active: set bit 7
-            reps |= (prefs.getBoolean(ZeTimeConstants.PREF_INACTIVITY_MO, false) ? 1 : 0);
-            reps |= ((prefs.getBoolean(ZeTimeConstants.PREF_INACTIVITY_TU, false) ? 1 : 0) << 1);
-            reps |= ((prefs.getBoolean(ZeTimeConstants.PREF_INACTIVITY_WE, false) ? 1 : 0) << 2);
-            reps |= ((prefs.getBoolean(ZeTimeConstants.PREF_INACTIVITY_TH, false) ? 1 : 0) << 3);
-            reps |= ((prefs.getBoolean(ZeTimeConstants.PREF_INACTIVITY_FR, false) ? 1 : 0) << 4);
-            reps |= ((prefs.getBoolean(ZeTimeConstants.PREF_INACTIVITY_SA, false) ? 1 : 0) << 5);
-            reps |= ((prefs.getBoolean(ZeTimeConstants.PREF_INACTIVITY_SU, false) ? 1 : 0) << 6);
+            reps |= (prefs.getBoolean(DeviceSettingsPreferenceConst.PREF_INACTIVITY_MO, false) ? 1 : 0);
+            reps |= ((prefs.getBoolean(DeviceSettingsPreferenceConst.PREF_INACTIVITY_TU, false) ? 1 : 0) << 1);
+            reps |= ((prefs.getBoolean(DeviceSettingsPreferenceConst.PREF_INACTIVITY_WE, false) ? 1 : 0) << 2);
+            reps |= ((prefs.getBoolean(DeviceSettingsPreferenceConst.PREF_INACTIVITY_TH, false) ? 1 : 0) << 3);
+            reps |= ((prefs.getBoolean(DeviceSettingsPreferenceConst.PREF_INACTIVITY_FR, false) ? 1 : 0) << 4);
+            reps |= ((prefs.getBoolean(DeviceSettingsPreferenceConst.PREF_INACTIVITY_SA, false) ? 1 : 0) << 5);
+            reps |= ((prefs.getBoolean(DeviceSettingsPreferenceConst.PREF_INACTIVITY_SU, false) ? 1 : 0) << 6);
 
             inactivity[5] = (byte) reps;
 
@@ -2147,45 +2147,45 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
         String starttime = String.format("%02d:%02d", msg[7], msg[8]);
         String endtime = String.format("%02d:%02d", msg[9], msg[10]);
 
-        prefs.putString(ZeTimeConstants.PREF_INACTIVITY_THRESHOLD, Integer.toString(msg[6]));
+        prefs.putString(DeviceSettingsPreferenceConst.PREF_INACTIVITY_THRESHOLD, Integer.toString(msg[6]));
         if (0 != msg[5]) {
-            prefs.putBoolean(ZeTimeConstants.PREF_INACTIVITY_ENABLE, true);
-            prefs.putString(ZeTimeConstants.PREF_INACTIVITY_START, starttime);
-            prefs.putString(ZeTimeConstants.PREF_INACTIVITY_END, endtime);
+            prefs.putBoolean(DeviceSettingsPreferenceConst.PREF_INACTIVITY_ENABLE, true);
+            prefs.putString(DeviceSettingsPreferenceConst.PREF_INACTIVITY_START, starttime);
+            prefs.putString(DeviceSettingsPreferenceConst.PREF_INACTIVITY_END, endtime);
             if (0 != (msg[5] & (1 << 0))) {
-                prefs.putBoolean(ZeTimeConstants.PREF_INACTIVITY_MO, true);
+                prefs.putBoolean(DeviceSettingsPreferenceConst.PREF_INACTIVITY_MO, true);
             } else {
-                prefs.putBoolean(ZeTimeConstants.PREF_INACTIVITY_MO, false);
+                prefs.putBoolean(DeviceSettingsPreferenceConst.PREF_INACTIVITY_MO, false);
             }
             if (0 != (msg[5] & (1 << 1))) {
-                prefs.putBoolean(ZeTimeConstants.PREF_INACTIVITY_TU, true);
+                prefs.putBoolean(DeviceSettingsPreferenceConst.PREF_INACTIVITY_TU, true);
             } else {
-                prefs.putBoolean(ZeTimeConstants.PREF_INACTIVITY_TU, false);
+                prefs.putBoolean(DeviceSettingsPreferenceConst.PREF_INACTIVITY_TU, false);
             }
             if (0 != (msg[5] & (1 << 2))) {
-                prefs.putBoolean(ZeTimeConstants.PREF_INACTIVITY_WE, true);
+                prefs.putBoolean(DeviceSettingsPreferenceConst.PREF_INACTIVITY_WE, true);
             } else {
-                prefs.putBoolean(ZeTimeConstants.PREF_INACTIVITY_WE, false);
+                prefs.putBoolean(DeviceSettingsPreferenceConst.PREF_INACTIVITY_WE, false);
             }
             if (0 != (msg[5] & (1 << 3))) {
-                prefs.putBoolean(ZeTimeConstants.PREF_INACTIVITY_TH, true);
+                prefs.putBoolean(DeviceSettingsPreferenceConst.PREF_INACTIVITY_TH, true);
             } else {
-                prefs.putBoolean(ZeTimeConstants.PREF_INACTIVITY_TH, false);
+                prefs.putBoolean(DeviceSettingsPreferenceConst.PREF_INACTIVITY_TH, false);
             }
             if (0 != (msg[5] & (1 << 4))) {
-                prefs.putBoolean(ZeTimeConstants.PREF_INACTIVITY_FR, true);
+                prefs.putBoolean(DeviceSettingsPreferenceConst.PREF_INACTIVITY_FR, true);
             } else {
-                prefs.putBoolean(ZeTimeConstants.PREF_INACTIVITY_FR, false);
+                prefs.putBoolean(DeviceSettingsPreferenceConst.PREF_INACTIVITY_FR, false);
             }
             if (0 != (msg[5] & (1 << 5))) {
-                prefs.putBoolean(ZeTimeConstants.PREF_INACTIVITY_SA, true);
+                prefs.putBoolean(DeviceSettingsPreferenceConst.PREF_INACTIVITY_SA, true);
             } else {
-                prefs.putBoolean(ZeTimeConstants.PREF_INACTIVITY_SA, false);
+                prefs.putBoolean(DeviceSettingsPreferenceConst.PREF_INACTIVITY_SA, false);
             }
             if (0 != (msg[5] & (1 << 6))) {
-                prefs.putBoolean(ZeTimeConstants.PREF_INACTIVITY_SU, true);
+                prefs.putBoolean(DeviceSettingsPreferenceConst.PREF_INACTIVITY_SU, true);
             } else {
-                prefs.putBoolean(ZeTimeConstants.PREF_INACTIVITY_SU, false);
+                prefs.putBoolean(DeviceSettingsPreferenceConst.PREF_INACTIVITY_SU, false);
             }
         }
         prefs.apply();

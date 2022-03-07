@@ -53,18 +53,6 @@ public class ZeTimePreferenceActivity extends AbstractSettingsActivity {
 
         addPreferenceHandlerFor(ZeTimeConstants.PREF_DATE_FORMAT);
 
-        addPreferenceHandlerFor(ZeTimeConstants.PREF_INACTIVITY_ENABLE);
-        addPreferenceHandlerFor(ZeTimeConstants.PREF_INACTIVITY_START);
-        addPreferenceHandlerFor(ZeTimeConstants.PREF_INACTIVITY_END);
-        addPreferenceHandlerFor(ZeTimeConstants.PREF_INACTIVITY_THRESHOLD);
-        addPreferenceHandlerFor(ZeTimeConstants.PREF_INACTIVITY_MO);
-        addPreferenceHandlerFor(ZeTimeConstants.PREF_INACTIVITY_TU);
-        addPreferenceHandlerFor(ZeTimeConstants.PREF_INACTIVITY_WE);
-        addPreferenceHandlerFor(ZeTimeConstants.PREF_INACTIVITY_TH);
-        addPreferenceHandlerFor(ZeTimeConstants.PREF_INACTIVITY_FR);
-        addPreferenceHandlerFor(ZeTimeConstants.PREF_INACTIVITY_SA);
-        addPreferenceHandlerFor(ZeTimeConstants.PREF_INACTIVITY_SU);
-
         addPreferenceHandlerFor(ZeTimeConstants.PREF_SMS_SIGNALING);
         addPreferenceHandlerFor(ZeTimeConstants.PREF_ANTI_LOSS_SIGNALING);
         addPreferenceHandlerFor(ZeTimeConstants.PREF_CALENDAR_SIGNALING);

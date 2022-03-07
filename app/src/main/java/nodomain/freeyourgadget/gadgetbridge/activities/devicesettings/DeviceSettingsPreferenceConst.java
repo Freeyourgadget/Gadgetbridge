@@ -63,6 +63,21 @@ public class DeviceSettingsPreferenceConst {
     public static final String PREF_DISCONNECTNOTIF_NOSHED = "disconnect_notification_noshed";
     public static final String PREF_LONGSIT_START = "pref_longsit_start";
     public static final String PREF_LONGSIT_END = "pref_longsit_end";
+    public static final String PREF_LONGSIT_PERIOD = "pref_longsit_period";
+    public static final String PREF_LONGSIT_SWITCH = "pref_longsit_switch";
+    public static final String PREF_LONGSIT_SWITCH_NOSHED = "screen_longsit_noshed";
+    public static final String PREF_INACTIVITY_KEY =  "inactivity_warnings_key";
+    public static final String PREF_INACTIVITY_ENABLE = "inactivity_warnings";
+    public static final String PREF_INACTIVITY_START = "inactivity_warnings_start";
+    public static final String PREF_INACTIVITY_END = "inactivity_warnings_end";
+    public static final String PREF_INACTIVITY_THRESHOLD = "inactivity_warnings_threshold";
+    public static final String PREF_INACTIVITY_MO = "inactivity_warnings_mo";
+    public static final String PREF_INACTIVITY_TU = "inactivity_warnings_tu";
+    public static final String PREF_INACTIVITY_WE = "inactivity_warnings_we";
+    public static final String PREF_INACTIVITY_TH = "inactivity_warnings_th";
+    public static final String PREF_INACTIVITY_FR = "inactivity_warnings_fr";
+    public static final String PREF_INACTIVITY_SA = "inactivity_warnings_sa";
+    public static final String PREF_INACTIVITY_SU = "inactivity_warnings_su";
 
     public static final String PREF_AUTOHEARTRATE_SWITCH = "pref_autoheartrate_switch";
     public static final String PREF_AUTOHEARTRATE_SLEEP = "pref_autoheartrate_sleep";
@@ -73,9 +88,6 @@ public class DeviceSettingsPreferenceConst {
     public static final String PREF_POWER_MODE = "power_mode";
     public static final String PREF_BUTTON_BP_CALIBRATE = "prefs_sensors_button_bp_calibration";
     public static final String PREF_ALTITUDE_CALIBRATE = "pref_sensors_altitude";
-    public static final String PREF_LONGSIT_PERIOD = "pref_longsit_period";
-    public static final String PREF_LONGSIT_SWITCH = "pref_longsit_switch";
-    public static final String PREF_LONGSIT_SWITCH_NOSHED = "screen_longsit_noshed";
     public static final String PREF_DO_NOT_DISTURB_NOAUTO = "do_not_disturb_no_auto";
     public static final String PREF_DO_NOT_DISTURB_NOAUTO_START = "do_not_disturb_no_auto_start";
     public static final String PREF_DO_NOT_DISTURB_NOAUTO_END = "do_not_disturb_no_auto_end";
