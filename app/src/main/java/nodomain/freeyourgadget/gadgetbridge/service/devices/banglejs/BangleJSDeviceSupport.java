@@ -370,9 +370,10 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
                 jsonalarms.put(jsonalarm);
 
                 Calendar calendar = AlarmUtils.toCalendar(alarm);
-                // TODO: getRepetition to ensure it only happens on correct day?
+
                 jsonalarm.put("h", alarm.getHour());
                 jsonalarm.put("m", alarm.getMinute());
+                jsonalarm.put("rep", alarm.getRepetition());
             }
             uartTxJSON("onSetAlarms", o);
         } catch (JSONException e) {
