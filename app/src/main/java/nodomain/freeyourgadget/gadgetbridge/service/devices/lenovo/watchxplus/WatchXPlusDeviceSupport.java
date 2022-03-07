@@ -964,8 +964,8 @@ public class WatchXPlusDeviceSupport extends AbstractBTLEDeviceSupport {
                     setLanguageAndTimeFormat(builder);
                     break;
 
-                case DeviceSettingsPreferenceConst.PREF_LONGSIT_PERIOD:
-                case DeviceSettingsPreferenceConst.PREF_LONGSIT_SWITCH:
+                case DeviceSettingsPreferenceConst.PREF_INACTIVITY_THRESHOLD:
+                case DeviceSettingsPreferenceConst.PREF_INACTIVITY_ENABLE:
                     setLongSitHours(builder);
                     break;
                 // calibrations
@@ -1049,7 +1049,7 @@ public class WatchXPlusDeviceSupport extends AbstractBTLEDeviceSupport {
         Calendar end = new GregorianCalendar();
         boolean enable = WatchXPlusDeviceCoordinator.getLongSitHours(gbDevice.getAddress(), start, end);
         if (enable) {
-            String periodString = GBApplication.getDeviceSpecificSharedPrefs(gbDevice.getAddress()).getString(DeviceSettingsPreferenceConst.PREF_LONGSIT_PERIOD, "60");
+            String periodString = GBApplication.getDeviceSpecificSharedPrefs(gbDevice.getAddress()).getString(DeviceSettingsPreferenceConst.PREF_INACTIVITY_THRESHOLD, "60");
             int period = Integer.parseInt(periodString);
 
             this.setLongSitHours(builder, enable,

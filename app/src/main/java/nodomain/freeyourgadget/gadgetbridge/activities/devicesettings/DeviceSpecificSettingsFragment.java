@@ -365,10 +365,6 @@ public class DeviceSpecificSettingsFragment extends PreferenceFragmentCompat imp
         addPreferenceHandlerFor(PREF_DISCONNECTNOTIF_NOSHED);
         addPreferenceHandlerFor(PREF_BUTTON_BP_CALIBRATE);
         addPreferenceHandlerFor(PREF_ALTITUDE_CALIBRATE);
-        addPreferenceHandlerFor(PREF_LONGSIT_PERIOD);
-        addPreferenceHandlerFor(PREF_LONGSIT_SWITCH);
-        addPreferenceHandlerFor(PREF_LONGSIT_START);
-        addPreferenceHandlerFor(PREF_LONGSIT_END);
         addPreferenceHandlerFor(PREF_INACTIVITY_ENABLE);
         addPreferenceHandlerFor(PREF_INACTIVITY_START);
         addPreferenceHandlerFor(PREF_INACTIVITY_END);

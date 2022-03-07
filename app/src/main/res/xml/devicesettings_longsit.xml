@@ -2,7 +2,7 @@
 <androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
     <PreferenceScreen
         android:icon="@drawable/ic_chair"
-        android:key="screen_longsit"
+        android:key="screen_inactivity"
         android:persistent="false"
         android:summary="@string/mi2_prefs_inactivity_warnings_summary"
         android:title="@string/mi2_prefs_inactivity_warnings">
@@ -12,21 +12,21 @@
 
         <SwitchPreference
             android:defaultValue="false"
-            android:key="pref_longsit_switch"
+            android:key="inactivity_warnings_enable"
             android:title="@string/mi2_prefs_inactivity_warnings" />
         <EditTextPreference
             android:defaultValue="60"
-            android:key="pref_longsit_period"
+            android:key="inactivity_warnings_threshold"
             android:summary="@string/mi2_prefs_inactivity_warnings_summary"
             android:title="@string/mi2_prefs_inactivity_warnings_threshold"/>
         <nodomain.freeyourgadget.gadgetbridge.util.XTimePreference
             android:defaultValue="06:00"
-            android:key="pref_longsit_start"
+            android:key="inactivity_warnings_start"
             android:title="@string/mi2_prefs_do_not_disturb_start" />
 
         <nodomain.freeyourgadget.gadgetbridge.util.XTimePreference
             android:defaultValue="23:00"
-            android:key="pref_longsit_end"
+            android:key="inactivity_warnings_end"
             android:title="@string/mi2_prefs_do_not_disturb_end" />
 
     </PreferenceScreen>

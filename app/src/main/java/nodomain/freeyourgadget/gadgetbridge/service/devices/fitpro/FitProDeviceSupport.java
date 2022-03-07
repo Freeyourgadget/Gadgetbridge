@@ -543,10 +543,10 @@ public class FitProDeviceSupport extends AbstractBTLEDeviceSupport {
                 case DeviceSettingsPreferenceConst.PREF_LANGUAGE:
                     setLanguage(builder);
                     break;
-                case DeviceSettingsPreferenceConst.PREF_LONGSIT_PERIOD:
-                case DeviceSettingsPreferenceConst.PREF_LONGSIT_SWITCH:
-                case DeviceSettingsPreferenceConst.PREF_LONGSIT_START:
-                case DeviceSettingsPreferenceConst.PREF_LONGSIT_END:
+                case DeviceSettingsPreferenceConst.PREF_INACTIVITY_THRESHOLD:
+                case DeviceSettingsPreferenceConst.PREF_INACTIVITY_ENABLE:
+                case DeviceSettingsPreferenceConst.PREF_INACTIVITY_START:
+                case DeviceSettingsPreferenceConst.PREF_INACTIVITY_END:
                     setLongSitReminder(builder);
                     break;
                 case DeviceSettingsPreferenceConst.PREF_ACTIVATE_DISPLAY_ON_LIFT:
@@ -1143,14 +1143,14 @@ public class FitProDeviceSupport extends AbstractBTLEDeviceSupport {
 
     public FitProDeviceSupport setLongSitReminder(TransactionBuilder builder) {
         LOG.debug("FitPro set inactivity warning");
-        boolean prefLongsitSwitch = GBApplication.getDeviceSpecificSharedPrefs(gbDevice.getAddress()).getBoolean("pref_longsit_switch", false);
+        boolean prefLongsitSwitch = GBApplication.getDeviceSpecificSharedPrefs(gbDevice.getAddress()).getBoolean(DeviceSettingsPreferenceConst.PREF_INACTIVITY_ENABLE, false);
         LOG.info("Setting long sit warning to " + prefLongsitSwitch);
 
         if (prefLongsitSwitch) {
 
-            String inactivity = GBApplication.getDeviceSpecificSharedPrefs(gbDevice.getAddress()).getString("pref_longsit_period", "4");
-            String start = GBApplication.getDeviceSpecificSharedPrefs(gbDevice.getAddress()).getString("pref_longsit_start", "08:00");
-            String end = GBApplication.getDeviceSpecificSharedPrefs(gbDevice.getAddress()).getString("pref_longsit_end", "16:00");
+            String inactivity = GBApplication.getDeviceSpecificSharedPrefs(gbDevice.getAddress()).getString(DeviceSettingsPreferenceConst.PREF_INACTIVITY_THRESHOLD, "4");
+            String start = GBApplication.getDeviceSpecificSharedPrefs(gbDevice.getAddress()).getString(DeviceSettingsPreferenceConst.PREF_INACTIVITY_START, "08:00");
+            String end = GBApplication.getDeviceSpecificSharedPrefs(gbDevice.getAddress()).getString(DeviceSettingsPreferenceConst.PREF_INACTIVITY_END, "16:00");
             Calendar startCalendar = GregorianCalendar.getInstance();
             Calendar endCalendar = GregorianCalendar.getInstance();
             DateFormat df = new SimpleDateFormat("HH:mm");

@@ -272,14 +272,14 @@ public class WatchXPlusDeviceCoordinator extends AbstractDeviceCoordinator {
      */
     public static boolean getLongSitHours(String deviceAddress, Calendar startOut, Calendar endOut) {
         SharedPreferences prefs = GBApplication.getDeviceSpecificSharedPrefs(deviceAddress);
-        boolean enabled = prefs.getBoolean(DeviceSettingsPreferenceConst.PREF_LONGSIT_SWITCH, false);
+        boolean enabled = prefs.getBoolean(DeviceSettingsPreferenceConst.PREF_INACTIVITY_ENABLE, false);
 
         if (!enabled) {
             LOG.info(" Long sit reminder is disabled ");
             return false;
         } else {
-            String start = prefs.getString(WatchXPlusConstants.PREF_LONGSIT_START, "06:00");
-            String end = prefs.getString(WatchXPlusConstants.PREF_LONGSIT_END, "23:00");
+            String start = prefs.getString(DeviceSettingsPreferenceConst.PREF_INACTIVITY_START, "06:00");
+            String end = prefs.getString(DeviceSettingsPreferenceConst.PREF_INACTIVITY_END, "23:00");
 
             DateFormat df = new SimpleDateFormat("HH:mm");
 

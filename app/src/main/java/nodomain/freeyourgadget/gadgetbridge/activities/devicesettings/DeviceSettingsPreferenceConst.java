@@ -61,13 +61,9 @@ public class DeviceSettingsPreferenceConst {
 
     public static final String PREF_LIFTWRIST_NOSHED = "activate_display_on_lift_wrist_noshed";
     public static final String PREF_DISCONNECTNOTIF_NOSHED = "disconnect_notification_noshed";
-    public static final String PREF_LONGSIT_START = "pref_longsit_start";
-    public static final String PREF_LONGSIT_END = "pref_longsit_end";
-    public static final String PREF_LONGSIT_PERIOD = "pref_longsit_period";
-    public static final String PREF_LONGSIT_SWITCH = "pref_longsit_switch";
-    public static final String PREF_LONGSIT_SWITCH_NOSHED = "screen_longsit_noshed";
     public static final String PREF_INACTIVITY_KEY =  "inactivity_warnings_key";
-    public static final String PREF_INACTIVITY_ENABLE = "inactivity_warnings";
+    public static final String PREF_INACTIVITY_ENABLE = "inactivity_warnings_enable";
+    public static final String PREF_INACTIVITY_ENABLE_NOSHED = "inactivity_warnings_enable_noshed";
     public static final String PREF_INACTIVITY_START = "inactivity_warnings_start";
     public static final String PREF_INACTIVITY_END = "inactivity_warnings_end";
     public static final String PREF_INACTIVITY_THRESHOLD = "inactivity_warnings_threshold";

@@ -64,13 +64,13 @@
 
             <CheckBoxPreference
                 android:defaultValue="false"
-                android:key="inactivity_warnings"
+                android:key="inactivity_warnings_enable"
                 android:summary="@string/mi2_prefs_inactivity_warnings_summary"
                 android:title="@string/mi2_prefs_inactivity_warnings" />
 
             <EditTextPreference
                 android:defaultValue="60"
-                android:dependency="inactivity_warnings"
+                android:dependency="inactivity_warnings_enable"
                 android:inputType="numberSigned"
                 android:key="inactivity_warnings_threshold"
                 android:maxLength="3"
@@ -78,19 +78,19 @@
 
             <nodomain.freeyourgadget.gadgetbridge.util.TimePreference
                 android:defaultValue="06:00"
-                android:dependency="inactivity_warnings"
+                android:dependency="inactivity_warnings_enable"
                 android:key="inactivity_warnings_start"
                 android:title="@string/mi2_prefs_do_not_disturb_start" />
 
             <nodomain.freeyourgadget.gadgetbridge.util.TimePreference
                 android:defaultValue="22:00"
-                android:dependency="inactivity_warnings"
+                android:dependency="inactivity_warnings_enable"
                 android:key="inactivity_warnings_end"
                 android:title="@string/mi2_prefs_do_not_disturb_end" />
 
             <!-- workaround for missing toolbar -->
             <PreferenceCategory android:title="@string/zetime_prefs_inactivity_repetitions"
-                android:dependency="inactivity_warnings">
+                android:dependency="inactivity_warnings_enable">
                 <CheckBoxPreference
                     android:defaultValue="false"
                     android:key="inactivity_warnings_mo"
