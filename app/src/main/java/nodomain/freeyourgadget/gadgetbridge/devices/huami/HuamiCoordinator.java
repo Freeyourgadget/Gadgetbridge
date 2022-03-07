@@ -209,33 +209,33 @@ public abstract class HuamiCoordinator extends AbstractDeviceCoordinator {
 
     public static boolean getInactivityWarnings() {
         Prefs prefs = GBApplication.getPrefs();
-        return prefs.getBoolean(MiBandConst.PREF_MI2_INACTIVITY_WARNINGS, false);
+        return prefs.getBoolean(DeviceSettingsPreferenceConst.PREF_INACTIVITY_ENABLE, false);
     }
 
     public static int getInactivityWarningsThreshold() {
         Prefs prefs = GBApplication.getPrefs();
-        return prefs.getInt(MiBandConst.PREF_MI2_INACTIVITY_WARNINGS_THRESHOLD, 60);
+        return prefs.getInt(DeviceSettingsPreferenceConst.PREF_INACTIVITY_THRESHOLD, 60);
     }
 
     public static boolean getInactivityWarningsDnd() {
         Prefs prefs = GBApplication.getPrefs();
-        return prefs.getBoolean(MiBandConst.PREF_MI2_INACTIVITY_WARNINGS_DND, false);
+        return prefs.getBoolean(DeviceSettingsPreferenceConst.PREF_INACTIVITY_DND, false);
     }
 
     public static Date getInactivityWarningsStart() {
-        return getTimePreference(MiBandConst.PREF_MI2_INACTIVITY_WARNINGS_START, "06:00");
+        return getTimePreference(DeviceSettingsPreferenceConst.PREF_INACTIVITY_START, "06:00");
     }
 
     public static Date getInactivityWarningsEnd() {
-        return getTimePreference(MiBandConst.PREF_MI2_INACTIVITY_WARNINGS_END, "22:00");
+        return getTimePreference(DeviceSettingsPreferenceConst.PREF_INACTIVITY_END, "22:00");
     }
 
     public static Date getInactivityWarningsDndStart() {
-        return getTimePreference(MiBandConst.PREF_MI2_INACTIVITY_WARNINGS_DND_START, "12:00");
+        return getTimePreference(DeviceSettingsPreferenceConst.PREF_INACTIVITY_DND_START, "12:00");
     }
 
     public static Date getInactivityWarningsDndEnd() {
-        return getTimePreference(MiBandConst.PREF_MI2_INACTIVITY_WARNINGS_DND_END, "14:00");
+        return getTimePreference(DeviceSettingsPreferenceConst.PREF_INACTIVITY_DND_END, "14:00");
     }
 
     public static Date getDoNotDisturbStart(String deviceAddress) {

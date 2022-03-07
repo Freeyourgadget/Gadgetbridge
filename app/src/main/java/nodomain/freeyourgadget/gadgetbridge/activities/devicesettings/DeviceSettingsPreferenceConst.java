@@ -74,6 +74,9 @@ public class DeviceSettingsPreferenceConst {
     public static final String PREF_INACTIVITY_FR = "inactivity_warnings_fr";
     public static final String PREF_INACTIVITY_SA = "inactivity_warnings_sa";
     public static final String PREF_INACTIVITY_SU = "inactivity_warnings_su";
+    public static final String PREF_INACTIVITY_DND = "inactivity_warnings_dnd";
+    public static final String PREF_INACTIVITY_DND_START = "inactivity_warnings_dnd_start";
+    public static final String PREF_INACTIVITY_DND_END = "inactivity_warnings_dnd_end";
 
     public static final String PREF_AUTOHEARTRATE_SWITCH = "pref_autoheartrate_switch";
     public static final String PREF_AUTOHEARTRATE_SLEEP = "pref_autoheartrate_sleep";

@@ -376,6 +376,9 @@ public class DeviceSpecificSettingsFragment extends PreferenceFragmentCompat imp
         addPreferenceHandlerFor(PREF_INACTIVITY_FR);
         addPreferenceHandlerFor(PREF_INACTIVITY_SA);
         addPreferenceHandlerFor(PREF_INACTIVITY_SU);
+        addPreferenceHandlerFor(PREF_INACTIVITY_DND);
+        addPreferenceHandlerFor(PREF_INACTIVITY_DND_START);
+        addPreferenceHandlerFor(PREF_INACTIVITY_DND_END);
         addPreferenceHandlerFor(PREF_AUTOHEARTRATE_SWITCH);
         addPreferenceHandlerFor(PREF_AUTOHEARTRATE_SLEEP);
         addPreferenceHandlerFor(PREF_AUTOHEARTRATE_INTERVAL);

@@ -154,6 +154,13 @@ import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.Dev
 import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_DO_NOT_DISTURB_START;
 import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_DO_NOT_DISTURB_END;
 import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_DO_NOT_DISTURB_LIFT_WRIST;
+import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_INACTIVITY_ENABLE;
+import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_INACTIVITY_START;
+import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_INACTIVITY_END;
+import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_INACTIVITY_THRESHOLD;
+import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_INACTIVITY_DND;
+import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_INACTIVITY_DND_START;
+import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_INACTIVITY_DND_END;
 import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_LANGUAGE;
 import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_RESERVER_ALARMS_CALENDAR;
 import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_RESERVER_REMINDERS_CALENDAR;
@@ -2242,13 +2249,13 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
                 case PREF_DO_NOT_DISTURB_LIFT_WRIST:
                     setDoNotDisturb(builder);
                     break;
-                case MiBandConst.PREF_MI2_INACTIVITY_WARNINGS:
-                case MiBandConst.PREF_MI2_INACTIVITY_WARNINGS_THRESHOLD:
-                case MiBandConst.PREF_MI2_INACTIVITY_WARNINGS_START:
-                case MiBandConst.PREF_MI2_INACTIVITY_WARNINGS_END:
-                case MiBandConst.PREF_MI2_INACTIVITY_WARNINGS_DND:
-                case MiBandConst.PREF_MI2_INACTIVITY_WARNINGS_DND_START:
-                case MiBandConst.PREF_MI2_INACTIVITY_WARNINGS_DND_END:
+                case PREF_INACTIVITY_ENABLE:
+                case PREF_INACTIVITY_THRESHOLD:
+                case PREF_INACTIVITY_START:
+                case PREF_INACTIVITY_END:
+                case PREF_INACTIVITY_DND:
+                case PREF_INACTIVITY_DND_START:
+                case PREF_INACTIVITY_DND_END:
                     setInactivityWarnings(builder);
                     break;
                 case SettingsActivity.PREF_MEASUREMENT_SYSTEM:
