@@ -557,7 +557,7 @@ public class MakibesHR3DeviceSupport extends AbstractBTLEDeviceSupport implement
             this.setTimeMode(transactionBuilder, sharedPreferences);
         } else if (key.equals(DeviceSettingsPreferenceConst.PREF_ACTIVATE_DISPLAY_ON_LIFT)) {
             this.setHeadsUpScreen(transactionBuilder, sharedPreferences);
-        } else if (key.equals(MakibesHR3Constants.PREF_LOST_REMINDER)) {
+        } else if (key.equals(DeviceSettingsPreferenceConst.PREF_DISCONNECT_NOTIFICATION)) {
             this.setLostReminder(transactionBuilder, sharedPreferences);
         } else if (key.equals(DeviceSettingsPreferenceConst.PREF_DO_NOT_DISTURB_NOAUTO) ||
                 key.equals(DeviceSettingsPreferenceConst.PREF_DO_NOT_DISTURB_NOAUTO_START) ||

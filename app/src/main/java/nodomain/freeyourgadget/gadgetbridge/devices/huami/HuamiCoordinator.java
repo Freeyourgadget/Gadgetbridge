@@ -173,7 +173,7 @@ public abstract class HuamiCoordinator extends AbstractDeviceCoordinator {
         String liftOn = context.getString(R.string.p_on);
         String liftScheduled = context.getString(R.string.p_scheduled);
 
-        String pref = prefs.getString(HuamiConst.PREF_DISCONNECT_NOTIFICATION, liftOff);
+        String pref = prefs.getString(DeviceSettingsPreferenceConst.PREF_DISCONNECT_NOTIFICATION, liftOff);
 
         if (liftOn.equals(pref)) {
             return DisconnectNotificationSetting.ON;
@@ -185,11 +185,11 @@ public abstract class HuamiCoordinator extends AbstractDeviceCoordinator {
     }
 
     public static Date getDisconnectNotificationStart(String deviceAddress) {
-        return getTimePreference(HuamiConst.PREF_DISCONNECT_NOTIFICATION_START, "00:00", deviceAddress);
+        return getTimePreference(DeviceSettingsPreferenceConst.PREF_DISCONNECT_NOTIFICATION_START, "00:00", deviceAddress);
     }
 
     public static Date getDisconnectNotificationEnd(String deviceAddress) {
-        return getTimePreference(HuamiConst.PREF_DISCONNECT_NOTIFICATION_END, "00:00", deviceAddress);
+        return getTimePreference(DeviceSettingsPreferenceConst.PREF_DISCONNECT_NOTIFICATION_END, "00:00", deviceAddress);
     }
 
     public static boolean getUseCustomFont(String deviceAddress) {

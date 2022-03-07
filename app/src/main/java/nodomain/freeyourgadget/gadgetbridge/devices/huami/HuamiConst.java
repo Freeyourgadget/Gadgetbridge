@@ -57,10 +57,6 @@ public class HuamiConst {
     public static final String AMAZFIT_X = "Amazfit X";
 
 
-    public static final String PREF_DISCONNECT_NOTIFICATION = "disconnect_notification";
-    public static final String PREF_DISCONNECT_NOTIFICATION_START = "disconnect_notification_start";
-    public static final String PREF_DISCONNECT_NOTIFICATION_END = "disconnect_notification_end";
-
     public static final String PREF_DISPLAY_ITEMS = "display_items";
     public static final String PREF_DISPLAY_ITEMS_SORTABLE = "display_items_sortable";
     public static final String PREF_SHORTCUTS = "shortcuts";

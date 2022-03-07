@@ -71,7 +71,7 @@ public class MakibesHR3Coordinator extends AbstractDeviceCoordinator {
     }
 
     public static boolean shouldEnableLostReminder(SharedPreferences sharedPrefs) {
-        String lostReminder = sharedPrefs.getString(MakibesHR3Constants.PREF_LOST_REMINDER, getContext().getString(R.string.p_on));
+        String lostReminder = sharedPrefs.getString(DeviceSettingsPreferenceConst.PREF_DISCONNECT_NOTIFICATION, getContext().getString(R.string.p_on));
 
         // Makibes HR3 doesn't support scheduled intervals. Treat it as "on".
         return !lostReminder.equals(getContext().getString(R.string.p_off));

@@ -41,6 +41,10 @@ public class DeviceSettingsPreferenceConst {
     public static final String PREF_VIBRATION_STRENGH_PERCENTAGE = "vibration_strength";
     public static final String PREF_RELAX_FIRMWARE_CHECKS = "relax_firmware_checks";
 
+    public static final String PREF_DISCONNECT_NOTIFICATION = "disconnect_notification";
+    public static final String PREF_DISCONNECT_NOTIFICATION_START = "disconnect_notification_start";
+    public static final String PREF_DISCONNECT_NOTIFICATION_END = "disconnect_notification_end";
+
     public static final String PREF_HYBRID_HR_FORCE_WHITE_COLOR = "force_white_color_scheme";
     public static final String PREF_HYBRID_HR_DRAW_WIDGET_CIRCLES = "widget_draw_circles";
     public static final String PREF_HYBRID_HR_SAVE_RAW_ACTIVITY_FILES = "save_raw_activity_files";

@@ -20,10 +20,6 @@ import java.util.UUID;
 
 public final class MakibesHR3Constants {
 
-    // TODO: This doesn't belong here, but I don't want to touch other files to avoid
-    // TODO: breaking someone else's device support.
-    public static final String PREF_LOST_REMINDER = "disconnect_notification";
-
     public static final UUID UUID_SERVICE = UUID.fromString("6e400001-b5a3-f393-e0a9-e50e24dcca9e");
     public static final UUID UUID_CHARACTERISTIC_CONTROL = UUID.fromString("6e400002-b5a3-f393-e0a9-e50e24dcca9e");
     public static final UUID UUID_CHARACTERISTIC_REPORT = UUID.fromString("6e400003-b5a3-f393-e0a9-e50e24dcca9e");
