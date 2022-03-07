@@ -64,7 +64,7 @@ public class MakibesHR3Coordinator extends AbstractDeviceCoordinator {
 
 
     public static boolean shouldEnableHeadsUpScreen(SharedPreferences sharedPrefs) {
-        String liftMode = sharedPrefs.getString(MakibesHR3Constants.PREF_HEADS_UP_SCREEN, getContext().getString(R.string.p_on));
+        String liftMode = sharedPrefs.getString(DeviceSettingsPreferenceConst.PREF_ACTIVATE_DISPLAY_ON_LIFT, getContext().getString(R.string.p_on));
 
         // Makibes HR3 doesn't support scheduled intervals. Treat it as "on".
         return !liftMode.equals(getContext().getString(R.string.p_off));
@@ -121,14 +121,14 @@ public class MakibesHR3Coordinator extends AbstractDeviceCoordinator {
      * @return {@link #FindPhone_OFF}, {@link #FindPhone_ON}, or the duration
      */
     public static int getFindPhone(SharedPreferences sharedPrefs) {
-        String findPhone = sharedPrefs.getString(MakibesHR3Constants.PREF_FIND_PHONE, getContext().getString(R.string.p_off));
+        String findPhone = sharedPrefs.getString(DeviceSettingsPreferenceConst.PREF_FIND_PHONE, getContext().getString(R.string.p_off));
 
         if (findPhone.equals(getContext().getString(R.string.p_off))) {
             return FindPhone_OFF;
         } else if (findPhone.equals(getContext().getString(R.string.p_on))) {
             return FindPhone_ON;
         } else { // Duration
-            String duration = sharedPrefs.getString(MakibesHR3Constants.PREF_FIND_PHONE_DURATION, "0");
+            String duration = sharedPrefs.getString(DeviceSettingsPreferenceConst.PREF_FIND_PHONE_DURATION, "0");
 
             try {
                 int iDuration;

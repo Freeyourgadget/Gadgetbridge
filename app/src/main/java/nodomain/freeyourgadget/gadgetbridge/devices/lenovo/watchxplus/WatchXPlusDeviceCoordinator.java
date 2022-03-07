@@ -206,7 +206,7 @@ public class WatchXPlusDeviceCoordinator extends AbstractDeviceCoordinator {
      * @return {@link #FindPhone_OFF}, {@link #FindPhone_ON}, or the duration
      */
     public static int getFindPhone(SharedPreferences sharedPrefs) {
-        String findPhone = sharedPrefs.getString(WatchXPlusConstants.PREF_FIND_PHONE, getContext().getString(R.string.p_off));
+        String findPhone = sharedPrefs.getString(DeviceSettingsPreferenceConst.PREF_FIND_PHONE, getContext().getString(R.string.p_off));
 
         assert findPhone != null;
         if (findPhone.equals(getContext().getString(R.string.p_off))) {
@@ -214,7 +214,7 @@ public class WatchXPlusDeviceCoordinator extends AbstractDeviceCoordinator {
         } else if (findPhone.equals(getContext().getString(R.string.p_on))) {
             return FindPhone_ON;
         } else { // Duration
-            String duration = sharedPrefs.getString(WatchXPlusConstants.PREF_FIND_PHONE_DURATION, "0");
+            String duration = sharedPrefs.getString(DeviceSettingsPreferenceConst.PREF_FIND_PHONE_DURATION, "0");
 
             try {
                 int iDuration;

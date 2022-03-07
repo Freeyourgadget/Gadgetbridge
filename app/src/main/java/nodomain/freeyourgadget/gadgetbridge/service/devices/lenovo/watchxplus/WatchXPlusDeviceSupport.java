@@ -960,7 +960,7 @@ public class WatchXPlusDeviceSupport extends AbstractBTLEDeviceSupport {
                 case DeviceSettingsPreferenceConst.PREF_POWER_MODE:
                     setPowerMode();
                     break;
-                case WatchXPlusConstants.PREF_LANGUAGE:
+                case DeviceSettingsPreferenceConst.PREF_LANGUAGE:
                     setLanguageAndTimeFormat(builder);
                     break;
 
@@ -2128,7 +2128,7 @@ public class WatchXPlusDeviceSupport extends AbstractBTLEDeviceSupport {
     // set time format
     private void setLanguageAndTimeFormat(TransactionBuilder transactionBuilder) {
         byte setLanguage, setTimeMode;
-        String languageString = GBApplication.getDeviceSpecificSharedPrefs(gbDevice.getAddress()).getString(WatchXPlusConstants.PREF_LANGUAGE, "1");
+        String languageString = GBApplication.getDeviceSpecificSharedPrefs(gbDevice.getAddress()).getString(DeviceSettingsPreferenceConst.PREF_LANGUAGE, "1");
         if (languageString == null || languageString.equals("1")) {
              setLanguage = 0x01;
         } else {

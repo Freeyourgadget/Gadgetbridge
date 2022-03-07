@@ -147,7 +147,7 @@ public abstract class HuamiCoordinator extends AbstractDeviceCoordinator {
         String liftOn = context.getString(R.string.p_on);
         String liftScheduled = context.getString(R.string.p_scheduled);
 
-        String pref = prefs.getString(HuamiConst.PREF_ACTIVATE_DISPLAY_ON_LIFT, liftOff);
+        String pref = prefs.getString(DeviceSettingsPreferenceConst.PREF_ACTIVATE_DISPLAY_ON_LIFT, liftOff);
 
         if (liftOn.equals(pref)) {
             return ActivateDisplayOnLift.ON;
@@ -159,11 +159,11 @@ public abstract class HuamiCoordinator extends AbstractDeviceCoordinator {
     }
 
     public static Date getDisplayOnLiftStart(String deviceAddress) {
-        return getTimePreference(HuamiConst.PREF_DISPLAY_ON_LIFT_START, "00:00", deviceAddress);
+        return getTimePreference(DeviceSettingsPreferenceConst.PREF_DISPLAY_ON_LIFT_START, "00:00", deviceAddress);
     }
 
     public static Date getDisplayOnLiftEnd(String deviceAddress) {
-        return getTimePreference(HuamiConst.PREF_DISPLAY_ON_LIFT_END, "00:00", deviceAddress);
+        return getTimePreference(DeviceSettingsPreferenceConst.PREF_DISPLAY_ON_LIFT_END, "00:00", deviceAddress);
     }
 
     public static DisconnectNotificationSetting getDisconnectNotificationSetting(Context context, String deviceAddress) {

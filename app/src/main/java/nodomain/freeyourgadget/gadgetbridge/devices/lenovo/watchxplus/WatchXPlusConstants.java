@@ -31,10 +31,6 @@ public final class WatchXPlusConstants extends LenovoWatchConstants {
     public static final UUID UUID_CHARACTERISTIC_UNKNOWN_4 = UUID.fromString("0000a804-0000-1000-8000-00805f9b34fb");
 
 
-
-    public static final String PREF_FIND_PHONE = "prefs_find_phone";
-    public static final String PREF_FIND_PHONE_DURATION = "prefs_find_phone_duration";
-
     // new
     public static final String PREF_CONTINIOUS_RING = "notification_enable_continious_ring";
     public static final String PREF_REPEAT_RING = "notification_repeat_ring";
@@ -47,8 +43,6 @@ public final class WatchXPlusConstants extends LenovoWatchConstants {
     public static final String PREF_BP_CAL_HIGH = "pref_sensors_bp_calibration_high";
 
     public static final String PREF_SHOW_RAW_GRAPH = "show_raw_graph";
-    // moved to gear icon (per device settings)
-    public static final String PREF_LANGUAGE = "language";
 
     // time format constants
     public static final byte ARG_SET_TIMEMODE_24H = 0x00;

@@ -98,7 +98,8 @@ public class DeviceSettingsPreferenceConst {
     public static final String PREF_DO_NOT_DISTURB_AUTOMATIC = "automatic";
     public static final String PREF_DO_NOT_DISTURB_SCHEDULED = "scheduled";
 
-    public static final String PREF_FIND_PHONE_ENABLED = "prefs_find_phone";
+    public static final String PREF_FIND_PHONE = "prefs_find_phone";
+    public static final String PREF_FIND_PHONE_DURATION = "prefs_find_phone_duration";
     public static final String PREF_AUTOLIGHT = "autolight";
     public static final String PREF_AUTOREMOVE_MESSAGE = "autoremove_message";
     public static final String PREF_AUTOREMOVE_NOTIFICATIONS = "autoremove_notifications";
