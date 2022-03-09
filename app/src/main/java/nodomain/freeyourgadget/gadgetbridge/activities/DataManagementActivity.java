@@ -42,6 +42,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Date;
 import java.util.List;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
@@ -51,6 +52,7 @@ import nodomain.freeyourgadget.gadgetbridge.database.DBHelper;
 import nodomain.freeyourgadget.gadgetbridge.database.PeriodicExporter;
 import nodomain.freeyourgadget.gadgetbridge.entities.Device;
 import nodomain.freeyourgadget.gadgetbridge.util.AndroidUtils;
+import nodomain.freeyourgadget.gadgetbridge.util.DateTimeUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.FileUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 import nodomain.freeyourgadget.gadgetbridge.util.GBPrefs;
@@ -145,7 +147,7 @@ public class DataManagementActivity extends AbstractGBActivity {
                 cleanExportDirectory();
             }
         });
-
+        GBApplication gbApp = GBApplication.app();
         Prefs prefs = GBApplication.getPrefs();
         boolean autoExportEnabled = prefs.getBoolean(GBPrefs.AUTO_EXPORT_ENABLED, false);
         int autoExportInterval = prefs.getInt(GBPrefs.AUTO_EXPORT_INTERVAL, 0);
@@ -153,16 +155,42 @@ public class DataManagementActivity extends AbstractGBActivity {
         //String autoExportLocation = prefs.getString(GBPrefs.AUTO_EXPORT_LOCATION, "");
 
         int testExportVisibility = (autoExportInterval > 0 && autoExportEnabled) ? View.VISIBLE : View.GONE;
-
+        boolean isExportEnabled = autoExportInterval > 0 && autoExportEnabled;
         TextView autoExportLocation_label = findViewById(R.id.autoExportLocation_label);
         autoExportLocation_label.setVisibility(testExportVisibility);
 
-        TextView autoExportLocation_intro = findViewById(R.id.autoExportLocation_intro);
-        autoExportLocation_intro.setVisibility(testExportVisibility);
-
         TextView autoExportLocation_path = findViewById(R.id.autoExportLocation_path);
         autoExportLocation_path.setVisibility(testExportVisibility);
-        autoExportLocation_path.setText(getAutoExportLocationSummary());
+        autoExportLocation_path.setText(getAutoExportLocationUserString() + " (" + getAutoExportLocationPreferenceString() + ")" );
+
+        TextView autoExportEnabled_label = findViewById(R.id.autoExportEnabled);
+        if (isExportEnabled) {
+            autoExportEnabled_label.setText(getString(R.string.activity_db_management_autoexport_enabled_yes));
+        } else {
+            autoExportEnabled_label.setText(getString(R.string.activity_db_management_autoexport_enabled_no));
+        }
+
+        TextView autoExportScheduled = findViewById(R.id.autoExportScheduled);
+        autoExportScheduled.setVisibility(testExportVisibility);
+        long setAutoExportScheduledTimestamp = gbApp.getAutoExportScheduledTimestamp();
+        if (setAutoExportScheduledTimestamp > 0) {
+            autoExportScheduled.setText(getString(R.string.activity_db_management_autoexport_scheduled_yes,
+                    DateTimeUtils.formatDateTime(new Date(setAutoExportScheduledTimestamp))));
+        } else {
+            autoExportScheduled.setText(getResources().getString(R.string.activity_db_management_autoexport_scheduled_no));
+        }
+
+        TextView autoExport_lastTime_label = findViewById(R.id.autoExport_lastTime_label);
+        long lastAutoExportTimestamp = gbApp.getLastAutoExportTimestamp();
+
+        autoExport_lastTime_label.setVisibility(View.GONE);
+        autoExport_lastTime_label.setText(getString(R.string.autoExport_lastTime_label,
+                DateTimeUtils.formatDateTime(new Date(lastAutoExportTimestamp))));
+
+        if (lastAutoExportTimestamp > 0) {
+            autoExport_lastTime_label.setVisibility(testExportVisibility);
+            autoExport_lastTime_label.setVisibility(testExportVisibility);
+        }
 
         final Context context = getApplicationContext();
         Button testExportDBButton = findViewById(R.id.testExportDBButton);
@@ -180,18 +208,25 @@ public class DataManagementActivity extends AbstractGBActivity {
         sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
     }
 
-
-
-    //would rather re-use method of SettingsActivity... but lifecycle...
-    private String getAutoExportLocationSummary() {
+    private String getAutoExportLocationPreferenceString() {
         String autoExportLocation = GBApplication.getPrefs().getString(GBPrefs.AUTO_EXPORT_LOCATION, null);
+        if (autoExportLocation == null) {
+            return "";
+        }
+        return autoExportLocation;
+    }
+
+    private String getAutoExportLocationUri() {
+        String autoExportLocation = getAutoExportLocationPreferenceString();
         if (autoExportLocation == null) {
             return "";
         }
         Uri uri = Uri.parse(autoExportLocation);
         try {
+
             return AndroidUtils.getFilePath(getApplicationContext(), uri);
         } catch (IllegalArgumentException e) {
+            LOG.error("getFilePath did not work, trying to resolve content provider path");
             try {
                 Cursor cursor = getContentResolver().query(
                         uri,
@@ -208,6 +243,13 @@ public class DataManagementActivity extends AbstractGBActivity {
         return "";
     }
 
+    private String getAutoExportLocationUserString() {
+        String location = getAutoExportLocationUri();
+        if (location == "") {
+            return getString(R.string.activity_db_management_autoexport_location);
+        }
+        return location;
+    }
 
     private boolean hasOldActivityDatabase() {
         return new DBHelper(this).existsDB("ActivityDatabase");
@@ -403,7 +445,7 @@ public class DataManagementActivity extends AbstractGBActivity {
                     public void onClick(DialogInterface dialog, int which) {
                         try {
                             File externalFilesDir = FileUtils.getExternalFilesDir();
-                            String autoexportFile = getAutoExportLocationSummary();
+                            String autoexportFile = getAutoExportLocationUri();
                             for (File file : externalFilesDir.listFiles()) {
                                 if (file.isFile() &&
                                         (!FileUtils.getExtension(file.toString()).toLowerCase().equals("gpx")) && //keep GPX files

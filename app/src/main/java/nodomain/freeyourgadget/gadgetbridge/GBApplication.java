@@ -62,6 +62,7 @@ import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSett
 import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHelper;
 import nodomain.freeyourgadget.gadgetbridge.database.DBOpenHelper;
+import nodomain.freeyourgadget.gadgetbridge.database.PeriodicExporter;
 import nodomain.freeyourgadget.gadgetbridge.devices.DeviceManager;
 import nodomain.freeyourgadget.gadgetbridge.entities.DaoMaster;
 import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
@@ -145,6 +146,9 @@ public class GBApplication extends Application {
     private BluetoothStateChangeReceiver bluetoothStateChangeReceiver;
 
     private OpenTracksContentObserver openTracksObserver;
+    
+    private long lastAutoExportTimestamp = 0;
+    private long autoExportScheduledTimestamp = 0;
 
     public static void quit() {
         GB.log("Quitting Gadgetbridge...", GB.INFO, null);
@@ -212,6 +216,8 @@ public class GBApplication extends Application {
         loadAppsNotifBlackList();
         loadAppsPebbleBlackList();
         loadCalendarsBlackList();
+
+        PeriodicExporter.enablePeriodicExport(context);
 
         if (isRunningMarshmallowOrLater()) {
             notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
@@ -1100,5 +1106,21 @@ public class GBApplication extends Application {
 
     public OpenTracksContentObserver getOpenTracksObserver() {
         return openTracksObserver;
+    }
+
+    public long getLastAutoExportTimestamp() {
+        return lastAutoExportTimestamp;
+    }
+
+    public void setLastAutoExportTimestamp(long lastAutoExportTimestamp) {
+        this.lastAutoExportTimestamp = lastAutoExportTimestamp;
+    }
+
+    public long getAutoExportScheduledTimestamp() {
+        return autoExportScheduledTimestamp;
+    }
+
+    public void setAutoExportScheduledTimestamp(long autoExportScheduledTimestamp) {
+        this.autoExportScheduledTimestamp = autoExportScheduledTimestamp;
     }
 }

@@ -760,7 +760,13 @@
     <string name="dbmanagementactivity_old_activity_db_deletion_failed">Old Activity database deletion failed.</string>
     <string name="dbmanagementactivity_overwrite">Overwrite</string>
     <string name="activity_db_management_autoexport_explanation">Database autoexport location has been set to:</string>
+    <string name="autoExport_lastTime_label">Last AutoExport: %1$s</string>
+    <string name="activity_db_management_autoexport_enabled_yes">AutoExport is enabled.</string>
+    <string name="activity_db_management_autoexport_enabled_no">AutoExport is not enabled.</string>
+    <string name="activity_db_management_autoexport_scheduled_yes">AutoExport has (originally) been scheduled for %1$s</string>
+    <string name="activity_db_management_autoexport_scheduled_no">AutoExport has not been not scheduled.</string>
     <string name="activity_db_management_autoexport_label">AutoExport</string>
+    <string name="activity_db_management_autoexport_location">Location could not be understood. Likely an issue of newer Android permission system. Most likely, autoexport is not working now.</string>
     <string name="activity_DB_ExportButton">Export Data</string>
     <string name="activity_DB_import_button">Import Data</string>
     <string name="activity_DB_test_export_button">Run AutoExport Now</string>
@@ -1521,6 +1527,7 @@
     <string name="watchface_dialog_widget_width">Width:</string>
     <string name="pref_title_opentracks_packagename">OpenTracks package name</string>
     <string name="pref_summary_opentracks_packagename">Used for starting/stopping GPS track recording in external fitness app.</string>
+    <string name="watchface_dialog_pre_setting_position">pre-setting position to %s</string>
     <string name="watchface_setting_light_up_on_notification">Light up on new notification</string>
 
     <string name="info_no_devices_connected">no devices connected</string>
