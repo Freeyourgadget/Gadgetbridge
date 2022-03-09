@@ -85,11 +85,15 @@ import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceType.AMAZFITBIP;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceType.AMAZFITCOR;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceType.AMAZFITCOR2;
+import static nodomain.freeyourgadget.gadgetbridge.model.DeviceType.FITPRO;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceType.GALAXY_BUDS;
+import static nodomain.freeyourgadget.gadgetbridge.model.DeviceType.LEFUN;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceType.MIBAND;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceType.MIBAND2;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceType.MIBAND3;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceType.PEBBLE;
+import static nodomain.freeyourgadget.gadgetbridge.model.DeviceType.TLW64;
+import static nodomain.freeyourgadget.gadgetbridge.model.DeviceType.WATCHXPLUS;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceType.fromKey;
 import static nodomain.freeyourgadget.gadgetbridge.util.GB.NOTIFICATION_CHANNEL_HIGH_PRIORITY_ID;
 import static nodomain.freeyourgadget.gadgetbridge.util.GB.NOTIFICATION_ID_ERROR;
@@ -111,7 +115,7 @@ public class GBApplication extends Application {
     private static SharedPreferences sharedPrefs;
     private static final String PREFS_VERSION = "shared_preferences_version";
     //if preferences have to be migrated, increment the following and add the migration logic in migratePrefs below; see http://stackoverflow.com/questions/16397848/how-can-i-migrate-android-preferences-with-a-new-version
-    private static final int CURRENT_PREFS_VERSION = 10;
+    private static final int CURRENT_PREFS_VERSION = 11;
 
     private static LimitedQueue mIDSenderLookup = new LimitedQueue(16);
     private static Prefs prefs;
@@ -973,6 +977,97 @@ public class GBApplication extends Application {
                     }
                     deviceSharedPrefsEdit.apply();
                 }
+            } catch (Exception e) {
+                Log.w(TAG, "error acquiring DB lock");
+            }
+        }
+        if (oldVersion < 11) {
+            try (DBHandler db = acquireDB()) {
+                DaoSession daoSession = db.getDaoSession();
+                List<Device> activeDevices = DBHelper.getActiveDevices(daoSession);
+                for (Device dbDevice : activeDevices) {
+                    SharedPreferences deviceSharedPrefs = GBApplication.getDeviceSpecificSharedPrefs(dbDevice.getIdentifier());
+                    SharedPreferences.Editor deviceSharedPrefsEdit = deviceSharedPrefs.edit();
+                    DeviceType deviceType = fromKey(dbDevice.getType());
+                    if (deviceType == WATCHXPLUS || deviceType == FITPRO || deviceType == LEFUN) {
+                        deviceSharedPrefsEdit.putBoolean("inactivity_warnings_enable", deviceSharedPrefs.getBoolean("pref_longsit_switch", false));
+                        deviceSharedPrefsEdit.remove("pref_longsit_switch");
+                    }
+                    if (deviceType == WATCHXPLUS || deviceType == FITPRO) {
+                        deviceSharedPrefsEdit.putString("inactivity_warnings_start", deviceSharedPrefs.getString("pref_longsit_start", "06:00"));
+                        deviceSharedPrefsEdit.putString("inactivity_warnings_end", deviceSharedPrefs.getString("pref_longsit_end", "23:00"));
+                        deviceSharedPrefsEdit.remove("pref_longsit_start");
+                        deviceSharedPrefsEdit.remove("pref_longsit_end");
+                    }
+                    if (deviceType == WATCHXPLUS || deviceType == LEFUN) {
+                        deviceSharedPrefsEdit.putString("inactivity_warnings_threshold", deviceSharedPrefs.getString("pref_longsit_period", "60"));
+                        deviceSharedPrefsEdit.remove("pref_longsit_period");
+                    }
+                    if (deviceType == TLW64) {
+                        deviceSharedPrefsEdit.putBoolean("inactivity_warnings_enable_noshed", deviceSharedPrefs.getBoolean("screen_longsit_noshed", false));
+                        deviceSharedPrefsEdit.remove("screen_longsit_noshed");
+                    }
+                    if (dbDevice.getManufacturer().equals("Huami")) {
+                        editor.putBoolean("inactivity_warnings_dnd", prefs.getBoolean("mi2_inactivity_warnings_dnd", false));
+                        editor.putString("inactivity_warnings_dnd_start", prefs.getString("mi2_inactivity_warnings_dnd_start", "12:00"));
+                        editor.putString("inactivity_warnings_dnd_end", prefs.getString("mi2_inactivity_warnings_dnd_end", "14:00"));
+                        editor.putBoolean("inactivity_warnings_enable", prefs.getBoolean("mi2_inactivity_warnings", false));
+                        editor.putInt("inactivity_warnings_threshold", prefs.getInt("mi2_inactivity_warnings_threshold", 60));
+                        editor.putString("inactivity_warnings_start", prefs.getString("mi2_inactivity_warnings_start", "06:00"));
+                        editor.putString("inactivity_warnings_end", prefs.getString("mi2_inactivity_warnings_end", "22:00"));
+                    }
+                    switch (deviceType) {
+                        case LEFUN:
+                            deviceSharedPrefsEdit.putString("language", deviceSharedPrefs.getString("pref_lefun_interface_language", "0"));
+                            deviceSharedPrefsEdit.remove("pref_lefun_interface_language");
+                            break;
+                        case FITPRO:
+                            deviceSharedPrefsEdit.putString("inactivity_warnings_threshold", deviceSharedPrefs.getString("pref_longsit_period", "4"));
+                            deviceSharedPrefsEdit.remove("pref_longsit_period");
+                            break;
+                        case ZETIME:
+                            editor.putString("do_not_disturb", prefs.getString("zetime_do_not_disturb", "off"));
+                            editor.putString("do_not_disturb_start", prefs.getString("zetime_do_not_disturb_start", "22:00"));
+                            editor.putString("do_not_disturb_end", prefs.getString("zetime_do_not_disturb_end", "07:00"));
+                            editor.putBoolean("inactivity_warnings_enable", prefs.getBoolean("zetime_inactivity_warnings", false));
+                            editor.putString("inactivity_warnings_start", prefs.getString("zetime_inactivity_warnings_start", "06:00"));
+                            editor.putString("inactivity_warnings_end", prefs.getString("zetime_inactivity_warnings_end", "22:00"));
+                            editor.putInt("inactivity_warnings_threshold", prefs.getInt("zetime_inactivity_warnings_threshold", 60));
+                            editor.putBoolean("inactivity_warnings_mo", prefs.getBoolean("zetime_prefs_inactivity_repetitions_mo", false));
+                            editor.putBoolean("inactivity_warnings_tu", prefs.getBoolean("zetime_prefs_inactivity_repetitions_tu", false));
+                            editor.putBoolean("inactivity_warnings_we", prefs.getBoolean("zetime_prefs_inactivity_repetitions_we", false));
+                            editor.putBoolean("inactivity_warnings_th", prefs.getBoolean("zetime_prefs_inactivity_repetitions_th", false));
+                            editor.putBoolean("inactivity_warnings_fr", prefs.getBoolean("zetime_prefs_inactivity_repetitions_fr", false));
+                            editor.putBoolean("inactivity_warnings_sa", prefs.getBoolean("zetime_prefs_inactivity_repetitions_sa", false));
+                            editor.putBoolean("inactivity_warnings_su", prefs.getBoolean("zetime_prefs_inactivity_repetitions_su", false));
+                            break;
+                    }
+                    deviceSharedPrefsEdit.apply();
+                }
+                editor.putInt("fitness_goal", prefs.getInt("mi_fitness_goal", 8000));
+
+                editor.remove("zetime_do_not_disturb");
+                editor.remove("zetime_do_not_disturb_start");
+                editor.remove("zetime_do_not_disturb_end");
+                editor.remove("zetime_inactivity_warnings");
+                editor.remove("zetime_inactivity_warnings_start");
+                editor.remove("zetime_inactivity_warnings_end");
+                editor.remove("zetime_inactivity_warnings_threshold");
+                editor.remove("zetime_prefs_inactivity_repetitions_mo");
+                editor.remove("zetime_prefs_inactivity_repetitions_tu");
+                editor.remove("zetime_prefs_inactivity_repetitions_we");
+                editor.remove("zetime_prefs_inactivity_repetitions_th");
+                editor.remove("zetime_prefs_inactivity_repetitions_fr");
+                editor.remove("zetime_prefs_inactivity_repetitions_sa");
+                editor.remove("zetime_prefs_inactivity_repetitions_su");
+                editor.remove("mi2_inactivity_warnings_dnd");
+                editor.remove("mi2_inactivity_warnings_dnd_start");
+                editor.remove("mi2_inactivity_warnings_dnd_end");
+                editor.remove("mi2_inactivity_warnings");
+                editor.remove("mi2_inactivity_warnings_threshold");
+                editor.remove("mi2_inactivity_warnings_start");
+                editor.remove("mi2_inactivity_warnings_end");
+                editor.remove("mi_fitness_goal");
             } catch (Exception e) {
                 Log.w(TAG, "error acquiring DB lock");
             }
