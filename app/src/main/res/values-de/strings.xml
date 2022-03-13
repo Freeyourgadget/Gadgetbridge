@@ -1589,5 +1589,4 @@
     <string name="sony_anc_optimize_confirmation_description">Verwende den Kopfhörer wie gewohnt. Wenn sich die Tragebedingungen oder der Luftdruck ändern, führe den Optimierer erneut aus.</string>
     <string name="devicetype_amazfit_pop">Amazfit Pop</string>
     <string name="devicetype_amazfit_pop_pro">Amazfit Pop Pro</string>
-    <string name="watchface_dialog_pre_setting_position">Setze position auf %s</string>
 </resources>
