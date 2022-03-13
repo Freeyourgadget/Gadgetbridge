@@ -1592,4 +1592,5 @@
     <string name="pref_title_opentracks_packagename">OpenTracks Paketname</string>
     <string name="pref_summary_opentracks_packagename">Dient zum Starten/Stoppen der GPS-Track-Aufzeichnung in der externen Fitness-App.</string>
     <string name="pref_title_notifications_generic_settings">Android-Benachrichtigungseinstellungen</string>
+    <string name="watchface_dialog_pre_setting_position">setze position auf %s</string>
 </resources>
