@@ -1588,4 +1588,11 @@
     <string name="pref_title_opentracks_packagename">OpenTracks aplikační jméno</string>
     <string name="pref_title_notifications_generic_settings">Systémové nastavení notifikací</string>
     <string name="pref_summary_opentracks_packagename">Použito pro ovládání nahrávání GPS trasy pomocí externí fitness aplikace.</string>
+    <string name="autoExport_lastTime_label">Poslední AutoExport: %1$s</string>
+    <string name="activity_db_management_autoexport_enabled_yes">AutoExport je aktivní.</string>
+    <string name="activity_db_management_autoexport_scheduled_yes">AutoExport byl (prvně) naplánován na %1$s</string>
+    <string name="activity_db_management_autoexport_location">Umístění nebylo pochopeno. Pravděpodobně problém novějšího systému oprávnění Android. AutoExport s největší pravděpodobností nyní nefunguje.</string>
+    <string name="watchface_dialog_pre_setting_position">přednastavuji pozici na %s</string>
+    <string name="activity_db_management_autoexport_enabled_no">AutoExport není aktivní.</string>
+    <string name="activity_db_management_autoexport_scheduled_no">AutoExport zatím nebyl naplánován.</string>
 </resources>
