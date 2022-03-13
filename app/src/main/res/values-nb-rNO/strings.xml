@@ -1588,4 +1588,11 @@
     <string name="pref_title_opentracks_packagename">OpenTracks-pakkenavn</string>
     <string name="pref_title_notifications_generic_settings">Android-merknadsinnstillinger</string>
     <string name="pref_summary_opentracks_packagename">Brukt for start/stopp av GPS-sporingslagring i eksternt trimprogram.</string>
+    <string name="activity_db_management_autoexport_enabled_yes">Auto-eksport er påslått.</string>
+    <string name="activity_db_management_autoexport_enabled_no">Auto-eksport er avslått.</string>
+    <string name="autoExport_lastTime_label">Siste auto-eksport:%1$s</string>
+    <string name="activity_db_management_autoexport_scheduled_yes">Auto-eksport ble (opprinnelig) planlagt %1$s</string>
+    <string name="activity_db_management_autoexport_scheduled_no">Auto-eksport er ikke planlagt.</string>
+    <string name="activity_db_management_autoexport_location">Forsto ikke plassering. Antagelig er dette et tilgangsproblem i Android. Mest sannsynlig fungerer ikke auto-eksport nå.</string>
+    <string name="watchface_dialog_pre_setting_position">forhåndsinnstiller posisjon til %s</string>
 </resources>
