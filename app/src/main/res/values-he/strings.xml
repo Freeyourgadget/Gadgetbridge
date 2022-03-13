@@ -1591,4 +1591,5 @@
     <string name="activity_db_management_autoexport_scheduled_no">הייצוא האוטומטי לא תוזמן.</string>
     <string name="activity_db_management_autoexport_scheduled_yes">הייצוא האוטומטי תוזמן (במקור) ל־%1$s</string>
     <string name="activity_db_management_autoexport_location">לא ניתן לפענח את המיקום. כנראה תקלה במערכת ההרשאות החדשה של Android. סביר להניח שהייצוא האוטומטי לא עובד כרגע.</string>
+    <string name="watchface_dialog_pre_setting_position">המיקום מוגדר מראש לכדי %s</string>
 </resources>
