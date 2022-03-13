@@ -1595,4 +1595,5 @@ Temps de sommeil préféré en heures</string>
     <string name="activity_db_management_autoexport_scheduled_no">L\'export automatique n\'a pas été planifié.</string>
     <string name="activity_db_management_autoexport_enabled_no">L\'export automatique est désactivé.</string>
     <string name="activity_db_management_autoexport_location">L\'emplacement n\'a pas pu être détecté. Probablement un problème avec les nouvelles permissions du système Android. Très probablement, l\'export automatique ne fonctionne pas actuellement.</string>
+    <string name="watchface_dialog_pre_setting_position">pré-configuration de la position à %s</string>
 </resources>
