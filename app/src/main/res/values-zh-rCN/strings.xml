@@ -1597,4 +1597,5 @@
     <string name="autoExport_lastTime_label">最后一次自动导出：%1$s</string>
     <string name="activity_db_management_autoexport_enabled_no">自动导出未开启。</string>
     <string name="activity_db_management_autoexport_enabled_yes">自动导出已开启。</string>
+    <string name="watchface_dialog_pre_setting_position">预设位置为 %s</string>
 </resources>
