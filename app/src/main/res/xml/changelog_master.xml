@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
-</change>
     <release version="0.66.0" versioncode="210">
         <change>Add basic support for Casio GBD-H1000</change>
         <change>Add support for Hama Fit Track 1900 - via FitPro device support</change>
