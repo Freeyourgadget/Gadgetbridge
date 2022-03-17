@@ -1591,4 +1591,11 @@
     <string name="pref_device_action_fitness_app_control_stop">Parada de seguimiento de la aplicación de ejercicio físico</string>
     <string name="pref_title_opentracks_packagename">Nombre del paquete OpenTracks</string>
     <string name="pref_summary_opentracks_packagename">Se usa para iniciar/detener la grabación del seguimiento GPS en la aplicación externa de ejercicio físico.</string>
+    <string name="activity_db_management_autoexport_enabled_yes">La autoexportación está activada.</string>
+    <string name="activity_db_management_autoexport_enabled_no">La autoexportación no está activada.</string>
+    <string name="activity_db_management_autoexport_scheduled_yes">La autoexportación ha sido programada (originalmente) para %1$s</string>
+    <string name="activity_db_management_autoexport_scheduled_no">La autoexportación no ha sido programada.</string>
+    <string name="watchface_dialog_pre_setting_position">preconfigurando la posición a %s</string>
+    <string name="autoExport_lastTime_label">Última autoexportación: %1$s</string>
+    <string name="activity_db_management_autoexport_location">No se ha podido entender la ubicación. Probablemente un problema del nuevo sistema de permisos de Android. Lo más probable es que la autoexportación no funcione ahora.</string>
 </resources>
