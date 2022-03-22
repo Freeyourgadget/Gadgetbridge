@@ -111,6 +111,10 @@ public class HybridHRWatchfaceSettingsActivity extends AbstractSettingsActivity 
             SwitchPreference power_saving_hands = (SwitchPreference) findPreference("pref_hybridhr_watchface_power_saving_hands");
             power_saving_hands.setOnPreferenceChangeListener(new PreferenceChangeListener());
             power_saving_hands.setChecked(settings.getPowersaveHands());
+
+            SwitchPreference light_up_on_notification = (SwitchPreference) findPreference("pref_hybridhr_watchface_light_up_on_notification");
+            light_up_on_notification.setOnPreferenceChangeListener(new PreferenceChangeListener());
+            light_up_on_notification.setChecked(settings.getLightUpOnNotification());
         }
 
         private static class PreferenceChangeListener implements Preference.OnPreferenceChangeListener {
@@ -135,6 +139,9 @@ public class HybridHRWatchfaceSettingsActivity extends AbstractSettingsActivity 
                     case "pref_hybridhr_watchface_wrist_flick_minute_hand":
                         settings.setWristFlickMoveMinute(Integer.parseInt(newValue.toString()));
                         preference.setSummary(newValue.toString());
+                        break;
+                    case "pref_hybridhr_watchface_light_up_on_notification":
+                        settings.setLightUpOnNotification((boolean) newValue);
                         break;
                     case "pref_hybridhr_watchface_wrist_flick_duration":
                         settings.setWristFlickDuration(Integer.parseInt(newValue.toString()));

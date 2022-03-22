@@ -1,0 +1,207 @@
+[
+    {
+      "id": 0,
+      "type": "container",
+      "direction": 1,
+      "main_alignment": 0,
+      "cross_alignment": 1,
+      "dimension": {
+        "type": "rigid",
+        "width": 240,
+        "height": 240
+      },
+      "placement": {
+        "type": "absolute",
+        "left": 0,
+        "top": 0
+      },
+      "visible": true,
+      "inversion": false
+    },
+    {
+      "id": 1,
+      "parent_id": 0,
+      "type": "container",
+      "direction": 1,
+      "main_alignment": 1,
+      "cross_alignment": 2,
+      "dimension": {
+        "type": "rigid",
+        "width": 130,
+        "height": 34
+      },
+      "placement": {
+        "type": "absolute",
+        "left": 75,
+        "top": 45
+      },
+      "visible": true,
+      "inversion": false
+    },
+    {
+      "id": 2,
+      "parent_id": 1,
+      "type": "text",
+      "text": "#top_short_press_label",
+      "ppem": 17,
+      "color": 3,
+      "placement": {
+        "type": "relative"
+      },
+      "visible": true,
+      "inversion": false
+    },
+    {
+      "id": 3,
+      "parent_id": 1,
+      "type": "text",
+      "text": "#top_long_press_label",
+      "ppem": 17,
+      "color": 3,
+      "ascent": 17,
+      "placement": {
+        "type": "relative"
+      },
+      "visible": true,
+      "inversion": false
+    },
+    {
+      "id": 4,
+      "parent_id": 0,
+      "type": "container",
+      "direction": 1,
+      "main_alignment": 1,
+      "cross_alignment": 2,
+      "dimension": {
+        "type": "rigid",
+        "width": 80,
+        "height": 34
+      },
+      "placement": {
+        "type": "absolute",
+        "left": 135,
+        "top": 103
+      },
+      "visible": true,
+      "inversion": false
+    },
+    {
+      "id": 5,
+      "parent_id": 4,
+      "type": "text",
+      "text": "#middle_short_press_label",
+      "ppem": 17,
+      "color": 3,
+      "placement": {
+        "type": "relative"
+      },
+      "visible": true,
+      "inversion": false
+    },
+    {
+      "id": 6,
+      "parent_id": 4,
+      "type": "text",
+      "text": "#middle_long_press_label",
+      "ppem": 17,
+      "color": 3,
+      "ascent": 17,
+      "placement": {
+        "type": "relative"
+      },
+      "visible": true,
+      "inversion": false
+    },
+    {
+      "id": 7,
+      "parent_id": 0,
+      "type": "container",
+      "direction": 1,
+      "main_alignment": 1,
+      "cross_alignment": 2,
+      "dimension": {
+        "type": "rigid",
+        "width": 130,
+        "height": 34
+      },
+      "placement": {
+        "type": "absolute",
+        "left": 75,
+        "top": 161
+      },
+      "visible": true,
+      "inversion": false
+    },
+    {
+      "id": 8,
+      "parent_id": 7,
+      "type": "text",
+      "text": "#bottom_short_press_label",
+      "ppem": 17,
+      "color": 3,
+      "placement": {
+        "type": "relative"
+      },
+      "visible": true,
+      "inversion": false
+    },
+    {
+      "id": 9,
+      "parent_id": 7,
+      "type": "text",
+      "text": "#bottom_long_press_label",
+      "ppem": 17,
+      "color": 3,
+      "ascent": 17,
+      "placement": {
+        "type": "relative"
+      },
+      "visible": true,
+      "inversion": false
+    },
+    {
+      "id": 10,
+      "parent_id": 0,
+      "type": "text",
+      "text": "#menu_title",
+      "ppem": 25,
+      "color": 3,
+      "ascent": 35,
+      "placement": {
+        "type": "relative"
+      },
+      "visible": true,
+      "inversion": false
+    },
+    {
+        "id": 11,
+        "parent_id": 0,
+        "type": "text_page",
+        "text": "#message_to_display",
+        "ppem": 17,
+        "color": 3,
+        "ascent": 17,
+        "cross_alignment": 2,
+        "line_width": [
+            80,
+            85,
+            90,
+            90,
+            85,
+            80
+        ],
+        "dimension": {
+            "type": "rigid",
+            "width": 80,
+            "height": 100
+        },
+        "placement": {
+            "type": "absolute",
+            "left": 20,
+            "top": 60
+        },
+        "visible": true,
+        "inversion": false
+    }
+  ]
+  

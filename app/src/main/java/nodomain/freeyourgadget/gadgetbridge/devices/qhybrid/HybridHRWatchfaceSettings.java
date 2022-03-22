@@ -27,6 +27,7 @@ public class HybridHRWatchfaceSettings implements Serializable {
     private int wristFlickMoveMinute = -360;
     private boolean powersaveDisplay = false;
     private boolean powersaveHands = false;
+    private boolean lightUpOnNotification = false;
 
     public HybridHRWatchfaceSettings() {
     }
@@ -61,6 +62,14 @@ public class HybridHRWatchfaceSettings implements Serializable {
 
     public void setWristFlickDuration(int wristFlickDuration) {
         this.wristFlickDuration = wristFlickDuration;
+    }
+
+    public boolean getLightUpOnNotification() {
+        return lightUpOnNotification;
+    }
+
+    public void setLightUpOnNotification(boolean lightUpOnNotification) {
+        this.lightUpOnNotification = lightUpOnNotification;
     }
 
     public int getWristFlickMoveHour() {
