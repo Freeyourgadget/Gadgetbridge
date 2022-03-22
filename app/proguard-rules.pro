@@ -18,6 +18,10 @@
 -keepclassmembers class nodomain.freeyourgadget.gadgetbridge.service.devices.pebble.webview.JSInterface {
     public *;
 }
+# Required for refection in BangleJSDeviceSupport
+-keepclassmembers class nodomain.freeyourgadget.gadgetbridge.model.CallSpec {
+    public static *;
+}
 -keepattributes JavascriptInterface
 
 # https://github.com/tony19/logback-android/issues/29
