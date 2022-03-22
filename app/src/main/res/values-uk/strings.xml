@@ -1600,4 +1600,5 @@
     <string name="autoExport_lastTime_label">Останній автоекспорт: %1$s</string>
     <string name="activity_db_management_autoexport_location">Не вдалося встановити місцеперебування. Ймовірно, проблема з новішою системою дозволів Android. Швидше за все, автоекспорт зараз не працює.</string>
     <string name="watchface_dialog_pre_setting_position">попереднє встановлення розташування на %s</string>
+    <string name="watchface_setting_light_up_on_notification">Засвітлювати за нового сповіщення</string>
 </resources>
