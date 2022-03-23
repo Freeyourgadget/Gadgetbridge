@@ -42,13 +42,13 @@ import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.PreferenceCategory;
 import android.preference.PreferenceManager;
+import android.provider.Settings;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
-import nodomain.freeyourgadget.gadgetbridge.database.PeriodicExporter;
 import nodomain.freeyourgadget.gadgetbridge.util.GBPrefs;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 
@@ -108,8 +108,28 @@ public class NotificationManagementActivity extends AbstractSettingsActivity {
             category.removePreference(pref);
         }
 
+        pref = findPreference("notifications_settings");
+        pref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            public boolean onPreferenceClick(Preference preference) {
+                Intent intent = new Intent(Settings.ACTION_APP_NOTIFICATION_SETTINGS);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                intent.putExtra(Settings.EXTRA_APP_PACKAGE, getPackageName());
+                //This could open notification channel settings, if needed...:
+                //Intent intent = new Intent(Settings.ACTION_CHANNEL_NOTIFICATION_SETTINGS);
+                //intent.putExtra(Settings.EXTRA_CHANNEL_ID, GB.NOTIFICATION_CHANNEL_ID_TRANSFER);
+                startActivity(intent);
+                return true;
+            }
+        });
+
         if (GBApplication.isRunningTenOrLater()) {
             pref = findPreference("minimize_priority");
+            PreferenceCategory category = (PreferenceCategory) findPreference("pref_key_notifications");
+            category.removePreference(pref);
+        }
+
+        if (!GBApplication.isRunningOreoOrLater()) {
+            pref = findPreference("notifications_settings");
             PreferenceCategory category = (PreferenceCategory) findPreference("pref_key_notifications");
             category.removePreference(pref);
         }

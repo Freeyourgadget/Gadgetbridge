@@ -1654,6 +1654,12 @@
         <item>@string/pref_media_forward</item>
         <item>@string/pref_media_rewind</item>
         <item>@string/pref_device_action_broadcast</item>
+        <item>@string/pref_device_action_fitness_app_control_start</item>
+        <!--
+        Enable when OpenTracks allows to be stopped via intent
+        https://github.com/OpenTracksApp/OpenTracks/issues/1103
+        <item>@string/pref_device_action_fitness_app_control_stop</item>
+        -->
     </string-array>
 
     <string-array name="button_action_values">
@@ -1668,6 +1674,12 @@
         <item>@string/pref_media_forward_value</item>
         <item>@string/pref_media_rewind_value</item>
         <item>@string/pref_device_action_broadcast_value</item>
+        <item>@string/pref_device_action_fitness_app_control_start_value</item>
+        <!--
+        Enable when OpenTracks allows to be stopped via intent
+        https://github.com/OpenTracksApp/OpenTracks/issues/1103
+        <item>@string/pref_device_action_fitness_app_control_stop_value</item>
+        -->
     </string-array>
 
     <string-array name="device_action_options">
@@ -1676,6 +1688,12 @@
         <item>@string/pref_media_pause</item>
         <item>@string/pref_media_playpause</item>
         <item>@string/pref_device_action_broadcast</item>
+        <item>@string/pref_device_action_fitness_app_control_start</item>
+        <!--
+        Enable when OpenTracks allows to be stopped via intent
+        https://github.com/OpenTracksApp/OpenTracks/issues/1103
+        <item>@string/pref_device_action_fitness_app_control_stop</item>
+        -->
     </string-array>
 
     <string-array name="device_action_values">
@@ -1684,6 +1702,12 @@
         <item>@string/pref_media_pause_value</item>
         <item>@string/pref_media_playpause_value</item>
         <item>@string/pref_device_action_broadcast_value</item>
+        <item>@string/pref_device_action_fitness_app_control_start_value</item>
+        <!--
+        Enable when OpenTracks allows to be stopped via intent
+        https://github.com/OpenTracksApp/OpenTracks/issues/1103
+        <item>@string/pref_device_action_fitness_app_control_stop_value</item>
+        -->
     </string-array>
 
     <string-array name="pref_hybridhr_buttonfunctions">
@@ -2085,5 +2109,13 @@
         <item>mode_ask</item>
         <item>mode_auto</item>
     </string-array>
+
+    <string-array name="fitness_tracking_apps_package_names">
+        <item>de.dennisguse.opentracks</item>
+        <item>de.dennisguse.opentracks.playStore</item>
+        <item>de.dennisguse.opentracks.debug</item>
+        <item>de.dennisguse.opentracks.nightly</item>
+    </string-array>
+
 </resources>
 

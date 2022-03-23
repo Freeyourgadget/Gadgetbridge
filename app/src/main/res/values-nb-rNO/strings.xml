@@ -303,7 +303,7 @@
     <string name="liveactivity_live_activity">Aktivitet i sanntid</string>
     <string name="weeksteps_today_steps_description">Steg i dag, mål: %1$s</string>
     <string name="pref_title_dont_ack_transfer">Ikke send bekreftelse på aktivitetsdataoverføring</string>
-    <string name="pref_summary_dont_ack_transfers">Hvis aktivitetsdataen ikke bekreftes til bandet, vil de ikke bli tømt. Nyttig hvis Gb brukes sammen med andre programmer.</string>
+    <string name="pref_summary_dont_ack_transfers">Hvis de ikke bekreftes til bandet, vil de ikke bli tømt. Nyttig hvis GB brukes sammen med andre programmer.</string>
     <string name="pref_summary_keep_data_on_device">Beholder aktivitetsdata på Mi Band-et, selv etter synkronisering. Nyttig hvis Gb brukes sammen med andre programmer.</string>
     <string name="pref_title_low_latency_fw_update">Bruk lav-latens-modus for fastvareoppgraderinger</string>
     <string name="pref_summary_low_latency_fw_update">Dette kan hjelpe på enheter der fastvareoppgraderinger mislykkes.</string>
@@ -377,7 +377,7 @@
     <string name="dbmanagementactivity_error_exporting_db">Feil ved eksport av DB: %1$s</string>
     <string name="dbmanagementactivity_error_exporting_shared">Feil ved eksport av innstilling: %1$s</string>
     <string name="dbmanagementactivity_import_data_title">Importer data?</string>
-    <string name="dbmanagementactivity_overwrite_database_confirmation">Vil du virkelig overskrive gjeldende database? All nåværende aktivitetsdata (hvis noen) vil gå tapt.</string>
+    <string name="dbmanagementactivity_overwrite_database_confirmation">Vil du virkelig overskrive gjeldende data\? All nåværende aktivitetsdata (hvis noen) vil bli overskrevet.</string>
     <string name="dbmanagementactivity_import_successful">Importert.</string>
     <string name="dbmanagementactivity_error_importing_db">Feil ved import av DB: %1$s</string>
     <string name="dbmanagementactivity_error_importing_shared">Feil ved import av innstilling: %1$s</string>
@@ -906,7 +906,7 @@
     <string name="about_title">Om</string>
     <string name="menuitem_worldclock">Verdensklokke</string>
     <string name="menuitem_stress">Stress</string>
-    <string name="menuitem_cycles">Periode</string>
+    <string name="menuitem_cycles">Følg m.-syklus</string>
     <string name="menuitem_breathing">Pusting</string>
     <string name="devicetype_miband5">Mi Band 5</string>
     <string name="ascentSeconds">Stigende</string>
@@ -1096,7 +1096,7 @@
     <string name="pref_notifications_and_calls_enable_misscall">Varsle om tapt anrop</string>
     <string name="prefs_notifications_and_calls_continious_ring">Merknad for oppringing</string>
     <string name="pref_title_notifications_and_calls_repeat_on_call">Merknad for tapt anrop</string>
-    <string name="qhybrid_calibration_align_hint">juster visere til 12:00</string>
+    <string name="qhybrid_calibration_align_hint">Bruk knappene nedenfor for å justere viserne til 12:00.</string>
     <string name="gps_track">GPS-spor</string>
     <string name="about_version">Versjon %s</string>
     <string name="pref_title_lower_button_function_double">Nedre knapp dobbel</string>
@@ -1579,4 +1579,20 @@
     <string name="sony_anc_optimize_confirmation_description">Bruk hodetelefonene som vanlig. Hvis måten du bruker dem på eller lufttrykket endrer seg kan du kjøre optimalisatoren igjen.</string>
     <string name="pref_header_sony_device_info">Enhetsinfo</string>
     <string name="sony_anc_optimize_title">Optimaliser</string>
+    <string name="menuitem_nothing">Ingenting</string>
+    <string name="devicetype_amazfit_pop">Amazfit Pop</string>
+    <string name="devicetype_amazfit_pop_pro">Amazfit Pop Pro</string>
+    <string name="devicetype_sony_wh_1000xm4">Sony WH-1000XM4</string>
+    <string name="pref_device_action_fitness_app_control_start">Sporingsstart for trimprogram</string>
+    <string name="pref_device_action_fitness_app_control_stop">Sporingsstopp for trimprogram</string>
+    <string name="pref_title_opentracks_packagename">OpenTracks-pakkenavn</string>
+    <string name="pref_title_notifications_generic_settings">Android-merknadsinnstillinger</string>
+    <string name="pref_summary_opentracks_packagename">Brukt for start/stopp av GPS-sporingslagring i eksternt trimprogram.</string>
+    <string name="activity_db_management_autoexport_enabled_yes">Auto-eksport er påslått.</string>
+    <string name="activity_db_management_autoexport_enabled_no">Auto-eksport er avslått.</string>
+    <string name="autoExport_lastTime_label">Siste auto-eksport:%1$s</string>
+    <string name="activity_db_management_autoexport_scheduled_yes">Auto-eksport ble (opprinnelig) planlagt %1$s</string>
+    <string name="activity_db_management_autoexport_scheduled_no">Auto-eksport er ikke planlagt.</string>
+    <string name="activity_db_management_autoexport_location">Forsto ikke plassering. Antagelig er dette et tilgangsproblem i Android. Mest sannsynlig fungerer ikke auto-eksport nå.</string>
+    <string name="watchface_dialog_pre_setting_position">forhåndsinnstiller posisjon til %s</string>
 </resources>

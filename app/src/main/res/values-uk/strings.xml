@@ -1587,4 +1587,17 @@
     <string name="sony_anc_optimizer_status_finished">Завершення…</string>
     <string name="devicetype_amazfit_pop">Amazfit Pop</string>
     <string name="devicetype_amazfit_pop_pro">Amazfit Pop Pro</string>
+    <string name="menuitem_nothing">Порожньо</string>
+    <string name="pref_title_opentracks_packagename">Назва пакунка OpenTracks</string>
+    <string name="pref_summary_opentracks_packagename">Використовується для запуску/зупинки запису треків GPS у зовнішньому фітнес-застосунку.</string>
+    <string name="pref_device_action_fitness_app_control_start">Початок відстеження застосунку для фітнесу</string>
+    <string name="pref_device_action_fitness_app_control_stop">Зупинка відстеження застосунку для фітнесу</string>
+    <string name="pref_title_notifications_generic_settings">Налаштування сповіщень Android</string>
+    <string name="activity_db_management_autoexport_scheduled_yes">Автоекспорт (початково) було заплановано на %1$s</string>
+    <string name="activity_db_management_autoexport_enabled_yes">Автоекспорт увімкнено.</string>
+    <string name="activity_db_management_autoexport_enabled_no">Автоекспорт не ввімкнено.</string>
+    <string name="activity_db_management_autoexport_scheduled_no">Автоекспорт не заплановано.</string>
+    <string name="autoExport_lastTime_label">Останній автоекспорт: %1$s</string>
+    <string name="activity_db_management_autoexport_location">Не вдалося встановити місцеперебування. Ймовірно, проблема з новішою системою дозволів Android. Швидше за все, автоекспорт зараз не працює.</string>
+    <string name="watchface_dialog_pre_setting_position">попереднє встановлення розташування на %s</string>
 </resources>

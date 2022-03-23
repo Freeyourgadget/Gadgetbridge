@@ -39,11 +39,11 @@ public class FossilAppWriter {
     private String version;
     private LinkedHashMap<String, InputStream> code;
     private LinkedHashMap<String, InputStream> icons;
-    private LinkedHashMap<String, String> layout;
+    private LinkedHashMap<String, InputStream> layout;
     private LinkedHashMap<String, String> displayName;
     private LinkedHashMap<String, String> config;
 
-    public FossilAppWriter(Context context, String version, LinkedHashMap<String, InputStream> code, LinkedHashMap<String, InputStream> icons, LinkedHashMap<String, String> layout, LinkedHashMap<String, String> displayName, LinkedHashMap<String, String> config) {
+    public FossilAppWriter(Context context, String version, LinkedHashMap<String, InputStream> code, LinkedHashMap<String, InputStream> icons, LinkedHashMap<String, InputStream> layout, LinkedHashMap<String, String> displayName, LinkedHashMap<String, String> config) {
         this.mContext = context;
         if (this.mContext == null) throw new AssertionError("context cannot be null");
         this.version = version;
@@ -61,9 +61,9 @@ public class FossilAppWriter {
     }
 
     public byte[] getWapp() throws IOException {
-        byte[] codeData = loadFiles(code);
-        byte[] iconsData = loadFiles(icons);
-        byte[] layoutData = loadStringFiles(layout);
+        byte[] codeData = loadFiles(code, false);
+        byte[] iconsData = loadFiles(icons, false);
+        byte[] layoutData = loadFiles(layout, true);
         byte[] displayNameData = loadStringFiles(displayName);
         byte[] configData = loadStringFiles(config);
 
@@ -118,16 +118,23 @@ public class FossilAppWriter {
         return wapp.toByteArray();
     }
 
-    public byte[] loadFiles(LinkedHashMap<String, InputStream> filesMap) throws IOException {
+    public byte[] loadFiles(LinkedHashMap<String, InputStream> filesMap, boolean appendNull) throws IOException {
         ByteArrayOutputStream output = new ByteArrayOutputStream();
         for (String filename : filesMap.keySet()) {
             InputStream in = filesMap.get(filename);
             output.write((byte)filename.length() + 1);
             output.write(StringUtils.terminateNull(filename).getBytes(StandardCharsets.UTF_8));
-            output.write(shortToLEBytes((short)in.available()));
+            int fileLength = in.available();
+            if(appendNull){
+                fileLength++;
+            }
+            output.write(shortToLEBytes((short)fileLength));
             byte[] fileBytes = new byte[in.available()];
             in.read(fileBytes);
             output.write(fileBytes);
+            if(appendNull){
+                output.write(0x00);
+            }
         }
         return output.toByteArray();
     }

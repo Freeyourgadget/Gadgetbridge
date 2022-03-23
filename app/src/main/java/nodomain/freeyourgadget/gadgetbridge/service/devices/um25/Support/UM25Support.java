@@ -2,7 +2,10 @@ package nodomain.freeyourgadget.gadgetbridge.service.devices.um25.Support;
 
 import android.bluetooth.BluetoothGatt;
 import android.bluetooth.BluetoothGattCharacteristic;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
@@ -29,10 +32,12 @@ public class UM25Support extends UM25BaseSupport {
     public static final String UUID_CHAR    = "0000ffe1-0000-1000-8000-00805f9b34fb";
 
     public static final String ACTION_MEASUREMENT_TAKEN = "com.nodomain.gadgetbridge.um25.MEASUREMENT_TAKEN";
+    public static final String ACTION_RESET_STATS = "com.nodomain.gadgetbridge.um25.RESET_STATS";
     public static final String EXTRA_KEY_MEASUREMENT_DATA = "EXTRA_MEASUREMENT_DATA";
     public static final int LOOP_DELAY = 500;
 
     private final byte[] COMMAND_UPDATE = new byte[]{(byte) 0xF0};
+    private final byte[] COMMAND_RESET_STATS = new byte[]{(byte) 0xF4};
     private final int PAYLOAD_LENGTH = 130;
 
     private ByteBuffer buffer = ByteBuffer.allocate(PAYLOAD_LENGTH);
@@ -45,6 +50,18 @@ public class UM25Support extends UM25BaseSupport {
         addSupportedService(UUID.fromString(UUID_SERVICE));
         this.buffer.mark();
     }
+
+    BroadcastReceiver resetReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if(!ACTION_RESET_STATS.equals(intent.getAction())){
+                return;
+            }
+            new TransactionBuilder("reset stats")
+                    .write(getCharacteristic(UUID.fromString(UUID_CHAR)), COMMAND_RESET_STATS)
+                    .queue(getQueue());
+        }
+    };
 
     @Override
     protected TransactionBuilder initializeDevice(TransactionBuilder builder) {
@@ -60,11 +77,23 @@ public class UM25Support extends UM25BaseSupport {
                     @Override
                     public boolean run(BluetoothGatt gatt) {
                         logger.debug("initialized, starting timers");
+                        LocalBroadcastManager.getInstance(getContext())
+                                .registerReceiver(
+                                        resetReceiver,
+                                        new IntentFilter(ACTION_RESET_STATS)
+                                );
                         startLoop();
                         return true;
                     }
                 })
                 .add(new SetDeviceStateAction(getDevice(), GBDevice.State.INITIALIZED, getContext()));
+    }
+
+    @Override
+    public void dispose() {
+        super.dispose();
+        LocalBroadcastManager.getInstance(getContext())
+                .unregisterReceiver(resetReceiver);
     }
 
     private void startLoop(){

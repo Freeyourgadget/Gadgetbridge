@@ -457,7 +457,7 @@
 \nINSTALLATION AUF EIGENE GEFAHR!</string>
     <string name="mi2_prefs_button_press_count">Anzahl der Tastendrücke</string>
     <string name="pref_title_charts_swipe">Streichen nach links/rechts im Diagrammbetrieb aktivieren</string>
-    <string name="pref_summary_pebble_enable_bgjs">Wenn aktiviert, kann Zifferblatt Wetter, Akkuinfos, usw. anzeigen</string>
+    <string name="pref_summary_pebble_enable_bgjs">Wenn aktiviert, kann Zifferblatt Wetter, Akkuinfos, usw. anzeigen.</string>
     <string name="prefs_title_heartrate_measurement_interval">Ganztägige Messung der Herzfrequenz</string>
     <string name="interval_one_minute">einmal pro Minute</string>
     <string name="interval_five_minutes">alle 5 Minuten</string>
@@ -1589,4 +1589,8 @@
     <string name="sony_anc_optimize_confirmation_description">Verwende den Kopfhörer wie gewohnt. Wenn sich die Tragebedingungen oder der Luftdruck ändern, führe den Optimierer erneut aus.</string>
     <string name="devicetype_amazfit_pop">Amazfit Pop</string>
     <string name="devicetype_amazfit_pop_pro">Amazfit Pop Pro</string>
+    <string name="pref_title_opentracks_packagename">OpenTracks Paketname</string>
+    <string name="pref_summary_opentracks_packagename">Dient zum Starten/Stoppen der GPS-Track-Aufzeichnung in der externen Fitness-App.</string>
+    <string name="pref_title_notifications_generic_settings">Android-Benachrichtigungseinstellungen</string>
+    <string name="watchface_dialog_pre_setting_position">setze position auf %s</string>
 </resources>

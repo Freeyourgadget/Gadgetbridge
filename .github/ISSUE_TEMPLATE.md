@@ -15,8 +15,7 @@ If you just have a question, please ask first in the user chatroom in Matrix: `#
 ### I got Gadgetbridge from:
 * [ ] F-Droid
 * [ ] I built it myself from source code (specify tag / commit)
-
-If you got it from Google Play, please note [that version](https://github.com/TaaviE/Gadgetbridge) is unofficial and not supported here; it's also often quite outdated. Please switch to one of the above versions if you can.
+* [ ] I previously used Gadgetbridge from other sources and then updated to F-Droid version
 
 #### Your issue is:
 *If possible, please attach [logs](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Log-Files)! that might help identifying the problem.*
@@ -35,7 +34,7 @@ Here go lines of your log.
 
 *Please specify model and firmware version if possible*
 
-#### Your android version is:
+#### Your Android version/manufacturer flavor is:
 
 #### Your Gadgetbridge version is:
 

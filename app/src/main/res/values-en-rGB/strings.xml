@@ -1173,7 +1173,7 @@
 \nNote: You do not have to install .res if it is exactly the same as the one previously installed.
 \n
 \nPROCEED AT YOUR OWN RISK!</string>
-    <string name="activity_type_jump_roping">Jump Rope</string>
+    <string name="activity_type_jump_roping">Skipping rope</string>
     <string name="sony_automatic_power_off_off">Do not turn off</string>
     <string name="sony_equalizer_band_400">400</string>
     <string name="button_watchface_save_apply">Save and apply</string>
@@ -1578,4 +1578,16 @@
     <string name="sony_anc_optimize_confirmation_description">Use the headphones as you normally would. If the wearing condition or atmospheric pressure change, run the optimiser again.</string>
     <string name="devicetype_amazfit_pop_pro">Amazfit Pop Pro</string>
     <string name="devicetype_amazfit_pop">Amazfit Pop</string>
+    <string name="menuitem_nothing">Nothing</string>
+    <string name="autoExport_lastTime_label">Last AutoExport: %1$s</string>
+    <string name="activity_db_management_autoexport_scheduled_no">AutoExport has not been not scheduled.</string>
+    <string name="pref_title_notifications_generic_settings">Android notification settings</string>
+    <string name="activity_db_management_autoexport_scheduled_yes">AutoExport has (originally) been scheduled for %1$s</string>
+    <string name="activity_db_management_autoexport_location">Location could not be understood. Likely an issue of newer Android permission system. Most likely, autoexport is not working now.</string>
+    <string name="pref_title_opentracks_packagename">OpenTracks package name</string>
+    <string name="pref_summary_opentracks_packagename">Used for starting/stopping GPS track recording in external fitness app.</string>
+    <string name="activity_db_management_autoexport_enabled_yes">AutoExport is enabled.</string>
+    <string name="activity_db_management_autoexport_enabled_no">AutoExport is not enabled.</string>
+    <string name="pref_device_action_fitness_app_control_start">Fitness App Tracking Start</string>
+    <string name="pref_device_action_fitness_app_control_stop">Fitness App Tracking Stop</string>
 </resources>

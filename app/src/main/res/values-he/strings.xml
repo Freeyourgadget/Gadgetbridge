@@ -931,7 +931,7 @@
 \n
 \nהמשך מעבר לנקודה זו הוא על אחריותך!</string>
     <string name="menuitem_stress">לחץ</string>
-    <string name="menuitem_cycles">מעקב מחזוריות</string>
+    <string name="menuitem_cycles">מעקב מחזור</string>
     <string name="menuitem_breathing">נשימה</string>
     <string name="devicetype_miband5">Mi Band 5</string>
     <string name="ignore_bonded_devices_description">הפעלת אפשרות זו תתעלם ממכשירים שכבר אוגדו/צומדו טרם הסריקה</string>
@@ -1579,4 +1579,17 @@
     <string name="sony_anc_optimize_confirmation_description">ניתן להשתמש באוזניות כרגיל. אם מצב הבלאי או הלחץ האטמוספרי משתנה, יש להריץ את המשפר שוב.</string>
     <string name="devicetype_amazfit_pop">Amazfit Pop</string>
     <string name="devicetype_amazfit_pop_pro">Amazfit Pop Pro</string>
+    <string name="menuitem_nothing">כלום</string>
+    <string name="pref_title_opentracks_packagename">שם חבילה ב־OpenTracks</string>
+    <string name="pref_summary_opentracks_packagename">משמש להפעלת/עצירת הקלטת מסלולי GPS מיישומוני חיטוב חיצוניים.</string>
+    <string name="pref_device_action_fitness_app_control_stop">עצירת מעקב יישומון חיטוב</string>
+    <string name="pref_device_action_fitness_app_control_start">התחלת מעקב יישומון חיטוב</string>
+    <string name="pref_title_notifications_generic_settings">הגדרות הודעות של Android</string>
+    <string name="autoExport_lastTime_label">הייצוא האוטומטי האחרון: %1$s</string>
+    <string name="activity_db_management_autoexport_enabled_yes">ייצוא אוטומטי מופעל.</string>
+    <string name="activity_db_management_autoexport_enabled_no">ייצוא אוטומטי מושבת.</string>
+    <string name="activity_db_management_autoexport_scheduled_no">הייצוא האוטומטי לא תוזמן.</string>
+    <string name="activity_db_management_autoexport_scheduled_yes">הייצוא האוטומטי תוזמן (במקור) ל־%1$s</string>
+    <string name="activity_db_management_autoexport_location">לא ניתן לפענח את המיקום. כנראה תקלה במערכת ההרשאות החדשה של Android. סביר להניח שהייצוא האוטומטי לא עובד כרגע.</string>
+    <string name="watchface_dialog_pre_setting_position">המיקום מוגדר מראש לכדי %s</string>
 </resources>

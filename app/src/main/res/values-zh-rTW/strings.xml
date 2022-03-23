@@ -142,7 +142,7 @@
     <string name="pref_title_support_voip_calls">啟用 VoIP 應用程式電話通知</string>
     <string name="pref_title_notifications_timeout">最低通知間隔時間</string>
     <string name="pref_title_whenscreenon">在螢幕開啟時仍要通知</string>
-    <string name="pref_summary_notification_filter">在此模式下將停止不必要的通知</string>
+    <string name="pref_summary_notification_filter">當手機啟用請勿打擾時阻止所有通知</string>
     <string name="pref_blacklist">應用程式黑名單</string>
     <string name="pref_header_development">開發人員選項</string>
     <string name="pref_title_expose_hr">第三方即時心率資料存取</string>
@@ -296,8 +296,8 @@
     <string name="devicetype_miband4">小米手環 4</string>
     <string name="menuitem_status">狀態</string>
     <string name="menuitem_notifications">通知</string>
-    <string name="menuitem_activity">活動</string>
-    <string name="menuitem_timer">計時器</string>
+    <string name="menuitem_activity">鍛煉歷史</string>
+    <string name="menuitem_timer">倒數</string>
     <string name="menuitem_more">更多</string>
     <string name="menuitem_nfc">NFC</string>
     <string name="widget_steps_label">步數：%1$02d</string>
@@ -334,9 +334,14 @@
     <string name="mi2_prefs_inactivity_warnings_summary">手環將在您一段時間未活動時震動</string>
     <string name="mi2_prefs_inactivity_warnings_threshold">未活動閾值（分鐘）</string>
     <string name="mi2_prefs_inactivity_warnings_dnd_summary">在時間內停用久坐提醒</string>
-    <string name="activity_db_management_import_export_explanation">資料庫的存取將使用下列在裝置上的路徑。
-\n此路徑可供其他 Android 應用程式及您的電腦存取。
-\n您可以在那裏找到已匯出的資料庫（或放入要匯入的資料庫）：</string>
+    <string name="activity_db_management_import_export_explanation">匯出/匯入動作將使用這些(見下方)在裝置上的路徑。此資料夾可供其他 Android 應用程式及您的電腦存取。請注意，如果您移除 Gadgetbridge，此目錄和所有內含檔案都會被刪除。這些資料包含：
+\n Export_preference - 全域設定
+\n Export_preference_MAC - 裝置額外設定
+\n Gadgetbridge - 裝置及活動的資料庫
+\n Gadgetbridge_date - 在某個日期匯出的資料庫
+\n *.gpx - GPS 紀錄
+\n *.log - 記錄檔
+\n您可以在那裏找到已匯出的檔案（或放入要匯入的檔案）：</string>
     <string name="activity_DB_ExportButton">匯出資料</string>
     <string name="activity_DB_import_button">匯入資料</string>
     <string name="activity_db_management_exportimport_label">匯出和匯入</string>
@@ -485,7 +490,7 @@
     <string name="watch9_time_hours">小時：</string>
     <string name="watch9_time_minutes">分鐘：</string>
     <string name="menuitem_compass">羅盤</string>
-    <string name="notification_channel_name">Gadgetbridge 通知</string>
+    <string name="notification_channel_name">一般</string>
     <string name="devicetype_roidmi3">睿米3</string>
     <string name="devicetype_roidmi">睿米</string>
     <string name="devicetype_watch9">Watch 9</string>
@@ -578,7 +583,7 @@
     <string name="about_additional_device_support">額外裝置支援</string>
     <string name="about_contributors">貢獻者</string>
     <string name="about_core_team_title">核心團隊（按第一次程式碼貢獻順序排列）</string>
-    <string name="about_description">一款免費且離線的替代品，用來取代您的裝置廠商提供的閉源 Android 應用程式。</string>
+    <string name="about_description">用來取代廠商提供的閉源 Android 小裝置應用程式的離線且版權自由的替代品。</string>
     <string name="about_activity_title">關於 Gadgetbridge</string>
     <string name="about_title">關於</string>
     <string name="activity_summaries">運動活動</string>
@@ -648,4 +653,39 @@
     <string name="battery_detail_activity_title">電池資訊</string>
     <string name="controlcenter_set_alias">設定別名</string>
     <string name="find_lost_device_message">尋找 %1$s\?</string>
+    <string name="controlcenter_power_off_confirm_title">關機</string>
+    <string name="controlcenter_power_off_confirm_description">您確定要關閉裝置電源嗎？</string>
+    <string name="check_all_applications">勾選所有應用程式</string>
+    <string name="uncheck_all_applications">取消勾選所有應用程式</string>
+    <string name="pref_title_notification_use_as_deny">拒絕來自所選應用程式的通知</string>
+    <string name="pref_header_other">其他</string>
+    <string name="pref_header_system">系統</string>
+    <string name="pref_title_message_privacy_mode">訊息隱私模式</string>
+    <string name="pref_message_privacy_mode_off">顯示內容</string>
+    <string name="pref_message_privacy_mode_complete">隱藏內容</string>
+    <string name="controlcenter_power_off">關機</string>
+    <string name="mi2_prefs_do_not_disturb_lift_wrist">在請勿打擾期間啟用抬腕顯示</string>
+    <string name="prefs_activity_in_device_card_title_summary">在裝置卡上顯示目前步數、距離或睡眠</string>
+    <string name="title_activity_notification_management">通知設定</string>
+    <string name="pref_title_notification_use_as">使用應用程式清單來...</string>
+    <string name="pref_applications_settings">應用程式清單</string>
+    <string name="pref_title_notification_use_as_allow">允許來自所選應用程式的通知</string>
+    <string name="pref_header_notification_application_settings">個別應用程式設定</string>
+    <string name="discovery_trying_to_connect_to">正在嘗試連線到： %1$s</string>
+    <string name="activity_prefs_discovery_pairing">探索和配對選項</string>
+    <string name="pref_summary_location_keep_uptodate">嘗試在執行時獲取目前位置，使用儲存的位置作為後備</string>
+    <string name="pref_theme_black_background">在深色主題中使用黑色背景</string>
+    <string name="pref_header_auto_fetch">自動提取</string>
+    <string name="device_card_activity_card_title_summary">選擇在裝置卡上要顯示哪些活動詳細資訊</string>
+    <string name="device_card_activity_card_title">裝置卡上的活動狀態</string>
+    <string name="prefs_activity_in_device_card_title">在裝置卡上顯示活動資訊</string>
+    <string name="prefs_activity_in_device_card_sleep_title">睡眠</string>
+    <string name="prefs_activity_in_device_card_sleep_title_summary">顯示睡眠時間</string>
+    <string name="prefs_activity_in_device_card_distance_title_summary">距離是根據步數和步長計算出的（可以在設定 - 關於你中調整）</string>
+    <string name="prefs_activity_in_device_card_steps_title_summary">顯示總步數</string>
+    <string name="discover_unsupported_devices_description">啟用此選項將在掃描時顯示所有發現的藍芽裝置。短按會將設備名稱和 mac 位址複製到剪貼簿。長按將開啟「新增測試裝置」對話框。</string>
+    <string name="discover_unsupported_devices">探索不支援的裝置</string>
+    <string name="pref_theme_system">根據系統</string>
+    <string name="discovery_bluetooth_scan">藍芽掃描：</string>
+    <string name="discovery_bluetooth_le_scan">低功耗藍芽掃描：</string>
 </resources>

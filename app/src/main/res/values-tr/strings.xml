@@ -1596,4 +1596,17 @@
     <string name="sony_anc_optimizer_status_finished">Bitiriliyor…</string>
     <string name="devicetype_amazfit_pop_pro">Amazfit Pop Pro</string>
     <string name="devicetype_amazfit_pop">Amazfit Pop</string>
+    <string name="menuitem_nothing">Hiçbir Şey</string>
+    <string name="pref_title_opentracks_packagename">OpenTracks paket adı</string>
+    <string name="pref_summary_opentracks_packagename">Harici fitness uygulamasında GPS izleme kaydını başlatmak/durdurmak için kullanılır.</string>
+    <string name="pref_device_action_fitness_app_control_stop">Fitness Uygulaması İzlemesini Durdur</string>
+    <string name="pref_device_action_fitness_app_control_start">Fitness Uygulaması İzlemesini Başlat</string>
+    <string name="pref_title_notifications_generic_settings">Android bildirim ayarları</string>
+    <string name="autoExport_lastTime_label">Son Otomatik Dışa Aktarma: %1$s</string>
+    <string name="activity_db_management_autoexport_enabled_no">Otomatik dışa aktarma etkin değil.</string>
+    <string name="activity_db_management_autoexport_scheduled_yes">Otomatik dışa aktarma (başlangıçta) %1$s için zamanlandı</string>
+    <string name="activity_db_management_autoexport_scheduled_no">Otomatik dışa aktarma zamanlanmadı.</string>
+    <string name="activity_db_management_autoexport_enabled_yes">Otomatik dışa aktarma etkin.</string>
+    <string name="activity_db_management_autoexport_location">Konum anlaşılamadı. Bu, muhtemelen daha yeni bir Android izin sistemi sorunudur. Büyük olasılıkla, otomatik dışa aktarma şu anda çalışmıyor.</string>
+    <string name="watchface_dialog_pre_setting_position">konumu %s olarak ön ayarlama</string>
 </resources>

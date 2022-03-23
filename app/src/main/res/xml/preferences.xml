@@ -141,6 +141,10 @@
             android:layout="@layout/preference_checkbox"
             android:summary="@string/pref_summary_location_keep_uptodate"
             android:title="@string/pref_title_location_keep_uptodate" />
+        <Preference
+            android:key="pref_key_opentracks_packagename"
+            android:summary="@string/pref_summary_opentracks_packagename"
+            android:title="@string/pref_title_opentracks_packagename" />
     </PreferenceCategory>
     <PreferenceCategory android:title="@string/preferences_category_device_specific_settings">
 

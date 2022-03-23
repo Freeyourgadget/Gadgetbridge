@@ -63,7 +63,8 @@ public class FitProDeviceCoordinator extends AbstractDeviceCoordinator {
             if (name != null && (
                     name.startsWith("M6") ||
                     name.startsWith("M4") ||
-                    name.equals("LH716"))
+                    name.equals("LH716")  ||
+                    name.equals("Fit1900"))
             ) {
                 return DeviceType.FITPRO;
             }

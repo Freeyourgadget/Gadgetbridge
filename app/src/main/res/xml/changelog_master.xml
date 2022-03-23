@@ -1,5 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
+    <release version="0.66.0" versioncode="210">
+        <change>Add basic support for Casio GBD-H1000</change>
+        <change>Add support for Hama Fit Track 1900 - via FitPro device support</change>
+        <change>Add OpenTracksController for interactions with OpenTracks</change>
+        <change>Fossil Hybrid HR: Start/stop track in OpenTracks from GPS workout on watch</change>
+        <change>Fossil Hybrid HR: Try guessing new widget position</change>
+        <change>Fossil Hybrid HR: Allow assigning no function to a button</change>
+        <change>Add Huami button/device action to control fitness tracking via OpenTracksController</change>
+        <change>Mi Band 6: Sync alarms set on the watch like on Amazfit Bip U and others</change>
+        <change>Bangle.js: Handle battery charging status and fix battery chart.</change>
+        <change>Bangle.js: Prevent exception in case UART RX line is empty</change>
+        <change>Bangle.js: Add repetitions in alarm JSON</change>
+        <change>WaspOS: Fix battery chart.</change>
+        <change>WaspOS: Add condition code to weather JSON</change>
+        <change>XWatch: Add notifications and calls support</change>
+        <change>UM-25: Make cumulative values resettable</change>
+        <change>VESC: Fixed crash when loading a saved value</change>
+        <change>Allow to open Android notification settings from Notification settings</change>
+        <change>AutoExporter changes for better operation and troubleshooting</change>
+        <change>Change Nightly icons background color</change>
+    </release>
     <release version="0.65.0" versioncode="209">
         <change>Amazfit Pop/Pro: Initial Support (probably the same as Bip U but has a different firmware)</change>
         <change>Sony WH-1000XM4: Initial Support</change>

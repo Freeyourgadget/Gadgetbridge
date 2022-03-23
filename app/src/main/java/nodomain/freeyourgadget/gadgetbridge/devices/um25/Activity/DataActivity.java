@@ -5,17 +5,21 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import java.lang.reflect.Field;
 import java.util.HashMap;
 
+import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.activities.AbstractGBActivity;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.um25.Data.MeasurementData;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.um25.Support.UM25Support;
+import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
 public class DataActivity extends AbstractGBActivity {
     private HashMap<Integer, TextView> valueViews = new HashMap<>(ValueDisplay.values().length);
@@ -51,6 +55,21 @@ public class DataActivity extends AbstractGBActivity {
         setContentView(R.layout.activity_um25_data);
 
         chargeDurationTextView = findViewById(R.id.um25_text_charge_duration);
+        TextView wattHoursTextView = findViewById(R.id.um25_text_wattage_sum);
+
+        View.OnLongClickListener longClickListener = new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                GB.toast("resetting", Toast.LENGTH_SHORT, GB.INFO);
+                LocalBroadcastManager.getInstance(DataActivity.this).sendBroadcast(
+                        new Intent(UM25Support.ACTION_RESET_STATS)
+                );
+                return true;
+            }
+        };
+
+        chargeDurationTextView.setOnLongClickListener(longClickListener);
+        wattHoursTextView.setOnLongClickListener(longClickListener);
     }
 
     @Override

@@ -62,11 +62,13 @@ import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSett
 import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHelper;
 import nodomain.freeyourgadget.gadgetbridge.database.DBOpenHelper;
+import nodomain.freeyourgadget.gadgetbridge.database.PeriodicExporter;
 import nodomain.freeyourgadget.gadgetbridge.devices.DeviceManager;
 import nodomain.freeyourgadget.gadgetbridge.entities.DaoMaster;
 import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
 import nodomain.freeyourgadget.gadgetbridge.entities.Device;
 import nodomain.freeyourgadget.gadgetbridge.externalevents.BluetoothStateChangeReceiver;
+import nodomain.freeyourgadget.gadgetbridge.externalevents.OpenTracksContentObserver;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceService;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityUser;
@@ -143,6 +145,11 @@ public class GBApplication extends Application {
     private DeviceManager deviceManager;
     private BluetoothStateChangeReceiver bluetoothStateChangeReceiver;
 
+    private OpenTracksContentObserver openTracksObserver;
+    
+    private long lastAutoExportTimestamp = 0;
+    private long autoExportScheduledTimestamp = 0;
+
     public static void quit() {
         GB.log("Quitting Gadgetbridge...", GB.INFO, null);
         Intent quitIntent = new Intent(GBApplication.ACTION_QUIT);
@@ -209,6 +216,8 @@ public class GBApplication extends Application {
         loadAppsNotifBlackList();
         loadAppsPebbleBlackList();
         loadCalendarsBlackList();
+
+        PeriodicExporter.enablePeriodicExport(context);
 
         if (isRunningMarshmallowOrLater()) {
             notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
@@ -1089,5 +1098,29 @@ public class GBApplication extends Application {
             GB.log("Unable to determine Gadgetbridge's name/version", GB.WARN, e);
             return "Gadgetbridge";
         }
+    }
+
+    public void setOpenTracksObserver(OpenTracksContentObserver openTracksObserver) {
+        this.openTracksObserver = openTracksObserver;
+    }
+
+    public OpenTracksContentObserver getOpenTracksObserver() {
+        return openTracksObserver;
+    }
+
+    public long getLastAutoExportTimestamp() {
+        return lastAutoExportTimestamp;
+    }
+
+    public void setLastAutoExportTimestamp(long lastAutoExportTimestamp) {
+        this.lastAutoExportTimestamp = lastAutoExportTimestamp;
+    }
+
+    public long getAutoExportScheduledTimestamp() {
+        return autoExportScheduledTimestamp;
+    }
+
+    public void setAutoExportScheduledTimestamp(long autoExportScheduledTimestamp) {
+        this.autoExportScheduledTimestamp = autoExportScheduledTimestamp;
     }
 }

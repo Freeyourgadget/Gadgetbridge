@@ -41,11 +41,12 @@
             android:key="button_3_function_short"
             android:summary="%s"
             android:title="@string/pref_title_lower_button_function_short" />
-        <Preference
-            android:selectable="false"
-            android:persistent="false"
+        <ListPreference
+            android:defaultValue="musicApp"
+            android:entries="@array/pref_hybridhr_buttonfunctions"
+            android:entryValues="@array/pref_hybridhr_buttonfunctions_values"
             android:key="button_3_function_long"
-            android:summary="@string/menuitem_notifications"
+            android:summary="%s"
             android:title="@string/pref_title_lower_button_function_long" />
         <Preference
             android:selectable="false"

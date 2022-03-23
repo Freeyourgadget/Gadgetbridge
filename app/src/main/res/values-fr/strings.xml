@@ -914,7 +914,7 @@ Temps de sommeil préféré en heures</string>
     <string name="prefs_events_forwarding_fellsleep">Au sommeil</string>
     <string name="prefs_events_forwarding_title">Actions de l\'appareil</string>
     <string name="prefs_events_forwarding_summary">Utiliser les évènements de l\'appareil pour déclencher des actions et des messages diffusé Android</string>
-    <string name="menuitem_cycles">Période</string>
+    <string name="menuitem_cycles">Suivi des Cycles féminins</string>
     <string name="freestyle">Style libre</string>
     <string name="breaststroke">Rythme mammaire</string>
     <string name="activity_filter_to_placeholder">aujourd\'hui</string>
@@ -1583,4 +1583,17 @@ Temps de sommeil préféré en heures</string>
     <string name="sony_anc_optimizer_status_wearing_condition">Mesure des conditions actuelles…</string>
     <string name="devicetype_amazfit_pop">Amazfit Pop</string>
     <string name="devicetype_amazfit_pop_pro">Amazfit Pop Pro</string>
+    <string name="menuitem_nothing">Rien</string>
+    <string name="pref_title_opentracks_packagename">Nom du logiciel OpenTracks</string>
+    <string name="pref_summary_opentracks_packagename">Utilisé pour démarrer/arrêter l\'enregistrement GPS dans une app. de fitness externe.</string>
+    <string name="pref_device_action_fitness_app_control_start">Démarrage de l\'enregistrement dans l\'app Fitness</string>
+    <string name="pref_device_action_fitness_app_control_stop">Arrêt de l\'enregistrement dans l\'app Fitness</string>
+    <string name="pref_title_notifications_generic_settings">Configuration des notifications Android</string>
+    <string name="autoExport_lastTime_label">Dernier export automatique : %1$s</string>
+    <string name="activity_db_management_autoexport_enabled_yes">L\'export automatique est activé.</string>
+    <string name="activity_db_management_autoexport_scheduled_yes">L\'export automatique a été (initialement) réglé pour %1$s</string>
+    <string name="activity_db_management_autoexport_scheduled_no">L\'export automatique n\'a pas été planifié.</string>
+    <string name="activity_db_management_autoexport_enabled_no">L\'export automatique est désactivé.</string>
+    <string name="activity_db_management_autoexport_location">L\'emplacement n\'a pas pu être détecté. Probablement un problème avec les nouvelles permissions du système Android. Très probablement, l\'export automatique ne fonctionne pas actuellement.</string>
+    <string name="watchface_dialog_pre_setting_position">pré-configuration de la position à %s</string>
 </resources>

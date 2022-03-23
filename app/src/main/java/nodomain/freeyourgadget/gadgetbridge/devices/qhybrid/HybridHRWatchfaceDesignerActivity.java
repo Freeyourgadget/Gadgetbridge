@@ -456,6 +456,9 @@ public class HybridHRWatchfaceDesignerActivity extends AbstractGBActivity implem
                     if (watchfaceConfig.has("powersave_hands")) {
                         watchfaceSettings.setPowersaveHands(watchfaceConfig.getBoolean("powersave_hands"));
                     }
+                    if (watchfaceConfig.has("light_up_on_notification")) {
+                        watchfaceSettings.setLightUpOnNotification(watchfaceConfig.getBoolean("light_up_on_notification"));
+                    }
                 } catch (JSONException e) {
                     LOG.warn("JSON parsing error", e);
                 }
@@ -576,39 +579,46 @@ public class HybridHRWatchfaceDesignerActivity extends AbstractGBActivity implem
         if (widget != null) {
             posY.setText(Integer.toString(widget.getPosY()));
         }
-        // Configure position preset buttons
-        Button btnTop = layout.findViewById(R.id.watchface_widget_preset_top);
-        btnTop.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                posX.setText("120");
-                posY.setText("58");
+
+        class WidgetPosition{
+            final int posX, posY, buttonResource, hintStringResource;
+
+            public WidgetPosition(int posX, int posY, int buttonResource, int hintStringResource) {
+                this.posX = posX;
+                this.posY = posY;
+                this.buttonResource = buttonResource;
+                this.hintStringResource = hintStringResource;
             }
-        });
-        Button btnBottom = layout.findViewById(R.id.watchface_widget_preset_bottom);
-        btnBottom.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                posX.setText("120");
-                posY.setText("182");
+        }
+
+        WidgetPosition[] positions = new WidgetPosition[]{
+                new WidgetPosition(120, 58, R.id.watchface_widget_preset_top, R.string.watchface_dialog_widget_preset_top),
+                new WidgetPosition(182, 120, R.id.watchface_widget_preset_right, R.string.watchface_dialog_widget_preset_right),
+                new WidgetPosition(120, 182, R.id.watchface_widget_preset_bottom, R.string.watchface_dialog_widget_preset_bottom),
+                new WidgetPosition(58, 120, R.id.watchface_widget_preset_left, R.string.watchface_dialog_widget_preset_left),
+        };
+
+        for(final WidgetPosition position : positions){
+            Button btn = layout.findViewById(position.buttonResource);
+            btn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    posX.setText(String.valueOf(position.posX));
+                    posY.setText(String.valueOf(position.posY));
+                }
+            });
+        }
+
+        if(widget == null){
+            int currentIndex = widgets.size();
+            if(currentIndex < 4){
+                WidgetPosition newPosition = positions[currentIndex];
+                posX.setText(String.valueOf(newPosition.posX));
+                posY.setText(String.valueOf(newPosition.posY));
+                GB.toast(getString(R.string.watchface_dialog_pre_setting_position, getString(newPosition.hintStringResource)), Toast.LENGTH_SHORT, GB.INFO);
             }
-        });
-        Button btnLeft = layout.findViewById(R.id.watchface_widget_preset_left);
-        btnLeft.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                posX.setText("58");
-                posY.setText("120");
-            }
-        });
-        Button btnRight = layout.findViewById(R.id.watchface_widget_preset_right);
-        btnRight.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                posX.setText("182");
-                posY.setText("120");
-            }
-        });
+        }
+
         // Set widget size
         final LinearLayout sizeLayout = layout.findViewById(R.id.watchface_widget_size_layout);
         sizeLayout.setVisibility(View.GONE);

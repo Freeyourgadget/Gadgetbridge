@@ -14,7 +14,13 @@ You can use the `Preview` tab ^ above to see final rendering of your report. Use
 
 #### Device information
 
+- Adding an implementation for a new device requires a "willing to learn" developer, ideally with the device at hand. Without that, you may try to submit a device request and see if anyone steps up and implements it.
+
+
 - Provide device name, manufacturer and similarity to other devices:
+
+
+- Ideally, use an Android Bluetooth scanner app like nRF Connect or BLExplorer and provide screenshots of the scanned device from that app. This provides a name and some available UUIDs, which are needed for implementation. You may want to blur a MAC address for privacy reasons.
 
 
 - Specify model and firmware version if possible:

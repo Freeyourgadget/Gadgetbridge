@@ -80,6 +80,8 @@ public class HuamiConst {
     public static final String PREF_BUTTON_ACTION_BROADCAST = "button_action_broadcast";
     public static final String PREF_BUTTON_ACTION_SELECTION_OFF = "UNKNOWN";
     public static final String PREF_BUTTON_ACTION_SELECTION_BROADCAST = "BROADCAST";
+    public static final String PREF_BUTTON_ACTION_SELECTION_FITNESS_APP_START = "FITNESS_CONTROL_START";
+    public static final String PREF_BUTTON_ACTION_SELECTION_FITNESS_APP_STOP = "FITNESS_CONTROL_STOP";
 
     public static final String PREF_DEVICE_ACTION_SELECTION_OFF = "UNKNOWN";
     public static final String PREF_DEVICE_ACTION_SELECTION_BROADCAST = "BROADCAST";

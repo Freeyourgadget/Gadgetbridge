@@ -4,6 +4,10 @@
         android:title="@string/pref_header_notifications">
 
         <Preference
+            android:key="notifications_settings"
+            android:title="@string/pref_title_notifications_generic_settings" />
+
+        <Preference
             android:key="notifications_generic"
             android:title="@string/pref_title_notifications_generic" />
 

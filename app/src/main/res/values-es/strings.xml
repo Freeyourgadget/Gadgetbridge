@@ -1585,4 +1585,10 @@
     <string name="audio_codec">Códec de audio</string>
     <string name="pref_header_sony_device_info">Información del dispositivo</string>
     <string name="sony_anc_optimize_description">Pulse para iniciar el optimizador de cancelación de ruido.</string>
+    <string name="menuitem_nothing">Nada</string>
+    <string name="pref_title_notifications_generic_settings">Ajustes de notificaciones de Android</string>
+    <string name="pref_device_action_fitness_app_control_start">Inicio del seguimiento de la aplicación de ejercicio físico</string>
+    <string name="pref_device_action_fitness_app_control_stop">Parada de seguimiento de la aplicación de ejercicio físico</string>
+    <string name="pref_title_opentracks_packagename">Nombre del paquete OpenTracks</string>
+    <string name="pref_summary_opentracks_packagename">Se usa para iniciar/detener la grabación del seguimiento GPS en la aplicación externa de ejercicio físico.</string>
 </resources>
