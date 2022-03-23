@@ -1593,4 +1593,13 @@
     <string name="pref_summary_opentracks_packagename">Dient zum Starten/Stoppen der GPS-Track-Aufzeichnung in der externen Fitness-App.</string>
     <string name="pref_title_notifications_generic_settings">Android-Benachrichtigungseinstellungen</string>
     <string name="watchface_dialog_pre_setting_position">setze position auf %s</string>
+    <string name="pref_device_action_fitness_app_control_stop">Fitness-App Tracking Stopp</string>
+    <string name="pref_device_action_fitness_app_control_start">Fitness-App Tracking Start</string>
+    <string name="activity_db_management_autoexport_enabled_yes">Autom. Export ist aktiviert.</string>
+    <string name="activity_db_management_autoexport_enabled_no">Autom. Export ist deaktiviert.</string>
+    <string name="activity_db_management_autoexport_scheduled_yes">Autom. Export wurde (ursprünglich) geplant für %1$s</string>
+    <string name="activity_db_management_autoexport_scheduled_no">Autom. Export wurde nicht geplant.</string>
+    <string name="watchface_setting_light_up_on_notification">Aufleuchten bei neuer Benachrichtigung</string>
+    <string name="autoExport_lastTime_label">Letzter autom. Export: %1$s</string>
+    <string name="activity_db_management_autoexport_location">Standort ermittelt nicht möglich. Wahrscheinlich ein Problem des neueren Android-Berechtigungssystems. Höchstwahrscheinlich funktioniert der autom. Export jetzt nicht.</string>
 </resources>
