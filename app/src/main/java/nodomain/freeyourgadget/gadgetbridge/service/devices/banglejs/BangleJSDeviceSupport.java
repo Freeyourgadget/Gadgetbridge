@@ -43,8 +43,10 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.xml.sax.InputSource;
 
 import java.io.IOException;
+import java.io.StringReader;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -84,6 +86,9 @@ import nodomain.freeyourgadget.gadgetbridge.util.GB;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 
 import static nodomain.freeyourgadget.gadgetbridge.database.DBHelper.*;
+
+import javax.xml.xpath.XPath;
+import javax.xml.xpath.XPathFactory;
 
 public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
     private static final Logger LOG = LoggerFactory.getLogger(BangleJSDeviceSupport.class);
@@ -168,6 +173,7 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
             // JSON - we hope!
             try {
                 JSONObject json = new JSONObject(line);
+                LOG.info("UART RX JSON parsed successfully");
                 handleUartRxJSON(json);
             } catch (JSONException e) {
                 GB.toast(getContext(), "Malformed JSON from Bangle.js: " + e.getLocalizedMessage(), Toast.LENGTH_LONG, GB.ERROR);
@@ -176,7 +182,8 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
     }
 
     private void handleUartRxJSON(JSONObject json) throws JSONException {
-        switch (json.getString("t")) {
+        String packetType = json.getString("t");
+        switch (packetType) {
             case "info":
                 GB.toast(getContext(), "Bangle.js: " + json.getString("msg"), Toast.LENGTH_LONG, GB.INFO);
                 break;
@@ -281,12 +288,28 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
                 // FIXME: This should be behind a default-off option in Gadgetbridge settings
                 RequestQueue queue = Volley.newRequestQueue(getContext());
                 String url = json.getString("url");
+                String _xmlPath = "";
+                try { _xmlPath = json.getString("xpath"); } catch (JSONException e) {}
+                final String xmlPath = _xmlPath;
                 // Request a string response from the provided URL.
                 StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
                         new Response.Listener<String>() {
                             @Override
                             public void onResponse(String response) {
                                 JSONObject o = new JSONObject();
+                                if (xmlPath.length()!=0) {
+                                  try {
+                                    InputSource inputXML = new InputSource( new StringReader( response ) );
+                                    XPath xPath = XPathFactory.newInstance().newXPath();
+                                    response = xPath.evaluate(xmlPath, inputXML);                                  
+                                  } catch (Exception error) {
+                                    try {
+                                      o.put("err", error.toString());
+                                    } catch (JSONException e) {
+                                        GB.toast(getContext(), "HTTP: " + e.getLocalizedMessage(), Toast.LENGTH_LONG, GB.ERROR);
+                                    }
+                                  }
+                                }
                                 try {
                                     o.put("t", "http");
                                     o.put("resp", response);
@@ -310,6 +333,9 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
                 });
                 queue.add(stringRequest);
             } break;
+            default : {
+                LOG.info("UART RX JSON packet type '"+packetType+"' not understood.");
+            }
         }
     }
 
