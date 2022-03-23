@@ -468,6 +468,11 @@
             android:name=".activities.AndroidPairingActivity"
             android:label="@string/title_activity_android_pairing" />
         <activity
+            android:name=".devices.banglejs.AppsManagementActivity"
+            android:label="@string/title_activity_appmanager"
+            android:launchMode="singleTop"
+            android:parentActivityName=".activities.ControlCenterv2" />
+        <activity
             android:name=".devices.miband.MiBandPairingActivity"
             android:label="@string/title_activity_mi_band_pairing" />
         <activity
