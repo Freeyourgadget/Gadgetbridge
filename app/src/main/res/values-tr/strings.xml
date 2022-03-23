@@ -1609,4 +1609,5 @@
     <string name="activity_db_management_autoexport_enabled_yes">Otomatik dışa aktarma etkin.</string>
     <string name="activity_db_management_autoexport_location">Konum anlaşılamadı. Bu, muhtemelen daha yeni bir Android izin sistemi sorunudur. Büyük olasılıkla, otomatik dışa aktarma şu anda çalışmıyor.</string>
     <string name="watchface_dialog_pre_setting_position">konumu %s olarak ön ayarlama</string>
+    <string name="watchface_setting_light_up_on_notification">Yeni bildirimde ışığı aç</string>
 </resources>
