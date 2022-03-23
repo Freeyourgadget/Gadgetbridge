@@ -133,6 +133,7 @@ android {
         }
         banglejs {
             dimension "device_type"
+            applicationId "com.espruino.gadgetbridge"
             applicationIdSuffix ".banglejs"
             versionNameSuffix "-banglejs"
             buildConfigField "boolean", "INTERNET_ACCESS", "true"
