@@ -59,6 +59,7 @@ import java.util.SimpleTimeZone;
 import java.util.UUID;
 import java.lang.reflect.Field;
 
+import nodomain.freeyourgadget.gadgetbridge.BuildConfig;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
@@ -186,7 +187,7 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
         }
     }
 
-    /// Write a string of data, and chunk it up
+    /// Write a JSON object of data
     private void uartTxJSON(String taskName, JSONObject json) {
         try {
             TransactionBuilder builder = performInitialized(taskName);
@@ -196,6 +197,19 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
             GB.toast(getContext(), "Error in "+taskName+": " + e.getLocalizedMessage(), Toast.LENGTH_LONG, GB.ERROR);
         }
     }
+
+    /// Write JSON object of the form {t:taskName, err:message}
+    private void uartTxJSONError(String taskName, String message) {
+        JSONObject o = new JSONObject();
+        try {
+            o.put("t", taskName);
+            o.put("err", message);
+        } catch (JSONException e) {
+            GB.toast(getContext(), "HTTP: " + e.getLocalizedMessage(), Toast.LENGTH_LONG, GB.ERROR);
+        }
+        uartTxJSON(taskName, o);
+    }
+
 
     private void handleUartRxLine(String line) {
         LOG.info("UART RX LINE: " + line);
@@ -322,52 +336,50 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
             } break;
             case "http": {
                 // FIXME: This should be behind a default-off option in Gadgetbridge settings
-                RequestQueue queue = Volley.newRequestQueue(getContext());
-                String url = json.getString("url");
-                String _xmlPath = "";
-                try { _xmlPath = json.getString("xpath"); } catch (JSONException e) {}
-                final String xmlPath = _xmlPath;
-                // Request a string response from the provided URL.
-                StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
-                        new Response.Listener<String>() {
-                            @Override
-                            public void onResponse(String response) {
-                                JSONObject o = new JSONObject();
-                                if (xmlPath.length()!=0) {
-                                  try {
-                                    InputSource inputXML = new InputSource( new StringReader( response ) );
-                                    XPath xPath = XPathFactory.newInstance().newXPath();
-                                    response = xPath.evaluate(xmlPath, inputXML);                                  
-                                  } catch (Exception error) {
+                if (BuildConfig.INTERNET_ACCESS) {
+                    RequestQueue queue = Volley.newRequestQueue(getContext());
+                    String url = json.getString("url");
+                    String _xmlPath = "";
+                    try {
+                        _xmlPath = json.getString("xpath");
+                    } catch (JSONException e) {
+                    }
+                    final String xmlPath = _xmlPath;
+                    // Request a string response from the provided URL.
+                    StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
+                            new Response.Listener<String>() {
+                                @Override
+                                public void onResponse(String response) {
+                                    JSONObject o = new JSONObject();
+                                    if (xmlPath.length() != 0) {
+                                        try {
+                                            InputSource inputXML = new InputSource(new StringReader(response));
+                                            XPath xPath = XPathFactory.newInstance().newXPath();
+                                            response = xPath.evaluate(xmlPath, inputXML);
+                                        } catch (Exception error) {
+                                            uartTxJSONError("http", error.toString());
+                                            return;
+                                        }
+                                    }
                                     try {
-                                      o.put("err", error.toString());
+                                        o.put("t", "http");
+                                        o.put("resp", response);
                                     } catch (JSONException e) {
                                         GB.toast(getContext(), "HTTP: " + e.getLocalizedMessage(), Toast.LENGTH_LONG, GB.ERROR);
                                     }
-                                  }
+                                    uartTxJSON("http", o);
                                 }
-                                try {
-                                    o.put("t", "http");
-                                    o.put("resp", response);
-                                } catch (JSONException e) {
-                                    GB.toast(getContext(), "HTTP: " + e.getLocalizedMessage(), Toast.LENGTH_LONG, GB.ERROR);
-                                }
-                                uartTxJSON("http", o);
-                            }
-                        }, new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        JSONObject o = new JSONObject();
-                        try {
-                            o.put("t", "http");
-                            o.put("err", error.toString());
-                        } catch (JSONException e) {
-                            GB.toast(getContext(), "HTTP: " + e.getLocalizedMessage(), Toast.LENGTH_LONG, GB.ERROR);
+                            }, new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            JSONObject o = new JSONObject();
+                            uartTxJSONError("http", error.toString());
                         }
-                        uartTxJSON("http", o);
-                    }
-                });
-                queue.add(stringRequest);
+                    });
+                    queue.add(stringRequest);
+                } else {
+                    uartTxJSONError("http", "Internet access not enabled");
+                }
             } break;
             default : {
                 LOG.info("UART RX JSON packet type '"+packetType+"' not understood.");

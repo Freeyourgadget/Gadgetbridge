@@ -30,6 +30,7 @@ import androidx.annotation.NonNull;
 import java.util.Collection;
 import java.util.Collections;
 
+import nodomain.freeyourgadget.gadgetbridge.BuildConfig;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.activities.appmanager.AppManagerActivity;
 import nodomain.freeyourgadget.gadgetbridge.devices.AbstractDeviceCoordinator;
@@ -139,11 +140,11 @@ public class BangleJSCoordinator extends AbstractDeviceCoordinator {
     }
 
     @Override
-    public boolean supportsAppsManagement() { return true; }
+    public boolean supportsAppsManagement() { return BuildConfig.INTERNET_ACCESS; }
 
     @Override
     public Class<? extends Activity> getAppsManagementActivity() {
-        return AppsManagementActivity.class;
+        return BuildConfig.INTERNET_ACCESS ? AppsManagementActivity.class : null;
     }
 
     @Override
