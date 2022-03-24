@@ -10,6 +10,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.JavascriptInterface;
+import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.AdapterView;
@@ -28,12 +29,15 @@ import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.IOException;
+
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.activities.AbstractGBActivity;
 import nodomain.freeyourgadget.gadgetbridge.devices.DeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
+import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.banglejs.BangleJSDeviceSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.QHybridSupport;
 import nodomain.freeyourgadget.gadgetbridge.util.DeviceHelper;
@@ -41,9 +45,30 @@ import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
 public class AppsManagementActivity extends AbstractGBActivity {
     private static final Logger LOG = LoggerFactory.getLogger(AppsManagementActivity.class);
+    private final BroadcastReceiver commandReceiver;
+
     private WebView webView;
     private GBDevice mGBDevice;
     private DeviceCoordinator mCoordinator;
+
+    public AppsManagementActivity() {
+        IntentFilter commandFilter = new IntentFilter();
+        commandFilter.addAction(BangleJSDeviceSupport.BANGLEJS_COMMAND_RX);
+        commandReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                switch (intent.getAction()) {
+                    case BangleJSDeviceSupport.BANGLEJS_COMMAND_RX: {
+                        String data = String.valueOf(intent.getExtras().get("DATA"));
+                        LOG.info("WebView TX: " + data);
+                        bangleRxData(data);
+                        break;
+                    }
+                }
+            }
+        };
+        LocalBroadcastManager.getInstance(GBApplication.getContext()).registerReceiver(commandReceiver, commandFilter);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,7 +111,6 @@ public class AppsManagementActivity extends AbstractGBActivity {
         }
     };
 
-
     public class WebViewInterface {
         Context mContext;
 
@@ -94,16 +118,17 @@ public class AppsManagementActivity extends AbstractGBActivity {
             mContext = c;
         }
 
+        /// Called from the WebView when data needs to be sent to the Bangle
         @JavascriptInterface
         public void bangleTx(String data) {
             LOG.info("WebView RX: " + data);
-            bangleRx("Hello world");
+            bangleTxData(data);
         }
 
     }
 
-    // Called when data received from Bangle.js
-    public void bangleRx(String data) {
+    // Called when data received from Bangle.js - push data to the WebView
+    public void bangleRxData(String data) {
         JSONArray s = new JSONArray();
         s.put(data);
         String ss = s.toString();
@@ -114,25 +139,39 @@ public class AppsManagementActivity extends AbstractGBActivity {
             public void run() {
                 if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.KITKAT) {
                     webView.evaluateJavascript(js, null);
-                }
-                else {
+                } else {
                     webView.loadUrl("javascript: "+js);
                 }
             }
         });
     }
 
+    // Called to send data to Bangle.js
+    public void bangleTxData(String data) {
+        Intent intent = new Intent(BangleJSDeviceSupport.BANGLEJS_COMMAND_TX);
+        intent.putExtra("DATA", data);
+        LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
+    }
+
     private void initViews() {
         //https://stackoverflow.com/questions/4325639/android-calling-javascript-functions-in-webview
         webView = findViewById(R.id.webview);
         webView.setWebViewClient(new WebViewClient());
-        webView.getSettings().setJavaScriptEnabled(true);
+        WebSettings settings = webView.getSettings();
+        settings.setJavaScriptEnabled(true);
+        settings.setDatabaseEnabled(true);
+        settings.setDomStorageEnabled(true);
+        settings.setUseWideViewPort(true);
+        settings.setLoadWithOverviewMode(true);
+        String databasePath = this.getApplicationContext().getDir("database", Context.MODE_PRIVATE).getPath();
+        settings.setDatabasePath(databasePath);
         webView.addJavascriptInterface(new WebViewInterface(this), "Android");
-        webView.loadUrl("https://www.pur3.co.uk/tmp/android.html");
+        webView.setWebContentsDebuggingEnabled(true); // FIXME
+        webView.loadUrl("https://banglejs.com/apps/android.html");
 
         webView.setWebViewClient(new WebViewClient(){
             public void onPageFinished(WebView view, String weburl){
-                webView.loadUrl("javascript:showToast('WebView in Espruino')");
+                //webView.loadUrl("javascript:showToast('WebView in Espruino')");
             }
         });
     }

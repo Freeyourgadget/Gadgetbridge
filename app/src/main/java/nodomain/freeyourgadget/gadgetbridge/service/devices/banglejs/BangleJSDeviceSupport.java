@@ -18,8 +18,10 @@ package nodomain.freeyourgadget.gadgetbridge.service.devices.banglejs;
 
 import android.bluetooth.BluetoothGatt;
 import android.bluetooth.BluetoothGattCharacteristic;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -51,6 +53,8 @@ import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.SimpleTimeZone;
 import java.util.UUID;
 import java.lang.reflect.Field;
@@ -66,6 +70,7 @@ import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventMusicContr
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventNotificationControl;
 import nodomain.freeyourgadget.gadgetbridge.devices.banglejs.BangleJSConstants;
 import nodomain.freeyourgadget.gadgetbridge.devices.banglejs.BangleJSSampleProvider;
+import nodomain.freeyourgadget.gadgetbridge.devices.qhybrid.NotificationConfiguration;
 import nodomain.freeyourgadget.gadgetbridge.entities.BangleJSActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityKind;
@@ -81,6 +86,7 @@ import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.WeatherSpec;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.AbstractBTLEDeviceSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.misfit.PlayNotificationRequest;
 import nodomain.freeyourgadget.gadgetbridge.util.AlarmUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
@@ -92,6 +98,8 @@ import javax.xml.xpath.XPathFactory;
 
 public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
     private static final Logger LOG = LoggerFactory.getLogger(BangleJSDeviceSupport.class);
+    private final BroadcastReceiver commandReceiver;
+
     private BluetoothGattCharacteristic rxCharacteristic = null;
     private BluetoothGattCharacteristic txCharacteristic = null;
     private int mtuSize = 20;
@@ -101,9 +109,34 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
     private boolean realtimeStep = false;
     private int realtimeHRMInterval = 30*60;
 
+    public static final String BANGLEJS_COMMAND_TX = "banglejs_command_tx";
+    public static final String BANGLEJS_COMMAND_RX = "banglejs_command_rx";
+
     public BangleJSDeviceSupport() {
         super(LOG);
         addSupportedService(BangleJSConstants.UUID_SERVICE_NORDIC_UART);
+
+        IntentFilter commandFilter = new IntentFilter();
+        commandFilter.addAction(BANGLEJS_COMMAND_TX);
+        commandReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+            switch (intent.getAction()) {
+                case BANGLEJS_COMMAND_TX: {
+                    String data = String.valueOf(intent.getExtras().get("DATA"));
+                    try {
+                        TransactionBuilder builder = performInitialized("TX");
+                        uartTx(builder, data);
+                        builder.queue(getQueue());
+                    } catch (IOException e) {
+                        GB.toast(getContext(), "Error in TX: " + e.getLocalizedMessage(), Toast.LENGTH_LONG, GB.ERROR);
+                    }
+                    break;
+                }
+            }
+            }
+        };
+        LocalBroadcastManager.getInstance(GBApplication.getContext()).registerReceiver(commandReceiver, commandFilter);
     }
 
     @Override
@@ -362,6 +395,10 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
                 receivedLine = receivedLine.substring(p+1);
                 handleUartRxLine(line);
             }
+            // Send an intent with new data
+            Intent intent = new Intent(BangleJSDeviceSupport.BANGLEJS_COMMAND_RX);
+            intent.putExtra("DATA", packetStr);
+            LocalBroadcastManager.getInstance(getContext()).sendBroadcast(intent);
         }
         return false;
     }
