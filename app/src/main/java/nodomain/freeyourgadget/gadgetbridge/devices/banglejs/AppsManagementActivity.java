@@ -45,29 +45,12 @@ import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
 public class AppsManagementActivity extends AbstractGBActivity {
     private static final Logger LOG = LoggerFactory.getLogger(AppsManagementActivity.class);
-    private final BroadcastReceiver commandReceiver;
 
     private WebView webView;
     private GBDevice mGBDevice;
     private DeviceCoordinator mCoordinator;
 
     public AppsManagementActivity() {
-        IntentFilter commandFilter = new IntentFilter();
-        commandFilter.addAction(BangleJSDeviceSupport.BANGLEJS_COMMAND_RX);
-        commandReceiver = new BroadcastReceiver() {
-            @Override
-            public void onReceive(Context context, Intent intent) {
-                switch (intent.getAction()) {
-                    case BangleJSDeviceSupport.BANGLEJS_COMMAND_RX: {
-                        String data = String.valueOf(intent.getExtras().get("DATA"));
-                        LOG.info("WebView TX: " + data);
-                        bangleRxData(data);
-                        break;
-                    }
-                }
-            }
-        };
-        LocalBroadcastManager.getInstance(GBApplication.getContext()).registerReceiver(commandReceiver, commandFilter);
     }
 
     @Override
@@ -83,8 +66,6 @@ public class AppsManagementActivity extends AbstractGBActivity {
             throw new IllegalArgumentException("Must provide a device when invoking this activity");
         }
         mCoordinator = DeviceHelper.getInstance().getCoordinator(mGBDevice);
-
-        initViews();
     }
 
     private void toast(String data) {
@@ -94,6 +75,8 @@ public class AppsManagementActivity extends AbstractGBActivity {
     @Override
     protected void onPause() {
         super.onPause();
+        webView.destroy();
+        webView = null;
         LocalBroadcastManager.getInstance(this).unregisterReceiver(deviceUpdateReceiver);
         finish();
     }
@@ -101,13 +84,25 @@ public class AppsManagementActivity extends AbstractGBActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        LocalBroadcastManager.getInstance(this).registerReceiver(deviceUpdateReceiver, new IntentFilter(GBDevice.ACTION_DEVICE_CHANGED));
+        IntentFilter commandFilter = new IntentFilter();
+        commandFilter.addAction(GBDevice.ACTION_DEVICE_CHANGED);
+        commandFilter.addAction(BangleJSDeviceSupport.BANGLEJS_COMMAND_RX);
+        LocalBroadcastManager.getInstance(this).registerReceiver(deviceUpdateReceiver, commandFilter);
+
+        initViews();
     }
 
     BroadcastReceiver deviceUpdateReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-
+            switch (intent.getAction()) {
+                case BangleJSDeviceSupport.BANGLEJS_COMMAND_RX: {
+                    String data = String.valueOf(intent.getExtras().get("DATA"));
+                    LOG.info("WebView TX: " + data);
+                    bangleRxData(data);
+                    break;
+                }
+            }
         }
     };
 
@@ -134,7 +129,7 @@ public class AppsManagementActivity extends AbstractGBActivity {
         String ss = s.toString();
         final String js = "bangleRx("+ss.substring(1, ss.length()-1)+");";
         LOG.info("WebView TX cmd: " + js);
-        webView.post(new Runnable() {
+        if (webView!=null) webView.post(new Runnable() {
             @Override
             public void run() {
                 if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.KITKAT) {
