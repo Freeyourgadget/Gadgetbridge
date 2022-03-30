@@ -1557,4 +1557,17 @@
     <string name="devicetype_amazfit_pop_pro">Amazfit Pop Pro</string>
     <string name="menuitem_nothing">Ništa</string>
     <string name="unknown">Nepoznato</string>
+    <string name="pref_anc_optimizer_state_pressure">Atmosferski tlak</string>
+    <string name="sony_anc_optimizer_status_analyzing">Analiziranje …</string>
+    <string name="pref_title_notifications_generic_settings">Postavke obavijesti za Android</string>
+    <string name="autoExport_lastTime_label">Zadnji automatski izvoz: %1$s</string>
+    <string name="activity_db_management_autoexport_enabled_yes">Automatski izvoz je deaktiviran.</string>
+    <string name="activity_db_management_autoexport_enabled_no">Automatski izvoz nije aktiviran.</string>
+    <string name="activity_db_management_autoexport_scheduled_yes">Automatski izvoz je (izvorno) planiran za %1$s</string>
+    <string name="activity_db_management_autoexport_scheduled_no">Automatski izvoz nije planiran.</string>
+    <string name="sony_anc_optimize_title">Optimiraj</string>
+    <string name="sony_anc_optimizer_status_starting">Pokretanje …</string>
+    <string name="sony_anc_optimizer_status_not_running">Nije pokrenuto</string>
+    <string name="sony_anc_optimizer_status_atmospheric_pressure">Mjerenje atmostferskog tlaka …</string>
+    <string name="sony_anc_optimizer_status_finished">Dovršavanje …</string>
 </resources>
