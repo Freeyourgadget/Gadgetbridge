@@ -1598,4 +1598,5 @@
     <string name="watchface_dialog_pre_setting_position">preconfigurando la posición a %s</string>
     <string name="autoExport_lastTime_label">Última autoexportación: %1$s</string>
     <string name="activity_db_management_autoexport_location">No se ha podido entender la ubicación. Probablemente un problema del nuevo sistema de permisos de Android. Lo más probable es que la autoexportación no funcione ahora.</string>
+    <string name="watchface_setting_light_up_on_notification">Encender al recibir una notificación nueva</string>
 </resources>
