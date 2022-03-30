@@ -47,7 +47,6 @@ android {
         targetCompatibility JavaVersion.VERSION_1_7
     }
     compileSdkVersion 29
-    buildToolsVersion '30.0.2'
 
     defaultConfig {
         applicationId "nodomain.freeyourgadget.gadgetbridge"
