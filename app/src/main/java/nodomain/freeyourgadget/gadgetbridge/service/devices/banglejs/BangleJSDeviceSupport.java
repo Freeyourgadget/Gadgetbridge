@@ -31,6 +31,13 @@ import android.widget.Toast;
 
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.RequestQueue;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -269,6 +276,39 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
                             .putExtra(DeviceService.EXTRA_REALTIME_SAMPLE, sample);
                     LocalBroadcastManager.getInstance(getContext()).sendBroadcast(intent);
                 }
+            } break;
+            case "http": {
+                // FIXME: This should be behind a default-off option in Gadgetbridge settings
+                RequestQueue queue = Volley.newRequestQueue(getContext());
+                String url = json.getString("url");
+                // Request a string response from the provided URL.
+                StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
+                        new Response.Listener<String>() {
+                            @Override
+                            public void onResponse(String response) {
+                                JSONObject o = new JSONObject();
+                                try {
+                                    o.put("t", "http");
+                                    o.put("resp", response);
+                                } catch (JSONException e) {
+                                    GB.toast(getContext(), "HTTP: " + e.getLocalizedMessage(), Toast.LENGTH_LONG, GB.ERROR);
+                                }
+                                uartTxJSON("http", o);
+                            }
+                        }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        JSONObject o = new JSONObject();
+                        try {
+                            o.put("t", "http");
+                            o.put("err", error.toString());
+                        } catch (JSONException e) {
+                            GB.toast(getContext(), "HTTP: " + e.getLocalizedMessage(), Toast.LENGTH_LONG, GB.ERROR);
+                        }
+                        uartTxJSON("http", o);
+                    }
+                });
+                queue.add(stringRequest);
             } break;
         }
     }
@@ -628,23 +668,34 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
 
     /** Convert a drawable to a bitmap, for use with bitmapToEspruino */
     public static Bitmap drawableToBitmap(Drawable drawable) {
+        final int maxWidth = 32;
+        final int maxHeight = 32;
+        /* Return bitmap directly but only if it's small enough. It could be
+        we have a bitmap but it's just too big to send direct to the bangle */
         if (drawable instanceof BitmapDrawable) {
             BitmapDrawable bitmapDrawable = (BitmapDrawable) drawable;
-            if (bitmapDrawable.getBitmap() != null) {
-                return bitmapDrawable.getBitmap();
-            }
+            Bitmap bmp = bitmapDrawable.getBitmap();
+            if (bmp != null && bmp.getWidth()<=maxWidth && bmp.getHeight()<=maxHeight)
+                return bmp;
         }
-        int w = 24;
-        int h = 24;
+        /* Otherwise render this to a bitmap ourselves.. work out size */
+        int w = maxWidth;
+        int h = maxHeight;
         if (drawable.getIntrinsicWidth() > 0 && drawable.getIntrinsicHeight() > 0) {
             w = drawable.getIntrinsicWidth();
             h = drawable.getIntrinsicHeight();
-            // don't allocate anything too big
-            if (w>24) w=24;
-            if (h>24) h=24;
+            // don't allocate anything too big, but keep the ratio
+            if (w>maxWidth) {
+                h = h * maxWidth / w;
+                w = maxWidth;
+            }
+            if (h>maxHeight) {
+                w = w * maxHeight / h;
+                h = maxHeight;
+            }
         }
+        /* render */
         Bitmap bitmap = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888); // Single color bitmap will be created of 1x1 pixel
-
         Canvas canvas = new Canvas(bitmap);
         drawable.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
         drawable.draw(canvas);

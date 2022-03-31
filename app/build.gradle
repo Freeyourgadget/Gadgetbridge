@@ -60,6 +60,7 @@ android {
         vectorDrawables.useSupportLibrary = true
         multiDexEnabled true
         buildConfigField "String", "GIT_HASH_SHORT", "\"${getGitHashShort()}\""
+        buildConfigField "boolean", "INTERNET_ACCESS", "false"
         resValue "string", "pebble_content_provider", "com.getpebble.android.provider"
     }
     signingConfigs {
@@ -119,6 +120,27 @@ android {
             }
         }
 
+    }
+
+    flavorDimensions "device_type"
+    productFlavors {
+        main {
+            // Ensure that when starting from scratch, 'main' is selected, not 'banglejs'
+            getIsDefault().set(true)
+            // the default build product flavor
+            dimension "device_type"
+            //applicationIdSuffix ""
+            //versionNameSuffix ""
+        }
+        banglejs {
+            dimension "device_type"
+            applicationId "com.espruino.gadgetbridge"
+            applicationIdSuffix ".banglejs"
+            versionNameSuffix "-banglejs"
+            buildConfigField "boolean", "INTERNET_ACCESS", "true"
+            // Disable pebble provider to allow Bangle.js Gadgetbridge to coexist with Gadgetbridge
+            resValue "string", "pebble_content_provider", "com.getpebble.android.nopebble.provider"
+        }
     }
 
     lintOptions {
@@ -195,6 +217,7 @@ dependencies {
     implementation 'com.github.wax911:android-emojify:0.1.7'
     implementation 'com.google.protobuf:protobuf-lite:3.0.1'
     implementation "androidx.multidex:multidex:2.0.1"
+    implementation 'com.android.volley:volley:1.2.1'
 }
 
 preBuild.dependsOn(":GBDaoGenerator:genSources")

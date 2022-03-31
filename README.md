@@ -41,6 +41,7 @@ vendor's servers.
 	- T-Rex [**\[!\]**](#special-pairing-procedures)
 	- Verge Lite [**\[!\]**](#special-pairing-procedures)
 	- [X ](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Mi-Band-5) [**\[!\]**](#special-pairing-procedures)
+- [Bangle.js](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Bangle.js)
 - BFH-16
 - [Casio](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Casio)
     - Casio GB-X6900B
