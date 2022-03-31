@@ -1595,4 +1595,5 @@
     <string name="activity_db_management_autoexport_scheduled_no">Auto-eksport er ikke planlagt.</string>
     <string name="activity_db_management_autoexport_location">Forsto ikke plassering. Antagelig er dette et tilgangsproblem i Android. Mest sannsynlig fungerer ikke auto-eksport nå.</string>
     <string name="watchface_dialog_pre_setting_position">forhåndsinnstiller posisjon til %s</string>
+    <string name="watchface_setting_light_up_on_notification">Slå på lys ved nye merknader</string>
 </resources>
