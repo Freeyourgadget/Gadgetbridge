@@ -1,4 +1,5 @@
-Use your Pebble/Mi Band/Amazfit Bip/Hplus device without the vendor's closed source application and without the need to create an account and transmit any of your data to the vendor's servers.
+Use your smart watch, fitness tracker, and other bluetooth devices without the vendor's closed source application and without the need to create an account and transmit any of your data to the vendor's servers.
+For a full list of supported device, please refer to our Homepage or README.md in our git repository.
 
 You can get notifications on your wrist and (depending on the device):
 
