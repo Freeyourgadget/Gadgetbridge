@@ -110,6 +110,9 @@ public class CalendarEvents {
                 }
             }
             return true;
+        } catch (Exception e) {
+            LOG.error("could not query calendar, permission denied?");
+            return false;
         }
     }
 
