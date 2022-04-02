@@ -6,11 +6,17 @@
     <string name="about_description">Cloudless copylefted libre replacement for closed source Android gadget apps from vendors.</string>
     <string name="gadgetbridge_running">Gadgetbridge running</string>
 
-    <string name="app_name_main_banglejs">Bangle.js Gadgetbridge</string>
-    <string name="title_activity_controlcenter_main_banglejs">Bangle.js Gadgetbridge</string>
-    <string name="about_activity_title_main_banglejs">About Bangle.js Gadgetbridge</string>
-    <string name="about_description_main_banglejs">Android companion app for Bangle.js built on top of the Gadgetbridge project, with added Internet Access.</string>
-    <string name="gadgetbridge_running_main_banglejs">Bangle.js running</string>
+    <string name="app_name_banglejs_main">Bangle.js Gadgetbridge</string>
+    <string name="title_activity_controlcenter_banglejs_main">Bangle.js Gadgetbridge</string>
+    <string name="about_activity_title_banglejs_main">About Bangle.js Gadgetbridge</string>
+    <string name="about_description_banglejs_main">Android companion app for Bangle.js built on top of the Gadgetbridge project, with added Internet Access.</string>
+    <string name="gadgetbridge_running_banglejs_main">Bangle.js running</string>
+
+    <string name="app_name_banglejs_nopebble">Bangle.js Gadgetbridge</string>
+    <string name="title_activity_controlcenter_banglejs_nopebble">Bangle.js Gadgetbridge</string>
+    <string name="about_activity_title_banglejs_nopebble">About Bangle.js Gadgetbridge</string>
+    <string name="about_description_banglejs_nopebble">Android companion app for Bangle.js built on top of the Gadgetbridge project, with added Internet Access.</string>
+    <string name="gadgetbridge_running_banglejs_nopebble">Bangle.js running</string>
 
     <string name="app_name_main_nightly">Gadgetbridge (Nightly)</string>
     <string name="title_activity_controlcenter_main_nightly">Gadgetbridge Nightly</string>
