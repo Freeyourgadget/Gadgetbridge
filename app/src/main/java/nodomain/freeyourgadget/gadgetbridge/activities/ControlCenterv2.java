@@ -151,6 +151,7 @@ public class ControlCenterv2 extends AppCompatActivity
         setContentView(R.layout.activity_controlcenterv2);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        setTitle(GBApplication.app().getStringResourceByVariantName("title_activity_controlcenter"));
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(

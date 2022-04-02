@@ -20,17 +20,30 @@ package nodomain.freeyourgadget.gadgetbridge.activities;
 import android.os.Bundle;
 import android.text.method.LinkMovementMethod;
 import android.widget.TextView;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import nodomain.freeyourgadget.gadgetbridge.BuildConfig;
 
+import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
 
 public class AboutActivity extends AbstractGBActivity {
+    private static final Logger LOG = LoggerFactory.getLogger(ConfigureAlarms.class);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_about);
         TextView about_version = findViewById(R.id.about_version);
+        TextView about_title = findViewById(R.id.about_title);
+        TextView about_description = findViewById(R.id.about_description);
+
+        setTitle(GBApplication.app().getStringResourceByVariantName("about_activity_title"));
+        about_title.setText(GBApplication.app().getStringResourceByVariantName("about_activity_title"));
+        about_description.setText(GBApplication.app().getStringResourceByVariantName("about_description"));
+
         TextView about_hash = findViewById(R.id.about_hash);
         String versionName = BuildConfig.VERSION_NAME;
         String versionHASH = BuildConfig.GIT_HASH_SHORT;

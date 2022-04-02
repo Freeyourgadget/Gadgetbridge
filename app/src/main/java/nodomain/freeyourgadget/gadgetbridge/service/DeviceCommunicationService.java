@@ -666,7 +666,7 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
     private void start() {
         if (!mStarted) {
             GB.createNotificationChannels(this);
-            startForeground(GB.NOTIFICATION_ID, GB.createNotification(getString(R.string.gadgetbridge_running), this));
+            startForeground(GB.NOTIFICATION_ID, GB.createNotification(GBApplication.app().getStringResourceByVariantName("gadgetbridge_running"), this));
             mStarted = true;
         }
     }
