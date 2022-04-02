@@ -1,7 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
-    <string name="app_name">Gadgetbridge</string>
-    <string name="title_activity_controlcenter">Gadgetbridge</string>
+    <string name="application_name_generic">Gadgetbridge</string>
+    <string name="title_activity_controlcenter_generic">Gadgetbridge</string>
+    <string name="about_activity_title_generic">About Gadgetbridge</string>
+    <string name="about_description_generic">Cloudless copylefted libre replacement for closed source Android gadget apps from vendors.</string>
+    <string name="gadgetbridge_running_generic">Gadgetbridge running</string>
+
+    <string name="application_name_banglejs_main">Bangle.js Gadgetbridge</string>
+    <string name="title_activity_controlcenter_banglejs_main">Bangle.js Gadgetbridge</string>
+    <string name="about_activity_title_banglejs_main">About Bangle.js Gadgetbridge</string>
+    <string name="about_description_banglejs_main">Android companion app for Bangle.js built on top of the Gadgetbridge project, with added Internet Access.</string>
+    <string name="gadgetbridge_running_banglejs_main">Bangle.js running</string>
+
+    <string name="application_name_banglejs_nopebble">Bangle.js Gadgetbridge</string>
+    <string name="title_activity_controlcenter_banglejs_nopebble">Bangle.js Gadgetbridge</string>
+    <string name="about_activity_title_banglejs_nopebble">About Bangle.js Gadgetbridge</string>
+    <string name="about_description_banglejs_nopebble">Android companion app for Bangle.js built on top of the Gadgetbridge project, with added Internet Access.</string>
+    <string name="gadgetbridge_running_banglejs_nopebble">Bangle.js running</string>
+
+    <string name="application_name_main_nightly">Gadgetbridge (Nightly)</string>
+    <string name="title_activity_controlcenter_main_nightly">Gadgetbridge Nightly</string>
+    <string name="about_activity_title_main_nightly">About Gadgetbridge Nightly</string>
+    <string name="about_description_main_nightly">Cloudless copylefted libre replacement for closed source Android gadget apps from vendors. Nightly releases of Gadgetbridge. It cannot be installed if you already have either the Gadgetbridge or the Pebble app installed, due to a conflict in the Pebble provider.</string>
+    <string name="gadgetbridge_running_main_nightly">Nightly GB running</string>
+
+    <string name="application_name_main_nopebble">Gadgetbridge (Nightly, No Pebble provider)</string>
+    <string name="title_activity_controlcenter_main_nopebble">Gadgetbridge Nightly No Pebble </string>
+    <string name="about_activity_title_main_nopebble">About Gadgetbridge Nightly No Pebble</string>
+    <string name="about_description_main_nopebble">Cloudless copylefted libre replacement for closed source Android gadget apps from vendors. Nightly releases of Gadgetbridge. This version has the Pebble provider renamed to prevent conflicts, so some Pebble related integrations will not work, but it can be installed alongside existing Gadgetbridge installation.</string>
+    <string name="gadgetbridge_running_main_nopebble">Nightly NoPebble GB running</string>
+
     <string name="action_settings">Settings</string>
     <string name="action_debug">Debug</string>
     <string name="action_quit">Quit</string>
@@ -368,7 +396,6 @@
     <string name="tap_connected_device_for_vibration">Tap connected device for vibration</string>
     <string name="tap_a_device_to_connect">Tap a device to connect</string>
     <string name="cannot_connect_bt_address_invalid_">Cannot connect. Bluetooth address invalid?</string>
-    <string name="gadgetbridge_running">Gadgetbridge running</string>
     <string name="installing_binary_d_d">Installing binary %1$d/%2$d</string>
     <string name="installation_failed_">Installation failed</string>
     <string name="installation_successful">Installed</string>
@@ -1096,11 +1123,9 @@
     <string name="about_title">About</string>
     <string name="about_version">Version %s</string>
     <string name="about_hash">Commit %s</string>
-    <string name="about_activity_title">About Gadgetbridge</string>
     <string name="gpx_receiver_activity_title">GPX Receiver Gadgetbridge</string>
     <string name="gpx_receiver_files_received">GPX file(s) received:</string>
     <string name="gpx_receiver_overwrite_some_files">Some file(s) already exist. Overwrite?</string>
-    <string name="about_description">Cloudless copylefted libre replacement for closed source Android gadget apps from vendors.</string>
     <string name="about_core_team_title">Core Team (in order of first code contribution)</string>
     <string name="about_contributors">Contributors</string>
     <string name="about_core_team_members" translatable="false">Andreas Shimokawa\nCarsten Pfeiffer\nDaniele Gobbetti</string>
