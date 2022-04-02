@@ -1233,7 +1233,8 @@ public class GBApplication extends Application {
         int resIdNormal = getResources().getIdentifier(resString, "string", packageName);
 
         if (resIdVariation == 0) {
-            //LOG.warn("Missing variation string: " + aString + "_" + variation);
+            // Since this class must not log to slf4j, we use plain android.util.Log
+            Log.i(TAG, "Missing variation string: " + resString + "_" + variation);
             return getString(resIdNormal);
         } else {
             return getString(resIdVariation);
