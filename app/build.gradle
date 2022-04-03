@@ -62,6 +62,7 @@ android {
         buildConfigField "String", "GIT_HASH_SHORT", "\"${getGitHashShort()}\""
         buildConfigField "boolean", "INTERNET_ACCESS", "false"
         resValue "string", "pebble_content_provider", "com.getpebble.android.provider"
+        resValue "string", "app_name", "@string/application_name"
     }
     signingConfigs {
         nightly {
@@ -91,6 +92,7 @@ android {
             }
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
             resValue "string", "pebble_content_provider", "com.getpebble.android.provider"
+            resValue "string", "app_name", "@string/application_name_main_nightly"
             debuggable true
         }
         nopebble {
@@ -104,6 +106,7 @@ android {
             }
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
             resValue "string", "pebble_content_provider", "com.getpebble.android.nopebble.provider"
+            resValue "string", "app_name", "@string/application_name_main_nopebble"
             debuggable true
         }
 
@@ -140,6 +143,7 @@ android {
             buildConfigField "boolean", "INTERNET_ACCESS", "true"
             // Disable pebble provider to allow Bangle.js Gadgetbridge to coexist with Gadgetbridge
             resValue "string", "pebble_content_provider", "com.getpebble.android.nopebble.provider"
+            resValue "string", "app_name", "@string/application_name_banglejs_main"
         }
     }
 
