@@ -87,6 +87,7 @@ public class MiBand6Coordinator extends HuamiCoordinator {
                 R.xml.devicesettings_miband6,
                 R.xml.devicesettings_miband6_new_protocol,
                 R.xml.devicesettings_vibrationpatterns,
+                R.xml.devicesettings_canned_dismisscall_16,
                 R.xml.devicesettings_wearlocation,
                 R.xml.devicesettings_heartrate_sleep_alert_activity_stress,
                 R.xml.devicesettings_goal_notification,

@@ -108,7 +108,7 @@ public class AmazfitBipUCoordinator extends HuamiCoordinator {
         return new int[]{
                 R.xml.devicesettings_amazfitbipu,
                 R.xml.devicesettings_vibrationpatterns,
-                //R.xml.devicesettings_canned_dismisscall_16,
+                R.xml.devicesettings_canned_dismisscall_16,
                 R.xml.devicesettings_timeformat,
                 R.xml.devicesettings_world_clocks,
                 R.xml.devicesettings_wearlocation,

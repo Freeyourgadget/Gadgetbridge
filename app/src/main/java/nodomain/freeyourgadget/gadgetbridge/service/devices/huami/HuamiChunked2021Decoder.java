@@ -99,7 +99,7 @@ public class HuamiChunked2021Decoder {
                 currentType = 0;
                 return ArrayUtils.remove(buf, 0);
             }
-            if (currentType == HuamiService.CHUNKED2021_ENDPOINT_SMSREPLY && false) { // unsafe for now, disabled, also we shoud return somehing and then parse in HuamiSupport instead of firing stuff here
+            if (currentType == HuamiService.CHUNKED2021_ENDPOINT_SMSREPLY) {
                 LOG.debug("got command for SMS reply");
                 if (buf[0] == 0x0d) {
                     try {

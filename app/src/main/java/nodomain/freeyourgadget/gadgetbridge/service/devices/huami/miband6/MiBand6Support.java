@@ -27,6 +27,7 @@ import java.io.IOException;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiFWHelper;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.miband6.MiBand6FWHelper;
+import nodomain.freeyourgadget.gadgetbridge.model.CallSpec;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.miband5.MiBand5Support;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.operations.UpdateFirmwareOperation;
@@ -57,6 +58,10 @@ public class MiBand6Support extends MiBand5Support {
         return new MiBand6FWHelper(uri, context);
     }
 
+    @Override
+    public void onSetCallState(CallSpec callSpec) {
+        onSetCallStateNew(callSpec);
+    }
 
     @Override
     public boolean supportsSunriseSunsetWindHumidity() {
