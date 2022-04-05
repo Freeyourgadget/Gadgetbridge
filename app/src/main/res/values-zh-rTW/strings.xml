@@ -698,7 +698,14 @@
     <string name="watchface_setting_light_up_on_notification">新通知时亮起</string>
     <string name="fw_upgrade_notice_amazfitneo">您將要在Amazfit Neo上安裝%s固件。
 \n
-\n安裝 .fw 檔後，您的頻帶將重新啟動。
+\n安裝 .fw 檔後，您的手環將重新啟動。
+\n
+\n過程中的風險請自負！</string>
+    <string name="fw_upgrade_notice_amazfitx">您將要在Amazfit X上安裝%s固件。
+\n
+\n請確定先安裝 .fw 檔，然後再安裝 .res 檔。您的手環將在安裝完 .fw 檔後重新啟動。
+\n
+\n注意：如果您安裝的是與先前同樣的版本，您就不必再安裝 .res 檔。
 \n
 \n過程中的風險請自負！</string>
 </resources>
