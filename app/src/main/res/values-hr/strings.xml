@@ -1543,11 +1543,11 @@
     <string name="sony_speak_to_chat_sensitivity_high">Visoka</string>
     <string name="sony_speak_to_chat_sensitivity_low">Niska</string>
     <string name="sony_speak_to_chat_focus_on_voice">Fokusiranje na glas</string>
-    <string name="sony_speak_to_chat_timeout">Pauza</string>
+    <string name="sony_speak_to_chat_timeout">Vremensko ograničenje</string>
     <string name="sony_speak_to_chat_timeout_off">Isključeno</string>
-    <string name="sony_speak_to_chat_timeout_short">Kratka (15 s)</string>
-    <string name="sony_speak_to_chat_timeout_standard">Standardna (30 s)</string>
-    <string name="sony_speak_to_chat_timeout_long">Duga (1 min)</string>
+    <string name="sony_speak_to_chat_timeout_short">Kratko (15 s)</string>
+    <string name="sony_speak_to_chat_timeout_standard">Standardno (30 s)</string>
+    <string name="sony_speak_to_chat_timeout_long">Dugo (1 min)</string>
     <string name="sony_connect_two_devices">Poveži se na dva uređaja istovremeno</string>
     <string name="sony_speak_to_chat">Speak-to-chat</string>
     <string name="pref_header_sony_device_info">Informacije urađaja</string>
@@ -1582,4 +1582,5 @@
     <string name="watchface_dialog_pre_setting_position">predpodešavanje položaja na %s</string>
     <string name="watchface_setting_light_up_on_notification">Zasvijetli pri novoj obavijesti</string>
     <string name="pref_summary_opentracks_packagename">Koristi se za pokretanje/prekidanje snimanja GPS zapisa u vanjskoj aplikaciji za fitness.</string>
+    <string name="menuitem_email">E-mail</string>
 </resources>
