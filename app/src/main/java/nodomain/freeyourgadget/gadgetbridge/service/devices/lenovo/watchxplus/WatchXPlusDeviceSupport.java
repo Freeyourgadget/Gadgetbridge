@@ -960,12 +960,12 @@ public class WatchXPlusDeviceSupport extends AbstractBTLEDeviceSupport {
                 case DeviceSettingsPreferenceConst.PREF_POWER_MODE:
                     setPowerMode();
                     break;
-                case WatchXPlusConstants.PREF_LANGUAGE:
+                case DeviceSettingsPreferenceConst.PREF_LANGUAGE:
                     setLanguageAndTimeFormat(builder);
                     break;
 
-                case DeviceSettingsPreferenceConst.PREF_LONGSIT_PERIOD:
-                case DeviceSettingsPreferenceConst.PREF_LONGSIT_SWITCH:
+                case DeviceSettingsPreferenceConst.PREF_INACTIVITY_THRESHOLD:
+                case DeviceSettingsPreferenceConst.PREF_INACTIVITY_ENABLE:
                     setLongSitHours(builder);
                     break;
                 // calibrations
@@ -986,7 +986,7 @@ public class WatchXPlusDeviceSupport extends AbstractBTLEDeviceSupport {
                 case DeviceSettingsPreferenceConst.PREF_TIMEFORMAT:
                     setLanguageAndTimeFormat(builder);
                     break;
-                case WatchXPlusConstants.PREF_DO_NOT_DISTURB:
+                case DeviceSettingsPreferenceConst.PREF_DO_NOT_DISTURB_NOAUTO:
                     setDNDHours(builder);
                     break;
             }
@@ -1049,7 +1049,7 @@ public class WatchXPlusDeviceSupport extends AbstractBTLEDeviceSupport {
         Calendar end = new GregorianCalendar();
         boolean enable = WatchXPlusDeviceCoordinator.getLongSitHours(gbDevice.getAddress(), start, end);
         if (enable) {
-            String periodString = GBApplication.getDeviceSpecificSharedPrefs(gbDevice.getAddress()).getString(DeviceSettingsPreferenceConst.PREF_LONGSIT_PERIOD, "60");
+            String periodString = GBApplication.getDeviceSpecificSharedPrefs(gbDevice.getAddress()).getString(DeviceSettingsPreferenceConst.PREF_INACTIVITY_THRESHOLD, "60");
             int period = Integer.parseInt(periodString);
 
             this.setLongSitHours(builder, enable,
@@ -2128,7 +2128,7 @@ public class WatchXPlusDeviceSupport extends AbstractBTLEDeviceSupport {
     // set time format
     private void setLanguageAndTimeFormat(TransactionBuilder transactionBuilder) {
         byte setLanguage, setTimeMode;
-        String languageString = GBApplication.getDeviceSpecificSharedPrefs(gbDevice.getAddress()).getString(WatchXPlusConstants.PREF_LANGUAGE, "1");
+        String languageString = GBApplication.getDeviceSpecificSharedPrefs(gbDevice.getAddress()).getString(DeviceSettingsPreferenceConst.PREF_LANGUAGE, "1");
         if (languageString == null || languageString.equals("1")) {
              setLanguage = 0x01;
         } else {

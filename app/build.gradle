@@ -47,7 +47,6 @@ android {
         targetCompatibility JavaVersion.VERSION_1_7
     }
     compileSdkVersion 29
-    buildToolsVersion '30.0.2'
 
     defaultConfig {
         applicationId "nodomain.freeyourgadget.gadgetbridge"
@@ -126,6 +125,8 @@ android {
     flavorDimensions "device_type"
     productFlavors {
         main {
+            // Ensure that when starting from scratch, 'main' is selected, not 'banglejs'
+            getIsDefault().set(true)
             // the default build product flavor
             dimension "device_type"
             //applicationIdSuffix ""
@@ -137,6 +138,8 @@ android {
             applicationIdSuffix ".banglejs"
             versionNameSuffix "-banglejs"
             buildConfigField "boolean", "INTERNET_ACCESS", "true"
+            // Disable pebble provider to allow Bangle.js Gadgetbridge to coexist with Gadgetbridge
+            resValue "string", "pebble_content_provider", "com.getpebble.android.nopebble.provider"
         }
     }
 
@@ -158,7 +161,7 @@ android {
     externalNativeBuild {
         cmake {
             path "src/main/c/CMakeLists.txt"
-            version "3.10.2"
+            version "3.18.1"
         }
     }
     sourceSets {

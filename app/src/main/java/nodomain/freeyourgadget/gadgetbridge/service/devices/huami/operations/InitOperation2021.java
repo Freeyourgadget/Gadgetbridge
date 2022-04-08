@@ -131,6 +131,7 @@ public class InitOperation2021 extends InitOperation {
                         TransactionBuilder builder = createTransactionBuilder("Authenticated, now initialize phase 2");
                         builder.add(new SetDeviceStateAction(getDevice(), GBDevice.State.INITIALIZING, getContext()));
                         huamiSupport.enableFurtherNotifications(builder, true);
+                        huamiSupport.setCurrentTimeWithService(builder);
                         huamiSupport.requestDeviceInfo(builder);
                         huamiSupport.phase2Initialize(builder);
                         huamiSupport.phase3Initialize(builder);

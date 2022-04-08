@@ -64,14 +64,14 @@ public class MakibesHR3Coordinator extends AbstractDeviceCoordinator {
 
 
     public static boolean shouldEnableHeadsUpScreen(SharedPreferences sharedPrefs) {
-        String liftMode = sharedPrefs.getString(MakibesHR3Constants.PREF_HEADS_UP_SCREEN, getContext().getString(R.string.p_on));
+        String liftMode = sharedPrefs.getString(DeviceSettingsPreferenceConst.PREF_ACTIVATE_DISPLAY_ON_LIFT, getContext().getString(R.string.p_on));
 
         // Makibes HR3 doesn't support scheduled intervals. Treat it as "on".
         return !liftMode.equals(getContext().getString(R.string.p_off));
     }
 
     public static boolean shouldEnableLostReminder(SharedPreferences sharedPrefs) {
-        String lostReminder = sharedPrefs.getString(MakibesHR3Constants.PREF_LOST_REMINDER, getContext().getString(R.string.p_on));
+        String lostReminder = sharedPrefs.getString(DeviceSettingsPreferenceConst.PREF_DISCONNECT_NOTIFICATION, getContext().getString(R.string.p_on));
 
         // Makibes HR3 doesn't support scheduled intervals. Treat it as "on".
         return !lostReminder.equals(getContext().getString(R.string.p_off));
@@ -95,13 +95,13 @@ public class MakibesHR3Coordinator extends AbstractDeviceCoordinator {
      * @return True if quite hours are enabled.
      */
     public static boolean getQuiteHours(SharedPreferences sharedPrefs, Calendar startOut, Calendar endOut) {
-        String doNotDisturb = sharedPrefs.getString(MakibesHR3Constants.PREF_DO_NOT_DISTURB, getContext().getString(R.string.p_off));
+        String doNotDisturb = sharedPrefs.getString(DeviceSettingsPreferenceConst.PREF_DO_NOT_DISTURB_NOAUTO, getContext().getString(R.string.p_off));
 
         if (doNotDisturb.equals(getContext().getString(R.string.p_off))) {
             return false;
         } else {
-            String start = sharedPrefs.getString(MakibesHR3Constants.PREF_DO_NOT_DISTURB_START, "00:00");
-            String end = sharedPrefs.getString(MakibesHR3Constants.PREF_DO_NOT_DISTURB_END, "00:00");
+            String start = sharedPrefs.getString(DeviceSettingsPreferenceConst.PREF_DO_NOT_DISTURB_NOAUTO_START, "00:00");
+            String end = sharedPrefs.getString(DeviceSettingsPreferenceConst.PREF_DO_NOT_DISTURB_NOAUTO_END, "00:00");
 
             DateFormat df = new SimpleDateFormat("HH:mm");
 
@@ -121,14 +121,14 @@ public class MakibesHR3Coordinator extends AbstractDeviceCoordinator {
      * @return {@link #FindPhone_OFF}, {@link #FindPhone_ON}, or the duration
      */
     public static int getFindPhone(SharedPreferences sharedPrefs) {
-        String findPhone = sharedPrefs.getString(MakibesHR3Constants.PREF_FIND_PHONE, getContext().getString(R.string.p_off));
+        String findPhone = sharedPrefs.getString(DeviceSettingsPreferenceConst.PREF_FIND_PHONE, getContext().getString(R.string.p_off));
 
         if (findPhone.equals(getContext().getString(R.string.p_off))) {
             return FindPhone_OFF;
         } else if (findPhone.equals(getContext().getString(R.string.p_on))) {
             return FindPhone_ON;
         } else { // Duration
-            String duration = sharedPrefs.getString(MakibesHR3Constants.PREF_FIND_PHONE_DURATION, "0");
+            String duration = sharedPrefs.getString(DeviceSettingsPreferenceConst.PREF_FIND_PHONE_DURATION, "0");
 
             try {
                 int iDuration;

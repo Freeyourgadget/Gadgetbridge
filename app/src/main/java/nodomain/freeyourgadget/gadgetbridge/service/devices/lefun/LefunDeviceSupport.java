@@ -405,15 +405,15 @@ public class LefunDeviceSupport extends AbstractBTLEDeviceSupport {
                 sendEnabledFeaturesSetting(features);
                 break;
             }
-            case DeviceSettingsPreferenceConst.PREF_LONGSIT_SWITCH: {
-                boolean enabled = prefs.getBoolean(DeviceSettingsPreferenceConst.PREF_LONGSIT_SWITCH, false);
+            case DeviceSettingsPreferenceConst.PREF_INACTIVITY_ENABLE: {
+                boolean enabled = prefs.getBoolean(DeviceSettingsPreferenceConst.PREF_INACTIVITY_ENABLE, false);
                 FeaturesCommand features = getCurrentEnabledFeatures();
                 features.setFeature(FeaturesCommand.FEATURE_SEDENTARY_REMINDER, enabled);
                 sendEnabledFeaturesSetting(features);
                 break;
             }
-            case DeviceSettingsPreferenceConst.PREF_LONGSIT_PERIOD: {
-                String periodStr = prefs.getString(DeviceSettingsPreferenceConst.PREF_LONGSIT_PERIOD, "60");
+            case DeviceSettingsPreferenceConst.PREF_INACTIVITY_THRESHOLD: {
+                String periodStr = prefs.getString(DeviceSettingsPreferenceConst.PREF_INACTIVITY_THRESHOLD, "60");
                 try {
                     int period = Integer.parseInt(periodStr);
                     sendSedentaryReminderIntervalSetting(period);
@@ -445,8 +445,8 @@ public class LefunDeviceSupport extends AbstractBTLEDeviceSupport {
                 sendUnitsSetting(null);
                 break;
             }
-            case DeviceSettingsPreferenceConst.PREF_LEFUN_INTERFACE_LANGUAGE: {
-                String value = prefs.getString(DeviceSettingsPreferenceConst.PREF_LEFUN_INTERFACE_LANGUAGE, "0");
+            case DeviceSettingsPreferenceConst.PREF_LANGUAGE: {
+                String value = prefs.getString(DeviceSettingsPreferenceConst.PREF_LANGUAGE, "0");
                 int intValue = Integer.parseInt(value);
                 sendLanguageSetting((byte) intValue);
                 break;
@@ -523,7 +523,7 @@ public class LefunDeviceSupport extends AbstractBTLEDeviceSupport {
         SharedPreferences prefs = GBApplication.getDeviceSpecificSharedPrefs(getDevice().getAddress());
         boolean raiseToWakeEnabled = prefs.getBoolean(DeviceSettingsPreferenceConst.PREF_LIFTWRIST_NOSHED, true);
         boolean antilostEnabled = prefs.getBoolean(DeviceSettingsPreferenceConst.PREF_ANTILOST_ENABLED, true);
-        boolean sedentaryEnabled = prefs.getBoolean(DeviceSettingsPreferenceConst.PREF_LONGSIT_SWITCH, false);
+        boolean sedentaryEnabled = prefs.getBoolean(DeviceSettingsPreferenceConst.PREF_INACTIVITY_ENABLE, false);
         boolean hydrationEnabled = prefs.getBoolean(DeviceSettingsPreferenceConst.PREF_HYDRATION_SWITCH, false);
 
         FeaturesCommand cmd = new FeaturesCommand();
@@ -693,7 +693,7 @@ public class LefunDeviceSupport extends AbstractBTLEDeviceSupport {
         prefs.edit()
                 .putBoolean(DeviceSettingsPreferenceConst.PREF_LIFTWRIST_NOSHED,
                         cmd.getFeature(FeaturesCommand.FEATURE_RAISE_TO_WAKE))
-                .putBoolean(DeviceSettingsPreferenceConst.PREF_LONGSIT_SWITCH,
+                .putBoolean(DeviceSettingsPreferenceConst.PREF_INACTIVITY_ENABLE,
                         cmd.getFeature(FeaturesCommand.FEATURE_SEDENTARY_REMINDER))
                 .putBoolean(DeviceSettingsPreferenceConst.PREF_HYDRATION_SWITCH,
                         cmd.getFeature(FeaturesCommand.FEATURE_HYDRATION_REMINDER))
@@ -710,7 +710,7 @@ public class LefunDeviceSupport extends AbstractBTLEDeviceSupport {
     public void receiveSedentaryReminderIntervalSetting(int period) {
         SharedPreferences prefs = GBApplication.getDeviceSpecificSharedPrefs(getDevice().getAddress());
         prefs.edit()
-                .putString(DeviceSettingsPreferenceConst.PREF_LONGSIT_PERIOD, String.valueOf(period))
+                .putString(DeviceSettingsPreferenceConst.PREF_INACTIVITY_THRESHOLD, String.valueOf(period))
                 .apply();
     }
 

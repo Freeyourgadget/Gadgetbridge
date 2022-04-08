@@ -555,16 +555,16 @@ public class MakibesHR3DeviceSupport extends AbstractBTLEDeviceSupport implement
 
         if (key.equals(DeviceSettingsPreferenceConst.PREF_TIMEFORMAT)) {
             this.setTimeMode(transactionBuilder, sharedPreferences);
-        } else if (key.equals(MakibesHR3Constants.PREF_HEADS_UP_SCREEN)) {
+        } else if (key.equals(DeviceSettingsPreferenceConst.PREF_ACTIVATE_DISPLAY_ON_LIFT)) {
             this.setHeadsUpScreen(transactionBuilder, sharedPreferences);
-        } else if (key.equals(MakibesHR3Constants.PREF_LOST_REMINDER)) {
+        } else if (key.equals(DeviceSettingsPreferenceConst.PREF_DISCONNECT_NOTIFICATION)) {
             this.setLostReminder(transactionBuilder, sharedPreferences);
-        } else if (key.equals(MakibesHR3Constants.PREF_DO_NOT_DISTURB) ||
-                key.equals(MakibesHR3Constants.PREF_DO_NOT_DISTURB_START) ||
-                key.equals(MakibesHR3Constants.PREF_DO_NOT_DISTURB_END)) {
+        } else if (key.equals(DeviceSettingsPreferenceConst.PREF_DO_NOT_DISTURB_NOAUTO) ||
+                key.equals(DeviceSettingsPreferenceConst.PREF_DO_NOT_DISTURB_NOAUTO_START) ||
+                key.equals(DeviceSettingsPreferenceConst.PREF_DO_NOT_DISTURB_NOAUTO_END)) {
             this.setQuiteHours(transactionBuilder, sharedPreferences);
-        } else if (key.equals(MakibesHR3Constants.PREF_FIND_PHONE) ||
-                key.equals(MakibesHR3Constants.PREF_FIND_PHONE_DURATION)) {
+        } else if (key.equals(DeviceSettingsPreferenceConst.PREF_FIND_PHONE) ||
+                key.equals(DeviceSettingsPreferenceConst.PREF_FIND_PHONE_DURATION)) {
             // No action, we check the shared preferences when the device tries to ring the phone.
         } else {
             return;

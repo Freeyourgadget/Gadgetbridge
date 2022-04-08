@@ -147,7 +147,7 @@ public abstract class HuamiCoordinator extends AbstractDeviceCoordinator {
         String liftOn = context.getString(R.string.p_on);
         String liftScheduled = context.getString(R.string.p_scheduled);
 
-        String pref = prefs.getString(HuamiConst.PREF_ACTIVATE_DISPLAY_ON_LIFT, liftOff);
+        String pref = prefs.getString(DeviceSettingsPreferenceConst.PREF_ACTIVATE_DISPLAY_ON_LIFT, liftOff);
 
         if (liftOn.equals(pref)) {
             return ActivateDisplayOnLift.ON;
@@ -159,11 +159,11 @@ public abstract class HuamiCoordinator extends AbstractDeviceCoordinator {
     }
 
     public static Date getDisplayOnLiftStart(String deviceAddress) {
-        return getTimePreference(HuamiConst.PREF_DISPLAY_ON_LIFT_START, "00:00", deviceAddress);
+        return getTimePreference(DeviceSettingsPreferenceConst.PREF_DISPLAY_ON_LIFT_START, "00:00", deviceAddress);
     }
 
     public static Date getDisplayOnLiftEnd(String deviceAddress) {
-        return getTimePreference(HuamiConst.PREF_DISPLAY_ON_LIFT_END, "00:00", deviceAddress);
+        return getTimePreference(DeviceSettingsPreferenceConst.PREF_DISPLAY_ON_LIFT_END, "00:00", deviceAddress);
     }
 
     public static DisconnectNotificationSetting getDisconnectNotificationSetting(Context context, String deviceAddress) {
@@ -173,7 +173,7 @@ public abstract class HuamiCoordinator extends AbstractDeviceCoordinator {
         String liftOn = context.getString(R.string.p_on);
         String liftScheduled = context.getString(R.string.p_scheduled);
 
-        String pref = prefs.getString(HuamiConst.PREF_DISCONNECT_NOTIFICATION, liftOff);
+        String pref = prefs.getString(DeviceSettingsPreferenceConst.PREF_DISCONNECT_NOTIFICATION, liftOff);
 
         if (liftOn.equals(pref)) {
             return DisconnectNotificationSetting.ON;
@@ -185,11 +185,11 @@ public abstract class HuamiCoordinator extends AbstractDeviceCoordinator {
     }
 
     public static Date getDisconnectNotificationStart(String deviceAddress) {
-        return getTimePreference(HuamiConst.PREF_DISCONNECT_NOTIFICATION_START, "00:00", deviceAddress);
+        return getTimePreference(DeviceSettingsPreferenceConst.PREF_DISCONNECT_NOTIFICATION_START, "00:00", deviceAddress);
     }
 
     public static Date getDisconnectNotificationEnd(String deviceAddress) {
-        return getTimePreference(HuamiConst.PREF_DISCONNECT_NOTIFICATION_END, "00:00", deviceAddress);
+        return getTimePreference(DeviceSettingsPreferenceConst.PREF_DISCONNECT_NOTIFICATION_END, "00:00", deviceAddress);
     }
 
     public static boolean getUseCustomFont(String deviceAddress) {
@@ -209,41 +209,41 @@ public abstract class HuamiCoordinator extends AbstractDeviceCoordinator {
 
     public static boolean getInactivityWarnings() {
         Prefs prefs = GBApplication.getPrefs();
-        return prefs.getBoolean(MiBandConst.PREF_MI2_INACTIVITY_WARNINGS, false);
+        return prefs.getBoolean(DeviceSettingsPreferenceConst.PREF_INACTIVITY_ENABLE, false);
     }
 
     public static int getInactivityWarningsThreshold() {
         Prefs prefs = GBApplication.getPrefs();
-        return prefs.getInt(MiBandConst.PREF_MI2_INACTIVITY_WARNINGS_THRESHOLD, 60);
+        return prefs.getInt(DeviceSettingsPreferenceConst.PREF_INACTIVITY_THRESHOLD, 60);
     }
 
     public static boolean getInactivityWarningsDnd() {
         Prefs prefs = GBApplication.getPrefs();
-        return prefs.getBoolean(MiBandConst.PREF_MI2_INACTIVITY_WARNINGS_DND, false);
+        return prefs.getBoolean(DeviceSettingsPreferenceConst.PREF_INACTIVITY_DND, false);
     }
 
     public static Date getInactivityWarningsStart() {
-        return getTimePreference(MiBandConst.PREF_MI2_INACTIVITY_WARNINGS_START, "06:00");
+        return getTimePreference(DeviceSettingsPreferenceConst.PREF_INACTIVITY_START, "06:00");
     }
 
     public static Date getInactivityWarningsEnd() {
-        return getTimePreference(MiBandConst.PREF_MI2_INACTIVITY_WARNINGS_END, "22:00");
+        return getTimePreference(DeviceSettingsPreferenceConst.PREF_INACTIVITY_END, "22:00");
     }
 
     public static Date getInactivityWarningsDndStart() {
-        return getTimePreference(MiBandConst.PREF_MI2_INACTIVITY_WARNINGS_DND_START, "12:00");
+        return getTimePreference(DeviceSettingsPreferenceConst.PREF_INACTIVITY_DND_START, "12:00");
     }
 
     public static Date getInactivityWarningsDndEnd() {
-        return getTimePreference(MiBandConst.PREF_MI2_INACTIVITY_WARNINGS_DND_END, "14:00");
+        return getTimePreference(DeviceSettingsPreferenceConst.PREF_INACTIVITY_DND_END, "14:00");
     }
 
     public static Date getDoNotDisturbStart(String deviceAddress) {
-        return getTimePreference(MiBandConst.PREF_DO_NOT_DISTURB_START, "01:00", deviceAddress);
+        return getTimePreference(DeviceSettingsPreferenceConst.PREF_DO_NOT_DISTURB_START, "01:00", deviceAddress);
     }
 
     public static Date getDoNotDisturbEnd(String deviceAddress) {
-        return getTimePreference(MiBandConst.PREF_DO_NOT_DISTURB_END, "06:00", deviceAddress);
+        return getTimePreference(DeviceSettingsPreferenceConst.PREF_DO_NOT_DISTURB_END, "06:00", deviceAddress);
     }
 
     public static boolean getBandScreenUnlock(String deviceAddress) {
@@ -298,11 +298,11 @@ public abstract class HuamiCoordinator extends AbstractDeviceCoordinator {
     public static DoNotDisturb getDoNotDisturb(String deviceAddress) {
         SharedPreferences prefs = GBApplication.getDeviceSpecificSharedPrefs(deviceAddress);
 
-        String pref = prefs.getString(MiBandConst.PREF_DO_NOT_DISTURB, MiBandConst.PREF_DO_NOT_DISTURB_OFF);
+        String pref = prefs.getString(DeviceSettingsPreferenceConst.PREF_DO_NOT_DISTURB, DeviceSettingsPreferenceConst.PREF_DO_NOT_DISTURB_OFF);
 
-        if (MiBandConst.PREF_DO_NOT_DISTURB_AUTOMATIC.equals(pref)) {
+        if (DeviceSettingsPreferenceConst.PREF_DO_NOT_DISTURB_AUTOMATIC.equals(pref)) {
             return DoNotDisturb.AUTOMATIC;
-        } else if (MiBandConst.PREF_DO_NOT_DISTURB_SCHEDULED.equals(pref)) {
+        } else if (DeviceSettingsPreferenceConst.PREF_DO_NOT_DISTURB_SCHEDULED.equals(pref)) {
             return DoNotDisturb.SCHEDULED;
         }
 
@@ -312,7 +312,7 @@ public abstract class HuamiCoordinator extends AbstractDeviceCoordinator {
     public static boolean getDoNotDisturbLiftWrist(String deviceAddress) {
         SharedPreferences prefs = GBApplication.getDeviceSpecificSharedPrefs(deviceAddress);
 
-        return prefs.getBoolean(MiBandConst.PREF_DO_NOT_DISTURB_LIFT_WRIST, false);
+        return prefs.getBoolean(DeviceSettingsPreferenceConst.PREF_DO_NOT_DISTURB_LIFT_WRIST, false);
     }
 
     @Override

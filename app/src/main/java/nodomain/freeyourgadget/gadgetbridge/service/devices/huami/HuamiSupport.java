@@ -147,9 +147,26 @@ import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 import nodomain.freeyourgadget.gadgetbridge.util.StringUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.Version;
 
+import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_ACTIVATE_DISPLAY_ON_LIFT;
 import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_ALLOW_HIGH_MTU;
 import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_BT_CONNECTED_ADVERTISEMENT;
 import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_DATEFORMAT;
+import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_DISPLAY_ON_LIFT_START;
+import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_DISPLAY_ON_LIFT_END;
+import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_DISCONNECT_NOTIFICATION;
+import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_DISCONNECT_NOTIFICATION_START;
+import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_DISCONNECT_NOTIFICATION_END;
+import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_DO_NOT_DISTURB;
+import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_DO_NOT_DISTURB_START;
+import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_DO_NOT_DISTURB_END;
+import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_DO_NOT_DISTURB_LIFT_WRIST;
+import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_INACTIVITY_ENABLE;
+import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_INACTIVITY_START;
+import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_INACTIVITY_END;
+import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_INACTIVITY_THRESHOLD;
+import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_INACTIVITY_DND;
+import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_INACTIVITY_DND_START;
+import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_INACTIVITY_DND_END;
 import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_LANGUAGE;
 import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_RESERVER_ALARMS_CALENDAR;
 import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_RESERVER_REMINDERS_CALENDAR;
@@ -2208,14 +2225,14 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
                 case MiBandConst.PREF_MI2_GOAL_NOTIFICATION:
                     setGoalNotification(builder);
                     break;
-                case HuamiConst.PREF_ACTIVATE_DISPLAY_ON_LIFT:
-                case HuamiConst.PREF_DISPLAY_ON_LIFT_START:
-                case HuamiConst.PREF_DISPLAY_ON_LIFT_END:
+                case PREF_ACTIVATE_DISPLAY_ON_LIFT:
+                case PREF_DISPLAY_ON_LIFT_START:
+                case PREF_DISPLAY_ON_LIFT_END:
                     setActivateDisplayOnLiftWrist(builder);
                     break;
-                case HuamiConst.PREF_DISCONNECT_NOTIFICATION:
-                case HuamiConst.PREF_DISCONNECT_NOTIFICATION_START:
-                case HuamiConst.PREF_DISCONNECT_NOTIFICATION_END:
+                case PREF_DISCONNECT_NOTIFICATION:
+                case PREF_DISCONNECT_NOTIFICATION_START:
+                case PREF_DISCONNECT_NOTIFICATION_END:
                     setDisconnectNotification(builder);
                     break;
                 case HuamiConst.PREF_DISPLAY_ITEMS:
@@ -2232,19 +2249,19 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
                 case ActivityUser.PREF_USER_STEPS_GOAL:
                     setFitnessGoal(builder);
                     break;
-                case MiBandConst.PREF_DO_NOT_DISTURB:
-                case MiBandConst.PREF_DO_NOT_DISTURB_START:
-                case MiBandConst.PREF_DO_NOT_DISTURB_END:
-                case MiBandConst.PREF_DO_NOT_DISTURB_LIFT_WRIST:
+                case PREF_DO_NOT_DISTURB:
+                case PREF_DO_NOT_DISTURB_START:
+                case PREF_DO_NOT_DISTURB_END:
+                case PREF_DO_NOT_DISTURB_LIFT_WRIST:
                     setDoNotDisturb(builder);
                     break;
-                case MiBandConst.PREF_MI2_INACTIVITY_WARNINGS:
-                case MiBandConst.PREF_MI2_INACTIVITY_WARNINGS_THRESHOLD:
-                case MiBandConst.PREF_MI2_INACTIVITY_WARNINGS_START:
-                case MiBandConst.PREF_MI2_INACTIVITY_WARNINGS_END:
-                case MiBandConst.PREF_MI2_INACTIVITY_WARNINGS_DND:
-                case MiBandConst.PREF_MI2_INACTIVITY_WARNINGS_DND_START:
-                case MiBandConst.PREF_MI2_INACTIVITY_WARNINGS_DND_END:
+                case PREF_INACTIVITY_ENABLE:
+                case PREF_INACTIVITY_THRESHOLD:
+                case PREF_INACTIVITY_START:
+                case PREF_INACTIVITY_END:
+                case PREF_INACTIVITY_DND:
+                case PREF_INACTIVITY_DND_START:
+                case PREF_INACTIVITY_DND_END:
                     setInactivityWarnings(builder);
                     break;
                 case SettingsActivity.PREF_MEASUREMENT_SYSTEM:
@@ -2800,8 +2817,8 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
 
 
         if (sounds != null) {
-            final String[] soundOrder = new String[]{"button", "calls", "alarm", "notifications", "inactivity_warning", "sms", "goal"};
-            byte[] command = new byte[]{0x3c, 0, 0, 0, 1, 0, 0, 2, 0, 0, 3, 0, 0, 4, 0, 0, 5, 0, 0, 7, 0, 0};
+            final String[] soundOrder = new String[]{"button", "calls", "alarm", "notifications", "inactivity_warning", "sms", "email", "goal"};
+            byte[] command = new byte[]{0x3c, 0, 0, 0, 1, 0, 0, 2, 0, 0, 3, 0, 0, 4, 0, 0, 5, 0, 0, 6, 0, 0, 7, 0, 0};
             int i = 3;
             for (String sound : soundOrder) {
                 if (sounds.contains(sound)) {

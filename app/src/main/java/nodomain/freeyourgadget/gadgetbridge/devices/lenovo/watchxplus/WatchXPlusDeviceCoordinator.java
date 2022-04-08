@@ -192,7 +192,7 @@ public class WatchXPlusDeviceCoordinator extends AbstractDeviceCoordinator {
                 R.xml.devicesettings_liftwrist_display_noshed,
                 R.xml.devicesettings_disconnectnotification_noshed,
                 R.xml.devicesettings_donotdisturb_no_auto,
-                R.xml.devicesettings_longsit,
+                R.xml.devicesettings_inactivity,
                 R.xml.devicesettings_find_phone,
                 R.xml.devicesettings_timeformat,
                 R.xml.devicesettings_power_mode,
@@ -206,7 +206,7 @@ public class WatchXPlusDeviceCoordinator extends AbstractDeviceCoordinator {
      * @return {@link #FindPhone_OFF}, {@link #FindPhone_ON}, or the duration
      */
     public static int getFindPhone(SharedPreferences sharedPrefs) {
-        String findPhone = sharedPrefs.getString(WatchXPlusConstants.PREF_FIND_PHONE, getContext().getString(R.string.p_off));
+        String findPhone = sharedPrefs.getString(DeviceSettingsPreferenceConst.PREF_FIND_PHONE, getContext().getString(R.string.p_off));
 
         assert findPhone != null;
         if (findPhone.equals(getContext().getString(R.string.p_off))) {
@@ -214,7 +214,7 @@ public class WatchXPlusDeviceCoordinator extends AbstractDeviceCoordinator {
         } else if (findPhone.equals(getContext().getString(R.string.p_on))) {
             return FindPhone_ON;
         } else { // Duration
-            String duration = sharedPrefs.getString(WatchXPlusConstants.PREF_FIND_PHONE_DURATION, "0");
+            String duration = sharedPrefs.getString(DeviceSettingsPreferenceConst.PREF_FIND_PHONE_DURATION, "0");
 
             try {
                 int iDuration;
@@ -241,7 +241,7 @@ public class WatchXPlusDeviceCoordinator extends AbstractDeviceCoordinator {
      */
     public static boolean getDNDHours(String deviceAddress, Calendar startOut, Calendar endOut) {
         SharedPreferences prefs = GBApplication.getDeviceSpecificSharedPrefs(deviceAddress);
-        String doNotDisturb = prefs.getString(WatchXPlusConstants.PREF_DO_NOT_DISTURB, getContext().getString(R.string.p_off));
+        String doNotDisturb = prefs.getString(DeviceSettingsPreferenceConst.PREF_DO_NOT_DISTURB_NOAUTO, getContext().getString(R.string.p_off));
 
         assert doNotDisturb != null;
         if (doNotDisturb.equals(getContext().getString(R.string.p_off))) {
@@ -249,8 +249,8 @@ public class WatchXPlusDeviceCoordinator extends AbstractDeviceCoordinator {
             return false;
         } else {
 
-            String start = prefs.getString(WatchXPlusConstants.PREF_DO_NOT_DISTURB_START, "01:00");
-            String end = prefs.getString(WatchXPlusConstants.PREF_DO_NOT_DISTURB_END, "06:00");
+            String start = prefs.getString(DeviceSettingsPreferenceConst.PREF_DO_NOT_DISTURB_NOAUTO_START, "01:00");
+            String end = prefs.getString(DeviceSettingsPreferenceConst.PREF_DO_NOT_DISTURB_NOAUTO_END, "06:00");
 
             DateFormat df = new SimpleDateFormat("HH:mm");
 
@@ -272,14 +272,14 @@ public class WatchXPlusDeviceCoordinator extends AbstractDeviceCoordinator {
      */
     public static boolean getLongSitHours(String deviceAddress, Calendar startOut, Calendar endOut) {
         SharedPreferences prefs = GBApplication.getDeviceSpecificSharedPrefs(deviceAddress);
-        boolean enabled = prefs.getBoolean(DeviceSettingsPreferenceConst.PREF_LONGSIT_SWITCH, false);
+        boolean enabled = prefs.getBoolean(DeviceSettingsPreferenceConst.PREF_INACTIVITY_ENABLE, false);
 
         if (!enabled) {
             LOG.info(" Long sit reminder is disabled ");
             return false;
         } else {
-            String start = prefs.getString(WatchXPlusConstants.PREF_LONGSIT_START, "06:00");
-            String end = prefs.getString(WatchXPlusConstants.PREF_LONGSIT_END, "23:00");
+            String start = prefs.getString(DeviceSettingsPreferenceConst.PREF_INACTIVITY_START, "06:00");
+            String end = prefs.getString(DeviceSettingsPreferenceConst.PREF_INACTIVITY_END, "23:00");
 
             DateFormat df = new SimpleDateFormat("HH:mm");
 
