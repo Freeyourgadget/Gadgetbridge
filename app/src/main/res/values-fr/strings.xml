@@ -1597,4 +1597,5 @@ Temps de sommeil préféré en heures</string>
     <string name="activity_db_management_autoexport_location">L\'emplacement n\'a pas pu être détecté. Probablement un problème avec les nouvelles permissions du système Android. Très probablement, l\'export automatique ne fonctionne pas actuellement.</string>
     <string name="watchface_dialog_pre_setting_position">pré-configuration de la position à %s</string>
     <string name="watchface_setting_light_up_on_notification">S\'allumer pour une nouvelle notification</string>
+    <string name="menuitem_email">Email</string>
 </resources>
