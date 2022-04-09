@@ -1594,4 +1594,5 @@
     <string name="autoExport_lastTime_label">Laatste AutoExport: %1$s</string>
     <string name="watchface_dialog_pre_setting_position">Positie ingesteld op %s</string>
     <string name="watchface_setting_light_up_on_notification">Scherm oplichten bij nieuwe melding</string>
+    <string name="menuitem_email">E-mail</string>
 </resources>
