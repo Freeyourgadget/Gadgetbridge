@@ -1602,5 +1602,5 @@
     <string name="watchface_setting_light_up_on_notification">Aufleuchten bei neuer Benachrichtigung</string>
     <string name="autoExport_lastTime_label">Letzter autom. Export: %1$s</string>
     <string name="activity_db_management_autoexport_location">Standort ermittelt nicht möglich. Wahrscheinlich ein Problem des neueren Android-Berechtigungssystems. Höchstwahrscheinlich funktioniert der autom. Export jetzt nicht.</string>
-    <string name="menuitem_email">E-mail</string>
+    <string name="menuitem_email">E-Mail</string>
 </resources>
