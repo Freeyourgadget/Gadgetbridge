@@ -56,6 +56,7 @@ public class DataActivity extends AbstractGBActivity {
 
         chargeDurationTextView = findViewById(R.id.um25_text_charge_duration);
         TextView wattHoursTextView = findViewById(R.id.um25_text_wattage_sum);
+        TextView currentAccumulatedTextView = findViewById(R.id.um25_text_current_sum);
 
         View.OnLongClickListener longClickListener = new View.OnLongClickListener() {
             @Override
@@ -70,6 +71,7 @@ public class DataActivity extends AbstractGBActivity {
 
         chargeDurationTextView.setOnLongClickListener(longClickListener);
         wattHoursTextView.setOnLongClickListener(longClickListener);
+        currentAccumulatedTextView.setOnLongClickListener(longClickListener);
     }
 
     @Override
