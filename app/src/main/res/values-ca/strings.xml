@@ -443,9 +443,14 @@
     <string name="pref_summary_pebble_health_store_raw">Desa les dades \"tal qual\", tot augmentant l\'ús de la base de dades per tal de permetre possibles interpretacions més tard.</string>
     <string name="action_db_management">Gestió de dades</string>
     <string name="title_activity_db_management">Gestió de dades</string>
-    <string name="activity_db_management_import_export_explanation">Les operacions de base de dades fan servir el següent camí al vostre aparell.
-\nAquest camí és accessible des d\'altres aparells Android i des del vostre ordinador.
-\nQuan exporteu una base de dades, la trobareu aquí, i quan vulgueu importar una base de dades, heu de deixar els fitxers també aquí:</string>
+    <string name="activity_db_management_import_export_explanation">Les operacions d\'exportació/importació fan servir el següent camí (vegeu a sota) cap a un directori al vostre aparell. Aquest directori és accessible des d\'altres aparells Android i des del vostre ordinador. Tingueu en compte que aquest directori i tots els seus fitxers seran esborrats si desinstal·leu Gadgetbridge. Les dades inclouen:
+\n Export_preference - configuració global
+\n Export_preference_MAC - configuració específica de l\'aparell
+\n Gadgetbridge - base de dades d\'activitat i aparell
+\n Gadgetbridge_date - base de dades exportada en una data
+\n *.gpx - gravacions GPS
+\n *.log - fitxers de registre
+\nTrobeu els vostres fitxers exportats (o deseu els fitxers que volgueu importar) aquí:</string>
     <string name="activity_db_management_merge_old_title">Esborra la base de dades antiga</string>
     <string name="dbmanagementactivvity_cannot_access_export_path">No es pot accedir al camí d\'exportació. Si us plau, contacteu els desenvolupadors.</string>
     <string name="dbmanagementactivity_exported_to">S\'ha exportat a: %1$s</string>
@@ -1277,7 +1282,7 @@
     <string name="prefs_reserve_reminder_calendar_summary">Nombre d\'esdeveniments del calendari que seran sincronitzats</string>
     <string name="prefs_sounds_summary">Configureu quan l\'aparell pitarà</string>
     <string name="prefs_fm_presets_presets">Preconfiguracions</string>
-    <string name="device_card_activity_card_title">Informació d\'activitat a la tarja de l\'aparell</string>
+    <string name="device_card_activity_card_title">Informació d\'activitat a la targeta de l\'aparell</string>
     <string name="pref_header_notification_application_settings">Configuració per aplicació</string>
     <string name="pref_title_notification_use_as">Useu la llista d\'aplicacions per a ...</string>
     <string name="pref_title_notification_use_as_deny">Rebutgeu les notificacions de les aplicacions triades</string>
@@ -1352,4 +1357,83 @@
     <string name="prefs_autoheartrate_sleep">Prendre mesures durant el son</string>
     <string name="watchface_setting_desc_wrist_flick">(per desactivar-lo completament, habiliteu el moviment relatiu i establiu tots els valors a 0)</string>
     <string name="button_watchface_preview">Previsualització del rellotge</string>
+    <string name="unknown">Desconegut</string>
+    <string name="start">Inicia</string>
+    <string name="activity_summary_detail_editing_gpx_track">Edició de la pista GPX enllaçada</string>
+    <string name="nothing_prefs_inear_title">Detecció intraorella</string>
+    <string name="prefs_ambient_sound">So ambiental</string>
+    <string name="pref_anc_optimizer_state_pressure">Pressió atmosfèrica</string>
+    <string name="distance_format_feet">### ft</string>
+    <string name="distance_format_miles">###.# mi</string>
+    <string name="distance_format_kilometers">###.# km</string>
+    <string name="discover_unsupported_devices">Detecta aparells no suportats</string>
+    <string name="watchface_toast_settings_incomplete">Configuració incompleta, giny no afegit</string>
+    <string name="prefs_vibration_enable">Activa la vibració</string>
+    <string name="prefs_autoheartrate_interval">Freqüència de mesures</string>
+    <string name="left_earbud">Auricular esquerre</string>
+    <string name="right_earbud">Auricular dret</string>
+    <string name="sony_sound_position_front_left">Frontal esquerra</string>
+    <string name="distance_format_meters">### m</string>
+    <string name="watchface_dialog_widget_width">Ample:</string>
+    <string name="menuitem_menu">Menú</string>
+    <string name="pref_activity_recognition_mode_auto">automàtic</string>
+    <string name="pref_activity_recognition_mode_ask">pregunta</string>
+    <string name="add_test_device">Afegeix aparell de prova</string>
+    <string name="controlcenter_power_off_confirm_description">Estàs segur que vols apagar l\'aparell\?</string>
+    <string name="pref_title_message_privacy_mode">Mode de privacitat de missatges</string>
+    <string name="devicetype_amazfit_pop">Amazfit Pop</string>
+    <string name="devicetype_amazfit_pop_pro">Amazfit Pop Pro</string>
+    <string name="device_unsupported">NO SUPORTAT</string>
+    <string name="watchface_widget_type_2nd_tz">2n fus horari</string>
+    <string name="pref_header_sony_device_info">Informació de l\'aparell</string>
+    <string name="sony_ambient_sound_wind_noise_reduction">Reducció de soroll de vent</string>
+    <string name="sony_anc_optimize_title">Optimitza</string>
+    <string name="watchface_widget_type_active_mins">Minuts actiu</string>
+    <string name="activity_type_hiking">Senderisme</string>
+    <string name="pref_title_ping_tone">To de ping</string>
+    <string name="device_card_activity_card_title_summary">Escull quins detalls d\'activitat es mostren a la targeta de l\'aparell</string>
+    <string name="prefs_activity_in_device_card_title">Mostra informació d\'activitat a la targeta de l\'aparell</string>
+    <string name="prefs_activity_in_device_card_title_summary">Mostra les passes, la distància o el son actuals a la targeta de l\'aparell</string>
+    <string name="devicetype_sonyswr12">Sony SWR12</string>
+    <string name="swolf_index">índex swolf</string>
+    <string name="discovery_bluetooth_scan">Escaneig Bluetooth:</string>
+    <string name="discovery_bluetooth_le_scan">Escaneig Bluetooth LE:</string>
+    <string name="activity_prefs_discovery_pairing">Opcions de detecció i emparellament</string>
+    <string name="prefs_galaxy_touch_options">Opcions tàctils</string>
+    <string name="pref_activity_recognition_mode_none">cap</string>
+    <string name="prefs_ambient_volume">Volum ambiental</string>
+    <string name="activity_db_management_autoexport_enabled_yes">L\'exportació automàtica està activada.</string>
+    <string name="autoExport_lastTime_label">Última exportació automàtica: %1$s</string>
+    <string name="activity_db_management_autoexport_enabled_no">L\'exportació automàtica no està activada.</string>
+    <string name="activity_db_management_autoexport_scheduled_yes">L\'exportació automàtica està programada (originalment) per a %1$s</string>
+    <string name="activity_db_management_autoexport_scheduled_no">L\'exportació automàtica no ha sigut programada.</string>
+    <string name="menuitem_nothing">Res</string>
+    <string name="qhybrid_summary_calibration">Calibra les manetes del rellotge</string>
+    <string name="watchface_setting_display_refresh_partial">Actualització parcial (en minuts):</string>
+    <string name="devicetype_galaxybuds">Galaxy Buds</string>
+    <string name="devicetype_galaxybuds_live">Galaxy Buds Live</string>
+    <string name="devicetype_nothingear1">Nothing Ear (1)</string>
+    <string name="devicetype_bose_qc35">Bose QC35</string>
+    <string name="devicetype_vesc">VESC</string>
+    <string name="controlcenter_power_off_confirm_title">Apaga</string>
+    <string name="pref_title_notifications_generic_settings">Configuració de notificacions Android</string>
+    <string name="controlcenter_power_off">Apaga</string>
+    <string name="activity_summary_detail_clear_gpx_track">Neteja la pista GPX</string>
+    <string name="devicetype_sony_wf_sp800n">Sony WF-SP800N</string>
+    <string name="menuitem_email">Correu electrònic</string>
+    <string name="watchface_install_info">Sou a punt d\'instal·lar la següent caràtula:
+\n
+\n%1$s
+\nVersió %2$s per %3$s
+\n</string>
+    <string name="devicetype_domyos_t540">Domyos T540</string>
+    <string name="activity_type_climbing">Escalada</string>
+    <string name="activity_summary_detail_select_gpx_track">Selecciona la pista GPX</string>
+    <string name="devicetype_sony_wh_1000xm4">Sony WH-1000XM4</string>
+    <string name="about_hash">Confirma %s</string>
+    <string name="watchface_setting_display_refresh_full">Actualització completa (en minuts):</string>
+    <string name="sony_ambient_sound_noise_cancelling">Cancel·lació de soroll</string>
+    <string name="sony_sound_position_front_right">Frontal dreta</string>
+    <string name="gpx_receiver_activity_title">Receptor GPX Gadgetbridge</string>
+    <string name="prefs_active_noise_cancelling">Cancel·lació de soroll activa</string>
 </resources>
