@@ -1,6 +1,7 @@
 package nodomain.freeyourgadget.gadgetbridge.service.devices.um25.Support;
 
 import android.app.Notification;
+import android.app.PendingIntent;
 import android.bluetooth.BluetoothGatt;
 import android.bluetooth.BluetoothGattCharacteristic;
 import android.content.BroadcastReceiver;
@@ -25,6 +26,7 @@ import java.util.concurrent.TimeUnit;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst;
+import nodomain.freeyourgadget.gadgetbridge.devices.um25.Activity.DataActivity;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.BtLEAction;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
@@ -185,10 +187,12 @@ public class UM25Support extends UM25BaseSupport {
         if(wasOverNotificationCurrent){
             // handle change from over threshold to below threshold
             wasOverNotificationCurrent = false;
+            Intent activityIntent = new Intent(getContext(), DataActivity.class);
             Notification notification = new NotificationCompat.Builder(getContext(), GB.NOTIFICATION_CHANNEL_HIGH_PRIORITY_ID)
                     .setSmallIcon(R.drawable.ic_notification_low_battery)
                     .setContentTitle("USB current")
                     .setContentText("USB current below threshold")
+                    .setContentIntent(PendingIntent.getActivity(getContext(), 0, activityIntent, PendingIntent.FLAG_CANCEL_CURRENT))
                     .build();
 
             GB.notify(
