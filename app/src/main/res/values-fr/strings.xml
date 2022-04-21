@@ -1062,7 +1062,7 @@ Temps de sommeil préféré en heures</string>
     <string name="activity_prefs_chart_max_idle_phase_length">Longueur de la pause pour séparer les activités (minutes)</string>
     <string name="activity_prefs_chart_min_steps_per_minute">Nombre de pas minimum par minute pour détecter une activité</string>
     <string name="activity_prefs_chart_min_steps_per_minute_for_run">Nombre de pas minimum par minute pour détecter une course</string>
-    <string name="charts_activity_list">Liste d\'activités</string>
+    <string name="charts_activity_list">Activités du jour</string>
     <string name="chart_get_active_and_synchronize">Avoir une activité et synchroniser l\'appareil.</string>
     <string name="chart_no_active_data">Aucune activité détectée.</string>
     <string name="devicetype_lefun">Lefun</string>
@@ -1130,7 +1130,7 @@ Temps de sommeil préféré en heures</string>
 \nIntensité</string>
     <string name="activity_list_summary_active_time">Durée d\'activité</string>
     <string name="activity_list_summary_distance">Distance</string>
-    <string name="activity_list_summary_active_steps">Pas réalisés</string>
+    <string name="activity_list_summary_active_steps">Pas réels</string>
     <string name="devicetype_amazfit_gts2">Amazfit GTS 2</string>
     <string name="devicetype_casiogbx100">Casio GBX-100</string>
     <string name="prefs_charts_tabs_summary">Onglets visibles des tableaux</string>
