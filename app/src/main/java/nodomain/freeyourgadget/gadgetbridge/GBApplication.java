@@ -1218,26 +1218,4 @@ public class GBApplication extends Application {
     public void setAutoExportScheduledTimestamp(long autoExportScheduledTimestamp) {
         this.autoExportScheduledTimestamp = autoExportScheduledTimestamp;
     }
-    /**
-     * Provides either a string resource based on current variant
-     * (main_debug, main_nightly...): "about_description_main_debug"
-     * or just a universal string resource for "about_description"
-     *
-     * @param resString
-     * @return string
-     */
-    public String getStringResourceByVariantName(String resString) {
-        String packageName = getPackageName();
-        String variation = BuildConfig.FLAVOR + "_" + BuildConfig.BUILD_TYPE;
-        int resIdVariation = getResources().getIdentifier(resString + "_" + variation, "string", packageName);
-        int resIdNormal = getResources().getIdentifier(resString, "string", packageName);
-
-        if (resIdVariation == 0) {
-            // Since this class must not log to slf4j, we use plain android.util.Log
-            Log.i(TAG, "Missing variation string: " + resString + "_" + variation);
-            return getString(resIdNormal);
-        } else {
-            return getString(resIdVariation);
-        }
-    }
 }
