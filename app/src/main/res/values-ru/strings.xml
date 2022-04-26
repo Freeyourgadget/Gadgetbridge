@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Gadgetbridge</string>
-    <string name="title_activity_controlcenter">Gadgetbridge</string>
+    <string name="application_name_generic">Gadgetbridge</string>
+    <string name="title_activity_controlcenter_generic">Gadgetbridge</string>
     <string name="action_settings">Настройки</string>
     <string name="action_debug">Отладка</string>
     <string name="action_quit">Выйти</string>
@@ -157,7 +157,7 @@
     <string name="tap_connected_device_for_vibration">Коснитесь подключённого устройства для Вибрации</string>
     <string name="tap_a_device_to_connect">Коснитесь устройства для соединения</string>
     <string name="cannot_connect_bt_address_invalid_">Не удалось соединиться. Неверный адрес Bluetooth\?</string>
-    <string name="gadgetbridge_running">Gadgetbridge запущен</string>
+    <string name="gadgetbridge_running_generic">Gadgetbridge запущен</string>
     <string name="installing_binary_d_d">установка бинарного файла %1$d/%2$d</string>
     <string name="installation_failed_">Установка не удалась</string>
     <string name="installation_successful">Установлено</string>
@@ -848,8 +848,8 @@
     <string name="about_additional_device_support">Дополнительная поддержка устройств</string>
     <string name="about_contributors">Соавторы</string>
     <string name="about_core_team_title">Основная команда (в порядке поступления первого кода)</string>
-    <string name="about_description">\"Безоблачная\" свободная альтернатива закрытым приложениям от производителей гаджетов.</string>
-    <string name="about_activity_title">О Gadgetbridge</string>
+    <string name="about_description_generic">\"Безоблачная\" свободная альтернатива закрытым приложениям от производителей гаджетов.</string>
+    <string name="about_activity_title_generic">О Gadgetbridge</string>
     <string name="about_title">О программе</string>
     <string name="hr_widget_last_notification">Последнее уведомление</string>
     <string name="pref_qhybrid_save_raw_activity_files">Сохранять необработанные файлы активности</string>

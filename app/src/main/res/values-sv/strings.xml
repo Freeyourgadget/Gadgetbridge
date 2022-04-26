@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Gadgetbridge</string>
-    <string name="title_activity_controlcenter">Gadgetbridge</string>
+    <string name="application_name_generic">Gadgetbridge</string>
+    <string name="title_activity_controlcenter_generic">Gadgetbridge</string>
     <string name="action_settings">Inställningar</string>
     <string name="action_quit">Avsluta</string>
     <string name="action_donate">Donera</string>

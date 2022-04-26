@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Gadgetbridge</string>
-    <string name="title_activity_controlcenter">Gadgetbridge</string>
+    <string name="application_name_generic">Gadgetbridge</string>
+    <string name="title_activity_controlcenter_generic">Gadgetbridge</string>
     <string name="action_settings">Seaded</string>
     <string name="action_debug">Silumine</string>
     <string name="action_quit">Välju</string>
@@ -243,7 +243,7 @@
     <string name="tap_connected_device_for_vibration">Puuduta ühendatud seadet värina tekitamiseks</string>
     <string name="tap_a_device_to_connect">Puuduta seadet, et ühendada</string>
     <string name="cannot_connect_bt_address_invalid_">Ei saa ühendust. Vigane bluetooth aadress\?</string>
-    <string name="gadgetbridge_running">Gadgetbridge töötab</string>
+    <string name="gadgetbridge_running_generic">Gadgetbridge töötab</string>
     <string name="installing_binary_d_d">Binaarfaili %1$d/%2$d paigaldamine</string>
     <string name="installation_failed_">Paigaldamine nurjus</string>
     <string name="installation_successful">Paigaldatud</string>
@@ -746,8 +746,8 @@
     <string name="about_additional_device_support">Täiendavate seadmete tugi</string>
     <string name="about_contributors">Kaasaaitajad</string>
     <string name="about_core_team_title">Tuumiktiim (järjestatud esimese koodirea kuupäeva järgi)</string>
-    <string name="about_description">Tasuta ja pilvevaba asendus teie kantavate nutiseadmete tootjate rakendustele.</string>
-    <string name="about_activity_title">Gadgetbridge\'ist</string>
+    <string name="about_description_generic">Tasuta ja pilvevaba asendus teie kantavate nutiseadmete tootjate rakendustele.</string>
+    <string name="about_activity_title_generic">Gadgetbridge\'ist</string>
     <string name="about_title">Rakendusest</string>
     <string name="pref_title_lower_button_function">Alumine nupp</string>
     <string name="pref_title_middle_button_function">Keskmine nupp</string>

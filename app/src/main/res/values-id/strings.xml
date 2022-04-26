@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Gadgetbridge</string>
-    <string name="title_activity_controlcenter">Gadgetbridge</string>
+    <string name="application_name_generic">Gadgetbridge</string>
+    <string name="title_activity_controlcenter_generic">Gadgetbridge</string>
     <string name="action_settings">Pengaturan</string>
     <string name="action_quit">Keluar</string>
     <string name="action_donate">Donasi</string>
@@ -175,7 +175,7 @@
     <string name="hr_widget_calories">Kalori</string>
     <string name="gpx_receiver_activity_title">Penerima GPX Gadgetbridge</string>
     <string name="require_location_provider">Lokasi harus diaktifkan</string>
-    <string name="about_activity_title">Tentang Gadgetbridge</string>
+    <string name="about_activity_title_generic">Tentang Gadgetbridge</string>
     <string name="about_version">Versi %s</string>
     <string name="about_title">Tentang</string>
     <string name="about_links">Tautan</string>

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Gadgetbridge</string>
-    <string name="title_activity_controlcenter">Gadgetbridge</string>
+    <string name="application_name_generic">Gadgetbridge</string>
+    <string name="title_activity_controlcenter_generic">Gadgetbridge</string>
     <string name="action_settings">Axustes</string>
     <string name="action_debug">Depuración</string>
     <string name="action_quit">Saír</string>
@@ -143,7 +143,7 @@
     <string name="tap_connected_device_for_vibration">Toque nun dispositivo conectado para facelo Vibrar</string>
     <string name="tap_a_device_to_connect">Toque nun dispositivo para conectar</string>
     <string name="cannot_connect_bt_address_invalid_">Non foi posíbel conectar. Enderezo Bluetooth inválido?</string>
-    <string name="gadgetbridge_running">Gadgetbridge en execución</string>
+    <string name="gadgetbridge_running_generic">Gadgetbridge en execución</string>
     <string name="installing_binary_d_d">Instalando binario %1$d/%2$d</string>
     <string name="installation_failed_">Fallou a instalación</string>
     <string name="installation_successful">Instalado</string>
