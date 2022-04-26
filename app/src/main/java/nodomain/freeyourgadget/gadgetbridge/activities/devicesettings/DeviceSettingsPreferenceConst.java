@@ -41,6 +41,10 @@ public class DeviceSettingsPreferenceConst {
     public static final String PREF_VIBRATION_STRENGH_PERCENTAGE = "vibration_strength";
     public static final String PREF_RELAX_FIRMWARE_CHECKS = "relax_firmware_checks";
 
+    public static final String PREF_DISCONNECT_NOTIFICATION = "disconnect_notification";
+    public static final String PREF_DISCONNECT_NOTIFICATION_START = "disconnect_notification_start";
+    public static final String PREF_DISCONNECT_NOTIFICATION_END = "disconnect_notification_end";
+
     public static final String PREF_HYBRID_HR_FORCE_WHITE_COLOR = "force_white_color_scheme";
     public static final String PREF_HYBRID_HR_DRAW_WIDGET_CIRCLES = "widget_draw_circles";
     public static final String PREF_HYBRID_HR_SAVE_RAW_ACTIVITY_FILES = "save_raw_activity_files";
@@ -61,8 +65,22 @@ public class DeviceSettingsPreferenceConst {
 
     public static final String PREF_LIFTWRIST_NOSHED = "activate_display_on_lift_wrist_noshed";
     public static final String PREF_DISCONNECTNOTIF_NOSHED = "disconnect_notification_noshed";
-    public static final String PREF_LONGSIT_START = "pref_longsit_start";
-    public static final String PREF_LONGSIT_END = "pref_longsit_end";
+    public static final String PREF_INACTIVITY_KEY =  "inactivity_warnings_key";
+    public static final String PREF_INACTIVITY_ENABLE = "inactivity_warnings_enable";
+    public static final String PREF_INACTIVITY_ENABLE_NOSHED = "inactivity_warnings_enable_noshed";
+    public static final String PREF_INACTIVITY_START = "inactivity_warnings_start";
+    public static final String PREF_INACTIVITY_END = "inactivity_warnings_end";
+    public static final String PREF_INACTIVITY_THRESHOLD = "inactivity_warnings_threshold";
+    public static final String PREF_INACTIVITY_MO = "inactivity_warnings_mo";
+    public static final String PREF_INACTIVITY_TU = "inactivity_warnings_tu";
+    public static final String PREF_INACTIVITY_WE = "inactivity_warnings_we";
+    public static final String PREF_INACTIVITY_TH = "inactivity_warnings_th";
+    public static final String PREF_INACTIVITY_FR = "inactivity_warnings_fr";
+    public static final String PREF_INACTIVITY_SA = "inactivity_warnings_sa";
+    public static final String PREF_INACTIVITY_SU = "inactivity_warnings_su";
+    public static final String PREF_INACTIVITY_DND = "inactivity_warnings_dnd";
+    public static final String PREF_INACTIVITY_DND_START = "inactivity_warnings_dnd_start";
+    public static final String PREF_INACTIVITY_DND_END = "inactivity_warnings_dnd_end";
 
     public static final String PREF_AUTOHEARTRATE_SWITCH = "pref_autoheartrate_switch";
     public static final String PREF_AUTOHEARTRATE_SLEEP = "pref_autoheartrate_sleep";
@@ -73,14 +91,19 @@ public class DeviceSettingsPreferenceConst {
     public static final String PREF_POWER_MODE = "power_mode";
     public static final String PREF_BUTTON_BP_CALIBRATE = "prefs_sensors_button_bp_calibration";
     public static final String PREF_ALTITUDE_CALIBRATE = "pref_sensors_altitude";
-    public static final String PREF_LONGSIT_PERIOD = "pref_longsit_period";
-    public static final String PREF_LONGSIT_SWITCH = "pref_longsit_switch";
-    public static final String PREF_LONGSIT_SWITCH_NOSHED = "screen_longsit_noshed";
     public static final String PREF_DO_NOT_DISTURB_NOAUTO = "do_not_disturb_no_auto";
     public static final String PREF_DO_NOT_DISTURB_NOAUTO_START = "do_not_disturb_no_auto_start";
     public static final String PREF_DO_NOT_DISTURB_NOAUTO_END = "do_not_disturb_no_auto_end";
+    public static final String PREF_DO_NOT_DISTURB = "do_not_disturb";
+    public static final String PREF_DO_NOT_DISTURB_START = "do_not_disturb_start";
+    public static final String PREF_DO_NOT_DISTURB_END = "do_not_disturb_end";
+    public static final String PREF_DO_NOT_DISTURB_LIFT_WRIST = "do_not_disturb_lift_wrist";
+    public static final String PREF_DO_NOT_DISTURB_OFF = "off";
+    public static final String PREF_DO_NOT_DISTURB_AUTOMATIC = "automatic";
+    public static final String PREF_DO_NOT_DISTURB_SCHEDULED = "scheduled";
 
-    public static final String PREF_FIND_PHONE_ENABLED = "prefs_find_phone";
+    public static final String PREF_FIND_PHONE = "prefs_find_phone";
+    public static final String PREF_FIND_PHONE_DURATION = "prefs_find_phone_duration";
     public static final String PREF_AUTOLIGHT = "autolight";
     public static final String PREF_AUTOREMOVE_MESSAGE = "autoremove_message";
     public static final String PREF_AUTOREMOVE_NOTIFICATIONS = "autoremove_notifications";
@@ -92,7 +115,6 @@ public class DeviceSettingsPreferenceConst {
     public static final String PREF_HYDRATION_SWITCH = "pref_hydration_switch";
     public static final String PREF_HYDRATION_PERIOD = "pref_hydration_period";
     public static final String PREF_AMPM_ENABLED = "pref_ampm_enabled";
-    public static final String PREF_LEFUN_INTERFACE_LANGUAGE = "pref_lefun_interface_language";
 
     public static final String PREF_SONYSWR12_LOW_VIBRATION = "vibration_preference";
     public static final String PREF_SONYSWR12_STAMINA = "stamina_preference";
@@ -156,6 +178,10 @@ public class DeviceSettingsPreferenceConst {
     public static final String PREFS_ACTIVITY_IN_DEVICE_CARD_DISTANCE = "prefs_activity_in_device_card_distance";
     public static final String PREFS_DEVICE_CHARTS_TABS = "charts_tabs";
 
+    public static final String PREF_UM25_SHOW_THRESHOLD_NOTIFICATION = "um25_current_threshold_notify";
+    public static final String PREF_UM25_SHOW_THRESHOLD = "um25_current_threshold";
+
     public static final String PREF_SOUNDS = "sounds";
     public static final String PREF_AUTH_KEY = "authkey";
+    public static final String PREF_USER_FITNESS_GOAL = "fitness_goal";
 }

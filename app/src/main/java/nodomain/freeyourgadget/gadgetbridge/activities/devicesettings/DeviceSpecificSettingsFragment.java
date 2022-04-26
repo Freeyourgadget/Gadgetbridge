@@ -57,7 +57,6 @@ import nodomain.freeyourgadget.gadgetbridge.util.XTimePreference;
 import nodomain.freeyourgadget.gadgetbridge.util.XTimePreferenceFragment;
 
 import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.*;
-import static nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst.PREF_ACTIVATE_DISPLAY_ON_LIFT;
 import static nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst.PREF_DEVICE_ACTION_FELL_SLEEP_BROADCAST;
 import static nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst.PREF_DEVICE_ACTION_FELL_SLEEP_SELECTION;
 import static nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst.PREF_DEVICE_ACTION_SELECTION_BROADCAST;
@@ -66,22 +65,11 @@ import static nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst.PREF
 import static nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst.PREF_DEVICE_ACTION_START_NON_WEAR_SELECTION;
 import static nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst.PREF_DEVICE_ACTION_WOKE_UP_BROADCAST;
 import static nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst.PREF_DEVICE_ACTION_WOKE_UP_SELECTION;
-import static nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst.PREF_DISCONNECT_NOTIFICATION;
-import static nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst.PREF_DISCONNECT_NOTIFICATION_END;
-import static nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst.PREF_DISCONNECT_NOTIFICATION_START;
 import static nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst.PREF_DISPLAY_ITEMS;
 import static nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst.PREF_DISPLAY_ITEMS_SORTABLE;
-import static nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst.PREF_DISPLAY_ON_LIFT_END;
-import static nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst.PREF_DISPLAY_ON_LIFT_START;
 import static nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst.PREF_EXPOSE_HR_THIRDPARTY;
 import static nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst.PREF_SHORTCUTS;
 import static nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst.PREF_SHORTCUTS_SORTABLE;
-import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.PREF_DO_NOT_DISTURB;
-import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.PREF_DO_NOT_DISTURB_END;
-import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.PREF_DO_NOT_DISTURB_LIFT_WRIST;
-import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.PREF_DO_NOT_DISTURB_OFF;
-import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.PREF_DO_NOT_DISTURB_SCHEDULED;
-import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.PREF_DO_NOT_DISTURB_START;
 import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.PREF_MI2_DATEFORMAT;
 import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.PREF_MI2_ROTATE_WRIST_TO_SWITCH_INFO;
 import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.PREF_NIGHT_MODE;
@@ -298,7 +286,7 @@ public class DeviceSpecificSettingsFragment extends PreferenceFragmentCompat imp
         }
 
 
-        String doNotDisturbState = prefs.getString(MiBandConst.PREF_DO_NOT_DISTURB, PREF_DO_NOT_DISTURB_OFF);
+        String doNotDisturbState = prefs.getString(PREF_DO_NOT_DISTURB, PREF_DO_NOT_DISTURB_OFF);
         boolean doNotDisturbScheduled = doNotDisturbState.equals(PREF_DO_NOT_DISTURB_SCHEDULED);
 
         final Preference doNotDisturbStart = findPreference(PREF_DO_NOT_DISTURB_START);
@@ -371,10 +359,20 @@ public class DeviceSpecificSettingsFragment extends PreferenceFragmentCompat imp
         addPreferenceHandlerFor(PREF_DISCONNECTNOTIF_NOSHED);
         addPreferenceHandlerFor(PREF_BUTTON_BP_CALIBRATE);
         addPreferenceHandlerFor(PREF_ALTITUDE_CALIBRATE);
-        addPreferenceHandlerFor(PREF_LONGSIT_PERIOD);
-        addPreferenceHandlerFor(PREF_LONGSIT_SWITCH);
-        addPreferenceHandlerFor(PREF_LONGSIT_START);
-        addPreferenceHandlerFor(PREF_LONGSIT_END);
+        addPreferenceHandlerFor(PREF_INACTIVITY_ENABLE);
+        addPreferenceHandlerFor(PREF_INACTIVITY_START);
+        addPreferenceHandlerFor(PREF_INACTIVITY_END);
+        addPreferenceHandlerFor(PREF_INACTIVITY_THRESHOLD);
+        addPreferenceHandlerFor(PREF_INACTIVITY_MO);
+        addPreferenceHandlerFor(PREF_INACTIVITY_TU);
+        addPreferenceHandlerFor(PREF_INACTIVITY_WE);
+        addPreferenceHandlerFor(PREF_INACTIVITY_TH);
+        addPreferenceHandlerFor(PREF_INACTIVITY_FR);
+        addPreferenceHandlerFor(PREF_INACTIVITY_SA);
+        addPreferenceHandlerFor(PREF_INACTIVITY_SU);
+        addPreferenceHandlerFor(PREF_INACTIVITY_DND);
+        addPreferenceHandlerFor(PREF_INACTIVITY_DND_START);
+        addPreferenceHandlerFor(PREF_INACTIVITY_DND_END);
         addPreferenceHandlerFor(PREF_AUTOHEARTRATE_SWITCH);
         addPreferenceHandlerFor(PREF_AUTOHEARTRATE_SLEEP);
         addPreferenceHandlerFor(PREF_AUTOHEARTRATE_INTERVAL);
@@ -383,8 +381,12 @@ public class DeviceSpecificSettingsFragment extends PreferenceFragmentCompat imp
         addPreferenceHandlerFor(PREF_DO_NOT_DISTURB_NOAUTO);
         addPreferenceHandlerFor(PREF_DO_NOT_DISTURB_NOAUTO_START);
         addPreferenceHandlerFor(PREF_DO_NOT_DISTURB_NOAUTO_END);
+        addPreferenceHandlerFor(PREF_DO_NOT_DISTURB);
+        addPreferenceHandlerFor(PREF_DO_NOT_DISTURB_START);
+        addPreferenceHandlerFor(PREF_DO_NOT_DISTURB_END);
         addPreferenceHandlerFor(PREF_DO_NOT_DISTURB_LIFT_WRIST);
-        addPreferenceHandlerFor(PREF_FIND_PHONE_ENABLED);
+        addPreferenceHandlerFor(PREF_FIND_PHONE);
+        addPreferenceHandlerFor(PREF_FIND_PHONE_DURATION);
         addPreferenceHandlerFor(PREF_AUTOLIGHT);
         addPreferenceHandlerFor(PREF_AUTOREMOVE_MESSAGE);
         addPreferenceHandlerFor(PREF_AUTOREMOVE_NOTIFICATIONS);
@@ -395,7 +397,6 @@ public class DeviceSpecificSettingsFragment extends PreferenceFragmentCompat imp
         addPreferenceHandlerFor(PREF_HYDRATION_SWITCH);
         addPreferenceHandlerFor(PREF_HYDRATION_PERIOD);
         addPreferenceHandlerFor(PREF_AMPM_ENABLED);
-        addPreferenceHandlerFor(PREF_LEFUN_INTERFACE_LANGUAGE);
         addPreferenceHandlerFor(PREF_SOUNDS);
 
         addPreferenceHandlerFor(PREF_HYBRID_HR_DRAW_WIDGET_CIRCLES);
@@ -453,6 +454,10 @@ public class DeviceSpecificSettingsFragment extends PreferenceFragmentCompat imp
         addPreferenceHandlerFor(PREF_SONY_CONNECT_TWO_DEVICES);
 
         addPreferenceHandlerFor(PREF_QC35_NOISE_CANCELLING_LEVEL);
+        addPreferenceHandlerFor(PREF_USER_FITNESS_GOAL);
+
+        addPreferenceHandlerFor(PREF_UM25_SHOW_THRESHOLD_NOTIFICATION);
+        addPreferenceHandlerFor(PREF_UM25_SHOW_THRESHOLD);
 
         String sleepTimeState = prefs.getString(PREF_SLEEP_TIME, PREF_DO_NOT_DISTURB_OFF);
         boolean sleepTimeScheduled = sleepTimeState.equals(PREF_DO_NOT_DISTURB_SCHEDULED);
@@ -589,7 +594,7 @@ public class DeviceSpecificSettingsFragment extends PreferenceFragmentCompat imp
         setInputTypeFor(HuamiConst.PREF_BUTTON_ACTION_PRESS_MAX_INTERVAL, InputType.TYPE_CLASS_NUMBER);
         setInputTypeFor(HuamiConst.PREF_BUTTON_ACTION_PRESS_COUNT, InputType.TYPE_CLASS_NUMBER);
         setInputTypeFor(MiBandConst.PREF_MIBAND_DEVICE_TIME_OFFSET_HOURS, InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_SIGNED);
-        setInputTypeFor(MakibesHR3Constants.PREF_FIND_PHONE_DURATION, InputType.TYPE_CLASS_NUMBER);
+        setInputTypeFor(DeviceSettingsPreferenceConst.PREF_FIND_PHONE_DURATION, InputType.TYPE_CLASS_NUMBER);
         setInputTypeFor(DeviceSettingsPreferenceConst.PREF_RESERVER_ALARMS_CALENDAR, InputType.TYPE_CLASS_NUMBER);
         setInputTypeFor(DeviceSettingsPreferenceConst.PREF_RESERVER_REMINDERS_CALENDAR, InputType.TYPE_CLASS_NUMBER);
 

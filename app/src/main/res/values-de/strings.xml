@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Gadgetbridge</string>
-    <string name="title_activity_controlcenter">Gadgetbridge</string>
+    <string name="application_name_generic">Gadgetbridge</string>
+    <string name="title_activity_controlcenter_generic">Gadgetbridge</string>
     <string name="action_settings">Einstellungen</string>
     <string name="action_debug">Debug</string>
     <string name="action_quit">Beenden</string>
@@ -161,7 +161,7 @@
     <string name="tap_connected_device_for_vibration">Tippe auf das verbundene Gerät, um es vibrieren zu lassen</string>
     <string name="tap_a_device_to_connect">Tippe auf ein Gerät, um eine Verbindung herzustellen</string>
     <string name="cannot_connect_bt_address_invalid_">Keine Verbindung möglich. Bluetooth-Adresse ungültig\?</string>
-    <string name="gadgetbridge_running">Gadgetbridge läuft</string>
+    <string name="gadgetbridge_running_generic">Gadgetbridge läuft</string>
     <string name="installing_binary_d_d">Binärdatei %1$d/%2$d wird installiert</string>
     <string name="installation_failed_">Installation fehlgeschlagen</string>
     <string name="installation_successful">Installiert</string>
@@ -923,8 +923,8 @@
     <string name="about_additional_device_support">Unterstützung zusätzlicher Geräte</string>
     <string name="about_contributors">Beitragende</string>
     <string name="about_core_team_title">Kernteam (Reihenfolge der ersten Mitwirkung am Code)</string>
-    <string name="about_description">Cloudloser freier Ersatz für proprietäre Android-Gadget-Apps der Hersteller.</string>
-    <string name="about_activity_title">Über Gadgetbridge</string>
+    <string name="about_description_generic">Cloudloser freier Ersatz für proprietäre Android-Gadget-Apps der Hersteller.</string>
+    <string name="about_activity_title_generic">Über Gadgetbridge</string>
     <string name="about_title">Über</string>
     <string name="pref_title_weather_summary">Wird für den LineageOS Wetterdienst genutzt, andere Android-Versionen müssen eine Anwendung wie Weather notification nutzen. Mehr Informationen gibt es im Gadgetbride-Wiki.</string>
     <string name="menuitem_worldclock">Weltzeituhr</string>

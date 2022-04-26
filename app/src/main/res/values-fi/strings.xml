@@ -3,8 +3,8 @@
     <string name="action_settings">Asetukset</string>
     <string name="controlcenter_fetch_activity_data">Synkronoi</string>
     <string name="controlcenter_find_device">Löydä kadonnut laite</string>
-    <string name="app_name">Gadgetbridge</string>
-    <string name="title_activity_controlcenter">Gadgetbridge</string>
+    <string name="application_name_generic">Gadgetbridge</string>
+    <string name="title_activity_controlcenter_generic">Gadgetbridge</string>
     <string name="action_quit">Lopeta</string>
     <string name="action_donate">Lahjoita</string>
     <string name="controlcenter_take_screenshot">Ota ruutukaappaus</string>
@@ -447,7 +447,7 @@
     <string name="live_activity_steps_history">Askeleiden historia</string>
     <string name="live_activity_total_steps">Kokonaisaskeleet</string>
     <string name="about_title">Tietoja</string>
-    <string name="about_activity_title">Tietoja Gadgetbridgestä</string>
+    <string name="about_activity_title_generic">Tietoja Gadgetbridgestä</string>
     <string name="activity_filter_date_from">Alkaen</string>
     <string name="activity_filter_date_to">Päättyen</string>
     <string name="pref_screen_notification_profile_missed_call">Vastaamatta jääneen puhelun ilmoitus</string>

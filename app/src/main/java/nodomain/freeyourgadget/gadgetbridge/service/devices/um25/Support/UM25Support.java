@@ -1,12 +1,16 @@
 package nodomain.freeyourgadget.gadgetbridge.service.devices.um25.Support;
 
+import android.app.Notification;
+import android.app.PendingIntent;
 import android.bluetooth.BluetoothGatt;
 import android.bluetooth.BluetoothGattCharacteristic;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 
+import androidx.core.app.NotificationCompat;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import org.slf4j.Logger;
@@ -19,12 +23,17 @@ import java.util.UUID;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
+import nodomain.freeyourgadget.gadgetbridge.GBApplication;
+import nodomain.freeyourgadget.gadgetbridge.R;
+import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst;
+import nodomain.freeyourgadget.gadgetbridge.devices.um25.Activity.DataActivity;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.BtLEAction;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.SetDeviceStateAction;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.um25.Data.CaptureGroup;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.um25.Data.MeasurementData;
+import nodomain.freeyourgadget.gadgetbridge.util.GB;
 import nodomain.freeyourgadget.gadgetbridge.util.StringUtils;
 
 public class UM25Support extends UM25BaseSupport {
@@ -44,6 +53,12 @@ public class UM25Support extends UM25BaseSupport {
 
     private static final  Logger logger = LoggerFactory.getLogger(UM25Support.class);
 
+    SharedPreferences preferences;
+
+    private boolean notifyOnCurrentThreshold;
+    private int notificationCurrentThreshold;
+    private boolean wasOverNotificationCurrent = false;
+    private long lastOverThresholdTimestamp = 0;
 
     public UM25Support() {
         super(logger);
@@ -63,8 +78,22 @@ public class UM25Support extends UM25BaseSupport {
         }
     };
 
+    void readPreferences(){
+        notifyOnCurrentThreshold = preferences.getBoolean(DeviceSettingsPreferenceConst.PREF_UM25_SHOW_THRESHOLD_NOTIFICATION, false);
+        notificationCurrentThreshold = Integer.parseInt(preferences.getString(DeviceSettingsPreferenceConst.PREF_UM25_SHOW_THRESHOLD, "100"));
+    }
+
+    @Override
+    public void onSendConfiguration(String config) {
+        readPreferences();
+    }
+
     @Override
     protected TransactionBuilder initializeDevice(TransactionBuilder builder) {
+        preferences = GBApplication.getDeviceSpecificSharedPrefs(getDevice().getAddress());
+
+        readPreferences();
+
         return builder
                 .add(new SetDeviceStateAction(getDevice(), GBDevice.State.INITIALIZING, getContext()))
                 .notify(getCharacteristic(UUID.fromString(UUID_CHAR)), true)
@@ -132,6 +161,48 @@ public class UM25Support extends UM25BaseSupport {
         return true;
     }
 
+    private void handleCurrentNotification(int currentMa){
+        logger.debug("current: " + currentMa);
+
+        if(!notifyOnCurrentThreshold){
+            return;
+        }
+
+        boolean isOverNotificationCurrent = currentMa > notificationCurrentThreshold;
+
+        long now = System.currentTimeMillis();
+
+        if(isOverNotificationCurrent){
+            lastOverThresholdTimestamp = now;
+            wasOverNotificationCurrent = true;
+            return;
+        }
+        long deltaSinceOverThreshold = now - lastOverThresholdTimestamp;
+
+        if(deltaSinceOverThreshold < 5000){
+            // must be below threshold for over certain time before triggering notification
+            return;
+        }
+
+        if(wasOverNotificationCurrent){
+            // handle change from over threshold to below threshold
+            wasOverNotificationCurrent = false;
+            Intent activityIntent = new Intent(getContext(), DataActivity.class);
+            Notification notification = new NotificationCompat.Builder(getContext(), GB.NOTIFICATION_CHANNEL_HIGH_PRIORITY_ID)
+                    .setSmallIcon(R.drawable.ic_notification_low_battery)
+                    .setContentTitle("USB current")
+                    .setContentText("USB current below threshold")
+                    .setContentIntent(PendingIntent.getActivity(getContext(), 0, activityIntent, PendingIntent.FLAG_CANCEL_CURRENT))
+                    .build();
+
+            GB.notify(
+                    GB.NOTIFICATION_ID_LOW_BATTERY,
+                    notification,
+                    getContext()
+            );
+        }
+    }
+
     private void handlePayload(ByteBuffer payload){
         String payloadString = StringUtils.bytesToHex(payload.array());
         payloadString = payloadString.replaceAll("(..)", "$1 ");
@@ -163,8 +234,6 @@ public class UM25Support extends UM25BaseSupport {
         int chargingSeconds = payload.getInt(112);
         int cableResistance = payload.getInt(122);
 
-        logger.debug("variable: " + chargedCurrent);
-
         MeasurementData data = new MeasurementData(
                 voltage,
                 current,
@@ -184,6 +253,8 @@ public class UM25Support extends UM25BaseSupport {
         Intent measurementIntent = new Intent(ACTION_MEASUREMENT_TAKEN);
 
         measurementIntent.putExtra(EXTRA_KEY_MEASUREMENT_DATA, data);
+
+        handleCurrentNotification(current / 10);
 
         LocalBroadcastManager.getInstance(getContext())
                 .sendBroadcast(measurementIntent);

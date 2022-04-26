@@ -70,7 +70,8 @@ import nodomain.freeyourgadget.gadgetbridge.util.GB;
 import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_AUTOLIGHT;
 import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_AUTOREMOVE_MESSAGE;
 import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_FAKE_RING_DURATION;
-import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_FIND_PHONE_ENABLED;
+import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_FIND_PHONE;
+import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_FIND_PHONE_DURATION;
 import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_KEY_VIBRATION;
 import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_OPERATING_SOUNDS;
 import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_TIMEFORMAT;
@@ -381,7 +382,7 @@ public class CasioGBX100DeviceSupport extends CasioSupport implements SharedPref
         if (start) {
             SharedPreferences sharedPreferences = GBApplication.getDeviceSpecificSharedPrefs(getDevice().getAddress());
 
-            String findPhone = sharedPreferences.getString(PREF_FIND_PHONE_ENABLED, getContext().getString(R.string.p_off));
+            String findPhone = sharedPreferences.getString(PREF_FIND_PHONE, getContext().getString(R.string.p_off));
 
             if(findPhone.equals(getContext().getString(R.string.p_off)))
                 return;
@@ -391,7 +392,7 @@ public class CasioGBX100DeviceSupport extends CasioSupport implements SharedPref
             evaluateGBDeviceEvent(findPhoneEvent);
 
             if(!findPhone.equals(getContext().getString(R.string.p_on))) {
-                String duration = sharedPreferences.getString(MakibesHR3Constants.PREF_FIND_PHONE_DURATION, "0");
+                String duration = sharedPreferences.getString(PREF_FIND_PHONE_DURATION, "0");
 
                 try {
                     int iDuration;
@@ -620,8 +621,8 @@ public class CasioGBX100DeviceSupport extends CasioSupport implements SharedPref
                     new SetConfigurationOperation(this, CasioConstants.ConfigurationOption.OPTION_OPERATING_SOUNDS).perform();
                     break;
                 case PREF_FAKE_RING_DURATION:
-                case PREF_FIND_PHONE_ENABLED:
-                case MakibesHR3Constants.PREF_FIND_PHONE_DURATION:
+                case PREF_FIND_PHONE:
+                case PREF_FIND_PHONE_DURATION:
                     // No action, we check the shared preferences when the device tries to ring the phone.
                     break;
                 default:

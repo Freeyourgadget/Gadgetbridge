@@ -61,6 +61,7 @@
     <item name="p_menuitem_calls" type="string">calls</item>
     <item name="p_menuitem_inactivity_warning" type="string">inactivity_warning</item>
     <item name="p_menuitem_sms" type="string">sms</item>
+    <item name="p_menuitem_email" type="string">email</item>
 
     <item name="p_off" type="string">off</item>
     <item name="p_on" type="string">on</item>

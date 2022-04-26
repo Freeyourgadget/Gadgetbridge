@@ -548,7 +548,7 @@ public class TLW64Support extends AbstractBTLEDeviceSupport {
                 (byte) 0x00    // unknown, sniffed by original app
         };
 
-        if (GBApplication.getDeviceSpecificSharedPrefs(gbDevice.getAddress()).getBoolean(DeviceSettingsPreferenceConst.PREF_LONGSIT_SWITCH_NOSHED, false)) {
+        if (GBApplication.getDeviceSpecificSharedPrefs(gbDevice.getAddress()).getBoolean(DeviceSettingsPreferenceConst.PREF_INACTIVITY_ENABLE_NOSHED, false)) {
             deviceBytes[1] = (byte) 0x01;
         }
 

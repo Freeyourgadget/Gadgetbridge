@@ -144,7 +144,7 @@ public class TLW64Coordinator extends AbstractDeviceCoordinator {
     public int[] getSupportedDeviceSpecificSettings(GBDevice device) {
         return new int[]{
                 R.xml.devicesettings_liftwrist_display_noshed,
-                R.xml.devicesettings_longsit_noshed,
+                R.xml.devicesettings_inactivity_noshed,
                 R.xml.devicesettings_timeformat,
                 R.xml.devicesettings_transliteration
         };

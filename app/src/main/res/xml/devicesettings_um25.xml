@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <CheckBoxPreference
+        android:title="Notify if below current threshold"
+        android:key="um25_current_threshold_notify" />
+    <EditTextPreference
+        android:title="Current threshold im mA"
+        android:key="um25_current_threshold"
+        android:inputType="number"
+        android:defaultValue="100"
+        app:useSimpleSummaryProvider="true" />/>
+</PreferenceScreen>

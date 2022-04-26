@@ -129,8 +129,8 @@
     <string name="calories">Calories</string>
     <string name="miband_prefs_vibration">Vibration</string>
     <string name="vibration_profile_long">Long</string>
-    <string name="title_activity_controlcenter">Gadgetbridge</string>
-    <string name="app_name">Gadgetbridge</string>
+    <string name="title_activity_controlcenter_generic">Gadgetbridge</string>
+    <string name="application_name_generic">Gadgetbridge</string>
     <plurals name="widget_alarm_target_hours">
         <item quantity="one">%d heure</item>
         <item quantity="other">%d heures</item>
@@ -697,7 +697,7 @@
     <string name="installation_successful">Installé</string>
     <string name="installation_failed_">Échec de l\'installation</string>
     <string name="installing_binary_d_d">Installation du binaire %1$d/%2$d</string>
-    <string name="gadgetbridge_running">Gadgetbridge est en fonctionnement</string>
+    <string name="gadgetbridge_running_generic">Gadgetbridge est en fonctionnement</string>
     <string name="tap_a_device_to_connect">Tapez sur le périphérique pour le connecter</string>
     <string name="tap_connected_device_for_vibration">Cliquez sur connecter pour envoyer une vibration</string>
     <string name="tap_connected_device_for_activity">Cliquez sur l\'appareil pour ouvrir le gestionnaire d’activité</string>

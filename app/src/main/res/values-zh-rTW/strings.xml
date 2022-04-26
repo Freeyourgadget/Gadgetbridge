@@ -26,8 +26,8 @@
     <string name="appmananger_app_delete_cache">刪除並清除緩存</string>
     <string name="appmananger_app_reinstall">重新安裝</string>
     <string name="mi2_prefs_button_press_broadcast_default_value" translatable="false">nodomain.freeyourgadget.gadgetbridge.ButtonPressed</string>
-    <string name="app_name">Gadgetbridge</string>
-    <string name="title_activity_controlcenter">Gadgetbridge</string>
+    <string name="application_name_generic">Gadgetbridge</string>
+    <string name="title_activity_controlcenter_generic">Gadgetbridge</string>
     <string name="controlcenter_snackbar_connecting">連接中…</string>
     <string name="controlcenter_snackbar_requested_screenshot">截取設備的屏幕截圖</string>
     <string name="controlcenter_calibrate_device">校正設備</string>
@@ -524,7 +524,7 @@
     <string name="title_activity_mi_band_pairing">配對您的小米手環</string>
     <string name="title_activity_android_pairing">配對裝置</string>
     <string name="initialized">初始化完成</string>
-    <string name="gadgetbridge_running">Gadgetbridge 正在執行</string>
+    <string name="gadgetbridge_running_generic">Gadgetbridge 正在執行</string>
     <string name="tap_a_device_to_connect">點擊一個裝置以進行連線</string>
     <string name="bluetooth_is_not_supported_">藍芽不支援。</string>
     <string name="zetime_calories_type_all">涵蓋活動與未活動時消耗的卡路里</string>
@@ -583,8 +583,8 @@
     <string name="about_additional_device_support">額外裝置支援</string>
     <string name="about_contributors">貢獻者</string>
     <string name="about_core_team_title">核心團隊（按第一次程式碼貢獻順序排列）</string>
-    <string name="about_description">用來取代廠商提供的閉源 Android 小裝置應用程式的離線且版權自由的替代品。</string>
-    <string name="about_activity_title">關於 Gadgetbridge</string>
+    <string name="about_description_generic">用來取代廠商提供的閉源 Android 小裝置應用程式的離線且版權自由的替代品。</string>
+    <string name="about_activity_title_generic">關於 Gadgetbridge</string>
     <string name="about_title">關於</string>
     <string name="activity_summaries">運動活動</string>
     <string name="activity_type_swimming">游泳</string>

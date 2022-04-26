@@ -65,7 +65,7 @@ public class ActivityUser {
     public static final String PREF_USER_HEIGHT_CM = "activity_user_height_cm";
     public static final String PREF_USER_WEIGHT_KG = "activity_user_weight_kg";
     public static final String PREF_USER_SLEEP_DURATION = "activity_user_sleep_duration";
-    public static final String PREF_USER_STEPS_GOAL = "mi_fitness_goal"; // FIXME: for compatibility
+    public static final String PREF_USER_STEPS_GOAL = "fitness_goal"; // FIXME: for compatibility
     public static final String PREF_USER_CALORIES_BURNT = "activity_user_calories_burnt";
     public static final String PREF_USER_DISTANCE_METERS = "activity_user_distance_meters";
     public static final String PREF_USER_ACTIVETIME_MINUTES = "activity_user_activetime_minutes";
