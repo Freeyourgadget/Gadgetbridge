@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Gadgetbridge</string>
-    <string name="title_activity_controlcenter">Gadgetbridge</string>
+    <string name="application_name_generic">Gadgetbridge</string>
+    <string name="title_activity_controlcenter_generic">Gadgetbridge</string>
     <string name="action_settings">Configuració</string>
     <string name="action_debug">Depuració</string>
     <string name="action_quit">Surt</string>
@@ -174,7 +174,7 @@
     <string name="tap_connected_device_for_vibration">Toca l\'aparell per fer-lo vibrar</string>
     <string name="tap_a_device_to_connect">Toca un aparell per connectar-hi</string>
     <string name="cannot_connect_bt_address_invalid_">No es pot connectar. Potser la direcció Bluetooth és incorrecta\?</string>
-    <string name="gadgetbridge_running">El Gadgetbridge està funcionant</string>
+    <string name="gadgetbridge_running_generic">El Gadgetbridge està funcionant</string>
     <string name="installing_binary_d_d">S\'està instal·lant el binari %1$d/%2$d</string>
     <string name="installation_failed_">La instal·lació ha fallat</string>
     <string name="installation_successful">Instal·lat</string>
@@ -908,7 +908,7 @@
     <string name="about_additional_device_support">Support d\'aparell addicional</string>
     <string name="about_contributors">Col·laboradors</string>
     <string name="about_core_team_title">Equip principal (en ordre de primera contribució de codi)</string>
-    <string name="about_description">Substitut lliure, copyleft i sense núvol per a les aplicacions Android de codi tancat dels fabricants dels aparells.</string>
+    <string name="about_description_generic">Substitut lliure, copyleft i sense núvol per a les aplicacions Android de codi tancat dels fabricants dels aparells.</string>
     <string name="menuitem_dnd">No molestis</string>
     <string name="menuitem_spo2">SpO2</string>
     <string name="menuitem_pai">PAI</string>
@@ -995,7 +995,7 @@
     <string name="device_requires_key">ES REQUEREIX CLAU</string>
     <string name="require_location_provider">La ubicació ha d\'estar activada</string>
     <string name="about_links">Enllaços</string>
-    <string name="about_activity_title">Quant a Gadgetbridge</string>
+    <string name="about_activity_title_generic">Quant a Gadgetbridge</string>
     <string name="about_version">Versió %s</string>
     <string name="about_title">Quant a</string>
     <string name="hr_widget_last_notification">Última notificació</string>

@@ -456,6 +456,9 @@ public class DeviceSpecificSettingsFragment extends PreferenceFragmentCompat imp
         addPreferenceHandlerFor(PREF_QC35_NOISE_CANCELLING_LEVEL);
         addPreferenceHandlerFor(PREF_USER_FITNESS_GOAL);
 
+        addPreferenceHandlerFor(PREF_UM25_SHOW_THRESHOLD_NOTIFICATION);
+        addPreferenceHandlerFor(PREF_UM25_SHOW_THRESHOLD);
+
         String sleepTimeState = prefs.getString(PREF_SLEEP_TIME, PREF_DO_NOT_DISTURB_OFF);
         boolean sleepTimeScheduled = sleepTimeState.equals(PREF_DO_NOT_DISTURB_SCHEDULED);
 

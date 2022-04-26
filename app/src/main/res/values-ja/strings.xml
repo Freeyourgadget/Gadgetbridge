@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">ガジェットブリッジ</string>
-    <string name="title_activity_controlcenter">ガジェットブリッジ</string>
+    <string name="application_name_generic">ガジェットブリッジ</string>
+    <string name="title_activity_controlcenter_generic">ガジェットブリッジ</string>
     <string name="action_settings">設定</string>
     <string name="action_debug">デバッグ</string>
     <string name="action_quit">終了</string>
@@ -161,7 +161,7 @@
     <string name="tap_connected_device_for_vibration">バイブレーションの接続されたデバイスをタップ</string>
     <string name="tap_a_device_to_connect">接続するデバイスをタップ</string>
     <string name="cannot_connect_bt_address_invalid_">接続できません。 Bluetoothアドレスが無効ですか\?</string>
-    <string name="gadgetbridge_running">ガジェットブリッジは実行中</string>
+    <string name="gadgetbridge_running_generic">ガジェットブリッジは実行中</string>
     <string name="installing_binary_d_d">バイナリーのインストール中 %1$d/%2$d</string>
     <string name="installation_failed_">インストールに失敗しました</string>
     <string name="installation_successful">インストールに成功しました</string>
@@ -708,7 +708,7 @@
     <string name="distanceMeters">距離</string>
     <string name="device_requires_key">キーが必要です</string>
     <string name="about_contributors">貢献者</string>
-    <string name="about_activity_title">Gadgetbridgeについて</string>
+    <string name="about_activity_title_generic">Gadgetbridgeについて</string>
     <string name="about_title">について</string>
     <string name="hr_widget_last_notification">最終通知</string>
     <string name="hr_appname_commute">通勤</string>

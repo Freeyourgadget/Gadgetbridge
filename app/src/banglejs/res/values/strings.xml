@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
-    <string name="app_name">Bangle.js Gadgetbridge</string>
-    <string name="title_activity_controlcenter">Bangle.js Gadgetbridge</string>
-    <string name="about_activity_title">About Bangle.js Gadgetbridge</string>
-    <string name="about_description">Android companion app for Bangle.js built on top of the Gadgetbridge project, with added Internet Access.</string>
-    <string name="gadgetbridge_running">Bangle.js running</string>
-</resources>

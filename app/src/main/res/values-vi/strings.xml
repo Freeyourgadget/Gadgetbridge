@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Gadgetbridge</string>
-    <string name="title_activity_controlcenter">Gadgetbridge</string>
+    <string name="application_name_generic">Gadgetbridge</string>
+    <string name="title_activity_controlcenter_generic">Gadgetbridge</string>
     <string name="action_settings">Cài đặt</string>
     <string name="action_debug">Dò lỗi</string>
     <string name="action_quit">Thoát</string>
@@ -49,7 +49,7 @@
     <string name="bluetooth_is_not_supported_">Không hỗ trợ Bluetooth.</string>
     <string name="bluetooth_is_disabled_">Đã tắt Bluetooth.</string>
     <string name="cannot_connect_bt_address_invalid_">Không thể kết nối. Địa chỉ Bluetooth không hợp lệ\?</string>
-    <string name="gadgetbridge_running">Gadgetbridge đang chạy</string>
+    <string name="gadgetbridge_running_generic">Gadgetbridge đang chạy</string>
     <string name="installing_binary_d_d">Đang cài tệp nhị phân %1$d/%2$d</string>
     <string name="installation_failed_">Cài đặt thất bại</string>
     <string name="installation_successful">Đã cài đặt</string>

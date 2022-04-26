@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Gadgetbridge</string>
-    <string name="title_activity_controlcenter">Gadgetbridge</string>
+    <string name="application_name_generic">Gadgetbridge</string>
+    <string name="title_activity_controlcenter_generic">Gadgetbridge</string>
     <string name="action_settings">Configuración</string>
     <string name="action_debug">Depuración</string>
     <string name="action_quit">Salir</string>
@@ -161,7 +161,7 @@
     <string name="tap_connected_device_for_vibration">Toque el dispositivo conectado para la vibración</string>
     <string name="tap_a_device_to_connect">Toca un dispositivo para conectarlo</string>
     <string name="cannot_connect_bt_address_invalid_">No se puede conectar. ¿Dirección BT incorrecta?</string>
-    <string name="gadgetbridge_running">Gadgetbridge funcionando</string>
+    <string name="gadgetbridge_running_generic">Gadgetbridge funcionando</string>
     <string name="installing_binary_d_d">Instalando binario %1$d/%2$d</string>
     <string name="installation_failed_">Instalación fallida</string>
     <string name="installation_successful">Instalado</string>
@@ -1093,8 +1093,8 @@
     <string name="about_additional_device_support">Soporte de dispositivos adicionales</string>
     <string name="about_contributors">Colaboradores</string>
     <string name="about_core_team_title">Equipo principal (por orden de primera contribución de código)</string>
-    <string name="about_description">Sustitución sin nube y con copyleft de las aplicaciones de código cerrado para Android de los proveedores.</string>
-    <string name="about_activity_title">Acerca de Gadgetbridge</string>
+    <string name="about_description_generic">Sustitución sin nube y con copyleft de las aplicaciones de código cerrado para Android de los proveedores.</string>
+    <string name="about_activity_title_generic">Acerca de Gadgetbridge</string>
     <string name="about_version">Versión %s</string>
     <string name="about_title">Acerca de</string>
     <string name="hr_widget_last_notification">Última notificación</string>

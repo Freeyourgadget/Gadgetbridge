@@ -88,7 +88,7 @@
 \nSürüm %2$s, %3$s tarafından
 \n</string>
     <string name="app_move_to_top">Yukarı taşı</string>
-    <string name="app_name">Gadgetbridge</string>
+    <string name="application_name_generic">Gadgetbridge</string>
     <string name="appinstaller_install">Kur</string>
     <string name="appmanager_app_openinstore">Pebble uygulama mağazasında ara</string>
     <string name="appmanager_cached_watchapps_watchfaces">Önbellekteki uygulamalar</string>
@@ -314,7 +314,7 @@
     <string name="fwapp_install_device_not_ready">Dosya kurulamıyor, aygıt hazır değil.</string>
     <string name="fwappinstaller_connection_state">Aygıta bağlantı: %1$s</string>
     <string name="fwinstaller_firmware_not_compatible_to_device">Bu ürün yazılımı bu aygıtla uyumlu değil</string>
-    <string name="gadgetbridge_running">Gadgetbridge çalışıyor</string>
+    <string name="gadgetbridge_running_generic">Gadgetbridge çalışıyor</string>
     <string name="german">Almanca</string>
     <string name="heart_rate">Kalp ritmi</string>
     <string name="horizontal">Yatay</string>
@@ -754,7 +754,7 @@
     <string name="title_activity_appmanager">Uygulama Yöneticisi</string>
     <string name="title_activity_calblacklist">Kara Listeye Alınan Takvimler</string>
     <string name="title_activity_charts">Etkinlik ve Uyku</string>
-    <string name="title_activity_controlcenter">Gadgetbridge</string>
+    <string name="title_activity_controlcenter_generic">Gadgetbridge</string>
     <string name="title_activity_db_management">Veri yönetimi</string>
     <string name="title_activity_debug">Hata Ayıklama</string>
     <string name="title_activity_device_specific_settings">Aygıta özel ayarlar</string>
@@ -937,8 +937,8 @@
     <string name="about_additional_device_support">Ek aygıt desteği</string>
     <string name="about_contributors">Katkıda bulunanlar</string>
     <string name="about_core_team_title">Çekirdek Ekip (ilk kod katkıda bulunma sırasına göre)</string>
-    <string name="about_description">Satıcıların kapalı kaynaklı Android aygıt uygulamalarının yerine bulut gerektirmeyen copyleft özgür alternatif.</string>
-    <string name="about_activity_title">Gadgetbridge hakkında</string>
+    <string name="about_description_generic">Satıcıların kapalı kaynaklı Android aygıt uygulamalarının yerine bulut gerektirmeyen copyleft özgür alternatif.</string>
+    <string name="about_activity_title_generic">Gadgetbridge hakkında</string>
     <string name="about_title">Hakkında</string>
     <string name="pref_title_weather_summary">LineageOS hava durumu sağlayıcısı için kullanılır, diğer Android sürümleri \"Weather notification\" gibi bir uygulama kullanmalıdır. Gadgetbridge wiki sayfasında daha fazla bilgi bulabilirsiniz.</string>
     <string name="menuitem_worldclock">Dünya Saati</string>

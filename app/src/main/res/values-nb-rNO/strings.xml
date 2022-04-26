@@ -39,8 +39,8 @@
     <string name="title_activity_calblacklist">Svartelistede kalendere</string>
     <string name="title_activity_fw_app_insaller">Fastvare-/program-installerer</string>
     <string name="fw_upgrade_notice">Du er i ferd med å installere %s.</string>
-    <string name="app_name">Gadgetbru</string>
-    <string name="title_activity_controlcenter">Gadgetbru</string>
+    <string name="application_name_generic">Gadgetbru</string>
+    <string name="title_activity_controlcenter_generic">Gadgetbru</string>
     <string name="controlcenter_delete_device_dialogmessage">Dette vil slette enheten og all tilknyttet data!</string>
     <string name="fw_upgrade_notice_amazfitbip">Du er i ferd med å installere %s-fastvaren på din Amazfit Bip.
 \n
@@ -165,7 +165,7 @@
     <string name="tap_connected_device_for_vibration">Trykk på tilkoblet enhet for vibrasjon</string>
     <string name="tap_a_device_to_connect">Trykk på en enhet for å koble til</string>
     <string name="cannot_connect_bt_address_invalid_">Kan ikke koble til. Ugyldig Blåtannsadresse?</string>
-    <string name="gadgetbridge_running">Gadgetbro kjører</string>
+    <string name="gadgetbridge_running_generic">Gadgetbro kjører</string>
     <string name="installing_binary_d_d">Installerer binærfil %1$d/%2$d</string>
     <string name="installation_failed_">Installasjon mislyktes</string>
     <string name="installation_successful">Installert</string>
@@ -902,7 +902,7 @@
     <string name="error_background_service">Klarte ikke å starte bakgrunnstjeneste</string>
     <string name="about_additional_device_support">Ytterligere enhetsstøtte</string>
     <string name="about_contributors">Bidragsytere</string>
-    <string name="about_activity_title">Om Gadgetbridge</string>
+    <string name="about_activity_title_generic">Om Gadgetbridge</string>
     <string name="about_title">Om</string>
     <string name="menuitem_worldclock">Verdensklokke</string>
     <string name="menuitem_stress">Stress</string>
@@ -1034,7 +1034,7 @@
     <string name="sonyswr12_settings_low_vibration_summary">Aktiver lav vibrasjonsintensitet på båndet</string>
     <string name="sonyswr12_settings_stamina_summary">Strømsparingsmodus slår av periodisk automatisk måling av hjertefrekvensen og øker dermed arbeidstiden</string>
     <string name="sonyswr12_settings_alarm_interval_summary">Smart alarmintervall er intervall før installert alarm. I dette intervallet prøver enheten å oppdage den letteste søvnfasen for å våkne brukeren</string>
-    <string name="about_description">Skyfri, gemenhetslig fri erstatning for den lukkede motsatsen for dine Android-slaveenheter.</string>
+    <string name="about_description_generic">Skyfri, gemenhetslig fri erstatning for den lukkede motsatsen for dine Android-slaveenheter.</string>
     <string name="pref_check_permission_status_summary">Sjekk og forespør tilganger selv om de ikke trengs umiddelbart. Skru av dette kun hvis enhetene dine ikke støtter noen av disse funksjonene. Å ikke innvilge tilganger kan forårsake problemer!</string>
     <string name="companiondevice_pairing_details">Skrur på slaveenhets-API (funker kun på Android 8 og høyere, og tilknytningen må settes opp på ny med Gadgetbro), noe som øker påliteligheten hvis tjenester må startes på ny i bakgrunnen</string>
     <string name="error_version_check_extreme_caution">Advarsel: Kunne ikke sjekke versjonsinfo! Du bør ikke fortsette og versjonsnavnet «%s» ble sett.</string>

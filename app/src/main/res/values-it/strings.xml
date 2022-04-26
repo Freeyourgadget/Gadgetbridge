@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Gadgetbridge</string>
-    <string name="title_activity_controlcenter">Gadgetbridge</string>
+    <string name="application_name_generic">Gadgetbridge</string>
+    <string name="title_activity_controlcenter_generic">Gadgetbridge</string>
     <string name="action_settings">Impostazioni</string>
     <string name="action_debug">Debug</string>
     <string name="action_quit">Esci</string>
@@ -158,7 +158,7 @@
     <string name="tap_connected_device_for_vibration">Tocca il dispositivo connesso per la vibrazione</string>
     <string name="tap_a_device_to_connect">tocca il dispositivo a cui connettersi</string>
     <string name="cannot_connect_bt_address_invalid_">Impossibile connettersi. Indirizzo Bluetooth non valido?</string>
-    <string name="gadgetbridge_running">Gadgetbridge in esecuzione</string>
+    <string name="gadgetbridge_running_generic">Gadgetbridge in esecuzione</string>
     <string name="installing_binary_d_d">Installazione del binario %1$d/%2$d</string>
     <string name="installation_failed_">Installazione fallita</string>
     <string name="installation_successful">Installazione conclusa con successo</string>
@@ -884,8 +884,8 @@
     <string name="about_additional_device_support">Supporto a dispositivi aggiuntivi</string>
     <string name="about_contributors">Contributori</string>
     <string name="about_core_team_title">Team principale (ordinati in base al primo contributo di codice)</string>
-    <string name="about_description">Un\'alternativa gratuita, libera e senza cloud alle applicazioni Android a sorgente chiusa del tuo dispositivo.</string>
-    <string name="about_activity_title">Su Gadgetbridge</string>
+    <string name="about_description_generic">Un\'alternativa gratuita, libera e senza cloud alle applicazioni Android a sorgente chiusa del tuo dispositivo.</string>
+    <string name="about_activity_title_generic">Su Gadgetbridge</string>
     <string name="about_title">Informazioni</string>
     <string name="hr_widget_last_notification">Ultima notifica</string>
     <string name="pref_qhybrid_save_raw_activity_files">Salva i dati raw (grezzi) delle attività</string>

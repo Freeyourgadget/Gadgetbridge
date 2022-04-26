@@ -143,7 +143,7 @@ Translations can be contributed via https://hosted.weblate.org/projects/freeyour
 ## Community
 
 If you would like to get in touch with other Gadgetbridge users and developers outside of Codeberg, you can do so via:
-* Matrix: `#gadgetbridge:matrix.org` ([web access via Element.io](https://app.element.io/#/room/#gadgetbridge:matrix.org))
+* Matrix: [`#gadgetbridge:matrix.org`](https://matrix.to/#/#gadgetbridge:matrix.org)
 
 ## Do you have further questions or feedback?
 

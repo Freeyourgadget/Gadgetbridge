@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Gadgetbridge</string>
-    <string name="title_activity_controlcenter">Gadgetbridge</string>
+    <string name="application_name_generic">Gadgetbridge</string>
+    <string name="title_activity_controlcenter_generic">Gadgetbridge</string>
     <string name="action_settings">设置</string>
     <string name="action_debug">调试</string>
     <string name="action_quit">退出</string>
@@ -166,7 +166,7 @@
     <string name="tap_connected_device_for_vibration">点按以震动已连接的设备</string>
     <string name="tap_a_device_to_connect">点按一个设备以连接</string>
     <string name="cannot_connect_bt_address_invalid_">无法连接。 蓝牙地址无效？</string>
-    <string name="gadgetbridge_running">Gadgetbridge 正在运行</string>
+    <string name="gadgetbridge_running_generic">Gadgetbridge 正在运行</string>
     <string name="installing_binary_d_d">正在安装二进制文件 %1$d/%2$d</string>
     <string name="installation_failed_">安装失败</string>
     <string name="installation_successful">安装成功</string>
@@ -917,8 +917,8 @@
     <string name="about_additional_device_support">额外设备支持</string>
     <string name="about_contributors">贡献者</string>
     <string name="about_core_team_title">核心成员 （以第一次提交代码排序）</string>
-    <string name="about_description">用于替代原厂手环应用的脱机无版权自由应用。</string>
-    <string name="about_activity_title">关于 Gadgetbridge</string>
+    <string name="about_description_generic">用于替代原厂手环应用的脱机无版权自由应用。</string>
+    <string name="about_activity_title_generic">关于 Gadgetbridge</string>
     <string name="about_title">关于</string>
     <string name="pref_title_weather_summary">由LineageOS天气服务提供，其他版本的Android系统需要使用诸如“Weather notification”。更多信息请访问 Gadgetbridge 的Wiki。</string>
     <string name="menuitem_worldclock">世界时钟</string>
