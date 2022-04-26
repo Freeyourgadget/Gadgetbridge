@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">가젯브릿지</string>
-    <string name="title_activity_controlcenter">가젯브릿지</string>
+    <string name="application_name_generic">가젯브릿지</string>
+    <string name="title_activity_controlcenter_generic">가젯브릿지</string>
     <string name="action_settings">설정</string>
     <string name="action_debug">디버그</string>
     <string name="action_quit">종료</string>
@@ -77,7 +77,7 @@
     <string name="tap_connected_device_for_app_mananger">연결된 기기를 선택해 앱 관리자 실행</string>
     <string name="tap_a_device_to_connect">기기를 선택해 연결</string>
     <string name="cannot_connect_bt_address_invalid_">연결할 수 없습니다. 블루투스 주소가 올바르지 않은 것 같습니다\?</string>
-    <string name="gadgetbridge_running">가젯브릿지 실행중</string>
+    <string name="gadgetbridge_running_generic">가젯브릿지 실행중</string>
     <string name="installing_binary_d_d">바이너리 설치중: %1$d/%2$d</string>
     <string name="installation_failed_">설치 실패</string>
     <string name="installation_successful">설치됨</string>

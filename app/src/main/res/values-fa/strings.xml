@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">گجت‌بریج</string>
-    <string name="title_activity_controlcenter">گجت‌بریج</string>
+    <string name="application_name_generic">گجت‌بریج</string>
+    <string name="title_activity_controlcenter_generic">گجت‌بریج</string>
     <string name="action_settings">تنظیمات</string>
     <string name="action_debug">اشکال‌زدایی</string>
     <string name="action_quit">خروج</string>

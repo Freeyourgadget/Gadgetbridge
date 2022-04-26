@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Gadgetbridge</string>
-    <string name="title_activity_controlcenter">Gadgetbridge</string>
+    <string name="application_name_generic">Gadgetbridge</string>
+    <string name="title_activity_controlcenter_generic">Gadgetbridge</string>
     <string name="action_settings">Ustawienia</string>
     <string name="action_debug">Debuguj</string>
     <string name="action_quit">Wyjdź</string>
@@ -108,7 +108,7 @@
     <string name="tap_connected_device_for_app_mananger">Kliknij połączone urządzenie, aby uruchomić menadżer aplikacji</string>
     <string name="tap_a_device_to_connect">Dotknij urządzenie aby połączyć</string>
     <string name="cannot_connect_bt_address_invalid_">Nie można połączyć. Nieprawidłowy adres Bluetooth\?</string>
-    <string name="gadgetbridge_running">Gadgetbridge działa</string>
+    <string name="gadgetbridge_running_generic">Gadgetbridge działa</string>
     <string name="installing_binary_d_d">Instalowanie binarki %1$d/%2$d</string>
     <string name="installation_failed_">Instalacja nie powiodła się</string>
     <string name="installation_successful">Zainstalowano</string>
@@ -913,7 +913,7 @@
     <string name="hr_widget_last_notification">Ostatnie powiadomienie</string>
     <string name="controlcenter_set_alias">Ustaw własną nazwę</string>
     <string name="about_contributors">Współtwórcy</string>
-    <string name="about_activity_title">O Gadgetbridge</string>
+    <string name="about_activity_title_generic">O Gadgetbridge</string>
     <string name="devicetype_amazfit_trex">Amazfit T-Rex</string>
     <string name="backstroke">Styl grzbietowy</string>
     <string name="freestyle">Styl dowolny</string>
@@ -1031,7 +1031,7 @@
     <string name="about_links">Linki</string>
     <string name="about_additional_contributions">Dziękujemy wszystkim nie notowanym na liście współtwórcom za udostępnienie kodu, tłumaczenia, wsparcie, pomysły, motywację, zgłoszenia błędów, pieniądze… ✊</string>
     <string name="about_core_team_title">Zespół główny (w kolejności od pierwszego wkładu w kod aplikacji)</string>
-    <string name="about_description">Wolny od chmury zamiennik dla aplikacji o zamkniętym kodzie źródłowym dostarczanych przez producentów gadżetów dla systemu Android.</string>
+    <string name="about_description_generic">Wolny od chmury zamiennik dla aplikacji o zamkniętym kodzie źródłowym dostarczanych przez producentów gadżetów dla systemu Android.</string>
     <string name="activity_summary_edit_name_title">Edytuj etykietę</string>
     <string name="activity_type_pingpong">Ping-pong</string>
     <string name="activity_type_cricket">Krykiet</string>

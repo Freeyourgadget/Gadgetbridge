@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Gadgetbridge</string>
-    <string name="title_activity_controlcenter">Gadgetbridge</string>
+    <string name="application_name_generic">Gadgetbridge</string>
+    <string name="title_activity_controlcenter_generic">Gadgetbridge</string>
     <string name="action_settings">Налаштування</string>
     <string name="action_debug">Зневадження</string>
     <string name="action_quit">Вийти</string>
@@ -98,7 +98,7 @@
     <string name="bluetooth_is_not_supported_">Bluetooth не підтримується.</string>
     <string name="bluetooth_is_disabled_">Bluetooth вимкнуто.</string>
     <string name="cannot_connect_bt_address_invalid_">Не вдалося з\'єднатися. Неправильна Bluetooth адреса\?</string>
-    <string name="gadgetbridge_running">Gadgetbridge запущено</string>
+    <string name="gadgetbridge_running_generic">Gadgetbridge запущено</string>
     <string name="installing_binary_d_d">Встановлення двійкового файлу %1$d/%2$d</string>
     <string name="installation_failed_">Невдале встановлення</string>
     <string name="installation_successful">Встановлено</string>
@@ -1022,8 +1022,8 @@
     <string name="about_additional_device_support">Підтримка додаткових пристроїв</string>
     <string name="about_contributors">Співавтори</string>
     <string name="about_core_team_title">Основна команда (впорядковано за датою допомоги)</string>
-    <string name="about_description">Незалежний від хмари, вільний замінник закритих застосунків від інших виробників.</string>
-    <string name="about_activity_title">Про Gadgetbridge</string>
+    <string name="about_description_generic">Незалежний від хмари, вільний замінник закритих застосунків від інших виробників.</string>
+    <string name="about_activity_title_generic">Про Gadgetbridge</string>
     <string name="about_title">Про застосунок</string>
     <string name="hr_widget_last_notification">Останнє сповіщення</string>
     <string name="menuitem_worldclock">Світовий час</string>

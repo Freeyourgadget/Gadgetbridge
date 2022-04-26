@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Gadgetbridge</string>
+    <string name="application_name_generic">Gadgetbridge</string>
     <string name="male">Muško</string>
     <string name="female">Žensko</string>
     <string name="other">Ostalo</string>
@@ -28,7 +28,7 @@
     <string name="controlcenter_set_alias">Postavi pseudonim</string>
     <string name="action_quit">Izlaz</string>
     <string name="action_debug">Debug</string>
-    <string name="title_activity_controlcenter">Gadgetbridge</string>
+    <string name="title_activity_controlcenter_generic">Gadgetbridge</string>
     <string name="dbmanagementactivity_delete_old_activitydb_confirmation">Stvarno izbrisati staru bazu podataka aktivnosti\? Podaci aktivnosti koji nisu uvezeni će se izgubiti.</string>
     <string name="dbmanagementactivity_delete_old_activity_db">Izbrisati staru bazu podataka aktivnosti\?</string>
     <string name="dbmanagementactivity_database_successfully_deleted">Podaci izbrisani.</string>
@@ -1268,8 +1268,8 @@
     <string name="add_widget">Dodaj widget</string>
     <string name="appwidget_setting_alarm">Postavljanje alarma za %1$02d:%2$02d</string>
     <string name="about_version">Verzija %s</string>
-    <string name="about_activity_title">O Gadgetbridge</string>
-    <string name="about_description">Zamjena za libre bez oblaka bez kopiranja za zatvorene aplikacije za Android gadgete od dobavljača.</string>
+    <string name="about_activity_title_generic">O Gadgetbridge</string>
+    <string name="about_description_generic">Zamjena za libre bez oblaka bez kopiranja za zatvorene aplikacije za Android gadgete od dobavljača.</string>
     <string name="about_core_team_title">Osnovni tim (po redoslijedu doprinosa prvog koda)</string>
     <string name="qhybrid_title_watchface">Konfiguracija izgleda sata</string>
     <string name="button_watchface_select_image">Promjena pozadinske slike</string>
@@ -1358,7 +1358,7 @@
 \n
 \n
 \n Ovaj firmware je za HW reviziju: %s</string>
-    <string name="gadgetbridge_running">Gadgetbridge je pokrenut</string>
+    <string name="gadgetbridge_running_generic">Gadgetbridge je pokrenut</string>
     <string name="tap_a_device_to_connect">Dodirnite uređaj za povezivanje</string>
     <string name="test">Test</string>
     <string name="not_connected">Nije povezano</string>

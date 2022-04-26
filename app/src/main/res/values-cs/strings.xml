@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Gadgetbridge</string>
-    <string name="title_activity_controlcenter">Gadgetbridge</string>
+    <string name="application_name_generic">Gadgetbridge</string>
+    <string name="title_activity_controlcenter_generic">Gadgetbridge</string>
     <string name="action_settings">Nastavení</string>
     <string name="action_debug">Ladění</string>
     <string name="action_quit">Ukončit</string>
@@ -154,7 +154,7 @@
     <string name="tap_connected_device_for_vibration">Dotkněte se zařízení pro vibrace</string>
     <string name="tap_a_device_to_connect">Dotkněte se zařízení pro připojení</string>
     <string name="cannot_connect_bt_address_invalid_">Nelze připojit. Je BT adresa v pořádku?</string>
-    <string name="gadgetbridge_running">Gadgetbridge běží</string>
+    <string name="gadgetbridge_running_generic">Gadgetbridge běží</string>
     <string name="installing_binary_d_d">Instaluji soubor %1$d/%2$d</string>
     <string name="installation_failed_">Instalace selhala</string>
     <string name="installation_successful">Instalace úspěšná</string>
@@ -915,8 +915,8 @@
     <string name="about_additional_device_support">Podpora dalších zařízení</string>
     <string name="about_contributors">Přispěvatelé</string>
     <string name="about_core_team_title">Centrální tým (v pořadí příspěvku prvního kódu)</string>
-    <string name="about_description">Svobodná a lokální náhrada za uzavřenou aplikaci vašich hodinek/náramku.</string>
-    <string name="about_activity_title">O aplikaci Gadgetbridge</string>
+    <string name="about_description_generic">Svobodná a lokální náhrada za uzavřenou aplikaci vašich hodinek/náramku.</string>
+    <string name="about_activity_title_generic">O aplikaci Gadgetbridge</string>
     <string name="about_title">O aplikaci</string>
     <string name="menuitem_worldclock">Světový Čas</string>
     <string name="pref_title_weather_summary">Použito s poskytovatelem počasí LineageOS. Ostatní verze Androidu vyžadují \"Weather Notification\" app. Více informací naleznete na Gadgetbridge wiki.</string>

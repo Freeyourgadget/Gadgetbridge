@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Gadgetbridge</string>
-    <string name="title_activity_controlcenter">Gadgetbridge</string>
+    <string name="application_name_generic">Gadgetbridge</string>
+    <string name="title_activity_controlcenter_generic">Gadgetbridge</string>
     <string name="action_settings">Instellingen</string>
     <string name="action_debug">Debug</string>
     <string name="action_quit">Sluit af</string>
@@ -185,7 +185,7 @@
     <string name="tap_connected_device_for_vibration">Tap op het verbonden apparaat voor vibratie</string>
     <string name="tap_a_device_to_connect">Tap op een apparaat om te verbinden</string>
     <string name="cannot_connect_bt_address_invalid_">Kan niet verbinden. Is het Bluetooth adres ongeldig?</string>
-    <string name="gadgetbridge_running">Gadgetbridge loopt</string>
+    <string name="gadgetbridge_running_generic">Gadgetbridge loopt</string>
     <string name="installing_binary_d_d">Binary installeren %1$d/%2$d</string>
     <string name="installation_failed_">Installatie gefaald</string>
     <string name="installation_successful">Geïnstalleerd</string>
@@ -914,8 +914,8 @@
     <string name="about_additional_device_support">Extra apparaatondersteuning</string>
     <string name="about_contributors">Bijdragers</string>
     <string name="about_core_team_title">Kernteam (in volgorde van eerste codebijdrage)</string>
-    <string name="about_description">Cloudloze vrije vervanging voor de gesloten Android-applicaties van gadgetfabrikanten.</string>
-    <string name="about_activity_title">Over Gadgetbridge</string>
+    <string name="about_description_generic">Cloudloze vrije vervanging voor de gesloten Android-applicaties van gadgetfabrikanten.</string>
+    <string name="about_activity_title_generic">Over Gadgetbridge</string>
     <string name="about_title">Over</string>
     <string name="pref_title_weather_summary">Gebruikt voor de LineageOS-weeraanbieder, andere Android versies moeten een app zoals \"Weather notification\" gebruiken. Meer informatie is te vinden in de Gadgetbridge wiki.</string>
     <string name="menuitem_worldclock">Wereld Klok</string>
