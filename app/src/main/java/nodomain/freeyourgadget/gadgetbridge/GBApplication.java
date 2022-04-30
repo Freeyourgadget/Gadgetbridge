@@ -380,6 +380,9 @@ public class GBApplication extends Application {
         return VERSION.SDK_INT >= Build.VERSION_CODES.Q;
     }
 
+    public static boolean isRunningTwelveOrLater() {
+        return VERSION.SDK_INT >= 31;  // Build.VERSION_CODES.S, but our target SDK is lower
+    }
 
     public static boolean isRunningPieOrLater() {
         return VERSION.SDK_INT >= Build.VERSION_CODES.P;
