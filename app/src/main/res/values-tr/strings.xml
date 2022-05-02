@@ -1611,4 +1611,24 @@
     <string name="watchface_dialog_pre_setting_position">konumu %s olarak ön ayarlama</string>
     <string name="watchface_setting_light_up_on_notification">Yeni bildirimde ışığı aç</string>
     <string name="menuitem_email">E-posta</string>
+    <string name="gadgetbridge_running_banglejs_main">Bangle.js çalışıyor</string>
+    <string name="application_name_banglejs_nopebble">Bangle.js Gadgetbridge</string>
+    <string name="title_activity_controlcenter_banglejs_nopebble">Bangle.js Gadgetbridge</string>
+    <string name="about_activity_title_banglejs_nopebble">Bangle.js Gadgetbridge Hakkında</string>
+    <string name="about_activity_title_main_nightly">Gadgetbridge Gecelik Hakkında</string>
+    <string name="about_description_main_nightly">Satıcıların kapalı kaynaklı Android aygıt uygulamalarının yerine bulut gerektirmeyen copyleft özgür alternatif. Gadgetbridge gecelik sürümleri. Pebble sağlayıcısındaki bir çakışma nedeniyle Gadgetbridge veya Pebble uygulaması zaten kuruluysa bu kurulamaz.</string>
+    <string name="gadgetbridge_running_main_nightly">Gecelik GB çalışıyor</string>
+    <string name="title_activity_controlcenter_main_nopebble">Gadgetbridge Gecelik Pebble Yok</string>
+    <string name="about_activity_title_main_nopebble">Gadgetbridge Gecelik Pebble Yok Hakkında</string>
+    <string name="gadgetbridge_running_main_nopebble">Gecelik PebbleYok GB çalışıyor</string>
+    <string name="title_activity_controlcenter_banglejs_main">Bangle.js Gadgetbridge</string>
+    <string name="about_activity_title_banglejs_main">Bangle.js Gadgetbridge Hakkında</string>
+    <string name="about_description_banglejs_main">İnternet erişimi eklenen Gadgetbridge projesinin üzerine inşa edilmiş Bangle.js için Android yardımcı uygulaması.</string>
+    <string name="title_activity_controlcenter_main_nightly">Gadgetbridge Gecelik</string>
+    <string name="application_name_main_nopebble">Gadgetbridge (Gecelik, Pebble sağlayıcısı yok)</string>
+    <string name="application_name_banglejs_main">Bangle.js Gadgetbridge</string>
+    <string name="about_description_main_nopebble">Satıcıların kapalı kaynaklı Android aygıt uygulamalarının yerine bulut gerektirmeyen copyleft özgür alternatif. Gadgetbridge gecelik sürümleri. Bu sürümde, çakışmaları önlemek için Pebble sağlayıcısının adı değiştirilmiştir, bu nedenle Pebble ile ilgili bazı bütünleşmeler çalışmayacaktır, ancak mevcut bir Gadgetbridge kurulumunun yanına kurulabilir.</string>
+    <string name="about_description_banglejs_nopebble">İnternet erişimi eklenen Gadgetbridge projesinin üzerine inşa edilmiş Bangle.js için Android yardımcı uygulaması.</string>
+    <string name="gadgetbridge_running_banglejs_nopebble">Bangle.js çalışıyor</string>
+    <string name="application_name_main_nightly">Gadgetbridge (Gecelik)</string>
 </resources>
