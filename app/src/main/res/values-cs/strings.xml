@@ -1596,4 +1596,17 @@
     <string name="activity_db_management_autoexport_enabled_no">AutoExport není aktivní.</string>
     <string name="activity_db_management_autoexport_scheduled_no">AutoExport zatím nebyl naplánován.</string>
     <string name="menuitem_email">E-mail</string>
+    <string name="gadgetbridge_running_banglejs_main">Bangle.js běží</string>
+    <string name="application_name_banglejs_nopebble">Bangle.js Gadgetbridge</string>
+    <string name="about_description_banglejs_nopebble">Doprovodná aplikace pro Bangle.js pro Android vytvořená na základě projektu Gadgetbridge s přidaným přístupem k internetu.</string>
+    <string name="title_activity_controlcenter_main_nightly">Gadgetbridge Nightly</string>
+    <string name="title_activity_controlcenter_banglejs_main">Bangle.js Gadgetbridge</string>
+    <string name="about_activity_title_banglejs_nopebble">O Bangle.js Gadgetbridge</string>
+    <string name="application_name_banglejs_main">Bangle.js Gadgetbridge</string>
+    <string name="about_activity_title_banglejs_main">O Bangle.js Gadgetbridge</string>
+    <string name="about_description_banglejs_main">Doprovodná aplikace pro Bangle.js pro Android vytvořená na základě projektu Gadgetbridge s přidaným přístupem k internetu.</string>
+    <string name="application_name_main_nightly">Gadgetbridge (Nightly)</string>
+    <string name="title_activity_controlcenter_banglejs_nopebble">Bangle.js Gadgetbridge</string>
+    <string name="gadgetbridge_running_banglejs_nopebble">Bangle.js běží</string>
+    <string name="about_activity_title_main_nightly">O Gadgetbridge Nightly</string>
 </resources>
