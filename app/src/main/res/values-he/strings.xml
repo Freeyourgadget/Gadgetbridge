@@ -1594,4 +1594,17 @@
     <string name="watchface_dialog_pre_setting_position">המיקום מוגדר מראש לכדי %s</string>
     <string name="watchface_setting_light_up_on_notification">הארה עם התראות חדשות</string>
     <string name="menuitem_email">דוא״ל</string>
+    <string name="application_name_banglejs_main">Bangle.js Gadgetbridge</string>
+    <string name="title_activity_controlcenter_main_nightly">גרסה נסיונית של Gadgetbridge</string>
+    <string name="about_activity_title_main_nightly">על הגרסה הנסיונית של Gadgetbridge</string>
+    <string name="gadgetbridge_running_banglejs_nopebble">Bangle.js פעיל</string>
+    <string name="title_activity_controlcenter_banglejs_main">Bangle.js Gadgetbridge</string>
+    <string name="about_activity_title_banglejs_main">על Bangle.js Gadgetbridge</string>
+    <string name="title_activity_controlcenter_banglejs_nopebble">Bangle.js Gadgetbridge</string>
+    <string name="about_activity_title_banglejs_nopebble">על Bangle.js Gadgetbridge</string>
+    <string name="about_description_banglejs_nopebble">יישומון Android מלווה ל־Bangle.js שנבנה על גבי מיזם Gadgetbridge עם תוספת של גישה לאינטרנט.</string>
+    <string name="about_description_banglejs_main">יישומון Android מלווה ל־Bangle.js שנבנה על גבי מיזם Gadgetbridge עם תוספת של גישה לאינטרנט.</string>
+    <string name="application_name_main_nightly">Gadgetbridge (גרסה ניסיונית)</string>
+    <string name="application_name_banglejs_nopebble">Bangle.js Gadgetbridge</string>
+    <string name="gadgetbridge_running_banglejs_main">Bangle.js פעיל</string>
 </resources>
