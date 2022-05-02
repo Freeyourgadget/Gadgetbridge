@@ -1609,4 +1609,12 @@
     <string name="title_activity_controlcenter_banglejs_nopebble">Bangle.js Gadgetbridge</string>
     <string name="gadgetbridge_running_banglejs_nopebble">Bangle.js běží</string>
     <string name="about_activity_title_main_nightly">O Gadgetbridge Nightly</string>
+    <string name="gadgetbridge_running_main_nightly">Noční GB běží</string>
+    <string name="application_name_main_nopebble">Gadgetbridge (Noční vydání, Bez poskytovatele služeb Pebble)</string>
+    <string name="about_activity_title_main_nopebble">O Aplikaci Gadgetbridge Noční, bez Pebble</string>
+    <string name="watchface_setting_light_up_on_notification">Rozsvítit display při notifikaci</string>
+    <string name="about_description_main_nightly">Svobodná a lokální náhrada za uzavřenou aplikaci vašich hodinek/náramku. Noční vydání Gadgetbridge. Tato verze nelze nainstalovat, máte-li již nainstalovánu jinou verzi Gadgetbridge nebo Pebble aplikace, z důvodu konfliktu v poskytovali služeb Pebble.</string>
+    <string name="title_activity_controlcenter_main_nopebble">Gadgetbridge Noční, Bez Pebble</string>
+    <string name="about_description_main_nopebble">Svobodná a lokální náhrada za uzavřenou aplikaci vašich hodinek/náramku. Noční vydání Gadgetbridge. Tato verze má přejmenovanou službu poskytovatele Pebble pro eliminaci konfliktů poskytovatelů. Některé Pebble integrace nebudou fungovat, ale tuto verzi je možno nainstalovat paralelně k již nainstalované jiné verzi Gadgetbridge.</string>
+    <string name="gadgetbridge_running_main_nopebble">Noční NoPebble GB běží</string>
 </resources>
