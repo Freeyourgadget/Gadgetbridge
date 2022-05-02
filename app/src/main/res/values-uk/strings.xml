@@ -1602,4 +1602,24 @@
     <string name="watchface_dialog_pre_setting_position">попереднє встановлення розташування на %s</string>
     <string name="watchface_setting_light_up_on_notification">Засвітлювати за нового сповіщення</string>
     <string name="menuitem_email">Е-пошта</string>
+    <string name="application_name_banglejs_main">Bangle.js Gadgetbridge</string>
+    <string name="about_description_banglejs_main">Засосунок-компаньйон Android для Bangle.js побудований на основі проєкту Gadgetbridge, з додаванням доступу до інтернету.</string>
+    <string name="gadgetbridge_running_banglejs_main">Bangle.js працює</string>
+    <string name="application_name_banglejs_nopebble">Bangle.js Gadgetbridge</string>
+    <string name="title_activity_controlcenter_banglejs_nopebble">Bangle.js Gadgetbridge</string>
+    <string name="gadgetbridge_running_banglejs_nopebble">Bangle.js працює</string>
+    <string name="application_name_main_nightly">Gadgetbridge (Nightly)</string>
+    <string name="about_activity_title_main_nightly">Про Gadgetbridge Nightly</string>
+    <string name="gadgetbridge_running_main_nightly">Nightly GB працює</string>
+    <string name="application_name_main_nopebble">Gadgetbridge (Nightly, без постачальника Pebble)</string>
+    <string name="title_activity_controlcenter_main_nopebble">Gadgetbridge Nightly без Pebble</string>
+    <string name="about_activity_title_main_nopebble">Про Gadgetbridge Nightly без Pebble</string>
+    <string name="gadgetbridge_running_main_nopebble">Nightly NoPebble GB працює</string>
+    <string name="about_activity_title_banglejs_nopebble">Про Bangle.js Gadgetbridge</string>
+    <string name="about_activity_title_banglejs_main">Про Bangle.js Gadgetbridge</string>
+    <string name="title_activity_controlcenter_banglejs_main">Bangle.js Gadgetbridge</string>
+    <string name="about_description_banglejs_nopebble">Засосунок-компаньйон Android для Bangle.js побудований на основі проєкту Gadgetbridge, з додаванням доступу до інтернету.</string>
+    <string name="title_activity_controlcenter_main_nightly">Gadgetbridge Nightly</string>
+    <string name="about_description_main_nightly">Безхмарна вільна з копілефт ліцензією заміна власницьких застосунків для пристроїв Android. Випуски Gadgetbridge Nightly. Його не можна встановити, якщо у вас уже встановлено застосунок Gadgetbridge або Pebble через конфлікт у постачальника Pebble.</string>
+    <string name="about_description_main_nopebble">Безхмарна вільна з копілефт ліцензією заміна власницьких застосунків для пристроїв Android. Випуски Gadgetbridge Nightly. У цій версії постачальник Pebble перейменований для запобігання конфліктів, тому деякі інтеграції, пов\'язані з Pebble, не працюватимуть, але його можна встановити разом із наявним установленим Gadgetbridge.</string>
 </resources>
