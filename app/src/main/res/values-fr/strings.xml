@@ -1598,4 +1598,7 @@ Temps de sommeil préféré en heures</string>
     <string name="watchface_dialog_pre_setting_position">pré-configuration de la position à %s</string>
     <string name="watchface_setting_light_up_on_notification">S\'allumer pour une nouvelle notification</string>
     <string name="menuitem_email">Email</string>
+    <string name="title_activity_controlcenter_banglejs_main">Bangle.js Gadgetbridge</string>
+    <string name="about_activity_title_banglejs_main">A propos de Bangle.js Gadgetbridge</string>
+    <string name="application_name_banglejs_main">Bangle.js Gadgetbridge</string>
 </resources>
