@@ -208,6 +208,14 @@ public class ServiceDeviceSupport implements DeviceSupport {
     }
 
     @Override
+    public void onSetPhoneVolume(float volume) {
+        if (checkBusy("set phone volume")) {
+            return;
+        }
+        delegate.onSetPhoneVolume(volume);
+    }
+
+    @Override
     public void onInstallApp(Uri uri) {
         if (checkBusy("install app")) {
             return;

@@ -375,6 +375,11 @@ public abstract class AbstractBTLEDeviceSupport extends AbstractDeviceSupport im
     }
 
     @Override
+    public void onSetPhoneVolume(final float volume) {
+
+    }
+
+    @Override
     public void onSetReminders(ArrayList<? extends Reminder> reminders) {
 
     }

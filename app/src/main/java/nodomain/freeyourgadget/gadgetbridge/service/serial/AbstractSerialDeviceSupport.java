@@ -159,6 +159,12 @@ public abstract class AbstractSerialDeviceSupport extends AbstractDeviceSupport 
     }
 
     @Override
+    public void onSetPhoneVolume(final float volume) {
+        byte[] bytes = gbDeviceProtocol.encodeVolume(volume);
+        sendToDevice(bytes);
+    }
+
+    @Override
     public void onAppInfoReq() {
         byte[] bytes = gbDeviceProtocol.encodeAppInfoReq();
         sendToDevice(bytes);

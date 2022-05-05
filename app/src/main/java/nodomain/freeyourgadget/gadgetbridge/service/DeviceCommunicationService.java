@@ -120,6 +120,7 @@ import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_SE
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_SET_FM_FREQUENCY;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_SET_HEARTRATE_MEASUREMENT_INTERVAL;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_SET_LED_COLOR;
+import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_SET_PHONE_VOLUME;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_SET_REMINDERS;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_SET_WORLD_CLOCKS;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_START;
@@ -174,6 +175,7 @@ import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_NOT
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_NOTIFICATION_SUBJECT;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_NOTIFICATION_TITLE;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_NOTIFICATION_TYPE;
+import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_PHONE_VOLUME;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_RECORDED_DATA_TYPES;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_REMINDERS;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_RESET_FLAGS;
@@ -532,6 +534,10 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
                 musicSpec.trackCount = intent.getIntExtra(EXTRA_MUSIC_TRACKCOUNT, 0);
                 musicSpec.trackNr = intent.getIntExtra(EXTRA_MUSIC_TRACKNR, 0);
                 mDeviceSupport.onSetMusicInfo(musicSpec);
+                break;
+            case ACTION_SET_PHONE_VOLUME:
+                float phoneVolume = intent.getFloatExtra(EXTRA_PHONE_VOLUME, 0);
+                mDeviceSupport.onSetPhoneVolume(phoneVolume);
                 break;
             case ACTION_SETMUSICSTATE:
                 MusicStateSpec stateSpec = new MusicStateSpec();

@@ -26,6 +26,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
+import android.media.AudioManager;
 import android.net.Uri;
 import android.widget.Toast;
 
@@ -1230,9 +1231,38 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
         }
     }
 
-
     private void sendMusicStateToDevice() {
         sendMusicStateToDevice(bufferMusicSpec, bufferMusicStateSpec);
+    }
+
+    @Override
+    public void onSetPhoneVolume(final float volume) {
+        if (characteristicChunked == null) {
+            return;
+        }
+
+        final byte[] volumeCommand = new byte[]{0x40, (byte) Math.round(volume)};
+
+        try {
+            final TransactionBuilder builder = performInitialized("send volume");
+            writeToChunked(builder, 3, volumeCommand);
+
+            builder.queue(getQueue());
+        } catch (final IOException e) {
+            LOG.error("Unable to send volume", e);
+        }
+
+        LOG.info("sendVolumeStateToDevice: {}", volume);
+    }
+
+    private void sendVolumeStateToDevice() {
+        final AudioManager audioManager = (AudioManager) getContext().getSystemService(Context.AUDIO_SERVICE);
+
+        final int volumeLevel = audioManager.getStreamVolume(AudioManager.STREAM_MUSIC);
+        final int volumeMax = audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
+        final int volumePercentage = (byte) Math.round(100 * (volumeLevel / (float) volumeMax));
+
+        onSetPhoneVolume(volumePercentage);
     }
 
     protected void sendMusicStateToDevice(MusicSpec musicSpec, MusicStateSpec musicStateSpec) {
@@ -1712,6 +1742,7 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
                         LOG.info("Music app started");
                         isMusicAppStarted = true;
                         sendMusicStateToDevice();
+                        sendVolumeStateToDevice();
                         break;
                     case (byte) 225:
                         LOG.info("Music app terminated");

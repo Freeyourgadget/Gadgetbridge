@@ -60,6 +60,13 @@ public interface EventHandler {
 
     void onSetMusicInfo(MusicSpec musicSpec);
 
+    /**
+     * Sets the current phone media volume.
+     *
+     * @param volume the volume percentage (0 to 100).
+     */
+    void onSetPhoneVolume(final float volume);
+
     void onEnableRealtimeSteps(boolean enable);
 
     void onInstallApp(Uri uri);

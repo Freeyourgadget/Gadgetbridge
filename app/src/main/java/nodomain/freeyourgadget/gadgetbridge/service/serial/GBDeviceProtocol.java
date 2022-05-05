@@ -64,6 +64,10 @@ public abstract class GBDeviceProtocol {
         return null;
     }
 
+    public byte[] encodeVolume(float volume) {
+        return null;
+    }
+
     public byte[] encodeSetMusicState(byte state, int position, int playRate, byte shuffle, byte repeat) {
         return null;
     }
