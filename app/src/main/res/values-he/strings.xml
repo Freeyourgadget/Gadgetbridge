@@ -1607,4 +1607,11 @@
     <string name="application_name_main_nightly">Gadgetbridge (גרסה ניסיונית)</string>
     <string name="application_name_banglejs_nopebble">Bangle.js Gadgetbridge</string>
     <string name="gadgetbridge_running_banglejs_main">Bangle.js פעיל</string>
+    <string name="gadgetbridge_running_main_nightly">GB במהדורה לילית פעיל</string>
+    <string name="about_activity_title_main_nopebble">על מהדורה לילית של Gadgetbridge בלי Pebble</string>
+    <string name="gadgetbridge_running_main_nopebble">GB ללא Pebble במהדורה לילית פעיל</string>
+    <string name="about_description_main_nightly">חלופה חופשית ונטולת ענן ליישומוני הגאדג׳טים הסגורים ל־Android מהיצרנים. מהדורות ליליות של Gadgetbridge. אי אפשר להתקין אם כבר יש לך את היישומונים Gadgetbridge או Pebble מותקנים עקב סתירה בספק ה־Pebble.</string>
+    <string name="title_activity_controlcenter_main_nopebble">מהדורה לילית של Gadgetbridge בלי Pebble</string>
+    <string name="application_name_main_nopebble">Gadgetbridge (מהדורה לילית, בלי ספק Pebble)</string>
+    <string name="about_description_main_nopebble">חלופה חופשית ונטולת ענן ליישומוני הגאדג׳טים הסגורים ל־Android מהיצרנים. מהדורות ליליות של Gadgetbridge. במהדורה זו שמו של ספק ה־Pebble השתנה כדי למנוע סתירות, לכן כמה מהשילובים מול Pebble לא יעבדו אך ניתן להתקין אותו לצד התקנה קיימת של Gadgetbridge.</string>
 </resources>
