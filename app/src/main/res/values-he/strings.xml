@@ -1614,4 +1614,8 @@
     <string name="title_activity_controlcenter_main_nopebble">מהדורה לילית של Gadgetbridge בלי Pebble</string>
     <string name="application_name_main_nopebble">Gadgetbridge (מהדורה לילית, בלי ספק Pebble)</string>
     <string name="about_description_main_nopebble">חלופה חופשית ונטולת ענן ליישומוני הגאדג׳טים הסגורים ל־Android מהיצרנים. מהדורות ליליות של Gadgetbridge. במהדורה זו שמו של ספק ה־Pebble השתנה כדי למנוע סתירות, לכן כמה מהשילובים מול Pebble לא יעבדו אך ניתן להתקין אותו לצד התקנה קיימת של Gadgetbridge.</string>
+    <string name="prefs_activate_display_on_lift_sensitivity">רגישות</string>
+    <string name="normal">רגילה</string>
+    <string name="sensitive">רגישה</string>
+    <string name="pref_device_action_fitness_app_control_toggle">החלפת מצב מעקב ביישומון חיטוב</string>
 </resources>
