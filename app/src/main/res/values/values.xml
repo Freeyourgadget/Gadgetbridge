@@ -69,6 +69,9 @@
     <item name="p_automatic" type="string">automatic</item>
     <item name="p_scheduled" type="string">scheduled</item>
 
+    <item name="p_normal" type="string">normal</item>
+    <item name="p_sensitive" type="string">sensitive</item>
+
     <item name="p_unit_metric" type="string">metric</item>
     <item name="p_unit_imperial" type="string">imperial</item>
 

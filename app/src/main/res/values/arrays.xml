@@ -272,6 +272,15 @@
         <item>@string/p_scheduled</item>
     </string-array>
 
+    <string-array name="activate_display_on_lift_sensitivity">
+        <item>@string/normal</item>
+        <item>@string/sensitive</item>
+    </string-array>
+    <string-array name="activate_display_on_lift_sensitivity_values">
+        <item>@string/p_normal</item>
+        <item>@string/p_sensitive</item>
+    </string-array>
+
     <string-array name="mi3_night_mode">
         <item>@string/off</item>
         <!--

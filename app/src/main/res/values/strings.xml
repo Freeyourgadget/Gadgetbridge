@@ -678,6 +678,7 @@
     <string name="mi3_prefs_night_mode_summary">Lower band screen brightness automatically at night</string>
     <string name="bip_prefs_shortcuts">Shortcuts</string>
     <string name="bip_prefs_shotcuts_summary">Choose the shortcuts on the band screen</string>
+    <string name="prefs_activate_display_on_lift_sensitivity">Sensitivity</string>
     <string name="pref_title_force_white_color_scheme">Force black on white color scheme</string>
     <string name="pref_summary_force_white_color_scheme">Useful if you your watch has dark hands</string>
     <string name="lefun_prefs_hydration_reminder_title">Hydration reminder</string>
@@ -838,6 +839,8 @@
     <string name="mi2_enable_text_notifications_summary"><![CDATA[Needs firmware >= 1.0.1.28 and Mili_pro.ft* installed.]]></string>
     <string name="on">On</string>
     <string name="off">Off</string>
+    <string name="normal">Normal</string>
+    <string name="sensitive">Sensitive</string>
     <string name="mi2_dnd_off">Off</string>
     <string name="mi3_night_mode_sunset">At sunset</string>
     <string name="mi2_dnd_automatic">Automatic (sleep detection)</string>

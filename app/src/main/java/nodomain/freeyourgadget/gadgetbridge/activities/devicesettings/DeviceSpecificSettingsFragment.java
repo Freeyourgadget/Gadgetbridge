@@ -516,6 +516,7 @@ public class DeviceSpecificSettingsFragment extends PreferenceFragmentCompat imp
         }
         String displayOnLiftState = prefs.getString(PREF_ACTIVATE_DISPLAY_ON_LIFT, PREF_DO_NOT_DISTURB_OFF);
         boolean displayOnLiftScheduled = displayOnLiftState.equals(PREF_DO_NOT_DISTURB_SCHEDULED);
+        boolean displayOnLiftOff = displayOnLiftState.equals(PREF_DO_NOT_DISTURB_OFF);
 
         final Preference rotateWristCycleInfo = findPreference(PREF_MI2_ROTATE_WRIST_TO_SWITCH_INFO);
         if (rotateWristCycleInfo != null) {
@@ -553,16 +554,32 @@ public class DeviceSpecificSettingsFragment extends PreferenceFragmentCompat imp
             });
         }
 
+        final Preference displayOnLiftSensitivity = findPreference(PREF_DISPLAY_ON_LIFT_SENSITIVITY);
+        if (displayOnLiftSensitivity != null) {
+            displayOnLiftSensitivity.setEnabled(!displayOnLiftOff);
+            displayOnLiftSensitivity.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+                @Override
+                public boolean onPreferenceChange(Preference preference, Object newVal) {
+                    notifyPreferenceChanged(PREF_DISPLAY_ON_LIFT_SENSITIVITY);
+                    return true;
+                }
+            });
+        }
+
         final Preference displayOnLift = findPreference(PREF_ACTIVATE_DISPLAY_ON_LIFT);
         if (displayOnLift != null) {
             displayOnLift.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
                 @Override
                 public boolean onPreferenceChange(Preference preference, Object newVal) {
                     final boolean scheduled = PREF_DO_NOT_DISTURB_SCHEDULED.equals(newVal.toString());
+                    final boolean off = PREF_DO_NOT_DISTURB_OFF.equals(newVal.toString());
                     Objects.requireNonNull(displayOnLiftStart).setEnabled(scheduled);
                     Objects.requireNonNull(displayOnLiftEnd).setEnabled(scheduled);
                     if (rotateWristCycleInfo != null) {
-                        rotateWristCycleInfo.setEnabled(!PREF_DO_NOT_DISTURB_OFF.equals(newVal.toString()));
+                        rotateWristCycleInfo.setEnabled(!off);
+                    }
+                    if (displayOnLiftSensitivity != null) {
+                        displayOnLiftSensitivity.setEnabled(!off);
                     }
                     notifyPreferenceChanged(PREF_ACTIVATE_DISPLAY_ON_LIFT);
                     return true;
