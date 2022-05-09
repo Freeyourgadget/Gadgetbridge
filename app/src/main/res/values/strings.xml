@@ -486,6 +486,8 @@
     <string name="title_activity_charts">Activity and Sleep</string>
     <string name="title_activity_set_alarm">Configure alarms</string>
     <string name="title_activity_set_reminders">Configure reminders</string>
+    <string name="pref_world_clocks_title">World Clocks</string>
+    <string name="pref_world_clocks_summary">Configure clocks for other timezones</string>
     <string name="controlcenter_start_configure_alarms">Configure alarms</string>
     <string name="controlcenter_start_configure_reminders">Configure reminders</string>
     <string name="reminder_repeat">Repeat</string>
@@ -506,8 +508,15 @@
     <string name="reminder_delete_confirm_description">Are you sure you want to delete the reminder?</string>
     <string name="reminder_no_free_slots_title">No free slots</string>
     <string name="reminder_no_free_slots_description">The device has no free slots for reminders (total slots: %1$s)</string>
+    <string name="world_clock_delete_confirm_title">Delete \'%1$s\'</string>
+    <string name="world_clock_delete_confirm_description">Are you sure you want to delete the world clock?</string>
+    <string name="world_clock_no_free_slots_title">No free slots</string>
+    <string name="world_clock_no_free_slots_description">The device has no free slots for world clocks (total slots: %1$s)</string>
+    <string name="world_clock_timezone">Time Zone</string>
+    <string name="world_clock_label">Label</string>
     <string name="title_activity_alarm_details">Alarm details</string>
     <string name="title_activity_reminder_details">Reminder details</string>
+    <string name="title_activity_world_clock_details">World Clock details</string>
     <string name="alarm_sun_short">Sun</string>
     <string name="alarm_mon_short">Mon</string>
     <string name="alarm_tue_short">Tue</string>

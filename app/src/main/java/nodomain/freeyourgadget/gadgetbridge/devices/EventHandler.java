@@ -32,6 +32,7 @@ import nodomain.freeyourgadget.gadgetbridge.model.MusicStateSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.Reminder;
 import nodomain.freeyourgadget.gadgetbridge.model.WeatherSpec;
+import nodomain.freeyourgadget.gadgetbridge.model.WorldClock;
 
 /**
  * Specifies all events that Gadgetbridge intends to send to the gadget device.
@@ -48,6 +49,8 @@ public interface EventHandler {
     void onSetAlarms(ArrayList<? extends Alarm> alarms);
 
     void onSetReminders(ArrayList<? extends Reminder> reminders);
+
+    void onSetWorldClocks(ArrayList<? extends WorldClock> clocks);
 
     void onSetCallState(CallSpec callSpec);
 

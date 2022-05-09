@@ -75,6 +75,7 @@ import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationType;
 import nodomain.freeyourgadget.gadgetbridge.model.Reminder;
 import nodomain.freeyourgadget.gadgetbridge.model.WeatherSpec;
+import nodomain.freeyourgadget.gadgetbridge.model.WorldClock;
 import nodomain.freeyourgadget.gadgetbridge.service.receivers.AutoConnectIntervalReceiver;
 import nodomain.freeyourgadget.gadgetbridge.service.receivers.GBAutoFetchReceiver;
 import nodomain.freeyourgadget.gadgetbridge.util.DeviceHelper;
@@ -120,6 +121,7 @@ import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_SE
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_SET_HEARTRATE_MEASUREMENT_INTERVAL;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_SET_LED_COLOR;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_SET_REMINDERS;
+import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_SET_WORLD_CLOCKS;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_START;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_STARTAPP;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_TEST_NEW_FUNCTION;
@@ -178,6 +180,7 @@ import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_RES
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_URI;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_VIBRATION_INTENSITY;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_WEATHER;
+import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_WORLD_CLOCKS;
 
 public class DeviceCommunicationService extends Service implements SharedPreferences.OnSharedPreferenceChangeListener {
     private static final Logger LOG = LoggerFactory.getLogger(DeviceCommunicationService.class);
@@ -585,6 +588,10 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
             case ACTION_SET_REMINDERS:
                 ArrayList<? extends Reminder> reminders = (ArrayList<? extends Reminder>) intent.getSerializableExtra(EXTRA_REMINDERS);
                 mDeviceSupport.onSetReminders(reminders);
+                break;
+            case ACTION_SET_WORLD_CLOCKS:
+                ArrayList<? extends WorldClock> clocks = (ArrayList<? extends WorldClock>) intent.getSerializableExtra(EXTRA_WORLD_CLOCKS);
+                mDeviceSupport.onSetWorldClocks(clocks);
                 break;
             case ACTION_ENABLE_REALTIME_STEPS: {
                 boolean enable = intent.getBooleanExtra(EXTRA_BOOLEAN_ENABLE, false);

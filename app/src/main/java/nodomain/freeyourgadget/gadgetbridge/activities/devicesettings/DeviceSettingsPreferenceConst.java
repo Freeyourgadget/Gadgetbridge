@@ -112,6 +112,8 @@ public class DeviceSettingsPreferenceConst {
     public static final String PREF_KEY_VIBRATION = "key_vibration";
     public static final String PREF_FAKE_RING_DURATION = "fake_ring_duration";
 
+    public static final String PREF_WORLD_CLOCKS = "pref_world_clocks";
+
     public static final String PREF_ANTILOST_ENABLED = "pref_antilost_enabled";
     public static final String PREF_HYDRATION_SWITCH = "pref_hydration_switch";
     public static final String PREF_HYDRATION_PERIOD = "pref_hydration_period";

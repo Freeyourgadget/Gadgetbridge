@@ -20,6 +20,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.InputType;
+import android.view.View;
 import android.widget.EditText;
 
 import androidx.annotation.NonNull;
@@ -47,11 +48,17 @@ import java.util.Objects;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
+import nodomain.freeyourgadget.gadgetbridge.activities.ConfigureWorldClocks;
+import nodomain.freeyourgadget.gadgetbridge.activities.SettingsActivity;
+import nodomain.freeyourgadget.gadgetbridge.devices.DeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.DeviceManager;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst;
 import nodomain.freeyourgadget.gadgetbridge.devices.makibeshr3.MakibesHR3Constants;
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst;
+import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandPreferencesActivity;
+import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.CannedMessagesSpec;
+import nodomain.freeyourgadget.gadgetbridge.util.DeviceHelper;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 import nodomain.freeyourgadget.gadgetbridge.util.XTimePreference;
 import nodomain.freeyourgadget.gadgetbridge.util.XTimePreferenceFragment;
@@ -89,6 +96,8 @@ public class DeviceSpecificSettingsFragment extends PreferenceFragmentCompat imp
 
     private DeviceSpecificSettingsCustomizer deviceSpecificSettingsCustomizer;
 
+    private GBDevice device;
+
     private void setSettingsFileSuffix(String settingsFileSuffix, @NonNull int[] supportedSettings, String[] supportedLanguages) {
         Bundle args = new Bundle();
         args.putString("settingsFileSuffix", settingsFileSuffix);
@@ -103,6 +112,12 @@ public class DeviceSpecificSettingsFragment extends PreferenceFragmentCompat imp
         setArguments(args);
     }
 
+    private void setDevice(final GBDevice device) {
+        final Bundle args = getArguments() != null ? getArguments() : new Bundle();
+        args.putParcelable("device", device);
+        setArguments(args);
+    }
+
     @Override
     public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
         Bundle arguments = getArguments();
@@ -113,6 +128,7 @@ public class DeviceSpecificSettingsFragment extends PreferenceFragmentCompat imp
         int[] supportedSettings = arguments.getIntArray("supportedSettings");
         String[] supportedLanguages = arguments.getStringArray("supportedLanguages");
         this.deviceSpecificSettingsCustomizer = arguments.getParcelable("deviceSpecificSettingsCustomizer");
+        this.device = arguments.getParcelable("device");
 
         if (settingsFileSuffix == null || supportedSettings == null) {
             return;
@@ -587,6 +603,19 @@ public class DeviceSpecificSettingsFragment extends PreferenceFragmentCompat imp
             });
         }
 
+        final Preference worldClocks = findPreference(PREF_WORLD_CLOCKS);
+        if (worldClocks != null) {
+            worldClocks.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                @Override
+                public boolean onPreferenceClick(Preference preference) {
+                    final Intent intent = new Intent(getContext(), ConfigureWorldClocks.class);
+                    intent.putExtra(GBDevice.EXTRA_DEVICE, device);
+                    startActivity(intent);
+                    return true;
+                }
+            });
+        }
+
         final Preference cannedMessagesDismissCall = findPreference("canned_messages_dismisscall_send");
         if (cannedMessagesDismissCall != null) {
             cannedMessagesDismissCall.setOnPreferenceClickListener(new androidx.preference.Preference.OnPreferenceClickListener() {
@@ -704,13 +733,28 @@ public class DeviceSpecificSettingsFragment extends PreferenceFragmentCompat imp
         }
     }
 
-    static DeviceSpecificSettingsFragment newInstance(String settingsFileSuffix,
-                                                      @NonNull int[] supportedSettings,
-                                                      String[] supportedLanguages,
-                                                      DeviceSpecificSettingsCustomizer deviceSpecificSettingsCustomizer) {
+    static DeviceSpecificSettingsFragment newInstance(GBDevice device) {
+        final DeviceCoordinator coordinator = DeviceHelper.getInstance().getCoordinator(device);
+        int[] supportedSettings = coordinator.getSupportedDeviceSpecificSettings(device);
+        String[] supportedLanguages = coordinator.getSupportedLanguageSettings(device);
+
+        if (supportedLanguages != null) {
+            supportedSettings = ArrayUtils.insert(0, supportedSettings, R.xml.devicesettings_language_generic);
+        }
+
+        if (coordinator.supportsActivityTracking()) {
+            supportedSettings = ArrayUtils.addAll(supportedSettings, R.xml.devicesettings_chartstabs);
+            supportedSettings = ArrayUtils.addAll(supportedSettings, R.xml.devicesettings_device_card_activity_card_preferences);
+        }
+
+        final DeviceSpecificSettingsCustomizer deviceSpecificSettingsCustomizer = coordinator.getDeviceSpecificSettingsCustomizer(device);
+
+        final String settingsFileSuffix = device.getAddress();
+
         final DeviceSpecificSettingsFragment fragment = new DeviceSpecificSettingsFragment();
         fragment.setSettingsFileSuffix(settingsFileSuffix, supportedSettings, supportedLanguages);
         fragment.setDeviceSpecificSettingsCustomizer(deviceSpecificSettingsCustomizer);
+        fragment.setDevice(device);
 
         return fragment;
     }

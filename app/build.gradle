@@ -238,6 +238,10 @@ dependencies {
     implementation 'com.google.protobuf:protobuf-lite:3.0.1'
     implementation "androidx.multidex:multidex:2.0.1"
     implementation 'com.android.volley:volley:1.2.1'
+
+    // JSR-310 timezones backport for Android, since we're still on java 7
+    implementation 'com.jakewharton.threetenabp:threetenabp:1.4.0'
+    testImplementation 'org.threeten:threetenbp:1.6.0'
 }
 
 preBuild.dependsOn(":GBDaoGenerator:genSources")

@@ -37,10 +37,16 @@ import net.e175.klaus.solarpositioning.SPA;
 import org.apache.commons.lang3.ArrayUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.threeten.bp.Instant;
+import org.threeten.bp.ZoneId;
+import org.threeten.bp.zone.ZoneOffsetTransition;
+import org.threeten.bp.zone.ZoneRules;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
@@ -52,6 +58,7 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 import java.util.SimpleTimeZone;
+import java.util.TimeZone;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.UUID;
@@ -112,6 +119,7 @@ import nodomain.freeyourgadget.gadgetbridge.model.NotificationType;
 import nodomain.freeyourgadget.gadgetbridge.model.Reminder;
 import nodomain.freeyourgadget.gadgetbridge.model.Weather;
 import nodomain.freeyourgadget.gadgetbridge.model.WeatherSpec;
+import nodomain.freeyourgadget.gadgetbridge.model.WorldClock;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.AbstractBTLEDeviceSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.BLETypeConversions;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.BtLEAction;
@@ -923,6 +931,120 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
         buf.put((byte) 0x00);
 
         writeToChunked(builder, 2, buf.array());
+    }
+
+    @Override
+    public void onSetWorldClocks(ArrayList<? extends WorldClock> clocks) {
+        final TransactionBuilder builder;
+        try {
+            builder = performInitialized("onSetWorldClocks");
+        } catch (final IOException e) {
+            LOG.error("Unable to send world clocks to device", e);
+            return;
+        }
+
+        sendWorldClocks(builder, clocks);
+
+        builder.queue(getQueue());
+    }
+
+    private void setWorldClocks(final TransactionBuilder builder) {
+        final List<? extends WorldClock> clocks = DBHelper.getWorldClocks(gbDevice);
+        sendWorldClocks(builder, clocks);
+    }
+
+    private void sendWorldClocks(final TransactionBuilder builder, final List<? extends WorldClock> clocks) {
+        final DeviceCoordinator coordinator = DeviceHelper.getInstance().getCoordinator(gbDevice);
+        if (coordinator.getWorldClocksSlotCount() == 0) {
+            return;
+        }
+
+        final ByteArrayOutputStream baos = new ByteArrayOutputStream();
+
+        try {
+            baos.write(0x03);
+            
+            if (clocks.size() != 0) {
+                int i = clocks.size();
+                for (final WorldClock clock : clocks) {
+                    baos.write(i--);
+                    baos.write(encodeWorldClock(clock));
+                }
+            } else {
+                baos.write(0);
+            }
+        } catch (final IOException e) {
+            LOG.error("Unable to send world clocks to device", e);
+            return;
+        }
+
+        writeToChunked2021(builder, (short) 0x0008, getNextHandle(), baos.toByteArray(), false, false);
+    }
+
+    public byte[] encodeWorldClock(final WorldClock clock) {
+        final DeviceCoordinator coordinator = DeviceHelper.getInstance().getCoordinator(gbDevice);
+
+        try {
+            final ByteArrayOutputStream baos = new ByteArrayOutputStream();
+
+            final TimeZone timezone = TimeZone.getTimeZone(clock.getTimeZoneId());
+            final ZoneId zoneId = ZoneId.of(clock.getTimeZoneId());
+
+            // Usually the 3-letter city code (eg. LIS for Lisbon), but doesn't seem to be used in the UI
+            baos.write("   ".getBytes(StandardCharsets.UTF_8));
+            baos.write(0x00);
+
+            // Some other string? Seems to be empty
+            baos.write(0x00);
+
+            // The city name / label that shows up on the band
+            baos.write(StringUtils.truncate(clock.getLabel(), coordinator.getWorldClocksLabelLength()).getBytes(StandardCharsets.UTF_8));
+            baos.write(0x00);
+
+            // The raw offset from UTC, in number of 15-minute blocks
+            baos.write((int) (timezone.getRawOffset() / (1000L * 60L * 15L)));
+
+            // Daylight savings
+            final boolean useDaylightTime = timezone.useDaylightTime();
+            final boolean inDaylightTime = timezone.inDaylightTime(new Date());
+            byte daylightByte = 0;
+            // The daylight savings offset, either currently (the previous transition) or future (the next transition), in minutes
+            byte daylightOffsetMinutes = 0;
+
+            final ZoneRules zoneRules = zoneId.getRules();
+            if (useDaylightTime) {
+                final ZoneOffsetTransition transition;
+                if (inDaylightTime) {
+                    daylightByte = 0x01;
+                    transition = zoneRules.previousTransition(Instant.now());
+                } else {
+                    daylightByte = 0x02;
+                    transition = zoneRules.nextTransition(Instant.now());
+                }
+                daylightOffsetMinutes = (byte) transition.getDuration().toMinutes();
+            }
+
+            baos.write(daylightByte);
+            baos.write(daylightOffsetMinutes);
+
+            // The timestamp of the next daylight savings transition, if any
+            final ZoneOffsetTransition nextTransition = zoneRules.nextTransition(Instant.now());
+            long nextTransitionTs = 0;
+            if (nextTransition != null) {
+                nextTransitionTs = nextTransition
+                        .getDateTimeBefore()
+                        .atZone(zoneId)
+                        .toEpochSecond();
+            }
+
+            for (int i = 0; i < 4; i++) {
+                baos.write((byte) ((nextTransitionTs >> (i * 8)) & 0xff));
+            }
+
+            return baos.toByteArray();
+        } catch (final IOException e) {
+            throw new RuntimeException("This should never happen", e);
+        }
     }
 
     @Override
@@ -3351,6 +3473,7 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
         setExposeHRThridParty(builder);
         setHeartrateMeasurementInterval(builder, getHeartRateMeasurementInterval());
         sendReminders(builder);
+        setWorldClocks(builder);
         requestAlarms(builder);
     }
 

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <Preference
+        android:icon="@drawable/ic_access_time"
+        android:key="pref_world_clocks"
+        android:summary="@string/pref_world_clocks_summary"
+        android:title="@string/pref_world_clocks_title" />
+</androidx.preference.PreferenceScreen>

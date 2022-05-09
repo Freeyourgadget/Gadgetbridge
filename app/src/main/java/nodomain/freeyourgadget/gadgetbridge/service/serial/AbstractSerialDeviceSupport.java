@@ -31,6 +31,7 @@ import nodomain.freeyourgadget.gadgetbridge.model.MusicStateSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.Reminder;
 import nodomain.freeyourgadget.gadgetbridge.model.WeatherSpec;
+import nodomain.freeyourgadget.gadgetbridge.model.WorldClock;
 import nodomain.freeyourgadget.gadgetbridge.service.AbstractDeviceSupport;
 
 /**
@@ -274,6 +275,12 @@ public abstract class AbstractSerialDeviceSupport extends AbstractDeviceSupport 
     @Override
     public void onSetReminders(ArrayList<? extends Reminder> reminders) {
         byte[] bytes = gbDeviceProtocol.encodeReminders(reminders);
+        sendToDevice(bytes);
+    }
+
+    @Override
+    public void onSetWorldClocks(ArrayList<? extends WorldClock> clocks) {
+        byte[] bytes = gbDeviceProtocol.encodeWorldClocks(clocks);
         sendToDevice(bytes);
     }
 }

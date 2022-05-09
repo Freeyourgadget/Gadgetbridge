@@ -56,6 +56,7 @@ public interface DeviceService extends EventHandler {
     String ACTION_SET_ALARMS = PREFIX + ".action.set_alarms";
     String ACTION_SAVE_ALARMS = PREFIX + ".action.save_alarms";
     String ACTION_SET_REMINDERS = PREFIX + ".action.set_reminders";
+    String ACTION_SET_WORLD_CLOCKS = PREFIX + ".action.set_world_clocks";
     String ACTION_ENABLE_REALTIME_STEPS = PREFIX + ".action.enable_realtime_steps";
     String ACTION_REALTIME_SAMPLES = PREFIX + ".action.realtime_samples";
     String ACTION_ENABLE_REALTIME_HEARTRATE_MEASUREMENT = PREFIX + ".action.realtime_hr_measurement";
@@ -110,6 +111,7 @@ public interface DeviceService extends EventHandler {
     String EXTRA_CONFIG = "config";
     String EXTRA_ALARMS = "alarms";
     String EXTRA_REMINDERS = "reminders";
+    String EXTRA_WORLD_CLOCKS = "world_clocks";
     String EXTRA_CONNECT_FIRST_TIME = "connect_first_time";
     String EXTRA_BOOLEAN_ENABLE = "enable_realtime_steps";
     String EXTRA_INTERVAL_SECONDS = "interval_seconds";
