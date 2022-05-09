@@ -139,7 +139,6 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.common.SimpleNotific
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.actions.StopNotificationAction;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.miband2.Mi2NotificationStrategy;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.miband2.Mi2TextNotificationStrategy;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.miband5.MiBand5Support;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.operations.FetchActivityOperation;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.operations.InitOperation;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.operations.InitOperation2021;
@@ -193,14 +192,12 @@ import static nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst.PREF
 import static nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst.PREF_BUTTON_ACTION_SELECTION_OFF;
 import static nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst.PREF_DEVICE_ACTION_FELL_SLEEP_BROADCAST;
 import static nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst.PREF_DEVICE_ACTION_FELL_SLEEP_SELECTION;
-import static nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst.PREF_DEVICE_ACTION_SELECTION_BROADCAST;
 import static nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst.PREF_DEVICE_ACTION_SELECTION_OFF;
 import static nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst.PREF_DEVICE_ACTION_START_NON_WEAR_BROADCAST;
 import static nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst.PREF_DEVICE_ACTION_START_NON_WEAR_SELECTION;
 import static nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst.PREF_DEVICE_ACTION_WOKE_UP_BROADCAST;
 import static nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst.PREF_DEVICE_ACTION_WOKE_UP_SELECTION;
 import static nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiService.DISPLAY_ITEM_BIT_CLOCK;
-import static nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiService.ENDPOINT_DISPLAY;
 import static nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiService.ENDPOINT_DISPLAY_ITEMS;
 import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.DEFAULT_VALUE_VIBRATION_COUNT;
 import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.DEFAULT_VALUE_VIBRATION_PROFILE;
@@ -2410,6 +2407,9 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
                 case HuamiConst.PREF_SHORTCUTS_SORTABLE:
                     setShortcuts(builder);
                     break;
+                case HuamiConst.PREF_WORKOUT_ACTIVITY_TYPES_SORTABLE:
+                    setWorkoutActivityTypes(builder);
+                    break;
                 case MiBandConst.PREF_MI2_ROTATE_WRIST_TO_SWITCH_INFO:
                     setRotateWristToSwitchInfo(builder);
                     break;
@@ -2989,6 +2989,48 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
     }
 
     protected HuamiSupport setShortcuts(TransactionBuilder builder) {
+        return this;
+    }
+
+    protected HuamiSupport setWorkoutActivityTypes(final TransactionBuilder builder) {
+        final SharedPreferences prefs = GBApplication.getDeviceSpecificSharedPrefs(gbDevice.getAddress());
+
+        final List<String> allActivityTypes = Arrays.asList(getContext().getResources().getStringArray(R.array.pref_miband5_workout_activity_types_values));
+        final List<String> defaultActivityTypes = Arrays.asList(getContext().getResources().getStringArray(R.array.pref_miband5_workout_activity_types_default));
+        final String activityTypesPref = prefs.getString(HuamiConst.PREF_WORKOUT_ACTIVITY_TYPES_SORTABLE, null);
+
+        final List<String> enabledActivityTypes;
+        if (activityTypesPref == null || activityTypesPref.equals("")) {
+            enabledActivityTypes = defaultActivityTypes;
+        } else {
+            enabledActivityTypes = Arrays.asList(activityTypesPref.split(","));
+        }
+
+        LOG.info("Setting workout types to {}", enabledActivityTypes);
+
+        final byte[] command = new byte[allActivityTypes.size() * 3 + 2];
+        command[0] = 0x0b;
+        command[1] = 0x00;
+
+        int pos = 2;
+
+        for (final String workoutType : enabledActivityTypes) {
+            command[pos++] = HuamiWorkoutActivityType.fromPrefValue(workoutType).getCode();
+            command[pos++] = 0x00;
+            command[pos++] = 0x01;
+        }
+
+        // Send all the remaining disabled workout types
+        for (final String workoutType : allActivityTypes) {
+            if (!enabledActivityTypes.contains(workoutType)) {
+                command[pos++] = HuamiWorkoutActivityType.fromPrefValue(workoutType).getCode();
+                command[pos++] = 0x00;
+                command[pos++] = 0x00;
+            }
+        }
+
+        writeToChunked(builder, 9, command);
+
         return this;
     }
 

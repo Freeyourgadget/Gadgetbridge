@@ -688,6 +688,8 @@
     <string name="bip_prefs_shortcuts">Shortcuts</string>
     <string name="bip_prefs_shotcuts_summary">Choose the shortcuts on the band screen</string>
     <string name="prefs_activate_display_on_lift_sensitivity">Sensitivity</string>
+    <string name="mi5_prefs_workout_activity_types">Workout Activity Types</string>
+    <string name="mi5_prefs_workout_activity_types_summary">Choose the activity types to display on the workouts screen</string>
     <string name="pref_title_force_white_color_scheme">Force black on white color scheme</string>
     <string name="pref_summary_force_white_color_scheme">Useful if you your watch has dark hands</string>
     <string name="lefun_prefs_hydration_reminder_title">Hydration reminder</string>
@@ -875,13 +877,17 @@
     <string name="activity_type_deep_sleep">Deep sleep</string>
     <string name="activity_type_not_worn">Device not worn</string>
     <string name="activity_type_running">Running</string>
+    <string name="activity_type_outdoor_running">Outdoor Running</string>
     <string name="activity_type_walking">Walking</string>
+    <string name="activity_type_freestyle">Freestyle</string>
     <string name="activity_type_hiking">Hiking</string>
     <string name="activity_type_climbing">Climbing</string>
     <string name="activity_type_swimming">Swimming</string>
     <string name="activity_type_swimming_openwater">Swimming (Open water)</string>
     <string name="activity_type_indoor_cycling">Indoor Cycling</string>
+    <string name="activity_type_outdoor_cycling">Outdoor Cycling</string>
     <string name="activity_type_elliptical_trainer">Elliptical Trainer</string>
+    <string name="activity_type_elliptical">Elliptical</string>
     <string name="activity_type_jump_roping">Jumping Rope</string>
     <string name="activity_type_yoga">Yoga</string>
     <string name="activity_type_soccer">Soccer</string>

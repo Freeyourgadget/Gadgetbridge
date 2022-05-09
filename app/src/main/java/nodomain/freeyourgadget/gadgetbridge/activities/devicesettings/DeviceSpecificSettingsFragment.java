@@ -20,7 +20,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.InputType;
-import android.view.View;
 import android.widget.EditText;
 
 import androidx.annotation.NonNull;
@@ -49,13 +48,10 @@ import java.util.Objects;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.activities.ConfigureWorldClocks;
-import nodomain.freeyourgadget.gadgetbridge.activities.SettingsActivity;
 import nodomain.freeyourgadget.gadgetbridge.devices.DeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.DeviceManager;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst;
-import nodomain.freeyourgadget.gadgetbridge.devices.makibeshr3.MakibesHR3Constants;
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst;
-import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandPreferencesActivity;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.CannedMessagesSpec;
 import nodomain.freeyourgadget.gadgetbridge.util.DeviceHelper;
@@ -77,6 +73,7 @@ import static nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst.PREF
 import static nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst.PREF_EXPOSE_HR_THIRDPARTY;
 import static nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst.PREF_SHORTCUTS;
 import static nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst.PREF_SHORTCUTS_SORTABLE;
+import static nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst.PREF_WORKOUT_ACTIVITY_TYPES_SORTABLE;
 import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.PREF_MI2_DATEFORMAT;
 import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.PREF_MI2_ROTATE_WRIST_TO_SWITCH_INFO;
 import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.PREF_NIGHT_MODE;
@@ -350,6 +347,7 @@ public class DeviceSpecificSettingsFragment extends PreferenceFragmentCompat imp
         addPreferenceHandlerFor(PREF_DATEFORMAT);
         addPreferenceHandlerFor(PREF_DISPLAY_ITEMS);
         addPreferenceHandlerFor(PREF_DISPLAY_ITEMS_SORTABLE);
+        addPreferenceHandlerFor(PREF_WORKOUT_ACTIVITY_TYPES_SORTABLE);
         addPreferenceHandlerFor(PREF_SHORTCUTS);
         addPreferenceHandlerFor(PREF_SHORTCUTS_SORTABLE);
         addPreferenceHandlerFor(PREF_LANGUAGE);

@@ -580,6 +580,48 @@
         <item>@string/p_menuitem_music</item>
     </string-array>
 
+    <string-array name="pref_miband5_workout_activity_types">
+        <item>@string/activity_type_outdoor_running</item>
+        <item>@string/activity_type_walking</item>
+        <item>@string/activity_type_treadmill</item>
+        <item>@string/activity_type_outdoor_cycling</item>
+        <item>@string/activity_type_indoor_cycling</item>
+        <item>@string/activity_type_elliptical</item>
+        <item>@string/activity_type_swimming</item>
+        <item>@string/activity_type_freestyle</item>
+        <item>@string/activity_type_jump_roping</item>
+        <item>@string/activity_type_rowing_machine</item>
+        <item>@string/activity_type_yoga</item>
+    </string-array>
+
+    <string-array name="pref_miband5_workout_activity_types_values">
+        <item>outdoor_running</item>
+        <item>walking</item>
+        <item>treadmill</item>
+        <item>outdoor_cycling</item>
+        <item>indoor_cycling</item>
+        <item>elliptical</item>
+        <item>pool_swimming</item>
+        <item>freestyle</item>
+        <item>jump_rope</item>
+        <item>rowing_machine</item>
+        <item>yoga</item>
+    </string-array>
+
+    <string-array name="pref_miband5_workout_activity_types_default">
+        <item>outdoor_running</item>
+        <item>walking</item>
+        <item>treadmill</item>
+        <item>outdoor_cycling</item>
+        <item>indoor_cycling</item>
+        <item>elliptical</item>
+        <item>pool_swimming</item>
+        <item>freestyle</item>
+        <item>jump_rope</item>
+        <item>rowing_machine</item>
+        <item>yoga</item>
+    </string-array>
+
     <string-array name="pref_neo_display_items">
         <item>@string/menuitem_pai</item>
         <item>@string/menuitem_dnd</item>

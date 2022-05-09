@@ -59,6 +59,7 @@ public class HuamiConst {
 
     public static final String PREF_DISPLAY_ITEMS = "display_items";
     public static final String PREF_DISPLAY_ITEMS_SORTABLE = "display_items_sortable";
+    public static final String PREF_WORKOUT_ACTIVITY_TYPES_SORTABLE = "workout_activity_types_sortable";
     public static final String PREF_SHORTCUTS = "shortcuts";
     public static final String PREF_SHORTCUTS_SORTABLE = "shortcuts_sortable";
     public static final String PREF_EXPOSE_HR_THIRDPARTY = "expose_hr_thirdparty";

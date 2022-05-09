@@ -65,5 +65,6 @@ public class MiBand5Support extends MiBand4Support {
         super.phase3Initialize(builder);
         LOG.info("phase3Initialize...");
         setActivateDisplayOnLiftWristSensitivity(builder); // TODO? Move this to HuamiSupport?
+        setWorkoutActivityTypes(builder);  // TODO: Supported by other bands?
     }
 }
