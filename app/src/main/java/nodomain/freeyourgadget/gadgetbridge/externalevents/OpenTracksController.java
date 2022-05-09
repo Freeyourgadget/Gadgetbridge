@@ -113,4 +113,13 @@ public class OpenTracksController extends Activity {
         }
         GBApplication.app().setOpenTracksObserver(null);
     }
+
+    public static void toggleRecording(Context context) {
+        OpenTracksContentObserver openTracksObserver = GBApplication.app().getOpenTracksObserver();
+        if (openTracksObserver == null) {
+            startRecording(context);
+        } else {
+            stopRecording(context);
+        }
+    }
 }

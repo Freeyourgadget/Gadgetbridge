@@ -1655,11 +1655,8 @@
         <item>@string/pref_media_rewind</item>
         <item>@string/pref_device_action_broadcast</item>
         <item>@string/pref_device_action_fitness_app_control_start</item>
-        <!--
-        Enable when OpenTracks allows to be stopped via intent
-        https://github.com/OpenTracksApp/OpenTracks/issues/1103
         <item>@string/pref_device_action_fitness_app_control_stop</item>
-        -->
+        <item>@string/pref_device_action_fitness_app_control_toggle</item>
     </string-array>
 
     <string-array name="button_action_values">
@@ -1675,11 +1672,8 @@
         <item>@string/pref_media_rewind_value</item>
         <item>@string/pref_device_action_broadcast_value</item>
         <item>@string/pref_device_action_fitness_app_control_start_value</item>
-        <!--
-        Enable when OpenTracks allows to be stopped via intent
-        https://github.com/OpenTracksApp/OpenTracks/issues/1103
         <item>@string/pref_device_action_fitness_app_control_stop_value</item>
-        -->
+        <item>@string/pref_device_action_fitness_app_control_toggle_value</item>
     </string-array>
 
     <string-array name="device_action_options">
@@ -1689,11 +1683,8 @@
         <item>@string/pref_media_playpause</item>
         <item>@string/pref_device_action_broadcast</item>
         <item>@string/pref_device_action_fitness_app_control_start</item>
-        <!--
-        Enable when OpenTracks allows to be stopped via intent
-        https://github.com/OpenTracksApp/OpenTracks/issues/1103
         <item>@string/pref_device_action_fitness_app_control_stop</item>
-        -->
+        <item>@string/pref_device_action_fitness_app_control_toggle</item>
     </string-array>
 
     <string-array name="device_action_values">
@@ -1703,11 +1694,8 @@
         <item>@string/pref_media_playpause_value</item>
         <item>@string/pref_device_action_broadcast_value</item>
         <item>@string/pref_device_action_fitness_app_control_start_value</item>
-        <!--
-        Enable when OpenTracks allows to be stopped via intent
-        https://github.com/OpenTracksApp/OpenTracks/issues/1103
         <item>@string/pref_device_action_fitness_app_control_stop_value</item>
-        -->
+        <item>@string/pref_device_action_fitness_app_control_toggle_value</item>
     </string-array>
 
     <string-array name="pref_hybridhr_buttonfunctions">

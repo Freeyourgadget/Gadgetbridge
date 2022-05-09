@@ -1530,6 +1530,7 @@
     <string name="pref_device_action_broadcast">Send Broadcast</string>
     <string name="pref_device_action_fitness_app_control_start">Fitness App Tracking Start</string>
     <string name="pref_device_action_fitness_app_control_stop">Fitness App Tracking Stop</string>
+    <string name="pref_device_action_fitness_app_control_toggle">Toggle Fitness App Tracking</string>
     <!-- Translators: the ### indicate number of digits, keep intact -->
     <string name="distance_format_meters">###m</string>
     <!-- Translators: the ### indicate number of digits, keep intact -->

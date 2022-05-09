@@ -177,6 +177,7 @@ import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.Dev
 import static nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst.PREF_BUTTON_ACTION_SELECTION_BROADCAST;
 import static nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst.PREF_BUTTON_ACTION_SELECTION_FITNESS_APP_START;
 import static nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst.PREF_BUTTON_ACTION_SELECTION_FITNESS_APP_STOP;
+import static nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst.PREF_BUTTON_ACTION_SELECTION_FITNESS_APP_TOGGLE;
 import static nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst.PREF_BUTTON_ACTION_SELECTION_OFF;
 import static nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst.PREF_DEVICE_ACTION_FELL_SLEEP_BROADCAST;
 import static nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst.PREF_DEVICE_ACTION_FELL_SLEEP_SELECTION;
@@ -1438,6 +1439,9 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
             case PREF_BUTTON_ACTION_SELECTION_FITNESS_APP_STOP:
                 OpenTracksController.stopRecording(this.getContext());
                 break;
+            case PREF_BUTTON_ACTION_SELECTION_FITNESS_APP_TOGGLE:
+                OpenTracksController.toggleRecording(this.getContext());
+                break;
             default:
                 handleMediaButton(buttonPreference);
         }
@@ -1456,6 +1460,9 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
                 break;
             case PREF_BUTTON_ACTION_SELECTION_FITNESS_APP_STOP:
                 OpenTracksController.stopRecording(this.getContext());
+                break;
+            case PREF_BUTTON_ACTION_SELECTION_FITNESS_APP_TOGGLE:
+                OpenTracksController.toggleRecording(this.getContext());
                 break;
             default:
                 handleMediaButton(deviceAction);
