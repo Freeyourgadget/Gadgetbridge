@@ -1631,4 +1631,8 @@
     <string name="about_description_banglejs_nopebble">İnternet erişimi eklenen Gadgetbridge projesinin üzerine inşa edilmiş Bangle.js için Android yardımcı uygulaması.</string>
     <string name="gadgetbridge_running_banglejs_nopebble">Bangle.js çalışıyor</string>
     <string name="application_name_main_nightly">Gadgetbridge (Gecelik)</string>
+    <string name="prefs_activate_display_on_lift_sensitivity">Hassasiyet</string>
+    <string name="normal">Normal</string>
+    <string name="sensitive">Hassas</string>
+    <string name="pref_device_action_fitness_app_control_toggle">Fitness Uygulaması İzlemesini Değiştir</string>
 </resources>
