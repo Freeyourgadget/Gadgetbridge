@@ -1620,4 +1620,8 @@
     <string name="about_activity_title_banglejs_main">关于 Bangle.js Gadgetbridge</string>
     <string name="title_activity_controlcenter_banglejs_main">Bangle.js Gadgetbridge</string>
     <string name="about_description_main_nightly">服务商提供的闭源 Android 小工具应用程序的无云无版本的替代品。 Gadgetbridge 的每夜编译版本。 如果您已经安装了 Gadgetbridge 或 Pebble 应用程序，则无法安装它，因为 Pebble 提供程序存在冲突。</string>
+    <string name="prefs_activate_display_on_lift_sensitivity">敏感度</string>
+    <string name="normal">正常</string>
+    <string name="sensitive">敏感</string>
+    <string name="pref_device_action_fitness_app_control_toggle">切换健身应用跟踪</string>
 </resources>
