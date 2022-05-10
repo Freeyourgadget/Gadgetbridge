@@ -978,7 +978,7 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
             return;
         }
 
-        writeToChunked2021(builder, (short) 0x0008, getNextHandle(), baos.toByteArray(), false, false);
+        writeToChunked2021(builder, (short) 0x0008, getNextHandle(), baos.toByteArray(), force2021Protocol, false);
     }
 
     public byte[] encodeWorldClock(final WorldClock clock) {
