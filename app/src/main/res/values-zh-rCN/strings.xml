@@ -1624,4 +1624,13 @@
     <string name="normal">正常</string>
     <string name="sensitive">敏感</string>
     <string name="pref_device_action_fitness_app_control_toggle">切换健身应用跟踪</string>
+    <string name="world_clock_delete_confirm_description">您确定想要删除此世界时钟？</string>
+    <string name="world_clock_no_free_slots_title">没有可用的位置</string>
+    <string name="world_clock_no_free_slots_description">此设备已经没有可用的位置放置世界时钟了（总可用位置：%1$s）</string>
+    <string name="world_clock_timezone">时区</string>
+    <string name="world_clock_label">标签</string>
+    <string name="title_activity_world_clock_details">世界时钟详情</string>
+    <string name="pref_world_clocks_summary">为其他时区配置时钟</string>
+    <string name="world_clock_delete_confirm_title">删除\'%1$s\'</string>
+    <string name="pref_world_clocks_title">世界时钟</string>
 </resources>
