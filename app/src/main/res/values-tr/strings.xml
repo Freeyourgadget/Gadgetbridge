@@ -1644,4 +1644,10 @@
     <string name="world_clock_no_free_slots_description">Aygıtta dünya saatleri için boş yuva yok (toplam yuva: %1$s)</string>
     <string name="world_clock_timezone">Saat Dilimi</string>
     <string name="world_clock_label">Etiket</string>
+    <string name="activity_type_freestyle">Serbest Stil</string>
+    <string name="activity_type_elliptical">Eliptik Bisiklet</string>
+    <string name="mi5_prefs_workout_activity_types">Egzersiz Etkinlik Türleri</string>
+    <string name="activity_type_outdoor_cycling">Açık Havada Bisiklet Sürme</string>
+    <string name="mi5_prefs_workout_activity_types_summary">Egzersizler ekranında görüntülenecek etkinlik türlerini seçin</string>
+    <string name="activity_type_outdoor_running">Açık Havada Koşu</string>
 </resources>
