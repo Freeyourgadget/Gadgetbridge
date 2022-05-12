@@ -1635,4 +1635,10 @@
     <string name="world_clock_no_free_slots_title">Немає вільних комірок</string>
     <string name="world_clock_timezone">Часовий пояс</string>
     <string name="world_clock_label">Мітка</string>
+    <string name="mi5_prefs_workout_activity_types">Типи тренувань</string>
+    <string name="activity_type_outdoor_running">Біг надворі</string>
+    <string name="mi5_prefs_workout_activity_types_summary">Виберіть які типи активності показувати на екрані тренувань</string>
+    <string name="activity_type_freestyle">Фристайл</string>
+    <string name="activity_type_outdoor_cycling">Велоїзда надворі</string>
+    <string name="activity_type_elliptical">Еліптичний</string>
 </resources>
