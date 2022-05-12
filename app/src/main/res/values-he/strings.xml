@@ -1009,7 +1009,7 @@
     <string name="prefs_events_forwarding_summary">להשתמש באירועי המכשיר כדי לגרור פעולות ושידורי Android</string>
     <string name="activity_type_yoga">יוגה</string>
     <string name="activity_type_jump_roping">קפיצה בחבל</string>
-    <string name="activity_type_elliptical_trainer">אליפטיקל</string>
+    <string name="activity_type_elliptical_trainer">אליפטיקל עם ידיות</string>
     <string name="activity_type_indoor_cycling">רכיבה בתוך מבנה</string>
     <string name="activity_type_swimming_openwater">שחייה במים פתוחים</string>
     <string name="activity_filter_apply_filter">החלת מסנן</string>
@@ -1627,4 +1627,10 @@
     <string name="world_clock_delete_confirm_description">למחוק את השעון העולמי\?</string>
     <string name="world_clock_delete_confirm_title">מחיקת ‚%1$s’</string>
     <string name="title_activity_world_clock_details">פרטי השעון העולמי</string>
+    <string name="activity_type_outdoor_running">ריצה בחוץ</string>
+    <string name="activity_type_freestyle">סגנון חופשי</string>
+    <string name="activity_type_outdoor_cycling">רכיבת אופניים בחוץ</string>
+    <string name="activity_type_elliptical">אליפטיקל בלי ידיות</string>
+    <string name="mi5_prefs_workout_activity_types_summary">נא לבחור את סוגי הפעילות להצגה במסך האימון</string>
+    <string name="mi5_prefs_workout_activity_types">סוגי פעילות אימון</string>
 </resources>
