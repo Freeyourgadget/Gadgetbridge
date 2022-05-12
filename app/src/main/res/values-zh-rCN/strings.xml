@@ -1633,4 +1633,10 @@
     <string name="pref_world_clocks_summary">为其他时区配置时钟</string>
     <string name="world_clock_delete_confirm_title">删除\'%1$s\'</string>
     <string name="pref_world_clocks_title">世界时钟</string>
+    <string name="mi5_prefs_workout_activity_types">锻炼活动类型</string>
+    <string name="mi5_prefs_workout_activity_types_summary">选择要在锻炼屏幕上显示的活动类型</string>
+    <string name="activity_type_elliptical">椭圆机</string>
+    <string name="activity_type_freestyle">自由式</string>
+    <string name="activity_type_outdoor_running">户外跑步</string>
+    <string name="activity_type_outdoor_cycling">户外单车</string>
 </resources>
