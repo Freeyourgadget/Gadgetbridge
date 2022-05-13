@@ -1601,4 +1601,19 @@ Temps de sommeil préféré en heures</string>
     <string name="title_activity_controlcenter_banglejs_main">Bangle.js Gadgetbridge</string>
     <string name="about_activity_title_banglejs_main">A propos de Bangle.js Gadgetbridge</string>
     <string name="application_name_banglejs_main">Bangle.js Gadgetbridge</string>
+    <string name="about_description_banglejs_main">Application complémentaire Android pour Bangle.js élaborée sur la base du projet Gadgetbridge, avec des fonctionnalités Internet supplémentaires.</string>
+    <string name="application_name_banglejs_nopebble">Bangle.js pour Gadgetbridge</string>
+    <string name="title_activity_controlcenter_banglejs_nopebble">Bangle.js pour Gadgetbridge</string>
+    <string name="about_activity_title_main_nightly">A propos de Gatgetbridge Nightly</string>
+    <string name="about_activity_title_banglejs_nopebble">A propos de Bangle.js pour Gadgetbridge</string>
+    <string name="about_activity_title_main_nopebble">A propos de Gadgetbridge Nightly sans Pebble</string>
+    <string name="about_description_main_nightly">Remplaçant autonome et sous licence libre pour remplacer les applications propriétaires des fabricants. Version Nightly de Gadgetbridge. Ne peut pas être installé si vous avez déja Gadgetbridge ou Pebble d\'installé, en raison d\'un conflit avec l\'application Pebble.</string>
+    <string name="application_name_main_nopebble">Gadgetbridage (Nightly, pas defournisseur Pebble)</string>
+    <string name="title_activity_controlcenter_main_nopebble">Gadgetbridge Nightly Sans Pebble</string>
+    <string name="gadgetbridge_running_main_nightly">GB Nightly en fonctionnement</string>
+    <string name="gadgetbridge_running_banglejs_main">Bangle.js en fonctionnement</string>
+    <string name="about_description_banglejs_nopebble">Application complémentaire Android pour Bangle.js élaborée sur la base du projet Gadgetbridge, avec des fonctionnalités Internet supplémentaires.</string>
+    <string name="gadgetbridge_running_banglejs_nopebble">Bangle.js en fonctionnement</string>
+    <string name="application_name_main_nightly">Gadgetbridge (version Nightly)</string>
+    <string name="title_activity_controlcenter_main_nightly">Gadgetbrigde version Nightly</string>
 </resources>
