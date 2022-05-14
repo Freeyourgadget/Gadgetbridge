@@ -184,6 +184,9 @@ public class DeviceSettingsPreferenceConst {
     public static final String PREF_UM25_SHOW_THRESHOLD_NOTIFICATION = "um25_current_threshold_notify";
     public static final String PREF_UM25_SHOW_THRESHOLD = "um25_current_threshold";
 
+    public static final String PREF_VESC_MINIMUM_VOLTAGE = "vesc_minimum_battery_voltage";
+    public static final String PREF_VESC_MAXIMUM_VOLTAGE = "vesc_maximum_battery_voltage";
+
     public static final String PREF_SOUNDS = "sounds";
     public static final String PREF_AUTH_KEY = "authkey";
     public static final String PREF_USER_FITNESS_GOAL = "fitness_goal";
