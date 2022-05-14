@@ -1639,4 +1639,9 @@
     <string name="activity_type_freestyle">自由式</string>
     <string name="activity_type_outdoor_running">户外跑步</string>
     <string name="activity_type_outdoor_cycling">户外单车</string>
+    <string name="pref_screen_notification_profile_find_device">查找设备</string>
+    <string name="pref_screen_vibration_patterns_summary">为不同的通知配置振动模式</string>
+    <string name="pref_screen_notification_profile_event_reminder">事件提醒</string>
+    <string name="pref_screen_notification_idle_alerts">空闲警报</string>
+    <string name="pref_screen_vibration_patterns_title">振动模式</string>
 </resources>
