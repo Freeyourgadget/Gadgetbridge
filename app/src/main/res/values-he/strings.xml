@@ -1633,4 +1633,9 @@
     <string name="activity_type_elliptical">אליפטיקל בלי ידיות</string>
     <string name="mi5_prefs_workout_activity_types_summary">נא לבחור את סוגי הפעילות להצגה במסך האימון</string>
     <string name="mi5_prefs_workout_activity_types">סוגי פעילות אימון</string>
+    <string name="pref_screen_vibration_patterns_title">תבניות רטט</string>
+    <string name="pref_screen_vibration_patterns_summary">הגדרת תבניות רטט להתראות השונות</string>
+    <string name="pref_screen_notification_profile_event_reminder">מתזכר אירועים</string>
+    <string name="pref_screen_notification_idle_alerts">התראות בטלה</string>
+    <string name="pref_screen_notification_profile_find_device">איתור המכשיר</string>
 </resources>
