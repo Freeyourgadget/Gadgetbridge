@@ -1641,4 +1641,9 @@
     <string name="activity_type_freestyle">Фристайл</string>
     <string name="activity_type_outdoor_cycling">Велоїзда надворі</string>
     <string name="activity_type_elliptical">Еліптичний</string>
+    <string name="pref_screen_notification_idle_alerts">Сповіщення про простій</string>
+    <string name="pref_screen_notification_profile_event_reminder">Нагадування про події</string>
+    <string name="pref_screen_notification_profile_find_device">Знайти пристрій</string>
+    <string name="pref_screen_vibration_patterns_title">Шаблони вібрацій</string>
+    <string name="pref_screen_vibration_patterns_summary">Налаштуйте шаблони вібрації для різних сповіщень</string>
 </resources>
