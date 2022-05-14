@@ -471,6 +471,11 @@
     <string name="pref_screen_notification_profile_low_power">Low power warning</string>
     <string name="pref_screen_notification_profile_anti_loss">Anti-loss warning</string>
     <string name="prefs_title_heartrate_measurement_interval">Whole day HR measurement</string>
+    <string name="pref_screen_notification_profile_event_reminder">Event reminder</string>
+    <string name="pref_screen_notification_profile_find_device">Find device</string>
+    <string name="pref_screen_notification_idle_alerts">Idle Alerts</string>
+    <string name="pref_screen_vibration_patterns_title">Vibration Patterns</string>
+    <string name="pref_screen_vibration_patterns_summary">Configure the vibration patterns for different notifications</string>
     <string name="interval_one_minute">once a minute</string>
     <string name="interval_five_minutes">every 5 minutes</string>
     <string name="interval_ten_minutes">every 10 minutes</string>

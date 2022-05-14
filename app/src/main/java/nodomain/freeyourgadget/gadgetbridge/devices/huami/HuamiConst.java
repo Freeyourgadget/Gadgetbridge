@@ -86,6 +86,39 @@ public class HuamiConst {
     public static final String PREF_DEVICE_ACTION_START_NON_WEAR_SELECTION = "events_forwarding_startnonwear_action_selection";
     public static final String PREF_DEVICE_ACTION_START_NON_WEAR_BROADCAST = "prefs_events_forwarding_startnonwear_broadcast";
 
+    /**
+     * The suffixes match the enum {@link nodomain.freeyourgadget.gadgetbridge.service.devices.huami.HuamiVibrationPatternNotificationType}.
+     */
+    // profile
+    public static final String PREF_HUAMI_VIBRATION_PROFILE_PREFIX = "huami_vibration_profile_";
+    public static final String PREF_HUAMI_VIBRATION_PROFILE_APP_ALERTS = PREF_HUAMI_VIBRATION_PROFILE_PREFIX + "app_alerts";
+    public static final String PREF_HUAMI_VIBRATION_PROFILE_INCOMING_CALL = PREF_HUAMI_VIBRATION_PROFILE_PREFIX + "incoming_call";
+    public static final String PREF_HUAMI_VIBRATION_PROFILE_INCOMING_SMS = PREF_HUAMI_VIBRATION_PROFILE_PREFIX + "incoming_sms";
+    public static final String PREF_HUAMI_VIBRATION_PROFILE_GOAL_NOTIFICATION = PREF_HUAMI_VIBRATION_PROFILE_PREFIX + "goal_notification";
+    public static final String PREF_HUAMI_VIBRATION_PROFILE_ALARM = PREF_HUAMI_VIBRATION_PROFILE_PREFIX + "alarm";
+    public static final String PREF_HUAMI_VIBRATION_PROFILE_IDLE_ALERTS = PREF_HUAMI_VIBRATION_PROFILE_PREFIX + "idle_alerts";
+    public static final String PREF_HUAMI_VIBRATION_PROFILE_EVENT_REMINDER = PREF_HUAMI_VIBRATION_PROFILE_PREFIX + "event_reminder";
+    public static final String PREF_HUAMI_VIBRATION_PROFILE_FIND_BAND = PREF_HUAMI_VIBRATION_PROFILE_PREFIX + "find_band";
+    // count
+    public static final String PREF_HUAMI_VIBRATION_COUNT_PREFIX = "huami_vibration_count_";
+    public static final String PREF_HUAMI_VIBRATION_COUNT_APP_ALERTS = PREF_HUAMI_VIBRATION_COUNT_PREFIX + "app_alerts";
+    public static final String PREF_HUAMI_VIBRATION_COUNT_INCOMING_CALL = PREF_HUAMI_VIBRATION_COUNT_PREFIX + "incoming_call";
+    public static final String PREF_HUAMI_VIBRATION_COUNT_INCOMING_SMS = PREF_HUAMI_VIBRATION_COUNT_PREFIX + "incoming_sms";
+    public static final String PREF_HUAMI_VIBRATION_COUNT_GOAL_NOTIFICATION = PREF_HUAMI_VIBRATION_COUNT_PREFIX + "goal_notification";
+    public static final String PREF_HUAMI_VIBRATION_COUNT_ALARM = PREF_HUAMI_VIBRATION_COUNT_PREFIX + "alarm";
+    public static final String PREF_HUAMI_VIBRATION_COUNT_IDLE_ALERTS = PREF_HUAMI_VIBRATION_COUNT_PREFIX + "idle_alerts";
+    public static final String PREF_HUAMI_VIBRATION_COUNT_EVENT_REMINDER = PREF_HUAMI_VIBRATION_COUNT_PREFIX + "event_reminder";
+    public static final String PREF_HUAMI_VIBRATION_COUNT_FIND_BAND = PREF_HUAMI_VIBRATION_COUNT_PREFIX + "find_band";
+    // try
+    public static final String PREF_HUAMI_VIBRATION_TRY_PREFIX = "huami_vibration_try_";
+    public static final String PREF_HUAMI_VIBRATION_TRY_APP_ALERTS = PREF_HUAMI_VIBRATION_TRY_PREFIX + "app_alerts";
+    public static final String PREF_HUAMI_VIBRATION_TRY_INCOMING_CALL = PREF_HUAMI_VIBRATION_TRY_PREFIX + "incoming_call";
+    public static final String PREF_HUAMI_VIBRATION_TRY_INCOMING_SMS = PREF_HUAMI_VIBRATION_TRY_PREFIX + "incoming_sms";
+    public static final String PREF_HUAMI_VIBRATION_TRY_GOAL_NOTIFICATION = PREF_HUAMI_VIBRATION_TRY_PREFIX + "goal_notification";
+    public static final String PREF_HUAMI_VIBRATION_TRY_ALARM = PREF_HUAMI_VIBRATION_TRY_PREFIX + "alarm";
+    public static final String PREF_HUAMI_VIBRATION_TRY_IDLE_ALERTS = PREF_HUAMI_VIBRATION_TRY_PREFIX + "idle_alerts";
+    public static final String PREF_HUAMI_VIBRATION_TRY_EVENT_REMINDER = PREF_HUAMI_VIBRATION_TRY_PREFIX + "event_reminder";
+    public static final String PREF_HUAMI_VIBRATION_TRY_FIND_BAND = PREF_HUAMI_VIBRATION_TRY_PREFIX + "find_band";
 
     public static int toActivityKind(int rawType) {
         switch (rawType) {

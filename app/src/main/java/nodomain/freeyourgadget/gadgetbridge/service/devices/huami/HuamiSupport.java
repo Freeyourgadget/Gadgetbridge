@@ -197,6 +197,33 @@ import static nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst.PREF
 import static nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst.PREF_DEVICE_ACTION_START_NON_WEAR_SELECTION;
 import static nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst.PREF_DEVICE_ACTION_WOKE_UP_BROADCAST;
 import static nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst.PREF_DEVICE_ACTION_WOKE_UP_SELECTION;
+import static nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst.PREF_HUAMI_VIBRATION_COUNT_ALARM;
+import static nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst.PREF_HUAMI_VIBRATION_COUNT_APP_ALERTS;
+import static nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst.PREF_HUAMI_VIBRATION_COUNT_EVENT_REMINDER;
+import static nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst.PREF_HUAMI_VIBRATION_COUNT_FIND_BAND;
+import static nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst.PREF_HUAMI_VIBRATION_COUNT_GOAL_NOTIFICATION;
+import static nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst.PREF_HUAMI_VIBRATION_COUNT_IDLE_ALERTS;
+import static nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst.PREF_HUAMI_VIBRATION_COUNT_INCOMING_CALL;
+import static nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst.PREF_HUAMI_VIBRATION_COUNT_INCOMING_SMS;
+import static nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst.PREF_HUAMI_VIBRATION_COUNT_PREFIX;
+import static nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst.PREF_HUAMI_VIBRATION_PROFILE_ALARM;
+import static nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst.PREF_HUAMI_VIBRATION_PROFILE_APP_ALERTS;
+import static nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst.PREF_HUAMI_VIBRATION_PROFILE_EVENT_REMINDER;
+import static nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst.PREF_HUAMI_VIBRATION_PROFILE_FIND_BAND;
+import static nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst.PREF_HUAMI_VIBRATION_PROFILE_GOAL_NOTIFICATION;
+import static nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst.PREF_HUAMI_VIBRATION_PROFILE_IDLE_ALERTS;
+import static nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst.PREF_HUAMI_VIBRATION_PROFILE_INCOMING_CALL;
+import static nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst.PREF_HUAMI_VIBRATION_PROFILE_INCOMING_SMS;
+import static nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst.PREF_HUAMI_VIBRATION_PROFILE_PREFIX;
+import static nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst.PREF_HUAMI_VIBRATION_TRY_ALARM;
+import static nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst.PREF_HUAMI_VIBRATION_TRY_APP_ALERTS;
+import static nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst.PREF_HUAMI_VIBRATION_TRY_EVENT_REMINDER;
+import static nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst.PREF_HUAMI_VIBRATION_TRY_FIND_BAND;
+import static nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst.PREF_HUAMI_VIBRATION_TRY_GOAL_NOTIFICATION;
+import static nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst.PREF_HUAMI_VIBRATION_TRY_IDLE_ALERTS;
+import static nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst.PREF_HUAMI_VIBRATION_TRY_INCOMING_CALL;
+import static nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst.PREF_HUAMI_VIBRATION_TRY_INCOMING_SMS;
+import static nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst.PREF_HUAMI_VIBRATION_TRY_PREFIX;
 import static nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiService.DISPLAY_ITEM_BIT_CLOCK;
 import static nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiService.ENDPOINT_DISPLAY_ITEMS;
 import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.DEFAULT_VALUE_VIBRATION_COUNT;
@@ -2465,6 +2492,32 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
                 case PREF_USER_GENDER:
                     setUserInfo(builder);
                     break;
+                case PREF_HUAMI_VIBRATION_PROFILE_APP_ALERTS:
+                case PREF_HUAMI_VIBRATION_PROFILE_INCOMING_CALL:
+                case PREF_HUAMI_VIBRATION_PROFILE_INCOMING_SMS:
+                case PREF_HUAMI_VIBRATION_PROFILE_GOAL_NOTIFICATION:
+                case PREF_HUAMI_VIBRATION_PROFILE_ALARM:
+                case PREF_HUAMI_VIBRATION_PROFILE_IDLE_ALERTS:
+                case PREF_HUAMI_VIBRATION_PROFILE_EVENT_REMINDER:
+                case PREF_HUAMI_VIBRATION_PROFILE_FIND_BAND:
+                case PREF_HUAMI_VIBRATION_COUNT_APP_ALERTS:
+                case PREF_HUAMI_VIBRATION_COUNT_INCOMING_CALL:
+                case PREF_HUAMI_VIBRATION_COUNT_INCOMING_SMS:
+                case PREF_HUAMI_VIBRATION_COUNT_GOAL_NOTIFICATION:
+                case PREF_HUAMI_VIBRATION_COUNT_ALARM:
+                case PREF_HUAMI_VIBRATION_COUNT_IDLE_ALERTS:
+                case PREF_HUAMI_VIBRATION_COUNT_EVENT_REMINDER:
+                case PREF_HUAMI_VIBRATION_COUNT_FIND_BAND:
+                case PREF_HUAMI_VIBRATION_TRY_APP_ALERTS:
+                case PREF_HUAMI_VIBRATION_TRY_INCOMING_CALL:
+                case PREF_HUAMI_VIBRATION_TRY_INCOMING_SMS:
+                case PREF_HUAMI_VIBRATION_TRY_GOAL_NOTIFICATION:
+                case PREF_HUAMI_VIBRATION_TRY_ALARM:
+                case PREF_HUAMI_VIBRATION_TRY_IDLE_ALERTS:
+                case PREF_HUAMI_VIBRATION_TRY_EVENT_REMINDER:
+                case PREF_HUAMI_VIBRATION_TRY_FIND_BAND:
+                    setVibrationPattern(builder, config);
+                    break;
             }
             builder.queue(getQueue());
         } catch (IOException e) {
@@ -2480,16 +2533,82 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
     @Override
     public void onTestNewFunction() {
         //requestMTU(23);
-        /*
         try {
-            boolean test = false;
-            TransactionBuilder builder = performInitialized("test pattern");
-            byte[] testpattern = new byte[] {0x20,0x00, (byte) 0x4b,0x64,0x00, (byte) 0x8d,0x01,0x73,0x00,0x38,0x01,0x64,0x00,0x64,0x00,0x64,0x00,0x67,0x00,0x64,0x00,0x37,0x01,0x7c,0x00,0x64,0x00,0x64,0x00,0x67,0x00,0x64,0x00,0x67,0x00,0x64,0x00,0x37,0x01,0x64,0x00,0x64,0x00,0x64,0x00, (byte) 0xe5,0x02};
-            //byte[] testpattern = new byte[] {0x20,0x00, (byte) 0x00, 0,0,0,0};
-            writeToChunked(builder,2, testpattern);
+            final TransactionBuilder builder = performInitialized("test pattern");
+            final VibrationProfile profile = VibrationProfile.getProfile(VibrationProfile.ID_SHORT, (short) 2);
+
+            setVibrationPattern(builder, HuamiVibrationPatternNotificationType.APP_ALERTS, true, profile);
             builder.queue(getQueue());
-        } catch (Exception ignored) {}
-        */
+        } catch (final Exception e) {
+            LOG.error("onTestNewFunction failed", e);
+        }
+    }
+
+    private void setVibrationPattern(final TransactionBuilder builder, final String preferenceKey) {
+        // The preference key has one of the 3 prefixes
+        final String notificationTypeName = preferenceKey.replace(PREF_HUAMI_VIBRATION_COUNT_PREFIX, "")
+                .replace(PREF_HUAMI_VIBRATION_PROFILE_PREFIX, "")
+                .replace(PREF_HUAMI_VIBRATION_TRY_PREFIX, "")
+                .toUpperCase(Locale.ROOT);
+        final HuamiVibrationPatternNotificationType notificationType = HuamiVibrationPatternNotificationType.valueOf(notificationTypeName);
+        final boolean isTry = preferenceKey.startsWith(PREF_HUAMI_VIBRATION_TRY_PREFIX);
+
+        final VibrationProfile vibrationProfile = HuamiCoordinator.getVibrationProfile(getDevice().getAddress(), notificationType);
+
+        setVibrationPattern(builder, notificationType, isTry, vibrationProfile);
+    }
+
+    /**
+     * Test or set a {@link VibrationProfile}.
+     *
+     * @param builder          the {@link TransactionBuilder}
+     * @param notificationType the notification type
+     * @param test             test the pattern (only vibrate the band, do not set it)
+     * @param profile          the {@link VibrationProfile}
+     */
+    private void setVibrationPattern(final TransactionBuilder builder,
+                                     final HuamiVibrationPatternNotificationType notificationType,
+                                     final boolean test,
+                                     final VibrationProfile profile) {
+        final int MAX_TOTAL_LENGTH_MS = 10_000; // 10 seconds, about as long as Mi Fit allows
+        int totalLengthMs = 0;
+
+        // The on-off sequence, until the max total length is reached
+        final List<Short> onOff = new ArrayList<>(profile.getOnOffSequence().length);
+
+        for (int c = 0; c < profile.getRepeat(); c++) {
+            for (int i = 0; i < profile.getOnOffSequence().length; i += 2) {
+                final short on = (short) profile.getOnOffSequence()[i];
+                final short off = (short) profile.getOnOffSequence()[i + 1];
+
+                if (totalLengthMs + on + off > MAX_TOTAL_LENGTH_MS) {
+                    LOG.warn("VibrationProfile {} too long, truncating to {} ms", profile.getId(), MAX_TOTAL_LENGTH_MS);
+                    break;
+                }
+
+                onOff.add(on);
+                onOff.add(off);
+                totalLengthMs += on + off;
+            }
+        }
+
+        final ByteBuffer buf = ByteBuffer.allocate(3 + 2 * onOff.size());
+        buf.order(ByteOrder.LITTLE_ENDIAN);
+
+        buf.put((byte) 0x20);
+        buf.put(notificationType.getCode());
+        byte flag = (byte) (onOff.size() / 2);
+        flag |= 0x40;
+        if (test) {
+            flag |= 0x80;
+        }
+        buf.put(flag);
+
+        for (Short time : onOff) {
+            buf.putShort(time);
+        }
+
+        writeToChunked(builder, 2, buf.array());
     }
 
     @Override

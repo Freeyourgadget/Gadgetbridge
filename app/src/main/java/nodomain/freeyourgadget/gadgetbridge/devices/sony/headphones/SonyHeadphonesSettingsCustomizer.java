@@ -47,8 +47,10 @@ import androidx.preference.ListPreference;
 import androidx.preference.Preference;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
+import java.util.Set;
 
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSpecificSettingsCustomizer;
@@ -183,6 +185,11 @@ public class SonyHeadphonesSettingsCustomizer implements DeviceSpecificSettingsC
                 }
             });
         }
+    }
+
+    @Override
+    public Set<String> getPreferenceKeysWithSummary() {
+        return Collections.emptySet();
     }
 
     public static final Creator<SonyHeadphonesSettingsCustomizer> CREATOR = new Creator<SonyHeadphonesSettingsCustomizer>() {

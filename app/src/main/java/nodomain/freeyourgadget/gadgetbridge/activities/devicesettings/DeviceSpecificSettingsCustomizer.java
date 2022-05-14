@@ -20,6 +20,8 @@ import android.os.Parcelable;
 
 import androidx.preference.Preference;
 
+import java.util.Set;
+
 /**
  * A device-specific preference handler, that allows for concrete implementations to customize the preferences in
  * the {@link DeviceSpecificSettingsFragment}.
@@ -39,4 +41,9 @@ public interface DeviceSpecificSettingsCustomizer extends Parcelable {
      * @param handler the {@link DeviceSpecificSettingsHandler}
      */
     void customizeSettings(final DeviceSpecificSettingsHandler handler);
+
+    /**
+     * Keys of preferences which should print its values as a summary below the preference name.
+     */
+    Set<String> getPreferenceKeysWithSummary();
 }

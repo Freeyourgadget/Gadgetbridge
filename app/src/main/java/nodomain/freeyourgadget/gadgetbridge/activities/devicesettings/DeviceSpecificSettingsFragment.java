@@ -43,7 +43,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
@@ -806,7 +808,8 @@ public class DeviceSpecificSettingsFragment extends PreferenceFragmentCompat imp
         }
     }
 
-    private void setInputTypeFor(final String preferenceKey, final int editTypeFlags) {
+    @Override
+    public void setInputTypeFor(final String preferenceKey, final int editTypeFlags) {
         EditTextPreference textPreference = findPreference(preferenceKey);
         if (textPreference != null) {
             textPreference.setOnBindEditTextListener(new EditTextPreference.OnBindEditTextListener() {
@@ -816,6 +819,19 @@ public class DeviceSpecificSettingsFragment extends PreferenceFragmentCompat imp
                 }
             });
         }
+    }
+
+    /**
+     * Keys of preferences which should print its values as a summary below the preference name.
+     */
+    protected Set<String> getPreferenceKeysWithSummary() {
+        final Set<String> keysWithSummary = new HashSet<>();
+
+        if (deviceSpecificSettingsCustomizer != null) {
+            keysWithSummary.addAll(deviceSpecificSettingsCustomizer.getPreferenceKeysWithSummary());
+        }
+
+        return keysWithSummary;
     }
 
     /**
@@ -849,7 +865,7 @@ public class DeviceSpecificSettingsFragment extends PreferenceFragmentCompat imp
         public void onSharedPreferenceChanged(SharedPreferences prefs, String key) {
             LOG.debug("Preference changed: {}", key);
 
-            if(key == null){
+            if (key == null){
                 LOG.warn("Preference null, ignoring");
                 return;
             }
@@ -877,6 +893,11 @@ public class DeviceSpecificSettingsFragment extends PreferenceFragmentCompat imp
                 // Ignoring
             } else {
                 LOG.warn("Unknown preference class {}, ignoring", preference.getClass());
+            }
+
+            if (getPreferenceKeysWithSummary().contains(key)) {
+                final String summary = prefs.getString(key, preference.getSummary() != null ? preference.getSummary().toString() : "");
+                preference.setSummary(summary);
             }
 
             if (deviceSpecificSettingsCustomizer != null) {
