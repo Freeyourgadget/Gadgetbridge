@@ -103,6 +103,7 @@ public class AmazfitBand5Coordinator extends HuamiCoordinator {
                 R.xml.devicesettings_custom_emoji_font,
                 R.xml.devicesettings_timeformat,
                 R.xml.devicesettings_dateformat,
+                R.xml.devicesettings_world_clocks,
                 R.xml.devicesettings_nightmode,
                 R.xml.devicesettings_liftwrist_display_sensitivity,
                 R.xml.devicesettings_swipeunlock,

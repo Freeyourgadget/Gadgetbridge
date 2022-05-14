@@ -49,4 +49,16 @@ public class AmazfitBand5Support extends MiBand5Support {
     public HuamiFWHelper createFWHelper(Uri uri, Context context) throws IOException {
         return new AmazfitBand5FWHelper(uri, context);
     }
+    @Override
+    public boolean supportsSunriseSunsetWindHumidity() {
+        return true;
+    }
+
+    @Override
+    public void phase3Initialize(TransactionBuilder builder) {
+        super.phase3Initialize(builder);
+        LOG.info("phase3Initialize...");
+        setActivateDisplayOnLiftWristSensitivity(builder); // TODO? Move this to HuamiSupport?
+        setWorkoutActivityTypes(builder);  // TODO: Supported by other bands?
+    }
 }
