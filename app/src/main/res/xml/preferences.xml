@@ -337,10 +337,12 @@
             android:key="auto_export_enabled"
             android:title="@string/pref_title_auto_export_enabled" />
         <Preference
+            android:dependency="auto_export_enabled"
             android:key="auto_export_location"
             android:title="@string/pref_title_auto_export_location"
             android:summary="%s" />
         <EditTextPreference
+            android:dependency="auto_export_enabled"
             android:inputType="number"
             android:key="auto_export_interval"
             android:defaultValue="3"
@@ -358,6 +360,7 @@
             android:title="@string/pref_auto_fetch"
             android:summary="@string/pref_auto_fetch_summary"/>
         <EditTextPreference
+            android:dependency="auto_fetch_enabled"
             android:inputType="number"
             android:key="auto_fetch_interval_limit"
             android:defaultValue="0"
