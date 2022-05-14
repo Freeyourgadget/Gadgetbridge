@@ -27,7 +27,6 @@ public final class MiBandConst {
     public static final String PREF_MIBAND_USE_HR_FOR_SLEEP_DETECTION = "mi_hr_sleep_detection";
     public static final String PREF_MIBAND_DEVICE_TIME_OFFSET_HOURS = "device_time_offset_hours";
 	public static final String PREF_MI2_DATEFORMAT = "mi2_dateformat";
-    public static final String PREF_MI2_GOAL_NOTIFICATION = "mi2_goal_notification";
 	public static final String PREF_MI2_DISPLAY_ITEM_CLOCK = "clock";
 	public static final String PREF_MI2_DISPLAY_ITEM_STEPS = "steps";
 	public static final String PREF_MI2_DISPLAY_ITEM_DISTANCE = "distance";

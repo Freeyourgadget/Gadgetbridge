@@ -471,6 +471,7 @@ public class DeviceSpecificSettingsFragment extends PreferenceFragmentCompat imp
 
         addPreferenceHandlerFor(PREF_QC35_NOISE_CANCELLING_LEVEL);
         addPreferenceHandlerFor(PREF_USER_FITNESS_GOAL);
+        addPreferenceHandlerFor(PREF_USER_FITNESS_GOAL_NOTIFICATION);
 
         addPreferenceHandlerFor(PREF_UM25_SHOW_THRESHOLD_NOTIFICATION);
         addPreferenceHandlerFor(PREF_UM25_SHOW_THRESHOLD);
@@ -643,6 +644,7 @@ public class DeviceSpecificSettingsFragment extends PreferenceFragmentCompat imp
         setInputTypeFor(DeviceSettingsPreferenceConst.PREF_FIND_PHONE_DURATION, InputType.TYPE_CLASS_NUMBER);
         setInputTypeFor(DeviceSettingsPreferenceConst.PREF_RESERVER_ALARMS_CALENDAR, InputType.TYPE_CLASS_NUMBER);
         setInputTypeFor(DeviceSettingsPreferenceConst.PREF_RESERVER_REMINDERS_CALENDAR, InputType.TYPE_CLASS_NUMBER);
+        setInputTypeFor(DeviceSettingsPreferenceConst.PREF_INACTIVITY_THRESHOLD, InputType.TYPE_CLASS_NUMBER);
 
         String deviceActionsFellSleepSelection = prefs.getString(PREF_DEVICE_ACTION_FELL_SLEEP_SELECTION, PREF_DEVICE_ACTION_SELECTION_OFF);
         final Preference deviceActionsFellSleep = findPreference(PREF_DEVICE_ACTION_FELL_SLEEP_SELECTION);
@@ -826,6 +828,8 @@ public class DeviceSpecificSettingsFragment extends PreferenceFragmentCompat imp
      */
     protected Set<String> getPreferenceKeysWithSummary() {
         final Set<String> keysWithSummary = new HashSet<>();
+
+        keysWithSummary.add(PREF_INACTIVITY_THRESHOLD);
 
         if (deviceSpecificSettingsCustomizer != null) {
             keysWithSummary.addAll(deviceSpecificSettingsCustomizer.getPreferenceKeysWithSummary());

@@ -161,7 +161,7 @@
 
         <PreferenceScreen
             android:key="vibration_profile_key_idle_alerts"
-            android:icon="@drawable/ic_seat_normal"
+            android:icon="@drawable/ic_chair"
             android:title="@string/pref_screen_notification_idle_alerts"
             android:persistent="false">
 

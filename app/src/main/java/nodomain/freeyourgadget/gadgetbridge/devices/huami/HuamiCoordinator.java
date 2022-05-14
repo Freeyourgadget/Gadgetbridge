@@ -209,9 +209,9 @@ public abstract class HuamiCoordinator extends AbstractDeviceCoordinator {
         return prefs.getBoolean(HuamiConst.PREF_USE_CUSTOM_FONT, false);
     }
 
-    public static boolean getGoalNotification() {
-        Prefs prefs = GBApplication.getPrefs();
-        return prefs.getBoolean(MiBandConst.PREF_MI2_GOAL_NOTIFICATION, false);
+    public static boolean getGoalNotification(String deviceAddress) {
+        SharedPreferences prefs = GBApplication.getDeviceSpecificSharedPrefs(deviceAddress);
+        return prefs.getBoolean(DeviceSettingsPreferenceConst.PREF_USER_FITNESS_GOAL_NOTIFICATION, false);
     }
 
     public static boolean getRotateWristToSwitchInfo(String deviceAddress) {
@@ -219,35 +219,35 @@ public abstract class HuamiCoordinator extends AbstractDeviceCoordinator {
         return prefs.getBoolean(MiBandConst.PREF_MI2_ROTATE_WRIST_TO_SWITCH_INFO, false);
     }
 
-    public static boolean getInactivityWarnings() {
-        Prefs prefs = GBApplication.getPrefs();
+    public static boolean getInactivityWarnings(String deviceAddress) {
+        SharedPreferences prefs = GBApplication.getDeviceSpecificSharedPrefs(deviceAddress);
         return prefs.getBoolean(DeviceSettingsPreferenceConst.PREF_INACTIVITY_ENABLE, false);
     }
 
-    public static int getInactivityWarningsThreshold() {
-        Prefs prefs = GBApplication.getPrefs();
+    public static int getInactivityWarningsThreshold(String deviceAddress) {
+        Prefs prefs = new Prefs(GBApplication.getDeviceSpecificSharedPrefs(deviceAddress));
         return prefs.getInt(DeviceSettingsPreferenceConst.PREF_INACTIVITY_THRESHOLD, 60);
     }
 
-    public static boolean getInactivityWarningsDnd() {
-        Prefs prefs = GBApplication.getPrefs();
+    public static boolean getInactivityWarningsDnd(String deviceAddress) {
+        SharedPreferences prefs = GBApplication.getDeviceSpecificSharedPrefs(deviceAddress);
         return prefs.getBoolean(DeviceSettingsPreferenceConst.PREF_INACTIVITY_DND, false);
     }
 
-    public static Date getInactivityWarningsStart() {
-        return getTimePreference(DeviceSettingsPreferenceConst.PREF_INACTIVITY_START, "06:00");
+    public static Date getInactivityWarningsStart(String deviceAddress) {
+        return getTimePreference(DeviceSettingsPreferenceConst.PREF_INACTIVITY_START, "06:00", deviceAddress);
     }
 
-    public static Date getInactivityWarningsEnd() {
-        return getTimePreference(DeviceSettingsPreferenceConst.PREF_INACTIVITY_END, "22:00");
+    public static Date getInactivityWarningsEnd(String deviceAddress) {
+        return getTimePreference(DeviceSettingsPreferenceConst.PREF_INACTIVITY_END, "22:00", deviceAddress);
     }
 
-    public static Date getInactivityWarningsDndStart() {
-        return getTimePreference(DeviceSettingsPreferenceConst.PREF_INACTIVITY_DND_START, "12:00");
+    public static Date getInactivityWarningsDndStart(String deviceAddress) {
+        return getTimePreference(DeviceSettingsPreferenceConst.PREF_INACTIVITY_DND_START, "12:00", deviceAddress);
     }
 
-    public static Date getInactivityWarningsDndEnd() {
-        return getTimePreference(DeviceSettingsPreferenceConst.PREF_INACTIVITY_DND_END, "14:00");
+    public static Date getInactivityWarningsDndEnd(String deviceAddress) {
+        return getTimePreference(DeviceSettingsPreferenceConst.PREF_INACTIVITY_DND_END, "14:00", deviceAddress);
     }
 
     public static Date getDoNotDisturbStart(String deviceAddress) {

@@ -90,8 +90,10 @@ public class AmazfitTRexCoordinator extends HuamiCoordinator {
         return new int[]{
                 R.xml.devicesettings_amazfittrex,
                 R.xml.devicesettings_wearlocation,
+                R.xml.devicesettings_goal_notification,
                 R.xml.devicesettings_timeformat,
                 R.xml.devicesettings_liftwrist_display,
+                R.xml.devicesettings_inactivity_dnd,
                 R.xml.devicesettings_disconnectnotification,
                 R.xml.devicesettings_sync_calendar,
                 R.xml.devicesettings_reserve_reminders_calendar,

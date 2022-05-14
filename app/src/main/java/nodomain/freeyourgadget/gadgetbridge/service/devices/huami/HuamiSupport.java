@@ -184,6 +184,7 @@ import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.Dev
 import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_SOUNDS;
 import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_SYNC_CALENDAR;
 import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_TIMEFORMAT;
+import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_USER_FITNESS_GOAL_NOTIFICATION;
 import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_WEARLOCATION;
 import static nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst.PREF_BUTTON_ACTION_SELECTION_BROADCAST;
 import static nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst.PREF_BUTTON_ACTION_SELECTION_FITNESS_APP_START;
@@ -2410,7 +2411,7 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
                 case MiBandConst.PREF_MI2_DATEFORMAT:
                     setDateDisplay(builder);
                     break;
-                case MiBandConst.PREF_MI2_GOAL_NOTIFICATION:
+                case PREF_USER_FITNESS_GOAL_NOTIFICATION:
                     setGoalNotification(builder);
                     break;
                 case PREF_ACTIVATE_DISPLAY_ON_LIFT:
@@ -2904,7 +2905,7 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
     }
 
     private HuamiSupport setGoalNotification(TransactionBuilder builder) {
-        boolean enable = HuamiCoordinator.getGoalNotification();
+        boolean enable = HuamiCoordinator.getGoalNotification(gbDevice.getAddress());
         LOG.info("Setting goal notification to " + enable);
         if (enable) {
             writeToConfiguration(builder,HuamiService.COMMAND_ENABLE_GOAL_NOTIFICATION);
@@ -3236,23 +3237,23 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
     }
 
     private HuamiSupport setInactivityWarnings(TransactionBuilder builder) {
-        boolean enable = HuamiCoordinator.getInactivityWarnings();
+        boolean enable = HuamiCoordinator.getInactivityWarnings(gbDevice.getAddress());
         LOG.info("Setting inactivity warnings to " + enable);
 
         if (enable) {
             byte[] data = HuamiService.COMMAND_ENABLE_INACTIVITY_WARNINGS.clone();
 
-            int threshold = HuamiCoordinator.getInactivityWarningsThreshold();
+            int threshold = HuamiCoordinator.getInactivityWarningsThreshold(gbDevice.getAddress());
             data[HuamiService.INACTIVITY_WARNINGS_THRESHOLD] = (byte) threshold;
 
             Calendar calendar = GregorianCalendar.getInstance();
 
-            boolean enableDnd = HuamiCoordinator.getInactivityWarningsDnd();
+            boolean enableDnd = HuamiCoordinator.getInactivityWarningsDnd(gbDevice.getAddress());
 
-            Date intervalStart = HuamiCoordinator.getInactivityWarningsStart();
-            Date intervalEnd = HuamiCoordinator.getInactivityWarningsEnd();
-            Date dndStart = HuamiCoordinator.getInactivityWarningsDndStart();
-            Date dndEnd = HuamiCoordinator.getInactivityWarningsDndEnd();
+            Date intervalStart = HuamiCoordinator.getInactivityWarningsStart(gbDevice.getAddress());
+            Date intervalEnd = HuamiCoordinator.getInactivityWarningsEnd(gbDevice.getAddress());
+            Date dndStart = HuamiCoordinator.getInactivityWarningsDndStart(gbDevice.getAddress());
+            Date dndEnd = HuamiCoordinator.getInactivityWarningsDndEnd(gbDevice.getAddress());
 
             // The first interval always starts when the warnings interval starts
             calendar.setTime(intervalStart);

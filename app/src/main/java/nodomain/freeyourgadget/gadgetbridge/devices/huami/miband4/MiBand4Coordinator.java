@@ -90,11 +90,13 @@ public class MiBand4Coordinator extends HuamiCoordinator {
         return new int[]{
                 R.xml.devicesettings_miband3,
                 R.xml.devicesettings_wearlocation,
+                R.xml.devicesettings_goal_notification,
                 R.xml.devicesettings_custom_emoji_font,
                 R.xml.devicesettings_timeformat,
                 R.xml.devicesettings_dateformat,
                 R.xml.devicesettings_nightmode,
                 R.xml.devicesettings_liftwrist_display,
+                R.xml.devicesettings_inactivity_dnd,
                 R.xml.devicesettings_swipeunlock,
                 R.xml.devicesettings_sync_calendar,
                 R.xml.devicesettings_reserve_reminders_calendar,

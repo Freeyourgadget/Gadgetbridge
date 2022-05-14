@@ -190,4 +190,5 @@ public class DeviceSettingsPreferenceConst {
     public static final String PREF_SOUNDS = "sounds";
     public static final String PREF_AUTH_KEY = "authkey";
     public static final String PREF_USER_FITNESS_GOAL = "fitness_goal";
+    public static final String PREF_USER_FITNESS_GOAL_NOTIFICATION = "fitness_goal_notification";
 }
