@@ -1650,4 +1650,9 @@
     <string name="activity_type_outdoor_cycling">Açık Havada Bisiklet Sürme</string>
     <string name="mi5_prefs_workout_activity_types_summary">Egzersizler ekranında görüntülenecek etkinlik türlerini seçin</string>
     <string name="activity_type_outdoor_running">Açık Havada Koşu</string>
+    <string name="pref_screen_notification_idle_alerts">Boşta Kalma Uyarıları</string>
+    <string name="pref_screen_vibration_patterns_title">Titreşim Modelleri</string>
+    <string name="pref_screen_notification_profile_event_reminder">Etkinlik hatırlatıcı</string>
+    <string name="pref_screen_notification_profile_find_device">Aygıt bul</string>
+    <string name="pref_screen_vibration_patterns_summary">Farklı bildirimler için titreşim modellerini yapılandırın</string>
 </resources>
