@@ -86,6 +86,11 @@ public class MiBand5Coordinator extends HuamiCoordinator {
     }
 
     @Override
+    public int getReminderSlotCount() {
+        return 50; // as enforced by Zepp Life
+    }
+
+    @Override
     public int getWorldClocksSlotCount() {
         return 20; // as enforced by Mi Fit
     }
