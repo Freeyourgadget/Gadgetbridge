@@ -165,10 +165,16 @@ public class HuamiService {
     public static final byte[] COMMAND_ENABLE_DISCONNECT_NOTIFCATION = new byte[]{ENDPOINT_DISPLAY, 0x0c, 0x00, 0x01, 0, 0, 0, 0};
     public static final byte[] COMMAND_DISABLE_DISCONNECT_NOTIFCATION = new byte[]{ENDPOINT_DISPLAY, 0x0c, 0x00, 0x00, 0, 0, 0, 0};
 
-    public static final byte[] COMMAND_REQUEST_ALARMS = new byte[]{0x0d};
-    public static final byte[] COMMAND_REQUEST_ALARMS_WITH_TIMES = new byte[]{(byte) 0xff,0x01,0x00,0x00,0x00};
+    public static final byte COMMAND_ALARMS = 0x0d;
+    public static final byte COMMAND_ALARMS_WITH_TIMES = 0x01;
+    public static final byte COMMAND_WORKOUT_ACTIVITY_TYPES = 0x11;
+    public static final byte COMMAND_GPS_VERSION = 0x0e;
 
-    public static final byte[] COMMAND_REQUEST_GPS_VERSION = new byte[]{0x0e};
+    public static final byte[] COMMAND_REQUEST_ALARMS = new byte[]{COMMAND_ALARMS};
+    public static final byte[] COMMAND_REQUEST_ALARMS_WITH_TIMES = new byte[]{(byte) 0xff, COMMAND_ALARMS_WITH_TIMES, 0x00, 0x00, 0x00};
+    public static final byte[] COMMAND_REQUEST_WORKOUT_ACTIVITY_TYPES = new byte[]{(byte) 0xff, COMMAND_WORKOUT_ACTIVITY_TYPES, 0x00, 0x00, 0x00};
+
+    public static final byte[] COMMAND_REQUEST_GPS_VERSION = new byte[]{COMMAND_GPS_VERSION};
 
     // The third byte controls the threshold, in minutes
     // The last 8 bytes represent 2 separate time intervals for the inactivity warnings

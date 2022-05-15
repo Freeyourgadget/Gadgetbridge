@@ -225,6 +225,10 @@ import static nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst.PREF
 import static nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst.PREF_HUAMI_VIBRATION_TRY_INCOMING_CALL;
 import static nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst.PREF_HUAMI_VIBRATION_TRY_INCOMING_SMS;
 import static nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst.PREF_HUAMI_VIBRATION_TRY_PREFIX;
+import static nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiService.COMMAND_ALARMS;
+import static nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiService.COMMAND_ALARMS_WITH_TIMES;
+import static nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiService.COMMAND_GPS_VERSION;
+import static nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiService.COMMAND_WORKOUT_ACTIVITY_TYPES;
 import static nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiService.DISPLAY_ITEM_BIT_CLOCK;
 import static nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiService.ENDPOINT_DISPLAY_ITEMS;
 import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.DEFAULT_VALUE_VIBRATION_COUNT;
@@ -2043,18 +2047,19 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
         }
     }
 
-    byte[] alarmConfigurationReassemblyBuffer;
+    byte[] reassemblyBuffer;
+    byte reassemblyType = 0x00;
 
     private void handleConfigurationInfo(byte[] value) {
         if (value == null || value.length < 4) {
             return;
         }
         if (value[0] == 0x10 && value[2] == 0x01) {
-            if (value[1] == 0x0e) {
+            if (value[1] == COMMAND_GPS_VERSION) {
                 String gpsVersion = new String(value, 3, value.length - 3);
                 LOG.info("got gps version = " + gpsVersion);
                 gbDevice.setFirmwareVersion2(gpsVersion);
-            } else if (value[1] == 0x0d) {
+            } else if (value[1] == COMMAND_ALARMS) {
                 LOG.info("got alarms from watch");
                 decodeAndUpdateAlarmStatus(value, false);
             } else {
@@ -2062,26 +2067,38 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
             }
         } else if (value[0] == ((byte) 0x80) && value[1] == 0x01) {
             boolean done = false;
-            if (value[2] == 0x00 || value[2] == (byte) 0xc0 && (value[4] == 0x01 && value[5] == 0x00 && value[6] == 0x00 && value[7] == 0x00 && value[8] == 0x01)) { // first chunk or complete data
-                alarmConfigurationReassemblyBuffer = new byte[value.length - 8];
-                System.arraycopy(value, 8, alarmConfigurationReassemblyBuffer, 0, alarmConfigurationReassemblyBuffer.length);
+            if (value[2] == 0x00 || value[2] == (byte) 0xc0) { // first chunk or complete data
+                reassemblyBuffer = new byte[value.length - 8];
+                reassemblyType = value[4];
+                System.arraycopy(value, 8, reassemblyBuffer, 0, reassemblyBuffer.length);
                 if (value[2] == (byte) 0xc0) {
                     done = true;
                 }
-            } else if (alarmConfigurationReassemblyBuffer != null && (value[2] == 0x40 || value[2] == (byte) 0x80)) {
+            } else if (reassemblyBuffer != null && (value[2] == 0x40 || value[2] == (byte) 0x80)) {
                 byte[] payload = new byte[value.length - 4];
                 System.arraycopy(value, 4, payload, 0, payload.length);
-                alarmConfigurationReassemblyBuffer = ArrayUtils.addAll(alarmConfigurationReassemblyBuffer, payload);
+                reassemblyBuffer = ArrayUtils.addAll(reassemblyBuffer, payload);
                 if (value[2] == (byte) 0x80) {
                     done = true;
                 }
             }
             if (!done) {
-                LOG.info("got chunk of alarm configuration data");
+                LOG.info("got chunk of configuration data for {}", String.format("0x%x", reassemblyType));
             } else {
                 LOG.info("got full/reassembled configuration data");
-                decodeAndUpdateAlarmStatus(alarmConfigurationReassemblyBuffer, true);
-                alarmConfigurationReassemblyBuffer = null;
+                switch (reassemblyType) {
+                    case COMMAND_ALARMS_WITH_TIMES:
+                        decodeAndUpdateAlarmStatus(reassemblyBuffer, true);
+                        break;
+                    case COMMAND_WORKOUT_ACTIVITY_TYPES:
+                        LOG.warn("got workout activity types, not handled");
+                        break;
+                    default:
+                        LOG.warn("got unknown chunked configuration response for {}, not handled", String.format("0x%x", reassemblyType));
+                        break;
+                }
+
+                reassemblyBuffer = null;
             }
         } else {
             LOG.warn("unknown response got from configuration request " + GB.hexdump(value, 0, -1));
@@ -2535,10 +2552,8 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
     public void onTestNewFunction() {
         //requestMTU(23);
         try {
-            final TransactionBuilder builder = performInitialized("test pattern");
-            final VibrationProfile profile = VibrationProfile.getProfile(VibrationProfile.ID_SHORT, (short) 2);
-
-            setVibrationPattern(builder, HuamiVibrationPatternNotificationType.APP_ALERTS, true, profile);
+            final TransactionBuilder builder = performInitialized("test request");
+            writeToConfiguration(builder, HuamiService.COMMAND_REQUEST_WORKOUT_ACTIVITY_TYPES);
             builder.queue(getQueue());
         } catch (final Exception e) {
             LOG.error("onTestNewFunction failed", e);
