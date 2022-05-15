@@ -17,6 +17,8 @@
 
 package nodomain.freeyourgadget.gadgetbridge.model;
 
+import java.util.Objects;
+
 public class BatteryConfig {
 
     private final int batteryIndex;
@@ -41,6 +43,16 @@ public class BatteryConfig {
         return batteryLabel;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof BatteryConfig)) return false;
+        BatteryConfig that = (BatteryConfig) o;
+        return getBatteryIndex() == that.getBatteryIndex() && getBatteryIcon() == that.getBatteryIcon() && getBatteryLabel() == that.getBatteryLabel();
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getBatteryIndex(), getBatteryIcon(), getBatteryLabel());
+    }
 }
-
-
