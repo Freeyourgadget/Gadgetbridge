@@ -28,4 +28,5 @@ public class CallSpec {
     public String number;
     public String name;
     public int command;
+    public int dndSuppressed;
 }

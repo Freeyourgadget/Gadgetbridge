@@ -438,10 +438,8 @@ public class GBApplication extends Application {
 
     @TargetApi(Build.VERSION_CODES.M)
     public static int getGrantedInterruptionFilter() {
-        if (prefs.getBoolean("notification_filter", false) && GBApplication.isRunningMarshmallowOrLater()) {
-            if (notificationManager.isNotificationPolicyAccessGranted()) {
-                return notificationManager.getCurrentInterruptionFilter();
-            }
+        if (GBApplication.isRunningMarshmallowOrLater() && notificationManager.isNotificationPolicyAccessGranted()) {
+            return notificationManager.getCurrentInterruptionFilter();
         }
         return NotificationManager.INTERRUPTION_FILTER_ALL;
     }

@@ -87,18 +87,24 @@ public class SMSReceiver extends BroadcastReceiver {
                         dismissAllAction.type = NotificationSpec.Action.TYPE_SYNTECTIC_DISMISS_ALL;
                         notificationSpec.attachedActions.add(dismissAllAction);
 
+                        int dndSuppressed = 0;
                         switch (GBApplication.getGrantedInterruptionFilter()) {
                             case NotificationManager.INTERRUPTION_FILTER_ALL:
                                 break;
                             case NotificationManager.INTERRUPTION_FILTER_ALARMS:
                             case NotificationManager.INTERRUPTION_FILTER_NONE:
-                                return;
+                                dndSuppressed = 1;
+                                break;
                             case NotificationManager.INTERRUPTION_FILTER_PRIORITY:
                                 if (GBApplication.isPriorityNumber(Policy.PRIORITY_CATEGORY_MESSAGES, notificationSpec.phoneNumber)) {
                                     break;
                                 }
-                                return;
+                                dndSuppressed = 1;
                         }
+                        if (prefs.getBoolean("notification_filter", false) && dndSuppressed == 1) {
+                            return;
+                        }
+                        notificationSpec.dndSuppressed = dndSuppressed;
                         GBApplication.deviceService().onNotification(notificationSpec);
                     }
                 }
