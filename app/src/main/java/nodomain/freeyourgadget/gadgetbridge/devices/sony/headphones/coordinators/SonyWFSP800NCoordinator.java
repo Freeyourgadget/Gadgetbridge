@@ -53,9 +53,9 @@ public class SonyWFSP800NCoordinator extends SonyHeadphonesCoordinator {
 
     @Override
     public BatteryConfig[] getBatteryConfig() {
-        final BatteryConfig battery1 = new BatteryConfig(0, R.drawable.ic_tws_case, R.string.battery_case);
-        final BatteryConfig battery2 = new BatteryConfig(1, R.drawable.ic_galaxy_buds_l, R.string.left_earbud);
-        final BatteryConfig battery3 = new BatteryConfig(2, R.drawable.ic_galaxy_buds_r, R.string.right_earbud);
+        final BatteryConfig battery1 = new BatteryConfig(0, R.drawable.ic_sony_wf_800n_case, R.string.battery_case);
+        final BatteryConfig battery2 = new BatteryConfig(1, R.drawable.ic_sony_wf_800n_left, R.string.left_earbud);
+        final BatteryConfig battery3 = new BatteryConfig(2, R.drawable.ic_sony_wf_800n_right, R.string.right_earbud);
 
         return new BatteryConfig[]{battery1, battery2, battery3};
     }
