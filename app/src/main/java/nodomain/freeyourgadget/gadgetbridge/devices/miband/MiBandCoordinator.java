@@ -245,9 +245,9 @@ public class MiBandCoordinator extends AbstractDeviceCoordinator {
 		return prefs.getInt(MiBandConst.PREF_MIBAND_DEVICE_TIME_OFFSET_HOURS, 0);
 	}
 
-    public static boolean getHeartrateSleepSupport(String miBandAddress) throws IllegalArgumentException {
-        Prefs prefs = GBApplication.getPrefs();
-        return prefs.getBoolean(MiBandConst.PREF_MIBAND_USE_HR_FOR_SLEEP_DETECTION, false);
+    public static boolean getHeartrateSleepSupport(String deviceAddress) throws IllegalArgumentException {
+        Prefs prefs = new Prefs(GBApplication.getDeviceSpecificSharedPrefs(deviceAddress));
+        return prefs.getBoolean(DeviceSettingsPreferenceConst.PREF_HEARTRATE_USE_FOR_SLEEP_DETECTION, false);
     }
 
     public static int getReservedAlarmSlots(String miBandAddress) throws IllegalArgumentException {
@@ -265,6 +265,7 @@ public class MiBandCoordinator extends AbstractDeviceCoordinator {
     public int[] getSupportedDeviceSpecificSettings(GBDevice device) {
         return new int[]{
                 R.xml.devicesettings_wearlocation,
+                R.xml.devicesettings_heartrate_sleep,
                 R.xml.devicesettings_lowlatency_fwupdate,
                 R.xml.devicesettings_reserve_alarms_calendar,
                 R.xml.devicesettings_fake_timeoffset

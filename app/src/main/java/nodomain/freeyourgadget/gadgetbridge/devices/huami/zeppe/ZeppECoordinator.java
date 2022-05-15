@@ -90,6 +90,7 @@ public class ZeppECoordinator extends HuamiCoordinator {
         return new int[]{
                 R.xml.devicesettings_amazfitgtsgtr,
                 R.xml.devicesettings_wearlocation,
+                R.xml.devicesettings_heartrate_sleep,
                 R.xml.devicesettings_goal_notification,
                 R.xml.devicesettings_timeformat,
                 R.xml.devicesettings_liftwrist_display,

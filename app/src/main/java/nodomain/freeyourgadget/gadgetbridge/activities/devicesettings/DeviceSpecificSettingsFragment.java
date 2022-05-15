@@ -344,6 +344,28 @@ public class DeviceSpecificSettingsFragment extends PreferenceFragmentCompat imp
             });
         }
 
+        final Preference enableHeartrateSleepSupport = findPreference(PREF_HEARTRATE_USE_FOR_SLEEP_DETECTION);
+        if (enableHeartrateSleepSupport != null) {
+            enableHeartrateSleepSupport.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+                @Override
+                public boolean onPreferenceChange(Preference preference, Object newVal) {
+                    GBApplication.deviceService().onEnableHeartRateSleepSupport(Boolean.TRUE.equals(newVal));
+                    return true;
+                }
+            });
+        }
+
+        final Preference heartrateMeasurementInterval = findPreference(PREF_HEARTRATE_MEASUREMENT_INTERVAL);
+        if (heartrateMeasurementInterval != null) {
+            heartrateMeasurementInterval.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+                @Override
+                public boolean onPreferenceChange(Preference preference, Object newVal) {
+                    GBApplication.deviceService().onSetHeartRateMeasurementInterval(Integer.parseInt((String) newVal));
+                    return true;
+                }
+            });
+        }
+
         addPreferenceHandlerFor(PREF_SWIPE_UNLOCK);
         addPreferenceHandlerFor(PREF_MI2_DATEFORMAT);
         addPreferenceHandlerFor(PREF_DATEFORMAT);

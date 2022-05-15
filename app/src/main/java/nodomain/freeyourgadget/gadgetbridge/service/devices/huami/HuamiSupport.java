@@ -3679,14 +3679,10 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
         setHeartrateSleepSupport(builder);
         setDisconnectNotification(builder);
         setExposeHRThridParty(builder);
-        setHeartrateMeasurementInterval(builder, getHeartRateMeasurementInterval());
+        setHeartrateMeasurementInterval(builder, HuamiCoordinator.getHeartRateMeasurementInterval(getDevice().getAddress()));
         sendReminders(builder);
         setWorldClocks(builder);
         requestAlarms(builder);
-    }
-
-    private int getHeartRateMeasurementInterval() {
-        return GBApplication.getPrefs().getInt("heartrate_measurement_interval", 0) / 60;
     }
 
     public HuamiFWHelper createFWHelper(Uri uri, Context context) throws IOException {

@@ -90,6 +90,7 @@ public class AmazfitCorCoordinator extends HuamiCoordinator {
         return new int[]{
                 R.xml.devicesettings_amazfitcor,
                 R.xml.devicesettings_wearlocation,
+                R.xml.devicesettings_heartrate_sleep,
                 R.xml.devicesettings_goal_notification,
                 R.xml.devicesettings_timeformat,
                 R.xml.devicesettings_custom_emoji_font,

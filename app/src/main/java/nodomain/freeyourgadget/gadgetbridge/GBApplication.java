@@ -117,7 +117,7 @@ public class GBApplication extends Application {
     private static SharedPreferences sharedPrefs;
     private static final String PREFS_VERSION = "shared_preferences_version";
     //if preferences have to be migrated, increment the following and add the migration logic in migratePrefs below; see http://stackoverflow.com/questions/16397848/how-can-i-migrate-android-preferences-with-a-new-version
-    private static final int CURRENT_PREFS_VERSION = 13;
+    private static final int CURRENT_PREFS_VERSION = 14;
 
     private static LimitedQueue mIDSenderLookup = new LimitedQueue(16);
     private static Prefs prefs;
@@ -1111,6 +1111,30 @@ public class GBApplication extends Application {
                     editor.remove("inactivity_warnings_dnd_start");
                     editor.remove("inactivity_warnings_dnd_end");
                     editor.remove("mi2_goal_notification");
+
+                    deviceSharedPrefsEdit.apply();
+                }
+            } catch (Exception e) {
+                Log.w(TAG, "error acquiring DB lock");
+            }
+        }
+
+        if (oldVersion < 14) {
+            try (DBHandler db = acquireDB()) {
+                final DaoSession daoSession = db.getDaoSession();
+                final List<Device> activeDevices = DBHelper.getActiveDevices(daoSession);
+
+                for (Device dbDevice : activeDevices) {
+                    final SharedPreferences deviceSharedPrefs = GBApplication.getDeviceSpecificSharedPrefs(dbDevice.getIdentifier());
+                    final SharedPreferences.Editor deviceSharedPrefsEdit = deviceSharedPrefs.edit();
+
+                    if (DeviceType.MIBAND.equals(dbDevice.getType()) || dbDevice.getManufacturer().equals("Huami")) {
+                        deviceSharedPrefsEdit.putBoolean("heartrate_sleep_detection", prefs.getBoolean("mi_hr_sleep_detection", false));
+                        deviceSharedPrefsEdit.putString("heartrate_measurement_interval", prefs.getString("heartrate_measurement_interval", "0"));
+                    }
+
+                    // Not removing heartrate_measurement_interval since it's still used by some devices (ZeTime)
+                    editor.remove("mi_hr_sleep_detection");
 
                     deviceSharedPrefsEdit.apply();
                 }

@@ -268,6 +268,11 @@ public abstract class HuamiCoordinator extends AbstractDeviceCoordinator {
         return prefs.getBoolean(HuamiConst.PREF_EXPOSE_HR_THIRDPARTY, false);
     }
 
+    public static int getHeartRateMeasurementInterval(String deviceAddress) {
+        Prefs prefs = new Prefs(GBApplication.getDeviceSpecificSharedPrefs(deviceAddress));
+        return GBApplication.getPrefs().getInt(DeviceSettingsPreferenceConst.PREF_HEARTRATE_MEASUREMENT_INTERVAL, 0) / 60;
+    }
+
     public static boolean getBtConnectedAdvertising(String deviceAddress) {
         Prefs prefs = new Prefs(GBApplication.getDeviceSpecificSharedPrefs(deviceAddress));
         return prefs.getBoolean(DeviceSettingsPreferenceConst.PREF_BT_CONNECTED_ADVERTISEMENT, false);

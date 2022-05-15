@@ -65,6 +65,7 @@ public class AmazfitGTS2MiniCoordinator extends AmazfitGTS2Coordinator {
         return new int[]{
                 R.xml.devicesettings_amazfitgts2mini,
                 R.xml.devicesettings_wearlocation,
+                R.xml.devicesettings_heartrate_sleep,
                 R.xml.devicesettings_goal_notification,
                 R.xml.devicesettings_timeformat,
                 R.xml.devicesettings_liftwrist_display,

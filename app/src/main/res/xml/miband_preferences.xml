@@ -16,19 +16,6 @@
             android:maxLength="5"
             android:title="@string/miband_prefs_fitness_goal" />
 
-        <CheckBoxPreference
-            android:defaultValue="false"
-            android:key="mi_hr_sleep_detection"
-            android:title="@string/miband_prefs_hr_sleep_detection" />
-
-        <ListPreference
-            android:defaultValue="0"
-            android:entries="@array/prefs_heartrate_measurement_interval"
-            android:entryValues="@array/prefs_heartrate_measurement_interval_values"
-            android:key="heartrate_measurement_interval"
-            android:summary="%s"
-            android:title="@string/prefs_title_heartrate_measurement_interval" />
-
     </PreferenceCategory>
 
     <PreferenceCategory

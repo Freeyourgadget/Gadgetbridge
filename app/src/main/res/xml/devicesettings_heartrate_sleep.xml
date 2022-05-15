@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceScreen
+        android:icon="@drawable/ic_heartrate"
+        android:key="heartrate_monitoring_key"
+        android:persistent="false"
+        android:summary="@string/mi2_prefs_heart_rate_monitoring_summary"
+        android:title="@string/mi2_prefs_heart_rate_monitoring">
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:icon="@drawable/ic_activity_sleep"
+            android:key="heartrate_sleep_detection"
+            android:title="@string/miband_prefs_hr_sleep_detection" />
+
+        <ListPreference
+            android:defaultValue="0"
+            android:entries="@array/prefs_heartrate_measurement_interval"
+            android:entryValues="@array/prefs_heartrate_measurement_interval_values"
+            android:icon="@drawable/ic_heartrate"
+            android:key="heartrate_measurement_interval"
+            android:summary="%s"
+            android:title="@string/prefs_title_heartrate_measurement_interval" />
+    </PreferenceScreen>
+</androidx.preference.PreferenceScreen>

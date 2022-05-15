@@ -41,7 +41,6 @@ import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.Dev
 import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.ORIGIN_ALARM_CLOCK;
 import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.ORIGIN_INCOMING_CALL;
 import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.PREF_MIBAND_ADDRESS;
-import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.PREF_MIBAND_USE_HR_FOR_SLEEP_DETECTION;
 import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.VIBRATION_COUNT;
 import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.getNotificationPrefKey;
 import static nodomain.freeyourgadget.gadgetbridge.model.ActivityUser.PREF_USER_NAME;
@@ -56,24 +55,6 @@ public class MiBandPreferencesActivity extends AbstractSettingsActivity {
         addTryListeners();
 
         Prefs prefs = GBApplication.getPrefs();
-
-        final Preference enableHeartrateSleepSupport = findPreference(PREF_MIBAND_USE_HR_FOR_SLEEP_DETECTION);
-        enableHeartrateSleepSupport.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
-            @Override
-            public boolean onPreferenceChange(Preference preference, Object newVal) {
-                GBApplication.deviceService().onEnableHeartRateSleepSupport(Boolean.TRUE.equals(newVal));
-                return true;
-            }
-        });
-
-        final Preference heartrateMeasurementInterval = findPreference("heartrate_measurement_interval");
-        heartrateMeasurementInterval.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
-            @Override
-            public boolean onPreferenceChange(Preference preference, Object newVal) {
-                GBApplication.deviceService().onSetHeartRateMeasurementInterval(Integer.parseInt((String) newVal));
-                return true;
-            }
-        });
 
         final Preference fitnessGoal = findPreference(ActivityUser.PREF_USER_STEPS_GOAL);
         fitnessGoal.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
