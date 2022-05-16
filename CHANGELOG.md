@@ -1,5 +1,25 @@
 ### Changelog
 
+### NEXT
+* Initial Support for Sony WF-1000XM3
+* Huami: Add Toggle function for Open Tracks tracking to button actionss
+* Huami: Move inactivity warnings and goal notification to device-specific settings
+* Mi Band 6: set time on connect
+* Mi Band 5/6, Amazfit Bip S/U/Pro: Add world clock configuration
+* Mi Band 5/6: support sensitivity setting for lift wrist configuration
+* Mi Band 5: Add support for configuring workout menu on device
+* Mi Band 4/5/6: Add support for vibration patterns
+* Mi Band 5: Increase number of reminder slots to 50
+* Amazfit Neo: Allow to disable beeps for email notifications
+* Bangle.js: Fix incoming calls in release builds
+* Fossil Hybrid HR: Support flexible custom menu on watch
+* VESC: added battery indicator
+* UM25: Add reset option to current accumulation
+* UM25: Add notification on below current threshold
+* Fix crash when calender is accessed but permission is denied
+* Add com.asus.asusincallui to blacklist
+* New icons for Sony WF 800n and Mi Band 6
+
 ### 0.66.0
 * Add basic support for Casio GBD-H1000
 * Add support for Hama Fit Track 1900 - via FitPro device support
