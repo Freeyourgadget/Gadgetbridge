@@ -273,6 +273,26 @@ public abstract class HuamiCoordinator extends AbstractDeviceCoordinator {
         return GBApplication.getPrefs().getInt(DeviceSettingsPreferenceConst.PREF_HEARTRATE_MEASUREMENT_INTERVAL, 0) / 60;
     }
 
+    public static boolean getHeartrateActivityMonitoring(String deviceAddress) throws IllegalArgumentException {
+        Prefs prefs = new Prefs(GBApplication.getDeviceSpecificSharedPrefs(deviceAddress));
+        return prefs.getBoolean(DeviceSettingsPreferenceConst.PREF_HEARTRATE_ACTIVITY_MONITORING, false);
+    }
+
+    public static boolean getHeartrateAlert(String deviceAddress) throws IllegalArgumentException {
+        Prefs prefs = new Prefs(GBApplication.getDeviceSpecificSharedPrefs(deviceAddress));
+        return prefs.getBoolean(DeviceSettingsPreferenceConst.PREF_HEARTRATE_ALERT_ENABLED, false);
+    }
+
+    public static int getHeartrateAlertThreshold(String deviceAddress) throws IllegalArgumentException {
+        Prefs prefs = new Prefs(GBApplication.getDeviceSpecificSharedPrefs(deviceAddress));
+        return prefs.getInt(DeviceSettingsPreferenceConst.PREF_HEARTRATE_ALERT_THRESHOLD, 150);
+    }
+
+    public static boolean getHeartrateStressMonitoring(String deviceAddress) throws IllegalArgumentException {
+        Prefs prefs = new Prefs(GBApplication.getDeviceSpecificSharedPrefs(deviceAddress));
+        return prefs.getBoolean(DeviceSettingsPreferenceConst.PREF_HEARTRATE_STRESS_MONITORING, false);
+    }
+
     public static boolean getBtConnectedAdvertising(String deviceAddress) {
         Prefs prefs = new Prefs(GBApplication.getDeviceSpecificSharedPrefs(deviceAddress));
         return prefs.getBoolean(DeviceSettingsPreferenceConst.PREF_BT_CONNECTED_ADVERTISEMENT, false);

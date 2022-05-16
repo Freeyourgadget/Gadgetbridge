@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceScreen
+        android:icon="@drawable/ic_heartrate"
+        android:key="heartrate_monitoring_key"
+        android:persistent="false"
+        android:summary="@string/mi2_prefs_heart_rate_monitoring_alerts_summary"
+        android:title="@string/mi2_prefs_heart_rate_monitoring">
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:icon="@drawable/ic_activity_sleep"
+            android:key="heartrate_sleep_detection"
+            android:title="@string/miband_prefs_hr_sleep_detection" />
+
+        <ListPreference
+            android:defaultValue="0"
+            android:entries="@array/prefs_heartrate_measurement_interval"
+            android:entryValues="@array/prefs_heartrate_measurement_interval_values"
+            android:icon="@drawable/ic_heartrate"
+            android:key="heartrate_measurement_interval"
+            android:summary="%s"
+            android:title="@string/prefs_title_heartrate_measurement_interval" />
+
+        <!-- Activity Monitoring -->
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:icon="@drawable/ic_activity_unknown_small"
+            android:key="heartrate_activity_monitoring"
+            android:summary="@string/prefs_activity_monitoring_description"
+            android:title="@string/prefs_activity_monitoring_title" />
+
+        <!-- Heart Rate Alerts -->
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:icon="@drawable/ic_warning_gray"
+            android:key="heartrate_alert_enabled"
+            android:summary="@string/prefs_heartrate_alert_experimental_description"
+            android:title="@string/prefs_heartrate_alert_experimental_title" />
+
+        <ListPreference
+            android:defaultValue="0"
+            android:dependency="heartrate_alert_enabled"
+            android:entries="@array/prefs_miband_heartrate_alert_threshold"
+            android:entryValues="@array/prefs_miband_heartrate_alert_threshold_values"
+            android:icon="@drawable/ic_heartrate"
+            android:key="heartrate_alert_threshold"
+            android:summary="%s"
+            android:title="@string/prefs_heartrate_alert_threshold" />
+
+        <!-- Stress Monitoring -->
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:icon="@drawable/ic_mood_bad"
+            android:key="heartrate_stress_monitoring"
+            android:summary="@string/prefs_stress_monitoring_description"
+            android:title="@string/prefs_stress_monitoring_title" />
+    </PreferenceScreen>
+</androidx.preference.PreferenceScreen>

@@ -355,15 +355,43 @@ public class DeviceSpecificSettingsFragment extends PreferenceFragmentCompat imp
             });
         }
 
-        final Preference heartrateMeasurementInterval = findPreference(PREF_HEARTRATE_MEASUREMENT_INTERVAL);
+        final ListPreference heartrateMeasurementInterval = findPreference(PREF_HEARTRATE_MEASUREMENT_INTERVAL);
         if (heartrateMeasurementInterval != null) {
+            final SwitchPreference activityMonitoring = findPreference(PREF_HEARTRATE_ACTIVITY_MONITORING);
+            final SwitchPreference heartrateAlertEnabled = findPreference(PREF_HEARTRATE_ALERT_ENABLED);
+            final SwitchPreference stressMonitoring = findPreference(PREF_HEARTRATE_STRESS_MONITORING);
+
             heartrateMeasurementInterval.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
-                @Override
-                public boolean onPreferenceChange(Preference preference, Object newVal) {
+                public boolean onPreferenceChange(final Preference preference, final Object newVal) {
                     GBApplication.deviceService().onSetHeartRateMeasurementInterval(Integer.parseInt((String) newVal));
+
+                    final boolean isMeasurementIntervalEnabled = !newVal.equals("0");
+
+                    if (activityMonitoring != null) {
+                        activityMonitoring.setEnabled(isMeasurementIntervalEnabled);
+                    }
+                    if (heartrateAlertEnabled != null) {
+                        heartrateAlertEnabled.setEnabled(isMeasurementIntervalEnabled);
+                    }
+                    if (stressMonitoring != null) {
+                        stressMonitoring.setEnabled(isMeasurementIntervalEnabled);
+                    }
+
                     return true;
                 }
             });
+
+            final boolean isMeasurementIntervalEnabled = !heartrateMeasurementInterval.getValue().equals("0");
+
+            if (activityMonitoring != null) {
+                activityMonitoring.setEnabled(isMeasurementIntervalEnabled);
+            }
+            if (heartrateAlertEnabled != null) {
+                heartrateAlertEnabled.setEnabled(isMeasurementIntervalEnabled);
+            }
+            if (stressMonitoring != null) {
+                stressMonitoring.setEnabled(isMeasurementIntervalEnabled);
+            }
         }
 
         addPreferenceHandlerFor(PREF_SWIPE_UNLOCK);
@@ -416,6 +444,10 @@ public class DeviceSpecificSettingsFragment extends PreferenceFragmentCompat imp
         addPreferenceHandlerFor(PREF_AUTOHEARTRATE_INTERVAL);
         addPreferenceHandlerFor(PREF_AUTOHEARTRATE_START);
         addPreferenceHandlerFor(PREF_AUTOHEARTRATE_END);
+        addPreferenceHandlerFor(PREF_HEARTRATE_ACTIVITY_MONITORING);
+        addPreferenceHandlerFor(PREF_HEARTRATE_ALERT_THRESHOLD);
+        addPreferenceHandlerFor(PREF_HEARTRATE_ALERT_ENABLED);
+        addPreferenceHandlerFor(PREF_HEARTRATE_STRESS_MONITORING);
         addPreferenceHandlerFor(PREF_DO_NOT_DISTURB_NOAUTO);
         addPreferenceHandlerFor(PREF_DO_NOT_DISTURB_NOAUTO_START);
         addPreferenceHandlerFor(PREF_DO_NOT_DISTURB_NOAUTO_END);

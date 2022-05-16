@@ -85,6 +85,10 @@ public class DeviceSettingsPreferenceConst {
 
     public static final String PREF_HEARTRATE_USE_FOR_SLEEP_DETECTION = "heartrate_sleep_detection";
     public static final String PREF_HEARTRATE_MEASUREMENT_INTERVAL = "heartrate_measurement_interval";
+    public static final String PREF_HEARTRATE_ACTIVITY_MONITORING = "heartrate_activity_monitoring";
+    public static final String PREF_HEARTRATE_ALERT_ENABLED = "heartrate_alert_enabled";
+    public static final String PREF_HEARTRATE_ALERT_THRESHOLD = "heartrate_alert_threshold";
+    public static final String PREF_HEARTRATE_STRESS_MONITORING = "heartrate_stress_monitoring";
 
     public static final String PREF_AUTOHEARTRATE_SWITCH = "pref_autoheartrate_switch";
     public static final String PREF_AUTOHEARTRATE_SLEEP = "pref_autoheartrate_sleep";

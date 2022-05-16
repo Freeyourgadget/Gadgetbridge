@@ -171,6 +171,10 @@ import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.Dev
 import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_DO_NOT_DISTURB_START;
 import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_DO_NOT_DISTURB_END;
 import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_DO_NOT_DISTURB_LIFT_WRIST;
+import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_HEARTRATE_ACTIVITY_MONITORING;
+import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_HEARTRATE_ALERT_ENABLED;
+import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_HEARTRATE_ALERT_THRESHOLD;
+import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_HEARTRATE_STRESS_MONITORING;
 import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_INACTIVITY_ENABLE;
 import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_INACTIVITY_START;
 import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_INACTIVITY_END;
@@ -230,6 +234,7 @@ import static nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiService.CO
 import static nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiService.COMMAND_GPS_VERSION;
 import static nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiService.COMMAND_WORKOUT_ACTIVITY_TYPES;
 import static nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiService.DISPLAY_ITEM_BIT_CLOCK;
+import static nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiService.ENDPOINT_DISPLAY;
 import static nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiService.ENDPOINT_DISPLAY_ITEMS;
 import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.DEFAULT_VALUE_VIBRATION_COUNT;
 import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.DEFAULT_VALUE_VIBRATION_PROFILE;
@@ -676,6 +681,37 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
             }
             builder.notify(characteristicHRControlPoint, false); // TODO: this should actually be in some kind of finally-block in the queue. It should also be sent asynchronously after the notifications have completely arrived and processed.
         }
+        return this;
+    }
+
+    private HuamiSupport setHeartrateActivityMonitoring(TransactionBuilder builder) {
+        final boolean enableHrActivityMonitoring = HuamiCoordinator.getHeartrateActivityMonitoring(gbDevice.getAddress());
+        final byte[] cmd = {ENDPOINT_DISPLAY, 0x22, 0x00, (byte) (enableHrActivityMonitoring ? 0x01 : 0x00)};
+        writeToConfiguration(builder, cmd);
+        return this;
+    }
+
+    private HuamiSupport setHeartrateAlert(TransactionBuilder builder) {
+        final boolean enableHrAlert = HuamiCoordinator.getHeartrateAlert(gbDevice.getAddress());
+        final int hrAlertThreshold = HuamiCoordinator.getHeartrateAlertThreshold(gbDevice.getAddress());
+
+        final byte[] cmd = {
+                ENDPOINT_DISPLAY,
+                0x1a,
+                0x00,
+                (byte) (enableHrAlert ? 0x01 : 0x00),
+                (byte) hrAlertThreshold
+        };
+
+        writeToConfiguration(builder, cmd);
+
+        return this;
+    }
+
+    private HuamiSupport setHeartrateStressMonitoring(TransactionBuilder builder) {
+        final boolean enableHrStressMonitoring = HuamiCoordinator.getHeartrateStressMonitoring(gbDevice.getAddress());
+        final byte[] cmd = new byte[] {(byte) 0xfe, 0x06, 0x00, (byte) (enableHrStressMonitoring ? 0x01 : 0x00)};
+        writeToConfiguration(builder, cmd);
         return this;
     }
 
@@ -2536,6 +2572,16 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
                 case PREF_HUAMI_VIBRATION_TRY_FIND_BAND:
                     setVibrationPattern(builder, config);
                     break;
+                case PREF_HEARTRATE_ACTIVITY_MONITORING:
+                    setHeartrateActivityMonitoring(builder);
+                    break;
+                case PREF_HEARTRATE_ALERT_ENABLED:
+                case PREF_HEARTRATE_ALERT_THRESHOLD:
+                    setHeartrateAlert(builder);
+                    break;
+                case PREF_HEARTRATE_STRESS_MONITORING:
+                    setHeartrateStressMonitoring(builder);
+                    break;
             }
             builder.queue(getQueue());
         } catch (IOException e) {
@@ -3677,6 +3723,9 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
         setGoalNotification(builder);
         setInactivityWarnings(builder);
         setHeartrateSleepSupport(builder);
+        setHeartrateActivityMonitoring(builder);
+        setHeartrateAlert(builder);
+        setHeartrateStressMonitoring(builder);
         setDisconnectNotification(builder);
         setExposeHRThridParty(builder);
         setHeartrateMeasurementInterval(builder, HuamiCoordinator.getHeartRateMeasurementInterval(getDevice().getAddress()));

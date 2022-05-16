@@ -1581,6 +1581,34 @@
         <item>3600</item>
     </string-array>
 
+    <string-array name="prefs_miband_heartrate_alert_threshold">
+        <item name="100">@string/heartrate_bpm_100</item>
+        <item name="105">@string/heartrate_bpm_105</item>
+        <item name="110">@string/heartrate_bpm_110</item>
+        <item name="112">@string/heartrate_bpm_112</item>
+        <item name="120">@string/heartrate_bpm_120</item>
+        <item name="125">@string/heartrate_bpm_125</item>
+        <item name="130">@string/heartrate_bpm_130</item>
+        <item name="135">@string/heartrate_bpm_135</item>
+        <item name="140">@string/heartrate_bpm_140</item>
+        <item name="145">@string/heartrate_bpm_145</item>
+        <item name="150">@string/heartrate_bpm_150</item>
+    </string-array>
+
+    <string-array name="prefs_miband_heartrate_alert_threshold_values">
+        <item>100</item>
+        <item>105</item>
+        <item>110</item>
+        <item>112</item>
+        <item>120</item>
+        <item>125</item>
+        <item>130</item>
+        <item>135</item>
+        <item>140</item>
+        <item>145</item>
+        <item>150</item>
+    </string-array>
+
     <string-array name="prefs_zetime_heartrate_measurement_interval">
         <item name="0">@string/off</item>
         <item name="300">@string/interval_five_minutes</item>
