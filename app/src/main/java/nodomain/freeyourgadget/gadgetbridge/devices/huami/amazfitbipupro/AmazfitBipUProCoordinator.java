@@ -107,6 +107,7 @@ public class AmazfitBipUProCoordinator extends HuamiCoordinator {
     public int[] getSupportedDeviceSpecificSettings(GBDevice device) {
         return new int[]{
                 R.xml.devicesettings_amazfitbipupro,
+                R.xml.devicesettings_vibrationpatterns,
                 R.xml.devicesettings_timeformat,
                 R.xml.devicesettings_world_clocks,
                 R.xml.devicesettings_wearlocation,

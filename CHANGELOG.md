@@ -8,7 +8,7 @@
 * Mi Band 5/6, Amazfit Bip S/U/Pro: Add world clock configuration
 * Mi Band 5/6: support sensitivity setting for lift wrist configuration
 * Mi Band 5: Add support for configuring workout menu on device
-* Mi Band 4/5/6: Add support for vibration patterns
+* Mi Band 4/5/6, Amazfit Bip U/Pro: Add support for vibration patterns
 * Mi Band 5: Increase number of reminder slots to 50
 * Amazfit Neo: Allow to disable beeps for email notifications
 * Bangle.js: Fix incoming calls in release builds
