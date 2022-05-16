@@ -99,7 +99,7 @@ public class AmazfitBand5Coordinator extends HuamiCoordinator {
     public int[] getSupportedDeviceSpecificSettings(GBDevice device) {
         return new int[]{
                 R.xml.devicesettings_amazfitband5,
-                R.xml.devicesettings_miband5_vibration,
+                R.xml.devicesettings_vibrationpatterns,
                 R.xml.devicesettings_wearlocation,
                 R.xml.devicesettings_goal_notification,
                 R.xml.devicesettings_custom_emoji_font,
