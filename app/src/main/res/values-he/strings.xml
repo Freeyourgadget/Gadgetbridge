@@ -1638,4 +1638,5 @@
     <string name="pref_screen_notification_profile_event_reminder">מתזכר אירועים</string>
     <string name="pref_screen_notification_idle_alerts">התראות בטלה</string>
     <string name="pref_screen_notification_profile_find_device">איתור המכשיר</string>
+    <string name="devicetype_sony_wf_1000xm3">Sony WF-1000XM3</string>
 </resources>
