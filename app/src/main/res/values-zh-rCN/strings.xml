@@ -1644,4 +1644,5 @@
     <string name="pref_screen_notification_profile_event_reminder">事件提醒</string>
     <string name="pref_screen_notification_idle_alerts">空闲警报</string>
     <string name="pref_screen_vibration_patterns_title">振动模式</string>
+    <string name="devicetype_sony_wf_1000xm3">Sony WF-1000XM3</string>
 </resources>
