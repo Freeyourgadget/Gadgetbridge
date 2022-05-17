@@ -1596,4 +1596,21 @@
     <string name="activity_db_management_autoexport_location">Forsto ikke plassering. Antagelig er dette et tilgangsproblem i Android. Mest sannsynlig fungerer ikke auto-eksport nå.</string>
     <string name="watchface_dialog_pre_setting_position">forhåndsinnstiller posisjon til %s</string>
     <string name="watchface_setting_light_up_on_notification">Slå på lys ved nye merknader</string>
+    <string name="pref_title_touch_ambient">Omgivelseslyd</string>
+    <string name="pref_balance">Balanse</string>
+    <string name="activity_type_outdoor_cycling">Utendørssykling</string>
+    <string name="activity_type_outdoor_running">Utendørsløping</string>
+    <string name="prefs_active_noise_cancelling_level_low">Lavt</string>
+    <string name="pref_title_touch_spotify">Spotify</string>
+    <string name="prefs_active_noise_cancelling_level_high">Høy</string>
+    <string name="pref_title_touch_voice_assistant">Stemmeassistent</string>
+    <string name="pref_title_touch_volume">Lydstyrke</string>
+    <string name="pref_title_touch_anc">Aktiv lydkansellering</string>
+    <string name="prefs_noise_control">Støykontroll</string>
+    <string name="pref_voice_detect_duration_5">5 sekunder</string>
+    <string name="pref_voice_detect_duration_10">10 sekunder</string>
+    <string name="pref_voice_detect_duration_15">15 sekunder</string>
+    <string name="normal">Normal</string>
+    <string name="sensitive">Sensitiv</string>
+    <string name="menuitem_email">E-post</string>
 </resources>
