@@ -1957,10 +1957,85 @@
         <item>5</item>
     </string-array>
 
-    <string-array name="galaxy_touch_options">
+    <string-array name="galaxy_pro_noise_controls_options_values">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+    </string-array>
+
+    <string-array name="galaxy_pro_noise_controls_options">
+        <item>@string/off</item>
+        <item>@string/prefs_active_noise_cancelling</item>
+        <item>@string/prefs_ambient_sound</item>
+    </string-array>
+
+    <string-array name="galaxy_pro_anc_level_values">
+        <item>0</item>
+        <item>1</item>
+    </string-array>
+
+    <string-array name="galaxy_pro_anc_level_options">
+        <item>@string/prefs_active_noise_cancelling_level_low</item>
+        <item>@string/prefs_active_noise_cancelling_level_high</item>
+    </string-array>
+
+
+    <string-array name="galaxy_pro_touch_options_left">
+        <item>@string/pref_switch_noise_control</item>
+        <item>@string/pref_title_touch_voice_assistant</item>
+        <item>@string/pref_media_volumedown</item>
+        <item>@string/pref_title_touch_spotify</item>
+    </string-array>
+
+    <string-array name="galaxy_pro_touch_options_right">
+        <item>@string/pref_switch_noise_control</item>
+        <item>@string/pref_title_touch_voice_assistant</item>
+        <item>@string/pref_media_volumeup</item>
+        <item>@string/pref_title_touch_spotify</item>
+    </string-array>
+
+    <string-array name="galaxy_pro_touch_options_values">
+        <item>2</item>
+        <item>1</item>
+        <item>3</item>
+        <item>4</item>
+    </string-array>
+
+    <string-array name="galaxy_pro_touch_switch_controls_options">
+        <item>@string/pref_switch_controls_anc_ambient</item>
+        <item>@string/pref_switch_controls_anc_off</item>
+        <item>@string/pref_switch_controls_ambient_off</item>
+    </string-array>
+
+    <string-array name="galaxy_pro_touch_switch_controls_values">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+    </string-array>
+
+    <string-array name="galaxy_pro_voice_detect_duration_options">
+        <item>@string/pref_voice_detect_duration_5</item>
+        <item>@string/pref_voice_detect_duration_10</item>
+        <item>@string/pref_voice_detect_duration_15</item>
+    </string-array>
+
+    <string-array name="galaxy_pro_voice_detect_duration_values">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+    </string-array>
+
+    <string-array name="galaxy_touch_options_left">
         <item>@string/pref_title_touch_voice_assistant</item>
         <item>@string/pref_title_touch_quick_ambient</item>
-        <item>@string/pref_title_touch_volume</item>
+        <item>@string/pref_media_volumedown</item>
+        <item>@string/pref_title_touch_ambient</item>
+    </string-array>
+
+    <string-array name="galaxy_touch_options_right">
+        <item>@string/pref_title_touch_voice_assistant</item>
+        <item>@string/pref_title_touch_quick_ambient</item>
+        <item>@string/pref_media_volumeup</item>
         <item>@string/pref_title_touch_ambient</item>
     </string-array>
 
@@ -1971,10 +2046,16 @@
         <item>3</item>
     </string-array>
 
-    <string-array name="galaxy_buds_live_touch_options">
+    <string-array name="galaxy_buds_live_touch_options_left">
         <item>@string/pref_title_touch_voice_assistant</item>
         <item>@string/pref_title_touch_anc</item>
-        <item>@string/pref_title_touch_volume</item>
+        <item>@string/pref_media_volumedown</item>
+    </string-array>
+
+    <string-array name="galaxy_buds_live_touch_options_right">
+        <item>@string/pref_title_touch_voice_assistant</item>
+        <item>@string/pref_title_touch_anc</item>
+        <item>@string/pref_media_volumeup</item>
     </string-array>
 
     <string-array name="galaxy_buds_live_touch_options_values">

@@ -21,6 +21,7 @@ import android.os.Parcelable;
 import androidx.preference.Preference;
 
 import java.util.Set;
+import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 
 /**
  * A device-specific preference handler, that allows for concrete implementations to customize the preferences in
@@ -37,10 +38,10 @@ public interface DeviceSpecificSettingsCustomizer extends Parcelable {
 
     /**
      * Customize the settings on the {@link DeviceSpecificSettingsFragment}.
-     *
      * @param handler the {@link DeviceSpecificSettingsHandler}
+     * @param prefs the {@link android.content.SharedPreferences}
      */
-    void customizeSettings(final DeviceSpecificSettingsHandler handler);
+    void customizeSettings(final DeviceSpecificSettingsHandler handler, Prefs prefs);
 
     /**
      * Keys of preferences which should print its values as a summary below the preference name.

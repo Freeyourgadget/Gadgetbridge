@@ -2,7 +2,8 @@
 
 ### NEXT
 * Initial Support for Sony WF-1000XM3
-* Huami: Add Toggle function for Open Tracks tracking to button actionss
+* Initial Support for Galaxy Buds Pro
+* Huami: Add Toggle function for Open Tracks tracking to button actions
 * Huami: Move inactivity warnings and goal notification to device-specific settings
 * Mi Band 6: set time on connect
 * Mi Band 5/6, Amazfit Bip S/U/Pro: Add world clock configuration
@@ -16,9 +17,9 @@
 * VESC: added battery indicator
 * UM25: Add reset option to current accumulation
 * UM25: Add notification on below current threshold
-* Fix crash when calender is accessed but permission is denied
+* Fix crash when calendar is accessed but permission is denied
 * Add com.asus.asusincallui to blacklist
-* New icons for Sony WF 800n and Mi Band 6
+* New icons for Sony overhead headphones, Sony WF 800n and Mi Band 6
 
 ### 0.66.0
 * Add basic support for Casio GBD-H1000

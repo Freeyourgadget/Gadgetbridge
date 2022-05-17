@@ -431,7 +431,6 @@ public class DeviceSpecificSettingsFragment extends PreferenceFragmentCompat imp
         addPreferenceHandlerFor(PREF_NOTHING_EAR1_INEAR);
         addPreferenceHandlerFor(PREF_NOTHING_EAR1_AUDIOMODE);
 
-        addPreferenceHandlerFor(PREF_GALAXY_BUDS_AMBIENT_MODE);
         addPreferenceHandlerFor(PREF_GALAXY_BUDS_AMBIENT_VOICE_FOCUS);
         addPreferenceHandlerFor(PREF_GALAXY_BUDS_AMBIENT_VOLUME);
         addPreferenceHandlerFor(PREF_GALAXY_BUDS_LOCK_TOUCH);
@@ -443,6 +442,23 @@ public class DeviceSpecificSettingsFragment extends PreferenceFragmentCompat imp
         addPreferenceHandlerFor(PREF_GALAXY_BUDS_TOUCH_RIGHT);
         addPreferenceHandlerFor(PREF_GALAXY_BUDS_LIVE_ANC);
         addPreferenceHandlerFor(PREF_GALAXY_BUDS_PRESSURE_RELIEF);
+        addPreferenceHandlerFor(PREF_GALAXY_BUDS_PRO_ANC_LEVEL);
+        addPreferenceHandlerFor(PREF_GALAXY_BUDS_AMBIENT_SOUND);
+        addPreferenceHandlerFor(PREF_GALAXY_PRO_DOUBLE_TAP_EDGE);
+        addPreferenceHandlerFor(PREF_GALAXY_BUDS_PRO_IN_EAR_DETECTION);
+        addPreferenceHandlerFor(PREF_GALAXY_BUDS_PRO_VOICE_DETECT);
+        addPreferenceHandlerFor(PREF_GALAXY_BUDS_PRO_VOICE_DETECT_DURATION);
+        addPreferenceHandlerFor(PREF_GALAXY_BUDS_PRO_BALANCE);
+        addPreferenceHandlerFor(PREF_GALAXY_BUDS_PRO_READ_NOTIFICATIONS_OUTLOUD);
+        addPreferenceHandlerFor(PREF_GALAXY_BUDS_AMBIENT_MODE_DURING_CALL);
+        addPreferenceHandlerFor(PREF_GALAXY_BUDS_PRO_AMBIENT_VOLUME_RIGHT);
+        addPreferenceHandlerFor(PREF_GALAXY_BUDS_PRO_AMBIENT_VOLUME_LEFT);
+        addPreferenceHandlerFor(PREF_GALAXY_BUDS_PRO_AMBIENT_SOUND_TONE);
+        addPreferenceHandlerFor(PREFS_NOISE_CONTROL_WITH_ONE_EARBUD);
+        addPreferenceHandlerFor(PREF_GALAXY_BUDS_AMBIENT_MODE);
+        addPreferenceHandlerFor(PREFS_GALAXY_BUDS_SEAMLESS_CONNECTION);
+        addPreferenceHandlerFor(PREF_GALAXY_BUDS_TOUCH_LEFT_SWITCH);
+        addPreferenceHandlerFor(PREF_GALAXY_BUDS_TOUCH_RIGHT_SWITCH);
 
         addPreferenceHandlerFor(PREF_SONY_AMBIENT_SOUND_CONTROL);
         addPreferenceHandlerFor(PREF_SONY_FOCUS_VOICE);
@@ -731,7 +747,7 @@ public class DeviceSpecificSettingsFragment extends PreferenceFragmentCompat imp
         }
 
         if (deviceSpecificSettingsCustomizer != null) {
-            deviceSpecificSettingsCustomizer.customizeSettings(this);
+            deviceSpecificSettingsCustomizer.customizeSettings(this, prefs);
         }
     }
 

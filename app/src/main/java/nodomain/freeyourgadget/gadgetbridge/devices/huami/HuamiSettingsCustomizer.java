@@ -18,7 +18,6 @@ package nodomain.freeyourgadget.gadgetbridge.devices.huami;
 
 import android.os.Parcel;
 import android.text.InputType;
-import android.widget.Toast;
 
 import androidx.preference.Preference;
 
@@ -31,6 +30,7 @@ import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSpec
 import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSpecificSettingsHandler;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.HuamiVibrationPatternNotificationType;
+import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 
 public class HuamiSettingsCustomizer implements DeviceSpecificSettingsCustomizer {
     final GBDevice device;
@@ -45,7 +45,7 @@ public class HuamiSettingsCustomizer implements DeviceSpecificSettingsCustomizer
     }
 
     @Override
-    public void customizeSettings(final DeviceSpecificSettingsHandler handler) {
+    public void customizeSettings(final DeviceSpecificSettingsHandler handler, Prefs prefs) {
         for (HuamiVibrationPatternNotificationType notificationType : HuamiVibrationPatternNotificationType.values()) {
             final String typeKey = notificationType.name().toLowerCase(Locale.ROOT);
 

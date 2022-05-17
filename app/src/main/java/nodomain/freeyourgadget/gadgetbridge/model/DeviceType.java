@@ -103,6 +103,7 @@ public enum DeviceType {
     UM25(350, R.drawable.ic_device_default, R.drawable.ic_device_default_disabled, R.string.devicetype_um25),
     DOMYOS_T540(400, R.drawable.ic_device_lovetoy, R.drawable.ic_device_lovetoy_disabled, R.string.devicetype_domyos_t540),
     NOTHING_EAR1(410, R.drawable.ic_device_nothingear, R.drawable.ic_device_nothingear_disabled, R.string.devicetype_nothingear1),
+    GALAXY_BUDS_PRO(418, R.drawable.ic_device_galaxy_buds_pro, R.drawable.ic_device_galaxy_buds_pro_disabled, R.string.devicetype_galaxybuds_pro),
     GALAXY_BUDS_LIVE(419, R.drawable.ic_device_galaxy_buds_live, R.drawable.ic_device_galaxy_buds_live_disabled, R.string.devicetype_galaxybuds_live),
     GALAXY_BUDS(420, R.drawable.ic_device_galaxy_buds, R.drawable.ic_device_galaxy_buds_disabled, R.string.devicetype_galaxybuds),
     SONY_WH_1000XM3(430, R.drawable.ic_device_sony_overhead, R.drawable.ic_device_sony_overhead_disabled, R.string.devicetype_sony_wh_1000xm3),

@@ -1,0 +1,239 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <PreferenceScreen
+        android:icon="@drawable/ic_surround"
+        android:key="pref_galaxy_buds_pro_noise_control_preference"
+        android:persistent="false"
+        android:title="@string/prefs_noise_control">
+        <PreferenceCategory android:title="@string/prefs_noise_control">
+
+            <ListPreference
+                android:defaultValue="0"
+                android:entries="@array/galaxy_pro_noise_controls_options"
+                android:entryValues="@array/galaxy_pro_noise_controls_options_values"
+                android:icon="@drawable/ic_surround"
+                android:key="pref_galaxy_buds_pro_noise_control"
+                android:summary="%s"
+                android:title="@string/prefs_noise_control" />
+
+            <ListPreference
+                android:defaultValue="0"
+                android:dependency="pref_galaxy_buds_pro_noise_control"
+                android:entries="@array/galaxy_pro_anc_level_options"
+                android:entryValues="@array/galaxy_pro_anc_level_values"
+                android:icon="@drawable/ic_surround"
+                android:key="pref_galaxy_buds_pro_anc_level"
+                android:summary="%s"
+                android:title="@string/prefs_active_noise_cancelling_level" />
+
+
+            <SeekBarPreference
+                android:icon="@drawable/ic_volume_up"
+                android:key="pref_galaxy_buds_ambient_volume"
+                android:max="3"
+                android:min="0"
+                android:title="@string/prefs_ambient_volume"
+                app:showSeekBarValue="false" />
+
+        </PreferenceCategory>
+    </PreferenceScreen>
+    <ListPreference
+        android:defaultValue="0"
+        android:entries="@array/galaxy_buds_live_equalizer_modes"
+        android:entryValues="@array/galaxy_buds_live_equalizer_values"
+        android:icon="@drawable/ic_equalizer"
+        android:key="pref_galaxy_buds_equalizer_mode"
+        android:summary="%s"
+        android:title="@string/prefs_equalizer_preset" />
+
+    <PreferenceScreen
+        android:icon="@drawable/ic_touch"
+        android:key="prefs_galaxy_touch_options"
+        android:persistent="false"
+        android:title="@string/prefs_galaxy_touch_options">
+        <PreferenceCategory android:title="@string/prefs_galaxy_touch_options">
+            <SwitchPreference
+                android:defaultValue="false"
+                android:disableDependentsState="true"
+                android:icon="@drawable/ic_lock_open"
+                android:key="pref_galaxy_buds_lock_touch"
+                android:summary="@string/prefs_touch_lock_summary"
+                android:title="@string/prefs_touch_lock" />
+            <ListPreference
+                android:defaultValue="0"
+                android:dependency="pref_galaxy_buds_lock_touch"
+                android:entries="@array/galaxy_pro_touch_options_left"
+                android:entryValues="@array/galaxy_pro_touch_options_values"
+                android:icon="@drawable/ic_touch"
+                android:key="pref_galaxy_buds_touch_left"
+                android:summary="%s"
+                android:title="@string/prefs_left" />
+
+            <ListPreference
+                android:defaultValue="0"
+                android:dependency="pref_galaxy_buds_lock_touch"
+                android:entries="@array/galaxy_pro_touch_switch_controls_options"
+                android:entryValues="@array/galaxy_pro_touch_switch_controls_values"
+                android:icon="@drawable/ic_switch_left"
+                android:key="pref_galaxy_buds_touch_left_switch"
+                android:summary="%s"
+                android:title="@string/prefs_switch_control_left" />
+
+            <ListPreference
+                android:defaultValue="0"
+                android:dependency="pref_galaxy_buds_lock_touch"
+                android:entries="@array/galaxy_pro_touch_options_right"
+                android:entryValues="@array/galaxy_pro_touch_options_values"
+                android:icon="@drawable/ic_touch"
+                android:key="pref_galaxy_buds_touch_right"
+                android:summary="%s"
+                android:title="@string/prefs_right" />
+            <ListPreference
+                android:defaultValue="0"
+                android:dependency="pref_galaxy_buds_lock_touch"
+                android:entries="@array/galaxy_pro_touch_switch_controls_options"
+                android:entryValues="@array/galaxy_pro_touch_switch_controls_values"
+                android:icon="@drawable/ic_switch_right"
+                android:key="pref_galaxy_buds_touch_right_switch"
+                android:summary="%s"
+                android:title="@string/prefs_switch_control_right" />
+
+            <SwitchPreference
+                android:defaultValue="false"
+                android:dependency="pref_galaxy_buds_lock_touch"
+                android:icon="@drawable/ic_touch"
+                android:key="pref_galaxy_pro_double_tap_edge"
+                android:summary="@string/prefs_double_tap_edge_summary"
+                android:title="@string/prefs_double_tap_edge" />
+        </PreferenceCategory>
+    </PreferenceScreen>
+
+    <PreferenceScreen
+        android:icon="@drawable/ic_settings"
+        android:key="prefs_settings"
+        android:persistent="false"
+        android:title="@string/title_activity_settings">
+        <SwitchPreference
+            android:defaultValue="false"
+            android:icon="@drawable/ic_hearing"
+            android:key="pref_galaxy_buds_pro_in_ear_detection"
+            android:summary="@string/prefs_in_ear_detection_summary"
+            android:title="@string/nothing_prefs_inear_title" />
+        <SwitchPreference
+            android:defaultValue="false"
+            android:icon="@drawable/ic_auto_awesome"
+            android:key="pref_galaxy_buds_pro_seamless_connection"
+            android:summary="@string/prefs_seamless_connection_switch_summary"
+            android:title="@string/prefs_seamless_connection_switch_title" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:icon="@drawable/ic_hearing"
+            android:key="pref_galaxy_buds_noise_controls_with_one_earbud"
+            android:summary="@string/prefs_noise_control_with_one_earbud_summary"
+            android:title="@string/prefs_noise_control_with_one_earbud" />
+
+        <SeekBarPreference
+            android:defaultValue="50"
+            android:icon="@drawable/ic_volume_up"
+            android:key="pref_galaxy_buds_pro_balance"
+            android:max="32"
+            android:min="0"
+            android:title="@string/pref_balance"
+            app:defaultValue="16"
+            app:showSeekBarValue="true" />
+
+        <PreferenceCategory android:title="@string/prefs_galaxy_buds_experimental">
+            <SwitchPreference
+                android:defaultValue="false"
+                android:icon="@drawable/ic_videogame"
+                android:key="pref_galaxy_buds_game_mode"
+                android:summary="@string/prefs_game_mode_summary"
+                android:title="@string/prefs_game_mode" />
+        </PreferenceCategory>
+
+        <!-- <SwitchPreference
+            android:defaultValue="false"
+            android:icon="@drawable/ic_graphic_eq"
+            android:key="pref_galaxy_buds_pro_read_notifications_outloud"
+            android:title="@string/prefs_read_notification_outloud" />
+            -->
+
+    </PreferenceScreen>
+
+
+    <PreferenceScreen
+        android:icon="@drawable/ic_settings_applications"
+        android:key="prefs_accessibility"
+        android:persistent="false"
+        android:title="@string/prefs_ambient_settings_title">
+
+        <PreferenceCategory android:title="@string/prefs_voice_detect">
+            <SwitchPreference
+                android:defaultValue="false"
+                android:icon="@drawable/ic_voice"
+                android:key="pref_galaxy_buds_pro_voice_detect"
+                android:summary="@string/prefs_voice_detect_summary"
+                android:title="@string/prefs_voice_detect" />
+            <ListPreference
+                android:defaultValue="5"
+                android:dependency="pref_galaxy_buds_pro_voice_detect"
+                android:entries="@array/galaxy_pro_voice_detect_duration_options"
+                android:entryValues="@array/galaxy_pro_voice_detect_duration_values"
+                android:icon="@drawable/ic_timer"
+                android:key="pref_galaxy_buds_pro_voice_detect_duration"
+                android:summary="%s"
+                android:title="@string/prefs_voice_detect_duration" />
+
+        </PreferenceCategory>
+        <PreferenceCategory android:title="@string/prefs_ambient_sound">
+
+
+            <SwitchPreference
+                android:defaultValue="false"
+                android:icon="@drawable/ic_hearing"
+                android:key="pref_galaxy_buds_ambient_mode_during_call"
+                android:summary="@string/prefs_ambient_sound_during_call_summary"
+                android:title="@string/prefs_ambient_sound_during_call_title" />
+
+            <SwitchPreference
+                android:defaultValue="false"
+                android:icon="@drawable/ic_hearing"
+                android:key="pref_galaxy_buds_ambient_sound"
+                android:summary="@string/prefs_customize_ambient_sound_summary"
+                android:title="@string/prefs_ambient_sound" />
+
+            <SeekBarPreference
+                android:defaultValue="1"
+                android:dependency="pref_galaxy_buds_ambient_sound"
+                android:icon="@drawable/ic_volume_up"
+                android:key="pref_galaxy_buds_pro_ambient_volume_right"
+                android:max="4"
+                android:min="0"
+                android:title="@string/prefs_ambient_volume_right"
+                app:showSeekBarValue="false" />
+
+            <SeekBarPreference
+                android:defaultValue="1"
+                android:dependency="pref_galaxy_buds_ambient_sound"
+                android:icon="@drawable/ic_volume_up"
+                android:key="pref_galaxy_buds_pro_ambient_volume_left"
+                android:max="4"
+                android:min="0"
+                android:title="@string/prefs_ambient_volume_left"
+                app:showSeekBarValue="false" />
+
+            <SeekBarPreference
+                android:defaultValue="1"
+                android:dependency="pref_galaxy_buds_ambient_sound"
+                android:icon="@drawable/ic_surround"
+                android:key="pref_galaxy_buds_pro_ambient_sound_tone"
+                android:max="4"
+                android:min="0"
+                android:summary="@string/pref_ambient_sound_tone_summary"
+                android:title="@string/pref_ambient_sound_tone"
+                app:showSeekBarValue="false" />
+        </PreferenceCategory>
+    </PreferenceScreen>
+</androidx.preference.PreferenceScreen>

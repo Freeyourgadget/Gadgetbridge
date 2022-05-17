@@ -139,8 +139,25 @@ public class DeviceSettingsPreferenceConst {
     public static final String PREF_GALAXY_BUDS_EQUALIZER_MODE = "pref_galaxy_buds_equalizer_mode";
     public static final String PREF_GALAXY_BUDS_TOUCH_LEFT = "pref_galaxy_buds_touch_left";
     public static final String PREF_GALAXY_BUDS_TOUCH_RIGHT = "pref_galaxy_buds_touch_right";
+    public static final String PREF_GALAXY_BUDS_TOUCH_RIGHT_SWITCH = "pref_galaxy_buds_touch_right_switch";
+    public static final String PREF_GALAXY_BUDS_TOUCH_LEFT_SWITCH = "pref_galaxy_buds_touch_left_switch";
     public static final String PREF_GALAXY_BUDS_LIVE_ANC = "pref_galaxy_buds_live_anc";
     public static final String PREF_GALAXY_BUDS_PRESSURE_RELIEF = "pref_galaxy_buds_live_pressure_relief";
+    public static final String PREF_GALAXY_BUDS_AMBIENT_SOUND = "pref_galaxy_buds_ambient_sound";
+    public static final String PREF_GALAXY_BUDS_PRO_NOISE_CONTROL="pref_galaxy_buds_pro_noise_control";
+    public static final String PREF_GALAXY_PRO_DOUBLE_TAP_EDGE ="pref_galaxy_pro_double_tap_edge";
+    public static final String PREF_GALAXY_BUDS_PRO_IN_EAR_DETECTION ="pref_galaxy_buds_pro_in_ear_detection";
+    public static final String PREF_GALAXY_BUDS_PRO_VOICE_DETECT ="pref_galaxy_buds_pro_voice_detect";
+    public static final String PREF_GALAXY_BUDS_PRO_VOICE_DETECT_DURATION ="pref_galaxy_buds_pro_voice_detect_duration";
+    public static final String PREF_GALAXY_BUDS_PRO_BALANCE="pref_galaxy_buds_pro_balance";
+    public static final String PREF_GALAXY_BUDS_PRO_READ_NOTIFICATIONS_OUTLOUD ="pref_galaxy_buds_pro_read_notifications_outloud";
+    public static final String PREF_GALAXY_BUDS_AMBIENT_MODE_DURING_CALL ="pref_galaxy_buds_ambient_mode_during_call";
+    public static final String PREF_GALAXY_BUDS_PRO_AMBIENT_VOLUME_RIGHT ="pref_galaxy_buds_pro_ambient_volume_right";
+    public static final String PREF_GALAXY_BUDS_PRO_AMBIENT_VOLUME_LEFT="pref_galaxy_buds_pro_ambient_volume_left";
+    public static final String PREF_GALAXY_BUDS_PRO_AMBIENT_SOUND_TONE ="pref_galaxy_buds_pro_ambient_sound_tone";
+    public static final String PREFS_NOISE_CONTROL_WITH_ONE_EARBUD ="pref_galaxy_buds_noise_controls_with_one_earbud";
+    public static final String PREF_GALAXY_BUDS_PRO_ANC_LEVEL="pref_galaxy_buds_pro_anc_level";
+    public static final String PREFS_GALAXY_BUDS_SEAMLESS_CONNECTION="prefs_galaxy_buds_seamless_connection";
 
     public static final String PREF_SONY_AUDIO_CODEC = "pref_sony_audio_codec";
     public static final String PREF_SONY_AMBIENT_SOUND_CONTROL = "pref_sony_ambient_sound_control";

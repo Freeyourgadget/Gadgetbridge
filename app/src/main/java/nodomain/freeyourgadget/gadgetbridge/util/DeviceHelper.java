@@ -51,6 +51,7 @@ import nodomain.freeyourgadget.gadgetbridge.devices.casio.gbx100.CasioGBX100Devi
 import nodomain.freeyourgadget.gadgetbridge.devices.domyos.DomyosT540Cooridnator;
 import nodomain.freeyourgadget.gadgetbridge.devices.galaxy_buds.GalaxyBudsDeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.galaxy_buds.GalaxyBudsLiveDeviceCoordinator;
+import nodomain.freeyourgadget.gadgetbridge.devices.galaxy_buds.GalaxyBudsProDeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.hplus.EXRIZUK8Coordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.hplus.HPlusCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.hplus.MakibesF68Coordinator;
@@ -323,6 +324,7 @@ public class DeviceHelper {
         result.add(new Ear1Coordinator());
         result.add(new GalaxyBudsDeviceCoordinator());
         result.add(new GalaxyBudsLiveDeviceCoordinator());
+        result.add(new GalaxyBudsProDeviceCoordinator());
         result.add(new VescCoordinator());
         result.add(new SonyWH1000XM3Coordinator());
         result.add(new SonyWH1000XM4Coordinator());
