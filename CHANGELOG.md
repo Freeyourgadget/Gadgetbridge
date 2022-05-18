@@ -1,6 +1,6 @@
 ### Changelog
 
-### NEXT
+### 0.67.0
 * Initial Support for Sony WF-1000XM3
 * Initial Support for Galaxy Buds Pro
 * Huami: Add Toggle function for Open Tracks tracking to button actions
@@ -15,12 +15,14 @@
 * Amazfit Neo: Allow to disable beeps for email notifications
 * Bangle.js: Fix incoming calls in release builds
 * Fossil Hybrid HR: Support flexible custom menu on watch
+* Fossil Hybrid HR: Add support for native DND Call/SMS functionality
 * VESC: added battery indicator
 * UM25: Add reset option to current accumulation
 * UM25: Add notification on below current threshold
 * Fix crash when calendar is accessed but permission is denied
-* Add com.asus.asusincallui to blacklist
+* Add com.asus.asusincallui and com.samsung.android.incallui to blacklist
 * New icons for Sony overhead headphones, Sony WF 800n and Mi Band 6
+
 
 ### 0.66.0
 * Add basic support for Casio GBD-H1000
