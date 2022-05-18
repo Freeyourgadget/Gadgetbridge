@@ -41,6 +41,9 @@ public class DeviceSettingsPreferenceConst {
     public static final String PREF_VIBRATION_STRENGH_PERCENTAGE = "vibration_strength";
     public static final String PREF_RELAX_FIRMWARE_CHECKS = "relax_firmware_checks";
 
+    public static final String PREF_DEVICE_INTERNET_ACCESS = "device_internet_access";
+    public static final String PREF_DEVICE_INTENTS = "device_intents";
+
     public static final String PREF_DISCONNECT_NOTIFICATION = "disconnect_notification";
     public static final String PREF_DISCONNECT_NOTIFICATION_START = "disconnect_notification_start";
     public static final String PREF_DISCONNECT_NOTIFICATION_END = "disconnect_notification_end";

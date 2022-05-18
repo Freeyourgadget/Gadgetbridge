@@ -43,18 +43,24 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.xml.sax.InputSource;
 
 import java.io.IOException;
+import java.io.StringReader;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.SimpleTimeZone;
 import java.util.UUID;
 import java.lang.reflect.Field;
 
+import nodomain.freeyourgadget.gadgetbridge.BuildConfig;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
+import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHelper;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventBatteryInfo;
@@ -83,12 +89,19 @@ import nodomain.freeyourgadget.gadgetbridge.util.AlarmUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 
+import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_ALLOW_HIGH_MTU;
+import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_DEVICE_INTERNET_ACCESS;
+import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_DEVICE_INTENTS;
 import static nodomain.freeyourgadget.gadgetbridge.database.DBHelper.*;
+
+import javax.xml.xpath.XPath;
+import javax.xml.xpath.XPathFactory;
 
 public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
     private static final Logger LOG = LoggerFactory.getLogger(BangleJSDeviceSupport.class);
     private BluetoothGattCharacteristic rxCharacteristic = null;
     private BluetoothGattCharacteristic txCharacteristic = null;
+    private boolean allowHighMTU = false;
     private int mtuSize = 20;
 
     private String receivedLine = "";
@@ -113,6 +126,9 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
         txCharacteristic = getCharacteristic(BangleJSConstants.UUID_CHARACTERISTIC_NORDIC_UART_TX);
         builder.setGattCallback(this);
         builder.notify(rxCharacteristic, true);
+
+        Prefs devicePrefs = new Prefs(GBApplication.getDeviceSpecificSharedPrefs(gbDevice.getAddress()));
+        allowHighMTU = devicePrefs.getBoolean(PREF_ALLOW_HIGH_MTU, false);
 
         uartTx(builder, " \u0003"); // clear active line
 
@@ -159,6 +175,18 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
         }
     }
 
+    /// Write JSON object of the form {t:taskName, err:message}
+    private void uartTxJSONError(String taskName, String message) {
+        JSONObject o = new JSONObject();
+        try {
+            o.put("t", taskName);
+            o.put("err", message);
+        } catch (JSONException e) {
+            GB.toast(getContext(), "uartTxJSONError: " + e.getLocalizedMessage(), Toast.LENGTH_LONG, GB.ERROR);
+        }
+        uartTxJSON(taskName, o);
+    }
+
     private void handleUartRxLine(String line) {
         LOG.info("UART RX LINE: " + line);
 
@@ -176,7 +204,8 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
     }
 
     private void handleUartRxJSON(JSONObject json) throws JSONException {
-        switch (json.getString("t")) {
+        String packetType = json.getString("t");
+        switch (packetType) {
             case "info":
                 GB.toast(getContext(), "Bangle.js: " + json.getString("msg"), Toast.LENGTH_LONG, GB.INFO);
                 break;
@@ -278,38 +307,78 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
                 }
             } break;
             case "http": {
-                // FIXME: This should be behind a default-off option in Gadgetbridge settings
-                RequestQueue queue = Volley.newRequestQueue(getContext());
-                String url = json.getString("url");
-                // Request a string response from the provided URL.
-                StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
-                        new Response.Listener<String>() {
-                            @Override
-                            public void onResponse(String response) {
-                                JSONObject o = new JSONObject();
-                                try {
-                                    o.put("t", "http");
-                                    o.put("resp", response);
-                                } catch (JSONException e) {
-                                    GB.toast(getContext(), "HTTP: " + e.getLocalizedMessage(), Toast.LENGTH_LONG, GB.ERROR);
-                                }
-                                uartTxJSON("http", o);
-                            }
-                        }, new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        JSONObject o = new JSONObject();
-                        try {
-                            o.put("t", "http");
-                            o.put("err", error.toString());
-                        } catch (JSONException e) {
-                            GB.toast(getContext(), "HTTP: " + e.getLocalizedMessage(), Toast.LENGTH_LONG, GB.ERROR);
-                        }
-                        uartTxJSON("http", o);
+                Prefs devicePrefs = new Prefs(GBApplication.getDeviceSpecificSharedPrefs(gbDevice.getAddress()));
+                if (BuildConfig.INTERNET_ACCESS && devicePrefs.getBoolean(PREF_DEVICE_INTERNET_ACCESS, false)) {
+                    RequestQueue queue = Volley.newRequestQueue(getContext());
+                    String url = json.getString("url");
+                    String _xmlPath = "";
+                    try {
+                        _xmlPath = json.getString("xpath");
+                    } catch (JSONException e) {
                     }
-                });
-                queue.add(stringRequest);
+                    final String xmlPath = _xmlPath;
+                    // Request a string response from the provided URL.
+                    StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
+                            new Response.Listener<String>() {
+                                @Override
+                                public void onResponse(String response) {
+                                    JSONObject o = new JSONObject();
+                                    if (xmlPath.length() != 0) {
+                                        try {
+                                            InputSource inputXML = new InputSource(new StringReader(response));
+                                            XPath xPath = XPathFactory.newInstance().newXPath();
+                                            response = xPath.evaluate(xmlPath, inputXML);
+                                        } catch (Exception error) {
+                                            uartTxJSONError("http", error.toString());
+                                            return;
+                                        }
+                                    }
+                                    try {
+                                        o.put("t", "http");
+                                        o.put("resp", response);
+                                    } catch (JSONException e) {
+                                        GB.toast(getContext(), "HTTP: " + e.getLocalizedMessage(), Toast.LENGTH_LONG, GB.ERROR);
+                                    }
+                                    uartTxJSON("http", o);
+                                }
+                            }, new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            JSONObject o = new JSONObject();
+                            uartTxJSONError("http", error.toString());
+                        }
+                    });
+                    queue.add(stringRequest);
+                } else {
+                    if (BuildConfig.INTERNET_ACCESS)
+                        uartTxJSONError("http", "Internet access not enabled, check Gadgetbridge Device Settings");
+                    else
+                        uartTxJSONError("http", "Internet access not enabled in this Gadgetbridge build");
+                }
             } break;
+            case "intent": {
+                Prefs devicePrefs = new Prefs(GBApplication.getDeviceSpecificSharedPrefs(gbDevice.getAddress()));
+                if (devicePrefs.getBoolean(PREF_DEVICE_INTENTS, false)) {
+                    String action = json.getString("action");
+                    JSONObject extra = json.getJSONObject("extra");
+                    Intent in = new Intent();
+                    in.setAction(action);
+                    if (extra != null) {
+                        Iterator<String> iter = extra.keys();
+                        while (iter.hasNext()) {
+                            String key = iter.next();
+                            in.putExtra(key, extra.getString(key));
+                        }
+                    }
+                    LOG.info("Sending intent " + action);
+                    this.getContext().getApplicationContext().sendBroadcast(in);
+                } else {
+                    uartTxJSONError("intent", "Android Intents not enabled, check Gadgetbridge Device Settings");
+                }
+            }
+            default : {
+                LOG.info("UART RX JSON packet type '"+packetType+"' not understood.");
+            }
         }
     }
 
@@ -322,7 +391,7 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
         if (BangleJSConstants.UUID_CHARACTERISTIC_NORDIC_UART_RX.equals(characteristic.getUuid())) {
             byte[] chars = characteristic.getValue();
             // check to see if we get more data - if so, increase out MTU for sending
-            if (chars.length > mtuSize)
+            if (allowHighMTU && chars.length > mtuSize)
                 mtuSize = chars.length;
             String packetStr = new String(chars);
             LOG.info("RX: " + packetStr);
