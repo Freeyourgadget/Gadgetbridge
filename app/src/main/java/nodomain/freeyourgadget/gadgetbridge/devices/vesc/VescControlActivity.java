@@ -73,7 +73,7 @@ public class VescControlActivity extends AbstractGBActivity {
 
     private void restoreValues(){
         rpmEditText.setText(String.valueOf(preferences.getInt(PREFS_KEY_LAST_RPM, 0)));
-        breakCurrentEditText.setText(String.valueOf(preferences.getInt(PREFS_KEY_LAST_BREAK_CURRENT, 0)));
+        breakCurrentEditText.setText(String.valueOf(preferences.getInt(PREFS_KEY_LAST_BREAK_CURRENT, 0) / 1000));
     }
 
     @Override
@@ -184,7 +184,11 @@ public class VescControlActivity extends AbstractGBActivity {
                     currentBreakCurrentMa = 0;
                     return;
                 }
-                VescControlActivity.this.currentBreakCurrentMa = Integer.parseInt(text) * 1000;
+                try {
+                    VescControlActivity.this.currentBreakCurrentMa = Integer.parseInt(text) * 1000;
+                }catch (NumberFormatException e){
+                    VescControlActivity.this.currentBreakCurrentMa = 0;
+                }
             }
         });
 

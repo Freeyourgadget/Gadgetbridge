@@ -107,22 +107,28 @@ public class PhoneCallReceiver extends BroadcastReceiver {
             if ("never".equals(prefs.getString("notification_mode_calls", "always"))) {
                 return;
             }
+            int dndSuppressed = 0;
             switch (GBApplication.getGrantedInterruptionFilter()) {
                 case NotificationManager.INTERRUPTION_FILTER_ALL:
                     break;
                 case NotificationManager.INTERRUPTION_FILTER_ALARMS:
                 case NotificationManager.INTERRUPTION_FILTER_NONE:
-                    return;
+                    dndSuppressed = 1;
+                    break;
                 case NotificationManager.INTERRUPTION_FILTER_PRIORITY:
                     if (GBApplication.isPriorityNumber(Policy.PRIORITY_CATEGORY_CALLS, mSavedNumber)) {
                         break;
                     }
                     // FIXME: Handle Repeat callers if it is enabled in Do Not Disturb
-                    return;
+                    dndSuppressed = 1;
+            }
+            if (prefs.getBoolean("notification_filter", false) && dndSuppressed == 1) {
+                return;
             }
             CallSpec callSpec = new CallSpec();
             callSpec.number = mSavedNumber;
             callSpec.command = callCommand;
+            callSpec.dndSuppressed = dndSuppressed;
             GBApplication.deviceService().onSetCallState(callSpec);
         }
         mLastState = state;

@@ -1,0 +1,253 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceScreen
+        android:icon="@drawable/ic_vibration"
+        android:key="vibration_patterns_key"
+        android:persistent="false"
+        android:summary="@string/pref_screen_vibration_patterns_summary"
+        android:title="@string/pref_screen_vibration_patterns_title">
+
+        <PreferenceCategory android:title="@string/pref_screen_vibration_patterns_title" />
+
+        <PreferenceScreen
+            android:key="vibration_profile_key_app_alerts"
+            android:icon="@drawable/ic_settings_applications"
+            android:title="@string/pref_screen_notification_profile_generic"
+            android:persistent="false">
+
+            <!-- workaround for missing toolbar -->
+            <PreferenceCategory android:title="@string/pref_screen_notification_profile_generic" />
+
+            <ListPreference
+                android:defaultValue="@string/p_short"
+                android:entries="@array/vibration_profile"
+                android:entryValues="@array/vibration_profile_values"
+                android:key="huami_vibration_profile_app_alerts"
+                android:title="@string/miband_prefs_vibration"
+                android:summary="%s" />
+
+            <EditTextPreference
+                android:defaultValue="2"
+                android:inputType="number"
+                android:key="huami_vibration_count_app_alerts"
+                android:maxLength="1"
+                android:title="@string/pref_title_notifications_repetitions" />
+
+            <Preference
+                android:persistent="false"
+                android:key="huami_vibration_try_app_alerts"
+                android:title="@string/vibration_try"/>
+        </PreferenceScreen>
+
+        <PreferenceScreen
+            android:key="vibration_profile_key_incoming_call"
+            android:icon="@drawable/ic_phone"
+            android:title="@string/pref_screen_notification_profile_incoming_call"
+            android:persistent="false">
+
+            <!-- workaround for missing toolbar -->
+            <PreferenceCategory android:title="@string/pref_screen_notification_profile_incoming_call" />
+
+            <ListPreference
+                android:defaultValue="@string/p_ring"
+                android:entries="@array/vibration_profile"
+                android:entryValues="@array/vibration_profile_values"
+                android:key="huami_vibration_profile_incoming_call"
+                android:title="@string/miband_prefs_vibration"
+                android:summary="%s" />
+
+            <EditTextPreference
+                android:defaultValue="1"
+                android:inputType="number"
+                android:key="huami_vibration_count_incoming_call"
+                android:maxLength="1"
+                android:title="@string/pref_title_notifications_repetitions" />
+
+            <Preference
+                android:persistent="false"
+                android:key="huami_vibration_try_incoming_call"
+                android:title="@string/vibration_try"/>
+        </PreferenceScreen>
+
+        <PreferenceScreen
+            android:key="vibration_profile_key_incoming_sms"
+            android:icon="@drawable/ic_message_outline"
+            android:title="@string/pref_screen_notification_profile_sms"
+            android:persistent="false">
+
+            <!-- workaround for missing toolbar -->
+            <PreferenceCategory android:title="@string/pref_screen_notification_profile_sms" />
+
+            <ListPreference
+                android:defaultValue="@string/p_staccato"
+                android:entries="@array/vibration_profile"
+                android:entryValues="@array/vibration_profile_values"
+                android:key="huami_vibration_profile_incoming_sms"
+                android:title="@string/miband_prefs_vibration"
+                android:summary="%s" />
+
+            <EditTextPreference
+                android:defaultValue="2"
+                android:inputType="number"
+                android:key="huami_vibration_count_incoming_sms"
+                android:maxLength="1"
+                android:title="@string/pref_title_notifications_repetitions" />
+
+            <Preference
+                android:persistent="false"
+                android:key="huami_vibration_try_incoming_sms"
+                android:title="@string/vibration_try"/>
+        </PreferenceScreen>
+
+        <PreferenceScreen
+            android:key="vibration_profile_key_goal_notification"
+            android:icon="@drawable/ic_star_gray"
+            android:title="@string/mi2_prefs_goal_notification"
+            android:persistent="false">
+
+            <!-- workaround for missing toolbar -->
+            <PreferenceCategory android:title="@string/mi2_prefs_goal_notification" />
+
+            <ListPreference
+                android:defaultValue="@string/p_long"
+                android:entries="@array/vibration_profile"
+                android:entryValues="@array/vibration_profile_values"
+                android:key="huami_vibration_profile_goal_notification"
+                android:title="@string/miband_prefs_vibration"
+                android:summary="%s" />
+
+            <EditTextPreference
+                android:defaultValue="1"
+                android:inputType="number"
+                android:key="huami_vibration_count_goal_notification"
+                android:maxLength="1"
+                android:title="@string/pref_title_notifications_repetitions" />
+
+            <Preference
+                android:persistent="false"
+                android:key="huami_vibration_try_goal_notification"
+                android:title="@string/vibration_try"/>
+        </PreferenceScreen>
+
+        <PreferenceScreen
+            android:key="vibration_profile_key_alarm"
+            android:icon="@drawable/ic_access_alarms"
+            android:title="@string/vibration_profile_alarm_clock"
+            android:persistent="false">
+
+            <!-- workaround for missing toolbar -->
+            <PreferenceCategory android:title="@string/vibration_profile_alarm_clock" />
+
+            <ListPreference
+                android:defaultValue="@string/p_alarm_clock"
+                android:entries="@array/vibration_profile"
+                android:entryValues="@array/vibration_profile_values"
+                android:key="huami_vibration_profile_alarm"
+                android:title="@string/miband_prefs_vibration"
+                android:summary="%s" />
+
+            <EditTextPreference
+                android:defaultValue="1"
+                android:inputType="number"
+                android:key="huami_vibration_count_alarm"
+                android:maxLength="1"
+                android:title="@string/pref_title_notifications_repetitions" />
+
+            <Preference
+                android:persistent="false"
+                android:key="huami_vibration_try_alarm"
+                android:title="@string/vibration_try"/>
+        </PreferenceScreen>
+
+        <PreferenceScreen
+            android:key="vibration_profile_key_idle_alerts"
+            android:icon="@drawable/ic_chair"
+            android:title="@string/pref_screen_notification_idle_alerts"
+            android:persistent="false">
+
+            <!-- workaround for missing toolbar -->
+            <PreferenceCategory android:title="@string/pref_screen_notification_idle_alerts" />
+
+            <ListPreference
+                android:defaultValue="@string/p_normal"
+                android:entries="@array/vibration_profile"
+                android:entryValues="@array/vibration_profile_values"
+                android:key="huami_vibration_profile_idle_alerts"
+                android:title="@string/miband_prefs_vibration"
+                android:summary="%s" />
+
+            <EditTextPreference
+                android:defaultValue="2"
+                android:inputType="number"
+                android:key="huami_vibration_count_idle_alerts"
+                android:maxLength="1"
+                android:title="@string/pref_title_notifications_repetitions" />
+
+            <Preference
+                android:persistent="false"
+                android:key="huami_vibration_try_idle_alerts"
+                android:title="@string/vibration_try"/>
+        </PreferenceScreen>
+
+        <PreferenceScreen
+            android:key="vibration_profile_key_event_reminder"
+            android:icon="@drawable/ic_device_set_reminders"
+            android:title="@string/pref_screen_notification_profile_event_reminder"
+            android:persistent="false">
+
+            <!-- workaround for missing toolbar -->
+            <PreferenceCategory android:title="@string/pref_screen_notification_profile_event_reminder" />
+
+            <ListPreference
+                android:defaultValue="@string/p_long"
+                android:entries="@array/vibration_profile"
+                android:entryValues="@array/vibration_profile_values"
+                android:key="huami_vibration_profile_event_reminder"
+                android:title="@string/miband_prefs_vibration"
+                android:summary="%s" />
+
+            <EditTextPreference
+                android:defaultValue="1"
+                android:inputType="number"
+                android:key="huami_vibration_count_event_reminder"
+                android:maxLength="1"
+                android:title="@string/pref_title_notifications_repetitions" />
+
+            <Preference
+                android:persistent="false"
+                android:key="huami_vibration_try_event_reminder"
+                android:title="@string/vibration_try"/>
+        </PreferenceScreen>
+
+        <PreferenceScreen
+            android:key="vibration_profile_key_find_band"
+            android:icon="@drawable/ic_action_find_lost_device"
+            android:title="@string/pref_screen_notification_profile_find_device"
+            android:persistent="false">
+
+            <!-- workaround for missing toolbar -->
+            <PreferenceCategory android:title="@string/pref_screen_notification_profile_find_device" />
+
+            <ListPreference
+                android:defaultValue="@string/p_ring"
+                android:entries="@array/vibration_profile"
+                android:entryValues="@array/vibration_profile_values"
+                android:key="huami_vibration_profile_find_band"
+                android:title="@string/miband_prefs_vibration"
+                android:summary="%s" />
+
+            <EditTextPreference
+                android:defaultValue="3"
+                android:inputType="number"
+                android:key="huami_vibration_count_find_band"
+                android:maxLength="1"
+                android:title="@string/pref_title_notifications_repetitions" />
+
+            <Preference
+                android:persistent="false"
+                android:key="huami_vibration_try_find_band"
+                android:title="@string/vibration_try"/>
+        </PreferenceScreen>
+
+    </PreferenceScreen>
+</androidx.preference.PreferenceScreen>

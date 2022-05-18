@@ -24,6 +24,7 @@ import android.os.ParcelUuid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.GBException;
 import nodomain.freeyourgadget.gadgetbridge.devices.AbstractDeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.InstallHandler;
@@ -38,14 +39,23 @@ import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
 public class VescCoordinator extends AbstractDeviceCoordinator {
     public final static String UUID_SERVICE_SERIAL_HM10 = "0000ffe0-0000-1000-8000-00805f9b34fb";
     public final static String UUID_CHARACTERISTIC_SERIAL_TX_HM10 = "0000ffe1-0000-1000-8000-00805f9b34fb";
+    public final static String UUID_CHARACTERISTIC_SERIAL_RX_HM10 = "0000ffe1-0000-1000-8000-00805f9b34fb";
 
     public final static String UUID_SERVICE_SERIAL_NRF = "0000ffe0-0000-1000-8000-00805f9b34fb";
     public final static String UUID_CHARACTERISTIC_SERIAL_TX_NRF = "0000ffe0-0000-1000-8000-00805f9b34fb";
+    public final static String UUID_CHARACTERISTIC_SERIAL_RX_NRF = "0000ffe1-0000-1000-8000-00805f9b34fb";
 
 
     @Override
     protected void deleteDevice(GBDevice gbDevice, Device device, DaoSession session) throws GBException {
 
+    }
+
+    @Override
+    public int[] getSupportedDeviceSpecificSettings(GBDevice device) {
+        return new int[]{
+            R.xml.devicesettings_vesc
+        };
     }
 
     @Override
@@ -77,7 +87,7 @@ public class VescCoordinator extends AbstractDeviceCoordinator {
 
     @Override
     public boolean supportsActivityDataFetching() {
-        return false;
+        return true;
     }
 
     @Override

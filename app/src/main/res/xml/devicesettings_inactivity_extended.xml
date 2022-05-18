@@ -13,7 +13,8 @@
         <SwitchPreference
             android:defaultValue="false"
             android:key="inactivity_warnings_enable"
-            android:title="@string/mi2_prefs_inactivity_warnings" />
+            android:title="@string/mi2_prefs_inactivity_warnings"
+            android:summary="@string/mi2_prefs_inactivity_warnings_summary" />
 
         <ListPreference
             android:defaultValue="4"
@@ -26,11 +27,13 @@
 
         <nodomain.freeyourgadget.gadgetbridge.util.XTimePreference
             android:defaultValue="08:00"
+            android:dependency="inactivity_warnings_enable"
             android:key="inactivity_warnings_start"
             android:title="@string/mi2_prefs_do_not_disturb_start" />
 
         <nodomain.freeyourgadget.gadgetbridge.util.XTimePreference
             android:defaultValue="16:00"
+            android:dependency="inactivity_warnings_enable"
             android:key="inactivity_warnings_end"
             android:title="@string/mi2_prefs_do_not_disturb_end" />
     </PreferenceScreen>

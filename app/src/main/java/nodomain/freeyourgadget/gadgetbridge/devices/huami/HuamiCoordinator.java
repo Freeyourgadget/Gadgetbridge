@@ -35,6 +35,7 @@ import java.text.SimpleDateFormat;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
+import java.util.Locale;
 
 import de.greenrobot.dao.query.QueryBuilder;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
@@ -42,6 +43,7 @@ import nodomain.freeyourgadget.gadgetbridge.GBException;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.activities.SettingsActivity;
 import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst;
+import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSpecificSettingsCustomizer;
 import nodomain.freeyourgadget.gadgetbridge.devices.AbstractDeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.SampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.DateTimeDisplay;
@@ -50,11 +52,13 @@ import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBand2SampleProvider
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst;
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandPairingActivity;
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandService;
+import nodomain.freeyourgadget.gadgetbridge.devices.miband.VibrationProfile;
 import nodomain.freeyourgadget.gadgetbridge.entities.AbstractActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
 import nodomain.freeyourgadget.gadgetbridge.entities.Device;
 import nodomain.freeyourgadget.gadgetbridge.entities.MiBandActivitySampleDao;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.HuamiVibrationPatternNotificationType;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 
 public abstract class HuamiCoordinator extends AbstractDeviceCoordinator {
@@ -166,6 +170,14 @@ public abstract class HuamiCoordinator extends AbstractDeviceCoordinator {
         return getTimePreference(DeviceSettingsPreferenceConst.PREF_DISPLAY_ON_LIFT_END, "00:00", deviceAddress);
     }
 
+    public static ActivateDisplayOnLiftSensitivity getDisplayOnLiftSensitivity(String deviceAddress) {
+        final SharedPreferences prefs = GBApplication.getDeviceSpecificSharedPrefs(deviceAddress);
+
+        final String pref = prefs.getString(DeviceSettingsPreferenceConst.PREF_DISPLAY_ON_LIFT_SENSITIVITY, "sensitive");
+
+        return ActivateDisplayOnLiftSensitivity.valueOf(pref.toUpperCase(Locale.ROOT));
+    }
+
     public static DisconnectNotificationSetting getDisconnectNotificationSetting(Context context, String deviceAddress) {
         Prefs prefs = new Prefs(GBApplication.getDeviceSpecificSharedPrefs(deviceAddress));
 
@@ -197,9 +209,9 @@ public abstract class HuamiCoordinator extends AbstractDeviceCoordinator {
         return prefs.getBoolean(HuamiConst.PREF_USE_CUSTOM_FONT, false);
     }
 
-    public static boolean getGoalNotification() {
-        Prefs prefs = GBApplication.getPrefs();
-        return prefs.getBoolean(MiBandConst.PREF_MI2_GOAL_NOTIFICATION, false);
+    public static boolean getGoalNotification(String deviceAddress) {
+        SharedPreferences prefs = GBApplication.getDeviceSpecificSharedPrefs(deviceAddress);
+        return prefs.getBoolean(DeviceSettingsPreferenceConst.PREF_USER_FITNESS_GOAL_NOTIFICATION, false);
     }
 
     public static boolean getRotateWristToSwitchInfo(String deviceAddress) {
@@ -207,35 +219,35 @@ public abstract class HuamiCoordinator extends AbstractDeviceCoordinator {
         return prefs.getBoolean(MiBandConst.PREF_MI2_ROTATE_WRIST_TO_SWITCH_INFO, false);
     }
 
-    public static boolean getInactivityWarnings() {
-        Prefs prefs = GBApplication.getPrefs();
+    public static boolean getInactivityWarnings(String deviceAddress) {
+        SharedPreferences prefs = GBApplication.getDeviceSpecificSharedPrefs(deviceAddress);
         return prefs.getBoolean(DeviceSettingsPreferenceConst.PREF_INACTIVITY_ENABLE, false);
     }
 
-    public static int getInactivityWarningsThreshold() {
-        Prefs prefs = GBApplication.getPrefs();
+    public static int getInactivityWarningsThreshold(String deviceAddress) {
+        Prefs prefs = new Prefs(GBApplication.getDeviceSpecificSharedPrefs(deviceAddress));
         return prefs.getInt(DeviceSettingsPreferenceConst.PREF_INACTIVITY_THRESHOLD, 60);
     }
 
-    public static boolean getInactivityWarningsDnd() {
-        Prefs prefs = GBApplication.getPrefs();
+    public static boolean getInactivityWarningsDnd(String deviceAddress) {
+        SharedPreferences prefs = GBApplication.getDeviceSpecificSharedPrefs(deviceAddress);
         return prefs.getBoolean(DeviceSettingsPreferenceConst.PREF_INACTIVITY_DND, false);
     }
 
-    public static Date getInactivityWarningsStart() {
-        return getTimePreference(DeviceSettingsPreferenceConst.PREF_INACTIVITY_START, "06:00");
+    public static Date getInactivityWarningsStart(String deviceAddress) {
+        return getTimePreference(DeviceSettingsPreferenceConst.PREF_INACTIVITY_START, "06:00", deviceAddress);
     }
 
-    public static Date getInactivityWarningsEnd() {
-        return getTimePreference(DeviceSettingsPreferenceConst.PREF_INACTIVITY_END, "22:00");
+    public static Date getInactivityWarningsEnd(String deviceAddress) {
+        return getTimePreference(DeviceSettingsPreferenceConst.PREF_INACTIVITY_END, "22:00", deviceAddress);
     }
 
-    public static Date getInactivityWarningsDndStart() {
-        return getTimePreference(DeviceSettingsPreferenceConst.PREF_INACTIVITY_DND_START, "12:00");
+    public static Date getInactivityWarningsDndStart(String deviceAddress) {
+        return getTimePreference(DeviceSettingsPreferenceConst.PREF_INACTIVITY_DND_START, "12:00", deviceAddress);
     }
 
-    public static Date getInactivityWarningsDndEnd() {
-        return getTimePreference(DeviceSettingsPreferenceConst.PREF_INACTIVITY_DND_END, "14:00");
+    public static Date getInactivityWarningsDndEnd(String deviceAddress) {
+        return getTimePreference(DeviceSettingsPreferenceConst.PREF_INACTIVITY_DND_END, "14:00", deviceAddress);
     }
 
     public static Date getDoNotDisturbStart(String deviceAddress) {
@@ -256,9 +268,45 @@ public abstract class HuamiCoordinator extends AbstractDeviceCoordinator {
         return prefs.getBoolean(HuamiConst.PREF_EXPOSE_HR_THIRDPARTY, false);
     }
 
+    public static int getHeartRateMeasurementInterval(String deviceAddress) {
+        Prefs prefs = new Prefs(GBApplication.getDeviceSpecificSharedPrefs(deviceAddress));
+        return GBApplication.getPrefs().getInt(DeviceSettingsPreferenceConst.PREF_HEARTRATE_MEASUREMENT_INTERVAL, 0) / 60;
+    }
+
+    public static boolean getHeartrateActivityMonitoring(String deviceAddress) throws IllegalArgumentException {
+        Prefs prefs = new Prefs(GBApplication.getDeviceSpecificSharedPrefs(deviceAddress));
+        return prefs.getBoolean(DeviceSettingsPreferenceConst.PREF_HEARTRATE_ACTIVITY_MONITORING, false);
+    }
+
+    public static boolean getHeartrateAlert(String deviceAddress) throws IllegalArgumentException {
+        Prefs prefs = new Prefs(GBApplication.getDeviceSpecificSharedPrefs(deviceAddress));
+        return prefs.getBoolean(DeviceSettingsPreferenceConst.PREF_HEARTRATE_ALERT_ENABLED, false);
+    }
+
+    public static int getHeartrateAlertThreshold(String deviceAddress) throws IllegalArgumentException {
+        Prefs prefs = new Prefs(GBApplication.getDeviceSpecificSharedPrefs(deviceAddress));
+        return prefs.getInt(DeviceSettingsPreferenceConst.PREF_HEARTRATE_ALERT_THRESHOLD, 150);
+    }
+
+    public static boolean getHeartrateStressMonitoring(String deviceAddress) throws IllegalArgumentException {
+        Prefs prefs = new Prefs(GBApplication.getDeviceSpecificSharedPrefs(deviceAddress));
+        return prefs.getBoolean(DeviceSettingsPreferenceConst.PREF_HEARTRATE_STRESS_MONITORING, false);
+    }
+
     public static boolean getBtConnectedAdvertising(String deviceAddress) {
         Prefs prefs = new Prefs(GBApplication.getDeviceSpecificSharedPrefs(deviceAddress));
         return prefs.getBoolean(DeviceSettingsPreferenceConst.PREF_BT_CONNECTED_ADVERTISEMENT, false);
+    }
+
+    public static VibrationProfile getVibrationProfile(String deviceAddress, HuamiVibrationPatternNotificationType notificationType) {
+        Prefs prefs = new Prefs(GBApplication.getDeviceSpecificSharedPrefs(deviceAddress));
+        final String vibrationProfileId = prefs.getString(
+                HuamiConst.PREF_HUAMI_VIBRATION_PROFILE_PREFIX + notificationType.name().toLowerCase(Locale.ROOT),
+                VibrationProfile.ID_MEDIUM
+        );
+        final int vibrationProfileCount = prefs.getInt(HuamiConst.PREF_HUAMI_VIBRATION_COUNT_PREFIX + notificationType.name().toLowerCase(Locale.ROOT), 2);
+
+        return VibrationProfile.getProfile(vibrationProfileId, (short) vibrationProfileCount);
     }
 
     protected static Date getTimePreference(String key, String defaultValue, String deviceAddress) {
@@ -343,5 +391,10 @@ public abstract class HuamiCoordinator extends AbstractDeviceCoordinator {
     @Override
     public int getReminderSlotCount() {
         return 22; // At least, Mi Fit still allows more
+    }
+
+    @Override
+    public DeviceSpecificSettingsCustomizer getDeviceSpecificSettingsCustomizer(final GBDevice device) {
+        return new HuamiSettingsCustomizer(device);
     }
 }

@@ -7,25 +7,26 @@
         android:summary="@string/mi2_prefs_inactivity_warnings_summary"
         android:title="@string/mi2_prefs_inactivity_warnings">
 
-        <!-- workaround for missing toolbar -->
-        <PreferenceCategory android:title="@string/mi2_prefs_inactivity_warnings_summary" />
-
         <SwitchPreference
             android:defaultValue="false"
             android:key="inactivity_warnings_enable"
-            android:title="@string/mi2_prefs_inactivity_warnings" />
+            android:title="@string/mi2_prefs_inactivity_warnings"
+            android:summary="@string/mi2_prefs_inactivity_warnings_summary" />
         <EditTextPreference
             android:defaultValue="60"
+            android:dependency="inactivity_warnings_enable"
             android:key="inactivity_warnings_threshold"
             android:summary="@string/mi2_prefs_inactivity_warnings_summary"
             android:title="@string/mi2_prefs_inactivity_warnings_threshold"/>
         <nodomain.freeyourgadget.gadgetbridge.util.XTimePreference
             android:defaultValue="06:00"
+            android:dependency="inactivity_warnings_enable"
             android:key="inactivity_warnings_start"
             android:title="@string/mi2_prefs_do_not_disturb_start" />
 
         <nodomain.freeyourgadget.gadgetbridge.util.XTimePreference
             android:defaultValue="23:00"
+            android:dependency="inactivity_warnings_enable"
             android:key="inactivity_warnings_end"
             android:title="@string/mi2_prefs_do_not_disturb_end" />
 

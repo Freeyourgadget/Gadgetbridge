@@ -32,7 +32,7 @@
                 android:title="@string/prefs_touch_lock" />
             <ListPreference
                 android:dependency="pref_galaxy_buds_lock_touch"
-                android:entries="@array/galaxy_buds_live_touch_options"
+                android:entries="@array/galaxy_buds_live_touch_options_left"
                 android:entryValues="@array/galaxy_buds_live_touch_options_values"
                 android:icon="@drawable/ic_touch"
                 android:key="pref_galaxy_buds_touch_left"
@@ -40,7 +40,7 @@
                 android:title="@string/prefs_left" />
             <ListPreference
                 android:dependency="pref_galaxy_buds_lock_touch"
-                android:entries="@array/galaxy_buds_live_touch_options"
+                android:entries="@array/galaxy_buds_live_touch_options_right"
                 android:entryValues="@array/galaxy_buds_live_touch_options_values"
                 android:icon="@drawable/ic_touch"
                 android:key="pref_galaxy_buds_touch_right"

@@ -39,6 +39,7 @@ import nodomain.freeyourgadget.gadgetbridge.model.MusicStateSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.Reminder;
 import nodomain.freeyourgadget.gadgetbridge.model.WeatherSpec;
+import nodomain.freeyourgadget.gadgetbridge.model.WorldClock;
 
 /**
  * Wraps another device support instance and supports busy-checking and throttling of events.
@@ -207,6 +208,14 @@ public class ServiceDeviceSupport implements DeviceSupport {
     }
 
     @Override
+    public void onSetPhoneVolume(float volume) {
+        if (checkBusy("set phone volume")) {
+            return;
+        }
+        delegate.onSetPhoneVolume(volume);
+    }
+
+    @Override
     public void onInstallApp(Uri uri) {
         if (checkBusy("install app")) {
             return;
@@ -316,6 +325,14 @@ public class ServiceDeviceSupport implements DeviceSupport {
             return;
         }
         delegate.onSetReminders(reminders);
+    }
+
+    @Override
+    public void onSetWorldClocks(ArrayList<? extends WorldClock> clocks) {
+        if (checkBusy("set world clocks")) {
+            return;
+        }
+        delegate.onSetWorldClocks(clocks);
     }
 
     @Override

@@ -50,7 +50,6 @@ public class MiBand5Support extends MiBand4Support {
         return new MiBand5FWHelper(uri, context);
     }
 
-
     @Override
     public boolean supportsSunriseSunsetWindHumidity() {
         return true;
@@ -59,5 +58,13 @@ public class MiBand5Support extends MiBand4Support {
     @Override
     public int getActivitySampleSize() {
         return 8;
+    }
+
+    @Override
+    public void phase3Initialize(TransactionBuilder builder) {
+        super.phase3Initialize(builder);
+        LOG.info("phase3Initialize...");
+        setActivateDisplayOnLiftWristSensitivity(builder); // TODO? Move this to HuamiSupport?
+        setWorkoutActivityTypes(builder);  // TODO: Supported by other bands?
     }
 }

@@ -55,8 +55,8 @@ android {
         multiDexEnabled true
 
         // Note: always bump BOTH versionCode and versionName!
-        versionName "0.66.0"
-        versionCode 210
+        versionName "0.67.0"
+        versionCode 211
         vectorDrawables.useSupportLibrary = true
         multiDexEnabled true
         buildConfigField "String", "GIT_HASH_SHORT", "\"${getGitHashShort()}\""
@@ -154,7 +154,7 @@ android {
             versionNameSuffix "-banglejs"
             buildConfigField "boolean", "INTERNET_ACCESS", "true"
             // Disable pebble provider to allow Bangle.js Gadgetbridge to coexist with Gadgetbridge
-            resValue "string", "pebble_content_provider", "com.getpebble.android.nopebble.provider"
+            resValue "string", "pebble_content_provider", "com.getpebble.android.nopebble.bangle.provider"
             resValue "string", "app_name", "@string/application_name_banglejs_main"
             resValue "string", "title_activity_controlcenter", "@string/title_activity_controlcenter_banglejs_main"
             resValue "string", "about_activity_title", "@string/about_activity_title_banglejs_main"
@@ -238,6 +238,10 @@ dependencies {
     implementation 'com.google.protobuf:protobuf-lite:3.0.1'
     implementation "androidx.multidex:multidex:2.0.1"
     implementation 'com.android.volley:volley:1.2.1'
+
+    // JSR-310 timezones backport for Android, since we're still on java 7
+    implementation 'com.jakewharton.threetenabp:threetenabp:1.4.0'
+    testImplementation 'org.threeten:threetenbp:1.6.0'
 }
 
 preBuild.dependsOn(":GBDaoGenerator:genSources")

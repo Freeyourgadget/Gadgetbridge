@@ -87,8 +87,11 @@ public class MiBand2HRXCoordinator extends HuamiCoordinator {
         return new int[]{
                 R.xml.devicesettings_miband2,
                 R.xml.devicesettings_wearlocation,
+                R.xml.devicesettings_heartrate_sleep,
+                R.xml.devicesettings_goal_notification,
                 R.xml.devicesettings_donotdisturb_withauto,
                 R.xml.devicesettings_liftwrist_display,
+                R.xml.devicesettings_inactivity_dnd,
                 R.xml.devicesettings_rotatewrist_cycleinfo,
                 R.xml.devicesettings_pairingkey,
                 R.xml.devicesettings_transliteration

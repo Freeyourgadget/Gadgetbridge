@@ -53,4 +53,12 @@ public interface DeviceSpecificSettingsHandler {
      * @param extraListener the extra listener.
      */
     void addPreferenceHandlerFor(final String preferenceKey, Preference.OnPreferenceChangeListener extraListener);
+
+    /**
+     * Sets the input type flags for an EditText preference.
+     *
+     * @param preferenceKey the preference key.
+     * @param editTypeFlags the edit type {@link android.text.InputType} flags.
+     */
+    void setInputTypeFor(final String preferenceKey, final int editTypeFlags);
 }

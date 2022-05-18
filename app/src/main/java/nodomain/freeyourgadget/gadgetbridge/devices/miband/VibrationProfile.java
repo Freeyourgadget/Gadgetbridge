@@ -79,6 +79,10 @@ public class VibrationProfile {
      * @param repeat        how often the sequence shall be repeated
      */
     public VibrationProfile(String id, int[] onOffSequence, short repeat) {
+        if (onOffSequence.length % 2 != 0) {
+            throw new IllegalArgumentException("Each on duration must have a subsequent off duration");
+        }
+
         this.id = id;
         this.repeat = repeat;
         this.onOffSequence = onOffSequence;

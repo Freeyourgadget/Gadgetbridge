@@ -1604,4 +1604,6 @@
     <string name="pref_device_action_fitness_app_control_stop">Zatrzymanie śledzenia aplikacji fitness</string>
     <string name="watchface_dialog_pre_setting_position">Wstępne ustawienie położenia na %s</string>
     <string name="activity_db_management_autoexport_location">Lokalizacja nie jest dostępna. Najprawdopodobniej jest to spowodowane nowym systemem uprawnień Androida. Prawdopodobnie automatyczny eksport teraz nie działa.</string>
+    <string name="watchface_setting_light_up_on_notification">Podświetlanie nowych powiadomień</string>
+    <string name="menuitem_email">E-mail</string>
 </resources>

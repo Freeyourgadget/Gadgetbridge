@@ -71,15 +71,30 @@ public class MiBand6Coordinator extends HuamiCoordinator {
     }
 
     @Override
+    public int getWorldClocksSlotCount() {
+        return 20; // as enforced by Mi Fit
+    }
+
+    @Override
+    public int getWorldClocksLabelLength() {
+        return 30; // at least
+    }
+
+    @Override
     public int[] getSupportedDeviceSpecificSettings(GBDevice device) {
         return new int[]{
                 R.xml.devicesettings_miband6,
+                R.xml.devicesettings_vibrationpatterns,
                 R.xml.devicesettings_wearlocation,
+                R.xml.heartrate_sleep_alert_activity_stress,
+                R.xml.devicesettings_goal_notification,
                 R.xml.devicesettings_custom_emoji_font,
                 R.xml.devicesettings_timeformat,
                 R.xml.devicesettings_dateformat,
+                R.xml.devicesettings_world_clocks,
                 R.xml.devicesettings_nightmode,
-                R.xml.devicesettings_liftwrist_display,
+                R.xml.devicesettings_liftwrist_display_sensitivity,
+                R.xml.devicesettings_inactivity_dnd,
                 R.xml.devicesettings_swipeunlock,
                 R.xml.devicesettings_sync_calendar,
                 R.xml.devicesettings_reserve_reminders_calendar,

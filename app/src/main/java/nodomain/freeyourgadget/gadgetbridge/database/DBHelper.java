@@ -62,6 +62,8 @@ import nodomain.freeyourgadget.gadgetbridge.entities.TagDao;
 import nodomain.freeyourgadget.gadgetbridge.entities.User;
 import nodomain.freeyourgadget.gadgetbridge.entities.UserAttributes;
 import nodomain.freeyourgadget.gadgetbridge.entities.UserDao;
+import nodomain.freeyourgadget.gadgetbridge.entities.WorldClock;
+import nodomain.freeyourgadget.gadgetbridge.entities.WorldClockDao;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityUser;
 import nodomain.freeyourgadget.gadgetbridge.model.ValidByDate;
@@ -658,6 +660,28 @@ public class DBHelper {
         return Collections.emptyList();
     }
 
+    @NonNull
+    public static List<WorldClock> getWorldClocks(@NonNull GBDevice gbDevice) {
+        try (DBHandler db = GBApplication.acquireDB()) {
+            final DaoSession daoSession = db.getDaoSession();
+            final User user = getUser(daoSession);
+            final Device dbDevice = DBHelper.findDevice(gbDevice, daoSession);
+            if (dbDevice != null) {
+                final WorldClockDao worldClockDao = daoSession.getWorldClockDao();
+                final Long deviceId = dbDevice.getId();
+                final QueryBuilder<WorldClock> qb = worldClockDao.queryBuilder();
+                qb.where(
+                        WorldClockDao.Properties.UserId.eq(user.getId()),
+                        WorldClockDao.Properties.DeviceId.eq(deviceId)).orderAsc(WorldClockDao.Properties.WorldClockId);
+                return qb.build().list();
+            }
+        } catch (final Exception e) {
+            LOG.error("Error reading world clocks from db", e);
+        }
+
+        return Collections.emptyList();
+    }
+
     public static void store(final Reminder reminder) {
         try (DBHandler db = GBApplication.acquireDB()) {
             final DaoSession daoSession = db.getDaoSession();
@@ -667,10 +691,28 @@ public class DBHelper {
         }
     }
 
+    public static void store(final WorldClock worldClock) {
+        try (DBHandler db = GBApplication.acquireDB()) {
+            final DaoSession daoSession = db.getDaoSession();
+            daoSession.insertOrReplace(worldClock);
+        } catch (final Exception e) {
+            LOG.error("Error acquiring database", e);
+        }
+    }
+
     public static void delete(final Reminder reminder) {
         try (DBHandler db = GBApplication.acquireDB()) {
             final DaoSession daoSession = db.getDaoSession();
             daoSession.delete(reminder);
+        } catch (final Exception e) {
+            LOG.error("Error acquiring database", e);
+        }
+    }
+
+    public static void delete(final WorldClock worldClock) {
+        try (DBHandler db = GBApplication.acquireDB()) {
+            final DaoSession daoSession = db.getDaoSession();
+            daoSession.delete(worldClock);
         } catch (final Exception e) {
             LOG.error("Error acquiring database", e);
         }

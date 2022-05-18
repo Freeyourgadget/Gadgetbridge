@@ -233,6 +233,16 @@ public abstract class AbstractDeviceCoordinator implements DeviceCoordinator {
     }
 
     @Override
+    public int getWorldClocksSlotCount() {
+        return 0;
+    }
+
+    @Override
+    public int getWorldClocksLabelLength() {
+        return 10;
+    }
+
+    @Override
     public boolean supportsRgbLedColor() {
         return false;
     }

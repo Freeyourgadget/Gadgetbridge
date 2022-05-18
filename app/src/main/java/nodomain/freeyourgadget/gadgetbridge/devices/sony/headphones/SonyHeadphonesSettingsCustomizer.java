@@ -47,8 +47,10 @@ import androidx.preference.ListPreference;
 import androidx.preference.Preference;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
+import java.util.Set;
 
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSpecificSettingsCustomizer;
@@ -57,6 +59,7 @@ import nodomain.freeyourgadget.gadgetbridge.devices.sony.headphones.prefs.Ambien
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.sony.headphones.protocol.impl.v1.params.NoiseCancellingOptimizerStatus;
+import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 
 public class SonyHeadphonesSettingsCustomizer implements DeviceSpecificSettingsCustomizer {
     private ProgressDialog ancOptimizerProgressDialog;
@@ -114,7 +117,7 @@ public class SonyHeadphonesSettingsCustomizer implements DeviceSpecificSettingsC
     }
 
     @Override
-    public void customizeSettings(final DeviceSpecificSettingsHandler handler) {
+    public void customizeSettings(final DeviceSpecificSettingsHandler handler, Prefs prefs) {
         // Only enable the focus on voice check and voice level slider if the ambient sound control mode is ambient sound
 
         final ListPreference ambientSoundControl = handler.findPreference(PREF_SONY_AMBIENT_SOUND_CONTROL);
@@ -183,6 +186,11 @@ public class SonyHeadphonesSettingsCustomizer implements DeviceSpecificSettingsC
                 }
             });
         }
+    }
+
+    @Override
+    public Set<String> getPreferenceKeysWithSummary() {
+        return Collections.emptySet();
     }
 
     public static final Creator<SonyHeadphonesSettingsCustomizer> CREATOR = new Creator<SonyHeadphonesSettingsCustomizer>() {

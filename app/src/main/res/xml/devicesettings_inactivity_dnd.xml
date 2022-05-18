@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceScreen
+        android:icon="@drawable/ic_chair"
+        android:key="screen_inactivity"
+        android:persistent="false"
+        android:summary="@string/mi2_prefs_inactivity_warnings_summary"
+        android:title="@string/mi2_prefs_inactivity_warnings">
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="inactivity_warnings_enable"
+            android:title="@string/mi2_prefs_inactivity_warnings"
+            android:summary="@string/mi2_prefs_inactivity_warnings_summary" />
+
+        <EditTextPreference
+            android:defaultValue="60"
+            android:dependency="inactivity_warnings_enable"
+            android:inputType="number"
+            android:key="inactivity_warnings_threshold"
+            android:maxLength="2"
+            android:title="@string/mi2_prefs_inactivity_warnings_threshold" />
+
+        <nodomain.freeyourgadget.gadgetbridge.util.XTimePreference
+            android:defaultValue="06:00"
+            android:dependency="inactivity_warnings_enable"
+            android:key="inactivity_warnings_start"
+            android:title="@string/mi2_prefs_do_not_disturb_start" />
+
+        <nodomain.freeyourgadget.gadgetbridge.util.XTimePreference
+            android:defaultValue="22:00"
+            android:dependency="inactivity_warnings_enable"
+            android:key="inactivity_warnings_end"
+            android:title="@string/mi2_prefs_do_not_disturb_end" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:dependency="inactivity_warnings_enable"
+            android:key="inactivity_warnings_dnd"
+            android:summary="@string/mi2_prefs_inactivity_warnings_dnd_summary"
+            android:title="@string/mi2_prefs_do_not_disturb" />
+
+        <nodomain.freeyourgadget.gadgetbridge.util.XTimePreference
+            android:defaultValue="12:00"
+            android:dependency="inactivity_warnings_dnd"
+            android:key="inactivity_warnings_dnd_start"
+            android:title="@string/mi2_prefs_do_not_disturb_start" />
+
+        <nodomain.freeyourgadget.gadgetbridge.util.XTimePreference
+            android:defaultValue="14:00"
+            android:dependency="inactivity_warnings_dnd"
+            android:key="inactivity_warnings_dnd_end"
+            android:title="@string/mi2_prefs_do_not_disturb_end" />
+
+    </PreferenceScreen>
+</androidx.preference.PreferenceScreen>

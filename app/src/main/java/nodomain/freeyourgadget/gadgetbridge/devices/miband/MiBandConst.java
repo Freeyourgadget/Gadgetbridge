@@ -24,10 +24,8 @@ public final class MiBandConst {
     public static final String PREF_MIBAND_ADDRESS = "development_miaddr";  // FIXME: should be prefixed mi_
     public static final String PREF_MIBAND_ALARMS = "mi_alarms";
     public static final String PREF_MIBAND_DONT_ACK_TRANSFER = "mi_dont_ack_transfer";
-    public static final String PREF_MIBAND_USE_HR_FOR_SLEEP_DETECTION = "mi_hr_sleep_detection";
     public static final String PREF_MIBAND_DEVICE_TIME_OFFSET_HOURS = "device_time_offset_hours";
 	public static final String PREF_MI2_DATEFORMAT = "mi2_dateformat";
-    public static final String PREF_MI2_GOAL_NOTIFICATION = "mi2_goal_notification";
 	public static final String PREF_MI2_DISPLAY_ITEM_CLOCK = "clock";
 	public static final String PREF_MI2_DISPLAY_ITEM_STEPS = "steps";
 	public static final String PREF_MI2_DISPLAY_ITEM_DISTANCE = "distance";

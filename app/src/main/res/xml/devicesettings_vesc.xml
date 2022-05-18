@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <EditTextPreference
+        android:title="Minimum battery voltage"
+        android:key="vesc_minimum_battery_voltage"
+        android:inputType="number"
+        app:useSimpleSummaryProvider="true" />
+
+    <EditTextPreference
+        android:title="Maximum battery voltage"
+        android:key="vesc_maximum_battery_voltage"
+        android:inputType="number"
+        app:useSimpleSummaryProvider="true" />
+
+</PreferenceScreen>

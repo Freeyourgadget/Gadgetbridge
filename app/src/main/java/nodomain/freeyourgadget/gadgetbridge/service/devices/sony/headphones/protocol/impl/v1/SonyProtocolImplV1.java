@@ -26,8 +26,10 @@ import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.regex.Pattern;
 
 import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst;
@@ -36,6 +38,8 @@ import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventBatteryInf
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventUpdateDeviceInfo;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventUpdatePreferences;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventVersionInfo;
+import nodomain.freeyourgadget.gadgetbridge.devices.sony.headphones.SonyHeadphonesCapabilities;
+import nodomain.freeyourgadget.gadgetbridge.devices.sony.headphones.SonyHeadphonesCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.sony.headphones.prefs.AmbientSoundControl;
 import nodomain.freeyourgadget.gadgetbridge.devices.sony.headphones.prefs.AudioUpsampling;
 import nodomain.freeyourgadget.gadgetbridge.devices.sony.headphones.prefs.AutomaticPowerOff;
@@ -49,7 +53,6 @@ import nodomain.freeyourgadget.gadgetbridge.devices.sony.headphones.prefs.TouchS
 import nodomain.freeyourgadget.gadgetbridge.devices.sony.headphones.prefs.VoiceNotifications;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.BatteryState;
-import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.sony.headphones.deviceevents.SonyHeadphonesEnqueueRequestEvent;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.sony.headphones.protocol.Request;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.sony.headphones.protocol.MessageType;
@@ -58,6 +61,7 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.sony.headphones.prot
 import nodomain.freeyourgadget.gadgetbridge.service.devices.sony.headphones.protocol.impl.v1.params.BatteryType;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.sony.headphones.protocol.impl.v1.params.NoiseCancellingOptimizerStatus;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.sony.headphones.protocol.impl.v1.params.VirtualSoundParam;
+import nodomain.freeyourgadget.gadgetbridge.util.DeviceHelper;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
 public class SonyProtocolImplV1 extends AbstractSonyProtocolImpl {
@@ -494,55 +498,36 @@ public class SonyProtocolImplV1 extends AbstractSonyProtocolImpl {
             return Collections.emptyList();
         }
 
-        final DeviceType deviceType = getDevice().getType();
-
-        final List<Request> capabilityRequests = new ArrayList<>();
+        final SonyHeadphonesCoordinator coordinator = (SonyHeadphonesCoordinator) DeviceHelper.getInstance().getCoordinator(getDevice());
 
         // Populate the init requests
-        // TODO: We should be determine which of these we need from the device...
-        switch (deviceType) {
-            case SONY_WH_1000XM3:
-                capabilityRequests.add(getFirmwareVersion());
-                capabilityRequests.add(getBattery(BatteryType.SINGLE));
-                capabilityRequests.add(getAudioCodec());
-                capabilityRequests.add(getAmbientSoundControl());
-                capabilityRequests.add(getNoiseCancellingOptimizerState());
-                capabilityRequests.add(getAudioUpsampling());
-                capabilityRequests.add(getVoiceNotifications());
-                capabilityRequests.add(getAutomaticPowerOff());
-                capabilityRequests.add(getTouchSensor());
-                capabilityRequests.add(getSurroundMode());
-                capabilityRequests.add(getSoundPosition());
-                capabilityRequests.add(getEqualizer());
-                break;
-            case SONY_WH_1000XM4:
-                capabilityRequests.add(getFirmwareVersion());
-                capabilityRequests.add(getBattery(BatteryType.SINGLE));
-                capabilityRequests.add(getAudioCodec());
-                capabilityRequests.add(getAmbientSoundControl());
-                capabilityRequests.add(getNoiseCancellingOptimizerState());
-                capabilityRequests.add(getAudioUpsampling());
-                capabilityRequests.add(getVoiceNotifications());
-                capabilityRequests.add(getAutomaticPowerOff());
-                capabilityRequests.add(getTouchSensor());
-                capabilityRequests.add(getEqualizer());
-                capabilityRequests.add(getPauseWhenTakenOff());
-                break;
-            case SONY_WF_SP800N:
-                capabilityRequests.add(getFirmwareVersion());
-                capabilityRequests.add(getBattery(BatteryType.DUAL));
-                capabilityRequests.add(getBattery(BatteryType.CASE));
-                capabilityRequests.add(getAudioCodec());
-                capabilityRequests.add(getAmbientSoundControl());
-                capabilityRequests.add(getVoiceNotifications());
-                capabilityRequests.add(getAutomaticPowerOff());
-                capabilityRequests.add(getEqualizer());
-                capabilityRequests.add(getButtonModes());
-                capabilityRequests.add(getPauseWhenTakenOff());
-                break;
-            default:
-                LOG.error("Unsupported Sony device type '{}' with key '{}'", deviceType, deviceType.getKey());
-                return null;
+        final List<Request> capabilityRequests = new ArrayList<>();
+
+        capabilityRequests.add(getFirmwareVersion());
+        capabilityRequests.add(getAudioCodec());
+
+        final Map<SonyHeadphonesCapabilities, Request> capabilityRequestMap = new LinkedHashMap<SonyHeadphonesCapabilities, Request>() {{
+            put(SonyHeadphonesCapabilities.BatterySingle, getBattery(BatteryType.SINGLE));
+            put(SonyHeadphonesCapabilities.BatteryDual, getBattery(BatteryType.DUAL));
+            put(SonyHeadphonesCapabilities.BatteryCase, getBattery(BatteryType.CASE));
+            put(SonyHeadphonesCapabilities.AmbientSoundControl, getAmbientSoundControl());
+            put(SonyHeadphonesCapabilities.AncOptimizer, getNoiseCancellingOptimizerState());
+            put(SonyHeadphonesCapabilities.AudioUpsampling, getAudioUpsampling());
+            put(SonyHeadphonesCapabilities.ButtonModesLeftRight, getButtonModes());
+            put(SonyHeadphonesCapabilities.VoiceNotifications, getVoiceNotifications());
+            put(SonyHeadphonesCapabilities.AutomaticPowerOffWhenTakenOff, getAutomaticPowerOff());
+            put(SonyHeadphonesCapabilities.AutomaticPowerOffByTime, getAutomaticPowerOff());
+            put(SonyHeadphonesCapabilities.TouchSensorSingle, getTouchSensor());
+            put(SonyHeadphonesCapabilities.Equalizer, getEqualizer());
+            put(SonyHeadphonesCapabilities.SoundPosition, getSoundPosition());
+            put(SonyHeadphonesCapabilities.SurroundMode, getSurroundMode());
+            put(SonyHeadphonesCapabilities.PauseWhenTakenOff, getPauseWhenTakenOff());
+        }};
+
+        for (Map.Entry<SonyHeadphonesCapabilities, Request> capabilityEntry : capabilityRequestMap.entrySet()) {
+            if (coordinator.supports(capabilityEntry.getKey())) {
+                capabilityRequests.add(capabilityEntry.getValue());
+            }
         }
 
         return Collections.singletonList(new SonyHeadphonesEnqueueRequestEvent(capabilityRequests));
@@ -644,7 +629,7 @@ public class SonyProtocolImplV1 extends AbstractSonyProtocolImpl {
 
         final float pressure = payload[5] / 10.0f;
 
-        if (pressure <= 0 || pressure >  1.0f) {
+        if (pressure <= 0 || pressure > 1.0f) {
             LOG.warn("Invalid Noise Cancelling Optimizer pressure: {} atm, ignoring", pressure);
             return Collections.emptyList();
         }
@@ -1076,19 +1061,8 @@ public class SonyProtocolImplV1 extends AbstractSonyProtocolImpl {
     }
 
     private boolean supportsWindNoiseCancelling() {
-        // TODO: We should be able to determine this dynamically...
+        final SonyHeadphonesCoordinator coordinator = (SonyHeadphonesCoordinator) DeviceHelper.getInstance().getCoordinator(getDevice());
 
-        final DeviceType deviceType = getDevice().getType();
-
-        switch (deviceType) {
-            case SONY_WH_1000XM3:
-            case SONY_WH_1000XM4:
-                return true;
-            case SONY_WF_SP800N:
-                return false;
-            default:
-                LOG.error("Unknown Sony device type '{}' with key '{}'", deviceType, deviceType.getKey());
-                return false;
-        }
+        return coordinator.supports(SonyHeadphonesCapabilities.WindNoiseReduction);
     }
 }

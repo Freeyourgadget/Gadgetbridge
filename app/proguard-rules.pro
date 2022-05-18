@@ -18,8 +18,12 @@
 -keepclassmembers class nodomain.freeyourgadget.gadgetbridge.service.devices.pebble.webview.JSInterface {
     public *;
 }
-# Required for refection in BangleJSDeviceSupport
+# Required for reflection in BangleJSDeviceSupport
 -keepclassmembers class nodomain.freeyourgadget.gadgetbridge.model.CallSpec {
+    public static *;
+}
+# Required for reflection in method GattCharacteristic.initDebugMap()
+-keepclassmembers class nodomain.freeyourgadget.gadgetbridge.service.btle.GattCharacteristic {
     public static *;
 }
 -keepattributes JavascriptInterface

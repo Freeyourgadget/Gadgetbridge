@@ -23,7 +23,18 @@ import android.net.Uri;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import org.apache.commons.lang3.ArrayUtils;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
 import nodomain.freeyourgadget.gadgetbridge.GBException;
+import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSpecificSettingsCustomizer;
 import nodomain.freeyourgadget.gadgetbridge.devices.AbstractDeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.InstallHandler;
@@ -32,6 +43,7 @@ import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
 import nodomain.freeyourgadget.gadgetbridge.entities.Device;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
+import nodomain.freeyourgadget.gadgetbridge.model.BatteryConfig;
 
 public abstract class SonyHeadphonesCoordinator extends AbstractDeviceCoordinator {
     @Override
@@ -122,5 +134,114 @@ public abstract class SonyHeadphonesCoordinator extends AbstractDeviceCoordinato
     @Override
     public boolean supportsFindDevice() {
         return false;
+    }
+
+    @Override
+    public boolean supportsPowerOff() {
+        return supports(SonyHeadphonesCapabilities.PowerOffFromPhone);
+    }
+
+    @Override
+    public int getBatteryCount() {
+        if (supports(SonyHeadphonesCapabilities.BatterySingle)) {
+            if (supports(SonyHeadphonesCapabilities.BatteryDual)) {
+                throw new IllegalStateException("A device can't have both single and dual battery");
+            } else if(supports(SonyHeadphonesCapabilities.BatteryCase)) {
+                throw new IllegalStateException("Devices with single battery + case are not supported by the protocol");
+            }
+        }
+
+        int batteryCount = 0;
+
+        if (supports(SonyHeadphonesCapabilities.BatterySingle)) {
+            batteryCount += 1;
+        }
+
+        if (supports(SonyHeadphonesCapabilities.BatteryCase)) {
+            batteryCount += 1;
+        }
+
+        if (supports(SonyHeadphonesCapabilities.BatteryDual)) {
+            batteryCount += 2;
+        }
+
+        return batteryCount;
+    }
+
+    @Override
+    public int[] getSupportedDeviceSpecificSettings(final GBDevice device) {
+        final List<Integer> settings = new ArrayList<>();
+
+        if (supports(SonyHeadphonesCapabilities.AmbientSoundControl)) {
+            if (supports(SonyHeadphonesCapabilities.WindNoiseReduction)) {
+                settings.add(R.xml.devicesettings_sony_headphones_ambient_sound_control_wind_noise_reduction);
+            } else {
+                settings.add(R.xml.devicesettings_sony_headphones_ambient_sound_control);
+            }
+
+            if (supports(SonyHeadphonesCapabilities.AncOptimizer)) {
+                settings.add(R.xml.devicesettings_sony_headphones_anc_optimizer);
+            }
+        }
+
+        addSettingsUnderHeader(settings, R.xml.devicesettings_header_other, new LinkedHashMap<SonyHeadphonesCapabilities, Integer>() {{
+            put(SonyHeadphonesCapabilities.AudioSettingsOnlyOnSbcCodec, R.xml.devicesettings_sony_warning_wh1000xm3);
+            put(SonyHeadphonesCapabilities.Equalizer, R.xml.devicesettings_sony_headphones_equalizer);
+            put(SonyHeadphonesCapabilities.SoundPosition, R.xml.devicesettings_sony_headphones_sound_position);
+            put(SonyHeadphonesCapabilities.SurroundMode, R.xml.devicesettings_sony_headphones_surround_mode);
+            put(SonyHeadphonesCapabilities.AudioUpsampling, R.xml.devicesettings_sony_headphones_audio_upsampling);
+        }});
+
+        addSettingsUnderHeader(settings, R.xml.devicesettings_header_system, new LinkedHashMap<SonyHeadphonesCapabilities, Integer>() {{
+            put(SonyHeadphonesCapabilities.ButtonModesLeftRight, R.xml.devicesettings_sony_headphones_button_modes_left_right);
+            put(SonyHeadphonesCapabilities.TouchSensorSingle, R.xml.devicesettings_sony_headphones_touch_sensor_single);
+            put(SonyHeadphonesCapabilities.PauseWhenTakenOff, R.xml.devicesettings_sony_headphones_pause_when_taken_off);
+            put(SonyHeadphonesCapabilities.AutomaticPowerOffWhenTakenOff, R.xml.devicesettings_automatic_power_off_when_taken_off);
+            put(SonyHeadphonesCapabilities.AutomaticPowerOffByTime, R.xml.devicesettings_automatic_power_off_by_time);
+            put(SonyHeadphonesCapabilities.VoiceNotifications, R.xml.devicesettings_sony_headphones_notifications_voice_guide);
+        }});
+
+        settings.add(R.xml.devicesettings_sony_headphones_device_info);
+
+        return ArrayUtils.toPrimitive(settings.toArray(new Integer[0]));
+    }
+
+    public List<SonyHeadphonesCapabilities> getCapabilities() {
+        return Collections.emptyList();
+    }
+
+    public boolean supports(final SonyHeadphonesCapabilities capability) {
+        return getCapabilities().contains(capability);
+    }
+
+    /**
+     * Add the preference screens for capabilities under a header. The header is also only added if at least one capability is supported by the device.
+     *
+     * @param settings the list of settings to update
+     * @param header the header to add, if any capability supported
+     * @param capabilities the map of capability to preference screen
+     */
+    private void addSettingsUnderHeader(final List<Integer> settings,
+                                        final int header,
+                                        final Map<SonyHeadphonesCapabilities, Integer> capabilities) {
+        final Set<SonyHeadphonesCapabilities> supportedCapabilities = new HashSet<>(capabilities.keySet());
+        for (SonyHeadphonesCapabilities capability : capabilities.keySet()) {
+            if (!supports(capability)) {
+                supportedCapabilities.remove(capability);
+            }
+        }
+
+        if (supportedCapabilities.isEmpty()) {
+            // None of the capabilities in the map are supported
+            return;
+        }
+
+        settings.add(header);
+
+        for (Map.Entry<SonyHeadphonesCapabilities, Integer> capabilitiesSetting : capabilities.entrySet()) {
+            if (supports(capabilitiesSetting.getKey())) {
+                settings.add(capabilitiesSetting.getValue());
+            }
+        }
     }
 }

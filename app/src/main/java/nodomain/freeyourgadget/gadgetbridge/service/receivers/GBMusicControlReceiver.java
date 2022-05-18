@@ -76,6 +76,12 @@ public class GBMusicControlReceiver extends BroadcastReceiver {
             case VOLUMEDOWN:
                 AudioManager audioManager = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
                 audioManager.adjustStreamVolume(AudioManager.STREAM_MUSIC, volumeAdjust, 0);
+
+                final int volumeLevel = audioManager.getStreamVolume(AudioManager.STREAM_MUSIC);
+                final int volumeMax = audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
+                final int volumePercentage = (byte) Math.round(100 * (volumeLevel / (float) volumeMax));
+
+                GBApplication.deviceService().onSetPhoneVolume(volumePercentage);
                 break;
             default:
                 return;

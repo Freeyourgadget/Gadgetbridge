@@ -1157,10 +1157,10 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
         boolean quickRepliesEnabled = quickReplies.length > 0 && callSpec.number != null && callSpec.number.matches("^\\+(?:[0-9] ?){6,14}[0-9]$");
         if (callSpec.command == CallSpec.CALL_INCOMING) {
             currentCallSpec = callSpec;
-            queueWrite(new PlayCallNotificationRequest(StringUtils.getFirstOf(callSpec.name, callSpec.number), true, quickRepliesEnabled, this));
+            queueWrite(new PlayCallNotificationRequest(StringUtils.getFirstOf(callSpec.name, callSpec.number), true, quickRepliesEnabled, callSpec.dndSuppressed, this));
         } else {
             currentCallSpec = null;
-            queueWrite(new PlayCallNotificationRequest(StringUtils.getFirstOf(callSpec.name, callSpec.number), false, quickRepliesEnabled, this));
+            queueWrite(new PlayCallNotificationRequest(StringUtils.getFirstOf(callSpec.name, callSpec.number), false, quickRepliesEnabled, callSpec.dndSuppressed, this));
         }
     }
 
@@ -1616,7 +1616,7 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
 
     private void handleCallRequest(byte[] value) {
         boolean acceptCall = value[7] == (byte) 0x00;
-        queueWrite(new PlayCallNotificationRequest("", false, false, this));
+        queueWrite(new PlayCallNotificationRequest("", false, false, 0,this));
 
         GBDeviceEventCallControl callControlEvent = new GBDeviceEventCallControl();
         callControlEvent.event = acceptCall ? GBDeviceEventCallControl.Event.START : GBDeviceEventCallControl.Event.REJECT;

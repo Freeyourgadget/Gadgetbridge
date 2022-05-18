@@ -18,9 +18,11 @@ package nodomain.freeyourgadget.gadgetbridge.devices.sony.headphones.coordinator
 
 import androidx.annotation.NonNull;
 
-import nodomain.freeyourgadget.gadgetbridge.R;
+import java.util.Arrays;
+import java.util.List;
+
+import nodomain.freeyourgadget.gadgetbridge.devices.sony.headphones.SonyHeadphonesCapabilities;
 import nodomain.freeyourgadget.gadgetbridge.devices.sony.headphones.SonyHeadphonesCoordinator;
-import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceCandidate;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
 
@@ -41,22 +43,21 @@ public class SonyWH1000XM4Coordinator extends SonyHeadphonesCoordinator {
     }
 
     @Override
-    public int[] getSupportedDeviceSpecificSettings(final GBDevice device) {
-        return new int[]{
+    public List<SonyHeadphonesCapabilities> getCapabilities() {
+        return Arrays.asList(
                 // TODO: Function of [CUSTOM] button
-                R.xml.devicesettings_sony_headphones_ambient_sound_control_wind_noise_reduction,
-                R.xml.devicesettings_sony_headphones_anc_optimizer,
-                R.xml.devicesettings_header_other,
-                R.xml.devicesettings_sony_headphones_equalizer,
-                R.xml.devicesettings_sony_headphones_audio_upsampling,
-                R.xml.devicesettings_header_system,
                 // TODO R.xml.devicesettings_connect_two_devices,
                 // TODO R.xml.devicesettings_sony_headphones_speak_to_chat_with_settings,
-                R.xml.devicesettings_sony_headphones_touch_sensor_single,
-                R.xml.devicesettings_sony_headphones_pause_when_taken_off,
-                R.xml.devicesettings_automatic_power_off_when_taken_off,
-                R.xml.devicesettings_sony_headphones_notifications_voice_guide,
-                R.xml.devicesettings_sony_headphones_device_info
-        };
+                SonyHeadphonesCapabilities.BatterySingle,
+                SonyHeadphonesCapabilities.AmbientSoundControl,
+                SonyHeadphonesCapabilities.WindNoiseReduction,
+                SonyHeadphonesCapabilities.AncOptimizer,
+                SonyHeadphonesCapabilities.Equalizer,
+                SonyHeadphonesCapabilities.AudioUpsampling,
+                SonyHeadphonesCapabilities.TouchSensorSingle,
+                SonyHeadphonesCapabilities.PauseWhenTakenOff,
+                SonyHeadphonesCapabilities.AutomaticPowerOffWhenTakenOff,
+                SonyHeadphonesCapabilities.VoiceNotifications
+        );
     }
 }

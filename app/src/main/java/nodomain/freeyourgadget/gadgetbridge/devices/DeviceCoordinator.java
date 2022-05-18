@@ -332,6 +332,16 @@ public interface DeviceCoordinator {
     int getReminderSlotCount();
 
     /**
+     * Indicates the maximum number of slots available for world clocks in the device.
+     */
+    int getWorldClocksSlotCount();
+
+    /**
+     * Indicates the maximum label length for a world clock in the device.
+     */
+    int getWorldClocksLabelLength();
+
+    /**
      * Indicates whether the device has an led which supports custom colors
      */
     boolean supportsLedColor();

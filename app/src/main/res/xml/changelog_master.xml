@@ -1,5 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
+    <release version="0.67.0" versioncode="211">
+        <change>Initial Support for Sony WF-1000XM3</change>
+        <change>Initial Support for Galaxy Buds Pro</change>
+        <change>Huami: Add Toggle function for Open Tracks tracking to button actions</change>
+        <change>Huami: Move inactivity warnings, goal notification and HR monitoring to device-specific settings</change>
+        <change>Mi Band 6: set time on connect</change>
+        <change>Mi Band 5/6, Amazfit Bip S/U/Pro: Add world clock configuration</change>
+        <change>Mi Band 5/6: support sensitivity setting for lift wrist configuration</change>
+        <change>Mi Band 5: Add support for configuring workout menu on device</change>
+        <change>Mi Band 4/5/6, Amazfit Bip U/Pro: Add support for vibration patterns</change>
+        <change>Mi Band 5: Increase number of reminder slots to 50</change>
+        <change>Mi Band 5/6: Add setting for HR activity monitoring, HR alerts, stress monitoring</change>
+        <change>Amazfit Neo: Allow to disable beeps for email notifications</change>
+        <change>Bangle.js: Fix incoming calls in release builds</change>
+        <change>Fossil Hybrid HR: Support flexible custom menu on watch</change>
+        <change>Fossil Hybrid HR: Add support for native DND Call/SMS functionality</change>
+        <change>VESC: added battery indicator</change>
+        <change>UM25: Add reset option to current accumulation</change>
+        <change>UM25: Add notification on below current threshold</change>
+        <change>Fix crash when calendar is accessed but permission is denied</change>
+        <change>Add com.asus.asusincallui and com.samsung.android.incallui to blacklist</change>
+        <change>New icons for Sony overhead headphones, Sony WF 800n and Mi Band 6</change>
+    </release>
     <release version="0.66.0" versioncode="210">
         <change>Add basic support for Casio GBD-H1000</change>
         <change>Add support for Hama Fit Track 1900 - via FitPro device support</change>

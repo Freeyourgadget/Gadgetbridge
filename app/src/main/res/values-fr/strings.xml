@@ -1062,7 +1062,7 @@ Temps de sommeil préféré en heures</string>
     <string name="activity_prefs_chart_max_idle_phase_length">Longueur de la pause pour séparer les activités (minutes)</string>
     <string name="activity_prefs_chart_min_steps_per_minute">Nombre de pas minimum par minute pour détecter une activité</string>
     <string name="activity_prefs_chart_min_steps_per_minute_for_run">Nombre de pas minimum par minute pour détecter une course</string>
-    <string name="charts_activity_list">Liste d\'activités</string>
+    <string name="charts_activity_list">Activités du jour</string>
     <string name="chart_get_active_and_synchronize">Avoir une activité et synchroniser l\'appareil.</string>
     <string name="chart_no_active_data">Aucune activité détectée.</string>
     <string name="devicetype_lefun">Lefun</string>
@@ -1130,7 +1130,7 @@ Temps de sommeil préféré en heures</string>
 \nIntensité</string>
     <string name="activity_list_summary_active_time">Durée d\'activité</string>
     <string name="activity_list_summary_distance">Distance</string>
-    <string name="activity_list_summary_active_steps">Pas réalisés</string>
+    <string name="activity_list_summary_active_steps">Pas réels</string>
     <string name="devicetype_amazfit_gts2">Amazfit GTS 2</string>
     <string name="devicetype_casiogbx100">Casio GBX-100</string>
     <string name="prefs_charts_tabs_summary">Onglets visibles des tableaux</string>
@@ -1596,4 +1596,24 @@ Temps de sommeil préféré en heures</string>
     <string name="activity_db_management_autoexport_enabled_no">L\'export automatique est désactivé.</string>
     <string name="activity_db_management_autoexport_location">L\'emplacement n\'a pas pu être détecté. Probablement un problème avec les nouvelles permissions du système Android. Très probablement, l\'export automatique ne fonctionne pas actuellement.</string>
     <string name="watchface_dialog_pre_setting_position">pré-configuration de la position à %s</string>
+    <string name="watchface_setting_light_up_on_notification">S\'allumer pour une nouvelle notification</string>
+    <string name="menuitem_email">Email</string>
+    <string name="title_activity_controlcenter_banglejs_main">Bangle.js Gadgetbridge</string>
+    <string name="about_activity_title_banglejs_main">A propos de Bangle.js Gadgetbridge</string>
+    <string name="application_name_banglejs_main">Bangle.js Gadgetbridge</string>
+    <string name="about_description_banglejs_main">Application complémentaire Android pour Bangle.js élaborée sur la base du projet Gadgetbridge, avec des fonctionnalités Internet supplémentaires.</string>
+    <string name="application_name_banglejs_nopebble">Bangle.js pour Gadgetbridge</string>
+    <string name="title_activity_controlcenter_banglejs_nopebble">Bangle.js pour Gadgetbridge</string>
+    <string name="about_activity_title_main_nightly">A propos de Gatgetbridge Nightly</string>
+    <string name="about_activity_title_banglejs_nopebble">A propos de Bangle.js pour Gadgetbridge</string>
+    <string name="about_activity_title_main_nopebble">A propos de Gadgetbridge Nightly sans Pebble</string>
+    <string name="about_description_main_nightly">Remplaçant autonome et sous licence libre pour remplacer les applications propriétaires des fabricants. Version Nightly de Gadgetbridge. Ne peut pas être installé si vous avez déja Gadgetbridge ou Pebble d\'installé, en raison d\'un conflit avec l\'application Pebble.</string>
+    <string name="application_name_main_nopebble">Gadgetbridage (Nightly, pas defournisseur Pebble)</string>
+    <string name="title_activity_controlcenter_main_nopebble">Gadgetbridge Nightly Sans Pebble</string>
+    <string name="gadgetbridge_running_main_nightly">GB Nightly en fonctionnement</string>
+    <string name="gadgetbridge_running_banglejs_main">Bangle.js en fonctionnement</string>
+    <string name="about_description_banglejs_nopebble">Application complémentaire Android pour Bangle.js élaborée sur la base du projet Gadgetbridge, avec des fonctionnalités Internet supplémentaires.</string>
+    <string name="gadgetbridge_running_banglejs_nopebble">Bangle.js en fonctionnement</string>
+    <string name="application_name_main_nightly">Gadgetbridge (version Nightly)</string>
+    <string name="title_activity_controlcenter_main_nightly">Gadgetbrigde version Nightly</string>
 </resources>

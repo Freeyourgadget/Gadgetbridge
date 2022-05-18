@@ -27,6 +27,7 @@ import nodomain.freeyourgadget.gadgetbridge.model.CannedMessagesSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.Reminder;
 import nodomain.freeyourgadget.gadgetbridge.model.WeatherSpec;
+import nodomain.freeyourgadget.gadgetbridge.model.WorldClock;
 
 public abstract class GBDeviceProtocol {
 
@@ -60,6 +61,10 @@ public abstract class GBDeviceProtocol {
     }
 
     public byte[] encodeSetMusicInfo(String artist, String album, String track, int duration, int trackCount, int trackNr) {
+        return null;
+    }
+
+    public byte[] encodeVolume(float volume) {
         return null;
     }
 
@@ -148,6 +153,10 @@ public abstract class GBDeviceProtocol {
     }
 
     public byte[] encodeReminders(ArrayList<? extends Reminder> reminders) {
+        return null;
+    }
+
+    public byte[] encodeWorldClocks(ArrayList<? extends WorldClock> clocks) {
         return null;
     }
 

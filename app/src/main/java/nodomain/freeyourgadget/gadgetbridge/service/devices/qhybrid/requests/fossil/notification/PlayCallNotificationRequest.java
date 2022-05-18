@@ -24,18 +24,20 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.adapter.foss
 public class PlayCallNotificationRequest extends PlayNotificationRequest {
     private final static int MESSAGE_ID_CALL = 1;
 
-    private static int notificationFlags(boolean callStart, boolean quickReplies) {
+    private static int notificationFlags(boolean callStart, boolean quickReplies, int dndSuppressed) {
+        int flags = 0;
         if (callStart && quickReplies) {
-            return 0b00111000;
+            flags = 0b00111000;
         } else if (callStart) {
-            return 0b00011000;
+            flags = 0b00011000;
         } else {
-            return 0b00000010;
+            flags = 0b00000010;
         }
+        return (flags | dndSuppressed);
     }
 
-    public PlayCallNotificationRequest(String number, boolean callStart, boolean quickReplies, FossilWatchAdapter adapter) {
-        super(callStart ? NotificationType.INCOMING_CALL : NotificationType.DISMISS_NOTIFICATION, notificationFlags(callStart, quickReplies),
+    public PlayCallNotificationRequest(String number, boolean callStart, boolean quickReplies, int dndSuppressed, FossilWatchAdapter adapter) {
+        super(callStart ? NotificationType.INCOMING_CALL : NotificationType.DISMISS_NOTIFICATION, notificationFlags(callStart, quickReplies, dndSuppressed),
                 ByteBuffer.wrap(new byte[]{(byte) 0x80, (byte) 0x00, (byte) 0x59, (byte) 0xB7}).order(ByteOrder.LITTLE_ENDIAN).getInt(),
                 number, "Incoming Call", MESSAGE_ID_CALL, adapter);
     }

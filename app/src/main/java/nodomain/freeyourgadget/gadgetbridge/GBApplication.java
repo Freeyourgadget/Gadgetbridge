@@ -100,6 +100,8 @@ import static nodomain.freeyourgadget.gadgetbridge.util.GB.NOTIFICATION_ID_ERROR
 
 import androidx.multidex.MultiDex;
 
+import com.jakewharton.threetenabp.AndroidThreeTen;
+
 /**
  * Main Application class that initializes and provides access to certain things like
  * logging and DB access.
@@ -115,7 +117,7 @@ public class GBApplication extends Application {
     private static SharedPreferences sharedPrefs;
     private static final String PREFS_VERSION = "shared_preferences_version";
     //if preferences have to be migrated, increment the following and add the migration logic in migratePrefs below; see http://stackoverflow.com/questions/16397848/how-can-i-migrate-android-preferences-with-a-new-version
-    private static final int CURRENT_PREFS_VERSION = 11;
+    private static final int CURRENT_PREFS_VERSION = 14;
 
     private static LimitedQueue mIDSenderLookup = new LimitedQueue(16);
     private static Prefs prefs;
@@ -190,6 +192,9 @@ public class GBApplication extends Application {
             // guard against multiple invocations (robolectric)
             return;
         }
+
+        // Initialize the timezones library
+        AndroidThreeTen.init(this);
 
         sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
         prefs = new Prefs(sharedPrefs);
@@ -380,6 +385,9 @@ public class GBApplication extends Application {
         return VERSION.SDK_INT >= Build.VERSION_CODES.Q;
     }
 
+    public static boolean isRunningTwelveOrLater() {
+        return VERSION.SDK_INT >= 31;  // Build.VERSION_CODES.S, but our target SDK is lower
+    }
 
     public static boolean isRunningPieOrLater() {
         return VERSION.SDK_INT >= Build.VERSION_CODES.P;
@@ -430,10 +438,8 @@ public class GBApplication extends Application {
 
     @TargetApi(Build.VERSION_CODES.M)
     public static int getGrantedInterruptionFilter() {
-        if (prefs.getBoolean("notification_filter", false) && GBApplication.isRunningMarshmallowOrLater()) {
-            if (notificationManager.isNotificationPolicyAccessGranted()) {
-                return notificationManager.getCurrentInterruptionFilter();
-            }
+        if (GBApplication.isRunningMarshmallowOrLater() && notificationManager.isNotificationPolicyAccessGranted()) {
+            return notificationManager.getCurrentInterruptionFilter();
         }
         return NotificationManager.INTERRUPTION_FILTER_ALL;
     }
@@ -1072,6 +1078,71 @@ public class GBApplication extends Application {
                 Log.w(TAG, "error acquiring DB lock");
             }
         }
+        if (oldVersion < 12) {
+            // Convert preferences that were wrongly migrated to int, since Android saves them as Strings internally
+            editor.putString("inactivity_warnings_threshold", String.valueOf(prefs.getInt("inactivity_warnings_threshold", 60)));
+            editor.putString("fitness_goal", String.valueOf(prefs.getInt("fitness_goal", 8000)));
+        }
+
+        if (oldVersion < 13) {
+            try (DBHandler db = acquireDB()) {
+                final DaoSession daoSession = db.getDaoSession();
+                final List<Device> activeDevices = DBHelper.getActiveDevices(daoSession);
+
+                for (Device dbDevice : activeDevices) {
+                    final SharedPreferences deviceSharedPrefs = GBApplication.getDeviceSpecificSharedPrefs(dbDevice.getIdentifier());
+                    final SharedPreferences.Editor deviceSharedPrefsEdit = deviceSharedPrefs.edit();
+
+                    if (dbDevice.getManufacturer().equals("Huami")) {
+                        deviceSharedPrefsEdit.putBoolean("inactivity_warnings_enable", prefs.getBoolean("inactivity_warnings_enable", false));
+                        deviceSharedPrefsEdit.putString("inactivity_warnings_threshold", prefs.getString("inactivity_warnings_threshold", "60"));
+                        deviceSharedPrefsEdit.putString("inactivity_warnings_start", prefs.getString("inactivity_warnings_start", "06:00"));
+                        deviceSharedPrefsEdit.putString("inactivity_warnings_end", prefs.getString("inactivity_warnings_end", "22:00"));
+
+                        deviceSharedPrefsEdit.putBoolean("inactivity_warnings_dnd", prefs.getBoolean("inactivity_warnings_dnd", false));
+                        deviceSharedPrefsEdit.putString("inactivity_warnings_dnd_start", prefs.getString("inactivity_warnings_dnd_start", "12:00"));
+                        deviceSharedPrefsEdit.putString("inactivity_warnings_dnd_end", prefs.getString("inactivity_warnings_dnd_end", "14:00"));
+
+                        deviceSharedPrefsEdit.putBoolean("fitness_goal_notification", prefs.getBoolean("mi2_goal_notification", false));
+                    }
+
+                    // Not removing the first 4 preferences since they're still used by some devices (ZeTime)
+                    editor.remove("inactivity_warnings_dnd");
+                    editor.remove("inactivity_warnings_dnd_start");
+                    editor.remove("inactivity_warnings_dnd_end");
+                    editor.remove("mi2_goal_notification");
+
+                    deviceSharedPrefsEdit.apply();
+                }
+            } catch (Exception e) {
+                Log.w(TAG, "error acquiring DB lock");
+            }
+        }
+
+        if (oldVersion < 14) {
+            try (DBHandler db = acquireDB()) {
+                final DaoSession daoSession = db.getDaoSession();
+                final List<Device> activeDevices = DBHelper.getActiveDevices(daoSession);
+
+                for (Device dbDevice : activeDevices) {
+                    final SharedPreferences deviceSharedPrefs = GBApplication.getDeviceSpecificSharedPrefs(dbDevice.getIdentifier());
+                    final SharedPreferences.Editor deviceSharedPrefsEdit = deviceSharedPrefs.edit();
+
+                    if (DeviceType.MIBAND.equals(dbDevice.getType()) || dbDevice.getManufacturer().equals("Huami")) {
+                        deviceSharedPrefsEdit.putBoolean("heartrate_sleep_detection", prefs.getBoolean("mi_hr_sleep_detection", false));
+                        deviceSharedPrefsEdit.putString("heartrate_measurement_interval", prefs.getString("heartrate_measurement_interval", "0"));
+                    }
+
+                    // Not removing heartrate_measurement_interval since it's still used by some devices (ZeTime)
+                    editor.remove("mi_hr_sleep_detection");
+
+                    deviceSharedPrefsEdit.apply();
+                }
+            } catch (Exception e) {
+                Log.w(TAG, "error acquiring DB lock");
+            }
+        }
+
         editor.putString(PREFS_VERSION, Integer.toString(CURRENT_PREFS_VERSION));
         editor.apply();
     }

@@ -43,6 +43,7 @@ import nodomain.freeyourgadget.gadgetbridge.model.MusicStateSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.Reminder;
 import nodomain.freeyourgadget.gadgetbridge.model.WeatherSpec;
+import nodomain.freeyourgadget.gadgetbridge.model.WorldClock;
 import nodomain.freeyourgadget.gadgetbridge.service.DeviceCommunicationService;
 import nodomain.freeyourgadget.gadgetbridge.util.RtlUtils;
 
@@ -200,7 +201,8 @@ public class GBDeviceService implements DeviceService {
         Intent intent = createIntent().setAction(ACTION_CALLSTATE)
                 .putExtra(EXTRA_CALL_PHONENUMBER, callSpec.number)
                 .putExtra(EXTRA_CALL_DISPLAYNAME, callSpec.name)
-                .putExtra(EXTRA_CALL_COMMAND, callSpec.command);
+                .putExtra(EXTRA_CALL_COMMAND, callSpec.command)
+                .putExtra(EXTRA_CALL_DNDSUPPRESSED, callSpec.dndSuppressed);
         invokeService(intent);
     }
 
@@ -224,9 +226,23 @@ public class GBDeviceService implements DeviceService {
     }
 
     @Override
+    public void onSetPhoneVolume(final float volume) {
+        Intent intent = createIntent().setAction(ACTION_SET_PHONE_VOLUME)
+                .putExtra(EXTRA_PHONE_VOLUME, volume);
+        invokeService(intent);
+    }
+
+    @Override
     public void onSetReminders(ArrayList<? extends Reminder> reminders) {
         Intent intent = createIntent().setAction(ACTION_SET_REMINDERS)
                 .putExtra(EXTRA_REMINDERS, reminders);
+        invokeService(intent);
+    }
+
+    @Override
+    public void onSetWorldClocks(ArrayList<? extends WorldClock> clocks) {
+        Intent intent = createIntent().setAction(ACTION_SET_WORLD_CLOCKS)
+                .putExtra(EXTRA_WORLD_CLOCKS, clocks);
         invokeService(intent);
     }
 
