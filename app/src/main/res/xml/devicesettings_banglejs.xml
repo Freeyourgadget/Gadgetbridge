@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <SwitchPreference
+        android:defaultValue="false"
+        android:icon="@drawable/ic_translate"
+        android:key="banglejs_text_bitmap"
+        android:summary="@string/pref_summary_banglejs_text_bitmap"
+        android:title="@string/pref_title_banglejs_text_bitmap" />
+</androidx.preference.PreferenceScreen>
