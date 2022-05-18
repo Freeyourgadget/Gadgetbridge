@@ -1185,6 +1185,8 @@
     <string name="about_additional_contributions">Many thanks to all unlisted contributors for contributing code, translations, support, ideas, motivation, bug reports, money… ✊</string>
     <string name="about_links">Links</string>
     <string name="permission_granting_mandatory">All these permissions are required and instability might occur if not granted</string>
+    <string name="permission_notification_listener">%1$s needs access to Notifications in order to display them on your watch.\n\nPlease tap \'%2$s\' then \'%1$s\' and enable \'Allow Notification Access\', then tap \'Back\' to return to %1$s</string>
+    <string name="permission_notification_policy_access">%1$s needs access to Do Not Disturb settings in order to honour them on your watch.\n\nPlease tap \'%2$s\' then \'%1$s\' and enable \'Allow Do Not Disturb\', then tap \'Back\' to return to %1$s</string>
     <string name="error_version_check_extreme_caution">CAUTION: Error when checking version information! You should not continue! Saw version name \"%s\"</string>
     <string name="require_location_provider">Location must be enabled</string>
     <string name="companiondevice_pairing">CompanionDevice Pairing</string>
