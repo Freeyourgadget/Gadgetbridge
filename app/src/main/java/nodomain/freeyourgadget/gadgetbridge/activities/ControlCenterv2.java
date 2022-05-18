@@ -19,9 +19,12 @@ package nodomain.freeyourgadget.gadgetbridge.activities;
 
 import android.Manifest;
 import android.annotation.TargetApi;
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.app.NotificationManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
@@ -44,6 +47,7 @@ import androidx.core.app.NotificationManagerCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.DialogFragment;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -243,12 +247,26 @@ public class ControlCenterv2 extends AppCompatActivity
         Set<String> set = NotificationManagerCompat.getEnabledListenerPackages(this);
         if (pesterWithPermissions) {
             if (!set.contains(this.getPackageName())) { // If notification listener access hasn't been granted
-                Intent enableIntent = new Intent("android.settings.ACTION_NOTIFICATION_LISTENER_SETTINGS");
-                startActivity(enableIntent);
+                // Put up a dialog explaining why we need permissions (Polite, but also Play Store policy)
+                // When accepted, we open the Activity for Notification access
+                DialogFragment dialog = new NotifyListenerPermissionsDialogFragment();
+                dialog.show(getSupportFragmentManager(), "PermissionsDialogFragment");
             }
         }
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+           /* In order to be able to set ringer mode to silent in GB's PhoneCallReceiver
+           the permission to access notifications is needed above Android M
+           ACCESS_NOTIFICATION_POLICY is also needed in the manifest */
+            if (pesterWithPermissions) {
+                if (!((NotificationManager) this.getSystemService(Context.NOTIFICATION_SERVICE)).isNotificationPolicyAccessGranted()) {
+                    // Put up a dialog explaining why we need permissions (Polite, but also Play Store policy)
+                    // When accepted, we open the Activity for Notification access
+                    DialogFragment dialog = new NotifyPolicyPermissionsDialogFragment();
+                    dialog.show(getSupportFragmentManager(), "PermissionsDialogFragment");
+                }
+            }
+            // Check all the other permissions that we need to for Android M + later
             checkAndRequestPermissions();
         }
 
@@ -472,18 +490,6 @@ public class ControlCenterv2 extends AppCompatActivity
             }
         }
 
-        /* In order to be able to set ringer mode to silent in GB's PhoneCallReceiver
-           the permission to access notifications is needed above Android M
-           ACCESS_NOTIFICATION_POLICY is also needed in the manifest */
-        if (pesterWithPermissions) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                if (!((NotificationManager) this.getSystemService(Context.NOTIFICATION_SERVICE)).isNotificationPolicyAccessGranted()) {
-                    GB.toast(this, getString(R.string.permission_granting_mandatory), Toast.LENGTH_LONG, GB.ERROR);
-                    startActivity(new Intent(android.provider.Settings.ACTION_NOTIFICATION_POLICY_ACCESS_SETTINGS));
-                }
-            }
-        }
-
         // HACK: On Lineage we have to do this so that the permission dialog pops up
         if (fakeStateListener == null) {
             fakeStateListener = new PhoneStateListener();
@@ -533,4 +539,44 @@ public class ControlCenterv2 extends AppCompatActivity
         }
 
     }
+
+    /// Called from onCreate - this puts up a dialog explaining we need permissions, and goes to the correct Activity
+    public static class NotifyPolicyPermissionsDialogFragment extends DialogFragment {
+        @Override
+        public Dialog onCreateDialog(Bundle savedInstanceState) {
+            // Use the Builder class for convenient dialog construction
+            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+            Context context = getContext();
+            builder.setMessage(context.getString(R.string.permission_notification_policy_access,
+                    getContext().getString(R.string.app_name),
+                    getContext().getString(R.string.ok)))
+                    .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            startActivity(new Intent(android.provider.Settings.ACTION_NOTIFICATION_POLICY_ACCESS_SETTINGS));
+                        }
+                    });
+            return builder.create();
+        }
+    }
+
+    /// Called from onCreate - this puts up a dialog explaining we need permissions, and goes to the correct Activity
+    public static class NotifyListenerPermissionsDialogFragment extends DialogFragment {
+        @Override
+        public Dialog onCreateDialog(Bundle savedInstanceState) {
+            // Use the Builder class for convenient dialog construction
+            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+            Context context = getContext();
+            builder.setMessage(context.getString(R.string.permission_notification_listener,
+                                    getContext().getString(R.string.app_name),
+                                    getContext().getString(R.string.ok)))
+                    .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            Intent enableIntent = new Intent("android.settings.ACTION_NOTIFICATION_LISTENER_SETTINGS");
+                            startActivity(enableIntent);
+                        }
+                    });
+            return builder.create();
+        }
+    }
+
 }
