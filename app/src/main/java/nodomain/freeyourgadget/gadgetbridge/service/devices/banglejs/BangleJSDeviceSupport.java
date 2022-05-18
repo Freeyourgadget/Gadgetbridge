@@ -25,6 +25,7 @@ import android.content.IntentFilter;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.graphics.Paint;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
@@ -96,6 +97,7 @@ import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_ALLOW_HIGH_MTU;
 import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_DEVICE_INTERNET_ACCESS;
 import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_DEVICE_INTENTS;
+import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_BANGLEJS_TEXT_BITMAP;
 import static nodomain.freeyourgadget.gadgetbridge.database.DBHelper.*;
 
 import javax.xml.xpath.XPath;
@@ -195,11 +197,31 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
         }
     }
 
+    public String jsonToString(JSONObject jsonObj) {
+        String json = jsonObj.toString();
+        // toString creates '\u0000' instead of '\0'
+        // FIXME: there have got to be nicer ways of handling this - maybe we just make our own JSON.toString (see below)
+        json = json.replaceAll("\\\\u000([01234567])", "\\\\$1");
+        json = json.replaceAll("\\\\u00(\\d\\d)", "\\\\x$1");
+        return json;
+        /*String json = "{";
+        Iterator<String> iter = jsonObj.keys();
+        while (iter.hasNext()) {
+            String key = iter.next();
+            Object v = jsonObj.get(key);
+            if (v instanceof Integer) {
+                // ...
+            } else // ..
+            if (iter.hasNext()) json+=",";
+        }
+        return json+"}";*/
+    }
+
     /// Write a JSON object of data
     private void uartTxJSON(String taskName, JSONObject json) {
         try {
             TransactionBuilder builder = performInitialized(taskName);
-            uartTx(builder, "\u0010GB("+json.toString()+")\n");
+            uartTx(builder, "\u0010GB("+jsonToString(json)+")\n");
             builder.queue(getQueue());
         } catch (IOException e) {
             GB.toast(getContext(), "Error in "+taskName+": " + e.getLocalizedMessage(), Toast.LENGTH_LONG, GB.ERROR);
@@ -464,6 +486,29 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
         return true;
     }
 
+
+
+    public String renderUnicodeAsImage(String txt) {
+        if (txt==null) return null;
+        // If we're not doing conversion, pass this right back
+        Prefs devicePrefs = new Prefs(GBApplication.getDeviceSpecificSharedPrefs(gbDevice.getAddress()));
+        if (!devicePrefs.getBoolean(PREF_BANGLEJS_TEXT_BITMAP, false))
+            return txt;
+        // Otherwise split up and check each word
+        String words[] = txt.split(" ");
+        for (int i=0;i<words.length;i++) {
+            boolean isRenderable = true;
+            for (int j=0;j<words[i].length();j++) {
+                char c = words[i].charAt(j);
+                // TODO: better check?
+                if (c<0 || c>255) isRenderable = false;
+            }
+            if (!isRenderable)
+                words[i] = "\0"+bitmapToEspruinoString(textToBitmap(words[i]));
+        }
+        return String.join(" ", words);
+    }
+
     @Override
     public void onNotification(NotificationSpec notificationSpec) {
         try {
@@ -471,10 +516,10 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
             o.put("t", "notify");
             o.put("id", notificationSpec.getId());
             o.put("src", notificationSpec.sourceName);
-            o.put("title", notificationSpec.title);
-            o.put("subject", notificationSpec.subject);
-            o.put("body", notificationSpec.body);
-            o.put("sender", notificationSpec.sender);
+            o.put("title", renderUnicodeAsImage(notificationSpec.title));
+            o.put("subject", renderUnicodeAsImage(notificationSpec.subject));
+            o.put("body", renderUnicodeAsImage(notificationSpec.body));
+            o.put("sender", renderUnicodeAsImage(notificationSpec.sender));
             o.put("tel", notificationSpec.phoneNumber);
             uartTxJSON("onNotification", o);
         } catch (JSONException e) {
@@ -543,7 +588,7 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
                         cmdName = field.getName().substring(5).toLowerCase();
             } catch (IllegalAccessException e) {}
             o.put("cmd", cmdName);
-            o.put("name", callSpec.name);
+            o.put("name", renderUnicodeAsImage(callSpec.name));
             o.put("number", callSpec.number);
             uartTxJSON("onSetCallState", o);
         } catch (JSONException e) {
@@ -580,9 +625,9 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
         try {
             JSONObject o = new JSONObject();
             o.put("t", "musicinfo");
-            o.put("artist", musicSpec.artist);
-            o.put("album", musicSpec.album);
-            o.put("track", musicSpec.track);
+            o.put("artist", renderUnicodeAsImage(musicSpec.artist));
+            o.put("album", renderUnicodeAsImage(musicSpec.album));
+            o.put("track", renderUnicodeAsImage(musicSpec.track));
             o.put("dur", musicSpec.duration);
             o.put("c", musicSpec.trackCount);
             o.put("n", musicSpec.trackNr);
@@ -747,9 +792,23 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
         }
     }
 
+    public Bitmap textToBitmap(String text) {
+        Paint paint = new Paint(0); // Paint.ANTI_ALIAS_FLAG not wanted as 1bpp
+        paint.setTextSize(18);
+        paint.setColor(0xFFFFFFFF);
+        paint.setTextAlign(Paint.Align.LEFT);
+        float baseline = -paint.ascent(); // ascent() is negative
+        int width = (int) (paint.measureText(text) + 0.5f); // round
+        int height = (int) (baseline + paint.descent() + 0.5f);
+        Bitmap image = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(image);
+        canvas.drawText(text, 0, baseline, paint);
+        return image;
+    }
+
     /** Convert an Android bitmap to a base64 string for use in Espruino.
      * Currently only 1bpp, no scaling */
-    public static String bitmapToEspruino(Bitmap bitmap) {
+    public static byte[] bitmapToEspruinoArray(Bitmap bitmap) {
         int width = bitmap.getWidth();
         int height = bitmap.getHeight();
         byte bmp[] = new byte[((height * width + 7) >> 3) + 3];
@@ -772,7 +831,19 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
         if (cn > 0) bmp[n++] = (byte)c;
         //LOG.info("BMP: " + width + "x"+height+" n "+n);
         // Convert to base64
-        return Base64.encodeToString(bmp, Base64.DEFAULT).replaceAll("\n","");
+        return bmp;
+    }
+
+    /** Convert an Android bitmap to a base64 string for use in Espruino.
+     * Currently only 1bpp, no scaling */
+    public static String bitmapToEspruinoString(Bitmap bitmap) {
+        return new String(bitmapToEspruinoArray(bitmap), StandardCharsets.ISO_8859_1);
+    }
+
+    /** Convert an Android bitmap to a base64 string for use in Espruino.
+     * Currently only 1bpp, no scaling */
+    public static String bitmapToEspruinoBase64(Bitmap bitmap) {
+        return Base64.encodeToString(bitmapToEspruinoArray(bitmap), Base64.DEFAULT).replaceAll("\n","");
     }
 
     /** Convert a drawable to a bitmap, for use with bitmapToEspruino */

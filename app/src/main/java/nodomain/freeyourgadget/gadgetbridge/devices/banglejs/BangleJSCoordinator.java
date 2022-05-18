@@ -169,6 +169,7 @@ public class BangleJSCoordinator extends AbstractDeviceCoordinator {
 
     public int[] getSupportedDeviceSpecificSettings(GBDevice device) {
         Vector<Integer> settings = new Vector<Integer>();
+        settings.add(R.xml.devicesettings_banglejs);
         settings.add(R.xml.devicesettings_transliteration);
         settings.add(R.xml.devicesettings_high_mtu);
         if (BuildConfig.INTERNET_ACCESS)
