@@ -18,8 +18,10 @@ package nodomain.freeyourgadget.gadgetbridge.service.devices.banglejs;
 
 import android.bluetooth.BluetoothGatt;
 import android.bluetooth.BluetoothGattCharacteristic;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -101,6 +103,7 @@ import javax.xml.xpath.XPathFactory;
 
 public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
     private static final Logger LOG = LoggerFactory.getLogger(BangleJSDeviceSupport.class);
+
     private BluetoothGattCharacteristic rxCharacteristic = null;
     private BluetoothGattCharacteristic txCharacteristic = null;
     private boolean allowHighMTU = false;
@@ -111,9 +114,81 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
     private boolean realtimeStep = false;
     private int realtimeHRMInterval = 30*60;
 
+    // Local Intents - for app manager communication
+    public static final String BANGLEJS_COMMAND_TX = "banglejs_command_tx";
+    public static final String BANGLEJS_COMMAND_RX = "banglejs_command_rx";
+    // Global Intents
+    private static final String BANGLE_ACTION_UART_TX = "com.banglejs.uart.tx";
+
     public BangleJSDeviceSupport() {
         super(LOG);
         addSupportedService(BangleJSConstants.UUID_SERVICE_NORDIC_UART);
+
+        registerLocalIntents();
+        registerGlobalIntents();
+    }
+
+    private void registerLocalIntents() {
+        IntentFilter commandFilter = new IntentFilter();
+        commandFilter.addAction(BANGLEJS_COMMAND_TX);
+        BroadcastReceiver commandReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                switch (intent.getAction()) {
+                    case BANGLEJS_COMMAND_TX: {
+                        String data = String.valueOf(intent.getExtras().get("DATA"));
+                        try {
+                            TransactionBuilder builder = performInitialized("TX");
+                            uartTx(builder, data);
+                            builder.queue(getQueue());
+                        } catch (IOException e) {
+                            GB.toast(getContext(), "Error in TX: " + e.getLocalizedMessage(), Toast.LENGTH_LONG, GB.ERROR);
+                        }
+                        break;
+                    }
+                }
+            }
+        };
+        LocalBroadcastManager.getInstance(GBApplication.getContext()).registerReceiver(commandReceiver, commandFilter);
+    }
+
+    private void registerGlobalIntents() {
+        IntentFilter commandFilter = new IntentFilter();
+        commandFilter.addAction(BANGLE_ACTION_UART_TX);
+        BroadcastReceiver commandReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                switch (intent.getAction()) {
+                    case BANGLE_ACTION_UART_TX: {
+                        /* In Tasker:
+                          Action: com.banglejs.uart.tx
+                          Cat: None
+                          Extra: line:Terminal.println(%avariable)
+                          Target: Broadcast Receiver
+
+                          Variable: Number, Configure on Import, NOT structured, Value set, Nothing Exported, NOT Same as value
+                         */
+                        Prefs devicePrefs = new Prefs(GBApplication.getDeviceSpecificSharedPrefs(gbDevice.getAddress()));
+                        if (!devicePrefs.getBoolean(PREF_DEVICE_INTENTS, false)) return;
+                        String data = intent.getStringExtra("line");
+                        if (data==null) {
+                            GB.toast(getContext(), "UART TX Intent, but no 'line' supplied", Toast.LENGTH_LONG, GB.ERROR);
+                            return;
+                        }
+                        if (!data.endsWith("\n")) data += "\n";
+                        try {
+                            TransactionBuilder builder = performInitialized("TX");
+                            uartTx(builder, data);
+                            builder.queue(getQueue());
+                        } catch (IOException e) {
+                            GB.toast(getContext(), "Error in TX: " + e.getLocalizedMessage(), Toast.LENGTH_LONG, GB.ERROR);
+                        }
+                        break;
+                    }
+                }
+            }
+        };
+        GBApplication.getContext().registerReceiver(commandReceiver, commandFilter);
     }
 
     @Override
