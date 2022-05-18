@@ -188,6 +188,7 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
         LOG.info("UART TX: " + str);
         byte[] bytes;
         bytes = str.getBytes(StandardCharsets.ISO_8859_1);
+        // FIXME: somehow this is still giving us UTF8 data when we put images in strings. Maybe JSON.stringify is converting to UTF-8?
         for (int i=0;i<bytes.length;i+=mtuSize) {
             int l = bytes.length-i;
             if (l>mtuSize) l=mtuSize;
@@ -202,7 +203,7 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
         // toString creates '\u0000' instead of '\0'
         // FIXME: there have got to be nicer ways of handling this - maybe we just make our own JSON.toString (see below)
         json = json.replaceAll("\\\\u000([01234567])", "\\\\$1");
-        json = json.replaceAll("\\\\u00(\\d\\d)", "\\\\x$1");
+        json = json.replaceAll("\\\\u00([0123456789abcdef][0123456789abcdef])", "\\\\x$1");
         return json;
         /*String json = "{";
         Iterator<String> iter = jsonObj.keys();
