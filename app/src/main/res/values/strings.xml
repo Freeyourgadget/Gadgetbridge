@@ -264,6 +264,10 @@
     <string name="pref_summary_use_custom_font">Enable this if your device has a custom font firmware for emoji support</string>
     <string name="pref_title_allow_high_mtu">Allow high MTU</string>
     <string name="pref_summary_allow_high_mtu">Increases transfer speed, but might not work on some Android devices.</string>
+    <string name="pref_title_device_internet_access">Allow Internet Access</string>
+    <string name="pref_summary_device_internet_access">Allow apps on this device to access the internet</string>
+    <string name="pref_title_device_intents">Allow Intents</string>
+    <string name="pref_summary_device_intents">Allow apps on this device to send Android Intents</string>
     <string name="pref_summary_sync_calendar">Enables calendar alerts, even when disconnected</string>
     <string name="pref_title_sync_caldendar">Sync calendar events</string>
     <string name="pref_summary_relax_firmware_checks">Relax firmware checks</string>

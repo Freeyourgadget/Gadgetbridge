@@ -62,6 +62,7 @@ import java.lang.reflect.Field;
 import nodomain.freeyourgadget.gadgetbridge.BuildConfig;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
+import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHelper;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventBatteryInfo;
@@ -92,6 +93,9 @@ import nodomain.freeyourgadget.gadgetbridge.util.AlarmUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 
+import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_ALLOW_HIGH_MTU;
+import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_DEVICE_INTERNET_ACCESS;
+import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_DEVICE_INTENTS;
 import static nodomain.freeyourgadget.gadgetbridge.database.DBHelper.*;
 
 import javax.xml.xpath.XPath;
@@ -103,6 +107,7 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
 
     private BluetoothGattCharacteristic rxCharacteristic = null;
     private BluetoothGattCharacteristic txCharacteristic = null;
+    private boolean allowHighMTU = false;
     private int mtuSize = 20;
 
     private String receivedLine = "";
@@ -152,6 +157,9 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
         txCharacteristic = getCharacteristic(BangleJSConstants.UUID_CHARACTERISTIC_NORDIC_UART_TX);
         builder.setGattCallback(this);
         builder.notify(rxCharacteristic, true);
+
+        Prefs devicePrefs = new Prefs(GBApplication.getDeviceSpecificSharedPrefs(gbDevice.getAddress()));
+        allowHighMTU = devicePrefs.getBoolean(PREF_ALLOW_HIGH_MTU, false);
 
         uartTx(builder, " \u0003"); // clear active line
 
@@ -205,7 +213,7 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
             o.put("t", taskName);
             o.put("err", message);
         } catch (JSONException e) {
-            GB.toast(getContext(), "HTTP: " + e.getLocalizedMessage(), Toast.LENGTH_LONG, GB.ERROR);
+            GB.toast(getContext(), "uartTxJSONError: " + e.getLocalizedMessage(), Toast.LENGTH_LONG, GB.ERROR);
         }
         uartTxJSON(taskName, o);
     }
@@ -335,8 +343,8 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
                 }
             } break;
             case "http": {
-                // FIXME: This should be behind a default-off option in Gadgetbridge settings
-                if (BuildConfig.INTERNET_ACCESS) {
+                Prefs devicePrefs = new Prefs(GBApplication.getDeviceSpecificSharedPrefs(gbDevice.getAddress()));
+                if (BuildConfig.INTERNET_ACCESS && devicePrefs.getBoolean(PREF_DEVICE_INTERNET_ACCESS, false)) {
                     RequestQueue queue = Volley.newRequestQueue(getContext());
                     String url = json.getString("url");
                     String _xmlPath = "";
@@ -378,9 +386,32 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
                     });
                     queue.add(stringRequest);
                 } else {
-                    uartTxJSONError("http", "Internet access not enabled");
+                    if (BuildConfig.INTERNET_ACCESS)
+                        uartTxJSONError("http", "Internet access not enabled, check Gadgetbridge Device Settings");
+                    else
+                        uartTxJSONError("http", "Internet access not enabled in this Gadgetbridge build");
                 }
             } break;
+            case "intent": {
+                Prefs devicePrefs = new Prefs(GBApplication.getDeviceSpecificSharedPrefs(gbDevice.getAddress()));
+                if (devicePrefs.getBoolean(PREF_DEVICE_INTENTS, false)) {
+                    String action = json.getString("action");
+                    JSONObject extra = json.getJSONObject("extra");
+                    Intent in = new Intent();
+                    in.setAction(action);
+                    if (extra != null) {
+                        Iterator<String> iter = extra.keys();
+                        while (iter.hasNext()) {
+                            String key = iter.next();
+                            in.putExtra(key, extra.getString(key));
+                        }
+                    }
+                    LOG.info("Sending intent " + action);
+                    this.getContext().getApplicationContext().sendBroadcast(in);
+                } else {
+                    uartTxJSONError("intent", "Android Intents not enabled, check Gadgetbridge Device Settings");
+                }
+            }
             default : {
                 LOG.info("UART RX JSON packet type '"+packetType+"' not understood.");
             }
@@ -396,7 +427,7 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
         if (BangleJSConstants.UUID_CHARACTERISTIC_NORDIC_UART_RX.equals(characteristic.getUuid())) {
             byte[] chars = characteristic.getValue();
             // check to see if we get more data - if so, increase out MTU for sending
-            if (chars.length > mtuSize)
+            if (allowHighMTU && chars.length > mtuSize)
                 mtuSize = chars.length;
             String packetStr = new String(chars);
             LOG.info("RX: " + packetStr);

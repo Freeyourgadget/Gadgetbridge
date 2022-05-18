@@ -29,6 +29,7 @@ import androidx.annotation.NonNull;
 
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Vector;
 
 import nodomain.freeyourgadget.gadgetbridge.BuildConfig;
 import nodomain.freeyourgadget.gadgetbridge.R;
@@ -167,9 +168,16 @@ public class BangleJSCoordinator extends AbstractDeviceCoordinator {
     }
 
     public int[] getSupportedDeviceSpecificSettings(GBDevice device) {
-        return new int[]{
-                R.xml.devicesettings_transliteration
-        };
+        Vector<Integer> settings = new Vector<Integer>();
+        settings.add(R.xml.devicesettings_transliteration);
+        settings.add(R.xml.devicesettings_high_mtu);
+        if (BuildConfig.INTERNET_ACCESS)
+            settings.add(R.xml.devicesettings_device_internet_access);
+        settings.add(R.xml.devicesettings_device_intents);
+        // must be a better way of doing this?
+        int[] settingsInt = new int[settings.size()];
+        for (int i=0; i<settings.size(); i++) settingsInt[i] = settings.get(i);
+        return settingsInt;
     }
 
 }
