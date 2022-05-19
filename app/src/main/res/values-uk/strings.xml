@@ -1707,4 +1707,10 @@
     <string name="mi2_prefs_heart_rate_monitoring_alerts_summary">Налаштуйте пороги стеження за частотою серцевих скорочень та попереджень</string>
     <string name="mi2_prefs_heart_rate_monitoring">Стеження за частотою серцевих скорочень</string>
     <string name="mi2_prefs_heart_rate_monitoring_summary">Налаштувати стеження за частотою серцевих скорочень</string>
+    <string name="pref_title_device_internet_access">Дозволити доступ до інтернету</string>
+    <string name="pref_summary_device_internet_access">Дозволити застосункам на цьому пристрої доступ до інтернету</string>
+    <string name="pref_summary_device_intents">Дозволити застосункам для годинника Bangle.js надсилати наміри Android і дозволити іншим застосункам на Android (наприклад, Tasker) надсилати дані до Bangle.js із наміром com.banglejs.uart.tx.</string>
+    <string name="pref_title_device_intents">Дозволити наміри</string>
+    <string name="pref_title_banglejs_text_bitmap">Текст у вигляді растрових зображень</string>
+    <string name="pref_summary_banglejs_text_bitmap">Якщо слово не може бути відтворено шрифтом годинника, перетворювати його на растрове зображення в Gadgetbridge і показувати растрове зображення на годиннику</string>
 </resources>
