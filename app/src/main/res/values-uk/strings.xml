@@ -1686,4 +1686,25 @@
     <string name="prefs_double_tap_edge_summary">Виявлення подвійного дотику, навіть якщо він не під\'єднаний до сенсорної панелі</string>
     <string name="pref_voice_detect_duration_10">10 секунд</string>
     <string name="pref_voice_detect_duration_5">5 секунд</string>
+    <string name="heartrate_bpm_100">100 ударів на хвилину</string>
+    <string name="prefs_heartrate_alert_experimental_title">Попередження про частоту серцевих скорочень (експериментально)</string>
+    <string name="prefs_heartrate_alert_threshold">Поріг попередження про частоту серцевих скорочень</string>
+    <string name="heartrate_bpm_110">110 ударів на хвилину</string>
+    <string name="heartrate_bpm_140">140 ударів на хвилину</string>
+    <string name="heartrate_bpm_150">150 ударів на хвилину</string>
+    <string name="heartrate_bpm_105">105 ударів на хвилину</string>
+    <string name="heartrate_bpm_120">120 ударів на хвилину</string>
+    <string name="heartrate_bpm_112">112 ударів на хвилину</string>
+    <string name="heartrate_bpm_130">130 ударів на хвилину</string>
+    <string name="heartrate_bpm_145">145 ударів на хвилину</string>
+    <string name="heartrate_bpm_125">125 ударів на хвилину</string>
+    <string name="heartrate_bpm_135">135 ударів на хвилину</string>
+    <string name="prefs_stress_monitoring_description">Стеження за рівнем стресу під час відпочинку</string>
+    <string name="prefs_heartrate_alert_experimental_description">Вібрація годинника, коли частота серцевих скорочень перевищує поріг, без будь-якої очевидної фізичної активності протягом останніх 10 хвилин. Ця функція експериментальна, і не була достатньо випробувана.</string>
+    <string name="prefs_stress_monitoring_title">Стеження за стресом</string>
+    <string name="prefs_activity_monitoring_title">Стеження за діяльністю</string>
+    <string name="prefs_activity_monitoring_description">Автоматично збільшувати частоту перевірки частоти серцевих скорочень, коли годинник виявляє фізичні вправи, щоб збільшити точність охоплення серцевого ритму.</string>
+    <string name="mi2_prefs_heart_rate_monitoring_alerts_summary">Налаштуйте пороги стеження за частотою серцевих скорочень та попереджень</string>
+    <string name="mi2_prefs_heart_rate_monitoring">Стеження за частотою серцевих скорочень</string>
+    <string name="mi2_prefs_heart_rate_monitoring_summary">Налаштувати стеження за частотою серцевих скорочень</string>
 </resources>

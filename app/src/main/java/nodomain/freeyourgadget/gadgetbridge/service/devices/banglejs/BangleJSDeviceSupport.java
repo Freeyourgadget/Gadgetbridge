@@ -244,6 +244,8 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
         }
     }
 
+
+    /// Write a string of data, and chunk it up
     public String jsonToString(JSONObject jsonObj) {
         String json = jsonObj.toString();
         // toString creates '\u0000' instead of '\0'
@@ -286,7 +288,6 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
         }
         uartTxJSON(taskName, o);
     }
-
 
     private void handleUartRxLine(String line) {
         LOG.info("UART RX LINE: " + line);

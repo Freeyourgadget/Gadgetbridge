@@ -1684,4 +1684,25 @@
     <string name="pref_switch_controls_anc_off">降噪 ←→ 关闭</string>
     <string name="prefs_noise_control">噪音控制</string>
     <string name="prefs_voice_detect">语音检测</string>
+    <string name="heartrate_bpm_100">100 次/分钟</string>
+    <string name="heartrate_bpm_105">105 次/分钟</string>
+    <string name="heartrate_bpm_110">110 次/分钟</string>
+    <string name="heartrate_bpm_130">130 次/分钟</string>
+    <string name="heartrate_bpm_135">135 次/分钟</string>
+    <string name="heartrate_bpm_140">140 次/分钟</string>
+    <string name="heartrate_bpm_150">150 次/分钟</string>
+    <string name="prefs_heartrate_alert_experimental_title">心率警报（实验性）</string>
+    <string name="prefs_heartrate_alert_experimental_description">在过去 10 分钟内没有任何明显的体力活动的情况下，当心率超过阈值时振动腕带。此功能是实验性的，未经广泛测试。</string>
+    <string name="prefs_activity_monitoring_title">活动监测</string>
+    <string name="heartrate_bpm_145">145 次/分钟</string>
+    <string name="heartrate_bpm_112">112 次/分钟</string>
+    <string name="heartrate_bpm_120">120 次/分钟</string>
+    <string name="heartrate_bpm_125">125 次/分钟</string>
+    <string name="prefs_heartrate_alert_threshold">心率警报阈值</string>
+    <string name="prefs_stress_monitoring_title">压力监测</string>
+    <string name="prefs_activity_monitoring_description">当手环检测到身体运动时，自动提高心率检测频率，以提高心率捕捉的准确性。</string>
+    <string name="prefs_stress_monitoring_description">休息时监测压力水平</string>
+    <string name="mi2_prefs_heart_rate_monitoring">心率监测</string>
+    <string name="mi2_prefs_heart_rate_monitoring_summary">配置心率监测</string>
+    <string name="mi2_prefs_heart_rate_monitoring_alerts_summary">配置心率监测和警报阈值</string>
 </resources>

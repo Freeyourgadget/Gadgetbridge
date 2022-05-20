@@ -14,6 +14,8 @@
 * Mi Band 5/6: Add setting for HR activity monitoring, HR alerts, stress monitoring
 * Amazfit Neo: Allow to disable beeps for email notifications
 * Bangle.js: Fix incoming calls in release builds
+* Bangle.js build: Add option for enabling/disabling internet access
+* Bangle.js: Add ability to receive intents to com.banglejs.uart.tx
 * Fossil Hybrid HR: Support flexible custom menu on watch
 * Fossil Hybrid HR: Add support for native DND Call/SMS functionality
 * VESC: added battery indicator
@@ -22,7 +24,7 @@
 * Fix crash when calendar is accessed but permission is denied
 * Add com.asus.asusincallui and com.samsung.android.incallui to blacklist
 * New icons for Sony overhead headphones, Sony WF 800n and Mi Band 6
-
+* When Gadgetbridge needs permissions, pop up a dialog asking nicely and explaining why
 
 ### 0.66.0
 * Add basic support for Casio GBD-H1000
