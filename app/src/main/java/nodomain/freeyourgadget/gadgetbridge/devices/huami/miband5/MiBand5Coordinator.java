@@ -106,7 +106,7 @@ public class MiBand5Coordinator extends HuamiCoordinator {
                 R.xml.devicesettings_miband5,
                 R.xml.devicesettings_vibrationpatterns,
                 R.xml.devicesettings_wearlocation,
-                R.xml.heartrate_sleep_alert_activity_stress,
+                R.xml.devicesettings_heartrate_sleep_alert_activity_stress,
                 R.xml.devicesettings_goal_notification,
                 R.xml.devicesettings_custom_emoji_font,
                 R.xml.devicesettings_timeformat,
