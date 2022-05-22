@@ -1,5 +1,8 @@
 ### Changelog
 
+### NEXT
+* Amazfit Bip U/Pro/Band 5: enable extended HR/stress monitoring setting
+
 ### 0.67.0
 * Initial Support for Sony WF-1000XM3
 * Initial Support for Galaxy Buds Pro
