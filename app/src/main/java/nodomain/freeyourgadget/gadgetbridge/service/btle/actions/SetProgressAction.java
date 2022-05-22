@@ -19,6 +19,9 @@ package nodomain.freeyourgadget.gadgetbridge.service.btle.actions;
 
 import android.bluetooth.BluetoothGatt;
 import android.content.Context;
+import android.content.Intent;
+
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -53,6 +56,10 @@ public class SetProgressAction extends PlainAction {
     public boolean run(BluetoothGatt gatt) {
         LOG.info(toString());
         GB.updateInstallNotification(this.text, this.ongoing, this.percentage, this.context);
+
+        final LocalBroadcastManager broadcastManager = LocalBroadcastManager.getInstance(context);
+        broadcastManager.sendBroadcast(new Intent(GB.ACTION_SET_PROGRESS_BAR).putExtra(GB.PROGRESS_BAR_PROGRESS, percentage));
+
         return true;
     }
 
