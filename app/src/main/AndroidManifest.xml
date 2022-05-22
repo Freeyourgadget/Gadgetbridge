@@ -420,6 +420,14 @@
             android:name=".database.PeriodicExporter"
             android:enabled="true"
             android:exported="false" />
+        <receiver
+            android:name=".service.receivers.GBDeviceSystemEventReceiver"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="nodomain.freeyourgadget.gadgetbridge.systemeventcontrol" />
+            </intent-filter>
+        </receiver>
+
         <!--
             forcing the DebugActivity to portrait mode avoids crashes with the progress
             dialog when changing orientation

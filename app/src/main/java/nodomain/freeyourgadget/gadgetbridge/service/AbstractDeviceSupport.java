@@ -58,6 +58,7 @@ import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEvent;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventAppInfo;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventBatteryInfo;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventCallControl;
+import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventDeviceSystemEvent;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventDisplayMessage;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventFindPhone;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventFmFrequency;
@@ -76,6 +77,7 @@ import nodomain.freeyourgadget.gadgetbridge.externalevents.NotificationListener;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.BatteryState;
 import nodomain.freeyourgadget.gadgetbridge.service.receivers.GBCallControlReceiver;
+import nodomain.freeyourgadget.gadgetbridge.service.receivers.GBDeviceSystemEventReceiver;
 import nodomain.freeyourgadget.gadgetbridge.service.receivers.GBMusicControlReceiver;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
@@ -183,6 +185,8 @@ public abstract class AbstractDeviceSupport implements DeviceSupport {
             handleGBDeviceEvent((GBDeviceEventUpdateDeviceState) deviceEvent);
         } else if (deviceEvent instanceof GBDeviceEventFmFrequency) {
             handleGBDeviceEvent((GBDeviceEventFmFrequency) deviceEvent);
+        } else if (deviceEvent instanceof GBDeviceEventDeviceSystemEvent) {
+            handleGBDeviceEvent((GBDeviceEventDeviceSystemEvent) deviceEvent);
         }
     }
 
@@ -239,6 +243,22 @@ public abstract class AbstractDeviceSupport implements DeviceSupport {
             GB.notify(GB.NOTIFICATION_ID_PHONE_FIND, notification.build(), context);
             LOG.warn("CompanionDeviceManager associations were not found, can't start intent");
         }
+    }
+
+    private void handleGBDeviceEvent(GBDeviceEventDeviceSystemEvent systemEvent) {
+        Context context = getContext();
+        LOG.info("Got event for DEVICE SYSTEM EVENT");
+        Intent systemEventIntent = new Intent(GBDeviceSystemEventReceiver.ACTION_SYSTEM_EVENT_CONTROL);
+        systemEventIntent.putExtra("event", systemEvent.event.ordinal());
+        systemEventIntent.putExtra(GBDevice.EXTRA_DEVICE, gbDevice);
+        systemEventIntent.setPackage(context.getPackageName());
+        context.sendBroadcast(systemEventIntent);
+        //        LOG.debug("petr setting state");
+        //        if (updateDeviceState.state == GBDevice.State.INITIALIZED ){
+        //            GBDeviceEventDeviceSystemEvent connectEvent = null;
+        //            connectEvent.event=GBDeviceEventDeviceSystemEvent.Event.CONNECTED;
+        //            evaluateGBDeviceEvent(connectEvent);
+        //        }
     }
 
 
