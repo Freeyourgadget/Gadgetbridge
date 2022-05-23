@@ -262,7 +262,7 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
                 else if (ch<32 || ch==26 || ch==27 || ch==127 || ch==173) json += "\\x"+Integer.toHexString((ch&255)|256).substring(1);
                 else json += s.charAt(i);
             }
-            json += "\"";
+            return json + "\"";
         } else if (v instanceof JSONArray) {
             JSONArray a = (JSONArray)v;
             String json = "[";
@@ -274,7 +274,7 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
                 } catch (JSONException e) {
                     LOG.warn("jsonToString array error: " + e.getLocalizedMessage());
                 }
-                json += jsonToStringInternal(o));
+                json += jsonToStringInternal(o);
             }
             return json+"]";
         } else if (v instanceof JSONObject) {
@@ -293,9 +293,8 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
                 if (iter.hasNext()) json+=",";
             }
             return json+"}";
-        } else { // int/double/null
-            return v.toString();
-        }
+        } // else int/double/null
+        return v.toString();
     }
 
     /// Convert a JSON object to a JSON String (NOT 100% JSON compliant)
@@ -577,8 +576,6 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
         return true;
     }
 
-
-
     public String renderUnicodeAsImage(String txt) {
         if (txt==null) return null;
         // If we're not doing conversion, pass this right back
@@ -586,18 +583,31 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
         if (!devicePrefs.getBoolean(PREF_BANGLEJS_TEXT_BITMAP, false))
             return txt;
         // Otherwise split up and check each word
-        String words[] = txt.split(" ");
-        for (int i=0;i<words.length;i++) {
-            boolean isRenderable = true;
-            for (int j=0;j<words[i].length();j++) {
-                char c = words[i].charAt(j);
+        String word = "", result = "";
+        boolean needsTranslate = false;
+        for (int i=0;i<txt.length();i++) {
+            char ch = txt.charAt(i);
+            if (" -_/:.,?!'\"&*()".indexOf(ch)>=0) {
+                // word split
+                if (needsTranslate) { // convert word
+                    result += "\0"+bitmapToEspruinoString(textToBitmap(word))+ch;
+                } else { // or just copy across
+                    result += word+ch;
+                }
+                word = "";
+                needsTranslate = false;
+            } else {
                 // TODO: better check?
-                if (c<0 || c>255) isRenderable = false;
+                if (ch<0 || ch>255) needsTranslate = true;
+                word += ch;
             }
-            if (!isRenderable)
-                words[i] = "\0"+bitmapToEspruinoString(textToBitmap(words[i]));
         }
-        return String.join(" ", words);
+        if (needsTranslate) { // convert word
+            result += "\0"+bitmapToEspruinoString(textToBitmap(word));
+        } else { // or just copy across
+            result += word;
+        }
+        return result;
     }
 
     @Override
