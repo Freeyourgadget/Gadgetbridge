@@ -6,4 +6,10 @@
         android:key="banglejs_text_bitmap"
         android:summary="@string/pref_summary_banglejs_text_bitmap"
         android:title="@string/pref_title_banglejs_text_bitmap" />
+    <EditTextPreference
+        android:defaultValue=""
+        android:icon="@drawable/ic_engineering"
+        android:key="banglejs_webview_url"
+        android:summary="@string/pref_summary_banglejs_webview_url"
+        android:title="@string/pref_title_banglejs_webview_url" />
 </androidx.preference.PreferenceScreen>

@@ -119,6 +119,7 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
     // Local Intents - for app manager communication
     public static final String BANGLEJS_COMMAND_TX = "banglejs_command_tx";
     public static final String BANGLEJS_COMMAND_RX = "banglejs_command_rx";
+    int bangleCommandSeq = 0; // to attempt to stop duplicate packets
     // Global Intents
     private static final String BANGLE_ACTION_UART_TX = "com.banglejs.uart.tx";
 
@@ -553,6 +554,7 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
             // Send an intent with new data
             Intent intent = new Intent(BangleJSDeviceSupport.BANGLEJS_COMMAND_RX);
             intent.putExtra("DATA", packetStr);
+            intent.putExtra("SEQ", bangleCommandSeq++);
             LocalBroadcastManager.getInstance(getContext()).sendBroadcast(intent);
         }
         return false;

@@ -1,5 +1,7 @@
 package nodomain.freeyourgadget.gadgetbridge.devices.banglejs;
 
+import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_DEVICE_INTERNET_ACCESS;
+
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -42,6 +44,8 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.banglejs.BangleJSDev
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.QHybridSupport;
 import nodomain.freeyourgadget.gadgetbridge.util.DeviceHelper;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
+import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
+import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_BANGLEJS_WEBVIEW_URL;
 
 public class AppsManagementActivity extends AbstractGBActivity {
     private static final Logger LOG = LoggerFactory.getLogger(AppsManagementActivity.class);
@@ -49,6 +53,8 @@ public class AppsManagementActivity extends AbstractGBActivity {
     private WebView webView;
     private GBDevice mGBDevice;
     private DeviceCoordinator mCoordinator;
+    /// It seems we can get duplicate broadcasts sometimes - so this helps to avoid that
+    private int deviceRxSeq = -1;
 
     public AppsManagementActivity() {
     }
@@ -88,7 +94,6 @@ public class AppsManagementActivity extends AbstractGBActivity {
         commandFilter.addAction(GBDevice.ACTION_DEVICE_CHANGED);
         commandFilter.addAction(BangleJSDeviceSupport.BANGLEJS_COMMAND_RX);
         LocalBroadcastManager.getInstance(this).registerReceiver(deviceUpdateReceiver, commandFilter);
-
         initViews();
     }
 
@@ -98,8 +103,14 @@ public class AppsManagementActivity extends AbstractGBActivity {
             switch (intent.getAction()) {
                 case BangleJSDeviceSupport.BANGLEJS_COMMAND_RX: {
                     String data = String.valueOf(intent.getExtras().get("DATA"));
-                    LOG.info("WebView TX: " + data);
-                    bangleRxData(data);
+                    int seq = intent.getIntExtra("SEQ",0);
+                    LOG.info("WebView TX: " + data + "("+seq+")");
+                    if (seq==deviceRxSeq) {
+                        LOG.info("WebView TX DUPLICATE AND IGNORED");
+                    } else {
+                        deviceRxSeq = seq;
+                        bangleRxData(data);
+                    }
                     break;
                 }
             }
@@ -162,7 +173,11 @@ public class AppsManagementActivity extends AbstractGBActivity {
         settings.setDatabasePath(databasePath);
         webView.addJavascriptInterface(new WebViewInterface(this), "Android");
         webView.setWebContentsDebuggingEnabled(true); // FIXME
-        webView.loadUrl("https://banglejs.com/apps/android.html");
+
+        Prefs devicePrefs = new Prefs(GBApplication.getDeviceSpecificSharedPrefs(mGBDevice.getAddress()));
+        String url = devicePrefs.getString(PREF_BANGLEJS_WEBVIEW_URL, "").trim();
+        if (url.isEmpty()) url = "https://banglejs.com/apps/android.html";
+        webView.loadUrl(url);
 
         webView.setWebViewClient(new WebViewClient(){
             public void onPageFinished(WebView view, String weburl){
