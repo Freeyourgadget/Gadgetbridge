@@ -973,12 +973,33 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
 
     @Override
     public void onAddCalendarEvent(CalendarEventSpec calendarEventSpec) {
-
+        try {
+            JSONObject o = new JSONObject();
+            o.put("t", "calendar"); //TODO implement command
+            o.put("id", calendarEventSpec.id);
+            o.put("type", calendarEventSpec.type); //implement this too? (sunrise and set)
+            o.put("timestamp", calendarEventSpec.timestamp);
+            o.put("durationInSeconds", calendarEventSpec.durationInSeconds);
+            o.put("title", calendarEventSpec.title);
+            o.put("description", calendarEventSpec.description);
+            o.put("location", calendarEventSpec.location);
+            o.put("allDay", calendarEventSpec.allDay);
+            uartTxJSON("onAddCalendarEvent", o);
+        } catch (JSONException e) {
+            LOG.info("JSONException: " + e.getLocalizedMessage());
+        }
     }
 
     @Override
     public void onDeleteCalendarEvent(byte type, long id) {
-
+        try {
+            JSONObject o = new JSONObject();
+            o.put("t", "calendar-");
+            o.put("id", id);
+            uartTxJSON("onDeleteCalendarEvent", o);
+        } catch (JSONException e) {
+            LOG.info("JSONException: " + e.getLocalizedMessage());
+        }
     }
 
     @Override

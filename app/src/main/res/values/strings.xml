@@ -277,6 +277,8 @@
     <string name="pref_title_pebble_enable_bgjs">Enable background JS</string>
     <string name="pref_summary_pebble_enable_bgjs">When enabled, allows watchfaces to show weather, battery info etc.</string>
     <string name="pref_title_pebble_reconnect_attempts">Reconnection attempts</string>
+    <string name="pref_title_banglejs_settings">Bangle.js settings</string>
+    <string name="pref_header_banglejs_agenda">Bangle.js agenda</string>
     <string name="pref_summary_expose_hr">Allows other apps to access HR data in realtime while Gadgetbridge is connected</string>
     <string name="pref_title_expose_hr">3rd party realtime HR access</string>
     <string name="pref_title_connected_advertisement">Visible while connected</string>
