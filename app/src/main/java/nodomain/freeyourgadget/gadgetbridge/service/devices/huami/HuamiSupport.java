@@ -1339,20 +1339,28 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
             return;
         }
 
+        String artist = "";
+        String album = "";
+        String track = "";
+
         byte flags = 0x00;
         flags |= 0x01;
         int length = 5;
         if (musicSpec != null) {
-            if (musicSpec.artist != null && musicSpec.artist.getBytes().length > 0) {
-                length += musicSpec.artist.getBytes().length + 1;
+            artist = StringUtils.truncate(musicSpec.artist, 80);
+            album = StringUtils.truncate(musicSpec.album, 80);
+            track = StringUtils.truncate(musicSpec.album, 80);
+
+            if (artist.getBytes().length > 0) {
+                length += artist.getBytes().length + 1;
                 flags |= 0x02;
             }
-            if (musicSpec.album != null && musicSpec.album.getBytes().length > 0) {
-                length += musicSpec.album.getBytes().length + 1;
+            if (album.getBytes().length > 0) {
+                length += album.getBytes().length + 1;
                 flags |= 0x04;
             }
-            if (musicSpec.track != null && musicSpec.track.getBytes().length > 0) {
-                length += musicSpec.track.getBytes().length + 1;
+            if (track.getBytes().length > 0) {
+                length += track.getBytes().length + 1;
                 flags |= 0x08;
             }
             if (musicSpec.duration != 0) {
@@ -1379,16 +1387,16 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
             buf.putShort((short) musicStateSpec.position);
 
             if (musicSpec != null) {
-                if (musicSpec.artist != null && musicSpec.artist.getBytes().length > 0) {
-                    buf.put(musicSpec.artist.getBytes());
+                if (artist.getBytes().length > 0) {
+                    buf.put(artist.getBytes());
                     buf.put((byte) 0);
                 }
-                if (musicSpec.album != null && musicSpec.album.getBytes().length > 0) {
-                    buf.put(musicSpec.album.getBytes());
+                if (album.getBytes().length > 0) {
+                    buf.put(album.getBytes());
                     buf.put((byte) 0);
                 }
-                if (musicSpec.track != null && musicSpec.track.getBytes().length > 0) {
-                    buf.put(musicSpec.track.getBytes());
+                if (track.getBytes().length > 0) {
+                    buf.put(track.getBytes());
                     buf.put((byte) 0);
                 }
                 if (musicSpec.duration != 0) {
