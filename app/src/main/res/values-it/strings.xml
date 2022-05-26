@@ -145,6 +145,8 @@
     <string name="connecting">In collegamento</string>
     <string name="connected">Connesso</string>
     <string name="_unknown_">(sconosciuto)</string>
+    <string name="pref_title_banglejs_settings">Impostazioni Bangle.js</string>
+    <string name="pref_header_banglejs_timeline">Timeline Bangle.js</string>
     <string name="test">Test</string>
     <string name="test_notification">Notifica di prova</string>
     <string name="this_is_a_test_notification_from_gadgetbridge">Notifica di prova creata da Gadgetbridge</string>

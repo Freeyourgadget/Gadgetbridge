@@ -86,7 +86,7 @@ public enum DeviceType {
     MISCALE2(131, R.drawable.ic_device_miscale2, R.drawable.ic_device_miscale2_disabled, R.string.devicetype_miscale2),
     BFH16(140, R.drawable.ic_device_default, R.drawable.ic_device_default_disabled, R.string.devicetype_bfh16),
     MAKIBESHR3(150, R.drawable.ic_device_default, R.drawable.ic_device_hplus_disabled, R.string.devicetype_makibes_hr3),
-    BANGLEJS(160, R.drawable.ic_device_zetime, R.drawable.ic_device_zetime_disabled, R.string.devicetype_banglejs),
+    BANGLEJS(160, R.drawable.ic_device_banglejs, R.drawable.ic_device_banglejs_disabled, R.string.devicetype_banglejs),
     FOSSILQHYBRID(170, R.drawable.ic_device_zetime, R.drawable.ic_device_zetime_disabled, R.string.devicetype_qhybrid),
     TLW64(180, R.drawable.ic_device_default, R.drawable.ic_device_default_disabled, R.string.devicetype_tlw64),
     PINETIME_JF(190, R.drawable.ic_device_pinetime, R.drawable.ic_device_pinetime_disabled, R.string.devicetype_pinetime_jf),

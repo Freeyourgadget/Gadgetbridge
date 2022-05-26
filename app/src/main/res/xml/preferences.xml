@@ -295,10 +295,10 @@
             </PreferenceCategory>
         </PreferenceScreen>
         <PreferenceScreen
-            android:icon="@drawable/ic_device_pinetime"
+            android:icon="@drawable/ic_device_banglejs"
             android:key="pref_key_banglejs"
             android:title="@string/pref_title_banglejs_settings">
-            <PreferenceCategory android:title="@string/pref_header_banglejs_agenda">
+            <PreferenceCategory android:title="@string/pref_header_banglejs_timeline">
                 <CheckBoxPreference
             android:layout="@layout/preference_checkbox"
                     android:defaultValue="true"
