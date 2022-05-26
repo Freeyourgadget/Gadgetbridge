@@ -19,12 +19,17 @@ public class CalendarEventTest extends TestBase {
     private static final long ID_1 = 100;
     private static final long ID_2 = 101;
     private static final String CALNAME_1 = "cal1";
+    private static final String CALACCOUNTNAME_1 = "account1";
+    private static final int COLOR_1 = 185489;
 
     @Test
-    public void testHashCode()  {
-        CalendarEvents.CalendarEvent c1 = new CalendarEvents.CalendarEvent(BEGIN, END, ID_1, "something", null, null, CALNAME_1, false);
-        CalendarEvents.CalendarEvent c2 = new CalendarEvents.CalendarEvent(BEGIN, END, ID_1, null, "something", null, CALNAME_1, false);
-        CalendarEvents.CalendarEvent c3 = new CalendarEvents.CalendarEvent(BEGIN, END, ID_1, null, null, "something", CALNAME_1, false);
+    public void testHashCode() {
+        CalendarEvents.CalendarEvent c1 =
+                new CalendarEvents.CalendarEvent(BEGIN, END, ID_1, "something", null, null, CALNAME_1, CALACCOUNTNAME_1, COLOR_1, false);
+        CalendarEvents.CalendarEvent c2 =
+                new CalendarEvents.CalendarEvent(BEGIN, END, ID_1, null, "something", null, CALNAME_1, CALACCOUNTNAME_1, COLOR_1, false);
+        CalendarEvents.CalendarEvent c3 =
+                new CalendarEvents.CalendarEvent(BEGIN, END, ID_1, null, null, "something", CALNAME_1, CALACCOUNTNAME_1, COLOR_1, false);
 
         assertEquals(c1.hashCode(), c1.hashCode());
         assertNotEquals(c1.hashCode(), c2.hashCode());
@@ -35,7 +40,7 @@ public class CalendarEventTest extends TestBase {
     @Test
     public void testSync() {
         List<CalendarEvents.CalendarEvent> eventList = new ArrayList<>();
-        eventList.add(new CalendarEvents.CalendarEvent(BEGIN, END, ID_1, null, "something", null, CALNAME_1, false));
+        eventList.add(new CalendarEvents.CalendarEvent(BEGIN, END, ID_1, null, "something", null, CALNAME_1, CALACCOUNTNAME_1, COLOR_1, false));
 
         GBDevice dummyGBDevice = createDummyGDevice("00:00:01:00:03");
         dummyGBDevice.setState(GBDevice.State.INITIALIZED);
@@ -44,7 +49,7 @@ public class CalendarEventTest extends TestBase {
 
         testCR.syncCalendar(eventList);
 
-        eventList.add(new CalendarEvents.CalendarEvent(BEGIN, END, ID_2, null, "something", null, CALNAME_1, false));
+        eventList.add(new CalendarEvents.CalendarEvent(BEGIN, END, ID_2, null, "something", null, CALNAME_1, CALACCOUNTNAME_1, COLOR_1, false));
         testCR.syncCalendar(eventList);
 
         CalendarSyncStateDao calendarSyncStateDao = daoSession.getCalendarSyncStateDao();

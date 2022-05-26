@@ -559,11 +559,11 @@ public class GBApplication extends Application {
 
     private static HashSet<String> calendars_blacklist = null;
 
-    public static boolean calendarIsBlacklisted(String calendarDisplayName) {
+    public static boolean calendarIsBlacklisted(String calendarUniqueName) {
         if (calendars_blacklist == null) {
             GB.log("calendarIsBlacklisted: calendars_blacklist is null!", GB.INFO, null);
         }
-        return calendars_blacklist != null && calendars_blacklist.contains(calendarDisplayName);
+        return calendars_blacklist != null && calendars_blacklist.contains(calendarUniqueName);
     }
 
     public static void setCalendarsBlackList(Set<String> calendarNames) {
@@ -577,14 +577,18 @@ public class GBApplication extends Application {
         saveCalendarsBlackList();
     }
 
-    public static void addCalendarToBlacklist(String calendarDisplayName) {
-        if (calendars_blacklist.add(calendarDisplayName)) {
+    public static void addCalendarToBlacklist(String calendarUniqueName) {
+        if (calendars_blacklist.add(calendarUniqueName)) {
+            GB.log("Blacklisted calendar " + calendarUniqueName, GB.INFO, null);
             saveCalendarsBlackList();
+        } else {
+            GB.log("Calendar " + calendarUniqueName + " already blacklisted!", GB.WARN, null);
         }
     }
 
-    public static void removeFromCalendarBlacklist(String calendarDisplayName) {
-        calendars_blacklist.remove(calendarDisplayName);
+    public static void removeFromCalendarBlacklist(String calendarUniqueName) {
+        calendars_blacklist.remove(calendarUniqueName);
+        GB.log("Unblacklisted calendar " + calendarUniqueName, GB.INFO, null);
         saveCalendarsBlackList();
     }
 
