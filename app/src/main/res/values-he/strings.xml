@@ -1703,4 +1703,6 @@
     <string name="pref_title_device_internet_access">לאפשר גישה לאינטרנט</string>
     <string name="pref_summary_device_internet_access">לאפשר ליישומונים במכשיר הזה לגשת לאינטרנט</string>
     <string name="pref_summary_banglejs_text_bitmap">אם אי אפשר לעבד תמונות עם גופן השעון, הוא יומר למפת סיביות ב־Gadgetbridge שתוצג בשעון</string>
+    <string name="pref_summary_device_intents">לאפשר ליישומוני שעון של Bangle.js לשלוח Intents ל־Android ולאפשר ליישומי Android אחרים (כמו Tasker) לשלוח נתונים ל־Bangle.js באמצעות ה־Intent ‏com.banglejs.uart.tx.</string>
+    <string name="pref_title_device_intents">לאפשר Intents</string>
 </resources>
