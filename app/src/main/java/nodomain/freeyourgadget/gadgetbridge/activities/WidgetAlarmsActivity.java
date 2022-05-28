@@ -40,17 +40,17 @@ import nodomain.freeyourgadget.gadgetbridge.util.GB;
 public class WidgetAlarmsActivity extends Activity implements View.OnClickListener {
 
     TextView textView;
+    GBDevice deviceForWidget;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         Context appContext = this.getApplicationContext();
-        GBDevice selectedDevice;
 
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
-            selectedDevice = extras.getParcelable(GBDevice.EXTRA_DEVICE);
+            deviceForWidget = extras.getParcelable(GBDevice.EXTRA_DEVICE);
         } else {
             GB.toast(this,
                     "Error no device",
@@ -59,9 +59,8 @@ public class WidgetAlarmsActivity extends Activity implements View.OnClickListen
         }
 
         if (appContext instanceof GBApplication) {
-            GBApplication gbApp = (GBApplication) appContext;
 
-            if (selectedDevice == null || !selectedDevice.isInitialized()) {
+            if (deviceForWidget == null || !deviceForWidget.isInitialized()) {
                 GB.toast(this,
                         this.getString(R.string.not_connected),
                         Toast.LENGTH_LONG, GB.INFO);
@@ -128,16 +127,11 @@ public class WidgetAlarmsActivity extends Activity implements View.OnClickListen
 
         // overwrite the first alarm and activate it, without
 
-        Context appContext = this.getApplicationContext();
-        if (appContext instanceof GBApplication) {
-            GBApplication gbApp = (GBApplication) appContext;
-            GBDevice selectedDevice = gbApp.getDeviceManager().getSelectedDevice();
-            if (selectedDevice == null || !selectedDevice.isInitialized()) {
-                GB.toast(this,
-                        this.getString(R.string.appwidget_not_connected),
-                        Toast.LENGTH_LONG, GB.WARN);
-                return;
-            }
+        if (deviceForWidget == null || !deviceForWidget.isInitialized()) {
+            GB.toast(this,
+                    this.getString(R.string.appwidget_not_connected),
+                    Toast.LENGTH_LONG, GB.WARN);
+            return;
         }
 
         int hours = calendar.get(Calendar.HOUR_OF_DAY);
@@ -151,7 +145,6 @@ public class WidgetAlarmsActivity extends Activity implements View.OnClickListen
         ArrayList<Alarm> alarms = new ArrayList<>(1);
         alarms.add(alarm);
         GBApplication.deviceService().onSetAlarms(alarms);
-
 
     }
 }

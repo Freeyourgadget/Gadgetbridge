@@ -590,6 +590,12 @@
             </intent-filter>
         </activity>
 
+        <activity android:name=".activities.SleepAlarmWidgetConfigurationActivity">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE"/>
+            </intent-filter>
+        </activity>
+
         <activity
             android:name=".activities.ExternalPebbleJSActivity"
             android:allowTaskReparenting="true"
