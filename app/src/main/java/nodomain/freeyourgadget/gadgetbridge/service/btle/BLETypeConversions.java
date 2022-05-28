@@ -40,9 +40,8 @@ public class BLETypeConversions {
      * @return
      * @see GattCharacteristic#UUID_CHARACTERISTIC_CURRENT_TIME
      */
-    public static byte[] calendarToRawBytes(Calendar timestamp) {
-        // MiBand2:
-        // year,year,month,dayofmonth,hour,minute,second,dayofweek,0,0,tz
+    public static byte[] calendarToCurrentTime(Calendar timestamp) {
+        // year,year,month,dayofmonth,hour,minute,second,dayofweek,fractions256,reason
 
         byte[] year = fromUint16(timestamp.get(Calendar.YEAR));
         return new byte[] {
@@ -54,9 +53,33 @@ public class BLETypeConversions {
                 fromUint8(timestamp.get(Calendar.MINUTE)),
                 fromUint8(timestamp.get(Calendar.SECOND)),
                 dayOfWeekToRawBytes(timestamp),
-                0, // fractions256 (not set)
-                // 0 (DST offset?) Mi2
-                // k (tz) Mi2
+                fromUint8((int) (timestamp.get(Calendar.MILLISECOND) / 1000. * 256)),
+                0, // reason (not set)
+        };
+    }
+
+    /**
+     * Converts a timestamp to the byte sequence to be sent to the local time characteristic
+     *
+     * Values are expressed in quarters of hours
+     * Following the BLE specification, timezone is constant over dst changes
+     *
+     * @param timestamp
+     * @return
+     * @see GattCharacteristic#UUID_CHARACTERISTIC_LOCAL_TIME
+     */
+    public static byte[] calendarToLocalTime(Calendar timestamp) {
+        TimeZone timeZone = timestamp.getTimeZone();
+        int offsetMillisTimezone = timeZone.getRawOffset();
+        int utcOffsetInQuarterHours = (offsetMillisTimezone / (1000 * 60 * 15));
+
+        int offsetMillisIncludingDST = timestamp.getTimeZone().getOffset(timestamp.getTimeInMillis());
+        int dstOffsetMillis = offsetMillisIncludingDST - offsetMillisTimezone;
+        int dstOffsetInQuarterHours = (dstOffsetMillis / (1000 * 60 * 15));
+
+        return new byte[] {
+                fromUint8(utcOffsetInQuarterHours),
+                fromUint8(dstOffsetInQuarterHours),
         };
     }
 

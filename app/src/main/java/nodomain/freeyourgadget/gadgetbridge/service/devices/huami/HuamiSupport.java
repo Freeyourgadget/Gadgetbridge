@@ -404,15 +404,20 @@ public abstract class HuamiSupport extends AbstractBTLEDeviceSupport implements 
         return weatherSpec.windSpeedAsBeaufort() + ""; // cast to string
     }
 
-    public byte[] getTimeBytes(final Calendar calendar, final TimeUnit precision) {
-        final byte[] bytes = BLETypeConversions.shortCalendarToRawBytes(calendar);
-
-        if (precision != TimeUnit.MINUTES && precision != TimeUnit.SECONDS) {
-            throw new IllegalArgumentException("Unsupported precision, only MINUTES and SECONDS are supported");
+    public byte[] getTimeBytes(Calendar calendar, TimeUnit precision) {
+        if (precision == TimeUnit.MINUTES) {
+            final byte[] bytes = BLETypeConversions.shortCalendarToRawBytes(calendar);
+            //add nonstandard extension
+            final byte[] tail = new byte[] { 0, BLETypeConversions.mapTimeZone(calendar, BLETypeConversions.TZ_FLAG_INCLUDE_DST_IN_TZ) };
+            return BLETypeConversions.join(bytes, tail);
+        } else if (precision == TimeUnit.SECONDS) {
+            final byte[] bytes = BLETypeConversions.calendarToCurrentTime(calendar);
+            //add nonstandard extension, only one byte needed, as format is different from above
+            final byte[] tail = new byte[] { BLETypeConversions.mapTimeZone(calendar, BLETypeConversions.TZ_FLAG_INCLUDE_DST_IN_TZ) };
+            return BLETypeConversions.join(bytes, tail);
+        } else {
+            throw new IllegalArgumentException("Unsupported precision, only MINUTES and SECONDS are supported till now");
         }
-        final byte seconds = precision == TimeUnit.SECONDS ? fromUint8(calendar.get(Calendar.SECOND)) : 0;
-        final byte tz = BLETypeConversions.mapTimeZone(calendar, BLETypeConversions.TZ_FLAG_INCLUDE_DST_IN_TZ);
-        return BLETypeConversions.join(bytes, new byte[]{seconds, tz});
     }
 
     public Calendar fromTimeBytes(byte[] bytes) {

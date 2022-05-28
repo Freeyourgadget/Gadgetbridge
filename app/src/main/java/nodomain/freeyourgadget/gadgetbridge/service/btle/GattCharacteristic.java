@@ -47,7 +47,7 @@ public class GattCharacteristic {
     public static final UUID UUID_CHARACTERISTIC_EXACT_TIME_256 = UUID.fromString((String.format(AbstractBTLEDeviceSupport.BASE_UUID, "2A0C")));
     public static final UUID UUID_CHARACTERISTIC_DST_OFFSET = UUID.fromString((String.format(AbstractBTLEDeviceSupport.BASE_UUID, "2A0D")));
     public static final UUID UUID_CHARACTERISTIC_TIME_ZONE = UUID.fromString((String.format(AbstractBTLEDeviceSupport.BASE_UUID, "2A0E")));
-    public static final UUID UUID_CHARACTERISTIC_LOCAL_TIME_INFORMATION = UUID.fromString((String.format(AbstractBTLEDeviceSupport.BASE_UUID, "2A0F")));
+    public static final UUID UUID_CHARACTERISTIC_LOCAL_TIME = UUID.fromString((String.format(AbstractBTLEDeviceSupport.BASE_UUID, "2A0F")));
     public static final UUID UUID_CHARACTERISTIC_TIME_WITH_DST = UUID.fromString((String.format(AbstractBTLEDeviceSupport.BASE_UUID, "2A11")));
     public static final UUID UUID_CHARACTERISTIC_TIME_ACCURACY = UUID.fromString((String.format(AbstractBTLEDeviceSupport.BASE_UUID, "2A12")));
     public static final UUID UUID_CHARACTERISTIC_TIME_SOURCE = UUID.fromString((String.format(AbstractBTLEDeviceSupport.BASE_UUID, "2A13")));
