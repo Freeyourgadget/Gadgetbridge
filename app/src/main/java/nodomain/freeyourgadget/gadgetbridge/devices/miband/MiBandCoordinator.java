@@ -52,8 +52,6 @@ import nodomain.freeyourgadget.gadgetbridge.model.ActivityUser;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 
-import static nodomain.freeyourgadget.gadgetbridge.model.ActivityUser.PREF_USER_NAME;
-
 public class MiBandCoordinator extends AbstractDeviceCoordinator {
     private static final Logger LOG = LoggerFactory.getLogger(MiBandCoordinator.class);
 
@@ -221,7 +219,7 @@ public class MiBandCoordinator extends AbstractDeviceCoordinator {
 
         UserInfo info = UserInfo.create(
                 miBandAddress,
-                prefs.getString(PREF_USER_NAME, null),
+                activityUser.getName(),
                 activityUser.getGender(),
                 activityUser.getAge(),
                 activityUser.getHeightCm(),

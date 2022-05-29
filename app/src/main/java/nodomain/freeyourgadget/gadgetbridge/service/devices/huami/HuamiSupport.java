@@ -556,8 +556,8 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
 
         LOG.info("Attempting to set user info...");
         Prefs prefs = GBApplication.getPrefs();
-        String alias = prefs.getString(PREF_USER_NAME, null);
         ActivityUser activityUser = new ActivityUser();
+        String alias = activityUser.getName();
         int height = activityUser.getHeightCm();
         int weight = activityUser.getWeightKg();
         int birth_year = activityUser.getYearOfBirth();

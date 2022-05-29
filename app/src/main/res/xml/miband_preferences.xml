@@ -4,10 +4,6 @@
     <PreferenceCategory
         android:key="pref_category_miband_personal"
         android:title="@string/activity_prefs_about_you">
-        <EditTextPreference
-            android:key="mi_user_alias"
-            android:maxLength="17"
-            android:title="@string/miband_prefs_alias" />
 
         <EditTextPreference
             android:defaultValue="10000"

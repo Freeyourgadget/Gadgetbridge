@@ -53,9 +53,6 @@ public class GBPrefs {
     public static final String RTL_SUPPORT = "rtl";
     public static final String RTL_CONTEXTUAL_ARABIC = "contextualArabic";
     public static boolean AUTO_RECONNECT_DEFAULT = true;
-
-    public static final String USER_NAME = "mi_user_alias";
-    public static final String USER_NAME_DEFAULT = "gadgetbridge-user";
     private static final String USER_BIRTHDAY = "";
 
     public static final String CHART_MAX_HEART_RATE = "chart_max_heart_rate";
@@ -77,10 +74,6 @@ public class GBPrefs {
 
     public boolean isBackgroundJsEnabled() {
         return mPrefs.getBoolean(BG_JS_ENABLED, BG_JS_ENABLED_DEFAULT);
-    }
-
-    public String getUserName() {
-        return mPrefs.getString(USER_NAME, USER_NAME_DEFAULT);
     }
 
     public Date getUserBirthday() {

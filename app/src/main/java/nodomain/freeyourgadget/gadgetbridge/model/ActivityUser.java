@@ -46,7 +46,7 @@ public class ActivityUser {
     private int activityUserActiveTimeGoalMinutes;
     private int activityUserStepLengthCm;
 
-    private static final String defaultUserName = "gadgetbridge-user";
+    public static final String defaultUserName = "gadgetbridge-user";
     public static final int defaultUserGender = GENDER_FEMALE;
     public static final int defaultUserYearOfBirth = 0;
     public static final int defaultUserAge = 0;
@@ -59,7 +59,7 @@ public class ActivityUser {
     public static final int defaultUserActiveTimeGoalMinutes = 60;
     public static final int defaultUserStepLengthCm = 0;
 
-    public static final String PREF_USER_NAME = "mi_user_alias";
+    public static final String PREF_USER_NAME = "name_alias";
     public static final String PREF_USER_YEAR_OF_BIRTH = "activity_user_year_of_birth";
     public static final String PREF_USER_GENDER = "activity_user_gender";
     public static final String PREF_USER_HEIGHT_CM = "activity_user_height_cm";
