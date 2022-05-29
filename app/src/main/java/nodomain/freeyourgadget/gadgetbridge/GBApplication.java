@@ -117,7 +117,7 @@ public class GBApplication extends Application {
     private static SharedPreferences sharedPrefs;
     private static final String PREFS_VERSION = "shared_preferences_version";
     //if preferences have to be migrated, increment the following and add the migration logic in migratePrefs below; see http://stackoverflow.com/questions/16397848/how-can-i-migrate-android-preferences-with-a-new-version
-    private static final int CURRENT_PREFS_VERSION = 15;
+    private static final int CURRENT_PREFS_VERSION = 16;
 
     private static LimitedQueue mIDSenderLookup = new LimitedQueue(16);
     private static Prefs prefs;
@@ -1162,6 +1162,12 @@ public class GBApplication extends Application {
             }
         }
 
+        if (oldVersion < 16) {
+            editor.putString("name_alias", prefs.getString("mi_user_name", ActivityUser.defaultUserName));
+            editor.remove("mi_user_name");
+            editor.apply();
+        }
+        
         editor.putString(PREFS_VERSION, Integer.toString(CURRENT_PREFS_VERSION));
         editor.apply();
     }
