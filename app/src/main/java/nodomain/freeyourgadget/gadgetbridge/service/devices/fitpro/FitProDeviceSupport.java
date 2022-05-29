@@ -543,7 +543,7 @@ public class FitProDeviceSupport extends AbstractBTLEDeviceSupport {
                 case DeviceSettingsPreferenceConst.PREF_LANGUAGE:
                     setLanguage(builder);
                     break;
-                case DeviceSettingsPreferenceConst.PREF_INACTIVITY_THRESHOLD:
+                case DeviceSettingsPreferenceConst.PREF_INACTIVITY_THRESHOLD_EXTENDED:
                 case DeviceSettingsPreferenceConst.PREF_INACTIVITY_ENABLE:
                 case DeviceSettingsPreferenceConst.PREF_INACTIVITY_START:
                 case DeviceSettingsPreferenceConst.PREF_INACTIVITY_END:
@@ -1148,7 +1148,7 @@ public class FitProDeviceSupport extends AbstractBTLEDeviceSupport {
 
         if (prefLongsitSwitch) {
 
-            String inactivity = GBApplication.getDeviceSpecificSharedPrefs(gbDevice.getAddress()).getString(DeviceSettingsPreferenceConst.PREF_INACTIVITY_THRESHOLD, "4");
+            String inactivity = GBApplication.getDeviceSpecificSharedPrefs(gbDevice.getAddress()).getString(DeviceSettingsPreferenceConst.PREF_INACTIVITY_THRESHOLD_EXTENDED, "4");
             String start = GBApplication.getDeviceSpecificSharedPrefs(gbDevice.getAddress()).getString(DeviceSettingsPreferenceConst.PREF_INACTIVITY_START, "08:00");
             String end = GBApplication.getDeviceSpecificSharedPrefs(gbDevice.getAddress()).getString(DeviceSettingsPreferenceConst.PREF_INACTIVITY_END, "16:00");
             Calendar startCalendar = GregorianCalendar.getInstance();

@@ -77,6 +77,7 @@ public class DeviceSettingsPreferenceConst {
     public static final String PREF_INACTIVITY_START = "inactivity_warnings_start";
     public static final String PREF_INACTIVITY_END = "inactivity_warnings_end";
     public static final String PREF_INACTIVITY_THRESHOLD = "inactivity_warnings_threshold";
+    public static final String PREF_INACTIVITY_THRESHOLD_EXTENDED = "inactivity_warnings_threshold_extended";
     public static final String PREF_INACTIVITY_MO = "inactivity_warnings_mo";
     public static final String PREF_INACTIVITY_TU = "inactivity_warnings_tu";
     public static final String PREF_INACTIVITY_WE = "inactivity_warnings_we";
