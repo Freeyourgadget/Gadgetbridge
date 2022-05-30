@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
+    <release version="0.67.1" versioncode="212">
+        <change>Huami: Fix long music track names not displaying</change>
+        <change>Amazfit Bip U/Pro/Band 5: Enable extended HR/stress monitoring setting</change>
+        <change>Pebble: Fix calendar blacklist, view and storage</change>
+        <change>FitPro: Fix crash, inactivity warning preference to string    </change>
+    </release>
     <release version="0.67.0" versioncode="211">
         <change>Initial Support for Sony WF-1000XM3</change>
         <change>Initial Support for Galaxy Buds Pro</change>

@@ -1,0 +1,4 @@
+* Huami: Fix long music track names not displaying
+* Amazfit Bip U/Pro/Band 5: Enable extended HR/stress monitoring setting
+* Pebble: Fix calendar blacklist, view and storage
+* FitPro: Fix crash, inactivity warning preference to string
