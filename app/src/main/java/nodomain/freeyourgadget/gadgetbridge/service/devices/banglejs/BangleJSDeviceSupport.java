@@ -276,16 +276,25 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
     }
 
     /// Write JSON object of the form {t:taskName, err:message}
+
     private void uartTxJSONError(String taskName, String message) {
+        uartTxJSONError(taskName,message,null);
+    }
+
+    private void uartTxJSONError(String taskName, String message,String id) {
         JSONObject o = new JSONObject();
         try {
             o.put("t", taskName);
+            if( id!=null)
+                o.put("id", id);
             o.put("err", message);
         } catch (JSONException e) {
             GB.toast(getContext(), "uartTxJSONError: " + e.getLocalizedMessage(), Toast.LENGTH_LONG, GB.ERROR);
         }
         uartTxJSON(taskName, o);
     }
+
+
 
     private void handleUartRxLine(String line) {
         LOG.info("UART RX LINE: " + line);
@@ -412,9 +421,18 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
             } break;
             case "http": {
                 Prefs devicePrefs = new Prefs(GBApplication.getDeviceSpecificSharedPrefs(gbDevice.getAddress()));
+                String _id=null;
+                try {
+                    _id = json.getString("id");
+                } catch (JSONException e) {
+                }
+                final String id = _id;
+
+
                 if (BuildConfig.INTERNET_ACCESS && devicePrefs.getBoolean(PREF_DEVICE_INTERNET_ACCESS, false)) {
                     RequestQueue queue = Volley.newRequestQueue(getContext());
                     String url = json.getString("url");
+
                     String _xmlPath = "";
                     try {
                         _xmlPath = json.getString("xpath");
@@ -433,12 +451,14 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
                                             XPath xPath = XPathFactory.newInstance().newXPath();
                                             response = xPath.evaluate(xmlPath, inputXML);
                                         } catch (Exception error) {
-                                            uartTxJSONError("http", error.toString());
+                                            uartTxJSONError("http", error.toString(),id);
                                             return;
                                         }
                                     }
                                     try {
                                         o.put("t", "http");
+                                        if( id!=null)
+                                            o.put("id", id);
                                         o.put("resp", response);
                                     } catch (JSONException e) {
                                         GB.toast(getContext(), "HTTP: " + e.getLocalizedMessage(), Toast.LENGTH_LONG, GB.ERROR);
@@ -449,15 +469,15 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
                         @Override
                         public void onErrorResponse(VolleyError error) {
                             JSONObject o = new JSONObject();
-                            uartTxJSONError("http", error.toString());
+                            uartTxJSONError("http", error.toString(),id);
                         }
                     });
                     queue.add(stringRequest);
                 } else {
                     if (BuildConfig.INTERNET_ACCESS)
-                        uartTxJSONError("http", "Internet access not enabled, check Gadgetbridge Device Settings");
+                        uartTxJSONError("http", "Internet access not enabled, check Gadgetbridge Device Settings",id);
                     else
-                        uartTxJSONError("http", "Internet access not enabled in this Gadgetbridge build");
+                        uartTxJSONError("http", "Internet access not enabled in this Gadgetbridge build",id);
                 }
             } break;
             case "intent": {
