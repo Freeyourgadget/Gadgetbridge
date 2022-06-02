@@ -356,7 +356,7 @@
     <string name="pref_summary_low_latency_fw_update">Це може допомогти на пристроях, на які не вдається встановити мікропрограми.</string>
     <string name="you_did_not_sleep">Ви не спали</string>
     <string name="miband_prefs_reserve_alarm_calendar">Сигнали для резервування для майбутніх подій</string>
-    <string name="miband_prefs_hr_sleep_detection">Використовувати датчик пульсу для поліпшення виявлення сну</string>
+    <string name="miband_prefs_hr_sleep_detection">Використовувати датник пульсу для поліпшення виявлення сну</string>
     <string name="dateformat_time">Час</string>
     <string name="dateformat_date_time">Дата та час</string>
     <string name="pref_title_unit_system">Одиниці вимірювання</string>
