@@ -61,6 +61,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
@@ -71,6 +72,7 @@ import java.lang.reflect.Field;
 import io.wax911.emojify.Emoji;
 import io.wax911.emojify.EmojiManager;
 import io.wax911.emojify.EmojiUtils;
+import de.greenrobot.dao.query.QueryBuilder;
 import nodomain.freeyourgadget.gadgetbridge.BuildConfig;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
@@ -84,12 +86,17 @@ import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventMusicContr
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventNotificationControl;
 import nodomain.freeyourgadget.gadgetbridge.devices.banglejs.BangleJSConstants;
 import nodomain.freeyourgadget.gadgetbridge.devices.banglejs.BangleJSSampleProvider;
+import nodomain.freeyourgadget.gadgetbridge.externalevents.CalendarReceiver;
 import nodomain.freeyourgadget.gadgetbridge.entities.BangleJSActivitySample;
+import nodomain.freeyourgadget.gadgetbridge.entities.CalendarSyncState;
+import nodomain.freeyourgadget.gadgetbridge.entities.CalendarSyncStateDao;
+import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityKind;
 import nodomain.freeyourgadget.gadgetbridge.model.Alarm;
 import nodomain.freeyourgadget.gadgetbridge.model.BatteryState;
 import nodomain.freeyourgadget.gadgetbridge.model.CalendarEventSpec;
+import nodomain.freeyourgadget.gadgetbridge.model.CalendarEvents;
 import nodomain.freeyourgadget.gadgetbridge.model.CallSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.CannedMessagesSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceService;
@@ -599,7 +606,58 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
                 } else {
                     uartTxJSONError("intent", "Android Intents not enabled, check Gadgetbridge Device Settings");
                 }
-            }
+            } break;
+            case "force_calendar_sync": {
+                if(!GBApplication.getPrefs().getBoolean("enable_calendar_sync", false)) return;
+                //pretty much like the updateEvents in CalendarReceiver, but would need a lot of libraries here
+                JSONArray ids = json.getJSONArray("ids");
+                ArrayList<Long> idsList = new ArrayList(ids.length());
+                try (DBHandler dbHandler = GBApplication.acquireDB()) {
+                    DaoSession session = dbHandler.getDaoSession();
+                    Long deviceId = DBHelper.getDevice(gbDevice, session).getId();
+                    QueryBuilder<CalendarSyncState> qb = session.getCalendarSyncStateDao().queryBuilder();
+                    //FIXME just use that and don't query every time?
+                    List<CalendarSyncState> states = qb.where(
+                                CalendarSyncStateDao.Properties.DeviceId.eq(deviceId)).build().list();
+
+                    for (int i = 0; i < ids.length(); i++) {
+                        Long id = ids.getLong(i);
+                        qb = session.getCalendarSyncStateDao().queryBuilder(); //is this needed again?
+                        CalendarSyncState calendarSyncState = qb.where(
+                                qb.and(CalendarSyncStateDao.Properties.DeviceId.eq(deviceId),
+                                    CalendarSyncStateDao.Properties.CalendarEntryId.eq(id))).build().unique();
+                        if(calendarSyncState == null) {
+                        //if(!states.contains(id)) { //but check the deviceId
+                            //insert in the database with dummy values
+                            session.insert(new CalendarSyncState(null, deviceId, id, -1));
+                            //session.insertOrReplace(new CalendarSyncState(id, deviceId, -1, -1));
+                            LOG.info("event id="+ id +" is on device id="+ deviceId +", adding to our db");
+                        } else {
+                            //used for later, no need to check twice the ones that do not match
+                            idsList.add(id);
+                        }
+                    }
+                    //if(idsList.length == states.length) return;
+                    //remove all elements not in ids from database (we don't have them)
+                    for(CalendarSyncState calendarSyncState : states) {
+                        long id = calendarSyncState.getCalendarEntryId();
+                        if(!idsList.contains(id)) {
+                            qb = session.getCalendarSyncStateDao().queryBuilder(); //is this needed again?
+                            qb.where(qb.and(CalendarSyncStateDao.Properties.DeviceId.eq(deviceId),
+                                        CalendarSyncStateDao.Properties.CalendarEntryId.eq(id)))
+                                .buildDelete().executeDeleteWithoutDetachingEntities();
+                            LOG.info("event id="+ id +" is not on device id="+ deviceId +", removing from our db");
+                        }
+                    }
+                } catch (Exception e1) {
+                    GB.toast("Database Error while forcefully syncing Calendar", Toast.LENGTH_SHORT, GB.ERROR, e1);
+                }
+                //force a syncCalendar now, that will delete all new added events
+                Intent in = new Intent(this.getContext().getApplicationContext(), CalendarReceiver.class);
+                in.setAction("android.intent.action.PROVIDER_CHANGED");
+                this.getContext().getApplicationContext().sendBroadcast(in);
+                LOG.info("Forcing calendar sync for banglejs");
+            } break;
             default : {
                 LOG.info("UART RX JSON packet type '"+packetType+"' not understood.");
             }
@@ -745,6 +803,11 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
         try {
             TransactionBuilder builder = performInitialized("setTime");
             transmitTime(builder);
+            //TODO: once we have a common strategy for sending events (e.g. EventHandler), remove this call from here. Meanwhile it does no harm.
+            // = we should genaralize the pebble calender code
+            //FIXME now bangle supports both based on the enable_calendar_sync flag
+            if(!GBApplication.getPrefs().getBoolean("enable_calendar_sync", false))
+                sendCalendarEvents(builder);
             builder.queue(getQueue());
         } catch (Exception e) {
             GB.toast(getContext(), "Error setting time: " + e.getLocalizedMessage(), Toast.LENGTH_LONG, GB.ERROR);
@@ -1205,5 +1268,40 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
         drawable.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
         drawable.draw(canvas);
         return bitmap;
+    }
+
+    private void sendCalendarEvents(TransactionBuilder builder) {
+        Prefs prefs = new Prefs(GBApplication.getDeviceSpecificSharedPrefs(gbDevice.getAddress()));
+        //TODO set a limit as number in the preferences?
+        //int availableSlots = prefs.getInt(PREF_CALENDAR_EVENTS_MAX, 0);
+        int availableSlots = 6;
+
+        try {
+            CalendarEvents upcomingEvents = new CalendarEvents();
+            List<CalendarEvents.CalendarEvent> mEvents = upcomingEvents.getCalendarEventList(getContext());
+            JSONObject cal = new JSONObject();
+            JSONArray events = new JSONArray();
+
+            cal.put("t", "calendarevents");
+
+            for (CalendarEvents.CalendarEvent mEvt : mEvents) {
+                if(availableSlots<1) break;
+                JSONObject o = new JSONObject();
+                o.put("timestamp", mEvt.getBeginSeconds());
+                o.put("durationInSeconds", mEvt.getDurationSeconds()); //FIXME use end instead
+                o.put("title", mEvt.getTitle());
+                //avoid making the message too long
+                //o.put("description", mEvt.getDescription());
+                o.put("location", mEvt.getLocation());
+                o.put("allDay", mEvt.isAllDay());
+                events.put(o);
+                availableSlots--;
+            }
+            cal.put("events", events);
+            uartTxJSON("sendCalendarEvents", cal);
+            LOG.info("sendCalendarEvents: sent " + events.length());
+        } catch(JSONException e) {
+            LOG.info("JSONException: " + e.getLocalizedMessage());
+        }
     }
 }
