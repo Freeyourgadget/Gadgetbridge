@@ -370,6 +370,8 @@
     <string name="prefs_hr_alarm_activity">Heart rate alarm during sports activity</string>
     <string name="prefs_hr_alarm_low">Low limit</string>
     <string name="prefs_hr_alarm_high">High limit</string>
+    <string name="pref_workout_start_on_phone_title">Fitness app tracking</string>
+    <string name="pref_workout_start_on_phone_summary">Start/stop fitness app tracking on phone when a GPS workout is started on the band</string>
     <string name="pref_workout_send_gps_title">Send GPS during workout</string>
     <string name="pref_workout_send_gps_summary">Send the current GPS location to the band during a workout</string>
     <!-- Auto export preferences -->

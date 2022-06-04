@@ -363,6 +363,12 @@ public abstract class HuamiCoordinator extends AbstractDeviceCoordinator {
         return prefs.getBoolean(DeviceSettingsPreferenceConst.PREF_DO_NOT_DISTURB_LIFT_WRIST, false);
     }
 
+    public static boolean getWorkoutStartOnPhone(String deviceAddress) {
+        SharedPreferences prefs = GBApplication.getDeviceSpecificSharedPrefs(deviceAddress);
+
+        return prefs.getBoolean(DeviceSettingsPreferenceConst.PREF_WORKOUT_START_ON_PHONE, false);
+    }
+
     public static boolean getWorkoutSendGpsToBand(String deviceAddress) {
         SharedPreferences prefs = GBApplication.getDeviceSpecificSharedPrefs(deviceAddress);
 

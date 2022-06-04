@@ -1907,12 +1907,26 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
                 LOG.info("Got workout status {}", status);
 
                 final boolean sendGpsToBand = HuamiCoordinator.getWorkoutSendGpsToBand(getDevice().getAddress());
+                final boolean startOnPhone = HuamiCoordinator.getWorkoutStartOnPhone(getDevice().getAddress());
 
                 switch (status) {
                     case Start:
+                        if (workoutNeedsGps && startOnPhone) {
+                            LOG.info("Starting OpenTracks recording");
+
+                            OpenTracksController.startRecording(getContext());
+                        }
+
                         break;
                     case End:
                         GBLocationManager.stop(getContext(), this);
+
+                        if (startOnPhone) {
+                            if (GBApplication.app().getOpenTracksObserver() != null) {
+                                LOG.info("Stopping OpenTracks recording");
+                                OpenTracksController.stopRecording(getContext());
+                            }
+                        }
 
                         break;
                 }
