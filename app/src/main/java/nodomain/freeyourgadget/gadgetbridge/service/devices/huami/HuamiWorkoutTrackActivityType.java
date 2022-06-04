@@ -18,22 +18,25 @@ package nodomain.freeyourgadget.gadgetbridge.service.devices.huami;
 
 import java.util.Locale;
 
-public enum HuamiWorkoutActivityType {
+/**
+ * The workout types, used to start / when workout tracking starts on the band.
+ */
+public enum HuamiWorkoutTrackActivityType {
     OutdoorRunning(0x01),
-    Walking(0x06),
-    Treadmill(0x08),
-    OutdoorCycling(0x09),
-    IndoorCycling(0x0a),
-    Elliptical(0x0c),
-    PoolSwimming(0x0e),
-    Freestyle(0x10),
-    JumpRope(0x15),
-    RowingMachine(0x17),
-    Yoga(0x3c);
+    Walking(0x04),
+    Treadmill(0x02),
+    OutdoorCycling(0x03),
+    IndoorCycling(0x09),
+    Elliptical(0x06),
+    PoolSwimming(0x05),
+    Freestyle(0x0b),
+    JumpRope(0x08),
+    RowingMachine(0x07),
+    Yoga(0x0a);
 
     private final byte code;
 
-    HuamiWorkoutActivityType(final int code) {
+    HuamiWorkoutTrackActivityType(final int code) {
         this.code = (byte) code;
     }
 
@@ -41,12 +44,13 @@ public enum HuamiWorkoutActivityType {
         return code;
     }
 
-    public static HuamiWorkoutActivityType fromPrefValue(final String prefValue) {
-        for (HuamiWorkoutActivityType type : values()) {
-            if (type.name().toLowerCase(Locale.ROOT).equals(prefValue.replace("_", "").toLowerCase(Locale.ROOT))) {
+    public static HuamiWorkoutTrackActivityType fromCode(final byte code) {
+        for (final HuamiWorkoutTrackActivityType type : values()) {
+            if (type.getCode() == code) {
                 return type;
             }
         }
-        throw new RuntimeException("No matching HuamiWorkoutActivityType for pref value: " + prefValue);
+
+        return null;
     }
 }

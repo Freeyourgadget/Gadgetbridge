@@ -116,6 +116,8 @@ public class DeviceSettingsPreferenceConst {
     public static final String PREF_DO_NOT_DISTURB_AUTOMATIC = "automatic";
     public static final String PREF_DO_NOT_DISTURB_SCHEDULED = "scheduled";
 
+    public static final String PREF_WORKOUT_SEND_GPS_TO_BAND = "workout_send_gps_to_band";
+
     public static final String PREF_FIND_PHONE = "prefs_find_phone";
     public static final String PREF_FIND_PHONE_DURATION = "prefs_find_phone_duration";
     public static final String PREF_AUTOLIGHT = "autolight";

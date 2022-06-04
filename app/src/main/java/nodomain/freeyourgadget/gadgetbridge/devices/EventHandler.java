@@ -18,6 +18,7 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.devices;
 
+import android.location.Location;
 import android.net.Uri;
 
 import java.util.ArrayList;
@@ -130,4 +131,6 @@ public interface EventHandler {
     void onSetLedColor(int color);
 
     void onPowerOff();
+
+    void onSetGpsLocation(Location location);
 }

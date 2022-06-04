@@ -65,6 +65,7 @@ public class GB {
     public static final String NOTIFICATION_CHANNEL_HIGH_PRIORITY_ID = "gadgetbridge_high_priority";
     public static final String NOTIFICATION_CHANNEL_ID_TRANSFER = "gadgetbridge transfer";
     public static final String NOTIFICATION_CHANNEL_ID_LOW_BATTERY = "low_battery";
+    public static final String NOTIFICATION_CHANNEL_ID_GPS = "gps";
 
     public static final int NOTIFICATION_ID = 1;
     public static final int NOTIFICATION_ID_INSTALL = 2;
@@ -72,6 +73,7 @@ public class GB {
     public static final int NOTIFICATION_ID_TRANSFER = 4;
     public static final int NOTIFICATION_ID_EXPORT_FAILED = 5;
     public static final int NOTIFICATION_ID_PHONE_FIND = 6;
+    public static final int NOTIFICATION_ID_GPS = 7;
     public static final int NOTIFICATION_ID_ERROR = 42;
 
     private static final Logger LOG = LoggerFactory.getLogger(GB.class);
@@ -122,6 +124,12 @@ public class GB {
                     context.getString(R.string.notification_channel_low_battery_name),
                     NotificationManager.IMPORTANCE_DEFAULT);
             notificationManager.createNotificationChannel(channelLowBattery);
+
+            NotificationChannel channelGps = new NotificationChannel(
+                    NOTIFICATION_CHANNEL_ID_GPS,
+                    context.getString(R.string.notification_channel_gps),
+                    NotificationManager.IMPORTANCE_MIN);
+            notificationManager.createNotificationChannel(channelGps);
         }
 
         notificationChannelsCreated = true;
@@ -438,6 +446,27 @@ public class GB {
             Notification notification = createTransferNotification(title, text, ongoing, percentage, context);
             notify(NOTIFICATION_ID_TRANSFER, notification, context);
         }
+    }
+
+    public static void createGpsNotification(Context context, int numDevices) {
+        Intent notificationIntent = new Intent(context, ControlCenterv2.class);
+        notificationIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, notificationIntent, 0);
+
+        NotificationCompat.Builder nb = new NotificationCompat.Builder(context, NOTIFICATION_CHANNEL_ID_GPS)
+                .setTicker(context.getString(R.string.notification_gps_title))
+                .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
+                .setContentTitle(context.getString(R.string.notification_gps_title))
+                .setContentText(context.getString(R.string.notification_gps_text, numDevices))
+                .setContentIntent(pendingIntent)
+                .setSmallIcon(R.drawable.ic_gps_location)
+                .setOngoing(true);
+
+        notify(NOTIFICATION_ID_GPS, nb.build(), context);
+    }
+
+    public static void removeGpsNotification(Context context) {
+        removeNotification(NOTIFICATION_ID_GPS, context);
     }
 
     private static Notification createInstallNotification(String text, boolean ongoing,

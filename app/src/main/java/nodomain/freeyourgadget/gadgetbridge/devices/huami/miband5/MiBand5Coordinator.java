@@ -115,6 +115,7 @@ public class MiBand5Coordinator extends HuamiCoordinator {
                 R.xml.devicesettings_nightmode,
                 R.xml.devicesettings_liftwrist_display_sensitivity,
                 R.xml.devicesettings_inactivity_dnd,
+                R.xml.devicesettings_workout_send_gps_to_band,
                 R.xml.devicesettings_swipeunlock,
                 R.xml.devicesettings_sync_calendar,
                 R.xml.devicesettings_reserve_reminders_calendar,
