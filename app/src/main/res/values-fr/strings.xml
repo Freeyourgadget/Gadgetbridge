@@ -1673,4 +1673,9 @@ Temps de sommeil préféré en heures</string>
     <string name="mi5_prefs_workout_activity_types">Types d\'activités physiques</string>
     <string name="mi5_prefs_workout_activity_types_summary">Choisir les types d\'activité à afficher sur l\'écran d\'activité physique</string>
     <string name="activity_type_outdoor_cycling">Vélo en extérieur</string>
+    <string name="pref_title_banglejs_text_bitmap">Texte comme Images</string>
+    <string name="pref_summary_banglejs_text_bitmap">Si un mot ne peut être affiché avec la police de la montre, en faire une image dans GadgetBridge et l\'afficher comme image dans la montre</string>
+    <string name="pref_title_device_internet_access">Autoriser l\'accès à Internet</string>
+    <string name="pref_summary_device_internet_access">Permettre aux apps sur cet appareil d\'accéder à Internet</string>
+    <string name="pref_title_device_intents">Permettre les intentions</string>
 </resources>
