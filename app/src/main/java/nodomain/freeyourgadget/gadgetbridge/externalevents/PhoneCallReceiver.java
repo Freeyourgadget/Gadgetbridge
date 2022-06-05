@@ -24,6 +24,8 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.media.AudioManager;
+import android.os.Handler;
+import android.os.Looper;
 import android.telephony.TelephonyManager;
 
 import org.slf4j.Logger;
@@ -42,12 +44,14 @@ public class PhoneCallReceiver extends BroadcastReceiver {
     private boolean mRestoreMutedCall = false;
     private int mLastRingerMode;
 
+    private final Handler delayHandler = new Handler(Looper.getMainLooper());
+
     @Override
     public void onReceive(Context context, Intent intent) {
         TelephonyManager tm = (TelephonyManager) context.getSystemService(Service.TELEPHONY_SERVICE);
         if (intent.getAction().equals("android.intent.action.NEW_OUTGOING_CALL")) {
             mSavedNumber = intent.getExtras().getString("android.intent.extra.PHONE_NUMBER");
-        } else if(intent.getAction().equals("nodomain.freeyourgadget.gadgetbridge.MUTE_CALL")) {
+        } else if (intent.getAction().equals("nodomain.freeyourgadget.gadgetbridge.MUTE_CALL")) {
             // Handle the mute request only if the phone is currently ringing
             if (mLastState != TelephonyManager.CALL_STATE_RINGING)
                 return;
@@ -95,7 +99,7 @@ public class PhoneCallReceiver extends BroadcastReceiver {
                 } else {
                     callCommand = CallSpec.CALL_END;
                 }
-                if(mRestoreMutedCall) {
+                if (mRestoreMutedCall) {
                     mRestoreMutedCall = false;
                     AudioManager audioManager = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
                     audioManager.setRingerMode(mLastRingerMode);
@@ -129,8 +133,39 @@ public class PhoneCallReceiver extends BroadcastReceiver {
             callSpec.number = mSavedNumber;
             callSpec.command = callCommand;
             callSpec.dndSuppressed = dndSuppressed;
-            GBApplication.deviceService().onSetCallState(callSpec);
+
+            int callDelay = prefs.getInt("notification_delay_calls", 0);
+            if (callCommand == CallSpec.CALL_INCOMING) {
+                // Delay incoming call notifications by a configurable number of seconds
+                if (callDelay <= 0) {
+                    GBApplication.deviceService().onSetCallState(callSpec);
+                } else {
+                    scheduleOnSetCallState(callSpec, callDelay);
+                }
+            } else {
+                if (callCommand == CallSpec.CALL_START || callCommand == CallSpec.CALL_END) {
+                    // Call started or ended, unschedule any outstanding notifications
+                    unscheduleAllOnSetCallState();
+                }
+
+                // propagate the event to the device
+                GBApplication.deviceService().onSetCallState(callSpec);
+            }
         }
         mLastState = state;
+    }
+
+    private void scheduleOnSetCallState(final CallSpec callSpec, final int delaySeconds) {
+        final Runnable runnable = new Runnable() {
+            @Override public void run() {
+                GBApplication.deviceService().onSetCallState(callSpec);
+            }
+        };
+
+        delayHandler.postDelayed(runnable, delaySeconds * 1000);
+    }
+
+    private void unscheduleAllOnSetCallState() {
+        delayHandler.removeCallbacksAndMessages(null);
     }
 }
