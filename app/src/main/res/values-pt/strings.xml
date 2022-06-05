@@ -1576,4 +1576,7 @@
     <string name="sony_anc_optimize_confirmation_title">Optimizador de cancelamento de ruído</string>
     <string name="pref_anc_optimizer_state_pressure">Pressão atmosférica</string>
     <string name="sony_anc_optimize_confirmation_description">Coloque os headphones como os utilizaria normalmente. Se as condições de utilização ou pressão atmosférica alterarem, execute o optimizador novamente.</string>
+    <string name="title_activity_controlcenter_banglejs_main">Bangle.js Gadgetbridge</string>
+    <string name="about_activity_title_banglejs_main">Acerca de Bangle.js Gadgetbridge</string>
+    <string name="application_name_banglejs_main">Bangle.js Gadgetbridge</string>
 </resources>
