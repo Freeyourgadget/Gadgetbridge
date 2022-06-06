@@ -270,7 +270,7 @@ public abstract class HuamiCoordinator extends AbstractDeviceCoordinator {
 
     public static int getHeartRateMeasurementInterval(String deviceAddress) {
         Prefs prefs = new Prefs(GBApplication.getDeviceSpecificSharedPrefs(deviceAddress));
-        return GBApplication.getPrefs().getInt(DeviceSettingsPreferenceConst.PREF_HEARTRATE_MEASUREMENT_INTERVAL, 0) / 60;
+        return prefs.getInt(DeviceSettingsPreferenceConst.PREF_HEARTRATE_MEASUREMENT_INTERVAL, 0) / 60;
     }
 
     public static boolean getHeartrateActivityMonitoring(String deviceAddress) throws IllegalArgumentException {
