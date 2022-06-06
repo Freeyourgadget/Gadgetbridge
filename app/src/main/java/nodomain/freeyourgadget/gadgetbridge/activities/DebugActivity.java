@@ -57,6 +57,7 @@ import android.widget.Toast;
 import androidx.core.app.NavUtils;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.RemoteInput;
+import androidx.core.content.FileProvider;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import org.slf4j.Logger;
@@ -681,10 +682,17 @@ public class DebugActivity extends AbstractGBActivity {
                 return;
             }
 
+            final Uri providerUri = FileProvider.getUriForFile(
+                    this,
+                    getApplicationContext().getPackageName() + ".screenshot_provider",
+                    logFile
+            );
+
             Intent emailIntent = new Intent(android.content.Intent.ACTION_SEND);
+            emailIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
             emailIntent.setType("*/*");
             emailIntent.putExtra(EXTRA_SUBJECT, "Gadgetbridge log file");
-            emailIntent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(logFile));
+            emailIntent.putExtra(Intent.EXTRA_STREAM, providerUri);
             startActivity(Intent.createChooser(emailIntent, "Share File"));
         }
     }
