@@ -48,14 +48,21 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.xml.sax.InputSource;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.StringReader;
 import java.nio.charset.StandardCharsets;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Locale;
 import java.util.SimpleTimeZone;
 import java.util.UUID;
 import java.lang.reflect.Field;
@@ -86,11 +93,13 @@ import nodomain.freeyourgadget.gadgetbridge.model.DeviceService;
 import nodomain.freeyourgadget.gadgetbridge.model.MusicSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.MusicStateSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
+import nodomain.freeyourgadget.gadgetbridge.model.RecordedDataTypes;
 import nodomain.freeyourgadget.gadgetbridge.model.WeatherSpec;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.AbstractBTLEDeviceSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.misfit.PlayNotificationRequest;
 import nodomain.freeyourgadget.gadgetbridge.util.AlarmUtils;
+import nodomain.freeyourgadget.gadgetbridge.util.FileUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 
@@ -110,16 +119,21 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
     private BluetoothGattCharacteristic txCharacteristic = null;
     private boolean allowHighMTU = false;
     private int mtuSize = 20;
+    int bangleCommandSeq = 0; // to attempt to stop duplicate packets when sending Local Intents
 
+    /// Current line of data received from Bangle.js
     private String receivedLine = "";
+    /// All characters received from Bangle.js for debug purposes (limited to MAX_RECEIVE_HISTORY_CHARS). Can be dumped with 'Fetch Device Debug Logs' from Debug menu
+    private String receiveHistory = "";
     private boolean realtimeHRM = false;
     private boolean realtimeStep = false;
     private int realtimeHRMInterval = 30*60;
 
+    /// Maximum amount of characters to store in receiveHistory
+    public static final int MAX_RECEIVE_HISTORY_CHARS = 100000;
     // Local Intents - for app manager communication
     public static final String BANGLEJS_COMMAND_TX = "banglejs_command_tx";
     public static final String BANGLEJS_COMMAND_RX = "banglejs_command_rx";
-    int bangleCommandSeq = 0; // to attempt to stop duplicate packets
     // Global Intents
     private static final String BANGLE_ACTION_UART_TX = "com.banglejs.uart.tx";
 
@@ -133,6 +147,7 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
 
     private void registerLocalIntents() {
         IntentFilter commandFilter = new IntentFilter();
+        commandFilter.addAction(GBDevice.ACTION_DEVICE_CHANGED);
         commandFilter.addAction(BANGLEJS_COMMAND_TX);
         BroadcastReceiver commandReceiver = new BroadcastReceiver() {
             @Override
@@ -148,6 +163,10 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
                             GB.toast(getContext(), "Error in TX: " + e.getLocalizedMessage(), Toast.LENGTH_LONG, GB.ERROR);
                         }
                         break;
+                    }
+                    case GBDevice.ACTION_DEVICE_CHANGED: {
+                        LOG.info("ACTION_DEVICE_CHANGED " + gbDevice.getStateString());
+                        receiveHistory += "\n================================================\nACTION_DEVICE_CHANGED "+gbDevice.getStateString()+" "+(new SimpleDateFormat("yyyy-mm-dd hh:mm:ss")).format(Calendar.getInstance().getTime())+"\n================================================\n";
                     }
                 }
             }
@@ -544,6 +563,11 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
                 mtuSize = chars.length;
             String packetStr = new String(chars);
             LOG.info("RX: " + packetStr);
+            // logging
+            receiveHistory += packetStr;
+            if (receiveHistory.length() > MAX_RECEIVE_HISTORY_CHARS)
+                receiveHistory = receiveHistory.substring(receiveHistory.length() - MAX_RECEIVE_HISTORY_CHARS);
+            // split into input lines
             receivedLine += packetStr;
             while (receivedLine.contains("\n")) {
                 int p = receivedLine.indexOf("\n");
@@ -792,7 +816,28 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
 
     @Override
     public void onFetchRecordedData(int dataTypes) {
-
+        if (dataTypes == RecordedDataTypes.TYPE_DEBUGLOGS) {
+            File dir;
+            try {
+                dir = FileUtils.getExternalFilesDir();
+            } catch (IOException e) {
+                return;
+            }
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd-HHmmss", Locale.US);
+            String filename = "banglejs_debug_" + dateFormat.format(new Date()) + ".log";
+            File outputFile = new File(dir, filename );
+            LOG.warn("Writing log to "+outputFile.toString());
+            try {
+                BufferedWriter writer = new BufferedWriter(new FileWriter(outputFile));
+                writer.write(receiveHistory);
+                writer.close();
+                receiveHistory = "";
+                GB.toast(getContext(), "Log written to "+filename, Toast.LENGTH_LONG, GB.INFO);
+            } catch (IOException e) {
+                LOG.warn("Could not write to file", e);
+                return;
+            }
+        }
     }
 
     @Override
