@@ -1922,10 +1922,8 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
                         GBLocationManager.stop(getContext(), this);
 
                         if (startOnPhone) {
-                            if (GBApplication.app().getOpenTracksObserver() != null) {
-                                LOG.info("Stopping OpenTracks recording");
-                                OpenTracksController.stopRecording(getContext());
-                            }
+                            LOG.info("Stopping OpenTracks recording");
+                            OpenTracksController.stopRecording(getContext());
                         }
 
                         break;
