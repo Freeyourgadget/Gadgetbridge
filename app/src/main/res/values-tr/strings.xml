@@ -1722,4 +1722,18 @@
     <string name="pref_summary_device_internet_access">Bu aygıttaki uygulamaların internete erişmesine izin ver</string>
     <string name="pref_summary_banglejs_text_bitmap">Bir sözcük saatin yazı tipi kullanılarak görüntülenemiyorsa, onu Gadgetbridge\'de bir bit eşleme dönüştür ve bit eşlemi saatte görüntüle</string>
     <string name="pref_title_device_internet_access">İnternet Erişimine İzin Ver</string>
+    <string name="pref_workout_start_on_phone_title">Fitness uygulaması izlemesi</string>
+    <string name="pref_workout_start_on_phone_summary">Bileklikte bir GPS egzersizi başlatıldığında telefonda fitness uygulaması izlemeyi başlat/durdur</string>
+    <string name="pref_workout_send_gps_summary">Egzersiz sırasında geçerli GPS konumunu bilekliğe gönder</string>
+    <string name="notification_channel_gps">GPS izleme</string>
+    <string name="notification_gps_title">Gadgetbridge GPS</string>
+    <string name="notification_gps_text">GPS konumu %1$d aygıta gönderiliyor</string>
+    <string name="pref_device_action_phone_gps_location_listener_stop">GPS Konumu Dinleyiciyi Durdur</string>
+    <string name="pref_workout_send_gps_title">Egzersiz sırasında GPS gönder</string>
+    <string name="permission_notification_listener">%1$s, saatinizde görüntülemek için Bildirimlere erişmeye ihtiyaç duyuyor.
+\n
+\nLütfen önce \'%2$s\', sonra \'%1$s\' düğmesine dokunun ve \'Bildirim Erişimine İzin Ver\' seçeneğini etkinleştirin, ardından %1$s\'e dönmek için \'Geri\' düğmesine dokunun</string>
+    <string name="permission_notification_policy_access">%1$s, saatinizde bu ayarları yerine getirebilmek için Rahatsız Etme ayarlarına erişmeye ihtiyaç duyuyor.
+\n
+\nLütfen önce \'%2$s\', sonra \'%1$s\' düğmesine dokunun ve \'Rahatsız Etmeye İzin Ver\' seçeneğini etkinleştirin, ardından %1$s\'e dönmek için \'Geri\' düğmesine dokunun</string>
 </resources>
