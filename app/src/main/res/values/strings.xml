@@ -1135,6 +1135,8 @@
     <string name="widget_10_minutes">10 minutes</string>
     <string name="widget_20_minutes">20 minutes</string>
     <string name="widget_1_hour">1 hour</string>
+    <string name="quick_alarm">Quick alarm</string>
+    <string name="quick_alarm_description">Alarm from widget</string>
     <string name="icon_placeholder" translatable="false">Icon</string>
     <string name="watch_not_connected">Watch not connected</string>
     <string name="qhybrid_vibration_strength">vibration strength:</string>

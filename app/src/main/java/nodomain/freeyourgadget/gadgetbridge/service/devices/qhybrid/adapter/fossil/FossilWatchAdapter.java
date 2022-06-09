@@ -78,6 +78,7 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.mis
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.misfit.ReleaseHandsControlRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.misfit.RequestHandControlRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.misfit.SaveCalibrationRequest;
+import nodomain.freeyourgadget.gadgetbridge.util.AlarmUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.FileUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 import nodomain.freeyourgadget.gadgetbridge.util.UriHelper;
@@ -516,6 +517,16 @@ public class FossilWatchAdapter extends WatchAdapter {
 
     @Override
     public void onSetAlarms(ArrayList<? extends Alarm> alarms) {
+
+        // handle one-shot alarm from the widget:
+        // this device doesn't have concept of on-off alarm, so use the last slot for this and store
+        // this alarm in the database so the user knows what is going on and can disable it
+
+        if (alarms.toArray().length == 1 && alarms.get(0).getRepetition() == 0) { //single shot?
+            Alarm oneshot = alarms.get(0);
+            alarms = (ArrayList<? extends Alarm>) AlarmUtils.mergeOneshotToDeviceAlarms(getDeviceSupport().getDevice(), (nodomain.freeyourgadget.gadgetbridge.entities.Alarm) oneshot, 5);
+        }
+
         //  throw new RuntimeException("noope");
         ArrayList<nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.alarm.Alarm> activeAlarms = new ArrayList<>();
         for (Alarm alarm : alarms) {
