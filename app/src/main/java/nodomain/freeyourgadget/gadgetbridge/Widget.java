@@ -141,6 +141,10 @@ public class Widget extends AppWidgetProvider {
         double distanceMeters = dailyTotals[0] * stepLength * 0.01;
         String distanceFormatted = FormatUtils.getFormattedDistanceLabel(distanceMeters);
 
+        if (sleep < 1) {
+            views.setViewVisibility(R.id.todaywidget_sleep_layout, View.GONE);
+        }
+
         views.setTextViewText(R.id.todaywidget_steps, String.format("%1s", steps));
         views.setTextViewText(R.id.todaywidget_sleep, String.format("%1s", getHM(sleep)));
         views.setTextViewText(R.id.todaywidget_distance, distanceFormatted);
