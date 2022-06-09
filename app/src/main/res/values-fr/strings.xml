@@ -1678,4 +1678,11 @@ Temps de sommeil préféré en heures</string>
     <string name="pref_title_device_internet_access">Autoriser l\'accès à Internet</string>
     <string name="pref_summary_device_internet_access">Permettre aux apps sur cet appareil d\'accéder à Internet</string>
     <string name="pref_title_device_intents">Permettre les intentions</string>
+    <string name="pref_workout_start_on_phone_title">Application de suivi sportif</string>
+    <string name="pref_workout_start_on_phone_summary">Démmare/arrête le suivi sportif sur le téléphone si une activité GPS est démarré sur le bracelet</string>
+    <string name="pref_workout_send_gps_title">Envoyer le GPS durant l\'exercice</string>
+    <string name="pref_workout_send_gps_summary">Envoyer les données GPS en cours durant un exercice</string>
+    <string name="notification_gps_title">GPS Gadgebridge</string>
+    <string name="notification_gps_text">Envoi des données GPS au(x) appareil(s) %1$d</string>
+    <string name="notification_channel_gps">Suivi GPS</string>
 </resources>
