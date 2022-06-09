@@ -1711,4 +1711,18 @@
     <string name="pref_title_device_intents">允许意向</string>
     <string name="pref_title_device_internet_access">允许互联网访问</string>
     <string name="pref_summary_device_internet_access">允许此设备上的应用访问互联网</string>
+    <string name="pref_workout_start_on_phone_title">健身应用追踪</string>
+    <string name="pref_workout_start_on_phone_summary">在手环上开始 GPS 锻炼时，在手机上开始/停止健身应用跟踪</string>
+    <string name="notification_channel_gps">GPS跟踪</string>
+    <string name="permission_notification_listener">%1$s需要访问通知，以便在你的手表上显示这些通知。
+\n
+\n请点击\'%2$s\'然后\'%1$s\'并启用\'允许通知访问\'，然后点击\'返回\'以返回到%1$s</string>
+    <string name="permission_notification_policy_access">%1$s 需要访问“请勿打扰”设置才能在您的手表上使用它们。
+\n
+\n请点击“%2$s”然后点击“%1$s”并启用“允许请勿打扰”，然后点击“返回”返回到%1$s</string>
+    <string name="pref_workout_send_gps_title">在锻炼期间发送 GPS</string>
+    <string name="pref_workout_send_gps_summary">锻炼时将当前的GPS位置发送到手环上</string>
+    <string name="notification_gps_title">Gadgetbridge GPS</string>
+    <string name="notification_gps_text">将 GPS 位置发送到 %1$d 设备</string>
+    <string name="pref_device_action_phone_gps_location_listener_stop">GPS 位置监听器停止</string>
 </resources>
