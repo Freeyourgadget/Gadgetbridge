@@ -1713,4 +1713,18 @@
     <string name="pref_title_device_intents">Дозволити наміри</string>
     <string name="pref_title_banglejs_text_bitmap">Текст у вигляді растрових зображень</string>
     <string name="pref_summary_banglejs_text_bitmap">Якщо слово не може бути відтворено шрифтом годинника, перетворювати його на растрове зображення в Gadgetbridge і показувати растрове зображення на годиннику</string>
+    <string name="pref_workout_start_on_phone_title">Відстеження фітнес-застосунку</string>
+    <string name="pref_workout_start_on_phone_summary">Запускати/припиняти відстеження фітнес-застосунку на телефоні, коли GPS-тренування розпочато на браслеті</string>
+    <string name="pref_workout_send_gps_title">Надсилати GPS під час тренування</string>
+    <string name="pref_workout_send_gps_summary">Надсилати поточне місцеперебування GPS на годинник під час тренування</string>
+    <string name="notification_channel_gps">GPS-стеження</string>
+    <string name="notification_gps_title">Gadgetbridge GPS</string>
+    <string name="notification_gps_text">Надсилання місцеперебування GPS на пристрій %1$d</string>
+    <string name="permission_notification_listener">%1$s потребує доступу до сповіщень, щоб показувати їх на годиннику.
+\n
+\nТоркніться «%2$s», потім «%1$s» і увімкніть «Дозволити доступ до сповіщень», а потім торкніться «Назад», щоб повернутися до %1$s</string>
+    <string name="permission_notification_policy_access">%1$s потребує доступу до налаштувань «Не турбувати», щоб дотримуватися їх на годиннику.
+\n
+\nТоркніться «%2$s», потім «%1$s» і увімкніть «Дозволити не турбувати», а потім торкніться «Назад», щоб повернутися до %1$s</string>
+    <string name="pref_device_action_phone_gps_location_listener_stop">Зупинка відстежувача GPS-розташування</string>
 </resources>
