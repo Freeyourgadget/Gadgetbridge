@@ -620,6 +620,7 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
                     List<CalendarSyncState> states = qb.where(
                                 CalendarSyncStateDao.Properties.DeviceId.eq(deviceId)).build().list();
 
+                    LOG.info("force_calendar_sync on banglejs: "+ ids.length() +" events on the device, "+ states.size() +" on our db");
                     for (int i = 0; i < ids.length(); i++) {
                         Long id = ids.getLong(i);
                         qb = session.getCalendarSyncStateDao().queryBuilder(); //is this needed again?
@@ -627,17 +628,14 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
                                 qb.and(CalendarSyncStateDao.Properties.DeviceId.eq(deviceId),
                                     CalendarSyncStateDao.Properties.CalendarEntryId.eq(id))).build().unique();
                         if(calendarSyncState == null) {
-                        //if(!states.contains(id)) { //but check the deviceId
-                            //insert in the database with dummy values
-                            session.insert(new CalendarSyncState(null, deviceId, id, -1));
-                            //session.insertOrReplace(new CalendarSyncState(id, deviceId, -1, -1));
-                            LOG.info("event id="+ id +" is on device id="+ deviceId +", adding to our db");
+                            onDeleteCalendarEvent((byte)0, id);
+                            LOG.info("event id="+ id +" is on device id="+ deviceId +", removing it there");
                         } else {
                             //used for later, no need to check twice the ones that do not match
                             idsList.add(id);
                         }
                     }
-                    //if(idsList.length == states.length) return;
+                    if(idsList.size() == states.size()) return;
                     //remove all elements not in ids from database (we don't have them)
                     for(CalendarSyncState calendarSyncState : states) {
                         long id = calendarSyncState.getCalendarEntryId();
@@ -652,11 +650,10 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
                 } catch (Exception e1) {
                     GB.toast("Database Error while forcefully syncing Calendar", Toast.LENGTH_SHORT, GB.ERROR, e1);
                 }
-                //force a syncCalendar now, that will delete all new added events
+                //force a syncCalendar now, send missing events
                 Intent in = new Intent(this.getContext().getApplicationContext(), CalendarReceiver.class);
                 in.setAction("android.intent.action.PROVIDER_CHANGED");
                 this.getContext().getApplicationContext().sendBroadcast(in);
-                LOG.info("Forcing calendar sync for banglejs");
             } break;
             default : {
                 LOG.info("UART RX JSON packet type '"+packetType+"' not understood.");
@@ -805,9 +802,8 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
             transmitTime(builder);
             //TODO: once we have a common strategy for sending events (e.g. EventHandler), remove this call from here. Meanwhile it does no harm.
             // = we should genaralize the pebble calender code
-            //FIXME now bangle supports both based on the enable_calendar_sync flag
-            if(!GBApplication.getPrefs().getBoolean("enable_calendar_sync", false))
-                sendCalendarEvents(builder);
+            //sendCalendarEvents(builder);
+            forceCalendarSync();
             builder.queue(getQueue());
         } catch (Exception e) {
             GB.toast(getContext(), "Error setting time: " + e.getLocalizedMessage(), Toast.LENGTH_LONG, GB.ERROR);
@@ -1270,6 +1266,23 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
         return bitmap;
     }
 
+    /*
+     * Request the banglejs to send all ids to sync with our database
+     * TODO perhaps implement a minimum interval between consecutive requests
+     */
+    private void forceCalendarSync() {
+        try {
+            JSONObject o = new JSONObject();
+            o.put("t", "force_calendar_sync_start");
+            uartTxJSON("forceCalendarSync", o);
+        } catch(JSONException e) {
+            LOG.info("JSONException: " + e.getLocalizedMessage());
+        }
+    }
+
+    /*
+     * Sending all events together, not used for now, keep for future reference
+     */
     private void sendCalendarEvents(TransactionBuilder builder) {
         Prefs prefs = new Prefs(GBApplication.getDeviceSpecificSharedPrefs(gbDevice.getAddress()));
         //TODO set a limit as number in the preferences?
@@ -1288,7 +1301,7 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
                 if(availableSlots<1) break;
                 JSONObject o = new JSONObject();
                 o.put("timestamp", mEvt.getBeginSeconds());
-                o.put("durationInSeconds", mEvt.getDurationSeconds()); //FIXME use end instead
+                o.put("durationInSeconds", mEvt.getDurationSeconds());
                 o.put("title", mEvt.getTitle());
                 //avoid making the message too long
                 //o.put("description", mEvt.getDescription());
