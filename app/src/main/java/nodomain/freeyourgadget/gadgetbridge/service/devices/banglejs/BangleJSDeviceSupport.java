@@ -90,6 +90,7 @@ import nodomain.freeyourgadget.gadgetbridge.service.btle.AbstractBTLEDeviceSuppo
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
 import nodomain.freeyourgadget.gadgetbridge.util.AlarmUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
+import nodomain.freeyourgadget.gadgetbridge.util.LimitedQueue;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 
 import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_ALLOW_HIGH_MTU;
@@ -113,6 +114,8 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
     private boolean realtimeHRM = false;
     private boolean realtimeStep = false;
     private int realtimeHRMInterval = 30*60;
+
+    private final LimitedQueue/*Long*/ mNotificationReplyAction = new LimitedQueue(16);
 
     // Local Intents - for app manager communication
     public static final String BANGLEJS_COMMAND_TX = "banglejs_command_tx";
@@ -376,6 +379,13 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
                     deviceEvtNotificationControl.phoneNumber = json.getString("tel");
                 if (json.has("msg"))
                     deviceEvtNotificationControl.reply = json.getString("msg");
+                /* REPLY responses don't use the ID from the event (MUTE/etc seem to), but instead
+                * they use a handle that was provided in an action list on the onNotification.. event  */
+                if (deviceEvtNotificationControl.event == GBDeviceEventNotificationControl.Event.REPLY) {
+                    Long foundHandle = (Long)mNotificationReplyAction.lookup((int)deviceEvtNotificationControl.handle);
+                    if (foundHandle!=null)
+                        deviceEvtNotificationControl.handle = foundHandle;
+                }
                 evaluateGBDeviceEvent(deviceEvtNotificationControl);
             } break;
             case "act": {
@@ -573,6 +583,11 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
 
     @Override
     public void onNotification(NotificationSpec notificationSpec) {
+        for (int i=0;i<notificationSpec.attachedActions.size();i++) {
+            NotificationSpec.Action action = notificationSpec.attachedActions.get(i);
+            if (action.type==NotificationSpec.Action.TYPE_WEARABLE_REPLY)
+                mNotificationReplyAction.add(notificationSpec.getId(), new Long(((long)notificationSpec.getId()<<4) + i + 1)); // wow. This should be easier!
+        }
         try {
             JSONObject o = new JSONObject();
             o.put("t", "notify");
