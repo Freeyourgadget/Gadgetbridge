@@ -32,6 +32,7 @@ import java.util.Collections;
 import java.util.Vector;
 
 import nodomain.freeyourgadget.gadgetbridge.BuildConfig;
+import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.devices.AbstractDeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.InstallHandler;
@@ -167,6 +168,15 @@ public class BangleJSCoordinator extends AbstractDeviceCoordinator {
     @Override
     public InstallHandler findInstallHandler(Uri uri, Context context) {
         return null;
+    }
+
+    @Override
+    public boolean supportsUnicodeEmojis() {
+        /* we say yes here (because we can't get a handle to our device's prefs to check)
+        and then in 'renderUnicodeAsImage' we call EmojiConverter.convertUnicodeEmojiToAscii
+        just like DeviceCommunicationService.sanitizeNotifText would have done if we'd
+        reported false *if* conversion is disabled */
+        return true;
     }
 
     public int[] getSupportedDeviceSpecificSettings(GBDevice device) {
