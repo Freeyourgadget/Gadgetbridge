@@ -26,6 +26,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
+import android.location.Location;
 import android.media.AudioManager;
 import android.net.Uri;
 import android.widget.Toast;
@@ -102,7 +103,8 @@ import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
 import nodomain.freeyourgadget.gadgetbridge.entities.Device;
 import nodomain.freeyourgadget.gadgetbridge.entities.MiBandActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.entities.User;
-import nodomain.freeyourgadget.gadgetbridge.externalevents.OpenTracksController;
+import nodomain.freeyourgadget.gadgetbridge.externalevents.gps.GBLocationManager;
+import nodomain.freeyourgadget.gadgetbridge.externalevents.opentracks.OpenTracksController;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice.State;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityUser;
@@ -458,6 +460,7 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
         builder.notify(getCharacteristic(HuamiService.UUID_CHARACTERISTIC_AUDIO), enable);
         builder.notify(getCharacteristic(HuamiService.UUID_CHARACTERISTIC_AUDIODATA), enable);
         builder.notify(getCharacteristic(HuamiService.UUID_CHARACTERISTIC_DEVICEEVENT), enable);
+        builder.notify(getCharacteristic(HuamiService.UUID_CHARACTERISTIC_WORKOUT), enable);
         if (characteristicChunked2021Read != null) {
             builder.notify(characteristicChunked2021Read, enable);
         }
@@ -1849,18 +1852,180 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
                 }
                 */
                 break;
+            case HuamiDeviceEvent.WORKOUT_STARTING:
+                final HuamiWorkoutTrackActivityType activityType = HuamiWorkoutTrackActivityType.fromCode(value[3]);
+                this.workoutNeedsGps = (value[2] == 1);
+
+                if (activityType == null) {
+                    LOG.warn("Unknown workout activity type {}", String.format("0x%x", value[3]));
+                }
+
+                LOG.info("Workout starting on band: {}, needs gps = {}", activityType, workoutNeedsGps);
+
+                final boolean sendGpsToBand = HuamiCoordinator.getWorkoutSendGpsToBand(getDevice().getAddress());
+
+                if (workoutNeedsGps) {
+                    if (sendGpsToBand) {
+                        lastPhoneGpsSent = 0;
+                        sendPhoneGpsStatus(HuamiPhoneGpsStatus.SEARCHING);
+                        GBLocationManager.start(getContext(), this);
+                    } else {
+                        sendPhoneGpsStatus(HuamiPhoneGpsStatus.DISABLED);
+                    }
+                }
+
+                break;
             default:
-                LOG.warn("unhandled event " + value[0]);
+                LOG.warn("unhandled event {}", String.format("0x%x", value[0]));
         }
     }
 
-    private void requestMTU(int mtu) {
-        if (GBApplication.isRunningLollipopOrLater()) {
-            new TransactionBuilder("requestMtu")
-                    .requestMtu(mtu)
-                    .queue(getQueue());
-            mMTU = mtu;
+    /**
+     * Track whether the currently selected workout needs gps (received in {@link #handleDeviceEvent}, so we can start the activity tracking
+     * if needed in {@link #handleDeviceWorkoutEvent}, since in there we don't know what's the current workout.
+     */
+    private boolean workoutNeedsGps = false;
+
+    /**
+     * Track the last time we actually sent a gps location. We need to signal that GPS as re-acquired if the last update was too long ago.
+     */
+    private long lastPhoneGpsSent = 0;
+
+    private void handleDeviceWorkoutEvent(byte[] value) {
+        if (value == null || value.length == 0) {
+            return;
         }
+
+        switch (value[0]) {
+            case 0x11:
+                final HuamiWorkoutStatus status = HuamiWorkoutStatus.fromCode(value[1]);
+                if (status == null) {
+                    LOG.warn("Unknown workout status {}", String.format("0x%x", value[1]));
+                    return;
+                }
+
+                LOG.info("Got workout status {}", status);
+
+                final boolean sendGpsToBand = HuamiCoordinator.getWorkoutSendGpsToBand(getDevice().getAddress());
+                final boolean startOnPhone = HuamiCoordinator.getWorkoutStartOnPhone(getDevice().getAddress());
+
+                switch (status) {
+                    case Start:
+                        if (workoutNeedsGps && startOnPhone) {
+                            LOG.info("Starting OpenTracks recording");
+
+                            OpenTracksController.startRecording(getContext());
+                        }
+
+                        break;
+                    case End:
+                        GBLocationManager.stop(getContext(), this);
+
+                        if (startOnPhone) {
+                            LOG.info("Stopping OpenTracks recording");
+                            OpenTracksController.stopRecording(getContext());
+                        }
+
+                        break;
+                }
+
+                break;
+            default:
+                LOG.warn("Unhandled workout event {}", String.format("0x%x", value[0]));
+        }
+    }
+
+    @Override
+    public void onSetGpsLocation(final Location location) {
+        if (characteristicChunked == null || location == null) {
+            return;
+        }
+
+        final boolean sendGpsToBand = HuamiCoordinator.getWorkoutSendGpsToBand(getDevice().getAddress());
+
+        if (!sendGpsToBand) {
+            LOG.warn("Sending GPS to band is disabled, ignoring location update");
+            return;
+        }
+
+        int flags = 0x40000;
+        int length = 1 + 4 + 31;
+
+        boolean newGpsLock = System.currentTimeMillis() - lastPhoneGpsSent > 5000;
+        lastPhoneGpsSent = System.currentTimeMillis();
+
+        if (newGpsLock) {
+            flags |= 0x01;
+            length += 1;
+        }
+
+        final ByteBuffer buf = ByteBuffer.allocate(length);
+        buf.order(ByteOrder.LITTLE_ENDIAN);
+        buf.put((byte) 0x06);
+        buf.putInt(flags);
+
+        if (newGpsLock) {
+            buf.put((byte) 0x01);
+        }
+
+        buf.putInt((int) (location.getLongitude() * 3000000.0));
+        buf.putInt((int) (location.getLatitude() * 3000000.0));
+        buf.putInt((int) location.getSpeed() * 10);
+
+        buf.putInt((int) (location.getAltitude() * 100));
+        buf.putLong(location.getTime());
+
+        // Seems to always be ff ?
+        buf.putInt(0xffffffff);
+
+        // Not sure what this is, maybe bearing? It changes while moving, but
+        // doesn't seem to be needed on the Mi Band 5
+        buf.putShort((short) 0x00);
+
+        // Seems to always be 0 ?
+        buf.put((byte) 0x00);
+
+        try {
+            final TransactionBuilder builder = performInitialized("send phone gps location");
+            writeToChunked(builder, 6, buf.array());
+            builder.queue(getQueue());
+        } catch (final IOException e) {
+            LOG.error("Unable to send location", e);
+        }
+
+        LOG.info("sendLocationToBand: {}", location);
+    }
+
+    private void sendPhoneGpsStatus(final HuamiPhoneGpsStatus status) {
+        int flags = 0x01;
+        final ByteBuffer buf = ByteBuffer.allocate(1 + 4 + 1);
+
+        buf.order(ByteOrder.LITTLE_ENDIAN);
+        buf.put((byte) 0x06);
+        buf.putInt(flags);
+
+        buf.put(status.getCode());
+
+        try {
+            final TransactionBuilder builder = performInitialized("send phone gps status");
+            writeToChunked(builder, 6, buf.array());
+            builder.queue(getQueue());
+        } catch (final IOException e) {
+            LOG.error("Unable to send location", e);
+        }
+
+        LOG.info("sendPhoneGpsStatus: {}", status);
+    }
+
+    private void requestMTU(int mtu) {
+        if (!GBApplication.isRunningLollipopOrLater()) {
+            LOG.warn("Requesting MTU is only supported in Lollipop or later");
+            return;
+        }
+        new TransactionBuilder("requestMtu")
+                .requestMtu(mtu)
+                .queue(getQueue());
+        mMTU = mtu;
     }
 
     private void acknowledgeFindPhone() {
@@ -1985,6 +2150,9 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
         } else if (HuamiService.UUID_CHARACTERISTIC_DEVICEEVENT.equals(characteristicUUID)) {
             handleDeviceEvent(characteristic.getValue());
             return true;
+        } else if (HuamiService.UUID_CHARACTERISTIC_WORKOUT.equals(characteristicUUID)) {
+            handleDeviceWorkoutEvent(characteristic.getValue());
+            return true;
         } else if (HuamiService.UUID_CHARACTERISTIC_7_REALTIME_STEPS.equals(characteristicUUID)) {
             handleRealtimeSteps(characteristic.getValue());
             return true;
@@ -2025,6 +2193,9 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
             return true;
         } else if (HuamiService.UUID_CHARACTERISTIC_DEVICEEVENT.equals(characteristicUUID)) {
             handleDeviceEvent(characteristic.getValue());
+            return true;
+        } else if (HuamiService.UUID_CHARACTERISTIC_WORKOUT.equals(characteristicUUID)) {
+            handleDeviceWorkoutEvent(characteristic.getValue());
             return true;
         } else {
             LOG.info("Unhandled characteristic read: " + characteristicUUID);
@@ -3204,7 +3375,7 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
         int pos = 2;
 
         for (final String workoutType : enabledActivityTypes) {
-            command[pos++] = HuamiWorkoutActivityType.fromPrefValue(workoutType).getCode();
+            command[pos++] = HuamiWorkoutScreenActivityType.fromPrefValue(workoutType).getCode();
             command[pos++] = 0x00;
             command[pos++] = 0x01;
         }
@@ -3212,7 +3383,7 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
         // Send all the remaining disabled workout types
         for (final String workoutType : allActivityTypes) {
             if (!enabledActivityTypes.contains(workoutType)) {
-                command[pos++] = HuamiWorkoutActivityType.fromPrefValue(workoutType).getCode();
+                command[pos++] = HuamiWorkoutScreenActivityType.fromPrefValue(workoutType).getCode();
                 command[pos++] = 0x00;
                 command[pos++] = 0x00;
             }

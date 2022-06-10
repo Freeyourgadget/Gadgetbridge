@@ -78,6 +78,7 @@ public class DeviceSettingsPreferenceConst {
     public static final String PREF_INACTIVITY_START = "inactivity_warnings_start";
     public static final String PREF_INACTIVITY_END = "inactivity_warnings_end";
     public static final String PREF_INACTIVITY_THRESHOLD = "inactivity_warnings_threshold";
+    public static final String PREF_INACTIVITY_THRESHOLD_EXTENDED = "inactivity_warnings_threshold_extended";
     public static final String PREF_INACTIVITY_MO = "inactivity_warnings_mo";
     public static final String PREF_INACTIVITY_TU = "inactivity_warnings_tu";
     public static final String PREF_INACTIVITY_WE = "inactivity_warnings_we";
@@ -115,6 +116,9 @@ public class DeviceSettingsPreferenceConst {
     public static final String PREF_DO_NOT_DISTURB_OFF = "off";
     public static final String PREF_DO_NOT_DISTURB_AUTOMATIC = "automatic";
     public static final String PREF_DO_NOT_DISTURB_SCHEDULED = "scheduled";
+
+    public static final String PREF_WORKOUT_START_ON_PHONE = "workout_start_on_phone";
+    public static final String PREF_WORKOUT_SEND_GPS_TO_BAND = "workout_send_gps_to_band";
 
     public static final String PREF_FIND_PHONE = "prefs_find_phone";
     public static final String PREF_FIND_PHONE_DURATION = "prefs_find_phone_duration";

@@ -17,6 +17,8 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.service.serial;
 
+import android.location.Location;
+
 import java.util.ArrayList;
 import java.util.UUID;
 
@@ -161,6 +163,10 @@ public abstract class GBDeviceProtocol {
     }
 
     public byte[] encodeFmFrequency(float frequency) {
+        return null;
+    }
+
+    public byte[] encodeGpsLocation(Location location) {
         return null;
     }
 }

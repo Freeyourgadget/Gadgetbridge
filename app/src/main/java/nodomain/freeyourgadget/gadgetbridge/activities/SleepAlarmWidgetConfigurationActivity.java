@@ -20,7 +20,6 @@ import java.util.Map;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
-import nodomain.freeyourgadget.gadgetbridge.Widget;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHelper;
 import nodomain.freeyourgadget.gadgetbridge.devices.DeviceCoordinator;
@@ -30,8 +29,13 @@ import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.util.DeviceHelper;
 import nodomain.freeyourgadget.gadgetbridge.util.WidgetPreferenceStorage;
 
-public class WidgetConfigurationActivity extends Activity {
-    private static final Logger LOG = LoggerFactory.getLogger(WidgetConfigurationActivity.class);
+public class SleepAlarmWidgetConfigurationActivity extends Activity {
+
+    // modified copy of WidgetConfigurationActivity
+    // if we knew which widget is calling this config activity, we could only use a single configuration
+    // activity and customize the filter in getAllDevices based on the caller.
+
+    private static final Logger LOG = LoggerFactory.getLogger(SleepAlarmWidgetConfigurationActivity.class);
     int mAppWidgetId;
 
     LinkedHashMap<String, Pair<String, Integer>> allDevices;
@@ -51,7 +55,8 @@ public class WidgetConfigurationActivity extends Activity {
                     AppWidgetManager.INVALID_APPWIDGET_ID);
         }
         // make the result intent and set the result to canceled
-        Intent resultValue; resultValue = new Intent();
+        Intent resultValue;
+        resultValue = new Intent();
         resultValue.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, mAppWidgetId);
         setResult(RESULT_CANCELED, resultValue);
 
@@ -59,7 +64,7 @@ public class WidgetConfigurationActivity extends Activity {
             finish();
         }
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(WidgetConfigurationActivity.this);
+        AlertDialog.Builder builder = new AlertDialog.Builder(SleepAlarmWidgetConfigurationActivity.this);
         builder.setTitle(R.string.widget_settings_select_device_title);
 
         allDevices = getAllDevices(getApplicationContext());
@@ -97,7 +102,8 @@ public class WidgetConfigurationActivity extends Activity {
         builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                Intent resultValue; resultValue = new Intent();
+                Intent resultValue;
+                resultValue = new Intent();
                 resultValue.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, mAppWidgetId);
                 setResult(RESULT_CANCELED, resultValue);
                 finish();
@@ -120,7 +126,7 @@ public class WidgetConfigurationActivity extends Activity {
                 Device dbDevice = DBHelper.findDevice(device, daoSession);
                 int icon = device.isInitialized() ? device.getType().getIcon() : device.getType().getDisabledIcon();
                 if (dbDevice != null && coordinator != null
-                        && (coordinator.supportsActivityDataFetching() || coordinator.supportsActivityTracking())
+                        && (coordinator.getAlarmSlotCount() > 0)
                         && !newMap.containsKey(device.getAliasOrName())) {
                     newMap.put(device.getAliasOrName(), new Pair(device.getAddress(), icon));
                 }

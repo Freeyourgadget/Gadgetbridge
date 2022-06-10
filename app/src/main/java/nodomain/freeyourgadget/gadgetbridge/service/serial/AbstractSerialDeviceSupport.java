@@ -17,6 +17,8 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.service.serial;
 
+import android.location.Location;
+
 import java.util.ArrayList;
 import java.util.UUID;
 
@@ -287,6 +289,12 @@ public abstract class AbstractSerialDeviceSupport extends AbstractDeviceSupport 
     @Override
     public void onSetWorldClocks(ArrayList<? extends WorldClock> clocks) {
         byte[] bytes = gbDeviceProtocol.encodeWorldClocks(clocks);
+        sendToDevice(bytes);
+    }
+
+    @Override
+    public void onSetGpsLocation(Location location) {
+        byte[] bytes = gbDeviceProtocol.encodeGpsLocation(location);
         sendToDevice(bytes);
     }
 }

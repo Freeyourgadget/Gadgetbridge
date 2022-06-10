@@ -270,7 +270,7 @@ public abstract class HuamiCoordinator extends AbstractDeviceCoordinator {
 
     public static int getHeartRateMeasurementInterval(String deviceAddress) {
         Prefs prefs = new Prefs(GBApplication.getDeviceSpecificSharedPrefs(deviceAddress));
-        return GBApplication.getPrefs().getInt(DeviceSettingsPreferenceConst.PREF_HEARTRATE_MEASUREMENT_INTERVAL, 0) / 60;
+        return prefs.getInt(DeviceSettingsPreferenceConst.PREF_HEARTRATE_MEASUREMENT_INTERVAL, 0) / 60;
     }
 
     public static boolean getHeartrateActivityMonitoring(String deviceAddress) throws IllegalArgumentException {
@@ -361,6 +361,18 @@ public abstract class HuamiCoordinator extends AbstractDeviceCoordinator {
         SharedPreferences prefs = GBApplication.getDeviceSpecificSharedPrefs(deviceAddress);
 
         return prefs.getBoolean(DeviceSettingsPreferenceConst.PREF_DO_NOT_DISTURB_LIFT_WRIST, false);
+    }
+
+    public static boolean getWorkoutStartOnPhone(String deviceAddress) {
+        SharedPreferences prefs = GBApplication.getDeviceSpecificSharedPrefs(deviceAddress);
+
+        return prefs.getBoolean(DeviceSettingsPreferenceConst.PREF_WORKOUT_START_ON_PHONE, false);
+    }
+
+    public static boolean getWorkoutSendGpsToBand(String deviceAddress) {
+        SharedPreferences prefs = GBApplication.getDeviceSpecificSharedPrefs(deviceAddress);
+
+        return prefs.getBoolean(DeviceSettingsPreferenceConst.PREF_WORKOUT_SEND_GPS_TO_BAND, false);
     }
 
     @Override

@@ -30,6 +30,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.location.Location;
 import android.net.Uri;
 import android.os.Handler;
 import android.os.IBinder;
@@ -119,6 +120,7 @@ import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_SE
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_SET_CONSTANT_VIBRATION;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_SET_FM_FREQUENCY;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_SET_HEARTRATE_MEASUREMENT_INTERVAL;
+import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_SET_GPS_LOCATION;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_SET_LED_COLOR;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_SET_PHONE_VOLUME;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_SET_REMINDERS;
@@ -149,6 +151,7 @@ import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_CON
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_CONNECT_FIRST_TIME;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_FIND_START;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_FM_FREQUENCY;
+import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_GPS_LOCATION;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_INTERVAL_SECONDS;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_LED_COLOR;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_MUSIC_ALBUM;
@@ -656,6 +659,10 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
                 if (frequency != -1) {
                     mDeviceSupport.onSetFmFrequency(frequency);
                 }
+                break;
+            case ACTION_SET_GPS_LOCATION:
+                final Location location = intent.getParcelableExtra(EXTRA_GPS_LOCATION);
+                mDeviceSupport.onSetGpsLocation(location);
                 break;
         }
     }

@@ -372,6 +372,10 @@
     <string name="prefs_hr_alarm_activity">Heart rate alarm during sports activity</string>
     <string name="prefs_hr_alarm_low">Low limit</string>
     <string name="prefs_hr_alarm_high">High limit</string>
+    <string name="pref_workout_start_on_phone_title">Fitness app tracking</string>
+    <string name="pref_workout_start_on_phone_summary">Start/stop fitness app tracking on phone when a GPS workout is started on the band</string>
+    <string name="pref_workout_send_gps_title">Send GPS during workout</string>
+    <string name="pref_workout_send_gps_summary">Send the current GPS location to the band during a workout</string>
     <!-- Auto export preferences -->
     <string name="pref_header_auto_export">Auto export</string>
     <string name="pref_title_auto_export_enabled">Auto export enabled</string>
@@ -1031,6 +1035,9 @@
     <string name="notification_channel_high_priority_name">High-priority</string>
     <string name="notification_channel_transfer_name">Data transfer</string>
     <string name="notification_channel_low_battery_name">Low battery</string>
+    <string name="notification_channel_gps">GPS tracking</string>
+    <string name="notification_gps_title">Gadgetbridge GPS</string>
+    <string name="notification_gps_text">Sending GPS location to %1$d devices</string>
     <string name="devicetype_amazfit_gts">Amazfit GTS</string>
     <string name="devicetype_amazfit_vergel">Amazfit Verge Lite</string>
     <string name="devicetype_sg2">Lemfo SG2</string>
@@ -1627,6 +1634,7 @@
     <string name="pref_device_action_fitness_app_control_start">Fitness App Tracking Start</string>
     <string name="pref_device_action_fitness_app_control_stop">Fitness App Tracking Stop</string>
     <string name="pref_device_action_fitness_app_control_toggle">Toggle Fitness App Tracking</string>
+    <string name="pref_device_action_phone_gps_location_listener_stop">GPS Location Listener Stop</string>
     <!-- Translators: the ### indicate number of digits, keep intact -->
     <string name="distance_format_meters">###m</string>
     <!-- Translators: the ### indicate number of digits, keep intact -->

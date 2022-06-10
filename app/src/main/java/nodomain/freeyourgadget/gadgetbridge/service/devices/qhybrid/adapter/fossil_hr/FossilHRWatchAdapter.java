@@ -943,6 +943,10 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
 
     @Override
     public void setMusicInfo(MusicSpec musicSpec) {
+        musicSpec = new MusicSpec(musicSpec);
+        if(musicSpec.album == null) musicSpec.album = "";
+        if(musicSpec.artist == null) musicSpec.artist = "";
+        if(musicSpec.track == null) musicSpec.track = "";
         if (
                 currentSpec != null
                         && currentSpec.album.equals(musicSpec.album)

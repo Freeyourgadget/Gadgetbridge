@@ -26,7 +26,11 @@ import org.json.JSONException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.List;
+
+import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.Widget;
+import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 
 public class WidgetPreferenceStorage {
     private static final Logger LOG = LoggerFactory.getLogger(WidgetPreferenceStorage.class);
@@ -151,4 +155,31 @@ public class WidgetPreferenceStorage {
         }
         GB.toast("Saved app widget preferences: " + savedWidgetsPreferencesDataArray, Toast.LENGTH_SHORT, GB.INFO);
     }
+
+    public GBDevice getDeviceForWidget(int appWidgetId) {
+        Context context = GBApplication.getContext();
+        if (!(context instanceof GBApplication)) {
+            return null;
+        }
+
+        String savedDeviceAddress = getSavedDeviceAddress(context, appWidgetId);
+
+        if (savedDeviceAddress != null) {
+            return getDeviceByMAC(context.getApplicationContext(), savedDeviceAddress); //this would probably only happen if device no longer exists in GB
+        }
+        return null;
+    }
+
+    private GBDevice getDeviceByMAC(Context appContext, String HwAddress) {
+        GBApplication gbApp = (GBApplication) appContext;
+        List<? extends GBDevice> devices = gbApp.getDeviceManager().getDevices();
+        for (GBDevice device : devices) {
+            if (device.getAddress().equals(HwAddress)) {
+                return device;
+            }
+        }
+        return null;
+    }
+
+
 }

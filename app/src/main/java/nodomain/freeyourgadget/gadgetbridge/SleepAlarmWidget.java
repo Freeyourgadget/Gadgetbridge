@@ -24,6 +24,7 @@ import android.appwidget.AppWidgetProvider;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
+import android.os.Bundle;
 import android.widget.RemoteViews;
 import android.widget.Toast;
 
@@ -37,6 +38,7 @@ import nodomain.freeyourgadget.gadgetbridge.model.ActivityUser;
 import nodomain.freeyourgadget.gadgetbridge.model.Alarm;
 import nodomain.freeyourgadget.gadgetbridge.util.AlarmUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
+import nodomain.freeyourgadget.gadgetbridge.util.WidgetPreferenceStorage;
 
 /**
  * Implementation of SleepAlarmWidget functionality. When pressing the widget, an alarm will be set
@@ -44,11 +46,10 @@ import nodomain.freeyourgadget.gadgetbridge.util.GB;
  * value is retrieved using ActivityUser.().getSleepDuration().
  */
 public class SleepAlarmWidget extends AppWidgetProvider {
-
     /**
      * This is our dedicated action to detect when the widget has been clicked.
      */
-    public static final String ACTION =
+    public static final String ACTION_CLICK =
             "nodomain.freeyourgadget.gadgetbridge.SLEEP_ALARM_WIDGET_CLICK";
 
     static void updateAppWidget(Context context, AppWidgetManager appWidgetManager,
@@ -59,9 +60,10 @@ public class SleepAlarmWidget extends AppWidgetProvider {
 
         // Add our own click intent
         Intent intent = new Intent(context, SleepAlarmWidget.class);
-        intent.setAction(ACTION);
+        intent.setAction(ACTION_CLICK);
+        intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId);
         PendingIntent clickPI = PendingIntent.getBroadcast(
-                context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+                context, appWidgetId, intent, PendingIntent.FLAG_UPDATE_CURRENT);
         views.setOnClickPendingIntent(R.id.sleepalarmwidget_text, clickPI);
 
         // Instruct the widget manager to update the widget
@@ -89,7 +91,15 @@ public class SleepAlarmWidget extends AppWidgetProvider {
     @Override
     public void onReceive(Context context, Intent intent) {
         super.onReceive(context, intent);
-        if (ACTION.equals(intent.getAction())) {
+        Bundle extras = intent.getExtras();
+        int appWidgetId = -1;
+        if (extras != null) {
+            appWidgetId = extras.getInt(
+                    AppWidgetManager.EXTRA_APPWIDGET_ID,
+                    AppWidgetManager.INVALID_APPWIDGET_ID);
+        }
+
+        if (ACTION_CLICK.equals(intent.getAction())) {
             int userSleepDuration = new ActivityUser().getSleepDurationGoal();
             // current timestamp
             GregorianCalendar calendar = new GregorianCalendar();
@@ -102,16 +112,11 @@ public class SleepAlarmWidget extends AppWidgetProvider {
 
             // overwrite the first alarm and activate it, without
 
-            Context appContext = context.getApplicationContext();
-            if (appContext instanceof GBApplication) {
-                GBApplication gbApp = (GBApplication) appContext;
-                GBDevice selectedDevice = gbApp.getDeviceManager().getSelectedDevice();
-                if (selectedDevice == null || !selectedDevice.isInitialized()) {
-                    GB.toast(context,
-                            context.getString(R.string.appwidget_not_connected),
-                            Toast.LENGTH_LONG, GB.WARN);
-                    return;
-                }
+            GBDevice deviceForWidget = new WidgetPreferenceStorage().getDeviceForWidget(appWidgetId);
+            if (deviceForWidget == null || !deviceForWidget.isInitialized()) {
+                GB.toast(context, context.getString(R.string.appwidget_not_connected),
+                        Toast.LENGTH_SHORT, GB.WARN);
+                return;
             }
 
             int hours = calendar.get(Calendar.HOUR_OF_DAY);

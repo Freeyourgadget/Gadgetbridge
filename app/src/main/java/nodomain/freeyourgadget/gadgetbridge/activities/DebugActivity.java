@@ -71,8 +71,6 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Random;
-import java.util.Timer;
-import java.util.TimerTask;
 import java.util.TreeMap;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
@@ -86,8 +84,9 @@ import nodomain.freeyourgadget.gadgetbridge.devices.DeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.DeviceManager;
 import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
 import nodomain.freeyourgadget.gadgetbridge.entities.Device;
-import nodomain.freeyourgadget.gadgetbridge.externalevents.OpenTracksContentObserver;
-import nodomain.freeyourgadget.gadgetbridge.externalevents.OpenTracksController;
+import nodomain.freeyourgadget.gadgetbridge.externalevents.gps.GBLocationManager;
+import nodomain.freeyourgadget.gadgetbridge.externalevents.opentracks.OpenTracksContentObserver;
+import nodomain.freeyourgadget.gadgetbridge.externalevents.opentracks.OpenTracksController;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.model.CallSpec;
@@ -526,6 +525,14 @@ public class DebugActivity extends AbstractGBActivity {
             @Override
             public void onClick(View v) {
                 OpenTracksController.stopRecording(DebugActivity.this);
+            }
+        });
+
+        Button stopPhoneGpsLocationListener = findViewById(R.id.stopPhoneGpsLocationListener);
+        stopPhoneGpsLocationListener.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                GBLocationManager.stopAll(getBaseContext());
             }
         });
 

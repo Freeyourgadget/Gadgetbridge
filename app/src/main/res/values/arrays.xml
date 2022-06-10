@@ -462,6 +462,7 @@
         <item>@string/menuitem_activity</item>
         <item>@string/menuitem_eventreminder</item>
         <item>@string/menuitem_pai</item>
+        <item>@string/menuitem_sleep</item>
         <item>@string/menuitem_worldclock</item>
         <item>@string/menuitem_stress</item>
         <item>@string/menuitem_cycles</item>
@@ -489,6 +490,7 @@
         <item>@string/p_menuitem_activity</item>
         <item>@string/p_menuitem_eventreminder</item>
         <item>@string/p_menuitem_pai</item>
+        <item>@string/p_menuitem_sleep</item>
         <item>@string/p_menuitem_worldclock</item>
         <item>@string/p_menuitem_stress</item>
         <item>@string/p_menuitem_cycles</item>
@@ -516,6 +518,7 @@
         <item>@string/p_menuitem_activity</item>
         <item>@string/p_menuitem_eventreminder</item>
         <item>@string/p_menuitem_pai</item>
+        <item>@string/p_menuitem_sleep</item>
         <item>@string/p_menuitem_worldclock</item>
         <item>@string/p_menuitem_stress</item>
         <item>@string/p_menuitem_cycles</item>
@@ -540,6 +543,7 @@
         <item>@string/menuitem_mutephone</item>
         <item>@string/menuitem_eventreminder</item>
         <item>@string/menuitem_pai</item>
+        <item>@string/menuitem_sleep</item>
         <item>@string/menuitem_worldclock</item>
         <item>@string/menuitem_stress</item>
         <item>@string/menuitem_cycles</item>
@@ -565,6 +569,7 @@
         <item>@string/p_menuitem_mutephone</item>
         <item>@string/p_menuitem_eventreminder</item>
         <item>@string/p_menuitem_pai</item>
+        <item>@string/p_menuitem_sleep</item>
         <item>@string/p_menuitem_worldclock</item>
         <item>@string/p_menuitem_stress</item>
         <item>@string/p_menuitem_cycles</item>

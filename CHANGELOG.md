@@ -1,7 +1,10 @@
 ### Changelog
 
-### NEXT
-* Amazfit Bip U/Pro/Band 5: enable extended HR/stress monitoring setting
+### 0.67.1
+* Huami: Fix long music track names not displaying
+* Amazfit Bip U/Pro/Band 5: Enable extended HR/stress monitoring setting
+* Pebble: Fix calendar blacklist, view and storage
+* FitPro: Fix crash, inactivity warning preference to string
 
 ### 0.67.0
 * Initial Support for Sony WF-1000XM3

@@ -68,7 +68,7 @@ import nodomain.freeyourgadget.gadgetbridge.entities.DaoMaster;
 import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
 import nodomain.freeyourgadget.gadgetbridge.entities.Device;
 import nodomain.freeyourgadget.gadgetbridge.externalevents.BluetoothStateChangeReceiver;
-import nodomain.freeyourgadget.gadgetbridge.externalevents.OpenTracksContentObserver;
+import nodomain.freeyourgadget.gadgetbridge.externalevents.opentracks.OpenTracksContentObserver;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceService;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityUser;
@@ -117,7 +117,7 @@ public class GBApplication extends Application {
     private static SharedPreferences sharedPrefs;
     private static final String PREFS_VERSION = "shared_preferences_version";
     //if preferences have to be migrated, increment the following and add the migration logic in migratePrefs below; see http://stackoverflow.com/questions/16397848/how-can-i-migrate-android-preferences-with-a-new-version
-    private static final int CURRENT_PREFS_VERSION = 14;
+    private static final int CURRENT_PREFS_VERSION = 15;
 
     private static LimitedQueue mIDSenderLookup = new LimitedQueue(16);
     private static Prefs prefs;
@@ -559,11 +559,11 @@ public class GBApplication extends Application {
 
     private static HashSet<String> calendars_blacklist = null;
 
-    public static boolean calendarIsBlacklisted(String calendarDisplayName) {
+    public static boolean calendarIsBlacklisted(String calendarUniqueName) {
         if (calendars_blacklist == null) {
             GB.log("calendarIsBlacklisted: calendars_blacklist is null!", GB.INFO, null);
         }
-        return calendars_blacklist != null && calendars_blacklist.contains(calendarDisplayName);
+        return calendars_blacklist != null && calendars_blacklist.contains(calendarUniqueName);
     }
 
     public static void setCalendarsBlackList(Set<String> calendarNames) {
@@ -577,14 +577,18 @@ public class GBApplication extends Application {
         saveCalendarsBlackList();
     }
 
-    public static void addCalendarToBlacklist(String calendarDisplayName) {
-        if (calendars_blacklist.add(calendarDisplayName)) {
+    public static void addCalendarToBlacklist(String calendarUniqueName) {
+        if (calendars_blacklist.add(calendarUniqueName)) {
+            GB.log("Blacklisted calendar " + calendarUniqueName, GB.INFO, null);
             saveCalendarsBlackList();
+        } else {
+            GB.log("Calendar " + calendarUniqueName + " already blacklisted!", GB.WARN, null);
         }
     }
 
-    public static void removeFromCalendarBlacklist(String calendarDisplayName) {
-        calendars_blacklist.remove(calendarDisplayName);
+    public static void removeFromCalendarBlacklist(String calendarUniqueName) {
+        calendars_blacklist.remove(calendarUniqueName);
+        GB.log("Unblacklisted calendar " + calendarUniqueName, GB.INFO, null);
         saveCalendarsBlackList();
     }
 
@@ -1137,6 +1141,25 @@ public class GBApplication extends Application {
                     editor.remove("mi_hr_sleep_detection");
 
                     deviceSharedPrefsEdit.apply();
+                }
+            } catch (Exception e) {
+                Log.w(TAG, "error acquiring DB lock");
+            }
+        }
+
+        if (oldVersion < 15) {
+            try (DBHandler db = acquireDB()) {
+                final DaoSession daoSession = db.getDaoSession();
+                final List<Device> activeDevices = DBHelper.getActiveDevices(daoSession);
+
+                for (Device dbDevice : activeDevices) {
+                    final SharedPreferences deviceSharedPrefs = GBApplication.getDeviceSpecificSharedPrefs(dbDevice.getIdentifier());
+                    final SharedPreferences.Editor deviceSharedPrefsEdit = deviceSharedPrefs.edit();
+
+                    if (DeviceType.FITPRO.equals(dbDevice.getType())) {
+                        editor.remove("inactivity_warnings_threshold");
+                        deviceSharedPrefsEdit.apply();
+                    }
                 }
             } catch (Exception e) {
                 Log.w(TAG, "error acquiring DB lock");

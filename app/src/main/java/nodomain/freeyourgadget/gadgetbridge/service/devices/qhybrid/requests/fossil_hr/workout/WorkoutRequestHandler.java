@@ -25,7 +25,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
-import nodomain.freeyourgadget.gadgetbridge.externalevents.OpenTracksController;
+import nodomain.freeyourgadget.gadgetbridge.externalevents.opentracks.OpenTracksController;
 
 public class WorkoutRequestHandler {
     public static void addStateResponse(JSONObject workoutResponse, String type, String msg) throws JSONException {

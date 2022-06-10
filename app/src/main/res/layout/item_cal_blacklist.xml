@@ -25,8 +25,8 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
         android:layout_toEndOf="@+id/item_checkbox"
-        android:paddingBottom="8dp"
-        android:paddingTop="8dp" />
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp" />
 
     <LinearLayout
         android:layout_width="fill_parent"
@@ -35,6 +35,16 @@
         android:layout_toEndOf="@+id/calendar_color"
         android:orientation="vertical"
         android:padding="8dp">
+
+        <TextView
+            android:id="@+id/calendar_owner_account"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:scrollHorizontally="false"
+            android:maxLines="1"
+            android:text="TextView"
+            android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+            android:textSize="12sp" />
 
         <TextView
             android:id="@+id/calendar_name"

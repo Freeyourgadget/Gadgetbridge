@@ -15,15 +15,11 @@
     You should have received a copy of the GNU Affero General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 
-package nodomain.freeyourgadget.gadgetbridge.externalevents;
+package nodomain.freeyourgadget.gadgetbridge.externalevents.opentracks;
 
-import android.app.Activity;
 import android.content.ContentResolver;
-import android.content.Context;
-import android.database.ContentObserver;
 import android.database.Cursor;
 import android.net.Uri;
-import android.os.Handler;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,84 +27,11 @@ import org.slf4j.LoggerFactory;
 import java.util.ArrayList;
 import java.util.List;
 
-
-public class OpenTracksContentObserver extends ContentObserver {
-    private Context mContext;
-    private Uri tracksUri;
-    private int protocolVersion;
-    private int totalTimeMillis;
-    private float totalDistanceMeter;
-
-    private long previousTimeMillis = 0;
-    private float previousDistanceMeter = 0;
-
-    public int getTotalTimeMillis() {
-        return totalTimeMillis;
-    }
-    public float getTotalDistanceMeter() {
-        return totalDistanceMeter;
-    }
-
-    public long getTimeMillisChange() {
-        /**
-         * We don't use the timeMillis received from OpenTracks here, because those updates do not
-         * come in very regularly when GPS reception is bad
-         */
-        long timeMillisDelta = System.currentTimeMillis() - previousTimeMillis;
-        previousTimeMillis = System.currentTimeMillis();
-        return timeMillisDelta;
-    }
-
-    public float getDistanceMeterChange() {
-        float distanceMeterDelta = totalDistanceMeter - previousDistanceMeter;
-        previousDistanceMeter = totalDistanceMeter;
-        return distanceMeterDelta;
-    }
-
-
-    public OpenTracksContentObserver(Context context, final Uri tracksUri, final int protocolVersion) {
-        super(new Handler());
-        this.mContext = context;
-        this.tracksUri = tracksUri;
-        this.protocolVersion = protocolVersion;
-        this.previousTimeMillis = System.currentTimeMillis();
-    }
-
-    @Override
-    public void onChange(final boolean selfChange, final Uri uri) {
-        if (uri == null) {
-            return; // nothing can be done without an uri
-        }
-        if (tracksUri.toString().startsWith(uri.toString())) {
-            final List<Track> tracks = Track.readTracks(mContext.getContentResolver(), tracksUri, protocolVersion);
-            if (!tracks.isEmpty()) {
-                final TrackStatistics statistics = new TrackStatistics(tracks);
-                totalTimeMillis = statistics.getTotalTimeMillis();
-                totalDistanceMeter = statistics.getTotalDistanceMeter();
-            }
-        }
-    }
-
-    public void unregister() {
-        if (mContext != null) {
-            mContext.getContentResolver().unregisterContentObserver(this);
-        }
-    }
-
-    public void finish() {
-        unregister();
-        if (mContext != null) {
-            ((Activity) mContext).finish();
-            mContext = null;
-        }
-    }
-}
-
+/**
+ * This class was copied and modified from
+ * https://github.com/OpenTracksApp/OSMDashboard/blob/main/src/main/java/de/storchp/opentracks/osmplugin/dashboardapi/Track.java
+ */
 class Track {
-    /**
-     * This class was copied and modified from
-     * https://github.com/OpenTracksApp/OSMDashboard/blob/main/src/main/java/de/storchp/opentracks/osmplugin/dashboardapi/Track.java
-     */
     private static final Logger LOG = LoggerFactory.getLogger(Track.class);
 
     private static final String TAG = Track.class.getSimpleName();
@@ -278,116 +201,5 @@ class Track {
 
     public long getId() {
         return id;
-    }
-}
-
-class TrackStatistics {
-    /**
-     * This class was copied and modified from
-     * https://github.com/OpenTracksApp/OSMDashboard/blob/main/src/main/java/de/storchp/opentracks/osmplugin/utils/TrackStatistics.java
-     */
-
-    private String category = "unknown";
-    private int startTimeEpochMillis;
-    private int stopTimeEpochMillis;
-    private float totalDistanceMeter;
-    private int totalTimeMillis;
-    private int movingTimeMillis;
-    private float avgSpeedMeterPerSecond;
-    private float avgMovingSpeedMeterPerSecond;
-    private float maxSpeedMeterPerSecond;
-    private float minElevationMeter;
-    private float maxElevationMeter;
-    private float elevationGainMeter;
-
-    public TrackStatistics(final List<Track> tracks) {
-        if (tracks.isEmpty()) {
-            return;
-        }
-        final Track first = tracks.get(0);
-        category = first.getCategory();
-        startTimeEpochMillis = first.getStartTimeEpochMillis();
-        stopTimeEpochMillis = first.getStopTimeEpochMillis();
-        totalDistanceMeter = first.getTotalDistanceMeter();
-        totalTimeMillis = first.getTotalTimeMillis();
-        movingTimeMillis = first.getMovingTimeMillis();
-        avgSpeedMeterPerSecond = first.getAvgSpeedMeterPerSecond();
-        avgMovingSpeedMeterPerSecond = first.getAvgMovingSpeedMeterPerSecond();
-        maxSpeedMeterPerSecond = first.getMaxSpeedMeterPerSecond();
-        minElevationMeter = first.getMinElevationMeter();
-        maxElevationMeter = first.getMaxElevationMeter();
-        elevationGainMeter = first.getElevationGainMeter();
-
-        if (tracks.size() > 1) {
-            float totalAvgSpeedMeterPerSecond = avgSpeedMeterPerSecond;
-            float totalAvgMovingSpeedMeterPerSecond = avgMovingSpeedMeterPerSecond;
-            for (final Track track : tracks.subList(1, tracks.size())) {
-                if (!category.equals(track.getCategory())) {
-                    category = "mixed";
-                }
-                startTimeEpochMillis = Math.min(startTimeEpochMillis, track.getStartTimeEpochMillis());
-                stopTimeEpochMillis = Math.max(stopTimeEpochMillis, track.getStopTimeEpochMillis());
-                totalDistanceMeter += track.getTotalDistanceMeter();
-                totalTimeMillis += track.getTotalTimeMillis();
-                movingTimeMillis += track.getMovingTimeMillis();
-                totalAvgSpeedMeterPerSecond += track.getAvgSpeedMeterPerSecond();
-                totalAvgMovingSpeedMeterPerSecond += track.getAvgMovingSpeedMeterPerSecond();
-                maxSpeedMeterPerSecond = Math.max(maxSpeedMeterPerSecond, track.getMaxSpeedMeterPerSecond());
-                minElevationMeter = Math.min(minElevationMeter, track.getMinElevationMeter());
-                maxElevationMeter = Math.max(maxElevationMeter, track.getMaxElevationMeter());
-                elevationGainMeter += track.getElevationGainMeter();
-            }
-
-            avgSpeedMeterPerSecond = totalAvgSpeedMeterPerSecond / tracks.size();
-            avgMovingSpeedMeterPerSecond = totalAvgMovingSpeedMeterPerSecond / tracks.size();
-        }
-    }
-
-    public String getCategory() {
-        return category;
-    }
-
-    public int getStartTimeEpochMillis() {
-        return startTimeEpochMillis;
-    }
-
-    public int getStopTimeEpochMillis() {
-        return stopTimeEpochMillis;
-    }
-
-    public float getTotalDistanceMeter() {
-        return totalDistanceMeter;
-    }
-
-    public int getTotalTimeMillis() {
-        return totalTimeMillis;
-    }
-
-    public int getMovingTimeMillis() {
-        return movingTimeMillis;
-    }
-
-    public float getAvgSpeedMeterPerSecond() {
-        return avgSpeedMeterPerSecond;
-    }
-
-    public float getAvgMovingSpeedMeterPerSecond() {
-        return avgMovingSpeedMeterPerSecond;
-    }
-
-    public float getMaxSpeedMeterPerSecond() {
-        return maxSpeedMeterPerSecond;
-    }
-
-    public float getMinElevationMeter() {
-        return minElevationMeter;
-    }
-
-    public float getMaxElevationMeter() {
-        return maxElevationMeter;
-    }
-
-    public float getElevationGainMeter() {
-        return elevationGainMeter;
     }
 }

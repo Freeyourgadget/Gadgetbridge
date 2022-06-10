@@ -93,10 +93,10 @@ public class MiBand3Support extends AmazfitBipSupport {
 
         switch (nightMode) {
             case MiBandConst.PREF_NIGHT_MODE_SUNSET:
-                builder.write(getCharacteristic(HuamiService.UUID_CHARACTERISTIC_3_CONFIGURATION), MiBand3Service.COMMAND_NIGHT_MODE_SUNSET);
+                writeToConfiguration(builder, MiBand3Service.COMMAND_NIGHT_MODE_SUNSET);
                 break;
             case MiBandConst.PREF_NIGHT_MODE_OFF:
-                builder.write(getCharacteristic(HuamiService.UUID_CHARACTERISTIC_3_CONFIGURATION), MiBand3Service.COMMAND_NIGHT_MODE_OFF);
+                writeToConfiguration(builder, MiBand3Service.COMMAND_NIGHT_MODE_OFF);
                 break;
             case MiBandConst.PREF_NIGHT_MODE_SCHEDULED:
                 byte[] cmd = MiBand3Service.COMMAND_NIGHT_MODE_SCHEDULED.clone();
@@ -113,7 +113,7 @@ public class MiBand3Support extends AmazfitBipSupport {
                 cmd[4] = (byte) calendar.get(Calendar.HOUR_OF_DAY);
                 cmd[5] = (byte) calendar.get(Calendar.MINUTE);
 
-                builder.write(getCharacteristic(HuamiService.UUID_CHARACTERISTIC_3_CONFIGURATION), cmd);
+                writeToConfiguration(builder, cmd);
                 break;
             default:
                 LOG.error("Invalid night mode: " + nightMode);

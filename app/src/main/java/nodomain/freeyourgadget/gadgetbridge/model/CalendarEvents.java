@@ -21,6 +21,7 @@ import android.content.ContentUris;
 import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
+import android.provider.CalendarContract;
 import android.provider.CalendarContract.Instances;
 import android.text.format.Time;
 
@@ -56,6 +57,8 @@ public class CalendarEvents {
             Instances.DESCRIPTION,
             Instances.EVENT_LOCATION,
             Instances.CALENDAR_DISPLAY_NAME,
+            CalendarContract.Calendars.ACCOUNT_NAME,
+            Instances.CALENDAR_COLOR,
             Instances.ALL_DAY
     };
 
@@ -101,12 +104,14 @@ public class CalendarEvents {
                         evtCursor.getString(5),
                         evtCursor.getString(6),
                         evtCursor.getString(7),
-                        !evtCursor.getString(8).equals("0")
+                        evtCursor.getString(8),
+                        evtCursor.getInt(9),
+                        !evtCursor.getString(10).equals("0")
                 );
-                if (!GBApplication.calendarIsBlacklisted(calEvent.getCalName())) {
+                if (!GBApplication.calendarIsBlacklisted(calEvent.getUniqueCalName())) {
                     calendarEventList.add(calEvent);
                 } else {
-                    LOG.debug("calendar " + calEvent.getCalName() + " skipped because it's blacklisted");
+                    LOG.debug("calendar " + calEvent.getUniqueCalName() + " skipped because it's blacklisted");
                 }
             }
             return true;
@@ -124,9 +129,11 @@ public class CalendarEvents {
         private String description;
         private String location;
         private String calName;
+        private String calAccountName;
+        private int color;
         private boolean allDay;
 
-        public CalendarEvent(long begin, long end, long id, String title, String description, String location, String calName, boolean allDay) {
+        public CalendarEvent(long begin, long end, long id, String title, String description, String location, String calName, String calAccountName, int color, boolean allDay) {
             this.begin = begin;
             this.end = end;
             this.id = id;
@@ -134,6 +141,8 @@ public class CalendarEvents {
             this.description = description;
             this.location = location;
             this.calName = calName;
+            this.calAccountName = calAccountName;
+            this.color = color;
             this.allDay = allDay;
         }
 
@@ -182,6 +191,18 @@ public class CalendarEvents {
             return calName;
         }
 
+        public String getCalAccountName() {
+            return calAccountName;
+        }
+
+        public String getUniqueCalName() {
+            return getCalAccountName() + '/' + getCalName();
+        }
+
+        public int getColor() {
+            return color;
+        }
+
         public boolean isAllDay() {
             return allDay;
         }
@@ -197,6 +218,8 @@ public class CalendarEvents {
                         Objects.equals(this.getDescription(), e.getDescription()) &&
                         (this.getEnd() == e.getEnd()) &&
                         Objects.equals(this.getCalName(), e.getCalName()) &&
+                        Objects.equals(this.getCalAccountName(), e.getCalAccountName()) &&
+                        (this.getColor() == e.getColor()) &&
                         (this.isAllDay() == e.isAllDay());
             } else {
                 return false;
@@ -212,6 +235,8 @@ public class CalendarEvents {
             result = 31 * result + Objects.hash(description);
             result = 31 * result + Long.valueOf(end).hashCode();
             result = 31 * result + Objects.hash(calName);
+            result = 31 * result + Objects.hash(calAccountName);
+            result = 31 * result + Integer.valueOf(color).hashCode();
             result = 31 * result + Boolean.valueOf(allDay).hashCode();
             return result;
         }

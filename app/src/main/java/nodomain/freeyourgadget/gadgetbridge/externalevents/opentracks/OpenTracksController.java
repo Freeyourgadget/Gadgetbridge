@@ -15,7 +15,7 @@
     You should have received a copy of the GNU Affero General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 
-package nodomain.freeyourgadget.gadgetbridge.externalevents;
+package nodomain.freeyourgadget.gadgetbridge.externalevents.opentracks;
 
 import android.app.Activity;
 import android.content.Context;
@@ -93,7 +93,7 @@ public class OpenTracksController extends Activity {
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         intent.setClassName(packageName, className);
         intent.putExtra("STATS_TARGET_PACKAGE", context.getPackageName());
-        intent.putExtra("STATS_TARGET_CLASS", "nodomain.freeyourgadget.gadgetbridge.externalevents.OpenTracksController");
+        intent.putExtra("STATS_TARGET_CLASS", OpenTracksController.class.getName());
         try {
             context.startActivity(intent);
         } catch (Exception e) {

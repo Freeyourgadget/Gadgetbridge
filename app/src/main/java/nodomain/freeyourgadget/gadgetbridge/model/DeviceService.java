@@ -70,6 +70,7 @@ public interface DeviceService extends EventHandler {
     String ACTION_SEND_WEATHER = PREFIX + ".action.send_weather";
     String ACTION_TEST_NEW_FUNCTION = PREFIX + ".action.test_new_function";
     String ACTION_SET_FM_FREQUENCY = PREFIX + ".action.set_fm_frequency";
+    String ACTION_SET_GPS_LOCATION = PREFIX + ".action.set_gps_location";
     String ACTION_SET_LED_COLOR = PREFIX + ".action.set_led_color";
     String ACTION_POWER_OFF = PREFIX + ".action.power_off";
     String EXTRA_NOTIFICATION_BODY = "notification_body";
@@ -122,6 +123,7 @@ public interface DeviceService extends EventHandler {
     String EXTRA_RECORDED_DATA_TYPES = "data_types";
     String EXTRA_FM_FREQUENCY = "fm_frequency";
     String EXTRA_LED_COLOR = "led_color";
+    String EXTRA_GPS_LOCATION = "gps_location";
     String EXTRA_RESET_FLAGS = "reset_flags";
 
     /**

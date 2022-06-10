@@ -348,30 +348,30 @@ public class ControlCenterv2 extends AppCompatActivity
             case R.id.action_settings:
                 Intent settingsIntent = new Intent(this, SettingsActivity.class);
                 startActivityForResult(settingsIntent, MENU_REFRESH_CODE);
-                return true;
+                return false; //we do not want the drawer menu item to get selected
             case R.id.action_debug:
                 Intent debugIntent = new Intent(this, DebugActivity.class);
                 startActivity(debugIntent);
-                return true;
+                return false;
             case R.id.action_data_management:
                 Intent dbIntent = new Intent(this, DataManagementActivity.class);
                 startActivity(dbIntent);
-                return true;
+                return false;
             case R.id.action_notification_management:
                 Intent blIntent = new Intent(this, NotificationManagementActivity.class);
                 startActivity(blIntent);
-                return true;
+                return false;
             case R.id.device_action_discover:
                 launchDiscoveryActivity();
-                return true;
+                return false;
             case R.id.action_quit:
                 GBApplication.quit();
-                return true;
+                return false;
             case R.id.donation_link:
                 Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse("https://liberapay.com/Gadgetbridge")); //TODO: centralize if ever used somewhere else
                 i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(i);
-                return true;
+                return false;
             case R.id.external_changelog:
                 ChangeLog cl = createChangeLog();
                 try {
@@ -379,14 +379,14 @@ public class ControlCenterv2 extends AppCompatActivity
                 } catch (Exception ignored) {
                     GB.toast(getBaseContext(), "Error showing Changelog", Toast.LENGTH_LONG, GB.ERROR);
                 }
-                return true;
+                return false;
             case R.id.about:
                 Intent aboutIntent = new Intent(this, AboutActivity.class);
                 startActivity(aboutIntent);
-                return true;
+                return false;
         }
 
-        return true;
+        return false;
     }
 
     private ChangeLog createChangeLog() {

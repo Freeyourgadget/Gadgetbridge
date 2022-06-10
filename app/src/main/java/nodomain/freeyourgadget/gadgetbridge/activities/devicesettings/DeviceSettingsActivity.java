@@ -17,6 +17,7 @@
 package nodomain.freeyourgadget.gadgetbridge.activities.devicesettings;
 
 import android.os.Bundle;
+import android.view.MenuItem;
 
 import androidx.fragment.app.Fragment;
 import androidx.preference.PreferenceFragmentCompat;
@@ -71,5 +72,18 @@ public class DeviceSettingsActivity extends AbstractGBActivity implements
                 .addToBackStack(preferenceScreen.getKey())
                 .commit();
         return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(final MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                // Simulate a back press, so that we don't actually exit the activity when
+                // in a nested PreferenceScreen
+                this.onBackPressed();
+                return true;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 }

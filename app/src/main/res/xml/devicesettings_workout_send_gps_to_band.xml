@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <SwitchPreference
+        android:defaultValue="false"
+        android:icon="@drawable/ic_gps_location"
+        android:key="workout_send_gps_to_band"
+        android:summary="@string/pref_workout_send_gps_summary"
+        android:title="@string/pref_workout_send_gps_title" />
+</androidx.preference.PreferenceScreen>

@@ -20,6 +20,7 @@ package nodomain.freeyourgadget.gadgetbridge.service;
 
 import android.bluetooth.BluetoothAdapter;
 import android.content.Context;
+import android.location.Location;
 import android.net.Uri;
 
 import org.slf4j.Logger;
@@ -437,5 +438,13 @@ public class ServiceDeviceSupport implements DeviceSupport {
             return;
         }
         delegate.onPowerOff();
+    }
+
+    @Override
+    public void onSetGpsLocation(Location location) {
+        if (checkBusy("set gps location")) {
+            return;
+        }
+        delegate.onSetGpsLocation(location);
     }
 }

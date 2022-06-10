@@ -51,6 +51,7 @@ public class CalBlacklistActivity extends AbstractGBActivity {
 
     private final String[] EVENT_PROJECTION = new String[]{
             CalendarContract.Calendars.CALENDAR_DISPLAY_NAME,
+            CalendarContract.Calendars.ACCOUNT_NAME,
             CalendarContract.Calendars.CALENDAR_COLOR
     };
     private ArrayList<Calendar> calendarsArrayList;
@@ -69,7 +70,7 @@ public class CalBlacklistActivity extends AbstractGBActivity {
         try (Cursor cur = getContentResolver().query(uri, EVENT_PROJECTION, null, null, null)) {
             calendarsArrayList = new ArrayList<>();
             while (cur != null && cur.moveToNext()) {
-                calendarsArrayList.add(new Calendar(cur.getString(0), cur.getInt(1)));
+                calendarsArrayList.add(new Calendar(cur.getString(0), cur.getString(1), cur.getInt(2)));
             }
         }
 
@@ -82,9 +83,9 @@ public class CalBlacklistActivity extends AbstractGBActivity {
                 CheckBox selected = (CheckBox) view.findViewById(R.id.item_checkbox);
                 toggleEntry(view);
                 if (selected.isChecked()) {
-                    GBApplication.addCalendarToBlacklist(item.displayName);
+                    GBApplication.addCalendarToBlacklist(item.getUniqueString());
                 } else {
-                    GBApplication.removeFromCalendarBlacklist(item.displayName);
+                    GBApplication.removeFromCalendarBlacklist(item.getUniqueString());
                 }
             }
         });
@@ -112,11 +113,17 @@ public class CalBlacklistActivity extends AbstractGBActivity {
 
     class Calendar {
         private final String displayName;
+        private final String accountName;
         private final int color;
 
-        public Calendar(String displayName, int color) {
+        public Calendar(String displayName, String accountName, int color) {
             this.displayName = displayName;
+            this.accountName = accountName;
             this.color = color;
+        }
+
+        public String getUniqueString() {
+            return accountName + '/' + displayName;
         }
     }
 
@@ -138,13 +145,16 @@ public class CalBlacklistActivity extends AbstractGBActivity {
 
             View color = view.findViewById(R.id.calendar_color);
             TextView name = (TextView) view.findViewById(R.id.calendar_name);
+            TextView ownerAccount = (TextView) view.findViewById(R.id.calendar_owner_account);
             CheckBox checked = (CheckBox) view.findViewById(R.id.item_checkbox);
 
-            if (GBApplication.calendarIsBlacklisted(item.displayName) && !checked.isChecked()) {
+            if (GBApplication.calendarIsBlacklisted(item.getUniqueString()) && !checked.isChecked() ||
+                    !GBApplication.calendarIsBlacklisted(item.getUniqueString()) && checked.isChecked()) {
                 toggleEntry(view);
             }
             color.setBackgroundColor(item.color);
             name.setText(item.displayName);
+            ownerAccount.setText(item.accountName);
 
             return view;
         }
