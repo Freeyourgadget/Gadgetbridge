@@ -139,10 +139,7 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
 
     /// Maximum amount of characters to store in receiveHistory
     public static final int MAX_RECEIVE_HISTORY_CHARS = 100000;
-<<<<<<< HEAD
-=======
 
->>>>>>> freeyourgadget_master
     // Local Intents - for app manager communication
     public static final String BANGLEJS_COMMAND_TX = "banglejs_command_tx";
     public static final String BANGLEJS_COMMAND_RX = "banglejs_command_rx";
@@ -1094,27 +1091,6 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
                     minColUsage = colUsage[c];
                     transparentColorIndex = (byte)c;
                 }
-            }
-            // rewrite any transparent pixels as the correct color for transparency
-            for (n=0;n<pixels.length;n++)
-                if (pixels[n]==PIXELCOL_TRANSPARENT)
-                    pixels[n] = transparentColorIndex;
-        }
-        // Write the header
-        int headerLen = isTransparent ? 4 : 3;
-        byte bmp[] = new byte[(((height * width * bpp) + 7) >> 3) + headerLen];
-        bmp[0] = (byte)width;
-        bmp[1] = (byte)height;
-        bmp[2] = (byte)(bpp + (isTransparent?128:0));
-        if (isTransparent) bmp[3] = transparentColorIndex;
-        // Now write the image out bit by bit
-        BitWriter bits = new BitWriter(bmp, headerLen);
-        n = 0;
-        for (int y = 0; y < height; y++) {
-            for (int x = 0; x < width; x++) {
-                int pixel = pixels[n++];
-                for (int b=bpp-1;b>=0;b--)
-                    bits.push(((pixel>>b)&1) != 0);
             }
             // rewrite any transparent pixels as the correct color for transparency
             for (n=0;n<pixels.length;n++)
