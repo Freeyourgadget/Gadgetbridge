@@ -17,6 +17,8 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.devices.banglejs;
 
+import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_BANGLEJS_TEXT_BITMAP;
+
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.bluetooth.le.ScanFilter;
@@ -32,6 +34,7 @@ import java.util.Collections;
 import java.util.Vector;
 
 import nodomain.freeyourgadget.gadgetbridge.BuildConfig;
+import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.activities.appmanager.AppManagerActivity;
 import nodomain.freeyourgadget.gadgetbridge.devices.AbstractDeviceCoordinator;
@@ -43,6 +46,7 @@ import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceCandidate;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
+import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 
 public class BangleJSCoordinator extends AbstractDeviceCoordinator {
 
@@ -165,6 +169,15 @@ public class BangleJSCoordinator extends AbstractDeviceCoordinator {
     @Override
     public InstallHandler findInstallHandler(Uri uri, Context context) {
         return null;
+    }
+
+    @Override
+    public boolean supportsUnicodeEmojis() {
+        /* we say yes here (because we can't get a handle to our device's prefs to check)
+        and then in 'renderUnicodeAsImage' we call EmojiConverter.convertUnicodeEmojiToAscii
+        just like DeviceCommunicationService.sanitizeNotifText would have done if we'd
+        reported false *if* conversion is disabled */
+        return true;
     }
 
     public int[] getSupportedDeviceSpecificSettings(GBDevice device) {

@@ -62,11 +62,15 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Locale;
 import java.util.SimpleTimeZone;
 import java.util.UUID;
 import java.lang.reflect.Field;
 
+import io.wax911.emojify.Emoji;
+import io.wax911.emojify.EmojiManager;
+import io.wax911.emojify.EmojiUtils;
 import nodomain.freeyourgadget.gadgetbridge.BuildConfig;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
@@ -99,6 +103,7 @@ import nodomain.freeyourgadget.gadgetbridge.service.btle.AbstractBTLEDeviceSuppo
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.misfit.PlayNotificationRequest;
 import nodomain.freeyourgadget.gadgetbridge.util.AlarmUtils;
+import nodomain.freeyourgadget.gadgetbridge.util.EmojiConverter;
 import nodomain.freeyourgadget.gadgetbridge.util.FileUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
@@ -602,13 +607,25 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
         return true;
     }
 
+    private String renderUnicodeWordAsImage(String word) {
+        // check for emoji
+        boolean hasEmoji = false;
+        if (EmojiUtils.getAllEmojis()==null)
+            EmojiManager.initEmojiData(GBApplication.getContext());
+        for(Emoji emoji : EmojiUtils.getAllEmojis())
+            if (word.contains(emoji.getEmoji())) hasEmoji = true;
+        // if we had emoji, ensure we create 3 bit color (not 1 bit B&W)
+        return "\0"+bitmapToEspruinoString(textToBitmap(word), hasEmoji ? BangleJSBitmapStyle.RGB_3BPP : BangleJSBitmapStyle.MONOCHROME);
+    }
+
     public String renderUnicodeAsImage(String txt) {
         if (txt==null) return null;
-        // If we're not doing conversion, pass this right back
+        /* If we're not doing conversion, pass this right back (we use the EmojiConverter
+        As we would have done if BangleJSCoordinator.supportsUnicodeEmojis had reported false */
         Prefs devicePrefs = new Prefs(GBApplication.getDeviceSpecificSharedPrefs(gbDevice.getAddress()));
         if (!devicePrefs.getBoolean(PREF_BANGLEJS_TEXT_BITMAP, false))
-            return txt;
-        // Otherwise split up and check each word
+            return EmojiConverter.convertUnicodeEmojiToAscii(txt, GBApplication.getContext());
+         // Otherwise split up and check each word
         String word = "", result = "";
         boolean needsTranslate = false;
         for (int i=0;i<txt.length();i++) {
@@ -616,7 +633,7 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
             if (" -_/:.,?!'\"&*()".indexOf(ch)>=0) {
                 // word split
                 if (needsTranslate) { // convert word
-                    result += "\0"+bitmapToEspruinoString(textToBitmap(word))+ch;
+                    result += renderUnicodeWordAsImage(word)+ch;
                 } else { // or just copy across
                     result += word+ch;
                 }
@@ -629,7 +646,7 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
             }
         }
         if (needsTranslate) { // convert word
-            result += "\0"+bitmapToEspruinoString(textToBitmap(word));
+            result += renderUnicodeWordAsImage(word);
         } else { // or just copy across
             result += word;
         }
@@ -954,44 +971,126 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
         return image;
     }
 
-    /** Convert an Android bitmap to a base64 string for use in Espruino.
-     * Currently only 1bpp, no scaling */
-    public static byte[] bitmapToEspruinoArray(Bitmap bitmap) {
-        int width = bitmap.getWidth();
-        int height = bitmap.getHeight();
-        byte bmp[] = new byte[((height * width + 7) >> 3) + 3];
-        int n = 0, c = 0, cn = 0;
-        bmp[n++] = (byte)width;
-        bmp[n++] = (byte)height;
-        bmp[n++] = 1;
-        for (int y = 0; y < height; y++) {
-            for (int x = 0; x < width; x++) {
-                boolean pixel = (bitmap.getPixel(x, y) & 255) > 128;
-                c = (c << 1) | (pixel?1:0);
-                cn++;
-                if (cn == 8) {
-                    bmp[n++] = (byte)c;
-                    cn = 0;
-                    c = 0;
-                }
+    public enum BangleJSBitmapStyle {
+        MONOCHROME,
+        RGB_3BPP
+    };
+
+    /** Used for writing single bits to an array */
+    public static class BitWriter {
+        int n;
+        byte[] bits;
+        int currentByte, bitIdx;
+
+        public BitWriter(byte[] array, int offset) {
+            bits = array;
+            n = offset;
+        }
+
+        public void push(boolean v) {
+            currentByte = (currentByte << 1) | (v?1:0);
+            bitIdx++;
+            if (bitIdx == 8) {
+                bits[n++] = (byte)currentByte;
+                bitIdx = 0;
+                currentByte = 0;
             }
         }
-        if (cn > 0) bmp[n++] = (byte)c;
-        //LOG.info("BMP: " + width + "x"+height+" n "+n);
-        // Convert to base64
+
+        public void finish() {
+            if (bitIdx > 0) bits[n++] = (byte)currentByte;
+        }
+    }
+
+    /** Convert an Android bitmap to a base64 string for use in Espruino.
+     * Currently only 1bpp, no scaling */
+    public static byte[] bitmapToEspruinoArray(Bitmap bitmap, BangleJSBitmapStyle style) {
+        int width = bitmap.getWidth();
+        int height = bitmap.getHeight();
+        int bpp = (style==BangleJSBitmapStyle.RGB_3BPP) ? 3 : 1;
+        byte pixels[] = new byte[width * height];
+        final byte PIXELCOL_TRANSPARENT = -1;
+        final int ditherMatrix[] = {1*16,5*16,7*16,3*16}; // for bayer dithering
+        // if doing 3bpp, check image to see if it's transparent
+        boolean allowTransparency = (style != BangleJSBitmapStyle.MONOCHROME);
+        boolean isTransparent = false;
+        byte transparentColorIndex = 0;
+        /* Work out what colour index each pixel should be and write to pixels.
+         Also figure out if we're transparent at all, and how often each color is used */
+        int colUsage[] = new int[8];
+        int n = 0;
+        for (int y = 0; y < height; y++) {
+            for (int x = 0; x < width; x++) {
+                int pixel = bitmap.getPixel(x, y);
+                int r = pixel & 255;
+                int g = (pixel >> 8) & 255;
+                int b = (pixel >> 16) & 255;
+                int a = (pixel >> 24) & 255;
+                boolean pixelTransparent = allowTransparency && (a < 128);
+                if (pixelTransparent) {
+                    isTransparent = true;
+                    r = g = b = 0;
+                }
+                // do dithering here
+                int ditherAmt = ditherMatrix[(x&1) + (y&1)*2];
+                r += ditherAmt;
+                g += ditherAmt;
+                b += ditherAmt;
+                int col = 0;
+                if (style == BangleJSBitmapStyle.MONOCHROME)
+                    col = ((r+g+b) >= 768)?1:0;
+                else if (style == BangleJSBitmapStyle.RGB_3BPP)
+                    col = ((r>=256)?1:0) | ((g>=256)?2:0) | ((b>=256)?4:0);
+                if (!pixelTransparent) colUsage[col]++; // if not transparent, record usage
+                // save colour, mark transparent separately
+                pixels[n++] = (byte)(pixelTransparent ? PIXELCOL_TRANSPARENT : col);
+            }
+        }
+        // if we're transparent, find the least-used color, and use that for transparency
+        if (isTransparent) {
+            // find least used
+            int minColUsage = -1;
+            for (int c=0;c<8;c++) {
+                if (minColUsage<0 || colUsage[c]<minColUsage) {
+                    minColUsage = colUsage[c];
+                    transparentColorIndex = (byte)c;
+                }
+            }
+            // rewrite any transparent pixels as the correct color for transparency
+            for (n=0;n<pixels.length;n++)
+                if (pixels[n]==PIXELCOL_TRANSPARENT)
+                    pixels[n] = transparentColorIndex;
+        }
+        // Write the header
+        int headerLen = isTransparent ? 4 : 3;
+        byte bmp[] = new byte[(((height * width * bpp) + 7) >> 3) + headerLen];
+        bmp[0] = (byte)width;
+        bmp[1] = (byte)height;
+        bmp[2] = (byte)(bpp + (isTransparent?128:0));
+        if (isTransparent) bmp[3] = transparentColorIndex;
+        // Now write the image out bit by bit
+        BitWriter bits = new BitWriter(bmp, headerLen);
+        n = 0;
+        for (int y = 0; y < height; y++) {
+            for (int x = 0; x < width; x++) {
+                int pixel = pixels[n++];
+                for (int b=bpp-1;b>=0;b--)
+                    bits.push(((pixel>>b)&1) != 0);
+            }
+        }
         return bmp;
     }
 
     /** Convert an Android bitmap to a base64 string for use in Espruino.
      * Currently only 1bpp, no scaling */
-    public static String bitmapToEspruinoString(Bitmap bitmap) {
-        return new String(bitmapToEspruinoArray(bitmap), StandardCharsets.ISO_8859_1);
+    public static String bitmapToEspruinoString(Bitmap bitmap, BangleJSBitmapStyle style) {
+        return new String(bitmapToEspruinoArray(bitmap, style), StandardCharsets.ISO_8859_1);
     }
 
     /** Convert an Android bitmap to a base64 string for use in Espruino.
      * Currently only 1bpp, no scaling */
-    public static String bitmapToEspruinoBase64(Bitmap bitmap) {
-        return Base64.encodeToString(bitmapToEspruinoArray(bitmap), Base64.DEFAULT).replaceAll("\n","");
+    public static String bitmapToEspruinoBase64(Bitmap bitmap, BangleJSBitmapStyle style) {
+        return Base64.encodeToString(bitmapToEspruinoArray(bitmap, style), Base64.DEFAULT).replaceAll("\n","");
     }
 
     /** Convert a drawable to a bitmap, for use with bitmapToEspruino */
