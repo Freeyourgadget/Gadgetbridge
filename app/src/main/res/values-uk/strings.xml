@@ -529,7 +529,7 @@
     <string name="pref_summary_pebble_gatt_clientonly">Це експериментальне налаштування виключно для Pebble 2, застосуйте якщо є проблеми зі з\'єднанням</string>
     <string name="pref_auto_fetch">Автозавантаження даних про діяльність</string>
     <string name="pref_auto_fetch_limit_fetches">Найменший час між отриманнями</string>
-    <string name="pref_auto_fetch_limit_fetches_summary">Отримати кожні %d хвилин(и)</string>
+    <string name="pref_auto_fetch_limit_fetches_summary">Отримувати що %d хвилин</string>
     <string name="russian">Російська</string>
     <string name="german">Німецька</string>
     <string name="italian">Італійська</string>
@@ -1727,4 +1727,6 @@
 \n
 \nТоркніться «%2$s», потім «%1$s» і увімкніть «Дозволити не турбувати», а потім торкніться «Назад», щоб повернутися до %1$s</string>
     <string name="pref_device_action_phone_gps_location_listener_stop">Зупинка відстежувача GPS-розташування</string>
+    <string name="discovery_scanning_intensity_warning">Якщо ви бачите заморожування або несприйняття, спробуйте встановити нижчий рівень інтенсивності сканування. Якщо пристрій не виявлено, спробуйте встановити інтенсивність сканування на вищий рівень.</string>
+    <string name="discovery_scanning_intensity">Інтенсивність сканування</string>
 </resources>
