@@ -405,6 +405,7 @@
         <item>@string/menuitem_status</item>
         <item>@string/menuitem_pai</item>
         <item>@string/menuitem_hr</item>
+        <item>@string/menuitem_breathing</item>
         <item>@string/menuitem_stress</item>
         <item>@string/menuitem_eventreminder</item>
         <item>@string/menuitem_dnd</item>
@@ -427,6 +428,7 @@
         <item>@string/p_menuitem_status</item>
         <item>@string/p_menuitem_pai</item>
         <item>@string/p_menuitem_hr</item>
+        <item>@string/p_menuitem_breathing</item>
         <item>@string/p_menuitem_stress</item>
         <item>@string/p_menuitem_eventreminder</item>
         <item>@string/p_menuitem_dnd</item>
@@ -726,6 +728,7 @@
         <item>@string/menuitem_pai</item>
         <item>@string/menuitem_hr</item>
         <item>@string/menuitem_spo2</item>
+        <item>@string/menuitem_breathing</item>
         <item>@string/menuitem_stress</item>
         <item>@string/menuitem_eventreminder</item>
         <item>@string/menuitem_dnd</item>
@@ -749,6 +752,7 @@
         <item>@string/p_menuitem_pai</item>
         <item>@string/p_menuitem_hr</item>
         <item>@string/p_menuitem_spo2</item>
+        <item>@string/p_menuitem_breathing</item>
         <item>@string/p_menuitem_stress</item>
         <item>@string/p_menuitem_eventreminder</item>
         <item>@string/p_menuitem_dnd</item>
