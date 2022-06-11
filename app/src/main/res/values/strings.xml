@@ -757,6 +757,8 @@
     <string name="thai">Thai</string>
     <string name="vietnamese">Vietnamese</string>
     <string name="portuguese">Portuguese</string>
+    <string name="portuguese_br">Portuguese (Brazil)</string>
+    <string name="portuguese_pt">Portuguese (Portugal)</string>
     <string name="romanian">Romanian</string>
     <string name="hungarian">Hungarian</string>
     <string name="greek">Greek</string>

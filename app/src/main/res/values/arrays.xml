@@ -1431,7 +1431,8 @@
         <item name="de_DE">@string/german</item>
         <item name="it_IT">@string/italian</item>
         <item name="fr_FR">@string/french</item>
-        <item name="pt_BR">@string/portuguese</item>
+        <item name="pt_BR">@string/portuguese_br</item>
+        <item name="pt_PT">@string/portuguese_pt</item>
         <item name="nl_NL">@string/dutch</item>
         <item name="pl_PL">@string/polish</item>
         <item name="cs_CZ">@string/czesh</item>
@@ -1458,6 +1459,7 @@
         <item>it_IT</item>
         <item>fr_FR</item>
         <item>pt_BR</item>
+        <item>pt_PT</item>
         <item>nl_NL</item>
         <item>pl_PL</item>
         <item>cs_CZ</item>
