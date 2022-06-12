@@ -36,7 +36,7 @@ public class DiscoveryPairingPreferenceActivity extends AbstractSettingsActivity
 
         final Prefs prefs = GBApplication.getPrefs();
         final Preference pref = findPreference("scanning_intensity");
-        pref.setSummary(String.valueOf(prefs.getInt("scanning_intensity", 2)));
+        pref.setSummary(String.valueOf(prefs.getInt("scanning_intensity", 1)));
 
         pref.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
             @Override

@@ -33,7 +33,7 @@
             android:max="3"
             android:min="0"
             android:title="@string/discovery_scanning_intensity"
-            app:defaultValue="2"
+            android:defaultValue="1"
             app:showSeekBarValue="true" />
         <Preference
             android:selectable="false"
