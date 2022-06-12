@@ -1,0 +1,6 @@
+Install this app to receive notifications, messages and call notifications from your Android phone on your Bangle.js smart watch.
+
+* Receive notifications, text messages, and call notifications on Bangle.js
+* Choose to accept/decline calls, or even answer received text messages
+* Bangle.js apps can access the internet via your phone (disabled by default)
+* Bangle.js apps can send Android Intents and can be controlled by Intents sent by apps like Tasker (disabled by default)
