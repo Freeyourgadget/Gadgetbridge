@@ -1725,4 +1725,6 @@
     <string name="notification_gps_title">Gadgetbridge GPS</string>
     <string name="notification_gps_text">将 GPS 位置发送到 %1$d 设备</string>
     <string name="pref_device_action_phone_gps_location_listener_stop">GPS 位置监听器停止</string>
+    <string name="discovery_scanning_intensity">扫描强度</string>
+    <string name="discovery_scanning_intensity_warning">如果您遇到卡住或无反应的情况，尝试将扫描强度设置为较低水平。如果你的设备没有被发现，尝试将扫描强度设置到更高的水平。</string>
 </resources>
