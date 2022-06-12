@@ -1727,4 +1727,8 @@
     <string name="pref_device_action_phone_gps_location_listener_stop">GPS 位置监听器停止</string>
     <string name="discovery_scanning_intensity">扫描强度</string>
     <string name="discovery_scanning_intensity_warning">如果您遇到卡住或无反应的情况，尝试将扫描强度设置为较低水平。如果你的设备没有被发现，尝试将扫描强度设置到更高的水平。</string>
+    <string name="portuguese_br">葡萄牙语(巴西)</string>
+    <string name="quick_alarm">快速闹钟</string>
+    <string name="portuguese_pt">葡萄牙语 (葡萄牙)</string>
+    <string name="quick_alarm_description">从小工具发出的闹钟</string>
 </resources>
