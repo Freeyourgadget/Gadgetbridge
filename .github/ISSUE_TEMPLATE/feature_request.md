@@ -9,7 +9,7 @@ If you just have a question or want to discuss some things, please do so in the 
 #### Before requesting a new feature, please confirm the following:
 - [ ] I have read the [wiki](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki), and I didn't find a solution to my problem / an answer to my question.
 - [ ] I have searched the [issues](https://codeberg.org/Freeyourgadget/Gadgetbridge/issues), and I didn't find a solution to my problem / an answer to my question.
-- [ ] If you upload an image or other content, please make sure you have read and understood the [Codeberg Terms of Use](https://codeberg.org/codeberg/org/src/branch/master/TermsOfUse.md)
+- [ ] If you upload an image or other content, please make sure you have read and understood the [Codeberg Terms of Use](https://codeberg.org/Codeberg/org/src/branch/main/TermsOfUse.md)
 
 #### Log files
 *If applicable, please attach [logs](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Log-Files)*
