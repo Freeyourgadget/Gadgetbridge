@@ -1738,4 +1738,8 @@
 \nLütfen önce \'%2$s\', sonra \'%1$s\' düğmesine dokunun ve \'Rahatsız Etmeye İzin Ver\' seçeneğini etkinleştirin, ardından %1$s\'e dönmek için \'Geri\' düğmesine dokunun</string>
     <string name="discovery_scanning_intensity">Tarama yoğunluğu</string>
     <string name="discovery_scanning_intensity_warning">Donma veya yanıt alamama yaşıyorsanız, tarama yoğunluğunu daha düşük bir seviyeye ayarlamayı deneyin. Aygıtınız bulunamıyorsa, tarama yoğunluğunu daha yüksek bir seviyeye ayarlamayı deneyin.</string>
+    <string name="quick_alarm">Hızlı alarm</string>
+    <string name="quick_alarm_description">Widget alarmı</string>
+    <string name="portuguese_pt">Portekizce (Portekiz)</string>
+    <string name="portuguese_br">Portekizce (Brezilya)</string>
 </resources>
