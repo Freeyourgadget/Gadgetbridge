@@ -1685,4 +1685,11 @@ Temps de sommeil préféré en heures</string>
     <string name="notification_gps_title">GPS Gadgebridge</string>
     <string name="notification_gps_text">Envoi des données GPS au(x) appareil(s) %1$d</string>
     <string name="notification_channel_gps">Suivi GPS</string>
+    <string name="permission_notification_listener">%1$s a besoin d\'accéder aux notifications pour les afficher sur votre montre.
+\n
+\nMerci le sélectionner \'%2$s\' puis \'%1$s\' et activer \'Autoriser l\'accès aux notifications\', puis appuyer sur \'Retour\' pour revenir à %1$s</string>
+    <string name="discovery_scanning_intensity">Intensité du scan</string>
+    <string name="discovery_scanning_intensity_warning">Si vous rencontrez des problèmes de blocage ou non réponse, essayer de régler l\'intensité du scan à un faible niveau. Si votre appareil n\'est pas découvert, essayer l\'intensité du scan au plus haut niveau.</string>
+    <string name="portuguese_br">Portugais (Brésil)</string>
+    <string name="portuguese_pt">Portugais (Portugal)</string>
 </resources>
