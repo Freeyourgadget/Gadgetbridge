@@ -143,6 +143,8 @@ public class Widget extends AppWidgetProvider {
 
         if (sleep < 1) {
             views.setViewVisibility(R.id.todaywidget_sleep_layout, View.GONE);
+        } else {
+            views.setViewVisibility(R.id.todaywidget_sleep_layout, View.VISIBLE);
         }
 
         views.setTextViewText(R.id.todaywidget_steps, String.format("%1s", steps));
