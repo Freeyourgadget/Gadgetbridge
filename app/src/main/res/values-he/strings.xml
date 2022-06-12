@@ -1713,4 +1713,10 @@
     <string name="pref_workout_start_on_phone_title">מעקב ביישומון חיטוב</string>
     <string name="pref_workout_start_on_phone_summary">התחלת/עצירת מעקב ביישומון חיטוב בטלפון כאשר מופעל אימון GPS בצמיד</string>
     <string name="notification_channel_gps">מעקב GPS</string>
+    <string name="discovery_scanning_intensity">עוצמת סריקה</string>
+    <string name="discovery_scanning_intensity_warning">אם חווית קפאון או חוסר תגובתיות, כדאי לנסות לשנות את עוצמת הסריקה לרמה נמוכה. אם המכשיר שלך לא מתגלה, כדאי לנסות לשנות את עוצמת הסריקה לרמה גבוהה.</string>
+    <string name="portuguese_pt">פורטוגלית של פורטוגל</string>
+    <string name="quick_alarm_description">שעון מעורר מווידג׳ט</string>
+    <string name="portuguese_br">פורטוגלית ברזילאית</string>
+    <string name="quick_alarm">שעון מעורר מהיר</string>
 </resources>
