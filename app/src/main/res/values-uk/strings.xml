@@ -1729,4 +1729,8 @@
     <string name="pref_device_action_phone_gps_location_listener_stop">Зупинка відстежувача GPS-розташування</string>
     <string name="discovery_scanning_intensity_warning">Якщо ви бачите заморожування або несприйняття, спробуйте встановити нижчий рівень інтенсивності сканування. Якщо пристрій не виявлено, спробуйте встановити інтенсивність сканування на вищий рівень.</string>
     <string name="discovery_scanning_intensity">Інтенсивність сканування</string>
+    <string name="portuguese_br">Португальська (Бразилія)</string>
+    <string name="quick_alarm">Швидкий будильник</string>
+    <string name="portuguese_pt">Португальська (Португалія)</string>
+    <string name="quick_alarm_description">Будильник з віджета</string>
 </resources>
