@@ -1692,4 +1692,41 @@ Temps de sommeil préféré en heures</string>
     <string name="discovery_scanning_intensity_warning">Si vous rencontrez des problèmes de blocage ou non réponse, essayer de régler l\'intensité du scan à un faible niveau. Si votre appareil n\'est pas découvert, essayer l\'intensité du scan au plus haut niveau.</string>
     <string name="portuguese_br">Portugais (Brésil)</string>
     <string name="portuguese_pt">Portugais (Portugal)</string>
+    <string name="prefs_active_noise_cancelling_level_low">Bas</string>
+    <string name="prefs_double_tap_edge">Double appui sur le bord</string>
+    <string name="prefs_voice_detect_duration">Arrêt après pause pendant :</string>
+    <string name="pref_voice_detect_duration_5">5 secondes</string>
+    <string name="prefs_switch_control_left">Mettre le contrôle à gauche</string>
+    <string name="prefs_switch_control_right">Mettre le contrôle à droite</string>
+    <string name="pref_title_touch_ambient">Son Ambiant</string>
+    <string name="pref_title_touch_spotify">Spotify</string>
+    <string name="pref_switch_noise_control">Changer le contrôle du bruit</string>
+    <string name="prefs_noise_control_with_one_earbud">Contrôle du bruit avec un écouteur</string>
+    <string name="prefs_active_noise_cancelling_level">Niveau actif de l\'annulation de bruit</string>
+    <string name="prefs_active_noise_cancelling_level_high">Haut</string>
+    <string name="pref_title_touch_voice_assistant">Assistant vocal</string>
+    <string name="pref_title_touch_anc">Annulation de bruit active</string>
+    <string name="pref_title_touch_quick_ambient">Son Ambiant</string>
+    <string name="prefs_double_tap_edge_summary">Détecter un double appui même si hors zone tactile</string>
+    <string name="pref_voice_detect_duration_10">10 secondes</string>
+    <string name="pref_device_action_phone_gps_location_listener_stop">Arrêt du gestionnaire GPS</string>
+    <string name="permission_notification_policy_access">%1$s doit accéder aux réglages Ne Pas Déranger afin de les respecter sur votre montre.
+\n
+\nMerci de sélectionner \'%2$s\' puis \'%1$s\' et activer \'Autoriser Ne Pas Déranger\', puis sélectionner \'Retour\' pour revenir à %1$s</string>
+    <string name="prefs_voice_detect_summary">Activer le son ambiant et réduction de bruit automatique lors de la détection de voix</string>
+    <string name="quick_alarm">Alarme rapide</string>
+    <string name="quick_alarm_description">Alarme d\'un widget</string>
+    <string name="pref_summary_device_intents">Permettre à Bangle.js d\'envoyer des notifications Android, et permettre aux autres apps Android (comme Tasker) d\'envoyer des données à Bangle.js avec le dispositif com.banglejs.uart.tx .</string>
+    <string name="pref_title_touch_volume">Volume</string>
+    <string name="prefs_noise_control_with_one_earbud_summary">Permettre le contrôle du bruit en utilisant un seul écouteur</string>
+    <string name="pref_ambient_sound_tone">Tonalité du son ambiant</string>
+    <string name="pref_ambient_sound_tone_summary">De doux à Clair</string>
+    <string name="pref_balance">Balance</string>
+    <string name="pref_switch_controls_ambient_off">Ambiant &lt;-&gt; Off</string>
+    <string name="prefs_noise_control">Contrôle du bruit</string>
+    <string name="prefs_voice_detect">Détection de la voix</string>
+    <string name="pref_switch_controls_anc_ambient">Annulation de bruit &lt;-&gt; Ambiant</string>
+    <string name="pref_switch_controls_anc_off">Annulation de bruit &lt;-&gt; Off</string>
+    <string name="pref_voice_detect_duration_15">15 secondes</string>
+    <string name="pref_device_action_fitness_app_control_toggle">Basculer d\'app de suivi sportif</string>
 </resources>
