@@ -1624,4 +1624,9 @@
     <string name="pref_world_clocks_summary">Configurar los relojes para otras zonas horarias</string>
     <string name="world_clock_delete_confirm_title">Eliminar \'%1$s\'</string>
     <string name="world_clock_delete_confirm_description">¿Está seguro de que quiere eliminar el reloj mundial\?</string>
+    <string name="pref_title_banglejs_text_bitmap">Texto como mapa de bits</string>
+    <string name="pref_summary_banglejs_text_bitmap">Si una palabra no puede ser reproducida con la fuente del reloj, renderícela en un mapa de bits en Gadgetbridge y muestre el mapa de bits en el reloj</string>
+    <string name="pref_title_device_internet_access">Permitir acceso a Internet</string>
+    <string name="pref_summary_device_internet_access">Permitir que las aplicaciones de este dispositivo accedan a Internet</string>
+    <string name="pref_title_device_intents">Permitir intenciones</string>
 </resources>
