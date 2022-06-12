@@ -1592,7 +1592,7 @@
     <string name="pref_title_opentracks_packagename">OpenTracks Paketname</string>
     <string name="pref_summary_opentracks_packagename">Dient zum Starten/Stoppen der GPS-Track-Aufzeichnung in der externen Fitness-App.</string>
     <string name="pref_title_notifications_generic_settings">Android-Benachrichtigungseinstellungen</string>
-    <string name="watchface_dialog_pre_setting_position">setze position auf %s</string>
+    <string name="watchface_dialog_pre_setting_position">Voreinstellung der Position auf %s</string>
     <string name="pref_device_action_fitness_app_control_stop">Fitness-App Tracking Stopp</string>
     <string name="pref_device_action_fitness_app_control_start">Fitness-App Tracking Start</string>
     <string name="activity_db_management_autoexport_enabled_yes">Autom. Export ist aktiviert.</string>
@@ -1626,7 +1626,7 @@
     <string name="title_activity_controlcenter_banglejs_nopebble">Bangle.js Gadgetbridge</string>
     <string name="gadgetbridge_running_banglejs_nopebble">Bangle.js läuft</string>
     <string name="about_activity_title_banglejs_nopebble">Über Bangle.js Gadgetbridge</string>
-    <string name="pref_device_action_fitness_app_control_toggle">Fitness-App-Tracking umschalten</string>
+    <string name="pref_device_action_fitness_app_control_toggle">Fitness-App Tracking umschalten</string>
     <string name="pref_title_banglejs_text_bitmap">Text als Bitmaps</string>
     <string name="pref_screen_notification_profile_event_reminder">Terminerinnerung</string>
     <string name="pref_screen_notification_profile_find_device">Gerät finden</string>
@@ -1711,7 +1711,7 @@
     <string name="world_clock_delete_confirm_title">\'%1$s\' löschen</string>
     <string name="world_clock_timezone">Zeitzone</string>
     <string name="pref_world_clocks_title">Weltuhren</string>
-    <string name="world_clock_delete_confirm_description">Möchten Sie die Weltzeituhr wirklich löschen\?</string>
+    <string name="world_clock_delete_confirm_description">Möchtest du die Weltzeituhr wirklich löschen\?</string>
     <string name="world_clock_no_free_slots_title">Keine freien Slots</string>
     <string name="prefs_activity_monitoring_description">Erhöht automatisch die Frequenz der Pulserfassung, wenn das Band körperliche Bewegung erkennt, um die Genauigkeit der Pulserfassung zu erhöhen.</string>
     <string name="prefs_ambient_sound_during_call_title">Umgebungsgeräusche während des Anrufs</string>
@@ -1720,4 +1720,18 @@
 \nBitte auf \'%2$s\' und dann auf \'%1$s\' tippen, \'Zugriff auf Benachrichtigungen zulassen\' aktivieren und auf \'Zurück\' tippen, um zu %1$s zurückzukehren</string>
     <string name="prefs_switch_control_left">Schaltersteuerung links</string>
     <string name="pref_switch_controls_anc_ambient">Geräuschunterdrückung ←→ Umgebung</string>
+    <string name="pref_workout_start_on_phone_summary">Startet/stoppt das Fitness-App-Tracking auf dem Telefon, wenn ein GPS-Training auf dem Band gestartet wird</string>
+    <string name="pref_workout_send_gps_title">GPS während des Trainings senden</string>
+    <string name="pref_workout_send_gps_summary">Senden der aktuellen GPS-Position an das Band während des Trainings</string>
+    <string name="pref_workout_start_on_phone_title">Fitness-App-Tracking</string>
+    <string name="discovery_scanning_intensity_warning">Wenn dein Gerät einfriert oder nicht reagiert, versuche, die Scanning-Intensität auf eine niedrigere Stufe einzustellen. Wenn dein Gerät nicht erkannt wird, stelle die Scanning-Intensität auf eine höhere Stufe.</string>
+    <string name="discovery_scanning_intensity">Scanning-Intensität</string>
+    <string name="portuguese_br">Portugiesisch (Brasilien)</string>
+    <string name="quick_alarm">Schneller Alarm</string>
+    <string name="quick_alarm_description">Alarm vom Widget</string>
+    <string name="pref_device_action_phone_gps_location_listener_stop">GPS-Standort Stopp</string>
+    <string name="notification_channel_gps">GPS-Ortung</string>
+    <string name="notification_gps_title">Gadgetbridge GPS</string>
+    <string name="portuguese_pt">Portugiesisch (Portugal)</string>
+    <string name="notification_gps_text">Senden des GPS-Standorts an %1$d Geräte</string>
 </resources>
