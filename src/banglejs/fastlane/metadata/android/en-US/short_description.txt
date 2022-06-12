@@ -1,0 +1,1 @@
+Android companion app for Bangle.js built on top of the Gadgetbridge project.
