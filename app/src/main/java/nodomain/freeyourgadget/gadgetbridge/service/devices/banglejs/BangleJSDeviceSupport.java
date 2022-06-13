@@ -258,9 +258,8 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
 
     /// Write a string of data, and chunk it up
     private void uartTx(TransactionBuilder builder, String str) {
+        byte[] bytes = str.getBytes(StandardCharsets.ISO_8859_1);
         LOG.info("UART TX: " + str);
-        byte[] bytes;
-        bytes = str.getBytes(StandardCharsets.ISO_8859_1);
         // FIXME: somehow this is still giving us UTF8 data when we put images in strings. Maybe JSON.stringify is converting to UTF-8?
         for (int i=0;i<bytes.length;i+=mtuSize) {
             int l = bytes.length-i;
@@ -271,26 +270,69 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
         }
     }
 
+    /// Converts an object to a JSON string. see jsonToString
+    private String jsonToStringInternal(Object v) {
+        if (v instanceof String) {
+            /* Convert a string, escaping chars we can't send over out UART connection */
+            String s = (String)v;
+            String json = "\"";
+            for (int i=0;i<s.length();i++) {
+                int ch = (int)s.charAt(i);
+                if (ch<8) json += "\\"+ch;
+                else if (ch==8) json += "\\b";
+                else if (ch==9) json += "\\t";
+                else if (ch==10) json += "\\n";
+                else if (ch==11) json += "\\v";
+                else if (ch==12) json += "\\f";
+                else if (ch==34) json += "\\\""; // quote
+                else if (ch==92) json += "\\\\"; // slash
+                else if (ch<32 || ch==26 || ch==27 || ch==127 || ch==173) json += "\\x"+Integer.toHexString((ch&255)|256).substring(1);
+                else json += s.charAt(i);
+            }
+            return json + "\"";
+        } else if (v instanceof JSONArray) {
+            JSONArray a = (JSONArray)v;
+            String json = "[";
+            for (int i=0;i<a.length();i++) {
+                if (i>0) json += ",";
+                Object o = null;
+                try {
+                    o = a.get(i);
+                } catch (JSONException e) {
+                    LOG.warn("jsonToString array error: " + e.getLocalizedMessage());
+                }
+                json += jsonToStringInternal(o);
+            }
+            return json+"]";
+        } else if (v instanceof JSONObject) {
+            JSONObject obj = (JSONObject)v;
+            String json = "{";
+            Iterator<String> iter = obj.keys();
+            while (iter.hasNext()) {
+                String key = iter.next();
+                Object o = null;
+                try {
+                    o = obj.get(key);
+                } catch (JSONException e) {
+                    LOG.warn("jsonToString object error: " + e.getLocalizedMessage());
+                }
+                json += key+":"+jsonToStringInternal(o);
+                if (iter.hasNext()) json+=",";
+            }
+            return json+"}";
+        } // else int/double/null
+        return v.toString();
+    }
 
-    /// Write a string of data, and chunk it up
+    /// Convert a JSON object to a JSON String (NOT 100% JSON compliant)
     public String jsonToString(JSONObject jsonObj) {
-        String json = jsonObj.toString();
-        // toString creates '\u0000' instead of '\0'
-        // FIXME: there have got to be nicer ways of handling this - maybe we just make our own JSON.toString (see below)
-        json = json.replaceAll("\\\\u000([01234567])", "\\\\$1");
-        json = json.replaceAll("\\\\u00([0123456789abcdef][0123456789abcdef])", "\\\\x$1");
-        return json;
-        /*String json = "{";
-        Iterator<String> iter = jsonObj.keys();
-        while (iter.hasNext()) {
-            String key = iter.next();
-            Object v = jsonObj.get(key);
-            if (v instanceof Integer) {
-                // ...
-            } else // ..
-            if (iter.hasNext()) json+=",";
-        }
-        return json+"}";*/
+        /* jsonObj.toString() works but breaks char codes>128 (encodes as UTF8?) and also uses
+        \u0000 when just \0 would do (and so on).
+
+        So we do it manually, which can be more compact anyway.
+        This is JSON-ish, so not exactly as per JSON1 spec but good enough for Espruino.
+        */
+        return jsonToStringInternal(jsonObj);
     }
 
     /// Write a JSON object of data
@@ -327,10 +369,10 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
 
     private void handleUartRxLine(String line) {
         LOG.info("UART RX LINE: " + line);
-
+        if (line.length()==0) return;
         if (">Uncaught ReferenceError: \"GB\" is not defined".equals(line))
           GB.toast(getContext(), "Gadgetbridge plugin not installed on Bangle.js", Toast.LENGTH_LONG, GB.ERROR);
-        else if (line.length() > 0 && line.charAt(0)=='{') {
+        else if (line.charAt(0)=='{') {
             // JSON - we hope!
             try {
                 JSONObject json = new JSONObject(line);
@@ -567,6 +609,11 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
                 receivedLine = receivedLine.substring(p+1);
                 handleUartRxLine(line);
             }
+            // Send an intent with new data
+            Intent intent = new Intent(BangleJSDeviceSupport.BANGLEJS_COMMAND_RX);
+            intent.putExtra("DATA", packetStr);
+            intent.putExtra("SEQ", bangleCommandSeq++);
+            LocalBroadcastManager.getInstance(getContext()).sendBroadcast(intent);
         }
         return false;
     }

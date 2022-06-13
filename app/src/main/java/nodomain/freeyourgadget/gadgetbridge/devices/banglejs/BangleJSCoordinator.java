@@ -34,6 +34,7 @@ import java.util.Vector;
 import nodomain.freeyourgadget.gadgetbridge.BuildConfig;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
+import nodomain.freeyourgadget.gadgetbridge.activities.appmanager.AppManagerActivity;
 import nodomain.freeyourgadget.gadgetbridge.devices.AbstractDeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.InstallHandler;
 import nodomain.freeyourgadget.gadgetbridge.devices.SampleProvider;
@@ -136,20 +137,17 @@ public class BangleJSCoordinator extends AbstractDeviceCoordinator {
     }
 
     @Override
-    public boolean supportsAppsManagement() {
-        return false;
-    }
-
-    @Override
     public int getAlarmSlotCount() {
         return 10;
     }
 
     @Override
-    public Class<? extends Activity> getAppsManagementActivity() {
-        return null;
-    }
+    public boolean supportsAppsManagement() { return BuildConfig.INTERNET_ACCESS; }
 
+    @Override
+    public Class<? extends Activity> getAppsManagementActivity() {
+        return BuildConfig.INTERNET_ACCESS ? AppsManagementActivity.class : null;
+    }
 
     @Override
     protected void deleteDevice(@NonNull GBDevice gbDevice, @NonNull Device device, @NonNull DaoSession session) {
