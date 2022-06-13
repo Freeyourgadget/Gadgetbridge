@@ -1380,7 +1380,9 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
             outerLoop:
             for (ButtonConfiguration config : configs) {
                 for (ApplicationInformation installedApp : installedApplications) {
-                    if (installedApp.getAppName().equals(config.getAction())) {
+                    if (installedApp.getAppName().equals(config.getAction()) ||
+                            config.getAction().equals("workoutApp") //workoutApp is part of internal firmware
+                    ) {
                         availableConfigs.add(config);
                         continue outerLoop;
                     }
