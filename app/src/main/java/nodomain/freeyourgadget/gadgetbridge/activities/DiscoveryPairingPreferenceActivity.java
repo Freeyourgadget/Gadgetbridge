@@ -18,14 +18,33 @@
 package nodomain.freeyourgadget.gadgetbridge.activities;
 
 import android.os.Bundle;
+import android.preference.Preference;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
+import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 
 public class DiscoveryPairingPreferenceActivity extends AbstractSettingsActivity {
+    private static final Logger LOG = LoggerFactory.getLogger(AbstractSettingsActivity.class);
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         addPreferencesFromResource(R.xml.discovery_pairing_preferences);
+
+        final Prefs prefs = GBApplication.getPrefs();
+        final Preference pref = findPreference("scanning_intensity");
+        pref.setSummary(String.valueOf(prefs.getInt("scanning_intensity", 1)));
+
+        pref.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+            @Override
+            public boolean onPreferenceChange(Preference preference, Object newVal) {
+                preference.setSummary(newVal.toString());
+                return true;
+            }
+        });
     }
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {

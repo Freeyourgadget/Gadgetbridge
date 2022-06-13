@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
     <PreferenceCategory
         android:key="pref_discovery_pairing"
         android:title="@string/activity_prefs_discovery_pairing">
@@ -27,5 +28,17 @@
             android:layout="@layout/preference_checkbox"
             android:summary="@string/discover_unsupported_devices_description"
             android:title="@string/discover_unsupported_devices" />
+        <SeekBarPreference
+            android:key="scanning_intensity"
+            android:max="3"
+            android:min="0"
+            android:title="@string/discovery_scanning_intensity"
+            android:defaultValue="1"
+            app:showSeekBarValue="true" />
+        <Preference
+            android:selectable="false"
+            android:persistent="false"
+            android:summary="@string/discovery_scanning_intensity_warning" />
+
     </PreferenceCategory>
 </PreferenceScreen>

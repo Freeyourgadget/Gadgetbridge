@@ -956,33 +956,9 @@ public class FitProDeviceSupport extends AbstractBTLEDeviceSupport {
         // this device doesn't have concept of on-off alarm, so use the last slot for this and store
         // this alarm in the database so the user knows what is going on and can disable it
 
-        if (alarms.toArray().length == 1 && alarms.get(0).getRepetition() == 0) {
+        if (alarms.toArray().length == 1 && alarms.get(0).getRepetition() == 0) { //single shot?
             Alarm oneshot = alarms.get(0);
-            DBHandler db = null;
-            try {
-                db = GBApplication.acquireDB();
-                DaoSession daoSession = db.getDaoSession();
-                Device device = DBHelper.getDevice(gbDevice, daoSession);
-                User user = DBHelper.getUser(daoSession);
-                nodomain.freeyourgadget.gadgetbridge.entities.Alarm tmpAlarm =
-                        new nodomain.freeyourgadget.gadgetbridge.entities.Alarm(
-                                device.getId(),
-                                user.getId(),
-                                7,
-                                true,
-                                false,
-                                false,
-                                0,
-                                oneshot.getHour(),
-                                oneshot.getMinute(),
-                                true, //kind of indicate the specialty of this alarm
-                                "",
-                                "");
-                daoSession.insertOrReplace(tmpAlarm);
-                GBApplication.releaseDB();
-            } catch (GBException e) {
-                LOG.error("error storing one shot quick alarm");
-            }
+            alarms = (ArrayList<? extends Alarm>) AlarmUtils.mergeOneshotToDeviceAlarms(gbDevice, (nodomain.freeyourgadget.gadgetbridge.entities.Alarm) oneshot, 7);
         }
 
         try {

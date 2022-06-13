@@ -28,6 +28,7 @@ import java.util.List;
 import java.util.Set;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
+import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHelper;
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst;
@@ -50,7 +51,7 @@ public class AlarmUtils {
      * @return
      */
     public static nodomain.freeyourgadget.gadgetbridge.model.Alarm createSingleShot(int index, boolean smartWakeup, boolean snooze, Calendar calendar) {
-        return new Alarm(-1, -1, index, true, smartWakeup, snooze, Alarm.ALARM_ONCE, calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE), false, null, null);
+        return new Alarm(-1, -1, index, true, smartWakeup, snooze, Alarm.ALARM_ONCE, calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE), false, GBApplication.getContext().getString(R.string.quick_alarm), GBApplication.getContext().getString(R.string.quick_alarm_description));
     }
 
     /**
@@ -143,5 +144,24 @@ public class AlarmUtils {
                 return Integer.compare(p1, p2);
             }
         };
+    }
+
+    public static List<Alarm> mergeOneshotToDeviceAlarms(GBDevice gbDevice, Alarm oneshot, int position) {
+        List<Alarm> all_alarms = new ArrayList<>();
+        try {
+            DBHandler db = GBApplication.acquireDB();
+            DaoSession daoSession = db.getDaoSession();
+            Device device = DBHelper.getDevice(gbDevice, daoSession);
+            User user = DBHelper.getUser(daoSession);
+            oneshot.setPosition(position);
+            oneshot.setDeviceId(device.getId());
+            oneshot.setUserId(user.getId());
+            daoSession.insertOrReplace(oneshot);
+            all_alarms = DBHelper.getAlarms(gbDevice);
+            GBApplication.releaseDB();
+        } catch (Exception e) {
+            GB.log("error storing one shot quick alarm", GB.ERROR, e);
+        }
+        return all_alarms;
     }
 }

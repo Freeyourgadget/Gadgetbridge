@@ -389,6 +389,8 @@
     <string name="pref_auto_fetch_limit_fetches">Minimum time between fetches</string>
     <string name="pref_auto_fetch_limit_fetches_summary">Fetches every %d minutes</string>
     <!-- developer/debug preferences-->
+    <string name="discovery_scanning_intensity">Scanning intensity</string>
+    <string name="discovery_scanning_intensity_warning">If you experience freezing or unresponsiveness, try to set Scanning intensity to lower level. If your device is not being discovered, try to set Scanning intensity to higher level.</string>
     <string name="pref_disable_new_ble_scanning">Disable new BLE scanning</string>
     <string name="pref_summary_disable_new_ble_scanning">Check this option if your device cannot be found during discovery</string>
     <string name="not_connected">Not connected</string>
@@ -757,6 +759,8 @@
     <string name="thai">Thai</string>
     <string name="vietnamese">Vietnamese</string>
     <string name="portuguese">Portuguese</string>
+    <string name="portuguese_br">Portuguese (Brazil)</string>
+    <string name="portuguese_pt">Portuguese (Portugal)</string>
     <string name="romanian">Romanian</string>
     <string name="hungarian">Hungarian</string>
     <string name="greek">Greek</string>
@@ -1133,6 +1137,8 @@
     <string name="widget_10_minutes">10 minutes</string>
     <string name="widget_20_minutes">20 minutes</string>
     <string name="widget_1_hour">1 hour</string>
+    <string name="quick_alarm">Quick alarm</string>
+    <string name="quick_alarm_description">Alarm from widget</string>
     <string name="icon_placeholder" translatable="false">Icon</string>
     <string name="watch_not_connected">Watch not connected</string>
     <string name="qhybrid_vibration_strength">vibration strength:</string>

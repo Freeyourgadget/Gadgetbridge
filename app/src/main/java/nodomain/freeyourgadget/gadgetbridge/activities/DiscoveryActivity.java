@@ -198,6 +198,8 @@ public class DiscoveryActivity extends AbstractGBActivity implements AdapterView
             }
         }
     };
+    int CallbackType = android.bluetooth.le.ScanSettings.CALLBACK_TYPE_ALL_MATCHES;
+    int MatchMode = android.bluetooth.le.ScanSettings.MATCH_MODE_STICKY;
 
     public void logMessageContent(byte[] value) {
         if (value != null) {
@@ -654,17 +656,17 @@ public class DiscoveryActivity extends AbstractGBActivity implements AdapterView
     private ScanSettings getScanSettings() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             return new ScanSettings.Builder()
-                    .setCallbackType(android.bluetooth.le.ScanSettings.CALLBACK_TYPE_ALL_MATCHES)
+                    .setCallbackType(CallbackType)
                     .setScanMode(android.bluetooth.le.ScanSettings.SCAN_MODE_LOW_LATENCY)
-                    .setMatchMode(android.bluetooth.le.ScanSettings.MATCH_MODE_AGGRESSIVE)
+                    .setMatchMode(MatchMode)
                     .setPhy(android.bluetooth.le.ScanSettings.PHY_LE_ALL_SUPPORTED)
                     .setNumOfMatches(android.bluetooth.le.ScanSettings.MATCH_NUM_ONE_ADVERTISEMENT)
                     .build();
         } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             return new ScanSettings.Builder()
-                    .setCallbackType(android.bluetooth.le.ScanSettings.CALLBACK_TYPE_ALL_MATCHES)
+                    .setCallbackType(CallbackType)
                     .setScanMode(android.bluetooth.le.ScanSettings.SCAN_MODE_LOW_LATENCY)
-                    .setMatchMode(android.bluetooth.le.ScanSettings.MATCH_MODE_AGGRESSIVE)
+                    .setMatchMode(MatchMode)
                     .setNumOfMatches(android.bluetooth.le.ScanSettings.MATCH_NUM_ONE_ADVERTISEMENT)
                     .build();
         } else {
@@ -910,6 +912,26 @@ public class DiscoveryActivity extends AbstractGBActivity implements AdapterView
         if (oldBleScanning) {
             LOG.info("New BLE scanning disabled via settings, using old method");
         }
+        int level = prefs.getInt("scanning_intensity", 1);
+        switch (level) {
+            case 0:
+                CallbackType = android.bluetooth.le.ScanSettings.CALLBACK_TYPE_FIRST_MATCH;
+                MatchMode = android.bluetooth.le.ScanSettings.MATCH_MODE_STICKY;
+                break;
+            case 1:
+                CallbackType = android.bluetooth.le.ScanSettings.CALLBACK_TYPE_FIRST_MATCH;
+                MatchMode = android.bluetooth.le.ScanSettings.MATCH_MODE_AGGRESSIVE;
+                break;
+            case 2:
+                CallbackType = android.bluetooth.le.ScanSettings.CALLBACK_TYPE_ALL_MATCHES;
+                MatchMode = android.bluetooth.le.ScanSettings.MATCH_MODE_STICKY;
+                break;
+            case 3:
+                CallbackType = android.bluetooth.le.ScanSettings.CALLBACK_TYPE_ALL_MATCHES;
+                MatchMode = android.bluetooth.le.ScanSettings.MATCH_MODE_AGGRESSIVE;
+                break;
+        }
+        LOG.debug("Device discovery - scanning level: " + level + " " + CallbackType + " " + MatchMode);
     }
 
     @Override

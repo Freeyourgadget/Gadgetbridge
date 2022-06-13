@@ -144,7 +144,7 @@ public class MiBand5Coordinator extends HuamiCoordinator {
                 "id_ID",
                 "it_IT",
                 "nl_NL",
-                "pt_PT",
+                "pt_BR",
                 "pl_PL",
                 "ro_RO",
                 "ru_RU",
