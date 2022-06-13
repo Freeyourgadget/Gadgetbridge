@@ -41,6 +41,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
+import androidx.appcompat.view.menu.MenuItemImpl;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
 import androidx.core.app.NotificationManagerCompat;
@@ -166,6 +167,13 @@ public class ControlCenterv2 extends AppCompatActivity
                 this, drawer, toolbar, R.string.controlcenter_navigation_drawer_open, R.string.controlcenter_navigation_drawer_close);
         drawer.setDrawerListener(toggle);
         toggle.syncState();
+
+        /* This sucks but for the play store we're not allowed a donation link. Instead for
+        the Bangle.js Play Store app we put a message in the About dialog via @string/about_description */
+        if (BuildConfig.FLAVOR == "banglejs") {
+            MenuItemImpl v = (MenuItemImpl) ((NavigationView) drawer.getChildAt(1)).getMenu().findItem(R.id.donation_link);
+            if (v != null) v.setVisible(false);
+        }
 
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
