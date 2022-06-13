@@ -1601,7 +1601,9 @@ Temps de sommeil préféré en heures</string>
     <string name="title_activity_controlcenter_banglejs_main">Bangle.js Gadgetbridge</string>
     <string name="about_activity_title_banglejs_main">A propos de Bangle.js Gadgetbridge</string>
     <string name="application_name_banglejs_main">Bangle.js Gadgetbridge</string>
-    <string name="about_description_banglejs_main">Application complémentaire Android pour Bangle.js élaborée sur la base du projet Gadgetbridge, avec des fonctionnalités Internet supplémentaires.</string>
+    <string name="about_description_banglejs_main">Application complémentaire Android pour Bangle.js élaborée sur la base du projet Gadgetbridge, avec des fonctionnalités Internet supplémentaires.
+\n
+\nEn raison des règles du Google Play Store, nous ne pouvons pas mettre de lien de don directement dans l\'application, mais si vous appréciez cette application, pensez à faire un don via la page web de Gadgetbridge ci-dessous.</string>
     <string name="application_name_banglejs_nopebble">Bangle.js pour Gadgetbridge</string>
     <string name="title_activity_controlcenter_banglejs_nopebble">Bangle.js pour Gadgetbridge</string>
     <string name="about_activity_title_main_nightly">A propos de Gatgetbridge Nightly</string>
@@ -1612,7 +1614,9 @@ Temps de sommeil préféré en heures</string>
     <string name="title_activity_controlcenter_main_nopebble">Gadgetbridge Nightly Sans Pebble</string>
     <string name="gadgetbridge_running_main_nightly">GB Nightly en fonctionnement</string>
     <string name="gadgetbridge_running_banglejs_main">Bangle.js en fonctionnement</string>
-    <string name="about_description_banglejs_nopebble">Application complémentaire Android pour Bangle.js élaborée sur la base du projet Gadgetbridge, avec des fonctionnalités Internet supplémentaires.</string>
+    <string name="about_description_banglejs_nopebble">Application complémentaire Android pour Bangle.js élaborée sur la base du projet Gadgetbridge, avec des fonctionnalités Internet supplémentaires.
+\n
+\nEn raison des règles du Google Play Store, nous ne pouvons pas mettre de lien de don directement dans l\'application, mais si vous appréciez cette application, pensez à faire un don via la page web de Gadgetbridge ci-dessous.</string>
     <string name="gadgetbridge_running_banglejs_nopebble">Bangle.js en fonctionnement</string>
     <string name="application_name_main_nightly">Gadgetbridge (version Nightly)</string>
     <string name="title_activity_controlcenter_main_nightly">Gadgetbrigde version Nightly</string>
@@ -1685,7 +1689,7 @@ Temps de sommeil préféré en heures</string>
     <string name="notification_gps_title">GPS Gadgebridge</string>
     <string name="notification_gps_text">Envoi des données GPS au(x) appareil(s) %1$d</string>
     <string name="notification_channel_gps">Suivi GPS</string>
-    <string name="permission_notification_listener">%1$s a besoin d\'accéder aux notifications pour les afficher sur votre montre.
+    <string name="permission_notification_listener">%1$s a besoin d\'accéder aux notifications pour les afficher sur votre montre quand l\'écran de votre téléphone est éteint.
 \n
 \nMerci le sélectionner \'%2$s\' puis \'%1$s\' et activer \'Autoriser l\'accès aux notifications\', puis appuyer sur \'Retour\' pour revenir à %1$s</string>
     <string name="discovery_scanning_intensity">Intensité du scan</string>
@@ -1710,7 +1714,7 @@ Temps de sommeil préféré en heures</string>
     <string name="prefs_double_tap_edge_summary">Détecter un double appui même si hors zone tactile</string>
     <string name="pref_voice_detect_duration_10">10 secondes</string>
     <string name="pref_device_action_phone_gps_location_listener_stop">Arrêt du gestionnaire GPS</string>
-    <string name="permission_notification_policy_access">%1$s doit accéder aux réglages Ne Pas Déranger afin de les respecter sur votre montre.
+    <string name="permission_notification_policy_access">%1$s doit accéder aux réglages Ne Pas Déranger afin de les respecter sur votre montre quand l\'écran de votre téléphone est éteint.
 \n
 \nMerci de sélectionner \'%2$s\' puis \'%1$s\' et activer \'Autoriser Ne Pas Déranger\', puis sélectionner \'Retour\' pour revenir à %1$s</string>
     <string name="prefs_voice_detect_summary">Activer le son ambiant et réduction de bruit automatique lors de la détection de voix</string>
@@ -1729,4 +1733,9 @@ Temps de sommeil préféré en heures</string>
     <string name="pref_switch_controls_anc_off">Annulation de bruit &lt;-&gt; Off</string>
     <string name="pref_voice_detect_duration_15">15 secondes</string>
     <string name="pref_device_action_fitness_app_control_toggle">Basculer d\'app de suivi sportif</string>
+    <string name="pref_title_banglejs_webview_url">URL de chargement de l\'app</string>
+    <string name="permission_location">%1$s a besoin d\'accès à votre emplacement en arrière-plan pour lui permettre de rester connecté à votre montre même quand votre écran est éteint.
+\n
+\nAppuyez-ici \'%2$s\' pour accepter.</string>
+    <string name="pref_summary_banglejs_webview_url">Si vous souhaitez utiliser un chargeur d\'app spécifique mettre votre URL https://…/android.html ici. Sinon laissez blanc pour https://banglejs.com/apps</string>
 </resources>
