@@ -351,79 +351,7 @@ public class HybridHRWatchfaceDesignerActivity extends AbstractGBActivity implem
                     for (int i = 0; i < layout.length(); i++) {
                         JSONObject layoutItem = layout.getJSONObject(i);
                         if (layoutItem.getString("type").equals("comp")) {
-                            String widgetName = layoutItem.getString("name");
-                            String widgetTimezone = null;
-                            int widgetUpdateTimeout = -1;
-                            boolean widgetTimeoutHideText = true;
-                            boolean widgetTimeoutShowCircle = true;
-                            switch (widgetName) {
-                                case "dateSSE":
-                                    widgetName = "widgetDate";
-                                    break;
-                                case "weatherSSE":
-                                    widgetName = "widgetWeather";
-                                    break;
-                                case "stepsSSE":
-                                    widgetName = "widgetSteps";
-                                    break;
-                                case "hrSSE":
-                                    widgetName = "widgetHR";
-                                    break;
-                                case "batterySSE":
-                                    widgetName = "widgetBattery";
-                                    break;
-                                case "caloriesSSE":
-                                    widgetName = "widgetCalories";
-                                    break;
-                                case "activeMinutesSSE":
-                                    widgetName = "widgetActiveMins";
-                                    break;
-                                case "chanceOfRainSSE":
-                                    widgetName = "widgetChanceOfRain";
-                                    break;
-                                case "timeZone2SSE":
-                                    widgetName = "widget2ndTZ";
-                                    break;
-                            }
-                            int widgetColor = layoutItem.getString("color").equals("white") ? HybridHRWatchfaceWidget.COLOR_WHITE : HybridHRWatchfaceWidget.COLOR_BLACK;
-                            if (widgetName.startsWith("widget2ndTZ")) {
-                                try {
-                                    widgetName = "widget2ndTZ";
-                                    JSONObject widgetData = layoutItem.getJSONObject("data");
-                                    widgetTimezone = widgetData.getString("tzName");
-                                    widgets.add(new HybridHRWatchfaceWidget(widgetName,
-                                            layoutItem.getJSONObject("pos").getInt("x"),
-                                            layoutItem.getJSONObject("pos").getInt("y"),
-                                            layoutItem.getJSONObject("size").getInt("w"),
-                                            layoutItem.getJSONObject("size").getInt("h"),
-                                            widgetColor,
-                                            widgetTimezone));
-                                } catch (JSONException e) {
-                                    LOG.error("Couldn't determine tzName!", e);
-                                }
-                            } else if (widgetName.startsWith("widgetCustom")) {
-                                widgetName = "widgetCustom";
-                                JSONObject widgetData = layoutItem.getJSONObject("data");
-                                widgetUpdateTimeout = widgetData.getInt("update_timeout");
-                                widgetTimeoutHideText = widgetData.getBoolean("timeout_hide_text");
-                                widgetTimeoutShowCircle = widgetData.getBoolean("timeout_show_circle");
-                                widgets.add(new HybridHRWatchfaceWidget(widgetName,
-                                        layoutItem.getJSONObject("pos").getInt("x"),
-                                        layoutItem.getJSONObject("pos").getInt("y"),
-                                        layoutItem.getJSONObject("size").getInt("w"),
-                                        layoutItem.getJSONObject("size").getInt("h"),
-                                        widgetColor,
-                                        widgetUpdateTimeout,
-                                        widgetTimeoutHideText,
-                                        widgetTimeoutShowCircle));
-                            } else {
-                                widgets.add(new HybridHRWatchfaceWidget(widgetName,
-                                        layoutItem.getJSONObject("pos").getInt("x"),
-                                        layoutItem.getJSONObject("pos").getInt("y"),
-                                        layoutItem.getJSONObject("size").getInt("w"),
-                                        layoutItem.getJSONObject("size").getInt("h"),
-                                        widgetColor));
-                            }
+                            widgets.add(HybridHRWatchfaceFactory.parseWidgetJSON(layoutItem));
                         }
                     }
                 } catch (JSONException e) {
@@ -838,6 +766,11 @@ public class HybridHRWatchfaceDesignerActivity extends AbstractGBActivity implem
                     GBApplication.deviceService().onInstallApp(tempAppFileUri);
                     FossilHRInstallHandler.saveAppInCache(fossilFile, processedBackgroundImage, mCoordinator, HybridHRWatchfaceDesignerActivity.this);
                 }
+                Bitmap previewImage = wfFactory.getPreviewImage(this);
+                File previewFile = new File(cacheDir, app.getUUID().toString() + "_preview.png");
+                FileOutputStream previewFOS = new FileOutputStream(previewFile);
+                previewImage.compress(Bitmap.CompressFormat.PNG, 9, previewFOS);
+                previewFOS.close();
             }
         } catch (IOException e) {
             LOG.warn("Error while creating and uploading watchface", e);
