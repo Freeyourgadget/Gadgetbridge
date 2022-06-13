@@ -1623,12 +1623,16 @@
     <string name="gadgetbridge_running_main_nopebble">Gecelik PebbleYok GB çalışıyor</string>
     <string name="title_activity_controlcenter_banglejs_main">Bangle.js Gadgetbridge</string>
     <string name="about_activity_title_banglejs_main">Bangle.js Gadgetbridge Hakkında</string>
-    <string name="about_description_banglejs_main">İnternet erişimi eklenen Gadgetbridge projesinin üzerine inşa edilmiş Bangle.js için Android yardımcı uygulaması.</string>
+    <string name="about_description_banglejs_main">Bangle.js için Gadgetbridge projesinin üzerine inşa edilmiş, internet erişimi eklenmiş Android yardımcı uygulaması.
+\n
+\nGoogle Play Store politikaları nedeniyle, uygulamanın kendisinde bir bağış bağlantısına izin verilmiyor, ancak bu uygulamayı beğendiyseniz lütfen aşağıdaki Gadgetbridge ana sayfası üzerinden bağış yapmayı düşünün.</string>
     <string name="title_activity_controlcenter_main_nightly">Gadgetbridge Gecelik</string>
     <string name="application_name_main_nopebble">Gadgetbridge (Gecelik, Pebble sağlayıcısı yok)</string>
     <string name="application_name_banglejs_main">Bangle.js Gadgetbridge</string>
     <string name="about_description_main_nopebble">Satıcıların kapalı kaynaklı Android aygıt uygulamalarının yerine bulut gerektirmeyen copyleft özgür alternatif. Gadgetbridge gecelik sürümleri. Bu sürümde, çakışmaları önlemek için Pebble sağlayıcısının adı değiştirilmiştir, bu nedenle Pebble ile ilgili bazı bütünleşmeler çalışmayacaktır, ancak mevcut bir Gadgetbridge kurulumunun yanına kurulabilir.</string>
-    <string name="about_description_banglejs_nopebble">İnternet erişimi eklenen Gadgetbridge projesinin üzerine inşa edilmiş Bangle.js için Android yardımcı uygulaması.</string>
+    <string name="about_description_banglejs_nopebble">Bangle.js için Gadgetbridge projesinin üzerine inşa edilmiş, internet erişimi eklenmiş Android yardımcı uygulaması.
+\n
+\nGoogle Play Store politikaları nedeniyle, uygulamanın kendisinde bir bağış bağlantısına izin verilmiyor, ancak bu uygulamayı beğendiyseniz lütfen aşağıdaki Gadgetbridge ana sayfası üzerinden bağış yapmayı düşünün.</string>
     <string name="gadgetbridge_running_banglejs_nopebble">Bangle.js çalışıyor</string>
     <string name="application_name_main_nightly">Gadgetbridge (Gecelik)</string>
     <string name="prefs_activate_display_on_lift_sensitivity">Hassasiyet</string>
@@ -1730,10 +1734,10 @@
     <string name="notification_gps_text">GPS konumu %1$d aygıta gönderiliyor</string>
     <string name="pref_device_action_phone_gps_location_listener_stop">GPS Konumu Dinleyiciyi Durdur</string>
     <string name="pref_workout_send_gps_title">Egzersiz sırasında GPS gönder</string>
-    <string name="permission_notification_listener">%1$s, saatinizde görüntülemek için Bildirimlere erişmeye ihtiyaç duyuyor.
+    <string name="permission_notification_listener">%1$s, telefonunuzun ekranı kapalıyken saatinizde görüntülemek için Bildirimlere erişmeye ihtiyaç duyuyor.
 \n
 \nLütfen önce \'%2$s\', sonra \'%1$s\' düğmesine dokunun ve \'Bildirim Erişimine İzin Ver\' seçeneğini etkinleştirin, ardından %1$s\'e dönmek için \'Geri\' düğmesine dokunun</string>
-    <string name="permission_notification_policy_access">%1$s, saatinizde bu ayarları yerine getirebilmek için Rahatsız Etme ayarlarına erişmeye ihtiyaç duyuyor.
+    <string name="permission_notification_policy_access">%1$s, telefonunuzun ekranı kapalıyken saatinizde bu ayarları yerine getirebilmek için Rahatsız Etme ayarlarına erişmeye ihtiyaç duyuyor.
 \n
 \nLütfen önce \'%2$s\', sonra \'%1$s\' düğmesine dokunun ve \'Rahatsız Etmeye İzin Ver\' seçeneğini etkinleştirin, ardından %1$s\'e dönmek için \'Geri\' düğmesine dokunun</string>
     <string name="discovery_scanning_intensity">Tarama yoğunluğu</string>
@@ -1742,4 +1746,9 @@
     <string name="quick_alarm_description">Widget alarmı</string>
     <string name="portuguese_pt">Portekizce (Portekiz)</string>
     <string name="portuguese_br">Portekizce (Brezilya)</string>
+    <string name="pref_title_banglejs_webview_url">Uygulama yükleyici URL\'si</string>
+    <string name="pref_summary_banglejs_webview_url">Özel bir uygulama yükleyicisi istiyorsanız https://.../android.html URL\'nizi buraya koyun. Aksi takdirde https://banglejs.com/apps için boş bırakın</string>
+    <string name="permission_location">%1$s ekranınız kapalıyken bile saatinize bağlı kalmasını sağlamak için arka planda konumunuza erişmeye ihtiyaç duyuyor.
+\n
+\nKabul etmek için lütfen \'%2$s\' düğmesine dokunun.</string>
 </resources>
