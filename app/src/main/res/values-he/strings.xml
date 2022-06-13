@@ -1602,8 +1602,12 @@
     <string name="about_activity_title_banglejs_main">על Bangle.js Gadgetbridge</string>
     <string name="title_activity_controlcenter_banglejs_nopebble">Bangle.js Gadgetbridge</string>
     <string name="about_activity_title_banglejs_nopebble">על Bangle.js Gadgetbridge</string>
-    <string name="about_description_banglejs_nopebble">יישומון Android מלווה ל־Bangle.js שנבנה על גבי מיזם Gadgetbridge עם תוספת של גישה לאינטרנט.</string>
-    <string name="about_description_banglejs_main">יישומון Android מלווה ל־Bangle.js שנבנה על גבי מיזם Gadgetbridge עם תוספת של גישה לאינטרנט.</string>
+    <string name="about_description_banglejs_nopebble">יישומון Android מלווה ל־Bangle.js שנבנה על גבי מיזם Gadgetbridge עם תוספת של גישה לאינטרנט.
+\n
+\nעקב מדיניות של חנות Google Play, אסור לנו להציב קישור תרומה ביישומון עצמו אך אם היישומון נושא חן בעיניך אפשר לתרום דרך עמוד הבית של Gadgetbridge להלן.</string>
+    <string name="about_description_banglejs_main">יישומון Android מלווה ל־Bangle.js שנבנה על גבי מיזם Gadgetbridge עם תוספת של גישה לאינטרנט.
+\n
+\nעקב מדיניות של חנות Google Play, אסור לנו להציב קישור תרומה ביישומון עצמו אך אם היישומון נושא חן בעיניך אפשר לתרום דרך עמוד הבית של Gadgetbridge להלן.</string>
     <string name="application_name_main_nightly">Gadgetbridge (גרסה ניסיונית)</string>
     <string name="application_name_banglejs_nopebble">Bangle.js Gadgetbridge</string>
     <string name="gadgetbridge_running_banglejs_main">Bangle.js פעיל</string>
@@ -1719,4 +1723,6 @@
     <string name="quick_alarm_description">שעון מעורר מווידג׳ט</string>
     <string name="portuguese_br">פורטוגלית ברזילאית</string>
     <string name="quick_alarm">שעון מעורר מהיר</string>
+    <string name="pref_title_banglejs_webview_url">כתובת טוען יישומון</string>
+    <string name="pref_summary_banglejs_webview_url">אם ברצונך להשתמש בטוען יישומון אחר נא לציין את הכתובת https://…/android.html, אם לא אפשר להשאיר ריק כדי להשתמש ב־https://banglejs.com/apps</string>
 </resources>
