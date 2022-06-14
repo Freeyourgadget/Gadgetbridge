@@ -1742,4 +1742,6 @@
     <string name="permission_location">%1$s потрібен доступ до вашого місцеперебування у фоновому режимі, щоб дозволити йому залишатися на зв\'язку з годинником, навіть коли екран вимкнено.
 \n
 \nТоркніться «%2$s», щоб погодитися.</string>
+    <string name="info_no_devices_connected">немає під\'єднаних пристроїв</string>
+    <string name="info_connected_count">Під\'єднаних пристроїв: %d</string>
 </resources>
