@@ -141,7 +141,7 @@ public class DeviceSettingsPreferenceConst {
     public static final String PREF_SONYSWR12_SMART_INTERVAL = "smart_alarm_interval_preference";
 
     public static final String PREF_BT_CONNECTED_ADVERTISEMENT = "bt_connected_advertisement";
-    public static final String PREF_TRANSLITERATION_ENABLED = "pref_transliteration_enabled";
+    public static final String PREF_TRANSLITERATION_LANGUAGES = "pref_transliteration_languages";
 
     public static final String PREF_NOTHING_EAR1_INEAR = "pref_nothing_inear_detection";
     public static final String PREF_NOTHING_EAR1_AUDIOMODE = "pref_nothing_audiomode";

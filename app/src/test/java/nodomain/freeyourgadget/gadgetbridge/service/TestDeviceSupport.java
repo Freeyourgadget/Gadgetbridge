@@ -2,6 +2,7 @@ package nodomain.freeyourgadget.gadgetbridge.service;
 
 import android.bluetooth.BluetoothAdapter;
 import android.content.Context;
+import android.location.Location;
 import android.net.Uri;
 
 import java.util.ArrayList;
@@ -223,6 +224,10 @@ class TestDeviceSupport extends AbstractDeviceSupport {
 
     @Override
     public void onPowerOff() {
+
+    }
+
+    @Override public void onSetGpsLocation(Location location) {
 
     }
 }

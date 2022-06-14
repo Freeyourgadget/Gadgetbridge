@@ -45,6 +45,7 @@ import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.UUID;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
@@ -85,10 +86,11 @@ import nodomain.freeyourgadget.gadgetbridge.util.DeviceHelper;
 import nodomain.freeyourgadget.gadgetbridge.util.EmojiConverter;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 import nodomain.freeyourgadget.gadgetbridge.util.GBPrefs;
-import nodomain.freeyourgadget.gadgetbridge.util.LanguageUtils;
+import nodomain.freeyourgadget.gadgetbridge.util.language.LanguageUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
+import nodomain.freeyourgadget.gadgetbridge.util.language.Transliterator;
 
-import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_TRANSLITERATION_ENABLED;
+import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_TRANSLITERATION_LANGUAGES;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_ADD_CALENDAREVENT;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_APP_CONFIGURE;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_APP_REORDER;
@@ -576,12 +578,13 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
         DeviceSupport deviceSupport = getDeviceSupport(device);
 
         Prefs devicePrefs = new Prefs(GBApplication.getDeviceSpecificSharedPrefs(device.getAddress()));
-        boolean transliterate = devicePrefs.getBoolean(PREF_TRANSLITERATION_ENABLED, false);
 
-        if (transliterate) {
+        final Transliterator transliterator = LanguageUtils.getTransliterator(device);
+
+        if (transliterator != null) {
             for (String extra : GBDeviceService.transliterationExtras) {
                 if (intent.hasExtra(extra)) {
-                    intent.putExtra(extra, LanguageUtils.transliterate(intent.getStringExtra(extra)));
+                    intent.putExtra(extra, transliterator.transliterate(intent.getStringExtra(extra)));
                 }
             }
         }

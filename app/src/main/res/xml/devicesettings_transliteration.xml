@@ -1,9 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
-    <SwitchPreference
-        android:defaultValue="false"
-        android:key="pref_transliteration_enabled"
+    <com.mobeta.android.dslv.DragSortListPreference
+        android:defaultValue="@array/pref_transliteration_languages_default"
+        android:dialogTitle="@string/pref_title_transliteration"
+        android:entries="@array/pref_transliteration_languages"
+        android:entryValues="@array/pref_transliteration_languages_values"
         android:icon="@drawable/ic_translate"
+        android:key="pref_transliteration_languages"
+        android:persistent="true"
         android:summary="@string/pref_summary_transliteration"
         android:title="@string/pref_title_transliteration" />
 </androidx.preference.PreferenceScreen>

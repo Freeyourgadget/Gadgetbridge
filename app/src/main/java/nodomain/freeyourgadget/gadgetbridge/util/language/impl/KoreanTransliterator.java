@@ -14,16 +14,18 @@
 
     You should have received a copy of the GNU Affero General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
-package nodomain.freeyourgadget.gadgetbridge.util;
+package nodomain.freeyourgadget.gadgetbridge.util.language.impl;
 
 import java.util.Optional;
 import java.text.Normalizer;
 import java.text.Normalizer.Form;
 
+import nodomain.freeyourgadget.gadgetbridge.util.language.Transliterator;
+
 // Implements Revised Romanization of Korean as well as we can without understanding any grammar.
 //
 // https://en.wikipedia.org/wiki/Revised_Romanization_of_Korean
-public class KoreanLanguageUtils {
+public class KoreanTransliterator implements Transliterator {
     // https://en.wikipedia.org/wiki/Hangul_Jamo_%28Unicode_block%29
     private static final char JAMO_BLOCK_START = 0x1100;
     private static final char JAMO_BLOCK_END = 0x11FF;
@@ -282,7 +284,8 @@ public class KoreanLanguageUtils {
     }
 
     // Transliterate any Hangul in the given string. Leaves any non-Hangul characters unmodified.
-    public static String transliterate(String txt) {
+    @Override
+    public String transliterate(String txt) {
         if (txt == null || txt.isEmpty()) {
             return txt;
         }

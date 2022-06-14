@@ -15,15 +15,17 @@
 
     You should have received a copy of the GNU Affero General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
-package nodomain.freeyourgadget.gadgetbridge.util;
+package nodomain.freeyourgadget.gadgetbridge.util.language.impl;
 
 import java.util.HashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import nodomain.freeyourgadget.gadgetbridge.util.language.Transliterator;
+
 // What's the reason to extending LanguageUtils?
 // Just doing it because already done in the previous code.
-public class BengaliLanguageUtils extends LanguageUtils {
+public class BengaliTransliterator implements Transliterator {
         // Composite Letters.
     private final static HashMap<String, String> composites = new HashMap<String, String>() {
         {
@@ -187,8 +189,9 @@ public class BengaliLanguageUtils extends LanguageUtils {
         return null;
     }
 
-    public static String transliterate(String txt) {
-        if (txt.isEmpty()) {
+    @Override
+    public String transliterate(String txt) {
+        if (txt == null || txt.isEmpty()) {
             return txt;
         }
 

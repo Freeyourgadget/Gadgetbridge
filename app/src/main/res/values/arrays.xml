@@ -2278,5 +2278,47 @@
         <item>de.dennisguse.opentracks.nightly</item>
     </string-array>
 
-</resources>
+    <string-array name="pref_transliteration_languages">
+        <item>@string/arabic</item>
+        <item>@string/bengali</item>
+        <item>@string/czech</item>
+        <item>@string/estonian</item>
+        <item>@string/extended_ascii</item>
+        <item>@string/german</item>
+        <item>@string/greek</item>
+        <item>@string/hebrew</item>
+        <item>@string/icelandic</item>
+        <item>@string/korean</item>
+        <item>@string/lithuanian</item>
+        <item>@string/persian</item>
+        <item>@string/polish</item>
+        <item>@string/russian</item>
+        <item>@string/scandinavian</item>
+        <item>@string/turkish</item>
+        <item>@string/ukranian</item>
+    </string-array>
 
+    <string-array name="pref_transliteration_languages_values">
+        <item>arabic</item>
+        <item>bengali</item>
+        <item>czech</item>
+        <item>estonian</item>
+        <item>extended_ascii</item>
+        <item>german</item>
+        <item>greek</item>
+        <item>hebrew</item>
+        <item>icelandic</item>
+        <item>korean</item>
+        <item>lithuanian</item>
+        <item>persian</item>
+        <item>polish</item>
+        <item>russian</item>
+        <item>scandinavian</item>
+        <item>turkish</item>
+        <item>ukranian</item>
+    </string-array>
+
+    <string-array name="pref_transliteration_languages_default">
+        <!-- transliteration disabled by default -->
+    </string-array>
+</resources>
