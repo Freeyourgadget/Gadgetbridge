@@ -841,7 +841,7 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
                 break;
             case ACTION_SET_GPS_LOCATION:
                 final Location location = intent.getParcelableExtra(EXTRA_GPS_LOCATION);
-                mDeviceSupport.onSetGpsLocation(location);
+                deviceSupport.onSetGpsLocation(location);
                 break;
         }
     }
