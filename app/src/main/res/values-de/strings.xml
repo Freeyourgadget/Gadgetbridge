@@ -1628,7 +1628,4 @@
     <string name="about_activity_title_banglejs_nopebble">Über Bangle.js Gadgetbridge</string>
     <string name="pref_device_action_fitness_app_control_toggle">Fitness-App-Tracking umschalten</string>
     <string name="pref_title_banglejs_text_bitmap">Text als Bitmaps</string>
-
-    <string name="info_connected_count">%d Geräte verbunden</string>
-    <string name="info_no_devices_connected">Keine Geräte verbunden</string>
 </resources>
