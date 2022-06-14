@@ -1725,4 +1725,13 @@
     <string name="quick_alarm">שעון מעורר מהיר</string>
     <string name="pref_title_banglejs_webview_url">כתובת טוען יישומון</string>
     <string name="pref_summary_banglejs_webview_url">אם ברצונך להשתמש בטוען יישומון אחר נא לציין את הכתובת https://…/android.html, אם לא אפשר להשאיר ריק כדי להשתמש ב־https://banglejs.com/apps</string>
+    <string name="permission_notification_listener">ל־%1$s דרושה גישה להתראות כדי להציג אותן בשעון שלך כאשר מסך הטלפון שלך כבוי.
+\n
+\nנא לגעת ב־‚%2$s’ ואז ‚%1$s’ ולהפעיל את ‚לאפשר גישה להתראות’ ואז לגעת ב‚חזרה’ כדי לחזור אל %1$s</string>
+    <string name="permission_location">ל־%1$s דרושה גישה למיקום שלך ברקע כדי לאפשר לו להישאר מחובר לשעון שלך גם כאשר המסך שלך כבוי.
+\n
+\nנא לגעת ב‚%2$s’ כדי להסכים.</string>
+    <string name="permission_notification_policy_access">ל־%1$s דרושה גישה להגדרות לא להפריע כדי לכבד אותן בשעון שלך כאשר מסך הטלפון שלך כבוי.
+\n
+\nנא לגעת ב־‚%2$s’ ואז ‚%1$s’ ולהפעיל את ‚לאפשר לא להפריע’ ואז לגעת ב‚חזרה’ כדי לחזור אל %1$s</string>
 </resources>
