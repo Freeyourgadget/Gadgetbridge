@@ -54,25 +54,34 @@ public class AppsManagementActivity extends AbstractGBActivity {
 
     private void refreshInstalledApps() {
         try {
-            GBDevice selected = GBApplication.app().getDeviceManager().getSelectedDevice();
-            if (selected.getType() != DeviceType.FOSSILQHYBRID || !selected.isConnected() || !selected.getModel().startsWith("DN") || selected.getState() != GBDevice.State.INITIALIZED) {
-                throw new RuntimeException("Device not connected");
+            List<GBDevice> devices = GBApplication.app().getDeviceManager().getSelectedDevices();
+            boolean deviceFound = false;
+            for(GBDevice device : devices){
+                if (
+                        device.getType() == DeviceType.FOSSILQHYBRID &&
+                                device.isConnected() &&
+                                device.getModel().startsWith("DN") &&
+                                device.getState() == GBDevice.State.INITIALIZED
+                ) {
+                    String installedAppsJson = device.getDeviceInfo("INSTALLED_APPS").getDetails();
+                    if (installedAppsJson == null || installedAppsJson.isEmpty()) {
+                        throw new RuntimeException("can't get installed apps");
+                    }
+                    JSONArray apps = new JSONArray(installedAppsJson);
+                    appNames = new String[apps.length()];
+                    for (int i = 0; i < apps.length(); i++) {
+                        appNames[i] = apps.getString(i);
+                    }
+                    appsListView.setAdapter(new AppsListAdapter(this, appNames));
+                }
+                return;
             }
-            String installedAppsJson = selected.getDeviceInfo("INSTALLED_APPS").getDetails();
-            if (installedAppsJson == null || installedAppsJson.isEmpty()) {
-                throw new RuntimeException("cant get installed apps");
-            }
-            JSONArray apps = new JSONArray(installedAppsJson);
-            appNames = new String[apps.length()];
-            for (int i = 0; i < apps.length(); i++) {
-                appNames[i] = apps.getString(i);
-            }
-            appsListView.setAdapter(new AppsListAdapter(this, appNames));
-        } catch (Exception e) {
+        } catch (JSONException e) {
             toast(e.getMessage());
             finish();
             return;
         }
+        throw new RuntimeException("Device not connected");
     }
 
     class AppsListAdapter extends ArrayAdapter<String> {

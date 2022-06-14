@@ -29,6 +29,8 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
+import java.util.List;
+
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.activities.AbstractGBActivity;
@@ -85,9 +87,16 @@ public class CalibrationActivity extends AbstractGBActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_qhybrid_calibration);
 
-        GBDevice device = GBApplication.app().getDeviceManager().getSelectedDevice();
+        List<GBDevice> devices = GBApplication.app().getDeviceManager().getSelectedDevices();
+        boolean atLeastOneConnected = false;
+        for(GBDevice device : devices){
+            if(device.getType() == DeviceType.FOSSILQHYBRID){
+                atLeastOneConnected = true;
+                break;
+            }
+        }
 
-        if(device == null || device.getType() != DeviceType.FOSSILQHYBRID){
+        if(!atLeastOneConnected){
             Toast.makeText(this, R.string.watch_not_connected, Toast.LENGTH_LONG).show();
             finish();
             return;

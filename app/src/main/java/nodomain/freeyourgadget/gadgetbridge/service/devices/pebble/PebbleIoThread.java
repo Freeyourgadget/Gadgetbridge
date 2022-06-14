@@ -242,7 +242,7 @@ class PebbleIoThread extends GBDeviceIoThread {
     public void run() {
         mIsConnected = connect();
         if (!mIsConnected) {
-            if (GBApplication.getGBPrefs().getAutoReconnect() && !mQuit) {
+            if (GBApplication.getGBPrefs().getAutoReconnect(getDevice()) && !mQuit) {
                 gbDevice.setState(GBDevice.State.WAITING_FOR_RECONNECT);
                 gbDevice.sendDeviceUpdateIntent(getContext());
             }
@@ -406,7 +406,7 @@ class PebbleIoThread extends GBDeviceIoThread {
 
         enablePebbleKitSupport(false);
 
-        if (mQuit || !GBApplication.getGBPrefs().getAutoReconnect()) {
+        if (mQuit || !GBApplication.getGBPrefs().getAutoReconnect(getDevice())) {
             gbDevice.setState(GBDevice.State.NOT_CONNECTED);
         } else {
             gbDevice.setState(GBDevice.State.WAITING_FOR_RECONNECT);

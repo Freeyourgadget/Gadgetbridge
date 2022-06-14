@@ -29,6 +29,8 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Handler;
 import android.os.Looper;
+import android.text.Html;
+import android.text.SpannableString;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -44,6 +46,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
+import java.util.List;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.GBEnvironment;
@@ -145,44 +148,102 @@ public class GB {
         return pendingIntent;
     }
 
-    public static Notification createNotification(GBDevice device, Context context) {
-        String deviceName = device.getAliasOrName();
-        String text = device.getStateString();
-        if (device.getBatteryLevel() != GBDevice.BATTERY_UNKNOWN) {
-            text += ": " + context.getString(R.string.battery) + " " + device.getBatteryLevel() + "%";
-        }
-
-        boolean connected = device.isInitialized();
+    public static Notification createNotification(List<GBDevice> devices, Context context) {
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context, NOTIFICATION_CHANNEL_ID);
-        builder.setContentTitle(deviceName)
-                .setTicker(deviceName + " - " + text)
-                .setContentText(text)
-                .setSmallIcon(connected ? device.getNotificationIconConnected() : device.getNotificationIconDisconnected())
-                .setContentIntent(getContentIntent(context))
-                .setShowWhen(false)
-                .setOngoing(true);
+        if(devices.size() == 0){
+            builder.setContentTitle(context.getString(R.string.info_no_devices_connected))
+                    .setSmallIcon(R.drawable.ic_notification_disconnected)
+                    .setContentIntent(getContentIntent(context))
+                    .setShowWhen(false)
+                    .setOngoing(true);
 
-        if (!GBApplication.isRunningTwelveOrLater()) {
-            builder.setColor(context.getResources().getColor(R.color.accent));
-        }
+            if (!GBApplication.isRunningTwelveOrLater()) {
+                builder.setColor(context.getResources().getColor(R.color.accent));
+            }
+        }else if(devices.size() == 1) {
+            GBDevice device = devices.get(0);
+            String deviceName = device.getAliasOrName();
+            String text = device.getStateString();
+            if (device.getBatteryLevel() != GBDevice.BATTERY_UNKNOWN) {
+                text += ": " + context.getString(R.string.battery) + " " + device.getBatteryLevel() + "%";
+            }
 
-        Intent deviceCommunicationServiceIntent = new Intent(context, DeviceCommunicationService.class);
-        if (connected) {
-            deviceCommunicationServiceIntent.setAction(DeviceService.ACTION_DISCONNECT);
-            PendingIntent disconnectPendingIntent = PendingIntent.getService(context, 0, deviceCommunicationServiceIntent, PendingIntent.FLAG_ONE_SHOT);
-            builder.addAction(R.drawable.ic_notification_disconnected, context.getString(R.string.controlcenter_disconnect), disconnectPendingIntent);
-            if (GBApplication.isRunningLollipopOrLater() && DeviceHelper.getInstance().getCoordinator(device).supportsActivityDataFetching()) { //for some reason this fails on KK
+            boolean connected = device.isInitialized();
+            builder.setContentTitle(deviceName)
+                    .setTicker(deviceName + " - " + text)
+                    .setContentText(text)
+                    .setSmallIcon(connected ? device.getNotificationIconConnected() : device.getNotificationIconDisconnected())
+                    .setContentIntent(getContentIntent(context))
+                    .setShowWhen(false)
+                    .setOngoing(true);
+
+            if (!GBApplication.isRunningTwelveOrLater()) {
+                builder.setColor(context.getResources().getColor(R.color.accent));
+            }
+
+            Intent deviceCommunicationServiceIntent = new Intent(context, DeviceCommunicationService.class);
+            if (connected) {
+                deviceCommunicationServiceIntent.setAction(DeviceService.ACTION_DISCONNECT);
+                PendingIntent disconnectPendingIntent = PendingIntent.getService(context, 0, deviceCommunicationServiceIntent, PendingIntent.FLAG_ONE_SHOT);
+                builder.addAction(R.drawable.ic_notification_disconnected, context.getString(R.string.controlcenter_disconnect), disconnectPendingIntent);
+                if (GBApplication.isRunningLollipopOrLater() && DeviceHelper.getInstance().getCoordinator(device).supportsActivityDataFetching()) { //for some reason this fails on KK
+                    deviceCommunicationServiceIntent.setAction(DeviceService.ACTION_FETCH_RECORDED_DATA);
+                    deviceCommunicationServiceIntent.putExtra(EXTRA_RECORDED_DATA_TYPES, ActivityKind.TYPE_ACTIVITY);
+                    PendingIntent fetchPendingIntent = PendingIntent.getService(context, 1, deviceCommunicationServiceIntent, PendingIntent.FLAG_ONE_SHOT);
+                    builder.addAction(R.drawable.ic_refresh, context.getString(R.string.controlcenter_fetch_activity_data), fetchPendingIntent);
+                }
+            } else if (device.getState().equals(GBDevice.State.WAITING_FOR_RECONNECT) || device.getState().equals(GBDevice.State.NOT_CONNECTED)) {
+                deviceCommunicationServiceIntent.setAction(DeviceService.ACTION_CONNECT);
+                deviceCommunicationServiceIntent.putExtra(GBDevice.EXTRA_DEVICE, device);
+                PendingIntent reconnectPendingIntent = PendingIntent.getService(context, 2, deviceCommunicationServiceIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+                builder.addAction(R.drawable.ic_notification, context.getString(R.string.controlcenter_connect), reconnectPendingIntent);
+            }
+        }else{
+            StringBuilder contentText = new StringBuilder();
+            boolean isConnected = true;
+            boolean anyDeviceSupportesActivityDataFetching = false;
+            for(GBDevice device : devices){
+                if(!device.isInitialized()){
+                    isConnected = false;
+                }
+
+                anyDeviceSupportesActivityDataFetching |= DeviceHelper.getInstance().getCoordinator(device).supportsActivityDataFetching();
+
+                String deviceName = device.getAliasOrName();
+                String text = device.getStateString();
+                if (device.getBatteryLevel() != GBDevice.BATTERY_UNKNOWN) {
+                    text += ": " + context.getString(R.string.battery) + " " + device.getBatteryLevel() + "%";
+                }
+                contentText.append(deviceName).append(" (").append(text).append(")<br>");
+            }
+
+            SpannableString formated = new SpannableString(
+                    Html.fromHtml(contentText.substring(0, contentText.length() - 4)) // cut away last <br>
+            );
+
+            String title = context.getString(R.string.info_connected_count, devices.size());
+
+            builder.setContentTitle(title)
+                    .setContentText(formated)
+                    .setSmallIcon(isConnected ? R.drawable.ic_notification : R.drawable.ic_notification_disconnected)
+                    .setContentIntent(getContentIntent(context))
+                    .setStyle(new NotificationCompat.BigTextStyle().bigText(formated).setBigContentTitle(title))
+                    .setShowWhen(false)
+                    .setOngoing(true);
+
+            if (!GBApplication.isRunningTwelveOrLater()) {
+                builder.setColor(context.getResources().getColor(R.color.accent));
+            }
+
+            if (GBApplication.isRunningLollipopOrLater() && anyDeviceSupportesActivityDataFetching) { //for some reason this fails on KK
+                Intent deviceCommunicationServiceIntent = new Intent(context, DeviceCommunicationService.class);
                 deviceCommunicationServiceIntent.setAction(DeviceService.ACTION_FETCH_RECORDED_DATA);
                 deviceCommunicationServiceIntent.putExtra(EXTRA_RECORDED_DATA_TYPES, ActivityKind.TYPE_ACTIVITY);
                 PendingIntent fetchPendingIntent = PendingIntent.getService(context, 1, deviceCommunicationServiceIntent, PendingIntent.FLAG_ONE_SHOT);
                 builder.addAction(R.drawable.ic_refresh, context.getString(R.string.controlcenter_fetch_activity_data), fetchPendingIntent);
             }
-        } else if (device.getState().equals(GBDevice.State.WAITING_FOR_RECONNECT) || device.getState().equals(GBDevice.State.NOT_CONNECTED)) {
-            deviceCommunicationServiceIntent.setAction(DeviceService.ACTION_CONNECT);
-            deviceCommunicationServiceIntent.putExtra(GBDevice.EXTRA_DEVICE, device);
-            PendingIntent reconnectPendingIntent = PendingIntent.getService(context, 2, deviceCommunicationServiceIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-            builder.addAction(R.drawable.ic_notification, context.getString(R.string.controlcenter_connect), reconnectPendingIntent);
         }
+
         if (GBApplication.isRunningLollipopOrLater()) {
             builder.setVisibility(NotificationCompat.VISIBILITY_PUBLIC);
         }
@@ -220,8 +281,8 @@ public class GB {
         return builder.build();
     }
 
-    public static void updateNotification(GBDevice device, Context context) {
-        Notification notification = createNotification(device, context);
+    public static void updateNotification(List<GBDevice> devices, Context context) {
+        Notification notification = createNotification(devices, context);
         notify(NOTIFICATION_ID, notification, context);
     }
 

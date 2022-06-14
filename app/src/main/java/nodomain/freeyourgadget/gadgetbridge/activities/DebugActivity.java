@@ -68,6 +68,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
@@ -272,26 +273,28 @@ public class DebugActivity extends AbstractGBActivity {
 
                 if (context instanceof GBApplication) {
                     GBApplication gbApp = (GBApplication) context;
-                    final GBDevice device = gbApp.getDeviceManager().getSelectedDevice();
-                    if (device != null) {
-                        new DatePickerDialog(DebugActivity.this, new DatePickerDialog.OnDateSetListener() {
-                            @Override
-                            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                                Calendar date = Calendar.getInstance();
-                                date.set(year, monthOfYear, dayOfMonth);
+                    final List<GBDevice> devices = gbApp.getDeviceManager().getSelectedDevices();
+                    if(devices.size() == 0){
+                        GB.toast("Device not selected/connected", Toast.LENGTH_LONG, GB.INFO);
+                        return;
+                    }
+                    new DatePickerDialog(DebugActivity.this, new DatePickerDialog.OnDateSetListener() {
+                        @Override
+                        public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                            Calendar date = Calendar.getInstance();
+                            date.set(year, monthOfYear, dayOfMonth);
 
-                                long timestamp = date.getTimeInMillis() - 1000;
-                                GB.toast("Setting lastSyncTimeMillis: " + timestamp, Toast.LENGTH_LONG, GB.INFO);
+                            long timestamp = date.getTimeInMillis() - 1000;
+                            GB.toast("Setting lastSyncTimeMillis: " + timestamp, Toast.LENGTH_LONG, GB.INFO);
 
+                            for(GBDevice device : devices){
                                 SharedPreferences.Editor editor = GBApplication.getDeviceSpecificSharedPrefs(device.getAddress()).edit();
                                 editor.remove("lastSyncTimeMillis"); //FIXME: key reconstruction is BAD
                                 editor.putLong("lastSyncTimeMillis", timestamp);
                                 editor.apply();
                             }
-                        }, currentDate.get(Calendar.YEAR), currentDate.get(Calendar.MONTH), currentDate.get(Calendar.DATE)).show();
-                    } else {
-                        GB.toast("Device not selected/connected", Toast.LENGTH_LONG, GB.INFO);
-                    }
+                        }
+                    }, currentDate.get(Calendar.YEAR), currentDate.get(Calendar.MONTH), currentDate.get(Calendar.DATE)).show();
                 }
 
 
@@ -411,8 +414,8 @@ public class DebugActivity extends AbstractGBActivity {
             public void onClick(View v) {
                 Context context = getApplicationContext();
                 GBApplication gbApp = (GBApplication) context;
-                final GBDevice device = gbApp.getDeviceManager().getSelectedDevice();
-                if (device != null) {
+                List<GBDevice> devices = gbApp.getDeviceManager().getSelectedDevices();
+                for(GBDevice device : devices){
                     GBApplication.deleteDeviceSpecificSharedPrefs(device.getAddress());
                 }
             }

@@ -20,13 +20,17 @@ import android.bluetooth.BluetoothDevice;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.List;
+
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.service.DeviceCommunicationService;
+import nodomain.freeyourgadget.gadgetbridge.util.GBPrefs;
 
 public class BluetoothConnectReceiver extends BroadcastReceiver {
 
@@ -46,14 +50,30 @@ public class BluetoothConnectReceiver extends BroadcastReceiver {
         }
 
         BluetoothDevice device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
-        LOG.info("connection attempt detected from or to " + device.getAddress() + "(" + device.getName() + ")");
+        LOG.info("connection attempt detected from " + device.getAddress() + "(" + device.getName() + ")");
 
-        GBDevice gbDevice = service.getGBDevice();
-        if (gbDevice != null) {
-            if (device.getAddress().equals(gbDevice.getAddress()) && gbDevice.getState() == GBDevice.State.WAITING_FOR_RECONNECT) {
-                LOG.info("Will re-connect to " + gbDevice.getAddress() + "(" + gbDevice.getName() + ")");
-                GBApplication.deviceService().connect();
+        GBDevice gbDevice = getKnownDeviceByAddressOrNull(device.getAddress());
+        if(gbDevice == null){
+            LOG.info("connected device {} unknown", device.getAddress());
+            return;
+        }
+        SharedPreferences deviceSpecificPreferences = GBApplication.getDeviceSpecificSharedPrefs(gbDevice.getAddress());
+        boolean reactToConnection = deviceSpecificPreferences.getBoolean(GBPrefs.DEVICE_CONNECT_BACK, false);
+        reactToConnection |= gbDevice.getState() == GBDevice.State.WAITING_FOR_RECONNECT;
+        if(!reactToConnection){
+            return;
+        }
+        LOG.info("Will re-connect to " + gbDevice.getAddress() + "(" + gbDevice.getName() + ")");
+        GBApplication.deviceService().connect(gbDevice);
+    }
+
+    private GBDevice getKnownDeviceByAddressOrNull(String deviceAddress){
+        List<GBDevice> knownDevices = GBApplication.app().getDeviceManager().getDevices();
+        for(GBDevice device : knownDevices){
+            if(device.getAddress().equals(deviceAddress)){
+                return device;
             }
         }
+        return null;
     }
 }

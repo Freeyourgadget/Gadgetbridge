@@ -17,6 +17,7 @@
 package nodomain.freeyourgadget.gadgetbridge.service.devices.huami.amazfitbip;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
@@ -69,8 +70,8 @@ public class AmazfitBipLiteFirmwareInfo extends HuamiFirmwareInfo {
             if (searchString32BitAligned(bytes, "Amazfit Bip Lite")) {
                 return HuamiFirmwareType.FIRMWARE;
             }
-            GBDevice device = GBApplication.app().getDeviceManager().getSelectedDevice();
-            if (device != null) {
+            List<GBDevice> devices = GBApplication.app().getDeviceManager().getSelectedDevices();
+            for(GBDevice device : devices){
                 Prefs prefs = new Prefs(GBApplication.getDeviceSpecificSharedPrefs(device.getAddress()));
                 if (prefs.getBoolean(DeviceSettingsPreferenceConst.PREF_RELAX_FIRMWARE_CHECKS, false)) {
                     if (searchString32BitAligned(bytes, "Amazfit Bip")) {

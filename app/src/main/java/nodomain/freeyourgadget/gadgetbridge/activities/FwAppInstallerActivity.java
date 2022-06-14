@@ -214,6 +214,19 @@ public class FwAppInstallerActivity extends AbstractGBActivity implements Instal
         } else {
             setInfoText(getString(R.string.installer_activity_wait_while_determining_status));
 
+            List<GBDevice> selectedDevices = GBApplication.app().getDeviceManager().getSelectedDevices();
+            if(selectedDevices.size() == 0){
+                GB.toast("please connect the device you want to send to", Toast.LENGTH_LONG, GB.ERROR);
+                finish();
+                return;
+            }
+            if(selectedDevices.size() != 1){
+                GB.toast("please connect ONLY the device you want to send to", Toast.LENGTH_LONG, GB.ERROR);
+                finish();
+                return;
+            }
+            device = selectedDevices.get(0);
+
             // needed to get the device
             if (device == null || !device.isConnected()) {
                 connect();
@@ -245,13 +258,16 @@ public class FwAppInstallerActivity extends AbstractGBActivity implements Instal
         List<DeviceCoordinator> allCoordinators = DeviceHelper.getInstance().getAllCoordinators();
         List<DeviceCoordinator> sortedCoordinators = new ArrayList<>(allCoordinators.size());
 
-        GBDevice connectedDevice = deviceManager.getSelectedDevice();
-        if (connectedDevice != null && connectedDevice.isConnected()) {
-            DeviceCoordinator coordinator = DeviceHelper.getInstance().getCoordinator(connectedDevice);
-            if (coordinator != null) {
-                connectedCoordinators.add(coordinator);
+        List<GBDevice> devices = deviceManager.getSelectedDevices();
+        for(GBDevice connectedDevice : devices){
+            if (connectedDevice.isConnected()) {
+                DeviceCoordinator coordinator = DeviceHelper.getInstance().getCoordinator(connectedDevice);
+                if (coordinator != null) {
+                    connectedCoordinators.add(coordinator);
+                }
             }
         }
+
 
         sortedCoordinators.addAll(connectedCoordinators);
         for (DeviceCoordinator coordinator : allCoordinators) {

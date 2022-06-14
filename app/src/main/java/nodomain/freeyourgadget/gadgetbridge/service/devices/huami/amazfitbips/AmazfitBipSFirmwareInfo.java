@@ -17,6 +17,7 @@
 package nodomain.freeyourgadget.gadgetbridge.service.devices.huami.amazfitbips;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
@@ -66,10 +67,8 @@ public class AmazfitBipSFirmwareInfo extends HuamiFirmwareInfo {
 
     @Override
     protected HuamiFirmwareType determineFirmwareType(byte[] bytes) {
-
-        GBDevice device = GBApplication.app().getDeviceManager().getSelectedDevice();
-
-        if (device != null) {
+        List<GBDevice> devices = GBApplication.app().getDeviceManager().getSelectedDevices();
+        for (GBDevice device : devices) {
             if (device.getFirmwareVersion().startsWith("2.")) {
                 //For devices on firmware 2.x it is a tonleasp device and needs a header which looks like Mi Band 4
                 if (ArrayUtils.equals(bytes, MiBand4FirmwareInfo.FW_HEADER, MiBand4FirmwareInfo.FW_HEADER_OFFSET)) {

@@ -67,7 +67,7 @@ public class DeviceManager {
      * This allows direct access to the list from ListAdapters.
      */
     private final List<GBDevice> deviceList = new ArrayList<>();
-    private GBDevice selectedDevice = null;
+    private List<GBDevice> selectedDevices = new ArrayList<>();
 
     private final BroadcastReceiver mReceiver = new BroadcastReceiver() {
         @Override
@@ -137,22 +137,13 @@ public class DeviceManager {
     }
 
     private void updateSelectedDevice(GBDevice dev) {
-        if (selectedDevice == null) {
-            selectedDevice = dev;
-        } else {
-            if (selectedDevice.equals(dev)) {
-                selectedDevice = dev; // equality vs identity!
-            } else {
-                if (selectedDevice.isConnected() && dev.isConnected()) {
-                    LOG.warn("multiple connected devices -- this is currently not really supported");
-                    selectedDevice = dev; // use the last one that changed
-                } else if (!selectedDevice.isConnected()) {
-                    selectedDevice = dev; // use the last one that changed
-                }
+        selectedDevices.clear();
+        for(GBDevice device : deviceList){
+            if(device.isInitialized()){
+                selectedDevices.add(device);
             }
         }
-        GB.updateNotification(selectedDevice, context);
-
+        GB.updateNotification(selectedDevices, context);
     }
 
     private void refreshPairedDevices() {
@@ -184,9 +175,8 @@ public class DeviceManager {
         return Collections.unmodifiableList(deviceList);
     }
 
-    @Nullable
-    public GBDevice getSelectedDevice() {
-        return selectedDevice;
+    public List<GBDevice> getSelectedDevices() {
+        return selectedDevices;
     }
 
     private void notifyDevicesChanged() {

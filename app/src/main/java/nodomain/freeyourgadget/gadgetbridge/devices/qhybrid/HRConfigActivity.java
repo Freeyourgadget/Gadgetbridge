@@ -46,6 +46,8 @@ import java.util.List;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.activities.AbstractGBActivity;
+import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
+import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.QHybridSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.widget.CustomBackgroundWidgetElement;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.widget.CustomTextWidgetElement;
@@ -168,19 +170,25 @@ public class HRConfigActivity extends AbstractGBActivity {
         }
 
         // Disable some functions on watches with too new firmware (from official app 4.6.0 and higher)
-        String fwVersion_str = GBApplication.app().getDeviceManager().getSelectedDevice().getFirmwareVersion();
-        fwVersion_str = fwVersion_str.replaceFirst("^DN", "").replaceFirst("r\\.v.*", "");
-        Version fwVersion = new Version(fwVersion_str);
-        if (fwVersion.compareTo(new Version("1.0.2.20")) >= 0) {
-            findViewById(R.id.qhybrid_widget_add).setEnabled(false);
-            for (int i = 0; i < widgetButtonsMapping.size(); i++) {
-                final int widgetButtonId = widgetButtonsMapping.keyAt(i);
-                findViewById(widgetButtonId).setEnabled(false);
+        List<GBDevice> devices = GBApplication.app().getDeviceManager().getSelectedDevices();
+        for(GBDevice device : devices){
+            if(device.getType() == DeviceType.FOSSILQHYBRID){
+                String fwVersion_str = device.getFirmwareVersion();
+                fwVersion_str = fwVersion_str.replaceFirst("^DN", "").replaceFirst("r\\.v.*", "");
+                Version fwVersion = new Version(fwVersion_str);
+                if (fwVersion.compareTo(new Version("1.0.2.20")) >= 0) {
+                    findViewById(R.id.qhybrid_widget_add).setEnabled(false);
+                    for (int i = 0; i < widgetButtonsMapping.size(); i++) {
+                        final int widgetButtonId = widgetButtonsMapping.keyAt(i);
+                        findViewById(widgetButtonId).setEnabled(false);
+                    }
+                    findViewById(R.id.qhybrid_set_background).setEnabled(false);
+                    findViewById(R.id.qhybrid_unset_background).setEnabled(false);
+                    GB.toast(getString(R.string.fossil_hr_warning_firmware_too_new), Toast.LENGTH_LONG, GB.INFO);
+                }
             }
-            findViewById(R.id.qhybrid_set_background).setEnabled(false);
-            findViewById(R.id.qhybrid_unset_background).setEnabled(false);
-            GB.toast(getString(R.string.fossil_hr_warning_firmware_too_new), Toast.LENGTH_LONG, GB.INFO);
         }
+
     }
 
     @Override

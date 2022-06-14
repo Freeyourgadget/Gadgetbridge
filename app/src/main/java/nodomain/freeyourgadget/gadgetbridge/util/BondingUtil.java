@@ -180,7 +180,7 @@ public class BondingUtil {
     public static void connectThenComplete(BondingInterface bondingInterface, GBDevice device) {
         toast(bondingInterface.getContext(), bondingInterface.getContext().getString(R.string.discovery_trying_to_connect_to, device.getName()), Toast.LENGTH_SHORT, GB.INFO);
         // Disconnect when LE Pebble so that the user can manually initiate a connection
-        GBApplication.deviceService().disconnect();
+        GBApplication.deviceService().disconnect(device);
         GBApplication.deviceService().connect(device, true);
         bondingInterface.onBondingComplete(true);
     }
