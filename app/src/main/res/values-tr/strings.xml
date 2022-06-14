@@ -1751,4 +1751,6 @@
     <string name="permission_location">%1$s ekranınız kapalıyken bile saatinize bağlı kalmasını sağlamak için arka planda konumunuza erişmeye ihtiyaç duyuyor.
 \n
 \nKabul etmek için lütfen \'%2$s\' düğmesine dokunun.</string>
+    <string name="info_no_devices_connected">bağlı aygıt yok</string>
+    <string name="info_connected_count">%d aygıt bağlı</string>
 </resources>
