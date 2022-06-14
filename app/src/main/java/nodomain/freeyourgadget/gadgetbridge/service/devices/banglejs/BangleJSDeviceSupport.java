@@ -654,6 +654,8 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
 
     public String renderUnicodeAsImage(String txt) {
         if (txt==null) return null;
+        // Simple conversions
+        txt = txt.replaceAll("…", "...");
         /* If we're not doing conversion, pass this right back (we use the EmojiConverter
         As we would have done if BangleJSCoordinator.supportsUnicodeEmojis had reported false */
         Prefs devicePrefs = new Prefs(GBApplication.getDeviceSpecificSharedPrefs(gbDevice.getAddress()));
@@ -689,11 +691,12 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
 
     @Override
     public void onNotification(NotificationSpec notificationSpec) {
-        for (int i=0;i<notificationSpec.attachedActions.size();i++) {
-            NotificationSpec.Action action = notificationSpec.attachedActions.get(i);
-            if (action.type==NotificationSpec.Action.TYPE_WEARABLE_REPLY)
-                mNotificationReplyAction.add(notificationSpec.getId(), new Long(((long)notificationSpec.getId()<<4) + i + 1)); // wow. This should be easier!
-        }
+        if (notificationSpec.attachedActions!=null)
+            for (int i=0;i<notificationSpec.attachedActions.size();i++) {
+                NotificationSpec.Action action = notificationSpec.attachedActions.get(i);
+                if (action.type==NotificationSpec.Action.TYPE_WEARABLE_REPLY)
+                    mNotificationReplyAction.add(notificationSpec.getId(), new Long(((long)notificationSpec.getId()<<4) + i + 1)); // wow. This should be easier!
+            }
         try {
             JSONObject o = new JSONObject();
             o.put("t", "notify");
