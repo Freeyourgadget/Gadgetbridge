@@ -53,8 +53,8 @@ public class AmazfitVergeLSupport extends AmazfitBipSupport {
     }
 
     @Override
-    public void onNotification(NotificationSpec notificationSpec) {
-        super.sendNotificationNew(notificationSpec, true);
+    protected boolean notificationHasExtraHeader() {
+        return true;
     }
 
     @Override

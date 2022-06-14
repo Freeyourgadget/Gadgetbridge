@@ -160,7 +160,7 @@ public class DebugActivity extends AbstractGBActivity {
         editContent = findViewById(R.id.editContent);
 
         final ArrayList<String> spinnerArray = new ArrayList<>();
-        for (NotificationType notificationType : NotificationType.values()) {
+        for (NotificationType notificationType : NotificationType.sortedValues()) {
             spinnerArray.add(notificationType.name());
         }
         ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, spinnerArray);
@@ -177,7 +177,7 @@ public class DebugActivity extends AbstractGBActivity {
                 notificationSpec.body = testString;
                 notificationSpec.sender = testString;
                 notificationSpec.subject = testString;
-                notificationSpec.type = NotificationType.values()[sendTypeSpinner.getSelectedItemPosition()];
+                notificationSpec.type = NotificationType.sortedValues()[sendTypeSpinner.getSelectedItemPosition()];
                 notificationSpec.pebbleColor = notificationSpec.type.color;
                 GBApplication.deviceService().onNotification(notificationSpec);
             }

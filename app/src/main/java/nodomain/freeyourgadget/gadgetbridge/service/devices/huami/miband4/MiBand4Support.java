@@ -36,8 +36,8 @@ public class MiBand4Support extends MiBand3Support {
     }
 
     @Override
-    public void onNotification(NotificationSpec notificationSpec) {
-        super.sendNotificationNew(notificationSpec, true);
+    protected boolean notificationHasExtraHeader() {
+        return true;
     }
 
     @Override

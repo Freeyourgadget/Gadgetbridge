@@ -54,11 +54,6 @@ public class AmazfitBipSupport extends HuamiSupport {
     }
 
     @Override
-    public void onNotification(NotificationSpec notificationSpec) {
-        super.sendNotificationNew(notificationSpec, false);
-    }
-
-    @Override
     public void onFindDevice(boolean start) {
         CallSpec callSpec = new CallSpec();
         callSpec.command = start ? CallSpec.CALL_INCOMING : CallSpec.CALL_END;

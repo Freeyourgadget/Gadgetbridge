@@ -18,6 +18,9 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.model;
 
+import java.util.Arrays;
+import java.util.Comparator;
+
 import nodomain.freeyourgadget.gadgetbridge.devices.pebble.PebbleColor;
 import nodomain.freeyourgadget.gadgetbridge.devices.pebble.PebbleIconID;
 
@@ -135,5 +138,23 @@ public enum NotificationType {
             default:
                 return "generic";
         }
+    }
+
+    public static NotificationType[] sortedValues() {
+        final NotificationType[] sorted = NotificationType.values();
+        Arrays.sort(sorted, new Comparator<NotificationType>() {
+            @Override public int compare(final NotificationType n1, final NotificationType n2) {
+                // Keep unknown first
+                if (n1.equals(NotificationType.UNKNOWN)) {
+                    return -1;
+                } else if (n2.equals(NotificationType.UNKNOWN)) {
+                    return 1;
+                }
+
+                return n1.name().compareToIgnoreCase(n2.name());
+            }
+        });
+
+        return sorted;
     }
 }

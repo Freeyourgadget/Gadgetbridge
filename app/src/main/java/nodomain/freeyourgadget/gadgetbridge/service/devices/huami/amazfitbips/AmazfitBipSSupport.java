@@ -47,8 +47,13 @@ public class AmazfitBipSSupport extends AmazfitBipSupport {
     }
 
     @Override
-    public void onNotification(NotificationSpec notificationSpec) {
-        super.sendNotificationNew(notificationSpec, true, 512);
+    protected boolean notificationHasExtraHeader() {
+        return true;
+    }
+
+    @Override
+    protected int notificationMaxLength() {
+        return 512;
     }
 
     @Override

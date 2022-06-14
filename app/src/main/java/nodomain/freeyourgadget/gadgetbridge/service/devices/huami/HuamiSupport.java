@@ -251,7 +251,7 @@ import static nodomain.freeyourgadget.gadgetbridge.model.ActivityUser.PREF_USER_
 import static nodomain.freeyourgadget.gadgetbridge.model.ActivityUser.PREF_USER_YEAR_OF_BIRTH;
 import static nodomain.freeyourgadget.gadgetbridge.service.btle.GattCharacteristic.UUID_CHARACTERISTIC_ALERT_LEVEL;
 
-public class HuamiSupport extends AbstractBTLEDeviceSupport {
+public abstract class HuamiSupport extends AbstractBTLEDeviceSupport {
 
     // We introduce key press counter for notification purposes
     private static int currentButtonActionId = 0;
@@ -296,7 +296,6 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
     private final GBDeviceEventFindPhone findPhoneEvent = new GBDeviceEventFindPhone();
 
     private RealtimeSamplesSupport realtimeSamplesSupport;
-    private boolean alarmClockRinging;
 
     protected boolean isMusicAppStarted = false;
     protected MusicSpec bufferMusicSpec = null;
@@ -738,7 +737,7 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
         }
     }
 
-    private void performPreferredNotification(String task, String notificationOrigin, SimpleNotification simpleNotification, int alertLevel, BtLEAction extraAction) {
+    protected void performPreferredNotification(String task, String notificationOrigin, SimpleNotification simpleNotification, int alertLevel, BtLEAction extraAction) {
         try {
             TransactionBuilder builder = performInitialized(task);
             Prefs prefs = GBApplication.getPrefs();
@@ -783,18 +782,10 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
         }
     }
 
-
-    /*
-     This works on all Huami devices except Mi Band 2
-     */
-    protected void sendNotificationNew(NotificationSpec notificationSpec, boolean hasExtraHeader) {
-        sendNotificationNew(notificationSpec, hasExtraHeader, 230);
-    }
-    protected void sendNotificationNew(NotificationSpec notificationSpec, boolean hasExtraHeader, int maxLength) {
-        if (notificationSpec.type == NotificationType.GENERIC_ALARM_CLOCK) {
-            onAlarmClock(notificationSpec);
-            return;
-        }
+    @Override
+    public void onNotification(NotificationSpec notificationSpec) {
+        final boolean hasExtraHeader = notificationHasExtraHeader();
+        final int maxLength = notificationMaxLength();
 
         String senderOrTitle = StringUtils.getFirstOf(notificationSpec.sender, notificationSpec.title);
 
@@ -853,6 +844,7 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
                     prefixlength += 4;
                 }
 
+                // final step: build command
                 byte[] rawmessage = message.getBytes();
                 int length = Math.min(rawmessage.length, maxLength - prefixlength);
                 if (length < rawmessage.length) {
@@ -887,6 +879,14 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
         } catch (IOException ex) {
             LOG.error("Unable to send notification to device", ex);
         }
+    }
+
+    protected boolean notificationHasExtraHeader() {
+        return false;
+    }
+
+    protected int notificationMaxLength() {
+        return 230;
     }
 
     @Override
@@ -1117,37 +1117,8 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
     }
 
     @Override
-    public void onNotification(NotificationSpec notificationSpec) {
-        if (notificationSpec.type == NotificationType.GENERIC_ALARM_CLOCK) {
-            onAlarmClock(notificationSpec);
-            return;
-        }
-        int alertLevel = HuamiService.ALERT_LEVEL_MESSAGE;
-        if (notificationSpec.type == NotificationType.UNKNOWN) {
-            alertLevel = HuamiService.ALERT_LEVEL_VIBRATE_ONLY;
-        }
-        String message = NotificationUtils.getPreferredTextFor(notificationSpec, 40, 40, getContext()).trim();
-        String origin = notificationSpec.type.getGenericType();
-        SimpleNotification simpleNotification = new SimpleNotification(message, BLETypeConversions.toAlertCategory(notificationSpec.type), notificationSpec.type);
-        performPreferredNotification(origin + " received", origin, simpleNotification, alertLevel, null);
-    }
-
-    protected void onAlarmClock(NotificationSpec notificationSpec) {
-        alarmClockRinging = true;
-        AbortTransactionAction abortAction = new StopNotificationAction(getCharacteristic(UUID_CHARACTERISTIC_ALERT_LEVEL)) {
-            @Override
-            protected boolean shouldAbort() {
-                return !isAlarmClockRinging();
-            }
-        };
-        String message = NotificationUtils.getPreferredTextFor(notificationSpec, 40, 40, getContext());
-        SimpleNotification simpleNotification = new SimpleNotification(message, AlertCategory.HighPriorityAlert, notificationSpec.type);
-        performPreferredNotification("alarm clock ringing", MiBandConst.ORIGIN_ALARM_CLOCK, simpleNotification, HuamiService.ALERT_LEVEL_VIBRATE_ONLY, abortAction);
-    }
-
-    @Override
     public void onDeleteNotification(int id) {
-        alarmClockRinging = false; // we should have the notificationtype at least to check
+
     }
 
     @Override
@@ -1253,11 +1224,6 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
                 LOG.error("Unable to set time on Huami device", ex);
             }
         }
-    }
-
-    private boolean isAlarmClockRinging() {
-        // don't synchronize, this is not really important
-        return alarmClockRinging;
     }
 
     private boolean isTelephoneRinging() {
@@ -2854,8 +2820,8 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
 
     @Override
     public void onSendWeather(WeatherSpec weatherSpec) {
-        // FIXME: currently HuamiSupport *is* MiBand2 support, so return if we are using Mi Band 2
-        if (gbDevice.getType() == DeviceType.MIBAND2) {
+        final DeviceCoordinator coordinator = DeviceHelper.getInstance().getCoordinator(gbDevice);
+        if (!coordinator.supportsWeather()) {
             return;
         }
 
@@ -3913,9 +3879,7 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
         requestAlarms(builder);
     }
 
-    public HuamiFWHelper createFWHelper(Uri uri, Context context) throws IOException {
-        return new MiBand2FWHelper(uri, context);
-    }
+    public abstract HuamiFWHelper createFWHelper(Uri uri, Context context) throws IOException;
 
     public UpdateFirmwareOperation createUpdateFirmwareOperation(Uri uri) {
         return new UpdateFirmwareOperation(uri, this);

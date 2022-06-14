@@ -49,10 +49,9 @@ public class AmazfitGTSSupport extends AmazfitBipSupport {
     }
 
     @Override
-    public void onNotification(NotificationSpec notificationSpec) {
-        super.sendNotificationNew(notificationSpec, true);
+    protected boolean notificationHasExtraHeader() {
+        return true;
     }
-
 
     @Override
     public HuamiFWHelper createFWHelper(Uri uri, Context context) throws IOException {

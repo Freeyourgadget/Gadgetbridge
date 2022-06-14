@@ -65,6 +65,7 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.amazfittrex.Am
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.amazfittrexpro.AmazfitTRexProSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.amazfitvergel.AmazfitVergeLSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.amazfitx.AmazfitXSupport;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.miband2.MiBand2Support;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.miband3.MiBand3Support;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.miband4.MiBand4Support;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.miband5.MiBand5Support;
@@ -168,7 +169,7 @@ public class DeviceSupportFactory {
             case MIBAND:
                 return new ServiceDeviceSupport(new MiBandSupport(), ServiceDeviceSupport.Flags.THROTTLING, ServiceDeviceSupport.Flags.BUSY_CHECKING);
             case MIBAND2:
-                return new ServiceDeviceSupport(new HuamiSupport(), ServiceDeviceSupport.Flags.THROTTLING, ServiceDeviceSupport.Flags.BUSY_CHECKING);
+                return new ServiceDeviceSupport(new MiBand2Support(), ServiceDeviceSupport.Flags.THROTTLING, ServiceDeviceSupport.Flags.BUSY_CHECKING);
             case MIBAND3:
                 return new ServiceDeviceSupport(new MiBand3Support());
             case MIBAND4:

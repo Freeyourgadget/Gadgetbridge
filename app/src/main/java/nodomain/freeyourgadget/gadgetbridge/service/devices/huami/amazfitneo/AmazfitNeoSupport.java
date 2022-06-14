@@ -38,8 +38,8 @@ public class AmazfitNeoSupport extends MiBand5Support {
     private static final Logger LOG = LoggerFactory.getLogger(AmazfitNeoSupport.class);
 
     @Override
-    public void onNotification(NotificationSpec notificationSpec) {
-        super.sendNotificationNew(notificationSpec, false);
+    protected boolean notificationHasExtraHeader() {
+        return false;
     }
 
     @Override
