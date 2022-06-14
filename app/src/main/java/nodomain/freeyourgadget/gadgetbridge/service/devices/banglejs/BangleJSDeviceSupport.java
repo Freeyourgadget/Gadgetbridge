@@ -152,6 +152,12 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
         registerGlobalIntents();
     }
 
+    private void addReceiveHistory(String s) {
+        receiveHistory += s;
+        if (receiveHistory.length() > MAX_RECEIVE_HISTORY_CHARS)
+            receiveHistory = receiveHistory.substring(receiveHistory.length() - MAX_RECEIVE_HISTORY_CHARS);
+    }
+
     private void registerLocalIntents() {
         IntentFilter commandFilter = new IntentFilter();
         commandFilter.addAction(GBDevice.ACTION_DEVICE_CHANGED);
@@ -173,7 +179,7 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
                     }
                     case GBDevice.ACTION_DEVICE_CHANGED: {
                         LOG.info("ACTION_DEVICE_CHANGED " + gbDevice.getStateString());
-                        receiveHistory += "\n================================================\nACTION_DEVICE_CHANGED "+gbDevice.getStateString()+" "+(new SimpleDateFormat("yyyy-mm-dd hh:mm:ss")).format(Calendar.getInstance().getTime())+"\n================================================\n";
+                        addReceiveHistory("\n================================================\nACTION_DEVICE_CHANGED "+gbDevice.getStateString()+" "+(new SimpleDateFormat("yyyy-mm-dd hh:mm:ss")).format(Calendar.getInstance().getTime())+"\n================================================\n");
                     }
                 }
             }
@@ -260,6 +266,7 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
     private void uartTx(TransactionBuilder builder, String str) {
         byte[] bytes = str.getBytes(StandardCharsets.ISO_8859_1);
         LOG.info("UART TX: " + str);
+        addReceiveHistory("\n================================================\nSENDING "+str+"\n================================================\n");
         // FIXME: somehow this is still giving us UTF8 data when we put images in strings. Maybe JSON.stringify is converting to UTF-8?
         for (int i=0;i<bytes.length;i+=mtuSize) {
             int l = bytes.length-i;
@@ -598,9 +605,7 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
             String packetStr = new String(chars);
             LOG.info("RX: " + packetStr);
             // logging
-            receiveHistory += packetStr;
-            if (receiveHistory.length() > MAX_RECEIVE_HISTORY_CHARS)
-                receiveHistory = receiveHistory.substring(receiveHistory.length() - MAX_RECEIVE_HISTORY_CHARS);
+            addReceiveHistory(packetStr);
             // split into input lines
             receivedLine += packetStr;
             while (receivedLine.contains("\n")) {
