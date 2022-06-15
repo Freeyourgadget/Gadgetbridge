@@ -1742,4 +1742,13 @@
     <string name="permission_location">%1$s 需要在后台访问您的位置，以使其即使在屏幕关闭时也能与您的手表保持连接。
 \n
 \n请点击 \'%2$s\' 以同意。</string>
+    <string name="lithuanian">立陶宛语</string>
+    <string name="persian">波斯语</string>
+    <string name="scandinavian">斯堪的纳维亚语</string>
+    <string name="czech">捷克语</string>
+    <string name="estonian">爱沙尼亚语</string>
+    <string name="extended_ascii">扩展的 ASCII</string>
+    <string name="ukranian">乌克兰语</string>
+    <string name="bengali">孟加拉语</string>
+    <string name="icelandic">冰岛语</string>
 </resources>
