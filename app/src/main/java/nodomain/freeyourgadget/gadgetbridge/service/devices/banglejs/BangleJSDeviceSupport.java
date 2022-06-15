@@ -283,19 +283,34 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
             /* Convert a string, escaping chars we can't send over out UART connection */
             String s = (String)v;
             String json = "\"";
+            //String rawString = "";
             for (int i=0;i<s.length();i++) {
-                int ch = (int)s.charAt(i);
-                if (ch<8) json += "\\"+ch;
-                else if (ch==8) json += "\\b";
+                int ch = (int)s.charAt(i); // 0..255
+                int nextCh = (int)(i+1<s.length() ? s.charAt(i+1) : 0); // 0..255
+                //rawString = rawString+ch+",";
+                if (ch<8) {
+                    // if the next character is a digit, it'd be interpreted
+                    // as a 2 digit octal character, so we can't use `\0` to escape it
+                    if (nextCh>='0' && nextCh<='7') json += "\\x0" + ch;
+                    else json += "\\" + ch;
+                } else if (ch==8) json += "\\b";
                 else if (ch==9) json += "\\t";
                 else if (ch==10) json += "\\n";
                 else if (ch==11) json += "\\v";
                 else if (ch==12) json += "\\f";
                 else if (ch==34) json += "\\\""; // quote
                 else if (ch==92) json += "\\\\"; // slash
-                else if (ch<32 || ch==26 || ch==27 || ch==127 || ch==173) json += "\\x"+Integer.toHexString((ch&255)|256).substring(1);
+                else if (ch<32 || ch==127 || ch==173)
+                    json += "\\x"+Integer.toHexString((ch&255)|256).substring(1);
                 else json += s.charAt(i);
             }
+            // if it was less characters to send base64, do that!
+            if (json.length() > 5+(s.length()*4/3)) {
+                byte[] bytes = s.getBytes(StandardCharsets.ISO_8859_1);
+                return "atob(\""+Base64.encodeToString(bytes, Base64.DEFAULT).replaceAll("\n","")+"\")";
+            }
+            // for debugging...
+            //addReceiveHistory("\n---------------------\n"+rawString+"\n---------------------\n");
             return json + "\"";
         } else if (v instanceof JSONArray) {
             JSONArray a = (JSONArray)v;
