@@ -1605,9 +1605,13 @@
     <string name="menuitem_email">E-Mail</string>
     <string name="application_name_banglejs_main">Bangle.js Gadgetbridge</string>
     <string name="title_activity_controlcenter_banglejs_main">Bangle.js Gadgetbridge</string>
-    <string name="about_description_banglejs_main">Android-Begleit-App für Bangle.js, die auf dem Gadgetbridge-Projekt aufbaut, mit zusätzlichem Internetzugang.</string>
+    <string name="about_description_banglejs_main">Android-Begleit-App für Bangle.js, die auf dem Gadgetbridge-Projekt aufbaut, mit zusätzlichem Internetzugang.
+\n
+\nAufgrund der Richtlinien des Google Play Stores ist es uns nicht erlaubt, einen Spendenlink in der App selbst einzubauen, aber wenn dir diese App gefällt, ziehe bitte eine Spende über die Gadgetbridge-Homepage unten in Erwägung.</string>
     <string name="gadgetbridge_running_banglejs_main">Bangle.js läuft</string>
-    <string name="about_description_banglejs_nopebble">Android-Begleit-App für Bangle.js, die auf dem Gadgetbridge-Projekt aufbaut, mit zusätzlichem Internetzugang.</string>
+    <string name="about_description_banglejs_nopebble">Android-Begleit-App für Bangle.js, die auf dem Gadgetbridge-Projekt aufbaut, mit zusätzlichem Internetzugang.
+\n
+\nAufgrund der Richtlinien des Google Play Stores ist es uns nicht erlaubt, einen Spendenlink in der App selbst einzubauen, aber wenn dir diese App gefällt, ziehe bitte eine Spende über die Gadgetbridge-Homepage unten in Erwägung.</string>
     <string name="application_name_main_nightly">Gadgetbridge (Nightly)</string>
     <string name="title_activity_controlcenter_main_nightly">Gadgetbridge Nightly</string>
     <string name="about_activity_title_main_nightly">Über Gadgetbridge Nightly</string>
@@ -1683,7 +1687,7 @@
     <string name="pref_voice_detect_duration_15">15 Sekunden</string>
     <string name="prefs_voice_detect">Spracherkennung</string>
     <string name="prefs_double_tap_edge">Kante doppelt antippen</string>
-    <string name="permission_notification_policy_access">%1$s benötigt Zugriff auf die Einstellungen von \'DND, um sie auf Ihrer Uhr zu berücksichtigen.
+    <string name="permission_notification_policy_access">%1$s benötigt Zugriff auf die Einstellungen von \'DND\', um sie auf Ihrer Uhr zu berücksichtigen, wenn der Bildschirm des Telefons ausgeschaltet ist.
 \n
 \nBitte auf \'%2$s\', dann auf \'%1$s tippen und \'DND\' aktiveren und dann auf \'Zurück\' tippen, um zu %1$s zurückzukehren</string>
     <string name="prefs_seamless_connection_switch_title">Nahtloser Verbindungswechsel</string>
@@ -1715,7 +1719,7 @@
     <string name="world_clock_no_free_slots_title">Keine freien Slots</string>
     <string name="prefs_activity_monitoring_description">Erhöht automatisch die Frequenz der Pulserfassung, wenn das Band körperliche Bewegung erkennt, um die Genauigkeit der Pulserfassung zu erhöhen.</string>
     <string name="prefs_ambient_sound_during_call_title">Umgebungsgeräusche während des Anrufs</string>
-    <string name="permission_notification_listener">%1$s benötigt Zugriff auf Benachrichtigungen, um sie auf Ihrer Uhr anzeigen zu können.
+    <string name="permission_notification_listener">%1$s benötigt Zugriff auf Benachrichtigungen, um sie auf Ihrer Uhr anzeigen zu können, wenn der Bildschirm des Telefons ausgeschaltet ist.
 \n
 \nBitte auf \'%2$s\' und dann auf \'%1$s\' tippen, \'Zugriff auf Benachrichtigungen zulassen\' aktivieren und auf \'Zurück\' tippen, um zu %1$s zurückzukehren</string>
     <string name="prefs_switch_control_left">Schaltersteuerung links</string>
@@ -1737,4 +1741,20 @@
     <string name="controlcenter_set_parent_folder">Überordner setzen</string>
     <string name="controlcenter_toggle_details">Details anzeigen</string>
     <string name="controlcenter_connected_fraction">Verbunden: %d/%d</string>
+    <string name="ukranian">Ukrainisch</string>
+    <string name="info_no_devices_connected">keine Geräte verbunden</string>
+    <string name="info_connected_count">%d Geräte verbunden</string>
+    <string name="estonian">Estnisch</string>
+    <string name="extended_ascii">Erweitertes ASCII</string>
+    <string name="czech">Tschechisch</string>
+    <string name="pref_title_banglejs_webview_url">URL des App-Loaders</string>
+    <string name="icelandic">Isländisch</string>
+    <string name="permission_location">%1$s benötigt im Hintergrund Zugriff auf deinen Standort, um mit deiner Uhr verbunden zu bleiben, auch wenn dein Bildschirm ausgeschaltet ist.
+\n
+\nBitte tippe auf \'%2$s\', um zuzustimmen.</string>
+    <string name="persian">Persisch</string>
+    <string name="pref_summary_banglejs_webview_url">Wenn du einen benutzerdefinierten App-Loader möchtest, trage hier deine URL https://.../android.html ein. Andernfalls lasse https://banglejs.com/apps leer</string>
+    <string name="bengali">Bengalisch</string>
+    <string name="lithuanian">Litauisch</string>
+    <string name="scandinavian">Skandinavisch</string>
 </resources>
