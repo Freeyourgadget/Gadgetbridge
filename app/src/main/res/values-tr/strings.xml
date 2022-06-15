@@ -1753,4 +1753,13 @@
 \nKabul etmek için lütfen \'%2$s\' düğmesine dokunun.</string>
     <string name="info_no_devices_connected">bağlı aygıt yok</string>
     <string name="info_connected_count">%d aygıt bağlı</string>
+    <string name="estonian">Estonca</string>
+    <string name="lithuanian">Litvanyaca</string>
+    <string name="persian">Farsça</string>
+    <string name="ukranian">Ukraynaca</string>
+    <string name="scandinavian">İskandinavca</string>
+    <string name="bengali">Bengalce</string>
+    <string name="extended_ascii">Genişletilmiş ASCII</string>
+    <string name="czech">Çekçe</string>
+    <string name="icelandic">İzlandaca</string>
 </resources>
