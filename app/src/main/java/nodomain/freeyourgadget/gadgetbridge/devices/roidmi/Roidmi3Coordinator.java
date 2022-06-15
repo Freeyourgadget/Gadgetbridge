@@ -40,7 +40,7 @@ public class Roidmi3Coordinator extends RoidmiCoordinator {
                 return DeviceType.UNKNOWN;
             }
 
-            if (name.contains("Roidmi Music Blue C") || name.contains("Mojietu Music Blue C")) {
+            if (name.contains("Roidmi Music Blue C") || name.contains("Roidmi C BLE") || name.contains("Mojietu Music Blue C")) {
                 return DeviceType.ROIDMI3;
             }
         } catch (Exception ex) {
