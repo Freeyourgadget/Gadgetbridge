@@ -18,6 +18,7 @@ package nodomain.freeyourgadget.gadgetbridge.devices.qhybrid;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.Canvas;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -33,12 +34,16 @@ import java.util.LinkedHashMap;
 import java.util.TimeZone;
 
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.image.ImageConverter;
+import nodomain.freeyourgadget.gadgetbridge.util.BitmapUtil;
 
 public class HybridHRWatchfaceFactory {
-    private final Logger LOG = LoggerFactory.getLogger(HybridHRWatchfaceFactory.class);
+    private static final Logger LOG = LoggerFactory.getLogger(HybridHRWatchfaceFactory.class);
     private String watchfaceName;
     private HybridHRWatchfaceSettings settings;
     private Bitmap background;
+    private Bitmap previewImage;
+    private static final int PREVIEW_WIDTH = 192;
+    private static final int PREVIEW_HEIGHT = 192;
     private ArrayList<JSONObject> widgets = new ArrayList<>();
 
     public HybridHRWatchfaceFactory(String name) {
@@ -140,6 +145,8 @@ public class HybridHRWatchfaceFactory {
     public byte[] getWapp(Context context) throws IOException {
         byte[] backgroundBytes = ImageConverter.encodeToRawImage(ImageConverter.get2BitsRAWImageBytes(background));
         InputStream backgroundStream = new ByteArrayInputStream(backgroundBytes);
+        byte[] previewBytes = ImageConverter.encodeToRLEImage(ImageConverter.get2BitsRLEImageBytes(Bitmap.createScaledBitmap(getPreviewImage(context), PREVIEW_WIDTH, PREVIEW_HEIGHT, true)), PREVIEW_HEIGHT, PREVIEW_WIDTH);
+        InputStream previewStream = new ByteArrayInputStream(previewBytes);
         LinkedHashMap<String, InputStream> code = new LinkedHashMap<>();
         try {
             code.put(watchfaceName, context.getAssets().open("fossil_hr/openSourceWatchface.bin"));
@@ -163,6 +170,7 @@ public class HybridHRWatchfaceFactory {
         LinkedHashMap<String, InputStream> icons = new LinkedHashMap<>();
         try {
             icons.put("background.raw", backgroundStream);
+            icons.put("!preview.rle", previewStream);
             icons.put("icTrophy", context.getAssets().open("fossil_hr/icTrophy.rle"));
             if (includeWidget("widgetWeather") > 0) icons.put("icWthClearDay", context.getAssets().open("fossil_hr/icWthClearDay.rle"));
             if (includeWidget("widgetWeather") > 0) icons.put("icWthClearNite", context.getAssets().open("fossil_hr/icWthClearNite.rle"));
@@ -253,5 +261,105 @@ public class HybridHRWatchfaceFactory {
         configuration.put("config", config);
 
         return configuration.toString();
+    }
+
+    public static HybridHRWatchfaceWidget parseWidgetJSON(JSONObject widgetJSON) throws JSONException {
+        HybridHRWatchfaceWidget parsedWidget = null;
+        String widgetName = widgetJSON.getString("name");
+        String widgetTimezone = null;
+        int widgetUpdateTimeout = -1;
+        boolean widgetTimeoutHideText = true;
+        boolean widgetTimeoutShowCircle = true;
+        switch (widgetName) {
+            case "dateSSE":
+                widgetName = "widgetDate";
+                break;
+            case "weatherSSE":
+                widgetName = "widgetWeather";
+                break;
+            case "stepsSSE":
+                widgetName = "widgetSteps";
+                break;
+            case "hrSSE":
+                widgetName = "widgetHR";
+                break;
+            case "batterySSE":
+                widgetName = "widgetBattery";
+                break;
+            case "caloriesSSE":
+                widgetName = "widgetCalories";
+                break;
+            case "activeMinutesSSE":
+                widgetName = "widgetActiveMins";
+                break;
+            case "chanceOfRainSSE":
+                widgetName = "widgetChanceOfRain";
+                break;
+            case "timeZone2SSE":
+                widgetName = "widget2ndTZ";
+                break;
+        }
+        int widgetColor = widgetJSON.getString("color").equals("white") ? HybridHRWatchfaceWidget.COLOR_WHITE : HybridHRWatchfaceWidget.COLOR_BLACK;
+        if (widgetName.startsWith("widget2ndTZ")) {
+            try {
+                widgetName = "widget2ndTZ";
+                JSONObject widgetData = widgetJSON.getJSONObject("data");
+                widgetTimezone = widgetData.getString("tzName");
+                parsedWidget = new HybridHRWatchfaceWidget(widgetName,
+                        widgetJSON.getJSONObject("pos").getInt("x"),
+                        widgetJSON.getJSONObject("pos").getInt("y"),
+                        widgetJSON.getJSONObject("size").getInt("w"),
+                        widgetJSON.getJSONObject("size").getInt("h"),
+                        widgetColor,
+                        widgetTimezone);
+            } catch (JSONException e) {
+                LOG.error("Couldn't determine tzName!", e);
+            }
+        } else if (widgetName.startsWith("widgetCustom")) {
+            widgetName = "widgetCustom";
+            JSONObject widgetData = widgetJSON.getJSONObject("data");
+            widgetUpdateTimeout = widgetData.getInt("update_timeout");
+            widgetTimeoutHideText = widgetData.getBoolean("timeout_hide_text");
+            widgetTimeoutShowCircle = widgetData.getBoolean("timeout_show_circle");
+            parsedWidget = new HybridHRWatchfaceWidget(widgetName,
+                    widgetJSON.getJSONObject("pos").getInt("x"),
+                    widgetJSON.getJSONObject("pos").getInt("y"),
+                    widgetJSON.getJSONObject("size").getInt("w"),
+                    widgetJSON.getJSONObject("size").getInt("h"),
+                    widgetColor,
+                    widgetUpdateTimeout,
+                    widgetTimeoutHideText,
+                    widgetTimeoutShowCircle);
+        } else {
+            parsedWidget = new HybridHRWatchfaceWidget(widgetName,
+                    widgetJSON.getJSONObject("pos").getInt("x"),
+                    widgetJSON.getJSONObject("pos").getInt("y"),
+                    widgetJSON.getJSONObject("size").getInt("w"),
+                    widgetJSON.getJSONObject("size").getInt("h"),
+                    widgetColor);
+        }
+        return parsedWidget;
+    }
+
+    public Bitmap getPreviewImage(Context context) {
+        if (previewImage == null) {
+            previewImage = BitmapUtil.getCircularBitmap(background);
+            Canvas previewCanvas = new Canvas(previewImage);
+            int widgetSize = 50;
+            float scaleFactor = previewImage.getWidth() / 240;
+            for (int i=0; i<widgets.size(); i++) {
+                try {
+                    HybridHRWatchfaceWidget parsedWidget = parseWidgetJSON(widgets.get(i));
+                    Bitmap widgetPreview = Bitmap.createScaledBitmap(parsedWidget.getPreviewImage(context), (int)(widgetSize * scaleFactor), (int)(widgetSize * scaleFactor), true);
+                    int offsetFromCenter = (int)((widgetSize/2) * scaleFactor);
+                    previewCanvas.drawBitmap(widgetPreview, parsedWidget.getPosX() - offsetFromCenter, parsedWidget.getPosY() - offsetFromCenter, null);
+                } catch (JSONException e) {
+                    LOG.warn("Couldn't parse widget JSON", e);
+                } catch (IOException e) {
+                    LOG.warn("Couldn't parse widget JSON", e);
+                }
+            }
+        }
+        return previewImage;
     }
 }
