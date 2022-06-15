@@ -27,6 +27,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.EnumSet;
 import java.util.UUID;
 
@@ -61,9 +62,14 @@ public class ServiceDeviceSupport implements DeviceSupport {
     private String lastNotificationKind;
     private final EnumSet<Flags> flags;
 
-    public ServiceDeviceSupport(DeviceSupport delegate, EnumSet<Flags> flags) {
+    public ServiceDeviceSupport(DeviceSupport delegate, Flags... flags) {
         this.delegate = delegate;
-        this.flags = flags;
+        this.flags = EnumSet.noneOf(Flags.class);
+        this.flags.addAll(Arrays.asList(flags));
+    }
+
+    public ServiceDeviceSupport(DeviceSupport delegate){
+        this(delegate, Flags.BUSY_CHECKING);
     }
 
     @Override

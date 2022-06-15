@@ -35,6 +35,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -42,6 +43,7 @@ import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.GBException;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.activities.appmanager.AppManagerActivity;
+import nodomain.freeyourgadget.gadgetbridge.devices.AbstractBLEDeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.AbstractDeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.InstallHandler;
 import nodomain.freeyourgadget.gadgetbridge.devices.SampleProvider;
@@ -54,7 +56,7 @@ import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
 import nodomain.freeyourgadget.gadgetbridge.util.FileUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.Version;
 
-public class QHybridCoordinator extends AbstractDeviceCoordinator {
+public class QHybridCoordinator extends AbstractBLEDeviceCoordinator {
     private static final Logger LOG = LoggerFactory.getLogger(QHybridCoordinator.class);
 
     @NonNull
@@ -89,8 +91,13 @@ public class QHybridCoordinator extends AbstractDeviceCoordinator {
 
     @Override
     public boolean supportsActivityDataFetching() {
-        GBDevice connectedDevice = GBApplication.app().getDeviceManager().getSelectedDevice();
-        return connectedDevice != null && connectedDevice.getType() == DeviceType.FOSSILQHYBRID && connectedDevice.getState() == GBDevice.State.INITIALIZED;
+        List<GBDevice> devices = GBApplication.app().getDeviceManager().getSelectedDevices();
+        for(GBDevice device : devices){
+            if(isFossilHybrid(device) && device.getState() == GBDevice.State.INITIALIZED){
+                return true;
+            }
+        }
+        return false;
     }
 
     @Override
@@ -129,11 +136,14 @@ public class QHybridCoordinator extends AbstractDeviceCoordinator {
     }
 
     private boolean supportsAlarmConfiguration() {
-        GBDevice connectedDevice = GBApplication.app().getDeviceManager().getSelectedDevice();
-        if(connectedDevice == null || connectedDevice.getType() != DeviceType.FOSSILQHYBRID || connectedDevice.getState() != GBDevice.State.INITIALIZED){
-            return false;
+        List<GBDevice> devices = GBApplication.app().getDeviceManager().getSelectedDevices();
+        LOG.debug("devices count: " + devices.size());
+        for(GBDevice device : devices){
+            if(isFossilHybrid(device) && device.getState() == GBDevice.State.INITIALIZED){
+                return true;
+            }
         }
-        return true;
+        return false;
     }
 
     @Override
@@ -268,22 +278,34 @@ public class QHybridCoordinator extends AbstractDeviceCoordinator {
     }
 
     private boolean isHybridHR() {
-        GBDevice connectedDevice = GBApplication.app().getDeviceManager().getSelectedDevice();
-        if (connectedDevice != null) {
-            return connectedDevice.getName().startsWith("Hybrid HR");
+        List<GBDevice> devices = GBApplication.app().getDeviceManager().getSelectedDevices();
+        for(GBDevice device : devices){
+            if(isFossilHybrid(device) && device.getName().startsWith("Hybrid HR")){
+                return true;
+            }
         }
         return false;
     }
 
     private Version getFirmwareVersion() {
-        String firmware = GBApplication.app().getDeviceManager().getSelectedDevice().getFirmwareVersion();
-        if (firmware != null) {
-            Matcher matcher = Pattern.compile("[0-9]+\\.[0-9]+\\.[0-9]+\\.[0-9]+").matcher(firmware); // DN1.0.2.19r.v5
-            if (matcher.find()) {
-                firmware = matcher.group(0);
-                return new Version(firmware);
+        List<GBDevice> devices = GBApplication.app().getDeviceManager().getSelectedDevices();
+        for(GBDevice device : devices){
+            if(isFossilHybrid(device)){
+                String firmware = device.getFirmwareVersion();
+                if (firmware != null) {
+                    Matcher matcher = Pattern.compile("[0-9]+\\.[0-9]+\\.[0-9]+\\.[0-9]+").matcher(firmware); // DN1.0.2.19r.v5
+                    if (matcher.find()) {
+                        firmware = matcher.group(0);
+                        return new Version(firmware);
+                    }
+                }
             }
         }
+
         return null;
+    }
+
+    private boolean isFossilHybrid(GBDevice device){
+        return device.getType() == DeviceType.FOSSILQHYBRID;
     }
 }

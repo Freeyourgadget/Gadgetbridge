@@ -77,6 +77,27 @@ public interface DeviceCoordinator {
      */
     int BONDING_STYLE_LAZY = 4;
 
+    enum ConnectionType{
+        BLE(false, true),
+        BL_CLASSIC(true, false),
+        BOTH(true, true)
+        ;
+        boolean usesBluetoothClassic, usesBluetoothLE;
+
+        ConnectionType(boolean usesBluetoothClassic, boolean usesBluetoothLE) {
+            this.usesBluetoothClassic = usesBluetoothClassic;
+            this.usesBluetoothLE = usesBluetoothLE;
+        }
+
+        public boolean usesBluetoothLE(){
+            return usesBluetoothLE;
+        }
+
+        public boolean usesBluetoothClassic(){
+            return usesBluetoothClassic;
+        }
+    }
+
     /**
      * Checks whether this coordinator handles the given candidate.
      * Returns the supported device type for the given candidate or
@@ -87,6 +108,13 @@ public interface DeviceCoordinator {
      */
     @NonNull
     DeviceType getSupportedType(GBDeviceCandidate candidate);
+
+    /**
+     * Returns the type of connection, Classic of BLE
+     *
+     * @return ConnectionType
+     */
+    ConnectionType getConnectionType();
 
     /**
      * Checks whether this coordinator handles the given candidate.
@@ -362,6 +390,13 @@ public interface DeviceCoordinator {
      * Indicates whether the device supports unicode emojis.
      */
     boolean supportsUnicodeEmojis();
+
+    /**
+     * Returns device specific settings related to connection
+     *
+     * @return int[]
+     */
+    int[] getSupportedDeviceSpecificConnectionSettings();
 
     /**
      * Indicates which device specific settings the device supports (not per device type or family, but unique per device).

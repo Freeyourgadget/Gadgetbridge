@@ -356,7 +356,7 @@
     <string name="pref_summary_low_latency_fw_update">Це може допомогти на пристроях, на які не вдається встановити мікропрограми.</string>
     <string name="you_did_not_sleep">Ви не спали</string>
     <string name="miband_prefs_reserve_alarm_calendar">Сигнали для резервування для майбутніх подій</string>
-    <string name="miband_prefs_hr_sleep_detection">Використовувати датчик пульсу для поліпшення виявлення сну</string>
+    <string name="miband_prefs_hr_sleep_detection">Використовувати датник пульсу для поліпшення виявлення сну</string>
     <string name="dateformat_time">Час</string>
     <string name="dateformat_date_time">Дата та час</string>
     <string name="pref_title_unit_system">Одиниці вимірювання</string>
@@ -529,7 +529,7 @@
     <string name="pref_summary_pebble_gatt_clientonly">Це експериментальне налаштування виключно для Pebble 2, застосуйте якщо є проблеми зі з\'єднанням</string>
     <string name="pref_auto_fetch">Автозавантаження даних про діяльність</string>
     <string name="pref_auto_fetch_limit_fetches">Найменший час між отриманнями</string>
-    <string name="pref_auto_fetch_limit_fetches_summary">Отримати кожні %d хвилин(и)</string>
+    <string name="pref_auto_fetch_limit_fetches_summary">Отримувати що %d хвилин</string>
     <string name="russian">Російська</string>
     <string name="german">Німецька</string>
     <string name="italian">Італійська</string>
@@ -1603,7 +1603,9 @@
     <string name="watchface_setting_light_up_on_notification">Засвітлювати за нового сповіщення</string>
     <string name="menuitem_email">Е-пошта</string>
     <string name="application_name_banglejs_main">Bangle.js Gadgetbridge</string>
-    <string name="about_description_banglejs_main">Засосунок-компаньйон Android для Bangle.js побудований на основі проєкту Gadgetbridge, з додаванням доступу до інтернету.</string>
+    <string name="about_description_banglejs_main">Засосунок-компаньйон Android для Bangle.js побудований на основі проєкту Gadgetbridge, з додаванням доступу до інтернету.
+\n
+\nЗгідно з правилами Google Play Маркету, нам не дозволено вказувати посилання на допомогу в самому застосунку, але якщо він вам до вподоби, ви можете посприяти розвитку проєкту через домашню сторінку Gadgetbridge нижче.</string>
     <string name="gadgetbridge_running_banglejs_main">Bangle.js працює</string>
     <string name="application_name_banglejs_nopebble">Bangle.js Gadgetbridge</string>
     <string name="title_activity_controlcenter_banglejs_nopebble">Bangle.js Gadgetbridge</string>
@@ -1618,7 +1620,9 @@
     <string name="about_activity_title_banglejs_nopebble">Про Bangle.js Gadgetbridge</string>
     <string name="about_activity_title_banglejs_main">Про Bangle.js Gadgetbridge</string>
     <string name="title_activity_controlcenter_banglejs_main">Bangle.js Gadgetbridge</string>
-    <string name="about_description_banglejs_nopebble">Засосунок-компаньйон Android для Bangle.js побудований на основі проєкту Gadgetbridge, з додаванням доступу до інтернету.</string>
+    <string name="about_description_banglejs_nopebble">Засосунок-компаньйон Android для Bangle.js побудований на основі проєкту Gadgetbridge, з додаванням доступу до інтернету.
+\n
+\nЗгідно з правилами Google Play Маркету, нам не дозволено вказувати посилання на допомогу в самому застосунку, але якщо він вам до вподоби, ви можете посприяти розвитку проєкту через домашню сторінку Gadgetbridge нижче.</string>
     <string name="title_activity_controlcenter_main_nightly">Gadgetbridge Nightly</string>
     <string name="about_description_main_nightly">Безхмарна вільна з копілефт ліцензією заміна власницьких застосунків для пристроїв Android. Випуски Gadgetbridge Nightly. Його не можна встановити, якщо у вас уже встановлено застосунок Gadgetbridge або Pebble через конфлікт у постачальника Pebble.</string>
     <string name="about_description_main_nopebble">Безхмарна вільна з копілефт ліцензією заміна власницьких застосунків для пристроїв Android. Випуски Gadgetbridge Nightly. У цій версії постачальник Pebble перейменований для запобігання конфліктів, тому деякі інтеграції, пов\'язані з Pebble, не працюватимуть, але його можна встановити разом із наявним установленим Gadgetbridge.</string>
@@ -1713,4 +1717,29 @@
     <string name="pref_title_device_intents">Дозволити наміри</string>
     <string name="pref_title_banglejs_text_bitmap">Текст у вигляді растрових зображень</string>
     <string name="pref_summary_banglejs_text_bitmap">Якщо слово не може бути відтворено шрифтом годинника, перетворювати його на растрове зображення в Gadgetbridge і показувати растрове зображення на годиннику</string>
+    <string name="pref_workout_start_on_phone_title">Відстеження фітнес-застосунку</string>
+    <string name="pref_workout_start_on_phone_summary">Запускати/припиняти відстеження фітнес-застосунку на телефоні, коли GPS-тренування розпочато на браслеті</string>
+    <string name="pref_workout_send_gps_title">Надсилати GPS під час тренування</string>
+    <string name="pref_workout_send_gps_summary">Надсилати поточне місцеперебування GPS на годинник під час тренування</string>
+    <string name="notification_channel_gps">GPS-стеження</string>
+    <string name="notification_gps_title">Gadgetbridge GPS</string>
+    <string name="notification_gps_text">Надсилання місцеперебування GPS на пристрій %1$d</string>
+    <string name="permission_notification_listener">%1$s потребує доступу до сповіщень, щоб показувати їх на годиннику коли екран телефону вимкнено.
+\n
+\nТоркніться «%2$s», потім «%1$s» і увімкніть «Дозволити доступ до сповіщень», а потім торкніться «Назад», щоб повернутися до %1$s</string>
+    <string name="permission_notification_policy_access">%1$s потребує доступу до налаштувань «Не турбувати», щоб дотримуватися їх на годиннику коли екран телефону вимкнено.
+\n
+\nТоркніться «%2$s», потім «%1$s» і увімкніть «Дозволити не турбувати», а потім торкніться «Назад», щоб повернутися до %1$s</string>
+    <string name="pref_device_action_phone_gps_location_listener_stop">Зупинка відстежувача GPS-розташування</string>
+    <string name="discovery_scanning_intensity_warning">Якщо ви бачите заморожування або несприйняття, спробуйте встановити нижчий рівень інтенсивності сканування. Якщо пристрій не виявлено, спробуйте встановити інтенсивність сканування на вищий рівень.</string>
+    <string name="discovery_scanning_intensity">Інтенсивність сканування</string>
+    <string name="portuguese_br">Португальська (Бразилія)</string>
+    <string name="quick_alarm">Швидкий будильник</string>
+    <string name="portuguese_pt">Португальська (Португалія)</string>
+    <string name="quick_alarm_description">Будильник з віджета</string>
+    <string name="pref_title_banglejs_webview_url">URL-адреса завантажувача застосунку</string>
+    <string name="pref_summary_banglejs_webview_url">Якщо ви хочете, щоб спеціальний завантажувач застосунків помістив вашу https://…/android.html URL-адресу тут. В іншому випадку залиште порожнім для https://banglejs.com/apps</string>
+    <string name="permission_location">%1$s потрібен доступ до вашого місцеперебування у фоновому режимі, щоб дозволити йому залишатися на зв\'язку з годинником, навіть коли екран вимкнено.
+\n
+\nТоркніться «%2$s», щоб погодитися.</string>
 </resources>

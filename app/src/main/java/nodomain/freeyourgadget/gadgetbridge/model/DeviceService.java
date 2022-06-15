@@ -154,6 +154,8 @@ public interface DeviceService extends EventHandler {
 
     void connect(@Nullable GBDevice device, boolean firstTime);
 
+    void disconnect(@Nullable GBDevice device);
+
     void disconnect();
 
     void quit();

@@ -1602,8 +1602,12 @@
     <string name="about_activity_title_banglejs_main">על Bangle.js Gadgetbridge</string>
     <string name="title_activity_controlcenter_banglejs_nopebble">Bangle.js Gadgetbridge</string>
     <string name="about_activity_title_banglejs_nopebble">על Bangle.js Gadgetbridge</string>
-    <string name="about_description_banglejs_nopebble">יישומון Android מלווה ל־Bangle.js שנבנה על גבי מיזם Gadgetbridge עם תוספת של גישה לאינטרנט.</string>
-    <string name="about_description_banglejs_main">יישומון Android מלווה ל־Bangle.js שנבנה על גבי מיזם Gadgetbridge עם תוספת של גישה לאינטרנט.</string>
+    <string name="about_description_banglejs_nopebble">יישומון Android מלווה ל־Bangle.js שנבנה על גבי מיזם Gadgetbridge עם תוספת של גישה לאינטרנט.
+\n
+\nעקב מדיניות של חנות Google Play, אסור לנו להציב קישור תרומה ביישומון עצמו אך אם היישומון נושא חן בעיניך אפשר לתרום דרך עמוד הבית של Gadgetbridge להלן.</string>
+    <string name="about_description_banglejs_main">יישומון Android מלווה ל־Bangle.js שנבנה על גבי מיזם Gadgetbridge עם תוספת של גישה לאינטרנט.
+\n
+\nעקב מדיניות של חנות Google Play, אסור לנו להציב קישור תרומה ביישומון עצמו אך אם היישומון נושא חן בעיניך אפשר לתרום דרך עמוד הבית של Gadgetbridge להלן.</string>
     <string name="application_name_main_nightly">Gadgetbridge (גרסה ניסיונית)</string>
     <string name="application_name_banglejs_nopebble">Bangle.js Gadgetbridge</string>
     <string name="gadgetbridge_running_banglejs_main">Bangle.js פעיל</string>
@@ -1705,4 +1709,29 @@
     <string name="pref_summary_banglejs_text_bitmap">אם אי אפשר לעבד תמונות עם גופן השעון, הוא יומר למפת סיביות ב־Gadgetbridge שתוצג בשעון</string>
     <string name="pref_summary_device_intents">לאפשר ליישומוני שעון של Bangle.js לשלוח Intents ל־Android ולאפשר ליישומי Android אחרים (כמו Tasker) לשלוח נתונים ל־Bangle.js באמצעות ה־Intent ‏com.banglejs.uart.tx.</string>
     <string name="pref_title_device_intents">לאפשר Intents</string>
+    <string name="pref_workout_send_gps_title">שליחת GPS במהלך אימון</string>
+    <string name="pref_workout_send_gps_summary">שליחת מיקום ה־GPS הנוכחי לצמיד במהלך אימון</string>
+    <string name="notification_gps_title">GPS של Gadgetbridge</string>
+    <string name="notification_gps_text">שליחת מיקום GPS ל־%1$d מכשירים</string>
+    <string name="pref_device_action_phone_gps_location_listener_stop">עצירת האזנת מיקום GPS</string>
+    <string name="pref_workout_start_on_phone_title">מעקב ביישומון חיטוב</string>
+    <string name="pref_workout_start_on_phone_summary">התחלת/עצירת מעקב ביישומון חיטוב בטלפון כאשר מופעל אימון GPS בצמיד</string>
+    <string name="notification_channel_gps">מעקב GPS</string>
+    <string name="discovery_scanning_intensity">עוצמת סריקה</string>
+    <string name="discovery_scanning_intensity_warning">אם חווית קפאון או חוסר תגובתיות, כדאי לנסות לשנות את עוצמת הסריקה לרמה נמוכה. אם המכשיר שלך לא מתגלה, כדאי לנסות לשנות את עוצמת הסריקה לרמה גבוהה.</string>
+    <string name="portuguese_pt">פורטוגלית של פורטוגל</string>
+    <string name="quick_alarm_description">שעון מעורר מווידג׳ט</string>
+    <string name="portuguese_br">פורטוגלית ברזילאית</string>
+    <string name="quick_alarm">שעון מעורר מהיר</string>
+    <string name="pref_title_banglejs_webview_url">כתובת טוען יישומון</string>
+    <string name="pref_summary_banglejs_webview_url">אם ברצונך להשתמש בטוען יישומון אחר נא לציין את הכתובת https://…/android.html, אם לא אפשר להשאיר ריק כדי להשתמש ב־https://banglejs.com/apps</string>
+    <string name="permission_notification_listener">ל־%1$s דרושה גישה להתראות כדי להציג אותן בשעון שלך כאשר מסך הטלפון שלך כבוי.
+\n
+\nנא לגעת ב־‚%2$s’ ואז ‚%1$s’ ולהפעיל את ‚לאפשר גישה להתראות’ ואז לגעת ב‚חזרה’ כדי לחזור אל %1$s</string>
+    <string name="permission_location">ל־%1$s דרושה גישה למיקום שלך ברקע כדי לאפשר לו להישאר מחובר לשעון שלך גם כאשר המסך שלך כבוי.
+\n
+\nנא לגעת ב‚%2$s’ כדי להסכים.</string>
+    <string name="permission_notification_policy_access">ל־%1$s דרושה גישה להגדרות לא להפריע כדי לכבד אותן בשעון שלך כאשר מסך הטלפון שלך כבוי.
+\n
+\nנא לגעת ב־‚%2$s’ ואז ‚%1$s’ ולהפעיל את ‚לאפשר לא להפריע’ ואז לגעת ב‚חזרה’ כדי לחזור אל %1$s</string>
 </resources>

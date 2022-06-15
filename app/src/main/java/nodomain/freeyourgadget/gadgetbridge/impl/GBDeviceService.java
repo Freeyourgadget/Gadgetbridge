@@ -119,6 +119,13 @@ public class GBDeviceService implements DeviceService {
     }
 
     @Override
+    public void disconnect(@Nullable GBDevice device) {
+        Intent intent = createIntent().setAction(ACTION_DISCONNECT)
+                .putExtra(GBDevice.EXTRA_DEVICE, device);
+        invokeService(intent);
+    }
+
+    @Override
     public void disconnect() {
         Intent intent = createIntent().setAction(ACTION_DISCONNECT);
         invokeService(intent);

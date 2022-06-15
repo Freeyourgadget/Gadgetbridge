@@ -29,6 +29,7 @@ import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSett
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEvent;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventBatteryInfo;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
+import nodomain.freeyourgadget.gadgetbridge.model.BatteryState;
 import nodomain.freeyourgadget.gadgetbridge.service.serial.GBDeviceProtocol;
 import nodomain.freeyourgadget.gadgetbridge.util.StringUtils;
 
@@ -57,6 +58,7 @@ public class QC35Protocol extends GBDeviceProtocol {
                     if(third == 0x03){
                         GBDeviceEventBatteryInfo batteryInfo = new GBDeviceEventBatteryInfo();
                         batteryInfo.level = data[0];
+                        batteryInfo.state = BatteryState.BATTERY_NORMAL;
                         events.add(batteryInfo);
                     }
                 }

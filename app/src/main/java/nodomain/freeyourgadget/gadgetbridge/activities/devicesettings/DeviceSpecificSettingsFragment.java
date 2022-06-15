@@ -811,6 +811,8 @@ public class DeviceSpecificSettingsFragment extends PreferenceFragmentCompat imp
         int[] supportedSettings = coordinator.getSupportedDeviceSpecificSettings(device);
         String[] supportedLanguages = coordinator.getSupportedLanguageSettings(device);
 
+        supportedSettings = ArrayUtils.insert(0, supportedSettings, coordinator.getSupportedDeviceSpecificConnectionSettings());
+
         if (supportedLanguages != null) {
             supportedSettings = ArrayUtils.insert(0, supportedSettings, R.xml.devicesettings_language_generic);
         }

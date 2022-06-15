@@ -1601,7 +1601,9 @@ Temps de sommeil préféré en heures</string>
     <string name="title_activity_controlcenter_banglejs_main">Bangle.js Gadgetbridge</string>
     <string name="about_activity_title_banglejs_main">A propos de Bangle.js Gadgetbridge</string>
     <string name="application_name_banglejs_main">Bangle.js Gadgetbridge</string>
-    <string name="about_description_banglejs_main">Application complémentaire Android pour Bangle.js élaborée sur la base du projet Gadgetbridge, avec des fonctionnalités Internet supplémentaires.</string>
+    <string name="about_description_banglejs_main">Application complémentaire Android pour Bangle.js élaborée sur la base du projet Gadgetbridge, avec des fonctionnalités Internet supplémentaires.
+\n
+\nEn raison des règles du Google Play Store, nous ne pouvons pas mettre de lien de don directement dans l\'application, mais si vous appréciez cette application, pensez à faire un don via la page web de Gadgetbridge ci-dessous.</string>
     <string name="application_name_banglejs_nopebble">Bangle.js pour Gadgetbridge</string>
     <string name="title_activity_controlcenter_banglejs_nopebble">Bangle.js pour Gadgetbridge</string>
     <string name="about_activity_title_main_nightly">A propos de Gatgetbridge Nightly</string>
@@ -1612,7 +1614,9 @@ Temps de sommeil préféré en heures</string>
     <string name="title_activity_controlcenter_main_nopebble">Gadgetbridge Nightly Sans Pebble</string>
     <string name="gadgetbridge_running_main_nightly">GB Nightly en fonctionnement</string>
     <string name="gadgetbridge_running_banglejs_main">Bangle.js en fonctionnement</string>
-    <string name="about_description_banglejs_nopebble">Application complémentaire Android pour Bangle.js élaborée sur la base du projet Gadgetbridge, avec des fonctionnalités Internet supplémentaires.</string>
+    <string name="about_description_banglejs_nopebble">Application complémentaire Android pour Bangle.js élaborée sur la base du projet Gadgetbridge, avec des fonctionnalités Internet supplémentaires.
+\n
+\nEn raison des règles du Google Play Store, nous ne pouvons pas mettre de lien de don directement dans l\'application, mais si vous appréciez cette application, pensez à faire un don via la page web de Gadgetbridge ci-dessous.</string>
     <string name="gadgetbridge_running_banglejs_nopebble">Bangle.js en fonctionnement</string>
     <string name="application_name_main_nightly">Gadgetbridge (version Nightly)</string>
     <string name="title_activity_controlcenter_main_nightly">Gadgetbrigde version Nightly</string>
@@ -1673,4 +1677,65 @@ Temps de sommeil préféré en heures</string>
     <string name="mi5_prefs_workout_activity_types">Types d\'activités physiques</string>
     <string name="mi5_prefs_workout_activity_types_summary">Choisir les types d\'activité à afficher sur l\'écran d\'activité physique</string>
     <string name="activity_type_outdoor_cycling">Vélo en extérieur</string>
+    <string name="pref_title_banglejs_text_bitmap">Texte comme Images</string>
+    <string name="pref_summary_banglejs_text_bitmap">Si un mot ne peut être affiché avec la police de la montre, en faire une image dans GadgetBridge et l\'afficher comme image dans la montre</string>
+    <string name="pref_title_device_internet_access">Autoriser l\'accès à Internet</string>
+    <string name="pref_summary_device_internet_access">Permettre aux apps sur cet appareil d\'accéder à Internet</string>
+    <string name="pref_title_device_intents">Permettre les intentions</string>
+    <string name="pref_workout_start_on_phone_title">Application de suivi sportif</string>
+    <string name="pref_workout_start_on_phone_summary">Démmare/arrête le suivi sportif sur le téléphone si une activité GPS est démarré sur le bracelet</string>
+    <string name="pref_workout_send_gps_title">Envoyer le GPS durant l\'exercice</string>
+    <string name="pref_workout_send_gps_summary">Envoyer les données GPS en cours durant un exercice</string>
+    <string name="notification_gps_title">GPS Gadgebridge</string>
+    <string name="notification_gps_text">Envoi des données GPS au(x) appareil(s) %1$d</string>
+    <string name="notification_channel_gps">Suivi GPS</string>
+    <string name="permission_notification_listener">%1$s a besoin d\'accéder aux notifications pour les afficher sur votre montre quand l\'écran de votre téléphone est éteint.
+\n
+\nMerci le sélectionner \'%2$s\' puis \'%1$s\' et activer \'Autoriser l\'accès aux notifications\', puis appuyer sur \'Retour\' pour revenir à %1$s</string>
+    <string name="discovery_scanning_intensity">Intensité du scan</string>
+    <string name="discovery_scanning_intensity_warning">Si vous rencontrez des problèmes de blocage ou non réponse, essayer de régler l\'intensité du scan à un faible niveau. Si votre appareil n\'est pas découvert, essayer l\'intensité du scan au plus haut niveau.</string>
+    <string name="portuguese_br">Portugais (Brésil)</string>
+    <string name="portuguese_pt">Portugais (Portugal)</string>
+    <string name="prefs_active_noise_cancelling_level_low">Bas</string>
+    <string name="prefs_double_tap_edge">Double appui sur le bord</string>
+    <string name="prefs_voice_detect_duration">Arrêt après pause pendant :</string>
+    <string name="pref_voice_detect_duration_5">5 secondes</string>
+    <string name="prefs_switch_control_left">Mettre le contrôle à gauche</string>
+    <string name="prefs_switch_control_right">Mettre le contrôle à droite</string>
+    <string name="pref_title_touch_ambient">Son Ambiant</string>
+    <string name="pref_title_touch_spotify">Spotify</string>
+    <string name="pref_switch_noise_control">Changer le contrôle du bruit</string>
+    <string name="prefs_noise_control_with_one_earbud">Contrôle du bruit avec un écouteur</string>
+    <string name="prefs_active_noise_cancelling_level">Niveau actif de l\'annulation de bruit</string>
+    <string name="prefs_active_noise_cancelling_level_high">Haut</string>
+    <string name="pref_title_touch_voice_assistant">Assistant vocal</string>
+    <string name="pref_title_touch_anc">Annulation de bruit active</string>
+    <string name="pref_title_touch_quick_ambient">Son Ambiant</string>
+    <string name="prefs_double_tap_edge_summary">Détecter un double appui même si hors zone tactile</string>
+    <string name="pref_voice_detect_duration_10">10 secondes</string>
+    <string name="pref_device_action_phone_gps_location_listener_stop">Arrêt du gestionnaire GPS</string>
+    <string name="permission_notification_policy_access">%1$s doit accéder aux réglages Ne Pas Déranger afin de les respecter sur votre montre quand l\'écran de votre téléphone est éteint.
+\n
+\nMerci de sélectionner \'%2$s\' puis \'%1$s\' et activer \'Autoriser Ne Pas Déranger\', puis sélectionner \'Retour\' pour revenir à %1$s</string>
+    <string name="prefs_voice_detect_summary">Activer le son ambiant et réduction de bruit automatique lors de la détection de voix</string>
+    <string name="quick_alarm">Alarme rapide</string>
+    <string name="quick_alarm_description">Alarme d\'un widget</string>
+    <string name="pref_summary_device_intents">Permettre à Bangle.js d\'envoyer des notifications Android, et permettre aux autres apps Android (comme Tasker) d\'envoyer des données à Bangle.js avec le dispositif com.banglejs.uart.tx .</string>
+    <string name="pref_title_touch_volume">Volume</string>
+    <string name="prefs_noise_control_with_one_earbud_summary">Permettre le contrôle du bruit en utilisant un seul écouteur</string>
+    <string name="pref_ambient_sound_tone">Tonalité du son ambiant</string>
+    <string name="pref_ambient_sound_tone_summary">De doux à Clair</string>
+    <string name="pref_balance">Balance</string>
+    <string name="pref_switch_controls_ambient_off">Ambiant &lt;-&gt; Off</string>
+    <string name="prefs_noise_control">Contrôle du bruit</string>
+    <string name="prefs_voice_detect">Détection de la voix</string>
+    <string name="pref_switch_controls_anc_ambient">Annulation de bruit &lt;-&gt; Ambiant</string>
+    <string name="pref_switch_controls_anc_off">Annulation de bruit &lt;-&gt; Off</string>
+    <string name="pref_voice_detect_duration_15">15 secondes</string>
+    <string name="pref_device_action_fitness_app_control_toggle">Basculer d\'app de suivi sportif</string>
+    <string name="pref_title_banglejs_webview_url">URL de chargement de l\'app</string>
+    <string name="permission_location">%1$s a besoin d\'accès à votre emplacement en arrière-plan pour lui permettre de rester connecté à votre montre même quand votre écran est éteint.
+\n
+\nAppuyez-ici \'%2$s\' pour accepter.</string>
+    <string name="pref_summary_banglejs_webview_url">Si vous souhaitez utiliser un chargeur d\'app spécifique mettre votre URL https://…/android.html ici. Sinon laissez blanc pour https://banglejs.com/apps</string>
 </resources>

@@ -58,24 +58,31 @@ public class AutoConnectIntervalReceiver extends BroadcastReceiver {
             return;
         }
 
-        GBDevice gbDevice = service.getGBDevice();
-        if (gbDevice == null) {
-            return;
-        }
-
-        if (action.equals(DeviceManager.ACTION_DEVICES_CHANGED)) {
-            if (gbDevice.isInitialized()) {
-                LOG.info("will reset connection delay, device is initialized!");
-                mDelay = 4;
+        GBDevice[] devices = service.getGBDevices();
+        if (action.equals(DeviceManager.ACTION_DEVICES_CHANGED)){
+            boolean scheduleAutoConnect = false;
+            boolean allDevicesInitialized = true;
+            for(GBDevice device : devices){
+                if(!device.isInitialized()){
+                    allDevicesInitialized = false;
+                }else if(device.getState() == GBDevice.State.WAITING_FOR_RECONNECT){
+                    scheduleAutoConnect = true;
+                }
             }
-            else if (gbDevice.getState() == GBDevice.State.WAITING_FOR_RECONNECT) {
+
+            if(allDevicesInitialized){
+                LOG.info("will reset connection delay, all devices are initialized!");
+                return;
+            }
+            if(scheduleAutoConnect){
                 scheduleReconnect();
             }
-        }
-        else if (action.equals("GB_RECONNECT")) {
-            if (gbDevice.getState() == GBDevice.State.WAITING_FOR_RECONNECT) {
-                LOG.info("Will re-connect to " + gbDevice.getAddress() + "(" + gbDevice.getName() + ")");
-                GBApplication.deviceService().connect();
+        }else if (action.equals("GB_RECONNECT")){
+            for(GBDevice device : devices){
+                if(device.getState() == GBDevice.State.WAITING_FOR_RECONNECT) {
+                    LOG.info("Will re-connect to " + device.getAddress() + "(" + device.getName() + ")");
+                    GBApplication.deviceService().connect(device);
+                }
             }
         }
     }

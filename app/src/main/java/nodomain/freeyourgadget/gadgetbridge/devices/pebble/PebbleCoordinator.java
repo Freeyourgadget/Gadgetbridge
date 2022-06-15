@@ -25,6 +25,7 @@ import androidx.annotation.NonNull;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 
 import de.greenrobot.dao.query.QueryBuilder;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
@@ -168,18 +169,27 @@ public class PebbleCoordinator extends AbstractDeviceCoordinator {
 
     @Override
     public boolean supportsAppListFetching() {
-        GBDevice mGBDevice = GBApplication.app().getDeviceManager().getSelectedDevice();
-        if (mGBDevice != null && mGBDevice.getFirmwareVersion() != null) {
-            return PebbleUtils.getFwMajor(mGBDevice.getFirmwareVersion()) < 3;
+        List<GBDevice> devices = GBApplication.app().getDeviceManager().getSelectedDevices();
+        for(GBDevice device : devices){
+            if(device.getType() == DeviceType.PEBBLE){
+                if (device.getFirmwareVersion() != null) {
+                    return PebbleUtils.getFwMajor(device.getFirmwareVersion()) < 3;
+                }
+            }
         }
+
         return false;
     }
 
     @Override
     public boolean supportsAppReordering() {
-        GBDevice mGBDevice = GBApplication.app().getDeviceManager().getSelectedDevice();
-        if (mGBDevice != null && mGBDevice.getFirmwareVersion() != null) {
-            return PebbleUtils.getFwMajor(mGBDevice.getFirmwareVersion()) >= 3;
+        List<GBDevice> devices = GBApplication.app().getDeviceManager().getSelectedDevices();
+        for(GBDevice device : devices){
+            if(device.getType() == DeviceType.PEBBLE){
+                if (device.getFirmwareVersion() != null) {
+                    return PebbleUtils.getFwMajor(device.getFirmwareVersion()) >= 3;
+                }
+            }
         }
         return false;
     }

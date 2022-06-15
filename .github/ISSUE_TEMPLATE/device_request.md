@@ -10,7 +10,7 @@ You can use the `Preview` tab ^ above to see final rendering of your report. Use
 #### Before proceeding further, please confirm the following:
 - [ ] I have read the [wiki](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki), and I didn't find this device mentioned there
 - [ ] I have searched the [issues](https://codeberg.org/Freeyourgadget/Gadgetbridge/issues), and I didn't find this device mentioned there
-- [ ] Please make sure you have read and understood the [Codeberg Terms of Use](https://codeberg.org/codeberg/org/src/branch/master/TermsOfUse.md)
+- [ ] Please make sure you have read and understood the [Codeberg Terms of Use](https://codeberg.org/Codeberg/org/src/branch/main/TermsOfUse.md)
 
 #### Device information
 

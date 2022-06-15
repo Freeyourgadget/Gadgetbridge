@@ -19,6 +19,7 @@ package nodomain.freeyourgadget.gadgetbridge.util;
 
 import android.Manifest;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.Criteria;
 import android.location.Location;
@@ -33,6 +34,7 @@ import java.util.Date;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst;
+import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 
 public class GBPrefs {
     // Since this class must not log to slf4j, we use plain android.util.Log
@@ -41,7 +43,8 @@ public class GBPrefs {
     public static final String PACKAGE_BLACKLIST = "package_blacklist";
     public static final String PACKAGE_PEBBLEMSG_BLACKLIST = "package_pebblemsg_blacklist";
     public static final String CALENDAR_BLACKLIST = "calendar_blacklist";
-    public static final String AUTO_RECONNECT = "general_autocreconnect";
+    public static final String DEVICE_AUTO_RECONNECT = "prefs_key_device_auto_reconnect";
+    public static final String DEVICE_CONNECT_BACK = "prefs_key_device_reconnect_on_acl";
     private static final String AUTO_START = "general_autostartonboot";
     public static final String AUTO_EXPORT_ENABLED = "auto_export_enabled";
     public static final String AUTO_EXPORT_LOCATION = "auto_export_location";
@@ -67,8 +70,9 @@ public class GBPrefs {
         mPrefs = prefs;
     }
 
-    public boolean getAutoReconnect() {
-        return mPrefs.getBoolean(AUTO_RECONNECT, AUTO_RECONNECT_DEFAULT);
+    public boolean getAutoReconnect(GBDevice device) {
+        SharedPreferences deviceSpecificPreferences = GBApplication.getDeviceSpecificSharedPrefs(device.getAddress());
+        return deviceSpecificPreferences.getBoolean(DEVICE_AUTO_RECONNECT, AUTO_RECONNECT_DEFAULT);
     }
 
     public boolean getAutoStart() {

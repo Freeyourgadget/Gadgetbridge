@@ -69,7 +69,7 @@ public class QC35BaseSupport extends AbstractSerialDeviceSupport {
     public boolean connect() {
         getDeviceProtocol();
         getDeviceIOThread().start();
-        getDevice().setBatteryThresholdPercent((short)15);
+        getDevice().setBatteryThresholdPercent((short)25);
         return true;
     }
 

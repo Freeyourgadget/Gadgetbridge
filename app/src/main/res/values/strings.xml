@@ -1666,4 +1666,7 @@
     <string name="pref_summary_opentracks_packagename">Used for starting/stopping GPS track recording in external fitness app.</string>
     <string name="watchface_dialog_pre_setting_position">pre-setting position to %s</string>
     <string name="watchface_setting_light_up_on_notification">Light up on new notification</string>
+
+    <string name="info_no_devices_connected">no devices connected</string>
+    <string name="info_connected_count">%d devices connected</string>
 </resources>
