@@ -1584,6 +1584,18 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
                             );
                         queueWrite(new JsonPutRequest(responseObject, this));
                     }
+                } else if (request.optString("custom_menu").equals("request_config")) {
+                    // watchface requests custom menu data to be initialized
+                    LOG.info("Got custom_menu config request, sending intent to HR Menu Companion app...");
+                    Intent intent = new Intent();
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    intent.setClassName("d.d.hrmenucompanion", "d.d.hrmenucompanion.MainActivity");
+                    intent.putExtra("SEND_CONFIG", true);
+                    try {
+                        getContext().startActivity(intent);
+                    } catch (Exception e) {
+                        LOG.info("Couldn't send intent to Fossil-HR-Menu-Companion app, is it installed?");
+                    }
                 } else {
                     LOG.warn("Unhandled request from watch: " + requestJson.toString());
                 }
