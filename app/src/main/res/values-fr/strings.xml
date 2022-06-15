@@ -1738,4 +1738,6 @@ Temps de sommeil préféré en heures</string>
 \n
 \nAppuyez-ici \'%2$s\' pour accepter.</string>
     <string name="pref_summary_banglejs_webview_url">Si vous souhaitez utiliser un chargeur d\'app spécifique mettre votre URL https://…/android.html ici. Sinon laissez blanc pour https://banglejs.com/apps</string>
+    <string name="info_no_devices_connected">aucun appareil connecté</string>
+    <string name="info_connected_count">%d appareils connectés</string>
 </resources>
