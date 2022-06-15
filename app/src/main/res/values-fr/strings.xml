@@ -1740,4 +1740,13 @@ Temps de sommeil préféré en heures</string>
     <string name="pref_summary_banglejs_webview_url">Si vous souhaitez utiliser un chargeur d\'app spécifique mettre votre URL https://…/android.html ici. Sinon laissez blanc pour https://banglejs.com/apps</string>
     <string name="info_no_devices_connected">aucun appareil connecté</string>
     <string name="info_connected_count">%d appareils connectés</string>
+    <string name="ukranian">Ukrainien</string>
+    <string name="estonian">Estonien</string>
+    <string name="icelandic">Islandais</string>
+    <string name="lithuanian">Lituanien</string>
+    <string name="persian">Perse</string>
+    <string name="bengali">Bengali</string>
+    <string name="czech">Tchèque</string>
+    <string name="extended_ascii">ASCII étendu</string>
+    <string name="scandinavian">Scandinave</string>
 </resources>
