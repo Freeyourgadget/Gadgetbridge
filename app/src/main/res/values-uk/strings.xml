@@ -1744,4 +1744,13 @@
 \nТоркніться «%2$s», щоб погодитися.</string>
     <string name="info_no_devices_connected">немає під\'єднаних пристроїв</string>
     <string name="info_connected_count">Під\'єднаних пристроїв: %d</string>
+    <string name="bengali">Бенгальська</string>
+    <string name="persian">Перська</string>
+    <string name="ukranian">Українська</string>
+    <string name="czech">Чеська</string>
+    <string name="lithuanian">Литовська</string>
+    <string name="icelandic">Ісландська</string>
+    <string name="estonian">Естонська</string>
+    <string name="extended_ascii">Розширена ASCII</string>
+    <string name="scandinavian">Скандинавська</string>
 </resources>
