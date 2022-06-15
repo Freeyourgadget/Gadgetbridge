@@ -1352,7 +1352,7 @@ public class HuamiSupport extends AbstractBTLEDeviceSupport {
         if (musicSpec != null) {
             artist = StringUtils.truncate(musicSpec.artist, 80);
             album = StringUtils.truncate(musicSpec.album, 80);
-            track = StringUtils.truncate(musicSpec.album, 80);
+            track = StringUtils.truncate(musicSpec.track, 80);
 
             if (artist.getBytes().length > 0) {
                 length += artist.getBytes().length + 1;
