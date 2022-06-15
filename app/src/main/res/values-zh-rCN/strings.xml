@@ -1600,12 +1600,16 @@
     <string name="watchface_dialog_pre_setting_position">预设位置为 %s</string>
     <string name="watchface_setting_light_up_on_notification">有新通知时亮起</string>
     <string name="menuitem_email">电子邮件</string>
-    <string name="about_description_banglejs_main">Bangle.js 的 Android 配套应用程序构建在 Gadgetbridge 项目之上，增加了 Internet 访问。</string>
+    <string name="about_description_banglejs_main">Bangle.js 的 Android 配套应用程序构建在 Gadgetbridge 项目之上，增加了 Internet 访问。
+\n
+\n由于 Google Play 商店的政策，我们不允许在应用程序本身有捐赠链接，但如果你喜欢这个应用程序，请考虑通过下面的Gadgetbridge主页进行捐赠。</string>
     <string name="gadgetbridge_running_banglejs_main">Bangle.js 正在运行</string>
     <string name="application_name_banglejs_nopebble">Bangle.js Gadgetbridge</string>
     <string name="title_activity_controlcenter_banglejs_nopebble">Bangle.js Gadgetbridge</string>
     <string name="about_activity_title_banglejs_nopebble">关于 Bangle.js Gadgetbridge</string>
-    <string name="about_description_banglejs_nopebble">Bangle.js 的 Android 配套应用程序构建在 Gadgetbridge 项目之上，增加了 Internet 访问。</string>
+    <string name="about_description_banglejs_nopebble">Bangle.js 的 Android 配套应用程序构建在 Gadgetbridge 项目之上，增加了 Internet 访问。
+\n
+\n由于 Google Play 商店的政策，我们不允许在应用程序本身有捐赠链接，但如果你喜欢这个应用程序，请考虑通过下面的Gadgetbridge主页进行捐赠。</string>
     <string name="gadgetbridge_running_banglejs_nopebble">Bangle.js 正在运行</string>
     <string name="application_name_main_nightly">Gadgetbridge (每夜编译版本)</string>
     <string name="title_activity_controlcenter_main_nightly">Gadgetbridge 每夜编译版本</string>
@@ -1714,10 +1718,10 @@
     <string name="pref_workout_start_on_phone_title">健身应用追踪</string>
     <string name="pref_workout_start_on_phone_summary">在手环上开始 GPS 锻炼时，在手机上开始/停止健身应用跟踪</string>
     <string name="notification_channel_gps">GPS跟踪</string>
-    <string name="permission_notification_listener">%1$s需要访问通知，以便在你的手表上显示这些通知。
+    <string name="permission_notification_listener">%1$s需要访问通知，以便当您的手机屏幕息屏时能在您的手表上显示这些通知。
 \n
 \n请点击\'%2$s\'然后\'%1$s\'并启用\'允许通知访问\'，然后点击\'返回\'以返回到%1$s</string>
-    <string name="permission_notification_policy_access">%1$s 需要访问“请勿打扰”设置才能在您的手表上使用它们。
+    <string name="permission_notification_policy_access">%1$s 需要访问“请勿打扰”设置以便在您的手机息屏时才能在手表上使用它们。
 \n
 \n请点击“%2$s”然后点击“%1$s”并启用“允许请勿打扰”，然后点击“返回”返回到%1$s</string>
     <string name="pref_workout_send_gps_title">在锻炼期间发送 GPS</string>
@@ -1731,4 +1735,11 @@
     <string name="quick_alarm">快速闹钟</string>
     <string name="portuguese_pt">葡萄牙语 (葡萄牙)</string>
     <string name="quick_alarm_description">从小工具发出的闹钟</string>
+    <string name="info_no_devices_connected">未连接任何设备</string>
+    <string name="info_connected_count">%d 设备已连接</string>
+    <string name="pref_title_banglejs_webview_url">应用加载程序网址</string>
+    <string name="pref_summary_banglejs_webview_url">如果您想要一个自定义的应用程序加载器，请将您的 https://.../android.html 网址放在这里。留空的话则为： https://banglejs.com/apps</string>
+    <string name="permission_location">%1$s 需要在后台访问您的位置，以使其即使在屏幕关闭时也能与您的手表保持连接。
+\n
+\n请点击 \'%2$s\' 以同意。</string>
 </resources>
