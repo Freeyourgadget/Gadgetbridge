@@ -8,7 +8,7 @@ import java.util.List;
 import nodomain.freeyourgadget.gadgetbridge.entities.CalendarSyncStateDao;
 import nodomain.freeyourgadget.gadgetbridge.externalevents.CalendarReceiver;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
-import nodomain.freeyourgadget.gadgetbridge.model.CalendarEvents;
+import nodomain.freeyourgadget.gadgetbridge.util.calendar.CalendarEvent;
 
 import static junit.framework.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
@@ -24,12 +24,12 @@ public class CalendarEventTest extends TestBase {
 
     @Test
     public void testHashCode() {
-        CalendarEvents.CalendarEvent c1 =
-                new CalendarEvents.CalendarEvent(BEGIN, END, ID_1, "something", null, null, CALNAME_1, CALACCOUNTNAME_1, COLOR_1, false);
-        CalendarEvents.CalendarEvent c2 =
-                new CalendarEvents.CalendarEvent(BEGIN, END, ID_1, null, "something", null, CALNAME_1, CALACCOUNTNAME_1, COLOR_1, false);
-        CalendarEvents.CalendarEvent c3 =
-                new CalendarEvents.CalendarEvent(BEGIN, END, ID_1, null, null, "something", CALNAME_1, CALACCOUNTNAME_1, COLOR_1, false);
+        CalendarEvent c1 =
+                new CalendarEvent(BEGIN, END, ID_1, "something", null, null, CALNAME_1, CALACCOUNTNAME_1, COLOR_1, false);
+        CalendarEvent c2 =
+                new CalendarEvent(BEGIN, END, ID_1, null, "something", null, CALNAME_1, CALACCOUNTNAME_1, COLOR_1, false);
+        CalendarEvent c3 =
+                new CalendarEvent(BEGIN, END, ID_1, null, null, "something", CALNAME_1, CALACCOUNTNAME_1, COLOR_1, false);
 
         assertEquals(c1.hashCode(), c1.hashCode());
         assertNotEquals(c1.hashCode(), c2.hashCode());
@@ -39,8 +39,8 @@ public class CalendarEventTest extends TestBase {
 
     @Test
     public void testSync() {
-        List<CalendarEvents.CalendarEvent> eventList = new ArrayList<>();
-        eventList.add(new CalendarEvents.CalendarEvent(BEGIN, END, ID_1, null, "something", null, CALNAME_1, CALACCOUNTNAME_1, COLOR_1, false));
+        List<CalendarEvent> eventList = new ArrayList<>();
+        eventList.add(new CalendarEvent(BEGIN, END, ID_1, null, "something", null, CALNAME_1, CALACCOUNTNAME_1, COLOR_1, false));
 
         GBDevice dummyGBDevice = createDummyGDevice("00:00:01:00:03");
         dummyGBDevice.setState(GBDevice.State.INITIALIZED);
@@ -49,7 +49,7 @@ public class CalendarEventTest extends TestBase {
 
         testCR.syncCalendar(eventList);
 
-        eventList.add(new CalendarEvents.CalendarEvent(BEGIN, END, ID_2, null, "something", null, CALNAME_1, CALACCOUNTNAME_1, COLOR_1, false));
+        eventList.add(new CalendarEvent(BEGIN, END, ID_2, null, "something", null, CALNAME_1, CALACCOUNTNAME_1, COLOR_1, false));
         testCR.syncCalendar(eventList);
 
         CalendarSyncStateDao calendarSyncStateDao = daoSession.getCalendarSyncStateDao();

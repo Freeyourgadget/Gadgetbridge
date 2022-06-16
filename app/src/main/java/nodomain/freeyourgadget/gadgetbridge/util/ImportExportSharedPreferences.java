@@ -134,14 +134,6 @@ public class ImportExportSharedPreferences {
                                 }
                                 GBApplication.setAppsPebbleBlackList(apps_pebble_blacklist);
                                 break;
-                            case GBPrefs.CALENDAR_BLACKLIST:  //TODO: untested
-                                Set<String> calendars_blacklist = new HashSet<>();
-                                text = text.replace("[", "").replace("]", "");
-                                for (int z = 0; z < text.split(",").length; z++) {
-                                    calendars_blacklist.add(text.split(",")[z].trim());
-                                }
-                                GBApplication.setCalendarsBlackList(calendars_blacklist);
-                                break;
                         }
                     } else if (!PREFERENCES.equals(name)) {
                         throw new Exception("Unknown type " + name);

@@ -976,7 +976,7 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
         }
 
         if (enable && initialized && features.supportsCalendarEvents()) {
-            if (mCalendarReceiver == null && getPrefs().getBoolean("enable_calendar_sync", true)) {
+            if (mCalendarReceiver == null) {
                 if (!(GBApplication.isRunningMarshmallowOrLater() && ContextCompat.checkSelfPermission(this, Manifest.permission.READ_CALENDAR) == PackageManager.PERMISSION_DENIED)) {
                     IntentFilter calendarIntentFilter = new IntentFilter();
                     calendarIntentFilter.addAction("android.intent.action.PROVIDER_CHANGED");

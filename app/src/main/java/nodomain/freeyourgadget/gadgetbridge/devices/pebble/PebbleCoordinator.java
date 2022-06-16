@@ -230,6 +230,7 @@ public class PebbleCoordinator extends AbstractDeviceCoordinator {
                 R.xml.devicesettings_autoremove_notifications,
                 R.xml.devicesettings_canned_reply_16,
                 R.xml.devicesettings_canned_dismisscall_16,
+                R.xml.devicesettings_sync_calendar,
                 R.xml.devicesettings_transliteration
         };
     }

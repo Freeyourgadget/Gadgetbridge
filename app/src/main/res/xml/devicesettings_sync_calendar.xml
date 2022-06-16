@@ -6,4 +6,10 @@
         android:key="sync_calendar"
         android:summary="@string/pref_summary_sync_calendar"
         android:title="@string/pref_title_sync_caldendar" />
+    <Preference
+        android:dependency="sync_calendar"
+        android:icon="@drawable/ic_block"
+        android:key="blacklist_calendars"
+        android:summary="@string/pref_blacklist_calendars_summary"
+        android:title="@string/pref_blacklist_calendars" />
 </androidx.preference.PreferenceScreen>

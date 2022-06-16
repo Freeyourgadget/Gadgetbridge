@@ -49,7 +49,9 @@ import java.util.Set;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
+import nodomain.freeyourgadget.gadgetbridge.activities.CalBlacklistActivity;
 import nodomain.freeyourgadget.gadgetbridge.activities.ConfigureWorldClocks;
+import nodomain.freeyourgadget.gadgetbridge.activities.SettingsActivity;
 import nodomain.freeyourgadget.gadgetbridge.devices.DeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.DeviceManager;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst;
@@ -681,6 +683,18 @@ public class DeviceSpecificSettingsFragment extends PreferenceFragmentCompat imp
                 @Override
                 public boolean onPreferenceClick(Preference preference) {
                     final Intent intent = new Intent(getContext(), ConfigureWorldClocks.class);
+                    intent.putExtra(GBDevice.EXTRA_DEVICE, device);
+                    startActivity(intent);
+                    return true;
+                }
+            });
+        }
+
+        final Preference calendarBlacklist = findPreference("blacklist_calendars");
+        if (calendarBlacklist != null) {
+            calendarBlacklist.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                public boolean onPreferenceClick(Preference preference) {
+                    Intent intent = new Intent(getContext(), CalBlacklistActivity.class);
                     intent.putExtra(GBDevice.EXTRA_DEVICE, device);
                     startActivity(intent);
                     return true;

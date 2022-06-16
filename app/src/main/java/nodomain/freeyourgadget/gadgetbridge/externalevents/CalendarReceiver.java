@@ -41,7 +41,8 @@ import nodomain.freeyourgadget.gadgetbridge.entities.CalendarSyncStateDao;
 import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.CalendarEventSpec;
-import nodomain.freeyourgadget.gadgetbridge.model.CalendarEvents;
+import nodomain.freeyourgadget.gadgetbridge.util.calendar.CalendarEvent;
+import nodomain.freeyourgadget.gadgetbridge.util.calendar.CalendarManager;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
 public class CalendarReceiver extends BroadcastReceiver {
@@ -52,9 +53,9 @@ public class CalendarReceiver extends BroadcastReceiver {
 
     private class EventSyncState {
         private int state;
-        private CalendarEvents.CalendarEvent event;
+        private CalendarEvent event;
 
-        EventSyncState(CalendarEvents.CalendarEvent event, int state) {
+        EventSyncState(CalendarEvent event, int state) {
             this.state = state;
             this.event = event;
         }
@@ -67,11 +68,11 @@ public class CalendarReceiver extends BroadcastReceiver {
             this.state = state;
         }
 
-        public CalendarEvents.CalendarEvent getEvent() {
+        public CalendarEvent getEvent() {
             return event;
         }
 
-        public void setEvent(CalendarEvents.CalendarEvent event) {
+        public void setEvent(CalendarEvent event) {
             this.event = event;
         }
     }
@@ -92,11 +93,11 @@ public class CalendarReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         LOG.info("got calendar changed broadcast");
-        List<CalendarEvents.CalendarEvent> eventList = (new CalendarEvents()).getCalendarEventList(GBApplication.getContext());
+        List<CalendarEvent> eventList = (new CalendarManager(context, mGBDevice.getAddress())).getCalendarEventList();
         syncCalendar(eventList);
     }
 
-    public void syncCalendar(List<CalendarEvents.CalendarEvent> eventList) {
+    public void syncCalendar(List<CalendarEvent> eventList) {
         try (DBHandler dbHandler = GBApplication.acquireDB()) {
             DaoSession session = dbHandler.getDaoSession();
             syncCalendar(eventList, session);
@@ -105,14 +106,14 @@ public class CalendarReceiver extends BroadcastReceiver {
         }
     }
 
-    public void syncCalendar(List<CalendarEvents.CalendarEvent> eventList, DaoSession session) {
+    public void syncCalendar(List<CalendarEvent> eventList, DaoSession session) {
         LOG.info("Syncing with calendar.");
-        Hashtable<Long, CalendarEvents.CalendarEvent> eventTable = new Hashtable<>();
+        Hashtable<Long, CalendarEvent> eventTable = new Hashtable<>();
         Long deviceId = DBHelper.getDevice(mGBDevice, session).getId();
         QueryBuilder<CalendarSyncState> qb = session.getCalendarSyncStateDao().queryBuilder();
 
 
-        for (CalendarEvents.CalendarEvent e : eventList) {
+        for (CalendarEvent e : eventList) {
             long id = e.getId();
             eventTable.put(id, e);
             if (!eventState.containsKey(e.getId())) {
@@ -176,7 +177,7 @@ public class CalendarReceiver extends BroadcastReceiver {
             EventSyncState es = eventState.get(i);
             int syncState = es.getState();
             if (syncState == EventState.NOT_SYNCED || syncState == EventState.NEEDS_UPDATE) {
-                CalendarEvents.CalendarEvent calendarEvent = es.getEvent();
+                CalendarEvent calendarEvent = es.getEvent();
                 CalendarEventSpec calendarEventSpec = new CalendarEventSpec();
                 calendarEventSpec.id = i;
                 calendarEventSpec.title = calendarEvent.getTitle();

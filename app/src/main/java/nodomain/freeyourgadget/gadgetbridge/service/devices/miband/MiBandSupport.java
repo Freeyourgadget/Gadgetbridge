@@ -65,7 +65,8 @@ import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityUser;
 import nodomain.freeyourgadget.gadgetbridge.model.Alarm;
 import nodomain.freeyourgadget.gadgetbridge.model.CalendarEventSpec;
-import nodomain.freeyourgadget.gadgetbridge.model.CalendarEvents;
+import nodomain.freeyourgadget.gadgetbridge.util.calendar.CalendarEvent;
+import nodomain.freeyourgadget.gadgetbridge.util.calendar.CalendarManager;
 import nodomain.freeyourgadget.gadgetbridge.model.CallSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.CannedMessagesSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceService;
@@ -1233,11 +1234,11 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
                 availableSlots = 3;
             }
             if (availableSlots > 0) {
-                CalendarEvents upcomingEvents = new CalendarEvents();
-                List<CalendarEvents.CalendarEvent> mEvents = upcomingEvents.getCalendarEventList(getContext());
+                CalendarManager upcomingEvents = new CalendarManager(getContext(), getDevice().getAddress());
+                List<CalendarEvent> mEvents = upcomingEvents.getCalendarEventList();
 
                 int iteration = 0;
-                for (CalendarEvents.CalendarEvent mEvt : mEvents) {
+                for (CalendarEvent mEvt : mEvents) {
                     if (iteration >= availableSlots) {
                         break;
                     }

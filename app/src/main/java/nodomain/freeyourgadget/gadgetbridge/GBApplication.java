@@ -117,7 +117,7 @@ public class GBApplication extends Application {
     private static SharedPreferences sharedPrefs;
     private static final String PREFS_VERSION = "shared_preferences_version";
     //if preferences have to be migrated, increment the following and add the migration logic in migratePrefs below; see http://stackoverflow.com/questions/16397848/how-can-i-migrate-android-preferences-with-a-new-version
-    private static final int CURRENT_PREFS_VERSION = 16;
+    private static final int CURRENT_PREFS_VERSION = 17;
 
     private static LimitedQueue mIDSenderLookup = new LimitedQueue(16);
     private static Prefs prefs;
@@ -224,7 +224,6 @@ public class GBApplication extends Application {
         deviceService = createDeviceService();
         loadAppsNotifBlackList();
         loadAppsPebbleBlackList();
-        loadCalendarsBlackList();
 
         PeriodicExporter.enablePeriodicExport(context);
 
@@ -555,61 +554,6 @@ public class GBApplication extends Application {
             return ("OsmAnd");
         }
         return packageName;
-    }
-
-    private static HashSet<String> calendars_blacklist = null;
-
-    public static boolean calendarIsBlacklisted(String calendarUniqueName) {
-        if (calendars_blacklist == null) {
-            GB.log("calendarIsBlacklisted: calendars_blacklist is null!", GB.INFO, null);
-        }
-        return calendars_blacklist != null && calendars_blacklist.contains(calendarUniqueName);
-    }
-
-    public static void setCalendarsBlackList(Set<String> calendarNames) {
-        if (calendarNames == null) {
-            GB.log("Set null apps_notification_blacklist", GB.INFO, null);
-            calendars_blacklist = new HashSet<>();
-        } else {
-            calendars_blacklist = new HashSet<>(calendarNames);
-        }
-        GB.log("New calendars_blacklist has " + calendars_blacklist.size() + " entries", GB.INFO, null);
-        saveCalendarsBlackList();
-    }
-
-    public static void addCalendarToBlacklist(String calendarUniqueName) {
-        if (calendars_blacklist.add(calendarUniqueName)) {
-            GB.log("Blacklisted calendar " + calendarUniqueName, GB.INFO, null);
-            saveCalendarsBlackList();
-        } else {
-            GB.log("Calendar " + calendarUniqueName + " already blacklisted!", GB.WARN, null);
-        }
-    }
-
-    public static void removeFromCalendarBlacklist(String calendarUniqueName) {
-        calendars_blacklist.remove(calendarUniqueName);
-        GB.log("Unblacklisted calendar " + calendarUniqueName, GB.INFO, null);
-        saveCalendarsBlackList();
-    }
-
-    private static void loadCalendarsBlackList() {
-        GB.log("Loading calendars_blacklist", GB.INFO, null);
-        calendars_blacklist = (HashSet<String>) sharedPrefs.getStringSet(GBPrefs.CALENDAR_BLACKLIST, null); // lgtm [java/abstract-to-concrete-cast]
-        if (calendars_blacklist == null) {
-            calendars_blacklist = new HashSet<>();
-        }
-        GB.log("Loaded calendars_blacklist has " + calendars_blacklist.size() + " entries", GB.INFO, null);
-    }
-
-    private static void saveCalendarsBlackList() {
-        GB.log("Saving calendars_blacklist with " + calendars_blacklist.size() + " entries", GB.INFO, null);
-        SharedPreferences.Editor editor = sharedPrefs.edit();
-        if (calendars_blacklist.isEmpty()) {
-            editor.putStringSet(GBPrefs.CALENDAR_BLACKLIST, null);
-        } else {
-            Prefs.putStringSet(editor, GBPrefs.CALENDAR_BLACKLIST, calendars_blacklist);
-        }
-        editor.apply();
     }
 
     /**
@@ -1188,6 +1132,32 @@ public class GBApplication extends Application {
             } catch (Exception e) {
                 Log.w(TAG, "error acquiring DB lock");
             }
+        }
+
+        if (oldVersion < 17) {
+            final HashSet<String> calendarBlacklist = (HashSet<String>) prefs.getStringSet(GBPrefs.CALENDAR_BLACKLIST, null);
+
+            try (DBHandler db = acquireDB()) {
+                final DaoSession daoSession = db.getDaoSession();
+                final List<Device> activeDevices = DBHelper.getActiveDevices(daoSession);
+
+                for (Device dbDevice : activeDevices) {
+                    final SharedPreferences deviceSharedPrefs = GBApplication.getDeviceSpecificSharedPrefs(dbDevice.getIdentifier());
+                    final SharedPreferences.Editor deviceSharedPrefsEdit = deviceSharedPrefs.edit();
+
+                    deviceSharedPrefsEdit.putBoolean("sync_calendar", prefs.getBoolean("enable_calendar_sync", true));
+
+                    if (calendarBlacklist != null) {
+                        Prefs.putStringSet(deviceSharedPrefsEdit, GBPrefs.CALENDAR_BLACKLIST, calendarBlacklist);
+                    }
+
+                    deviceSharedPrefsEdit.apply();
+                }
+            } catch (Exception e) {
+                Log.w(TAG, "error acquiring DB lock");
+            }
+
+            editor.remove(GBPrefs.CALENDAR_BLACKLIST);
         }
 
         editor.putString(PREFS_VERSION, Integer.toString(CURRENT_PREFS_VERSION));

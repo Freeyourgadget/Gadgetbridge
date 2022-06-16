@@ -56,7 +56,7 @@ import nodomain.freeyourgadget.gadgetbridge.model.ActivityUser;
 import nodomain.freeyourgadget.gadgetbridge.model.Alarm;
 import nodomain.freeyourgadget.gadgetbridge.model.BatteryState;
 import nodomain.freeyourgadget.gadgetbridge.model.CalendarEventSpec;
-import nodomain.freeyourgadget.gadgetbridge.model.CalendarEvents;
+import nodomain.freeyourgadget.gadgetbridge.util.calendar.CalendarEvent;
 import nodomain.freeyourgadget.gadgetbridge.model.CallSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.CannedMessagesSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.MusicSpec;
@@ -73,6 +73,7 @@ import nodomain.freeyourgadget.gadgetbridge.util.AlarmUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 import nodomain.freeyourgadget.gadgetbridge.util.GBPrefs;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
+import nodomain.freeyourgadget.gadgetbridge.util.calendar.CalendarManager;
 
 import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_SYNC_CALENDAR;
 
@@ -594,11 +595,11 @@ public class ZeTimeDeviceSupport extends AbstractBTLEDeviceSupport {
             return;
         }
 
-        CalendarEvents upcomingEvents = new CalendarEvents();
-        List<CalendarEvents.CalendarEvent> calendarEvents = upcomingEvents.getCalendarEventList(getContext());
+        CalendarManager upcomingEvents = new CalendarManager(getContext(), getDevice().getAddress());
+        List<CalendarEvent> calendarEvents = upcomingEvents.getCalendarEventList();
 
         int eventCount = 0;
-        for (CalendarEvents.CalendarEvent calendarEvent : calendarEvents) {
+        for (CalendarEvent calendarEvent : calendarEvents) {
             if (calendarEvent.isAllDay()) {
                 continue;
             }

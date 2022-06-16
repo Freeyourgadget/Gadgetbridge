@@ -44,7 +44,9 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.app.NavUtils;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
+import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
+import nodomain.freeyourgadget.gadgetbridge.util.calendar.CalendarManager;
 
 
 public class CalBlacklistActivity extends AbstractGBActivity {
@@ -56,11 +58,17 @@ public class CalBlacklistActivity extends AbstractGBActivity {
     };
     private ArrayList<Calendar> calendarsArrayList;
 
+    private GBDevice gbDevice;
+    private CalendarManager calendarManager;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_calblacklist);
         ListView calListView = (ListView) findViewById(R.id.calListView);
+
+        gbDevice = getIntent().getParcelableExtra(GBDevice.EXTRA_DEVICE);
+        calendarManager = new CalendarManager(this, gbDevice.getAddress());
 
         final Uri uri = CalendarContract.Calendars.CONTENT_URI;
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_CALENDAR) != PackageManager.PERMISSION_GRANTED) {
@@ -83,9 +91,9 @@ public class CalBlacklistActivity extends AbstractGBActivity {
                 CheckBox selected = (CheckBox) view.findViewById(R.id.item_checkbox);
                 toggleEntry(view);
                 if (selected.isChecked()) {
-                    GBApplication.addCalendarToBlacklist(item.getUniqueString());
+                    calendarManager.addCalendarToBlacklist(item.getUniqueString());
                 } else {
-                    GBApplication.removeFromCalendarBlacklist(item.getUniqueString());
+                    calendarManager.removeFromCalendarBlacklist(item.getUniqueString());
                 }
             }
         });
@@ -148,8 +156,8 @@ public class CalBlacklistActivity extends AbstractGBActivity {
             TextView ownerAccount = (TextView) view.findViewById(R.id.calendar_owner_account);
             CheckBox checked = (CheckBox) view.findViewById(R.id.item_checkbox);
 
-            if (GBApplication.calendarIsBlacklisted(item.getUniqueString()) && !checked.isChecked() ||
-                    !GBApplication.calendarIsBlacklisted(item.getUniqueString()) && checked.isChecked()) {
+            if (calendarManager.calendarIsBlacklisted(item.getUniqueString()) && !checked.isChecked() ||
+                    !calendarManager.calendarIsBlacklisted(item.getUniqueString()) && checked.isChecked()) {
                 toggleEntry(view);
             }
             color.setBackgroundColor(item.color);
