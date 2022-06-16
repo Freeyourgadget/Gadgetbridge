@@ -23,6 +23,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -47,7 +49,6 @@ import java.util.UUID;
 import androidx.fragment.app.Fragment;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.recyclerview.widget.ItemTouchHelper;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
@@ -61,6 +62,7 @@ import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.pebble.PebbleProtocol;
 import nodomain.freeyourgadget.gadgetbridge.util.DeviceHelper;
 import nodomain.freeyourgadget.gadgetbridge.util.FileUtils;
+import nodomain.freeyourgadget.gadgetbridge.util.GridAutoFitLayoutManager;
 import nodomain.freeyourgadget.gadgetbridge.util.PebbleUtils;
 
 
@@ -122,13 +124,28 @@ public abstract class AbstractAppManagerFragment extends Fragment {
             String appCreator = intent.getStringExtra("app_creator" + i);
             UUID uuid = UUID.fromString(intent.getStringExtra("app_uuid" + i));
             GBDeviceApp.Type appType = GBDeviceApp.Type.values()[intent.getIntExtra("app_type" + i, 0)];
+            Bitmap previewImage = getAppPreviewImage(uuid.toString());
 
-            GBDeviceApp app = new GBDeviceApp(uuid, appName, appCreator, "", appType);
+            GBDeviceApp app = new GBDeviceApp(uuid, appName, appCreator, "", appType, previewImage);
             app.setOnDevice(true);
             if (filterApp(app)) {
                 appList.add(app);
             }
         }
+    }
+
+    private Bitmap getAppPreviewImage(String name) {
+        Bitmap previewImage = null;
+        try {
+            File cacheDir = mCoordinator.getAppCacheDir();
+            File previewImgFile = new File(cacheDir, name + "_preview.png");
+            if (previewImgFile.exists()) {
+                previewImage = BitmapFactory.decodeFile(previewImgFile.getAbsolutePath());
+            }
+        } catch (IOException e) {
+            LOG.warn("Couldn't load watch app preview image", e);
+        }
+        return previewImage;
     }
 
     private final BroadcastReceiver mReceiver = new BroadcastReceiver() {
@@ -183,7 +200,7 @@ public abstract class AbstractAppManagerFragment extends Fragment {
                     try {
                         String jsonstring = FileUtils.getStringFromFile(jsonFile);
                         JSONObject json = new JSONObject(jsonstring);
-                        cachedAppList.add(new GBDeviceApp(json, configFile.exists()));
+                        cachedAppList.add(new GBDeviceApp(json, configFile.exists(), getAppPreviewImage(baseName)));
                     } catch (Exception e) {
                         LOG.info("could not read json file for " + baseName);
                         if (mGBDevice.getType() == DeviceType.PEBBLE) {
@@ -293,8 +310,8 @@ public abstract class AbstractAppManagerFragment extends Fragment {
                 }
             }
         });
-        appListView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        mGBDeviceAppAdapter = new GBDeviceAppAdapter(appList, R.layout.item_pebble_watchapp, this);
+        appListView.setLayoutManager(new GridAutoFitLayoutManager(getActivity(), 300));
+        mGBDeviceAppAdapter = new GBDeviceAppAdapter(appList, R.layout.item_appmanager_watchapp, this);
         appListView.setAdapter(mGBDeviceAppAdapter);
 
         ItemTouchHelper.Callback appItemTouchHelperCallback = new AppItemTouchHelperCallback(mGBDeviceAppAdapter);

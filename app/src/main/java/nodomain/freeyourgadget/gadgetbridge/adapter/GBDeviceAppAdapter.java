@@ -17,6 +17,7 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.adapter;
 
+import android.graphics.Bitmap;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -29,6 +30,10 @@ import java.util.List;
 import java.util.UUID;
 
 import androidx.recyclerview.widget.RecyclerView;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.activities.appmanager.AbstractAppManagerFragment;
@@ -39,6 +44,7 @@ import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceApp;
  */
 
 public class GBDeviceAppAdapter extends RecyclerView.Adapter<GBDeviceAppAdapter.AppViewHolder> {
+    private final Logger LOG = LoggerFactory.getLogger(GBDeviceAppAdapter.class);
 
     private final int mLayoutId;
     private final List<GBDeviceApp> appList;
@@ -78,6 +84,14 @@ public class GBDeviceAppAdapter extends RecyclerView.Adapter<GBDeviceAppAdapter.
         // FIXME: replace with small icons
         String appNameLabelText = deviceApp.getName();
         holder.mDeviceAppNameLabel.setText(appNameLabelText);
+
+        Bitmap previewImage = deviceApp.getPreviewImage();
+        holder.mPreviewImage.setImageBitmap(previewImage);
+        if (previewImage == null) {
+            holder.mPreviewImage.setVisibility(View.GONE);
+        } else {
+            holder.mPreviewImage.setVisibility(View.VISIBLE);
+        }
 
         switch (deviceApp.getType()) {
             case APP_GENERIC:
@@ -130,6 +144,7 @@ public class GBDeviceAppAdapter extends RecyclerView.Adapter<GBDeviceAppAdapter.
         final TextView mDeviceAppNameLabel;
         final ImageView mDeviceImageView;
         final ImageView mDragHandle;
+        final ImageView mPreviewImage;
 
         AppViewHolder(View itemView) {
             super(itemView);
@@ -137,6 +152,7 @@ public class GBDeviceAppAdapter extends RecyclerView.Adapter<GBDeviceAppAdapter.
             mDeviceAppNameLabel = (TextView) itemView.findViewById(R.id.item_name);
             mDeviceImageView = (ImageView) itemView.findViewById(R.id.item_image);
             mDragHandle = (ImageView) itemView.findViewById(R.id.drag_handle);
+            mPreviewImage = (ImageView) itemView.findViewById(R.id.item_preview_image);
         }
 
     }

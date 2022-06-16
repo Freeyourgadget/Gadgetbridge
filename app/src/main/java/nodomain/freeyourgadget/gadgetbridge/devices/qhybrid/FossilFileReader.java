@@ -165,7 +165,7 @@ public class FossilFileReader {
         } else {
             mAppKeys.put("type", "APP_GENERIC");
         }
-        app = new GBDeviceApp(mAppKeys, false);
+        app = new GBDeviceApp(mAppKeys, false, null);
     }
 
     private ArrayList<String> parseAppFilenames(ByteBuffer buf, int untilPosition, boolean cutTrailingNull) {
