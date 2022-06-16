@@ -1734,4 +1734,15 @@
     <string name="permission_notification_policy_access">ל־%1$s דרושה גישה להגדרות לא להפריע כדי לכבד אותן בשעון שלך כאשר מסך הטלפון שלך כבוי.
 \n
 \nנא לגעת ב־‚%2$s’ ואז ‚%1$s’ ולהפעיל את ‚לאפשר לא להפריע’ ואז לגעת ב‚חזרה’ כדי לחזור אל %1$s</string>
+    <string name="extended_ascii">ASCII מורחב</string>
+    <string name="scandinavian">סקנדינבית</string>
+    <string name="icelandic">איסלנדית</string>
+    <string name="czech">צ׳כית</string>
+    <string name="lithuanian">ליטאית</string>
+    <string name="ukranian">אוקראינית</string>
+    <string name="persian">פרסית</string>
+    <string name="bengali">בנגלית</string>
+    <string name="estonian">אסטונית</string>
+    <string name="info_no_devices_connected">אין התקנים מחוברים</string>
+    <string name="info_connected_count">%d התקנים מחוברים</string>
 </resources>
