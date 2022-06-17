@@ -121,6 +121,9 @@ public class HybridHRWatchfaceWidget {
     public int getColor() {
         return color;
     }
+    public void setColor(int color) {
+        this.color = color;
+    }
 
     public String getTimezone() {
         return timezone;

@@ -227,6 +227,11 @@ public class HybridHRWatchfaceDesignerActivity extends AbstractGBActivity implem
         } else if (v.getId() == R.id.watchface_invert_colors) {
             if (selectedBackgroundImage != null) {
                 selectedBackgroundImage = BitmapUtil.invertBitmapColors(selectedBackgroundImage);
+                for (int i=0; i<widgets.size(); i++) {
+                    HybridHRWatchfaceWidget widget = widgets.get(i);
+                    widget.setColor(widget.getColor() ^ 1);
+                    widgets.set(i, widget);
+                }
                 renderWatchfacePreview();
                 if (defaultWidgetColor == HybridHRWatchfaceWidget.COLOR_WHITE) {
                     defaultWidgetColor = HybridHRWatchfaceWidget.COLOR_BLACK;
