@@ -59,6 +59,7 @@ import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst;
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.CannedMessagesSpec;
+import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
 import nodomain.freeyourgadget.gadgetbridge.util.DeviceHelper;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 import nodomain.freeyourgadget.gadgetbridge.util.XTimePreference;
@@ -825,26 +826,36 @@ public class DeviceSpecificSettingsFragment extends PreferenceFragmentCompat imp
         }
     }
 
-    static DeviceSpecificSettingsFragment newInstance(GBDevice device) {
+    static DeviceSpecificSettingsFragment newInstance(GBDevice device, DeviceSettingsActivity.MENU_ENTRY_POINTS applicationSpecificSettings) {
         final DeviceCoordinator coordinator = DeviceHelper.getInstance().getCoordinator(device);
-        int[] supportedSettings = coordinator.getSupportedDeviceSpecificSettings(device);
-        String[] supportedLanguages = coordinator.getSupportedLanguageSettings(device);
+        int[] supportedSettings = new int[0];
+        String[] supportedLanguages = null;
 
-        supportedSettings = ArrayUtils.insert(0, supportedSettings, coordinator.getSupportedDeviceSpecificConnectionSettings());
-
-        if (supportedLanguages != null) {
-            supportedSettings = ArrayUtils.insert(0, supportedSettings, R.xml.devicesettings_language_generic);
-        }
-
-        if (coordinator.supportsActivityTracking()) {
-            supportedSettings = ArrayUtils.addAll(supportedSettings, R.xml.devicesettings_chartstabs);
-            supportedSettings = ArrayUtils.addAll(supportedSettings, R.xml.devicesettings_device_card_activity_card_preferences);
+        if (applicationSpecificSettings.equals(DeviceSettingsActivity.MENU_ENTRY_POINTS.APPLICATION_SETTINGS)) { //assemble device settings specific to the application
+            supportedSettings = ArrayUtils.insert(0, supportedSettings, coordinator.getSupportedDeviceSpecificConnectionSettings());
+            supportedSettings = ArrayUtils.addAll(supportedSettings, coordinator.getSupportedDeviceSpecificApplicationSettings());
+            if (coordinator.supportsActivityTracking()) {
+                supportedSettings = ArrayUtils.addAll(supportedSettings, R.xml.devicesettings_chartstabs);
+                supportedSettings = ArrayUtils.addAll(supportedSettings, R.xml.devicesettings_device_card_activity_card_preferences);
+            }
+        } else if (applicationSpecificSettings.equals(DeviceSettingsActivity.MENU_ENTRY_POINTS.AUTH_SETTINGS)) { //auth settings screen
+            supportedSettings = ArrayUtils.insert(0, supportedSettings, coordinator.getSupportedDeviceSpecificAuthenticationSettings());
+            supportedSettings = ArrayUtils.addAll(supportedSettings, R.xml.devicesettings_pairingkey_explanation);
+            if (coordinator.getDeviceType() == DeviceType.MIBAND6) { // miband6 might require new protocol and people do not know what to do, hint them:
+                supportedSettings = ArrayUtils.addAll(supportedSettings, R.xml.devicesettings_miband6_new_protocol);
+                supportedSettings = ArrayUtils.addAll(supportedSettings, R.xml.devicesettings_miband6_new_auth_protocol_explanation);
+            }
+        } else { //device settings
+            supportedSettings = ArrayUtils.insert(0, supportedSettings, coordinator.getSupportedDeviceSpecificSettings(device));
+            supportedLanguages = coordinator.getSupportedLanguageSettings(device);
+            if (supportedLanguages != null) {
+                supportedSettings = ArrayUtils.insert(0, supportedSettings, R.xml.devicesettings_language_generic);
+            }
+            supportedSettings = ArrayUtils.addAll(supportedSettings, coordinator.getSupportedDeviceSpecificAuthenticationSettings());
         }
 
         final DeviceSpecificSettingsCustomizer deviceSpecificSettingsCustomizer = coordinator.getDeviceSpecificSettingsCustomizer(device);
-
         final String settingsFileSuffix = device.getAddress();
-
         final DeviceSpecificSettingsFragment fragment = new DeviceSpecificSettingsFragment();
         fragment.setSettingsFileSuffix(settingsFileSuffix, supportedSettings, supportedLanguages);
         fragment.setDeviceSpecificSettingsCustomizer(deviceSpecificSettingsCustomizer);

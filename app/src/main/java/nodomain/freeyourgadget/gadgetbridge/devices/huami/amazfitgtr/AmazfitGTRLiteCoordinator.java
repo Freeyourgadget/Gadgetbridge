@@ -101,8 +101,13 @@ public class AmazfitGTRLiteCoordinator extends HuamiCoordinator {
                 R.xml.devicesettings_reserve_reminders_calendar,
                 R.xml.devicesettings_expose_hr_thirdparty,
                 R.xml.devicesettings_bt_connected_advertisement,
-                R.xml.devicesettings_pairingkey,
                 R.xml.devicesettings_transliteration
+        };
+    }
+    @Override
+    public int[] getSupportedDeviceSpecificAuthenticationSettings() {
+        return new int[]{
+                R.xml.devicesettings_pairingkey
         };
     }
 }

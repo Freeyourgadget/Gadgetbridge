@@ -23,33 +23,39 @@ import androidx.fragment.app.Fragment;
 import androidx.preference.PreferenceFragmentCompat;
 import androidx.preference.PreferenceScreen;
 
-import org.apache.commons.lang3.ArrayUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.activities.AbstractGBActivity;
-import nodomain.freeyourgadget.gadgetbridge.devices.DeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
-import nodomain.freeyourgadget.gadgetbridge.util.DeviceHelper;
 
 
 public class DeviceSettingsActivity extends AbstractGBActivity implements
         PreferenceFragmentCompat.OnPreferenceStartScreenCallback {
     private static final Logger LOG = LoggerFactory.getLogger(DeviceSettingsActivity.class);
+    public static final String MENU_ENTRY_POINT = "MENU_ENTRY_POINT";
 
     GBDevice device;
+    MENU_ENTRY_POINTS menu_entry;
 
+    public enum MENU_ENTRY_POINTS {
+        DEVICE_SETTINGS,
+        AUTH_SETTINGS,
+        APPLICATION_SETTINGS
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         device = getIntent().getParcelableExtra(GBDevice.EXTRA_DEVICE);
+        menu_entry = (MENU_ENTRY_POINTS) getIntent().getSerializableExtra(MENU_ENTRY_POINT);
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_device_settings);
         if (savedInstanceState == null) {
             Fragment fragment = getSupportFragmentManager().findFragmentByTag(DeviceSpecificSettingsFragment.FRAGMENT_TAG);
             if (fragment == null) {
-                fragment = DeviceSpecificSettingsFragment.newInstance(device);
+                fragment = DeviceSpecificSettingsFragment.newInstance(device, menu_entry);
             }
             getSupportFragmentManager()
                     .beginTransaction()
@@ -61,7 +67,7 @@ public class DeviceSettingsActivity extends AbstractGBActivity implements
 
     @Override
     public boolean onPreferenceStartScreen(PreferenceFragmentCompat caller, PreferenceScreen preferenceScreen) {
-        final PreferenceFragmentCompat fragment = DeviceSpecificSettingsFragment.newInstance(device);
+        final PreferenceFragmentCompat fragment = DeviceSpecificSettingsFragment.newInstance(device, menu_entry);
         Bundle args = fragment.getArguments();
         args.putString(PreferenceFragmentCompat.ARG_PREFERENCE_ROOT, preferenceScreen.getKey());
         fragment.setArguments(args);

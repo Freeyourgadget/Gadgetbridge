@@ -400,6 +400,19 @@ public interface DeviceCoordinator {
     int[] getSupportedDeviceSpecificConnectionSettings();
 
     /**
+     * Returns device specific settings related to the application itself
+     * charts settings and so on
+     * @return int[]
+     */
+    int[] getSupportedDeviceSpecificApplicationSettings();
+
+    /**
+     * Returns device specific settings related to the Auth key
+     * @return int[]
+     */
+    int[] getSupportedDeviceSpecificAuthenticationSettings();
+
+    /**
      * Indicates which device specific settings the device supports (not per device type or family, but unique per device).
      */
     int[] getSupportedDeviceSpecificSettings(GBDevice device);

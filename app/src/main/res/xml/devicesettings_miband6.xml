@@ -20,9 +20,4 @@
         android:persistent="true"
         android:summary="@string/bip_prefs_shotcuts_summary"
         android:title="@string/bip_prefs_shortcuts" />
-    <SwitchPreference
-        android:defaultValue="false"
-        android:key="force_new_protocol"
-        android:summary="@string/pref_summary_huami_force_new_protocol"
-        android:title="@string/pref_title_huami_force_new_protocol" />
 </androidx.preference.PreferenceScreen>

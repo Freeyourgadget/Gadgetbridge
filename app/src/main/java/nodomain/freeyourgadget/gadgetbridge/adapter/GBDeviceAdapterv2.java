@@ -397,7 +397,7 @@ public class GBDeviceAdapterv2 extends ListAdapter<GBDevice, GBDeviceAdapterv2.V
         );
 
         //device specific settings
-        holder.deviceSpecificSettingsView.setVisibility(coordinator.getSupportedDeviceSpecificConnectionSettings() != null ? View.VISIBLE : View.GONE);
+        holder.deviceSpecificSettingsView.setVisibility(coordinator.getSupportedDeviceSpecificSettings(device)  != null ? View.VISIBLE : View.GONE);
         holder.deviceSpecificSettingsView.setOnClickListener(new View.OnClickListener()
 
                                                 {
@@ -406,6 +406,7 @@ public class GBDeviceAdapterv2 extends ListAdapter<GBDevice, GBDeviceAdapterv2.V
                                                         Intent startIntent;
                                                         startIntent = new Intent(context, DeviceSettingsActivity.class);
                                                         startIntent.putExtra(GBDevice.EXTRA_DEVICE, device);
+                                                        startIntent.putExtra(DeviceSettingsActivity.MENU_ENTRY_POINT, DeviceSettingsActivity.MENU_ENTRY_POINTS.DEVICE_SETTINGS);
                                                         context.startActivity(startIntent);
                                                     }
                                                 }
@@ -842,6 +843,9 @@ public class GBDeviceAdapterv2 extends ListAdapter<GBDevice, GBDeviceAdapterv2.V
                     case R.id.controlcenter_device_submenu_set_alias:
                         showSetAliasDialog(device);
                         return true;
+                    case R.id.controlcenter_device_submenu_set_preferences:
+                        setAppPreferences(device);
+                        return true;
                     case R.id.controlcenter_device_submenu_remove:
                         showRemoveDeviceDialog(device);
                         return true;
@@ -1036,6 +1040,13 @@ public class GBDeviceAdapterv2 extends ListAdapter<GBDevice, GBDeviceAdapterv2.V
         return false;
     }
 
+    private void setAppPreferences(GBDevice device) {
+        Intent startIntent;
+        startIntent = new Intent(context, DeviceSettingsActivity.class);
+        startIntent.putExtra(GBDevice.EXTRA_DEVICE, device);
+        startIntent.putExtra(DeviceSettingsActivity.MENU_ENTRY_POINT, DeviceSettingsActivity.MENU_ENTRY_POINTS.APPLICATION_SETTINGS);
+        context.startActivity(startIntent);
+    }
     private void showSetAliasDialog(final GBDevice device) {
         final EditText input = new EditText(context);
         input.setInputType(InputType.TYPE_CLASS_TEXT);

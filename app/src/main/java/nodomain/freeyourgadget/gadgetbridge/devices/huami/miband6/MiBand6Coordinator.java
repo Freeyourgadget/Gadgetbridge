@@ -85,6 +85,7 @@ public class MiBand6Coordinator extends HuamiCoordinator {
     public int[] getSupportedDeviceSpecificSettings(GBDevice device) {
         return new int[]{
                 R.xml.devicesettings_miband6,
+                R.xml.devicesettings_miband6_new_protocol,
                 R.xml.devicesettings_vibrationpatterns,
                 R.xml.devicesettings_wearlocation,
                 R.xml.devicesettings_heartrate_sleep_alert_activity_stress,
@@ -101,9 +102,14 @@ public class MiBand6Coordinator extends HuamiCoordinator {
                 R.xml.devicesettings_sync_calendar,
                 R.xml.devicesettings_reserve_reminders_calendar,
                 R.xml.devicesettings_expose_hr_thirdparty,
-                R.xml.devicesettings_pairingkey,
                 R.xml.devicesettings_high_mtu,
                 R.xml.devicesettings_transliteration
+        };
+    }
+    @Override
+    public int[] getSupportedDeviceSpecificAuthenticationSettings() {
+        return new int[]{
+                R.xml.devicesettings_pairingkey
         };
     }
 

@@ -127,7 +127,7 @@ public abstract class HuamiCoordinator extends AbstractDeviceCoordinator {
     }
 
     @Override
-    public int[] getSupportedDeviceSpecificSettings(GBDevice device) {
+    public int[] getSupportedDeviceSpecificAuthenticationSettings() {
         return new int[]{R.xml.devicesettings_pairingkey};
     }
 

@@ -280,9 +280,18 @@ public abstract class AbstractDeviceCoordinator implements DeviceCoordinator {
 
         return settings;
     }
+    @Override
+    public int[] getSupportedDeviceSpecificApplicationSettings() {
+        return new int[0];
+    }
 
     @Override
     public int[] getSupportedDeviceSpecificSettings(GBDevice device) {
+        return new int[0];
+    }
+
+    @Override
+    public int[] getSupportedDeviceSpecificAuthenticationSettings() {
         return new int[0];
     }
 

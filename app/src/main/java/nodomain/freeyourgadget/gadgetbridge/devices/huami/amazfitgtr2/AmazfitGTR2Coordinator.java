@@ -107,9 +107,14 @@ public class AmazfitGTR2Coordinator extends HuamiCoordinator {
                 R.xml.devicesettings_expose_hr_thirdparty,
                 R.xml.devicesettings_bt_connected_advertisement,
                 R.xml.devicesettings_device_actions,
-                R.xml.devicesettings_pairingkey,
                 R.xml.devicesettings_high_mtu,
                 R.xml.devicesettings_transliteration
+        };
+    }
+    @Override
+    public int[] getSupportedDeviceSpecificAuthenticationSettings() {
+        return new int[]{
+                R.xml.devicesettings_pairingkey
         };
     }
 }

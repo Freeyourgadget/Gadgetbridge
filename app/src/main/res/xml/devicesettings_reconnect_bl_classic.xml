@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
     <PreferenceCategory
-        android:title="Connection over Bluetooth classic" />
+        android:title="@string/connection_over_bt_classic" />
 
     <CheckBoxPreference
+        android:icon="@drawable/ic_bluetooth"
         android:key="prefs_key_device_reconnect_on_acl"
-        android:title="connect on connection from device"
-        android:summary="establish a connection when connection is initiated by device, like headphones"
+        android:title="@string/autoconnect_from_device_title"
+        android:summary="@string/autoconnect_from_device_summary"
         android:layout="@layout/preference_checkbox" />
 </PreferenceScreen>

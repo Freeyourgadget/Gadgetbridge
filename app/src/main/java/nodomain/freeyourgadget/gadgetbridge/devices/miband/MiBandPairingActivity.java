@@ -83,7 +83,7 @@ public class MiBandPairingActivity extends AbstractGBActivity implements Bonding
         DeviceCoordinator coordinator = DeviceHelper.getInstance().getCoordinator(deviceCandidate);
         GBDevice device = DeviceHelper.getInstance().toSupportedDevice(deviceCandidate);
 
-        if (coordinator.getSupportedDeviceSpecificSettings(device) != null) { // FIXME: this will no longer be sane in the future
+        if (coordinator.getSupportedDeviceSpecificAuthenticationSettings() != null) { // FIXME: this will no longer be sane in the future
             SharedPreferences sharedPrefs = GBApplication.getDeviceSpecificSharedPrefs(device.getAddress());
             String authKey = sharedPrefs.getString("authkey", null);
             if (authKey == null || authKey.isEmpty()) {

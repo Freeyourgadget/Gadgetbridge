@@ -858,6 +858,11 @@ public class DiscoveryActivity extends AbstractGBActivity implements AdapterView
         Intent startIntent;
         startIntent = new Intent(this, DeviceSettingsActivity.class);
         startIntent.putExtra(GBDevice.EXTRA_DEVICE, device);
+        if (coordinator.getBondingStyle() == DeviceCoordinator.BONDING_STYLE_REQUIRE_KEY) {
+            startIntent.putExtra(DeviceSettingsActivity.MENU_ENTRY_POINT, DeviceSettingsActivity.MENU_ENTRY_POINTS.AUTH_SETTINGS);
+        } else {
+            startIntent.putExtra(DeviceSettingsActivity.MENU_ENTRY_POINT, DeviceSettingsActivity.MENU_ENTRY_POINTS.DEVICE_SETTINGS);
+        }
         startActivity(startIntent);
         return true;
     }
