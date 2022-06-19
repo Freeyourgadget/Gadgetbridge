@@ -114,6 +114,7 @@ import nodomain.freeyourgadget.gadgetbridge.devices.smaq2oss.SMAQ2OSSCoordinator
 import nodomain.freeyourgadget.gadgetbridge.devices.sony.headphones.coordinators.SonyWH1000XM4Coordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.sonyswr12.SonySWR12DeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.tlw64.TLW64Coordinator;
+import nodomain.freeyourgadget.gadgetbridge.devices.um25.Coordinator.BinarySensorCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.um25.Coordinator.UM25Coordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.vesc.VescCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.vibratissimo.VibratissimoCoordinator;
@@ -331,6 +332,7 @@ public class DeviceHelper {
         result.add(new SonyWFSP800NCoordinator());
         result.add(new SonyWF1000XM3Coordinator());
         result.add(new QC35Coordinator());
+        result.add(new BinarySensorCoordinator());
 
         return result;
     }

@@ -688,6 +688,10 @@
             android:exported="true" />
 
         <activity
+            android:name=".devices.binary_sensor.activity.DataActivity"
+            android:exported="true" />
+
+        <activity
             android:name=".activities.GpxReceiverActivity"
             android:label="@string/gpx_receiver_activity_title"
             android:screenOrientation="portrait"

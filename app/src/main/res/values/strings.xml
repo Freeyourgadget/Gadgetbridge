@@ -1754,4 +1754,5 @@
     <string name="steps_streaks_total_steps_hint">Total number of steps in the whole streak</string>
     <string name="steps_streaks_total_steps_average_hint">Total average %d steps per day</string>
 
+    <string name="devicetype_binary_sensor">Binary sensor</string>
 </resources>
