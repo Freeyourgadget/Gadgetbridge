@@ -27,6 +27,9 @@ import nodomain.freeyourgadget.gadgetbridge.R;
 
 import static nodomain.freeyourgadget.gadgetbridge.util.BitmapUtil.invertBitmapColors;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 public class HybridHRWatchfaceWidget {
     private String widgetType;
     private int posX;
@@ -34,33 +37,20 @@ public class HybridHRWatchfaceWidget {
     private int width;
     private int height;
     private int color;
-    private String timezone;
-    private int updateTimeout = -1;
-    private boolean timeoutHideText = true;
-    private boolean timeoutShowCircle = true;
+    private JSONObject extraConfig;
 
     public static int COLOR_WHITE = 0;
     public static int COLOR_BLACK = 1;
 
-    public HybridHRWatchfaceWidget(String widgetType, int posX, int posY, int width, int height, int color) {
+    public HybridHRWatchfaceWidget(String widgetType, int posX, int posY, int width, int height, int color, JSONObject extraConfig) {
         this.widgetType = widgetType;
         this.posX = posX;
         this.posY = posY;
         this.width = width;
         this.height = height;
         this.color = color;
+        this.extraConfig = extraConfig;
     }
-    public HybridHRWatchfaceWidget(String widgetType, int posX, int posY, int width, int height, int color, String timezone) {
-        this(widgetType, posX, posY, width, height, color);
-        this.timezone = timezone;
-    }
-    public HybridHRWatchfaceWidget(String widgetType, int posX, int posY, int width, int height, int color, int updateTimeout, boolean timeoutHideText, boolean timeoutShowCircle) {
-        this(widgetType, posX, posY, width, height, color);
-        this.updateTimeout = updateTimeout;
-        this.timeoutHideText = timeoutHideText;
-        this.timeoutShowCircle = timeoutShowCircle;
-    }
-
 
     public static LinkedHashMap<String, String> getAvailableWidgetTypes(Context context) {
         LinkedHashMap<String, String> widgetTypes = new LinkedHashMap<>();
@@ -125,16 +115,25 @@ public class HybridHRWatchfaceWidget {
         this.color = color;
     }
 
-    public String getTimezone() {
-        return timezone;
+    public int getExtraConfigInt(String name, int fallback) {
+        if (extraConfig == null) {
+            return fallback;
+        } else {
+            return extraConfig.optInt(name, fallback);
+        }
     }
-    public int getUpdateTimeout() {
-        return updateTimeout;
+    public String getExtraConfigString(String name, String fallback) {
+        if (extraConfig == null) {
+            return fallback;
+        } else {
+            return extraConfig.optString(name, fallback);
+        }
     }
-    public boolean getTimeoutHideText() {
-        return timeoutHideText;
-    }
-    public boolean getTimeoutShowCircle() {
-        return timeoutShowCircle;
+    public Boolean getExtraConfigBoolean(String name, Boolean fallback) {
+        if (extraConfig == null) {
+            return fallback;
+        } else {
+            return extraConfig.optBoolean(name, fallback);
+        }
     }
 }

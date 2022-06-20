@@ -81,11 +81,11 @@ public class HybridHRWatchfaceFactory {
                     widget.put("name", widgetDesc.getWidgetType());
                     widget.put("goal_ring", false);
                     widget.put("color", widgetDesc.getColor() == HybridHRWatchfaceWidget.COLOR_WHITE ? "white" : "black");
-                    if (widgetDesc.getUpdateTimeout() >= 0) {
+                    if (widgetDesc.getExtraConfigInt("update_timeout", -1) >= 0) {
                         JSONObject data = new JSONObject();
-                        data.put("update_timeout", widgetDesc.getUpdateTimeout());
-                        data.put("timeout_hide_text", widgetDesc.getTimeoutHideText());
-                        data.put("timeout_show_circle", widgetDesc.getTimeoutShowCircle());
+                        data.put("update_timeout", widgetDesc.getExtraConfigInt("update_timeout", -1));
+                        data.put("timeout_hide_text", widgetDesc.getExtraConfigBoolean("timeout_hide_text", true));
+                        data.put("timeout_show_circle", widgetDesc.getExtraConfigBoolean("timeout_show_circle", true));
                         widget.put("data", data);
                     }
                     break;
@@ -94,12 +94,12 @@ public class HybridHRWatchfaceFactory {
                     widget.put("name", widgetDesc.getWidgetType());
                     widget.put("goal_ring", false);
                     widget.put("color", widgetDesc.getColor() == HybridHRWatchfaceWidget.COLOR_WHITE ? "white" : "black");
-                    if (widgetDesc.getTimezone() != null) {
+                    if (widgetDesc.getExtraConfigString("tzName", null) != null) {
                         JSONObject data = new JSONObject();
-                        TimeZone tz = TimeZone.getTimeZone(widgetDesc.getTimezone());
-                        String tzShortName = widgetDesc.getTimezone().replaceAll(".*/", "");
+                        TimeZone tz = TimeZone.getTimeZone(widgetDesc.getExtraConfigString("tzName", null));
+                        String tzShortName = widgetDesc.getExtraConfigString("tzName", null).replaceAll(".*/", "");
                         int tzOffsetMins = tz.getRawOffset() / 1000 / 60;
-                        data.put("tzName", widgetDesc.getTimezone());
+                        data.put("tzName", widgetDesc.getExtraConfigString("tzName", null));
                         data.put("loc", tzShortName);
                         data.put("utc", tzOffsetMins);
                         widget.put("data", data);
@@ -299,45 +299,20 @@ public class HybridHRWatchfaceFactory {
                 widgetName = "widget2ndTZ";
                 break;
         }
-        int widgetColor = widgetJSON.getString("color").equals("white") ? HybridHRWatchfaceWidget.COLOR_WHITE : HybridHRWatchfaceWidget.COLOR_BLACK;
         if (widgetName.startsWith("widget2ndTZ")) {
-            try {
-                widgetName = "widget2ndTZ";
-                JSONObject widgetData = widgetJSON.getJSONObject("data");
-                widgetTimezone = widgetData.getString("tzName");
-                parsedWidget = new HybridHRWatchfaceWidget(widgetName,
-                        widgetJSON.getJSONObject("pos").getInt("x"),
-                        widgetJSON.getJSONObject("pos").getInt("y"),
-                        widgetJSON.getJSONObject("size").getInt("w"),
-                        widgetJSON.getJSONObject("size").getInt("h"),
-                        widgetColor,
-                        widgetTimezone);
-            } catch (JSONException e) {
-                LOG.error("Couldn't determine tzName!", e);
-            }
+            widgetName = "widget2ndTZ";
         } else if (widgetName.startsWith("widgetCustom")) {
             widgetName = "widgetCustom";
-            JSONObject widgetData = widgetJSON.getJSONObject("data");
-            widgetUpdateTimeout = widgetData.getInt("update_timeout");
-            widgetTimeoutHideText = widgetData.getBoolean("timeout_hide_text");
-            widgetTimeoutShowCircle = widgetData.getBoolean("timeout_show_circle");
-            parsedWidget = new HybridHRWatchfaceWidget(widgetName,
-                    widgetJSON.getJSONObject("pos").getInt("x"),
-                    widgetJSON.getJSONObject("pos").getInt("y"),
-                    widgetJSON.getJSONObject("size").getInt("w"),
-                    widgetJSON.getJSONObject("size").getInt("h"),
-                    widgetColor,
-                    widgetUpdateTimeout,
-                    widgetTimeoutHideText,
-                    widgetTimeoutShowCircle);
-        } else {
-            parsedWidget = new HybridHRWatchfaceWidget(widgetName,
-                    widgetJSON.getJSONObject("pos").getInt("x"),
-                    widgetJSON.getJSONObject("pos").getInt("y"),
-                    widgetJSON.getJSONObject("size").getInt("w"),
-                    widgetJSON.getJSONObject("size").getInt("h"),
-                    widgetColor);
         }
+        int widgetColor = widgetJSON.getString("color").equals("white") ? HybridHRWatchfaceWidget.COLOR_WHITE : HybridHRWatchfaceWidget.COLOR_BLACK;
+        JSONObject widgetData = widgetJSON.optJSONObject("data");
+        parsedWidget = new HybridHRWatchfaceWidget(widgetName,
+                widgetJSON.getJSONObject("pos").getInt("x"),
+                widgetJSON.getJSONObject("pos").getInt("y"),
+                widgetJSON.getJSONObject("size").getInt("w"),
+                widgetJSON.getJSONObject("size").getInt("h"),
+                widgetColor,
+                widgetData);
         return parsedWidget;
     }
 
