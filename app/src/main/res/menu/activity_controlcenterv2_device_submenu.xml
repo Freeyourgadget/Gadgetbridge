@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/controlcenter_device_submenu_connect"
+        android:title="@string/controlcenter_connect" />
+    <item
+        android:id="@+id/controlcenter_device_submenu_disconnect"
+        android:title="@string/controlcenter_disconnect" />
+    <item
+        android:id="@+id/controlcenter_device_submenu_set_parent_folder"
+        android:title="@string/controlcenter_set_parent_folder" />
+    <item
+        android:id="@+id/controlcenter_device_submenu_set_alias"
+        android:title="@string/controlcenter_set_alias" />
+    <item
+        android:id="@+id/controlcenter_device_submenu_show_details"
+        android:title="@string/controlcenter_toggle_details" />
+    <item
+        android:id="@+id/controlcenter_device_submenu_remove"
+        android:title="@string/controlcenter_delete_device" />
+</menu>

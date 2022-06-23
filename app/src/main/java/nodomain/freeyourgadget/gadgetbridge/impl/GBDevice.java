@@ -73,6 +73,7 @@ public class GBDevice implements Parcelable {
     public static final String BATTERY_INDEX = "battery_index";
     private String mName;
     private String mAlias;
+    private String parentFolder;
     private final String mAddress;
     private String mVolatileAddress;
     private final DeviceType mDeviceType;
@@ -98,22 +99,24 @@ public class GBDevice implements Parcelable {
     private int mNotificationIconDisconnected = R.drawable.ic_notification_disconnected;
     private int mNotificationIconLowBattery = R.drawable.ic_notification_low_battery;
 
-    public GBDevice(String address, String name, String alias, DeviceType deviceType) {
-        this(address, null, name, alias, deviceType);
+    public GBDevice(String address, String name, String alias, String parentFolder, DeviceType deviceType) {
+        this(address, null, name, alias, parentFolder, deviceType);
     }
 
-    public GBDevice(String address, String address2, String name, String alias, DeviceType deviceType) {
+    public GBDevice(String address, String address2, String name, String alias, String parentFolder, DeviceType deviceType) {
         mAddress = address;
         mVolatileAddress = address2;
         mName = (name != null) ? name : mAddress;
         mAlias = alias;
         mDeviceType = deviceType;
+        this.parentFolder = parentFolder;
         validate();
     }
 
     private GBDevice(Parcel in) {
         mName = in.readString();
         mAlias = in.readString();
+        parentFolder = in.readString();
         mAddress = in.readString();
         mVolatileAddress = in.readString();
         mDeviceType = DeviceType.values()[in.readInt()];
@@ -138,10 +141,39 @@ public class GBDevice implements Parcelable {
         validate();
     }
 
+    public void copyFromDevice(GBDevice device){
+        if(!device.mAddress.equals(mAddress)){
+            throw new RuntimeException("Cannot copy from device with other address");
+        }
+
+        mName = device.mName;
+        mAlias = device.mAlias;
+        parentFolder = device.parentFolder;
+        mVolatileAddress = device.mVolatileAddress;
+        mFirmwareVersion = device.mFirmwareVersion;
+        mFirmwareVersion2 = device.mFirmwareVersion2;
+        mModel = device.mModel;
+        mState = device.mState;
+        mBatteryLevel = device.mBatteryLevel;
+        mBatteryVoltage = device.mBatteryVoltage;
+        mBatteryThresholdPercent = device.mBatteryThresholdPercent;
+        mBatteryState = device.mBatteryState;
+        mBatteryIcons = device.mBatteryIcons;
+        mBatteryLabels = device.mBatteryLabels;
+        mRssi = device.mRssi;
+        mBusyTask = device.mBusyTask;
+        mDeviceInfos = device.mDeviceInfos;
+        mExtraInfos = device.mExtraInfos;
+        mNotificationIconConnected = device.mNotificationIconConnected;
+        mNotificationIconDisconnected = device.mNotificationIconDisconnected;
+        mNotificationIconLowBattery = device.mNotificationIconLowBattery;
+    }
+
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(mName);
         dest.writeString(mAlias);
+        dest.writeString(parentFolder);
         dest.writeString(mAddress);
         dest.writeString(mVolatileAddress);
         dest.writeInt(mDeviceType.ordinal());
@@ -186,6 +218,13 @@ public class GBDevice implements Parcelable {
         return enums;
     }
 
+    public String getParentFolder() {
+        return parentFolder;
+    }
+
+    public void setParentFolder(String parentFolder) {
+        this.parentFolder = parentFolder;
+    }
 
     public String getName() {
         return mName;

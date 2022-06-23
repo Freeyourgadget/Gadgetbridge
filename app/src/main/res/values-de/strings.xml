@@ -1734,4 +1734,7 @@
     <string name="notification_gps_title">Gadgetbridge GPS</string>
     <string name="portuguese_pt">Portugiesisch (Portugal)</string>
     <string name="notification_gps_text">Senden des GPS-Standorts an %1$d Geräte</string>
+    <string name="controlcenter_set_parent_folder">Überordner setzen</string>
+    <string name="controlcenter_toggle_details">Details anzeigen</string>
+    <string name="controlcenter_connected_fraction">Verbunden: %d/%d</string>
 </resources>

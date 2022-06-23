@@ -103,6 +103,10 @@ public class StringUtils {
         return "";
     }
 
+    public static boolean isNullOrEmpty(String string){
+        return string == null || string.isEmpty();
+    }
+
     public static boolean isEmpty(String string) {
         return string != null && string.length() == 0;
     }

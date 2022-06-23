@@ -89,7 +89,7 @@ public class DeviceManager {
                     if (dev.getAddress() != null) {
                         int index = deviceList.indexOf(dev); // search by address
                         if (index >= 0) {
-                            deviceList.set(index, dev);
+                            deviceList.get(index).copyFromDevice(dev);
                         } else {
                             deviceList.add(dev);
                         }

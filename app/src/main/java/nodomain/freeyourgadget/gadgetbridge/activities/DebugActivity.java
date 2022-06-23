@@ -769,7 +769,7 @@ public class DebugActivity extends AbstractGBActivity {
         try (
             DBHandler db = GBApplication.acquireDB()) {
             DaoSession daoSession = db.getDaoSession();
-            GBDevice gbDevice = new GBDevice(deviceMac, deviceType.name(), "", deviceType);
+            GBDevice gbDevice = new GBDevice(deviceMac, deviceType.name(), "", null, deviceType);
             gbDevice.setFirmwareVersion("N/A");
             gbDevice.setFirmwareVersion2("N/A");
 

@@ -10,7 +10,9 @@
         android:id="@+id/card_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
         android:foreground="?android:attr/selectableItemBackground"
         card_view:cardCornerRadius="3dp"
         card_view:cardElevation="3dp"
@@ -35,38 +37,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_alignParentStart="true"
-                    android:layout_toStartOf="@+id/device_action_set_alias"
                     android:focusable="false"
                     android:scrollbars="none">
                 </ListView>
-
-                <ImageView
-                    android:id="@+id/device_action_set_alias"
-                    android:layout_width="36dp"
-                    android:layout_height="36dp"
-                    android:layout_alignParentEnd="true"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginEnd="36dp"
-                    android:background="?android:attr/selectableItemBackground"
-                    android:clickable="true"
-                    android:contentDescription="@string/controlcenter_set_alias"
-                    android:focusable="true"
-                    card_view:srcCompat="@drawable/ic_create"
-                    card_view:tint="?attr/textColorTertiary" />
-
-                <ImageView
-                    android:id="@+id/device_action_remove"
-                    android:layout_width="36dp"
-                    android:layout_height="36dp"
-                    android:layout_alignParentTop="true"
-                    android:layout_alignParentEnd="true"
-                    android:layout_marginTop="8dp"
-                    android:background="?android:attr/selectableItemBackground"
-                    android:clickable="true"
-                    android:contentDescription="@string/controlcenter_delete_device"
-                    android:focusable="true"
-                    card_view:srcCompat="@drawable/ic_delete"
-                    card_view:tint="?attr/textColorTertiary" />
             </RelativeLayout>
 
             <ImageView

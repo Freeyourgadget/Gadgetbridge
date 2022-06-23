@@ -121,6 +121,7 @@ public class ControlCenterv2 extends AppCompatActivity
                 case DeviceManager.ACTION_DEVICES_CHANGED:
                 case GBApplication.ACTION_NEW_DATA:
                     createRefreshTask("get activity data", getApplication()).execute();
+                    mGBDeviceAdapter.rebuildFolders();
                     refreshPairedDevices();
                     break;
                 case DeviceService.ACTION_REALTIME_SAMPLES:

@@ -194,14 +194,14 @@ public class DeviceHelper {
         Prefs prefs = GBApplication.getPrefs();
         String miAddress = prefs.getString(MiBandConst.PREF_MIBAND_ADDRESS, "");
         if (miAddress.length() > 0) {
-            GBDevice miDevice = new GBDevice(miAddress, "MI", null, DeviceType.MIBAND);
+            GBDevice miDevice = new GBDevice(miAddress, "MI", null, null, DeviceType.MIBAND);
             availableDevices.add(miDevice);
         }
 
         String pebbleEmuAddr = prefs.getString("pebble_emu_addr", "");
         String pebbleEmuPort = prefs.getString("pebble_emu_port", "");
         if (pebbleEmuAddr.length() >= 7 && pebbleEmuPort.length() > 0) {
-            GBDevice pebbleEmuDevice = new GBDevice(pebbleEmuAddr + ":" + pebbleEmuPort, "Pebble qemu", "", DeviceType.PEBBLE);
+            GBDevice pebbleEmuDevice = new GBDevice(pebbleEmuAddr + ":" + pebbleEmuPort, "Pebble qemu", "", null, DeviceType.PEBBLE);
             availableDevices.add(pebbleEmuDevice);
         }
         return availableDevices;
@@ -361,7 +361,7 @@ public class DeviceHelper {
      */
     public GBDevice toGBDevice(Device dbDevice) {
         DeviceType deviceType = DeviceType.fromKey(dbDevice.getType());
-        GBDevice gbDevice = new GBDevice(dbDevice.getIdentifier(), dbDevice.getName(), dbDevice.getAlias(), deviceType);
+        GBDevice gbDevice = new GBDevice(dbDevice.getIdentifier(), dbDevice.getName(), dbDevice.getAlias(), dbDevice.getParentFolder(), deviceType);
         DeviceCoordinator coordinator = getCoordinator(gbDevice);
         for (BatteryConfig batteryConfig : coordinator.getBatteryConfig()) {
             gbDevice.setBatteryIcon(batteryConfig.getBatteryIcon(), batteryConfig.getBatteryIndex());
