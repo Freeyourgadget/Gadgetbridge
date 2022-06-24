@@ -94,6 +94,8 @@ public class UM25Support extends UM25BaseSupport {
 
         readPreferences();
 
+        getDevice().setFirmwareVersion("1.0");
+
         return builder
                 .add(new SetDeviceStateAction(getDevice(), GBDevice.State.INITIALIZING, getContext()))
                 .notify(getCharacteristic(UUID.fromString(UUID_CHAR)), true)
