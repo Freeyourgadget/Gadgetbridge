@@ -82,8 +82,8 @@ public class FossilFileReader {
             buf.order(ByteOrder.LITTLE_ENDIAN);
 
             short handle = buf.getShort();
-            short version = buf.getShort();
-            if ((handle == 5630) && (version == 3 || version == 515 || version == 771)) {
+            byte version = buf.get();
+            if (handle == 5630 && version == 3) {
                 // This is a watch app or watch face
                 isValid = true;
                 isApp = true;

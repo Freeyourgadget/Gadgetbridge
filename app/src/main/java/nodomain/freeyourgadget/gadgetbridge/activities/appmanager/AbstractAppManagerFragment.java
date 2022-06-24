@@ -437,7 +437,7 @@ public abstract class AbstractAppManagerFragment extends Fragment {
         switch (item.getItemId()) {
             case R.id.appmanager_app_delete_cache:
                 String baseName = selectedApp.getUUID().toString();
-                String[] suffixToDelete = new String[]{mCoordinator.getAppFileExtension(), ".json", "_config.js", "_preset.json", ".png"};
+                String[] suffixToDelete = new String[]{mCoordinator.getAppFileExtension(), ".json", "_config.js", "_preset.json", ".png", "_preview.png"};
                 for (String suffix : suffixToDelete) {
                     File fileToDelete = new File(appCacheDir,baseName + suffix);
                     if (!fileToDelete.delete()) {
