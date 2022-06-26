@@ -26,8 +26,10 @@ import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
+import android.text.Editable;
 import android.text.InputType;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.transition.TransitionManager;
 import android.util.ArraySet;
 import android.util.Pair;
@@ -36,6 +38,7 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -47,6 +50,7 @@ import android.widget.NumberPicker;
 import android.widget.PopupMenu;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -883,28 +887,108 @@ public class GBDeviceAdapterv2 extends RecyclerView.Adapter<GBDeviceAdapterv2.Vi
     }
 
     private void showSetParentFolderDialog(final GBDevice device) {
-        final EditText input = new EditText(context);
-        input.setInputType(InputType.TYPE_CLASS_TEXT);
-        input.setText(device.getParentFolder());
-        FrameLayout container = new FrameLayout(context);
-        FrameLayout.LayoutParams params = new  FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        params.leftMargin = context.getResources().getDimensionPixelSize(R.dimen.dialog_margin);
-        params.rightMargin = context.getResources().getDimensionPixelSize(R.dimen.dialog_margin);
-        input.setLayoutParams(params);
-        container.addView(input);
-        // Specify the type of input expected; this, for example, sets the input as a password, and will mask the text
+        final String[] selectedFolder = new String[1];
+
+        final LinearLayout linearLayout = new LinearLayout(context);
+        linearLayout.setOrientation(LinearLayout.VERTICAL);
+
+        final LinearLayout newFolderLayout = new LinearLayout(context);
+        newFolderLayout.setOrientation(LinearLayout.HORIZONTAL);
+        newFolderLayout.setPadding(context.getResources().getDimensionPixelSize(R.dimen.dialog_margin),
+                0, context.getResources().getDimensionPixelSize(R.dimen.dialog_margin), 0);
+
+        final TextView newFolderLabel = new TextView(context);
+        newFolderLabel.setText(R.string.controlcenter_folder_name);
+        final EditText newFolderInput = new EditText(context);
+        newFolderInput.setInputType(InputType.TYPE_CLASS_TEXT);
+
+        FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT);
+        newFolderInput.setLayoutParams(params);
+
+        newFolderInput.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                selectedFolder[0] = editable.toString();
+            }
+        });
+
+        newFolderLayout.addView(newFolderLabel);
+        newFolderLayout.addView(newFolderInput);
+
+        final Spinner deviceListSpinner = new Spinner(context);
+        ArrayList<SpinnerWithIconItem> foldersList = new ArrayList<>();
+        for (GBDevice oneDevice : deviceList) {
+            String folder = oneDevice.getParentFolder();
+            if (StringUtils.isNullOrEmpty(folder)) {
+                continue;
+            }
+            if (folderListContainsName(foldersList, folder)) {
+                continue;
+            }
+            foldersList.add(new SpinnerWithIconItem(folder, 2L, R.drawable.ic_folder));
+        }
+
+        foldersList.add(new SpinnerWithIconItem(context.getString(R.string.controlcenter_add_new_folder), 0L, R.drawable.ic_create_new_folder));
+        if (foldersList.toArray().length > 1) {
+            foldersList.add(new SpinnerWithIconItem(context.getString(R.string.controlcenter_unset_folder), 1L, R.drawable.ic_folder_delete));
+        }
+
+        final SpinnerWithIconAdapter deviceListAdapter = new SpinnerWithIconAdapter((Activity) context,
+                R.layout.spinner_with_image_layout, R.id.spinner_item_text, foldersList);
+        deviceListSpinner.setAdapter(deviceListAdapter);
+
+        deviceListSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
+                SpinnerWithIconItem selectedItem = (SpinnerWithIconItem) parent.getItemAtPosition(pos);
+                int folderId = selectedItem.getId().intValue();
+                switch (folderId) {
+                    case 0: //Add new folder from test input
+                        newFolderLayout.setVisibility(View.VISIBLE);
+                        selectedFolder[0] = newFolderInput.getText().toString();
+                        break;
+                    case 1: //Unset folder
+                        newFolderLayout.setVisibility(View.GONE);
+                        selectedFolder[0] = "";
+                        break;
+                    default: //Set folder from selection
+                        newFolderLayout.setVisibility(View.GONE);
+                        selectedFolder[0] = selectedItem.getText();
+                        break;
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> arg0) {
+                // TODO Auto-generated method stub
+            }
+        });
+
+        linearLayout.addView(deviceListSpinner);
+        linearLayout.addView(newFolderLayout);
 
         new AlertDialog.Builder(context)
-                .setView(container)
                 .setCancelable(true)
-                .setTitle(context.getString(R.string.controlcenter_set_parent_folder))
+                .setTitle(R.string.controlcenter_set_folder_title)
+                .setView(linearLayout)
                 .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
+
                         try (DBHandler dbHandler = GBApplication.acquireDB()) {
                             DaoSession session = dbHandler.getDaoSession();
                             Device dbDevice = DBHelper.getDevice(device, session);
-                            String parentFolder = input.getText().toString();
+                            String parentFolder = selectedFolder[0];
                             dbDevice.setParentFolder(parentFolder);
                             dbDevice.update();
                             device.setParentFolder(parentFolder);
@@ -920,10 +1004,18 @@ public class GBDeviceAdapterv2 extends RecyclerView.Adapter<GBDeviceAdapterv2.Vi
                 .setNegativeButton(R.string.Cancel, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        // do nothing
                     }
                 })
                 .show();
+    }
+
+    private boolean folderListContainsName(ArrayList<SpinnerWithIconItem> list, String name){
+        for (SpinnerWithIconItem item: list) {
+            if (item.getText().equals(name)){
+                return true;
+            }
+        }
+        return false;
     }
 
     private void showSetAliasDialog(final GBDevice device) {

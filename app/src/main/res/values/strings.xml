@@ -1683,4 +1683,8 @@
     <string name="controlcenter_connected_fraction">Connected: %d/%d</string>
     <string name="error_setting_parent_folder">Error setting parent folder: %s</string>
     <string name="error_deleting_device">Error deleting device: %s</string>
+    <string name="controlcenter_folder_name">Folder name:</string>
+    <string name="controlcenter_add_new_folder">Add new folder</string>
+    <string name="controlcenter_unset_folder">Unset folder</string>
+    <string name="controlcenter_set_folder_title">Set or create new folder</string>
 </resources>
