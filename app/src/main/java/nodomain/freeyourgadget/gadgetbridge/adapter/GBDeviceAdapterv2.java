@@ -189,6 +189,7 @@ public class GBDeviceAdapterv2 extends RecyclerView.Adapter<GBDeviceAdapterv2.Vi
         holder.container.setVisibility(View.VISIBLE);
         holder.deviceNameLabel.setText(folder.getName());
         holder.infoIcons.setVisibility(View.GONE);
+        holder.deviceInfoBox.setVisibility(View.GONE);
         holder.cardViewActivityCardLayout.setVisibility(View.GONE);
         if(countDevicesInFolder(folder.getName(), true) == 0){
             holder.deviceImageView.setImageResource(R.drawable.ic_device_folder_disabled);
