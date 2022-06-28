@@ -188,6 +188,7 @@ public class ControlCenterv2 extends AppCompatActivity
 
         deviceList = deviceManager.getDevices();
         mGBDeviceAdapter = new GBDeviceAdapterv2(this, deviceList, deviceActivityHashMap);
+        mGBDeviceAdapter.setHasStableIds(true);
 
         // get activity data asynchronously, this fills the deviceActivityHashMap
         // and calls refreshPairedDevices() → notifyDataSetChanged

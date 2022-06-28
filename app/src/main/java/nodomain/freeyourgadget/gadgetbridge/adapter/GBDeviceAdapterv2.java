@@ -30,7 +30,6 @@ import android.text.Editable;
 import android.text.InputType;
 import android.text.TextUtils;
 import android.text.TextWatcher;
-import android.transition.TransitionManager;
 import android.util.ArraySet;
 import android.util.Pair;
 import android.util.TypedValue;
@@ -58,6 +57,8 @@ import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
+import androidx.recyclerview.widget.DiffUtil;
+import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.github.mikephil.charting.charts.PieChart;
@@ -70,6 +71,7 @@ import com.google.android.material.snackbar.Snackbar;
 import com.jaredrummler.android.colorpicker.ColorPickerDialog;
 import com.jaredrummler.android.colorpicker.ColorPickerDialogListener;
 
+import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -116,7 +118,7 @@ import nodomain.freeyourgadget.gadgetbridge.util.StringUtils;
 /**
  * Adapter for displaying GBDevice instances.
  */
-public class GBDeviceAdapterv2 extends RecyclerView.Adapter<GBDeviceAdapterv2.ViewHolder> {
+public class GBDeviceAdapterv2 extends ListAdapter<GBDevice, GBDeviceAdapterv2.ViewHolder> {
     private static final Logger LOG = LoggerFactory.getLogger(GBDeviceAdapterv2.class);
 
     private final Context context;
@@ -126,8 +128,10 @@ public class GBDeviceAdapterv2 extends RecyclerView.Adapter<GBDeviceAdapterv2.Vi
     private String expandedFolderName = "";
     private ViewGroup parent;
     private HashMap<String, long[]> deviceActivityMap = new HashMap();
+    private StableIdGenerator idGenerator = new StableIdGenerator();
 
     public GBDeviceAdapterv2(Context context, List<GBDevice> deviceList, HashMap<String,long[]> deviceMap) {
+        super(new GBDeviceDiffUtil());
         this.context = context;
         this.deviceList = deviceList;
         rebuildFolders();
@@ -842,9 +846,22 @@ public class GBDeviceAdapterv2 extends RecyclerView.Adapter<GBDeviceAdapterv2.Vi
                         showRemoveDeviceDialog(device);
                         return true;
                     case R.id.controlcenter_device_submenu_show_details:
+                        final String previouslyExpandedDeviceAddress = expandedDeviceAddress;
                         expandedDeviceAddress = detailsShown ? "" : device.getAddress();
-                        TransitionManager.beginDelayedTransition(parent);
-                        notifyDataSetChanged();
+
+                        if (!previouslyExpandedDeviceAddress.isEmpty()) {
+                            // Notify the previously expanded device for a change (collapsing it)
+                            for (int i = 0; i < devicesListWithFolders.size(); i++) {
+                                final GBDevice gbDevice = devicesListWithFolders.get(i);
+                                if (gbDevice.getAddress().equals(previouslyExpandedDeviceAddress)) {
+                                    notifyItemChanged(devicesListWithFolders.indexOf(gbDevice));
+                                    break;
+                                }
+                            }
+                        }
+
+                        // Update the current one
+                        notifyItemChanged(devicesListWithFolders.indexOf(device));
                         return true;
                     case R.id.controlcenter_device_submenu_set_parent_folder:
                         showSetParentFolderDialog(device);
@@ -1065,6 +1082,11 @@ public class GBDeviceAdapterv2 extends RecyclerView.Adapter<GBDeviceAdapterv2.Vi
     @Override
     public int getItemCount() {
         return devicesListWithFolders.size();
+    }
+
+    @Override
+    public long getItemId(int position) {
+        return idGenerator.getId(devicesListWithFolders.get(position));
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder {
@@ -1358,4 +1380,37 @@ public class GBDeviceAdapterv2 extends RecyclerView.Adapter<GBDeviceAdapterv2.Vi
         return Color.HSVToColor(hsvb);
     }
 
+    private static class GBDeviceDiffUtil extends DiffUtil.ItemCallback<GBDevice> {
+        @Override
+        public boolean areItemsTheSame(@NonNull GBDevice oldItem, @NonNull GBDevice newItem) {
+            return new EqualsBuilder()
+                    .append(oldItem.getAddress(), newItem.getAddress())
+                    .append(oldItem.getName(), newItem.getName())
+                    .isEquals();
+        }
+
+        @Override
+        public boolean areContentsTheSame(@NonNull GBDevice oldItem, @NonNull GBDevice newItem) {
+            return EqualsBuilder.reflectionEquals(oldItem, newItem);
+        }
+    }
+
+    /**
+     * A generator of stable IDs, given a string, since hashCode can easily have collisions.
+     */
+    private static class StableIdGenerator {
+        private final Map<String, Long> idMapping = new HashMap<String, Long>();
+
+        private long nextId = 0;
+
+        public long getId(final GBDevice device) {
+            final String str = String.format("%s_%s", device.getAddress(), device.getName());
+
+            if (!idMapping.containsKey(str)) {
+                idMapping.put(str, nextId++);
+            }
+
+            return idMapping.get(str);
+        }
+    }
 }
