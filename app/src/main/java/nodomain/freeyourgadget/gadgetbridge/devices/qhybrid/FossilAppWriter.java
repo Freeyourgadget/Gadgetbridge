@@ -47,7 +47,7 @@ public class FossilAppWriter {
         this.mContext = context;
         if (this.mContext == null) throw new AssertionError("context cannot be null");
         this.version = version;
-        if (!this.version.matches("^[0-9]\\.[0-9]\\.[0-9]\\.[0-9]$")) throw new AssertionError("Version must be in x.x.x.x format");
+        if (!this.version.matches("^[0-9]\\.[0-9]$")) throw new AssertionError("Version must be in x.x format");
         this.code = code;
         if (this.code.size() == 0) throw new AssertionError("At least one code file InputStream must be supplied");
         this.icons = icons;
@@ -75,10 +75,12 @@ public class FossilAppWriter {
         int offsetFileEnd = offsetConfig + configData.length;
 
         ByteArrayOutputStream filePart = new ByteArrayOutputStream();
+        filePart.write(0x1);  // 1 = watchface, 2 = app
         String[] versionParts = this.version.split("\\.");
         for (String versionPart : versionParts) {
             filePart.write(Integer.valueOf(versionPart).byteValue());
         }
+        filePart.write(0x0);
         filePart.write(intToLEBytes(0));
         filePart.write(intToLEBytes(0));
         filePart.write(intToLEBytes(offsetCode));

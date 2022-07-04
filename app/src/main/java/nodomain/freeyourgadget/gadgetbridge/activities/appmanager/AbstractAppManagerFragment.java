@@ -122,11 +122,12 @@ public abstract class AbstractAppManagerFragment extends Fragment {
         for (int i = 0; i < appCount; i++) {
             String appName = intent.getStringExtra("app_name" + i);
             String appCreator = intent.getStringExtra("app_creator" + i);
+            String appVersion = intent.getStringExtra("app_version" + i);
             UUID uuid = UUID.fromString(intent.getStringExtra("app_uuid" + i));
             GBDeviceApp.Type appType = GBDeviceApp.Type.values()[intent.getIntExtra("app_type" + i, 0)];
             Bitmap previewImage = getAppPreviewImage(uuid.toString());
 
-            GBDeviceApp app = new GBDeviceApp(uuid, appName, appCreator, "", appType, previewImage);
+            GBDeviceApp app = new GBDeviceApp(uuid, appName, appCreator, appVersion, appType, previewImage);
             app.setOnDevice(true);
             if (filterApp(app)) {
                 appList.add(app);

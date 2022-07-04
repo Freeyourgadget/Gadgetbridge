@@ -334,6 +334,7 @@ public abstract class AbstractDeviceSupport implements DeviceSupport {
         for (int i = 0; i < appCount; i++) {
             appInfoIntent.putExtra("app_name" + i, appInfoEvent.apps[i].getName());
             appInfoIntent.putExtra("app_creator" + i, appInfoEvent.apps[i].getCreator());
+            appInfoIntent.putExtra("app_version" + i, appInfoEvent.apps[i].getVersion());
             appInfoIntent.putExtra("app_uuid" + i, appInfoEvent.apps[i].getUUID().toString());
             appInfoIntent.putExtra("app_type" + i, appInfoEvent.apps[i].getType().ordinal());
         }

@@ -135,7 +135,9 @@ public class FossilFileReader {
         buf.order(ByteOrder.LITTLE_ENDIAN);
         buf.position(8);  // skip file handle and version
         int fileSize = buf.getInt();
-        foundVersion = (int)buf.get() + "." + (int)buf.get() + "." + (int)buf.get() + "." + (int)buf.get();
+        buf.get();  // 1 = watchface, 2 = app
+        foundVersion = (int)buf.get() + "." + (int)buf.get();
+        buf.get();  // unknown
         mAppKeys.put("version", foundVersion);
         buf.position(buf.position() + 8);  // skip null bytes
         jerryStart = buf.getInt();
