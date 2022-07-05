@@ -1613,7 +1613,9 @@
     <string name="application_name_banglejs_main">Bangle.js Gadgetbridge</string>
     <string name="title_activity_controlcenter_banglejs_main">Bangle.js Gadgetbridge</string>
     <string name="about_activity_title_banglejs_main">Over Bangle.js Gadgetbridge</string>
-    <string name="about_description_banglejs_main">Android-app voor Bangle.js gebouwd bovenop het Gadgetbridge-project, met toegevoegde internettoegang.</string>
+    <string name="about_description_banglejs_main">Android-app voor Bangle.js gebouwd bovenop het Gadgetbridge-project, met toegevoegde internettoegang.
+\n
+\nVanwege het Google Play Store-beleid is een donatielink in de app zelf niet toegestaan, maar als je deze app leuk vindt, overweeg dan om te doneren via de Gadgetbridge-homepage hieronder.</string>
     <string name="gadgetbridge_running_banglejs_main">Bangle.js actief</string>
     <string name="application_name_banglejs_nopebble">Bangle.js Gadgetbridge</string>
     <string name="title_activity_controlcenter_banglejs_nopebble">Bangle.js Gadgetbridge</string>
