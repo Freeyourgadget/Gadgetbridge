@@ -47,7 +47,6 @@
     <string name="title_activity_calblacklist">Kalender yang diblacklist</string>
     <string name="whitelist_all_for_notifications">Whitelist untuk semua notifikasi</string>
     <string name="blacklist_all_for_notifications">Blacklist untuk semua notifikasi</string>
-    <string name="title_activity_appblacklist">Blacklist notifikasi</string>
     <string name="app_move_to_top">Pindah ke atas</string>
     <string name="app_configure">Konfigurasi</string>
     <string name="appmanager_weather_install_provider">Pasang aplikasi notifikasi Cuaca</string>

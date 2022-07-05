@@ -25,8 +25,6 @@
     <string name="appmanager_hrm_activate">Увімкнути HRM</string>
     <string name="appmanager_hrm_deactivate">Вимкнути HRM</string>
     <string name="app_configure">Налаштувати</string>
-    <!--Strings related to AppBlacklist-->
-    <string name="title_activity_appblacklist">Заблоковані сповіщення</string>
     <!--Strings related to FwAppInstaller-->
     <string name="title_activity_fw_app_insaller">Встановлення мікропрограм та застосунків</string>
     <string name="fw_upgrade_notice">Ви збираєтесь встановити %s.</string>
@@ -63,7 +61,6 @@
     <string name="when_screen_off">Коли екран вимкнуто</string>
     <string name="never">Ніколи</string>
     <string name="pref_header_privacy">Приавтність</string>
-    <string name="pref_blacklist">Перелік заблокованих застосунків</string>
     <string name="pref_title_canned_replies">Відповіді</string>
     <string name="pref_title_canned_reply_suffix">Загальний суфікс</string>
     <string name="pref_header_development">Параметри для розробників</string>
@@ -697,8 +694,6 @@
     <string name="activity_type_running">Біг</string>
     <string name="activity_type_walking">Ходьба</string>
     <string name="reset_index">Скинути дату отримання</string>
-    <string name="menuitem_shortcut_alipay">Alipay (Швидкий доступ)</string>
-    <string name="menuitem_shortcut_weather">Погода (Швидкий доступ)</string>
     <string name="watch9_calibration_hint">Налаштувати поточний час пристрою.</string>
     <string name="title_activity_watch9_pairing">Watch 9 створення з\'єднання</string>
     <string name="title_activity_watch9_calibration">Watch 9 калібрування</string>
@@ -711,7 +706,6 @@
     <string name="preferences_rtl_settings">Підтримка справа наліво</string>
     <string name="overstep">Перебільшено: %1$d</string>
     <string name="appwidget_setting_alarm">Будильник налаштований на %1$02d:%2$02d</string>
-    <string name="toast_app_must_not_be_blacklisted">Застосунок не повинен бути в чорному списку, щоб змінити його налаштування</string>
     <string name="edittext_notification_filter_words_hint">Введіть необхідні слова, новий рядок для кожного слова</string>
     <string name="toast_notification_filter_saved_successfully">Фільтр сповіщень збережено</string>
     <string name="filter_mode_none">Не фільтрувати</string>
@@ -763,8 +757,6 @@
     <string name="activity_db_management_exportimport_label">Експорт та імпорт</string>
     <string name="activity_db_management_empty_db_warning">Увага! Натисканням цієї кнопки Ви видалите вашу базу даних і почнете з нуля.</string>
     <string name="appwidget_sleep_alarm_widget_label">Будильник</string>
-    <string name="widget_steps_label">Кроки: %1$02d</string>
-    <string name="widget_sleep_label">Сон: %1$s</string>
     <string name="widget_listing_label">Стан і Будильники</string>
     <string name="widget_set_alarm_after">Налаштувати будильник після:</string>
     <string name="widget_5_minutes">5 хвилин</string>
@@ -866,8 +858,6 @@
     <string name="notification_channel_high_priority_name">Високий пріоритет</string>
     <string name="pref_qhybrid_title_widget_draw_circles">Показати кола віджетів</string>
     <string name="pref_qhybrid_save_raw_activity_files">Зберегти raw-файл активності</string>
-    <string name="pref_title_middle_button_function">Середня кнопка</string>
-    <string name="pref_title_upper_button_function">Верхня кнопка</string>
     <string name="hr_appname_commute">Поїздки</string>
     <string name="hr_appname_stopwatch">Секундомір</string>
     <string name="hr_widget_active_minutes">Хвилини активності</string>
@@ -877,7 +867,6 @@
     <string name="menuitem_eventreminder">Нагадування</string>
     <string name="menuitem_hr">Пульс</string>
     <string name="menuitem_pai">PAI - \"відстеження персональної активності\"</string>
-    <string name="pref_title_lower_button_function">Нижня кнопка</string>
     <string name="devicetype_watchxplus">Watch X Plus</string>
     <string name="devicetype_watchx">Watch X</string>
     <string name="devicetype_amazfit_bips">Amazfit Bip S</string>
@@ -1074,10 +1063,9 @@
     <string name="activity_error_no_app_for_png">Щоб поділитись цим знімком екрана, встановіть застосунок, який підтримує файли зображень.</string>
     <string name="prefs_fake_ring_duration">Несправжній безперервний дзвінок</string>
     <string name="prefs_autoremove_message">Автоматично видаляти СМС-повідомлення</string>
-    <string name="fossil_hr_commute_processing">Обробка запиту...</string>
+    <string name="fossil_hr_commute_processing">Обробка запиту…</string>
     <string name="fossil_hr_unavailable_unauthed">Недоступно без аутентифікації</string>
     <string name="fossil_hr_synced_activity_data">Синхронизовані дані активностей</string>
-    <string name="qhybrid_title_watchface_apps">Циферблати та аплікації</string>
     <string name="fossil_hr_auth_failed">Автентифікацію не пройдено, функціональність обмежено</string>
     <string name="qhybrid_title_apps">Застосунки</string>
     <string name="qhybrid_title_background_image">Зображення тла</string>
@@ -1348,7 +1336,7 @@
     <string name="pref_title_notification_use_as_allow">Дозволити сповіщення з вибраних застосунків</string>
     <string name="title_activity_notification_management">Налаштування сповіщень</string>
     <string name="pref_header_notification_application_settings">Налаштування для кожного застосунку</string>
-    <string name="pref_title_notification_use_as">Використати список застосунків для...</string>
+    <string name="pref_title_notification_use_as">Використати список застосунків для…</string>
     <string name="pref_title_notification_use_as_deny">Заборонити сповіщення з вибраних застосунків</string>
     <string name="pref_title_message_privacy_mode">Режим приватності повідомлень</string>
     <string name="pref_message_privacy_mode_off">Показ вмісту</string>
@@ -1400,13 +1388,11 @@
     <string name="sony_surround_mode_off">Вимк.</string>
     <string name="sony_surround_mode_arena">Арена</string>
     <string name="sony_surround_mode_club">Клуб</string>
-    <string name="sony_surround_position_mutually_exclusive">Попередження: налаштування положення звуку/режиму об’ємного звучання — несумісні.</string>
     <string name="sony_equalizer_preset_bright">Яскравий</string>
     <string name="sony_equalizer_preset_excited">Схвильований</string>
     <string name="sony_equalizer_preset_mellow">М\'який</string>
     <string name="sony_equalizer_preset_treble_boost">Підвищення високих частот</string>
     <string name="sony_equalizer_preset_bass_boost">Підсилення басів</string>
-    <string name="pref_header_sony_equalizer_preset_manual">Ручне налаштування</string>
     <string name="pref_header_sony_equalizer_preset_custom_1">Власні налаштування 1</string>
     <string name="sony_equalizer_band_400">400</string>
     <string name="sony_equalizer_band_2500">2,5к</string>
@@ -1447,7 +1433,6 @@
     <string name="sony_automatic_power_off_1_hour">1 година</string>
     <string name="sony_equalizer_clear_bass">Чистий бас</string>
     <string name="sony_equalizer_band_16000">16к</string>
-    <string name="sony_dsee_hx">DSEE HX</string>
     <string name="prefs_activity_in_device_card_title">Показати відомості про діяльність на картці пристрою</string>
     <string name="prefs_activity_in_device_card_sleep_title">Сон</string>
     <string name="prefs_activity_in_device_card_steps_title_summary">Показати загальну кількість кроків</string>

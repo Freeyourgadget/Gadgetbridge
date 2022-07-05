@@ -11,7 +11,6 @@
     <string name="title_activity_calblacklist">Kalendari na popisu nedopuštenih</string>
     <string name="whitelist_all_for_notifications">Sve obavijesti stavi na popis dopuštenih</string>
     <string name="blacklist_all_for_notifications">Sve obavijesti stavi na popis nedopuštenih</string>
-    <string name="title_activity_appblacklist">Popis nepoželjnih obavijesti</string>
     <string name="app_move_to_top">Premjesti na vrh</string>
     <string name="app_configure">Konfiguriraj</string>
     <string name="appmanager_weather_install_provider">Instalirajte aplikaciju Weather Notification</string>

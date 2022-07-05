@@ -39,8 +39,6 @@
     <string name="appmanager_weather_install_provider">Instalar a aplicação de notificação de meteorologia</string>
     <string name="app_configure">Configurar</string>
     <string name="app_move_to_top">Mover para o topo</string>
-    <!--Strings related to AppBlacklist-->
-    <string name="title_activity_appblacklist">Bloqueio de notificações</string>
     <!--Strings related to FwAppInstaller-->
     <string name="title_activity_fw_app_insaller">Instalador de FW/app</string>
     <string name="fw_upgrade_notice">Está prestes a instalar o %s.</string>
@@ -89,7 +87,6 @@
     <string name="pref_call_privacy_mode_name">Ocultar nome e mostrar número</string>
     <string name="pref_call_privacy_mode_number">Ocultar número e mostrar nome</string>
     <string name="pref_call_privacy_mode_complete">Ocultar nome e número</string>
-    <string name="pref_blacklist">Bloquear Aplicações</string>
     <string name="pref_header_cannned_messages">Histórico de mensagens</string>
     <string name="pref_title_canned_replies">Respostas</string>
     <string name="pref_title_canned_reply_suffix">Sufixo comum</string>
@@ -516,8 +513,6 @@
     <string name="devicetype_test">Aparelho de Teste</string>
     <string name="devicetype_pebble">Pebble</string>
     <string name="notification_channel_name">Geral</string>
-    <string name="menuitem_shortcut_alipay">Alipay (Atalho)</string>
-    <string name="menuitem_shortcut_weather">Meteorologia (Atalho)</string>
     <string name="menuitem_status">Estado</string>
     <string name="menuitem_notifications">Notificações</string>
     <string name="menuitem_activity">Histórico de treino</string>
@@ -636,9 +631,6 @@
     <string name="pref_summary_relax_firmware_checks">Verificações relaxadas de firmware</string>
     <string name="devicetype_amazfit_bips">Amazfit Bip S</string>
     <string name="pref_title_vibration_strength">Intensidade da vibração</string>
-    <string name="pref_title_lower_button_function">Botão inferior</string>
-    <string name="pref_title_middle_button_function">Botão do meio</string>
-    <string name="pref_title_upper_button_function">Botão superior</string>
     <string name="hr_appname_commute">Comutar</string>
     <string name="hr_appname_stopwatch">Cronômetro</string>
     <string name="hr_appname_workout">Treino</string>
@@ -737,8 +729,6 @@
     <string name="widget_5_minutes">5 minutos</string>
     <string name="widget_set_alarm_after">Definir alarme após:</string>
     <string name="widget_listing_label">Estado e Alarmes</string>
-    <string name="widget_sleep_label">Sono: %1$s</string>
-    <string name="widget_steps_label">Passos: %1$02d</string>
     <string name="appwidget_sleep_alarm_widget_label">Alarme de Sono</string>
     <string name="activity_db_management_exportimport_label">Exportar e Importar</string>
     <string name="activity_DB_empty_button">Esvaziar banco de dados</string>
@@ -860,7 +850,6 @@
     <string name="filter_mode_none">Não filtrar</string>
     <string name="toast_notification_filter_saved_successfully">Filtro de notificação gravado</string>
     <string name="edittext_notification_filter_words_hint">Insira as palavras desejadas, nova linha para cada uma</string>
-    <string name="toast_app_must_not_be_blacklisted">Para ser configurada, a app não pode estar na lista negra</string>
     <string name="title_activity_notification_filter">Filtro de notificação</string>
     <string name="devicetype_casiogb6900">Casio GB-6900</string>
     <string name="live_activity_max_heart_rate">Frequência cardíaca atual / máx: %1$d / %2$d</string>
@@ -1220,7 +1209,6 @@
     <string name="sony_equalizer_preset_manual">Manual</string>
     <string name="sony_equalizer_preset_custom_1">Pessoal 1</string>
     <string name="sony_equalizer_preset_custom_2">Pessoal 2</string>
-    <string name="pref_header_sony_equalizer_preset_manual">Predefinição Manual</string>
     <string name="pref_header_sony_equalizer_preset_custom_1">Predefinição Pessoal 1</string>
     <string name="pref_header_sony_equalizer_preset_custom_2">Predefinição Pessoal 2</string>
     <string name="sony_equalizer_band_400">400</string>
@@ -1229,7 +1217,6 @@
     <string name="sony_equalizer_band_6300">6.3k</string>
     <string name="sony_equalizer_band_16000">16k</string>
     <string name="sony_equalizer_clear_bass">Graves Claros</string>
-    <string name="sony_dsee_hx">DSEE HX</string>
     <string name="sony_touch_sensor">Controlo com sensor tátil</string>
     <string name="sony_notification_voice_guide">Notificações &amp; Guia de voz</string>
     <string name="sony_automatic_power_off">Desligar automaticamente</string>
@@ -1254,7 +1241,7 @@
     <string name="pref_theme_black_background">Usar plano de fundo preto no tema escuro</string>
     <string name="pref_title_ping_tone">Tom do ping</string>
     <string name="pref_header_notification_application_settings">Configurações por aplicação</string>
-    <string name="pref_title_notification_use_as">Usar a lista de aplicações para...</string>
+    <string name="pref_title_notification_use_as">Usar a lista de aplicações para…</string>
     <string name="pref_title_notification_use_as_deny">Negar notificações das aplicações selecionadas</string>
     <string name="pref_title_notification_use_as_allow">Permitir notificações de apps selecionadas</string>
     <string name="pref_title_message_privacy_mode">Modo de privacidade de mensagens</string>
@@ -1295,7 +1282,7 @@
     <string name="toast_app_must_be_selected">A app deve ser selecionada para ser configurada</string>
     <string name="gpx_receiver_activity_title">Receptor GPX Gadgetbridge</string>
     <string name="minutes_mi">min/mi</string>
-    <string name="fossil_hr_commute_processing">Processando solicitação...</string>
+    <string name="fossil_hr_commute_processing">Processando solicitação…</string>
     <string name="fossil_hr_synced_activity_data">Dados de atividade sincronizados</string>
     <string name="fossil_hr_unavailable_unauthed">Não disponível no modo não autenticado</string>
     <string name="fossil_hr_auth_failed">Autenticação falhou, funcionalidade limitada</string>

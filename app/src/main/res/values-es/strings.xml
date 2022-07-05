@@ -38,8 +38,6 @@
     <string name="appmanager_weather_install_provider">Instalar la aplicación de notificación del Tiempo</string>
     <string name="app_configure">Configurar</string>
     <string name="app_move_to_top">Mover arriba</string>
-    <!--Strings related to AppBlacklist-->
-    <string name="title_activity_appblacklist">Lista negra de notificaciones</string>
     <!--Strings related to CalBlacklist-->
     <string name="title_activity_calblacklist">Calendarios en lista negra</string>
     <!--Strings related to FwAppInstaller-->
@@ -90,7 +88,6 @@
     <string name="pref_call_privacy_mode_name">Ocultar nombre pero mostrar número</string>
     <string name="pref_call_privacy_mode_number">Ocultar el número pero mostrar el nombre</string>
     <string name="pref_call_privacy_mode_complete">Ocultar nombre y número</string>
-    <string name="pref_blacklist">Excluir aplicaciones</string>
     <string name="pref_blacklist_calendars">Poner calendarios en lista negra</string>
     <string name="pref_header_cannned_messages">Mensajes predeterminados</string>
     <string name="pref_title_canned_replies">Respuestas</string>
@@ -509,7 +506,6 @@
     <string name="activity_type_light_sleep">Sueño ligero</string>
     <string name="activity_type_deep_sleep">Sueño profundo</string>
     <string name="activity_summaries">Actividades deportivas</string>
-    <string name="menuitem_shortcut_weather">Tiempo (Acceso directo)</string>
     <string name="menuitem_notifications">Notificaciones</string>
     <string name="menuitem_weather">Tiempo</string>
     <string name="menuitem_alarm">Alarma</string>
@@ -616,7 +612,6 @@
     <string name="pref_invalid_frequency_message">Proporcione una frecuencia entre 87,5 y 108,0</string>
     <string name="language_and_region_prefs">Configuración de idioma y región</string>
     <string name="title_activity_notification_filter">Filtro de Notificaciones</string>
-    <string name="toast_app_must_not_be_blacklisted">La aplicación no debe estar en la lista negra para ser configurada</string>
     <string name="edittext_notification_filter_words_hint">Ingrese las palabras deseadas, nueva línea para cada una</string>
     <string name="toast_notification_filter_saved_successfully">Filtro de notificación guardado</string>
     <string name="filter_mode_none">No filtrar</string>
@@ -708,7 +703,6 @@
     <string name="weekstepschart_steps_a_month">Pasos por mes</string>
     <string name="weeksleepchart_sleep_a_month">Sueño por mes</string>
     <string name="menuitem_nfc">NFC</string>
-    <string name="menuitem_shortcut_alipay">Alipay (Acceso directo)</string>
     <string name="pref_title_contextual_arabic">Árabe contextual</string>
     <string name="pref_summary_contextual_arabic">Activar esto para el soporte de Árabe contextual</string>
     <string name="zetime_calories_type_all">Calorías quemadas activas e inactivas</string>
@@ -747,7 +741,6 @@
     <string name="activity_db_management_empty_DB">Vaciar base de datos</string>
     <string name="activity_db_management_exportimport_label">Exportar e importar</string>
     <string name="activity_db_management_empty_db_warning">Atención: al pulsar en este botón se borrará la base de datos y comenzará de cero.</string>
-    <string name="widget_steps_label">Pasos: %1$02d</string>
     <string name="widget_listing_label">Estado y alarmas</string>
     <string name="widget_set_alarm_after">Fijar alarma tras:</string>
     <string name="widget_5_minutes">5 minutos</string>
@@ -789,7 +782,6 @@
     <string name="pref_chart_sleep_rolling_24_on">Últimas 24 horas</string>
     <string name="pref_chart_sleep_rolling_24_off">De mediodía a mediodía</string>
     <string name="appwidget_sleep_alarm_widget_label">Alarma de sueño</string>
-    <string name="widget_sleep_label">Sueño: %1$s</string>
     <string name="pref_display_add_device_fab">Botón de añadir nuevo dispositivo</string>
     <string name="devicetype_makibes_hr3">Makibes HR3</string>
     <string name="devicetype_amazfit_bip_lite">Amazfit Bip Lite</string>
@@ -838,9 +830,6 @@
     <string name="devicetype_banglejs">Bangle.js</string>
     <string name="devicetype_y5">Y5</string>
     <string name="devicetype_itag">iTag</string>
-    <string name="pref_title_lower_button_function">Botón inferior</string>
-    <string name="pref_title_middle_button_function">Botón central</string>
-    <string name="pref_title_upper_button_function">Botón superior</string>
     <string name="hr_appname_commute">Conmutar</string>
     <string name="hr_appname_stopwatch">Cronógrafa</string>
     <string name="hr_appname_workout">Rutina de ejercicio</string>
@@ -1089,7 +1078,7 @@
     <string name="require_location_provider">La ubicación debe estar activada</string>
     <string name="error_version_check_extreme_caution">ATENCIÓN: ¡Error al comprobar la información de la versión! ¡No debes continuar! Nombre de la versión visto \"%s\"</string>
     <string name="about_links">Enlaces</string>
-    <string name="about_additional_contributions">Muchas gracias a todos los colaboradores no incluidos en la lista por aportar código, traducciones, apoyo, ideas, motivación, informes de errores, dinero... ✊</string>
+    <string name="about_additional_contributions">Muchas gracias a todos los colaboradores no incluidos en la lista por aportar código, traducciones, apoyo, ideas, motivación, informes de errores, dinero… ✊</string>
     <string name="about_additional_device_support">Soporte de dispositivos adicionales</string>
     <string name="about_contributors">Colaboradores</string>
     <string name="about_core_team_title">Equipo principal (por orden de primera contribución de código)</string>
@@ -1174,7 +1163,7 @@
     <string name="fossil_hr_auth_failed">Autenticación fallida, funcionalidad limitada</string>
     <string name="fossil_hr_unavailable_unauthed">No está disponible en modo no autenticado</string>
     <string name="fossil_hr_synced_activity_data">Datos de actividad sincronizados</string>
-    <string name="fossil_hr_commute_processing">Procesando la solicitud...</string>
+    <string name="fossil_hr_commute_processing">Procesando la solicitud…</string>
     <string name="mi">mi</string>
     <string name="mi_h">mi/h</string>
     <string name="devicetype_waspos">Wasp-os</string>
@@ -1214,7 +1203,6 @@
     <string name="qhybrid_title_file_management">Administración de archivos</string>
     <string name="qhybrid_title_background_image">Imagen de fondo</string>
     <string name="qhybrid_title_apps">Aplicaciones</string>
-    <string name="qhybrid_title_watchface_apps">Esfera y aplicaciones</string>
     <string name="menuitem_temperature">Temperatura</string>
     <string name="menuitem_widgets">Widgets</string>
     <string name="menuitem_events">Eventos</string>
@@ -1412,7 +1400,6 @@
     <string name="sony_equalizer_preset_manual">Manual</string>
     <string name="sony_equalizer_preset_custom_1">Personalizado 1</string>
     <string name="sony_equalizer_preset_custom_2">Personalizado 2</string>
-    <string name="pref_header_sony_equalizer_preset_manual">Preajuste manual</string>
     <string name="pref_header_sony_equalizer_preset_custom_1">Preajuste personalizado 1</string>
     <string name="pref_header_sony_equalizer_preset_custom_2">Preajuste personalizado 2</string>
     <string name="sony_equalizer_band_400">400</string>
@@ -1437,13 +1424,11 @@
     <string name="sony_ambient_sound_noise_cancelling">Cancelación de ruido</string>
     <string name="sony_sound_position">Posición de sonido</string>
     <string name="sony_sound_position_front_right">Frontal derecha</string>
-    <string name="sony_surround_position_mutually_exclusive">Advertencia: Los ajustes de posición de sonido / modo de sonido envolvente son mutuamente excluyentes.</string>
     <string name="sony_sound_position_front_left">Frontal izquierda</string>
     <string name="sony_equalizer_preset_excited">Excitado</string>
     <string name="sony_equalizer_preset_speech">Discurso</string>
     <string name="sony_automatic_power_off_5_min">5 minutos</string>
     <string name="sony_automatic_power_off_30_min">30 minutos</string>
-    <string name="sony_dsee_hx">DSEE HX</string>
     <string name="sony_automatic_power_off_off">No apagar</string>
     <string name="sony_automatic_power_off_1_hour">1 hora</string>
     <string name="prefs_activity_in_device_card_title_summary">Mostrar los pasos actuales, la distancia o el registro de sueño en la tarjeta del dispositivo</string>

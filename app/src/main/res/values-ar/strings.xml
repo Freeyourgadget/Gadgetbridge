@@ -54,7 +54,7 @@
     <string name="pref_title_theme">سمة</string>
     <string name="pref_header_notifications">إشعارات</string>
     <string name="pref_title_notifications_repetitions">تكرار</string>
-    <string name="pref_title_whenscreenon">... أيضًا عند تشغيل الشاشة</string>
+    <string name="pref_title_whenscreenon">… أيضًا عند تشغيل الشاشة</string>
     <string name="pref_summary_transliteration">قم بتمكين هذا إذا كان جهازك لا يدعم خط لغتك</string>
     <string name="pref_rtl_max_line_length">أقصى طول للخط من اليمين إلى اليسار</string>
     <string name="pref_rtl_max_line_length_summary">يطيل أو يقصر الأسطر التي يتم فصل النص من اليمين إلى اليسار إليها</string>
@@ -84,7 +84,7 @@
     <string name="pref_title_call_privacy_mode">وضع خصوصية الاتصال</string>
     <string name="pref_title_pebble_settings">إعدادات Pebble</string>
     <string name="prefs_title_all_day_heart_rate">قياس معدل ضربات القلب طوال اليوم</string>
-    <string name="pref_title_notification_use_as">استخدم قائمة التطبيقات ل...</string>
+    <string name="pref_title_notification_use_as">استخدم قائمة التطبيقات ل…</string>
     <string name="pref_title_rtl">من اليمين إلى اليسار</string>
     <string name="pref_summary_rtl">قم بتمكين هذا إذا كان جهازك لا يمكنه عرض اللغات من اليمين إلى اليسار</string>
     <string name="pref_theme_system">نظام</string>

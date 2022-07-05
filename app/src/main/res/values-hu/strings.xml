@@ -37,8 +37,6 @@
     <string name="appmanager_weather_install_provider">Időjárás értesítő alkalmazás telepítése</string>
     <string name="app_configure">Beállítás</string>
     <string name="app_move_to_top">A tetejére mozgatás</string>
-    <!--Strings related to AppBlacklist-->
-    <string name="title_activity_appblacklist">Értesítések tiltólistája</string>
     <!--Strings related to FwAppInstaller-->
     <string name="title_activity_fw_app_insaller">FW/Alkalmazás telepítő</string>
     <string name="fw_upgrade_notice">A %s firmware-változatot tervezed telepíteni.</string>
@@ -87,7 +85,6 @@
     <string name="pref_call_privacy_mode_name">Név rejtése, de a szám mutatása</string>
     <string name="pref_call_privacy_mode_number">Szám rejtése, de a név mutatása</string>
     <string name="pref_call_privacy_mode_complete">Név és szám rejtése</string>
-    <string name="pref_blacklist">Tiltott alkalmazások</string>
     <string name="pref_header_cannned_messages">Előre beállított üzenetek</string>
     <string name="pref_title_canned_replies">Előre megírt válaszok</string>
     <string name="pref_title_canned_reply_suffix">Közös előtag</string>

@@ -121,7 +121,6 @@
         <item quantity="other"/>
     </plurals>
     <string name="app_configure">設定</string>
-    <string name="title_activity_appblacklist">通知黑名單</string>
     <string name="blacklist_all_for_notifications">將所有通知列入黑名單</string>
     <string name="whitelist_all_for_notifications">將所有通知列入白名單</string>
     <string name="title_activity_fw_app_insaller">FW/App 安裝程式</string>
@@ -143,7 +142,6 @@
     <string name="pref_title_notifications_timeout">最低通知間隔時間</string>
     <string name="pref_title_whenscreenon">在螢幕開啟時仍要通知</string>
     <string name="pref_summary_notification_filter">當手機啟用請勿打擾時阻止所有通知</string>
-    <string name="pref_blacklist">應用程式黑名單</string>
     <string name="pref_header_development">開發人員選項</string>
     <string name="pref_title_expose_hr">第三方即時心率資料存取</string>
     <string name="pref_display_add_device_fab">連接新裝置按鈕</string>
@@ -300,8 +298,6 @@
     <string name="menuitem_timer">倒數</string>
     <string name="menuitem_more">更多</string>
     <string name="menuitem_nfc">NFC</string>
-    <string name="widget_steps_label">步數：%1$02d</string>
-    <string name="widget_sleep_label">睡眠：%1$s</string>
     <string name="widget_listing_label">狀態與鬧鐘</string>
     <string name="pref_disable_new_ble_scanning">停用新型藍芽低功耗掃描</string>
     <string name="pref_summary_disable_new_ble_scanning">如果在掃描過程中找不到您的裝置，請勾選此選項</string>
@@ -446,7 +442,6 @@
     <string name="kind_resources">資源包</string>
     <string name="devicetype_unknown">未知的裝置</string>
     <string name="devicetype_test">測試用裝置</string>
-    <string name="menuitem_shortcut_alipay">支付寶（捷徑）</string>
     <string name="menuitem_alarm">鬧鐘</string>
     <string name="menuitem_alipay">支付寶</string>
     <string name="title_activity_notification_filter">通知過濾</string>
@@ -482,7 +477,6 @@
     <string name="qhybrid_goal_in_steps">目標步數</string>
     <string name="qhybrid_vibration_strength">振動強度：</string>
     <string name="save_configuration">儲存設定</string>
-    <string name="toast_app_must_not_be_blacklisted">應用程式必須不在黑名單內才能設定</string>
     <string name="preferences_fm_frequency">FM 頻率</string>
     <string name="preferences_led_color">LED 顏色</string>
     <string name="no_data">沒有資料</string>
@@ -667,7 +661,7 @@
     <string name="mi2_prefs_do_not_disturb_lift_wrist">在請勿打擾期間啟用抬腕顯示</string>
     <string name="prefs_activity_in_device_card_title_summary">在裝置卡上顯示目前步數、距離或睡眠</string>
     <string name="title_activity_notification_management">通知設定</string>
-    <string name="pref_title_notification_use_as">使用應用程式清單來...</string>
+    <string name="pref_title_notification_use_as">使用應用程式清單來…</string>
     <string name="pref_applications_settings">應用程式清單</string>
     <string name="pref_title_notification_use_as_allow">允許來自所選應用程式的通知</string>
     <string name="pref_header_notification_application_settings">個別應用程式設定</string>

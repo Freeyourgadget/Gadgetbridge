@@ -17,8 +17,6 @@
     <string name="appmanager_health_activate">활성화</string>
     <string name="appmanager_health_deactivate">비활성화</string>
     <string name="app_configure">설정</string>
-    <!--Strings related to AppBlacklist-->
-    <string name="title_activity_appblacklist">알림 블랙리스트</string>
     <!--Strings related to FwAppInstaller-->
     <string name="title_activity_fw_app_insaller">펌웨어/앱 설치</string>
     <string name="fw_upgrade_notice">지금 기존의 Mi Band 펌웨어 대신 %s 펌웨어를 설치하려고 합니다.</string>
@@ -51,7 +49,6 @@
     <string name="always">항상</string>
     <string name="when_screen_off">화면이 꺼져 있을 때</string>
     <string name="never">하지 않음</string>
-    <string name="pref_blacklist">블랙리스트 앱</string>
     <string name="pref_title_canned_reply_suffix">일반적인 접미사</string>
     <string name="pref_header_development">개발자 옵션</string>
     <string name="pref_title_development_miaddr">Mi Band 주소</string>
@@ -498,8 +495,6 @@
     <string name="choose_auto_export_location">추출 위치를 선택하세요</string>
     <string name="notification_channel_name">가젯브릿지 알림</string>
     <!-- Menus on the smart device -->
-    <string name="menuitem_shortcut_alipay">Alipay (바로가기)</string>
-    <string name="menuitem_shortcut_weather">날씨 (Shortcut)</string>
     <string name="menuitem_status">상태</string>
     <string name="menuitem_activity">활동</string>
     <string name="menuitem_weather">날씨</string>

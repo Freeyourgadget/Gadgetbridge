@@ -38,8 +38,6 @@
     <string name="appmanager_weather_install_provider">天気予報通知アプリをインストール</string>
     <string name="app_configure">設定</string>
     <string name="app_move_to_top">先頭に移動</string>
-    <!--Strings related to AppBlacklist-->
-    <string name="title_activity_appblacklist">通知ブラックリスト</string>
     <!--Strings related to CalBlacklist-->
     <string name="title_activity_calblacklist">ブラックリストにしたカレンダー</string>
     <!--Strings related to FwAppInstaller-->
@@ -90,7 +88,6 @@
     <string name="pref_call_privacy_mode_name">名前は非表示、番号は表示</string>
     <string name="pref_call_privacy_mode_number">番号は非表示、名前は表示</string>
     <string name="pref_call_privacy_mode_complete">名前と番号を非表示</string>
-    <string name="pref_blacklist">アップのブラックリスト</string>
     <string name="pref_blacklist_calendars">ブラックリストのカレンダー</string>
     <string name="pref_header_cannned_messages">定型のメッセージ</string>
     <string name="pref_title_canned_replies">返信</string>
@@ -500,8 +497,6 @@
     <string name="pref_title_pebble_gatt_clientonly">GATT クライアントのみ</string>
     <string name="pref_summary_pebble_gatt_clientonly">これは Pebble 2 のみで、実験的です。接続に問題がある場合、これを試してください</string>
     <string name="devicetype_q8">Q8</string>
-    <string name="menuitem_shortcut_alipay">Alipay (ショートカット)</string>
-    <string name="menuitem_shortcut_weather">天気 (ショートカット)</string>
     <string name="menuitem_status">ステータス</string>
     <string name="menuitem_activity">アクティビティ</string>
     <string name="menuitem_weather">天気</string>
@@ -602,7 +597,6 @@
     <string name="pref_invalid_frequency_message">87.5 と 108.0 の間で周波数を入力してください</string>
     <string name="language_and_region_prefs">言語と地域の設定</string>
     <string name="title_activity_notification_filter">通知フィルター</string>
-    <string name="toast_app_must_not_be_blacklisted">アプリをブラックリストに設定してはいけません</string>
     <string name="edittext_notification_filter_words_hint">希望の単語を、それぞれ新しい行に入力してください</string>
     <string name="toast_notification_filter_saved_successfully">通知フィルターを保存しました</string>
     <string name="filter_mode_none">フィルターしない</string>
@@ -724,8 +718,6 @@
     <string name="widget_20_minutes">20分</string>
     <string name="widget_10_minutes">10分</string>
     <string name="widget_5_minutes">5分</string>
-    <string name="widget_sleep_label">睡眠: %1$s</string>
-    <string name="widget_steps_label">歩数: %1$02d</string>
     <string name="appwidget_sleep_alarm_widget_label">睡眠アラーム</string>
     <string name="menuitem_worldclock">世界時計</string>
     <string name="menuitem_unknown">不明</string>

@@ -28,8 +28,6 @@
     <string name="appmanager_hrm_deactivate">Dezaktywuj HRM</string>
     <string name="app_configure">Konfiguruj</string>
     <string name="app_move_to_top">Przenieś na górę</string>
-    <!--Strings related to AppBlacklist-->
-    <string name="title_activity_appblacklist">Czarna lista powiadomień</string>
     <!--Strings related to FwAppInstaller-->
     <string name="title_activity_fw_app_insaller">Instalator oprogramowania</string>
     <string name="fw_upgrade_notice">Zamierzasz zainstalować %s.</string>
@@ -63,7 +61,6 @@
     <string name="always">Zawsze</string>
     <string name="when_screen_off">Gdy ekran jest wyłączony</string>
     <string name="never">Nigdy</string>
-    <string name="pref_blacklist">Czarna lista aplikacji</string>
     <string name="pref_header_cannned_messages">Szablonowe odpowiedzi</string>
     <string name="pref_title_canned_replies">Odpowiedzi</string>
     <string name="pref_title_canned_messages_set">Uaktualnij na urządzeniu</string>
@@ -517,8 +514,6 @@
     <string name="devicetype_unknown">Nieznane urządzenie</string>
     <string name="choose_auto_export_location">Wybierz ścieżkę do eksportu</string>
     <string name="notification_channel_name">Ogólne</string>
-    <string name="menuitem_shortcut_alipay">Alipay (Skrót)</string>
-    <string name="menuitem_shortcut_weather">Pogoda (Skrót)</string>
     <string name="menuitem_more">Więcej</string>
     <string name="watch9_time_minutes">Minuty:</string>
     <string name="watch9_time_hours">Godziny:</string>
@@ -775,7 +770,6 @@
     <string name="pref_title_contextual_arabic">Kontekstowy Arabski</string>
     <string name="pref_summary_contextual_arabic">Włącz tę opcję, aby obsługiwać kontekstowy język arabski</string>
     <string name="preferences_rtl_settings">Obsługa pisowni od prawej do lewej</string>
-    <string name="toast_app_must_not_be_blacklisted">Nie można skonfigurować aplikacji będącej na czarnej liście</string>
     <string name="edittext_notification_filter_words_hint">Wprowadź żądane wyrazy, każdy w nowej linii</string>
     <string name="toast_notification_filter_saved_successfully">Zapisano filtr powiadomień</string>
     <string name="filter_mode_blacklist">Blokuj jeśli zawiera słowa</string>
@@ -798,8 +792,6 @@
     <string name="activity_db_management_autoexport_explanation">Lokalizacja automatycznego eksportu bazy danych została ustawiona na:</string>
     <string name="activity_DB_test_export_button">Uruchom AutoEksport teraz</string>
     <string name="appwidget_sleep_alarm_widget_label">Budzik</string>
-    <string name="widget_steps_label">Kroki: %1$02d</string>
-    <string name="widget_sleep_label">Sen: %1$s</string>
     <string name="widget_listing_label">Status i alarmy</string>
     <string name="widget_set_alarm_after">Ustaw alarm za:</string>
     <plurals name="widget_alarm_target_hours">
@@ -855,9 +847,6 @@
     <string name="pref_summary_custom_deviceicon">Pokaż specyficzną dla urządzenia ikonę powiadomienia zamiast ikony Gadgetbridge, gdy połączono</string>
     <string name="hr_appname_workout">Trening</string>
     <string name="hr_appname_stopwatch">Stoper</string>
-    <string name="pref_title_upper_button_function">Górny przycisk</string>
-    <string name="pref_title_middle_button_function">Środkowy przycisk</string>
-    <string name="pref_title_lower_button_function">Dolny przycisk</string>
     <string name="pref_title_vibration_strength">Siła wibracji</string>
     <string name="devicetype_amazfit_bips">Amazfit Bip S</string>
     <string name="pref_title_relax_firmware_checks">Włącz to, jeśli chcesz sflashować oprogramowanie, które nie jest przeznaczone dla Twojego urządzenia (na własne ryzyko)</string>
@@ -1209,7 +1198,6 @@
     <string name="fossil_hr_unavailable_unauthed">Niedostępne w trybie bez uwierzytelnienia</string>
     <string name="fossil_hr_synced_activity_data">Zsynchronizowane dane dotyczące aktywności</string>
     <string name="fossil_hr_commute_processing">Przetwarzanie żądania…</string>
-    <string name="qhybrid_title_watchface_apps">Tarcze zegara i aplikacje</string>
     <string name="qhybrid_title_calibration">Kalibracja</string>
     <string name="qhybrid_title_apps_management">Zarządzanie aplikacjami</string>
     <string name="qhybrid_title_file_management">Zarządzanie plikami</string>
@@ -1354,7 +1342,7 @@
     <string name="uncheck_all_applications">Odznacz wszystkie aplikacje</string>
     <string name="title_activity_notification_management">Ustawienia powiadomień</string>
     <string name="check_all_applications">Zaznacz wszystkie aplikacje</string>
-    <string name="pref_title_notification_use_as">Użyj listy aplikacji, aby...</string>
+    <string name="pref_title_notification_use_as">Użyj listy aplikacji, aby…</string>
     <string name="pref_title_message_privacy_mode">Tryb prywatności wiadomości</string>
     <string name="pref_message_privacy_mode_off">Wyświetlaj zawartość</string>
     <string name="pref_title_notification_use_as_deny">Odrzucaj powiadomienia z wybranych aplikacji</string>
@@ -1371,7 +1359,7 @@
     <string name="prefs_game_mode">Tryb gry</string>
     <string name="prefs_touch_lock">Blokada dotykowa</string>
     <string name="prefs_ambient_volume">Głośność otoczenia</string>
-    <string name="prefs_ambient_volume_summary">pref_galaxy_buds_ambient_volume</string>
+
     <string name="prefs_ambient_voice_summary">Spraw, by głos się wyróżniał</string>
     <string name="prefs_ambient_sound">Dźwięk otoczenia</string>
     <string name="prefs_ambient_mode">Tryb otoczenia</string>
@@ -1396,7 +1384,6 @@
     <string name="sony_equalizer_band_2500">2.5k</string>
     <string name="sony_equalizer_band_6300">6.3k</string>
     <string name="sony_equalizer_band_16000">16k</string>
-    <string name="sony_dsee_hx">DSEE HX</string>
     <string name="sony_automatic_power_off_30_min">30 minut</string>
     <string name="sony_automatic_power_off_3_hour">3 godziny</string>
     <string name="devicetype_sony_wh_1000xm3">Sony WH-1000XM3</string>

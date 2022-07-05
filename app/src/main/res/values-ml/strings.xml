@@ -35,7 +35,6 @@
     <string name="title_activity_calblacklist">ബ്ലാക്ക്‌ലിസ്റ് ചെയ്ത കലണ്ടറുകൾ</string>
     <string name="whitelist_all_for_notifications">നോട്ടിഫിക്കേഷനുകൾ എല്ലാം വൈറ്റ്‌ലിസ്റ്റ് ചെയ്യുക</string>
     <string name="blacklist_all_for_notifications">നോട്ടിഫിക്കേഷനുകൾ എല്ലാം ബ്ലാക്ക്‌ലിസ്റ്റിൽ ഉൾപെടുത്തുക</string>
-    <string name="title_activity_appblacklist">നോട്ടിഫിക്കേഷൻ ബ്ലാക്ക്‌ലിസ്റ്റ്</string>
     <string name="app_move_to_top">മുകളിലേക്ക് നീക്കുക</string>
     <string name="app_configure">കോൺഫിഗർ ചെയ്യുക</string>
     <string name="appmanager_weather_install_provider">Weather Notification അപ്ലിക്കേഷൻ ഇൻസ്റ്റാൾ ചെയ്യുക</string>

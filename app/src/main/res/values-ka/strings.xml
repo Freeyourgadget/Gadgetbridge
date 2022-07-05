@@ -41,7 +41,6 @@
     <string name="fw_upgrade_notice">დააინსტალირე %s.</string>
     <string name="title_activity_fw_app_insaller">FW/აპი ინსტალერი</string>
     <string name="title_activity_calblacklist">კალენდარი შავ სიაში</string>
-    <string name="title_activity_appblacklist">შეტყობინება შავი სიის შესახებ</string>
     <string name="app_move_to_top">ზევით გადასასვლელად</string>
     <string name="devicetype_amazfit_bipu">Amazfit Bip U</string>
     <string name="devicetype_amazfit_bips_lite">Amazfit Bip S Lite</string>

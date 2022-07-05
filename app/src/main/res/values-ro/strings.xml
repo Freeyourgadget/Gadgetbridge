@@ -25,7 +25,6 @@
     <string name="appmanager_weather_activate">Activare Aplicație Meteo</string>
     <string name="appmanager_weather_deactivate">Dezactivare Aplicație Meteo</string>
     <string name="app_configure">Configureaza</string>
-    <string name="title_activity_appblacklist">Notificari blocate</string>
     <string name="blacklist_all_for_notifications">Blocheaza toate notificarile</string>
     <string name="whitelist_all_for_notifications">Permite toate notificarile</string>
     <string name="title_activity_calblacklist">Calendare blocate</string>
@@ -101,7 +100,6 @@
     <string name="pref_pebble_privacy_mode_off">Notificari normale</string>
     <string name="pref_title_location_latitude">Latitudine</string>
     <string name="pref_title_location_longitude">Longitudine</string>
-    <string name="menuitem_shortcut_weather">Meteo (Scurtatura)</string>
     <string name="menuitem_activity">Activitate</string>
     <string name="menuitem_weather">Meteo</string>
     <string name="menuitem_alarm">Alarma</string>

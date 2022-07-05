@@ -44,7 +44,6 @@
     <string name="appmanager_weather_install_provider">Įdiegti orų prognozės pranešimų programą</string>
     <string name="app_configure">Konfigūruoti</string>
     <string name="app_move_to_top">Perkelti į viršų</string>
-    <string name="title_activity_appblacklist">Pranešimų juodasis sąrašas</string>
     <string name="title_activity_calblacklist">Kalendorių juodasis sąrašas</string>
     <string name="title_activity_fw_app_insaller">FW/Programų diegyklė</string>
     <string name="devicetype_test">Išbandyti įrenginį</string>
@@ -102,7 +101,7 @@
     <string name="pref_title_notifications_sms">SMS</string>
     <string name="pref_title_notifications_pebblemsg">Iššokantys pranešimai</string>
     <string name="pref_summary_notifications_pebblemsg">Palaikyti programėles kurios siunčia pranešimus į Pebble per PebbleKit.</string>
-    <string name="pref_title_whenscreenon">...taip pat kai ekranas įjungtas</string>
+    <string name="pref_title_whenscreenon">…taip pat kai ekranas įjungtas</string>
     <string name="pref_title_notification_filter">Netrukdyti</string>
     <string name="pref_summary_notification_filter">Nepageidaujami pranešimai sustabdyti šiame rėžime</string>
     <string name="pref_title_transliteration">Transliteracija</string>
@@ -117,7 +116,6 @@
     <string name="pref_call_privacy_mode_complete">Slėpti vardą ir numerį</string>
     <string name="pref_title_weather">Orai</string>
     <string name="pref_title_weather_location">Orų vieta (CM/LOS)</string>
-    <string name="pref_blacklist">Blokuotos programėlės</string>
     <string name="pref_blacklist_calendars">Blokuoti kalendoriai</string>
     <string name="pref_header_cannned_messages">Įšaldyti pranešimai</string>
     <string name="pref_title_canned_replies">Atsakymai</string>

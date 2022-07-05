@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="application_name_generic">Gadgetbridge</string>
     <string name="title_activity_controlcenter_generic">Gadgetbridge</string>
     <string name="action_settings">Nastavení</string>
@@ -37,9 +37,6 @@
     <string name="appmanager_weather_install_provider">Instalovat notifikaci pro počasí</string>
     <string name="app_configure">Nastavit</string>
     <string name="app_move_to_top">Posunout nahoru</string>
-    <!--Strings related to AppBlacklist-->
-    <string name="title_activity_appblacklist">Zakázané notifikace</string>
-    <!--Strings related to CalBlacklist-->
     <!--Strings related to FwAppInstaller-->
     <string name="title_activity_fw_app_insaller">Instalátor FW/App</string>
     <string name="fw_upgrade_notice">Instaluje firmvér %s.</string>
@@ -87,7 +84,6 @@
     <string name="pref_call_privacy_mode_off">Zobrazit jméno a číslo</string>
     <string name="pref_call_privacy_mode_name">Skrýt jméno, ale zobrazit číslo</string>
     <string name="pref_call_privacy_mode_complete">Skrýt jméno i číslo</string>
-    <string name="pref_blacklist">Zakázané aplikace (bez notifikací)</string>
     <string name="pref_header_cannned_messages">Předvolené zprávy</string>
     <string name="pref_title_canned_replies">Odpovědi</string>
     <string name="pref_title_canned_reply_suffix">Běžná přípona</string>
@@ -511,8 +507,6 @@
     <string name="select_all">Vybrat vše</string>
     <string name="share">Sdílet</string>
     <string name="reset_index">Vymazat datum stažení</string>
-    <string name="menuitem_shortcut_alipay">Alipay (Zástupce)</string>
-    <string name="menuitem_shortcut_weather">Počasí (Zástupce)</string>
     <string name="menuitem_status">Stav</string>
     <string name="menuitem_activity">Historie Aktivit</string>
     <string name="menuitem_weather">Počasí</string>
@@ -617,7 +611,6 @@
     <string name="devicetype_casiogb6900">Casio GB-6900</string>
     <string name="activity_type_exercise">Cvičení</string>
     <string name="title_activity_notification_filter">Filtr notifikací</string>
-    <string name="toast_app_must_not_be_blacklisted">Pro konfiguraci nesmí být aplikace zakázána</string>
     <string name="edittext_notification_filter_words_hint">Vložte požadovaná slova, jedno na řádek</string>
     <string name="toast_notification_filter_saved_successfully">Filtr notifikací uložen</string>
     <string name="filter_mode_none">Nefiltrovat</string>
@@ -742,8 +735,6 @@
     <string name="activity_db_management_exportimport_label">Export a Import</string>
     <string name="activity_db_management_empty_db_warning">Varování! Stisknutím tohoto tlačítko vymažete všechna data a začínáte z nuly.</string>
     <string name="appwidget_sleep_alarm_widget_label">Budíček</string>
-    <string name="widget_steps_label">Kroky: %1$02d</string>
-    <string name="widget_sleep_label">Spánek: %1$s</string>
     <string name="widget_listing_label">Status a Budíky</string>
     <string name="widget_set_alarm_after">Nastavit zvonění za:</string>
     <string name="widget_5_minutes">5 minut</string>
@@ -753,7 +744,7 @@
     <string name="pref_display_add_device_fab">Tlačítko Připojit nové zařízení</string>
     <string name="pref_display_add_device_fab_on">Vždy viditelné</string>
     <string name="pref_display_add_device_fab_off">Viditelné pouze pokud není přidáno žádné zařízení</string>
-    <plurals name="widget_alarm_target_hours">
+    <plurals name="widget_alarm_target_hours" tools:ignore="MissingQuantity">
         <item quantity="one">%d hodina</item>
         <item quantity="few">%d hodiny</item>
         <item quantity="other">%d hodin</item>
@@ -848,9 +839,6 @@
     <string name="hr_appname_workout">Cvičení</string>
     <string name="hr_appname_stopwatch">Stopky</string>
     <string name="hr_appname_commute">Dojíždění</string>
-    <string name="pref_title_upper_button_function">Horní Tlačítko</string>
-    <string name="pref_title_middle_button_function">Prostřední Tlačítko</string>
-    <string name="pref_title_lower_button_function">Dolní Tlačítko</string>
     <string name="pref_title_vibration_strength">Síla vibrací</string>
     <string name="devicetype_amazfit_bips">Amazfit Bip S</string>
     <string name="pref_title_relax_firmware_checks">Aktivujte tuto možnost, pokud chcete flashovat firmware, který není určen pro vaše zařízení (na vlastní nebezpečí)</string>
@@ -1174,7 +1162,7 @@
     <string name="fossil_hr_auth_failed">Ověření selhalo</string>
     <string name="fossil_hr_unavailable_unauthed">Není dostupné v neověřeném módu</string>
     <string name="fossil_hr_synced_activity_data">Data aktivit synchronizována</string>
-    <string name="fossil_hr_commute_processing">Zpracovávání požadavku...</string>
+    <string name="fossil_hr_commute_processing">Zpracovávání požadavku…</string>
     <string name="mi">mi</string>
     <string name="minutes_mi">min/mi</string>
     <string name="mi_h">mi/h</string>
@@ -1203,7 +1191,6 @@
     <string name="qhybrid_title_file_management">Správa souborů</string>
     <string name="qhybrid_title_background_image">Obrázek na pozadí</string>
     <string name="qhybrid_title_apps">Aplikace</string>
-    <string name="qhybrid_title_watchface_apps">Ciferníky a aplikace</string>
     <string name="devicetype_um25">UM-25</string>
     <string name="fw_upgrade_notice_amazfitneo">Chystáte se nainstalovat firmvér %s na váš Amazfit Neo.
 \n
@@ -1337,7 +1324,7 @@
     <string name="nothing_prefs_inear_summary">Přehrávat/Pauzovat dle detekce nošení</string>
     <string name="nothing_prefs_audiomode_title">Audio mód</string>
     <string name="nothing_prefs_inear_title">Detekce nošení</string>
-    <string name="pref_title_notification_use_as">Použít seznam aplikací k...</string>
+    <string name="pref_title_notification_use_as">Použít seznam aplikací k…</string>
     <string name="pref_title_notification_use_as_deny">Zakázaní oznámení z vybraných aplikací</string>
     <string name="title_activity_notification_management">Nastavení oznámení</string>
     <string name="check_all_applications">Označit všechny aplikace</string>
@@ -1360,7 +1347,6 @@
     <string name="prefs_game_mode_summary">Pouze pokud váš telefon podporuje herní režim</string>
     <string name="prefs_touch_lock">Zámek Dotyku</string>
     <string name="prefs_touch_lock_summary">Zakázání dotykových událostí</string>
-    <string name="prefs_ambient_volume_summary">pref_galaxy_buds_ambient_volume</string>
     <string name="prefs_ambient_voice_summary">Aby hlas vynikl</string>
     <string name="pref_title_equalizer_clear">Jasný</string>
     <string name="prefs_ambient_sound">Okolní zvuk</string>
@@ -1411,7 +1397,6 @@
     <string name="sony_surround_mode_club">Klub</string>
     <string name="sony_surround_mode_outdoor_stage">Venkovní pódium</string>
     <string name="sony_surround_mode_concert_hall">Koncertní síň</string>
-    <string name="sony_surround_position_mutually_exclusive">Varování: Nastavení polohy zvuku / prostorového režimu se vzájemně vylučují.</string>
     <string name="sony_warn_sbc_codec">Varování: Tato nastavení fungují pouze pro zvukový kodek SBC.</string>
     <string name="sony_equalizer">Ekvalizér</string>
     <string name="sony_equalizer_preset_off">Vypnuto</string>
@@ -1428,7 +1413,6 @@
     <string name="sony_equalizer_band_6300">6.3k</string>
     <string name="sony_equalizer_band_16000">16k</string>
     <string name="sony_equalizer_clear_bass">Jasné basy</string>
-    <string name="sony_dsee_hx">DSEE HX</string>
     <string name="sony_touch_sensor">Nastavení dotykového ovládání</string>
     <string name="sony_notification_voice_guide">Oznámení a hlasový průvodce</string>
     <string name="sony_automatic_power_off">Automatické vypnutí</string>
@@ -1449,7 +1433,6 @@
     <string name="sony_equalizer_preset_custom_2">Vlastní 2</string>
     <string name="pref_header_sony_equalizer_preset_custom_1">Vlastní předvolba 1</string>
     <string name="sony_equalizer_band_400">400</string>
-    <string name="pref_header_sony_equalizer_preset_manual">Ruční předvolba</string>
     <string name="pref_header_sony_equalizer_preset_custom_2">Vlastní předvolba 2</string>
     <string name="sony_automatic_power_off_when_taken_off">Při sundání</string>
     <string name="title_activity_set_reminders">Upravit připomenutí</string>

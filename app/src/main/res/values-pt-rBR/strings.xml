@@ -31,8 +31,6 @@
     <string name="appmanager_weather_install_provider">Instalar o aplicativo de notificação de clima</string>
     <string name="app_configure">Configurar</string>
     <string name="app_move_to_top">Mover para o topo</string>
-    <!--Strings related to AppBlacklist-->
-    <string name="title_activity_appblacklist">Lista negra de notificações</string>
     <!--Strings related to CalBlacklist-->
     <!--Strings related to FwAppInstaller-->
     <string name="title_activity_fw_app_insaller">Instalador de FW/aplicativo</string>
@@ -81,7 +79,6 @@
     <string name="pref_call_privacy_mode_off">Exibir nome e número</string>
     <string name="pref_call_privacy_mode_name">Ocultar nome, mas exibir número</string>
     <string name="pref_call_privacy_mode_complete">Ocultar nome e número</string>
-    <string name="pref_blacklist">Lista negra de aplicativos</string>
     <string name="pref_header_cannned_messages">Mensagens predefinidas</string>
     <string name="pref_title_canned_replies">Respostas</string>
     <string name="pref_title_canned_reply_suffix">Sufixo comum</string>
@@ -543,8 +540,6 @@
     <string name="menuitem_alipay">Alipay</string>
     <string name="pref_title_pebble_gatt_clientonly">Cliente GATT apenas</string>
     <string name="pref_summary_pebble_gatt_clientonly">Isso é para Pebble 2 apenas e experimental, tente isso se você tiver problemas de conectividade</string>
-    <string name="menuitem_shortcut_alipay">Alipay (Atalho)</string>
-    <string name="menuitem_shortcut_weather">Clima (Atalho)</string>
     <string name="devicetype_q8">Q8</string>
     <string name="devicetype_miband3">Mi Band 3</string>
     <string name="pref_auto_fetch">Coletar automaticamente os dados de atividade</string>
@@ -622,7 +617,6 @@
     <string name="debugactivity_really_factoryreset">Restaurar as configurações de fábrica vai excluir todos os dados do dispositivo conectado (se houver suporte). Dispositivos Xiami/Huami também mudam o endereço MAC do Bluetooth, então eles aparecem como novos dispositivos no Gadgetbridge.</string>
     <string name="devicetype_casiogb6900">Casio GB-6900</string>
     <string name="title_activity_notification_filter">Filtro de notificação</string>
-    <string name="toast_app_must_not_be_blacklisted">Para ser configurado, o aplicativo não pode estar na lista negra</string>
     <string name="edittext_notification_filter_words_hint">Insira as palavras desejadas, nova linha para cada</string>
     <string name="toast_notification_filter_saved_successfully">Filtro de notificação salvo</string>
     <string name="filter_mode_none">Não filtrar</string>
@@ -748,8 +742,6 @@
     <string name="activity_db_management_exportimport_label">Exportar e importar</string>
     <string name="activity_db_management_empty_db_warning">Atenção! Ao pressionar esse botão, você vai apagar seus banco de dados e iniciar do zero.</string>
     <string name="appwidget_sleep_alarm_widget_label">Alarme do sono</string>
-    <string name="widget_steps_label">Passos: %1$02d</string>
-    <string name="widget_sleep_label">Sono: %1$s</string>
     <string name="widget_listing_label">Status e alarmes</string>
     <string name="widget_set_alarm_after">Definir alarme após:</string>
     <string name="widget_5_minutes">5 minutos</string>
@@ -853,9 +845,6 @@
     <string name="hr_appname_workout">Treino</string>
     <string name="hr_appname_stopwatch">Cronômetro</string>
     <string name="hr_appname_commute">Comutar</string>
-    <string name="pref_title_upper_button_function">Botão superior</string>
-    <string name="pref_title_middle_button_function">Botão do meio</string>
-    <string name="pref_title_lower_button_function">Botão inferior</string>
     <string name="pref_title_vibration_strength">Intensidade da vibração</string>
     <string name="devicetype_amazfit_bips">Amazfit Bip S</string>
     <string name="pref_title_relax_firmware_checks">Habilite isso se você deseja instalar um firmware não destinado para seu dispositivo (a seu próprio risco)</string>
@@ -1223,7 +1212,7 @@
     <string name="fossil_hr_auth_failed">Autenticação falhou, funcionalidade limitada</string>
     <string name="fossil_hr_unavailable_unauthed">Não disponível no modo não autenticado</string>
     <string name="fossil_hr_synced_activity_data">Dados de atividade sincronizados</string>
-    <string name="fossil_hr_commute_processing">Processando solicitação...</string>
+    <string name="fossil_hr_commute_processing">Processando solicitação…</string>
     <string name="gpx_receiver_overwrite_some_files">Um ou mais arquivos recebidos já existem. Sobrescrever\?</string>
     <string name="widget_settings_select_device_title">Selecionar dispositivo</string>
     <string name="menuitem_barometer">Barômetro</string>
@@ -1341,7 +1330,7 @@
     <string name="nothing_prefs_inear_summary">Reproduzir/pausar a música dependendo se você usa os fones de ouvido</string>
     <string name="nothing_prefs_inear_title">Deteção no ouvido</string>
     <string name="nothing_prefs_audiomode_title">Modo de áudio</string>
-    <string name="pref_title_notification_use_as">Usar a lista de aplicativos para...</string>
+    <string name="pref_title_notification_use_as">Usar a lista de aplicativos para…</string>
     <string name="pref_title_notification_use_as_allow">Permitir notificações de aplicativos selecionados</string>
     <string name="pref_title_message_privacy_mode">Modo de privacidade de mensagens</string>
     <string name="pref_message_privacy_mode_off">Exibir conteúdo</string>
@@ -1411,7 +1400,6 @@
     <string name="sony_surround_mode_club">Club</string>
     <string name="sony_surround_mode_outdoor_stage">Cenário externo</string>
     <string name="sony_surround_mode_concert_hall">Teatro</string>
-    <string name="sony_surround_position_mutually_exclusive">Aviso: As preferencias de posição de som / modo surround são mutuamente exclusivas.</string>
     <string name="sony_warn_sbc_codec">Aviso: As configurações de equalizador, posição de áudio e surround só funcionam com o codec de áudio SBC.</string>
     <string name="sony_equalizer_preset_off">Desligado</string>
     <string name="sony_equalizer_preset_bright">Brilhante</string>
@@ -1431,7 +1419,6 @@
     <string name="sony_equalizer_band_6300">6300</string>
     <string name="sony_equalizer_band_16000">16000</string>
     <string name="sony_equalizer_clear_bass">Baixo limpo</string>
-    <string name="sony_dsee_hx">DSEE HX</string>
     <string name="sony_touch_sensor">Controle com sensor de toque</string>
     <string name="sony_notification_voice_guide">Notificações &amp; guia de voz</string>
     <string name="sony_automatic_power_off">Desligar automaticamente</string>
@@ -1451,7 +1438,6 @@
     <string name="sony_ambient_sound_noise_cancelling">Cancelamento de ruído</string>
     <string name="sony_surround_mode">Modo surround</string>
     <string name="sony_equalizer_preset_bass_boost">Amplificação de grave</string>
-    <string name="pref_header_sony_equalizer_preset_manual">Predefinição manual</string>
     <string name="battery_case">Caixa de bateria</string>
     <string name="prefs_activity_in_device_card_title">Mostrar Informações de atividades no cartão do dispositivo</string>
     <string name="sony_automatic_power_off_when_taken_off">Quando retirados os fones</string>

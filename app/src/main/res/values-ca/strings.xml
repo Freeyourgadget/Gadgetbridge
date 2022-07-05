@@ -38,7 +38,6 @@
     <string name="appmanager_weather_install_provider">Instal·la l\'aplicació del temps del sistema</string>
     <string name="app_configure">Configura</string>
     <string name="app_move_to_top">Mou a la part superior</string>
-    <string name="title_activity_appblacklist">Bloqueig de notificacions</string>
     <string name="title_activity_calblacklist">Calendaris bloquejats</string>
     <string name="title_activity_fw_app_insaller">Instal·lador de microprogramari i aplicacions</string>
     <string name="fw_upgrade_notice">Sou a punt d\'instal·lar el %s.</string>
@@ -101,7 +100,6 @@
     <string name="pref_call_privacy_mode_name">Amaga el nom però mostra el número</string>
     <string name="pref_call_privacy_mode_number">Amaga el número però mostra el nom</string>
     <string name="pref_call_privacy_mode_complete">Amaga el nom i el número</string>
-    <string name="pref_blacklist">Bloqueig d\'aplicacions</string>
     <string name="pref_blacklist_calendars">Bloqueig de calendaris</string>
     <string name="pref_header_cannned_messages">Missatges predefinits</string>
     <string name="pref_title_canned_replies">Respostes</string>
@@ -562,8 +560,6 @@
     <string name="menuitem_compass">Brúixola</string>
     <string name="menuitem_settings">Configuració</string>
     <string name="menuitem_alipay">Alipay</string>
-    <string name="menuitem_shortcut_alipay">Alipay (drecera)</string>
-    <string name="menuitem_shortcut_weather">El temps (drecera)</string>
     <string name="devicetype_q8">Q8</string>
     <string name="devicetype_miband3">Mi Band 3</string>
     <string name="pref_auto_fetch">Recull automàticament les dades d\'activitats</string>
@@ -637,7 +633,6 @@
     <string name="live_activity_max_heart_rate">Ritme cardíac actual / màxim: %1$d / %2$d</string>
     <string name="devicetype_casiogb6900">Casio GB-6900</string>
     <string name="title_activity_notification_filter">Filtre de notificacions</string>
-    <string name="toast_app_must_not_be_blacklisted">L\'aplicació no ha d\'estar bloquejada per poder-la configurar</string>
     <string name="edittext_notification_filter_words_hint">Introduïu les paraules desitjades, cadascuna en una línia nova</string>
     <string name="toast_notification_filter_saved_successfully">S\'ha desat el filtre de notificacions</string>
     <string name="filter_mode_none">No filtris</string>
@@ -736,8 +731,6 @@
     <string name="activity_DB_delete_legacy_button">Esborra BD antiga</string>
     <string name="activity_DB_empty_button">Buida la BD</string>
     <string name="appwidget_sleep_alarm_widget_label">Alarma de son</string>
-    <string name="widget_steps_label">Passes: %1$02d</string>
-    <string name="widget_sleep_label">Son: %1$s</string>
     <string name="widget_listing_label">Estat i alarmes</string>
     <string name="widget_5_minutes">5 minuts</string>
     <string name="widget_10_minutes">10 minuts</string>
@@ -847,9 +840,6 @@
     <string name="hr_appname_workout">Entrenament</string>
     <string name="hr_appname_stopwatch">Cronòmetre</string>
     <string name="hr_appname_commute">Desplçament</string>
-    <string name="pref_title_upper_button_function">Botó superior</string>
-    <string name="pref_title_middle_button_function">Botó mitger</string>
-    <string name="pref_title_lower_button_function">Botó inferior</string>
     <string name="pref_title_relax_firmware_checks">Activeu-ho si voleu instal·lar microprogramari no destinat al vostre aparell (sota la vostra responsabilitat)</string>
     <string name="pref_summary_relax_firmware_checks">Relaxa les comprovacions de microprogramari</string>
     <string name="devicetype_amazfit_bips">Amazfit Bip S</string>
@@ -1284,7 +1274,7 @@
     <string name="prefs_fm_presets_presets">Preconfiguracions</string>
     <string name="device_card_activity_card_title">Informació d\'activitat a la targeta de l\'aparell</string>
     <string name="pref_header_notification_application_settings">Configuració per aplicació</string>
-    <string name="pref_title_notification_use_as">Useu la llista d\'aplicacions per a ...</string>
+    <string name="pref_title_notification_use_as">Useu la llista d\'aplicacions per a …</string>
     <string name="pref_title_notification_use_as_deny">Rebutgeu les notificacions de les aplicacions triades</string>
     <string name="pref_title_notification_use_as_allow">Permeteu les notificacions de les aplicacions triades</string>
     <string name="notification_channel_transfer_name">Transferència de dades</string>

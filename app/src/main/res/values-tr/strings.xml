@@ -381,8 +381,6 @@
     <string name="menuitem_nfc">NFC</string>
     <string name="menuitem_notifications">Bildirimler</string>
     <string name="menuitem_settings">Ayarlar</string>
-    <string name="menuitem_shortcut_alipay">Alipay (Kısayol)</string>
-    <string name="menuitem_shortcut_weather">Hava Durumu (Kısayol)</string>
     <string name="menuitem_status">Durum</string>
     <string name="menuitem_timer">Geri Sayım</string>
     <string name="menuitem_weather">Hava Durumu</string>
@@ -488,7 +486,6 @@
     <string name="pref_auto_fetch_limit_fetches">Getirmeler arasındaki asgari süre</string>
     <string name="pref_auto_fetch_limit_fetches_summary">Her %d dakikada bir getirir</string>
     <string name="pref_auto_fetch_summary">Getirme, ekran kilidi açıldığında gerçekleşir. Yalnızca bir kilit mekanizması ayarlanmışsa çalışır!</string>
-    <string name="pref_blacklist">Kara Liste Uygulamaları</string>
     <string name="pref_blacklist_calendars">Kara Liste Takvimleri</string>
     <string name="pref_button_action_disabled">Engellenmiş</string>
     <string name="pref_button_action_disabled_value">Bilinmeyen</string>
@@ -638,8 +635,6 @@
     <string name="pref_title_location_latitude">Enlem</string>
     <string name="pref_title_location_longitude">Boylam</string>
     <string name="pref_title_low_latency_fw_update">Ürün yazılımı kurarken düşük gecikme modu kullan</string>
-    <string name="pref_title_lower_button_function">Alt Düğme</string>
-    <string name="pref_title_middle_button_function">Orta Düğme</string>
     <string name="pref_title_minimize_priority">Gadgetbridge bildirimini gizle</string>
     <string name="pref_title_notification_filter">Rahatsız Etme</string>
     <string name="pref_title_notifications_call">Telefon Çağrıları</string>
@@ -675,7 +670,6 @@
     <string name="pref_title_timeformat">Zaman biçimi</string>
     <string name="pref_title_transliteration">Karakter çevirisi</string>
     <string name="pref_title_unit_system">Birimler</string>
-    <string name="pref_title_upper_button_function">Üst Düğme</string>
     <string name="pref_title_use_custom_font">Özel yazı tipi kullan</string>
     <string name="pref_title_vibration_strength">Titreşim gücü</string>
     <string name="pref_title_weather">Hava Durumu</string>
@@ -750,7 +744,6 @@
     <string name="timeformat_am_pm">ÖÖ/ÖS</string>
     <string name="title_activity_alarm_details">Alarm ayrıntıları</string>
     <string name="title_activity_android_pairing">Aygıt eşleştir</string>
-    <string name="title_activity_appblacklist">Bildirim kara listesi</string>
     <string name="title_activity_appmanager">Uygulama Yöneticisi</string>
     <string name="title_activity_calblacklist">Kara Listeye Alınan Takvimler</string>
     <string name="title_activity_charts">Etkinlik ve Uyku</string>
@@ -769,7 +762,6 @@
     <string name="title_activity_vibration">Titreşim</string>
     <string name="title_activity_watch9_calibration">Watch 9 kalibrasyonu</string>
     <string name="title_activity_watch9_pairing">Watch 9 eşleştirme</string>
-    <string name="toast_app_must_not_be_blacklisted">Uygulamanın yapılandırılması için kara listeye alınmaması gerekir</string>
     <string name="toast_aqurired_networklocation">konum alındı</string>
     <string name="toast_enable_networklocationprovider">Lütfen ağ konumunu etkinleştirin</string>
     <string name="toast_notification_filter_saved_successfully">Bildirim filtresi kaydedildi</string>
@@ -832,8 +824,6 @@
     <string name="widget_5_minutes">5 dakika</string>
     <string name="widget_listing_label">Durum ve Alarmlar</string>
     <string name="widget_set_alarm_after">Alarm kur:</string>
-    <string name="widget_sleep_label">Uyku: %1$s</string>
-    <string name="widget_steps_label">Adım: %1$02d</string>
     <string name="you_did_not_sleep">Uyumadınız</string>
     <string name="you_slept">Saat %1$s ile %2$s arası uyudunuz</string>
     <string name="zetime_activity_tracking">Etkinlik izleme</string>
@@ -1220,13 +1210,12 @@
     <string name="fossil_hr_auth_failed">Kimlik doğrulama başarısız oldu, sınırlı işlevsellik</string>
     <string name="fossil_hr_unavailable_unauthed">Kimliği doğrulanmamış modda kullanılamaz</string>
     <string name="fossil_hr_synced_activity_data">Etkinlik verileri eşzamanlandı</string>
-    <string name="fossil_hr_commute_processing">İstek işleniyor...</string>
+    <string name="fossil_hr_commute_processing">İstek işleniyor…</string>
     <string name="qhybrid_title_calibration">Kalibrasyon</string>
     <string name="qhybrid_title_apps_management">Uygulama yönetimi</string>
     <string name="qhybrid_title_file_management">Dosya yönetimi</string>
     <string name="qhybrid_title_background_image">Arka plan görüntüsü</string>
     <string name="qhybrid_title_apps">Uygulamalar</string>
-    <string name="qhybrid_title_watchface_apps">Saat arayüzü ve uygulamalar</string>
     <string name="devicetype_um25">UM-25</string>
     <string name="fossil_hr_warning_firmware_too_new">Saatin ürün yazılımı çok yeni olduğu için bazı işlevler devre dışı bırakıldı</string>
     <string name="prefs_sounds_summary">Aygıtın ne zaman bip sesi çıkaracağını yapılandırın</string>
@@ -1361,7 +1350,7 @@
     <string name="nothing_prefs_inear_title">Kulak içi algılama</string>
     <string name="nothing_prefs_audiomode_title">Ses modu</string>
     <string name="pref_applications_settings">Uygulamalar listesi</string>
-    <string name="pref_title_notification_use_as">Uygulamalar listesini kullanarak...</string>
+    <string name="pref_title_notification_use_as">Uygulamalar listesini kullanarak…</string>
     <string name="toast_app_must_not_be_selected">Yapılandırmak için uygulama seçili olmamalıdır</string>
     <string name="pref_header_notification_application_settings">Uygulama başına ayarlar</string>
     <string name="title_activity_notification_management">Bildirim ayarları</string>
@@ -1383,7 +1372,6 @@
     <string name="prefs_game_mode">Oyun modu</string>
     <string name="prefs_game_mode_summary">Yalnızca telefonunuz oyun modunu destekliyorsa</string>
     <string name="prefs_ambient_volume">Ortam ses seviyesi</string>
-    <string name="prefs_ambient_volume_summary">pref_galaxy_buds_ambient_volume</string>
     <string name="prefs_ambient_voice_focus">Ses Odaklama</string>
     <string name="prefs_ambient_voice_summary">Sesi öne çıkar</string>
     <string name="prefs_ambient_sound">Ortam Sesi</string>
@@ -1407,7 +1395,6 @@
     <string name="prefs_active_noise_cancelling_summary">Çevredeki sesleri engelleyin</string>
     <string name="sony_sound_position_off">Kapalı</string>
     <string name="sony_sound_position_front">Ön</string>
-    <string name="sony_surround_position_mutually_exclusive">Uyarı: Ses konumu / çevre modu ayarlarından aynı anda yalnızca biri kullanılabilir.</string>
     <string name="sony_warn_sbc_codec">Uyarı: Bu ayarlar yalnızca SBC ses kod çözücü için çalışır.</string>
     <string name="sony_equalizer">Dengeleyici</string>
     <string name="sony_equalizer_preset_off">Kapalı</string>
@@ -1417,7 +1404,6 @@
     <string name="sony_equalizer_preset_bass_boost">Bas Güçlendirme</string>
     <string name="sony_equalizer_preset_speech">Konuşma</string>
     <string name="sony_equalizer_preset_manual">El ile</string>
-    <string name="pref_header_sony_equalizer_preset_manual">El ile Ön Ayar</string>
     <string name="pref_header_sony_equalizer_preset_custom_1">Özel Ön Ayar 1</string>
     <string name="sony_equalizer_band_400">400</string>
     <string name="sony_equalizer_band_2500">2.5b</string>
@@ -1462,7 +1448,6 @@
     <string name="sony_equalizer_preset_treble_boost">Tiz Güçlendirme</string>
     <string name="sony_equalizer_preset_custom_1">Özel 1</string>
     <string name="sony_equalizer_band_16000">16b</string>
-    <string name="sony_dsee_hx">DSEE HX</string>
     <string name="sony_equalizer_band_1000">1b</string>
     <string name="sony_touch_sensor">Dokunma sensörü denetimi</string>
     <string name="sony_notification_voice_guide">Bildirimler ve Sesli Rehber</string>
@@ -1474,8 +1459,6 @@
     <string name="device_card_activity_card_title_summary">Aygıt kartında hangi etkinlik ayrıntılarının görüntüleneceğini seçin</string>
     <string name="prefs_activity_in_device_card_title">Aygıt kartında etkinlik bilgilerini göster</string>
     <string name="prefs_activity_in_device_card_distance_title_summary">Mesafe, adımlardan ve adım uzunluğundan hesaplanır (Ayarlar - Hakkınızda bölümünden ayarlanabilir)</string>
-    <string name="live_activity_sleep_duration">Uyku zamanı</string>
-    <string name="live_activity_total_distance">Toplam mesafe</string>
     <string name="sony_automatic_power_off_when_taken_off">Çıkarıldığında</string>
     <string name="prefs_fm_presets_presets">Ön ayarlar</string>
     <string name="prefs_fm_preset_instructions">Ön ayarı saklamak için düğmeye uzun basın</string>
@@ -1747,7 +1730,7 @@
     <string name="portuguese_pt">Portekizce (Portekiz)</string>
     <string name="portuguese_br">Portekizce (Brezilya)</string>
     <string name="pref_title_banglejs_webview_url">Uygulama yükleyici URL\'si</string>
-    <string name="pref_summary_banglejs_webview_url">Özel bir uygulama yükleyicisi istiyorsanız https://.../android.html URL\'nizi buraya koyun. Aksi takdirde https://banglejs.com/apps için boş bırakın</string>
+    <string name="pref_summary_banglejs_webview_url">Özel bir uygulama yükleyicisi istiyorsanız https://…/android.html URL\'nizi buraya koyun. Aksi takdirde https://banglejs.com/apps için boş bırakın</string>
     <string name="permission_location">%1$s ekranınız kapalıyken bile saatinize bağlı kalmasını sağlamak için arka planda konumunuza erişmeye ihtiyaç duyuyor.
 \n
 \nKabul etmek için lütfen \'%2$s\' düğmesine dokunun.</string>

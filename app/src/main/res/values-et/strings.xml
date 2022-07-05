@@ -38,7 +38,6 @@
     <string name="appmanager_weather_install_provider">Paigalda ilmateavituste rakendus</string>
     <string name="app_configure">Seadista</string>
     <string name="app_move_to_top">Liiguta kõige üles</string>
-    <string name="title_activity_appblacklist">Teavituste must nimekiri</string>
     <string name="title_activity_calblacklist">Kalendrite must nimekiri</string>
     <string name="title_activity_fw_app_insaller">Püsivara/rakenduse paigaldaja</string>
     <string name="fw_upgrade_notice">Olete installeerimas püsivara %s.</string>
@@ -95,7 +94,6 @@
     <string name="pref_call_privacy_mode_complete">Peida nimi ja number</string>
     <string name="pref_title_weather">Ilm</string>
     <string name="pref_title_weather_location">Asukoht ilmateate jaoks (LineageOS\'i allikas)</string>
-    <string name="pref_blacklist">Rakenduste must nimekiri</string>
     <string name="pref_blacklist_calendars">Kalendrite must nimekiri</string>
     <string name="pref_summary_minimize_priority_off">Olekuriba ikooni ja lukustusekraani märguandeid kuvatakse</string>
     <string name="pref_summary_minimize_priority_on">Olekuriba ikoon ja lukustuserkaani märguanded on peidetud</string>
@@ -605,8 +603,6 @@
     <string name="widget_5_minutes">5 minutit</string>
     <string name="widget_set_alarm_after">Sea äratus pärast:</string>
     <string name="widget_listing_label">Staatus ja äratused</string>
-    <string name="widget_sleep_label">Und: %1$s</string>
-    <string name="widget_steps_label">Samme: %1$02d</string>
     <string name="appwidget_sleep_alarm_widget_label">Äratus</string>
     <string name="appwidget_setting_alarm">Sean äratuse %1$02d:%2$02d -ks</string>
     <string name="appwidget_text">Zzz</string>
@@ -662,7 +658,6 @@
     <string name="prefs_button_triple_press_action_selection_title">3. sündmuse tegevus</string>
     <string name="prefs_button_single_press_action_selection_title">1. sündmuse tegevus</string>
     <string name="prefs_button_double_press_action_selection_title">2. sündmuse tegevus</string>
-    <string name="pref_title_upper_button_function">Ülemine nupp</string>
     <string name="hr_appname_wellness">Tervislikkus</string>
     <string name="hr_widget_active_minutes">Aktiivseid minuteid</string>
     <string name="hr_widget_date">Kuupäev</string>
@@ -728,8 +723,6 @@
     <string name="menuitem_activity">Tegevused</string>
     <string name="menuitem_notifications">Teavitused</string>
     <string name="menuitem_status">Staatus</string>
-    <string name="menuitem_shortcut_weather">Weather (otsetee)</string>
-    <string name="menuitem_shortcut_alipay">Alipay (otsetee)</string>
     <string name="devicetype_amazfit_gts">Amazfit GTS</string>
     <string name="devicetype_amazfit_bips">Amazfit Bip S</string>
     <string name="devicetype_amazfit_gtr">Amazfit GTR</string>
@@ -742,15 +735,13 @@
     <string name="devicetype_casiogb6900">Casio GB-6900</string>
     <string name="devicetype_y5">Y5</string>
     <string name="devicetype_roidmi3">Roidmi 3</string>
-    <string name="about_additional_contributions">Suured tänud ka kõikidele teistele loetlemata abistajatele nende koodi, toe, ideede, motivatsiooni, vearaportite ja raha eest... ✊</string>
+    <string name="about_additional_contributions">Suured tänud ka kõikidele teistele loetlemata abistajatele nende koodi, toe, ideede, motivatsiooni, vearaportite ja raha eest… ✊</string>
     <string name="about_additional_device_support">Täiendavate seadmete tugi</string>
     <string name="about_contributors">Kaasaaitajad</string>
     <string name="about_core_team_title">Tuumiktiim (järjestatud esimese koodirea kuupäeva järgi)</string>
     <string name="about_description_generic">Tasuta ja pilvevaba asendus teie kantavate nutiseadmete tootjate rakendustele.</string>
     <string name="about_activity_title_generic">Gadgetbridge\'ist</string>
     <string name="about_title">Rakendusest</string>
-    <string name="pref_title_lower_button_function">Alumine nupp</string>
-    <string name="pref_title_middle_button_function">Keskmine nupp</string>
     <string name="hr_appname_stopwatch">Stopper</string>
     <string name="hr_appname_workout">Trenn</string>
     <string name="hr_widget_nothing">Tühjus</string>

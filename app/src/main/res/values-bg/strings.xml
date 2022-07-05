@@ -66,7 +66,6 @@
     <string name="appmanager_weather_install_provider">Инсталиране на приложението за прогноза на времето</string>
     <string name="app_configure">Конфигуриране</string>
     <string name="app_move_to_top">Преместване горе</string>
-    <string name="title_activity_appblacklist">Блокиране на известия</string>
     <string name="blacklist_all_for_notifications">Блокиране на всички известия</string>
     <string name="whitelist_all_for_notifications">Разрешаване на всички известия</string>
     <string name="title_activity_calblacklist">Блокирани Календари</string>
@@ -145,7 +144,6 @@
     <string name="pref_call_privacy_mode_complete">Скриване на името и номера</string>
     <string name="pref_title_weather">Прогноза за времето</string>
     <string name="pref_title_weather_location">Метеорологично местоположение (CM/LOS)</string>
-    <string name="pref_blacklist">Блокирани приложения</string>
     <string name="pref_blacklist_calendars">Блокирани Календари</string>
     <string name="pref_header_cannned_messages">Готови съобщения</string>
     <string name="pref_title_canned_replies">Отговори</string>
@@ -557,8 +555,6 @@
     <string name="mi2_prefs_inactivity_warnings_summary">Устройството ще вибрира ако бездействате за известно време</string>
     <string name="mi2_prefs_inactivity_warnings_threshold">Период на бездействие (в минути)</string>
     <string name="you_slept">Вие спахте от %1$s до %2$s</string>
-    <string name="widget_steps_label">Стъпки: %1$02d</string>
-    <string name="widget_sleep_label">Сън: %1$s</string>
     <string name="widget_5_minutes">5 минути</string>
     <string name="widget_20_minutes">20 минути</string>
     <string name="widget_1_hour">1 час</string>

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="discovery_pair_title">Appairer avec %1$s\?</string>
     <string name="dbmanagementactivity_delete_old_activitydb_confirmation">Voulez-vous vraiment détruire entièrement la base de données\? Toutes vos données non importées seront perdues.</string>
     <string name="dbmanagementactivity_delete_old_activity_db">Voulez-vous détruire les anciennes activités de la base de données\?</string>
@@ -131,7 +131,7 @@
     <string name="vibration_profile_long">Long</string>
     <string name="title_activity_controlcenter_generic">Gadgetbridge</string>
     <string name="application_name_generic">Gadgetbridge</string>
-    <plurals name="widget_alarm_target_hours">
+    <plurals name="widget_alarm_target_hours" tools:ignore="MissingQuantity">
         <item quantity="one">%d heure</item>
         <item quantity="other">%d heures</item>
     </plurals>
@@ -147,9 +147,6 @@
     <string name="pref_title_relax_firmware_checks">Activez cette option si vous souhaitez flasher un microprogramme qui n\'est pas destiné à votre appareil (à vos propres risques)</string>
     <string name="pref_summary_relax_firmware_checks">Assouplir les contrôles des microprogrammes</string>
     <string name="pref_title_vibration_strength">Puissance du vibreur</string>
-    <string name="pref_title_lower_button_function">Bouton inférieur</string>
-    <string name="pref_title_middle_button_function">Bouton du milieu</string>
-    <string name="pref_title_upper_button_function">Bouton supérieur</string>
     <string name="hr_appname_commute">Trajet</string>
     <string name="hr_appname_stopwatch">Chronomètre</string>
     <string name="hr_appname_workout">Entraînement</string>
@@ -218,8 +215,6 @@
     <string name="widget_5_minutes">5 minutes</string>
     <string name="widget_set_alarm_after">Définir l\'alarme après :</string>
     <string name="widget_listing_label">État et alarmes</string>
-    <string name="widget_sleep_label">Sommeil : %1$s</string>
-    <string name="widget_steps_label">Pas : %1$02d</string>
     <string name="appwidget_sleep_alarm_widget_label">Réveil</string>
     <string name="activity_db_management_exportimport_label">Exporter et Importer</string>
     <string name="activity_db_management_empty_DB">Vider la base de données</string>
@@ -299,8 +294,6 @@
     <string name="whitelist_all_for_notifications">Mettre toutes les notifications en liste blanche</string>
     <string name="blacklist_all_for_notifications">Mettre toutes les notifications en liste noire</string>
     <string name="devicetype_q8">Q8</string>
-    <string name="menuitem_shortcut_weather">Météo (Raccourci)</string>
-    <string name="menuitem_shortcut_alipay">Alipay (Raccourci)</string>
     <string name="pref_summary_pebble_gatt_clientonly">C\'est uniquement pour les Pebble 2 et expérimental, à essayer si vous avez des problèmes de connectivité</string>
     <string name="pref_title_pebble_gatt_clientonly">client GATT uniquement</string>
     <string name="menuitem_settings">Réglages</string>
@@ -568,7 +561,6 @@
     <string name="filter_mode_none">Ne pas filtrer</string>
     <string name="toast_notification_filter_saved_successfully">Filtre des notifications sauvegardé</string>
     <string name="edittext_notification_filter_words_hint">Saisissez les mots désirés, chacun sur une ligne</string>
-    <string name="toast_app_must_not_be_blacklisted">L\'application ne doit pas être en liste noire pour pouvoir être configurée</string>
     <string name="title_activity_notification_filter">Filtre de notifications</string>
     <string name="appwidget_setting_alarm">Une alarme a été enregistré pour %1$02d:%2$02d</string>
     <string name="debugactivity_really_factoryreset">Une réinitialisation effacera toutes les données de l\'appareil connecté (si supporté). Les appareils Xiaomi/Huami modifient également l\'adresse MAC Bluetooth, de sorte qu\'ils apparaissent comme de nouveaux appareils dans Gadgetbridge.</string>
@@ -764,7 +756,6 @@
     <string name="pref_title_canned_replies">Réponses</string>
     <string name="pref_header_cannned_messages">Modèles de messages</string>
     <string name="pref_blacklist_calendars">Mettre des calendriers en liste noire</string>
-    <string name="pref_blacklist">Applications bloquées</string>
     <string name="pref_call_privacy_mode_complete">Masquer le nom et le numéro</string>
     <string name="pref_call_privacy_mode_number">Masquer le numéro mais afficher le nom</string>
     <string name="pref_call_privacy_mode_name">Masquer le nom mais afficher le numéro</string>
@@ -815,7 +806,6 @@
     <string name="pref_summary_pebble_health_store_raw">Si coché, les données « brutes » sont stockées pour une interprétation ultérieure, augmentant la taille de la base de données.</string>
     <string name="title_activity_fw_app_insaller">Installateur d\'applications/firmware</string>
     <string name="title_activity_calblacklist">Calendriers sur liste noire</string>
-    <string name="title_activity_appblacklist">Liste noire de notifications</string>
     <string name="app_move_to_top">Haut de page</string>
     <string name="app_configure">Configurer</string>
     <string name="appmanager_weather_install_provider">Installer l\'application de notification de la météo</string>

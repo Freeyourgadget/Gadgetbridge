@@ -31,8 +31,6 @@
     <string name="appmanager_weather_install_provider">התקנת יישומון דיווח מזג האוויר</string>
     <string name="app_configure">הגדרה</string>
     <string name="app_move_to_top">העברה למעלה</string>
-    <!--Strings related to AppBlacklist-->
-    <string name="title_activity_appblacklist">רשימת התראות חסומות</string>
     <!--Strings related to CalBlacklist-->
     <!--Strings related to FwAppInstaller-->
     <string name="title_activity_fw_app_insaller">התקנת קושחה/יישומון</string>
@@ -80,7 +78,6 @@
     <string name="pref_call_privacy_mode_off">להציג שם ומספר</string>
     <string name="pref_call_privacy_mode_name">להסתיר את השם אך להציג את המספר</string>
     <string name="pref_call_privacy_mode_complete">להסתיר את השם והמספר</string>
-    <string name="pref_blacklist">רשימת יישומונים שחורה</string>
     <string name="pref_header_cannned_messages">הודעות מוגדרות</string>
     <string name="pref_title_canned_replies">תגובות</string>
     <string name="pref_title_canned_reply_suffix">סיומת משותפת</string>
@@ -518,8 +515,6 @@
     <string name="menuitem_alipay">Alipay</string>
     <string name="pref_title_pebble_gatt_clientonly">לקוח GATT בלבד</string>
     <string name="pref_summary_pebble_gatt_clientonly">מצב זה מיועד ל־Pebble 2 והוא ניסיוני, ניתן לנסות זאת אם נתקלת בבעיות חיבור</string>
-    <string name="menuitem_shortcut_alipay">Alipay (קיצור דרך)</string>
-    <string name="menuitem_shortcut_weather">מזג אוויר (קיצור דרך)</string>
     <string name="devicetype_q8">Q8</string>
     <string name="fw_upgrade_notice_miband3">פעולה זו תתקין את הקושחה %s במקום זו שכרגע מותקנת ב־Mi Band 3 שלך.
 \n
@@ -613,7 +608,6 @@
     <string name="debugactivity_really_factoryreset">איפוס להגדרות יצרן ימחק את כל הנתונים מההתקן המקושר (אם יש תמיכה בזה). מכשירים מבית Xiaomi/Huami גם משנים את כתובת החומרה (MAC), כך שבעיני Gadgetbridge הם נחשבים למכשירים חדשים.</string>
     <string name="devicetype_casiogb6900">Casio GB-6900</string>
     <string name="title_activity_notification_filter">מסנן התראות</string>
-    <string name="toast_app_must_not_be_blacklisted">יש להוציא את היישומון מהרשימה השחורה כדי להגדיר אותו</string>
     <string name="edittext_notification_filter_words_hint">נא להקליד את המילים המבוקשות, אחת בכל שורה</string>
     <string name="toast_notification_filter_saved_successfully">מסנן ההתראות נשמר</string>
     <string name="filter_mode_none">לא לסנן</string>
@@ -739,8 +733,6 @@
     <string name="activity_db_management_exportimport_label">ייצוא וייבוא</string>
     <string name="activity_db_management_empty_db_warning">אזהרה! לחיצה על כפתור זה תוביל למחיקת כל הנתונים שלך והאיסוף יתחיל מההתחלה.</string>
     <string name="appwidget_sleep_alarm_widget_label">התראת שינה</string>
-    <string name="widget_steps_label">צעדים: %1$02d</string>
-    <string name="widget_sleep_label">שינה: %1$s</string>
     <string name="widget_listing_label">מצב והתראות</string>
     <string name="widget_set_alarm_after">הגדרת התראה לאחר:</string>
     <string name="widget_5_minutes">5 דקות</string>
@@ -846,9 +838,6 @@
     <string name="hr_appname_workout">אימון</string>
     <string name="hr_appname_stopwatch">שעון עצר</string>
     <string name="hr_appname_commute">התניידות</string>
-    <string name="pref_title_upper_button_function">כפתור עליון</string>
-    <string name="pref_title_middle_button_function">כפתור אמצעי</string>
-    <string name="pref_title_lower_button_function">כפתור תחתון</string>
     <string name="pref_title_vibration_strength">עצמת הרטט</string>
     <string name="devicetype_amazfit_bips">Amazfit Bip S</string>
     <string name="pref_title_relax_firmware_checks">יש להפעיל זאת אם מטרתך היא לצרוב קושחה שאינה מיועדת להתקן שלך (באחריותך הבלעדית)</string>
@@ -1202,7 +1191,6 @@
     <string name="qhybrid_title_file_management">ניהול קבצים</string>
     <string name="qhybrid_title_background_image">תמונת רקע</string>
     <string name="qhybrid_title_apps">יישומונים</string>
-    <string name="qhybrid_title_watchface_apps">פני השעון ויישומונים</string>
     <string name="devicetype_um25">UM-25</string>
     <string name="fossil_hr_warning_firmware_too_new">חלק מהפונקציות מושבתות כיוון שהקושחה של השעון חדשה מדי</string>
     <string name="prefs_sounds_summary">להגדיר מתי ההתקן יצפצף</string>
@@ -1411,7 +1399,6 @@
     <string name="sony_equalizer_preset_bright">בהיר</string>
     <string name="sony_equalizer_preset_excited">נלהב</string>
     <string name="sony_equalizer_preset_mellow">נוגה</string>
-    <string name="sony_surround_position_mutually_exclusive">אזהרה: הגדרות מיקום השמע / מצב היקפי סותרות זו את זו.</string>
     <string name="sony_equalizer_preset_relaxed">רגוע</string>
     <string name="sony_equalizer_preset_vocal">קול</string>
     <string name="sony_equalizer_preset_treble_boost">הגברת טרבל</string>
@@ -1420,7 +1407,6 @@
     <string name="sony_equalizer_preset_manual">ידני</string>
     <string name="sony_equalizer_preset_custom_1">מותאם 1</string>
     <string name="sony_equalizer_preset_custom_2">מותאם 2</string>
-    <string name="pref_header_sony_equalizer_preset_manual">ערכת הגדרות ידנית</string>
     <string name="pref_header_sony_equalizer_preset_custom_1">ערכת הגדרות מותאמת 1</string>
     <string name="pref_header_sony_equalizer_preset_custom_2">ערכת הגדרות מותאמת 2</string>
     <string name="sony_equalizer_band_400">400</string>
@@ -1429,7 +1415,6 @@
     <string name="sony_equalizer_band_6300">6.3 ק׳</string>
     <string name="sony_equalizer_band_16000">16 ק׳</string>
     <string name="sony_equalizer_clear_bass">באס נקי</string>
-    <string name="sony_dsee_hx">DSEE HX</string>
     <string name="sony_touch_sensor">בקרת חיישן מגע</string>
     <string name="sony_notification_voice_guide">התראות והנחיה קולית</string>
     <string name="sony_automatic_power_off_5_min">5 דקות</string>

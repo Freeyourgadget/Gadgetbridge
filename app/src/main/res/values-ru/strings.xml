@@ -37,8 +37,6 @@
     <string name="appmanager_weather_install_provider">Установить уведомления для прогноза погоды</string>
     <string name="app_configure">Настроить</string>
     <string name="app_move_to_top">Переместить наверх</string>
-    <!--Strings related to AppBlacklist-->
-    <string name="title_activity_appblacklist">Заблокированные уведомления</string>
     <!--Strings related to CalBlacklist-->
     <!--Strings related to FwAppInstaller-->
     <string name="title_activity_fw_app_insaller">Установка прошивки и приложений</string>
@@ -74,7 +72,7 @@
     <string name="pref_title_notifications_pebblemsg">Сообщения Pebble</string>
     <string name="pref_summary_notifications_pebblemsg">Для приложений, которые отправляют уведомления на Pebble с помощью PebbleKit.</string>
     <string name="pref_title_notifications_generic">Доступ к уведомлениям</string>
-    <string name="pref_title_whenscreenon">...также, когда экран включен</string>
+    <string name="pref_title_whenscreenon">…также, когда экран включен</string>
     <string name="pref_title_notification_filter">Не беспокоить</string>
     <string name="pref_summary_notification_filter">Не показывать нежелательные уведомления в этом режиме</string>
     <string name="pref_title_transliteration">Транслитерация</string>
@@ -88,7 +86,6 @@
     <string name="pref_call_privacy_mode_name">Скрывать имя, но показывать номер</string>
     <string name="pref_call_privacy_mode_number">Скрывать номер, но показывать имя</string>
     <string name="pref_call_privacy_mode_complete">Скрывать имя и номер</string>
-    <string name="pref_blacklist">Заблокированные приложения</string>
     <string name="pref_header_cannned_messages">Сохранённые сообщения</string>
     <string name="pref_title_canned_replies">Ответы</string>
     <string name="pref_title_canned_reply_suffix">Общий суффикс</string>
@@ -515,13 +512,11 @@
     <string name="devicetype_pebble">Pebble</string>
     <string name="devicetype_amazfit_bip">Amazfit Bip</string>
     <string name="devicetype_amazfit_cor">Amazfit Cor</string>
-    <string name="menuitem_shortcut_alipay">Alipay (ярлык)</string>
     <string name="menuitem_alipay">Alipay</string>
     <string name="on">Вкл.</string>
     <string name="select_all">Выбрать все</string>
     <string name="share">Поделиться</string>
     <string name="kind_firmware">Прошивка</string>
-    <string name="menuitem_shortcut_weather">Погода (ярлык)</string>
     <string name="menuitem_alarm">Будильник</string>
     <string name="menuitem_timer">Обратный отсчёт</string>
     <string name="activity_type_biking">Велопрогулка</string>
@@ -655,7 +650,6 @@
     <string name="prefs_button_triple_press_action_selection_title">Реакция на Событие 3</string>
     <string name="prefs_button_variable_actions">Детальная настройка реакции на нажатие кнопки</string>
     <string name="prefs_button_long_press_action_selection_title">Реакция на долгое нажатие</string>
-    <string name="toast_app_must_not_be_blacklisted">Чтобы настроить приложение, разблокируйте его</string>
     <string name="edittext_notification_filter_words_hint">Введите нужные слова по одному в строке</string>
     <string name="toast_notification_filter_saved_successfully">Фильтр уведомлений сохранён</string>
     <string name="filter_mode_none">Не фильтровать</string>
@@ -756,8 +750,6 @@
     <string name="activity_db_management_exportimport_label">Экспорт и Импорт</string>
     <string name="activity_db_management_empty_db_warning">Внимание! Нажав эту кнопку, вы сотрете вашу базу данных и начнете с нуля.</string>
     <string name="appwidget_sleep_alarm_widget_label">Сигнализация сна</string>
-    <string name="widget_steps_label">Шаги: %1$02d</string>
-    <string name="widget_sleep_label">Сон: %1$s</string>
     <string name="widget_listing_label">Статус и будильники</string>
     <string name="widget_set_alarm_after">Установить сигнал после:</string>
     <string name="widget_5_minutes">5 минут</string>
@@ -854,9 +846,6 @@
     <string name="hr_widget_last_notification">Последнее уведомление</string>
     <string name="pref_qhybrid_save_raw_activity_files">Сохранять необработанные файлы активности</string>
     <string name="pref_qhybrid_title_widget_draw_circles">Рисовать круги виджетов</string>
-    <string name="pref_title_lower_button_function">Нижняя кнопка</string>
-    <string name="pref_title_middle_button_function">Средняя кнопка</string>
-    <string name="pref_title_upper_button_function">Верхняя кнопка</string>
     <string name="hr_appname_commute">Поездки</string>
     <string name="hr_appname_stopwatch">Секундомер</string>
     <string name="hr_appname_workout">Тренировка</string>
@@ -1206,7 +1195,6 @@
     <string name="qhybrid_title_file_management">Управление файлами</string>
     <string name="qhybrid_title_background_image">Фоновое изображение</string>
     <string name="qhybrid_title_apps">Приложения</string>
-    <string name="qhybrid_title_watchface_apps">Циферблаты и приложения</string>
     <string name="fossil_hr_auth_failed">Ошибка аутентификации, ограниченная функциональность</string>
     <string name="fossil_hr_unavailable_unauthed">Недоступно в режиме без аутентификации</string>
     <string name="fossil_hr_synced_activity_data">Синхронизированные данные об активности</string>
@@ -1360,7 +1348,7 @@
     <string name="controlcenter_start_configure_reminders">Настроить напоминания</string>
     <string name="title_activity_reminder_details">Настройки напоминания</string>
     <string name="prefs_activity_in_device_card_distance_title_summary">Расстояние вычисляется по количеству шагов и ширине шага (настраивается в разделе Настройки - About you)</string>
-    <string name="pref_title_notification_use_as">Используйте список приложения для того чтобы...</string>
+    <string name="pref_title_notification_use_as">Используйте список приложения для того чтобы…</string>
     <string name="reminder_repeat">Повтор</string>
     <string name="reminder_date">Дата</string>
     <string name="reminder_time">Время</string>

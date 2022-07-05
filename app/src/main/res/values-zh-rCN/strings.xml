@@ -37,7 +37,6 @@
     <string name="appmanager_weather_install_provider">安装天气通知应用</string>
     <string name="app_configure">配置</string>
     <string name="app_move_to_top">移至顶部</string>
-    <string name="title_activity_appblacklist">通知黑名单</string>
     <string name="title_activity_calblacklist">阻止记录</string>
     <string name="title_activity_fw_app_insaller">FW/App 安装器</string>
     <string name="fw_upgrade_notice">您即将安装 %s 。</string>
@@ -101,7 +100,6 @@
     <string name="pref_call_privacy_mode_number">隐藏号码但显示姓名</string>
     <string name="pref_call_privacy_mode_complete">隐藏姓名和号码</string>
     <string name="pref_title_weather_location">天气位置 (由LineageOS天气服务提供)</string>
-    <string name="pref_blacklist">黑名单应用</string>
     <string name="pref_blacklist_calendars">黑名单列表</string>
     <string name="pref_header_cannned_messages">保存的消息</string>
     <string name="pref_title_canned_replies">回复</string>
@@ -333,8 +331,6 @@
     <string name="mi2_prefs_button_action_vibrate_summary">在已触发的按钮动作上启用手环振动</string>
     <string name="mi2_prefs_button_press_count_max_delay">按钮最大延迟</string>
     <string name="mi2_prefs_button_press_count_max_delay_summary">按下按钮之间的最大延迟，以毫秒为单位</string>
-    <string name="mi2_prefs_button_press_count_match_delay">按钮操作激活后延迟</string>
-    <string name="mi2_prefs_button_press_count_match_delay_summary">一个按钮动作激活后的延迟时间(number is in button_id intent extra) 输入0为立即</string>
     <string name="mi2_prefs_goal_notification">达标提醒</string>
     <string name="mi2_prefs_goal_notification_summary">达成运动目标后, 手环/手表将会振动提醒</string>
     <string name="mi2_prefs_display_items">显示内容</string>
@@ -582,8 +578,6 @@
     <string name="devicetype_watch9">Watch 9</string>
     <string name="devicetype_roidmi">睿米</string>
     <string name="devicetype_roidmi3">睿米 3</string>
-    <string name="menuitem_shortcut_alipay">支付宝（快捷方式）</string>
-    <string name="menuitem_shortcut_weather">天气（快捷方式）</string>
     <string name="menuitem_status">状态</string>
     <string name="menuitem_notifications">通知</string>
     <string name="menuitem_activity">锻炼历史</string>
@@ -618,7 +612,6 @@
     <string name="debugactivity_really_factoryreset">恢复出厂设置将会删除已连接设备上的所有数据（如果支持）。小米/华米设备将会同时改变蓝牙MAC地址。对Gadgetbridge而言，这将是一个新设备。</string>
     <string name="devicetype_casiogb6900">卡西欧 GB-6900</string>
     <string name="title_activity_notification_filter">通知过滤器</string>
-    <string name="toast_app_must_not_be_blacklisted">只有不在黑名单中的应用才能够进行配置</string>
     <string name="edittext_notification_filter_words_hint">输入期望的字词，一行一个</string>
     <string name="toast_notification_filter_saved_successfully">已保存通知过滤器</string>
     <string name="filter_mode_none">不要过滤</string>
@@ -744,8 +737,6 @@
     <string name="activity_db_management_exportimport_label">导入与导出</string>
     <string name="activity_db_management_empty_db_warning">警告！当按下此按钮后，将会清空您的数据库并从零开始。</string>
     <string name="appwidget_sleep_alarm_widget_label">睡眠闹钟</string>
-    <string name="widget_steps_label">步数：%1$02d</string>
-    <string name="widget_sleep_label">睡眠：%1$s</string>
     <string name="widget_listing_label">状态与闹钟</string>
     <string name="widget_set_alarm_after">多久后闹铃：</string>
     <string name="widget_5_minutes">5 分钟</string>
@@ -801,7 +792,6 @@
     <string name="mi2_prefs_button_press_broadcast_default_value" translatable="false">nodomain.freeyourgadget.gadgetbridge.ButtonPressed</string>
     <string name="devicetype_qhybrid">Fossil Q Hybrid</string>
     <string name="preferences_qhybrid_settings">Q Hybrid 设置</string>
-    <string name="tasker_notification">播放 Q Hybrid 通知</string>
     <string name="watch_not_connected">手表未连接</string>
     <string name="qhybrid_vibration_strength">振动强度：</string>
     <string name="qhybrid_goal_in_steps">目标步数</string>
@@ -850,9 +840,6 @@
     <string name="hr_appname_workout">健身</string>
     <string name="hr_appname_stopwatch">秒表</string>
     <string name="hr_appname_commute">通勤</string>
-    <string name="pref_title_upper_button_function">上按钮</string>
-    <string name="pref_title_middle_button_function">中按钮</string>
-    <string name="pref_title_lower_button_function">下按钮</string>
     <string name="pref_title_vibration_strength">振动强度</string>
     <string name="devicetype_amazfit_bips">华米手表青春版 S</string>
     <string name="pref_title_relax_firmware_checks">若您希望刷入并非为您设备设计的固件，请选中此项（风险自担）</string>
@@ -985,7 +972,6 @@
     <string name="laps">圈</string>
     <string name="swimStyle">泳式</string>
     <string name="swolfIndex">SWOLF 索引</string>
-    <string name="strokes">行程</string>
     <string name="averageLapPace">平均每圈步伐</string>
     <string name="averageStrokesPerSecond">平均步伐</string>
     <string name="averageStrokeDistance">平均行程距离</string>
@@ -1207,7 +1193,6 @@
     <string name="qhybrid_title_file_management">文件管理</string>
     <string name="qhybrid_title_background_image">背景图片</string>
     <string name="qhybrid_title_apps">应用</string>
-    <string name="qhybrid_title_watchface_apps">表盘与应用</string>
     <string name="devicetype_um25">UM-25</string>
     <string name="fossil_hr_warning_firmware_too_new">由于手表固件过新，某些功能被禁用</string>
     <string name="prefs_sounds_summary">进行配置时设备将会发出声响</string>
@@ -1378,7 +1363,6 @@
     <string name="pref_title_equalizer_trebble">高音增强</string>
     <string name="pref_title_equalizer_clear">清晰</string>
     <string name="prefs_game_mode_summary">仅在您的手机支持游戏模式时</string>
-    <string name="prefs_ambient_volume_summary">pref_galaxy_buds_ambient_volume</string>
     <string name="left_earbud">左耳耳塞</string>
     <string name="right_earbud">右耳耳塞</string>
     <string name="battery_case">充电盒</string>
@@ -1405,7 +1389,6 @@
     <string name="sony_surround_mode">环绕声模式</string>
     <string name="sony_surround_mode_off">关</string>
     <string name="sony_surround_mode_concert_hall">音乐厅</string>
-    <string name="sony_surround_position_mutually_exclusive">警告：声音位置和环绕声模式是冲突的。</string>
     <string name="sony_equalizer_preset_bright">明亮</string>
     <string name="sony_equalizer_preset_excited">激动</string>
     <string name="sony_equalizer_preset_mellow">柔和</string>
@@ -1415,7 +1398,6 @@
     <string name="sony_equalizer_preset_bass_boost">低音增强</string>
     <string name="sony_equalizer_preset_custom_1">定制1</string>
     <string name="sony_equalizer_preset_custom_2">定制2</string>
-    <string name="pref_header_sony_equalizer_preset_manual">手动预置</string>
     <string name="pref_header_sony_equalizer_preset_custom_1">自定义预置1</string>
     <string name="pref_header_sony_equalizer_preset_custom_2">自定义预置2</string>
     <string name="sony_equalizer_band_400">400</string>
@@ -1423,7 +1405,6 @@
     <string name="sony_equalizer_band_6300">6.3K</string>
     <string name="sony_equalizer_band_16000">16K</string>
     <string name="sony_equalizer_clear_bass">清晰重低音</string>
-    <string name="sony_dsee_hx">数字声音增强引擎</string>
     <string name="sony_touch_sensor">触摸感应器控制</string>
     <string name="sony_notification_voice_guide">通知与语音引导</string>
     <string name="sony_automatic_power_off">自动关机</string>
@@ -1738,7 +1719,7 @@
     <string name="info_no_devices_connected">未连接任何设备</string>
     <string name="info_connected_count">%d 设备已连接</string>
     <string name="pref_title_banglejs_webview_url">应用加载程序网址</string>
-    <string name="pref_summary_banglejs_webview_url">如果您想要一个自定义的应用程序加载器，请将您的 https://.../android.html 网址放在这里。留空的话则为： https://banglejs.com/apps</string>
+    <string name="pref_summary_banglejs_webview_url">如果您想要一个自定义的应用程序加载器，请将您的 https://…/android.html 网址放在这里。留空的话则为： https://banglejs.com/apps</string>
     <string name="permission_location">%1$s 需要在后台访问您的位置，以使其即使在屏幕关闭时也能与您的手表保持连接。
 \n
 \n请点击 \'%2$s\' 以同意。</string>

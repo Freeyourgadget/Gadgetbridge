@@ -177,7 +177,7 @@
     <string name="pref_title_notification_filter">Do Not Disturb</string>
     <string name="pref_summary_notification_filter">Block all notifications when Do Not Disturb is enabled on the phone</string>
     <string name="pref_header_notification_application_settings">Per application settings</string>
-    <string name="pref_title_notification_use_as">Use the Applications list to...</string>
+    <string name="pref_title_notification_use_as">Use the Applications list to…</string>
     <string name="pref_title_notification_use_as_deny">Deny notifications from selected apps</string>
     <string name="pref_title_notification_use_as_allow">Allow notifications from selected apps</string>
     <string name="pref_title_transliteration">Transliteration</string>
@@ -1379,7 +1379,7 @@
     <string name="prefs_operating_sounds">Operating Sounds</string>
     <string name="prefs_fake_ring_duration">Fake continuous ringing</string>
     <string name="prefs_autoremove_message">Automatically remove SMS notifications</string>
-    <string name="fossil_hr_commute_processing">Processing request...</string>
+    <string name="fossil_hr_commute_processing">Processing request…</string>
     <string name="fossil_hr_synced_activity_data">Synchronised activity data</string>
     <string name="fossil_hr_unavailable_unauthed">Not available in unauthenticated mode</string>
     <string name="fossil_hr_auth_failed">Authentication failed, limited functionality</string>

@@ -39,7 +39,6 @@
     <string name="appmanager_weather_deactivate">Avaktivera systemets väderapp</string>
     <string name="appmanager_weather_install_provider">Installera appen för vädernotifiering</string>
     <string name="app_move_to_top">Lägg överst</string>
-    <string name="title_activity_appblacklist">Svartlistade notifieringar</string>
     <string name="blacklist_all_for_notifications">Svartlista alla notifieringar</string>
     <string name="title_activity_calblacklist">Svartlistade kalendrar</string>
     <string name="title_activity_fw_app_insaller">FW/App-installerare</string>

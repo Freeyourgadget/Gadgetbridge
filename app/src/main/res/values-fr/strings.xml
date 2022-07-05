@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="application_name_generic">Gadgetbridge</string>
     <string name="title_activity_controlcenter_generic">Gadgetbridge</string>
     <string name="action_settings">Paramètres</string>
@@ -38,8 +38,6 @@
     <string name="appmanager_weather_install_provider">Installer l\'application de notification de la météo</string>
     <string name="app_configure">Configurer</string>
     <string name="app_move_to_top">Haut de page </string>
-    <!--Strings related to AppBlacklist-->
-    <string name="title_activity_appblacklist">Liste noire de notifications</string>
     <!--Strings related to CalBlacklist-->
     <string name="title_activity_calblacklist">Calendriers sur liste noire</string>
     <!--Strings related to FwAppInstaller-->
@@ -90,7 +88,6 @@
     <string name="pref_call_privacy_mode_name">Masquer le nom mais afficher le numéro</string>
     <string name="pref_call_privacy_mode_number">Masquer le numéro mais afficher le nom</string>
     <string name="pref_call_privacy_mode_complete">Masquer le nom et le numéro</string>
-    <string name="pref_blacklist">Applications bloquées</string>
     <string name="pref_blacklist_calendars">Mettre des calendriers en liste noire</string>
     <string name="pref_header_cannned_messages">Modèles de messages</string>
     <string name="pref_title_canned_replies">Réponses</string>
@@ -546,8 +543,6 @@ Temps de sommeil préféré en heures</string>
     <string name="devicetype_q8">Q8</string>
     <string name="devicetype_mykronoz_zetime">MyKronoz ZeTime</string>
     <string name="devicetype_id115">ID115</string>
-    <string name="menuitem_shortcut_alipay">Alipay (Raccourci)</string>
-    <string name="menuitem_shortcut_weather">Météo (Raccourci)</string>
     <string name="menuitem_notifications">Notifications</string>
     <string name="menuitem_music">Musique</string>
     <string name="menuitem_more">Suite</string>
@@ -620,7 +615,6 @@ Temps de sommeil préféré en heures</string>
     <string name="activity_type_exercise">Activité physique</string>
     <string name="devicetype_casiogb6900">Casio GB-6900</string>
     <string name="title_activity_notification_filter">Filtre de notifications</string>
-    <string name="toast_app_must_not_be_blacklisted">L\'application ne doit pas être en liste noire pour pouvoir être configurée</string>
     <string name="edittext_notification_filter_words_hint">Saisissez les mots désirés, chacun sur une ligne</string>
     <string name="toast_notification_filter_saved_successfully">Filtre des notifications sauvegardé</string>
     <string name="filter_mode_none">Ne pas filtrer</string>
@@ -730,7 +724,6 @@ Temps de sommeil préféré en heures</string>
     <string name="pref_title_use_custom_font">Utiliser une police personnalisée</string>
     <string name="activity_DB_test_export_message">Exportation de la base de données…</string>
     <string name="activity_db_management_exportimport_label">Exporter et Importer</string>
-    <string name="widget_steps_label">Pas : %1$02d</string>
     <string name="widget_listing_label">État et alarmes</string>
     <string name="widget_set_alarm_after">Définir l\'alarme après :</string>
     <string name="widget_5_minutes">5 minutes</string>
@@ -757,8 +750,7 @@ Temps de sommeil préféré en heures</string>
     <string name="activity_db_management_empty_DB">Vider la base de données</string>
     <string name="activity_db_management_empty_db_warning">Attention ! En cliquant sur ce bouton, vous supprimerez toutes vos données et recommencerez à zéro.</string>
     <string name="appwidget_sleep_alarm_widget_label">Réveil</string>
-    <string name="widget_sleep_label">Sommeil : %1$s</string>
-    <plurals name="widget_alarm_target_hours">
+    <plurals name="widget_alarm_target_hours" tools:ignore="MissingQuantity">
         <item quantity="one">%d heure</item>
         <item quantity="other">%d heures</item>
     </plurals>
@@ -842,9 +834,6 @@ Temps de sommeil préféré en heures</string>
     <string name="find_lost_device_you_found_it">Trouvé !</string>
     <string name="pref_title_force_white_color_scheme">Forcer le noir sur le blanc</string>
     <string name="pref_summary_force_white_color_scheme">Utile si votre montre a les mains noires</string>
-    <string name="pref_title_lower_button_function">Bouton inférieur</string>
-    <string name="pref_title_middle_button_function">Bouton du milieu</string>
-    <string name="pref_title_upper_button_function">Bouton supérieur</string>
     <string name="hr_appname_commute">Trajet</string>
     <string name="hr_appname_stopwatch">Chronomètre</string>
     <string name="hr_appname_workout">Entraînement</string>
@@ -1013,7 +1002,7 @@ Temps de sommeil préféré en heures</string>
     <string name="error_version_check_extreme_caution">ATTENTION: Erreur lors de la vérification de l\'information de version ! Vous ne devriez pas poursuivre ! Numéro de version \"%s\"</string>
     <string name="permission_granting_mandatory">Toutes ces permissions sont nécessaires et une instabilité peut se produire si elles ne sont pas accordées</string>
     <string name="about_links">Liens</string>
-    <string name="about_additional_contributions">Nombreux remerciements à tous les participants non indiqués pour la contribution au code, les traductions, le support, les idées, la motivation, les rapports de bugs, les soutiens financiers... ✊</string>
+    <string name="about_additional_contributions">Nombreux remerciements à tous les participants non indiqués pour la contribution au code, les traductions, le support, les idées, la motivation, les rapports de bugs, les soutiens financiers… ✊</string>
     <string name="about_additional_device_support">Support d\'appareil supplémentaire</string>
     <string name="about_contributors">Contributeurs</string>
     <string name="about_core_team_title">Équipe principal (dans l\'ordre de la première contribution au code)</string>
@@ -1200,13 +1189,12 @@ Temps de sommeil préféré en heures</string>
     <string name="fossil_hr_auth_failed">Authentification échouée, fonctionnalités limitées</string>
     <string name="fossil_hr_unavailable_unauthed">Indisponible en mode non authentifié</string>
     <string name="fossil_hr_synced_activity_data">Données d\'activité synchronisées</string>
-    <string name="fossil_hr_commute_processing">En cours de traitement...</string>
+    <string name="fossil_hr_commute_processing">En cours de traitement…</string>
     <string name="qhybrid_title_calibration">Calibration</string>
     <string name="qhybrid_title_apps_management">Gestion des apps</string>
     <string name="qhybrid_title_file_management">Gestion de fichiers</string>
     <string name="qhybrid_title_background_image">Image de fond</string>
     <string name="qhybrid_title_apps">Apps</string>
-    <string name="qhybrid_title_watchface_apps">Écran et apps</string>
     <string name="devicetype_um25">UM-25</string>
     <string name="fossil_hr_warning_firmware_too_new">Certaines fonctions sont désactivées en raison de la version trop récente du micrologiciel du bracelet</string>
     <string name="prefs_sounds_summary">Configurer une fois que l\'appareil a bipé</string>
@@ -1342,7 +1330,7 @@ Temps de sommeil préféré en heures</string>
     <string name="nothing_prefs_inear_title">Détection In-Ear</string>
     <string name="check_all_applications">Activer toutes les applications</string>
     <string name="uncheck_all_applications">Désactiver toutes les applications</string>
-    <string name="pref_title_notification_use_as">Utiliser la liste des applications pour...</string>
+    <string name="pref_title_notification_use_as">Utiliser la liste des applications pour…</string>
     <string name="pref_title_notification_use_as_deny">Bloquer les notifications des apps sélectionnées</string>
     <string name="pref_title_message_privacy_mode">Mode messages privés</string>
     <string name="pref_message_privacy_mode_off">Afficher le contenu</string>
@@ -1405,7 +1393,6 @@ Temps de sommeil préféré en heures</string>
     <string name="sony_surround_mode_club">Club</string>
     <string name="sony_surround_mode_outdoor_stage">Scène extérieure</string>
     <string name="sony_surround_mode_concert_hall">Hall de concert</string>
-    <string name="sony_surround_position_mutually_exclusive">Avertissement : les réglages surround et de position sont mutuellement exclusifs.</string>
     <string name="sony_warn_sbc_codec">Avertissement : L\'équaliseur, la position audio et les réglages surrond ne s\'appliquent qu\'au codec audio SBC.</string>
     <string name="sony_equalizer">Egalisateur</string>
     <string name="sony_equalizer_preset_off">Off</string>
@@ -1430,14 +1417,12 @@ Temps de sommeil préféré en heures</string>
     <string name="sony_equalizer_preset_manual">Manuel</string>
     <string name="sony_equalizer_preset_custom_1">Personnalisé 1</string>
     <string name="sony_equalizer_preset_custom_2">Personnalisé 2</string>
-    <string name="pref_header_sony_equalizer_preset_manual">Configuration manuelle</string>
     <string name="pref_header_sony_equalizer_preset_custom_1">Configuration personnalisée 1</string>
     <string name="sony_equalizer_band_400">400</string>
     <string name="sony_equalizer_band_2500">2.5k</string>
     <string name="sony_equalizer_band_6300">6.3k</string>
     <string name="sony_equalizer_band_16000">16k</string>
     <string name="sony_equalizer_clear_bass">Graves claires</string>
-    <string name="sony_dsee_hx">DSEE HX</string>
     <string name="sony_touch_sensor">Contrôle du capteur tactile</string>
     <string name="sony_notification_voice_guide">Notifications et guide audio</string>
     <string name="sony_automatic_power_off">Extinction automatique</string>

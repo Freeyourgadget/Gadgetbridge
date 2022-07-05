@@ -38,8 +38,6 @@
     <string name="appmanager_weather_install_provider">App \"Weather Notification\" installieren</string>
     <string name="app_configure">Konfigurieren</string>
     <string name="app_move_to_top">Nach oben</string>
-    <!--Strings related to AppBlacklist-->
-    <string name="title_activity_appblacklist">Blacklist für Benachrichtigung</string>
     <!--Strings related to CalBlacklist-->
     <string name="title_activity_calblacklist">Kalender auf Blacklist</string>
     <!--Strings related to FwAppInstaller-->
@@ -90,7 +88,6 @@
     <string name="pref_call_privacy_mode_name">Name ausblenden, aber Nummer anzeigen</string>
     <string name="pref_call_privacy_mode_number">Nummer ausblenden, aber Name anzeigen</string>
     <string name="pref_call_privacy_mode_complete">Name und Telefonnummer ausblenden</string>
-    <string name="pref_blacklist">Blockierte Anwendungen</string>
     <string name="pref_blacklist_calendars">Blockierte Kalender</string>
     <string name="pref_header_cannned_messages">Gespeicherte Nachrichten</string>
     <string name="pref_title_canned_replies">Antworten</string>
@@ -539,8 +536,6 @@
     <string name="pref_auto_fetch">Aktivitätsdaten automatisch abrufen</string>
     <string name="devicetype_miband3">Mi Band 3</string>
     <string name="devicetype_q8">Q8</string>
-    <string name="menuitem_shortcut_alipay">Alipay (Verknüpfung)</string>
-    <string name="menuitem_shortcut_weather">Wetter (Verknüpfung)</string>
     <string name="blacklist_all_for_notifications">Blacklist für alle Benachrichtigungen</string>
     <string name="whitelist_all_for_notifications">Whitelist für alle Benachrichtigungen</string>
     <string name="pref_auto_fetch_summary">Abruf erfolgt beim Entsperren des Bildschirms. Funktioniert nur, wenn ein Sperrmechanismus eingestellt ist!</string>
@@ -627,7 +622,6 @@
     <string name="share_log">Protokoll teilen</string>
     <string name="share_log_warning">Bitte beachte, in den Protokoll Dateien von Gadgetbridge können personenbezogene Informationen enthalten sein. Dies können Gesundheitsdaten, eindeutige Identifikatoren (wie die MAC-Adresse eines Geräts), Musikpräferenzen und mehr sein. Erwäge die Datei zu bearbeiten und diese Informationen zu entfernen, bevor du die Datei in einem Fehlerbericht öffentlich zur Verfügung stellst.</string>
     <string name="title_activity_notification_filter">Benachrichtigungsfilter</string>
-    <string name="toast_app_must_not_be_blacklisted">App muss nicht auf der Blacklist stehen, um konfiguriert zu werden</string>
     <string name="edittext_notification_filter_words_hint">Gewünschte Wörter eingeben, neue Zeile für jedes Wort</string>
     <string name="toast_notification_filter_saved_successfully">Benachrichtigungsfilter gespeichert</string>
     <string name="filter_mode_none">Nicht filtern</string>
@@ -760,8 +754,6 @@
     <string name="activity_DB_test_export_message">Datenbank exportieren…</string>
     <string name="activity_db_management_empty_db_warning">Achtung! Wenn du auf diese Schaltfläche klickst, löschst du deine Datenbank und beginnst von Grund auf neu.</string>
     <string name="appwidget_sleep_alarm_widget_label">Schlafalarm</string>
-    <string name="widget_steps_label">Schritte: %1$02d</string>
-    <string name="widget_sleep_label">Schlaf: %1$s</string>
     <string name="widget_listing_label">Status und Wecker</string>
     <string name="widget_set_alarm_after">Wecker einstellen nach:</string>
     <plurals name="widget_alarm_target_hours">
@@ -855,9 +847,6 @@
     <string name="hr_appname_wellness">Wellness</string>
     <string name="hr_appname_workout">Training</string>
     <string name="hr_appname_stopwatch">Stoppuhr</string>
-    <string name="pref_title_upper_button_function">Obere Taste</string>
-    <string name="pref_title_middle_button_function">Mittlere Taste</string>
-    <string name="pref_title_lower_button_function">Untere Taste</string>
     <string name="pref_title_vibration_strength">Vibrationsstärke</string>
     <string name="hr_appname_commute">Pendeln</string>
     <string name="devicetype_amazfit_bips">Amazfit Bip S</string>
@@ -1206,8 +1195,7 @@
     <string name="fossil_hr_auth_failed">Authentifizierung fehlgeschlagen, eingeschränkte Funktionalität</string>
     <string name="fossil_hr_unavailable_unauthed">Im unauthentifizierten Modus nicht verfügbar</string>
     <string name="fossil_hr_synced_activity_data">Synchronisierte Aktivitätsdaten</string>
-    <string name="fossil_hr_commute_processing">Anfrage wird verarbeitet...</string>
-    <string name="qhybrid_title_watchface_apps">Zifferblatt und Apps</string>
+    <string name="fossil_hr_commute_processing">Anfrage wird verarbeitet…</string>
     <string name="fossil_hr_warning_firmware_too_new">Einige Funktionen sind deaktiviert, weil die Firmware der Uhr zu neu ist</string>
     <string name="qhybrid_title_calibration">Kalibrierung</string>
     <string name="qhybrid_title_apps_management">App-Verwaltung</string>
@@ -1350,7 +1338,7 @@
     <string name="pref_header_notification_application_settings">Pro App einstellen</string>
     <string name="uncheck_all_applications">Alle Apps abwählen</string>
     <string name="pref_message_privacy_mode_complete">Inhalt ausblenden</string>
-    <string name="pref_title_notification_use_as">Verwende die App-Liste, um...</string>
+    <string name="pref_title_notification_use_as">Verwende die App-Liste, um…</string>
     <string name="pref_title_notification_use_as_deny">Benachrichtigungen von ausgewählten Apps ablehnen</string>
     <string name="pref_title_notification_use_as_allow">Benachrichtigungen von ausgewählten Apps zulassen</string>
     <string name="pref_title_message_privacy_mode">Datenschutzmodus für Nachrichten</string>
@@ -1428,7 +1416,6 @@
     <string name="sony_ambient_sound_level">Umgebungsgeräuschpegel</string>
     <string name="sony_sound_position_rear_left">Hinten links</string>
     <string name="sony_surround_mode_concert_hall">Konzertsaal</string>
-    <string name="sony_surround_position_mutually_exclusive">Achtung! Die Einstellungen für Klangposition und Surround-Modus schließen sich gegenseitig aus.</string>
     <string name="sony_warn_sbc_codec">Achtung! Die Einstellungen für Equalizer, Audioposition und Surround funktionieren nur für den SBC-Audiocodec.</string>
     <string name="sony_equalizer_band_16000">16k</string>
     <string name="sony_equalizer_preset_manual">Manuell</string>
@@ -1436,7 +1423,6 @@
     <string name="sony_equalizer_band_400">400</string>
     <string name="sony_equalizer_band_2500">2.5k</string>
     <string name="sony_equalizer_clear_bass">Klarer Bass</string>
-    <string name="sony_dsee_hx">DSEE HX</string>
     <string name="sony_equalizer_band_1000">1k</string>
     <string name="pref_title_equalizer_bass_boost">Bassverstärkung</string>
     <string name="pref_title_equalizer_trebble">Höhenverstärkung</string>
@@ -1451,7 +1437,6 @@
     <string name="prefs_ambient_sound">Umgebungsgeräusche</string>
     <string name="prefs_ambient_mode">Umgebungsmodus</string>
     <string name="sony_equalizer_preset_custom_2">Benutzerdefiniert 2</string>
-    <string name="pref_header_sony_equalizer_preset_manual">Manuelle Voreinstellung</string>
     <string name="left_earbud">Linker Ohrhörer</string>
     <string name="right_earbud">Rechter Ohrhörer</string>
     <string name="title_activity_set_reminders">Erinnerungen konfigurieren</string>
@@ -1753,7 +1738,7 @@
 \n
 \nBitte tippe auf \'%2$s\', um zuzustimmen.</string>
     <string name="persian">Persisch</string>
-    <string name="pref_summary_banglejs_webview_url">Wenn du einen benutzerdefinierten App-Loader möchtest, trage hier deine URL https://.../android.html ein. Andernfalls lasse https://banglejs.com/apps leer</string>
+    <string name="pref_summary_banglejs_webview_url">Wenn du einen benutzerdefinierten App-Loader möchtest, trage hier deine URL https://…/android.html ein. Andernfalls lasse https://banglejs.com/apps leer</string>
     <string name="bengali">Bengalisch</string>
     <string name="lithuanian">Litauisch</string>
     <string name="scandinavian">Skandinavisch</string>

@@ -38,8 +38,6 @@
     <string name="appmanager_weather_install_provider">Installa l\'applicazione Weather Notification</string>
     <string name="app_configure">Configura</string>
     <string name="app_move_to_top">Sposta in cima</string>
-    <!--Strings related to AppBlacklist-->
-    <string name="title_activity_appblacklist">Blocco notifiche</string>
     <!--Strings related to CalBlacklist-->
     <string name="title_activity_calblacklist">Calendari ignorati</string>
     <!--Strings related to FwAppInstaller-->
@@ -90,7 +88,6 @@
     <string name="pref_call_privacy_mode_name">Nascondi il nome ma mostra il numero</string>
     <string name="pref_call_privacy_mode_number">Nascondi il numero ma mostra il nome</string>
     <string name="pref_call_privacy_mode_complete">Nascondi nome e numero</string>
-    <string name="pref_blacklist">Blocco applicazioni</string>
     <string name="pref_header_cannned_messages">Messaggi preimpostati</string>
     <string name="pref_title_canned_replies">Risposte</string>
     <string name="pref_title_canned_reply_suffix">Suffisso applicato alle risposte automatiche</string>
@@ -528,8 +525,6 @@
     <string name="reset_index">Reset data di recupero</string>
     <string name="devicetype_miband3">Mi Band 3</string>
     <string name="devicetype_q8">Q8</string>
-    <string name="menuitem_shortcut_alipay">Alipay (Scorciatoia)</string>
-    <string name="menuitem_shortcut_weather">Meteo (Scorciatoia)</string>
     <string name="menuitem_status">Stato</string>
     <string name="menuitem_activity">Attività</string>
     <string name="menuitem_weather">Meteo</string>
@@ -618,7 +613,6 @@
     <string name="debugactivity_really_factoryreset">Effettuare il ripristino delle impostazioni di fabbrica cancellerà tutti i dati presenti sul dispositivo connesso (se supportato). I dispositivi Xiaomi/Huami cambiano anche MAC Address Bluetooth, e in modo risultano dispositivi nuovi per Gadgetbrige.</string>
     <string name="devicetype_casiogb6900">Casio GB-6900</string>
     <string name="title_activity_notification_filter">Filtro Notifiche</string>
-    <string name="toast_app_must_not_be_blacklisted">L\'app non deve trovarsi nella blacklist per essere configurata</string>
     <string name="edittext_notification_filter_words_hint">Inserisci le parole desiderate, una per linea</string>
     <string name="toast_notification_filter_saved_successfully">Filtro Notifiche salvato</string>
     <string name="filter_mode_none">Non filtrare</string>
@@ -742,8 +736,6 @@
     <string name="activity_db_management_empty_DB">Database vuoto</string>
     <string name="activity_db_management_exportimport_label">Esportazione e importazione</string>
     <string name="activity_db_management_empty_db_warning">Attenzione! Premendo questo pulsante si cancella il database e si riparte da zero.</string>
-    <string name="widget_steps_label">Passi: %1$02d</string>
-    <string name="widget_sleep_label">Riposo:% 1 $ s</string>
     <string name="widget_set_alarm_after">Imposta sveglia dopo:</string>
     <string name="widget_5_minutes">5 minuti</string>
     <string name="widget_10_minutes">10 minuti</string>
@@ -838,9 +830,6 @@
     <string name="qhybrid_second_timezone_offset_relative_to_utc">compensazione del secondo fuso orario rispetto a UTC</string>
     <string name="qhybrid_offset_timezone">compensazione del fuso orario di</string>
     <string name="qhybrid_offset_time_by">compensazione dell\'ora di</string>
-    <string name="pref_title_lower_button_function">Pulsante inferiore</string>
-    <string name="pref_title_middle_button_function">Pulsante centrale</string>
-    <string name="pref_title_upper_button_function">Pulsante superiore</string>
     <string name="hr_appname_commute">Commuta</string>
     <string name="hr_appname_stopwatch">Cronometro</string>
     <string name="hr_appname_workout">Allenamento</string>
@@ -880,7 +869,7 @@
     <string name="error_background_service">Impossibile avviare il servizio in background</string>
     <string name="error_version_check_extreme_caution">ATTENZIONE: Errore durante la verifica delle informazioni sulla versione! Non dovresti continuare! Visto il nome della versione \"%s\"</string>
     <string name="permission_granting_mandatory">Sono richieste tutte queste autorizzazioni e l\'app potrebbe essere instabile se non concesse</string>
-    <string name="about_additional_contributions">Grazie mille a tutti i collaboratori non elencati per aver contribuito con codice, traduzioni, supporto, idee, motivazione, segnalazioni di bug, donazioni ... ✊</string>
+    <string name="about_additional_contributions">Grazie mille a tutti i collaboratori non elencati per aver contribuito con codice, traduzioni, supporto, idee, motivazione, segnalazioni di bug, donazioni … ✊</string>
     <string name="about_additional_device_support">Supporto a dispositivi aggiuntivi</string>
     <string name="about_contributors">Contributori</string>
     <string name="about_core_team_title">Team principale (ordinati in base al primo contributo di codice)</string>
@@ -1160,11 +1149,10 @@
     <string name="qhybrid_title_file_management">Gestione dei file</string>
     <string name="qhybrid_title_background_image">Immagine di sfondo</string>
     <string name="qhybrid_title_apps">Applicazioni</string>
-    <string name="qhybrid_title_watchface_apps">Applicazioni e watchface</string>
     <string name="fossil_hr_auth_failed">Autenticazione non andata a buon fine, funzionalità limitate</string>
     <string name="fossil_hr_unavailable_unauthed">Non disponibile nella modalità senza autenticazione</string>
     <string name="fossil_hr_synced_activity_data">Dati delle attività sincronizzati</string>
-    <string name="fossil_hr_commute_processing">Esecuzione della richiesta in corso...</string>
+    <string name="fossil_hr_commute_processing">Esecuzione della richiesta in corso…</string>
     <string name="mi">mi</string>
     <string name="minutes_mi">min/mi</string>
     <string name="mi_h">mi/h</string>
@@ -1280,7 +1268,7 @@
     <string name="prefs_activity_in_device_card_steps_title_summary">Mostra passi totali</string>
     <string name="pref_header_system">Sistema</string>
     <string name="pref_header_equalizer">Equalizzatore</string>
-    <string name="pref_title_notification_use_as">Utilizza la lista delle applicazioni per...</string>
+    <string name="pref_title_notification_use_as">Utilizza la lista delle applicazioni per…</string>
     <string name="pref_title_message_privacy_mode">Modalità privacy per i messaggi</string>
     <string name="pref_message_privacy_mode_off">Mostra contenuto</string>
     <string name="controlcenter_start_configure_reminders">Configura promemoria</string>

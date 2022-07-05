@@ -20,9 +20,6 @@
     <string name="pref_summary_relax_firmware_checks">Relax firmware checks</string>
     <string name="devicetype_amazfit_bips">Amazfit Bip S</string>
     <string name="pref_title_vibration_strength">Vibration strength</string>
-    <string name="pref_title_lower_button_function">Lower Button</string>
-    <string name="pref_title_middle_button_function">Middle Button</string>
-    <string name="pref_title_upper_button_function">Upper Button</string>
     <string name="hr_appname_commute">Commute</string>
     <string name="hr_appname_stopwatch">Stopwatch</string>
     <string name="hr_appname_workout">Workout</string>
@@ -120,8 +117,6 @@
     <string name="widget_5_minutes">5 minutes</string>
     <string name="widget_set_alarm_after">Set alarm after:</string>
     <string name="widget_listing_label">Status and Alarms</string>
-    <string name="widget_sleep_label">Sleep: %1$s</string>
-    <string name="widget_steps_label">Steps: %1$02d</string>
     <string name="appwidget_sleep_alarm_widget_label">Sleep Alarm</string>
     <string name="activity_db_management_empty_db_warning">Warning! By pushing this button you will wipe your database and start from scratch.</string>
     <string name="activity_db_management_exportimport_label">Export and Import</string>
@@ -246,7 +241,6 @@
     <string name="filter_mode_none">Do not filter</string>
     <string name="toast_notification_filter_saved_successfully">Notification filter saved</string>
     <string name="edittext_notification_filter_words_hint">Enter desired words, new line for each</string>
-    <string name="toast_app_must_not_be_blacklisted">App must not be blacklisted to be configured</string>
     <string name="preferences_rtl_settings">Right To Left Support</string>
     <string name="pref_summary_contextual_arabic">Enable this to support contextual Arabic</string>
     <string name="pref_title_contextual_arabic">Contextual Arabic</string>
@@ -328,8 +322,6 @@
 \n
 \nPROCEED AT YOUR OWN RISK!</string>
     <string name="devicetype_q8">Q8</string>
-    <string name="menuitem_shortcut_weather">Weather (Shortcut)</string>
-    <string name="menuitem_shortcut_alipay">Alipay (Shortcut)</string>
     <string name="pref_summary_pebble_gatt_clientonly">This is for Pebble 2 only and experimental, try this if you have connectivity problems</string>
     <string name="pref_title_pebble_gatt_clientonly">GATT client only</string>
     <string name="menuitem_alipay">Alipay</string>
@@ -755,7 +747,6 @@
     <string name="pref_title_canned_replies">Replies</string>
     <string name="pref_header_cannned_messages">Canned messages</string>
     <string name="pref_blacklist_calendars">Blacklist Calendars</string>
-    <string name="pref_blacklist">Blacklist Apps</string>
     <string name="pref_call_privacy_mode_complete">Hide name and number</string>
     <string name="pref_call_privacy_mode_number">Hide number but display name</string>
     <string name="pref_call_privacy_mode_name">Hide name but display number</string>
@@ -817,7 +808,6 @@
     <string name="fw_upgrade_notice">You are about to install the %s.</string>
     <string name="title_activity_fw_app_insaller">FW/App installer</string>
     <string name="title_activity_calblacklist">Blacklisted Calendars</string>
-    <string name="title_activity_appblacklist">Notification blacklist</string>
     <string name="app_move_to_top">Move to top</string>
     <string name="app_configure">Configure</string>
     <string name="appmanager_weather_install_provider">Install the Weather Notification app</string>
@@ -1003,7 +993,7 @@
     <string name="qhybrid_summary_file_management">Upload and download files</string>
     <string name="prefs_operating_sounds">Operating Sounds</string>
     <string name="prefs_fake_ring_duration">Fake continuous ringing</string>
-    <string name="fossil_hr_commute_processing">Processing request...</string>
+    <string name="fossil_hr_commute_processing">Processing request…</string>
     <string name="fossil_hr_synced_activity_data">Synchronised activity data</string>
     <string name="pref_summary_canned_messages_set">Send the messages configured below to your device</string>
     <string name="fossil_hr_commute_actions_explanation">The actions configured here will appear in the Commute app on your watch. Read the wiki for information on how to handle the intents produced by these actions.</string>
@@ -1071,7 +1061,7 @@
 \nPROCEED AT YOUR OWN RISK!</string>
     <string name="pref_header_system">System</string>
     <string name="pref_header_equalizer">Equalizer</string>
-    <string name="pref_title_notification_use_as">Use the Applications list to...</string>
+    <string name="pref_title_notification_use_as">Use the Applications list to…</string>
     <string name="calendar_six_months">6 months</string>
     <string name="fw_upgrade_notice_amazfitneo">You are about to install the %s firmware on your Amazfit Neo.
 \n
@@ -1178,10 +1168,8 @@
     <string name="sony_equalizer_band_400">400</string>
     <string name="button_watchface_save_apply">Save and apply</string>
     <string name="sony_touch_sensor">Touch sensor control</string>
-    <string name="sony_dsee_hx">DSEE HX</string>
     <string name="pref_header_sony_equalizer_preset_custom_2">Custom Preset 2</string>
     <string name="pref_header_sony_equalizer_preset_custom_1">Custom Preset 1</string>
-    <string name="pref_header_sony_equalizer_preset_manual">Manual Preset</string>
     <string name="sony_equalizer_preset_custom_2">Custom 2</string>
     <string name="sony_equalizer_preset_treble_boost">Treble Boost</string>
     <string name="sony_automatic_power_off_30_min">30 minutes</string>
@@ -1205,7 +1193,6 @@
     <string name="sony_equalizer_preset_excited">Excited</string>
     <string name="sony_equalizer_preset_bright">Bright</string>
     <string name="sony_equalizer">Equalizer</string>
-    <string name="sony_surround_position_mutually_exclusive">Warning: The sound position / surround mode settings are mutually exclusive.</string>
     <string name="sony_surround_mode_concert_hall">Concert Hall</string>
     <string name="sony_surround_mode_outdoor_stage">Outdoor Stage</string>
     <string name="sony_surround_mode_club">Club</string>

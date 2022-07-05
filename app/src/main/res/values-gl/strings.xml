@@ -37,7 +37,6 @@
     <string name="appmanager_weather_install_provider">Instalar a app de notificacións do clima</string>
     <string name="app_configure">Configurar</string>
     <string name="app_move_to_top">Mover para arriba</string>
-    <string name="title_activity_appblacklist">Bloqueo de notificacións</string>
     <string name="title_activity_calblacklist">Calendarios bloqueados</string>
     <string name="title_activity_fw_app_insaller">Instalador de FW/App</string>
     <string name="fw_upgrade_notice">Está a piques de instalar o firmware %s.</string>
@@ -85,7 +84,6 @@
     <string name="pref_call_privacy_mode_name">Ocultar nome pero amosar número</string>
     <string name="pref_call_privacy_mode_number">Ocultar número pero amosar nome</string>
     <string name="pref_call_privacy_mode_complete">Ocultar nome e número</string>
-    <string name="pref_blacklist">Bloquear Apps</string>
     <string name="pref_blacklist_calendars">Bloquear Calendarios</string>
     <string name="pref_header_cannned_messages">Histórico de mensaxes</string>
     <string name="pref_title_canned_replies">Respostas</string>

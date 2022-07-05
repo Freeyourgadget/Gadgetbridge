@@ -37,7 +37,6 @@
     <string name="appmanager_weather_install_provider">Εγκαταστείστε την εφαρμογή ειδοποίησης Καιρού</string>
     <string name="app_configure">Επιλογές</string>
     <string name="app_move_to_top">Μετακίνηση στη κορυφή</string>
-    <string name="title_activity_appblacklist">Αποκλεισμένες ειδοποιήσεις</string>
     <string name="title_activity_calblacklist">Αποκλεισμένα ημερολόγια</string>
     <string name="title_activity_fw_app_insaller">Εγκαταστάτης εφαρμογών/FW</string>
     <string name="fw_upgrade_notice">Πρόκειται να εγκαταστήσετε την έκδοση λογισμικού %s.</string>
@@ -101,7 +100,6 @@
     <string name="pref_call_privacy_mode_name">Να φαίνεται μόνο ο αριθμός</string>
     <string name="pref_call_privacy_mode_number">Να φαίνεται μόνο το όνομα</string>
     <string name="pref_call_privacy_mode_complete">Απόκρυψη ονόματος και αριθμού</string>
-    <string name="pref_blacklist">Αποκλεισμένες εφαρμογές</string>
     <string name="pref_blacklist_calendars">Αποκλεισμένα ημερολόγια</string>
     <string name="pref_header_cannned_messages">Προκαθορισμένα μηνύματα</string>
     <string name="pref_title_canned_replies">Απαντήσεις</string>
@@ -508,8 +506,6 @@
     <string name="reset_index">Επαναφορά ημερομηνίας λήψης</string>
     <string name="pref_title_pebble_gatt_clientonly">μόνο GATT πελάτες</string>
     <string name="pref_summary_pebble_gatt_clientonly">Αυτό είναι πειραματικό χαρακτηριστικό και μόνο για το Pebble 2 , δοκιμάστε το μόνο αν έχετε προβλήματα συνδεσιμότητας</string>
-    <string name="menuitem_shortcut_alipay">Alipay (συντόμευση)</string>
-    <string name="menuitem_shortcut_weather">Καιρός (συντόμευση)</string>
     <string name="menuitem_status">Κατάσταση</string>
     <string name="menuitem_activity">Δραστηριότητα</string>
     <string name="menuitem_weather">Καιρός</string>
@@ -611,7 +607,6 @@
     <string name="debugactivity_really_factoryreset">Κάνοντας επαναφορά εργοστασιακών ρυθμίσεων όλα τα δεδομένα θα διαγραφούν από την συνδεδεμένη συσκευή (αν υποστηρίζεται). Επίσης, οι συσκευές Xiaomi/Huami τείνουν να αλλάζουν την διεύθυνση MAC στο Bluetooth και η εφαρμογή τις εμφανίζει σαν μια νέα συσκευή.</string>
     <string name="devicetype_casiogb6900">Casio. GB-6900</string>
     <string name="title_activity_notification_filter">Λίστα απο/επιλογής ειδοποιήσεων</string>
-    <string name="toast_app_must_not_be_blacklisted">Η εφαρμογή πρέπει να έχει επιλεχθεί για να ρυθμιστεί</string>
     <string name="edittext_notification_filter_words_hint">Εισάγετε τις λέξεις που επιθυμείτε, μία γραμμή για κάθε λέξη</string>
     <string name="toast_notification_filter_saved_successfully">Το φίλτρο ειδοποιήσεων αποθηκεύτηκε</string>
     <string name="filter_mode_none">Να μην υπάρχει φιλτράρισμα</string>
@@ -737,8 +732,6 @@
     <string name="activity_db_management_exportimport_label">Εξαγωγή και εισαγωγή</string>
     <string name="activity_db_management_empty_db_warning">Προειδοποίηση! Πατώντας αυτό το κουμπί θα διαγράψετε τη βάση δεδομένων σας και θα ξεκινήσετε από την αρχή.</string>
     <string name="appwidget_sleep_alarm_widget_label">Ξυπνητήρι ύπνου</string>
-    <string name="widget_steps_label">Βήματα: %1$02d</string>
-    <string name="widget_sleep_label">Ύπνος: %1$s</string>
     <string name="widget_listing_label">Κατάσταση και συναγερμοί</string>
     <string name="widget_set_alarm_after">Ρυθμίστε το ξυπνητήρι μετά από:</string>
     <string name="widget_5_minutes">5 λεπτά</string>
@@ -807,9 +800,6 @@
     <string name="prefs_button_triple_press_action_selection_title">Ενέργεια γεγονότος3</string>
     <string name="prefs_button_double_press_action_selection_title">Ενέργεια γεγονότος2</string>
     <string name="prefs_button_single_press_action_selection_title">Ενέργεια γεγονότος1</string>
-    <string name="pref_title_lower_button_function">Κάτω κουμπί</string>
-    <string name="pref_title_middle_button_function">Μεσαίο κουμπί</string>
-    <string name="pref_title_upper_button_function">Επάνω Κουμπί</string>
     <string name="hr_appname_commute">Μετακίνηση</string>
     <string name="hr_appname_stopwatch">Χρονόμετρο</string>
     <string name="hr_appname_workout">Προπόνηση</string>
@@ -897,7 +887,7 @@
     <string name="pref_summary_device_spec_settings_title_force_time">Επιβολή αυτόματου συγχρονισμού ώρας κατά την επανασύνδεση. Αναλογικοί δείκτες μπορεί να δείξουν εσφαλμένη ώρα!</string>
     <string name="prefs_notifications_and_calls_reject">Κουμπί αγνόησης / απόρριψης κλήσης</string>
     <string name="controlcenter_set_alias">Ορίστε ταυτότητα</string>
-    <string name="about_additional_contributions">Πολλές ευχαριστίες σε όλους τους μη αναφερθέντες συνεισφέροντες για τη συμβολή στον κώδικα,στην μετάφραση, την υποστήριξη, τις ιδέες, το κίνητρο, τις αναφορές σφαλμάτων, τα χρήματα... ✊</string>
+    <string name="about_additional_contributions">Πολλές ευχαριστίες σε όλους τους μη αναφερθέντες συνεισφέροντες για τη συμβολή στον κώδικα,στην μετάφραση, την υποστήριξη, τις ιδέες, το κίνητρο, τις αναφορές σφαλμάτων, τα χρήματα… ✊</string>
     <string name="about_additional_device_support">Πρόσθετη υποστήριξη συσκευών</string>
     <string name="about_contributors">Συντελεστές</string>
     <string name="about_core_team_title">Βασική ομάδα (κατά σειρά μεγαλύτερης συνεισφοράς κώδικα)</string>

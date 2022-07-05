@@ -148,7 +148,6 @@
     <string name="title_activity_calblacklist">Mustalla listalla olevat Kalenterit</string>
     <string name="whitelist_all_for_notifications">Lisää kaikki ilmoitukset valkoiselle listalle</string>
     <string name="blacklist_all_for_notifications">Lisää kaikki ilmoitukset mustalle listalle</string>
-    <string name="title_activity_appblacklist">Ilmoitusten musta lista</string>
     <string name="debugactivity_really_factoryreset">Tehdasastetuksien palauttaminen poistaa yhdistetystä laitteesta kaikki tiedot (jos tämä on tuettu). Xiaomin ja Huamin laitteet myös muuttavat Bluetooth MAC-osoitteen, joten ne näkyvät uusina laitteina Gadgetbridgessä.</string>
     <string name="debugactivity_really_factoryreset_title">Tahdotko varmasti palauttaa tehdasasteukset\?</string>
     <string name="title_activity_debug">Virheenetsintä</string>
@@ -182,8 +181,8 @@
     <string name="pref_summary_minimize_priority_on">Tilapalkin kuvake ja lukitusnäytön ilmoitus ovat piilotettu</string>
     <string name="pref_title_notifications_repetitions">Toistot</string>
     <string name="pref_title_notifications_generic">Yleinen ilmoitustuki</string>
-    <string name="pref_title_notification_use_as">Käytä sovellusluetteloa...</string>
-    <string name="pref_title_whenscreenon">...myös näytön ollessa päällä</string>
+    <string name="pref_title_notification_use_as">Käytä sovellusluetteloa…</string>
+    <string name="pref_title_whenscreenon">…myös näytön ollessa päällä</string>
     <string name="pref_header_notification_application_settings">Sovelluskohtaiset asetukset</string>
     <string name="pref_title_notification_use_as_deny">Estä ilmoitukset valituista sovelluksista</string>
     <string name="pref_title_ping_tone">Ping-ääni</string>

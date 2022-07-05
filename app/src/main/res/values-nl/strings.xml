@@ -34,7 +34,6 @@
     <string name="appmanager_weather_install_provider">Installeer de app voor weer meldingen</string>
     <string name="app_configure">Configureer</string>
     <string name="app_move_to_top">Verplaats naar de top</string>
-    <string name="title_activity_appblacklist">Meldingen zwarte lijst</string>
     <string name="fw_upgrade_notice">U staat op het punt om firmware %s te installeren.</string>
     <string name="fw_upgrade_notice_amazfitbip">U staat op het punt om de firmware %s te installeren op uw Amazfit Bip.
 \n
@@ -87,7 +86,6 @@
     <string name="pref_call_privacy_mode_name">Verberg naam maar toon nummer</string>
     <string name="pref_call_privacy_mode_number">Verberg nummer maar toon naam</string>
     <string name="pref_call_privacy_mode_complete">Verberg naam en nummer</string>
-    <string name="pref_blacklist">Apps op de zwarte lijst plaatsen</string>
     <string name="pref_blacklist_calendars">Zwarte lijst Kalenders</string>
     <string name="pref_title_canned_replies">Antwoorden</string>
     <string name="pref_title_canned_reply_suffix">Vaak voorkomend achtervoegsel</string>
@@ -527,8 +525,6 @@
     <string name="devicetype_miband3">Mi Band 3</string>
     <string name="devicetype_q8">Q8</string>
     <string name="devicetype_xwatch">XWatch</string>
-    <string name="menuitem_shortcut_alipay">Alipay (snelkoppeling)</string>
-    <string name="menuitem_shortcut_weather">Weer (snelkoppeling)</string>
     <string name="menuitem_status">Status</string>
     <string name="menuitem_activity">Trainingsgeschiedenis</string>
     <string name="menuitem_weather">Weer</string>
@@ -616,7 +612,6 @@
     <string name="language_and_region_prefs">Taal en regio instellingen</string>
     <string name="devicetype_casiogb6900">Casio GB-6900</string>
     <string name="title_activity_notification_filter">Meldingen filter</string>
-    <string name="toast_app_must_not_be_blacklisted">App mag niet op de zwarte lijst staan om te worden geconfigureerd</string>
     <string name="edittext_notification_filter_words_hint">Voer gewenste woorden in, elk op een nieuwe regel</string>
     <string name="toast_notification_filter_saved_successfully">Meldingen filter opgeslagen</string>
     <string name="filter_mode_none">Niet filteren</string>
@@ -742,8 +737,6 @@
     <string name="activity_db_management_exportimport_label">Exporteer en importeer</string>
     <string name="activity_db_management_empty_db_warning">Waarschuwing! Als je op deze knop drukt wis je je database en start je met een schone lei.</string>
     <string name="appwidget_sleep_alarm_widget_label">Slaapalarm</string>
-    <string name="widget_steps_label">Stappen: %1$02d</string>
-    <string name="widget_sleep_label">Slaap: %1$s</string>
     <string name="widget_listing_label">Status en alarmen</string>
     <string name="widget_set_alarm_after">Zet alarm na:</string>
     <string name="widget_5_minutes">5 minuten</string>
@@ -847,9 +840,6 @@
     <string name="hr_appname_workout">Training</string>
     <string name="hr_appname_stopwatch">Stopwatch</string>
     <string name="hr_appname_commute">Woon-werkverkeer</string>
-    <string name="pref_title_upper_button_function">Bovenste knop</string>
-    <string name="pref_title_middle_button_function">Middelste knop</string>
-    <string name="pref_title_lower_button_function">Onderste knop</string>
     <string name="pref_title_vibration_strength">Trillingssterkte</string>
     <string name="devicetype_amazfit_bips">Amazfit Bip S</string>
     <string name="pref_title_relax_firmware_checks">Schakel dit in als u een firmware wilt flashen die niet voor uw apparaat bedoeld is (op eigen risico)</string>
@@ -910,7 +900,7 @@
 \n 
 \nGA VERDER OP EIGEN RISICO!</string>
     <string name="devicetype_amazfit_trex">Amazfit T-Rex</string>
-    <string name="about_additional_contributions">Hartelijk dank aan alle niet-vermelde bijdragers voor het bijdragen van code, vertalingen, ondersteuning, ideeën, motivatie, foutrapporten, geld ... ✊</string>
+    <string name="about_additional_contributions">Hartelijk dank aan alle niet-vermelde bijdragers voor het bijdragen van code, vertalingen, ondersteuning, ideeën, motivatie, foutrapporten, geld … ✊</string>
     <string name="about_additional_device_support">Extra apparaatondersteuning</string>
     <string name="about_contributors">Bijdragers</string>
     <string name="about_core_team_title">Kernteam (in volgorde van eerste codebijdrage)</string>
@@ -1195,14 +1185,14 @@
     <string name="fossil_hr_auth_failed">Authenticatie mislukt, functionaliteit beperkt</string>
     <string name="fossil_hr_unavailable_unauthed">Niet beschikbaar in ongeauthenticeerde modus</string>
     <string name="fossil_hr_synced_activity_data">Activiteitsgegevens gesynchroniseerd</string>
-    <string name="fossil_hr_commute_processing">Aanvraag verwerken...</string>
+    <string name="fossil_hr_commute_processing">Aanvraag verwerken…</string>
     <string name="calendar_three_months">3 maanden</string>
     <string name="qhybrid_title_calibration">Kalibratie</string>
     <string name="qhybrid_title_apps_management">Apps-beheer</string>
     <string name="qhybrid_title_file_management">Bestandsbeheer</string>
     <string name="qhybrid_title_background_image">Achtergrondafbeelding</string>
     <string name="qhybrid_title_apps">Apps</string>
-    <string name="qhybrid_title_watchface_apps">Wijzerplaat en apps</string>
+
     <string name="devicetype_um25">UM-25</string>
     <string name="fossil_hr_warning_firmware_too_new">Sommige functies zijn uitgeschakeld omdat de firmware van het horloge te nieuw is</string>
     <string name="prefs_sounds_summary">Instellen wanneer het apparaat geluid maakt</string>
@@ -1344,7 +1334,7 @@
     <string name="title_activity_notification_management">Notificatie-instellingen</string>
     <string name="pref_title_message_privacy_mode">Privacymodus berichten</string>
     <string name="uncheck_all_applications">Deselecteer alle apps</string>
-    <string name="pref_title_notification_use_as">Gebruik de app-lijst voor...</string>
+    <string name="pref_title_notification_use_as">Gebruik de app-lijst voor…</string>
     <string name="pref_message_privacy_mode_off">Toon inhoud</string>
     <string name="pref_message_privacy_mode_complete">Verberg inhoud</string>
     <string name="pref_applications_settings">App-lijst</string>
@@ -1405,7 +1395,7 @@
     <string name="sony_equalizer_preset_vocal">Zang</string>
     <string name="sony_equalizer_preset_treble_boost">Hoge tonen</string>
     <string name="sony_equalizer_preset_manual">Handmatig</string>
-    <string name="pref_header_sony_equalizer_preset_manual">Handmatige voorinstelling</string>
+
     <string name="pref_header_sony_equalizer_preset_custom_1">Aangepaste voorinstelling 1</string>
     <string name="pref_header_sony_equalizer_preset_custom_2">Aangepaste voorinstelling 2</string>
     <string name="sony_equalizer_band_400">400</string>
@@ -1434,12 +1424,10 @@
     <string name="sony_sound_position_front">Voor</string>
     <string name="sony_surround_mode">Surround-modus</string>
     <string name="sony_surround_mode_off">Uit</string>
-    <string name="sony_surround_position_mutually_exclusive">Waarschuwing: De instellingen voor geluidspositie / surround-modus sluiten elkaar uit.</string>
     <string name="sony_equalizer_preset_bass_boost">Basversterking</string>
     <string name="sony_equalizer_preset_speech">Spraak</string>
     <string name="sony_equalizer_preset_custom_2">Aangepast 2</string>
     <string name="sony_equalizer_band_2500">2,5k</string>
-    <string name="sony_dsee_hx">DSEE HX</string>
     <string name="sony_automatic_power_off_3_hour">3 uur</string>
     <string name="device_card_activity_card_title">Activiteitsgegevens op apparaatkaart</string>
     <string name="device_card_activity_card_title_summary">Kies welke activiteiten weergegeven worden op de apparaatkaart</string>

@@ -35,7 +35,6 @@
     <string name="appmanager_weather_install_provider">Installer værmeldingsprogrammet</string>
     <string name="app_configure">Sett opp</string>
     <string name="app_move_to_top">Flytt til toppen</string>
-    <string name="title_activity_appblacklist">Merknadssvarteliste</string>
     <string name="title_activity_calblacklist">Svartelistede kalendere</string>
     <string name="title_activity_fw_app_insaller">Fastvare-/program-installerer</string>
     <string name="fw_upgrade_notice">Du er i ferd med å installere %s.</string>
@@ -100,7 +99,6 @@
     <string name="pref_call_privacy_mode_name">Skjul navn, men vis nummer</string>
     <string name="pref_call_privacy_mode_number">Skjul nummer, men vis navn</string>
     <string name="pref_call_privacy_mode_complete">Skjul navn og nummer</string>
-    <string name="pref_blacklist">Svartelist programmer</string>
     <string name="pref_blacklist_calendars">Svartelist kalendre</string>
     <string name="pref_title_canned_replies">Svar</string>
     <string name="pref_title_canned_messages_set">Oppdater på enheten</string>
@@ -524,8 +522,6 @@
     <string name="menuitem_alipay">Alipay</string>
     <string name="pref_title_pebble_gatt_clientonly">Kun GATT-klient</string>
     <string name="pref_summary_pebble_gatt_clientonly">Dette er kun for Pebble 2 og eksperimentelt, prøv dette hvis du har tilkoblingsproblemer</string>
-    <string name="menuitem_shortcut_alipay">Alipay (snarvei)</string>
-    <string name="menuitem_shortcut_weather">Vær (snarvei)</string>
     <string name="fw_upgrade_notice_miband3">Du er i ferd med å installere %s-fastvaren på din Mi Band 3.
 \n
 \nInstaller først .fw-fila, og dernest .res-fila. Båndet ditt vil starte på nytt etter at du installerer .fw-fila.
@@ -619,7 +615,6 @@
     <string name="debugactivity_really_factoryreset">Gjenoppretting til fabrikkinnstillinger vil slette all data fra den tilkoblede enheten (hvis støttet). Xiaomi/Huami-enheter endrer også MAC-adressen for Blåtann, og vil dermed framtre som nye enheter i Gadgetbridge.</string>
     <string name="devicetype_casiogb6900">Casio GB-6900</string>
     <string name="title_activity_notification_filter">Merknadsfilter</string>
-    <string name="toast_app_must_not_be_blacklisted">Programmet kan ikke være svartelistet når det settes opp</string>
     <string name="edittext_notification_filter_words_hint">Skriv inn ønskede ord, ett ord per linje</string>
     <string name="toast_notification_filter_saved_successfully">Merknadsfilter lagret</string>
     <string name="filter_mode_none">Ikke filtrer</string>
@@ -744,8 +739,6 @@
     <string name="activity_db_management_exportimport_label">Eksport og import</string>
     <string name="activity_db_management_empty_db_warning">Advarsel! Ved å trykke på denne knappen vil du tømme databasen og begynne med ingenting.</string>
     <string name="appwidget_sleep_alarm_widget_label">Søvnalarm</string>
-    <string name="widget_steps_label">Steg: %1$02d</string>
-    <string name="widget_sleep_label">Søvn: %1$s</string>
     <string name="widget_listing_label">Status og alarmer</string>
     <string name="widget_set_alarm_after">Sett alarm etter:</string>
     <string name="widget_5_minutes">Fem minutter</string>
@@ -844,9 +837,6 @@
     <string name="hr_appname_workout">Treningsøkt</string>
     <string name="pref_title_custom_deviceicon">Vis enhetsspesifikt merknadsikon</string>
     <string name="hr_appname_stopwatch">Stoppeklokke</string>
-    <string name="pref_title_lower_button_function">Nedre knapp</string>
-    <string name="pref_title_middle_button_function">Midtknapp</string>
-    <string name="pref_title_upper_button_function">Øvre knapp</string>
     <string name="find_lost_device_you_found_it">Fant den!</string>
     <string name="pref_title_vibration_strength">Vibrasjonsstyrke</string>
     <string name="hr_appname_commute">Pendle</string>
@@ -1201,7 +1191,6 @@
     <string name="fossil_hr_unavailable_unauthed">Ikke tilgjengelig i uten identitetsbekreftelse</string>
     <string name="fossil_hr_synced_activity_data">Synkroniserte aktivitetsdata</string>
     <string name="fossil_hr_commute_processing">Behandler forespørsel …</string>
-    <string name="qhybrid_title_watchface_apps">Urskive og programmer</string>
     <string name="qhybrid_title_apps">Programmer</string>
     <string name="qhybrid_title_background_image">Bakgrunnsbilde</string>
     <string name="qhybrid_title_calibration">Kalibrering</string>
@@ -1442,7 +1431,6 @@
     <string name="sony_equalizer_preset_vocal">Vokal</string>
     <string name="sony_touch_sensor">Pekesensorkontroll</string>
     <string name="sony_notification_voice_guide">Merknader og stemmeanvisning</string>
-    <string name="sony_dsee_hx">DSEE HX</string>
     <string name="pref_title_huami_force_new_protocol">Ny identitetbekreftelsesprotokoll</string>
     <string name="watchface_dialog_widget_timezone">Tidssone:</string>
     <string name="watchface_dialog_widget_timeout_show_circle">Vis sirkel ved tidsavbrudd:</string>
@@ -1480,7 +1468,6 @@
     <string name="sony_equalizer_preset_manual">Manuell</string>
     <string name="sony_equalizer_preset_custom_1">Egendefinert 1</string>
     <string name="sony_equalizer_preset_custom_2">Egendefinert 2</string>
-    <string name="pref_header_sony_equalizer_preset_manual">Manuell forhåndsinnstilling</string>
     <string name="battery_case">Batteriomslag</string>
     <string name="left_earbud">Venstre ørepropp</string>
     <string name="right_earbud">Høyre ørepropp</string>
