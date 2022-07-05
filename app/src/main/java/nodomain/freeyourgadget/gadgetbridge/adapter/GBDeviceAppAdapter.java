@@ -80,7 +80,13 @@ public class GBDeviceAppAdapter extends RecyclerView.Adapter<GBDeviceAppAdapter.
     public void onBindViewHolder(final AppViewHolder holder, int position) {
         final GBDeviceApp deviceApp = appList.get(position);
 
-        holder.mDeviceAppVersionAuthorLabel.setText(GBApplication.getContext().getString(R.string.appversion_by_creator, deviceApp.getVersion(), deviceApp.getCreator()));
+        String appVersionAuthor;
+        if ((deviceApp.getCreator().equals("")) || (deviceApp.getCreator().equals("(unknown)"))) {
+            appVersionAuthor = deviceApp.getVersion();
+        } else {
+            appVersionAuthor = GBApplication.getContext().getString(R.string.appversion_by_creator, deviceApp.getVersion(), deviceApp.getCreator());
+        }
+        holder.mDeviceAppVersionAuthorLabel.setText(appVersionAuthor);
         // FIXME: replace with small icons
         String appNameLabelText = deviceApp.getName();
         holder.mDeviceAppNameLabel.setText(appNameLabelText);
