@@ -106,6 +106,7 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -114,7 +115,6 @@ import java.util.Locale;
 import java.util.UUID;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
-import nodomain.freeyourgadget.gadgetbridge.GBException;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.activities.SettingsActivity;
 import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst;
@@ -126,7 +126,6 @@ import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventMusicContr
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventVersionInfo;
 import nodomain.freeyourgadget.gadgetbridge.devices.fitpro.FitProConstants;
 import nodomain.freeyourgadget.gadgetbridge.devices.fitpro.FitProSampleProvider;
-import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
 import nodomain.freeyourgadget.gadgetbridge.entities.Device;
 import nodomain.freeyourgadget.gadgetbridge.entities.FitProActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.entities.User;
@@ -167,6 +166,7 @@ public class FitProDeviceSupport extends AbstractBTLEDeviceSupport {
     public BluetoothGattCharacteristic readCharacteristic;
     public BluetoothGattCharacteristic writeCharacteristic;
     private static final boolean debugEnabled = false;
+    private int mtuSize=20;
 
     public FitProDeviceSupport() {
         super(LOG);
@@ -276,14 +276,25 @@ public class FitProDeviceSupport extends AbstractBTLEDeviceSupport {
         //0xCD 0x00 0x09 0x12 0x01 0x01 0x00 0x04 0xA5 0x83 0x73 0xDB
         byte[] result = new byte[FitProConstants.DATA_TEMPLATE.length + data.length];
         System.arraycopy(FitProConstants.DATA_TEMPLATE, 0, result, 0, FitProConstants.DATA_TEMPLATE.length);
-        result[2] = (byte) (FitProConstants.DATA_TEMPLATE.length + data.length - 3);
+        result[1] = (byte) (((FitProConstants.DATA_TEMPLATE.length + data.length - 3) >> 8) & 0xff);
+        result[2] = (byte) ((FitProConstants.DATA_TEMPLATE.length + data.length - 3) & 0xff);
         result[3] = command_group;
         result[5] = command;
-        result[7] = (byte) data.length;
+        result[6] = (byte) ((data.length >> 8 ) & 0xff);
+        result[7] = (byte) (data.length & 0xff);
         System.arraycopy(data, 0, result, 8, data.length);
         //debug
         debugPrintArray(result, "crafted packet");
         return result;
+    }
+
+    // send chucked up data
+    public void writeChunckedData(TransactionBuilder builder, byte[] data){
+        for (int start = 0; start < data.length; start += mtuSize) {
+            int end = start + mtuSize;
+            if (end > data.length) end = data.length;
+            builder.write(writeCharacteristic, Arrays.copyOfRange(data, start, end));
+        }
     }
 
     @Override
@@ -476,7 +487,9 @@ public class FitProDeviceSupport extends AbstractBTLEDeviceSupport {
                 LOG.error("error sending call notification: " + e);
             }
             debugPrintArray(craftData(CMD_GROUP_GENERAL, CMD_NOTIFICATION_CALL, outputStream.toByteArray()), "crafted call notify");
-            builder.write(writeCharacteristic, craftData(CMD_GROUP_GENERAL, CMD_NOTIFICATION_CALL, outputStream.toByteArray()));
+
+            writeChunckedData(builder, craftData(CMD_GROUP_GENERAL, CMD_NOTIFICATION_CALL, outputStream.toByteArray()));
+
         } else {
             builder.write(writeCharacteristic, craftData(CMD_GROUP_GENERAL, CMD_NOTIFICATION_CALL, VALUE_OFF));
         }
@@ -631,7 +644,7 @@ public class FitProDeviceSupport extends AbstractBTLEDeviceSupport {
 
         byte currentConditionCode = Weather.mapToFitProCondition(weatherSpec.currentConditionCode);
         TransactionBuilder builder = new TransactionBuilder("weather");
-        builder.write(writeCharacteristic, craftData(CMD_GROUP_GENERAL, CMD_WEATHER, new byte[]{(byte) todayMin, (byte) todayMax, (byte) currentConditionCode, (byte) weatherUnit}));
+        writeChunckedData(builder, craftData(CMD_GROUP_GENERAL, CMD_WEATHER, new byte[]{(byte) todayMin, (byte) todayMax, (byte) currentConditionCode, (byte) weatherUnit}));
         builder.queue(getQueue());
     }
 
@@ -708,11 +721,11 @@ public class FitProDeviceSupport extends AbstractBTLEDeviceSupport {
             LOG.error("FitPro error sending notification: " + e);
         }
         String output = outputStream.toString();
-        if (outputStream.toString().length() > 60) {
-            output = outputStream.toString().substring(0, 60);
+        if (outputStream.toString().length() > 250) {
+            output = outputStream.toString().substring(0, 250);
         }
 
-        builder.write(writeCharacteristic, craftData(CMD_GROUP_GENERAL, CMD_NOTIFICATION_MESSAGE, output.getBytes(StandardCharsets.UTF_8)));
+        writeChunckedData(builder, craftData(CMD_GROUP_GENERAL, CMD_NOTIFICATION_MESSAGE, output.getBytes(StandardCharsets.UTF_8)));
         builder.queue(getQueue());
     }
 
@@ -990,7 +1003,8 @@ public class FitProDeviceSupport extends AbstractBTLEDeviceSupport {
                 }
             }
 
-            builder.write(writeCharacteristic, craftData(CMD_GROUP_GENERAL, CMD_ALARM, all_alarms));
+            writeChunckedData(builder, craftData(CMD_GROUP_GENERAL, CMD_ALARM, all_alarms));
+            //builder.write(writeCharacteristic, craftData(CMD_GROUP_GENERAL, CMD_ALARM, all_alarms));
             builder.queue(getQueue());
             if (anyAlarmEnabled) {
                 GB.toast(getContext(), getContext().getString(R.string.user_feedback_miband_set_alarms_ok), Toast.LENGTH_SHORT, GB.INFO);

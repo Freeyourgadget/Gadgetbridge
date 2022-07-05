@@ -37,13 +37,13 @@ public class FitProConstants {
 
     public static final byte[] DATA_TEMPLATE = {
             (byte) DATA_HEADER, // header
-            (byte) 0x00, // delimiter or first byte of argument count?
-            (byte) 0,    // argument count, calculated
+            (byte) 0x00, // data len hi
+            (byte) 0,    // data len low
             (byte) 0,    // command 1
             (byte) 0x1,  // delimiter?
             (byte) 0,    // command 2
-            (byte) 0x0,  // delimiter or first byte of data length?
-            (byte) 0,    // data length calculated
+            (byte) 0x0,  // data len hi
+            (byte) 0,    // data len low
             // data payload
     };
 
