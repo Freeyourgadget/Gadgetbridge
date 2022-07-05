@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
 
 import org.slf4j.Logger;
 
+import nodomain.freeyourgadget.gadgetbridge.capabilities.password.PasswordCapabilityImpl;
 import nodomain.freeyourgadget.gadgetbridge.devices.InstallHandler;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiCoordinator;
@@ -96,6 +97,7 @@ public class MiBand6Coordinator extends HuamiCoordinator {
                 R.xml.devicesettings_liftwrist_display_sensitivity,
                 R.xml.devicesettings_inactivity_dnd,
                 R.xml.devicesettings_swipeunlock,
+                // TODO: test on the Mi Band 6 R.xml.devicesettings_password,
                 R.xml.devicesettings_sync_calendar,
                 R.xml.devicesettings_reserve_reminders_calendar,
                 R.xml.devicesettings_expose_hr_thirdparty,
@@ -137,4 +139,10 @@ public class MiBand6Coordinator extends HuamiCoordinator {
     public int getBondingStyle() {
         return BONDING_STYLE_REQUIRE_KEY;
     }
+
+    // TODO: Test on the Mi Band 6
+    // @Override
+    // public PasswordCapabilityImpl.Mode getPasswordCapability() {
+    //     return PasswordCapabilityImpl.Mode.NUMBERS_6;
+    // }
 }

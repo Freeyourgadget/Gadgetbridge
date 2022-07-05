@@ -33,6 +33,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import nodomain.freeyourgadget.gadgetbridge.GBException;
 import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSpecificSettingsCustomizer;
+import nodomain.freeyourgadget.gadgetbridge.capabilities.password.PasswordCapabilityImpl;
 import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceCandidate;
@@ -424,4 +425,6 @@ public interface DeviceCoordinator {
     BatteryConfig[] getBatteryConfig();
 
     boolean supportsPowerOff();
+
+    PasswordCapabilityImpl.Mode getPasswordCapability();
 }

@@ -27,6 +27,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import nodomain.freeyourgadget.gadgetbridge.R;
+import nodomain.freeyourgadget.gadgetbridge.capabilities.password.PasswordCapabilityImpl;
 import nodomain.freeyourgadget.gadgetbridge.devices.InstallHandler;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiCoordinator;
@@ -100,6 +101,7 @@ public class MiBand4Coordinator extends HuamiCoordinator {
                 R.xml.devicesettings_liftwrist_display,
                 R.xml.devicesettings_inactivity_dnd,
                 R.xml.devicesettings_swipeunlock,
+                R.xml.devicesettings_password,
                 R.xml.devicesettings_sync_calendar,
                 R.xml.devicesettings_reserve_reminders_calendar,
                 R.xml.devicesettings_expose_hr_thirdparty,
@@ -138,5 +140,10 @@ public class MiBand4Coordinator extends HuamiCoordinator {
     @Override
     public int getBondingStyle() {
         return BONDING_STYLE_REQUIRE_KEY;
+    }
+
+    @Override
+    public PasswordCapabilityImpl.Mode getPasswordCapability() {
+        return PasswordCapabilityImpl.Mode.NUMBERS_4_DIGITS_1_TO_4;
     }
 }

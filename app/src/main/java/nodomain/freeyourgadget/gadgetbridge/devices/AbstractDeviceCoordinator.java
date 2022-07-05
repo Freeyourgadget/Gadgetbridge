@@ -40,6 +40,7 @@ import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.GBException;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSpecificSettingsCustomizer;
+import nodomain.freeyourgadget.gadgetbridge.capabilities.password.PasswordCapabilityImpl;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHelper;
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst;
@@ -314,5 +315,10 @@ public abstract class AbstractDeviceCoordinator implements DeviceCoordinator {
     @Override
     public boolean supportsPowerOff() {
         return false;
+    }
+
+    @Override
+    public PasswordCapabilityImpl.Mode getPasswordCapability() {
+        return PasswordCapabilityImpl.Mode.NONE;
     }
 }

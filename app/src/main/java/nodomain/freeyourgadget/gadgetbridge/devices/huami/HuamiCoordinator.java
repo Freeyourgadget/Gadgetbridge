@@ -44,6 +44,7 @@ import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.activities.SettingsActivity;
 import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst;
 import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSpecificSettingsCustomizer;
+import nodomain.freeyourgadget.gadgetbridge.capabilities.password.PasswordCapabilityImpl;
 import nodomain.freeyourgadget.gadgetbridge.devices.AbstractDeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.SampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.DateTimeDisplay;
@@ -276,6 +277,16 @@ public abstract class HuamiCoordinator extends AbstractDeviceCoordinator {
     public static boolean getHeartrateActivityMonitoring(String deviceAddress) throws IllegalArgumentException {
         Prefs prefs = new Prefs(GBApplication.getDeviceSpecificSharedPrefs(deviceAddress));
         return prefs.getBoolean(DeviceSettingsPreferenceConst.PREF_HEARTRATE_ACTIVITY_MONITORING, false);
+    }
+
+    public static boolean getPasswordEnabled(String deviceAddress) throws IllegalArgumentException {
+        Prefs prefs = new Prefs(GBApplication.getDeviceSpecificSharedPrefs(deviceAddress));
+        return prefs.getBoolean(PasswordCapabilityImpl.PREF_PASSWORD_ENABLED, false);
+    }
+
+    public static String getPassword(String deviceAddress) throws IllegalArgumentException {
+        Prefs prefs = new Prefs(GBApplication.getDeviceSpecificSharedPrefs(deviceAddress));
+        return prefs.getString(PasswordCapabilityImpl.PREF_PASSWORD, null);
     }
 
     public static boolean getHeartrateAlert(String deviceAddress) throws IllegalArgumentException {

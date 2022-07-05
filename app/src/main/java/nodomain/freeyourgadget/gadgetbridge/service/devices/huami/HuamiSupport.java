@@ -71,6 +71,7 @@ import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.Logging;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.activities.SettingsActivity;
+import nodomain.freeyourgadget.gadgetbridge.capabilities.password.PasswordCapabilityImpl;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHelper;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventBatteryInfo;
@@ -664,6 +665,36 @@ public abstract class HuamiSupport extends AbstractBTLEDeviceSupport {
     @Override
     public void onDeleteCalendarEvent(byte type, long id) {
         // not supported
+    }
+
+    private HuamiSupport setPassword(final TransactionBuilder builder) {
+        final boolean passwordEnabled = HuamiCoordinator.getPasswordEnabled(gbDevice.getAddress());
+        final String password = HuamiCoordinator.getPassword(gbDevice.getAddress());
+
+        LOG.info("Setting password: {}, {}", passwordEnabled, password);
+
+        if (password == null || password.isEmpty()) {
+            LOG.warn("Invalid password: {}", password);
+            return this;
+        }
+
+        final ByteArrayOutputStream baos = new ByteArrayOutputStream();
+
+        try {
+            baos.write(ENDPOINT_DISPLAY);
+            baos.write(0x21);
+            baos.write(0x00);
+            baos.write((byte) (passwordEnabled ? 0x01 : 0x00));
+            baos.write(password.getBytes());
+            baos.write(0x00);
+        } catch (final IOException e) {
+            LOG.error("Failed to build password command", e);
+            return this;
+        }
+
+        writeToConfiguration(builder, baos.toByteArray());
+
+        return this;
     }
 
     /**
@@ -2728,6 +2759,10 @@ public abstract class HuamiSupport extends AbstractBTLEDeviceSupport {
                 case PREF_HEARTRATE_STRESS_MONITORING:
                     setHeartrateStressMonitoring(builder);
                     break;
+                case PasswordCapabilityImpl.PREF_PASSWORD:
+                case PasswordCapabilityImpl.PREF_PASSWORD_ENABLED:
+                    setPassword(builder);
+                    break;
             }
             builder.queue(getQueue());
         } catch (IOException e) {
@@ -3854,6 +3889,8 @@ public abstract class HuamiSupport extends AbstractBTLEDeviceSupport {
     }
 
     public void phase3Initialize(TransactionBuilder builder) {
+        final DeviceCoordinator coordinator = DeviceHelper.getInstance().getCoordinator(gbDevice);
+
         LOG.info("phase3Initialize...");
         setDateDisplay(builder);
         setTimeFormat(builder);
@@ -3877,6 +3914,9 @@ public abstract class HuamiSupport extends AbstractBTLEDeviceSupport {
         setHeartrateMeasurementInterval(builder, HuamiCoordinator.getHeartRateMeasurementInterval(getDevice().getAddress()));
         sendReminders(builder);
         setWorldClocks(builder);
+        if (!PasswordCapabilityImpl.Mode.NONE.equals(coordinator.getPasswordCapability())) {
+            setPassword(builder);
+        }
         requestAlarms(builder);
     }
 

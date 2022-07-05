@@ -52,6 +52,7 @@ import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.activities.CalBlacklistActivity;
 import nodomain.freeyourgadget.gadgetbridge.activities.ConfigureWorldClocks;
 import nodomain.freeyourgadget.gadgetbridge.activities.SettingsActivity;
+import nodomain.freeyourgadget.gadgetbridge.capabilities.password.PasswordCapabilityImpl;
 import nodomain.freeyourgadget.gadgetbridge.devices.DeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.DeviceManager;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst;
@@ -214,6 +215,8 @@ public class DeviceSpecificSettingsFragment extends PreferenceFragmentCompat imp
     }
 
     private void setChangeListener() {
+        final DeviceCoordinator coordinator = DeviceHelper.getInstance().getCoordinator(device);
+
         final Prefs prefs = new Prefs(getPreferenceManager().getSharedPreferences());
         String disconnectNotificationState = prefs.getString(PREF_DISCONNECT_NOTIFICATION, PREF_DO_NOT_DISTURB_OFF);
         boolean disconnectNotificationScheduled = disconnectNotificationState.equals(PREF_DO_NOT_DISTURB_SCHEDULED);
@@ -731,6 +734,8 @@ public class DeviceSpecificSettingsFragment extends PreferenceFragmentCompat imp
         setInputTypeFor(DeviceSettingsPreferenceConst.PREF_RESERVER_REMINDERS_CALENDAR, InputType.TYPE_CLASS_NUMBER);
         setInputTypeFor(DeviceSettingsPreferenceConst.PREF_INACTIVITY_THRESHOLD, InputType.TYPE_CLASS_NUMBER);
 
+        new PasswordCapabilityImpl().registerPreferences(getContext(), coordinator.getPasswordCapability(), this);
+
         String deviceActionsFellSleepSelection = prefs.getString(PREF_DEVICE_ACTION_FELL_SLEEP_SELECTION, PREF_DEVICE_ACTION_SELECTION_OFF);
         final Preference deviceActionsFellSleep = findPreference(PREF_DEVICE_ACTION_FELL_SLEEP_SELECTION);
         final Preference deviceActionsFellSleepBroadcast = findPreference(PREF_DEVICE_ACTION_FELL_SLEEP_BROADCAST);
@@ -748,7 +753,7 @@ public class DeviceSpecificSettingsFragment extends PreferenceFragmentCompat imp
         if (deviceActionsFellSleepBroadcast != null) {
             deviceActionsFellSleepBroadcast.setEnabled(deviceActionsFellSleepSelectionBroadcast);
         }
-        
+
         String deviceActionsWokeUpSelection = prefs.getString(PREF_DEVICE_ACTION_WOKE_UP_SELECTION, PREF_DEVICE_ACTION_SELECTION_OFF);
         final Preference deviceActionsWokeUp = findPreference(PREF_DEVICE_ACTION_WOKE_UP_SELECTION);
         final Preference deviceActionsWokeUpBroadcast = findPreference(PREF_DEVICE_ACTION_WOKE_UP_BROADCAST);
@@ -766,7 +771,7 @@ public class DeviceSpecificSettingsFragment extends PreferenceFragmentCompat imp
         if (deviceActionsWokeUpBroadcast != null) {
             deviceActionsWokeUpBroadcast.setEnabled(deviceActionsWokeUpSelectionBroadcast);
         }
-        
+
         String deviceActionsStartNonWearSelection = prefs.getString(PREF_DEVICE_ACTION_START_NON_WEAR_SELECTION, PREF_DEVICE_ACTION_SELECTION_OFF);
         final Preference deviceActionsStartNonWear = findPreference(PREF_DEVICE_ACTION_START_NON_WEAR_SELECTION);
         final Preference deviceActionsStartNonWearBroadcast = findPreference(PREF_DEVICE_ACTION_START_NON_WEAR_BROADCAST);
