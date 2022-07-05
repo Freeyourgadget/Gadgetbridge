@@ -257,7 +257,6 @@ public class QHybridCoordinator extends AbstractBLEDeviceCoordinator {
                     R.xml.devicesettings_fossilhybridhr,
                     R.xml.devicesettings_autoremove_notifications,
                     R.xml.devicesettings_canned_dismisscall_16,
-                    R.xml.devicesettings_custom_deviceicon,
                     R.xml.devicesettings_transliteration
             };
         }
@@ -266,11 +265,9 @@ public class QHybridCoordinator extends AbstractBLEDeviceCoordinator {
                     R.xml.devicesettings_fossilhybridhr,
                     R.xml.devicesettings_autoremove_notifications,
                     R.xml.devicesettings_canned_dismisscall_16,
-                    R.xml.devicesettings_custom_deviceicon
             };
         }
         return new int[]{
-                R.xml.devicesettings_custom_deviceicon
         };
     }
 
@@ -278,6 +275,13 @@ public class QHybridCoordinator extends AbstractBLEDeviceCoordinator {
     public int[] getSupportedDeviceSpecificAuthenticationSettings() {
         return new int[]{
                 R.xml.devicesettings_pairingkey
+        };
+    }
+
+    @Override
+    public int[] getSupportedDeviceSpecificApplicationSettings() {
+        return new int[]{
+                R.xml.devicesettings_custom_deviceicon,
         };
     }
 
