@@ -1742,4 +1742,7 @@
     <string name="bengali">Bengalisch</string>
     <string name="lithuanian">Litauisch</string>
     <string name="scandinavian">Skandinavisch</string>
+    <string name="pref_title_notification_delay_calls">Verzögerung für Anrufbenachrichtigungen</string>
+    <string name="pref_summary_notification_delay_calls">Verzögerung in Sekunden, bis Anrufbenachrichtigungen zum Gerät gesendet werden.</string>
+    <string name="pref_blacklist_calendars_summary">Blockierte Kalender werden nicht mit dem Gerät synchronisiert</string>
 </resources>
