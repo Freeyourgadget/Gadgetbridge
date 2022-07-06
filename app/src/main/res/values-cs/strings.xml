@@ -968,7 +968,7 @@
     <string name="pref_check_permission_status_summary">Provádí kontrolu chybějících oprávnění i když tato nemusí být momentálně vyžadována. Zakažte, pokud vaše zařízení nepodporuje některé z těchto funkcí. Neudělení oprávnění může způsobovat problémy!</string>
     <string name="pref_check_permission_status">Ověřovat stav oprávnění</string>
     <string name="error_background_service_reason">Spuštění služby na pozadí selhalo díky chybě:</string>
-    <string name="device_requires_key">VYŽADOVÁN KLÍČ</string>
+    <string name="device_requires_key">VYŽADOVÁN KLÍČ, ZADEJTE DLOUHÝM STISKNUTÍM</string>
     <string name="device_is_currently_bonded">JIŽ NAPÁROVÁNO</string>
     <string name="error_background_service_reason_truncated">Službu na pozadí se nepodařilo spustit kvůli…</string>
     <string name="error_background_service">Nepodařilo se spustit službu na pozadí</string>
@@ -1581,13 +1581,17 @@
     <string name="menuitem_email">E-mail</string>
     <string name="gadgetbridge_running_banglejs_main">Bangle.js běží</string>
     <string name="application_name_banglejs_nopebble">Bangle.js Gadgetbridge</string>
-    <string name="about_description_banglejs_nopebble">Doprovodná aplikace pro Bangle.js pro Android vytvořená na základě projektu Gadgetbridge s přidaným přístupem k internetu.</string>
+    <string name="about_description_banglejs_nopebble">Doprovodná aplikace pro Bangle.js pro Android vytvořená na základě projektu Gadgetbridge s přidaným přístupem k internetu.
+\n
+\nVzhledem k pravidlům obchodu Google Play nemůžeme v samotné aplikaci uvést odkaz na dárcovství, pokud se vám tato aplikace ale líbí, zvažte prosím možnost přispět prostřednictvím níže uvedené domovské stránky Gadgetbridge.</string>
     <string name="title_activity_controlcenter_main_nightly">Gadgetbridge Nightly</string>
     <string name="title_activity_controlcenter_banglejs_main">Bangle.js Gadgetbridge</string>
     <string name="about_activity_title_banglejs_nopebble">O Bangle.js Gadgetbridge</string>
     <string name="application_name_banglejs_main">Bangle.js Gadgetbridge</string>
     <string name="about_activity_title_banglejs_main">O Bangle.js Gadgetbridge</string>
-    <string name="about_description_banglejs_main">Doprovodná aplikace pro Bangle.js pro Android vytvořená na základě projektu Gadgetbridge s přidaným přístupem k internetu.</string>
+    <string name="about_description_banglejs_main">Doprovodná aplikace pro Bangle.js pro Android vytvořená na základě projektu Gadgetbridge s přidaným přístupem k internetu.
+\n
+\nVzhledem k pravidlům obchodu Google Play nemůžeme v samotné aplikaci uvést odkaz na dárcovství, pokud se vám tato aplikace ale líbí, zvažte prosím možnost přispět prostřednictvím níže uvedené domovské stránky Gadgetbridge.</string>
     <string name="application_name_main_nightly">Gadgetbridge (Nightly)</string>
     <string name="title_activity_controlcenter_banglejs_nopebble">Bangle.js Gadgetbridge</string>
     <string name="gadgetbridge_running_banglejs_nopebble">Bangle.js běží</string>
@@ -1638,10 +1642,10 @@
     <string name="pref_title_touch_volume">Hlasitost</string>
     <string name="pref_title_touch_spotify">Spotify</string>
     <string name="pref_switch_noise_control">Přepínání regulace hluku</string>
-    <string name="permission_notification_listener">%1$s potřebuje přístup k Notifikacím, aby bylo možno notifikace zobrazovat i na připojených hodinkách/náramku.
+    <string name="permission_notification_listener">%1$s potřebuje přístup k Notifikacím, aby bylo možno notifikace zobrazovat i na připojených hodinkách/náramku při vypnuté obrazovce telefonu.
 \n
 \nZvolte \'%2$s\', poté \'%1$s\' a a vyberte \'Povolit přístup k Notifikacím\', poté zvolte \'Zpět\' pro návrat do %1$s</string>
-    <string name="permission_notification_policy_access">%1$s potřebuje přístup k funkci Nerušit, aby bylo možno nastavit Nerušit i na připojených hodinkách/náramku.
+    <string name="permission_notification_policy_access">%1$s potřebuje přístup k funkci Nerušit, aby bylo možno nastavit Nerušit i na připojených hodinkách/náramku při vypnuté obrazovce telefonu.
 \n
 \nZvolte \'%2$s\', poté \'%1$s\' a a vyberte \'Povolit přístup funkci Nerušit\', poté zvolte \'Zpět\' pro návrat do %1$s</string>
     <string name="prefs_in_ear_detection_summary">Přehrávání hovorů do sluchátek, jsou li v uších</string>
@@ -1697,4 +1701,60 @@
     <string name="pref_voice_detect_duration_5">5 sekund</string>
     <string name="pref_voice_detect_duration_15">15 sekund</string>
     <string name="pref_voice_detect_duration_10">10 sekund</string>
+    <string name="pref_explanation_authkey_new_protocol">Pokud se na zařízení zobrazí zpráva \"Aktualizujte aplikaci na nejnovější verzi/Update the app to latest version\", zaškrtněte volbu \"Nový protokol ověřování\" výše. Informace najdete zde na wiki.</string>
+    <string name="pref_explanation_authkey">Některá zařízení vyžadují speciální párovací klíč pro první inicializaci zařízení. Klepněte zde pro další podrobnosti.</string>
+    <string name="ukranian">Ukrajinština</string>
+    <string name="notification_channel_gps">Sledování pomocí GPS</string>
+    <string name="controlcenter_set_parent_folder">Nastavení nadřazené složku</string>
+    <string name="error_setting_parent_folder">Chyba při nastavování nadřazené složky: %s</string>
+    <string name="controlcenter_folder_name">Název složky:</string>
+    <string name="controlcenter_toggle_details">Zobrazit/Skrýt podrobnosti</string>
+    <string name="pref_workout_start_on_phone_title">Sledování pomocí fitness aplikací</string>
+    <string name="pref_workout_start_on_phone_summary">Spuštění/zastavení sledování fitness aplikací v telefonu při spuštění tréninku na náramku/hodinkách</string>
+    <string name="pref_workout_send_gps_title">Během cvičení posílat GPS do náramku</string>
+    <string name="pref_workout_send_gps_summary">Během tréninku odesílat do náramku aktuální GPS polohu</string>
+    <string name="discovery_scanning_intensity">Intenzita skenování</string>
+    <string name="notification_gps_text">Odesílání polohy GPS do %1$d zařízení</string>
+    <string name="notification_gps_title">Gadgetbridge GPS</string>
+    <string name="quick_alarm">Rychlý budík</string>
+    <string name="pref_title_banglejs_webview_url">Adresa URL zavaděče aplikací</string>
+    <string name="pref_summary_banglejs_webview_url">Pokud chcete vlastní zavaděč aplikací, vložte adresu ve formátu URL https://.../android.html. V opačném případě zanechte prázdné pro https://banglejs.com/apps</string>
+    <string name="portuguese_br">Portugalština (Brazílie)</string>
+    <string name="portuguese_pt">Portugalština (Portugalsko)</string>
+    <string name="permission_location">%1$s vyžaduje přístup k poloze (na pozadí) z důvodu zajištění udržení spojení z Vašimi hodinkami i v době, kdy je obrazovka telefonu zhasnutá.
+\n
+\nStiskněte prosím \'%2$s\' pro souhlas.</string>
+    <string name="info_no_devices_connected">nejsou připojena žádná zařízení</string>
+    <string name="info_connected_count">Připojená zařízení: %d</string>
+    <string name="czech">Čeština</string>
+    <string name="pref_device_action_phone_gps_location_listener_stop">Ukončit službu GPS polohy</string>
+    <string name="prefs_password">Heslo</string>
+    <string name="prefs_password_summary">Zamknutí pásku heslem při sejmutí ze zápěstí</string>
+    <string name="prefs_password_enabled">Heslo povoleno</string>
+    <string name="bengali">Bengálština</string>
+    <string name="estonian">Estonština</string>
+    <string name="extended_ascii">Rozšířená ASCII sada</string>
+    <string name="icelandic">Islandština</string>
+    <string name="lithuanian">Litevština</string>
+    <string name="controlcenter_add_new_folder">Přidat novou složku</string>
+    <string name="controlcenter_unset_folder">Zrušit nastavení složky</string>
+    <string name="pref_blacklist_calendars_summary">Kalendáře na černé listině nebudou synchronizovány se zařízením</string>
+    <string name="pref_title_notification_delay_calls">Zpoždění upozornění na hovor</string>
+    <string name="pref_summary_notification_delay_calls">Zpoždění před odesláním oznámení o příchozím hovoru do zařízení, v sekundách.</string>
+    <string name="discovery_scanning_intensity_warning">Pokud dochází k zamrznutí nebo nereagování aplikace při skenování, zkuste nastavit intenzitu skenování na nižší úroveň. Pokud vaše bluetooth zařízení není vyhledáno, zkuste nastavit intenzitu skenování na vyšší úroveň.</string>
+    <string name="prefs_password_4_digits_1_to_4_summary">Heslo musí mít 4 znaky a musí obsahovat čísla 1 až 4</string>
+    <string name="prefs_password_6_digits_0_to_9_summary">Heslo musí mít 6 znaků a může obsahovat pouze čísla</string>
+    <string name="persian">Perština</string>
+    <string name="scandinavian">Skandinávské</string>
+    <string name="quick_alarm_description">Budík z widgetu</string>
+    <string name="controlcenter_set_preferences">Nastavení preferencí</string>
+    <string name="controlcenter_connected_fraction">Připojeno: %d/%d</string>
+    <string name="error_deleting_device">Chyba při mazání zařízení: %s</string>
+    <string name="controlcenter_set_folder_title">Nastavení nebo vytvoření nové složky</string>
+    <string name="auto_reconnect_ble_title">Automatické opětovné připojení k zařízení</string>
+    <string name="auto_reconnect_ble_summary">Pravidelně se aktivně pokoušet připojit k zařízení</string>
+    <string name="connection_over_ble">Připojení přes BLE</string>
+    <string name="connection_over_bt_classic">Připojení přes Bluetooth classic</string>
+    <string name="autoconnect_from_device_title">Připojení při požadavku o připojení ze zařízení</string>
+    <string name="autoconnect_from_device_summary">Navázání připojení při iniciování připojení zařízením, například sluchátky</string>
 </resources>
