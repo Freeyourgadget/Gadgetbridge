@@ -40,19 +40,19 @@
     <string name="title_activity_calblacklist">阻止记录</string>
     <string name="title_activity_fw_app_insaller">FW/App 安装器</string>
     <string name="fw_upgrade_notice">您即将安装 %s 。</string>
-    <string name="fw_upgrade_notice_amazfitbip">即将在您的华米手表青春版(Amazfit Bip)上安装固件 %s 。 
-\n 
-\n请确保安装.fw文件，然后安装.res文件，最后安装.gps文件。 安装.fw文件后，手表将重新启动。 
-\n 
-\n注意：如果这些文件与之前安装的完全一样，则不必安装.res和.gps文件。 
-\n 
+    <string name="fw_upgrade_notice_amazfitbip">即将在您的跃我手表青春版(Amazfit Bip)上安装固件 %s 。
+\n
+\n请确保安装.fw文件，然后安装.res文件，最后安装.gps文件。 安装.fw文件后，手表将重新启动。
+\n
+\n注意：如果这些文件与之前安装的完全一样，则不必安装.res和.gps文件。
+\n
 \n***继续需要您自担风险！</string>
-    <string name="fw_upgrade_notice_amazfitcor">您即将在您的华米手环(Amazfit Cor)上安装固件 %s 。 
-\n 
-\n请确保安装了 .fw 文件，然后安装 .rec 文件。 安装 .fw 文件后，手表将重新启动。 
-\n 
-\n注意：如果这些文件与之前安装的完全一样，则不必安装 .res 。 
-\n 
+    <string name="fw_upgrade_notice_amazfitcor">您即将在您的跃我手环(Amazfit Cor)上安装固件 %s 。
+\n
+\n请确保安装了 .fw 文件，然后安装 .rec 文件。 安装 .fw 文件后，手表将重新启动。
+\n
+\n注意：如果这些文件与之前安装的完全一样，则不必安装 .res 。
+\n
 \n您需要自行承担风险！</string>
     <string name="fw_multi_upgrade_notice">您即将安装固件 %1$s 和 %2$s，代替当前在小米手环上的固件。</string>
     <string name="miband_firmware_known">该固件已经过测试，并且已知与 Gadgetbridge 兼容。</string>
@@ -195,7 +195,7 @@
     <string name="pairing_already_bonded">已与 %1$s (%2$s) 绑定，正在连接…</string>
     <string name="message_cannot_pair_no_mac">没有 MAC 地址通过, 不能配对。</string>
     <string name="preferences_category_device_specific_settings">设备特定设置</string>
-    <string name="preferences_miband_settings">小米手环/华米手环设置</string>
+    <string name="preferences_miband_settings">小米手环/跃我手环设置</string>
     <string name="male">男</string>
     <string name="female">女</string>
     <string name="other">其它</string>
@@ -450,8 +450,8 @@
     <string name="devicetype_unknown">未知设备</string>
     <string name="devicetype_miband">小米手环</string>
     <string name="devicetype_miband2">小米手环2</string>
-    <string name="devicetype_amazfit_bip">华米手表青春版</string>
-    <string name="devicetype_amazfit_cor">华米手环</string>
+    <string name="devicetype_amazfit_bip">跃我手表青春版</string>
+    <string name="devicetype_amazfit_cor">跃我手环</string>
     <string name="pref_title_weather">天气</string>
     <string name="vibration_profile_waterdrop">水滴</string>
     <string name="devicetype_test">测试设备</string>
@@ -682,14 +682,14 @@
     <string name="pref_title_authkey">认证密钥</string>
     <string name="pref_summary_authkey">将您想要连接的所有 Android 设备上的认证密钥更改为通用的密钥。默认所有设备的密钥是 0123456789@ABCDE</string>
     <string name="devicetype_bfh16">BFH-16</string>
-    <string name="fw_upgrade_notice_amazfitcor2">您即将在华米手环2(Amazfit Cor 2)上安装 %s 版本的固件 
-\n 
-\n请确保先安装 .fw 文件，再安装 .res 文件。您的手环将会在安装了 .fw 文件后重启 
-\n 
-\n备注：如果您安装的 .res 文件和之前相同，则无需安装 .res 文件 
-\n 
-\n风险自担！ 
-\n 
+    <string name="fw_upgrade_notice_amazfitcor2">您即将在跃我手环2(Amazfit Cor 2)上安装 %s 版本的固件
+\n
+\n请确保先安装 .fw 文件，再安装 .res 文件。您的手环将会在安装了 .fw 文件后重启
+\n
+\n备注：如果您安装的 .res 文件和之前相同，则无需安装 .res 文件
+\n
+\n风险自担！
+\n
 \n此功能未经测试，如果您的设备名为“Amazfit Band 2”，您可能需要刷入 BEATS_W 固件</string>
     <string name="dutch">荷兰语</string>
     <string name="turkish">土耳其语</string>
@@ -699,7 +699,7 @@
     <string name="thai">泰语</string>
     <string name="vietnamese">越南语</string>
     <string name="portuguese">葡萄牙语</string>
-    <string name="devicetype_amazfit_cor2">华米手环2</string>
+    <string name="devicetype_amazfit_cor2">跃我手环2</string>
     <string name="devicetype_miband4">小米手环4</string>
     <string name="fw_upgrade_notice_miband4">您即将在您的的小米手环4上安装 %s 固件。
 \n
@@ -753,27 +753,27 @@
     <string name="activity_error_no_app_for_gpx">若需要查看活动轨迹，请安装一个能查看 GPX 文件的应用。</string>
     <string name="preferences_makibes_hr3_settings">Makibes HR3 设置</string>
     <string name="devicetype_makibes_hr3">Makibes HR3</string>
-    <string name="devicetype_amazfit_bip_lite">华米手表青春版 Lite</string>
+    <string name="devicetype_amazfit_bip_lite">跃我手表青春版 Lite</string>
     <string name="prefs_find_phone">查找手机</string>
     <string name="prefs_enable_find_phone">启用“查找手机”</string>
     <string name="prefs_find_phone_summary">使用您的手环以在手机上播放铃声。</string>
     <string name="prefs_find_phone_duration">铃声将持续数秒</string>
     <string name="maximum_duration">持续</string>
     <string name="discovery_need_to_enter_authkey">此设备需要认证密钥，请在设备上长按以输入密钥。具体请阅读 Wiki 。</string>
-    <string name="fw_upgrade_notice_amazfitbip_lite">您即将在华米手表青春版 Lite(Amazfit Bip Lite)上安装 %s 版本的固件 
-\n 
-\n请确保先安装 .fw 文件，再安装 .res 文件。您的手环将会在安装了 .fw 文件后重启 
-\n 
-\n备注：如果您安装的 .res 文件和之前相同，则无需安装 .res 文件 
-\n 
+    <string name="fw_upgrade_notice_amazfitbip_lite">您即将在跃我手表青春版 Lite(Amazfit Bip Lite)上安装 %s 版本的固件
+\n
+\n请确保先安装 .fw 文件，再安装 .res 文件。您的手环将会在安装了 .fw 文件后重启
+\n
+\n备注：如果您安装的 .res 文件和之前相同，则无需安装 .res 文件
+\n
 \n风险自担！</string>
-    <string name="devicetype_amazfit_gtr">华米 GTR</string>
-    <string name="fw_upgrade_notice_amazfitgtr">即将在您的华米 GTR (Amazfit GTR) 上安装固件 %s 。 
-\n 
-\n请确保先安装 .fw 文件，然后再安装 .res 文件，最后再安装 .gps 文件。您的手表将会安装了 .fw 文件后重启。 
-\n 
-\n注意：如果 .res 和 .gps 文件和上一个版本相同，您则无需安装。 
-\n 
+    <string name="devicetype_amazfit_gtr">跃我 GTR</string>
+    <string name="fw_upgrade_notice_amazfitgtr">即将在您的跃我 GTR (Amazfit GTR) 上安装固件 %s 。
+\n
+\n请确保先安装 .fw 文件，然后再安装 .res 文件，最后再安装 .gps 文件。您的手表将会安装了 .fw 文件后重启。
+\n
+\n注意：如果 .res 和 .gps 文件和上一个版本相同，您则无需安装。
+\n
 \n风险自担！</string>
     <string name="pref_chart_heartrate_color_red">红</string>
     <string name="pref_chart_heartrate_color_orange">橙</string>
@@ -781,13 +781,13 @@
     <string name="pref_title_chart_sleep_rolling_24_hour">睡眠范围</string>
     <string name="pref_chart_sleep_rolling_24_on">过去 24 小时</string>
     <string name="pref_chart_sleep_rolling_24_off">中午到中午</string>
-    <string name="devicetype_amazfit_gts">华米 GTS</string>
-    <string name="fw_upgrade_notice_amazfitgts">您即将在华米手表 GTS(Amazfit GTS)上安装 %s 版本的固件 
-\n 
-\n请确保先安装 .fw 文件，再安装 .res 文件。您的手环将会在安装了 .fw 文件后重启。 
-\n 
-\n备注：如果您安装的 .res 文件和之前相同，则无需安装 .res 文件。 
-\n 
+    <string name="devicetype_amazfit_gts">跃我 GTS</string>
+    <string name="fw_upgrade_notice_amazfitgts">您即将在跃我手表 GTS(Amazfit GTS)上安装 %s 版本的固件
+\n
+\n请确保先安装 .fw 文件，再安装 .res 文件。您的手环将会在安装了 .fw 文件后重启。
+\n
+\n备注：如果您安装的 .res 文件和之前相同，则无需安装 .res 文件。
+\n
 \n风险自担！</string>
     <string name="mi2_prefs_button_press_broadcast_default_value" translatable="false">nodomain.freeyourgadget.gadgetbridge.ButtonPressed</string>
     <string name="devicetype_qhybrid">Fossil Q Hybrid</string>
@@ -841,7 +841,7 @@
     <string name="hr_appname_stopwatch">秒表</string>
     <string name="hr_appname_commute">通勤</string>
     <string name="pref_title_vibration_strength">振动强度</string>
-    <string name="devicetype_amazfit_bips">华米手表青春版 S</string>
+    <string name="devicetype_amazfit_bips">跃我手表青春版 S</string>
     <string name="pref_title_relax_firmware_checks">若您希望刷入并非为您设备设计的固件，请选中此项（风险自担）</string>
     <string name="pref_summary_relax_firmware_checks">放宽固件检查</string>
     <string name="pref_header_auto_fetch">自动获取</string>
@@ -892,14 +892,14 @@
     <string name="bip_prefs_shortcuts">快捷方式</string>
     <string name="hr_widget_last_notification">最近通知</string>
     <string name="controlcenter_set_alias">设置别称</string>
-    <string name="fw_upgrade_notice_amazfit_trex">您即将再您的华米 T-Rex 上安装 %s 固件。
+    <string name="fw_upgrade_notice_amazfit_trex">您即将再您的跃我 T-Rex 上安装 %s 固件。
 \n
 \n请确保先安装 .fw 文件，再安装 .res 文件，最后安装 .gps 文件。您的手表将会再安装了 .fw 文件后重启。
 \n
 \n备注：如果 .res 和 .gps 版本与之前的版本相同，您就无需安装这两个文件。
 \n
 \n风险自担！</string>
-    <string name="devicetype_amazfit_trex">华米 T-Rex</string>
+    <string name="devicetype_amazfit_trex">跃我 T-Rex</string>
     <string name="about_additional_contributions">感谢所有未列出的贡献者，他们贡献了代码、翻译、支持、想法、动力、错误报告和金钱… ✊</string>
     <string name="about_additional_device_support">额外设备支持</string>
     <string name="about_contributors">贡献者</string>
@@ -935,7 +935,7 @@
     <string name="error_exporting_device_preferences">导出设备特定首选项时遇到错误</string>
     <string name="pref_check_permission_status_summary">检查并要求尚未获得的权限即使并非立刻需要。若您的设备的确不支持此类功能，也可禁用。不进行授权可能会导致问题！</string>
     <string name="pref_check_permission_status">检查权限状态</string>
-    <string name="device_requires_key">需要密钥</string>
+    <string name="device_requires_key">需要按键，长按可进入</string>
     <string name="device_is_currently_bonded">已经绑定过了</string>
     <string name="companiondevice_pairing">CompanionDevice 配对</string>
     <string name="require_location_provider">必须启动定位</string>
@@ -1093,18 +1093,18 @@
     <string name="devicestatus_connected">设备已连接</string>
     <string name="devicestatus_connecting">设备正在连接中</string>
     <string name="activity_prefs_step_length_cm">步伐厘米长度</string>
-    <string name="devicetype_amazfit_band5">华米手环 5</string>
+    <string name="devicetype_amazfit_band5">跃我手环 5</string>
     <string name="menuitem_spo2">血氧饱和度</string>
     <string name="qhybrid_calibration_align_hint">使用下面的按钮，将手表指针对准12点。</string>
     <string name="gps_track">GPS 跟踪</string>
     <string name="about_version">版本 %s</string>
-    <string name="devicetype_amazfit_bips_lite">华米 Bip S Lite</string>
+    <string name="devicetype_amazfit_bips_lite">跃我 Bip S Lite</string>
     <string name="charts_legend_heartrate_average">平均心率</string>
     <string name="charts_min_max_heartrate_popup">最低心率：%1$d
 \n最高心率：%2$d
 \n移动强度：%3$s</string>
     <string name="find_lost_device_message">搜索 %1$s ？</string>
-    <string name="devicetype_amazfit_gtr2">华米 GTR 2</string>
+    <string name="devicetype_amazfit_gtr2">跃我 GTR 2</string>
     <string name="menuitem_stopwatch">秒表</string>
     <string name="menuitem_dnd">勿扰</string>
     <string name="menuitem_alexa">Alexa</string>
@@ -1118,14 +1118,14 @@
     <string name="activity_list_summary_active_time">活跃时间</string>
     <string name="activity_list_summary_distance">距离</string>
     <string name="activity_list_summary_active_steps">活跃步数</string>
-    <string name="devicetype_amazfit_gts2">华米 GTS 2</string>
+    <string name="devicetype_amazfit_gts2">跃我 GTS 2</string>
     <string name="devicetype_casiogbx100">卡西欧 GBX-100</string>
     <string name="prefs_charts_tabs">图表标签</string>
     <string name="prefs_charts_tabs_summary">可见的图表标签</string>
     <string name="menuitem_pomodoro">Pomodoro 跟踪</string>
     <string name="menuitem_sleep">睡眠</string>
     <string name="menuitem_goal">活动目标</string>
-    <string name="devicetype_amazfit_bipu">华米 Bip U</string>
+    <string name="devicetype_amazfit_bipu">跃我 Bip U</string>
     <string name="pref_summary_connected_advertisement">即使设备已连接，也将设备蓝牙设置为可发现</string>
     <string name="pref_title_connected_advertisement">已连接时可见</string>
     <string name="prefs_autoremove_message">自动移除短信通知</string>
@@ -1134,8 +1134,8 @@
     <string name="prefs_key_vibration">按键震动</string>
     <string name="prefs_autolight">自动亮度</string>
     <string name="discovery_entered_invalid_authkey">输入的认证密钥无效！请在设备上长按以进行编辑。</string>
-    <string name="devicetype_amazfit_vergel">华米 Verge Lite</string>
-    <string name="fw_upgrade_notice_amazfitvergel">您即将在您的华米 Verge Lite 上安装 %s 固件。
+    <string name="devicetype_amazfit_vergel">跃我 Verge Lite</string>
+    <string name="fw_upgrade_notice_amazfitvergel">您即将在您的跃我 Verge Lite 上安装 %s 固件。
 \n
 \n请确保先安装 .fw 文件，再安装 .res 文件最后是 .gps 文件。您的手机表再安装了 .fw 文件后会自动重启。
 \n
@@ -1147,27 +1147,27 @@
     <string name="widget_settings_select_device_title">选择设备</string>
     <string name="dbmanagementactivity_export_confirmation">确定需要导出数据吗？之前导出的数据（若有）将会被覆盖。</string>
     <string name="dbmanagementactivity_export_data_title">导出数据？</string>
-    <string name="devicetype_amazfit_bipupro">华米 Bip U Pro</string>
+    <string name="devicetype_amazfit_bipupro">跃我 Bip U Pro</string>
     <string name="dbmanagementactivity_export_finished">已删除</string>
     <string name="activity_db_management_clean_export_directory_text">位于导入/导出目录中的已导出文件可以被您设备上的任意应用所访问。您在备份或同步这些文件后，建议删除这戏文件。请确保在进行备份后再进行删除。GPX文件、子目录和自动导出的数据库文件（若有）将不会被删除。导入/导出目录的路径是：</string>
     <string name="activity_DB_clean_export_directory_warning_title">删除导入/导出目录中的文件？</string>
     <string name="activity_DB_clean_export_directory_warning_message">确实需要删除导入/导出目录中的文件？</string>
     <string name="activity_db_management_clean_export_directory_label">删除导入/导出目录中的文件</string>
     <string name="dbmanagementactivity_error_cleaning_export_directory">从导出目录 %1$s 中删除文件时遇到错误</string>
-    <string name="devicetype_amazfit_neo">华米 Neo</string>
+    <string name="devicetype_amazfit_neo">跃我 Neo</string>
     <string name="activity_type_strength_training">力量训练</string>
     <string name="mi">英里</string>
     <string name="minutes_mi">分钟/英里</string>
     <string name="mi_h">迈</string>
     <string name="ft">英尺</string>
-    <string name="devicetype_amazfit_gts2_mini">华米 GTS 2 Mini</string>
+    <string name="devicetype_amazfit_gts2_mini">跃我 GTS 2 Mini</string>
     <string name="devicetype_zepp_e">Zepp E</string>
-    <string name="devicetype_amazfit_gtr2e">华米 GTR 2e</string>
+    <string name="devicetype_amazfit_gtr2e">跃我 GTR 2e</string>
     <string name="devicetype_waspos">Wasp os</string>
     <string name="battery_detail_activity_title">电池信息</string>
-    <string name="devicetype_amazfit_gts2e">华米 GTS 2e</string>
-    <string name="devicetype_amazfit_x">华米 X</string>
-    <string name="fw_upgrade_notice_amazfitx">您即将在您的 华米 X 上安装 %s 固件。
+    <string name="devicetype_amazfit_gts2e">跃我 GTS 2e</string>
+    <string name="devicetype_amazfit_x">跃我 X</string>
+    <string name="fw_upgrade_notice_amazfitx">您即将在您的 跃我 X 上安装 %s 固件。
 \n
 \n请确保首先安装 .fw 文件，再安装 .res 文件。您的手环将会在安装了 .fw 文件后自动重启。
 \n
@@ -1187,7 +1187,7 @@
     <string name="fossil_hr_auth_failed">由于认证失败，功能受到限制</string>
     <string name="fossil_hr_unavailable_unauthed">未认证模式下不可用</string>
     <string name="fossil_hr_synced_activity_data">已同步的活动数据</string>
-    <string name="fossil_hr_commute_processing">正在处理请求……</string>
+    <string name="fossil_hr_commute_processing">正在处理请求…</string>
     <string name="qhybrid_title_calibration">校准</string>
     <string name="qhybrid_title_apps_management">应用管理</string>
     <string name="qhybrid_title_file_management">文件管理</string>
@@ -1197,7 +1197,7 @@
     <string name="fossil_hr_warning_firmware_too_new">由于手表固件过新，某些功能被禁用</string>
     <string name="prefs_sounds_summary">进行配置时设备将会发出声响</string>
     <string name="prefs_sounds">声音</string>
-    <string name="fw_upgrade_notice_amazfitneo">您即将在您的华米 Neo 上安装 %s 固件。
+    <string name="fw_upgrade_notice_amazfitneo">您即将在您的跃我 Neo 上安装 %s 固件。
 \n
 \n您的手环将在安装了 .fw 文件后重启。
 \n
@@ -1245,7 +1245,7 @@
     <string name="pref_title_developer_settings">开发者设置</string>
     <string name="qhybrid_pref_summary_actions">为通勤应用的动作</string>
     <string name="qhybrid_pref_title_actions">动作</string>
-    <string name="devicetype_amazfit_trex_pro">华米 T-Rex Pro</string>
+    <string name="devicetype_amazfit_trex_pro">跃我 T-Rex Pro</string>
     <string name="menuitem_barometer">气压计</string>
     <string name="pref_theme_black_background">在深色主题中使用黑色背景</string>
     <string name="gpx_receiver_overwrite_some_files">某些文件已经存在，覆盖吗？</string>
@@ -1564,8 +1564,8 @@
     <string name="sony_anc_optimizer_status_not_running">没有运行</string>
     <string name="sony_anc_optimizer_status_finished">即将完成…</string>
     <string name="sony_anc_optimizer_status_starting">正在开始…</string>
-    <string name="devicetype_amazfit_pop_pro">华米 Pop Pro</string>
-    <string name="devicetype_amazfit_pop">华米 Pop</string>
+    <string name="devicetype_amazfit_pop_pro">跃我 Pop Pro</string>
+    <string name="devicetype_amazfit_pop">跃我 Pop</string>
     <string name="menuitem_nothing">无</string>
     <string name="pref_title_opentracks_packagename">OpenTracks 包名</string>
     <string name="pref_summary_opentracks_packagename">用于启动/停止外部健身应用的 GPS 追踪记录。</string>
@@ -1732,4 +1732,30 @@
     <string name="ukranian">乌克兰语</string>
     <string name="bengali">孟加拉语</string>
     <string name="icelandic">冰岛语</string>
+    <string name="pref_explanation_authkey">有些设备在第一次初始化时需要一个特殊的配对密钥。点击这里了解更多细节。</string>
+    <string name="pref_explanation_authkey_new_protocol">如果您看到“请更新应用程序到最新版本”的信息，请确保选中上面的\"新认证协议\"。您可以在Wiki上获得更多信息。</string>
+    <string name="prefs_password">密码</string>
+    <string name="prefs_password_summary">从手腕上取下时，用密码锁定手环</string>
+    <string name="prefs_password_4_digits_1_to_4_summary">密码必须有4位数，使用数字1至4</string>
+    <string name="prefs_password_6_digits_0_to_9_summary">密码必须有6位数，只使用数字</string>
+    <string name="controlcenter_set_parent_folder">设置父文件夹</string>
+    <string name="controlcenter_set_preferences">设置首选项</string>
+    <string name="controlcenter_toggle_details">切换详细信息</string>
+    <string name="controlcenter_connected_fraction">已连接： %d/%d</string>
+    <string name="controlcenter_add_new_folder">添加新文件夹</string>
+    <string name="autoconnect_from_device_title">从设备连接时连接</string>
+    <string name="pref_title_notification_delay_calls">来电通知延迟</string>
+    <string name="pref_summary_notification_delay_calls">向设备发送来电通知之前的延迟，以秒为单位。</string>
+    <string name="pref_blacklist_calendars_summary">被列入黑名单的日历将不会被同步到设备上</string>
+    <string name="controlcenter_unset_folder">取消设置文件夹</string>
+    <string name="controlcenter_set_folder_title">设置或创建新的文件夹</string>
+    <string name="prefs_password_enabled">密码已启用</string>
+    <string name="error_setting_parent_folder">设置父文件夹时出错： %s</string>
+    <string name="error_deleting_device">删除设备时出错： %s</string>
+    <string name="controlcenter_folder_name">文件夹名称：</string>
+    <string name="auto_reconnect_ble_title">自动重新连接到设备</string>
+    <string name="auto_reconnect_ble_summary">主动尝试定期与设备连接</string>
+    <string name="connection_over_ble">通过 BLE 进行连接</string>
+    <string name="connection_over_bt_classic">通过经典蓝牙连接</string>
+    <string name="autoconnect_from_device_summary">当连接由设备发起时，建立一个连接，如耳机</string>
 </resources>
