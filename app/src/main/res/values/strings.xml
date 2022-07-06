@@ -137,6 +137,18 @@
     <string name="miband_firmware_known">This firmware has been tested and is known to be compatible with Gadgetbridge.</string>
     <string name="miband_firmware_unknown_warning">"This firmware is untested and may not be compatible with Gadgetbridge.\n\nYou are DISCOURAGED from flashing it!"</string>
     <string name="miband_firmware_suggest_whitelist">If you still want to proceed and things continue to work properly afterwards, please tell the Gadgetbridge developers to whitelist the %s firmware version.</string>
+    <!-- Strings related to the FwAppInstaller opener activity -->
+    <string name="open_fw_installer_info_text">The Firmware/Watchface/App/File Installer allows you to upload/install supported files (firmware, watchfaces, applications, GPS, resources, fonts...) to the device. See some more information in the wiki: https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Firmware-Update</string>
+    <string name="open_fw_installer_warning_title">Warning</string>
+    <string name="open_fw_installer_warning_text">This feature has the potential to brick your device. That said, this has never happened to any of the developers through flashing, but remember that you are doing this at your own risk.</string>
+    <string name="open_fw_installer_getting_files_title">Getting the firmware/app file</string>
+    <string name="open_fw_installer_getting_files_text">Since we may not distribute the firmware files, you will have to get the files yourself. This means that you will need to search for the files in apk files, online, in forums, on Amazfitwatchfaces (for Miband/Amazfit devices) and so on.</string>
+    <string name="open_fw_installer_pick_file">Select file</string>
+    <string name="open_fw_installer_info_text_title">File Installer</string>
+    <string name="open_fw_installer_select_file">Select a file you want to upload to device: %s</string>
+    <string name="open_fw_installer_connect_minimum_one_device">Please connect AT LEAST ONE device you want to send the file to.</string>
+    <string name="open_fw_installer_connect_maximum_one_device">Please connect ONLY ONE device you want to send the file to.</string>
+    <string name="open_fw_installer_ensure_device_connected">Make sure that the device %s is connected</string>
     <!-- Strings related to Settings -->
     <string name="title_activity_settings">Settings</string>
     <string name="pref_header_general">General settings</string>

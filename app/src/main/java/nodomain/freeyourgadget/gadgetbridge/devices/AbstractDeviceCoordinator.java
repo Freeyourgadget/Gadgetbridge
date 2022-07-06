@@ -190,6 +190,9 @@ public abstract class AbstractDeviceCoordinator implements DeviceCoordinator {
     }
 
     @Override
+    public boolean supportsFlashing() { return false; }
+
+    @Override
     public boolean supportsAppReordering() {
         return false;
     }

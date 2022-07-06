@@ -216,12 +216,12 @@ public class FwAppInstallerActivity extends AbstractGBActivity implements Instal
 
             List<GBDevice> selectedDevices = GBApplication.app().getDeviceManager().getSelectedDevices();
             if(selectedDevices.size() == 0){
-                GB.toast("please connect the device you want to send to", Toast.LENGTH_LONG, GB.ERROR);
+                GB.toast(getString(R.string.open_fw_installer_connect_minimum_one_device), Toast.LENGTH_LONG, GB.ERROR);
                 finish();
                 return;
             }
             if(selectedDevices.size() != 1){
-                GB.toast("please connect ONLY the device you want to send to", Toast.LENGTH_LONG, GB.ERROR);
+                GB.toast(getString(R.string.open_fw_installer_connect_maximum_one_device), Toast.LENGTH_LONG, GB.ERROR);
                 finish();
                 return;
             }

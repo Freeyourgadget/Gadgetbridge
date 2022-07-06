@@ -436,6 +436,11 @@
             android:parentActivityName=".activities.ControlCenterv2"
             android:windowSoftInputMode="stateHidden" />
         <activity
+            android:name=".activities.OpenFwAppInstallerActivity"
+            android:label="@string/open_fw_installer_info_text_title"
+            android:parentActivityName=".activities.ControlCenterv2"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
             android:name=".activities.BatteryInfoActivity"
             android:label="@string/battery_detail_activity_title"
             android:parentActivityName=".activities.ControlCenterv2" />

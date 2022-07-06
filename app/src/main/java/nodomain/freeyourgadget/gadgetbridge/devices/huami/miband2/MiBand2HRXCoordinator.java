@@ -68,6 +68,9 @@ public class MiBand2HRXCoordinator extends HuamiCoordinator {
     }
 
     @Override
+    public boolean supportsFlashing() { return false; }
+
+    @Override
     public boolean supportsAlarmSnoozing() {
         return true;
     }

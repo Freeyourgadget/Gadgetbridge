@@ -85,7 +85,7 @@ public class FossilInstallHandler implements InstallHandler {
             return;
         }
         if (device.getType() != DeviceType.FOSSILQHYBRID || !device.isConnected()) {
-            installActivity.setInfoText("Element cannot be installed");
+            installActivity.setInfoText("Element cannot be installed 3");
             installActivity.setInstallEnabled(false);
             return;
         }

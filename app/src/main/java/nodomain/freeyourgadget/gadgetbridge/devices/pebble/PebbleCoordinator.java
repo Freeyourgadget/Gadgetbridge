@@ -108,6 +108,9 @@ public class PebbleCoordinator extends AbstractBLClassicDeviceCoordinator {
     }
 
     @Override
+    public boolean supportsFlashing() { return true; }
+
+    @Override
     public boolean supportsActivityDataFetching() {
         return false;
     }

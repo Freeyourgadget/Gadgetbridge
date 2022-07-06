@@ -72,7 +72,7 @@ public class FossilHRInstallHandler implements InstallHandler {
             return;
         }
         if (device.getType() != DeviceType.FOSSILQHYBRID || !device.isConnected() || !fossilFile.isValid()) {
-            installActivity.setInfoText("Element cannot be installed");
+            installActivity.setInfoText("Element cannot be installed 1, type: " + device.getType() + " device: "+ device  + " is connected" + device.isConnected() + " is valid file:" + fossilFile.isValid());
             installActivity.setInstallEnabled(false);
             return;
         }
@@ -89,7 +89,7 @@ public class FossilHRInstallHandler implements InstallHandler {
             installItem.setIcon(R.drawable.ic_watchface);
             installActivity.setInfoText(mContext.getString(R.string.watchface_install_info, installItem.getName(), fossilFile.getVersion(), "(unknown)"));
         } else {
-            installActivity.setInfoText("Element cannot be installed");
+            installActivity.setInfoText("Element cannot be installed 2");
             installActivity.setInstallEnabled(false);
             return;
         }

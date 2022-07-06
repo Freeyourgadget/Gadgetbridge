@@ -32,6 +32,7 @@
 * Support folders in device list
 * Separate device settings which are specific to the application into Set preferences in device card
 * When pairing devices with auth key requirements, only show Auth key menu related items on long press
+* Provide access to the FW/App Installer via Set preferences in device card
 * Animate card movement in device list
 * Make transliteration configurable per-language
 * Widget: do not show sleep if not recorded

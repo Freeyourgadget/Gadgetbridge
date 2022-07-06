@@ -215,6 +215,14 @@ public interface DeviceCoordinator {
     SampleProvider<? extends ActivitySample> getSampleProvider(GBDevice device, DaoSession session);
 
     /**
+     * Returns true if this device/coordinator supports installing files like firmware,
+     * watchfaces, gps, resources, fonts...
+     *
+     * @return
+     */
+    boolean supportsFlashing();
+
+    /**
      * Finds an install handler for the given uri that can install the given
      * uri on the device being managed.
      *

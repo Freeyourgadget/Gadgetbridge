@@ -75,6 +75,7 @@ import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Hashtable;
@@ -92,6 +93,7 @@ import nodomain.freeyourgadget.gadgetbridge.activities.ConfigureAlarms;
 import nodomain.freeyourgadget.gadgetbridge.activities.ConfigureReminders;
 import nodomain.freeyourgadget.gadgetbridge.activities.ControlCenterv2;
 import nodomain.freeyourgadget.gadgetbridge.activities.HeartRateDialog;
+import nodomain.freeyourgadget.gadgetbridge.activities.OpenFwAppInstallerActivity;
 import nodomain.freeyourgadget.gadgetbridge.activities.VibrationActivity;
 import nodomain.freeyourgadget.gadgetbridge.activities.charts.ChartsActivity;
 import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsActivity;
@@ -811,6 +813,11 @@ public class GBDeviceAdapterv2 extends ListAdapter<GBDevice, GBDeviceAdapterv2.V
         }
     }
 
+    private boolean showInstallerItem(GBDevice device) {
+        final DeviceCoordinator coordinator = DeviceHelper.getInstance().getCoordinator(device);
+        return coordinator.supportsAppsManagement() || coordinator.supportsFlashing();
+    }
+
     private void showDeviceSubmenu(final View v, final GBDevice device) {
         boolean deviceConnected = device.getState() != GBDevice.State.NOT_CONNECTED;
 
@@ -823,6 +830,8 @@ public class GBDeviceAdapterv2 extends ListAdapter<GBDevice, GBDeviceAdapterv2.V
         menu.getMenu().findItem(R.id.controlcenter_device_submenu_connect).setVisible(!deviceConnected);
         menu.getMenu().findItem(R.id.controlcenter_device_submenu_disconnect).setVisible(deviceConnected);
         menu.getMenu().findItem(R.id.controlcenter_device_submenu_show_details).setEnabled(showInfoIcon);
+        menu.getMenu().findItem(R.id.controlcenter_device_submenu_installer).setEnabled(deviceConnected);
+        menu.getMenu().findItem(R.id.controlcenter_device_submenu_installer).setVisible(showInstallerItem(device));
 
         menu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
             @Override
@@ -870,6 +879,11 @@ public class GBDeviceAdapterv2 extends ListAdapter<GBDevice, GBDeviceAdapterv2.V
                     case R.id.controlcenter_device_submenu_set_parent_folder:
                         showSetParentFolderDialog(device);
                         return true;
+                    case R.id.controlcenter_device_submenu_installer:
+                        Intent openFwIntent = new Intent(context, OpenFwAppInstallerActivity.class);
+                        openFwIntent.putExtra(GBDevice.EXTRA_DEVICE, device);
+                        context.startActivity(openFwIntent);
+                        return false;
                 }
                 return false;
             }
