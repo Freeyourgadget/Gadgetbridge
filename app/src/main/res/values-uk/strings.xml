@@ -1764,4 +1764,5 @@
     <string name="auto_reconnect_ble_summary">Проактивно періодично намагатися під\'єднуватися до пристрою</string>
     <string name="connection_over_ble">З\'єднання через BLE</string>
     <string name="autoconnect_from_device_title">Під\'єднуватися після з\'єднання з пристрою</string>
+    <string name="watchface_dialog_widget_timezone_duration">Тривалість показу годинника (в секундах):</string>
 </resources>
