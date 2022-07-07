@@ -934,7 +934,7 @@
     <string name="error_exporting_device_preferences">Fout bij het exporteren van apparaatspecifieke voorkeuren</string>
     <string name="pref_check_permission_status_summary">Controleer en vraag om ontbrekende machtigingen, zelfs als ze mogelijk niet direct nodig zijn. Schakel dit alleen uit als uw apparaten geen van deze functies ondersteunen. Het niet verlenen van een toestemming kan problemen veroorzaken!</string>
     <string name="pref_check_permission_status">Machtigingsstatus controleren</string>
-    <string name="device_requires_key">SLEUTEL VEREIST</string>
+    <string name="device_requires_key">SLEUTEL VEREIST, LANG INDRUKKEN OM IN TE VOEREN</string>
     <string name="device_is_currently_bonded">REEDS GEKOPPELD</string>
     <string name="companiondevice_pairing_details">Schakelt de nieuwe CompanionDevice API-ondersteuning in (heeft alleen een effect op Android 8 of hoger), wat de betrouwbaarheid verhoogt als de service op de achtergrond opnieuw moet worden opgestart, vereist opnieuw koppelen met Gadgetbridge om effect te hebben</string>
     <string name="companiondevice_pairing">CompanionApparaat koppelen</string>
@@ -1192,7 +1192,6 @@
     <string name="qhybrid_title_file_management">Bestandsbeheer</string>
     <string name="qhybrid_title_background_image">Achtergrondafbeelding</string>
     <string name="qhybrid_title_apps">Apps</string>
-
     <string name="devicetype_um25">UM-25</string>
     <string name="fossil_hr_warning_firmware_too_new">Sommige functies zijn uitgeschakeld omdat de firmware van het horloge te nieuw is</string>
     <string name="prefs_sounds_summary">Instellen wanneer het apparaat geluid maakt</string>
@@ -1395,7 +1394,6 @@
     <string name="sony_equalizer_preset_vocal">Zang</string>
     <string name="sony_equalizer_preset_treble_boost">Hoge tonen</string>
     <string name="sony_equalizer_preset_manual">Handmatig</string>
-
     <string name="pref_header_sony_equalizer_preset_custom_1">Aangepaste voorinstelling 1</string>
     <string name="pref_header_sony_equalizer_preset_custom_2">Aangepaste voorinstelling 2</string>
     <string name="sony_equalizer_band_400">400</string>
@@ -1620,7 +1618,9 @@
     <string name="application_name_banglejs_nopebble">Bangle.js Gadgetbridge</string>
     <string name="title_activity_controlcenter_banglejs_nopebble">Bangle.js Gadgetbridge</string>
     <string name="about_activity_title_banglejs_nopebble">Over Bangle.js Gadgetbridge</string>
-    <string name="about_description_banglejs_nopebble">Android-app voor Bangle.js gebouwd bovenop het Gadgetbridge-project, met toegevoegde internettoegang.</string>
+    <string name="about_description_banglejs_nopebble">Android-app voor Bangle.js gebouwd bovenop het Gadgetbridge-project, met toegevoegde internettoegang.
+\n
+\nVanwege het Google Play Store-beleid is een donatielink in de app zelf niet toegestaan, maar als je deze app leuk vindt, overweeg dan om te doneren via de Gadgetbridge-homepage hieronder.</string>
     <string name="gadgetbridge_running_banglejs_nopebble">Bangle.js actief</string>
     <string name="application_name_main_nightly">Gadgetbridge (Nightly)</string>
     <string name="title_activity_controlcenter_main_nightly">Gadgetbridge Nightly</string>
@@ -1696,4 +1696,66 @@
     <string name="pref_title_device_intents">Intents toestaan</string>
     <string name="prefs_switch_control_left">Bediening links</string>
     <string name="prefs_switch_control_right">Bediening rechts</string>
+    <string name="controlcenter_set_preferences">Voorkeuren instellen</string>
+    <string name="pref_explanation_authkey">Sommige apparaten hebben een speciale koppelingssleutel nodig voor de allereerste initialisatie van het apparaat. Tik hier voor meer details.</string>
+    <string name="quick_alarm_description">Alarm van widget</string>
+    <string name="controlcenter_set_parent_folder">Map instellen</string>
+    <string name="permission_location">%1$s heeft toegang tot je locatie op de achtergrond nodig om verbonden te blijven met je horloge als het scherm is uitgeschakeld.
+\n
+\nTik op \'%2$s\' om akkoord te gaan.</string>
+    <string name="info_connected_count">%d apparaten verbonden</string>
+    <string name="autoconnect_from_device_summary">Breng een verbinding tot stand wanneer de verbinding tot stand wordt gebracht door een apparaat, zoals een hoofdtelefoon</string>
+    <string name="pref_workout_start_on_phone_title">Fitness-app tracking</string>
+    <string name="pref_workout_send_gps_title">GPS verzenden tijdens training</string>
+    <string name="notification_gps_title">Gadgetbridge GPS</string>
+    <string name="notification_gps_text">GPS-locatie verzenden naar %1$d-apparaten</string>
+    <string name="permission_notification_policy_access">%1$s heeft toegang nodig tot de instellingen voor Niet storen om ze op je horloge te respecteren wanneer het scherm van je telefoon is uitgeschakeld.
+\n
+\nTik op \'%2$s\' en vervolgens op \'%1$s\' en schakel \'Niet storen toestaan\' in, tik vervolgens op \'Terug\' om terug te keren naar %1$s</string>
+    <string name="permission_notification_listener">%1$s heeft toegang tot meldingen nodig om ze op je horloge weer te geven wanneer het scherm van je telefoon is uitgeschakeld.
+\n
+\nTik op \'%2$s\' en vervolgens op \'%1$s\' en schakel \'Toegang tot meldingen toestaan\' in, tik vervolgens op \'Terug\' om terug te keren naar %1$s</string>
+    <string name="discovery_scanning_intensity">Scanintensiteit</string>
+    <string name="pref_device_action_phone_gps_location_listener_stop">GPS-locatie Listener Stop</string>
+    <string name="pref_title_banglejs_webview_url">URL app-lader</string>
+    <string name="pref_summary_banglejs_webview_url">Als u een aangepaste app-lader wilt, plaatst u hier uw https://…/android.html URL. Laat anders leeg voor https://banglejs.com/apps</string>
+    <string name="pref_workout_start_on_phone_summary">Start/stop het volgen van de fitness-app op de telefoon wanneer een GPS-training op de band wordt gestart</string>
+    <string name="pref_workout_send_gps_summary">Stuur de huidige GPS-locatie naar de band tijdens een training</string>
+    <string name="discovery_scanning_intensity_warning">Als uw apparaat bevriest of niet reageert, probeer dan de scanintensiteit op een lager niveau in te stellen. Als uw apparaat niet wordt ontdekt, probeer dan de intensiteit van het scannen op een hoger niveau in te stellen.</string>
+    <string name="pref_title_notification_delay_calls">Vertraging oproepmelding</string>
+    <string name="pref_summary_notification_delay_calls">Vertraging voor het verzenden van inkomende oproepmeldingen naar het apparaat, in seconden.</string>
+    <string name="prefs_password">Wachtwoord</string>
+    <string name="prefs_password_summary">Vergrendel de band met een wachtwoord wanneer deze van de pols wordt verwijderd</string>
+    <string name="prefs_password_enabled">Wachtwoord ingeschakeld</string>
+    <string name="prefs_password_4_digits_1_to_4_summary">Het wachtwoord moet 4 cijfers hebben, met de nummers 1 tot en met 4</string>
+    <string name="info_no_devices_connected">geen apparaten aangesloten</string>
+    <string name="pref_blacklist_calendars_summary">Agenda\'s op de zwarte lijst worden niet gesynchroniseerd met het apparaat</string>
+    <string name="bengali">Bengaals</string>
+    <string name="czech">Tsjechisch</string>
+    <string name="estonian">Estisch</string>
+    <string name="extended_ascii">Uitgebreide ASCII</string>
+    <string name="icelandic">IJslands</string>
+    <string name="lithuanian">Litouws</string>
+    <string name="persian">Perzisch</string>
+    <string name="notification_channel_gps">GPS-tracking</string>
+    <string name="pref_explanation_authkey_new_protocol">Als u het bericht \"Update de app naar de nieuwste versie\" op de band krijgt, controleer de bovenstaande optie \"New Auth Protocol\". U vindt hiervoor informatie in de wiki.</string>
+    <string name="prefs_password_6_digits_0_to_9_summary">Het wachtwoord moet uit 6 cijfers bestaan, met alleen cijfers</string>
+    <string name="scandinavian">Scandinavisch</string>
+    <string name="ukranian">Oekraïens</string>
+    <string name="portuguese_br">Portugees (Brazilië)</string>
+    <string name="portuguese_pt">Portugees (Portugal)</string>
+    <string name="quick_alarm">Snel alarm</string>
+    <string name="controlcenter_toggle_details">Details in-/uitschakelen</string>
+    <string name="controlcenter_connected_fraction">Verbonden: %d/%d</string>
+    <string name="error_setting_parent_folder">Fout bij instellen van map: %s</string>
+    <string name="error_deleting_device">Fout bij verwijderen van apparaat: %s</string>
+    <string name="controlcenter_folder_name">Naam van de map:</string>
+    <string name="controlcenter_add_new_folder">Nieuwe map toevoegen</string>
+    <string name="controlcenter_unset_folder">Loskoppelen van map</string>
+    <string name="controlcenter_set_folder_title">Map selecteren of aanmaken</string>
+    <string name="auto_reconnect_ble_title">Automatisch opnieuw verbinden met apparaat</string>
+    <string name="auto_reconnect_ble_summary">Probeer regelmatig proactief verbinding te maken met het apparaat</string>
+    <string name="connection_over_ble">Verbinding via BLE</string>
+    <string name="connection_over_bt_classic">Verbinding via klassiek Bluetooth</string>
+    <string name="autoconnect_from_device_title">Verbinden bij verbinding vanaf apparaat</string>
 </resources>
