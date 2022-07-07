@@ -102,6 +102,7 @@ public class HybridHRWatchfaceFactory {
                         data.put("tzName", widgetDesc.getExtraConfigString("tzName", null));
                         data.put("loc", tzShortName);
                         data.put("utc", tzOffsetMins);
+                        data.put("timeout_secs", widgetDesc.getExtraConfigInt("timeout_secs", 0));
                         widget.put("data", data);
                     }
                     break;

@@ -1638,6 +1638,7 @@
     <string name="sony_button_mode_volume_control">Volume Control</string>
     <string name="watchface_widget_type_custom">Custom widget</string>
     <string name="watchface_dialog_widget_timezone">Time zone:</string>
+    <string name="watchface_dialog_widget_timezone_duration">Clock visibility duration (in seconds):</string>
     <string name="watchface_dialog_widget_update_timeout">Update timeout in minutes:</string>
     <string name="watchface_dialog_widget_timeout_hide_text">Hide text on timeout:</string>
     <string name="watchface_dialog_widget_timeout_show_circle">Show circle on timeout:</string>

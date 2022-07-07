@@ -571,6 +571,13 @@ public class HybridHRWatchfaceDesignerActivity extends AbstractGBActivity implem
         } else {
             tzSpinner.setSelection(Arrays.asList(timezonesList).indexOf("Etc/UTC"));
         }
+        // Set timezone clock timeout
+        final LinearLayout timezoneTimeoutLayout = layout.findViewById(R.id.watchface_widget_timezone_timeout_layout);
+        timezoneTimeoutLayout.setVisibility(View.GONE);
+        final EditText timezoneTimeout = layout.findViewById(R.id.watchface_widget_timezone_timeout);
+        if ((widget != null) && (widget.getExtraConfigInt("timeout_secs", -1) >= 0)) {
+            timezoneTimeout.setText(Integer.toString(widget.getExtraConfigInt("timeout_secs", -1)));
+        }
         // Set update timeout value
         final LinearLayout updateTimeoutLayout = layout.findViewById(R.id.watchface_widget_update_timeout_layout);
         updateTimeoutLayout.setVisibility(View.GONE);
@@ -593,8 +600,10 @@ public class HybridHRWatchfaceDesignerActivity extends AbstractGBActivity implem
                 String selectedType = widgetTypesArray.get(typeSpinner.getSelectedItemPosition());
                 if (selectedType.equals("widget2ndTZ")) {
                     timezoneLayout.setVisibility(View.VISIBLE);
+                    timezoneTimeoutLayout.setVisibility(View.VISIBLE);
                 } else {
                     timezoneLayout.setVisibility(View.GONE);
+                    timezoneTimeoutLayout.setVisibility(View.GONE);
                 }
                 if (selectedType.equals("widgetCustom")) {
                     sizeLayout.setVisibility(View.VISIBLE);
@@ -644,6 +653,7 @@ public class HybridHRWatchfaceDesignerActivity extends AbstractGBActivity implem
                         }
                         String selectedType = widgetTypesArray.get(typeSpinner.getSelectedItemPosition());
                         String selectedTZ = tzSpinner.getSelectedItem().toString();
+                        int selectedTZtimeout = Integer.parseInt(timezoneTimeout.getText().toString());
                         int selectedUpdateTimeout = 0;
                         if (selectedType.equals("widgetCustom")) {
                             try {
@@ -661,6 +671,7 @@ public class HybridHRWatchfaceDesignerActivity extends AbstractGBActivity implem
                             JSONObject extraConfig = new JSONObject();
                             try {
                                 extraConfig.put("tzName", selectedTZ);
+                                extraConfig.put("timeout_secs", selectedTZtimeout);
                             } catch (JSONException e) {
                                 LOG.warn("JSON error", e);
                             }
