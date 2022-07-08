@@ -1,5 +1,44 @@
 ### Changelog
 
+### 0.68.0 (WIP)
+* Multi device support (experimental), allows connecting to multiple devices simultaneously
+* Fossil Hybrid HR: Allow installation of newer watch apps
+* Fossil Hybrid HR: Allow workout app the be added as a shortcut
+* Fossil Hybrid HR: Generate watchface preview image and show it in the app manager
+* Fossil Hybrid HR: Request custom menu config on watchface initialization
+* Fossil Hybrid HR: Invert widgets color when the background image is inverted
+* Fossil Hybrid HR: Show app versions in app manager
+* Fossil Hybrid HR: Make 2nd TZ widget clock duration configurable
+* Mi Band 6: Fix night mode on latest firmware
+* Mi Band 6: add sleep menu item (also to shortcuts)
+* Mi Band 5: Send GPS location to band during workout
+* Mi Band 5: Start fitness tracking on phone when workout starts on band
+* Mi Band 5: Fix missing Portuguese language
+* Mi Band 5: Add missing breathing shortcut
+* Mi Band 4: Add password support
+* Huami: Fix setting heart rate measurement interval on connection
+* Huami: Fix track name being replaced by album
+* Huami: Display native alarm notification
+* Roidmi 3: Recognize "Roidmi C BLE" as Roidmi 3
+* Bangle.js fix message REPLY option
+* Bangle.js: Keep a log of data sent from the watch, and allow it to be saved with from the debug menu
+* Bangle.js: Support for color dithered bitmaps, and converting emoji->bitmaps
+* Bangle.js: Adding built-in app-loader view. (Only available on internet-enabled builds)
+* Bangle.js: fix null pointer issue for debug messages
+* FitPro: add MTU based chunking, add more device names
+* UM25: fix missing firmware version
+* Support for incoming call notification delay
+* Make calendar blacklist configurable per device
+* Support folders in device list
+* Animate card movement in device list
+* Make transliteration configurable per-language
+* Widget: do not show sleep if not recorded
+* Pop up a dialog asking about Location permissions
+* Fix sharing log files on newer android versions
+* Allow to set Bluetooth discovery scanning level to prevent freezing
+* Various UI tweaks and fixes
+
+
 ### 0.67.1
 * Huami: Fix long music track names not displaying
 * Amazfit Bip U/Pro/Band 5: Enable extended HR/stress monitoring setting
