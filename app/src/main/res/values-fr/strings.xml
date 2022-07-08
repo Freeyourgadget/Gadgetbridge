@@ -1760,4 +1760,5 @@ Temps de sommeil préféré en heures</string>
     <string name="prefs_password_summary">Verrouiller le bracelet avec un mot de passe quand il n\'est pas au poignet</string>
     <string name="prefs_password_6_digits_0_to_9_summary">Le mot de passe doit comporter 6 caractères, en utilisant seulement des chiffres</string>
     <string name="autoconnect_from_device_summary">Établir la connexion lorsque celle-ci est initiée par l\'appareil, comme pour des écouteurs</string>
+    <string name="watchface_dialog_widget_timezone_duration">Durée de visibilité de la pendule (en secondes) :</string>
 </resources>
