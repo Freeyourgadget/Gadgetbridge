@@ -1758,4 +1758,5 @@
     <string name="connection_over_ble">Verbinding via BLE</string>
     <string name="connection_over_bt_classic">Verbinding via klassiek Bluetooth</string>
     <string name="autoconnect_from_device_title">Verbinden bij verbinding vanaf apparaat</string>
+    <string name="watchface_dialog_widget_timezone_duration">Zichtbaarheidsduur klok (in seconden):</string>
 </resources>
