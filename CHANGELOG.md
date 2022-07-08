@@ -25,11 +25,13 @@
 * Bangle.js: Support for color dithered bitmaps, and converting emoji->bitmaps
 * Bangle.js: Adding built-in app-loader view. (Only available on internet-enabled builds)
 * Bangle.js: fix null pointer issue for debug messages
-* FitPro: add MTU based chunking, add more device names
+* FitPro: add MTU based chunking, add more device names (Sunset 6, Watch7)
 * UM25: fix missing firmware version
 * Support for incoming call notification delay
 * Make calendar blacklist configurable per device
 * Support folders in device list
+* Separate device settings which are specific to the application into Set preferences in device card
+* When pairing devices with auth key requirements, only show Auth key menu related items on long press
 * Animate card movement in device list
 * Make transliteration configurable per-language
 * Widget: do not show sleep if not recorded
