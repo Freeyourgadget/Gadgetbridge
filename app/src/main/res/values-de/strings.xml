@@ -942,7 +942,7 @@
     <string name="error_exporting_device_preferences">Fehler beim Export der gerätespezifischen Einstellungen</string>
     <string name="pref_check_permission_status_summary">Prüfen und nachfragen von fehlenden Berechtigungen, auch wenn sie nicht direkt benötigt werden. Nur deaktivieren, wenn dieses Gerät eine der Features nicht unterstützen soll. Eine Berechtigung nicht zu erteilen kann zu Problemen führen!</string>
     <string name="pref_check_permission_status">Berechtigungsstatus prüfen</string>
-    <string name="device_requires_key">SCHLÜSSEL NOTWENDIG</string>
+    <string name="device_requires_key">SCHLÜSSEL NOTWENDIG, LANGES DRÜCKEN ZUR EINGABE</string>
     <string name="device_is_currently_bonded">BEREITS VERBUNDEN</string>
     <string name="companiondevice_pairing">CompanionDevice Gerätepaarung</string>
     <string name="require_location_provider">Standort muss aktiviert sein</string>
@@ -1745,4 +1745,25 @@
     <string name="pref_title_notification_delay_calls">Verzögerung für Anrufbenachrichtigungen</string>
     <string name="pref_summary_notification_delay_calls">Verzögerung in Sekunden, bis Anrufbenachrichtigungen zum Gerät gesendet werden.</string>
     <string name="pref_blacklist_calendars_summary">Blockierte Kalender werden nicht mit dem Gerät synchronisiert</string>
+    <string name="autoconnect_from_device_summary">Herstellen einer Verbindung, wenn die Verbindung durch ein Gerät initiiert wird, z. B. Kopfhörer</string>
+    <string name="autoconnect_from_device_title">Herstellen einer Verbindung vom Gerät aus</string>
+    <string name="watchface_dialog_widget_timezone_duration">Sichtbarkeitsdauer der Uhr (in Sekunden):</string>
+    <string name="connection_over_ble">Verbindung über BLE</string>
+    <string name="connection_over_bt_classic">Verbindung über Bluetooth classic</string>
+    <string name="error_setting_parent_folder">Fehler beim Festlegen des übergeordneten Ordners: %s</string>
+    <string name="error_deleting_device">Fehler beim Löschen des Geräts: %s</string>
+    <string name="controlcenter_folder_name">Ordnername:</string>
+    <string name="controlcenter_add_new_folder">Neuen Ordner hinzufügen</string>
+    <string name="controlcenter_unset_folder">Ordner aufheben</string>
+    <string name="pref_explanation_authkey">Einige Geräte erfordern einen speziellen Pairing-Schlüssel für die erste Initialisierung des Geräts. Tippe hier für weitere Details.</string>
+    <string name="pref_explanation_authkey_new_protocol">Wenn du die Meldung \"Aktualisiere die App auf die neueste Version\" auf dem Band erhältst, überprüfe bitte das \"Neue Auth-Protokoll\" oben. Du findest die Informationen hier im Wiki.</string>
+    <string name="prefs_password">Passwort</string>
+    <string name="prefs_password_summary">Sperre das Band mit einem Passwort, wenn du es vom Handgelenk abnimmst</string>
+    <string name="prefs_password_enabled">Passwort aktiviert</string>
+    <string name="prefs_password_4_digits_1_to_4_summary">Das Passwort muss 4 Ziffern haben, wobei die Zahlen 1 bis 4 verwendet werden müssen</string>
+    <string name="prefs_password_6_digits_0_to_9_summary">Das Passwort muss 6 Ziffern haben und darf nur Zahlen enthalten</string>
+    <string name="controlcenter_set_preferences">Einstellungen festlegen</string>
+    <string name="controlcenter_set_folder_title">Ordner festlegen oder neu erstellen</string>
+    <string name="auto_reconnect_ble_title">Automatische Wiederverbindung mit dem Gerät</string>
+    <string name="auto_reconnect_ble_summary">Regelmäßig proaktiv versuchen, eine Verbindung zum Gerät herzustellen</string>
 </resources>
