@@ -1755,4 +1755,6 @@
     <string name="connection_over_bt_classic">חיבור דרך בלוטות׳ קלסי</string>
     <string name="autoconnect_from_device_title">התחברות עם חיבור מהמכשיר</string>
     <string name="connection_over_ble">חיבור דרך BLE</string>
+    <string name="watchface_dialog_widget_timezone_duration">משך הופעת השעון (בשניות):</string>
+    <string name="autoconnect_from_device_summary">הקמת חיבור כאשר ההתקן יוזם חיבור כמו אוזניות</string>
 </resources>
