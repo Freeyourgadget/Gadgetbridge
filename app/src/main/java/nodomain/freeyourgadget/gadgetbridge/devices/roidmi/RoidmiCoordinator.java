@@ -27,7 +27,7 @@ import org.slf4j.LoggerFactory;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import nodomain.freeyourgadget.gadgetbridge.GBException;
-import nodomain.freeyourgadget.gadgetbridge.devices.AbstractDeviceCoordinator;
+import nodomain.freeyourgadget.gadgetbridge.devices.AbstractBLClassicDeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.InstallHandler;
 import nodomain.freeyourgadget.gadgetbridge.devices.SampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
@@ -35,7 +35,7 @@ import nodomain.freeyourgadget.gadgetbridge.entities.Device;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
 
-public abstract class RoidmiCoordinator extends AbstractDeviceCoordinator {
+public abstract class RoidmiCoordinator extends AbstractBLClassicDeviceCoordinator {
     private static final Logger LOG = LoggerFactory.getLogger(RoidmiCoordinator.class);
 
     @Override
