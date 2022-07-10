@@ -1489,7 +1489,7 @@
     <string name="add_test_device">Přidat testovací zařízení</string>
     <string name="devicetype_sony_wf_sp800n">Sony WF-SP800N</string>
     <string name="discover_unsupported_devices">Vyhledávat nepodporovaná zařízení</string>
-    <string name="discover_unsupported_devices_description">Povolením této volby budou vyhledávána i nepodporovaná zařízení. Kliknutí zkopíruje jméno a MAC adresu zařízení do schránky. Podržení spustí dialog `Přidat testovací zařízení`.</string>
+    <string name="discover_unsupported_devices_description">Povolením této volby budou vyhledávána i nepodporovaná zařízení. Kliknutí zkopíruje jméno a MAC adresu zařízení do schránky. Podržení spustí dialog `Přidat testovací zařízení`. Může potenciálně způsobit zamrzání aplikace.</string>
     <string name="sony_pause_when_taken_off">Pozastavení přehrávání při sundání sluchátek</string>
     <string name="sony_button_mode_left">Režim tlačítka (vlevo)</string>
     <string name="sony_button_mode_off">Vypnout</string>
@@ -1701,8 +1701,8 @@
     <string name="pref_voice_detect_duration_5">5 sekund</string>
     <string name="pref_voice_detect_duration_15">15 sekund</string>
     <string name="pref_voice_detect_duration_10">10 sekund</string>
-    <string name="pref_explanation_authkey_new_protocol">Pokud se na zařízení zobrazí zpráva \"Aktualizujte aplikaci na nejnovější verzi/Update the app to latest version\", zaškrtněte volbu \"Nový protokol ověřování\" výše. Informace najdete zde na wiki.</string>
-    <string name="pref_explanation_authkey">Některá zařízení vyžadují speciální párovací klíč pro první inicializaci zařízení. Klepněte zde pro další podrobnosti.</string>
+    <string name="pref_explanation_authkey_new_protocol">Pokud se na zařízení zobrazí zpráva \"Aktualizujte aplikaci na nejnovější verzi/Update the app to latest version\", zaškrtněte volbu \"Nový protokol ověřování\" výše. Klepněte zde pro další podrobnosti ve wiki.</string>
+    <string name="pref_explanation_authkey">Některá zařízení vyžadují speciální párovací klíč pro první inicializaci zařízení. Klepněte zde pro další podrobnosti ve wiki.</string>
     <string name="ukranian">Ukrajinština</string>
     <string name="notification_channel_gps">Sledování pomocí GPS</string>
     <string name="controlcenter_set_parent_folder">Nastavení nadřazené složku</string>
@@ -1757,4 +1757,5 @@
     <string name="connection_over_bt_classic">Připojení přes Bluetooth classic</string>
     <string name="autoconnect_from_device_title">Připojení při požadavku o připojení ze zařízení</string>
     <string name="autoconnect_from_device_summary">Navázání připojení při iniciování připojení zařízením, například sluchátky</string>
+    <string name="watchface_dialog_widget_timezone_duration">Doba viditelnosti hodin (v sekundách):</string>
 </resources>
