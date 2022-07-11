@@ -1488,7 +1488,7 @@
     <string name="sony_button_mode_left">Knopmodus (links)</string>
     <string name="controlcenter_power_off_confirm_title">Uitschakelen</string>
     <string name="controlcenter_power_off_confirm_description">Weet u zeker dat u het apparaat wilt uitschakelen\?</string>
-    <string name="discover_unsupported_devices_description">Als u deze optie inschakelt, worden alle gedetecteerde Bluetooth-apparaten weergegeven tijdens het scannen. Kort tikken kopieert de apparaatnaam en het mac-adres naar het klembord. Als u lang drukt, wordt het dialoogvenster \'Testapparaat toevoegen\' geopend.</string>
+    <string name="discover_unsupported_devices_description">Als u deze optie inschakelt, worden alle gedetecteerde Bluetooth-apparaten weergegeven tijdens het scannen. Kort tikken kopieert de apparaatnaam en het mac-adres naar het klembord. Als u lang drukt, wordt het dialoogvenster \'Testapparaat toevoegen\' geopend. Kan mogelijk het bevriezen van de app veroorzaken.</string>
     <string name="sony_button_mode_right">Knopmodus (rechts)</string>
     <string name="activity_prefs_discovery_pairing">Detectie- en koppelingsopties</string>
     <string name="sony_pause_when_taken_off">Pauzeer wanneer de koptelefoon wordt afgezet</string>
@@ -1697,7 +1697,7 @@
     <string name="prefs_switch_control_left">Bediening links</string>
     <string name="prefs_switch_control_right">Bediening rechts</string>
     <string name="controlcenter_set_preferences">Voorkeuren instellen</string>
-    <string name="pref_explanation_authkey">Sommige apparaten hebben een speciale koppelingssleutel nodig voor de allereerste initialisatie van het apparaat. Tik hier voor meer details.</string>
+    <string name="pref_explanation_authkey">Sommige apparaten hebben een speciale koppelingssleutel nodig voor de allereerste initialisatie van het apparaat. Tik hier voor meer details op de wiki.</string>
     <string name="quick_alarm_description">Alarm van widget</string>
     <string name="controlcenter_set_parent_folder">Map instellen</string>
     <string name="permission_location">%1$s heeft toegang tot je locatie op de achtergrond nodig om verbonden te blijven met je horloge als het scherm is uitgeschakeld.
@@ -1738,7 +1738,7 @@
     <string name="lithuanian">Litouws</string>
     <string name="persian">Perzisch</string>
     <string name="notification_channel_gps">GPS-tracking</string>
-    <string name="pref_explanation_authkey_new_protocol">Als u het bericht \"Update de app naar de nieuwste versie\" op de band krijgt, controleer de bovenstaande optie \"New Auth Protocol\". U vindt hiervoor informatie in de wiki.</string>
+    <string name="pref_explanation_authkey_new_protocol">Als u het bericht \"Update de app naar de nieuwste versie\" op de band krijgt, controleer de bovenstaande optie \"New Auth Protocol\". Tik hier voor meer details op de wiki.</string>
     <string name="prefs_password_6_digits_0_to_9_summary">Het wachtwoord moet uit 6 cijfers bestaan, met alleen cijfers</string>
     <string name="scandinavian">Scandinavisch</string>
     <string name="ukranian">Oekraïens</string>
