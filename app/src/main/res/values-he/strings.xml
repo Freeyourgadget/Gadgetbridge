@@ -1490,7 +1490,7 @@
     <string name="sony_button_mode_left">מצב כפתור (שמאל)</string>
     <string name="sony_button_mode_off">כבוי</string>
     <string name="devicetype_sony_wf_sp800n">Sony WF-SP800N</string>
-    <string name="discover_unsupported_devices_description">הפעלת אפשרות זו תציג התקני Bluetooth בעת הסריקה. נגיעה קצרה תעתיק את שם ההתקן ואת כתובת החומרה שלו ללוח הגזירים. לחיצה ארוכה תפעיל את חלונית `הוספת התקן בדיקה`.</string>
+    <string name="discover_unsupported_devices_description">הפעלת אפשרות זו תציג התקני Bluetooth בעת הסריקה. נגיעה קצרה תעתיק את שם ההתקן ואת כתובת החומרה שלו ללוח הגזירים. לחיצה ארוכה תפעיל את חלונית `הוספת התקן בדיקה`. עלול לגרום לתקלות בדמות הקפאת היישומון.</string>
     <string name="sony_pause_when_taken_off">להשהות כאשר האוזניות מוסרות</string>
     <string name="sony_button_mode_ambient_sound_control">בקרת שמע אופף</string>
     <string name="sony_button_mode_playback_control">בקרת נגינה</string>
@@ -1742,8 +1742,8 @@
     <string name="error_deleting_device">שגיאה במחיקת התקן: %s</string>
     <string name="controlcenter_set_parent_folder">הגדרת תיקיית הורה</string>
     <string name="controlcenter_set_preferences">הגדרת העדפות</string>
-    <string name="pref_explanation_authkey">חלק מהמכשירים דורשים מפתח צימוד מיוחד עם הפעלת המכשיר לראשונה. בנגיעה ניתן לקבל פרטים נוספים.</string>
-    <string name="pref_explanation_authkey_new_protocol">אם מופיעה ההודעה „Update to the latest version” בצמיד, נא לוודא שסימנת את „פרוטוקול אימות חדש” לעיל. נגיעה כאן תעביר אותך למידע בוויקי.</string>
+    <string name="pref_explanation_authkey">חלק מהמכשירים דורשים מפתח צימוד מיוחד עם הפעלת המכשיר לראשונה. בנגיעה ניתן לקבל פרטים נוספים בוויקי.</string>
+    <string name="pref_explanation_authkey_new_protocol">אם מופיעה ההודעה „Update to the latest version” בצמיד, נא לוודא שסימנת את „פרוטוקול אימות חדש” לעיל. נגיעה כאן תעביר אותך לפרטים נוספים בוויקי.</string>
     <string name="controlcenter_toggle_details">החלפת תצוגת פרטים</string>
     <string name="error_setting_parent_folder">שגיאה בהגדרת תיקיית הורה: %s</string>
     <string name="controlcenter_add_new_folder">הוספת תיקייה חדשה</string>
