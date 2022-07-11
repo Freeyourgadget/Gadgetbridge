@@ -1488,7 +1488,7 @@
     <string name="activity_prefs_discovery_pairing">发现和配对选项</string>
     <string name="add_test_device">添加测试设备</string>
     <string name="discover_unsupported_devices">发现未支持的设备</string>
-    <string name="discover_unsupported_devices_description">启用该选项将会显示扫描时所有已发现的设备。短按将会复制设备名称和MAC地址到剪切板。长按将会显示“添加测试设备”对话框。</string>
+    <string name="discover_unsupported_devices_description">启用该选项将会显示扫描时所有已发现的设备。短按将会复制设备名称和MAC地址到剪切板。长按将会显示“添加测试设备”对话框。可能导致潜在的应用程序冻结问题。</string>
     <string name="sony_button_mode_off">关</string>
     <string name="sony_pause_when_taken_off">当摘下耳机时暂停</string>
     <string name="sony_button_mode_left">按钮模式（左）</string>
@@ -1732,8 +1732,8 @@
     <string name="ukranian">乌克兰语</string>
     <string name="bengali">孟加拉语</string>
     <string name="icelandic">冰岛语</string>
-    <string name="pref_explanation_authkey">有些设备在第一次初始化时需要一个特殊的配对密钥。点击这里了解更多细节。</string>
-    <string name="pref_explanation_authkey_new_protocol">如果您看到“请更新应用程序到最新版本”的信息，请确保选中上面的\"新认证协议\"。您可以在Wiki上获得更多信息。</string>
+    <string name="pref_explanation_authkey">有些设备在第一次初始化时需要一个特殊的配对密钥。点击这里访问Wiki以了解更多细节。</string>
+    <string name="pref_explanation_authkey_new_protocol">如果您看到“请更新应用程序到最新版本”的信息，请确保选中上面的\"新认证协议\"。点击这里以在Wiki上获得更多信息。</string>
     <string name="prefs_password">密码</string>
     <string name="prefs_password_summary">从手腕上取下时，用密码锁定手环</string>
     <string name="prefs_password_4_digits_1_to_4_summary">密码必须有4位数，使用数字1至4</string>
