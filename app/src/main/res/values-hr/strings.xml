@@ -1582,4 +1582,7 @@
     <string name="watchface_setting_light_up_on_notification">Zasvijetli pri novoj obavijesti</string>
     <string name="pref_summary_opentracks_packagename">Koristi se za pokretanje/prekidanje snimanja GPS zapisa u vanjskoj aplikaciji za fitness.</string>
     <string name="menuitem_email">E-mail</string>
+    <string name="title_activity_controlcenter_banglejs_main">Bangle.js Gadgetbridge</string>
+    <string name="about_activity_title_banglejs_main">O Bangle.js Gadgetbridge</string>
+    <string name="application_name_banglejs_main">Bangle.js Gadgetbridge</string>
 </resources>
