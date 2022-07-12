@@ -1757,4 +1757,12 @@
     <string name="connection_over_ble">חיבור דרך BLE</string>
     <string name="watchface_dialog_widget_timezone_duration">משך הופעת השעון (בשניות):</string>
     <string name="autoconnect_from_device_summary">הקמת חיבור כאשר ההתקן יוזם חיבור כמו אוזניות</string>
+    <string name="open_fw_installer_warning_title">אזהרה</string>
+    <string name="open_fw_installer_pick_file">בחירת קובץ</string>
+    <string name="open_fw_installer_select_file">נא לבחור קובץ שברצונך להעלות להתקן: %s</string>
+    <string name="open_fw_installer_connect_minimum_one_device">נא להתחבר להתקן אחד לפחות אליו ברצונך לשלוח את הקובץ.</string>
+    <string name="open_fw_installer_ensure_device_connected">נא לוודא שההתקן %s מחובר</string>
+    <string name="open_fw_installer_getting_files_text">מאחר שאסור לנו להפיץ קובצי קושחות, יהיה עליך להשיג את הקבצים בעצמך. משמעות הדבר היא שצריך לחפש את הקבצים בקובצי ה־apk, ברשת, בפורומים ב־Amazfitwatchfaces (עבור התקני Miband/Amazfit) וכן הלאה.</string>
+    <string name="open_fw_installer_info_text_title">מתקין קבצים</string>
+    <string name="open_fw_installer_connect_maximum_one_device">נא להתחבר להתקן אחד בלבד אליו ברצונך לשלוח את הקובץ.</string>
 </resources>
