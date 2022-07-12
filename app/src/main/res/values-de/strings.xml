@@ -1766,4 +1766,15 @@
     <string name="controlcenter_set_folder_title">Ordner festlegen oder neu erstellen</string>
     <string name="auto_reconnect_ble_title">Automatische Wiederverbindung mit dem Gerät</string>
     <string name="auto_reconnect_ble_summary">Regelmäßig proaktiv versuchen, eine Verbindung zum Gerät herzustellen</string>
+    <string name="open_fw_installer_warning_title">Warnung</string>
+    <string name="open_fw_installer_warning_text">Diese Funktion hat das Potenzial, dein Gerät zu beschädigen. Das heißt, dies ist noch nie einem der Entwickler durch Flashen passiert, aber denke daran, dass du dies auf eigene Gefahr tust.</string>
+    <string name="open_fw_installer_getting_files_title">Abrufen der Firmware-/App-Datei</string>
+    <string name="open_fw_installer_pick_file">Datei auswählen</string>
+    <string name="open_fw_installer_info_text_title">File Installer</string>
+    <string name="open_fw_installer_select_file">Wähle eine Datei aus, die du auf das Gerät hochladen möchtest: %s</string>
+    <string name="open_fw_installer_connect_minimum_one_device">Bitte verbinde MINDESTENS EIN Gerät, an das du die Datei senden möchtest.</string>
+    <string name="open_fw_installer_connect_maximum_one_device">Bitte verbinde NUR EIN Gerät, an das du die Datei senden möchtest.</string>
+    <string name="open_fw_installer_ensure_device_connected">Stelle sicher, dass das Gerät %s angeschlossen ist</string>
+    <string name="open_fw_installer_info_text">Mit dem Firmware/Watchface/App/File Installer kannst du unterstützte Dateien (Firmware, Zifferblätter, Anwendungen, GPS, Ressourcen, Schriftarten...) auf das Gerät hochladen/installieren. Weitere Informationen findest du im Wiki: https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Firmware-Update</string>
+    <string name="open_fw_installer_getting_files_text">Da wir die Firmware-Dateien nicht verteilen dürfen, musst du dir die Dateien selbst beschaffen. Das bedeutet, dass du nach den Dateien in apk-Dateien, online, in Foren, auf Amazfitwatchfaces (für Miband/Amazfit-Geräte) und so weiter suchen musst.</string>
 </resources>
