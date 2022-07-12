@@ -1772,4 +1772,15 @@
     <string name="autoconnect_from_device_title">Aygıttan bağlantıda bağlan</string>
     <string name="autoconnect_from_device_summary">Kulaklık gibi bir aygıt tarafından bağlantı başlatıldığında bağlantı kur</string>
     <string name="watchface_dialog_widget_timezone_duration">Saat görünürlük süresi (saniye cinsinden):</string>
+    <string name="open_fw_installer_warning_title">Uyarı</string>
+    <string name="open_fw_installer_pick_file">Dosya seç</string>
+    <string name="open_fw_installer_connect_maximum_one_device">Lütfen dosyayı göndermek istediğiniz YALNIZCA BİR aygıtı bağlayın.</string>
+    <string name="open_fw_installer_select_file">Aygıta yüklemek istediğiniz bir dosya seçin: %s</string>
+    <string name="open_fw_installer_info_text">Ürün Yazılımı/Saat Arayüzü/Uygulama/Dosya Kurucusu, desteklenen dosyaları (ürün yazılımı, saat arayüzleri, uygulamalar, GPS, kaynaklar, yazı tipleri...) aygıta yüklemenizi/kurmanızı sağlar. Wiki sayfasında daha fazla bilgi edinin: https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Firmware-Update</string>
+    <string name="open_fw_installer_warning_text">Bu özelliğin aygıtınızı kullanılamaz duruma getirme olasılığı vardır. Bununla birlikte, kurulum sırasında hiçbir geliştiricinin başına böyle bir şey gelmemiştir, ancak bunu kendi sorumluluğunuzda yaptığınızı unutmayın.</string>
+    <string name="open_fw_installer_getting_files_title">Ürün yazılımı/uygulama dosyasını edinme</string>
+    <string name="open_fw_installer_info_text_title">Dosya Kurucusu</string>
+    <string name="open_fw_installer_connect_minimum_one_device">Lütfen dosyayı göndermek istediğiniz EN AZ BİR aygıtı bağlayın.</string>
+    <string name="open_fw_installer_ensure_device_connected">%s aygıtının bağlı olduğundan emin olun</string>
+    <string name="open_fw_installer_getting_files_text">Ürün yazılımı dosyalarını dağıtamayacağımız için, dosyaları kendiniz edinmeniz gerekecektir. Bu, dosyaları apk dosyalarında, çevrim içi olarak, forumlarda, Amazfitwatchfaces\'de (Miband/Amazfit aygıtları için) vb. aramanız gerektiği anlamına gelir.</string>
 </resources>
