@@ -1761,4 +1761,15 @@ Temps de sommeil préféré en heures</string>
     <string name="prefs_password_6_digits_0_to_9_summary">Le mot de passe doit comporter 6 caractères, en utilisant seulement des chiffres</string>
     <string name="autoconnect_from_device_summary">Établir la connexion lorsque celle-ci est initiée par l\'appareil, comme pour des écouteurs</string>
     <string name="watchface_dialog_widget_timezone_duration">Durée de visibilité de la pendule (en secondes) :</string>
+    <string name="open_fw_installer_getting_files_title">Obtenir le fichier de firmware/application</string>
+    <string name="open_fw_installer_pick_file">Choisir le fichier</string>
+    <string name="open_fw_installer_info_text_title">Installateur de fichier</string>
+    <string name="open_fw_installer_select_file">Sélectionner un fichier à envoyer à votre appareil : %s</string>
+    <string name="open_fw_installer_warning_title">Avertissement</string>
+    <string name="open_fw_installer_info_text">L\'installateur de firmware/façade de montre/application/fichier vous permet d\'envoyer/installer des fichiers compatibles (firmwares, façades de montre, applications, GPS, ressources, polices,...) dans l\'appareil. Pour plus d\'information se reporter au wiki : https ://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Firmware-Update</string>
+    <string name="open_fw_installer_warning_text">Cette fonction a la capacité de rendre inopérant/endommager votre appareil. Cela étant dit, cela ne s\'est jamais produit pour aucun des développeurs, mais rappelez-vous que vous faites cela à vos risques et périls.</string>
+    <string name="open_fw_installer_ensure_device_connected">Assurez-vous que l\'appareil %s est bien connecté</string>
+    <string name="open_fw_installer_connect_maximum_one_device">Merci de connecter UN SEUL appareil vers lequel vous souhaitez envoyer le fichier.</string>
+    <string name="open_fw_installer_getting_files_text">Comme nous ne pouvons pas distribue les fichiers de firmware, vous devrez les obtenir par vous-même. Cela signifie que vous devrez chercher les fichiers dans des fichiers apk, en ligne, dans des forums, sur Amazfitwatchfaces (pour les appareils Miband/Amazfit) et ainsi de suite.</string>
+    <string name="open_fw_installer_connect_minimum_one_device">Merci de connecter AU MOINS UN appareil vers lequel vous voulez envoyer le fichier.</string>
 </resources>
