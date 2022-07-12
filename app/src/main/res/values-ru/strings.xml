@@ -1423,4 +1423,27 @@
     <string name="watchface_dialog_widget_width">Ширина:</string>
     <string name="prefs_game_mode">Игровой режим</string>
     <string name="prefs_equalizer">Эквалайзер</string>
+    <string name="application_name_banglejs_main">Bangle.js Gadgetbridge</string>
+    <string name="title_activity_controlcenter_banglejs_main">Bangle.js Gadgetbridge</string>
+    <string name="application_name_banglejs_nopebble">Bangle.js Gadgetbridge</string>
+    <string name="about_activity_title_banglejs_nopebble">О Bangle.js Gadgetbridge</string>
+    <string name="application_name_main_nightly">Gadgetbridge (Nightly)</string>
+    <string name="gadgetbridge_running_banglejs_nopebble">Bangle.js запущен</string>
+    <string name="about_description_banglejs_nopebble">Приложение-компаньон для Bangle.js построено на основе проекта Gadgetbridge, с добавленным доступом в Интернет.
+\n
+\nВ соответствии с политикой Google Play Store, мы не можем разместить ссылку для пожертвований в самом приложении, но если вам нравится это приложение, пожалуйста, рассмотрите возможность пожертвования через домашнюю страницу Gadgetbridge ниже.</string>
+    <string name="about_activity_title_main_nightly">О Gadgetbridge Nightly</string>
+    <string name="application_name_main_nopebble">Gadgetbridge (Nightly, без системы Pebble)</string>
+    <string name="about_description_main_nightly">\"Безоблачная\" свободная альтернатива закрытым приложениям от производителей гаджетов. \"Ночные\" версии Gadgetbridge. Ночные выпуски Gadgetbridge. Его нельзя установить, если у вас уже установлено приложение Gadgetbridge или Pebble, из-за конфликта в провайдере Pebble.</string>
+    <string name="title_activity_controlcenter_main_nopebble">Gadgetbridge Nightly без Pebble</string>
+    <string name="about_description_main_nopebble">\"Безоблачная\" свободная альтернатива закрытым приложениям от производителей гаджетов. \"Ночные\" выпуски Gadgetbridge. В этой версии провайдер Pebble переименован для предотвращения конфликтов, поэтому некоторые из связанных с Pebble интеграции не будут работать, но его можно установить вместе с существующими установками Gadgetbridge.</string>
+    <string name="about_description_banglejs_main">Приложение-компаньон для Bangle.js построено на основе проекта Gadgetbridge, с добавленным доступом в Интернет.
+\n
+\nВ соответствии с политикой Google Play Store, мы не можем разместить ссылку для пожертвований в самом приложении, но если вам нравится это приложение, пожалуйста, рассмотрите возможность пожертвования через домашнюю страницу Gadgetbridge ниже.</string>
+    <string name="about_activity_title_banglejs_main">О Bangle.js Gadgetbridge</string>
+    <string name="gadgetbridge_running_banglejs_main">Bangle.js запущен</string>
+    <string name="title_activity_controlcenter_banglejs_nopebble">Bangle.js Gadgetbridge</string>
+    <string name="title_activity_controlcenter_main_nightly">Gadgetbridge Nightly</string>
+    <string name="gadgetbridge_running_main_nightly">Nightly GB запущен</string>
+    <string name="about_activity_title_main_nopebble">О Gadgetbridge Nightly без Pebble</string>
 </resources>
