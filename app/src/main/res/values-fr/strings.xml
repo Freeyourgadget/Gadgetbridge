@@ -1487,7 +1487,7 @@ Temps de sommeil préféré en heures</string>
     <string name="controlcenter_power_off">Éteindre</string>
     <string name="controlcenter_power_off_confirm_title">Éteindre</string>
     <string name="controlcenter_power_off_confirm_description">Etes-vous sûr de vouloir éteindre l\'appareil \?</string>
-    <string name="discover_unsupported_devices_description">Activer cette option pour afficher tous les appareils bluetooth lors du scan. Un appui bref copie le nom de l\'appareil et sa mac adresse dans le presse-papier. Un appui long lancera le processus \"Ajouter un appareil de test\".</string>
+    <string name="discover_unsupported_devices_description">Activer cette option pour afficher tous les appareils bluetooth lors du scan. Un appui bref copie le nom de l\'appareil et sa mac adresse dans le presse-papier. Un appui long lancera le processus \"Ajouter un appareil de test\". Peut potentiellement provoquer un blocage de l\'app.</string>
     <string name="devicetype_vesc">VESC</string>
     <string name="devicetype_bose_qc35">Bose QC35</string>
     <string name="activity_type_hiking">Marche</string>
@@ -1750,9 +1750,9 @@ Temps de sommeil préféré en heures</string>
     <string name="connection_over_ble">Connexion par BLE</string>
     <string name="connection_over_bt_classic">Connexion en Bluetooth classique</string>
     <string name="autoconnect_from_device_title">Connecter lors de la connexion de l\'appareil</string>
-    <string name="pref_explanation_authkey">Certains appareils nécessitent une clé de pairage pour la toute première initialisation de l\'appareil. Touchez ici pour plus de détails.</string>
+    <string name="pref_explanation_authkey">Certains appareils nécessitent une clé de pairage pour la toute première initialisation de l\'appareil. Touchez ici pour plus de détails dans le wiki.</string>
     <string name="controlcenter_unset_folder">Dossier non configuré</string>
-    <string name="pref_explanation_authkey_new_protocol">Si vous obtenez le message \"Mettre à jour l\'application dans sa dernière version\" sur le bracelet, assurez-vous de vérifier la section \"Nouveau protocole Auth\". Ou ici pour plus d\'info sur le Wiki.</string>
+    <string name="pref_explanation_authkey_new_protocol">Si vous obtenez le message \"Mettre à jour l\'application dans sa dernière version\" sur le bracelet, assurez-vous de vérifier la section \"Nouveau protocole Auth\" ci-dessus. Ou ici pour plus d\'info dans le wiki.</string>
     <string name="prefs_password_enabled">Mot de passe activé</string>
     <string name="prefs_password_4_digits_1_to_4_summary">Le mot de passe doit être à 4 chiffres, avec les chiffres de 1 à 4</string>
     <string name="error_setting_parent_folder">Erreur lors de la configuration du dossier parent : %s</string>
