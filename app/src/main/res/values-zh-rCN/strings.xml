@@ -1759,4 +1759,15 @@
     <string name="connection_over_bt_classic">通过经典蓝牙连接</string>
     <string name="autoconnect_from_device_summary">当连接由设备发起时，建立一个连接，如耳机</string>
     <string name="watchface_dialog_widget_timezone_duration">时钟可见性持续时间（以秒为单位）：</string>
+    <string name="open_fw_installer_warning_title">警告</string>
+    <string name="open_fw_installer_pick_file">选择文件</string>
+    <string name="open_fw_installer_info_text_title">文件安装程序</string>
+    <string name="open_fw_installer_select_file">选择您想上传到设备的文件： %s</string>
+    <string name="open_fw_installer_info_text">固件/表盘/应用程序/文件安装程序允许您将支持的文件（固件，表盘，应用程序，GPS，资源，字体等）上传/安装到设备。在 Wiki 中查看更多信息： https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Firmware-Update</string>
+    <string name="open_fw_installer_warning_text">此功能有可能使您的设备变砖。虽然如此这般，但是这从未发生在任何开发人员身上，但请记住，这样做需要您自担风险。</string>
+    <string name="open_fw_installer_getting_files_title">获取固件/应用程序文件</string>
+    <string name="open_fw_installer_getting_files_text">由于我们可能不会提供固件文件，因此您必须自己获取文件。这意味着您将需要在 apk 文件中提取固件，使用搜索引擎查找、或者在论坛搜索（如 Amazfitwatchfaces，适用于小米手环/ 跃我设备）对应的固件等。</string>
+    <string name="open_fw_installer_ensure_device_connected">请确保设备 %s 已经连接</string>
+    <string name="open_fw_installer_connect_minimum_one_device">请至少连接一个设备，以便将文件进行发送到设备上。</string>
+    <string name="open_fw_installer_connect_maximum_one_device">请只连接一个设备，以便将文件发送到该设备上。</string>
 </resources>
