@@ -213,7 +213,7 @@ public class HybridHRWatchfaceFactory {
         } catch (JSONException e) {
             LOG.warn("Could not generate configuration", e);
         }
-        FossilAppWriter appWriter = new FossilAppWriter(context, "1.0", code, icons, layout, displayName, config);
+        FossilAppWriter appWriter = new FossilAppWriter(context, QHybridConstants.HYBRIDHR_WATCHFACE_VERSION, code, icons, layout, displayName, config);
         return appWriter.getWapp();
     }
 

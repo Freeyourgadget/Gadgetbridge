@@ -96,6 +96,7 @@
     <string name="appmanager_weather_install_provider">Install the Weather Notification app</string>
     <string name="app_configure">Configure</string>
     <string name="app_move_to_top">Move to top</string>
+    <string name="appmanager_item_outdated">(outdated)</string>
     <!-- Strings related to AppBlacklist -->
     <string name="title_activity_notification_management">Notification settings</string>
     <string name="blacklist_all_for_notifications">Blacklist all for notifications</string>

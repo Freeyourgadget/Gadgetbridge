@@ -61,12 +61,26 @@
                     android:text="Item Name"
                     android:textAppearance="@style/TextAppearance.AppCompat.Subhead" />
 
-                <TextView
-                    android:id="@+id/item_details"
+                <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Item Description"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
+                    android:orientation="horizontal">
+                    <TextView
+                        android:id="@+id/item_details"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Item Description"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
+                    <TextView
+                        android:id="@+id/item_watchapp_outdated"
+                        android:visibility="gone"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="5dp"
+                        android:text="@string/appmanager_item_outdated"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                        android:textColor="@android:color/holo_red_dark" />
+                </LinearLayout>
             </LinearLayout>
 
 

@@ -34,6 +34,7 @@ public class GBDeviceApp {
     private boolean isOnDevice;
     private final boolean configurable;
     private final Bitmap previewImage;
+    private boolean isUpToDate = true;
 
     public GBDeviceApp(UUID uuid, String name, String creator, String version, Type type, Bitmap previewImage) {
         this.uuid = uuid;
@@ -150,5 +151,13 @@ public class GBDeviceApp {
 
     public boolean isConfigurable() {
         return configurable;
+    }
+
+    public void setUpToDate(boolean isUpToDate) {
+        this.isUpToDate = isUpToDate;
+    }
+
+    public boolean isUpToDate() {
+        return isUpToDate;
     }
 }
