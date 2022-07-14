@@ -30,6 +30,7 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.LinkedHashMap;
 import java.util.TimeZone;
 
@@ -98,7 +99,7 @@ public class HybridHRWatchfaceFactory {
                         JSONObject data = new JSONObject();
                         TimeZone tz = TimeZone.getTimeZone(widgetDesc.getExtraConfigString("tzName", null));
                         String tzShortName = widgetDesc.getExtraConfigString("tzName", null).replaceAll(".*/", "");
-                        int tzOffsetMins = tz.getRawOffset() / 1000 / 60;
+                        int tzOffsetMins = tz.getOffset(Calendar.getInstance().getTimeInMillis()) / 1000 / 60;
                         data.put("tzName", widgetDesc.getExtraConfigString("tzName", null));
                         data.put("loc", tzShortName);
                         data.put("utc", tzOffsetMins);
