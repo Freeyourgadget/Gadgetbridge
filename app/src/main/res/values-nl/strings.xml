@@ -1759,4 +1759,16 @@
     <string name="connection_over_bt_classic">Verbinding via klassiek Bluetooth</string>
     <string name="autoconnect_from_device_title">Verbinden bij verbinding vanaf apparaat</string>
     <string name="watchface_dialog_widget_timezone_duration">Zichtbaarheidsduur klok (in seconden):</string>
+    <string name="open_fw_installer_warning_title">Waarschuwing</string>
+    <string name="open_fw_installer_warning_text">Deze functie heeft het potentieel om uw apparaat onbruikbaar te maken. Dat gezegd hebbende, dit is nog nooit met een van de ontwikkelaars gebeurd door middel van flashen, maar onthoud dat u dit op eigen risico doet.</string>
+    <string name="open_fw_installer_getting_files_title">Het firmware-/app-bestand ophalen</string>
+    <string name="open_fw_installer_getting_files_text">Aangezien we de firmwarebestanden niet mogen distribueren, moet u de bestanden zelf ophalen. Dit betekent dat u naar de bestanden moet zoeken in apk-bestanden, online, in forums, op Amazfitwatchfaces (voor Miband/Amazfit-apparaten) enzovoort.</string>
+    <string name="open_fw_installer_connect_maximum_one_device">Verbind SLECHTS ÉÉN apparaat waarnaar u het bestand wilt verzenden.</string>
+    <string name="open_fw_installer_ensure_device_connected">Zorg ervoor dat het apparaat %s is verbonden</string>
+    <string name="appmanager_item_outdated">(verouderd)</string>
+    <string name="open_fw_installer_connect_minimum_one_device">Verbind TEN MINSTE ÉÉN apparaat waarnaar u het bestand wilt verzenden.</string>
+    <string name="open_fw_installer_info_text">Met de Firmware-/Wijzerplaat-/App-/Bestand-installer kunt u ondersteunde bestanden (firmware, wijzerplaten, toepassingen, GPS, bronnen, lettertypen...) naar het apparaat uploaden/installeren. Kijk voor meer informatie op de wiki: https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Firmware-Update</string>
+    <string name="open_fw_installer_pick_file">Selecteer bestand</string>
+    <string name="open_fw_installer_info_text_title">Bestandsinstallatie</string>
+    <string name="open_fw_installer_select_file">Selecteer een bestand dat u naar het apparaat wilt uploaden: %s</string>
 </resources>
