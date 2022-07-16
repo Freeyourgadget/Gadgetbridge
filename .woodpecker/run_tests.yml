@@ -3,7 +3,7 @@ pipeline:
     image: androidsdk/android-30
     commands:
       - pwd #bump
-      - ./gradlew :app:testBangleDebugUnitTest :app:testMainDebugUnitTests
+      - ./gradlew :app:testBangleDebugUnitTest :app:testMainDebugUnitTest
 
 #when:
 #repo: Freeyourgadget/Gadgetbridge
