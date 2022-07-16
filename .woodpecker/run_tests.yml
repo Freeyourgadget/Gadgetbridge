@@ -1,0 +1,13 @@
+pipeline:
+  tests:
+    image: androidsdk/android-30
+    commands:
+      - pwd #bump
+      - ./gradlew :app:testBangleDebugUnitTest :app:testMainDebugUnitTests
+
+#when:
+#repo: Freeyourgadget/Gadgetbridge
+#branch: master
+#this doesn't work yet:
+#https://github.com/woodpecker-ci/woodpecker/issues/687
+
