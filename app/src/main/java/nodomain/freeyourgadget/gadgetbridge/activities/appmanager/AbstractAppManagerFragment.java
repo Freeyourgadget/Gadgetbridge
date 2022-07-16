@@ -65,6 +65,7 @@ import nodomain.freeyourgadget.gadgetbridge.util.DeviceHelper;
 import nodomain.freeyourgadget.gadgetbridge.util.FileUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.GridAutoFitLayoutManager;
 import nodomain.freeyourgadget.gadgetbridge.util.PebbleUtils;
+import nodomain.freeyourgadget.gadgetbridge.util.Version;
 
 
 public abstract class AbstractAppManagerFragment extends Fragment {
@@ -132,6 +133,13 @@ public abstract class AbstractAppManagerFragment extends Fragment {
             app.setOnDevice(true);
             if ((mGBDevice.getType() == DeviceType.FOSSILQHYBRID) && (app.getType() == GBDeviceApp.Type.WATCHFACE) && (!QHybridConstants.HYBRIDHR_WATCHFACE_VERSION.equals(appVersion))) {
                 app.setUpToDate(false);
+            }
+            try {
+                if ((app.getType() == GBDeviceApp.Type.APP_GENERIC) && ((new Version(app.getVersion())).smallerThan(new Version(QHybridConstants.KNOWN_WAPP_VERSIONS.get(app.getName()))))) {
+                    app.setUpToDate(false);
+                }
+            } catch (IllegalArgumentException e) {
+                LOG.warn("Couldn't read app version", e);
             }
             if (filterApp(app)) {
                 appList.add(app);
@@ -206,8 +214,13 @@ public abstract class AbstractAppManagerFragment extends Fragment {
                         String jsonstring = FileUtils.getStringFromFile(jsonFile);
                         JSONObject json = new JSONObject(jsonstring);
                         GBDeviceApp app = new GBDeviceApp(json, configFile.exists(), getAppPreviewImage(baseName));
-                        if ((mGBDevice.getType() == DeviceType.FOSSILQHYBRID) && (app.getType() == GBDeviceApp.Type.WATCHFACE) && (!QHybridConstants.HYBRIDHR_WATCHFACE_VERSION.equals(app.getVersion()))) {
-                            app.setUpToDate(false);
+                        if (mGBDevice.getType() == DeviceType.FOSSILQHYBRID) {
+                            if ((app.getType() == GBDeviceApp.Type.WATCHFACE) && (!QHybridConstants.HYBRIDHR_WATCHFACE_VERSION.equals(app.getVersion()))) {
+                                app.setUpToDate(false);
+                            }
+                            if ((app.getType() == GBDeviceApp.Type.APP_GENERIC) && ((new Version(app.getVersion())).smallerThan(new Version(QHybridConstants.KNOWN_WAPP_VERSIONS.get(app.getName()))))) {
+                                app.setUpToDate(false);
+                            }
                         }
                         cachedAppList.add(app);
                     } catch (Exception e) {
