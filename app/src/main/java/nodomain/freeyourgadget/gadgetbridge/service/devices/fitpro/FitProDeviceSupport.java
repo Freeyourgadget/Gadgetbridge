@@ -272,31 +272,6 @@ public class FitProDeviceSupport extends AbstractBTLEDeviceSupport {
         handleGBDeviceEvent(versionCmd);
     }
 
-    public byte[] craftData(byte command_group, byte command, byte[] data) {
-        //0xCD 0x00 0x09 0x12 0x01 0x01 0x00 0x04 0xA5 0x83 0x73 0xDB
-        byte[] result = new byte[FitProConstants.DATA_TEMPLATE.length + data.length];
-        System.arraycopy(FitProConstants.DATA_TEMPLATE, 0, result, 0, FitProConstants.DATA_TEMPLATE.length);
-        result[1] = (byte) (((FitProConstants.DATA_TEMPLATE.length + data.length - 3) >> 8) & 0xff);
-        result[2] = (byte) ((FitProConstants.DATA_TEMPLATE.length + data.length - 3) & 0xff);
-        result[3] = command_group;
-        result[5] = command;
-        result[6] = (byte) ((data.length >> 8 ) & 0xff);
-        result[7] = (byte) (data.length & 0xff);
-        System.arraycopy(data, 0, result, 8, data.length);
-        //debug
-        debugPrintArray(result, "crafted packet");
-        return result;
-    }
-
-    // send chucked up data
-    public void writeChunckedData(TransactionBuilder builder, byte[] data){
-        for (int start = 0; start < data.length; start += mtuSize) {
-            int end = start + mtuSize;
-            if (end > data.length) end = data.length;
-            builder.write(writeCharacteristic, Arrays.copyOfRange(data, start, end));
-        }
-    }
-
     @Override
     public boolean onCharacteristicChanged(BluetoothGatt gatt,
                                            BluetoothGattCharacteristic characteristic) {
@@ -488,7 +463,7 @@ public class FitProDeviceSupport extends AbstractBTLEDeviceSupport {
             }
             debugPrintArray(craftData(CMD_GROUP_GENERAL, CMD_NOTIFICATION_CALL, outputStream.toByteArray()), "crafted call notify");
 
-            writeChunckedData(builder, craftData(CMD_GROUP_GENERAL, CMD_NOTIFICATION_CALL, outputStream.toByteArray()));
+            writeChunkedData(builder, craftData(CMD_GROUP_GENERAL, CMD_NOTIFICATION_CALL, outputStream.toByteArray()));
 
         } else {
             builder.write(writeCharacteristic, craftData(CMD_GROUP_GENERAL, CMD_NOTIFICATION_CALL, VALUE_OFF));
@@ -644,7 +619,7 @@ public class FitProDeviceSupport extends AbstractBTLEDeviceSupport {
 
         byte currentConditionCode = Weather.mapToFitProCondition(weatherSpec.currentConditionCode);
         TransactionBuilder builder = new TransactionBuilder("weather");
-        writeChunckedData(builder, craftData(CMD_GROUP_GENERAL, CMD_WEATHER, new byte[]{(byte) todayMin, (byte) todayMax, (byte) currentConditionCode, (byte) weatherUnit}));
+        writeChunkedData(builder, craftData(CMD_GROUP_GENERAL, CMD_WEATHER, new byte[]{(byte) todayMin, (byte) todayMax, (byte) currentConditionCode, (byte) weatherUnit}));
         builder.queue(getQueue());
     }
 
@@ -725,7 +700,7 @@ public class FitProDeviceSupport extends AbstractBTLEDeviceSupport {
             output = outputStream.toString().substring(0, 250);
         }
 
-        writeChunckedData(builder, craftData(CMD_GROUP_GENERAL, CMD_NOTIFICATION_MESSAGE, output.getBytes(StandardCharsets.UTF_8)));
+        writeChunkedData(builder, craftData(CMD_GROUP_GENERAL, CMD_NOTIFICATION_MESSAGE, output.getBytes(StandardCharsets.UTF_8)));
         builder.queue(getQueue());
     }
 
@@ -906,7 +881,7 @@ public class FitProDeviceSupport extends AbstractBTLEDeviceSupport {
         return this;
     }
 
-    public void debugPrintArray(byte[] bytes, String label) {
+    public static void debugPrintArray(byte[] bytes, String label) {
         if (!debugEnabled) return;
         String arrayString = nodomain.freeyourgadget.gadgetbridge.util.ArrayUtils.arrayToString(bytes);
         LOG.debug("FitPro debug print " + label + ": " + arrayString);
@@ -923,12 +898,37 @@ public class FitProDeviceSupport extends AbstractBTLEDeviceSupport {
         return this;
     }
 
-    public byte[] craftData(byte command_group, byte command, byte value) {
+    public static byte[] craftData(byte command_group, byte command) {
+        return craftData(command_group, command, new byte[]{});
+    }
+
+    public static byte[] craftData(byte command_group, byte command, byte value) {
         return craftData(command_group, command, new byte[]{value});
     }
 
-    public byte[] craftData(byte command_group, byte command) {
-        return craftData(command_group, command, new byte[]{});
+    public static byte[] craftData(byte command_group, byte command, byte[] data) {
+        //0xCD 0x00 0x09 0x12 0x01 0x01 0x00 0x04 0xA5 0x83 0x73 0xDB
+        byte[] result = new byte[FitProConstants.DATA_TEMPLATE.length + data.length];
+        System.arraycopy(FitProConstants.DATA_TEMPLATE, 0, result, 0, FitProConstants.DATA_TEMPLATE.length);
+        result[1] = (byte) (((FitProConstants.DATA_TEMPLATE.length + data.length - 3) >> 8) & 0xff);
+        result[2] = (byte) ((FitProConstants.DATA_TEMPLATE.length + data.length - 3) & 0xff);
+        result[3] = command_group;
+        result[5] = command;
+        result[6] = (byte) ((data.length >> 8) & 0xff);
+        result[7] = (byte) (data.length & 0xff);
+        System.arraycopy(data, 0, result, 8, data.length);
+        //debug
+        debugPrintArray(result, "crafted packet");
+        return result;
+    }
+
+    // send chucked up data
+    public void writeChunkedData(TransactionBuilder builder, byte[] data) {
+        for (int start = 0; start < data.length; start += mtuSize) {
+            int end = start + mtuSize;
+            if (end > data.length) end = data.length;
+            builder.write(writeCharacteristic, Arrays.copyOfRange(data, start, end));
+        }
     }
 
     @Override
@@ -1003,7 +1003,7 @@ public class FitProDeviceSupport extends AbstractBTLEDeviceSupport {
                 }
             }
 
-            writeChunckedData(builder, craftData(CMD_GROUP_GENERAL, CMD_ALARM, all_alarms));
+            writeChunkedData(builder, craftData(CMD_GROUP_GENERAL, CMD_ALARM, all_alarms));
             //builder.write(writeCharacteristic, craftData(CMD_GROUP_GENERAL, CMD_ALARM, all_alarms));
             builder.queue(getQueue());
             if (anyAlarmEnabled) {

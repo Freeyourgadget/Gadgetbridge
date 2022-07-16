@@ -22,29 +22,5 @@ public class FitProTests extends TestBase {
         //handleStepData(stringWith0xToByteArray(stepData));
     }
 
-    public byte[] stringToByteArray(String s) {
-        byte[] byteArray = new byte[s.length() / 2];
-        String[] strBytes = new String[s.length() / 2];
-        int k = 0;
-        for (int i = 0; i < s.length(); i = i + 2) {
-            int j = i + 2;
-            strBytes[k] = s.substring(i, j);
-            byteArray[k] = (byte) Integer.parseInt(strBytes[k], 16);
-            k++;
-        }
-        return byteArray;
-    }
-
-
-    public static byte[] stringWith0xToByteArray(String s) {
-        String[] split = s.split(" ");
-        int k = 0;
-        byte[] byteArray = new byte[split.length];
-        for (String ch : split) {
-            byteArray[k] = (byte) Integer.parseInt(ch.split("x")[1], 16);
-            k++;
-        }
-        return byteArray;
-    }
 
 }
