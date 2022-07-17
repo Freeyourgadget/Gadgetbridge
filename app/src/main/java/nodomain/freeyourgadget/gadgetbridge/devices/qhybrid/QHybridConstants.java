@@ -38,4 +38,21 @@ public final class QHybridConstants {
             put("wellnessApp", "3.15");
         }
     };
+
+    public static Map<Integer, String> WORKOUT_TYPES_TO_OPENTRACKS_CATEGORY = new HashMap<Integer, String>() {
+        {
+            put(1, "running");
+            put(2, "cycling");
+            put(8, "walking");
+            put(12, "hiking");
+        }
+    };
+    public static Map<Integer, String> WORKOUT_TYPES_TO_OPENTRACKS_ICON = new HashMap<Integer, String>() {
+        {
+            put(1, "RUN");
+            put(2, "BIKE");
+            put(8, "WALK");
+            put(12, "WALK");
+        }
+    };
 }

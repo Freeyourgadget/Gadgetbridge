@@ -86,7 +86,7 @@ public class OpenTracksController extends Activity {
         moveTaskToBack(true);
     }
 
-    public static void sendIntent(Context context, String className) {
+    public static void sendIntent(Context context, String className, String category, String icon) {
         Prefs prefs = GBApplication.getPrefs();
         String packageName = prefs.getString("opentracks_packagename", "de.dennisguse.opentracks");
         Intent intent = new Intent();
@@ -94,6 +94,12 @@ public class OpenTracksController extends Activity {
         intent.setClassName(packageName, className);
         intent.putExtra("STATS_TARGET_PACKAGE", context.getPackageName());
         intent.putExtra("STATS_TARGET_CLASS", OpenTracksController.class.getName());
+        if (category != null) {
+            intent.putExtra("TRACK_CATEGORY", category);
+        }
+        if (icon != null) {
+            intent.putExtra("TRACK_ICON", icon);
+        }
         try {
             context.startActivity(intent);
         } catch (Exception e) {
@@ -102,11 +108,15 @@ public class OpenTracksController extends Activity {
     }
 
     public static void startRecording(Context context) {
-        sendIntent(context, "de.dennisguse.opentracks.publicapi.StartRecording");
+        sendIntent(context, "de.dennisguse.opentracks.publicapi.StartRecording", null, null);
+    }
+
+    public static void startRecording(Context context, String category, String icon) {
+        sendIntent(context, "de.dennisguse.opentracks.publicapi.StartRecording", category, icon);
     }
 
     public static void stopRecording(Context context) {
-        sendIntent(context, "de.dennisguse.opentracks.publicapi.StopRecording");
+        sendIntent(context, "de.dennisguse.opentracks.publicapi.StopRecording", null, null);
         OpenTracksContentObserver openTracksObserver = GBApplication.app().getOpenTracksObserver();
         if (openTracksObserver != null) {
             openTracksObserver.finish();
