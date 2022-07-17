@@ -218,8 +218,12 @@ public abstract class AbstractAppManagerFragment extends Fragment {
                             if ((app.getType() == GBDeviceApp.Type.WATCHFACE) && (!QHybridConstants.HYBRIDHR_WATCHFACE_VERSION.equals(app.getVersion()))) {
                                 app.setUpToDate(false);
                             }
-                            if ((app.getType() == GBDeviceApp.Type.APP_GENERIC) && ((new Version(app.getVersion())).smallerThan(new Version(QHybridConstants.KNOWN_WAPP_VERSIONS.get(app.getName()))))) {
-                                app.setUpToDate(false);
+                            try {
+                                if ((app.getType() == GBDeviceApp.Type.APP_GENERIC) && ((new Version(app.getVersion())).smallerThan(new Version(QHybridConstants.KNOWN_WAPP_VERSIONS.get(app.getName()))))) {
+                                    app.setUpToDate(false);
+                                }
+                            } catch (IllegalArgumentException e) {
+                                LOG.warn("Couldn't read app version", e);
                             }
                         }
                         cachedAppList.add(app);
