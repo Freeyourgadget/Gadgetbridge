@@ -1777,4 +1777,5 @@
     <string name="open_fw_installer_ensure_device_connected">Stelle sicher, dass das Gerät %s angeschlossen ist</string>
     <string name="open_fw_installer_info_text">Mit dem Firmware/Watchface/App/File Installer kannst du unterstützte Dateien (Firmware, Zifferblätter, Anwendungen, GPS, Ressourcen, Schriftarten...) auf das Gerät hochladen/installieren. Weitere Informationen findest du im Wiki: https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Firmware-Update</string>
     <string name="open_fw_installer_getting_files_text">Da wir die Firmware-Dateien nicht verteilen dürfen, musst du dir die Dateien selbst beschaffen. Das bedeutet, dass du nach den Dateien in apk-Dateien, online, in Foren, auf Amazfitwatchfaces (für Miband/Amazfit-Geräte) und so weiter suchen musst.</string>
+    <string name="appmanager_item_outdated">(veraltet)</string>
 </resources>
