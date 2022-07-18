@@ -1450,4 +1450,14 @@
     <string name="companiondevice_pairing">Emparellament de dispositius de companyia</string>
     <string name="qhybrid_pref_summary_external_intents">Permetre que altres aplicacions d\'Android puguin sobre/escriure fitxers</string>
     <string name="averageStride">Mitjana d\'avançada</string>
+    <string name="about_activity_title_banglejs_main">Sobre Bangle.js Gadgetbridge</string>
+    <string name="about_description_banglejs_main">L\'aplicació complementària d\'Android per a Bangle.js està construïda fonamentant-se en projecte Gadgetbridge, amb l\'afegit d\'accés a Internet .
+\n
+\nA causa de les polítiques de la botiga del Google Play, no se\'ns permet incloure un enllaç per fer donatius a la mateixa aplicació, però si us agrada aquesta aplicació considereu fer una donació a través de la pàgina d\'inici de Gadgetbridge a continuació.</string>
+    <string name="gadgetbridge_running_banglejs_main">Bangle.js funcionant</string>
+    <string name="application_name_banglejs_nopebble">Bangle.js Gadgetbridge</string>
+    <string name="title_activity_controlcenter_banglejs_nopebble">Bangle.js Gadgetbridge</string>
+    <string name="about_activity_title_banglejs_nopebble">Sobre Bangle.js Gadgetbridge</string>
+    <string name="application_name_banglejs_main">Bangle.js Gadgetbridge</string>
+    <string name="title_activity_controlcenter_banglejs_main">Bangle.js Gadgetbridge</string>
 </resources>
