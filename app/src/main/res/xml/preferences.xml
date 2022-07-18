@@ -295,27 +295,6 @@
             </PreferenceCategory>
         </PreferenceScreen>
         <PreferenceScreen
-            android:icon="@drawable/ic_device_banglejs"
-            android:key="pref_key_banglejs"
-            android:title="@string/pref_title_banglejs_settings">
-            <PreferenceCategory android:title="@string/pref_header_banglejs_timeline">
-                <CheckBoxPreference
-            android:layout="@layout/preference_checkbox"
-                    android:defaultValue="true"
-                    android:key="enable_calendar_sync"
-                    android:summary="@string/pref_summary_enable_calendar_sync"
-                    android:title="@string/pref_title_enable_calendar_sync" />
-                <Preference
-                    android:key="pref_key_blacklist_calendars_bangle"
-                    android:title="@string/pref_blacklist_calendars" />
-                <CheckBoxPreference
-            android:layout="@layout/preference_checkbox"
-                    android:key="send_sunrise_sunset"
-                    android:summary="@string/pref_summary_sunrise_sunset"
-                    android:title="@string/pref_title_sunrise_sunset" />
-            </PreferenceCategory>
-        </PreferenceScreen>
-        <PreferenceScreen
             android:icon="@drawable/ic_device_hplus"
             android:key="pref_key_hplus"
             android:title="@string/preferences_hplus_settings">

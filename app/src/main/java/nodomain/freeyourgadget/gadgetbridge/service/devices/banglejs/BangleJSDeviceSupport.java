@@ -96,7 +96,8 @@ import nodomain.freeyourgadget.gadgetbridge.model.ActivityKind;
 import nodomain.freeyourgadget.gadgetbridge.model.Alarm;
 import nodomain.freeyourgadget.gadgetbridge.model.BatteryState;
 import nodomain.freeyourgadget.gadgetbridge.model.CalendarEventSpec;
-import nodomain.freeyourgadget.gadgetbridge.model.CalendarEvents;
+import nodomain.freeyourgadget.gadgetbridge.util.calendar.CalendarEvent;
+import nodomain.freeyourgadget.gadgetbridge.util.calendar.CalendarManager;
 import nodomain.freeyourgadget.gadgetbridge.model.CallSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.CannedMessagesSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceService;
@@ -608,7 +609,7 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
                 }
             } break;
             case "force_calendar_sync": {
-                if(!GBApplication.getPrefs().getBoolean("enable_calendar_sync", false)) return;
+                //if(!GBApplication.getPrefs().getBoolean("enable_calendar_sync", false)) return;
                 //pretty much like the updateEvents in CalendarReceiver, but would need a lot of libraries here
                 JSONArray ids = json.getJSONArray("ids");
                 ArrayList<Long> idsList = new ArrayList(ids.length());
@@ -1290,14 +1291,14 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
         int availableSlots = 6;
 
         try {
-            CalendarEvents upcomingEvents = new CalendarEvents();
-            List<CalendarEvents.CalendarEvent> mEvents = upcomingEvents.getCalendarEventList(getContext());
+            CalendarManager upcomingEvents = new CalendarManager(getContext(), getDevice().getAddress());
+            List<CalendarEvent> mEvents = upcomingEvents.getCalendarEventList();
             JSONObject cal = new JSONObject();
             JSONArray events = new JSONArray();
 
             cal.put("t", "calendarevents");
 
-            for (CalendarEvents.CalendarEvent mEvt : mEvents) {
+            for (CalendarEvent mEvt : mEvents) {
                 if(availableSlots<1) break;
                 JSONObject o = new JSONObject();
                 o.put("timestamp", mEvt.getBeginSeconds());

@@ -185,6 +185,7 @@ public class BangleJSCoordinator extends AbstractBLEDeviceCoordinator {
         if (BuildConfig.INTERNET_ACCESS)
             settings.add(R.xml.devicesettings_device_internet_access);
         settings.add(R.xml.devicesettings_device_intents);
+        settings.add(R.xml.devicesettings_sync_calendar);
         // must be a better way of doing this?
         int[] settingsInt = new int[settings.size()];
         for (int i=0; i<settings.size(); i++) settingsInt[i] = settings.get(i);
