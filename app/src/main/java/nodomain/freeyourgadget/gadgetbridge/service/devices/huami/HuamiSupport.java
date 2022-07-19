@@ -2026,6 +2026,21 @@ public abstract class HuamiSupport extends AbstractBTLEDeviceSupport {
         mMTU = mtu;
     }
 
+    @Override
+    public void onMtuChanged(BluetoothGatt gatt, int mtu, int status) {
+        super.onMtuChanged(gatt, mtu, status);
+
+        final Prefs prefs = new Prefs(GBApplication.getDeviceSpecificSharedPrefs(gbDevice.getAddress()));
+
+        if (!prefs.getBoolean(PREF_ALLOW_HIGH_MTU, false)) {
+            LOG.warn("Ignoring MTU change to {}", mtu);
+            return;
+        }
+
+        LOG.info("MTU changed to {}", mtu);
+        this.mMTU = mtu;
+    }
+
     private void acknowledgeFindPhone() {
         try {
             TransactionBuilder builder = performInitialized("acknowledge find phone");
