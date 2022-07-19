@@ -649,10 +649,17 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
             case "intent": {
                 Prefs devicePrefs = new Prefs(GBApplication.getDeviceSpecificSharedPrefs(gbDevice.getAddress()));
                 if (devicePrefs.getBoolean(PREF_DEVICE_INTENTS, false)) {
-                    String action = json.getString("action");
-                    JSONObject extra = json.getJSONObject("extra");
                     Intent in = new Intent();
-                    in.setAction(action);
+                    if (json.has("action")) in.setAction((String)json.get("action"));
+                    if (json.has("category")) in.addCategory((String)json.get("category"));
+                    if (json.has("mimetype")) in.setType((String)json.get("mimetype"));
+                    if (json.has("data")) in.setData(Uri.parse((String)json.get("data")));
+                    if (json.has("package") && !json.has("class")) in.setPackage((String)json.getString("package"));
+                    if (json.has("package") && json.has("class")) in.setClassName((String)json.getString("package"), (String)json.getString("class"));
+                    String target = "";
+                    if (json.has("target"))  target = (String)json.get("target");
+                    JSONObject extra = new JSONObject();
+                    if (json.has("extra")) extra = json.getJSONObject("extra");
                     if (extra != null) {
                         Iterator<String> iter = extra.keys();
                         while (iter.hasNext()) {
@@ -660,12 +667,32 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
                             in.putExtra(key, extra.getString(key));
                         }
                     }
-                    LOG.info("Sending intent " + action);
-                    this.getContext().getApplicationContext().sendBroadcast(in);
+                    LOG.info("Sending intent: " + String.valueOf(in));
+                    switch (target) {
+                        case "":
+                            // This case should make sure intents matched to the original Bangle.js Gadgetbridge intents implementation still work.
+                            this.getContext().getApplicationContext().sendBroadcast(in);
+                            break;
+                        case "broadcastreceiver":
+                            this.getContext().getApplicationContext().sendBroadcast(in);
+                            break;
+                        case "activity":
+                            in.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            this.getContext().getApplicationContext().startActivity(in);
+                            break;
+                        case "service": // Targeting 'Service' is not yet implemented.
+                            LOG.info("Targeting 'Service' not yet implemented.");
+                            GB.toast(getContext(), "Targeting '"+target+"' is not yet implemented.", Toast.LENGTH_LONG, GB.INFO);
+                            // Use jobInfo() and jobScheduler to program this part? Context.startService()? Context.bindService()?
+                            break;
+                        default:
+                            LOG.info("Targeting '"+target+"' isn't implemented or doesn't exist.");
+                            GB.toast(getContext(), "Targeting '"+target+"' isn't implemented or it doesn't exist.", Toast.LENGTH_LONG, GB.INFO);
+                    }
                 } else {
                     uartTxJSONError("intent", "Android Intents not enabled, check Gadgetbridge Device Settings");
-                }
-            } break;
+                } break;
+            }
             case "force_calendar_sync": {
                 //if(!GBApplication.getPrefs().getBoolean("enable_calendar_sync", false)) return;
                 //pretty much like the updateEvents in CalendarReceiver, but would need a lot of libraries here

@@ -283,6 +283,17 @@ public class ControlCenterv2 extends AppCompatActivity
                     dialog.show(getSupportFragmentManager(), "NotifyPolicyPermissionsDialogFragment");
                 }
             }
+
+            if (!android.provider.Settings.canDrawOverlays(getApplicationContext())) {
+                // If diplay over other apps access hasn't been granted
+                // Put up a dialog explaining why we need permissions (Polite, but also Play Store policy)
+                // When accepted, we open the Activity for permission to display over other apps.
+                if (pesterWithPermissions) {
+                    DialogFragment dialog = new DisplayOverOthersPermissionsDialogFragment();
+                    dialog.show(getSupportFragmentManager(), "DisplayOverOthersPermissionsDialogFragment");
+                }
+            }
+
             // Check all the other permissions that we need to for Android M + later
             checkAndRequestPermissions(true);
         }
@@ -601,6 +612,26 @@ public class ControlCenterv2 extends AppCompatActivity
                             } catch (ActivityNotFoundException e) {
                                 GB.toast(context, "'Notification Listener Settings' activity not found", Toast.LENGTH_LONG, GB.ERROR);
                             }
+                        }
+                    });
+            return builder.create();
+        }
+    }
+
+    /// Called from onCreate - this puts up a dialog explaining we need permissions, and goes to the correct Activity
+    public static class DisplayOverOthersPermissionsDialogFragment extends DialogFragment {
+        @Override
+        public Dialog onCreateDialog(Bundle savedInstanceState) {
+            // Use the Builder class for convenient dialog construction
+            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+            Context context = getContext();
+            builder.setMessage(context.getString(R.string.permission_display_over_other_apps,
+                            getContext().getString(R.string.app_name),
+                            getContext().getString(R.string.ok)))
+                    .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            Intent enableIntent = new Intent(android.provider.Settings.ACTION_MANAGE_OVERLAY_PERMISSION);
+                            startActivity(enableIntent);
                         }
                     });
             return builder.create();
