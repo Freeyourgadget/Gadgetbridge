@@ -1771,4 +1771,5 @@
     <string name="open_fw_installer_connect_minimum_one_device">请至少连接一个设备，以便将文件进行发送到设备上。</string>
     <string name="open_fw_installer_connect_maximum_one_device">请只连接一个设备，以便将文件发送到该设备上。</string>
     <string name="appmanager_item_outdated">（已过时）</string>
+    <string name="appmanager_app_share">分享</string>
 </resources>
