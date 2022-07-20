@@ -98,6 +98,7 @@ public class QHybridSupport extends QHybridBaseSupport {
     public static final String QHYBRID_COMMAND_SET_BACKGROUND_IMAGE = "nodomain.freeyourgadget.gadgetbridge.Q_SET_BACKGROUND_IMAGE";
     public static final String QHYBRID_COMMAND_UNINSTALL_APP = "nodomain.freeyourgadget.gadgetbridge.Q_UNINSTALL_APP";
     public static final String QHYBRID_COMMAND_PUSH_CONFIG = "nodomain.freeyourgadget.gadgetbridge.Q_PUSH_CONFIG";
+    public static final String QHYBRID_COMMAND_SWITCH_WATCHFACE = "nodomain.freeyourgadget.gadgetbridge.Q_SWITCH_WATCHFACE";
 
     public static final String QHYBRID_COMMAND_DOWNLOAD_FILE = "nodomain.freeyourgadget.gadgetbridge.Q_DOWNLOAD_FILE";
     public static final String QHYBRID_COMMAND_UPLOAD_FILE = "nodomain.freeyourgadget.gadgetbridge.Q_UPLOAD_FILE";
@@ -306,6 +307,7 @@ public class QHybridSupport extends QHybridBaseSupport {
         globalFilter.addAction(QHYBRID_COMMAND_SET_WIDGET_CONTENT);
         globalFilter.addAction(QHYBRID_COMMAND_UPLOAD_FILE);
         globalFilter.addAction(QHYBRID_COMMAND_PUSH_CONFIG);
+        globalFilter.addAction(QHYBRID_COMMAND_SWITCH_WATCHFACE);
         globalCommandReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
@@ -377,6 +379,10 @@ public class QHybridSupport extends QHybridBaseSupport {
                         handleConfigSetIntent(intent);
                         break;
                     }
+                    case QHYBRID_COMMAND_SWITCH_WATCHFACE:{
+                        handleSwitchWatchfaceIntent(intent);
+                        break;
+                    }
                 }
             }
         };
@@ -386,6 +392,13 @@ public class QHybridSupport extends QHybridBaseSupport {
     private void handleConfigSetIntent(Intent intent) {
         String configJson = intent.getExtras().getString("EXTRA_CONFIG_JSON", "{}");
         watchAdapter.pushConfigJson(configJson);
+    }
+
+    private void handleSwitchWatchfaceIntent(Intent intent) {
+        String watchfaceName = intent.getExtras().getString("WATCHFACE_NAME", "");
+        if (watchfaceName != "") {
+            ((FossilHRWatchAdapter) watchAdapter).activateWatchface(watchfaceName);
+        }
     }
 
     private boolean dangerousIntentsAllowed(){
