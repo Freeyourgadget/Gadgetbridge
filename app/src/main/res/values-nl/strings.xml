@@ -1771,4 +1771,5 @@
     <string name="open_fw_installer_pick_file">Selecteer bestand</string>
     <string name="open_fw_installer_info_text_title">Bestandsinstallatie</string>
     <string name="open_fw_installer_select_file">Selecteer een bestand dat u naar het apparaat wilt uploaden: %s</string>
+    <string name="appmanager_app_share">Delen</string>
 </resources>
