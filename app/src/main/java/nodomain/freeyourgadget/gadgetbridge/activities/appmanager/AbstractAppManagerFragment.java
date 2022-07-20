@@ -18,6 +18,7 @@
 package nodomain.freeyourgadget.gadgetbridge.activities.appmanager;
 
 import android.app.Activity;
+import android.content.ActivityNotFoundException;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -46,6 +47,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+import androidx.core.content.FileProvider;
 import androidx.fragment.app.Fragment;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.recyclerview.widget.ItemTouchHelper;
@@ -308,6 +310,18 @@ public abstract class AbstractAppManagerFragment extends Fragment {
         } else {
             refreshList();
         }
+
+        try {
+            File appCacheDir = mCoordinator.getAppCacheDir();
+            File appTempDir = new File(appCacheDir, "temp_sharing");
+            if (appTempDir.isDirectory()) {
+                for (File child : appTempDir.listFiles())
+                    child.delete();
+                appTempDir.delete();
+            }
+        } catch (IOException e) {
+            LOG.warn("Could not delete temporary app cache directory", e);
+        }
     }
 
     @Override
@@ -390,6 +404,7 @@ public abstract class AbstractAppManagerFragment extends Fragment {
         if (!selectedApp.isInCache()) {
             menu.removeItem(R.id.appmanager_app_edit);
             menu.removeItem(R.id.appmanager_app_reinstall);
+            menu.removeItem(R.id.appmanager_app_share);
             menu.removeItem(R.id.appmanager_app_delete_cache);
         }
         if (!PebbleProtocol.UUID_PEBBLE_HEALTH.equals(selectedApp.getUUID())) {
@@ -488,6 +503,26 @@ public abstract class AbstractAppManagerFragment extends Fragment {
             case R.id.appmanager_app_reinstall:
                 File cachePath = new File(appCacheDir, selectedApp.getUUID() + mCoordinator.getAppFileExtension());
                 GBApplication.deviceService().onInstallApp(Uri.fromFile(cachePath));
+                return true;
+            case R.id.appmanager_app_share:
+                File origFilePath = new File(appCacheDir, selectedApp.getUUID() + mCoordinator.getAppFileExtension());
+                File appTempDir = new File(appCacheDir, "temp_sharing");
+                File sharedAppFile = new File(appTempDir, selectedApp.getName() + mCoordinator.getAppFileExtension());
+                try {
+                    appTempDir.mkdirs();
+                    FileUtils.copyFile(origFilePath, sharedAppFile);
+                } catch (IOException e) {
+                    return true;
+                }
+                Uri contentUri = FileProvider.getUriForFile(getContext(),getContext().getApplicationContext().getPackageName() + ".screenshot_provider", sharedAppFile);
+                Intent shareIntent = new Intent(Intent.ACTION_SEND);
+                shareIntent.putExtra(Intent.EXTRA_STREAM, contentUri);
+                shareIntent.setType("*/*");
+                try {
+                    startActivity(Intent.createChooser(shareIntent, null));
+                } catch (ActivityNotFoundException e) {
+                    LOG.warn("Sharing watchface failed", e);
+                }
                 return true;
             case R.id.appmanager_health_activate:
                 GBApplication.deviceService().onInstallApp(Uri.parse("fake://health"));

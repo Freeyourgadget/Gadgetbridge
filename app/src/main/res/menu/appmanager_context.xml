@@ -7,6 +7,9 @@
         android:id="@+id/appmanager_app_reinstall"
         android:title="@string/appmananger_app_reinstall"/>
     <item
+        android:id="@+id/appmanager_app_share"
+        android:title="@string/appmanager_app_share"/>
+    <item
         android:id="@+id/appmanager_app_delete"
         android:title="@string/appmananger_app_delete"/>
     <item

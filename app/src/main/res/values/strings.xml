@@ -86,6 +86,7 @@
     <string name="appmananger_app_delete">Delete</string>
     <string name="appmananger_app_delete_cache">Delete and remove from cache</string>
     <string name="appmananger_app_reinstall">Reinstall</string>
+    <string name="appmanager_app_share">Share</string>
     <string name="appmanager_app_openinstore">Search in Pebble appstore</string>
     <string name="appmanager_health_activate">Activate</string>
     <string name="appmanager_health_deactivate">Deactivate</string>
