@@ -1765,4 +1765,9 @@
     <string name="open_fw_installer_getting_files_text">מאחר שאסור לנו להפיץ קובצי קושחות, יהיה עליך להשיג את הקבצים בעצמך. משמעות הדבר היא שצריך לחפש את הקבצים בקובצי ה־apk, ברשת, בפורומים ב־Amazfitwatchfaces (עבור התקני Miband/Amazfit) וכן הלאה.</string>
     <string name="open_fw_installer_info_text_title">מתקין קבצים</string>
     <string name="open_fw_installer_connect_maximum_one_device">נא להתחבר להתקן אחד בלבד אליו ברצונך לשלוח את הקובץ.</string>
+    <string name="open_fw_installer_warning_text">יכולת זו יכולה לפגום במכשיר שלך. עם זאת, זה מעולם לא קרה לאף אחד מהמתכנתים במהלך הצריבה אך חשוב לזכור שזה באחריותך בלבד.</string>
+    <string name="open_fw_installer_getting_files_title">קובץ הקושחה/היישומון מתקבל</string>
+    <string name="appmanager_item_outdated">(לא עדכני)</string>
+    <string name="appmanager_app_share">שיתוף</string>
+    <string name="open_fw_installer_info_text">מתקין הקושחות/פני שעון/יישומונים/קבצים מאפשר לך להעלות/להתקין קבצים נתמכים (קושחה, פני שעון, יישומונים, GPS, משאבים, גופנים…) למכשיר. יש מידע נוסף בוויקי: https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Firmware-Update</string>
 </resources>
