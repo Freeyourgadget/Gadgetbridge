@@ -1777,4 +1777,5 @@
     <string name="open_fw_installer_connect_maximum_one_device">Будь ласка, під\'єднайте ЛИШЕ ОДИН пристрій, на який ви хочете надіслати файл.</string>
     <string name="open_fw_installer_ensure_device_connected">Переконайтеся, що пристрій %s під\'єднано</string>
     <string name="appmanager_item_outdated">(застаріле)</string>
+    <string name="appmanager_app_share">Поділитися</string>
 </resources>
