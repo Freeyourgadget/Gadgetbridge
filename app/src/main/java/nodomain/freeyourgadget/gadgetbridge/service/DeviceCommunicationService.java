@@ -316,7 +316,7 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
     private AutoConnectIntervalReceiver mAutoConnectInvervalReceiver= null;
 
     private AlarmReceiver mAlarmReceiver = null;
-    private CalendarReceiver mCalendarReceiver = null;
+    private List<CalendarReceiver> mCalendarReceiver = new ArrayList<>();
     private CMWeatherReceiver mCMWeatherReceiver = null;
     private LineageOsWeatherReceiver mLineageOsWeatherReceiver = null;
     private TinyWeatherForecastGermanyReceiver mTinyWeatherForecastGermanyReceiver = null;
@@ -371,6 +371,7 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
     private void updateReceiversState(){
         boolean enableReceivers = false;
         boolean anyDeviceInitialized = false;
+        List <GBDevice> devicesWithCalendar = new ArrayList<>();
 
         FeatureSet features = new FeatureSet();
 
@@ -386,10 +387,12 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
             DeviceCoordinator coordinator = struct.getCoordinator();
             if(coordinator != null){
                 features.logicalOr(coordinator);
+                if (coordinator.supportsCalendarEvents()){
+                    devicesWithCalendar.add(struct.getDevice());
+                }
             }
         }
-
-        setReceiversEnableState(enableReceivers, anyDeviceInitialized, features);
+        setReceiversEnableState(enableReceivers, anyDeviceInitialized, features, devicesWithCalendar);
     }
 
     @Override
@@ -967,8 +970,17 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
         return false;
     }
 
+    private boolean deviceHasCalendarReceiverRegistered(GBDevice device){
+        for (CalendarReceiver receiver: mCalendarReceiver){
+            if(receiver.getGBDevice().equals(device)){
+                return true;
+            }
+        }
+        return false;
+    }
 
-    private void setReceiversEnableState(boolean enable, boolean initialized, FeatureSet features) {
+
+    private void setReceiversEnableState(boolean enable, boolean initialized, FeatureSet features, List <GBDevice> devicesWithCalendar) {
         LOG.info("Setting broadcast receivers to: " + enable);
 
         if(enable && features == null){
@@ -976,14 +988,17 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
         }
 
         if (enable && initialized && features.supportsCalendarEvents()) {
-            if (mCalendarReceiver == null) {
-                if (!(GBApplication.isRunningMarshmallowOrLater() && ContextCompat.checkSelfPermission(this, Manifest.permission.READ_CALENDAR) == PackageManager.PERMISSION_DENIED)) {
-                    IntentFilter calendarIntentFilter = new IntentFilter();
-                    calendarIntentFilter.addAction("android.intent.action.PROVIDER_CHANGED");
-                    calendarIntentFilter.addDataScheme("content");
-                    calendarIntentFilter.addDataAuthority("com.android.calendar", null);
-                    mCalendarReceiver = new CalendarReceiver(null);
-                    registerReceiver(mCalendarReceiver, calendarIntentFilter);
+            for (GBDevice deviceWithCalendar : devicesWithCalendar) {
+                if (!deviceHasCalendarReceiverRegistered(deviceWithCalendar)) {
+                    if (!(GBApplication.isRunningMarshmallowOrLater() && ContextCompat.checkSelfPermission(this, Manifest.permission.READ_CALENDAR) == PackageManager.PERMISSION_DENIED)) {
+                        IntentFilter calendarIntentFilter = new IntentFilter();
+                        calendarIntentFilter.addAction("android.intent.action.PROVIDER_CHANGED");
+                        calendarIntentFilter.addDataScheme("content");
+                        calendarIntentFilter.addDataAuthority("com.android.calendar", null);
+                        CalendarReceiver receiver = new CalendarReceiver(deviceWithCalendar);
+                        registerReceiver(receiver, calendarIntentFilter);
+                        mCalendarReceiver.add(receiver);
+                    }
                 }
             }
             if (mAlarmReceiver == null) {
@@ -991,10 +1006,10 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
                 registerReceiver(mAlarmReceiver, new IntentFilter("DAILY_ALARM"));
             }
         } else {
-            if (mCalendarReceiver != null) {
-                unregisterReceiver(mCalendarReceiver);
-                mCalendarReceiver = null;
+            for (CalendarReceiver registeredReceiver: mCalendarReceiver){
+                unregisterReceiver(registeredReceiver);
             }
+            mCalendarReceiver.clear();
             if (mAlarmReceiver != null) {
                 unregisterReceiver(mAlarmReceiver);
                 mAlarmReceiver = null;
@@ -1152,7 +1167,7 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
         super.onDestroy();
 
         LocalBroadcastManager.getInstance(this).unregisterReceiver(mReceiver);
-        setReceiversEnableState(false, false, null); // disable BroadcastReceivers
+        setReceiversEnableState(false, false, null, null); // disable BroadcastReceivers
 
         unregisterReceiver(mBlueToothConnectReceiver);
 

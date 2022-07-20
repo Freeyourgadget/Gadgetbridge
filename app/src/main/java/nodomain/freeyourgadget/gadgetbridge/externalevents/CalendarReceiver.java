@@ -90,6 +90,10 @@ public class CalendarReceiver extends BroadcastReceiver {
         onReceive(GBApplication.getContext(), new Intent());
     }
 
+    public GBDevice getGBDevice(){
+        return mGBDevice;
+    }
+
     @Override
     public void onReceive(Context context, Intent intent) {
         LOG.info("got calendar changed broadcast");
