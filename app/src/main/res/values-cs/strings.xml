@@ -1758,4 +1758,17 @@
     <string name="autoconnect_from_device_title">Připojení při požadavku o připojení ze zařízení</string>
     <string name="autoconnect_from_device_summary">Navázání připojení při iniciování připojení zařízením, například sluchátky</string>
     <string name="watchface_dialog_widget_timezone_duration">Doba viditelnosti hodin (v sekundách):</string>
+    <string name="appmanager_item_outdated">(zastaralá verze)</string>
+    <string name="open_fw_installer_warning_title">Varování</string>
+    <string name="open_fw_installer_getting_files_title">Získání souboru firmwaru/aplikace</string>
+    <string name="open_fw_installer_ensure_device_connected">Ujistěte se, že zařízení %s je připojeno</string>
+    <string name="open_fw_installer_connect_minimum_one_device">Připojte prosím alespoň JEDNO zařízení, na které chcete soubor odeslat.</string>
+    <string name="open_fw_installer_connect_maximum_one_device">Připojte POUZE JEDNO zařízení, na které chcete soubor odeslat.</string>
+    <string name="appmanager_app_share">Sdílet</string>
+    <string name="open_fw_installer_warning_text">Tato funkce může způsobit zablokování zařízení. Nikdy se to žádnému z vývojářů nestalo, ale nezapomeňte, že to děláte na vlastní nebezpečí.</string>
+    <string name="open_fw_installer_pick_file">Vybrat soubor</string>
+    <string name="open_fw_installer_info_text_title">Instalátor souborů</string>
+    <string name="open_fw_installer_select_file">Vyberte soubor, který chcete nahrát do zařízení: %s</string>
+    <string name="open_fw_installer_getting_files_text">Vzhledem k tomu, že soubory firmwaru nemůžeme distribuovat, budete si je muset obstarat sami. To znamená, že budete muset hledat soubory v souborech apk, na internetu, na fórech, na Amazfitwatchfaces (pro zařízení Miband/Amazfit) atd.</string>
+    <string name="open_fw_installer_info_text">Instalátor Firmware/Watchface/App/Souborů umožňuje nahrát/instalovat do zařízení podporované soubory (firmware, watchfaces, aplikace, GPS, zdroje, fonty...). Další informace naleznete ve wiki: https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Firmware-Update</string>
 </resources>
