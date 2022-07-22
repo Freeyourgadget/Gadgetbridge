@@ -1,10 +1,59 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
+    <release version="0.68.0" versioncode="213">
+        <change>Multi device support (experimental), allows connecting to multiple devices simultaneously</change>
+        <change>Fossil Hybrid HR: Allow installation of newer watch apps</change>
+        <change>Fossil Hybrid HR: Allow workout app the be added as a shortcut</change>
+        <change>Fossil Hybrid HR: Generate watchface preview image and show it in the app manager</change>
+        <change>Fossil Hybrid HR: Request custom menu config on watchface initialization</change>
+        <change>Fossil Hybrid HR: Invert widgets color when the background image is inverted</change>
+        <change>Fossil Hybrid HR: Show app versions in app manager</change>
+        <change>Fossil Hybrid HR: Make 2nd TZ widget clock duration configurable and fix wrong offset</change>
+        <change>Fossil Hybrid HR: Add option to share a cached watchface/app to another app</change>
+        <change>Fossil Hybrid HR: Allow switching already uploaded watchfaces with Intent</change>
+        <change>Mi Band 6: Fix night mode on latest firmware</change>
+        <change>Mi Band 6: add sleep menu item (also to shortcuts)</change>
+        <change>Mi Band 5: Send GPS location to band during workout</change>
+        <change>Mi Band 5: Start fitness tracking on phone when workout starts on band</change>
+        <change>Mi Band 5: Fix missing Portuguese language</change>
+        <change>Mi Band 5: Add missing breathing shortcut</change>
+        <change>Mi Band 4: Add password support</change>
+        <change>Huami: Fix setting heart rate measurement interval on connection</change>
+        <change>Huami: Fix track name being replaced by album</change>
+        <change>Huami: Display native alarm notification</change>
+        <change>Huami: Fix MTU update on device connection</change>
+        <change>Roidmi 3: Recognize "Roidmi C BLE" as Roidmi 3</change>
+        <change>Bangle.js fix message REPLY option</change>
+        <change>Bangle.js: Keep a log of data sent from the watch, and allow it to be saved with from the debug menu</change>
+        <change>Bangle.js: Support for color dithered bitmaps, and converting emoji->bitmaps</change>
+        <change>Bangle.js: Adding built-in app-loader view. (Only available on internet-enabled builds)</change>
+        <change>Bangle.js: fix null pointer issue for debug messages</change>
+        <change>Bangle.js: Enable calendar sync for bangle</change>
+        <change>Bangle.js: Add icon</change>
+        <change>Pebble: fix configuration of some watchfaces (might break other again)</change>
+        <change>FitPro: add MTU based chunking, add more device names (Sunset 6, Watch7)</change>
+        <change>UM25: fix missing firmware version</change>
+        <change>Support for incoming call notification delay</change>
+        <change>Make calendar blacklist configurable per device</change>
+        <change>Support folders in device list</change>
+        <change>Separate device settings which are specific to the application into Set preferences in device card</change>
+        <change>When pairing devices with auth key requirements, only show Auth key menu related items on long press</change>
+        <change>Provide access to the FW/App Installer via Set preferences in device card</change>
+        <change>Animate card movement in device list</change>
+        <change>Make transliteration configurable per-language</change>
+        <change>Widget: do not show sleep if not recorded</change>
+        <change>Pop up a dialog asking about Location permissions</change>
+        <change>Fix sharing log files on newer android versions</change>
+        <change>Allow to set Bluetooth discovery scanning level to prevent freezing</change>
+        <change>Various UI tweaks and fixes</change>
+        <change>Add monochrome themed icon</change>
+        <change>Add device menu item to get to the FW/App Installer via an explanation activity</change>
+    </release>
     <release version="0.67.1" versioncode="212">
         <change>Huami: Fix long music track names not displaying</change>
         <change>Amazfit Bip U/Pro/Band 5: Enable extended HR/stress monitoring setting</change>
         <change>Pebble: Fix calendar blacklist, view and storage</change>
-        <change>FitPro: Fix crash, inactivity warning preference to string    </change>
+        <change>FitPro: Fix crash, inactivity warning preference to string</change>
     </release>
     <release version="0.67.0" versioncode="211">
         <change>Initial Support for Sony WF-1000XM3</change>

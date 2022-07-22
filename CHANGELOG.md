@@ -28,6 +28,8 @@
 * Bangle.js: Support for color dithered bitmaps, and converting emoji->bitmaps
 * Bangle.js: Adding built-in app-loader view. (Only available on internet-enabled builds)
 * Bangle.js: fix null pointer issue for debug messages
+* Bangle.js: Enable calendar sync for bangle
+* Bangle.js: Add icon
 * Pebble: fix configuration of some watchfaces (might break other again)
 * FitPro: add MTU based chunking, add more device names (Sunset 6, Watch7)
 * UM25: fix missing firmware version
