@@ -1,6 +1,6 @@
 ### Changelog
 
-### 0.68.0 (WIP)
+### 0.68.0
 * Multi device support (experimental), allows connecting to multiple devices simultaneously
 * Fossil Hybrid HR: Allow installation of newer watch apps
 * Fossil Hybrid HR: Allow workout app the be added as a shortcut
@@ -8,7 +8,9 @@
 * Fossil Hybrid HR: Request custom menu config on watchface initialization
 * Fossil Hybrid HR: Invert widgets color when the background image is inverted
 * Fossil Hybrid HR: Show app versions in app manager
-* Fossil Hybrid HR: Make 2nd TZ widget clock duration configurable
+* Fossil Hybrid HR: Make 2nd TZ widget clock duration configurable and fix wrong offset
+* Fossil Hybrid HR: Add option to share a cached watchface/app to another app
+* Fossil Hybrid HR: Allow switching already uploaded watchfaces with Intent
 * Mi Band 6: Fix night mode on latest firmware
 * Mi Band 6: add sleep menu item (also to shortcuts)
 * Mi Band 5: Send GPS location to band during workout
@@ -19,12 +21,14 @@
 * Huami: Fix setting heart rate measurement interval on connection
 * Huami: Fix track name being replaced by album
 * Huami: Display native alarm notification
+* Huami: Fix MTU update on device connection
 * Roidmi 3: Recognize "Roidmi C BLE" as Roidmi 3
 * Bangle.js fix message REPLY option
 * Bangle.js: Keep a log of data sent from the watch, and allow it to be saved with from the debug menu
 * Bangle.js: Support for color dithered bitmaps, and converting emoji->bitmaps
 * Bangle.js: Adding built-in app-loader view. (Only available on internet-enabled builds)
 * Bangle.js: fix null pointer issue for debug messages
+* Pebble: fix configuration of some watchfaces (might break other again)
 * FitPro: add MTU based chunking, add more device names (Sunset 6, Watch7)
 * UM25: fix missing firmware version
 * Support for incoming call notification delay
@@ -40,7 +44,8 @@
 * Fix sharing log files on newer android versions
 * Allow to set Bluetooth discovery scanning level to prevent freezing
 * Various UI tweaks and fixes
-
+* Add monochrome themed icon
+* Add device menu item to get to the FW/App Installer via an explanation activity
 
 ### 0.67.1
 * Huami: Fix long music track names not displaying
