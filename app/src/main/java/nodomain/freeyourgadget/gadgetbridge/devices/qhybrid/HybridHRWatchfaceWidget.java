@@ -20,27 +20,34 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 
+import org.json.JSONObject;
+
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.LinkedHashMap;
 
 import nodomain.freeyourgadget.gadgetbridge.R;
 
 import static nodomain.freeyourgadget.gadgetbridge.util.BitmapUtil.invertBitmapColors;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
-public class HybridHRWatchfaceWidget {
+public class HybridHRWatchfaceWidget implements Serializable {
     private String widgetType;
     private int posX;
     private int posY;
     private int width;
     private int height;
     private int color;
-    private JSONObject extraConfig;
+    private String extraConfigJSON;
 
     public static int COLOR_WHITE = 0;
     public static int COLOR_BLACK = 1;
+
+    static HybridHRWidgetPosition[] defaultPositions = new HybridHRWidgetPosition[]{
+        new HybridHRWidgetPosition(120, 58, R.string.watchface_dialog_widget_preset_top),
+        new HybridHRWidgetPosition(182, 120, R.string.watchface_dialog_widget_preset_right),
+        new HybridHRWidgetPosition(120, 182, R.string.watchface_dialog_widget_preset_bottom),
+        new HybridHRWidgetPosition(58, 120, R.string.watchface_dialog_widget_preset_left),
+    };
 
     public HybridHRWatchfaceWidget(String widgetType, int posX, int posY, int width, int height, int color, JSONObject extraConfig) {
         this.widgetType = widgetType;
@@ -49,7 +56,11 @@ public class HybridHRWatchfaceWidget {
         this.width = width;
         this.height = height;
         this.color = color;
-        this.extraConfig = extraConfig;
+        try {
+            this.extraConfigJSON = extraConfig.toString();
+        } catch (Exception e) {
+            this.extraConfigJSON = "{}";
+        }
     }
 
     public static LinkedHashMap<String, String> getAvailableWidgetTypes(Context context) {
@@ -67,9 +78,13 @@ public class HybridHRWatchfaceWidget {
         return widgetTypes;
     }
 
+    public void setWidgetType(String widgetType) {
+        this.widgetType = widgetType;
+    }
     public String getWidgetType() {
         return widgetType;
     }
+
 
     public Bitmap getPreviewImage(Context context) throws IOException {
         Bitmap preview = BitmapFactory.decodeStream(context.getAssets().open("fossil_hr/" + widgetType + "_preview.png"));
@@ -116,24 +131,67 @@ public class HybridHRWatchfaceWidget {
     }
 
     public int getExtraConfigInt(String name, int fallback) {
-        if (extraConfig == null) {
+        try {
+            return new JSONObject(extraConfigJSON).optInt(name, fallback);
+        } catch (Exception e) {
             return fallback;
-        } else {
-            return extraConfig.optInt(name, fallback);
         }
     }
     public String getExtraConfigString(String name, String fallback) {
-        if (extraConfig == null) {
+        try {
+            return new JSONObject(extraConfigJSON).optString(name, fallback);
+        } catch (Exception e) {
             return fallback;
-        } else {
-            return extraConfig.optString(name, fallback);
         }
     }
     public Boolean getExtraConfigBoolean(String name, Boolean fallback) {
-        if (extraConfig == null) {
+        try {
+            return new JSONObject(extraConfigJSON).optBoolean(name, fallback);
+        } catch (Exception e) {
             return fallback;
-        } else {
-            return extraConfig.optBoolean(name, fallback);
+        }
+    }
+
+    public void setExtraConfigInt(String name, int value) {
+        JSONObject extraConfig;
+        try {
+            extraConfig = new JSONObject(extraConfigJSON);
+        } catch (Exception e) {
+            extraConfig = new JSONObject();
+        }
+        try {
+            extraConfig.put(name, value);
+            extraConfigJSON = extraConfig.toString();
+        } catch (Exception e) {
+            return;
+        }
+    }
+    public void setExtraConfigString(String name, String value) {
+        JSONObject extraConfig;
+        try {
+            extraConfig = new JSONObject(extraConfigJSON);
+        } catch (Exception e) {
+            extraConfig = new JSONObject();
+        }
+        try {
+            extraConfig.put(name, value);
+            extraConfigJSON = extraConfig.toString();
+        } catch (Exception e) {
+            return;
+        }
+    }
+    public void setExtraConfigBoolean(String name, Boolean value) {
+        JSONObject extraConfig;
+        try {
+            extraConfig = new JSONObject(extraConfigJSON);
+        } catch (Exception e) {
+            extraConfig = new JSONObject();
+        }
+        try {
+            extraConfig.put(name, value);
+            extraConfigJSON = extraConfig.toString();
+        } catch (Exception e) {
+            return;
         }
     }
 }

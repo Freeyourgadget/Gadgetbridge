@@ -678,6 +678,10 @@
             android:name=".devices.qhybrid.HybridHRWatchfaceSettingsActivity"
             android:label="@string/watchface_dialog_title_settings"
             android:parentActivityName=".devices.qhybrid.HybridHRWatchfaceDesignerActivity" />
+        <activity
+            android:name=".devices.qhybrid.HybridHRWatchfaceWidgetActivity"
+            android:label="@string/watchface_dialog_title_widget"
+            android:parentActivityName=".devices.qhybrid.HybridHRWatchfaceDesignerActivity" />
 
         <activity
             android:name=".devices.um25.Activity.DataActivity"
