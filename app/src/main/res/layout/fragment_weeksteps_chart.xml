@@ -1,25 +1,44 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="nodomain.freeyourgadget.gadgetbridge.activities.charts.ChartsActivity$PlaceholderFragment"
-    android:orientation="vertical">
+    android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/balance"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        tools:context="nodomain.freeyourgadget.gadgetbridge.activities.charts.ChartsActivity$PlaceholderFragment">
 
-    <com.github.mikephil.charting.charts.PieChart
-        android:id="@+id/todaystepschart"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:layout_weight="20" />
+        <TextView
+            android:id="@+id/balance"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
 
-    <com.github.mikephil.charting.charts.BarChart
-        android:id="@+id/weekstepschart"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:layout_weight="20" />
+        <com.github.mikephil.charting.charts.PieChart
+            android:id="@+id/todaystepschart"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_weight="20" />
 
-</LinearLayout>
+        <com.github.mikephil.charting.charts.BarChart
+            android:id="@+id/weekstepschart"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_weight="20" />
+
+    </LinearLayout>
+
+    <ImageView
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:id="@+id/steps_streaks_button"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="0dp"
+        android:layout_marginEnd="0dp"
+        android:visibility="visible"
+        app:srcCompat="@drawable/ic_events" />
+
+</RelativeLayout>
+

@@ -99,4 +99,12 @@ public interface SampleProvider<T extends AbstractActivitySample> {
      */
     @Nullable
     T getLatestActivitySample();
+
+    /**
+     * Returns the activity sample with the oldest timestamp or null if none
+     * @return the oldest sample or null
+     */
+    @Nullable
+    T getFirstActivitySample();
+
 }

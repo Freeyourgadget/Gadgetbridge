@@ -1730,4 +1730,22 @@
     <string name="connection_over_bt_classic">Connection over Bluetooth classic</string>
     <string name="autoconnect_from_device_title">Connect on connection from device</string>
     <string name="autoconnect_from_device_summary">Establish a connection when connection is initiated by device, like headphones</string>
+    <!-- related to steps streak view -->
+    <string name="steps_streaks">Steps streaks</string>
+    <string name="steps_streaks_hint">Series of consecutive days without interruption with steps goal being reached</string>
+    <string name="step_streak_ongoing">Ongoing</string>
+    <string name="step_streak_longest">Longest</string>
+    <string name="step_streak_total">Total</string>
+    <string name="steps_streaks_total_steps">Total \n steps</string>
+    <string name="steps_streaks_streak_days">Streak \n Days</string>
+    <string name="steps_streaks_average_steps">Average \n steps</string>
+    <string name="steps_streaks_achievement_rate">Achievement \n rate</string>
+    <string name="steps_streaks_since_date">Since %s</string>
+    <string name="step_streak_average_steps_hint">Average steps per day of the streak</string>
+    <string name="steps_streaks_total_steps_hint_totals">Total number of steps ever recorded</string>
+    <string name="steps_streaks_total_days_hint_totals">Percentage of days with achieved goal in relation to all days with steps</string>
+    <string name="step_streak_days_hint">Number of consecutive days with steps goal being reached</string>
+    <string name="steps_streaks_total_steps_hint">Total number of steps in the whole streak</string>
+    <string name="steps_streaks_total_steps_average_hint">Total average %d steps per day</string>
+
 </resources>

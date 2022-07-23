@@ -87,6 +87,13 @@ public class UnknownDeviceCoordinator extends AbstractDeviceCoordinator {
         public AbstractActivitySample getLatestActivitySample() {
             return null;
         }
+
+        @Nullable
+        @Override
+        public AbstractActivitySample getFirstActivitySample() {
+            return null;
+        }
+
     }
 
     public UnknownDeviceCoordinator() {

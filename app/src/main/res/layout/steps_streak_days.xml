@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/step_streak_days_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_gravity="center|top"
+    android:layout_marginStart="1dp"
+    android:layout_marginEnd="1dp"
+    android:layout_weight="1"
+    android:gravity="center|top"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/step_streak_days_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:maxLines="2"
+        android:scrollHorizontally="false"
+        android:text="@string/steps_streaks_streak_days"
+        android:textAllCaps="true"
+        android:textColor="@color/accent"
+        android:textStyle="bold"
+        android:tooltipText="@string/step_streak_days_hint" />
+
+    <TextView
+        android:id="@+id/step_streak_days_value"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:fontFamily="sans-serif-black"
+        android:gravity="center"
+        android:maxLines="1"
+        android:scrollHorizontally="false"
+        android:text="9150000"
+        android:textSize="24sp"
+        android:tooltipText="@string/step_streak_days_hint" />
+
+</LinearLayout>

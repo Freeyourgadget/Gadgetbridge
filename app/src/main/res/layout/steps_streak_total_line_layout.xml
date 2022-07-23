@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/step_streak_total_layout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="5dp"
+    android:layout_marginBottom="0dp"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginStart="1dp"
+        android:layout_marginEnd="1dp"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:maxLines="2"
+        android:scrollHorizontally="false"
+        android:text="@string/step_streak_total"
+        android:textAllCaps="true"
+        android:textSize="24sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/step_streak_total_date_value"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginStart="1dp"
+        android:layout_marginEnd="1dp"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:maxLines="2"
+        android:scrollHorizontally="false" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:baselineAligned="false"
+        android:gravity="bottom|center"
+        android:orientation="horizontal">
+
+        <include layout="@layout/steps_streak_days" />
+
+        <include layout="@layout/steps_streak_total" />
+
+    </LinearLayout>
+
+</LinearLayout>

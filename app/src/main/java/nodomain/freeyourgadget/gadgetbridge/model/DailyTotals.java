@@ -143,9 +143,14 @@ public class DailyTotals {
         return coordinator.getSampleProvider(device, db.getDaoSession());
     }
 
-
     protected List<? extends ActivitySample> getAllSamples(DBHandler db, GBDevice device, int tsFrom, int tsTo) {
         SampleProvider<? extends ActivitySample> provider = getProvider(db, device);
         return provider.getAllActivitySamples(tsFrom, tsTo);
     }
+
+    public ActivitySample getFirstSample(DBHandler db, GBDevice device) {
+        SampleProvider<? extends ActivitySample> provider = getProvider(db, device);
+        return provider.getFirstActivitySample();
+    }
+
 }
