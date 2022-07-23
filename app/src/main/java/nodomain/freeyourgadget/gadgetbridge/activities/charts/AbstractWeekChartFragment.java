@@ -20,10 +20,13 @@ package nodomain.freeyourgadget.gadgetbridge.activities.charts;
 import android.app.Activity;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.text.format.DateUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
+import androidx.fragment.app.FragmentManager;
 
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.charts.PieChart;
@@ -38,6 +41,7 @@ import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
 import com.github.mikephil.charting.formatter.ValueFormatter;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -69,6 +73,7 @@ public abstract class AbstractWeekChartFragment extends AbstractChartFragment {
     private TextView mBalanceView;
 
     private int mOffsetHours = getOffsetHours();
+    FloatingActionButton stepsStreaksFAB;
 
     @Override
     protected ChartsData refreshInBackground(ChartsHost chartsHost, DBHandler db, GBDevice device) {
@@ -98,6 +103,21 @@ public abstract class AbstractWeekChartFragment extends AbstractChartFragment {
         mWeekChart.getXAxis().setValueFormatter(mcd.getWeekBeforeData().getXValueFormatter());
 
         mBalanceView.setText(mcd.getWeekBeforeData().getBalanceMessage());
+
+        //disable the streak FAB once we move away from today
+        Calendar day = Calendar.getInstance();
+        day.setTime(getChartsHost().getEndDate());
+        stepsStreaksFAB.setAlpha((float) 1.0);
+        if (DateUtils.isToday(day.getTimeInMillis()) && enableStepStreaksFAB()){
+            stepsStreaksFAB.setVisibility(View.VISIBLE);
+        }else
+        {
+            stepsStreaksFAB.setVisibility(View.GONE);
+        }
+    }
+
+    private boolean enableStepStreaksFAB(){
+        return this.getClass().getSimpleName().equals("WeekStepsChartFragment");
     }
 
     @Override
@@ -225,7 +245,7 @@ public abstract class AbstractWeekChartFragment extends AbstractChartFragment {
 
         View rootView = inflater.inflate(R.layout.fragment_weeksteps_chart, container, false);
 
-        int goal = getGoal();
+        final int goal = getGoal();
         if (goal >= 0) {
             mTargetValue = goal;
         }
@@ -237,11 +257,28 @@ public abstract class AbstractWeekChartFragment extends AbstractChartFragment {
         setupWeekChart();
         setupTodayPieChart();
 
+        stepsStreaksFAB = rootView.findViewById(R.id.fab_steps_streaks);
+        if (enableStepStreaksFAB()) {
+            stepsStreaksFAB.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    stepsStreaksFAB.setAlpha((float) 0.5);
+                    FragmentManager fm = getActivity().getSupportFragmentManager();
+                    StepStreaksDashboard stepStreaksDashboard = StepStreaksDashboard.newInstance(getGoal(), getChartsHost().getDevice());
+                    stepStreaksDashboard.show(fm, "steps_streaks_dashboard");
+                }
+            });
+        }
+
         // refresh immediately instead of use refreshIfVisible(), for perceived performance
         refresh();
 
         return rootView;
     }
+
+
+
+
 
     private void setupTodayPieChart() {
         mTodayPieChart.setBackgroundColor(BACKGROUND_COLOR);

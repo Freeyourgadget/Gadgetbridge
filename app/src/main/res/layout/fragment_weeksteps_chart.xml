@@ -1,25 +1,47 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="nodomain.freeyourgadget.gadgetbridge.activities.charts.ChartsActivity$PlaceholderFragment"
-    android:orientation="vertical">
+    android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/balance"
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        tools:context="nodomain.freeyourgadget.gadgetbridge.activities.charts.ChartsActivity$PlaceholderFragment">
+
+        <TextView
+            android:id="@+id/balance"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <com.github.mikephil.charting.charts.PieChart
+            android:id="@+id/todaystepschart"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_weight="20" />
+
+        <com.github.mikephil.charting.charts.BarChart
+            android:id="@+id/weekstepschart"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_weight="20" />
+
+    </LinearLayout>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab_steps_streaks"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_gravity="bottom|end"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="0dp"
+        android:visibility="gone"
+        app:srcCompat="@drawable/ic_events_gold" />
 
-    <com.github.mikephil.charting.charts.PieChart
-        android:id="@+id/todaystepschart"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:layout_weight="20" />
+</RelativeLayout>
 
-    <com.github.mikephil.charting.charts.BarChart
-        android:id="@+id/weekstepschart"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:layout_weight="20" />
-
-</LinearLayout>

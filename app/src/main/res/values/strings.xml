@@ -1730,4 +1730,5 @@
     <string name="connection_over_bt_classic">Connection over Bluetooth classic</string>
     <string name="autoconnect_from_device_title">Connect on connection from device</string>
     <string name="autoconnect_from_device_summary">Establish a connection when connection is initiated by device, like headphones</string>
+    <string name="stepsStreakCalculating">Calculating steps data</string>
 </resources>
