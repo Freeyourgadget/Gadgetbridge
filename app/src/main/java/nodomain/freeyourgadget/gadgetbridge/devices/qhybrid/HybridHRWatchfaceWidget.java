@@ -27,6 +27,7 @@ import java.io.Serializable;
 import java.util.LinkedHashMap;
 
 import nodomain.freeyourgadget.gadgetbridge.R;
+import nodomain.freeyourgadget.gadgetbridge.util.BitmapUtil;
 
 import static nodomain.freeyourgadget.gadgetbridge.util.BitmapUtil.invertBitmapColors;
 
@@ -37,6 +38,7 @@ public class HybridHRWatchfaceWidget implements Serializable {
     private int width;
     private int height;
     private int color;
+    private String background;
     private String extraConfigJSON;
 
     public static int COLOR_WHITE = 0;
@@ -56,6 +58,7 @@ public class HybridHRWatchfaceWidget implements Serializable {
         this.width = width;
         this.height = height;
         this.color = color;
+        this.background = "";
         try {
             this.extraConfigJSON = extraConfig.toString();
         } catch (Exception e) {
@@ -88,6 +91,14 @@ public class HybridHRWatchfaceWidget implements Serializable {
 
     public Bitmap getPreviewImage(Context context) throws IOException {
         Bitmap preview = BitmapFactory.decodeStream(context.getAssets().open("fossil_hr/" + widgetType + "_preview.png"));
+        if (getBackground() != "") {
+            try {
+                Bitmap background = BitmapFactory.decodeStream(context.getAssets().open("fossil_hr/" + getBackground() + ".png"));
+                preview = BitmapUtil.overlay(background, preview);
+            } catch (Exception e) {
+                // continue silently without background
+            }
+        }
         if (color == COLOR_WHITE) {
             return preview;
         } else {
@@ -128,6 +139,13 @@ public class HybridHRWatchfaceWidget implements Serializable {
     }
     public void setColor(int color) {
         this.color = color;
+    }
+
+    public String getBackground() {
+        return background;
+    }
+    public void setBackground(String background) {
+        this.background = background;
     }
 
     public int getExtraConfigInt(String name, int fallback) {

@@ -190,4 +190,21 @@ public class BitmapUtil {
         matrix.postRotate(degree);
         return Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
     }
+
+
+    /**
+     * Overlays two bitmaps on top of each other,
+     * bmp1 is assumed to be larger or equal to bmp2
+     * From: https://stackoverflow.com/a/2287218
+     * @param bmp1
+     * @param bmp2
+     * @return new Bitmap
+     */
+    public static Bitmap overlay(Bitmap bmp1, Bitmap bmp2) {
+        Bitmap bmOverlay = Bitmap.createBitmap(bmp1.getWidth(), bmp1.getHeight(), bmp1.getConfig());
+        Canvas canvas = new Canvas(bmOverlay);
+        canvas.drawBitmap(bmp1, new Matrix(), null);
+        canvas.drawBitmap(bmp2, new Matrix(), null);
+        return bmOverlay;
+    }
 }

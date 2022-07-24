@@ -17,6 +17,14 @@
             android:key="pref_hybridhr_widget_color"
             android:dialogTitle="@string/watchface_dialog_widget_color"
             android:negativeButtonText="@string/Cancel"/>
+        <ListPreference
+            android:persistent="false"
+            android:title="@string/watchface_dialog_widget_background"
+            android:key="pref_hybridhr_widget_background"
+            android:dialogTitle="@string/watchface_dialog_widget_background"
+            android:entries="@array/pref_hybridhr_widgetbackgrounds_items"
+            android:entryValues="@array/pref_hybridhr_widgetbackgrounds_values"
+            android:negativeButtonText="@string/Cancel"/>
     </PreferenceCategory>
 
     <PreferenceCategory

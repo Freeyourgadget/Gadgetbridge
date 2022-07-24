@@ -416,7 +416,7 @@ public class HybridHRWatchfaceDesignerActivity extends AbstractGBActivity implem
     }
 
     private void renderWatchfacePreview() {
-        int widgetSize = 50;
+        int widgetSize = QHybridConstants.HYBRID_HR_WATCHFACE_WIDGET_SIZE;
         if (selectedBackgroundImage == null) {
             try {
                 selectedBackgroundImage = BitmapUtil.getCircularBitmap(BitmapFactory.decodeStream(getAssets().open("fossil_hr/default_background.png")));
@@ -502,7 +502,7 @@ public class HybridHRWatchfaceDesignerActivity extends AbstractGBActivity implem
                 posY = newPosition.posY;
                 GB.toast(getString(R.string.watchface_dialog_pre_setting_position, getString(newPosition.hintStringResource)), Toast.LENGTH_SHORT, GB.INFO);
             }
-            int color = 0;
+            int color = defaultWidgetColor;
             if (widgets.size() > 0) {
                 color = widgets.get(0).getColor();
             }

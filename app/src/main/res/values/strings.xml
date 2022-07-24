@@ -1478,6 +1478,10 @@
     <string name="watchface_setting_title_power_saving">Power saving</string>
     <string name="watchface_setting_power_saving_display">Disable display updates while off wrist</string>
     <string name="watchface_setting_power_saving_hands">Disable hands movement while off wrist</string>
+    <string name="watchface_dialog_widget_background">Background</string>
+    <string name="hybridhr_widget_bg_thin_circle">Thin circle</string>
+    <string name="hybridhr_widget_bg_double_circle">Double circle</string>
+    <string name="hybridhr_widget_bg_dashed_circle">Dashed circle</string>
     <string name="prefs_sleep_time">Sleep times</string>
     <string name="prefs_sleep_time_label">Define sleep hours</string>
     <string name="prefs_sleep_time_summary">Specifies times when sleep is registered</string>

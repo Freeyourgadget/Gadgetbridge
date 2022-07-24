@@ -1811,6 +1811,19 @@
         <item>workoutApp</item>
     </string-array>
 
+    <string-array name="pref_hybridhr_widgetbackgrounds_items">
+        <item name="">@string/menuitem_nothing</item>
+        <item name="widget_bg_thin_circle">@string/hybridhr_widget_bg_thin_circle</item>
+        <item name="widget_bg_double_circle">@string/hybridhr_widget_bg_double_circle</item>
+        <item name="widget_bg_dashed_circle">@string/hybridhr_widget_bg_dashed_circle</item>
+    </string-array>
+    <string-array name="pref_hybridhr_widgetbackgrounds_values">
+        <item></item>
+        <item>widget_bg_thin_circle</item>
+        <item>widget_bg_double_circle</item>
+        <item>widget_bg_dashed_circle</item>
+    </string-array>
+
     <string-array name="activity_filter_quick_filter_period_items">
         <item>@string/sports_activity_quick_filter_select</item>
         <item>@string/sports_activity_quick_filter_this_week</item>

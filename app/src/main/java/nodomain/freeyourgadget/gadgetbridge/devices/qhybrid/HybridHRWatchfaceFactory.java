@@ -18,6 +18,7 @@ package nodomain.freeyourgadget.gadgetbridge.devices.qhybrid;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 
 import org.json.JSONArray;
@@ -69,32 +70,19 @@ public class HybridHRWatchfaceFactory {
         JSONObject widget = new JSONObject();
         try {
             switch (widgetDesc.getWidgetType()) {
-                case "widgetDate":
-                case "widgetWeather":
-                case "widgetSteps":
-                case "widgetHR":
-                case "widgetBattery":
-                case "widgetCalories":
-                case "widgetActiveMins":
-                case "widgetChanceOfRain":
                 case "widgetCustom":
-                    widget.put("type", "comp");
-                    widget.put("name", widgetDesc.getWidgetType());
-                    widget.put("goal_ring", false);
-                    widget.put("color", widgetDesc.getColor() == HybridHRWatchfaceWidget.COLOR_WHITE ? "white" : "black");
                     if (widgetDesc.getExtraConfigInt("update_timeout", -1) >= 0) {
                         JSONObject data = new JSONObject();
                         data.put("update_timeout", widgetDesc.getExtraConfigInt("update_timeout", -1));
                         data.put("timeout_hide_text", widgetDesc.getExtraConfigBoolean("timeout_hide_text", true));
                         data.put("timeout_show_circle", widgetDesc.getExtraConfigBoolean("timeout_show_circle", true));
+                        if (widgetDesc.getBackground() != "") {
+                            data.put("background", widgetDesc.getBackground() + widgetDesc.getColor() + ".rle");
+                        }
                         widget.put("data", data);
                     }
-                    break;
+                    // fall through
                 case "widget2ndTZ":
-                    widget.put("type", "comp");
-                    widget.put("name", widgetDesc.getWidgetType());
-                    widget.put("goal_ring", false);
-                    widget.put("color", widgetDesc.getColor() == HybridHRWatchfaceWidget.COLOR_WHITE ? "white" : "black");
                     if (widgetDesc.getExtraConfigString("tzName", null) != null) {
                         JSONObject data = new JSONObject();
                         TimeZone tz = TimeZone.getTimeZone(widgetDesc.getExtraConfigString("tzName", null));
@@ -105,6 +93,22 @@ public class HybridHRWatchfaceFactory {
                         data.put("utc", tzOffsetMins);
                         data.put("timeout_secs", widgetDesc.getExtraConfigInt("timeout_secs", 0));
                         widget.put("data", data);
+                    }
+                    // fall through
+                case "widgetDate":
+                case "widgetWeather":
+                case "widgetSteps":
+                case "widgetHR":
+                case "widgetBattery":
+                case "widgetCalories":
+                case "widgetActiveMins":
+                case "widgetChanceOfRain":
+                    widget.put("type", "comp");
+                    widget.put("name", widgetDesc.getWidgetType());
+                    widget.put("goal_ring", false);
+                    widget.put("color", widgetDesc.getColor() == HybridHRWatchfaceWidget.COLOR_WHITE ? "white" : "black");
+                    if (widgetDesc.getBackground() != "") {
+                        widget.put("bg", widgetDesc.getBackground() + widgetDesc.getColor() + ".rle");
                     }
                     break;
                 default:
@@ -142,6 +146,26 @@ public class HybridHRWatchfaceFactory {
             }
         }
         return count;
+    }
+
+    private Boolean includeBackground(String name, int color) {
+        for (JSONObject widget : this.widgets) {
+            try {
+                if (widget.get("bg").toString().startsWith(name + color)) {
+                    return true;
+                }
+            } catch (JSONException e) {
+            }
+        }
+        return false;
+    }
+
+    private InputStream getWidgetBackgroundStream(Context context, String name, Boolean invert) throws IOException {
+        Bitmap bgImage = BitmapFactory.decodeStream(context.getAssets().open("fossil_hr/" + name + ".png"));
+        if (invert) {
+            bgImage = BitmapUtil.invertBitmapColors(bgImage);
+        }
+        return new ByteArrayInputStream(ImageConverter.encodeToRLEImage(ImageConverter.get2BitsRLEImageBytes(bgImage), QHybridConstants.HYBRID_HR_WATCHFACE_WIDGET_SIZE, QHybridConstants.HYBRID_HR_WATCHFACE_WIDGET_SIZE));
     }
 
     public byte[] getWapp(Context context) throws IOException {
@@ -192,6 +216,26 @@ public class HybridHRWatchfaceFactory {
             if (includeWidget("widgetActiveMins") > 0) icons.put("icActiveMins", context.getAssets().open("fossil_hr/icActiveMins.rle"));
             if (includeWidget("widgetChanceOfRain") > 0) icons.put("icRainChance", context.getAssets().open("fossil_hr/icRainChance.rle"));
             if (includeWidget("widgetCustom") > 0) icons.put("widget_bg_error.rle", context.getAssets().open("fossil_hr/widget_bg_error.rle"));
+            // Note: we have to check and invert every used widget background here,
+            // because the watch doesn't invert the background image when the widget color is inverted
+            if (includeBackground("widget_bg_thin_circle", HybridHRWatchfaceWidget.COLOR_WHITE)) {
+                icons.put("widget_bg_thin_circle" + HybridHRWatchfaceWidget.COLOR_WHITE + ".rle", getWidgetBackgroundStream(context, "widget_bg_thin_circle", false));
+            }
+            if (includeBackground("widget_bg_thin_circle", HybridHRWatchfaceWidget.COLOR_BLACK)) {
+                icons.put("widget_bg_thin_circle" + HybridHRWatchfaceWidget.COLOR_BLACK + ".rle", getWidgetBackgroundStream(context, "widget_bg_thin_circle", true));
+            }
+            if (includeBackground("widget_bg_double_circle", HybridHRWatchfaceWidget.COLOR_WHITE)) {
+                icons.put("widget_bg_double_circle" + HybridHRWatchfaceWidget.COLOR_WHITE + ".rle", getWidgetBackgroundStream(context, "widget_bg_double_circle", false));
+            }
+            if (includeBackground("widget_bg_double_circle", HybridHRWatchfaceWidget.COLOR_BLACK)) {
+                icons.put("widget_bg_double_circle" + HybridHRWatchfaceWidget.COLOR_BLACK + ".rle", getWidgetBackgroundStream(context, "widget_bg_double_circle", true));
+            }
+            if (includeBackground("widget_bg_dashed_circle", HybridHRWatchfaceWidget.COLOR_WHITE)) {
+                icons.put("widget_bg_dashed_circle" + HybridHRWatchfaceWidget.COLOR_WHITE + ".rle", getWidgetBackgroundStream(context, "widget_bg_dashed_circle", false));
+            }
+            if (includeBackground("widget_bg_dashed_circle", HybridHRWatchfaceWidget.COLOR_BLACK)) {
+                icons.put("widget_bg_dashed_circle" + HybridHRWatchfaceWidget.COLOR_BLACK + ".rle", getWidgetBackgroundStream(context, "widget_bg_dashed_circle", true));
+            }
         } catch (IOException e) {
             LOG.warn("Unable to read asset file", e);
         }
@@ -315,6 +359,10 @@ public class HybridHRWatchfaceFactory {
                 widgetJSON.getJSONObject("size").getInt("h"),
                 widgetColor,
                 widgetData);
+        String widgetBackground = widgetJSON.optString("bg", "");
+        if (widgetBackground != "") {
+            parsedWidget.setBackground(widgetBackground.replaceAll("[0-9]?\\.rle$", ""));
+        }
         return parsedWidget;
     }
 
@@ -322,7 +370,7 @@ public class HybridHRWatchfaceFactory {
         if (previewImage == null) {
             previewImage = BitmapUtil.getCircularBitmap(background);
             Canvas previewCanvas = new Canvas(previewImage);
-            int widgetSize = 50;
+            int widgetSize = QHybridConstants.HYBRID_HR_WATCHFACE_WIDGET_SIZE;
             float scaleFactor = previewImage.getWidth() / 240;
             for (int i=0; i<widgets.size(); i++) {
                 try {

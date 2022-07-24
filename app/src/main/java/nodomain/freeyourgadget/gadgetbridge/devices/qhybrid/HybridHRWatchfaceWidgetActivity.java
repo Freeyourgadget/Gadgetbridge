@@ -110,6 +110,11 @@ public class HybridHRWatchfaceWidgetActivity extends AbstractSettingsActivity {
             widgetColor.setValueIndex(widget.getColor());
             widgetColor.setSummary(widgetColors[widget.getColor()]);
 
+            ListPreference widgetBg = (ListPreference) findPreference("pref_hybridhr_widget_background");
+            widgetBg.setOnPreferenceChangeListener(this);
+            widgetBg.setValue(widget.getBackground());
+            widgetBg.setSummary(widgetBg.getEntry());
+
             EditTextPreference posX = (EditTextPreference) findPreference("pref_hybridhr_widget_pos_x");
             posX.setOnPreferenceChangeListener(this);
             posX.setText(Integer.toString(widget.getPosX()));
@@ -180,6 +185,11 @@ public class HybridHRWatchfaceWidgetActivity extends AbstractSettingsActivity {
                 case "pref_hybridhr_widget_color":
                     widget.setColor(Integer.parseInt(newValue.toString()));
                     preference.setSummary(widgetColors[widget.getColor()]);
+                    break;
+                case "pref_hybridhr_widget_background":
+                    widget.setBackground(newValue.toString());
+                    ((ListPreference)preference).setValue(newValue.toString());
+                    preference.setSummary(((ListPreference)preference).getEntry());
                     break;
                 case "pref_hybridhr_widget_pos_x":
                     widget.setPosX(Integer.parseInt(newValue.toString()));
