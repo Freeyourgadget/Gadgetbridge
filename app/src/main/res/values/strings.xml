@@ -198,6 +198,8 @@
     <string name="pref_summary_transliteration">Enable this if your device has no support for your language\'s font</string>
     <string name="pref_title_banglejs_text_bitmap">Text as Bitmaps</string>
     <string name="pref_summary_banglejs_text_bitmap">If a word cannot be rendered with the watch\'s font, render it to a bitmap in Gadgetbridge and display the bitmap on the watch</string>
+    <string name="pref_title_banglejs_txt_bitmap_size">Text Bitmaps Size</string>
+    <string name="pref_summary_banglejs_txt_bitmap_size">If \'Text as Bitmaps\' enabled, what size should text be rendered?</string>
     <string name="pref_title_banglejs_webview_url">App loader URL</string>
     <string name="pref_summary_banglejs_webview_url">If you want a custom app loader put your https://…/android.html URL here. Otherwise leave blank for https://banglejs.com/apps</string>
     <string name="pref_title_rtl">Right-To-Left</string>

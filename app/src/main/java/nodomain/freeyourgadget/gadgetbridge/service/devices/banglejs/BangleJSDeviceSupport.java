@@ -116,6 +116,7 @@ import nodomain.freeyourgadget.gadgetbridge.util.LimitedQueue;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 
 import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_ALLOW_HIGH_MTU;
+import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_BANGLEJS_TEXT_BITMAP_SIZE;
 import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_DEVICE_INTERNET_ACCESS;
 import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_DEVICE_INTENTS;
 import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_BANGLEJS_TEXT_BITMAP;
@@ -720,7 +721,7 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
         for(Emoji emoji : EmojiUtils.getAllEmojis())
             if (word.contains(emoji.getEmoji())) hasEmoji = true;
         // if we had emoji, ensure we create 3 bit color (not 1 bit B&W)
-        return "\0"+bitmapToEspruinoString(textToBitmap(word), hasEmoji ? BangleJSBitmapStyle.RGB_3BPP : BangleJSBitmapStyle.MONOCHROME);
+        return "\0"+bitmapToEspruinoString(textToBitmap(word), hasEmoji ? BangleJSBitmapStyle.RGB_3BPP_TRANSPARENT : BangleJSBitmapStyle.MONOCHROME_TRANSPARENT);
     }
 
     public String renderUnicodeAsImage(String txt) {
@@ -1097,7 +1098,8 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
 
     public Bitmap textToBitmap(String text) {
         Paint paint = new Paint(0); // Paint.ANTI_ALIAS_FLAG not wanted as 1bpp
-        paint.setTextSize(18);
+        Prefs devicePrefs = new Prefs(GBApplication.getDeviceSpecificSharedPrefs(gbDevice.getAddress()));
+        paint.setTextSize(devicePrefs.getInt(PREF_BANGLEJS_TEXT_BITMAP_SIZE, 18));
         paint.setColor(0xFFFFFFFF);
         paint.setTextAlign(Paint.Align.LEFT);
         float baseline = -paint.ascent(); // ascent() is negative
@@ -1110,8 +1112,10 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
     }
 
     public enum BangleJSBitmapStyle {
-        MONOCHROME,
-        RGB_3BPP
+        MONOCHROME, // 1bpp
+        MONOCHROME_TRANSPARENT, // 1bpp, black = transparent
+        RGB_3BPP, // 3bpp
+        RGB_3BPP_TRANSPARENT // 3bpp, least used color as transparent
     };
 
     /** Used for writing single bits to an array */
@@ -1145,12 +1149,14 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
     public static byte[] bitmapToEspruinoArray(Bitmap bitmap, BangleJSBitmapStyle style) {
         int width = bitmap.getWidth();
         int height = bitmap.getHeight();
-        int bpp = (style==BangleJSBitmapStyle.RGB_3BPP) ? 3 : 1;
+        int bpp = (style==BangleJSBitmapStyle.RGB_3BPP ||
+                   style==BangleJSBitmapStyle.RGB_3BPP_TRANSPARENT) ? 3 : 1;
         byte pixels[] = new byte[width * height];
         final byte PIXELCOL_TRANSPARENT = -1;
         final int ditherMatrix[] = {1*16,5*16,7*16,3*16}; // for bayer dithering
-        // if doing 3bpp, check image to see if it's transparent
-        boolean allowTransparency = (style != BangleJSBitmapStyle.MONOCHROME);
+        // if doing RGB_3BPP_TRANSPARENT, check image to see if it's transparent
+        // MONOCHROME_TRANSPARENT is handled later on...
+        boolean allowTransparency = (style == BangleJSBitmapStyle.RGB_3BPP_TRANSPARENT);
         boolean isTransparent = false;
         byte transparentColorIndex = 0;
         /* Work out what colour index each pixel should be and write to pixels.
@@ -1175,9 +1181,9 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
                 g += ditherAmt;
                 b += ditherAmt;
                 int col = 0;
-                if (style == BangleJSBitmapStyle.MONOCHROME)
+                if (bpp==1)
                     col = ((r+g+b) >= 768)?1:0;
-                else if (style == BangleJSBitmapStyle.RGB_3BPP)
+                else if (bpp==3)
                     col = ((r>=256)?1:0) | ((g>=256)?2:0) | ((b>=256)?4:0);
                 if (!pixelTransparent) colUsage[col]++; // if not transparent, record usage
                 // save colour, mark transparent separately
@@ -1198,6 +1204,11 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
             for (n=0;n<pixels.length;n++)
                 if (pixels[n]==PIXELCOL_TRANSPARENT)
                     pixels[n] = transparentColorIndex;
+        }
+        // if we're MONOCHROME_TRANSPARENT, force transparency on bg color
+        if (style == BangleJSBitmapStyle.MONOCHROME_TRANSPARENT) {
+            isTransparent = true;
+            transparentColorIndex = 0;
         }
         // Write the header
         int headerLen = isTransparent ? 4 : 3;
