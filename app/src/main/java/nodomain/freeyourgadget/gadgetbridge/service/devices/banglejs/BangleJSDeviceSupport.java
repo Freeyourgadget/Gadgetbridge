@@ -98,6 +98,7 @@ import nodomain.freeyourgadget.gadgetbridge.model.ActivityKind;
 import nodomain.freeyourgadget.gadgetbridge.model.Alarm;
 import nodomain.freeyourgadget.gadgetbridge.model.BatteryState;
 import nodomain.freeyourgadget.gadgetbridge.model.CalendarEventSpec;
+import nodomain.freeyourgadget.gadgetbridge.service.btle.BtLEQueue;
 import nodomain.freeyourgadget.gadgetbridge.util.calendar.CalendarEvent;
 import nodomain.freeyourgadget.gadgetbridge.util.calendar.CalendarManager;
 import nodomain.freeyourgadget.gadgetbridge.model.CallSpec;
@@ -179,12 +180,17 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
                 switch (intent.getAction()) {
                     case BANGLEJS_COMMAND_TX: {
                         String data = String.valueOf(intent.getExtras().get("DATA"));
-                        try {
-                            TransactionBuilder builder = performInitialized("TX");
-                            uartTx(builder, data);
-                            builder.queue(getQueue());
-                        } catch (IOException e) {
-                            GB.toast(getContext(), "Error in TX: " + e.getLocalizedMessage(), Toast.LENGTH_LONG, GB.ERROR);
+                        BtLEQueue queue = getQueue();
+                        if (queue==null) {
+                            LOG.warn("BANGLEJS_COMMAND_TX received, but getQueue()==null (state=" + gbDevice.getStateString() + ")");
+                        } else {
+                            try {
+                                TransactionBuilder builder = performInitialized("TX");
+                                uartTx(builder, data);
+                                builder.queue(queue);
+                            } catch (IOException e) {
+                                GB.toast(getContext(), "Error in TX: " + e.getLocalizedMessage(), Toast.LENGTH_LONG, GB.ERROR);
+                            }
                         }
                         break;
                     }

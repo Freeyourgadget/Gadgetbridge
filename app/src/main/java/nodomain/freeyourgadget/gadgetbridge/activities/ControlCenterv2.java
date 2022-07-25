@@ -22,6 +22,7 @@ import android.annotation.TargetApi;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.NotificationManager;
+import android.content.ActivityNotFoundException;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -292,7 +293,6 @@ public class ControlCenterv2 extends AppCompatActivity
                 cl.getLogDialog().show();
             } catch (Exception ignored) {
                 GB.toast(getBaseContext(), "Error showing Changelog", Toast.LENGTH_LONG, GB.ERROR);
-
             }
         }
 
@@ -567,13 +567,17 @@ public class ControlCenterv2 extends AppCompatActivity
         public Dialog onCreateDialog(Bundle savedInstanceState) {
             // Use the Builder class for convenient dialog construction
             AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-            Context context = getContext();
+            final Context context = getContext();
             builder.setMessage(context.getString(R.string.permission_notification_policy_access,
                     getContext().getString(R.string.app_name),
                     getContext().getString(R.string.ok)))
                     .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {
-                            startActivity(new Intent(android.provider.Settings.ACTION_NOTIFICATION_POLICY_ACCESS_SETTINGS));
+                            try {
+                                startActivity(new Intent(android.provider.Settings.ACTION_NOTIFICATION_POLICY_ACCESS_SETTINGS));
+                            } catch (ActivityNotFoundException e) {
+                                GB.toast(context, "'Notification Policy' activity not found", Toast.LENGTH_LONG, GB.ERROR);
+                            }
                         }
                     });
             return builder.create();
@@ -586,14 +590,17 @@ public class ControlCenterv2 extends AppCompatActivity
         public Dialog onCreateDialog(Bundle savedInstanceState) {
             // Use the Builder class for convenient dialog construction
             AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-            Context context = getContext();
+            final Context context = getContext();
             builder.setMessage(context.getString(R.string.permission_notification_listener,
                                     getContext().getString(R.string.app_name),
                                     getContext().getString(R.string.ok)))
                     .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {
-                            Intent enableIntent = new Intent("android.settings.ACTION_NOTIFICATION_LISTENER_SETTINGS");
-                            startActivity(enableIntent);
+                            try {
+                                startActivity(new Intent("android.settings.ACTION_NOTIFICATION_LISTENER_SETTINGS"));
+                            } catch (ActivityNotFoundException e) {
+                                GB.toast(context, "'Notification Listener Settings' activity not found", Toast.LENGTH_LONG, GB.ERROR);
+                            }
                         }
                     });
             return builder.create();
