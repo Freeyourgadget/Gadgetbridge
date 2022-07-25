@@ -190,6 +190,7 @@ public class AppManagerActivity extends AbstractGBFragmentActivity {
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent resultData) {
+        super.onActivityResult(requestCode, resultCode, resultData);
         if (requestCode == READ_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
             Intent startIntent = new Intent(AppManagerActivity.this, FwAppInstallerActivity.class);
             startIntent.setAction(Intent.ACTION_VIEW);

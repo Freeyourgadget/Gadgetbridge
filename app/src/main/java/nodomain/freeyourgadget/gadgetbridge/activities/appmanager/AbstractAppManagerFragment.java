@@ -74,6 +74,7 @@ public abstract class AbstractAppManagerFragment extends Fragment {
     public static final String ACTION_REFRESH_APPLIST
             = "nodomain.freeyourgadget.gadgetbridge.appmanager.action.refresh_applist";
     private static final Logger LOG = LoggerFactory.getLogger(AbstractAppManagerFragment.class);
+    private static final int CHILD_ACTIVITY_WATCHFACE_EDITOR = 0;
 
     private ItemTouchHelper appManagementTouchHelper;
 
@@ -374,6 +375,13 @@ public abstract class AbstractAppManagerFragment extends Fragment {
         return rootView;
     }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent resultData) {
+        if (requestCode == CHILD_ACTIVITY_WATCHFACE_EDITOR) {
+            refreshList();
+        }
+    }
+
     protected void sendOrderToDevice(String concatFilename) {
         ArrayList<UUID> uuids = new ArrayList<>();
         for (GBDeviceApp gbDeviceApp : mGBDeviceAppAdapter.getAppList()) {
@@ -560,7 +568,7 @@ public abstract class AbstractAppManagerFragment extends Fragment {
                 Intent editWatchfaceIntent = new Intent(getContext(), watchfaceDesignerActivity);
                 editWatchfaceIntent.putExtra(GBDevice.EXTRA_DEVICE, mGBDevice);
                 editWatchfaceIntent.putExtra(GBDevice.EXTRA_UUID, selectedApp.getUUID().toString());
-                getContext().startActivity(editWatchfaceIntent);
+                startActivityForResult(editWatchfaceIntent, CHILD_ACTIVITY_WATCHFACE_EDITOR);
                 return true;
             default:
                 return super.onContextItemSelected(item);
