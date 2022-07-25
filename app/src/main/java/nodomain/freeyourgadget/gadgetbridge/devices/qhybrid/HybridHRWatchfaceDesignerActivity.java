@@ -393,6 +393,9 @@ public class HybridHRWatchfaceDesignerActivity extends AbstractGBActivity implem
                     if (watchfaceConfig.has("wrist_flick_move_minute")) {
                         watchfaceSettings.setWristFlickMoveMinute(watchfaceConfig.getInt("wrist_flick_move_minute"));
                     }
+                    if (watchfaceConfig.has("toggle_widgets_event")) {
+                        watchfaceSettings.setToggleWidgetsEvent(watchfaceConfig.getString("toggle_widgets_event"));
+                    }
                     if (watchfaceConfig.has("powersave_display")) {
                         watchfaceSettings.setPowersaveDisplay(watchfaceConfig.getBoolean("powersave_display"));
                     }

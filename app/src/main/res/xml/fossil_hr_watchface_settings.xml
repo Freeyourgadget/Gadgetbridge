@@ -45,6 +45,20 @@
     </PreferenceCategory>
 
     <PreferenceCategory
+        android:title="@string/watchface_setting_title_button_toggle_widgets">
+
+        <ListPreference
+            android:persistent="false"
+            android:title="@string/watchface_setting_button_toggle_widgets"
+            android:key="pref_hybridhr_watchface_toggle_widgets"
+            android:entries="@array/pref_hybridhr_watchface_togglewidgets_items"
+            android:entryValues="@array/pref_hybridhr_watchface_togglewidgets_values"
+            android:dialogTitle="@string/watchface_setting_button_toggle_widgets"
+            android:negativeButtonText="@string/Cancel"/>
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
         android:title="@string/watchface_setting_title_power_saving">
 
         <SwitchPreference

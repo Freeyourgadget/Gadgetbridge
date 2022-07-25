@@ -1824,6 +1824,23 @@
         <item>widget_bg_dashed_circle</item>
     </string-array>
 
+    <string-array name="pref_hybridhr_watchface_togglewidgets_items">
+        <item name="">@string/menuitem_nothing</item>
+        <item name="top_short_press_release">@string/pref_title_upper_button_function_short</item>
+        <item name="top_hold">@string/pref_title_upper_button_function_long</item>
+        <item name="middle_short_press_release">@string/pref_title_middle_button_function_short</item>
+        <item name="bottom_short_press_release">@string/pref_title_lower_button_function_short</item>
+        <item name="bottom_hold">@string/pref_title_lower_button_function_long</item>
+    </string-array>
+    <string-array name="pref_hybridhr_watchface_togglewidgets_values">
+        <item></item>
+        <item>top_short_press_release</item>
+        <item>top_hold</item>
+        <item>middle_short_press_release</item>
+        <item>bottom_short_press_release</item>
+        <item>bottom_hold</item>
+    </string-array>
+
     <string-array name="activity_filter_quick_filter_period_items">
         <item>@string/sports_activity_quick_filter_select</item>
         <item>@string/sports_activity_quick_filter_this_week</item>
