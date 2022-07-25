@@ -1779,4 +1779,6 @@
     <string name="watchface_dialog_widget_cat_position">מיקום</string>
     <string name="watchface_dialog_widget_cat_custom_widget">וידג׳ט משלך</string>
     <string name="watchface_dialog_title_widget">הגדרות וידג׳ט</string>
+    <string name="pref_title_banglejs_txt_bitmap_size">גודל מפות סיביות של כתב</string>
+    <string name="pref_summary_banglejs_txt_bitmap_size">אם ‚כתב כמפות סיביות’ מופעל, באיזה גודל יוצג הכתב\?</string>
 </resources>
