@@ -1600,4 +1600,8 @@
     <string name="normal">Normal</string>
     <string name="sensitive">Sensitiv</string>
     <string name="menuitem_email">E-post</string>
+    <string name="gadgetbridge_running_banglejs_nopebble">Bangle.js kjører …</string>
+    <string name="pref_blacklist_calendars_summary">Svartelistede kalendere vil ikke synkroniseres til enheten</string>
+    <string name="pref_title_device_internet_access">Tillat tilgang til Internett</string>
+    <string name="pref_summary_device_internet_access">Tillat programmer på denne enheten å koble til Internett</string>
 </resources>
