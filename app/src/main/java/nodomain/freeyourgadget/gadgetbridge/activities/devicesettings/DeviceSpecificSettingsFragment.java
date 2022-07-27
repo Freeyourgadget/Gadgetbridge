@@ -950,11 +950,11 @@ public class DeviceSpecificSettingsFragment extends PreferenceFragmentCompat imp
      * @param preferenceGroup the {@link PreferenceGroup} for which preferences will be reloaded
      */
     private void reloadPreferences(final SharedPreferences sharedPreferences, final PreferenceGroup preferenceGroup) {
-        for (int i = 0; i < preferenceGroup.getPreferenceCount(); i++) {
-            if (preferenceGroup == null) {
-                return;
-            }
+        if (preferenceGroup == null) {
+            return;
+        }
 
+        for (int i = 0; i < preferenceGroup.getPreferenceCount(); i++) {
             final Preference preference = preferenceGroup.getPreference(i);
 
             LOG.debug("Reloading {}", preference.getKey());
