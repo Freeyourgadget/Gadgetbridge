@@ -18,6 +18,7 @@
         android:maxLines="2"
         android:scrollHorizontally="false"
         android:text="Total\n steps"
+        android:tooltipText="Total number of steps in the whole streak"
         android:textAllCaps="true"
         android:textColor="@color/accent"
         android:textStyle="bold" />

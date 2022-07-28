@@ -35,6 +35,7 @@ public class StepStreaksDashboard extends DialogFragment {
     GBDevice gbDevice;
     int goal;
     boolean cancelTasks = false;
+    boolean backgroundFinished = false;
     private View fragmentView;
     private StepsStreaks stepsStreaks = new StepsStreaks();
 
@@ -87,7 +88,7 @@ public class StepStreaksDashboard extends DialogFragment {
             throw new IllegalArgumentException("Must provide a device when invoking this activity");
         }
         createTaskCalculateLatestStepsStreak("Visualizing data current", getActivity(), "current").execute();
-        createTaskCalculateLatestStepsStreak("Visualizing data maximum", getActivity(), "maximum").execute();
+        createTaskCalculateLatestStepsStreak("Visualizing data maximum", getActivity(), "totals").execute();
     }
 
 
@@ -133,10 +134,13 @@ public class StepStreaksDashboard extends DialogFragment {
             date_maximum_value.setText(DateTimeUtils.formatDate(new Date(stepsStreaks.maximum.timestamp * 1000l)));
             LOG.debug("petr " + stepsStreaks.total.timestamp);
         }
-        if (stepsStreaks.total.days > 0) {
+        if (stepsStreaks.total.steps > 0 || backgroundFinished) {
             total.setVisibility(View.VISIBLE);
             days_total_label.setText("Achievement\n rate");
-            days_total.setText(String.format("%.1f%%", (float) stepsStreaks.total.days / stepsStreaks.total.total_days * 100));
+            days_total.setText(String.format("%.1f%%", 0.0));
+            if (stepsStreaks.total.total_days > 0) {
+                days_total.setText(String.format("%.1f%%", (float) stepsStreaks.total.days / stepsStreaks.total.total_days * 100));
+            }
             total_total.setText(Integer.toString(stepsStreaks.total.steps));
         }
     }
@@ -160,7 +164,7 @@ public class StepStreaksDashboard extends DialogFragment {
                     calculateStreakData(db, "current", gbDevice, goal);
 
                     break;
-                case "maximum":
+                case "totals":
                     calculateStreakData(db, "totals", gbDevice, goal);
                     break;
             }
@@ -176,11 +180,11 @@ public class StepStreaksDashboard extends DialogFragment {
             super.onPostExecute(o);
             FragmentActivity activity = getActivity();
             if (activity != null && !activity.isFinishing() && !activity.isDestroyed()) {
-                populateData();
-                if (period.equals("maximum")) {
+                if (period.equals("totals")) {
+                    backgroundFinished = true;
                     indicate_progress(false);
                 }
-
+                populateData();
             } else {
                 LOG.info("Not filling data because activity is not available anymore");
             }
@@ -200,25 +204,25 @@ public class StepStreaksDashboard extends DialogFragment {
         DailyTotals dailyTotals = new DailyTotals();
         ActivitySample firstSample = dailyTotals.getFirstSample(db, device);
         Calendar firstDate = Calendar.getInstance();
-        firstDate.setTime(new Date(firstSample.getTimestamp() * 1000l));
+        firstDate.setTime(DateTimeUtils.shiftByDays(new Date(firstSample.getTimestamp() * 1000l), -1));
+        //go one day back, to ensure we are before the first day, to calculate first day data as well
         //NOTE: getting the first sample as a first day reference is not reliable
 
         while (true) {
             if (cancelTasks) {
-                GB.toast("bailing out background jobs", Toast.LENGTH_SHORT, GB.INFO);
-
+                GB.toast("Bailing out background jobs", Toast.LENGTH_SHORT, GB.INFO);
                 break;
             }
-            int steps_this_day = 0;
+
             long[] daily_data = dailyTotals.getDailyTotalsForDevice(device, day, db);
-            steps_this_day = (int) daily_data[0];
+            int steps_this_day = (int) daily_data[0];
 
             if (steps_this_day > 0) {
                 all_step_days++;
                 all_steps += steps_this_day;
             }
 
-            if (steps_this_day > goal) {
+            if (steps_this_day >= goal) {
                 streak_steps += steps_this_day;
                 streak_days++;
                 all_streak_days++;

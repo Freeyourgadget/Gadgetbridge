@@ -20,6 +20,7 @@
         android:maxLines="2"
         android:scrollHorizontally="false"
         android:text="Days\n"
+        android:tooltipText="Number of consecutive days with steps goal being reached"
         android:textAllCaps="true"
         android:textColor="@color/accent"
         android:textStyle="bold" />

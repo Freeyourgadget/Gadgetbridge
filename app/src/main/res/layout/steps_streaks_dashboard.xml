@@ -25,6 +25,7 @@
             android:maxLines="2"
             android:scrollHorizontally="false"
             android:text="Steps streaks"
+            android:tooltipText="Series of consecutive days without interruption with steps goal being reached"
             android:textAllCaps="true"
             android:textSize="24sp"
             android:textStyle="bold" />

@@ -18,6 +18,7 @@
         android:maxLines="2"
         android:scrollHorizontally="false"
         android:text="Average\n steps"
+        android:tooltipText="Average steps per day"
         android:textAllCaps="true"
         android:textColor="@color/accent"
         android:textStyle="bold" />
