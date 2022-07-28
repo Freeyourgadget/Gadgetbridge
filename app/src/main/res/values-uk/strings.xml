@@ -1789,4 +1789,6 @@
     <string name="hybridhr_widget_bg_double_circle">Подвійне коло</string>
     <string name="watchface_dialog_widget_cat_generic">Загальний</string>
     <string name="watchface_dialog_title_widget">Налаштування віджета</string>
+    <string name="watchface_setting_title_button_toggle_widgets">Перемкнути віджети</string>
+    <string name="watchface_setting_button_toggle_widgets">Дія кнопки</string>
 </resources>
