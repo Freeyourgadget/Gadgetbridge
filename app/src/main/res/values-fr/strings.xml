@@ -1785,4 +1785,6 @@ Temps de sommeil préféré en heures</string>
     <string name="watchface_dialog_widget_cat_2nd_tz_widget">Widget deuxième fuseau horaire</string>
     <string name="watchface_dialog_widget_cat_custom_widget">Widget personnalisé</string>
     <string name="hybridhr_widget_bg_thin_circle">Cercle fin</string>
+    <string name="watchface_setting_title_button_toggle_widgets">Intervertir les widgets</string>
+    <string name="watchface_setting_button_toggle_widgets">Action du bouton</string>
 </resources>
