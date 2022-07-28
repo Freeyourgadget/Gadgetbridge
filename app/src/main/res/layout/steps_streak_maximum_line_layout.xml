@@ -33,8 +33,7 @@
         android:gravity="center"
         android:maxLines="2"
         android:scrollHorizontally="false"
-        android:text="date"
-        />
+        android:text="date" />
 
 
     <LinearLayout

@@ -107,6 +107,7 @@ public class StepStreaksDashboard extends DialogFragment {
         TextView days_current = current.findViewById(R.id.step_streak_days_value);
         TextView average_current = current.findViewById(R.id.step_streak_average_value);
         TextView total_current = current.findViewById(R.id.step_streak_total_value);
+        TextView date_current_value = current.findViewById(R.id.step_streak_current_date_value);
 
         LinearLayout maximum = getView().findViewById(R.id.step_streak_maximum_layout);
         TextView days_maximum = maximum.findViewById(R.id.step_streak_days_value);
@@ -118,12 +119,15 @@ public class StepStreaksDashboard extends DialogFragment {
         TextView days_total = total.findViewById(R.id.step_streak_days_value);
         TextView days_total_label = total.findViewById(R.id.step_streak_days_label);
         TextView total_total = total.findViewById(R.id.step_streak_total_value);
+        TextView date_total_value = total.findViewById(R.id.step_streak_total_date_value);
+
 
         if (stepsStreaks.current.days > 0) {
             current.setVisibility(View.VISIBLE);
             days_current.setText(Integer.toString(stepsStreaks.current.days));
             average_current.setText(Integer.toString(stepsStreaks.current.steps / stepsStreaks.current.days));
             total_current.setText(Integer.toString(stepsStreaks.current.steps));
+            date_current_value.setText(String.format("From %s", DateTimeUtils.formatDate(new Date(stepsStreaks.current.timestamp * 1000l))));
         }
 
         if (stepsStreaks.maximum.days > 0) {
@@ -131,8 +135,12 @@ public class StepStreaksDashboard extends DialogFragment {
             days_maximum.setText(Integer.toString(stepsStreaks.maximum.days));
             average_maximum.setText(Integer.toString(stepsStreaks.maximum.steps / stepsStreaks.maximum.days));
             total_maximum.setText(Integer.toString(stepsStreaks.maximum.steps));
-            date_maximum_value.setText(DateTimeUtils.formatDate(new Date(stepsStreaks.maximum.timestamp * 1000l)));
-            LOG.debug("petr " + stepsStreaks.total.timestamp);
+
+            Date startDate = new Date(stepsStreaks.maximum.timestamp * 1000l);
+            Date endDate = DateTimeUtils.shiftByDays(startDate, stepsStreaks.maximum.days - 1); //first day is 1 not 0
+            //date_maximum_value.setText(DateTimeUtils.formatDate(new Date(stepsStreaks.maximum.timestamp * 1000l)));
+            date_maximum_value.setText(DateTimeUtils.formatDateRange(startDate, endDate));
+
         }
         if (stepsStreaks.total.steps > 0 || backgroundFinished) {
             total.setVisibility(View.VISIBLE);
@@ -140,6 +148,12 @@ public class StepStreaksDashboard extends DialogFragment {
             days_total.setText(String.format("%.1f%%", 0.0));
             if (stepsStreaks.total.total_days > 0) {
                 days_total.setText(String.format("%.1f%%", (float) stepsStreaks.total.days / stepsStreaks.total.total_days * 100));
+            }
+            if (stepsStreaks.total.timestamp > 0) {
+                date_total_value.setVisibility(View.VISIBLE);
+                date_total_value.setText(String.format("Since %s", DateTimeUtils.formatDate(new Date(stepsStreaks.total.timestamp * 1000l))));
+            } else {
+                date_total_value.setVisibility(View.GONE);
             }
             total_total.setText(Integer.toString(stepsStreaks.total.steps));
         }
@@ -195,18 +209,18 @@ public class StepStreaksDashboard extends DialogFragment {
         Calendar day = Calendar.getInstance();
         int streak_steps = 0;
         int streak_days = 0;
-        int timestamp = (int) (day.getTimeInMillis() / 1000);
+        int timestamp = 0;
 
         int all_step_days = 0;
         int all_streak_days = 0;
         int all_steps = 0;
+        int firstDataTimestamp = 0;
 
         DailyTotals dailyTotals = new DailyTotals();
         ActivitySample firstSample = dailyTotals.getFirstSample(db, device);
         Calendar firstDate = Calendar.getInstance();
         firstDate.setTime(DateTimeUtils.shiftByDays(new Date(firstSample.getTimestamp() * 1000l), -1));
         //go one day back, to ensure we are before the first day, to calculate first day data as well
-        //NOTE: getting the first sample as a first day reference is not reliable
 
         while (true) {
             if (cancelTasks) {
@@ -220,12 +234,14 @@ public class StepStreaksDashboard extends DialogFragment {
             if (steps_this_day > 0) {
                 all_step_days++;
                 all_steps += steps_this_day;
+                firstDataTimestamp = (int) (day.getTimeInMillis() / 1000);
             }
 
             if (steps_this_day >= goal) {
                 streak_steps += steps_this_day;
                 streak_days++;
                 all_streak_days++;
+                timestamp = (int) (day.getTimeInMillis() / 1000);
                 Date newDate = DateTimeUtils.shiftByDays(new Date(day.getTimeInMillis()), -1);
                 day.setTime(newDate);
             } else if (DateUtils.isToday(day.getTimeInMillis())) {
@@ -237,6 +253,7 @@ public class StepStreaksDashboard extends DialogFragment {
                 if (period.equals("current")) {
                     stepsStreaks.current.days = streak_days;
                     stepsStreaks.current.steps = streak_steps;
+                    stepsStreaks.current.timestamp = timestamp;
                     return;
                 } else if (period.equals("totals")) {
                     //reset max
@@ -248,13 +265,13 @@ public class StepStreaksDashboard extends DialogFragment {
                     stepsStreaks.total.steps = all_steps;
                     stepsStreaks.total.days = all_streak_days;
                     stepsStreaks.total.total_days = all_step_days;
+                    stepsStreaks.total.timestamp = firstDataTimestamp;
 
                     streak_days = 0;
                     streak_steps = 0;
                     Date newDate = DateTimeUtils.shiftByDays(new Date(day.getTimeInMillis()), -1);
                     day.setTime(newDate);
-                    timestamp = (int) (day.getTimeInMillis() / 1000);
-                    if (day.before(firstDate) || day.get(Calendar.YEAR) < 2015) { //avoid rolling back too far
+                    if (day.before(firstDate) || day.get(Calendar.YEAR) < 2015) { //avoid rolling back too far, if the data has a timestamp 0 (Fossil...)
                         return;
                     }
                 }
