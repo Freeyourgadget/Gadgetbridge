@@ -113,12 +113,6 @@ public class AmazfitXCoordinator extends HuamiCoordinator {
     }
 
     @Override
-    public int[] getSupportedDeviceSpecificAuthenticationSettings() {
-        return new int[]{
-                R.xml.devicesettings_pairingkey
-        };
-    }
-
     public String[] getSupportedLanguageSettings(GBDevice device) {
         return new String[]{
                 "auto",

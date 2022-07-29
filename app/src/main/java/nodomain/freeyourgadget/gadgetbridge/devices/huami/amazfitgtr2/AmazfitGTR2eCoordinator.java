@@ -111,10 +111,4 @@ public class AmazfitGTR2eCoordinator extends HuamiCoordinator {
                 R.xml.devicesettings_transliteration
         };
     }
-    @Override
-    public int[] getSupportedDeviceSpecificAuthenticationSettings() {
-        return new int[]{
-                R.xml.devicesettings_pairingkey
-        };
-    }
 }

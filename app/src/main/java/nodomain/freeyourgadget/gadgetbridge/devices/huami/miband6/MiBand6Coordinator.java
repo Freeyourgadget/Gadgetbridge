@@ -108,12 +108,6 @@ public class MiBand6Coordinator extends HuamiCoordinator {
                 R.xml.devicesettings_transliteration
         };
     }
-    @Override
-    public int[] getSupportedDeviceSpecificAuthenticationSettings() {
-        return new int[]{
-                R.xml.devicesettings_pairingkey
-        };
-    }
 
     @Override
     public String[] getSupportedLanguageSettings(GBDevice device) {

@@ -94,7 +94,6 @@ public class AmazfitBipCoordinator extends HuamiCoordinator {
                 R.xml.devicesettings_bt_connected_advertisement,
                 R.xml.devicesettings_buttonactions_with_longpress,
                 R.xml.devicesettings_device_actions,
-                R.xml.devicesettings_pairingkey,
                 R.xml.devicesettings_transliteration
         };
     }
