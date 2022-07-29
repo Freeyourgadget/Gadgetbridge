@@ -1783,4 +1783,6 @@
     <string name="hybridhr_widget_bg_double_circle">双圆</string>
     <string name="pref_title_banglejs_txt_bitmap_size">文本位图大小</string>
     <string name="hybridhr_widget_bg_dashed_circle">虚线圈</string>
+    <string name="watchface_setting_title_button_toggle_widgets">切换小部件</string>
+    <string name="watchface_setting_button_toggle_widgets">按钮动作</string>
 </resources>
