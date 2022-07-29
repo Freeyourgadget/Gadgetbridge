@@ -1,6 +1,7 @@
 package nodomain.freeyourgadget.gadgetbridge.activities.charts;
 
 import android.content.Context;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.format.DateUtils;
 import android.view.LayoutInflater;
@@ -33,35 +34,41 @@ import nodomain.freeyourgadget.gadgetbridge.util.GB;
 public class StepStreaksDashboard extends DialogFragment {
     protected static final Logger LOG = LoggerFactory.getLogger(StepStreaksDashboard.class);
     GBDevice gbDevice;
-    int goal;
+    int stepsGoal;
     boolean cancelTasks = false;
-    boolean backgroundFinished = false;
+    boolean backgroundTaskFinished = false;
     private View fragmentView;
-    private StepsStreaks stepsStreaks = new StepsStreaks();
+    private final StepsStreaks stepsStreaks = new StepsStreaks();
+    private static final String GOAL = "goal";
+    private static final String PERIOD_CURRENT = "current";
+    private static final String PERIOD_TOTALS = "totals";
+    private static final int MAX_YEAR = 2015;
 
     public StepStreaksDashboard() {
 
     }
 
+    //Calculates some stats for longest streak (daily steps goal being reached for subsequent days
+    //without interruption (day with steps less then goal)
+    //Possible improvements/nice to haves:
+    //- cache values until new activity fetch is performed
+    //- create a parcel to allow screen rotation without recalculation
+    //- read the goals from the USER_ATTRIBUTES table. But, this would also require to be able
+    //to edit/add values there...
+
     public static StepStreaksDashboard newInstance(int goal, GBDevice device) {
 
         StepStreaksDashboard fragment = new StepStreaksDashboard();
-
         Bundle args = new Bundle();
-        args.putInt("goal", goal);
+        args.putInt(GOAL, goal);
         args.putParcelable(GBDevice.EXTRA_DEVICE, device);
         fragment.setArguments(args);
         return fragment;
-
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-
-                             Bundle savedInstanceState) {
-
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return inflater.inflate(R.layout.steps_streaks_dashboard, container);
-
     }
 
     @Override
@@ -81,21 +88,21 @@ public class StepStreaksDashboard extends DialogFragment {
     public void onViewCreated(final View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        goal = getArguments().getInt("goal", 0);
+        stepsGoal = getArguments().getInt(GOAL, 0);
         gbDevice = getArguments().getParcelable(GBDevice.EXTRA_DEVICE);
         fragmentView = view;
         if (gbDevice == null) {
             throw new IllegalArgumentException("Must provide a device when invoking this activity");
         }
-        createTaskCalculateLatestStepsStreak("Visualizing data current", getActivity(), "current").execute();
-        createTaskCalculateLatestStepsStreak("Visualizing data maximum", getActivity(), "totals").execute();
+        createTaskCalculateLatestStepsStreak("Visualizing data current", getActivity(), PERIOD_CURRENT).execute();
+        createTaskCalculateLatestStepsStreak("Visualizing data maximum", getActivity(), PERIOD_TOTALS).execute();
     }
 
 
     void indicate_progress(boolean inProgress) {
         ProgressBar step_streak_dashboard_loading_circle = fragmentView.findViewById(R.id.step_streak_dashboard_loading_circle);
         if (inProgress) {
-            step_streak_dashboard_loading_circle.setAlpha(0.5f);
+            step_streak_dashboard_loading_circle.setAlpha(0.4f); //make it a bit softer
         } else {
             step_streak_dashboard_loading_circle.setAlpha(0);
         }
@@ -120,6 +127,7 @@ public class StepStreaksDashboard extends DialogFragment {
         TextView days_total_label = total.findViewById(R.id.step_streak_days_label);
         TextView total_total = total.findViewById(R.id.step_streak_total_value);
         TextView date_total_value = total.findViewById(R.id.step_streak_total_date_value);
+        TextView date_total_label = total.findViewById(R.id.step_streak_total_label);
 
 
         if (stepsStreaks.current.days > 0) {
@@ -127,7 +135,10 @@ public class StepStreaksDashboard extends DialogFragment {
             days_current.setText(Integer.toString(stepsStreaks.current.days));
             average_current.setText(Integer.toString(stepsStreaks.current.steps / stepsStreaks.current.days));
             total_current.setText(Integer.toString(stepsStreaks.current.steps));
-            date_current_value.setText(String.format("From %s", DateTimeUtils.formatDate(new Date(stepsStreaks.current.timestamp * 1000l))));
+
+            Date startDate = new Date(stepsStreaks.current.timestamp * 1000L);
+            Date endDate = DateTimeUtils.shiftByDays(startDate, stepsStreaks.current.days - 1); //first day is 1 not 0
+            date_current_value.setText(DateTimeUtils.formatDateRange(startDate, endDate));
         }
 
         if (stepsStreaks.maximum.days > 0) {
@@ -136,22 +147,31 @@ public class StepStreaksDashboard extends DialogFragment {
             average_maximum.setText(Integer.toString(stepsStreaks.maximum.steps / stepsStreaks.maximum.days));
             total_maximum.setText(Integer.toString(stepsStreaks.maximum.steps));
 
-            Date startDate = new Date(stepsStreaks.maximum.timestamp * 1000l);
+            Date startDate = new Date(stepsStreaks.maximum.timestamp * 1000L);
             Date endDate = DateTimeUtils.shiftByDays(startDate, stepsStreaks.maximum.days - 1); //first day is 1 not 0
-            //date_maximum_value.setText(DateTimeUtils.formatDate(new Date(stepsStreaks.maximum.timestamp * 1000l)));
             date_maximum_value.setText(DateTimeUtils.formatDateRange(startDate, endDate));
-
         }
-        if (stepsStreaks.total.steps > 0 || backgroundFinished) {
+        if (stepsStreaks.total.steps > 0 || backgroundTaskFinished) {
             total.setVisibility(View.VISIBLE);
-            days_total_label.setText("Achievement\n rate");
+            days_total_label.setText(R.string.steps_streaks_achievement_rate);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                //labels here have diferent meaning, so we must also add proper hint
+                days_total_label.setTooltipText(getString(R.string.steps_streaks_total_days_hint_totals));
+                days_total.setTooltipText(getString(R.string.steps_streaks_total_days_hint_totals));
+                date_total_label.setTooltipText(getString(R.string.steps_streaks_total_steps_hint_totals));
+            }
+
             days_total.setText(String.format("%.1f%%", 0.0));
             if (stepsStreaks.total.total_days > 0) {
                 days_total.setText(String.format("%.1f%%", (float) stepsStreaks.total.days / stepsStreaks.total.total_days * 100));
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    total_total.setTooltipText(String.format(getString(R.string.steps_streaks_total_steps_average_hint), stepsStreaks.total.steps / stepsStreaks.total.total_days));
+                }
+
             }
             if (stepsStreaks.total.timestamp > 0) {
                 date_total_value.setVisibility(View.VISIBLE);
-                date_total_value.setText(String.format("Since %s", DateTimeUtils.formatDate(new Date(stepsStreaks.total.timestamp * 1000l))));
+                date_total_value.setText(String.format(getString(R.string.steps_streaks_since_date), DateTimeUtils.formatDate(new Date(stepsStreaks.total.timestamp * 1000L))));
             } else {
                 date_total_value.setVisibility(View.GONE);
             }
@@ -174,12 +194,12 @@ public class StepStreaksDashboard extends DialogFragment {
         @Override
         protected void doInBackground(DBHandler db) {
             switch (period) {
-                case "current":
-                    calculateStreakData(db, "current", gbDevice, goal);
+                case PERIOD_CURRENT:
+                    calculateStreakData(db, PERIOD_CURRENT, gbDevice, stepsGoal);
 
                     break;
-                case "totals":
-                    calculateStreakData(db, "totals", gbDevice, goal);
+                case PERIOD_TOTALS:
+                    calculateStreakData(db, PERIOD_TOTALS, gbDevice, stepsGoal);
                     break;
             }
         }
@@ -194,8 +214,8 @@ public class StepStreaksDashboard extends DialogFragment {
             super.onPostExecute(o);
             FragmentActivity activity = getActivity();
             if (activity != null && !activity.isFinishing() && !activity.isDestroyed()) {
-                if (period.equals("totals")) {
-                    backgroundFinished = true;
+                if (period.equals(PERIOD_TOTALS)) {
+                    backgroundTaskFinished = true;
                     indicate_progress(false);
                 }
                 populateData();
@@ -219,7 +239,7 @@ public class StepStreaksDashboard extends DialogFragment {
         DailyTotals dailyTotals = new DailyTotals();
         ActivitySample firstSample = dailyTotals.getFirstSample(db, device);
         Calendar firstDate = Calendar.getInstance();
-        firstDate.setTime(DateTimeUtils.shiftByDays(new Date(firstSample.getTimestamp() * 1000l), -1));
+        firstDate.setTime(DateTimeUtils.shiftByDays(new Date(firstSample.getTimestamp() * 1000L), -1));
         //go one day back, to ensure we are before the first day, to calculate first day data as well
 
         while (true) {
@@ -250,12 +270,12 @@ public class StepStreaksDashboard extends DialogFragment {
                 Date newDate = DateTimeUtils.shiftByDays(new Date(day.getTimeInMillis()), -1);
                 day.setTime(newDate);
             } else {
-                if (period.equals("current")) {
+                if (period.equals(PERIOD_CURRENT)) {
                     stepsStreaks.current.days = streak_days;
                     stepsStreaks.current.steps = streak_steps;
                     stepsStreaks.current.timestamp = timestamp;
                     return;
-                } else if (period.equals("totals")) {
+                } else if (period.equals(PERIOD_TOTALS)) {
                     //reset max
                     if (streak_days > stepsStreaks.maximum.days) {
                         stepsStreaks.maximum.steps = streak_steps;
@@ -271,7 +291,7 @@ public class StepStreaksDashboard extends DialogFragment {
                     streak_steps = 0;
                     Date newDate = DateTimeUtils.shiftByDays(new Date(day.getTimeInMillis()), -1);
                     day.setTime(newDate);
-                    if (day.before(firstDate) || day.get(Calendar.YEAR) < 2015) { //avoid rolling back too far, if the data has a timestamp 0 (Fossil...)
+                    if (day.before(firstDate) || day.get(Calendar.YEAR) < MAX_YEAR) { //avoid rolling back too far, if the data has a timestamp 0 (Fossil...)
                         return;
                     }
                 }

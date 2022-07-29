@@ -8,8 +8,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="0dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="10dp"
+        android:layout_marginTop="0dp"
+        android:layout_marginBottom="0dp"
         android:gravity="center|center_vertical"
         android:minWidth="1000dp"
         android:orientation="vertical">
@@ -24,24 +24,29 @@
             android:gravity="center"
             android:maxLines="2"
             android:scrollHorizontally="false"
-            android:text="Steps streaks"
-            android:tooltipText="Series of consecutive days without interruption with steps goal being reached"
+            android:text="@string/steps_streaks"
             android:textAllCaps="true"
             android:textSize="24sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:tooltipText="@string/steps_streaks_hint" />
 
-        <include layout="@layout/steps_streak_current_line_layout"
-            android:visibility="gone"/>
+        <include
+            layout="@layout/steps_streak_current_line_layout"
+            android:visibility="gone" />
 
-        <include layout="@layout/steps_streak_maximum_line_layout" android:visibility="gone" />
+        <include
+            layout="@layout/steps_streak_maximum_line_layout"
+            android:visibility="gone" />
 
-        <include layout="@layout/steps_streak_total_line_layout" android:visibility="gone" />
+        <include
+            layout="@layout/steps_streak_total_line_layout"
+            android:visibility="gone" />
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginTop="0dp"
-            android:layout_marginBottom="5dp"
+            android:layout_marginBottom="0dp"
             android:gravity="center"
             android:orientation="vertical">
 
@@ -57,7 +62,6 @@
                 android:layout_width="171dp"
                 android:layout_height="171dp"
                 android:indeterminate="true" />
-
         </RelativeLayout>
 
 

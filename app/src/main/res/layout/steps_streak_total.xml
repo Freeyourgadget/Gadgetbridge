@@ -11,17 +11,18 @@
 
 
     <TextView
+        android:id="@+id/step_streak_total_label"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:gravity="center"
         android:maxLines="2"
         android:scrollHorizontally="false"
-        android:text="Total\n steps"
-        android:tooltipText="Total number of steps in the whole streak"
+        android:text="@string/steps_streaks_total_steps"
         android:textAllCaps="true"
         android:textColor="@color/accent"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        android:tooltipText="@string/steps_streaks_total_steps_hint" />
 
     <TextView
         android:id="@+id/step_streak_total_value"
@@ -33,6 +34,8 @@
         android:maxLines="1"
         android:scrollHorizontally="false"
         android:text="9150000"
-        android:textSize="24sp" />
+        android:textSize="24sp"
+        android:tooltipText="@string/steps_streaks_total_steps_hint" />
+
 
 </LinearLayout>

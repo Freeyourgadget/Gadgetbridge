@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginTop="5dp"
-    android:layout_marginBottom="20dp"
+    android:layout_marginBottom="5dp"
     android:orientation="vertical">
 
     <TextView
@@ -17,7 +17,7 @@
         android:gravity="center"
         android:maxLines="2"
         android:scrollHorizontally="false"
-        android:text="Longest"
+        android:text="@string/step_streak_longest"
         android:textAllCaps="true"
         android:textSize="24sp"
         android:textStyle="bold" />
@@ -32,8 +32,7 @@
         android:layout_weight="1"
         android:gravity="center"
         android:maxLines="2"
-        android:scrollHorizontally="false"
-        android:text="date" />
+        android:scrollHorizontally="false" />
 
 
     <LinearLayout

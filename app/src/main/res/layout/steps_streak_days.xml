@@ -19,11 +19,11 @@
         android:gravity="center"
         android:maxLines="2"
         android:scrollHorizontally="false"
-        android:text="Days\n"
-        android:tooltipText="Number of consecutive days with steps goal being reached"
+        android:text="@string/steps_streaks_streak_days"
         android:textAllCaps="true"
         android:textColor="@color/accent"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        android:tooltipText="@string/step_streak_days_hint" />
 
     <TextView
         android:id="@+id/step_streak_days_value"
@@ -35,6 +35,7 @@
         android:maxLines="1"
         android:scrollHorizontally="false"
         android:text="9150000"
-        android:textSize="24sp" />
+        android:textSize="24sp"
+        android:tooltipText="@string/step_streak_days_hint" />
 
 </LinearLayout>

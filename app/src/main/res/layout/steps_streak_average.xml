@@ -17,11 +17,11 @@
         android:gravity="center"
         android:maxLines="2"
         android:scrollHorizontally="false"
-        android:text="Average\n steps"
-        android:tooltipText="Average steps per day"
+        android:text="@string/steps_streaks_average_steps"
         android:textAllCaps="true"
         android:textColor="@color/accent"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        android:tooltipText="@string/step_streak_average_steps_hint" />
 
     <TextView
         android:id="@+id/step_streak_average_value"
@@ -33,6 +33,7 @@
         android:maxLines="1"
         android:scrollHorizontally="false"
         android:text="15000"
-        android:textSize="24sp" />
+        android:textSize="24sp"
+        android:tooltipText="@string/step_streak_average_steps_hint" />
 
 </LinearLayout>

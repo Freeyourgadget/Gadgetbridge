@@ -24,6 +24,7 @@ import android.text.format.DateUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.fragment.app.FragmentManager;
@@ -41,7 +42,6 @@ import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
 import com.github.mikephil.charting.formatter.ValueFormatter;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -73,7 +73,7 @@ public abstract class AbstractWeekChartFragment extends AbstractChartFragment {
     private TextView mBalanceView;
 
     private int mOffsetHours = getOffsetHours();
-    FloatingActionButton stepsStreaksFAB;
+    ImageView stepsStreaksButton;
 
     @Override
     protected ChartsData refreshInBackground(ChartsHost chartsHost, DBHandler db, GBDevice device) {
@@ -107,16 +107,15 @@ public abstract class AbstractWeekChartFragment extends AbstractChartFragment {
         //disable the streak FAB once we move away from today
         Calendar day = Calendar.getInstance();
         day.setTime(getChartsHost().getEndDate());
-        stepsStreaksFAB.setAlpha((float) 1.0);
-        if (DateUtils.isToday(day.getTimeInMillis()) && enableStepStreaksFAB()){
-            stepsStreaksFAB.setVisibility(View.VISIBLE);
+        if (DateUtils.isToday(day.getTimeInMillis()) && enableStepStreaksButton()){
+            stepsStreaksButton.setVisibility(View.VISIBLE);
         }else
         {
-            stepsStreaksFAB.setVisibility(View.GONE);
+            stepsStreaksButton.setVisibility(View.GONE);
         }
     }
 
-    private boolean enableStepStreaksFAB(){
+    private boolean enableStepStreaksButton(){
         return this.getClass().getSimpleName().equals("WeekStepsChartFragment");
     }
 
@@ -257,12 +256,11 @@ public abstract class AbstractWeekChartFragment extends AbstractChartFragment {
         setupWeekChart();
         setupTodayPieChart();
 
-        stepsStreaksFAB = rootView.findViewById(R.id.fab_steps_streaks);
-        if (enableStepStreaksFAB()) {
-            stepsStreaksFAB.setOnClickListener(new View.OnClickListener() {
+        stepsStreaksButton = rootView.findViewById(R.id.steps_streaks_button);
+        if (enableStepStreaksButton()) {
+            stepsStreaksButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    stepsStreaksFAB.setAlpha((float) 0.5);
                     FragmentManager fm = getActivity().getSupportFragmentManager();
                     StepStreaksDashboard stepStreaksDashboard = StepStreaksDashboard.newInstance(getGoal(), getChartsHost().getDevice());
                     stepStreaksDashboard.show(fm, "steps_streaks_dashboard");
