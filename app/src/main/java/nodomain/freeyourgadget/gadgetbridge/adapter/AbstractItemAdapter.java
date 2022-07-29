@@ -18,6 +18,7 @@
 package nodomain.freeyourgadget.gadgetbridge.adapter;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -87,11 +88,13 @@ public abstract class AbstractItemAdapter<T> extends ArrayAdapter<T> {
         ImageView iconView = (ImageView) view.findViewById(R.id.item_image);
         TextView nameView = (TextView) view.findViewById(R.id.item_name);
         TextView detailsView = (TextView) view.findViewById(R.id.item_details);
+        ImageView previewView = (ImageView) view.findViewById(R.id.item_preview);
 
         nameView.setText(getName(item));
         detailsView.setText(getDetails(item));
         iconView.setImageResource(getIcon(item));
         iconView.setBackgroundColor(backgroundColor);
+        previewView.setImageBitmap(getPreview(item));
 
         return view;
     }
@@ -102,6 +105,8 @@ public abstract class AbstractItemAdapter<T> extends ArrayAdapter<T> {
 
     @DrawableRes
     protected abstract int getIcon(T item);
+
+    protected abstract Bitmap getPreview(T item);
 
     public void setSize(int size) {
         this.size = size;

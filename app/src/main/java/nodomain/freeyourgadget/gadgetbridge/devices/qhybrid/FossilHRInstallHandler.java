@@ -79,6 +79,11 @@ public class FossilHRInstallHandler implements InstallHandler {
         GenericItem installItem = new GenericItem();
         installItem.setName(fossilFile.getName());
         installItem.setDetails(fossilFile.getVersion());
+        Bitmap preview = fossilFile.getPreview();
+        if (preview != null) {
+            preview = Bitmap.createScaledBitmap(preview, preview.getWidth() * 3, preview.getHeight() * 3, false);
+        }
+        installItem.setPreview(preview);
         if (fossilFile.isFirmware()) {
             installItem.setIcon(R.drawable.ic_firmware);
             installActivity.setInfoText(mContext.getString(R.string.firmware_install_warning, "(unknown)"));
@@ -106,12 +111,12 @@ public class FossilHRInstallHandler implements InstallHandler {
         if (fossilFile.isFirmware()) {
             return;
         }
-        saveAppInCache(fossilFile, null, mCoordinator, mContext);
+        saveAppInCache(fossilFile, null, fossilFile.getPreview(), mCoordinator, mContext);
         // refresh list
         manager.sendBroadcast(new Intent(AbstractAppManagerFragment.ACTION_REFRESH_APPLIST));
     }
 
-    public static void saveAppInCache(FossilFileReader fossilFile, Bitmap backgroundImg, DeviceCoordinator mCoordinator, Context mContext) {
+    public static void saveAppInCache(FossilFileReader fossilFile, Bitmap backgroundImg, Bitmap previewImg, DeviceCoordinator mCoordinator, Context mContext) {
         GBDeviceApp app;
         File destDir;
         // write app file
@@ -150,10 +155,21 @@ public class FossilHRInstallHandler implements InstallHandler {
         }
         // write watchface background image
         if (backgroundImg != null) {
-            outputFile = new File(destDir, app.getUUID().toString() + ".png");
+            outputFile = new File(destDir, app.getUUID().toString() + "_bg.png");
             try {
                 FileOutputStream fos = new FileOutputStream(outputFile);
                 backgroundImg.compress(Bitmap.CompressFormat.PNG, 9, fos);
+                fos.close();
+            } catch (IOException e) {
+                LOG.error("Failed to write to output file: " + e.getMessage(), e);
+            }
+        }
+        // write watchface preview image
+        if (previewImg != null) {
+            outputFile = new File(destDir, app.getUUID().toString() + "_preview.png");
+            try {
+                FileOutputStream fos = new FileOutputStream(outputFile);
+                previewImg.compress(Bitmap.CompressFormat.PNG, 9, fos);
                 fos.close();
             } catch (IOException e) {
                 LOG.error("Failed to write to output file: " + e.getMessage(), e);

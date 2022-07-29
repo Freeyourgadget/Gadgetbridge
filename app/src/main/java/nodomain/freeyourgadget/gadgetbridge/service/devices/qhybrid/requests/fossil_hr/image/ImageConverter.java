@@ -21,12 +21,20 @@ import android.graphics.Color;
 
 import androidx.annotation.ColorInt;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
 
+import nodomain.freeyourgadget.gadgetbridge.devices.qhybrid.FossilFileReader;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.encoder.RLEEncoder;
 
 public class ImageConverter {
+    private static final Logger LOG = LoggerFactory.getLogger(ImageConverter.class);
+
     public static byte[] get2BitsRLEImageBytes(Bitmap bitmap) {
         int[] pixels = new int[bitmap.getWidth() * bitmap.getHeight()];
         bitmap.getPixels(pixels, 0, bitmap.getWidth(), 0, 0, bitmap.getWidth(), bitmap.getHeight());
@@ -92,5 +100,59 @@ public class ImageConverter {
         int sum = Color.red(color) + Color.green(color) + Color.blue(color);
         sum /= 3;
         return sum;
+    }
+
+    public static Bitmap decodeFromRLEImage(byte[] rleImage) {
+        ByteBuffer buf = ByteBuffer.wrap(rleImage);
+        buf.order(ByteOrder.LITTLE_ENDIAN);
+        int width = Byte.toUnsignedInt(buf.get());
+        int height = Byte.toUnsignedInt(buf.get());
+        Bitmap bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+        int posX = 0;
+        int posY = 0;
+        while (buf.remaining() > 2) {
+            int repetitions = Byte.toUnsignedInt(buf.get());
+            int pixel = Byte.toUnsignedInt(buf.get());
+            int color = pixel << 6;
+            int combinedColor = Color.rgb(color, color, color);
+            for (int i=0; i<repetitions; i++) {
+                bitmap.setPixel(posX, posY, combinedColor);
+                posX++;
+                if (posX >= width) {
+                    posX = 0;
+                    posY++;
+                }
+            }
+        }
+        return bitmap;
+    }
+
+    public static Bitmap decodeFromRAWImage(byte[] rawImage, int width, int height) {
+        int imageSize = rawImage.length;
+        if (imageSize * 4 != width * height) {
+            // imageSize is multiplied by 4 because there are 2-bit pixels stored in every byte
+            LOG.warn("decodeFromRAWImage: provided pixels (" + imageSize * 4 + ") not equal to resolution " + width + "*" + height);
+            return null;
+        }
+        ByteBuffer buf = ByteBuffer.wrap(rawImage);
+        buf.order(ByteOrder.LITTLE_ENDIAN);
+        Bitmap bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+        int posX = 0;
+        int posY = 0;
+        while (buf.remaining() > 0) {
+            int currentPixels = Byte.toUnsignedInt(buf.get());
+            for (int shift=0; shift<=6; shift+=2) {
+            //for (int shift=6; shift>=0; shift-=2) {
+                int color = ((currentPixels >> shift) & 0b00000011) << 6;
+                int combinedColor = Color.rgb(color, color, color);
+                bitmap.setPixel(posX, posY, combinedColor);
+                posX++;
+                if (posX >= width) {
+                    posX = 0;
+                    posY++;
+                }
+            }
+        }
+        return bitmap;
     }
 }

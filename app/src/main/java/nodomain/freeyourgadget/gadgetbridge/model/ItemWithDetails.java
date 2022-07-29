@@ -16,6 +16,7 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.model;
 
+import android.graphics.Bitmap;
 import android.os.Parcelable;
 
 public interface ItemWithDetails extends Parcelable, Comparable<ItemWithDetails> {
@@ -24,6 +25,8 @@ public interface ItemWithDetails extends Parcelable, Comparable<ItemWithDetails>
     String getDetails();
 
     int getIcon();
+
+    Bitmap getPreview();
 
     /**
      * Equality is based on #getName() only.

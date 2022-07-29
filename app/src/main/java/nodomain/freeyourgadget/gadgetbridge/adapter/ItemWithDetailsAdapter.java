@@ -17,6 +17,7 @@
 package nodomain.freeyourgadget.gadgetbridge.adapter;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 
 import java.util.List;
 
@@ -46,4 +47,8 @@ public class ItemWithDetailsAdapter extends AbstractItemAdapter<ItemWithDetails>
         return item.getIcon();
     }
 
+    @Override
+    protected Bitmap getPreview(ItemWithDetails item) {
+        return item.getPreview();
+    }
 }

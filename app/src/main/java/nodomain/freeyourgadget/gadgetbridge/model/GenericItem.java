@@ -16,6 +16,7 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.model;
 
+import android.graphics.Bitmap;
 import android.os.Parcel;
 import android.os.Parcelable;
 
@@ -27,6 +28,7 @@ public class GenericItem implements ItemWithDetails {
     private String details;
     private int icon;
     private boolean warning = false;
+    private Bitmap preview;
 
     public static final Parcelable.Creator CREATOR = new Parcelable.Creator<GenericItem>() {
         @Override
@@ -104,6 +106,14 @@ public class GenericItem implements ItemWithDetails {
     @Override
     public int describeContents() {
         return 0;
+    }
+
+    public void setPreview(Bitmap preview) {
+        this.preview = preview;
+    }
+
+    public Bitmap getPreview() {
+        return preview;
     }
 
     @Override

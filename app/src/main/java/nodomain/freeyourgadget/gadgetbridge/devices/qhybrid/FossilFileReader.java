@@ -17,6 +17,7 @@
 package nodomain.freeyourgadget.gadgetbridge.devices.qhybrid;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.net.Uri;
 
 import org.json.JSONException;
@@ -37,6 +38,8 @@ import java.util.ArrayList;
 import java.util.UUID;
 
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceApp;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.image.ImageConverter;
+import nodomain.freeyourgadget.gadgetbridge.util.BitmapUtil;
 import nodomain.freeyourgadget.gadgetbridge.util.UriHelper;
 
 /**
@@ -63,6 +66,11 @@ public class FossilFileReader {
     private int display_name_start_2;
     private int config_start;
     private int file_end;
+
+    ArrayList<String> filenamesIcons;
+    ArrayList<String> filenamesLayout;
+    ArrayList<String> filenamesDisplayName;
+    ArrayList<String> filenamesConfig;
 
 
     public FossilFileReader(Uri uri, Context context) throws IOException {
@@ -155,10 +163,10 @@ public class FossilFileReader {
             mAppKeys.put("name", foundName);
             mAppKeys.put("uuid", UUID.nameUUIDFromBytes(foundName.getBytes(StandardCharsets.UTF_8)));
         }
-        ArrayList<String> filenamesIcons = parseAppFilenames(buf, layout_start,false);
-        ArrayList<String> filenamesLayout = parseAppFilenames(buf, display_name_start,true);
-        ArrayList<String> filenamesDisplayName = parseAppFilenames(buf, config_start,true);
-        ArrayList<String> filenamesConfig = parseAppFilenames(buf, file_end,true);
+        filenamesIcons = parseAppFilenames(buf, layout_start,false);
+        filenamesLayout = parseAppFilenames(buf, display_name_start,true);
+        filenamesDisplayName = parseAppFilenames(buf, config_start,true);
+        filenamesConfig = parseAppFilenames(buf, file_end,true);
 
         if (filenamesDisplayName.contains("theme_class")) {
             isApp = false;
@@ -195,6 +203,22 @@ public class FossilFileReader {
         String fileString = new String(fileBytes, StandardCharsets.UTF_8);
         JSONTokener jsonTokener = new JSONTokener(fileString);
         return new JSONObject(jsonTokener);
+    }
+
+    public Bitmap getPreview() {
+        try {
+            if ((filenamesIcons != null) && (filenamesIcons.contains("!preview.rle"))) {
+                return BitmapUtil.getCircularBitmap(ImageConverter.decodeFromRLEImage(getImageFileContents("!preview.rle")));
+            }
+            if ((filenamesIcons != null) && (filenamesIcons.contains("!preview"))) {
+                return BitmapUtil.getCircularBitmap(ImageConverter.decodeFromRLEImage(getImageFileContents("!preview")));
+            }
+        } catch (IOException e) {
+            LOG.warn("Couldn't read preview image from wapp file: ", e);
+            return null;
+        }
+        LOG.warn("No preview image found in wapp file");
+        return null;
     }
 
     private byte[] getImageFileContents(String filename) throws IOException {
