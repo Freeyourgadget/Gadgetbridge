@@ -196,7 +196,7 @@
     <string name="miband_prefs_alias">Jméno/přezdívka</string>
     <string name="pref_header_vibration_count">Počet vibrací</string>
     <string name="title_activity_sleepmonitor">Sledování spánku</string>
-    <string name="pref_write_logfiles">Zapsat logy</string>
+    <string name="pref_write_logfiles">Zapisovat logy</string>
     <string name="initializing">Spouštím</string>
     <string name="busy_task_fetch_activity_data">Stahuji data o aktivitě</string>
     <string name="sleep_activity_date_range">Od %1$s do %2$s</string>
@@ -1771,20 +1771,20 @@
     <string name="open_fw_installer_select_file">Vyberte soubor, který chcete nahrát do zařízení: %s</string>
     <string name="open_fw_installer_getting_files_text">Vzhledem k tomu, že soubory firmwaru nemůžeme distribuovat, budete si je muset obstarat sami. To znamená, že budete muset hledat soubory v souborech apk, na internetu, na fórech, na Amazfitwatchfaces (pro zařízení Miband/Amazfit) atd.</string>
     <string name="open_fw_installer_info_text">Instalátor Firmware/Watchface/App/Souborů umožňuje nahrát/instalovat do zařízení podporované soubory (firmware, watchfaces, aplikace, GPS, zdroje, fonty...). Další informace naleznete ve wiki: https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Firmware-Update</string>
-    <string name="steps_streaks_streak_days">Dny 
-\n Série</string>
-    <string name="steps_streaks_average_steps">Průměr 
-\n kroků</string>
-    <string name="steps_streaks_achievement_rate">Míra 
-\n úspěšnosti</string>
+    <string name="steps_streaks_streak_days">Dny
+\nSérie</string>
+    <string name="steps_streaks_average_steps">Průměr
+\nkroků</string>
+    <string name="steps_streaks_achievement_rate">Míra
+\núspěšnosti</string>
     <string name="step_streak_longest">Nejdelší</string>
     <string name="watchface_setting_title_button_toggle_widgets">Přepínání viditelnosti widgetů</string>
     <string name="watchface_dialog_widget_background">Pozadí</string>
     <string name="watchface_setting_button_toggle_widgets">Akce tlačítka</string>
     <string name="hybridhr_widget_bg_double_circle">Dvojitý kruh</string>
     <string name="hybridhr_widget_bg_dashed_circle">Přerušovaný kruh</string>
-    <string name="steps_streaks_total_steps">Celkové 
-\n kroky</string>
+    <string name="steps_streaks_total_steps">Celkové
+\nkroky</string>
     <string name="step_streak_total">Celkem</string>
     <string name="steps_streaks">Série úspěchů</string>
     <string name="steps_streaks_hint">Série po sobě jdoucích dnů bez přerušení s dosažením cíle kroků</string>
@@ -1804,4 +1804,6 @@
     <string name="watchface_dialog_widget_cat_2nd_tz_widget">Widget 2. časového pásma</string>
     <string name="watchface_dialog_widget_cat_custom_widget">Vlastní widget</string>
     <string name="watchface_dialog_title_widget">Nastavení widgetu</string>
+    <string name="share_log_not_enabled_message">Musíte nejprve povolit zapisování logů v Nastavení - Zapisovat logy</string>
+    <string name="note">Poznámka</string>
 </resources>
