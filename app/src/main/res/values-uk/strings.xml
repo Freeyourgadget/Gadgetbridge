@@ -1793,4 +1793,24 @@
     <string name="watchface_setting_button_toggle_widgets">Дія кнопки</string>
     <string name="note">Примітка</string>
     <string name="share_log_not_enabled_message">Попередньо необхідно ввімкнути вхід у налаштуваннях - Запис файлів журналів</string>
+    <string name="steps_streaks">Успішних днів підряд</string>
+    <string name="step_streak_total">Усього</string>
+    <string name="steps_streaks_total_steps">Усього
+\nкроків</string>
+    <string name="steps_streaks_streak_days">Днів
+\nПоспіль</string>
+    <string name="steps_streaks_average_steps">У середньому
+\nкроків</string>
+    <string name="steps_streaks_since_date">З %s</string>
+    <string name="step_streak_average_steps_hint">Середня кількість кроків за день серії</string>
+    <string name="steps_streaks_total_steps_hint_totals">Загальна кількість записаних кроків за весь час</string>
+    <string name="steps_streaks_total_days_hint_totals">Відсоток днів з досягнутою метою відносно до всіх днів з кроками</string>
+    <string name="steps_streaks_achievement_rate">Оцінка
+\nдосягнення</string>
+    <string name="steps_streaks_hint">Серія днів поспіль з досягненням мети кількості кроків</string>
+    <string name="steps_streaks_total_steps_hint">Загальна кількість кроків у всій серії</string>
+    <string name="step_streak_ongoing">Поточна</string>
+    <string name="step_streak_longest">Найтриваліша</string>
+    <string name="step_streak_days_hint">Кількість днів поспіль з досягненням мети кількості кроків</string>
+    <string name="steps_streaks_total_steps_average_hint">Загальний середній показник %d кроків на день</string>
 </resources>
