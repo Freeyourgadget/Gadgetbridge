@@ -528,7 +528,7 @@ public abstract class HuamiSupport extends AbstractBTLEDeviceSupport {
      * @return
      */
 
-    private HuamiSupport setFitnessGoal(TransactionBuilder transaction) {
+    protected HuamiSupport setFitnessGoal(TransactionBuilder transaction) {
         LOG.info("Attempting to set Fitness Goal...");
         BluetoothGattCharacteristic characteristic = getCharacteristic(HuamiService.UUID_CHARACTERISTIC_8_USER_SETTINGS);
         if (characteristic != null) {
@@ -3161,7 +3161,7 @@ public abstract class HuamiSupport extends AbstractBTLEDeviceSupport {
         return this;
     }
 
-    private HuamiSupport setGoalNotification(TransactionBuilder builder) {
+    protected HuamiSupport setGoalNotification(TransactionBuilder builder) {
         boolean enable = HuamiCoordinator.getGoalNotification(gbDevice.getAddress());
         LOG.info("Setting goal notification to " + enable);
         if (enable) {

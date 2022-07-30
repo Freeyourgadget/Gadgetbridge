@@ -49,6 +49,32 @@ public class AmazfitNeoSupport extends MiBand5Support {
     }
 
     @Override
+    protected AmazfitNeoSupport setFitnessGoal(TransactionBuilder builder) {
+        LOG.info("Attempting to set Fitness Goal...");
+        setNeoFitnessGoal(builder);
+        return this;
+    }
+
+    @Override
+    protected AmazfitNeoSupport setGoalNotification(TransactionBuilder builder) {
+        LOG.info("Attempting to set goal notification...");
+        setNeoFitnessGoal(builder);
+        return this;
+    }
+
+    private void setNeoFitnessGoal(TransactionBuilder builder) {
+        int fitnessGoal = GBApplication.getPrefs().getInt(ActivityUser.PREF_USER_STEPS_GOAL, ActivityUser.defaultUserStepsGoal);
+        boolean fitnessGoalNotification = HuamiCoordinator.getGoalNotification(gbDevice.getAddress());
+        LOG.info("Setting Amazfit Neo fitness goal to: " + fitnessGoal + ", notification: " + fitnessGoalNotification);
+        byte[] bytes = ArrayUtils.addAll(
+                new byte[] { 0x3a, 1, 0, 0, 0, (byte) (fitnessGoalNotification ? 1 : 0 ) },
+                BLETypeConversions.fromUint16(fitnessGoal));
+        bytes = ArrayUtils.addAll(bytes,
+                HuamiService.COMMAND_SET_FITNESS_GOAL_END);
+        writeToChunked(builder, 2, bytes);
+    }
+
+    @Override
     public HuamiFWHelper createFWHelper(Uri uri, Context context) throws IOException {
         return new AmazfitNeoFWHelper(uri, context);
     }
