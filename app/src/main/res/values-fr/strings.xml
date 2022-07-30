@@ -1787,4 +1787,18 @@ Temps de sommeil préféré en heures</string>
     <string name="hybridhr_widget_bg_thin_circle">Cercle fin</string>
     <string name="watchface_setting_title_button_toggle_widgets">Intervertir les widgets</string>
     <string name="watchface_setting_button_toggle_widgets">Action du bouton</string>
+    <string name="steps_streaks">Rythme de marche</string>
+    <string name="step_streak_total">Total</string>
+    <string name="steps_streaks_total_steps">Pas
+\nTotal</string>
+    <string name="steps_streaks_streak_days">Jour
+\nD\'objectif</string>
+    <string name="steps_streaks_average_steps">Nombre de pas
+\nmoyen</string>
+    <string name="steps_streaks_achievement_rate">Taux
+\nde réussite</string>
+    <string name="steps_streaks_since_date">Depuis %s</string>
+    <string name="steps_streaks_hint">Série de jours consécutifs sans interruption où l\'objectif de pas a été atteint</string>
+    <string name="step_streak_ongoing">En cours</string>
+    <string name="step_streak_longest">Le plus long</string>
 </resources>
