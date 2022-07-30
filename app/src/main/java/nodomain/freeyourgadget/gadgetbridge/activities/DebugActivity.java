@@ -36,6 +36,7 @@ import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
+import android.preference.PreferenceManager;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
@@ -102,6 +103,7 @@ import nodomain.freeyourgadget.gadgetbridge.model.RecordedDataTypes;
 import nodomain.freeyourgadget.gadgetbridge.service.serial.GBDeviceProtocol;
 import nodomain.freeyourgadget.gadgetbridge.util.DeviceHelper;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
+import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 import nodomain.freeyourgadget.gadgetbridge.util.WidgetPreferenceStorage;
 
 public class DebugActivity extends AbstractGBActivity {
@@ -372,7 +374,14 @@ public class DebugActivity extends AbstractGBActivity {
         shareLogButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showWarning();
+                SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(DebugActivity.this);
+                Prefs prefs = new Prefs(sharedPrefs);
+                boolean logging_enabled = prefs.getBoolean("log_to_file", false);
+                if (logging_enabled) {
+                    showLogSharingWarning();
+                } else {
+                    showLogSharingNotEnabledAlert();
+                }
             }
         });
 
@@ -652,7 +661,15 @@ public class DebugActivity extends AbstractGBActivity {
         }
     }
 
-    private void showWarning() {
+    private void showLogSharingNotEnabledAlert() {
+        new AlertDialog.Builder(this)
+                .setTitle(R.string.note)
+                .setPositiveButton(R.string.ok, null)
+                .setMessage(R.string.share_log_not_enabled_message)
+                .show();
+    }
+
+    private void showLogSharingWarning() {
         new AlertDialog.Builder(this)
                 .setCancelable(true)
                 .setTitle(R.string.warning)
