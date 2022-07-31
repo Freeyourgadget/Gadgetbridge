@@ -1781,4 +1781,28 @@
     <string name="watchface_dialog_title_widget">הגדרות וידג׳ט</string>
     <string name="pref_title_banglejs_txt_bitmap_size">גודל מפות סיביות של כתב</string>
     <string name="pref_summary_banglejs_txt_bitmap_size">אם ‚כתב כמפות סיביות’ מופעל, באיזה גודל יוצג הכתב\?</string>
+    <string name="steps_streaks_achievement_rate">קצב
+\nהישגיות</string>
+    <string name="share_log_not_enabled_message">עליך להפעיל תיעוד ליומנים תחילה דרך הגדרות - כתיבת קובצי יומן</string>
+    <string name="steps_streaks">רצפי צעידה</string>
+    <string name="steps_streaks_hint">רצף של ימים ללא הפסקה בהם הגעת ליעד הצעדים</string>
+    <string name="step_streak_ongoing">מתמשך</string>
+    <string name="step_streak_longest">הארוך ביותר</string>
+    <string name="step_streak_total">סך הכול</string>
+    <string name="steps_streaks_since_date">מאז %s</string>
+    <string name="step_streak_average_steps_hint">צעדים בממוצע ליום ברצף</string>
+    <string name="steps_streaks_total_steps_hint_totals">מספר הצעדים הכולל שתועדו אי־פעם</string>
+    <string name="steps_streaks_total_days_hint_totals">אחוז הימים בהם הגעת ליעד ביחס לכל הימים בהם צעדת</string>
+    <string name="step_streak_days_hint">מספר הימים הרצופים בהם הגעת ליעד הצעדים</string>
+    <string name="steps_streaks_total_steps_hint">מספר הצעדים הכולל בכל הרצף</string>
+    <string name="steps_streaks_total_steps_average_hint">ממוצע כללי %d צעדים ביום</string>
+    <string name="steps_streaks_total_steps">סך
+\nצעדים</string>
+    <string name="steps_streaks_streak_days">ימי
+\nרצף</string>
+    <string name="steps_streaks_average_steps">צעדים
+\nבממוצע</string>
+    <string name="note">פתק</string>
+    <string name="watchface_setting_title_button_toggle_widgets">ניהול וידג׳טים</string>
+    <string name="watchface_setting_button_toggle_widgets">פעולת כפתור</string>
 </resources>
