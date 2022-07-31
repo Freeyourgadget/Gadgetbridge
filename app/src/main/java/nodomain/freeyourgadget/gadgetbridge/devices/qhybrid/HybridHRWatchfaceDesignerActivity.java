@@ -572,7 +572,7 @@ public class HybridHRWatchfaceDesignerActivity extends AbstractGBActivity implem
             wfFactory = new HybridHRWatchfaceFactory(watchfaceName);
         }
         wfFactory.setSettings(watchfaceSettings);
-        wfFactory.setBackground(processedBackgroundImage);
+        wfFactory.setBackground(selectedBackgroundImage);
         wfFactory.addWidgets(widgets);
         try {
             File tempFile = File.createTempFile("tmpWatchfaceFile", null);
@@ -607,14 +607,14 @@ public class HybridHRWatchfaceDesignerActivity extends AbstractGBActivity implem
                                 public void onClick(DialogInterface dialog, int which) {
                                     findViewById(R.id.watchface_upload_progress_bar).setVisibility(View.VISIBLE);
                                     GBApplication.deviceService().onInstallApp(tempAppFileUri);
-                                    FossilHRInstallHandler.saveAppInCache(fossilFile, processedBackgroundImage, wfFactory.getPreviewImage(mContext), mCoordinator, HybridHRWatchfaceDesignerActivity.this);
+                                    FossilHRInstallHandler.saveAppInCache(fossilFile, selectedBackgroundImage, wfFactory.getPreviewImage(mContext), mCoordinator, HybridHRWatchfaceDesignerActivity.this);
                                 }
                             })
                             .show();
                 } else {
                     findViewById(R.id.watchface_upload_progress_bar).setVisibility(View.VISIBLE);
                     GBApplication.deviceService().onInstallApp(tempAppFileUri);
-                    FossilHRInstallHandler.saveAppInCache(fossilFile, processedBackgroundImage, wfFactory.getPreviewImage(mContext), mCoordinator, HybridHRWatchfaceDesignerActivity.this);
+                    FossilHRInstallHandler.saveAppInCache(fossilFile, selectedBackgroundImage, wfFactory.getPreviewImage(mContext), mCoordinator, HybridHRWatchfaceDesignerActivity.this);
                 }
             }
         } catch (IOException e) {

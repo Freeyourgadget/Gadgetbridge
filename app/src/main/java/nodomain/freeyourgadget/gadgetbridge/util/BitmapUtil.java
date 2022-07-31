@@ -173,8 +173,6 @@ public class BitmapUtil {
         float left = (squareBitmapWidth-srcBitmap.getWidth())/2;
         float top = (squareBitmapWidth-srcBitmap.getHeight())/2;
         canvas.drawBitmap(srcBitmap, left, top, paint);
-        // Free the native object associated with this bitmap.
-        srcBitmap.recycle();
         // Return the circular bitmap
         return dstBitmap;
     }
