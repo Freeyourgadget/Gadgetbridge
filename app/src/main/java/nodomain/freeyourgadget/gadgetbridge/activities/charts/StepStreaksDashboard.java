@@ -19,6 +19,7 @@ import androidx.fragment.app.FragmentActivity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.Serializable;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -38,8 +39,9 @@ public class StepStreaksDashboard extends DialogFragment {
     boolean cancelTasks = false;
     boolean backgroundTaskFinished = false;
     private View fragmentView;
-    private final StepsStreaks stepsStreaks = new StepsStreaks();
+    private StepsStreaks stepsStreaks = new StepsStreaks();
     private static final String GOAL = "goal";
+    private static final String STREAKS = "streaks";
     private static final String PERIOD_CURRENT = "current";
     private static final String PERIOD_TOTALS = "totals";
     private static final int MAX_YEAR = 2015;
@@ -52,7 +54,6 @@ public class StepStreaksDashboard extends DialogFragment {
     //without interruption (day with steps less then goal)
     //Possible improvements/nice to haves:
     //- cache values until new activity fetch is performed
-    //- create a parcel to allow screen rotation without recalculation
     //- read the goals from the USER_ATTRIBUTES table. But, this would also require to be able
     //to edit/add values there...
 
@@ -85,6 +86,14 @@ public class StepStreaksDashboard extends DialogFragment {
 
 
     @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        if (backgroundTaskFinished) {
+            outState.putSerializable(STREAKS, stepsStreaks);
+        }
+    }
+
+    @Override
     public void onViewCreated(final View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
@@ -94,10 +103,20 @@ public class StepStreaksDashboard extends DialogFragment {
         if (gbDevice == null) {
             throw new IllegalArgumentException("Must provide a device when invoking this activity");
         }
+
+        if (savedInstanceState != null) {
+            StepsStreaks streaks = (StepsStreaks) savedInstanceState.getSerializable(STREAKS);
+            if (streaks != null) {
+                stepsStreaks = streaks;
+                backgroundTaskFinished = true;
+                cancelTasks = true;
+                indicate_progress(false);
+                populateData();
+            }
+        }
         createTaskCalculateLatestStepsStreak("Visualizing data current", getActivity(), PERIOD_CURRENT).execute();
         createTaskCalculateLatestStepsStreak("Visualizing data maximum", getActivity(), PERIOD_TOTALS).execute();
     }
-
 
     void indicate_progress(boolean inProgress) {
         ProgressBar step_streak_dashboard_loading_circle = fragmentView.findViewById(R.id.step_streak_dashboard_loading_circle);
@@ -303,14 +322,14 @@ public class StepStreaksDashboard extends DialogFragment {
         }
     }
 
-    private static class StepsStreak {
+    private static class StepsStreak implements Serializable {
         private int days = 0;
         private int steps = 0;
         private int timestamp;
         private int total_days = 0;
     }
 
-    private class StepsStreaks {
+    private class StepsStreaks implements Serializable {
         private StepsStreak current = new StepsStreak();
         private StepsStreak maximum = new StepsStreak();
         private StepsStreak total = new StepsStreak();
