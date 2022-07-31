@@ -1794,15 +1794,17 @@
     <string name="steps_streaks_hint">连续几天不间断地达到步数目标</string>
     <string name="step_streak_ongoing">进行中</string>
     <string name="step_streak_longest">最长</string>
-    <string name="steps_streaks_streak_days">条纹
-\n 天数</string>
+    <string name="steps_streaks_streak_days">连续
+\n天数</string>
     <string name="steps_streaks_average_steps">平均
-\n 步数</string>
+\n步数</string>
     <string name="step_streak_total">共计</string>
     <string name="steps_streaks_total_steps">总
-\n 步数</string>
+\n步数</string>
     <string name="step_streak_days_hint">达到步数目标的连续天数</string>
     <string name="steps_streaks_total_steps_hint">整个连胜中的总步数</string>
     <string name="steps_streaks_achievement_rate">成就
-\n 率</string>
+\n率</string>
+    <string name="note">注意</string>
+    <string name="share_log_not_enabled_message">必须首先在“设置 - 写入日志文件”中启用日志记录</string>
 </resources>
