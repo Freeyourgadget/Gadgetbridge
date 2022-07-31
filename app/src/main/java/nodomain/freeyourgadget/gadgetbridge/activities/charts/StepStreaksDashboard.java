@@ -44,7 +44,7 @@ public class StepStreaksDashboard extends DialogFragment {
     private static final String STREAKS = "streaks";
     private static final String PERIOD_CURRENT = "current";
     private static final String PERIOD_TOTALS = "totals";
-    private static final int MAX_YEAR = 2015;
+    private static final int MIN_YEAR = 2015; //we go back in time, this is minimal year boundary
 
     public StepStreaksDashboard() {
 
@@ -303,18 +303,18 @@ public class StepStreaksDashboard extends DialogFragment {
                         stepsStreaks.maximum.days = streak_days;
                         stepsStreaks.maximum.timestamp = timestamp;
                     }
-                    stepsStreaks.total.steps = all_steps;
-                    stepsStreaks.total.days = all_streak_days;
-                    stepsStreaks.total.total_days = all_step_days;
-                    stepsStreaks.total.timestamp = firstDataTimestamp;
 
                     streak_days = 0;
                     streak_steps = 0;
                     Date newDate = DateTimeUtils.shiftByDays(new Date(day.getTimeInMillis()), -1);
                     day.setTime(newDate);
-                    if (day.before(firstDate) || day.get(Calendar.YEAR) < MAX_YEAR) {
+                    if (day.before(firstDate) || day.get(Calendar.YEAR) < MIN_YEAR) {
                         //avoid rolling back too far, if the data has a timestamp too far into future
                         //we could make this date configurable if needed for people who imported old data
+                        stepsStreaks.total.steps = all_steps;
+                        stepsStreaks.total.days = all_streak_days;
+                        stepsStreaks.total.total_days = all_step_days;
+                        stepsStreaks.total.timestamp = firstDataTimestamp;
                         return;
                     }
                 }
