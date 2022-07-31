@@ -1801,4 +1801,10 @@ Temps de sommeil préféré en heures</string>
     <string name="steps_streaks_hint">Série de jours consécutifs sans interruption où l\'objectif de pas a été atteint</string>
     <string name="step_streak_ongoing">En cours</string>
     <string name="step_streak_longest">Le plus long</string>
+    <string name="note">Remarque</string>
+    <string name="step_streak_days_hint">Nombre de jours consécutifs où l\'objectif de pas a été réalisé</string>
+    <string name="steps_streaks_total_steps_average_hint">Moyenne totale %d de pas par jour</string>
+    <string name="share_log_not_enabled_message">Vous devez d\'abord activer l\'enregistrement des journaux dans les Réglages - Enregistrer les journaux</string>
+    <string name="steps_streaks_total_steps_hint_totals">Nombre total de pas jamais enregistré</string>
+    <string name="steps_streaks_total_days_hint_totals">Pourcentage de jours où l\'objectif a été réalisé comparé à tous les jours avec de l\'exercice</string>
 </resources>
