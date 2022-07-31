@@ -296,11 +296,13 @@ public class SleepChartFragment extends AbstractChartFragment {
             result.append(getContext().getString(R.string.you_did_not_sleep));
         } else {
             for (SleepSession sleepSession : pieData.getSleepSessions()) {
+                if (result.length() > 0) {
+                    result.append('\n');
+                }
                 result.append(getContext().getString(
                         R.string.you_slept,
                         DateTimeUtils.timeToString(sleepSession.getSleepStart()),
                         DateTimeUtils.timeToString(sleepSession.getSleepEnd())));
-                result.append('\n');
             }
         }
         return result.toString();

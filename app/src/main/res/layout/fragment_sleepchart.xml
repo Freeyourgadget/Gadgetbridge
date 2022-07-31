@@ -16,6 +16,8 @@
             android:layout_height="wrap_content"
             android:layout_weight="0"
             android:maxLines="3"
+            android:scrollbarAlwaysDrawVerticalTrack="true"
+            android:scrollbarFadeDuration="0"
             android:scrollbars="vertical" />
 
         <com.github.mikephil.charting.charts.PieChart

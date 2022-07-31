@@ -15,6 +15,9 @@
             android:id="@+id/sleepchart_info"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
+            android:maxLines="3"
+            android:scrollbarAlwaysDrawVerticalTrack="true"
+            android:scrollbarFadeDuration="0"
             android:layout_weight="90" />
 
         <LinearLayout
