@@ -111,7 +111,7 @@ public class FossilHRInstallHandler implements InstallHandler {
         if (fossilFile.isFirmware()) {
             return;
         }
-        saveAppInCache(fossilFile, null, fossilFile.getPreview(), mCoordinator, mContext);
+        saveAppInCache(fossilFile, fossilFile.getBackground(), fossilFile.getPreview(), mCoordinator, mContext);
         // refresh list
         manager.sendBroadcast(new Intent(AbstractAppManagerFragment.ACTION_REFRESH_APPLIST));
     }

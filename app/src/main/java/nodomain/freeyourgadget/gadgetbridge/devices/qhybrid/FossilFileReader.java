@@ -20,6 +20,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.net.Uri;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.json.JSONTokener;
@@ -218,6 +219,36 @@ public class FossilFileReader {
             return null;
         }
         LOG.warn("No preview image found in wapp file");
+        return null;
+    }
+
+    public Bitmap getBackground() {
+        try {
+            if (filenamesIcons != null) {
+                String filename = null;
+                if (filenamesIcons.contains("background.raw")) {
+                    filename = "background.raw";
+                } else if (filenamesIcons.contains("background")) {
+                    filename = "background";
+                } else {
+                    JSONObject config = getConfigJSON("customWatchFace");
+                    JSONArray layout = config.getJSONArray("layout");
+                    JSONObject firstLayoutItem = layout.getJSONObject(0);
+                    if (firstLayoutItem.getString("type").equals("image")) {
+                        filename = firstLayoutItem.getString("name");
+                    }
+                }
+                if (filename != null) {
+                    byte[] rawImage = getImageFileContents(filename);
+                    Bitmap decodedImage = ImageConverter.decodeFromRAWImage(rawImage, 240, 240);
+                    return BitmapUtil.getCircularBitmap(decodedImage);
+                }
+            }
+        } catch (Exception e) {
+            LOG.warn("Couldn't read background image from wapp file: ", e);
+            return null;
+        }
+        LOG.warn("No background image found in wapp file");
         return null;
     }
 
