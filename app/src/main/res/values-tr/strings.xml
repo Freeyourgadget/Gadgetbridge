@@ -1799,7 +1799,7 @@
     <string name="watchface_setting_title_button_toggle_widgets">Widget\'ları değiştir</string>
     <string name="watchface_setting_button_toggle_widgets">Düğme eylemi</string>
     <string name="steps_streaks_total_steps">Toplam
-\n adım</string>
+\nadım</string>
     <string name="steps_streaks">Adım serisi</string>
     <string name="steps_streaks_total_steps_hint_totals">Şimdiye kadar kaydedilen toplam adım sayısı</string>
     <string name="steps_streaks_hint">Adım hedefine ulaşılan kesintisiz ardışık günler serisi</string>
@@ -1807,12 +1807,12 @@
     <string name="step_streak_total">Toplam</string>
     <string name="step_streak_longest">En uzun</string>
     <string name="steps_streaks_streak_days">Seri
-\n Günler</string>
+\nGünler</string>
     <string name="step_streak_average_steps_hint">Serinin günlük ortalama adım sayısı</string>
     <string name="steps_streaks_average_steps">Ortalama
-\n adım</string>
+\nadım</string>
     <string name="steps_streaks_achievement_rate">Başarı
-\n oranı</string>
+\noranı</string>
     <string name="steps_streaks_total_days_hint_totals">Adım atılan tüm günlere göre hedefe ulaşılan günlerin yüzdesi</string>
     <string name="steps_streaks_since_date">%s\'den beri</string>
     <string name="step_streak_days_hint">Adım hedefine ulaşılan ardışık gün sayısı</string>
