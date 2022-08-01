@@ -45,15 +45,23 @@
     </PreferenceCategory>
 
     <PreferenceCategory
-        android:title="@string/watchface_setting_title_button_toggle_widgets">
+        android:title="@string/watchface_setting_title_custom_events">
 
         <ListPreference
             android:persistent="false"
             android:title="@string/watchface_setting_button_toggle_widgets"
             android:key="pref_hybridhr_watchface_toggle_widgets"
-            android:entries="@array/pref_hybridhr_watchface_togglewidgets_items"
-            android:entryValues="@array/pref_hybridhr_watchface_togglewidgets_values"
+            android:entries="@array/pref_hybridhr_watchface_buttonevents_items"
+            android:entryValues="@array/pref_hybridhr_watchface_buttonevents_values"
             android:dialogTitle="@string/watchface_setting_button_toggle_widgets"
+            android:negativeButtonText="@string/Cancel"/>
+        <ListPreference
+            android:persistent="false"
+            android:title="@string/watchface_setting_button_toggle_backlight"
+            android:key="pref_hybridhr_watchface_toggle_backlight"
+            android:entries="@array/pref_hybridhr_watchface_buttonevents_items"
+            android:entryValues="@array/pref_hybridhr_watchface_buttonevents_values"
+            android:dialogTitle="@string/watchface_setting_button_toggle_backlight"
             android:negativeButtonText="@string/Cancel"/>
 
     </PreferenceCategory>

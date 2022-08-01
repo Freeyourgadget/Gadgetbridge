@@ -302,6 +302,7 @@ public class HybridHRWatchfaceFactory {
         config.put("wrist_flick_move_hour", settings.getWristFlickMoveHour());
         config.put("wrist_flick_move_minute", settings.getWristFlickMoveMinute());
         config.put("toggle_widgets_event", settings.getToggleWidgetsEvent());
+        config.put("toggle_backlight_event", settings.getToggleBacklightEvent());
         config.put("powersave_display", settings.getPowersaveDisplay());
         config.put("powersave_hands", settings.getPowersaveHands());
         config.put("light_up_on_notification", settings.getLightUpOnNotification());
