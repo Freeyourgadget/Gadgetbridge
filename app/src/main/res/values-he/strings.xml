@@ -1804,5 +1804,7 @@
 \nבממוצע</string>
     <string name="note">פתק</string>
     <string name="watchface_setting_title_button_toggle_widgets">ניהול וידג׳טים</string>
-    <string name="watchface_setting_button_toggle_widgets">פעולת כפתור</string>
+    <string name="watchface_setting_button_toggle_widgets">ניהול וידג׳טים</string>
+    <string name="watchface_setting_title_custom_events">אירועים בהתאמה אישית</string>
+    <string name="watchface_setting_button_toggle_backlight">הפעלת תאורה אחורית</string>
 </resources>
