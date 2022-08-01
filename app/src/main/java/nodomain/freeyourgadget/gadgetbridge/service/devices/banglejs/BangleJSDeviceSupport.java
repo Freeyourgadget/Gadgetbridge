@@ -34,6 +34,7 @@ import android.widget.Toast;
 
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.RequestQueue;
@@ -65,6 +66,7 @@ import java.util.List;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.SimpleTimeZone;
 import java.util.UUID;
 import java.lang.reflect.Field;
@@ -537,10 +539,41 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
                 }
                 final String id = _id;
 
-
                 if (BuildConfig.INTERNET_ACCESS && devicePrefs.getBoolean(PREF_DEVICE_INTERNET_ACCESS, false)) {
                     RequestQueue queue = Volley.newRequestQueue(getContext());
                     String url = json.getString("url");
+
+                    int method = Request.Method.GET;
+                    if (json.has("method")) {
+                        String m = json.getString("method").toLowerCase();
+                        if (m.equals("get")) method = Request.Method.GET;
+                        else if (m.equals("post")) method = Request.Method.POST;
+                        else if (m.equals("head")) method = Request.Method.HEAD;
+                        else if (m.equals("put")) method = Request.Method.PUT;
+                        else if (m.equals("delete")) method = Request.Method.DELETE;
+                        else uartTxJSONError("http", "Unknown HTTP method "+m,id);
+                    }
+
+                    byte[] _body = null;
+                    if (json.has("body"))
+                        _body = json.getString("body").getBytes();
+                    final byte[] body = _body;
+
+                    Map<String,String> _headers = null;
+                    if (json.has("headers")) {
+                        JSONObject h = json.getJSONObject("headers");
+                        _headers = new HashMap<String,String>();
+                        Iterator<String> iter = h.keys();
+                        while (iter.hasNext()) {
+                            String key = iter.next();
+                            try {
+                                String value = h.getString(key);
+                                _headers.put(key, value);
+                            } catch (JSONException e) {
+                            }
+                        }
+                    }
+                    final Map<String,String> headers = _headers;
 
                     String _xmlPath = "";
                     try {
@@ -549,7 +582,7 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
                     }
                     final String xmlPath = _xmlPath;
                     // Request a string response from the provided URL.
-                    StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
+                    StringRequest stringRequest = new StringRequest(method, url,
                             new Response.Listener<String>() {
                                 @Override
                                 public void onResponse(String response) {
@@ -580,7 +613,25 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
                             JSONObject o = new JSONObject();
                             uartTxJSONError("http", error.toString(),id);
                         }
-                    });
+                    }) {
+                        @Override
+                        public byte[] getBody() throws AuthFailureError {
+                            if (body == null) return super.getBody();
+                            return body;
+                        }
+
+                        @Override
+                        public Map<String, String> getHeaders() throws AuthFailureError {
+                            Map<String, String> h = super.getHeaders();
+                            Iterator<String> iter = headers.keySet().iterator();
+                            while (iter.hasNext()) {
+                                String key = iter.next();
+                                String value = headers.get(key);
+                                h.put(key, value);
+                            }
+                            return h;
+                        }
+                    };
                     queue.add(stringRequest);
                 } else {
                     if (BuildConfig.INTERNET_ACCESS)
