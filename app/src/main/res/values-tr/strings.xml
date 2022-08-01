@@ -1797,7 +1797,7 @@
     <string name="hybridhr_widget_bg_double_circle">Çift çember</string>
     <string name="hybridhr_widget_bg_dashed_circle">Kesikli çember</string>
     <string name="watchface_setting_title_button_toggle_widgets">Widget\'ları değiştir</string>
-    <string name="watchface_setting_button_toggle_widgets">Düğme eylemi</string>
+    <string name="watchface_setting_button_toggle_widgets">Widget\'ları aç/kapat</string>
     <string name="steps_streaks_total_steps">Toplam
 \nadım</string>
     <string name="steps_streaks">Adım serisi</string>
@@ -1820,4 +1820,6 @@
     <string name="steps_streaks_total_steps_average_hint">Günlük toplam ortalama %d adım</string>
     <string name="share_log_not_enabled_message">Önce Ayarlar - Günlük dosyalarını yaz bölümünde günlük kaydını etkinleştirmelisiniz</string>
     <string name="note">Not</string>
+    <string name="watchface_setting_title_custom_events">Özel etkinlikler</string>
+    <string name="watchface_setting_button_toggle_backlight">Arka ışığı aç</string>
 </resources>
