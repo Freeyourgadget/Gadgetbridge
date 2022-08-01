@@ -181,7 +181,7 @@ public class Widget extends AppWidgetProvider {
             GB.toast(context,
                     context.getString(R.string.device_not_connected),
                     Toast.LENGTH_SHORT, GB.ERROR);
-            GBApplication.deviceService().connect();
+            GBApplication.deviceService(deviceForWidget).connect();
             GB.toast(context,
                     context.getString(R.string.connecting),
                     Toast.LENGTH_SHORT, GB.INFO);
@@ -192,7 +192,7 @@ public class Widget extends AppWidgetProvider {
                 context.getString(R.string.busy_task_fetch_activity_data),
                 Toast.LENGTH_SHORT, GB.INFO);
 
-        GBApplication.deviceService().onFetchRecordedData(RecordedDataTypes.TYPE_ACTIVITY);
+        GBApplication.deviceService(deviceForWidget).onFetchRecordedData(RecordedDataTypes.TYPE_ACTIVITY);
     }
 
     public void updateWidget() {

@@ -144,7 +144,7 @@ public class WidgetAlarmsActivity extends Activity implements View.OnClickListen
         Alarm alarm = AlarmUtils.createSingleShot(0, true, true, calendar);
         ArrayList<Alarm> alarms = new ArrayList<>(1);
         alarms.add(alarm);
-        GBApplication.deviceService().onSetAlarms(alarms);
+        GBApplication.deviceService(deviceForWidget).onSetAlarms(alarms);
 
     }
 }

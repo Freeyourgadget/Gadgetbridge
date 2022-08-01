@@ -212,7 +212,7 @@ public class ConfigureWorldClocks extends AbstractGBActivity {
 
     private void sendWorldClocksToDevice() {
         if (gbDevice.isInitialized()) {
-            GBApplication.deviceService().onSetWorldClocks(mGBWorldClockListAdapter.getWorldClockList());
+            GBApplication.deviceService(gbDevice).onSetWorldClocks(mGBWorldClockListAdapter.getWorldClockList());
         }
     }
 }

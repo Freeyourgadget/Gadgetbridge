@@ -59,7 +59,7 @@ public class HuamiSettingsCustomizer implements DeviceSpecificSettingsCustomizer
                 tryPref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                     @Override
                     public boolean onPreferenceClick(final Preference preference) {
-                        GBApplication.deviceService().onSendConfiguration(tryPrefKey);
+                        GBApplication.deviceService(device).onSendConfiguration(tryPrefKey);
                         return true;
                     }
                 });

@@ -176,7 +176,7 @@ public class ConfigureReminders extends AbstractGBActivity {
 
     private void sendRemindersToDevice() {
         if (gbDevice.isInitialized()) {
-            GBApplication.deviceService().onSetReminders(mGBReminderListAdapter.getReminderList());
+            GBApplication.deviceService(gbDevice).onSetReminders(mGBReminderListAdapter.getReminderList());
         }
     }
 }

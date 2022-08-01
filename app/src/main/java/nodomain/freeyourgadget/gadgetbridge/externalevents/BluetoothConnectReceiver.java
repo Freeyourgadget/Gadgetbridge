@@ -64,7 +64,7 @@ public class BluetoothConnectReceiver extends BroadcastReceiver {
             return;
         }
         LOG.info("Will re-connect to " + gbDevice.getAddress() + "(" + gbDevice.getName() + ")");
-        GBApplication.deviceService().connect(gbDevice);
+        GBApplication.deviceService(gbDevice).connect();
     }
 
     private GBDevice getKnownDeviceByAddressOrNull(String deviceAddress){

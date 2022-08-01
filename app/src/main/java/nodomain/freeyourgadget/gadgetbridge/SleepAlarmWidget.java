@@ -129,7 +129,7 @@ public class SleepAlarmWidget extends AppWidgetProvider {
             Alarm alarm = AlarmUtils.createSingleShot(0, true, false, calendar);
             ArrayList<Alarm> alarms = new ArrayList<>(1);
             alarms.add(alarm);
-            GBApplication.deviceService().onSetAlarms(alarms);
+            GBApplication.deviceService(deviceForWidget).onSetAlarms(alarms);
 
 //            if (GBApplication.isRunningLollipopOrLater()) {
 //                setAlarmViaAlarmManager(context, calendar.getTimeInMillis());

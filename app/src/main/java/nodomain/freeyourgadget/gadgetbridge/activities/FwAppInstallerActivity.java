@@ -148,7 +148,7 @@ public class FwAppInstallerActivity extends AbstractGBActivity implements Instal
 
     private void connect() {
         mayConnect = false; // only do that once per #onCreate
-        GBApplication.deviceService().connect(device);
+        GBApplication.deviceService(device).connect();
     }
 
     private void validateInstallation() {
@@ -200,7 +200,7 @@ public class FwAppInstallerActivity extends AbstractGBActivity implements Instal
             public void onClick(View v) {
                 setInstallEnabled(false);
                 installHandler.onStartInstall(device);
-                GBApplication.deviceService().onInstallApp(uri);
+                GBApplication.deviceService(device).onInstallApp(uri);
             }
         });
 
@@ -231,7 +231,7 @@ public class FwAppInstallerActivity extends AbstractGBActivity implements Instal
             if (device == null || !device.isConnected()) {
                 connect();
             } else {
-                GBApplication.deviceService().requestDeviceInfo();
+                GBApplication.deviceService(device).requestDeviceInfo();
             }
         }
     }

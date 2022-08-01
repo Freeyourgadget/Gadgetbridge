@@ -359,7 +359,7 @@ public class ChartsActivity extends AbstractGBFragmentActivity implements Charts
 
     private void fetchActivityData() {
         if (getDevice().isInitialized()) {
-            GBApplication.deviceService().onFetchRecordedData(RecordedDataTypes.TYPE_ACTIVITY);
+            GBApplication.deviceService(getDevice()).onFetchRecordedData(RecordedDataTypes.TYPE_ACTIVITY);
         } else {
             swipeLayout.setRefreshing(false);
             GB.toast(this, getString(R.string.device_not_connected), Toast.LENGTH_SHORT, GB.ERROR);
