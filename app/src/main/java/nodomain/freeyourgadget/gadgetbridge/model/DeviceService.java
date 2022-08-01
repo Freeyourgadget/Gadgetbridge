@@ -150,15 +150,13 @@ public interface DeviceService extends EventHandler {
 
     void connect();
 
-    void connect(@Nullable GBDevice device);
-
-    void connect(@Nullable GBDevice device, boolean firstTime);
-
-    void disconnect(@Nullable GBDevice device);
+    void connect(boolean firstTime);
 
     void disconnect();
 
     void quit();
+
+    DeviceService forDevice(GBDevice device);
 
     /**
      * Requests information from the {@link DeviceCommunicationService} about the connection state,

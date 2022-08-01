@@ -82,7 +82,7 @@ public class AutoConnectIntervalReceiver extends BroadcastReceiver {
             for(GBDevice device : devices){
                 if(device.getState() == GBDevice.State.WAITING_FOR_RECONNECT) {
                     LOG.info("Will re-connect to " + device.getAddress() + "(" + device.getName() + ")");
-                    GBApplication.deviceService().connect(device);
+                    GBApplication.deviceService(device).connect();
                 }
             }
         }

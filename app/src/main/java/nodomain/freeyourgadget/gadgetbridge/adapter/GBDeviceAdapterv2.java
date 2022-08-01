@@ -285,7 +285,7 @@ public class GBDeviceAdapterv2 extends ListAdapter<GBDevice, GBDeviceAdapterv2.V
                     showTransientSnackbar(R.string.controlcenter_snackbar_need_longpress);
                 } else {
                     showTransientSnackbar(R.string.controlcenter_snackbar_connecting);
-                    GBApplication.deviceService().connect(device);
+                    GBApplication.deviceService(device).connect();
                 }
             }
         });
@@ -391,7 +391,7 @@ public class GBDeviceAdapterv2 extends ListAdapter<GBDevice, GBDeviceAdapterv2.V
         holder.heartRateStatusBox.setOnClickListener(new View.OnClickListener() {
                                                          @Override
                                                          public void onClick(View v) {
-                                                             GBApplication.deviceService().onHeartRateTest();
+                                                             GBApplication.deviceService(device).onHeartRateTest();
                                                              HeartRateDialog dialog = new HeartRateDialog(context);
                                                              dialog.show();
                                                          }
@@ -422,7 +422,7 @@ public class GBDeviceAdapterv2 extends ListAdapter<GBDevice, GBDeviceAdapterv2.V
                                                         @Override
                                                         public void onClick(View v) {
                                                             showTransientSnackbar(R.string.busy_task_fetch_activity_data);
-                                                            GBApplication.deviceService().onFetchRecordedData(RecordedDataTypes.TYPE_ACTIVITY);
+                                                            GBApplication.deviceService(device).onFetchRecordedData(RecordedDataTypes.TYPE_ACTIVITY);
                                                         }
                                                     }
         );
@@ -436,7 +436,7 @@ public class GBDeviceAdapterv2 extends ListAdapter<GBDevice, GBDeviceAdapterv2.V
                                                          @Override
                                                          public void onClick(View v) {
                                                              showTransientSnackbar(R.string.controlcenter_snackbar_requested_screenshot);
-                                                             GBApplication.deviceService().onScreenshotReq();
+                                                             GBApplication.deviceService(device).onScreenshotReq();
                                                          }
                                                      }
         );
@@ -556,16 +556,16 @@ public class GBDeviceAdapterv2 extends ListAdapter<GBDevice, GBDeviceAdapterv2.V
                                                                          context.startActivity(startIntent);
                                                                          return;
                                                                      }
-                                                                     GBApplication.deviceService().onFindDevice(true);
+                                                                     GBApplication.deviceService(device).onFindDevice(true);
                                                                      Snackbar.make(parent, R.string.control_center_find_lost_device, Snackbar.LENGTH_INDEFINITE).setAction(R.string.find_lost_device_you_found_it, new View.OnClickListener() {
                                                                          @Override
                                                                          public void onClick(View v) {
-                                                                             GBApplication.deviceService().onFindDevice(false);
+                                                                             GBApplication.deviceService(device).onFindDevice(false);
                                                                          }
                                                                      }).setCallback(new Snackbar.Callback() {
                                                                          @Override
                                                                          public void onDismissed(Snackbar snackbar, int event) {
-                                                                             GBApplication.deviceService().onFindDevice(false);
+                                                                             GBApplication.deviceService(device).onFindDevice(false);
                                                                              super.onDismissed(snackbar, event);
                                                                          }
                                                                      }).show();
@@ -673,7 +673,7 @@ public class GBDeviceAdapterv2 extends ListAdapter<GBDevice, GBDeviceAdapterv2.V
                             final float frequency = fm_presets[index];
                             device.setExtraInfo("fm_frequency", fm_presets[index]);
                             fmFrequencyLabel.setText(String.format(Locale.getDefault(), "%.1f", (float) frequency));
-                            GBApplication.deviceService().onSetFmFrequency(frequency);
+                            GBApplication.deviceService(device).onSetFmFrequency(frequency);
                             alert[0].dismiss();
                         }
                     });
@@ -719,7 +719,7 @@ public class GBDeviceAdapterv2 extends ListAdapter<GBDevice, GBDeviceAdapterv2.V
                                 } else {
                                     device.setExtraInfo("fm_frequency", frequency);
                                     fmFrequencyLabel.setText(String.format(Locale.getDefault(), "%.1f", frequency));
-                                    GBApplication.deviceService().onSetFmFrequency(frequency);
+                                    GBApplication.deviceService(device).onSetFmFrequency(frequency);
                                 }
                             }
                         });
@@ -771,7 +771,7 @@ public class GBDeviceAdapterv2 extends ListAdapter<GBDevice, GBDeviceAdapterv2.V
                         public void onColorSelected(int dialogId, int color) {
                             ledColor.setColor(color);
                             device.setExtraInfo("led_color", color);
-                            GBApplication.deviceService().onSetLedColor(color);
+                            GBApplication.deviceService(device).onSetLedColor(color);
                         }
 
                         @Override
@@ -796,7 +796,7 @@ public class GBDeviceAdapterv2 extends ListAdapter<GBDevice, GBDeviceAdapterv2.V
                             .setIcon(R.drawable.ic_power_settings_new)
                             .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                                 public void onClick(final DialogInterface dialog, final int whichButton) {
-                                    GBApplication.deviceService().onPowerOff();
+                                    GBApplication.deviceService(device).onPowerOff();
                                 }
                             })
                             .setNegativeButton(android.R.string.no, null)
@@ -840,13 +840,13 @@ public class GBDeviceAdapterv2 extends ListAdapter<GBDevice, GBDeviceAdapterv2.V
                     case R.id.controlcenter_device_submenu_connect:
                         if (device.getState() != GBDevice.State.CONNECTED) {
                             showTransientSnackbar(R.string.controlcenter_snackbar_connecting);
-                            GBApplication.deviceService().connect(device);
+                            GBApplication.deviceService(device).connect();
                         }
                         return true;
                     case R.id.controlcenter_device_submenu_disconnect:
                         if (device.getState() != GBDevice.State.NOT_CONNECTED) {
                             showTransientSnackbar(R.string.controlcenter_snackbar_disconnecting);
-                            GBApplication.deviceService().disconnect(device);
+                            GBApplication.deviceService(device).disconnect();
                         }
                         return true;
                     case R.id.controlcenter_device_submenu_set_alias:

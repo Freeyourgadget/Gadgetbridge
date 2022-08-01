@@ -173,7 +173,7 @@ public class ConfigureAlarms extends AbstractGBActivity {
     }
 
     private void sendAlarmsToDevice() {
-        GBApplication.deviceService().onSetAlarms(mGBAlarmListAdapter.getAlarmList());
+        GBApplication.deviceService(gbDevice).onSetAlarms(mGBAlarmListAdapter.getAlarmList());
     }
 
     private final BroadcastReceiver mReceiver = new BroadcastReceiver() {

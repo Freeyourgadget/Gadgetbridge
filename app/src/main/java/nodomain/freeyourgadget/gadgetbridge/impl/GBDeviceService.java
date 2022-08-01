@@ -53,6 +53,7 @@ import static nodomain.freeyourgadget.gadgetbridge.util.JavaExtensions.coalesce;
 
 public class GBDeviceService implements DeviceService {
     protected final Context mContext;
+    private final GBDevice mDevice;
     private final Class<? extends Service> mServiceClass;
     public static final String[] transliterationExtras = new String[]{
             EXTRA_NOTIFICATION_SENDER,
@@ -69,8 +70,18 @@ public class GBDeviceService implements DeviceService {
     };
 
     public GBDeviceService(Context context) {
+        this(context, null);
+    }
+
+    public GBDeviceService(Context context, GBDevice device) {
         mContext = context;
+        mDevice = device;
         mServiceClass = DeviceCommunicationService.class;
+    }
+
+    @Override
+    public DeviceService forDevice(final GBDevice device) {
+        return new GBDeviceService(mContext, device);
     }
 
     protected Intent createIntent() {
@@ -85,6 +96,10 @@ public class GBDeviceService implements DeviceService {
                     intent.putExtra(extra, RtlUtils.fixRtl(intent.getStringExtra(extra)));
                 }
             }
+        }
+
+        if (mDevice != null) {
+            intent.putExtra(GBDevice.EXTRA_DEVICE, mDevice);
         }
 
         mContext.startService(intent);
@@ -102,26 +117,13 @@ public class GBDeviceService implements DeviceService {
 
     @Override
     public void connect() {
-        connect(null, false);
+        connect(false);
     }
 
     @Override
-    public void connect(@Nullable GBDevice device) {
-        connect(device, false);
-    }
-
-    @Override
-    public void connect(@Nullable GBDevice device, boolean firstTime) {
+    public void connect(boolean firstTime) {
         Intent intent = createIntent().setAction(ACTION_CONNECT)
-                .putExtra(GBDevice.EXTRA_DEVICE, device)
                 .putExtra(EXTRA_CONNECT_FIRST_TIME, firstTime);
-        invokeService(intent);
-    }
-
-    @Override
-    public void disconnect(@Nullable GBDevice device) {
-        Intent intent = createIntent().setAction(ACTION_DISCONNECT)
-                .putExtra(GBDevice.EXTRA_DEVICE, device);
         invokeService(intent);
     }
 

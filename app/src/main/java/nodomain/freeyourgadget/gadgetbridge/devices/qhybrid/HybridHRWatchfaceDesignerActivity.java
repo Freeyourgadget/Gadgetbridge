@@ -588,11 +588,11 @@ public class HybridHRWatchfaceDesignerActivity extends AbstractGBActivity implem
             final Uri tempAppFileUri = Uri.fromFile(tempFile);
             if (preview) {
                 findViewById(R.id.watchface_upload_progress_bar).setVisibility(View.VISIBLE);
-                GBApplication.deviceService().onInstallApp(tempAppFileUri);
+                GBApplication.deviceService(mGBDevice).onInstallApp(tempAppFileUri);
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        GBApplication.deviceService().onAppDelete(UUID.nameUUIDFromBytes("previewWatchface".getBytes(StandardCharsets.UTF_8)));
+                        GBApplication.deviceService(mGBDevice).onAppDelete(UUID.nameUUIDFromBytes("previewWatchface".getBytes(StandardCharsets.UTF_8)));
                     }
                 }, 15000);
             } else {
@@ -609,14 +609,14 @@ public class HybridHRWatchfaceDesignerActivity extends AbstractGBActivity implem
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
                                     findViewById(R.id.watchface_upload_progress_bar).setVisibility(View.VISIBLE);
-                                    GBApplication.deviceService().onInstallApp(tempAppFileUri);
+                                    GBApplication.deviceService(mGBDevice).onInstallApp(tempAppFileUri);
                                     FossilHRInstallHandler.saveAppInCache(fossilFile, selectedBackgroundImage, wfFactory.getPreviewImage(mContext), mCoordinator, HybridHRWatchfaceDesignerActivity.this);
                                 }
                             })
                             .show();
                 } else {
                     findViewById(R.id.watchface_upload_progress_bar).setVisibility(View.VISIBLE);
-                    GBApplication.deviceService().onInstallApp(tempAppFileUri);
+                    GBApplication.deviceService(mGBDevice).onInstallApp(tempAppFileUri);
                     FossilHRInstallHandler.saveAppInCache(fossilFile, selectedBackgroundImage, wfFactory.getPreviewImage(mContext), mCoordinator, HybridHRWatchfaceDesignerActivity.this);
                 }
             }

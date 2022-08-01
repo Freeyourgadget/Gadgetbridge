@@ -200,15 +200,15 @@ public class CalendarReceiver extends BroadcastReceiver {
                 calendarEventSpec.location = calendarEvent.getLocation();
                 calendarEventSpec.type = CalendarEventSpec.TYPE_UNKNOWN;
                 if (syncState == EventState.NEEDS_UPDATE) {
-                    GBApplication.deviceService().onDeleteCalendarEvent(CalendarEventSpec.TYPE_UNKNOWN, i);
+                    GBApplication.deviceService(mGBDevice).onDeleteCalendarEvent(CalendarEventSpec.TYPE_UNKNOWN, i);
                 }
-                GBApplication.deviceService().onAddCalendarEvent(calendarEventSpec);
+                GBApplication.deviceService(mGBDevice).onAddCalendarEvent(calendarEventSpec);
                 es.setState(EventState.SYNCED);
                 eventState.put(i, es);
                 // update db
                 session.insertOrReplace(new CalendarSyncState(null, deviceId, i, es.event.hashCode()));
             } else if (syncState == EventState.NEEDS_DELETE) {
-                GBApplication.deviceService().onDeleteCalendarEvent(CalendarEventSpec.TYPE_UNKNOWN, i);
+                GBApplication.deviceService(mGBDevice).onDeleteCalendarEvent(CalendarEventSpec.TYPE_UNKNOWN, i);
                 eventState.remove(i);
                 // delete from db for current device only
                 QueryBuilder<CalendarSyncState> qb = session.getCalendarSyncStateDao().queryBuilder();

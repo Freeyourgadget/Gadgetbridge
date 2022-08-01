@@ -304,7 +304,7 @@ public abstract class AbstractAppManagerFragment extends Fragment {
         LocalBroadcastManager.getInstance(getContext()).registerReceiver(mReceiver, filter);
 
         if (mCoordinator.supportsAppListFetching()) {
-            GBApplication.deviceService().onAppInfoReq();
+            GBApplication.deviceService(mGBDevice).onAppInfoReq();
             if (isCacheManager()) {
                 refreshList();
             }
@@ -391,7 +391,7 @@ public abstract class AbstractAppManagerFragment extends Fragment {
             ArrayList<UUID> concatUuids = AppManagerActivity.getUuidsFromFile(concatFilename);
             uuids.addAll(concatUuids);
         }
-        GBApplication.deviceService().onAppReorder(uuids.toArray(new UUID[uuids.size()]));
+        GBApplication.deviceService(mGBDevice).onAppReorder(uuids.toArray(new UUID[uuids.size()]));
     }
 
     public void onItemClick(View view, GBDeviceApp deviceApp) {
@@ -399,7 +399,7 @@ public abstract class AbstractAppManagerFragment extends Fragment {
             openPopupMenu(view, deviceApp);
         } else {
             UUID uuid = deviceApp.getUUID();
-            GBApplication.deviceService().onAppStart(uuid, true);
+            GBApplication.deviceService(mGBDevice).onAppStart(uuid, true);
         }
     }
 
@@ -506,11 +506,11 @@ public abstract class AbstractAppManagerFragment extends Fragment {
                     refreshIntent = new Intent(AbstractAppManagerFragment.ACTION_REFRESH_APPLIST);
                     LocalBroadcastManager.getInstance(getContext()).sendBroadcast(refreshIntent);
                 }
-                GBApplication.deviceService().onAppDelete(selectedApp.getUUID());
+                GBApplication.deviceService(mGBDevice).onAppDelete(selectedApp.getUUID());
                 return true;
             case R.id.appmanager_app_reinstall:
                 File cachePath = new File(appCacheDir, selectedApp.getUUID() + mCoordinator.getAppFileExtension());
-                GBApplication.deviceService().onInstallApp(Uri.fromFile(cachePath));
+                GBApplication.deviceService(mGBDevice).onInstallApp(Uri.fromFile(cachePath));
                 return true;
             case R.id.appmanager_app_share:
                 File origFilePath = new File(appCacheDir, selectedApp.getUUID() + mCoordinator.getAppFileExtension());
@@ -533,24 +533,24 @@ public abstract class AbstractAppManagerFragment extends Fragment {
                 }
                 return true;
             case R.id.appmanager_health_activate:
-                GBApplication.deviceService().onInstallApp(Uri.parse("fake://health"));
+                GBApplication.deviceService(mGBDevice).onInstallApp(Uri.parse("fake://health"));
                 return true;
             case R.id.appmanager_hrm_activate:
-                GBApplication.deviceService().onInstallApp(Uri.parse("fake://hrm"));
+                GBApplication.deviceService(mGBDevice).onInstallApp(Uri.parse("fake://hrm"));
                 return true;
             case R.id.appmanager_weather_activate:
-                GBApplication.deviceService().onInstallApp(Uri.parse("fake://weather"));
+                GBApplication.deviceService(mGBDevice).onInstallApp(Uri.parse("fake://weather"));
                 return true;
             case R.id.appmanager_health_deactivate:
             case R.id.appmanager_hrm_deactivate:
             case R.id.appmanager_weather_deactivate:
-                GBApplication.deviceService().onAppDelete(selectedApp.getUUID());
+                GBApplication.deviceService(mGBDevice).onAppDelete(selectedApp.getUUID());
                 return true;
             case R.id.appmanager_weather_install_provider:
                 startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://f-droid.org/app/ru.gelin.android.weather.notification")));
                 return true;
             case R.id.appmanager_app_configure:
-                GBApplication.deviceService().onAppStart(selectedApp.getUUID(), true);
+                GBApplication.deviceService(mGBDevice).onAppStart(selectedApp.getUUID(), true);
 
                 Intent startIntent = new Intent(getContext().getApplicationContext(), ExternalPebbleJSActivity.class);
                 startIntent.putExtra(DeviceService.EXTRA_APP_UUID, selectedApp.getUUID());

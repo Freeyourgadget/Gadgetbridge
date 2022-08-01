@@ -147,7 +147,7 @@ public class BondingUtil {
      */
     private static void connectToGBDevice(GBDevice device) {
         if (device != null) {
-            GBApplication.deviceService().connect(device, true);
+            GBApplication.deviceService(device).connect(true);
         } else {
             GB.toast("Unable to connect, can't recognize the device type", Toast.LENGTH_LONG, GB.ERROR);
         }
@@ -180,8 +180,8 @@ public class BondingUtil {
     public static void connectThenComplete(BondingInterface bondingInterface, GBDevice device) {
         toast(bondingInterface.getContext(), bondingInterface.getContext().getString(R.string.discovery_trying_to_connect_to, device.getName()), Toast.LENGTH_SHORT, GB.INFO);
         // Disconnect when LE Pebble so that the user can manually initiate a connection
-        GBApplication.deviceService().disconnect(device);
-        GBApplication.deviceService().connect(device, true);
+        GBApplication.deviceService(device).disconnect();
+        GBApplication.deviceService(device).connect(true);
         bondingInterface.onBondingComplete(true);
     }
 

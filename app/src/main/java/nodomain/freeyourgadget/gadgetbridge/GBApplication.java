@@ -331,6 +331,16 @@ public class GBApplication extends Application {
     }
 
     /**
+     * Returns the facade for talking to a specific device. Devices are managed by
+     * an Android Service and this facade provides access to its functionality.
+     *
+     * @return the facade for talking to the service/device.
+     */
+    public static DeviceService deviceService(GBDevice device) {
+        return deviceService.forDevice(device);
+    }
+
+    /**
      * Returns the DBHandler instance for reading/writing or throws GBException
      * when that was not successful
      * If acquiring was successful, callers must call #releaseDB when they

@@ -369,7 +369,7 @@ public class ActivitySummariesActivity extends AbstractListActivity<BaseActivity
 
     private void fetchTrackData() {
         if (mGBDevice.isInitialized() && !mGBDevice.isBusy()) {
-            GBApplication.deviceService().onFetchRecordedData(RecordedDataTypes.TYPE_GPS_TRACKS);
+            GBApplication.deviceService(mGBDevice).onFetchRecordedData(RecordedDataTypes.TYPE_GPS_TRACKS);
         } else {
             swipeLayout.setRefreshing(false);
             if (!mGBDevice.isInitialized()) {

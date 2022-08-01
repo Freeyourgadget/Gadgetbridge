@@ -210,7 +210,7 @@ public class DeviceSpecificSettingsFragment extends PreferenceFragmentCompat imp
         invokeLater(new Runnable() {
             @Override
             public void run() {
-                GBApplication.deviceService().onSendConfiguration(preferenceKey);
+                GBApplication.deviceService(device).onSendConfiguration(preferenceKey);
             }
         });
     }
@@ -355,7 +355,7 @@ public class DeviceSpecificSettingsFragment extends PreferenceFragmentCompat imp
             enableHeartrateSleepSupport.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
                 @Override
                 public boolean onPreferenceChange(Preference preference, Object newVal) {
-                    GBApplication.deviceService().onEnableHeartRateSleepSupport(Boolean.TRUE.equals(newVal));
+                    GBApplication.deviceService(device).onEnableHeartRateSleepSupport(Boolean.TRUE.equals(newVal));
                     return true;
                 }
             });
@@ -369,7 +369,7 @@ public class DeviceSpecificSettingsFragment extends PreferenceFragmentCompat imp
 
             heartrateMeasurementInterval.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
                 public boolean onPreferenceChange(final Preference preference, final Object newVal) {
-                    GBApplication.deviceService().onSetHeartRateMeasurementInterval(Integer.parseInt((String) newVal));
+                    GBApplication.deviceService(device).onSetHeartRateMeasurementInterval(Integer.parseInt((String) newVal));
 
                     final boolean isMeasurementIntervalEnabled = !newVal.equals("0");
 
@@ -720,7 +720,7 @@ public class DeviceSpecificSettingsFragment extends PreferenceFragmentCompat imp
                     CannedMessagesSpec cannedMessagesSpec = new CannedMessagesSpec();
                     cannedMessagesSpec.type = CannedMessagesSpec.TYPE_REJECTEDCALLS;
                     cannedMessagesSpec.cannedMessages = messages.toArray(new String[0]);
-                    GBApplication.deviceService().onSetCannedMessages(cannedMessagesSpec);
+                    GBApplication.deviceService(device).onSetCannedMessages(cannedMessagesSpec);
                     return true;
                 }
             });
