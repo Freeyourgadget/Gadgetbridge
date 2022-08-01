@@ -1790,7 +1790,7 @@
     <string name="watchface_dialog_widget_cat_generic">Загальний</string>
     <string name="watchface_dialog_title_widget">Налаштування віджета</string>
     <string name="watchface_setting_title_button_toggle_widgets">Перемкнути віджети</string>
-    <string name="watchface_setting_button_toggle_widgets">Дія кнопки</string>
+    <string name="watchface_setting_button_toggle_widgets">Перемкнути віджети</string>
     <string name="note">Примітка</string>
     <string name="share_log_not_enabled_message">Попередньо необхідно ввімкнути вхід у налаштуваннях - Запис файлів журналів</string>
     <string name="steps_streaks">Успішних днів підряд</string>
@@ -1813,4 +1813,6 @@
     <string name="step_streak_longest">Найтриваліша</string>
     <string name="step_streak_days_hint">Кількість днів поспіль з досягненням мети кількості кроків</string>
     <string name="steps_streaks_total_steps_average_hint">Загальний середній показник %d кроків на день</string>
+    <string name="watchface_setting_title_custom_events">Користувацькі події</string>
+    <string name="watchface_setting_button_toggle_backlight">Увімкнути підсвітку</string>
 </resources>
