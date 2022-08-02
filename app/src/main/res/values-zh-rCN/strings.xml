@@ -1784,7 +1784,7 @@
     <string name="pref_title_banglejs_txt_bitmap_size">文本位图大小</string>
     <string name="hybridhr_widget_bg_dashed_circle">虚线圈</string>
     <string name="watchface_setting_title_button_toggle_widgets">切换小部件</string>
-    <string name="watchface_setting_button_toggle_widgets">按钮动作</string>
+    <string name="watchface_setting_button_toggle_widgets">切换小部件</string>
     <string name="steps_streaks_since_date">自 %s 起</string>
     <string name="step_streak_average_steps_hint">连续每天的平均步数</string>
     <string name="steps_streaks_total_steps_hint_totals">记录的总步数</string>
@@ -1807,4 +1807,6 @@
 \n率</string>
     <string name="note">注意</string>
     <string name="share_log_not_enabled_message">必须首先在“设置 - 写入日志文件”中启用日志记录</string>
+    <string name="watchface_setting_button_toggle_backlight">开启背光灯</string>
+    <string name="watchface_setting_title_custom_events">自定义事件</string>
 </resources>
