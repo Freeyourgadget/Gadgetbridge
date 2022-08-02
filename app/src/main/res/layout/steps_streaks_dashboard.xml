@@ -1,69 +1,78 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/streaks_dashboard"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:minWidth="1000dp">
 
-    <LinearLayout xmlns:app="http://schemas.android.com/apk/res-auto"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="0dp"
-        android:layout_marginTop="15dp"
-        android:layout_marginBottom="0dp"
-        android:gravity="center|center_vertical"
-        android:minWidth="1000dp"
-        android:orientation="vertical">
+        android:layout_height="match_parent">
 
-        <TextView
+        <LinearLayout
+            android:id="@+id/streaks_dashboard_inner"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginStart="1dp"
-            android:layout_marginEnd="1dp"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:maxLines="2"
-            android:scrollHorizontally="false"
-            android:text="@string/steps_streaks"
-            android:textAllCaps="true"
-            android:textSize="24sp"
-            android:textStyle="bold"
-            android:tooltipText="@string/steps_streaks_hint" />
-
-        <include
-            layout="@layout/steps_streak_current_line_layout"
-            android:visibility="gone" />
-
-        <include
-            layout="@layout/steps_streak_maximum_line_layout"
-            android:visibility="gone" />
-
-        <include
-            layout="@layout/steps_streak_total_line_layout"
-            android:visibility="gone" />
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="0dp"
-            android:layout_marginBottom="0dp"
-            android:gravity="center"
             android:orientation="vertical">
 
-            <ImageView
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:layout_marginStart="35dp"
-                android:layout_marginTop="39dp"
-                app:srcCompat="@drawable/ic_events_gold" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginStart="1dp"
+                android:layout_marginEnd="1dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:maxLines="2"
+                android:scrollHorizontally="false"
+                android:text="@string/steps_streaks"
+                android:textAllCaps="true"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                android:tooltipText="@string/steps_streaks_hint" />
 
-            <ProgressBar
-                android:id="@+id/step_streak_dashboard_loading_circle"
-                android:layout_width="171dp"
-                android:layout_height="171dp"
-                android:indeterminate="true" />
-        </RelativeLayout>
+            <include
+                layout="@layout/steps_streak_current_line_layout"
+                android:visibility="gone" />
 
+            <include
+                layout="@layout/steps_streak_maximum_line_layout"
+                android:visibility="gone" />
 
-    </LinearLayout>
+            <include
+                layout="@layout/steps_streak_total_line_layout"
+                android:visibility="gone" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="0dp"
+                android:layout_marginBottom="0dp"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:layout_marginStart="35dp"
+                    android:layout_marginTop="39dp"
+                    app:srcCompat="@drawable/ic_events_gold" />
+
+                <ProgressBar
+                    android:id="@+id/step_streak_dashboard_loading_circle"
+                    android:layout_width="171dp"
+                    android:layout_height="171dp"
+                    android:indeterminate="true" />
+            </RelativeLayout>
+        </LinearLayout>
+
+        <ImageButton
+            android:id="@+id/step_streak_share_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentBottom="true"
+            app:srcCompat="@drawable/ic_share" />
+    </RelativeLayout>
 </ScrollView>

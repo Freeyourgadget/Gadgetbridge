@@ -1,28 +1,41 @@
 package nodomain.freeyourgadget.gadgetbridge.activities.charts;
 
+import android.content.ActivityNotFoundException;
 import android.content.Context;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.text.format.DateUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
+import androidx.core.content.FileProvider;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.FragmentActivity;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.Serializable;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.Calendar;
 import java.util.Date;
 
+import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.database.DBAccess;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
@@ -30,6 +43,7 @@ import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.model.DailyTotals;
 import nodomain.freeyourgadget.gadgetbridge.util.DateTimeUtils;
+import nodomain.freeyourgadget.gadgetbridge.util.FileUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
 public class StepStreaksDashboard extends DialogFragment {
@@ -89,7 +103,7 @@ public class StepStreaksDashboard extends DialogFragment {
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         if (backgroundTaskFinished) {
-            outState.putSerializable(STREAKS, stepsStreaks);
+            outState.putParcelable(STREAKS, stepsStreaks);
         }
     }
 
@@ -105,7 +119,7 @@ public class StepStreaksDashboard extends DialogFragment {
         }
 
         if (savedInstanceState != null) {
-            StepsStreaks streaks = (StepsStreaks) savedInstanceState.getSerializable(STREAKS);
+            StepsStreaks streaks = (StepsStreaks) savedInstanceState.getParcelable(STREAKS);
             if (streaks != null) {
                 stepsStreaks = streaks;
                 backgroundTaskFinished = true;
@@ -148,6 +162,15 @@ public class StepStreaksDashboard extends DialogFragment {
         TextView date_total_value = total.findViewById(R.id.step_streak_total_date_value);
         TextView date_total_label = total.findViewById(R.id.step_streak_total_label);
 
+        ImageButton step_streak_share_button = getView().findViewById(R.id.step_streak_share_button);
+        step_streak_share_button.setVisibility(View.GONE);
+        step_streak_share_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                take_share_screenshot(getActivity());
+            }
+        });
+
         if (stepsStreaks.current.days > 0) {
             current.setVisibility(View.VISIBLE);
             days_current.setText(Integer.toString(stepsStreaks.current.days));
@@ -170,6 +193,7 @@ public class StepStreaksDashboard extends DialogFragment {
             date_maximum_value.setText(DateTimeUtils.formatDateRange(startDate, endDate));
         }
         if (stepsStreaks.total.steps > 0 || backgroundTaskFinished) {
+            step_streak_share_button.setVisibility(View.VISIBLE);
             total.setVisibility(View.VISIBLE);
             days_total_label.setText(R.string.steps_streaks_achievement_rate);
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -185,7 +209,6 @@ public class StepStreaksDashboard extends DialogFragment {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                     total_total.setTooltipText(String.format(getString(R.string.steps_streaks_total_steps_average_hint), stepsStreaks.total.steps / stepsStreaks.total.total_days));
                 }
-
             }
             if (stepsStreaks.total.timestamp > 0) {
                 date_total_value.setVisibility(View.VISIBLE);
@@ -322,17 +345,139 @@ public class StepStreaksDashboard extends DialogFragment {
         }
     }
 
-    private static class StepsStreak implements Serializable {
+    private void take_share_screenshot(Context context) {
+        final ScrollView layout = getView().findViewById(R.id.streaks_dashboard);
+        final LinearLayout sharingLayout = getView().findViewById(R.id.streaks_dashboard_inner);
+        int width = layout.getChildAt(0).getHeight();
+        int height = layout.getChildAt(0).getWidth();
+        Bitmap screenShot = getScreenShot(sharingLayout, width, height, context);
+        String fileName = FileUtils.makeValidFileName("Screenshot-" + "StepsStreak-" + DateTimeUtils.formatIso8601(new Date(Calendar.getInstance().getTimeInMillis())) + ".png");
+
+        try {
+            File targetFile = new File(FileUtils.getExternalFilesDir(), fileName);
+            FileOutputStream fOut = new FileOutputStream(targetFile);
+            screenShot.compress(Bitmap.CompressFormat.PNG, 85, fOut);
+            fOut.flush();
+            fOut.close();
+            shareScreenshot(targetFile, context);
+            GB.toast(getActivity(), "Screenshot saved", Toast.LENGTH_LONG, GB.INFO);
+        } catch (IOException e) {
+            LOG.error("Error getting screenshot", e);
+        }
+    }
+
+    private void shareScreenshot(File targetFile, Context context) {
+        Uri contentUri = FileProvider.getUriForFile(context,
+                context.getApplicationContext().getPackageName() + ".screenshot_provider", targetFile);
+        getActivity().grantUriPermission(
+                context.getApplicationContext().getPackageName(),
+                contentUri,
+                Intent.FLAG_GRANT_WRITE_URI_PERMISSION | Intent.FLAG_GRANT_READ_URI_PERMISSION
+        );
+        Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
+        sharingIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+        sharingIntent.setType("image/*");
+        String shareBody = "My daily step streaks!";
+        sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Steps Streak");
+        sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, shareBody);
+        sharingIntent.putExtra(Intent.EXTRA_STREAM, contentUri);
+
+        try {
+            startActivity(Intent.createChooser(sharingIntent, "Share via"));
+        } catch (ActivityNotFoundException e) {
+            Toast.makeText(context, R.string.activity_error_no_app_for_png, Toast.LENGTH_LONG).show();
+        }
+    }
+
+    public static Bitmap getScreenShot(View view, int height, int width, Context context) {
+        Bitmap bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(bitmap);
+        canvas.drawColor(GBApplication.getWindowBackgroundColor(context));
+        view.draw(canvas);
+        return bitmap;
+    }
+
+    private static class StepsStreak implements Parcelable {
         private int days = 0;
         private int steps = 0;
         private int timestamp;
         private int total_days = 0;
+
+        private StepsStreak() {
+
+        }
+
+        protected StepsStreak(Parcel in) {
+            days = in.readInt();
+            steps = in.readInt();
+            timestamp = in.readInt();
+            total_days = in.readInt();
+        }
+
+        public static final Creator<StepsStreak> CREATOR = new Creator<StepsStreak>() {
+            @Override
+            public StepsStreak createFromParcel(Parcel in) {
+                return new StepsStreak(in);
+            }
+
+            @Override
+            public StepsStreak[] newArray(int size) {
+                return new StepsStreak[size];
+            }
+        };
+
+        @Override
+        public int describeContents() {
+            return 0;
+        }
+
+        @Override
+        public void writeToParcel(Parcel dest, int flags) {
+            dest.writeInt(days);
+            dest.writeInt(steps);
+            dest.writeInt(timestamp);
+            dest.writeInt(total_days);
+        }
     }
 
-    private class StepsStreaks implements Serializable {
+    private class StepsStreaks implements Parcelable {
         private StepsStreak current = new StepsStreak();
         private StepsStreak maximum = new StepsStreak();
         private StepsStreak total = new StepsStreak();
+
+        private StepsStreaks() {
+
+        }
+
+        protected StepsStreaks(Parcel in) {
+            current = in.readParcelable(StepsStreak.class.getClassLoader());
+            maximum = in.readParcelable(StepsStreak.class.getClassLoader());
+            total = in.readParcelable(StepsStreak.class.getClassLoader());
+        }
+
+        public final Creator<StepsStreaks> CREATOR = new Creator<StepsStreaks>() {
+            @Override
+            public StepsStreaks createFromParcel(Parcel in) {
+                return new StepsStreaks(in);
+            }
+
+            @Override
+            public StepsStreaks[] newArray(int size) {
+                return new StepsStreaks[size];
+            }
+        };
+
+        @Override
+        public int describeContents() {
+            return 0;
+        }
+
+        @Override
+        public void writeToParcel(Parcel dest, int flags) {
+            dest.writeParcelable(current, flags);
+            dest.writeParcelable(maximum, flags);
+            dest.writeParcelable(total, flags);
+        }
     }
 }
 
