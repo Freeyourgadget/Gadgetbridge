@@ -1,0 +1,34 @@
+pipeline:
+  build-apks:
+    image: androidsdk/android-30
+    commands:
+      # build the apks
+      - echo "$${SIGNING_KEY}" | base64 -d > app/keystore.p12
+      - ./gradlew assembleMainDebug -Dnightly_store_file="keystore.p12" -Dnightly_store_password="$${KEYSTOREPASS}" -Dnightly_key_alias="gadgetbridge" -Dnightly_key_password="$${KEYPASS}"
+    secrets: [ signing_key, keystorepass, keypass ]
+
+  publish_debug_version:
+    image: python:3.9
+    commands:
+      - cd ..
+      - pwd
+      - mkdir repoconfig
+      - cd repoconfig
+      - pwd
+      - git clone --depth 1 https://codeberg.org/Freeyourgadget/fdroid-repo-config.git
+      - apt update
+      - apt -y install jq
+      - ./fdroid-repo-config/repoconfig/publish_debug_version.sh
+    secrets: [ commit_token ]
+
+  on-error:
+    image: python:3.9
+    commands:
+      - cd ..
+      - mkdir -p repoconfig
+      - cd repoconfig
+      - git clone --depth 1 https://codeberg.org/Freeyourgadget/fdroid-repo-config.git || true
+      - ./fdroid-repo-config/repoconfig/create_issue_comment.sh "CI failed when publishing debug version"
+    when:
+      status: failure
+    secrets: [ commit_token ]
