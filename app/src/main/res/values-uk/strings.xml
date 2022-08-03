@@ -175,7 +175,7 @@
     <string name="user_feedback_miband_activity_data_transfer">Буде передано %1$s даних, починаючи з %2$s</string>
     <string name="miband_prefs_fitness_goal">Щоденна ціль кроків</string>
     <string name="dbaccess_error_executing">Помилка виконання \'%1$s\'</string>
-    <string name="controlcenter_start_activitymonitor">Ваша активність (ALPHA)</string>
+    <string name="controlcenter_start_activitymonitor">Ваша активність</string>
     <string name="cannot_connect">Неможливо з\'єднатися: %1$s</string>
     <string name="installer_activity_unable_to_find_handler">Не вдалося знайти обробник подій для встановлення цього файлу.</string>
     <string name="pbw_install_handler_unable_to_install">Не вдалося встановити цей файл: %1$s</string>
@@ -1815,4 +1815,5 @@
     <string name="steps_streaks_total_steps_average_hint">Загальний середній показник %d кроків на день</string>
     <string name="watchface_setting_title_custom_events">Користувацькі події</string>
     <string name="watchface_setting_button_toggle_backlight">Увімкнути підсвітку</string>
+    <string name="controlcenter_get_heartrate_measurement">Виміряти пульс</string>
 </resources>
