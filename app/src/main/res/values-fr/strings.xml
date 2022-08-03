@@ -1786,7 +1786,7 @@ Temps de sommeil préféré en heures</string>
     <string name="watchface_dialog_widget_cat_custom_widget">Widget personnalisé</string>
     <string name="hybridhr_widget_bg_thin_circle">Cercle fin</string>
     <string name="watchface_setting_title_button_toggle_widgets">Intervertir les widgets</string>
-    <string name="watchface_setting_button_toggle_widgets">Action du bouton</string>
+    <string name="watchface_setting_button_toggle_widgets">Intervertir les widgets</string>
     <string name="steps_streaks">Rythme de marche</string>
     <string name="step_streak_total">Total</string>
     <string name="steps_streaks_total_steps">Pas
@@ -1807,4 +1807,8 @@ Temps de sommeil préféré en heures</string>
     <string name="share_log_not_enabled_message">Vous devez d\'abord activer l\'enregistrement des journaux dans les Réglages - Enregistrer les journaux</string>
     <string name="steps_streaks_total_steps_hint_totals">Nombre total de pas jamais enregistré</string>
     <string name="steps_streaks_total_days_hint_totals">Pourcentage de jours où l\'objectif a été réalisé comparé à tous les jours avec de l\'exercice</string>
+    <string name="step_streak_average_steps_hint">Moyenne de pas par jour pour l\'objectif</string>
+    <string name="steps_streaks_total_steps_hint">Nombre total de pas de l\'objectif</string>
+    <string name="watchface_setting_button_toggle_backlight">Allumer le rétroéclairage</string>
+    <string name="watchface_setting_title_custom_events">Événements personnalisés</string>
 </resources>
