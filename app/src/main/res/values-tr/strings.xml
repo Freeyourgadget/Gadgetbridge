@@ -149,7 +149,7 @@
     <string name="controlcenter_snackbar_need_longpress">Bağlantıyı kesmek için karta uzun basın</string>
     <string name="controlcenter_snackbar_requested_screenshot">Aygıtın ekran görüntüsü alınıyor</string>
     <string name="controlcenter_start_activity_tracks">Etkinlik izlemeleriniz</string>
-    <string name="controlcenter_start_activitymonitor">Etkinliğiniz (ALPHA)</string>
+    <string name="controlcenter_start_activitymonitor">Etkinliğiniz</string>
     <string name="controlcenter_start_configure_alarms">Alarmları yapılandır</string>
     <string name="controlcenter_take_screenshot">Ekran Görüntüsü Al</string>
     <string name="dateformat_date_time">Saat ve tarih</string>
@@ -1822,4 +1822,5 @@
     <string name="note">Not</string>
     <string name="watchface_setting_title_custom_events">Özel etkinlikler</string>
     <string name="watchface_setting_button_toggle_backlight">Arka ışığı aç</string>
+    <string name="controlcenter_get_heartrate_measurement">Kalp ritmi ölçümünü al</string>
 </resources>
