@@ -52,6 +52,7 @@
                 android:background="?android:attr/selectableItemBackground"
                 android:clickable="true"
                 android:contentDescription="@string/candidate_item_device_image"
+                android:tooltipText="@string/candidate_item_device_image"
                 android:focusable="true"
                 android:longClickable="true"
                 card_view:srcCompat="@drawable/ic_device_pebble" />
@@ -93,6 +94,7 @@
                 android:layout_marginTop="8dp"
                 android:clickable="true"
                 android:contentDescription="@string/candidate_item_device_image"
+                android:tooltipText="@string/candidate_item_device_image"
                 android:background="?android:attr/selectableItemBackground"
                 card_view:srcCompat="@drawable/ic_more_vert"
                 android:focusable="true"
@@ -109,7 +111,8 @@
                     android:id="@+id/device_battery_status_box"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-
+                    android:contentDescription="@string/battery_detail_activity_title"
+                    android:tooltipText="@string/battery_detail_activity_title"
                     android:layout_alignParentStart="true"
                     android:layout_margin="3dp"
                     android:orientation="vertical">
@@ -210,6 +213,8 @@
                     android:clickable="true"
                     android:focusable="true"
                     android:padding="3dp"
+                    android:contentDescription="@string/title_activity_device_specific_settings"
+                    android:tooltipText="@string/title_activity_device_specific_settings"
                     android:scaleType="fitXY"
                     card_view:srcCompat="@drawable/ic_settings"
                     card_view:tint="@color/secondarytext" />
@@ -220,6 +225,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/device_image"
+                    android:contentDescription="@string/controlcenter_change_fm_frequency"
+                    android:tooltipText="@string/controlcenter_change_fm_frequency"
                     android:layout_margin="3dp"
                     android:layout_toEndOf="@id/device_specific_settings"
                     android:orientation="vertical">
@@ -254,6 +261,8 @@
                     android:layout_toEndOf="@id/device_fm_frequency_box"
                     android:background="?android:attr/selectableItemBackground"
                     android:clickable="true"
+                    android:contentDescription="@string/controlcenter_change_led_color"
+                    android:tooltipText="@string/controlcenter_change_led_color"
                     android:focusable="true"
                     android:padding="3dp"
                     android:scaleType="fitXY"
@@ -277,6 +286,7 @@
                         android:background="?android:attr/selectableItemBackground"
                         android:clickable="true"
                         android:contentDescription="@string/controlcenter_fetch_activity_data"
+                        android:tooltipText="@string/controlcenter_fetch_activity_data"
                         android:focusable="true"
                         android:padding="3dp"
                         android:scaleType="fitXY"
@@ -304,6 +314,7 @@
                     android:background="?android:attr/selectableItemBackground"
                     android:clickable="true"
                     android:contentDescription="@string/controlcenter_take_screenshot"
+                    android:tooltipText="@string/controlcenter_take_screenshot"
                     android:focusable="true"
                     android:padding="3dp"
                     android:scaleType="fitXY"
@@ -320,6 +331,7 @@
                     android:background="?android:attr/selectableItemBackground"
                     android:clickable="true"
                     android:contentDescription="@string/title_activity_appmanager"
+                    android:tooltipText="@string/title_activity_appmanager"
                     android:focusable="true"
                     android:padding="3dp"
                     android:scaleType="fitXY"
@@ -336,6 +348,7 @@
                     android:background="?android:attr/selectableItemBackground"
                     android:clickable="true"
                     android:contentDescription="@string/controlcenter_start_configure_alarms"
+                    android:tooltipText="@string/controlcenter_start_configure_alarms"
                     android:focusable="true"
                     android:padding="3dp"
                     android:scaleType="fitXY"
@@ -352,6 +365,7 @@
                     android:background="?android:attr/selectableItemBackground"
                     android:clickable="true"
                     android:contentDescription="@string/controlcenter_start_configure_reminders"
+                    android:tooltipText="@string/controlcenter_start_configure_reminders"
                     android:focusable="true"
                     android:padding="4dp"
                     android:scaleType="fitXY"
@@ -368,6 +382,7 @@
                     android:background="?android:attr/selectableItemBackground"
                     android:clickable="true"
                     android:contentDescription="@string/controlcenter_start_activitymonitor"
+                    android:tooltipText="@string/controlcenter_start_activitymonitor"
                     android:focusable="true"
                     android:padding="3dp"
                     android:scaleType="fitXY"
@@ -384,6 +399,7 @@
                     android:background="?android:attr/selectableItemBackground"
                     android:clickable="true"
                     android:contentDescription="@string/controlcenter_start_activity_tracks"
+                    android:tooltipText="@string/controlcenter_start_activity_tracks"
                     android:focusable="true"
                     android:padding="3dp"
                     android:scaleType="fitXY"
@@ -399,6 +415,7 @@
                     android:layout_toEndOf="@id/device_action_show_activity_tracks"
                     android:clickable="true"
                     android:contentDescription="@string/controlcenter_find_device"
+                    android:tooltipText="@string/controlcenter_find_device"
                     android:focusable="true"
                     android:padding="3dp"
                     android:scaleType="fitXY"
@@ -414,6 +431,7 @@
                     android:layout_toEndOf="@id/device_action_find"
                     android:clickable="true"
                     android:contentDescription="@string/controlcenter_calibrate_device"
+                    android:tooltipText="@string/controlcenter_calibrate_device"
                     android:focusable="true"
                     android:padding="3dp"
                     android:scaleType="fitXY"
@@ -424,7 +442,8 @@
                     android:id="@+id/device_heart_rate_status_box"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-
+                    android:contentDescription="@string/controlcenter_get_heartrate_measurement"
+                    android:tooltipText="@string/controlcenter_get_heartrate_measurement"
                     android:layout_alignParentStart="true"
                     android:layout_margin="3dp"
                     android:orientation="vertical">
@@ -459,6 +478,7 @@
                     android:background="?android:attr/selectableItemBackground"
                     android:clickable="true"
                     android:contentDescription="@string/controlcenter_power_off"
+                    android:tooltipText="@string/controlcenter_power_off"
                     android:focusable="true"
                     android:padding="3dp"
                     android:scaleType="fitXY"
@@ -487,6 +507,8 @@
                         android:layout_height="110dp"
                         android:layout_gravity="bottom|center"
                         android:layout_marginBottom="0dp"
+                        android:contentDescription="@string/live_activity_total_steps"
+                        android:tooltipText="@string/live_activity_total_steps"
                         android:layout_weight="1" />
 
                     <com.github.mikephil.charting.charts.PieChart
@@ -494,6 +516,8 @@
                         android:layout_width="110dp"
                         android:layout_height="110dp"
                         android:layout_gravity="bottom|center"
+                        android:contentDescription="@string/activity_list_summary_distance"
+                        android:tooltipText="@string/activity_list_summary_distance"
                         android:layout_marginBottom="0dp"
                         android:layout_weight="1" />
 
@@ -502,6 +526,8 @@
                         android:layout_width="110dp"
                         android:layout_height="110dp"
                         android:layout_gravity="bottom|center"
+                        android:contentDescription="@string/sleepchart_your_sleep"
+                        android:tooltipText="@string/sleepchart_your_sleep"
                         android:layout_marginBottom="0dp"
                         android:layout_weight="1" />
                 </LinearLayout>

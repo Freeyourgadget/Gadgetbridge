@@ -56,6 +56,8 @@
     <string name="controlcenter_snackbar_connecting">Connecting…</string>
     <string name="controlcenter_snackbar_requested_screenshot">Taking a screenshot of the device</string>
     <string name="controlcenter_calibrate_device">Calibrate Device</string>
+    <string name="controlcenter_get_heartrate_measurement">Get heart rate measurement</string>
+
     <string name="device_card_activity_card_title">Activity info on device card</string>
     <string name="device_card_activity_card_title_summary">Choose what activity details are displayed on device card</string>
     <string name="prefs_activity_in_device_card_title">Show Activity info on device card</string>
@@ -592,7 +594,7 @@
     <string name="prefs_activity_monitoring_title">Activity monitoring</string>
     <string name="prefs_activity_monitoring_description">Automatically increase the heart rate detection frequency when the band detects physical exercise, to increase heart rate capture accuracy.</string>
     <string name="dbaccess_error_executing">Error executing \'%1$s\'</string>
-    <string name="controlcenter_start_activitymonitor">Your activity (ALPHA)</string>
+    <string name="controlcenter_start_activitymonitor">Your activity</string>
     <string name="cannot_connect">Cannot connect: %1$s</string>
     <string name="installer_activity_unable_to_find_handler">Unable to find a handler to install this file.</string>
     <string name="pbw_install_handler_unable_to_install">Unable to install the given file: %1$s</string>
