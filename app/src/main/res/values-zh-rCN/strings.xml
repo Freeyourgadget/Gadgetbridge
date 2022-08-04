@@ -258,7 +258,7 @@
     <string name="user_feedback_miband_activity_data_transfer">即将从 %2$s 开始传输 %1$s 数据</string>
     <string name="miband_prefs_fitness_goal">每天步数目标</string>
     <string name="dbaccess_error_executing">执行 \'%1$s\' 时出错</string>
-    <string name="controlcenter_start_activitymonitor">您的活动 (ALPHA测试)</string>
+    <string name="controlcenter_start_activitymonitor">您的活动</string>
     <string name="cannot_connect">无法连接: %1$s</string>
     <string name="installer_activity_unable_to_find_handler">无法找到安装此文件的处理程序。</string>
     <string name="pbw_install_handler_unable_to_install">无法安装指定的文件: %1$s</string>
@@ -1809,4 +1809,5 @@
     <string name="share_log_not_enabled_message">必须首先在“设置 - 写入日志文件”中启用日志记录</string>
     <string name="watchface_setting_button_toggle_backlight">开启背光灯</string>
     <string name="watchface_setting_title_custom_events">自定义事件</string>
+    <string name="controlcenter_get_heartrate_measurement">获取心率测量值</string>
 </resources>
