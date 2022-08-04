@@ -249,7 +249,7 @@
     <string name="user_feedback_miband_activity_data_transfer">Im Begriff %1$s Daten zu übertragen, beginnend mit %2$s</string>
     <string name="miband_prefs_fitness_goal">Tägliches Schrittziel</string>
     <string name="dbaccess_error_executing">Fehler beim Ausführen von \'%1$s\'</string>
-    <string name="controlcenter_start_activitymonitor">Deine Aktivität (ALPHA)</string>
+    <string name="controlcenter_start_activitymonitor">Deine Aktivität</string>
     <string name="cannot_connect">Keine Verbindung möglich: %1$s</string>
     <string name="installer_activity_unable_to_find_handler">Es konnte kein Programm gefunden werden, das diese Datei installiert.</string>
     <string name="pbw_install_handler_unable_to_install">Angegebene Datei kann nicht installiert werden: %1$s</string>
@@ -1632,7 +1632,7 @@
     <string name="heartrate_bpm_145">145 BPM</string>
     <string name="heartrate_bpm_150">150 BPM</string>
     <string name="world_clock_label">Beschriftung</string>
-    <string name="world_clock_no_free_slots_description">Das Gerät hat keine freien Slots für Weltzeituhren (Slots insgesamt: %1$s)</string>
+    <string name="world_clock_no_free_slots_description">Das Gerät hat keine freien Speicherplätze für Weltzeituhren (Speicherplätze insgesamt: %1$s)</string>
     <string name="activity_type_elliptical">Elliptisch</string>
     <string name="pref_summary_banglejs_text_bitmap">Wenn ein Wort nicht mit der Schriftart der Uhr gerendert werden kann, in Gadgetbridge eine Bitmap rendern und die Bitmap auf der Uhr anzeigen</string>
     <string name="pref_title_device_internet_access">Internetzugang zulassen</string>
@@ -1650,7 +1650,7 @@
     <string name="heartrate_bpm_130">130 BPM</string>
     <string name="heartrate_bpm_135">135 BPM</string>
     <string name="heartrate_bpm_140">140 BPM</string>
-    <string name="title_activity_world_clock_details">Details Weltzeituhr</string>
+    <string name="title_activity_world_clock_details">Weltzeituhrdetails</string>
     <string name="prefs_heartrate_alert_experimental_title">Pulsalarm (experimentell)</string>
     <string name="prefs_heartrate_alert_experimental_description">Band vibriert, wenn der Puls über einem Schwellenwert liegt, ohne dass Sie in den letzten 10 Minuten eine offensichtliche körperliche Aktivität hatten. Diese Funktion ist experimentell und wurde nicht ausführlich getestet.</string>
     <string name="prefs_heartrate_alert_threshold">Alarmschwelle Herzfrequenz</string>
@@ -1701,7 +1701,7 @@
     <string name="world_clock_timezone">Zeitzone</string>
     <string name="pref_world_clocks_title">Weltuhren</string>
     <string name="world_clock_delete_confirm_description">Möchtest du die Weltzeituhr wirklich löschen\?</string>
-    <string name="world_clock_no_free_slots_title">Keine freien Slots</string>
+    <string name="world_clock_no_free_slots_title">Keine freien Speicherplätze</string>
     <string name="prefs_activity_monitoring_description">Erhöht automatisch die Frequenz der Pulserfassung, wenn das Band körperliche Bewegung erkennt, um die Genauigkeit der Pulserfassung zu erhöhen.</string>
     <string name="prefs_ambient_sound_during_call_title">Umgebungsgeräusche während des Anrufs</string>
     <string name="permission_notification_listener">%1$s benötigt Zugriff auf Benachrichtigungen, um sie auf Ihrer Uhr anzeigen zu können, wenn der Bildschirm des Telefons ausgeschaltet ist.
@@ -1790,4 +1790,30 @@
     <string name="hybridhr_widget_bg_dashed_circle">Gestrichelter Kreis</string>
     <string name="appmanager_app_share">Teilen</string>
     <string name="watchface_dialog_title_widget">Widget-Einstellungen</string>
+    <string name="steps_streaks">Schrittserie</string>
+    <string name="share_log_not_enabled_message">Du musst zuerst die Protokollierung in den Einstellungen - Protokolldateien schreiben aktivieren</string>
+    <string name="note">Hinweis</string>
+    <string name="step_streak_total">Insgesamt</string>
+    <string name="steps_streaks_since_date">Seit %s</string>
+    <string name="step_streak_average_steps_hint">Durchschnittliche Schritte pro Tag der Serie</string>
+    <string name="steps_streaks_total_days_hint_totals">Prozentualer Anteil der Tage mit erreichtem Ziel im Verhältnis zu allen Tagen mit Schritten</string>
+    <string name="steps_streaks_total_steps">Insgesamte
+\nSchritte</string>
+    <string name="steps_streaks_streak_days">Serie
+\nTage</string>
+    <string name="watchface_setting_title_custom_events">Benutzerdefinierte Ereignisse</string>
+    <string name="watchface_setting_button_toggle_backlight">Hintergrundbeleuchtung einschalten</string>
+    <string name="steps_streaks_hint">Serie von aufeinanderfolgenden Tagen ohne Unterbrechung, an denen das Schrittziel erreicht wird</string>
+    <string name="step_streak_ongoing">Laufend</string>
+    <string name="step_streak_longest">Längste</string>
+    <string name="steps_streaks_total_steps_average_hint">Durchschnittliche %d Schritte pro Tag</string>
+    <string name="step_streak_days_hint">Anzahl der aufeinanderfolgenden Tage, an denen das Schrittziel erreicht wurde</string>
+    <string name="steps_streaks_total_steps_hint">Gesamtzahl der Schritte in der gesamten Serie</string>
+    <string name="steps_streaks_total_steps_hint_totals">Gesamtzahl der jemals aufgezeichneten Schritte</string>
+    <string name="steps_streaks_average_steps">Durchschnittliche
+\nSchritte</string>
+    <string name="steps_streaks_achievement_rate">Leistung
+\nBewertung</string>
+    <string name="watchface_setting_button_toggle_widgets">Widgets umschalten</string>
+    <string name="controlcenter_get_heartrate_measurement">Herzfrequenzmessung</string>
 </resources>
