@@ -281,7 +281,7 @@
     <string name="user_feedback_miband_activity_data_transfer">Klaar om %1$s data over te dragen van %2$s</string>
     <string name="miband_prefs_fitness_goal">Dagelijkse stappen doel</string>
     <string name="dbaccess_error_executing">Fout bij het uitvoeren van \'%1$s\'</string>
-    <string name="controlcenter_start_activitymonitor">Uw activiteit (ALPHA)</string>
+    <string name="controlcenter_start_activitymonitor">Uw activiteit</string>
     <string name="cannot_connect">Kan niet verbinden: %1$s</string>
     <string name="installer_activity_unable_to_find_handler">Kan geen handler vinden om dit bestand te installeren.</string>
     <string name="pbw_install_handler_unable_to_install">Kan het gegeven bestand niet installeren: %1$s</string>
@@ -1783,4 +1783,30 @@
     <string name="watchface_dialog_widget_cat_2nd_tz_widget">2e tijdzone-widget</string>
     <string name="watchface_dialog_title_widget">Widget-instellingen</string>
     <string name="watchface_dialog_widget_background">Achtergrond</string>
+    <string name="share_log_not_enabled_message">U moet eerst inloggen inschakelen in Instellingen - Logbestanden schrijven</string>
+    <string name="step_streak_total">Totaal</string>
+    <string name="steps_streaks_since_date">Sinds %s</string>
+    <string name="step_streak_average_steps_hint">Gemiddeld aantal stappen per dag van de reeks</string>
+    <string name="steps_streaks_total_steps_hint_totals">Totaal aantal stappen ooit geregistreerd</string>
+    <string name="steps_streaks_total_days_hint_totals">Percentage dagen met behaald doel in verhouding tot alle dagen met stappen</string>
+    <string name="step_streak_days_hint">Aantal opeenvolgende dagen waarop het stappendoel is bereikt</string>
+    <string name="steps_streaks_total_steps_hint">Totaal aantal stappen in de hele reeks</string>
+    <string name="steps_streaks_streak_days">Reeks-
+\ndagen</string>
+    <string name="steps_streaks">Stappenreeksen</string>
+    <string name="steps_streaks_achievement_rate">Prestatie-
+\npercentage</string>
+    <string name="steps_streaks_total_steps_average_hint">Totaal gemiddeld %d stappen per dag</string>
+    <string name="note">Opmerking</string>
+    <string name="watchface_setting_title_custom_events">Aangepaste gebeurtenissen</string>
+    <string name="step_streak_ongoing">Lopend</string>
+    <string name="steps_streaks_hint">Reeks opeenvolgende dagen zonder onderbreking waarbij het stappendoel wordt bereikt</string>
+    <string name="step_streak_longest">Langste</string>
+    <string name="steps_streaks_total_steps">Totaal
+\nstappen</string>
+    <string name="steps_streaks_average_steps">Gemiddelde
+\nstappen</string>
+    <string name="watchface_setting_button_toggle_widgets">Widgets in-/uitschakelen</string>
+    <string name="watchface_setting_button_toggle_backlight">Achtergrondverlichting inschakelen</string>
+    <string name="controlcenter_get_heartrate_measurement">Hartslagmeting verkrijgen</string>
 </resources>
