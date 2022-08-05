@@ -84,6 +84,10 @@ public class GBDeviceService implements DeviceService {
         return new GBDeviceService(mContext, device);
     }
 
+    public GBDevice getDevice() {
+        return mDevice;
+    }
+
     protected Intent createIntent() {
         return new Intent(mContext, mServiceClass);
     }
