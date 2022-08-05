@@ -63,10 +63,11 @@ public class AutoConnectIntervalReceiver extends BroadcastReceiver {
             boolean scheduleAutoConnect = false;
             boolean allDevicesInitialized = true;
             for(GBDevice device : devices){
-                if(!device.isInitialized()){
+                if(!device.isInitialized()) {
                     allDevicesInitialized = false;
-                }else if(device.getState() == GBDevice.State.WAITING_FOR_RECONNECT){
-                    scheduleAutoConnect = true;
+                    if (device.getState() == GBDevice.State.WAITING_FOR_RECONNECT) {
+                        scheduleAutoConnect = true;
+                    }
                 }
             }
 
