@@ -61,6 +61,10 @@ public abstract class Logging {
             return null;
     }
 
+    public boolean isFileLoggerInitialized() {
+        return fileLogger != null;
+    }
+
     public void debugLoggingConfiguration() {
         // For debugging problems with the logback configuration
         LoggerContext lc = (LoggerContext) LoggerFactory.getILoggerFactory();
