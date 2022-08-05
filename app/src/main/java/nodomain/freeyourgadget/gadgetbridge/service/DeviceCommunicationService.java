@@ -405,6 +405,9 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
         mBlueToothConnectReceiver = new BluetoothConnectReceiver(this);
         registerReceiver(mBlueToothConnectReceiver, new IntentFilter(BluetoothDevice.ACTION_ACL_CONNECTED));
 
+        mAutoConnectInvervalReceiver= new AutoConnectIntervalReceiver(this);
+        registerReceiver(mAutoConnectInvervalReceiver, new IntentFilter("GB_RECONNECT"));
+
         if (hasPrefs()) {
             getPrefs().getPreferences().registerOnSharedPreferenceChangeListener(this);
         }
@@ -1095,10 +1098,6 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
                 mGBAutoFetchReceiver = new GBAutoFetchReceiver();
                 registerReceiver(mGBAutoFetchReceiver, new IntentFilter("android.intent.action.USER_PRESENT"));
             }
-            if (mAutoConnectInvervalReceiver == null) {
-                mAutoConnectInvervalReceiver= new AutoConnectIntervalReceiver(this);
-                registerReceiver(mAutoConnectInvervalReceiver, new IntentFilter("GB_RECONNECT"));
-            }
         } else {
             if (mPhoneCallReceiver != null) {
                 unregisterReceiver(mPhoneCallReceiver);
@@ -1149,11 +1148,6 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
                 unregisterReceiver(mGBAutoFetchReceiver);
                 mGBAutoFetchReceiver = null;
             }
-            if (mAutoConnectInvervalReceiver != null) {
-                unregisterReceiver(mAutoConnectInvervalReceiver);
-                mAutoConnectInvervalReceiver.destroy();
-                mAutoConnectInvervalReceiver = null;
-            }
         }
     }
 
@@ -1170,6 +1164,11 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
         setReceiversEnableState(false, false, null, null); // disable BroadcastReceivers
 
         unregisterReceiver(mBlueToothConnectReceiver);
+        mBlueToothConnectReceiver = null;
+
+        unregisterReceiver(mAutoConnectInvervalReceiver);
+        mAutoConnectInvervalReceiver.destroy();
+        mAutoConnectInvervalReceiver = null;
 
         for(GBDevice device : getGBDevices()){
             try {
