@@ -549,7 +549,6 @@ public abstract class AbstractDeviceSupport implements DeviceSupport {
         return inputString;
     }
 
-<<<<<<< HEAD
 
     // Empty functions following, leaving optional implementation up to child classes
 
