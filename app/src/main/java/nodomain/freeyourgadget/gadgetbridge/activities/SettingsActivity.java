@@ -184,7 +184,11 @@ public class SettingsActivity extends AbstractSettingsActivity {
 
         });
 
-
+        // If we didn't manage to initialize file logging, disable the preference
+        if (!GBApplication.getLogging().isInitialized()) {
+            pref.setEnabled(false);
+            pref.setSummary(R.string.pref_write_logfiles_not_available);
+        }
 
         pref = findPreference("language");
         pref.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {

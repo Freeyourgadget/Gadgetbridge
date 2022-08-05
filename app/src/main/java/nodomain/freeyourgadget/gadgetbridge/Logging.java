@@ -76,13 +76,17 @@ public abstract class Logging {
     protected abstract String createLogDirectory() throws IOException;
 
     protected void init() throws IOException {
+        rememberFileLogger();
         String dir = createLogDirectory();
         if (dir == null) {
             throw new IllegalArgumentException("log directory must not be null");
         }
         // used by assets/logback.xml since the location cannot be statically determined
         System.setProperty(PROP_LOGFILES_DIR, dir);
-        rememberFileLogger();
+    }
+
+    public boolean isInitialized() {
+        return System.getProperty(PROP_LOGFILES_DIR) != null;
     }
 
     private Logger getLogger() {
@@ -100,13 +104,18 @@ public abstract class Logging {
     private void stopFileLogger() {
         if (fileLogger != null && fileLogger.isStarted()) {
             fileLogger.stop();
-            removeFileLogger(fileLogger);
         }
+        // We still need to remove the logger from the root appender, otherwise slf4j will log to
+        // a GB_LOGFILES_DIR_IS_UNDEFINED directory (especially if something failed before we got
+        // the fileLogger
+        removeFileLogger();
     }
 
     private void rememberFileLogger() {
-        ch.qos.logback.classic.Logger root = (ch.qos.logback.classic.Logger) LoggerFactory.getLogger(Logger.ROOT_LOGGER_NAME);
-        fileLogger = (FileAppender<ILoggingEvent>) root.getAppender("FILE");
+        if (fileLogger == null) {
+            ch.qos.logback.classic.Logger root = (ch.qos.logback.classic.Logger) LoggerFactory.getLogger(Logger.ROOT_LOGGER_NAME);
+            fileLogger = (FileAppender<ILoggingEvent>) root.getAppender("FILE");
+        }
     }
 
     private void addFileLogger(Appender<ILoggingEvent> fileLogger) {
@@ -120,10 +129,10 @@ public abstract class Logging {
         }
     }
 
-    private void removeFileLogger(Appender<ILoggingEvent> fileLogger) {
+    private void removeFileLogger() {
         try {
             ch.qos.logback.classic.Logger root = (ch.qos.logback.classic.Logger) LoggerFactory.getLogger(Logger.ROOT_LOGGER_NAME);
-            if (root.isAttached(fileLogger)) {
+            if (fileLogger != null && root.isAttached(fileLogger)) {
                 root.detachAppender(fileLogger);
             }
         } catch (Throwable ex) {
