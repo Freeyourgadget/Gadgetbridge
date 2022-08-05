@@ -18,12 +18,10 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.devices;
 
-import android.annotation.TargetApi;
 import android.app.Activity;
 import android.bluetooth.le.ScanFilter;
 import android.content.Context;
 import android.net.Uri;
-import android.os.Build;
 
 import java.io.File;
 import java.io.IOException;
@@ -481,5 +479,5 @@ public interface DeviceCoordinator {
 
     List<HeartRateCapability.MeasurementInterval> getHeartRateMeasurementIntervals();
 
-    boolean supportsNavigation(GBDevice mGBDevice);
+    boolean supportsNavigation();
 }
