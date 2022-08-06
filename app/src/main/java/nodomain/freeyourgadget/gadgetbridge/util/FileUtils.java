@@ -264,11 +264,10 @@ public class FileUtils {
                 continue;
             }
 
-            // the first directory is also the primary external storage, i.e. the same as Environment.getExternalFilesDir()
-            // TODO: check the mount state of *all* dirs when switching to later API level
             if (!GBEnvironment.env().isLocalTest()) { // don't do this with robolectric
-                if (i == 0 && !Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState())) {
-                    GB.log("ignoring unmounted external storage dir: " + dir, GB.INFO, null);
+                final String storageState = Environment.getExternalStorageState(dir);
+                if (!Environment.MEDIA_MOUNTED.equals(storageState)) {
+                    GB.log("ignoring '" +  storageState + "' external storage dir: " + dir, GB.INFO, null);
                     continue;
                 }
             }
