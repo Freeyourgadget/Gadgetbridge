@@ -457,6 +457,8 @@ public class FossilWatchAdapter extends WatchAdapter {
                 return true;
             case "HL.0.0":
                 return false;
+            case "IV.0.0":
+                return true;
             case "DN.1.0":
                 return true;
         }
@@ -470,6 +472,8 @@ public class FossilWatchAdapter extends WatchAdapter {
             case "HW.0.0":
                 return true;
             case "HL.0.0":
+                return false;
+            case "IV.0.0":
                 return false;
             case "DN.1.0":
                 return false;

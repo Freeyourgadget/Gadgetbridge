@@ -25,6 +25,7 @@ public final class WatchAdapterFactory {
     public final WatchAdapter createWatchAdapter(String firmwareVersion, QHybridSupport deviceSupport){
         char hardwareVersion = firmwareVersion.charAt(2);
         if(hardwareVersion == '1') return new FossilHRWatchAdapter(deviceSupport);
+        if(firmwareVersion.startsWith("IV0")) return new FossilHRWatchAdapter(deviceSupport);
 
         char major = firmwareVersion.charAt(6);
         switch (major){

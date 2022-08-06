@@ -253,7 +253,7 @@ public class QHybridCoordinator extends AbstractBLEDeviceCoordinator {
 
     @Override
     public int[] getSupportedDeviceSpecificSettings(GBDevice device) {
-        if (isHybridHR() && getFirmwareVersion() != null && getFirmwareVersion().compareTo(new Version("1.0.2.20")) < 0) {
+        if (isHybridHR() && getFirmwareVersion() != null && getFirmwareVersion().compareTo(new Version("2.20")) < 0) {
             return new int[]{
                     R.xml.devicesettings_fossilhybridhr_pre_fw20,
                     R.xml.devicesettings_fossilhybridhr,
@@ -299,11 +299,12 @@ public class QHybridCoordinator extends AbstractBLEDeviceCoordinator {
 
     private Version getFirmwareVersion() {
         List<GBDevice> devices = GBApplication.app().getDeviceManager().getSelectedDevices();
-        for(GBDevice device : devices){
-            if(isFossilHybrid(device)){
+        for (GBDevice device : devices) {
+            if (isFossilHybrid(device)) {
                 String firmware = device.getFirmwareVersion();
                 if (firmware != null) {
-                    Matcher matcher = Pattern.compile("[0-9]+\\.[0-9]+\\.[0-9]+\\.[0-9]+").matcher(firmware); // DN1.0.2.19r.v5
+                    firmware = firmware.replaceFirst("DN1\\.0\\.", "").replaceFirst("IV0\\.0\\.", "");
+                    Matcher matcher = Pattern.compile("[0-9]+\\.[0-9]+").matcher(firmware); // DN1.0.2.19r.v5
                     if (matcher.find()) {
                         firmware = matcher.group(0);
                         return new Version(firmware);

@@ -60,7 +60,7 @@ public class AppsManagementActivity extends AbstractGBActivity {
                 if (
                         device.getType() == DeviceType.FOSSILQHYBRID &&
                                 device.isConnected() &&
-                                device.getModel().startsWith("DN") &&
+                                (device.getModel().startsWith("DN") || device.getModel().startsWith("IV")) &&
                                 device.getState() == GBDevice.State.INITIALIZED
                 ) {
                     String installedAppsJson = device.getDeviceInfo("INSTALLED_APPS").getDetails();

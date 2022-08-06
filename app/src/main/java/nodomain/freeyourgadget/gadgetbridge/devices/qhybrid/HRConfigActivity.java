@@ -171,12 +171,13 @@ public class HRConfigActivity extends AbstractGBActivity {
 
         // Disable some functions on watches with too new firmware (from official app 4.6.0 and higher)
         List<GBDevice> devices = GBApplication.app().getDeviceManager().getSelectedDevices();
-        for(GBDevice device : devices){
-            if(device.getType() == DeviceType.FOSSILQHYBRID){
+        for (GBDevice device : devices) {
+            if (device.getType() == DeviceType.FOSSILQHYBRID) {
                 String fwVersion_str = device.getFirmwareVersion();
-                fwVersion_str = fwVersion_str.replaceFirst("^DN", "").replaceFirst("r\\.v.*", "");
+                fwVersion_str = fwVersion_str.replaceFirst("^DN1\\.0\\.", "").replaceFirst
+                        ("^IV0\\.0\\.", "").replaceFirst("r\\.v.*", "");
                 Version fwVersion = new Version(fwVersion_str);
-                if (fwVersion.compareTo(new Version("1.0.2.20")) >= 0) {
+                if (fwVersion.compareTo(new Version("2.20")) >= 0) {
                     findViewById(R.id.qhybrid_widget_add).setEnabled(false);
                     for (int i = 0; i < widgetButtonsMapping.size(); i++) {
                         final int widgetButtonId = widgetButtonsMapping.keyAt(i);
