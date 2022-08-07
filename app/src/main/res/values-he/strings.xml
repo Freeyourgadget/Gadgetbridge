@@ -230,7 +230,7 @@
     <string name="user_feedback_miband_activity_data_transfer">בהכנות להעברת %1$s של נתונים החל מ־%2$s</string>
     <string name="miband_prefs_fitness_goal">יעד צעדים יומי</string>
     <string name="dbaccess_error_executing">שגיאה בהפעלת ‚%1$s‘</string>
-    <string name="controlcenter_start_activitymonitor">הפעילות שלך (ניסיוני)</string>
+    <string name="controlcenter_start_activitymonitor">הפעילות שלך</string>
     <string name="cannot_connect">לא ניתן להתחבר: %1$s</string>
     <string name="installer_activity_unable_to_find_handler">לא ניתן למצוא מנגנון להתקנת הקובץ הזה.</string>
     <string name="pbw_install_handler_unable_to_install">לא ניתן להתקין את הקובץ הנתון: %1$s</string>
@@ -1807,4 +1807,6 @@
     <string name="watchface_setting_button_toggle_widgets">ניהול וידג׳טים</string>
     <string name="watchface_setting_title_custom_events">אירועים בהתאמה אישית</string>
     <string name="watchface_setting_button_toggle_backlight">הפעלת תאורה אחורית</string>
+    <string name="controlcenter_get_heartrate_measurement">משיכת מדידת דופק</string>
+    <string name="pref_write_logfiles_not_available">התחלת תיעוד לקבצים נכשלה, כתיבת קובצי יומן אינה זמינה כעת. יש להפעיל את היישומון מחדש כדי לנסות להתחיל את קובצי היומן מחדש.</string>
 </resources>
