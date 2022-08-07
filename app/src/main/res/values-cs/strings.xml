@@ -1806,4 +1806,5 @@
     <string name="watchface_dialog_title_widget">Nastavení widgetu</string>
     <string name="share_log_not_enabled_message">Musíte nejprve povolit zapisování logů v Nastavení - Zapisovat logy</string>
     <string name="note">Poznámka</string>
+    <string name="controlcenter_get_heartrate_measurement">Získat měření tepu</string>
 </resources>
