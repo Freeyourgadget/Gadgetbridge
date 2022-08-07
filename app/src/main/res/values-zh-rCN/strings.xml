@@ -1810,4 +1810,5 @@
     <string name="watchface_setting_button_toggle_backlight">开启背光灯</string>
     <string name="watchface_setting_title_custom_events">自定义事件</string>
     <string name="controlcenter_get_heartrate_measurement">获取心率测量值</string>
+    <string name="pref_write_logfiles_not_available">文件日志初始化失败，写日志文件目前不可用。请尝试重新启动应用程序，然诺再次初始化日志文件。</string>
 </resources>
