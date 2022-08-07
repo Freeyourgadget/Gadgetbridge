@@ -11,8 +11,8 @@ import nodomain.freeyourgadget.gadgetbridge.Logging;
 import nodomain.freeyourgadget.gadgetbridge.util.FileUtils;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
@@ -59,8 +59,7 @@ public class LoggingTest extends TestBase {
             assertTrue(logging.getFileLogger().isStarted());
 
             logging.setupLogging(false);
-            assertNotNull(logging.getFileLogger());
-            assertFalse(logging.getFileLogger().isStarted());
+            assertNull(logging.getFileLogger());
 
             logging.setupLogging(true);
             assertNotNull(logging.getFileLogger());

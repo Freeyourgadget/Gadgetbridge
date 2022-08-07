@@ -24,22 +24,29 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 
 import ch.qos.logback.classic.LoggerContext;
+import ch.qos.logback.classic.encoder.PatternLayoutEncoder;
 import ch.qos.logback.classic.spi.ILoggingEvent;
 import ch.qos.logback.core.Appender;
 import ch.qos.logback.core.FileAppender;
 import ch.qos.logback.core.encoder.Encoder;
 import ch.qos.logback.core.encoder.LayoutWrappingEncoder;
+import ch.qos.logback.core.rolling.RollingFileAppender;
+import ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy;
+import ch.qos.logback.core.rolling.TimeBasedRollingPolicy;
+import ch.qos.logback.core.util.FileSize;
 import ch.qos.logback.core.util.StatusPrinter;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
 public abstract class Logging {
+    // Only used for tests
     public static final String PROP_LOGFILES_DIR = "GB_LOGFILES_DIR";
 
+    private String logDirectory;
     private FileAppender<ILoggingEvent> fileLogger;
 
     public void setupLogging(boolean enable) {
         try {
-            if (fileLogger == null) {
+            if (!isFileLoggerInitialized()) {
                 init();
             }
             if (enable) {
@@ -47,8 +54,8 @@ public abstract class Logging {
             } else {
                 stopFileLogger();
             }
-            getLogger().info("Gadgetbridge version: " + BuildConfig.VERSION_NAME);
-        } catch (IOException ex) {
+            getLogger().info("Gadgetbridge version: {}", BuildConfig.VERSION_NAME);
+        } catch (Exception ex) {
             Log.e("GBApplication", "External files dir not available, cannot log to file", ex);
             stopFileLogger();
         }
@@ -62,7 +69,7 @@ public abstract class Logging {
     }
 
     public boolean isFileLoggerInitialized() {
-        return fileLogger != null;
+        return logDirectory != null;
     }
 
     public void debugLoggingConfiguration() {
@@ -76,17 +83,11 @@ public abstract class Logging {
     protected abstract String createLogDirectory() throws IOException;
 
     protected void init() throws IOException {
-        rememberFileLogger();
-        String dir = createLogDirectory();
-        if (dir == null) {
+        Log.i("GBApplication", "Initializing logging");
+        logDirectory = createLogDirectory();
+        if (logDirectory == null) {
             throw new IllegalArgumentException("log directory must not be null");
         }
-        // used by assets/logback.xml since the location cannot be statically determined
-        System.setProperty(PROP_LOGFILES_DIR, dir);
-    }
-
-    public boolean isInitialized() {
-        return System.getProperty(PROP_LOGFILES_DIR) != null;
     }
 
     private Logger getLogger() {
@@ -94,73 +95,60 @@ public abstract class Logging {
     }
 
     private void startFileLogger() {
-        if (fileLogger != null && !fileLogger.isStarted()) {
-            addFileLogger(fileLogger);
-            fileLogger.setLazy(false); // hack to make sure that start() actually opens the file
-            fileLogger.start();
+        if (fileLogger != null) {
+            Log.w("GBApplication", "Logger already started");
+            return;
         }
+
+        if (logDirectory == null) {
+            Log.e("GBApplication", "Can't start file logging without a log directory");
+            return;
+        }
+
+        final FileAppender fileAppender = createFileAppender(logDirectory);
+        fileAppender.start();
+        attachLogger(fileAppender);
+        fileLogger = fileAppender;
     }
 
     private void stopFileLogger() {
-        if (fileLogger != null && fileLogger.isStarted()) {
+        if (fileLogger == null) {
+            return;
+        }
+
+        if (fileLogger.isStarted()) {
             fileLogger.stop();
         }
-        // We still need to remove the logger from the root appender, otherwise slf4j will log to
-        // a GB_LOGFILES_DIR_IS_UNDEFINED directory (especially if something failed before we got
-        // the fileLogger
-        removeFileLogger();
+
+        detachLogger(fileLogger);
+
+        fileLogger = null;
     }
 
-    private void rememberFileLogger() {
-        if (fileLogger == null) {
+    private void attachLogger(Appender<ILoggingEvent> logger) {
+        try {
             ch.qos.logback.classic.Logger root = (ch.qos.logback.classic.Logger) LoggerFactory.getLogger(Logger.ROOT_LOGGER_NAME);
-            fileLogger = (FileAppender<ILoggingEvent>) root.getAppender("FILE");
+            if (!root.isAttached(logger)) {
+                root.addAppender(logger);
+            }
+        } catch (Throwable ex) {
+            Log.e("GBApplication", "Error attaching logger appender", ex);
         }
     }
 
-    private void addFileLogger(Appender<ILoggingEvent> fileLogger) {
+    private void detachLogger(Appender<ILoggingEvent> logger) {
         try {
             ch.qos.logback.classic.Logger root = (ch.qos.logback.classic.Logger) LoggerFactory.getLogger(Logger.ROOT_LOGGER_NAME);
-            if (!root.isAttached(fileLogger)) {
-                root.addAppender(fileLogger);
+            if (logger != null && root.isAttached(logger)) {
+                root.detachAppender(logger);
             }
         } catch (Throwable ex) {
-            Log.e("GBApplication", "Error adding logger FILE appender", ex);
-        }
-    }
-
-    private void removeFileLogger() {
-        try {
-            ch.qos.logback.classic.Logger root = (ch.qos.logback.classic.Logger) LoggerFactory.getLogger(Logger.ROOT_LOGGER_NAME);
-            if (fileLogger != null && root.isAttached(fileLogger)) {
-                root.detachAppender(fileLogger);
-            }
-        } catch (Throwable ex) {
-            Log.e("GBApplication", "Error removing logger FILE appender", ex);
+            Log.e("GBApplication", "Error detaching logger appender", ex);
         }
     }
 
     public FileAppender<ILoggingEvent> getFileLogger() {
         return fileLogger;
-    }
-
-    public boolean setImmediateFlush(boolean enable) {
-        FileAppender<ILoggingEvent> fileLogger = getFileLogger();
-        Encoder<ILoggingEvent> encoder = fileLogger.getEncoder();
-        if (encoder instanceof LayoutWrappingEncoder) {
-            ((LayoutWrappingEncoder) encoder).setImmediateFlush(enable);
-            return true;
-        }
-        return false;
-    }
-
-    public boolean isImmediateFlush() {
-        FileAppender<ILoggingEvent> fileLogger = getFileLogger();
-        Encoder<ILoggingEvent> encoder = fileLogger.getEncoder();
-        if (encoder instanceof LayoutWrappingEncoder) {
-            return ((LayoutWrappingEncoder) encoder).isImmediateFlush();
-        }
-        return false;
     }
 
     public static String formatBytes(byte[] bytes) {
@@ -179,5 +167,37 @@ public abstract class Logging {
         if (value != null) {
             logger.warn("DATA: " + GB.hexdump(value, 0, value.length));
         }
+    }
+
+    public static FileAppender createFileAppender(final String logDirectory) {
+        final LoggerContext lc = (LoggerContext) LoggerFactory.getILoggerFactory();
+
+        final PatternLayoutEncoder ple = new PatternLayoutEncoder();
+        //ple.setPattern("%date %level [%thread] %logger{10} [%file:%line] %msg%n");
+        ple.setPattern("%d{HH:mm:ss.SSS} [%thread] %-5level %logger{1} - %msg%n");
+        ple.setContext(lc);
+        ple.start();
+
+        final SizeAndTimeBasedRollingPolicy rollingPolicy = new SizeAndTimeBasedRollingPolicy();
+        final RollingFileAppender<ILoggingEvent> fileAppender = new RollingFileAppender<ILoggingEvent>();
+
+        rollingPolicy.setContext(lc);
+        rollingPolicy.setFileNamePattern(logDirectory + "/gadgetbridge-%d{yyyy-MM-dd}.%i.log.zip");
+        rollingPolicy.setParent(fileAppender);
+        rollingPolicy.setMaxFileSize(FileSize.valueOf("2MB"));
+        rollingPolicy.setMaxHistory(10);
+        rollingPolicy.setTotalSizeCap(FileSize.valueOf("100MB"));
+        rollingPolicy.start();
+
+        fileAppender.setContext(lc);
+        fileAppender.setName("FILE");
+        fileAppender.setLazy(true);
+        fileAppender.setFile(logDirectory + "/gadgetbridge.log");
+        fileAppender.setEncoder(ple);
+        // to debug crashes, set immediateFlush to true, otherwise keep it false to improve throughput
+        fileAppender.setImmediateFlush(false);
+        fileAppender.setRollingPolicy(rollingPolicy);
+
+        return fileAppender;
     }
 }

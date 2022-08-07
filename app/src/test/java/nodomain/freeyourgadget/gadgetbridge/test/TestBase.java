@@ -24,6 +24,7 @@ import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
 import nodomain.freeyourgadget.gadgetbridge.util.FileUtils;
 
 import static org.junit.Assert.assertNotNull;
+import static nodomain.freeyourgadget.gadgetbridge.Logging.PROP_LOGFILES_DIR;
 
 /**
  * Base class for all testcases in Gadgetbridge that are supposed to run locally
@@ -51,12 +52,12 @@ public abstract class TestBase {
         System.setProperty("robolectric.logging", "stdout");
 
         // properties might be preconfigured in build.gradle because of test ordering problems
-        String logDir = System.getProperty(Logging.PROP_LOGFILES_DIR);
+        String logDir = System.getProperty(PROP_LOGFILES_DIR);
         if (logDir != null) {
             logFilesDir = new File(logDir);
         } else {
             logFilesDir = FileUtils.createTempDir("logfiles");
-            System.setProperty(Logging.PROP_LOGFILES_DIR, logFilesDir.getAbsolutePath());
+            System.setProperty(PROP_LOGFILES_DIR, logFilesDir.getAbsolutePath());
         }
 
         if (System.getProperty(ContextInitializer.CONFIG_FILE_PROPERTY) == null) {

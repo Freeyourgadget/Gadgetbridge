@@ -185,7 +185,7 @@ public class SettingsActivity extends AbstractSettingsActivity {
         });
 
         // If we didn't manage to initialize file logging, disable the preference
-        if (!GBApplication.getLogging().isInitialized()) {
+        if (!GBApplication.getLogging().isFileLoggerInitialized()) {
             pref.setEnabled(false);
             pref.setSummary(R.string.pref_write_logfiles_not_available);
         }

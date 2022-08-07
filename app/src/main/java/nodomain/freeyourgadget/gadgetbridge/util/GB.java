@@ -462,18 +462,6 @@ public class GB {
     }
 
     public static void log(String message, int severity, Throwable ex) {
-
-        // Handle if slf4j is not setup yet as this causes this issue:
-        // https://codeberg.org/Freeyourgadget/Gadgetbridge/issues/2394
-        // and similar, as reported by users via matrix chat, because
-        // under some conditions the FileUtils.getWritableExternalFilesDirs
-        // can break the slf4j rule again, but this method is used while bootstrapping
-        // slf4j, so catch22... and it is useful to have proper logging when slf4f is ready.
-        if (!GBApplication.getLogging().isFileLoggerInitialized()) {
-            Log.i(TAG, message);
-            return;
-        }
-
         switch (severity) {
             case INFO:
                 LOG.info(message, ex);
