@@ -882,6 +882,7 @@ public class NotificationListener extends NotificationListenerService {
         if (source.equals("de.dennisguse.opentracks")
                 || source.equals("de.dennisguse.opentracks.debug")
                 || source.equals("de.dennisguse.opentracks.nightly")
+                || source.equals("de.dennisguse.opentracks.playstore")
                 || source.equals("de.tadris.fitness")
                 || source.equals("de.tadris.fitness.debug")
         ) {
