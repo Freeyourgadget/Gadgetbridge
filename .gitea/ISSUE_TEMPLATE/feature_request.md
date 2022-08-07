@@ -4,7 +4,7 @@ about: Suggest a feature or an idea
 ---
 You can use the `Preview` tab ^ above to see final rendering of your report. Use `x` in brackets ([x]) to "check" a checkbox.
 
-If you just have a question or want to discuss some things, please do so in the user chatroom in Matrix: `#gadgetbridge:matrix.org` ([web access via Element.io](https://app.element.io/#/room/#gadgetbridge:matrix.org)).
+If you just have a question, please ask first in the user chatroom in Matrix: [`#gadgetbridge:matrix.org`](https://matrix.to/#/#gadgetbridge:matrix.org)
 
 #### Before requesting a new feature, please confirm the following:
 - [ ] I have read the [wiki](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki), and I didn't find a solution to my problem / an answer to my question.
