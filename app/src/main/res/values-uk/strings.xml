@@ -1816,4 +1816,5 @@
     <string name="watchface_setting_title_custom_events">Користувацькі події</string>
     <string name="watchface_setting_button_toggle_backlight">Увімкнути підсвітку</string>
     <string name="controlcenter_get_heartrate_measurement">Виміряти пульс</string>
+    <string name="pref_write_logfiles_not_available">Помилка ініціалізації журналу файлів, запис файлів журналу наразі недоступний. Перезапустіть застосунок, щоб знову спробувати ініціалізувати файли журналу.</string>
 </resources>
