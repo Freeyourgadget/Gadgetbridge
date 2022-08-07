@@ -1816,4 +1816,5 @@
 \nBewertung</string>
     <string name="watchface_setting_button_toggle_widgets">Widgets umschalten</string>
     <string name="controlcenter_get_heartrate_measurement">Herzfrequenzmessung</string>
+    <string name="pref_write_logfiles_not_available">Die Initialisierung der Dateiprotokollierung ist fehlgeschlagen, das Schreiben von Protokolldateien ist derzeit nicht möglich. Starte die App neu, um zu versuchen, die Protokolldateien erneut zu initialisieren.</string>
 </resources>
