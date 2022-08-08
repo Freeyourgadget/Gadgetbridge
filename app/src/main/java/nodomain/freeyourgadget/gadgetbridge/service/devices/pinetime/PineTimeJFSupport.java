@@ -33,6 +33,7 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Locale;
+import java.util.TimeZone;
 import java.util.UUID;
 
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
@@ -96,6 +97,9 @@ public class PineTimeJFSupport extends AbstractBTLEDeviceSupport implements DfuL
     private int firmwareVersionMajor = 0;
     private int firmwareVersionMinor = 0;
     private int firmwareVersionPatch = 0;
+
+    private final int DAY_SECONDS = (24 * 60 * 60);
+    private int quarantinedSteps = 0;
 
     /**
      * These are used to keep track when long strings haven't changed,
@@ -717,10 +721,26 @@ public class PineTimeJFSupport extends AbstractBTLEDeviceSupport implements DfuL
         PineTimeActivitySample sample = new PineTimeActivitySample();
 
         int dayStepCount = this.getStepsOnDay(timeStamp);
+        int prevoiusDayStepCount = this.getStepsOnDay(timeStamp - DAY_SECONDS);
         int diff = steps - dayStepCount;
+        logDebug(String.format("onReceiveStepsSample: \ndayStepCount=%d, \nsteps=%d, \ndiff=%d, \nprevoiusDayStepCount=%d, ", dayStepCount, steps, diff, prevoiusDayStepCount));
+
+        if (dayStepCount == 0) {
+            if (quarantinedSteps == 0 && steps > 0) {
+                logDebug("ignoring " + diff + " steps: ignore the first sync of the day as it could be outstanding values from the previous day");
+                quarantinedSteps = steps;
+                return;
+            } else if (quarantinedSteps > 0 && steps == 0) {
+                logDebug("dropp " + quarantinedSteps + " outstanding steps: those looks like outstanding values from the previous day");
+                quarantinedSteps = 0;
+            } else {
+                logDebug("reset " + quarantinedSteps + " quarantined steps...");
+                quarantinedSteps = 0;
+            }
+        }
 
         if (diff > 0) {
-            LOG.debug("adding " + diff + " steps");
+            logDebug("adding " + diff + " steps");
 
             sample.setSteps(diff);
             sample.setTimestamp(timeStamp);
@@ -734,8 +754,9 @@ public class PineTimeJFSupport extends AbstractBTLEDeviceSupport implements DfuL
                     .putExtra(DeviceService.EXTRA_REALTIME_SAMPLE, sample)
                     .putExtra(DeviceService.EXTRA_TIMESTAMP, sample.getTimestamp());
             LocalBroadcastManager.getInstance(getContext()).sendBroadcast(intent);
+        } else {
+            logDebug("ignoring " + diff + " steps");
         }
-
     }
 
     /**
@@ -744,8 +765,8 @@ public class PineTimeJFSupport extends AbstractBTLEDeviceSupport implements DfuL
     private int getStepsOnDay(int timeStamp) {
         try (DBHandler dbHandler = GBApplication.acquireDB()) {
 
-            Calendar dayStart = new GregorianCalendar();
-            Calendar dayEnd = new GregorianCalendar();
+            Calendar dayStart = Calendar.getInstance();
+            Calendar dayEnd = Calendar.getInstance();
 
             this.getDayStartEnd(timeStamp, dayStart, dayEnd);
 
@@ -771,16 +792,21 @@ public class PineTimeJFSupport extends AbstractBTLEDeviceSupport implements DfuL
     }
 
     /**
-     * @param timeStamp in seconds
+     * @param timeStampUtc in seconds
      */
-    private void getDayStartEnd(int timeStamp, Calendar start, Calendar end) {
-        final int DAY = (24 * 60 * 60);
+    private void getDayStartEnd(int timeStampUtc, Calendar start, Calendar end) {
+        int timeOffsetToUtc = Calendar.getInstance().getTimeZone().getOffset(Calendar.getInstance(TimeZone.getTimeZone("UTC")).getTimeInMillis()) / 1000;
+        int timeStampLocal = timeStampUtc + timeOffsetToUtc;
+        int timeStampStartUtc = ((timeStampLocal / DAY_SECONDS) * DAY_SECONDS);
+        int timeStampEndUtc = (timeStampStartUtc + DAY_SECONDS - 1);
 
-        int timeStampStart = ((timeStamp / DAY) * DAY);
-        int timeStampEnd = (timeStampStart + DAY);
+        start.setTimeInMillis((timeStampStartUtc - timeOffsetToUtc) * 1000L);
+        end.setTimeInMillis((timeStampEndUtc - timeOffsetToUtc) * 1000L);
 
-        start.setTimeInMillis(timeStampStart * 1000L);
-        end.setTimeInMillis(timeStampEnd * 1000L);
+        Calendar calTimeStamp = new GregorianCalendar();
+        calTimeStamp.setTimeInMillis(timeStampUtc * 1000L);
+
+        logDebug(String.format("getDayStartEnd: \ntimeStamp=%d (%s), \ntimeStampStartUtc=%d (-offset=%s), \ntimeStampEndUtc=%d (-offset=%s)", timeStampUtc, calTimeStamp.getTime(), timeStampStartUtc, start.getTime(), timeStampEndUtc, end.getTime()));
     }
 
 
@@ -802,6 +828,8 @@ public class PineTimeJFSupport extends AbstractBTLEDeviceSupport implements DfuL
                 provider.addGBActivitySample(sample);
             }
 
+            GB.signalActivityDataFinish();
+
         } catch (Exception ex) {
             GB.toast(getContext(), "Error saving samples: " + ex.getLocalizedMessage(), Toast.LENGTH_LONG, GB.ERROR);
             GB.updateTransferNotification(null, "Data transfer failed", false, 0, getContext());
@@ -814,4 +842,12 @@ public class PineTimeJFSupport extends AbstractBTLEDeviceSupport implements DfuL
         this.addGBActivitySamples(new PineTimeActivitySample[]{sample});
     }
 
+    private void logDebug(String logMessage) {
+        logDebug(logMessage, logMessage);
+    }
+
+    private void logDebug(String logMessage, String toastMessage) {
+        LOG.debug(logMessage);
+        //GB.toast(getContext(), toastMessage, Toast.LENGTH_LONG, GB.WARN);
+    }
 }
