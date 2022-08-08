@@ -541,4 +541,6 @@
     <string name="blacklist_all_for_notifications">Értesítések letiltása ezekből</string>
     <string name="check_all_applications">Az összes alkalmazás kijelölése</string>
     <string name="uncheck_all_applications">Az összes alkalmazás kijelölésének törlése</string>
+    <string name="about_activity_title_generic">Gadgetbridge névjegye</string>
+    <string name="appmanager_app_share">Megosztás</string>
 </resources>
