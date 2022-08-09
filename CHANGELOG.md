@@ -1,6 +1,7 @@
 ### Changelog
 
 ### 0.69.0 (next)
+* Initial support for devices using Binary Sensor Service
 * Mi Band 4: Add activity monitoring option 
 * Mi Band 6: Enable password support
 * Mi Band 4/6: Enable sending GPS coordinates to band during workout
@@ -11,8 +12,8 @@
 * Fossil Hybrid HR: Add optional circle backgrounds to widgets
 * Fossil Hybrid HR: Add toggling of widgets with physical button event
 * Add steps/sleep streaks screen
+* Refactor file logging initialization logic
 * Add alert to Log Sharing if logging has not been enabled yet
-* Correctly disable file logging if initialization fails
 * Fix regression since 0.68.0 with active auto connect
 
 ### 0.68.0
