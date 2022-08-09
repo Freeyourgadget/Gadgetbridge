@@ -1,5 +1,19 @@
 ### Changelog
 
+### 0.69.0 (next)
+* Mi Band 6: Enable password support
+* Mi Band 4/6: Enable sending GPS coordinates to band during workout
+* Mi Band 4/6: Enable start fitness tracking on phone when workout starts on band setting
+* Amazfit Neo: Fix daily steps goal and notification
+* Bangle.js: make text as bitmaps have transparent background, and allow font size to be specified
+* Fossil Hybrid HR: Add support for Hybrid HR 38mm watches
+* Fossil Hybrid HR: Add optional circle backgrounds to widgets
+* Fossil Hybrid HR: Add toggling of widgets with physical button event
+* Add steps/sleep streaks screen
+* Add alert to Log Sharing if logging has not been enabled yet
+* Correctly disable file logging if initialization fails
+* Fix regression since 0.68.0 with active auto connect
+
 ### 0.68.0
 * Multi device support (experimental), allows connecting to multiple devices simultaneously
 * Fossil Hybrid HR: Allow installation of newer watch apps
