@@ -1,6 +1,7 @@
 ### Changelog
 
 ### 0.69.0 (next)
+* Mi Band 4: Add activity monitoring option 
 * Mi Band 6: Enable password support
 * Mi Band 4/6: Enable sending GPS coordinates to band during workout
 * Mi Band 4/6: Enable start fitness tracking on phone when workout starts on band setting
