@@ -1753,6 +1753,8 @@
     <string name="step_streak_days_hint">Number of consecutive days with steps goal being reached</string>
     <string name="steps_streaks_total_steps_hint">Total number of steps in the whole streak</string>
     <string name="steps_streaks_total_steps_average_hint">Total average %d steps per day</string>
+    <string name="prefs_hourly_chime">Hourly chime</string>
+    <string name="prefs_hourly_chime_summary">The watch will beep once an hour</string>
 
     <string name="devicetype_binary_sensor">Binary sensor</string>
 </resources>

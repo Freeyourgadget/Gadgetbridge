@@ -552,6 +552,9 @@ public class DeviceSpecificSettingsFragment extends PreferenceFragmentCompat imp
 
         addPreferenceHandlerFor(PREF_UM25_SHOW_THRESHOLD_NOTIFICATION);
         addPreferenceHandlerFor(PREF_UM25_SHOW_THRESHOLD);
+        addPreferenceHandlerFor(PREF_HOURLY_CHIME_ENABLE);
+        addPreferenceHandlerFor(PREF_HOURLY_CHIME_START);
+        addPreferenceHandlerFor(PREF_HOURLY_CHIME_END);
 
         String sleepTimeState = prefs.getString(PREF_SLEEP_TIME, PREF_DO_NOT_DISTURB_OFF);
         boolean sleepTimeScheduled = sleepTimeState.equals(PREF_DO_NOT_DISTURB_SCHEDULED);

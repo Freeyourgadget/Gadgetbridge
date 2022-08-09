@@ -179,6 +179,9 @@ import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.Dev
 import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_HEARTRATE_ALERT_ENABLED;
 import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_HEARTRATE_ALERT_THRESHOLD;
 import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_HEARTRATE_STRESS_MONITORING;
+import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_HOURLY_CHIME_ENABLE;
+import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_HOURLY_CHIME_END;
+import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_HOURLY_CHIME_START;
 import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_INACTIVITY_ENABLE;
 import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_INACTIVITY_START;
 import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_INACTIVITY_END;
@@ -2704,6 +2707,11 @@ public abstract class HuamiSupport extends AbstractBTLEDeviceSupport {
                 case PREF_INACTIVITY_DND_END:
                     setInactivityWarnings(builder);
                     break;
+                case PREF_HOURLY_CHIME_ENABLE:
+                case PREF_HOURLY_CHIME_START:
+                case PREF_HOURLY_CHIME_END:
+                    setHourlyChime(builder);
+                    break;
                 case SettingsActivity.PREF_MEASUREMENT_SYSTEM:
                     setDistanceUnit(builder);
                     break;
@@ -3547,6 +3555,39 @@ public abstract class HuamiSupport extends AbstractBTLEDeviceSupport {
         return this;
     }
 
+    protected HuamiSupport setHourlyChime(TransactionBuilder builder) {
+        if (!supportsHourlyChime())
+            return this;
+
+        boolean enable = HuamiCoordinator.getHourlyChime(gbDevice.getAddress());
+        LOG.info("Setting hourly chime to " + enable);
+
+        if (enable) {
+            byte[] data = HuamiService.COMMAND_ENABLE_HOURLY_CHIME.clone();
+
+            Calendar calendar = GregorianCalendar.getInstance();
+
+            Date intervalStart = HuamiCoordinator.getHourlyChimeStart(gbDevice.getAddress());
+            Date intervalEnd = HuamiCoordinator.getHourlyChimeEnd(gbDevice.getAddress());
+
+            calendar.setTime(intervalStart);
+            data[HuamiService.INACTIVITY_WARNINGS_INTERVAL_1_START_HOURS] = (byte) calendar.get(Calendar.HOUR_OF_DAY);
+            data[HuamiService.INACTIVITY_WARNINGS_INTERVAL_1_START_MINUTES] = (byte) calendar.get(Calendar.MINUTE);
+
+            calendar.setTime(intervalEnd);
+            data[HuamiService.INACTIVITY_WARNINGS_INTERVAL_1_END_HOURS] = (byte) calendar.get(Calendar.HOUR_OF_DAY);
+            data[HuamiService.INACTIVITY_WARNINGS_INTERVAL_1_END_MINUTES] = (byte) calendar.get(Calendar.MINUTE);
+
+            writeToConfiguration(builder,  data);
+        } else {
+            writeToConfiguration(builder,  HuamiService.COMMAND_DISABLE_HOURLY_CHIME);
+        }
+
+        return this;
+    }
+
+    public boolean supportsHourlyChime() { return false; }
+
     private HuamiSupport setDisconnectNotification(TransactionBuilder builder) {
         DisconnectNotificationSetting disconnectNotificationSetting = HuamiCoordinator.getDisconnectNotificationSetting(getContext(), gbDevice.getAddress());
         LOG.info("Setting disconnect notification to " + disconnectNotificationSetting);
@@ -3920,6 +3961,7 @@ public abstract class HuamiSupport extends AbstractBTLEDeviceSupport {
         setDisplayCaller(builder);
         setGoalNotification(builder);
         setInactivityWarnings(builder);
+        setHourlyChime(builder);
         setHeartrateSleepSupport(builder);
         setHeartrateActivityMonitoring(builder);
         setHeartrateAlert(builder);

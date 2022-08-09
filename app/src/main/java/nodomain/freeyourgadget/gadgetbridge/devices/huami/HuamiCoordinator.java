@@ -423,4 +423,17 @@ public abstract class HuamiCoordinator extends AbstractBLEDeviceCoordinator {
     public DeviceSpecificSettingsCustomizer getDeviceSpecificSettingsCustomizer(final GBDevice device) {
         return new HuamiSettingsCustomizer(device);
     }
+
+    public static boolean getHourlyChime(String deviceAddress) {
+        SharedPreferences prefs = GBApplication.getDeviceSpecificSharedPrefs(deviceAddress);
+        return prefs.getBoolean(DeviceSettingsPreferenceConst.PREF_HOURLY_CHIME_ENABLE, false);
+    }
+
+    public static Date getHourlyChimeStart(String deviceAddress) {
+        return getTimePreference(DeviceSettingsPreferenceConst.PREF_HOURLY_CHIME_START, "09:00", deviceAddress);
+    }
+
+    public static Date getHourlyChimeEnd(String deviceAddress) {
+        return getTimePreference(DeviceSettingsPreferenceConst.PREF_HOURLY_CHIME_END, "22:00", deviceAddress);
+    }
 }

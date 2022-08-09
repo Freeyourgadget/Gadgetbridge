@@ -57,7 +57,6 @@ public class AmazfitNeoCoordinator extends HuamiCoordinator {
 
     }
 
-
     @Override
     public InstallHandler findInstallHandler(Uri uri, Context context) {
         AmazfitNeoFWInstallHandler handler = new AmazfitNeoFWInstallHandler(uri, context);
@@ -89,6 +88,7 @@ public class AmazfitNeoCoordinator extends HuamiCoordinator {
                 R.xml.devicesettings_timeformat,
                 R.xml.devicesettings_liftwrist_display,
                 R.xml.devicesettings_inactivity_dnd,
+                R.xml.devicesettings_hourly_chime,
                 R.xml.devicesettings_disconnectnotification,
                 R.xml.devicesettings_expose_hr_thirdparty,
                 R.xml.devicesettings_bt_connected_advertisement,

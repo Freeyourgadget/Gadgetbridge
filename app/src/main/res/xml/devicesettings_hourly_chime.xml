@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceScreen
+        android:icon="@drawable/ic_action_find_lost_device"
+        android:key="screen_hourly_chime"
+        android:persistent="false"
+        android:summary="@string/prefs_hourly_chime_summary"
+        android:title="@string/prefs_hourly_chime">
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="hourly_chime_enable"
+            android:title="@string/prefs_hourly_chime"
+            android:summary="@string/prefs_hourly_chime_summary" />
+
+        <nodomain.freeyourgadget.gadgetbridge.util.XTimePreference
+            android:defaultValue="09:00"
+            android:dependency="hourly_chime_enable"
+            android:key="hourly_chime_start"
+            android:title="@string/mi2_prefs_do_not_disturb_start" />
+
+        <nodomain.freeyourgadget.gadgetbridge.util.XTimePreference
+            android:defaultValue="22:00"
+            android:dependency="hourly_chime_enable"
+            android:key="hourly_chime_end"
+            android:title="@string/mi2_prefs_do_not_disturb_end" />
+
+    </PreferenceScreen>
+</androidx.preference.PreferenceScreen>

@@ -245,6 +245,9 @@ public class HuamiService {
     public static final short CHUNKED2021_ENDPOINT_COMPAT = 0x0090;
     public static final short CHUNKED2021_ENDPOINT_SMSREPLY = 0x0013;
 
+    public static final byte[] COMMAND_ENABLE_HOURLY_CHIME = new byte[] { (byte) 0xfe, 0x0b, 0x00, 0x01, 0x0a, 0x00, 0x16, 0x00 };
+    public static final byte[] COMMAND_DISABLE_HOURLY_CHIME = new byte[] { (byte) 0xfe, 0x0b, 0x00, 0x00 };
+
     static {
         MIBAND_DEBUG = new HashMap<>();
         MIBAND_DEBUG.put(UUID_SERVICE_MIBAND_SERVICE, "MiBand Service");

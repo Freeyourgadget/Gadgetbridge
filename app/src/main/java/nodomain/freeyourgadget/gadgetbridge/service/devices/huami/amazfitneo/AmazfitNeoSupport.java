@@ -81,6 +81,9 @@ public class AmazfitNeoSupport extends MiBand5Support {
     }
 
     @Override
+    public boolean supportsHourlyChime() { return true; }
+
+    @Override
     public HuamiFWHelper createFWHelper(Uri uri, Context context) throws IOException {
         return new AmazfitNeoFWHelper(uri, context);
     }
