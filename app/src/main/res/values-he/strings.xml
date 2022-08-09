@@ -1809,4 +1809,5 @@
     <string name="watchface_setting_button_toggle_backlight">הפעלת תאורה אחורית</string>
     <string name="controlcenter_get_heartrate_measurement">משיכת מדידת דופק</string>
     <string name="pref_write_logfiles_not_available">התחלת תיעוד לקבצים נכשלה, כתיבת קובצי יומן אינה זמינה כעת. יש להפעיל את היישומון מחדש כדי לנסות להתחיל את קובצי היומן מחדש.</string>
+    <string name="devicetype_binary_sensor">חיישן בינרי</string>
 </resources>
