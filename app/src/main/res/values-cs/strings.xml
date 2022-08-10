@@ -34,7 +34,7 @@
     <string name="appmanager_hrm_deactivate">Vypnout měření pulzu</string>
     <string name="appmanager_weather_activate">Aktivovat systémovou aplikaci pro počasí</string>
     <string name="appmanager_weather_deactivate">Deaktivovat systémovou aplikaci pro počasí</string>
-    <string name="appmanager_weather_install_provider">Instalovat notifikaci pro počasí</string>
+    <string name="appmanager_weather_install_provider">Nainstalujte aplikaci Weather Notifications</string>
     <string name="app_configure">Nastavit</string>
     <string name="app_move_to_top">Posunout nahoru</string>
     <!--Strings related to FwAppInstaller-->
@@ -64,7 +64,7 @@
     <string name="pref_title_minimize_priority">Skrýt notifikace Gadgetbridge</string>
     <string name="pref_summary_minimize_priority_off">Ikona ve stavové liště a notifikace na zamčeném displeji budou zobrazeny</string>
     <string name="pref_summary_minimize_priority_on">Ikona ve stavové liště a notifikace na zamčeném displeji budou skryty</string>
-    <string name="pref_header_notifications">Upozornění</string>
+    <string name="pref_header_notifications">Notifikace</string>
     <string name="pref_title_notifications_repetitions">Opakování</string>
     <string name="pref_title_notifications_call">Volání</string>
     <string name="pref_title_notifications_sms">SMS</string>
@@ -73,7 +73,7 @@
     <string name="pref_title_notifications_generic">Přístup k notifikacím</string>
     <string name="pref_title_whenscreenon">Upozornění i při zapnuté obrazovce</string>
     <string name="pref_title_notification_filter">Nerušit</string>
-    <string name="pref_summary_notification_filter">Neposílat upozornění v režimu Nerušit</string>
+    <string name="pref_summary_notification_filter">Neposílat notifikace v režimu Nerušit</string>
     <string name="pref_title_transliteration">Přepsání diakritiky</string>
     <string name="pref_summary_transliteration">Toto zapněte, pokud vaše zařízení nepodporuje české znaky</string>
     <string name="always">Vždy</string>
@@ -117,7 +117,7 @@
     <string name="pref_summary_location_keep_uptodate">Zjistit polohu při spuštění, uloženou polohu použít jako záložní</string>
     <string name="toast_enable_networklocationprovider">Povolte zjištění polohy v síti</string>
     <string name="toast_aqurired_networklocation">poloha zjištěna</string>
-    <string name="pref_title_pebble_forceprotocol">Vnutit protokol notifikací</string>
+    <string name="pref_title_pebble_forceprotocol">Vynutit protokol notifikací</string>
     <string name="pref_summary_pebble_forceprotocol">Tato volba vnutí použití posledního protokolu notifikací podle verze firmvéru. POVOLTE, JEN POKUD VÍTE, CO DĚLÁTE!</string>
     <string name="pref_title_pebble_forceuntested">Povolit netestované funkce</string>
     <string name="pref_summary_pebble_forceuntested">Povolí funkce, které nebyl testovány. POVOLTE, JEN POKUD VÍTE, CO DĚLÁTE!</string>
@@ -518,8 +518,8 @@
     <string name="controlcenter_change_led_color">Změnit barvu LED</string>
     <string name="controlcenter_change_fm_frequency">Změnit FM frekvenci</string>
     <string name="controlcenter_calibrate_device">Kalibrovat zařízení</string>
-    <string name="blacklist_all_for_notifications">Zakázat všechny aplikace</string>
-    <string name="whitelist_all_for_notifications">Povolit všechny aplikace</string>
+    <string name="blacklist_all_for_notifications">Zakázat notifikace ze všech aplikací</string>
+    <string name="whitelist_all_for_notifications">Povolit notifikace ze všech aplikací</string>
     <string name="fw_upgrade_notice_miband3">Chystáte se nainstalovat firmvér %s do vašeho Mi Band 3.
 \n
 \nProsím, ujistěte se, že jste nainstalovali soubor .fw a potom soubor .res. Váš pásek se po instalaci souboru .fw restartuje.
@@ -527,7 +527,7 @@
 \nPoznámka: Nemusíte instalovat soubor .res, pokud je stejný jako nainstalován dříve.
 \n
 \nPOKRAČUJTE NA VLASTNÍ NEBEZPEČÍ!</string>
-    <string name="pref_title_notifications_timeout">Minimální doba mezi upozorněními</string>
+    <string name="pref_title_notifications_timeout">Minimální doba mezi notifikacemi</string>
     <string name="pref_title_rtl">Zprava doleva</string>
     <string name="pref_summary_rtl">Povolte, nepodporuje-li vaše zařízení jazyky zprava doleva</string>
     <string name="pref_rtl_max_line_length">Maximální délka řádku pro jazyky zprava doleva</string>
@@ -833,8 +833,8 @@
     <string name="pref_summary_force_white_color_scheme">Užitečné, pokud máte hodinky s tmavými ručičkami</string>
     <string name="find_my_phone_notification">Najít telefon</string>
     <string name="notification_channel_high_priority_name">Vysoká priorita</string>
-    <string name="pref_title_custom_deviceicon">Zobrazit v oznámení ikonu připojeného zařízení</string>
-    <string name="pref_summary_custom_deviceicon">Zobrazit ikonu konkrétního připojeného zařízení v oznámení Androidu namísto ikony Gadgetbridge</string>
+    <string name="pref_title_custom_deviceicon">V notifikační liště použít ikonu zařízení</string>
+    <string name="pref_summary_custom_deviceicon">V notifikační liště Androidu zobrazit ikonu konkrétního připojeného zařízení namísto ikony Gadgetbridge</string>
     <string name="hr_appname_wellness">Wellness</string>
     <string name="hr_appname_workout">Cvičení</string>
     <string name="hr_appname_stopwatch">Stopky</string>
@@ -868,7 +868,7 @@
     <string name="pref_title_device_spec_settings_force_time">Vynutit synchronizaci času</string>
     <string name="pref_header_device_spec_settings">Nastavení zařízení</string>
     <string name="pref_summary_notifications_and_calls_title_shake_reject">Duplikuje akce tlačítka hodinek</string>
-    <string name="prefs_notifications_and_calls_shake_reject">Potřást zápěstí pro ignorování/odmítnutí hovoru</string>
+    <string name="prefs_notifications_and_calls_shake_reject">Potřást zápěstím pro ignorování/odmítnutí hovoru</string>
     <string name="pref_summary_notifications_and_calls_title_reject">Vypnuto - ignorovat, Zapnuto - odmítnout</string>
     <string name="prefs_notifications_and_calls_reject">Tlačítko ignorovat / odmítnout hovor</string>
     <string name="pref_header_notifications_and_calls_callhandling">Zpracování hovorů</string>
@@ -877,7 +877,7 @@
     <string name="pref_notifications_and_calls_enable_misscall">Upozornit na zmeškaný hovor</string>
     <string name="prefs_notifications_and_calls_continious_ring">Oznámení během vyzvánění telefonu</string>
     <string name="pref_title_notifications_and_calls_repeat_on_call">Opakování oznámení o volání</string>
-    <string name="pref_header_notifications_and_calls">Oznámení a volání</string>
+    <string name="pref_header_notifications_and_calls">Notifikace a volání</string>
     <string name="title_activity_LenovoWatch_calibration">Kalibrace Watch X Plus</string>
     <string name="czesh">Česky</string>
     <string name="swedish">Švédsky</string>
@@ -907,7 +907,7 @@
     <string name="about_activity_title_generic">O aplikaci Gadgetbridge</string>
     <string name="about_title">O aplikaci</string>
     <string name="menuitem_worldclock">Světový Čas</string>
-    <string name="pref_title_weather_summary">Použito s poskytovatelem počasí LineageOS. Ostatní verze Androidu vyžadují \"Weather Notification\" app. Více informací naleznete na Gadgetbridge wiki.</string>
+    <string name="pref_title_weather_summary">Použito s poskytovatelem počasí LineageOS. Ostatní verze Androidu vyžadují aplikaci \"Weather Notification\". Více informací naleznete na Gadgetbridge wiki.</string>
     <string name="error_version_check_extreme_caution">POZOR: Chyba při kontrole verze! Neměli byste pokračovat! Verze má název \"%s\"</string>
     <string name="permission_granting_mandatory">Všechna tato oprávnění jsou vyžadována a může nastat nestabilita, pokud nebudou udělena</string>
     <string name="activity_detail_show_gps_label">Zobrazit trasu GPS</string>
@@ -1325,12 +1325,12 @@
     <string name="nothing_prefs_audiomode_title">Audio mód</string>
     <string name="nothing_prefs_inear_title">Detekce nošení</string>
     <string name="pref_title_notification_use_as">Použít seznam aplikací k…</string>
-    <string name="pref_title_notification_use_as_deny">Zakázaní oznámení z vybraných aplikací</string>
-    <string name="title_activity_notification_management">Nastavení oznámení</string>
+    <string name="pref_title_notification_use_as_deny">Zakázaní notifikací z vybraných aplikací</string>
+    <string name="title_activity_notification_management">Nastavení notifikací</string>
     <string name="check_all_applications">Označit všechny aplikace</string>
     <string name="uncheck_all_applications">Odznačit všechny aplikace</string>
     <string name="pref_header_notification_application_settings">Nastavení jednotlivých aplikací</string>
-    <string name="pref_title_notification_use_as_allow">Povolení oznámení z vybraných aplikací</string>
+    <string name="pref_title_notification_use_as_allow">Povolení notifikací z vybraných aplikací</string>
     <string name="pref_title_message_privacy_mode">Nastavení soukromí pro oznámení</string>
     <string name="pref_message_privacy_mode_off">Zobrazit text v oznámení</string>
     <string name="pref_message_privacy_mode_complete">Skrýt text v oznámení</string>
@@ -1810,4 +1810,5 @@
     <string name="watchface_setting_title_custom_events">Vlastní události</string>
     <string name="watchface_setting_button_toggle_backlight">Zapnutí podsvícení</string>
     <string name="pref_write_logfiles_not_available">Inicializace zapisování logů se nezdařila, zápis do souboru není dostupný. Restartujte aplikaci pro pokus o novou inicializaci.</string>
+    <string name="devicetype_binary_sensor">Binární senzor</string>
 </resources>
