@@ -1,0 +1,6 @@
+Nainstalujte si tuto aplikaci pro příjem notifikací, zpráv a oznámení o hovorech z telefonu Android na chytrých hodinkách Bangle.js. 
+
+* Přijímejte notifikace, textové zprávy a oznámení o hovorech na Bangle.js 
+* Zvolte, chcete-li přijmout nebo odmítnout hovor, či dokonce odpovědět na přijaté textové zprávy
+* Bangle.js aplikace mohou přes telefon přistupovat k internetu (ve výchozím nastavení zakázáno) 
+* Bangle.js aplikace mohou odesílat Android Intent zprávy a mohou být řízeny zprávami (Intents) odeslanými aplikacemi, jako je například Tasker (ve výchozím nastavení zakázáno)

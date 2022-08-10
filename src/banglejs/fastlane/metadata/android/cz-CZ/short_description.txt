@@ -1,0 +1,1 @@
+Doprovodná Android aplikace pro Bangle.js postavená na projektu Gadgetbridge.

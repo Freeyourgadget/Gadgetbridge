@@ -1,0 +1,10 @@
+Používejte své chytré hodinky, fitness tracker a další Bluetooth zařízení bez původní aplikace s uzavřeným zdrojovým kódem, bez nutnosti vytvářet si účet a přenášet jakákoli data na servery dodavatele.
+Úplný seznam podporovaných zařízení naleznete na naší domovské stránce nebo README.md v našem git úložišti. 
+
+Podporované funkce (v závislosti na zařízení):
+
+- notifikace až na zápěstí
+- sběr dat ze senzorů zařízení
+- ovládání přehrávání hudby na vašem android zařízení
+- předpověď počasí 
+- informace o směru trasy cesty
