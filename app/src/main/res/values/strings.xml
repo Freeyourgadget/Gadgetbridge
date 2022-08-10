@@ -12,11 +12,11 @@
     <string name="about_description_banglejs_main">Android companion app for Bangle.js built on top of the Gadgetbridge project, with added Internet Access.\n\nDue to Google Play Store policies, we are not allowed a donation link in the app itself, but if you like this app please consider donating via the Gadgetbridge homepage below.</string>
     <string name="gadgetbridge_running_banglejs_main">Bangle.js running</string>
 
-    <string name="application_name_banglejs_nopebble">Bangle.js Gadgetbridge</string>
-    <string name="title_activity_controlcenter_banglejs_nopebble">Bangle.js Gadgetbridge</string>
-    <string name="about_activity_title_banglejs_nopebble">About Bangle.js Gadgetbridge</string>
-    <string name="about_description_banglejs_nopebble">Android companion app for Bangle.js built on top of the Gadgetbridge project, with added Internet Access.\n\nDue to Google Play Store policies, we are not allowed a donation link in the app itself, but if you like this app please consider donating via the Gadgetbridge homepage below.</string>
-    <string name="gadgetbridge_running_banglejs_nopebble">Bangle.js running</string>
+    <string name="application_name_banglejs_nightly">Bangle.js Gadgetbridge (Nightly)</string>
+    <string name="title_activity_controlcenter_banglejs_nightly">Bangle.js Gadgetbridge (Nightly)</string>
+    <string name="about_activity_title_banglejs_nightly">About Bangle.js Gadgetbridge (Nightly)</string>
+    <string name="about_description_banglejs_nightly">Android companion app for Bangle.js built on top of the Gadgetbridge project, with added Internet Access.\n\nDue to Google Play Store policies, we are not allowed a donation link in the app itself, but if you like this app please consider donating via the Gadgetbridge homepage below.</string>
+    <string name="gadgetbridge_running_banglejs_nightly">Nightly Bangle.js running</string>
 
     <string name="application_name_main_nightly">Gadgetbridge (Nightly)</string>
     <string name="title_activity_controlcenter_main_nightly">Gadgetbridge Nightly</string>

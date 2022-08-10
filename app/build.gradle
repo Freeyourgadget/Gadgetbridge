@@ -78,6 +78,35 @@ android {
             }
         }
     }
+
+    flavorDimensions "device_type"
+    productFlavors {
+        main {
+            // Ensure that when starting from scratch, 'main' is selected, not 'banglejs'
+            getIsDefault().set(true)
+            // the default build product flavor
+            dimension "device_type"
+            //applicationIdSuffix ""
+            //versionNameSuffix ""
+        }
+        banglejs {
+            dimension "device_type"
+            applicationId "com.espruino.gadgetbridge"
+            applicationIdSuffix ".banglejs"
+            versionNameSuffix "-banglejs"
+            buildConfigField "boolean", "INTERNET_ACCESS", "true"
+            // Disable pebble provider to allow Bangle.js Gadgetbridge to coexist with Gadgetbridge
+            resValue "string", "pebble_content_provider", "com.getpebble.android.nopebble.bangle.provider"
+            resValue "string", "app_name", "@string/application_name_banglejs_main"
+            resValue "string", "title_activity_controlcenter", "@string/title_activity_controlcenter_banglejs_main"
+            resValue "string", "about_activity_title", "@string/about_activity_title_banglejs_main"
+            resValue "string", "about_description", "@string/about_description_banglejs_main"
+            resValue "string", "gadgetbridge_running", "@string/gadgetbridge_running_banglejs_main"
+            targetSdkVersion 30 // Bangle.js flavor only - We need SDK 30 for play store
+            // Note: app/src/banglejs/AndroidManifest.xml contains some extra permissions we need to make SDK 30 work
+        }
+    }
+
     buildTypes {
         release {
             minifyEnabled true
@@ -89,11 +118,6 @@ android {
             applicationIdSuffix ".nightly"
             versionNameSuffix "-${getGitHashShort}"
             minifyEnabled true
-            if (System.getProperty("nightly_store_file") != null) {
-                signingConfig signingConfigs.nightly
-            } else {
-                signingConfig signingConfigs.debug
-            }
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
             resValue "string", "pebble_content_provider", "com.getpebble.android.provider"
             resValue "string", "app_name", "@string/application_name_main_nightly"
@@ -101,7 +125,30 @@ android {
             resValue "string", "about_activity_title", "@string/about_activity_title_main_nightly"
             resValue "string", "about_description", "@string/about_description_main_nightly"
             resValue "string", "gadgetbridge_running", "@string/gadgetbridge_running_main_nightly"
+            
             debuggable true
+
+            if (System.getProperty("nightly_store_file") != null) {
+                signingConfig signingConfigs.nightly
+
+                //this was conflicting with regular debug type (it should not), so it is only available for CI builds:
+                productFlavors.main.resValue "string", "pebble_content_provider", "com.getpebble.android.provider"
+                productFlavors.main.resValue "string", "app_name", "@string/application_name_main_nightly"
+                productFlavors.main.resValue "string", "title_activity_controlcenter", "@string/title_activity_controlcenter_main_nightly"
+                productFlavors.main.resValue "string", "about_activity_title", "@string/about_activity_title_main_nightly"
+                productFlavors.main.resValue "string", "about_description", "@string/about_description_main_nightly"
+                productFlavors.main.resValue "string", "gadgetbridge_running", "@string/gadgetbridge_running_main_nightly"
+                
+                //keep the pebble provider for people who want this. In case of need we can create Banglejs Nopebble
+                productFlavors.banglejs.resValue "string", "pebble_content_provider", "com.getpebble.android.provider"
+                productFlavors.banglejs.resValue "string", "app_name", "@string/application_name_banglejs_nightly"
+                productFlavors.banglejs.resValue "string", "title_activity_controlcenter", "@string/title_activity_controlcenter_banglejs_nightly"
+                productFlavors.banglejs.resValue "string", "about_activity_title", "@string/about_activity_title_banglejs_nightly"
+                productFlavors.banglejs.resValue "string", "about_description", "@string/about_description_banglejs_nightly"
+                productFlavors.banglejs.resValue "string", "gadgetbridge_running", "@string/gadgetbridge_running_banglejs_nightly"
+            } else {
+                signingConfig signingConfigs.debug
+            }
         }
         nopebble {
             applicationIdSuffix ".nightly_nopebble"
@@ -137,33 +184,6 @@ android {
 
     }
 
-    flavorDimensions "device_type"
-    productFlavors {
-        main {
-            // Ensure that when starting from scratch, 'main' is selected, not 'banglejs'
-            getIsDefault().set(true)
-            // the default build product flavor
-            dimension "device_type"
-            //applicationIdSuffix ""
-            //versionNameSuffix ""
-        }
-        banglejs {
-            dimension "device_type"
-            applicationId "com.espruino.gadgetbridge"
-            applicationIdSuffix ".banglejs"
-            versionNameSuffix "-banglejs"
-            buildConfigField "boolean", "INTERNET_ACCESS", "true"
-            // Disable pebble provider to allow Bangle.js Gadgetbridge to coexist with Gadgetbridge
-            resValue "string", "pebble_content_provider", "com.getpebble.android.nopebble.bangle.provider"
-            resValue "string", "app_name", "@string/application_name_banglejs_main"
-            resValue "string", "title_activity_controlcenter", "@string/title_activity_controlcenter_banglejs_main"
-            resValue "string", "about_activity_title", "@string/about_activity_title_banglejs_main"
-            resValue "string", "about_description", "@string/about_description_banglejs_main"
-            resValue "string", "gadgetbridge_running", "@string/gadgetbridge_running_banglejs_main"
-            targetSdkVersion 30 // Bangle.js flavor only - We need SDK 30 for play store
-            // Note: app/src/banglejs/AndroidManifest.xml contains some extra permissions we need to make SDK 30 work
-        }
-    }
 
     lintOptions {
         abortOnError ABORT_ON_CHECK_FAILURE
