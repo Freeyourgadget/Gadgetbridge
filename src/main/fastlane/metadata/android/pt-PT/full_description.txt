@@ -1,0 +1,10 @@
+Usa o teu smartwatch, pulseira, e outros dispositivos bluetooth sem depender da aplicação oficial proprietária, e sem criar conta ou enviar os teus dados para servidores externos.
+
+Para uma lista completa de todos os dispositivos suportados, por favor consulta a nossa página oficial ou o README.md no repositório git.
+
+Podes receber notificações no teu pulso e (dependendo do dispositivo):
+
+- Obter dados dos sensores do dispositivo
+- Controlar a música do teu telemóvel
+- Ver a meteorologia
+- Obter direções

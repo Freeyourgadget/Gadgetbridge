@@ -1,0 +1,6 @@
+Instala esta aplicação para receber notificações, mensagens e notificações de chamadas do teu telemóvel no teu smartwatch Bangle.js.
+
+* Recebe notificações, mensagens de texto, e notificações de chamadas no Bangle.js
+* Escolhe aceitar/rejeitar chamadas, ou mesmo responder a mensagens de texto
+* Aplicações Bangle.js podem aceder à internet através do teu telemóvel (desativado por predefinição)
+* Aplicações Bangle.js podem enviar Intents Android, e ser controladas por Intents enviados por aplicações como Tasker (desativado por predefinição)
