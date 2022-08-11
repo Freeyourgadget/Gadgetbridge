@@ -1817,4 +1817,12 @@
     <string name="watchface_setting_button_toggle_widgets">Widgets umschalten</string>
     <string name="controlcenter_get_heartrate_measurement">Herzfrequenzmessung</string>
     <string name="pref_write_logfiles_not_available">Die Initialisierung der Dateiprotokollierung ist fehlgeschlagen, das Schreiben von Protokolldateien ist derzeit nicht möglich. Starte die App neu, um zu versuchen, die Protokolldateien erneut zu initialisieren.</string>
+    <string name="devicetype_binary_sensor">Binärer Sensor</string>
+    <string name="application_name_banglejs_nightly">Bangle.js Gadgetbridge (Nightly)</string>
+    <string name="title_activity_controlcenter_banglejs_nightly">Bangle.js Gadgetbridge (Nightly)</string>
+    <string name="about_activity_title_banglejs_nightly">Über Bangle.js Gadgetbridge (Nightly)</string>
+    <string name="about_description_banglejs_nightly">Android-Begleit-App für Bangle.js, die auf dem Gadgetbridge-Projekt aufbaut, mit zusätzlichem Internetzugang.
+\n
+\nAufgrund der Richtlinien des Google Play Stores ist es uns nicht erlaubt, einen Spendenlink in der App selbst einzubauen, aber wenn dir diese App gefällt, ziehe bitte eine Spende über die Gadgetbridge-Homepage unten in Erwägung.</string>
+    <string name="gadgetbridge_running_banglejs_nightly">Nightly Bangle.js wird ausgeführt</string>
 </resources>
