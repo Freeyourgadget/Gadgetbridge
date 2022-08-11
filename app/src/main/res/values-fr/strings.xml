@@ -1813,4 +1813,7 @@ Temps de sommeil préféré en heures</string>
     <string name="watchface_setting_title_custom_events">Événements personnalisés</string>
     <string name="pref_write_logfiles_not_available">Création du fichier journal ratée, l\'écriture du fichier journal est indisponible. Redémarrer l\'application pour essayer de nouveau l\'écriture du fichier journal.</string>
     <string name="controlcenter_get_heartrate_measurement">Obtenir les mesures de rythme cardiaque</string>
+    <string name="about_activity_title_banglejs_nightly">A propos de Bangle.js Gadgetbridge (Version quotidienne)</string>
+    <string name="title_activity_controlcenter_banglejs_nightly">Bangle.js Gadgetbridge (Version quotidienne)</string>
+    <string name="application_name_banglejs_nightly">Bangle.js Gadgetbridge (Version quotidienne)</string>
 </resources>
