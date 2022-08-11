@@ -1810,4 +1810,8 @@
     <string name="controlcenter_get_heartrate_measurement">משיכת מדידת דופק</string>
     <string name="pref_write_logfiles_not_available">התחלת תיעוד לקבצים נכשלה, כתיבת קובצי יומן אינה זמינה כעת. יש להפעיל את היישומון מחדש כדי לנסות להתחיל את קובצי היומן מחדש.</string>
     <string name="devicetype_binary_sensor">חיישן בינרי</string>
+    <string name="about_activity_title_banglejs_nightly">על Bangle.js Gadgetbridge (Nightly)</string>
+    <string name="application_name_banglejs_nightly">Bangle.js Gadgetbridge (Nightly)</string>
+    <string name="gadgetbridge_running_banglejs_nightly">Nightly Bangle.js פעיל</string>
+    <string name="title_activity_controlcenter_banglejs_nightly">Bangle.js Gadgetbridge (Nightly)</string>
 </resources>
