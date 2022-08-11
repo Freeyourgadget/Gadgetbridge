@@ -1812,4 +1812,11 @@
     <string name="controlcenter_get_heartrate_measurement">获取心率测量值</string>
     <string name="pref_write_logfiles_not_available">文件日志初始化失败，写日志文件目前不可用。请尝试重新启动应用程序，然诺再次初始化日志文件。</string>
     <string name="devicetype_binary_sensor">二进制传感器</string>
+    <string name="application_name_banglejs_nightly">Bangle.js Gadgetbridge (每页编译版)</string>
+    <string name="title_activity_controlcenter_banglejs_nightly">Bangle.js Gadgetbridge (每页编译版)</string>
+    <string name="about_activity_title_banglejs_nightly">关于Bangle.js Gadgetbridge (每夜编译版)</string>
+    <string name="gadgetbridge_running_banglejs_nightly">Bangle.js 每夜编译版正在运行中</string>
+    <string name="about_description_banglejs_nightly">Bangle.js 的 Android 配套应用程序构建在 Gadgetbridge 项目之上，增加了 Internet 访问。
+\n
+\n由于 Google Play 商店政策，我们不允许在应用程序本身中提供捐赠链接，但如果您喜欢此应用程序，请考虑通过下面的 Gadgetbridge 主页进行捐赠。</string>
 </resources>
