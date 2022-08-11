@@ -1825,4 +1825,11 @@
     <string name="controlcenter_get_heartrate_measurement">Kalp ritmi ölçümünü al</string>
     <string name="pref_write_logfiles_not_available">Dosya günlüğü başlatılamadı, günlük dosyalarının yazılması şu anda kullanılamıyor. Günlük dosyalarını tekrar başlatmayı denemek için uygulamayı yeniden başlatın.</string>
     <string name="devicetype_binary_sensor">İkili sensör</string>
+    <string name="application_name_banglejs_nightly">Bangle.js Gadgetbridge (Gecelik)</string>
+    <string name="title_activity_controlcenter_banglejs_nightly">Bangle.js Gadgetbridge (Gecelik)</string>
+    <string name="about_activity_title_banglejs_nightly">Bangle.js Gadgetbridge (Gecelik) Hakkında</string>
+    <string name="gadgetbridge_running_banglejs_nightly">Gecelik Bangle.js çalışıyor</string>
+    <string name="about_description_banglejs_nightly">Bangle.js için Gadgetbridge projesinin üzerine inşa edilmiş, internet erişimi eklenmiş Android yardımcı uygulaması.
+\n
+\nGoogle Play Store politikaları nedeniyle, uygulamanın kendisinde bir bağış bağlantısına izin verilmiyor, ancak bu uygulamayı beğendiyseniz lütfen aşağıdaki Gadgetbridge ana sayfası üzerinden bağış yapmayı düşünün.</string>
 </resources>
