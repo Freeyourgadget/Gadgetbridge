@@ -3895,7 +3895,7 @@ public abstract class HuamiSupport extends AbstractBTLEDeviceSupport {
         return this;
     }
 
-    private HuamiSupport requestAlarms(TransactionBuilder builder) {
+    protected HuamiSupport requestAlarms(TransactionBuilder builder) {
         LOG.info("Requesting alarms");
         //FIXME: on older devices only the first one works, and on newer only the last is sufficient
         writeToConfiguration(builder, HuamiService.COMMAND_REQUEST_ALARMS);
