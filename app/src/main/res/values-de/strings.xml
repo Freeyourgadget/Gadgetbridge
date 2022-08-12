@@ -1825,4 +1825,6 @@
 \n
 \nAufgrund der Richtlinien des Google Play Stores ist es uns nicht erlaubt, einen Spendenlink in der App selbst einzubauen, aber wenn dir diese App gefällt, ziehe bitte eine Spende über die Gadgetbridge-Homepage unten in Erwägung.</string>
     <string name="gadgetbridge_running_banglejs_nightly">Nightly Bangle.js wird ausgeführt</string>
+    <string name="prefs_hourly_chime">Stündlicher Klang</string>
+    <string name="prefs_hourly_chime_summary">Die Uhr piept einmal pro Stunde</string>
 </resources>
