@@ -1816,4 +1816,9 @@ Temps de sommeil préféré en heures</string>
     <string name="about_activity_title_banglejs_nightly">A propos de Bangle.js Gadgetbridge (Version quotidienne)</string>
     <string name="title_activity_controlcenter_banglejs_nightly">Bangle.js Gadgetbridge (Version quotidienne)</string>
     <string name="application_name_banglejs_nightly">Bangle.js Gadgetbridge (Version quotidienne)</string>
+    <string name="devicetype_binary_sensor">Capteur binaire</string>
+    <string name="gadgetbridge_running_banglejs_nightly">Bangle.js version quotidienne est en fonctionnement</string>
+    <string name="about_description_banglejs_nightly">Application complémentaire pour Bangle.js construit sur la base du projet Gadgetbridge project, avec l\'ajout de l\'accès Internet.
+\n
+\nEn raison des contraintes du Google Play Store, nous ne sommes pas autorisés à mettre un lien de donation dans l\'application elle-même, mais si vous appréciez cette application, merci de penser à faire une donation via la page Gadgetbridge ci-dessous.</string>
 </resources>
