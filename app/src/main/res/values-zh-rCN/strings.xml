@@ -1819,4 +1819,6 @@
     <string name="about_description_banglejs_nightly">Bangle.js 的 Android 配套应用程序构建在 Gadgetbridge 项目之上，增加了 Internet 访问。
 \n
 \n由于 Google Play 商店政策，我们不允许在应用程序本身中提供捐赠链接，但如果您喜欢此应用程序，请考虑通过下面的 Gadgetbridge 主页进行捐赠。</string>
+    <string name="prefs_hourly_chime">整点报时</string>
+    <string name="prefs_hourly_chime_summary">手表每小时将发出一次蜂鸣音</string>
 </resources>
