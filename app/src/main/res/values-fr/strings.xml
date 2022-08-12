@@ -1821,4 +1821,6 @@ Temps de sommeil préféré en heures</string>
     <string name="about_description_banglejs_nightly">Application complémentaire pour Bangle.js construit sur la base du projet Gadgetbridge project, avec l\'ajout de l\'accès Internet.
 \n
 \nEn raison des contraintes du Google Play Store, nous ne sommes pas autorisés à mettre un lien de donation dans l\'application elle-même, mais si vous appréciez cette application, merci de penser à faire une donation via la page Gadgetbridge ci-dessous.</string>
+    <string name="prefs_hourly_chime">Beep horaire</string>
+    <string name="prefs_hourly_chime_summary">La montre fera un beep toutes les heures</string>
 </resources>
