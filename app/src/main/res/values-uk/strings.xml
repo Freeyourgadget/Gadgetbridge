@@ -1825,4 +1825,6 @@
     <string name="about_description_banglejs_nightly">Супутній застосунок Android для Bangle.js побудований на основі проєкту Gadgetbridge з додатковим доступом до Інтернету.
 \n
 \nВідповідно до правил Google Play Маркету, нам заборонено розміщувати посилання на внески в самому застосунку, але якщо він вам подобається, розгляньте можливість допомогти через домашню сторінку Gadgetbridge нижче.</string>
+    <string name="prefs_hourly_chime">Дзвін щогодини</string>
+    <string name="prefs_hourly_chime_summary">Годинник подаватиме звуковий сигнал раз на годину</string>
 </resources>
