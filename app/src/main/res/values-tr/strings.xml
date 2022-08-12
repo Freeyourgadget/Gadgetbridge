@@ -1832,4 +1832,6 @@
     <string name="about_description_banglejs_nightly">Bangle.js için Gadgetbridge projesinin üzerine inşa edilmiş, internet erişimi eklenmiş Android yardımcı uygulaması.
 \n
 \nGoogle Play Store politikaları nedeniyle, uygulamanın kendisinde bir bağış bağlantısına izin verilmiyor, ancak bu uygulamayı beğendiyseniz lütfen aşağıdaki Gadgetbridge ana sayfası üzerinden bağış yapmayı düşünün.</string>
+    <string name="prefs_hourly_chime">Saatlik zil</string>
+    <string name="prefs_hourly_chime_summary">Saat, saatte bir kez bip sesi çıkaracak</string>
 </resources>
