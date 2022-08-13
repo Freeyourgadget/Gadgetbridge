@@ -2320,6 +2320,7 @@
         <item>@string/czech</item>
         <item>@string/estonian</item>
         <item>@string/extended_ascii</item>
+        <item>@string/french</item>
         <item>@string/german</item>
         <item>@string/greek</item>
         <item>@string/hebrew</item>
@@ -2340,6 +2341,7 @@
         <item>czech</item>
         <item>estonian</item>
         <item>extended_ascii</item>
+        <item>french</item>
         <item>german</item>
         <item>greek</item>
         <item>hebrew</item>
