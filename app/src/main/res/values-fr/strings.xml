@@ -1823,4 +1823,6 @@ Temps de sommeil préféré en heures</string>
 \nEn raison des contraintes du Google Play Store, nous ne sommes pas autorisés à mettre un lien de donation dans l\'application elle-même, mais si vous appréciez cette application, merci de penser à faire une donation via la page Gadgetbridge ci-dessous.</string>
     <string name="prefs_hourly_chime">Beep horaire</string>
     <string name="prefs_hourly_chime_summary">La montre fera un beep toutes les heures</string>
+    <string name="step_streaks_achievements_sharing_title">Objectifs de pas</string>
+    <string name="step_streaks_achievements_sharing_message">Mes résultats quotidiens de pas !</string>
 </resources>
