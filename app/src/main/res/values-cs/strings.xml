@@ -1811,4 +1811,15 @@
     <string name="watchface_setting_button_toggle_backlight">Zapnutí podsvícení</string>
     <string name="pref_write_logfiles_not_available">Inicializace zapisování logů se nezdařila, zápis do souboru není dostupný. Restartujte aplikaci pro pokus o novou inicializaci.</string>
     <string name="devicetype_binary_sensor">Binární senzor</string>
+    <string name="title_activity_controlcenter_banglejs_nightly">Bangle.js Gadgetbridge (Noční)</string>
+    <string name="about_description_banglejs_nightly">Doprovodná aplikace pro Bangle.js pro Android vytvořená na základě projektu Gadgetbridge s přidaným přístupem k internetu.
+\n
+\nVzhledem k pravidlům obchodu Google Play nemůžeme v samotné aplikaci uvést odkaz na dárcovství, pokud se vám tato aplikace ale líbí, zvažte prosím možnost přispět prostřednictvím níže uvedené domovské stránky Gadgetbridge.</string>
+    <string name="gadgetbridge_running_banglejs_nightly">Noční Bangle.js běží</string>
+    <string name="prefs_hourly_chime">Hodinový signál</string>
+    <string name="prefs_hourly_chime_summary">Hodinky pípnou jednou za hodinu</string>
+    <string name="step_streaks_achievements_sharing_title">Úspěchy v krocích</string>
+    <string name="application_name_banglejs_nightly">Bangle.js Gadgetbridge (Noční)</string>
+    <string name="step_streaks_achievements_sharing_message">Moje úspěchy denních cílů kroků!</string>
+    <string name="about_activity_title_banglejs_nightly">O aplikace Bangle.js Gadgetbridge (Noční)</string>
 </resources>
