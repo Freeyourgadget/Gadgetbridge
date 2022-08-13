@@ -1827,4 +1827,6 @@
     <string name="gadgetbridge_running_banglejs_nightly">Nightly Bangle.js wird ausgeführt</string>
     <string name="prefs_hourly_chime">Stündlicher Klang</string>
     <string name="prefs_hourly_chime_summary">Die Uhr piept einmal pro Stunde</string>
+    <string name="step_streaks_achievements_sharing_message">Meine täglichen Schritterfolge!</string>
+    <string name="step_streaks_achievements_sharing_title">Schritterfolge</string>
 </resources>
