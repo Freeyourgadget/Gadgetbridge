@@ -1072,6 +1072,7 @@
     <string name="devicetype_sony_wh_1000xm4">Sony WH-1000XM4</string>
     <string name="devicetype_sony_wf_sp800n">Sony WF-SP800N</string>
     <string name="devicetype_sony_wf_1000xm3">Sony WF-1000XM3</string>
+    <string name="devicetype_binary_sensor">Binary sensor</string>
     <string name="choose_auto_export_location">Choose export location</string>
     <string name="notification_channel_name">General</string>
     <string name="notification_channel_high_priority_name">High-priority</string>
@@ -1753,8 +1754,8 @@
     <string name="step_streak_days_hint">Number of consecutive days with steps goal being reached</string>
     <string name="steps_streaks_total_steps_hint">Total number of steps in the whole streak</string>
     <string name="steps_streaks_total_steps_average_hint">Total average %d steps per day</string>
+    <string name="step_streaks_achievements_sharing_message">My daily step achievements!</string>
+    <string name="step_streaks_achievements_sharing_title">Steps Achievements</string>
     <string name="prefs_hourly_chime">Hourly chime</string>
     <string name="prefs_hourly_chime_summary">The watch will beep once an hour</string>
-
-    <string name="devicetype_binary_sensor">Binary sensor</string>
 </resources>

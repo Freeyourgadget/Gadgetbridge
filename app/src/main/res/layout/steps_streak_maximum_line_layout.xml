@@ -41,9 +41,9 @@
         android:gravity="bottom|center"
         android:orientation="horizontal">
 
-        <include layout="@layout/steps_streak_days" />
-
         <include layout="@layout/steps_streak_average" />
+
+        <include layout="@layout/steps_streak_days" />
 
         <include layout="@layout/steps_streak_total" />
 

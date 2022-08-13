@@ -377,8 +377,8 @@ public class StepStreaksDashboard extends DialogFragment {
         Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
         sharingIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
         sharingIntent.setType("image/*");
-        String shareBody = "My daily step streaks!";
-        sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Steps Streak");
+        String shareBody = getString(R.string.step_streaks_achievements_sharing_message);
+        sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, getString(R.string.step_streaks_achievements_sharing_title));
         sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, shareBody);
         sharingIntent.putExtra(Intent.EXTRA_STREAM, contentUri);
 
