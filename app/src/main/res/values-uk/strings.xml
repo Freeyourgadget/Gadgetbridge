@@ -1827,4 +1827,6 @@
 \nВідповідно до правил Google Play Маркету, нам заборонено розміщувати посилання на внески в самому застосунку, але якщо він вам подобається, розгляньте можливість допомогти через домашню сторінку Gadgetbridge нижче.</string>
     <string name="prefs_hourly_chime">Дзвін щогодини</string>
     <string name="prefs_hourly_chime_summary">Годинник подаватиме звуковий сигнал раз на годину</string>
+    <string name="step_streaks_achievements_sharing_title">Досягнення кількості кроків</string>
+    <string name="step_streaks_achievements_sharing_message">Мої щоденні досягнення кількості кроків!</string>
 </resources>
