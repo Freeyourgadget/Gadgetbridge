@@ -1821,4 +1821,6 @@
 \n由于 Google Play 商店政策，我们不允许在应用程序本身中提供捐赠链接，但如果您喜欢此应用程序，请考虑通过下面的 Gadgetbridge 主页进行捐赠。</string>
     <string name="prefs_hourly_chime">整点报时</string>
     <string name="prefs_hourly_chime_summary">手表每小时将发出一次蜂鸣音</string>
+    <string name="step_streaks_achievements_sharing_message">我每天的步数成就!</string>
+    <string name="step_streaks_achievements_sharing_title">步数成就</string>
 </resources>
