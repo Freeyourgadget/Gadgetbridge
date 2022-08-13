@@ -95,7 +95,14 @@ public class NotificationManagementActivity extends AbstractSettingsActivity {
                 return true;
             }
         });
-        pref.setSummary(RingtoneManager.getRingtone(this, Uri.parse(prefs.getString(GBPrefs.PING_TONE, DEFAULT_RINGTONE_URI))).getTitle(this));
+
+        try {
+            // This fails on some ROMs. The actual implementation falls-back to an internal ping tone
+            pref.setSummary(RingtoneManager.getRingtone(this, Uri.parse(prefs.getString(GBPrefs.PING_TONE, DEFAULT_RINGTONE_URI))).getTitle(this));
+        } catch (final Exception e) {
+            LOG.error("Failed to find the configured ping ringtone");
+            pref.setSummary("-");
+        }
 
         pref = findPreference("pref_key_blacklist");
         pref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {

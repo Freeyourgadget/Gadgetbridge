@@ -18,9 +18,11 @@
 package nodomain.freeyourgadget.gadgetbridge.activities;
 
 import android.content.BroadcastReceiver;
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.res.AssetFileDescriptor;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.media.RingtoneManager;
@@ -108,23 +110,15 @@ public class FindPhoneActivity extends AbstractGBActivity {
         }
     }
 
-    private void playRingtone(){
+    private void playRingtone() {
         mAudioManager = (AudioManager)getSystemService(Context.AUDIO_SERVICE);
         if (mAudioManager != null) {
             userVolume = mAudioManager.getStreamVolume(AudioManager.STREAM_ALARM);
         }
         mp = new MediaPlayer();
 
-        Uri ringtoneUri = Uri.parse(GBApplication.getPrefs().getString(GBPrefs.PING_TONE, RingtoneManager.getDefaultUri(RingtoneManager.TYPE_RINGTONE).toString()));
-
-        try {
-            mp.setDataSource(this, ringtoneUri);
-            mp.setAudioStreamType(AudioManager.STREAM_ALARM);
-            mp.setLooping(true);
-            mp.prepare();
-            mp.start();
-        } catch (IOException ignore) {
-            LOG.warn("problem playing ringtone");
+        if (!playConfiguredRingtone()) {
+            playFallbackRingtone();
         }
 
         if (mAudioManager != null) {
@@ -135,6 +129,46 @@ public class FindPhoneActivity extends AbstractGBActivity {
 
     private void stopVibration() {
         mVibrator.cancel();
+    }
+
+    /**
+     * Attempt to play the configured ringtone. This fails to get the default ringtone on some ROMs
+     * (https://codeberg.org/Freeyourgadget/Gadgetbridge/pulls/2697)
+     *
+     * @return whether playing the configured ringtone was successful or not.
+     */
+    private boolean playConfiguredRingtone() {
+        try {
+            Uri ringtoneUri = Uri.parse(GBApplication.getPrefs().getString(GBPrefs.PING_TONE, RingtoneManager.getDefaultUri(RingtoneManager.TYPE_RINGTONE).toString()));
+            mp.setDataSource(this, ringtoneUri);
+            mp.setAudioStreamType(AudioManager.STREAM_ALARM);
+            mp.setLooping(true);
+            mp.prepare();
+            mp.start();
+        } catch (final Exception e) {
+            LOG.warn("Failed to play configured ringtone", e);
+            return false;
+        }
+
+        return true;
+    }
+
+    private void playFallbackRingtone() {
+        try {
+            final AssetFileDescriptor afd = getBaseContext().getResources().openRawResourceFd(R.raw.ping_tone);
+            if (afd == null) {
+                LOG.error("Failed to load fallback ringtone");
+                return;
+            }
+
+            mp.setDataSource(afd.getFileDescriptor(), afd.getStartOffset(), afd.getLength());
+            mp.setAudioStreamType(AudioManager.STREAM_ALARM);
+            mp.setLooping(true);
+            mp.prepare();
+            mp.start();
+        } catch (final Exception e) {
+            LOG.warn("Failed to play fallback ringtone", e);
+        }
     }
 
     private void stopSound() {
