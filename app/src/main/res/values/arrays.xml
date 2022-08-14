@@ -1798,6 +1798,9 @@
         <item name="commuteApp">@string/hr_appname_commute</item>
         <item name="wellnessApp">@string/hr_appname_wellness</item>
         <item name="workoutApp">@string/hr_appname_workout</item>
+        <item name="launcherApp">@string/menuitem_menu</item>
+        <item name="settingApp">@string/menuitem_settings</item>
+        <item name="ringPhoneApp">@string/menuitem_findphone</item>
     </string-array>
     <string-array name="pref_hybridhr_buttonfunctions_values">
         <item></item>
@@ -1809,6 +1812,9 @@
         <item>commuteApp"</item>
         <item>wellnessApp</item>
         <item>workoutApp</item>
+        <item>launcherApp</item>
+        <item>settingApp</item>
+        <item>ringPhoneApp</item>
     </string-array>
 
     <string-array name="pref_hybridhr_widgetbackgrounds_items">
