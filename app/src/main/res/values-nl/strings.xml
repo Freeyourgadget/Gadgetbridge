@@ -1809,4 +1809,17 @@
     <string name="watchface_setting_button_toggle_widgets">Widgets in-/uitschakelen</string>
     <string name="watchface_setting_button_toggle_backlight">Achtergrondverlichting inschakelen</string>
     <string name="controlcenter_get_heartrate_measurement">Hartslagmeting verkrijgen</string>
+    <string name="pref_write_logfiles_not_available">Initialisatie van het loggen van bestanden is mislukt, het schrijven van logbestanden is momenteel niet beschikbaar. Start de app opnieuw om te proberen de logbestanden opnieuw te initialiseren.</string>
+    <string name="title_activity_controlcenter_banglejs_nightly">Bangle.js Gadgetbridge (Nightly)</string>
+    <string name="gadgetbridge_running_banglejs_nightly">Nightly Bangle.js actief</string>
+    <string name="devicetype_binary_sensor">Binaire sensor</string>
+    <string name="step_streaks_achievements_sharing_message">Mijn dagelijkse-stappenprestaties!</string>
+    <string name="step_streaks_achievements_sharing_title">Stappenprestaties</string>
+    <string name="prefs_hourly_chime">Uursignaal</string>
+    <string name="prefs_hourly_chime_summary">Het horloge piept eenmaal per uur</string>
+    <string name="application_name_banglejs_nightly">Bangle.js Gadgetbridge (Nightly)</string>
+    <string name="about_activity_title_banglejs_nightly">Over Bangle.js Gadgetbridge (Nightly)</string>
+    <string name="about_description_banglejs_nightly">Android-app voor Bangle.js, gebouwd bovenop het Gadgetbridge-project, met toegevoegde internettoegang.
+\n
+\nVanwege het Google Play Store-beleid is een donatielink in de app zelf niet toegestaan, maar als je deze app leuk vindt, overweeg dan om te doneren via de Gadgetbridge-homepage hieronder.</string>
 </resources>
