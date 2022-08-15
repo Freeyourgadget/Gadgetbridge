@@ -705,7 +705,7 @@ public abstract class HuamiSupport extends AbstractBTLEDeviceSupport {
      *
      * @param builder
      */
-    private HuamiSupport setHeartrateSleepSupport(TransactionBuilder builder) {
+    protected HuamiSupport setHeartrateSleepSupport(TransactionBuilder builder) {
         final boolean enableHrSleepSupport = MiBandCoordinator.getHeartrateSleepSupport(gbDevice.getAddress());
         if (characteristicHRControlPoint != null) {
             builder.notify(characteristicHRControlPoint, true);
