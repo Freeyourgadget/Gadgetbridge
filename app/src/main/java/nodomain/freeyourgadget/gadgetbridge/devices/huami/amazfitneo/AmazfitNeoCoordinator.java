@@ -83,7 +83,7 @@ public class AmazfitNeoCoordinator extends HuamiCoordinator {
         return new int[]{
                 R.xml.devicesettings_amazfitneo,
                 R.xml.devicesettings_wearlocation,
-                R.xml.devicesettings_heartrate_sleep,
+                R.xml.devicesettings_heartrate_sleep_activity,
                 R.xml.devicesettings_goal_notification,
                 R.xml.devicesettings_timeformat,
                 R.xml.devicesettings_liftwrist_display,
