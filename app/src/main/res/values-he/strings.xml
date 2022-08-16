@@ -1814,4 +1814,8 @@
     <string name="application_name_banglejs_nightly">Bangle.js Gadgetbridge (Nightly)</string>
     <string name="gadgetbridge_running_banglejs_nightly">Nightly Bangle.js פעיל</string>
     <string name="title_activity_controlcenter_banglejs_nightly">Bangle.js Gadgetbridge (Nightly)</string>
+    <string name="step_streaks_achievements_sharing_message">הישגי הצעדים היומיים שלי!</string>
+    <string name="step_streaks_achievements_sharing_title">הישגי צעדים</string>
+    <string name="prefs_hourly_chime_summary">השעון יצפצף כל שעה</string>
+    <string name="prefs_hourly_chime">התראה שעתית</string>
 </resources>
