@@ -303,9 +303,13 @@ public class ConfigActivity extends AbstractGBActivity {
             }
         });
 
+        // NOTE: this code always selects the first connected Q Hybrid device
+        //       because currently this class is unable to handle multiple
+        //       connected Q Hybrid devices
         List<GBDevice> devices = GBApplication.app().getDeviceManager().getSelectedDevices();
-        for(GBDevice device : devices){
-            if (device.getType() == DeviceType.FOSSILQHYBRID && device.getFirmwareVersion().charAt(2) == '0') {
+        for(GBDevice candidate : devices){
+            if (candidate.getType() == DeviceType.FOSSILQHYBRID && candidate.getFirmwareVersion().charAt(2) == '0') {
+                device = candidate;
                 updateSettings();
                 return;
             }
