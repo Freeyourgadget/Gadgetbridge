@@ -1698,7 +1698,7 @@
     <string name="mi2_prefs_heart_rate_monitoring_summary">Налаштувати стеження за частотою серцевих скорочень</string>
     <string name="pref_title_device_internet_access">Дозволити доступ до інтернету</string>
     <string name="pref_summary_device_internet_access">Дозволити застосункам на цьому пристрої доступ до інтернету</string>
-    <string name="pref_summary_device_intents">Дозволити застосункам для годинника Bangle.js надсилати наміри Android і дозволити іншим застосункам на Android (наприклад, Tasker) надсилати дані до Bangle.js із наміром com.banglejs.uart.tx.</string>
+    <string name="pref_summary_device_intents">Дозволити застосункам для годинника Bangle.js надсилати наміри Android і дозволити іншим застосункам на Android (наприклад, Tasker) надсилати дані до Bangle.js із наміром com.banglejs.uart.tx. Для роботи у фоновому режимі потрібен дозвіл на показ поверх інших застосунків.</string>
     <string name="pref_title_device_intents">Дозволити наміри</string>
     <string name="pref_title_banglejs_text_bitmap">Текст у вигляді растрових зображень</string>
     <string name="pref_summary_banglejs_text_bitmap">Якщо слово не може бути відтворено шрифтом годинника, перетворювати його на растрове зображення в Gadgetbridge і показувати растрове зображення на годиннику</string>
@@ -1709,12 +1709,12 @@
     <string name="notification_channel_gps">GPS-стеження</string>
     <string name="notification_gps_title">Gadgetbridge GPS</string>
     <string name="notification_gps_text">Надсилання місцеперебування GPS на пристрій %1$d</string>
-    <string name="permission_notification_listener">%1$s потребує доступу до сповіщень, щоб показувати їх на годиннику коли екран телефону вимкнено.
+    <string name="permission_notification_listener">%1$s потребує доступу до сповіщень, щоб показувати їх на годиннику коли екран телефона вимкнено.
 \n
-\nТоркніться «%2$s», потім «%1$s» і увімкніть «Дозволити доступ до сповіщень», а потім торкніться «Назад», щоб повернутися до %1$s</string>
-    <string name="permission_notification_policy_access">%1$s потребує доступу до налаштувань «Не турбувати», щоб дотримуватися їх на годиннику коли екран телефону вимкнено.
+\nТоркніться «%2$s», потім «%1$s» й увімкніть «Дозволити доступ до сповіщень», а потім торкніться «Назад», щоб повернутися до %1$s.</string>
+    <string name="permission_notification_policy_access">%1$s потребує доступу до налаштувань «Не турбувати», щоб дотримуватися їх на годиннику коли екран телефона вимкнено.
 \n
-\nТоркніться «%2$s», потім «%1$s» і увімкніть «Дозволити не турбувати», а потім торкніться «Назад», щоб повернутися до %1$s</string>
+\nТоркніться «%2$s», потім «%1$s» й увімкніть «Дозволити не турбувати», а потім торкніться «Назад», щоб повернутися до %1$s.</string>
     <string name="pref_device_action_phone_gps_location_listener_stop">Зупинка відстежувача GPS-розташування</string>
     <string name="discovery_scanning_intensity_warning">Якщо ви бачите заморожування або несприйняття, спробуйте встановити нижчий рівень інтенсивності сканування. Якщо пристрій не виявлено, спробуйте встановити інтенсивність сканування на вищий рівень.</string>
     <string name="discovery_scanning_intensity">Інтенсивність сканування</string>
@@ -1829,4 +1829,9 @@
     <string name="prefs_hourly_chime_summary">Годинник подаватиме звуковий сигнал раз на годину</string>
     <string name="step_streaks_achievements_sharing_title">Досягнення кількості кроків</string>
     <string name="step_streaks_achievements_sharing_message">Мої щоденні досягнення кількості кроків!</string>
+    <string name="permission_display_over_other_apps">%1$s потребує дозволу на показ над іншими застосунками, щоб дозволити годинникам Bangle.js починати діяльність через намір, коли %1$s перебуває у фоновому режимі.
+\n
+\nЦе можна використовувати для запуску музичного застосунку та відтворення пісні та багатьох інших речей.
+\n
+\nТоркніться «%2$s», потім «%1$s» й увімкніть «Дозволити показ над іншими застосунками», а потім торкніться «Назад», щоб повернутися до %1$s.</string>
 </resources>
