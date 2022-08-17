@@ -28,7 +28,7 @@ public final class QHybridConstants {
             put("buddyChallengeApp", "2.10");
             put("commuteApp", "2.5");
             put("launcherApp", "3.8");
-            put("musicApp", "3.4");
+            put("musicApp", "3.9");
             put("notificationsPanelApp", "3.5");
             put("ringPhoneApp", "3.7");
             put("settingApp", "3.12");
