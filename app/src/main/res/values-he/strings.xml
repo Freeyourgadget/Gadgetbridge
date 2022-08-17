@@ -1818,4 +1818,7 @@
     <string name="step_streaks_achievements_sharing_title">הישגי צעדים</string>
     <string name="prefs_hourly_chime_summary">השעון יצפצף כל שעה</string>
     <string name="prefs_hourly_chime">התראה שעתית</string>
+    <string name="about_description_banglejs_nightly">יישומון נלווה ל־Bangle.js לסביבת Android שנבנה על גבי מיזם Gadgetbridge בתוספת גישה לאינטרנט.
+\n
+\nעקב מדיניות של חנות Google Play אסור לנו להציב קישור תרומה ביישומון עצמו אבל אם היישומון הזה נושא חן בעיניך, נא לשקול לתרום לו דרך האתר של Gadgetbridge שלהלן.</string>
 </resources>
