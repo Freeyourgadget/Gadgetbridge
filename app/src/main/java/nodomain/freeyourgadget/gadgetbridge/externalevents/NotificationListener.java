@@ -207,7 +207,7 @@ public class NotificationListener extends NotificationListenerService {
                         PendingIntent actionIntent = wearableAction.getActionIntent();
                         Intent localIntent = new Intent();
                         localIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                        if(wearableAction.getRemoteInputs()!=null) {
+                        if (wearableAction.getRemoteInputs() != null && wearableAction.getRemoteInputs().length > 0) {
                             RemoteInput[] remoteInputs = wearableAction.getRemoteInputs();
                             Bundle extras = new Bundle();
                             extras.putCharSequence(remoteInputs[0].getResultKey(), reply);
@@ -409,7 +409,7 @@ public class NotificationListener extends NotificationListenerService {
             if (act != null) {
                 NotificationSpec.Action wearableAction = new NotificationSpec.Action();
                 wearableAction.title = act.getTitle().toString();
-                if(act.getRemoteInputs()!=null) {
+                if (act.getRemoteInputs() != null && act.getRemoteInputs().length > 0) {
                     wearableAction.type = NotificationSpec.Action.TYPE_WEARABLE_REPLY;
                 } else {
                     wearableAction.type = NotificationSpec.Action.TYPE_WEARABLE_SIMPLE;
@@ -780,8 +780,12 @@ public class NotificationListener extends NotificationListenerService {
     }
 
     private void logNotification(StatusBarNotification sbn, boolean posted) {
-        String infoMsg = (posted ? "Notification posted" : "Notification removed")
-                + ": " + sbn.getPackageName();
+        String infoMsg = String.format(
+                "Notification %d %s: %s",
+                sbn.getId(),
+                posted ? "posted" : "removed",
+                sbn.getPackageName()
+        );
 
         if (GBApplication.isRunningLollipopOrLater()) {
             infoMsg += ": " + sbn.getNotification().category;

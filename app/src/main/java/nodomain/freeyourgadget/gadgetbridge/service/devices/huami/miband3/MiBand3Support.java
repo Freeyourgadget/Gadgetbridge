@@ -67,63 +67,6 @@ public class MiBand3Support extends AmazfitBipSupport {
     }
 
     @Override
-    public void onSendConfiguration(String config) {
-        TransactionBuilder builder;
-        try {
-            builder = performInitialized("Sending configuration for option: " + config);
-            switch (config) {
-                case MiBandConst.PREF_NIGHT_MODE:
-                case MiBandConst.PREF_NIGHT_MODE_START:
-                case MiBandConst.PREF_NIGHT_MODE_END:
-                    setNightMode(builder);
-                    break;
-                default:
-                    super.onSendConfiguration(config);
-                    return;
-            }
-            builder.queue(getQueue());
-        } catch (IOException e) {
-            GB.toast("Error setting configuration", Toast.LENGTH_LONG, GB.ERROR, e);
-        }
-    }
-
-    private MiBand3Support setNightMode(TransactionBuilder builder) {
-        String nightMode = MiBand3Coordinator.getNightMode(gbDevice.getAddress());
-        LOG.info("Setting night mode to " + nightMode);
-
-        switch (nightMode) {
-            case MiBandConst.PREF_NIGHT_MODE_SUNSET:
-                writeToConfiguration(builder, MiBand3Service.COMMAND_NIGHT_MODE_SUNSET);
-                break;
-            case MiBandConst.PREF_NIGHT_MODE_OFF:
-                writeToConfiguration(builder, MiBand3Service.COMMAND_NIGHT_MODE_OFF);
-                break;
-            case MiBandConst.PREF_NIGHT_MODE_SCHEDULED:
-                byte[] cmd = MiBand3Service.COMMAND_NIGHT_MODE_SCHEDULED.clone();
-
-                Calendar calendar = GregorianCalendar.getInstance();
-
-                Date start = MiBand3Coordinator.getNightModeStart(gbDevice.getAddress());
-                calendar.setTime(start);
-                cmd[2] = (byte) calendar.get(Calendar.HOUR_OF_DAY);
-                cmd[3] = (byte) calendar.get(Calendar.MINUTE);
-
-                Date end = MiBand3Coordinator.getNightModeEnd(gbDevice.getAddress());
-                calendar.setTime(end);
-                cmd[4] = (byte) calendar.get(Calendar.HOUR_OF_DAY);
-                cmd[5] = (byte) calendar.get(Calendar.MINUTE);
-
-                writeToConfiguration(builder, cmd);
-                break;
-            default:
-                LOG.error("Invalid night mode: " + nightMode);
-                break;
-        }
-
-        return this;
-    }
-
-    @Override
     public void phase2Initialize(TransactionBuilder builder) {
         super.phase2Initialize(builder);
         LOG.info("phase2Initialize...");

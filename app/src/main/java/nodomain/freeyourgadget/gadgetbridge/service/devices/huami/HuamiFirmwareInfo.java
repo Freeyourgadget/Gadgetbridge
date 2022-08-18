@@ -26,7 +26,7 @@ import nodomain.freeyourgadget.gadgetbridge.util.ArrayUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.CheckSums;
 
 
-public abstract class HuamiFirmwareInfo {
+public abstract class HuamiFirmwareInfo extends AbstractHuamiFirmwareInfo {
 
     protected static final byte[] RES_HEADER = new byte[]{ // HMRES resources file (*.res)
             0x48, 0x4d, 0x52, 0x45, 0x53
@@ -104,9 +104,9 @@ public abstract class HuamiFirmwareInfo {
     protected static final int COMPRESSED_RES_HEADER_OFFSET = 0x9;
     protected static final int COMPRESSED_RES_HEADER_OFFSET_NEW = 0xd;
 
-    private HuamiFirmwareType firmwareType;
-
+    @Override
     public String toVersion(int crc16) {
+        final byte[] bytes = getBytes();
         String version = getCrcMap().get(crc16);
         if (version == null) {
             switch (firmwareType) {
@@ -165,60 +165,9 @@ public abstract class HuamiFirmwareInfo {
         return version;
     }
 
-    public int[] getWhitelistedVersions() {
-        return ArrayUtils.toIntArray(getCrcMap().keySet());
-    }
-
-    private final int crc16;
-    private final int crc32;
-
-    private byte[] bytes;
-
     public HuamiFirmwareInfo(byte[] bytes) {
-        this.bytes = bytes;
-        crc16 = CheckSums.getCRC16(bytes);
-        crc32 = CheckSums.getCRC32(bytes);
-        firmwareType = determineFirmwareType(bytes);
+        super(bytes);
     }
-
-    public abstract boolean isGenerallyCompatibleWith(GBDevice device);
-
-    public boolean isHeaderValid() {
-        return getFirmwareType() != HuamiFirmwareType.INVALID;
-    }
-
-    public void checkValid() throws IllegalArgumentException {
-    }
-
-    /**
-     * @return the size of the firmware in number of bytes.
-     */
-    public int getSize() {
-        return bytes.length;
-    }
-
-    public byte[] getBytes() {
-        return bytes;
-    }
-
-    public int getCrc16() {
-        return crc16;
-    }
-    public int getCrc32() {
-        return crc32;
-    }
-
-    public int getFirmwareVersion() {
-        return getCrc16(); // HACK until we know how to determine the version from the fw bytes
-    }
-
-    public HuamiFirmwareType getFirmwareType() {
-        return firmwareType;
-    }
-
-    protected abstract Map<Integer, String> getCrcMap();
-
-    protected abstract HuamiFirmwareType determineFirmwareType(byte[] bytes);
 
     protected String searchFirmwareVersion(byte[] fwbytes) {
         ByteBuffer buf = ByteBuffer.wrap(fwbytes);
@@ -241,27 +190,5 @@ public abstract class HuamiFirmwareInfo {
             }
         }
         return null;
-    }
-
-    protected boolean searchString32BitAligned(byte[] fwbytes, String findString) {
-        ByteBuffer stringBuf = ByteBuffer.wrap((findString + "\0").getBytes());
-        stringBuf.order(ByteOrder.BIG_ENDIAN);
-        int[] findArray = new int[stringBuf.remaining() / 4];
-        for (int i = 0; i < findArray.length; i++) {
-            findArray[i] = stringBuf.getInt();
-        }
-
-        ByteBuffer buf = ByteBuffer.wrap(fwbytes);
-        buf.order(ByteOrder.BIG_ENDIAN);
-        while (buf.remaining() > 3) {
-            int arrayPos = 0;
-            while (arrayPos < findArray.length && buf.remaining() > 3 && (buf.getInt() == findArray[arrayPos])) {
-                arrayPos++;
-            }
-            if (arrayPos == findArray.length) {
-                return true;
-            }
-        }
-        return false;
     }
 }

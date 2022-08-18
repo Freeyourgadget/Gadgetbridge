@@ -303,6 +303,14 @@ public class ServiceDeviceSupport implements DeviceSupport {
     }
 
     @Override
+    public void onPhoneFound() {
+        if (checkBusy("phone found")) {
+            return;
+        }
+        delegate.onPhoneFound();
+    }
+
+    @Override
     public void onSetConstantVibration(int intensity) {
         if (checkBusy("set constant vibration")) {
             return;

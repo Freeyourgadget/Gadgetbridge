@@ -85,7 +85,6 @@ public abstract class AbstractFetchOperation extends AbstractHuamiOperation {
         lastPacketCounter = -1;
 
         TransactionBuilder builder = performInitialized(getName());
-        getSupport().setLowLatency(builder);
         if (fetchCount == 0) {
             builder.add(new SetDeviceBusyAction(getDevice(), getContext().getString(R.string.busy_task_fetch_activity_data), getContext()));
         }
@@ -176,6 +175,7 @@ public abstract class AbstractFetchOperation extends AbstractHuamiOperation {
     }
 
     private void handleActivityMetadata(byte[] value) {
+        // TODO it's 16 on the MB7
         if (value.length == 15) {
             // first two bytes are whether our request was accepted
             if (ArrayUtils.equals(value, HuamiService.RESPONSE_ACTIVITY_DATA_START_DATE_SUCCESS, 0)) {

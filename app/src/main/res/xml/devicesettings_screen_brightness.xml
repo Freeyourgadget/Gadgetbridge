@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <SeekBarPreference
+        android:defaultValue="50"
+        android:icon="@drawable/ic_wb_sunny"
+        android:key="screen_brightness"
+        android:max="100"
+        android:title="@string/pref_screen_brightness" />
+</androidx.preference.PreferenceScreen>

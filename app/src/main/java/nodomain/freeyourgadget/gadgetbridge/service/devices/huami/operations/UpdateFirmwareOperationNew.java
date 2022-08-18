@@ -28,6 +28,7 @@ import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiService;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.BLETypeConversions;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.SetDeviceBusyAction;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.AbstractHuamiFirmwareInfo;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.HuamiFirmwareInfo;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.HuamiFirmwareType;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.HuamiSupport;
@@ -87,7 +88,7 @@ public class UpdateFirmwareOperationNew extends UpdateFirmwareOperation {
     }
 
     @Override
-    protected void sendChecksum(HuamiFirmwareInfo firmwareInfo) throws IOException {
+    protected void sendChecksum(AbstractHuamiFirmwareInfo firmwareInfo) throws IOException {
         TransactionBuilder builder = performInitialized("send firmware upload finished");
         builder.write(fwCControlChar, new byte[]{HuamiService.COMMAND_FIRMWARE_CHECKSUM});
         builder.queue(getQueue());

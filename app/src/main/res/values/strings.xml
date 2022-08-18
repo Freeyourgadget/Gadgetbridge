@@ -131,6 +131,7 @@
     <string name="fw_upgrade_notice_miband4">You are about to install the %s firmware on your Mi Band 4.\n\nPlease make sure to install the .fw file, and after that the .res file. Your band will reboot after installing the .fw file.\n\nNote: You do not have to install .res if it is exactly the same as the one previously installed.\n\nPROCEED AT YOUR OWN RISK!</string>
     <string name="fw_upgrade_notice_miband5">You are about to install the %s firmware on your Mi Band 5.\n\nPlease make sure to install the .fw file, and after that the .res file. Your band will reboot after installing the .fw file.\n\nNote: You do not have to install .res if it is exactly the same as the one previously installed.\n\nPROCEED AT YOUR OWN RISK!</string>
     <string name="fw_upgrade_notice_miband6">You are about to install the %s firmware on your Mi Band 6.\n\nPlease make sure to install the .fw file, and after that the .res file. Your band will reboot after installing the .fw file.\n\nNote: You do not have to install .res if it is exactly the same as the one previously installed.\n\nPROCEED AT YOUR OWN RISK!</string>
+    <string name="fw_upgrade_notice_miband7">You are about to install the %s firmware on your Xiaomi Smart Band 7.\n\nYour band will reboot after installing the .zip file.\n\nPROCEED AT YOUR OWN RISK!</string>
     <string name="fw_upgrade_notice_amazfitx">You are about to install the %s firmware on your Amazfit X.\n\nPlease make sure to install the .fw file, and after that the .res file. Your band will reboot after installing the .fw file.\n\nNote: You do not have to install .res if it is exactly the same as the one previously installed.\n\nPROCEED AT YOUR OWN RISK!</string>
     <string name="fw_upgrade_notice_amazfitneo">You are about to install the %s firmware on your Amazfit Neo.
 \n
@@ -158,6 +159,12 @@
     <string name="pref_header_general">General settings</string>
     <string name="pref_header_other">Other</string>
     <string name="pref_header_system">System</string>
+    <string name="pref_header_calendar">Calendar</string>
+    <string name="pref_header_connection">Connection</string>
+    <string name="pref_header_display">Display</string>
+    <string name="pref_header_health">Health</string>
+    <string name="pref_header_time">Time</string>
+    <string name="pref_header_workout">Workout</string>
     <string name="pref_header_equalizer">Equalizer</string>
     <string name="pref_title_general_autoconnectonbluetooth">Connect to Gadgetbridge device when Bluetooth is turned on</string>
     <string name="pref_title_general_autostartonboot">Start automatically</string>
@@ -228,6 +235,7 @@
     <string name="pref_blacklist_calendars_summary">Blacklisted calendars will not be synced to the device</string>
     <string name="pref_header_cannned_messages">Canned messages</string>
     <string name="pref_title_canned_replies">Replies</string>
+    <string name="pref_summary_canned_replies">Reply from the watch using preset messages</string>
     <string name="pref_title_canned_reply_suffix">Common suffix</string>
     <string name="pref_title_canned_messages_dismisscall">Call Dismissal</string>
     <string name="pref_title_canned_messages_set">Update on device</string>
@@ -252,6 +260,8 @@
     <string name="pref_summary_custom_deviceicon">Show a device specific Android notification icon instead the Gadgetbridge icon when connected</string>
     <string name="pref_title_autoremove_notifications">Autoremove dismissed notifications</string>
     <string name="pref_summary_autoremove_notifications">Notifications are automatically removed from the device when dismissed from the phone</string>
+    <string name="pref_title_screen_on_on_notifications">Screen On on Notifications</string>
+    <string name="pref_summary_screen_on_on_notifications">Turn on the band\'s screen when a notification arrives</string>
     <string name="pref_title_pebble_privacy_mode">Privacy mode</string>
     <string name="pref_pebble_privacy_mode_off">Normal notifications</string>
     <string name="pref_pebble_privacy_mode_content">Shift the notification text off-screen</string>
@@ -480,6 +490,8 @@
     <string name="watch9_pairing_tap_hint">When your watch vibrates, shake the device or press its button.</string>
     <string name="title_activity_sleepmonitor">Sleep monitor</string>
     <string name="pref_write_logfiles">Write log files</string>
+    <string name="pref_cache_weather">Cache weather information</string>
+    <string name="pref_cache_weather_summary">Weather information will be cached across application restarts.</string>
     <string name="pref_write_logfiles_not_available">File logging initialization failed, writing log files is currently not available. Restart the application to attempt to initialize the log files again.</string>
     <string name="initializing">Initializing</string>
     <string name="busy_task_fetch_activity_data">Fetching activity data</string>
@@ -520,10 +532,13 @@
     <string name="interval_fifteen_minutes">every 15 minutes</string>
     <string name="interval_thirty_minutes">every 30 minutes</string>
     <string name="interval_forty_five_minutes">every 45 minutes</string>
+    <string name="heartrate_bpm_40">40 bpm</string>
+    <string name="heartrate_bpm_45">45 bpm</string>
+    <string name="heartrate_bpm_50">50 bpm</string>
     <string name="heartrate_bpm_100">100 bpm</string>
     <string name="heartrate_bpm_105">105 bpm</string>
     <string name="heartrate_bpm_110">110 bpm</string>
-    <string name="heartrate_bpm_112">112 bpm</string>
+    <string name="heartrate_bpm_115">115 bpm</string>
     <string name="heartrate_bpm_120">120 bpm</string>
     <string name="heartrate_bpm_125">125 bpm</string>
     <string name="heartrate_bpm_130">130 bpm</string>
@@ -531,6 +546,10 @@
     <string name="heartrate_bpm_140">140 bpm</string>
     <string name="heartrate_bpm_145">145 bpm</string>
     <string name="heartrate_bpm_150">150 bpm</string>
+    <string name="spo2_perc_80">80%</string>
+    <string name="spo2_perc_85">85%</string>
+    <string name="spo2_perc_90">90%</string>
+    <string name="spo2_off">Off</string>
     <string name="interval_one_hour">once an hour</string>
     <string name="stats_title">Speed zones</string>
     <string name="stats_x_axis_label">Total minutes</string>
@@ -590,8 +609,15 @@
     <string name="prefs_heartrate_alert_experimental_title">Heart rate alert (experimental)</string>
     <string name="prefs_heartrate_alert_experimental_description">Vibrate the band when the heart rate is over a threshold, without any obvious physical activity in the last 10 minutes. This feature is experimental, and was not extensively tested.</string>
     <string name="prefs_heartrate_alert_threshold">Heart rate alert threshold</string>
+    <string name="prefs_heartrate_alert_high_threshold">High heart rate alert threshold</string>
+    <string name="prefs_heartrate_alert_low_threshold">Low heart rate alert threshold</string>
     <string name="prefs_stress_monitoring_title">Stress monitoring</string>
     <string name="prefs_stress_monitoring_description">Monitor stress level while resting</string>
+    <string name="prefs_relaxation_reminder_title">Relaxation reminder</string>
+    <string name="prefs_relaxation_reminder_description">Vibrate the band to notify you if the stress value is higher than 80</string>
+    <string name="prefs_spo2_monitoring_title">Blood Oxygen Monitoring</string>
+    <string name="prefs_spo2_monitoring_description">Automatically monitor the blood oxygen levels throughout the day</string>
+    <string name="prefs_spo2_alert_threshold">SPO2 alert threshold</string>
     <string name="prefs_activity_monitoring_title">Activity monitoring</string>
     <string name="prefs_activity_monitoring_description">Automatically increase the heart rate detection frequency when the band detects physical exercise, to increase heart rate capture accuracy.</string>
     <string name="dbaccess_error_executing">Error executing \'%1$s\'</string>
@@ -666,7 +692,16 @@
     <string name="battery">Battery</string>
     <string name="no_limit">No limit</string>
     <string name="seconds_5">5 seconds</string>
+    <string name="seconds_6">6 seconds</string>
+    <string name="seconds_7">7 seconds</string>
+    <string name="seconds_8">8 seconds</string>
+    <string name="seconds_9">9 seconds</string>
     <string name="seconds_10">10 seconds</string>
+    <string name="seconds_11">11 seconds</string>
+    <string name="seconds_12">12 seconds</string>
+    <string name="seconds_13">13 seconds</string>
+    <string name="seconds_14">14 seconds</string>
+    <string name="seconds_15">15 seconds</string>
     <string name="seconds_20">20 seconds</string>
     <string name="seconds_30">30 seconds</string>
     <string name="minutes_1">1 minute</string>
@@ -705,6 +740,7 @@
     <string name="miband_prefs_reserve_reminder_calendar">Reminders to reserve for upcoming events</string>
     <string name="prefs_reserve_reminder_calendar_summary">Number of calendar events that will be synchronized</string>
     <string name="miband_prefs_hr_sleep_detection">Use heart rate sensor to improve sleep detection</string>
+    <string name="pref_sleep_breathing_quality_monitoring">Sleep breathing quality monitoring</string>
     <string name="miband_prefs_device_time_offset_hours">Device time offset in hours (for detecting sleep of shift workers)</string>
     <string name="prefs_find_phone">Find phone</string>
     <string name="prefs_enable_find_phone">Turn on \'Find phone\'</string>
@@ -741,6 +777,8 @@
     <string name="mi2_prefs_inactivity_warnings_dnd_summary">Disable inactivity warnings for a time interval</string>
     <string name="mi2_prefs_heart_rate_monitoring">Heart Rate Monitoring</string>
     <string name="mi2_prefs_heart_rate_monitoring_summary">Configure heart rate monitoring</string>
+    <string name="prefs_always_on_display">Always On Display</string>
+    <string name="prefs_always_on_display_summary">Keep the band\'s display always on</string>
     <string name="prefs_password">Password</string>
     <string name="prefs_password_summary">Lock the band with a password when removed from the wrist</string>
     <string name="prefs_password_enabled">Password Enabled</string>
@@ -757,6 +795,7 @@
     <string name="bip_prefs_shortcuts">Shortcuts</string>
     <string name="bip_prefs_shotcuts_summary">Choose the shortcuts on the band screen</string>
     <string name="prefs_activate_display_on_lift_sensitivity">Sensitivity</string>
+    <string name="prefs_screen_timeout">Screen Timeout</string>
     <string name="mi5_prefs_workout_activity_types">Workout Activity Types</string>
     <string name="mi5_prefs_workout_activity_types_summary">Choose the activity types to display on the workouts screen</string>
     <string name="pref_title_force_white_color_scheme">Force black on white color scheme</string>
@@ -929,10 +968,12 @@
     <string name="mi2_enable_text_notifications">Text notifications</string>
     <string name="mi2_enable_text_notifications_summary"><![CDATA[Needs firmware >= 1.0.1.28 and Mili_pro.ft* installed.]]></string>
     <string name="on">On</string>
+    <string name="smart">Smart</string>
     <string name="off">Off</string>
     <string name="normal">Normal</string>
     <string name="sensitive">Sensitive</string>
     <string name="mi2_dnd_off">Off</string>
+    <string name="mi2_dnd_always">Always</string>
     <string name="mi3_night_mode_sunset">At sunset</string>
     <string name="mi2_dnd_automatic">Automatic (sleep detection)</string>
     <string name="mi2_dnd_scheduled">Scheduled (time interval)</string>
@@ -1013,6 +1054,7 @@
     <string name="devicetype_miband4">Mi Band 4</string>
     <string name="devicetype_miband5">Mi Band 5</string>
     <string name="devicetype_miband6">Mi Band 6</string>
+    <string name="devicetype_miband7">Xiaomi Smart Band 7</string>
     <string name="devicetype_amazfit_band5">Amazfit Band 5</string>
     <string name="devicetype_amazfit_neo">Amazfit Neo</string>
     <string name="devicetype_amazfit_bip">Amazfit Bip</string>
@@ -1125,6 +1167,11 @@
     <string name="menuitem_barometer">Barometer</string>
     <string name="menuitem_flashlight">Flashlight</string>
     <string name='menuitem_email'>E-mail</string>
+    <string name='menuitem_countdown'>Countdown</string>
+    <string name='menuitem_personal_activity_intelligence'>Personal Activity Intelligence</string>
+    <string name='menuitem_workout_history'>Workout History</string>
+    <string name='menuitem_female_health'>Female Health</string>
+    <string name='menuitem_workout_status'>Workout Status</string>
     <string name="watch9_time_minutes">Minutes:</string>
     <string name="watch9_time_hours">Hours:</string>
     <string name="watch9_time_seconds">Seconds:</string>
@@ -1389,7 +1436,7 @@
     <string name="medley">Medley</string>
     <string name="devicetype_nut_mini">Nut mini</string>
     <string name="qhybrid_calibration_align_hint">Use the buttons below to align the watch hands to 12:00.</string>
-    <string translatable="false" name="lorem_ipsum">Lorem Ipsum</string>
+    <string name="lorem_ipsum" translatable="false">Lorem Ipsum</string>
     <plurals name="widget_alarm_target_hours">
         <item quantity="one">%d hour</item>
         <item quantity="two">%d hours</item>
@@ -1583,7 +1630,11 @@
     <string name="pref_voice_detect_duration_5">5 seconds</string>
     <string name="pref_voice_detect_duration_10">10 seconds</string>
     <string name="pref_voice_detect_duration_15">15 seconds</string>
-
+    <string name="pref_header_heartrate_sleep">Sleep</string>
+    <string name="pref_header_heartrate_allday">All-day monitoring</string>
+    <string name="pref_header_heartrate_alerts">Heart rate alerts</string>
+    <string name="pref_header_stress">Stress</string>
+    <string name="pref_header_spo2">Blood Oxygen</string>
     <string name="pref_header_sony_ambient_sound_control">Ambient Sound Control</string>
     <string name="pref_header_sony_device_info">Device Information</string>
     <string name="sony_ambient_sound">Mode</string>
@@ -1670,6 +1721,7 @@
     <string name="sony_button_mode_ambient_sound_control">Ambient Sound Control</string>
     <string name="sony_button_mode_playback_control">Playback Control</string>
     <string name="sony_button_mode_volume_control">Volume Control</string>
+    <string name="pref_screen_brightness">Screen Brightness</string>
     <string name="watchface_widget_type_custom">Custom widget</string>
     <string name="watchface_dialog_widget_timezone">Time zone</string>
     <string name="watchface_dialog_widget_timezone_duration">Clock visibility duration (in seconds)</string>

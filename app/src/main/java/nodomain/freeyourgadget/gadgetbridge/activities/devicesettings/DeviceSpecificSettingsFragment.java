@@ -51,7 +51,6 @@ import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.activities.CalBlacklistActivity;
 import nodomain.freeyourgadget.gadgetbridge.activities.ConfigureWorldClocks;
-import nodomain.freeyourgadget.gadgetbridge.activities.SettingsActivity;
 import nodomain.freeyourgadget.gadgetbridge.capabilities.password.PasswordCapabilityImpl;
 import nodomain.freeyourgadget.gadgetbridge.devices.DeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.DeviceManager;
@@ -361,7 +360,22 @@ public class DeviceSpecificSettingsFragment extends PreferenceFragmentCompat imp
             });
         }
 
+        addPreferenceHandlerFor(PREF_HEARTRATE_ALERT_HIGH_THRESHOLD);
+        addPreferenceHandlerFor(PREF_HEARTRATE_ALERT_LOW_THRESHOLD);
+
         final ListPreference heartrateMeasurementInterval = findPreference(PREF_HEARTRATE_MEASUREMENT_INTERVAL);
+        final ListPreference heartrateAlertHigh = findPreference(PREF_HEARTRATE_ALERT_HIGH_THRESHOLD);
+        final ListPreference heartrateAlertLow = findPreference(PREF_HEARTRATE_ALERT_LOW_THRESHOLD);
+        // Newer devices that have low alert threshold can only use it if measurement interval is smart (-1) or 1 minute
+        final boolean hrAlertsNeedSmartOrOne = heartrateAlertHigh != null && heartrateAlertLow != null && heartrateMeasurementInterval != null;
+        if (hrAlertsNeedSmartOrOne) {
+            final boolean hrMonitoringIsSmartOrOne = heartrateMeasurementInterval.getValue().equals("60") ||
+                    heartrateMeasurementInterval.getValue().equals("-1");
+
+            heartrateAlertHigh.setEnabled(hrMonitoringIsSmartOrOne);
+            heartrateAlertLow.setEnabled(hrMonitoringIsSmartOrOne);
+        }
+
         if (heartrateMeasurementInterval != null) {
             final SwitchPreference activityMonitoring = findPreference(PREF_HEARTRATE_ACTIVITY_MONITORING);
             final SwitchPreference heartrateAlertEnabled = findPreference(PREF_HEARTRATE_ALERT_ENABLED);
@@ -379,7 +393,15 @@ public class DeviceSpecificSettingsFragment extends PreferenceFragmentCompat imp
                     if (heartrateAlertEnabled != null) {
                         heartrateAlertEnabled.setEnabled(isMeasurementIntervalEnabled);
                     }
-                    if (stressMonitoring != null) {
+                    if (hrAlertsNeedSmartOrOne) {
+                        // Same as above, check if smart or 1 minute
+                        final boolean hrMonitoringIsSmartOrOne = newVal.equals("60") || newVal.equals("-1");
+
+                        heartrateAlertHigh.setEnabled(hrMonitoringIsSmartOrOne);
+                        heartrateAlertLow.setEnabled(hrMonitoringIsSmartOrOne);
+                    }
+                    if (stressMonitoring != null && !hrAlertsNeedSmartOrOne) {
+                        // Newer devices (that have hrAlertsNeedSmartOrOne) also don't need HR monitoring for stress monitoring
                         stressMonitoring.setEnabled(isMeasurementIntervalEnabled);
                     }
 
@@ -395,7 +417,8 @@ public class DeviceSpecificSettingsFragment extends PreferenceFragmentCompat imp
             if (heartrateAlertEnabled != null) {
                 heartrateAlertEnabled.setEnabled(isMeasurementIntervalEnabled);
             }
-            if (stressMonitoring != null) {
+            if (stressMonitoring != null && !hrAlertsNeedSmartOrOne) {
+                // Newer devices (that have hrAlertsNeedSmartOrOne) also don't need HR monitoring for stress monitoring
                 stressMonitoring.setEnabled(isMeasurementIntervalEnabled);
             }
         }
@@ -414,7 +437,9 @@ public class DeviceSpecificSettingsFragment extends PreferenceFragmentCompat imp
         addPreferenceHandlerFor(PREF_WEARLOCATION);
         addPreferenceHandlerFor(PREF_VIBRATION_ENABLE);
         addPreferenceHandlerFor(PREF_NOTIFICATION_ENABLE);
+        addPreferenceHandlerFor(PREF_SCREEN_BRIGHTNESS);
         addPreferenceHandlerFor(PREF_SCREEN_ORIENTATION);
+        addPreferenceHandlerFor(PREF_SCREEN_TIMEOUT);
         addPreferenceHandlerFor(PREF_TIMEFORMAT);
         addPreferenceHandlerFor(PREF_BUTTON_1_FUNCTION_SHORT);
         addPreferenceHandlerFor(PREF_BUTTON_2_FUNCTION_SHORT);
@@ -452,21 +477,22 @@ public class DeviceSpecificSettingsFragment extends PreferenceFragmentCompat imp
         addPreferenceHandlerFor(PREF_AUTOHEARTRATE_START);
         addPreferenceHandlerFor(PREF_AUTOHEARTRATE_END);
         addPreferenceHandlerFor(PREF_HEARTRATE_ACTIVITY_MONITORING);
-        addPreferenceHandlerFor(PREF_HEARTRATE_ALERT_THRESHOLD);
         addPreferenceHandlerFor(PREF_HEARTRATE_ALERT_ENABLED);
         addPreferenceHandlerFor(PREF_HEARTRATE_STRESS_MONITORING);
+        addPreferenceHandlerFor(PREF_HEARTRATE_STRESS_RELAXATION_REMINDER);
+        addPreferenceHandlerFor(PREF_HEARTRATE_SLEEP_BREATHING_QUALITY_MONITORING);
+        addPreferenceHandlerFor(PREF_SPO2_ALL_DAY_MONITORING);
+        addPreferenceHandlerFor(PREF_SPO2_LOW_ALERT_THRESHOLD);
         addPreferenceHandlerFor(PREF_DO_NOT_DISTURB_NOAUTO);
         addPreferenceHandlerFor(PREF_DO_NOT_DISTURB_NOAUTO_START);
         addPreferenceHandlerFor(PREF_DO_NOT_DISTURB_NOAUTO_END);
-        addPreferenceHandlerFor(PREF_DO_NOT_DISTURB);
-        addPreferenceHandlerFor(PREF_DO_NOT_DISTURB_START);
-        addPreferenceHandlerFor(PREF_DO_NOT_DISTURB_END);
         addPreferenceHandlerFor(PREF_DO_NOT_DISTURB_LIFT_WRIST);
         addPreferenceHandlerFor(PREF_FIND_PHONE);
         addPreferenceHandlerFor(PREF_FIND_PHONE_DURATION);
         addPreferenceHandlerFor(PREF_AUTOLIGHT);
         addPreferenceHandlerFor(PREF_AUTOREMOVE_MESSAGE);
         addPreferenceHandlerFor(PREF_AUTOREMOVE_NOTIFICATIONS);
+        addPreferenceHandlerFor(PREF_SCREEN_ON_ON_NOTIFICATIONS);
         addPreferenceHandlerFor(PREF_KEY_VIBRATION);
         addPreferenceHandlerFor(PREF_OPERATING_SOUNDS);
         addPreferenceHandlerFor(PREF_FAKE_RING_DURATION);
@@ -627,6 +653,49 @@ public class DeviceSpecificSettingsFragment extends PreferenceFragmentCompat imp
             });
         }
 
+        final String alwaysOnDisplayState = prefs.getString(PREF_ALWAYS_ON_DISPLAY_MODE, PREF_ALWAYS_ON_DISPLAY_OFF);
+        boolean alwaysOnDisplayScheduled = alwaysOnDisplayState.equals(PREF_ALWAYS_ON_DISPLAY_SCHEDULED);
+        boolean alwaysOnDisplayOff = alwaysOnDisplayState.equals(PREF_ALWAYS_ON_DISPLAY_OFF);
+
+        final Preference alwaysOnDisplayStart = findPreference(PREF_ALWAYS_ON_DISPLAY_START);
+        if (alwaysOnDisplayStart != null) {
+            alwaysOnDisplayStart.setEnabled(alwaysOnDisplayScheduled);
+            alwaysOnDisplayStart.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+                @Override
+                public boolean onPreferenceChange(Preference preference, Object newVal) {
+                    notifyPreferenceChanged(PREF_ALWAYS_ON_DISPLAY_START);
+                    return true;
+                }
+            });
+        }
+
+        final Preference alwaysOnDisplayEnd = findPreference(PREF_ALWAYS_ON_DISPLAY_END);
+        if (alwaysOnDisplayEnd != null) {
+            alwaysOnDisplayEnd.setEnabled(alwaysOnDisplayScheduled);
+            alwaysOnDisplayEnd.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+                @Override
+                public boolean onPreferenceChange(Preference preference, Object newVal) {
+                    notifyPreferenceChanged(PREF_ALWAYS_ON_DISPLAY_END);
+                    return true;
+                }
+            });
+        }
+
+        final Preference alwaysOnDisplayMode = findPreference(PREF_ALWAYS_ON_DISPLAY_MODE);
+        if (alwaysOnDisplayMode != null) {
+            alwaysOnDisplayMode.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+                @Override
+                public boolean onPreferenceChange(Preference preference, Object newVal) {
+                    final boolean scheduled = PREF_ALWAYS_ON_DISPLAY_SCHEDULED.equals(newVal.toString());
+                    final boolean off = PREF_ALWAYS_ON_DISPLAY_OFF.equals(newVal.toString());
+                    alwaysOnDisplayStart.setEnabled(scheduled);
+                    alwaysOnDisplayEnd.setEnabled(scheduled);
+                    notifyPreferenceChanged(PREF_ALWAYS_ON_DISPLAY_MODE);
+                    return true;
+                }
+            });
+        }
+
         final Preference displayOnLiftStart = findPreference(PREF_DISPLAY_ON_LIFT_START);
         if (displayOnLiftStart != null) {
             displayOnLiftStart.setEnabled(displayOnLiftScheduled);
@@ -724,6 +793,26 @@ public class DeviceSpecificSettingsFragment extends PreferenceFragmentCompat imp
                     cannedMessagesSpec.type = CannedMessagesSpec.TYPE_REJECTEDCALLS;
                     cannedMessagesSpec.cannedMessages = messages.toArray(new String[0]);
                     GBApplication.deviceService(device).onSetCannedMessages(cannedMessagesSpec);
+                    return true;
+                }
+            });
+        }
+
+        final Preference cannedMessagesGeneric = findPreference("canned_messages_generic_send");
+        if (cannedMessagesGeneric != null) {
+            cannedMessagesGeneric.setOnPreferenceClickListener(new androidx.preference.Preference.OnPreferenceClickListener() {
+                public boolean onPreferenceClick(androidx.preference.Preference preference) {
+                    final ArrayList<String> messages = new ArrayList<>();
+                    for (int i = 1; i <= 16; i++) {
+                        String message = prefs.getString("canned_reply_" + i, null);
+                        if (message != null && !message.equals("")) {
+                            messages.add(message);
+                        }
+                    }
+                    final CannedMessagesSpec cannedMessagesSpec = new CannedMessagesSpec();
+                    cannedMessagesSpec.type = CannedMessagesSpec.TYPE_GENERIC;
+                    cannedMessagesSpec.cannedMessages = messages.toArray(new String[0]);
+                    GBApplication.deviceService().onSetCannedMessages(cannedMessagesSpec);
                     return true;
                 }
             });

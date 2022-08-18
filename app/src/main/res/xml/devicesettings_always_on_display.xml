@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceScreen
+        android:icon="@drawable/ic_always_on_display"
+        android:key="pref_screen_always_on_display"
+        android:persistent="false"
+        android:summary="@string/prefs_always_on_display_summary"
+        android:title="@string/prefs_always_on_display">
+
+        <!-- workaround for missing toolbar -->
+        <PreferenceCategory android:title="@string/prefs_always_on_display" />
+
+        <ListPreference
+            android:defaultValue="@string/p_off"
+            android:entries="@array/always_on_display"
+            android:entryValues="@array/always_on_display_values"
+            android:key="always_on_display_mode"
+            android:summary="%s"
+            android:title="@string/prefs_always_on_display" />
+
+        <nodomain.freeyourgadget.gadgetbridge.util.XTimePreference
+            android:defaultValue="00:00"
+            android:key="always_on_display_start"
+            android:title="@string/mi2_prefs_do_not_disturb_start" />
+
+        <nodomain.freeyourgadget.gadgetbridge.util.XTimePreference
+            android:defaultValue="00:00"
+            android:key="always_on_display_end"
+            android:title="@string/mi2_prefs_do_not_disturb_end" />
+    </PreferenceScreen>
+</androidx.preference.PreferenceScreen>

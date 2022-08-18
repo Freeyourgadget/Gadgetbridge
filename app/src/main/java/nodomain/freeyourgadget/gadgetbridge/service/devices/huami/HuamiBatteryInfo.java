@@ -18,6 +18,7 @@ package nodomain.freeyourgadget.gadgetbridge.service.devices.huami;
 
 import java.util.GregorianCalendar;
 
+import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventBatteryInfo;
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandDateConverter;
 import nodomain.freeyourgadget.gadgetbridge.model.BatteryState;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.BLETypeConversions;
@@ -107,5 +108,14 @@ public class HuamiBatteryInfo extends AbstractInfo {
 //
 //        }
         return -1;
+    }
+
+    public GBDeviceEventBatteryInfo toDeviceEvent() {
+        final GBDeviceEventBatteryInfo deviceEventBatteryInfo = new GBDeviceEventBatteryInfo();
+        deviceEventBatteryInfo.level = ((short) getLevelInPercent());
+        deviceEventBatteryInfo.state = getState();
+        deviceEventBatteryInfo.lastChargeTime = getLastChargeTime();
+        deviceEventBatteryInfo.numCharges = getNumCharges();
+        return deviceEventBatteryInfo;
     }
 }

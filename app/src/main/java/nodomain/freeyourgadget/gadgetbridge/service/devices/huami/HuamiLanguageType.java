@@ -16,11 +16,12 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.service.devices.huami;
 
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 public class HuamiLanguageType {
-    public static final Map<String, Integer> idLookup = new HashMap<String, Integer>() {{
+    // Use a LinkedHashMap (sorted), so that when we reverse it we get the first value as key, deterministically
+    public static final Map<String, Integer> idLookup = new LinkedHashMap<String, Integer>() {{
         put("zh_CN", 0x00);
         put("zh_TW", 0x01);
         put("zh_HK", 0x01);

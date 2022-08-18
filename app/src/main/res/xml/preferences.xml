@@ -376,6 +376,12 @@
             android:layout="@layout/preference_checkbox"
             android:summary="@string/pref_check_permission_status_summary"
             android:title="@string/pref_check_permission_status" />
+        <CheckBoxPreference
+            android:layout="@layout/preference_checkbox"
+            android:defaultValue="true"
+            android:key="cache_weather"
+            android:summary="@string/pref_cache_weather_summary"
+            android:title="@string/pref_cache_weather" />
         <Preference
             android:key="pref_discovery_pairing"
             android:title="@string/activity_prefs_discovery_pairing" />

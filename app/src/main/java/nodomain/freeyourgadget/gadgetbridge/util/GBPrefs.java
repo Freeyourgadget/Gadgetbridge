@@ -105,12 +105,12 @@ public class GBPrefs {
     }
 
     public String getTimeFormat() {
-        String timeFormat = mPrefs.getString(DeviceSettingsPreferenceConst.PREF_TIMEFORMAT, "auto");
-        if ("auto".equals(timeFormat)) {
+        String timeFormat = mPrefs.getString(DeviceSettingsPreferenceConst.PREF_TIMEFORMAT, DeviceSettingsPreferenceConst.PREF_TIMEFORMAT_AUTO);
+        if (DeviceSettingsPreferenceConst.PREF_TIMEFORMAT_AUTO.equals(timeFormat)) {
             if (DateFormat.is24HourFormat(GBApplication.getContext())) {
-                timeFormat = "24h";
+                timeFormat = DeviceSettingsPreferenceConst.PREF_TIMEFORMAT_24H;
             } else {
-                timeFormat = "am/pm";
+                timeFormat = DeviceSettingsPreferenceConst.PREF_TIMEFORMAT_12H;
             }
         }
 

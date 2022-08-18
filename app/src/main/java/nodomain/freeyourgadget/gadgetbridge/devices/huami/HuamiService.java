@@ -206,6 +206,14 @@ public class HuamiService {
     public static byte DND_BYTE_END_HOURS = 4;
     public static byte DND_BYTE_END_MINUTES = 5;
 
+    public static final byte MUSIC_FLAG_STATE = 0x01;
+    public static final byte MUSIC_FLAG_ARTIST = 0x02;
+    public static final byte MUSIC_FLAG_ALBUM = 0x04;
+    public static final byte MUSIC_FLAG_TRACK = 0x08;
+    public static final byte MUSIC_FLAG_DURATION = 0x10;
+    public static final byte MUSIC_FLAG_NOTHING_PLAYING = 0x20;
+    public static final byte MUSIC_FLAG_VOLUME = 0x40;
+
     public static final byte RESPONSE = 0x10;
 
     public static final byte SUCCESS = 0x01;
@@ -237,13 +245,6 @@ public class HuamiService {
     public static final byte COMMAND_SET_PERIODIC_HR_MEASUREMENT_INTERVAL = 0x14;
 
     public static final byte[] COMMAND_TEXT_NOTIFICATION = new byte[] {0x05, 0x01};
-
-    /**
-     * Endpoints for 2021 chunked protocol
-     */
-    public static final short CHUNKED2021_ENDPOINT_AUTH = 0x0082;
-    public static final short CHUNKED2021_ENDPOINT_COMPAT = 0x0090;
-    public static final short CHUNKED2021_ENDPOINT_SMSREPLY = 0x0013;
 
     public static final byte[] COMMAND_ENABLE_HOURLY_CHIME = new byte[] { (byte) 0xfe, 0x0b, 0x00, 0x01, 0x0a, 0x00, 0x16, 0x00 };
     public static final byte[] COMMAND_DISABLE_HOURLY_CHIME = new byte[] { (byte) 0xfe, 0x0b, 0x00, 0x00 };

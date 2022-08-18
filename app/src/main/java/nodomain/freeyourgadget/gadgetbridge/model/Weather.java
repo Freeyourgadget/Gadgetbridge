@@ -23,6 +23,12 @@ import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+
 public class Weather {
     private static final Logger LOG = LoggerFactory.getLogger(Weather.class);
 
@@ -30,12 +36,15 @@ public class Weather {
 
     private JSONObject reconstructedOWMForecast = null;
 
+    private File cacheFile;
+
     public WeatherSpec getWeatherSpec() {
         return weatherSpec;
     }
 
     public void setWeatherSpec(WeatherSpec weatherSpec) {
         this.weatherSpec = weatherSpec;
+        saveToCache();
     }
 
     public JSONObject createReconstructedOWMWeatherReply() {
@@ -969,6 +978,72 @@ public class Weather {
                 return 19;
             default:
                 return 3;
+        }
+    }
+
+    /**
+     * Set the weather cache file. If enabled and the current weather is null, load the cache file.
+     *
+     * @param cacheDir the cache directory, where the cache file will be created
+     * @param enabled whether caching is enabled
+     */
+    public void setCacheFile(final File cacheDir, final boolean enabled) {
+        cacheFile = new File(cacheDir, "weatherCache.bin");
+
+        if (enabled) {
+            LOG.info("Setting weather cache file to {}", cacheFile.getPath());
+
+            if (cacheFile.isFile() && weatherSpec == null) {
+                try {
+                    final FileInputStream f = new FileInputStream(cacheFile);
+                    final ObjectInputStream o = new ObjectInputStream(f);
+
+                    weatherSpec = (WeatherSpec) o.readObject();
+
+                    o.close();
+                    f.close();
+                } catch (final Throwable e) {
+                    LOG.error("Failed to read weather from cache", e);
+                    weatherSpec = null;
+                    cacheFile = null;
+                }
+            } else if (weatherSpec != null) {
+                saveToCache();
+            }
+        } else {
+            if (cacheFile.isFile()) {
+                LOG.info("Deleting weather cache file {}", cacheFile.getPath());
+
+                try {
+                    cacheFile.delete();
+                } catch (final Throwable e) {
+                    LOG.error("Failed to delete cache file", e);
+                    cacheFile = null;
+                }
+            }
+        }
+    }
+
+    /**
+     * Save the current weather to cache, if a cache file is enabled and the weather is not null.
+     */
+    public void saveToCache() {
+        if (weatherSpec == null || cacheFile == null) {
+            return;
+        }
+
+        LOG.info("Loading weather from cache {}", cacheFile.getPath());
+
+        try {
+            final FileOutputStream f = new FileOutputStream(cacheFile);
+            final ObjectOutputStream o = new ObjectOutputStream(f);
+
+            o.writeObject(weatherSpec);
+
+            o.close();
+            f.close();
+        } catch (final Throwable e) {
+            LOG.error("Failed to save weather to cache", e);
         }
     }
 }

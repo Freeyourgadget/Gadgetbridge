@@ -232,6 +232,17 @@
         <item>MM/dd/yyyy</item>
     </string-array>
 
+    <string-array name="dateformats_2">
+        <item>YYYY/MM/DD</item>
+        <item>DD/MM/YYYY</item>
+        <item>MM/DD/YYYY</item>
+    </string-array>
+    <string-array name="dateformats_2_values">
+        <item>YYYY/MM/DD</item>
+        <item>DD/MM/YYYY</item>
+        <item>MM/DD/YYYY</item>
+    </string-array>
+
     <string-array name="do_not_disturb_no_auto">
         <item>@string/mi2_dnd_off</item>
         <item>@string/mi2_dnd_scheduled</item>
@@ -252,12 +263,38 @@
         <item>@string/p_scheduled</item>
     </string-array>
 
+    <string-array name="do_not_disturb_with_always">
+        <item>@string/mi2_dnd_off</item>
+        <item>@string/mi2_dnd_always</item>
+        <item>@string/mi2_dnd_automatic</item>
+        <item>@string/mi2_dnd_scheduled</item>
+    </string-array>
+    <string-array name="do_not_disturb_with_always_values">
+        <item>@string/p_off</item>
+        <item>@string/p_always</item>
+        <item>@string/p_automatic</item>
+        <item>@string/p_scheduled</item>
+    </string-array>
+
     <string-array name="zetime_do_not_disturb">
         <item>@string/mi2_dnd_off</item>
         <item>@string/mi2_dnd_scheduled</item>
     </string-array>
     <string-array name="zetime_do_not_disturb_values">
         <item>@string/p_off</item>
+        <item>@string/p_scheduled</item>
+    </string-array>
+
+    <string-array name="always_on_display">
+        <item>@string/off</item>
+        <item>@string/always</item>
+        <item>@string/mi2_dnd_automatic</item>
+        <item>@string/mi2_dnd_scheduled</item>
+    </string-array>
+    <string-array name="always_on_display_values">
+        <item>@string/p_off</item>
+        <item>@string/p_always</item>
+        <item>@string/p_automatic</item>
         <item>@string/p_scheduled</item>
     </string-array>
 
@@ -583,6 +620,136 @@
 
     <string-array name="pref_miband6_shortcuts_default">
         <item>@string/p_menuitem_notifications</item>
+        <item>@string/p_menuitem_weather</item>
+        <item>@string/p_menuitem_music</item>
+    </string-array>
+
+    <string-array name="pref_miband7_display_items">
+        <item>@string/menuitem_personal_activity_intelligence</item>
+        <item>@string/menuitem_hr</item>
+        <item>@string/menuitem_workout</item>
+        <item>@string/menuitem_weather</item>
+        <item>@string/menuitem_alarm</item>
+        <item>@string/menuitem_music</item>
+        <item>@string/menuitem_stopwatch</item>
+        <item>@string/menuitem_countdown</item>
+        <item>@string/menuitem_findphone</item>
+        <item>@string/menuitem_mutephone</item>
+        <item>@string/menuitem_settings</item>
+        <item>@string/menuitem_more</item>
+        <item>@string/menuitem_workout_history</item>
+        <item>@string/menuitem_eventreminder</item>
+        <item>@string/menuitem_pai</item>
+        <item>@string/menuitem_stress</item>
+        <item>@string/menuitem_female_health</item>
+        <item>@string/menuitem_workout_status</item>
+        <item>@string/menuitem_sleep</item>
+        <item>@string/menuitem_spo2</item>
+        <item>@string/menuitem_events</item>
+        <item>@string/menuitem_breathing</item>
+        <item>@string/menuitem_pomodoro</item>
+        <item>@string/menuitem_flashlight</item>
+        <item>@string/menuitem_takephoto</item>
+        <item>@string/menuitem_worldclock</item>
+    </string-array>
+
+    <string-array name="pref_miband7_display_items_values">
+        <item>@string/p_menuitem_personal_activity_intelligence</item>
+        <item>@string/p_menuitem_hr</item>
+        <item>@string/p_menuitem_workout</item>
+        <item>@string/p_menuitem_weather</item>
+        <item>@string/p_menuitem_alarm</item>
+        <item>@string/p_menuitem_music</item>
+        <item>@string/p_menuitem_stopwatch</item>
+        <item>@string/p_menuitem_countdown</item>
+        <item>@string/p_menuitem_findphone</item>
+        <item>@string/p_menuitem_mutephone</item>
+        <item>@string/p_menuitem_settings</item>
+        <item>@string/p_menuitem_more</item>
+        <item>@string/p_menuitem_workout_history</item>
+        <item>@string/p_menuitem_eventreminder</item>
+        <item>@string/p_menuitem_pai</item>
+        <item>@string/p_menuitem_stress</item>
+        <item>@string/p_menuitem_female_health</item>
+        <item>@string/p_menuitem_workout_status</item>
+        <item>@string/p_menuitem_sleep</item>
+        <item>@string/p_menuitem_spo2</item>
+        <item>@string/p_menuitem_events</item>
+        <item>@string/p_menuitem_breathing</item>
+        <item>@string/p_menuitem_pomodoro</item>
+        <item>@string/p_menuitem_flashlight</item>
+        <item>@string/p_menuitem_takephoto</item>
+        <item>@string/p_menuitem_worldclock</item>
+    </string-array>
+
+    <string-array name="pref_miband7_display_items_default">
+        <item>@string/p_menuitem_workout</item>
+        <item>@string/p_menuitem_alarm</item>
+        <item>@string/p_menuitem_weather</item>
+        <item>@string/p_menuitem_stopwatch</item>
+        <item>@string/p_menuitem_countdown</item>
+        <item>@string/p_menuitem_events</item>
+        <item>@string/p_menuitem_eventreminder</item>
+        <item>@string/p_menuitem_findphone</item>
+        <item>@string/p_menuitem_mutephone</item>
+        <item>@string/p_menuitem_flashlight</item>
+        <item>@string/p_menuitem_more</item>
+        <item>@string/p_menuitem_hr</item>
+        <item>@string/p_menuitem_spo2</item>
+        <item>@string/p_menuitem_sleep</item>
+        <item>@string/p_menuitem_stress</item>
+        <item>@string/p_menuitem_workout_status</item>
+        <item>@string/p_menuitem_workout_history</item>
+        <item>@string/p_menuitem_pai</item>
+        <item>@string/p_menuitem_personal_activity_intelligence</item>
+        <item>@string/p_menuitem_female_health</item>
+        <item>@string/p_menuitem_breathing</item>
+        <item>@string/p_menuitem_pomodoro</item>
+        <item>@string/p_menuitem_music</item>
+        <item>@string/p_menuitem_worldclock</item>
+        <item>@string/p_menuitem_takephoto</item>
+        <item>@string/p_menuitem_settings</item>
+    </string-array>
+
+    <string-array name="pref_miband7_shortcuts">
+        <item>@string/menuitem_hr</item>
+        <item>@string/menuitem_workout</item>
+        <item>@string/menuitem_workout_status</item>
+        <item>@string/menuitem_weather</item>
+        <item>@string/menuitem_alarm</item>
+        <item>@string/menuitem_music</item>
+        <item>@string/menuitem_activity</item>
+        <item>@string/menuitem_eventreminder</item>
+        <item>@string/menuitem_female_health</item>
+        <item>@string/menuitem_pai</item>
+        <item>@string/menuitem_stress</item>
+        <item>@string/menuitem_sleep</item>
+        <item>@string/menuitem_spo2</item>
+        <item>@string/menuitem_events</item>
+        <item>@string/menuitem_breathing</item>
+        <item>@string/menuitem_worldclock</item>
+    </string-array>
+
+    <string-array name="pref_miband7_shortcuts_values">
+        <item>@string/p_menuitem_hr</item>
+        <item>@string/p_menuitem_workout</item>
+        <item>@string/p_menuitem_workout_status</item>
+        <item>@string/p_menuitem_weather</item>
+        <item>@string/p_menuitem_alarm</item>
+        <item>@string/p_menuitem_music</item>
+        <item>@string/p_menuitem_activity</item>
+        <item>@string/p_menuitem_eventreminder</item>
+        <item>@string/p_menuitem_female_health</item>
+        <item>@string/p_menuitem_pai</item>
+        <item>@string/p_menuitem_stress</item>
+        <item>@string/p_menuitem_sleep</item>
+        <item>@string/p_menuitem_spo2</item>
+        <item>@string/p_menuitem_events</item>
+        <item>@string/p_menuitem_breathing</item>
+        <item>@string/p_menuitem_worldclock</item>
+    </string-array>
+
+    <string-array name="pref_miband7_shortcuts_default">
         <item>@string/p_menuitem_weather</item>
         <item>@string/p_menuitem_music</item>
     </string-array>
@@ -1592,11 +1759,27 @@
         <item>3600</item>
     </string-array>
 
+    <string-array name="prefs_heartrate_measurement_interval_with_smart">
+        <item name="0">@string/off</item>
+        <item name="-1">@string/smart</item>
+        <item name="60">@string/interval_one_minute</item>
+        <item name="600">@string/interval_ten_minutes</item>
+        <item name="1800">@string/interval_thirty_minutes</item>
+    </string-array>
+
+    <string-array name="prefs_heartrate_measurement_interval_with_smart_values">
+        <item>0</item>
+        <item>-1</item>
+        <item>60</item>
+        <item>600</item>
+        <item>1800</item>
+    </string-array>
+
     <string-array name="prefs_miband_heartrate_alert_threshold">
         <item name="100">@string/heartrate_bpm_100</item>
         <item name="105">@string/heartrate_bpm_105</item>
         <item name="110">@string/heartrate_bpm_110</item>
-        <item name="112">@string/heartrate_bpm_112</item>
+        <item name="115">@string/heartrate_bpm_115</item>
         <item name="120">@string/heartrate_bpm_120</item>
         <item name="125">@string/heartrate_bpm_125</item>
         <item name="130">@string/heartrate_bpm_130</item>
@@ -1610,7 +1793,7 @@
         <item>100</item>
         <item>105</item>
         <item>110</item>
-        <item>112</item>
+        <item>115</item>
         <item>120</item>
         <item>125</item>
         <item>130</item>
@@ -1618,6 +1801,54 @@
         <item>140</item>
         <item>145</item>
         <item>150</item>
+    </string-array>
+
+    <string-array name="prefs_miband_heartrate_high_alert_threshold_with_off">
+        <item name="0">@string/off</item>
+        <item name="100">@string/heartrate_bpm_100</item>
+        <item name="110">@string/heartrate_bpm_110</item>
+        <item name="120">@string/heartrate_bpm_120</item>
+        <item name="130">@string/heartrate_bpm_130</item>
+        <item name="140">@string/heartrate_bpm_140</item>
+        <item name="150">@string/heartrate_bpm_150</item>
+    </string-array>
+
+    <string-array name="prefs_miband_heartrate_high_alert_threshold_with_off_values">
+        <item>0</item>
+        <item>100</item>
+        <item>110</item>
+        <item>120</item>
+        <item>130</item>
+        <item>140</item>
+        <item>150</item>
+    </string-array>
+
+    <string-array name="prefs_miband_heartrate_low_alert_threshold">
+        <item name="0">@string/off</item>
+        <item name="40">@string/heartrate_bpm_40</item>
+        <item name="45">@string/heartrate_bpm_45</item>
+        <item name="50">@string/heartrate_bpm_50</item>
+    </string-array>
+
+    <string-array name="prefs_miband_heartrate_low_alert_threshold_values">
+        <item>0</item>
+        <item>40</item>
+        <item>45</item>
+        <item>50</item>
+    </string-array>
+
+    <string-array name="prefs_spo2_alert_threshold">
+        <item name="80">@string/spo2_perc_80</item>
+        <item name="85">@string/spo2_perc_85</item>
+        <item name="90">@string/spo2_perc_90</item>
+        <item name="off">@string/spo2_off</item>
+    </string-array>
+
+    <string-array name="prefs_spo2_alert_threshold_values">
+        <item>80</item>
+        <item>85</item>
+        <item>90</item>
+        <item>0</item>
     </string-array>
 
     <string-array name="prefs_zetime_heartrate_measurement_interval">
@@ -1661,6 +1892,33 @@
         <item>300</item>
         <item>600</item>
         <item>1800</item>
+    </string-array>
+
+    <string-array name="screen_timeout_5_to_15">
+        <item>@string/seconds_5</item>
+        <item>@string/seconds_6</item>
+        <item>@string/seconds_7</item>
+        <item>@string/seconds_8</item>
+        <item>@string/seconds_9</item>
+        <item>@string/seconds_10</item>
+        <item>@string/seconds_11</item>
+        <item>@string/seconds_12</item>
+        <item>@string/seconds_13</item>
+        <item>@string/seconds_14</item>
+        <item>@string/seconds_15</item>
+    </string-array>
+    <string-array name="screen_timeout_5_to_15_values">
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+        <item>8</item>
+        <item>9</item>
+        <item>10</item>
+        <item>11</item>
+        <item>12</item>
+        <item>13</item>
+        <item>14</item>
+        <item>15</item>
     </string-array>
 
     <string-array name="reminder_repeat">

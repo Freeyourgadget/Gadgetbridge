@@ -21,11 +21,12 @@ package nodomain.freeyourgadget.gadgetbridge.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Arrays;
 
 // FIXME: document me and my fields, including units
-public class WeatherSpec implements Parcelable {
+public class WeatherSpec implements Parcelable, Serializable {
+
     public static final Creator<WeatherSpec> CREATOR = new Creator<WeatherSpec>() {
         @Override
         public WeatherSpec createFromParcel(Parcel in) {
@@ -38,6 +39,7 @@ public class WeatherSpec implements Parcelable {
         }
     };
     public static final int VERSION = 2;
+    private static final long serialVersionUID = VERSION;
     public int timestamp;
     public String location;
     public int currentTemp;
@@ -106,7 +108,9 @@ public class WeatherSpec implements Parcelable {
         dest.writeList(forecasts);
     }
 
-    public static class Forecast implements Parcelable {
+    public static class Forecast implements Parcelable, Serializable {
+        private static final long serialVersionUID = 1L;
+
         public static final Creator<Forecast> CREATOR = new Creator<Forecast>() {
             @Override
             public Forecast createFromParcel(Parcel in) {

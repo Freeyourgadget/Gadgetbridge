@@ -108,6 +108,7 @@ import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_FI
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_HEARTRATE_TEST;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_INSTALL;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_NOTIFICATION;
+import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_PHONE_FOUND;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_POWER_OFF;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_READ_CONFIGURATION;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_REQUEST_APPINFO;
@@ -691,6 +692,10 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
             case ACTION_FIND_DEVICE: {
                 boolean start = intent.getBooleanExtra(EXTRA_FIND_START, false);
                 deviceSupport.onFindDevice(start);
+                break;
+            }
+            case ACTION_PHONE_FOUND: {
+                deviceSupport.onPhoneFound();
                 break;
             }
             case ACTION_SET_CONSTANT_VIBRATION: {

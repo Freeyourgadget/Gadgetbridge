@@ -18,12 +18,18 @@ package nodomain.freeyourgadget.gadgetbridge.activities.devicesettings;
 
 public class DeviceSettingsPreferenceConst {
     public static final String PREF_LANGUAGE = "language";
+    public static final String PREF_LANGUAGE_AUTO = "auto";
     public static final String PREF_DATEFORMAT = "dateformat";
     public static final String PREF_TIMEFORMAT = "timeformat";
+    public static final String PREF_TIMEFORMAT_24H = "24h";
+    public static final String PREF_TIMEFORMAT_12H = "am/pm";
+    public static final String PREF_TIMEFORMAT_AUTO = "auto";
     public static final String PREF_WEARLOCATION = "wearlocation";
     public static final String PREF_VIBRATION_ENABLE = "vibration_enable";
     public static final String PREF_NOTIFICATION_ENABLE = "notification_enable";
+    public static final String PREF_SCREEN_BRIGHTNESS = "screen_brightness";
     public static final String PREF_SCREEN_ORIENTATION = "screen_orientation";
+    public static final String PREF_SCREEN_TIMEOUT = "screen_timeout";
     public static final String PREF_RESERVER_ALARMS_CALENDAR = "reserve_alarms_calendar";
     public static final String PREF_RESERVER_REMINDERS_CALENDAR = "reserve_reminders_calendar";
     public static final String PREF_ALLOW_HIGH_MTU = "allow_high_mtu";
@@ -67,6 +73,14 @@ public class DeviceSettingsPreferenceConst {
     public static final String PREF_DISPLAY_ON_LIFT_END = "display_on_lift_end";
     public static final String PREF_DISPLAY_ON_LIFT_SENSITIVITY = "display_on_lift_sensitivity";
 
+    public static final String PREF_ALWAYS_ON_DISPLAY_MODE = "always_on_display_mode";
+    public static final String PREF_ALWAYS_ON_DISPLAY_START = "always_on_display_start";
+    public static final String PREF_ALWAYS_ON_DISPLAY_END = "always_on_display_end";
+    public static final String PREF_ALWAYS_ON_DISPLAY_OFF = "off";
+    public static final String PREF_ALWAYS_ON_DISPLAY_AUTOMATIC = "automatic";
+    public static final String PREF_ALWAYS_ON_DISPLAY_ALWAYS = "always";
+    public static final String PREF_ALWAYS_ON_DISPLAY_SCHEDULED = "scheduled";
+
     public static final String PREF_SLEEP_TIME = "prefs_enable_sleep_time";
     public static final String PREF_SLEEP_TIME_START = "prefs_sleep_time_start";
     public static final String PREF_SLEEP_TIME_END = "prefs_sleep_time_end";
@@ -95,8 +109,13 @@ public class DeviceSettingsPreferenceConst {
     public static final String PREF_HEARTRATE_MEASUREMENT_INTERVAL = "heartrate_measurement_interval";
     public static final String PREF_HEARTRATE_ACTIVITY_MONITORING = "heartrate_activity_monitoring";
     public static final String PREF_HEARTRATE_ALERT_ENABLED = "heartrate_alert_enabled";
-    public static final String PREF_HEARTRATE_ALERT_THRESHOLD = "heartrate_alert_threshold";
+    public static final String PREF_HEARTRATE_ALERT_HIGH_THRESHOLD = "heartrate_alert_threshold";
+    public static final String PREF_HEARTRATE_ALERT_LOW_THRESHOLD = "heartrate_alert_low_threshold";
     public static final String PREF_HEARTRATE_STRESS_MONITORING = "heartrate_stress_monitoring";
+    public static final String PREF_HEARTRATE_STRESS_RELAXATION_REMINDER = "heartrate_stress_relaxation_reminder";
+    public static final String PREF_HEARTRATE_SLEEP_BREATHING_QUALITY_MONITORING = "heartrate_sleep_breathing_quality_monitoring";
+    public static final String PREF_SPO2_ALL_DAY_MONITORING = "spo2_all_day_monitoring_enabled";
+    public static final String PREF_SPO2_LOW_ALERT_THRESHOLD = "spo2_low_alert_threshold";
 
     public static final String PREF_AUTOHEARTRATE_SWITCH = "pref_autoheartrate_switch";
     public static final String PREF_AUTOHEARTRATE_SLEEP = "pref_autoheartrate_sleep";
@@ -116,6 +135,7 @@ public class DeviceSettingsPreferenceConst {
     public static final String PREF_DO_NOT_DISTURB_LIFT_WRIST = "do_not_disturb_lift_wrist";
     public static final String PREF_DO_NOT_DISTURB_OFF = "off";
     public static final String PREF_DO_NOT_DISTURB_AUTOMATIC = "automatic";
+    public static final String PREF_DO_NOT_DISTURB_ALWAYS = "always";
     public static final String PREF_DO_NOT_DISTURB_SCHEDULED = "scheduled";
 
     public static final String PREF_WORKOUT_START_ON_PHONE = "workout_start_on_phone";
@@ -126,6 +146,7 @@ public class DeviceSettingsPreferenceConst {
     public static final String PREF_AUTOLIGHT = "autolight";
     public static final String PREF_AUTOREMOVE_MESSAGE = "autoremove_message";
     public static final String PREF_AUTOREMOVE_NOTIFICATIONS = "autoremove_notifications";
+    public static final String PREF_SCREEN_ON_ON_NOTIFICATIONS = "screen_on_on_notifications";
     public static final String PREF_OPERATING_SOUNDS = "operating_sounds";
     public static final String PREF_KEY_VIBRATION = "key_vibration";
     public static final String PREF_FAKE_RING_DURATION = "fake_ring_duration";

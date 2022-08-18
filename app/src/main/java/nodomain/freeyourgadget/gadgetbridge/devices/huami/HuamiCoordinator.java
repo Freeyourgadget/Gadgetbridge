@@ -97,7 +97,9 @@ public abstract class HuamiCoordinator extends AbstractBLEDeviceCoordinator {
     }
 
     @Override
-    public boolean supportsFlashing() { return true; }
+    public boolean supportsFlashing() {
+        return true;
+    }
 
     @Override
     public Class<? extends Activity> getAppsManagementActivity() {
@@ -148,22 +150,26 @@ public abstract class HuamiCoordinator extends AbstractBLEDeviceCoordinator {
         return DateTimeDisplay.DATE_TIME;
     }
 
+    public static AlwaysOnDisplay getAlwaysOnDisplay(final String deviceAddress) {
+        final SharedPreferences prefs = GBApplication.getDeviceSpecificSharedPrefs(deviceAddress);
+        final String pref = prefs.getString(DeviceSettingsPreferenceConst.PREF_ALWAYS_ON_DISPLAY_MODE, DeviceSettingsPreferenceConst.PREF_ALWAYS_ON_DISPLAY_OFF);
+        return AlwaysOnDisplay.valueOf(pref.toUpperCase(Locale.ROOT));
+    }
+
+    public static Date getAlwaysOnDisplayStart(final String deviceAddress) {
+        return getTimePreference(DeviceSettingsPreferenceConst.PREF_ALWAYS_ON_DISPLAY_START, "00:00", deviceAddress);
+    }
+
+    public static Date getAlwaysOnDisplayEnd(final String deviceAddress) {
+        return getTimePreference(DeviceSettingsPreferenceConst.PREF_ALWAYS_ON_DISPLAY_END, "00:00", deviceAddress);
+    }
+
     public static ActivateDisplayOnLift getActivateDisplayOnLiftWrist(Context context, String deviceAddress) {
         SharedPreferences prefs = GBApplication.getDeviceSpecificSharedPrefs(deviceAddress);
-
         String liftOff = context.getString(R.string.p_off);
-        String liftOn = context.getString(R.string.p_on);
-        String liftScheduled = context.getString(R.string.p_scheduled);
-
         String pref = prefs.getString(DeviceSettingsPreferenceConst.PREF_ACTIVATE_DISPLAY_ON_LIFT, liftOff);
 
-        if (liftOn.equals(pref)) {
-            return ActivateDisplayOnLift.ON;
-        } else if (liftScheduled.equals(pref)) {
-            return ActivateDisplayOnLift.SCHEDULED;
-        }
-
-        return ActivateDisplayOnLift.OFF;
+        return ActivateDisplayOnLift.valueOf(pref.toUpperCase(Locale.ROOT));
     }
 
     public static Date getDisplayOnLiftStart(String deviceAddress) {
@@ -184,20 +190,10 @@ public abstract class HuamiCoordinator extends AbstractBLEDeviceCoordinator {
 
     public static DisconnectNotificationSetting getDisconnectNotificationSetting(Context context, String deviceAddress) {
         Prefs prefs = new Prefs(GBApplication.getDeviceSpecificSharedPrefs(deviceAddress));
-
         String liftOff = context.getString(R.string.p_off);
-        String liftOn = context.getString(R.string.p_on);
-        String liftScheduled = context.getString(R.string.p_scheduled);
-
         String pref = prefs.getString(DeviceSettingsPreferenceConst.PREF_DISCONNECT_NOTIFICATION, liftOff);
 
-        if (liftOn.equals(pref)) {
-            return DisconnectNotificationSetting.ON;
-        } else if (liftScheduled.equals(pref)) {
-            return DisconnectNotificationSetting.SCHEDULED;
-        }
-
-        return DisconnectNotificationSetting.OFF;
+        return DisconnectNotificationSetting.valueOf(pref.toUpperCase(Locale.ROOT));
     }
 
     public static Date getDisconnectNotificationStart(String deviceAddress) {
@@ -267,6 +263,21 @@ public abstract class HuamiCoordinator extends AbstractBLEDeviceCoordinator {
         return prefs.getBoolean(MiBandConst.PREF_SWIPE_UNLOCK, false);
     }
 
+    public static boolean getScreenOnOnNotification(String deviceAddress) {
+        Prefs prefs = new Prefs(GBApplication.getDeviceSpecificSharedPrefs(deviceAddress));
+        return prefs.getBoolean(DeviceSettingsPreferenceConst.PREF_SCREEN_ON_ON_NOTIFICATIONS, false);
+    }
+
+    public static int getScreenBrightness(String deviceAddress) throws IllegalArgumentException {
+        Prefs prefs = new Prefs(GBApplication.getDeviceSpecificSharedPrefs(deviceAddress));
+        return prefs.getInt(DeviceSettingsPreferenceConst.PREF_SCREEN_BRIGHTNESS, 50);
+    }
+
+    public static int getScreenTimeout(String deviceAddress) throws IllegalArgumentException {
+        Prefs prefs = new Prefs(GBApplication.getDeviceSpecificSharedPrefs(deviceAddress));
+        return prefs.getInt(DeviceSettingsPreferenceConst.PREF_SCREEN_TIMEOUT, 5);
+    }
+
     public static boolean getExposeHRThirdParty(String deviceAddress) {
         Prefs prefs = new Prefs(GBApplication.getDeviceSpecificSharedPrefs(deviceAddress));
         return prefs.getBoolean(HuamiConst.PREF_EXPOSE_HR_THIRDPARTY, false);
@@ -297,14 +308,39 @@ public abstract class HuamiCoordinator extends AbstractBLEDeviceCoordinator {
         return prefs.getBoolean(DeviceSettingsPreferenceConst.PREF_HEARTRATE_ALERT_ENABLED, false);
     }
 
-    public static int getHeartrateAlertThreshold(String deviceAddress) throws IllegalArgumentException {
+    public static int getHeartrateAlertHighThreshold(String deviceAddress) throws IllegalArgumentException {
         Prefs prefs = new Prefs(GBApplication.getDeviceSpecificSharedPrefs(deviceAddress));
-        return prefs.getInt(DeviceSettingsPreferenceConst.PREF_HEARTRATE_ALERT_THRESHOLD, 150);
+        return prefs.getInt(DeviceSettingsPreferenceConst.PREF_HEARTRATE_ALERT_HIGH_THRESHOLD, 150);
+    }
+
+    public static int getHeartrateAlertLowThreshold(String deviceAddress) throws IllegalArgumentException {
+        Prefs prefs = new Prefs(GBApplication.getDeviceSpecificSharedPrefs(deviceAddress));
+        return prefs.getInt(DeviceSettingsPreferenceConst.PREF_HEARTRATE_ALERT_LOW_THRESHOLD, 45);
+    }
+
+    public static boolean getHeartrateSleepBreathingQualityMonitoring(String deviceAddress) throws IllegalArgumentException {
+        Prefs prefs = new Prefs(GBApplication.getDeviceSpecificSharedPrefs(deviceAddress));
+        return prefs.getBoolean(DeviceSettingsPreferenceConst.PREF_HEARTRATE_SLEEP_BREATHING_QUALITY_MONITORING, false);
+    }
+
+    public static boolean getSPO2AllDayMonitoring(String deviceAddress) throws IllegalArgumentException {
+        Prefs prefs = new Prefs(GBApplication.getDeviceSpecificSharedPrefs(deviceAddress));
+        return prefs.getBoolean(DeviceSettingsPreferenceConst.PREF_SPO2_ALL_DAY_MONITORING, false);
+    }
+
+    public static int getSPO2AlertThreshold(String deviceAddress) throws IllegalArgumentException {
+        Prefs prefs = new Prefs(GBApplication.getDeviceSpecificSharedPrefs(deviceAddress));
+        return prefs.getInt(DeviceSettingsPreferenceConst.PREF_SPO2_LOW_ALERT_THRESHOLD, 0);
     }
 
     public static boolean getHeartrateStressMonitoring(String deviceAddress) throws IllegalArgumentException {
         Prefs prefs = new Prefs(GBApplication.getDeviceSpecificSharedPrefs(deviceAddress));
         return prefs.getBoolean(DeviceSettingsPreferenceConst.PREF_HEARTRATE_STRESS_MONITORING, false);
+    }
+
+    public static boolean getHeartrateStressRelaxationReminder(String deviceAddress) throws IllegalArgumentException {
+        Prefs prefs = new Prefs(GBApplication.getDeviceSpecificSharedPrefs(deviceAddress));
+        return prefs.getBoolean(DeviceSettingsPreferenceConst.PREF_HEARTRATE_STRESS_RELAXATION_REMINDER, false);
     }
 
     public static boolean getBtConnectedAdvertising(String deviceAddress) {
@@ -362,13 +398,7 @@ public abstract class HuamiCoordinator extends AbstractBLEDeviceCoordinator {
 
         String pref = prefs.getString(DeviceSettingsPreferenceConst.PREF_DO_NOT_DISTURB, DeviceSettingsPreferenceConst.PREF_DO_NOT_DISTURB_OFF);
 
-        if (DeviceSettingsPreferenceConst.PREF_DO_NOT_DISTURB_AUTOMATIC.equals(pref)) {
-            return DoNotDisturb.AUTOMATIC;
-        } else if (DeviceSettingsPreferenceConst.PREF_DO_NOT_DISTURB_SCHEDULED.equals(pref)) {
-            return DoNotDisturb.SCHEDULED;
-        }
-
-        return DoNotDisturb.OFF;
+        return DoNotDisturb.valueOf(pref.toUpperCase(Locale.ROOT));
     }
 
     public static boolean getDoNotDisturbLiftWrist(String deviceAddress) {

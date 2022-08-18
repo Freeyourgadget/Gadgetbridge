@@ -20,8 +20,16 @@ import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
 
 public class GBDeviceEventVersionInfo extends GBDeviceEvent {
-    public String fwVersion = GBApplication.getContext().getString(R.string.n_a);
-    public String hwVersion = GBApplication.getContext().getString(R.string.n_a);
+    public String fwVersion = "N/A";
+    public String hwVersion = "N/A";
+
+    public GBDeviceEventVersionInfo() {
+        if (GBApplication.getContext() != null) {
+            // Only get from context if there is one (eg. not in unit tests)
+            this.fwVersion = GBApplication.getContext().getString(R.string.n_a);
+            this.hwVersion = GBApplication.getContext().getString(R.string.n_a);
+        }
+    }
 
     @Override
     public String toString() {

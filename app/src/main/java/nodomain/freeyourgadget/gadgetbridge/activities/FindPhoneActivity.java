@@ -184,6 +184,8 @@ public class FindPhoneActivity extends AbstractGBActivity {
         stopVibration();
         stopSound();
 
+        GBApplication.deviceService().onPhoneFound();
+
         LocalBroadcastManager.getInstance(this).unregisterReceiver(mReceiver);
         unregisterReceiver(mReceiver);
     }

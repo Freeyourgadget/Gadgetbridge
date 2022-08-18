@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <PreferenceScreen
+        android:icon="@drawable/ic_extension"
+        android:key="screen_events_forwarding"
+        android:persistent="false"
+        android:summary="@string/prefs_events_forwarding_summary"
+        android:title="@string/prefs_events_forwarding_title">
+
+        <PreferenceCategory
+            android:icon="@drawable/ic_nights_stay"
+            android:title="@string/prefs_events_forwarding_fellsleep">
+
+            <ListPreference
+                android:defaultValue="@string/pref_button_action_disabled_value"
+                android:entries="@array/device_action_options"
+                android:entryValues="@array/device_action_values"
+                android:key="events_forwarding_fellsleep_action_selection"
+                android:summary="%s"
+                android:title="@string/prefs_events_forwarding_action_title" />
+            <EditTextPreference
+                android:defaultValue="@string/prefs_events_forwarding_fellsleep_broadcast_default_value"
+                android:key="prefs_events_forwarding_fellsleep_broadcast"
+                android:title="@string/prefs_events_forwarding_broadcast_title"
+                app:useSimpleSummaryProvider="true" />
+        </PreferenceCategory>
+
+        <PreferenceCategory
+            android:icon="@drawable/ic_wb_sunny"
+            android:title="@string/prefs_events_forwarding_wokeup">
+
+            <ListPreference
+                android:defaultValue="@string/pref_button_action_disabled_value"
+                android:entries="@array/device_action_options"
+                android:entryValues="@array/device_action_values"
+                android:key="events_forwarding_wokeup_action_selection"
+                android:summary="%s"
+                android:title="@string/prefs_events_forwarding_action_title" />
+            <EditTextPreference
+                android:defaultValue="@string/prefs_events_forwarding_wokeup_broadcast_default_value"
+                android:key="prefs_events_forwarding_wokeup_broadcast"
+                android:title="@string/prefs_events_forwarding_broadcast_title"
+                app:useSimpleSummaryProvider="true" />
+        </PreferenceCategory>
+    </PreferenceScreen>
+</androidx.preference.PreferenceScreen>

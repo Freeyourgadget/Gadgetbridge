@@ -92,6 +92,8 @@ public interface EventHandler {
 
     void onFindDevice(boolean start);
 
+    void onPhoneFound();
+
     void onSetConstantVibration(int integer);
 
     void onScreenshotReq();

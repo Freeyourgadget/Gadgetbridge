@@ -636,7 +636,7 @@ public class DBHelper {
         final DeviceCoordinator coordinator = DeviceHelper.getInstance().getCoordinator(gbDevice);
         final Prefs prefs = new Prefs(GBApplication.getDeviceSpecificSharedPrefs(gbDevice.getAddress()));
 
-        int reservedSlots = prefs.getInt(DeviceSettingsPreferenceConst.PREF_RESERVER_REMINDERS_CALENDAR, 9);
+        int reservedSlots = prefs.getInt(DeviceSettingsPreferenceConst.PREF_RESERVER_REMINDERS_CALENDAR, coordinator.supportsCalendarEvents() ? 0 : 9);
 
         final int reminderSlots = coordinator.getReminderSlotCount();
 

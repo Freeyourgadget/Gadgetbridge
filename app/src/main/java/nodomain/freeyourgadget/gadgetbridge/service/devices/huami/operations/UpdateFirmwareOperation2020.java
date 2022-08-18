@@ -31,6 +31,7 @@ import nodomain.freeyourgadget.gadgetbridge.service.btle.BLETypeConversions;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.SetDeviceBusyAction;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.SetProgressAction;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.AbstractHuamiFirmwareInfo;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.HuamiFirmwareInfo;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.HuamiFirmwareType;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.HuamiSupport;
@@ -47,6 +48,7 @@ public class UpdateFirmwareOperation2020 extends UpdateFirmwareOperation {
     }
 
     private final byte COMMAND_REQUEST_PARAMETERS = (byte) 0xd0;
+    private final byte COMMAND_UNKNOWN_D1 = (byte) 0xd1;
     private final byte COMMAND_SEND_FIRMWARE_INFO = (byte) 0xd2;
     private final byte COMMAND_START_TRANSFER = (byte) 0xd3;
     private final byte REPLY_UPDATE_PROGRESS = (byte) 0xd4;
@@ -71,12 +73,12 @@ public class UpdateFirmwareOperation2020 extends UpdateFirmwareOperation {
 
     @Override
     protected void handleNotificationNotif(byte[] value) {
-        if (value.length != 3 && value.length != 6 && value.length != 11) {
-            LOG.error("Notifications should be 3, 6  or 11 bytes long.");
+        if (value.length != 3 && value.length != 6 && value.length != 7 && value.length != 11) {
+            LOG.error("Notifications should be 3, 6, 7 or 11 bytes long.");
             getSupport().logMessageContent(value);
             return;
         }
-        boolean success = (value[2] == HuamiService.SUCCESS) || ((value[1] == REPLY_UPDATE_PROGRESS) && value.length == 6); // ugly
+        boolean success = (value[2] == HuamiService.SUCCESS) || ((value[1] == REPLY_UPDATE_PROGRESS) && value.length >= 6); // ugly
 
         if (value[0] == HuamiService.RESPONSE && success) {
             try {
@@ -214,7 +216,7 @@ public class UpdateFirmwareOperation2020 extends UpdateFirmwareOperation {
     }
 
 
-    private boolean sendFirmwareDataChunk(HuamiFirmwareInfo info, int offset) {
+    private boolean sendFirmwareDataChunk(AbstractHuamiFirmwareInfo info, int offset) {
         byte[] fwbytes = info.getBytes();
         int len = fwbytes.length;
         int remaining = len - offset;

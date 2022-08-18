@@ -2,9 +2,12 @@ package nodomain.freeyourgadget.gadgetbridge.test;
 
 import org.junit.Test;
 
+import java.nio.charset.StandardCharsets;
+
 import nodomain.freeyourgadget.gadgetbridge.util.StringUtils;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 
 public class StringUtilsTest extends TestBase {
     private static final String SEP = ":";
@@ -52,5 +55,16 @@ public class StringUtilsTest extends TestBase {
     public void testJoinThreeElements() {
         StringBuilder result = StringUtils.join(SEP, E1, E2, E3);
         assertEquals(E1 + SEP + E2 + SEP + E3, result.toString());
+    }
+
+    @Test
+    public void testUntilNullTerminator() {
+        assertNull(StringUtils.untilNullTerminator("Hello, World!".getBytes(StandardCharsets.UTF_8), 7));
+        assertNull(StringUtils.untilNullTerminator("Hello, World!".getBytes(StandardCharsets.UTF_8), 99));
+        assertEquals("Hello, World!", StringUtils.untilNullTerminator("Hello, World!\0Another String".getBytes(StandardCharsets.UTF_8), 0));
+        assertEquals("World!", StringUtils.untilNullTerminator("Hello, World!\0Another String".getBytes(StandardCharsets.UTF_8), 7));
+        assertEquals("", StringUtils.untilNullTerminator("Hello, World!\0Another String".getBytes(StandardCharsets.UTF_8), 13));
+        assertNull(StringUtils.untilNullTerminator("Hello, World!\0Another String".getBytes(StandardCharsets.UTF_8), 14));
+        assertNull(StringUtils.untilNullTerminator("Hello, World!\0Another String".getBytes(StandardCharsets.UTF_8), 99));
     }
 }

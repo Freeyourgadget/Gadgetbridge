@@ -18,11 +18,11 @@
 package nodomain.freeyourgadget.gadgetbridge.model;
 
 public class RecordedDataTypes {
-    public static int TYPE_ACTIVITY     = 0x00000001;
-    public static int TYPE_WORKOUTS     = 0x00000002;
-    public static int TYPE_GPS_TRACKS   = 0x00000004;
-    public static int TYPE_TEMPERATURE  = 0x00000008;
-    public static int TYPE_DEBUGLOGS    = 0x00000010;
+    public static final int TYPE_ACTIVITY     = 0x00000001;
+    public static final int TYPE_WORKOUTS     = 0x00000002;
+    public static final int TYPE_GPS_TRACKS   = 0x00000004;
+    public static final int TYPE_TEMPERATURE  = 0x00000008;
+    public static final int TYPE_DEBUGLOGS    = 0x00000010;
 
-    public static int TYPE_ALL          = (int)0xffffffff;
+    public static final int TYPE_ALL          = (int)0xffffffff;
 }

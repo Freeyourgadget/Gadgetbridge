@@ -76,6 +76,7 @@ import java.util.Objects;
 import java.util.Random;
 import java.util.TreeMap;
 
+import nodomain.freeyourgadget.gadgetbridge.BuildConfig;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.Widget;
@@ -100,6 +101,8 @@ import nodomain.freeyourgadget.gadgetbridge.model.MusicStateSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationType;
 import nodomain.freeyourgadget.gadgetbridge.model.RecordedDataTypes;
+import nodomain.freeyourgadget.gadgetbridge.model.Weather;
+import nodomain.freeyourgadget.gadgetbridge.model.WeatherSpec;
 import nodomain.freeyourgadget.gadgetbridge.service.serial.GBDeviceProtocol;
 import nodomain.freeyourgadget.gadgetbridge.util.DeviceHelper;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
@@ -179,8 +182,22 @@ public class DebugActivity extends AbstractGBActivity {
                 notificationSpec.body = testString;
                 notificationSpec.sender = testString;
                 notificationSpec.subject = testString;
+                notificationSpec.sourceAppId = BuildConfig.APPLICATION_ID;
+                notificationSpec.sourceName = getApplicationContext().getApplicationInfo()
+                        .loadLabel(getApplicationContext().getPackageManager())
+                        .toString();
                 notificationSpec.type = NotificationType.sortedValues()[sendTypeSpinner.getSelectedItemPosition()];
                 notificationSpec.pebbleColor = notificationSpec.type.color;
+                notificationSpec.attachedActions = new ArrayList<>();
+
+                if (notificationSpec.type == NotificationType.GENERIC_SMS) {
+                    // REPLY action
+                    NotificationSpec.Action replyAction = new NotificationSpec.Action();
+                    replyAction.title = "Reply";
+                    replyAction.type = NotificationSpec.Action.TYPE_SYNTECTIC_REPLY_PHONENR;
+                    notificationSpec.attachedActions.add(replyAction);
+                }
+
                 GBApplication.deviceService().onNotification(notificationSpec);
             }
         });
@@ -303,6 +320,42 @@ public class DebugActivity extends AbstractGBActivity {
             }
         });
 
+        Button setWeatherButton = findViewById(R.id.setWeatherButton);
+        setWeatherButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (Weather.getInstance().getWeatherSpec() == null) {
+                    final WeatherSpec weatherSpec = new WeatherSpec();
+                    weatherSpec.forecasts = new ArrayList<>();
+
+                    weatherSpec.location = "Green Hill";
+                    weatherSpec.currentConditionCode = 601; // snow
+                    weatherSpec.currentCondition = Weather.getConditionString(weatherSpec.currentConditionCode);
+
+                    weatherSpec.currentTemp = 15 + 273;
+                    weatherSpec.currentHumidity = 30;
+
+                    weatherSpec.windSpeed = 10;
+                    weatherSpec.windDirection = 12;
+                    weatherSpec.timestamp = (int) (System.currentTimeMillis() / 1000);
+                    weatherSpec.todayMinTemp = 10 + 273;
+                    weatherSpec.todayMaxTemp = 25 + 273;
+
+                    for (int i = 0; i < 5; i++) {
+                        final WeatherSpec.Forecast gbForecast = new WeatherSpec.Forecast();
+                        gbForecast.minTemp = 10 + i + 273;
+                        gbForecast.maxTemp = 25 + i + 273;
+
+                        gbForecast.conditionCode = 800; // clear
+                        weatherSpec.forecasts.add(gbForecast);
+                    }
+
+                    Weather.getInstance().setWeatherSpec(weatherSpec);
+                }
+
+                GBApplication.deviceService().onSendWeather(Weather.getInstance().getWeatherSpec());
+            }
+        });
 
         Button setMusicInfoButton = findViewById(R.id.setMusicInfoButton);
         setMusicInfoButton.setOnClickListener(new View.OnClickListener() {

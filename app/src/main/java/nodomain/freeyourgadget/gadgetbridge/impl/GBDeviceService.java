@@ -26,6 +26,7 @@ import android.database.Cursor;
 import android.location.Location;
 import android.net.Uri;
 import android.os.Build;
+import android.os.Parcelable;
 import android.provider.ContactsContract;
 
 import java.util.ArrayList;
@@ -347,6 +348,12 @@ public class GBDeviceService implements DeviceService {
     }
 
     @Override
+    public void onPhoneFound() {
+        Intent intent = createIntent().setAction(ACTION_PHONE_FOUND);
+        invokeService(intent);
+    }
+
+    @Override
     public void onSetConstantVibration(int intensity) {
         Intent intent = createIntent().setAction(ACTION_SET_CONSTANT_VIBRATION)
                 .putExtra(EXTRA_VIBRATION_INTENSITY, intensity);
@@ -431,7 +438,7 @@ public class GBDeviceService implements DeviceService {
     @Override
     public void onSendWeather(WeatherSpec weatherSpec) {
         Intent intent = createIntent().setAction(ACTION_SEND_WEATHER)
-                .putExtra(EXTRA_WEATHER, weatherSpec);
+                .putExtra(EXTRA_WEATHER, (Parcelable) weatherSpec);
         invokeService(intent);
     }
 

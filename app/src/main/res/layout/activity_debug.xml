@@ -124,6 +124,14 @@
                 android:text="Set Activity Fetch Time" />
 
             <Button
+                android:id="@+id/setWeatherButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                grid:layout_columnSpan="2"
+                grid:layout_gravity="fill_horizontal"
+                android:text="Set Weather" />
+
+            <Button
                 android:id="@+id/factoryResetButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

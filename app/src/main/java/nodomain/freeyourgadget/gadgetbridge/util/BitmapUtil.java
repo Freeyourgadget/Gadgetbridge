@@ -30,6 +30,8 @@ import android.graphics.RectF;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 
+import java.nio.ByteBuffer;
+
 public class BitmapUtil {
     /**
      * Downscale a bitmap to a maximum resolution. Doesn't scale if the bitmap is already smaller than the max resolution.
@@ -204,5 +206,82 @@ public class BitmapUtil {
         canvas.drawBitmap(bmp1, new Matrix(), null);
         canvas.drawBitmap(bmp2, new Matrix(), null);
         return bmOverlay;
+    }
+
+    /**
+     * Converts a {@link Drawable} to a {@link Bitmap}, in ARGB8888 mode.
+     *
+     * @param drawable the {@link Drawable}
+     * @return the {@link Bitmap}
+     */
+    public static Bitmap toBitmap(final Drawable drawable) {
+        if (drawable instanceof BitmapDrawable) {
+            return ((BitmapDrawable) drawable).getBitmap();
+        }
+
+        final Bitmap bitmap = Bitmap.createBitmap(drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
+        final Canvas canvas = new Canvas(bitmap);
+        drawable.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
+        drawable.draw(canvas);
+        return bitmap;
+    }
+
+    /**
+     * Converts a {@link Bitmap} to an uncompressed TGA image, as raw bytes, in RGB565 encoding.
+     * @param bmp the {@link Bitmap} to convert.
+     * @param width the target width
+     * @param height the target height
+     * @param id the TGA ID
+     * @return the raw bytes for the TGA image
+     */
+    public static byte[] convertToTgaRGB565(final Bitmap bmp, final int width, final int height, final byte[] id) {
+        final Bitmap bmp565;
+        if (bmp.getConfig().equals(Bitmap.Config.RGB_565) && bmp.getWidth() == width && bmp.getHeight() == height) {
+            // Right encoding and size
+            bmp565 = bmp;
+        } else {
+            // Convert encoding / scale
+            bmp565 = Bitmap.createBitmap(width, height, Bitmap.Config.RGB_565);
+            final Canvas canvas = new Canvas(bmp565);
+            final Rect rect = new Rect(0, 0, width, height);
+            canvas.drawBitmap(bmp, null, rect, null);
+        }
+
+        int size = bmp565.getRowBytes() * bmp565.getHeight();
+        final ByteBuffer bmp565buf = ByteBuffer.allocate(size);
+        bmp565.copyPixelsToBuffer(bmp565buf);
+
+        // As per https://en.wikipedia.org/wiki/Truevision_TGA
+        // 18 bytes
+        final byte[] header = {
+                // ID length
+                (byte) id.length,
+                // Color map type - (0 - no color map)
+                0x00,
+                // Image type (2 - uncompressed true-color image)
+                0x02,
+                // Color map specification (5 bytes)
+                0x00, 0x00, // first entry index
+                0x00, 0x00, /// color map length
+                0x00, // color map entry size
+                // Image dimensions and format (10 bytes)
+                0x00, 0x00, // x origin
+                0x00, 0x00, // y origin
+                (byte) (width & 0xff), (byte) ((width >> 8) & 0xff), // width
+                (byte) (height & 0xff), (byte) ((height >> 8) & 0xff), // height
+                16, // bits per pixel (10)
+                0x20, // image descriptor (0x20, 00100000)
+                // bits 3-0 give the alpha channel depth, bits 5-4 give pixel ordering
+                // Bit 4 of the image descriptor byte indicates right-to-left pixel ordering if set.
+                // Bit 5 indicates an ordering of top-to-bottom. Otherwise, pixels are stored in bottom-to-top, left-to-right order.
+        };
+
+        final ByteBuffer tga565buf = ByteBuffer.allocate(header.length + id.length + size);
+
+        tga565buf.put(header);
+        tga565buf.put(id);
+        tga565buf.put(bmp565buf.array());
+
+        return tga565buf.array();
     }
 }

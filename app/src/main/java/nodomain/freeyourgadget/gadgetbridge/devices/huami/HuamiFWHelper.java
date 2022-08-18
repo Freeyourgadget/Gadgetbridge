@@ -27,11 +27,12 @@ import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.AbstractMiBandFWHelper;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.AbstractHuamiFirmwareInfo;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.HuamiFirmwareInfo;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.HuamiFirmwareType;
 
 public abstract class HuamiFWHelper extends AbstractMiBandFWHelper {
-    protected HuamiFirmwareInfo firmwareInfo;
+    protected AbstractHuamiFirmwareInfo firmwareInfo;
 
     public HuamiFWHelper(Uri uri, Context context) throws IOException {
         super(uri, context);
@@ -68,6 +69,7 @@ public abstract class HuamiFWHelper extends AbstractMiBandFWHelper {
                 resId = R.string.kind_resources;
                 break;
             case FIRMWARE:
+            case FIRMWARE_UIHH_2021_ZIP_WITH_CHANGELOG:
                 resId = R.string.kind_firmware;
                 break;
             case WATCHFACE:
@@ -118,8 +120,8 @@ public abstract class HuamiFWHelper extends AbstractMiBandFWHelper {
     public HuamiFirmwareType getFirmwareType() {
         return firmwareInfo.getFirmwareType();
     }
-    public HuamiFirmwareInfo getFirmwareInfo() {
+
+    public AbstractHuamiFirmwareInfo getFirmwareInfo() {
         return firmwareInfo;
     }
-
 }

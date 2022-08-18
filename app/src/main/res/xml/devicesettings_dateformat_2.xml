@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <ListPreference
+        android:defaultValue="YYYY/MM/DD"
+        android:entries="@array/dateformats_2"
+        android:entryValues="@array/dateformats_2_values"
+        android:icon="@drawable/ic_access_time"
+        android:key="dateformat"
+        android:summary="%s"
+        android:title="@string/miband2_prefs_dateformat" />
+</androidx.preference.PreferenceScreen>

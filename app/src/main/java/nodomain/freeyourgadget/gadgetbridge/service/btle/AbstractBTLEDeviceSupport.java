@@ -356,6 +356,11 @@ public abstract class AbstractBTLEDeviceSupport extends AbstractDeviceSupport im
     }
 
     @Override
+    public void onPhoneFound() {
+
+    }
+
+    @Override
     public void onMtuChanged(BluetoothGatt gatt, int mtu, int status) {
 
     }

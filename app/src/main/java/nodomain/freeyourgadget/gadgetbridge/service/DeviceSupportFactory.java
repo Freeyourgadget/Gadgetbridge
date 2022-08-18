@@ -71,6 +71,7 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.miband3.MiBand
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.miband4.MiBand4Support;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.miband5.MiBand5Support;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.miband6.MiBand6Support;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.miband7.MiBand7Support;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppe.ZeppESupport;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.id115.ID115Support;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.itag.ITagSupport;
@@ -179,6 +180,8 @@ public class DeviceSupportFactory {
                 return new ServiceDeviceSupport(new MiBand5Support());
             case MIBAND6:
                 return new ServiceDeviceSupport(new MiBand6Support());
+            case MIBAND7:
+                return new ServiceDeviceSupport(new MiBand7Support());
             case AMAZFITBIP:
                 return new ServiceDeviceSupport(new AmazfitBipSupport());
             case AMAZFITBIP_LITE:

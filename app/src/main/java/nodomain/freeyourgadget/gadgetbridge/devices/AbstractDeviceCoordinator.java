@@ -265,6 +265,16 @@ public abstract class AbstractDeviceCoordinator implements DeviceCoordinator {
     }
 
     @Override
+    public boolean supportsHeartRateMeasurement(final GBDevice device) {
+        return false;
+    }
+
+    @Override
+    public boolean supportsWeather() {
+        return false;
+    }
+
+    @Override
     public boolean supportsUnicodeEmojis() {
         return false;
     }

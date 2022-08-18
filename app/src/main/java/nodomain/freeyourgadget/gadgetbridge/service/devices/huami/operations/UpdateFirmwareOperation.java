@@ -39,6 +39,7 @@ import nodomain.freeyourgadget.gadgetbridge.service.btle.BLETypeConversions;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.SetDeviceBusyAction;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.SetProgressAction;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.AbstractHuamiFirmwareInfo;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.AbstractHuamiOperation;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.HuamiFirmwareInfo;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.HuamiFirmwareType;
@@ -53,7 +54,7 @@ public class UpdateFirmwareOperation extends AbstractHuamiOperation {
     final BluetoothGattCharacteristic fwCControlChar;
     final BluetoothGattCharacteristic fwCDataChar;
     protected final Prefs prefs = GBApplication.getPrefs();
-    protected HuamiFirmwareInfo firmwareInfo;
+    protected AbstractHuamiFirmwareInfo firmwareInfo;
 
     public UpdateFirmwareOperation(Uri uri, HuamiSupport support) {
         super(support);
@@ -81,7 +82,7 @@ public class UpdateFirmwareOperation extends AbstractHuamiOperation {
         //the firmware will be sent by the notification listener if the band confirms that the metadata are ok.
     }
 
-    HuamiFirmwareInfo createFwInfo(Uri uri, Context context) throws IOException {
+    AbstractHuamiFirmwareInfo createFwInfo(Uri uri, Context context) throws IOException {
         HuamiFWHelper fwHelper = getSupport().createFWHelper(uri, context);
         return fwHelper.getFirmwareInfo();
     }
@@ -229,7 +230,7 @@ public class UpdateFirmwareOperation extends AbstractHuamiOperation {
      * @return whether the transfer succeeded or not. Only a BT layer exception will cause the transmission to fail.
      * @see #handleNotificationNotif
      */
-    private boolean sendFirmwareData(HuamiFirmwareInfo info) {
+    private boolean sendFirmwareData(AbstractHuamiFirmwareInfo info) {
         byte[] fwbytes = info.getBytes();
         int len = fwbytes.length;
         final int packetLength = getSupport().getMTU() - 3;
@@ -272,7 +273,7 @@ public class UpdateFirmwareOperation extends AbstractHuamiOperation {
     }
 
 
-    protected void sendChecksum(HuamiFirmwareInfo firmwareInfo) throws IOException {
+    protected void sendChecksum(AbstractHuamiFirmwareInfo firmwareInfo) throws IOException {
         TransactionBuilder builder = performInitialized("send firmware checksum");
         int crc16 = firmwareInfo.getCrc16();
         byte[] bytes = BLETypeConversions.fromUint16(crc16);
@@ -284,7 +285,7 @@ public class UpdateFirmwareOperation extends AbstractHuamiOperation {
         builder.queue(getQueue());
     }
 
-    HuamiFirmwareInfo getFirmwareInfo() {
+    AbstractHuamiFirmwareInfo getFirmwareInfo() {
         return firmwareInfo;
     }
 

@@ -20,6 +20,13 @@ package nodomain.freeyourgadget.gadgetbridge.deviceevents;
 public class GBDeviceEventCallControl extends GBDeviceEvent {
     public Event event = Event.UNKNOWN;
 
+    public GBDeviceEventCallControl() {
+    }
+
+    public GBDeviceEventCallControl(final Event event) {
+        this.event = event;
+    }
+
     public enum Event {
         UNKNOWN,
         ACCEPT,
