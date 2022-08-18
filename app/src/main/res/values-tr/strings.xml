@@ -1704,7 +1704,7 @@
     <string name="prefs_seamless_connection_switch_summary">Kulaklıkları eşleştirilen aygıtlar arasında otomatik olarak değiştirir</string>
     <string name="prefs_ambient_volume_right">Ortam Ses Seviyesi Sağ</string>
     <string name="pref_title_banglejs_text_bitmap">Bit Eşlem Olarak Metin</string>
-    <string name="pref_summary_device_intents">Bangle.js saat uygulamalarının Android Amaçları göndermesine ve Android\'deki diğer uygulamaların (Tasker gibi) com.banglejs.uart.tx Niyeti ile Bangle.js\'ye veri göndermesine izin ver.</string>
+    <string name="pref_summary_device_intents">Bangle.js saat uygulamalarının Android Amaçları göndermesine ve Android\'deki diğer uygulamaların (Tasker gibi) com.banglejs.uart.tx Amacı ile Bangle.js\'ye veri göndermesine izin ver. Arka planda çalışmak için diğer uygulamalar üzerinde görüntüleme izni gerekir.</string>
     <string name="pref_title_device_intents">Amaçlara İzin Ver</string>
     <string name="pref_summary_device_internet_access">Bu aygıttaki uygulamaların internete erişmesine izin ver</string>
     <string name="pref_summary_banglejs_text_bitmap">Bir sözcük saatin yazı tipi kullanılarak görüntülenemiyorsa, onu Gadgetbridge\'de bir bit eşleme dönüştür ve bit eşlemi saatte görüntüle</string>
@@ -1719,10 +1719,10 @@
     <string name="pref_workout_send_gps_title">Egzersiz sırasında GPS gönder</string>
     <string name="permission_notification_listener">%1$s, telefonunuzun ekranı kapalıyken saatinizde görüntülemek için Bildirimlere erişmeye ihtiyaç duyuyor.
 \n
-\nLütfen önce \'%2$s\', sonra \'%1$s\' düğmesine dokunun ve \'Bildirim Erişimine İzin Ver\' seçeneğini etkinleştirin, ardından %1$s\'e dönmek için \'Geri\' düğmesine dokunun</string>
+\nLütfen önce \'%2$s\', sonra \'%1$s\' düğmesine dokunun ve \'Bildirim Erişimine İzin Ver\' seçeneğini etkinleştirin, ardından %1$s\'e dönmek için \'Geri\' düğmesine dokunun.</string>
     <string name="permission_notification_policy_access">%1$s, telefonunuzun ekranı kapalıyken saatinizde bu ayarları yerine getirebilmek için Rahatsız Etme ayarlarına erişmeye ihtiyaç duyuyor.
 \n
-\nLütfen önce \'%2$s\', sonra \'%1$s\' düğmesine dokunun ve \'Rahatsız Etmeye İzin Ver\' seçeneğini etkinleştirin, ardından %1$s\'e dönmek için \'Geri\' düğmesine dokunun</string>
+\nLütfen önce \'%2$s\', sonra \'%1$s\' düğmesine dokunun ve \'Rahatsız Etmeye İzin Ver\' seçeneğini etkinleştirin, ardından %1$s\'e dönmek için \'Geri\' düğmesine dokunun.</string>
     <string name="discovery_scanning_intensity">Tarama yoğunluğu</string>
     <string name="discovery_scanning_intensity_warning">Donma veya yanıt alamama yaşıyorsanız, tarama yoğunluğunu daha düşük bir seviyeye ayarlamayı deneyin. Aygıtınız bulunamıyorsa, tarama yoğunluğunu daha yüksek bir seviyeye ayarlamayı deneyin.</string>
     <string name="quick_alarm">Hızlı alarm</string>
@@ -1836,4 +1836,9 @@
     <string name="prefs_hourly_chime_summary">Saat, saatte bir kez bip sesi çıkaracak</string>
     <string name="step_streaks_achievements_sharing_message">Günlük adım başarılarım!</string>
     <string name="step_streaks_achievements_sharing_title">Adım Başarıları</string>
+    <string name="permission_display_over_other_apps">%1$s, %1$s arka plandayken Bangle.js saatlerinin amaçlar aracılığıyla etkinlikleri başlatmasına izin vermek için diğer uygulamalar üzerinde görüntüleme iznine ihtiyaç duyuyor.
+\n
+\nBu, bir müzik uygulamasını başlatmak ve bir şarkı çalmak ve diğer birçok şey için kullanılabilir.
+\n
+\nütfen önce \'%2$s\', sonra \'%1$s\' düğmesine dokunun ve \'Diğer uygulamalar üzerinden görüntülemeye izin ver\' seçeneğini etkinleştirin, ardından %1$s\'e dönmek için \'Geri\' düğmesine dokunun.</string>
 </resources>
