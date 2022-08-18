@@ -1692,7 +1692,7 @@
     <string name="mi2_prefs_heart_rate_monitoring_alerts_summary">配置心率监测和警报阈值</string>
     <string name="pref_title_banglejs_text_bitmap">作为位图的文本</string>
     <string name="pref_summary_banglejs_text_bitmap">如果无法使用手表的字体呈现单词，请将其呈现为 Gadgetbridge 中的位图，并在手表上显示位图</string>
-    <string name="pref_summary_device_intents">允许 Bangle.js 手表应用发送 Android 意图，并允许 Android 上的其他应用（如 Tasker）使用 com.banglejs.uart.tx 意图向 Bangle.js 发送数据。</string>
+    <string name="pref_summary_device_intents">允许 Bangle.js 手表应用发送 Android 意图，并允许 Android 上的其他应用（如 Tasker）使用 com.banglejs.uart.tx 意图向 Bangle.js 发送数据。需要“能在其他应用前显示”权限。</string>
     <string name="pref_title_device_intents">允许意向</string>
     <string name="pref_title_device_internet_access">允许互联网访问</string>
     <string name="pref_summary_device_internet_access">允许此设备上的应用访问互联网</string>
@@ -1701,10 +1701,10 @@
     <string name="notification_channel_gps">GPS跟踪</string>
     <string name="permission_notification_listener">%1$s需要访问通知，以便当您的手机屏幕息屏时能在您的手表上显示这些通知。
 \n
-\n请点击\'%2$s\'然后\'%1$s\'并启用\'允许通知访问\'，然后点击\'返回\'以返回到%1$s</string>
+\n请点击\'%2$s\'然后\'%1$s\'并启用\'允许通知访问\'，然后点击\'返回\'以返回到%1$s。</string>
     <string name="permission_notification_policy_access">%1$s 需要访问“请勿打扰”设置以便在您的手机息屏时才能在手表上使用它们。
 \n
-\n请点击“%2$s”然后点击“%1$s”并启用“允许请勿打扰”，然后点击“返回”返回到%1$s</string>
+\n请点击“%2$s”然后点击“%1$s”并启用“允许请勿打扰”，然后点击“返回”返回到%1$s。</string>
     <string name="pref_workout_send_gps_title">在锻炼期间发送 GPS</string>
     <string name="pref_workout_send_gps_summary">锻炼时将当前的GPS位置发送到手环上</string>
     <string name="notification_gps_title">Gadgetbridge GPS</string>
@@ -1823,4 +1823,9 @@
     <string name="prefs_hourly_chime_summary">手表每小时将发出一次蜂鸣音</string>
     <string name="step_streaks_achievements_sharing_message">我每天的步数成就!</string>
     <string name="step_streaks_achievements_sharing_title">步数成就</string>
+    <string name="permission_display_over_other_apps">当 %1$s 在后台时，%1$s 需要显示在其他应用程序上的权限，以便让 Bangle.js 手表通过意图启动活动。
+\n
+\n这可用于启动音乐应用程序并播放歌曲以及许多其他事情。
+\n
+\n请点击“%2$s”，然后点击“%1$s”并启用“允许显示在其他应用程序上”，然后点击“返回”返回到%1$s。</string>
 </resources>
