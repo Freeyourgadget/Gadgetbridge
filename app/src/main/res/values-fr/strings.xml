@@ -1676,7 +1676,7 @@ Temps de sommeil préféré en heures</string>
     <string name="notification_channel_gps">Suivi GPS</string>
     <string name="permission_notification_listener">%1$s a besoin d\'accéder aux notifications pour les afficher sur votre montre quand l\'écran de votre téléphone est éteint.
 \n
-\nMerci le sélectionner \'%2$s\' puis \'%1$s\' et activer \'Autoriser l\'accès aux notifications\', puis appuyer sur \'Retour\' pour revenir à %1$s</string>
+\nMerci de sélectionner \'%2$s\' puis \'%1$s\' et activer \'Autoriser l\'accès aux notifications\', puis appuyer sur \'Retour\' pour revenir à %1$s.</string>
     <string name="discovery_scanning_intensity">Intensité du scan</string>
     <string name="discovery_scanning_intensity_warning">Si vous rencontrez des problèmes de blocage ou non réponse, essayer de régler l\'intensité du scan à un faible niveau. Si votre appareil n\'est pas découvert, essayer l\'intensité du scan au plus haut niveau.</string>
     <string name="portuguese_br">Portugais (Brésil)</string>
@@ -1701,11 +1701,11 @@ Temps de sommeil préféré en heures</string>
     <string name="pref_device_action_phone_gps_location_listener_stop">Arrêt du gestionnaire GPS</string>
     <string name="permission_notification_policy_access">%1$s doit accéder aux réglages Ne Pas Déranger afin de les respecter sur votre montre quand l\'écran de votre téléphone est éteint.
 \n
-\nMerci de sélectionner \'%2$s\' puis \'%1$s\' et activer \'Autoriser Ne Pas Déranger\', puis sélectionner \'Retour\' pour revenir à %1$s</string>
+\nMerci de sélectionner \'%2$s\' puis \'%1$s\' et activer \'Autoriser Ne Pas Déranger\', puis sélectionner \'Retour\' pour revenir à %1$s.</string>
     <string name="prefs_voice_detect_summary">Activer le son ambiant et réduction de bruit automatique lors de la détection de voix</string>
     <string name="quick_alarm">Alarme rapide</string>
     <string name="quick_alarm_description">Alarme d\'un widget</string>
-    <string name="pref_summary_device_intents">Permettre à Bangle.js d\'envoyer des notifications Android, et permettre aux autres apps Android (comme Tasker) d\'envoyer des données à Bangle.js avec le dispositif com.banglejs.uart.tx .</string>
+    <string name="pref_summary_device_intents">Permettre à Bangle.js d\'envoyer des notifications Android, et permettre aux autres apps Android (comme Tasker) d\'envoyer des données à Bangle.js avec le dispositif com.banglejs.uart.tx . Nécessite les droits d\'affichage par-dessus les autres apps pour fonctionner en arrière-plan.</string>
     <string name="pref_title_touch_volume">Volume</string>
     <string name="prefs_noise_control_with_one_earbud_summary">Permettre le contrôle du bruit en utilisant un seul écouteur</string>
     <string name="pref_ambient_sound_tone">Tonalité du son ambiant</string>
@@ -1825,4 +1825,9 @@ Temps de sommeil préféré en heures</string>
     <string name="prefs_hourly_chime_summary">La montre fera un beep toutes les heures</string>
     <string name="step_streaks_achievements_sharing_title">Objectifs de pas</string>
     <string name="step_streaks_achievements_sharing_message">Mes résultats quotidiens de pas !</string>
+    <string name="permission_display_over_other_apps">%1$s a besoin d\'une autorisation pour s\'afficher au-dessus des autres apps afin de pouvoir lanter des activités via la commande vocale lorsque %1$s est en arrière-plan.
+\n
+\nCela peut être utilisé pour démarrer une application de musique et jouer un morceau, et de nombreuses autres choses.
+\n
+\nMerci de choisir \'%2$s\' puis \'%1$s\' et activer \'Permettre l\'affichage au-dessus des autres apps\', puis faire \'Retour\' pour revenir à %1$s.</string>
 </resources>
