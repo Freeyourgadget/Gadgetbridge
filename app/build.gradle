@@ -55,8 +55,8 @@ android {
         multiDexEnabled true
 
         // Note: always bump BOTH versionCode and versionName!
-        versionName "0.68.0"
-        versionCode 213
+        versionName "0.69.0"
+        versionCode 214
         vectorDrawables.useSupportLibrary = true
         multiDexEnabled true
         buildConfigField "String", "GIT_HASH_SHORT", "\"${getGitHashShort()}\""
