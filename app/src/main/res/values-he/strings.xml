@@ -1692,7 +1692,7 @@
     <string name="pref_title_device_internet_access">לאפשר גישה לאינטרנט</string>
     <string name="pref_summary_device_internet_access">לאפשר ליישומונים במכשיר הזה לגשת לאינטרנט</string>
     <string name="pref_summary_banglejs_text_bitmap">אם אי אפשר לעבד תמונות עם גופן השעון, הוא יומר למפת סיביות ב־Gadgetbridge שתוצג בשעון</string>
-    <string name="pref_summary_device_intents">לאפשר ליישומוני שעון של Bangle.js לשלוח Intents ל־Android ולאפשר ליישומי Android אחרים (כמו Tasker) לשלוח נתונים ל־Bangle.js באמצעות ה־Intent ‏com.banglejs.uart.tx.</string>
+    <string name="pref_summary_device_intents">לאפשר ליישומוני שעון של Bangle.js לשלוח Intents ל־Android ולאפשר ליישומי Android אחרים (כמו Tasker) לשלוח נתונים ל־Bangle.js באמצעות ה־Intent ‏com.banglejs.uart.tx. דורש הרשאות כדי להציג על גבי יישומונים אחרים שפועלים ברקע.</string>
     <string name="pref_title_device_intents">לאפשר Intents</string>
     <string name="pref_workout_send_gps_title">שליחת GPS במהלך אימון</string>
     <string name="pref_workout_send_gps_summary">שליחת מיקום ה־GPS הנוכחי לצמיד במהלך אימון</string>
@@ -1712,13 +1712,13 @@
     <string name="pref_summary_banglejs_webview_url">אם ברצונך להשתמש בטוען יישומון אחר נא לציין את הכתובת https://…/android.html, אם לא אפשר להשאיר ריק כדי להשתמש ב־https://banglejs.com/apps</string>
     <string name="permission_notification_listener">ל־%1$s דרושה גישה להתראות כדי להציג אותן בשעון שלך כאשר מסך הטלפון שלך כבוי.
 \n
-\nנא לגעת ב־‚%2$s’ ואז ‚%1$s’ ולהפעיל את ‚לאפשר גישה להתראות’ ואז לגעת ב‚חזרה’ כדי לחזור אל %1$s</string>
+\nנא לגעת ב־‚%2$s’ ואז ‚%1$s’ ולהפעיל את ‚לאפשר גישה להתראות’ ואז לגעת ב‚חזרה’ כדי לחזור אל %1$s.</string>
     <string name="permission_location">ל־%1$s דרושה גישה למיקום שלך ברקע כדי לאפשר לו להישאר מחובר לשעון שלך גם כאשר המסך שלך כבוי.
 \n
 \nנא לגעת ב‚%2$s’ כדי להסכים.</string>
     <string name="permission_notification_policy_access">ל־%1$s דרושה גישה להגדרות לא להפריע כדי לכבד אותן בשעון שלך כאשר מסך הטלפון שלך כבוי.
 \n
-\nנא לגעת ב־‚%2$s’ ואז ‚%1$s’ ולהפעיל את ‚לאפשר לא להפריע’ ואז לגעת ב‚חזרה’ כדי לחזור אל %1$s</string>
+\nנא לגעת ב־‚%2$s’ ואז ‚%1$s’ ולהפעיל את ‚לאפשר לא להפריע’ ואז לגעת ב‚חזרה’ כדי לחזור אל %1$s.</string>
     <string name="extended_ascii">ASCII מורחב</string>
     <string name="scandinavian">סקנדינבית</string>
     <string name="icelandic">איסלנדית</string>
@@ -1821,4 +1821,9 @@
     <string name="about_description_banglejs_nightly">יישומון נלווה ל־Bangle.js לסביבת Android שנבנה על גבי מיזם Gadgetbridge בתוספת גישה לאינטרנט.
 \n
 \nעקב מדיניות של חנות Google Play אסור לנו להציב קישור תרומה ביישומון עצמו אבל אם היישומון הזה נושא חן בעיניך, נא לשקול לתרום לו דרך האתר של Gadgetbridge שלהלן.</string>
+    <string name="permission_display_over_other_apps">%1$s זקוק להרשאות כדי להציג על פני יישומונים אחרים כדי לאפשר לשעוני Bangle.js להריץ פעילויות דרך Intens כאשר %1$s פועל ברקע.
+\n
+\nאפשר להשתמש בזה כדי להפעיל יישומון מוזיקה ולנגן שיר ולעוד מגוון משימות.
+\n
+\nנא לגעת ב־‚%2$s’ ואז ב־‚%1$s’ ולסמן את ‚לאפשר הצגה על גבי יישומונים אחרים’, ואז לגעת ב־‚חזרה’ כדי לחזור אל %1$s.</string>
 </resources>
