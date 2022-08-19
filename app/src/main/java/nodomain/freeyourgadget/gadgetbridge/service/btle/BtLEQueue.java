@@ -51,6 +51,7 @@ import nodomain.freeyourgadget.gadgetbridge.Logging;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice.State;
 import nodomain.freeyourgadget.gadgetbridge.service.DeviceSupport;
+import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.WriteAction;
 
 /**
  * One queue/thread per connectable device.
@@ -70,6 +71,7 @@ public final class BtLEQueue {
     private volatile boolean mCrashed;
     private volatile boolean mAbortTransaction;
     private volatile boolean mAbortServerTransaction;
+    private volatile boolean mPauseTransaction = false;
 
     private final Context mContext;
     private CountDownLatch mWaitForActionResultLatch;
@@ -117,7 +119,7 @@ public final class BtLEQueue {
                                 break;
                             }
                             if (LOG.isDebugEnabled()) {
-                                LOG.debug("About to run action: " + action);
+                                LOG.debug("About to run server action: " + action);
                             }
                             if (action.run(mBluetoothGattServer)) {
                                 // check again, maybe due to some condition, action did not need to write, so we can't wait
@@ -148,6 +150,15 @@ public final class BtLEQueue {
                             if (mAbortTransaction) { // got disconnected
                                 LOG.info("Aborting running transaction");
                                 break;
+                            }
+                            while ((action instanceof WriteAction) && mPauseTransaction && !mAbortTransaction) {
+                              LOG.info("Pausing WriteAction");
+                              try {
+                                  Thread.sleep(100);
+                              } catch (Exception e) {
+                                  LOG.info("Exception during pause: "+e.toString());
+                                  break;
+                              }
                             }
                             mWaitCharacteristic = action.getCharacteristic();
                             mWaitForActionResultLatch = new CountDownLatch(1);
@@ -222,6 +233,7 @@ public final class BtLEQueue {
      * @return <code>true</code> whether the connection attempt was successfully triggered and <code>false</code> if that failed or if there is already a connection
      */
     public boolean connect() {
+        mPauseTransaction = false;
         if (isConnected()) {
             LOG.warn("Ingoring connect() because already connected.");
             return false;
@@ -286,6 +298,7 @@ public final class BtLEQueue {
                 gatt.close();
                 setDeviceConnectionState(State.NOT_CONNECTED);
             }
+            mPauseTransaction = false;
             BluetoothGattServer gattServer = mBluetoothGattServer;
             if (gattServer != null) {
                 mBluetoothGattServer = null;
@@ -299,6 +312,7 @@ public final class BtLEQueue {
         LOG.debug("handleDisconnected: " + status);
         internalGattCallback.reset();
         mTransactions.clear();
+        mPauseTransaction = false;
         mAbortTransaction = true;
         mAbortServerTransaction = true;
         if (mWaitForActionResultLatch != null) {
@@ -332,12 +346,17 @@ public final class BtLEQueue {
         if (mAutoReconnect && mBluetoothGatt != null) {
             LOG.info("Enabling automatic ble reconnect...");
             boolean result = mBluetoothGatt.connect();
+            mPauseTransaction = false;
             if (result) {
                 setDeviceConnectionState(State.WAITING_FOR_RECONNECT);
             }
             return result;
         }
         return false;
+    }
+
+    public void setPaused(boolean paused) {
+      mPauseTransaction = paused;
     }
 
     public void dispose() {

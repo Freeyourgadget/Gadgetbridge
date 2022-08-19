@@ -792,8 +792,30 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
             // check to see if we get more data - if so, increase out MTU for sending
             if (allowHighMTU && chars.length > mtuSize)
                 mtuSize = chars.length;
+            // Scan for flow control characters
+            for (int i=0;i<chars.length;i++) {
+                boolean ignoreChar = false;
+                if (chars[i]==19 /* XOFF */) {
+                    getQueue().setPaused(true);
+                    LOG.info("RX: XOFF");
+                    ignoreChar = true;
+                }
+                if (chars[i]==17 /* XON */) {
+                    getQueue().setPaused(false);
+                    LOG.info("RX: XON");
+                    ignoreChar = true;
+                }
+                if (ignoreChar) {
+                    // remove char from the array. Generally only one XON/XOFF per stream so creating a new array each time is fine
+                    byte[] c = new byte[chars.length - 1];
+                    System.arraycopy(chars, 0, c, 0, i); // copy before
+                    System.arraycopy(chars, i+1, c, i, chars.length - i - 1); // copy after
+                    chars = c;
+                    i--; // back up one (because we deleted it)
+                }
+            }
             String packetStr = new String(chars);
-            LOG.info("RX: " + packetStr);
+            LOG.debug("RX: " + packetStr);
             // logging
             addReceiveHistory(packetStr);
             // split into input lines
