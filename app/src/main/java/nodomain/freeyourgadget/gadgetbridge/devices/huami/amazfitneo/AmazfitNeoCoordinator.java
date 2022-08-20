@@ -79,6 +79,11 @@ public class AmazfitNeoCoordinator extends HuamiCoordinator {
     }
 
     @Override
+    public int getReminderSlotCount() {
+        return 0; // Neo does not support reminders
+    }
+
+    @Override
     public int[] getSupportedDeviceSpecificSettings(GBDevice device) {
         return new int[]{
                 R.xml.devicesettings_amazfitneo,
@@ -89,33 +94,11 @@ public class AmazfitNeoCoordinator extends HuamiCoordinator {
                 R.xml.devicesettings_liftwrist_display,
                 R.xml.devicesettings_inactivity_dnd,
                 R.xml.devicesettings_hourly_chime,
-                R.xml.devicesettings_disconnectnotification,
                 R.xml.devicesettings_expose_hr_thirdparty,
                 R.xml.devicesettings_bt_connected_advertisement,
                 R.xml.devicesettings_device_actions,
                 R.xml.devicesettings_high_mtu,
                 R.xml.devicesettings_transliteration
-        };
-    }
-
-    @Override
-    public String[] getSupportedLanguageSettings(GBDevice device) {
-        return new String[]{
-                "auto",
-                "de_DE",
-                "el_GR",
-                "en_US",
-                "es_ES",
-                "fr_FR",
-                "id_ID",
-                "it_IT",
-                "pt_PT",
-                "pl_PL",
-                "ru_RU",
-                "uk_UA",
-                "vi_VN",
-                "zh_CN",
-                "zh_TW",
         };
     }
 
