@@ -1828,4 +1828,62 @@
 \n这可用于启动音乐应用程序并播放歌曲以及许多其他事情。
 \n
 \n请点击“%2$s”，然后点击“%1$s”并启用“允许显示在其他应用程序上”，然后点击“返回”返回到%1$s。</string>
+    <string name="pref_header_display">显示</string>
+    <string name="pref_header_health">健康</string>
+    <string name="pref_header_time">时间</string>
+    <string name="pref_header_workout">锻炼</string>
+    <string name="pref_summary_canned_replies">在手表上使用预设的消息进行回复</string>
+    <string name="pref_title_screen_on_on_notifications">来通知时亮屏</string>
+    <string name="pref_summary_screen_on_on_notifications">收到通知时亮起手环屏幕</string>
+    <string name="pref_cache_weather">缓存天气信息</string>
+    <string name="heartrate_bpm_40">40 次/分钟</string>
+    <string name="heartrate_bpm_45">45 次/分钟</string>
+    <string name="heartrate_bpm_50">50 次/分钟</string>
+    <string name="heartrate_bpm_115">115 次/分钟</string>
+    <string name="prefs_heartrate_alert_high_threshold">高心率警报阈值</string>
+    <string name="prefs_relaxation_reminder_description">如果压力值高于80，则振动手环以通知您</string>
+    <string name="prefs_spo2_monitoring_title">血氧监测</string>
+    <string name="prefs_spo2_monitoring_description">自动监测全天的血氧水平</string>
+    <string name="prefs_spo2_alert_threshold">血氧警报阈值</string>
+    <string name="seconds_6">6 秒</string>
+    <string name="seconds_7">7 秒</string>
+    <string name="seconds_8">8 秒</string>
+    <string name="seconds_9">9 秒</string>
+    <string name="seconds_11">11 秒</string>
+    <string name="seconds_12">12 秒</string>
+    <string name="seconds_13">13 秒</string>
+    <string name="seconds_14">14 秒</string>
+    <string name="seconds_15">15 秒</string>
+    <string name="smart">智能</string>
+    <string name="mi2_dnd_always">总是</string>
+    <string name="pref_header_heartrate_sleep">睡眠</string>
+    <string name="pref_header_heartrate_allday">全天监测</string>
+    <string name="pref_header_heartrate_alerts">心率警报</string>
+    <string name="pref_header_stress">压力</string>
+    <string name="pref_screen_brightness">屏幕亮度</string>
+    <string name="prefs_screen_timeout">屏幕超时</string>
+    <string name="pref_header_calendar">日历</string>
+    <string name="fw_upgrade_notice_miband7">您即将在您的小米智能手环7上安装 %s 固件。
+\n
+\n您的手环将会在安装了 .zip 文件后自动重启。
+\n
+\n风险自负！</string>
+    <string name="spo2_perc_85">85%</string>
+    <string name="prefs_heartrate_alert_low_threshold">低心率警报阈值</string>
+    <string name="pref_cache_weather_summary">天气信息将在应用程序重新启动时缓存。</string>
+    <string name="pref_header_connection">连接</string>
+    <string name="prefs_always_on_display">始终显示</string>
+    <string name="prefs_always_on_display_summary">保持手环的显示屏始终开启</string>
+    <string name="menuitem_countdown">倒计时</string>
+    <string name="menuitem_workout_status">锻炼状态</string>
+    <string name="pref_header_spo2">血氧</string>
+    <string name="spo2_perc_90">90%</string>
+    <string name="spo2_off">关闭</string>
+    <string name="spo2_perc_80">80%</string>
+    <string name="devicetype_miband7">小米智能手环7</string>
+    <string name="prefs_relaxation_reminder_title">放松提醒</string>
+    <string name="menuitem_workout_history">锻炼历史</string>
+    <string name="pref_sleep_breathing_quality_monitoring">睡眠呼吸质量监测</string>
+    <string name="menuitem_personal_activity_intelligence">个人活动情报</string>
+    <string name="menuitem_female_health">女性健康</string>
 </resources>
