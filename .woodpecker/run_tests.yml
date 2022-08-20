@@ -1,6 +1,6 @@
 pipeline:
   tests:
-    image: androidsdk/android-30
+    image: cs8898/android-fdroid-sdk:31.0.0
     commands:
       - pwd #bump
       - ./gradlew :app:testBangleDebugUnitTest :app:testMainDebugUnitTest
