@@ -1644,10 +1644,10 @@
     <string name="pref_switch_noise_control">Přepínání regulace hluku</string>
     <string name="permission_notification_listener">%1$s potřebuje přístup k Notifikacím, aby bylo možno notifikace zobrazovat i na připojených hodinkách/náramku při vypnuté obrazovce telefonu.
 \n
-\nZvolte \'%2$s\', poté \'%1$s\' a a vyberte \'Povolit přístup k Notifikacím\', poté zvolte \'Zpět\' pro návrat do %1$s</string>
+\nZvolte \'%2$s\', poté \'%1$s\' a a vyberte \'Povolit přístup k Notifikacím\', poté zvolte \'Zpět\' pro návrat do %1$s.</string>
     <string name="permission_notification_policy_access">%1$s potřebuje přístup k funkci Nerušit, aby bylo možno nastavit Nerušit i na připojených hodinkách/náramku při vypnuté obrazovce telefonu.
 \n
-\nZvolte \'%2$s\', poté \'%1$s\' a a vyberte \'Povolit přístup funkci Nerušit\', poté zvolte \'Zpět\' pro návrat do %1$s</string>
+\nZvolte \'%2$s\', poté \'%1$s\' a a vyberte \'Povolit přístup funkci Nerušit\', poté zvolte \'Zpět\' pro návrat do %1$s.</string>
     <string name="prefs_in_ear_detection_summary">Přehrávání hovorů do sluchátek, jsou li v uších</string>
     <string name="heartrate_bpm_130">130 tepů/min</string>
     <string name="pref_title_banglejs_text_bitmap">Text jako Bitmapa</string>
@@ -1656,7 +1656,7 @@
     <string name="heartrate_bpm_150">150 tepů/min</string>
     <string name="prefs_stress_monitoring_title">Sledování stresu</string>
     <string name="prefs_voice_detect_summary">Automaticky povolit okolní zvuk a snížit přehrávání po zjištění hlasu</string>
-    <string name="pref_summary_device_intents">Umožní aplikacím Bangle.js hodinek posílat Android Intenty a povolí ostatním Android aplikacím (Tasker) aby posílaly data do Bangle.js pomocí com.banglejs.uart.tx Intentu.</string>
+    <string name="pref_summary_device_intents">Umožní aplikacím Bangle.js hodinek posílat Android Intenty a povolí ostatním Android aplikacím (Tasker) aby posílaly data do Bangle.js pomocí com.banglejs.uart.tx Intentu. Potřebuje povolení k zobrazení nad ostatními aplikacemi, aby mohl pracovat na pozadí.</string>
     <string name="prefs_heartrate_alert_experimental_description">Zavibruje řemínkem, pokud tepová frekvence překročí prahovou hodnotu bez zjevné fyzické aktivity v posledních 10 minutách. Tato funkce je experimentální a nebyla důkladně testována.</string>
     <string name="prefs_activity_monitoring_description">Automaticky zvýší četnost detekce srdeční frekvence při fyzické aktivitě.</string>
     <string name="mi2_prefs_heart_rate_monitoring">Monitorování srdeční frekvence</string>
@@ -1822,4 +1822,67 @@
     <string name="application_name_banglejs_nightly">Bangle.js Gadgetbridge (Noční)</string>
     <string name="step_streaks_achievements_sharing_message">Moje úspěchy denních cílů kroků!</string>
     <string name="about_activity_title_banglejs_nightly">O aplikace Bangle.js Gadgetbridge (Noční)</string>
+    <string name="pref_header_time">Čas</string>
+    <string name="pref_header_workout">Cvičení</string>
+    <string name="pref_summary_screen_on_on_notifications">Zapnout podsvícení displeje při obdržení notifikace</string>
+    <string name="pref_cache_weather">Ukládání informací o počasí do mezipaměti</string>
+    <string name="pref_cache_weather_summary">Informace o počasí se ukládají do mezipaměti při restartech aplikace.</string>
+    <string name="heartrate_bpm_40">40 bpm</string>
+    <string name="heartrate_bpm_45">45 bpm</string>
+    <string name="heartrate_bpm_50">50 bpm</string>
+    <string name="heartrate_bpm_115">115 bpm</string>
+    <string name="prefs_heartrate_alert_low_threshold">Varovný práh nízké srdeční frekvence</string>
+    <string name="prefs_relaxation_reminder_title">Připomenutí relaxace</string>
+    <string name="prefs_relaxation_reminder_description">Vibrování pásku vás upozorní, pokud je hodnota stresu vyšší než 80</string>
+    <string name="prefs_spo2_monitoring_title">Monitorování krevního kyslíku</string>
+    <string name="seconds_6">6 sekund</string>
+    <string name="seconds_7">7 sekund</string>
+    <string name="seconds_8">8 sekund</string>
+    <string name="seconds_13">13 sekund</string>
+    <string name="seconds_14">14 sekund</string>
+    <string name="pref_sleep_breathing_quality_monitoring">Sledování kvality dýchání ve spánku</string>
+    <string name="prefs_always_on_display">Stále zapnutý displej</string>
+    <string name="prefs_always_on_display_summary">Displej vždy zapnutý</string>
+    <string name="prefs_screen_timeout">Časový limit obrazovky</string>
+    <string name="smart">Inteligentní</string>
+    <string name="mi2_dnd_always">Vždy</string>
+    <string name="devicetype_miband7">Xiaomi Smart Band 7</string>
+    <string name="menuitem_countdown">Odpočítávání</string>
+    <string name="pref_screen_brightness">Jas obrazovky</string>
+    <string name="pref_header_connection">Spojení</string>
+    <string name="fw_upgrade_notice_miband7">Chystáte se nainstalovat firmvér %s na vašem Xiaomi Smart Band 7.
+\n
+\nVaše hodinky se po instalaci .zip souboru restartují.
+\n
+\nPOKRAČUJTE TO NA VLASTNÍ NEBEZPEČÍ!</string>
+    <string name="pref_header_display">Displej</string>
+    <string name="pref_title_screen_on_on_notifications">Rozsvítit displej při notifikacích</string>
+    <string name="spo2_off">Vypnuto</string>
+    <string name="pref_header_calendar">Kalendář</string>
+    <string name="pref_header_health">Zdraví</string>
+    <string name="pref_summary_canned_replies">Odpovědi z hodinek pomocí přednastavených zpráv</string>
+    <string name="prefs_heartrate_alert_high_threshold">Varovný práh vysoké srdeční frekvence</string>
+    <string name="prefs_spo2_alert_threshold">Prahová hodnota výstrahy SPO2</string>
+    <string name="spo2_perc_80">80 %</string>
+    <string name="spo2_perc_85">85%</string>
+    <string name="spo2_perc_90">90 %</string>
+    <string name="pref_header_heartrate_sleep">Spát</string>
+    <string name="pref_header_heartrate_allday">Celodenní sledování</string>
+    <string name="seconds_12">12 sekund</string>
+    <string name="menuitem_personal_activity_intelligence">Inteligence osobních aktivit</string>
+    <string name="prefs_spo2_monitoring_description">Automatické sledování hladiny kyslíku v krvi během dne</string>
+    <string name="seconds_9">9 sekund</string>
+    <string name="seconds_11">11 sekund</string>
+    <string name="seconds_15">15 sekund</string>
+    <string name="menuitem_workout_history">Historie cvičení</string>
+    <string name="menuitem_female_health">Ženské zdraví</string>
+    <string name="menuitem_workout_status">Stav cvičení</string>
+    <string name="permission_display_over_other_apps">%1$s potřebuje oprávnění k zobrazení nad ostatními aplikacemi, aby hodinky Bangle.js mohly spouštět aktivity prostřednictvím záměrů (intents), při spuštění na pozadí %1$s.
+\n
+\nToho lze využít ke spouštění hudební aplikace pro přehrání skladby a mnoha dalších věcí.
+\n
+\nKlepněte na \'%2$s\' a poté na \'%1$s\' a povolte \'Povolit zobrazení nad jinými aplikacemi\' a poté se klepnutím na \'Zpět\' vraťte na %1$s.</string>
+    <string name="pref_header_heartrate_alerts">Upozornění na tepovou frekvenci</string>
+    <string name="pref_header_stress">Stres</string>
+    <string name="pref_header_spo2">Krevní kyslík</string>
 </resources>
