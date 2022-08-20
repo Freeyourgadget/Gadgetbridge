@@ -1689,7 +1689,7 @@
     <string name="heartrate_bpm_135">135 bpm</string>
     <string name="heartrate_bpm_140">140 bpm</string>
     <string name="pref_summary_device_internet_access">Apps op dit apparaat toegang geven tot internet</string>
-    <string name="pref_summary_device_intents">Sta toe dat Bangle.js apps Android-intents verzenden en sta andere apps op Android (zoals Tasker) toe om gegevens naar Bangle.js te verzenden met de com.banglejs.uart.tx-intent.</string>
+    <string name="pref_summary_device_intents">Sta toe dat Bangle.js apps Android-intents verzenden en sta andere apps op Android (zoals Tasker) toe om gegevens naar Bangle.js te verzenden met de com.banglejs.uart.tx-intent. Heeft toestemming nodig om over andere apps te worden weergegeven om op de achtergrond te werken.</string>
     <string name="pref_title_banglejs_text_bitmap">Tekst als afbeelding</string>
     <string name="pref_title_device_internet_access">Internettoegang toestaan</string>
     <string name="pref_summary_banglejs_text_bitmap">Als een woord niet kan worden weergegeven met het lettertype van het horloge, render het dan naar een afbeelding in Gadgetbridge en toon de afbeelding op het horloge</string>
@@ -1711,10 +1711,10 @@
     <string name="notification_gps_text">GPS-locatie verzenden naar %1$d-apparaten</string>
     <string name="permission_notification_policy_access">%1$s heeft toegang nodig tot de instellingen voor Niet storen om ze op je horloge te respecteren wanneer het scherm van je telefoon is uitgeschakeld.
 \n
-\nTik op \'%2$s\' en vervolgens op \'%1$s\' en schakel \'Niet storen toestaan\' in, tik vervolgens op \'Terug\' om terug te keren naar %1$s</string>
+\nTik op \'%2$s\' en vervolgens op \'%1$s\' en schakel \'Niet storen toestaan\' in, tik vervolgens op \'Terug\' om terug te keren naar %1$s.</string>
     <string name="permission_notification_listener">%1$s heeft toegang tot meldingen nodig om ze op je horloge weer te geven wanneer het scherm van je telefoon is uitgeschakeld.
 \n
-\nTik op \'%2$s\' en vervolgens op \'%1$s\' en schakel \'Toegang tot meldingen toestaan\' in, tik vervolgens op \'Terug\' om terug te keren naar %1$s</string>
+\nTik op \'%2$s\' en vervolgens op \'%1$s\' en schakel \'Toegang tot meldingen toestaan\' in, tik vervolgens op \'Terug\' om terug te keren naar %1$s.</string>
     <string name="discovery_scanning_intensity">Scanintensiteit</string>
     <string name="pref_device_action_phone_gps_location_listener_stop">GPS-locatie Listener Stop</string>
     <string name="pref_title_banglejs_webview_url">URL app-lader</string>
@@ -1822,4 +1822,67 @@
     <string name="about_description_banglejs_nightly">Android-app voor Bangle.js, gebouwd bovenop het Gadgetbridge-project, met toegevoegde internettoegang.
 \n
 \nVanwege het Google Play Store-beleid is een donatielink in de app zelf niet toegestaan, maar als je deze app leuk vindt, overweeg dan om te doneren via de Gadgetbridge-homepage hieronder.</string>
+    <string name="fw_upgrade_notice_miband7">U staat op het punt de %s-firmware op uw Xiaomi Smart Band 7 te installeren.
+\n
+\nDe band zal opnieuw opstarten na het installeren van het .zip-bestand.
+\n
+\nVERDERGAAN IS OP EIGEN RISICO!</string>
+    <string name="pref_header_connection">Verbinding</string>
+    <string name="pref_header_calendar">Kalender</string>
+    <string name="pref_header_display">Weergave</string>
+    <string name="pref_header_health">Gezondheid</string>
+    <string name="pref_header_time">Tijd</string>
+    <string name="pref_header_workout">Training</string>
+    <string name="pref_summary_canned_replies">Reageer vanaf het horloge met vooraf ingestelde berichten</string>
+    <string name="pref_cache_weather">Weerinformatie in cache opslaan</string>
+    <string name="pref_cache_weather_summary">Weerinformatie wordt in de cache bewaard tijdens het opnieuw opstarten van de app.</string>
+    <string name="heartrate_bpm_40">40 bpm</string>
+    <string name="heartrate_bpm_45">45 bpm</string>
+    <string name="heartrate_bpm_50">50 bpm</string>
+    <string name="heartrate_bpm_115">115 bpm</string>
+    <string name="spo2_perc_80">80%</string>
+    <string name="spo2_perc_85">85%</string>
+    <string name="spo2_perc_90">90%</string>
+    <string name="spo2_off">Uit</string>
+    <string name="prefs_heartrate_alert_high_threshold">Waarschuwingsdrempel voor hoge hartslag</string>
+    <string name="prefs_heartrate_alert_low_threshold">Waarschuwingsdrempel voor lage hartslag</string>
+    <string name="prefs_relaxation_reminder_title">Ontspanningsherinnering</string>
+    <string name="prefs_relaxation_reminder_description">Tril de band om u op de hoogte te stellen als de stresswaarde hoger is dan 80</string>
+    <string name="prefs_spo2_monitoring_title">Bloedzuurstofbewaking</string>
+    <string name="prefs_spo2_monitoring_description">Controleer automatisch de bloedzuurstofniveaus gedurende de dag</string>
+    <string name="prefs_spo2_alert_threshold">SPO2-waarschuwingsdrempel</string>
+    <string name="seconds_6">6 seconden</string>
+    <string name="seconds_7">7 seconden</string>
+    <string name="seconds_8">8 seconden</string>
+    <string name="seconds_9">9 seconden</string>
+    <string name="seconds_11">11 seconden</string>
+    <string name="pref_sleep_breathing_quality_monitoring">Controle van de ademhalingskwaliteit tijdens de slaap</string>
+    <string name="prefs_screen_timeout">Time-out scherm</string>
+    <string name="smart">Slim</string>
+    <string name="mi2_dnd_always">Altijd</string>
+    <string name="devicetype_miband7">Xiaomi Smart Band 7</string>
+    <string name="menuitem_workout_history">Trainingsgeschiedenis</string>
+    <string name="menuitem_female_health">Vrouwelijke gezondheid</string>
+    <string name="menuitem_workout_status">Trainingsstatus</string>
+    <string name="permission_display_over_other_apps">%1$s heeft toestemming nodig om boven andere apps te worden weergegeven om Bangle.js-horloges activiteiten te laten starten via intents wanneer %1$s op de achtergrond is.
+\n
+\nDit kan worden gebruikt om een muziek-app te starten en een nummer af te spelen, en vele andere dingen.
+\n
+\nTik op \'%2$s\' en vervolgens op \'%1$s\' en schakel \'Weergave over andere apps toestaan\' in, tik vervolgens op \'Terug\' om terug te keren naar %1$s.</string>
+    <string name="pref_header_spo2">Bloedzuurstof</string>
+    <string name="pref_screen_brightness">Schermhelderheid</string>
+    <string name="pref_summary_screen_on_on_notifications">Schakel het scherm van de band in wanneer er een melding binnenkomt</string>
+    <string name="pref_title_screen_on_on_notifications">Scherm aan bij meldingen</string>
+    <string name="seconds_12">12 seconden</string>
+    <string name="seconds_14">14 seconden</string>
+    <string name="seconds_13">13 seconden</string>
+    <string name="prefs_always_on_display">Scherm altijd aan</string>
+    <string name="seconds_15">15 seconden</string>
+    <string name="menuitem_personal_activity_intelligence">Persoonlijke activiteitsintelligentie</string>
+    <string name="pref_header_heartrate_alerts">Hartslagwaarschuwingen</string>
+    <string name="pref_header_heartrate_allday">Bewaking gedurende de hele dag</string>
+    <string name="prefs_always_on_display_summary">Houd het scherm van de band altijd aan</string>
+    <string name="pref_header_stress">Stress</string>
+    <string name="menuitem_countdown">Aftellen</string>
+    <string name="pref_header_heartrate_sleep">Slaap</string>
 </resources>
