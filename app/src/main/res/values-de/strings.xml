@@ -420,12 +420,12 @@
     <string name="discovery_yes_pair">Koppeln</string>
     <string name="discovery_dont_pair">Nicht koppeln</string>
     <string name="stats_title">Geschwindigkeitszonen</string>
-    <string name="fw_upgrade_notice_amazfitbip">Die Firmware %s soll auf der Amazfit Bip installiert werden. 
-\n 
-\nBitte stelle sicher zuerst die .fw Datei zu installieren, dann die .res Datei, und zum Schluss die .gps Datei. Deine Uhr wird sich nach der Installation der .fw Datei neu starten. 
-\n 
-\nHinweis: Du musst die .res and .gps Dateien nicht installieren, falls diese genau die gleichen Dateien wie die sind, die Du schon mit einer vorigen .fw Datei zusammen installiert hattest. 
-\n 
+    <string name="fw_upgrade_notice_amazfitbip">Du bist dabei, die Firmware %s auf deine Amazfit Bip zu installieren.
+\n
+\nBitte stelle sicher, dass du die .fw-Datei, dann die .res-Datei und schließlich die .gps-Datei installierst. Deine Uhr wird nach der Installation der .fw-Datei neu gestartet.
+\n
+\nHinweis: Du musst die .res und .gps nicht installieren, wenn diese Dateien genau die gleichen sind, wie die zuvor installierten.
+\n
 \nINSTALLATION AUF EIGENE GEFAHR!</string>
     <string name="mi2_prefs_button_actions">Tastenaktionen</string>
     <string name="mi2_prefs_button_actions_summary">Tastendruckaktionen bestimmen</string>
@@ -1620,8 +1620,8 @@
     <string name="pref_screen_notification_profile_event_reminder">Terminerinnerung</string>
     <string name="pref_screen_notification_profile_find_device">Gerät finden</string>
     <string name="pref_screen_notification_idle_alerts">Leerlaufwarnungen</string>
-    <string name="mi5_prefs_workout_activity_types">Art von Workout-Aktivitäten</string>
-    <string name="mi5_prefs_workout_activity_types_summary">Aktivitätsarten wählen, die auf dem Workout-Bildschirm angezeigt werden sollen</string>
+    <string name="mi5_prefs_workout_activity_types">Arten von Trainingsaktivitäten</string>
+    <string name="mi5_prefs_workout_activity_types_summary">Aktivitätsarten wählen, die auf dem Trainingsbildschirm angezeigt werden sollen</string>
     <string name="activity_type_freestyle">Freistil</string>
     <string name="devicetype_sony_wf_1000xm3">Sony WF-1000XM3</string>
     <string name="devicetype_galaxybuds_pro">Galaxy Buds Pro</string>
@@ -1638,7 +1638,7 @@
     <string name="pref_title_device_internet_access">Internetzugang zulassen</string>
     <string name="pref_summary_device_internet_access">Apps auf diesem Gerät Internetzugriff erlauben</string>
     <string name="pref_title_device_intents">Absichten erlauben</string>
-    <string name="pref_summary_device_intents">Bangle.js-Watch-Apps erlauben, Android-Intents zu senden und anderen Apps auf Android (wie Tasker) erlauben, Daten mit dem com.banglejs.uart.tx-Intent an Bangle.js zu senden.</string>
+    <string name="pref_summary_device_intents">Bangle.js-Watch-Apps erlauben, Android-Intents zu senden und anderen Apps auf Android (wie Tasker) erlauben, Daten mit dem com.banglejs.uart.tx-Intent an Bangle.js zu senden. Benötigt die Berechtigung zum Anzeigen über andere Apps, um im Hintergrund zu arbeiten.</string>
     <string name="pref_screen_vibration_patterns_title">Vibrationsmuster</string>
     <string name="pref_screen_vibration_patterns_summary">Vibrationsmuster für verschiedene Benachrichtigungen konfigurieren</string>
     <string name="heartrate_bpm_100">100 BPM</string>
@@ -1672,9 +1672,9 @@
     <string name="pref_voice_detect_duration_15">15 Sekunden</string>
     <string name="prefs_voice_detect">Spracherkennung</string>
     <string name="prefs_double_tap_edge">Kante doppelt antippen</string>
-    <string name="permission_notification_policy_access">%1$s benötigt Zugriff auf die Einstellungen von \'DND\', um sie auf Ihrer Uhr zu berücksichtigen, wenn der Bildschirm des Telefons ausgeschaltet ist.
+    <string name="permission_notification_policy_access">%1$s benötigt Zugriff auf die Einstellungen von \'DND\', um sie auf deiner Uhr zu berücksichtigen, wenn der Bildschirm des Telefons ausgeschaltet ist.
 \n
-\nBitte auf \'%2$s\', dann auf \'%1$s tippen und \'DND\' aktiveren und dann auf \'Zurück\' tippen, um zu %1$s zurückzukehren</string>
+\nBitte auf \'%2$s\', dann auf \'%1$s tippen und \'DND\' aktiveren und dann auf \'Zurück\' tippen, um zu %1$s zurückzukehren.</string>
     <string name="prefs_seamless_connection_switch_title">Nahtloser Verbindungswechsel</string>
     <string name="prefs_seamless_connection_switch_summary">Wechselt die Stöpsel automatisch zwischen den gekoppelten Geräten</string>
     <string name="prefs_ambient_volume_left">Umgebungslautstärke links</string>
@@ -1704,9 +1704,9 @@
     <string name="world_clock_no_free_slots_title">Keine freien Speicherplätze</string>
     <string name="prefs_activity_monitoring_description">Erhöht automatisch die Frequenz der Pulserfassung, wenn das Band körperliche Bewegung erkennt, um die Genauigkeit der Pulserfassung zu erhöhen.</string>
     <string name="prefs_ambient_sound_during_call_title">Umgebungsgeräusche während des Anrufs</string>
-    <string name="permission_notification_listener">%1$s benötigt Zugriff auf Benachrichtigungen, um sie auf Ihrer Uhr anzeigen zu können, wenn der Bildschirm des Telefons ausgeschaltet ist.
+    <string name="permission_notification_listener">%1$s benötigt Zugriff auf Benachrichtigungen, um sie auf deiner Uhr anzeigen zu können, wenn der Bildschirm des Telefons ausgeschaltet ist.
 \n
-\nBitte auf \'%2$s\' und dann auf \'%1$s\' tippen, \'Zugriff auf Benachrichtigungen zulassen\' aktivieren und auf \'Zurück\' tippen, um zu %1$s zurückzukehren</string>
+\nBitte auf \'%2$s\' und dann auf \'%1$s\' tippen, \'Zugriff auf Benachrichtigungen zulassen\' aktivieren und auf \'Zurück\' tippen, um zu %1$s zurückzukehren.</string>
     <string name="prefs_switch_control_left">Schaltersteuerung links</string>
     <string name="pref_switch_controls_anc_ambient">Geräuschunterdrückung ←→ Umgebung</string>
     <string name="pref_workout_start_on_phone_summary">Startet/stoppt das Fitness-App-Tracking auf dem Telefon, wenn ein GPS-Training auf dem Band gestartet wird</string>
@@ -1829,4 +1829,67 @@
     <string name="prefs_hourly_chime_summary">Die Uhr piept einmal pro Stunde</string>
     <string name="step_streaks_achievements_sharing_message">Meine täglichen Schritterfolge!</string>
     <string name="step_streaks_achievements_sharing_title">Schritterfolge</string>
+    <string name="permission_display_over_other_apps">%1$s benötigt die Berechtigung, über andere Apps angezeigt zu werden, damit Bangle.js-Watch Aktivitäten mit dem Zielsetzung starten kann, wenn %1$s im Hintergrund ist.
+\n
+\nDies kann verwendet werden, um eine Musik-App zu starten und einen Song abzuspielen und viele andere Dinge.
+\n
+\nTippe auf \'%2$s\' und dann auf \'%1$s\', aktiviere \'Anzeige über andere Apps zulassen\' und tippe dann auf \'Zurück\', um zu %1$s zurückzukehren.</string>
+    <string name="fw_upgrade_notice_miband7">Du bist dabei, die Firmware %s auf dein Xiaomi Smart Band 7 zu installieren.
+\n
+\nDein Band wird nach der Installation der .zip-Datei neu starten.
+\n
+\nINSTALLATION AUF EIGENE GEFAHR!</string>
+    <string name="pref_header_calendar">Kalender</string>
+    <string name="pref_header_connection">Verbindung</string>
+    <string name="pref_title_screen_on_on_notifications">Bildschirm ein bei Benachrichtigungen</string>
+    <string name="pref_summary_screen_on_on_notifications">Schaltet den Bildschirm des Bands ein, wenn eine Benachrichtigung eingeht</string>
+    <string name="spo2_perc_80">80 %</string>
+    <string name="spo2_perc_85">85 %</string>
+    <string name="spo2_perc_90">90 %</string>
+    <string name="spo2_off">Aus</string>
+    <string name="prefs_heartrate_alert_high_threshold">Alarmschwelle für hohe Herzfrequenz</string>
+    <string name="prefs_spo2_monitoring_title">Überwachung des Blutsauerstoffs</string>
+    <string name="seconds_6">6 Sekunden</string>
+    <string name="seconds_11">11 Sekunden</string>
+    <string name="seconds_12">12 Sekunden</string>
+    <string name="seconds_13">13 Sekunden</string>
+    <string name="seconds_14">14 Sekunden</string>
+    <string name="seconds_15">15 Sekunden</string>
+    <string name="prefs_always_on_display">Display immer eingeschaltet</string>
+    <string name="smart">Smart</string>
+    <string name="mi2_dnd_always">Immer</string>
+    <string name="devicetype_miband7">Xiaomi Smart Band 7</string>
+    <string name="menuitem_countdown">Countdown</string>
+    <string name="menuitem_personal_activity_intelligence">Persönliche Aktivitätsintelligenz</string>
+    <string name="menuitem_female_health">Weibliche Gesundheit</string>
+    <string name="menuitem_workout_status">Trainingsstatus</string>
+    <string name="pref_header_heartrate_sleep">Schlaf</string>
+    <string name="pref_header_heartrate_allday">Ganztägige Überwachung</string>
+    <string name="pref_header_heartrate_alerts">Herzfrequenzwarnungen</string>
+    <string name="pref_header_stress">Stress</string>
+    <string name="pref_header_spo2">Blutsauerstoff</string>
+    <string name="pref_screen_brightness">Bildschirmhelligkeit</string>
+    <string name="pref_header_workout">Training</string>
+    <string name="pref_header_health">Gesundheit</string>
+    <string name="pref_header_time">Zeit</string>
+    <string name="heartrate_bpm_50">50 BPM</string>
+    <string name="prefs_spo2_monitoring_description">Automatische Überwachung des Sauerstoffgehalts im Blut während des gesamten Tages</string>
+    <string name="heartrate_bpm_115">115 BPM</string>
+    <string name="prefs_relaxation_reminder_description">Band vibriert, um dich zu benachrichtigen, wenn der Stresswert höher als 80 ist</string>
+    <string name="pref_header_display">Anzeige</string>
+    <string name="pref_summary_canned_replies">Antworten von der Uhr mit voreingestellten Nachrichten</string>
+    <string name="pref_cache_weather">Wetterinformationen zwischenspeichern</string>
+    <string name="prefs_heartrate_alert_low_threshold">Alarmschwelle für niedrige Herzfrequenz</string>
+    <string name="pref_sleep_breathing_quality_monitoring">Überwachung der Qualität der Schlafatmung</string>
+    <string name="pref_cache_weather_summary">Wetterinformationen werden über Anwendungsneustarts hinweg zwischengespeichert.</string>
+    <string name="heartrate_bpm_40">40 BPM</string>
+    <string name="heartrate_bpm_45">45 BPM</string>
+    <string name="prefs_relaxation_reminder_title">Erinnerung zur Entspannung</string>
+    <string name="prefs_spo2_alert_threshold">SPO2-Alarmschwelle</string>
+    <string name="seconds_7">7 Sekunden</string>
+    <string name="seconds_8">8 Sekunden</string>
+    <string name="seconds_9">9 Sekunden</string>
+    <string name="prefs_always_on_display_summary">Display des Bandes immer eingeschaltet lassen</string>
+    <string name="menuitem_workout_history">Trainingsverlauf</string>
+    <string name="prefs_screen_timeout">Bildschirmzeitlimit</string>
 </resources>
