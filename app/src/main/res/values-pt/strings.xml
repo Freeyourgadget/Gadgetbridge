@@ -1566,4 +1566,24 @@
     <string name="title_activity_controlcenter_banglejs_main">Bangle.js Gadgetbridge</string>
     <string name="about_activity_title_banglejs_main">Acerca de Bangle.js Gadgetbridge</string>
     <string name="application_name_banglejs_main">Bangle.js Gadgetbridge</string>
+    <string name="fw_upgrade_notice_miband7">Estás prestes a instalar a firmware %s na tua Xiaomi Smart Band 7.
+\n
+\nA pulseira vai reiniciar depois de instalar o ficheiro .zip.
+\n
+\nPROSSIGA POR SUA CONTA E RISCO!</string>
+    <string name="gadgetbridge_running_banglejs_nightly">Nightly Bangle.js em execução</string>
+    <string name="about_description_banglejs_main">Aplicação Android para Bangle.js, construida com base no projecto Gadgetbridge, com acesso à Internet.
+\n
+\nDevido às políticas da Google Play Store, não nos é permitido incluir links para doações dentro da aplicação. No entanto, se gostas desta aplicação, por favor considera fazer uma doação através da página do Gadgetbridge abaixo.</string>
+    <string name="gadgetbridge_running_banglejs_main">Bangle.js em execução</string>
+    <string name="application_name_main_nightly">Gadgetbridge (Nightly)</string>
+    <string name="title_activity_controlcenter_main_nightly">Gadgetbridge Nightly</string>
+    <string name="about_activity_title_main_nightly">Acerca de Gadgetbridge Nightly</string>
+    <string name="application_name_banglejs_nightly">Bangle.js Gadgetbridge (Nightly)</string>
+    <string name="title_activity_controlcenter_banglejs_nightly">Bangle.js Gadgetbridge (Nightly)</string>
+    <string name="about_activity_title_banglejs_nightly">Acerca de Bangle.js Gadgetbridge (Nightly)</string>
+    <string name="about_description_banglejs_nightly">Aplicação Android para Bangle.js, construida com base no projecto Gadgetbridge, com acesso à Internet.
+\n
+\nDevido às políticas da Google Play Store, não nos é permitido incluir links para doações dentro da aplicação. No entanto, se gostas desta aplicação, por favor considera fazer uma doação através da página do Gadgetbridge abaixo.</string>
+    <string name="appmanager_app_share">Partilhar</string>
 </resources>
