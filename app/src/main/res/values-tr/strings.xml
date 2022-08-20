@@ -7,7 +7,7 @@
     <string name="StringUtils_sender">(%1$s)</string>
     <string name="_pebble_watch_mute">Sessiz</string>
     <string name="_pebble_watch_open_on_phone">Android aygıtında aç</string>
-    <string name="_pebble_watch_reply">Cevapla</string>
+    <string name="_pebble_watch_reply">Yanıtla</string>
     <string name="_unknown_">(bilinmeyen)</string>
     <string name="abstract_chart_fragment_kind_activity">Etkinlik</string>
     <string name="abstract_chart_fragment_kind_deep_sleep">Derin uyku</string>
@@ -608,7 +608,7 @@
     <string name="pref_title_call_privacy_mode">Çağrı gizlilik modu</string>
     <string name="pref_title_canned_messages_dismisscall">Çağrı Yok Sayma</string>
     <string name="pref_title_canned_messages_set">Aygıtta güncelleme</string>
-    <string name="pref_title_canned_replies">Cevaplar</string>
+    <string name="pref_title_canned_replies">Yanıtlar</string>
     <string name="pref_title_canned_reply_suffix">Ortak son ek</string>
     <string name="pref_title_chart_heartrate_color">Kalp ritmi rengi</string>
     <string name="pref_title_chart_sleep_rolling_24_hour">Uyku aralığı</string>
@@ -1841,4 +1841,62 @@
 \nBu, bir müzik uygulamasını başlatmak ve bir şarkı çalmak ve diğer birçok şey için kullanılabilir.
 \n
 \nütfen önce \'%2$s\', sonra \'%1$s\' düğmesine dokunun ve \'Diğer uygulamalar üzerinden görüntülemeye izin ver\' seçeneğini etkinleştirin, ardından %1$s\'e dönmek için \'Geri\' düğmesine dokunun.</string>
+    <string name="pref_header_calendar">Takvim</string>
+    <string name="pref_header_health">Sağlık</string>
+    <string name="pref_header_workout">Egzersiz</string>
+    <string name="pref_title_screen_on_on_notifications">Bildirimlerde ekranı aç</string>
+    <string name="pref_summary_screen_on_on_notifications">Bir bildirim geldiğinde bilekliğin ekranını aç</string>
+    <string name="pref_cache_weather">Hava durumu bilgilerini önbelleğe al</string>
+    <string name="heartrate_bpm_40">40 kalp atışı/dakika</string>
+    <string name="heartrate_bpm_45">45 kalp atışı/dakika</string>
+    <string name="heartrate_bpm_50">50 kalp atışı/dakika</string>
+    <string name="heartrate_bpm_115">115 kalp atışı/dakika</string>
+    <string name="spo2_perc_80">%80</string>
+    <string name="spo2_perc_85">%85</string>
+    <string name="spo2_perc_90">%90</string>
+    <string name="prefs_relaxation_reminder_title">Rahatlama hatırlatıcısı</string>
+    <string name="seconds_6">6 saniye</string>
+    <string name="pref_sleep_breathing_quality_monitoring">Uykuda solunum kalitesi izleme</string>
+    <string name="prefs_always_on_display_summary">Bilekliğin ekranını her zaman açık tut</string>
+    <string name="smart">Akıllı</string>
+    <string name="mi2_dnd_always">Her zaman</string>
+    <string name="pref_header_heartrate_sleep">Uyku</string>
+    <string name="pref_header_heartrate_allday">Tüm gün izleme</string>
+    <string name="pref_header_heartrate_alerts">Kalp ritmi uyarıları</string>
+    <string name="pref_header_stress">Stres</string>
+    <string name="pref_header_spo2">Kan Oksijeni</string>
+    <string name="pref_header_time">Zaman</string>
+    <string name="pref_summary_canned_replies">Önceden ayarlanan mesajları kullanarak saatten yanıtlayın</string>
+    <string name="fw_upgrade_notice_miband7">Xiaomi Smart Band 7 aygıtınıza %s ürün yazılımını kurmak üzeresiniz.
+\n
+\nBilekliğiniz .zip dosyasını kurduktan sonra yeniden başlatılacak.
+\n
+\nİLERLEMENİZ DURUMUNDA RİSK SİZE AİTTİR!</string>
+    <string name="pref_header_connection">Bağlantı</string>
+    <string name="pref_cache_weather_summary">Hava durumu bilgileri, uygulama yeniden başlatmalarında önbelleğe alınacaktır.</string>
+    <string name="prefs_heartrate_alert_low_threshold">Düşük kalp ritmi uyarı eşiği</string>
+    <string name="prefs_spo2_alert_threshold">SPO2 uyarı eşiği</string>
+    <string name="menuitem_workout_status">Egzersiz Durumu</string>
+    <string name="pref_header_display">Ekran</string>
+    <string name="prefs_heartrate_alert_high_threshold">Yüksek kalp ritmi uyarı eşiği</string>
+    <string name="menuitem_workout_history">Egzersiz Geçmişi</string>
+    <string name="spo2_off">Kapalı</string>
+    <string name="seconds_15">15 saniye</string>
+    <string name="prefs_spo2_monitoring_title">Kan Oksijen İzleme</string>
+    <string name="prefs_spo2_monitoring_description">Gün boyunca kandaki oksijen seviyesini otomatik olarak izle</string>
+    <string name="prefs_relaxation_reminder_description">Stres değeri 80\'den yüksekse bilgilendirmek için bandı titret</string>
+    <string name="seconds_7">7 saniye</string>
+    <string name="seconds_8">8 saniye</string>
+    <string name="seconds_9">9 saniye</string>
+    <string name="seconds_11">11 saniye</string>
+    <string name="seconds_12">12 saniye</string>
+    <string name="seconds_13">13 saniye</string>
+    <string name="seconds_14">14 saniye</string>
+    <string name="prefs_screen_timeout">Ekran Zaman Aşımı</string>
+    <string name="prefs_always_on_display">Ekran Her Zaman Açık</string>
+    <string name="pref_screen_brightness">Ekran Parlaklığı</string>
+    <string name="devicetype_miband7">Xiaomi Smart Band 7</string>
+    <string name="menuitem_countdown">Geri Sayım</string>
+    <string name="menuitem_female_health">Kadın Sağlığı</string>
+    <string name="menuitem_personal_activity_intelligence">Kişisel Etkinlik Bilgileri</string>
 </resources>
