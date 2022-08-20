@@ -1826,4 +1826,62 @@
 \nאפשר להשתמש בזה כדי להפעיל יישומון מוזיקה ולנגן שיר ולעוד מגוון משימות.
 \n
 \nנא לגעת ב־‚%2$s’ ואז ב־‚%1$s’ ולסמן את ‚לאפשר הצגה על גבי יישומונים אחרים’, ואז לגעת ב־‚חזרה’ כדי לחזור אל %1$s.</string>
+    <string name="pref_header_calendar">לוח שנה</string>
+    <string name="pref_header_connection">חיבור</string>
+    <string name="pref_header_display">תצוגה</string>
+    <string name="pref_header_health">בריאות</string>
+    <string name="pref_header_time">שעה</string>
+    <string name="pref_header_workout">אימון</string>
+    <string name="pref_summary_canned_replies">תגובה מהשעון עם הודעות מוגדרות מראש</string>
+    <string name="pref_title_screen_on_on_notifications">מסך פעיל בהתראות</string>
+    <string name="pref_summary_screen_on_on_notifications">להפעיל את מסך הצמיד כשמגיעה התראה</string>
+    <string name="pref_cache_weather">שמירת פרטי מזג האוויר</string>
+    <string name="pref_cache_weather_summary">פרטי מזג האוויר יישמרו בין הפעלות של היישומון מחדש.</string>
+    <string name="spo2_perc_80">80%</string>
+    <string name="spo2_perc_85">85%</string>
+    <string name="spo2_perc_90">90%</string>
+    <string name="prefs_heartrate_alert_high_threshold">סף אזהרת דופק גבוה</string>
+    <string name="prefs_relaxation_reminder_description">להרטיט את הצמיד כדי להודיע לך אם ערך הלחץ עולה על 80</string>
+    <string name="prefs_spo2_alert_threshold">סף אזהרת SpO₂</string>
+    <string name="seconds_6">6 שניות</string>
+    <string name="seconds_7">7 שניות</string>
+    <string name="prefs_always_on_display">תצוגה פעילה תמיד</string>
+    <string name="prefs_always_on_display_summary">להשאיר את תצוגת הצמיד פעילה תמיד</string>
+    <string name="prefs_screen_timeout">תום זמן המסך</string>
+    <string name="smart">חכם</string>
+    <string name="mi2_dnd_always">תמיד</string>
+    <string name="devicetype_miband7">Xiaomi Smart Band 7‎</string>
+    <string name="menuitem_countdown">ספירה לאחור</string>
+    <string name="menuitem_personal_activity_intelligence">חוכמת פעילות אישית</string>
+    <string name="menuitem_workout_history">היסטוריית אימונים</string>
+    <string name="menuitem_female_health">בריאות האישה</string>
+    <string name="menuitem_workout_status">מצב אימון</string>
+    <string name="pref_header_heartrate_sleep">שינה</string>
+    <string name="pref_header_heartrate_allday">מעקב כלל יומי</string>
+    <string name="pref_header_heartrate_alerts">אזהרות דופק</string>
+    <string name="pref_header_stress">לחץ</string>
+    <string name="pref_header_spo2">חמצן בדם</string>
+    <string name="seconds_11">11 שניות</string>
+    <string name="heartrate_bpm_40">דופק 40</string>
+    <string name="spo2_off">כבוי</string>
+    <string name="prefs_heartrate_alert_low_threshold">סף אזהרת דופק נמוך</string>
+    <string name="prefs_spo2_monitoring_title">מעקב אחר חמצן בדם</string>
+    <string name="heartrate_bpm_50">דופק 50</string>
+    <string name="heartrate_bpm_115">דופק 115</string>
+    <string name="seconds_15">15 שניות</string>
+    <string name="heartrate_bpm_45">דופק 45</string>
+    <string name="prefs_relaxation_reminder_title">תזכורת מנוחה</string>
+    <string name="prefs_spo2_monitoring_description">לעקוב אוטומטית אחר רמות החמצן בדם במהלך היום</string>
+    <string name="seconds_14">14 שניות</string>
+    <string name="seconds_13">13 שניות</string>
+    <string name="pref_sleep_breathing_quality_monitoring">מעקב אחר איכות נשימה בשינה</string>
+    <string name="pref_screen_brightness">בהירות המסך</string>
+    <string name="seconds_8">8 שניות</string>
+    <string name="seconds_9">9 שניות</string>
+    <string name="seconds_12">12 שניות</string>
+    <string name="fw_upgrade_notice_miband7">פעולה זו תתקין את הקושחה %s על ה־Xiaomi Smart Band 7 שלך.
+\n
+\nהצמיד שלך יופעל מחדש לאחר התקנת קובץ ה־‎.zip.
+\n
+\nהמשך התהליך הוא על אחריותך בלבד!</string>
 </resources>
