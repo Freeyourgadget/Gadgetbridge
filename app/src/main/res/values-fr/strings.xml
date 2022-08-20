@@ -1830,4 +1830,62 @@ Temps de sommeil préféré en heures</string>
 \nCela peut être utilisé pour démarrer une application de musique et jouer un morceau, et de nombreuses autres choses.
 \n
 \nMerci de choisir \'%2$s\' puis \'%1$s\' et activer \'Permettre l\'affichage au-dessus des autres apps\', puis faire \'Retour\' pour revenir à %1$s.</string>
+    <string name="pref_header_time">Heure</string>
+    <string name="pref_header_workout">Exercice</string>
+    <string name="pref_summary_canned_replies">Réponse de la montre utilisant des messages préenregistrés</string>
+    <string name="pref_title_screen_on_on_notifications">Allumer l\'écran pour les notifications</string>
+    <string name="pref_summary_screen_on_on_notifications">Allumer l\'écran du bracelet quand une notification arrive</string>
+    <string name="spo2_perc_80">80%</string>
+    <string name="spo2_perc_85">85%</string>
+    <string name="spo2_off">Éteint</string>
+    <string name="prefs_relaxation_reminder_description">Fais vibrer le bracelet pour vous avertir si le taux de stress est supérieur à 80</string>
+    <string name="prefs_spo2_monitoring_title">Surveillance de l\'oxygénation du sang</string>
+    <string name="prefs_spo2_monitoring_description">Surveille automatiquement le taux d\'oxygénation du sang durant la journée</string>
+    <string name="prefs_spo2_alert_threshold">Seuil d\'alerte SPO2</string>
+    <string name="seconds_11">11 secondes</string>
+    <string name="seconds_12">12 secondes</string>
+    <string name="seconds_13">13 secondes</string>
+    <string name="seconds_14">14 secondes</string>
+    <string name="seconds_15">15 secondes</string>
+    <string name="pref_sleep_breathing_quality_monitoring">Surveillance de la qualité de la respiration durant le sommeil</string>
+    <string name="prefs_always_on_display">Écran toujours allumé</string>
+    <string name="devicetype_miband7">Xiaomi Smart Band 7</string>
+    <string name="menuitem_countdown">Compte à rebours</string>
+    <string name="menuitem_personal_activity_intelligence">Activité personnelle</string>
+    <string name="pref_header_stress">Stress</string>
+    <string name="pref_header_spo2">Oxygénation du sang</string>
+    <string name="pref_screen_brightness">Luminosité de l\'écran</string>
+    <string name="seconds_8">8 secondes</string>
+    <string name="menuitem_female_health">Santé féminine</string>
+    <string name="heartrate_bpm_115">115 bpm</string>
+    <string name="fw_upgrade_notice_miband7">Vous êtes sur le point d\'installer le micro-logiciel %s dans votne Xiaomi Smart Band 7.
+\n
+\nVotre bracelet redémarrera après l\'installation du fichier .zip.
+\n
+\nA VOS RISQUES ET PÉRILS !</string>
+    <string name="pref_header_calendar">Calendrier</string>
+    <string name="pref_header_connection">Connexion</string>
+    <string name="pref_header_display">Affichage</string>
+    <string name="pref_header_health">Santé</string>
+    <string name="pref_cache_weather">Mettre en cache les informations météo</string>
+    <string name="pref_cache_weather_summary">Les informations météo seront conservées en cache entre les redémarrages de l\'application.</string>
+    <string name="heartrate_bpm_40">40 bpm</string>
+    <string name="heartrate_bpm_45">45 bpm</string>
+    <string name="heartrate_bpm_50">50 bpm</string>
+    <string name="prefs_heartrate_alert_low_threshold">Seuil d\'alerte pour un taux trop bas du rythme cardiaque</string>
+    <string name="prefs_relaxation_reminder_title">Rappel de relaxation</string>
+    <string name="spo2_perc_90">90%</string>
+    <string name="prefs_heartrate_alert_high_threshold">Seuil d\'alerte pour un taux trop élevé du rythme cardiaque</string>
+    <string name="seconds_7">7 secondes</string>
+    <string name="prefs_always_on_display_summary">Garder l\'écran du bracelet toujours allumé</string>
+    <string name="pref_header_heartrate_sleep">Sommeil</string>
+    <string name="smart">Optimisé</string>
+    <string name="pref_header_heartrate_allday">Surveillance toute la journée</string>
+    <string name="seconds_6">6 secondes</string>
+    <string name="seconds_9">9 secondes</string>
+    <string name="prefs_screen_timeout">Temps de passage en veille de l\'écran</string>
+    <string name="mi2_dnd_always">Toujours</string>
+    <string name="menuitem_workout_history">Historique des entrainements</string>
+    <string name="menuitem_workout_status">État des entrainements</string>
+    <string name="pref_header_heartrate_alerts">Alerte pour le rythme cardiaque</string>
 </resources>
