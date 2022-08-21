@@ -50,7 +50,6 @@
     <!-- Used for starting activities from the background with intents -->
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
 
-
     <uses-feature
         android:name="android.hardware.bluetooth"
         android:required="true" />
@@ -708,8 +707,14 @@
         </activity>
 
         <activity
+            android:name=".activities.WakeActivity"
+            android:label="WakeActivity">
+        </activity>
+
+        <activity
             android:name=".externalevents.opentracks.OpenTracksController"
             android:label="OpenTracks controller and intent receiver"
             android:exported="true"/>
     </application>
+
 </manifest>

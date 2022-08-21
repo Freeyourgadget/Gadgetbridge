@@ -663,41 +663,56 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
             case "intent": {
                 Prefs devicePrefs = new Prefs(GBApplication.getDeviceSpecificSharedPrefs(gbDevice.getAddress()));
                 if (devicePrefs.getBoolean(PREF_DEVICE_INTENTS, false)) {
+                    String target = json.has("target") ? json.getString("target") : "broadcastreceiver";
                     Intent in = new Intent();
-                    if (json.has("action")) in.setAction((String)json.get("action"));
-                    if (json.has("category")) in.addCategory((String)json.get("category"));
-                    if (json.has("mimetype")) in.setType((String)json.get("mimetype"));
-                    if (json.has("data")) in.setData(Uri.parse((String)json.get("data")));
-                    if (json.has("package") && !json.has("class")) in.setPackage((String)json.getString("package"));
-                    if (json.has("package") && json.has("class")) in.setClassName((String)json.getString("package"), (String)json.getString("class"));
-                    String target = "";
-                    if (json.has("target"))  target = (String)json.get("target");
-                    JSONObject extra = new JSONObject();
-                    if (json.has("extra")) extra = json.getJSONObject("extra");
-                    if (extra != null) {
+                    if (json.has("action")) in.setAction(json.getString("action"));
+                    if (json.has("flags")) {
+                        JSONArray flags = json.getJSONArray("flags");
+                        for (int i = 0; i < flags.length(); i++) {
+                            in = addIntentFlag(in, flags.getString(i));
+                        }
+                    }
+                    if (json.has("categories")) {
+                        JSONArray categories = json.getJSONArray("categories");
+                        for (int i = 0; i < categories.length(); i++) {
+                            in.addCategory(categories.getString(i));
+                        }
+                    }
+                    if (json.has("package") && !json.has("class")) {
+                        in = json.getString("package").equals("gadgetbridge") ?
+                                in.setPackage(this.getContext().getPackageName()) :
+                                in.setPackage(json.getString("package"));
+                    }
+                    if (json.has("package") && json.has("class")) {
+                        in = json.getString("package").equals("gadgetbridge") ?
+                                in.setClassName(this.getContext().getPackageName(), json.getString("class")) :
+                                in.setClassName(json.getString("package"), json.getString("class"));
+                    }
+
+                    if (json.has("mimetype")) in.setType(json.getString("mimetype"));
+                    if (json.has("data")) in.setData(Uri.parse(json.getString("data")));
+                    if (json.has("extra")) {
+                        JSONObject extra = json.getJSONObject("extra");
                         Iterator<String> iter = extra.keys();
                         while (iter.hasNext()) {
                             String key = iter.next();
-                            in.putExtra(key, extra.getString(key));
+                            in.putExtra(key, extra.getString(key)); // Should this be implemented for other types, e.g. extra.getInt(key)? Or will this always work even if receiving ints/doubles/etc.?
                         }
                     }
-                    LOG.info("Sending intent: " + String.valueOf(in));
+                    LOG.info("Executing intent:\n\t" + String.valueOf(in) + "\n\tTargeting: " + target);
+                    //GB.toast(getContext(), String.valueOf(in), Toast.LENGTH_LONG, GB.INFO);
                     switch (target) {
-                        case "":
-                            // This case should make sure intents matched to the original Bangle.js Gadgetbridge intents implementation still work.
-                            this.getContext().getApplicationContext().sendBroadcast(in);
-                            break;
                         case "broadcastreceiver":
-                            this.getContext().getApplicationContext().sendBroadcast(in);
+                            getContext().sendBroadcast(in);
                             break;
-                        case "activity":
-                            in.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                            this.getContext().getApplicationContext().startActivity(in);
+                        case "activity": // See wakeActivity.java if you want to start activities from under the keyguard/lock sceen.
+                            getContext().startActivity(in);
                             break;
-                        case "service": // Targeting 'Service' is not yet implemented.
-                            LOG.info("Targeting 'Service' not yet implemented.");
-                            GB.toast(getContext(), "Targeting '"+target+"' is not yet implemented.", Toast.LENGTH_LONG, GB.INFO);
-                            // Use jobInfo() and jobScheduler to program this part? Context.startService()? Context.bindService()?
+                        case "service": // Should this be implemented differently, e.g. workManager?
+                            getContext().startService(in);
+                            break;
+                        case "foregroundservice": // Should this be implemented differently, e.g. workManager?
+                            getContext().startForegroundService(in);
                             break;
                         default:
                             LOG.info("Targeting '"+target+"' isn't implemented or doesn't exist.");
@@ -759,6 +774,19 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
                 LOG.info("UART RX JSON packet type '"+packetType+"' not understood.");
             }
         }
+    }
+
+    private Intent addIntentFlag(Intent intent, String flag) {
+        try {
+            final Class<Intent> intentClass = Intent.class;
+            final Field flagField = intentClass.getDeclaredField(flag);
+            intent.addFlags(flagField.getInt(null));
+        } catch (final Exception e) {
+            // The user sent an invalid flag
+            LOG.info("Flag '"+flag+"' isn't implemented or doesn't exist and was therefore not set.");
+            GB.toast(getContext(), "Flag '"+flag+"' isn't implemented or it doesn't exist and was therefore not set.", Toast.LENGTH_LONG, GB.INFO);
+        }
+        return intent;
     }
 
     @Override

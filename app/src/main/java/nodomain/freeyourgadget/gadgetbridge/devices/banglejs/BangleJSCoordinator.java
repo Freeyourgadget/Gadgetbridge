@@ -190,5 +190,4 @@ public class BangleJSCoordinator extends AbstractBLEDeviceCoordinator {
         for (int i=0; i<settings.size(); i++) settingsInt[i] = settings.get(i);
         return settingsInt;
     }
-
 }

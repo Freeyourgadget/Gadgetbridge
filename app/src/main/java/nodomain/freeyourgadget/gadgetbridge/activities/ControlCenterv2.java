@@ -633,6 +633,8 @@ public class ControlCenterv2 extends AppCompatActivity
                             Intent enableIntent = new Intent(android.provider.Settings.ACTION_MANAGE_OVERLAY_PERMISSION);
                             startActivity(enableIntent);
                         }
+                    }).setNegativeButton(R.string.dismiss, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {}
                     });
             return builder.create();
         }
