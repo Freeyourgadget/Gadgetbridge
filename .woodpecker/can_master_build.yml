@@ -1,6 +1,6 @@
 pipeline:
   build:
-    image: codeberg.org/vanous/android-fdroid-tools-image:latest
+    image: codeberg.org/vanous/android-fdroid-tools:latest
     commands:
       - pwd #bump
       - ./gradlew assembleDebug --stacktrace
