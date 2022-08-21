@@ -103,11 +103,9 @@ import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-import java.util.Queue;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHelper;
@@ -2460,11 +2458,14 @@ public abstract class Huami2021Support extends HuamiSupport {
         writeToChunked2021("ack notification reply", CHUNKED2021_ENDPOINT_NOTIFICATIONS, buf.array(), true);
     }
 
-    // Queue of package names for which icons are being sent
-    // FIXME: This probably breaks if there's more than 1
-    private final Queue<String> queuedIcons = new LinkedList<>();
-    // Map of package name to encoded TGA565 bytes
-    private final Map<String, byte[]> queuedIconBytes = new HashMap<>();
+    // Package names for which icon is being sent
+    // FIXME: This only handles 1 icon at a time
+    private String queuedIconPackage;
+    // Encoded TGA565 bytes
+    private byte[] queuedIconBytes;
+    // Keep track of the last time we queued an icon, as a failsafe. If somehow we didn't get the ack
+    // after 10 seconds, we'll allow another icon to be sent
+    private long queuedIconTimeMillis = 0;
 
     protected void handle2021Icons(final byte[] payload) {
         switch (payload[0]) {
@@ -2485,22 +2486,20 @@ public abstract class Huami2021Support extends HuamiSupport {
     }
 
     private void sendNextQueuedIconData() {
-        final String packageName = queuedIcons.peek();
-        if (packageName == null) {
+        if (queuedIconPackage == null) {
             LOG.error("No queued icon to send");
             return;
         }
 
-        final byte[] bytes = queuedIconBytes.get(packageName);
-        if (bytes == null) {
-            LOG.error("No icon bytes for {}", packageName);
+        if (queuedIconBytes == null) {
+            LOG.error("No icon bytes for {}", queuedIconPackage);
             return;
         }
 
-        LOG.info("Sending icon data for {}", packageName);
+        LOG.info("Sending icon data for {}", queuedIconPackage);
 
         // The band always sends a full 8192 chunk, with zeroes at the end if bytes < 8192
-        final ByteBuffer buf = ByteBuffer.allocate(10 + bytes.length);
+        final ByteBuffer buf = ByteBuffer.allocate(10 + queuedIconBytes.length);
         buf.order(ByteOrder.LITTLE_ENDIAN);
         buf.put(ICONS_CMD_DATA_SEND);
         buf.put((byte) 0x03); // ?
@@ -2512,26 +2511,26 @@ public abstract class Huami2021Support extends HuamiSupport {
         buf.put((byte) 0x00); // ?
         buf.put((byte) 0x08); // ?
         buf.put((byte) 0x17); // ?
-        buf.put(bytes);
+        buf.put(queuedIconBytes);
 
         writeToChunked2021("send icon data", CHUNKED2021_ENDPOINT_ICONS, buf.array(), false);
     }
 
     private void ackNotificationAfterIconSent() {
-        final String packageName = queuedIcons.poll();
-        if (packageName == null) {
+        if (queuedIconPackage == null) {
             LOG.error("No queued icon to ack");
             return;
         }
 
-        LOG.info("Acknowledging icon send for {}", packageName);
+        LOG.info("Acknowledging icon send for {}", queuedIconPackage);
 
-        queuedIconBytes.remove(packageName);
+        queuedIconPackage = null;
+        queuedIconBytes = null;
 
-        final ByteBuffer buf = ByteBuffer.allocate(1 + packageName.length() + 1 + 1);
+        final ByteBuffer buf = ByteBuffer.allocate(1 + queuedIconPackage.length() + 1 + 1);
         buf.order(ByteOrder.LITTLE_ENDIAN);
         buf.put(NOTIFICATION_CMD_ICON_REQUEST_ACK);
-        buf.put(packageName.getBytes(StandardCharsets.UTF_8));
+        buf.put(queuedIconPackage.getBytes(StandardCharsets.UTF_8));
         buf.put((byte) 0x00);
         buf.put((byte) 0x01);
 
@@ -2539,6 +2538,16 @@ public abstract class Huami2021Support extends HuamiSupport {
     }
 
     private void sendIconForPackage(final String packageName, final int width, final int height) {
+        if (getMTU() < 247) {
+            LOG.warn("Sending icons requires high MTU, current MTU is {}", getMTU());
+            return;
+        }
+
+        if (queuedIconPackage != null && System.currentTimeMillis() - queuedIconTimeMillis < 10_000L) {
+            LOG.warn("Icon for {} already queued, not sending icon for {}", queuedIconPackage, packageName);
+            return;
+        }
+
         final Drawable icon;
         try {
             icon = getContext().getPackageManager().getApplicationIcon(packageName);
@@ -2585,8 +2594,9 @@ public abstract class Huami2021Support extends HuamiSupport {
         buf.putInt(CheckSums.getCRC32(tga565));
 
         LOG.info("Queueing icon for {}", packageName);
-        queuedIcons.add(packageName);
-        queuedIconBytes.put(packageName, tga565);
+        queuedIconPackage = packageName;
+        queuedIconBytes = tga565;
+        queuedIconTimeMillis = System.currentTimeMillis();
 
         writeToChunked2021("send icon send request", CHUNKED2021_ENDPOINT_ICONS, buf.array(), false);
     }
@@ -2610,7 +2620,6 @@ public abstract class Huami2021Support extends HuamiSupport {
                 return;
             default:
                 LOG.warn("Unexpected reminders payload byte {}", String.format("0x%02x", payload[0]));
-                return;
         }
     }
 
