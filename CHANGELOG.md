@@ -6,8 +6,8 @@
 * Mi Band 4: Enable heartrate activity monitoring support
 * Mi Band 4: Enable activate display on lift sensitivity setting
 * Mi Band 6: Enable password support
-* Mi Band 4/6: Enable sending GPS coordinates to band during workout
-* Mi Band 4/6: Enable start fitness tracking on phone when workout starts on band setting
+* Mi Band 4/6, Amazfit Bip U: Enable sending GPS coordinates to band during workout
+* Mi Band 4/6, Amazfit Bip U: Enable start fitness tracking on phone when workout starts on band setting
 * Amazfit Neo: Support hourly chime which was added in firmware 1.1.2.46
 * Amazfit Neo: Fix daily steps goal and notification
 * Amazfit Neo: Fix heartrate sleep detection setting
