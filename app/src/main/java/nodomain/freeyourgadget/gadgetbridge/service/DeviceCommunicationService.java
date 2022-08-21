@@ -935,6 +935,9 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
         }
         for(DeviceStruct struct : deviceStructs){
             if(struct.getDevice().equals(device)){
+                if(struct.getDeviceSupport() == null)
+                    throw new DeviceNotFoundException(device);
+
                 return struct.getDeviceSupport();
             }
         }
