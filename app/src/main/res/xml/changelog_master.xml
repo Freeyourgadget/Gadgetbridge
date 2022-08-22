@@ -1,5 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
+    <release version="0.69.0" versioncode="214">
+        <change>Initial Support for Mi Band 7</change>
+        <change>Initial support for devices using Binary Sensor Service</change>
+        <change>Mi Band 4: Enable heartrate activity monitoring support</change>
+        <change>Mi Band 4: Enable activate display on lift sensitivity setting</change>
+        <change>Mi Band 6: Enable password support</change>
+        <change>Mi Band 4/6, Amazfit Bip U: Enable sending GPS coordinates to band during workout</change>
+        <change>Mi Band 4/6, Amazfit Bip U: Enable start fitness tracking on phone when workout starts on band setting</change>
+        <change>Amazfit Neo: Support hourly chime which was added in firmware 1.1.2.46</change>
+        <change>Amazfit Neo: Fix daily steps goal and notification</change>
+        <change>Amazfit Neo: Fix heartrate sleep detection setting</change>
+        <change>Amazfit Neo: Enable heartrate activity monitoring support</change>
+        <change>Amazfit Neo: Fix alarms setting to "unused" on connect.</change>
+        <change>Bangle.js: Make text as bitmaps have transparent background, and allow font size to be specified</change>
+        <change>Bangle.js: Allow starting Activties on the Android device</change>
+        <change>Fossil Hybrid HR: Add support for Hybrid HR 38mm watches</change>
+        <change>Fossil Hybrid HR: Add optional circle backgrounds to widgets</change>
+        <change>Fossil Hybrid HR: Add toggling of widgets with physical button event</change>
+        <change>Fossil Hybrid HR: Add missing physical button options</change>
+        <change>Fossil Q Hybrid: Fix config activity after multi-device merge</change>
+        <change>InfiniTine: Fixes for steps count sync</change>
+        <change>Add steps/sleep streaks screen</change>
+        <change>Add French transliteration</change>
+        <change>Refactor file logging initialization logic</change>
+        <change>Add alert to Log Sharing if logging has not been enabled yet</change>
+        <change>Fix crash on some phones for find android device (add fallback tone)</change>
+        <change>Fix regression since 0.68.0 with active auto connect</change>
+    </release>
     <release version="0.68.0" versioncode="213">
         <change>Multi device support (experimental), allows connecting to multiple devices simultaneously</change>
         <change>Fossil Hybrid HR: Allow installation of newer watch apps</change>

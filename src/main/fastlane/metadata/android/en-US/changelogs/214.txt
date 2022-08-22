@@ -1,0 +1,26 @@
+* Initial Support for Mi Band 7
+* Initial support for devices using Binary Sensor Service
+* Mi Band 4: Enable heartrate activity monitoring support
+* Mi Band 4: Enable activate display on lift sensitivity setting
+* Mi Band 6: Enable password support
+* Mi Band 4/6, Amazfit Bip U: Enable sending GPS coordinates to band during workout
+* Mi Band 4/6, Amazfit Bip U: Enable start fitness tracking on phone when workout starts on band setting
+* Amazfit Neo: Support hourly chime which was added in firmware 1.1.2.46
+* Amazfit Neo: Fix daily steps goal and notification
+* Amazfit Neo: Fix heartrate sleep detection setting
+* Amazfit Neo: Enable heartrate activity monitoring support
+* Amazfit Neo: Fix alarms setting to "unused" on connect.
+* Bangle.js: Make text as bitmaps have transparent background, and allow font size to be specified
+* Bangle.js: Allow starting Activties on the Android device
+* Fossil Hybrid HR: Add support for Hybrid HR 38mm watches
+* Fossil Hybrid HR: Add optional circle backgrounds to widgets
+* Fossil Hybrid HR: Add toggling of widgets with physical button event
+* Fossil Hybrid HR: Add missing physical button options
+* Fossil Q Hybrid: Fix config activity after multi-device merge
+* InfiniTine: Fixes for steps count sync
+* Add steps/sleep streaks screen
+* Add French transliteration
+* Refactor file logging initialization logic
+* Add alert to Log Sharing if logging has not been enabled yet
+* Fix crash on some phones for find android device (add fallback tone)
+* Fix regression since 0.68.0 with active auto connect

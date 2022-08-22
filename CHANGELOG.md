@@ -1,6 +1,6 @@
 ### Changelog
 
-### 0.69.0 (next)
+### 0.69.0
 * Initial Support for Mi Band 7
 * Initial support for devices using Binary Sensor Service
 * Mi Band 4: Enable heartrate activity monitoring support
