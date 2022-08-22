@@ -272,6 +272,14 @@
                 android:text="@string/pref_device_action_phone_gps_location_listener_stop"
                 grid:layout_columnSpan="2"
                 grid:layout_gravity="fill_horizontal" />
+
+            <Button
+                android:id="@+id/showCompanionDevices"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                grid:layout_columnSpan="2"
+                grid:layout_gravity="fill_horizontal"
+                android:text="Show associated companion devices" />
         </androidx.gridlayout.widget.GridLayout>
 
     </ScrollView>

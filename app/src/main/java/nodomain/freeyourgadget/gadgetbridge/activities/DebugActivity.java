@@ -26,6 +26,7 @@ import android.app.DatePickerDialog;
 import android.app.PendingIntent;
 import android.appwidget.AppWidgetHost;
 import android.appwidget.AppWidgetManager;
+import android.companion.CompanionDeviceManager;
 import android.content.BroadcastReceiver;
 import android.content.ComponentName;
 import android.content.Context;
@@ -34,6 +35,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
@@ -68,6 +70,7 @@ import java.io.File;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Locale;
@@ -107,6 +110,7 @@ import nodomain.freeyourgadget.gadgetbridge.service.serial.GBDeviceProtocol;
 import nodomain.freeyourgadget.gadgetbridge.util.DeviceHelper;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
+import nodomain.freeyourgadget.gadgetbridge.util.StringUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.WidgetPreferenceStorage;
 
 public class DebugActivity extends AbstractGBActivity {
@@ -599,6 +603,37 @@ public class DebugActivity extends AbstractGBActivity {
             @Override
             public void onClick(View v) {
                 GBLocationManager.stopAll(getBaseContext());
+            }
+        });
+
+        Button showCompanionDevices = findViewById(R.id.showCompanionDevices);
+        showCompanionDevices.setVisibility(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O ? View.VISIBLE : View.GONE);
+        showCompanionDevices.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
+                    LOG.warn("Android version < O, companion devices not supported");
+                    return;
+                }
+
+                final CompanionDeviceManager manager = (CompanionDeviceManager) GBApplication.getContext().getSystemService(Context.COMPANION_DEVICE_SERVICE);
+                final List<String> associations = new ArrayList<>(manager.getAssociations());
+                Collections.sort(associations);
+                String companionDevicesList = String.format(Locale.ROOT, "%d companion devices", associations.size());
+                if (!associations.isEmpty()) {
+                    companionDevicesList += "\n\n" + StringUtils.join("\n", associations.toArray(new String[0]));
+                }
+
+                new AlertDialog.Builder(DebugActivity.this)
+                        .setCancelable(false)
+                        .setTitle("Companion Devices")
+                        .setMessage(companionDevicesList)
+                        .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                            }
+                        })
+                        .show();
             }
         });
 
