@@ -62,6 +62,7 @@ import nodomain.freeyourgadget.gadgetbridge.externalevents.BluetoothPairingReque
 import nodomain.freeyourgadget.gadgetbridge.externalevents.CMWeatherReceiver;
 import nodomain.freeyourgadget.gadgetbridge.externalevents.CalendarReceiver;
 import nodomain.freeyourgadget.gadgetbridge.externalevents.DeviceSettingsReceiver;
+import nodomain.freeyourgadget.gadgetbridge.externalevents.GenericWeatherReceiver;
 import nodomain.freeyourgadget.gadgetbridge.externalevents.LineageOsWeatherReceiver;
 import nodomain.freeyourgadget.gadgetbridge.externalevents.MusicPlaybackReceiver;
 import nodomain.freeyourgadget.gadgetbridge.externalevents.OmniJawsObserver;
@@ -327,6 +328,7 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
     private CMWeatherReceiver mCMWeatherReceiver = null;
     private LineageOsWeatherReceiver mLineageOsWeatherReceiver = null;
     private TinyWeatherForecastGermanyReceiver mTinyWeatherForecastGermanyReceiver = null;
+    private GenericWeatherReceiver mGenericWeatherReceiver = null;
     private OmniJawsObserver mOmniJawsObserver = null;
     private final DeviceSettingsReceiver deviceSettingsReceiver = new DeviceSettingsReceiver();
 
@@ -1188,6 +1190,10 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
                     mTinyWeatherForecastGermanyReceiver = new TinyWeatherForecastGermanyReceiver();
                     registerReceiver(mTinyWeatherForecastGermanyReceiver, new IntentFilter("de.kaffeemitkoffein.broadcast.WEATHERDATA"));
                 }
+                if (mGenericWeatherReceiver == null) {
+                    mGenericWeatherReceiver = new GenericWeatherReceiver();
+                    registerReceiver(mGenericWeatherReceiver, new IntentFilter(GenericWeatherReceiver.ACTION_GENERIC_WEATHER));
+                }
                 if (mOmniJawsObserver == null) {
                     try {
                         mOmniJawsObserver = new OmniJawsObserver(new Handler());
@@ -1252,6 +1258,10 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
             if (mGBAutoFetchReceiver != null) {
                 unregisterReceiver(mGBAutoFetchReceiver);
                 mGBAutoFetchReceiver = null;
+            }
+            if (mGenericWeatherReceiver != null) {
+                unregisterReceiver(mGenericWeatherReceiver);
+                mGenericWeatherReceiver = null;
             }
         }
     }

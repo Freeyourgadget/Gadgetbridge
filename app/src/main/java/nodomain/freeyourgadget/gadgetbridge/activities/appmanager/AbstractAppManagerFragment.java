@@ -441,8 +441,8 @@ public abstract class AbstractAppManagerFragment extends Fragment {
                 pm.getPackageInfo("ru.gelin.android.weather.notification", PackageManager.GET_ACTIVITIES);
                 menu.removeItem(R.id.appmanager_weather_install_provider);
             } catch (PackageManager.NameNotFoundException e) {
-                menu.removeItem(R.id.appmanager_weather_activate);
-                menu.removeItem(R.id.appmanager_weather_deactivate);
+                //menu.removeItem(R.id.appmanager_weather_activate);
+                //menu.removeItem(R.id.appmanager_weather_deactivate);
             }
         }
 

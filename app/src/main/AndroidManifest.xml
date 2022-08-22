@@ -367,6 +367,14 @@
             android:label="PineTime Nordic DFU service" />
 
         <receiver
+            android:name=".externalevents.GenericWeatherReceiver"
+            android:enabled="true">
+            <intent-filter>
+                <action android:name="nodomain.freeyourgadget.gadgetbridge.ACTION_GENERIC_WEATHER" />
+            </intent-filter>
+        </receiver>
+
+        <receiver
             android:name=".externalevents.WeatherNotificationReceiver"
             android:enabled="true">
             <intent-filter>
