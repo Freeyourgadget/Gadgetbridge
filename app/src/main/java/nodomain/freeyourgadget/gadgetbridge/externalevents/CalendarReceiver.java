@@ -203,6 +203,8 @@ public class CalendarReceiver extends BroadcastReceiver {
                 calendarEventSpec.description = calendarEvent.getDescription();
                 calendarEventSpec.location = calendarEvent.getLocation();
                 calendarEventSpec.type = CalendarEventSpec.TYPE_UNKNOWN;
+                calendarEventSpec.calName = calendarEvent.getUniqueCalName();
+                calendarEventSpec.color = calendarEvent.getColor();
                 if (syncState == EventState.NEEDS_UPDATE) {
                     GBApplication.deviceService(mGBDevice).onDeleteCalendarEvent(CalendarEventSpec.TYPE_UNKNOWN, i);
                 }

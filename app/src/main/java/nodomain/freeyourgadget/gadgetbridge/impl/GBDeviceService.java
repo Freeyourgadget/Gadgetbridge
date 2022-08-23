@@ -404,6 +404,8 @@ public class GBDeviceService implements DeviceService {
                 .putExtra(EXTRA_CALENDAREVENT_ALLDAY, calendarEventSpec.allDay)
                 .putExtra(EXTRA_CALENDAREVENT_TITLE, calendarEventSpec.title)
                 .putExtra(EXTRA_CALENDAREVENT_DESCRIPTION, calendarEventSpec.description)
+                .putExtra(EXTRA_CALENDAREVENT_CALNAME, calendarEventSpec.calName)
+                .putExtra(EXTRA_CALENDAREVENT_COLOR, calendarEventSpec.color)
                 .putExtra(EXTRA_CALENDAREVENT_LOCATION, calendarEventSpec.location);
         invokeService(intent);
     }

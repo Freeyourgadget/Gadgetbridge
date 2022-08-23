@@ -28,5 +28,7 @@ public class CalendarEventSpec {
     public String title;
     public String description;
     public String location;
+    public String calName;
+    public int color;
     public boolean allDay;
 }

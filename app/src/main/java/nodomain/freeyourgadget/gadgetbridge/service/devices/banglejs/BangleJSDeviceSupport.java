@@ -1142,6 +1142,8 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
             o.put("title", calendarEventSpec.title);
             o.put("description", calendarEventSpec.description);
             o.put("location", calendarEventSpec.location);
+            o.put("calName", calendarEventSpec.calName);
+            o.put("color", calendarEventSpec.color);
             o.put("allDay", calendarEventSpec.allDay);
             uartTxJSON("onAddCalendarEvent", o);
         } catch (JSONException e) {
