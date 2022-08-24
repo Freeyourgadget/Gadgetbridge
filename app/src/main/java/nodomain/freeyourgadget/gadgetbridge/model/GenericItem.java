@@ -70,7 +70,7 @@ public class GenericItem implements ItemWithDetails {
     }
 
     public void setDetails(String details) {
-        if (details.equals("(Unknown version)")) {
+        if (details == null || details.equals("(Unknown version)")) {
             this.warning = true;
         }
         this.details = details;
