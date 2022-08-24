@@ -26,6 +26,7 @@ public final class WatchAdapterFactory {
         char hardwareVersion = firmwareVersion.charAt(2);
         if(hardwareVersion == '1') return new FossilHRWatchAdapter(deviceSupport);
         if(firmwareVersion.startsWith("IV0")) return new FossilHRWatchAdapter(deviceSupport);
+        if(firmwareVersion.startsWith("VA")) return new FossilHRWatchAdapter(deviceSupport);
 
         char major = firmwareVersion.charAt(6);
         switch (major){

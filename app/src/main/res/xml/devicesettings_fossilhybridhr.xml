@@ -147,6 +147,18 @@
             android:title="@string/qhybrid_title_on_device_confirmation"
             android:summary="@string/qhybrid_summary_on_device_confirmation" />
 
+        <EditTextPreference
+            android:key="voice_service_package"
+            android:title="Voice service package"
+            android:summary="Application that contains the service handling voice commands"
+            app:useSimpleSummaryProvider="true"/>
+
+        <EditTextPreference
+            android:key="voice_service_class"
+            android:title="Voice service full path"
+            android:summary="Full service path handling voice commands"
+            app:useSimpleSummaryProvider="true" />
+
     </PreferenceScreen>
 
 </androidx.preference.PreferenceScreen>

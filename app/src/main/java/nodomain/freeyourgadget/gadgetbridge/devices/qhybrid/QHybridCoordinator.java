@@ -290,11 +290,16 @@ public class QHybridCoordinator extends AbstractBLEDeviceCoordinator {
     private boolean isHybridHR() {
         List<GBDevice> devices = GBApplication.app().getDeviceManager().getSelectedDevices();
         for(GBDevice device : devices){
-            if(isFossilHybrid(device) && device.getName().startsWith("Hybrid HR")){
+            if(isHybridHR(device)){
                 return true;
             }
         }
         return false;
+    }
+
+    private boolean isHybridHR(GBDevice device){
+        if(!isFossilHybrid(device)) return false;
+        return device.getName().startsWith("Hybrid HR") || device.getName().equals("Fossil Gen. 6 Hybrid");
     }
 
     private Version getFirmwareVersion() {

@@ -143,6 +143,7 @@ public class QHybridSupport extends QHybridBaseSupport {
 
     public QHybridSupport() {
         super(logger);
+        addSupportedService(UUID.fromString("108b5094-4c03-e51c-555e-105d1a1155f0"));
         addSupportedService(UUID.fromString("3dda0001-957f-7d4a-34a6-74696673696d"));
         addSupportedService(GattService.UUID_SERVICE_DEVICE_INFORMATION);
         addSupportedService(GattService.UUID_SERVICE_GENERIC_ACCESS);
@@ -479,6 +480,10 @@ public class QHybridSupport extends QHybridBaseSupport {
 
         for (int i = 2; i <= 7; i++)
             builder.notify(getCharacteristic(UUID.fromString("3dda000" + i + "-957f-7d4a-34a6-74696673696d")), true);
+
+        builder.notify(getCharacteristic(UUID.fromString("010541ae-efe8-11c0-91c0-105d1a1155f0")), true);
+        builder.notify(getCharacteristic(UUID.fromString("fef9589f-9c21-4d19-9fc0-105d1a1155f0")), true);
+        builder.notify(getCharacteristic(UUID.fromString("842d2791-0d20-4ce4-1ada-105d1a1155f0")), true);
 
         builder
                 .read(getCharacteristic(UUID.fromString("00002a19-0000-1000-8000-00805f9b34fb")))

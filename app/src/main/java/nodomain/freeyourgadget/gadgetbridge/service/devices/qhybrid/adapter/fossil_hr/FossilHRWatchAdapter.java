@@ -24,9 +24,13 @@ import static nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.reque
 import static nodomain.freeyourgadget.gadgetbridge.util.BitmapUtil.convertDrawableToBitmap;
 import static nodomain.freeyourgadget.gadgetbridge.util.StringUtils.shortenPackageName;
 
+import android.app.Service;
+import android.bluetooth.BluetoothGatt;
 import android.bluetooth.BluetoothGattCharacteristic;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.ServiceConnection;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -37,6 +41,11 @@ import android.graphics.Paint;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
+import android.os.Bundle;
+import android.os.IBinder;
+import android.os.Message;
+import android.os.Messenger;
+import android.os.RemoteException;
 import android.widget.Toast;
 
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
@@ -111,6 +120,7 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fos
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.notification.DismissTextNotificationRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.notification.PlayCallNotificationRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.notification.PlayTextNotificationRequest;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.alexa.AlexaMessageSetRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.application.ApplicationInformation;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.application.ApplicationsListRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.async.ConfirmAppStatusRequest;
@@ -153,6 +163,8 @@ import nodomain.freeyourgadget.gadgetbridge.util.UriHelper;
 import nodomain.freeyourgadget.gadgetbridge.util.Version;
 
 public class FossilHRWatchAdapter extends FossilWatchAdapter {
+    public static final int MESSAGE_WHAT_VOICE_DATA_RECEIVED = 0;
+
     private byte[] phoneRandomNumber;
     private byte[] watchRandomNumber;
 
@@ -178,6 +190,22 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
 
     List<ApplicationInformation> installedApplications = new ArrayList();
 
+    Messenger voiceMessenger = null;
+
+    ServiceConnection voiceServiceConnection = new ServiceConnection() {
+        @Override
+        public void onServiceConnected(ComponentName name, IBinder service) {
+            GB.log("attached to voice service", GB.INFO, null);
+            voiceMessenger = new Messenger(service);
+        }
+
+        @Override
+        public void onServiceDisconnected(ComponentName name) {
+            GB.log("detached from voice service", GB.INFO, null);
+            voiceMessenger = null;
+        }
+    };
+
     enum CONNECTION_MODE {
         NOT_INITIALIZED,
         AUTHENTICATED,
@@ -188,6 +216,8 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
 
     @Override
     public void initialize() {
+        timeoutThread.start();
+
         saveRawActivityFiles = getDeviceSpecificPreferences().getBoolean("save_raw_activity_files", false);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -287,12 +317,124 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
         });
     }
 
+    private void respondToAlexa(String message, boolean isResponse){
+        queueWrite(new AlexaMessageSetRequest(message, isResponse, this));
+    }
+
+    private void attachToVoiceService(){
+        String servicePackage = getDeviceSpecificPreferences().getString("voice_service_package", "");
+        String servicePath = getDeviceSpecificPreferences().getString("voice_service_class", "");
+
+        if(servicePackage.isEmpty()){
+            GB.toast("voice service package is not configured", Toast.LENGTH_LONG, GB.ERROR);
+            respondToAlexa("voice service package not configured on phone", true);
+            return;
+        }
+
+        if(servicePath.isEmpty()){
+            respondToAlexa("voice service class not configured on phone", true);
+            GB.toast("voice service class is not configured", Toast.LENGTH_LONG, GB.ERROR);
+            return;
+        }
+
+        ComponentName component = new ComponentName(servicePackage, servicePath);
+
+        // extract to somewhere
+        Intent voiceIntent = new Intent("nodomain.freeyourgadget.gadgetbridge.VOICE_COMMAND");
+        voiceIntent.setComponent(component);
+
+        int flags = 0;
+
+        flags |= Service.BIND_AUTO_CREATE;
+
+        GB.log("binding to voice service...", GB.INFO, null);
+
+        getContext().bindService(
+                voiceIntent,
+                voiceServiceConnection,
+                flags
+        );
+
+        PackageManager pm = getContext().getPackageManager();
+        boolean serviceEnabled = true;
+        try {
+            int enabledState = pm.getComponentEnabledSetting(component);
+
+            if(enabledState != PackageManager.COMPONENT_ENABLED_STATE_ENABLED && enabledState != PackageManager.COMPONENT_ENABLED_STATE_DEFAULT){
+                respondToAlexa("voice service is disabled on phone", true);
+                GB.toast("voice service is disabled", Toast.LENGTH_LONG, GB.ERROR);
+                serviceEnabled = false;
+            }
+        }catch (IllegalArgumentException e){
+            serviceEnabled = false;
+            respondToAlexa("voice service not found on phone", true);
+            GB.toast("voice service not found", Toast.LENGTH_LONG, GB.ERROR);
+        }
+
+        if(!serviceEnabled){
+            detachFromVoiceService();
+        }
+    }
+
+    private void detachFromVoiceService(){
+        getContext().unbindService(voiceServiceConnection);
+    }
+
+    private void handleVoiceStatus(byte status){
+        if(status == 0x00){
+            attachToVoiceService();
+        }else if(status == 0x01){
+            detachFromVoiceService();
+        }
+    }
+
+    private void handleVoiceStatusCharacteristic(BluetoothGattCharacteristic characteristic){
+        byte[] value = characteristic.getValue();
+        handleVoiceStatus(value[0]);
+    }
+
+    private void handleVoiceDataCharacteristic(BluetoothGattCharacteristic characteristic){
+        if(voiceMessenger == null){
+            return;
+        }
+        Message message = Message.obtain(
+                null,
+                MESSAGE_WHAT_VOICE_DATA_RECEIVED
+        );
+        Bundle dataBundle = new Bundle(1);
+        dataBundle.putByteArray("VOICE_DATA", characteristic.getValue());
+        dataBundle.putString("VOICE_ENCODING", "OPUS");
+        message.setData(dataBundle);
+        try {
+            voiceMessenger.send(message);
+        } catch (RemoteException e) {
+            GB.log("error sending voice data to service", GB.ERROR, e);
+            GB.toast("error sending voice data to service", Toast.LENGTH_LONG, GB.ERROR);
+            voiceMessenger = null;
+            detachFromVoiceService();
+            respondToAlexa("error sending voice data to service", true);
+        }
+    }
+
+    @Override
+    public boolean onCharacteristicChanged(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic) {
+        switch (characteristic.getUuid().toString()){
+            case "010541ae-efe8-11c0-91c0-105d1a1155f0":
+                handleVoiceStatusCharacteristic(characteristic);
+                return true;
+            case "842d2791-0d20-4ce4-1ada-105d1a1155f0":
+                handleVoiceDataCharacteristic(characteristic);
+                return true;
+        }
+        return super.onCharacteristicChanged(gatt, characteristic);
+    }
+
     private void initializeAfterWatchConfirmation(boolean authenticated) {
         setNotificationConfigurations();
         setQuickRepliesConfiguration();
 
         if (authenticated) {
-            setVibrationStrength();
+            // setVibrationStrengthFromConfig();
             setUnitsConfig();
             syncSettings();
             setTime();
@@ -330,7 +472,7 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
         queueWrite(new SelectedThemePutRequest(this, appName));
     }
 
-    private void setVibrationStrength() {
+    private void setVibrationStrengthFromConfig() {
         Prefs prefs = new Prefs(getDeviceSpecificPreferences());
         int vibrationStrengh = prefs.getInt(DeviceSettingsPreferenceConst.PREF_VIBRATION_STRENGH_PERCENTAGE, 2);
         if (vibrationStrengh > 0) {
@@ -1302,13 +1444,7 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
 
     @Override
     public void onTestNewFunction() {
-        queueWrite((FileEncryptedInterface) new ConfigurationGetRequest(this){
-            @Override
-            protected void handleConfiguration(ConfigItem[] items) {
-                super.handleConfiguration(items);
-                LOG.debug(items[items.length - 1].toString());
-            }
-        });
+        setVibrationStrengthFromConfig();
     }
 
     public byte[] getSecretKey() throws IllegalAccessException {
@@ -1447,7 +1583,7 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
                 overwriteButtons(null);
                 break;
             case DeviceSettingsPreferenceConst.PREF_VIBRATION_STRENGH_PERCENTAGE:
-                setVibrationStrength();
+                setVibrationStrengthFromConfig();
                 break;
             case "force_white_color_scheme":
                 loadBackground();
@@ -1610,6 +1746,8 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
         super.onFindDevice(start);
 
         boolean versionSupportsConfirmation = getCleanFWVersion().compareTo(new Version("2.22")) != -1;
+
+        versionSupportsConfirmation |= getDeviceSupport().getDevice().getModel().startsWith("VA");
 
         if(!versionSupportsConfirmation){
             GB.toast("not supported in this version", Toast.LENGTH_SHORT, GB.ERROR);

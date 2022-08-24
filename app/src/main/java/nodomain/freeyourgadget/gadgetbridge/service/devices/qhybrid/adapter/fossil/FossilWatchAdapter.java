@@ -22,6 +22,8 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Build;
+import android.os.Handler;
+import android.os.Looper;
 import android.widget.Toast;
 
 import org.json.JSONArray;
@@ -114,15 +116,63 @@ public class FossilWatchAdapter extends WatchAdapter {
         super(deviceSupport);
     }
 
+    private final int REQUEST_TIMEOUT = 60 * 1000;
+
+    private Looper timeoutLooper = null;
+    private Handler timeoutHandler;
+    protected Thread timeoutThread = new Thread(new Runnable() {
+        @Override
+        public void run() {
+            Looper.prepare();
+            timeoutLooper = Looper.myLooper();
+            timeoutHandler = new Handler(timeoutLooper);
+            Looper.loop();
+        }
+    });
+
+    private Runnable requestTimeoutRunnable = new Runnable() {
+        @Override
+        public void run() {
+            String requestName = "unknown";
+            if(fossilRequest != null){
+                requestName = fossilRequest.getName();
+            }
+            log(String.format("Request %s timed out, queing next request", requestName));
+            fossilRequest = null;
+            queueNextRequest();
+        }
+    };
 
     @Override
     public void initialize() {
+        timeoutThread.start();
+
         playPairingAnimation();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             queueWrite(new RequestMtuRequest(512), false);
         }
 
         getDeviceInfos();
+    }
+
+    private void restartRequestTimeout(){
+        if(timeoutLooper == null){
+            return;
+        }
+        stopRequestTimeout();
+        log("restarting request timeout");
+        timeoutHandler.postDelayed(
+                requestTimeoutRunnable,
+                REQUEST_TIMEOUT
+        );
+    }
+
+    private void stopRequestTimeout(){
+        if(timeoutLooper == null){
+            return;
+        }
+        timeoutHandler.removeCallbacks(requestTimeoutRunnable);
+        log("stopped request timeout");
     }
 
     public short getSupportedFileVersion(FileHandle handle) {
@@ -461,6 +511,8 @@ public class FossilWatchAdapter extends WatchAdapter {
                 return true;
             case "DN.1.0":
                 return true;
+            case "VA.0.0":
+                return true;
         }
         throw new UnsupportedOperationException("model " + modelNumber + " not supported");
     }
@@ -476,6 +528,8 @@ public class FossilWatchAdapter extends WatchAdapter {
             case "IV.0.0":
                 return false;
             case "DN.1.0":
+                return false;
+            case "VA.0.0":
                 return false;
         }
         throw new UnsupportedOperationException("Model " + modelNumber + " not supported");
@@ -613,6 +667,7 @@ public class FossilWatchAdapter extends WatchAdapter {
                     if (requestFinished) {
                         log(fossilRequest.getName() + " finished");
                         fossilRequest = null;
+                        stopRequestTimeout();
                     } else {
                         return true;
                     }
@@ -795,11 +850,13 @@ public class FossilWatchAdapter extends WatchAdapter {
             return;
         }
         log("executing request: " + request.getName());
+        restartRequestTimeout();
         this.fossilRequest = request;
         new TransactionBuilder(request.getClass().getSimpleName()).write(getDeviceSupport().getCharacteristic(request.getRequestUUID()), request.getRequestData()).queue(getDeviceSupport().getQueue());
 
         if (request.isFinished()) {
             this.fossilRequest = null;
+            stopRequestTimeout();
             queueNextRequest();
         }
     }
@@ -810,6 +867,7 @@ public class FossilWatchAdapter extends WatchAdapter {
             log("dropping requetst " + request.getName());
             return;
         }
+        restartRequestTimeout();
         new TransactionBuilder(request.getClass().getSimpleName()).write(getDeviceSupport().getCharacteristic(request.getRequestUUID()), request.getRequestData()).queue(getDeviceSupport().getQueue());
 
         queueNextRequest();
