@@ -166,6 +166,13 @@ public class ActivitySleepChartFragment extends AbstractChartFragment {
         deepSleepEntry.formColor = akDeepSleep.color;
         legendEntries.add(deepSleepEntry);
 
+        if (supportsRemSleep(getChartsHost().getDevice())) {
+            LegendEntry remSleepEntry = new LegendEntry();
+            remSleepEntry.label = akRemSleep.label;
+            remSleepEntry.formColor = akRemSleep.color;
+            legendEntries.add(remSleepEntry);
+        }
+
         LegendEntry notWornEntry = new LegendEntry();
         notWornEntry.label = akNotWorn.label;
         notWornEntry.formColor = akNotWorn.color;

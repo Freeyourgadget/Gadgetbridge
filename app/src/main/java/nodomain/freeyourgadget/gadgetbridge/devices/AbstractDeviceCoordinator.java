@@ -273,6 +273,11 @@ public abstract class AbstractDeviceCoordinator implements DeviceCoordinator {
     }
 
     @Override
+    public boolean supportsRemSleep() {
+        return false;
+    }
+
+    @Override
     public boolean supportsWeather() {
         return false;
     }

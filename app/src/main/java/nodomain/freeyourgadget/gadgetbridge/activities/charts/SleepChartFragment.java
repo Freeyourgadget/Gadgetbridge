@@ -134,26 +134,24 @@ public class SleepChartFragment extends AbstractChartFragment {
 
         final long lightSleepDuration = calculateLightSleepDuration(sleepSessions);
         final long deepSleepDuration = calculateDeepSleepDuration(sleepSessions);
+        final long remSleepDuration = calculateRemSleepDuration(sleepSessions);
 
-        final long totalSeconds = lightSleepDuration + deepSleepDuration;
+        final long totalSeconds = lightSleepDuration + deepSleepDuration + remSleepDuration;
 
-        final List<PieEntry> entries;
-        final List<Integer> colors;
+        final List<PieEntry> entries = new ArrayList<>();
+        final List<Integer> colors = new ArrayList<>();
 
-        if (sleepSessions.isEmpty()) {
-            entries = Collections.emptyList();
-            colors = Collections.emptyList();
-        } else {
-            entries = Arrays.asList(
-                    new PieEntry(lightSleepDuration, getActivity().getString(R.string.abstract_chart_fragment_kind_light_sleep)),
-                    new PieEntry(deepSleepDuration, getActivity().getString(R.string.abstract_chart_fragment_kind_deep_sleep))
-            );
-            colors = Arrays.asList(
-                    getColorFor(ActivityKind.TYPE_LIGHT_SLEEP),
-                    getColorFor(ActivityKind.TYPE_DEEP_SLEEP)
-            );
+        if (!sleepSessions.isEmpty()) {
+            entries.add(new PieEntry(lightSleepDuration, getActivity().getString(R.string.abstract_chart_fragment_kind_light_sleep)));
+            entries.add(new PieEntry(deepSleepDuration, getActivity().getString(R.string.abstract_chart_fragment_kind_deep_sleep)));
+            colors.add(getColorFor(ActivityKind.TYPE_LIGHT_SLEEP));
+            colors.add(getColorFor(ActivityKind.TYPE_DEEP_SLEEP));
+
+            if (supportsRemSleep(mGBDevice)) {
+                entries.add(new PieEntry(remSleepDuration, getActivity().getString(R.string.abstract_chart_fragment_kind_rem_sleep)));
+                colors.add(getColorFor(ActivityKind.TYPE_REM_SLEEP));
+            }
         }
-
 
         String totalSleep = DateTimeUtils.formatDurationHoursMinutes(totalSeconds, TimeUnit.SECONDS);
         PieDataSet set = new PieDataSet(entries, "");
@@ -186,6 +184,14 @@ public class SleepChartFragment extends AbstractChartFragment {
         long result = 0;
         for (SleepSession sleepSession : sleepSessions) {
             result += sleepSession.getDeepSleepDuration();
+        }
+        return result;
+    }
+
+    private long calculateRemSleepDuration(List<SleepSession> sleepSessions) {
+        long result = 0;
+        for (SleepSession sleepSession : sleepSessions) {
+            result += sleepSession.getRemSleepDuration();
         }
         return result;
     }
@@ -424,6 +430,14 @@ public class SleepChartFragment extends AbstractChartFragment {
         deepSleepEntry.label = akDeepSleep.label;
         deepSleepEntry.formColor = akDeepSleep.color;
         legendEntries.add(deepSleepEntry);
+
+        if (supportsRemSleep(getChartsHost().getDevice())) {
+            LegendEntry remSleepEntry = new LegendEntry();
+            remSleepEntry.label = akRemSleep.label;
+            remSleepEntry.formColor = akRemSleep.color;
+            legendEntries.add(remSleepEntry);
+        }
+
         heartRateIcon.setVisibility(View.GONE); //hide heart icon
         intensityTotalIcon.setVisibility(View.GONE); //hide intensity icon
 

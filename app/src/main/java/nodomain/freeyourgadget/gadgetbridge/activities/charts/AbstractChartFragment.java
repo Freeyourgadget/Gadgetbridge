@@ -116,6 +116,11 @@ public abstract class AbstractChartFragment extends AbstractGBFragment {
         return coordinator != null && coordinator.supportsHeartRateMeasurement(device);
     }
 
+    public boolean supportsRemSleep(GBDevice device) {
+        DeviceCoordinator coordinator = DeviceHelper.getInstance().getCoordinator(device);
+        return coordinator != null && coordinator.supportsRemSleep();
+    }
+
     protected static final class ActivityConfig {
         public final int type;
         public final String label;
@@ -131,6 +136,7 @@ public abstract class AbstractChartFragment extends AbstractGBFragment {
     protected ActivityConfig akActivity;
     protected ActivityConfig akLightSleep;
     protected ActivityConfig akDeepSleep;
+    protected ActivityConfig akRemSleep;
     protected ActivityConfig akNotWorn;
 
 
@@ -142,6 +148,7 @@ public abstract class AbstractChartFragment extends AbstractGBFragment {
     protected int HEARTRATE_FILL_COLOR;
     protected int AK_ACTIVITY_COLOR;
     protected int AK_DEEP_SLEEP_COLOR;
+    protected int AK_REM_SLEEP_COLOR;
     protected int AK_LIGHT_SLEEP_COLOR;
     protected int AK_NOT_WORN_COLOR;
 
@@ -194,6 +201,8 @@ public abstract class AbstractChartFragment extends AbstractGBFragment {
         AK_DEEP_SLEEP_COLOR = runningColor.data;
         getContext().getTheme().resolveAttribute(R.attr.chart_light_sleep, runningColor, true);
         AK_LIGHT_SLEEP_COLOR = runningColor.data;
+        getContext().getTheme().resolveAttribute(R.attr.chart_rem_sleep, runningColor, true);
+        AK_REM_SLEEP_COLOR = runningColor.data;
         getContext().getTheme().resolveAttribute(R.attr.chart_not_worn, runningColor, true);
         AK_NOT_WORN_COLOR = runningColor.data;
 
@@ -203,6 +212,7 @@ public abstract class AbstractChartFragment extends AbstractGBFragment {
         akActivity = new ActivityConfig(ActivityKind.TYPE_ACTIVITY, getString(R.string.abstract_chart_fragment_kind_activity), AK_ACTIVITY_COLOR);
         akLightSleep = new ActivityConfig(ActivityKind.TYPE_LIGHT_SLEEP, getString(R.string.abstract_chart_fragment_kind_light_sleep), AK_LIGHT_SLEEP_COLOR);
         akDeepSleep = new ActivityConfig(ActivityKind.TYPE_DEEP_SLEEP, getString(R.string.abstract_chart_fragment_kind_deep_sleep), AK_DEEP_SLEEP_COLOR);
+        akRemSleep = new ActivityConfig(ActivityKind.TYPE_REM_SLEEP, getString(R.string.abstract_chart_fragment_kind_rem_sleep), AK_REM_SLEEP_COLOR);
         akNotWorn = new ActivityConfig(ActivityKind.TYPE_NOT_WORN, getString(R.string.abstract_chart_fragment_kind_not_worn), AK_NOT_WORN_COLOR);
     }
 
@@ -331,6 +341,8 @@ public abstract class AbstractChartFragment extends AbstractGBFragment {
                 return akDeepSleep.color;
             case ActivityKind.TYPE_LIGHT_SLEEP:
                 return akLightSleep.color;
+            case ActivityKind.TYPE_REM_SLEEP:
+                return akRemSleep.color;
             case ActivityKind.TYPE_ACTIVITY:
                 return akActivity.color;
         }
@@ -456,6 +468,7 @@ public abstract class AbstractChartFragment extends AbstractGBFragment {
             List<Entry> activityEntries = new ArrayList<>(numEntries);
             List<Entry> deepSleepEntries = new ArrayList<>(numEntries);
             List<Entry> lightSleepEntries = new ArrayList<>(numEntries);
+            List<Entry> remSleepEntries = new ArrayList<>(numEntries);
             List<Entry> notWornEntries = new ArrayList<>(numEntries);
             boolean hr = supportsHeartrate(gbDevice);
             List<Entry> heartrateEntries = hr ? new ArrayList<Entry>(numEntries) : null;
@@ -490,6 +503,7 @@ public abstract class AbstractChartFragment extends AbstractGBFragment {
                             deepSleepEntries.add(createLineEntry(0, ts - 1));
 
                             lightSleepEntries.add(createLineEntry(0, ts));
+                            remSleepEntries.add(createLineEntry(0, ts));
                             notWornEntries.add(createLineEntry(0, ts));
                             activityEntries.add(createLineEntry(0, ts));
                         }
@@ -500,10 +514,22 @@ public abstract class AbstractChartFragment extends AbstractGBFragment {
                             lightSleepEntries.add(createLineEntry(0, ts - 1));
 
                             deepSleepEntries.add(createLineEntry(0, ts));
+                            remSleepEntries.add(createLineEntry(0, ts));
                             notWornEntries.add(createLineEntry(0, ts));
                             activityEntries.add(createLineEntry(0, ts));
                         }
                         lightSleepEntries.add(createLineEntry(value, ts));
+                        break;
+                    case ActivityKind.TYPE_REM_SLEEP:
+                        if (last_type != type) {
+                            remSleepEntries.add(createLineEntry(0, ts - 1));
+
+                            lightSleepEntries.add(createLineEntry(0, ts));
+                            deepSleepEntries.add(createLineEntry(0, ts));
+                            notWornEntries.add(createLineEntry(0, ts));
+                            activityEntries.add(createLineEntry(0, ts));
+                        }
+                        remSleepEntries.add(createLineEntry(value, ts));
                         break;
                     case ActivityKind.TYPE_NOT_WORN:
                         if (last_type != type) {
@@ -511,6 +537,7 @@ public abstract class AbstractChartFragment extends AbstractGBFragment {
 
                             lightSleepEntries.add(createLineEntry(0, ts));
                             deepSleepEntries.add(createLineEntry(0, ts));
+                            remSleepEntries.add(createLineEntry(0, ts));
                             activityEntries.add(createLineEntry(0, ts));
                         }
                         notWornEntries.add(createLineEntry(SleepUtils.Y_VALUE_DEEP_SLEEP, ts)); //a small value, just to show something on the graphs
@@ -528,6 +555,7 @@ public abstract class AbstractChartFragment extends AbstractGBFragment {
                             lightSleepEntries.add(createLineEntry(0, ts));
                             notWornEntries.add(createLineEntry(0, ts));
                             deepSleepEntries.add(createLineEntry(0, ts));
+                            remSleepEntries.add(createLineEntry(0, ts));
                         }
                         activityEntries.add(createLineEntry(value, ts));
                 }
@@ -576,6 +604,10 @@ public abstract class AbstractChartFragment extends AbstractGBFragment {
             lineDataSets.add(deepSleepSet);
             LineDataSet lightSleepSet = createDataSet(lightSleepEntries, akLightSleep.color, "Light Sleep");
             lineDataSets.add(lightSleepSet);
+            if (supportsRemSleep(gbDevice)) {
+                LineDataSet remSleepSet = createDataSet(remSleepEntries, akRemSleep.color, "REM Sleep");
+                lineDataSets.add(remSleepSet);
+            }
             LineDataSet notWornSet = createDataSet(notWornEntries, akNotWorn.color, "Not worn");
             lineDataSets.add(notWornSet);
 

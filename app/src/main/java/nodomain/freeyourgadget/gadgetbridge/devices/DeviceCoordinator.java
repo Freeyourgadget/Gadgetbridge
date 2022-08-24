@@ -342,6 +342,11 @@ public interface DeviceCoordinator {
     boolean supportsRealtimeData();
 
     /**
+     * Indicates whether the device supports REM sleep tracking.
+     */
+    boolean supportsRemSleep();
+
+    /**
      * Indicates whether the device supports current weather and/or weather
      * forecast display.
      */

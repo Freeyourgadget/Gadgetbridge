@@ -39,6 +39,7 @@ public class ActivityAnalysis {
     public ActivityAmounts calculateActivityAmounts(List<? extends ActivitySample> samples) {
         ActivityAmount deepSleep = new ActivityAmount(ActivityKind.TYPE_DEEP_SLEEP);
         ActivityAmount lightSleep = new ActivityAmount(ActivityKind.TYPE_LIGHT_SLEEP);
+        ActivityAmount remSleep = new ActivityAmount(ActivityKind.TYPE_REM_SLEEP);
         ActivityAmount notWorn = new ActivityAmount(ActivityKind.TYPE_NOT_WORN);
         ActivityAmount activity = new ActivityAmount(ActivityKind.TYPE_ACTIVITY);
 
@@ -52,6 +53,9 @@ public class ActivityAnalysis {
                     break;
                 case ActivityKind.TYPE_LIGHT_SLEEP:
                     amount = lightSleep;
+                    break;
+                case ActivityKind.TYPE_REM_SLEEP:
+                    amount = remSleep;
                     break;
                 case ActivityKind.TYPE_NOT_WORN:
                     amount = notWorn;
@@ -107,6 +111,9 @@ public class ActivityAnalysis {
         }
         if (lightSleep.getTotalSeconds() > 0) {
             result.addAmount(lightSleep);
+        }
+        if (remSleep.getTotalSeconds() > 0) {
+            result.addAmount(remSleep);
         }
         if (activity.getTotalSeconds() > 0) {
             result.addAmount(activity);

@@ -22,6 +22,8 @@ import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.components.LegendEntry;
 import com.github.mikephil.charting.formatter.ValueFormatter;
 
+import org.apache.commons.lang3.ArrayUtils;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -66,7 +68,9 @@ public class WeekSleepChartFragment extends AbstractWeekChartFragment {
         long balance = 0;
 
         for (ActivityAmount amount : activityAmounts.getAmounts()) {
-            if (amount.getActivityKind() == ActivityKind.TYPE_DEEP_SLEEP || amount.getActivityKind() == ActivityKind.TYPE_LIGHT_SLEEP) {
+            if (amount.getActivityKind() == ActivityKind.TYPE_DEEP_SLEEP ||
+                    amount.getActivityKind() == ActivityKind.TYPE_LIGHT_SLEEP ||
+                    amount.getActivityKind() == ActivityKind.TYPE_REM_SLEEP) {
                 balance += amount.getTotalSeconds();
             }
         }
@@ -89,16 +93,24 @@ public class WeekSleepChartFragment extends AbstractWeekChartFragment {
     float[] getTotalsForActivityAmounts(ActivityAmounts activityAmounts) {
         long totalSecondsDeepSleep = 0;
         long totalSecondsLightSleep = 0;
+        long totalSecondsRemSleep = 0;
         for (ActivityAmount amount : activityAmounts.getAmounts()) {
             if (amount.getActivityKind() == ActivityKind.TYPE_DEEP_SLEEP) {
                 totalSecondsDeepSleep += amount.getTotalSeconds();
             } else if (amount.getActivityKind() == ActivityKind.TYPE_LIGHT_SLEEP) {
                 totalSecondsLightSleep += amount.getTotalSeconds();
+            } else if (amount.getActivityKind() == ActivityKind.TYPE_REM_SLEEP) {
+                totalSecondsRemSleep += amount.getTotalSeconds();
             }
         }
         int totalMinutesDeepSleep = (int) (totalSecondsDeepSleep / 60);
         int totalMinutesLightSleep = (int) (totalSecondsLightSleep / 60);
-        return new float[]{totalMinutesDeepSleep, totalMinutesLightSleep};
+        int totalMinutesRemSleep = (int) (totalSecondsRemSleep / 60);
+        if (supportsRemSleep(getChartsHost().getDevice())) {
+            return new float[]{totalMinutesDeepSleep, totalMinutesLightSleep, totalMinutesRemSleep};
+        } else {
+            return new float[]{totalMinutesDeepSleep, totalMinutesLightSleep};
+        }
     }
 
     @Override
@@ -108,7 +120,14 @@ public class WeekSleepChartFragment extends AbstractWeekChartFragment {
 
     @Override
     String[] getPieLabels() {
-        return new String[]{getString(R.string.abstract_chart_fragment_kind_deep_sleep), getString(R.string.abstract_chart_fragment_kind_light_sleep)};
+        String[] labels = {
+                getString(R.string.abstract_chart_fragment_kind_deep_sleep),
+                getString(R.string.abstract_chart_fragment_kind_light_sleep)
+        };
+        if (supportsRemSleep(getChartsHost().getDevice())) {
+            labels = ArrayUtils.add(labels,  getString(R.string.abstract_chart_fragment_kind_rem_sleep));
+        }
+        return labels;
     }
 
     @Override
@@ -143,7 +162,11 @@ public class WeekSleepChartFragment extends AbstractWeekChartFragment {
 
     @Override
     int[] getColors() {
-        return new int[]{akDeepSleep.color, akLightSleep.color};
+        int[] colors = {akDeepSleep.color, akLightSleep.color};
+        if (supportsRemSleep(getChartsHost().getDevice())) {
+            colors = ArrayUtils.add(colors, akRemSleep.color);
+        }
+        return colors;
     }
 
     @Override
@@ -159,6 +182,13 @@ public class WeekSleepChartFragment extends AbstractWeekChartFragment {
         deepSleepEntry.label = akDeepSleep.label;
         deepSleepEntry.formColor = akDeepSleep.color;
         legendEntries.add(deepSleepEntry);
+
+        if (supportsRemSleep(getChartsHost().getDevice())) {
+            LegendEntry remSleepEntry = new LegendEntry();
+            remSleepEntry.label = akRemSleep.label;
+            remSleepEntry.formColor = akRemSleep.color;
+            legendEntries.add(remSleepEntry);
+        }
 
         chart.getLegend().setCustom(legendEntries);
         chart.getLegend().setTextColor(LEGEND_TEXT_COLOR);

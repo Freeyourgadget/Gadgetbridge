@@ -87,22 +87,26 @@ public class DailyTotals {
             long[] sleep = getTotalsSleepForActivityAmounts(amountsSleep);
             long steps = getTotalsStepsForActivityAmounts(amountsSteps);
 
-            return new long[]{steps, sleep[0] + sleep[1]};
+            return new long[]{steps, sleep[0] + sleep[1] + sleep[2]};
     }
 
     private long[] getTotalsSleepForActivityAmounts(ActivityAmounts activityAmounts) {
         long totalSecondsDeepSleep = 0;
         long totalSecondsLightSleep = 0;
+        long totalSecondsRemSleep = 0;
         for (ActivityAmount amount : activityAmounts.getAmounts()) {
             if (amount.getActivityKind() == ActivityKind.TYPE_DEEP_SLEEP) {
                 totalSecondsDeepSleep += amount.getTotalSeconds();
             } else if (amount.getActivityKind() == ActivityKind.TYPE_LIGHT_SLEEP) {
                 totalSecondsLightSleep += amount.getTotalSeconds();
+            } else if (amount.getActivityKind() == ActivityKind.TYPE_REM_SLEEP) {
+                totalSecondsRemSleep += amount.getTotalSeconds();
             }
         }
         long totalMinutesDeepSleep = (totalSecondsDeepSleep / 60);
         long totalMinutesLightSleep = (totalSecondsLightSleep / 60);
-        return new long[]{totalMinutesDeepSleep, totalMinutesLightSleep};
+        long totalMinutesRemSleep = (totalSecondsRemSleep / 60);
+        return new long[]{totalMinutesDeepSleep, totalMinutesLightSleep, totalMinutesRemSleep};
     }
 
 

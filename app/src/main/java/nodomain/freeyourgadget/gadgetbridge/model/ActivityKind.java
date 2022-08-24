@@ -53,10 +53,11 @@ public class ActivityKind {
     public static final int TYPE_STRENGTH_TRAINING = 0x00200000;
     public static final int TYPE_HIKING = 0x00400000;
     public static final int TYPE_CLIMBING = 0x00800000;
+    public static final int TYPE_REM_SLEEP = 0x01000000;
 
     private static final int TYPES_COUNT = 26;
 
-    public static final int TYPE_SLEEP = TYPE_LIGHT_SLEEP | TYPE_DEEP_SLEEP;
+    public static final int TYPE_SLEEP = TYPE_LIGHT_SLEEP | TYPE_DEEP_SLEEP | TYPE_REM_SLEEP;
     public static final int TYPE_ALL = TYPE_ACTIVITY | TYPE_SLEEP | TYPE_NOT_WORN;
 
     public static int[] mapToDBActivityTypes(int types, SampleProvider provider) {
@@ -131,6 +132,9 @@ public class ActivityKind {
         if ((types & ActivityKind.TYPE_STRENGTH_TRAINING) != 0) {
             result[i++] = provider.toRawActivityKind(TYPE_STRENGTH_TRAINING);
         }
+        if ((types & ActivityKind.TYPE_REM_SLEEP) != 0) {
+            result[i++] = provider.toRawActivityKind(TYPE_REM_SLEEP);
+        }
 
         return Arrays.copyOf(result, i);
     }
@@ -199,8 +203,8 @@ public class ActivityKind {
             case TYPE_NOT_MEASURED:
                 return R.drawable.ic_activity_not_measured;
             case TYPE_LIGHT_SLEEP:
-                return R.drawable.ic_activity_sleep;
             case TYPE_DEEP_SLEEP:
+            case TYPE_REM_SLEEP:
                 return R.drawable.ic_activity_sleep;
             case TYPE_RUNNING:
                 return R.drawable.ic_activity_running;
