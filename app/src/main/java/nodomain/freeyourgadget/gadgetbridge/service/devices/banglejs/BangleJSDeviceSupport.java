@@ -629,11 +629,13 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
                         @Override
                         public Map<String, String> getHeaders() throws AuthFailureError {
                             Map<String, String> h = super.getHeaders();
-                            Iterator<String> iter = headers.keySet().iterator();
-                            while (iter.hasNext()) {
-                                String key = iter.next();
-                                String value = headers.get(key);
-                                h.put(key, value);
+                            if (headers != null) {
+                                Iterator<String> iter = headers.keySet().iterator();
+                                while (iter.hasNext()) {
+                                    String key = iter.next();
+                                    String value = headers.get(key);
+                                    h.put(key, value);
+                                }
                             }
                             return h;
                         }
