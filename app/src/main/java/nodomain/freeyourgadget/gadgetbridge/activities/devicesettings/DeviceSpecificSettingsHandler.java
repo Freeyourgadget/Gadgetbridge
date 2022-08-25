@@ -19,6 +19,8 @@ package nodomain.freeyourgadget.gadgetbridge.activities.devicesettings;
 import androidx.annotation.NonNull;
 import androidx.preference.Preference;
 
+import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
+
 /**
  * A device-specific preference handler, that allows for {@link nodomain.freeyourgadget.gadgetbridge.devices.DeviceCoordinator}s to register
  * their own preferences dynamically.
@@ -61,4 +63,11 @@ public interface DeviceSpecificSettingsHandler {
      * @param editTypeFlags the edit type {@link android.text.InputType} flags.
      */
     void setInputTypeFor(final String preferenceKey, final int editTypeFlags);
+
+    /**
+     * Get the device associated with this {@link DeviceSpecificSettingsHandler}.
+     *
+     * @return the {@link GBDevice}.
+     */
+    GBDevice getDevice();
 }

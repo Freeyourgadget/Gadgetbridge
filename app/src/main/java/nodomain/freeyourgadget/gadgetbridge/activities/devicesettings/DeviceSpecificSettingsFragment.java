@@ -51,6 +51,7 @@ import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.activities.CalBlacklistActivity;
 import nodomain.freeyourgadget.gadgetbridge.activities.ConfigureWorldClocks;
+import nodomain.freeyourgadget.gadgetbridge.capabilities.HeartRateCapability;
 import nodomain.freeyourgadget.gadgetbridge.capabilities.password.PasswordCapabilityImpl;
 import nodomain.freeyourgadget.gadgetbridge.devices.DeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.DeviceManager;
@@ -349,79 +350,7 @@ public class DeviceSpecificSettingsFragment extends PreferenceFragmentCompat imp
             });
         }
 
-        final Preference enableHeartrateSleepSupport = findPreference(PREF_HEARTRATE_USE_FOR_SLEEP_DETECTION);
-        if (enableHeartrateSleepSupport != null) {
-            enableHeartrateSleepSupport.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
-                @Override
-                public boolean onPreferenceChange(Preference preference, Object newVal) {
-                    GBApplication.deviceService(device).onEnableHeartRateSleepSupport(Boolean.TRUE.equals(newVal));
-                    return true;
-                }
-            });
-        }
 
-        addPreferenceHandlerFor(PREF_HEARTRATE_ALERT_HIGH_THRESHOLD);
-        addPreferenceHandlerFor(PREF_HEARTRATE_ALERT_LOW_THRESHOLD);
-
-        final ListPreference heartrateMeasurementInterval = findPreference(PREF_HEARTRATE_MEASUREMENT_INTERVAL);
-        final ListPreference heartrateAlertHigh = findPreference(PREF_HEARTRATE_ALERT_HIGH_THRESHOLD);
-        final ListPreference heartrateAlertLow = findPreference(PREF_HEARTRATE_ALERT_LOW_THRESHOLD);
-        // Newer devices that have low alert threshold can only use it if measurement interval is smart (-1) or 1 minute
-        final boolean hrAlertsNeedSmartOrOne = heartrateAlertHigh != null && heartrateAlertLow != null && heartrateMeasurementInterval != null;
-        if (hrAlertsNeedSmartOrOne) {
-            final boolean hrMonitoringIsSmartOrOne = heartrateMeasurementInterval.getValue().equals("60") ||
-                    heartrateMeasurementInterval.getValue().equals("-1");
-
-            heartrateAlertHigh.setEnabled(hrMonitoringIsSmartOrOne);
-            heartrateAlertLow.setEnabled(hrMonitoringIsSmartOrOne);
-        }
-
-        if (heartrateMeasurementInterval != null) {
-            final SwitchPreference activityMonitoring = findPreference(PREF_HEARTRATE_ACTIVITY_MONITORING);
-            final SwitchPreference heartrateAlertEnabled = findPreference(PREF_HEARTRATE_ALERT_ENABLED);
-            final SwitchPreference stressMonitoring = findPreference(PREF_HEARTRATE_STRESS_MONITORING);
-
-            heartrateMeasurementInterval.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
-                public boolean onPreferenceChange(final Preference preference, final Object newVal) {
-                    GBApplication.deviceService(device).onSetHeartRateMeasurementInterval(Integer.parseInt((String) newVal));
-
-                    final boolean isMeasurementIntervalEnabled = !newVal.equals("0");
-
-                    if (activityMonitoring != null) {
-                        activityMonitoring.setEnabled(isMeasurementIntervalEnabled);
-                    }
-                    if (heartrateAlertEnabled != null) {
-                        heartrateAlertEnabled.setEnabled(isMeasurementIntervalEnabled);
-                    }
-                    if (hrAlertsNeedSmartOrOne) {
-                        // Same as above, check if smart or 1 minute
-                        final boolean hrMonitoringIsSmartOrOne = newVal.equals("60") || newVal.equals("-1");
-
-                        heartrateAlertHigh.setEnabled(hrMonitoringIsSmartOrOne);
-                        heartrateAlertLow.setEnabled(hrMonitoringIsSmartOrOne);
-                    }
-                    if (stressMonitoring != null && !hrAlertsNeedSmartOrOne) {
-                        // Newer devices (that have hrAlertsNeedSmartOrOne) also don't need HR monitoring for stress monitoring
-                        stressMonitoring.setEnabled(isMeasurementIntervalEnabled);
-                    }
-
-                    return true;
-                }
-            });
-
-            final boolean isMeasurementIntervalEnabled = !heartrateMeasurementInterval.getValue().equals("0");
-
-            if (activityMonitoring != null) {
-                activityMonitoring.setEnabled(isMeasurementIntervalEnabled);
-            }
-            if (heartrateAlertEnabled != null) {
-                heartrateAlertEnabled.setEnabled(isMeasurementIntervalEnabled);
-            }
-            if (stressMonitoring != null && !hrAlertsNeedSmartOrOne) {
-                // Newer devices (that have hrAlertsNeedSmartOrOne) also don't need HR monitoring for stress monitoring
-                stressMonitoring.setEnabled(isMeasurementIntervalEnabled);
-            }
-        }
 
         addPreferenceHandlerFor(PREF_SWIPE_UNLOCK);
         addPreferenceHandlerFor(PREF_MI2_DATEFORMAT);
@@ -828,6 +757,7 @@ public class DeviceSpecificSettingsFragment extends PreferenceFragmentCompat imp
         setInputTypeFor(DeviceSettingsPreferenceConst.PREF_INACTIVITY_THRESHOLD, InputType.TYPE_CLASS_NUMBER);
 
         new PasswordCapabilityImpl().registerPreferences(getContext(), coordinator.getPasswordCapability(), this);
+        new HeartRateCapability().registerPreferences(getContext(), coordinator.getHeartRateMeasurementIntervals(), this);
 
         String deviceActionsFellSleepSelection = prefs.getString(PREF_DEVICE_ACTION_FELL_SLEEP_SELECTION, PREF_DEVICE_ACTION_SELECTION_OFF);
         final Preference deviceActionsFellSleep = findPreference(PREF_DEVICE_ACTION_FELL_SLEEP_SELECTION);
@@ -1016,6 +946,11 @@ public class DeviceSpecificSettingsFragment extends PreferenceFragmentCompat imp
                 }
             });
         }
+    }
+
+    @Override
+    public GBDevice getDevice() {
+        return device;
     }
 
     /**

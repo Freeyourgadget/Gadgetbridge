@@ -31,14 +31,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import nodomain.freeyourgadget.gadgetbridge.R;
-import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst;
 import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSpecificSettingsHandler;
 
 public class PasswordCapabilityImpl {
     public static final String PREF_PASSWORD = "pref_password";
     public static final String PREF_PASSWORD_ENABLED = "pref_password_enabled";
 
-    public static enum Mode {
+    public enum Mode {
         NONE,
         NUMBERS_4_DIGITS_1_TO_4,
         NUMBERS_6,

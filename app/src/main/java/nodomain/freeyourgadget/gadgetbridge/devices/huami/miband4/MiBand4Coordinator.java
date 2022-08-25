@@ -26,7 +26,11 @@ import androidx.annotation.NonNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.Arrays;
+import java.util.List;
+
 import nodomain.freeyourgadget.gadgetbridge.R;
+import nodomain.freeyourgadget.gadgetbridge.capabilities.HeartRateCapability;
 import nodomain.freeyourgadget.gadgetbridge.capabilities.password.PasswordCapabilityImpl;
 import nodomain.freeyourgadget.gadgetbridge.devices.InstallHandler;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst;
@@ -146,5 +150,16 @@ public class MiBand4Coordinator extends HuamiCoordinator {
     @Override
     public PasswordCapabilityImpl.Mode getPasswordCapability() {
         return PasswordCapabilityImpl.Mode.NUMBERS_4_DIGITS_1_TO_4;
+    }
+
+    @Override
+    public List<HeartRateCapability.MeasurementInterval> getHeartRateMeasurementIntervals() {
+        return Arrays.asList(
+                HeartRateCapability.MeasurementInterval.OFF,
+                HeartRateCapability.MeasurementInterval.MINUTES_1,
+                HeartRateCapability.MeasurementInterval.MINUTES_5,
+                HeartRateCapability.MeasurementInterval.MINUTES_10,
+                HeartRateCapability.MeasurementInterval.MINUTES_30
+        );
     }
 }

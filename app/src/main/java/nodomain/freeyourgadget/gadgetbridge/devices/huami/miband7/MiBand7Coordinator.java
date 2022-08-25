@@ -25,14 +25,15 @@ import androidx.annotation.NonNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.Arrays;
+import java.util.List;
+
 import nodomain.freeyourgadget.gadgetbridge.R;
+import nodomain.freeyourgadget.gadgetbridge.capabilities.HeartRateCapability;
 import nodomain.freeyourgadget.gadgetbridge.capabilities.password.PasswordCapabilityImpl;
 import nodomain.freeyourgadget.gadgetbridge.devices.InstallHandler;
-import nodomain.freeyourgadget.gadgetbridge.devices.SampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.Huami2021Coordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst;
-import nodomain.freeyourgadget.gadgetbridge.entities.AbstractActivitySample;
-import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceCandidate;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
@@ -138,5 +139,16 @@ public class MiBand7Coordinator extends Huami2021Coordinator {
     @Override
     public PasswordCapabilityImpl.Mode getPasswordCapability() {
         return PasswordCapabilityImpl.Mode.NUMBERS_6;
+    }
+
+    @Override
+    public List<HeartRateCapability.MeasurementInterval> getHeartRateMeasurementIntervals() {
+        return Arrays.asList(
+                HeartRateCapability.MeasurementInterval.OFF,
+                HeartRateCapability.MeasurementInterval.SMART,
+                HeartRateCapability.MeasurementInterval.MINUTES_1,
+                HeartRateCapability.MeasurementInterval.MINUTES_10,
+                HeartRateCapability.MeasurementInterval.MINUTES_30
+        );
     }
 }
