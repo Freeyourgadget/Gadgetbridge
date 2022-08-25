@@ -343,8 +343,6 @@ public class NotificationListener extends NotificationListenerService {
             notificationSpec.sourceName = name;
         }
 
-        boolean preferBigText = false;
-
         // Get the app ID that generated this notification. For now only used by pebble color, but may be more useful later.
         notificationSpec.sourceAppId = source;
 
@@ -359,7 +357,6 @@ public class NotificationListener extends NotificationListenerService {
                 LOG.info("ignore K9 group summary");
                 return;
             }
-            preferBigText = true;
         }
 
         if (notificationSpec.type == null) {
@@ -370,6 +367,8 @@ public class NotificationListener extends NotificationListenerService {
         notificationSpec.pebbleColor = getPebbleColorForNotification(notificationSpec);
 
         LOG.info("Processing notification " + notificationSpec.getId() + " age: " + (System.currentTimeMillis() - notification.when) + " from source " + source + " with flags: " + notification.flags);
+
+        boolean preferBigText = source.startsWith("com.fsck.k9") || source.equals("com.google.android.gm");
 
         dissectNotificationTo(notification, notificationSpec, preferBigText);
 
