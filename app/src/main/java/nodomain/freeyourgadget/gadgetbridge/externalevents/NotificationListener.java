@@ -911,16 +911,24 @@ public class NotificationListener extends NotificationListenerService {
             return true;
         }
 
+        Prefs prefs = GBApplication.getPrefs();
+
         // Check for screen on when posting the notification; for removal, the screen
         // has to be on (obviously)
         if(!remove) {
-            Prefs prefs = GBApplication.getPrefs();
             if (!prefs.getBoolean("notifications_generic_whenscreenon", false)) {
                 PowerManager powermanager = (PowerManager) getSystemService(POWER_SERVICE);
                 if (powermanager != null && powermanager.isScreenOn()) {
                     LOG.info("Not forwarding notification, screen seems to be on and settings do not allow this");
                     return true;
                 }
+            }
+        }
+
+        if (sbn.getNotification().priority < Notification.PRIORITY_DEFAULT) {
+            if (prefs.getBoolean("notifications_ignore_low_priority", true)) {
+                LOG.info("Ignoring low priority notification");
+                return true;
             }
         }
 
