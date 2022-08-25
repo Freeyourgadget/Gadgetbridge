@@ -282,10 +282,10 @@ public abstract class Huami2021Support extends HuamiSupport {
 
         int length = 34;
         if (calendarEventSpec.title != null) {
-            length += calendarEventSpec.title.length();
+            length += calendarEventSpec.title.getBytes(StandardCharsets.UTF_8).length;
         }
         if (calendarEventSpec.description != null) {
-            length += calendarEventSpec.description.length();
+            length += calendarEventSpec.description.getBytes(StandardCharsets.UTF_8).length;
         }
 
         final ByteBuffer buf = ByteBuffer.allocate(length);
@@ -691,7 +691,18 @@ public abstract class Huami2021Support extends HuamiSupport {
             return;
         }
 
-        final ByteBuffer buf = ByteBuffer.allocate(1 + 10 + reminder.getMessage().getBytes().length + 1);
+        final String message;
+        if (reminder.getMessage().length() > coordinator.getMaximumReminderMessageLength()) {
+            LOG.warn("The reminder message length {} is longer than {}, will be truncated",
+                    reminder.getMessage().length(),
+                    coordinator.getMaximumReminderMessageLength()
+            );
+            message = StringUtils.truncate(reminder.getMessage(), coordinator.getMaximumReminderMessageLength());
+        } else {
+            message = reminder.getMessage();
+        }
+
+        final ByteBuffer buf = ByteBuffer.allocate(1 + 10 + message.getBytes(StandardCharsets.UTF_8).length + 1);
         buf.order(ByteOrder.LITTLE_ENDIAN);
 
         // Update does an upsert, so let's use it. If we call create twice on the same ID, it becomes weird
@@ -729,15 +740,7 @@ public abstract class Huami2021Support extends HuamiSupport {
         buf.putInt((int) (cal.getTimeInMillis() / 1000L));
         buf.put((byte) 0x00);
 
-        if (reminder.getMessage().getBytes().length > coordinator.getMaximumReminderMessageLength()) {
-            LOG.warn("The reminder message length {} is longer than {}, will be truncated",
-                    reminder.getMessage().getBytes().length,
-                    coordinator.getMaximumReminderMessageLength()
-            );
-            buf.put(Arrays.copyOf(reminder.getMessage().getBytes(), coordinator.getMaximumReminderMessageLength()));
-        } else {
-            buf.put(reminder.getMessage().getBytes());
-        }
+        buf.put(message.getBytes(StandardCharsets.UTF_8));
         buf.put((byte) 0x00);
 
         writeToChunked2021(builder, CHUNKED2021_ENDPOINT_REMINDERS, buf.array(), false);
@@ -805,14 +808,14 @@ public abstract class Huami2021Support extends HuamiSupport {
                 cannedMessage = StringUtils.truncate(cannedMessage, 140);
                 LOG.debug("Setting canned message {} = '{}'", i, cannedMessage);
 
-                final int length = cannedMessage.getBytes().length + 7;
+                final int length = cannedMessage.getBytes(StandardCharsets.UTF_8).length + 7;
                 final ByteBuffer buf = ByteBuffer.allocate(length);
                 buf.order(ByteOrder.LITTLE_ENDIAN);
                 buf.put(CANNED_MESSAGES_CMD_SET);
                 buf.putInt(i++);
-                buf.put((byte) cannedMessage.length());
+                buf.put((byte) cannedMessage.getBytes(StandardCharsets.UTF_8).length);
                 buf.put((byte) 0x00);
-                buf.put(cannedMessage.getBytes());
+                buf.put(cannedMessage.getBytes(StandardCharsets.UTF_8));
                 writeToChunked2021(builder, CHUNKED2021_ENDPOINT_CANNED_MESSAGES, buf.array(), false);
             }
             builder.queue(getQueue());
@@ -2584,7 +2587,7 @@ public abstract class Huami2021Support extends HuamiSupport {
 
         final ByteBuffer buf = ByteBuffer.allocate(2 + url.length() + 1 + filename.length() + 1 + 4 + 4);
         buf.order(ByteOrder.LITTLE_ENDIAN);
-        buf.put((byte) ICONS_CMD_SEND_REQUEST);
+        buf.put(ICONS_CMD_SEND_REQUEST);
         buf.put((byte) 0x00);
         buf.put(url.getBytes(StandardCharsets.UTF_8));
         buf.put((byte) 0x00);
