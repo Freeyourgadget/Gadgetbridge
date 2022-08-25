@@ -591,9 +591,10 @@ public class NotificationListener extends NotificationListenerService {
         }
     }
 
-    // Strip Unicode control sequences: some apps like Telegram add a lot of them for unknown reasons
+    // Strip Unicode control sequences: some apps like Telegram add a lot of them for unknown reasons.
+    // Keep newline and whitespace characters
     private String sanitizeUnicode(String orig) {
-        return orig.replaceAll("\\p{C}", "");
+        return orig.replaceAll("[\\p{C}&&\\S]", "");
     }
 
     private void dissectNotificationTo(Notification notification, NotificationSpec notificationSpec,
