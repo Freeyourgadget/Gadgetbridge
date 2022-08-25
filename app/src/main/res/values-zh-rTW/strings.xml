@@ -702,4 +702,7 @@
 \n注意：如果您安裝的是與先前同樣的版本，您就不必再安裝 .res 檔。
 \n
 \n過程中的風險請自負！</string>
+    <string name="about_activity_title_banglejs_main">關於Bangle.js Gadgetbridge</string>
+    <string name="gadgetbridge_running_banglejs_main">Bangle.js正在執行</string>
+    <string name="about_activity_title_banglejs_nightly">關於Bangle.js Gadgetbridge（每晚）</string>
 </resources>
