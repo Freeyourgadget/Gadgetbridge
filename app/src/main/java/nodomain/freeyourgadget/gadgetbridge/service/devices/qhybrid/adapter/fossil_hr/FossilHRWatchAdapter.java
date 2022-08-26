@@ -192,6 +192,8 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
 
     Messenger voiceMessenger = null;
 
+    private Version cleanFirmwareVersion = null;
+
     ServiceConnection voiceServiceConnection = new ServiceConnection() {
         @Override
         public void onServiceConnected(ComponentName name, IBinder service) {
@@ -1850,8 +1852,18 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
     }
 
     private Version getCleanFWVersion() {
+        if(cleanFirmwareVersion != null){
+            return cleanFirmwareVersion;
+        }
         String firmware = getDeviceSupport().getDevice().getFirmwareVersion();
-        return new Version(firmware.substring(6, 9));
+        Matcher matcher = Pattern
+                .compile("(?<=[A-Z]{2}[0-9]\\.[0-9]\\.)[0-9]+\\.[0-9]+")
+                .matcher(firmware);
+        if(!matcher.find()){
+            return null;
+        }
+        cleanFirmwareVersion = new Version(matcher.group());
+        return cleanFirmwareVersion;
     }
 
     public String getInstalledAppNameFromUUID(UUID uuid) {
