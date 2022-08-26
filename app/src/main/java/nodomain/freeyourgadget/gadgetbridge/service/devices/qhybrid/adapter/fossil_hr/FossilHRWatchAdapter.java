@@ -265,7 +265,7 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
             initializeAfterWatchConfirmation(false);
             return;
         }
-        boolean versionSupportsConfirmation = getCleanFWVersion().compareTo(new Version("2.22")) != -1;
+        boolean versionSupportsConfirmation = getCleanFWVersion().greaterOrEqualThan(new Version("2.22"));
         if(!versionSupportsConfirmation){
             initializeAfterWatchConfirmation(true);
             return;
@@ -614,7 +614,7 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
 
     private void loadWidgets() {
         Version firmwareVersion = getCleanFWVersion();
-        if (firmwareVersion != null && firmwareVersion.compareTo(new Version("2.20")) >= 0) {
+        if (firmwareVersion != null && firmwareVersion.greaterOrEqualThan(new Version("2.20"))) {
             return; // this does not work on newer firmware versions
         }
         Prefs prefs = new Prefs(GBApplication.getDeviceSpecificSharedPrefs(getDeviceSupport().getDevice().getAddress()));
@@ -736,7 +736,7 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
 
     private void renderWidgets() {
         Version firmwareVersion = getCleanFWVersion();
-        if (firmwareVersion != null && firmwareVersion.compareTo(new Version("2.20")) >= 0) {
+        if (firmwareVersion != null && firmwareVersion.greaterOrEqualThan(new Version("2.20"))) {
             return; // this does not work on newer firmware versions
         }
         Prefs prefs = new Prefs(GBApplication.getDeviceSpecificSharedPrefs(getDeviceSupport().getDevice().getAddress()));
@@ -1497,7 +1497,7 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
             String singlePressEvent = "short_press_release";
 
             Version firmwareVersion = getCleanFWVersion();
-            if (firmwareVersion != null && firmwareVersion.compareTo(new Version("2.19")) < 0) {
+            if (firmwareVersion != null && firmwareVersion.smallerThan(new Version("2.19"))) {
                 singlePressEvent = "single_click";
             }
             ArrayList<ButtonConfiguration> configs = new ArrayList<>(5);
@@ -1745,7 +1745,7 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
     public void onFindDevice(boolean start) {
         super.onFindDevice(start);
 
-        boolean versionSupportsConfirmation = getCleanFWVersion().compareTo(new Version("2.22")) != -1;
+        boolean versionSupportsConfirmation = getCleanFWVersion().greaterOrEqualThan(new Version("2.22"));
 
         versionSupportsConfirmation |= getDeviceSupport().getDevice().getModel().startsWith("VA");
 
@@ -1851,13 +1851,7 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
 
     private Version getCleanFWVersion() {
         String firmware = getDeviceSupport().getDevice().getFirmwareVersion();
-        firmware = firmware.replaceFirst("DN1\\.0\\.", "").replaceFirst("IV0\\.0\\.", "");
-        Matcher matcher = Pattern.compile("[0-9]+\\.[0-9]+").matcher(firmware); // DN1.0.2.19r.v5
-        if (matcher.find()) {
-            firmware = matcher.group(0);
-            return new Version(firmware);
-        }
-        return null;
+        return new Version(firmware.substring(6, 9));
     }
 
     public String getInstalledAppNameFromUUID(UUID uuid) {
