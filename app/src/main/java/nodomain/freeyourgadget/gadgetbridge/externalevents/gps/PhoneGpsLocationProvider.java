@@ -16,14 +16,18 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.externalevents.gps;
 
+import android.Manifest;
 import android.content.Context;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Looper;
+import android.widget.Toast;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
 /**
  * A location provider that uses the phone GPS, using {@link LocationManager}.
@@ -41,6 +45,11 @@ public class PhoneGpsLocationProvider extends AbstractLocationProvider {
     @Override
     void start(final Context context) {
         LOG.info("Starting phone gps location provider");
+
+        if (!GB.checkPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) && !GB.checkPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION)) {
+            GB.toast("Location permission not granted", Toast.LENGTH_SHORT, GB.ERROR);
+            return;
+        }
 
         final LocationManager locationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
         locationManager.removeUpdates(getLocationListener());

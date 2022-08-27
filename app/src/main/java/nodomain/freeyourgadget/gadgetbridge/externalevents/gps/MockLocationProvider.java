@@ -21,6 +21,7 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.os.Handler;
 import android.os.Looper;
+import android.os.SystemClock;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -63,6 +64,7 @@ public class MockLocationProvider extends AbstractLocationProvider {
             final Location newLocation = new Location(previousLocation);
             newLocation.setLatitude(previousLocation.getLatitude() + coordDiff);
             newLocation.setTime(System.currentTimeMillis());
+            newLocation.setElapsedRealtimeNanos(SystemClock.elapsedRealtimeNanos());
 
             getLocationListener().onLocationChanged(newLocation);
 

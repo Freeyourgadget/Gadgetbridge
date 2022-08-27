@@ -16,21 +16,15 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.externalevents.gps;
 
-import android.content.Context;
 import android.location.Location;
 import android.location.LocationListener;
-import android.location.LocationManager;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
+import android.os.SystemClock;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.devices.EventHandler;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.pebble.webview.CurrentPosition;
-import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
 /**
  * An implementation of a {@link LocationListener} that forwards the location updates to the
@@ -50,6 +44,9 @@ public class GBLocationListener implements LocationListener {
     @Override
     public void onLocationChanged(final Location location) {
         LOG.info("Location changed: {}", location);
+
+        // Correct the location time
+        location.setTime(getLocationTimestamp(location));
 
         // The location usually doesn't contain speed, compute it from the previous location
         if (previousLocation != null && !location.hasSpeed()) {
@@ -75,6 +72,11 @@ public class GBLocationListener implements LocationListener {
 
     @Override
     public void onStatusChanged(final String provider, final int status, final Bundle extras) {
-        LOG.info("onStatusChanged: {}", provider, status);
+        LOG.info("onStatusChanged: {}, {}", provider, status);
+    }
+
+    private static long getLocationTimestamp(final Location location) {
+        long nanosSinceLocation = SystemClock.elapsedRealtimeNanos() - location.getElapsedRealtimeNanos();
+        return System.currentTimeMillis() - (nanosSinceLocation / 100_000L);
     }
 }

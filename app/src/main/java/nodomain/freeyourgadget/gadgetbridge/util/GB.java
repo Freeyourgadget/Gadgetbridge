@@ -35,6 +35,7 @@ import android.util.Log;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.core.app.ActivityCompat;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
@@ -633,5 +634,9 @@ public class GB {
     public static void signalActivityDataFinish() {
         Intent intent = new Intent(GBApplication.ACTION_NEW_DATA);
         LocalBroadcastManager.getInstance(GBApplication.getContext()).sendBroadcast(intent);
+    }
+
+    public static boolean checkPermission(final Context context, final String permission) {
+        return ActivityCompat.checkSelfPermission(context, permission) == PackageManager.PERMISSION_GRANTED;
     }
 }
