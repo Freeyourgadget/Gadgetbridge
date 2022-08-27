@@ -1749,8 +1749,6 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
 
         boolean versionSupportsConfirmation = getCleanFWVersion().greaterOrEqualThan(new Version("2.22"));
 
-        versionSupportsConfirmation |= getDeviceSupport().getDevice().getModel().startsWith("VA");
-
         if(!versionSupportsConfirmation){
             GB.toast("not supported in this version", Toast.LENGTH_SHORT, GB.ERROR);
             return;
@@ -1852,18 +1850,7 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
     }
 
     private Version getCleanFWVersion() {
-        if(cleanFirmwareVersion != null){
-            return cleanFirmwareVersion;
-        }
-        String firmware = getDeviceSupport().getDevice().getFirmwareVersion();
-        Matcher matcher = Pattern
-                .compile("(?<=[A-Z]{2}[0-9]\\.[0-9]\\.)[0-9]+\\.[0-9]+")
-                .matcher(firmware);
-        if(!matcher.find()){
-            return null;
-        }
-        cleanFirmwareVersion = new Version(matcher.group());
-        return cleanFirmwareVersion;
+        return new Version(getDeviceSupport().getDevice().getFirmwareVersion2());
     }
 
     public String getInstalledAppNameFromUUID(UUID uuid) {

@@ -173,9 +173,7 @@ public class HRConfigActivity extends AbstractGBActivity {
         List<GBDevice> devices = GBApplication.app().getDeviceManager().getSelectedDevices();
         for (GBDevice device : devices) {
             if (device.getType() == DeviceType.FOSSILQHYBRID) {
-                String fwVersion_str = device.getFirmwareVersion();
-                fwVersion_str = fwVersion_str.replaceFirst("^DN1\\.0\\.", "").replaceFirst
-                        ("^IV0\\.0\\.", "").replaceFirst("r\\.v.*", "");
+                String fwVersion_str = device.getFirmwareVersion2();
                 Version fwVersion = new Version(fwVersion_str);
                 if (fwVersion.compareTo(new Version("2.20")) >= 0) {
                     findViewById(R.id.qhybrid_widget_add).setEnabled(false);

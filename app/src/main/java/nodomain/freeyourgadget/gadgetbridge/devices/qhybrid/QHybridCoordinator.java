@@ -235,15 +235,6 @@ public class QHybridCoordinator extends AbstractBLEDeviceCoordinator {
     @Override
     public boolean supportsFindDevice() {
         return true;
-        /*GBDevice connectedDevice = GBApplication.app().getDeviceManager().getSelectedDevice();
-        if(connectedDevice == null || connectedDevice.getType() != DeviceType.FOSSILQHYBRID){
-            return true;
-        }
-        ItemWithDetails vibration = connectedDevice.getDeviceInfo(QHybridSupport.ITEM_EXTENDED_VIBRATION_SUPPORT);
-        if(vibration == null){
-            return true;
-        }
-        return vibration.getDetails().equals("true");*/
     }
 
     @Override
@@ -253,7 +244,7 @@ public class QHybridCoordinator extends AbstractBLEDeviceCoordinator {
 
     @Override
     public int[] getSupportedDeviceSpecificSettings(GBDevice device) {
-        if (isHybridHR() && getFirmwareVersion() != null && getFirmwareVersion().compareTo(new Version("2.20")) < 0) {
+        if (isHybridHR() && getFirmwareVersion() != null && getFirmwareVersion().smallerThan(new Version("2.20"))) {
             return new int[]{
                     R.xml.devicesettings_fossilhybridhr_pre_fw20,
                     R.xml.devicesettings_fossilhybridhr,
@@ -306,15 +297,7 @@ public class QHybridCoordinator extends AbstractBLEDeviceCoordinator {
         List<GBDevice> devices = GBApplication.app().getDeviceManager().getSelectedDevices();
         for (GBDevice device : devices) {
             if (isFossilHybrid(device)) {
-                String firmware = device.getFirmwareVersion();
-                if (firmware != null) {
-                    firmware = firmware.replaceFirst("DN1\\.0\\.", "").replaceFirst("IV0\\.0\\.", "");
-                    Matcher matcher = Pattern.compile("[0-9]+\\.[0-9]+").matcher(firmware); // DN1.0.2.19r.v5
-                    if (matcher.find()) {
-                        firmware = matcher.group(0);
-                        return new Version(firmware);
-                    }
-                }
+                return new Version(device.getFirmwareVersion2());
             }
         }
 

@@ -44,6 +44,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.UUID;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import nodomain.freeyourgadget.gadgetbridge.BuildConfig;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
@@ -78,6 +80,7 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.mis
 import nodomain.freeyourgadget.gadgetbridge.service.serial.GBDeviceProtocol;
 import nodomain.freeyourgadget.gadgetbridge.util.FileUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
+import nodomain.freeyourgadget.gadgetbridge.util.Version;
 
 public class QHybridSupport extends QHybridBaseSupport {
     public static final String QHYBRID_COMMAND_CONTROL = "qhybrid_command_control";
@@ -756,8 +759,15 @@ public class QHybridSupport extends QHybridBaseSupport {
         switch (characteristic.getUuid().toString()) {
             case "00002a26-0000-1000-8000-00805f9b34fb": {
                 String firmwareVersion = characteristic.getStringValue(0);
-
                 gbDevice.setFirmwareVersion(firmwareVersion);
+
+                Matcher matcher = Pattern
+                        .compile("(?<=[A-Z]{2}[0-9]\\.[0-9]\\.)[0-9]+\\.[0-9]+")
+                        .matcher(firmwareVersion);
+                if(matcher.find()){
+                    gbDevice.setFirmwareVersion2(matcher.group());
+                }
+
                 this.watchAdapter = new WatchAdapterFactory().createWatchAdapter(firmwareVersion, this);
                 this.watchAdapter.initialize();
                 showNotificationsByAllActive(false);
