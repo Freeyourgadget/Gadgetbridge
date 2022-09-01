@@ -23,10 +23,18 @@ public class ZipFile implements AutoCloseable {
 
    /**
     * Open ZIP file from byte array in memory
-    * @param zipBytes
+    * @param zipBytes data to handle as a ZIP file
     */
    public ZipFile(byte[] zipBytes) {
       zipInputStream = new ZipInputStream(new ByteArrayInputStream(zipBytes));
+   }
+
+   /**
+    * Open ZIP file from InputStream
+    * @param inputStream data to handle as a ZIP file
+    */
+   public ZipFile(InputStream inputStream) {
+      zipInputStream = new ZipInputStream(inputStream);
    }
 
    /**
