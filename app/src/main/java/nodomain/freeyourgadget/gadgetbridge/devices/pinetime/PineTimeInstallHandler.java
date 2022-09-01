@@ -43,7 +43,8 @@ public class PineTimeInstallHandler implements InstallHandler {
     private static final Logger LOG = LoggerFactory.getLogger(PineTimeInstallHandler.class);
 
     private final Context context;
-    private boolean valid = false;
+
+    private InfiniTimeDFUPackage dfuPackageManifest;
     private String version = "(Unknown version)";
 
     public PineTimeInstallHandler(Uri uri, Context context) {
@@ -71,17 +72,6 @@ public class PineTimeInstallHandler implements InstallHandler {
         } catch (Exception e) {
             LOG.error("Unknown error occurred.", e);
         }
-
-        if (metadata != null &&
-                metadata.manifest != null &&
-                metadata.manifest.application != null &&
-                metadata.manifest.application.bin_file != null) {
-            valid = true;
-            version = metadata.manifest.application.bin_file;
-        } else {
-            valid = false;
-            LOG.error("Somehow metadata was found, but some data was missing");
-        }
     }
 
     @Override
@@ -103,7 +93,7 @@ public class PineTimeInstallHandler implements InstallHandler {
             return;
         }
 
-        if (!valid) {
+        if (!isValid()) {
             LOG.error("Firmware cannot be installed (not valid)");
             installActivity.setInfoText("Firmware cannot be installed (not valid)");
             installActivity.setInstallEnabled(false);
@@ -126,6 +116,9 @@ public class PineTimeInstallHandler implements InstallHandler {
 
     @Override
     public boolean isValid() {
-        return valid;
+        return dfuPackageManifest != null &&
+            dfuPackageManifest.manifest != null &&
+            dfuPackageManifest.manifest.application != null &&
+            dfuPackageManifest.manifest.application.bin_file != null;
     }
 }
