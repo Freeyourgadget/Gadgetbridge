@@ -48,7 +48,6 @@ public class PineTimeInstallHandler implements InstallHandler {
     private final Context context;
 
     private InfiniTimeDFUPackage dfuPackageManifest;
-    private String version = "(Unknown version)";
 
     public PineTimeInstallHandler(Uri uri, Context context) {
         this.context = context;
