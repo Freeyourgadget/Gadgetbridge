@@ -349,12 +349,53 @@ public abstract class HuamiCoordinator extends AbstractBLEDeviceCoordinator {
     }
 
     public static VibrationProfile getVibrationProfile(String deviceAddress, HuamiVibrationPatternNotificationType notificationType) {
+        final String defaultVibrationProfileId;
+        final int defaultVibrationCount;
+
+        switch (notificationType) {
+            case APP_ALERTS:
+                defaultVibrationProfileId = VibrationProfile.ID_SHORT;
+                defaultVibrationCount = 2;
+                break;
+            case INCOMING_CALL:
+                defaultVibrationProfileId = VibrationProfile.ID_RING;
+                defaultVibrationCount = 1;
+                break;
+            case INCOMING_SMS:
+                defaultVibrationProfileId = VibrationProfile.ID_STACCATO;
+                defaultVibrationCount = 2;
+                break;
+            case GOAL_NOTIFICATION:
+                defaultVibrationProfileId = VibrationProfile.ID_LONG;
+                defaultVibrationCount = 1;
+                break;
+            case ALARM:
+                defaultVibrationProfileId = VibrationProfile.ID_LONG;
+                defaultVibrationCount = 7;
+                break;
+            case IDLE_ALERTS:
+                defaultVibrationProfileId = VibrationProfile.ID_MEDIUM;
+                defaultVibrationCount = 2;
+                break;
+            case EVENT_REMINDER:
+                defaultVibrationProfileId = VibrationProfile.ID_LONG;
+                defaultVibrationCount = 1;
+                break;
+            case FIND_BAND:
+                defaultVibrationProfileId = VibrationProfile.ID_RING;
+                defaultVibrationCount = 3;
+                break;
+            default:
+                defaultVibrationProfileId = VibrationProfile.ID_MEDIUM;
+                defaultVibrationCount = 2;
+        }
+
         Prefs prefs = new Prefs(GBApplication.getDeviceSpecificSharedPrefs(deviceAddress));
         final String vibrationProfileId = prefs.getString(
                 HuamiConst.PREF_HUAMI_VIBRATION_PROFILE_PREFIX + notificationType.name().toLowerCase(Locale.ROOT),
-                VibrationProfile.ID_MEDIUM
+                defaultVibrationProfileId
         );
-        final int vibrationProfileCount = prefs.getInt(HuamiConst.PREF_HUAMI_VIBRATION_COUNT_PREFIX + notificationType.name().toLowerCase(Locale.ROOT), 2);
+        final int vibrationProfileCount = prefs.getInt(HuamiConst.PREF_HUAMI_VIBRATION_COUNT_PREFIX + notificationType.name().toLowerCase(Locale.ROOT), defaultVibrationCount);
 
         return VibrationProfile.getProfile(vibrationProfileId, (short) vibrationProfileCount);
     }

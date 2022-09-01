@@ -139,7 +139,7 @@
             <PreferenceCategory android:title="@string/vibration_profile_alarm_clock" />
 
             <ListPreference
-                android:defaultValue="@string/p_alarm_clock"
+                android:defaultValue="@string/p_long"
                 android:entries="@array/vibration_profile"
                 android:entryValues="@array/vibration_profile_values"
                 android:key="huami_vibration_profile_alarm"
@@ -147,7 +147,7 @@
                 android:summary="%s" />
 
             <EditTextPreference
-                android:defaultValue="1"
+                android:defaultValue="7"
                 android:inputType="number"
                 android:key="huami_vibration_count_alarm"
                 android:maxLength="1"
@@ -169,7 +169,7 @@
             <PreferenceCategory android:title="@string/pref_screen_notification_idle_alerts" />
 
             <ListPreference
-                android:defaultValue="@string/p_normal"
+                android:defaultValue="@string/p_medium"
                 android:entries="@array/vibration_profile"
                 android:entryValues="@array/vibration_profile_values"
                 android:key="huami_vibration_profile_idle_alerts"
