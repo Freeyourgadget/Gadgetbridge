@@ -28,6 +28,8 @@ import org.slf4j.LoggerFactory;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.activities.InstallActivity;
@@ -41,6 +43,7 @@ import nodomain.freeyourgadget.gadgetbridge.util.ZipFileException;
 
 public class PineTimeInstallHandler implements InstallHandler {
     private static final Logger LOG = LoggerFactory.getLogger(PineTimeInstallHandler.class);
+    private static final Pattern binNameVersionPattern = Pattern.compile(".*-((?:\\d+\\.){2}\\d+).bin$");
 
     private final Context context;
 
@@ -102,7 +105,7 @@ public class PineTimeInstallHandler implements InstallHandler {
         GenericItem installItem = new GenericItem();
         installItem.setIcon(R.drawable.ic_firmware);
         installItem.setName("PineTime firmware");
-        installItem.setDetails(version);
+        installItem.setDetails(getVersion());
 
         installActivity.setInfoText(context.getString(R.string.firmware_install_warning, "(unknown)"));
         installActivity.setInstallItem(installItem);
@@ -120,5 +123,15 @@ public class PineTimeInstallHandler implements InstallHandler {
             dfuPackageManifest.manifest != null &&
             dfuPackageManifest.manifest.application != null &&
             dfuPackageManifest.manifest.application.bin_file != null;
+    }
+
+    // TODO: obtain version information from manifest file instead
+    private String getVersion() {
+        String binFileName = dfuPackageManifest.manifest.application.bin_file;
+        Matcher regexMatcher = binNameVersionPattern.matcher(binFileName);
+
+        if (regexMatcher.matches())
+            return regexMatcher.group(1);
+        return "(Unknown version)";
     }
 }
