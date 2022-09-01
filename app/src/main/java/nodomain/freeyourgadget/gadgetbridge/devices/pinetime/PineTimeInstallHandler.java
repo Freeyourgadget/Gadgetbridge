@@ -20,17 +20,14 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 
 import android.content.Context;
 import android.net.Uri;
-import android.os.Build;
 
 import com.google.gson.Gson;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.BufferedInputStream;
-import java.io.InputStream;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.activities.InstallActivity;
@@ -39,6 +36,8 @@ import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
 import nodomain.freeyourgadget.gadgetbridge.model.GenericItem;
 import nodomain.freeyourgadget.gadgetbridge.util.UriHelper;
+import nodomain.freeyourgadget.gadgetbridge.util.ZipFile;
+import nodomain.freeyourgadget.gadgetbridge.util.ZipFileException;
 
 public class PineTimeInstallHandler implements InstallHandler {
     private static final Logger LOG = LoggerFactory.getLogger(PineTimeInstallHandler.class);
@@ -51,46 +50,26 @@ public class PineTimeInstallHandler implements InstallHandler {
         this.context = context;
 
         UriHelper uriHelper;
-        InputStream inputStream;
-        ZipInputStream zipInputStream;
 
-        InfiniTimeDFUPackage metadata = null;
         try {
             uriHelper = UriHelper.get(uri, this.context);
-            inputStream = new BufferedInputStream(uriHelper.openInputStream());
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                zipInputStream = new ZipInputStream(inputStream, UTF_8);
-            } else {
-                zipInputStream = new ZipInputStream(inputStream);
+
+            ZipFile dfuPackage = new ZipFile(uriHelper.openInputStream());
+            String manifest = new String(dfuPackage.getFileFromZip("manifest.json"));
+            dfuPackage.close();
+
+            if (!manifest.trim().isEmpty()) {
+                dfuPackageManifest = new Gson().fromJson(manifest.trim(), InfiniTimeDFUPackage.class);
             }
 
-            ZipEntry entry;
-            while ((entry = zipInputStream.getNextEntry()) != null) {
-                if (entry.isDirectory()) {
-                    continue;
-                }
-                if (entry.getName().equals("manifest.json")) {
-                    LOG.debug("Found manifest.json in DFU zip");
-                    StringBuilder json = new StringBuilder();
-
-                    final byte[] buffer = new byte[1024];
-
-                    int read;
-                    while ((read = zipInputStream.read(buffer, 0, buffer.length)) != -1) {
-                        json.append(new String(buffer, 0, read));
-                    }
-
-                    Gson gson = new Gson();
-                    metadata = gson.fromJson(json.toString().trim(), InfiniTimeDFUPackage.class);
-                    continue;
-                }
-            }
-
-            zipInputStream.close();
-            inputStream.close();
+        } catch (ZipFileException e) {
+            LOG.error("Unable to read manifest file.", e);
+        } catch (FileNotFoundException e) {
+            LOG.error("The DFU file was not found.", e);
+        } catch (IOException e) {
+            LOG.error("General IO error occurred.", e);
         } catch (Exception e) {
-            valid = false;
-            return;
+            LOG.error("Unknown error occurred.", e);
         }
 
         if (metadata != null &&
