@@ -15,23 +15,32 @@ public class ZipUtils {
 
    public static byte[] getFileFromZip(final byte[] zipBytes, final String path) {
       try (ZipInputStream zipInputStream = new ZipInputStream(new ByteArrayInputStream(zipBytes))) {
+
          ZipEntry zipEntry;
          while ((zipEntry = zipInputStream.getNextEntry()) != null) {
-            if (zipEntry.getName().equals(path)) {
-               return readAllBytes(zipInputStream);
+            if (!zipEntry.getName().equals(path)) continue; // TODO: is this always a path? The documentation is very vague.
+
+            // Found, but not a file
+            if (zipEntry.isDirectory()) {
+               LOG.error(String.format("Path in ZIP file is a directory: %s", path));
+               return null;
             }
+
+            // Found, and it is a file
+            return readAllBytes(zipInputStream);
          }
+
+         // Not found
+         LOG.error(String.format("Path in ZIP file was not found: %s", path));
+         return null;
+
       } catch (final IOException e) {
-         LOG.error(String.format("Failed to read %s from zip", path), e);
+         LOG.error(String.format("Unknown error while reading file from ZIP file: %s", path), e);
          return null;
       }
-
-      LOG.debug("{} not found in zip", path);
-
-      return null;
    }
 
-   public static byte[] readAllBytes(final InputStream is) throws IOException {
+   private static byte[] readAllBytes(final InputStream is) throws IOException {
       final ByteArrayOutputStream buffer = new ByteArrayOutputStream();
 
       int n;
