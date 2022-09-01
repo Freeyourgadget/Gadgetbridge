@@ -53,8 +53,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
@@ -110,9 +110,11 @@ public class NotificationListener extends NotificationListenerService {
     private final HashMap<String, Long> notificationBurstPrevention = new HashMap<>();
     private final HashMap<String, Long> notificationOldRepeatPrevention = new HashMap<>();
 
-    private static final Set<String> GROUP_SUMMARY_WHITELIST = Collections.singleton(
-            "mikado.bizcalpro"
-    );
+    private static final Set<String> GROUP_SUMMARY_WHITELIST = new HashSet<String>() {{
+        add("com.microsoft.office.lync15");
+        add("com.skype.raider");
+        add("mikado.bizcalpro");
+    }};
 
     public static ArrayList<String> notificationStack = new ArrayList<>();
     private static ArrayList<Integer> notificationsActive = new ArrayList<Integer>();
@@ -388,7 +390,8 @@ public class NotificationListener extends NotificationListenerService {
         NotificationCompat.WearableExtender wearableExtender = new NotificationCompat.WearableExtender(notification);
         List<NotificationCompat.Action> actions = wearableExtender.getActions();
 
-
+        // Some apps such as Telegram send both a group + normal notifications, which would get sent in duplicate to the devices
+        // Others only send the group summary, so they need to be whitelisted
         if (actions.isEmpty() && NotificationCompat.isGroupSummary(notification)
                 && !GROUP_SUMMARY_WHITELIST.contains(source)) { //this could cause #395 to come back
             LOG.info("Not forwarding notification, FLAG_GROUP_SUMMARY is set and no wearable action present. Notification flags: " + notification.flags);
