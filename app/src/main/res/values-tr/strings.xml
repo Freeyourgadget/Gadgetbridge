@@ -1899,4 +1899,6 @@
     <string name="menuitem_countdown">Geri Sayım</string>
     <string name="menuitem_female_health">Kadın Sağlığı</string>
     <string name="menuitem_personal_activity_intelligence">Kişisel Etkinlik Bilgileri</string>
+    <string name="pref_summary_notifications_ignore_low_priority">Düşük ve asgari öncelikli bildirimleri saate gönderme</string>
+    <string name="pref_title_notifications_ignore_low_priority">Düşük öncelikli bildirimleri yok say</string>
 </resources>
