@@ -765,8 +765,9 @@
     <string name="widget_1_hour">1 година</string>
     <plurals name="widget_alarm_target_hours">
         <item quantity="one">%d година</item>
-        <item quantity="few">%d годин</item>
+        <item quantity="few">%d години</item>
         <item quantity="many">%d годин</item>
+        <item quantity="other">%d годин</item>
     </plurals>
     <string name="activity_error_no_app_for_gpx">Для показу сліду вашої активності, встановіть застосунок який може обробляти GPX-файли.</string>
     <string name="devicetype_makibes_hr3">Makibes HR3</string>
@@ -1892,4 +1893,6 @@
     <string name="menuitem_workout_history">Історія тренувань</string>
     <string name="menuitem_workout_status">Стан тренування</string>
     <string name="menuitem_personal_activity_intelligence">Дослідження особистої діяльності</string>
+    <string name="pref_title_notifications_ignore_low_priority">Нехтувати сповіщення з низьким пріоритетом</string>
+    <string name="pref_summary_notifications_ignore_low_priority">Не надсилати на годинник сповіщення з низьким і найнижчим пріоритетом</string>
 </resources>
