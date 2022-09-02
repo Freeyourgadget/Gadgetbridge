@@ -752,6 +752,7 @@ Temps de sommeil préféré en heures</string>
     <string name="appwidget_sleep_alarm_widget_label">Réveil</string>
     <plurals name="widget_alarm_target_hours" tools:ignore="MissingQuantity">
         <item quantity="one">%d heure</item>
+        <item quantity="many">%d heures</item>
         <item quantity="other">%d heures</item>
     </plurals>
     <string name="pref_display_add_device_fab">Bouton pour connecter un nouvel appareil</string>
@@ -1888,4 +1889,6 @@ Temps de sommeil préféré en heures</string>
     <string name="menuitem_workout_history">Historique des entrainements</string>
     <string name="menuitem_workout_status">État des entrainements</string>
     <string name="pref_header_heartrate_alerts">Alerte pour le rythme cardiaque</string>
+    <string name="pref_title_notifications_ignore_low_priority">Ignorer les notifications de faible priorité</string>
+    <string name="pref_summary_notifications_ignore_low_priority">Ne pas envoyer les notifications de priorité minimum ou faible à la montre</string>
 </resources>
