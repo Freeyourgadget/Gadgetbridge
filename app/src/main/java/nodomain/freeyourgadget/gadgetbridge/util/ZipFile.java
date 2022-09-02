@@ -13,28 +13,28 @@ import java.util.zip.ZipInputStream;
 
 import androidx.annotation.Nullable;
 
-public class ZipFile implements AutoCloseable {
+public class ZipFile {
    private static final Logger LOG = LoggerFactory.getLogger(ZipFile.class);
    public static final byte[] ZIP_HEADER = new byte[]{
        0x50, 0x4B, 0x03, 0x04
    };
 
-   private final ZipInputStream zipInputStream;
+   private final byte[] zipBytes;
 
    /**
     * Open ZIP file from byte array in memory
     * @param zipBytes data to handle as a ZIP file
     */
    public ZipFile(byte[] zipBytes) {
-      zipInputStream = new ZipInputStream(new ByteArrayInputStream(zipBytes));
+      this.zipBytes = zipBytes;
    }
 
    /**
     * Open ZIP file from InputStream
     * @param inputStream data to handle as a ZIP file
     */
-   public ZipFile(InputStream inputStream) {
-      zipInputStream = new ZipInputStream(inputStream);
+   public ZipFile(InputStream inputStream) throws IOException {
+      this.zipBytes = readAllBytes(inputStream);
    }
 
    /**
@@ -54,7 +54,7 @@ public class ZipFile implements AutoCloseable {
     * @throws ZipFileException If the specified path does not exist or references a directory, or if some other I/O error occurs. In other words, if return value would otherwise be null.
     */
    public byte[] getFileFromZip(final String path) throws ZipFileException {
-      try {
+      try (InputStream is = new ByteArrayInputStream(zipBytes); ZipInputStream zipInputStream = new ZipInputStream(is)) {
          ZipEntry zipEntry;
          while ((zipEntry = zipInputStream.getNextEntry()) != null) {
             if (!zipEntry.getName().equals(path)) continue; // TODO: is this always a path? The documentation is very vague.
@@ -86,8 +86,8 @@ public class ZipFile implements AutoCloseable {
    @Deprecated
    @Nullable
    public static byte[] tryReadFileQuick(final byte[] zipBytes, final String path) {
-      try (ZipFile zip = new ZipFile(zipBytes)) {
-         return zip.getFileFromZip(path);
+      try {
+         return new ZipFile(zipBytes).getFileFromZip(path);
       } catch (ZipFileException e) {
          LOG.error("Quick ZIP reading failed.", e);
       } catch (Exception e) {
@@ -108,10 +108,5 @@ public class ZipFile implements AutoCloseable {
       }
 
       return buffer.toByteArray();
-   }
-
-   @Override
-   public void close() throws Exception {
-      zipInputStream.close();
    }
 }

@@ -59,7 +59,6 @@ public class PineTimeInstallHandler implements InstallHandler {
 
             ZipFile dfuPackage = new ZipFile(uriHelper.openInputStream());
             String manifest = new String(dfuPackage.getFileFromZip("manifest.json"));
-            dfuPackage.close();
 
             if (!manifest.trim().isEmpty()) {
                 dfuPackageManifest = new Gson().fromJson(manifest.trim(), InfiniTimeDFUPackage.class);
@@ -110,7 +109,6 @@ public class PineTimeInstallHandler implements InstallHandler {
         installActivity.setInstallItem(installItem);
         LOG.debug("Initialized PineTimeInstallHandler");
     }
-
 
     @Override
     public void onStartInstall(GBDevice device) {
