@@ -747,7 +747,6 @@
     <string name="pref_display_add_device_fab_on">总是可见</string>
     <string name="pref_display_add_device_fab_off">仅当没有设备添加时可见</string>
     <plurals name="widget_alarm_target_hours">
-        <item quantity="one">%d 小时</item>
         <item quantity="other">%d 小时</item>
     </plurals>
     <string name="activity_error_no_app_for_gpx">若需要查看活动轨迹，请安装一个能查看 GPX 文件的应用。</string>
@@ -1886,4 +1885,6 @@
     <string name="pref_sleep_breathing_quality_monitoring">睡眠呼吸质量监测</string>
     <string name="menuitem_personal_activity_intelligence">个人活动情报</string>
     <string name="menuitem_female_health">女性健康</string>
+    <string name="pref_title_notifications_ignore_low_priority">忽略低优先级通知</string>
+    <string name="pref_summary_notifications_ignore_low_priority">不要发送低优先级和最小化通知到手表上</string>
 </resources>
