@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+	
+	<PreferenceScreen
+        android:key="button_configuration"
+        android:icon="@drawable/ic_smart_button"
+        android:title="@string/pref_title_physical_buttons"
+        android:summary="@string/pref_summary_physical_buttons">
+        <ListPreference
+            android:defaultValue="weatherApp"
+            android:entries="@array/pref_hybridhr_buttonfunctions"
+            android:entryValues="@array/pref_hybridhr_buttonfunctions_values"
+            android:key="button_1_function_short"
+            android:summary="%s"
+            android:title="@string/pref_title_upper_button_function_short" />
+        <ListPreference
+            android:defaultValue="weatherApp"
+            android:entries="@array/pref_hybridhr_buttonfunctions"
+            android:entryValues="@array/pref_hybridhr_buttonfunctions_values"
+            android:key="button_1_function_long"
+            android:summary="%s"
+            android:title="@string/pref_title_upper_button_function_long" />
+        <ListPreference
+            android:defaultValue="commuteApp"
+            android:entries="@array/pref_hybridhr_buttonfunctions"
+            android:entryValues="@array/pref_hybridhr_buttonfunctions_values"
+            android:key="button_2_function_short"
+            android:summary="%s"
+            android:title="@string/pref_title_middle_button_function_short" />
+        <Preference
+            android:selectable="false"
+            android:persistent="false"
+            android:key="button_2_function_long"
+            android:summary="@string/menuitem_menu"
+            android:title="@string/pref_title_middle_button_function_long" />
+        <ListPreference
+            android:defaultValue="musicApp"
+            android:entries="@array/pref_hybridhr_buttonfunctions"
+            android:entryValues="@array/pref_hybridhr_buttonfunctions_values"
+            android:key="button_3_function_short"
+            android:summary="%s"
+            android:title="@string/pref_title_lower_button_function_short" />
+        <ListPreference
+            android:defaultValue="musicApp"
+            android:entries="@array/pref_hybridhr_buttonfunctions"
+            android:entryValues="@array/pref_hybridhr_buttonfunctions_values"
+            android:key="button_3_function_long"
+            android:summary="%s"
+            android:title="@string/pref_title_lower_button_function_long" />
+        <Preference
+            android:selectable="false"
+            android:persistent="false"
+            android:key="button_1_function_long_warning"
+            android:summary="@string/fossil_hr_button_config_info" />
+    </PreferenceScreen>
+	
+</androidx.preference.PreferenceScreen>

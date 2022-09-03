@@ -28,6 +28,7 @@ import android.os.ParcelUuid;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import org.apache.commons.lang3.ArrayUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -244,24 +245,26 @@ public class QHybridCoordinator extends AbstractBLEDeviceCoordinator {
 
     @Override
     public int[] getSupportedDeviceSpecificSettings(GBDevice device) {
-        if (isHybridHR() && getFirmwareVersion() != null && getFirmwareVersion().smallerThan(new Version("2.20"))) {
-            return new int[]{
-                    R.xml.devicesettings_fossilhybridhr_pre_fw20,
-                    R.xml.devicesettings_fossilhybridhr,
-                    R.xml.devicesettings_autoremove_notifications,
-                    R.xml.devicesettings_canned_dismisscall_16,
-                    R.xml.devicesettings_transliteration
-            };
+        if (!isHybridHR()) {
+            return new int[0];
         }
-        if (isHybridHR()) {
-            return new int[]{
-                    R.xml.devicesettings_fossilhybridhr,
-                    R.xml.devicesettings_autoremove_notifications,
-                    R.xml.devicesettings_canned_dismisscall_16,
-            };
-        }
-        return new int[]{
+        //Settings applicable to all firmware versions
+        int[] supportedSettings = new int[]{
+                R.xml.devicesettings_fossilhybridhr,
+                R.xml.devicesettings_autoremove_notifications,
+                R.xml.devicesettings_canned_dismisscall_16,
+                R.xml.devicesettings_transliteration
         };
+        //Firmware specific settings
+        if (getFirmwareVersion() != null && getFirmwareVersion().smallerThan(new Version("3.0"))) {
+            supportedSettings = ArrayUtils.insert(0, supportedSettings, R.xml.devicesettings_fossilhybridhr_buttonconfiguration_pre_fw30);
+        } else {
+            supportedSettings = ArrayUtils.insert(0, supportedSettings, R.xml.devicesettings_fossilhybridhr_buttonconfiguration);
+        }
+        if (getFirmwareVersion() != null && getFirmwareVersion().smallerThan(new Version("2.20"))) {
+            supportedSettings = ArrayUtils.insert(1, supportedSettings, R.xml.devicesettings_fossilhybridhr_pre_fw20);
+        }
+        return supportedSettings;
     }
 
     @Override
