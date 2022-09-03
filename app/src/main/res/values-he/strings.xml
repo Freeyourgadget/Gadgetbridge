@@ -1884,4 +1884,6 @@
 \nהצמיד שלך יופעל מחדש לאחר התקנת קובץ ה־‎.zip.
 \n
 \nהמשך התהליך הוא על אחריותך בלבד!</string>
+    <string name="pref_title_notifications_ignore_low_priority">להתעלם מהתראות בעדיפות נמוכה</string>
+    <string name="pref_summary_notifications_ignore_low_priority">לא לשלוח התראות בעדיפות נמוכה ומזערית לשעון</string>
 </resources>
