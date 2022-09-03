@@ -1892,4 +1892,6 @@
     <string name="prefs_always_on_display_summary">Display des Bandes immer eingeschaltet lassen</string>
     <string name="menuitem_workout_history">Trainingsverlauf</string>
     <string name="prefs_screen_timeout">Bildschirmzeitlimit</string>
+    <string name="pref_title_notifications_ignore_low_priority">Benachrichtigungen mit niedriger Priorität ignorieren</string>
+    <string name="pref_summary_notifications_ignore_low_priority">Keine Benachrichtigungen mit niedriger und minimaler Priorität an die Uhr senden</string>
 </resources>
