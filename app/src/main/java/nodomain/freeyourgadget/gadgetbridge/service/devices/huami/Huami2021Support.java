@@ -2527,15 +2527,15 @@ public abstract class Huami2021Support extends HuamiSupport {
 
         LOG.info("Acknowledging icon send for {}", queuedIconPackage);
 
-        queuedIconPackage = null;
-        queuedIconBytes = null;
-
         final ByteBuffer buf = ByteBuffer.allocate(1 + queuedIconPackage.length() + 1 + 1);
         buf.order(ByteOrder.LITTLE_ENDIAN);
         buf.put(NOTIFICATION_CMD_ICON_REQUEST_ACK);
         buf.put(queuedIconPackage.getBytes(StandardCharsets.UTF_8));
         buf.put((byte) 0x00);
         buf.put((byte) 0x01);
+
+        queuedIconPackage = null;
+        queuedIconBytes = null;
 
         writeToChunked2021("ack icon send", CHUNKED2021_ENDPOINT_NOTIFICATIONS, buf.array(), true);
     }
