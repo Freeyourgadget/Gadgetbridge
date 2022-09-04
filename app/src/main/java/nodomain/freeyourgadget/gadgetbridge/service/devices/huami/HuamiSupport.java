@@ -301,7 +301,7 @@ public abstract class HuamiSupport extends AbstractBTLEDeviceSupport implements 
         }
     };
 
-    private BluetoothGattCharacteristic characteristicHRControlPoint;
+    protected BluetoothGattCharacteristic characteristicHRControlPoint;
     private BluetoothGattCharacteristic characteristicChunked;
 
     private BluetoothGattCharacteristic characteristicChunked2021Write;
@@ -2284,7 +2284,7 @@ public abstract class HuamiSupport extends AbstractBTLEDeviceSupport implements 
         logMessageContent(value);
     }
 
-    private void handleHeartrate(byte[] value) {
+    protected void handleHeartrate(byte[] value) {
         if (value.length == 2 && value[0] == 0) {
             int hrValue = (value[1] & 0xff);
             if (LOG.isDebugEnabled()) {
