@@ -32,6 +32,7 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.net.Uri;
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
 import android.widget.Toast;
@@ -53,6 +54,7 @@ import nodomain.freeyourgadget.gadgetbridge.GBException;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.activities.HeartRateUtils;
 import nodomain.freeyourgadget.gadgetbridge.devices.DeviceCoordinator;
+import nodomain.freeyourgadget.gadgetbridge.entities.Device;
 import nodomain.freeyourgadget.gadgetbridge.externalevents.AlarmClockReceiver;
 import nodomain.freeyourgadget.gadgetbridge.externalevents.AlarmReceiver;
 import nodomain.freeyourgadget.gadgetbridge.externalevents.BluetoothConnectReceiver;
@@ -337,6 +339,68 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
             "com.spotify.music.playbackstatechanged"
     };
 
+    private final String COMMAND_BLUETOOTH_CONNECT = "nodomain.freeyourgadget.gadgetbridge.BLUETOOTH_CONNECT";
+    private final String ACTION_DEVICE_CONNECTED = "nodomain.freeyourgadget.gadgetbridge.BLUETOOTH_CONNECTED";
+    private boolean allowBluetoothIntentApi = false;
+
+    private void sendDeviceConnectedBroadcast(String address){
+        if(!allowBluetoothIntentApi){
+            GB.log("not sending API event due to settings", GB.INFO, null);
+            return;
+        }
+        Intent intent = new Intent(ACTION_DEVICE_CONNECTED);
+        intent.putExtra("EXTRA_DEVICE_ADDRESS", address);
+
+        sendBroadcast(intent);
+    }
+
+    BroadcastReceiver bluetoothCommandReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            switch (intent.getAction()){
+                case COMMAND_BLUETOOTH_CONNECT:
+                    if(!allowBluetoothIntentApi){
+                        GB.log("Connection API not allowed in settings", GB.ERROR, null);
+                        return;
+                    }
+                    Bundle extras = intent.getExtras();
+                    if(extras == null){
+                        GB.log("no extras provided in Intent", GB.ERROR, null);
+                        return;
+                    }
+                    String address = extras.getString("EXTRA_DEVICE_ADDRESS", "");
+                    if(address.isEmpty()){
+                        GB.log("no bluetooth address provided in Intent", GB.ERROR, null);
+                        return;
+                    }
+                    if(isDeviceConnected(address)){
+                        GB.log(String.format("device %s already connected", address), GB.INFO, null);
+                        sendDeviceConnectedBroadcast(address);
+                        return;
+                    }
+
+                    List<GBDevice> devices = GBApplication.app().getDeviceManager().getDevices();
+                    GBDevice targetDevice = GBApplication
+                            .app()
+                            .getDeviceManager()
+                            .getDeviceByAddress(address);
+
+                    if(targetDevice == null){
+                        GB.log(String.format("device %s not registered", address), GB.ERROR, null);
+                        return;
+                    }
+
+                    GB.log(String.format("connecting to %s", address), GB.INFO, null);
+
+                    GBApplication
+                            .deviceService(targetDevice)
+                            .connect();
+
+                    break;
+            }
+        }
+    };
+
     /**
      * For testing!
      *
@@ -366,6 +430,10 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
                     cachedStruct.setCoordinator(newCoordinator);
                 }
                 updateReceiversState();
+
+                if(device.isInitialized()){
+                    sendDeviceConnectedBroadcast(device.getAddress());
+                }
             }
         }
     };
@@ -412,7 +480,12 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
 
         if (hasPrefs()) {
             getPrefs().getPreferences().registerOnSharedPreferenceChangeListener(this);
+            allowBluetoothIntentApi = getPrefs().getBoolean(GBPrefs.PREF_ALLOW_INTENT_API, false);
         }
+
+        IntentFilter bluetoothCommandFilter = new IntentFilter();
+        bluetoothCommandFilter.addAction(COMMAND_BLUETOOTH_CONNECT);
+        registerReceiver(bluetoothCommandReceiver, bluetoothCommandFilter);
     }
 
     private DeviceSupportFactory getDeviceSupportFactory() {
@@ -957,8 +1030,12 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
     }
 
     private boolean isDeviceConnected(GBDevice device) {
+        return isDeviceConnected(device.getAddress());
+    }
+
+    private boolean isDeviceConnected(String deviceAddress) {
         for(DeviceStruct struct : deviceStructs){
-            if(struct.getDevice().equals(device) ){
+            if(struct.getDevice().getAddress().compareToIgnoreCase(deviceAddress) == 0){
                 return struct.getDevice().isConnected();
             }
         }
@@ -966,8 +1043,12 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
     }
 
     private boolean isDeviceConnecting(GBDevice device) {
+        return isDeviceConnecting(device.getAddress());
+    }
+
+    private boolean isDeviceConnecting(String deviceAddress) {
         for(DeviceStruct struct : deviceStructs){
-            if(struct.getDevice().equals(device) ){
+            if(struct.getDevice().getAddress().compareToIgnoreCase(deviceAddress) == 0){
                 return struct.getDevice().isConnecting();
             }
         }
@@ -975,8 +1056,12 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
     }
 
     private boolean isDeviceInitialized(GBDevice device) {
+        return isDeviceInitialized(device.getAddress());
+    }
+
+    private boolean isDeviceInitialized(String deviceAddress) {
         for(DeviceStruct struct : deviceStructs){
-            if(struct.getDevice().equals(device) ){
+            if(struct.getDevice().getAddress().compareToIgnoreCase(deviceAddress) == 0){
                 return struct.getDevice().isInitialized();
             }
         }
@@ -1188,6 +1273,8 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
             }
         }
         GB.removeNotification(GB.NOTIFICATION_ID, this); // need to do this because the updated notification won't be cancelled when service stops
+
+        unregisterReceiver(bluetoothCommandReceiver);
     }
 
     @Override
@@ -1205,6 +1292,10 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
         }
         if (GBPrefs.CHART_MAX_HEART_RATE.equals(key) || GBPrefs.CHART_MIN_HEART_RATE.equals(key)) {
             HeartRateUtils.getInstance().updateCachedHeartRatePreferences();
+        }
+        if (GBPrefs.PREF_ALLOW_INTENT_API.equals(key)){
+            allowBluetoothIntentApi = sharedPreferences.getBoolean(GBPrefs.PREF_ALLOW_INTENT_API, false);
+            GB.log("allowBluetoothIntentApi changed to " + allowBluetoothIntentApi, GB.INFO, null);
         }
     }
 

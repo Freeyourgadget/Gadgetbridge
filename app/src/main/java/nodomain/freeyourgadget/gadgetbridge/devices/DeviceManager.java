@@ -175,6 +175,15 @@ public class DeviceManager {
         return Collections.unmodifiableList(deviceList);
     }
 
+    public GBDevice getDeviceByAddress(String address){
+        for(GBDevice device : deviceList){
+            if(device.getAddress().compareToIgnoreCase(address) == 0){
+                return device;
+            }
+        }
+        return null;
+    }
+
     public List<GBDevice> getSelectedDevices() {
         return selectedDevices;
     }

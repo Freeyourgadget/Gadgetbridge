@@ -36,7 +36,7 @@ public class RequestMtuAction extends BtLEAction {
 
     @Override
     public boolean expectsResult() {
-        return false;
+        return true;
     }
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)

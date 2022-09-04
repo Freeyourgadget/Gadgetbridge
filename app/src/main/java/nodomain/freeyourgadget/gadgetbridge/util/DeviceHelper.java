@@ -49,6 +49,7 @@ import nodomain.freeyourgadget.gadgetbridge.devices.banglejs.BangleJSCoordinator
 import nodomain.freeyourgadget.gadgetbridge.devices.casio.gb6900.CasioGB6900DeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.casio.gbx100.CasioGBX100DeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.domyos.DomyosT540Cooridnator;
+import nodomain.freeyourgadget.gadgetbridge.devices.flipper.zero.FlipperZeroCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.galaxy_buds.GalaxyBudsDeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.galaxy_buds.GalaxyBudsLiveDeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.galaxy_buds.GalaxyBudsProDeviceCoordinator;
@@ -335,6 +336,7 @@ public class DeviceHelper {
         result.add(new SonyWF1000XM3Coordinator());
         result.add(new QC35Coordinator());
         result.add(new BinarySensorCoordinator());
+        result.add(new FlipperZeroCoordinator());
 
         return result;
     }

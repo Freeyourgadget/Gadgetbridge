@@ -56,6 +56,7 @@ public class GBPrefs {
     public static final String RTL_SUPPORT = "rtl";
     public static final String RTL_CONTEXTUAL_ARABIC = "contextualArabic";
     public static boolean AUTO_RECONNECT_DEFAULT = true;
+    public static final String PREF_ALLOW_INTENT_API = "prefs_key_allow_bluetooth_intent_api";
 
     public static final String USER_NAME = "mi_user_alias";
     public static final String USER_NAME_DEFAULT = "gadgetbridge-user";

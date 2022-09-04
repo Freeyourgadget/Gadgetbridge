@@ -386,5 +386,10 @@
             android:key="pref_discovery_pairing"
             android:title="@string/activity_prefs_discovery_pairing" />
 
+        <CheckBoxPreference
+            android:key="prefs_key_allow_bluetooth_intent_api"
+            android:title="@string/activity_prefs_allow_bluetooth_intent_api"
+            android:summary="@string/activity_prefs_summary_allow_bluetooth_intent_api" />
+
     </PreferenceCategory>
 </PreferenceScreen>

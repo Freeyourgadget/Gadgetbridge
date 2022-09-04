@@ -39,6 +39,7 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.banglejs.BangleJSDev
 import nodomain.freeyourgadget.gadgetbridge.service.devices.casio.CasioGB6900DeviceSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.casio.CasioGBX100DeviceSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.domyos.DomyosT540Support;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.flipper.zero.support.FlipperZeroSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.galaxy_buds.GalaxyBudsDeviceSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.hplus.HPlusSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.HuamiSupport;
@@ -324,6 +325,8 @@ public class DeviceSupportFactory {
                 return new ServiceDeviceSupport(new QC35BaseSupport());
             case BINARY_SENSOR:
                 return new ServiceDeviceSupport(new BinarySensorSupport());
+            case FLIPPER_ZERO:
+                return new ServiceDeviceSupport(new FlipperZeroSupport());
         }
         return null;
     }
