@@ -30,6 +30,11 @@ public class AmazfitGTS3FWHelper extends HuamiFWHelper {
     }
 
     @Override
+    public long getMaxExpectedFileSize() {
+        return 1024 * 1024 * 128; // 128.0MB
+    }
+
+    @Override
     protected void determineFirmwareInfo(final byte[] wholeFirmwareBytes) {
         firmwareInfo = new AmazfitGTS3FirmwareInfo(wholeFirmwareBytes);
         if (!firmwareInfo.isHeaderValid()) {

@@ -246,6 +246,7 @@ public class FwAppInstallerActivity extends AbstractGBActivity implements Instal
         for (DeviceCoordinator coordinator : getAllCoordinatorsConnectedFirst()) {
             InstallHandler handler = coordinator.findInstallHandler(uri, this);
             if (handler != null) {
+                LOG.info("Found install handler {} from {}", handler.getClass(), coordinator.getClass());
                 return handler;
             }
         }

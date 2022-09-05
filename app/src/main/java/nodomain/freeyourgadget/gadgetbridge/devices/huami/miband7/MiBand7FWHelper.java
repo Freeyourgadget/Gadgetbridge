@@ -30,6 +30,11 @@ public class MiBand7FWHelper extends HuamiFWHelper {
     }
 
     @Override
+    public long getMaxExpectedFileSize() {
+        return 1024 * 1024 * 32; // 32.0MB
+    }
+
+    @Override
     protected void determineFirmwareInfo(final byte[] wholeFirmwareBytes) {
         firmwareInfo = new MiBand7FirmwareInfo(wholeFirmwareBytes);
         if (!firmwareInfo.isHeaderValid()) {

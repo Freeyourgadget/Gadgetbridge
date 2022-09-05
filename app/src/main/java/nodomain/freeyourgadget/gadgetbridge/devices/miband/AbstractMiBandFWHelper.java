@@ -53,8 +53,12 @@ public abstract class AbstractMiBandFWHelper {
             throw new IOException("Firmware has a filename that looks like a Pebble app/firmware.");
         }
 
+        if (uriHelper.getFileSize() > getMaxExpectedFileSize()) {
+            throw new IOException("Firmware size is larger than the maximum expected file size of " + getMaxExpectedFileSize());
+        }
+
         try (InputStream in = new BufferedInputStream(uriHelper.openInputStream())) {
-            this.fw = FileUtils.readAll(in, 1024 * 1024 * 32); // 32.0 MB
+            this.fw = FileUtils.readAll(in, getMaxExpectedFileSize());
             determineFirmwareInfo(fw);
         } catch (IOException ex) {
             throw ex; // pass through
@@ -110,6 +114,13 @@ public abstract class AbstractMiBandFWHelper {
             }
         }
         return false;
+    }
+
+    /**
+     * The maximum expected file size, in bytes. Files larger than this are assumed to be invalid.
+     */
+    public long getMaxExpectedFileSize() {
+        return 1024 * 1024 * 16; // 16.0MB
     }
 
     protected abstract int[] getWhitelistedFirmwareVersions();

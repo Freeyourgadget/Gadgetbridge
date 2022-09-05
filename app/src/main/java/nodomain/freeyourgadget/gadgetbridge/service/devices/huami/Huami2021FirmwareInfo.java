@@ -41,15 +41,19 @@ public abstract class Huami2021FirmwareInfo extends AbstractHuamiFirmwareInfo {
             0x50, 0x4B, 0x03, 0x04
     };
 
-    public static final byte[] FW_HEADER = new byte[]{
-            0x51, 0x71
-    };
-
     public Huami2021FirmwareInfo(final byte[] bytes) {
         super(bytes);
     }
 
+    /**
+     * The device name, to search on firmware.bin in order to determine compatibility.
+     */
     public abstract String deviceName();
+
+    /**
+     * The expected firmware header bytes, to search on firmware.bin in order to determine compatibility.
+     */
+    public abstract byte[] getExpectedFirmwareHeader();
 
     @Override
     protected HuamiFirmwareType determineFirmwareType(final byte[] bytes) {
@@ -137,8 +141,8 @@ public abstract class Huami2021FirmwareInfo extends AbstractHuamiFirmwareInfo {
             return false;
         }
 
-        if (!ArrayUtils.equals(firmwareBin, FW_HEADER, 0)) {
-            LOG.warn("Unexpected firmware header: {}", GB.hexdump(Arrays.copyOfRange(firmwareBin, 0, FW_HEADER.length + 1)));
+        if (!ArrayUtils.equals(firmwareBin, getExpectedFirmwareHeader(), 0)) {
+            LOG.warn("Unexpected firmware header: {}", GB.hexdump(Arrays.copyOfRange(firmwareBin, 0, getExpectedFirmwareHeader().length + 3)));
             return false;
         }
 
