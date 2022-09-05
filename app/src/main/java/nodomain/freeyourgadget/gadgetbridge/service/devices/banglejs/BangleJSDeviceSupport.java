@@ -144,6 +144,8 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
     private boolean realtimeHRM = false;
     private boolean realtimeStep = false;
     private int realtimeHRMInterval = 30*60;
+    /// Last battery percentage reported (or -1) to help with smoothing reported battery levels
+    private int lastBatteryPercent = -1;
 
     private final LimitedQueue/*Long*/ mNotificationReplyAction = new LimitedQueue(16);
 
@@ -273,6 +275,7 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
 
         getDevice().setFirmwareVersion("N/A");
         getDevice().setFirmwareVersion2("N/A");
+        lastBatteryPercent = -1;
 
         LOG.info("Initialization Done");
 
@@ -446,16 +449,25 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
             } break;
             case "status": {
                 GBDeviceEventBatteryInfo batteryInfo = new GBDeviceEventBatteryInfo();
+                batteryInfo.state = BatteryState.UNKNOWN;
+                if (json.has("chg")) {
+                    batteryInfo.state = (json.getInt("chg") == 1) ? BatteryState.BATTERY_CHARGING : BatteryState.BATTERY_NORMAL;
+                }
                 if (json.has("bat")) {
                     int b = json.getInt("bat");
                     if (b < 0) b = 0;
                     if (b > 100) b = 100;
+                    // smooth out battery level reporting (it can only go up if charging, or down if discharging)
+                    // http://forum.espruino.com/conversations/379294
+                    if (lastBatteryPercent<0) lastBatteryPercent = b;
+                    if (batteryInfo.state == BatteryState.BATTERY_NORMAL && b > lastBatteryPercent)
+                        b = lastBatteryPercent;
+                    if (batteryInfo.state == BatteryState.BATTERY_CHARGING && b < lastBatteryPercent)
+                        b = lastBatteryPercent;
+                    lastBatteryPercent = b;
                     batteryInfo.level = b;
-                    batteryInfo.state = BatteryState.BATTERY_NORMAL;
                 }
-                if (json.has("chg") && json.getInt("chg") == 1) {
-                    batteryInfo.state = BatteryState.BATTERY_CHARGING;
-                }
+
                 if (json.has("volt"))
                     batteryInfo.voltage = (float) json.getDouble("volt");
                 handleGBDeviceEvent(batteryInfo);
