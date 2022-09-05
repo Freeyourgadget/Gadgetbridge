@@ -89,6 +89,7 @@ public class AmazfitCorCoordinator extends HuamiCoordinator {
     public int[] getSupportedDeviceSpecificSettings(GBDevice device) {
         return new int[]{
                 R.xml.devicesettings_amazfitcor,
+                R.xml.devicesettings_vibrationpatterns,
                 R.xml.devicesettings_wearlocation,
                 R.xml.devicesettings_heartrate_sleep,
                 R.xml.devicesettings_goal_notification,
