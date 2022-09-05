@@ -1886,4 +1886,6 @@
 \nהמשך התהליך הוא על אחריותך בלבד!</string>
     <string name="pref_title_notifications_ignore_low_priority">להתעלם מהתראות בעדיפות נמוכה</string>
     <string name="pref_summary_notifications_ignore_low_priority">לא לשלוח התראות בעדיפות נמוכה ומזערית לשעון</string>
+    <string name="devicetype_flipper_zero">‎Flipper zero</string>
+    <string name="activity_prefs_summary_allow_bluetooth_intent_api">לאפשר שליטה בחיבור ה־Bluetooth דרך API של Intent</string>
 </resources>
