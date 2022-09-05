@@ -370,7 +370,7 @@ public class NotificationListener extends NotificationListenerService {
 
         LOG.info("Processing notification " + notificationSpec.getId() + " age: " + (System.currentTimeMillis() - notification.when) + " from source " + source + " with flags: " + notification.flags);
 
-        boolean preferBigText = source.startsWith("com.fsck.k9") || source.equals("com.google.android.gm");
+        boolean preferBigText = prefs.getBoolean("notification_prefer_long_text", true);
 
         dissectNotificationTo(notification, notificationSpec, preferBigText);
 
