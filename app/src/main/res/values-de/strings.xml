@@ -1894,4 +1894,7 @@
     <string name="prefs_screen_timeout">Bildschirmzeitlimit</string>
     <string name="pref_title_notifications_ignore_low_priority">Benachrichtigungen mit niedriger Priorität ignorieren</string>
     <string name="pref_summary_notifications_ignore_low_priority">Keine Benachrichtigungen mit niedriger und minimaler Priorität an die Uhr senden</string>
+    <string name="devicetype_flipper_zero">Flipper zero</string>
+    <string name="activity_prefs_summary_allow_bluetooth_intent_api">Steuerung der Bluetooth-Verbindung über Intent-API</string>
+    <string name="activity_prefs_allow_bluetooth_intent_api">Bluetooth Intent-API</string>
 </resources>
