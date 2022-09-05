@@ -700,7 +700,7 @@
     <string name="mi3_prefs_band_screen_unlock">Екран браслета розблокований</string>
     <string name="mi3_prefs_band_screen_unlock_summary">Проведіть пальцем вгору для розблокування екрана браслета</string>
     <string name="mi3_prefs_night_mode_summary">Автозниження яскравості екрана вночі</string>
-    <string name="share_log_warning">Пам\'ятайте, що Gadgetbridge лог-файли можуть містити багато персональних даних, включно з, але не обмежуючись, даними про здоров\'я, унікальним ідентифікатором (як-от MAC адрес), музичні вподобання тощо. Відредагуйте файл та видаліть ці дані перед надсиланням.</string>
+    <string name="share_log_warning">Пам\'ятайте, що файли журналів Gadgetbridge можуть містити багато персональних даних, включно з, але не обмежуючись, даними про здоров\'я, унікальними ідентифікаторами (як-от MAC адреса), музичні вподобання тощо. Відредагуйте файл та вилучіть ці дані перед надсиланням.</string>
     <string name="pref_title_contextual_arabic">Контекстна арабська мова</string>
     <string name="pref_summary_contextual_arabic">Увімкнути підтримку контекстної арабської мови</string>
     <string name="preferences_rtl_settings">Підтримка справа наліво</string>
@@ -903,8 +903,8 @@
     <string name="swolfIndex">swolf індекс</string>
     <string name="swimStyle">Стиль плавання</string>
     <string name="pref_title_weather_summary">Застосовується для постачальника погоди LineageOS, інші версії Android мають використовувати застосунки як-от «Сповіщення про погоду». Шукайте більше відомостей у вікі Gadgetbridge.</string>
-    <string name="prefs_events_forwarding_summary">Уживати події пристрою для запуску дій і трансляцій Android</string>
-    <string name="prefs_events_forwarding_broadcast_title">Повідомлення на загал</string>
+    <string name="prefs_events_forwarding_summary">Використовувати події пристрою для запуску дій і трансляцій Android</string>
+    <string name="prefs_events_forwarding_broadcast_title">Трансляційні повідомлення</string>
     <string name="medley">Змішаний</string>
     <string name="backstroke">На спині</string>
     <string name="freestyle">Фристайл</string>
@@ -970,7 +970,7 @@
     <string name="baseAltitude">Базова висота</string>
     <string name="flatSeconds">Пласке</string>
     <string name="ascentSeconds">Зростання</string>
-    <string name="laps">Кіл</string>
+    <string name="laps">Кола</string>
     <string name="averageLapPace">Середній темп кола</string>
     <string name="averageStrokesPerSecond">Середня кількість махів</string>
     <string name="averageStrokeDistance">Середня відстань маху</string>
@@ -978,7 +978,7 @@
     <string name="averageKMPaceSeconds">Темп</string>
     <string name="averageHR">Пульс</string>
     <string name="totalStride">Звичайний крок</string>
-    <string name="maxPace">Швидки темп</string>
+    <string name="maxPace">Найшвидший темп</string>
     <string name="minPace">Найповільніший темп</string>
     <string name="maxSpeed">Максимальна</string>
     <string name="caloriesBurnt">Калорії</string>
@@ -1078,11 +1078,11 @@
     <string name="prefs_autolight">Автоматичне світло</string>
     <string name="qhybrid_calibration_align_hint">Використовуйте кнопки внизу, щоб вирівняти стрілки на 12:00.</string>
     <string name="devicetype_nut_mini">Nut mini</string>
-    <string name="gps_track">GPS трек</string>
+    <string name="gps_track">GPS-трек</string>
     <string name="mi">миль</string>
     <string name="minutes_mi">хв/милю</string>
     <string name="mi_h">миль/год</string>
-    <string name="ft">футів</string>
+    <string name="ft">фути</string>
     <string name="descentSeconds">За зменшенням</string>
     <string name="about_version">Версія %s</string>
     <string name="pref_title_lower_button_function_double">Подвійне натиснення нижньої кнопки</string>
@@ -1146,7 +1146,7 @@
     <string name="lefun_prefs_interface_language_title">Мова інтерфейсу</string>
     <string name="lefun_prefs_antilost_summary">Браслет буде вібрувати, якщо ваш телефон від\'єднається від браслета</string>
     <string name="lefun_prefs_antilost_title">Противтрата</string>
-    <string name="lefun_prefs_hydration_reminder_interval_title">Інтервал нагадування про гідратацію (хв.)</string>
+    <string name="lefun_prefs_hydration_reminder_interval_title">Інтервал нагадування про гідратацію (хв)</string>
     <string name="lefun_prefs_hydration_reminder_summary">Браслет буде вібрувати, щоб нагадати про пиття</string>
     <string name="lefun_prefs_hydration_reminder_title">Нагадування про гідратацію</string>
     <string name="charts_min_max_heartrate_popup">Найнижчий пульс: %1$d
@@ -1895,4 +1895,7 @@
     <string name="menuitem_personal_activity_intelligence">Дослідження особистої діяльності</string>
     <string name="pref_title_notifications_ignore_low_priority">Нехтувати сповіщення з низьким пріоритетом</string>
     <string name="pref_summary_notifications_ignore_low_priority">Не надсилати на годинник сповіщення з низьким і найнижчим пріоритетом</string>
+    <string name="activity_prefs_allow_bluetooth_intent_api">Bluetooth Intent API</string>
+    <string name="devicetype_flipper_zero">Flipper zero</string>
+    <string name="activity_prefs_summary_allow_bluetooth_intent_api">Дозволити керування з’єднанням Bluetooth через Intent API</string>
 </resources>
