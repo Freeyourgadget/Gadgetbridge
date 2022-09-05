@@ -1901,4 +1901,7 @@
     <string name="menuitem_personal_activity_intelligence">Kişisel Etkinlik Bilgileri</string>
     <string name="pref_summary_notifications_ignore_low_priority">Düşük ve asgari öncelikli bildirimleri saate gönderme</string>
     <string name="pref_title_notifications_ignore_low_priority">Düşük öncelikli bildirimleri yok say</string>
+    <string name="devicetype_flipper_zero">Flipper zero</string>
+    <string name="activity_prefs_allow_bluetooth_intent_api">Bluetooth Amaç API\'si</string>
+    <string name="activity_prefs_summary_allow_bluetooth_intent_api">Amaç API\'si aracılığıyla Bluetooth bağlantısını denetlemeye izin verin</string>
 </resources>
