@@ -27,8 +27,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
@@ -81,7 +79,7 @@ public abstract class Huami2021FirmwareInfo extends AbstractHuamiFirmwareInfo {
                 final byte[] firmwareBin = getFileFromZip(uihhFirmwareZipFile.getContent(), "META/firmware.bin");
 
                 if (isCompatibleFirmwareBin(firmwareBin)) {
-                    // TODO: Firmware upgrades are untested, so they are disabled
+                    // TODO: Firmware upgrades with UIHH files are untested, so they are disabled
                     return HuamiFirmwareType.INVALID;
                     //return HuamiFirmwareType.FIRMWARE_UIHH_2021_ZIP_WITH_CHANGELOG;
                 }
@@ -96,9 +94,7 @@ public abstract class Huami2021FirmwareInfo extends AbstractHuamiFirmwareInfo {
 
         final byte[] firmwareBin = getFileFromZip(bytes, "META/firmware.bin");
         if (isCompatibleFirmwareBin(firmwareBin)) {
-            // TODO: Firmware upgrades are untested, so they are disabled
-            return HuamiFirmwareType.INVALID;
-            //return HuamiFirmwareType.FIRMWARE;
+            return HuamiFirmwareType.FIRMWARE;
         }
 
         final String appType = getAppType();

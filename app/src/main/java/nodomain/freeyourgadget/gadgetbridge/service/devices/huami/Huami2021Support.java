@@ -148,7 +148,7 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.operations.Fet
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.operations.FetchSportsSummaryOperation;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.operations.HuamiFetchDebugLogsOperation;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.operations.UpdateFirmwareOperation;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.operations.UpdateFirmwareOperation2020;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.operations.UpdateFirmwareOperation2021;
 import nodomain.freeyourgadget.gadgetbridge.util.AlarmUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.BitmapUtil;
 import nodomain.freeyourgadget.gadgetbridge.util.CheckSums;
@@ -1745,7 +1745,7 @@ public abstract class Huami2021Support extends HuamiSupport {
 
     @Override
     public UpdateFirmwareOperation createUpdateFirmwareOperation(final Uri uri) {
-        return new UpdateFirmwareOperation2020(uri, this);
+        return new UpdateFirmwareOperation2021(uri, this);
     }
 
     @Override

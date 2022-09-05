@@ -41,7 +41,6 @@ import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.SetDeviceBusyAc
 import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.SetProgressAction;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.AbstractHuamiFirmwareInfo;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.AbstractHuamiOperation;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.HuamiFirmwareInfo;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.HuamiFirmwareType;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.HuamiSupport;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
