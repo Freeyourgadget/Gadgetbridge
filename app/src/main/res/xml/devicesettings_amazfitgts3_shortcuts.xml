@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <com.mobeta.android.dslv.DragSortListPreference
+        android:icon="@drawable/ic_shortcut"
+        android:defaultValue="@array/pref_miband7_shortcuts_default"
+        android:dialogTitle="@string/bip_prefs_shortcuts"
+        android:entries="@array/pref_miband7_shortcuts"
+        android:entryValues="@array/pref_miband7_shortcuts_values"
+        android:key="shortcuts_sortable"
+        android:persistent="true"
+        android:summary="@string/bip_prefs_shotcuts_summary"
+        android:title="@string/bip_prefs_shortcuts" />
+</androidx.preference.PreferenceScreen>
