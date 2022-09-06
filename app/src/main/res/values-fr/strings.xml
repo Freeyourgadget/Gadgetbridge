@@ -1894,4 +1894,12 @@ Temps de sommeil préféré en heures</string>
     <string name="devicetype_flipper_zero">Flipper zero</string>
     <string name="activity_prefs_allow_bluetooth_intent_api">API Bluetooth d\'intention</string>
     <string name="activity_prefs_summary_allow_bluetooth_intent_api">Permet le contrôle de la connexion Bluetooth via les intentions d\'API</string>
+    <string name="fw_upgrade_notice_amazfit_gts3">Vous êtes sur le point d\'installer le micro-logiciel %s dans votre Amazfit GTS 3.
+\n
+\nVotre bracelet redémarrera après installation du fichier zip.
+\n
+\nA VOS RISQUES ET PÉRILS !</string>
+    <string name="pref_title_notification_prefer_long_text">Préférer les notifications texte longues</string>
+    <string name="pref_summary_notification_prefer_long_text">Si disponible, envoyer les notifications texte longues à l\'appareil</string>
+    <string name="devicetype_amazfit_gts3">Amazfit GTS 3</string>
 </resources>
