@@ -1888,4 +1888,7 @@
     <string name="pref_summary_notifications_ignore_low_priority">לא לשלוח התראות בעדיפות נמוכה ומזערית לשעון</string>
     <string name="devicetype_flipper_zero">‎Flipper zero</string>
     <string name="activity_prefs_summary_allow_bluetooth_intent_api">לאפשר שליטה בחיבור ה־Bluetooth דרך API של Intent</string>
+    <string name="pref_summary_notification_prefer_long_text">אם ניתן, לשלוח את הטקסט הארוך של ההתראה למכשיר</string>
+    <string name="pref_title_notification_prefer_long_text">להעדיף טקסט התראות ארוך</string>
+    <string name="devicetype_amazfit_gts3">‎Amazfit GTS 3</string>
 </resources>
