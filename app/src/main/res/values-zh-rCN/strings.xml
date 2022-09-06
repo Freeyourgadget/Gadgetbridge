@@ -1890,4 +1890,12 @@
     <string name="devicetype_flipper_zero">Flipper zero</string>
     <string name="activity_prefs_allow_bluetooth_intent_api">蓝牙 Intent API</string>
     <string name="activity_prefs_summary_allow_bluetooth_intent_api">允许通过 Intent API 控制蓝牙连接</string>
+    <string name="fw_upgrade_notice_amazfit_gts3">您即将在您的 跃我 GTS 3 上安装 %s 固件。
+\n
+\n您的手环将会在安装了 .zip 文件后重启。
+\n
+\n风险自担！</string>
+    <string name="pref_title_notification_prefer_long_text">首选长通知文本</string>
+    <string name="pref_summary_notification_prefer_long_text">如果可用，将长通知文本发送到设备</string>
+    <string name="devicetype_amazfit_gts3">跃我 GTS 3</string>
 </resources>
