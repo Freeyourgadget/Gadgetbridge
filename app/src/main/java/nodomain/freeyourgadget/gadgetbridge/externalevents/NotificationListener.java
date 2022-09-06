@@ -375,7 +375,7 @@ public class NotificationListener extends NotificationListenerService {
         dissectNotificationTo(notification, notificationSpec, preferBigText);
 
         if (notificationSpec.body != null) {
-            if (!checkNotificationContentForWhiteAndBlackList(sbn.getPackageName().toLowerCase(), notificationSpec.body)) {
+            if (!checkNotificationContentForWhiteAndBlackList(sbn.getPackageName().toLowerCase(), notificationSpec.title + " " + notificationSpec.body)) {
                 return;
             }
         }
