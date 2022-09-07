@@ -75,8 +75,9 @@ public class PineTimeInstallHandler implements InstallHandler {
 
                     final byte[] buffer = new byte[1024];
 
-                    while (zipInputStream.read(buffer, 0, buffer.length) != -1) {
-                        json.append(new String(buffer));
+                    int read;
+                    while ((read = zipInputStream.read(buffer, 0, buffer.length)) != -1) {
+                        json.append(new String(buffer, 0, read));
                     }
 
                     Gson gson = new Gson();
