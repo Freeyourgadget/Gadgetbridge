@@ -227,7 +227,7 @@
     <string name="title_activity_charts">Aktivitásod</string>
     <string name="title_activity_set_alarm">Ébresztők beállítása</string>
     <string name="controlcenter_start_configure_alarms">Ébresztők beállítása</string>
-    <string name="title_activity_alarm_details">Ébresztés részletek</string>
+    <string name="title_activity_alarm_details">Ébresztés részletei</string>
     <string name="alarm_sun_short">Vas</string>
     <string name="alarm_mon_short">Hét</string>
     <string name="alarm_tue_short">Ked</string>
@@ -561,4 +561,8 @@
     <string name="about_title">Névjegy</string>
     <string name="about_core_team_title">Fő csapat (az első kód-hozzájárulás sorrendjében)</string>
     <string name="lefun_prefs_interface_language_title">Felület nyelve</string>
+    <string name="zetime_title_alarm_signaling">Jelzés típusának beállítása az ébresztőhöz</string>
+    <string name="widget_set_alarm_after">Ébresztő beállítása ennyi idő múlva:</string>
+    <string name="menuitem_alarm">Ébresztés</string>
+    <string name="appwidget_not_connected">Nincs csatlakozva, ébresztő nincs beállítva.</string>
 </resources>
