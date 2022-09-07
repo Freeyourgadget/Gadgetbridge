@@ -21,9 +21,13 @@ import android.net.Uri;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.IOException;
+
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiService;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.HuamiFirmwareType;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.HuamiSupport;
+import nodomain.freeyourgadget.gadgetbridge.util.ArrayUtils;
 
 public class UpdateFirmwareOperation2021 extends UpdateFirmwareOperation2020 {
     private static final Logger LOG = LoggerFactory.getLogger(UpdateFirmwareOperation2021.class);
@@ -36,5 +40,23 @@ public class UpdateFirmwareOperation2021 extends UpdateFirmwareOperation2020 {
     protected void enableOtherNotifications(final TransactionBuilder builder, final boolean enable) {
         // Disable 2021 chunked reads, otherwise firmware upgrades get interrupted
         builder.notify(getCharacteristic(HuamiService.UUID_CHARACTERISTIC_CHUNKEDTRANSFER_2021_READ), enable);
+    }
+
+    @Override
+    protected void handleNotificationNotif(byte[] value) {
+        super.handleNotificationNotif(value);
+
+        if (ArrayUtils.startsWith(value, new byte[]{HuamiService.RESPONSE, COMMAND_FINALIZE_UPDATE, HuamiService.SUCCESS})) {
+            if (getFirmwareInfo().getFirmwareType() == HuamiFirmwareType.APP) {
+                // After an app is installed, request the display items from the band (new app will be at the end)
+                try {
+                    TransactionBuilder builder = performInitialized("request display items");
+                    getSupport().requestDisplayItems(builder);
+                    builder.queue(getQueue());
+                } catch (final IOException e) {
+                    LOG.error("Failed to request display items after app install", e);
+                }
+            }
+        }
     }
 }

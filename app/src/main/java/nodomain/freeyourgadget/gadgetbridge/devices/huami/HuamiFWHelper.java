@@ -75,6 +75,9 @@ public abstract class HuamiFWHelper extends AbstractMiBandFWHelper {
             case WATCHFACE:
                 resId = R.string.kind_watchface;
                 break;
+            case APP:
+                resId = R.string.kind_app;
+                break;
             case INVALID:
                 // fall through
         }

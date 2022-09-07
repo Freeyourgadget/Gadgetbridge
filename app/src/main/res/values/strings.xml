@@ -1049,6 +1049,7 @@
     <string name="kind_agps_bundle">AGPS Bundle</string>
     <string name="kind_resources">Resources</string>
     <string name="kind_watchface">Watchface</string>
+    <string name="kind_app">App</string>
     <string name="devicetype_unknown">Unknown Device</string>
     <string name="devicetype_test">Test Device</string>
     <string name="add_test_device">Add test device</string>
@@ -1178,6 +1179,7 @@
     <string name='menuitem_workout_history'>Workout History</string>
     <string name='menuitem_female_health'>Female Health</string>
     <string name='menuitem_workout_status'>Workout Status</string>
+    <string name="menuitem_unknown_app">Unknown (%s)</string>
     <string name="watch9_time_minutes">Minutes:</string>
     <string name="watch9_time_hours">Hours:</string>
     <string name="watch9_time_seconds">Seconds:</string>

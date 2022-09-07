@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
     <com.mobeta.android.dslv.DragSortListPreference
-        android:defaultValue="@array/pref_miband7_display_items_default"
+        android:defaultValue="@array/pref_huami2021_display_items"
         android:dialogTitle="@string/mi2_prefs_display_items"
-        android:entries="@array/pref_miband7_display_items"
-        android:entryValues="@array/pref_miband7_display_items_values"
+        android:entries="@array/pref_huami2021_display_items"
+        android:entryValues="@array/pref_huami2021_display_items"
         android:icon="@drawable/ic_widgets"
         android:key="display_items_sortable"
         android:persistent="true"

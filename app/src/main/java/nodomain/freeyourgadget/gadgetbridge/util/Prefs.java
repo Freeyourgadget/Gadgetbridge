@@ -19,7 +19,9 @@ package nodomain.freeyourgadget.gadgetbridge.util;
 import android.content.SharedPreferences;
 import android.util.Log;
 
+import java.util.Arrays;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -150,6 +152,21 @@ public class Prefs {
                 return defaultValue;
             }
         }
+    }
+
+    /**
+     * Returns the preference saved under the given key as a list of strings.
+     * The preference is assumed to be a string, with each value separated by a comma.
+     * @param key the preference key
+     * @param defaultValue the default value to return if the preference value is unset
+     * @return the saved preference value or the given defaultValue
+     */
+    public List<String> getList(final String key, final List<String> defaultValue) {
+        final String stringValue = preferences.getString(key, null);
+        if (stringValue == null) {
+            return defaultValue;
+        }
+        return Arrays.asList(stringValue.split(","));
     }
 
     private void logReadError(String key, Exception ex) {

@@ -25,16 +25,9 @@ import androidx.annotation.NonNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.Arrays;
-import java.util.List;
-
-import nodomain.freeyourgadget.gadgetbridge.R;
-import nodomain.freeyourgadget.gadgetbridge.capabilities.HeartRateCapability;
-import nodomain.freeyourgadget.gadgetbridge.capabilities.password.PasswordCapabilityImpl;
 import nodomain.freeyourgadget.gadgetbridge.devices.InstallHandler;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.Huami2021Coordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst;
-import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceCandidate;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
 
@@ -66,89 +59,5 @@ public class AmazfitGTS3Coordinator extends Huami2021Coordinator {
     public InstallHandler findInstallHandler(final Uri uri, final Context context) {
         final AmazfitGTS3FWInstallHandler handler = new AmazfitGTS3FWInstallHandler(uri, context);
         return handler.isValid() ? handler : null;
-    }
-
-    @Override
-    public boolean supportsSmartWakeup(final GBDevice device) {
-        return true;
-    }
-
-    @Override
-    public int[] getSupportedDeviceSpecificSettings(GBDevice device) {
-        return new int[]{
-                R.xml.devicesettings_header_time,
-                //R.xml.devicesettings_timeformat,
-                R.xml.devicesettings_dateformat_2,
-                // TODO R.xml.devicesettings_world_clocks,
-
-                R.xml.devicesettings_header_display,
-                R.xml.devicesettings_amazfitgts3_displayitems,
-                R.xml.devicesettings_amazfitgts3_shortcuts,
-                R.xml.devicesettings_nightmode,
-                R.xml.devicesettings_liftwrist_display_sensitivity,
-                R.xml.devicesettings_password,
-                R.xml.devicesettings_always_on_display,
-                R.xml.devicesettings_screen_timeout_5_to_15,
-                R.xml.devicesettings_screen_brightness,
-
-                R.xml.devicesettings_header_health,
-                R.xml.devicesettings_heartrate_sleep_alert_activity_stress_spo2,
-                R.xml.devicesettings_inactivity_dnd_no_threshold,
-                R.xml.devicesettings_goal_notification,
-
-                R.xml.devicesettings_header_workout,
-                R.xml.devicesettings_workout_start_on_phone,
-                R.xml.devicesettings_workout_send_gps_to_band,
-
-                R.xml.devicesettings_header_notifications,
-                R.xml.devicesettings_vibrationpatterns,
-                R.xml.devicesettings_donotdisturb_withauto_and_always,
-                R.xml.devicesettings_screen_on_on_notifications,
-                R.xml.devicesettings_autoremove_notifications,
-                R.xml.devicesettings_canned_reply_16,
-                R.xml.devicesettings_transliteration,
-
-                R.xml.devicesettings_header_calendar,
-                R.xml.devicesettings_sync_calendar,
-
-                R.xml.devicesettings_header_other,
-                R.xml.devicesettings_device_actions_without_not_wear,
-
-                R.xml.devicesettings_header_connection,
-                R.xml.devicesettings_expose_hr_thirdparty,
-                R.xml.devicesettings_bt_connected_advertisement,
-                R.xml.devicesettings_high_mtu,
-        };
-    }
-
-    @Override
-    public String[] getSupportedLanguageSettings(GBDevice device) {
-        return new String[]{
-                "auto",
-                "de_DE",
-                "en_US",
-                "es_ES",
-                "fr_FR",
-                "it_IT",
-                "nl_NL",
-                "pt_PT",
-                "tr_TR",
-        };
-    }
-
-    @Override
-    public PasswordCapabilityImpl.Mode getPasswordCapability() {
-        return PasswordCapabilityImpl.Mode.NUMBERS_6;
-    }
-
-    @Override
-    public List<HeartRateCapability.MeasurementInterval> getHeartRateMeasurementIntervals() {
-        return Arrays.asList(
-                HeartRateCapability.MeasurementInterval.OFF,
-                HeartRateCapability.MeasurementInterval.SMART,
-                HeartRateCapability.MeasurementInterval.MINUTES_1,
-                HeartRateCapability.MeasurementInterval.MINUTES_10,
-                HeartRateCapability.MeasurementInterval.MINUTES_30
-        );
     }
 }

@@ -36,24 +36,4 @@ public class MiBand7Support extends Huami2021Support {
     public HuamiFWHelper createFWHelper(Uri uri, Context context) throws IOException {
         return new MiBand7FWHelper(uri, context);
     }
-
-    @Override
-    protected int getAllDisplayItems() {
-        return R.array.pref_miband7_display_items_values;
-    }
-
-    @Override
-    protected int getDefaultDisplayItems() {
-        return R.array.pref_miband7_display_items_default;
-    }
-
-    @Override
-    protected int getAllShortcutItems() {
-        return R.array.pref_miband7_shortcuts_values;
-    }
-
-    @Override
-    protected int getDefaultShortcutItems() {
-        return R.array.pref_miband7_shortcuts_default;
-    }
 }

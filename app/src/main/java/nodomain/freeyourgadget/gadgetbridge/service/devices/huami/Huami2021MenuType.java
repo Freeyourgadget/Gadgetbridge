@@ -19,55 +19,57 @@ package nodomain.freeyourgadget.gadgetbridge.service.devices.huami;
 import java.util.HashMap;
 import java.util.Map;
 
+import nodomain.freeyourgadget.gadgetbridge.R;
+
 public class Huami2021MenuType {
     /**
      * These somewhat match the ones in {@link HuamiMenuType}, but not all. The band sends and
      * receives those as 8-digit upper case hex strings.
      */
-    public static final Map<String, Integer> displayItemIdLookup = new HashMap<String, Integer>() {{
-        put("personal_activity_intelligence", 0x01);
-        put("hr", 0x02);
-        put("workout", 0x03);
-        put("weather", 0x04);
-        put("alarm", 0x09);
-        put("worldclock", 0x1A);
-        put("music", 0x0B);
-        put("stopwatch", 0x0C);
-        put("countdown", 0x0D);
-        put("findphone", 0x0E);
-        put("mutephone", 0x0F);
-        put("settings", 0x13);
-        put("workout_history", 0x14);
-        put("eventreminder", 0x15);
-        put("pai", 0x19);
-        put("takephoto", 0x0A);
-        put("stress", 0x1C);
-        put("female_health", 0x1D);
-        put("workout_status", 0x1E);
-        put("sleep", 0x23);
-        put("spo2", 0x24);
-        put("events", 0x26);
-        put("breathing", 0x33);
-        put("pomodoro", 0x38);
-        put("flashlight", 0x0102);
+    public static final Map<String, Integer> displayItemNameLookup = new HashMap<String, Integer>() {{
+        put("00000001", R.string.menuitem_personal_activity_intelligence);
+        put("00000002", R.string.menuitem_hr);
+        put("00000003", R.string.menuitem_workout);
+        put("00000004", R.string.menuitem_weather);
+        put("00000009", R.string.menuitem_alarm);
+        put("0000001A", R.string.menuitem_worldclock);
+        put("0000000B", R.string.menuitem_music);
+        put("0000000C", R.string.menuitem_stopwatch);
+        put("0000000D", R.string.menuitem_countdown);
+        put("0000000E", R.string.menuitem_findphone);
+        put("0000000F", R.string.menuitem_mutephone);
+        put("00000013", R.string.menuitem_settings);
+        put("00000014", R.string.menuitem_workout_history);
+        put("00000015", R.string.menuitem_eventreminder);
+        put("00000019", R.string.menuitem_pai);
+        put("0000000A", R.string.menuitem_takephoto);
+        put("0000001C", R.string.menuitem_stress);
+        put("0000001D", R.string.menuitem_female_health);
+        put("0000001E", R.string.menuitem_workout_status);
+        put("00000023", R.string.menuitem_sleep);
+        put("00000024", R.string.menuitem_spo2);
+        put("00000026", R.string.menuitem_events);
+        put("00000033", R.string.menuitem_breathing);
+        put("00000038", R.string.menuitem_pomodoro);
+        put("00000102", R.string.menuitem_flashlight);
     }};
 
-    public static final Map<String, Integer> shortcutsIdLookup = new HashMap<String, Integer>() {{
-        put("hr", 0x01);
-        put("workout", 0x0A);
-        put("workout_status", 0x0C);
-        put("weather", 0x02);
-        put("worldclock", 0x1A);
-        put("alarm", 0x16);
-        put("music", 0x04);
-        put("activity", 0x20);
-        put("eventreminder", 0x21);
-        put("female_health", 0x11);
-        put("pai", 0x03);
-        put("stress", 0x0F);
-        put("sleep", 0x05);
-        put("spo2", 0x13);
-        put("events", 0x18);
-        put("breathing", 0x12);
+    public static final Map<String, Integer> shortcutsNameLookup = new HashMap<String, Integer>() {{
+        put("00000001", R.string.menuitem_hr);
+        put("0000000A", R.string.menuitem_workout);
+        put("0000000C", R.string.menuitem_workout_status);
+        put("00000002", R.string.menuitem_weather);
+        put("0000001A", R.string.menuitem_worldclock);
+        put("00000016", R.string.menuitem_alarm);
+        put("00000004", R.string.menuitem_music);
+        put("00000020", R.string.menuitem_activity);
+        put("00000021", R.string.menuitem_eventreminder);
+        put("00000011", R.string.menuitem_female_health);
+        put("00000003", R.string.menuitem_pai);
+        put("0000000F", R.string.menuitem_stress);
+        put("00000005", R.string.menuitem_sleep);
+        put("00000013", R.string.menuitem_spo2);
+        put("00000018", R.string.menuitem_events);
+        put("00000012", R.string.menuitem_breathing);
     }};
 }

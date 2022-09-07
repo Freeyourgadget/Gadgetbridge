@@ -102,8 +102,13 @@ public abstract class Huami2021FirmwareInfo extends AbstractHuamiFirmwareInfo {
         }
 
         final String appType = getAppType();
-        if ("watchface".equals(appType)) {
-            return HuamiFirmwareType.WATCHFACE;
+        switch(appType) {
+            case "watchface":
+                return HuamiFirmwareType.WATCHFACE;
+            case "app":
+                return HuamiFirmwareType.APP;
+            default:
+                LOG.warn("Unknown app type {}", appType);
         }
 
         return HuamiFirmwareType.INVALID;
@@ -126,11 +131,17 @@ public abstract class Huami2021FirmwareInfo extends AbstractHuamiFirmwareInfo {
             case FIRMWARE:
                 return getFirmwareVersion(getBytes());
             case WATCHFACE:
-                final String appName = getAppName();
-                if (appName == null) {
+                final String watchfaceName = getAppName();
+                if (watchfaceName == null) {
                     return "(unknown watchface)";
                 }
-                return String.format("%s (watchface)", appName);
+                return String.format("%s (watchface)", watchfaceName);
+            case APP:
+                final String appName = getAppName();
+                if (appName == null) {
+                    return "(unknown app)";
+                }
+                return String.format("%s (app)", appName);
         }
 
         return null;
@@ -204,7 +215,7 @@ public abstract class Huami2021FirmwareInfo extends AbstractHuamiFirmwareInfo {
             // TODO Show preview icon?
             final String appName = jsonObject.getJSONObject("app").getString("appName");
 
-            return String.format("%s (watchface)", appName);
+            return String.format("%s", appName);
         } catch (final Exception e) {
             LOG.error("Failed to parse app.json", e);
         }

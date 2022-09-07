@@ -45,7 +45,7 @@ public class HuamiSettingsCustomizer implements DeviceSpecificSettingsCustomizer
     }
 
     @Override
-    public void customizeSettings(final DeviceSpecificSettingsHandler handler, Prefs prefs) {
+    public void customizeSettings(final DeviceSpecificSettingsHandler handler, final Prefs prefs) {
         for (HuamiVibrationPatternNotificationType notificationType : HuamiVibrationPatternNotificationType.values()) {
             final String typeKey = notificationType.name().toLowerCase(Locale.ROOT);
 

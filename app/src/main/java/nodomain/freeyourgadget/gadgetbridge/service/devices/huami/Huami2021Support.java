@@ -103,9 +103,12 @@ import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Set;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHelper;
@@ -1235,98 +1238,43 @@ public abstract class Huami2021Support extends HuamiSupport {
 
     @Override
     protected Huami2021Support setDisplayItems(final TransactionBuilder builder) {
-        setDisplayItems2021(builder, false, getAllDisplayItems(), getDefaultDisplayItems());
+        setDisplayItems2021(builder, false);
         return this;
     }
 
     @Override
     protected Huami2021Support setShortcuts(final TransactionBuilder builder) {
-        setDisplayItems2021(builder, true, getAllShortcutItems(), getDefaultShortcutItems());
+        setDisplayItems2021(builder, true);
         return this;
     }
 
-    /**
-     * Get the array of all possible display items.
-     */
-    protected int getAllDisplayItems() {
-        return 0;
-    }
-
-    /**
-     * Get the array of default display items.
-     */
-    protected int getDefaultDisplayItems() {
-        return 0;
-    }
-
-    /**
-     * Get the array of all possible shortcuts.
-     */
-    protected int getAllShortcutItems() {
-        return 0;
-    }
-
-    /**
-     * Get the array of default shortcuts.
-     */
-    protected int getDefaultShortcutItems() {
-        return 0;
-    }
-
-    private Huami2021Support setDisplayItems2021(final TransactionBuilder builder,
-                                                 final boolean isShortcuts, final int allSettings, final int defaultSettings) {
-        if (allSettings == 0) {
-            LOG.warn("List of all display items is missing");
-            return this;
-        }
-
-        final SharedPreferences prefs = GBApplication.getDeviceSpecificSharedPrefs(gbDevice.getAddress());
-        final String pages;
+    private void setDisplayItems2021(final TransactionBuilder builder,
+                                     final boolean isShortcuts) {
+        final Prefs prefs = new Prefs(GBApplication.getDeviceSpecificSharedPrefs(gbDevice.getAddress()));
+        final List<String> allSettings;
+        List<String> enabledList;
         final byte menuType;
-        final Map<String, Integer> idLookup;
 
         if (isShortcuts) {
             menuType = Huami2021Service.DISPLAY_ITEMS_SHORTCUTS;
-            pages = prefs.getString(HuamiConst.PREF_SHORTCUTS_SORTABLE, null);
-            idLookup = Huami2021MenuType.shortcutsIdLookup;
+            allSettings = prefs.getList(HuamiConst.PREF_ALL_SHORTCUTS, Collections.<String>emptyList());
+            enabledList = prefs.getList(HuamiConst.PREF_SHORTCUTS_SORTABLE, Collections.<String>emptyList());
             LOG.info("Setting shortcuts");
         } else {
             menuType = Huami2021Service.DISPLAY_ITEMS_MENU;
-            pages = prefs.getString(HuamiConst.PREF_DISPLAY_ITEMS_SORTABLE, null);
-            idLookup = Huami2021MenuType.displayItemIdLookup;
+            allSettings = prefs.getList(HuamiConst.PREF_ALL_DISPLAY_ITEMS, Collections.<String>emptyList());
+            enabledList = prefs.getList(HuamiConst.PREF_DISPLAY_ITEMS_SORTABLE, Collections.<String>emptyList());
             LOG.info("Setting menu items");
         }
 
-        final List<String> allSettingsList = new ArrayList<>(Arrays.asList(getContext().getResources().getStringArray(allSettings)));
-        List<String> enabledList;
-        if (pages != null) {
-            enabledList = new ArrayList<>(Arrays.asList(pages.split(",")));
-        } else if (defaultSettings != 0) {
-            enabledList = new ArrayList<>(Arrays.asList(getContext().getResources().getStringArray(defaultSettings)));
-        } else {
-            enabledList = new ArrayList<>();
+        if (allSettings.isEmpty()) {
+            LOG.warn("List of all display items is missing");
+            return;
         }
 
-        // Remove unknown items, so that we can configure even if some are unknown
-        for (int i = 0; i < allSettingsList.size(); i++) {
-            final String key = allSettingsList.get(i);
-            if (!idLookup.containsKey(key) && !key.equals("more")) {
-                LOG.warn("Unknown display item {}, ignoring", key);
-                allSettingsList.remove(i--);
-            }
-        }
-
-        for (int i = 0; i < enabledList.size(); i++) {
-            final String key = enabledList.get(i);
-            if (!idLookup.containsKey(key) && !key.equals("more")) {
-                LOG.warn("Unknown display item {}, ignoring", key);
-                enabledList.remove(i--);
-            }
-        }
-
-        if (!isShortcuts && !enabledList.contains("settings")) {
+        if (!isShortcuts && !enabledList.contains("00000013")) {
             // Settings can't be disabled
-            enabledList.add("settings");
+            enabledList.add("00000013");
         }
 
         if (isShortcuts && enabledList.size() > 10) {
@@ -1337,7 +1285,7 @@ public abstract class Huami2021Support extends HuamiSupport {
 
         LOG.info("Setting display items (shortcuts={}): {}", isShortcuts, enabledList);
 
-        int numItems = allSettingsList.size();
+        int numItems = allSettings.size();
         if (!isShortcuts) {
             // Exclude the "more" item from the main menu, since it's not a real item
             numItems--;
@@ -1354,17 +1302,11 @@ public abstract class Huami2021Support extends HuamiSupport {
         byte pos = 0;
         boolean inMoreSection = false;
 
-        for (final String key : enabledList) {
-            if (key.equals("more")) {
+        for (final String id : enabledList) {
+            if (id.equals("more")) {
                 inMoreSection = true;
                 pos = 0;
                 continue;
-            }
-
-            final Integer id = idLookup.get(key);
-            if (id == null) {
-                LOG.error("Invalid id {} for {}", id, key);
-                return this;
             }
 
             final byte sectionKey;
@@ -1377,37 +1319,29 @@ public abstract class Huami2021Support extends HuamiSupport {
             }
 
             // Screen IDs are sent as literal hex strings
-            buf.put(String.format("%08X", id).getBytes(StandardCharsets.UTF_8));
+            buf.put(id.getBytes(StandardCharsets.UTF_8));
             buf.put((byte) 0);
             buf.put(sectionKey);
             buf.put(pos++);
-            buf.put((byte) (key.equals("settings") ? 1 : 0));
+            buf.put((byte) (id.equals("00000013") ? 1 : 0));
         }
 
         // Set all disabled items
         pos = 0;
-        for (final String key : allSettingsList) {
-            if (enabledList.contains(key) || key.equals("more")) {
+        for (final String id : allSettings) {
+            if (enabledList.contains(id) || id.equals("more")) {
                 continue;
             }
 
-            final Integer id = idLookup.get(key);
-            if (id == null) {
-                LOG.error("Invalid id {} for {}", id, key);
-                return this;
-            }
-
             // Screen IDs are sent as literal hex strings
-            buf.put(String.format("%08X", id).getBytes(StandardCharsets.UTF_8));
+            buf.put(id.getBytes(StandardCharsets.UTF_8));
             buf.put((byte) 0);
             buf.put(DISPLAY_ITEMS_SECTION_DISABLED);
             buf.put(pos++);
-            buf.put((byte) (key.equals("settings") ? 1 : 0));
+            buf.put((byte) (id.equals("00000013") ? 1 : 0));
         }
 
         writeToChunked2021(builder, CHUNKED2021_ENDPOINT_DISPLAY_ITEMS, buf.array(), true);
-
-        return this;
     }
 
     @Override
@@ -1687,7 +1621,7 @@ public abstract class Huami2021Support extends HuamiSupport {
     }
 
     @Override
-    protected Huami2021Support requestDisplayItems(final TransactionBuilder builder) {
+    public Huami2021Support requestDisplayItems(final TransactionBuilder builder) {
         LOG.info("Requesting display items");
 
         writeToChunked2021(
@@ -2141,17 +2075,17 @@ public abstract class Huami2021Support extends HuamiSupport {
             return;
         }
 
-        final Map<Integer, String> idMap;
+        final String allScreensPrefKey;
         final String prefKey;
         switch (payload[1]) {
             case DISPLAY_ITEMS_MENU:
                 LOG.info("Got {} display items", numberScreens);
-                idMap = MapUtils.reverse(Huami2021MenuType.displayItemIdLookup);
+                allScreensPrefKey = HuamiConst.PREF_ALL_DISPLAY_ITEMS;
                 prefKey = HuamiConst.PREF_DISPLAY_ITEMS_SORTABLE;
                 break;
             case DISPLAY_ITEMS_SHORTCUTS:
                 LOG.info("Got {} shortcuts", numberScreens);
-                idMap = MapUtils.reverse(Huami2021MenuType.shortcutsIdLookup);
+                allScreensPrefKey = HuamiConst.PREF_ALL_SHORTCUTS;
                 prefKey = HuamiConst.PREF_SHORTCUTS_SORTABLE;
                 break;
             default:
@@ -2161,15 +2095,17 @@ public abstract class Huami2021Support extends HuamiSupport {
 
         final String[] mainScreensArr = new String[numberScreens];
         final String[] moreScreensArr = new String[numberScreens];
+        final List<String> allScreens = new LinkedList<>();
+        if (payload[1] == DISPLAY_ITEMS_MENU) {
+            // The band doesn't report the "more" screen, so we add it
+            allScreens.add("more");
+        }
 
         for (int i = 0; i < numberScreens; i++) {
             // Screen IDs are sent as literal hex strings
-            final Integer screenId = Integer.parseInt(new String(subarray(payload, 4 + i * 12, 4 + i * 12 + 8)), 16);
-            final String screenKey = idMap.get(screenId);
-            if (screenKey == null) {
-                LOG.warn("Unknown screen {}, ignoring", String.format("0x%08X", screenId));
-                continue;
-            }
+            final String screenId = new String(subarray(payload, 4 + i * 12, 4 + i * 12 + 8));
+
+            allScreens.add(screenId);
 
             final int screenSectionVal = payload[4 + i * 12 + 9];
             final int screenPosition = payload[4 + i * 12 + 10];
@@ -2185,14 +2121,14 @@ public abstract class Huami2021Support extends HuamiSupport {
                         LOG.warn("Duplicate position {} for main section", screenPosition);
                     }
                     //LOG.debug("mainScreensArr[{}] = {}", screenPosition, screenKey);
-                    mainScreensArr[screenPosition] = screenKey;
+                    mainScreensArr[screenPosition] = screenId;
                     break;
                 case DISPLAY_ITEMS_SECTION_MORE:
                     if (moreScreensArr[screenPosition] != null) {
                         LOG.warn("Duplicate position {} for more section", screenPosition);
                     }
                     //LOG.debug("moreScreensArr[{}] = {}", screenPosition, screenKey);
-                    moreScreensArr[screenPosition] = screenKey;
+                    moreScreensArr[screenPosition] = screenId;
                     break;
                 case DISPLAY_ITEMS_SECTION_DISABLED:
                     // Ignore disabled screens
@@ -2210,8 +2146,11 @@ public abstract class Huami2021Support extends HuamiSupport {
         }
         screens.removeAll(Collections.singleton(null));
 
+        final String allScrensPrefValue = StringUtils.join(",", allScreens.toArray(new String[0])).toString();
         final String prefValue = StringUtils.join(",", screens.toArray(new String[0])).toString();
-        final GBDeviceEventUpdatePreferences eventUpdatePreferences = new GBDeviceEventUpdatePreferences(prefKey, prefValue);
+        final GBDeviceEventUpdatePreferences eventUpdatePreferences = new GBDeviceEventUpdatePreferences()
+                .withPreference(allScreensPrefKey, allScrensPrefValue)
+                .withPreference(prefKey, prefValue);
 
         evaluateGBDeviceEvent(eventUpdatePreferences);
     }

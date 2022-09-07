@@ -2,10 +2,10 @@
 <androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
     <com.mobeta.android.dslv.DragSortListPreference
         android:icon="@drawable/ic_shortcut"
-        android:defaultValue="@array/pref_miband7_shortcuts_default"
+        android:defaultValue="@array/pref_huami2021_shortcuts"
         android:dialogTitle="@string/bip_prefs_shortcuts"
-        android:entries="@array/pref_miband7_shortcuts"
-        android:entryValues="@array/pref_miband7_shortcuts_values"
+        android:entries="@array/pref_huami2021_shortcuts"
+        android:entryValues="@array/pref_huami2021_shortcuts"
         android:key="shortcuts_sortable"
         android:persistent="true"
         android:summary="@string/bip_prefs_shotcuts_summary"

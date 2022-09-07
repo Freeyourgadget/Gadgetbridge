@@ -3973,7 +3973,7 @@ public abstract class HuamiSupport extends AbstractBTLEDeviceSupport implements 
         return this;
     }
 
-    protected HuamiSupport requestDisplayItems(TransactionBuilder builder) {
+    public HuamiSupport requestDisplayItems(TransactionBuilder builder) {
         LOG.warn("Function not implemented");
         return this;
     }

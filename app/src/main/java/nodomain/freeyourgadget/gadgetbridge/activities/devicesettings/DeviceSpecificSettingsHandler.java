@@ -16,6 +16,8 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.activities.devicesettings;
 
+import android.content.Context;
+
 import androidx.annotation.NonNull;
 import androidx.preference.Preference;
 
@@ -70,4 +72,11 @@ public interface DeviceSpecificSettingsHandler {
      * @return the {@link GBDevice}.
      */
     GBDevice getDevice();
+
+    /**
+     * Get the current {@link Context}.
+     *
+     * @return the {@link Context}.
+     */
+    Context getContext();
 }
