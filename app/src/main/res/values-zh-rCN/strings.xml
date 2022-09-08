@@ -1898,4 +1898,6 @@
     <string name="pref_title_notification_prefer_long_text">首选长通知文本</string>
     <string name="pref_summary_notification_prefer_long_text">如果可用，将长通知文本发送到设备</string>
     <string name="devicetype_amazfit_gts3">跃我 GTS 3</string>
+    <string name="kind_app">应用</string>
+    <string name="menuitem_unknown_app">未知 (%s)</string>
 </resources>
