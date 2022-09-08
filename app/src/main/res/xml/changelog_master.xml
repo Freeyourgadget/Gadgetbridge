@@ -1,5 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
+    <release version="0.70.0" versioncode="215">
+	<change>Initial support for Amazfit GTS 3</change>
+        <change>Initial support for Fossil Hybrid Gen6</change>
+        <change>Initial support for Flipper Zero</change>
+        <change>Huami: fix default vibration pattern</change>
+        <change>Huami: Enable vibration patterns for all compatible devices</change>
+        <change>Huami: Improve large firmware zip file handling</change>
+        <change>Bangle.js: Fix null pointer issue if headers not supplied for HTTP request</change>
+        <change>Bangle.js: Support calendar color and name</change>
+        <change>Mi Band 7: Fix crash if reminder, calendar or canned messages contain non-ascii characters</change>
+        <change>Mi Band 7: Fix NPE when acknowledging that icon was sent</change>
+        <change>Mi Band 7: Fix and enable firmware upgrades</change>
+        <change>Mi Band 7: Support for watchapps</change>
+        <change>Amazfit Neo: remove 1 hour heartrate interval (not supported)</change>
+        <change>Fossil Hybrid HR: Fix watchface redraw after powersave and after wrist flick</change>
+        <change>Fossil Hybrid HR: Enable configuring middle long press on FW 3.0 and newer</change>
+        <change>InfiniTime: Fix firmware update</change>
+        <change>Make heart rate measurement intervals configurable per-device</change>
+        <change>Add option to ignore low priority notifications</change>
+        <change>Fix Skype notifications</change>
+        <change>Prefer long notification text by default</change>
+        <change>Prefer big text when scraping gmail notifications</change>
+        <change>Do not remove newline and whitespace characters from notification content</change>
+        <change>Debug: Add companion device list to debug activity</change>
+    </release>
     <release version="0.69.0" versioncode="214">
         <change>Initial Support for Mi Band 7</change>
         <change>Initial support for devices using Binary Sensor Service</change>

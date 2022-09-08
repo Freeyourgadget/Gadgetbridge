@@ -1,0 +1,23 @@
+* Initial support for Amazfit GTS 3
+* Initial support for Fossil Hybrid Gen6
+* Initial support for Flipper Zero
+* Huami: fix default vibration pattern
+* Huami: Enable vibration patterns for all compatible devices
+* Huami: Improve large firmware zip file handling
+* Bangle.js: Fix null pointer issue if headers not supplied for HTTP request
+* Bangle.js: Support calendar color and name
+* Mi Band 7: Fix crash if reminder, calendar or canned messages contain non-ascii characters
+* Mi Band 7: Fix NPE when acknowledging that icon was sent
+* Mi Band 7: Fix and enable firmware upgrades
+* Mi Band 7: Support for watchapps
+* Amazfit Neo: remove 1 hour heartrate interval (not supported)
+* Fossil Hybrid HR: Fix watchface redraw after powersave and after wrist flick
+* Fossil Hybrid HR: Enable configuring middle long press on FW 3.0 and newer
+* InfiniTime: Fix firmware update
+* Make heart rate measurement intervals configurable per-device
+* Add option to ignore low priority notifications
+* Fix Skype notifications
+* Prefer long notification text by default
+* Prefer big text when scraping gmail notifications
+* Do not remove newline and whitespace characters from notification content
+* Debug: Add companion device list to debug activity
