@@ -58,8 +58,10 @@ public class FlipperZeroSupport extends FlipperZeroBaseSupport{
             return;
         }
 
+        long millis = intent.getExtras().getInt("EXTRA_DURATION", 1000);
+
         GB.toast(String.format("playing %s file", appName), Toast.LENGTH_SHORT, GB.INFO);
-        playFile(appName, filePath);
+        playFile(appName, filePath, millis);
 
         Intent response = new Intent(ACTION_PLAY_DONE);
         getContext().sendBroadcast(response);
@@ -184,14 +186,14 @@ public class FlipperZeroSupport extends FlipperZeroBaseSupport{
         openApp("Infrared");
     }
 
-    private void playFile(String appName, String filePath){
+    private void playFile(String appName, String filePath, long durationMillis){
         openApp(appName);
         try {
-            Thread.sleep(500);
+            Thread.sleep(1000);
             appLoadFile(filePath);
-            Thread.sleep(500);
+            Thread.sleep(1000);
             appButtonPress();
-            Thread.sleep(500);
+            Thread.sleep(durationMillis);
             appButtonRelease();
             Thread.sleep(1000);
             appExitRequest();
