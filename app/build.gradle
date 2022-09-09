@@ -42,16 +42,16 @@ def getGitHashShort = { ->
 
 android {
     compileOptions {
-        // for KitKat
-        sourceCompatibility JavaVersion.VERSION_1_7
-        targetCompatibility JavaVersion.VERSION_1_7
+        // for Android 5+
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
     }
     compileSdkVersion 29
     buildToolsVersion "31.0.0"
 
     defaultConfig {
         applicationId "nodomain.freeyourgadget.gadgetbridge"
-        minSdkVersion 19
+        minSdkVersion 21
         targetSdkVersion 29
         multiDexEnabled true
 

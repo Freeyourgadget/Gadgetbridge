@@ -71,7 +71,6 @@ public class MiScale2DeviceCoordinator extends AbstractBLEDeviceCoordinator {
 
     @NonNull
     @Override
-    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     public Collection<? extends ScanFilter> createBLEScanFilters() {
         ParcelUuid bodyCompositionService = new ParcelUuid(GattService.UUID_SERVICE_BODY_COMPOSITION);
 

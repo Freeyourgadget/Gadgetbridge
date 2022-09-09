@@ -186,15 +186,8 @@ public class NotificationListener extends NotificationListenerService {
                     }
                     for (StatusBarNotification sbn : sbns) {
                         if (sbn.getPostTime() == ts) {
-                            if (GBApplication.isRunningLollipopOrLater()) {
-                                String key = sbn.getKey();
-                                NotificationListener.this.cancelNotification(key);
-                            } else {
-                                int id = sbn.getId();
-                                String pkg = sbn.getPackageName();
-                                String tag = sbn.getTag();
-                                NotificationListener.this.cancelNotification(pkg, tag, id);
-                            }
+                            String key = sbn.getKey();
+                            NotificationListener.this.cancelNotification(key);
                         }
                     }
                     break;
@@ -284,7 +277,7 @@ public class NotificationListener extends NotificationListenerService {
         if (handleMediaSessionNotification(sbn)) return;
 
         int dndSuppressed = 0;
-        if (GBApplication.isRunningLollipopOrLater() && rankingMap != null) {
+        if (rankingMap != null) {
             // Handle priority notifications for Do Not Disturb
             Ranking ranking = new Ranking();
             if (rankingMap.getRanking(sbn.getKey(), ranking)) {
@@ -293,16 +286,14 @@ public class NotificationListener extends NotificationListenerService {
         }
 
         Prefs prefs = GBApplication.getPrefs();
-        if (GBApplication.isRunningLollipopOrLater()) {
-            if (prefs.getBoolean("notification_filter", false) && dndSuppressed == 1) {
-                return;
-            }
-            if (NotificationCompat.CATEGORY_CALL.equals(sbn.getNotification().category)
-                    && prefs.getBoolean("notification_support_voip_calls", false)
-                    && sbn.isOngoing()) {
-                handleCallNotification(sbn);
-                return;
-            }
+        if (prefs.getBoolean("notification_filter", false) && dndSuppressed == 1) {
+            return;
+        }
+        if (NotificationCompat.CATEGORY_CALL.equals(sbn.getNotification().category)
+                && prefs.getBoolean("notification_support_voip_calls", false)
+                && sbn.isOngoing()) {
+            handleCallNotification(sbn);
+            return;
         }
 
         if (shouldIgnoreNotification(sbn, false)) {
@@ -735,15 +726,13 @@ public class NotificationListener extends NotificationListenerService {
 
         if (handleMediaSessionNotification(sbn)) return;
 
-        if (GBApplication.isRunningLollipopOrLater()) {
-            if(Notification.CATEGORY_CALL.equals(sbn.getNotification().category)
-                    && activeCallPostTime == sbn.getPostTime()) {
-                activeCallPostTime = 0;
-                CallSpec callSpec = new CallSpec();
-                callSpec.command = CallSpec.CALL_END;
-                mLastCallCommand = callSpec.command;
-                GBApplication.deviceService().onSetCallState(callSpec);
-            }
+        if(Notification.CATEGORY_CALL.equals(sbn.getNotification().category)
+                && activeCallPostTime == sbn.getPostTime()) {
+            activeCallPostTime = 0;
+            CallSpec callSpec = new CallSpec();
+            callSpec.command = CallSpec.CALL_END;
+            mLastCallCommand = callSpec.command;
+            GBApplication.deviceService().onSetCallState(callSpec);
         }
 
         if (shouldIgnoreNotification(sbn, true)) return;
@@ -790,9 +779,7 @@ public class NotificationListener extends NotificationListenerService {
                 sbn.getPackageName()
         );
 
-        if (GBApplication.isRunningLollipopOrLater()) {
-            infoMsg += ": " + sbn.getNotification().category;
-        }
+        infoMsg += ": " + sbn.getNotification().category;
 
         LOG.debug(infoMsg);
     }

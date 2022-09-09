@@ -222,9 +222,7 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
 
         saveRawActivityFiles = getDeviceSpecificPreferences().getBoolean("save_raw_activity_files", false);
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            queueWrite(new RequestMtuRequest(512));
-        }
+        queueWrite(new RequestMtuRequest(512));
 
         listApplications();
         getDeviceInfos();

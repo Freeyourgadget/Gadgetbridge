@@ -265,16 +265,7 @@ public class FileUtils {
             }
 
             if (!GBEnvironment.env().isLocalTest()) { // don't do this with robolectric
-                final String storageState;
-                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
-                    storageState = Environment.getExternalStorageState(dir);
-                } else if(i == 0) {
-                    // the first directory is also the primary external storage, i.e. the same as Environment.getExternalFilesDir()
-                    storageState = Environment.getExternalStorageState();
-                } else {
-                    // Assume it is mounted on older android versions - we test writing later
-                    storageState = Environment.MEDIA_MOUNTED;
-                }
+                final String storageState = Environment.getExternalStorageState(dir);
                 if (!Environment.MEDIA_MOUNTED.equals(storageState)) {
                     GB.log("ignoring '" +  storageState + "' external storage dir: " + dir, GB.INFO, null);
                     continue;

@@ -739,11 +739,7 @@ public class QHybridSupport extends QHybridBaseSupport {
 
         PendingIntent intent = PendingIntent.getActivity(getContext(), 0, emailIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT_WATCH) {
-            notificationBuilder.addAction(new Notification.Action(0, "report", intent));
-        }else{
-            notificationBuilder.addAction(0, "report", intent);
-        }
+        notificationBuilder.addAction(new Notification.Action(0, "report", intent));
 
         GB.notify((int) System.currentTimeMillis(), notificationBuilder.build(), getContext());
     }

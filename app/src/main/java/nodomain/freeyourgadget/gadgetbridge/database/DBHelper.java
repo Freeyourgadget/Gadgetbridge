@@ -188,20 +188,6 @@ public class DBHelper {
     }
 
     /**
-     * WITHOUT ROWID is only available with sqlite 3.8.2, which is available
-     * with Lollipop and later.
-     *
-     * @return the "WITHOUT ROWID" string or an empty string for pre-Lollipop devices
-     */
-    @NonNull
-    public static String getWithoutRowId() {
-        if (GBApplication.isRunningLollipopOrLater()) {
-            return " WITHOUT ROWID;";
-        }
-        return "";
-    }
-
-    /**
      * Looks up the user entity in the database. If a user exists already, it will
      * be updated with the current preferences values. If no user exists yet, it will
      * be created in the database.

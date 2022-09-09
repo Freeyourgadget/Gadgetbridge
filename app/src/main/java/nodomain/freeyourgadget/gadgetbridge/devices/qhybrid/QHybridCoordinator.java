@@ -70,7 +70,6 @@ public class QHybridCoordinator extends AbstractBLEDeviceCoordinator {
         return DeviceType.UNKNOWN;
     }
 
-    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     @NonNull
     @Override
     public Collection<? extends ScanFilter> createBLEScanFilters() {

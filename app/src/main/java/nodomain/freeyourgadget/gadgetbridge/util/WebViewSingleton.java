@@ -138,14 +138,10 @@ public class WebViewSingleton {
             Map<String, String> headers = new HashMap<>();
             headers.put("Access-Control-Allow-Origin", "*");
 
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                internetResponse = new WebResourceResponse(data.getString("content-type"), data.getString("content-encoding"), 200, "OK",
-                        headers,
-                        new ByteArrayInputStream(data.getString("response").getBytes(Charset.forName(getCharsetFromHeaders(data.getString("content-type")))))
-                );
-            } else {
-                internetResponse = new WebResourceResponse(data.getString("content-type"), data.getString("content-encoding"), new ByteArrayInputStream(data.getString("response").getBytes(Charset.forName(getCharsetFromHeaders(data.getString("content-type"))))));
-            }
+            internetResponse = new WebResourceResponse(data.getString("content-type"), data.getString("content-encoding"), 200, "OK",
+                    headers,
+                    new ByteArrayInputStream(data.getString("response").getBytes(Charset.forName(getCharsetFromHeaders(data.getString("content-type")))))
+            );
 
             latch.countDown();
         }

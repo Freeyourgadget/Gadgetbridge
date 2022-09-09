@@ -63,7 +63,6 @@ public class HPlusCoordinator extends AbstractBLEDeviceCoordinator {
 
     @NonNull
     @Override
-    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     public Collection<? extends ScanFilter> createBLEScanFilters() {
         ParcelUuid hpService = new ParcelUuid(HPlusConstants.UUID_SERVICE_HP);
         ScanFilter filter = new ScanFilter.Builder().setServiceUuid(hpService).build();

@@ -148,9 +148,8 @@ public class FossilWatchAdapter extends WatchAdapter {
         timeoutThread.start();
 
         playPairingAnimation();
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            queueWrite(new RequestMtuRequest(512), false);
-        }
+
+        queueWrite(new RequestMtuRequest(512), false);
 
         getDeviceInfos();
     }
@@ -801,13 +800,11 @@ public class FossilWatchAdapter extends WatchAdapter {
             log("dropping requetst " + request.getName());
             return;
         }
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            new TransactionBuilder("requestMtu")
-                    .requestMtu(512)
-                    .queue(getDeviceSupport().getQueue());
+        new TransactionBuilder("requestMtu")
+                .requestMtu(512)
+                .queue(getDeviceSupport().getQueue());
 
-            this.fossilRequest = request;
-        }
+        this.fossilRequest = request;
     }
 
     private void log(String message) {

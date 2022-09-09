@@ -125,7 +125,7 @@ public class GBApplication extends Application {
     private static GBPrefs gbPrefs;
     private static LockHandler lockHandler;
     /**
-     * Note: is null on Lollipop and Kitkat
+     * Note: is null on Lollipop
      */
     private static NotificationManager notificationManager;
 
@@ -375,10 +375,6 @@ public class GBApplication extends Application {
      */
     public static void releaseDB() {
         dbLock.unlock();
-    }
-
-    public static boolean isRunningLollipopOrLater() {
-        return VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP;
     }
 
     public static boolean isRunningMarshmallowOrLater() {

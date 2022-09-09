@@ -141,7 +141,6 @@ public interface DeviceCoordinator {
      * @return the list of scan filters, may be empty
      */
     @NonNull
-    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     Collection<? extends ScanFilter> createBLEScanFilters();
 
     GBDevice createDevice(GBDeviceCandidate candidate);

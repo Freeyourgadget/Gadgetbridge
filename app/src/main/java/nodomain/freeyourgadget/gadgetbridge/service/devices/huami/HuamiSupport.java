@@ -2062,10 +2062,6 @@ public abstract class HuamiSupport extends AbstractBTLEDeviceSupport implements 
     }
 
     protected void requestMTU(int mtu) {
-        if (!GBApplication.isRunningLollipopOrLater()) {
-            LOG.warn("Requesting MTU is only supported in Lollipop or later");
-            return;
-        }
         new TransactionBuilder("requestMtu")
                 .requestMtu(mtu)
                 .queue(getQueue());

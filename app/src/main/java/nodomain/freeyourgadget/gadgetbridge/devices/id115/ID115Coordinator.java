@@ -45,7 +45,6 @@ import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
 public class ID115Coordinator extends AbstractBLEDeviceCoordinator {
     @NonNull
     @Override
-    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     public Collection<? extends ScanFilter> createBLEScanFilters() {
         ParcelUuid service = new ParcelUuid(ID115Constants.UUID_SERVICE_ID115);
         ScanFilter filter = new ScanFilter.Builder().setServiceUuid(service).build();

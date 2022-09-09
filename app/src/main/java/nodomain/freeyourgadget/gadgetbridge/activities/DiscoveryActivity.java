@@ -225,14 +225,12 @@ public class DiscoveryActivity extends AbstractGBActivity implements AdapterView
         return null;
     }
 
-    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     private ScanCallback getScanCallback() {
         if (newBLEScanCallback != null) {
             return newBLEScanCallback;
         }
 
         newBLEScanCallback = new ScanCallback() {
-            @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
             @Override
             public void onScanResult(int callbackType, ScanResult result) {
                 super.onScanResult(callbackType, result);
@@ -371,9 +369,7 @@ public class DiscoveryActivity extends AbstractGBActivity implements AdapterView
             if (oldBleScanning) {
                 stopOldBLEDiscovery();
             } else {
-                if (GBApplication.isRunningLollipopOrLater()) {
-                    stopBLEDiscovery();
-                }
+                stopBLEDiscovery();
             }
         } catch (Exception e) {
             LOG.warn("Error stopping discovery", e);
@@ -440,7 +436,7 @@ public class DiscoveryActivity extends AbstractGBActivity implements AdapterView
             if (what == Scanning.SCANNING_BT || what == Scanning.SCANNING_BT_NEXT_BLE) {
                 startBTDiscovery(what);
             } else if (what == Scanning.SCANNING_BLE && GB.supportsBluetoothLE()) {
-                if (oldBleScanning || Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+                if (oldBleScanning) {
                     startOldBTLEDiscovery();
                 } else {
                     startBTLEDiscovery();
@@ -462,7 +458,7 @@ public class DiscoveryActivity extends AbstractGBActivity implements AdapterView
             if (wasScanning == Scanning.SCANNING_BT || wasScanning == Scanning.SCANNING_BT_NEXT_BLE) {
                 stopBTDiscovery();
             } else if (wasScanning == Scanning.SCANNING_BLE) {
-                if (oldBleScanning || Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+                if (oldBleScanning) {
                     stopOldBLEDiscovery();
                 } else {
                     stopBLEDiscovery();
@@ -507,7 +503,6 @@ public class DiscoveryActivity extends AbstractGBActivity implements AdapterView
     /* New BTLE Discovery uses startScan (List<ScanFilter> filters,
                                          ScanSettings settings,
                                          ScanCallback callback) */
-    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     private void startBTLEDiscovery() {
         LOG.info("Starting BLE discovery");
 
@@ -523,7 +518,6 @@ public class DiscoveryActivity extends AbstractGBActivity implements AdapterView
         setIsScanning(Scanning.SCANNING_BLE);
     }
 
-    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     private void stopBLEDiscovery() {
         if (adapter == null) {
             return;
@@ -652,7 +646,6 @@ public class DiscoveryActivity extends AbstractGBActivity implements AdapterView
         return false;
     }
 
-    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     private ScanSettings getScanSettings() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             return new ScanSettings.Builder()

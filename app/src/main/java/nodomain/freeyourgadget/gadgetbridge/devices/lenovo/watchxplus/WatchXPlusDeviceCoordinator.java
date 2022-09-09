@@ -69,7 +69,6 @@ public class WatchXPlusDeviceCoordinator extends AbstractBLEDeviceCoordinator {
 
     @NonNull
     @Override
-    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     public Collection<? extends ScanFilter> createBLEScanFilters() {
         ParcelUuid watchXpService = new ParcelUuid(WatchXPlusConstants.UUID_SERVICE_WATCHXPLUS);
         ScanFilter filter = new ScanFilter.Builder().setServiceUuid(watchXpService).build();

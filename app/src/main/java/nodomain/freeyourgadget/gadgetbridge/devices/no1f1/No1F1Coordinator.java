@@ -47,7 +47,6 @@ public class No1F1Coordinator extends AbstractBLEDeviceCoordinator {
 
     @NonNull
     @Override
-    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     public Collection<? extends ScanFilter> createBLEScanFilters() {
         ParcelUuid hpService = new ParcelUuid(No1F1Constants.UUID_SERVICE_NO1);
         ScanFilter filter = new ScanFilter.Builder().setServiceUuid(hpService).build();

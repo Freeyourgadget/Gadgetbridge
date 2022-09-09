@@ -131,9 +131,7 @@ public class SleepAlarmWidget extends AppWidgetProvider {
             alarms.add(alarm);
             GBApplication.deviceService(deviceForWidget).onSetAlarms(alarms);
 
-//            if (GBApplication.isRunningLollipopOrLater()) {
-//                setAlarmViaAlarmManager(context, calendar.getTimeInMillis());
-//            }
+//          setAlarmViaAlarmManager(context, calendar.getTimeInMillis());
         }
     }
 
@@ -145,7 +143,6 @@ public class SleepAlarmWidget extends AppWidgetProvider {
      * @param triggerTime    {@code long}: time at which the underlying alarm is triggered in wall time
      *                       milliseconds since the epoch
      */
-    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     private void setAlarmViaAlarmManager(Context packageContext, long triggerTime) {
         AlarmManager am = (AlarmManager) packageContext.getSystemService(Context.ALARM_SERVICE);
         // TODO: launch the alarm configuration activity when clicking the alarm in the status bar

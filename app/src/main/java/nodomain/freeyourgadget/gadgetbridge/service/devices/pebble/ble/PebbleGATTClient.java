@@ -140,9 +140,7 @@ class PebbleGATTClient extends BluetoothGattCallback {
                 subscribeToConnectionParams(gatt);
             }
         } else if (characteristic.getUuid().equals(MTU_CHARACTERISTIC)) {
-            if (GBApplication.isRunningLollipopOrLater()) {
-                gatt.requestMtu(339);
-            }
+            gatt.requestMtu(339);
         }
     }
 

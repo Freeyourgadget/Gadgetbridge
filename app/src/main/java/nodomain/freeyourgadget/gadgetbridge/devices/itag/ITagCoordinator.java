@@ -58,7 +58,6 @@ public class ITagCoordinator extends AbstractBLEDeviceCoordinator {
 
     @NonNull
     @Override
-    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     public Collection<? extends ScanFilter> createBLEScanFilters() {
         ScanFilter filter = new ScanFilter.Builder()
                 .setDeviceName("iTag")

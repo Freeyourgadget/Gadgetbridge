@@ -55,7 +55,6 @@ public class TeclastH30Coordinator extends AbstractBLEDeviceCoordinator {
 
     @NonNull
     @Override
-    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     public Collection<? extends ScanFilter> createBLEScanFilters() {
         ParcelUuid uuid = new ParcelUuid(JYouConstants.UUID_SERVICE_JYOU);
         ScanFilter filter = new ScanFilter.Builder().setServiceUuid(uuid).build();

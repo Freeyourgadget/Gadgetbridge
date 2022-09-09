@@ -34,7 +34,6 @@ public class SMAQ2OSSCoordinator extends AbstractBLEDeviceCoordinator {
 
     @NonNull
     @Override
-    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     public Collection<? extends ScanFilter> createBLEScanFilters() {
         ParcelUuid service = new ParcelUuid(SMAQ2OSSConstants.UUID_SERVICE_SMAQ2OSS);
         ScanFilter filter = new ScanFilter.Builder().setServiceUuid(service).build();

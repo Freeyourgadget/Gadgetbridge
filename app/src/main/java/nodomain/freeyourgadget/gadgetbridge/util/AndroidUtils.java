@@ -183,8 +183,7 @@ public class AndroidUtils {
         String selection = null;
         String[] selectionArgs = null;
 
-        // Uri is different in versions after KITKAT (Android 4.4), we need to
-        if (Build.VERSION.SDK_INT >= 19 && DocumentsContract.isDocumentUri(context.getApplicationContext(), uri)) {
+        if (DocumentsContract.isDocumentUri(context.getApplicationContext(), uri)) {
             if ("com.android.externalstorage.documents".equals(uri.getAuthority())) {
                 final String docId = DocumentsContract.getDocumentId(uri);
                 final String[] split = docId.split(":");

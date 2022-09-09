@@ -27,7 +27,6 @@ import nodomain.freeyourgadget.gadgetbridge.service.btle.BtLEAction;
 public class RequestMtuAction extends BtLEAction {
     private int mtu;
 
-    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     public RequestMtuAction(int mtu) {
         super(null);
         this.mtu = mtu;
@@ -39,7 +38,6 @@ public class RequestMtuAction extends BtLEAction {
         return true;
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     public boolean run(BluetoothGatt gatt) {
         return gatt.requestMtu(this.mtu);

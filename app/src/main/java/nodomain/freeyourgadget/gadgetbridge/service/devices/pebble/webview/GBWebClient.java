@@ -56,7 +56,6 @@ public class GBWebClient extends WebViewClient {
     };
     private static final Logger LOG = LoggerFactory.getLogger(GBWebClient.class);
 
-    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     @Override
     public WebResourceResponse shouldInterceptRequest(WebView view, WebResourceRequest request) {
         Uri parsedUri = request.getUrl();
@@ -131,16 +130,12 @@ public class GBWebClient extends WebViewClient {
 
     private WebResourceResponse mimicRawGitResponse(String path) {
         if("/aHcVolle/TrekVolle/master/online.html".equals(path)) { //TrekVolle online check
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                Map<String, String> headers = new HashMap<>();
-                headers.put("Access-Control-Allow-Origin", "*");
-                return new WebResourceResponse("text/html", "utf-8", 200, "OK",
-                        headers,
-                        new ByteArrayInputStream("1".getBytes())
-                );
-            } else {
-                return new WebResourceResponse("text/html", "utf-8", new ByteArrayInputStream("1".getBytes()));
-            }
+            Map<String, String> headers = new HashMap<>();
+            headers.put("Access-Control-Allow-Origin", "*");
+            return new WebResourceResponse("text/html", "utf-8", 200, "OK",
+                    headers,
+                    new ByteArrayInputStream("1".getBytes())
+            );
         }
 
         return null;
@@ -190,14 +185,10 @@ public class GBWebClient extends WebViewClient {
             Map<String, String> headers = new HashMap<>();
             headers.put("Access-Control-Allow-Origin", "*");
 
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                return new WebResourceResponse("application/json", "utf-8", 200, "OK",
-                        headers,
-                        new ByteArrayInputStream(resp.toString().getBytes())
-                );
-            } else {
-                return new WebResourceResponse("application/json", "utf-8", new ByteArrayInputStream(resp.toString().getBytes()));
-            }
+            return new WebResourceResponse("application/json", "utf-8", 200, "OK",
+                    headers,
+                    new ByteArrayInputStream(resp.toString().getBytes())
+            );
         } catch (JSONException e) {
             LOG.warn("Error building the JSON weather message.", e);
         }

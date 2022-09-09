@@ -190,7 +190,7 @@ public class GB {
                 deviceCommunicationServiceIntent.setAction(DeviceService.ACTION_DISCONNECT);
                 PendingIntent disconnectPendingIntent = PendingIntent.getService(context, 0, deviceCommunicationServiceIntent, PendingIntent.FLAG_ONE_SHOT);
                 builder.addAction(R.drawable.ic_notification_disconnected, context.getString(R.string.controlcenter_disconnect), disconnectPendingIntent);
-                if (GBApplication.isRunningLollipopOrLater() && DeviceHelper.getInstance().getCoordinator(device).supportsActivityDataFetching()) { //for some reason this fails on KK
+                if (DeviceHelper.getInstance().getCoordinator(device).supportsActivityDataFetching()) {
                     deviceCommunicationServiceIntent.setAction(DeviceService.ACTION_FETCH_RECORDED_DATA);
                     deviceCommunicationServiceIntent.putExtra(EXTRA_RECORDED_DATA_TYPES, ActivityKind.TYPE_ACTIVITY);
                     PendingIntent fetchPendingIntent = PendingIntent.getService(context, 1, deviceCommunicationServiceIntent, PendingIntent.FLAG_ONE_SHOT);
@@ -239,7 +239,7 @@ public class GB {
                 builder.setColor(context.getResources().getColor(R.color.accent));
             }
 
-            if (GBApplication.isRunningLollipopOrLater() && anyDeviceSupportesActivityDataFetching) { //for some reason this fails on KK
+            if (anyDeviceSupportesActivityDataFetching) {
                 Intent deviceCommunicationServiceIntent = new Intent(context, DeviceCommunicationService.class);
                 deviceCommunicationServiceIntent.setAction(DeviceService.ACTION_FETCH_RECORDED_DATA);
                 deviceCommunicationServiceIntent.putExtra(EXTRA_RECORDED_DATA_TYPES, ActivityKind.TYPE_ACTIVITY);
@@ -248,9 +248,8 @@ public class GB {
             }
         }
 
-        if (GBApplication.isRunningLollipopOrLater()) {
-            builder.setVisibility(NotificationCompat.VISIBILITY_PUBLIC);
-        }
+        builder.setVisibility(NotificationCompat.VISIBILITY_PUBLIC);
+
         if (GBApplication.minimizeNotification()) {
             builder.setPriority(Notification.PRIORITY_MIN);
         }
@@ -276,9 +275,9 @@ public class GB {
             PendingIntent reconnectPendingIntent = PendingIntent.getService(context, 2, deviceCommunicationServiceIntent, PendingIntent.FLAG_ONE_SHOT);
             builder.addAction(R.drawable.ic_notification, context.getString(R.string.controlcenter_connect), reconnectPendingIntent);
         }
-        if (GBApplication.isRunningLollipopOrLater()) {
-            builder.setVisibility(NotificationCompat.VISIBILITY_PUBLIC);
-        }
+
+        builder.setVisibility(NotificationCompat.VISIBILITY_PUBLIC);
+
         if (GBApplication.minimizeNotification()) {
             builder.setPriority(Notification.PRIORITY_MIN);
         }
