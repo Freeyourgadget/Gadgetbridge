@@ -47,6 +47,7 @@ android {
         targetCompatibility JavaVersion.VERSION_1_7
     }
     compileSdkVersion 29
+    buildToolsVersion "31.0.0"
 
     defaultConfig {
         applicationId "nodomain.freeyourgadget.gadgetbridge"
@@ -257,7 +258,7 @@ dependencies {
     implementation 'com.jaredrummler:colorpicker:1.0.2'
 //    implementation project(":DaoCore")
     implementation 'com.github.wax911:android-emojify:0.1.7'
-    implementation 'com.google.protobuf:protobuf-lite:3.0.1'
+    implementation 'com.google.protobuf:protobuf-javalite:3.10.0'
     implementation "androidx.multidex:multidex:2.0.1"
     implementation 'com.android.volley:volley:1.2.1'
 
@@ -348,22 +349,15 @@ tasks.withType(SpotBugsTask) {
     }
 }
 
+
 protobuf {
     protoc {
-        artifact = 'com.google.protobuf:protoc:3.0.0'
-    }
-    plugins {
-        javalite {
-            artifact = 'com.google.protobuf:protoc-gen-javalite:3.0.0'
-        }
+        artifact = 'com.google.protobuf:protoc:3.10.0'
     }
     generateProtoTasks {
         all().each { task ->
             task.builtins {
-                remove java
-            }
-            task.plugins {
-                javalite { }
+                java { option 'lite' }
             }
         }
     }
