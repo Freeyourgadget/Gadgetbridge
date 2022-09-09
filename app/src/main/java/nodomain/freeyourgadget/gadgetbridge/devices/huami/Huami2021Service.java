@@ -188,4 +188,11 @@ public class Huami2021Service {
     public static final byte USER_INFO_CMD_SET = 0x01;
     public static final byte USER_INFO_CMD_SET_ACK = 0x02;
 
+    /**
+     * Raw sensor control.
+     */
+    public static final byte[] CMD_RAW_SENSOR_START_1 = new byte[]{0x01, 0x03, 0x19}; // band replies 10:01:03:05
+    public static final byte[] CMD_RAW_SENSOR_START_2 = new byte[]{0x01, 0x03, 0x00, 0x00, 0x00, 0x19}; // band replies 10:01:01:05
+    public static final byte[] CMD_RAW_SENSOR_START_3 = new byte[]{0x02}; // band replies 10:02:01
+    public static final byte[] CMD_RAW_SENSOR_STOP = new byte[]{0x03}; // band replies 10:03:01
 }

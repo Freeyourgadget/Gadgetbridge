@@ -2296,6 +2296,9 @@ public abstract class HuamiSupport extends AbstractBTLEDeviceSupport implements 
         } else if (HuamiService.UUID_CHARACTERISTIC_CHUNKEDTRANSFER_2021_READ.equals(characteristicUUID) && huami2021ChunkedDecoder != null) {
             huami2021ChunkedDecoder.decode(characteristic.getValue());
             return true;
+        } else if (HuamiService.UUID_CHARACTERISTIC_RAW_SENSOR_DATA.equals(characteristicUUID)) {
+            handleRawSensorData(characteristic.getValue());
+            return true;
         } else {
             LOG.info("Unhandled characteristic changed: " + characteristicUUID);
             logMessageContent(characteristic.getValue());
@@ -4228,5 +4231,13 @@ public abstract class HuamiSupport extends AbstractBTLEDeviceSupport implements 
                 }
             }
         }
+    }
+
+    protected void setRawSensor(final boolean enable) {
+        LOG.info("setRawSensor not implemented for HuamiSupport");
+    }
+
+    protected void handleRawSensorData(final byte[] value) {
+        LOG.warn("handleRawSensorData not implemented for HuamiSupport");
     }
 }

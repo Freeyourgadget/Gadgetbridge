@@ -1192,6 +1192,30 @@ public abstract class Huami2021Support extends HuamiSupport {
     }
 
     @Override
+    protected void setRawSensor(final boolean enable) {
+        LOG.info("Set raw sensor to {}", enable);
+        try {
+            final TransactionBuilder builder = performInitialized("set raw sensor");
+            if (enable) {
+                builder.write(getCharacteristic(HuamiService.UUID_CHARACTERISTIC_RAW_SENSOR_CONTROL), Huami2021Service.CMD_RAW_SENSOR_START_1);
+                builder.write(getCharacteristic(HuamiService.UUID_CHARACTERISTIC_RAW_SENSOR_CONTROL), Huami2021Service.CMD_RAW_SENSOR_START_2);
+                builder.write(getCharacteristic(HuamiService.UUID_CHARACTERISTIC_RAW_SENSOR_CONTROL), Huami2021Service.CMD_RAW_SENSOR_START_3);
+            } else {
+                builder.write(getCharacteristic(HuamiService.UUID_CHARACTERISTIC_RAW_SENSOR_CONTROL), Huami2021Service.CMD_RAW_SENSOR_STOP);
+            }
+            builder.notify(getCharacteristic(HuamiService.UUID_CHARACTERISTIC_RAW_SENSOR_DATA), enable);
+            builder.queue(getQueue());
+        } catch (final IOException e) {
+            LOG.error("Unable to set raw sensor", e);
+        }
+    }
+
+    @Override
+    protected void handleRawSensorData(final byte[] value) {
+        LOG.debug("Raw sensor: {}", GB.hexdump(value));
+    }
+
+    @Override
     public void handle2021Payload(final short type, final byte[] payload) {
         if (payload == null || payload.length == 0) {
             LOG.warn("Empty or null payload for {}", String.format("0x%04x", type));
