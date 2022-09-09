@@ -44,6 +44,7 @@ public class FlipperZeroSupport extends FlipperZeroBaseSupport{
             }).start();
         }
     };
+    boolean recevierRegistered = false;
 
     private void handlePlaySubGHZ(Intent intent) {
         String appName = intent.getExtras().getString("EXTRA_APP_NAME", "Sub-GHz");
@@ -88,7 +89,10 @@ public class FlipperZeroSupport extends FlipperZeroBaseSupport{
 
     @Override
     protected TransactionBuilder initializeDevice(TransactionBuilder builder) {
-        getContext().registerReceiver(receiver, new IntentFilter(COMMAND_PLAY_FILE));
+        if(!recevierRegistered) {
+            getContext().registerReceiver(receiver, new IntentFilter(COMMAND_PLAY_FILE));
+            recevierRegistered = true;
+        }
 
         builder.add(new SetDeviceStateAction(getDevice(), GBDevice.State.INITIALIZING, getContext()));
 
@@ -105,7 +109,10 @@ public class FlipperZeroSupport extends FlipperZeroBaseSupport{
     public void dispose() {
         super.dispose();
 
-        getContext().unregisterReceiver(receiver);
+        if(recevierRegistered) {
+            getContext().unregisterReceiver(receiver);
+            recevierRegistered = false;
+        }
     }
 
     private void sendSerialData(byte[] data){
