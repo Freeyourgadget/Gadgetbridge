@@ -1897,4 +1897,6 @@
 \n
 \nהמשך התהליך הוא על אחריותך!</string>
     <string name="activity_prefs_allow_bluetooth_intent_api">API של Bluetooth Intent</string>
+    <string name="kind_app">יישומון</string>
+    <string name="menuitem_unknown_app">לא ידוע (%s)</string>
 </resources>
