@@ -1908,4 +1908,6 @@
     <string name="pref_summary_notification_prefer_long_text">Якщо доступно, надсилати довгий текст сповіщення на пристрій</string>
     <string name="menuitem_unknown_app">Невідомо (%s)</string>
     <string name="kind_app">Застосунок</string>
+    <string name="pref_title_overwrite_settings_on_connection">Перезаписувати налаштування під час з\'єднання</string>
+    <string name="pref_summary_overwrite_settings_on_connection">Під час під\'єднання до годинника перезаписувати всі налаштування на ньому.</string>
 </resources>
