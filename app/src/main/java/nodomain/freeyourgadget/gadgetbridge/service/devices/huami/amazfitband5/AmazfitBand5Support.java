@@ -19,9 +19,6 @@ package nodomain.freeyourgadget.gadgetbridge.service.devices.huami.amazfitband5;
 import android.content.Context;
 import android.net.Uri;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.io.IOException;
 
 import nodomain.freeyourgadget.gadgetbridge.R;
@@ -31,8 +28,6 @@ import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.miband5.MiBand5Support;
 
 public class AmazfitBand5Support extends MiBand5Support {
-    private static final Logger LOG = LoggerFactory.getLogger(AmazfitBand5Support.class);
-
     @Override
     protected AmazfitBand5Support setDisplayItems(TransactionBuilder builder) {
         setDisplayItemsNew(builder, false, true, R.array.pref_amazfitband5_display_items_default);
@@ -48,17 +43,5 @@ public class AmazfitBand5Support extends MiBand5Support {
     @Override
     public HuamiFWHelper createFWHelper(Uri uri, Context context) throws IOException {
         return new AmazfitBand5FWHelper(uri, context);
-    }
-    @Override
-    public boolean supportsSunriseSunsetWindHumidity() {
-        return true;
-    }
-
-    @Override
-    public void phase3Initialize(TransactionBuilder builder) {
-        super.phase3Initialize(builder);
-        LOG.info("phase3Initialize...");
-        setActivateDisplayOnLiftWristSensitivity(builder); // TODO? Move this to HuamiSupport?
-        setWorkoutActivityTypes(builder);  // TODO: Supported by other bands?
     }
 }

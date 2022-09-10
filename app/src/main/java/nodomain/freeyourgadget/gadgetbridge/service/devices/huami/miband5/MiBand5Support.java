@@ -25,6 +25,7 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 
 import nodomain.freeyourgadget.gadgetbridge.R;
+import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiFWHelper;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.miband5.MiBand5FWHelper;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
@@ -64,7 +65,8 @@ public class MiBand5Support extends MiBand4Support {
     public void phase3Initialize(TransactionBuilder builder) {
         super.phase3Initialize(builder);
         LOG.info("phase3Initialize...");
-        setActivateDisplayOnLiftWristSensitivity(builder); // TODO? Move this to HuamiSupport?
-        setWorkoutActivityTypes(builder);  // TODO: Supported by other bands?
+        if (HuamiCoordinator.getOverwriteSettingsOnConnection(getDevice().getAddress())) {
+            setWorkoutActivityTypes(builder);  // TODO: Supported by other bands?
+        }
     }
 }

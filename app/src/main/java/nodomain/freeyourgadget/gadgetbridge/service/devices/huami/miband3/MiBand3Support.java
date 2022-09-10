@@ -18,31 +18,22 @@ package nodomain.freeyourgadget.gadgetbridge.service.devices.huami.miband3;
 
 import android.content.Context;
 import android.net.Uri;
-import android.widget.Toast;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
 import nodomain.freeyourgadget.gadgetbridge.R;
+import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiFWHelper;
-import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiService;
-import nodomain.freeyourgadget.gadgetbridge.devices.huami.miband3.MiBand3Coordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.miband3.MiBand3FWHelper;
-import nodomain.freeyourgadget.gadgetbridge.devices.huami.miband3.MiBand3Service;
-import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.amazfitbip.AmazfitBipSupport;
-import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
 public class MiBand3Support extends AmazfitBipSupport {
-
     private static final Logger LOG = LoggerFactory.getLogger(MiBand3Support.class);
 
     @Override
@@ -70,10 +61,12 @@ public class MiBand3Support extends AmazfitBipSupport {
     public void phase2Initialize(TransactionBuilder builder) {
         super.phase2Initialize(builder);
         LOG.info("phase2Initialize...");
-        setLanguage(builder);
-        setBandScreenUnlock(builder);
-        setNightMode(builder);
-        setDateFormat(builder);
+        if (HuamiCoordinator.getOverwriteSettingsOnConnection(getDevice().getAddress())) {
+            setLanguage(builder);
+            setBandScreenUnlock(builder);
+            setNightMode(builder);
+            setDateFormat(builder);
+        }
     }
 
     @Override

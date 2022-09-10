@@ -4024,36 +4024,40 @@ public abstract class HuamiSupport extends AbstractBTLEDeviceSupport implements 
         final DeviceCoordinator coordinator = DeviceHelper.getInstance().getCoordinator(gbDevice);
 
         LOG.info("phase3Initialize...");
-        setDateDisplay(builder);
-        setTimeFormat(builder);
-        setUserInfo(builder);
-        setDistanceUnit(builder);
-        setWearLocation(builder);
-        setFitnessGoal(builder);
-        setDisplayItems(builder);
-        setDoNotDisturb(builder);
-        setRotateWristToSwitchInfo(builder);
-        setActivateDisplayOnLiftWrist(builder);
-        setDisplayCaller(builder);
-        setGoalNotification(builder);
-        setInactivityWarnings(builder);
-        setHourlyChime(builder);
-        setHeartrateSleepSupport(builder);
-        setHeartrateActivityMonitoring(builder);
-        setHeartrateAlert(builder);
-        setHeartrateStressMonitoring(builder);
-        setDisconnectNotification(builder);
-        setExposeHRThirdParty(builder);
-        setHeartrateMeasurementInterval(builder, HuamiCoordinator.getHeartRateMeasurementInterval(getDevice().getAddress()));
-        sendReminders(builder);
-        setWorldClocks(builder);
-        for (final HuamiVibrationPatternNotificationType type : HuamiVibrationPatternNotificationType.values()) {
-            final String typeKey = type.name().toLowerCase(Locale.ROOT);
-            setVibrationPattern(builder, HuamiConst.PREF_HUAMI_VIBRATION_PROFILE_PREFIX + typeKey);
+
+        if (HuamiCoordinator.getOverwriteSettingsOnConnection(getDevice().getAddress())) {
+            setDateDisplay(builder);
+            setTimeFormat(builder);
+            setUserInfo(builder);
+            setDistanceUnit(builder);
+            setWearLocation(builder);
+            setFitnessGoal(builder);
+            setDisplayItems(builder);
+            setDoNotDisturb(builder);
+            setRotateWristToSwitchInfo(builder);
+            setActivateDisplayOnLiftWrist(builder);
+            setDisplayCaller(builder);
+            setGoalNotification(builder);
+            setInactivityWarnings(builder);
+            setHourlyChime(builder);
+            setHeartrateSleepSupport(builder);
+            setHeartrateActivityMonitoring(builder);
+            setHeartrateAlert(builder);
+            setHeartrateStressMonitoring(builder);
+            setDisconnectNotification(builder);
+            setExposeHRThirdParty(builder);
+            setHeartrateMeasurementInterval(builder, HuamiCoordinator.getHeartRateMeasurementInterval(getDevice().getAddress()));
+            sendReminders(builder);
+            setWorldClocks(builder);
+            for (final HuamiVibrationPatternNotificationType type : HuamiVibrationPatternNotificationType.values()) {
+                final String typeKey = type.name().toLowerCase(Locale.ROOT);
+                setVibrationPattern(builder, HuamiConst.PREF_HUAMI_VIBRATION_PROFILE_PREFIX + typeKey);
+            }
+            if (!PasswordCapabilityImpl.Mode.NONE.equals(coordinator.getPasswordCapability())) {
+                setPassword(builder);
+            }
         }
-        if (!PasswordCapabilityImpl.Mode.NONE.equals(coordinator.getPasswordCapability())) {
-            setPassword(builder);
-        }
+
         requestAlarms(builder);
     }
 

@@ -84,6 +84,7 @@ public class AmazfitBipLiteCoordinator extends AmazfitBipCoordinator {
                 R.xml.devicesettings_buttonactions_with_longpress,
                 R.xml.devicesettings_device_actions,
                 R.xml.devicesettings_relax_firmware_checks,
+                R.xml.devicesettings_overwrite_settings_on_connection,
                 R.xml.devicesettings_transliteration
         };
     }

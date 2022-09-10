@@ -102,6 +102,7 @@ public class ZeppECoordinator extends HuamiCoordinator {
                 R.xml.devicesettings_bt_connected_advertisement,
                 R.xml.devicesettings_device_actions,
                 R.xml.devicesettings_high_mtu,
+                R.xml.devicesettings_overwrite_settings_on_connection,
                 R.xml.devicesettings_transliteration
         };
     }

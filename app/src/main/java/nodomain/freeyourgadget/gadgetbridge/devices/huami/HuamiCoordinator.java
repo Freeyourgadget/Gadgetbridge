@@ -347,6 +347,11 @@ public abstract class HuamiCoordinator extends AbstractBLEDeviceCoordinator {
         return prefs.getBoolean(DeviceSettingsPreferenceConst.PREF_BT_CONNECTED_ADVERTISEMENT, false);
     }
 
+    public static boolean getOverwriteSettingsOnConnection(String deviceAddress) {
+        Prefs prefs = new Prefs(GBApplication.getDeviceSpecificSharedPrefs(deviceAddress));
+        return prefs.getBoolean("overwrite_settings_on_connection", true);
+    }
+
     public static VibrationProfile getVibrationProfile(String deviceAddress, HuamiVibrationPatternNotificationType notificationType) {
         final String defaultVibrationProfileId;
         final int defaultVibrationCount;

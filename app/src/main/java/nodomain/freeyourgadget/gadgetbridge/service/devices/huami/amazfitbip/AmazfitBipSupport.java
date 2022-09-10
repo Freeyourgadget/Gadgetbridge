@@ -28,6 +28,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 import nodomain.freeyourgadget.gadgetbridge.R;
+import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiFWHelper;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.amazfitbip.AmazfitBipFWHelper;
 import nodomain.freeyourgadget.gadgetbridge.model.CallSpec;
@@ -109,7 +110,11 @@ public class AmazfitBipSupport extends HuamiSupport {
     public void phase2Initialize(TransactionBuilder builder) {
         super.phase2Initialize(builder);
         LOG.info("phase2Initialize...");
-        setLanguage(builder);
+
+        if (HuamiCoordinator.getOverwriteSettingsOnConnection(getDevice().getAddress())) {
+            setLanguage(builder);
+        }
+
         requestGPSVersion(builder);
     }
 

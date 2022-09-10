@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <SwitchPreference
+        android:defaultValue="true"
+        android:icon="@drawable/ic_settings_applications"
+        android:key="overwrite_settings_on_connection"
+        android:summary="@string/pref_summary_overwrite_settings_on_connection"
+        android:title="@string/pref_title_overwrite_settings_on_connection" />
+</androidx.preference.PreferenceScreen>

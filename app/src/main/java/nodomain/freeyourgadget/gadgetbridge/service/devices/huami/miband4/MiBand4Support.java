@@ -19,16 +19,21 @@ package nodomain.freeyourgadget.gadgetbridge.service.devices.huami.miband4;
 import android.content.Context;
 import android.net.Uri;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.IOException;
 
+import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiFWHelper;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.miband4.MiBand4FWHelper;
-import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
+import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.miband3.MiBand3Support;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.operations.UpdateFirmwareOperation;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.operations.UpdateFirmwareOperationNew;
 
 public class MiBand4Support extends MiBand3Support {
+    private static final Logger LOG = LoggerFactory.getLogger(MiBand4Support.class);
 
     @Override
     public byte getCryptFlags() {
@@ -48,5 +53,14 @@ public class MiBand4Support extends MiBand3Support {
     @Override
     public UpdateFirmwareOperation createUpdateFirmwareOperation(Uri uri) {
         return new UpdateFirmwareOperationNew(uri, this);
+    }
+
+    @Override
+    public void phase3Initialize(TransactionBuilder builder) {
+        super.phase3Initialize(builder);
+        LOG.info("phase3Initialize...");
+        if (HuamiCoordinator.getOverwriteSettingsOnConnection(getDevice().getAddress())) {
+            setActivateDisplayOnLiftWristSensitivity(builder); // TODO? Move this to HuamiSupport?
+        }
     }
 }

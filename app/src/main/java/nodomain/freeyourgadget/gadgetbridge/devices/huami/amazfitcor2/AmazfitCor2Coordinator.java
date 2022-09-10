@@ -104,6 +104,7 @@ public class AmazfitCor2Coordinator extends HuamiCoordinator {
                 R.xml.devicesettings_reserve_reminders_calendar,
                 R.xml.devicesettings_bt_connected_advertisement,
                 R.xml.devicesettings_device_actions,
+                R.xml.devicesettings_overwrite_settings_on_connection,
                 R.xml.devicesettings_transliteration
         };
     }

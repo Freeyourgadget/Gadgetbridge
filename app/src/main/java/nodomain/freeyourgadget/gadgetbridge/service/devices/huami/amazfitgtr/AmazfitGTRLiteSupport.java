@@ -21,6 +21,7 @@ import android.net.Uri;
 
 import java.io.IOException;
 
+import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiFWHelper;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.amazfitgtr.AmazfitGTRLiteFWHelper;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
@@ -40,7 +41,10 @@ public class AmazfitGTRLiteSupport extends AmazfitGTSSupport {
     @Override
     public void phase2Initialize(TransactionBuilder builder) {
         super.phase2Initialize(builder);
-        setLanguage(builder);
+
+        if (HuamiCoordinator.getOverwriteSettingsOnConnection(getDevice().getAddress())) {
+            setLanguage(builder);
+        }
     }
 
     @Override
