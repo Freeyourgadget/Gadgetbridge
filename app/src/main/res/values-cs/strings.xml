@@ -1885,4 +1885,19 @@
     <string name="pref_header_heartrate_alerts">Upozornění na tepovou frekvenci</string>
     <string name="pref_header_stress">Stres</string>
     <string name="pref_header_spo2">Krevní kyslík</string>
+    <string name="devicetype_flipper_zero">Flipper zero</string>
+    <string name="activity_prefs_allow_bluetooth_intent_api">Rozhraní Bluetooth Intent API</string>
+    <string name="fw_upgrade_notice_amazfit_gts3">Chystáte se nainstalovat firmvér %s na Amazfit GTS 3.
+\n
+\nVaše hodinky se po instalaci .zip souboru restartují.
+\n
+\nPOKRAČUJTE TO NA VLASTNÍ NEBEZPEČÍ!</string>
+    <string name="pref_title_notifications_ignore_low_priority">Ignorovat oznámení s nízkou prioritou</string>
+    <string name="pref_summary_notifications_ignore_low_priority">Neposílat hodinkám oznámení s nízkou a minimální prioritou</string>
+    <string name="pref_title_notification_prefer_long_text">Upřednostňovat dlouhý text oznámení</string>
+    <string name="pref_summary_notification_prefer_long_text">Pokud je k dispozici, odeslat do zařízení oznámení v plné délce</string>
+    <string name="kind_app">Aplikace</string>
+    <string name="devicetype_amazfit_gts3">Amazfit GTS 3</string>
+    <string name="menuitem_unknown_app">Neznámá (%s)</string>
+    <string name="activity_prefs_summary_allow_bluetooth_intent_api">Povolit ovládání připojení Bluetooth pomocí intent API</string>
 </resources>
