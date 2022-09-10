@@ -53,13 +53,11 @@ android {
         applicationId "nodomain.freeyourgadget.gadgetbridge"
         minSdkVersion 21
         targetSdkVersion 29
-        multiDexEnabled true
 
         // Note: always bump BOTH versionCode and versionName!
         versionName "0.70.0"
         versionCode 215
         vectorDrawables.useSupportLibrary = true
-        multiDexEnabled true
         buildConfigField "String", "GIT_HASH_SHORT", "\"${getGitHashShort()}\""
         buildConfigField "boolean", "INTERNET_ACCESS", "false"
         resValue "string", "pebble_content_provider", "com.getpebble.android.provider"
@@ -235,7 +233,6 @@ dependencies {
     implementation "androidx.recyclerview:recyclerview:1.2.1"
     implementation "androidx.legacy:legacy-support-v4:1.0.0"
     implementation "androidx.gridlayout:gridlayout:1.0.0"
-    implementation "androidx.multidex:multidex:2.0.1"
     implementation "androidx.palette:palette:1.0.0"
 
     implementation "com.google.android.material:material:1.4.0"
@@ -260,7 +257,6 @@ dependencies {
 //    implementation project(":DaoCore")
     implementation 'com.github.wax911:android-emojify:0.1.7'
     implementation 'com.google.protobuf:protobuf-javalite:3.10.0'
-    implementation "androidx.multidex:multidex:2.0.1"
     implementation 'com.android.volley:volley:1.2.1'
 
     // Android SDK bundles org.json, but we need an actual implementation to replace the stubs in tests
