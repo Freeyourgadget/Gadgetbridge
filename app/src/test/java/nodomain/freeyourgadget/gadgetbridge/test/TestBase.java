@@ -34,8 +34,7 @@ import static nodomain.freeyourgadget.gadgetbridge.Logging.PROP_LOGFILES_DIR;
  * directory.
  */
 @RunWith(RobolectricTestRunner.class)
-@Config(sdk = 19)
-// need sdk 19 because "WITHOUT ROWID" is not supported in robolectric/sqlite4java
+@Config(sdk = 21)
 public abstract class TestBase {
     protected static File logFilesDir;
 
