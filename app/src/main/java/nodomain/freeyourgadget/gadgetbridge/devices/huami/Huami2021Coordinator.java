@@ -16,11 +16,7 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.devices.huami;
 
-import android.content.Context;
-import android.net.Uri;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import androidx.annotation.NonNull;
 
 import java.util.Arrays;
 import java.util.List;
@@ -29,19 +25,24 @@ import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSpecificSettingsCustomizer;
 import nodomain.freeyourgadget.gadgetbridge.capabilities.HeartRateCapability;
 import nodomain.freeyourgadget.gadgetbridge.capabilities.password.PasswordCapabilityImpl;
-import nodomain.freeyourgadget.gadgetbridge.devices.InstallHandler;
+import de.greenrobot.dao.query.QueryBuilder;
+import nodomain.freeyourgadget.gadgetbridge.GBException;
 import nodomain.freeyourgadget.gadgetbridge.devices.SampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.entities.AbstractActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
+import nodomain.freeyourgadget.gadgetbridge.entities.Device;
+import nodomain.freeyourgadget.gadgetbridge.entities.HuamiExtendedActivitySampleDao;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
-import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
 
 public abstract class Huami2021Coordinator extends HuamiCoordinator {
-    private static final Logger LOG = LoggerFactory.getLogger(Huami2021Coordinator.class);
-
     @Override
     public boolean supportsHeartRateMeasurement(final GBDevice device) {
-        // TODO: One-shot HR measures are not working, so let's disable this for now
+        return true;
+    }
+
+    @Override
+    public boolean supportsManualHeartRateMeasurement(final GBDevice device) {
+        // TODO: It should be supported, but not yet properly implemented
         return false;
     }
 
@@ -61,15 +62,8 @@ public abstract class Huami2021Coordinator extends HuamiCoordinator {
     }
 
     @Override
-    public boolean supportsActivityTracking() {
-        // TODO: It's supported by the devices, but not yet implemented
-        return false;
-    }
-
-    @Override
-    public boolean supportsActivityDataFetching() {
-        // TODO: It's supported by the devices, but not yet implemented
-        return false;
+    public boolean supportsRemSleep() {
+        return true;
     }
 
     @Override
@@ -95,9 +89,17 @@ public abstract class Huami2021Coordinator extends HuamiCoordinator {
     }
 
     @Override
+    protected void deleteDevice(@NonNull final GBDevice gbDevice,
+                                @NonNull final Device device,
+                                @NonNull final DaoSession session) throws GBException {
+        final Long deviceId = device.getId();
+        final QueryBuilder<?> qb = session.getHuamiExtendedActivitySampleDao().queryBuilder();
+        qb.where(HuamiExtendedActivitySampleDao.Properties.DeviceId.eq(deviceId)).buildDelete().executeDeleteWithoutDetachingEntities();
+    }
+
+    @Override
     public SampleProvider<? extends AbstractActivitySample> getSampleProvider(final GBDevice device, final DaoSession session) {
-        // TODO: It's supported by the devices, but not yet implemented
-        return null;
+        return new HuamiExtendedSampleProvider(device, session);
     }
 
     @Override
@@ -117,7 +119,7 @@ public abstract class Huami2021Coordinator extends HuamiCoordinator {
     }
 
     @Override
-    public String[] getSupportedLanguageSettings(GBDevice device) {
+    public String[] getSupportedLanguageSettings(final GBDevice device) {
         return new String[]{
                 "auto",
                 "de_DE",
@@ -148,7 +150,7 @@ public abstract class Huami2021Coordinator extends HuamiCoordinator {
     }
 
     @Override
-    public int[] getSupportedDeviceSpecificSettings(GBDevice device) {
+    public int[] getSupportedDeviceSpecificSettings(final GBDevice device) {
         return new int[]{
                 R.xml.devicesettings_header_time,
                 //R.xml.devicesettings_timeformat,

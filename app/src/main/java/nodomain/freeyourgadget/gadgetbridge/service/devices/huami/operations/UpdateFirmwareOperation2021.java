@@ -40,12 +40,6 @@ public class UpdateFirmwareOperation2021 extends UpdateFirmwareOperation2020 {
     }
 
     @Override
-    protected void enableOtherNotifications(final TransactionBuilder builder, final boolean enable) {
-        // Disable 2021 chunked reads, otherwise firmware upgrades get interrupted
-        builder.notify(getCharacteristic(HuamiService.UUID_CHARACTERISTIC_CHUNKEDTRANSFER_2021_READ), enable);
-    }
-
-    @Override
     AbstractHuamiFirmwareInfo createFwInfo(final Uri uri, final Context context) throws IOException {
         return super.createFwInfo(uri, context);
 

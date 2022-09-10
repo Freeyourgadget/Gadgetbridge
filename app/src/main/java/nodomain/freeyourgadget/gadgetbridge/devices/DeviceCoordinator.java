@@ -274,6 +274,11 @@ public interface DeviceCoordinator {
     boolean supportsHeartRateMeasurement(GBDevice device);
 
     /**
+     * Returns true if the device supports triggering manual one-shot heart rate measurements.
+     */
+    boolean supportsManualHeartRateMeasurement(GBDevice device);
+
+    /**
      * Returns the readable name of the manufacturer.
      */
     String getManufacturer();

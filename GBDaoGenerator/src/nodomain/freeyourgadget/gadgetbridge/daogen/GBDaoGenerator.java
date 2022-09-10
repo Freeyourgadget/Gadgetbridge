@@ -43,7 +43,7 @@ public class GBDaoGenerator {
 
 
     public static void main(String[] args) throws Exception {
-        final Schema schema = new Schema(42, MAIN_PACKAGE + ".entities");
+        final Schema schema = new Schema(43, MAIN_PACKAGE + ".entities");
 
         Entity userAttributes = addUserAttributes(schema);
         Entity user = addUserInfo(schema, userAttributes);
@@ -60,6 +60,7 @@ public class GBDaoGenerator {
 
         addMakibesHR3ActivitySample(schema, user, device);
         addMiBandActivitySample(schema, user, device);
+        addHuamiExtendedActivitySample(schema, user, device);
         addPebbleHealthActivitySample(schema, user, device);
         addPebbleHealthActivityKindOverlay(schema, user, device);
         addPebbleMisfitActivitySample(schema, user, device);
@@ -220,6 +221,20 @@ public class GBDaoGenerator {
         activitySample.addIntProperty(SAMPLE_STEPS).notNull().codeBeforeGetterAndSetter(OVERRIDE);
         activitySample.addIntProperty(SAMPLE_RAW_KIND).notNull().codeBeforeGetterAndSetter(OVERRIDE);
         addHeartRateProperties(activitySample);
+        return activitySample;
+    }
+
+    private static Entity addHuamiExtendedActivitySample(Schema schema, Entity user, Entity device) {
+        Entity activitySample = addEntity(schema, "HuamiExtendedActivitySample");
+        addCommonActivitySampleProperties("MiBandActivitySample", activitySample, user, device);
+        activitySample.addIntProperty(SAMPLE_RAW_INTENSITY).notNull().codeBeforeGetterAndSetter(OVERRIDE);
+        activitySample.addIntProperty(SAMPLE_STEPS).notNull().codeBeforeGetterAndSetter(OVERRIDE);
+        activitySample.addIntProperty(SAMPLE_RAW_KIND).notNull().codeBeforeGetterAndSetter(OVERRIDE);
+        addHeartRateProperties(activitySample);
+        activitySample.addIntProperty("unknown1");
+        activitySample.addIntProperty("sleep");
+        activitySample.addIntProperty("deepSleep");
+        activitySample.addIntProperty("remSleep");
         return activitySample;
     }
 

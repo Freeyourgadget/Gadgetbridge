@@ -273,6 +273,11 @@ public abstract class AbstractDeviceCoordinator implements DeviceCoordinator {
     }
 
     @Override
+    public boolean supportsManualHeartRateMeasurement(final GBDevice device) {
+        return supportsHeartRateMeasurement(device);
+    }
+
+    @Override
     public boolean supportsRemSleep() {
         return false;
     }

@@ -16,6 +16,7 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.service.devices.huami;
 
+import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiService;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.miband.operations.AbstractMiBandOperation;
 
@@ -25,9 +26,13 @@ public abstract class AbstractHuamiOperation extends AbstractMiBandOperation<Hua
     }
 
     @Override
-    protected void enableOtherNotifications(TransactionBuilder builder, boolean enable) {
+    protected void enableOtherNotifications(final TransactionBuilder builder, final boolean enable) {
         // TODO: check which notifications we should disable and re-enable here
 //        builder.notify(getCharacteristic(MiBandService.UUID_CHARACTERISTIC_REALTIME_STEPS), enable)
 //                .notify(getCharacteristic(MiBandService.UUID_CHARACTERISTIC_SENSOR_DATA), enable);
+        if (getSupport() instanceof Huami2021Support) {
+            // Disable 2021 chunked reads, otherwise firmware upgrades and activity sync get interrupted
+            builder.notify(getCharacteristic(HuamiService.UUID_CHARACTERISTIC_CHUNKEDTRANSFER_2021_READ), enable);
+        }
     }
 }

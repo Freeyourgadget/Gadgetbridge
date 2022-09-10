@@ -367,7 +367,7 @@ public class GBDeviceAdapterv2 extends ListAdapter<GBDevice, GBDeviceAdapterv2.V
                 batteryStatusLabels[batteryIndex].setVisibility(View.VISIBLE);
             }
         }
-        holder.heartRateStatusBox.setVisibility((device.isInitialized() && coordinator.supportsRealtimeData() && coordinator.supportsHeartRateMeasurement(device)) ? View.VISIBLE : View.GONE);
+        holder.heartRateStatusBox.setVisibility((device.isInitialized() && coordinator.supportsRealtimeData() && coordinator.supportsManualHeartRateMeasurement(device)) ? View.VISIBLE : View.GONE);
         if (parent.getContext() instanceof ControlCenterv2) {
             ActivitySample sample = ((ControlCenterv2) parent.getContext()).getCurrentHRSample();
             if (sample != null) {

@@ -115,7 +115,9 @@ public class HuamiService {
 
     // maybe not really activity data, but steps?
     public static final byte COMMAND_FETCH_DATA = 0x02;
-    public static final byte COMMAND_XXXX_ACTIVITY_DATA = 0x03; // maybe delete/drop activity data?
+    // maybe delete/drop activity data?
+    // on Huami it's just 03 / on Huami 2021 it's 03:09
+    public static final byte COMMAND_ACK_ACTIVITY_DATA = 0x03;
 
     public static final byte[] COMMAND_SET_FITNESS_GOAL_START = new byte[] { 0x10, 0x0, 0x0 };
     public static final byte[] COMMAND_SET_FITNESS_GOAL_END = new byte[] { 0, 0 };
@@ -229,6 +231,7 @@ public class HuamiService {
     public static final byte COMMAND_FIRMWARE_REBOOT = 0x05; // to UUID_CHARACTERISTIC_FIRMWARE
 
     public static final byte[] RESPONSE_FINISH_SUCCESS = new byte[] {RESPONSE, 2, SUCCESS };
+    public static final byte[] RESPONSE_ACK_SUCCESS = new byte[] {RESPONSE, 3, SUCCESS };
     public static final byte[] RESPONSE_FIRMWARE_DATA_SUCCESS = new byte[] {RESPONSE, COMMAND_FIRMWARE_START_DATA, SUCCESS };
     /**
      * Received in response to any dateformat configuration request (byte 0 in the byte[] value.
