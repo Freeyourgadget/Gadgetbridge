@@ -1885,4 +1885,21 @@
     <string name="pref_header_stress">Stress</string>
     <string name="menuitem_countdown">Aftellen</string>
     <string name="pref_header_heartrate_sleep">Slaap</string>
+    <string name="fw_upgrade_notice_amazfit_gts3">U staat op het punt de %s-firmware op uw Amazfit GTS 3 te installeren.
+\n
+\nDe band zal opnieuw opstarten na het installeren van het .zip-bestand.
+\n
+\nVERDERGAAN IS OP EIGEN RISICO!</string>
+    <string name="pref_title_notifications_ignore_low_priority">Negeer meldingen met lage prioriteit</string>
+    <string name="pref_summary_notifications_ignore_low_priority">Stuur geen meldingen met lage en minimale prioriteit naar het horloge</string>
+    <string name="devicetype_flipper_zero">Flipper zero</string>
+    <string name="pref_title_notification_prefer_long_text">Voorkeur voor lange meldingstekst</string>
+    <string name="pref_summary_notification_prefer_long_text">Stuur, indien beschikbaar, de lange meldingstekst naar het apparaat</string>
+    <string name="kind_app">App</string>
+    <string name="activity_prefs_allow_bluetooth_intent_api">Bluetooth Intent API</string>
+    <string name="activity_prefs_summary_allow_bluetooth_intent_api">Sta het beheren van de Bluetooth-verbinding toe via de Intent API</string>
+    <string name="menuitem_unknown_app">Onbekend (%s)</string>
+    <string name="pref_title_overwrite_settings_on_connection">Instellingen overschrijven bij verbinding</string>
+    <string name="pref_summary_overwrite_settings_on_connection">Wanneer er verbinding met het apparaat gemaakt wordt, overschrijf alle instellingen erop.</string>
+    <string name="devicetype_amazfit_gts3">Amazfit GTS 3</string>
 </resources>
