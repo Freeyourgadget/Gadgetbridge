@@ -1904,4 +1904,6 @@ Temps de sommeil préféré en heures</string>
     <string name="devicetype_amazfit_gts3">Amazfit GTS 3</string>
     <string name="kind_app">App</string>
     <string name="menuitem_unknown_app">Inconnu (%s)</string>
+    <string name="pref_summary_overwrite_settings_on_connection">Lors de la connexion au bracelet, écrasez tous les réglages de celui-ci.</string>
+    <string name="pref_title_overwrite_settings_on_connection">Écraser les réglages à la connexion</string>
 </resources>
