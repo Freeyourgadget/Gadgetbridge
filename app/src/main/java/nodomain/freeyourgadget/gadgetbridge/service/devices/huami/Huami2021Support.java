@@ -1155,7 +1155,7 @@ public abstract class Huami2021Support extends HuamiSupport {
 
         final byte aodByte;
         switch (alwaysOnDisplay) {
-            case AUTO:
+            case AUTOMATIC:
                 aodByte = 0x01;
                 break;
             case SCHEDULED:

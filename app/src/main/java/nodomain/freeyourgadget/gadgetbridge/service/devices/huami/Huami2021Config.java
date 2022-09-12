@@ -565,7 +565,7 @@ public class Huami2021Config {
                         case 0x00:
                             return singletonMap(configArg.getPrefKey(), AlwaysOnDisplay.OFF.name().toLowerCase(Locale.ROOT));
                         case 0x01:
-                            return singletonMap(configArg.getPrefKey(), AlwaysOnDisplay.AUTO.name().toLowerCase(Locale.ROOT));
+                            return singletonMap(configArg.getPrefKey(), AlwaysOnDisplay.AUTOMATIC.name().toLowerCase(Locale.ROOT));
                         case 0x02:
                             return singletonMap(configArg.getPrefKey(), AlwaysOnDisplay.SCHEDULED.name().toLowerCase(Locale.ROOT));
                         case 0x03:

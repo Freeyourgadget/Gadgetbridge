@@ -18,7 +18,7 @@ package nodomain.freeyourgadget.gadgetbridge.devices.huami;
 
 public enum AlwaysOnDisplay {
     OFF,
-    AUTO,
+    AUTOMATIC,
     SCHEDULED,
     ALWAYS
 }
