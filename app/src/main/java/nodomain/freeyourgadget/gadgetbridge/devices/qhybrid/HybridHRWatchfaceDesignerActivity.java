@@ -402,6 +402,9 @@ public class HybridHRWatchfaceDesignerActivity extends AbstractGBActivity implem
                     if (watchfaceConfig.has("toggle_backlight_event")) {
                         watchfaceSettings.setToggleBacklightEvent(watchfaceConfig.getString("toggle_backlight_event"));
                     }
+                    if (watchfaceConfig.has("move_hands_event")) {
+                        watchfaceSettings.setMoveHandsEvent(watchfaceConfig.getString("move_hands_event"));
+                    }
                     if (watchfaceConfig.has("powersave_display")) {
                         watchfaceSettings.setPowersaveDisplay(watchfaceConfig.getBoolean("powersave_display"));
                     }

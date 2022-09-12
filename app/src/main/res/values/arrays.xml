@@ -2046,21 +2046,23 @@
         <item>widget_bg_dashed_circle</item>
     </string-array>
 
-    <string-array name="pref_hybridhr_watchface_buttonevents_items">
+    <string-array name="pref_hybridhr_watchface_events_items">
         <item name="">@string/menuitem_nothing</item>
         <item name="top_short_press_release">@string/pref_title_upper_button_function_short</item>
         <item name="top_hold">@string/pref_title_upper_button_function_long</item>
         <item name="middle_short_press_release">@string/pref_title_middle_button_function_short</item>
         <item name="bottom_short_press_release">@string/pref_title_lower_button_function_short</item>
         <item name="bottom_hold">@string/pref_title_lower_button_function_long</item>
+        <item name="flick_away">@string/watchface_setting_title_wrist_flick</item>
     </string-array>
-    <string-array name="pref_hybridhr_watchface_buttonevents_values">
+    <string-array name="pref_hybridhr_watchface_events_values">
         <item></item>
         <item>top_short_press_release</item>
         <item>top_hold</item>
         <item>middle_short_press_release</item>
         <item>bottom_short_press_release</item>
         <item>bottom_hold</item>
+        <item>flick_away</item>
     </string-array>
 
     <string-array name="activity_filter_quick_filter_period_items">

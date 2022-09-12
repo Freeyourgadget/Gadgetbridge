@@ -1559,6 +1559,7 @@
     <string name="watchface_setting_title_custom_events">Custom events</string>
     <string name="watchface_setting_button_toggle_widgets">Toggle widgets</string>
     <string name="watchface_setting_button_toggle_backlight">Turn backlight on</string>
+    <string name="watchface_setting_button_move_hands">Move hands</string>
     <string name="watchface_cache_confirm_overwrite">A watchface with this name already exists in the cache. Do you want to overwrite it?</string>
     <string name="watchface_upload_failed">Upload of the watchface failed. Please try again.</string>
     <string name="watchface_widget_type_battery">Battery</string>

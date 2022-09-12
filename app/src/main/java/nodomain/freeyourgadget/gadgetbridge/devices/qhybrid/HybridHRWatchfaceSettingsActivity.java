@@ -115,6 +115,11 @@ public class HybridHRWatchfaceSettingsActivity extends AbstractSettingsActivity 
             toggle_backlight.setValue(settings.getToggleBacklightEvent());
             toggle_backlight.setSummary(toggle_backlight.getEntry());
 
+            ListPreference move_hands = (ListPreference) findPreference("pref_hybridhr_watchface_move_hands");
+            move_hands.setOnPreferenceChangeListener(this);
+            move_hands.setValue(settings.getMoveHandsEvent());
+            move_hands.setSummary(move_hands.getEntry());
+
             SwitchPreference power_saving_display = (SwitchPreference) findPreference("pref_hybridhr_watchface_power_saving_display");
             power_saving_display.setOnPreferenceChangeListener(this);
             power_saving_display.setChecked(settings.getPowersaveDisplay());
@@ -161,6 +166,11 @@ public class HybridHRWatchfaceSettingsActivity extends AbstractSettingsActivity 
                     break;
                 case "pref_hybridhr_watchface_toggle_backlight":
                     settings.setToggleBacklightEvent(newValue.toString());
+                    ((ListPreference)preference).setValue(newValue.toString());
+                    preference.setSummary(((ListPreference)preference).getEntry());
+                    break;
+                case "pref_hybridhr_watchface_move_hands":
+                    settings.setMoveHandsEvent(newValue.toString());
                     ((ListPreference)preference).setValue(newValue.toString());
                     preference.setSummary(((ListPreference)preference).getEntry());
                     break;
