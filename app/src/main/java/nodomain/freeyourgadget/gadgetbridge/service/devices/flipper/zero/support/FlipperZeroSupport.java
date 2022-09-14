@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.widget.Toast;
 
+import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
 import java.util.UUID;
@@ -20,6 +21,11 @@ import nodomain.freeyourgadget.gadgetbridge.service.btle.profiles.IntentListener
 import nodomain.freeyourgadget.gadgetbridge.service.btle.profiles.battery.BatteryInfo;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.profiles.battery.BatteryInfoProfile;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
+import nodomain.freeyourgadget.gadgetbridge.util.protobuf.messagefields.MessageField;
+import nodomain.freeyourgadget.gadgetbridge.util.protobuf.messagefields.NestedMessageField;
+import nodomain.freeyourgadget.gadgetbridge.util.protobuf.messagefields.RootMessageField;
+import nodomain.freeyourgadget.gadgetbridge.util.protobuf.messagefields.StringMessageField;
+import nodomain.freeyourgadget.gadgetbridge.util.protobuf.messagefields.VarintMessageField;
 
 public class FlipperZeroSupport extends FlipperZeroBaseSupport{
     private BatteryInfoProfile batteryInfoProfile = new BatteryInfoProfile(this);
@@ -30,6 +36,14 @@ public class FlipperZeroSupport extends FlipperZeroBaseSupport{
 
     private final String COMMAND_PLAY_FILE = "nodomain.freeyourgadget.gadgetbridge.flipper.zero.PLAY_FILE";
     private final String ACTION_PLAY_DONE = "nodomain.freeyourgadget.gadgetbridge.flipper.zero.PLAY_DONE";
+
+    private final int REQUEST_ID_OPEN_APP = 16;
+    private final int REQUEST_ID_EXIT_APP = 47;
+    private final int REQUEST_ID_LOAD_FILE = 48;
+    private final int REQUEST_ID_PRESS_BUTTON = 49;
+    private final int REQUEST_ID_RELEASE_BUTTON = 50;
+
+    private int messageId = 0;
 
     BroadcastReceiver receiver = new BroadcastReceiver() {
         @Override
@@ -59,10 +73,12 @@ public class FlipperZeroSupport extends FlipperZeroBaseSupport{
             return;
         }
 
+        String buttonName = intent.getExtras().getString("EXTRA_BUTTON_NAME", "center");
+
         long millis = intent.getExtras().getInt("EXTRA_DURATION", 1000);
 
         GB.toast(String.format("playing %s file", appName), Toast.LENGTH_SHORT, GB.INFO);
-        playFile(appName, filePath, millis);
+        playFile(appName, filePath, buttonName, millis);
 
         Intent response = new Intent(ACTION_PLAY_DONE);
         getContext().sendBroadcast(response);
@@ -121,90 +137,76 @@ public class FlipperZeroSupport extends FlipperZeroBaseSupport{
                 .queue(getQueue());
     }
 
-    private void sendProtobufPacket(byte[] packet){
-        byte[] fullPacket = new byte[packet.length + 1];
-        fullPacket[0] = (byte) packet.length;
-        System.arraycopy(packet, 0, fullPacket, 1, packet.length);
-        sendSerialData(fullPacket);
+    private RootMessageField createMainRequest(int requestFieldNumber, MessageField... children){
+        return new RootMessageField(
+                new VarintMessageField(1, messageId++),
+                new NestedMessageField(requestFieldNumber, children)
+        );
     }
 
-    private void openApp(String appName){
-        // sub ghz payload: 13-08-15-82-01-0E-0A-07-   53-75-62-2D-47-48-7A   -12-03-52-50-43
-        ByteBuffer buffer = ByteBuffer.allocate(12 + appName.length());
-        buffer.put((byte)0x08);
-        buffer.put((byte)0x15);
-        // buffer.put((byte)(Math.random() * 256));
-        buffer.put((byte)0x82);
-        buffer.put((byte)0x01);
-        buffer.put((byte) (appName.length() + 7));
-        buffer.put((byte)0x0A);
-
-        buffer.put((byte) appName.length());
-        buffer.put(appName.getBytes());
-
-        buffer.put((byte)0x12);
-        buffer.put((byte)0x03);
-        buffer.put((byte)0x52);
-        buffer.put((byte)0x50);
-        buffer.put((byte)0x43);
-
-        sendProtobufPacket(buffer.array());
+    private void sendMainRequest(int requestFieldNumber, MessageField... children) throws IOException {
+        RootMessageField root = createMainRequest(requestFieldNumber, children);
+        sendSerialData(root.encodeToBytes());
     }
 
-    private void openSubGhzApp(){
+    private void openApp(String appName) throws IOException {
+        sendMainRequest(
+                REQUEST_ID_OPEN_APP,
+                new StringMessageField(1, appName),
+                new StringMessageField(2, "RPC")
+        );
+    }
+
+    private void openSubGhzApp() throws IOException {
         openApp("Sub-GHz");
     }
 
-    private void appLoadFile(String filePath){
-        // example payload 1C-08-16-82-03-17-0A-15-   2F-61-6E-79-2F-73-75-62-67-68-7A-2F-74-65-73-6C-61-2E-73-75-62
-        ByteBuffer buffer = ByteBuffer.allocate(7 + filePath.length());
-
-        buffer.put((byte) 0x08);
-        buffer.put((byte) 0x16);
-        buffer.put((byte) 0x82);
-        buffer.put((byte) 0x03);
-        buffer.put((byte) (filePath.length() + 2));
-        buffer.put((byte) 0x0A);
-        buffer.put((byte) filePath.length());
-        buffer.put(filePath.getBytes());
-
-        sendProtobufPacket(buffer.array());
-    }
-
-    private void appButtonPress(){
-        sendProtobufPacket(new byte[]{
-                (byte) 0x08, (byte) 0x17, (byte) 0x8A, (byte) 0x03, (byte) 0x00}
+    private void appLoadFile(String filePath) throws IOException {
+        sendMainRequest(
+                REQUEST_ID_LOAD_FILE,
+                new StringMessageField(1, filePath)
         );
     }
 
-    private void appButtonRelease(){
-        sendProtobufPacket(new byte[]{
-                (byte) 0x08, (byte) 0x18, (byte) 0x92, (byte) 0x03, (byte) 0x00}
+    private void appButtonPress(String button) throws IOException {
+        sendMainRequest(
+                REQUEST_ID_PRESS_BUTTON,
+                new StringMessageField(1, button)
         );
     }
-    private void appExitRequest(){
-        sendProtobufPacket(new byte[]{
-                (byte) 0x08, (byte) 0x19, (byte) 0xFA, (byte) 0x02, (byte) 0x00
-        });
+
+    private void appButtonRelease() throws IOException {
+        sendMainRequest(
+                REQUEST_ID_RELEASE_BUTTON
+        );
+    }
+    private void appExitRequest() throws IOException {
+        sendMainRequest(
+                REQUEST_ID_EXIT_APP
+        );
     }
 
     @Override
     public void onTestNewFunction() {
-        openApp("Infrared");
+        try {
+            openApp("Infrared");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
-    private void playFile(String appName, String filePath, long durationMillis){
-        openApp(appName);
+    private void playFile(String appName, String filePath, String buttonName, long durationMillis){
         try {
+            openApp(appName);
             Thread.sleep(1000);
             appLoadFile(filePath);
-            Thread.sleep(1000);
-            appButtonPress();
+            Thread.sleep(500);
+            appButtonPress(buttonName);
             Thread.sleep(durationMillis);
             appButtonRelease();
-            Thread.sleep(1000);
+            Thread.sleep(100);
             appExitRequest();
-        } catch (InterruptedException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
