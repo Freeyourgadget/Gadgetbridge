@@ -926,7 +926,7 @@
     <string name="descentMeters">Spadek</string>
     <string name="ascentMeters">Pod górę</string>
     <string name="distanceMeters">Dystans</string>
-    <string name="device_requires_key">WYMAGANY KLUCZ</string>
+    <string name="device_requires_key">WYMAGANY KLUCZ, DŁUGIE NACIŚNIĘCIE POWODUJE WEJŚCIE</string>
     <string name="require_location_provider">Lokalizacja musi być włączona</string>
     <string name="permission_granting_mandatory">Wszystkie te uprawnienia są wymagane, a ich brak może spowodować niestabilność</string>
     <string name="about_additional_device_support">Dodatkowe wsparcie dla urządzeń</string>
@@ -1462,7 +1462,7 @@
     <string name="prefs_activity_in_device_card_steps_title_summary">Pokaż wszystkie kroki</string>
     <string name="prefs_activity_in_device_card_sleep_title">Sen</string>
     <string name="prefs_activity_in_device_card_sleep_title_summary">Pokaż czas trwania snu</string>
-    <string name="discover_unsupported_devices_description">Włączenie tej opcji spowoduje wyświetlenie wszystkich wykrytych urządzeń bluetooth podczas skanowania. Krótkie dotknięcie spowoduje skopiowanie nazwy urządzenia i adresu mac do schowka. Długie naciśnięcie uruchomi okno dialogowe `Dodaj urządzenie testowe`.</string>
+    <string name="discover_unsupported_devices_description">Włączenie tej opcji spowoduje wyświetlenie wszystkich wykrytych urządzeń Bluetooth podczas skanowania. Krótkie dotknięcie skopiuje nazwę urządzenia i adres mac do schowka. Długie naciśnięcie uruchomi okno dialogowe `Dodaj urządzenie testowe`. Może powodować potencjalne problemy związane z zawieszaniem się aplikacji.</string>
     <string name="sony_touch_sensor">Sterowanie czujnikiem dotykowym</string>
     <string name="pref_header_sony_ambient_sound_control">Kontrola dźwięku otoczenia</string>
     <string name="sony_ambient_sound">Tryb</string>
@@ -1579,7 +1579,7 @@
     <string name="sony_anc_optimizer_status_atmospheric_pressure">Pomiar ciśnienia atmosferycznego…</string>
     <string name="sony_anc_optimizer_status_finished">Kończenie…</string>
     <string name="sony_anc_optimizer_status_wearing_condition">Mierzenie warunków użytkowania…</string>
-    <string name="pref_device_action_fitness_app_control_start">Rozpoczęcie śledzenia aplikacji fitness</string>
+    <string name="pref_device_action_fitness_app_control_start">Początek śledzenia aplikacji fitness</string>
     <string name="pref_title_notifications_generic_settings">Ustawienia powiadomień Androida</string>
     <string name="autoExport_lastTime_label">Ostatni automatyczny eksport: %1$s</string>
     <string name="activity_db_management_autoexport_enabled_yes">Automatyczny eksport jest włączony.</string>
@@ -1590,7 +1590,7 @@
     <string name="pref_device_action_fitness_app_control_stop">Zatrzymanie śledzenia aplikacji fitness</string>
     <string name="watchface_dialog_pre_setting_position">Wstępne ustawienie położenia na %s</string>
     <string name="activity_db_management_autoexport_location">Lokalizacja nie jest dostępna. Najprawdopodobniej jest to spowodowane nowym systemem uprawnień Androida. Prawdopodobnie automatyczny eksport teraz nie działa.</string>
-    <string name="watchface_setting_light_up_on_notification">Podświetlanie nowych powiadomień</string>
+    <string name="watchface_setting_light_up_on_notification">Podświetl przy nowym powiadomieniu</string>
     <string name="menuitem_email">E-mail</string>
     <string name="pref_screen_notification_profile_find_device">Znajdź urządzenie</string>
     <string name="pref_screen_notification_profile_event_reminder">Przypomnienie o wydarzeniach</string>
@@ -1771,4 +1771,143 @@
     <string name="pref_summary_banglejs_txt_bitmap_size">Jeśli \'Tekst jako bitmapy\' jest włączony, jaki rozmiar powinien mieć generowany tekst\?</string>
     <string name="prefs_heartrate_alert_high_threshold">Próg alarmowy wysokiego tętna</string>
     <string name="prefs_stress_monitoring_description">Monitorowanie poziomu stresu podczas odpoczynku</string>
+    <string name="controlcenter_set_preferences">Ustaw ustawienia</string>
+    <string name="controlcenter_toggle_details">Przełącz detale</string>
+    <string name="controlcenter_connected_fraction">Połączono: %d/%d</string>
+    <string name="activity_type_elliptical">Eliptyczna</string>
+    <string name="error_deleting_device">Błąd przy usuwaniu urządzenia: %s</string>
+    <string name="notification_gps_title">GPS Gadgetbridge</string>
+    <string name="menuitem_unknown_app">Nieznane (%s)</string>
+    <string name="devicetype_binary_sensor">Czujnik binarny</string>
+    <string name="notification_gps_text">Wysyłanie lokalizacji GPS do %1$d urządzeń</string>
+    <string name="menuitem_workout_history">Historia treningów</string>
+    <string name="menuitem_female_health">Zdrowie kobiety</string>
+    <string name="menuitem_workout_status">Status treningu</string>
+    <string name="share_log_not_enabled_message">Musisz najpierw włączyć rejestrowanie w Ustawieniach - Zapisywanie plików dziennika</string>
+    <string name="menuitem_personal_activity_intelligence">Inteligencja działań osobistych (PAI)</string>
+    <string name="permission_display_over_other_apps">%1$s potrzebuje pozwolenia na wyświetlanie nad innymi aplikacjami, aby umożliwić zegarkom Bangle.js rozpoczęcie działań poprzez intencje, gdy %1$s jest w tle.
+\n
+\nMożna to wykorzystać do uruchomienia aplikacji muzycznej i odtworzenia piosenki oraz wielu innych rzeczy.
+\n
+\nProszę dotknąć \"%2$s\", a następnie \"%1$s\" i włączyć \"Pozwól na wyświetlanie ponad innymi aplikacjami\", a następnie dotknąć \"Wróć\", aby powrócić do %1$s.</string>
+    <string name="watchface_dialog_widget_cat_generic">Generyczny</string>
+    <string name="watchface_dialog_widget_cat_2nd_tz_widget">Drugi widżet strefy czasowej</string>
+    <string name="prefs_double_tap_edge_summary">Wykrywaj podwójne stuknięcie, nawet jeśli nie stuknięto w panel dotykowy</string>
+    <string name="connection_over_bt_classic">Połączenie przez Bluetooth (klasyczne)</string>
+    <string name="autoconnect_from_device_title">Podłączenie przy połączeniu z urządzenia</string>
+    <string name="autoconnect_from_device_summary">Nawiąż połączenie, gdy połączenie jest inicjowane przez urządzenie, np. słuchawki</string>
+    <string name="prefs_always_on_display">Always On Display</string>
+    <string name="prefs_password_4_digits_1_to_4_summary">Hasło musi składać się z 4 znaków, z użyciem cyfr od 1 do 4</string>
+    <string name="prefs_password_6_digits_0_to_9_summary">Hasło musi mieć 6 znaków, z użyciem tylko cyfr</string>
+    <string name="prefs_screen_timeout">Czas trwania ekranu</string>
+    <string name="portuguese_pt">Portugalski (Portugalia)</string>
+    <string name="mi2_dnd_always">Zawsze</string>
+    <string name="smart">Inteligentny</string>
+    <string name="activity_type_outdoor_cycling">Kolarstwo</string>
+    <string name="devicetype_miband7">Xiaomi Smart Band 7</string>
+    <string name="prefs_ambient_volume_left">Głośność otoczenia Lewo</string>
+    <string name="auto_reconnect_ble_title">Automatyczne ponowne połączenie z urządzeniem</string>
+    <string name="step_streaks_achievements_sharing_title">Osiągnięcia kroków</string>
+    <string name="prefs_hourly_chime">Godzinny dzwonek</string>
+    <string name="pref_header_heartrate_sleep">Sen</string>
+    <string name="pref_header_heartrate_allday">Całodzienny monitoring</string>
+    <string name="pref_header_heartrate_alerts">Alerty tętna</string>
+    <string name="prefs_ambient_sound_during_call_summary">Słysz własny głos podczas połączenia</string>
+    <string name="step_streak_ongoing">W toku</string>
+    <string name="note">Uwaga</string>
+    <string name="watchface_setting_button_toggle_widgets">Przełączanie widżetów</string>
+    <string name="hybridhr_widget_bg_thin_circle">Cienki okrąg</string>
+    <string name="hybridhr_widget_bg_double_circle">Podwójny okrąg</string>
+    <string name="hybridhr_widget_bg_dashed_circle">Przerywany okrąg</string>
+    <string name="prefs_in_ear_detection_summary">Odtwarzanie rozmów przez słuchawki, gdy są w uszach</string>
+    <string name="pref_device_action_phone_gps_location_listener_stop">Zatrzymanie LocationListener GPS</string>
+    <string name="error_setting_parent_folder">Błąd ustawienia folderu nadrzędnego: %s</string>
+    <string name="step_streak_longest">Najdłuższa</string>
+    <string name="steps_streaks">Seria kroków</string>
+    <string name="auto_reconnect_ble_summary">Co jakiś czas próbuj połączyć się z urządzeniem</string>
+    <string name="steps_streaks_hint">Seria następujących po sobie dni bez przerwy z osiągnięciem celu kroków</string>
+    <string name="step_streak_total">Łącznie</string>
+    <string name="steps_streaks_total_steps">Kroków
+\nłącznie</string>
+    <string name="steps_streaks_streak_days">Ilość
+\ndni</string>
+    <string name="mi2_prefs_heart_rate_monitoring_summary">Konfiguruj monitorowanie tętna</string>
+    <string name="portuguese_br">Portugalski (Brazylia)</string>
+    <string name="pref_device_action_fitness_app_control_toggle">Przełącz śledzenie aplikacji fitness</string>
+    <string name="mi2_prefs_heart_rate_monitoring_alerts_summary">Konfiguruj monitorowanie tętna i progów alarmowych</string>
+    <string name="watchface_setting_title_custom_events">Własne wydarzenia</string>
+    <string name="prefs_customize_ambient_sound_summary">Dostosuj dźwięk otoczenia</string>
+    <string name="prefs_ambient_sound_during_call_title">Dźwięk otoczenia podczas połączenia</string>
+    <string name="prefs_ambient_volume_right">Głośność otoczenia Prawo</string>
+    <string name="prefs_ambient_settings_title">Opcje dźwięku otoczenia</string>
+    <string name="pref_title_touch_voice_assistant">Asystent głosowy</string>
+    <string name="prefs_switch_control_right">Prawy przełącznik sterujący</string>
+    <string name="pref_title_touch_anc">Aktywna redukcja hałasu</string>
+    <string name="pref_title_touch_quick_ambient">Szybki dźwięk otoczenia</string>
+    <string name="steps_streaks_achievement_rate">Wskaźnik
+\nosiągnięcia</string>
+    <string name="step_streak_average_steps_hint">Średnia ilość kroków na dzień serii</string>
+    <string name="steps_streaks_total_steps_hint_totals">Całkowita liczba kiedykolwiek zarejestrowanych kroków</string>
+    <string name="steps_streaks_average_steps">Średnia
+\nkroków</string>
+    <string name="step_streak_days_hint">Liczba kolejnych dni z osiągniętym celem kroków</string>
+    <string name="steps_streaks_total_steps_hint">Całkowita liczba kroków w całej serii</string>
+    <string name="steps_streaks_total_days_hint_totals">Odsetek dni z osiągniętym celem w stosunku do wszystkich dni z krokami</string>
+    <string name="steps_streaks_total_steps_average_hint">Całkowita średnia %d kroków na dzień</string>
+    <string name="prefs_seamless_connection_switch_title">Bezproblemowy przełącznik połączeń</string>
+    <string name="prefs_seamless_connection_switch_summary">Automatycznie przełącza słuchawki pomiędzy sparowanymi urządzeniami</string>
+    <string name="prefs_noise_control_with_one_earbud_summary">Zezwól na kontrolę hałasu przy użyciu tylko jednej słuchawki</string>
+    <string name="pref_ambient_sound_tone">Ton dźwięku otoczenia</string>
+    <string name="prefs_noise_control_with_one_earbud">Kontrola hałasu za pomocą jednej słuchawki</string>
+    <string name="pref_ambient_sound_tone_summary">Od miękkiego do czystego</string>
+    <string name="pref_balance">Balans</string>
+    <string name="pref_switch_controls_anc_ambient">Tłumienie hałasu ←→ Otoczenie</string>
+    <string name="prefs_password_summary">Zablokuj opaskę za pomocą hasła po zdjęciu z nadgarstka</string>
+    <string name="mi5_prefs_workout_activity_types_summary">Wybierz typy aktywności, które mają być wyświetlane na ekranie treningów</string>
+    <string name="activity_type_outdoor_running">Bieganie na świeżym powietrzu</string>
+    <string name="quick_alarm_description">Alarm z widżetu</string>
+    <string name="controlcenter_set_parent_folder">Ustaw folder nadrzędny</string>
+    <string name="activity_type_freestyle">Freestyle</string>
+    <string name="prefs_switch_control_left">Lewy przełącznik sterujący</string>
+    <string name="estonian">Estoński</string>
+    <string name="normal">Normalny</string>
+    <string name="kind_app">Aplikacja</string>
+    <string name="devicetype_amazfit_gts3">Amazfit GTS 3</string>
+    <string name="extended_ascii">Rozszerzone ASCII</string>
+    <string name="icelandic">Islandzki</string>
+    <string name="lithuanian">Litewski</string>
+    <string name="persian">Perski</string>
+    <string name="scandinavian">Skandynawski</string>
+    <string name="permission_notification_listener">%1$s potrzebuje dostępu do powiadomień, aby móc je wyświetlać na zegarku, gdy ekran telefonu jest wyłączony.
+\n
+\nProszę dotknąć \'%2$s\', a następnie \'%1$s\' i włączyć \'Pozwól na dostęp do powiadomień\', a następnie dotknąć \'Wróć\', aby powrócić do %1$s.</string>
+    <string name="permission_notification_policy_access">%1$s potrzebuje dostępu do ustawień Nie przeszkadzać, aby móc je honorować na zegarku, gdy ekran telefonu jest wyłączony.
+\n
+\nProszę dotknąć \"%2$s\", a następnie \"%1$s\" i włączyć \"Pozwól na zmianę ustawień trybu Nie Przeszkadzać\", a następnie dotknąć \"Wróć\", aby powrócić do %1$s.</string>
+    <string name="pref_title_touch_volume">Głośność</string>
+    <string name="pref_switch_controls_anc_off">Tłumienie hałasu ←→ Wyłączone</string>
+    <string name="sensitive">Wrażliwy</string>
+    <string name="permission_location">%1$s potrzebuje dostępu do Twojej lokalizacji w tle, aby móc pozostać połączonym z Twoim zegarkiem nawet wtedy, gdy ekran jest wyłączony.
+\n
+\nStuknij w \"%2$s\", aby się zgodzić.</string>
+    <string name="controlcenter_unset_folder">Nieustawiony folder</string>
+    <string name="pref_switch_controls_ambient_off">Otoczenie ←→ Wyłączone</string>
+    <string name="prefs_noise_control">Kontrola hałasu</string>
+    <string name="prefs_voice_detect">Wykrywanie głosu</string>
+    <string name="prefs_voice_detect_summary">Włącz dźwięk otoczenia i obniż głośność odtwarzania automatycznie po wykryciu głosu</string>
+    <string name="prefs_voice_detect_duration">Zakończ po ciszy przez:</string>
+    <string name="prefs_active_noise_cancelling_level">Poziom aktywnej redukcji hałasu</string>
+    <string name="step_streaks_achievements_sharing_message">Moje codzienne osiągnięcia krokowe!</string>
+    <string name="bengali">Bengalski</string>
+    <string name="prefs_always_on_display_summary">Utrzymuj wyświetlacz opaski zawsze włączonym</string>
+    <string name="prefs_password_enabled">Hasło włączone</string>
+    <string name="mi5_prefs_workout_activity_types">Rodzaje aktywności treningowej</string>
+    <string name="ukranian">Ukraiński</string>
+    <string name="watchface_dialog_widget_cat_custom_widget">Własny widżet</string>
+    <string name="pref_title_touch_ambient">Dźwięk otoczenia</string>
+    <string name="pref_switch_noise_control">Przełącznik kontroli hałasu</string>
+    <string name="prefs_double_tap_edge">Podwójne stuknięcie krawędzi</string>
+    <string name="devicetype_flipper_zero">Flipper zero</string>
+    <string name="activity_prefs_allow_bluetooth_intent_api">API Bluetooth Intent</string>
+    <string name="activity_prefs_summary_allow_bluetooth_intent_api">Pozwól na sterowanie połączeniem Bluetooth za pomocą Intent API</string>
 </resources>
