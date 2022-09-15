@@ -60,7 +60,7 @@
     <string name="always">Завжди</string>
     <string name="when_screen_off">Коли екран вимкнуто</string>
     <string name="never">Ніколи</string>
-    <string name="pref_header_privacy">Приавтність</string>
+    <string name="pref_header_privacy">Приватність</string>
     <string name="pref_title_canned_replies">Відповіді</string>
     <string name="pref_title_canned_reply_suffix">Загальний суфікс</string>
     <string name="pref_header_development">Параметри для розробників</string>
@@ -288,7 +288,7 @@
     <string name="pref_title_transliteration">Транслітерація</string>
     <string name="pref_summary_transliteration">Увімкніть цей параметр, якщо пристрій не підтримує шрифт вашої мови</string>
     <string name="pref_title_call_privacy_mode">Режим приватності викликів</string>
-    <string name="pref_call_privacy_mode_off">Показувати ім’я та номер</string>
+    <string name="pref_call_privacy_mode_off">Показувати ім\'я та номер</string>
     <string name="pref_call_privacy_mode_name">Приховати ім\'я, але показати номер</string>
     <string name="pref_call_privacy_mode_number">Приховати номер, але показати ім\'я</string>
     <string name="pref_call_privacy_mode_complete">Приховати ім\'я та номер</string>
@@ -564,7 +564,7 @@
     <string name="zetime_calories_type_all">Активно і неактивно спалені калорії</string>
     <string name="zetime_prefs_inactivity_repetitions">Повторення</string>
     <string name="zetime_prefs_inactivity_mo">Понеділок</string>
-    <string name="zetime_prefs_inactivity_tu">Вівторек</string>
+    <string name="zetime_prefs_inactivity_tu">Вівторок</string>
     <string name="zetime_prefs_inactivity_we">Середа</string>
     <string name="zetime_prefs_inactivity_th">Четвер</string>
     <string name="zetime_prefs_inactivity_fr">П\'ятниця</string>
@@ -644,7 +644,7 @@
 \n*.gpx - записи GPS
 \n*.log - файли логування
 \nВи знайдете експортовані файли (також помістіть сюди файли бази даних для імпорту) тут:</string>
-    <string name="dbmanagementactivvity_cannot_access_export_path">Немає доступу до теки експорту. Будь ласка зверніться до розробників.</string>
+    <string name="dbmanagementactivvity_cannot_access_export_path">Немає доступу до теки експорту. Будь ласка, зверніться до розробників.</string>
     <string name="dbmanagementactivity_overwrite_database_confirmation">Дійсно перезаписати поточні дані\? Всі поточні дані Вашої активності (якщо існують) будуть перезаписані.</string>
     <string name="dbmanagementactivity_really_delete_entire_db">Дійсно видалити всі дані\? Всі дані вашої активності та дані про ваш пристрій буде втрачено.</string>
     <string name="dbmanagementactivity_delete_old_activity_db">Видалити базу даних давнішої активності\?</string>
@@ -1066,7 +1066,7 @@
     <string name="prefs_autoremove_message">Автоматично видаляти СМС-повідомлення</string>
     <string name="fossil_hr_commute_processing">Обробка запиту…</string>
     <string name="fossil_hr_unavailable_unauthed">Недоступно без аутентифікації</string>
-    <string name="fossil_hr_synced_activity_data">Синхронизовані дані активностей</string>
+    <string name="fossil_hr_synced_activity_data">Синхронізовані дані активностей</string>
     <string name="fossil_hr_auth_failed">Автентифікацію не пройдено, функціональність обмежено</string>
     <string name="qhybrid_title_apps">Застосунки</string>
     <string name="qhybrid_title_background_image">Зображення тла</string>
@@ -1101,7 +1101,7 @@
     <string name="menuitem_pomodoro">Відстежувач Pomodoro</string>
     <string name="menuitem_sleep">Сон</string>
     <string name="menuitem_goal">Мета активності</string>
-    <string name="menuitem_stopwatch">Секундомер</string>
+    <string name="menuitem_stopwatch">Секундомір</string>
     <string name="menuitem_dnd">Тихий режим</string>
     <string name="menuitem_alexa">Alexa</string>
     <string name="menuitem_takephoto">Віддалене керування камерою</string>
@@ -1649,7 +1649,7 @@
     <string name="prefs_switch_control_right">Перемикання елемента керування праворуч</string>
     <string name="pref_title_touch_anc">Активне пригнічення шуму</string>
     <string name="pref_title_touch_volume">Гучність</string>
-    <string name="pref_ambient_sound_tone_summary">Від м’якого до чистого</string>
+    <string name="pref_ambient_sound_tone_summary">Від м\'якого до чистого</string>
     <string name="pref_switch_controls_anc_off">Пригнічення шуму ←→ Вимкнено</string>
     <string name="pref_switch_controls_ambient_off">Навколишнє середовище ←→ Вимкнено</string>
     <string name="prefs_noise_control">Контроль шуму</string>
@@ -1767,7 +1767,7 @@
     <string name="autoconnect_from_device_title">Під\'єднуватися після з\'єднання з пристрою</string>
     <string name="watchface_dialog_widget_timezone_duration">Тривалість показу годинника (в секундах)</string>
     <string name="open_fw_installer_warning_title">Попередження</string>
-    <string name="open_fw_installer_pick_file">Виберати файл</string>
+    <string name="open_fw_installer_pick_file">Вибрати файл</string>
     <string name="open_fw_installer_connect_minimum_one_device">Будь ласка, під\'єднайте ПРИНАЙМНІ ОДИН пристрій, на який ви хочете надіслати файл.</string>
     <string name="open_fw_installer_info_text">Налаштування Мікропрограма/Циферблат/Застосунок/Файл встановлювач дозволяє вивантажувати/установлювати підтримувані файли (мікропрограми, циферблати, застосунки, GPS, ресурси, шрифти...) на пристрій. Більше інформації дивіться у вікі: https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Firmware-Update</string>
     <string name="open_fw_installer_warning_text">Ця функція може зламати ваш пристрій. Однак, такого ніколи не траплялося з жодним із розробників через перепрошивання, але пам\'ятайте, що ви робите це на свій страх і ризик.</string>
@@ -1869,7 +1869,7 @@
 \nДІЙТЕ НА СВІЙ СТРАХ І РИЗИК!</string>
     <string name="pref_header_connection">З\'єднання</string>
     <string name="pref_header_calendar">Календар</string>
-    <string name="pref_header_health">Здоров’я</string>
+    <string name="pref_header_health">Здоров\'я</string>
     <string name="pref_header_time">Час</string>
     <string name="pref_header_workout">Тренування</string>
     <string name="pref_header_display">Дисплей</string>
@@ -1897,7 +1897,7 @@
     <string name="pref_summary_notifications_ignore_low_priority">Не надсилати на годинник сповіщення з низьким і найнижчим пріоритетом</string>
     <string name="activity_prefs_allow_bluetooth_intent_api">Bluetooth Intent API</string>
     <string name="devicetype_flipper_zero">Flipper zero</string>
-    <string name="activity_prefs_summary_allow_bluetooth_intent_api">Дозволити керування з’єднанням Bluetooth через Intent API</string>
+    <string name="activity_prefs_summary_allow_bluetooth_intent_api">Дозволити керування з\'єднанням Bluetooth через Intent API</string>
     <string name="fw_upgrade_notice_amazfit_gts3">Ви збираєтесь установити мікропрограму %s на свій Amazfit GTS 3.
 \n
 \nВаш годинник перезапуститься після встановлення файлу .zip.
