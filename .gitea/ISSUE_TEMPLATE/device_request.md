@@ -4,8 +4,10 @@ about: Request for a new device
 labels:
 - device request
 ---
-You can use the `Preview` tab ^ above to see final rendering of your report. Use `x` in brackets ([x]) to "check" a checkbox.
 
+You are trying to submit a request for a device implementation into Gadgetbridge. We cannot make any promise that the device will be implemented, as adding an implementation for a new device requires either an experienced or a willing to learn developer, ideally with the device at hand. Without that, you may try to submit a device request and see if anyone steps up and implements it and you are basically indicating that you have the device and are willing to help with testing, should anyone try to add this device to Gadgetbridge.
+
+You can use the `Preview` tab ^ above to see final rendering of your report. Use `x` in brackets ([x]) to "check" a checkbox.
 
 #### Before proceeding further, please confirm the following:
 - [ ] I have read the [wiki](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki), and I didn't find this device mentioned there
@@ -13,9 +15,6 @@ You can use the `Preview` tab ^ above to see final rendering of your report. Use
 - [ ] Please make sure you have read and understood the [Codeberg Terms of Use](https://codeberg.org/Codeberg/org/src/branch/main/TermsOfUse.md)
 
 #### Device information
-
-- Adding an implementation for a new device requires a "willing to learn" developer, ideally with the device at hand. Without that, you may try to submit a device request and see if anyone steps up and implements it.
-
 
 - Provide device name, manufacturer and similarity to other devices:
 
@@ -26,7 +25,7 @@ You can use the `Preview` tab ^ above to see final rendering of your report. Use
 - Specify model and firmware version if possible:
 
 
-- Please let us know if you have the device and if you are able to provide logs and testing, because without a physical device, we cannot really implement it at all:
+- Please let us know if you have the device and if you are able to provide logs and testing:
 
 
 - If you want to help getting this device supported (and thus speed up the process), please take a look at:
