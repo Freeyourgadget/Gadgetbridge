@@ -1049,7 +1049,7 @@ public abstract class Huami2021Support extends HuamiSupport {
 
         try {
             final ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            baos.write((byte) 0x09);
+            baos.write(Huami2021Service.WEATHER_CMD_SET_DEFAULT_LOCATION);
             baos.write((byte) 0x02); // ? 2 for current, 4 for default
             baos.write((byte) 0x00); // ?
             baos.write((byte) 0x00); // ?
@@ -1719,6 +1719,9 @@ public abstract class Huami2021Support extends HuamiSupport {
                 return;
             case CHUNKED2021_ENDPOINT_ICONS:
                 handle2021Icons(payload);
+                return;
+            case CHUNKED2021_ENDPOINT_WEATHER:
+                handle2021Weather(payload);
                 return;
             case CHUNKED2021_ENDPOINT_WORKOUT:
                 handle2021Workout(payload);
@@ -2424,6 +2427,16 @@ public abstract class Huami2021Support extends HuamiSupport {
                 return;
             default:
                 LOG.warn("Unexpected icons byte {}", String.format("0x%02x", payload[0]));
+        }
+    }
+
+    protected void handle2021Weather(final byte[] payload) {
+        switch (payload[0]) {
+            case WEATHER_CMD_DEFAULT_LOCATION_ACK:
+                LOG.info("Weather default location ACK, status = {}", payload[1]);
+                return;
+            default:
+                LOG.warn("Unexpected weather byte {}", String.format("0x%02x", payload[0]));
         }
     }
 

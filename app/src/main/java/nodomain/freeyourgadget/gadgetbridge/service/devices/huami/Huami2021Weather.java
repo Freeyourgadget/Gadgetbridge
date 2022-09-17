@@ -120,43 +120,59 @@ public class Huami2021Weather {
         public List<Range> windDirection = new ArrayList<>();
         public List<Range> sunRiseSet = new ArrayList<>();
         public List<Range> windSpeed = new ArrayList<>();
-        public List<Object> moonRiseSet = new ArrayList<>();
+        public Object moonRiseSet = new Object();
         public List<Object> airQualities = new ArrayList<>();
 
         public ForecastResponse(final WeatherSpec weatherSpec, final int days) {
+            final int actualDays = Math.min(weatherSpec.forecasts.size(), days - 1); // leave one slot for the first day
+
             pubTime = new Date(weatherSpec.timestamp * 1000L);
 
             final Calendar calendar = GregorianCalendar.getInstance();
-            calendar.setTime(new Date(weatherSpec.timestamp * 1000L));
+            calendar.setTime(pubTime);
 
-            // TODO: We should send sunrise on the same location as the weather
-            final SimpleDateFormat sunRiseSetSdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.ROOT);
             final Location lastKnownLocation = new CurrentPosition().getLastKnownLocation();
             final GregorianCalendar sunriseDate = new GregorianCalendar();
             sunriseDate.setTime(calendar.getTime());
 
-            for (int i = 0; i < Math.min(weatherSpec.forecasts.size(), days); i++) {
+            // First one is for the current day
+            temperature.add(new Range(weatherSpec.todayMinTemp - 273, weatherSpec.todayMaxTemp - 273));
+            final String currentWeatherCode = String.valueOf(HuamiWeatherConditions.mapToAmazfitBipWeatherCode(weatherSpec.currentConditionCode) & 0xff);
+            weather.add(new Range(currentWeatherCode, currentWeatherCode));
+            sunRiseSet.add(getSunriseSunset(sunriseDate, lastKnownLocation));
+            sunriseDate.add(Calendar.DAY_OF_MONTH, 1);
+            windDirection.add(new Range(0, 0));
+            windSpeed.add(new Range(0, 0));
+
+            for (int i = 0; i < actualDays; i++) {
                 final WeatherSpec.Forecast forecast = weatherSpec.forecasts.get(i);
                 temperature.add(new Range(forecast.minTemp - 273, forecast.maxTemp - 273));
-                final String weatherCode = String.valueOf(HuamiWeatherConditions.mapToAmazfitBipWeatherCode(forecast.conditionCode) & 0xff); // is it?
+                final String weatherCode = String.valueOf(HuamiWeatherConditions.mapToAmazfitBipWeatherCode(forecast.conditionCode) & 0xff);
                 weather.add(new Range(weatherCode, weatherCode));
 
-                final GregorianCalendar[] sunriseTransitSet = SPA.calculateSunriseTransitSet(
-                        sunriseDate,
-                        lastKnownLocation.getLatitude(),
-                        lastKnownLocation.getLongitude(),
-                        DeltaT.estimate(sunriseDate)
-                );
-
-                final String from = sunRiseSetSdf.format(sunriseTransitSet[0].getTime());
-                final String to = sunRiseSetSdf.format(sunriseTransitSet[2].getTime());
-                sunRiseSet.add(new Range(from, to));
-
+                sunRiseSet.add(getSunriseSunset(sunriseDate, lastKnownLocation));
                 sunriseDate.add(Calendar.DAY_OF_MONTH, 1);
 
                 windDirection.add(new Range(0, 0));
                 windSpeed.add(new Range(0, 0));
             }
+        }
+
+        private Range getSunriseSunset(final GregorianCalendar date, final Location location) {
+            // TODO: We should send sunrise on the same location as the weather
+            final SimpleDateFormat sunRiseSetSdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.ROOT);
+
+            final GregorianCalendar[] sunriseTransitSet = SPA.calculateSunriseTransitSet(
+                    date,
+                    location.getLatitude(),
+                    location.getLongitude(),
+                    DeltaT.estimate(date)
+            );
+
+            final String from = sunRiseSetSdf.format(sunriseTransitSet[0].getTime());
+            final String to = sunRiseSetSdf.format(sunriseTransitSet[2].getTime());
+
+            return new Range(from, to);
         }
     }
 

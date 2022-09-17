@@ -52,8 +52,7 @@ public abstract class Huami2021Coordinator extends HuamiCoordinator {
 
     @Override
     public boolean supportsWeather() {
-        // TODO: It's supported by the devices, but not yet implemented
-        return false;
+        return true;
     }
 
     @Override

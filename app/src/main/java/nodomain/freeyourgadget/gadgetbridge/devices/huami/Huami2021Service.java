@@ -258,4 +258,10 @@ public class Huami2021Service {
     public static final byte CALENDAR_CMD_CREATE_EVENT_ACK = 0x08;
     public static final byte CALENDAR_CMD_DELETE_EVENT = 0x09;
     public static final byte CALENDAR_CMD_DELETE_EVENT_ACK = 0x0a;
+
+    /**
+     * Weather, for {@link Huami2021Service#CHUNKED2021_ENDPOINT_WEATHER}.
+     */
+    public static final byte WEATHER_CMD_SET_DEFAULT_LOCATION = 0x09;
+    public static final byte WEATHER_CMD_DEFAULT_LOCATION_ACK = 0x0a;
 }
