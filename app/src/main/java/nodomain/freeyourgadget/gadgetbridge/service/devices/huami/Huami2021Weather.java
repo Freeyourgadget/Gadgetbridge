@@ -20,10 +20,6 @@ import android.location.Location;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonPrimitive;
-import com.google.gson.JsonSerializationContext;
-import com.google.gson.JsonSerializer;
 
 import net.e175.klaus.solarpositioning.DeltaT;
 import net.e175.klaus.solarpositioning.SPA;
@@ -31,10 +27,7 @@ import net.e175.klaus.solarpositioning.SPA;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.lang.reflect.Type;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -58,7 +51,7 @@ public class Huami2021Weather {
     private static final Gson GSON = new GsonBuilder()
             .serializeNulls()
             .setDateFormat("yyyy-MM-dd'T'HH:mm:ssZ") // for pubTimes
-            .registerTypeAdapter(LocalDate.class, new LocalDateSerializer())
+            //.registerTypeAdapter(LocalDate.class, new LocalDateSerializer()) // Requires API 26
             .create();
 
     public static Response handleHttpRequest(final String path, final Map<String, String> query) {
@@ -199,7 +192,7 @@ public class Huami2021Weather {
     }
 
     private static class IndexEntry {
-        public LocalDate date;
+        public String date; // YYYY-MM-DD, but LocalDate would need API 26+
         public String osi;
         public String uvi;
         public Object pai;
@@ -316,11 +309,12 @@ public class Huami2021Weather {
     public static class AlertsResponse extends Response {
     }
 
-    private static class LocalDateSerializer implements JsonSerializer<LocalDate> {
-        @Override
-        public JsonElement serialize(final LocalDate src, final Type typeOfSrc, final JsonSerializationContext context) {
-            // Serialize as "yyyy-MM-dd" string
-            return new JsonPrimitive(src.format(DateTimeFormatter.ISO_LOCAL_DATE));
-        }
-    }
+    //@RequiresApi(api = Build.VERSION_CODES.O)
+    //private static class LocalDateSerializer implements JsonSerializer<LocalDate> {
+    //    @Override
+    //    public JsonElement serialize(final LocalDate src, final Type typeOfSrc, final JsonSerializationContext context) {
+    //        // Serialize as "yyyy-MM-dd" string
+    //        return new JsonPrimitive(src.format(DateTimeFormatter.ISO_LOCAL_DATE));
+    //    }
+    //}
 }
