@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <SwitchPreference
+        android:icon="@drawable/ic_developer_mode"
+        android:defaultValue="false"
+        android:key="third_party_apps_set_settings"
+        android:summary="@string/pref_summary_third_party_app_device_settings"
+        android:title="@string/pref_title_third_party_app_device_settings" />
+</androidx.preference.PreferenceScreen>
