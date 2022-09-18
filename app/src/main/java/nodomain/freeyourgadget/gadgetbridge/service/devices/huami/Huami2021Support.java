@@ -130,6 +130,7 @@ import nodomain.freeyourgadget.gadgetbridge.devices.miband.DoNotDisturb;
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst;
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.VibrationProfile;
+import nodomain.freeyourgadget.gadgetbridge.model.ActivityKind;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityUser;
 import nodomain.freeyourgadget.gadgetbridge.model.Alarm;
 import nodomain.freeyourgadget.gadgetbridge.model.CalendarEventSpec;
@@ -2027,14 +2028,18 @@ public abstract class Huami2021Support extends HuamiSupport {
             case WORKOUT_CMD_APP_OPEN:
                 final Huami2021WorkoutTrackActivityType activityType = Huami2021WorkoutTrackActivityType.fromCode(payload[3]);
                 final boolean workoutNeedsGps = (payload[2] == 1);
+                final int activityKind;
 
                 if (activityType == null) {
                     LOG.warn("Unknown workout activity type {}", String.format("0x%x", payload[3]));
+                    activityKind = ActivityKind.TYPE_UNKNOWN;
+                } else {
+                    activityKind = activityType.toActivityKind();
                 }
 
                 LOG.info("Workout starting on band: {}, needs gps = {}", activityType, workoutNeedsGps);
 
-                onWorkoutOpen(workoutNeedsGps);
+                onWorkoutOpen(workoutNeedsGps, activityKind);
                 return;
             case WORKOUT_CMD_STATUS:
                 switch (payload[1]) {

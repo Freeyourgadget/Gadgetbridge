@@ -110,6 +110,7 @@ import nodomain.freeyourgadget.gadgetbridge.entities.User;
 import nodomain.freeyourgadget.gadgetbridge.externalevents.gps.GBLocationManager;
 import nodomain.freeyourgadget.gadgetbridge.externalevents.opentracks.OpenTracksController;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice.State;
+import nodomain.freeyourgadget.gadgetbridge.model.ActivityKind;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityUser;
 import nodomain.freeyourgadget.gadgetbridge.model.Alarm;
@@ -1886,16 +1887,20 @@ public abstract class HuamiSupport extends AbstractBTLEDeviceSupport implements 
                 break;
             case HuamiDeviceEvent.WORKOUT_STARTING:
                 final HuamiWorkoutTrackActivityType activityType = HuamiWorkoutTrackActivityType.fromCode(value[3]);
+                final int activityKind;
 
                 if (activityType == null) {
                     LOG.warn("Unknown workout activity type {}", String.format("0x%02x", value[3]));
+                    activityKind = ActivityKind.TYPE_UNKNOWN;
+                } else {
+                    activityKind = activityType.toActivityKind();
                 }
 
                 final boolean needsGps = value[2] == 1;
 
                 LOG.info("Workout starting on band: {}, needs gps = {}", activityType, needsGps);
 
-                onWorkoutOpen(needsGps);
+                onWorkoutOpen(needsGps, activityKind);
 
                 break;
             default:
@@ -1910,12 +1915,18 @@ public abstract class HuamiSupport extends AbstractBTLEDeviceSupport implements 
     private boolean workoutNeedsGps = false;
 
     /**
+     * Track the {@link nodomain.freeyourgadget.gadgetbridge.model.ActivityKind} that was opened, for the same reasons as {@code workoutNeedsGps}.
+     */
+    private int workoutActivityKind = ActivityKind.TYPE_UNKNOWN;
+
+    /**
      * Track the last time we actually sent a gps location. We need to signal that GPS as re-acquired if the last update was too long ago.
      */
     private long lastPhoneGpsSent = 0;
 
-    protected void onWorkoutOpen(final boolean needsGps) {
+    protected void onWorkoutOpen(final boolean needsGps, final int activityKind) {
         this.workoutNeedsGps = needsGps;
+        this.workoutActivityKind = activityKind;
 
         final boolean sendGpsToBand = HuamiCoordinator.getWorkoutSendGpsToBand(getDevice().getAddress());
 
@@ -1936,7 +1947,7 @@ public abstract class HuamiSupport extends AbstractBTLEDeviceSupport implements 
         if (workoutNeedsGps && startOnPhone) {
             LOG.info("Starting OpenTracks recording");
 
-            OpenTracksController.startRecording(getContext());
+            OpenTracksController.startRecording(getContext(), workoutActivityKind);
         }
     }
 

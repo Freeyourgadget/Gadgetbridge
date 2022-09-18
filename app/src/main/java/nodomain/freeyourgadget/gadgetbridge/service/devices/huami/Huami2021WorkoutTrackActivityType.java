@@ -16,6 +16,11 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.service.devices.huami;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import nodomain.freeyourgadget.gadgetbridge.model.ActivityKind;
+
 /**
  * The workout types, used to start / when workout tracking starts on the band.
  */
@@ -38,6 +43,8 @@ public enum Huami2021WorkoutTrackActivityType {
     Yoga(0x3c),
     ;
 
+    private static final Logger LOG = LoggerFactory.getLogger(Huami2021WorkoutTrackActivityType.class);
+
     private final byte code;
 
     Huami2021WorkoutTrackActivityType(final int code) {
@@ -46,6 +53,39 @@ public enum Huami2021WorkoutTrackActivityType {
 
     public byte getCode() {
         return code;
+    }
+
+    public int toActivityKind() {
+        switch (this) {
+            case Badminton:
+                return ActivityKind.TYPE_BADMINTON;
+            case Elliptical:
+                return ActivityKind.TYPE_ELLIPTICAL_TRAINER;
+            case IndoorCycling:
+                return ActivityKind.TYPE_INDOOR_CYCLING;
+            case JumpRope:
+                return ActivityKind.TYPE_JUMP_ROPING;
+            case OutdoorCycling:
+                return ActivityKind.TYPE_CYCLING;
+            case OutdoorRunning:
+                return ActivityKind.TYPE_RUNNING;
+            case PoolSwimming:
+                return ActivityKind.TYPE_SWIMMING;
+            case Rowing:
+                return ActivityKind.TYPE_ROWING_MACHINE;
+            case Soccer:
+                return ActivityKind.TYPE_SOCCER;
+            case Treadmill:
+                return ActivityKind.TYPE_TREADMILL;
+            case Walking:
+                return ActivityKind.TYPE_WALKING;
+            case Yoga:
+                return ActivityKind.TYPE_YOGA;
+        }
+
+        LOG.warn("Unmapped workout type {}", this);
+
+        return ActivityKind.TYPE_UNKNOWN;
     }
 
     public static Huami2021WorkoutTrackActivityType fromCode(final byte code) {

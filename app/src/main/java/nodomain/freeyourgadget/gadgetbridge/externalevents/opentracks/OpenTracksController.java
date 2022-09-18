@@ -30,6 +30,7 @@ import org.slf4j.LoggerFactory;
 import java.util.ArrayList;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
+import nodomain.freeyourgadget.gadgetbridge.model.ActivityKind;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 
@@ -60,7 +61,7 @@ public class OpenTracksController extends Activity {
     private static final String ACTION_DASHBOARD = "Intent.OpenTracks-Dashboard";
     private static final String ACTION_DASHBOARD_PAYLOAD = ACTION_DASHBOARD + ".Payload";
 
-    private final Logger LOG = LoggerFactory.getLogger(OpenTracksController.class);
+    private static final Logger LOG = LoggerFactory.getLogger(OpenTracksController.class);
 
     @Override
     public void onCreate(Bundle bundle) {
@@ -111,7 +112,25 @@ public class OpenTracksController extends Activity {
         sendIntent(context, "de.dennisguse.opentracks.publicapi.StartRecording", null, null);
     }
 
-    public static void startRecording(Context context, String category, String icon) {
+    public static void startRecording(Context context, int activityKind) {
+        final String category = ActivityKind.asString(activityKind, context);
+        final String icon;
+        switch (activityKind) {
+            case ActivityKind.TYPE_CYCLING:
+                icon = "BIKE";
+                break;
+            case ActivityKind.TYPE_HIKING:
+            case ActivityKind.TYPE_WALKING:
+                icon = "WALK";
+                break;
+            case ActivityKind.TYPE_RUNNING:
+                icon = "RUN";
+                break;
+            default:
+                LOG.warn("Unmapped activity kind icon for {}", String.format("0x%X", activityKind));
+                icon = null;
+        }
+
         sendIntent(context, "de.dennisguse.opentracks.publicapi.StartRecording", category, icon);
     }
 

@@ -19,6 +19,8 @@ package nodomain.freeyourgadget.gadgetbridge.devices.qhybrid;
 import java.util.HashMap;
 import java.util.Map;
 
+import nodomain.freeyourgadget.gadgetbridge.model.ActivityKind;
+
 public final class QHybridConstants {
     public static final String HYBRIDHR_WATCHFACE_VERSION = "1.6";
     public static final int HYBRID_HR_WATCHFACE_WIDGET_SIZE = 76;
@@ -39,20 +41,12 @@ public final class QHybridConstants {
         }
     };
 
-    public static Map<Integer, String> WORKOUT_TYPES_TO_OPENTRACKS_CATEGORY = new HashMap<Integer, String>() {
+    public static Map<Integer, Integer> WORKOUT_TYPES_TO_ACTIVITY_KIND = new HashMap<Integer, Integer>() {
         {
-            put(1, "running");
-            put(2, "cycling");
-            put(8, "walking");
-            put(12, "hiking");
-        }
-    };
-    public static Map<Integer, String> WORKOUT_TYPES_TO_OPENTRACKS_ICON = new HashMap<Integer, String>() {
-        {
-            put(1, "RUN");
-            put(2, "BIKE");
-            put(8, "WALK");
-            put(12, "WALK");
+            put(1, ActivityKind.TYPE_RUNNING);
+            put(2, ActivityKind.TYPE_CYCLING);
+            put(8, ActivityKind.TYPE_WALKING);
+            put(12, ActivityKind.TYPE_HIKING);
         }
     };
 }

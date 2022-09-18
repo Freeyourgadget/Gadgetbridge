@@ -18,6 +18,8 @@ package nodomain.freeyourgadget.gadgetbridge.service.devices.huami;
 
 import java.util.Locale;
 
+import nodomain.freeyourgadget.gadgetbridge.model.ActivityKind;
+
 /**
  * The workout types, used to start / when workout tracking starts on the band.
  */
@@ -42,6 +44,33 @@ public enum HuamiWorkoutTrackActivityType {
 
     public byte getCode() {
         return code;
+    }
+
+    public int toActivityKind() {
+        switch (this) {
+            case Elliptical:
+                return ActivityKind.TYPE_ELLIPTICAL_TRAINER;
+            case IndoorCycling:
+                return ActivityKind.TYPE_INDOOR_CYCLING;
+            case JumpRope:
+                return ActivityKind.TYPE_JUMP_ROPING;
+            case OutdoorCycling:
+                return ActivityKind.TYPE_CYCLING;
+            case OutdoorRunning:
+                return ActivityKind.TYPE_RUNNING;
+            case PoolSwimming:
+                return ActivityKind.TYPE_SWIMMING;
+            case RowingMachine:
+                return ActivityKind.TYPE_ROWING_MACHINE;
+            case Treadmill:
+                return ActivityKind.TYPE_TREADMILL;
+            case Walking:
+                return ActivityKind.TYPE_WALKING;
+            case Yoga:
+                return ActivityKind.TYPE_YOGA;
+        }
+
+        return ActivityKind.TYPE_UNKNOWN;
     }
 
     public static HuamiWorkoutTrackActivityType fromCode(final byte code) {
