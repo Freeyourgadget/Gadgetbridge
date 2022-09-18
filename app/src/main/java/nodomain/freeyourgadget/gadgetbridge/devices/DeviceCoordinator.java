@@ -40,6 +40,7 @@ import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceCandidate;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
+import nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryParser;
 import nodomain.freeyourgadget.gadgetbridge.model.BatteryConfig;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
 
@@ -214,6 +215,13 @@ public interface DeviceCoordinator {
      * @return
      */
     SampleProvider<? extends ActivitySample> getSampleProvider(GBDevice device, DaoSession session);
+
+    /**
+     * Returns the {@link ActivitySummaryParser} for the device being supported.
+     *
+     * @return
+     */
+    ActivitySummaryParser getActivitySummaryParser(final GBDevice device);
 
     /**
      * Returns true if this device/coordinator supports installing files like firmware,

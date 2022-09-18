@@ -46,6 +46,7 @@ import nodomain.freeyourgadget.gadgetbridge.capabilities.HeartRateCapability;
 import nodomain.freeyourgadget.gadgetbridge.capabilities.password.PasswordCapabilityImpl;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHelper;
+import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiActivitySummaryParser;
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst;
 import nodomain.freeyourgadget.gadgetbridge.entities.AlarmDao;
 import nodomain.freeyourgadget.gadgetbridge.entities.BatteryLevelDao;
@@ -54,6 +55,7 @@ import nodomain.freeyourgadget.gadgetbridge.entities.Device;
 import nodomain.freeyourgadget.gadgetbridge.entities.DeviceAttributesDao;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceCandidate;
+import nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryParser;
 import nodomain.freeyourgadget.gadgetbridge.model.BatteryConfig;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 
@@ -148,6 +150,12 @@ public abstract class AbstractDeviceCoordinator implements DeviceCoordinator {
     @Override
     public boolean allowFetchActivityData(GBDevice device) {
         return device.isInitialized() && !device.isBusy() && supportsActivityDataFetching();
+    }
+
+    @Override
+    @Nullable
+    public ActivitySummaryParser getActivitySummaryParser(final GBDevice device) {
+        return null;
     }
 
     public boolean isHealthWearable(BluetoothDevice device) {

@@ -246,6 +246,7 @@
     <string name="pref_title_canned_messages_dismisscall">Call Dismissal</string>
     <string name="pref_title_canned_messages_set">Update on device</string>
     <string name="pref_header_development">Developer options</string>
+    <string name="pref_header_authentication">Authentication</string>
     <string name="pref_title_development_miaddr">Mi Band address</string>
     <string name="pref_title_pebble_settings">Pebble settings</string>
     <string name="pref_header_activitytrackers">Activity trackers</string>
@@ -723,7 +724,7 @@
     <string name="average">Average: %1$s</string>
     <string name="pref_title_dont_ack_transfer">Do not ACK activity data transfer</string>
     <string name="pref_summary_dont_ack_transfers">If not ACKed to the band, activity data is not cleared. Useful if GB is used together with other apps.</string>
-    <string name="pref_summary_keep_data_on_device">Will keep activity data on the Mi Band even after synchronization. Useful if GB is used together with other apps.</string>
+    <string name="pref_summary_keep_data_on_device">Will keep activity data on the device even after synchronization. Useful if GB is used together with other apps.</string>
     <string name="pref_title_low_latency_fw_update">Use low-latency mode for firmware flashing</string>
     <string name="pref_summary_low_latency_fw_update">This might help on devices where firmware flashing fails.</string>
     <string name="pref_title_third_party_app_device_settings">Allow 3rd party apps to change settings</string>
@@ -1459,6 +1460,8 @@
     <string name="sports_activity_quick_filter_7days">7 days</string>
     <string name="sports_activity_quick_filter_30days">30 days</string>
     <string name="sports_activity_quick_filter_select">Time period</string>
+    <string name="sports_activity_confirm_delete_title">Delete %d activities</string>
+    <string name="sports_activity_confirm_delete_description">Are you sure you want to delete %d activities?</string>
     <string name="activity_summaries_all_devices">All devices</string>
     <string name="activity_filter_from_placeholder">distant past</string>
     <string name="activity_filter_to_placeholder">today</string>

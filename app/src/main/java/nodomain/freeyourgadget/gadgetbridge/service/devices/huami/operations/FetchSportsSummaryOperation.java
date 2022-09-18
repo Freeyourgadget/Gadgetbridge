@@ -32,14 +32,21 @@ import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.Logging;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHelper;
+import nodomain.freeyourgadget.gadgetbridge.devices.DeviceCoordinator;
+import nodomain.freeyourgadget.gadgetbridge.devices.huami.Huami2021ActivitySummaryParser;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiActivitySummaryParser;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.amazfitbip.AmazfitBipService;
 import nodomain.freeyourgadget.gadgetbridge.entities.BaseActivitySummary;
 import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
 import nodomain.freeyourgadget.gadgetbridge.entities.Device;
 import nodomain.freeyourgadget.gadgetbridge.entities.User;
+import nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryParser;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.AbstractHuamiActivityDetailsParser;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.Huami2021ActivityDetailsParser;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.HuamiSupport;
+import nodomain.freeyourgadget.gadgetbridge.util.CheckSums;
+import nodomain.freeyourgadget.gadgetbridge.util.DeviceHelper;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
 /**
@@ -63,7 +70,7 @@ public class FetchSportsSummaryOperation extends AbstractFetchOperation {
     }
 
     @Override
-    protected void handleActivityFetchFinish(boolean success) {
+    protected boolean handleActivityFetchFinish(boolean success) {
         LOG.info(getName() + " has finished round " + fetchCount);
 
 //        GregorianCalendar lastSyncTimestamp = saveSamples();
@@ -77,12 +84,16 @@ public class FetchSportsSummaryOperation extends AbstractFetchOperation {
 //        }
 
         BaseActivitySummary summary = null;
-        if (success) {
+        final DeviceCoordinator coordinator = DeviceHelper.getInstance().getCoordinator(getDevice());
+        final ActivitySummaryParser summaryParser = coordinator.getActivitySummaryParser(getDevice());
+
+        boolean parseSummarySuccess = true;
+
+        if (success && buffer.size() > 0) {
             summary = new BaseActivitySummary();
             summary.setStartTime(getLastStartTimestamp().getTime()); // due to a bug this has to be set
             summary.setRawSummaryData(buffer.toByteArray());
-            HuamiActivitySummaryParser parser = new HuamiActivitySummaryParser();
-            summary = parser.parseBinaryData(summary);
+            summary = summaryParser.parseBinaryData(summary);
             if (summary != null) {
                 summary.setSummaryData(null); // remove json before saving to database,
                 try (DBHandler dbHandler = GBApplication.acquireDB()) {
@@ -95,21 +106,32 @@ public class FetchSportsSummaryOperation extends AbstractFetchOperation {
                     session.getBaseActivitySummaryDao().insertOrReplace(summary);
                 } catch (Exception ex) {
                     GB.toast(getContext(), "Error saving activity summary", Toast.LENGTH_LONG, GB.ERROR, ex);
+                    parseSummarySuccess = false;
                 }
             }
         }
 
-        super.handleActivityFetchFinish(success);
+        final boolean superSuccess = super.handleActivityFetchFinish(success);
+        boolean getDetailsSuccess = true;
 
         if (summary != null) {
-            FetchSportsDetailsOperation nextOperation = new FetchSportsDetailsOperation(summary, getSupport(), getLastSyncTimeKey());
+            final AbstractHuamiActivityDetailsParser detailsParser = ((HuamiActivitySummaryParser) summaryParser).getDetailsParser(summary);
+
+            FetchSportsDetailsOperation nextOperation = new FetchSportsDetailsOperation(summary, detailsParser, getSupport(), getLastSyncTimeKey());
             try {
                 nextOperation.perform();
             } catch (IOException ex) {
                 GB.toast(getContext(), "Unable to fetch activity details: " + ex.getMessage(), Toast.LENGTH_LONG, GB.ERROR, ex);
+                getDetailsSuccess = false;
             }
         }
 
+        return parseSummarySuccess && superSuccess && getDetailsSuccess;
+    }
+
+    @Override
+    protected boolean validChecksum(int crc32) {
+        return crc32 == CheckSums.getCRC32(buffer.toByteArray());
     }
 
     @Override

@@ -149,6 +149,10 @@ public class BLETypeConversions {
         return (bytes[0] & 0xff) | ((bytes[1] & 0xff) << 8);
     }
 
+    public static int toUint16(byte[] bytes, int offset) {
+        return (bytes[offset + 0] & 0xff) | ((bytes[offset + 1] & 0xff) << 8);
+    }
+
     public static int toInt16(byte... bytes) {
         return (short) (bytes[0] & 0xff | ((bytes[1] & 0xff) << 8));
     }

@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-option java_package = "nodomain.freeyourgadget.gadgetbridge";
+option java_package = "nodomain.freeyourgadget.gadgetbridge.proto";
 option java_outer_classname = "SMAQ2OSSProtos";
 
 message SetTime

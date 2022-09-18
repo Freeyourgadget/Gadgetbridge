@@ -17,9 +17,11 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.activities;
 
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
@@ -232,13 +234,25 @@ public class ActivitySummariesActivity extends AbstractListActivity<BaseActivity
                 SparseBooleanArray checked = getItemListView().getCheckedItemPositions();
                 switch (menuItem.getItemId()) {
                     case R.id.activity_action_delete:
-                        List<BaseActivitySummary> toDelete = new ArrayList<>();
+                        final List<BaseActivitySummary> toDelete = new ArrayList<>();
                         for (int i = 0; i < checked.size(); i++) {
                             if (checked.valueAt(i)) {
                                 toDelete.add(getItemAdapter().getItem(checked.keyAt(i)));
                             }
                         }
-                        deleteItems(toDelete);
+
+                        new AlertDialog.Builder(ActivitySummariesActivity.this)
+                                .setTitle(ActivitySummariesActivity.this.getString(R.string.sports_activity_confirm_delete_title, toDelete.size()))
+                                .setMessage(ActivitySummariesActivity.this.getString(R.string.sports_activity_confirm_delete_description, toDelete.size()))
+                                .setIcon(R.drawable.ic_delete_forever)
+                                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                                    public void onClick(final DialogInterface dialog, final int whichButton) {
+                                        deleteItems(toDelete);
+                                    }
+                                })
+                                .setNegativeButton(android.R.string.no, null)
+                                .show();
+
                         processed = true;
                         break;
                     case R.id.activity_action_export:

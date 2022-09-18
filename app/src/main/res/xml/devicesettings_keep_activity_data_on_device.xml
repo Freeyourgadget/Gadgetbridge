@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <SwitchPreference
+        android:icon="@drawable/ic_activity_unknown_small"
+        android:defaultValue="false"
+        android:key="keep_activity_data_on_device"
+        android:summary="@string/pref_summary_keep_data_on_device"
+        android:title="@string/pref_title_keep_data_on_device" />
+</androidx.preference.PreferenceScreen>

@@ -36,6 +36,7 @@ import nodomain.freeyourgadget.gadgetbridge.devices.huami.amazfitbip.AmazfitBipS
 import nodomain.freeyourgadget.gadgetbridge.service.btle.BLETypeConversions;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.HuamiSupport;
+import nodomain.freeyourgadget.gadgetbridge.util.CheckSums;
 import nodomain.freeyourgadget.gadgetbridge.util.FileUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
@@ -80,16 +81,24 @@ public class HuamiFetchDebugLogsOperation extends AbstractFetchOperation {
     }
 
     @Override
-    protected void handleActivityFetchFinish(boolean success) {
-        LOG.info(getName() +" data has finished");
+    protected boolean handleActivityFetchFinish(boolean success) {
+        LOG.info("{} data has finished", getName());
         try {
             logOutputStream.close();
             logOutputStream = null;
         } catch (IOException e) {
             LOG.warn("could not close output stream", e);
-            return;
+            return false;
         }
-        super.handleActivityFetchFinish(success);
+
+        return super.handleActivityFetchFinish(success);
+    }
+
+    @Override
+    protected boolean validChecksum(int crc32) {
+        // TODO actually check it?
+        LOG.warn("Checksum not implemented for debug logs, assuming it's valid");
+        return true;
     }
 
     @Override

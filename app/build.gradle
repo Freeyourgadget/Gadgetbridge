@@ -336,6 +336,17 @@ tasks.withType(SpotBugsTask) {
     }
 }
 
+task cleanGenerated(type: Delete) {
+    delete fileTree('src/main/java/nodomain/freeyourgadget/gadgetbridge/proto') {
+        include '**/*.java'
+    }
+    delete fileTree('src/main/java/nodomain/freeyourgadget/gadgetbridge/entities') {
+        include '**/*.java'
+        exclude '**/Abstract*.java'
+    }
+}
+
+tasks.clean.dependsOn(tasks.cleanGenerated)
 
 protobuf {
     protoc {
@@ -344,7 +355,12 @@ protobuf {
     generateProtoTasks {
         all().each { task ->
             task.builtins {
-                java { option 'lite' }
+                java {
+                    option 'lite'
+                    // Uncomment this to get Android Studio to recognize the generated files
+                    // this makes it think that all src files are generated though...
+                    //outputSubDir = '../../../../../src/main/java/'
+                }
             }
         }
     }

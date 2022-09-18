@@ -24,6 +24,8 @@ import org.slf4j.LoggerFactory;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.GregorianCalendar;
 
 import androidx.annotation.NonNull;
@@ -39,8 +41,10 @@ import nodomain.freeyourgadget.gadgetbridge.model.ActivityKind;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityTrack;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.BLETypeConversions;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.AbstractHuamiActivityDetailsParser;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.HuamiSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.HuamiActivityDetailsParser;
+import nodomain.freeyourgadget.gadgetbridge.util.CheckSums;
 import nodomain.freeyourgadget.gadgetbridge.util.DateTimeUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.FileUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
@@ -51,15 +55,20 @@ import nodomain.freeyourgadget.gadgetbridge.util.GB;
  */
 public class FetchSportsDetailsOperation extends AbstractFetchOperation {
     private static final Logger LOG = LoggerFactory.getLogger(FetchSportsDetailsOperation.class);
+    private final AbstractHuamiActivityDetailsParser detailsParser;
     private final BaseActivitySummary summary;
     private final String lastSyncTimeKey;
 
     private ByteArrayOutputStream buffer;
 
-    FetchSportsDetailsOperation(@NonNull BaseActivitySummary summary, @NonNull HuamiSupport support, @NonNull String lastSyncTimeKey) {
+    FetchSportsDetailsOperation(@NonNull BaseActivitySummary summary,
+                                @NonNull AbstractHuamiActivityDetailsParser detailsParser,
+                                @NonNull HuamiSupport support,
+                                @NonNull String lastSyncTimeKey) {
         super(support);
         setName("fetching sport details");
         this.summary = summary;
+        this.detailsParser = detailsParser;
         this.lastSyncTimeKey = lastSyncTimeKey;
     }
 
@@ -72,7 +81,7 @@ public class FetchSportsDetailsOperation extends AbstractFetchOperation {
     }
 
     @Override
-    protected void handleActivityFetchFinish(boolean success) {
+    protected boolean handleActivityFetchFinish(boolean success) {
         LOG.info(getName() + " has finished round " + fetchCount);
 //        GregorianCalendar lastSyncTimestamp = saveSamples();
 //        if (lastSyncTimestamp != null && needsAnotherFetch(lastSyncTimestamp)) {
@@ -84,12 +93,14 @@ public class FetchSportsDetailsOperation extends AbstractFetchOperation {
 //            }
 //        }
 
+        boolean parseSuccess = true;
 
-        if (success) {
-            HuamiActivityDetailsParser parser = new HuamiActivityDetailsParser(summary);
-            parser.setSkipCounterByte(false); // is already stripped
+        if (success && buffer.size() > 0) {
+            if (detailsParser instanceof HuamiActivityDetailsParser) {
+                ((HuamiActivityDetailsParser) detailsParser).setSkipCounterByte(false); // is already stripped
+            }
             try {
-                ActivityTrack track = parser.parse(buffer.toByteArray());
+                ActivityTrack track = detailsParser.parse(buffer.toByteArray());
                 ActivityTrackExporter exporter = createExporter();
                 String trackType = "track";
                 switch (summary.getActivityKind()) {
@@ -112,6 +123,8 @@ public class FetchSportsDetailsOperation extends AbstractFetchOperation {
                         trackType = getContext().getString(R.string.activity_type_swimming);
                         break;
                 }
+                final String rawBytesPath = saveRawBytes();
+
                 String fileName = FileUtils.makeValidFileName("gadgetbridge-"+trackType.toLowerCase()+"-" + DateTimeUtils.formatIso8601(summary.getStartTime()) + ".gpx");
                 File targetFile = new File(FileUtils.getExternalFilesDir(), fileName);
 
@@ -120,21 +133,35 @@ public class FetchSportsDetailsOperation extends AbstractFetchOperation {
 
                     try (DBHandler dbHandler = GBApplication.acquireDB()) {
                         summary.setGpxTrack(targetFile.getAbsolutePath());
+                        if (rawBytesPath != null) {
+                            summary.setRawDetailsPath(rawBytesPath);
+                        }
                         dbHandler.getDaoSession().getBaseActivitySummaryDao().update(summary);
                     }
                 } catch (ActivityTrackExporter.GPXTrackEmptyException ex) {
                     GB.toast(getContext(), "This activity does not contain GPX tracks.", Toast.LENGTH_LONG, GB.ERROR, ex);
                 }
-
-                GregorianCalendar endTime = BLETypeConversions.createCalendar();
-                endTime.setTime(summary.getEndTime());
-                saveLastSyncTimestamp(endTime);
             } catch (Exception ex) {
                 GB.toast(getContext(), "Error getting activity details: " + ex.getMessage(), Toast.LENGTH_LONG, GB.ERROR, ex);
+                parseSuccess = false;
             }
         }
 
-        super.handleActivityFetchFinish(success);
+        if (success && parseSuccess) {
+            // Always increment the sync timestamp on success, even if we did not get data
+            GregorianCalendar endTime = BLETypeConversions.createCalendar();
+            endTime.setTime(summary.getEndTime());
+            saveLastSyncTimestamp(endTime);
+        }
+
+        final boolean superSuccess = super.handleActivityFetchFinish(success);
+
+        return superSuccess && parseSuccess;
+    }
+
+    @Override
+    protected boolean validChecksum(int crc32) {
+        return crc32 == CheckSums.getCRC32(buffer.toByteArray());
     }
 
     private ActivityTrackExporter createExporter() {
@@ -197,5 +224,24 @@ public class FetchSportsDetailsOperation extends AbstractFetchOperation {
         GregorianCalendar calendar = BLETypeConversions.createCalendar();
         calendar.setTime(summary.getStartTime());
         return calendar;
+    }
+
+    private String saveRawBytes() {
+        final String fileName = FileUtils.makeValidFileName(String.format("%s.bin", DateTimeUtils.formatIso8601(summary.getStartTime())));
+        FileOutputStream outputStream = null;
+
+        try {
+            final File targetFolder = new File(FileUtils.getExternalFilesDir(), "rawDetails");
+            targetFolder.mkdirs();
+            final File targetFile = new File(targetFolder, fileName);
+            outputStream = new FileOutputStream(targetFile);
+            outputStream.write(buffer.toByteArray());
+            outputStream.close();
+            return targetFile.getAbsolutePath();
+        } catch (final IOException e) {
+            LOG.error("Failed to save raw bytes", e);
+        }
+
+        return null;
     }
 }

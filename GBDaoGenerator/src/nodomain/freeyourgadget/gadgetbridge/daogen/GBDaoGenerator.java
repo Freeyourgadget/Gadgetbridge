@@ -43,7 +43,7 @@ public class GBDaoGenerator {
 
 
     public static void main(String[] args) throws Exception {
-        final Schema schema = new Schema(43, MAIN_PACKAGE + ".entities");
+        final Schema schema = new Schema(44, MAIN_PACKAGE + ".entities");
 
         Entity userAttributes = addUserAttributes(schema);
         Entity user = addUserInfo(schema, userAttributes);
@@ -638,6 +638,7 @@ public class GBDaoGenerator {
         summary.addIntProperty("baseAltitude").javaDocGetterAndSetter("Temporary, bip-specific");
 
         summary.addStringProperty("gpxTrack").codeBeforeGetter(OVERRIDE);
+        summary.addStringProperty("rawDetailsPath");
 
         Property deviceId = summary.addLongProperty("deviceId").notNull().codeBeforeGetter(OVERRIDE).getProperty();
         summary.addToOne(device, deviceId);

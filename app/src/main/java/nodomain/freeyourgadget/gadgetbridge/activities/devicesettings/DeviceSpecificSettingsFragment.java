@@ -874,7 +874,11 @@ public class DeviceSpecificSettingsFragment extends PreferenceFragmentCompat imp
             if (supportedLanguages != null) {
                 supportedSettings = ArrayUtils.insert(0, supportedSettings, R.xml.devicesettings_language_generic);
             }
-            supportedSettings = ArrayUtils.addAll(supportedSettings, coordinator.getSupportedDeviceSpecificAuthenticationSettings());
+            final int[] supportedAuthSettings = coordinator.getSupportedDeviceSpecificAuthenticationSettings();
+            if (supportedAuthSettings != null && supportedAuthSettings.length > 0) {
+                supportedSettings = ArrayUtils.add(supportedSettings, R.xml.devicesettings_header_authentication);
+                supportedSettings = ArrayUtils.addAll(supportedSettings, supportedAuthSettings);
+            }
         }
 
         final DeviceSpecificSettingsCustomizer deviceSpecificSettingsCustomizer = coordinator.getDeviceSpecificSettingsCustomizer(device);

@@ -16,9 +16,11 @@ public class ActivitySummaryJsonSummary {
     private JSONObject groupData;
     private JSONObject summaryData;
     private JSONObject summaryGroupedList;
+    private ActivitySummaryParser summaryParser;
     private BaseActivitySummary baseActivitySummary;
 
-    public ActivitySummaryJsonSummary(BaseActivitySummary baseActivitySummary){
+    public ActivitySummaryJsonSummary(final ActivitySummaryParser summaryParser, BaseActivitySummary baseActivitySummary){
+        this.summaryParser=summaryParser;
         this.baseActivitySummary=baseActivitySummary;
     }
 
@@ -67,8 +69,7 @@ public class ActivitySummaryJsonSummary {
 
     private String getCorrectSummary(BaseActivitySummary item){
         if (item.getRawSummaryData() != null) {
-            ActivitySummaryParser parser = new HuamiActivitySummaryParser(); // FIXME: if something else than huami supports that make sure to have the right parser
-            item = parser.parseBinaryData(item);
+            item = summaryParser.parseBinaryData(item);
         }
         return item.getSummaryData();
     }

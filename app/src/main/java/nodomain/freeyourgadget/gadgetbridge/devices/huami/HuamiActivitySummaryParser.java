@@ -30,6 +30,7 @@ import nodomain.freeyourgadget.gadgetbridge.entities.BaseActivitySummary;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityKind;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryParser;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.BLETypeConversions;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.AbstractHuamiActivityDetailsParser;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.HuamiActivityDetailsParser;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.HuamiSportsActivityType;
 
@@ -45,11 +46,17 @@ public class HuamiActivitySummaryParser implements ActivitySummaryParser {
             LOG.error("Due to a bug, we can only parse the summary when startTime is already set");
             return null;
         }
-        return parseBinaryData(summary, startTime);
+        summaryData = new JSONObject();
+        parseBinaryData(summary, startTime);
+        summary.setSummaryData(summaryData.toString());
+        return summary;
     }
 
-    private BaseActivitySummary parseBinaryData(BaseActivitySummary summary, Date startTime) {
-        summaryData = new JSONObject();
+    public AbstractHuamiActivityDetailsParser getDetailsParser(final BaseActivitySummary summary) {
+        return new HuamiActivityDetailsParser(summary);
+    }
+
+    protected void parseBinaryData(BaseActivitySummary summary, Date startTime) {
         ByteBuffer buffer = ByteBuffer.wrap(summary.getRawSummaryData()).order(ByteOrder.LITTLE_ENDIAN);
 
         short version = buffer.getShort(); // version
@@ -372,13 +379,9 @@ public class HuamiActivitySummaryParser implements ActivitySummaryParser {
             addSummaryData("swimStyle", swimStyleName);
             addSummaryData("laps", laps, "laps");
         }
-
-        summary.setSummaryData(summaryData.toString());
-        return summary;
     }
 
-
-    private void addSummaryData(String key, float value, String unit) {
+    protected void addSummaryData(String key, float value, String unit) {
         if (value > 0) {
             try {
                 JSONObject innerData = new JSONObject();
@@ -390,7 +393,7 @@ public class HuamiActivitySummaryParser implements ActivitySummaryParser {
         }
     }
 
-    private void addSummaryData(String key, String value) {
+    protected void addSummaryData(String key, String value) {
         if (key != null && !key.equals("") && value != null && !value.equals("")) {
             try {
                 JSONObject innerData = new JSONObject();

@@ -35,7 +35,7 @@ import nodomain.freeyourgadget.gadgetbridge.model.GPSCoordinate;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.BLETypeConversions;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
-public class HuamiActivityDetailsParser {
+public class HuamiActivityDetailsParser extends AbstractHuamiActivityDetailsParser {
     private static final Logger LOG = LoggerFactory.getLogger(HuamiActivityDetailsParser.class);
 
     private static final byte TYPE_GPS = 0;
@@ -47,7 +47,6 @@ public class HuamiActivityDetailsParser {
     private static final byte TYPE_SPEED6 = 6;
     private static final byte TYPE_SWIMMING = 8;
 
-    private static final BigDecimal HUAMI_TO_DECIMAL_DEGREES_DIVISOR = new BigDecimal(3000000.0);
     private final ActivityTrack activityTrack;
     private final Date baseDate;
     private long baseLongitude;
@@ -195,11 +194,6 @@ public class HuamiActivityDetailsParser {
         return i;
     }
 
-    private double convertHuamiValueToDecimalDegrees(long huamiValue) {
-        BigDecimal result = new BigDecimal(huamiValue).divide(HUAMI_TO_DECIMAL_DEGREES_DIVISOR, GPSCoordinate.GPS_DECIMAL_DEGREES_SCALE, RoundingMode.HALF_UP);
-        return result.doubleValue();
-    }
-
     private int consumeHeartRate(byte[] bytes, int offset, long timeOffsetSeconds) {
         int v1 = BLETypeConversions.toUint16(bytes[offset]);
         int v2 = BLETypeConversions.toUint16(bytes[offset + 1]);
@@ -294,15 +288,5 @@ public class HuamiActivityDetailsParser {
     private int consumeSwimming(byte[] bytes, int offset) {
         LOG.debug("got packet type 8 (swimming?): " + GB.hexdump(bytes, offset, 6));
         return 6;
-    }
-
-    private String createActivityName(BaseActivitySummary summary) {
-        String name = summary.getName();
-        String nameText = "";
-        Long id = summary.getId();
-        if (name != null) {
-            nameText = name + " - ";
-        }
-        return nameText + id;
     }
 }

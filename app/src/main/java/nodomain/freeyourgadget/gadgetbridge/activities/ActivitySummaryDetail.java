@@ -73,6 +73,7 @@ import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHelper;
+import nodomain.freeyourgadget.gadgetbridge.devices.DeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.entities.BaseActivitySummary;
 import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
 import nodomain.freeyourgadget.gadgetbridge.entities.Device;
@@ -80,8 +81,10 @@ import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityKind;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryItems;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryJsonSummary;
+import nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryParser;
 import nodomain.freeyourgadget.gadgetbridge.util.AndroidUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.DateTimeUtils;
+import nodomain.freeyourgadget.gadgetbridge.util.DeviceHelper;
 import nodomain.freeyourgadget.gadgetbridge.util.FileUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 import nodomain.freeyourgadget.gadgetbridge.util.SwipeEvents;
@@ -414,13 +417,16 @@ public class ActivitySummaryDetail extends AbstractGBActivity {
     }
 
     private void makeSummaryContent(BaseActivitySummary item) {
+        final DeviceCoordinator coordinator = DeviceHelper.getInstance().getCoordinator(gbDevice);
+        final ActivitySummaryParser summaryParser = coordinator.getActivitySummaryParser(gbDevice);
+
         //make view of data from summaryData of item
         String units = GBApplication.getPrefs().getString(SettingsActivity.PREF_MEASUREMENT_SYSTEM, GBApplication.getContext().getString(R.string.p_unit_metric));
         String UNIT_IMPERIAL = GBApplication.getContext().getString(R.string.p_unit_imperial);
 
         TableLayout fieldLayout = findViewById(R.id.summaryDetails);
         fieldLayout.removeAllViews(); //remove old widgets
-        ActivitySummaryJsonSummary activitySummaryJsonSummary = new ActivitySummaryJsonSummary(item);
+        ActivitySummaryJsonSummary activitySummaryJsonSummary = new ActivitySummaryJsonSummary(summaryParser, item);
         JSONObject data = activitySummaryJsonSummary.getSummaryGroupedList(); //get list, grouped by groups
         if (data == null) return;
 

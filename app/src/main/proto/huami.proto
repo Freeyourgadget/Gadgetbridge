@@ -1,0 +1,80 @@
+syntax = "proto3";
+
+option java_package = "nodomain.freeyourgadget.gadgetbridge.proto";
+option java_outer_classname = "HuamiProtos";
+
+message WorkoutSummary {
+    string version = 1;
+    Location location = 2;
+    Type type = 3;
+    Distance distance = 4;
+    Steps steps = 11;
+    Time time = 7;
+    Pace pace = 10;
+    HeartRate heartRate = 19;
+    Calories calories = 16;
+    TrainingEffect trainingEffect = 21;
+    HeartRateZones heartRateZones = 22;
+}
+
+message Location {
+    // TODO 1, 2, 3
+    int32 baseLatitude = 5; // /6000000 -> coords
+    int32 baseLongitude = 6; // /-6000000 -> coords
+    int32 baseAltitude = 7; // /2 -> meters
+    int32 maxLatitude = 8; // /3000000 -> coords
+    int32 minLatitude = 9; // /3000000 -> coords
+    int32 maxLongitude = 10; // /3000000 -> coords
+    int32 minLongitude = 11; // /3000000 -> coords
+}
+
+message HeartRate {
+    int32 avg = 1; // bpm
+    int32 max = 2; // bpm
+    int32 min = 3; // bpm
+}
+
+message Steps {
+    float avgCadence = 1; // steps/sec
+    float maxCadence = 2; // steps/sec
+    int32 avgStride = 3; // cm
+    int32 steps = 4; // count
+}
+
+message Type {
+    int32 type = 1; // 1 = running, 4 = bike, 3 = walk
+    // TODO 2, always 0?
+}
+
+message Distance {
+    float distance = 1; // meters
+}
+
+message Time {
+    int32 totalDuration = 1; // seconds
+    int32 workoutDuration = 2; // seconds
+    int32 pauseDuration = 3; // seconds
+}
+
+message Pace {
+    float avg = 1; // val * 1000 / 60 -> min/km
+    float best = 2; // val * 1000 / 60 -> min/km
+}
+
+message Calories {
+    int32 calories = 1; // kcal
+}
+
+message HeartRateZones {
+    // TODO 1, is always = 1?
+    // Zones: N/A, Warm-up, Fat-burn time, Aerobic, Anaerobic, Extreme
+    repeated int32 zoneMax = 2; // bpm
+    repeated int32 zoneTime = 3; // seconds
+}
+
+message TrainingEffect {
+    float aerobicTrainingEffect = 4;
+    float anaerobicTrainingEffect = 5;
+    int32 currentWorkoutLoad = 6;
+    int32 maximumOxygenUptake = 7; // ml/kg/min
+}

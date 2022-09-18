@@ -45,6 +45,7 @@ import nodomain.freeyourgadget.gadgetbridge.entities.MiBandActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.entities.User;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.HuamiSupport;
+import nodomain.freeyourgadget.gadgetbridge.util.CheckSums;
 import nodomain.freeyourgadget.gadgetbridge.util.DateTimeUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.DeviceHelper;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
@@ -78,21 +79,31 @@ public class FetchActivityOperation extends AbstractFetchOperation {
         startFetching(builder, HuamiService.COMMAND_ACTIVITY_DATA_TYPE_ACTIVTY, sinceWhen);
     }
 
-    protected void handleActivityFetchFinish(boolean success) {
+    @Override
+    protected boolean handleActivityFetchFinish(boolean success) {
         LOG.info("{} has finished round {}", getName(), fetchCount);
         GregorianCalendar lastSyncTimestamp = saveSamples();
 
         if (lastSyncTimestamp != null && needsAnotherFetch(lastSyncTimestamp)) {
             try {
                 startFetching();
-                return;
+                return true;
             } catch (IOException ex) {
                 LOG.error("Error starting another round of {}", getName(), ex);
+                return false;
             }
         }
 
-        super.handleActivityFetchFinish(success);
+        final boolean superSuccess = super.handleActivityFetchFinish(success);
         GB.signalActivityDataFinish();
+        return superSuccess;
+    }
+
+    @Override
+    protected boolean validChecksum(int crc32) {
+        // TODO actually check it
+        LOG.warn("Checksum not implemented for activity data, assuming it's valid");
+        return true;
     }
 
     private boolean needsAnotherFetch(GregorianCalendar lastSyncTimestamp) {

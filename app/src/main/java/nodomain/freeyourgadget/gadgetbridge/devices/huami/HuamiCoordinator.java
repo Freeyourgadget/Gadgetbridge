@@ -59,6 +59,7 @@ import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
 import nodomain.freeyourgadget.gadgetbridge.entities.Device;
 import nodomain.freeyourgadget.gadgetbridge.entities.MiBandActivitySampleDao;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
+import nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryParser;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.HuamiVibrationPatternNotificationType;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 
@@ -138,6 +139,11 @@ public abstract class HuamiCoordinator extends AbstractBLEDeviceCoordinator {
     @Override
     public SampleProvider<? extends AbstractActivitySample> getSampleProvider(GBDevice device, DaoSession session) {
         return new MiBand2SampleProvider(device, session);
+    }
+
+    @Override
+    public ActivitySummaryParser getActivitySummaryParser(final GBDevice device) {
+        return new HuamiActivitySummaryParser();
     }
 
     public static DateTimeDisplay getDateDisplay(Context context, String deviceAddress) throws IllegalArgumentException {
@@ -350,6 +356,11 @@ public abstract class HuamiCoordinator extends AbstractBLEDeviceCoordinator {
     public static boolean getOverwriteSettingsOnConnection(String deviceAddress) {
         Prefs prefs = new Prefs(GBApplication.getDeviceSpecificSharedPrefs(deviceAddress));
         return prefs.getBoolean("overwrite_settings_on_connection", true);
+    }
+
+    public static boolean getKeepActivityDataOnDevice(String deviceAddress) {
+        Prefs prefs = new Prefs(GBApplication.getDeviceSpecificSharedPrefs(deviceAddress));
+        return prefs.getBoolean("keep_activity_data_on_device", false);
     }
 
     public static VibrationProfile getVibrationProfile(String deviceAddress, HuamiVibrationPatternNotificationType notificationType) {

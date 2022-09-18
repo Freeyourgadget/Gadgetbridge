@@ -33,6 +33,7 @@ import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
 import nodomain.freeyourgadget.gadgetbridge.entities.Device;
 import nodomain.freeyourgadget.gadgetbridge.entities.HuamiExtendedActivitySampleDao;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
+import nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryParser;
 
 public abstract class Huami2021Coordinator extends HuamiCoordinator {
     @Override
@@ -68,8 +69,7 @@ public abstract class Huami2021Coordinator extends HuamiCoordinator {
 
     @Override
     public boolean supportsActivityTracks() {
-        // TODO: It's supported by the devices, but not yet implemented
-        return false;
+        return true;
     }
 
     @Override
@@ -100,6 +100,11 @@ public abstract class Huami2021Coordinator extends HuamiCoordinator {
     @Override
     public SampleProvider<? extends AbstractActivitySample> getSampleProvider(final GBDevice device, final DaoSession session) {
         return new HuamiExtendedSampleProvider(device, session);
+    }
+
+    @Override
+    public ActivitySummaryParser getActivitySummaryParser(final GBDevice device) {
+        return new Huami2021ActivitySummaryParser();
     }
 
     @Override
@@ -194,6 +199,9 @@ public abstract class Huami2021Coordinator extends HuamiCoordinator {
                 R.xml.devicesettings_expose_hr_thirdparty,
                 R.xml.devicesettings_bt_connected_advertisement,
                 R.xml.devicesettings_high_mtu,
+
+                R.xml.devicesettings_header_developer,
+                R.xml.devicesettings_keep_activity_data_on_device,
         };
     }
 
