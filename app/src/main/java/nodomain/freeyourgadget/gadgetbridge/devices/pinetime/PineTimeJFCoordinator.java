@@ -1,4 +1,4 @@
-/*  Copyright (C) 2016-2021 Andreas Shimokawa, Carsten Pfeiffer, Daniele
+/*  Copyright (C) 2016-2022 Andreas Shimokawa, Carsten Pfeiffer, Daniele
     Gobbetti, José Rebelo, Taavi Eomäe
 
     This file is part of Gadgetbridge.
@@ -126,7 +126,7 @@ public class PineTimeJFCoordinator extends AbstractBLEDeviceCoordinator {
 
     @Override
     public boolean supportsWeather() {
-        return false;
+        return true;
     }
 
     @Override
