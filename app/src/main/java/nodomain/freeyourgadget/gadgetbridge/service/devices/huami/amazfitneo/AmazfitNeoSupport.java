@@ -33,6 +33,7 @@ import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiService;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.amazfitneo.AmazfitNeoFWHelper;
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityUser;
+import nodomain.freeyourgadget.gadgetbridge.model.CallSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.BLETypeConversions;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
@@ -155,6 +156,15 @@ public class AmazfitNeoSupport extends MiBand5Support {
         super.handleHeartrate(value);
         if (heartRateTestStarted)
             onEnableRealtimeHeartRateMeasurement(false); //stop test after single measurement, disable HR notify
+    }
+
+    @Override
+    public void onSetCallState(CallSpec callSpec) {
+        if (callSpec.name != null)
+            if (callSpec.name.length() > 7) //if char 0 is number, +, ( or ) and char 1 is a number it renders in bold scrolling font with letters stripped, else it renders in thin font and displays 'incoming call' if the lengh is > 7
+                if (!((Character.isDigit(callSpec.name.charAt(0)) || callSpec.name.charAt(0) == '+' || callSpec.name.charAt(0) == '(' || callSpec.name.charAt(0) == ')') && Character.isDigit(callSpec.name.charAt(1))))
+                    callSpec.name = callSpec.name.substring(0, 7);
+        super.onSetCallState(callSpec);
     }
 
     @Override
