@@ -604,9 +604,9 @@
     <string name="pref_title_auto_export_enabled">Otomatik dışa aktarma etkinleştirildi</string>
     <string name="pref_title_auto_export_interval">Dışa aktarma aralığı</string>
     <string name="pref_title_auto_export_location">Dışa aktarma konumu</string>
-    <string name="pref_title_autoremove_notifications">Yok sayılan bildirimleri otomatik kaldır</string>
+    <string name="pref_title_autoremove_notifications">Kapatılan bildirimleri otomatik kaldır</string>
     <string name="pref_title_call_privacy_mode">Çağrı gizlilik modu</string>
-    <string name="pref_title_canned_messages_dismisscall">Çağrı Yok Sayma</string>
+    <string name="pref_title_canned_messages_dismisscall">Çağrı Kapatma</string>
     <string name="pref_title_canned_messages_set">Aygıtta güncelleme</string>
     <string name="pref_title_canned_replies">Yanıtlar</string>
     <string name="pref_title_canned_reply_suffix">Ortak son ek</string>
@@ -959,7 +959,7 @@
     <string name="error_setting_alias">Takma ad ayarlanırken hata oluştu:</string>
     <string name="error_exporting_device_preferences">Aygıta özel tercihler dışa aktarılırken hata oluştu</string>
     <string name="pref_check_permission_status_summary">Anında gerekmediklerinde bile eksik izinleri denetleyin ve isteyin. Bunu yalnızca aygıtlarınız bu özelliklerin hiçbirini desteklemiyorsa devre dışı bırakın. İzin verilmemesi sorunlara neden olabilir!</string>
-    <string name="pref_check_permission_status">İzin durumuna göz at</string>
+    <string name="pref_check_permission_status">İzin durumunu denetle</string>
     <string name="companiondevice_pairing">CompanionDevice Eşleştirme</string>
     <string name="require_location_provider">Konum etkinleştirilmelidir</string>
     <string name="devicetype_pinetime_jf">PineTime (JF Ürün Yazılımı)</string>
@@ -1236,7 +1236,7 @@
 \n
 \nİLERLEMENİZ DURUMUNDA RİSK SİZE AİTTİR!</string>
     <string name="devicetype_miband6">Mi Band 6</string>
-    <string name="pref_summary_canned_messages_dismisscall">Çağrıları SMS mesajıyla saatten sonlandırın</string>
+    <string name="pref_summary_canned_messages_dismisscall">Çağrıları SMS mesajıyla saatten kapatın</string>
     <string name="pref_summary_canned_messages_set">Aşağıda yapılandırılan mesajları aygıtınıza gönderin</string>
     <string name="qhybrid_summary_calibration">Saatin ibrelerini kalibre edin</string>
     <string name="qhybrid_summary_file_management">Dosyaları karşıya yükleyin ve indirin</string>
@@ -1840,7 +1840,11 @@
 \n
 \nBu, bir müzik uygulamasını başlatmak ve bir şarkı çalmak ve diğer birçok şey için kullanılabilir.
 \n
-\nütfen önce \'%2$s\', sonra \'%1$s\' düğmesine dokunun ve \'Diğer uygulamalar üzerinden görüntülemeye izin ver\' seçeneğini etkinleştirin, ardından %1$s\'e dönmek için \'Geri\' düğmesine dokunun.</string>
+\nLütfen önce \'%2$s\', sonra \'%1$s\' düğmesine dokunun ve \'Diğer uygulamalar üzerinden görüntülemeye izin ver\' seçeneğini etkinleştirin, ardından %1$s\'e dönmek için \'Geri\' düğmesine dokunun.
+\n
+\n%1$s için izin istenmesini durdurmak için \'Ayarlar\'a gidin ve \'İzin durumunu denetle\' seçeneğinin işaretini kaldırın.
+\n
+\n%1$s\'e beklediğiniz gibi çalışması için gereken izinleri verdiğinizden emin olun.</string>
     <string name="pref_header_calendar">Takvim</string>
     <string name="pref_header_health">Sağlık</string>
     <string name="pref_header_workout">Egzersiz</string>
@@ -1916,4 +1920,5 @@
     <string name="kind_app">Uygulama</string>
     <string name="pref_title_overwrite_settings_on_connection">Bağlantıda ayarların üzerine yaz</string>
     <string name="pref_summary_overwrite_settings_on_connection">Bilekliğe bağlanırken, onun tüm ayarlarının üzerine yaz.</string>
+    <string name="dismiss">Kapat</string>
 </resources>
