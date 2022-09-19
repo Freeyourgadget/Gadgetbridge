@@ -995,8 +995,8 @@
     <string name="error_retrieving_devices_database">Помилка отримання пристроїв з бази</string>
     <string name="error_setting_alias">Помилка встановлення псевдоніму:</string>
     <string name="error_exporting_device_preferences">Помилка експорту налаштувань специфічних для пристрою</string>
-    <string name="pref_check_permission_status_summary">Перевіряти й запитувати пропущенні дозволи, навіть якщо вони зараз не потрібні. Вимкніть лише якщо ваш пристрій не підтримує жодну з цих функцій. Відсутність дозволу можу призвести до проблем!</string>
-    <string name="pref_check_permission_status">Перевірити дозволи</string>
+    <string name="pref_check_permission_status_summary">Перевіряти й запитувати пропущені дозволи, навіть якщо вони зараз не потрібні. Вимкніть лише якщо ваш пристрій не підтримує жодну з цих функцій. Відсутність дозволу можу призвести до проблем!</string>
+    <string name="pref_check_permission_status">Перевіряти стан дозволів</string>
     <string name="error_background_service_reason">Не вдалось запустити фонову службу. Помилка:</string>
     <string name="device_requires_key">ПОТРІБЕН КЛЮЧ, УТРИМАЙТЕ, ЩОБ УВІЙТИ</string>
     <string name="device_is_currently_bonded">ВЖЕ ПОВ\'ЯЗАНО</string>
@@ -1834,7 +1834,11 @@
 \n
 \nЦе можна використовувати для запуску музичного застосунку та відтворення пісні та багатьох інших речей.
 \n
-\nТоркніться «%2$s», потім «%1$s» й увімкніть «Дозволити показ над іншими застосунками», а потім торкніться «Назад», щоб повернутися до %1$s.</string>
+\nТоркніться «%2$s», потім «%1$s» й увімкніть «Дозволити показ над іншими застосунками», а потім торкніться «Назад», щоб повернутися до %1$s.
+\n
+\nЩоб %1$s не запитував дозволів, перейдіть до «Налаштувань» і приберіть прапорець із пункту «Перевіряти стан дозволів».
+\n
+\nПереконайтеся, що ви надали дозволи для %1$s, необхідні для нормального функціонування.</string>
     <string name="pref_summary_canned_replies">Відповідайте з годинника за допомогою попередньо встановлених повідомлень</string>
     <string name="pref_title_screen_on_on_notifications">Наекранні сповіщення</string>
     <string name="pref_summary_screen_on_on_notifications">Вмикати екран годинника, коли надходить сповіщення</string>
@@ -1910,4 +1914,5 @@
     <string name="kind_app">Застосунок</string>
     <string name="pref_title_overwrite_settings_on_connection">Перезаписувати налаштування під час з\'єднання</string>
     <string name="pref_summary_overwrite_settings_on_connection">Під час під\'єднання до годинника перезаписувати всі налаштування на ньому.</string>
+    <string name="dismiss">Відхилити</string>
 </resources>
