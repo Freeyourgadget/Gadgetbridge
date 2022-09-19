@@ -290,6 +290,7 @@ public abstract class HuamiSupport extends AbstractBTLEDeviceSupport implements 
     private static long currentButtonTimerActivationTime = 0;
 
     private Timer buttonActionTimer = null;
+    private Timer findDeviceLoopTimer = null;
 
     private static final Logger LOG = LoggerFactory.getLogger(HuamiSupport.class);
     private final DeviceInfoProfile<HuamiSupport> deviceInfoProfile;
@@ -311,7 +312,6 @@ public abstract class HuamiSupport extends AbstractBTLEDeviceSupport implements 
 
     private boolean needsAuth;
     private volatile boolean telephoneRinging;
-    private volatile boolean isLocatingDevice;
 
     private final GBDeviceEventVersionInfo versionCmd = new GBDeviceEventVersionInfo();
     private final GBDeviceEventBatteryInfo batteryCmd = new GBDeviceEventBatteryInfo();
@@ -1565,17 +1565,47 @@ public abstract class HuamiSupport extends AbstractBTLEDeviceSupport implements 
 
     @Override
     public void onFindDevice(boolean start) {
-        isLocatingDevice = start;
+        if(findDeviceLoopTimer != null)
+            findDeviceLoopTimer.cancel();
 
         if (start) {
-            AbortTransactionAction abortAction = new AbortTransactionAction() {
+            int loopInterval = getFindDeviceInterval();
+            LOG.info("Sending find device, interval: " + loopInterval);
+            findDeviceLoopTimer = new Timer("Huami Find Loop Timer");
+            findDeviceLoopTimer.scheduleAtFixedRate(new TimerTask() {
                 @Override
-                protected boolean shouldAbort() {
-                    return !isLocatingDevice;
+                public void run() {
+                    sendFindDeviceCommand(true);
                 }
-            };
-            SimpleNotification simpleNotification = new SimpleNotification(getContext().getString(R.string.find_device_you_found_it), AlertCategory.HighPriorityAlert, null);
-            performDefaultNotification("locating device", simpleNotification, (short) 255, abortAction);
+            }, loopInterval, loopInterval);
+        }
+        sendFindDeviceCommand(start);
+    }
+
+    protected int getFindDeviceInterval() {
+        VibrationProfile findBand = HuamiCoordinator.getVibrationProfile(getDevice().getAddress(), HuamiVibrationPatternNotificationType.FIND_BAND);
+        int findDeviceInterval = 0;
+
+        for(int len : findBand.getOnOffSequence())
+            findDeviceInterval += len;
+
+        if(findBand.getRepeat() > 0)
+            findDeviceInterval *= findBand.getRepeat();
+
+        if(findDeviceInterval > 10000) // 10 seconds, about as long as Mi Fit allows
+            findDeviceInterval = 10000;
+
+        return findDeviceInterval;
+    }
+
+    private void sendFindDeviceCommand(boolean start) {
+        BluetoothGattCharacteristic characteristic = getCharacteristic(UUID_CHARACTERISTIC_ALERT_LEVEL);
+        try {
+            TransactionBuilder builder = performInitialized("find huami");
+            builder.write(characteristic, start ? new byte[] {3} : new byte[] {0});
+            builder.queue(getQueue());
+        } catch (IOException e) {
+            LOG.error("error while sending find Huami device command", e);
         }
     }
 

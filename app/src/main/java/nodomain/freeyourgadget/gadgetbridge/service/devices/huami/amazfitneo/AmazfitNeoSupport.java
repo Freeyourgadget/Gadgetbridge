@@ -168,6 +168,11 @@ public class AmazfitNeoSupport extends MiBand5Support {
     }
 
     @Override
+    protected int getFindDeviceInterval() {
+        return 10000; //Neo find command lasts 10 seconds
+    }
+
+    @Override
     public HuamiFWHelper createFWHelper(Uri uri, Context context) throws IOException {
         return new AmazfitNeoFWHelper(uri, context);
     }

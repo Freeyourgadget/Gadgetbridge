@@ -55,14 +55,6 @@ public class AmazfitBipSupport extends HuamiSupport {
     }
 
     @Override
-    public void onFindDevice(boolean start) {
-        CallSpec callSpec = new CallSpec();
-        callSpec.command = start ? CallSpec.CALL_INCOMING : CallSpec.CALL_END;
-        callSpec.name = "Gadgetbridge";
-        onSetCallState(callSpec);
-    }
-
-    @Override
     protected AmazfitBipSupport setDisplayItems(TransactionBuilder builder) {
         Map<String, Integer> keyPosMap = new LinkedHashMap<>();
         keyPosMap.put("status", 1);
