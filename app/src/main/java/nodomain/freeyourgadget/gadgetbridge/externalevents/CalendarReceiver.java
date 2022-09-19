@@ -33,6 +33,7 @@ import java.util.List;
 import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
+import java.time.temporal.ChronoUnit;
 
 import de.greenrobot.dao.query.QueryBuilder;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
@@ -194,11 +195,13 @@ public class CalendarReceiver extends BroadcastReceiver {
                     //force the all day events to begin at midnight and last a whole day
                     OffsetDateTime o = OffsetDateTime.now();
                     LocalDateTime d = LocalDateTime.ofEpochSecond(calendarEvent.getBegin()/1000, 0, o.getOffset());
+                    LocalDateTime fin = LocalDateTime.ofEpochSecond(calendarEvent.getEnd()/1000, 0, o.getOffset());
+                    int numDays = (int)ChronoUnit.DAYS.between(d, fin);
                     o = OffsetDateTime.of(d, o.getOffset()).withHour(0);
                     //workaround for negative timezones
                     if(o.getOffset().compareTo(ZoneOffset.UTC)>0) o = o.plusDays(1);
                     calendarEventSpec.timestamp = (int)o.toEpochSecond();
-                    calendarEventSpec.durationInSeconds = 24 * 60 * 60;
+                    calendarEventSpec.durationInSeconds = 24 * 60 * 60 * numDays;
                 }
                 calendarEventSpec.description = calendarEvent.getDescription();
                 calendarEventSpec.location = calendarEvent.getLocation();
