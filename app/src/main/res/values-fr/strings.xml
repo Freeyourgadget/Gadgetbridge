@@ -1830,7 +1830,11 @@ Temps de sommeil préféré en heures</string>
 \n
 \nCela peut être utilisé pour démarrer une application de musique et jouer un morceau, et de nombreuses autres choses.
 \n
-\nMerci de choisir \'%2$s\' puis \'%1$s\' et activer \'Permettre l\'affichage au-dessus des autres apps\', puis faire \'Retour\' pour revenir à %1$s.</string>
+\nMerci de choisir \'%2$s\' puis \'%1$s\' et activer \'Permettre l\'affichage au-dessus des autres apps\', puis faire \'Retour\' pour revenir à %1$s.
+\n
+\nPour empêcher %1$s de demander des permissions se rendre dans les \'Régalges\' et décocher \'Vérifier l\'état des permissions\'.
+\n
+\nAssurez-vous d\'accorder à %1$s les permissions nécessaires pour les fonctionnalités attendues.</string>
     <string name="pref_header_time">Heure</string>
     <string name="pref_header_workout">Exercice</string>
     <string name="pref_summary_canned_replies">Réponse de la montre utilisant des messages préenregistrés</string>
@@ -1906,4 +1910,5 @@ Temps de sommeil préféré en heures</string>
     <string name="menuitem_unknown_app">Inconnu (%s)</string>
     <string name="pref_summary_overwrite_settings_on_connection">Lors de la connexion au bracelet, écrasez tous les réglages de celui-ci.</string>
     <string name="pref_title_overwrite_settings_on_connection">Écraser les réglages à la connexion</string>
+    <string name="dismiss">Annuler</string>
 </resources>
