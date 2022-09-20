@@ -1,5 +1,7 @@
 package nodomain.freeyourgadget.gadgetbridge.service.devices.flipper.zero.support;
 
+import android.bluetooth.BluetoothGatt;
+import android.bluetooth.BluetoothGattCharacteristic;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -11,9 +13,11 @@ import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
 import java.util.UUID;
 
+import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventBatteryInfo;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.BatteryState;
+import nodomain.freeyourgadget.gadgetbridge.service.btle.GattCharacteristic;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.GattService;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.SetDeviceStateAction;
@@ -98,6 +102,7 @@ public class FlipperZeroSupport extends FlipperZeroBaseSupport{
             }
         });
         addSupportedService(GattService.UUID_SERVICE_BATTERY_SERVICE);
+        addSupportedService(GattService.UUID_SERVICE_DEVICE_INFORMATION);
         addSupportedProfile(batteryInfoProfile);
 
         addSupportedService(UUID.fromString(UUID_SERIAL_SERVICE));
@@ -111,6 +116,7 @@ public class FlipperZeroSupport extends FlipperZeroBaseSupport{
         }
 
         builder.add(new SetDeviceStateAction(getDevice(), GBDevice.State.INITIALIZING, getContext()));
+        builder.read(getCharacteristic(GattCharacteristic.UUID_CHARACTERISTIC_FIRMWARE_REVISION_STRING));
 
         batteryInfoProfile.requestBatteryInfo(builder);
         batteryInfoProfile.enableNotify(builder, true);
@@ -119,6 +125,16 @@ public class FlipperZeroSupport extends FlipperZeroBaseSupport{
                 .notify(getCharacteristic(UUID.fromString(UUID_SERIAL_CHARACTERISTIC_RESPONSE)), true)
                 .requestMtu(512)
                 .add(new SetDeviceStateAction(getDevice(), GBDevice.State.INITIALIZED, getContext()));
+    }
+
+    @Override
+    public boolean onCharacteristicRead(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic, int status) {
+        if(characteristic.getUuid().equals(GattCharacteristic.UUID_CHARACTERISTIC_FIRMWARE_REVISION_STRING)){
+            String revision = characteristic.getStringValue(0);
+            getDevice().setFirmwareVersion(revision);
+            getDevice().sendDeviceUpdateIntent(getContext());
+        }
+        return super.onCharacteristicRead(gatt, characteristic, status);
     }
 
     @Override
