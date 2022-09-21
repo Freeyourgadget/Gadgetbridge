@@ -1825,7 +1825,11 @@
 \n
 \nאפשר להשתמש בזה כדי להפעיל יישומון מוזיקה ולנגן שיר ולעוד מגוון משימות.
 \n
-\nנא לגעת ב־‚%2$s’ ואז ב־‚%1$s’ ולסמן את ‚לאפשר הצגה על גבי יישומונים אחרים’, ואז לגעת ב־‚חזרה’ כדי לחזור אל %1$s.</string>
+\nנא לגעת ב־‚%2$s’ ואז ב־‚%1$s’ ולסמן את ‚לאפשר הצגה על גבי יישומונים אחרים’, ואז לגעת ב־‚חזרה’ כדי לחזור אל %1$s.
+\n
+\nכדי לעצור את בקשת ההרשאות מצד %1$s יש לגשת אל ההגדרות ולבטל את הסימון ‚בדיקת מצב הרשאות’.
+\n
+\nנא לוודא שהענקת ל־%1$s את ההרשאות הנדרשות כדי שיפעל כראוי.</string>
     <string name="pref_header_calendar">לוח שנה</string>
     <string name="pref_header_connection">חיבור</string>
     <string name="pref_header_display">תצוגה</string>
@@ -1901,4 +1905,5 @@
     <string name="menuitem_unknown_app">לא ידוע (%s)</string>
     <string name="pref_title_overwrite_settings_on_connection">דריסת הגדרות עם התחברות</string>
     <string name="pref_summary_overwrite_settings_on_connection">בעת התחברות לצמיד, לדרוס את כל ההגדרות שבו.</string>
+    <string name="dismiss">התעלמות</string>
 </resources>
