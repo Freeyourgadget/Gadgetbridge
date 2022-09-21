@@ -2237,9 +2237,16 @@ public abstract class Huami2021Support extends HuamiSupport {
             final Huami2021Weather.Response response = Huami2021Weather.handleHttpRequest(path, query);
 
             if (response != null) {
-                replyHttpSuccess(requestId, response.toJson());
-                return;
+                replyHttpSuccess(requestId, 200, response.toJson());
+            } else {
+                final Huami2021Weather.Response notFoundResponse = new Huami2021Weather.ErrorResponse(
+                        -2001,
+                        "Not found"
+                );
+                replyHttpSuccess(requestId, 404, notFoundResponse.toJson());
             }
+
+            return;
         }
 
         LOG.error("Unhandled URL {}", url);
@@ -2273,8 +2280,8 @@ public abstract class Huami2021Support extends HuamiSupport {
         writeToChunked2021("http reply no internet", Huami2021Service.CHUNKED2021_ENDPOINT_HTTP, cmd, true);
     }
 
-    private void replyHttpSuccess(final byte requestId, final String content) {
-        LOG.debug("Replying with success to http request {} with {}", requestId, content);
+    private void replyHttpSuccess(final byte requestId, final int status, final String content) {
+        LOG.debug("Replying with http {} request {} with {}", status, requestId, content);
 
         final byte[] contentBytes = content.getBytes(StandardCharsets.UTF_8);
         final ByteBuffer buf = ByteBuffer.allocate(8 + contentBytes.length);
@@ -2283,7 +2290,7 @@ public abstract class Huami2021Support extends HuamiSupport {
         buf.put((byte) 0x02);
         buf.put(requestId);
         buf.put(HTTP_RESPONSE_SUCCESS);
-        buf.put((byte) 0xc8); // ?
+        buf.put((byte) status);
         buf.putInt(contentBytes.length);
         buf.put(contentBytes);
 

@@ -99,6 +99,24 @@ public class Huami2021Weather {
         }
     }
 
+    public static class ErrorResponse extends Response {
+        private final int code;
+        private final String message;
+
+        public ErrorResponse(final int code, final String message) {
+            this.code = code;
+            this.message = message;
+        }
+
+        public int getCode() {
+            return code;
+        }
+
+        public String getMessage() {
+            return message;
+        }
+    }
+
     public static abstract class Response {
         public String toJson() {
             return GSON.toJson(this);
@@ -114,13 +132,13 @@ public class Huami2021Weather {
     // locationKey=00.000,-0.000,xiaomi_accu:000000
     public static class ForecastResponse extends Response {
         public Date pubTime;
-        public List<Object> humidity = new ArrayList<>();
+        public List<String> humidity = new ArrayList<>();
         public List<Range> temperature = new ArrayList<>();
         public List<Range> weather = new ArrayList<>();
         public List<Range> windDirection = new ArrayList<>();
         public List<Range> sunRiseSet = new ArrayList<>();
         public List<Range> windSpeed = new ArrayList<>();
-        public Object moonRiseSet = new Object();
+        public Object moonRiseSet = new Object(); // MoonRiseSet
         public List<Object> airQualities = new ArrayList<>();
 
         public ForecastResponse(final WeatherSpec weatherSpec, final int days) {
@@ -176,6 +194,11 @@ public class Huami2021Weather {
         }
     }
 
+    private static class MoonRiseSet {
+        public List<String> moonPhaseValue = new ArrayList<>();
+        public List<Range> moonRise = new ArrayList<>();
+    }
+
     private static class Range {
         public String from;
         public String to;
@@ -224,6 +247,7 @@ public class Huami2021Weather {
     // locationKey=00.000,-0.000,xiaomi_accu:000000
     public static class CurrentResponse extends Response {
         public CurrentWeatherModel currentWeatherModel;
+        public Object aqiModel = new Object();
 
         public CurrentResponse(final WeatherSpec weatherSpec) {
             this.currentWeatherModel = new CurrentWeatherModel(weatherSpec);
@@ -305,14 +329,14 @@ public class Huami2021Weather {
     // isGlobal=true
     // locationKey=00.000,-0.000,xiaomi_accu:000000
     public static class HourlyResponse extends Response {
-        public Object pubTime;
-        public Object weather;
-        public Object temperature;
-        public Object humidity;
-        public Object fxTime;
-        public Object windDirection;
-        public Object windSpeed;
-        public Object windScale;
+        public Date pubTime;
+        public List<String> weather;
+        public List<String> temperature;
+        public List<String> humidity;
+        public List<String> fxTime; // pubTime format
+        public List<String> windDirection;
+        public List<String> windSpeed;
+        public List<String> windScale; // each element in the form of 1-2
     }
 
     // /weather/alerts
@@ -323,6 +347,7 @@ public class Huami2021Weather {
     // isGlobal=true
     // locationKey=00.000,-0.000,xiaomi_accu:000000
     public static class AlertsResponse extends Response {
+        public List<IndexEntry> alerts = new ArrayList<>();
     }
 
     //@RequiresApi(api = Build.VERSION_CODES.O)
