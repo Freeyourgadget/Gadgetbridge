@@ -1319,7 +1319,11 @@
 \n
 \nQuesto può essere usato per avviare un\'app musicale e riprodurre una canzone, e varie altre cose.
 \n
-\nTocca \"%2$s\" e poi \"%1$s\" e abilita \"Consenti visualizzazione su altre app\", quindi tocca \"Indietro\" per tornare a %1$s.</string>
+\nTocca \"%2$s\" e poi \"%1$s\" e abilita \"Consenti visualizzazione su altre app\", quindi tocca \"Indietro\" per tornare a %1$s.
+\n
+\nPer evitare che %1$s chieda autorizzazioni, vai in \"Impostazioni\" e deseleziona \"Verifica stato autorizzazioni\".
+\n
+\nAssicurati di concedere a %1$s le autorizzazioni necessarie per funzionare correttamente.</string>
     <string name="seconds_14">14 secondi</string>
     <string name="devicetype_miband7">Xiaomi Smart Band 7</string>
     <string name="about_hash">Commit %s</string>
@@ -1895,4 +1899,5 @@
     <string name="steps_streaks_achievement_rate">Frequenza
 \nconseguimento</string>
     <string name="pref_media_playpause">Cambia stato riproduzione</string>
+    <string name="dismiss">Ignora</string>
 </resources>
