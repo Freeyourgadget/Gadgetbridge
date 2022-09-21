@@ -35,7 +35,7 @@ vendor's servers.
 	- [Bip](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Amazfit-Bip)
 	- [Bip Lite](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Amazfit-Bip-Lite), [Bip S](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Amazfit-Bip-S), [Bip U](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Amazfit-Bip-U) [**\[!\]**](#special-pairing-procedures)
 	- [Cor](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Amazfit-Cor), [Cor 2](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Amazfit-Cor-2)
-	- [GTR](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Amazfit-GTR), [GTR 2/2e](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Amazfit-GTR) [**\[!\]**](#special-pairing-procedures)
+	- [GTR](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Amazfit-GTR), [GTR 2/2e](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Amazfit-GTR), [GTR 3](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Amazfit-GTR-3) [**\[!\]**](#special-pairing-procedures)
 	- [GTS](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Amazfit-GTS), [GTS 2/2e](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Amazfit-GTS), [GTS 3](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Amazfit-GTS-3) [**\[!\]**](#special-pairing-procedures) 
 	- [Neo](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Amazfit-Neo) [**\[!\]**](#special-pairing-procedures) 
 	- T-Rex [**\[!\]**](#special-pairing-procedures)
