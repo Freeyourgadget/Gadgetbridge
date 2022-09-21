@@ -1915,4 +1915,10 @@
     <string name="pref_title_overwrite_settings_on_connection">Перезаписувати налаштування під час з\'єднання</string>
     <string name="pref_summary_overwrite_settings_on_connection">Під час під\'єднання до годинника перезаписувати всі налаштування на ньому.</string>
     <string name="dismiss">Відхилити</string>
+    <string name="devicetype_amazfit_gtr3">Amazfit GTR 3</string>
+    <string name="fw_upgrade_notice_amazfit_gtr3">Ви збираєтесь установити мікропрограму %s на свій Amazfit GTR 3.
+\n
+\nВаша група перезавантажиться після встановлення файлу .zip.
+\n
+\nПРОДОВЖУЙТЕ НА СВІЙ СТРАХ І РИЗИК!</string>
 </resources>
