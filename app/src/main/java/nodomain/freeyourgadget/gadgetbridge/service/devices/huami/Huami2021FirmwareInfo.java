@@ -158,7 +158,7 @@ public abstract class Huami2021FirmwareInfo extends AbstractHuamiFirmwareInfo {
         }
 
         // On the MB7, this only works for firmwares > 1.8.5.1, not for any older firmware
-        if (!searchString32BitAligned(firmwareBin, deviceName())) {
+        if (!searchString32BitAligned(firmwareBin, deviceName() + "\0")) {
             LOG.warn("Failed to find {} in fwBytes", deviceName());
             return false;
         }
