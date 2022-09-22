@@ -1911,4 +1911,10 @@ Temps de sommeil préféré en heures</string>
     <string name="pref_summary_overwrite_settings_on_connection">Lors de la connexion au bracelet, écrasez tous les réglages de celui-ci.</string>
     <string name="pref_title_overwrite_settings_on_connection">Écraser les réglages à la connexion</string>
     <string name="dismiss">Annuler</string>
+    <string name="fw_upgrade_notice_amazfit_gtr3">Vous êtes sur le point d\'installer le micro-logiciel %s dans votre Amazfit GTR 3.
+\n
+\nVotre bracelet redémarrera automatiquement après l\'installation du fichier .zip.
+\n
+\nA VOS RISQUES ET PÉRILS !</string>
+    <string name="devicetype_amazfit_gtr3">Amazfit GTR 3</string>
 </resources>
