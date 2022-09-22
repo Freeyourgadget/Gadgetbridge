@@ -1833,7 +1833,11 @@
 \n
 \nDies kann verwendet werden, um eine Musik-App zu starten und einen Song abzuspielen und viele andere Dinge.
 \n
-\nTippe auf \'%2$s\' und dann auf \'%1$s\', aktiviere \'Anzeige über andere Apps zulassen\' und tippe dann auf \'Zurück\', um zu %1$s zurückzukehren.</string>
+\nTippe auf \'%2$s\' und dann auf \'%1$s\', aktiviere \'Anzeige über andere Apps zulassen\' und tippe dann auf \'Zurück\', um zu %1$s zurückzukehren.
+\n
+\nUm zu verhindern, dass %1$s nach Berechtigungen fragt, gehe zu \"Einstellungen\" und entferne das Häkchen bei \"Berechtigungsstatus prüfen\".
+\n
+\nVergewissere dich, dass du %1$s die erforderlichen Berechtigungen erteilst, damit es so funktioniert, wie du es erwartest.</string>
     <string name="fw_upgrade_notice_miband7">Du bist dabei, die Firmware %s auf dein Xiaomi Smart Band 7 zu installieren.
 \n
 \nDein Band wird nach der Installation der .zip-Datei neu starten.
@@ -1909,4 +1913,11 @@
     <string name="pref_summary_overwrite_settings_on_connection">Beim Verbinden mit dem Band überschreibst du alle Einstellungen des Bandes.</string>
     <string name="pref_title_overwrite_settings_on_connection">Überschreiben von Einstellungen bei der Verbindung</string>
     <string name="kind_app">App</string>
+    <string name="dismiss">Ablehnen</string>
+    <string name="fw_upgrade_notice_amazfit_gtr3">Du bist dabei, die Firmware %s auf deine Amazfit GTR 3 zu installieren.
+\n
+\nDeine Uhr wird nach der Installation der .zip Datei neu starten.
+\n
+\nINSTALLATION AUF EIGENE GEFAHR!</string>
+    <string name="devicetype_amazfit_gtr3">Amazfit GTR 3</string>
 </resources>
