@@ -1906,4 +1906,10 @@
     <string name="pref_title_overwrite_settings_on_connection">דריסת הגדרות עם התחברות</string>
     <string name="pref_summary_overwrite_settings_on_connection">בעת התחברות לצמיד, לדרוס את כל ההגדרות שבו.</string>
     <string name="dismiss">התעלמות</string>
+    <string name="fw_upgrade_notice_amazfit_gtr3">פעולה זו תתקין את הקושחה %s על ה־Amazfit GTR 3 שלך.
+\n
+\nהצמיד שלך יופעל מחדש לאחר התקנת קובץ ה־‎.zip.
+\n
+\nהמשך התהליך הוא על אחריותך בלבד!</string>
+    <string name="devicetype_amazfit_gtr3">Amazfit GTR 3‎</string>
 </resources>
