@@ -1921,4 +1921,10 @@
     <string name="pref_title_overwrite_settings_on_connection">Bağlantıda ayarların üzerine yaz</string>
     <string name="pref_summary_overwrite_settings_on_connection">Bilekliğe bağlanırken, onun tüm ayarlarının üzerine yaz.</string>
     <string name="dismiss">Kapat</string>
+    <string name="devicetype_amazfit_gtr3">Amazfit GTR 3</string>
+    <string name="fw_upgrade_notice_amazfit_gtr3">Amazfit GTR 3 aygıtınıza %s ürün yazılımını kurmak üzeresiniz.
+\n
+\nBilekliğiniz .zip dosyasını kurduktan sonra yeniden başlatılacak.
+\n
+\nİLERLEMENİZ DURUMUNDA RİSK SİZE AİTTİR!</string>
 </resources>
