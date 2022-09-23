@@ -79,7 +79,7 @@ public class AmazfitNeoCoordinator extends HuamiCoordinator {
 
     @Override
     public boolean supportsActivityTracks() {
-        return true;
+        return false;
     }
 
     @Override
