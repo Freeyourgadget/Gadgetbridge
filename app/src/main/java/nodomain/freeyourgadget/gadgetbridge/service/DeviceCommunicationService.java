@@ -437,7 +437,9 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
                 }
                 updateReceiversState();
 
-                if(device.isInitialized()){
+                GBDevice.DeviceUbdateSubject subject = (GBDevice.DeviceUbdateSubject) intent.getSerializableExtra(GBDevice.EXTRA_UPDATE_SUBJECT);
+
+                if(subject == GBDevice.DeviceUbdateSubject.CONNECTION_STATE && device.isInitialized()){
                     sendDeviceConnectedBroadcast(device.getAddress());
                 }
             }
@@ -682,7 +684,7 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
 
         switch (action) {
             case ACTION_REQUEST_DEVICEINFO:
-                device.sendDeviceUpdateIntent(this);
+                device.sendDeviceUpdateIntent(this, GBDevice.DeviceUbdateSubject.NOTHING);
                 break;
             case ACTION_NOTIFICATION: {
                 int desiredId = intent.getIntExtra(EXTRA_NOTIFICATION_ID, -1);

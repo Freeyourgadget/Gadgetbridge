@@ -65,6 +65,7 @@ public class GBDevice implements Parcelable {
     private static final short BATTERY_THRESHOLD_PERCENT = 10;
     public static final String EXTRA_DEVICE = "device";
     public static final String EXTRA_UUID = "extraUUID";
+    public static final String EXTRA_UPDATE_SUBJECT = "EXTRA_UPDATE_SUBJECT";
     private static final String DEVINFO_HW_VER = "HW: ";
     private static final String DEVINFO_FW_VER = "FW: ";
     private static final String DEVINFO_FW2_VER = "FW2: ";
@@ -98,6 +99,12 @@ public class GBDevice implements Parcelable {
     private int mNotificationIconConnected = R.drawable.ic_notification;
     private int mNotificationIconDisconnected = R.drawable.ic_notification_disconnected;
     private int mNotificationIconLowBattery = R.drawable.ic_notification_low_battery;
+
+    public static enum DeviceUbdateSubject {
+        UNKNOWN,
+        NOTHING,
+        CONNECTION_STATE
+    }
 
     public GBDevice(String address, String name, String alias, String parentFolder, DeviceType deviceType) {
         this(address, null, name, alias, parentFolder, deviceType);
@@ -479,8 +486,14 @@ public class GBDevice implements Parcelable {
 
     // TODO: this doesn't really belong here
     public void sendDeviceUpdateIntent(Context context) {
+        sendDeviceUpdateIntent(context, DeviceUbdateSubject.UNKNOWN);
+    }
+
+    // TODO: this doesn't really belong here
+    public void sendDeviceUpdateIntent(Context context, DeviceUbdateSubject subject) {
         Intent deviceUpdateIntent = new Intent(ACTION_DEVICE_CHANGED);
         deviceUpdateIntent.putExtra(EXTRA_DEVICE, this);
+        deviceUpdateIntent.putExtra(EXTRA_UPDATE_SUBJECT, subject);
         LocalBroadcastManager.getInstance(context).sendBroadcast(deviceUpdateIntent);
     }
 
