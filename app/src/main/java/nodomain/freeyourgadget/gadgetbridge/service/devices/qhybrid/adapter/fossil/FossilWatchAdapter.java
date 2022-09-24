@@ -828,7 +828,7 @@ public class FossilWatchAdapter extends WatchAdapter {
 
     private void setDeviceState(GBDevice.State state) {
         getDeviceSupport().getDevice().setState(state);
-        getDeviceSupport().getDevice().sendDeviceUpdateIntent(getContext());
+        getDeviceSupport().getDevice().sendDeviceUpdateIntent(getContext(), GBDevice.DeviceUbdateSubject.DEVICE_STATE);
     }
 
     public void queueWrite(FossilRequest request, boolean priorise) {

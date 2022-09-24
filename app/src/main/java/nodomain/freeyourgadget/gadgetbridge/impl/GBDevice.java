@@ -103,7 +103,8 @@ public class GBDevice implements Parcelable {
     public static enum DeviceUbdateSubject {
         UNKNOWN,
         NOTHING,
-        CONNECTION_STATE
+        CONNECTION_STATE,
+        DEVICE_STATE,
     }
 
     public GBDevice(String address, String name, String alias, String parentFolder, DeviceType deviceType) {

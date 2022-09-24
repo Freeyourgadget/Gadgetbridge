@@ -37,7 +37,7 @@ public class SetDeviceStateAction extends PlainAction {
     @Override
     public boolean run(BluetoothGatt gatt) {
         device.setState(deviceState);
-        device.sendDeviceUpdateIntent(getContext());
+        device.sendDeviceUpdateIntent(getContext(), GBDevice.DeviceUbdateSubject.DEVICE_STATE);
         return true;
     }
 
