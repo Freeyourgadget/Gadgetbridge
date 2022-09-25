@@ -1923,4 +1923,20 @@
 \nПРОДОВЖУЙТЕ НА СВІЙ СТРАХ І РИЗИК!</string>
     <string name="pref_title_third_party_app_device_settings">Дозволити стороннім застосункам змінювати налаштування</string>
     <string name="pref_summary_third_party_app_device_settings">Дозволити іншим установленим стороннім застосункам установлювати налаштування пристрою за допомогою намірів.</string>
+    <string name="activity_type_dance">Танець</string>
+    <string name="activity_type_indoor_fitness">Фітнес у приміщенні</string>
+    <string name="activity_type_stepper">Степер</string>
+    <string name="activity_type_pilates">Пілатес</string>
+    <string name="activity_type_volleyball">Волейбол</string>
+    <string name="activity_type_table_tennis">Настільний теніс</string>
+    <string name="activity_type_bowling">Боулінг</string>
+    <string name="activity_type_street_dance">Вуличні танці</string>
+    <string name="activity_type_zumba">Зумба</string>
+    <string name="activity_type_indoor_ice_skating">Катання на ковзанах у приміщенні</string>
+    <string name="activity_type_gymnastics">Гімнастика</string>
+    <string name="activity_type_hiit">Високоінтенсивне інтервальне тренування</string>
+    <string name="activity_type_stretching">Розтягування</string>
+    <string name="activity_type_core_training">Основне тренування</string>
+    <string name="activity_type_boxing">Бокс</string>
+    <string name="activity_type_kickboxing">Кікбоксинг</string>
 </resources>
