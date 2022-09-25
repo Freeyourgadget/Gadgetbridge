@@ -1637,7 +1637,7 @@
     <string name="pref_summary_banglejs_text_bitmap">Wenn ein Wort nicht mit der Schriftart der Uhr gerendert werden kann, in Gadgetbridge eine Bitmap rendern und die Bitmap auf der Uhr anzeigen</string>
     <string name="pref_title_device_internet_access">Internetzugang zulassen</string>
     <string name="pref_summary_device_internet_access">Apps auf diesem Gerät Internetzugriff erlauben</string>
-    <string name="pref_title_device_intents">Absichten erlauben</string>
+    <string name="pref_title_device_intents">Eingriffe erlauben</string>
     <string name="pref_summary_device_intents">Bangle.js-Watch-Apps erlauben, Android-Intents zu senden und anderen Apps auf Android (wie Tasker) erlauben, Daten mit dem com.banglejs.uart.tx-Intent an Bangle.js zu senden. Benötigt die Berechtigung zum Anzeigen über andere Apps, um im Hintergrund zu arbeiten.</string>
     <string name="pref_screen_vibration_patterns_title">Vibrationsmuster</string>
     <string name="pref_screen_vibration_patterns_summary">Vibrationsmuster für verschiedene Benachrichtigungen konfigurieren</string>
@@ -1829,7 +1829,7 @@
     <string name="prefs_hourly_chime_summary">Die Uhr piept einmal pro Stunde</string>
     <string name="step_streaks_achievements_sharing_message">Meine täglichen Schritterfolge!</string>
     <string name="step_streaks_achievements_sharing_title">Schritterfolge</string>
-    <string name="permission_display_over_other_apps">%1$s benötigt die Berechtigung, über andere Apps angezeigt zu werden, damit Bangle.js-Watch Aktivitäten mit dem Zielsetzung starten kann, wenn %1$s im Hintergrund ist.
+    <string name="permission_display_over_other_apps">%1$s benötigt die Berechtigung, über andere Apps angezeigt zu werden, damit Bangle.js-Watch Aktivitäten mit Intents starten kann, wenn %1$s im Hintergrund ist.
 \n
 \nDies kann verwendet werden, um eine Musik-App zu starten und einen Song abzuspielen und viele andere Dinge.
 \n
@@ -1920,4 +1920,6 @@
 \n
 \nINSTALLATION AUF EIGENE GEFAHR!</string>
     <string name="devicetype_amazfit_gtr3">Amazfit GTR 3</string>
+    <string name="pref_summary_third_party_app_device_settings">Erlaube anderen installierten Apps von Drittanbietern, Geräteeinstellungen über Intents festzulegen.</string>
+    <string name="pref_title_third_party_app_device_settings">Ändern von Einstellungen durch App von Drittanbietern zulassen</string>
 </resources>
