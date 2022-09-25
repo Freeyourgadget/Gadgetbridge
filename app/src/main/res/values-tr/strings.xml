@@ -1929,4 +1929,20 @@
 \nİLERLEMENİZ DURUMUNDA RİSK SİZE AİTTİR!</string>
     <string name="pref_title_third_party_app_device_settings">3. taraf uygulamaların ayarları değiştirmesine izin ver</string>
     <string name="pref_summary_third_party_app_device_settings">Kurulu diğer 3. taraf uygulamaların aygıt ayarlarını niyetler aracılığıyla değiştirmesine izin verin.</string>
+    <string name="activity_type_dance">Dans</string>
+    <string name="activity_type_indoor_fitness">İç Mekan Fitness</string>
+    <string name="activity_type_gymnastics">Jimnastik</string>
+    <string name="activity_type_hiit">Yüksek Yoğunluklu Aralıklı Antrenman</string>
+    <string name="activity_type_core_training">Çekirdek Antrenmanı</string>
+    <string name="activity_type_stretching">Germe</string>
+    <string name="activity_type_stepper">Adım</string>
+    <string name="activity_type_pilates">Pilates</string>
+    <string name="activity_type_volleyball">Voleybol</string>
+    <string name="activity_type_table_tennis">Masa Tenisi</string>
+    <string name="activity_type_kickboxing">Kickboks</string>
+    <string name="activity_type_bowling">Bovling</string>
+    <string name="activity_type_boxing">Boks</string>
+    <string name="activity_type_street_dance">Sokak Dansı</string>
+    <string name="activity_type_indoor_ice_skating">Kapalı Alan Buz Pateni</string>
+    <string name="activity_type_zumba">Zumba</string>
 </resources>
