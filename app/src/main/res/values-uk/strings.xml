@@ -1921,4 +1921,6 @@
 \nВаша група перезавантажиться після встановлення файлу .zip.
 \n
 \nПРОДОВЖУЙТЕ НА СВІЙ СТРАХ І РИЗИК!</string>
+    <string name="pref_title_third_party_app_device_settings">Дозволити стороннім застосункам змінювати налаштування</string>
+    <string name="pref_summary_third_party_app_device_settings">Дозволити іншим установленим стороннім застосункам установлювати налаштування пристрою за допомогою намірів.</string>
 </resources>
