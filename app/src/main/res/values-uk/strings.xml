@@ -1939,4 +1939,5 @@
     <string name="activity_type_core_training">Основне тренування</string>
     <string name="activity_type_boxing">Бокс</string>
     <string name="activity_type_kickboxing">Кікбоксинг</string>
+    <string name="devicetype_super_cars">Shell Racing</string>
 </resources>
