@@ -33,6 +33,7 @@ public class MiBand7FirmwareInfo extends Huami2021FirmwareInfo {
     private static final Map<Integer, String> crcToVersion = new HashMap<Integer, String>() {{
         // firmware
         put(26036, "1.20.3.1");
+        put(55449, "1.27.0.4");
     }};
 
     public MiBand7FirmwareInfo(final byte[] bytes) {

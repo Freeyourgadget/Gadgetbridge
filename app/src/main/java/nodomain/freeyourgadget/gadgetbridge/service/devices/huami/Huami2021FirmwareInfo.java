@@ -25,11 +25,13 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.lang.reflect.Constructor;
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
+import nodomain.freeyourgadget.gadgetbridge.service.btle.BLETypeConversions;
 import nodomain.freeyourgadget.gadgetbridge.util.ArrayUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
@@ -83,9 +85,7 @@ public abstract class Huami2021FirmwareInfo extends AbstractHuamiFirmwareInfo {
                 final byte[] firmwareBin = getFileFromZip(uihhFirmwareZipFile.getContent(), "META/firmware.bin");
 
                 if (isCompatibleFirmwareBin(firmwareBin)) {
-                    // TODO: Firmware upgrades with UIHH files are untested, so they are disabled
-                    return HuamiFirmwareType.INVALID;
-                    //return HuamiFirmwareType.FIRMWARE_UIHH_2021_ZIP_WITH_CHANGELOG;
+                    return HuamiFirmwareType.FIRMWARE_UIHH_2021_ZIP_WITH_CHANGELOG;
                 }
             }
 
@@ -145,6 +145,34 @@ public abstract class Huami2021FirmwareInfo extends AbstractHuamiFirmwareInfo {
         }
 
         return null;
+    }
+
+    public Huami2021FirmwareInfo repackFirmwareInUIHH() throws IOException {
+        if (!firmwareType.equals(HuamiFirmwareType.FIRMWARE)) {
+            throw new IllegalStateException("Can only repack FIRMWARE");
+        }
+
+        final UIHHContainer uihh = packFirmwareInUIHH();
+
+        try {
+            final Constructor<? extends Huami2021FirmwareInfo> constructor = this.getClass().getConstructor(byte[].class);
+            return constructor.newInstance((Object) uihh.toRawBytes());
+        } catch (final Exception e) {
+            throw new IOException("Failed to construct new " + getClass().getName(), e);
+        }
+    }
+
+    private UIHHContainer packFirmwareInUIHH() {
+        final UIHHContainer uihh = new UIHHContainer();
+        final byte[] timestampBytes = BLETypeConversions.fromUint32((int) (System.currentTimeMillis() / 1000L));
+        final String changelogText = "Unknown changelog";
+        final byte[] changelogBytes = BLETypeConversions.join(
+                timestampBytes,
+                changelogText.getBytes(StandardCharsets.UTF_8)
+        );
+        uihh.addFile(UIHHContainer.FileType.FIRMWARE_ZIP, getBytes());
+        uihh.addFile(UIHHContainer.FileType.FIRMWARE_CHANGELOG, changelogBytes);
+        return uihh;
     }
 
     private boolean isCompatibleFirmwareBin(final byte[] firmwareBin) {
