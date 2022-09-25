@@ -1917,4 +1917,6 @@ Temps de sommeil préféré en heures</string>
 \n
 \nA VOS RISQUES ET PÉRILS !</string>
     <string name="devicetype_amazfit_gtr3">Amazfit GTR 3</string>
+    <string name="pref_title_third_party_app_device_settings">Permettre à des applications tierces à modifier les réglages</string>
+    <string name="pref_summary_third_party_app_device_settings">Autoriser les applications tierces à modifier les réglages à travers les commandes vocales.</string>
 </resources>
