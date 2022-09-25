@@ -1945,4 +1945,5 @@
     <string name="activity_type_street_dance">Sokak Dansı</string>
     <string name="activity_type_indoor_ice_skating">Kapalı Alan Buz Pateni</string>
     <string name="activity_type_zumba">Zumba</string>
+    <string name="devicetype_super_cars">Shell Yarışı</string>
 </resources>
