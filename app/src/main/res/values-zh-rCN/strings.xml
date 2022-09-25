@@ -1913,4 +1913,6 @@
 \n您的手表将在安装了 .zip 文件后重启。
 \n
 \n风险自担！</string>
+    <string name="pref_summary_third_party_app_device_settings">允许其他已安装的应用通过意图修改设备设置。</string>
+    <string name="pref_title_third_party_app_device_settings">允许第三方应用修改设置</string>
 </resources>
