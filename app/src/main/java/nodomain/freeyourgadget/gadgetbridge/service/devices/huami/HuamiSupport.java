@@ -2371,6 +2371,7 @@ public abstract class HuamiSupport extends AbstractBTLEDeviceSupport implements 
                         break;
                     case COMMAND_WORKOUT_ACTIVITY_TYPES:
                         LOG.warn("got workout activity types, not handled");
+                        logMessageContent(reassemblyBuffer);
                         break;
                     default:
                         LOG.warn("got unknown chunked configuration response for {}, not handled", String.format("0x%02x", reassemblyType));
@@ -3479,11 +3480,11 @@ public abstract class HuamiSupport extends AbstractBTLEDeviceSupport implements 
     protected HuamiSupport setWorkoutActivityTypes(final TransactionBuilder builder) {
         final SharedPreferences prefs = GBApplication.getDeviceSpecificSharedPrefs(gbDevice.getAddress());
 
-        final List<String> defaultActivityTypes = Arrays.asList(HuamiWorkoutActivityType.Freestyle.name().toLowerCase(Locale.ROOT));
+        final List<String> defaultActivityTypes = Arrays.asList(HuamiWorkoutScreenActivityType.Freestyle.name().toLowerCase(Locale.ROOT));
         final String activityTypesPref = prefs.getString(HuamiConst.PREF_WORKOUT_ACTIVITY_TYPES_SORTABLE, null);
 
         final List<String> enabledActivityTypes;
-        if (activityTypesPref == null || activityTypesPref.equals("")) {
+        if (activityTypesPref == null || activityTypesPref.equals("") || activityTypesPref.equals("more")) {
             enabledActivityTypes = defaultActivityTypes;
         } else {
             enabledActivityTypes = Arrays.asList(activityTypesPref.split(","));
@@ -3491,19 +3492,32 @@ public abstract class HuamiSupport extends AbstractBTLEDeviceSupport implements 
 
         LOG.info("Setting workout types to {}", enabledActivityTypes);
 
-        final byte[] command = new byte[enabledActivityTypes.size() * 3 + 2];
-        command[0] = 0x0b;
-        command[1] = 0x00;
+        int workoutCount = enabledActivityTypes.size();
+        if (enabledActivityTypes.contains("more")) {
+            // we shouldn't count the more item when it is present, since it isn't a real
+            // workout type and isn't sent to the device
+            workoutCount--;
+        }
+        final ByteBuffer command = ByteBuffer.allocate(workoutCount * 3 + 2);
+        command.order(ByteOrder.LITTLE_ENDIAN);
+        command.putShort((short) workoutCount);
 
-        int pos = 2;
+        // a value of 1 puts items in the main section, a value of 0 puts them in the more section
+        // by default items are put in the main section
+        byte section = 0x01;
 
         for (final String workoutType : enabledActivityTypes) {
-            command[pos++] = HuamiWorkoutScreenActivityType.fromPrefValue(workoutType).getCode();
-            command[pos++] = 0x00;
-            command[pos++] = 0x01;
+            if (workoutType.equals("more")) {
+                // all items that follow the More separator are put in the more section
+                section = 0x00;
+                continue;
+            }
+            byte code = HuamiWorkoutScreenActivityType.fromPrefValue(workoutType).getCode();
+            command.putShort(code);
+            command.put(section);
         }
 
-        writeToChunked(builder, 9, command);
+        writeToChunked(builder, 9, command.array());
 
         return this;
     }

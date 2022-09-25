@@ -705,6 +705,8 @@
         <item>street_dance</item>
         <item>zumba</item>
         <item>indoor_ice_skating</item>
+        <!-- more is not an actual workout activity type, only a placeholder to separate types between the main and the more section -->
+        <item>more</item>
     </string-array>
 
     <string-array name="pref_miband6_workout_activity_types">
@@ -738,6 +740,8 @@
         <item>@string/activity_type_street_dance</item>
         <item>@string/activity_type_zumba</item>
         <item>@string/activity_type_indoor_ice_skating</item>
+        <!-- more is not an actual workout activity type, only a placeholder to separate types between the main and the more section -->
+        <item>@string/menuitem_more</item>
     </string-array>
 
     <string-array name="pref_miband6_workout_activity_types_default">
@@ -752,6 +756,7 @@
         <item>jump_rope</item>
         <item>rowing_machine</item>
         <item>yoga</item>
+        <item>more</item>
         <item>dance</item>
         <item>indoor_fitness</item>
         <item>gymnastics</item>
