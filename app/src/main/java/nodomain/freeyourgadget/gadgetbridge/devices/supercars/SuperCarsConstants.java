@@ -1,0 +1,28 @@
+package nodomain.freeyourgadget.gadgetbridge.devices.supercars;
+
+import java.util.UUID;
+
+public class SuperCarsConstants {
+
+    public static final UUID SERVICE_UUID_FFF = UUID.fromString("0000fff0-0000-1000-8000-00805f9b34fb");
+    public static final UUID CHARACTERISTIC_UUID_FFF1 = UUID.fromString("d44bc439-abfd-45a2-b575-925416129600");
+    public static final UUID CHARACTERISTIC_UUID_FFF2 = UUID.fromString("d44bc439-abfd-45a2-b575-92541612960a");
+    public static final UUID CHARACTERISTIC_UUID_FFF3 = UUID.fromString("d44bc439-abfd-45a2-b575-92541612960b");
+    public static final UUID CHARACTERISTIC_UUID_FFF4 = UUID.fromString("d44bc439-abfd-45a2-b575-925416129601");
+
+    public static final UUID SERVICE_UUID_FD = UUID.fromString("0000fd00-0000-1000-8000-00805f9b34fb");
+    public static final UUID CHARACTERISTIC_UUID_FD1 = UUID.fromString("0000fd01-0000-1000-8000-00805f9b34fb");
+    public static final UUID CHARACTERISTIC_UUID_FD2 = UUID.fromString("0000fd02-0000-1000-8000-00805f9b34fb");
+
+    public static final byte[] idle_data = new byte[]{0x02, 0x5e, 0x69, 0x5a, 0x48, (byte) 0xff, 0x2a, 0x43, (byte) 0x8c, (byte) 0xa6, (byte) 0x80, (byte) 0xf8, 0x3e, 0x04, (byte) 0xe4, 0x5d};
+    public static final byte[] up_data = new byte[]{0x29, 0x60, (byte) 0x9c, 0x66, 0x48, 0x52, (byte) 0xcf, (byte) 0xf1, (byte) 0xb0, (byte) 0xf0, (byte) 0xcb, (byte) 0xb9, (byte) 0x80, 0x14, (byte) 0xbd, 0x2c};
+    public static final byte[] down_data = new byte[]{0x03, 0x20, (byte) 0x99, 0x09, (byte) 0xba, (byte) 0x9d, (byte) 0xa1, (byte) 0xc8, (byte) 0xb9, (byte) 0x86, 0x16, 0x3c, 0x6d, 0x48, 0x46, 0x55};
+    public static final byte[] left_data = new byte[]{0x51, 0x38, 0x21, 0x12, 0x13, 0x5c, (byte) 0xcc, (byte) 0xdb, (byte) 0x46, (byte) 0xcf, (byte) 0x89, 0x21, (byte) 0xb7, 0x05, 0x49, (byte) 0x9a};
+    public static final byte[] right_data = new byte[]{0x1b, 0x57, 0x69, (byte) 0xcd, (byte) 0xf1, 0x3e, (byte) 0x8a, (byte) 0xb6, 0x27, 0x08, 0x0f, (byte) 0xf3, (byte) 0xce, (byte) 0xfc, 0x3b, (byte) 0xc0};
+
+    public static final byte[] up_left_data = new byte[]{(byte) 0x99, 0x28, (byte) 0xe5, (byte) 0x90, (byte) 0xdf, (byte) 0xe8, 0x21, 0x48, 0x5f, 0x41, 0x4f, (byte) 0xbb, 0x63, 0x3d, 0x5c, 0x4e};
+    public static final byte[] up_right_data = new byte[]{0x0f, 0x2c, (byte) 0xe5, 0x66, 0x62, (byte) 0xd4, (byte) 0xfd, (byte) 0x9d, 0x32, (byte) 0xa4, 0x4f, 0x10, 0x2b, (byte) 0xf2, 0x0a, (byte) 0xa7};
+    public static final byte[] down_left_data = new byte[]{(byte) 0x98, (byte) 0xce, (byte) 0x98, 0x1d, 0x58, (byte) 0xd1, 0x15, (byte) 0xaf, (byte) 0xe1, 0x19, 0x60, (byte) 0xbf, 0x46, 0x13, (byte) 0x92, 0x5c};
+    public static final byte[] down_right_data = new byte[]{(byte) 0xf2, 0x52, 0x0f, (byte) 0xba, 0x31, 0x44, (byte) 0xfb, 0x11, 0x46, (byte) 0x8f, (byte) 0xe0, (byte) 0x80, (byte) 0xc6, (byte) 0xc2, (byte) 0xc2, 0x3c};
+
+}

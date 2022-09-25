@@ -690,6 +690,10 @@
             android:exported="true" />
 
         <activity
+            android:name=".devices.supercars.ControlActivity"
+            android:exported="true" />
+
+        <activity
             android:name=".devices.binary_sensor.activity.DataActivity"
             android:exported="true" />
 

@@ -99,6 +99,7 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.roidmi.RoidmiSupport
 import nodomain.freeyourgadget.gadgetbridge.service.devices.smaq2oss.SMAQ2OSSSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.sony.headphones.SonyHeadphonesSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.sonyswr12.SonySWR12DeviceSupport;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.supercars.SuperCarsSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.tlw64.TLW64Support;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.um25.Support.UM25Support;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.vesc.VescDeviceSupport;
@@ -333,6 +334,8 @@ public class DeviceSupportFactory {
                 return new ServiceDeviceSupport(new BinarySensorSupport());
             case FLIPPER_ZERO:
                 return new ServiceDeviceSupport(new FlipperZeroSupport());
+            case SUPER_CARS:
+                    return new ServiceDeviceSupport(new SuperCarsSupport());
         }
         return null;
     }

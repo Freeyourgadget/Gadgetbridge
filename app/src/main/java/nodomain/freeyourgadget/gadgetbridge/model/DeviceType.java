@@ -118,6 +118,7 @@ public enum DeviceType {
     VESC_HM10(501, R.drawable.ic_device_vesc, R.drawable.ic_device_vesc_disabled, R.string.devicetype_vesc),
     BINARY_SENSOR(510, R.drawable.ic_device_unknown, R.drawable.ic_device_unknown_disabled, R.string.devicetype_binary_sensor),
     FLIPPER_ZERO(520, R.drawable.ic_device_flipper, R.drawable.ic_device_flipper_disabled, R.string.devicetype_flipper_zero),
+    SUPER_CARS(530, R.drawable.ic_device_supercars, R.drawable.ic_device_supercars_disabled, R.string.devicetype_super_cars),
     TEST(1000, R.drawable.ic_device_default, R.drawable.ic_device_default_disabled, R.string.devicetype_test);
 
     private final int key;
