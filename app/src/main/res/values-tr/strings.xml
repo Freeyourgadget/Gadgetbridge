@@ -1927,4 +1927,6 @@
 \nBilekliğiniz .zip dosyasını kurduktan sonra yeniden başlatılacak.
 \n
 \nİLERLEMENİZ DURUMUNDA RİSK SİZE AİTTİR!</string>
+    <string name="pref_title_third_party_app_device_settings">3. taraf uygulamaların ayarları değiştirmesine izin ver</string>
+    <string name="pref_summary_third_party_app_device_settings">Kurulu diğer 3. taraf uygulamaların aygıt ayarlarını niyetler aracılığıyla değiştirmesine izin verin.</string>
 </resources>
