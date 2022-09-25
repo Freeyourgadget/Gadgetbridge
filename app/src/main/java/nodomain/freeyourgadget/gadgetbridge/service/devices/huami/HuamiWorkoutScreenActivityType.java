@@ -32,7 +32,27 @@ public enum HuamiWorkoutScreenActivityType {
     Freestyle(0x10),
     JumpRope(0x15),
     RowingMachine(0x17),
-    Yoga(0x3c);
+    Yoga(0x3c),
+    Dance(0x4c),
+    IndoorFitness(0x18),
+    Gymnastics(0x3b),
+    HIIT(0x31),
+    CoreTraining(0x32),
+    Stretching(0x35),
+    Stepper(0x3a),
+    Pilates(0x3d),
+    Basketball(0x55),
+    Volleyball(0x58),
+    TableTennis(0x59),
+    Badminton(0x5c),
+    Cricket(0x4e),
+    Bowling(0x50),
+    Boxing(0x61),
+    // TODO: Not working Kickboxing(0x72),
+    StreetDance(0x4a),
+    Zumba(0x4d),
+    IndoorIceSkating(0x2d),
+    ;
 
     private final byte code;
 

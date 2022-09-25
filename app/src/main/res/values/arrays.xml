@@ -674,6 +674,105 @@
         <item>yoga</item>
     </string-array>
 
+    <string-array name="pref_miband6_workout_activity_types_values">
+        <item>outdoor_running</item>
+        <item>walking</item>
+        <item>treadmill</item>
+        <item>outdoor_cycling</item>
+        <item>indoor_cycling</item>
+        <item>elliptical</item>
+        <item>pool_swimming</item>
+        <item>freestyle</item>
+        <item>jump_rope</item>
+        <item>rowing_machine</item>
+        <item>yoga</item>
+        <item>dance</item>
+        <item>indoor_fitness</item>
+        <item>gymnastics</item>
+        <item>hiit</item>
+        <item>core_training</item>
+        <item>stretching</item>
+        <item>stepper</item>
+        <item>pilates</item>
+        <item>basketball</item>
+        <item>volleyball</item>
+        <item>table_tennis</item>
+        <item>badminton</item>
+        <item>cricket</item>
+        <item>bowling</item>
+        <item>boxing</item>
+        <!-- TODO: Not working <item>kickboxing</item> -->
+        <item>street_dance</item>
+        <item>zumba</item>
+        <item>indoor_ice_skating</item>
+    </string-array>
+
+    <string-array name="pref_miband6_workout_activity_types">
+        <item>@string/activity_type_outdoor_running</item>
+        <item>@string/activity_type_walking</item>
+        <item>@string/activity_type_treadmill</item>
+        <item>@string/activity_type_outdoor_cycling</item>
+        <item>@string/activity_type_indoor_cycling</item>
+        <item>@string/activity_type_elliptical</item>
+        <item>@string/activity_type_swimming</item>
+        <item>@string/activity_type_freestyle</item>
+        <item>@string/activity_type_jump_roping</item>
+        <item>@string/activity_type_rowing_machine</item>
+        <item>@string/activity_type_yoga</item>
+        <item>@string/activity_type_dance</item>
+        <item>@string/activity_type_indoor_fitness</item>
+        <item>@string/activity_type_gymnastics</item>
+        <item>@string/activity_type_hiit</item>
+        <item>@string/activity_type_core_training</item>
+        <item>@string/activity_type_stretching</item>
+        <item>@string/activity_type_stepper</item>
+        <item>@string/activity_type_pilates</item>
+        <item>@string/activity_type_basketball</item>
+        <item>@string/activity_type_volleyball</item>
+        <item>@string/activity_type_table_tennis</item>
+        <item>@string/activity_type_badminton</item>
+        <item>@string/activity_type_cricket</item>
+        <item>@string/activity_type_bowling</item>
+        <item>@string/activity_type_boxing</item>
+        <!-- TODO: Not working <item>@string/activity_type_kickboxing</item> -->
+        <item>@string/activity_type_street_dance</item>
+        <item>@string/activity_type_zumba</item>
+        <item>@string/activity_type_indoor_ice_skating</item>
+    </string-array>
+
+    <string-array name="pref_miband6_workout_activity_types_default">
+        <item>outdoor_running</item>
+        <item>walking</item>
+        <item>treadmill</item>
+        <item>outdoor_cycling</item>
+        <item>indoor_cycling</item>
+        <item>elliptical</item>
+        <item>pool_swimming</item>
+        <item>freestyle</item>
+        <item>jump_rope</item>
+        <item>rowing_machine</item>
+        <item>yoga</item>
+        <item>dance</item>
+        <item>indoor_fitness</item>
+        <item>gymnastics</item>
+        <item>hiit</item>
+        <item>core_training</item>
+        <item>stretching</item>
+        <item>stepper</item>
+        <item>pilates</item>
+        <item>basketball</item>
+        <item>volleyball</item>
+        <item>table_tennis</item>
+        <item>badminton</item>
+        <item>cricket</item>
+        <item>bowling</item>
+        <item>boxing</item>
+        <!-- TODO: Not working <item>kickboxing</item> -->
+        <item>street_dance</item>
+        <item>zumba</item>
+        <item>indoor_ice_skating</item>
+    </string-array>
+
     <string-array name="pref_neo_display_items">
         <item>@string/menuitem_pai</item>
         <item>@string/menuitem_dnd</item>

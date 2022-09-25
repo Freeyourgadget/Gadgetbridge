@@ -3479,8 +3479,7 @@ public abstract class HuamiSupport extends AbstractBTLEDeviceSupport implements 
     protected HuamiSupport setWorkoutActivityTypes(final TransactionBuilder builder) {
         final SharedPreferences prefs = GBApplication.getDeviceSpecificSharedPrefs(gbDevice.getAddress());
 
-        final List<String> allActivityTypes = Arrays.asList(getContext().getResources().getStringArray(R.array.pref_miband5_workout_activity_types_values));
-        final List<String> defaultActivityTypes = Arrays.asList(getContext().getResources().getStringArray(R.array.pref_miband5_workout_activity_types_default));
+        final List<String> defaultActivityTypes = Arrays.asList(HuamiWorkoutActivityType.Freestyle.name().toLowerCase(Locale.ROOT));
         final String activityTypesPref = prefs.getString(HuamiConst.PREF_WORKOUT_ACTIVITY_TYPES_SORTABLE, null);
 
         final List<String> enabledActivityTypes;
@@ -3492,7 +3491,7 @@ public abstract class HuamiSupport extends AbstractBTLEDeviceSupport implements 
 
         LOG.info("Setting workout types to {}", enabledActivityTypes);
 
-        final byte[] command = new byte[allActivityTypes.size() * 3 + 2];
+        final byte[] command = new byte[enabledActivityTypes.size() * 3 + 2];
         command[0] = 0x0b;
         command[1] = 0x00;
 
@@ -3502,15 +3501,6 @@ public abstract class HuamiSupport extends AbstractBTLEDeviceSupport implements 
             command[pos++] = HuamiWorkoutScreenActivityType.fromPrefValue(workoutType).getCode();
             command[pos++] = 0x00;
             command[pos++] = 0x01;
-        }
-
-        // Send all the remaining disabled workout types
-        for (final String workoutType : allActivityTypes) {
-            if (!enabledActivityTypes.contains(workoutType)) {
-                command[pos++] = HuamiWorkoutScreenActivityType.fromPrefValue(workoutType).getCode();
-                command[pos++] = 0x00;
-                command[pos++] = 0x00;
-            }
         }
 
         writeToChunked(builder, 9, command);
