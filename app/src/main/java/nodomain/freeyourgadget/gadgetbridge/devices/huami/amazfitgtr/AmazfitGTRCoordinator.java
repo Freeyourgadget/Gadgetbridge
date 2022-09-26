@@ -101,6 +101,7 @@ public class AmazfitGTRCoordinator extends HuamiCoordinator {
                 R.xml.devicesettings_reserve_reminders_calendar,
                 R.xml.devicesettings_expose_hr_thirdparty,
                 R.xml.devicesettings_bt_connected_advertisement,
+                R.xml.devicesettings_buttonactions_with_longpress,
                 R.xml.devicesettings_device_actions,
                 R.xml.devicesettings_high_mtu,
                 R.xml.devicesettings_overwrite_settings_on_connection,
