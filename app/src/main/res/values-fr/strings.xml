@@ -1919,4 +1919,21 @@ Temps de sommeil préféré en heures</string>
     <string name="devicetype_amazfit_gtr3">Amazfit GTR 3</string>
     <string name="pref_title_third_party_app_device_settings">Permettre à des applications tierces à modifier les réglages</string>
     <string name="pref_summary_third_party_app_device_settings">Autoriser les applications tierces à modifier les réglages à travers les commandes vocales.</string>
+    <string name="activity_type_dance">Danse</string>
+    <string name="activity_type_hiit">Entrainement à haute-intensité par intervalles</string>
+    <string name="activity_type_core_training">Entrainement de fond</string>
+    <string name="activity_type_stretching">Étirements</string>
+    <string name="activity_type_stepper">Stepper</string>
+    <string name="activity_type_pilates">Pilate</string>
+    <string name="activity_type_volleyball">Volley-Ball</string>
+    <string name="activity_type_table_tennis">Ping-Pong</string>
+    <string name="activity_type_bowling">Bouling</string>
+    <string name="activity_type_kickboxing">Kickboxing</string>
+    <string name="activity_type_street_dance">Danse de rue</string>
+    <string name="activity_type_indoor_ice_skating">Patinage sur glace en intérieur</string>
+    <string name="activity_type_boxing">Boxe</string>
+    <string name="activity_type_zumba">Zoumba</string>
+    <string name="activity_type_gymnastics">Gymnastique</string>
+    <string name="activity_type_indoor_fitness">Fitness en intérieur</string>
+    <string name="devicetype_super_cars">Course</string>
 </resources>
