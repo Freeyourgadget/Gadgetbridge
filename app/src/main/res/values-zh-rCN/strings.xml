@@ -1932,4 +1932,6 @@
     <string name="activity_type_bowling">保龄球</string>
     <string name="activity_type_boxing">拳击</string>
     <string name="activity_type_indoor_ice_skating">室内滑冰</string>
+    <string name="watchface_setting_button_move_hands">移动手</string>
+    <string name="devicetype_amazfit_gtr_lite">跃我 GTR 青春版</string>
 </resources>
