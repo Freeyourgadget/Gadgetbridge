@@ -1900,4 +1900,24 @@
 \nconseguimento</string>
     <string name="pref_media_playpause">Cambia stato riproduzione</string>
     <string name="dismiss">Ignora</string>
+    <string name="fw_upgrade_notice_amazfit_gtr3">Stai per installare il firmware %s sul tuo Amazfit GTR 3.
+\n
+\nLa band si riavvierà al termine del caricamento del file .zip.
+\n
+\nPROCEDI A TUO RISCHIO E PERICOLO!</string>
+    <string name="devicetype_amazfit_gtr3">Amazfit GTR 3</string>
+    <string name="pref_title_third_party_app_device_settings">Consenti ad app di terze parti di cambiare le impostazioni</string>
+    <string name="pref_summary_third_party_app_device_settings">Consenti ad altre app di terze parti installate di modificare le impostazioni del dispositivo con intenti.</string>
+    <string name="activity_type_gymnastics">Ginnastica</string>
+    <string name="activity_type_table_tennis">Ping-pong</string>
+    <string name="activity_type_indoor_fitness">Fitness al chiuso</string>
+    <string name="activity_type_stretching">Stretching</string>
+    <string name="activity_type_pilates">Pilates</string>
+    <string name="activity_type_indoor_ice_skating">Pattinaggio sul ghiaccio al chiuso</string>
+    <string name="activity_type_kickboxing">Kickboxing</string>
+    <string name="activity_type_bowling">Bowling</string>
+    <string name="activity_type_dance">Ballo</string>
+    <string name="activity_type_zumba">Zumba</string>
+    <string name="activity_type_boxing">Pugilato</string>
+    <string name="activity_type_volleyball">Pallavolo</string>
 </resources>
