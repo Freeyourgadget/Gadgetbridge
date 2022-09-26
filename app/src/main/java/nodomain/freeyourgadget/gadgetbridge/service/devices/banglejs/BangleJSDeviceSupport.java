@@ -568,6 +568,7 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
                         else if (m.equals("post")) method = Request.Method.POST;
                         else if (m.equals("head")) method = Request.Method.HEAD;
                         else if (m.equals("put")) method = Request.Method.PUT;
+                        else if (m.equals("patch")) method = Request.Method.PATCH;
                         else if (m.equals("delete")) method = Request.Method.DELETE;
                         else uartTxJSONError("http", "Unknown HTTP method "+m,id);
                     }
@@ -640,7 +641,8 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
 
                         @Override
                         public Map<String, String> getHeaders() throws AuthFailureError {
-                            Map<String, String> h = super.getHeaders();
+                            // clone the data from super.getHeaders() so we can write to it
+                            Map<String, String> h = new HashMap<>(super.getHeaders());
                             if (headers != null) {
                                 Iterator<String> iter = headers.keySet().iterator();
                                 while (iter.hasNext()) {
