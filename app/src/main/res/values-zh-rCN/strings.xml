@@ -1915,4 +1915,21 @@
 \n风险自担！</string>
     <string name="pref_summary_third_party_app_device_settings">允许其他已安装的应用通过意图修改设备设置。</string>
     <string name="pref_title_third_party_app_device_settings">允许第三方应用修改设置</string>
+    <string name="activity_type_indoor_fitness">室内健身</string>
+    <string name="devicetype_super_cars">壳牌赛车</string>
+    <string name="activity_type_dance">跳舞</string>
+    <string name="activity_type_gymnastics">体操</string>
+    <string name="activity_type_kickboxing">跆拳道</string>
+    <string name="activity_type_pilates">普拉提运动</string>
+    <string name="activity_type_volleyball">排球</string>
+    <string name="activity_type_street_dance">街舞</string>
+    <string name="activity_type_stepper">爬楼梯</string>
+    <string name="activity_type_zumba">尊巴舞</string>
+    <string name="activity_type_hiit">高强度间歇训练</string>
+    <string name="activity_type_core_training">核心训练</string>
+    <string name="activity_type_stretching">拉伸</string>
+    <string name="activity_type_table_tennis">乒乓球</string>
+    <string name="activity_type_bowling">保龄球</string>
+    <string name="activity_type_boxing">拳击</string>
+    <string name="activity_type_indoor_ice_skating">室内滑冰</string>
 </resources>
