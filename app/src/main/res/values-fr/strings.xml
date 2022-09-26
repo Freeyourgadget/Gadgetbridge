@@ -1936,4 +1936,5 @@ Temps de sommeil préféré en heures</string>
     <string name="activity_type_gymnastics">Gymnastique</string>
     <string name="activity_type_indoor_fitness">Fitness en intérieur</string>
     <string name="devicetype_super_cars">Course</string>
+    <string name="devicetype_amazfit_gtr_lite">Amazfit GTR Lite</string>
 </resources>
