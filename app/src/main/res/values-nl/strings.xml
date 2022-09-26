@@ -1868,7 +1868,11 @@
 \n
 \nDit kan worden gebruikt om een muziek-app te starten en een nummer af te spelen, en vele andere dingen.
 \n
-\nTik op \'%2$s\' en vervolgens op \'%1$s\' en schakel \'Weergave over andere apps toestaan\' in, tik vervolgens op \'Terug\' om terug te keren naar %1$s.</string>
+\nTik op \'%2$s\' en vervolgens op \'%1$s\' en schakel \'Weergave over andere apps toestaan\' in, tik vervolgens op \'Terug\' om terug te keren naar %1$s.
+\n
+\nOm te voorkomen dat %1$s om machtigingen vraagt, gaat u naar \'Instellingen\' en schakelt u \'Controleer machtigingsstatus\' uit.
+\n
+\nZorg ervoor dat u %1$s de machtigingen verleent die nodig zijn om te functioneren zoals u verwacht.</string>
     <string name="pref_header_spo2">Bloedzuurstof</string>
     <string name="pref_screen_brightness">Schermhelderheid</string>
     <string name="pref_summary_screen_on_on_notifications">Schakel het scherm van de band in wanneer er een melding binnenkomt</string>
@@ -1902,4 +1906,31 @@
     <string name="pref_title_overwrite_settings_on_connection">Instellingen overschrijven bij verbinding</string>
     <string name="pref_summary_overwrite_settings_on_connection">Wanneer er verbinding met het apparaat gemaakt wordt, overschrijf alle instellingen erop.</string>
     <string name="devicetype_amazfit_gts3">Amazfit GTS 3</string>
+    <string name="pref_title_third_party_app_device_settings">Toestaan dat apps van derden instellingen wijzigen</string>
+    <string name="dismiss">Afwijzen</string>
+    <string name="devicetype_amazfit_gtr3">Amazfit GTR 3</string>
+    <string name="activity_type_dance">Dansen</string>
+    <string name="activity_type_indoor_fitness">Binnenfitness</string>
+    <string name="activity_type_gymnastics">Gymnastiek</string>
+    <string name="activity_type_hiit">Intervaltraining met hoge intensiteit</string>
+    <string name="activity_type_core_training">Kerntraining</string>
+    <string name="activity_type_stretching">Rekken</string>
+    <string name="activity_type_stepper">Steps</string>
+    <string name="activity_type_pilates">Pilates</string>
+    <string name="activity_type_volleyball">Volleybal</string>
+    <string name="activity_type_table_tennis">Tafeltennis</string>
+    <string name="activity_type_bowling">Bowlen</string>
+    <string name="activity_type_boxing">Boksen</string>
+    <string name="activity_type_kickboxing">Kickboksen</string>
+    <string name="activity_type_street_dance">Street Dance</string>
+    <string name="activity_type_zumba">Zumba</string>
+    <string name="activity_type_indoor_ice_skating">Indoor schaatsen</string>
+    <string name="devicetype_super_cars">Shell Racing</string>
+    <string name="pref_summary_third_party_app_device_settings">Sta andere geïnstalleerde apps van derden toe om apparaatinstellingen aan te passen via intents.</string>
+    <string name="devicetype_amazfit_gtr_lite">Amazfit GTR Lite</string>
+    <string name="fw_upgrade_notice_amazfit_gtr3">U staat op het punt de %s-firmware op uw Amazfit GTR 3 te installeren.
+\n
+\nDe band zal opnieuw opstarten na het installeren van het .zip-bestand.
+\n
+\nVERDERGAAN IS OP EIGEN RISICO!</string>
 </resources>
