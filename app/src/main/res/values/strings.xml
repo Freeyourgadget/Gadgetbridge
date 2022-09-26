@@ -1092,6 +1092,7 @@
     <string name="devicetype_amazfit_cor">Amazfit Cor</string>
     <string name="devicetype_amazfit_cor2">Amazfit Cor 2</string>
     <string name="devicetype_amazfit_gtr">Amazfit GTR</string>
+    <string name="devicetype_amazfit_gtr_lite">Amazfit GTR Lite</string>
     <string name="devicetype_amazfit_trex">Amazfit T-Rex</string>
     <string name="devicetype_amazfit_bips">Amazfit Bip S</string>
     <string name="devicetype_amazfit_bips_lite">Amazfit Bip S Lite</string>

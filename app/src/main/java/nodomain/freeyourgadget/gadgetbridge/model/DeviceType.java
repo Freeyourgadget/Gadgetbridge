@@ -45,7 +45,7 @@ public enum DeviceType {
     AMAZFITGTR(18, R.drawable.ic_device_zetime, R.drawable.ic_device_zetime_disabled, R.string.devicetype_amazfit_gtr),
     AMAZFITGTS(19, R.drawable.ic_device_amazfit_bip, R.drawable.ic_device_amazfit_bip_disabled, R.string.devicetype_amazfit_gts),
     AMAZFITBIPS(20, R.drawable.ic_device_amazfit_bip, R.drawable.ic_device_amazfit_bip_disabled, R.string.devicetype_amazfit_bips),
-    AMAZFITGTR_LITE(21, R.drawable.ic_device_zetime, R.drawable.ic_device_zetime_disabled, R.string.devicetype_amazfit_gtr),
+    AMAZFITGTR_LITE(21, R.drawable.ic_device_zetime, R.drawable.ic_device_zetime_disabled, R.string.devicetype_amazfit_gtr_lite),
     AMAZFITTREX(22, R.drawable.ic_device_zetime, R.drawable.ic_device_zetime_disabled, R.string.devicetype_amazfit_trex),
     MIBAND5(23, R.drawable.ic_device_miband2, R.drawable.ic_device_miband2_disabled, R.string.devicetype_miband5),
     AMAZFITBAND5(24, R.drawable.ic_device_miband2, R.drawable.ic_device_miband2_disabled, R.string.devicetype_amazfit_band5),
