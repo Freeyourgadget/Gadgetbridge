@@ -197,7 +197,7 @@ public abstract class Huami2021Support extends HuamiSupport {
     public void onTestNewFunction() {
         try {
             final TransactionBuilder builder = performInitialized("test");
-            findBandOneShot(builder);
+
             builder.queue(getQueue());
         } catch (final Exception e) {
             LOG.error("Failed to test new function", e);
@@ -213,19 +213,21 @@ public abstract class Huami2021Support extends HuamiSupport {
         writeToChunked2021("ack find phone", CHUNKED2021_ENDPOINT_FIND_DEVICE, cmd, true);
     }
 
-    protected void findBandOneShot(final TransactionBuilder builder) {
+    @Override
+    protected void sendFindDeviceCommand(boolean start) {
+        if (!start) {
+            return;
+        }
+
         LOG.info("Sending one-shot find band");
 
-        writeToChunked2021(builder, CHUNKED2021_ENDPOINT_FIND_DEVICE, new byte[]{FIND_BAND_ONESHOT}, true);
-    }
-
-    @Override
-    public void onFindDevice(final boolean start) {
-        // FIXME: This does not work while band is in DND (#752)
-        final CallSpec callSpec = new CallSpec();
-        callSpec.command = start ? CallSpec.CALL_INCOMING : CallSpec.CALL_END;
-        callSpec.name = "Gadgetbridge";
-        onSetCallState(callSpec);
+        try {
+            final TransactionBuilder builder = performInitialized("find huami 2021");
+            writeToChunked2021(builder, CHUNKED2021_ENDPOINT_FIND_DEVICE, new byte[]{FIND_BAND_ONESHOT}, true);
+            builder.queue(getQueue());
+        } catch (IOException e) {
+            LOG.error("error while sending find Huami 2021 device command", e);
+        }
     }
 
     @Override

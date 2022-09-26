@@ -229,7 +229,7 @@
             <PreferenceCategory android:title="@string/pref_screen_notification_profile_find_device" />
 
             <ListPreference
-                android:defaultValue="@string/p_ring"
+                android:defaultValue="@string/p_long"
                 android:entries="@array/vibration_profile"
                 android:entryValues="@array/vibration_profile_values"
                 android:key="huami_vibration_profile_find_band"
@@ -237,7 +237,7 @@
                 android:summary="%s" />
 
             <EditTextPreference
-                android:defaultValue="3"
+                android:defaultValue="1"
                 android:inputType="number"
                 android:key="huami_vibration_count_find_band"
                 android:maxLength="1"

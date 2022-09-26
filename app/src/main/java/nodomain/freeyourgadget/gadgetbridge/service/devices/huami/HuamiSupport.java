@@ -1598,7 +1598,7 @@ public abstract class HuamiSupport extends AbstractBTLEDeviceSupport implements 
         return findDeviceInterval;
     }
 
-    private void sendFindDeviceCommand(boolean start) {
+    protected void sendFindDeviceCommand(boolean start) {
         BluetoothGattCharacteristic characteristic = getCharacteristic(UUID_CHARACTERISTIC_ALERT_LEVEL);
         try {
             TransactionBuilder builder = performInitialized("find huami");
