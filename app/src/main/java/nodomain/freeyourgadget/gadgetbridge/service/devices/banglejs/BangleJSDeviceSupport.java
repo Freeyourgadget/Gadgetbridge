@@ -28,6 +28,7 @@ import android.graphics.Paint;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.os.Build;
 import android.util.Base64;
 import android.widget.Toast;
 
@@ -706,7 +707,11 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
                             getContext().startService(in);
                             break;
                         case "foregroundservice": // Should this be implemented differently, e.g. workManager?
-                            getContext().startForegroundService(in);
+                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                                getContext().startForegroundService(in);
+                            } else {
+                                getContext().startService(in);
+                            }
                             break;
                         default:
                             LOG.info("Targeting '"+target+"' isn't implemented or doesn't exist.");
