@@ -28,6 +28,7 @@
 * Bangle.js: Bangle.js: Added PATCH HTTP request type, and fix for VolleyError UnsupportedOperationException when supplying custom headers
 * Allow 3rd party apps to set device settings
 * Reimplement C code in Java and remove Android NDK dependency entirely
+* Fix crash on Android<8.0 when using some devices 
 
 ### 0.70.0
 * Initial support for Amazfit GTS 3
