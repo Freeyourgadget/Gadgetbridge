@@ -16,6 +16,9 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.service.devices.huami.operations;
 
+import static nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiService.RESPONSE;
+import static nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiService.SUCCESS;
+
 import android.bluetooth.BluetoothGatt;
 import android.bluetooth.BluetoothGattCharacteristic;
 
@@ -31,15 +34,13 @@ import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiService;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.SetDeviceStateAction;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.Huami2021Handler;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.Huami2021ChunkedDecoder;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.Huami2021ChunkedEncoder;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.Huami2021Handler;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.HuamiSupport;
 import nodomain.freeyourgadget.gadgetbridge.util.CryptoUtils;
+import nodomain.freeyourgadget.gadgetbridge.util.ECDH_B163;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
-
-import static nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiService.SUCCESS;
-import static nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiService.RESPONSE;
 
 public class InitOperation2021 extends InitOperation implements Huami2021Handler {
     private byte[] privateEC = new byte[24];
@@ -51,11 +52,6 @@ public class InitOperation2021 extends InitOperation implements Huami2021Handler
 
     private final Huami2021ChunkedEncoder huami2021ChunkedEncoder;
     private final Huami2021ChunkedDecoder huami2021ChunkedDecoder;
-
-    static {
-        System.loadLibrary("tiny-edhc");
-    }
-
 
     private static final Logger LOG = LoggerFactory.getLogger(InitOperation2021.class);
 
@@ -77,8 +73,8 @@ public class InitOperation2021 extends InitOperation implements Huami2021Handler
         privateEC = new byte[]{0x0b, 0x42, (byte) 0xb9, (byte) 0xe6, 0x1c, 0x23, 0x34, 0x0e, 0x35, (byte) 0xc1, 0x6e, 0x2e, 0x7d, (byte) 0xe4, 0x33, (byte) 0xf4, (byte) 0xb5, (byte) 0x85, (byte) 0x9a, 0x72, (byte) 0xec, 0x11, 0x40, 0x27};
         remotePublicEC = new byte[]{(byte) 0xe6, 0x01, 0x6a, (byte) 0xba, 0x1d, (byte) 0xe7, (byte) 0xac, 0x0f, 0x0c, 0x7f, 0x0f, (byte) 0xf7, (byte) 0xe2, 0x24, 0x3e, 0x66, 0x62, (byte) 0xb5, (byte) 0xe0, 0x3b, 0x01, 0x00, 0x00, 0x00, (byte) 0xad, (byte) 0x8a, 0x4b, (byte) 0xed, (byte) 0xc7, 0x6a, 0x1e, (byte) 0xfd, (byte) 0xe7, 0x72, 0x5c, (byte) 0xc6, 0x62, (byte) 0xb5, 0x48, 0x35, 0x51, 0x3e, 0x3d, 0x57, 0x05, 0x00, 0x00, 0x00};
 
-        publicEC = ecdh_generate_public(privateEC);
-        sharedEC = ecdh_generate_shared(privateEC, remotePublicEC);
+        publicEC = ECDH_B163.ecdh_generate_public(privateEC);
+        sharedEC = ECDH_B163.ecdh_generate_shared(privateEC, remotePublicEC);
         LOG.warn("publicEC: " + GB.hexdump(publicEC));
         LOG.warn("privateEC: " + GB.hexdump(privateEC));
         LOG.warn("remotepubEC: " + GB.hexdump(remotePublicEC));
@@ -105,15 +101,10 @@ public class InitOperation2021 extends InitOperation implements Huami2021Handler
         huami2021ChunkedEncoder.write(builder, Huami2021Service.CHUNKED2021_ENDPOINT_AUTH, sendPubkeyCommand, true, false);
     }
 
-    private native byte[] ecdh_generate_public(byte[] privateEC);
-
-    private native byte[] ecdh_generate_shared(byte[] privateEC, byte[] remotePublicEC);
-
-
     private void generateKeyPair() {
         Random r = new Random();
         r.nextBytes(privateEC);
-        publicEC = ecdh_generate_public(privateEC);
+        publicEC = ECDH_B163.ecdh_generate_public(privateEC);
     }
 
     @Override
@@ -153,7 +144,7 @@ public class InitOperation2021 extends InitOperation implements Huami2021Handler
 
             System.arraycopy(payload, 3, remoteRandom, 0, 16);
             System.arraycopy(payload, 19, remotePublicEC, 0, 48);
-            sharedEC = ecdh_generate_shared(privateEC, remotePublicEC);
+            sharedEC = ECDH_B163.ecdh_generate_shared(privateEC, remotePublicEC);
             int encryptedSequenceNumber = (sharedEC[0] & 0xff) | ((sharedEC[1] & 0xff) << 8) | ((sharedEC[2] & 0xff) << 16) | ((sharedEC[3] & 0xff) << 24);
 
             byte[] secretKey = getSecretKey();

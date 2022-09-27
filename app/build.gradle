@@ -199,17 +199,6 @@ android {
             includeAndroidResources = true
         }
     }
-    externalNativeBuild {
-        cmake {
-            path "src/main/c/CMakeLists.txt"
-            version "3.18.1"
-        }
-    }
-    sourceSets {
-        main {
-            jniLibs.srcDirs = ['libs'] // where libs is the name of the directory!
-        }
-    }
 }
 
 pmd {
