@@ -1933,4 +1933,5 @@
 \nDe band zal opnieuw opstarten na het installeren van het .zip-bestand.
 \n
 \nVERDERGAAN IS OP EIGEN RISICO!</string>
+    <string name="watchface_setting_button_move_hands">Wijzers verplaatsen</string>
 </resources>
