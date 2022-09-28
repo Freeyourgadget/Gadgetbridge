@@ -99,6 +99,8 @@ import static nodomain.freeyourgadget.gadgetbridge.model.DeviceType.fromKey;
 import static nodomain.freeyourgadget.gadgetbridge.util.GB.NOTIFICATION_CHANNEL_HIGH_PRIORITY_ID;
 import static nodomain.freeyourgadget.gadgetbridge.util.GB.NOTIFICATION_ID_ERROR;
 
+import com.jakewharton.threetenabp.AndroidThreeTen;
+
 /**
  * Main Application class that initializes and provides access to certain things like
  * logging and DB access.
@@ -183,6 +185,9 @@ public class GBApplication extends Application {
             // guard against multiple invocations (robolectric)
             return;
         }
+
+        // Initialize the timezones library
+        AndroidThreeTen.init(this);
 
         sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
         prefs = new Prefs(sharedPrefs);
