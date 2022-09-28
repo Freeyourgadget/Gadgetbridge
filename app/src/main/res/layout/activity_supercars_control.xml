@@ -1,74 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        tools:ignore="MissingConstraints">
+
+        <nodomain.freeyourgadget.gadgetbridge.devices.supercars.JoystickView
+            android:id="@+id/joystickLeft"
+            android:layout_width="wrap_content"
+            android:layout_height="300dp"
+            android:layout_weight="1" />
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
             android:orientation="horizontal">
 
-            <Button
-                android:id="@+id/supercars_control_button_left_up"
-                android:layout_width="wrap_content"
-                android:layout_height="100dp"
-                android:layout_weight="0.5"
-                android:text="left" />
+            <CheckBox
+                android:id="@+id/turboMode"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="TurboMode" />
 
-            <Button
-                android:id="@+id/supercars_control_button_center_up"
-                android:layout_width="wrap_content"
-                android:layout_height="100dp"
-                android:layout_weight="0.5"
-                android:text="forward" />
-
-            <Button
-                android:id="@+id/supercars_control_button_right_up"
-                android:layout_width="wrap_content"
-                android:layout_height="100dp"
-                android:layout_weight="0.5"
-                android:text="right" />
+            <CheckBox
+                android:id="@+id/lightsOn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Lights" />
 
         </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-
-            android:orientation="horizontal">
-
-            <Button
-                android:id="@+id/supercars_control_button_left_down"
-                android:layout_width="wrap_content"
-                android:layout_height="100dp"
-                android:layout_weight="0.5"
-                android:text="left" />
-
-            <Button
-                android:id="@+id/supercars_control_button_center_down"
-                android:layout_width="wrap_content"
-                android:layout_height="100dp"
-                android:layout_weight="0.5"
-                android:text="back" />
-
-
-            <Button
-                android:id="@+id/supercars_control_button_right_down"
-                android:layout_width="wrap_content"
-                android:layout_height="100dp"
-                android:layout_weight="0.5"
-                android:text="right" />
-
-        </LinearLayout>
-
-
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

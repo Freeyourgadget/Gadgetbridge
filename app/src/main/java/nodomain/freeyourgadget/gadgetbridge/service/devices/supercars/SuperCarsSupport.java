@@ -28,12 +28,12 @@ import nodomain.freeyourgadget.gadgetbridge.model.WeatherSpec;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.AbstractBTLEDeviceSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.SetDeviceStateAction;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.fitpro.FitProDeviceSupport;
 
 public class SuperCarsSupport extends AbstractBTLEDeviceSupport {
     private static final Logger LOG = LoggerFactory.getLogger(SuperCarsSupport.class);
     public static final String COMMAND_DRIVE_CONTROL = "nodomain.freeyourgadget.gadgetbridge.supercars.command.DRIVE_CONTROL";
     public static final String EXTRA_DIRECTION = "EXTRA_DIRECTION";
+    public static final String EXTRA_MODE = "EXTRA_MODE";
 
     public SuperCarsSupport() {
         super(LOG);
@@ -50,7 +50,7 @@ public class SuperCarsSupport extends AbstractBTLEDeviceSupport {
         broadcastManager.registerReceiver(commandReceiver, filter);
 
         builder.add(new SetDeviceStateAction(getDevice(), GBDevice.State.INITIALIZED, getContext()));
-        LOG.debug("name "  + gbDevice.getName());
+        LOG.debug("name " + gbDevice.getName());
         return builder;
     }
 
@@ -59,7 +59,9 @@ public class SuperCarsSupport extends AbstractBTLEDeviceSupport {
         public void onReceive(Context context, Intent intent) {
             if (intent.getAction().equals(COMMAND_DRIVE_CONTROL)) {
                 SuperCarsSupport.this.setDirection(
-                        intent.getStringExtra(EXTRA_DIRECTION)
+                        (SuperCarsConstants.SpeedModes) intent.getSerializableExtra(EXTRA_MODE),
+                        (SuperCarsConstants.Directions) intent.getSerializableExtra(EXTRA_DIRECTION)
+
                 );
             }
         }
@@ -219,36 +221,13 @@ public class SuperCarsSupport extends AbstractBTLEDeviceSupport {
         return false;
     }
 
-    private void setDirection(String direction) {
-        byte[] command = SuperCarsConstants.idle_data;
+    private void setDirection(SuperCarsConstants.SpeedModes speedModes, SuperCarsConstants.Directions direction) {
 
-        switch (direction) {
-            case "left_up":
-                command = SuperCarsConstants.up_left_data;
-                break;
-            case "center_up":
-                command = SuperCarsConstants.up_data;
-                break;
-            case "right_up":
-                command = SuperCarsConstants.up_right_data;
-                break;
-            case "left_down":
-                command = SuperCarsConstants.down_left_data;
-                break;
-            case "center_down":
-                command = SuperCarsConstants.down_data;
-                break;
-            case "right_down":
-                command = SuperCarsConstants.down_right_data;
-                break;
-            default:
-                command = SuperCarsConstants.idle_data;
-        }
-        TransactionBuilder builder = new TransactionBuilder("test");
+        byte[] command = SuperCarsConstants.get_directions_data(speedModes, direction);
+        TransactionBuilder builder = new TransactionBuilder("setDirections");
         BluetoothGattCharacteristic writeCharacteristic = getCharacteristic(SuperCarsConstants.CHARACTERISTIC_UUID_FFF1);
         builder.write(writeCharacteristic, command);
         builder.queue(getQueue());
-
     }
 
     @Override
