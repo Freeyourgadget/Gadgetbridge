@@ -100,7 +100,7 @@ public class GBDevice implements Parcelable {
     private int mNotificationIconDisconnected = R.drawable.ic_notification_disconnected;
     private int mNotificationIconLowBattery = R.drawable.ic_notification_low_battery;
 
-    public static enum DeviceUbdateSubject {
+    public static enum DeviceUpdateSubject {
         UNKNOWN,
         NOTHING,
         CONNECTION_STATE,
@@ -487,11 +487,11 @@ public class GBDevice implements Parcelable {
 
     // TODO: this doesn't really belong here
     public void sendDeviceUpdateIntent(Context context) {
-        sendDeviceUpdateIntent(context, DeviceUbdateSubject.UNKNOWN);
+        sendDeviceUpdateIntent(context, DeviceUpdateSubject.UNKNOWN);
     }
 
     // TODO: this doesn't really belong here
-    public void sendDeviceUpdateIntent(Context context, DeviceUbdateSubject subject) {
+    public void sendDeviceUpdateIntent(Context context, DeviceUpdateSubject subject) {
         Intent deviceUpdateIntent = new Intent(ACTION_DEVICE_CHANGED);
         deviceUpdateIntent.putExtra(EXTRA_DEVICE, this);
         deviceUpdateIntent.putExtra(EXTRA_UPDATE_SUBJECT, subject);

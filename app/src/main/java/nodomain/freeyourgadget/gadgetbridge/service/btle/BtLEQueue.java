@@ -264,7 +264,7 @@ public final class BtLEQueue {
         LOG.debug("new device connection state: " + newState);
 
         mGbDevice.setState(newState);
-        mGbDevice.sendDeviceUpdateIntent(mContext, GBDevice.DeviceUbdateSubject.CONNECTION_STATE);
+        mGbDevice.sendDeviceUpdateIntent(mContext, GBDevice.DeviceUpdateSubject.CONNECTION_STATE);
     }
 
     public void disconnect() {
