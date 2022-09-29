@@ -59,6 +59,7 @@ vendor's servers.
 - [Galaxy Buds](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Galaxy-Buds)
     - [Galaxy Buds](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Galaxy-Buds#user-content-galaxy-buds)
     - [Galaxy Buds Live](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Galaxy-Buds#user-content-galaxy-buds-live)
+    - [Galaxy Buds Pro](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Galaxy-Buds#galaxy-buds-pro)
 
 - [HPlus Devices (e.g. ZeBand)](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/HPlus)
 - ID115
@@ -91,6 +92,11 @@ vendor's servers.
 - Wasp-OS devices
 - XWatch (Affordable Chinese Casio-like smartwatches)
 - [Zepp E](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Amazfit-GTR) [**\[!\]**](#special-pairing-procedures)
+- [Shell Racing cars](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/SuperCars) (BLE RC car models)
+- [Flipper Zero](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Flipper-Zero) (Multi-tool Device for Geeks)
+- VESC (BLDC controller VESC)
+- UM25 (USB Voltage meter) 
+
 
 
 ### Special Pairing Procedures
@@ -111,7 +117,7 @@ Please see [FEATURES.md](https://codeberg.org/Freeyourgadget/Gadgetbridge/src/ma
 * Daniele Gobbetti
 * Petr Vaněk
 
-### Additional device support
+### Additional contributors
 * João Paulo Barraca (HPlus)
 * Vitaly Svyastyn (NO.1 F1)
 * Sami Alaoui (Teclast H30)
@@ -130,6 +136,8 @@ Please see [FEATURES.md](https://codeberg.org/Freeyourgadget/Gadgetbridge/src/ma
 * Taavi Eomäe (iTag)
 * Erik Bloß (TLW64)
 * Yukai Li (Lefun)
+* José Rebelo (Roidmi, Sony Headphones, Miband 7)
+* Arjan Schrijver (Fossil Hybrid HR watchfaces)
 
 ## Contribute
 
