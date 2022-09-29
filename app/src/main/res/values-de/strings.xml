@@ -1922,4 +1922,21 @@
     <string name="devicetype_amazfit_gtr3">Amazfit GTR 3</string>
     <string name="pref_summary_third_party_app_device_settings">Erlaube anderen installierten Apps von Drittanbietern, Geräteeinstellungen über Intents festzulegen.</string>
     <string name="pref_title_third_party_app_device_settings">Ändern von Einstellungen durch App von Drittanbietern zulassen</string>
+    <string name="activity_type_dance">Tanzen</string>
+    <string name="activity_type_indoor_fitness">Indoor-Fitness</string>
+    <string name="activity_type_gymnastics">Gymnastik</string>
+    <string name="activity_type_hiit">Hochintensives Intervalltraining</string>
+    <string name="activity_type_core_training">Core-Training</string>
+    <string name="activity_type_stretching">Dehnen</string>
+    <string name="activity_type_stepper">Stepper</string>
+    <string name="activity_type_pilates">Pilates</string>
+    <string name="activity_type_volleyball">Volleyball</string>
+    <string name="activity_type_table_tennis">Tischtennis</string>
+    <string name="activity_type_bowling">Bowling</string>
+    <string name="activity_type_zumba">Zumba</string>
+    <string name="activity_type_indoor_ice_skating">Indoor-Eislaufen</string>
+    <string name="devicetype_amazfit_gtr_lite">Amazfit GTR Lite</string>
+    <string name="activity_type_street_dance">Street Dance</string>
+    <string name="activity_type_kickboxing">Kickboxen</string>
+    <string name="activity_type_boxing">Boxen</string>
 </resources>
