@@ -60,7 +60,7 @@ public class SuperCarsCoordinator extends AbstractDeviceCoordinator {
 
     @Override
     public int getBatteryCount() {
-        return 0;
+        return 1;
     }
 
     @Override

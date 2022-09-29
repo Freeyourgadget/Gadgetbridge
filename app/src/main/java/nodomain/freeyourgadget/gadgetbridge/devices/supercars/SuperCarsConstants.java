@@ -4,6 +4,8 @@ import java.util.UUID;
 
 public class SuperCarsConstants {
 
+    public static final byte[] aes_key = new byte[]{(byte) 0x34, (byte) 0x52, (byte) 0x2A, (byte) 0x5B, (byte) 0x7A, (byte) 0x6E, (byte) 0x49, (byte) 0x2C, (byte) 0x08, (byte) 0x09, (byte) 0x0A, (byte) 0x9D, (byte) 0x8D, (byte) 0x2A, (byte) 0x23, (byte) 0xF8};
+
     public static final UUID SERVICE_UUID_FFF = UUID.fromString("0000fff0-0000-1000-8000-00805f9b34fb");
     public static final UUID CHARACTERISTIC_UUID_FFF1 = UUID.fromString("d44bc439-abfd-45a2-b575-925416129600");
     public static final UUID CHARACTERISTIC_UUID_FFF2 = UUID.fromString("d44bc439-abfd-45a2-b575-92541612960a");

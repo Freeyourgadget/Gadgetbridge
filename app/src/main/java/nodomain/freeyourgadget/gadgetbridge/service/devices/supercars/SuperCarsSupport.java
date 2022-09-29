@@ -1,5 +1,6 @@
 package nodomain.freeyourgadget.gadgetbridge.service.devices.supercars;
 
+import android.bluetooth.BluetoothGatt;
 import android.bluetooth.BluetoothGattCharacteristic;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -15,9 +16,11 @@ import org.slf4j.LoggerFactory;
 import java.util.ArrayList;
 import java.util.UUID;
 
+import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventBatteryInfo;
 import nodomain.freeyourgadget.gadgetbridge.devices.supercars.SuperCarsConstants;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.Alarm;
+import nodomain.freeyourgadget.gadgetbridge.model.BatteryState;
 import nodomain.freeyourgadget.gadgetbridge.model.CalendarEventSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.CallSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.CannedMessagesSpec;
@@ -28,6 +31,7 @@ import nodomain.freeyourgadget.gadgetbridge.model.WeatherSpec;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.AbstractBTLEDeviceSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.SetDeviceStateAction;
+import nodomain.freeyourgadget.gadgetbridge.util.CryptoUtils;
 
 public class SuperCarsSupport extends AbstractBTLEDeviceSupport {
     private static final Logger LOG = LoggerFactory.getLogger(SuperCarsSupport.class);
@@ -43,14 +47,19 @@ public class SuperCarsSupport extends AbstractBTLEDeviceSupport {
     @Override
     protected TransactionBuilder initializeDevice(TransactionBuilder builder) {
         builder.add(new SetDeviceStateAction(getDevice(), GBDevice.State.INITIALIZING, getContext()));
+        builder.notify(getCharacteristic(SuperCarsConstants.CHARACTERISTIC_UUID_FFF4), true); //for battery
+
         LocalBroadcastManager broadcastManager = LocalBroadcastManager.getInstance(getContext());
 
         IntentFilter filter = new IntentFilter();
         filter.addAction(COMMAND_DRIVE_CONTROL);
         broadcastManager.registerReceiver(commandReceiver, filter);
+        getDevice().setFirmwareVersion("N/A");
+        getDevice().setFirmwareVersion2("N/A");
 
         builder.add(new SetDeviceStateAction(getDevice(), GBDevice.State.INITIALIZED, getContext()));
         LOG.debug("name " + gbDevice.getName());
+
         return builder;
     }
 
@@ -66,6 +75,27 @@ public class SuperCarsSupport extends AbstractBTLEDeviceSupport {
             }
         }
     };
+
+    @Override
+    public boolean onCharacteristicChanged(BluetoothGatt gatt,
+                                           BluetoothGattCharacteristic characteristic) {
+        super.onCharacteristicChanged(gatt, characteristic);
+        byte[] data = characteristic.getValue();
+        byte[] decodedData = new byte[0];
+        try {
+            decodedData = CryptoUtils.decryptAES(data, SuperCarsConstants.aes_key);
+        } catch (Exception e) {
+            LOG.error("Error while decoding received data");
+        }
+
+        if (decodedData.length == 16) {
+            GBDeviceEventBatteryInfo batteryEvent = new GBDeviceEventBatteryInfo();
+            batteryEvent.state = BatteryState.BATTERY_NORMAL;
+            batteryEvent.level = decodedData[4];
+            evaluateGBDeviceEvent(batteryEvent);
+        }
+        return true;
+    }
 
     @Override
     public void onNotification(NotificationSpec notificationSpec) {
