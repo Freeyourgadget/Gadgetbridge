@@ -105,14 +105,14 @@ public class ImageConverter {
     public static Bitmap decodeFromRLEImage(byte[] rleImage) {
         ByteBuffer buf = ByteBuffer.wrap(rleImage);
         buf.order(ByteOrder.LITTLE_ENDIAN);
-        int width = Byte.toUnsignedInt(buf.get());
-        int height = Byte.toUnsignedInt(buf.get());
+        int width = buf.get() & 0xff;
+        int height = buf.get() & 0xff;
         Bitmap bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
         int posX = 0;
         int posY = 0;
         while (buf.remaining() > 2) {
-            int repetitions = Byte.toUnsignedInt(buf.get());
-            int pixel = Byte.toUnsignedInt(buf.get());
+            int repetitions = buf.get() & 0xff;
+            int pixel = buf.get() & 0xff;
             int color = pixel << 6;
             int combinedColor = Color.rgb(color, color, color);
             for (int i=0; i<repetitions; i++) {
@@ -139,7 +139,7 @@ public class ImageConverter {
         int posX = 239;
         int posY = 239;
         while (buf.remaining() > 0) {
-            int currentPixels = Byte.toUnsignedInt(buf.get());
+            int currentPixels = buf.get() & 0xff;
             for (int shift=6; shift>=0; shift-=2) {
                 int color = ((currentPixels >> shift) & 0b00000011) << 6;
                 int combinedColor = Color.rgb(color, color, color);

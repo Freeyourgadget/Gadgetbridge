@@ -16,10 +16,9 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.util.language.impl;
 
-import java.util.Optional;
 import java.text.Normalizer;
-import java.text.Normalizer.Form;
 
+import nodomain.freeyourgadget.gadgetbridge.util.Optional;
 import nodomain.freeyourgadget.gadgetbridge.util.language.Transliterator;
 
 // Implements Revised Romanization of Korean as well as we can without understanding any grammar.

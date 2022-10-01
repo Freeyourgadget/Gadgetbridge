@@ -93,7 +93,7 @@ public class HybridHRWatchfaceWidgetActivity extends AbstractSettingsActivity {
             super.onCreate(savedInstanceState);
             addPreferencesFromResource(R.xml.fossil_hr_widget_settings);
 
-            widgetTypes = HybridHRWatchfaceWidget.getAvailableWidgetTypes(getContext());
+            widgetTypes = HybridHRWatchfaceWidget.getAvailableWidgetTypes(getActivity().getBaseContext());
             ListPreference widgetType = (ListPreference) findPreference("pref_hybridhr_widget_type");
             widgetType.setOnPreferenceChangeListener(this);
             widgetType.setEntries(widgetTypes.values().toArray(new String[0]));

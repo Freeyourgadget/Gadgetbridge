@@ -79,6 +79,7 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Hashtable;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -145,29 +146,24 @@ public class GBDeviceAdapterv2 extends ListAdapter<GBDevice, GBDeviceAdapterv2.V
     }
 
     private List<GBDevice> enrichDeviceListWithFolder(List<GBDevice> deviceList) {
-        ArrayList<GBDevice> enrichedList = new ArrayList<>();
-        Set<String> folders = new ArraySet<>();
-        for(GBDevice device : deviceList){
-            String parentFolder = device.getParentFolder();
-            if(StringUtils.isNullOrEmpty(parentFolder)){
+        final Map<String, List<GBDevice>> devicesPerFolder = new LinkedHashMap<>();
+        final List<GBDevice> enrichedList = new ArrayList<>();
+
+        for (GBDevice device : deviceList) {
+            String folder = device.getParentFolder();
+            if (StringUtils.isNullOrEmpty(folder)){
                 enrichedList.add(device);
                 continue;
             }
-            folders.add(parentFolder);
+            if (!devicesPerFolder.containsKey(folder)) {
+                devicesPerFolder.put(folder, new ArrayList<>());
+            }
+            devicesPerFolder.get(folder).add(device);
         }
 
-        for(String folder : folders){
-            enrichedList.add(new GBDeviceFolder(folder));
-            for(GBDevice potentialChild : deviceList){
-                String parentFolder = potentialChild.getParentFolder();
-                if(StringUtils.isNullOrEmpty(parentFolder)){
-                    continue;
-                }
-                if(!parentFolder.equals(folder)){
-                    continue;
-                }
-                enrichedList.add(potentialChild);
-            }
+        for (final Map.Entry<String, List<GBDevice>> folder : devicesPerFolder.entrySet()) {
+            enrichedList.add(new GBDeviceFolder(folder.getKey()));
+            enrichedList.addAll(folder.getValue());
         }
 
         return enrichedList;
