@@ -209,7 +209,7 @@
     <string name="weeksteps_today_steps_description">Кроків сьогодні, мета: %1$s</string>
     <string name="pref_title_dont_ack_transfer">Не передавати дані про активність</string>
     <string name="pref_summary_dont_ack_transfers">Якщо дані не будуть передані на пристрій, вони не будуть очищені. Корисно, якщо GB використовується разом з іншими застосунками.</string>
-    <string name="pref_summary_keep_data_on_device">Дозволяє залишити дані на Mi Band після синхронізації. Зазвичай використовується, якщо GB працює разом з іншими застосунками.</string>
+    <string name="pref_summary_keep_data_on_device">Зберігає дані про активність на пристрої навіть після синхронізації. Корисно, якщо GB використовується разом з іншими застосунками.</string>
     <string name="live_activity_steps_history">Історія кроків</string>
     <string name="live_activity_current_steps_per_minute">Поточні кроки/хв</string>
     <string name="live_activity_total_steps">Загалом кроків</string>
@@ -1944,4 +1944,8 @@
     <string name="watchface_setting_button_move_hands">Рух рук</string>
     <string name="supercars_lights_label">Lights</string>
     <string name="supercars_turbo_speed_label">Turbo Speed</string>
+    <string name="pref_header_authentication">Автентифікація</string>
+    <string name="abstract_chart_fragment_kind_rem_sleep">Швидкий сон</string>
+    <string name="sports_activity_confirm_delete_title">Видалити діяльність %d</string>
+    <string name="sports_activity_confirm_delete_description">Ви впевнені, що хочете видалити дії %d\?</string>
 </resources>
