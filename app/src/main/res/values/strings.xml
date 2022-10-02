@@ -1850,4 +1850,5 @@
     <string name="devicetype_super_cars">Shell Racing</string>
     <string name="supercars_turbo_speed_label">Turbo Speed</string>
     <string name="supercars_lights_label">Lights</string>
+    <string name="supercars_lights_blinking_label">Blinking</string>
 </resources>
