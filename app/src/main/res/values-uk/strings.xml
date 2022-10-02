@@ -1939,13 +1939,14 @@
     <string name="activity_type_core_training">Основне тренування</string>
     <string name="activity_type_boxing">Бокс</string>
     <string name="activity_type_kickboxing">Кікбоксинг</string>
-    <string name="devicetype_super_cars">Shell Racing</string>
+    <string name="devicetype_super_cars">Перегони на снарядах</string>
     <string name="devicetype_amazfit_gtr_lite">Amazfit GTR Lite</string>
     <string name="watchface_setting_button_move_hands">Рух рук</string>
-    <string name="supercars_lights_label">Lights</string>
-    <string name="supercars_turbo_speed_label">Turbo Speed</string>
+    <string name="supercars_lights_label">Світло</string>
+    <string name="supercars_turbo_speed_label">Турбошвидкість</string>
     <string name="pref_header_authentication">Автентифікація</string>
     <string name="abstract_chart_fragment_kind_rem_sleep">Швидкий сон</string>
     <string name="sports_activity_confirm_delete_title">Видалити діяльність %d</string>
     <string name="sports_activity_confirm_delete_description">Ви впевнені, що хочете видалити дії %d\?</string>
+    <string name="supercars_lights_blinking_label">Блимання</string>
 </resources>
