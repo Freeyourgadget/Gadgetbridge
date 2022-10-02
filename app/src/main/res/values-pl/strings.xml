@@ -796,8 +796,9 @@
     <string name="widget_set_alarm_after">Ustaw alarm za:</string>
     <plurals name="widget_alarm_target_hours">
         <item quantity="one">%d godzina</item>
-        <item quantity="few">%d godzin</item>
-        <item quantity="many">%d godziny</item>
+        <item quantity="few">%d godziny</item>
+        <item quantity="many">%d godzin</item>
+        <item quantity="other">%d godzin</item>
     </plurals>
     <string name="activity_error_no_app_for_gpx">Aby wyświetlić ślad, zainstaluj aplikację obsługującą pliki GPX.</string>
     <string name="maximum_duration">Czas trwania</string>
@@ -1772,7 +1773,7 @@
     <string name="prefs_heartrate_alert_high_threshold">Próg alarmowy wysokiego tętna</string>
     <string name="prefs_stress_monitoring_description">Monitorowanie poziomu stresu podczas odpoczynku</string>
     <string name="controlcenter_set_preferences">Ustaw ustawienia</string>
-    <string name="controlcenter_toggle_details">Przełącz detale</string>
+    <string name="controlcenter_toggle_details">Pokaż detale</string>
     <string name="controlcenter_connected_fraction">Połączono: %d/%d</string>
     <string name="activity_type_elliptical">Eliptyczna</string>
     <string name="error_deleting_device">Błąd przy usuwaniu urządzenia: %s</string>
@@ -1789,7 +1790,11 @@
 \n
 \nMożna to wykorzystać do uruchomienia aplikacji muzycznej i odtworzenia piosenki oraz wielu innych rzeczy.
 \n
-\nProszę dotknąć \"%2$s\", a następnie \"%1$s\" i włączyć \"Pozwól na wyświetlanie ponad innymi aplikacjami\", a następnie dotknąć \"Wróć\", aby powrócić do %1$s.</string>
+\nProszę dotknąć \"%2$s\", a następnie \"%1$s\" i włączyć \"Pozwól na wyświetlanie ponad innymi aplikacjami\", a następnie dotknąć \"Wróć\", aby powrócić do %1$s. 
+\n 
+\nPrzejdź do \'Ustawienia\' i odznacz \'Sprawdzanie stanu powiadomień\', aby wyłączyć to powiadomienie. 
+\n 
+\nUpewnij się, że zezwolono na dostęp do %1$s, gwarantuje to prawidłową pracę.</string>
     <string name="watchface_dialog_widget_cat_generic">Generyczny</string>
     <string name="watchface_dialog_widget_cat_2nd_tz_widget">Drugi widżet strefy czasowej</string>
     <string name="prefs_double_tap_edge_summary">Wykrywaj podwójne stuknięcie, nawet jeśli nie stuknięto w panel dotykowy</string>
@@ -1910,4 +1915,34 @@
     <string name="devicetype_flipper_zero">Flipper zero</string>
     <string name="activity_prefs_allow_bluetooth_intent_api">API Bluetooth Intent</string>
     <string name="activity_prefs_summary_allow_bluetooth_intent_api">Pozwól na sterowanie połączeniem Bluetooth za pomocą Intent API</string>
+    <string name="activity_type_gymnastics">Gimnastyka</string>
+    <string name="activity_type_stepper">Chodzik</string>
+    <string name="activity_type_volleyball">Siatkówka</string>
+    <string name="activity_type_table_tennis">Tenis stołowy</string>
+    <string name="pref_summary_third_party_app_device_settings">Pozwól aplikacjom firm trzecich na ustawienie urządzenia według ich potrzeb.</string>
+    <string name="activity_type_hiit">Interwał po między treningami o wysokiej intensywności</string>
+    <string name="activity_type_bowling">Kręgle</string>
+    <string name="activity_type_pilates">Pilates</string>
+    <string name="activity_type_boxing">Boks</string>
+    <string name="activity_type_kickboxing">Kickboxing</string>
+    <string name="supercars_lights_label">Klasyczne</string>
+    <string name="supercars_turbo_speed_label">Turbo Speed</string>
+    <string name="dismiss">Odrzuć</string>
+    <string name="fw_upgrade_notice_amazfit_gtr3">Właśnie zamierzasz zainstalować oprogramowanie układowe %s na Amazfit GTR3. 
+\n 
+\nUrządzenie uruchomi się ponownie po instalacji pliku .zip. 
+\n 
+\nWykonujesz to na własne ryzyko!</string>
+    <string name="pref_title_third_party_app_device_settings">Pozwól aplikacjom firm trzecich na zmianę ustawień</string>
+    <string name="activity_type_dance">Taniec</string>
+    <string name="activity_type_indoor_fitness">Ćwiczenia w domu</string>
+    <string name="activity_type_core_training">Podstawowe ćwiczenia</string>
+    <string name="activity_type_stretching">Rozciąganie</string>
+    <string name="activity_type_street_dance">Street dance</string>
+    <string name="activity_type_zumba">Zumba</string>
+    <string name="activity_type_indoor_ice_skating">Łyżwy na obiekcie krytym</string>
+    <string name="devicetype_amazfit_gtr3">Amazfit GTR3 3</string>
+    <string name="devicetype_super_cars">Shell Racing</string>
+    <string name="devicetype_amazfit_gtr_lite">Amazfit GTR Lite</string>
+    <string name="watchface_setting_button_move_hands">Poruszaj rękoma</string>
 </resources>
