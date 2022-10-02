@@ -2,12 +2,12 @@
 
 ### 0.71.0 (WIP)
 * Remove KitKat support, Gadgetbridge now requires Android 5.0
-* Initial support for Amazfit GTR3
+* Initial support for Amazfit GTR 3
 * Initial support for Shell Racing cars
 * Huami: Add preference to overwrite band settings on connection
 * Huami: Fix crash when selecting automatic Always On Display
 * Huami: Set OpenTracks track category and icon
-* Huami: implement proper find device
+* Huami: Implement proper find device
 * Huami: Change default find band vibration pattern
 * Flipper Zero: added duration to Intent API
 * Flipper Zero: fixed crash due to unregistered boradcast receiver
@@ -17,18 +17,20 @@
 * Fossil Hybrid HR: Allow flick_away as custom event and add move_hands event 
 * InfiniTime: Add weather support
 * Amazfit Neo: Fix world clock
-* Amazfit Neo: fix long caller name display
-* Amazfit Neo: remove activity tracks (unsupported)
+* Amazfit Neo: Fix long caller name display
+* Amazfit Neo: Remove activity tracks (unsupported)
 * Amazfit GTS 3: Fix battery drain due to unanswered weather requests
 * Mi Band 7: Fix Weather
 * Mi Band 6: Add support for workout activity types
 * Mi Band 6: Enable adding workout activity types to the "more" section
 * Amazfit GTR: Enable button actions
+* Zepp OS: Implement activity, sleep and workout fetching
 * Zepp OS: Improve firmware upgrades
 * Bangle.js: Bangle.js: Added PATCH HTTP request type, and fix for VolleyError UnsupportedOperationException when supplying custom headers
 * Allow 3rd party apps to set device settings
 * Reimplement C code in Java and remove Android NDK dependency entirely
 * Fix crash on Android<8.0 when using some devices 
+* Add support for REM sleep
 
 ### 0.70.0
 * Initial support for Amazfit GTS 3
