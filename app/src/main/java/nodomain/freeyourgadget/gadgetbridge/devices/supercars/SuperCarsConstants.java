@@ -32,5 +32,54 @@ public class SuperCarsConstants {
     public enum Direction {
         LEFT, RIGHT, CENTER
     }
+
+    public enum Tricks {
+        OFF, CIRCLE_RIGHT, CIRCLE_LEFT, U_TURN_LEFT, U_TURN_RIGHT
+    }
+
+    static Enum[] fwd_r = {Movement.UP, Direction.RIGHT};
+    static Enum[] fwd_l = {Movement.UP, Direction.LEFT};
+    static Enum[] stop = {Movement.IDLE, Direction.CENTER};
+
+    public static final Enum[][] tricks_circle_right = {
+            fwd_r, fwd_r, fwd_r, fwd_r, fwd_r, fwd_r, fwd_r, fwd_r, fwd_r, fwd_r,
+            fwd_r, fwd_r, fwd_r, fwd_r, fwd_r, fwd_r, fwd_r, fwd_r, fwd_r, fwd_r,
+            fwd_r, fwd_r, fwd_r, fwd_r, fwd_r, fwd_r, fwd_r, fwd_r, fwd_r, fwd_r,
+            stop
+    };
+
+    public static final Enum[][] tricks_circle_left = {
+            fwd_l, fwd_l, fwd_l, fwd_l, fwd_l, fwd_l, fwd_l, fwd_l, fwd_l, fwd_l,
+            fwd_l, fwd_l, fwd_l, fwd_l, fwd_l, fwd_l, fwd_l, fwd_l, fwd_l, fwd_l,
+            fwd_l, fwd_l, fwd_l, fwd_l, fwd_l, fwd_l, fwd_l, fwd_l, fwd_l, fwd_l,
+            stop
+    };
+
+    public static final Enum[][] tricks_u_turn_right = {
+            fwd_r, fwd_r, fwd_r, fwd_r, fwd_r, fwd_r, fwd_r, fwd_r, fwd_r, fwd_r,
+            fwd_r, fwd_r, fwd_r, fwd_r, fwd_r, fwd_r, fwd_r, fwd_r, fwd_r, fwd_r,
+            stop
+    };
+
+    public static final Enum[][] tricks_u_turn_left = {
+            fwd_l, fwd_l, fwd_l, fwd_l, fwd_l, fwd_l, fwd_l, fwd_l, fwd_l, fwd_l,
+            fwd_l, fwd_l, fwd_l, fwd_l, fwd_l, fwd_l, fwd_l, fwd_l, fwd_l, fwd_l,
+            stop
+    };
+
+
+    public static final Enum[][] get_trick(Tricks trick) {
+        switch (trick) {
+            case CIRCLE_RIGHT:
+                return tricks_circle_right;
+            case CIRCLE_LEFT:
+                return tricks_circle_left;
+            case U_TURN_LEFT:
+                return tricks_u_turn_left;
+            case U_TURN_RIGHT:
+                return tricks_u_turn_right;
+        }
+        return tricks_circle_right;
+    }
 }
 

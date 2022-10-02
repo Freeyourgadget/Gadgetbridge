@@ -6,8 +6,10 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.view.View;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
@@ -24,17 +26,21 @@ public class ControlActivity extends AbstractGBActivity implements JoystickView.
     private static final Logger LOG = LoggerFactory.getLogger(ControlActivity.class);
     LocalBroadcastManager localBroadcastManager;
     CountDownTimer periodicDataSenderRunner;
+    boolean periodicDataSenderRunnerIsRunning = false;
 
     private GBDevice device;
     TextView batteryPercentage;
     boolean lights = false;
     boolean blinking = false;
     boolean turbo = false;
+    int stepCounter = 0;
 
     SuperCarsConstants.Direction direction = SuperCarsConstants.Direction.CENTER;
     SuperCarsConstants.Movement movement = SuperCarsConstants.Movement.IDLE;
     SuperCarsConstants.Speed speed = SuperCarsConstants.Speed.NORMAL;
     SuperCarsConstants.Light light = SuperCarsConstants.Light.OFF;
+    SuperCarsConstants.Tricks tricks = SuperCarsConstants.Tricks.OFF;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -97,9 +103,46 @@ public class ControlActivity extends AbstractGBActivity implements JoystickView.
             }
         });
 
+        ImageButton trick1 = findViewById(R.id.trick1);
+        ImageButton trick2 = findViewById(R.id.trick2);
+        ImageButton trick3 = findViewById(R.id.trick3);
+        ImageButton trick4 = findViewById(R.id.trick4);
+
+        trick1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                tricks = SuperCarsConstants.Tricks.CIRCLE_LEFT;
+                stepCounter = 0;
+            }
+        });
+
+        trick2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                tricks = SuperCarsConstants.Tricks.CIRCLE_RIGHT;
+                stepCounter = 0;
+            }
+        });
+        trick3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                tricks = SuperCarsConstants.Tricks.U_TURN_LEFT;
+                stepCounter = 0;
+            }
+        });
+        trick4.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                tricks = SuperCarsConstants.Tricks.U_TURN_RIGHT;
+                stepCounter = 0;
+            }
+        });
+
         //when this activity is open, data is sent continuously every 100ms
-        periodicDataSender();
-        periodicDataSenderRunner.start();
+
+        if (!periodicDataSenderRunnerIsRunning) {
+            periodicDataSender();
+        }
     }
 
     private void setLights() {
@@ -108,6 +151,12 @@ public class ControlActivity extends AbstractGBActivity implements JoystickView.
                 light = SuperCarsConstants.Light.ON;
             } else {
                 light = SuperCarsConstants.Light.OFF;
+            }
+        } else if (blinking) {
+            if (light.equals(SuperCarsConstants.Light.ON)) {
+                light = SuperCarsConstants.Light.OFF;
+            } else {
+                light = SuperCarsConstants.Light.ON;
             }
         }
     }
@@ -125,12 +174,20 @@ public class ControlActivity extends AbstractGBActivity implements JoystickView.
         periodicDataSenderRunner = new CountDownTimer(Long.MAX_VALUE, 100) {
 
             public void onTick(long millisUntilFinished) {
+                periodicDataSenderRunnerIsRunning = true;
+                setLights();
 
-                if (blinking) {
-                    if (light.equals(SuperCarsConstants.Light.ON)) {
-                        light = SuperCarsConstants.Light.OFF;
+                if (tricks != SuperCarsConstants.Tricks.OFF) {
+                    Enum[][] trick_steps = SuperCarsConstants.get_trick(tricks);
+                    int steps = trick_steps.length;
+                    if (stepCounter < steps) {
+                        Enum[] step = trick_steps[stepCounter];
+                        movement = (SuperCarsConstants.Movement) step[0];
+                        direction = (SuperCarsConstants.Direction) step[1];
+                        stepCounter++;
                     } else {
-                        light = SuperCarsConstants.Light.ON;
+                        tricks = SuperCarsConstants.Tricks.OFF;
+                        stepCounter = 0;
                     }
                 }
 
@@ -154,6 +211,9 @@ public class ControlActivity extends AbstractGBActivity implements JoystickView.
 
     @Override
     public void onJoystickMoved(float xPercent, float yPercent, int id) {
+
+        tricks = SuperCarsConstants.Tricks.OFF;
+        stepCounter = 0;
 
         if (yPercent < 0.2 && yPercent != 0) {
             movement = SuperCarsConstants.Movement.UP;
@@ -182,19 +242,23 @@ public class ControlActivity extends AbstractGBActivity implements JoystickView.
     protected void onDestroy() {
         super.onDestroy();
         periodicDataSenderRunner.cancel();
+        periodicDataSenderRunnerIsRunning = false;
         LocalBroadcastManager.getInstance(this).unregisterReceiver(commandReceiver);
     }
 
     @Override
     protected void onPostResume() {
         super.onPostResume();
-        periodicDataSenderRunner.start();
+        if (!periodicDataSenderRunnerIsRunning) {
+            periodicDataSenderRunner.start();
+        }
     }
 
     @Override
     protected void onPause() {
         super.onPause();
         periodicDataSenderRunner.cancel();
+        periodicDataSenderRunnerIsRunning = false;
     }
 
     BroadcastReceiver commandReceiver = new BroadcastReceiver() {
