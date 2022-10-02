@@ -1912,4 +1912,27 @@
 \n
 \nהמשך התהליך הוא על אחריותך בלבד!</string>
     <string name="devicetype_amazfit_gtr3">Amazfit GTR 3‎</string>
+    <string name="activity_type_table_tennis">טניס שולחן</string>
+    <string name="activity_type_bowling">כדורת (באולינג)</string>
+    <string name="activity_type_street_dance">ריקוד רחוב</string>
+    <string name="activity_type_zumba">זומבה</string>
+    <string name="supercars_turbo_speed_label">מהירות גבוהה</string>
+    <string name="supercars_lights_label">אורות</string>
+    <string name="pref_title_third_party_app_device_settings">לאפשר ליישומוני צד־שלישי לשנות הגדרות</string>
+    <string name="pref_summary_third_party_app_device_settings">לאפשר ליישומוני צד־שלישי אחרים שמותקנים לשנות הגדרות דרך Intents.</string>
+    <string name="activity_type_dance">ריקוד</string>
+    <string name="activity_type_indoor_fitness">אימון ביתי</string>
+    <string name="activity_type_gymnastics">כושר</string>
+    <string name="activity_type_core_training">אימון ליבה</string>
+    <string name="activity_type_stretching">מתיחות</string>
+    <string name="activity_type_stepper">סטפר</string>
+    <string name="activity_type_pilates">פילטיס</string>
+    <string name="activity_type_volleyball">כדורעף</string>
+    <string name="activity_type_hiit">אימון בעצימות גבוהה עם הפסקות</string>
+    <string name="activity_type_boxing">איגרוף</string>
+    <string name="activity_type_kickboxing">קיקבוקסינג</string>
+    <string name="activity_type_indoor_ice_skating">החלקרח במבנה</string>
+    <string name="devicetype_super_cars">מירוץ מכוניות</string>
+    <string name="devicetype_amazfit_gtr_lite">Amazfit GTR Lite‎</string>
+    <string name="watchface_setting_button_move_hands">הזזת המחוגים</string>
 </resources>
