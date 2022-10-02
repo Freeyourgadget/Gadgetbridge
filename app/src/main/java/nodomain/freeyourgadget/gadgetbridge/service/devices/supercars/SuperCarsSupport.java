@@ -67,7 +67,7 @@ public class SuperCarsSupport extends AbstractBTLEDeviceSupport {
         @Override
         public void onReceive(Context context, Intent intent) {
             if (intent.getAction().equals(COMMAND_DRIVE_CONTROL)) {
-                send_data(
+                queueDataToBLE(
                         (SuperCarsConstants.Speed) intent.getSerializableExtra(EXTRA_SPEED),
                         (SuperCarsConstants.Movement) intent.getSerializableExtra(EXTRA_MOVEMENT),
                         (SuperCarsConstants.Light) intent.getSerializableExtra(EXTRA_LIGHT),
@@ -112,7 +112,8 @@ public class SuperCarsSupport extends AbstractBTLEDeviceSupport {
             if (decoded_data.length == 16) {
                 GBDeviceEventBatteryInfo batteryEvent = new GBDeviceEventBatteryInfo();
                 batteryEvent.state = BatteryState.BATTERY_NORMAL;
-                batteryEvent.level = decoded_data[4];
+                int level = decoded_data[4];
+                batteryEvent.level = level;
                 evaluateGBDeviceEvent(batteryEvent);
             }
         }
@@ -294,10 +295,10 @@ public class SuperCarsSupport extends AbstractBTLEDeviceSupport {
         return false;
     }
 
-    private void send_data(SuperCarsConstants.Speed speed,
-                           SuperCarsConstants.Movement movement,
-                           SuperCarsConstants.Light light,
-                           SuperCarsConstants.Direction direction) {
+    private void queueDataToBLE(SuperCarsConstants.Speed speed,
+                                SuperCarsConstants.Movement movement,
+                                SuperCarsConstants.Light light,
+                                SuperCarsConstants.Direction direction) {
 
         byte[] command = craft_packet(speed, direction, movement, light);
         TransactionBuilder builder = new TransactionBuilder("send data");

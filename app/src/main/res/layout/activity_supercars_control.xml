@@ -10,6 +10,17 @@
         android:orientation="vertical"
         tools:ignore="MissingConstraints">
 
+        <TextView
+            android:id="@+id/battery_percentage_label"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_weight="1"
+            android:foregroundGravity="center_horizontal"
+            android:gravity="center_horizontal"
+            android:text=""
+            android:textSize="48sp" />
+
         <nodomain.freeyourgadget.gadgetbridge.devices.supercars.JoystickView
             android:id="@+id/joystickLeft"
             android:layout_width="wrap_content"
@@ -26,14 +37,27 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="@string/supercars_turbo_speed_label" />
+                android:height="48dp"
+                android:text="@string/supercars_turbo_speed_label"
+                tools:ignore="TouchTargetSizeCheck" />
 
             <CheckBox
                 android:id="@+id/lightsOn"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="@string/supercars_lights_label" />
+                android:height="48dp"
+                android:text="@string/supercars_lights_label"
+                tools:ignore="TouchTargetSizeCheck" />
+
+            <CheckBox
+                android:id="@+id/lightsBlinking"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:height="48dp"
+                android:text="@string/supercars_lights_blinking_label"
+                tools:ignore="TouchTargetSizeCheck" />
 
         </LinearLayout>
     </LinearLayout>
