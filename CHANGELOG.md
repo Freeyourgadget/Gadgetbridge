@@ -26,7 +26,10 @@
 * Amazfit GTR: Enable button actions
 * Zepp OS: Implement activity, sleep and workout fetching
 * Zepp OS: Improve firmware upgrades
-* Bangle.js: Bangle.js: Added PATCH HTTP request type, and fix for VolleyError UnsupportedOperationException when supplying custom headers
+* Bangle.js: Added PATCH HTTP request type, and fix for VolleyError UnsupportedOperationException when supplying custom headers.
+* Bangle.js: Added ability to start services on the Android device via intents.
+* Bangle.js: Flags and multiple categories can now be specified for intents initiated on the watch.
+* Bangle.js: Added ability to wake and unlock the Android device via a special intent.
 * Allow 3rd party apps to set device settings
 * Reimplement C code in Java and remove Android NDK dependency entirely
 * Fix crash on Android<8.0 when using some devices 
