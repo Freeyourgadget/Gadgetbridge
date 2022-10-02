@@ -1954,4 +1954,5 @@
     <string name="sports_activity_confirm_delete_title">%d etkinliği sil</string>
     <string name="pref_header_authentication">Kimlik doğrulama</string>
     <string name="sports_activity_confirm_delete_description">%d etkinliği silmek istediğinizden emin misiniz\?</string>
+    <string name="supercars_lights_blinking_label">Yanıp Sönme</string>
 </resources>
