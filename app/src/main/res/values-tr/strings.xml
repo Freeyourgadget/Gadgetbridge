@@ -510,7 +510,7 @@
     <string name="pref_header_cannned_messages">Mesaj şablonları</string>
     <string name="pref_header_charts">Çizelge Ayarları</string>
     <string name="pref_header_datetime">Tarih ve Saat</string>
-    <string name="pref_header_development">Gelişmiş Seçenekler</string>
+    <string name="pref_header_development">Gelişmiş seçenekler</string>
     <string name="pref_header_general">Genel Ayarlar</string>
     <string name="pref_header_location">Konum</string>
     <string name="pref_header_notifications">Bildirimler</string>
@@ -571,7 +571,7 @@
     <string name="pref_summary_enable_pebblekit">PebbleKit kullanırken Android uygulamaları için deneysel desteği etkinleştirin</string>
     <string name="pref_summary_expose_hr">Gadgetbridge bağlıyken diğer uygulamaların kalp ritmi verilerine gerçek zamanlı erişmesine izin verir</string>
     <string name="pref_summary_force_white_color_scheme">Saatinizin koyu renkli ibreleri varsa kullanışlıdır</string>
-    <string name="pref_summary_keep_data_on_device">Eşzamanlamadan sonra bile etkinlik verilerini Mi Band üzerinde tutar. GB diğer uygulamalarla birlikte kullanılıyorsa kullanışlıdır.</string>
+    <string name="pref_summary_keep_data_on_device">Eşzamanlamadan sonra bile etkinlik verilerini aygıt üzerinde tutar. GB diğer uygulamalarla birlikte kullanılıyorsa kullanışlıdır.</string>
     <string name="pref_summary_location_keep_uptodate">Geçerli konumu çalışma zamanında almaya çalış, depolanan konumu yedek olarak kullan</string>
     <string name="pref_summary_low_latency_fw_update">Bu, ürün yazılımı kurulmasının başarısız olduğu aygıtlarda yardımcı olabilir.</string>
     <string name="pref_summary_minimize_priority_off">Durum çubuğunda simge ve kilit ekranında bildirim gösterilir</string>
@@ -1950,4 +1950,8 @@
     <string name="watchface_setting_button_move_hands">İbreleri hareket ettir</string>
     <string name="supercars_turbo_speed_label">Turbo Hız</string>
     <string name="supercars_lights_label">Işıklar</string>
+    <string name="abstract_chart_fragment_kind_rem_sleep">REM uykusu</string>
+    <string name="sports_activity_confirm_delete_title">%d etkinliği sil</string>
+    <string name="pref_header_authentication">Kimlik doğrulama</string>
+    <string name="sports_activity_confirm_delete_description">%d etkinliği silmek istediğinizden emin misiniz\?</string>
 </resources>
