@@ -1,5 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
+    <release version="0.71.0" versioncode="216">
+        <change>Remove KitKat support, Gadgetbridge now requires Android 5.0</change>
+        <change>Initial support for Amazfit GTR 3</change>
+        <change>Initial support for SuperCars (Shell Racing Cars)</change>
+        <change>Huami: Add preference to overwrite band settings on connection</change>
+        <change>Huami: Fix crash when selecting automatic Always On Display</change>
+        <change>Huami: Set OpenTracks track category and icon</change>
+        <change>Huami: Implement proper find device</change>
+        <change>Huami: Change default find band vibration pattern</change>
+        <change>Flipper Zero: added duration to Intent API</change>
+        <change>Flipper Zero: fixed crash due to unregistered boradcast receiver</change>
+        <change>Flipper Zero: fetch firmware version from flipper</change>
+        <change>Fossil Hybrid HR: Correctly initialize watchface after reset or crash</change>
+        <change>Fossil Hybrid HR: Set OpenTracks track category and icon to workout type selected on watch</change>
+        <change>Fossil Hybrid HR: Allow flick_away as custom event and add move_hands event </change>
+        <change>InfiniTime: Add weather support</change>
+        <change>Amazfit Neo: Fix world clock</change>
+        <change>Amazfit Neo: Fix long caller name display</change>
+        <change>Amazfit Neo: Remove activity tracks (unsupported)</change>
+        <change>Amazfit GTS 3: Fix battery drain due to unanswered weather requests</change>
+        <change>Mi Band 7: Fix Weather</change>
+        <change>Mi Band 6: Add support for workout activity types</change>
+        <change>Mi Band 6: Enable adding workout activity types to the "more" section</change>
+        <change>Amazfit GTR: Enable button actions</change>
+        <change>Zepp OS: Implement activity, sleep and workout fetching</change>
+        <change>Zepp OS: Improve firmware upgrades</change>
+        <change>Bangle.js: Add PATCH HTTP request type, and fix for VolleyError UnsupportedOperationException when supplying custom headers.</change>
+        <change>Bangle.js: Add ability to start services on the Android device via intents.</change>
+        <change>Bangle.js: Flags and multiple categories can now be specified for intents initiated on the watch.</change>
+        <change>Bangle.js: Add ability to wake and unlock the Android device via a special intent.</change>
+        <change>Allow 3rd party apps to set device settings</change>
+        <change>Re-implement C code in Java and remove Android NDK dependency entirely</change>
+        <change>Fix crashes on older Android versions when using some devices</change>
+        <change>Add support for REM sleep</change>
+        <change>App shortcuts support (long press on the launcher icon for directly connecting a device)</change>
+    </release>
     <release version="0.70.0" versioncode="215">
 	<change>Initial support for Amazfit GTS 3</change>
         <change>Initial support for Fossil Hybrid Gen6</change>
@@ -727,16 +763,16 @@
         <change>Amazfit Bip: Add German, Italian, French and Turkish to language settings</change>
     </release>
     <release version="0.33.0" versioncode="148">
-        <change> BFH-16: Initial support</change>
-        <change> Mi Band 2/3/Bip/Cor: Generate random per-device security keys when pairing, allow manual override to still support multiple android devices connecting to the same device</change>
-        <change> Mi Band 3: Add Indonesian, Thai, Arabic, Vietnamese, Portuguese, Dutch, Turkish and Ukrainian to language settings</change>
-        <change> Mi Band 3: Support flashing latest Japanese-Korean font</change>
-        <change> Amazfit Cor 2: Initial experimental support (untested)</change>
-        <change> Pebble: Add pebblekit extension for reopening last app</change>
-        <change> Casio: Bugfixes and improvements</change>
-        <change> Lookup contacts also in work profile</change>
-        <change> Fix searching in application name when blacklisting</change>
-        <change> Remove misleading title from database management activity when no legacy database is available</change>
+        <change>BFH-16: Initial support</change>
+        <change>Mi Band 2/3/Bip/Cor: Generate random per-device security keys when pairing, allow manual override to still support multiple android devices connecting to the same device</change>
+        <change>Mi Band 3: Add Indonesian, Thai, Arabic, Vietnamese, Portuguese, Dutch, Turkish and Ukrainian to language settings</change>
+        <change>Mi Band 3: Support flashing latest Japanese-Korean font</change>
+        <change>Amazfit Cor 2: Initial experimental support (untested)</change>
+        <change>Pebble: Add pebblekit extension for reopening last app</change>
+        <change>Casio: Bugfixes and improvements</change>
+        <change>Lookup contacts also in work profile</change>
+        <change>Fix searching in application name when blacklisting</change>
+        <change>Remove misleading title from database management activity when no legacy database is available</change>
     </release>
     <release version="0.32.4" versioncode="147">
         <change>Make voip call support optional (disabled by default)</change>

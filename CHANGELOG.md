@@ -1,9 +1,9 @@
 ### Changelog
 
-### 0.71.0 (WIP)
+### 0.71.0
 * Remove KitKat support, Gadgetbridge now requires Android 5.0
 * Initial support for Amazfit GTR 3
-* Initial support for Shell Racing cars
+* Initial support for SuperCars (Shell Racing Cars)
 * Huami: Add preference to overwrite band settings on connection
 * Huami: Fix crash when selecting automatic Always On Display
 * Huami: Set OpenTracks track category and icon
@@ -26,14 +26,15 @@
 * Amazfit GTR: Enable button actions
 * Zepp OS: Implement activity, sleep and workout fetching
 * Zepp OS: Improve firmware upgrades
-* Bangle.js: Added PATCH HTTP request type, and fix for VolleyError UnsupportedOperationException when supplying custom headers.
-* Bangle.js: Added ability to start services on the Android device via intents.
+* Bangle.js: Add PATCH HTTP request type, and fix for VolleyError UnsupportedOperationException when supplying custom headers.
+* Bangle.js: Add ability to start services on the Android device via intents.
 * Bangle.js: Flags and multiple categories can now be specified for intents initiated on the watch.
-* Bangle.js: Added ability to wake and unlock the Android device via a special intent.
+* Bangle.js: Add ability to wake and unlock the Android device via a special intent.
 * Allow 3rd party apps to set device settings
-* Reimplement C code in Java and remove Android NDK dependency entirely
-* Fix crash on Android<8.0 when using some devices 
+* Re-implement C code in Java and remove Android NDK dependency entirely
+* Fix crashes on older Android versions when using some devices
 * Add support for REM sleep
+* App shortcuts support (long press on the launcher icon for directly connecting a device)
 
 ### 0.70.0
 * Initial support for Amazfit GTS 3
