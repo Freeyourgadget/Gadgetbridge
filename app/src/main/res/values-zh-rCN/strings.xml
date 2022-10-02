@@ -1934,4 +1934,6 @@
     <string name="activity_type_indoor_ice_skating">室内滑冰</string>
     <string name="watchface_setting_button_move_hands">移动手</string>
     <string name="devicetype_amazfit_gtr_lite">跃我 GTR 青春版</string>
+    <string name="supercars_turbo_speed_label">涡轮增速</string>
+    <string name="supercars_lights_label">灯光</string>
 </resources>
