@@ -1,6 +1,7 @@
-//GPL-3.0 license
-//https://github.com/efficientisoceles/JoystickView
-
+/*  Original code taken from https://github.com/efficientisoceles/JoystickView
+    Licenced under the terms of the GNU General Public License version 3
+    Copyright (C) Daniel Su <goldenember@gmail.com>
+ */
 package nodomain.freeyourgadget.gadgetbridge.devices.supercars;
 
 import android.content.Context;
@@ -109,9 +110,12 @@ public class JoystickView extends SurfaceView implements SurfaceHolder.Callback,
                     drawJoystick(constrainedX, constrainedY);
                     joystickCallback.onJoystickMoved((constrainedX - centerX) / baseRadius, (constrainedY - centerY) / baseRadius, getId());
                 }
+            } else if (e.getAction() == MotionEvent.ACTION_UP) {
+                drawJoystick(centerX, centerY);
+                joystickCallback.onJoystickMoved(0, 0, getId());
             } else
                 drawJoystick(centerX, centerY);
-            joystickCallback.onJoystickMoved(0, 0, getId());
+            //joystickCallback.onJoystickMoved(0, 0, getId());
         }
         return true;
     }

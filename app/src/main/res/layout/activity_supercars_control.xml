@@ -26,14 +26,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="TurboMode" />
+                android:text="@string/supercars_turbo_speed_label" />
 
             <CheckBox
                 android:id="@+id/lightsOn"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Lights" />
+                android:text="@string/supercars_lights_label" />
 
         </LinearLayout>
     </LinearLayout>
