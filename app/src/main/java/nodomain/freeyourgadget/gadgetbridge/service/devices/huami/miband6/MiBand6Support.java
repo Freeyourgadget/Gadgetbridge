@@ -27,6 +27,7 @@ import java.io.IOException;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiFWHelper;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.miband6.MiBand6FWHelper;
+import nodomain.freeyourgadget.gadgetbridge.model.CallSpec;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.miband5.MiBand5Support;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.operations.UpdateFirmwareOperation;
@@ -34,6 +35,14 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.operations.Upd
 
 public class MiBand6Support extends MiBand5Support {
     private static final Logger LOG = LoggerFactory.getLogger(MiBand6Support.class);
+
+    @Override
+    public void onFindDevice(boolean start) {
+        final CallSpec callSpec = new CallSpec();
+        callSpec.command = start ? CallSpec.CALL_INCOMING : CallSpec.CALL_END;
+        callSpec.name = "Gadgetbridge";
+        onSetCallState(callSpec);
+    }
 
     @Override
     public UpdateFirmwareOperation createUpdateFirmwareOperation(Uri uri) {
