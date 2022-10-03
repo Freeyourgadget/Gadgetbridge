@@ -553,9 +553,9 @@ public class ControlCenterv2 extends AppCompatActivity
     }
 
     private void handleShortcut(Intent intent) {
-        if(intent.getAction().equals(ACTION_CONNECT)) {
+        if (ACTION_CONNECT.equals(intent.getAction())) {
             String btDeviceAddress = intent.getStringExtra("device");
-            if(btDeviceAddress!=null){
+            if (btDeviceAddress!=null) {
                 GBDevice candidate = DeviceHelper.getInstance().findAvailableDevice(btDeviceAddress, this);
                 if (candidate != null && !candidate.isConnected()) {
                     GBApplication.deviceService(candidate).connect();
