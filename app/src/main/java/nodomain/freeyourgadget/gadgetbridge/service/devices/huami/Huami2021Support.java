@@ -75,7 +75,6 @@ import static nodomain.freeyourgadget.gadgetbridge.service.devices.huami.Huami20
 
 import android.Manifest;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
@@ -103,12 +102,10 @@ import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-import java.util.Set;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHelper;
@@ -160,7 +157,6 @@ import nodomain.freeyourgadget.gadgetbridge.util.DeviceHelper;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 import nodomain.freeyourgadget.gadgetbridge.util.GBPrefs;
 import nodomain.freeyourgadget.gadgetbridge.util.LimitedQueue;
-import nodomain.freeyourgadget.gadgetbridge.util.MapUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 import nodomain.freeyourgadget.gadgetbridge.util.StringUtils;
 
@@ -1260,13 +1256,13 @@ public abstract class Huami2021Support extends HuamiSupport {
 
         if (isShortcuts) {
             menuType = Huami2021Service.DISPLAY_ITEMS_SHORTCUTS;
-            allSettings = prefs.getList(HuamiConst.PREF_ALL_SHORTCUTS, Collections.<String>emptyList());
-            enabledList = prefs.getList(HuamiConst.PREF_SHORTCUTS_SORTABLE, Collections.<String>emptyList());
+            allSettings = new ArrayList<>(prefs.getList(HuamiConst.PREF_ALL_SHORTCUTS, Collections.emptyList()));
+            enabledList = new ArrayList<>(prefs.getList(HuamiConst.PREF_SHORTCUTS_SORTABLE, Collections.emptyList()));
             LOG.info("Setting shortcuts");
         } else {
             menuType = Huami2021Service.DISPLAY_ITEMS_MENU;
-            allSettings = prefs.getList(HuamiConst.PREF_ALL_DISPLAY_ITEMS, Collections.<String>emptyList());
-            enabledList = prefs.getList(HuamiConst.PREF_DISPLAY_ITEMS_SORTABLE, Collections.<String>emptyList());
+            allSettings = new ArrayList<>(prefs.getList(HuamiConst.PREF_ALL_DISPLAY_ITEMS, Collections.emptyList()));
+            enabledList = new ArrayList<>(prefs.getList(HuamiConst.PREF_DISPLAY_ITEMS_SORTABLE, Collections.emptyList()));
             LOG.info("Setting menu items");
         }
 
