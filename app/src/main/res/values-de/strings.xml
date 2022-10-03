@@ -290,7 +290,7 @@
     <string name="weeksteps_today_steps_description">Schritte heute, Ziel: %1$s</string>
     <string name="pref_title_dont_ack_transfer">Übertragung der Aktivitätsdaten nicht bestätigen (ACK)</string>
     <string name="pref_summary_dont_ack_transfers">Ohne ACK (Bestätigung), löscht das Band die Aktivitätsdaten nicht. Nützlich, wenn GB zusammen mit anderen Apps verwendet wird.</string>
-    <string name="pref_summary_keep_data_on_device">Aktivitätsdaten verbleiben auf dem Mi Band, auch nach der Synchronisierung. Nützlich, wenn Gadgetbridge zusammen mit anderen Apps verwendet wird.</string>
+    <string name="pref_summary_keep_data_on_device">Aktivitätsdaten verbleiben auf dem Gerät, auch nach der Synchronisierung. Nützlich, wenn Gadgetbridge zusammen mit anderen Apps verwendet wird.</string>
     <string name="pref_title_low_latency_fw_update">Verwende den Low-Latency-Modus für Firmwareaktualisierung</string>
     <string name="pref_summary_low_latency_fw_update">Dies kann bei Geräten helfen, bei denen Firmwareupdates fehlschlagen.</string>
     <string name="live_activity_steps_history">Schrittverlauf</string>
@@ -1939,4 +1939,13 @@
     <string name="activity_type_street_dance">Street Dance</string>
     <string name="activity_type_kickboxing">Kickboxen</string>
     <string name="activity_type_boxing">Boxen</string>
+    <string name="abstract_chart_fragment_kind_rem_sleep">REM-Schlaf</string>
+    <string name="supercars_lights_label">Lichter</string>
+    <string name="supercars_lights_blinking_label">Blinken</string>
+    <string name="sports_activity_confirm_delete_title">%d Aktivitäten löschen</string>
+    <string name="supercars_turbo_speed_label">Turbo-Geschwindigkeit</string>
+    <string name="pref_header_authentication">Authentifizierung</string>
+    <string name="sports_activity_confirm_delete_description">Bist du sicher, dass du %d Aktivitäten löschen möchtest\?</string>
+    <string name="devicetype_super_cars">Shell Racing</string>
+    <string name="watchface_setting_button_move_hands">Zeiger bewegen</string>
 </resources>
