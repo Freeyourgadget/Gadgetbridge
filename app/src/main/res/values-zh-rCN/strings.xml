@@ -1940,4 +1940,5 @@
     <string name="pref_header_authentication">认证</string>
     <string name="sports_activity_confirm_delete_title">删除 %d 活动</string>
     <string name="sports_activity_confirm_delete_description">确定要删除 %d 活动吗？</string>
+    <string name="supercars_lights_blinking_label">闪烁</string>
 </resources>
