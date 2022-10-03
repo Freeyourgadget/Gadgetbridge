@@ -265,7 +265,7 @@
     <string name="weeksteps_today_steps_description">צעדים היום, יעד: %1$s</string>
     <string name="pref_title_dont_ack_transfer">לא לשלוח אישור על העברת נתוני פעילות</string>
     <string name="pref_summary_dont_ack_transfers">אם הנתונים לא יאושרו בצמיד, נתוני הפעילות לא יימחקו. שימושי אם נעשה שימוש ביישומונים שונים למעט Gadgetbridge.</string>
-    <string name="pref_summary_keep_data_on_device">תכונה זו תגרום לשמירת נתוני הפעילות על ה־Mi Band גם לאחר הסנכרון. שימושי אם נעשה שימוש ביישומונים שונים למעט Gadgetbridge.</string>
+    <string name="pref_summary_keep_data_on_device">תכונה זו תגרום לשמירת נתוני הפעילות על ההתקן גם לאחר הסנכרון. שימושי אם נעשה שימוש ביישומונים שונים למעט Gadgetbridge.</string>
     <string name="pref_title_low_latency_fw_update">שימוש במצב חיבור מהיר לעדכוני קושחה</string>
     <string name="pref_summary_low_latency_fw_update">הפעלת אפשרות זו עשויה לסייע במקרים שבהם עדכון הקושחה נכשל.</string>
     <string name="live_activity_steps_history">היסטוריית הצעדים</string>
@@ -1935,4 +1935,9 @@
     <string name="devicetype_super_cars">מירוץ מכוניות</string>
     <string name="devicetype_amazfit_gtr_lite">Amazfit GTR Lite‎</string>
     <string name="watchface_setting_button_move_hands">הזזת המחוגים</string>
+    <string name="pref_header_authentication">אימות</string>
+    <string name="supercars_lights_blinking_label">הבהוב</string>
+    <string name="abstract_chart_fragment_kind_rem_sleep">שינה עמוקה</string>
+    <string name="sports_activity_confirm_delete_title">מחיקת %d פעילויות</string>
+    <string name="sports_activity_confirm_delete_description">למחוק %d פעילויות\?</string>
 </resources>
