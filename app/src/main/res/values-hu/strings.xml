@@ -531,7 +531,7 @@
     <string name="prefs_activity_in_device_card_sleep_title">Alvás</string>
     <string name="prefs_activity_in_device_card_sleep_title_summary">Az alvás időtartamának megjelenítése</string>
     <string name="prefs_activity_in_device_card_distance_title_summary">A távolságot a lépések és a lépéshossz alapján számítja ki (beállítható a Beállítások - Önról menüpontban)</string>
-    <string name="battery_detail_activity_title">Akkumulátor információ</string>
+    <string name="battery_detail_activity_title">Akkumulátorinformáció</string>
     <string name="calendar_day">Nap</string>
     <string name="calendar_week">Hét</string>
     <string name="calendar_two_weeks">Két hét</string>
@@ -598,4 +598,24 @@
     <string name="error_setting_parent_folder">Hiba a szülőmappa beállításakor: %s</string>
     <string name="preferences_led_color">LED szín</string>
     <string name="controlcenter_set_preferences">Eszközbeállítások</string>
+    <string name="reminder_message">Üzenet</string>
+    <string name="reminder_date">Dátum</string>
+    <string name="prefs_relaxation_reminder_title">Pihenési emlékeztető</string>
+    <string name="pref_screen_notification_profile_event_reminder">Eseményemlékeztatő</string>
+    <string name="reminder_once">Egyszer</string>
+    <string name="reminder_delete_confirm_description">Biztosan törölni szeretné az emlékeztetőt\?</string>
+    <string name="title_activity_reminder_details">Emlékeztető részletei</string>
+    <string name="title_activity_set_reminders">Emlékeztetők beállítása</string>
+    <string name="watchface_widget_type_battery">Akkumulátor</string>
+    <string name="reminder_every_week">Minden héten</string>
+    <string name="reminder_every_month">Minden hónapban</string>
+    <string name="hr_widget_battery">Akkumulátor</string>
+    <string name="reminder_repeat">Ismétlés</string>
+    <string name="controlcenter_start_configure_reminders">Emlékeztetők beállítása</string>
+    <string name="reminder_delete_confirm_title">Emlékeztető törlése</string>
+    <string name="lefun_prefs_hydration_reminder_title">Hidratálási emlékeztető</string>
+    <string name="menuitem_eventreminder">Eseményemlékeztető</string>
+    <string name="reminder_time">Idő</string>
+    <string name="reminder_every_day">Minden nap</string>
+    <string name="reminder_every_year">Minden évben</string>
 </resources>
