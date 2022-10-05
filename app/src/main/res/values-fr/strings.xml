@@ -287,7 +287,7 @@
     <string name="weeksteps_today_steps_description">Nombre de pas aujourd\'hui, objectif : %1$s</string>
     <string name="pref_title_dont_ack_transfer">Ne pas confirmer le transfert de données d\'activités</string>
     <string name="pref_summary_dont_ack_transfers">Les données d\'activités ne seront pas effacées du bracelet si elles ne sont pas confirmées par le bracelet. Utile si GB est utilisé avec d\'autres applications.</string>
-    <string name="pref_summary_keep_data_on_device">Les données d\'activités seront conservées sur le Mi Band après la synchronisation. Utile si GB est utilisé avec d\'autres applications.</string>
+    <string name="pref_summary_keep_data_on_device">Les données d\'activités seront conservées sur l\'appareil après la synchronisation. Utile si GB est utilisé avec d\'autres applications.</string>
     <string name="pref_title_low_latency_fw_update">Utilisez le mode basse latence pour installer un micrologiciel</string>
     <string name="pref_summary_low_latency_fw_update">Cela peut aider sur les appareils où les installations de micrologiciel échouent.</string>
     <string name="live_activity_steps_history">Historique de pas</string>
@@ -1940,4 +1940,9 @@ Temps de sommeil préféré en heures</string>
     <string name="watchface_setting_button_move_hands">Bouger les mains</string>
     <string name="supercars_turbo_speed_label">Vitesse Turbo</string>
     <string name="supercars_lights_label">Lumières</string>
+    <string name="abstract_chart_fragment_kind_rem_sleep">Sommeil REM</string>
+    <string name="pref_header_authentication">Identification</string>
+    <string name="sports_activity_confirm_delete_title">Activités %d supprimées</string>
+    <string name="sports_activity_confirm_delete_description">Etes-vous sûr de vouloir effacer ces %d activités \?</string>
+    <string name="supercars_lights_blinking_label">Clignotant</string>
 </resources>
