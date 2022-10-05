@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
+    <release version="0.71.1" versioncode="217">
+        <change>Try to exclude non-free stuff from shortcuts library (#2918)</change>
+        <change>SuperCars: fix periodicDataSender, add tricks</change>
+        <change>Zepp OS: Fix crash when user attempts to disable Settings display item</change>
+        <change>Fix crash when opening Gadgetbridge from the notification</change>
+    </release>
     <release version="0.71.0" versioncode="216">
         <change>Remove KitKat support, Gadgetbridge now requires Android 5.0</change>
         <change>Initial support for Amazfit GTR 3</change>

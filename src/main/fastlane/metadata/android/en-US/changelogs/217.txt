@@ -1,0 +1,4 @@
+* Try to exclude non-free stuff from shortcuts library (#2918)
+* SuperCars: fix periodicDataSender, add tricks
+* Zepp OS: Fix crash when user attempts to disable Settings display item
+* Fix crash when opening Gadgetbridge from the notification
