@@ -100,7 +100,7 @@ public class DateTimeUtils {
     public static String formatDurationHoursMinutes(long duration, TimeUnit unit) {
         DurationFormatter df = DurationFormatter.Builder.SYMBOLS
                 .maximum(TimeUnit.DAYS)
-                .minimum(TimeUnit.MINUTES)
+                .minimum(TimeUnit.SECONDS)
                 .suppressZeros(DurationFormatter.SuppressZeros.LEADING, DurationFormatter.SuppressZeros.TRAILING)
                 .maximumAmountOfUnitsToShow(2)
                 .build();

@@ -113,11 +113,24 @@ public class Huami2021ActivitySummaryParser extends HuamiActivitySummaryParser {
         }
 
         if (summaryProto.hasHeartRateZones()) {
-            // TODO HR zones
+            // TODO hr zones bpm?
+            if (summaryProto.getHeartRateZones().getZoneTimeCount() == 6) {
+                addSummaryData("hrZoneNa", summaryProto.getHeartRateZones().getZoneTime(0), "seconds");
+                addSummaryData("hrZoneWarmUp", summaryProto.getHeartRateZones().getZoneTime(1), "seconds");
+                addSummaryData("hrZoneFatBurn", summaryProto.getHeartRateZones().getZoneTime(2), "seconds");
+                addSummaryData("hrZoneAerobic", summaryProto.getHeartRateZones().getZoneTime(3), "seconds");
+                addSummaryData("hrZoneAnaerobic", summaryProto.getHeartRateZones().getZoneTime(4), "seconds");
+                addSummaryData("hrZoneExtreme", summaryProto.getHeartRateZones().getZoneTime(5), "seconds");
+            } else {
+                LOG.warn("Unexpected number of HR zones {}", summaryProto.getHeartRateZones().getZoneTimeCount());
+            }
         }
 
         if (summaryProto.hasTrainingEffect()) {
-            // TODO training effect
+            addSummaryData("aerobicTrainingEffect", summaryProto.getTrainingEffect().getAerobicTrainingEffect(), "");
+            addSummaryData("anaerobicTrainingEffect", summaryProto.getTrainingEffect().getAnaerobicTrainingEffect(), "");
+            addSummaryData("currentWorkoutLoad", summaryProto.getTrainingEffect().getCurrentWorkoutLoad(), "");
+            addSummaryData("maximumOxygenUptake", summaryProto.getTrainingEffect().getMaximumOxygenUptake(), "ml/kg/min");
         }
     }
 }
