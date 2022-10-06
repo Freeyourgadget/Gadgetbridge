@@ -1,0 +1,2 @@
+* Zepp OS: Display HR zones and Training Effect in Activity Details
+* Remove shortcut feature due to non-free dependencies (#2918)

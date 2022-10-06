@@ -1,5 +1,9 @@
 ### Changelog
 
+### 0.71.2
+* Zepp OS: Display HR zones and Training Effect in Activity Details
+* Remove shortcut feature due to non-free dependencies (#2918)
+
 ### 0.71.1
 * Try to exclude non-free stuff from shortcuts library (#2918)
 * SuperCars: fix periodicDataSender, add tricks
