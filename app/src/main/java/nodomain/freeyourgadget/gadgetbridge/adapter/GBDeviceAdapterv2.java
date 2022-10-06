@@ -56,9 +56,6 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
-import androidx.core.content.pm.ShortcutInfoCompat;
-import androidx.core.content.pm.ShortcutManagerCompat;
-import androidx.core.graphics.drawable.IconCompat;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.ListAdapter;
@@ -120,8 +117,6 @@ import nodomain.freeyourgadget.gadgetbridge.util.DeviceHelper;
 import nodomain.freeyourgadget.gadgetbridge.util.FormatUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 import nodomain.freeyourgadget.gadgetbridge.util.StringUtils;
-
-import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_CONNECT;
 
 /**
  * Adapter for displaying GBDevice instances.
@@ -286,7 +281,6 @@ public class GBDeviceAdapterv2 extends ListAdapter<GBDevice, GBDeviceAdapterv2.V
                     showTransientSnackbar(R.string.controlcenter_snackbar_need_longpress);
                 } else {
                     showTransientSnackbar(R.string.controlcenter_snackbar_connecting);
-                    createDynamicShortcut(device);
                     GBApplication.deviceService(device).connect();
                 }
             }
@@ -1405,21 +1399,6 @@ public class GBDeviceAdapterv2 extends ListAdapter<GBDevice, GBDeviceAdapterv2.V
             hsvb[i] = interpolate(hsva[i], hsvb[i], proportion);
         }
         return Color.HSVToColor(hsvb);
-    }
-
-    void createDynamicShortcut(GBDevice device) {
-        Intent intent = new Intent(context, ControlCenterv2.class)
-                .setAction(ACTION_CONNECT)
-                .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
-                .putExtra("device", device.getAddress());
-
-        ShortcutManagerCompat.pushDynamicShortcut(context, new ShortcutInfoCompat.Builder(context, device.getAddress())
-                .setLongLived(false)
-                .setShortLabel(device.getAliasOrName())
-                .setIntent(intent)
-                .setIcon(IconCompat.createWithResource(context, device.getType().getIcon()))
-                .build()
-        );
     }
 
     private static class GBDeviceDiffUtil extends DiffUtil.ItemCallback<GBDevice> {
