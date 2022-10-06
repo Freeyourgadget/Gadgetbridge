@@ -1178,7 +1178,7 @@
     <string name="activity_db_management_clean_export_directory_label">Dışa/İçe aktarma dizinindeki dosyaları sil</string>
     <string name="dbmanagementactivity_error_cleaning_export_directory">%1$s dışa aktarma dizininden dosyaları silerken hata oluştu</string>
     <string name="devicetype_amazfit_neo">Amazfit Neo</string>
-    <string name="activity_type_strength_training">Kuvvet Eğitimi</string>
+    <string name="activity_type_strength_training">Kuvvet Antrenmanı</string>
     <string name="mi_h">mi/sa</string>
     <string name="mi">mi</string>
     <string name="minutes_mi">dak/mi</string>
@@ -1955,4 +1955,16 @@
     <string name="pref_header_authentication">Kimlik doğrulama</string>
     <string name="sports_activity_confirm_delete_description">%d etkinliği silmek istediğinizden emin misiniz\?</string>
     <string name="supercars_lights_blinking_label">Yanıp Sönme</string>
+    <string name="hrZoneWarmUp">Isınma</string>
+    <string name="TrainingEffect">Antrenman Etkisi</string>
+    <string name="aerobicTrainingEffect">Aerobik Etkisi</string>
+    <string name="anaerobicTrainingEffect">Anaerobik Etkisi</string>
+    <string name="currentWorkoutLoad">Egzersiz Yükü</string>
+    <string name="maximumOxygenUptake">Azami Oksijen Alımı</string>
+    <string name="HeartRateZones">Kalp Ritmi Bölgeleri</string>
+    <string name="hrZoneNa">YOK</string>
+    <string name="hrZoneAerobic">Aerobik</string>
+    <string name="hrZoneFatBurn">Yağ Yakımı</string>
+    <string name="hrZoneAnaerobic">Anaerobik</string>
+    <string name="hrZoneExtreme">Aşırı</string>
 </resources>
