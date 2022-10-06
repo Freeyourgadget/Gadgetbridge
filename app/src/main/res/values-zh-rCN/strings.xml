@@ -1941,4 +1941,16 @@
     <string name="sports_activity_confirm_delete_title">删除 %d 活动</string>
     <string name="sports_activity_confirm_delete_description">确定要删除 %d 活动吗？</string>
     <string name="supercars_lights_blinking_label">闪烁</string>
+    <string name="HeartRateZones">心率区</string>
+    <string name="hrZoneWarmUp">热身运动</string>
+    <string name="hrZoneAerobic">有氧运动</string>
+    <string name="hrZoneAnaerobic">厌氧</string>
+    <string name="hrZoneExtreme">极端</string>
+    <string name="anaerobicTrainingEffect">厌氧效应</string>
+    <string name="currentWorkoutLoad">锻炼负荷</string>
+    <string name="maximumOxygenUptake">最大摄氧量</string>
+    <string name="hrZoneNa">不适用</string>
+    <string name="hrZoneFatBurn">脂肪燃烧</string>
+    <string name="TrainingEffect">培训效果</string>
+    <string name="aerobicTrainingEffect">有氧效应</string>
 </resources>
