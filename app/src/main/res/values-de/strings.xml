@@ -1948,4 +1948,16 @@
     <string name="sports_activity_confirm_delete_description">Bist du sicher, dass du %d Aktivitäten löschen möchtest\?</string>
     <string name="devicetype_super_cars">Shell Racing</string>
     <string name="watchface_setting_button_move_hands">Zeiger bewegen</string>
+    <string name="aerobicTrainingEffect">Aerober Effekt</string>
+    <string name="HeartRateZones">Herzfrequenzzonen</string>
+    <string name="hrZoneNa">K.A.</string>
+    <string name="hrZoneAerobic">Aerob</string>
+    <string name="hrZoneWarmUp">Aufwärmen</string>
+    <string name="hrZoneAnaerobic">Anaerob</string>
+    <string name="hrZoneExtreme">Extrem</string>
+    <string name="currentWorkoutLoad">Trainingsbelastung</string>
+    <string name="hrZoneFatBurn">Fettverbrennung</string>
+    <string name="anaerobicTrainingEffect">Anaerober Effekt</string>
+    <string name="TrainingEffect">Trainingseffekt</string>
+    <string name="maximumOxygenUptake">Maximale Sauerstoffaufnahme</string>
 </resources>
