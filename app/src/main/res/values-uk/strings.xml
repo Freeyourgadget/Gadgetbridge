@@ -1949,4 +1949,16 @@
     <string name="sports_activity_confirm_delete_title">Видалити діяльність %d</string>
     <string name="sports_activity_confirm_delete_description">Ви впевнені, що хочете видалити дії %d\?</string>
     <string name="supercars_lights_blinking_label">Блимання</string>
+    <string name="hrZoneNa">Н/Д</string>
+    <string name="hrZoneFatBurn">Спалювання жиру</string>
+    <string name="hrZoneWarmUp">Розминка</string>
+    <string name="hrZoneExtreme">Екстремальна</string>
+    <string name="hrZoneAnaerobic">Анаеробна</string>
+    <string name="TrainingEffect">Тренувальний ефект</string>
+    <string name="aerobicTrainingEffect">Аеробний ефект</string>
+    <string name="anaerobicTrainingEffect">Анаеробний ефект</string>
+    <string name="maximumOxygenUptake">Максимальне споживання кисню</string>
+    <string name="HeartRateZones">Зони вимірювання пульсу</string>
+    <string name="currentWorkoutLoad">Тренувальне навантаження</string>
+    <string name="hrZoneAerobic">Аеробна</string>
 </resources>
