@@ -1940,4 +1940,16 @@
     <string name="abstract_chart_fragment_kind_rem_sleep">שינה עמוקה</string>
     <string name="sports_activity_confirm_delete_title">מחיקת %d פעילויות</string>
     <string name="sports_activity_confirm_delete_description">למחוק %d פעילויות\?</string>
+    <string name="hrZoneExtreme">קיצוני</string>
+    <string name="hrZoneAnaerobic">אנאירובי</string>
+    <string name="anaerobicTrainingEffect">השפעה אנאירובית</string>
+    <string name="currentWorkoutLoad">עומס של אימון</string>
+    <string name="hrZoneAerobic">אירובי</string>
+    <string name="HeartRateZones">אזורי דופק</string>
+    <string name="hrZoneWarmUp">התחממות</string>
+    <string name="hrZoneFatBurn">שריפת שומן</string>
+    <string name="TrainingEffect">השפעת אימון</string>
+    <string name="hrZoneNa">לא זמין</string>
+    <string name="aerobicTrainingEffect">השפעת אירובי</string>
+    <string name="maximumOxygenUptake">קליטת חמצן מרבית</string>
 </resources>
