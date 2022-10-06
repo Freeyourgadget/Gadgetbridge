@@ -23,14 +23,17 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.ShortcutInfo;
+import android.content.pm.ShortcutManager;
 import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
+import android.graphics.drawable.Icon;
+import android.os.Build;
 import android.text.Editable;
 import android.text.InputType;
 import android.text.TextUtils;
 import android.text.TextWatcher;
-import android.util.ArraySet;
 import android.util.Pair;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
@@ -54,6 +57,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.cardview.widget.CardView;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
@@ -75,7 +79,6 @@ import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Hashtable;
@@ -83,7 +86,6 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
@@ -117,6 +119,8 @@ import nodomain.freeyourgadget.gadgetbridge.util.DeviceHelper;
 import nodomain.freeyourgadget.gadgetbridge.util.FormatUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 import nodomain.freeyourgadget.gadgetbridge.util.StringUtils;
+
+import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_CONNECT;
 
 /**
  * Adapter for displaying GBDevice instances.
@@ -284,6 +288,9 @@ public class GBDeviceAdapterv2 extends ListAdapter<GBDevice, GBDeviceAdapterv2.V
                     showTransientSnackbar(R.string.controlcenter_snackbar_need_longpress);
                 } else {
                     showTransientSnackbar(R.string.controlcenter_snackbar_connecting);
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                        createDynamicShortcut(device);
+                    }
                     GBApplication.deviceService(device).connect();
                 }
             }
@@ -1402,6 +1409,24 @@ public class GBDeviceAdapterv2 extends ListAdapter<GBDevice, GBDeviceAdapterv2.V
             hsvb[i] = interpolate(hsva[i], hsvb[i], proportion);
         }
         return Color.HSVToColor(hsvb);
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.R)
+    void createDynamicShortcut(GBDevice device) {
+        Intent intent = new Intent(context, ControlCenterv2.class)
+                .setAction(ACTION_CONNECT)
+                .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
+                .putExtra("device", device.getAddress());
+
+        ShortcutManager shortcutManager = (ShortcutManager) context.getApplicationContext().getSystemService(Context.SHORTCUT_SERVICE);
+
+        shortcutManager.pushDynamicShortcut(new ShortcutInfo.Builder(context, device.getAddress())
+                .setLongLived(false)
+                .setShortLabel(device.getAliasOrName())
+                .setIntent(intent)
+                .setIcon(Icon.createWithResource(context, device.getType().getIcon()))
+                .build()
+        );
     }
 
     private static class GBDeviceDiffUtil extends DiffUtil.ItemCallback<GBDevice> {

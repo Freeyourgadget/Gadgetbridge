@@ -95,6 +95,8 @@ import nodomain.freeyourgadget.gadgetbridge.util.DeviceHelper;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 
+import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_CONNECT;
+
 //TODO: extend AbstractGBActivity, but it requires actionbar that is not available
 public class ControlCenterv2 extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, GBActivity {
@@ -362,6 +364,7 @@ public class ControlCenterv2 extends AppCompatActivity
     @Override
     protected void onResume() {
         super.onResume();
+        handleShortcut(getIntent());
         if (isLanguageInvalid) {
             isLanguageInvalid = false;
             recreate();
@@ -616,6 +619,17 @@ public class ControlCenterv2 extends AppCompatActivity
         return new RefreshTask(task, context);
     }
 
+    private void handleShortcut(Intent intent) {
+        if(ACTION_CONNECT.equals(intent.getAction())) {
+            String btDeviceAddress = intent.getStringExtra("device");
+            if(btDeviceAddress!=null){
+                GBDevice candidate = DeviceHelper.getInstance().findAvailableDevice(btDeviceAddress, this);
+                if (candidate != null && !candidate.isConnected()) {
+                    GBApplication.deviceService(candidate).connect();
+                }
+            }
+        }
+    }
     public class RefreshTask extends DBAccess {
         public RefreshTask(String task, Context context) {
             super(task, context);
