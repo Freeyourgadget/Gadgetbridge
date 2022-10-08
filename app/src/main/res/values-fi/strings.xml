@@ -480,4 +480,9 @@
     <string name="pref_activity_recognize_walking">tunnista käveleminen</string>
     <string name="pref_activity_recognition_mode_ask">kysy</string>
     <string name="pref_activity_recognize_biking">tunnista pyöräily</string>
+    <string name="application_name_banglejs_main">Bangle.js Gadgetbridge</string>
+    <string name="gadgetbridge_running_banglejs_main">Bangle.js on käynnissä</string>
+    <string name="gadgetbridge_running_generic">Gadgetbridge on käynnissä</string>
+    <string name="supercars_lights_label">Valot</string>
+    <string name="title_activity_controlcenter_banglejs_main">Bangle.js Gadgetbridge</string>
 </resources>
