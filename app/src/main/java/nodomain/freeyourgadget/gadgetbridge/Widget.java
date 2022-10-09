@@ -42,6 +42,7 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.RemoteViews;
@@ -67,6 +68,7 @@ import nodomain.freeyourgadget.gadgetbridge.util.AndroidUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.DateTimeUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.FormatUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
+import nodomain.freeyourgadget.gadgetbridge.util.PendingIntentUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.WidgetPreferenceStorage;
 
 public class Widget extends AppWidgetProvider {
@@ -108,25 +110,25 @@ public class Widget extends AppWidgetProvider {
         Intent intent = new Intent(context, Widget.class);
         intent.setAction(WIDGET_CLICK);
         intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId);
-        PendingIntent refreshDataIntent = PendingIntent.getBroadcast(
-                context, appWidgetId, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        PendingIntent refreshDataIntent = PendingIntentUtils.getBroadcast(
+                context, appWidgetId, intent, PendingIntent.FLAG_UPDATE_CURRENT, false);
         views.setOnClickPendingIntent(R.id.todaywidget_header_container, refreshDataIntent);
 
         //open GB main window
         Intent startMainIntent = new Intent(context, ControlCenterv2.class);
-        PendingIntent startMainPIntent = PendingIntent.getActivity(context, 0, startMainIntent, 0);
+        PendingIntent startMainPIntent = PendingIntentUtils.getActivity(context, 0, startMainIntent, 0, false);
         views.setOnClickPendingIntent(R.id.todaywidget_header_icon, startMainPIntent);
 
         //alarms popup menu
         Intent startAlarmListIntent = new Intent(context, WidgetAlarmsActivity.class);
         startAlarmListIntent.putExtra(GBDevice.EXTRA_DEVICE, deviceForWidget);
-        PendingIntent startAlarmListPIntent = PendingIntent.getActivity(context, appWidgetId, startAlarmListIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        PendingIntent startAlarmListPIntent = PendingIntentUtils.getActivity(context, appWidgetId, startAlarmListIntent, PendingIntent.FLAG_UPDATE_CURRENT, false);
         views.setOnClickPendingIntent(R.id.todaywidget_header_alarm_icon, startAlarmListPIntent);
 
         //charts
         Intent startChartsIntent = new Intent(context, ChartsActivity.class);
         startChartsIntent.putExtra(GBDevice.EXTRA_DEVICE, deviceForWidget);
-        PendingIntent startChartsPIntent = PendingIntent.getActivity(context, appWidgetId, startChartsIntent, PendingIntent.FLAG_CANCEL_CURRENT);
+        PendingIntent startChartsPIntent = PendingIntentUtils.getActivity(context, appWidgetId, startChartsIntent, PendingIntent.FLAG_CANCEL_CURRENT, false);
         views.setOnClickPendingIntent(R.id.todaywidget_bottom_layout, startChartsPIntent);
 
         long[] dailyTotals = getSteps(deviceForWidget);

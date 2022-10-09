@@ -32,13 +32,17 @@ import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.telephony.PhoneStateListener;
 import android.telephony.TelephonyManager;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
@@ -284,7 +288,7 @@ public class ControlCenterv2 extends AppCompatActivity
                 }
             }
 
-            if (!android.provider.Settings.canDrawOverlays(getApplicationContext())) {
+            if (!Settings.canDrawOverlays(getApplicationContext())) {
                 // If diplay over other apps access hasn't been granted
                 // Put up a dialog explaining why we need permissions (Polite, but also Play Store policy)
                 // When accepted, we open the Activity for permission to display over other apps.
@@ -293,6 +297,10 @@ public class ControlCenterv2 extends AppCompatActivity
                     dialog.show(getSupportFragmentManager(), "DisplayOverOthersPermissionsDialogFragment");
                 }
             }
+
+
+                // Put up a dialog explaining why we need permissions (Polite, but also Play Store policy)
+                // When accepted, we open the Activity for permission to display over other apps.
 
             // Check all the other permissions that we need to for Android M + later
             checkAndRequestPermissions(true);
@@ -478,9 +486,24 @@ public class ControlCenterv2 extends AppCompatActivity
             }
         }
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q && Build.VERSION.SDK_INT <= Build.VERSION_CODES.S) {
             if (ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.ACCESS_BACKGROUND_LOCATION) == PackageManager.PERMISSION_DENIED) {
                 wantedPermissions.add(Manifest.permission.ACCESS_BACKGROUND_LOCATION);
+            }
+        }
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            if (ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.QUERY_ALL_PACKAGES) == PackageManager.PERMISSION_DENIED) {
+                wantedPermissions.add(Manifest.permission.QUERY_ALL_PACKAGES);
+            }
+        }
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            if (ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.BLUETOOTH_SCAN) == PackageManager.PERMISSION_DENIED) {
+                wantedPermissions.add(Manifest.permission.BLUETOOTH_SCAN);
+            }
+            if (ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.BLUETOOTH_CONNECT) == PackageManager.PERMISSION_DENIED) {
+                wantedPermissions.add(Manifest.permission.BLUETOOTH_CONNECT);
             }
         }
 
@@ -512,22 +535,30 @@ public class ControlCenterv2 extends AppCompatActivity
 
             if (!wantedPermissions.isEmpty()) {
                 if (showDialogFirst) {
-                    // Show a dialog - thus will then call checkAndRequestPermissions(false)
+                    // Show a dialog - this will then call checkAndRequestPermissions(false)
                     DialogFragment dialog = new LocationPermissionsDialogFragment();
                     dialog.show(getSupportFragmentManager(), "LocationPermissionsDialogFragment");
+                    //requestMultiplePermissionsLauncher.launch(wantedPermissions.toArray(new String[0]));
                 } else {
                     GB.toast(this, getString(R.string.permission_granting_mandatory), Toast.LENGTH_LONG, GB.ERROR);
-                    ActivityCompat.requestPermissions(this, wantedPermissions.toArray(new String[0]), 0);
+                    if (Build.VERSION.SDK_INT < Build.VERSION_CODES.S) {
+                        ActivityCompat.requestPermissions(this, wantedPermissions.toArray(new String[0]), 0);
+                    } else {
+                        requestMultiplePermissionsLauncher.launch(wantedPermissions.toArray(new String[0]));
+                        //ActivityCompat.requestPermissions(this, wantedPermissions.toArray(new String[0]), 0); //Actually this still works if I test it, not sure if the new way is more reliable or not...
+                    }
                 }
             }
         }
 
-        // HACK: On Lineage we have to do this so that the permission dialog pops up
-        if (fakeStateListener == null) {
-            fakeStateListener = new PhoneStateListener();
-            TelephonyManager telephonyManager = (TelephonyManager) getSystemService(TELEPHONY_SERVICE);
-            telephonyManager.listen(fakeStateListener, PhoneStateListener.LISTEN_CALL_STATE);
-            telephonyManager.listen(fakeStateListener, PhoneStateListener.LISTEN_NONE);
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.S) { // The enclosed hack in it's current state cause crash on Banglejs builds tarkgetSDK=31 on a Android 13 device.
+            // HACK: On Lineage we have to do this so that the permission dialog pops up
+            if (fakeStateListener == null) {
+                fakeStateListener = new PhoneStateListener();
+                TelephonyManager telephonyManager = (TelephonyManager) getSystemService(TELEPHONY_SERVICE);
+                telephonyManager.listen(fakeStateListener, PhoneStateListener.LISTEN_CALL_STATE);
+                telephonyManager.listen(fakeStateListener, PhoneStateListener.LISTEN_NONE);
+            }
         }
     }
 
@@ -583,6 +614,7 @@ public class ControlCenterv2 extends AppCompatActivity
                     getContext().getString(R.string.app_name),
                     getContext().getString(R.string.ok)))
                     .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                        @RequiresApi(api = Build.VERSION_CODES.M)
                         public void onClick(DialogInterface dialog, int id) {
                             try {
                                 startActivity(new Intent(android.provider.Settings.ACTION_NOTIFICATION_POLICY_ACCESS_SETTINGS));
@@ -629,6 +661,7 @@ public class ControlCenterv2 extends AppCompatActivity
                             getContext().getString(R.string.app_name),
                             getContext().getString(R.string.ok)))
                     .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                        @RequiresApi(api = Build.VERSION_CODES.M)
                         public void onClick(DialogInterface dialog, int id) {
                             Intent enableIntent = new Intent(android.provider.Settings.ACTION_MANAGE_OVERLAY_PERMISSION);
                             startActivity(enableIntent);
@@ -639,6 +672,7 @@ public class ControlCenterv2 extends AppCompatActivity
             return builder.create();
         }
     }
+
 
     /// Called from checkAndRequestPermissions - this puts up a dialog explaining we need permissions, and then calls checkAndRequestPermissions (via an intent) when 'ok' pressed
     public static class LocationPermissionsDialogFragment extends DialogFragment {
@@ -661,4 +695,22 @@ public class ControlCenterv2 extends AppCompatActivity
             return builder.create();
         }
     }
+
+    // Register the permissions callback, which handles the user's response to the
+    // system permissions dialog. Save the return value, an instance of
+    // ActivityResultLauncher, as an instance variable.
+    public ActivityResultLauncher<String[]> requestMultiplePermissionsLauncher =
+            registerForActivityResult(new ActivityResultContracts.RequestMultiplePermissions(), isGranted -> {
+                if (isGranted.containsValue(true)) {
+                    // Permission is granted. Continue the action or workflow in your
+                    // app.
+                } else {
+                    // Explain to the user that the feature is unavailable because the
+                    // feature requires a permission that the user has denied. At the
+                    // same time, respect the user's decision. Don't link to system
+                    // settings in an effort to convince the user to change their
+                    // decision.
+                    GB.toast(this, getString(R.string.permission_granting_mandatory), Toast.LENGTH_LONG, GB.ERROR);
+                }
+            });
 }
