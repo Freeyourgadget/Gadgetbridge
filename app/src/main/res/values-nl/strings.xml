@@ -321,7 +321,7 @@
     <string name="weeksteps_today_steps_description">Stappen vandaag, doel: %1$s</string>
     <string name="pref_title_dont_ack_transfer">Bevestig de activiteitsdata transfer niet</string>
     <string name="pref_summary_dont_ack_transfers">Als er niet bevestigd wordt naar de armband, zullen de activiteitgegevens niet gewist worden. Dit is nuttig als GB gebruikt wordt samen met andere apps.</string>
-    <string name="pref_summary_keep_data_on_device">Wij zullen activiteitsdata op de Mi Band houden zelfs na synchronisatie. Dit is nuttig als GB gebruikt wordt samen met andere apps.</string>
+    <string name="pref_summary_keep_data_on_device">Behoud activiteitsdata op het apparaat zelfs na synchronisatie. Dit is nuttig als GB gebruikt wordt samen met andere apps.</string>
     <string name="pref_title_low_latency_fw_update">Gebruik lage vertragingstijd modus voor flashen firmware</string>
     <string name="pref_summary_low_latency_fw_update">Dit kan helpen op apparaten waar firmware flashen faalt.</string>
     <string name="live_activity_steps_history">Stappen geschiedenis</string>
@@ -1934,4 +1934,23 @@
 \n
 \nVERDERGAAN IS OP EIGEN RISICO!</string>
     <string name="watchface_setting_button_move_hands">Wijzers verplaatsen</string>
+    <string name="abstract_chart_fragment_kind_rem_sleep">REM-slaap</string>
+    <string name="HeartRateZones">Hartslagzones</string>
+    <string name="hrZoneNa">N.v.t</string>
+    <string name="hrZoneWarmUp">Opwarmen</string>
+    <string name="hrZoneFatBurn">Vetverbranding</string>
+    <string name="currentWorkoutLoad">Trainingsbelasting</string>
+    <string name="sports_activity_confirm_delete_description">Weet u zeker dat u %d activiteiten wilt verwijderen\?</string>
+    <string name="sports_activity_confirm_delete_title">Verwijder %d activiteiten</string>
+    <string name="supercars_lights_label">Lichten</string>
+    <string name="pref_header_authentication">Authenticatie</string>
+    <string name="supercars_lights_blinking_label">Knipperen</string>
+    <string name="hrZoneExtreme">Maximale inspanning</string>
+    <string name="hrZoneAnaerobic">Anaëroob</string>
+    <string name="TrainingEffect">Trainingseffect</string>
+    <string name="aerobicTrainingEffect">Aeroob effect</string>
+    <string name="anaerobicTrainingEffect">Anaëroob effect</string>
+    <string name="maximumOxygenUptake">Maximale zuurstofopname</string>
+    <string name="supercars_turbo_speed_label">Turbosnelheid</string>
+    <string name="hrZoneAerobic">Efficiëntie</string>
 </resources>
