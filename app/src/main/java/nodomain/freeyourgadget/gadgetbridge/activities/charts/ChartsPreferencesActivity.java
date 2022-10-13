@@ -60,6 +60,7 @@ public class ChartsPreferencesActivity extends AbstractSettingsActivity {
                 "chart_list_min_steps_per_minute_for_run",
                 GBPrefs.CHART_MAX_HEART_RATE,
                 GBPrefs.CHART_MIN_HEART_RATE,
+                "chart_sleep_lines_limit",
         };
     }
 

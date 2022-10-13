@@ -54,6 +54,13 @@
             android:key="charts_show_ongoing_activity"
             android:title="@string/show_ongoing_activity" />
 
+        <EditTextPreference
+            android:defaultValue="6"
+            android:inputType="number"
+            android:key="chart_sleep_lines_limit"
+            android:maxLength="2"
+            android:title="@string/pref_chart_sleep_lines_limit" />
+
     </PreferenceCategory>
 
     <PreferenceCategory

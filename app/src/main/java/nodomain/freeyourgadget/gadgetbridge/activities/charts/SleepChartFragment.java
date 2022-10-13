@@ -50,7 +50,6 @@ import org.slf4j.LoggerFactory;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
@@ -90,7 +89,8 @@ public class SleepChartFragment extends AbstractChartFragment {
     private int mSmartAlarmGoneOff = -1;
     Prefs prefs = GBApplication.getPrefs();
     private boolean CHARTS_SLEEP_RANGE_24H = prefs.getBoolean("chart_sleep_range_24h", false);
-    private boolean SHOW_CHARTS_AVERAGE = GBApplication.getPrefs().getBoolean("charts_show_average", true);
+    private boolean SHOW_CHARTS_AVERAGE = prefs.getBoolean("charts_show_average", true);
+    private int sleepLinesLimit = prefs.getInt("chart_sleep_lines_limit", 6);
 
 
     @Override
@@ -334,6 +334,7 @@ public class SleepChartFragment extends AbstractChartFragment {
 
         ConstraintLayout intensityTotalWidgetLayout = rootView.findViewById(R.id.intensity_widget_layout);
         ConstraintLayout heartRateWidgetLayout = rootView.findViewById(R.id.heartrate_widget_layout);
+        mSleepchartInfo.setMaxLines(sleepLinesLimit);
 
         View.OnClickListener listener = new View.OnClickListener() {
             @Override
