@@ -192,7 +192,7 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
                         break;
                     }
                     case GBDevice.ACTION_DEVICE_CHANGED: {
-                        LOG.info("ACTION_DEVICE_CHANGED " + gbDevice.getStateString());
+                        LOG.info("ACTION_DEVICE_CHANGED " + (gbDevice!=null ? gbDevice.getStateString():""));
                         addReceiveHistory("\n================================================\nACTION_DEVICE_CHANGED "+gbDevice.getStateString()+" "+(new SimpleDateFormat("yyyy-mm-dd hh:mm:ss")).format(Calendar.getInstance().getTime())+"\n================================================\n");
                     }
                 }
