@@ -47,9 +47,13 @@ import nodomain.freeyourgadget.gadgetbridge.model.Reminder;
 import nodomain.freeyourgadget.gadgetbridge.model.WeatherSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.WorldClock;
 import nodomain.freeyourgadget.gadgetbridge.service.DeviceCommunicationService;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.banglejs.BangleJSDeviceSupport;
 import nodomain.freeyourgadget.gadgetbridge.util.RtlUtils;
 
 import static nodomain.freeyourgadget.gadgetbridge.util.JavaExtensions.coalesce;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 
 public class GBDeviceService implements DeviceService {
@@ -69,6 +73,7 @@ public class GBDeviceService implements DeviceService {
             EXTRA_CALENDAREVENT_TITLE,
             EXTRA_CALENDAREVENT_DESCRIPTION
     };
+    private static final Logger LOG = LoggerFactory.getLogger(GBDeviceService.class);
 
     public GBDeviceService(Context context) {
         this(context, null);
@@ -106,8 +111,11 @@ public class GBDeviceService implements DeviceService {
         if (mDevice != null) {
             intent.putExtra(GBDevice.EXTRA_DEVICE, mDevice);
         }
-
-        mContext.startService(intent);
+        try {
+            mContext.startService(intent);
+        } catch (IllegalStateException e) {
+            LOG.error("IllegalStateException during startService ("+intent.getAction()+")");
+        }
     }
 
     protected void stopService(Intent intent) {
