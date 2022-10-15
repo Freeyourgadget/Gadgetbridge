@@ -312,10 +312,10 @@ task pmd(type: Pmd) {
     }
 }
 
-// this is just for spotbugs to let the plugin create the task
 sourceSets {
     main {
-        main.java.srcDirs += "${protobuf.generatedFilesBaseDir}/main/javalite"
+        main.java.srcDirs += "${protobuf.generatedFilesBaseDir}"
+        main.java.srcDirs += "build/generated/source/buildConfig"
     }
 }
 
@@ -343,9 +343,6 @@ tasks.withType(SpotBugsTask) {
 }
 
 task cleanGenerated(type: Delete) {
-    delete fileTree('src/main/java/nodomain/freeyourgadget/gadgetbridge/proto') {
-        include '**/*.java'
-    }
     delete fileTree('src/main/java/nodomain/freeyourgadget/gadgetbridge/entities') {
         include '**/*.java'
         exclude '**/Abstract*.java'
@@ -363,9 +360,6 @@ protobuf {
             task.builtins {
                 java {
                     option 'lite'
-                    // Uncomment this to get Android Studio to recognize the generated files
-                    // this makes it think that all src files are generated though...
-                    //outputSubDir = '../../../../../src/main/java/'
                 }
             }
         }
