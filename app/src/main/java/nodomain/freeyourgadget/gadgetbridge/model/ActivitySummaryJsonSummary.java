@@ -158,7 +158,7 @@ public class ActivitySummaryJsonSummary {
             put("Elevation", Arrays.asList(
                     "ascentMeters", "descentMeters", "maxAltitude", "minAltitude", "averageAltitude",
                     "baseAltitude", "ascentSeconds", "descentSeconds", "flatSeconds", "ascentDistance",
-                    "descentDistance", "flatDistance"
+                    "descentDistance", "flatDistance", "elevationGain", "elevationLoss"
             ));
             put("Speed", Arrays.asList(
                     "averageSpeed", "maxSpeed", "minSpeed", "averageKMPaceSeconds", "minPace",

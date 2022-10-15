@@ -22,8 +22,6 @@ import org.apache.commons.lang3.ArrayUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.nio.ByteBuffer;
-import java.nio.ByteOrder;
 import java.util.Date;
 
 import nodomain.freeyourgadget.gadgetbridge.proto.HuamiProtos;
@@ -84,6 +82,7 @@ public class Huami2021ActivitySummaryParser extends HuamiActivitySummaryParser {
             summary.setBaseLatitude(summaryProto.getLocation().getBaseLatitude());
             summary.setBaseAltitude(summaryProto.getLocation().getBaseAltitude() / 2);
             // TODO: Min/Max Latitude/Longitude
+            addSummaryData("baseAltitude", summaryProto.getLocation().getBaseAltitude() / 2, "meters");
         }
 
         if (summaryProto.hasHeartRate()) {
@@ -131,6 +130,20 @@ public class Huami2021ActivitySummaryParser extends HuamiActivitySummaryParser {
             addSummaryData("anaerobicTrainingEffect", summaryProto.getTrainingEffect().getAnaerobicTrainingEffect(), "");
             addSummaryData("currentWorkoutLoad", summaryProto.getTrainingEffect().getCurrentWorkoutLoad(), "");
             addSummaryData("maximumOxygenUptake", summaryProto.getTrainingEffect().getMaximumOxygenUptake(), "ml/kg/min");
+        }
+
+        if (summaryProto.hasAltitude()) {
+            addSummaryData("maxAltitude", summaryProto.getAltitude().getMaxAltitude() / 200, "meters");
+            addSummaryData("minAltitude", summaryProto.getAltitude().getMinAltitude() / 200, "meters");
+            addSummaryData("averageAltitude", summaryProto.getAltitude().getAvgAltitude() / 200, "meters");
+            // TODO totalClimbing
+            addSummaryData("elevationGain", summaryProto.getAltitude().getElevationGain() / 100, "meters");
+            addSummaryData("elevationLoss", summaryProto.getAltitude().getElevationLoss() / 100, "meters");
+        }
+
+        if (summaryProto.hasElevation()) {
+            addSummaryData("ascentSeconds", summaryProto.getElevation().getUphillTime(), "seconds");
+            addSummaryData("descentSeconds", summaryProto.getElevation().getDownhillTime(), "seconds");
         }
     }
 }

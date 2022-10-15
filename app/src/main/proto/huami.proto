@@ -11,14 +11,17 @@ message WorkoutSummary {
     Steps steps = 11;
     Time time = 7;
     Pace pace = 10;
+    Altitude altitude = 13;
     HeartRate heartRate = 19;
     Calories calories = 16;
     TrainingEffect trainingEffect = 21;
     HeartRateZones heartRateZones = 22;
+    Elevation elevation = 23;
 }
 
 message Location {
-    // TODO 1, 2, 3
+    // TODO 2, 3
+    uint32 startTimestamp = 1; // unix epoch, seconds
     int32 baseLatitude = 5; // /6000000 -> coords
     int32 baseLongitude = 6; // /-6000000 -> coords
     int32 baseAltitude = 7; // /2 -> meters
@@ -61,6 +64,15 @@ message Pace {
     float best = 2; // val * 1000 / 60 -> min/km
 }
 
+message Altitude {
+    int32 maxAltitude = 1; // /200 -> meters
+    int32 minAltitude = 2; // /200 -> meters
+    int32 avgAltitude = 3; // /200 -> meters
+    int32 totalClimbing = 4; // cm
+    int32 elevationGain = 5; // cm
+    int32 elevationLoss = 6; // cm
+}
+
 message Calories {
     int32 calories = 1; // kcal
 }
@@ -70,6 +82,12 @@ message HeartRateZones {
     // Zones: N/A, Warm-up, Fat-burn time, Aerobic, Anaerobic, Extreme
     repeated int32 zoneMax = 2; // bpm
     repeated int32 zoneTime = 3; // seconds
+}
+
+message Elevation {
+    // TODO 1, 2?
+    uint32 uphillTime = 3; // sec
+    uint32 downhillTime = 4; // sec
 }
 
 message TrainingEffect {
