@@ -114,7 +114,7 @@ public class BFH16DeviceSupport extends AbstractBTLEDeviceSupport {
         measureCharacteristic = getCharacteristic(BFH16Constants.BFH16_SERVICE1_NOTIFY);
         ctrlCharacteristic = getCharacteristic(BFH16Constants.BFH16_SERVICE1_WRITE);
 
-        builder.setGattCallback(this);
+        builder.setCallback(this);
         builder.notify(measureCharacteristic, true);
 
         syncSettings(builder);

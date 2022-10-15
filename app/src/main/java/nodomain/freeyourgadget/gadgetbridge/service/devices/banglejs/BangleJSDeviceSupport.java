@@ -313,7 +313,7 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
 
         rxCharacteristic = getCharacteristic(BangleJSConstants.UUID_CHARACTERISTIC_NORDIC_UART_RX);
         txCharacteristic = getCharacteristic(BangleJSConstants.UUID_CHARACTERISTIC_NORDIC_UART_TX);
-        builder.setGattCallback(this);
+        builder.setCallback(this);
         builder.notify(rxCharacteristic, true);
 
         Prefs devicePrefs = new Prefs(GBApplication.getDeviceSpecificSharedPrefs(gbDevice.getAddress()));

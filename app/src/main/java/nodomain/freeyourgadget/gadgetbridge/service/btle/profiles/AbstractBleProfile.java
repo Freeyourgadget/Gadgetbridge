@@ -88,7 +88,7 @@ public abstract class AbstractBleProfile<T extends AbstractBTLEDeviceSupport> ex
      */
     public TransactionBuilder performInitialized(String taskName) throws IOException {
         TransactionBuilder builder = mSupport.performInitialized(taskName);
-        builder.setGattCallback(this);
+        builder.setCallback(this);
         return builder;
     }
 

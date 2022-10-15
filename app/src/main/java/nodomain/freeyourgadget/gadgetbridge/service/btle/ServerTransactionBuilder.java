@@ -54,8 +54,8 @@ public class ServerTransactionBuilder {
      *
      * @param callback the callback to set, may be null
      */
-    public void setGattCallback(@Nullable GattServerCallback callback) {
-        mTransaction.setGattCallback(callback);
+    public void setCallback(@Nullable GattServerCallback callback) {
+        mTransaction.setCallback(callback);
     }
 
     public

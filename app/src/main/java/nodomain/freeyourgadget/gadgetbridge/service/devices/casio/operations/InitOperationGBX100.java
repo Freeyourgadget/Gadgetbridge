@@ -48,13 +48,13 @@ public class InitOperationGBX100 extends AbstractBTLEOperation<CasioGBX100Device
         this.support = support;
         this.mFirstConnect = firstConnect;
         LOG.info("mFirstConnect: " + mFirstConnect);
-        builder.setGattCallback(this);
+        builder.setCallback(this);
     }
 
     private void writeAllFeaturesRequest(byte[] arr) {
         try {
             TransactionBuilder builder = createTransactionBuilder("writeAllFeaturesRequest");
-            builder.setGattCallback(this);
+            builder.setCallback(this);
             support.writeAllFeaturesRequest(builder, arr);
             support.performImmediately(builder);
         } catch(IOException e) {
@@ -65,7 +65,7 @@ public class InitOperationGBX100 extends AbstractBTLEOperation<CasioGBX100Device
     private void writeAllFeatures(byte[] arr) {
         try {
             TransactionBuilder builder = createTransactionBuilder("writeAllFeatures");
-            builder.setGattCallback(this);
+            builder.setCallback(this);
             support.writeAllFeatures(builder, arr);
             support.performImmediately(builder);
         } catch(IOException e) {
@@ -252,7 +252,7 @@ public class InitOperationGBX100 extends AbstractBTLEOperation<CasioGBX100Device
     private void enableAllFeatures(boolean enable) {
         try {
             TransactionBuilder builder = createTransactionBuilder("notifyAllFeatures");
-            builder.setGattCallback(this);
+            builder.setCallback(this);
             enableAllFeatures(builder, enable);
             support.performImmediately(builder);
         } catch(IOException e) {

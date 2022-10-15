@@ -51,7 +51,7 @@ public class FetchStepCountDataOperation  extends AbstractBTLEOperation<CasioGBX
     private void enableRequiredNotifications(boolean enable) {
         try {
             TransactionBuilder builder = performInitialized("enableRequiredNotifications");
-            builder.setGattCallback(this);
+            builder.setCallback(this);
             builder.notify(getCharacteristic(CasioConstants.CASIO_DATA_REQUEST_SP_CHARACTERISTIC_UUID), enable);
             builder.notify(getCharacteristic(CasioConstants.CASIO_CONVOY_CHARACTERISTIC_UUID), enable);
             builder.queue(getQueue());
@@ -65,7 +65,7 @@ public class FetchStepCountDataOperation  extends AbstractBTLEOperation<CasioGBX
 
         try {
             TransactionBuilder builder = performInitialized("requestStepCountDate");
-            builder.setGattCallback(this);
+            builder.setCallback(this);
             builder.write(getCharacteristic(CasioConstants.CASIO_DATA_REQUEST_SP_CHARACTERISTIC_UUID), command);
             builder.queue(getQueue());
         } catch(IOException e) {
@@ -78,7 +78,7 @@ public class FetchStepCountDataOperation  extends AbstractBTLEOperation<CasioGBX
 
         try {
             TransactionBuilder builder = performInitialized("writeStepCountAck");
-            builder.setGattCallback(this);
+            builder.setCallback(this);
             builder.write(getCharacteristic(CasioConstants.CASIO_DATA_REQUEST_SP_CHARACTERISTIC_UUID), command);
             builder.queue(getQueue());
         } catch(IOException e) {
@@ -110,7 +110,7 @@ public class FetchStepCountDataOperation  extends AbstractBTLEOperation<CasioGBX
         if (getDevice() != null) {
             try {
                 TransactionBuilder builder = performInitialized("finished operation");
-                builder.setGattCallback(null); // unset ourselves from being the queue's gatt callback
+                builder.setCallback(null); // unset ourselves from being the queue's gatt callback
                 builder.wait(0);
                 builder.queue(getQueue());
             } catch (IOException ex) {

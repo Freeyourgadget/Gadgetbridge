@@ -80,7 +80,7 @@ public class WaspOSDeviceSupport extends AbstractBTLEDeviceSupport {
 
         rxCharacteristic = getCharacteristic(WaspOSConstants.UUID_CHARACTERISTIC_NORDIC_UART_RX);
         txCharacteristic = getCharacteristic(WaspOSConstants.UUID_CHARACTERISTIC_NORDIC_UART_TX);
-        builder.setGattCallback(this);
+        builder.setCallback(this);
         builder.notify(rxCharacteristic, true);
 
         uartTx(builder, " \u0003"); // clear active line

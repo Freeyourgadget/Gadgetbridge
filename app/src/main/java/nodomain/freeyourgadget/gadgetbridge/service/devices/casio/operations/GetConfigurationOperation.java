@@ -61,7 +61,7 @@ public class GetConfigurationOperation extends AbstractBTLEOperation<CasioGBX100
         byte[] command = new byte[1];
         command[0] = CasioConstants.characteristicToByte.get("CASIO_SETTING_FOR_USER_PROFILE");
         TransactionBuilder builder = performInitialized("getConfiguration");
-        builder.setGattCallback(this);
+        builder.setCallback(this);
         support.writeAllFeaturesRequest(builder, command);
         builder.queue(getQueue());
     }
@@ -74,7 +74,7 @@ public class GetConfigurationOperation extends AbstractBTLEOperation<CasioGBX100
             try {
                 TransactionBuilder builder = performInitialized("finished operation");
                 builder.wait(0);
-                builder.setGattCallback(null); // unset ourselves from being the queue's gatt callback
+                builder.setCallback(null); // unset ourselves from being the queue's gatt callback
                 builder.queue(getQueue());
             } catch (IOException ex) {
                 LOG.info("Error resetting Gatt callback: " + ex.getMessage());
@@ -88,7 +88,7 @@ public class GetConfigurationOperation extends AbstractBTLEOperation<CasioGBX100
         command[0] = CasioConstants.characteristicToByte.get("CASIO_SETTING_FOR_BASIC");
         try {
             TransactionBuilder builder = performInitialized("getConfiguration");
-            builder.setGattCallback(this);
+            builder.setCallback(this);
             support.writeAllFeaturesRequest(builder, command);
             builder.queue(getQueue());
         } catch(IOException e) {

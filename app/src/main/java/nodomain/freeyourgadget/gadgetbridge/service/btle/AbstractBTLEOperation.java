@@ -105,13 +105,13 @@ public abstract class AbstractBTLEOperation<T extends AbstractBTLEDeviceSupport>
      */
     public TransactionBuilder performInitialized(String taskName) throws IOException {
         TransactionBuilder builder = mSupport.performInitialized(taskName);
-        builder.setGattCallback(this);
+        builder.setCallback(this);
         return builder;
     }
 
     public TransactionBuilder createTransactionBuilder(String taskName) {
         TransactionBuilder builder = getSupport().createTransactionBuilder(taskName);
-        builder.setGattCallback(this);
+        builder.setCallback(this);
         return builder;
     }
 

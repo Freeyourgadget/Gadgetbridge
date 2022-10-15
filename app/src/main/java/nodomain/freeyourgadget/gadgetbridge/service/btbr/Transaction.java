@@ -15,7 +15,7 @@
 
     You should have received a copy of the GNU Affero General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
-package nodomain.freeyourgadget.gadgetbridge.service.btle;
+package nodomain.freeyourgadget.gadgetbridge.service.btbr;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -24,29 +24,26 @@ import java.util.List;
 import androidx.annotation.Nullable;
 
 /**
- * Groups a bunch of {@link BtLEAction actions} together, making sure
+ * Groups a bunch of {@link BtBRAction actions} together, making sure
  * that upon failure of one action, all subsequent actions are discarded.
  *
  * @author TREND
  */
 public class Transaction extends AbstractTransaction {
-    private final List<BtLEAction> mActions = new ArrayList<>(4);
-
+    private final List<BtBRAction> mActions = new ArrayList<>(4);
     private
     @Nullable
-    GattCallback gattCallback;
-
-    private boolean modifyGattCallback;
+    SocketCallback socketCallback;
 
     public Transaction(String taskName) {
         super(taskName);
     }
 
-    public void add(BtLEAction action) {
+    public void add(BtBRAction action) {
         mActions.add(action);
     }
 
-    public List<BtLEAction> getActions() {
+    public List<BtBRAction> getActions() {
         return Collections.unmodifiableList(mActions);
     }
 
@@ -54,9 +51,8 @@ public class Transaction extends AbstractTransaction {
         return mActions.isEmpty();
     }
 
-    public void setCallback(@Nullable GattCallback callback) {
-        gattCallback = callback;
-        modifyGattCallback = true;
+    public void setCallback(@Nullable SocketCallback callback) {
+        socketCallback = callback;
     }
 
     /**
@@ -64,16 +60,8 @@ public class Transaction extends AbstractTransaction {
      */
     public
     @Nullable
-    GattCallback getGattCallback() {
-        return gattCallback;
-    }
-
-    /**
-     * Returns whether the gatt callback should be modified for this transaction (either set, or
-     * unset if {@code getGattCallback} is null.
-     */
-    public boolean isModifyGattCallback() {
-        return modifyGattCallback;
+    SocketCallback getSocketCallback() {
+        return socketCallback;
     }
 
     @Override

@@ -127,7 +127,7 @@ public class LefunDeviceSupport extends AbstractBTLEDeviceSupport {
 
     @Override
     protected TransactionBuilder initializeDevice(TransactionBuilder builder) {
-        builder.setGattCallback(this);
+        builder.setCallback(this);
         builder.add(new SetDeviceStateAction(getDevice(), GBDevice.State.INITIALIZING, getContext()));
 
         // Enable notification

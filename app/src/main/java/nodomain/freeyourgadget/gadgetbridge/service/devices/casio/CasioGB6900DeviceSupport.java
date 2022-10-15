@@ -171,7 +171,7 @@ public class CasioGB6900DeviceSupport extends CasioSupport {
         getDevice().setFirmwareVersion2("N/A");
 
 
-        builder.setGattCallback(this);
+        builder.setCallback(this);
 
         configureWatch(builder);
 
