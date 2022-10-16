@@ -60,3 +60,6 @@
 -keepclassmembers,allowobfuscation class * {
   @com.google.gson.annotations.SerializedName <fields>;
 }
+
+# Keep generated protobuf classes
+-keep class nodomain.freeyourgadget.gadgetbridge.proto.* { *; }
