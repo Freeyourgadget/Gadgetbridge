@@ -162,10 +162,11 @@ public abstract class AbstractFetchOperation extends AbstractHuamiOperation {
 
     protected void startFetching(TransactionBuilder builder, byte fetchType, GregorianCalendar sinceWhen) {
         final String taskName = StringUtils.ensureNotNull(builder.getTaskName());
+        final boolean isHuami2021 = getSupport() instanceof Huami2021Support;
         byte[] fetchBytes = BLETypeConversions.join(new byte[]{
                         HuamiService.COMMAND_ACTIVITY_DATA_START_DATE,
                         fetchType},
-                getSupport().getTimeBytes(sinceWhen, TimeUnit.MINUTES));
+                getSupport().getTimeBytes(sinceWhen, isHuami2021 ? TimeUnit.SECONDS : TimeUnit.MINUTES));
         builder.add(new AbstractGattListenerWriteAction(getQueue(), characteristicFetch, fetchBytes) {
             @Override
             protected boolean onCharacteristicChanged(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic) {
@@ -175,7 +176,7 @@ public abstract class AbstractFetchOperation extends AbstractHuamiOperation {
 
                     if (ArrayUtils.equals(value, HuamiService.RESPONSE_ACTIVITY_DATA_START_DATE_SUCCESS, 0)) {
                         handleActivityMetadata(value);
-                        if (expectedDataLength == 0 && getSupport() instanceof Huami2021Support) {
+                        if (expectedDataLength == 0 && isHuami2021) {
                             // Nothing to receive, if we try to fetch data it will fail
                             sendAck2021(true);
                         } else {
