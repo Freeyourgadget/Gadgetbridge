@@ -12,7 +12,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiActivitySummaryParser;
 import nodomain.freeyourgadget.gadgetbridge.entities.BaseActivitySummary;
 
 public class ActivitySummaryJsonSummary {
@@ -73,7 +72,11 @@ public class ActivitySummaryJsonSummary {
 
     private String getCorrectSummary(BaseActivitySummary item){
         if (item.getRawSummaryData() != null) {
-            item = summaryParser.parseBinaryData(item);
+            try {
+                item = summaryParser.parseBinaryData(item);
+            } catch (final Exception e) {
+                LOG.error("Failed to re-parse corrected summary", e);
+            }
         }
         return item.getSummaryData();
     }
