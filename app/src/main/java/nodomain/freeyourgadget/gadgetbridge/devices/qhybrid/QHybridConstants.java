@@ -29,15 +29,16 @@ public final class QHybridConstants {
         {
             put("buddyChallengeApp", "2.10");
             put("commuteApp", "2.5");
-            put("launcherApp", "3.8");
-            put("musicApp", "3.9");
-            put("notificationsPanelApp", "3.5");
-            put("ringPhoneApp", "3.7");
-            put("settingApp", "3.12");
-            put("stopwatchApp", "3.5");
-            put("timerApp", "3.8");
-            put("weatherApp", "3.10");
-            put("wellnessApp", "3.15");
+            put("launcherApp", "3.9");
+            put("musicApp", "3.11");
+            put("notificationsPanelApp", "3.7");
+            put("ringPhoneApp", "3.8");
+            put("settingApp", "3.13");
+            put("stopwatchApp", "3.6");
+            put("timerApp", "3.9");
+            put("weatherApp", "3.11");
+            put("wellnessApp", "3.16");
+            put("AlexaApp", "3.10");
         }
     };
 
