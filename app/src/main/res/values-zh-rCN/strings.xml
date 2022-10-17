@@ -1953,4 +1953,7 @@
     <string name="hrZoneFatBurn">脂肪燃烧</string>
     <string name="TrainingEffect">培训效果</string>
     <string name="aerobicTrainingEffect">有氧效应</string>
+    <string name="pref_chart_sleep_lines_limit">在滚动前显示多少行睡眠信息</string>
+    <string name="elevationLoss">海拔减值</string>
+    <string name="elevationGain">海拔增益</string>
 </resources>
