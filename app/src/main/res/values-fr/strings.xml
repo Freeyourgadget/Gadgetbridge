@@ -1945,4 +1945,19 @@ Temps de sommeil préféré en heures</string>
     <string name="sports_activity_confirm_delete_title">Activités %d supprimées</string>
     <string name="sports_activity_confirm_delete_description">Etes-vous sûr de vouloir effacer ces %d activités \?</string>
     <string name="supercars_lights_blinking_label">Clignotant</string>
+    <string name="pref_chart_sleep_lines_limit">Combien de lignes de sommeil doivent être affichées avant de les faire défiler</string>
+    <string name="HeartRateZones">Zones de rythme cardiaque</string>
+    <string name="hrZoneNa">N/A</string>
+    <string name="hrZoneWarmUp">Mise en route</string>
+    <string name="hrZoneFatBurn">Élimination matières grasses</string>
+    <string name="anaerobicTrainingEffect">Effet anaérobique</string>
+    <string name="currentWorkoutLoad">Intensité de l\'exercice</string>
+    <string name="maximumOxygenUptake">Oxygénation maximale</string>
+    <string name="hrZoneAerobic">Aérobique</string>
+    <string name="elevationGain">Gain d\'altitude</string>
+    <string name="elevationLoss">Perte d\'altitude</string>
+    <string name="hrZoneAnaerobic">Anaérobique</string>
+    <string name="hrZoneExtreme">Extrême</string>
+    <string name="aerobicTrainingEffect">Effet aérobique</string>
+    <string name="TrainingEffect">Effet de l\'entrainement</string>
 </resources>
