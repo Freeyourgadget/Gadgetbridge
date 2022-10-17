@@ -1967,4 +1967,7 @@
     <string name="hrZoneFatBurn">Yağ Yakımı</string>
     <string name="hrZoneAnaerobic">Anaerobik</string>
     <string name="hrZoneExtreme">Aşırı</string>
+    <string name="elevationGain">Yükseklik kazancı</string>
+    <string name="elevationLoss">Yükseklik kaybı</string>
+    <string name="pref_chart_sleep_lines_limit">Kaydırmadan önce kaç uyku oturumu satırının gösterileceği</string>
 </resources>
