@@ -106,7 +106,9 @@ public class FossilFileReader {
             buf.getInt(); // size
             int header2 = buf.getInt();
             int header3 = buf.getInt();
-            if (header0 != 1 || header2 != 0x00012000 || header3 != 0x00012000) {
+            if (header0 != 1 ||
+                (header2 != 0x00012000 && header2 != 0x00020000) ||
+                (header3 != 0x00012000 && header3 != 0x00020000)) {
                 return;
             }
 
@@ -129,8 +131,8 @@ public class FossilFileReader {
         buf.position(20);
         int version1 = buf.get() % 0xff;
         int version2 = buf.get() & 0xff;
-        foundVersion = "DN1.0." + version1 + "." + version2;
-        foundName = "Fossil Hybrid HR firmware";
+        foundVersion = version1 + "." + version2;
+        foundName = "Fossil/Skagen Hybrid HR firmware";
     }
 
     private void parseApp() throws IOException, JSONException {
