@@ -1960,4 +1960,7 @@
     <string name="anaerobicTrainingEffect">Anaerober Effekt</string>
     <string name="TrainingEffect">Trainingseffekt</string>
     <string name="maximumOxygenUptake">Maximale Sauerstoffaufnahme</string>
+    <string name="pref_chart_sleep_lines_limit">Anzahl der Schlafeinheiten bis geblättert werden muss</string>
+    <string name="elevationLoss">Höhenverlust</string>
+    <string name="elevationGain">Höhengewinn</string>
 </resources>
