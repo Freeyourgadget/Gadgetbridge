@@ -1952,4 +1952,7 @@
     <string name="hrZoneNa">לא זמין</string>
     <string name="aerobicTrainingEffect">השפעת אירובי</string>
     <string name="maximumOxygenUptake">קליטת חמצן מרבית</string>
+    <string name="elevationGain">צבירת גובה</string>
+    <string name="elevationLoss">הנמכת גובה</string>
+    <string name="pref_chart_sleep_lines_limit">כמה שורות מופעי שינה להציג לפני שידרשו גלילה</string>
 </resources>
