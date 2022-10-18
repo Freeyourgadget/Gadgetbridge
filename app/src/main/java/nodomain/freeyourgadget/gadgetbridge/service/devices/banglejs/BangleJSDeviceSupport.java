@@ -106,7 +106,6 @@ import nodomain.freeyourgadget.gadgetbridge.model.RecordedDataTypes;
 import nodomain.freeyourgadget.gadgetbridge.model.WeatherSpec;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.AbstractBTLEDeviceSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
-import nodomain.freeyourgadget.gadgetbridge.util.AlarmUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.EmojiConverter;
 import nodomain.freeyourgadget.gadgetbridge.util.FileUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
@@ -193,7 +192,7 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
                     }
                     case GBDevice.ACTION_DEVICE_CHANGED: {
                         LOG.info("ACTION_DEVICE_CHANGED " + (gbDevice!=null ? gbDevice.getStateString():""));
-                        addReceiveHistory("\n================================================\nACTION_DEVICE_CHANGED "+gbDevice.getStateString()+" "+(new SimpleDateFormat("yyyy-mm-dd hh:mm:ss")).format(Calendar.getInstance().getTime())+"\n================================================\n");
+                        addReceiveHistory("\n================================================\nACTION_DEVICE_CHANGED "+gbDevice.getStateString()+" "+(new SimpleDateFormat("yyyy-mm-dd hh:mm:ss", Locale.US)).format(Calendar.getInstance().getTime())+"\n================================================\n");
                     }
                 }
             }
@@ -383,13 +382,7 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
         }
     }
 
-    /// Write JSON object of the form {t:taskName, err:message}
-
-    private void uartTxJSONError(String taskName, String message) {
-        uartTxJSONError(taskName,message,null);
-    }
-
-    private void uartTxJSONError(String taskName, String message,String id) {
+    private void uartTxJSONError(String taskName, String message, String id) {
         JSONObject o = new JSONObject();
         try {
             o.put("t", taskName);
@@ -607,7 +600,7 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
                                             XPath xPath = XPathFactory.newInstance().newXPath();
                                             response = xPath.evaluate(xmlPath, inputXML);
                                         } catch (Exception error) {
-                                            uartTxJSONError("http", error.toString(),id);
+                                            uartTxJSONError("http", error.toString(), id);
                                             return;
                                         }
                                     }
@@ -624,8 +617,7 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
                             }, new Response.ErrorListener() {
                         @Override
                         public void onErrorResponse(VolleyError error) {
-                            JSONObject o = new JSONObject();
-                            uartTxJSONError("http", error.toString(),id);
+                            uartTxJSONError("http", error.toString(), id);
                         }
                     }) {
                         @Override
@@ -718,7 +710,7 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
                             GB.toast(getContext(), "Targeting '"+target+"' isn't implemented or it doesn't exist.", Toast.LENGTH_LONG, GB.INFO);
                     }
                 } else {
-                    uartTxJSONError("intent", "Android Intents not enabled, check Gadgetbridge Device Settings");
+                    uartTxJSONError("intent", "Android Intents not enabled, check Gadgetbridge Device Settings", null);
                 } break;
             }
             case "force_calendar_sync": {
@@ -932,7 +924,7 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
             transmitTime(builder);
             //TODO: once we have a common strategy for sending events (e.g. EventHandler), remove this call from here. Meanwhile it does no harm.
             // = we should genaralize the pebble calender code
-            //sendCalendarEvents(builder);
+            //sendCalendarEvents();
             forceCalendarSync();
             builder.queue(getQueue());
         } catch (Exception e) {
@@ -952,9 +944,7 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
                 if (!alarm.getEnabled()) continue;
                 JSONObject jsonalarm = new JSONObject();
                 jsonalarms.put(jsonalarm);
-
-                Calendar calendar = AlarmUtils.toCalendar(alarm);
-
+                //Calendar calendar = AlarmUtils.toCalendar(alarm);
                 jsonalarm.put("h", alarm.getHour());
                 jsonalarm.put("m", alarm.getMinute());
                 jsonalarm.put("rep", alarm.getRepetition());
@@ -1250,7 +1240,7 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
     /** Used for writing single bits to an array */
     public static class BitWriter {
         int n;
-        byte[] bits;
+        final byte[] bits;
         int currentByte, bitIdx;
 
         public BitWriter(byte[] array, int offset) {
@@ -1356,6 +1346,7 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
                     bits.push(((pixel>>b)&1) != 0);
             }
         }
+        bits.finish();
         return bmp;
     }
 
@@ -1424,8 +1415,8 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
     /*
      * Sending all events together, not used for now, keep for future reference
      */
-    private void sendCalendarEvents(TransactionBuilder builder) {
-        Prefs prefs = new Prefs(GBApplication.getDeviceSpecificSharedPrefs(gbDevice.getAddress()));
+    private void sendCalendarEvents() {
+        //Prefs prefs = new Prefs(GBApplication.getDeviceSpecificSharedPrefs(gbDevice.getAddress()));
         //TODO set a limit as number in the preferences?
         //int availableSlots = prefs.getInt(PREF_CALENDAR_EVENTS_MAX, 0);
         int availableSlots = 6;
