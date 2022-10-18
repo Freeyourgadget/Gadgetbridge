@@ -762,9 +762,6 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
                 break;
             }
             case ACTION_FETCH_RECORDED_DATA: {
-                if(!getDeviceCoordinator(device).supportsActivityDataFetching()){
-                    break;
-                }
                 int dataTypes = intent.getIntExtra(EXTRA_RECORDED_DATA_TYPES, 0);
                 deviceSupport.onFetchRecordedData(dataTypes);
                 break;
