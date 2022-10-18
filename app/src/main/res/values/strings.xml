@@ -223,6 +223,8 @@
     <string name="pref_summary_notification_prefer_long_text">If available, send the long notification text to the device</string>
     <string name="pref_title_notification_filter">Do Not Disturb</string>
     <string name="pref_summary_notification_filter">Block all notifications when Do Not Disturb is enabled on the phone</string>
+    <string name="pref_title_notification_media_ignores_application_list">Media notifications ignore app list</string>
+    <string name="pref_summary_notification_media_ignores_application_list">Process media notifications before the app list. If this preference is unchecked, media applications need to be allowed in the application list for media controls to work on the device.</string>
     <string name="pref_header_notification_application_settings">Per application settings</string>
     <string name="pref_title_notification_use_as">Use the Applications list to…</string>
     <string name="pref_title_notification_use_as_deny">Deny notifications from selected apps</string>

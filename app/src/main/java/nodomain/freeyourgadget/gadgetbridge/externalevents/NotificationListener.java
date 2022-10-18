@@ -263,18 +263,24 @@ public class NotificationListener extends NotificationListenerService {
         logNotification(sbn, true);
         LOG.debug("notificationAppListIsBlackList: " + GBApplication.getPrefs().getString("notification_list_is_blacklist","true"));
 
-
         notificationStack.remove(sbn.getPackageName());
         notificationStack.add(sbn.getPackageName());
 
         if (isServiceNotRunningAndShouldIgnoreNotifications()) return;
+
+        final Prefs prefs = GBApplication.getPrefs();
+        final boolean mediaIgnoresAppList = prefs.getBoolean("notification_media_ignores_application_list", false);
+
+        // If media notifications ignore app list, check them before
+        if (mediaIgnoresAppList && handleMediaSessionNotification(sbn)) return;
 
         if (shouldIgnoreSource(sbn)) {
             LOG.debug("Ignoring notification source");
             return;
         }
 
-        if (handleMediaSessionNotification(sbn)) return;
+        // If media notifications do NOT ignore app list, check them after
+        if (!mediaIgnoresAppList && handleMediaSessionNotification(sbn)) return;
 
         int dndSuppressed = 0;
         if (rankingMap != null) {
@@ -285,7 +291,6 @@ public class NotificationListener extends NotificationListenerService {
             }
         }
 
-        Prefs prefs = GBApplication.getPrefs();
         if (prefs.getBoolean("notification_filter", false) && dndSuppressed == 1) {
             return;
         }
@@ -722,9 +727,17 @@ public class NotificationListener extends NotificationListenerService {
         notificationStack.remove(sbn.getPackageName());
 
         if (isServiceNotRunningAndShouldIgnoreNotifications()) return;
+
+        final Prefs prefs = GBApplication.getPrefs();
+        final boolean mediaIgnoresAppList = prefs.getBoolean("notification_media_ignores_application_list", false);
+
+        // If media notifications ignore app list, check them before
+        if (mediaIgnoresAppList && handleMediaSessionNotification(sbn)) return;
+
         if (shouldIgnoreSource(sbn)) return;
 
-        if (handleMediaSessionNotification(sbn)) return;
+        // If media notifications do NOT ignore app list, check them after
+        if (!mediaIgnoresAppList && handleMediaSessionNotification(sbn)) return;
 
         if(Notification.CATEGORY_CALL.equals(sbn.getNotification().category)
                 && activeCallPostTime == sbn.getPostTime()) {
@@ -761,8 +774,8 @@ public class NotificationListener extends NotificationListenerService {
         // Send notification remove request to device
         List<GBDevice> devices = GBApplication.app().getDeviceManager().getSelectedDevices();
         for(GBDevice device : devices){
-            Prefs prefs = new  Prefs(GBApplication.getDeviceSpecificSharedPrefs(device.getAddress()));
-            if (prefs.getBoolean("autoremove_notifications", true)) {
+            Prefs devicePrefs = new  Prefs(GBApplication.getDeviceSpecificSharedPrefs(device.getAddress()));
+            if (devicePrefs.getBoolean("autoremove_notifications", true)) {
                 for (int id : notificationsToRemove) {
                     LOG.info("Notification " + id + " removed, will ask device to delete it");
                     GBApplication.deviceService().onDeleteNotification(id);

@@ -104,6 +104,12 @@
             android:key="notification_list_is_blacklist"
             android:summary="%s"
             android:title="@string/pref_title_notification_use_as" />
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="notification_media_ignores_application_list"
+            android:layout="@layout/preference_checkbox"
+            android:summary="@string/pref_summary_notification_media_ignores_application_list"
+            android:title="@string/pref_title_notification_media_ignores_application_list" />
         <Preference
             android:key="pref_key_blacklist"
             android:title="@string/pref_applications_settings" />
