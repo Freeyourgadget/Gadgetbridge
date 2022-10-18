@@ -1,0 +1,9 @@
+* Fossil/Skagen Hybrids: Update known watch app versions
+* Skagen Hybrids: Allow firmware installation
+* Fossil Hybrid HR: Request menu config upon app connection
+* Amazfit GTS3: Fix crash when fetching workouts
+* Zepp OS: Fix fetching workouts shorter than 1 minute
+* Zepp OS: Decode workout elevation and altitude
+* Huami: Do not crash when failing to parse activity summary
+* Re-connect after update, especially useful for users of nightly releases
+* Make number of not scrollable sleep sessions lines configurable

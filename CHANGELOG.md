@@ -1,16 +1,27 @@
 ### Changelog
 
-### 0.71.2
+#### 0.71.3
+* Fossil/Skagen Hybrids: Update known watch app versions
+* Skagen Hybrids: Allow firmware installation
+* Fossil Hybrid HR: Request menu config upon app connection
+* Amazfit GTS3: Fix crash when fetching workouts
+* Zepp OS: Fix fetching workouts shorter than 1 minute
+* Zepp OS: Decode workout elevation and altitude
+* Huami: Do not crash when failing to parse activity summary
+* Re-connect after update, especially useful for users of nightly releases
+* Make number of not scrollable sleep sessions lines configurable
+
+#### 0.71.2
 * Zepp OS: Display HR zones and Training Effect in Activity Details
 * Remove shortcut feature due to non-free dependencies (#2918)
 
-### 0.71.1
+#### 0.71.1
 * Try to exclude non-free stuff from shortcuts library (#2918)
 * SuperCars: fix periodicDataSender, add tricks
 * Zepp OS: Fix crash when user attempts to disable Settings display item
 * Fix crash when opening Gadgetbridge from the notification
 
-### 0.71.0
+#### 0.71.0
 * Remove KitKat support, Gadgetbridge now requires Android 5.0
 * Initial support for Amazfit GTR 3
 * Initial support for SuperCars (Shell Racing Cars)
@@ -46,7 +57,7 @@
 * Add support for REM sleep
 * App shortcuts support (long press on the launcher icon for directly connecting a device)
 
-### 0.70.0
+#### 0.70.0
 * Initial support for Amazfit GTS 3
 * Initial support for Fossil Hybrid Gen6
 * Initial support for Flipper Zero
@@ -71,7 +82,7 @@
 * Do not remove newline and whitespace characters from notification content
 * Debug: Add companion device list to debug activity
 
-### 0.69.0
+#### 0.69.0
 * Initial Support for Mi Band 7
 * Initial support for devices using Binary Sensor Service
 * Mi Band 4: Enable heartrate activity monitoring support
@@ -99,7 +110,7 @@
 * Fix crash on some phones for find android device (add fallback tone)
 * Fix regression since 0.68.0 with active auto connect
 
-### 0.68.0
+#### 0.68.0
 * Multi device support (experimental), allows connecting to multiple devices simultaneously
 * Fossil Hybrid HR: Allow installation of newer watch apps
 * Fossil Hybrid HR: Allow workout app the be added as a shortcut
@@ -148,13 +159,13 @@
 * Add monochrome themed icon
 * Add device menu item to get to the FW/App Installer via an explanation activity
 
-### 0.67.1
+#### 0.67.1
 * Huami: Fix long music track names not displaying
 * Amazfit Bip U/Pro/Band 5: Enable extended HR/stress monitoring setting
 * Pebble: Fix calendar blacklist, view and storage
 * FitPro: Fix crash, inactivity warning preference to string
 
-### 0.67.0
+#### 0.67.0
 * Initial Support for Sony WF-1000XM3
 * Initial Support for Galaxy Buds Pro
 * Huami: Add Toggle function for Open Tracks tracking to button actions
@@ -180,7 +191,7 @@
 * New icons for Sony overhead headphones, Sony WF 800n and Mi Band 6
 * When Gadgetbridge needs permissions, pop up a dialog asking nicely and explaining why
 
-### 0.66.0
+#### 0.66.0
 * Add basic support for Casio GBD-H1000
 * Add support for Hama Fit Track 1900 - via FitPro device support
 * Add OpenTracksController for interactions with OpenTracks
@@ -201,7 +212,7 @@
 * AutoExporter changes for better operation and troubleshooting
 * Change Nightly icons background color
 
-### 0.65.0
+#### 0.65.0
 * Amazfit Pop/Pro: Initial Support (probably the same as Bip U but has a different firmware)
 * Sony WH-1000XM4: Initial Support
 * Sony WH-1000XM3: Disable equalizer, surround and sound position while in SBC codec
@@ -219,7 +230,7 @@
 * Add Portuguese to the list of language options
 * Update configuration button icon in app notification settings
 
-### 0.64.0
+#### 0.64.0
 * Initial support for VESC NRF/HM10 devices
 * Initial support vor Bose QC35
 * Initial support for Sony WF-SP800N
@@ -237,7 +248,7 @@
 * Allow adding test device directly from the discovery screen
 * Keep device info on the correct device during reordering
 
-### 0.63.1
+#### 0.63.1
 * Huami: Support native reminders
 * InfiniTime: Initial support for step counting (currently very limited by the device firmware)
 * Bangle.js: Fix Gadgetbridge crashes when playing music with some players
@@ -250,7 +261,7 @@
 * Activity Card: React to User settings, unify step length
 * Activity card: simplify the layout and only show each chart if there is data (Cleaner layout for users with multiple devices)
 
-### 0.63.0
+#### 0.63.0
 * Galaxy Buds Live: Initial Support
 * Sony WH-1000XM3: Initial Support
 * Add support for Casio GBD-200 and untested support for GBD-100
@@ -268,7 +279,7 @@
 * Move location settings out of pebble menu
 * Sort devices by alias, if available
 
-### 0.62.0
+#### 0.62.0
 * Iniital support for Galaxy Buds 2019
 * Huami: Fix syncing of data in non-DST time
 * InfiniTime: Fix wrong time zone being sent in non-DST mode
@@ -277,7 +288,7 @@
 * Add support for Casio STB-1000. Limitations of GB-5600B/GB-6900B apply
 * Prevent crash when receiving broken weather data from TinyWeatherForecastGermany
 
-### 0.61.0
+#### 0.61.0
 * Initial support for Nothing Ear(1)
 * Amazfit Bip U/Pro: Fix flashing firmware and watchfaces
 * Amazfit Bip U/Pro: Fix language setting
@@ -288,7 +299,7 @@
 * Improved notification management including blacklist or whitelist apps settings or discrete notifications with removed text
 * Fix default daily target distance from 5 to 5000 meters
 
-### 0.60.0
+#### 0.60.0
 * Initial support for FitPro bands
 * Mi Band 6: really fix weather on new firmware
 * Casio GBX-100: Fix connection
@@ -299,16 +310,16 @@
 * Exclude not worn sleep times from sleep sessions
 * Add Icelandic and Czech transliteration
 
-### 0.59.3
+#### 0.59.3
 * Mi Band 6: Properly support firmware 1.0.4.38
 * Mi Band 6: Add Flashlight to menu items
 * ZeTime: Fix corruption on long notifications
 
-### 0.59.2
+#### 0.59.2
 * Mi Band 6: Support firmware 1.0.4.38 (experimental, still missing features)
 * InfiniTime: Fix null being displayed as notification title
 
-### 0.59.1
+#### 0.59.1
 * Fossil Hybrid HR: Add power saving feature and many new widgets for the official Gadgetbridge watchface (battery, calories, 2nd TZ, chance of rain)
 * Fossil Hybrid HR: Support setting metric/imperial mode
 * Amazfit T-Rex Pro: Try to fix some menu items
@@ -317,7 +328,7 @@
 * Bangle.js: Aadd configurable MTU
 * Add Heart Rate measurement screen, accessible via heart icon in device action icons
 
-### 0.59.0
+#### 0.59.0
 * Initial support for SMA Q2 OSS firmware (Emeryth)
 * Fix broken UM25 support
 * Fossil Hybrid HR: Add watchface designer
@@ -325,14 +336,14 @@
 * Fix applying theme as set by the system
 * Try to improve behavior when quitting Gadgetbridge
 
-### 0.58.2
+#### 0.58.2
 * InfiniTime: Support notification for battery level
 * Allow importing GPX tracks via Android Intent/Share system
 * Add option for black background to dark theme
 * BangleJS, WaspOS: Support for transliteration
 * Add missing icons to settings items
 
-### 0.58.1
+#### 0.58.1
 * Pebble: Fix broken app manager (regression from 0.57.1)
 * Bangle.js: Try to fix crash when attempting to load activity chart
 * Amazfit T-Rex Pro: Add barometer to menu items
@@ -341,7 +352,7 @@
 * Debug: Allow adding fake testing devices manually
 * Reduce margin of icons in device_item to keep one row for typical amount of icons
 
-### 0.58.0
+#### 0.58.0
 * Initial experimental support for Amazfit T-Rex Pro
 * InfiniTime: Try to fix firmware upgrade by fiddling with optimization rules
 * Huami: Fix lost samples bug with timezones that are have a 30 minute offset
@@ -349,7 +360,7 @@
 * Improved logging in bonding and tried to recover from weirdness
 * Use a separate notification channel for low battery warnings
 
-### 0.57.1
+#### 0.57.1
 * Mi Band 6: Add Pomodoro to menu items
 * Mi Band 6: Support flashing firmware, res and watchfaces
 * Mi Band 6: Enable Unicode Emoji support
@@ -358,7 +369,7 @@
 * Huami: Send changed weight, birthday and height data to watch immediately
 * Use flexbox layout for icons in device cards, allowing line breaks for small phones
 
-### 0.57.0
+#### 0.57.0
 * Initial limited support for Mi Band 6
 * Amazfit GTR2/GTS2: Fix for flashing watchfaces
 * Amazfit GTR/GTS/GTR2/GTS2/Bip S: Allow flashing AGPS bundles
@@ -367,7 +378,7 @@
 * Fossil Hybrid HR: Hide old settings on newer firmwares
 * Improved PineTime/InfiniTime firmware DFU metadata parsing and checks
 
-### 0.56.2
+#### 0.56.2
 * Amazfit GTR2: Improve firmware update support (still partly broken)
 * Amazfit GTR2/GTS2: Prevent emoji transliterating (Seems to support emoji)
 * Amazfit GTS2/GTR2: Fixes for setting menu items (Probably still partly broken)
@@ -383,7 +394,7 @@
 * Make Activity Charts dates move as calendar months and to go to now if jumping past today
 * Make Battery Info time span jump as calendar months and not as days
 
-### 0.56.1
+#### 0.56.1
 * Fossil Hybrid HR: Fix compatibility for oder firmware revisions
 * Amazfit Neo: Implement firmware update
 * Amazfit Neo: Support setting all menu items and fix menu cycling bug

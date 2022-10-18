@@ -1,5 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
+    <release version="0.71.3" versioncode="219">
+        <change>Fossil/Skagen Hybrids: Update known watch app versions</change>
+        <change>Skagen Hybrids: Allow firmware installation</change>
+        <change>Fossil Hybrid HR: Request menu config upon app connection</change>
+        <change>Amazfit GTS3: Fix crash when fetching workouts</change>
+        <change>Zepp OS: Fix fetching workouts shorter than 1 minute</change>
+        <change>Zepp OS: Decode workout elevation and altitude</change>
+        <change>Huami: Do not crash when failing to parse activity summary</change>
+        <change>Re-connect after update, especially useful for users of nightly releases</change>
+        <change>Make number of not scrollable sleep sessions lines configurable</change>
+    </release>
     <release version="0.71.2" versioncode="218">
         <change>Zepp OS: Display HR zones and Training Effect in Activity Details</change>
         <change>Remove shortcut feature due to non-free dependencies (#2918)</change>
