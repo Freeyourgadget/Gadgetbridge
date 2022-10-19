@@ -38,6 +38,12 @@ public enum NoiseCancellingOptimizerStatus {
         return this.code;
     }
 
+    public String i18n(final Context context) {
+        final String stringName = String.format("sony_anc_optimizer_status_%s", name().toLowerCase(Locale.ROOT));
+        final int stringId = context.getResources().getIdentifier(stringName, "string", context.getPackageName());
+        return context.getString(stringId);
+    }
+
     public static NoiseCancellingOptimizerStatus fromCode(final byte code) {
         for (final NoiseCancellingOptimizerStatus audioCodec : values()) {
             if (audioCodec.code == code) {
@@ -46,11 +52,5 @@ public enum NoiseCancellingOptimizerStatus {
         }
 
         return null;
-    }
-
-    public String i18n(final Context context) {
-        final String stringName = String.format("sony_anc_optimizer_status_%s", name().toLowerCase(Locale.ROOT));
-        final int stringId = context.getResources().getIdentifier(stringName, "string", context.getPackageName());
-        return context.getString(stringId);
     }
 }

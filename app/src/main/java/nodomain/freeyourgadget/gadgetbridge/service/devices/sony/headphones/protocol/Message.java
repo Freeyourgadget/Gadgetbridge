@@ -25,7 +25,6 @@ import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.util.Locale;
 
-import nodomain.freeyourgadget.gadgetbridge.service.devices.sony.headphones.protocol.impl.v1.PayloadType;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
 public class Message {
@@ -38,7 +37,7 @@ public class Message {
      * - Message Type ({@link MessageType})
      * - Sequence Number - needs to be updated with the one sent in the ACK responses
      * - Payload Length - 4-byte big endian int with number of bytes that will follow
-     * - N bytes of payload data (first being the {@link PayloadType})
+     * - N bytes of payload data (first being the PayloadType)
      * - Checksum (1-byte sum, excluding header)
      * - MESSAGE_TRAILER
      * <p>
@@ -87,8 +86,7 @@ public class Message {
 
     public String toString() {
         if (payload.length > 0) {
-            final PayloadType payloadType = PayloadType.fromCode(type, payload[0]);
-            return String.format(Locale.getDefault(), "Message{Cmd=%s, Seq=%d, PayloadType=%s, Payload=%s}", type, sequenceNumber, payloadType, GB.hexdump(payload));
+            return String.format(Locale.getDefault(), "Message{Cmd=%s, Seq=%d, PayloadType=%d, Payload=%s}", type, sequenceNumber, payload[0], GB.hexdump(payload));
         } else {
             return String.format(Locale.getDefault(), "Message{Cmd=%s, Seq=%d}", type, sequenceNumber);
         }

@@ -48,6 +48,16 @@ public enum AutomaticPowerOff {
         }};
     }
 
+    public static AutomaticPowerOff fromCode(final byte b1, final byte b2) {
+        for (AutomaticPowerOff value : AutomaticPowerOff.values()) {
+            if (value.getCode()[0] == b1 && value.getCode()[1] == b2) {
+                return value;
+            }
+        }
+
+        return null;
+    }
+
     public static AutomaticPowerOff fromPreferences(final SharedPreferences prefs) {
         return AutomaticPowerOff.valueOf(prefs.getString(DeviceSettingsPreferenceConst.PREF_SONY_AUTOMATIC_POWER_OFF, "off").toUpperCase());
     }

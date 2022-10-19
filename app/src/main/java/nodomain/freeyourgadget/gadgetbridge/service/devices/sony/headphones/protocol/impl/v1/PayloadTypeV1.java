@@ -18,7 +18,7 @@ package nodomain.freeyourgadget.gadgetbridge.service.devices.sony.headphones.pro
 
 import nodomain.freeyourgadget.gadgetbridge.service.devices.sony.headphones.protocol.MessageType;
 
-public enum PayloadType {
+public enum PayloadTypeV1 {
     INIT_REQUEST(MessageType.COMMAND_1, 0x00),
     INIT_REPLY(MessageType.COMMAND_1, 0x01),
 
@@ -93,7 +93,7 @@ public enum PayloadType {
     private final MessageType messageType;
     private final byte code;
 
-    PayloadType(final MessageType messageType, final int code) {
+    PayloadTypeV1(final MessageType messageType, final int code) {
         this.messageType = messageType;
         this.code = (byte) code;
     }
@@ -106,13 +106,13 @@ public enum PayloadType {
         return this.code;
     }
 
-    public static PayloadType fromCode(final MessageType messageType, final byte code) {
-        for (final PayloadType payloadType : values()) {
+    public static PayloadTypeV1 fromCode(final MessageType messageType, final byte code) {
+        for (final PayloadTypeV1 payloadType : values()) {
             if (messageType.equals(payloadType.messageType) && payloadType.code == code) {
                 return payloadType;
             }
         }
 
-        return PayloadType.UNKNOWN;
+        return PayloadTypeV1.UNKNOWN;
     }
 }

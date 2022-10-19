@@ -40,6 +40,16 @@ public class ButtonModes {
         public byte getCode() {
             return this.code;
         }
+
+        public static Mode fromCode(final byte code) {
+            for (ButtonModes.Mode value : ButtonModes.Mode.values()) {
+                if (value.getCode() == code) {
+                    return value;
+                }
+            }
+
+            return null;
+        }
     }
 
     final Mode left;

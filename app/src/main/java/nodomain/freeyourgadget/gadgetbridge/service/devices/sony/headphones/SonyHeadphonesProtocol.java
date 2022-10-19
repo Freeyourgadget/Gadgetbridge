@@ -208,6 +208,11 @@ public class SonyHeadphonesProtocol extends GBDeviceProtocol {
                 return super.encodeSendConfiguration(config);
         }
 
+        if (configRequest == null) {
+            LOG.warn("Failed to encode config request for {}", config);
+            return super.encodeSendConfiguration(config);
+        }
+
         pendingAcks++;
 
         return configRequest.encode(sequenceNumber);

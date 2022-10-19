@@ -61,7 +61,6 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.sony.headphones.prot
 import nodomain.freeyourgadget.gadgetbridge.service.devices.sony.headphones.protocol.impl.v1.params.BatteryType;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.sony.headphones.protocol.impl.v1.params.NoiseCancellingOptimizerStatus;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.sony.headphones.protocol.impl.v1.params.VirtualSoundParam;
-import nodomain.freeyourgadget.gadgetbridge.util.DeviceHelper;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
 public class SonyProtocolImplV1 extends AbstractSonyProtocolImpl {
@@ -74,9 +73,9 @@ public class SonyProtocolImplV1 extends AbstractSonyProtocolImpl {
     @Override
     public Request getAmbientSoundControl() {
         return new Request(
-                PayloadType.AMBIENT_SOUND_CONTROL_GET.getMessageType(),
+                PayloadTypeV1.AMBIENT_SOUND_CONTROL_GET.getMessageType(),
                 new byte[]{
-                        PayloadType.AMBIENT_SOUND_CONTROL_GET.getCode(),
+                        PayloadTypeV1.AMBIENT_SOUND_CONTROL_GET.getCode(),
                         (byte) 0x02
                 }
         );
@@ -86,7 +85,7 @@ public class SonyProtocolImplV1 extends AbstractSonyProtocolImpl {
     public Request setAmbientSoundControl(final AmbientSoundControl ambientSoundControl) {
         final ByteBuffer buf = ByteBuffer.allocate(8);
 
-        buf.put(PayloadType.AMBIENT_SOUND_CONTROL_SET.getCode());
+        buf.put(PayloadTypeV1.AMBIENT_SOUND_CONTROL_SET.getCode());
         buf.put((byte) 0x02);
 
         if (AmbientSoundControl.Mode.OFF.equals(ambientSoundControl.getMode())) {
@@ -135,15 +134,15 @@ public class SonyProtocolImplV1 extends AbstractSonyProtocolImpl {
                 break;
         }
 
-        return new Request(PayloadType.AMBIENT_SOUND_CONTROL_SET.getMessageType(), buf.array());
+        return new Request(PayloadTypeV1.AMBIENT_SOUND_CONTROL_SET.getMessageType(), buf.array());
     }
 
     @Override
     public Request getNoiseCancellingOptimizerState() {
         return new Request(
-                PayloadType.NOISE_CANCELLING_OPTIMIZER_STATE_GET.getMessageType(),
+                PayloadTypeV1.NOISE_CANCELLING_OPTIMIZER_STATE_GET.getMessageType(),
                 new byte[]{
-                        PayloadType.NOISE_CANCELLING_OPTIMIZER_STATE_GET.getCode(),
+                        PayloadTypeV1.NOISE_CANCELLING_OPTIMIZER_STATE_GET.getCode(),
                         (byte) 0x01
                 }
         );
@@ -152,21 +151,21 @@ public class SonyProtocolImplV1 extends AbstractSonyProtocolImpl {
     @Override
     public Request getAudioCodec() {
         return new Request(
-                PayloadType.AUDIO_CODEC_REQUEST.getMessageType(),
+                PayloadTypeV1.AUDIO_CODEC_REQUEST.getMessageType(),
                 new byte[]{
-                        PayloadType.AUDIO_CODEC_REQUEST.getCode(),
+                        PayloadTypeV1.AUDIO_CODEC_REQUEST.getCode(),
                         (byte) 0x00
                 }
         );
     }
 
     @Override
-    public Request getBattery(BatteryType batteryType) {
+    public Request getBattery(final BatteryType batteryType) {
         return new Request(
-                PayloadType.BATTERY_LEVEL_REQUEST.getMessageType(),
+                PayloadTypeV1.BATTERY_LEVEL_REQUEST.getMessageType(),
                 new byte[]{
-                        PayloadType.BATTERY_LEVEL_REQUEST.getCode(),
-                        batteryType.getCode()
+                        PayloadTypeV1.BATTERY_LEVEL_REQUEST.getCode(),
+                        encodeBatteryType(batteryType)
                 }
         );
     }
@@ -174,9 +173,9 @@ public class SonyProtocolImplV1 extends AbstractSonyProtocolImpl {
     @Override
     public Request getFirmwareVersion() {
         return new Request(
-                PayloadType.FW_VERSION_REQUEST.getMessageType(),
+                PayloadTypeV1.FW_VERSION_REQUEST.getMessageType(),
                 new byte[]{
-                        PayloadType.FW_VERSION_REQUEST.getCode(),
+                        PayloadTypeV1.FW_VERSION_REQUEST.getCode(),
                         (byte) 0x02
                 }
         );
@@ -185,20 +184,20 @@ public class SonyProtocolImplV1 extends AbstractSonyProtocolImpl {
     @Override
     public Request getAudioUpsampling() {
         return new Request(
-                PayloadType.AUDIO_UPSAMPLING_GET.getMessageType(),
+                PayloadTypeV1.AUDIO_UPSAMPLING_GET.getMessageType(),
                 new byte[]{
-                        PayloadType.AUDIO_UPSAMPLING_GET.getCode(),
+                        PayloadTypeV1.AUDIO_UPSAMPLING_GET.getCode(),
                         (byte) 0x02
                 }
         );
     }
 
     @Override
-    public Request setAudioUpsampling(AudioUpsampling config) {
+    public Request setAudioUpsampling(final AudioUpsampling config) {
         return new Request(
-                PayloadType.AUDIO_UPSAMPLING_SET.getMessageType(),
+                PayloadTypeV1.AUDIO_UPSAMPLING_SET.getMessageType(),
                 new byte[]{
-                        PayloadType.AUDIO_UPSAMPLING_SET.getCode(),
+                        PayloadTypeV1.AUDIO_UPSAMPLING_SET.getCode(),
                         (byte) 0x02,
                         (byte) 0x00,
                         (byte) (config.isEnabled() ? 0x01 : 0x00)
@@ -209,9 +208,9 @@ public class SonyProtocolImplV1 extends AbstractSonyProtocolImpl {
     @Override
     public Request getAutomaticPowerOff() {
         return new Request(
-                PayloadType.AUTOMATIC_POWER_OFF_BUTTON_MODE_GET.getMessageType(),
+                PayloadTypeV1.AUTOMATIC_POWER_OFF_BUTTON_MODE_GET.getMessageType(),
                 new byte[]{
-                        PayloadType.AUTOMATIC_POWER_OFF_BUTTON_MODE_GET.getCode(),
+                        PayloadTypeV1.AUTOMATIC_POWER_OFF_BUTTON_MODE_GET.getCode(),
                         (byte) 0x04
                 }
         );
@@ -220,9 +219,9 @@ public class SonyProtocolImplV1 extends AbstractSonyProtocolImpl {
     @Override
     public Request setAutomaticPowerOff(final AutomaticPowerOff config) {
         return new Request(
-                PayloadType.AUTOMATIC_POWER_OFF_BUTTON_MODE_SET.getMessageType(),
+                PayloadTypeV1.AUTOMATIC_POWER_OFF_BUTTON_MODE_SET.getMessageType(),
                 new byte[]{
-                        PayloadType.AUTOMATIC_POWER_OFF_BUTTON_MODE_SET.getCode(),
+                        PayloadTypeV1.AUTOMATIC_POWER_OFF_BUTTON_MODE_SET.getCode(),
                         (byte) 0x04,
                         (byte) 0x01,
                         config.getCode()[0],
@@ -233,9 +232,9 @@ public class SonyProtocolImplV1 extends AbstractSonyProtocolImpl {
 
     public Request getButtonModes() {
         return new Request(
-                PayloadType.AUTOMATIC_POWER_OFF_BUTTON_MODE_GET.getMessageType(),
+                PayloadTypeV1.AUTOMATIC_POWER_OFF_BUTTON_MODE_GET.getMessageType(),
                 new byte[]{
-                        PayloadType.AUTOMATIC_POWER_OFF_BUTTON_MODE_GET.getCode(),
+                        PayloadTypeV1.AUTOMATIC_POWER_OFF_BUTTON_MODE_GET.getCode(),
                         (byte) 0x06
                 }
         );
@@ -243,9 +242,9 @@ public class SonyProtocolImplV1 extends AbstractSonyProtocolImpl {
 
     public Request setButtonModes(final ButtonModes config) {
         return new Request(
-                PayloadType.AUTOMATIC_POWER_OFF_BUTTON_MODE_SET.getMessageType(),
+                PayloadTypeV1.AUTOMATIC_POWER_OFF_BUTTON_MODE_SET.getMessageType(),
                 new byte[]{
-                        PayloadType.AUTOMATIC_POWER_OFF_BUTTON_MODE_SET.getCode(),
+                        PayloadTypeV1.AUTOMATIC_POWER_OFF_BUTTON_MODE_SET.getCode(),
                         (byte) 0x06,
                         (byte) 0x02,
                         config.getModeLeft().getCode(),
@@ -257,9 +256,9 @@ public class SonyProtocolImplV1 extends AbstractSonyProtocolImpl {
     @Override
     public Request getPauseWhenTakenOff() {
         return new Request(
-                PayloadType.AUTOMATIC_POWER_OFF_BUTTON_MODE_GET.getMessageType(),
+                PayloadTypeV1.AUTOMATIC_POWER_OFF_BUTTON_MODE_GET.getMessageType(),
                 new byte[]{
-                        PayloadType.AUTOMATIC_POWER_OFF_BUTTON_MODE_GET.getCode(),
+                        PayloadTypeV1.AUTOMATIC_POWER_OFF_BUTTON_MODE_GET.getCode(),
                         (byte) 0x03
                 }
         );
@@ -268,9 +267,9 @@ public class SonyProtocolImplV1 extends AbstractSonyProtocolImpl {
     @Override
     public Request setPauseWhenTakenOff(final PauseWhenTakenOff config) {
         return new Request(
-                PayloadType.AUTOMATIC_POWER_OFF_BUTTON_MODE_SET.getMessageType(),
+                PayloadTypeV1.AUTOMATIC_POWER_OFF_BUTTON_MODE_SET.getMessageType(),
                 new byte[]{
-                        PayloadType.AUTOMATIC_POWER_OFF_BUTTON_MODE_SET.getCode(),
+                        PayloadTypeV1.AUTOMATIC_POWER_OFF_BUTTON_MODE_SET.getCode(),
                         (byte) 0x03,
                         (byte) 0x00,
                         (byte) (config.isEnabled() ? 0x01 : 0x00)
@@ -281,9 +280,9 @@ public class SonyProtocolImplV1 extends AbstractSonyProtocolImpl {
     @Override
     public Request getEqualizer() {
         return new Request(
-                PayloadType.EQUALIZER_GET.getMessageType(),
+                PayloadTypeV1.EQUALIZER_GET.getMessageType(),
                 new byte[]{
-                        PayloadType.EQUALIZER_GET.getCode(),
+                        PayloadTypeV1.EQUALIZER_GET.getCode(),
                         (byte) 0x01
                 }
         );
@@ -292,9 +291,9 @@ public class SonyProtocolImplV1 extends AbstractSonyProtocolImpl {
     @Override
     public Request setEqualizerPreset(final EqualizerPreset config) {
         return new Request(
-                PayloadType.EQUALIZER_SET.getMessageType(),
+                PayloadTypeV1.EQUALIZER_SET.getMessageType(),
                 new byte[]{
-                        PayloadType.EQUALIZER_SET.getCode(),
+                        PayloadTypeV1.EQUALIZER_SET.getCode(),
                         (byte) 0x01,
                         config.getCode(),
                         (byte) 0x00
@@ -306,7 +305,7 @@ public class SonyProtocolImplV1 extends AbstractSonyProtocolImpl {
     public Request setEqualizerCustomBands(final EqualizerCustomBands config) {
         final ByteBuffer buf = ByteBuffer.allocate(10);
 
-        buf.put(PayloadType.EQUALIZER_SET.getCode());
+        buf.put(PayloadTypeV1.EQUALIZER_SET.getCode());
         buf.put((byte) 0x01);
         buf.put((byte) 0xff);
         buf.put((byte) 0x06);
@@ -317,7 +316,7 @@ public class SonyProtocolImplV1 extends AbstractSonyProtocolImpl {
         }
 
         return new Request(
-                PayloadType.EQUALIZER_SET.getMessageType(),
+                PayloadTypeV1.EQUALIZER_SET.getMessageType(),
                 buf.array()
         );
     }
@@ -325,9 +324,9 @@ public class SonyProtocolImplV1 extends AbstractSonyProtocolImpl {
     @Override
     public Request getSoundPosition() {
         return new Request(
-                PayloadType.SOUND_POSITION_OR_MODE_GET.getMessageType(),
+                PayloadTypeV1.SOUND_POSITION_OR_MODE_GET.getMessageType(),
                 new byte[]{
-                        PayloadType.SOUND_POSITION_OR_MODE_GET.getCode(),
+                        PayloadTypeV1.SOUND_POSITION_OR_MODE_GET.getCode(),
                         (byte) 0x02
                 }
         );
@@ -336,9 +335,9 @@ public class SonyProtocolImplV1 extends AbstractSonyProtocolImpl {
     @Override
     public Request setSoundPosition(final SoundPosition config) {
         return new Request(
-                PayloadType.SOUND_POSITION_OR_MODE_SET.getMessageType(),
+                PayloadTypeV1.SOUND_POSITION_OR_MODE_SET.getMessageType(),
                 new byte[]{
-                        PayloadType.SOUND_POSITION_OR_MODE_SET.getCode(),
+                        PayloadTypeV1.SOUND_POSITION_OR_MODE_SET.getCode(),
                         VirtualSoundParam.SOUND_POSITION.getCode(),
                         config.getCode()
                 }
@@ -348,9 +347,9 @@ public class SonyProtocolImplV1 extends AbstractSonyProtocolImpl {
     @Override
     public Request getSurroundMode() {
         return new Request(
-                PayloadType.SOUND_POSITION_OR_MODE_GET.getMessageType(),
+                PayloadTypeV1.SOUND_POSITION_OR_MODE_GET.getMessageType(),
                 new byte[]{
-                        PayloadType.SOUND_POSITION_OR_MODE_GET.getCode(),
+                        PayloadTypeV1.SOUND_POSITION_OR_MODE_GET.getCode(),
                         VirtualSoundParam.SURROUND_MODE.getCode()
                 }
         );
@@ -359,9 +358,9 @@ public class SonyProtocolImplV1 extends AbstractSonyProtocolImpl {
     @Override
     public Request setSurroundMode(final SurroundMode config) {
         return new Request(
-                PayloadType.SOUND_POSITION_OR_MODE_SET.getMessageType(),
+                PayloadTypeV1.SOUND_POSITION_OR_MODE_SET.getMessageType(),
                 new byte[]{
-                        PayloadType.SOUND_POSITION_OR_MODE_SET.getCode(),
+                        PayloadTypeV1.SOUND_POSITION_OR_MODE_SET.getCode(),
                         VirtualSoundParam.SURROUND_MODE.getCode(),
                         config.getCode()
                 }
@@ -371,9 +370,9 @@ public class SonyProtocolImplV1 extends AbstractSonyProtocolImpl {
     @Override
     public Request getTouchSensor() {
         return new Request(
-                PayloadType.TOUCH_SENSOR_GET.getMessageType(),
+                PayloadTypeV1.TOUCH_SENSOR_GET.getMessageType(),
                 new byte[]{
-                        PayloadType.TOUCH_SENSOR_GET.getCode(),
+                        PayloadTypeV1.TOUCH_SENSOR_GET.getCode(),
                         (byte) 0xd2
                 }
         );
@@ -382,9 +381,9 @@ public class SonyProtocolImplV1 extends AbstractSonyProtocolImpl {
     @Override
     public Request setTouchSensor(final TouchSensor config) {
         return new Request(
-                PayloadType.TOUCH_SENSOR_SET.getMessageType(),
+                PayloadTypeV1.TOUCH_SENSOR_SET.getMessageType(),
                 new byte[]{
-                        PayloadType.TOUCH_SENSOR_SET.getCode(),
+                        PayloadTypeV1.TOUCH_SENSOR_SET.getCode(),
                         (byte) 0xd2,
                         (byte) 0x01,
                         (byte) (config.isEnabled() ? 0x01 : 0x00)
@@ -395,9 +394,9 @@ public class SonyProtocolImplV1 extends AbstractSonyProtocolImpl {
     @Override
     public Request getVoiceNotifications() {
         return new Request(
-                PayloadType.VOICE_NOTIFICATIONS_GET.getMessageType(),
+                PayloadTypeV1.VOICE_NOTIFICATIONS_GET.getMessageType(),
                 new byte[]{
-                        PayloadType.VOICE_NOTIFICATIONS_GET.getCode(),
+                        PayloadTypeV1.VOICE_NOTIFICATIONS_GET.getCode(),
                         (byte) 0x01,
                         (byte) 0x01
                 }
@@ -407,9 +406,9 @@ public class SonyProtocolImplV1 extends AbstractSonyProtocolImpl {
     @Override
     public Request setVoiceNotifications(final VoiceNotifications config) {
         return new Request(
-                PayloadType.VOICE_NOTIFICATIONS_SET.getMessageType(),
+                PayloadTypeV1.VOICE_NOTIFICATIONS_SET.getMessageType(),
                 new byte[]{
-                        PayloadType.VOICE_NOTIFICATIONS_SET.getCode(),
+                        PayloadTypeV1.VOICE_NOTIFICATIONS_SET.getCode(),
                         (byte) 0x01,
                         (byte) 0x01,
                         (byte) (config.isEnabled() ? 0x01 : 0x00)
@@ -420,9 +419,9 @@ public class SonyProtocolImplV1 extends AbstractSonyProtocolImpl {
     @Override
     public Request startNoiseCancellingOptimizer(final boolean start) {
         return new Request(
-                PayloadType.NOISE_CANCELLING_OPTIMIZER_START.getMessageType(),
+                PayloadTypeV1.NOISE_CANCELLING_OPTIMIZER_START.getMessageType(),
                 new byte[]{
-                        PayloadType.NOISE_CANCELLING_OPTIMIZER_START.getCode(),
+                        PayloadTypeV1.NOISE_CANCELLING_OPTIMIZER_START.getCode(),
                         (byte) 0x01,
                         (byte) 0x00,
                         (byte) (start ? 0x01 : 0x00)
@@ -433,9 +432,9 @@ public class SonyProtocolImplV1 extends AbstractSonyProtocolImpl {
     @Override
     public Request powerOff() {
         return new Request(
-                PayloadType.POWER_OFF.getMessageType(),
+                PayloadTypeV1.POWER_OFF.getMessageType(),
                 new byte[]{
-                        PayloadType.POWER_OFF.getCode(),
+                        PayloadTypeV1.POWER_OFF.getCode(),
                         (byte) 0x00,
                         (byte) 0x01
                 }
@@ -444,7 +443,7 @@ public class SonyProtocolImplV1 extends AbstractSonyProtocolImpl {
 
     @Override
     public List<? extends GBDeviceEvent> handlePayload(final MessageType messageType, final byte[] payload) {
-        final PayloadType payloadType = PayloadType.fromCode(messageType, payload[0]);
+        final PayloadTypeV1 payloadType = PayloadTypeV1.fromCode(messageType, payload[0]);
 
         switch (payloadType) {
             case INIT_REPLY:
@@ -493,12 +492,7 @@ public class SonyProtocolImplV1 extends AbstractSonyProtocolImpl {
     }
 
     public List<? extends GBDeviceEvent> handleInitResponse(final byte[] payload) {
-        if (payload.length != 4) {
-            LOG.warn("Unexpected payload length {}", payload.length);
-            return Collections.emptyList();
-        }
-
-        final SonyHeadphonesCoordinator coordinator = (SonyHeadphonesCoordinator) DeviceHelper.getInstance().getCoordinator(getDevice());
+        final SonyHeadphonesCoordinator coordinator = getCoordinator();
 
         // Populate the init requests
         final List<Request> capabilityRequests = new ArrayList<>();
@@ -529,6 +523,9 @@ public class SonyProtocolImplV1 extends AbstractSonyProtocolImpl {
                 capabilityRequests.add(capabilityEntry.getValue());
             }
         }
+
+        // Remove any requests that are not supported by other protocol version
+        capabilityRequests.removeAll(Collections.singleton(null));
 
         return Collections.singletonList(new SonyHeadphonesEnqueueRequestEvent(capabilityRequests));
     }
@@ -570,17 +567,10 @@ public class SonyProtocolImplV1 extends AbstractSonyProtocolImpl {
             return Collections.emptyList();
         }
 
-        boolean focusOnVoice;
-        switch (payload[6]) {
-            case 0x00:
-                focusOnVoice = false;
-                break;
-            case 0x01:
-                focusOnVoice = true;
-                break;
-            default:
-                LOG.warn("Unknown focus on voice mode {}", String.format("%02x", payload[6]));
-                return Collections.emptyList();
+        final Boolean focusOnVoice = booleanFromByte(payload[6]);
+        if (focusOnVoice == null) {
+            LOG.warn("Unknown focus on voice mode {}", String.format("%02x", payload[6]));
+            return Collections.emptyList();
         }
 
         int ambientSound = payload[7];
@@ -606,7 +596,6 @@ public class SonyProtocolImplV1 extends AbstractSonyProtocolImpl {
         }
 
         final NoiseCancellingOptimizerStatus status = NoiseCancellingOptimizerStatus.fromCode(payload[3]);
-
         if (status == null) {
             LOG.warn("Unable to determine noise cancelling opptimizer status from {}", GB.hexdump(payload));
             return Collections.emptyList();
@@ -649,18 +638,10 @@ public class SonyProtocolImplV1 extends AbstractSonyProtocolImpl {
             return Collections.emptyList();
         }
 
-        boolean enabled;
-
-        switch (payload[3]) {
-            case 0x00:
-                enabled = false;
-                break;
-            case 0x01:
-                enabled = true;
-                break;
-            default:
-                LOG.warn("Unknown audio upsampling code {}", String.format("%02x", payload[3]));
-                return Collections.emptyList();
+        final Boolean enabled = booleanFromByte(payload[3]);
+        if (enabled == null) {
+            LOG.warn("Unknown audio upsampling code {}", String.format("%02x", payload[3]));
+            return Collections.emptyList();
         }
 
         LOG.debug("Audio Upsampling: {}", enabled);
@@ -683,15 +664,7 @@ public class SonyProtocolImplV1 extends AbstractSonyProtocolImpl {
             return Collections.emptyList();
         }
 
-        AutomaticPowerOff mode = null;
-
-        for (AutomaticPowerOff value : AutomaticPowerOff.values()) {
-            if (value.getCode()[0] == payload[3] && value.getCode()[1] == payload[4]) {
-                mode = value;
-                break;
-            }
-        }
-
+        final AutomaticPowerOff mode = AutomaticPowerOff.fromCode(payload[3], payload[4]);
         if (mode == null) {
             LOG.warn("Unknown automatic power off codes {}", String.format("%02x %02x", payload[3], payload[4]));
             return Collections.emptyList();
@@ -711,22 +684,8 @@ public class SonyProtocolImplV1 extends AbstractSonyProtocolImpl {
             return Collections.emptyList();
         }
 
-        ButtonModes.Mode modeLeft = null;
-        for (ButtonModes.Mode value : ButtonModes.Mode.values()) {
-            if (value.getCode() == payload[3]) {
-                modeLeft = value;
-                break;
-            }
-        }
-
-        ButtonModes.Mode modeRight = null;
-        for (ButtonModes.Mode value : ButtonModes.Mode.values()) {
-            if (value.getCode() == payload[4]) {
-                modeRight = value;
-                break;
-            }
-        }
-
+        final ButtonModes.Mode modeLeft = ButtonModes.Mode.fromCode(payload[3]);
+        final ButtonModes.Mode modeRight = ButtonModes.Mode.fromCode(payload[4]);
         if (modeLeft == null || modeRight == null) {
             LOG.warn("Unknown button mode codes {}", String.format("%02x %02x", payload[3], payload[4]));
             return Collections.emptyList();
@@ -746,21 +705,13 @@ public class SonyProtocolImplV1 extends AbstractSonyProtocolImpl {
             return Collections.emptyList();
         }
 
-        boolean enabled;
-
-        switch (payload[3]) {
-            case 0x00:
-                enabled = false;
-                break;
-            case 0x01:
-                enabled = true;
-                break;
-            default:
-                LOG.warn("Unknown pause when taken off code {}", String.format("%02x", payload[3]));
-                return Collections.emptyList();
+        final Boolean enabled = booleanFromByte(payload[3]);
+        if (enabled == null) {
+            LOG.warn("Unknown pause when taken off code {}", String.format("%02x", payload[3]));
+            return Collections.emptyList();
         }
 
-        LOG.debug("Touch Sensor: {}", enabled);
+        LOG.debug("Pause when taken off: {}", enabled);
 
         final GBDeviceEventUpdatePreferences event = new GBDeviceEventUpdatePreferences()
                 .withPreferences(new PauseWhenTakenOff(enabled).toPreferences());
@@ -769,7 +720,7 @@ public class SonyProtocolImplV1 extends AbstractSonyProtocolImpl {
     }
 
     public List<? extends GBDeviceEvent> handleBattery(final byte[] payload) {
-        final BatteryType batteryType = BatteryType.fromCode(payload[1]);
+        final BatteryType batteryType = decodeBatteryType(payload[1]);
 
         if (batteryType == null) {
             LOG.warn("Unknown battery type code {}", String.format("%02x", payload[1]));
@@ -822,8 +773,12 @@ public class SonyProtocolImplV1 extends AbstractSonyProtocolImpl {
             return Collections.emptyList();
         }
 
-        final AudioCodec audioCodec = AudioCodec.fromCode(payload[2]);
+        if (payload[1] != 0x00) {
+            LOG.warn("Not audio codec, ignoring");
+            return Collections.emptyList();
+        }
 
+        final AudioCodec audioCodec = AudioCodec.fromCode(payload[2]);
         if (audioCodec == null) {
             LOG.warn("Unable to determine audio codec from {}", GB.hexdump(payload));
             return Collections.emptyList();
@@ -843,14 +798,7 @@ public class SonyProtocolImplV1 extends AbstractSonyProtocolImpl {
             return Collections.emptyList();
         }
 
-        EqualizerPreset mode = null;
-        for (EqualizerPreset value : EqualizerPreset.values()) {
-            if (value.getCode() == payload[2]) {
-                mode = value;
-                break;
-            }
-        }
-
+        final EqualizerPreset mode = EqualizerPreset.fromCode(payload[2]);
         if (mode == null) {
             LOG.warn("Unknown equalizer preset code {}", String.format("%02x", payload[2]));
             return Collections.emptyList();
@@ -879,12 +827,23 @@ public class SonyProtocolImplV1 extends AbstractSonyProtocolImpl {
     public List<? extends GBDeviceEvent> handleFirmwareVersion(final byte[] payload) {
         final Pattern VERSION_REGEX = Pattern.compile("^[0-9.\\-a-zA-Z_]+$");
 
+        if (payload[1] != 0x02) {
+            LOG.warn("Not firmware version, ignoring");
+            return Collections.emptyList();
+        }
+
         if (payload.length < 4) {
             LOG.warn("Unexpected payload length {}", payload.length);
             return Collections.emptyList();
         }
 
         final String firmwareVersion = new String(Arrays.copyOfRange(payload, 3, payload.length));
+
+        final int expectedLength = payload[2] & 0xff;
+        if (firmwareVersion.length() != expectedLength) {
+            LOG.warn("Unexpected firmware version length {}, expected {}", firmwareVersion.length(), expectedLength);
+            return Collections.emptyList();
+        }
 
         if (!VERSION_REGEX.matcher(firmwareVersion).find()) {
             LOG.warn("Unexpected characters in version '{}'", firmwareVersion);
@@ -1060,9 +1019,47 @@ public class SonyProtocolImplV1 extends AbstractSonyProtocolImpl {
         return Collections.singletonList(event);
     }
 
-    private boolean supportsWindNoiseCancelling() {
-        final SonyHeadphonesCoordinator coordinator = (SonyHeadphonesCoordinator) DeviceHelper.getInstance().getCoordinator(getDevice());
+    protected Boolean booleanFromByte(final byte b) {
+        switch (b) {
+            case 0x00:
+                return false;
+            case 0x01:
+                return true;
+            default:
+        }
+
+        return null;
+    }
+
+    protected boolean supportsWindNoiseCancelling() {
+        final SonyHeadphonesCoordinator coordinator = getCoordinator();
 
         return coordinator.supports(SonyHeadphonesCapabilities.WindNoiseReduction);
+    }
+
+    protected BatteryType decodeBatteryType(final byte b) {
+        switch (b) {
+            case 0x00:
+                return BatteryType.SINGLE;
+            case 0x01:
+                return BatteryType.DUAL;
+            case 0x02:
+                return BatteryType.CASE;
+        }
+
+        return null;
+    }
+
+    protected byte encodeBatteryType(final BatteryType batteryType) {
+        switch (batteryType) {
+            case SINGLE:
+                return 0x00;
+            case DUAL:
+                return 0x01;
+            case CASE:
+                return 0x02;
+        }
+
+        throw new IllegalArgumentException("Unknown battery type " + batteryType);
     }
 }

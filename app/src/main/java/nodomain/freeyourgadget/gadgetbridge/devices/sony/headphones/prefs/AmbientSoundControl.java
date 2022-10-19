@@ -36,7 +36,7 @@ public class AmbientSoundControl {
     private final boolean focusOnVoice;
     private final int ambientSound;
 
-    public AmbientSoundControl(Mode mode, boolean focusOnVoice, int ambientSound) {
+    public AmbientSoundControl(final Mode mode, final boolean focusOnVoice, final int ambientSound) {
         if (ambientSound < 0 || ambientSound > 20) {
             throw new IllegalArgumentException(String.format("Level must be between 0 and 20 (was %d)", ambientSound));
         }

@@ -54,6 +54,16 @@ public enum EqualizerPreset {
         }};
     }
 
+    public static EqualizerPreset fromCode(final byte code) {
+        for (EqualizerPreset value : EqualizerPreset.values()) {
+            if (value.getCode() == code) {
+                return value;
+            }
+        }
+
+        return null;
+    }
+
     public static EqualizerPreset fromPreferences(final SharedPreferences prefs) {
         return EqualizerPreset.valueOf(prefs.getString(DeviceSettingsPreferenceConst.PREF_SONY_EQUALIZER_MODE, "off").toUpperCase());
     }
