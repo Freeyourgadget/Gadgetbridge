@@ -48,6 +48,6 @@ public enum SurroundMode {
     }
 
     public static SurroundMode fromPreferences(final SharedPreferences prefs) {
-        return SurroundMode.valueOf(prefs.getString(DeviceSettingsPreferenceConst.PREF_SONY_SOUND_POSITION, "off").toUpperCase());
+        return SurroundMode.valueOf(prefs.getString(DeviceSettingsPreferenceConst.PREF_SONY_SURROUND_MODE, "off").toUpperCase());
     }
 }
