@@ -1672,4 +1672,30 @@
     <string name="activity_type_indoor_fitness">Innendørs-fitness</string>
     <string name="menuitem_countdown">Nedtelling</string>
     <string name="open_fw_installer_select_file">Velg en fil du ønsker å laste opp til enheten: %s</string>
+    <string name="prefs_hourly_chime_summary">Klokken bil pipe én gang i timen</string>
+    <string name="step_streaks_achievements_sharing_title">Stegmål</string>
+    <string name="step_streaks_achievements_sharing_message">Mine daglige stegmål</string>
+    <string name="steps_streaks_total_steps_hint">Totalt antall steg i hele serien</string>
+    <string name="steps_streaks_total_steps_hint_totals">Totalt antall skritt siden begynnelsen</string>
+    <string name="steps_streaks_achievement_rate">Mål
+\ntakt</string>
+    <string name="steps_streaks_hint">Serier av sammenhengende dager uten forstyrrelse i stegmålsoppnåelse</string>
+    <string name="step_streak_average_steps_hint">Gjen. steg per dag i serien</string>
+    <string name="steps_streaks_average_steps">Gjen.
+\nsteg</string>
+    <string name="pref_header_heartrate_allday">Heldagsovervåkning</string>
+    <string name="pref_header_heartrate_sleep">Søvn</string>
+    <string name="prefs_voice_detect">Stemmeoppdagelse</string>
+    <string name="steps_streaks_total_steps">Totalt antall
+\nsteg</string>
+    <string name="steps_streaks_total_days_hint_totals">Prosent av dager med oppnådde mål sammenlignet med alle dager med skritt</string>
+    <string name="steps_streaks">Stegserier</string>
+    <string name="steps_streaks_streak_days">Serie
+\nDager</string>
+    <string name="activity_prefs_summary_allow_bluetooth_intent_api">Tillater kontrollering av Blåtannstilkobling via intensjons-API</string>
+    <string name="activity_prefs_allow_bluetooth_intent_api">Intensjons-API for Blåtann</string>
+    <string name="prefs_hourly_chime">Timevist lydvarsel</string>
+    <string name="steps_streaks_total_steps_average_hint">Gjen. %d steg per dag.</string>
+    <string name="step_streak_days_hint">Antall sammenhengende dager med stegmålsoppnåelse</string>
+    <string name="pref_header_stress">Stress</string>
 </resources>
