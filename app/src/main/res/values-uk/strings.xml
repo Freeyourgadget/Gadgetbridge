@@ -1964,4 +1964,5 @@
     <string name="pref_chart_sleep_lines_limit">Скільки рядків сеансу сну показувати перед гортанням</string>
     <string name="elevationGain">Збільшення висоти</string>
     <string name="elevationLoss">Зниження висоти</string>
+    <string name="devicetype_sony_wh_1000xm2">Sony WF-1000XM2</string>
 </resources>
