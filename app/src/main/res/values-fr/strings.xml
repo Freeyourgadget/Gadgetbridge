@@ -1961,4 +1961,5 @@ Temps de sommeil préféré en heures</string>
     <string name="aerobicTrainingEffect">Effet aérobique</string>
     <string name="TrainingEffect">Effet de l\'entrainement</string>
     <string name="devicetype_sony_wh_1000xm2">Sony WF-1000XM2</string>
+    <string name="devicetype_sony_wf_1000xm4">Sony WF-1000XM4</string>
 </resources>
