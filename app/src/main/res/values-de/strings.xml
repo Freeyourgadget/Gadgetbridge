@@ -1963,4 +1963,6 @@
     <string name="pref_chart_sleep_lines_limit">Anzahl der Schlafeinheiten bis geblättert werden muss</string>
     <string name="elevationLoss">Höhenverlust</string>
     <string name="elevationGain">Höhengewinn</string>
+    <string name="devicetype_sony_wh_1000xm2">Sony WH-1000XM2</string>
+    <string name="devicetype_sony_wf_1000xm4">Sony WF-1000XM4</string>
 </resources>
