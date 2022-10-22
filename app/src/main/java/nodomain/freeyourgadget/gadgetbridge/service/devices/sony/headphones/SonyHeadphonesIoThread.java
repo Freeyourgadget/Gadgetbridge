@@ -41,6 +41,9 @@ public class SonyHeadphonesIoThread extends BtClassicIoThread {
 
     private final SonyHeadphonesProtocol mProtocol;
 
+    private final UUID btrfcommUuidV1 = UUID.fromString("96CC203E-5068-46ad-B32D-E316F5E069BA");
+    private final UUID btrfcommUuidV2 = UUID.fromString("956C7B26-D49A-4BA8-B03F-B17D393CB6E2");
+
     // Track whether we got the first init reply
     private final Handler handler = new Handler();
     private int initRetries = 0;
@@ -67,7 +70,11 @@ public class SonyHeadphonesIoThread extends BtClassicIoThread {
         }
     };
 
-    public SonyHeadphonesIoThread(GBDevice gbDevice, Context context, SonyHeadphonesProtocol protocol, SonyHeadphonesSupport support, BluetoothAdapter btAdapter) {
+    public SonyHeadphonesIoThread(final GBDevice gbDevice,
+                                  final Context context,
+                                  final SonyHeadphonesProtocol protocol,
+                                  final SonyHeadphonesSupport support,
+                                  final BluetoothAdapter btAdapter) {
         super(gbDevice, context, protocol, support, btAdapter);
         mProtocol = protocol;
     }
@@ -80,7 +87,7 @@ public class SonyHeadphonesIoThread extends BtClassicIoThread {
     }
 
     @Override
-    public synchronized void write(byte[] bytes) {
+    public synchronized void write(final byte[] bytes) {
         // Log the human-readable message, for debugging
         LOG.info("Writing {}", Message.fromBytes(bytes));
 
@@ -88,7 +95,7 @@ public class SonyHeadphonesIoThread extends BtClassicIoThread {
     }
 
     @Override
-    protected byte[] parseIncoming(InputStream inputStream) throws IOException {
+    protected byte[] parseIncoming(final InputStream inputStream) throws IOException {
         final ByteArrayOutputStream msgStream = new ByteArrayOutputStream();
         final byte[] incoming = new byte[1];
 
@@ -109,8 +116,22 @@ public class SonyHeadphonesIoThread extends BtClassicIoThread {
 
     @NonNull
     @Override
-    protected UUID getUuidToConnect(@NonNull ParcelUuid[] uuids) {
-        return UUID.fromString("96CC203E-5068-46ad-B32D-E316F5E069BA");
+    protected UUID getUuidToConnect(@NonNull final ParcelUuid[] uuids) {
+        boolean hasV2 = false;
+        for (final ParcelUuid uuid : uuids) {
+            if (uuid.getUuid().equals(btrfcommUuidV1)) {
+                // Prioritize V1
+                return btrfcommUuidV1;
+            } else if (uuid.getUuid().equals(btrfcommUuidV2)) {
+                hasV2 = true;
+            }
+        }
+
+        if (hasV2) {
+            return btrfcommUuidV2;
+        }
+
+        return super.getUuidToConnect(uuids);
     }
 
     private void scheduleInitRetry() {

@@ -31,7 +31,8 @@ public enum SonyHeadphonesCapabilities {
     AutomaticPowerOffWhenTakenOff,
     AutomaticPowerOffByTime,
     TouchSensorSingle,
-    Equalizer,
+    EqualizerSimple,
+    EqualizerWithCustomBands,
     SoundPosition,
     SurroundMode,
     PauseWhenTakenOff

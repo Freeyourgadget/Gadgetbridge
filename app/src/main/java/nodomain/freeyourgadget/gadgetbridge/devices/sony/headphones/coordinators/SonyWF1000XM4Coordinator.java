@@ -1,4 +1,4 @@
-/*  Copyright (C) 2021 José Rebelo
+/*  Copyright (C) 2022 José Rebelo
 
     This file is part of Gadgetbridge.
 
@@ -21,17 +21,20 @@ import androidx.annotation.NonNull;
 import java.util.Arrays;
 import java.util.List;
 
+import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.devices.sony.headphones.SonyHeadphonesCapabilities;
 import nodomain.freeyourgadget.gadgetbridge.devices.sony.headphones.SonyHeadphonesCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceCandidate;
+import nodomain.freeyourgadget.gadgetbridge.model.BatteryConfig;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
 
-public class SonyWH1000XM3Coordinator extends SonyHeadphonesCoordinator {
+public class SonyWF1000XM4Coordinator extends SonyHeadphonesCoordinator {
+
     @NonNull
     @Override
-    public DeviceType getSupportedType(final GBDeviceCandidate candidate) {
-        if (candidate.getName().contains("WH-1000XM3")) {
-            return DeviceType.SONY_WH_1000XM3;
+    public DeviceType getSupportedType(GBDeviceCandidate candidate) {
+        if (candidate.getName().contains("WF-1000XM4")) {
+            return DeviceType.SONY_WF_1000XM4;
         }
 
         return DeviceType.UNKNOWN;
@@ -39,24 +42,30 @@ public class SonyWH1000XM3Coordinator extends SonyHeadphonesCoordinator {
 
     @Override
     public DeviceType getDeviceType() {
-        return DeviceType.SONY_WH_1000XM3;
+        return DeviceType.SONY_WF_1000XM4;
+    }
+
+    @Override
+    public BatteryConfig[] getBatteryConfig() {
+        final BatteryConfig battery1 = new BatteryConfig(0, R.drawable.ic_tws_case, R.string.battery_case);
+        final BatteryConfig battery2 = new BatteryConfig(1, R.drawable.ic_galaxy_buds_l, R.string.left_earbud);
+        final BatteryConfig battery3 = new BatteryConfig(2, R.drawable.ic_galaxy_buds_r, R.string.right_earbud);
+
+        return new BatteryConfig[]{battery1, battery2, battery3};
     }
 
     @Override
     public List<SonyHeadphonesCapabilities> getCapabilities() {
         return Arrays.asList(
-                SonyHeadphonesCapabilities.BatterySingle,
+                SonyHeadphonesCapabilities.BatteryDual,
+                SonyHeadphonesCapabilities.BatteryCase,
                 SonyHeadphonesCapabilities.AmbientSoundControl,
                 SonyHeadphonesCapabilities.WindNoiseReduction,
-                SonyHeadphonesCapabilities.AncOptimizer,
-                SonyHeadphonesCapabilities.AudioSettingsOnlyOnSbcCodec,
-                SonyHeadphonesCapabilities.EqualizerWithCustomBands,
-                SonyHeadphonesCapabilities.SoundPosition,
-                SonyHeadphonesCapabilities.SurroundMode,
+                SonyHeadphonesCapabilities.EqualizerSimple,
                 SonyHeadphonesCapabilities.AudioUpsampling,
-                SonyHeadphonesCapabilities.TouchSensorSingle,
-                SonyHeadphonesCapabilities.AutomaticPowerOffByTime,
-                SonyHeadphonesCapabilities.VoiceNotifications
+                SonyHeadphonesCapabilities.ButtonModesLeftRight,
+                SonyHeadphonesCapabilities.PauseWhenTakenOff,
+                SonyHeadphonesCapabilities.AutomaticPowerOffWhenTakenOff
         );
     }
 }

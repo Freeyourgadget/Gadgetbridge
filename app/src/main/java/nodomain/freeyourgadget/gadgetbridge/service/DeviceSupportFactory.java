@@ -327,6 +327,8 @@ public class DeviceSupportFactory {
                 return new ServiceDeviceSupport(new SonyHeadphonesSupport());
             case SONY_WH_1000XM2:
                 return new ServiceDeviceSupport(new SonyHeadphonesSupport());
+            case SONY_WF_1000XM4:
+                return new ServiceDeviceSupport(new SonyHeadphonesSupport());
             case VESC_NRF:
             case VESC_HM10:
                 return new ServiceDeviceSupport(new VescDeviceSupport(device.getType()));

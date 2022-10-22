@@ -19,6 +19,7 @@ package nodomain.freeyourgadget.gadgetbridge.service.devices.sony.headphones.pro
 import java.util.List;
 
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEvent;
+import nodomain.freeyourgadget.gadgetbridge.devices.sony.headphones.SonyHeadphonesCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.sony.headphones.prefs.AmbientSoundControl;
 import nodomain.freeyourgadget.gadgetbridge.devices.sony.headphones.prefs.AudioUpsampling;
 import nodomain.freeyourgadget.gadgetbridge.devices.sony.headphones.prefs.AutomaticPowerOff;
@@ -34,6 +35,7 @@ import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.sony.headphones.protocol.Request;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.sony.headphones.protocol.MessageType;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.sony.headphones.protocol.impl.v1.params.BatteryType;
+import nodomain.freeyourgadget.gadgetbridge.util.DeviceHelper;
 
 public abstract class AbstractSonyProtocolImpl {
     private final GBDevice device;
@@ -44,6 +46,10 @@ public abstract class AbstractSonyProtocolImpl {
 
     protected GBDevice getDevice() {
         return this.device;
+    }
+
+    protected SonyHeadphonesCoordinator getCoordinator() {
+        return (SonyHeadphonesCoordinator) DeviceHelper.getInstance().getCoordinator(getDevice());
     }
 
     public abstract Request getAmbientSoundControl();

@@ -50,7 +50,7 @@ public class SonyWH1000XM2Coordinator extends SonyHeadphonesCoordinator {
                 SonyHeadphonesCapabilities.WindNoiseReduction,
                 SonyHeadphonesCapabilities.AncOptimizer,
                 SonyHeadphonesCapabilities.AudioSettingsOnlyOnSbcCodec,
-                SonyHeadphonesCapabilities.Equalizer,
+                SonyHeadphonesCapabilities.EqualizerWithCustomBands,
                 SonyHeadphonesCapabilities.SoundPosition,
                 SonyHeadphonesCapabilities.SurroundMode,
                 SonyHeadphonesCapabilities.AudioUpsampling

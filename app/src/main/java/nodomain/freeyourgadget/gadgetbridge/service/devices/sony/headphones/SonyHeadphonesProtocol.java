@@ -48,6 +48,7 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.sony.headphones.prot
 import nodomain.freeyourgadget.gadgetbridge.service.devices.sony.headphones.protocol.MessageType;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.sony.headphones.protocol.impl.AbstractSonyProtocolImpl;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.sony.headphones.protocol.impl.v1.SonyProtocolImplV1;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.sony.headphones.protocol.impl.v2.SonyProtocolImplV2;
 import nodomain.freeyourgadget.gadgetbridge.service.serial.GBDeviceProtocol;
 
 public class SonyHeadphonesProtocol extends GBDeviceProtocol {
@@ -101,9 +102,8 @@ public class SonyHeadphonesProtocol extends GBDeviceProtocol {
                 // Init reply, set the protocol version
                 if (message.getPayload().length == 4) {
                     protocolImpl = new SonyProtocolImplV1(getDevice());
-                } else if (message.getPayload().length == 6) {
-                    LOG.warn("Sony Headphones protocol v2 is not yet supported");
-                    return null;
+                } else if (message.getPayload().length == 8) {
+                    protocolImpl = new SonyProtocolImplV2(getDevice());
                 } else {
                     LOG.error("Unexpected init response payload length: {}", message.getPayload().length);
                     return null;

@@ -512,7 +512,8 @@ public class SonyProtocolImplV1 extends AbstractSonyProtocolImpl {
             put(SonyHeadphonesCapabilities.AutomaticPowerOffWhenTakenOff, getAutomaticPowerOff());
             put(SonyHeadphonesCapabilities.AutomaticPowerOffByTime, getAutomaticPowerOff());
             put(SonyHeadphonesCapabilities.TouchSensorSingle, getTouchSensor());
-            put(SonyHeadphonesCapabilities.Equalizer, getEqualizer());
+            put(SonyHeadphonesCapabilities.EqualizerSimple, getEqualizer());
+            put(SonyHeadphonesCapabilities.EqualizerWithCustomBands, getEqualizer());
             put(SonyHeadphonesCapabilities.SoundPosition, getSoundPosition());
             put(SonyHeadphonesCapabilities.SurroundMode, getSurroundMode());
             put(SonyHeadphonesCapabilities.PauseWhenTakenOff, getPauseWhenTakenOff());

@@ -17,27 +17,7 @@
 package nodomain.freeyourgadget.gadgetbridge.service.devices.sony.headphones.protocol.impl.v1.params;
 
 public enum BatteryType {
-    SINGLE(0x00),
-    DUAL(0x01),
-    CASE(0x02);
-
-    private final byte code;
-
-    BatteryType(final int code) {
-        this.code = (byte) code;
-    }
-
-    public byte getCode() {
-        return this.code;
-    }
-
-    public static BatteryType fromCode(final byte code) {
-        for (final BatteryType batteryType : values()) {
-            if (batteryType.code == code) {
-                return batteryType;
-            }
-        }
-
-        return null;
-    }
+    SINGLE,
+    DUAL,
+    CASE,
 }
