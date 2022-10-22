@@ -58,6 +58,9 @@ public class ActivityUser {
     public static final int defaultUserDistanceGoalMeters = 5000;
     public static final int defaultUserActiveTimeGoalMinutes = 60;
     public static final int defaultUserStepLengthCm = 0;
+    public static final int defaultUserGoalWeightKg = 70;
+    public static final int defaultUserGoalStandingTimeHours = 12;
+    public static final int defaultUserFatBurnTimeMinutes = 30;
 
     public static final String PREF_USER_NAME = "mi_user_alias";
     public static final String PREF_USER_YEAR_OF_BIRTH = "activity_user_year_of_birth";
@@ -70,6 +73,9 @@ public class ActivityUser {
     public static final String PREF_USER_DISTANCE_METERS = "activity_user_distance_meters";
     public static final String PREF_USER_ACTIVETIME_MINUTES = "activity_user_activetime_minutes";
     public static final String PREF_USER_STEP_LENGTH_CM = "activity_user_step_length_cm";
+    public static final String PREF_USER_GOAL_WEIGHT_KG = "activity_user_goal_weight_kg";
+    public static final String PREF_USER_GOAL_STANDING_TIME_HOURS = "activity_user_goal_standing_time_minutes";
+    public static final String PREF_USER_GOAL_FAT_BURN_TIME_MINUTES = "activity_user_goal_fat_burn_time_minutes";
 
     public ActivityUser() {
         fetchPreferences();

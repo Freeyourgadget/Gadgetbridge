@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- Note: these are not translated! They are used as preference keys -->
+    <item name="p_default" type="string">default</item>
     <item name="p_staccato" type="string">staccato</item>
     <item name="p_short" type="string">short</item>
     <item name="p_medium" type="string">medium</item>

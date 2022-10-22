@@ -19,57 +19,91 @@ package nodomain.freeyourgadget.gadgetbridge.service.devices.huami;
 import java.util.HashMap;
 import java.util.Map;
 
-import nodomain.freeyourgadget.gadgetbridge.R;
-
 public class Huami2021MenuType {
     /**
      * These somewhat match the ones in {@link HuamiMenuType}, but not all. The band sends and
      * receives those as 8-digit upper case hex strings.
      */
-    public static final Map<String, Integer> displayItemNameLookup = new HashMap<String, Integer>() {{
-        put("00000001", R.string.menuitem_personal_activity_intelligence);
-        put("00000002", R.string.menuitem_hr);
-        put("00000003", R.string.menuitem_workout);
-        put("00000004", R.string.menuitem_weather);
-        put("00000009", R.string.menuitem_alarm);
-        put("0000001A", R.string.menuitem_worldclock);
-        put("0000000B", R.string.menuitem_music);
-        put("0000000C", R.string.menuitem_stopwatch);
-        put("0000000D", R.string.menuitem_countdown);
-        put("0000000E", R.string.menuitem_findphone);
-        put("0000000F", R.string.menuitem_mutephone);
-        put("00000013", R.string.menuitem_settings);
-        put("00000014", R.string.menuitem_workout_history);
-        put("00000015", R.string.menuitem_eventreminder);
-        put("00000019", R.string.menuitem_pai);
-        put("0000000A", R.string.menuitem_takephoto);
-        put("0000001C", R.string.menuitem_stress);
-        put("0000001D", R.string.menuitem_female_health);
-        put("0000001E", R.string.menuitem_workout_status);
-        put("00000023", R.string.menuitem_sleep);
-        put("00000024", R.string.menuitem_spo2);
-        put("00000026", R.string.menuitem_events);
-        put("00000033", R.string.menuitem_breathing);
-        put("00000038", R.string.menuitem_pomodoro);
-        put("00000102", R.string.menuitem_flashlight);
+    public static final Map<String, String> displayItemNameLookup = new HashMap<String, String>() {{
+        put("00000001", "personal_activity_intelligence");
+        put("00000002", "hr");
+        put("00000003", "workout");
+        put("00000004", "weather");
+        put("00000009", "alarm");
+        put("0000000A", "takephoto");
+        put("0000000B", "music");
+        put("0000000C", "stopwatch");
+        put("0000000D", "countdown");
+        put("0000000E", "findphone");
+        put("0000000F", "mutephone");
+        put("00000013", "settings");
+        put("00000014", "workout_history");
+        put("00000015", "eventreminder");
+        put("00000016", "compass");
+        put("00000019", "pai");
+        put("0000001A", "worldclock");
+        put("0000001C", "stress");
+        put("0000001D", "female_health");
+        put("0000001E", "workout_status");
+        put("00000020", "calendar");
+        put("00000023", "sleep");
+        put("00000024", "spo2");
+        put("00000025", "phone");
+        put("00000026", "events");
+        put("00000033", "breathing");
+        put("00000038", "pomodoro");
+        put("0000003E", "todo");
+        put("00000041", "barometer");
+        put("00000042", "voice_memos");
+        put("00000044", "sun_moon");
+        put("00000045", "one_tap_measuring");
+        put("00000047", "membership_cards");
+        put("00000100", "alexa");
+        put("00000101", "offline_voice");
+        put("00000102", "flashlight");
     }};
 
-    public static final Map<String, Integer> shortcutsNameLookup = new HashMap<String, Integer>() {{
-        put("00000001", R.string.menuitem_hr);
-        put("0000000A", R.string.menuitem_workout);
-        put("0000000C", R.string.menuitem_workout_status);
-        put("00000002", R.string.menuitem_weather);
-        put("0000001A", R.string.menuitem_worldclock);
-        put("00000016", R.string.menuitem_alarm);
-        put("00000004", R.string.menuitem_music);
-        put("00000020", R.string.menuitem_activity);
-        put("00000021", R.string.menuitem_eventreminder);
-        put("00000011", R.string.menuitem_female_health);
-        put("00000003", R.string.menuitem_pai);
-        put("0000000F", R.string.menuitem_stress);
-        put("00000005", R.string.menuitem_sleep);
-        put("00000013", R.string.menuitem_spo2);
-        put("00000018", R.string.menuitem_events);
-        put("00000012", R.string.menuitem_breathing);
+    public static final Map<String, String> shortcutsNameLookup = new HashMap<String, String>() {{
+        put("00000001", "hr");
+        put("00000002", "weather");
+        put("00000003", "pai");
+        put("00000004", "music");
+        put("00000005", "sleep");
+        put("0000000A", "workout");
+        put("0000000B", "workout_history");
+        put("0000000C", "workout_status");
+        put("0000000E", "one_tap_measuring");
+        put("0000000F", "stress");
+        put("00000011", "female_health");
+        put("00000012", "breathing");
+        put("00000013", "spo2");
+        put("00000016", "alarm");
+        put("00000017", "calendar");
+        put("00000018", "events");
+        put("00000019", "todo");
+        put("0000001A", "worldclock");
+        put("0000001B", "compass");
+        put("0000001C", "barometer");
+        put("0000001E", "voice_memos");
+        put("00000020", "activity");
+        put("00000021", "eventreminder");
+    }};
+
+    public static final Map<String, String> controlCenterNameLookup = new HashMap<String, String>() {{
+        put("00000007", "battery");
+        put("00000003", "dnd");
+        put("00000004", "sleep");
+        put("00000008", "theater_mode");
+        put("0000000D", "calendar");
+        put("00000006", "volume");
+        put("00000009", "screen_always_lit");
+        put("00000001", "brightness");
+        put("00000013", "settings");
+        put("00000000", "flashlight");
+        put("0000000A", "bluetooth");
+        put("0000000B", "wifi");
+        put("00000002", "lockscreen");
+        put("00000005", "findphone");
+        put("00000019", "eject_water");
     }};
 }

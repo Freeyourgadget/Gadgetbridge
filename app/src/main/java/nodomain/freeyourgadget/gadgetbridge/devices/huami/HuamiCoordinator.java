@@ -17,24 +17,23 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.devices.huami;
 
-import android.annotation.TargetApi;
 import android.app.Activity;
 import android.bluetooth.le.ScanFilter;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.os.Build;
 import android.os.ParcelUuid;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 import de.greenrobot.dao.query.QueryBuilder;
@@ -144,6 +143,10 @@ public abstract class HuamiCoordinator extends AbstractBLEDeviceCoordinator {
     @Override
     public ActivitySummaryParser getActivitySummaryParser(final GBDevice device) {
         return new HuamiActivitySummaryParser();
+    }
+
+    protected static Prefs getPrefs(final GBDevice device) {
+        return new Prefs(GBApplication.getDeviceSpecificSharedPrefs(device.getAddress()));
     }
 
     public static DateTimeDisplay getDateDisplay(Context context, String deviceAddress) throws IllegalArgumentException {
@@ -363,7 +366,8 @@ public abstract class HuamiCoordinator extends AbstractBLEDeviceCoordinator {
         return prefs.getBoolean("keep_activity_data_on_device", false);
     }
 
-    public static VibrationProfile getVibrationProfile(String deviceAddress, HuamiVibrationPatternNotificationType notificationType) {
+    @Nullable
+    public static VibrationProfile getVibrationProfile(String deviceAddress, HuamiVibrationPatternNotificationType notificationType, boolean nullOnDeviceDefault) {
         final String defaultVibrationProfileId;
         final int defaultVibrationCount;
 
@@ -400,6 +404,14 @@ public abstract class HuamiCoordinator extends AbstractBLEDeviceCoordinator {
                 defaultVibrationProfileId = VibrationProfile.ID_RING;
                 defaultVibrationCount = 3;
                 break;
+            case TODO_LIST:
+                defaultVibrationProfileId = VibrationProfile.ID_SHORT;
+                defaultVibrationCount = 2;
+                break;
+            case SCHEDULE:
+                defaultVibrationProfileId = VibrationProfile.ID_SHORT;
+                defaultVibrationCount = 2;
+                break;
             default:
                 defaultVibrationProfileId = VibrationProfile.ID_MEDIUM;
                 defaultVibrationCount = 2;
@@ -408,8 +420,18 @@ public abstract class HuamiCoordinator extends AbstractBLEDeviceCoordinator {
         Prefs prefs = new Prefs(GBApplication.getDeviceSpecificSharedPrefs(deviceAddress));
         final String vibrationProfileId = prefs.getString(
                 HuamiConst.PREF_HUAMI_VIBRATION_PROFILE_PREFIX + notificationType.name().toLowerCase(Locale.ROOT),
-                defaultVibrationProfileId
+                HuamiConst.PREF_HUAMI_DEFAULT_VIBRATION_PROFILE
         );
+
+        if (HuamiConst.PREF_HUAMI_DEFAULT_VIBRATION_PROFILE.equals(vibrationProfileId)) {
+            if (nullOnDeviceDefault) {
+                // Return null, so the device default is used
+                return null;
+            }
+
+            return VibrationProfile.getProfile(defaultVibrationProfileId, (short) defaultVibrationCount);
+        }
+
         final int vibrationProfileCount = prefs.getInt(HuamiConst.PREF_HUAMI_VIBRATION_COUNT_PREFIX + notificationType.name().toLowerCase(Locale.ROOT), defaultVibrationCount);
 
         return VibrationProfile.getProfile(vibrationProfileId, (short) vibrationProfileCount);
@@ -423,20 +445,8 @@ public abstract class HuamiCoordinator extends AbstractBLEDeviceCoordinator {
         } else {
             prefs = new Prefs(GBApplication.getDeviceSpecificSharedPrefs(deviceAddress));
         }
-        String time = prefs.getString(key, defaultValue);
 
-        DateFormat df = new SimpleDateFormat("HH:mm");
-        try {
-            return df.parse(time);
-        } catch (Exception e) {
-            LOG.error("Unexpected exception in MiBand2Coordinator.getTime: " + e.getMessage());
-        }
-
-        return new Date();
-    }
-
-    protected static Date getTimePreference(String key, String defaultValue) {
-        return getTimePreference(key, defaultValue, null);
+        return prefs.getTimePreference(key, defaultValue);
     }
 
     public static MiBandConst.DistanceUnit getDistanceUnit() {
@@ -501,13 +511,26 @@ public abstract class HuamiCoordinator extends AbstractBLEDeviceCoordinator {
     }
 
     @Override
-    public int getReminderSlotCount() {
+    public int getReminderSlotCount(final GBDevice device) {
         return 22; // At least, Mi Fit still allows more
+    }
+
+    public List<HuamiVibrationPatternNotificationType> getVibrationPatternNotificationTypes(final GBDevice device) {
+        return Arrays.asList(
+                HuamiVibrationPatternNotificationType.APP_ALERTS,
+                HuamiVibrationPatternNotificationType.INCOMING_CALL,
+                HuamiVibrationPatternNotificationType.INCOMING_SMS,
+                HuamiVibrationPatternNotificationType.GOAL_NOTIFICATION,
+                HuamiVibrationPatternNotificationType.ALARM,
+                HuamiVibrationPatternNotificationType.IDLE_ALERTS,
+                HuamiVibrationPatternNotificationType.EVENT_REMINDER,
+                HuamiVibrationPatternNotificationType.FIND_BAND
+        );
     }
 
     @Override
     public DeviceSpecificSettingsCustomizer getDeviceSpecificSettingsCustomizer(final GBDevice device) {
-        return new HuamiSettingsCustomizer(device);
+        return new HuamiSettingsCustomizer(device, getVibrationPatternNotificationTypes(device));
     }
 
     public static boolean getHourlyChime(String deviceAddress) {

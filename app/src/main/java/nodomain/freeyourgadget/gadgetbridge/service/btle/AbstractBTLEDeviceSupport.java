@@ -356,7 +356,7 @@ public abstract class AbstractBTLEDeviceSupport extends AbstractDeviceSupport im
     }
 
     @Override
-    public void onPhoneFound() {
+    public void onFindPhone(boolean start) {
 
     }
 

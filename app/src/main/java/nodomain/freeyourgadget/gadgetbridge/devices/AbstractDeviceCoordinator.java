@@ -250,7 +250,7 @@ public abstract class AbstractDeviceCoordinator implements DeviceCoordinator {
     }
 
     @Override
-    public int getReminderSlotCount() {
+    public int getReminderSlotCount(final GBDevice device) {
         return 0;
     }
 

@@ -58,6 +58,21 @@
     <string name="controlcenter_calibrate_device">Calibrate Device</string>
     <string name="controlcenter_get_heartrate_measurement">Get heart rate measurement</string>
 
+    <string name="accuracy">Accuracy</string>
+    <string name="balanced">Balanced</string>
+    <string name="power_saving">Power Saving</string>
+    <string name="custom">Custom</string>
+    <string name="single_band">Single Band</string>
+    <string name="dual_band">Dual Band</string>
+    <string name="low_power_gps">Low Power GPS</string>
+    <string name="gps">GPS</string>
+    <string name="gps_bds">GPS + BDS</string>
+    <string name="gps_gnolass">GPS + GNOLASS</string>
+    <string name="gps_galileo">GPS + GALILEO</string>
+    <string name="all_satellites">All Satellites</string>
+    <string name="speed_first">Speed first</string>
+    <string name="accuracy_first">Accuracy First</string>
+
     <string name="device_card_activity_card_title">Activity info on device card</string>
     <string name="device_card_activity_card_title_summary">Choose what activity details are displayed on device card</string>
     <string name="prefs_activity_in_device_card_title">Show Activity info on device card</string>
@@ -134,6 +149,7 @@
     <string name="fw_upgrade_notice_miband7">You are about to install the %s firmware on your Xiaomi Smart Band 7.\n\nYour band will reboot after installing the .zip file.\n\nPROCEED AT YOUR OWN RISK!</string>
     <string name="fw_upgrade_notice_amazfit_gts3">You are about to install the %s firmware on your Amazfit GTS 3.\n\nYour band will reboot after installing the .zip file.\n\nPROCEED AT YOUR OWN RISK!</string>
     <string name="fw_upgrade_notice_amazfit_gtr3">You are about to install the %s firmware on your Amazfit GTR 3.\n\nYour band will reboot after installing the .zip file.\n\nPROCEED AT YOUR OWN RISK!</string>
+    <string name="fw_upgrade_notice_amazfit_gtr4">You are about to install the %s firmware on your Amazfit GTR 4.\n\nYour band will reboot after installing the .zip file.\n\nPROCEED AT YOUR OWN RISK!</string>
     <string name="fw_upgrade_notice_amazfitx">You are about to install the %s firmware on your Amazfit X.\n\nPlease make sure to install the .fw file, and after that the .res file. Your band will reboot after installing the .fw file.\n\nNote: You do not have to install .res if it is exactly the same as the one previously installed.\n\nPROCEED AT YOUR OWN RISK!</string>
     <string name="fw_upgrade_notice_amazfitneo">You are about to install the %s firmware on your Amazfit Neo.
 \n
@@ -165,6 +181,8 @@
     <string name="pref_header_connection">Connection</string>
     <string name="pref_header_display">Display</string>
     <string name="pref_header_health">Health</string>
+    <string name="pref_header_sound_vibration">Sound &amp; Vibration</string>
+    <string name="pref_header_offline_voice">Offline Voice</string>
     <string name="pref_header_time">Time</string>
     <string name="pref_header_workout">Workout</string>
     <string name="pref_header_equalizer">Equalizer</string>
@@ -414,10 +432,38 @@
     <string name="prefs_hr_alarm_activity">Heart rate alarm during sports activity</string>
     <string name="prefs_hr_alarm_low">Low limit</string>
     <string name="prefs_hr_alarm_high">High limit</string>
+    <string name="pref_gps_header">GPS</string>
+    <string name="pref_gps_mode_preset">GPS Mode</string>
+    <string name="pref_gps_band">GPS Band</string>
+    <string name="pref_gps_combination">GPS Combination</string>
+    <string name="pref_gps_satellite_search">Satellite Search</string>
+    <string name="pref_crown_vibration">Crown Vibration</string>
+    <string name="pref_alert_tone">Alert Tone</string>
+    <string name="pref_cover_to_mute">Cover to Mute</string>
+    <string name="pref_vibrate_for_alert">Vibrate for Alert</string>
+    <string name="pref_text_to_speech">Text to Speech</string>
+    <string name="offline_voice_respond_turn_wrist">Respond when turning the wrist</string>
+    <string name="offline_voice_respond_screen_on">Respond when screen on</string>
+    <string name="offline_voice_response_during_screen_lighting">Respond during screen lighting</string>
+    <string name="pref_agps_header">AGPS</string>
+    <string name="pref_agps_expiry_reminder_enabled">AGPS Expiry Reminder</string>
+    <string name="pref_agps_expiry_reminder_time">AGPS Expiry Reminder Time</string>
     <string name="pref_workout_start_on_phone_title">Fitness app tracking</string>
     <string name="pref_workout_start_on_phone_summary">Start/stop fitness app tracking on phone when a GPS workout is started on the band</string>
     <string name="pref_workout_send_gps_title">Send GPS during workout</string>
     <string name="pref_workout_send_gps_summary">Send the current GPS location to the band during a workout</string>
+    <string name="pref_workout_detection_title">Workout Detection</string>
+    <string name="pref_workout_detection_summary">Detect workout automatically</string>
+    <string name="pref_workout_detection_categories_title">Workout Categories</string>
+    <string name="pref_workout_detection_categories_summary">Workouts categories to detect automatically</string>
+    <string name="pref_workout_detection_alert_title">Alert</string>
+    <string name="pref_workout_detection_alert_summary">Notify when a workout is detected</string>
+    <string name="pref_workout_detection_sensitivity">Sensitivity</string>
+    <string name="pref_sleep_mode_title">Sleep Mode</string>
+    <string name="pref_sleep_mode_sleep_screen_title">Sleep Screen</string>
+    <string name="pref_sleep_mode_sleep_screen_summary">Show the Sleep Screen when waking the screen during sleep mode, to reduce distractions</string>
+    <string name="pref_sleep_mode_smart_enable_title">Smart Enable</string>
+    <string name="pref_sleep_mode_smart_enable_summary">Enable the sleep mode automatically when wearing the band during sleep</string>
     <!-- Auto export preferences -->
     <string name="pref_header_auto_export">Auto export</string>
     <string name="pref_title_auto_export_enabled">Auto export enabled</string>
@@ -486,6 +532,8 @@
     <string name="right">Right</string>
     <string name="horizontal">Horizontal</string>
     <string name="vertical">Vertical</string>
+    <string name="buttons_on_left">Buttons on left</string>
+    <string name="buttons_on_right">Buttons on right</string>
     <string name="miband_pairing_using_dummy_userdata">No valid user data given, using dummy user data for now.</string>
     <string name="miband_pairing_tap_hint">When your Mi Band vibrates and blinks, tap it a few times in a row.</string>
     <string name="appinstaller_install">Install</string>
@@ -506,7 +554,9 @@
     <string name="busy_task_fetch_activity_data">Fetching activity data</string>
     <string name="sleep_activity_date_range">From %1$s to %2$s</string>
     <string name="prefs_wearside">Wearing left or right?</string>
+    <string name="prefs_weardirection">Wearing direction</string>
     <string name="pref_screen_vibration_profile">Vibration profile</string>
+    <string name="vibration_profile_default">Default</string>
     <string name="vibration_profile_staccato">Staccato</string>
     <string name="vibration_profile_short">Short</string>
     <string name="vibration_profile_medium">Medium</string>
@@ -529,6 +579,8 @@
     <string name="pref_screen_notification_profile_inactivity">Inactivity notification</string>
     <string name="pref_screen_notification_profile_low_power">Low power warning</string>
     <string name="pref_screen_notification_profile_anti_loss">Anti-loss warning</string>
+    <string name="pref_screen_notification_profile_schedule">Schedule</string>
+    <string name="pref_screen_notification_profile_todo_list">To-Do List</string>
     <string name="prefs_title_heartrate_measurement_interval">Whole day HR measurement</string>
     <string name="pref_screen_notification_profile_event_reminder">Event reminder</string>
     <string name="pref_screen_notification_profile_find_device">Find device</string>
@@ -712,6 +764,7 @@
     <string name="seconds_14">14 seconds</string>
     <string name="seconds_15">15 seconds</string>
     <string name="seconds_20">20 seconds</string>
+    <string name="seconds_25">25 seconds</string>
     <string name="seconds_30">30 seconds</string>
     <string name="minutes_1">1 minute</string>
     <string name="minutes_5">5 minutes</string>
@@ -725,6 +778,8 @@
     <string name="pref_title_dont_ack_transfer">Do not ACK activity data transfer</string>
     <string name="pref_summary_dont_ack_transfers">If not ACKed to the band, activity data is not cleared. Useful if GB is used together with other apps.</string>
     <string name="pref_summary_keep_data_on_device">Will keep activity data on the device even after synchronization. Useful if GB is used together with other apps.</string>
+    <string name="pref_enable_unsupported_settings_title">Enable unsupported settings</string>
+    <string name="pref_enable_unsupported_settings_summary">This will enable access to all available settings, even if unsupported by the device. This can cause instability and crashes on the device.</string>
     <string name="pref_title_low_latency_fw_update">Use low-latency mode for firmware flashing</string>
     <string name="pref_summary_low_latency_fw_update">This might help on devices where firmware flashing fails.</string>
     <string name="pref_title_third_party_app_device_settings">Allow 3rd party apps to change settings</string>
@@ -790,6 +845,8 @@
     <string name="mi2_prefs_heart_rate_monitoring">Heart Rate Monitoring</string>
     <string name="mi2_prefs_heart_rate_monitoring_summary">Configure heart rate monitoring</string>
     <string name="prefs_always_on_display">Always On Display</string>
+    <string name="prefs_always_on_display_follow_watchface">Style follows Watchface</string>
+    <string name="prefs_always_on_display_style">Style</string>
     <string name="prefs_always_on_display_summary">Keep the band\'s display always on</string>
     <string name="prefs_password">Password</string>
     <string name="prefs_password_summary">Lock the band with a password when removed from the wrist</string>
@@ -806,6 +863,8 @@
     <string name="mi3_prefs_night_mode_summary">Lower band screen brightness automatically at night</string>
     <string name="bip_prefs_shortcuts">Shortcuts</string>
     <string name="bip_prefs_shotcuts_summary">Choose the shortcuts on the band screen</string>
+    <string name="prefs_control_center">Control Center</string>
+    <string name="prefs_control_center_summary">Choose the items on the control center dropdown</string>
     <string name="prefs_activate_display_on_lift_sensitivity">Sensitivity</string>
     <string name="prefs_screen_timeout">Screen Timeout</string>
     <string name="mi5_prefs_workout_activity_types">Workout Activity Types</string>
@@ -863,6 +922,7 @@
     <string name="activity_prefs_gender">Gender</string>
     <string name="activity_prefs_height_cm">Height in cm</string>
     <string name="activity_prefs_weight_kg">Weight in kg</string>
+    <string name="activity_prefs_target_weight_kg">Target weight in kg</string>
     <string name="activity_prefs_step_length_cm">Step length in cm</string>
     <!-- Settings - Charts Preferences -->
     <string name="pref_header_charts">Charts Settings</string>
@@ -903,6 +963,8 @@
     <string name="activity_prefs_calories_burnt">Daily target: calories burnt</string>
     <string name="activity_prefs_distance_meters">Daily target: distance in meters</string>
     <string name="activity_prefs_activetime_minutes">Daily target: active time in minutes</string>
+    <string name="activity_prefs_goal_standing_time_minutes">Daily target: standing time in minutes</string>
+    <string name="activity_prefs_goal_fat_burn_time_minutes">Daily target: fat burn time in minutes</string>
     <string name="pref_title_pebble_health_store_raw">Store raw record in the database</string>
     <string name="pref_summary_pebble_health_store_raw">Stores the data \"as is\", increasing the database usage to allow for later interpretation.</string>
     <string name="action_db_management">Data management</string>
@@ -1014,10 +1076,12 @@
     <string name="activity_type_running">Running</string>
     <string name="activity_type_outdoor_running">Outdoor Running</string>
     <string name="activity_type_walking">Walking</string>
+    <string name="activity_type_indoor_walking">Indoor Walking</string>
     <string name="activity_type_freestyle">Freestyle</string>
     <string name="activity_type_hiking">Hiking</string>
     <string name="activity_type_climbing">Climbing</string>
     <string name="activity_type_swimming">Swimming</string>
+    <string name="activity_type_pool_swimming">Pool Swimming</string>
     <string name="activity_type_swimming_openwater">Swimming (Open water)</string>
     <string name="activity_type_indoor_cycling">Indoor Cycling</string>
     <string name="activity_type_outdoor_cycling">Outdoor Cycling</string>
@@ -1088,6 +1152,7 @@
     <string name="devicetype_miband7">Xiaomi Smart Band 7</string>
     <string name="devicetype_amazfit_gts3">Amazfit GTS 3</string>
     <string name="devicetype_amazfit_gtr3">Amazfit GTR 3</string>
+    <string name="devicetype_amazfit_gtr4">Amazfit GTR 4</string>
     <string name="devicetype_amazfit_band5">Amazfit Band 5</string>
     <string name="devicetype_amazfit_neo">Amazfit Neo</string>
     <string name="devicetype_amazfit_bip">Amazfit Bip</string>
@@ -1208,7 +1273,24 @@
     <string name='menuitem_workout_history'>Workout History</string>
     <string name='menuitem_female_health'>Female Health</string>
     <string name='menuitem_workout_status'>Workout Status</string>
+    <string name='menuitem_calendar'>Calendar</string>
+    <string name='menuitem_todo'>To-Do</string>
+    <string name='menuitem_voice_memos'>Voice Memos</string>
+    <string name='menuitem_sun_moon'>Sun &amp; Moon</string>
+    <string name='menuitem_one_tap_measuring'>One-tap Measuring</string>
+    <string name='menuitem_offline_voice'>Offline Voice</string>
+    <string name='menuitem_membership_cards'>Membership Cards</string>
+    <string name='menuitem_phone'>Phone</string>
+    <string name='menuitem_theater_mode'>Theater Mode</string>
+    <string name='menuitem_volume'>Volume</string>
+    <string name='menuitem_screen_always_lit'>Screen Always Lit</string>
+    <string name='menuitem_brightness'>Brightness</string>
+    <string name='menuitem_bluetooth'>Bluetooth</string>
+    <string name='menuitem_wifi'>Wi-Fi</string>
+    <string name='menuitem_lockscreen'>Lockscreen</string>
+    <string name='menuitem_eject_water'>Eject Water</string>
     <string name="menuitem_unknown_app">Unknown (%s)</string>
+    <string name="menuitem_unsupported">[UNSUPPORTED] %s</string>
     <string name="watch9_time_minutes">Minutes:</string>
     <string name="watch9_time_hours">Hours:</string>
     <string name="watch9_time_seconds">Seconds:</string>
@@ -1290,6 +1372,8 @@
     <string name="hr_appname_workout">Workout</string>
     <string name="hr_appname_stopwatch">Stopwatch</string>
     <string name="hr_appname_commute">Commute</string>
+    <string name="pref_title_upper_button_long_press_action">Upper Button long press action</string>
+    <string name="pref_title_lower_button_short_press_action">Lower Button short press action</string>
     <string name="pref_title_upper_button_function_short">Upper Button short</string>
     <string name="pref_title_middle_button_function_short">Middle Button short</string>
     <string name="pref_title_lower_button_function_short">Lower Button short</string>
@@ -1753,6 +1837,7 @@
     <string name="sony_speak_to_chat_sensitivity_auto">Automatic</string>
     <string name="sony_speak_to_chat_sensitivity_high">High</string>
     <string name="sony_speak_to_chat_sensitivity_low">Low</string>
+    <string name="sony_speak_to_chat_sensitivity_standard">Standard</string>
     <string name="sony_speak_to_chat_focus_on_voice">Focus on Voice</string>
     <string name="sony_speak_to_chat_timeout">Timeout</string>
     <string name="sony_speak_to_chat_timeout_off">Off</string>
@@ -1775,6 +1860,8 @@
     <string name="sony_button_mode_ambient_sound_control">Ambient Sound Control</string>
     <string name="sony_button_mode_playback_control">Playback Control</string>
     <string name="sony_button_mode_volume_control">Volume Control</string>
+    <string name="pref_screen_auto_brightness_title">Auto Brightness</string>
+    <string name="pref_screen_auto_brightness_summary">Adjust screen brightness according to ambient light</string>
     <string name="pref_screen_brightness">Screen Brightness</string>
     <string name="watchface_widget_type_custom">Custom widget</string>
     <string name="watchface_dialog_widget_timezone">Time zone</string>

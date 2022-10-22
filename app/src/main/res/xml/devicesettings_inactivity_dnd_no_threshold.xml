@@ -2,7 +2,7 @@
 <androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
     <PreferenceScreen
         android:icon="@drawable/ic_chair"
-        android:key="screen_inactivity"
+        android:key="pref_screen_inactivity_extended"
         android:persistent="false"
         android:summary="@string/mi2_prefs_inactivity_warnings_summary"
         android:title="@string/mi2_prefs_inactivity_warnings">
@@ -10,8 +10,8 @@
         <SwitchPreference
             android:defaultValue="false"
             android:key="inactivity_warnings_enable"
-            android:title="@string/mi2_prefs_inactivity_warnings"
-            android:summary="@string/mi2_prefs_inactivity_warnings_summary" />
+            android:summary="@string/mi2_prefs_inactivity_warnings_summary"
+            android:title="@string/mi2_prefs_inactivity_warnings" />
 
         <nodomain.freeyourgadget.gadgetbridge.util.XTimePreference
             android:defaultValue="06:00"

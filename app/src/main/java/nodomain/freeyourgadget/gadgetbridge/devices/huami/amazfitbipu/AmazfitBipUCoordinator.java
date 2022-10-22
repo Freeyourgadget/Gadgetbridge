@@ -89,7 +89,7 @@ public class AmazfitBipUCoordinator extends HuamiCoordinator {
     }
 
     @Override
-    public int getReminderSlotCount() {
+    public int getReminderSlotCount(final GBDevice device) {
         return 0;
     }
 

@@ -385,7 +385,7 @@ public interface DeviceCoordinator {
     /**
      * Indicates the maximum number of reminder slots available in the device.
      */
-    int getReminderSlotCount();
+    int getReminderSlotCount(GBDevice device);
 
     /**
      * Indicates the maximum number of slots available for world clocks in the device.

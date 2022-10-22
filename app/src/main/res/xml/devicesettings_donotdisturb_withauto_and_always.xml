@@ -2,7 +2,7 @@
 <androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
     <PreferenceScreen
         android:icon="@drawable/ic_block"
-        android:key="screen_do_not_disturb"
+        android:key="pref_screen_do_not_disturb"
         android:persistent="false"
         android:summary="@string/mi2_prefs_do_not_disturb_summary"
         android:title="@string/mi2_prefs_do_not_disturb">

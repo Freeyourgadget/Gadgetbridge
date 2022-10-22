@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceScreen
+        android:icon="@drawable/ic_activity_sleep"
+        android:key="pref_screen_sleep_mode"
+        android:persistent="false"
+        android:title="@string/pref_sleep_mode_title">
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:icon="@drawable/ic_activity_sleep"
+            android:key="pref_sleep_mode_sleep_screen"
+            android:summary="@string/pref_sleep_mode_sleep_screen_summary"
+            android:title="@string/pref_sleep_mode_sleep_screen_title" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:icon="@drawable/ic_auto_awesome"
+            android:key="pref_sleep_mode_smart_enable"
+            android:summary="@string/pref_sleep_mode_smart_enable_summary"
+            android:title="@string/pref_sleep_mode_smart_enable_title" />
+    </PreferenceScreen>
+</androidx.preference.PreferenceScreen>

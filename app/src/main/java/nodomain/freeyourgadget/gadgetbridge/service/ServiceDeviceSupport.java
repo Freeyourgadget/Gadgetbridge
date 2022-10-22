@@ -303,11 +303,11 @@ public class ServiceDeviceSupport implements DeviceSupport {
     }
 
     @Override
-    public void onPhoneFound() {
+    public void onFindPhone(final boolean start) {
         if (checkBusy("phone found")) {
             return;
         }
-        delegate.onPhoneFound();
+        delegate.onFindPhone(start);
     }
 
     @Override

@@ -18,6 +18,9 @@ package nodomain.freeyourgadget.gadgetbridge.devices.huami;
 
 import androidx.annotation.NonNull;
 
+import org.apache.commons.lang3.ArrayUtils;
+
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -34,6 +37,9 @@ import nodomain.freeyourgadget.gadgetbridge.entities.Device;
 import nodomain.freeyourgadget.gadgetbridge.entities.HuamiExtendedActivitySampleDao;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryParser;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.Huami2021Config;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.HuamiLanguageType;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.HuamiVibrationPatternNotificationType;
 
 public abstract class Huami2021Coordinator extends HuamiCoordinator {
     @Override
@@ -119,23 +125,16 @@ public abstract class Huami2021Coordinator extends HuamiCoordinator {
     }
 
     @Override
-    public int getReminderSlotCount() {
-        return 50;
+    public int getReminderSlotCount(final GBDevice device) {
+        return getPrefs(device).getInt(Huami2021Service.REMINDERS_PREF_CAPABILITY, 0);
     }
 
     @Override
     public String[] getSupportedLanguageSettings(final GBDevice device) {
-        return new String[]{
-                "auto",
-                "de_DE",
-                "en_US",
-                "es_ES",
-                "fr_FR",
-                "it_IT",
-                "nl_NL",
-                "pt_PT",
-                "tr_TR",
-        };
+        // Return all known languages by default. Unsupported languages will be removed by Huami2021SettingsCustomizer
+        final List<String> allLanguages = new ArrayList<>(HuamiLanguageType.idLookup.keySet());
+        allLanguages.add(0, "auto");
+        return allLanguages.toArray(new String[0]);
     }
 
     @Override
@@ -145,64 +144,111 @@ public abstract class Huami2021Coordinator extends HuamiCoordinator {
 
     @Override
     public List<HeartRateCapability.MeasurementInterval> getHeartRateMeasurementIntervals() {
-        return Arrays.asList(
-                HeartRateCapability.MeasurementInterval.OFF,
-                HeartRateCapability.MeasurementInterval.SMART,
-                HeartRateCapability.MeasurementInterval.MINUTES_1,
-                HeartRateCapability.MeasurementInterval.MINUTES_10,
-                HeartRateCapability.MeasurementInterval.MINUTES_30
-        );
+        // Return all known by default. Unsupported will be removed by Huami2021SettingsCustomizer
+        return Arrays.asList(HeartRateCapability.MeasurementInterval.values());
     }
 
+    /**
+     * Returns a superset of all settings supported by Zepp OS Devices. Unsupported settings are removed
+     * by {@link Huami2021SettingsCustomizer}.
+     */
     @Override
     public int[] getSupportedDeviceSpecificSettings(final GBDevice device) {
-        return new int[]{
-                R.xml.devicesettings_header_time,
-                //R.xml.devicesettings_timeformat,
-                R.xml.devicesettings_dateformat_2,
-                // TODO R.xml.devicesettings_world_clocks,
+        final List<Integer> settings = new ArrayList<>();
 
-                R.xml.devicesettings_header_display,
-                R.xml.devicesettings_huami2021_displayitems,
-                R.xml.devicesettings_huami2021_shortcuts,
-                R.xml.devicesettings_nightmode,
-                R.xml.devicesettings_liftwrist_display_sensitivity,
-                R.xml.devicesettings_password,
-                R.xml.devicesettings_always_on_display,
-                R.xml.devicesettings_screen_timeout_5_to_15,
-                R.xml.devicesettings_screen_brightness,
+        //
+        // Time
+        //
+        settings.add(R.xml.devicesettings_header_time);
+        //settings.add(R.xml.devicesettings_timeformat);
+        settings.add(R.xml.devicesettings_dateformat_2);
+        // TODO settings.add(R.xml.devicesettings_world_clocks);
 
-                R.xml.devicesettings_header_health,
-                R.xml.devicesettings_heartrate_sleep_alert_activity_stress_spo2,
-                R.xml.devicesettings_inactivity_dnd_no_threshold,
-                R.xml.devicesettings_goal_notification,
+        //
+        // Display
+        //
+        settings.add(R.xml.devicesettings_header_display);
+        settings.add(R.xml.devicesettings_huami2021_displayitems);
+        settings.add(R.xml.devicesettings_huami2021_shortcuts);
+        if (supportsControlCenter()) {
+            settings.add(R.xml.devicesettings_huami2021_control_center);
+        }
+        settings.add(R.xml.devicesettings_nightmode);
+        settings.add(R.xml.devicesettings_sleep_mode);
+        settings.add(R.xml.devicesettings_liftwrist_display_sensitivity);
+        settings.add(R.xml.devicesettings_password);
+        settings.add(R.xml.devicesettings_always_on_display);
+        settings.add(R.xml.devicesettings_screen_timeout);
+        if (supportsAutoBrightness(device)) {
+            settings.add(R.xml.devicesettings_screen_brightness_withauto);
+        } else {
+            settings.add(R.xml.devicesettings_screen_brightness);
+        }
 
-                R.xml.devicesettings_header_workout,
-                R.xml.devicesettings_workout_start_on_phone,
-                R.xml.devicesettings_workout_send_gps_to_band,
+        //
+        // Health
+        //
+        settings.add(R.xml.devicesettings_header_health);
+        settings.add(R.xml.devicesettings_heartrate_sleep_alert_activity_stress_spo2);
+        settings.add(R.xml.devicesettings_inactivity_dnd_no_threshold);
+        settings.add(R.xml.devicesettings_goal_notification);
 
-                R.xml.devicesettings_header_notifications,
-                R.xml.devicesettings_vibrationpatterns,
-                R.xml.devicesettings_donotdisturb_withauto_and_always,
-                R.xml.devicesettings_screen_on_on_notifications,
-                R.xml.devicesettings_autoremove_notifications,
-                R.xml.devicesettings_canned_reply_16,
-                R.xml.devicesettings_transliteration,
+        //
+        // Workout
+        //
+        settings.add(R.xml.devicesettings_header_workout);
+        if (hasGps(device)) {
+            settings.add(R.xml.devicesettings_gps_agps);
+        } else {
+            // If the device has GPS, it doesn't report workout start/end to the phone
+            settings.add(R.xml.devicesettings_workout_start_on_phone);
+            settings.add(R.xml.devicesettings_workout_send_gps_to_band);
+        }
+        settings.add(R.xml.devicesettings_workout_detection);
 
-                R.xml.devicesettings_header_calendar,
-                R.xml.devicesettings_sync_calendar,
+        //
+        // Notifications
+        //
+        settings.add(R.xml.devicesettings_header_notifications);
+        settings.add(R.xml.devicesettings_sound_and_vibration);
+        settings.add(R.xml.devicesettings_vibrationpatterns);
+        settings.add(R.xml.devicesettings_donotdisturb_withauto_and_always);
+        settings.add(R.xml.devicesettings_screen_on_on_notifications);
+        settings.add(R.xml.devicesettings_autoremove_notifications);
+        settings.add(R.xml.devicesettings_canned_reply_16);
+        settings.add(R.xml.devicesettings_transliteration);
 
-                R.xml.devicesettings_header_other,
-                R.xml.devicesettings_device_actions_without_not_wear,
+        //
+        // Calendar
+        //
+        settings.add(R.xml.devicesettings_header_calendar);
+        settings.add(R.xml.devicesettings_sync_calendar);
 
-                R.xml.devicesettings_header_connection,
-                R.xml.devicesettings_expose_hr_thirdparty,
-                R.xml.devicesettings_bt_connected_advertisement,
-                R.xml.devicesettings_high_mtu,
+        //
+        // Other
+        //
+        settings.add(R.xml.devicesettings_header_other);
+        settings.add(R.xml.devicesettings_offline_voice);
+        settings.add(R.xml.devicesettings_device_actions_without_not_wear);
+        settings.add(R.xml.devicesettings_buttonactions_upper_long);
+        settings.add(R.xml.devicesettings_buttonactions_lower_short);
+        settings.add(R.xml.devicesettings_weardirection);
 
-                R.xml.devicesettings_header_developer,
-                R.xml.devicesettings_keep_activity_data_on_device,
-        };
+        //
+        // Connection
+        //
+        settings.add(R.xml.devicesettings_header_connection);
+        settings.add(R.xml.devicesettings_expose_hr_thirdparty);
+        settings.add(R.xml.devicesettings_bt_connected_advertisement);
+        settings.add(R.xml.devicesettings_high_mtu);
+
+        //
+        // Developer
+        //
+        settings.add(R.xml.devicesettings_header_developer);
+        settings.add(R.xml.devicesettings_keep_activity_data_on_device);
+
+        return ArrayUtils.toPrimitive(settings.toArray(new Integer[0]));
     }
 
     @Override
@@ -213,12 +259,72 @@ public abstract class Huami2021Coordinator extends HuamiCoordinator {
     }
 
     @Override
+    public List<HuamiVibrationPatternNotificationType> getVibrationPatternNotificationTypes(final GBDevice device) {
+        final List<HuamiVibrationPatternNotificationType> notificationTypes = new ArrayList<>(Arrays.asList(
+                HuamiVibrationPatternNotificationType.APP_ALERTS,
+                HuamiVibrationPatternNotificationType.INCOMING_CALL,
+                HuamiVibrationPatternNotificationType.INCOMING_SMS,
+                HuamiVibrationPatternNotificationType.GOAL_NOTIFICATION,
+                HuamiVibrationPatternNotificationType.ALARM,
+                HuamiVibrationPatternNotificationType.IDLE_ALERTS
+        ));
+
+        if (getReminderSlotCount(device) > 0) {
+            notificationTypes.add(HuamiVibrationPatternNotificationType.EVENT_REMINDER);
+        }
+
+        if (!supportsContinuousFindDevice()) {
+            notificationTypes.add(HuamiVibrationPatternNotificationType.FIND_BAND);
+        }
+
+        if (supportsToDoList()) {
+            notificationTypes.add(HuamiVibrationPatternNotificationType.SCHEDULE);
+            notificationTypes.add(HuamiVibrationPatternNotificationType.TODO_LIST);
+        }
+
+        return notificationTypes;
+    }
+
+    @Override
     public DeviceSpecificSettingsCustomizer getDeviceSpecificSettingsCustomizer(final GBDevice device) {
-        return new Huami2021SettingsCustomizer(device);
+        return new Huami2021SettingsCustomizer(device, getVibrationPatternNotificationTypes(device));
     }
 
     @Override
     public int getBondingStyle() {
         return BONDING_STYLE_REQUIRE_KEY;
+    }
+
+    public boolean supportsContinuousFindDevice() {
+        // TODO: Auto-detect continuous find device?
+        return false;
+    }
+
+    public boolean supportsControlCenter() {
+        // TODO: Auto-detect control center?
+        return false;
+    }
+
+    public boolean supportsToDoList() {
+        // TODO: Not yet implemented
+        // TODO: When implemented, query the capability like reminders
+        return false;
+    }
+
+    public boolean mainMenuHasMoreSection() {
+        // Devices that have a control center don't seem to have a "more" section in the main menu
+        return !supportsControlCenter();
+    }
+
+    public boolean hasGps(final GBDevice device) {
+        return supportsConfig(device, Huami2021Config.ConfigArg.WORKOUT_GPS_PRESET);
+    }
+
+    public boolean supportsAutoBrightness(final GBDevice device) {
+        return supportsConfig(device, Huami2021Config.ConfigArg.SCREEN_AUTO_BRIGHTNESS);
+    }
+
+    private boolean supportsConfig(final GBDevice device, final Huami2021Config.ConfigArg config) {
+        return Huami2021Config.deviceHasConfig(getPrefs(device), config);
     }
 }

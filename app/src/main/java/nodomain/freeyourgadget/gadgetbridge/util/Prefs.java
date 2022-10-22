@@ -19,9 +19,13 @@ package nodomain.freeyourgadget.gadgetbridge.util;
 import android.content.SharedPreferences;
 import android.util.Log;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Locale;
 import java.util.Set;
 
 /**
@@ -169,8 +173,25 @@ public class Prefs {
         return Arrays.asList(stringValue.split(","));
     }
 
+    public Date getTimePreference(final String key, final String defaultValue) {
+        final String time = getString(key, defaultValue);
+
+        final DateFormat df = new SimpleDateFormat("HH:mm", Locale.ROOT);
+        try {
+            return df.parse(time);
+        } catch (final Exception e) {
+            Log.e(TAG, "Error reading datetime preference value: " + key + "; returning default current time", e); // log the first exception
+        }
+
+        return new Date();
+    }
+
     private void logReadError(String key, Exception ex) {
         Log.e(TAG, "Error reading preference value: " + key + "; returning default value", ex); // log the first exception
+    }
+
+    public boolean contains(final String key) {
+        return preferences.contains(key);
     }
 
     /**

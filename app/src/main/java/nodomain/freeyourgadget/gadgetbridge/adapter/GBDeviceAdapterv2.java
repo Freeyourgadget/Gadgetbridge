@@ -471,7 +471,7 @@ public class GBDeviceAdapterv2 extends ListAdapter<GBDevice, GBDeviceAdapterv2.V
         );
 
         //set reminders
-        holder.setRemindersView.setVisibility(coordinator.getReminderSlotCount() > 0 ? View.VISIBLE : View.GONE);
+        holder.setRemindersView.setVisibility(coordinator.getReminderSlotCount(device) > 0 ? View.VISIBLE : View.GONE);
         holder.setRemindersView.setOnClickListener(new View.OnClickListener()
 
                                                 {

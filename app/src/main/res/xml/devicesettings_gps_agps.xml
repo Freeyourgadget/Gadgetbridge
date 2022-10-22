@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceScreen
+        android:icon="@drawable/ic_gps_location"
+        android:key="pref_header_gps"
+        android:persistent="false"
+        android:title="@string/pref_gps_header">
+
+        <PreferenceCategory
+            android:key="pref_gps_header_category"
+            android:title="@string/pref_gps_header">
+
+            <ListPreference
+                android:defaultValue=""
+                android:entries="@array/pref_gps_mode_preset"
+                android:entryValues="@array/pref_gps_mode_preset_values"
+                android:key="pref_gps_mode_preset"
+                android:summary="%s"
+                android:title="@string/pref_gps_mode_preset" />
+
+            <ListPreference
+                android:defaultValue=""
+                android:entries="@array/pref_gps_band"
+                android:entryValues="@array/pref_gps_band_values"
+                android:key="pref_gps_band"
+                android:summary="%s"
+                android:title="@string/pref_gps_band" />
+
+            <ListPreference
+                android:defaultValue=""
+                android:entries="@array/pref_gps_combination"
+                android:entryValues="@array/pref_gps_combination_values"
+                android:key="pref_gps_combination"
+                android:summary="%s"
+                android:title="@string/pref_gps_combination" />
+
+            <ListPreference
+                android:defaultValue=""
+                android:entries="@array/pref_gps_satellite_search"
+                android:entryValues="@array/pref_gps_satellite_search_values"
+                android:key="pref_gps_satellite_search"
+                android:summary="%s"
+                android:title="@string/pref_gps_satellite_search" />
+        </PreferenceCategory>
+
+        <PreferenceCategory
+            android:key="pref_header_agps"
+            android:title="@string/pref_agps_header">
+
+            <SwitchPreference
+                android:defaultValue="false"
+                android:key="pref_agps_expiry_reminder_enabled"
+                android:title="@string/pref_agps_expiry_reminder_enabled" />
+
+            <nodomain.freeyourgadget.gadgetbridge.util.XTimePreference
+                android:defaultValue="20:00"
+                android:dependency="pref_agps_expiry_reminder_enabled"
+                android:key="pref_agps_expiry_reminder_time"
+                android:title="@string/pref_agps_expiry_reminder_time" />
+        </PreferenceCategory>
+    </PreferenceScreen>
+</androidx.preference.PreferenceScreen>

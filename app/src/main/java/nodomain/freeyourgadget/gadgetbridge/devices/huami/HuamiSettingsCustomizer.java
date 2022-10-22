@@ -21,7 +21,9 @@ import android.text.InputType;
 
 import androidx.preference.Preference;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Locale;
 import java.util.Set;
 
@@ -34,9 +36,12 @@ import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 
 public class HuamiSettingsCustomizer implements DeviceSpecificSettingsCustomizer {
     final GBDevice device;
+    final List<HuamiVibrationPatternNotificationType> vibrationPatternNotificationTypes;
 
-    public HuamiSettingsCustomizer(final GBDevice device) {
+    public HuamiSettingsCustomizer(final GBDevice device,
+                                   final List<HuamiVibrationPatternNotificationType> vibrationPatternNotificationTypes) {
         this.device = device;
+        this.vibrationPatternNotificationTypes = vibrationPatternNotificationTypes;
     }
 
     @Override
@@ -46,24 +51,48 @@ public class HuamiSettingsCustomizer implements DeviceSpecificSettingsCustomizer
 
     @Override
     public void customizeSettings(final DeviceSpecificSettingsHandler handler, final Prefs prefs) {
+        // Setup the vibration patterns for all supported notification types
         for (HuamiVibrationPatternNotificationType notificationType : HuamiVibrationPatternNotificationType.values()) {
             final String typeKey = notificationType.name().toLowerCase(Locale.ROOT);
+
+            // Hide unsupported notification types
+            if (!vibrationPatternNotificationTypes.contains(notificationType)) {
+                final String screenKey = HuamiConst.PREF_HUAMI_VIBRATION_PROFILE_KEY_PREFIX + typeKey;
+                final Preference pref = handler.findPreference(screenKey);
+                if (pref != null) {
+                    pref.setVisible(false);
+                }
+                continue;
+            }
 
             handler.addPreferenceHandlerFor(HuamiConst.PREF_HUAMI_VIBRATION_PROFILE_PREFIX + typeKey);
             handler.addPreferenceHandlerFor(HuamiConst.PREF_HUAMI_VIBRATION_COUNT_PREFIX + typeKey);
             handler.setInputTypeFor(HuamiConst.PREF_HUAMI_VIBRATION_COUNT_PREFIX + typeKey, InputType.TYPE_CLASS_NUMBER);
 
+            // Setup the try pref to vibrate the device
             final String tryPrefKey = HuamiConst.PREF_HUAMI_VIBRATION_TRY_PREFIX + typeKey;
             final Preference tryPref = handler.findPreference(tryPrefKey);
             if (tryPref != null) {
-                tryPref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-                    @Override
-                    public boolean onPreferenceClick(final Preference preference) {
-                        GBApplication.deviceService(device).onSendConfiguration(tryPrefKey);
-                        return true;
-                    }
+                tryPref.setOnPreferenceClickListener(preference -> {
+                    GBApplication.deviceService(device).onSendConfiguration(tryPrefKey);
+                    return true;
                 });
             }
+
+            // Setup the default preference - disable count if default preference is selected
+            final String profilePrefKey = HuamiConst.PREF_HUAMI_VIBRATION_PROFILE_PREFIX + typeKey;
+            final String countPrefKey = HuamiConst.PREF_HUAMI_VIBRATION_COUNT_PREFIX + typeKey;
+            final Preference countPref = handler.findPreference(countPrefKey);
+
+            final Preference.OnPreferenceChangeListener profilePrefListener = (preference, newValue) -> {
+                if (countPref != null) {
+                    countPref.setEnabled(!HuamiConst.PREF_HUAMI_DEFAULT_VIBRATION_PROFILE.equals(newValue));
+                }
+                return true;
+            };
+
+            profilePrefListener.onPreferenceChange(null, prefs.getString(profilePrefKey, HuamiConst.PREF_HUAMI_DEFAULT_VIBRATION_PROFILE));
+            handler.addPreferenceHandlerFor(profilePrefKey, profilePrefListener);
         }
     }
 
@@ -83,7 +112,9 @@ public class HuamiSettingsCustomizer implements DeviceSpecificSettingsCustomizer
         @Override
         public HuamiSettingsCustomizer createFromParcel(final Parcel in) {
             final GBDevice device = in.readParcelable(HuamiSettingsCustomizer.class.getClassLoader());
-            return new HuamiSettingsCustomizer(device);
+            final List<HuamiVibrationPatternNotificationType> vibrationPatternNotificationTypes = new ArrayList<>();
+            in.readList(vibrationPatternNotificationTypes, HuamiVibrationPatternNotificationType.class.getClassLoader());
+            return new HuamiSettingsCustomizer(device, vibrationPatternNotificationTypes);
         }
 
         @Override
@@ -100,5 +131,6 @@ public class HuamiSettingsCustomizer implements DeviceSpecificSettingsCustomizer
     @Override
     public void writeToParcel(final Parcel dest, final int flags) {
         dest.writeParcelable(device, 0);
+        dest.writeList(vibrationPatternNotificationTypes);
     }
 }

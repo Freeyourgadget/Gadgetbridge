@@ -153,7 +153,7 @@ class TestDeviceSupport extends AbstractDeviceSupport {
     }
 
     @Override
-    public void onPhoneFound() {
+    public void onFindPhone(boolean start) {
 
     }
 

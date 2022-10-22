@@ -3,7 +3,7 @@
 
     <PreferenceScreen
         android:icon="@drawable/ic_brightness_2"
-        android:key="screen_night_mode"
+        android:key="pref_screen_night_mode"
         android:persistent="false"
         android:summary="@string/mi3_prefs_night_mode_summary"
         android:title="@string/mi3_prefs_night_mode">

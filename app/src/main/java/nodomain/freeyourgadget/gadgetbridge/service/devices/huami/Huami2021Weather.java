@@ -26,8 +26,6 @@ import net.e175.klaus.solarpositioning.SPA;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.threeten.bp.LocalDate;
-import org.threeten.bp.format.DateTimeFormatter;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -82,11 +80,12 @@ public class Huami2021Weather {
                 return new HourlyResponse();
             case "/weather/alerts":
                 return new AlertsResponse();
-            default:
-                LOG.error("Unknown weather path {}", path);
+            //case "/weather/tide":
+            //    return new TideResponse(weatherSpec);
         }
 
-        return null;
+        LOG.error("Unknown weather path {}", path);
+        return new Huami2021Weather.ErrorResponse(404, -2001, "Not found");
     }
 
     private static class RawJsonStringResponse extends Response {
@@ -102,16 +101,23 @@ public class Huami2021Weather {
     }
 
     public static class ErrorResponse extends Response {
-        private final int code;
+        private final int httpStatusCode;
+        private final int errorCode;
         private final String message;
 
-        public ErrorResponse(final int code, final String message) {
-            this.code = code;
+        public ErrorResponse(final int httpStatusCode, final int errorCode, final String message) {
+            this.httpStatusCode = httpStatusCode;
+            this.errorCode = errorCode;
             this.message = message;
         }
 
-        public int getCode() {
-            return code;
+        @Override
+        public int getHttpStatusCode() {
+            return httpStatusCode;
+        }
+
+        public int getErrorCode() {
+            return errorCode;
         }
 
         public String getMessage() {
@@ -120,6 +126,10 @@ public class Huami2021Weather {
     }
 
     public static abstract class Response {
+        public int getHttpStatusCode() {
+            return 200;
+        }
+
         public String toJson() {
             return GSON.toJson(this);
         }
@@ -197,8 +207,8 @@ public class Huami2021Weather {
     }
 
     private static class MoonRiseSet {
-        public List<String> moonPhaseValue = new ArrayList<>();
-        public List<Range> moonRise = new ArrayList<>();
+        public List<String> moonPhaseValue = new ArrayList<>(); // numbers? 20 21 23...
+        public List<Range> moonRise = new ArrayList<>(); // yyyy-MM-dd HH:mm:ss
     }
 
     private static class Range {
@@ -249,7 +259,7 @@ public class Huami2021Weather {
     // locationKey=00.000,-0.000,xiaomi_accu:000000
     public static class CurrentResponse extends Response {
         public CurrentWeatherModel currentWeatherModel;
-        public Object aqiModel = new Object();
+        public AqiModel aqiModel = new AqiModel();
 
         public CurrentResponse(final WeatherSpec weatherSpec) {
             this.currentWeatherModel = new CurrentWeatherModel(weatherSpec);
@@ -273,9 +283,50 @@ public class Huami2021Weather {
             temperature = new UnitValue(Unit.TEMPERATURE_C, weatherSpec.currentTemp - 273);
             uvIndex = "0";
             visibility = new UnitValue(Unit.KM, "");
-            weather = String.valueOf(HuamiWeatherConditions.mapToAmazfitBipWeatherCode(weatherSpec.currentConditionCode) & 0xff); // is it?
+            weather = String.valueOf(HuamiWeatherConditions.mapToAmazfitBipWeatherCode(weatherSpec.currentConditionCode) & 0xff);
             wind = new Wind(weatherSpec.windDirection, Math.round(weatherSpec.windSpeed));
         }
+    }
+
+    private static class AqiModel {
+        public String pm10 = "";
+        public String pm25 = "";
+    }
+
+    // /weather/tide
+    //
+    // locale=en_US
+    // deviceSource=7930113
+    // days=10
+    // isGlobal=true
+    // latitude=00.000
+    // longitude=-00.000
+    private static class TideResponse extends Response {
+        public Date pubTime;
+        public String poiName; // poi tide station name
+        public String poiKey; // lat,lon,POI_ID
+        public List<TideDataEntry> tideData = new ArrayList<>();
+
+        public TideResponse(final WeatherSpec weatherSpec) {
+            pubTime = new Date(weatherSpec.timestamp * 1000L);
+        }
+    }
+
+    private static class TideDataEntry {
+        public String date; // YYYY-MM-DD, but LocalDate would need API 26+
+        public List<TideTableEntry> tideTable = new ArrayList<>();
+        public List<TideHourlyEntry> tideHourly = new ArrayList<>();
+    }
+
+    private static class TideTableEntry {
+        public Date fxTime; // pubTime format
+        public String height; // float, x.xx
+        public String type; // H / L
+    }
+
+    private static class TideHourlyEntry {
+        public Date fxTime; // pubTime format
+        public String height; // float, x.xx
     }
 
     private enum Unit {
@@ -332,6 +383,7 @@ public class Huami2021Weather {
     // locationKey=00.000,-0.000,xiaomi_accu:000000
     public static class HourlyResponse extends Response {
         public Date pubTime;
+        // One entry in each list per hour
         public List<String> weather;
         public List<String> temperature;
         public List<String> humidity;

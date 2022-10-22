@@ -2,7 +2,7 @@
 <androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
     <PreferenceScreen
         android:icon="@drawable/ic_arrow_upward"
-        android:key="screen_liftwrist_display"
+        android:key="pref_screen_lift_wrist"
         android:persistent="false"
         android:title="@string/mi2_prefs_activate_display_on_lift">
 

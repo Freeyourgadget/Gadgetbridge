@@ -57,16 +57,16 @@ public class HuamiConst {
     public static final String AMAZFIT_X = "Amazfit X";
     public static final String AMAZFIT_GTS3_NAME = "Amazfit GTS 3";
     public static final String AMAZFIT_GTR3_NAME = "Amazfit GTR 3";
+    public static final String AMAZFIT_GTR4_NAME = "Amazfit GTR 4";
 
     public static final String XIAOMI_SMART_BAND7_NAME = "Xiaomi Smart Band 7";
 
     public static final String PREF_DISPLAY_ITEMS = "display_items";
-    public static final String PREF_ALL_DISPLAY_ITEMS = "all_display_items";
     public static final String PREF_DISPLAY_ITEMS_SORTABLE = "display_items_sortable";
     public static final String PREF_WORKOUT_ACTIVITY_TYPES_SORTABLE = "workout_activity_types_sortable";
     public static final String PREF_SHORTCUTS = "shortcuts";
-    public static final String PREF_ALL_SHORTCUTS = "all_shortcuts";
     public static final String PREF_SHORTCUTS_SORTABLE = "shortcuts_sortable";
+    public static final String PREF_CONTROL_CENTER_SORTABLE = "control_center_sortable";
     public static final String PREF_EXPOSE_HR_THIRDPARTY = "expose_hr_thirdparty";
     public static final String PREF_USE_CUSTOM_FONT = "use_custom_font";
 
@@ -94,6 +94,8 @@ public class HuamiConst {
     /**
      * The suffixes match the enum {@link nodomain.freeyourgadget.gadgetbridge.service.devices.huami.HuamiVibrationPatternNotificationType}.
      */
+    public static final String PREF_HUAMI_VIBRATION_PROFILE_KEY_PREFIX = "vibration_profile_key_";
+    public static final String PREF_HUAMI_DEFAULT_VIBRATION_PROFILE = "default";
     // profile
     public static final String PREF_HUAMI_VIBRATION_PROFILE_PREFIX = "huami_vibration_profile_";
     public static final String PREF_HUAMI_VIBRATION_PROFILE_APP_ALERTS = PREF_HUAMI_VIBRATION_PROFILE_PREFIX + "app_alerts";
@@ -104,6 +106,8 @@ public class HuamiConst {
     public static final String PREF_HUAMI_VIBRATION_PROFILE_IDLE_ALERTS = PREF_HUAMI_VIBRATION_PROFILE_PREFIX + "idle_alerts";
     public static final String PREF_HUAMI_VIBRATION_PROFILE_EVENT_REMINDER = PREF_HUAMI_VIBRATION_PROFILE_PREFIX + "event_reminder";
     public static final String PREF_HUAMI_VIBRATION_PROFILE_FIND_BAND = PREF_HUAMI_VIBRATION_PROFILE_PREFIX + "find_band";
+    public static final String PREF_HUAMI_VIBRATION_PROFILE_TODO_LIST = PREF_HUAMI_VIBRATION_PROFILE_PREFIX + "todo_list";
+    public static final String PREF_HUAMI_VIBRATION_PROFILE_SCHEDULE = PREF_HUAMI_VIBRATION_PROFILE_PREFIX + "schedule";
     // count
     public static final String PREF_HUAMI_VIBRATION_COUNT_PREFIX = "huami_vibration_count_";
     public static final String PREF_HUAMI_VIBRATION_COUNT_APP_ALERTS = PREF_HUAMI_VIBRATION_COUNT_PREFIX + "app_alerts";
@@ -114,6 +118,8 @@ public class HuamiConst {
     public static final String PREF_HUAMI_VIBRATION_COUNT_IDLE_ALERTS = PREF_HUAMI_VIBRATION_COUNT_PREFIX + "idle_alerts";
     public static final String PREF_HUAMI_VIBRATION_COUNT_EVENT_REMINDER = PREF_HUAMI_VIBRATION_COUNT_PREFIX + "event_reminder";
     public static final String PREF_HUAMI_VIBRATION_COUNT_FIND_BAND = PREF_HUAMI_VIBRATION_COUNT_PREFIX + "find_band";
+    public static final String PREF_HUAMI_VIBRATION_COUNT_TODO_LIST = PREF_HUAMI_VIBRATION_COUNT_PREFIX + "todo_list";
+    public static final String PREF_HUAMI_VIBRATION_COUNT_SCHEDULE = PREF_HUAMI_VIBRATION_COUNT_PREFIX + "schedule";
     // try
     public static final String PREF_HUAMI_VIBRATION_TRY_PREFIX = "huami_vibration_try_";
     public static final String PREF_HUAMI_VIBRATION_TRY_APP_ALERTS = PREF_HUAMI_VIBRATION_TRY_PREFIX + "app_alerts";
@@ -124,6 +130,8 @@ public class HuamiConst {
     public static final String PREF_HUAMI_VIBRATION_TRY_IDLE_ALERTS = PREF_HUAMI_VIBRATION_TRY_PREFIX + "idle_alerts";
     public static final String PREF_HUAMI_VIBRATION_TRY_EVENT_REMINDER = PREF_HUAMI_VIBRATION_TRY_PREFIX + "event_reminder";
     public static final String PREF_HUAMI_VIBRATION_TRY_FIND_BAND = PREF_HUAMI_VIBRATION_TRY_PREFIX + "find_band";
+    public static final String PREF_HUAMI_VIBRATION_TRY_TODO_LIST = PREF_HUAMI_VIBRATION_TRY_PREFIX + "todo_list";
+    public static final String PREF_HUAMI_VIBRATION_TRY_SCHEDULE = PREF_HUAMI_VIBRATION_TRY_PREFIX + "schedule";
 
     public static int toActivityKind(int rawType) {
         switch (rawType) {

@@ -28,14 +28,12 @@ import ch.qos.logback.classic.encoder.PatternLayoutEncoder;
 import ch.qos.logback.classic.spi.ILoggingEvent;
 import ch.qos.logback.core.Appender;
 import ch.qos.logback.core.FileAppender;
-import ch.qos.logback.core.encoder.Encoder;
-import ch.qos.logback.core.encoder.LayoutWrappingEncoder;
 import ch.qos.logback.core.rolling.RollingFileAppender;
 import ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy;
-import ch.qos.logback.core.rolling.TimeBasedRollingPolicy;
 import ch.qos.logback.core.util.FileSize;
 import ch.qos.logback.core.util.StatusPrinter;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
+import nodomain.freeyourgadget.gadgetbridge.BuildConfig;
 
 public abstract class Logging {
     // Only used for tests
@@ -54,7 +52,7 @@ public abstract class Logging {
             } else {
                 stopFileLogger();
             }
-            getLogger().info("Gadgetbridge version: {}", BuildConfig.VERSION_NAME);
+            getLogger().info("Gadgetbridge version: {}-{}", BuildConfig.VERSION_NAME, BuildConfig.GIT_HASH_SHORT);
         } catch (Exception ex) {
             Log.e("GBApplication", "External files dir not available, cannot log to file", ex);
             stopFileLogger();

@@ -27,6 +27,7 @@ public class Huami2021Service {
     public static final short CHUNKED2021_ENDPOINT_WEATHER = 0x000e;
     public static final short CHUNKED2021_ENDPOINT_ALARMS = 0x000f;
     public static final short CHUNKED2021_ENDPOINT_CANNED_MESSAGES = 0x0013;
+    public static final short CHUNKED2021_ENDPOINT_CONNECTION = 0x0015;
     public static final short CHUNKED2021_ENDPOINT_USER_INFO = 0x0017;
     public static final short CHUNKED2021_ENDPOINT_STEPS = 0x0016;
     public static final short CHUNKED2021_ENDPOINT_VIBRATION_PATTERNS = 0x0018;
@@ -84,6 +85,7 @@ public class Huami2021Service {
     public static final byte DISPLAY_ITEMS_CMD_CREATE_ACK = 0x06;
     public static final byte DISPLAY_ITEMS_MENU = 0x01;
     public static final byte DISPLAY_ITEMS_SHORTCUTS = 0x02;
+    public static final byte DISPLAY_ITEMS_CONTROL_CENTER = 0x03;
     public static final byte DISPLAY_ITEMS_SECTION_MAIN = 0x01;
     public static final byte DISPLAY_ITEMS_SECTION_MORE = 0x02;
     public static final byte DISPLAY_ITEMS_SECTION_DISABLED = 0x03;
@@ -91,12 +93,15 @@ public class Huami2021Service {
     /**
      * Find Device, for {@link Huami2021Service#CHUNKED2021_ENDPOINT_FIND_DEVICE}.
      */
-    public static final byte FIND_BAND_ONESHOT = 0x03;
+    public static final byte FIND_BAND_START = 0x03;
     public static final byte FIND_BAND_ACK = 0x04;
+    public static final byte FIND_BAND_STOP_FROM_PHONE = 0x06;
+    public static final byte FIND_BAND_STOP_FROM_BAND = 0x07;
     public static final byte FIND_PHONE_START = 0x11;
     public static final byte FIND_PHONE_ACK = 0x12;
     public static final byte FIND_PHONE_STOP_FROM_BAND = 0x13;
     public static final byte FIND_PHONE_STOP_FROM_PHONE = 0x14;
+    public static final byte FIND_PHONE_MODE = 0x15;
 
     /**
      * Steps, for {@link Huami2021Service#CHUNKED2021_ENDPOINT_STEPS}.
@@ -150,6 +155,14 @@ public class Huami2021Service {
     public static final byte CANNED_MESSAGES_CMD_REPLY_SMS_ACK = 0x0c;
     public static final byte CANNED_MESSAGES_CMD_REPLY_SMS_CHECK = 0x0d;
     public static final byte CANNED_MESSAGES_CMD_REPLY_SMS_ALLOW = 0x0e;
+
+    /**
+     * Connection, for {@link Huami2021Service#CHUNKED2021_ENDPOINT_CONNECTION}.
+     */
+    public static final byte CONNECTION_CMD_MTU_REQUEST = 0x01;
+    public static final byte CONNECTION_CMD_MTU_RESPONSE = 0x02;
+    public static final byte CONNECTION_CMD_UNKNOWN_3 = 0x03;
+    public static final byte CONNECTION_CMD_UNKNOWN_4 = 0x04;
 
     /**
      * Notifications, for {@link Huami2021Service#CHUNKED2021_ENDPOINT_HEARTRATE}.
@@ -218,8 +231,6 @@ public class Huami2021Service {
     public static final byte CONFIG_CMD_RESPONSE = 0x04;
     public static final byte CONFIG_CMD_SET = 0x05;
     public static final byte CONFIG_CMD_ACK = 0x06;
-    public static final byte CONFIG_REQUEST_TYPE_SPECIFIC = 0x00;
-    public static final byte CONFIG_REQUEST_TYPE_ALL = 0x01; // Don't know how to parse them properly
 
     /**
      * Config, for {@link Huami2021Service#CHUNKED2021_ENDPOINT_ICONS}.
@@ -234,6 +245,8 @@ public class Huami2021Service {
     /**
      * Reminders, for {@link Huami2021Service#CHUNKED2021_ENDPOINT_REMINDERS}.
      */
+    public static final byte REMINDERS_CMD_CAPABILITIES_REQUEST = 0x01;
+    public static final byte REMINDERS_CMD_CAPABILITIES_RESPONSE = 0x02;
     public static final byte REMINDERS_CMD_REQUEST = 0x03;
     public static final byte REMINDERS_CMD_RESPONSE = 0x04;
     public static final byte REMINDERS_CMD_CREATE = 0x05;
@@ -246,6 +259,7 @@ public class Huami2021Service {
     public static final int REMINDER_FLAG_TEXT = 0x0008;
     public static final int REMINDER_FLAG_REPEAT_MONTH = 0x1000;
     public static final int REMINDER_FLAG_REPEAT_YEAR = 0x2000;
+    public static final String REMINDERS_PREF_CAPABILITY = "huami_2021_capability_reminders";
 
     /**
      * Calendar, for {@link Huami2021Service#CHUNKED2021_ENDPOINT_CALENDAR}.

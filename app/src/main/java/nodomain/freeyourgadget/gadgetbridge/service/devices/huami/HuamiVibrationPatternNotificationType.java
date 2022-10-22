@@ -28,7 +28,10 @@ public enum HuamiVibrationPatternNotificationType {
     ALARM(0x05),
     IDLE_ALERTS(0x06),
     EVENT_REMINDER(0x08),
-    FIND_BAND(0x09);
+    FIND_BAND(0x09),
+    TODO_LIST(0x0a),
+    SCHEDULE(0x0c),
+    ;
 
     private final byte code;
 

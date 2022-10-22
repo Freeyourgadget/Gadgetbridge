@@ -33,6 +33,12 @@
 
         <EditTextPreference
             android:inputType="number"
+            android:key="activity_user_goal_weight_kg"
+            android:maxLength="3"
+            android:title="@string/activity_prefs_target_weight_kg" />
+
+        <EditTextPreference
+            android:inputType="number"
             android:key="activity_user_step_length_cm"
             android:maxLength="3"
             android:title="@string/activity_prefs_step_length_cm" />
@@ -70,5 +76,19 @@
             android:key="activity_user_activetime_minutes"
             android:maxLength="3"
             android:title="@string/activity_prefs_activetime_minutes" />
+
+        <EditTextPreference
+            android:defaultValue="12"
+            android:inputType="number"
+            android:key="activity_user_goal_standing_time_minutes"
+            android:maxLength="2"
+            android:title="@string/activity_prefs_goal_standing_time_minutes" />
+
+        <EditTextPreference
+            android:defaultValue="30"
+            android:inputType="number"
+            android:key="activity_user_goal_fat_burn_time_minutes"
+            android:maxLength="3"
+            android:title="@string/activity_prefs_goal_fat_burn_time_minutes" />
     </PreferenceCategory>
 </PreferenceScreen>

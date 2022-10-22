@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceScreen
+        android:icon="@drawable/ic_activity_unknown_small"
+        android:key="pref_header_workout_detection"
+        android:persistent="false"
+        android:summary="@string/pref_workout_detection_summary"
+        android:title="@string/pref_workout_detection_title">
+
+        <MultiSelectListPreference
+            android:defaultValue="@array/pref_huami2021_empty_array"
+            android:dialogTitle="@string/pref_workout_detection_categories_title"
+            android:entries="@array/pref_workout_detection_categories"
+            android:entryValues="@array/pref_workout_detection_categories_values"
+            android:icon="@drawable/ic_activity_unknown_small"
+            android:key="workout_detection_categories"
+            android:summary="@string/pref_workout_detection_categories_summary"
+            android:title="@string/pref_workout_detection_categories_title" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:icon="@drawable/ic_notifications"
+            android:key="workout_detection_alert"
+            android:summary="@string/pref_workout_detection_alert_summary"
+            android:title="@string/pref_workout_detection_alert_title" />
+
+        <ListPreference
+            android:defaultValue=""
+            android:entries="@array/workout_detection_sensitivity"
+            android:entryValues="@array/workout_detection_sensitivity_values"
+            android:key="workout_detection_sensitivity"
+            android:summary="%s"
+            android:title="@string/pref_workout_detection_sensitivity" />
+    </PreferenceScreen>
+</androidx.preference.PreferenceScreen>

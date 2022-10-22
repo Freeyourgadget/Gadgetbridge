@@ -624,7 +624,7 @@ public class DBHelper {
 
         int reservedSlots = prefs.getInt(DeviceSettingsPreferenceConst.PREF_RESERVER_REMINDERS_CALENDAR, coordinator.supportsCalendarEvents() ? 0 : 9);
 
-        final int reminderSlots = coordinator.getReminderSlotCount();
+        final int reminderSlots = coordinator.getReminderSlotCount(gbDevice);
 
         try (DBHandler db = GBApplication.acquireDB()) {
             final DaoSession daoSession = db.getDaoSession();

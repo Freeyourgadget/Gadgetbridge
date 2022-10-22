@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <ListPreference
+        android:defaultValue=""
+        android:entries="@array/pref_zepp_os_apps"
+        android:entryValues="@array/pref_zepp_os_apps_values"
+        android:icon="@drawable/ic_smart_button"
+        android:key="pref_button_action_lower_short"
+        android:summary="%s"
+        android:title="@string/pref_title_lower_button_short_press_action" />
+</androidx.preference.PreferenceScreen>

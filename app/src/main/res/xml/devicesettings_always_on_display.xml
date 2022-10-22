@@ -27,5 +27,18 @@
             android:defaultValue="00:00"
             android:key="always_on_display_end"
             android:title="@string/mi2_prefs_do_not_disturb_end" />
+
+        <SwitchPreference
+            android:defaultValue="true"
+            android:key="always_on_display_follow_watchface"
+            android:title="@string/prefs_always_on_display_follow_watchface" />
+
+        <ListPreference
+            android:defaultValue=""
+            android:entries="@array/pref_huami2021_empty_array"
+            android:entryValues="@array/pref_huami2021_empty_array"
+            android:key="always_on_display_style"
+            android:summary="%s"
+            android:title="@string/prefs_always_on_display_style" />
     </PreferenceScreen>
 </androidx.preference.PreferenceScreen>

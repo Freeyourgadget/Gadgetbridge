@@ -17,17 +17,13 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.activities;
 
-import android.os.Bundle;
-
-import androidx.preference.Preference;
-
-import nodomain.freeyourgadget.gadgetbridge.GBApplication;
-import nodomain.freeyourgadget.gadgetbridge.R;
-
 import static nodomain.freeyourgadget.gadgetbridge.model.ActivityUser.PREF_USER_ACTIVETIME_MINUTES;
 import static nodomain.freeyourgadget.gadgetbridge.model.ActivityUser.PREF_USER_CALORIES_BURNT;
 import static nodomain.freeyourgadget.gadgetbridge.model.ActivityUser.PREF_USER_DISTANCE_METERS;
 import static nodomain.freeyourgadget.gadgetbridge.model.ActivityUser.PREF_USER_GENDER;
+import static nodomain.freeyourgadget.gadgetbridge.model.ActivityUser.PREF_USER_GOAL_FAT_BURN_TIME_MINUTES;
+import static nodomain.freeyourgadget.gadgetbridge.model.ActivityUser.PREF_USER_GOAL_STANDING_TIME_HOURS;
+import static nodomain.freeyourgadget.gadgetbridge.model.ActivityUser.PREF_USER_GOAL_WEIGHT_KG;
 import static nodomain.freeyourgadget.gadgetbridge.model.ActivityUser.PREF_USER_HEIGHT_CM;
 import static nodomain.freeyourgadget.gadgetbridge.model.ActivityUser.PREF_USER_NAME;
 import static nodomain.freeyourgadget.gadgetbridge.model.ActivityUser.PREF_USER_SLEEP_DURATION;
@@ -35,6 +31,10 @@ import static nodomain.freeyourgadget.gadgetbridge.model.ActivityUser.PREF_USER_
 import static nodomain.freeyourgadget.gadgetbridge.model.ActivityUser.PREF_USER_STEP_LENGTH_CM;
 import static nodomain.freeyourgadget.gadgetbridge.model.ActivityUser.PREF_USER_WEIGHT_KG;
 import static nodomain.freeyourgadget.gadgetbridge.model.ActivityUser.PREF_USER_YEAR_OF_BIRTH;
+
+import android.os.Bundle;
+
+import nodomain.freeyourgadget.gadgetbridge.R;
 
 public class AboutUserPreferencesActivity extends AbstractSettingsActivity {
     @Override
@@ -47,12 +47,18 @@ public class AboutUserPreferencesActivity extends AbstractSettingsActivity {
         addPreferenceHandlerFor(PREF_USER_WEIGHT_KG);
         addPreferenceHandlerFor(PREF_USER_GENDER);
         addPreferenceHandlerFor(PREF_USER_STEPS_GOAL);
+        addPreferenceHandlerFor(PREF_USER_GOAL_WEIGHT_KG);
+        addPreferenceHandlerFor(PREF_USER_GOAL_STANDING_TIME_HOURS);
+        addPreferenceHandlerFor(PREF_USER_GOAL_FAT_BURN_TIME_MINUTES);
 
         addIntentNotificationListener(PREF_USER_STEPS_GOAL);
         addIntentNotificationListener(PREF_USER_HEIGHT_CM);
         addIntentNotificationListener(PREF_USER_SLEEP_DURATION);
         addIntentNotificationListener(PREF_USER_STEP_LENGTH_CM);
         addIntentNotificationListener(PREF_USER_DISTANCE_METERS);
+        addIntentNotificationListener(PREF_USER_GOAL_WEIGHT_KG);
+        addIntentNotificationListener(PREF_USER_GOAL_STANDING_TIME_HOURS);
+        addIntentNotificationListener(PREF_USER_GOAL_FAT_BURN_TIME_MINUTES);
     }
 
     @Override
@@ -66,6 +72,10 @@ public class AboutUserPreferencesActivity extends AbstractSettingsActivity {
                 PREF_USER_STEP_LENGTH_CM,
                 PREF_USER_ACTIVETIME_MINUTES,
                 PREF_USER_CALORIES_BURNT,
-                PREF_USER_DISTANCE_METERS,};
+                PREF_USER_DISTANCE_METERS,
+                PREF_USER_GOAL_WEIGHT_KG,
+                PREF_USER_GOAL_STANDING_TIME_HOURS,
+                PREF_USER_GOAL_FAT_BURN_TIME_MINUTES
+        };
     }
 }

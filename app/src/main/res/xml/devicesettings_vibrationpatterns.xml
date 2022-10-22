@@ -19,7 +19,7 @@
             <PreferenceCategory android:title="@string/pref_screen_notification_profile_generic" />
 
             <ListPreference
-                android:defaultValue="@string/p_short"
+                android:defaultValue="@string/p_default"
                 android:entries="@array/vibration_profile"
                 android:entryValues="@array/vibration_profile_values"
                 android:key="huami_vibration_profile_app_alerts"
@@ -49,7 +49,7 @@
             <PreferenceCategory android:title="@string/pref_screen_notification_profile_incoming_call" />
 
             <ListPreference
-                android:defaultValue="@string/p_ring"
+                android:defaultValue="@string/p_default"
                 android:entries="@array/vibration_profile"
                 android:entryValues="@array/vibration_profile_values"
                 android:key="huami_vibration_profile_incoming_call"
@@ -79,7 +79,7 @@
             <PreferenceCategory android:title="@string/pref_screen_notification_profile_sms" />
 
             <ListPreference
-                android:defaultValue="@string/p_staccato"
+                android:defaultValue="@string/p_default"
                 android:entries="@array/vibration_profile"
                 android:entryValues="@array/vibration_profile_values"
                 android:key="huami_vibration_profile_incoming_sms"
@@ -109,7 +109,7 @@
             <PreferenceCategory android:title="@string/mi2_prefs_goal_notification" />
 
             <ListPreference
-                android:defaultValue="@string/p_long"
+                android:defaultValue="@string/p_default"
                 android:entries="@array/vibration_profile"
                 android:entryValues="@array/vibration_profile_values"
                 android:key="huami_vibration_profile_goal_notification"
@@ -139,7 +139,7 @@
             <PreferenceCategory android:title="@string/vibration_profile_alarm_clock" />
 
             <ListPreference
-                android:defaultValue="@string/p_long"
+                android:defaultValue="@string/p_default"
                 android:entries="@array/vibration_profile"
                 android:entryValues="@array/vibration_profile_values"
                 android:key="huami_vibration_profile_alarm"
@@ -169,7 +169,7 @@
             <PreferenceCategory android:title="@string/pref_screen_notification_idle_alerts" />
 
             <ListPreference
-                android:defaultValue="@string/p_medium"
+                android:defaultValue="@string/p_default"
                 android:entries="@array/vibration_profile"
                 android:entryValues="@array/vibration_profile_values"
                 android:key="huami_vibration_profile_idle_alerts"
@@ -199,7 +199,7 @@
             <PreferenceCategory android:title="@string/pref_screen_notification_profile_event_reminder" />
 
             <ListPreference
-                android:defaultValue="@string/p_long"
+                android:defaultValue="@string/p_default"
                 android:entries="@array/vibration_profile"
                 android:entryValues="@array/vibration_profile_values"
                 android:key="huami_vibration_profile_event_reminder"
@@ -229,7 +229,7 @@
             <PreferenceCategory android:title="@string/pref_screen_notification_profile_find_device" />
 
             <ListPreference
-                android:defaultValue="@string/p_long"
+                android:defaultValue="@string/p_default"
                 android:entries="@array/vibration_profile"
                 android:entryValues="@array/vibration_profile_values"
                 android:key="huami_vibration_profile_find_band"
@@ -249,5 +249,64 @@
                 android:title="@string/vibration_try"/>
         </PreferenceScreen>
 
+        <PreferenceScreen
+            android:key="vibration_profile_key_todo_list"
+            android:icon="@drawable/ic_checklist"
+            android:title="@string/pref_screen_notification_profile_todo_list"
+            android:persistent="false">
+
+            <!-- workaround for missing toolbar -->
+            <PreferenceCategory android:title="@string/pref_screen_notification_profile_todo_list" />
+
+            <ListPreference
+                android:defaultValue="@string/p_default"
+                android:entries="@array/vibration_profile"
+                android:entryValues="@array/vibration_profile_values"
+                android:key="huami_vibration_profile_todo_list"
+                android:title="@string/miband_prefs_vibration"
+                android:summary="%s" />
+
+            <EditTextPreference
+                android:defaultValue="2"
+                android:inputType="number"
+                android:key="huami_vibration_count_todo_list"
+                android:maxLength="1"
+                android:title="@string/pref_title_notifications_repetitions" />
+
+            <Preference
+                android:persistent="false"
+                android:key="huami_vibration_try_todo_list"
+                android:title="@string/vibration_try"/>
+        </PreferenceScreen>
+
+        <PreferenceScreen
+            android:key="vibration_profile_key_schedule"
+            android:icon="@drawable/ic_calendar_to"
+            android:title="@string/pref_screen_notification_profile_schedule"
+            android:persistent="false">
+
+            <!-- workaround for missing toolbar -->
+            <PreferenceCategory android:title="@string/pref_screen_notification_profile_schedule" />
+
+            <ListPreference
+                android:defaultValue="@string/p_default"
+                android:entries="@array/vibration_profile"
+                android:entryValues="@array/vibration_profile_values"
+                android:key="huami_vibration_profile_schedule"
+                android:title="@string/miband_prefs_vibration"
+                android:summary="%s" />
+
+            <EditTextPreference
+                android:defaultValue="2"
+                android:inputType="number"
+                android:key="huami_vibration_count_schedule"
+                android:maxLength="1"
+                android:title="@string/pref_title_notifications_repetitions" />
+
+            <Preference
+                android:persistent="false"
+                android:key="huami_vibration_try_schedule"
+                android:title="@string/vibration_try"/>
+        </PreferenceScreen>
     </PreferenceScreen>
 </androidx.preference.PreferenceScreen>

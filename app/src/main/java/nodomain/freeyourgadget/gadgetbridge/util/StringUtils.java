@@ -18,6 +18,7 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.util;
 
+import java.io.ByteArrayOutputStream;
 import java.nio.ByteBuffer;
 import java.nio.CharBuffer;
 import java.nio.charset.StandardCharsets;
@@ -142,6 +143,23 @@ public class StringUtils {
             if (bytes[i] == 0) {
                 return new String(ArrayUtils.subarray(bytes, startOffset, i));
             }
+        }
+
+        return null;
+    }
+
+    @Nullable
+    public static String untilNullTerminator(final ByteBuffer buf) {
+        final ByteArrayOutputStream baos = new ByteArrayOutputStream();
+
+        while (buf.position() < buf.limit()) {
+            final byte b = buf.get();
+
+            if (b == 0) {
+                return baos.toString();
+            }
+
+            baos.write(b);
         }
 
         return null;

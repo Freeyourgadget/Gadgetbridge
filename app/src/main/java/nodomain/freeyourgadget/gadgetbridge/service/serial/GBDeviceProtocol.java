@@ -110,7 +110,7 @@ public abstract class GBDeviceProtocol {
         return null;
     }
 
-    public byte[] encodePhoneFound() {
+    public byte[] encodeFindPhone(boolean start) {
         return null;
     }
 

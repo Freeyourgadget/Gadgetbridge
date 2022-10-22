@@ -186,36 +186,49 @@ public abstract class AbstractDeviceSupport implements DeviceSupport {
         }
     }
 
-    private void handleGBDeviceEvent(GBDeviceEventFindPhone deviceEvent) {
-        Context context = getContext();
-        LOG.info("Got GBDeviceEventFindPhone");
+    private void handleGBDeviceEvent(final GBDeviceEventFindPhone deviceEvent) {
+        final Context context = getContext();
+        LOG.info("Got GBDeviceEventFindPhone: {}", deviceEvent.event);
         switch (deviceEvent.event) {
             case START:
-                handleGBDeviceEventFindPhoneStart();
+                handleGBDeviceEventFindPhoneStart(true);
+                break;
+            case START_VIBRATE:
+                handleGBDeviceEventFindPhoneStart(false);
+                break;
+            case VIBRATE:
+                final Intent intentVibrate = new Intent(FindPhoneActivity.ACTION_VIBRATE);
+                LocalBroadcastManager.getInstance(context).sendBroadcast(intentVibrate);
+                break;
+            case RING:
+                final Intent intentRing = new Intent(FindPhoneActivity.ACTION_RING);
+                LocalBroadcastManager.getInstance(context).sendBroadcast(intentRing);
                 break;
             case STOP:
-                Intent intent = new Intent(FindPhoneActivity.ACTION_FOUND);
-                LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
+                final Intent intentStop = new Intent(FindPhoneActivity.ACTION_FOUND);
+                LocalBroadcastManager.getInstance(context).sendBroadcast(intentStop);
                 break;
             default:
                 LOG.warn("unknown GBDeviceEventFindPhone");
         }
     }
 
-    private void handleGBDeviceEventFindPhoneStart() {
+    private void handleGBDeviceEventFindPhoneStart(final boolean ring) {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) { // this could be used if app in foreground // TODO: Below Q?
             Intent startIntent = new Intent(getContext(), FindPhoneActivity.class);
             startIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startIntent.putExtra(FindPhoneActivity.EXTRA_RING, ring);
             context.startActivity(startIntent);
         } else {
-            handleGBDeviceEventFindPhoneStartNotification();
+            handleGBDeviceEventFindPhoneStartNotification(ring);
         }
     }
 
     @RequiresApi(Build.VERSION_CODES.Q)
-    private void handleGBDeviceEventFindPhoneStartNotification() {
+    private void handleGBDeviceEventFindPhoneStartNotification(final boolean ring) {
         LOG.info("Got handleGBDeviceEventFindPhoneStartNotification");
         Intent intent = new Intent(context, FindPhoneActivity.class);
+        intent.putExtra(FindPhoneActivity.EXTRA_RING, ring);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 
         PendingIntent pi = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
@@ -303,6 +316,7 @@ public abstract class AbstractDeviceSupport implements DeviceSupport {
         }
 
         savePreferencesEvent.update(GBApplication.getDeviceSpecificSharedPrefs(getDevice().getAddress()));
+        gbDevice.sendDeviceUpdateIntent(context);
     }
 
     protected void handleGBDeviceEvent(GBDeviceEventUpdateDeviceState updateDeviceState) {

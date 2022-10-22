@@ -31,6 +31,8 @@ public enum HuamiFirmwareType {
     WATCHFACE((byte) 8),
     APP((byte) 8),
     FONT_LATIN((byte) 11),
+    ZEPPOS_UNKNOWN_0X13((byte) 0x13),
+    ZEPPOS_APP((byte) 0xa0),
     INVALID(Byte.MIN_VALUE);
 
     private final byte value;

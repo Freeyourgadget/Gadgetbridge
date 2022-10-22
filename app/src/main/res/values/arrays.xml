@@ -146,6 +146,15 @@
         <item>right</item>
     </string-array>
 
+    <string-array name="weardirection">
+        <item>@string/buttons_on_left</item>
+        <item>@string/buttons_on_right</item>
+    </string-array>
+    <string-array name="weardirection_values">
+        <item>buttons_on_left</item>
+        <item>buttons_on_right</item>
+    </string-array>
+
     <string-array name="orientation">
         <item>@string/horizontal</item>
         <item>@string/vertical</item>
@@ -156,6 +165,7 @@
     </string-array>
 
     <string-array name="vibration_profile">
+        <item>@string/vibration_profile_default</item>
         <item>@string/vibration_profile_staccato</item>
         <item>@string/vibration_profile_short</item>
         <item>@string/vibration_profile_medium</item>
@@ -165,6 +175,8 @@
         <item>@string/vibration_profile_alarm_clock</item>
     </string-array>
     <string-array name="vibration_profile_values">
+        <!-- special case - default -->
+        <item>@string/p_default</item>
         <!-- Note: corresponds with IDs in VibrationProfile -->
         <item>@string/p_staccato</item>
         <item>@string/p_short</item>
@@ -624,12 +636,208 @@
         <item>@string/p_menuitem_music</item>
     </string-array>
 
-    <string-array name="pref_huami2021_display_items">
+    <string-array name="pref_huami2021_empty_array">
         <!-- empty array, will be requested from band -->
     </string-array>
 
-    <string-array name="pref_huami2021_shortcuts">
-        <!-- empty array, will be requested from band -->
+    <string-array name="pref_workout_detection_categories">
+        <item>@string/activity_type_walking</item>
+        <item>@string/activity_type_indoor_walking</item>
+        <item>@string/activity_type_outdoor_running</item>
+        <item>@string/activity_type_treadmill</item>
+        <item>@string/activity_type_outdoor_cycling</item>
+        <item>@string/activity_type_pool_swimming</item>
+        <item>@string/activity_type_elliptical</item>
+        <item>@string/activity_type_rowing_machine</item>
+    </string-array>
+    <string-array name="pref_workout_detection_categories_values">
+        <item>walking</item>
+        <item>indoor_walking</item>
+        <item>outdoor_running</item>
+        <item>treadmill</item>
+        <item>outdoor_cycling</item>
+        <item>pool_swimming</item>
+        <item>elliptical</item>
+        <item>rowing_machine</item>
+    </string-array>
+
+    <string-array name="pref_gps_mode_preset">
+        <item>@string/accuracy</item>
+        <item>@string/balanced</item>
+        <item>@string/power_saving</item>
+        <item>@string/custom</item>
+    </string-array>
+    <string-array name="pref_gps_mode_preset_values">
+        <item>accuracy</item>
+        <item>balanced</item>
+        <item>power_saving</item>
+        <item>custom</item>
+    </string-array>
+
+    <string-array name="pref_gps_band">
+        <item>@string/single_band</item>
+        <item>@string/dual_band</item>
+    </string-array>
+    <string-array name="pref_gps_band_values">
+        <item>single_band</item>
+        <item>dual_band</item>
+    </string-array>
+
+    <string-array name="pref_gps_combination">
+        <item>@string/low_power_gps</item>
+        <item>@string/gps</item>
+        <item>@string/gps_bds</item>
+        <item>@string/gps_gnolass</item>
+        <item>@string/gps_galileo</item>
+        <item>@string/all_satellites</item>
+    </string-array>
+    <string-array name="pref_gps_combination_values">
+        <item>low_power_gps</item>
+        <item>gps</item>
+        <item>gps_bds</item>
+        <item>gps_gnolass</item>
+        <item>gps_galileo</item>
+        <item>all_satellites</item>
+    </string-array>
+
+    <string-array name="pref_gps_satellite_search">
+        <item>@string/speed_first</item>
+        <item>@string/accuracy_first</item>
+    </string-array>
+    <string-array name="pref_gps_satellite_search_values">
+        <item>speed_first</item>
+        <item>accuracy_first</item>
+    </string-array>
+
+    <string-array name="workout_detection_sensitivity">
+        <item>@string/sony_speak_to_chat_sensitivity_high</item>
+        <item>@string/sony_speak_to_chat_sensitivity_standard</item>
+        <item>@string/sony_speak_to_chat_sensitivity_low</item>
+    </string-array>
+    <string-array name="workout_detection_sensitivity_values">
+        <item>high</item>
+        <item>standard</item>
+        <item>low</item>
+    </string-array>
+
+    <string-array name="pref_zepp_os_apps">
+        <item>@string/menuitem_activity</item>
+        <item>@string/menuitem_alarm</item>
+        <item>@string/menuitem_alexa</item>
+        <item>@string/menuitem_barometer</item>
+        <item>@string/menuitem_breathing</item>
+        <item>@string/menuitem_calendar</item>
+        <item>@string/menuitem_compass</item>
+        <item>@string/menuitem_countdown</item>
+        <item>@string/menuitem_eventreminder</item>
+        <item>@string/menuitem_events</item>
+        <item>@string/menuitem_female_health</item>
+        <item>@string/menuitem_findphone</item>
+        <item>@string/menuitem_flashlight</item>
+        <item>@string/menuitem_hr</item>
+        <item>@string/menuitem_membership_cards</item>
+        <item>@string/menuitem_music</item>
+        <item>@string/menuitem_mutephone</item>
+        <item>@string/menuitem_offline_voice</item>
+        <item>@string/menuitem_one_tap_measuring</item>
+        <item>@string/menuitem_pai</item>
+        <item>@string/menuitem_personal_activity_intelligence</item>
+        <item>@string/menuitem_phone</item>
+        <item>@string/menuitem_pomodoro</item>
+        <item>@string/menuitem_settings</item>
+        <item>@string/menuitem_sleep</item>
+        <item>@string/menuitem_spo2</item>
+        <item>@string/menuitem_stopwatch</item>
+        <item>@string/menuitem_stress</item>
+        <item>@string/menuitem_sun_moon</item>
+        <item>@string/menuitem_takephoto</item>
+        <item>@string/menuitem_todo</item>
+        <item>@string/menuitem_voice_memos</item>
+        <item>@string/menuitem_weather</item>
+        <item>@string/menuitem_workout_history</item>
+        <item>@string/menuitem_workout</item>
+        <item>@string/menuitem_workout_status</item>
+        <item>@string/menuitem_worldclock</item>
+        <!-- dummy item -->
+        <item>@string/menuitem_more</item>
+    </string-array>
+
+    <string-array name="pref_zepp_os_apps_values">
+        <item>activity</item>
+        <item>alarm</item>
+        <item>alexa</item>
+        <item>barometer</item>
+        <item>breathing</item>
+        <item>calendar</item>
+        <item>compass</item>
+        <item>countdown</item>
+        <item>eventreminder</item>
+        <item>events</item>
+        <item>female_health</item>
+        <item>findphone</item>
+        <item>flashlight</item>
+        <item>hr</item>
+        <item>membership_cards</item>
+        <item>music</item>
+        <item>mutephone</item>
+        <item>offline_voice</item>
+        <item>one_tap_measuring</item>
+        <item>pai</item>
+        <item>personal_activity_intelligence</item>
+        <item>phone</item>
+        <item>pomodoro</item>
+        <item>settings</item>
+        <item>sleep</item>
+        <item>spo2</item>
+        <item>stopwatch</item>
+        <item>stress</item>
+        <item>sun_moon</item>
+        <item>takephoto</item>
+        <item>todo</item>
+        <item>voice_memos</item>
+        <item>weather</item>
+        <item>workout_history</item>
+        <item>workout</item>
+        <item>workout_status</item>
+        <item>worldclock</item>
+        <!-- dummy item -->
+        <item>more</item>
+    </string-array>
+
+    <string-array name="pref_huami2021_control_center">
+        <item>@string/battery</item>
+        <item>@string/menuitem_dnd</item>
+        <item>@string/menuitem_sleep</item>
+        <item>@string/menuitem_theater_mode</item>
+        <item>@string/menuitem_calendar</item>
+        <item>@string/menuitem_volume</item>
+        <item>@string/menuitem_screen_always_lit</item>
+        <item>@string/menuitem_brightness</item>
+        <item>@string/menuitem_settings</item>
+        <item>@string/menuitem_flashlight</item>
+        <item>@string/menuitem_bluetooth</item>
+        <item>@string/menuitem_wifi</item>
+        <item>@string/menuitem_lockscreen</item>
+        <item>@string/menuitem_findphone</item>
+        <item>@string/menuitem_eject_water</item>
+    </string-array>
+
+    <string-array name="pref_huami2021_control_center_values">
+        <item>battery</item>
+        <item>dnd</item>
+        <item>sleep</item>
+        <item>theater_mode</item>
+        <item>calendar</item>
+        <item>volume</item>
+        <item>screen_always_lit</item>
+        <item>brightness</item>
+        <item>settings</item>
+        <item>flashlight</item>
+        <item>bluetooth</item>
+        <item>wifi</item>
+        <item>lockscreen</item>
+        <item>findphone</item>
+        <item>eject_water</item>
     </string-array>
 
     <string-array name="pref_miband5_workout_activity_types">
@@ -1852,7 +2060,7 @@
         <item>1800</item>
     </string-array>
 
-    <string-array name="screen_timeout_5_to_15">
+    <string-array name="screen_timeout">
         <item>@string/seconds_5</item>
         <item>@string/seconds_6</item>
         <item>@string/seconds_7</item>
@@ -1864,8 +2072,11 @@
         <item>@string/seconds_13</item>
         <item>@string/seconds_14</item>
         <item>@string/seconds_15</item>
+        <item>@string/seconds_20</item>
+        <item>@string/seconds_25</item>
+        <item>@string/seconds_30</item>
     </string-array>
-    <string-array name="screen_timeout_5_to_15_values">
+    <string-array name="screen_timeout_values">
         <item>5</item>
         <item>6</item>
         <item>7</item>
@@ -1877,6 +2088,9 @@
         <item>13</item>
         <item>14</item>
         <item>15</item>
+        <item>20</item>
+        <item>25</item>
+        <item>30</item>
     </string-array>
 
     <string-array name="reminder_repeat">

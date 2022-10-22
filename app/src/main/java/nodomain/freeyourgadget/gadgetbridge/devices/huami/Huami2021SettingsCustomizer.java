@@ -17,87 +17,405 @@
 package nodomain.freeyourgadget.gadgetbridge.devices.huami;
 
 import android.os.Parcel;
-import android.text.InputType;
 
 import androidx.preference.ListPreference;
+import androidx.preference.MultiSelectListPreference;
 import androidx.preference.Preference;
 
-import com.mobeta.android.dslv.DragSortListPreference;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import java.util.HashSet;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-import java.util.Set;
 
-import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
-import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSpecificSettingsCustomizer;
+import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst;
 import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSpecificSettingsHandler;
+import nodomain.freeyourgadget.gadgetbridge.capabilities.GpsCapability;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.Huami2021MenuType;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.Huami2021Config;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.HuamiVibrationPatternNotificationType;
-import nodomain.freeyourgadget.gadgetbridge.util.MapUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 
 public class Huami2021SettingsCustomizer extends HuamiSettingsCustomizer {
-    public Huami2021SettingsCustomizer(final GBDevice device) {
-        super(device);
+    private static final Logger LOG = LoggerFactory.getLogger(Huami2021SettingsCustomizer.class);
+
+    public Huami2021SettingsCustomizer(final GBDevice device, final List<HuamiVibrationPatternNotificationType> vibrationPatternNotificationTypes) {
+        super(device, vibrationPatternNotificationTypes);
     }
 
     @Override
     public void customizeSettings(final DeviceSpecificSettingsHandler handler, final Prefs prefs) {
         super.customizeSettings(handler, prefs);
 
-        setupDisplayItemsPref(
-                HuamiConst.PREF_DISPLAY_ITEMS_SORTABLE,
-                HuamiConst.PREF_ALL_DISPLAY_ITEMS,
-                Huami2021MenuType.displayItemNameLookup,
-                handler,
-                prefs
-        );
+        // These are not reported by the normal configs
+        removeUnsupportedElementsFromListPreference(HuamiConst.PREF_DISPLAY_ITEMS_SORTABLE, handler, prefs);
+        removeUnsupportedElementsFromListPreference(HuamiConst.PREF_SHORTCUTS_SORTABLE, handler, prefs);
+        removeUnsupportedElementsFromListPreference(HuamiConst.PREF_CONTROL_CENTER_SORTABLE, handler, prefs);
 
-        setupDisplayItemsPref(
+        for (final Huami2021Config.ConfigArg config : Huami2021Config.ConfigArg.values()) {
+            if (config.getPrefKey() == null) {
+                continue;
+            }
+            switch (config.getConfigType()) {
+                case BYTE:
+                case BYTE_LIST:
+                case STRING_LIST:
+                    // For list preferences, remove the unsupported items
+                    removeUnsupportedElementsFromListPreference(config.getPrefKey(), handler, prefs);
+                    break;
+                case BOOL:
+                case SHORT:
+                case INT:
+                case DATETIME_HH_MM:
+                    // For other preferences, just hide them if they were not reported as supported by the device
+                    hidePrefIfNoConfigSupported(handler, prefs, config.getPrefKey(), config);
+                    break;
+            }
+        }
+
+        // Hide all config groups that may not be mapped directly to a preference
+        final Map<String, List<Huami2021Config.ConfigArg>> configScreens = new HashMap<String, List<Huami2021Config.ConfigArg>>() {{
+            put(DeviceSettingsPreferenceConst.PREF_SCREEN_NIGHT_MODE, Arrays.asList(
+                    Huami2021Config.ConfigArg.NIGHT_MODE_MODE,
+                    Huami2021Config.ConfigArg.NIGHT_MODE_SCHEDULED_START,
+                    Huami2021Config.ConfigArg.NIGHT_MODE_SCHEDULED_END
+            ));
+            put(DeviceSettingsPreferenceConst.PREF_SCREEN_SLEEP_MODE, Arrays.asList(
+                    Huami2021Config.ConfigArg.SLEEP_MODE_SLEEP_SCREEN,
+                    Huami2021Config.ConfigArg.SLEEP_MODE_SMART_ENABLE
+            ));
+            put(DeviceSettingsPreferenceConst.PREF_SCREEN_LIFT_WRIST, Arrays.asList(
+                    Huami2021Config.ConfigArg.LIFT_WRIST_MODE,
+                    Huami2021Config.ConfigArg.LIFT_WRIST_SCHEDULED_START,
+                    Huami2021Config.ConfigArg.LIFT_WRIST_SCHEDULED_END,
+                    Huami2021Config.ConfigArg.LIFT_WRIST_RESPONSE_SENSITIVITY
+            ));
+            put(DeviceSettingsPreferenceConst.PREF_SCREEN_PASSWORD, Arrays.asList(
+                    Huami2021Config.ConfigArg.PASSWORD_ENABLED,
+                    Huami2021Config.ConfigArg.PASSWORD_TEXT
+            ));
+            put(DeviceSettingsPreferenceConst.PREF_SCREEN_ALWAYS_ON_DISPLAY, Arrays.asList(
+                    Huami2021Config.ConfigArg.ALWAYS_ON_DISPLAY_MODE,
+                    Huami2021Config.ConfigArg.ALWAYS_ON_DISPLAY_SCHEDULED_START,
+                    Huami2021Config.ConfigArg.ALWAYS_ON_DISPLAY_SCHEDULED_END,
+                    Huami2021Config.ConfigArg.ALWAYS_ON_DISPLAY_FOLLOW_WATCHFACE,
+                    Huami2021Config.ConfigArg.ALWAYS_ON_DISPLAY_STYLE
+            ));
+            put(DeviceSettingsPreferenceConst.PREF_SCREEN_AUTO_BRIGHTNESS, Arrays.asList(
+                    Huami2021Config.ConfigArg.SCREEN_AUTO_BRIGHTNESS
+            ));
+            put(DeviceSettingsPreferenceConst.PREF_SCREEN_HEARTRATE_MONITORING, Arrays.asList(
+                    Huami2021Config.ConfigArg.HEART_RATE_ALL_DAY_MONITORING,
+                    Huami2021Config.ConfigArg.HEART_RATE_HIGH_ALERTS,
+                    Huami2021Config.ConfigArg.HEART_RATE_LOW_ALERTS,
+                    Huami2021Config.ConfigArg.HEART_RATE_ACTIVITY_MONITORING,
+                    Huami2021Config.ConfigArg.SLEEP_HIGH_ACCURACY_MONITORING,
+                    Huami2021Config.ConfigArg.SLEEP_BREATHING_QUALITY_MONITORING,
+                    Huami2021Config.ConfigArg.STRESS_MONITORING,
+                    Huami2021Config.ConfigArg.STRESS_RELAXATION_REMINDER,
+                    Huami2021Config.ConfigArg.SPO2_ALL_DAY_MONITORING,
+                    Huami2021Config.ConfigArg.SPO2_LOW_ALERT
+            ));
+            put(DeviceSettingsPreferenceConst.PREF_SCREEN_INACTIVITY_EXTENDED, Arrays.asList(
+                    Huami2021Config.ConfigArg.INACTIVITY_WARNINGS_ENABLED,
+                    Huami2021Config.ConfigArg.INACTIVITY_WARNINGS_SCHEDULED_START,
+                    Huami2021Config.ConfigArg.INACTIVITY_WARNINGS_SCHEDULED_END,
+                    Huami2021Config.ConfigArg.INACTIVITY_WARNINGS_DND_ENABLED,
+                    Huami2021Config.ConfigArg.INACTIVITY_WARNINGS_DND_SCHEDULED_START,
+                    Huami2021Config.ConfigArg.INACTIVITY_WARNINGS_DND_SCHEDULED_END
+            ));
+            put(DeviceSettingsPreferenceConst.PREF_HEADER_GPS, Arrays.asList(
+                    Huami2021Config.ConfigArg.WORKOUT_GPS_PRESET,
+                    Huami2021Config.ConfigArg.WORKOUT_GPS_BAND,
+                    Huami2021Config.ConfigArg.WORKOUT_GPS_COMBINATION,
+                    Huami2021Config.ConfigArg.WORKOUT_GPS_SATELLITE_SEARCH,
+                    Huami2021Config.ConfigArg.WORKOUT_AGPS_EXPIRY_REMINDER_ENABLED,
+                    Huami2021Config.ConfigArg.WORKOUT_AGPS_EXPIRY_REMINDER_TIME
+            ));
+            put(DeviceSettingsPreferenceConst.PREF_SCREEN_SOUND_AND_VIBRATION, Arrays.asList(
+                    Huami2021Config.ConfigArg.VOLUME,
+                    Huami2021Config.ConfigArg.CROWN_VIBRATION,
+                    Huami2021Config.ConfigArg.ALERT_TONE,
+                    Huami2021Config.ConfigArg.COVER_TO_MUTE,
+                    Huami2021Config.ConfigArg.VIBRATE_FOR_ALERT,
+                    Huami2021Config.ConfigArg.TEXT_TO_SPEECH
+            ));
+            put(DeviceSettingsPreferenceConst.PREF_SCREEN_DO_NOT_DISTURB, Arrays.asList(
+                    Huami2021Config.ConfigArg.DND_MODE,
+                    Huami2021Config.ConfigArg.DND_SCHEDULED_START,
+                    Huami2021Config.ConfigArg.DND_SCHEDULED_END
+            ));
+            put(DeviceSettingsPreferenceConst.PREF_HEADER_WORKOUT_DETECTION, Arrays.asList(
+                    Huami2021Config.ConfigArg.WORKOUT_DETECTION_CATEGORY,
+                    Huami2021Config.ConfigArg.WORKOUT_DETECTION_ALERT,
+                    Huami2021Config.ConfigArg.WORKOUT_DETECTION_SENSITIVITY
+            ));
+            put(DeviceSettingsPreferenceConst.PREF_SCREEN_OFFLINE_VOICE, Arrays.asList(
+                    Huami2021Config.ConfigArg.OFFLINE_VOICE_RESPOND_TURN_WRIST,
+                    Huami2021Config.ConfigArg.OFFLINE_VOICE_RESPOND_SCREEN_ON,
+                    Huami2021Config.ConfigArg.OFFLINE_VOICE_RESPONSE_DURING_SCREEN_LIGHTING,
+                    Huami2021Config.ConfigArg.OFFLINE_VOICE_LANGUAGE
+            ));
+        }};
+
+        for (final Map.Entry<String, List<Huami2021Config.ConfigArg>> configScreen : configScreens.entrySet()) {
+            hidePrefIfNoConfigSupported(
+                    handler,
+                    prefs,
+                    configScreen.getKey(),
+                    configScreen.getValue().toArray(new Huami2021Config.ConfigArg[0])
+            );
+        }
+
+        // Hides the headers if none of the preferences under them are available
+        hidePrefIfNoneVisible(handler, DeviceSettingsPreferenceConst.PREF_HEADER_TIME, Arrays.asList(
+                DeviceSettingsPreferenceConst.PREF_TIMEFORMAT,
+                DeviceSettingsPreferenceConst.PREF_DATEFORMAT,
+                DeviceSettingsPreferenceConst.PREF_WORLD_CLOCKS
+        ));
+        hidePrefIfNoneVisible(handler, DeviceSettingsPreferenceConst.PREF_HEADER_DISPLAY, Arrays.asList(
+                HuamiConst.PREF_DISPLAY_ITEMS_SORTABLE,
                 HuamiConst.PREF_SHORTCUTS_SORTABLE,
-                HuamiConst.PREF_ALL_SHORTCUTS,
-                Huami2021MenuType.shortcutsNameLookup,
-                handler,
-                prefs
-        );
+                HuamiConst.PREF_CONTROL_CENTER_SORTABLE,
+                DeviceSettingsPreferenceConst.PREF_SCREEN_NIGHT_MODE,
+                DeviceSettingsPreferenceConst.PREF_SCREEN_SLEEP_MODE,
+                DeviceSettingsPreferenceConst.PREF_SCREEN_LIFT_WRIST,
+                DeviceSettingsPreferenceConst.PREF_SCREEN_PASSWORD,
+                DeviceSettingsPreferenceConst.PREF_SCREEN_ALWAYS_ON_DISPLAY,
+                DeviceSettingsPreferenceConst.PREF_SCREEN_TIMEOUT,
+                DeviceSettingsPreferenceConst.PREF_SCREEN_AUTO_BRIGHTNESS,
+                DeviceSettingsPreferenceConst.PREF_SCREEN_BRIGHTNESS
+        ));
+        hidePrefIfNoneVisible(handler, DeviceSettingsPreferenceConst.PREF_HEADER_HEALTH, Arrays.asList(
+                DeviceSettingsPreferenceConst.PREF_SCREEN_HEARTRATE_MONITORING,
+                DeviceSettingsPreferenceConst.PREF_SCREEN_INACTIVITY_EXTENDED,
+                DeviceSettingsPreferenceConst.PREF_USER_FITNESS_GOAL_NOTIFICATION
+        ));
+        hidePrefIfNoneVisible(handler, DeviceSettingsPreferenceConst.PREF_HEADER_WORKOUT, Arrays.asList(
+                DeviceSettingsPreferenceConst.PREF_HEADER_GPS,
+                DeviceSettingsPreferenceConst.PREF_WORKOUT_START_ON_PHONE,
+                DeviceSettingsPreferenceConst.PREF_WORKOUT_SEND_GPS_TO_BAND,
+                DeviceSettingsPreferenceConst.PREF_HEADER_WORKOUT_DETECTION
+        ));
+        hidePrefIfNoneVisible(handler, DeviceSettingsPreferenceConst.PREF_HEADER_AGPS, Arrays.asList(
+                DeviceSettingsPreferenceConst.PREF_AGPS_EXPIRY_REMINDER_ENABLED,
+                DeviceSettingsPreferenceConst.PREF_AGPS_EXPIRY_REMINDER_TIME
+        ));
+
+        setupGpsPreference(handler);
     }
 
-    private void setupDisplayItemsPref(final String prefKey,
-                                       final String allItemsPrefKey,
-                                       final Map<String, Integer> nameLookup,
-                                       final DeviceSpecificSettingsHandler handler,
-                                       final Prefs prefs) {
-        final DragSortListPreference pref = handler.findPreference(prefKey);
+    private void setupGpsPreference(final DeviceSpecificSettingsHandler handler) {
+        final ListPreference prefGpsPreset = handler.findPreference(DeviceSettingsPreferenceConst.PREF_GPS_MODE_PRESET);
+        final ListPreference prefGpsBand = handler.findPreference(DeviceSettingsPreferenceConst.PREF_GPS_BAND);
+        final ListPreference prefGpsCombination = handler.findPreference(DeviceSettingsPreferenceConst.PREF_GPS_COMBINATION);
+        final ListPreference prefGpsSatelliteSearch = handler.findPreference(DeviceSettingsPreferenceConst.PREF_GPS_SATELLITE_SEARCH);
+
+        if (prefGpsPreset != null) {
+            // When the preset preference is changed, update the band, combination and satellite search to the corresponding values
+            final Preference.OnPreferenceChangeListener onGpsPresetUpdated = (preference, newVal) -> {
+                final boolean isCustomPreset = GpsCapability.Preset.CUSTOM.name().toLowerCase(Locale.ROOT).equals(newVal);
+                final GpsCapability.Preset preset = GpsCapability.Preset.valueOf(newVal.toString().toUpperCase(Locale.ROOT));
+                final GpsCapability.Band presetBand;
+                final GpsCapability.Combination presetCombination;
+                final GpsCapability.SatelliteSearch presetSatelliteSearch;
+                switch (preset) {
+                    case ACCURACY:
+                        presetBand = GpsCapability.Band.DUAL_BAND;
+                        presetCombination = GpsCapability.Combination.ALL_SATELLITES;
+                        presetSatelliteSearch = GpsCapability.SatelliteSearch.ACCURACY_FIRST;
+                        break;
+                    case BALANCED:
+                        presetBand = GpsCapability.Band.SINGLE_BAND;
+                        presetCombination = GpsCapability.Combination.GPS_BDS;
+                        presetSatelliteSearch = GpsCapability.SatelliteSearch.ACCURACY_FIRST;
+                        break;
+                    case POWER_SAVING:
+                        presetBand = GpsCapability.Band.SINGLE_BAND;
+                        presetCombination = GpsCapability.Combination.LOW_POWER_GPS;
+                        presetSatelliteSearch = GpsCapability.SatelliteSearch.SPEED_FIRST;
+                        break;
+                    default:
+                        presetBand = null;
+                        presetCombination = null;
+                        presetSatelliteSearch = null;
+                        break;
+                }
+
+                if (prefGpsBand != null) {
+                    prefGpsBand.setEnabled(isCustomPreset);
+                    if (!isCustomPreset && presetBand != null) {
+                        prefGpsBand.setValue(presetBand.name().toLowerCase(Locale.ROOT));
+                    }
+                }
+                if (prefGpsCombination != null) {
+                    prefGpsCombination.setEnabled(isCustomPreset);
+                    if (!isCustomPreset && presetBand != null) {
+                        prefGpsCombination.setValue(presetCombination.name().toLowerCase(Locale.ROOT));
+                    }
+                }
+                if (prefGpsSatelliteSearch != null) {
+                    prefGpsSatelliteSearch.setEnabled(isCustomPreset);
+                    if (!isCustomPreset && presetBand != null) {
+                        prefGpsSatelliteSearch.setValue(presetSatelliteSearch.name().toLowerCase(Locale.ROOT));
+                    }
+                }
+
+                return true;
+            };
+
+            handler.addPreferenceHandlerFor(DeviceSettingsPreferenceConst.PREF_GPS_MODE_PRESET, onGpsPresetUpdated);
+            onGpsPresetUpdated.onPreferenceChange(prefGpsPreset, prefGpsPreset.getValue());
+        }
+
+        // The gps combination can only be chosen if the gps band is single band
+        if (prefGpsBand != null && prefGpsCombination != null) {
+            final Preference.OnPreferenceChangeListener onGpsBandUpdate = (preference, newVal) -> {
+                final boolean isSingleBand = GpsCapability.Band.SINGLE_BAND.name().toLowerCase(Locale.ROOT).equals(newVal);
+                prefGpsCombination.setEnabled(isSingleBand);
+                return true;
+            };
+
+            handler.addPreferenceHandlerFor(DeviceSettingsPreferenceConst.PREF_GPS_BAND, onGpsBandUpdate);
+            final boolean isCustomPreset = prefGpsPreset != null &&
+                    GpsCapability.Preset.CUSTOM.name().toLowerCase(Locale.ROOT).equals(prefGpsPreset.getValue());
+            if (isCustomPreset) {
+                onGpsBandUpdate.onPreferenceChange(prefGpsPreset, prefGpsBand.getValue());
+            }
+        }
+    }
+
+    /**
+     * Removes all unsupported elements from a list preference. If they are not known, the preference
+     * is hidden.
+     */
+    private void removeUnsupportedElementsFromListPreference(final String prefKey,
+                                                             final DeviceSpecificSettingsHandler handler,
+                                                             final Prefs prefs) {
+        final Preference pref = handler.findPreference(prefKey);
         if (pref == null) {
             return;
         }
-        final List<String> allDisplayItems = prefs.getList(allItemsPrefKey, null);
-        if (allDisplayItems == null || allDisplayItems.isEmpty()) {
+
+        // Get the list of possible values for this preference, as reported by the band
+        final List<String> possibleValues = prefs.getList(Huami2021Config.getPrefPossibleValuesKey(prefKey), null);
+        if (possibleValues == null || possibleValues.isEmpty()) {
+            // The band hasn't reported this setting, so we don't know the possible values.
+            // Hide it
+            pref.setVisible(false);
+
             return;
         }
 
-        final CharSequence[] entries = new CharSequence[allDisplayItems.size()];
-        final CharSequence[] values = new CharSequence[allDisplayItems.size()];
-        for (int i = 0; i < allDisplayItems.size(); i++) {
-            final String screenId = allDisplayItems.get(i);
-            final String screenName;
-            if (screenId.equals("more")) {
-                screenName = handler.getContext().getString(R.string.menuitem_more);
-            } else if (nameLookup.containsKey(screenId)) {
-                screenName = handler.getContext().getString(nameLookup.get(screenId));
-            } else {
-                screenName = handler.getContext().getString(R.string.menuitem_unknown_app, screenId);
-            }
+        final CharSequence[] originalEntries;
+        final CharSequence[] originalValues;
 
-            entries[i] = screenName;
-            values[i] = screenId;
+        if (pref instanceof ListPreference) {
+            originalEntries = ((ListPreference) pref).getEntries();
+            originalValues = ((ListPreference) pref).getEntryValues();
+        } else if (pref instanceof MultiSelectListPreference) {
+            originalEntries = ((MultiSelectListPreference) pref).getEntries();
+            originalValues = ((MultiSelectListPreference) pref).getEntryValues();
+        } else {
+            LOG.error("Unknown list pref class {}", pref.getClass().getName());
+            return;
         }
 
-        pref.setEntries(entries);
-        pref.setEntryValues(values);
+        final List<String> prefValues = new ArrayList<>(originalValues.length);
+        for (final CharSequence entryValue : originalValues) {
+            prefValues.add(entryValue.toString());
+        }
+
+        final CharSequence[] entries = new CharSequence[possibleValues.size()];
+        final CharSequence[] values = new CharSequence[possibleValues.size()];
+        for (int i = 0; i < possibleValues.size(); i++) {
+            final String possibleValue = possibleValues.get(i);
+            final int idxPrefValue = prefValues.indexOf(possibleValue);
+
+            if (idxPrefValue >= 0) {
+                entries[i] = originalEntries[idxPrefValue];
+            } else {
+                entries[i] = handler.getContext().getString(R.string.menuitem_unknown_app, possibleValue);
+            }
+            values[i] = possibleValue;
+        }
+
+        if (pref instanceof ListPreference) {
+            ((ListPreference) pref).setEntries(entries);
+            ((ListPreference) pref).setEntryValues(values);
+        } else if (pref instanceof MultiSelectListPreference) {
+            ((MultiSelectListPreference) pref).setEntries(entries);
+            ((MultiSelectListPreference) pref).setEntryValues(values);
+        }
     }
+
+    /**
+     * Hides prefToHide if no configuration from the list has been reported by the band.
+     */
+    private void hidePrefIfNoConfigSupported(final DeviceSpecificSettingsHandler handler,
+                                             final Prefs prefs,
+                                             final String prefToHide,
+                                             final Huami2021Config.ConfigArg... configs) {
+        final Preference pref = handler.findPreference(prefToHide);
+        if (pref == null) {
+            return;
+        }
+
+        for (final Huami2021Config.ConfigArg config : configs) {
+            if (Huami2021Config.deviceHasConfig(prefs, config)) {
+                // This preference is supported, don't hide
+                return;
+            }
+        }
+
+        // None of the configs were supported by the device, hide this preference
+        pref.setVisible(false);
+    }
+
+    /**
+     * Hides the the prefToHide preference if none of the preferences in the preferences list are
+     * visible.
+     */
+    private void hidePrefIfNoneVisible(final DeviceSpecificSettingsHandler handler,
+                                       final String prefToHide,
+                                       final List<String> subPrefs) {
+        final Preference pref = handler.findPreference(prefToHide);
+        if (pref == null) {
+            return;
+        }
+
+        for (final String subPrefKey : subPrefs) {
+            final Preference subPref = handler.findPreference(subPrefKey);
+            if (subPref == null) {
+                continue;
+            }
+            if (subPref.isVisible()) {
+                // At least one preference is visible
+                return;
+            }
+        }
+
+        // No preference was visible, hide
+        pref.setVisible(false);
+    }
+
+    public static final Creator<Huami2021SettingsCustomizer> CREATOR = new Creator<Huami2021SettingsCustomizer>() {
+        @Override
+        public Huami2021SettingsCustomizer createFromParcel(final Parcel in) {
+            final GBDevice device = in.readParcelable(Huami2021SettingsCustomizer.class.getClassLoader());
+            final List<HuamiVibrationPatternNotificationType> vibrationPatternNotificationTypes = new ArrayList<>();
+            in.readList(vibrationPatternNotificationTypes, HuamiVibrationPatternNotificationType.class.getClassLoader());
+            return new Huami2021SettingsCustomizer(device, vibrationPatternNotificationTypes);
+        }
+
+        @Override
+        public Huami2021SettingsCustomizer[] newArray(final int size) {
+            return new Huami2021SettingsCustomizer[size];
+        }
+    };
 }

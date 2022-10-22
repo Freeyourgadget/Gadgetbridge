@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceScreen
+        android:icon="@drawable/ic_volume_up"
+        android:key="pref_screen_sound_and_vibration"
+        android:persistent="false"
+        android:title="@string/pref_header_sound_vibration">
+
+        <SeekBarPreference
+            android:defaultValue="50"
+            android:icon="@drawable/ic_volume_up"
+            android:key="volume"
+            android:max="100"
+            android:title="@string/menuitem_volume" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:icon="@drawable/ic_rotate_left"
+            android:key="crown_vibration"
+            android:title="@string/pref_crown_vibration" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:icon="@drawable/ic_warning_gray"
+            android:key="alert_tone"
+            android:title="@string/pref_alert_tone" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:icon="@drawable/ic_volume_off"
+            android:key="cover_to_mute"
+            android:title="@string/pref_cover_to_mute" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:icon="@drawable/ic_vibration"
+            android:key="vibrate_for_alert"
+            android:title="@string/pref_vibrate_for_alert" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:icon="@drawable/ic_voice"
+            android:key="text_to_speech"
+            android:title="@string/pref_text_to_speech" />
+    </PreferenceScreen>
+</androidx.preference.PreferenceScreen>

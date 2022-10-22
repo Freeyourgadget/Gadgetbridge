@@ -355,8 +355,9 @@ public class GBDeviceService implements DeviceService {
     }
 
     @Override
-    public void onPhoneFound() {
-        Intent intent = createIntent().setAction(ACTION_PHONE_FOUND);
+    public void onFindPhone(final boolean start) {
+        Intent intent = createIntent().setAction(ACTION_PHONE_FOUND)
+                        .putExtra(EXTRA_FIND_START, start);
         invokeService(intent);
     }
 

@@ -23,6 +23,9 @@ public class GBDeviceEventFindPhone extends GBDeviceEvent {
     public enum Event {
         UNKNOWN,
         START,
-        STOP
+        START_VIBRATE,
+        STOP,
+        VIBRATE,
+        RING,
     }
 }

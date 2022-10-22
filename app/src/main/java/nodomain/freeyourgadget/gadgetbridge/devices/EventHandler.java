@@ -92,7 +92,7 @@ public interface EventHandler {
 
     void onFindDevice(boolean start);
 
-    void onPhoneFound();
+    void onFindPhone(boolean start);
 
     void onSetConstantVibration(int integer);
 

@@ -75,7 +75,7 @@ public class MiBand2Coordinator extends HuamiCoordinator {
     }
 
     @Override
-    public int getReminderSlotCount() {
+    public int getReminderSlotCount(final GBDevice device) {
         return 0;
     }
 

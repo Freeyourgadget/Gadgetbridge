@@ -66,6 +66,7 @@ import nodomain.freeyourgadget.gadgetbridge.util.XTimePreference;
 import nodomain.freeyourgadget.gadgetbridge.util.XTimePreferenceFragment;
 
 import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.*;
+import static nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst.PREF_CONTROL_CENTER_SORTABLE;
 import static nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst.PREF_DEVICE_ACTION_FELL_SLEEP_BROADCAST;
 import static nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst.PREF_DEVICE_ACTION_FELL_SLEEP_SELECTION;
 import static nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst.PREF_DEVICE_ACTION_SELECTION_BROADCAST;
@@ -360,6 +361,7 @@ public class DeviceSpecificSettingsFragment extends PreferenceFragmentCompat imp
         addPreferenceHandlerFor(PREF_WORKOUT_ACTIVITY_TYPES_SORTABLE);
         addPreferenceHandlerFor(PREF_SHORTCUTS);
         addPreferenceHandlerFor(PREF_SHORTCUTS_SORTABLE);
+        addPreferenceHandlerFor(PREF_CONTROL_CENTER_SORTABLE);
         addPreferenceHandlerFor(PREF_LANGUAGE);
         addPreferenceHandlerFor(PREF_EXPOSE_HR_THIRDPARTY);
         addPreferenceHandlerFor(PREF_BT_CONNECTED_ADVERTISEMENT);
@@ -367,9 +369,12 @@ public class DeviceSpecificSettingsFragment extends PreferenceFragmentCompat imp
         addPreferenceHandlerFor(PREF_VIBRATION_ENABLE);
         addPreferenceHandlerFor(PREF_NOTIFICATION_ENABLE);
         addPreferenceHandlerFor(PREF_SCREEN_BRIGHTNESS);
+        addPreferenceHandlerFor(PREF_SCREEN_AUTO_BRIGHTNESS);
         addPreferenceHandlerFor(PREF_SCREEN_ORIENTATION);
         addPreferenceHandlerFor(PREF_SCREEN_TIMEOUT);
         addPreferenceHandlerFor(PREF_TIMEFORMAT);
+        addPreferenceHandlerFor(PREF_UPPER_BUTTON_LONG_PRESS);
+        addPreferenceHandlerFor(PREF_LOWER_BUTTON_SHORT_PRESS);
         addPreferenceHandlerFor(PREF_BUTTON_1_FUNCTION_SHORT);
         addPreferenceHandlerFor(PREF_BUTTON_2_FUNCTION_SHORT);
         addPreferenceHandlerFor(PREF_BUTTON_3_FUNCTION_SHORT);
@@ -430,6 +435,9 @@ public class DeviceSpecificSettingsFragment extends PreferenceFragmentCompat imp
         addPreferenceHandlerFor(PREF_HYDRATION_PERIOD);
         addPreferenceHandlerFor(PREF_AMPM_ENABLED);
         addPreferenceHandlerFor(PREF_SOUNDS);
+
+        addPreferenceHandlerFor(PREF_SLEEP_MODE_SLEEP_SCREEN);
+        addPreferenceHandlerFor(PREF_SLEEP_MODE_SMART_ENABLE);
 
         addPreferenceHandlerFor(PREF_HYBRID_HR_DRAW_WIDGET_CIRCLES);
         addPreferenceHandlerFor(PREF_HYBRID_HR_FORCE_WHITE_COLOR);
@@ -510,6 +518,32 @@ public class DeviceSpecificSettingsFragment extends PreferenceFragmentCompat imp
         addPreferenceHandlerFor(PREF_HOURLY_CHIME_ENABLE);
         addPreferenceHandlerFor(PREF_HOURLY_CHIME_START);
         addPreferenceHandlerFor(PREF_HOURLY_CHIME_END);
+
+        addPreferenceHandlerFor(PREF_WORKOUT_DETECTION_CATEGORIES);
+        addPreferenceHandlerFor(PREF_WORKOUT_DETECTION_ALERT);
+        addPreferenceHandlerFor(PREF_WORKOUT_DETECTION_SENSITIVITY);
+
+        addPreferenceHandlerFor(PREF_GPS_MODE_PRESET);
+        addPreferenceHandlerFor(PREF_GPS_BAND);
+        addPreferenceHandlerFor(PREF_GPS_COMBINATION);
+        addPreferenceHandlerFor(PREF_GPS_SATELLITE_SEARCH);
+        addPreferenceHandlerFor(PREF_AGPS_EXPIRY_REMINDER_ENABLED);
+        addPreferenceHandlerFor(PREF_AGPS_EXPIRY_REMINDER_TIME);
+        addPreferenceHandlerFor(PREF_ALWAYS_ON_DISPLAY_FOLLOW_WATCHFACE);
+        addPreferenceHandlerFor(PREF_ALWAYS_ON_DISPLAY_STYLE);
+        addPreferenceHandlerFor(PREF_WEARDIRECTION);
+
+        addPreferenceHandlerFor(PREF_VOLUME);
+        addPreferenceHandlerFor(PREF_CROWN_VIBRATION);
+        addPreferenceHandlerFor(PREF_ALERT_TONE);
+        addPreferenceHandlerFor(PREF_COVER_TO_MUTE);
+        addPreferenceHandlerFor(PREF_VIBRATE_FOR_ALERT);
+        addPreferenceHandlerFor(PREF_TEXT_TO_SPEECH);
+
+        addPreferenceHandlerFor(PREF_OFFLINE_VOICE_RESPOND_TURN_WRIST);
+        addPreferenceHandlerFor(PREF_OFFLINE_VOICE_RESPOND_SCREEN_ON);
+        addPreferenceHandlerFor(PREF_OFFLINE_VOICE_RESPONSE_DURING_SCREEN_LIGHTING);
+        addPreferenceHandlerFor(PREF_OFFLINE_VOICE_LANGUAGE);
 
         String sleepTimeState = prefs.getString(PREF_SLEEP_TIME, PREF_DO_NOT_DISTURB_OFF);
         boolean sleepTimeScheduled = sleepTimeState.equals(PREF_DO_NOT_DISTURB_SCHEDULED);

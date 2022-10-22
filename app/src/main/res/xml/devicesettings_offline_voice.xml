@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceScreen
+        android:icon="@drawable/ic_voice"
+        android:key="pref_screen_offline_voice"
+        android:persistent="false"
+        android:title="@string/pref_header_offline_voice">
+
+        <ListPreference
+            android:defaultValue="en_US"
+            android:entries="@array/pref_language_all"
+            android:entryValues="@array/pref_language_all_values"
+            android:icon="@drawable/ic_language"
+            android:key="offline_voice_language"
+            android:summary="%s"
+            android:title="@string/pref_title_language" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:icon="@drawable/ic_rotate_left"
+            android:key="offline_voice_respond_turn_wrist"
+            android:title="@string/offline_voice_respond_turn_wrist" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:icon="@drawable/ic_always_on_display"
+            android:key="offline_voice_respond_screen_on"
+            android:title="@string/offline_voice_respond_screen_on" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:icon="@drawable/ic_always_on_display"
+            android:key="offline_voice_response_during_screen_lighting"
+            android:title="@string/offline_voice_response_during_screen_lighting" />
+    </PreferenceScreen>
+</androidx.preference.PreferenceScreen>

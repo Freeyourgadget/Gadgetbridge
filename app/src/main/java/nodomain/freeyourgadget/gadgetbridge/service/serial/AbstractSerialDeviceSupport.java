@@ -209,8 +209,8 @@ public abstract class AbstractSerialDeviceSupport extends AbstractDeviceSupport 
     }
 
     @Override
-    public void onPhoneFound() {
-        byte[] bytes = gbDeviceProtocol.encodePhoneFound();
+    public void onFindPhone(boolean start) {
+        byte[] bytes = gbDeviceProtocol.encodeFindPhone(start);
         sendToDevice(bytes);
     }
 

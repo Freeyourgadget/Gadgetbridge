@@ -93,7 +93,7 @@ public class AmazfitNeoCoordinator extends HuamiCoordinator {
     }
 
     @Override
-    public int getReminderSlotCount() {
+    public int getReminderSlotCount(final GBDevice device) {
         return 0; // Neo does not support reminders
     }
 

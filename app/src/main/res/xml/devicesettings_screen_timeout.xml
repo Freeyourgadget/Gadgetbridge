@@ -2,8 +2,8 @@
 <androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
     <ListPreference
         android:defaultValue="5"
-        android:entries="@array/screen_timeout_5_to_15"
-        android:entryValues="@array/screen_timeout_5_to_15_values"
+        android:entries="@array/screen_timeout"
+        android:entryValues="@array/screen_timeout_values"
         android:key="screen_timeout"
         android:icon="@drawable/ic_hourglass_empty"
         android:summary="%s"
