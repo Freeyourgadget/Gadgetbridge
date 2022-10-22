@@ -39,13 +39,13 @@
     <string name="app_move_to_top">A tetejére mozgatás</string>
     <!--Strings related to FwAppInstaller-->
     <string name="title_activity_fw_app_insaller">FW/Alkalmazás telepítő</string>
-    <string name="fw_upgrade_notice">A %s firmware-változatot tervezed telepíteni.</string>
+    <string name="fw_upgrade_notice">A %s firmwaret tervezi telepíteni.</string>
     <string name="fw_multi_upgrade_notice">Ön a(z) %1$s és %2$s firmware-változatokat tervezi telepíteni a Mi Band-edre a mostani helyett.</string>
     <string name="miband_firmware_known">Ez a firmware tesztelt és kompatibilis a Gadgetbridge-el.</string>
     <string name="miband_firmware_unknown_warning">Ez a firmware nincs tesztelve, lehetséges, hogy nem kompatibilis a Gadgetbridge-el.
 \n
 \nNEM javasoljuk, ezen firmware telepítését!</string>
-    <string name="miband_firmware_suggest_whitelist">Ha ennek ellenére is telepíteni szeretnéd, és a dolgok jól működnek, utána kérlek jelezd a Gadgetbridge fejlesztőinek, hogy fehérlistára tehessék a %s firmware-változatot.</string>
+    <string name="miband_firmware_suggest_whitelist">Ha ennek ellenére is telepíteni szeretné, és a dolgok jól működnek, utána jelezze a Gadgetbridge fejlesztőinek, hogy fehérlistára tehessék a(z) %s firmware-változatot.</string>
     <!--Strings related to Settings-->
     <string name="title_activity_settings">Beállítások</string>
     <string name="pref_header_general">Általános beállítások</string>
@@ -122,13 +122,13 @@
     <string name="toast_enable_networklocationprovider">Kérem, engedélyezze a hálózati helymeghatározást</string>
     <string name="toast_aqurired_networklocation">Hely meghatározva</string>
     <string name="pref_title_pebble_forceprotocol">Értesítési protokoll erőltetése</string>
-    <string name="pref_summary_pebble_forceprotocol">Ez az opció a legfrissebb értesítési protokollt erőlteti a firmware verziótól függően. CSAK AKKOR ENGEDÉLYEZD, HA TUDOD MIT CSINÁLSZ!</string>
+    <string name="pref_summary_pebble_forceprotocol">Ez az opció a legfrissebb értesítési protokollt erőlteti a firmware verziótól függően. CSAK AKKOR ENGEDÉLYEZZE, HA TUDJA MIT CSINÁL!</string>
     <string name="pref_title_pebble_forceuntested">Nem tesztelt funkciók engedélyezése</string>
-    <string name="pref_summary_pebble_forceuntested">Nem tesztelt funkciók engedélyezése. CSAK AKKOR ENGEDÉLYEZD, HA TUDOD MIT CSINÁLSZ!</string>
+    <string name="pref_summary_pebble_forceuntested">Nem tesztelt funkciók engedélyezése. CSAK AKKOR ENGEDÉLYEZZE, HA TUDJA MIT CSINÁL!</string>
     <string name="pref_title_pebble_forcele">Mindig a BLE-t preferálja</string>
     <string name="pref_summary_pebble_forcele">A kísérleti LE támogatás használata minden Pebble-hez a klasszikus BT helyett, párosítani kell hozzá egy \"Pebble LE\"-t, miután a nem-LE-t párosítva lett egyszer.</string>
     <string name="pref_title_pebble_mtu_limit">Pebble 2/LE GATT MTU határérték</string>
-    <string name="pref_summary_pebble_mtu_limit">Ha a Pebble 2/Pebble LE nem működik elvártan, próbáld beállítani az MTU limitet (az érvényes tartomány: 20–512)</string>
+    <string name="pref_summary_pebble_mtu_limit">Ha a Pebble 2/Pebble LE nem működik elvártan, próbálja beállítani az MTU limitet (az érvényes tartomány: 20–512)</string>
     <string name="pref_title_pebble_enable_applogs">Óraalkalmazás-naplózás engedélyezése</string>
     <string name="pref_summary_pebble_enable_applogs">Az óra-alkalmazások naplóit a Gadgetbridge is naplózni fogja (újracsatlakozást igényel)</string>
     <string name="pref_title_pebble_always_ack_pebblekit">Korai ACK PebbleKit</string>
@@ -506,7 +506,7 @@
     <string name="controlcenter_power_off">Kikapcsolás</string>
     <string name="controlcenter_power_off_confirm_title">Kikapcsolás</string>
     <string name="controlcenter_set_alias">Álnév beállítása</string>
-    <string name="controlcenter_power_off_confirm_description">Biztosan ki akarja kapcsolni az eszközt\?</string>
+    <string name="controlcenter_power_off_confirm_description">Biztosan ki szeretné kapcsolni az eszközt\?</string>
     <string name="prefs_activity_in_device_card_title_summary">Jelenlegi lépésszám, távolság vagy alvásidő megjelenítése az eszközlapon</string>
     <string name="activity_prefs_step_length_cm">Lépés hossza cm-ben</string>
     <string name="prefs_activity_in_device_card_steps_title_summary">Összes lépésszám megjelenítése</string>
@@ -552,7 +552,7 @@
     <string name="open_fw_installer_info_text_title">Fájltelepítő</string>
     <string name="about_additional_device_support">További eszköztámogatás</string>
     <string name="pref_rtl_max_line_length">Jobbról-balra maximális sorhossz</string>
-    <string name="pref_summary_rtl">Engedélyezze, ha az eszköze nem mutatja a jobbról-balra nyelveket</string>
+    <string name="pref_summary_rtl">Engedélyezze, ha az eszköze nem jeleníti meg rendesen a jobbról-balra nyelveket</string>
     <string name="about_version">Verzió: %s</string>
     <string name="watchface_setting_button_toggle_backlight">Háttérvilágítás bekapcsolása</string>
     <string name="pref_world_clocks_title">Világórák</string>
@@ -618,4 +618,15 @@
     <string name="reminder_time">Idő</string>
     <string name="reminder_every_day">Minden nap</string>
     <string name="reminder_every_year">Minden évben</string>
+    <string name="sports_activity_quick_filter_last_week">Előző hét</string>
+    <string name="sports_activity_quick_filter_this_month">Ez a hónap</string>
+    <string name="sports_activity_confirm_delete_title">%d aktivitás törlése</string>
+    <string name="sports_activity_quick_filter_last_month">Előző hónap</string>
+    <string name="sports_activity_quick_filter_30days">30 nap</string>
+    <string name="sports_activity_quick_filter_select">Időszak</string>
+    <string name="activity_summary_detail">Sportaktivitás részletei</string>
+    <string name="sports_activity_quick_filter_this_week">Ez a hét</string>
+    <string name="sports_activity_confirm_delete_description">Biztosan törölni szeretne %d aktivitást\?</string>
+    <string name="sports_activity_quick_filter_7days">7 nap</string>
+    <string name="activity_summaries">Sportaktivitások</string>
 </resources>
