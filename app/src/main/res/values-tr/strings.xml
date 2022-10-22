@@ -1970,6 +1970,6 @@
     <string name="elevationGain">Yükseklik kazancı</string>
     <string name="elevationLoss">Yükseklik kaybı</string>
     <string name="pref_chart_sleep_lines_limit">Kaydırmadan önce kaç uyku oturumu satırının gösterileceği</string>
-    <string name="devicetype_sony_wh_1000xm2">Sony WF-1000XM2</string>
+    <string name="devicetype_sony_wh_1000xm2">Sony WH-1000XM2</string>
     <string name="devicetype_sony_wf_1000xm4">Sony WF-1000XM4</string>
 </resources>
