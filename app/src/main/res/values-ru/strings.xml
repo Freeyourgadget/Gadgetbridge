@@ -72,9 +72,9 @@
     <string name="pref_title_notifications_pebblemsg">Сообщения Pebble</string>
     <string name="pref_summary_notifications_pebblemsg">Для приложений, которые отправляют уведомления на Pebble с помощью PebbleKit.</string>
     <string name="pref_title_notifications_generic">Доступ к уведомлениям</string>
-    <string name="pref_title_whenscreenon">…также, когда экран включен</string>
+    <string name="pref_title_whenscreenon">...также при включенном экране</string>
     <string name="pref_title_notification_filter">Не беспокоить</string>
-    <string name="pref_summary_notification_filter">Не показывать нежелательные уведомления в этом режиме</string>
+    <string name="pref_summary_notification_filter">Блокировать все уведомления, когда телефон в режиме \"Не беспокоить\"</string>
     <string name="pref_title_transliteration">Транслитерация</string>
     <string name="always">Всегда</string>
     <string name="pref_summary_transliteration">Включите, если на устройстве нет шрифта для вашего языка</string>
@@ -590,7 +590,7 @@
     <string name="mi3_prefs_night_mode">Ночной режим</string>
     <string name="mi3_prefs_night_mode_summary">Автоматически снижать яркость экрана устройства по ночам</string>
     <string name="mi3_night_mode_sunset">На закате</string>
-    <string name="ok">Принято</string>
+    <string name="ok">Принять</string>
     <string name="controlcenter_change_led_color">Изменить цвет светодиода</string>
     <string name="controlcenter_change_fm_frequency">Изменить FM-частоту</string>
     <string name="devicetype_roidmi">Roidmi</string>
@@ -994,7 +994,7 @@
     <string name="pref_check_permission_status">Проверить статус разрешения</string>
     <string name="device_requires_key">ТРЕБУЕТСЯ КЛЮЧ</string>
     <string name="device_is_currently_bonded">УЖЕ СВЯЗАНЫ</string>
-    <string name="companiondevice_pairing_details">Включает поддержку нового API CompanionDevice (действует только на Android 8 или выше), что повысит надежность, если службу необходимо перезапустить в фоновом режиме, требует повторного сопряжения с помощью Gadgetbridge, чтобы иметь эффект</string>
+    <string name="companiondevice_pairing_details">Включает поддержку нового API CompanionDevice (работает только на Android 8 или выше), что повысит надежность, если службу необходимо перезапустить в фоновом режиме, для достижения эффекта требуется повторное сопряжение с помощью Gadgetbridge</string>
     <string name="companiondevice_pairing">Сопряжение с CompanionDevice</string>
     <string name="require_location_provider">Местоположение должно быть включено</string>
     <string name="devicetype_pinetime_jf">PineTime (Прошивка JF)</string>
@@ -1446,4 +1446,86 @@
     <string name="title_activity_controlcenter_main_nightly">Gadgetbridge Nightly</string>
     <string name="gadgetbridge_running_main_nightly">Nightly GB запущен</string>
     <string name="about_activity_title_main_nopebble">О Gadgetbridge Nightly без Pebble</string>
+    <string name="pref_header_connection">Соединение</string>
+    <string name="pref_header_display">Дисплей</string>
+    <string name="pref_header_health">Здоровье</string>
+    <string name="pref_header_time">Время</string>
+    <string name="pref_header_workout">Тренировки</string>
+    <string name="pref_summary_canned_replies">Отвечать с часов при помощи предустановленных сообщений</string>
+    <string name="pref_cache_weather">Кэшировать данные о погоде</string>
+    <string name="open_fw_installer_getting_files_title">Получение файла прошивки/приложения</string>
+    <string name="open_fw_installer_info_text_title">Установщик файлов</string>
+    <string name="open_fw_installer_ensure_device_connected">Убедитесь, что устройство %s подключено</string>
+    <string name="pref_chart_sleep_lines_limit">Сколько строк сеанса сна показывать перед их прокруткой</string>
+    <string name="pref_summary_device_internet_access">Разрешить приложениям на этом устройстве доступ к Интернету</string>
+    <string name="pref_cache_weather_summary">Данные о погоде будут кэшироваться во время перезапуска приложения.</string>
+    <string name="activity_prefs_discovery_pairing">Параметры обнаружения и сопряжения</string>
+    <string name="permission_display_over_other_apps">%1$s необходимо разрешение на отображение поверх других приложений, чтобы позволить Bangle.js выполнять действия часов через намерения, когда %1$s находится в фоновом режиме.
+\n
+\nЭто можно использовать для запуска приложения воспроизведения и прослушивания музыки, а также для многих других действий.
+\n
+\nПожалуйста, нажмите \'%2$s\', затем \'%1$s\' и включите \'Поверх других приложений\', затем нажмите \'Назад\' чтобы вернуться к %1$s.
+\n
+\nЧтобы приостановить запрос разрешений от %1$s, перейдите в \'Настройки\' и снимите флажок \'Проверять статус разрешения\'.
+\n
+\nУбедитесь, что %1$s предоставлены необходимые разрешения, для корректной работы в соответствии с вашими ожиданиями.</string>
+    <string name="permission_notification_listener">%1$s необходимо предоставить доступ к Уведомлениям для того, чтобы была возможность отображения их на часах, когда экран телефона выключен.
+\n
+\nПожалуйста, нажмите \'%2$s\' затем \'%1$s\' и включите функцию \'Доступ к уведомлениям\', затем нажмите \'Назад\' чтобы вернуться к %1$s.</string>
+    <string name="fw_upgrade_notice_miband7">Вы собираетесь установить прошивку %s на свой Xiaomi Smart Band 7.
+\n
+\nПосле установки файла .zip ваш браслет перезагрузится.
+\n
+\nДЕЙСТВУЙТЕ НА СВОЙ СТРАХ И РИСК!</string>
+    <string name="open_fw_installer_warning_title">Предупреждение</string>
+    <string name="open_fw_installer_warning_text">Эта функция может привести к поломке вашего устройства. Однако такого никогда не случалось ни с одним из разработчиков из-за перепрошивки, но помните, что вы делаете это на свой страх и риск.</string>
+    <string name="pref_header_calendar">Календарь</string>
+    <string name="pref_title_screen_on_on_notifications">Включение экрана при уведомлении</string>
+    <string name="pref_header_authentication">Авторизация</string>
+    <string name="pref_summary_screen_on_on_notifications">Включать экран часов, когда поступает оповещение</string>
+    <string name="dismiss">Отклонить</string>
+    <string name="pref_title_notification_use_as_deny">Запретить выбранным приложениям показывать уведомления</string>
+    <string name="permission_notification_policy_access">%1$s необходимо предоставить доступ к функции Не беспокоить для того, чтобы была возможность чтения на часах, когда экран телефона выключен.
+\n
+\nПожалуйста, нажмите \'%2$s\', затем \'%1$s\' и включите \'Не беспокоить\', затем нажмите \'Назад\', чтобы вернуться к %1$s.</string>
+    <string name="pref_title_banglejs_text_bitmap">Текст в виде растровых изображений</string>
+    <string name="open_fw_installer_pick_file">Выбрать файл</string>
+    <string name="pref_title_device_internet_access">Разрешить доступ в Интернет</string>
+    <string name="open_fw_installer_info_text">Программа установки Прошивки/Часового интерфейса/Приложения/Файла позволяет загружать/устанавливать поддерживаемые файлы (прошивку, часовые интерфейсы, приложения, GPS, ресурсы, шрифты...) на устройство. Дополнительную информацию можно найти в вики: https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Firmware-Update</string>
+    <string name="fw_upgrade_notice_amazfit_gtr3">Вы собираетесь установить прошивку %s на свой Amazfit GTR 3.
+\n
+\nПосле установки файла .zip ваш браслет перезагрузится.
+\n
+\nДЕЙСТВУЙТЕ НА СВОЙ СТРАХ И РИСК!</string>
+    <string name="open_fw_installer_select_file">Выберите файл, который вы хотите загрузить на устройство: %s</string>
+    <string name="open_fw_installer_connect_minimum_one_device">Пожалуйста, подключите КАК МИНИМУМ ОДНО устройство, на которое вы хотите отправить файл.</string>
+    <string name="open_fw_installer_connect_maximum_one_device">Пожалуйста, подключайте ТОЛЬКО ОДНО устройство, на которое вы хотите отправить файл.</string>
+    <string name="pref_summary_banglejs_text_bitmap">Если слово не может быть отображено шрифтом часов, преобразовывать его в растровое изображение в Gadgetbridge и отобразить растровое изображение на часах</string>
+    <string name="fw_upgrade_notice_amazfit_gts3">Вы собираетесь установить прошивку %s на свой Amazfit GTS 3.
+\n
+\nПосле установки файла .zip ваш браслет перезагрузится.
+\n
+\nДЕЙСТВУЙТЕ НА СВОЙ СТРАХ И РИСК!</string>
+    <string name="pref_title_notifications_ignore_low_priority">Игнорировать уведомления с низким приоритетом</string>
+    <string name="pref_summary_notifications_ignore_low_priority">Не отправлять на часы уведомления с низким и минимальным приоритетом</string>
+    <string name="pref_title_notification_prefer_long_text">Предпочитать длинный текст уведомления</string>
+    <string name="pref_summary_notification_prefer_long_text">Если доступно, отправлять длинный текст уведомления на устройство</string>
+    <string name="uncheck_all_applications">Снять выбор со всех приложений</string>
+    <string name="appmanager_item_outdated">(устарело)</string>
+    <string name="pref_title_banglejs_webview_url">URL-адрес загрузчика приложения</string>
+    <string name="check_all_applications">Отметить все приложения</string>
+    <string name="pref_title_opentracks_packagename">Название пакета OpenTracks</string>
+    <string name="permission_location">%1$s необходимо предоставить доступ к вашему местоположению в фоновом режиме для того, чтобы была возможность оставаться на связи с вашими часами даже при выключенном экране.
+\n
+\nПожалуйста, нажмите \'%2$s\', чтобы принять.</string>
+    <string name="pref_summary_opentracks_packagename">Используется для запуска/остановки записи GPS-трека во внешнем фитнес-приложении.</string>
+    <string name="pref_title_notification_delay_calls">Задержка уведомления о вызове</string>
+    <string name="pref_title_notifications_generic_settings">Настройки уведомлений Android</string>
+    <string name="pref_summary_notification_delay_calls">Задержка перед отправкой уведомлений о входящих вызовах на устройство, в секундах.</string>
+    <string name="open_fw_installer_getting_files_text">Поскольку файлы прошивки мы не можем распространять, вам придется получить их самостоятельно. Это означает, что вам придется искать файлы в apk-файлах, в Интернете, на форумах, на Amazfitwatchfaces (для устройств Miband/Amazfit) и так далее.</string>
+    <string name="pref_title_banglejs_txt_bitmap_size">Размер растрового изображения текста</string>
+    <string name="pref_summary_banglejs_txt_bitmap_size">Если включена функция \"Текст в виде растровых изображений\", какого размера должен быть текст\?</string>
+    <string name="pref_blacklist_calendars_summary">Календари из черного списка не будут синхронизироваться с устройством</string>
+    <string name="pref_title_overwrite_settings_on_connection">Перезаписывать настройки при подключении</string>
+    <string name="pref_summary_overwrite_settings_on_connection">При подключении к часам перезаписывать на них все настройки.</string>
 </resources>
