@@ -22,7 +22,6 @@ import android.bluetooth.BluetoothGatt;
 import android.bluetooth.BluetoothGattCharacteristic;
 import android.bluetooth.BluetoothGattDescriptor;
 import android.bluetooth.BluetoothGattService;
-import android.content.Intent;
 import android.location.Location;
 
 import org.slf4j.Logger;
@@ -78,6 +77,7 @@ public abstract class AbstractBTLEDeviceSupport extends AbstractDeviceSupport im
         if (mQueue == null) {
             mQueue = new BtLEQueue(getBluetoothAdapter(), getDevice(), this, this, getContext(), mSupportedServerServices);
             mQueue.setAutoReconnect(getAutoReconnect());
+            mQueue.setImplicitGattCallbackModify(getImplicitCallbackModify());
         }
         return mQueue.connect();
     }

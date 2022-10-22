@@ -115,6 +115,16 @@ public interface DeviceSupport extends EventHandler {
     boolean getAutoReconnect();
 
     /**
+     * Returns whether the gatt callback should be implicitly set to the one on the transaction,
+     * even if it was not set directly on the transaction. If true, the gatt callback will always
+     * be set to the one in the transaction, even if null and not explicitly set to null.
+     * See https://codeberg.org/Freeyourgadget/Gadgetbridge/pulls/2912 for more information.
+     * This should be false by default, but we are making it configurable to avoid breaking
+     * older devices that rely on this behavior.
+     */
+    boolean getImplicitCallbackModify();
+
+    /**
      * Returns the associated device this instance communicates with.
      */
     GBDevice getDevice();

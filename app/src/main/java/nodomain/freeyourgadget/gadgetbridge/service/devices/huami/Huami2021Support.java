@@ -161,6 +161,15 @@ public abstract class Huami2021Support extends HuamiSupport {
         return (byte) 0x80;
     }
 
+    /**
+     * Do not reset the gatt callback implicitly, as that would interrupt operations.
+     * See https://codeberg.org/Freeyourgadget/Gadgetbridge/pulls/2912 for more information.
+     */
+    @Override
+    public boolean getImplicitCallbackModify() {
+        return false;
+    }
+
     @Override
     public void onSendConfiguration(final String config) {
         final ConfigSetter configSetter = new ConfigSetter();

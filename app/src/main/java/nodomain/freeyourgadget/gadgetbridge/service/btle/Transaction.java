@@ -31,9 +31,12 @@ import androidx.annotation.Nullable;
  */
 public class Transaction extends AbstractTransaction {
     private final List<BtLEAction> mActions = new ArrayList<>(4);
+
     private
     @Nullable
     GattCallback gattCallback;
+
+    private boolean modifyGattCallback;
 
     public Transaction(String taskName) {
         super(taskName);
@@ -53,6 +56,7 @@ public class Transaction extends AbstractTransaction {
 
     public void setGattCallback(@Nullable GattCallback callback) {
         gattCallback = callback;
+        modifyGattCallback = true;
     }
 
     /**
@@ -62,6 +66,14 @@ public class Transaction extends AbstractTransaction {
     @Nullable
     GattCallback getGattCallback() {
         return gattCallback;
+    }
+
+    /**
+     * Returns whether the gatt callback should be modified for this transaction (either set, or
+     * unset if {@code getGattCallback} is null.
+     */
+    public boolean isModifyGattCallback() {
+        return modifyGattCallback;
     }
 
     @Override

@@ -142,6 +142,11 @@ public abstract class AbstractDeviceSupport implements DeviceSupport {
     }
 
     @Override
+    public boolean getImplicitCallbackModify() {
+        return true;
+    }
+
+    @Override
     public GBDevice getDevice() {
         return gbDevice;
     }
