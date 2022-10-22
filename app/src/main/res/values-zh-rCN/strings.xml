@@ -1956,5 +1956,6 @@
     <string name="pref_chart_sleep_lines_limit">在滚动前显示多少行睡眠信息</string>
     <string name="elevationLoss">海拔减值</string>
     <string name="elevationGain">海拔增益</string>
-    <string name="devicetype_sony_wh_1000xm2">索尼 WF-1000XM2</string>
+    <string name="devicetype_sony_wh_1000xm2">索尼 WH-1000XM2</string>
+    <string name="devicetype_sony_wf_1000xm4">索尼 WF-1000XM4</string>
 </resources>
