@@ -2055,4 +2055,5 @@
     <string name="pref_screen_auto_brightness_summary">Регулювання яскравості екрана залежно від навколишнього освітлення</string>
     <string name="sony_speak_to_chat_sensitivity_standard">Стандартна</string>
     <string name="pref_agps_expiry_reminder_time">Час нагадування про закінчення терміну дії AGPS</string>
+    <string name="menuitem_eject_water">Виведення води</string>
 </resources>
