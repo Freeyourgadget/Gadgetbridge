@@ -160,6 +160,10 @@ public enum Huami2021WorkoutTrackActivityType {
         switch (this) {
             case Badminton:
                 return ActivityKind.TYPE_BADMINTON;
+            case Basketball:
+                return ActivityKind.TYPE_BASKETBALL;
+            case Cricket:
+                return ActivityKind.TYPE_CRICKET;
             case Elliptical:
                 return ActivityKind.TYPE_ELLIPTICAL_TRAINER;
             case Freestyle:
@@ -184,6 +188,8 @@ public enum Huami2021WorkoutTrackActivityType {
             case Walking:
             case RaceWalking:
                 return ActivityKind.TYPE_WALKING;
+            case Strength:
+                return ActivityKind.TYPE_STRENGTH_TRAINING;
             case Yoga:
                 return ActivityKind.TYPE_YOGA;
         }

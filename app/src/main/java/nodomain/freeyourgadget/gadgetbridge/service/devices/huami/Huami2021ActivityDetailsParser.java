@@ -123,6 +123,8 @@ public class Huami2021ActivityDetailsParser extends AbstractHuamiActivityDetails
                 case HEARTRATE:
                     consumeHeartRate(buf);
                     break;
+                case STRENGTH_SET:
+                    // TODO parse strength sets: weight, count, type
                 default:
                     LOG.warn("No consumer for for type {}", type);
                     // Consume the reported length
@@ -320,6 +322,7 @@ public class Huami2021ActivityDetailsParser extends AbstractHuamiActivityDetails
         SPEED(5, 8),
         ALTITUDE(7, 6),
         HEARTRATE(8, 3),
+        STRENGTH_SET(15, 34),
         ;
 
         private final byte code;
