@@ -1955,4 +1955,8 @@
     <string name="elevationGain">צבירת גובה</string>
     <string name="elevationLoss">הנמכת גובה</string>
     <string name="pref_chart_sleep_lines_limit">כמה שורות מופעי שינה להציג לפני שידרשו גלילה</string>
+    <string name="accuracy">דיוק</string>
+    <string name="power_saving">חיסכון בחשמל</string>
+    <string name="custom">משלך</string>
+    <string name="balanced">מאוזן</string>
 </resources>
