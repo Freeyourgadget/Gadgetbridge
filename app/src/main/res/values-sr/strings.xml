@@ -650,4 +650,14 @@
     <string name="pref_title_general_autoconnectonbluetooth">Повежи се са Геџетбрвном када је Блутут укључен</string>
     <string name="pref_summary_datetime_syctimeonconnect">Усклади време са уређајем Геџетбрвна при повезивању, и када се време или временска област промене на уређају Андроида</string>
     <string name="pref_title_minimize_priority">Сакриј обавештења Геџетбрвна</string>
+    <string name="gadgetbridge_running_generic">Геџетбрвно делује</string>
+    <string name="application_name_generic">Геџетбрвно</string>
+    <string name="title_activity_controlcenter_generic">Геџетбрвно</string>
+    <string name="about_activity_title_generic">О Геџетбрвну</string>
+    <string name="application_name_banglejs_main">Бангл.јс Геџетбрвно</string>
+    <string name="title_activity_controlcenter_banglejs_main">Бангл.јс Геџетбрвно</string>
+    <string name="about_activity_title_banglejs_main">О Бангл.јс Геџетбрвну</string>
+    <string name="about_activity_title_main_nightly">О Геџетбрвну ноћном</string>
+    <string name="application_name_main_nightly">Геџетбрвно (ноћно)</string>
+    <string name="title_activity_controlcenter_main_nightly">Геџетбрвно ноћно</string>
 </resources>
