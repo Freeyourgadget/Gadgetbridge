@@ -84,6 +84,7 @@ public abstract class WatchAdapter {
                 return "Hybrid HR";
             case "DN.1.0":
                 return "Hybrid HR Collider";
+            case "WA.0.0":
             case "VA.0.0":
                 return "Fossil Gen. 6 Hybrid";
         }

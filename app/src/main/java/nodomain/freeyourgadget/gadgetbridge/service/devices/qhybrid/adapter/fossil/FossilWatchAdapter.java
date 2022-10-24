@@ -503,15 +503,13 @@ public class FossilWatchAdapter extends WatchAdapter {
         String modelNumber = getDeviceSupport().getDevice().getModel();
         switch (modelNumber) {
             case "HW.0.0":
+            case "IV.0.0":
+            case "DN.1.0":
+            case "WA.0.0":
+            case "VA.0.0":
                 return true;
             case "HL.0.0":
                 return false;
-            case "IV.0.0":
-                return true;
-            case "DN.1.0":
-                return true;
-            case "VA.0.0":
-                return true;
         }
         throw new UnsupportedOperationException("model " + modelNumber + " not supported");
     }
@@ -523,11 +521,9 @@ public class FossilWatchAdapter extends WatchAdapter {
             case "HW.0.0":
                 return true;
             case "HL.0.0":
-                return false;
             case "IV.0.0":
-                return false;
             case "DN.1.0":
-                return false;
+            case "WA.0.0":
             case "VA.0.0":
                 return false;
         }
