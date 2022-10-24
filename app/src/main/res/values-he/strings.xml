@@ -2028,4 +2028,23 @@
     <string name="pref_sleep_mode_sleep_screen_summary">להציג את מסך השינה בעת השכמת המסך במהלך מצב שינה כדי להפחית הפרעות</string>
     <string name="pref_sleep_mode_smart_enable_summary">להפעיל את מצב השינה אוטומטית תוך ענידת הצמיד תוך כדי שינה</string>
     <string name="pref_vibrate_for_alert">רטט להתראה</string>
+    <string name="gps_gnolass">GPS + GLONASS</string>
+    <string name="pref_crown_vibration">רטט בכתר</string>
+    <string name="offline_voice_respond_turn_wrist">להגיב עם סיבוב כף היד</string>
+    <string name="offline_voice_respond_screen_on">להגיב כשהמסך פעיל</string>
+    <string name="pref_agps_header">AGPS‎</string>
+    <string name="pref_agps_expiry_reminder_enabled">תזכורת תפוגת AGPS</string>
+    <string name="offline_voice_response_during_screen_lighting">להגיב במהלך פלט תאורה מהמסך</string>
+    <string name="prefs_control_center">מרכז בקרה</string>
+    <string name="activity_type_indoor_walking">הליכה במקום סגור</string>
+    <string name="activity_type_pool_swimming">שחייה בבריכה</string>
+    <string name="menuitem_bluetooth">Bluetooth</string>
+    <string name="menuitem_eject_water">הוצאת מים</string>
+    <string name="activity_prefs_goal_fat_burn_time_minutes">יעד יומי: זמן שריפת שומן בדקות</string>
+    <string name="prefs_control_center_summary">נא לבחור את הפריטים לרשימה הנגללת של מרכז הבקרה</string>
+    <string name="activity_prefs_target_weight_kg">משקל יעד בקילוגרמים</string>
+    <string name="activity_prefs_goal_standing_time_minutes">יעד יומי: זמן עמידה בדקות</string>
+    <string name="devicetype_amazfit_gtr4">Amazfit GTR 4‎</string>
+    <string name="pref_agps_expiry_reminder_time">מועד תזכורת תפוגת AGPS</string>
+    <string name="pref_enable_unsupported_settings_summary">הגדרה זו תאפשר גישה לכל ההגדרות הזמינות, אפילו אם ההתקן לא תומך בהן. עלול לערער את היציבות ולגרום לקריסת ההתקן.</string>
 </resources>
