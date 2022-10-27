@@ -247,6 +247,7 @@ public abstract class Huami2021Coordinator extends HuamiCoordinator {
         //
         settings.add(R.xml.devicesettings_header_developer);
         settings.add(R.xml.devicesettings_keep_activity_data_on_device);
+        settings.add(R.xml.devicesettings_huami2021_fetch_operation_time_unit);
 
         return ArrayUtils.toPrimitive(settings.toArray(new Integer[0]));
     }

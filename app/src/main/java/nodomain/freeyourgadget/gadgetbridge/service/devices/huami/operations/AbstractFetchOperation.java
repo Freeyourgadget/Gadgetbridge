@@ -34,7 +34,6 @@ import java.util.Arrays;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.UUID;
-import java.util.concurrent.TimeUnit;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.Logging;
@@ -162,11 +161,12 @@ public abstract class AbstractFetchOperation extends AbstractHuamiOperation {
 
     protected void startFetching(TransactionBuilder builder, byte fetchType, GregorianCalendar sinceWhen) {
         final String taskName = StringUtils.ensureNotNull(builder.getTaskName());
-        final boolean isHuami2021 = getSupport() instanceof Huami2021Support;
+        final HuamiSupport support = getSupport();
+        final boolean isHuami2021 = support instanceof Huami2021Support;
         byte[] fetchBytes = BLETypeConversions.join(new byte[]{
                         HuamiService.COMMAND_ACTIVITY_DATA_START_DATE,
                         fetchType},
-                getSupport().getTimeBytes(sinceWhen, isHuami2021 ? TimeUnit.SECONDS : TimeUnit.MINUTES));
+                support.getTimeBytes(sinceWhen, support.getFetchOperationsTimeUnit()));
         builder.add(new AbstractGattListenerWriteAction(getQueue(), characteristicFetch, fetchBytes) {
             @Override
             protected boolean onCharacteristicChanged(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic) {

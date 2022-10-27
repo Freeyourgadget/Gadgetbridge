@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <SwitchPreference
+        android:defaultValue="true"
+        android:icon="@drawable/ic_timer"
+        android:key="huami_truncate_fetch_operation_timestamps"
+        android:summary="@string/pref_huami_truncate_fetch_operation_timestamps_summary"
+        android:title="@string/pref_huami_truncate_fetch_operation_timestamps_title" />
+</androidx.preference.PreferenceScreen>

@@ -1394,6 +1394,15 @@ public abstract class Huami2021Support extends HuamiSupport {
     }
 
     @Override
+    public TimeUnit getFetchOperationsTimeUnit() {
+        // This is configurable because using seconds was causing issues on Amazfit GTR 3
+        // However, using minutes can cause issues while fetching workouts shorter than 1 minute
+        final Prefs devicePrefs = getDevicePrefs();
+        final boolean truncate = devicePrefs.getBoolean("huami_truncate_fetch_operation_timestamps", true);
+        return truncate ? TimeUnit.MINUTES : TimeUnit.SECONDS;
+    }
+
+    @Override
     public boolean force2021Protocol() {
         return true;
     }
