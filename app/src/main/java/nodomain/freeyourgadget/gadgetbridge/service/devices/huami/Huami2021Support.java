@@ -27,7 +27,6 @@ import static nodomain.freeyourgadget.gadgetbridge.model.ActivityUser.PREF_USER_
 import static nodomain.freeyourgadget.gadgetbridge.service.btle.BLETypeConversions.fromUint16;
 import static nodomain.freeyourgadget.gadgetbridge.service.btle.BLETypeConversions.fromUint8;
 import static nodomain.freeyourgadget.gadgetbridge.service.btle.BLETypeConversions.mapTimeZone;
-import static nodomain.freeyourgadget.gadgetbridge.service.devices.huami.Huami2021Config.ConfigArg.DATE_FORMAT;
 import static nodomain.freeyourgadget.gadgetbridge.service.devices.huami.Huami2021Config.ConfigArg.FITNESS_GOAL_CALORIES;
 import static nodomain.freeyourgadget.gadgetbridge.service.devices.huami.Huami2021Config.ConfigArg.FITNESS_GOAL_FAT_BURN_TIME;
 import static nodomain.freeyourgadget.gadgetbridge.service.devices.huami.Huami2021Config.ConfigArg.FITNESS_GOAL_SLEEP;
@@ -121,9 +120,9 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.operations.Fet
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.operations.HuamiFetchDebugLogsOperation;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.operations.UpdateFirmwareOperation;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.operations.UpdateFirmwareOperation2021;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.services.ZeppOsFileUploadService;
 import nodomain.freeyourgadget.gadgetbridge.util.AlarmUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.BitmapUtil;
-import nodomain.freeyourgadget.gadgetbridge.util.CheckSums;
 import nodomain.freeyourgadget.gadgetbridge.util.DeviceHelper;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 import nodomain.freeyourgadget.gadgetbridge.util.GBPrefs;
@@ -142,6 +141,9 @@ public abstract class Huami2021Support extends HuamiSupport {
     // Tracks whether realtime HR monitoring is already started, so we can just
     // send CONTINUE commands
     private boolean heartRateRealtimeStarted;
+
+    // Services
+    private final ZeppOsFileUploadService fileUploadService = new ZeppOsFileUploadService(this);
 
     public Huami2021Support() {
         this(LOG);
@@ -1366,6 +1368,7 @@ public abstract class Huami2021Support extends HuamiSupport {
         }
 
         requestCapabilityReminders(builder);
+        fileUploadService.requestCapability(builder);
 
         for (final HuamiVibrationPatternNotificationType type : coordinator.getVibrationPatternNotificationTypes(gbDevice)) {
             // FIXME: Can we read these from the band?
@@ -1437,8 +1440,8 @@ public abstract class Huami2021Support extends HuamiSupport {
             case CHUNKED2021_ENDPOINT_CONFIG:
                 handle2021Config(payload);
                 return;
-            case CHUNKED2021_ENDPOINT_ICONS:
-                handle2021Icons(payload);
+            case ZeppOsFileUploadService.ENDPOINT:
+                fileUploadService.handlePayload(payload);
                 return;
             case CHUNKED2021_ENDPOINT_WEATHER:
                 handle2021Weather(payload);
@@ -2151,12 +2154,12 @@ public abstract class Huami2021Support extends HuamiSupport {
                     return;
                 }
                 int pos = 1 + packageName.length() + 1;
-                // payload[pos] = 0x08?
+                final byte iconFormat = payload[pos];
                 pos++;
                 int width = BLETypeConversions.toUint16(subarray(payload, pos, pos + 2));
                 pos += 2;
                 int height = BLETypeConversions.toUint16(subarray(payload, pos, pos + 2));
-                sendIconForPackage(packageName, width, height);
+                sendIconForPackage(packageName, iconFormat, width, height);
                 return;
             default:
                 LOG.warn("Unexpected notification byte {}", String.format("0x%02x", payload[0]));
@@ -2176,33 +2179,6 @@ public abstract class Huami2021Support extends HuamiSupport {
         writeToChunked2021("ack notification reply", CHUNKED2021_ENDPOINT_NOTIFICATIONS, buf.array(), true);
     }
 
-    // Package names for which icon is being sent
-    // FIXME: This only handles 1 icon at a time
-    private String queuedIconPackage;
-    // Encoded TGA565 bytes
-    private byte[] queuedIconBytes;
-    // Keep track of the last time we queued an icon, as a failsafe. If somehow we didn't get the ack
-    // after 10 seconds, we'll allow another icon to be sent
-    private long queuedIconTimeMillis = 0;
-
-    protected void handle2021Icons(final byte[] payload) {
-        switch (payload[0]) {
-            case ICONS_CMD_SEND_RESPONSE:
-                LOG.info("Band acknowledged icon send request: {}", GB.hexdump(payload));
-                // FIXME: The bytes probably mean something..
-                sendNextQueuedIconData();
-                return;
-            case ICONS_CMD_DATA_ACK:
-                LOG.info("Band acknowledged icon icon data: {}", GB.hexdump(payload));
-                // After the icon is sent to the band, we need to ACK it on the notifications
-                // FIXME: The bytes probably mean something..
-                ackNotificationAfterIconSent();
-                return;
-            default:
-                LOG.warn("Unexpected icons byte {}", String.format("0x%02x", payload[0]));
-        }
-    }
-
     protected void handle2021Weather(final byte[] payload) {
         switch (payload[0]) {
             case WEATHER_CMD_DEFAULT_LOCATION_ACK:
@@ -2213,43 +2189,7 @@ public abstract class Huami2021Support extends HuamiSupport {
         }
     }
 
-    private void sendNextQueuedIconData() {
-        if (queuedIconPackage == null) {
-            LOG.error("No queued icon to send");
-            return;
-        }
-
-        if (queuedIconBytes == null) {
-            LOG.error("No icon bytes for {}", queuedIconPackage);
-            return;
-        }
-
-        LOG.info("Sending icon data for {}", queuedIconPackage);
-
-        // The band always sends a full 8192 chunk, with zeroes at the end if bytes < 8192
-        final ByteBuffer buf = ByteBuffer.allocate(10 + queuedIconBytes.length);
-        buf.order(ByteOrder.LITTLE_ENDIAN);
-        buf.put(ICONS_CMD_DATA_SEND);
-        buf.put((byte) 0x03); // ?
-        buf.put((byte) 0x00); // ?
-        buf.put((byte) 0x00); // ?
-        buf.put((byte) 0x00); // ?
-        buf.put((byte) 0x00); // ?
-        buf.put((byte) 0x00); // ?
-        buf.put((byte) 0x00); // ?
-        buf.put((byte) 0x08); // ?
-        buf.put((byte) 0x17); // ?
-        buf.put(queuedIconBytes);
-
-        writeToChunked2021("send icon data", CHUNKED2021_ENDPOINT_ICONS, buf.array(), false);
-    }
-
-    private void ackNotificationAfterIconSent() {
-        if (queuedIconPackage == null) {
-            LOG.error("No queued icon to ack");
-            return;
-        }
-
+    private void ackNotificationAfterIconSent(final String queuedIconPackage) {
         LOG.info("Acknowledging icon send for {}", queuedIconPackage);
 
         final ByteBuffer buf = ByteBuffer.allocate(1 + queuedIconPackage.length() + 1 + 1);
@@ -2259,21 +2199,31 @@ public abstract class Huami2021Support extends HuamiSupport {
         buf.put((byte) 0x00);
         buf.put((byte) 0x01);
 
-        queuedIconPackage = null;
-        queuedIconBytes = null;
-
         writeToChunked2021("ack icon send", CHUNKED2021_ENDPOINT_NOTIFICATIONS, buf.array(), true);
     }
 
-    private void sendIconForPackage(final String packageName, final int width, final int height) {
+    private void sendIconForPackage(final String packageName, final byte iconFormat, final int width, final int height) {
         if (getMTU() < 247) {
             LOG.warn("Sending icons requires high MTU, current MTU is {}", getMTU());
             return;
         }
 
-        if (queuedIconPackage != null && System.currentTimeMillis() - queuedIconTimeMillis < 10_000L) {
-            LOG.warn("Icon for {} already queued, not sending icon for {}", queuedIconPackage, packageName);
-            return;
+        // Without the expected tga id and format string they seem to get corrupted,
+        // but the encoding seems to actually be the same...?
+        final String format;
+        final String tgaId;
+        switch (iconFormat) {
+            case 0x04:
+                format = "TGA_RGB565_GCNANOLITE";
+                tgaId = "SOMHP";
+                break;
+            case 0x08:
+                format = "TGA_RGB565_DAVE2D";
+                tgaId = "SOMH6";
+                break;
+            default:
+                LOG.error("Unknown icon format {}", String.format("0x%02x", iconFormat));
+                return;
         }
 
         final Drawable icon;
@@ -2287,19 +2237,11 @@ public abstract class Huami2021Support extends HuamiSupport {
         final Bitmap bmp = BitmapUtil.toBitmap(icon);
 
         // The TGA needs to have this ID, or the band does not accept it
-        final byte[] tgaId = new byte[46];
-        System.arraycopy("SOMH6".getBytes(StandardCharsets.UTF_8), 0, tgaId, 0, 5);
+        final byte[] tgaIdBytes = new byte[46];
+        System.arraycopy(tgaId.getBytes(StandardCharsets.UTF_8), 0, tgaIdBytes, 0, 5);
 
-        final byte[] tga565 = BitmapUtil.convertToTgaRGB565(bmp, width, height, tgaId);
+        final byte[] tga565 = BitmapUtil.convertToTgaRGB565(bmp, width, height, tgaIdBytes);
 
-        if (tga565.length > 8192) {
-            // FIXME: Pretty sure we can't send more than 8KB in a single request,
-            // but don't know how it's supposed to be encoded
-            LOG.error("TGA output is too large: {}", tga565.length);
-            return;
-        }
-
-        final String format = "TGA_RGB565_DAVE2D";
         final String url = String.format(
                 Locale.ROOT,
                 "notification://logo?app_id=%s&width=%d&height=%d&format=%s",
@@ -2310,23 +2252,27 @@ public abstract class Huami2021Support extends HuamiSupport {
         );
         final String filename = String.format("logo_%s.tga", packageName.replace(".", "_"));
 
-        final ByteBuffer buf = ByteBuffer.allocate(2 + url.length() + 1 + filename.length() + 1 + 4 + 4);
-        buf.order(ByteOrder.LITTLE_ENDIAN);
-        buf.put(ICONS_CMD_SEND_REQUEST);
-        buf.put((byte) 0x00);
-        buf.put(url.getBytes(StandardCharsets.UTF_8));
-        buf.put((byte) 0x00);
-        buf.put(filename.getBytes(StandardCharsets.UTF_8));
-        buf.put((byte) 0x00);
-        buf.putInt(tga565.length);
-        buf.putInt(CheckSums.getCRC32(tga565));
+        fileUploadService.sendFile(
+                url,
+                filename,
+                tga565,
+                new ZeppOsFileUploadService.Callback() {
+                    @Override
+                    public void onFinish(final boolean success) {
+                        LOG.info("Finished sending icon, success={}", success);
+                        if (success) {
+                            ackNotificationAfterIconSent(packageName);
+                        }
+                    }
+
+                    @Override
+                    public void onProgress(final int progress) {
+                        LOG.trace("Icon send progress: {}", progress);
+                    }
+                }
+        );
 
         LOG.info("Queueing icon for {}", packageName);
-        queuedIconPackage = packageName;
-        queuedIconBytes = tga565;
-        queuedIconTimeMillis = System.currentTimeMillis();
-
-        writeToChunked2021("send icon send request", CHUNKED2021_ENDPOINT_ICONS, buf.array(), false);
     }
 
     protected void handle2021Reminders(final byte[] payload) {

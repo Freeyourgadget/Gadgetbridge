@@ -3931,19 +3931,19 @@ public abstract class HuamiSupport extends AbstractBTLEDeviceSupport implements 
         }
     }
 
-    protected void writeToChunked2021(TransactionBuilder builder, short type, byte data, boolean encrypt) {
+    public void writeToChunked2021(TransactionBuilder builder, short type, byte data, boolean encrypt) {
         writeToChunked2021(builder, type, new byte[]{data}, encrypt);
     }
 
-    protected void writeToChunked2021(TransactionBuilder builder, short type, byte[] data, boolean encrypt) {
+    public void writeToChunked2021(TransactionBuilder builder, short type, byte[] data, boolean encrypt) {
         huami2021ChunkedEncoder.write(builder, type, data, force2021Protocol(), encrypt);
     }
 
-    protected void writeToChunked2021(final String taskName, short type, byte data, boolean encrypt) {
+    public void writeToChunked2021(final String taskName, short type, byte data, boolean encrypt) {
         writeToChunked2021(taskName, type, new byte[]{data}, encrypt);
     }
 
-    protected void writeToChunked2021(final String taskName, short type, byte[] data, boolean encrypt) {
+    public void writeToChunked2021(final String taskName, short type, byte[] data, boolean encrypt) {
         try {
             final TransactionBuilder builder = performInitialized(taskName);
             writeToChunked2021(builder, type, data, encrypt);
