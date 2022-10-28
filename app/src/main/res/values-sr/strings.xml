@@ -660,4 +660,25 @@
     <string name="about_activity_title_main_nightly">О Геџетбрвну ноћном</string>
     <string name="application_name_main_nightly">Геџетбрвно (ноћно)</string>
     <string name="title_activity_controlcenter_main_nightly">Геџетбрвно ноћно</string>
+    <string name="pref_title_development_miaddr">Адреса Ми банда</string>
+    <string name="pref_title_pebble_sync_health">Усклади здравље Пебла</string>
+    <string name="pref_title_pebble_sync_misfit">Усклади Мисфит</string>
+    <string name="gadgetbridge_running_banglejs_main">Бангл.јс дејствује</string>
+    <string name="application_name_banglejs_nightly">Бангл.јс Геџетбрвно (ноћно)</string>
+    <string name="title_activity_controlcenter_banglejs_nightly">Бангл.јс Геџетбрвно (ноћно)</string>
+    <string name="about_activity_title_banglejs_nightly">О Банглу.јс Геџетбрвну (ноћном)</string>
+    <string name="gadgetbridge_running_banglejs_nightly">Ноћни Бангл.јс дејствује</string>
+    <string name="title_activity_controlcenter_main_nopebble">Геџетбрвно ноћно без Пебла</string>
+    <string name="about_activity_title_main_nopebble">О Геџетбрвну ноћном без Пебла</string>
+    <string name="gadgetbridge_running_main_nopebble">Ноћни безПебла ГБ дејствује</string>
+    <string name="gadgetbridge_running_main_nightly">Ноћно ГБ дејствује.</string>
+    <string name="application_name_main_nopebble">Геџетбрвно (ноћно, нема добављача Пебла)</string>
+    <string name="about_description_banglejs_main">Андроидов дружбенички програм за Бангле.јс направљен поврха пројекта Геџетбрвна, са додатим приступом Интернету.
+\n
+\nЗбог смерница Гуглове плеј продавнице, није нам дозвољена веза за прилоге у самом програму, али, ако Вам се свиђа овај програм, молим, приложите на матичну страницу Геџетбрвна испод.</string>
+    <string name="about_description_banglejs_nightly">Андроидов дружбенички програм за Бангле.јс направљен поврха пројекта Геџетбрвна, са додатим приступом Интернету.
+\n
+\nЗбог смерница Гуглове плеј продавнице, није нам дозвољена веза за прилоге у самом програму, али, ако Вам се свиђа овај програм, молим, приложите на матичну страницу Геџетбрвна испод.</string>
+    <string name="about_description_main_nightly">Слободна левоумножива безоблачна замена за програме Андроида затворених извора од произвођача. Ноћно издање Геџетбрвна. Не може се уградити уколико већ имате уграђено Геџетбрвно или програм Пебл, због сукоба у добављачу Пебла.</string>
+    <string name="about_description_main_nopebble">Слободна левоумножива безоблачна замена за програме Андроида затворених извора од произвођача. Ноћно издање Геџетбрвна. Ово издање има преименованог добављача Пебла ради спречавања сукоба, тако да неке односне везе неће радити, али се може уградити поред уграђеног Геџетбрвна.</string>
 </resources>
