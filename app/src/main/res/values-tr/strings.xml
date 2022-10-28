@@ -2062,4 +2062,6 @@
     <string name="prefs_control_center">Denetim Merkezi</string>
     <string name="menuitem_theater_mode">Tiyatro Modu</string>
     <string name="devicetype_amazfit_gtr4">Amazfit GTR 4</string>
+    <string name="pref_huami_truncate_fetch_operation_timestamps_summary">Getirme işlemi zaman damgalarını dakikalara kısaltın. Çok kısa egzersizleri getirirken sorunlarla karşılaşırsanız, zaman damgalarını saniye cinsinden tutmak için bu ayarı devre dışı bırakın.</string>
+    <string name="pref_huami_truncate_fetch_operation_timestamps_title">Getirme işlemi zaman damgalarını kısalt</string>
 </resources>
