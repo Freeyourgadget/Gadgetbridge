@@ -2048,4 +2048,6 @@
     <string name="menuitem_phone">电话</string>
     <string name="menuitem_offline_voice">离线语音</string>
     <string name="menuitem_membership_cards">会员卡</string>
+    <string name="pref_huami_truncate_fetch_operation_timestamps_title">截断提取操作的时间戳</string>
+    <string name="pref_huami_truncate_fetch_operation_timestamps_summary">将获取操作的时间戳截断为分钟。如果你在获取很短的锻炼时面临问题，可禁用此设置，以保持时间戳为秒。</string>
 </resources>
