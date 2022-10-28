@@ -2055,4 +2055,6 @@
     <string name="pref_title_lower_button_short_press_action">Untere Taste kurzes Drücken</string>
     <string name="pref_title_upper_button_long_press_action">Obere Taste langes Drücken</string>
     <string name="accuracy_first">Priorität auf Genauigkeit</string>
+    <string name="pref_huami_truncate_fetch_operation_timestamps_title">Zeitstempel des Abrufvorgangs kürzen</string>
+    <string name="pref_huami_truncate_fetch_operation_timestamps_summary">Kürze die Zeitstempel der Abrufvorgänge auf Minuten. Deaktiviere diese Einstellung, um die Zeitstempel in Sekunden beizubehalten, wenn du Probleme beim Abrufen sehr kurzer Workouts hast.</string>
 </resources>
