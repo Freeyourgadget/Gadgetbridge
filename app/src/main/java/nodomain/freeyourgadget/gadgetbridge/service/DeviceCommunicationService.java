@@ -61,6 +61,7 @@ import nodomain.freeyourgadget.gadgetbridge.externalevents.CMWeatherReceiver;
 import nodomain.freeyourgadget.gadgetbridge.externalevents.CalendarReceiver;
 import nodomain.freeyourgadget.gadgetbridge.externalevents.DeviceSettingsReceiver;
 import nodomain.freeyourgadget.gadgetbridge.externalevents.GenericWeatherReceiver;
+import nodomain.freeyourgadget.gadgetbridge.externalevents.IntentApiReceiver;
 import nodomain.freeyourgadget.gadgetbridge.externalevents.LineageOsWeatherReceiver;
 import nodomain.freeyourgadget.gadgetbridge.externalevents.MusicPlaybackReceiver;
 import nodomain.freeyourgadget.gadgetbridge.externalevents.OmniJawsObserver;
@@ -328,6 +329,7 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
     private GenericWeatherReceiver mGenericWeatherReceiver = null;
     private OmniJawsObserver mOmniJawsObserver = null;
     private final DeviceSettingsReceiver deviceSettingsReceiver = new DeviceSettingsReceiver();
+    private final IntentApiReceiver intentApiReceiver = new IntentApiReceiver();
 
     private final String[] mMusicActions = {
             "com.android.music.metachanged",
@@ -496,6 +498,8 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
         final IntentFilter deviceSettingsIntentFilter = new IntentFilter();
         deviceSettingsIntentFilter.addAction(DeviceSettingsReceiver.COMMAND);
         registerReceiver(deviceSettingsReceiver, deviceSettingsIntentFilter);
+
+        registerReceiver(intentApiReceiver, intentApiReceiver.buildFilter());
     }
 
     private DeviceSupportFactory getDeviceSupportFactory() {
@@ -1295,6 +1299,7 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
 
         unregisterReceiver(bluetoothCommandReceiver);
         unregisterReceiver(deviceSettingsReceiver);
+        unregisterReceiver(intentApiReceiver);
     }
 
     @Override

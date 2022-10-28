@@ -42,6 +42,9 @@ import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 public class PeriodicExporter extends BroadcastReceiver {
     private static final Logger LOG = LoggerFactory.getLogger(PeriodicExporter.class);
 
+    public static final String ACTION_DATABASE_EXPORT_SUCCESS = "nodomain.freeyourgadget.gadgetbridge.action.DATABASE_EXPORT_SUCCESS";
+    public static final String ACTION_DATABASE_EXPORT_FAIL = "nodomain.freeyourgadget.gadgetbridge.action.DATABASE_EXPORT_FAIL";
+
     public static void enablePeriodicExport(Context context) {
         Prefs prefs = GBApplication.getPrefs();
         GBApplication gbApp = GBApplication.app();
@@ -101,7 +104,8 @@ public class PeriodicExporter extends BroadcastReceiver {
                 DBHelper helper = new DBHelper(localContext);
                 String dst = GBApplication.getPrefs().getString(GBPrefs.AUTO_EXPORT_LOCATION, null);
                 if (dst == null) {
-                    LOG.info("Unable to export DB, export location not set");
+                    LOG.warn("Unable to export DB, export location not set");
+                    broadcastSuccess(false);
                     return;
                 }
                 Uri dstUri = Uri.parse(dst);
@@ -110,10 +114,27 @@ public class PeriodicExporter extends BroadcastReceiver {
                     GBApplication gbApp = GBApplication.app();
                     gbApp.setLastAutoExportTimestamp(System.currentTimeMillis());
                 }
+
+                broadcastSuccess(true);
+
+                LOG.info("DB export completed");
             } catch (Exception ex) {
                 GB.updateExportFailedNotification(localContext.getString(R.string.notif_export_failed_title), localContext);
                 LOG.info("Exception while exporting DB: ", ex);
+                broadcastSuccess(false);
             }
+        }
+
+        private void broadcastSuccess(final boolean success) {
+            if (!GBApplication.getPrefs().getBoolean("intent_api_broadcast_export", false)) {
+                return;
+            }
+
+            LOG.info("Broadcasting database export success={}", success);
+
+            final String action = success ? ACTION_DATABASE_EXPORT_SUCCESS : ACTION_DATABASE_EXPORT_FAIL;
+            final Intent exportedNotifyIntent = new Intent(action);
+            localContext.sendBroadcast(exportedNotifyIntent);
         }
 
         @Override
