@@ -2056,4 +2056,6 @@
     <string name="sony_speak_to_chat_sensitivity_standard">Стандартна</string>
     <string name="pref_agps_expiry_reminder_time">Час нагадування про закінчення терміну дії AGPS</string>
     <string name="menuitem_eject_water">Виведення води</string>
+    <string name="pref_huami_truncate_fetch_operation_timestamps_title">Скоротити мітки часу операції вибірки</string>
+    <string name="pref_huami_truncate_fetch_operation_timestamps_summary">Скоротити мітки часу операції вибірки до хвилин. Вимкніть це налаштування, щоб зберігати мітки часу в секундах, якщо у вас виникають проблеми під час отримання дуже коротких тренувань.</string>
 </resources>
