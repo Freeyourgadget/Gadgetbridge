@@ -35,17 +35,17 @@ import nodomain.freeyourgadget.gadgetbridge.util.CheckSums;
 public class ZeppOsFileUploadService extends AbstractZeppOsService {
     private static final Logger LOG = LoggerFactory.getLogger(ZeppOsFileUploadService.class);
 
-    public static final short ENDPOINT = 0x000d;
+    private static final short ENDPOINT = 0x000d;
 
-    public static final byte CMD_CAPABILITIES_REQUEST = 0x01;
-    public static final byte CMD_CAPABILITIES_RESPONSE = 0x02;
-    public static final byte CMD_UPLOAD_REQUEST = 0x03;
-    public static final byte CMD_UPLOAD_RESPONSE = 0x04;
-    public static final byte CMD_DATA_SEND = 0x10;
-    public static final byte CMD_DATA_ACK = 0x11;
+    private static final byte CMD_CAPABILITIES_REQUEST = 0x01;
+    private static final byte CMD_CAPABILITIES_RESPONSE = 0x02;
+    private static final byte CMD_UPLOAD_REQUEST = 0x03;
+    private static final byte CMD_UPLOAD_RESPONSE = 0x04;
+    private static final byte CMD_DATA_SEND = 0x10;
+    private static final byte CMD_DATA_ACK = 0x11;
 
-    public static final byte FLAG_FIRST_CHUNK = 0x01;
-    public static final byte FLAG_LAST_CHUNK = 0x02;
+    private static final byte FLAG_FIRST_CHUNK = 0x01;
+    private static final byte FLAG_LAST_CHUNK = 0x02;
 
     private final Map<Byte, FileSendRequest> mSessionRequests = new HashMap<>();
 

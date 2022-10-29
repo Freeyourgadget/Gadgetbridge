@@ -132,7 +132,7 @@ public class InitOperation2021 extends InitOperation implements Huami2021Handler
     }
 
     @Override
-    public void handle2021Payload(final int type, final byte[] payload) {
+    public void handle2021Payload(final short type, final byte[] payload) {
         if (type != Huami2021Service.CHUNKED2021_ENDPOINT_AUTH) {
             this.huamiSupport.handle2021Payload(type, payload);
             return;

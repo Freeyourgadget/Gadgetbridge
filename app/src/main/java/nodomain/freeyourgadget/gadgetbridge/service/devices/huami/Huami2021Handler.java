@@ -17,5 +17,5 @@
 package nodomain.freeyourgadget.gadgetbridge.service.devices.huami;
 
 public interface Huami2021Handler {
-    void handle2021Payload(int type, byte[] payload);
+    void handle2021Payload(short type, byte[] payload);
 }

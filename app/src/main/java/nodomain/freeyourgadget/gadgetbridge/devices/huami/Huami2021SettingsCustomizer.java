@@ -37,7 +37,7 @@ import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSett
 import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSpecificSettingsHandler;
 import nodomain.freeyourgadget.gadgetbridge.capabilities.GpsCapability;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.Huami2021Config;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.services.ZeppOsConfigService;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.HuamiVibrationPatternNotificationType;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 
@@ -57,11 +57,11 @@ public class Huami2021SettingsCustomizer extends HuamiSettingsCustomizer {
         removeUnsupportedElementsFromListPreference(HuamiConst.PREF_SHORTCUTS_SORTABLE, handler, prefs);
         removeUnsupportedElementsFromListPreference(HuamiConst.PREF_CONTROL_CENTER_SORTABLE, handler, prefs);
 
-        for (final Huami2021Config.ConfigArg config : Huami2021Config.ConfigArg.values()) {
+        for (final ZeppOsConfigService.ConfigArg config : ZeppOsConfigService.ConfigArg.values()) {
             if (config.getPrefKey() == null) {
                 continue;
             }
-            switch (config.getConfigType()) {
+            switch (config.getConfigType(null)) {
                 case BYTE:
                 case BYTE_LIST:
                 case STRING_LIST:
@@ -79,96 +79,96 @@ public class Huami2021SettingsCustomizer extends HuamiSettingsCustomizer {
         }
 
         // Hide all config groups that may not be mapped directly to a preference
-        final Map<String, List<Huami2021Config.ConfigArg>> configScreens = new HashMap<String, List<Huami2021Config.ConfigArg>>() {{
+        final Map<String, List<ZeppOsConfigService.ConfigArg>> configScreens = new HashMap<String, List<ZeppOsConfigService.ConfigArg>>() {{
             put(DeviceSettingsPreferenceConst.PREF_SCREEN_NIGHT_MODE, Arrays.asList(
-                    Huami2021Config.ConfigArg.NIGHT_MODE_MODE,
-                    Huami2021Config.ConfigArg.NIGHT_MODE_SCHEDULED_START,
-                    Huami2021Config.ConfigArg.NIGHT_MODE_SCHEDULED_END
+                    ZeppOsConfigService.ConfigArg.NIGHT_MODE_MODE,
+                    ZeppOsConfigService.ConfigArg.NIGHT_MODE_SCHEDULED_START,
+                    ZeppOsConfigService.ConfigArg.NIGHT_MODE_SCHEDULED_END
             ));
             put(DeviceSettingsPreferenceConst.PREF_SCREEN_SLEEP_MODE, Arrays.asList(
-                    Huami2021Config.ConfigArg.SLEEP_MODE_SLEEP_SCREEN,
-                    Huami2021Config.ConfigArg.SLEEP_MODE_SMART_ENABLE
+                    ZeppOsConfigService.ConfigArg.SLEEP_MODE_SLEEP_SCREEN,
+                    ZeppOsConfigService.ConfigArg.SLEEP_MODE_SMART_ENABLE
             ));
             put(DeviceSettingsPreferenceConst.PREF_SCREEN_LIFT_WRIST, Arrays.asList(
-                    Huami2021Config.ConfigArg.LIFT_WRIST_MODE,
-                    Huami2021Config.ConfigArg.LIFT_WRIST_SCHEDULED_START,
-                    Huami2021Config.ConfigArg.LIFT_WRIST_SCHEDULED_END,
-                    Huami2021Config.ConfigArg.LIFT_WRIST_RESPONSE_SENSITIVITY
+                    ZeppOsConfigService.ConfigArg.LIFT_WRIST_MODE,
+                    ZeppOsConfigService.ConfigArg.LIFT_WRIST_SCHEDULED_START,
+                    ZeppOsConfigService.ConfigArg.LIFT_WRIST_SCHEDULED_END,
+                    ZeppOsConfigService.ConfigArg.LIFT_WRIST_RESPONSE_SENSITIVITY
             ));
             put(DeviceSettingsPreferenceConst.PREF_SCREEN_PASSWORD, Arrays.asList(
-                    Huami2021Config.ConfigArg.PASSWORD_ENABLED,
-                    Huami2021Config.ConfigArg.PASSWORD_TEXT
+                    ZeppOsConfigService.ConfigArg.PASSWORD_ENABLED,
+                    ZeppOsConfigService.ConfigArg.PASSWORD_TEXT
             ));
             put(DeviceSettingsPreferenceConst.PREF_SCREEN_ALWAYS_ON_DISPLAY, Arrays.asList(
-                    Huami2021Config.ConfigArg.ALWAYS_ON_DISPLAY_MODE,
-                    Huami2021Config.ConfigArg.ALWAYS_ON_DISPLAY_SCHEDULED_START,
-                    Huami2021Config.ConfigArg.ALWAYS_ON_DISPLAY_SCHEDULED_END,
-                    Huami2021Config.ConfigArg.ALWAYS_ON_DISPLAY_FOLLOW_WATCHFACE,
-                    Huami2021Config.ConfigArg.ALWAYS_ON_DISPLAY_STYLE
+                    ZeppOsConfigService.ConfigArg.ALWAYS_ON_DISPLAY_MODE,
+                    ZeppOsConfigService.ConfigArg.ALWAYS_ON_DISPLAY_SCHEDULED_START,
+                    ZeppOsConfigService.ConfigArg.ALWAYS_ON_DISPLAY_SCHEDULED_END,
+                    ZeppOsConfigService.ConfigArg.ALWAYS_ON_DISPLAY_FOLLOW_WATCHFACE,
+                    ZeppOsConfigService.ConfigArg.ALWAYS_ON_DISPLAY_STYLE
             ));
             put(DeviceSettingsPreferenceConst.PREF_SCREEN_AUTO_BRIGHTNESS, Arrays.asList(
-                    Huami2021Config.ConfigArg.SCREEN_AUTO_BRIGHTNESS
+                    ZeppOsConfigService.ConfigArg.SCREEN_AUTO_BRIGHTNESS
             ));
             put(DeviceSettingsPreferenceConst.PREF_SCREEN_HEARTRATE_MONITORING, Arrays.asList(
-                    Huami2021Config.ConfigArg.HEART_RATE_ALL_DAY_MONITORING,
-                    Huami2021Config.ConfigArg.HEART_RATE_HIGH_ALERTS,
-                    Huami2021Config.ConfigArg.HEART_RATE_LOW_ALERTS,
-                    Huami2021Config.ConfigArg.HEART_RATE_ACTIVITY_MONITORING,
-                    Huami2021Config.ConfigArg.SLEEP_HIGH_ACCURACY_MONITORING,
-                    Huami2021Config.ConfigArg.SLEEP_BREATHING_QUALITY_MONITORING,
-                    Huami2021Config.ConfigArg.STRESS_MONITORING,
-                    Huami2021Config.ConfigArg.STRESS_RELAXATION_REMINDER,
-                    Huami2021Config.ConfigArg.SPO2_ALL_DAY_MONITORING,
-                    Huami2021Config.ConfigArg.SPO2_LOW_ALERT
+                    ZeppOsConfigService.ConfigArg.HEART_RATE_ALL_DAY_MONITORING,
+                    ZeppOsConfigService.ConfigArg.HEART_RATE_HIGH_ALERTS,
+                    ZeppOsConfigService.ConfigArg.HEART_RATE_LOW_ALERTS,
+                    ZeppOsConfigService.ConfigArg.HEART_RATE_ACTIVITY_MONITORING,
+                    ZeppOsConfigService.ConfigArg.SLEEP_HIGH_ACCURACY_MONITORING,
+                    ZeppOsConfigService.ConfigArg.SLEEP_BREATHING_QUALITY_MONITORING,
+                    ZeppOsConfigService.ConfigArg.STRESS_MONITORING,
+                    ZeppOsConfigService.ConfigArg.STRESS_RELAXATION_REMINDER,
+                    ZeppOsConfigService.ConfigArg.SPO2_ALL_DAY_MONITORING,
+                    ZeppOsConfigService.ConfigArg.SPO2_LOW_ALERT
             ));
             put(DeviceSettingsPreferenceConst.PREF_SCREEN_INACTIVITY_EXTENDED, Arrays.asList(
-                    Huami2021Config.ConfigArg.INACTIVITY_WARNINGS_ENABLED,
-                    Huami2021Config.ConfigArg.INACTIVITY_WARNINGS_SCHEDULED_START,
-                    Huami2021Config.ConfigArg.INACTIVITY_WARNINGS_SCHEDULED_END,
-                    Huami2021Config.ConfigArg.INACTIVITY_WARNINGS_DND_ENABLED,
-                    Huami2021Config.ConfigArg.INACTIVITY_WARNINGS_DND_SCHEDULED_START,
-                    Huami2021Config.ConfigArg.INACTIVITY_WARNINGS_DND_SCHEDULED_END
+                    ZeppOsConfigService.ConfigArg.INACTIVITY_WARNINGS_ENABLED,
+                    ZeppOsConfigService.ConfigArg.INACTIVITY_WARNINGS_SCHEDULED_START,
+                    ZeppOsConfigService.ConfigArg.INACTIVITY_WARNINGS_SCHEDULED_END,
+                    ZeppOsConfigService.ConfigArg.INACTIVITY_WARNINGS_DND_ENABLED,
+                    ZeppOsConfigService.ConfigArg.INACTIVITY_WARNINGS_DND_SCHEDULED_START,
+                    ZeppOsConfigService.ConfigArg.INACTIVITY_WARNINGS_DND_SCHEDULED_END
             ));
             put(DeviceSettingsPreferenceConst.PREF_HEADER_GPS, Arrays.asList(
-                    Huami2021Config.ConfigArg.WORKOUT_GPS_PRESET,
-                    Huami2021Config.ConfigArg.WORKOUT_GPS_BAND,
-                    Huami2021Config.ConfigArg.WORKOUT_GPS_COMBINATION,
-                    Huami2021Config.ConfigArg.WORKOUT_GPS_SATELLITE_SEARCH,
-                    Huami2021Config.ConfigArg.WORKOUT_AGPS_EXPIRY_REMINDER_ENABLED,
-                    Huami2021Config.ConfigArg.WORKOUT_AGPS_EXPIRY_REMINDER_TIME
+                    ZeppOsConfigService.ConfigArg.WORKOUT_GPS_PRESET,
+                    ZeppOsConfigService.ConfigArg.WORKOUT_GPS_BAND,
+                    ZeppOsConfigService.ConfigArg.WORKOUT_GPS_COMBINATION,
+                    ZeppOsConfigService.ConfigArg.WORKOUT_GPS_SATELLITE_SEARCH,
+                    ZeppOsConfigService.ConfigArg.WORKOUT_AGPS_EXPIRY_REMINDER_ENABLED,
+                    ZeppOsConfigService.ConfigArg.WORKOUT_AGPS_EXPIRY_REMINDER_TIME
             ));
             put(DeviceSettingsPreferenceConst.PREF_SCREEN_SOUND_AND_VIBRATION, Arrays.asList(
-                    Huami2021Config.ConfigArg.VOLUME,
-                    Huami2021Config.ConfigArg.CROWN_VIBRATION,
-                    Huami2021Config.ConfigArg.ALERT_TONE,
-                    Huami2021Config.ConfigArg.COVER_TO_MUTE,
-                    Huami2021Config.ConfigArg.VIBRATE_FOR_ALERT,
-                    Huami2021Config.ConfigArg.TEXT_TO_SPEECH
+                    ZeppOsConfigService.ConfigArg.VOLUME,
+                    ZeppOsConfigService.ConfigArg.CROWN_VIBRATION,
+                    ZeppOsConfigService.ConfigArg.ALERT_TONE,
+                    ZeppOsConfigService.ConfigArg.COVER_TO_MUTE,
+                    ZeppOsConfigService.ConfigArg.VIBRATE_FOR_ALERT,
+                    ZeppOsConfigService.ConfigArg.TEXT_TO_SPEECH
             ));
             put(DeviceSettingsPreferenceConst.PREF_SCREEN_DO_NOT_DISTURB, Arrays.asList(
-                    Huami2021Config.ConfigArg.DND_MODE,
-                    Huami2021Config.ConfigArg.DND_SCHEDULED_START,
-                    Huami2021Config.ConfigArg.DND_SCHEDULED_END
+                    ZeppOsConfigService.ConfigArg.DND_MODE,
+                    ZeppOsConfigService.ConfigArg.DND_SCHEDULED_START,
+                    ZeppOsConfigService.ConfigArg.DND_SCHEDULED_END
             ));
             put(DeviceSettingsPreferenceConst.PREF_HEADER_WORKOUT_DETECTION, Arrays.asList(
-                    Huami2021Config.ConfigArg.WORKOUT_DETECTION_CATEGORY,
-                    Huami2021Config.ConfigArg.WORKOUT_DETECTION_ALERT,
-                    Huami2021Config.ConfigArg.WORKOUT_DETECTION_SENSITIVITY
+                    ZeppOsConfigService.ConfigArg.WORKOUT_DETECTION_CATEGORY,
+                    ZeppOsConfigService.ConfigArg.WORKOUT_DETECTION_ALERT,
+                    ZeppOsConfigService.ConfigArg.WORKOUT_DETECTION_SENSITIVITY
             ));
             put(DeviceSettingsPreferenceConst.PREF_SCREEN_OFFLINE_VOICE, Arrays.asList(
-                    Huami2021Config.ConfigArg.OFFLINE_VOICE_RESPOND_TURN_WRIST,
-                    Huami2021Config.ConfigArg.OFFLINE_VOICE_RESPOND_SCREEN_ON,
-                    Huami2021Config.ConfigArg.OFFLINE_VOICE_RESPONSE_DURING_SCREEN_LIGHTING,
-                    Huami2021Config.ConfigArg.OFFLINE_VOICE_LANGUAGE
+                    ZeppOsConfigService.ConfigArg.OFFLINE_VOICE_RESPOND_TURN_WRIST,
+                    ZeppOsConfigService.ConfigArg.OFFLINE_VOICE_RESPOND_SCREEN_ON,
+                    ZeppOsConfigService.ConfigArg.OFFLINE_VOICE_RESPONSE_DURING_SCREEN_LIGHTING,
+                    ZeppOsConfigService.ConfigArg.OFFLINE_VOICE_LANGUAGE
             ));
         }};
 
-        for (final Map.Entry<String, List<Huami2021Config.ConfigArg>> configScreen : configScreens.entrySet()) {
+        for (final Map.Entry<String, List<ZeppOsConfigService.ConfigArg>> configScreen : configScreens.entrySet()) {
             hidePrefIfNoConfigSupported(
                     handler,
                     prefs,
                     configScreen.getKey(),
-                    configScreen.getValue().toArray(new Huami2021Config.ConfigArg[0])
+                    configScreen.getValue().toArray(new ZeppOsConfigService.ConfigArg[0])
             );
         }
 
@@ -303,7 +303,7 @@ public class Huami2021SettingsCustomizer extends HuamiSettingsCustomizer {
         }
 
         // Get the list of possible values for this preference, as reported by the band
-        final List<String> possibleValues = prefs.getList(Huami2021Config.getPrefPossibleValuesKey(prefKey), null);
+        final List<String> possibleValues = prefs.getList(ZeppOsConfigService.getPrefPossibleValuesKey(prefKey), null);
         if (possibleValues == null || possibleValues.isEmpty()) {
             // The band hasn't reported this setting, so we don't know the possible values.
             // Hide it
@@ -360,14 +360,14 @@ public class Huami2021SettingsCustomizer extends HuamiSettingsCustomizer {
     private void hidePrefIfNoConfigSupported(final DeviceSpecificSettingsHandler handler,
                                              final Prefs prefs,
                                              final String prefToHide,
-                                             final Huami2021Config.ConfigArg... configs) {
+                                             final ZeppOsConfigService.ConfigArg... configs) {
         final Preference pref = handler.findPreference(prefToHide);
         if (pref == null) {
             return;
         }
 
-        for (final Huami2021Config.ConfigArg config : configs) {
-            if (Huami2021Config.deviceHasConfig(prefs, config)) {
+        for (final ZeppOsConfigService.ConfigArg config : configs) {
+            if (ZeppOsConfigService.deviceHasConfig(prefs, config)) {
                 // This preference is supported, don't hide
                 return;
             }

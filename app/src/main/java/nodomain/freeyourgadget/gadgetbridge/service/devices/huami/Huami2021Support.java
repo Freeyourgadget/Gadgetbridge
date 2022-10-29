@@ -17,32 +17,27 @@
 package nodomain.freeyourgadget.gadgetbridge.service.devices.huami;
 
 import static org.apache.commons.lang3.ArrayUtils.subarray;
-import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_LANGUAGE;
-import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_LANGUAGE_AUTO;
-import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_TIMEFORMAT;
-import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_TIMEFORMAT_AUTO;
 import static nodomain.freeyourgadget.gadgetbridge.devices.huami.Huami2021Service.*;
 import static nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiService.SUCCESS;
 import static nodomain.freeyourgadget.gadgetbridge.model.ActivityUser.PREF_USER_NAME;
 import static nodomain.freeyourgadget.gadgetbridge.service.btle.BLETypeConversions.fromUint16;
 import static nodomain.freeyourgadget.gadgetbridge.service.btle.BLETypeConversions.fromUint8;
 import static nodomain.freeyourgadget.gadgetbridge.service.btle.BLETypeConversions.mapTimeZone;
-import static nodomain.freeyourgadget.gadgetbridge.service.devices.huami.Huami2021Config.ConfigArg.FITNESS_GOAL_CALORIES;
-import static nodomain.freeyourgadget.gadgetbridge.service.devices.huami.Huami2021Config.ConfigArg.FITNESS_GOAL_FAT_BURN_TIME;
-import static nodomain.freeyourgadget.gadgetbridge.service.devices.huami.Huami2021Config.ConfigArg.FITNESS_GOAL_SLEEP;
-import static nodomain.freeyourgadget.gadgetbridge.service.devices.huami.Huami2021Config.ConfigArg.FITNESS_GOAL_STANDING_TIME;
-import static nodomain.freeyourgadget.gadgetbridge.service.devices.huami.Huami2021Config.ConfigArg.FITNESS_GOAL_STEPS;
-import static nodomain.freeyourgadget.gadgetbridge.service.devices.huami.Huami2021Config.ConfigArg.FITNESS_GOAL_WEIGHT;
-import static nodomain.freeyourgadget.gadgetbridge.service.devices.huami.Huami2021Config.ConfigArg.HEART_RATE_ALL_DAY_MONITORING;
-import static nodomain.freeyourgadget.gadgetbridge.service.devices.huami.Huami2021Config.ConfigArg.LANGUAGE;
-import static nodomain.freeyourgadget.gadgetbridge.service.devices.huami.Huami2021Config.ConfigArg.LANGUAGE_FOLLOW_PHONE;
-import static nodomain.freeyourgadget.gadgetbridge.service.devices.huami.Huami2021Config.ConfigArg.PASSWORD_ENABLED;
-import static nodomain.freeyourgadget.gadgetbridge.service.devices.huami.Huami2021Config.ConfigArg.PASSWORD_TEXT;
-import static nodomain.freeyourgadget.gadgetbridge.service.devices.huami.Huami2021Config.ConfigArg.SLEEP_HIGH_ACCURACY_MONITORING;
-import static nodomain.freeyourgadget.gadgetbridge.service.devices.huami.Huami2021Config.ConfigArg.TEMPERATURE_UNIT;
-import static nodomain.freeyourgadget.gadgetbridge.service.devices.huami.Huami2021Config.ConfigArg.TIME_FORMAT;
-import static nodomain.freeyourgadget.gadgetbridge.service.devices.huami.Huami2021Config.ConfigGroup;
-import static nodomain.freeyourgadget.gadgetbridge.service.devices.huami.Huami2021Config.ConfigSetter;
+import static nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.services.ZeppOsConfigService.ConfigArg.FITNESS_GOAL_CALORIES;
+import static nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.services.ZeppOsConfigService.ConfigArg.FITNESS_GOAL_FAT_BURN_TIME;
+import static nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.services.ZeppOsConfigService.ConfigArg.FITNESS_GOAL_SLEEP;
+import static nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.services.ZeppOsConfigService.ConfigArg.FITNESS_GOAL_STANDING_TIME;
+import static nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.services.ZeppOsConfigService.ConfigArg.FITNESS_GOAL_STEPS;
+import static nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.services.ZeppOsConfigService.ConfigArg.FITNESS_GOAL_WEIGHT;
+import static nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.services.ZeppOsConfigService.ConfigArg.HEART_RATE_ALL_DAY_MONITORING;
+import static nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.services.ZeppOsConfigService.ConfigArg.LANGUAGE;
+import static nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.services.ZeppOsConfigService.ConfigArg.LANGUAGE_FOLLOW_PHONE;
+import static nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.services.ZeppOsConfigService.ConfigArg.PASSWORD_ENABLED;
+import static nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.services.ZeppOsConfigService.ConfigArg.PASSWORD_TEXT;
+import static nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.services.ZeppOsConfigService.ConfigArg.SLEEP_HIGH_ACCURACY_MONITORING;
+import static nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.services.ZeppOsConfigService.ConfigArg.TEMPERATURE_UNIT;
+import static nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.services.ZeppOsConfigService.ConfigArg.TIME_FORMAT;
+import static nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.services.ZeppOsConfigService.ConfigGroup;
 
 import android.Manifest;
 import android.content.Intent;
@@ -120,6 +115,8 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.operations.Fet
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.operations.HuamiFetchDebugLogsOperation;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.operations.UpdateFirmwareOperation;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.operations.UpdateFirmwareOperation2021;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.AbstractZeppOsService;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.services.ZeppOsConfigService;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.services.ZeppOsFileUploadService;
 import nodomain.freeyourgadget.gadgetbridge.util.AlarmUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.BitmapUtil;
@@ -144,6 +141,11 @@ public abstract class Huami2021Support extends HuamiSupport {
 
     // Services
     private final ZeppOsFileUploadService fileUploadService = new ZeppOsFileUploadService(this);
+    private final ZeppOsConfigService configService = new ZeppOsConfigService(this);
+    private final Map<Short, AbstractZeppOsService> mServiceMap = new HashMap<Short, AbstractZeppOsService>() {{
+        put(fileUploadService.getEndpoint(), fileUploadService);
+        put(configService.getEndpoint(), configService);
+    }};
 
     public Huami2021Support() {
         this(LOG);
@@ -174,15 +176,15 @@ public abstract class Huami2021Support extends HuamiSupport {
 
     @Override
     public void onSendConfiguration(final String config) {
-        final ConfigSetter configSetter = new ConfigSetter();
+        final ZeppOsConfigService.ConfigSetter configSetter = configService.newSetter();
         final Prefs prefs = getDevicePrefs();
 
         try {
-            if (Huami2021Config.setConfig(prefs, config, configSetter)) {
+            if (configService.setConfig(prefs, config, configSetter)) {
                 // If the ConfigSetter was able to set the config, just write it and return
                 final TransactionBuilder builder;
                 builder = performInitialized("Sending configuration for option: " + config);
-                configSetter.write(this, builder);
+                configSetter.write(builder);
                 builder.queue(getQueue());
 
                 return;
@@ -453,14 +455,14 @@ public abstract class Huami2021Support extends HuamiSupport {
         final int goalFatBurnTime = GBApplication.getPrefs().getInt(ActivityUser.PREF_USER_GOAL_FAT_BURN_TIME_MINUTES, ActivityUser.defaultUserFatBurnTimeMinutes);
         LOG.info("Setting Fitness Goals to steps={}, calories={}, sleep={}, weight={}, standingTime={}, fatBurn={}", goalSteps, goalCalories, goalSleep, goalWeight, goalStandingTime, goalFatBurnTime);
 
-        new ConfigSetter()
+        configService.newSetter()
                 .setInt(FITNESS_GOAL_STEPS, goalSteps)
                 .setShort(FITNESS_GOAL_CALORIES, (short) goalCalories)
                 .setShort(FITNESS_GOAL_SLEEP, (short) (goalSleep * 60))
                 .setShort(FITNESS_GOAL_WEIGHT, (short) goalWeight)
                 .setShort(FITNESS_GOAL_STANDING_TIME, (short) (goalStandingTime))
                 .setShort(FITNESS_GOAL_FAT_BURN_TIME, (short) goalFatBurnTime)
-                .write(this, builder);
+                .write(builder);
 
         return this;
     }
@@ -529,10 +531,10 @@ public abstract class Huami2021Support extends HuamiSupport {
             return this;
         }
 
-        new ConfigSetter()
+        configService.newSetter()
                 .setBoolean(PASSWORD_ENABLED, passwordEnabled)
                 .setString(PASSWORD_TEXT, password)
-                .write(this, builder);
+                .write(builder);
 
         return this;
     }
@@ -897,9 +899,9 @@ public abstract class Huami2021Support extends HuamiSupport {
     protected Huami2021Support setHeartrateSleepSupport(final TransactionBuilder builder) {
         final boolean enableHrSleepSupport = MiBandCoordinator.getHeartrateSleepSupport(gbDevice.getAddress());
 
-        new ConfigSetter()
+        configService.newSetter()
                 .setBoolean(SLEEP_HIGH_ACCURACY_MONITORING, enableHrSleepSupport)
-                .write(this, builder);
+                .write(builder);
 
         return this;
     }
@@ -955,10 +957,10 @@ public abstract class Huami2021Support extends HuamiSupport {
     }
 
     @Override
-    protected HuamiSupport setHeartrateMeasurementInterval(TransactionBuilder builder, int minutes) {
-        new ConfigSetter()
+    protected HuamiSupport setHeartrateMeasurementInterval(final TransactionBuilder builder, final int minutes) {
+        configService.newSetter()
                 .setByte(HEART_RATE_ALL_DAY_MONITORING, (byte) minutes)
-                .write(this, builder);
+                .write(builder);
 
         return this;
     }
@@ -1043,9 +1045,9 @@ public abstract class Huami2021Support extends HuamiSupport {
             timeFormatByte = 0x00;
         }
 
-        new ConfigSetter()
+        configService.newSetter()
                 .setByte(TIME_FORMAT, timeFormatByte)
-                .write(this, builder);
+                .write(builder);
 
         return this;
     }
@@ -1057,7 +1059,7 @@ public abstract class Huami2021Support extends HuamiSupport {
         setDisplayItems2021(
                 builder,
                 DISPLAY_ITEMS_MENU,
-                new ArrayList<>(prefs.getList(Huami2021Config.getPrefPossibleValuesKey(HuamiConst.PREF_DISPLAY_ITEMS_SORTABLE), Collections.emptyList())),
+                new ArrayList<>(prefs.getList(ZeppOsConfigService.getPrefPossibleValuesKey(HuamiConst.PREF_DISPLAY_ITEMS_SORTABLE), Collections.emptyList())),
                 new ArrayList<>(prefs.getList(HuamiConst.PREF_DISPLAY_ITEMS_SORTABLE, Collections.emptyList()))
         );
         return this;
@@ -1070,7 +1072,7 @@ public abstract class Huami2021Support extends HuamiSupport {
         setDisplayItems2021(
                 builder,
                 DISPLAY_ITEMS_SHORTCUTS,
-                new ArrayList<>(prefs.getList(Huami2021Config.getPrefPossibleValuesKey(HuamiConst.PREF_SHORTCUTS_SORTABLE), Collections.emptyList())),
+                new ArrayList<>(prefs.getList(ZeppOsConfigService.getPrefPossibleValuesKey(HuamiConst.PREF_SHORTCUTS_SORTABLE), Collections.emptyList())),
                 new ArrayList<>(prefs.getList(HuamiConst.PREF_SHORTCUTS_SORTABLE, Collections.emptyList()))
         );
         return this;
@@ -1082,7 +1084,7 @@ public abstract class Huami2021Support extends HuamiSupport {
         setDisplayItems2021(
                 builder,
                 DISPLAY_ITEMS_CONTROL_CENTER,
-                new ArrayList<>(prefs.getList(Huami2021Config.getPrefPossibleValuesKey(HuamiConst.PREF_CONTROL_CENTER_SORTABLE), Collections.emptyList())),
+                new ArrayList<>(prefs.getList(ZeppOsConfigService.getPrefPossibleValuesKey(HuamiConst.PREF_CONTROL_CENTER_SORTABLE), Collections.emptyList())),
                 new ArrayList<>(prefs.getList(HuamiConst.PREF_CONTROL_CENTER_SORTABLE, Collections.emptyList()))
         );
         return this;
@@ -1226,9 +1228,9 @@ public abstract class Huami2021Support extends HuamiSupport {
                 break;
         }
 
-        new ConfigSetter()
+        configService.newSetter()
                 .setByte(TEMPERATURE_UNIT, unitByte)
-                .write(this, builder);
+                .write(builder);
 
         return this;
     }
@@ -1240,10 +1242,10 @@ public abstract class Huami2021Support extends HuamiSupport {
 
         LOG.info("Setting device language to {}", localeString);
 
-        new ConfigSetter()
+        configService.newSetter()
                 .setByte(LANGUAGE, getLanguageId())
                 .setBoolean(LANGUAGE_FOLLOW_PHONE, localeString.equals("auto"))
-                .write(this, builder);
+                .write(builder);
 
         return this;
     }
@@ -1361,12 +1363,8 @@ public abstract class Huami2021Support extends HuamiSupport {
 
         LOG.info("2021 phase3Initialize...");
         setUserInfo(builder);
-        setFitnessGoal(builder);
 
-        for (final ConfigGroup configGroup : ConfigGroup.values()) {
-            requestConfig(builder, configGroup);
-        }
-
+        configService.requestAllConfigs(builder);
         requestCapabilityReminders(builder);
         fileUploadService.requestCapability(builder);
 
@@ -1416,13 +1414,18 @@ public abstract class Huami2021Support extends HuamiSupport {
     }
 
     @Override
-    public void handle2021Payload(final int type, final byte[] payload) {
+    public void handle2021Payload(final short type, final byte[] payload) {
         if (payload == null || payload.length == 0) {
             LOG.warn("Empty or null payload for {}", String.format("0x%04x", type));
             return;
         }
 
         LOG.debug("Got 2021 payload for {}: {}", String.format("0x%04x", type), GB.hexdump(payload));
+
+        if (mServiceMap.containsKey(type)) {
+            mServiceMap.get(type).handlePayload(payload);
+            return;
+        }
 
         switch (type) {
             case CHUNKED2021_ENDPOINT_ALARMS:
@@ -1436,12 +1439,6 @@ public abstract class Huami2021Support extends HuamiSupport {
                 return;
             case CHUNKED2021_ENDPOINT_COMPAT:
                 LOG.warn("Unexpected compat payload {}", GB.hexdump(payload));
-                return;
-            case CHUNKED2021_ENDPOINT_CONFIG:
-                handle2021Config(payload);
-                return;
-            case ZeppOsFileUploadService.ENDPOINT:
-                fileUploadService.handlePayload(payload);
                 return;
             case CHUNKED2021_ENDPOINT_WEATHER:
                 handle2021Weather(payload);
@@ -1660,102 +1657,6 @@ public abstract class Huami2021Support extends HuamiSupport {
         // TODO update database?
     }
 
-    private void requestConfig(final TransactionBuilder builder,
-                               final ConfigGroup config,
-                               final boolean includeConstraints,
-                               final List<Huami2021Config.ConfigArg> args) {
-        final ByteArrayOutputStream baos = new ByteArrayOutputStream();
-
-        baos.write(CONFIG_CMD_REQUEST);
-        baos.write(bool(includeConstraints));
-        baos.write(config.getValue());
-        baos.write(args.size());
-        for (final Huami2021Config.ConfigArg arg : args) {
-            baos.write(arg.getCode());
-        }
-
-        writeToChunked2021(builder, CHUNKED2021_ENDPOINT_CONFIG, baos.toByteArray(), true);
-    }
-
-    private void requestConfig(final TransactionBuilder builder, final ConfigGroup config) {
-        requestConfig(builder, config, true, Huami2021Config.ConfigArg.getAllArgsForConfigGroup(config));
-    }
-
-    protected void handle2021Config(final byte[] payload) {
-        switch (payload[0]) {
-            case CONFIG_CMD_ACK:
-                LOG.info("Configuration ACK, status = {}", payload[1]);
-                return;
-
-            case CONFIG_CMD_RESPONSE:
-                if (payload[1] != 1) {
-                    LOG.warn("Configuration response not success: {}", payload[1]);
-                    return;
-                }
-
-                handle2021ConfigResponse(payload);
-                return;
-            default:
-                LOG.warn("Unexpected configuration payload byte {}", String.format("0x%02x", payload[0]));
-        }
-    }
-
-    private void handle2021ConfigResponse(final byte[] payload) {
-        final ConfigGroup configGroup = ConfigGroup.fromValue(payload[2]);
-        if (configGroup == null) {
-            LOG.warn("Unknown config type {}", String.format("0x%02x", payload[2]));
-            return;
-        }
-
-        if (configGroup.getVersion() != payload[3]) {
-            LOG.warn("Unexpected next byte {} for {}", String.format("0x%02x", payload[3]), configGroup);
-            return;
-        }
-
-        final boolean includesConstraints = payload[4] == 0x01;
-
-        int numConfigs = payload[5] & 0xff;
-
-        LOG.info("Got {} configs for {}", numConfigs, configGroup);
-
-        final Map<String, Object> prefs = new Huami2021Config.ConfigParser(configGroup, includesConstraints)
-                .parse(numConfigs, subarray(payload, 6, payload.length));
-
-        if (prefs == null) {
-            return;
-        }
-
-        final GBDeviceEventUpdatePreferences eventUpdatePreferences = new GBDeviceEventUpdatePreferences(prefs);
-        evaluateGBDeviceEvent(eventUpdatePreferences);
-
-        if (isInitialized()) {
-            final TransactionBuilder builder;
-            boolean hasAutoConfigsToSend = false;
-
-            try {
-                builder = performInitialized("set auto band configs");
-            } catch (final Exception e) {
-                LOG.error("Failed to set auto band configs", e);
-                return;
-            }
-
-            if (prefs.containsKey(PREF_LANGUAGE) && prefs.get(PREF_LANGUAGE).equals(PREF_LANGUAGE_AUTO)) {
-                // Band is reporting automatic language, we need to send the actual language
-                setLanguage(builder);
-                hasAutoConfigsToSend = true;
-            }
-            if (prefs.containsKey(PREF_TIMEFORMAT) && prefs.get(PREF_TIMEFORMAT).equals(PREF_TIMEFORMAT_AUTO)) {
-                // Band is reporting automatic time format, we need to send the actual time format
-                setTimeFormat(builder);
-                hasAutoConfigsToSend = true;
-            }
-
-            if (hasAutoConfigsToSend) {
-                builder.queue(getQueue());
-            }
-        }
-    }
-
     protected void handle2021Workout(final byte[] payload) {
         switch (payload[0]) {
             case WORKOUT_CMD_APP_OPEN:
@@ -1838,7 +1739,7 @@ public abstract class Huami2021Support extends HuamiSupport {
                 LOG.error("Unknown display items type {}", String.format("0x%x", payload[1]));
                 return;
         }
-        final String allScreensPrefKey = Huami2021Config.getPrefPossibleValuesKey(prefKey);
+        final String allScreensPrefKey = ZeppOsConfigService.getPrefPossibleValuesKey(prefKey);
 
         final boolean menuHasMoreSection;
 

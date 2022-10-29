@@ -4111,7 +4111,7 @@ public abstract class HuamiSupport extends AbstractBTLEDeviceSupport implements 
     }
 
     @Override
-    public void handle2021Payload(int type, byte[] payload) {
+    public void handle2021Payload(short type, byte[] payload) {
         if (type == Huami2021Service.CHUNKED2021_ENDPOINT_COMPAT) {
             LOG.info("got configuration data");
             type = 0;

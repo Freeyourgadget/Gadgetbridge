@@ -22,7 +22,6 @@ public class Huami2021Service {
      */
     public static final short CHUNKED2021_ENDPOINT_HTTP = 0x0001;
     public static final short CHUNKED2021_ENDPOINT_CALENDAR = 0x0007;
-    public static final short CHUNKED2021_ENDPOINT_CONFIG = 0x000a;
     public static final short CHUNKED2021_ENDPOINT_WEATHER = 0x000e;
     public static final short CHUNKED2021_ENDPOINT_ALARMS = 0x000f;
     public static final short CHUNKED2021_ENDPOINT_CANNED_MESSAGES = 0x0013;
@@ -220,16 +219,6 @@ public class Huami2021Service {
     public static final byte MUSIC_BUTTON_PREVIOUS = 0x04;
     public static final byte MUSIC_BUTTON_VOLUME_UP = 0x05;
     public static final byte MUSIC_BUTTON_VOLUME_DOWN = 0x06;
-
-    /**
-     * Config, for {@link Huami2021Service#CHUNKED2021_ENDPOINT_CONFIG}.
-     */
-    public static final byte CONFIG_CMD_CAPABILITIES_REQUEST = 0x01;
-    public static final byte CONFIG_CMD_CAPABILITIES_RESPONSE = 0x02;
-    public static final byte CONFIG_CMD_REQUEST = 0x03;
-    public static final byte CONFIG_CMD_RESPONSE = 0x04;
-    public static final byte CONFIG_CMD_SET = 0x05;
-    public static final byte CONFIG_CMD_ACK = 0x06;
 
     /**
      * Reminders, for {@link Huami2021Service#CHUNKED2021_ENDPOINT_REMINDERS}.

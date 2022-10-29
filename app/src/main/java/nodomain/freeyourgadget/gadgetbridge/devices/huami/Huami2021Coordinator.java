@@ -37,7 +37,7 @@ import nodomain.freeyourgadget.gadgetbridge.entities.Device;
 import nodomain.freeyourgadget.gadgetbridge.entities.HuamiExtendedActivitySampleDao;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryParser;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.Huami2021Config;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.services.ZeppOsConfigService;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.HuamiLanguageType;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.HuamiVibrationPatternNotificationType;
 
@@ -318,14 +318,14 @@ public abstract class Huami2021Coordinator extends HuamiCoordinator {
     }
 
     public boolean hasGps(final GBDevice device) {
-        return supportsConfig(device, Huami2021Config.ConfigArg.WORKOUT_GPS_PRESET);
+        return supportsConfig(device, ZeppOsConfigService.ConfigArg.WORKOUT_GPS_PRESET);
     }
 
     public boolean supportsAutoBrightness(final GBDevice device) {
-        return supportsConfig(device, Huami2021Config.ConfigArg.SCREEN_AUTO_BRIGHTNESS);
+        return supportsConfig(device, ZeppOsConfigService.ConfigArg.SCREEN_AUTO_BRIGHTNESS);
     }
 
-    private boolean supportsConfig(final GBDevice device, final Huami2021Config.ConfigArg config) {
-        return Huami2021Config.deviceHasConfig(getPrefs(device), config);
+    private boolean supportsConfig(final GBDevice device, final ZeppOsConfigService.ConfigArg config) {
+        return ZeppOsConfigService.deviceHasConfig(getPrefs(device), config);
     }
 }

@@ -14,13 +14,12 @@
 
     You should have received a copy of the GNU Affero General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
-package nodomain.freeyourgadget.gadgetbridge.service.devices.huami;
+package nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.services;
 
+import static org.apache.commons.lang3.ArrayUtils.subarray;
 import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.*;
 import static nodomain.freeyourgadget.gadgetbridge.capabilities.password.PasswordCapabilityImpl.PREF_PASSWORD;
 import static nodomain.freeyourgadget.gadgetbridge.capabilities.password.PasswordCapabilityImpl.PREF_PASSWORD_ENABLED;
-import static nodomain.freeyourgadget.gadgetbridge.devices.huami.Huami2021Service.CHUNKED2021_ENDPOINT_CONFIG;
-import static nodomain.freeyourgadget.gadgetbridge.devices.huami.Huami2021Service.CONFIG_CMD_SET;
 import static nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst.PREF_EXPOSE_HR_THIRDPARTY;
 import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.PREF_NIGHT_MODE;
 import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.PREF_NIGHT_MODE_END;
@@ -59,6 +58,7 @@ import nodomain.freeyourgadget.gadgetbridge.activities.SettingsActivity;
 import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst;
 import nodomain.freeyourgadget.gadgetbridge.capabilities.GpsCapability;
 import nodomain.freeyourgadget.gadgetbridge.capabilities.WorkoutDetectionCapability;
+import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventUpdatePreferences;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.ActivateDisplayOnLift;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.ActivateDisplayOnLiftSensitivity;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.AlwaysOnDisplay;
@@ -66,13 +66,143 @@ import nodomain.freeyourgadget.gadgetbridge.devices.miband.DoNotDisturb;
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.BLETypeConversions;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.Huami2021MenuType;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.Huami2021Support;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.HuamiLanguageType;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.AbstractZeppOsService;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 import nodomain.freeyourgadget.gadgetbridge.util.MapUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 import nodomain.freeyourgadget.gadgetbridge.util.StringUtils;
 
-public class Huami2021Config {
-    private static final Logger LOG = LoggerFactory.getLogger(Huami2021Config.class);
+public class ZeppOsConfigService extends AbstractZeppOsService {
+    private static final Logger LOG = LoggerFactory.getLogger(ZeppOsConfigService.class);
+
+    private static final short ENDPOINT = 0x000a;
+
+    private static final byte CMD_CAPABILITIES_REQUEST = 0x01;
+    private static final byte CMD_CAPABILITIES_RESPONSE = 0x02;
+    private static final byte CMD_REQUEST = 0x03;
+    private static final byte CMD_RESPONSE = 0x04;
+    private static final byte CMD_SET = 0x05;
+    private static final byte CMD_ACK = 0x06;
+
+    private final Map<ConfigGroup, Byte> mGroupVersions = new HashMap<>();
+
+    public ZeppOsConfigService(final Huami2021Support support) {
+        super(support);
+    }
+
+    @Override
+    public short getEndpoint() {
+        return ENDPOINT;
+    }
+
+    @Override
+    public boolean isEncrypted() {
+        return true;
+    }
+
+    @Override
+    public void handlePayload(final byte[] payload) {
+        switch (payload[0]) {
+            case CMD_ACK:
+                LOG.info("Configuration ACK, status = {}", payload[1]);
+                return;
+
+            case CMD_RESPONSE:
+                if (payload[1] != 1) {
+                    LOG.warn("Configuration response not success: {}", payload[1]);
+                    return;
+                }
+
+                handle2021ConfigResponse(payload);
+                return;
+            default:
+                LOG.warn("Unexpected configuration payload byte {}", String.format("0x%02x", payload[0]));
+        }
+    }
+
+    private boolean sentFitnessGoal = false;
+
+    private void handle2021ConfigResponse(final byte[] payload) {
+        final ConfigGroup configGroup = ConfigGroup.fromValue(payload[2]);
+        if (configGroup == null) {
+            LOG.warn("Unknown config type {}", String.format("0x%02x", payload[2]));
+            return;
+        }
+
+        final byte version = payload[3];
+        if (configGroup.getVersion() != version) {
+            // Special case for HEALTH, where we actually support version 1 as well
+            // TODO: Support multiple versions in a cleaner way...
+            if (!(configGroup == ConfigGroup.HEALTH && configGroup.getVersion() == 1)) {
+                LOG.warn("Unexpected version {} for {}", String.format("0x%02x", version), configGroup);
+                return;
+            }
+        }
+        mGroupVersions.put(configGroup, version);
+
+        final boolean includesConstraints = payload[4] == 0x01;
+
+        int numConfigs = payload[5] & 0xff;
+
+        LOG.info("Got {} configs for {} version {}", numConfigs, configGroup, version);
+
+        final Map<String, Object> prefs = new ZeppOsConfigService.ConfigParser(configGroup, includesConstraints)
+                .parse(numConfigs, subarray(payload, 6, payload.length));
+
+        if (prefs == null) {
+            return;
+        }
+
+        final GBDeviceEventUpdatePreferences eventUpdatePreferences = new GBDeviceEventUpdatePreferences(prefs);
+        getSupport().evaluateGBDeviceEvent(eventUpdatePreferences);
+
+        if (getSupport().getDevice().isInitialized()) {
+            if (prefs.containsKey(PREF_LANGUAGE) && prefs.get(PREF_LANGUAGE).equals(PREF_LANGUAGE_AUTO)) {
+                // Band is reporting automatic language, we need to send the actual language
+                getSupport().onSendConfiguration(PREF_LANGUAGE);
+            }
+            if (prefs.containsKey(PREF_TIMEFORMAT) && prefs.get(PREF_TIMEFORMAT).equals(PREF_TIMEFORMAT_AUTO)) {
+                // Band is reporting automatic time format, we need to send the actual time format
+                getSupport().onSendConfiguration(PREF_TIMEFORMAT);
+            }
+        }
+
+        if (configGroup == ConfigGroup.HEALTH && !sentFitnessGoal) {
+            // We need to send the fitness goal after we got the protocol version
+            getSupport().onSendConfiguration(PREF_USER_FITNESS_GOAL);
+            sentFitnessGoal = true;
+        }
+    }
+
+    public void requestAllConfigs(final TransactionBuilder builder) {
+        for (final ConfigGroup configGroup : ConfigGroup.values()) {
+            requestConfig(builder, configGroup);
+        }
+    }
+
+    public void requestConfig(final TransactionBuilder builder, final ConfigGroup config) {
+        requestConfig(builder, config, true, ZeppOsConfigService.ConfigArg.getAllArgsForConfigGroup(config));
+    }
+
+    public void requestConfig(final TransactionBuilder builder,
+                              final ConfigGroup config,
+                              final boolean includeConstraints,
+                              final List<ZeppOsConfigService.ConfigArg> args) {
+        final ByteArrayOutputStream baos = new ByteArrayOutputStream();
+
+        baos.write(CMD_REQUEST);
+        baos.write((byte) (includeConstraints ? 1 : 0));
+        baos.write(config.getValue());
+        baos.write(args.size());
+        for (final ZeppOsConfigService.ConfigArg arg : args) {
+            baos.write(arg.getCode());
+        }
+
+        write(builder, baos.toByteArray());
+    }
 
     public enum ConfigGroup {
         DISPLAY(0x01, 0x02),
@@ -201,7 +331,7 @@ public class Huami2021Config {
         SPO2_ALL_DAY_MONITORING(ConfigGroup.HEALTH, ConfigType.BOOL, 0x31, PREF_SPO2_ALL_DAY_MONITORING),
         SPO2_LOW_ALERT(ConfigGroup.HEALTH, ConfigType.BYTE, 0x32, PREF_SPO2_LOW_ALERT_THRESHOLD),
         FITNESS_GOAL_NOTIFICATION(ConfigGroup.HEALTH, ConfigType.BOOL, 0x51, PREF_USER_FITNESS_GOAL_NOTIFICATION),
-        FITNESS_GOAL_STEPS(ConfigGroup.HEALTH, ConfigType.INT, 0x52, null), // TODO needs to be handled globally
+        FITNESS_GOAL_STEPS(ConfigGroup.HEALTH, null /* Special case, handled below */, 0x52, null), // TODO needs to be handled globally
         FITNESS_GOAL_CALORIES(ConfigGroup.HEALTH, ConfigType.SHORT, 0x53, null), // TODO needs to be handled globally
         FITNESS_GOAL_WEIGHT(ConfigGroup.HEALTH, ConfigType.SHORT, 0x54, null), // TODO needs to be handled globally
         FITNESS_GOAL_SLEEP(ConfigGroup.HEALTH, ConfigType.SHORT, 0x55, null), // TODO needs to be handled globally
@@ -263,7 +393,27 @@ public class Huami2021Config {
             return configGroup;
         }
 
-        public ConfigType getConfigType() {
+        public ConfigType getConfigType(@Nullable final Map<ConfigGroup, Byte> groupVersions) {
+            if (this == FITNESS_GOAL_STEPS) {
+                if (groupVersions == null) {
+                    return ConfigType.INT;
+                }
+
+                final Byte groupVersion = groupVersions.get(getConfigGroup());
+                if (groupVersion == null) {
+                    LOG.error("Version for {} is not known", getConfigGroup());
+                    return null;
+                }
+
+                switch (groupVersion) {
+                    case 0x01:
+                        return ConfigType.SHORT;
+                    case 0x02:
+                    default:
+                        return ConfigType.INT;
+                }
+            }
+
             return configType;
         }
 
@@ -276,7 +426,7 @@ public class Huami2021Config {
         }
 
         public static ConfigArg fromCode(final ConfigGroup configGroup, final byte code) {
-            for (final Huami2021Config.ConfigArg arg : values()) {
+            for (final ZeppOsConfigService.ConfigArg arg : values()) {
                 if (arg.getConfigGroup().equals(configGroup) && arg.getCode() == code) {
                     return arg;
                 }
@@ -285,8 +435,8 @@ public class Huami2021Config {
         }
 
         public static List<ConfigArg> getAllArgsForConfigGroup(final ConfigGroup configGroup) {
-            final List<Huami2021Config.ConfigArg> configArgs = new ArrayList<>();
-            for (final Huami2021Config.ConfigArg arg : values()) {
+            final List<ZeppOsConfigService.ConfigArg> configArgs = new ArrayList<>();
+            for (final ZeppOsConfigService.ConfigArg arg : values()) {
                 if (arg.getConfigGroup().equals(configGroup)) {
                     configArgs.add(arg);
                 }
@@ -317,14 +467,14 @@ public class Huami2021Config {
      *
      * @return true if the {@link ConfigSetter} was updated for this preference key
      */
-    public static boolean setConfig(final Prefs prefs, final String key, final ConfigSetter setter) {
+    public boolean setConfig(final Prefs prefs, final String key, final ConfigSetter setter) {
         final ConfigArg configArg = PREF_TO_CONFIG.get(key);
         if (configArg == null) {
             LOG.error("Unknown pref key {}", key);
             return false;
         }
 
-        switch (configArg.getConfigType()) {
+        switch (configArg.getConfigType(mGroupVersions)) {
             case BOOL:
                 setter.setBoolean(configArg, prefs.getBoolean(key, false));
                 return true;
@@ -470,11 +620,15 @@ public class Huami2021Config {
         return String.format(Locale.ROOT, "huami_2021_known_config_%s", pref.name());
     }
 
-    public static boolean deviceHasConfig(final Prefs devicePrefs, final Huami2021Config.ConfigArg config) {
+    public static boolean deviceHasConfig(final Prefs devicePrefs, final ZeppOsConfigService.ConfigArg config) {
         return devicePrefs.getBoolean(getPrefKnownConfig(config), false);
     }
 
-    public static class ConfigSetter {
+    public ConfigSetter newSetter() {
+        return new ConfigSetter();
+    }
+
+    public class ConfigSetter {
         private final Map<ConfigGroup, Map<ConfigArg, byte[]>> arguments = new LinkedHashMap<>();
 
         public ConfigSetter() {
@@ -568,13 +722,13 @@ public class Huami2021Config {
             final Map<ConfigArg, byte[]> configArgMap = arguments.get(configGroup);
 
             try {
-                baos.write(CONFIG_CMD_SET);
+                baos.write(CMD_SET);
                 baos.write(configGroup.getValue());
                 baos.write(configGroup.getVersion());
                 baos.write(0x00); // ?
                 baos.write(configArgMap.size());
                 for (final Map.Entry<ConfigArg, byte[]> arg : configArgMap.entrySet()) {
-                    final ConfigType configType = arg.getKey().getConfigType();
+                    final ConfigType configType = arg.getKey().getConfigType(mGroupVersions);
                     baos.write(arg.getKey().getCode());
                     baos.write(configType.getValue());
                     baos.write(arg.getValue());
@@ -586,22 +740,27 @@ public class Huami2021Config {
             return baos.toByteArray();
         }
 
-        public void write(final Huami2021Support support, final TransactionBuilder builder) {
+        public void write(final TransactionBuilder builder) {
             // Write one command per config group
             for (final ConfigGroup configGroup : arguments.keySet()) {
-                support.writeToChunked2021(builder, CHUNKED2021_ENDPOINT_CONFIG, encode(configGroup), true);
+                ZeppOsConfigService.this.write(builder, encode(configGroup));
             }
         }
 
         private void checkArg(final ConfigArg arg, final ConfigType expectedConfigType) {
+            if (arg.getConfigType(mGroupVersions) == null) {
+                // Some special cases (STEPS goal) do not have a config type
+                return;
+            }
+
             try {
-                if (!expectedConfigType.equals(arg.getConfigType())) {
+                if (!expectedConfigType.equals(arg.getConfigType(mGroupVersions))) {
                     throw new IllegalArgumentException(
                             String.format(
                                     "Invalid arg type %s for %s, expected %s",
                                     expectedConfigType,
                                     arg,
-                                    arg.getConfigType()
+                                    arg.getConfigType(mGroupVersions)
                             )
                     );
                 }
@@ -616,9 +775,7 @@ public class Huami2021Config {
         }
     }
 
-    public static class ConfigParser {
-        private static final Logger LOG = LoggerFactory.getLogger(ConfigParser.class);
-
+    public class ConfigParser {
         private final ConfigGroup configGroup;
         private final boolean includesConstraints;
 
@@ -640,7 +797,7 @@ public class Huami2021Config {
                 }
 
                 final byte configArgByte = buf.get();
-                final Huami2021Config.ConfigArg configArg = Huami2021Config.ConfigArg.fromCode(configGroup, configArgByte);
+                final ZeppOsConfigService.ConfigArg configArg = ZeppOsConfigService.ConfigArg.fromCode(configGroup, configArgByte);
                 if (configArg == null) {
                     LOG.error("Unknown config {} for {}", String.format("0x%02x", configArgByte), configGroup);
                 }
@@ -654,8 +811,8 @@ public class Huami2021Config {
                     return prefs;
                 }
                 if (configArg != null) {
-                    if (configType != configArg.getConfigType()) {
-                        LOG.warn("Unexpected arg type {} for {}, expected {}", configType, configArg, configArg.getConfigType());
+                    if (configType != configArg.getConfigType(mGroupVersions)) {
+                        LOG.warn("Unexpected arg type {} for {}, expected {}", configType, configArg, configArg.getConfigType(mGroupVersions));
                     }
                 }
 
@@ -762,7 +919,7 @@ public class Huami2021Config {
                     LOG.warn("Unhandled {} pref of type {}", configType, configArg);
                 }
 
-                if (configArg != null && argPrefs != null && configType == configArg.getConfigType()) {
+                if (configArg != null && argPrefs != null && configType == configArg.getConfigType(mGroupVersions)) {
                     prefs.put(getPrefKnownConfig(configArg), true);
 
                     // Special cases for "follow phone" preferences. We need to ensure that "auto"
@@ -787,7 +944,7 @@ public class Huami2021Config {
             return prefs;
         }
 
-        private static Map<String, Object> convertBooleanToPrefs(final ConfigArg configArg, final ConfigBoolean value) {
+        private Map<String, Object> convertBooleanToPrefs(final ConfigArg configArg, final ConfigBoolean value) {
             // Special cases
             switch (configArg) {
                 case LANGUAGE_FOLLOW_PHONE:
@@ -816,7 +973,7 @@ public class Huami2021Config {
             return null;
         }
 
-        private static Map<String, Object> convertStringToPrefs(final ConfigArg configArg, final ConfigString str) {
+        private Map<String, Object> convertStringToPrefs(final ConfigArg configArg, final ConfigString str) {
             // Special cases
             switch (configArg) {
                 case DATE_FORMAT:
@@ -833,7 +990,7 @@ public class Huami2021Config {
             return null;
         }
 
-        private static Map<String, Object> convertStringListToPrefs(final ConfigArg configArg, final ConfigStringList str) {
+        private Map<String, Object> convertStringListToPrefs(final ConfigArg configArg, final ConfigStringList str) {
             final List<String> possibleValues = str.getPossibleValues();
             final boolean includesConstraints = !possibleValues.isEmpty();
             Map<String, Object> prefs = null;
@@ -861,7 +1018,7 @@ public class Huami2021Config {
             return prefs;
         }
 
-        private static Map<String, Object> convertShortToPrefs(final ConfigArg configArg, final ConfigShort value) {
+        private Map<String, Object> convertShortToPrefs(final ConfigArg configArg, final ConfigShort value) {
             if (configArg.getPrefKey() != null) {
                 // The arg maps to a number pref directly
                 final Map<String, Object> prefs = singletonMap(configArg.getPrefKey(), value.getValue());
@@ -877,7 +1034,7 @@ public class Huami2021Config {
             return null;
         }
 
-        private static Map<String, Object> convertIntToPrefs(final ConfigArg configArg, final ConfigInt value) {
+        private Map<String, Object> convertIntToPrefs(final ConfigArg configArg, final ConfigInt value) {
             if (configArg.getPrefKey() != null) {
                 // The arg maps to a number pref directly
                 final Map<String, Object> prefs = singletonMap(configArg.getPrefKey(), value.getValue());
@@ -893,7 +1050,7 @@ public class Huami2021Config {
             return null;
         }
 
-        private static Map<String, Object> convertDatetimeHhMmToPrefs(final ConfigArg configArg, final ConfigDatetimeHhMm hhmm) {
+        private Map<String, Object> convertDatetimeHhMmToPrefs(final ConfigArg configArg, final ConfigDatetimeHhMm hhmm) {
             if (configArg.getPrefKey() != null) {
                 // The arg maps to a hhmm pref directly
                 return singletonMap(configArg.getPrefKey(), hhmm.getValue());
@@ -902,7 +1059,7 @@ public class Huami2021Config {
             return null;
         }
 
-        private static Map<String, Object> convertByteListToPrefs(final ConfigArg configArg, final ConfigByteList value) {
+        private Map<String, Object> convertByteListToPrefs(final ConfigArg configArg, final ConfigByteList value) {
             final byte[] possibleValues = value.getPossibleValues();
             final boolean includesConstraints = possibleValues != null && possibleValues.length > 0;
             Map<String, Object> prefs = null;
@@ -931,7 +1088,7 @@ public class Huami2021Config {
             return prefs;
         }
 
-        private static Map<String, Object> convertByteToPrefs(final ConfigArg configArg, final ConfigByte value) {
+        private Map<String, Object> convertByteToPrefs(final ConfigArg configArg, final ConfigByte value) {
             final byte[] possibleValues = value.getPossibleValues();
             final boolean includesConstraints = value.getPossibleValues().length > 0;
             Map<String, Object> prefs = null;
@@ -964,7 +1121,7 @@ public class Huami2021Config {
                     decoder = null;
                     break;
                 case HEART_RATE_ALL_DAY_MONITORING:
-                    decoder = Huami2021Config::decodeHeartRateAllDayMonitoring;
+                    decoder = ZeppOsConfigService::decodeHeartRateAllDayMonitoring;
                     break;
                 case SCREEN_TIMEOUT:
                 case HEART_RATE_HIGH_ALERTS:
@@ -1023,7 +1180,7 @@ public class Huami2021Config {
             return prefs;
         }
 
-        private static List<String> decodeByteValues(final byte[] values, final ValueDecoder<Byte> decoder) {
+        private List<String> decodeByteValues(final byte[] values, final ValueDecoder<Byte> decoder) {
             final List<String> decoded = new ArrayList<>(values.length);
             for (final byte b : values) {
                 final String decodedByte = decoder.decode(b);
@@ -1037,7 +1194,7 @@ public class Huami2021Config {
             return decoded;
         }
 
-        private static String decodeStringValues(final List<String> values, final ValueDecoder<String> decoder) {
+        private String decodeStringValues(final List<String> values, final ValueDecoder<String> decoder) {
             final List<String> decoded = new ArrayList<>(values.size());
             for (final String str : values) {
                 final String decodedStr = decoder.decode(str);
@@ -1053,7 +1210,7 @@ public class Huami2021Config {
             return String.join(",", decoded);
         }
 
-        private static Map<String, Object> singletonMap(final String key, final Object value) {
+        private Map<String, Object> singletonMap(final String key, final Object value) {
             if (key == null) {
                 LOG.error("Null key in prefs update");
                 if (BuildConfig.DEBUG) {

@@ -30,6 +30,10 @@ public abstract class AbstractZeppOsService {
     public abstract boolean isEncrypted();
     public abstract void handlePayload(final byte[] payload);
 
+    protected Huami2021Support getSupport() {
+        return mSupport;
+    }
+
     protected void write(final String taskName, final byte[] data) {
         this.mSupport.writeToChunked2021(taskName, getEndpoint(), data, isEncrypted());
     }
