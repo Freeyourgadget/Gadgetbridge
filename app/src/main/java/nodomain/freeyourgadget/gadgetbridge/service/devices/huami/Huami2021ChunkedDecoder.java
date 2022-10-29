@@ -115,7 +115,7 @@ public class Huami2021ChunkedDecoder {
                 }
             }
             try {
-                huami2021Handler.handle2021Payload(currentType, buf);
+                huami2021Handler.handle2021Payload((short) currentType, buf);
             } catch (final Exception e) {
                 LOG.error("Failed to handle payload", e);
             }
