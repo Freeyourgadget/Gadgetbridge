@@ -2057,4 +2057,8 @@
     <string name="accuracy_first">Priorität auf Genauigkeit</string>
     <string name="pref_huami_truncate_fetch_operation_timestamps_title">Zeitstempel des Abrufvorgangs kürzen</string>
     <string name="pref_huami_truncate_fetch_operation_timestamps_summary">Kürze die Zeitstempel der Abrufvorgänge auf Minuten. Deaktiviere diese Einstellung, um die Zeitstempel in Sekunden beizubehalten, wenn du Probleme beim Abrufen sehr kurzer Workouts hast.</string>
+    <string name="debugactivity_confirm_remove_device_preferences_title">Geräteeinstellungen entfernen\?</string>
+    <string name="debugactivity_confirm_remove_device_preferences">Dadurch werden die Geräteeinstellungen für alle angeschlossenen Geräte zurückgesetzt. Bist du sicher\?</string>
+    <string name="pref_summary_notification_media_ignores_application_list">Medienbenachrichtigungen vor der App-Liste verarbeiten. Wenn diese Voreinstellung nicht aktiviert ist, müssen Medien-Apps in der App-Liste zugelassen sein, damit die Mediensteuerung auf dem Gerät funktioniert.</string>
+    <string name="pref_title_notification_media_ignores_application_list">Medienbenachrichtigungen ignorieren die App-Liste</string>
 </resources>
