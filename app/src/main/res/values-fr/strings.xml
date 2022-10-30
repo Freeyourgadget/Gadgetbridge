@@ -2055,4 +2055,6 @@ Temps de sommeil préféré en heures</string>
     <string name="pref_title_lower_button_short_press_action">Action sur un appui court du bouton inférieur</string>
     <string name="pref_title_notification_media_ignores_application_list">liste des applications dont les notifications média doivent être ignorées</string>
     <string name="pref_summary_notification_media_ignores_application_list">Traiter les notifications média avant la liste des app. Si la préférence n\'est pas cochée, les applicatioms média doivent être autorisées dans la liste des applications pour que les contrôles média fonctionnent sur l\'appareil.</string>
+    <string name="debugactivity_confirm_remove_device_preferences_title">Supprimer les préférences de l\'appareil \?</string>
+    <string name="debugactivity_confirm_remove_device_preferences">Cela supprimera toutes les préférences appareil pour tous les appareils connectés. Etes-vous sûr \?</string>
 </resources>
