@@ -2049,4 +2049,6 @@
     <string name="pref_enable_unsupported_settings_summary">הגדרה זו תאפשר גישה לכל ההגדרות הזמינות, אפילו אם ההתקן לא תומך בהן. עלול לערער את היציבות ולגרום לקריסת ההתקן.</string>
     <string name="pref_huami_truncate_fetch_operation_timestamps_title">קיצור חותמות הזמן של פעילויות משיכה</string>
     <string name="pref_huami_truncate_fetch_operation_timestamps_summary">חיתוך חותמות הזמן של פעולות המשיכה לכדי דקות. השבתת ההגדרה הזאת משאירה את חותמת הזמן בשניות, אם נתקלת בתקלות במשיכת אימונים קצרים במיוחד.</string>
+    <string name="pref_title_notification_media_ignores_application_list">רשימת יישומונים להתעלמות בהתראות מדיה</string>
+    <string name="pref_summary_notification_media_ignores_application_list">לעבד את בקשות המדיה לפני רשימת היישומונים. אם העדפה זו לא מסומנת, יש לאפשר יישומוני מדיה ברשימת היישומונים כדי שפקדי המדיה יעבדו על המכשיר.</string>
 </resources>
