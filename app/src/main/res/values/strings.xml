@@ -95,6 +95,8 @@
     <string name="title_activity_debug">Debug</string>
     <string name="debugactivity_really_factoryreset_title">Really factory reset?</string>
     <string name="debugactivity_really_factoryreset">Doing a factory reset will delete all data from the connected device (if supported). Xiaomi/Huami devices also change Bluetooth MAC address, so they appear as a new devices to Gadgetbridge.</string>
+    <string name="debugactivity_confirm_remove_device_preferences_title">Remove device preferences?</string>
+    <string name="debugactivity_confirm_remove_device_preferences">This will reset the device preferences for all connected devices. Are you sure?</string>
     <!-- Strings related to AppManager -->
     <string name="title_activity_appmanager">App Manager</string>
     <string name="appmanager_cached_watchapps_watchfaces">Apps in cache</string>

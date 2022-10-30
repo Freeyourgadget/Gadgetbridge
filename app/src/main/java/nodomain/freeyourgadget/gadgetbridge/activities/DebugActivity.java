@@ -478,12 +478,19 @@ public class DebugActivity extends AbstractGBActivity {
         removeDevicePreferencesButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Context context = getApplicationContext();
-                GBApplication gbApp = (GBApplication) context;
-                List<GBDevice> devices = gbApp.getDeviceManager().getSelectedDevices();
-                for(GBDevice device : devices){
-                    GBApplication.deleteDeviceSpecificSharedPrefs(device.getAddress());
-                }
+                new AlertDialog.Builder(DebugActivity.this)
+                        .setCancelable(true)
+                        .setTitle(R.string.debugactivity_confirm_remove_device_preferences_title)
+                        .setMessage(R.string.debugactivity_confirm_remove_device_preferences)
+                        .setPositiveButton(R.string.ok, (dialog, which) -> {
+                            final GBApplication gbApp = (GBApplication) getApplicationContext();
+                            final List<GBDevice> devices = gbApp.getDeviceManager().getSelectedDevices();
+                            for(final GBDevice device : devices){
+                                GBApplication.deleteDeviceSpecificSharedPrefs(device.getAddress());
+                            }
+                        })
+                        .setNegativeButton(R.string.Cancel, (dialog, which) -> {})
+                        .show();
             }
         });
 
