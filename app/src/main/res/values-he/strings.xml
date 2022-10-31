@@ -2053,4 +2053,10 @@
     <string name="pref_summary_notification_media_ignores_application_list">לעבד את בקשות המדיה לפני רשימת היישומונים. אם העדפה זו לא מסומנת, יש לאפשר יישומוני מדיה ברשימת היישומונים כדי שפקדי המדיה יעבדו על המכשיר.</string>
     <string name="debugactivity_confirm_remove_device_preferences_title">להסיר את העדפות המכשיר\?</string>
     <string name="debugactivity_confirm_remove_device_preferences">פעולה זו תאפס את העדפות המכשיר לכל המכשירים המקושרים. להמשיך\?</string>
+    <string name="fw_upgrade_notice_amazfit_band7">פעולה זו תתקין את הקושחה %s על ה־Amazfit Band 7 שלך.
+\n
+\nהצמיד שלך יופעל מחדש לאחר התקנת קובץ ה־‎.zip.
+\n
+\nהמשך התהליך הוא על אחריותך בלבד!</string>
+    <string name="devicetype_amazfit_band7">Amazfit Band 7‎</string>
 </resources>
