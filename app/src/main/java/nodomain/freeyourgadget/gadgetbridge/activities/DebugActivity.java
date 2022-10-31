@@ -186,7 +186,11 @@ public class DebugActivity extends AbstractGBActivity {
                 notificationSpec.body = testString;
                 notificationSpec.sender = testString;
                 notificationSpec.subject = testString;
-                notificationSpec.sourceAppId = BuildConfig.APPLICATION_ID;
+                if (notificationSpec.type != NotificationType.GENERIC_SMS) {
+                    // SMS notifications don't have a source app ID when sent by the SMSReceiver,
+                    // so let's not set it here as well for consistency
+                    notificationSpec.sourceAppId = BuildConfig.APPLICATION_ID;
+                }
                 notificationSpec.sourceName = getApplicationContext().getApplicationInfo()
                         .loadLabel(getApplicationContext().getPackageManager())
                         .toString();

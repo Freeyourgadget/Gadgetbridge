@@ -76,6 +76,7 @@ import java.util.Map;
 import java.util.concurrent.TimeUnit;
 import java.util.regex.Pattern;
 
+import nodomain.freeyourgadget.gadgetbridge.BuildConfig;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHelper;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventCallControl;
@@ -646,6 +647,10 @@ public abstract class Huami2021Support extends HuamiSupport {
             // app package
             if (notificationSpec.sourceAppId != null) {
                 baos.write(notificationSpec.sourceAppId.getBytes(StandardCharsets.UTF_8));
+            } else {
+                // Send the GB package name, otherwise the last notification icon will
+                // be used wrongly (eg. when receiving an SMS)
+                baos.write(BuildConfig.APPLICATION_ID.getBytes(StandardCharsets.UTF_8));
             }
             baos.write(0);
 
