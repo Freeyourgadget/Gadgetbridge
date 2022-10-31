@@ -2062,4 +2062,10 @@
     <string name="pref_title_notification_media_ignores_application_list">Медіасповіщення ігнорують список застосунків</string>
     <string name="debugactivity_confirm_remove_device_preferences_title">Вилучити налаштування пристрою\?</string>
     <string name="debugactivity_confirm_remove_device_preferences">Це призведе до скидання налаштувань пристрою для всіх під\'єднаних пристроїв. Ви впевнені\?</string>
+    <string name="devicetype_amazfit_band7">Amazfit Band 7</string>
+    <string name="fw_upgrade_notice_amazfit_band7">Ви збираєтесь установити мікропрограму %s на свій Amazfit Band 7.
+\n
+\nПісля встановлення файлу .zip ваш браслет перезавантажиться.
+\n
+\nПРОДОВЖУЙТЕ НА СВІЙ СТРАХ І РИЗИК!</string>
 </resources>
