@@ -44,6 +44,7 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.galaxy_buds.GalaxyBu
 import nodomain.freeyourgadget.gadgetbridge.service.devices.hplus.HPlusSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.HuamiSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.amazfitband5.AmazfitBand5Support;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.amazfitband7.AmazfitBand7Support;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.amazfitbip.AmazfitBipLiteSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.amazfitbip.AmazfitBipSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.amazfitbips.AmazfitBipSLiteSupport;
@@ -193,6 +194,8 @@ public class DeviceSupportFactory {
                 return new ServiceDeviceSupport(new AmazfitGTR4Support());
             case MIBAND7:
                 return new ServiceDeviceSupport(new MiBand7Support());
+            case AMAZFITBAND7:
+                return new ServiceDeviceSupport(new AmazfitBand7Support());
             case AMAZFITBIP:
                 return new ServiceDeviceSupport(new AmazfitBipSupport());
             case AMAZFITBIP_LITE:

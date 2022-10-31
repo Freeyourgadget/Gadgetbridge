@@ -14,7 +14,7 @@
 
     You should have received a copy of the GNU Affero General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
-package nodomain.freeyourgadget.gadgetbridge.service.devices.huami.miband7;
+package nodomain.freeyourgadget.gadgetbridge.devices.huami.amazfitband7;
 
 import android.content.Context;
 import android.net.Uri;
@@ -22,12 +22,23 @@ import android.net.Uri;
 import java.io.IOException;
 
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiFWHelper;
-import nodomain.freeyourgadget.gadgetbridge.devices.huami.miband7.MiBand7FWHelper;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.Huami2021Support;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.amazfitband7.AmazfitBand7FirmwareInfo;
 
-public class MiBand7Support extends Huami2021Support {
+public class AmazfitBand7FWHelper extends HuamiFWHelper {
+    public AmazfitBand7FWHelper(final Uri uri, final Context context) throws IOException {
+        super(uri, context);
+    }
+
     @Override
-    public HuamiFWHelper createFWHelper(final Uri uri, final Context context) throws IOException {
-        return new MiBand7FWHelper(uri, context);
+    public long getMaxExpectedFileSize() {
+        return 1024 * 1024 * 32; // 32.0MB
+    }
+
+    @Override
+    protected void determineFirmwareInfo(final byte[] wholeFirmwareBytes) {
+        firmwareInfo = new AmazfitBand7FirmwareInfo(wholeFirmwareBytes);
+        if (!firmwareInfo.isHeaderValid()) {
+            throw new IllegalArgumentException("Not an Amazfit Band 7 firmware");
+        }
     }
 }

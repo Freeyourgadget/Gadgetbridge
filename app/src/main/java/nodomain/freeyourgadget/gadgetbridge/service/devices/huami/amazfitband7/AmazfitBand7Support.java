@@ -14,7 +14,7 @@
 
     You should have received a copy of the GNU Affero General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
-package nodomain.freeyourgadget.gadgetbridge.service.devices.huami.miband7;
+package nodomain.freeyourgadget.gadgetbridge.service.devices.huami.amazfitband7;
 
 import android.content.Context;
 import android.net.Uri;
@@ -22,12 +22,12 @@ import android.net.Uri;
 import java.io.IOException;
 
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiFWHelper;
-import nodomain.freeyourgadget.gadgetbridge.devices.huami.miband7.MiBand7FWHelper;
+import nodomain.freeyourgadget.gadgetbridge.devices.huami.amazfitband7.AmazfitBand7FWHelper;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.Huami2021Support;
 
-public class MiBand7Support extends Huami2021Support {
+public class AmazfitBand7Support extends Huami2021Support {
     @Override
     public HuamiFWHelper createFWHelper(final Uri uri, final Context context) throws IOException {
-        return new MiBand7FWHelper(uri, context);
+        return new AmazfitBand7FWHelper(uri, context);
     }
 }

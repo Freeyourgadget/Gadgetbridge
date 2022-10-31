@@ -14,10 +14,7 @@
 
     You should have received a copy of the GNU Affero General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
-package nodomain.freeyourgadget.gadgetbridge.service.devices.huami.miband7;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+package nodomain.freeyourgadget.gadgetbridge.service.devices.huami.amazfitband7;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -27,20 +24,17 @@ import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.Huami2021FirmwareInfo;
 
-public class MiBand7FirmwareInfo extends Huami2021FirmwareInfo {
+public class AmazfitBand7FirmwareInfo extends Huami2021FirmwareInfo {
     private static final Map<Integer, String> crcToVersion = new HashMap<Integer, String>() {{
-        // firmware
-        put(26036, "1.20.3.1");
-        put(55449, "1.27.0.4");
     }};
 
-    public MiBand7FirmwareInfo(final byte[] bytes) {
+    public AmazfitBand7FirmwareInfo(final byte[] bytes) {
         super(bytes);
     }
 
     @Override
     public String deviceName() {
-        return HuamiConst.XIAOMI_SMART_BAND7_NAME;
+        return HuamiConst.AMAZFIT_BAND7_NAME;
     }
 
     @Override
@@ -50,7 +44,7 @@ public class MiBand7FirmwareInfo extends Huami2021FirmwareInfo {
 
     @Override
     public boolean isGenerallyCompatibleWith(final GBDevice device) {
-        return isHeaderValid() && device.getType() == DeviceType.MIBAND7;
+        return isHeaderValid() && device.getType() == DeviceType.AMAZFITBAND7;
     }
 
     @Override
