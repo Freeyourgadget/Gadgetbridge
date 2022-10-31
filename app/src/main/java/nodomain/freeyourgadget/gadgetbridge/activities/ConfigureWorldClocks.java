@@ -53,6 +53,7 @@ import nodomain.freeyourgadget.gadgetbridge.entities.User;
 import nodomain.freeyourgadget.gadgetbridge.entities.WorldClock;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.util.DeviceHelper;
+import nodomain.freeyourgadget.gadgetbridge.util.StringUtils;
 
 
 public class ConfigureWorldClocks extends AbstractGBActivity {
@@ -165,9 +166,11 @@ public class ConfigureWorldClocks extends AbstractGBActivity {
     private WorldClock createDefaultWorldClock(@NonNull Device device, @NonNull User user) {
         final WorldClock worldClock = new WorldClock();
         final String timezone = TimeZone.getDefault().getID();
+        worldClock.setEnabled(true);
         worldClock.setTimeZoneId(timezone);
         final String[] timezoneParts = timezone.split("/");
         worldClock.setLabel(timezoneParts[timezoneParts.length - 1]);
+        worldClock.setCode(StringUtils.truncate(timezoneParts[timezoneParts.length - 1], 3).toUpperCase(Locale.getDefault()));
 
         worldClock.setDeviceId(device.getId());
         worldClock.setUserId(user.getId());

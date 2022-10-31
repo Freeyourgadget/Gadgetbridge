@@ -785,9 +785,8 @@ public abstract class Huami2021Support extends HuamiSupport {
     }
 
     @Override
-    protected void sendWorldClocks(final TransactionBuilder builder,
-                                   final List<? extends WorldClock> clocks) {
-        // TODO not yet implemented
+    protected boolean isWorldClocksEncrypted() {
+        return true;
     }
 
     @Override

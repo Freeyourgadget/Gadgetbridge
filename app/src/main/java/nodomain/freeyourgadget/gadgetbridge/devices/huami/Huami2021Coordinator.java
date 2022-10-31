@@ -85,8 +85,17 @@ public abstract class Huami2021Coordinator extends HuamiCoordinator {
 
     @Override
     public int getWorldClocksSlotCount() {
-        // TODO: It's supported, but not implemented - even in the official app
-        return 0;
+        return 20; // as enforced by Zepp
+    }
+
+    @Override
+    public int getWorldClocksLabelLength() {
+        return 30; // at least
+    }
+
+    @Override
+    public boolean supportsDisabledWorldClocks() {
+        return true;
     }
 
     @Override
@@ -162,7 +171,9 @@ public abstract class Huami2021Coordinator extends HuamiCoordinator {
         settings.add(R.xml.devicesettings_header_time);
         //settings.add(R.xml.devicesettings_timeformat);
         settings.add(R.xml.devicesettings_dateformat_2);
-        // TODO settings.add(R.xml.devicesettings_world_clocks);
+        if (getWorldClocksSlotCount() > 0) {
+            settings.add(R.xml.devicesettings_world_clocks);
+        }
 
         //
         // Display

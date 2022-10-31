@@ -1101,7 +1101,11 @@ public abstract class HuamiSupport extends AbstractBTLEDeviceSupport implements 
             return;
         }
 
-        writeToChunked2021(builder, (short) 0x0008, baos.toByteArray(), false);
+        writeToChunked2021(builder, (short) 0x0008, baos.toByteArray(), isWorldClocksEncrypted());
+    }
+
+    protected boolean isWorldClocksEncrypted() {
+        return false;
     }
 
     private byte[] encodeWorldClock(final WorldClock clock) {
@@ -1113,8 +1117,12 @@ public abstract class HuamiSupport extends AbstractBTLEDeviceSupport implements 
             final TimeZone timezone = TimeZone.getTimeZone(clock.getTimeZoneId());
             final ZoneId zoneId = ZoneId.of(clock.getTimeZoneId());
 
-            // Usually the 3-letter city code (eg. LIS for Lisbon), but doesn't seem to be used in the UI (used in Amazfit Neo)
-            baos.write(StringUtils.truncate(clock.getLabel(), 3).toUpperCase().getBytes(StandardCharsets.UTF_8));
+            // Usually the 3-letter city code (eg. LIS for Lisbon)
+            if (clock.getCode() != null) {
+                baos.write(StringUtils.truncate(clock.getCode(), 3).toUpperCase().getBytes(StandardCharsets.UTF_8));
+            } else {
+                baos.write(StringUtils.truncate(clock.getLabel(), 3).toUpperCase().getBytes(StandardCharsets.UTF_8));
+            }
             baos.write(0x00);
 
             // Some other string? Seems to be empty
@@ -1162,6 +1170,10 @@ public abstract class HuamiSupport extends AbstractBTLEDeviceSupport implements 
 
             for (int i = 0; i < 4; i++) {
                 baos.write((byte) ((nextTransitionTs >> (i * 8)) & 0xff));
+            }
+
+            if (coordinator.supportsDisabledWorldClocks()) {
+                baos.write((byte) (clock.getEnabled() ? 0x01 : 0x00));
             }
 
             return baos.toByteArray();

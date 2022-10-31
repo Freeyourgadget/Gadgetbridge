@@ -24,7 +24,9 @@ public interface WorldClock extends Serializable {
      */
     String EXTRA_WORLD_CLOCK = "world_clock";
 
+    Boolean getEnabled();
     String getWorldClockId();
     String getLabel();
+    String getCode();
     String getTimeZoneId();
 }

@@ -25,6 +25,7 @@ import android.text.TextWatcher;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -43,6 +44,7 @@ import nodomain.freeyourgadget.gadgetbridge.entities.WorldClock;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.util.DeviceHelper;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
+import nodomain.freeyourgadget.gadgetbridge.util.StringUtils;
 
 public class WorldClockDetails extends AbstractGBActivity {
     private static final Logger LOG = LoggerFactory.getLogger(WorldClockDetails.class);
@@ -54,6 +56,9 @@ public class WorldClockDetails extends AbstractGBActivity {
 
     TextView worldClockTimezone;
     EditText worldClockLabel;
+    EditText worldClockCode;
+    View worldClockEnabledCard;
+    CheckBox worldClockEnabled;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,8 +73,11 @@ public class WorldClockDetails extends AbstractGBActivity {
             return;
         }
 
+        worldClockEnabledCard = findViewById(R.id.card_enabled);
+        worldClockEnabled = findViewById(R.id.world_clock_enabled);
         worldClockTimezone = findViewById(R.id.world_clock_timezone);
         worldClockLabel = findViewById(R.id.world_clock_label);
+        worldClockCode = findViewById(R.id.world_clock_code);
 
         device = getIntent().getParcelableExtra(GBDevice.EXTRA_DEVICE);
         final DeviceCoordinator coordinator = DeviceHelper.getInstance().getCoordinator(device);
@@ -91,6 +99,14 @@ public class WorldClockDetails extends AbstractGBActivity {
             }
         });
 
+        if (coordinator.supportsDisabledWorldClocks()) {
+            worldClockEnabled.setOnCheckedChangeListener((buttonView, isChecked) -> {
+                worldClock.setEnabled(isChecked);
+            });
+        } else {
+            worldClockEnabledCard.setVisibility(View.GONE);
+        }
+
         worldClockLabel.setFilters(new InputFilter[]{new InputFilter.LengthFilter(coordinator.getWorldClocksLabelLength())});
         worldClockLabel.addTextChangedListener(new TextWatcher() {
             @Override
@@ -104,6 +120,22 @@ public class WorldClockDetails extends AbstractGBActivity {
             @Override
             public void afterTextChanged(final Editable s) {
                 worldClock.setLabel(s.toString());
+            }
+        });
+
+        worldClockCode.setFilters(new InputFilter[]{new InputFilter.LengthFilter(3)});
+        worldClockCode.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(final CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(final CharSequence s, int start, int before, int count) {
+            }
+
+            @Override
+            public void afterTextChanged(final Editable s) {
+                worldClock.setCode(s.toString());
             }
         });
 
@@ -150,25 +182,37 @@ public class WorldClockDetails extends AbstractGBActivity {
     }
 
     public void updateUiFromWorldClock() {
+        final DeviceCoordinator coordinator = DeviceHelper.getInstance().getCoordinator(device);
+        final int maxLabelLength = coordinator.getWorldClocksLabelLength();
+
+        worldClockEnabled.setChecked(worldClock.getEnabled() == null || worldClock.getEnabled());
+
         final String oldTimezone = worldClockTimezone.getText().toString();
 
         worldClockTimezone.setText(worldClock.getTimeZoneId());
 
         // Check if the label was still the default (the timezone city name)
         // If so, and if the user changed the timezone, update the label to match the new city name
-        if (!oldTimezone.equals(worldClock.getTimeZoneId())) {
+        if (!StringUtils.isNullOrEmpty(oldTimezone) && !oldTimezone.equals(worldClock.getTimeZoneId())) {
             final String[] oldTimezoneParts = oldTimezone.split("/");
             final String[] newTimezoneParts = worldClock.getTimeZoneId().split("/");
-            final String newLabel = newTimezoneParts[newTimezoneParts.length - 1];
-            final String oldLabel = oldTimezoneParts[oldTimezoneParts.length - 1];
+            final String newLabel = StringUtils.truncate(newTimezoneParts[newTimezoneParts.length - 1], maxLabelLength);
+            final String oldLabel = StringUtils.truncate(oldTimezoneParts[oldTimezoneParts.length - 1], maxLabelLength);
             final String userLabel = worldClockLabel.getText().toString();
-
-            if (userLabel.equals(oldLabel)) {
+            if (StringUtils.isNullOrEmpty(userLabel) || userLabel.equals(oldLabel)) {
                 // The label was still the original, so let's override it with the new city
                 worldClock.setLabel(newLabel);
+            }
+            final String newCode = StringUtils.truncate(newLabel, 3).toUpperCase();
+            final String oldCode = StringUtils.truncate(oldLabel, 3).toUpperCase();
+            final String userCode = worldClockCode.getText().toString();
+            if (StringUtils.isNullOrEmpty(userCode) || userCode.equals(oldCode)) {
+                // The code was still the original, so let's override it with the new one
+                worldClock.setCode(newCode);
             }
         }
 
         worldClockLabel.setText(worldClock.getLabel());
+        worldClockCode.setText(worldClock.getCode());
     }
 }

@@ -265,6 +265,11 @@ public abstract class AbstractDeviceCoordinator implements DeviceCoordinator {
     }
 
     @Override
+    public boolean supportsDisabledWorldClocks() {
+        return false;
+    }
+
+    @Override
     public boolean supportsRgbLedColor() {
         return false;
     }

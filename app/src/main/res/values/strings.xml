@@ -651,8 +651,10 @@
     <string name="world_clock_delete_confirm_description">Are you sure you want to delete the world clock?</string>
     <string name="world_clock_no_free_slots_title">No free slots</string>
     <string name="world_clock_no_free_slots_description">The device has no free slots for world clocks (total slots: %1$s)</string>
+    <string name="function_enabled">Enabled</string>
     <string name="world_clock_timezone">Time Zone</string>
     <string name="world_clock_label">Label</string>
+    <string name="world_clock_code">Code</string>
     <string name="title_activity_alarm_details">Alarm details</string>
     <string name="title_activity_reminder_details">Reminder details</string>
     <string name="title_activity_world_clock_details">World Clock details</string>

@@ -43,7 +43,7 @@ public class GBDaoGenerator {
 
 
     public static void main(String[] args) throws Exception {
-        final Schema schema = new Schema(44, MAIN_PACKAGE + ".entities");
+        final Schema schema = new Schema(45, MAIN_PACKAGE + ".entities");
 
         Entity userAttributes = addUserAttributes(schema);
         Entity user = addUserInfo(schema, userAttributes);
@@ -591,6 +591,8 @@ public class GBDaoGenerator {
         indexUnique.makeUnique();
         worldClock.addIndex(indexUnique);
         worldClock.addStringProperty("label").notNull();
+        worldClock.addBooleanProperty("enabled");
+        worldClock.addStringProperty("code");
         worldClock.addStringProperty("timeZoneId").notNull();
         worldClock.addToOne(user, userId);
         worldClock.addToOne(device, deviceId);

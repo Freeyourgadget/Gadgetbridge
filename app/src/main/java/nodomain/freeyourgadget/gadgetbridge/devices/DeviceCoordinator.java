@@ -398,6 +398,12 @@ public interface DeviceCoordinator {
     int getWorldClocksLabelLength();
 
     /**
+     * Indicates whether the device supports disabled world clocks that can be enabled through
+     * a menu on the device.
+     */
+    boolean supportsDisabledWorldClocks();
+
+    /**
      * Indicates whether the device has an led which supports custom colors
      */
     boolean supportsLedColor();
