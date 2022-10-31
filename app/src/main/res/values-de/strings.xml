@@ -2061,4 +2061,10 @@
     <string name="debugactivity_confirm_remove_device_preferences">Dadurch werden die Geräteeinstellungen für alle angeschlossenen Geräte zurückgesetzt. Bist du sicher\?</string>
     <string name="pref_summary_notification_media_ignores_application_list">Medienbenachrichtigungen vor der App-Liste verarbeiten. Wenn diese Voreinstellung nicht aktiviert ist, müssen Medien-Apps in der App-Liste zugelassen sein, damit die Mediensteuerung auf dem Gerät funktioniert.</string>
     <string name="pref_title_notification_media_ignores_application_list">Medienbenachrichtigungen ignorieren die App-Liste</string>
+    <string name="fw_upgrade_notice_amazfit_band7">Du bist dabei, die Firmware %s auf dein Amazfit Band 7 zu installieren.
+\n
+\nDein Band wird nach der Installation der .zip-Datei neu starten.
+\n
+\nINSTALLATION AUF EIGENE GEFAHR!</string>
+    <string name="devicetype_amazfit_band7">Amazfit Band 7</string>
 </resources>
