@@ -492,7 +492,7 @@
     <string name="pref_summary_expose_hr">Engedélyezi, hogy más alkalmazások valós időben hozzáférjenek a HR adatokhoz amíg a Gadgetbridge kapcsolódva van</string>
     <string name="pref_title_pebble_gatt_clientonly">Csak GATT kliens</string>
     <string name="pref_title_custom_deviceicon">Eszköz specifikus értesítés ikon megjelenítése</string>
-    <string name="pref_title_notifications_timeout">Értesítések közötti legrövidebb idő</string>
+    <string name="pref_title_notifications_timeout">Minimum idő az értesítések között</string>
     <string name="pref_theme_system">Rendszer</string>
     <string name="title_activity_calblacklist">Feketelistás naptárak</string>
     <string name="sonyswr12_settings_title">Beállítások Sony SWR12</string>
@@ -540,8 +540,8 @@
     <string name="calendar_year">Év</string>
     <string name="device_card_activity_card_title">Tevékenységi adatok az eszközlapon</string>
     <string name="battery_level">Az akkumulátor töltöttségi szintje</string>
-    <string name="whitelist_all_for_notifications">Értesítések engedélyezése ezekből</string>
-    <string name="blacklist_all_for_notifications">Értesítések letiltása ezekből</string>
+    <string name="whitelist_all_for_notifications">Összes értesítés fehérlistája</string>
+    <string name="blacklist_all_for_notifications">Összes értesítés feketelistája</string>
     <string name="check_all_applications">Az összes alkalmazás kijelölése</string>
     <string name="uncheck_all_applications">Az összes alkalmazás kijelölésének törlése</string>
     <string name="about_activity_title_generic">Gadgetbridge névjegye</string>
@@ -629,4 +629,9 @@
     <string name="sports_activity_confirm_delete_description">Biztosan törölni szeretne %d aktivitást\?</string>
     <string name="sports_activity_quick_filter_7days">7 nap</string>
     <string name="activity_summaries">Sportaktivitások</string>
+    <string name="pref_title_support_voip_calls">VoIP alkalmazáshívások engedélyezése</string>
+    <string name="pref_blacklist_calendars">Naptárak feketelistázása</string>
+    <string name="pref_title_auto_export_location">Exportálás helye</string>
+    <string name="pref_title_auto_export_enabled">Automatikus exportálás engedélyezve</string>
+    <string name="pref_header_auto_export">Automatikus exportálás</string>
 </resources>
