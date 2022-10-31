@@ -2068,4 +2068,10 @@
     <string name="pref_summary_notification_media_ignores_application_list">Medya bildirimlerini uygulama listesinden önce işle. Bu tercih işaretli değilse, medya denetimlerinin aygıtta çalışması için uygulama listesinde medya uygulamalarına izin verilmesi gerekir.</string>
     <string name="debugactivity_confirm_remove_device_preferences_title">Aygıt tercihleri kaldırılsın mı\?</string>
     <string name="debugactivity_confirm_remove_device_preferences">Bu, bağlı tüm aygıtlar için aygıt tercihlerini sıfırlayacak. Emin misiniz\?</string>
+    <string name="devicetype_amazfit_band7">Amazfit Band 7</string>
+    <string name="fw_upgrade_notice_amazfit_band7">Amazfit Band 7 aygıtınıza %s ürün yazılımını kurmak üzeresiniz.
+\n
+\nBilekliğiniz .zip dosyasını kurduktan sonra yeniden başlatılacak.
+\n
+\nİLERLEMENİZ DURUMUNDA RİSK SİZE AİTTİR!</string>
 </resources>
