@@ -2054,4 +2054,10 @@
     <string name="pref_title_notification_media_ignores_application_list">媒体通知忽略应用列表</string>
     <string name="debugactivity_confirm_remove_device_preferences_title">移除设备首选项？</string>
     <string name="debugactivity_confirm_remove_device_preferences">这将重置所有已连接设备的设备首选项。是否确定？</string>
+    <string name="devicetype_amazfit_band7">跃我手环7</string>
+    <string name="fw_upgrade_notice_amazfit_band7">您即将安装 %s 固件在您的 跃我手环7 上。
+\n
+\n您的手表将在安装了 .zip 文件后重启。
+\n
+\n风险自担！</string>
 </resources>
