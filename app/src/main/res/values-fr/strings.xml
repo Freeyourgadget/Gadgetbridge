@@ -2057,4 +2057,11 @@ Temps de sommeil préféré en heures</string>
     <string name="pref_summary_notification_media_ignores_application_list">Traiter les notifications média avant la liste des app. Si la préférence n\'est pas cochée, les applicatioms média doivent être autorisées dans la liste des applications pour que les contrôles média fonctionnent sur l\'appareil.</string>
     <string name="debugactivity_confirm_remove_device_preferences_title">Supprimer les préférences de l\'appareil \?</string>
     <string name="debugactivity_confirm_remove_device_preferences">Cela supprimera toutes les préférences appareil pour tous les appareils connectés. Etes-vous sûr \?</string>
+    <string name="menuitem_eject_water">Éjecter l\'eau</string>
+    <string name="devicetype_amazfit_band7">Amazfit Band 7</string>
+    <string name="fw_upgrade_notice_amazfit_band7">Vous êtes sur le point d\'installer le micro-logiciel %s dans votre Amazfit Band 7.
+\n
+\nVotre bracelet redémarrera après avoir installé le fichier .zip.
+\n
+\nA VOS RISQUES ET PÉRILS !</string>
 </resources>
