@@ -67,7 +67,7 @@
     <string name="miband_fwinstaller_compatible_version">Versi yang kompatibel</string>
     <string name="installhandler_firmware_name">%1$s: %2$s %3$s</string>
     <string name="fwapp_install_device_not_ready">File tidak dapat diinstal, perangkat tidak siap.</string>
-    <string name="updating_firmware">Mem-flash firmware…</string>
+    <string name="updating_firmware">Mem-flash perangkat tegar…</string>
     <string name="firmware_update_progress">Pengunggahan sedang berlangsung
 \n%1d %% pada %.2f kbps (rata-rata %.2f kbps)
 \nBagian %1d dari %1d</string>
@@ -110,7 +110,7 @@
     <string name="notif_battery_low_percent">%1$s baterai tersisa: %2$s%%</string>
     <string name="notif_battery_low_title">Baterai gadget Lemah!</string>
     <string name="installer_activity_wait_while_determining_status">Harap tunggu saat menentukan status penginstalan…</string>
-    <string name="pbw_install_handler_hw_revision_mismatch">Tidak dapat menginstal firmware: Ini tidak cocok dengan revisi perangkat keras Pebble Anda.</string>
+    <string name="pbw_install_handler_hw_revision_mismatch">Tidak dapat menginstal perangkat tegar: Ini tidak cocok dengan revisi perangkat keras Pebble Anda.</string>
     <string name="pbw_install_handler_unable_to_install">Tidak dapat menginstal file: %1$s</string>
     <string name="installer_activity_unable_to_find_handler">Tidak dapat menemukan handler untuk menginstal file ini.</string>
     <string name="cannot_connect">Tidak dapat terhubung: %1$s</string>
@@ -130,14 +130,14 @@
     <string name="qhybrid_title_file_management">Manajemen file</string>
     <string name="qhybrid_title_background_image">Gambar latar belakang</string>
     <string name="qhybrid_title_apps">Aplikasi</string>
-    <string name="fw_upgrade_notice_amazfitbip_lite">Anda akan menginstal firmware %s di Amazfit Bip Lite Anda.
+    <string name="fw_upgrade_notice_amazfitbip_lite">Anda akan menginstal perangkat tegar %s di Amazfit Bip Lite Anda.
 \n
 \nPastikan untuk menginstal file .fw, dan setelah itu file .res. Jam tangan Anda akan reboot setelah menginstal file .fw.
 \n
 \nCatatan: Anda tidak perlu menginstal .res jika sama persis dengan yang diinstal sebelumnya.
 \n
 \nLANJUTKAN DENGAN RISIKO DITANGGUNG SENDIRI!</string>
-    <string name="fw_upgrade_notice_amazfitbip">Anda akan menginstal firmware %s di Amazfit Bip Anda.
+    <string name="fw_upgrade_notice_amazfitbip">Anda akan menginstal perangkat tegar %s di Amazfit Bip Anda.
 \n
 \nPastikan untuk menginstal file .fw, lalu file .res, dan file .gps. Jam tangan Anda akan reboot setelah menginstal file .fw.
 \n
@@ -367,7 +367,7 @@
     <string name="activity_type_jump_roping">Tali Lompat</string>
     <string name="menuitem_status">Status</string>
     <string name="_unknown_">(tidak diketahui)</string>
-    <string name="updatefirmwareoperation_write_failed">Flash firmware gagal</string>
+    <string name="updatefirmwareoperation_write_failed">Flash perangkat tegar gagal</string>
     <string name="battery">Baterai</string>
     <string name="no_limit">Tanpa batasan</string>
     <string name="live_activity_start_your_activity">Mulai aktivitas Anda</string>
@@ -394,10 +394,10 @@
     <string name="activity_prefs_chart_min_steps_per_minute">Langkah per detik minimal untuk mendeteksi aktivitas</string>
     <string name="activity_prefs_sleep_duration">Durasi tidur yang diinginkan dalam jam</string>
     <string name="DEVINFO_HR_VER">"HR: "</string>
-    <string name="updatefirmwareoperation_update_in_progress">Sedang flash firmware</string>
+    <string name="updatefirmwareoperation_update_in_progress">Sedang flash perangkat tegar</string>
     <string name="error_creating_directory_for_logfiles">Kesalahan membuat direktori untuk berkas catatan: %1$s</string>
     <string name="device_hw">Revisi perangkat keras: %1$s</string>
-    <string name="device_fw">Versi firmware: %1$s</string>
+    <string name="device_fw">Versi perangkat tegar: %1$s</string>
     <string name="updatefirmwareoperation_firmware_not_sent">Firmware belum dikirim</string>
     <string name="activity_db_management_autoexport_scheduled_yes">Ekspor otomatis telah dijadwalkan (sebelumnya) untuk %1$s</string>
     <string name="Delete">Hapus</string>
@@ -408,8 +408,8 @@
     <string name="miband2_prefs_timeformat">Mi2: Format waktu</string>
     <string name="find_lost_device_you_found_it">Ketemu!</string>
     <string name="find_device_you_found_it">Anda menemukannya!</string>
-    <string name="mi2_fw_installhandler_fw53_hint">Anda harus memasang versi %1$s sebelum memasang firmware ini!</string>
-    <string name="mi2_enable_text_notifications_summary">Membutuhkan firmware &gt;= 1.0.1.28 dan Mili_pro.ft terpasang.</string>
+    <string name="mi2_fw_installhandler_fw53_hint">Anda harus memasang versi %1$s sebelum memasang perangkat tegar ini!</string>
+    <string name="mi2_enable_text_notifications_summary">Membutuhkan perangkat tegar &gt;= 1.0.1.28 dan Mili_pro.ft terpasang.</string>
     <string name="discovery_dont_pair">Jangan Sandingkan</string>
     <string name="discovery_successfully_bonded">Dijalin ke %1$s.</string>
     <string name="discovery_pair_title">Sandingkan dengan %1$s\?</string>
@@ -459,13 +459,13 @@
     <string name="sony_equalizer_preset_speech">Bicara</string>
     <string name="watchface_setting_power_saving_hands">Nonaktifkan pergerakan tangan saat lepas dari pergelangan</string>
     <string name="prefs_ambient_volume">Volume sekitar</string>
-    <string name="fw_upgrade_notice_miband7">Anda akan memasang firmware %s pada Xiaomi Smart Band 7 Anda. 
+    <string name="fw_upgrade_notice_miband7">Anda akan memasang perangkat tegar %s pada Xiaomi Smart Band 7 Anda. 
 \n 
 \nGelang Anda akan dinyalakan ulang setelah memasang berkas .zip. 
 \n 
 \nLANJUTKAN DENGAN RISIKO ANDA SENDIRI!</string>
     <string name="open_fw_installer_pick_file">Pilih berkas</string>
-    <string name="open_fw_installer_getting_files_text">Karena kami tidak mungkin mendistribusikan berkas firmware, Anda harus mendapatkan berkasnya sendiri. Ini berarti Anda harus mencari untuk berkas dalam berkas APK, secara daring, dalam forum, di Amazfitwatchfaces (untuk perangkat Miband/Amazfit) dan lain-lain.</string>
+    <string name="open_fw_installer_getting_files_text">Karena kami tidak mungkin mendistribusikan berkas perangkat tegar, Anda harus mendapatkan berkasnya sendiri. Ini berarti Anda harus mencari untuk berkas dalam berkas APK, secara daring, dalam forum, di Amazfitwatchfaces (untuk perangkat Miband/Amazfit) dan lain-lain.</string>
     <string name="pref_header_equalizer">Equalizer</string>
     <string name="pref_title_notification_delay_calls">Jeda notifikasi panggilan</string>
     <string name="pref_summary_notification_delay_calls">Jeda sebelum mengirimkan notifikasi telepon masuk ke perangkat, dalam detik.</string>
@@ -557,7 +557,7 @@
     <string name="activity_type_treadmill">Treadmill</string>
     <string name="activity_type_yoga">Yoga</string>
     <string name="select_all">Pilih semua</string>
-    <string name="fossil_hr_warning_firmware_too_new">Beberapa fungsi dinonaktifkan karena firmware jam tangan terlalu baru</string>
+    <string name="fossil_hr_warning_firmware_too_new">Beberapa fungsi dinonaktifkan karena perangkat tegar jam tangan terlalu baru</string>
     <string name="qhybrid_title_watchface">Konfigurasi wajah jam</string>
     <string name="prefs_autoheartrate">Detak Jantung Otomatis</string>
     <string name="enable_vibrations_summary">Getaran untuk panggilan, pesan, dan lain-lain</string>
@@ -607,7 +607,7 @@
 \nKarena kebijakan Google Play Store, kami tidak diperbolehkan untuk menambahkan tautan donasi dalam aplikasi sendiri, tetapi jika Anda suka aplikasi ini pertimbangkan untuk berdonasi melalui laman beranda Gadgetbridge di bawah.</string>
     <string name="pref_summary_sunrise_sunset">Kirim waktu matahari terbit dan matahari terbenam berdasarkan lokasi ke linimasa Pebble</string>
     <string name="pref_title_sync_caldendar">Sinkron acara kalender</string>
-    <string name="pref_summary_relax_firmware_checks">Nonaktifkan pemeriksaan firmware</string>
+    <string name="pref_summary_relax_firmware_checks">Nonaktifkan pemeriksaan perangkat tegar</string>
     <string name="cannot_connect_bt_address_invalid_">Tidak dapat menyambung. Alamat Bluetooth tidak absah\?</string>
     <string name="prefs_enable_find_phone">Aktifkan \'Temukan perangkat\'</string>
     <string name="mi2_prefs_do_not_disturb">Jangan Ganggu</string>
@@ -630,7 +630,7 @@
     <string name="pref_title_middle_button_function_short">Tombol Tengan pendek</string>
     <string name="aerobicTrainingEffect">Efek Aerobik</string>
     <string name="anaerobicTrainingEffect">Efek Anaerobik</string>
-    <string name="qhybrid_watchface_configuration_old_firmware">Layar pengaturan wajah jam untuk jam tangan dengan versi firmware DN1.0.2.19r dan lebih rendah</string>
+    <string name="qhybrid_watchface_configuration_old_firmware">Layar pengaturan wajah jam untuk jam tangan dengan versi perangkat tegar DN1.0.2.19r dan lebih rendah</string>
     <string name="watchface_setting_wrist_flick_hour">Tangan jam (-360 ke 360)</string>
     <string name="prefs_ambient_mode">Mode Sekitar</string>
     <string name="prefs_touch_lock_summary">Nonaktifkan peristiwa sentuhan</string>
@@ -665,11 +665,11 @@
     <string name="pref_title_expose_hr">Akses detak jantung waktu nyata pihak ketiga</string>
     <string name="pref_summary_pebble_enable_bgjs">Saat diaktifkan, memungkinkan muka jam untuk menampilkan cuaca, info baterai, dll.</string>
     <string name="pref_title_use_custom_font">Gunakan fon kustom</string>
-    <string name="pref_summary_use_custom_font">Aktifkan ini jika perangkat Anda memiliki firmware fon kustom untuk dukungan emoji</string>
+    <string name="pref_summary_use_custom_font">Aktifkan ini jika perangkat Anda memiliki perangkat tegar fon kustom untuk dukungan emoji</string>
     <string name="pref_title_allow_high_mtu">Perbolehkan MTU tinggi</string>
     <string name="pref_summary_allow_high_mtu">Meningkatkan kecepatan transfer, tetapi mungkin tidak bekerja pada beberapa perangkat Android.</string>
     <string name="pref_title_huami_force_new_protocol">Protokol Otentikasi Baru</string>
-    <string name="pref_summary_huami_force_new_protocol">Aktifkan jika perangkat Anda tidak terhubung setelah sebuah pembaruan firmware</string>
+    <string name="pref_summary_huami_force_new_protocol">Aktifkan jika perangkat Anda tidak terhubung setelah sebuah pembaruan perangkat tegar</string>
     <string name="power_mode_saving">Penghemat daya</string>
     <string name="prefs_sensors_button_bp_calibration_sum">Tekan di sini untuk memulai kalibrasi</string>
     <string name="zetime_handmove_display_summary">Putar pergelangan tangan Anda untuk mengaktifkan atau menonaktifkan layar.</string>
@@ -806,8 +806,8 @@
     <string name="title_activity_charts">Aktivitas dan Tidur</string>
     <string name="title_activity_set_alarm">Atur alarm</string>
     <string name="pbwinstallhandler_incorrect_hw_revision">Revisi perangkat keras tidak cocok!</string>
-    <string name="updatefirmwareoperation_updateproblem_do_not_reboot">Terjadi masalah dengan transfer firmware. JANGAN MULAI ULANG Mi Band Anda!</string>
-    <string name="updatefirmwareoperation_metadata_updateproblem">Masalah dengan transfer metadata firmware</string>
+    <string name="updatefirmwareoperation_updateproblem_do_not_reboot">Terjadi masalah dengan transfer perangkat tegar. JANGAN MULAI ULANG Mi Band Anda!</string>
+    <string name="updatefirmwareoperation_metadata_updateproblem">Masalah dengan transfer metadata perangkat tegar</string>
     <string name="clock">Jam</string>
     <string name="heart_rate">Detak jantung</string>
     <string name="minutes_5">5 menit</string>
@@ -879,7 +879,7 @@
     <string name="pref_media_rewind">Lewati sebelumnya</string>
     <string name="watchface_dialog_widget_timeout_hide_text">Sembunyikan teks saat waktu habis</string>
     <string name="watchface_dialog_widget_timeout_show_circle">Tampilkan lingkaran saat waktu habis</string>
-    <string name="fossil_hr_button_config_info">Beberapa tombol tidak dapat diatur karena kemampuan mereka dikode secara keras dalam firmware. 
+    <string name="fossil_hr_button_config_info">Beberapa tombol tidak dapat diatur karena kemampuan mereka dikode secara keras dalam perangkat tegar. 
 \n 
 \nPeringatan: menekan lama pada tombol atas ketika sebuah wajah jam dari aplikasi Fossil resmi terpasang akan juga mengubah antara menampilkan/menyembunyikan widget.</string>
     <string name="activity_DB_test_export_button">Jalankan Ekspor Otomatis Sekarang</string>
@@ -1107,15 +1107,15 @@
     <string name="mi2_prefs_button_press_broadcast_summary">Pesan siaran dikirim dengan peristiwa. Parameter \'button_id\' ditambahkan secara otomatis untuk setiap pesan.</string>
     <string name="device_not_connected">Tidak terhubung.</string>
     <string name="pref_title_notification_filter">Jangan Ganggu</string>
-    <string name="fw_upgrade_notice_amazfit_gtr3">Anda akan memasang firmware %s pada Amazfit GTR 3 Anda. 
+    <string name="fw_upgrade_notice_amazfit_gtr3">Anda akan memasang perangkat tegar %s pada Amazfit GTR 3 Anda. 
 \n 
 \nGelang Anda akan dinyalakan ulang setelah memasang berkas .zip. 
 \n 
 \nLANJUTKAN DENGAN RISIKO ANDA SENDIRI!</string>
     <string name="pref_title_notification_use_as_deny">Mengabaikan notifikasi dari aplikasi yang dipilih</string>
     <string name="pref_title_weather_summary">Digunakan untuk penyedia cuaca LineageOS, versi Android lain harus menggunakan aplikasi seperti \"Weather notification\". Temukan lebih banyak informasi di wiki Gadgetbridge.</string>
-    <string name="miband_firmware_suggest_whitelist">Jika Anda masih ingin melanjutkan dan hal-hal masih bekerja dengan benar setelah itu, mohon beri tahu pengembang Gadgetbridge untuk mendaftar versi firmware %s ke daftar putih.</string>
-    <string name="open_fw_installer_info_text">Pemasang Firmware/Muka Jam/Aplikasi/Berkas memungkinkan Anda untuk mengunggah/memasang berkas yang didukung (firmware, muka jam, GPS, sumber daya, fon...) ke perangkat. Lihat beberapa informasi lebih lanjut di wiki: https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Firmware-Update</string>
+    <string name="miband_firmware_suggest_whitelist">Jika Anda masih ingin melanjutkan dan hal-hal masih bekerja dengan benar setelah itu, mohon beri tahu pengembang Gadgetbridge untuk mendaftar versi perangkat tegar %s ke daftar putih.</string>
+    <string name="open_fw_installer_info_text">Pemasang Firmware/Muka Jam/Aplikasi/Berkas memungkinkan Anda untuk mengunggah/memasang berkas yang didukung (perangkat tegar, muka jam, GPS, sumber daya, fon...) ke perangkat. Lihat beberapa informasi lebih lanjut di wiki: https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Firmware-Update</string>
     <string name="seconds_5">5 detil</string>
     <string name="seconds_10">10 detik</string>
     <string name="seconds_11">11 detik</string>
@@ -1150,15 +1150,15 @@
     <string name="qhybrid_summary_on_device_confirmation">Konfirmasi penyandingan pada perangkat dapat mengganggu. Menonaktifkannya mungkin menghilangkan kemampuan.</string>
     <string name="qhybrid_title_on_device_confirmation">Aktifkan konfirmasi penyandingan pada perangkat</string>
     <string name="pref_header_calendar">Kalender</string>
-    <string name="open_fw_installer_getting_files_title">Mendapatkan berkas firmware/aplikasi</string>
+    <string name="open_fw_installer_getting_files_title">Mendapatkan berkas perangkat tegar/aplikasi</string>
     <string name="pref_header_system">Sistem</string>
     <string name="pref_header_connection">Koneksi</string>
-    <string name="fw_upgrade_notice_amazfit_gts3">Anda akan memasang firmware %s pada Amazfit GTS 3 Anda. 
+    <string name="fw_upgrade_notice_amazfit_gts3">Anda akan memasang perangkat tegar %s pada Amazfit GTS 3 Anda. 
 \n 
 \nGelang Anda akan dinyalakan ulang setelah memasang berkas .zip. 
 \n 
 \nLANJUTKAN DENGAN RISIKO ANDA SENDIRI!</string>
-    <string name="fw_upgrade_notice_amazfitx">Anda akan memasang firmware %s pada Amazfit X Anda. 
+    <string name="fw_upgrade_notice_amazfitx">Anda akan memasang perangkat tegar %s pada Amazfit X Anda. 
 \n 
 \nPastikan Anda memasang berkas .fw, dan setelah itu berkas .res. Gelang Anda akan dinyalakan ulang setelah memasang berkas .fw. 
 \n 
@@ -1204,14 +1204,14 @@
     <string name="activity_db_management_autoexport_location">Lokasi tidak dapat dimengerti. Kemungkinan sistem perizinan Anda yang lebih baru. Kemungkinan ekspor otomatis tidak bekerja sekarang.</string>
     <string name="controlcenter_get_heartrate_measurement">Dapatkan pengukuran detak jantung</string>
     <string name="prefs_activity_in_device_card_title_summary">Tampilkan langkah, jarak, atau tidur saat ini pada kartu perangkat</string>
-    <string name="fw_upgrade_notice_miband3">Anda akan memasang firmware %s pada Mi Band 3 Anda. 
+    <string name="fw_upgrade_notice_miband3">Anda akan memasang perangkat tegar %s pada Mi Band 3 Anda. 
 \n 
 \nPastikan Anda memasang berkas .fw, dan setelah itu berkas .res. Gelang Anda akan dinyalakan ulang setelah memasang berkas .fw. 
 \n 
 \nCatatan: Anda tidak harus memasang .res jika sama persis dengan yang sebelumnya dipasang. 
 \n 
 \nLANJUTKAN DENGAN RISIKO ANDA SENDIRI!</string>
-    <string name="fw_upgrade_notice_amazfitvergel">Anda akan memasang firmware %s pada Amazfit Verge Lite Anda. 
+    <string name="fw_upgrade_notice_amazfitvergel">Anda akan memasang perangkat tegar %s pada Amazfit Verge Lite Anda. 
 \n 
 \nPastikan Anda memasang berkas .fw, dan setelah itu berkas .res, dan akhirnya berkas .gps. Jam tangan Anda akan dinyalakan ulang setelah memasang berkas .fw. 
 \n 
@@ -1220,7 +1220,7 @@
 \nLANJUTKAN DENGAN RISIKO ANDA SENDIRI!</string>
     <string name="miband_firmware_unknown_warning">Firmware ini belum dicoba dan mungkin tidak kompatibel dengan Gadgetbridge. 
 \n 
-\nAnda DIHARUSKAN UNTUK TIDAK flash firmware ini!</string>
+\nAnda DIHARUSKAN UNTUK TIDAK flash perangkat tegar ini!</string>
     <string name="open_fw_installer_warning_title">Peringatan</string>
     <string name="open_fw_installer_select_file">Pilih sebuah berkas yang Anda ingin unggah ke perangkat: %s</string>
     <string name="open_fw_installer_info_text_title">Pemasang Berkas</string>
@@ -1465,14 +1465,14 @@
     <string name="descentMeters">Turun</string>
     <string name="steps_streaks">Langkah beruntun</string>
     <string name="appmanager_app_share">Bagikan</string>
-    <string name="fw_upgrade_notice_miband4">Anda akan memasang firmware %s pada Mi Band 4 Anda. 
+    <string name="fw_upgrade_notice_miband4">Anda akan memasang perangkat tegar %s pada Mi Band 4 Anda. 
 \n 
 \nPastikan Anda memasang berkas .fw, dan setelah itu berkas .res. Gelang Anda akan dinyalakan ulang setelah memasang berkas .fw. 
 \n 
 \nCatatan: Anda tidak harus memasang .res jika sama persis dengan yang sebelumnya dipasang. 
 \n 
 \nLANJUTKAN DENGAN RISIKO ANDA SENDIRI!</string>
-    <string name="fw_upgrade_notice_miband5">Anda akan memasang firmware %s pada Mi Band 5 Anda. 
+    <string name="fw_upgrade_notice_miband5">Anda akan memasang perangkat tegar %s pada Mi Band 5 Anda. 
 \n 
 \nPastikan Anda memasang berkas .fw, dan setelah itu berkas .res. Gelang Anda akan dinyalakan ulang setelah memasang berkas .fw. 
 \n 
@@ -1484,14 +1484,14 @@
     <string name="debugactivity_confirm_remove_device_preferences_title">Hapus preferensi perangkat\?</string>
     <string name="debugactivity_confirm_remove_device_preferences">Ini akan mengatur ulang preferensi perangkat untuk semua perangkat yang terhubung. Apakah Anda yakin\?</string>
     <string name="appmanager_item_outdated">(lawas)</string>
-    <string name="fw_upgrade_notice_amazfitcor">Anda akan memasang firmware %s pada Amazfit Cor Anda. 
+    <string name="fw_upgrade_notice_amazfitcor">Anda akan memasang perangkat tegar %s pada Amazfit Cor Anda. 
 \n 
 \nPastikan Anda memasang berkas .fw, dan setelah itu berkas .res. Gelang Anda akan dinyalakan ulang setelah memasang berkas .fw. 
 \n 
 \nCatatan: Anda tidak harus memasang .res jika sama persis dengan yang sebelumnya dipasang. 
 \n 
 \nLANJUTKAN DENGAN RISIKO ANDA SENDIRI!</string>
-    <string name="fw_upgrade_notice_amazfit_trex">Anda akan memasang firmware %s pada Amazfit T-Rex Anda. 
+    <string name="fw_upgrade_notice_amazfit_trex">Anda akan memasang perangkat tegar %s pada Amazfit T-Rex Anda. 
 \n 
 \nPastikan Anda memasang berkas .fw, dan setelah itu berkas .res, dan akhirnya berkas .gps. Jam tangan Anda akan dinyalakan ulang setelah memasang berkas .fw. 
 \n 
@@ -1499,12 +1499,12 @@
 \n 
 \nLANJUTKAN DENGAN RISIKO ANDA SENDIRI!</string>
     <string name="open_fw_installer_warning_text">Fitur ini dapat mem-brick perangkat Anda. Walaupun ini tidak pernah terjadi ke pengembang siapa pun melalui flashing, ingat bahwa Anda melakukan ini dengan risiko Anda sendiri.</string>
-    <string name="fw_upgrade_notice_amazfit_gtr4">Anda akan memasang firmware %s pada Amazfit GTR 4 Anda. 
+    <string name="fw_upgrade_notice_amazfit_gtr4">Anda akan memasang perangkat tegar %s pada Amazfit GTR 4 Anda. 
 \n 
 \nGelang Anda akan dinyalakan ulang setelah memasang berkas .zip. 
 \n 
 \nLANJUTKAN DENGAN RISIKO ANDA SENDIRI!</string>
-    <string name="fw_upgrade_notice_amazfitneo">Anda akan memasang firmware %s pada Amazfit Neo Anda. 
+    <string name="fw_upgrade_notice_amazfitneo">Anda akan memasang perangkat tegar %s pada Amazfit Neo Anda. 
 \n 
 \nGelang Anda akan dinyalakan ulang setelah memasang berkas .fw. 
 \n 
@@ -1594,12 +1594,12 @@
     <string name="pref_summary_enable_calendar_sync">Kirim peristiwa kalender ke linimasa</string>
     <string name="pref_title_location_aquire">Dapatkan lokasi</string>
     <string name="toast_aqurired_networklocation">lokasi didapatkan</string>
-    <string name="pref_summary_pebble_forceprotocol">Opsi ini memaksa menggunakan protokol notifikasi terkini berdasarkan versi firmware. KETAHUI APA YANG ANDA LAKUKAN!</string>
+    <string name="pref_summary_pebble_forceprotocol">Opsi ini memaksa menggunakan protokol notifikasi terkini berdasarkan versi perangkat tegar. KETAHUI APA YANG ANDA LAKUKAN!</string>
     <string name="pref_title_pebble_mtu_limit">Pebble 2/LE batas GATT MTU</string>
     <string name="pref_summary_connected_advertisement">Membuat perangkat dapat ditemukan melalui Bluetooth bahkan saat terhubung</string>
     <string name="pref_summary_device_intents">Perbolehkan aplikasi jam tangan Bangle.js untuk mengirim Intent Android, dan memperbolehkan aplikasi lain di Android (seperti Tasker) untuk mengirim data ke Bangle.js dengan Intent com.banglejs.uart.tx. Membutuhkan izin untuk menampilkan di atas aplikasi lain untuk bekerja di latar belakang.</string>
     <string name="pref_summary_sync_calendar">Mengaktifkan peringatan kalender, bahkan saat putus hubungan</string>
-    <string name="pref_title_relax_firmware_checks">Aktifkan ini jika Anda ingin flash sebuah firmware yang tidak dimaksud untuk perangkat Anda (dengan risiko Anda sendiri)</string>
+    <string name="pref_title_relax_firmware_checks">Aktifkan ini jika Anda ingin flash sebuah perangkat tegar yang tidak dimaksud untuk perangkat Anda (dengan risiko Anda sendiri)</string>
     <string name="pref_display_add_device_fab_off">Hanya terlihat jika tidak ada perangkat yang ditambahkan</string>
     <string name="pref_title_timeformat">Format waktu</string>
     <string name="pref_title_notifications_and_calls_repeat_on_call">Ulangi notifikasi panggilan</string>
@@ -1715,8 +1715,8 @@
     <string name="prefs_activity_monitoring_title">Pemantauan aktivitas</string>
     <string name="prefs_activity_monitoring_description">Tingkatkan frekuensi deteksi detak jantung secara otomatis ketika gelang mendeteksi olahraga fisik, untuk meningkatkan akurasi pendapatan detak jantung.</string>
     <string name="controlcenter_start_activitymonitor">Aktivitas Anda</string>
-    <string name="updatefirmwareoperation_update_complete">Pemasangan firmware selesai</string>
-    <string name="updatefirmwareoperation_update_complete_rebooting">Pemasangan firmware selesai, memulai ulang perangkat…</string>
+    <string name="updatefirmwareoperation_update_complete">Pemasangan perangkat tegar selesai</string>
+    <string name="updatefirmwareoperation_update_complete_rebooting">Pemasangan perangkat tegar selesai, memulai ulang perangkat…</string>
     <string name="distance">Jarak</string>
     <string name="heart_rate_result">Hasil pengukuran</string>
     <string name="movement_intensity">Intensitas gerakan</string>
@@ -1724,8 +1724,8 @@
     <string name="seconds_30">30 detik</string>
     <string name="minutes_1">1 menit</string>
     <string name="lack_of_step">Kekuarangan langkah: %1$d</string>
-    <string name="pref_title_low_latency_fw_update">Gunakan mode latensi rendah untuk flash firmware</string>
-    <string name="pref_summary_low_latency_fw_update">Ini mungkin membantu pada perangkat di mana flash firmware gagal.</string>
+    <string name="pref_title_low_latency_fw_update">Gunakan mode latensi rendah untuk flash perangkat tegar</string>
+    <string name="pref_summary_low_latency_fw_update">Ini mungkin membantu pada perangkat di mana flash perangkat tegar gagal.</string>
     <string name="live_activity_steps_history">Riwayat langkah</string>
     <string name="miband_fwinstaller_incompatible_version">Firmware tidak kompatibel</string>
     <string name="mi2_prefs_display_items">Tampilkan item</string>
@@ -1884,7 +1884,7 @@
 \nKarena kebijakan Google Play Store, kami tidak diperbolehkan untuk menambahkan tautan donasi dalam aplikasi sendiri, tetapi jika Anda suka aplikasi ini pertimbangkan untuk berdonasi melalui laman beranda Gadgetbridge di bawah.</string>
     <string name="application_name_main_nightly">Gadgetbridge (Nightly)</string>
     <string name="dual_band">Gelang Ganda</string>
-    <string name="fw_upgrade_notice_amazfitgtr">Anda akan memasang firmware %s pada Amazfit GTR Anda. 
+    <string name="fw_upgrade_notice_amazfitgtr">Anda akan memasang perangkat tegar %s pada Amazfit GTR Anda. 
 \n 
 \nPastikan Anda memasang berkas .fw, dan setelah itu berkas .res, dan akhirnya berkas .gps. Jam tangan Anda akan dinyalakan ulang setelah memasang berkas .fw. 
 \n 
@@ -1896,23 +1896,23 @@
     <string name="title_activity_controlcenter_main_nopebble">Gadgetbridge Nightly Tanpa Pebble</string>
     <string name="about_description_main_nopebble">Pengganti untuk aplikasi gawai Android sumber tertutup dari vendor yang bebas dan tanpa awan. Rilis nightly dari Gadgetbridge. Versi ini mengubah nama penyedia Pebble untuk mencegah konflik, jadi beberapa integrasi berkaitan dengan Pebble tidak akan bekerja, tetapi dapat dipasang di samping pemasangan Gadgetbridge yang sudah ada.</string>
     <string name="gps">GPS</string>
-    <string name="fw_upgrade_notice_amazfitgts">Anda akan memasang firmware %s pada Amazfit GTS Anda. 
+    <string name="fw_upgrade_notice_amazfitgts">Anda akan memasang perangkat tegar %s pada Amazfit GTS Anda. 
 \n 
 \nPastikan Anda memasang berkas .fw, dan setelah itu berkas .res, dan akhirnya berkas .gps. Jam tangan Anda akan dinyalakan ulang setelah memasang berkas .fw. 
 \n 
 \nCatatan: Anda tidak harus memasang .res dan .gps jika berkas ini sama persis dengan yang sebelumnya dipasang. 
 \n 
 \nLANJUTKAN DENGAN RISIKO ANDA SENDIRI!</string>
-    <string name="fw_multi_upgrade_notice">Anda akan memasang firmware %1$s dan %2$s, daripada yang sudah ada saat ini pada Mi Band Anda.</string>
+    <string name="fw_multi_upgrade_notice">Anda akan memasang perangkat tegar %1$s dan %2$s, daripada yang sudah ada saat ini pada Mi Band Anda.</string>
     <string name="about_activity_title_main_nightly">Tentang Gadgetbridge Nightly</string>
     <string name="custom">Kustom</string>
     <string name="gps_galileo">GPS + GALILEO</string>
-    <string name="fw_upgrade_notice_amazfit_band7">Anda akan memasang firmware %s pada Amazfit Band 7 Anda. 
+    <string name="fw_upgrade_notice_amazfit_band7">Anda akan memasang perangkat tegar %s pada Amazfit Band 7 Anda. 
 \n 
 \nGelang Anda akan dinyalakan ulang setelah memasang berkas .zip. 
 \n 
 \nLANJUTKAN DENGAN RISIKO ANDA SENDIRI!</string>
-    <string name="fw_upgrade_notice_amazfitcor2">Anda akan memasang firmware %s pada Amazfit Cor 2 Anda. 
+    <string name="fw_upgrade_notice_amazfitcor2">Anda akan memasang perangkat tegar %s pada Amazfit Cor 2 Anda. 
 \n 
 \nPastikan Anda memasang berkas .fw, dan setelah itu berkas .res. Gelang Anda akan dinyalakan ulang setelah memasang berkas .fw. 
 \n 
@@ -1921,7 +1921,7 @@
 \nLANJUTKAN DENGAN RISIKO ANDA SENDIRI! 
 \n 
 \nSAMA SEKALI BELUM DICOBA, MUNGKIN ANDA HARUS FLASH SEBUAH FIRMWARE BEATS_W JIKA NAMA PERANGKAT ANDA ADALAH \"Amazfit Band 2\"</string>
-    <string name="fw_upgrade_notice_miband6">Anda akan memasang firmware %s pada Mi Band 6 Anda. 
+    <string name="fw_upgrade_notice_miband6">Anda akan memasang perangkat tegar %s pada Mi Band 6 Anda. 
 \n 
 \nPastikan Anda memasang berkas .fw, dan setelah itu berkas .res. Gelang Anda akan dinyalakan ulang setelah memasang berkas .fw. 
 \n 
