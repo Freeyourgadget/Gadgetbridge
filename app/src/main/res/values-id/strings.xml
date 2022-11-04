@@ -6,23 +6,23 @@
     <string name="action_quit">Keluar</string>
     <string name="action_donate">Donasi</string>
     <string name="controlcenter_fetch_activity_data">Sinkronisasi</string>
-    <string name="controlcenter_find_device">Cari handphone hilang</string>
-    <string name="controlcenter_take_screenshot">Ambil gambar layar</string>
-    <string name="controlcenter_change_led_color">Ubah warna LED</string>
-    <string name="controlcenter_change_fm_frequency">Ubah frekuensi FM</string>
+    <string name="controlcenter_find_device">Cari perangkat hilang</string>
+    <string name="controlcenter_take_screenshot">Ambil Tangkapan Layar</string>
+    <string name="controlcenter_change_led_color">Ubah Warna LED</string>
+    <string name="controlcenter_change_fm_frequency">Ubah Frekuensi FM</string>
     <string name="controlcenter_connect">Sambungkan…</string>
     <string name="controlcenter_disconnect">Putuskan</string>
-    <string name="controlcenter_delete_device">Hapus perangkat</string>
+    <string name="controlcenter_delete_device">Hapus Perangkat</string>
     <string name="controlcenter_delete_device_name">Hapus %1$s</string>
     <string name="controlcenter_delete_device_dialogmessage">Tindakan ini akan menghapus semua perangkat dan data!</string>
     <string name="controlcenter_navigation_drawer_open">Buka laci navigasi</string>
     <string name="controlcenter_navigation_drawer_close">Tutup laci navigasi</string>
     <string name="controlcenter_snackbar_need_longpress">Tekan lama kartu untuk memutuskan</string>
-    <string name="controlcenter_snackbar_disconnecting">Sedang memutuskan</string>
+    <string name="controlcenter_snackbar_disconnecting">Memutuskan</string>
     <string name="controlcenter_snackbar_connecting">Menyambungkan…</string>
-    <string name="controlcenter_snackbar_requested_screenshot">Sedang mengambil gambar layar</string>
-    <string name="controlcenter_calibrate_device">Kalibrasi perangkat</string>
-    <string name="title_activity_debug">Perbaikan</string>
+    <string name="controlcenter_snackbar_requested_screenshot">Sedang mengambil tangkapan layar perangkat</string>
+    <string name="controlcenter_calibrate_device">Kalibrasi Perangkat</string>
+    <string name="title_activity_debug">Awakutu</string>
     <string name="debugactivity_really_factoryreset_title">Kembalikan ke pengaturan pabrik\?</string>
     <string name="mi2_prefs_button_press_broadcast_default_value" translatable="false">nodomain.freeyourgadget.gadgetbridge.ButtonPressed</string>
     <string name="appmananger_app_reinstall">Instal ulang</string>
@@ -31,9 +31,9 @@
     <string name="appmanager_installed_watchfaces">Watchfaces terpasang</string>
     <string name="appmanager_installed_watchapps">Aplikasi terpasang</string>
     <string name="appmanager_cached_watchapps_watchfaces">Aplikasi dalam cache</string>
-    <string name="title_activity_appmanager">Manajer App</string>
+    <string name="title_activity_appmanager">Pengelola Aplikasi</string>
     <string name="debugactivity_really_factoryreset">Mengembalikan ke pengaturan pabrik akan mengkapus semua data dari perangkat yang terhubung (jika mendukung). Perangkat Xiaomi/Huami juga mengubah alamat MAC Bluetooth, agar muncul sebagai perangkat baru di Gadgetbridge.</string>
-    <string name="action_debug">Debug</string>
+    <string name="action_debug">Awakutu</string>
     <string name="sonyswr12_settings_title">Pengaturan Sony SWR12</string>
     <string name="sonyswr12_settings_alarm_interval">Interval alarm pintar dalam beberapa menit</string>
     <string name="sonyswr12_settings_low_vibration_summary">Aktifkan getaran intensitas rendah pada pita</string>
@@ -57,7 +57,7 @@
     <string name="appmanager_health_deactivate">Nonaktifkan</string>
     <string name="appmanager_health_activate">Aktifkan</string>
     <string name="appmanager_app_openinstore">Cari di Pebble appstore</string>
-    <string name="battery_detail_activity_title">Info Baterai</string>
+    <string name="battery_detail_activity_title">Info baterai</string>
     <string name="controlcenter_set_alias">Atur Alias</string>
     <string name="find_lost_device_message">Cari %1$s\?</string>
     <string name="pbwinstallhandler_correct_hw_revision">Revisi perangkat keras yang benar</string>
@@ -286,7 +286,7 @@
     <string name="sony_sound_position_off">Mati</string>
     <string name="sony_surround_mode">Mode Surround</string>
     <string name="sony_equalizer">Ekualiser</string>
-    <string name="device_card_activity_card_title">Info aktifitas pada kartu perangkat</string>
+    <string name="device_card_activity_card_title">Info aktivitas pada kartu perangkat</string>
     <string name="device_card_activity_card_title_summary">Pilih detail aktivitas apa yang ditampilkan di kartu perangkat</string>
     <string name="ukrainian">Ukraina</string>
     <string name="hebrew">Ibrani</string>
@@ -320,7 +320,7 @@
     <string name="pref_title_equalizer_normal">Normal</string>
     <string name="distance_format_miles">###.#mi</string>
     <string name="turkish">Turki</string>
-    <string name="controlcenter_power_off_confirm_description">Anda yakin ingin mematikan perangkat\?</string>
+    <string name="controlcenter_power_off_confirm_description">Apakah Anda yakin ingin mematikan perangkat\?</string>
     <string name="sony_sound_position_front_right">Kanan Depan</string>
     <string name="distance_format_kilometers">###.#km</string>
     <string name="prefs_activity_in_device_card_title">Tampilkan info Aktivitas di kartu perangkat</string>
@@ -645,12 +645,12 @@
     <string name="accuracy">Akurasi</string>
     <string name="balanced">Seimbang</string>
     <string name="power_saving">Penghemat Daya</string>
-    <string name="single_band">Gelang Tunggal</string>
+    <string name="single_band">Jalur Tunggal</string>
     <string name="low_power_gps">GPS Daya Rendah</string>
     <string name="gps_gnolass">GPS + GLONASS</string>
     <string name="all_satellites">Semua Satelit</string>
-    <string name="speed_first">Kecepatan dahulu</string>
-    <string name="accuracy_first">Akurasi dahulu</string>
+    <string name="speed_first">Kecepatan Terlebih Dahulu</string>
+    <string name="accuracy_first">Akurasi Terlebih Dahulu</string>
     <string name="pref_header_sound_vibration">Suara &amp; Getaran</string>
     <string name="pref_header_offline_voice">Suara Luring</string>
     <string name="pref_title_banglejs_text_bitmap">Teks sebagai Bitmap</string>
@@ -1883,7 +1883,7 @@
 \n 
 \nKarena kebijakan Google Play Store, kami tidak diperbolehkan untuk menambahkan tautan donasi dalam aplikasi sendiri, tetapi jika Anda suka aplikasi ini pertimbangkan untuk berdonasi melalui laman beranda Gadgetbridge di bawah.</string>
     <string name="application_name_main_nightly">Gadgetbridge (Nightly)</string>
-    <string name="dual_band">Gelang Ganda</string>
+    <string name="dual_band">Jalur Ganda</string>
     <string name="fw_upgrade_notice_amazfitgtr">Anda akan memasang perangkat tegar %s pada Amazfit GTR Anda. 
 \n 
 \nPastikan Anda memasang berkas .fw, dan setelah itu berkas .res, dan akhirnya berkas .gps. Jam tangan Anda akan dinyalakan ulang setelah memasang berkas .fw. 
