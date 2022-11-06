@@ -79,6 +79,7 @@ public class AmazfitGTS2MiniCoordinator extends AmazfitGTS2Coordinator {
                 R.xml.devicesettings_device_actions,
                 R.xml.devicesettings_high_mtu,
                 R.xml.devicesettings_overwrite_settings_on_connection,
+                R.xml.devicesettings_huami2021_fetch_operation_time_unit,
                 R.xml.devicesettings_transliteration
         };
     }

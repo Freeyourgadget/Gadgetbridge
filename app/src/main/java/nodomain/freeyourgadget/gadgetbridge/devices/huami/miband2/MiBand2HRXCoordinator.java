@@ -97,6 +97,7 @@ public class MiBand2HRXCoordinator extends HuamiCoordinator {
                 R.xml.devicesettings_inactivity_dnd,
                 R.xml.devicesettings_rotatewrist_cycleinfo,
                 R.xml.devicesettings_overwrite_settings_on_connection,
+                R.xml.devicesettings_huami2021_fetch_operation_time_unit,
                 R.xml.devicesettings_transliteration
         };
     }

@@ -911,18 +911,6 @@ public abstract class Huami2021Support extends HuamiSupport {
     }
 
     @Override
-    public byte[] getTimeBytes(final Calendar calendar, final TimeUnit precision) {
-        final byte[] bytes = BLETypeConversions.shortCalendarToRawBytes(calendar);
-
-        if (precision != TimeUnit.MINUTES && precision != TimeUnit.SECONDS) {
-            throw new IllegalArgumentException("Unsupported precision, only MINUTES and SECONDS are supported");
-        }
-        final byte seconds = precision == TimeUnit.SECONDS ? fromUint8(calendar.get(Calendar.SECOND)) : 0;
-        final byte tz = BLETypeConversions.mapTimeZone(calendar, BLETypeConversions.TZ_FLAG_INCLUDE_DST_IN_TZ);
-        return BLETypeConversions.join(bytes, new byte[]{seconds, tz});
-    }
-
-    @Override
     public Huami2021Support setCurrentTimeWithService(TransactionBuilder builder) {
         // It seems that the format sent to the Current Time characteristic changed in newer devices
         // to kind-of match the GATT spec, but it doesn't quite respect it?
@@ -1396,15 +1384,6 @@ public abstract class Huami2021Support extends HuamiSupport {
     @Override
     public int getActivitySampleSize() {
         return 8;
-    }
-
-    @Override
-    public TimeUnit getFetchOperationsTimeUnit() {
-        // This is configurable because using seconds was causing issues on Amazfit GTR 3
-        // However, using minutes can cause issues while fetching workouts shorter than 1 minute
-        final Prefs devicePrefs = getDevicePrefs();
-        final boolean truncate = devicePrefs.getBoolean("huami_truncate_fetch_operation_timestamps", true);
-        return truncate ? TimeUnit.MINUTES : TimeUnit.SECONDS;
     }
 
     @Override

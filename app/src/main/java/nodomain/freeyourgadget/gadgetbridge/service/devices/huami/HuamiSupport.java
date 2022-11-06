@@ -275,6 +275,7 @@ import static nodomain.freeyourgadget.gadgetbridge.model.ActivityUser.PREF_USER_
 import static nodomain.freeyourgadget.gadgetbridge.model.ActivityUser.PREF_USER_NAME;
 import static nodomain.freeyourgadget.gadgetbridge.model.ActivityUser.PREF_USER_WEIGHT_KG;
 import static nodomain.freeyourgadget.gadgetbridge.model.ActivityUser.PREF_USER_YEAR_OF_BIRTH;
+import static nodomain.freeyourgadget.gadgetbridge.service.btle.BLETypeConversions.fromUint8;
 import static nodomain.freeyourgadget.gadgetbridge.service.btle.GattCharacteristic.UUID_CHARACTERISTIC_ALERT_LEVEL;
 
 public abstract class HuamiSupport extends AbstractBTLEDeviceSupport implements Huami2021Handler {
@@ -402,29 +403,15 @@ public abstract class HuamiSupport extends AbstractBTLEDeviceSupport implements 
         return weatherSpec.windSpeedAsBeaufort() + ""; // cast to string
     }
 
-    /**
-     * Returns the given date/time (calendar) as a byte sequence, suitable for sending to the
-     * Mi Band 2 (or derivative). The band appears to not handle DST offsets, so we simply add this
-     * to the timezone.
-     *
-     * @param calendar
-     * @param precision
-     * @return
-     */
-    public byte[] getTimeBytes(Calendar calendar, TimeUnit precision) {
-        byte[] bytes;
-        if (precision == TimeUnit.MINUTES) {
-            bytes = BLETypeConversions.shortCalendarToRawBytes(calendar);
-        } else if (precision == TimeUnit.SECONDS) {
-            bytes = BLETypeConversions.calendarToRawBytes(calendar);
-        } else {
-            throw new IllegalArgumentException("Unsupported precision, only MINUTES and SECONDS are supported till now");
+    public byte[] getTimeBytes(final Calendar calendar, final TimeUnit precision) {
+        final byte[] bytes = BLETypeConversions.shortCalendarToRawBytes(calendar);
+
+        if (precision != TimeUnit.MINUTES && precision != TimeUnit.SECONDS) {
+            throw new IllegalArgumentException("Unsupported precision, only MINUTES and SECONDS are supported");
         }
-        byte[] tail = new byte[] { 0, BLETypeConversions.mapTimeZone(calendar, BLETypeConversions.TZ_FLAG_INCLUDE_DST_IN_TZ) };
-        // 0 = adjust reason bitflags? or DST offset?? , timezone
-//        byte[] tail = new byte[] { 0x2 }; // reason
-        byte[] all = BLETypeConversions.join(bytes, tail);
-        return all;
+        final byte seconds = precision == TimeUnit.SECONDS ? fromUint8(calendar.get(Calendar.SECOND)) : 0;
+        final byte tz = BLETypeConversions.mapTimeZone(calendar, BLETypeConversions.TZ_FLAG_INCLUDE_DST_IN_TZ);
+        return BLETypeConversions.join(bytes, new byte[]{seconds, tz});
     }
 
     public Calendar fromTimeBytes(byte[] bytes) {
@@ -434,7 +421,9 @@ public abstract class HuamiSupport extends AbstractBTLEDeviceSupport implements 
 
     public HuamiSupport setCurrentTimeWithService(TransactionBuilder builder) {
         GregorianCalendar now = BLETypeConversions.createCalendar();
-        byte[] bytes = getTimeBytes(now, TimeUnit.SECONDS);
+        byte[] head = BLETypeConversions.calendarToRawBytes(now);
+        byte[] tail = new byte[] { 0, BLETypeConversions.mapTimeZone(now, BLETypeConversions.TZ_FLAG_INCLUDE_DST_IN_TZ) };
+        byte[] bytes = BLETypeConversions.join(head, tail);
         builder.write(getCharacteristic(GattCharacteristic.UUID_CHARACTERISTIC_CURRENT_TIME), bytes);
         return this;
     }
@@ -4107,7 +4096,11 @@ public abstract class HuamiSupport extends AbstractBTLEDeviceSupport implements 
     }
 
     public TimeUnit getFetchOperationsTimeUnit() {
-        return TimeUnit.MINUTES;
+        // This is configurable because using seconds was causing issues on Amazfit GTR 3
+        // However, using minutes can cause issues while fetching workouts shorter than 1 minute
+        final Prefs devicePrefs = getDevicePrefs();
+        final boolean truncate = devicePrefs.getBoolean("huami_truncate_fetch_operation_timestamps", true);
+        return truncate ? TimeUnit.MINUTES : TimeUnit.SECONDS;
     }
 
     public boolean force2021Protocol() {
