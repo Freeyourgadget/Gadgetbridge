@@ -78,7 +78,7 @@
     <string name="pref_title_notification_filter">Bitte nicht stören</string>
     <string name="pref_summary_notification_filter">Alle Benachrichtigungen blockieren, wenn \"Nicht stören\" auf dem Telefon aktiviert ist</string>
     <string name="pref_title_transliteration">Sonderzeichen umschreiben</string>
-    <string name="pref_summary_transliteration">Zum Umschreiben von Sonderzeichen aktivieren, falls dein Gerät keine Unterstützung für bestimmte Zeichen hat (z.B. ü-&gt;ue)</string>
+    <string name="pref_summary_transliteration">Aktiviere diese Option, wenn dein Gerät die Schriftart für deine Sprache nicht unterstützt</string>
     <string name="always">Immer</string>
     <string name="when_screen_off">Wenn der Bildschirm aus ist</string>
     <string name="never">Niemals</string>
@@ -620,7 +620,7 @@
     <string name="pref_summary_contextual_arabic">Aktivieren, um kontextabhängiges Arabisch zu unterstützen</string>
     <string name="preferences_rtl_settings">Unterstützung für linksläufigen Text (RTL)</string>
     <string name="share_log">Protokoll teilen</string>
-    <string name="share_log_warning">Bitte beachte, in den Protokoll Dateien von Gadgetbridge können personenbezogene Informationen enthalten sein. Dies können Gesundheitsdaten, eindeutige Identifikatoren (wie die MAC-Adresse eines Geräts), Musikpräferenzen und mehr sein. Erwäge die Datei zu bearbeiten und diese Informationen zu entfernen, bevor du die Datei in einem Fehlerbericht öffentlich zur Verfügung stellst.</string>
+    <string name="share_log_warning">Bitte beachte, in den Protokolldateien von Gadgetbridge können personenbezogene Informationen enthalten sein. Dies können Gesundheitsdaten, eindeutige Identifikatoren (wie die MAC-Adresse eines Geräts), Musikpräferenzen und mehr sein. Erwäge die Datei zu bearbeiten und diese Informationen zu entfernen, bevor du die Datei in einem Fehlerbericht öffentlich zur Verfügung stellst.</string>
     <string name="title_activity_notification_filter">Benachrichtigungsfilter</string>
     <string name="edittext_notification_filter_words_hint">Gewünschte Wörter eingeben, neue Zeile für jedes Wort</string>
     <string name="toast_notification_filter_saved_successfully">Benachrichtigungsfilter gespeichert</string>
@@ -645,7 +645,7 @@
     <string name="activity_prefs_alarm_min_heart_rate">Niedrige Herzfrequenzschwelle</string>
     <string name="zetime_title_heartrate">Herzfrequenz-Menü</string>
     <string name="zetime_title_heart_rate_alarm">Herzfrequenz Alarm</string>
-    <string name="zetime_heart_rate_alarm_enable">Herzfrequenz Alarm aktivieren</string>
+    <string name="zetime_heart_rate_alarm_enable">Herzfrequenzalarm aktivieren</string>
     <string name="zetime_date_format">Datumsformat</string>
     <string name="zetime_date_format_1">JJ/MM/TT</string>
     <string name="zetime_date_format_2">TT/MM/JJ</string>
@@ -851,7 +851,7 @@
     <string name="hr_appname_commute">Pendeln</string>
     <string name="devicetype_amazfit_bips">Amazfit Bip S</string>
     <string name="pref_summary_relax_firmware_checks">Firmwareüberprüfung deaktivieren</string>
-    <string name="pref_title_relax_firmware_checks">Zum flashen von Firmware, die nicht für dieses Gerät bestimmt ist aktivieren (auf eigenes Risiko)</string>
+    <string name="pref_title_relax_firmware_checks">Aktiviere diese Option, wenn du eine Firmware flashen möchten, die nicht für dein Gerät bestimmt ist (auf eigene Gefahr)</string>
     <string name="pref_qhybrid_title_widget_draw_circles">Widget-Kreise zeichnen</string>
     <string name="pref_header_auto_fetch">Automatischer Abruf</string>
     <string name="pref_qhybrid_save_raw_activity_files">Raw Activity Dateien speichern</string>
@@ -933,7 +933,7 @@
 \nHinweis: Die .res Datei muss nicht installiert werden, wenn es die gleiche Datei ist, die schon zuvor installiert wurde.
 \n
 \nINSTALLATION AUF EIGENE GEFAHR!</string>
-    <string name="companiondevice_pairing_details">Aktiviert die CompanionDevice API Unterstützung (funktioniert nur bei Android 8 und neuer). Erhöht die Zuverlässigkeit der Verbindung, wenn der Dienst im Hintergrund neu gestartet werden muss. Benötigt ein neues Paaren der Geräte mit Gadgetbridge um zu funktionieren</string>
+    <string name="companiondevice_pairing_details">Aktiviert die neue CompanionDevice-API-Unterstützung (funktioniert nur bei Android 8 und neuer). Erhöht die Zuverlässigkeit der Verbindung, wenn der Dienst im Hintergrund neu gestartet werden muss. Benötigt eine erneute Kopplung mit Gadgetbridge, um zu funktionieren</string>
     <string name="error_location_enabled_mandatory">Standort muss für den Gerätescan aktiviert sein</string>
     <string name="ignore_bonded_devices_description">Bei aktiver Option werden Geräte ignoriert, die beim Scan schon verbunden/gepaart sind</string>
     <string name="ignore_bonded_devices">Ignoriere verbundene Geräte</string>
@@ -1059,7 +1059,7 @@
     <string name="sonyswr12_settings_low_vibration">Geringe Vibration aktiviert</string>
     <string name="sonyswr12_settings_stamina">Der Energiesparmodus ist aktiviert</string>
     <string name="sonyswr12_settings_alarm_interval">Intelligentes Alarmintervall in Minuten</string>
-    <string name="sonyswr12_settings_low_vibration_summary">Aktivieren Sie eine geringe Vibrationsintensität auf dem Band</string>
+    <string name="sonyswr12_settings_low_vibration_summary">Aktiviere eine geringe Vibrationsintensität auf dem Band</string>
     <string name="sonyswr12_settings_stamina_summary">Der Energiesparmodus schaltet die regelmäßige automatische Messung der Herzfrequenz aus und verlängert so die Arbeitszeit</string>
     <string name="sonyswr12_settings_alarm_interval_summary">Das intelligente Alarmintervall ist das Intervall vor dem installierten Alarm. In diesem Intervall versucht das Gerät, die leichteste Schlafphase zu erkennen, um den Benutzer zu wecken</string>
     <string name="chart_get_active_and_synchronize">Führe einige Aktivitäten durch und synchronisiere das Gerät.</string>
@@ -1311,8 +1311,8 @@
     <string name="watchface_widget_type_2nd_tz">Zweite Zeitzone</string>
     <string name="watchface_widget_type_calories">Kalorien</string>
     <string name="watchface_widget_type_battery">Akku</string>
-    <string name="watchface_setting_power_saving_hands">Bewegungserkennung deaktivieren wenn Uhr nicht getragen</string>
-    <string name="watchface_setting_power_saving_display">Bildschirmaktualisierungen deaktivieren wenn Uhr nicht getragen</string>
+    <string name="watchface_setting_power_saving_hands">Bewegungserkennung deaktivieren, wenn Uhr nicht getragen wird</string>
+    <string name="watchface_setting_power_saving_display">Bildschirmaktualisierungen deaktivieren, wenn Uhr nicht getragen wird</string>
     <string name="pref_summary_huami_force_new_protocol">Aktivieren, wenn das Gerät nach einem Firmware-Upgrade keine Verbindung mehr herstellt</string>
     <string name="pref_title_huami_force_new_protocol">Neues Auth-Protokoll</string>
     <string name="menuitem_flashlight">Taschenlampe</string>
@@ -1468,7 +1468,7 @@
     <string name="toast_app_must_be_selected">App muss zum Konfigurieren ausgewählt sein</string>
     <string name="prefs_pressure_relief">Druckentlastung mit Umgebungsgeräuschen</string>
     <string name="pressure_relief_summary">Verhindert Druckgefühl in den Ohren, wenn Active Noise Cancelling nicht verwendet wird</string>
-    <string name="mi2_prefs_do_not_disturb_lift_wrist">Im Ruhemodes Anzeige beim Anheben aktivieren</string>
+    <string name="mi2_prefs_do_not_disturb_lift_wrist">Anzeige beim Anheben auch während „Bitte nicht stören“ aktivieren</string>
     <string name="watchface_dialog_widget_update_timeout">Aktualisierungszeit in Minuten</string>
     <string name="device_card_activity_card_title">Aktivitätsinfo in der Geräteübersicht</string>
     <string name="device_card_activity_card_title_summary">Auswahl der Aktivitätsinfos in der Geräteübersicht</string>
