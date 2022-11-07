@@ -2074,4 +2074,6 @@
 \nBilekliğiniz .zip dosyasını kurduktan sonra yeniden başlatılacak.
 \n
 \nİLERLEMENİZ DURUMUNDA RİSK SİZE AİTTİR!</string>
+    <string name="function_enabled">Etkin</string>
+    <string name="world_clock_code">Kod</string>
 </resources>
