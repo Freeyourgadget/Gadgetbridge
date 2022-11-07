@@ -233,6 +233,7 @@ public class DeviceSettingsPreferenceConst {
     public static final String PREF_GALAXY_BUDS_PRESSURE_RELIEF = "pref_galaxy_buds_live_pressure_relief";
     public static final String PREF_GALAXY_BUDS_AMBIENT_SOUND = "pref_galaxy_buds_ambient_sound";
     public static final String PREF_GALAXY_BUDS_PRO_NOISE_CONTROL="pref_galaxy_buds_pro_noise_control";
+    public static final String PREF_GALAXY_BUDS_2_NOISE_CONTROL="pref_galaxy_buds_2_noise_control";
     public static final String PREF_GALAXY_PRO_DOUBLE_TAP_EDGE ="pref_galaxy_pro_double_tap_edge";
     public static final String PREF_GALAXY_BUDS_PRO_IN_EAR_DETECTION ="pref_galaxy_buds_pro_in_ear_detection";
     public static final String PREF_GALAXY_BUDS_PRO_VOICE_DETECT ="pref_galaxy_buds_pro_voice_detect";

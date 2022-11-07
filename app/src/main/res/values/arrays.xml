@@ -2491,14 +2491,14 @@
         <item>@string/pref_switch_noise_control</item>
         <item>@string/pref_title_touch_voice_assistant</item>
         <item>@string/pref_media_volumedown</item>
-        <item>@string/pref_title_touch_spotify</item>
+        <item>@string/pref_title_touch_spotify_official_app</item>
     </string-array>
 
     <string-array name="galaxy_pro_touch_options_right">
         <item>@string/pref_switch_noise_control</item>
         <item>@string/pref_title_touch_voice_assistant</item>
         <item>@string/pref_media_volumeup</item>
-        <item>@string/pref_title_touch_spotify</item>
+        <item>@string/pref_title_touch_spotify_official_app</item>
     </string-array>
 
     <string-array name="galaxy_pro_touch_options_values">

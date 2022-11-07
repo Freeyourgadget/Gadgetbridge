@@ -322,6 +322,7 @@ public class DeviceSupportFactory {
             case GALAXY_BUDS_LIVE:
                 return new ServiceDeviceSupport(new GalaxyBudsDeviceSupport());
             case GALAXY_BUDS_PRO:
+            case GALAXY_BUDS2:
                 return new ServiceDeviceSupport(new GalaxyBudsDeviceSupport(), ServiceDeviceSupport.Flags.BUSY_CHECKING);
             case SONY_WH_1000XM3:
                 return new ServiceDeviceSupport(new SonyHeadphonesSupport());

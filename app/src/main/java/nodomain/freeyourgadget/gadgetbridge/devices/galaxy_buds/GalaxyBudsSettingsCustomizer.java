@@ -20,6 +20,7 @@ import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.Dev
 import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_GALAXY_BUDS_PRO_ANC_LEVEL;
 import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_GALAXY_BUDS_PRO_BALANCE;
 import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_GALAXY_BUDS_PRO_NOISE_CONTROL;
+import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_GALAXY_BUDS_2_NOISE_CONTROL;
 import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_GALAXY_BUDS_TOUCH_LEFT;
 import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_GALAXY_BUDS_TOUCH_LEFT_SWITCH;
 import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_GALAXY_BUDS_TOUCH_RIGHT;
@@ -69,6 +70,8 @@ public class GalaxyBudsSettingsCustomizer implements DeviceSpecificSettingsCusto
 
         final Preference pref_galaxy_buds_pro_noise_control = handler.findPreference(PREF_GALAXY_BUDS_PRO_NOISE_CONTROL);
         String pref_galaxy_buds_pro_noise_control_value = prefs.getString(PREF_GALAXY_BUDS_PRO_NOISE_CONTROL, "0");
+        final Preference pref_galaxy_buds_2_noise_control = handler.findPreference(PREF_GALAXY_BUDS_2_NOISE_CONTROL);
+        String pref_galaxy_buds_2_noise_control_value = prefs.getString(PREF_GALAXY_BUDS_2_NOISE_CONTROL, "0");
         final Preference pref_galaxy_buds_pro_anc_level = handler.findPreference(PREF_GALAXY_BUDS_PRO_ANC_LEVEL);
         final Preference pref_galaxy_buds_ambient_volume = handler.findPreference(PREF_GALAXY_BUDS_AMBIENT_VOLUME);
 
@@ -113,6 +116,36 @@ public class GalaxyBudsSettingsCustomizer implements DeviceSpecificSettingsCusto
             });
         }
 
+        if (pref_galaxy_buds_2_noise_control != null) {
+
+            switch (pref_galaxy_buds_2_noise_control_value) {
+                case "0":
+                case "1":
+                    pref_galaxy_buds_ambient_volume.setEnabled(false);
+                    break;
+                case "2":
+                    pref_galaxy_buds_ambient_volume.setEnabled(true);
+                    break;
+            }
+
+            pref_galaxy_buds_2_noise_control.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+                @Override
+                public boolean onPreferenceChange(Preference preference, Object newVal) {
+                    handler.notifyPreferenceChanged(PREF_GALAXY_BUDS_2_NOISE_CONTROL);
+                    switch (newVal.toString()) {
+                        case "0":
+                        case "1":
+                            pref_galaxy_buds_ambient_volume.setEnabled(false);
+                            break;
+                        case "2":
+                            pref_galaxy_buds_ambient_volume.setEnabled(true);
+                            break;
+                    }
+
+                    return true;
+                }
+            });
+        }
 
         final Preference pref_galaxy_buds_touch_right = handler.findPreference(PREF_GALAXY_BUDS_TOUCH_RIGHT);
         String pref_galaxy_buds_touch_right_value = prefs.getString(PREF_GALAXY_BUDS_TOUCH_RIGHT, "1");

@@ -107,8 +107,8 @@ public class GalaxyBudsProtocol extends GBDeviceProtocol {
     // "Use ambient sound during calls"
 
     private static final byte set_noise_controls_with_one_earbud = (byte) 0x6f; //0x0/0x1
-    // "Noise controls with one earbud" in Accessibility menu. I'm not exactly sure what it means,
-    // my guess is that it allows ANC even if only one earbuds is in-ear
+    // "Noise controls with one earbud" in Accessibility menu.
+    // It allows ANC and ambient sound even if only one earbud is in-ear.
 
     private static final byte set_balance = (byte) 0x8f;
     // takes value in 0-32 range, it is used to change left/right balance
@@ -361,6 +361,10 @@ public class GalaxyBudsProtocol extends GBDeviceProtocol {
                 int noise_controls = Integer.parseInt(prefs.getString(DeviceSettingsPreferenceConst.PREF_GALAXY_BUDS_PRO_NOISE_CONTROL, "0"));
                 return encodeMessage(set_noise_controls, (byte) noise_controls);
 
+            case DeviceSettingsPreferenceConst.PREF_GALAXY_BUDS_2_NOISE_CONTROL:
+                int b2_noise_controls = Integer.parseInt(prefs.getString(DeviceSettingsPreferenceConst.PREF_GALAXY_BUDS_2_NOISE_CONTROL, "0"));
+                return encodeMessage(set_noise_controls, (byte) b2_noise_controls);
+
             case DeviceSettingsPreferenceConst.PREF_GALAXY_BUDS_PRO_ANC_LEVEL:
                 int anc_level = Integer.parseInt(prefs.getString(DeviceSettingsPreferenceConst.PREF_GALAXY_BUDS_PRO_ANC_LEVEL, "0"));
                 return encodeMessage(set_noise_reduction_level, (byte) anc_level);
@@ -380,7 +384,7 @@ public class GalaxyBudsProtocol extends GBDeviceProtocol {
                 return encodeMessage(set_ambient_mode, enable_ambient);
 
             case DeviceSettingsPreferenceConst.PREFS_GALAXY_BUDS_SEAMLESS_CONNECTION:
-                byte seamless_switch = (byte) (prefs.getBoolean(DeviceSettingsPreferenceConst.PREFS_GALAXY_BUDS_SEAMLESS_CONNECTION, false) ? 0x01 : 0x00);
+                byte seamless_switch = (byte) (prefs.getBoolean(DeviceSettingsPreferenceConst.PREFS_GALAXY_BUDS_SEAMLESS_CONNECTION, false) ? 0x00 : 0x01);
                 return encodeMessage(set_seamless_connection, seamless_switch);
 
             case DeviceSettingsPreferenceConst.PREF_GALAXY_BUDS_AMBIENT_VOICE_FOCUS:
@@ -517,7 +521,8 @@ public class GalaxyBudsProtocol extends GBDeviceProtocol {
     protected GalaxyBudsProtocol(GBDevice device) {
         super(device);
         if (device.getType().equals(DeviceType.GALAXY_BUDS_LIVE)
-                || device.getType().equals(DeviceType.GALAXY_BUDS_PRO)) {
+                || device.getType().equals(DeviceType.GALAXY_BUDS_PRO)
+                || device.getType().equals(DeviceType.GALAXY_BUDS2)) {
             StartOfMessage = SOM_BUDS_PLUS;
             EndOfMessage = EOM_BUDS_PLUS;
         }
