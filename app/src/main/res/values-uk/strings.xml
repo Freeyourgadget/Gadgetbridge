@@ -2068,4 +2068,6 @@
 \nПісля встановлення файлу .zip ваш браслет перезавантажиться.
 \n
 \nПРОДОВЖУЙТЕ НА СВІЙ СТРАХ І РИЗИК!</string>
+    <string name="function_enabled">Увімкнено</string>
+    <string name="world_clock_code">Код</string>
 </resources>
