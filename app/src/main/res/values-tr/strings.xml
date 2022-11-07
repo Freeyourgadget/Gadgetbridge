@@ -2077,4 +2077,7 @@
     <string name="function_enabled">Etkin</string>
     <string name="world_clock_code">Kod</string>
     <string name="pref_title_touch_spotify_official_app">Spotify (yalnızca resmi uygulama)</string>
+    <string name="pref_title_touch_spotify_galaxy_app">Spotify (yalnızca Galaxy Wearable uygulaması)</string>
+    <string name="devicetype_galaxybuds_2">Galaxy Buds2</string>
+    <string name="prefs_touch_lock_buds2">Dokunma denetimleri</string>
 </resources>
