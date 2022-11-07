@@ -1654,11 +1654,11 @@
     <string name="pref_switch_controls_ambient_off">Навколишнє середовище ←→ Вимкнено</string>
     <string name="prefs_noise_control">Контроль шуму</string>
     <string name="prefs_voice_detect">Виявлення голосу</string>
-    <string name="prefs_double_tap_edge">Подвійний дотик краю</string>
+    <string name="prefs_double_tap_edge">Подвійне торкання краю</string>
     <string name="prefs_voice_detect_duration">Завершення після тиші за:</string>
     <string name="pref_voice_detect_duration_15">15 секунд</string>
     <string name="prefs_ambient_volume_right">Гучність навколишнього середовища вправо</string>
-    <string name="prefs_ambient_sound_during_call_summary">Чути власний голос під час виклику</string>
+    <string name="prefs_ambient_sound_during_call_summary">Чітко чути власний голос під час викликів</string>
     <string name="prefs_seamless_connection_switch_title">Плавне перемикання з\'єднання</string>
     <string name="prefs_ambient_settings_title">Параметри навколишнього звуку</string>
     <string name="pref_title_touch_voice_assistant">Голосовий помічник</string>
@@ -1673,7 +1673,7 @@
     <string name="pref_ambient_sound_tone">Тон навколишнього звуку</string>
     <string name="pref_switch_controls_anc_ambient">Пригнічення шуму ←→ Навколишнє середовище</string>
     <string name="prefs_voice_detect_summary">Увімкнути навколишній звук і автоматичне стишення відтворення після виявлення голосу</string>
-    <string name="prefs_double_tap_edge_summary">Виявлення подвійного дотику, навіть якщо він не під\'єднаний до сенсорної панелі</string>
+    <string name="prefs_double_tap_edge_summary">Виявлення подвійного торкання, навіть якщо не торкатися тачпада</string>
     <string name="pref_voice_detect_duration_10">10 секунд</string>
     <string name="pref_voice_detect_duration_5">5 секунд</string>
     <string name="heartrate_bpm_100">100 уд/хв</string>
@@ -2070,4 +2070,8 @@
 \nПРОДОВЖУЙТЕ НА СВІЙ СТРАХ І РИЗИК!</string>
     <string name="function_enabled">Увімкнено</string>
     <string name="world_clock_code">Код</string>
+    <string name="pref_title_touch_spotify_official_app">Spotify (лише офіційний застосунок)</string>
+    <string name="pref_title_touch_spotify_galaxy_app">Spotify (лише застосунок Galaxy Wearable)</string>
+    <string name="prefs_touch_lock_buds2">Сенсорне керування</string>
+    <string name="devicetype_galaxybuds_2">Galaxy Buds2</string>
 </resources>
