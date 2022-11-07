@@ -2060,4 +2060,6 @@
 \n您的手表将在安装了 .zip 文件后重启。
 \n
 \n风险自担！</string>
+    <string name="world_clock_code">代码</string>
+    <string name="function_enabled">启用</string>
 </resources>
