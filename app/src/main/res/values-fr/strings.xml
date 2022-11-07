@@ -2064,4 +2064,6 @@ Temps de sommeil préféré en heures</string>
 \nVotre bracelet redémarrera après avoir installé le fichier .zip.
 \n
 \nA VOS RISQUES ET PÉRILS !</string>
+    <string name="function_enabled">Activé</string>
+    <string name="world_clock_code">Code</string>
 </resources>
