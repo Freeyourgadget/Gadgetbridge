@@ -1669,7 +1669,7 @@
     <string name="prefs_seamless_connection_switch_title">Kesintisiz bağlantı değişimi</string>
     <string name="prefs_ambient_volume_left">Ortam Ses Seviyesi Sol</string>
     <string name="prefs_ambient_sound_during_call_title">Arama sırasında ortam sesi</string>
-    <string name="prefs_ambient_sound_during_call_summary">Arama sırasında kendi sesinizi duyun</string>
+    <string name="prefs_ambient_sound_during_call_summary">Aramalar sırasında kendi sesinizi net bir şekilde duyun</string>
     <string name="prefs_active_noise_cancelling_level">Etkin Gürültü Engelleme Seviyesi</string>
     <string name="prefs_active_noise_cancelling_level_high">Yüksek</string>
     <string name="prefs_active_noise_cancelling_level_low">Düşük</string>
@@ -2076,4 +2076,5 @@
 \nİLERLEMENİZ DURUMUNDA RİSK SİZE AİTTİR!</string>
     <string name="function_enabled">Etkin</string>
     <string name="world_clock_code">Kod</string>
+    <string name="pref_title_touch_spotify_official_app">Spotify (yalnızca resmi uygulama)</string>
 </resources>
