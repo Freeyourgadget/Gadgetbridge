@@ -1656,7 +1656,7 @@ Temps de sommeil préféré en heures</string>
     <string name="heartrate_bpm_150">150 bpm</string>
     <string name="prefs_in_ear_detection_summary">Recevoir les appels dans les écouteurs lorsque vous les portez</string>
     <string name="prefs_seamless_connection_switch_summary">Commutation entre les appareils déja pairés automatiquement</string>
-    <string name="prefs_ambient_sound_during_call_summary">Entendre sa propre voix durant un appel</string>
+    <string name="prefs_ambient_sound_during_call_summary">Entendre sa propre voix clairement durant un appel</string>
     <string name="pref_world_clocks_title">Horloges mondiales</string>
     <string name="pref_world_clocks_summary">Configurer les horloges pour différents fuseaux horaires</string>
     <string name="prefs_activate_display_on_lift_sensitivity">Sensibilité</string>
@@ -2066,4 +2066,8 @@ Temps de sommeil préféré en heures</string>
 \nA VOS RISQUES ET PÉRILS !</string>
     <string name="function_enabled">Activé</string>
     <string name="world_clock_code">Code</string>
+    <string name="devicetype_galaxybuds_2">Galaxy Buds2</string>
+    <string name="pref_title_touch_spotify_galaxy_app">Spotify (app Galaxy Wear uniquement)</string>
+    <string name="prefs_touch_lock_buds2">Contrôles tactiles</string>
+    <string name="pref_title_touch_spotify_official_app">Spotify (app officielle uniquement)</string>
 </resources>
