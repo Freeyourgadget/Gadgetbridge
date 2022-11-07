@@ -866,7 +866,7 @@
     <string name="prefs_ambient_settings_title">Opsi Suara Sekitar</string>
     <string name="prefs_ambient_sound_during_call_title">Suara Sekitar saat panggilan</string>
     <string name="prefs_active_noise_cancelling_summary">Blokir suara sekitar</string>
-    <string name="prefs_ambient_sound_during_call_summary">Dengar suara sendiri saat panggilan</string>
+    <string name="prefs_ambient_sound_during_call_summary">Dengar suara sendiri dengan jelas saat panggilan</string>
     <string name="pref_header_sony_anc_optimizer">Pengoptimal Pembatalan Suara</string>
     <string name="sony_anc_optimize_description">Klik untuk memulai optimasi pembatalan suara.</string>
     <string name="sony_touch_sensor">Kendali sensor sentuhan</string>
@@ -2049,4 +2049,10 @@
 \n *.gpx - rekaman GPS 
 \n *.log - berkas catatan
 \nPastikan Anda sudah tahu tempat untuk mencari berkas yang telah diekspor (atau tempatkan berkas yang Anda ingin impor) di situ:</string>
+    <string name="function_enabled">Diaktifkan</string>
+    <string name="world_clock_code">Kode</string>
+    <string name="pref_title_touch_spotify_galaxy_app">Spotify (aplikasi Galaxy Wearable saja</string>
+    <string name="prefs_touch_lock_buds2">Kendali sentuh</string>
+    <string name="pref_title_touch_spotify_official_app">Spotify (aplikasi resmi saja)</string>
+    <string name="devicetype_galaxybuds_2">Galaxy Buds2</string>
 </resources>
