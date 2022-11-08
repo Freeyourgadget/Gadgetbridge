@@ -34,6 +34,12 @@
             android:title="@string/pref_title_audio_player"
             android:summary="%s" />
 
+        <CheckBoxPreference
+            android:layout="@layout/preference_checkbox"
+            android:defaultValue="false"
+            android:key="mb_intents"
+            android:title="@string/pref_title_mb_intents" />
+
         <PreferenceScreen android:title="@string/pref_title_theme">
             <ListPreference
                 android:defaultValue="@string/pref_theme_value_light"
