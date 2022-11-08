@@ -136,14 +136,18 @@ public class SoFlowCoordinator extends AbstractBLEDeviceCoordinator {
 
     @Override
     public int getBondingStyle() {
-        return BONDING_STYLE_NONE;
+        return BONDING_STYLE_REQUIRE_KEY;
+    }
+
+    @Override
+    public int[] getSupportedDeviceSpecificAuthenticationSettings() {
+        return new int[]{R.xml.devicesettings_pairingkey};
     }
 
     @Override
     public int[] getSupportedDeviceSpecificSettings(GBDevice device) {
         return new int[]{
-                R.xml.devicesettings_lock_unlock,
-                R.xml.devicesettings_pairingkey
+                R.xml.devicesettings_lock_unlock
         };
     }
 }
