@@ -14,7 +14,7 @@
 
     You should have received a copy of the GNU Affero General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
-package nodomain.freeyourgadget.gadgetbridge.service.devices.huami.amazfitgtr4;
+package nodomain.freeyourgadget.gadgetbridge.service.devices.huami.amazfitgts4;
 
 import android.content.Context;
 import android.net.Uri;
@@ -22,12 +22,12 @@ import android.net.Uri;
 import java.io.IOException;
 
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiFWHelper;
-import nodomain.freeyourgadget.gadgetbridge.devices.huami.amazfitgtr4.AmazfitGTR4FWHelper;
+import nodomain.freeyourgadget.gadgetbridge.devices.huami.amazfitgts4.AmazfitGTS4FWHelper;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.Huami2021Support;
 
-public class AmazfitGTR4Support extends Huami2021Support {
+public class AmazfitGTS4Support extends Huami2021Support {
     @Override
     public HuamiFWHelper createFWHelper(final Uri uri, final Context context) throws IOException {
-        return new AmazfitGTR4FWHelper(uri, context);
+        return new AmazfitGTS4FWHelper(uri, context);
     }
 }

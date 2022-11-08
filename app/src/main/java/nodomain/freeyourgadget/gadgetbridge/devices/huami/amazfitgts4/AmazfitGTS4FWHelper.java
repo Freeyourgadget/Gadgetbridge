@@ -14,7 +14,7 @@
 
     You should have received a copy of the GNU Affero General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
-package nodomain.freeyourgadget.gadgetbridge.service.devices.huami.amazfitgtr4;
+package nodomain.freeyourgadget.gadgetbridge.devices.huami.amazfitgts4;
 
 import android.content.Context;
 import android.net.Uri;
@@ -22,12 +22,23 @@ import android.net.Uri;
 import java.io.IOException;
 
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiFWHelper;
-import nodomain.freeyourgadget.gadgetbridge.devices.huami.amazfitgtr4.AmazfitGTR4FWHelper;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.Huami2021Support;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.amazfitgts4.AmazfitGTS4FirmwareInfo;
 
-public class AmazfitGTR4Support extends Huami2021Support {
+public class AmazfitGTS4FWHelper extends HuamiFWHelper {
+    public AmazfitGTS4FWHelper(final Uri uri, final Context context) throws IOException {
+        super(uri, context);
+    }
+
     @Override
-    public HuamiFWHelper createFWHelper(final Uri uri, final Context context) throws IOException {
-        return new AmazfitGTR4FWHelper(uri, context);
+    public long getMaxExpectedFileSize() {
+        return 1024 * 1024 * 128; // 128.0MB
+    }
+
+    @Override
+    protected void determineFirmwareInfo(final byte[] wholeFirmwareBytes) {
+        firmwareInfo = new AmazfitGTS4FirmwareInfo(wholeFirmwareBytes);
+        if (!firmwareInfo.isHeaderValid()) {
+            throw new IllegalArgumentException("Not a Amazfit GTS 4 firmware");
+        }
     }
 }

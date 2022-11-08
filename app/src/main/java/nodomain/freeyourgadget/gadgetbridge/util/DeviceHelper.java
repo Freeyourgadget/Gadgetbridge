@@ -43,6 +43,7 @@ import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHelper;
 import nodomain.freeyourgadget.gadgetbridge.devices.DeviceCoordinator;
+import nodomain.freeyourgadget.gadgetbridge.devices.huami.amazfitgts4.AmazfitGTS4Coordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.supercars.SuperCarsCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.fitpro.FitProDeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.UnknownDeviceCoordinator;
@@ -294,6 +295,7 @@ public class DeviceHelper {
         result.add(new MiBand6Coordinator());
         result.add(new MiBand7Coordinator());
         result.add(new AmazfitGTS3Coordinator());
+        result.add(new AmazfitGTS4Coordinator());
         result.add(new AmazfitGTR3Coordinator());
         result.add(new AmazfitGTR4Coordinator());
         result.add(new MiBand2HRXCoordinator());
