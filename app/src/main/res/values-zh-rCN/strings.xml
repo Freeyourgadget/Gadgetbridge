@@ -1647,7 +1647,7 @@
     <string name="prefs_active_noise_cancelling_level_high">高</string>
     <string name="prefs_active_noise_cancelling_level_low">低</string>
     <string name="prefs_switch_control_left">左侧开关控制</string>
-    <string name="prefs_ambient_sound_during_call_summary">在通话过程中听到自己的声音</string>
+    <string name="prefs_ambient_sound_during_call_summary">在通话中清楚地听到自己的声音</string>
     <string name="prefs_switch_control_right">右侧开关控制</string>
     <string name="pref_title_touch_anc">主动降噪</string>
     <string name="pref_title_touch_volume">音量</string>
@@ -2062,4 +2062,8 @@
 \n风险自担！</string>
     <string name="world_clock_code">代码</string>
     <string name="function_enabled">启用</string>
+    <string name="pref_title_touch_spotify_official_app">Spotify（仅限官方应用程序）</string>
+    <string name="devicetype_galaxybuds_2">Galaxy Buds2</string>
+    <string name="prefs_touch_lock_buds2">触摸控制</string>
+    <string name="pref_title_touch_spotify_galaxy_app">Spotify（仅限 Galaxy Wearable 应用程序）</string>
 </resources>
