@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <SwitchPreference
+        android:icon="@drawable/ic_lock_open"
+        android:defaultValue="false"
+        android:key="lock"
+        android:title="@string/pref_title_lock_unlock" />
+</androidx.preference.PreferenceScreen>
