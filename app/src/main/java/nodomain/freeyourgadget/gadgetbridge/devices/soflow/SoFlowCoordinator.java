@@ -136,7 +136,7 @@ public class SoFlowCoordinator extends AbstractBLEDeviceCoordinator {
 
     @Override
     public int getBondingStyle() {
-        return BONDING_STYLE_REQUIRE_KEY;
+        return BONDING_STYLE_NONE;
     }
 
     @Override

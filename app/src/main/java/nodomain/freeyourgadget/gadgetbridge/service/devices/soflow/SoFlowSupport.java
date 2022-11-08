@@ -21,18 +21,17 @@ import android.bluetooth.BluetoothGattCharacteristic;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
+import android.widget.Toast;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.UUID;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
-import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventBatteryInfo;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventVersionInfo;
-import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiService;
-import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandService;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.Alarm;
 import nodomain.freeyourgadget.gadgetbridge.model.CalendarEventSpec;
@@ -47,19 +46,21 @@ import nodomain.freeyourgadget.gadgetbridge.service.btle.GattService;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.SetDeviceStateAction;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.profiles.IntentListener;
-import nodomain.freeyourgadget.gadgetbridge.service.btle.profiles.battery.BatteryInfoProfile;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.profiles.deviceinfo.DeviceInfoProfile;
+import nodomain.freeyourgadget.gadgetbridge.util.CryptoUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
 public class SoFlowSupport extends AbstractBTLEDeviceSupport {
 
     public static final UUID UUID_CHARACTERISICS_NOTIFICATION = UUID.fromString("60000002-0000-1000-8000-00805f9b34fb");
-    public static final UUID UUID_CHARACTERISICS_WRITE = UUID.fromString("60000002-0000-1000-8000-00805f9b34fb");
-    public static final byte[] COMMAND_REQUEST_SESSION = new byte[]{0x06, 0x01, 0x01, 0x00, 00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
+    public static final UUID UUID_CHARACTERISICS_WRITE = UUID.fromString("60000003-0000-1000-8000-00805f9b34fb");
+    public static final byte[] COMMAND_REQUEST_SESSION = new byte[]{0x06, 0x01, 0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
+    public static final byte[] COMMAND_LOCK = new byte[]{0x05, 0x0c, 0x01, 0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
+    public static final byte[] COMMAND_UNLOCK = new byte[]{0x05, 0x01, 0x06, 0x30, 0x30, 0x30, 0x30, 0x30, 0x30, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
+
     private static final Logger LOG = LoggerFactory.getLogger(SoFlowSupport.class);
     private final DeviceInfoProfile<SoFlowSupport> deviceInfoProfile;
     private final GBDeviceEventVersionInfo versionCmd = new GBDeviceEventVersionInfo();
-    private final GBDeviceEventBatteryInfo batteryCmd = new GBDeviceEventBatteryInfo();
     private final IntentListener mListener = new IntentListener() {
         @Override
         public void notify(Intent intent) {
@@ -69,6 +70,9 @@ public class SoFlowSupport extends AbstractBTLEDeviceSupport {
             }
         }
     };
+
+    private byte[] aesKey;
+    private byte[] session = new byte[]{0, 0, 0, 0};
 
     public SoFlowSupport() {
         super(LOG);
@@ -85,9 +89,11 @@ public class SoFlowSupport extends AbstractBTLEDeviceSupport {
 
     @Override
     protected TransactionBuilder initializeDevice(TransactionBuilder builder) {
+        aesKey = getSecretKey();
         builder.add(new SetDeviceStateAction(getDevice(), GBDevice.State.INITIALIZING, getContext()));
         requestDeviceInfo(builder);
         builder.notify(getCharacteristic(UUID_CHARACTERISICS_NOTIFICATION), true);
+        writeEncrypted(builder, COMMAND_REQUEST_SESSION);
         setInitialized(builder);
         return builder;
     }
@@ -101,6 +107,13 @@ public class SoFlowSupport extends AbstractBTLEDeviceSupport {
         builder.add(new SetDeviceStateAction(getDevice(), GBDevice.State.INITIALIZED, getContext()));
     }
 
+    private void writeEncrypted(TransactionBuilder builder, byte[] data) {
+        try {
+            builder.write(getCharacteristic(UUID_CHARACTERISICS_WRITE), CryptoUtils.encryptAES(data, aesKey));
+        } catch (Exception e) {
+            LOG.error("error while encrypting data");
+        }
+    }
 
     @Override
     public boolean useAutoConnect() {
@@ -115,25 +128,79 @@ public class SoFlowSupport extends AbstractBTLEDeviceSupport {
     }
 
     protected byte[] getSecretKey() {
-        byte[] authKeyBytes = new byte[16];
+        byte[] authKeyBytes;
 
         SharedPreferences sharedPrefs = GBApplication.getDeviceSpecificSharedPrefs(getDevice().getAddress());
 
         String authKey = sharedPrefs.getString("authkey", null);
         if (authKey != null && !authKey.isEmpty()) {
             authKey = authKey.trim();
-            byte[] srcBytes = authKey.getBytes();
-            if (authKey.length() == 34 && authKey.substring(0, 2).equals("0x")) {
-                srcBytes = GB.hexStringToByteArray(authKey.substring(2));
+            if (authKey.length() == 34 && authKey.startsWith("0x")) {
+                authKeyBytes = GB.hexStringToByteArray(authKey.substring(2));
             } else if (authKey.length() == 32) {
-                srcBytes = GB.hexStringToByteArray(authKey);
+                authKeyBytes = GB.hexStringToByteArray(authKey);
             } else {
                 return null;
             }
-            System.arraycopy(srcBytes, 0, authKeyBytes, 0, Math.min(srcBytes.length, 16));
             return authKeyBytes;
         }
         return null;
+    }
+
+    @Override
+    public boolean onCharacteristicChanged(BluetoothGatt gatt,
+                                           BluetoothGattCharacteristic characteristic) {
+        if (super.onCharacteristicChanged(gatt, characteristic)) {
+            return true;
+        }
+
+        UUID characteristicUUID = characteristic.getUuid();
+        if (UUID_CHARACTERISICS_NOTIFICATION.equals(characteristicUUID)) {
+            try {
+                byte[] data = CryptoUtils.decryptAES(characteristic.getValue(), aesKey);
+                if (data[0] == 0x06 && data[1] == 0x01 && data[2] == 0x07) {
+                    session[0] = data[3];
+                    session[1] = data[4];
+                    session[2] = data[5];
+                    session[3] = data[6];
+                    LOG.info("Got session");
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            return true;
+        }
+        LOG.info("Unhandled characteristic changed: " + characteristicUUID);
+        return false;
+    }
+
+    @Override
+    public void onSendConfiguration(String config) {
+        TransactionBuilder builder;
+        try {
+            builder = performInitialized("Sending configuration for option: " + config);
+            if ("lock".equals(config)) {
+                SharedPreferences sharedPrefs = GBApplication.getDeviceSpecificSharedPrefs(getDevice().getAddress());
+                boolean lock = sharedPrefs.getBoolean("lock", false);
+                if (lock) {
+                    COMMAND_LOCK[4] = session[0];
+                    COMMAND_LOCK[5] = session[1];
+                    COMMAND_LOCK[6] = session[2];
+                    COMMAND_LOCK[7] = session[3];
+                    writeEncrypted(builder, COMMAND_LOCK);
+                } else {
+                    COMMAND_UNLOCK[9] = session[0];
+                    COMMAND_UNLOCK[10] = session[1];
+                    COMMAND_UNLOCK[11] = session[2];
+                    COMMAND_UNLOCK[12] = session[3];
+                    writeEncrypted(builder, COMMAND_UNLOCK);
+                }
+            }
+            builder.queue(getQueue());
+        } catch (IOException e) {
+            GB.toast("Error setting configuration", Toast.LENGTH_LONG, GB.ERROR, e);
+        }
     }
 
     @Override
@@ -266,19 +333,6 @@ public class SoFlowSupport extends AbstractBTLEDeviceSupport {
 
     }
 
-
-    @Override
-    public boolean onCharacteristicChanged(BluetoothGatt gatt,
-                                           BluetoothGattCharacteristic characteristic) {
-        if (super.onCharacteristicChanged(gatt, characteristic)) {
-            return true;
-        }
-
-        UUID characteristicUUID = characteristic.getUuid();
-        LOG.info("Unhandled characteristic changed: " + characteristicUUID);
-        return false;
-    }
-
     @Override
     public boolean onCharacteristicRead(BluetoothGatt gatt,
                                         BluetoothGattCharacteristic characteristic, int status) {
@@ -289,11 +343,6 @@ public class SoFlowSupport extends AbstractBTLEDeviceSupport {
 
         LOG.info("Unhandled characteristic read: " + characteristicUUID);
         return false;
-    }
-
-    @Override
-    public void onSendConfiguration(String config) {
-
     }
 
     @Override

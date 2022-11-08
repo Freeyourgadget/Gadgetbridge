@@ -556,6 +556,8 @@ public class DeviceSpecificSettingsFragment extends PreferenceFragmentCompat imp
         addPreferenceHandlerFor(PREF_OFFLINE_VOICE_RESPONSE_DURING_SCREEN_LIGHTING);
         addPreferenceHandlerFor(PREF_OFFLINE_VOICE_LANGUAGE);
 
+        addPreferenceHandlerFor("lock");
+
         String sleepTimeState = prefs.getString(PREF_SLEEP_TIME, PREF_DO_NOT_DISTURB_OFF);
         boolean sleepTimeScheduled = sleepTimeState.equals(PREF_DO_NOT_DISTURB_SCHEDULED);
 
