@@ -2080,4 +2080,10 @@
     <string name="pref_title_touch_spotify_galaxy_app">Spotify (yalnızca Galaxy Wearable uygulaması)</string>
     <string name="devicetype_galaxybuds_2">Galaxy Buds2</string>
     <string name="prefs_touch_lock_buds2">Dokunma denetimleri</string>
+    <string name="fw_upgrade_notice_amazfit_gts4">Amazfit GTS 4 aygıtınıza %s ürün yazılımını kurmak üzeresiniz.
+\n
+\nBilekliğiniz .zip dosyasını kurduktan sonra yeniden başlatılacak.
+\n
+\nİLERLEMENİZ DURUMUNDA RİSK SİZE AİTTİR!</string>
+    <string name="devicetype_amazfit_gts4">Amazfit GTS 4</string>
 </resources>
