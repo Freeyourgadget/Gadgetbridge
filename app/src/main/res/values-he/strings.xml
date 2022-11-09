@@ -1644,7 +1644,7 @@
     <string name="prefs_ambient_volume_left">עצמת שמע הקפית שמאל</string>
     <string name="prefs_ambient_volume_right">עצמת שמע הקפית ימין</string>
     <string name="prefs_customize_ambient_sound_summary">התאמת צלילים הקפיים</string>
-    <string name="prefs_ambient_sound_during_call_summary">לשמוע את הקול שלך במהלך שיחה</string>
+    <string name="prefs_ambient_sound_during_call_summary">לשמוע את הקול שלך בבהירות במהלך שיחות</string>
     <string name="prefs_ambient_settings_title">אפשרויות צליל הקפי</string>
     <string name="prefs_active_noise_cancelling_level">רמת ביטול רעשים פעיל</string>
     <string name="prefs_active_noise_cancelling_level_high">גבוהה</string>
@@ -1686,7 +1686,7 @@
     <string name="mi2_prefs_heart_rate_monitoring_alerts_summary">הגדרת מעקב אחר דופק וסף התראה</string>
     <string name="devicetype_galaxybuds_pro">Galaxy Buds Pro</string>
     <string name="prefs_ambient_sound_during_call_title">צליל הקפי במהלך שיחה</string>
-    <string name="prefs_double_tap_edge_summary">לזהות נגיעה כפולה כשבוצעה בקצוות משטח המגע</string>
+    <string name="prefs_double_tap_edge_summary">לזהות נגיעה כפולה כשלא בוצעה במשטח המגע</string>
     <string name="prefs_heartrate_alert_experimental_description">להפעיל את הרטט בצמיד כאשר הדופק יורד מתחת לסף, ללא פעילות פיזית מובהקת ב־10 הדקות האחרונות. יכולת זאת נמצאת בשלבי ניסוי ולא נבדקה באופן קפדני.</string>
     <string name="pref_title_banglejs_text_bitmap">טקסט כמפת סיביות</string>
     <string name="pref_title_device_internet_access">לאפשר גישה לאינטרנט</string>
@@ -2059,4 +2059,9 @@
 \n
 \nהמשך התהליך הוא על אחריותך בלבד!</string>
     <string name="devicetype_amazfit_band7">Amazfit Band 7‎</string>
+    <string name="world_clock_code">קוד</string>
+    <string name="pref_title_touch_spotify_official_app">Spotify (היישומון הרשמי בלבד)</string>
+    <string name="pref_title_touch_spotify_galaxy_app">Spotify (יישומון Galaxy Wearable בלבד)</string>
+    <string name="devicetype_galaxybuds_2">Galaxy Buds2‎</string>
+    <string name="prefs_touch_lock_buds2">פקדי מגע</string>
 </resources>
