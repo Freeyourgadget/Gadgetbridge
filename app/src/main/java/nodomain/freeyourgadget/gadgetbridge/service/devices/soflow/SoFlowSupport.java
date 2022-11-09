@@ -18,7 +18,6 @@ package nodomain.freeyourgadget.gadgetbridge.service.devices.soflow;
 
 import android.bluetooth.BluetoothGatt;
 import android.bluetooth.BluetoothGattCharacteristic;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.widget.Toast;
@@ -55,24 +54,17 @@ public class SoFlowSupport extends AbstractBTLEDeviceSupport {
     public static final UUID UUID_CHARACTERISICS_NOTIFICATION = UUID.fromString("60000002-0000-1000-8000-00805f9b34fb");
     public static final UUID UUID_CHARACTERISICS_WRITE = UUID.fromString("60000003-0000-1000-8000-00805f9b34fb");
     public static final byte[] COMMAND_REQUEST_SESSION = new byte[]{0x06, 0x01, 0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
+    public static final byte[] COMMAND_REQUEST_UNKNOWN = new byte[]{0x05, 0x0e, 0x01, 0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
+
     public static final byte[] COMMAND_LOCK = new byte[]{0x05, 0x0c, 0x01, 0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
     public static final byte[] COMMAND_UNLOCK = new byte[]{0x05, 0x01, 0x06, 0x30, 0x30, 0x30, 0x30, 0x30, 0x30, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
 
     private static final Logger LOG = LoggerFactory.getLogger(SoFlowSupport.class);
     private final DeviceInfoProfile<SoFlowSupport> deviceInfoProfile;
     private final GBDeviceEventVersionInfo versionCmd = new GBDeviceEventVersionInfo();
-    private final IntentListener mListener = new IntentListener() {
-        @Override
-        public void notify(Intent intent) {
-            String s = intent.getAction();
-            if (s.equals(DeviceInfoProfile.ACTION_DEVICE_INFO)) {
-                handleDeviceInfo((nodomain.freeyourgadget.gadgetbridge.service.btle.profiles.deviceinfo.DeviceInfo) intent.getParcelableExtra(DeviceInfoProfile.EXTRA_DEVICE_INFO));
-            }
-        }
-    };
 
     private byte[] aesKey;
-    private byte[] session = new byte[]{0, 0, 0, 0};
+    private final byte[] session = new byte[]{0, 0, 0, 0};
 
     public SoFlowSupport() {
         super(LOG);
@@ -83,6 +75,12 @@ public class SoFlowSupport extends AbstractBTLEDeviceSupport {
         addSupportedService(UUID.fromString("60000001-0000-1000-8000-00805f9b34fb"));
 
         deviceInfoProfile = new DeviceInfoProfile<>(this);
+        IntentListener mListener = intent -> {
+            String s = intent.getAction();
+            if (DeviceInfoProfile.ACTION_DEVICE_INFO.equals(s)) {
+                handleDeviceInfo(intent.getParcelableExtra(DeviceInfoProfile.EXTRA_DEVICE_INFO));
+            }
+        };
         deviceInfoProfile.addListener(mListener);
         addSupportedProfile(deviceInfoProfile);
     }
@@ -109,6 +107,7 @@ public class SoFlowSupport extends AbstractBTLEDeviceSupport {
 
     private void writeEncrypted(TransactionBuilder builder, byte[] data) {
         try {
+            LOG.debug("will encrypt " + GB.hexdump(data));
             builder.write(getCharacteristic(UUID_CHARACTERISICS_WRITE), CryptoUtils.encryptAES(data, aesKey));
         } catch (Exception e) {
             LOG.error("error while encrypting data");
@@ -164,9 +163,24 @@ public class SoFlowSupport extends AbstractBTLEDeviceSupport {
                     session[2] = data[5];
                     session[3] = data[6];
                     LOG.info("Got session");
+                    COMMAND_LOCK[4] = session[0];
+                    COMMAND_LOCK[5] = session[1];
+                    COMMAND_LOCK[6] = session[2];
+                    COMMAND_LOCK[7] = session[3];
+                    COMMAND_REQUEST_UNKNOWN[4] = session[0];
+                    COMMAND_REQUEST_UNKNOWN[5] = session[1];
+                    COMMAND_REQUEST_UNKNOWN[6] = session[2];
+                    COMMAND_REQUEST_UNKNOWN[7] = session[3];
+                    COMMAND_UNLOCK[9] = session[0];
+                    COMMAND_UNLOCK[10] = session[1];
+                    COMMAND_UNLOCK[11] = session[2];
+                    COMMAND_UNLOCK[12] = session[3];
+                }
+                else {
+                    GB.toast(GB.hexdump(data),5,1);
                 }
             } catch (Exception e) {
-                e.printStackTrace();
+                LOG.error("error while decrypting");
             }
 
             return true;
@@ -184,16 +198,8 @@ public class SoFlowSupport extends AbstractBTLEDeviceSupport {
                 SharedPreferences sharedPrefs = GBApplication.getDeviceSpecificSharedPrefs(getDevice().getAddress());
                 boolean lock = sharedPrefs.getBoolean("lock", false);
                 if (lock) {
-                    COMMAND_LOCK[4] = session[0];
-                    COMMAND_LOCK[5] = session[1];
-                    COMMAND_LOCK[6] = session[2];
-                    COMMAND_LOCK[7] = session[3];
                     writeEncrypted(builder, COMMAND_LOCK);
                 } else {
-                    COMMAND_UNLOCK[9] = session[0];
-                    COMMAND_UNLOCK[10] = session[1];
-                    COMMAND_UNLOCK[11] = session[2];
-                    COMMAND_UNLOCK[12] = session[3];
                     writeEncrypted(builder, COMMAND_UNLOCK);
                 }
             }
@@ -352,7 +358,14 @@ public class SoFlowSupport extends AbstractBTLEDeviceSupport {
 
     @Override
     public void onTestNewFunction() {
-
+        TransactionBuilder builder;
+        try {
+            builder = performInitialized("request unknown");
+            writeEncrypted(builder,COMMAND_REQUEST_UNKNOWN);
+            builder.queue(getQueue());
+        } catch (IOException e) {
+            GB.toast("Error setting configuration", Toast.LENGTH_LONG, GB.ERROR, e);
+        }
     }
 
     @Override
