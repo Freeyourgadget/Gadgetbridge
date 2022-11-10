@@ -2070,4 +2070,10 @@ Temps de sommeil préféré en heures</string>
     <string name="pref_title_touch_spotify_galaxy_app">Spotify (app Galaxy Wear uniquement)</string>
     <string name="prefs_touch_lock_buds2">Contrôles tactiles</string>
     <string name="pref_title_touch_spotify_official_app">Spotify (app officielle uniquement)</string>
+    <string name="fw_upgrade_notice_amazfit_gts4">Vous êtes sur le point d\'installer le micro-logiciel %s dans votre Amazfit GTS 4.
+\n
+\nVotre bracelet redémarrera après l\'installation du .zip.
+\n
+\nA VOS RISQUES ET PÉRILS !</string>
+    <string name="devicetype_amazfit_gts4">Amazfit GTS 4</string>
 </resources>
