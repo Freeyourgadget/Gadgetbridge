@@ -1680,7 +1680,7 @@
     <string name="prefs_ambient_volume_left">Umgebungslautstärke links</string>
     <string name="prefs_ambient_volume_right">Umgebungslautstärke rechts</string>
     <string name="prefs_customize_ambient_sound_summary">An Umgebungsgeräusche anpassen</string>
-    <string name="prefs_ambient_sound_during_call_summary">Eigene Stimme während des Anrufs hören</string>
+    <string name="prefs_ambient_sound_during_call_summary">Eigene Stimme bei Anrufen deutlich hören</string>
     <string name="prefs_ambient_settings_title">Optionen Umgebungsgeräusche</string>
     <string name="prefs_active_noise_cancelling_level">Stufe der aktiven Geräuschunterdrückung</string>
     <string name="prefs_active_noise_cancelling_level_high">Hoch</string>
@@ -2067,4 +2067,16 @@
 \n
 \nINSTALLATION AUF EIGENE GEFAHR!</string>
     <string name="devicetype_amazfit_band7">Amazfit Band 7</string>
+    <string name="function_enabled">Aktiviert</string>
+    <string name="world_clock_code">Code</string>
+    <string name="devicetype_amazfit_gts4">Amazfit GTS 4</string>
+    <string name="pref_title_touch_spotify_official_app">Spotify (nur offizielle App)</string>
+    <string name="pref_title_touch_spotify_galaxy_app">Spotify (nur Galaxy Wearable App)</string>
+    <string name="fw_upgrade_notice_amazfit_gts4">Du bist dabei, die Firmware %s auf deine Amazfit GTS 4 zu installieren.
+\n
+\nDeine Uhr wird nach der Installation der .zip Datei neu starten.
+\n
+\nINSTALLATION AUF EIGENE GEFAHR!</string>
+    <string name="devicetype_galaxybuds_2">Galaxy Buds2</string>
+    <string name="prefs_touch_lock_buds2">Berührungssteuerung</string>
 </resources>
