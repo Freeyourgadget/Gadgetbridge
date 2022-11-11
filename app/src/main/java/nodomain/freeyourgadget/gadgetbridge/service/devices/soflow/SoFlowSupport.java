@@ -54,10 +54,11 @@ public class SoFlowSupport extends AbstractBTLEDeviceSupport {
     public static final UUID UUID_CHARACTERISICS_NOTIFICATION = UUID.fromString("60000002-0000-1000-8000-00805f9b34fb");
     public static final UUID UUID_CHARACTERISICS_WRITE = UUID.fromString("60000003-0000-1000-8000-00805f9b34fb");
     public static final byte[] COMMAND_REQUEST_SESSION = new byte[]{0x06, 0x01, 0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
-    public static final byte[] COMMAND_REQUEST_UNKNOWN = new byte[]{0x05, 0x0e, 0x01, 0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
+    public static final byte[] COMMAND_REQUEST_LOCK = new byte[]{0x05, 0x0e, 0x01, 0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
 
     public static final byte[] COMMAND_LOCK = new byte[]{0x05, 0x0c, 0x01, 0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
     public static final byte[] COMMAND_UNLOCK = new byte[]{0x05, 0x01, 0x06, 0x30, 0x30, 0x30, 0x30, 0x30, 0x30, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
+    public static final byte[] COMMAND_SET_LIGHT = new byte[]{0x05, 0x47, 0x01, 0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
 
     private static final Logger LOG = LoggerFactory.getLogger(SoFlowSupport.class);
     private final DeviceInfoProfile<SoFlowSupport> deviceInfoProfile;
@@ -167,10 +168,14 @@ public class SoFlowSupport extends AbstractBTLEDeviceSupport {
                     COMMAND_LOCK[5] = session[1];
                     COMMAND_LOCK[6] = session[2];
                     COMMAND_LOCK[7] = session[3];
-                    COMMAND_REQUEST_UNKNOWN[4] = session[0];
-                    COMMAND_REQUEST_UNKNOWN[5] = session[1];
-                    COMMAND_REQUEST_UNKNOWN[6] = session[2];
-                    COMMAND_REQUEST_UNKNOWN[7] = session[3];
+                    COMMAND_REQUEST_LOCK[4] = session[0];
+                    COMMAND_REQUEST_LOCK[5] = session[1];
+                    COMMAND_REQUEST_LOCK[6] = session[2];
+                    COMMAND_REQUEST_LOCK[7] = session[3];
+                    COMMAND_SET_LIGHT[4] = session[0];
+                    COMMAND_SET_LIGHT[5] = session[1];
+                    COMMAND_SET_LIGHT[6] = session[2];
+                    COMMAND_SET_LIGHT[7] = session[3];
                     COMMAND_UNLOCK[9] = session[0];
                     COMMAND_UNLOCK[10] = session[1];
                     COMMAND_UNLOCK[11] = session[2];
@@ -361,7 +366,7 @@ public class SoFlowSupport extends AbstractBTLEDeviceSupport {
         TransactionBuilder builder;
         try {
             builder = performInitialized("request unknown");
-            writeEncrypted(builder,COMMAND_REQUEST_UNKNOWN);
+            writeEncrypted(builder,COMMAND_REQUEST_LOCK);
             builder.queue(getQueue());
         } catch (IOException e) {
             GB.toast("Error setting configuration", Toast.LENGTH_LONG, GB.ERROR, e);
