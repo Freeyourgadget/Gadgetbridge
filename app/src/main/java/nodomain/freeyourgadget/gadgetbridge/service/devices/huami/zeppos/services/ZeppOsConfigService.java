@@ -1080,7 +1080,7 @@ public class ZeppOsConfigService extends AbstractZeppOsService {
                 if (includesConstraints) {
                     prefs.put(
                             getPrefPossibleValuesKey(configArg.getPrefKey()),
-                            decodeByteValues(possibleValues, decoder)
+                            String.join(",", decodeByteValues(possibleValues, decoder))
                     );
                 }
             }

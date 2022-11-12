@@ -1069,7 +1069,7 @@ public class DeviceSpecificSettingsFragment extends PreferenceFragmentCompat imp
             } else if (preference instanceof PreferenceScreen) {
                 // Ignoring
             } else {
-                LOG.warn("Unknown preference class {}, ignoring", preference.getClass());
+                LOG.warn("Unknown preference class {} for {}, ignoring", preference.getClass(), key);
             }
 
             if (getPreferenceKeysWithSummary().contains(key)) {
