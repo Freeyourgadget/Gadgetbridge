@@ -26,7 +26,7 @@ import nodomain.freeyourgadget.gadgetbridge.util.ArrayUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.CheckSums;
 
 public abstract class AbstractHuamiFirmwareInfo {
-    private final byte[] bytes;
+    private byte[] bytes;
 
     private final int crc16;
     private final int crc32;
@@ -76,6 +76,10 @@ public abstract class AbstractHuamiFirmwareInfo {
 
     public HuamiFirmwareType getFirmwareType() {
         return firmwareType;
+    }
+
+    public void unsetFwBytes() {
+        this.bytes = null;
     }
 
     public abstract String toVersion(int crc16);

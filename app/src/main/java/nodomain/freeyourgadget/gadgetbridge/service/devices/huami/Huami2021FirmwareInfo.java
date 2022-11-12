@@ -28,26 +28,24 @@ import java.util.Arrays;
 
 import nodomain.freeyourgadget.gadgetbridge.service.btle.BLETypeConversions;
 import nodomain.freeyourgadget.gadgetbridge.util.ArrayUtils;
-import nodomain.freeyourgadget.gadgetbridge.util.GB;
 import nodomain.freeyourgadget.gadgetbridge.util.ZipFile;
+import nodomain.freeyourgadget.gadgetbridge.util.ZipFileException;
 
 
 public abstract class Huami2021FirmwareInfo extends AbstractHuamiFirmwareInfo {
     private static final Logger LOG = LoggerFactory.getLogger(Huami2021FirmwareInfo.class);
 
+    private final String preComputedVersion;
+
     public Huami2021FirmwareInfo(final byte[] bytes) {
         super(bytes);
+        this.preComputedVersion = preComputeVersion();
     }
 
     /**
      * The device name, to search on firmware.bin in order to determine compatibility.
      */
     public abstract String deviceName();
-
-    /**
-     * The expected firmware header bytes, to search on firmware.bin in order to determine compatibility.
-     */
-    public abstract byte[] getExpectedFirmwareHeader();
 
     @Override
     protected HuamiFirmwareType determineFirmwareType(final byte[] bytes) {
@@ -70,7 +68,7 @@ public abstract class Huami2021FirmwareInfo extends AbstractHuamiFirmwareInfo {
         UIHHContainer.FileEntry uihhFirmwareZipFile = null;
         boolean hasChangelog = false;
         for (final UIHHContainer.FileEntry file : uihh.getFiles()) {
-            switch(file.getType()) {
+            switch (file.getType()) {
                 case FIRMWARE_ZIP:
                     uihhFirmwareZipFile = file;
                     continue;
@@ -83,7 +81,14 @@ public abstract class Huami2021FirmwareInfo extends AbstractHuamiFirmwareInfo {
         }
 
         if (uihhFirmwareZipFile != null && hasChangelog) {
-            byte[] firmwareBin = ZipFile.tryReadFileQuick(uihhFirmwareZipFile.getContent(), "META/firmware.bin");
+            final ZipFile zipFile = new ZipFile(uihhFirmwareZipFile.getContent());
+            final byte[] firmwareBin;
+            try {
+                firmwareBin = zipFile.getFileFromZip("META/firmware.bin");
+            } catch (final ZipFileException e) {
+                LOG.error("Failed to read zip from UIHH", e);
+                return HuamiFirmwareType.INVALID;
+            }
 
             if (isCompatibleFirmwareBin(firmwareBin)) {
                 return HuamiFirmwareType.FIRMWARE_UIHH_2021_ZIP_WITH_CHANGELOG;
@@ -94,13 +99,33 @@ public abstract class Huami2021FirmwareInfo extends AbstractHuamiFirmwareInfo {
     }
 
     private HuamiFirmwareType handleZipPackage(byte[] bytes) {
-        final byte[] firmwareBin = ZipFile.tryReadFileQuick(bytes, "META/firmware.bin");
+        final ZipFile zipFile = new ZipFile(bytes);
+        final byte[] firmwareBin;
+        try {
+            firmwareBin = zipFile.getFileFromZip("META/firmware.bin");
+        } catch (final ZipFileException e) {
+            LOG.error("Failed to get firmware.bin from zip file", e);
+            return HuamiFirmwareType.FIRMWARE;
+        }
+
         if (isCompatibleFirmwareBin(firmwareBin)) {
             return HuamiFirmwareType.FIRMWARE;
         }
 
-        final String appType = getAppType();
-        switch(appType) {
+        final JSONObject appJson = getAppJson(zipFile);
+        if (appJson == null) {
+            return HuamiFirmwareType.INVALID;
+        }
+
+        final String appType;
+        try {
+            appType = appJson.getJSONObject("app").getString("appType");
+        } catch (final Exception e) {
+            LOG.error("Failed to get appType from app.json", e);
+            return HuamiFirmwareType.INVALID;
+        }
+
+        switch (appType) {
             case "watchface":
                 return HuamiFirmwareType.WATCHFACE;
             case "app":
@@ -119,27 +144,35 @@ public abstract class Huami2021FirmwareInfo extends AbstractHuamiFirmwareInfo {
             return crcMapVersion;
         }
 
-        switch (firmwareType) {
-            case FIRMWARE_UIHH_2021_ZIP_WITH_CHANGELOG:
-                final UIHHContainer uihh = UIHHContainer.fromRawBytes(getBytes());
-                if (uihh == null) {
-                    return null;
-                }
-                return getFirmwareVersion(uihh.getFile(UIHHContainer.FileType.FIRMWARE_ZIP));
-            case FIRMWARE:
-                return getFirmwareVersion(getBytes());
-            case WATCHFACE:
-                final String watchfaceName = getAppName();
-                if (watchfaceName == null) {
-                    return "(unknown watchface)";
-                }
-                return String.format("%s (watchface)", watchfaceName);
-            case APP:
-                final String appName = getAppName();
-                if (appName == null) {
-                    return "(unknown app)";
-                }
-                return String.format("%s (app)", appName);
+        return preComputedVersion;
+    }
+
+    public String preComputeVersion() {
+        try {
+            switch (firmwareType) {
+                case FIRMWARE_UIHH_2021_ZIP_WITH_CHANGELOG:
+                    final UIHHContainer uihh = UIHHContainer.fromRawBytes(getBytes());
+                    if (uihh == null) {
+                        return null;
+                    }
+                    return getFirmwareVersion(uihh.getFile(UIHHContainer.FileType.FIRMWARE_ZIP));
+                case FIRMWARE:
+                    return getFirmwareVersion(getBytes());
+                case WATCHFACE:
+                    final String watchfaceName = getAppName(new ZipFile(getBytes()));
+                    if (watchfaceName == null) {
+                        return "(unknown watchface)";
+                    }
+                    return String.format("%s (watchface)", watchfaceName);
+                case APP:
+                    final String appName = getAppName(new ZipFile(getBytes()));
+                    if (appName == null) {
+                        return "(unknown app)";
+                    }
+                    return String.format("%s (app)", appName);
+            }
+        } catch (final Exception e) {
+            LOG.error("Failed to pre compute version", e);
         }
 
         return null;
@@ -150,7 +183,7 @@ public abstract class Huami2021FirmwareInfo extends AbstractHuamiFirmwareInfo {
             throw new IllegalStateException("Can only repack FIRMWARE");
         }
 
-        final UIHHContainer uihh = packFirmwareInUIHH();
+        final UIHHContainer uihh = packFirmwareInUIHH(getBytes());
 
         try {
             final Constructor<? extends Huami2021FirmwareInfo> constructor = this.getClass().getConstructor(byte[].class);
@@ -160,7 +193,7 @@ public abstract class Huami2021FirmwareInfo extends AbstractHuamiFirmwareInfo {
         }
     }
 
-    private UIHHContainer packFirmwareInUIHH() {
+    private static UIHHContainer packFirmwareInUIHH(final byte[] zipBytes) {
         final UIHHContainer uihh = new UIHHContainer();
         final byte[] timestampBytes = BLETypeConversions.fromUint32((int) (System.currentTimeMillis() / 1000L));
         final String changelogText = "Unknown changelog";
@@ -168,23 +201,18 @@ public abstract class Huami2021FirmwareInfo extends AbstractHuamiFirmwareInfo {
                 timestampBytes,
                 changelogText.getBytes(StandardCharsets.UTF_8)
         );
-        uihh.addFile(UIHHContainer.FileType.FIRMWARE_ZIP, getBytes());
+        uihh.addFile(UIHHContainer.FileType.FIRMWARE_ZIP, zipBytes);
         uihh.addFile(UIHHContainer.FileType.FIRMWARE_CHANGELOG, changelogBytes);
         return uihh;
     }
 
     private boolean isCompatibleFirmwareBin(final byte[] firmwareBin) {
         if (firmwareBin == null) {
+            LOG.error("firmware bin is null");
             return false;
         }
 
-        if (!ArrayUtils.equals(firmwareBin, getExpectedFirmwareHeader(), 0)) {
-            LOG.warn("Unexpected firmware header: {}", GB.hexdump(Arrays.copyOfRange(firmwareBin, 0, getExpectedFirmwareHeader().length + 3)));
-            return false;
-        }
-
-        // On the MB7, this only works for firmwares > 1.8.5.1, not for any older firmware
-        if (!searchString32BitAligned(firmwareBin, deviceName() + "\0")) {
+        if (!searchString(firmwareBin, deviceName())) {
             LOG.warn("Failed to find {} in fwBytes", deviceName());
             return false;
         }
@@ -192,11 +220,13 @@ public abstract class Huami2021FirmwareInfo extends AbstractHuamiFirmwareInfo {
         return true;
     }
 
-    public String getFirmwareVersion(final byte[] fwbytes) {
-        final byte[] firmwareBin = ZipFile.tryReadFileQuick(fwbytes, "META/firmware.bin");
-
-        if (firmwareBin == null) {
-            LOG.warn("Failed to read firmware.bin");
+    public static String getFirmwareVersion(final byte[] fwBytes) {
+        final ZipFile zipFile = new ZipFile(fwBytes);
+        final byte[] firmwareBin;
+        try {
+            firmwareBin = zipFile.getFileFromZip("META/firmware.bin");
+        } catch (final ZipFileException e) {
+            LOG.error("Failed to get firmware.bin from zip", e);
             return null;
         }
 
@@ -225,10 +255,30 @@ public abstract class Huami2021FirmwareInfo extends AbstractHuamiFirmwareInfo {
         return new String(Arrays.copyOfRange(firmwareBin, startIdx, endIdx));
     }
 
-    public String getAppName() {
-        final byte[] appJsonBin = ZipFile.tryReadFileQuick(getBytes(), "app.json");
-        if (appJsonBin == null) {
-            LOG.warn("Failed to get app.json from zip");
+    public String getAppName(final ZipFile zipFile) {
+        // TODO check i18n section?
+        // TODO Show preview icon?
+
+        final JSONObject appJson = getAppJson(zipFile);
+        if (appJson == null) {
+            return null;
+        }
+
+        try {
+            return appJson.getJSONObject("app").getString("appName");
+        } catch (final Exception e) {
+            LOG.error("Failed to get appName from app.json", e);
+        }
+
+        return null;
+    }
+
+    private static JSONObject getAppJson(final ZipFile zipFile) {
+        final byte[] appJsonBin;
+        try {
+            appJsonBin = zipFile.getFileFromZip("app.json");
+        } catch (final ZipFileException e) {
+            LOG.error("Failed to read app.json", e);
             return null;
         }
 
@@ -236,12 +286,7 @@ public abstract class Huami2021FirmwareInfo extends AbstractHuamiFirmwareInfo {
             final String appJsonString = new String(appJsonBin, StandardCharsets.UTF_8)
                     // Remove UTF-8 BOM if present
                     .replace("\uFEFF", "");
-            final JSONObject jsonObject = new JSONObject(appJsonString);
-            // TODO check i18n section?
-            // TODO Show preview icon?
-            final String appName = jsonObject.getJSONObject("app").getString("appName");
-
-            return String.format("%s", appName);
+            return new JSONObject(appJsonString);
         } catch (final Exception e) {
             LOG.error("Failed to parse app.json", e);
         }
@@ -249,23 +294,22 @@ public abstract class Huami2021FirmwareInfo extends AbstractHuamiFirmwareInfo {
         return null;
     }
 
-    public String getAppType() {
-        final byte[] appJsonBin = ZipFile.tryReadFileQuick(getBytes(), "app.json");
-        if (appJsonBin == null) {
-            LOG.warn("Failed to get app.json from zip");
-            return null;
+    public static boolean searchString(final byte[] fwBytes, final String str) {
+        final byte[] strBytes = (str + "\0").getBytes(StandardCharsets.UTF_8);
+
+        for (int i = 0; i < fwBytes.length - strBytes.length + 1; i++) {
+            boolean found = true;
+            for (int j = 0; j < strBytes.length; j++) {
+                if (fwBytes[i + j] != strBytes[j]) {
+                    found = false;
+                    break;
+                }
+            }
+            if (found) {
+                return true;
+            }
         }
 
-        try {
-            final String appJsonString = new String(appJsonBin, StandardCharsets.UTF_8)
-                    // Remove UTF-8 BOM if present
-                    .replace("\uFEFF", "");
-            final JSONObject jsonObject = new JSONObject(appJsonString);
-            return jsonObject.getJSONObject("app").getString("appType");
-        } catch (final Exception e) {
-            LOG.error("Failed to parse app.json", e);
-        }
-
-        return null;
+        return false;
     }
 }

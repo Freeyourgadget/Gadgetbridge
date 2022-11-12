@@ -16,6 +16,9 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.devices.huami;
 
+import android.content.Context;
+import android.net.Uri;
+
 import androidx.annotation.NonNull;
 
 import org.apache.commons.lang3.ArrayUtils;
@@ -37,11 +40,15 @@ import nodomain.freeyourgadget.gadgetbridge.entities.Device;
 import nodomain.freeyourgadget.gadgetbridge.entities.HuamiExtendedActivitySampleDao;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryParser;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.AbstractHuami2021FWInstallHandler;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.services.ZeppOsConfigService;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.HuamiLanguageType;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.HuamiVibrationPatternNotificationType;
 
 public abstract class Huami2021Coordinator extends HuamiCoordinator {
+    @Override
+    public abstract AbstractHuami2021FWInstallHandler findInstallHandler(final Uri uri, final Context context);
+
     @Override
     public boolean supportsHeartRateMeasurement(final GBDevice device) {
         return true;

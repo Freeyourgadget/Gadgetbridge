@@ -23,11 +23,11 @@ import java.io.IOException;
 
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.AbstractMiBandFWHelper;
-import nodomain.freeyourgadget.gadgetbridge.devices.miband.AbstractMiBandFWInstallHandler;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.AbstractHuami2021FWInstallHandler;
 
-class MiBand7FWInstallHandler extends AbstractMiBandFWInstallHandler {
+class MiBand7FWInstallHandler extends AbstractHuami2021FWInstallHandler {
     MiBand7FWInstallHandler(Uri uri, Context context) {
         super(uri, context);
     }

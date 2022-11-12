@@ -44,11 +44,6 @@ public class AmazfitGTS3FirmwareInfo extends Huami2021FirmwareInfo {
     }
 
     @Override
-    public byte[] getExpectedFirmwareHeader() {
-        return new byte[]{0x00, 0x00, 0x50}; // Probably bogus, only checked against 2 firmware files
-    }
-
-    @Override
     public boolean isGenerallyCompatibleWith(final GBDevice device) {
         return isHeaderValid() && device.getType() == DeviceType.AMAZFITGTS3;
     }

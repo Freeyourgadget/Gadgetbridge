@@ -79,28 +79,6 @@ public class ZipFile {
         }
     }
 
-    /**
-     * Tries to obtain file from ZIP file without much hassle, but is not safe.<br>
-     * Please only use this in place of old code where correctness of the result is checked only later on.<br>
-     * Use getFileFromZip of ZipFile instance instead.
-     * @param zipBytes
-     * @param path Path of the file in the ZIP file.
-     * @return Contents of requested file or null.
-     */
-    @Deprecated
-    @Nullable
-    public static byte[] tryReadFileQuick(final byte[] zipBytes, final String path) {
-        try {
-            return new ZipFile(zipBytes).getFileFromZip(path);
-        } catch (ZipFileException e) {
-            LOG.error("Quick ZIP reading failed.", e);
-        } catch (Exception e) {
-            LOG.error("Unable to close ZipFile.", e);
-        }
-
-        return null;
-    }
-
     private static byte[] readAllBytes(final InputStream is) throws IOException {
         final ByteArrayOutputStream buffer = new ByteArrayOutputStream();
 

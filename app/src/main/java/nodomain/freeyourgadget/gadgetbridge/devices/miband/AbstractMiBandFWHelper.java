@@ -43,8 +43,7 @@ import nodomain.freeyourgadget.gadgetbridge.util.UriHelper;
 public abstract class AbstractMiBandFWHelper {
     private static final Logger LOG = LoggerFactory.getLogger(AbstractMiBandFWHelper.class);
 
-    @NonNull
-    private final byte[] fw;
+    private byte[] fw;
 
     public AbstractMiBandFWHelper(Uri uri, Context context) throws IOException {
         UriHelper uriHelper = UriHelper.get(uri, context);
@@ -104,7 +103,15 @@ public abstract class AbstractMiBandFWHelper {
 
     @NonNull
     public byte[] getFw() {
+        if (fw == null) {
+            throw new IllegalStateException("fw is null");
+        }
+
         return fw;
+    }
+
+    public void unsetFwBytes() {
+        this.fw = null;
     }
 
     public boolean isFirmwareWhitelisted() {

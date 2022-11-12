@@ -28,7 +28,6 @@ import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.AbstractMiBandFWHelper;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.AbstractHuamiFirmwareInfo;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.HuamiFirmwareInfo;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.HuamiFirmwareType;
 
 public abstract class HuamiFWHelper extends AbstractMiBandFWHelper {
@@ -122,6 +121,12 @@ public abstract class HuamiFWHelper extends AbstractMiBandFWHelper {
     @Override
     public HuamiFirmwareType getFirmwareType() {
         return firmwareInfo.getFirmwareType();
+    }
+
+    @Override
+    public void unsetFwBytes() {
+        super.unsetFwBytes();
+        firmwareInfo.unsetFwBytes();
     }
 
     public AbstractHuamiFirmwareInfo getFirmwareInfo() {

@@ -27,6 +27,7 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.Huami2021Firmw
 public class AmazfitGTR4FirmwareInfo extends Huami2021FirmwareInfo {
     private static final Map<Integer, String> crcToVersion = new HashMap<Integer, String>() {{
         // firmware
+        put(1699, "3.17.0.2");
     }};
 
     public AmazfitGTR4FirmwareInfo(final byte[] bytes) {
@@ -36,11 +37,6 @@ public class AmazfitGTR4FirmwareInfo extends Huami2021FirmwareInfo {
     @Override
     public String deviceName() {
         return HuamiConst.AMAZFIT_GTR4_NAME;
-    }
-
-    @Override
-    public byte[] getExpectedFirmwareHeader() {
-        return new byte[]{(byte) 0x51, (byte) 0x71, (byte) 0x9c}; // Probably bogus, only checked against 1 firmware files
     }
 
     @Override

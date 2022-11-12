@@ -38,11 +38,6 @@ public class AmazfitBand7FirmwareInfo extends Huami2021FirmwareInfo {
     }
 
     @Override
-    public byte[] getExpectedFirmwareHeader() {
-        return new byte[]{0x51, 0x71};
-    }
-
-    @Override
     public boolean isGenerallyCompatibleWith(final GBDevice device) {
         return isHeaderValid() && device.getType() == DeviceType.AMAZFITBAND7;
     }
