@@ -1964,4 +1964,5 @@
     <string name="hrZoneAerobic">Aerobik</string>
     <string name="sports_activity_confirm_delete_title">Usuń %d aktywności</string>
     <string name="sports_activity_confirm_delete_description">Czy na pewno chcesz usunąć %d aktywności\?</string>
+    <string name="accuracy">Dokładność</string>
 </resources>
