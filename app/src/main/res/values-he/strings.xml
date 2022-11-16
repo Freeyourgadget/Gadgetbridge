@@ -2064,4 +2064,11 @@
     <string name="pref_title_touch_spotify_galaxy_app">Spotify (יישומון Galaxy Wearable בלבד)</string>
     <string name="devicetype_galaxybuds_2">Galaxy Buds2‎</string>
     <string name="prefs_touch_lock_buds2">פקדי מגע</string>
+    <string name="function_enabled">מופעל</string>
+    <string name="devicetype_amazfit_gts4">Amazfit GTS 4‎</string>
+    <string name="fw_upgrade_notice_amazfit_gts4">פעולה זו תתקין את הקושחה %s ב־Amazfit GTS 4 שלך.
+\n
+\nהצמיד שלך יופעל מחדש לאחר התקנת קובץ ה־‎.zip
+\n
+\nהמשך התהליך הוא על אחריותך!</string>
 </resources>
