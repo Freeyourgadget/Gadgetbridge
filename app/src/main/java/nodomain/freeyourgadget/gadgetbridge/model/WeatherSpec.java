@@ -42,14 +42,14 @@ public class WeatherSpec implements Parcelable, Serializable {
     private static final long serialVersionUID = VERSION;
     public int timestamp;
     public String location;
-    public int currentTemp;
+    public int currentTemp; // kelvin
     public int currentConditionCode = 3200;
     public String currentCondition;
     public int currentHumidity;
-    public int todayMaxTemp;
-    public int todayMinTemp;
-    public float windSpeed; //km per hour
-    public int windDirection; //deg
+    public int todayMaxTemp; // kelvin
+    public int todayMinTemp; // kelvin
+    public float windSpeed; // km per hour
+    public int windDirection; // deg
 
     public ArrayList<Forecast> forecasts = new ArrayList<>();
 

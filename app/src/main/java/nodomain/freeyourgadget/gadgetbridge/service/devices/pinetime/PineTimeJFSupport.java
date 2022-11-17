@@ -736,7 +736,7 @@ public class PineTimeJFSupport extends AbstractBTLEDeviceSupport implements DfuL
                             .put("Timestamp", System.currentTimeMillis() / 1000L)
                             .put("Expires", 60 * 6) // 6h this should be the weather provider's interval, really
                             .put("EventType", WeatherData.EventType.Temperature.value)
-                            .put("Temperature", (int) (weatherSpec.currentTemp * 100))
+                            .put("Temperature", (int) ((weatherSpec.currentTemp - 273.15) * 100))
                             .put("DewPoint", (int) (-32768))
                             .end()
                             .build()
@@ -763,7 +763,7 @@ public class PineTimeJFSupport extends AbstractBTLEDeviceSupport implements DfuL
                             .put("Timestamp", System.currentTimeMillis() / 1000L)
                             .put("Expires", 60 * 60 * 24) // 24h, because the temperature is today's
                             .put("EventType", WeatherData.EventType.Temperature.value)
-                            .put("Temperature", (int) (((weatherSpec.todayMinTemp + weatherSpec.todayMaxTemp) / 2) * 100))
+                            .put("Temperature", (int) ((((weatherSpec.todayMinTemp - 273.15) + (weatherSpec.todayMaxTemp - 273.15)) / 2) * 100))
                             .put("DewPoint", (int) (-32768))
                             .end()
                             .build()
