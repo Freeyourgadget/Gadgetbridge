@@ -427,9 +427,7 @@ public abstract class HuamiSupport extends AbstractBTLEDeviceSupport implements 
 
     public HuamiSupport setCurrentTimeWithService(TransactionBuilder builder) {
         GregorianCalendar now = BLETypeConversions.createCalendar();
-        byte[] head = BLETypeConversions.calendarToRawBytes(now);
-        byte[] tail = new byte[] { 0, BLETypeConversions.mapTimeZone(now, BLETypeConversions.TZ_FLAG_INCLUDE_DST_IN_TZ) };
-        byte[] bytes = BLETypeConversions.join(head, tail);
+        final byte[] bytes = getTimeBytes(now, TimeUnit.MINUTES);
         builder.write(getCharacteristic(GattCharacteristic.UUID_CHARACTERISTIC_CURRENT_TIME), bytes);
         return this;
     }
