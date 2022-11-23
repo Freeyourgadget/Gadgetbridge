@@ -846,6 +846,7 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
     }
 
     public String renderUnicodeAsImage(String txt) {
+        // FIXME: it looks like we could implement this as customStringFilter now so it happens automatically
         if (txt==null) return null;
         // Simple conversions
         txt = txt.replaceAll("…", "...");
@@ -1158,9 +1159,9 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
             o.put("type", calendarEventSpec.type); //implement this too? (sunrise and set)
             o.put("timestamp", calendarEventSpec.timestamp);
             o.put("durationInSeconds", calendarEventSpec.durationInSeconds);
-            o.put("title", calendarEventSpec.title);
-            o.put("description", calendarEventSpec.description);
-            o.put("location", calendarEventSpec.location);
+            o.put("title", renderUnicodeAsImage(calendarEventSpec.title));
+            o.put("description", renderUnicodeAsImage(calendarEventSpec.description));
+            o.put("location", renderUnicodeAsImage(calendarEventSpec.location));
             o.put("calName", calendarEventSpec.calName);
             o.put("color", calendarEventSpec.color);
             o.put("allDay", calendarEventSpec.allDay);
