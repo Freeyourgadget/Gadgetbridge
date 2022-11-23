@@ -1087,7 +1087,6 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
         return false;
     }
 
-
     private void setReceiversEnableState(boolean enable, boolean initialized, FeatureSet features, List <GBDevice> devicesWithCalendar) {
         LOG.info("Setting broadcast receivers to: " + enable);
 
@@ -1106,6 +1105,8 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
                         CalendarReceiver receiver = new CalendarReceiver(deviceWithCalendar);
                         registerReceiver(receiver, calendarIntentFilter);
                         mCalendarReceiver.add(receiver);
+                        // Add a receiver to allow us to quickly force as calendar sync (without having to provide data)
+                        registerReceiver(receiver, new IntentFilter("FORCE_CALENDAR_SYNC"));
                     }
                 }
             }

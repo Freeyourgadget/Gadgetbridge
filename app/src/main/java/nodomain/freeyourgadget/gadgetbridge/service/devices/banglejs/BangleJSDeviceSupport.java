@@ -741,7 +741,7 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
                             idsList.add(id);
                         }
                     }
-                    if(idsList.size() == states.size()) return;
+
                     //remove all elements not in ids from database (we don't have them)
                     for(CalendarSyncState calendarSyncState : states) {
                         long id = calendarSyncState.getCalendarEntryId();
@@ -757,9 +757,10 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
                     GB.toast("Database Error while forcefully syncing Calendar", Toast.LENGTH_SHORT, GB.ERROR, e1);
                 }
                 //force a syncCalendar now, send missing events
-                Intent in = new Intent(this.getContext().getApplicationContext(), CalendarReceiver.class);
-                in.setAction("android.intent.action.PROVIDER_CHANGED");
-                this.getContext().getApplicationContext().sendBroadcast(in);
+                Context context = GBApplication.getContext();
+                Intent intent = new Intent("FORCE_CALENDAR_SYNC");
+                intent.setPackage(BuildConfig.APPLICATION_ID);
+                GBApplication.getContext().sendBroadcast(intent);
             } break;
             default : {
                 LOG.info("UART RX JSON packet type '"+packetType+"' not understood.");
@@ -923,8 +924,7 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
             TransactionBuilder builder = performInitialized("setTime");
             transmitTime(builder);
             //TODO: once we have a common strategy for sending events (e.g. EventHandler), remove this call from here. Meanwhile it does no harm.
-            // = we should genaralize the pebble calender code
-            //sendCalendarEvents();
+            // = we should generalize the pebble calender code
             forceCalendarSync();
             builder.queue(getQueue());
         } catch (Exception e) {
@@ -1412,41 +1412,4 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
         }
     }
 
-    /*
-     * Sending all events together, not used for now, keep for future reference
-     */
-    private void sendCalendarEvents() {
-        //Prefs prefs = new Prefs(GBApplication.getDeviceSpecificSharedPrefs(gbDevice.getAddress()));
-        //TODO set a limit as number in the preferences?
-        //int availableSlots = prefs.getInt(PREF_CALENDAR_EVENTS_MAX, 0);
-        int availableSlots = 6;
-
-        try {
-            CalendarManager upcomingEvents = new CalendarManager(getContext(), getDevice().getAddress());
-            List<CalendarEvent> mEvents = upcomingEvents.getCalendarEventList();
-            JSONObject cal = new JSONObject();
-            JSONArray events = new JSONArray();
-
-            cal.put("t", "calendarevents");
-
-            for (CalendarEvent mEvt : mEvents) {
-                if(availableSlots<1) break;
-                JSONObject o = new JSONObject();
-                o.put("timestamp", mEvt.getBeginSeconds());
-                o.put("durationInSeconds", mEvt.getDurationSeconds());
-                o.put("title", mEvt.getTitle());
-                //avoid making the message too long
-                //o.put("description", mEvt.getDescription());
-                o.put("location", mEvt.getLocation());
-                o.put("allDay", mEvt.isAllDay());
-                events.put(o);
-                availableSlots--;
-            }
-            cal.put("events", events);
-            uartTxJSON("sendCalendarEvents", cal);
-            LOG.info("sendCalendarEvents: sent " + events.length());
-        } catch(JSONException e) {
-            LOG.info("JSONException: " + e.getLocalizedMessage());
-        }
-    }
 }
