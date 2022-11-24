@@ -47,4 +47,7 @@ public class PineTimeJFConstants {
     public static final UUID UUID_CHARACTERISTIC_MOTION_STEP_COUNT = UUID.fromString("00030001-78fc-48fe-8e23-433b3a1942d0");
     public static final UUID UUID_CHARACTERISTIC_MOTION_RAW_XYZ_VALUES = UUID.fromString("00030002-78fc-48fe-8e23-433b3a1942d0");
 
+    // since https://github.com/InfiniTimeOrg/InfiniTime/pull/1454
+    public static final UUID UUID_CHARACTERISTIC_WORLD_TIME = UUID.fromString("00050001-78fc-48fe-8e23-433b3a1942d0");
+
 }

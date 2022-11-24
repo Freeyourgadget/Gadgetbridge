@@ -28,6 +28,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
 import android.widget.Toast;
+import android.content.SharedPreferences;
 
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
@@ -44,6 +45,11 @@ import java.util.List;
 import java.util.Locale;
 import java.util.TimeZone;
 import java.util.UUID;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+import java.util.TimeZone;
 
 import co.nstant.in.cbor.CborBuilder;
 import co.nstant.in.cbor.CborEncoder;
@@ -55,12 +61,14 @@ import no.nordicsemi.android.dfu.DfuServiceInitiator;
 import no.nordicsemi.android.dfu.DfuServiceListenerHelper;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
+import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHelper;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventBatteryInfo;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventCallControl;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventMusicControl;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventVersionInfo;
+import nodomain.freeyourgadget.gadgetbridge.devices.DeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.pinetime.PineTimeActivitySampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.devices.pinetime.PineTimeDFUService;
 import nodomain.freeyourgadget.gadgetbridge.devices.pinetime.PineTimeInstallHandler;
@@ -81,6 +89,7 @@ import nodomain.freeyourgadget.gadgetbridge.model.MusicSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.MusicStateSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.WeatherSpec;
+import nodomain.freeyourgadget.gadgetbridge.model.WorldClock;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.AbstractBTLEDeviceSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.BLETypeConversions;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.GattCharacteristic;
@@ -95,6 +104,7 @@ import nodomain.freeyourgadget.gadgetbridge.service.btle.profiles.alertnotificat
 import nodomain.freeyourgadget.gadgetbridge.service.btle.profiles.battery.BatteryInfoProfile;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.profiles.deviceinfo.DeviceInfoProfile;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
+import nodomain.freeyourgadget.gadgetbridge.util.DeviceHelper;
 
 public class PineTimeJFSupport extends AbstractBTLEDeviceSupport implements DfuLogListener {
     private static final Logger LOG = LoggerFactory.getLogger(PineTimeJFSupport.class);
@@ -478,6 +488,7 @@ public class PineTimeJFSupport extends AbstractBTLEDeviceSupport implements DfuL
         builder.add(new SetDeviceStateAction(getDevice(), GBDevice.State.INITIALIZING, getContext()));
         requestDeviceInfo(builder);
         onSetTime();
+        setWorldClocks();
         builder.notify(getCharacteristic(PineTimeJFConstants.UUID_CHARACTERISTICS_MUSIC_EVENT), true);
         BluetoothGattCharacteristic alertNotificationEventCharacteristic = getCharacteristic(PineTimeJFConstants.UUID_CHARACTERISTIC_ALERT_NOTIFICATION_EVENT);
         if (alertNotificationEventCharacteristic != null) {
@@ -582,9 +593,60 @@ public class PineTimeJFSupport extends AbstractBTLEDeviceSupport implements DfuL
         return false;
     }
 
+    private int getUtcOffset(WorldClock clock) {
+        int offsetMillisTimezone = TimeZone.getTimeZone(clock.getTimeZoneId()).getRawOffset();
+        return (offsetMillisTimezone / (1000 * 60 * 15));
+    }
+
+    private void sendWorldClocks(List<? extends WorldClock> clocks) {
+        final DeviceCoordinator coordinator = DeviceHelper.getInstance().getCoordinator(gbDevice);
+        if (coordinator.getWorldClocksSlotCount() == 0) {
+            return;
+        }
+
+        final ByteArrayOutputStream baos = new ByteArrayOutputStream();
+
+        try {
+            for (final WorldClock clock : clocks) {
+                int utcOffsetInQuarterHours = getUtcOffset(clock);
+
+                baos.write(utcOffsetInQuarterHours);
+
+                baos.write(clock.getLabel().getBytes());
+
+                baos.write(0);
+
+                //pad string to 9 bytes
+                while(baos.size() % 10 != 0){
+                    baos.write(0);
+                }
+            }
+
+            while(baos.size() < coordinator.getWorldClocksSlotCount() * 10){
+                baos.write(-128); //invalid slot
+                baos.write(new byte[9]);
+            }
+
+            TransactionBuilder builder = new TransactionBuilder("set world clocks");
+            builder.write(getCharacteristic(PineTimeJFConstants.UUID_CHARACTERISTIC_WORLD_TIME), baos.toByteArray());
+            builder.queue(getQueue());
+        } catch (Exception e) {
+            LOG.error("Error sending world clocks", e);
+        }
+    }
+
+    private void setWorldClocks() {
+        final List<? extends WorldClock> clocks = DBHelper.getWorldClocks(gbDevice);
+        sendWorldClocks(clocks);
+    }
+
+    @Override
+    public void onSetWorldClocks(ArrayList<? extends WorldClock> clocks) {
+        sendWorldClocks(clocks);
+    }
+
     @Override
     public void onSendConfiguration(String config) {
-
     }
 
     @Override

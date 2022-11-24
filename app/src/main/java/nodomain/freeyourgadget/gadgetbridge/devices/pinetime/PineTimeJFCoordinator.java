@@ -140,13 +140,24 @@ public class PineTimeJFCoordinator extends AbstractBLEDeviceCoordinator {
     }
 
     @Override
+    public int getWorldClocksSlotCount() {
+        return 4;
+    }
+
+    @Override
+    public int getWorldClocksLabelLength() {
+        return 8;
+    }
+
+    @Override
     protected void deleteDevice(@NonNull GBDevice gbDevice, @NonNull Device device, @NonNull DaoSession session) {
         // nothing to delete, yet
     }
 
     public int[] getSupportedDeviceSpecificSettings(GBDevice device) {
         return new int[]{
-                R.xml.devicesettings_transliteration
+                R.xml.devicesettings_transliteration,
+                R.xml.devicesettings_world_clocks
         };
     }
 }
