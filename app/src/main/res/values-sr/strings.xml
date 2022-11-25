@@ -895,7 +895,7 @@
     <string name="prefs_heartrate_alert_high_threshold">Праг ларме високих откуцаја срца</string>
     <string name="prefs_spo2_alert_threshold">Праг ларме SPO2</string>
     <string name="pbw_install_handler_unable_to_install">Нисам успео да уградим датотеку: %1$s</string>
-    <string name="notif_battery_low_title">Попуна батерије уређаја је ниска!</string>
+    <string name="notif_battery_low_title">Батерија уређаја је празна!</string>
     <string name="notif_battery_low_percent">%1$s преостало батерије: %2$s%%</string>
     <string name="weeksleepchart_today_sleep_description">Спавање данас, циљ: %1$s</string>
     <string name="activity_list_summary_intensity">Јачина
@@ -916,4 +916,5 @@
     <string name="mi3_prefs_band_screen_unlock">Откључавање заслона уређаја</string>
     <string name="spanish">Шпански</string>
     <string name="arabic">Арапски</string>
+    <string name="installer_activity_wait_while_determining_status">Молим, сачекајте док одредим стање уградње…</string>
 </resources>
