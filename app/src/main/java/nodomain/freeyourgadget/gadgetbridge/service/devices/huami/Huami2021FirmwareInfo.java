@@ -100,18 +100,20 @@ public abstract class Huami2021FirmwareInfo extends AbstractHuamiFirmwareInfo {
 
     private HuamiFirmwareType handleZipPackage(byte[] bytes) {
         final ZipFile zipFile = new ZipFile(bytes);
-        final byte[] firmwareBin;
+
+        // Attempt to handle as a firmware
         try {
-            firmwareBin = zipFile.getFileFromZip("META/firmware.bin");
+            final byte[] firmwareBin = zipFile.getFileFromZip("META/firmware.bin");
+            if (isCompatibleFirmwareBin(firmwareBin)) {
+                return HuamiFirmwareType.FIRMWARE;
+            } else {
+                return HuamiFirmwareType.INVALID;
+            }
         } catch (final ZipFileException e) {
-            LOG.error("Failed to get firmware.bin from zip file", e);
-            return HuamiFirmwareType.FIRMWARE;
+            LOG.warn("Failed to get firmware.bin from zip file", e);
         }
 
-        if (isCompatibleFirmwareBin(firmwareBin)) {
-            return HuamiFirmwareType.FIRMWARE;
-        }
-
+        // Attempt to handle as an app / watchface
         final JSONObject appJson = getAppJson(zipFile);
         if (appJson == null) {
             return HuamiFirmwareType.INVALID;
