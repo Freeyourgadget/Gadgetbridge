@@ -19,6 +19,7 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.service.devices.huami;
 
+import android.app.Notification;
 import android.bluetooth.BluetoothGatt;
 import android.bluetooth.BluetoothGattCharacteristic;
 import android.content.Context;
@@ -822,11 +823,13 @@ public abstract class HuamiSupport extends AbstractBTLEDeviceSupport implements 
         }
     }
 
-    @Override
-    public void onNotification(NotificationSpec notificationSpec) {
-        final boolean hasExtraHeader = notificationHasExtraHeader();
-        final int maxLength = notificationMaxLength();
-
+    /**
+     * Contains the logic to build the text content that will be sent to the device.
+     * Some huami devices will omit some of the content.
+     * @param notificationSpec
+     * @return
+     */
+    public String getNotificationBody(NotificationSpec notificationSpec) {
         String senderOrTitle = StringUtils.getFirstOf(notificationSpec.sender, notificationSpec.title);
 
         String message = StringUtils.truncate(senderOrTitle, 32) + "\0";
@@ -839,6 +842,16 @@ public abstract class HuamiSupport extends AbstractBTLEDeviceSupport implements 
         if (notificationSpec.body == null && notificationSpec.subject == null) {
             message += " "; // if we have no body we have to send at least something on some devices, else they reboot (Bip S)
         }
+
+        return message;
+    }
+
+    @Override
+    public void onNotification(NotificationSpec notificationSpec) {
+        final boolean hasExtraHeader = notificationHasExtraHeader();
+        final int maxLength = notificationMaxLength();
+
+        String message = getNotificationBody(notificationSpec);
 
         try {
             TransactionBuilder builder = performInitialized("new notification");
