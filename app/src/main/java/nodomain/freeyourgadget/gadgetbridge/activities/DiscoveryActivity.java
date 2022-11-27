@@ -100,6 +100,8 @@ public class DiscoveryActivity extends AbstractGBActivity implements AdapterView
     private static final long SCAN_DURATION = 30000; // 30s
     private final Handler handler = new Handler();
     private final ArrayList<GBDeviceCandidate> deviceCandidates = new ArrayList<>();
+    int CallbackType = android.bluetooth.le.ScanSettings.CALLBACK_TYPE_ALL_MATCHES;
+    int MatchMode = android.bluetooth.le.ScanSettings.MATCH_MODE_STICKY;
     private ScanCallback newBLEScanCallback = null;
     /**
      * If already bonded devices are to be ignored when scanning
@@ -115,8 +117,6 @@ public class DiscoveryActivity extends AbstractGBActivity implements AdapterView
     private Button startButton;
     private boolean scanning;
     private long selectedUnsupportedDeviceKey = DebugActivity.SELECT_DEVICE;
-    private Set<BTUUIDPair> foundCandidates = new HashSet<>();
-
     private final Runnable stopRunnable = new Runnable() {
         @Override
         public void run() {
@@ -124,6 +124,7 @@ public class DiscoveryActivity extends AbstractGBActivity implements AdapterView
             LOG.info("Discovery stopped by thread timeout.");
         }
     };
+    private Set<BTUUIDPair> foundCandidates = new HashSet<>();
     private final BroadcastReceiver bluetoothReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -168,8 +169,6 @@ public class DiscoveryActivity extends AbstractGBActivity implements AdapterView
             }
         }
     };
-    int CallbackType = android.bluetooth.le.ScanSettings.CALLBACK_TYPE_ALL_MATCHES;
-    int MatchMode = android.bluetooth.le.ScanSettings.MATCH_MODE_STICKY;
 
     public void logMessageContent(byte[] value) {
         if (value != null) {
@@ -183,7 +182,6 @@ public class DiscoveryActivity extends AbstractGBActivity implements AdapterView
         super.onActivityResult(requestCode, resultCode, data);
         BondingUtil.handleActivityResult(this, requestCode, resultCode, data);
     }
-
 
     private GBDeviceCandidate getCandidateFromMAC(BluetoothDevice device) {
         for (GBDeviceCandidate candidate : deviceCandidates) {
@@ -280,7 +278,7 @@ public class DiscoveryActivity extends AbstractGBActivity implements AdapterView
         } else {
             deviceCandidates.clear();
             deviceCandidateAdapter.notifyDataSetChanged();
-                startDiscovery();
+            startDiscovery();
         }
     }
 
@@ -349,7 +347,7 @@ public class DiscoveryActivity extends AbstractGBActivity implements AdapterView
 
     private void addToCandidateListIfNotAlreadyProcessed(BluetoothDevice device, short rssi, ParcelUuid[] uuids) {
         BTUUIDPair btuuidPair = new BTUUIDPair(device, uuids);
-        if(foundCandidates.contains(btuuidPair)) {
+        if (foundCandidates.contains(btuuidPair)) {
 //                        LOG.info("candidate already processed, skipping");
             return;
         }
@@ -421,7 +419,18 @@ public class DiscoveryActivity extends AbstractGBActivity implements AdapterView
     }
 
     private boolean isScanning() {
-        return scanning ;
+        return scanning;
+    }
+
+    public void setScanning(boolean scanning) {
+        this.scanning = scanning;
+        if (scanning) {
+            startButton.setText(getString(R.string.discovery_stop_scanning));
+        } else {
+            startButton.setText(getString(R.string.discovery_start_scanning));
+            bluetoothProgress.setVisibility(View.GONE);
+            bluetoothLEProgress.setVisibility(View.GONE);
+        }
     }
 
     private void startBTLEDiscovery() {
@@ -465,7 +474,6 @@ public class DiscoveryActivity extends AbstractGBActivity implements AdapterView
 
     /**
      * Starts a regular Bluetooth scan
-     *
      */
     private void startBTDiscovery() {
         LOG.info("Starting BT discovery");
@@ -492,17 +500,6 @@ public class DiscoveryActivity extends AbstractGBActivity implements AdapterView
         }
     }
 
-    public void setScanning(boolean scanning) {
-        this.scanning = scanning;
-        if (scanning) {
-            startButton.setText(getString(R.string.discovery_stop_scanning));
-        } else {
-            startButton.setText(getString(R.string.discovery_start_scanning));
-            bluetoothProgress.setVisibility(View.GONE);
-            bluetoothLEProgress.setVisibility(View.GONE);
-        }
-    }
-    
     private void bluetoothStateChanged(int newState) {
         if (newState == BluetoothAdapter.STATE_ON) {
             this.adapter = BluetoothAdapter.getDefaultAdapter();
@@ -536,7 +533,7 @@ public class DiscoveryActivity extends AbstractGBActivity implements AdapterView
             return false;
         }
         this.adapter = adapter;
-        if(GB.supportsBluetoothLE())
+        if (GB.supportsBluetoothLE())
             this.bluetoothLeScanner = adapter.getBluetoothLeScanner();
         return true;
     }
@@ -634,7 +631,7 @@ public class DiscoveryActivity extends AbstractGBActivity implements AdapterView
             LOG.error("Device candidate clicked, but item not found");
             return;
         }
-        if (!deviceCandidate.getDeviceType().isSupported()){
+        if (!deviceCandidate.getDeviceType().isSupported()) {
             LOG.error("Unsupported device candidate");
             ArrayList deviceDetails = new ArrayList<>();
             deviceDetails.add(deviceCandidate.getName());
@@ -662,7 +659,7 @@ public class DiscoveryActivity extends AbstractGBActivity implements AdapterView
             SharedPreferences sharedPrefs = GBApplication.getDeviceSpecificSharedPrefs(deviceCandidate.getMacAddress());
 
             String authKey = sharedPrefs.getString("authkey", null);
-            if (authKey == null || authKey.isEmpty() ) {
+            if (authKey == null || authKey.isEmpty()) {
                 toast(DiscoveryActivity.this, getString(R.string.discovery_need_to_enter_authkey), Toast.LENGTH_LONG, GB.WARN);
                 return;
             } else if (authKey.getBytes().length < 34 || !authKey.startsWith("0x")) {
@@ -678,7 +675,7 @@ public class DiscoveryActivity extends AbstractGBActivity implements AdapterView
             startActivity(intent);
         } else {
             if (coordinator.getBondingStyle() == DeviceCoordinator.BONDING_STYLE_NONE ||
-                coordinator.getBondingStyle() == DeviceCoordinator.BONDING_STYLE_LAZY) {
+                    coordinator.getBondingStyle() == DeviceCoordinator.BONDING_STYLE_LAZY) {
                 LOG.info("No bonding needed, according to coordinator, so connecting right away");
                 BondingUtil.connectThenComplete(this, deviceCandidate);
                 return;
@@ -771,20 +768,6 @@ public class DiscoveryActivity extends AbstractGBActivity implements AdapterView
         spinner.setOnItemSelectedListener(new CustomOnDeviceSelectedListener());
     }
 
-    public class CustomOnDeviceSelectedListener implements AdapterView.OnItemSelectedListener {
-
-        public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
-            SpinnerWithIconItem selectedItem = (SpinnerWithIconItem) parent.getItemAtPosition(pos);
-            selectedUnsupportedDeviceKey = selectedItem.getId();
-        }
-
-        @Override
-        public void onNothingSelected(AdapterView<?> arg0) {
-            // TODO Auto-generated method stub
-        }
-
-    }
-
     public void onBondingComplete(boolean success) {
         finish();
     }
@@ -839,6 +822,20 @@ public class DiscoveryActivity extends AbstractGBActivity implements AdapterView
         return this;
     }
 
+    public class CustomOnDeviceSelectedListener implements AdapterView.OnItemSelectedListener {
+
+        public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
+            SpinnerWithIconItem selectedItem = (SpinnerWithIconItem) parent.getItemAtPosition(pos);
+            selectedUnsupportedDeviceKey = selectedItem.getId();
+        }
+
+        @Override
+        public void onNothingSelected(AdapterView<?> arg0) {
+            // TODO Auto-generated method stub
+        }
+
+    }
+
     private class BTUUIDPair {
         private final BluetoothDevice bluetoothDevice;
         private final ParcelUuid[] parcelUuid;
@@ -863,4 +860,6 @@ public class DiscoveryActivity extends AbstractGBActivity implements AdapterView
             return result;
         }
     }
+
+
 }
