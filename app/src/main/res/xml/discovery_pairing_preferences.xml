@@ -12,12 +12,6 @@
             android:title="@string/ignore_bonded_devices" />
         <CheckBoxPreference
             android:defaultValue="false"
-            android:key="disable_new_ble_scanning"
-            android:layout="@layout/preference_checkbox"
-            android:summary="@string/pref_summary_disable_new_ble_scanning"
-            android:title="@string/pref_disable_new_ble_scanning" />
-        <CheckBoxPreference
-            android:defaultValue="false"
             android:key="enable_companiondevice_pairing"
             android:layout="@layout/preference_checkbox"
             android:summary="@string/companiondevice_pairing_details"

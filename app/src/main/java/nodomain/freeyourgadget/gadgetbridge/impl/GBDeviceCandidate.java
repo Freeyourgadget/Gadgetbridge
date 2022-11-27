@@ -50,6 +50,7 @@ public class GBDeviceCandidate implements Parcelable {
     private final short rssi;
     private final ParcelUuid[] serviceUuids;
     private DeviceType deviceType = DeviceType.UNKNOWN;
+    private String deviceName;
 
     public GBDeviceCandidate(BluetoothDevice device, short rssi, ParcelUuid[] serviceUuids) {
         this.device = device;
@@ -137,7 +138,9 @@ public class GBDeviceCandidate implements Parcelable {
     }
 
     public String getName() {
-        String deviceName = null;
+        if (this.deviceName != null ) {
+            return this.deviceName;
+        }
         try {
             Method method = device.getClass().getMethod("getAliasName");
             if (method != null) {

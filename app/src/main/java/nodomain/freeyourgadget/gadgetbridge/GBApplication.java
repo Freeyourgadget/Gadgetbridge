@@ -116,7 +116,7 @@ public class GBApplication extends Application {
     private static SharedPreferences sharedPrefs;
     private static final String PREFS_VERSION = "shared_preferences_version";
     //if preferences have to be migrated, increment the following and add the migration logic in migratePrefs below; see http://stackoverflow.com/questions/16397848/how-can-i-migrate-android-preferences-with-a-new-version
-    private static final int CURRENT_PREFS_VERSION = 18;
+    private static final int CURRENT_PREFS_VERSION = 19;
 
     private static LimitedQueue mIDSenderLookup = new LimitedQueue(16);
     private static Prefs prefs;
@@ -1183,7 +1183,12 @@ public class GBApplication extends Application {
             } catch (Exception e) {
                 Log.w(TAG, "error acquiring DB lock");
             }
-        }
+            if (oldVersion < 19) {
+                //remove old ble scanning prefences, now unsupported
+                editor.remove("disable_new_ble_scanning");
+            }
+
+            }
 
         editor.putString(PREFS_VERSION, Integer.toString(CURRENT_PREFS_VERSION));
         editor.apply();

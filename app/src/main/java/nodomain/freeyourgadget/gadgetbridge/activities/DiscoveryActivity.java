@@ -18,8 +18,6 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.activities;
 
-import static nodomain.freeyourgadget.gadgetbridge.util.GB.toast;
-
 import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -68,11 +66,14 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Set;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
@@ -91,6 +92,8 @@ import nodomain.freeyourgadget.gadgetbridge.util.DeviceHelper;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 
+import static nodomain.freeyourgadget.gadgetbridge.util.GB.toast;
+
 
 public class DiscoveryActivity extends AbstractGBActivity implements AdapterView.OnItemClickListener, AdapterView.OnItemLongClickListener, BondingInterface {
     private static final Logger LOG = LoggerFactory.getLogger(DiscoveryActivity.class);
@@ -98,10 +101,6 @@ public class DiscoveryActivity extends AbstractGBActivity implements AdapterView
     private final Handler handler = new Handler();
     private final ArrayList<GBDeviceCandidate> deviceCandidates = new ArrayList<>();
     private ScanCallback newBLEScanCallback = null;
-    /**
-     * Use old BLE scanning
-     **/
-    private boolean oldBleScanning = false;
     /**
      * If already bonded devices are to be ignored when scanning
      */
@@ -111,27 +110,18 @@ public class DiscoveryActivity extends AbstractGBActivity implements AdapterView
     private ProgressBar bluetoothLEProgress;
     private DeviceCandidateAdapter deviceCandidateAdapter;
     private GBDeviceCandidate deviceTarget;
-    private final BluetoothAdapter.LeScanCallback leScanCallback = new BluetoothAdapter.LeScanCallback() {
-        @Override
-        public void onLeScan(BluetoothDevice device, int rssi, byte[] scanRecord) {
-            //logMessageContent(scanRecord);
-            handleDeviceFound(device, (short) rssi);
-        }
-    };
     private BluetoothAdapter adapter;
+    private BluetoothLeScanner bluetoothLeScanner;
     private Button startButton;
-    private Scanning isScanning = Scanning.SCANNING_OFF;
+    private boolean scanning;
     private long selectedUnsupportedDeviceKey = DebugActivity.SELECT_DEVICE;
+    private Set<BTUUIDPair> foundCandidates = new HashSet<>();
+
     private final Runnable stopRunnable = new Runnable() {
         @Override
         public void run() {
-            if (isScanning == Scanning.SCANNING_BT_NEXT_BLE) {
-                // Start the next scan in the series
-                stopDiscovery();
-                startDiscovery(Scanning.SCANNING_BLE);
-            } else {
-                stopDiscovery();
-            }
+            stopDiscovery();
+            LOG.info("Discovery stopped by thread timeout.");
         }
     };
     private final BroadcastReceiver bluetoothReceiver = new BroadcastReceiver() {
@@ -140,26 +130,6 @@ public class DiscoveryActivity extends AbstractGBActivity implements AdapterView
             switch (Objects.requireNonNull(intent.getAction())) {
                 case BluetoothAdapter.ACTION_DISCOVERY_STARTED: {
                     LOG.debug("ACTION_DISCOVERY_STARTED");
-                    if (isScanning != Scanning.SCANNING_BLE) {
-                        if (isScanning != Scanning.SCANNING_BT_NEXT_BLE) {
-                            setIsScanning(Scanning.SCANNING_BT);
-                        }
-                    }
-                    break;
-                }
-                case BluetoothAdapter.ACTION_DISCOVERY_FINISHED: {
-                    LOG.debug("ACTION_DISCOVERY_FINISHED");
-                    handler.post(new Runnable() {
-                        @Override
-                        public void run() {
-                            // Continue with LE scan, if available
-                            if (isScanning == Scanning.SCANNING_BT || isScanning == Scanning.SCANNING_BT_NEXT_BLE) {
-                                checkAndRequestLocationPermission();
-                                stopDiscovery();
-                                startDiscovery(Scanning.SCANNING_BLE);
-                            }
-                        }
-                    });
                     break;
                 }
                 case BluetoothAdapter.ACTION_STATE_CHANGED: {
@@ -179,7 +149,7 @@ public class DiscoveryActivity extends AbstractGBActivity implements AdapterView
                     short rssi = intent.getShortExtra(BluetoothDevice.EXTRA_RSSI, GBDevice.RSSI_UNKNOWN);
                     Parcelable[] uuids = intent.getParcelableArrayExtra(BluetoothDevice.EXTRA_UUID);
                     ParcelUuid[] uuids2 = AndroidUtils.toParcelUuids(uuids);
-                    handleDeviceFound(device, rssi, uuids2);
+                    addToCandidateListIfNotAlreadyProcessed(device, rssi, uuids2);
                     break;
                 }
                 case BluetoothDevice.ACTION_BOND_STATE_CHANGED: {
@@ -246,7 +216,8 @@ public class DiscoveryActivity extends AbstractGBActivity implements AdapterView
                     }
                     LOG.warn(result.getDevice().getName() + ": " +
                             ((scanRecord != null) ? scanRecord.getBytes().length : -1));
-                    handleDeviceFound(result.getDevice(), (short) result.getRssi(), uuids);
+                    addToCandidateListIfNotAlreadyProcessed(result.getDevice(), (short) result.getRssi(), uuids);
+
                 } catch (NullPointerException e) {
                     LOG.warn("Error handling scan result", e);
                 }
@@ -299,7 +270,7 @@ public class DiscoveryActivity extends AbstractGBActivity implements AdapterView
 
         checkAndRequestLocationPermission();
 
-        startDiscovery(Scanning.SCANNING_BT_NEXT_BLE);
+        startDiscovery();
     }
 
     public void onStartButtonClick(View button) {
@@ -309,11 +280,7 @@ public class DiscoveryActivity extends AbstractGBActivity implements AdapterView
         } else {
             deviceCandidates.clear();
             deviceCandidateAdapter.notifyDataSetChanged();
-            if (GB.supportsBluetoothLE()) {
-                startDiscovery(Scanning.SCANNING_BT_NEXT_BLE);
-            } else {
-                startDiscovery(Scanning.SCANNING_BT);
-            }
+                startDiscovery();
         }
     }
 
@@ -338,21 +305,21 @@ public class DiscoveryActivity extends AbstractGBActivity implements AdapterView
     @Override
     protected void onDestroy() {
         unregisterBroadcastReceivers();
-        stopAllDiscovery();
+        stopDiscovery();
         super.onDestroy();
     }
 
     @Override
     protected void onStop() {
         unregisterBroadcastReceivers();
-        stopAllDiscovery();
+        stopDiscovery();
         super.onStop();
     }
 
     @Override
     protected void onPause() {
         unregisterBroadcastReceivers();
-        stopAllDiscovery();
+        stopDiscovery();
         super.onPause();
     }
 
@@ -361,19 +328,6 @@ public class DiscoveryActivity extends AbstractGBActivity implements AdapterView
         loadSettingsValues();
         registerBroadcastReceivers();
         super.onResume();
-    }
-
-    private void stopAllDiscovery() {
-        try {
-            stopBTDiscovery();
-            if (oldBleScanning) {
-                stopOldBLEDiscovery();
-            } else {
-                stopBLEDiscovery();
-            }
-        } catch (Exception e) {
-            LOG.warn("Error stopping discovery", e);
-        }
     }
 
     private void handleDeviceFound(BluetoothDevice device, short rssi) {
@@ -390,7 +344,20 @@ public class DiscoveryActivity extends AbstractGBActivity implements AdapterView
             }
         }
 
-        handleDeviceFound(device, rssi, uuids);
+        addToCandidateListIfNotAlreadyProcessed(device, rssi, uuids);
+    }
+
+    private void addToCandidateListIfNotAlreadyProcessed(BluetoothDevice device, short rssi, ParcelUuid[] uuids) {
+        BTUUIDPair btuuidPair = new BTUUIDPair(device, uuids);
+        if(foundCandidates.contains(btuuidPair)) {
+//                        LOG.info("candidate already processed, skipping");
+            return;
+        }
+
+        if (handleDeviceFound(device, rssi, uuids)) {
+            //device was considered a candidate, do not process it again unless something changed
+            foundCandidates.add(btuuidPair);
+        }
     }
 
     private boolean handleDeviceFound(BluetoothDevice device, short rssi, ParcelUuid[] uuids) {
@@ -424,85 +391,39 @@ public class DiscoveryActivity extends AbstractGBActivity implements AdapterView
         return false;
     }
 
-    private void startDiscovery(Scanning what) {
+    private void startDiscovery() {
         if (isScanning()) {
             LOG.warn("Not starting discovery, because already scanning.");
             return;
         }
 
-        LOG.info("Starting discovery: " + what);
+        LOG.info("Starting discovery");
         startButton.setText(getString(R.string.discovery_stop_scanning));
-        if (ensureBluetoothReady() && isScanning == Scanning.SCANNING_OFF) {
-            if (what == Scanning.SCANNING_BT || what == Scanning.SCANNING_BT_NEXT_BLE) {
-                startBTDiscovery(what);
-            } else if (what == Scanning.SCANNING_BLE && GB.supportsBluetoothLE()) {
-                if (oldBleScanning) {
-                    startOldBTLEDiscovery();
-                } else {
-                    startBTLEDiscovery();
-                }
+        if (ensureBluetoothReady()) {
+            if (GB.supportsBluetoothLE()) {
+                startBTLEDiscovery();
+                startBTDiscovery();
             } else {
-                discoveryFinished();
-                toast(DiscoveryActivity.this, getString(R.string.discovery_enable_bluetooth), Toast.LENGTH_SHORT, GB.ERROR);
+                startBTDiscovery();
             }
+            setScanning(true);
         } else {
-            discoveryFinished();
             toast(DiscoveryActivity.this, getString(R.string.discovery_enable_bluetooth), Toast.LENGTH_SHORT, GB.ERROR);
         }
     }
 
     private void stopDiscovery() {
         LOG.info("Stopping discovery");
-        if (isScanning()) {
-            Scanning wasScanning = isScanning;
-            if (wasScanning == Scanning.SCANNING_BT || wasScanning == Scanning.SCANNING_BT_NEXT_BLE) {
-                stopBTDiscovery();
-            } else if (wasScanning == Scanning.SCANNING_BLE) {
-                if (oldBleScanning) {
-                    stopOldBLEDiscovery();
-                } else {
-                    stopBLEDiscovery();
-                }
-            }
-
-            discoveryFinished();
-            handler.removeMessages(0, stopRunnable);
-        } else {
-            discoveryFinished();
-        }
+        stopBTDiscovery();
+        stopBLEDiscovery();
+        setScanning(false);
+        handler.removeMessages(0, stopRunnable);
     }
 
     private boolean isScanning() {
-        return isScanning != Scanning.SCANNING_OFF;
+        return scanning ;
     }
 
-    private void startOldBTLEDiscovery() {
-        LOG.info("Starting old BLE discovery");
-
-        handler.removeMessages(0, stopRunnable);
-        handler.sendMessageDelayed(getPostMessage(stopRunnable), SCAN_DURATION);
-        if (adapter.startLeScan(leScanCallback)) {
-            LOG.info("Old Bluetooth LE scan started successfully");
-            bluetoothLEProgress.setVisibility(View.VISIBLE);
-            setIsScanning(Scanning.SCANNING_BLE);
-        } else {
-            LOG.info("Old Bluetooth LE scan starting failed");
-            setIsScanning(Scanning.SCANNING_OFF);
-        }
-    }
-
-    private void stopOldBLEDiscovery() {
-        if (adapter != null) {
-            adapter.stopLeScan(leScanCallback);
-            LOG.info("Stopped old BLE discovery");
-        }
-
-        setIsScanning(Scanning.SCANNING_OFF);
-    }
-
-    /* New BTLE Discovery uses startScan (List<ScanFilter> filters,
-                                         ScanSettings settings,
-                                         ScanCallback callback) */
     private void startBTLEDiscovery() {
         LOG.info("Starting BLE discovery");
 
@@ -515,7 +436,7 @@ public class DiscoveryActivity extends AbstractGBActivity implements AdapterView
 
         LOG.debug("Bluetooth LE discovery started successfully");
         bluetoothLEProgress.setVisibility(View.VISIBLE);
-        setIsScanning(Scanning.SCANNING_BLE);
+        setScanning(true);
     }
 
     private void stopBLEDiscovery() {
@@ -540,15 +461,13 @@ public class DiscoveryActivity extends AbstractGBActivity implements AdapterView
         }
 
         LOG.debug("Stopped BLE discovery");
-        setIsScanning(Scanning.SCANNING_OFF);
     }
 
     /**
      * Starts a regular Bluetooth scan
      *
-     * @param what The scan type, only either SCANNING_BT or SCANNING_BT_NEXT_BLE!
      */
-    private void startBTDiscovery(Scanning what) {
+    private void startBTDiscovery() {
         LOG.info("Starting BT discovery");
         try {
             // LineageOS quirk, can't start scan properly,
@@ -561,10 +480,8 @@ public class DiscoveryActivity extends AbstractGBActivity implements AdapterView
         if (adapter.startDiscovery()) {
             LOG.debug("Discovery started successfully");
             bluetoothProgress.setVisibility(View.VISIBLE);
-            setIsScanning(what);
         } else {
             LOG.error("Discovery starting failed");
-            setIsScanning(Scanning.SCANNING_OFF);
         }
     }
 
@@ -573,29 +490,19 @@ public class DiscoveryActivity extends AbstractGBActivity implements AdapterView
             adapter.cancelDiscovery();
             LOG.info("Stopped BT discovery");
         }
-        setIsScanning(Scanning.SCANNING_OFF);
     }
 
-    private void discoveryFinished() {
-        if (isScanning != Scanning.SCANNING_OFF) {
-            LOG.warn("Scan was not properly stopped: " + isScanning);
-        }
-
-        setIsScanning(Scanning.SCANNING_OFF);
-    }
-
-    private void setIsScanning(Scanning to) {
-        this.isScanning = to;
-
-        if (isScanning == Scanning.SCANNING_OFF) {
+    public void setScanning(boolean scanning) {
+        this.scanning = scanning;
+        if (scanning) {
+            startButton.setText(getString(R.string.discovery_stop_scanning));
+        } else {
             startButton.setText(getString(R.string.discovery_start_scanning));
             bluetoothProgress.setVisibility(View.GONE);
             bluetoothLEProgress.setVisibility(View.GONE);
-        } else {
-            startButton.setText(getString(R.string.discovery_stop_scanning));
         }
     }
-
+    
     private void bluetoothStateChanged(int newState) {
         if (newState == BluetoothAdapter.STATE_ON) {
             this.adapter = BluetoothAdapter.getDefaultAdapter();
@@ -606,8 +513,6 @@ public class DiscoveryActivity extends AbstractGBActivity implements AdapterView
             bluetoothProgress.setVisibility(View.GONE);
             bluetoothLEProgress.setVisibility(View.GONE);
         }
-
-        discoveryFinished();
     }
 
     private boolean checkBluetoothAvailable() {
@@ -631,6 +536,8 @@ public class DiscoveryActivity extends AbstractGBActivity implements AdapterView
             return false;
         }
         this.adapter = adapter;
+        if(GB.supportsBluetoothLE())
+            this.bluetoothLeScanner = adapter.getBluetoothLeScanner();
         return true;
     }
 
@@ -717,7 +624,7 @@ public class DiscoveryActivity extends AbstractGBActivity implements AdapterView
         } catch (Exception ex) {
             LOG.error("Exception when checking location status: ", ex);
         }
-        LOG.error("Problem with permissions, returning");
+        LOG.info("Permissions seems to be fine for scanning");
     }
 
     @Override
@@ -896,7 +803,6 @@ public class DiscoveryActivity extends AbstractGBActivity implements AdapterView
         bluetoothIntents.addAction(BluetoothDevice.ACTION_UUID);
         bluetoothIntents.addAction(BluetoothDevice.ACTION_BOND_STATE_CHANGED);
         bluetoothIntents.addAction(BluetoothAdapter.ACTION_DISCOVERY_STARTED);
-        bluetoothIntents.addAction(BluetoothAdapter.ACTION_DISCOVERY_FINISHED);
         bluetoothIntents.addAction(BluetoothAdapter.ACTION_STATE_CHANGED);
 
         registerReceiver(bluetoothReceiver, bluetoothIntents);
@@ -906,10 +812,6 @@ public class DiscoveryActivity extends AbstractGBActivity implements AdapterView
         Prefs prefs = GBApplication.getPrefs();
         ignoreBonded = prefs.getBoolean("ignore_bonded_devices", true);
         discoverUnsupported = prefs.getBoolean("discover_unsupported_devices", false);
-        oldBleScanning = prefs.getBoolean("disable_new_ble_scanning", false);
-        if (oldBleScanning) {
-            LOG.info("New BLE scanning disabled via settings, using old method");
-        }
         int level = prefs.getInt("scanning_intensity", 1);
         switch (level) {
             case 0:
@@ -937,22 +839,28 @@ public class DiscoveryActivity extends AbstractGBActivity implements AdapterView
         return this;
     }
 
-    private enum Scanning {
-        /**
-         * Regular Bluetooth scan
-         */
-        SCANNING_BT,
-        /**
-         * Regular Bluetooth scan but when ends, start BLE scan
-         */
-        SCANNING_BT_NEXT_BLE,
-        /**
-         * Regular BLE scan
-         */
-        SCANNING_BLE,
-        /**
-         * Scanning has ended or hasn't been started
-         */
-        SCANNING_OFF
+    private class BTUUIDPair {
+        private final BluetoothDevice bluetoothDevice;
+        private final ParcelUuid[] parcelUuid;
+
+        public BTUUIDPair(BluetoothDevice bluetoothDevice, ParcelUuid[] parcelUuid) {
+            this.bluetoothDevice = bluetoothDevice;
+            this.parcelUuid = parcelUuid;
+        }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+            BTUUIDPair that = (BTUUIDPair) o;
+            return bluetoothDevice.equals(that.bluetoothDevice) && Arrays.equals(parcelUuid, that.parcelUuid);
+        }
+
+        @Override
+        public int hashCode() {
+            int result = Objects.hash(bluetoothDevice);
+            result = 31 * result + Arrays.hashCode(parcelUuid);
+            return result;
+        }
     }
 }
