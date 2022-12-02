@@ -59,7 +59,7 @@ public class Huami2021Weather {
 
         if (weatherSpec == null) {
             LOG.error("No weather in weather instance");
-            return null;
+            return new Huami2021Weather.ErrorResponse(404, -2001, "Not found");
         }
 
         switch (path) {
