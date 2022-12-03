@@ -151,6 +151,7 @@
     <string name="fw_upgrade_notice_miband7">You are about to install the %s firmware on your Xiaomi Smart Band 7.\n\nYour band will reboot after installing the .zip file.\n\nPROCEED AT YOUR OWN RISK!</string>
     <string name="fw_upgrade_notice_amazfit_gts3">You are about to install the %s firmware on your Amazfit GTS 3.\n\nYour band will reboot after installing the .zip file.\n\nPROCEED AT YOUR OWN RISK!</string>
     <string name="fw_upgrade_notice_amazfit_gts4">You are about to install the %s firmware on your Amazfit GTS 4.\n\nYour band will reboot after installing the .zip file.\n\nPROCEED AT YOUR OWN RISK!</string>
+    <string name="fw_upgrade_notice_amazfit_gts4_mini">You are about to install the %s firmware on your Amazfit GTS 4 Mini.\n\nYour band will reboot after installing the .zip file.\n\nPROCEED AT YOUR OWN RISK!</string>
     <string name="fw_upgrade_notice_amazfit_gtr3">You are about to install the %s firmware on your Amazfit GTR 3.\n\nYour band will reboot after installing the .zip file.\n\nPROCEED AT YOUR OWN RISK!</string>
     <string name="fw_upgrade_notice_amazfit_gtr4">You are about to install the %s firmware on your Amazfit GTR 4.\n\nYour band will reboot after installing the .zip file.\n\nPROCEED AT YOUR OWN RISK!</string>
     <string name="fw_upgrade_notice_amazfit_band7">You are about to install the %s firmware on your Amazfit Band 7.\n\nYour band will reboot after installing the .zip file.\n\nPROCEED AT YOUR OWN RISK!</string>
@@ -1162,6 +1163,7 @@
     <string name="devicetype_miband7">Xiaomi Smart Band 7</string>
     <string name="devicetype_amazfit_gts3">Amazfit GTS 3</string>
     <string name="devicetype_amazfit_gts4">Amazfit GTS 4</string>
+    <string name="devicetype_amazfit_gts4_mini">Amazfit GTS 4 Mini</string>
     <string name="devicetype_amazfit_gtr3">Amazfit GTR 3</string>
     <string name="devicetype_amazfit_gtr4">Amazfit GTR 4</string>
     <string name="devicetype_amazfit_band5">Amazfit Band 5</string>
