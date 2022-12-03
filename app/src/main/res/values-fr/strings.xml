@@ -2076,4 +2076,10 @@ Temps de sommeil préféré en heures</string>
 \n
 \nA VOS RISQUES ET PÉRILS !</string>
     <string name="devicetype_amazfit_gts4">Amazfit GTS 4</string>
+    <string name="fw_upgrade_notice_amazfit_gts4_mini">Vous êtes sur le point d\'installer le micro-logiciel %s dans votre Amazfit GTS 4 Mini.
+\n
+\nVotre bracelet redémarrera une fois le fichier .zip installé.
+\n
+\nA VOS RISQUES ET PÉRILS !</string>
+    <string name="devicetype_amazfit_gts4_mini">Amazfit GTS 4 Mini</string>
 </resources>
