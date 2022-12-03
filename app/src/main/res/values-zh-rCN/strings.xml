@@ -2072,4 +2072,10 @@
 \n
 \n风险自担！</string>
     <string name="devicetype_amazfit_gts4">跃我 GTS 4</string>
+    <string name="fw_upgrade_notice_amazfit_gts4_mini">您即将在您的 跃我 GTS 4 Mini 上安装 %s 固件。
+\n
+\n您的手环将会在安装了 .zip 文件后自动重启。
+\n
+\n风险自担！</string>
+    <string name="devicetype_amazfit_gts4_mini">跃我 GTS 4 Mini</string>
 </resources>
