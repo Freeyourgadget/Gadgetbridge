@@ -1185,7 +1185,7 @@
     <string name="pref_title_connected_advertisement">Видимий коли під\'єднано</string>
     <string name="fw_upgrade_notice_amazfitneo">Ви збираєтесь установити мікропрограму %s на Amazfit Neo.
 \n
-\nВаш годинник перезавантажиться після встановлення файлу .fw.
+\nПісля встановлення .zip-файлу ваш годинник перезавантажиться.
 \n
 \nПРОДОВЖУЙТЕ НА ВЛАСНИЙ РИЗИК!</string>
     <string name="fw_upgrade_notice_amazfitx">Ви збираєтесь встановити мікропрограму %s на Amazfit X.
@@ -1868,7 +1868,7 @@
     <string name="pref_header_heartrate_alerts">Попередження про пульс</string>
     <string name="fw_upgrade_notice_miband7">Ви збираєтесь установити мікропрограму %s на Xiaomi Smart Band 7.
 \n
-\nВаш годинник перезавантажиться після встановлення файлу .zip.
+\nПісля встановлення .zip-файлу ваш годинник перезавантажиться.
 \n
 \nПРОДОВЖУЙТЕ НА ВЛАСНИЙ РИЗИК!</string>
     <string name="pref_header_connection">З\'єднання</string>
@@ -1904,7 +1904,7 @@
     <string name="activity_prefs_summary_allow_bluetooth_intent_api">Дозволити керування з\'єднанням Bluetooth через Intent API</string>
     <string name="fw_upgrade_notice_amazfit_gts3">Ви збираєтесь установити мікропрограму %s на Amazfit GTS 3.
 \n
-\nВаш годинник перезавантажиться після встановлення файлу .zip.
+\nПісля встановлення .zip-файлу ваш годинник перезавантажиться.
 \n
 \nПРОДОВЖУЙТЕ НА ВЛАСНИЙ РИЗИК!</string>
     <string name="devicetype_amazfit_gts3">Amazfit GTS 3</string>
@@ -1918,7 +1918,7 @@
     <string name="devicetype_amazfit_gtr3">Amazfit GTR 3</string>
     <string name="fw_upgrade_notice_amazfit_gtr3">Ви збираєтесь установити мікропрограму %s на Amazfit GTR 3.
 \n
-\nВаш годинник перезавантажиться після встановлення файлу .zip.
+\nПісля встановлення .zip-файлу ваш годинник перезавантажиться.
 \n
 \nПРОДОВЖУЙТЕ НА ВЛАСНИЙ РИЗИК!</string>
     <string name="pref_title_third_party_app_device_settings">Дозволити стороннім застосункам змінювати налаштування</string>
@@ -1997,7 +1997,7 @@
     <string name="pref_title_upper_button_long_press_action">Затискання верхньої кнопки</string>
     <string name="fw_upgrade_notice_amazfit_gtr4">Ви збираєтесь установити мікропрограму %s на Amazfit GTR 4.
 \n
-\nВаш годинник перезавантажиться після встановлення файлу .zip.
+\nПісля встановлення .zip-файлу ваш годинник перезавантажиться.
 \n
 \nПРОДОВЖУЙТЕ НА ВЛАСНИЙ РИЗИК!</string>
     <string name="pref_gps_satellite_search">Пошук супутників</string>
@@ -2065,7 +2065,7 @@
     <string name="devicetype_amazfit_band7">Amazfit Band 7</string>
     <string name="fw_upgrade_notice_amazfit_band7">Ви збираєтесь установити мікропрограму %s на Amazfit Band 7.
 \n
-\nВаш годинник перезавантажиться після встановлення файлу .zip.
+\nПісля встановлення .zip-файлу ваш годинник перезавантажиться.
 \n
 \nПРОДОВЖУЙТЕ НА ВЛАСНИЙ РИЗИК!</string>
     <string name="function_enabled">Увімкнено</string>
@@ -2077,7 +2077,13 @@
     <string name="devicetype_amazfit_gts4">Amazfit GTS 4</string>
     <string name="fw_upgrade_notice_amazfit_gts4">Ви збираєтесь установити мікропрограму %s на Amazfit GTS 4.
 \n
-\nВаш годинник перезавантажиться після встановлення файлу .zip.
+\nПісля встановлення .zip-файлу ваш годинник перезавантажиться.
 \n
 \nПРОДОВЖУЙТЕ НА ВЛАСНИЙ РИЗИК!</string>
+    <string name="fw_upgrade_notice_amazfit_gts4_mini">Ви збираєтесь установити мікропрограму %s на Amazfit GTS 4 Mini.
+\n
+\nПісля встановлення .zip-файлу ваш годинник перезавантажиться.
+\n
+\nПРОДОВЖУЙТЕ НА ВЛАСНИЙ РИЗИК!</string>
+    <string name="devicetype_amazfit_gts4_mini">Amazfit GTS 4 Mini</string>
 </resources>
