@@ -2061,4 +2061,10 @@
 \nGelang Anda akan dinyalakan ulang setelah memasang berkas .zip.
 \n
 \nLANJUTKAN DENGAN RISIKO ANDA SENDIRI!</string>
+    <string name="fw_upgrade_notice_amazfit_gts4_mini">Anda akan memasang perangkat tegar %s pada Amazfit GTS 4 Mini Anda.
+\n
+\nGelang Anda akan dinyalakan ulang setelah memasang berkas .zip.
+\n
+\nLANJUTKAN DENGAN RISIKO ANDA SENDIRI!</string>
+    <string name="devicetype_amazfit_gts4_mini">Amazfit GTS 4 Mini</string>
 </resources>
