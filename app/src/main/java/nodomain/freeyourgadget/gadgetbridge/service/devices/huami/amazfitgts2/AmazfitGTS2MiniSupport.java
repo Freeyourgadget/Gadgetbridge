@@ -61,7 +61,7 @@ public class AmazfitGTS2MiniSupport extends AmazfitGTS2Support {
          */
         if(!acceptsSender && !senderOrTitle.equals(notificationSpec.sourceName)) {
             message = "-\0"; //if the sender is not accepted, whatever goes in this field is ignored
-            message += senderOrTitle;
+            message += senderOrTitle + "\n";
         } else {
             message = senderOrTitle + "\0";
         }
