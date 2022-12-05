@@ -2071,4 +2071,10 @@
 \nהצמיד שלך יופעל מחדש לאחר התקנת קובץ ה־‎.zip
 \n
 \nהמשך התהליך הוא על אחריותך!</string>
+    <string name="devicetype_amazfit_gts4_mini">Amazfit GTS 4 Mini‎</string>
+    <string name="fw_upgrade_notice_amazfit_gts4_mini">פעולה זו תתקין את הקושחה %s ב־Amazfit GTS 4Mini שלך.
+\n
+\nהצמיד שלך יופעל מחדש לאחר התקנת קובץ ה־‎.zip
+\n
+\nהמשך התהליך הוא על אחריותך!</string>
 </resources>
