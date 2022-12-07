@@ -2085,4 +2085,5 @@
 \n
 \nINSTALLATION AUF EIGENE GEFAHR!</string>
     <string name="devicetype_amazfit_gts4_mini">Amazfit GTS 4 Mini</string>
+    <string name="devicetype_sony_linkbuds_s">Sony LinkBuds S</string>
 </resources>
