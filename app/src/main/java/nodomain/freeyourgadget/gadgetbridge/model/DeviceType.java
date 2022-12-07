@@ -120,6 +120,7 @@ public enum DeviceType {
     SONY_WF_1000XM3(433, R.drawable.ic_device_galaxy_buds, R.drawable.ic_device_galaxy_buds_disabled, R.string.devicetype_sony_wf_1000xm3),
     SONY_WH_1000XM2(434, R.drawable.ic_device_sony_overhead, R.drawable.ic_device_sony_overhead_disabled, R.string.devicetype_sony_wh_1000xm2),
     SONY_WF_1000XM4(435, R.drawable.ic_device_galaxy_buds, R.drawable.ic_device_galaxy_buds_disabled, R.string.devicetype_sony_wf_1000xm4),
+    SONY_LINKBUDS_S(436, R.drawable.ic_device_galaxy_buds, R.drawable.ic_device_galaxy_buds_disabled, R.string.devicetype_sony_linkbuds_s),
     BOSE_QC35(440, R.drawable.ic_device_headphones, R.drawable.ic_device_headphones_disabled, R.string.devicetype_bose_qc35),
     VESC_NRF(500, R.drawable.ic_device_vesc, R.drawable.ic_device_vesc_disabled, R.string.devicetype_vesc),
     VESC_HM10(501, R.drawable.ic_device_vesc, R.drawable.ic_device_vesc_disabled, R.string.devicetype_vesc),
