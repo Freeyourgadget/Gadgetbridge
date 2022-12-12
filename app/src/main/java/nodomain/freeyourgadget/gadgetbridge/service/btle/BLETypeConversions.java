@@ -78,8 +78,8 @@ public class BLETypeConversions {
         int dstOffsetInQuarterHours = (dstOffsetMillis / (1000 * 60 * 15));
 
         return new byte[] {
-                fromUint8(utcOffsetInQuarterHours),
-                fromUint8(dstOffsetInQuarterHours),
+                (byte) utcOffsetInQuarterHours,
+                (byte) dstOffsetInQuarterHours
         };
     }
 
