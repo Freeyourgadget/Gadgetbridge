@@ -1,5 +1,29 @@
 ### Changelog
 
+#### 0.72.0 (NEXT)
+* Iniital support for Amazfit GTR/GTS 4 (mini)
+* Initial support for Amazfit Band 7
+* Initial support for Galaxy Buds 2
+* Iniital Support for Sony WH-1000XM2/4
+* Sony Headphones: Fix setting surround mode
+* Zepp OS: Map strength training, basketball and cricket activity types
+* Zepp OS: Add World Clocks
+* Zepp OS: Fix notification icons larger than 56x56px
+* Zepp OS: Fix notification icons for work profile apps
+* Zepp OS: Fix health on GTR 3/GTS 3
+* Zepp OS: Fix notification icon for SMS
+* Zepp OS: Fix app and watchface install
+* Zepp OS: Fix NPE when no weather data is available
+* Amazfit GTR 2: Fix activate display upon lift only working when scheduled
+* Bangle.js: Fix calendar sync
+* InfiniTime: Fix weather
+* InfiniTime: Add support for local time service
+* InfiniTime: Add world clock support
+* Skagen Gen 6 Hybrid HR: Add support for 38mm watches
+* Complete rewrite of new device discovery
+* Allow media notifications to bypass app list
+* Debug Activity: Add confirmation dialog before removing device preferences
+
 #### 0.71.3
 * Fossil/Skagen Hybrids: Update known watch app versions
 * Skagen Hybrids: Allow firmware installation
