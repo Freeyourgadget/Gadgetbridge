@@ -158,6 +158,8 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
 
     /// Maximum amount of characters to store in receiveHistory
     public static final int MAX_RECEIVE_HISTORY_CHARS = 100000;
+    /// Used to avoid spamming logs with ACTION_DEVICE_CHANGED messages
+    static String lastStateString;
 
     // Local Intents - for app manager communication
     public static final String BANGLEJS_COMMAND_TX = "banglejs_command_tx";
@@ -215,9 +217,13 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
                         break;
                     }
                     case GBDevice.ACTION_DEVICE_CHANGED: {
-                        LOG.info("ACTION_DEVICE_CHANGED " + (gbDevice!=null ? gbDevice.getStateString():""));
-                        addReceiveHistory("\n================================================\nACTION_DEVICE_CHANGED "+gbDevice.getStateString()+" "+(new SimpleDateFormat("yyyy-mm-dd hh:mm:ss", Locale.US)).format(Calendar.getInstance().getTime())+"\n================================================\n");
-                        if (gbDevice.getState() == GBDevice.State.NOT_CONNECTED) {
+                        String stateString = (gbDevice!=null ? gbDevice.getStateString():"");
+                        if (!stateString.equals(lastStateString)) {
+                          lastStateString = stateString;
+                          LOG.info("ACTION_DEVICE_CHANGED " + stateString);
+                          addReceiveHistory("\n================================================\nACTION_DEVICE_CHANGED "+stateString+" "+(new SimpleDateFormat("yyyy-mm-dd hh:mm:ss", Locale.US)).format(Calendar.getInstance().getTime())+"\n================================================\n");
+                        }
+                        if (gbDevice!=null && gbDevice.getState() == GBDevice.State.NOT_CONNECTED) {
                             stopLocationUpdate();
                         }
                     }
