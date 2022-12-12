@@ -32,16 +32,13 @@ import nodomain.freeyourgadget.gadgetbridge.util.GB;
 /**
  * A location provider that uses the phone GPS, using {@link LocationManager}.
  */
-public class PhoneGpsLocationProvider extends AbstractLocationProvider {
-    private static final Logger LOG = LoggerFactory.getLogger(PhoneGpsLocationProvider.class);
+public class PhoneNetworkLocationProvider extends AbstractLocationProvider {
+    private static final Logger LOG = LoggerFactory.getLogger(PhoneNetworkLocationProvider.class);
 
     private static final int INTERVAL_MIN_TIME = 1000;
     private static final int INTERVAL_MIN_DISTANCE = 0;
 
-    public PhoneGpsLocationProvider(LocationListener locationListener) {
-        super(locationListener);
-    }
-    public PhoneGpsLocationProvider(LocationListener locationListener, int intervalTime) {
+    public PhoneNetworkLocationProvider(LocationListener locationListener) {
         super(locationListener);
     }
 
@@ -52,7 +49,7 @@ public class PhoneGpsLocationProvider extends AbstractLocationProvider {
 
     @Override
     void start(Context context, int interval) {
-        LOG.info("Starting phone gps location provider");
+        LOG.info("Starting phone network location provider");
 
         if (!GB.checkPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) && !GB.checkPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION)) {
             GB.toast("Location permission not granted", Toast.LENGTH_SHORT, GB.ERROR);
@@ -70,12 +67,12 @@ public class PhoneGpsLocationProvider extends AbstractLocationProvider {
         );
 
         final Location lastKnownLocation = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-        LOG.debug("Last known gps location: {}", lastKnownLocation);
+        LOG.debug("Last known network location: {}", lastKnownLocation);
     }
 
     @Override
     void stop(final Context context) {
-        LOG.info("Stopping phone gps location provider");
+        LOG.info("Stopping phone network location provider");
 
         final LocationManager locationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
         locationManager.removeUpdates(getLocationListener());

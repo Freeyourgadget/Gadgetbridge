@@ -89,6 +89,14 @@ public class MockLocationProvider extends AbstractLocationProvider {
     }
 
     @Override
+    void start(final Context context, int minInterval) {
+        LOG.info("Starting mock location provider");
+
+        running = true;
+        handler.postDelayed(locationUpdateRunnable, interval);
+    }
+
+    @Override
     void stop(final Context context) {
         LOG.info("Stopping mock location provider");
 

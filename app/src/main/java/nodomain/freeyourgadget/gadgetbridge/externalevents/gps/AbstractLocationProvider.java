@@ -41,6 +41,13 @@ public abstract class AbstractLocationProvider {
     abstract void start(final Context context);
 
     /**
+     * Start sending periodic location updates.
+     *
+     * @param context the {@link Context}.
+     */
+    abstract void start(final Context context, final int interval);
+
+    /**
      * Stop sending periodic location updates.
      *
      * @param context the {@link Context}.

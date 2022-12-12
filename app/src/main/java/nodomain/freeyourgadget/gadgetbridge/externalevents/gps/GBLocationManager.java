@@ -34,6 +34,7 @@ import java.util.Set;
 import nodomain.freeyourgadget.gadgetbridge.devices.EventHandler;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
+
 /**
  * A static location manager, which keeps track of what providers are currently running. A notification is kept
  * while there is at least one provider runnin.
@@ -44,10 +45,15 @@ public class GBLocationManager {
     /**
      * The current number of running listeners.
      */
-    private static Map<EventHandler, AbstractLocationProvider> providers = new HashMap<>();
+    private static Map<EventHandler, Map<LocationProviderType, AbstractLocationProvider>> providers = new HashMap<>();
 
     public static void start(final Context context, final EventHandler eventHandler) {
-        if (providers.containsKey(eventHandler)) {
+        GBLocationManager.start(context, eventHandler, LocationProviderType.GPS, null);
+    }
+
+    public static void start(final Context context, final EventHandler eventHandler, final LocationProviderType providerType, Integer updateInterval) {
+        System.out.println("Starting");
+        if (providers.containsKey(eventHandler) && providers.get(eventHandler).containsKey(providerType)) {
             LOG.warn("EventHandler already registered");
             return;
         }
@@ -55,16 +61,52 @@ public class GBLocationManager {
         GB.createGpsNotification(context, providers.size() + 1);
 
         final GBLocationListener locationListener = new GBLocationListener(eventHandler);
-        final AbstractLocationProvider locationProvider = new PhoneGpsLocationProvider(locationListener);
+        final AbstractLocationProvider locationProvider;
+        switch (providerType) {
+            case GPS:
+                LOG.info("Using gps location provider");
+                locationProvider = new PhoneGpsLocationProvider(locationListener);
+                break;
+            case NETWORK:
+                LOG.info("Using network location provider");
+                locationProvider = new PhoneNetworkLocationProvider(locationListener);
+                break;
+            default:
+                LOG.info("Using default location provider: GPS");
+                locationProvider = new PhoneGpsLocationProvider(locationListener);
+        }
 
-        locationProvider.start(context);
+        if (updateInterval != null) {
+            locationProvider.start(context, updateInterval);
+        } else {
+            locationProvider.start(context);
+        }
 
-        providers.put(eventHandler, locationProvider);
+        if (providers.containsKey(eventHandler)) {
+            providers.get(eventHandler).put(providerType, locationProvider);
+        } else {
+            Map<LocationProviderType, AbstractLocationProvider> providerMap = new HashMap<>();
+            providerMap.put(providerType, locationProvider);
+            providers.put(eventHandler, providerMap);
+        }
     }
 
     public static void stop(final Context context, final EventHandler eventHandler) {
-        final AbstractLocationProvider locationProvider = providers.remove(eventHandler);
+        GBLocationManager.stop(context, eventHandler, null);
+    }
 
+    public static void stop(final Context context, final EventHandler eventHandler, final LocationProviderType gpsType) {
+        if (!providers.containsKey(eventHandler)) return;
+        Map<LocationProviderType, AbstractLocationProvider> providerMap = providers.get(eventHandler);
+        if (gpsType == null) {
+            for (LocationProviderType providerType: providerMap.keySet()) {
+                if (!providerMap.containsKey(providerType)) return;
+                stopProvider(context, providerMap.get(providerType));
+            }
+        }
+    }
+
+    private static void stopProvider(final Context context, AbstractLocationProvider locationProvider) {
         if (locationProvider != null) {
             LOG.warn("EventHandler not registered");
 
