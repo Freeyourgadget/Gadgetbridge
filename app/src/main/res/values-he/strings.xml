@@ -2078,4 +2078,11 @@
 \n
 \nהמשך התהליך הוא על אחריותך!</string>
     <string name="devicetype_sony_linkbuds_s">Sony LinkBuds S‎</string>
+    <string name="pref_header_intent_api">API של Intent</string>
+    <string name="intent_api_allow_activity_sync_title">לאפשר הקפצת סנכרון פעילות</string>
+    <string name="intent_api_allow_trigger_export_title">לאפשר ייצוא מסד נתונים</string>
+    <string name="intent_api_allow_activity_sync_summary">לאפשר הקפצת סנכרון פעילות דרך API של Intent</string>
+    <string name="intent_api_allow_trigger_export_summary">לאפשר הקפצת ייצוא מסד נתונים דרך API של Intent</string>
+    <string name="intent_api_broadcast_export_title">להפיץ שידור על ייצוא מסד נתונים</string>
+    <string name="intent_api_broadcast_export_summary">להפיץ intent עם סיום ייצוא מסד הנתונים</string>
 </resources>
