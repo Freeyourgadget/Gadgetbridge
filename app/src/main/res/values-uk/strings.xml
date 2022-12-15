@@ -2087,4 +2087,11 @@
 \nПРОДОВЖУЙТЕ НА ВЛАСНИЙ РИЗИК!</string>
     <string name="devicetype_amazfit_gts4_mini">Amazfit GTS 4 Mini</string>
     <string name="devicetype_sony_linkbuds_s">Sony LinkBuds S</string>
+    <string name="pref_header_intent_api">Intent API</string>
+    <string name="intent_api_allow_trigger_export_title">Дозволити експорт бази даних</string>
+    <string name="intent_api_broadcast_export_title">Трансляція експорту бази даних</string>
+    <string name="intent_api_broadcast_export_summary">Трансляція наміру після завершення експорту бази даних</string>
+    <string name="intent_api_allow_activity_sync_title">Дозволити ініціацію синхронізації дій</string>
+    <string name="intent_api_allow_activity_sync_summary">Дозволити ініціювання синхронізації активності через Intent API</string>
+    <string name="intent_api_allow_trigger_export_summary">Дозволити ініціювати експорт бази даних через Intent API</string>
 </resources>
