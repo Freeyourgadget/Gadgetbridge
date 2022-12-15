@@ -72,6 +72,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 import java.util.regex.Pattern;
 
 import nodomain.freeyourgadget.gadgetbridge.BuildConfig;
@@ -906,6 +907,18 @@ public abstract class Huami2021Support extends HuamiSupport {
                 .write(builder);
 
         return this;
+    }
+
+    @Override
+    public byte[] getTimeBytes(final Calendar calendar, final TimeUnit precision) {
+        final byte[] bytes = BLETypeConversions.shortCalendarToRawBytes(calendar);
+
+        if (precision != TimeUnit.MINUTES && precision != TimeUnit.SECONDS) {
+            throw new IllegalArgumentException("Unsupported precision, only MINUTES and SECONDS are supported");
+        }
+        final byte seconds = precision == TimeUnit.SECONDS ? fromUint8(calendar.get(Calendar.SECOND)) : 0;
+        final byte tz = BLETypeConversions.mapTimeZone(calendar, BLETypeConversions.TZ_FLAG_INCLUDE_DST_IN_TZ);
+        return BLETypeConversions.join(bytes, new byte[]{seconds, tz});
     }
 
     @Override
