@@ -745,7 +745,7 @@ public abstract class Huami2021Support extends HuamiSupport {
         buf.put(REMINDERS_CMD_UPDATE);
         buf.put((byte) (position & 0xFF));
 
-        final Calendar cal = Calendar.getInstance();
+        final Calendar cal = createCalendar();
         cal.setTime(reminder.getDate());
 
         int reminderFlags = REMINDER_FLAG_ENABLED | REMINDER_FLAG_TEXT;
@@ -916,7 +916,7 @@ public abstract class Huami2021Support extends HuamiSupport {
         // - Day of week starts at 0
         // Otherwise, the command gets rejected with an "Out of Range" error and init fails.
 
-        final Calendar timestamp = Calendar.getInstance();
+        final Calendar timestamp = createCalendar();
         final byte[] year = fromUint16(timestamp.get(Calendar.YEAR));
 
         final byte[] cmd = {

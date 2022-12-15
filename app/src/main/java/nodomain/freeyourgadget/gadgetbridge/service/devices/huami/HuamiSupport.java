@@ -276,7 +276,6 @@ import static nodomain.freeyourgadget.gadgetbridge.model.ActivityUser.PREF_USER_
 import static nodomain.freeyourgadget.gadgetbridge.model.ActivityUser.PREF_USER_NAME;
 import static nodomain.freeyourgadget.gadgetbridge.model.ActivityUser.PREF_USER_WEIGHT_KG;
 import static nodomain.freeyourgadget.gadgetbridge.model.ActivityUser.PREF_USER_YEAR_OF_BIRTH;
-import static nodomain.freeyourgadget.gadgetbridge.service.btle.BLETypeConversions.fromUint8;
 import static nodomain.freeyourgadget.gadgetbridge.service.btle.GattCharacteristic.UUID_CHARACTERISTIC_ALERT_LEVEL;
 
 public abstract class HuamiSupport extends AbstractBTLEDeviceSupport implements Huami2021Handler {
@@ -404,20 +403,56 @@ public abstract class HuamiSupport extends AbstractBTLEDeviceSupport implements 
         return weatherSpec.windSpeedAsBeaufort() + ""; // cast to string
     }
 
+    /**
+     * Returns the given date/time (calendar) as a byte sequence, suitable for sending to the
+     * Mi Band 2 (or derivative). The band appears to not handle DST offsets, so we simply add this
+     * to the timezone.
+     *
+     * @param calendar
+     * @param precision
+     * @return
+     */
     public byte[] getTimeBytes(Calendar calendar, TimeUnit precision) {
+        byte[] bytes;
         if (precision == TimeUnit.MINUTES) {
-            final byte[] bytes = BLETypeConversions.shortCalendarToRawBytes(calendar);
-            //add nonstandard extension
-            final byte[] tail = new byte[] { 0, BLETypeConversions.mapTimeZone(calendar, BLETypeConversions.TZ_FLAG_INCLUDE_DST_IN_TZ) };
-            return BLETypeConversions.join(bytes, tail);
+            bytes = BLETypeConversions.shortCalendarToRawBytes(calendar);
         } else if (precision == TimeUnit.SECONDS) {
-            final byte[] bytes = BLETypeConversions.calendarToCurrentTime(calendar);
-            //add nonstandard extension, only one byte needed, as format is different from above
-            final byte[] tail = new byte[] { BLETypeConversions.mapTimeZone(calendar, BLETypeConversions.TZ_FLAG_INCLUDE_DST_IN_TZ) };
-            return BLETypeConversions.join(bytes, tail);
+            bytes = calendarToRawBytes(calendar);
         } else {
             throw new IllegalArgumentException("Unsupported precision, only MINUTES and SECONDS are supported till now");
         }
+        byte[] tail = new byte[] { 0, BLETypeConversions.mapTimeZone(calendar, BLETypeConversions.TZ_FLAG_INCLUDE_DST_IN_TZ) };
+        // 0 = adjust reason bitflags? or DST offset?? , timezone
+//        byte[] tail = new byte[] { 0x2 }; // reason
+        byte[] all = BLETypeConversions.join(bytes, tail);
+        return all;
+    }
+
+    /**
+     * Converts a timestamp to the byte sequence to be sent to the current time characteristic
+     *
+     * @param timestamp
+     * @return
+     * @see GattCharacteristic#UUID_CHARACTERISTIC_CURRENT_TIME
+     */
+    public static byte[] calendarToRawBytes(Calendar timestamp) {
+        // MiBand2:
+        // year,year,month,dayofmonth,hour,minute,second,dayofweek,0,0,tz
+
+        byte[] year = BLETypeConversions.fromUint16(timestamp.get(Calendar.YEAR));
+        return new byte[] {
+                year[0],
+                year[1],
+                BLETypeConversions.fromUint8(timestamp.get(Calendar.MONTH) + 1),
+                BLETypeConversions.fromUint8(timestamp.get(Calendar.DATE)),
+                BLETypeConversions.fromUint8(timestamp.get(Calendar.HOUR_OF_DAY)),
+                BLETypeConversions.fromUint8(timestamp.get(Calendar.MINUTE)),
+                BLETypeConversions.fromUint8(timestamp.get(Calendar.SECOND)),
+                BLETypeConversions.dayOfWeekToRawBytes(timestamp),
+                0, // fractions256 (not set)
+                // 0 (DST offset?) Mi2
+                // k (tz) Mi2
+        };
     }
 
     public Calendar fromTimeBytes(byte[] bytes) {
@@ -426,10 +461,17 @@ public abstract class HuamiSupport extends AbstractBTLEDeviceSupport implements 
     }
 
     public HuamiSupport setCurrentTimeWithService(TransactionBuilder builder) {
-        GregorianCalendar now = BLETypeConversions.createCalendar();
-        final byte[] bytes = getTimeBytes(now, TimeUnit.MINUTES);
+        final Calendar now = createCalendar();
+        byte[] bytes = getTimeBytes(now, TimeUnit.SECONDS);
         builder.write(getCharacteristic(GattCharacteristic.UUID_CHARACTERISTIC_CURRENT_TIME), bytes);
         return this;
+    }
+
+    /**
+     * Allow for the calendar to be overridden to a fixed date, for tests.
+     */
+    protected Calendar createCalendar() {
+        return BLETypeConversions.createCalendar();
     }
 
     /**

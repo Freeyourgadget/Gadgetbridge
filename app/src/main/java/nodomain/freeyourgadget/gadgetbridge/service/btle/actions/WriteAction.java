@@ -63,7 +63,7 @@ public class WriteAction extends BtLEAction {
         return false;
     }
 
-    protected final byte[] getValue() {
+    public final byte[] getValue() {
         return value;
     }
 
