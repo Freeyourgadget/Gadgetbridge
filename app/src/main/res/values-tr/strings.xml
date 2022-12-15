@@ -2093,4 +2093,11 @@
 \nİLERLEMENİZ DURUMUNDA RİSK SİZE AİTTİR!</string>
     <string name="devicetype_amazfit_gts4_mini">Amazfit GTS 4 Mini</string>
     <string name="devicetype_sony_linkbuds_s">Sony LinkBuds S</string>
+    <string name="pref_header_intent_api">Amaç API\'si</string>
+    <string name="intent_api_allow_activity_sync_title">Etkinlik eşzamanlama tetikleyicisine izin ver</string>
+    <string name="intent_api_allow_activity_sync_summary">Amaç API\'si aracılığıyla etkinlik eşzamanlamasının tetiklenmesine izin verin</string>
+    <string name="intent_api_allow_trigger_export_title">Veri tabanı dışa aktarmaya izin ver</string>
+    <string name="intent_api_allow_trigger_export_summary">Amaç API\'si aracılığıyla veri tabanı dışa aktarmanın tetiklenmesine izin verin</string>
+    <string name="intent_api_broadcast_export_title">Veri tabanı dışa aktarmada yayın gönder</string>
+    <string name="intent_api_broadcast_export_summary">Veri tabanı dışa aktarma işlemi tamamlandığında bir amaç yayınlayın</string>
 </resources>
