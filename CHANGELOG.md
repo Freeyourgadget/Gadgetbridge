@@ -1,16 +1,16 @@
 ### Changelog
 
 #### 0.72.0 (NEXT)
-* Iniital support for Amazfit GTR/GTS 4 (mini)
+* Initial support for Amazfit GTR 4/GTS 4/GTS 4 Mini
 * Initial support for Amazfit Band 7
 * Initial support for Galaxy Buds 2
-* Iniital Support for Sony WH-1000XM2/4
+* Initial Support for Sony WH-1000XM2/WF-1000XM4
+* Sony headphones: Fix pause when taken off
 * Sony Headphones: Fix setting surround mode
 * Zepp OS: Map strength training, basketball and cricket activity types
 * Zepp OS: Add World Clocks
 * Zepp OS: Fix notification icons larger than 56x56px
 * Zepp OS: Fix notification icons for work profile apps
-* Zepp OS: Fix health on GTR 3/GTS 3
 * Zepp OS: Fix notification icon for SMS
 * Zepp OS: Fix app and watchface install
 * Zepp OS: Fix NPE when no weather data is available
