@@ -2068,4 +2068,11 @@
 \nLANJUTKAN DENGAN RISIKO ANDA SENDIRI!</string>
     <string name="devicetype_amazfit_gts4_mini">Amazfit GTS 4 Mini</string>
     <string name="devicetype_sony_linkbuds_s">Sony LinkBuds S</string>
+    <string name="intent_api_broadcast_export_title">Siarkan pada pengeksporan basis data</string>
+    <string name="pref_header_intent_api">API Intent</string>
+    <string name="intent_api_allow_activity_sync_title">Perbolehkan pemicuan penyinkronan aktivitas</string>
+    <string name="intent_api_allow_activity_sync_summary">Perbolehkan memicu penyinkronan aktivitas melalui API Intent</string>
+    <string name="intent_api_allow_trigger_export_title">Perbolehkan pengeksporan basis data</string>
+    <string name="intent_api_allow_trigger_export_summary">Perbolehkan memicu pengeksporan basis data melalui API Intent</string>
+    <string name="intent_api_broadcast_export_summary">Siarkan intent ketika pengeksporan basis data selesai</string>
 </resources>
