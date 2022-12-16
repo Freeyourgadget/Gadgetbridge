@@ -2086,4 +2086,5 @@
 \nINSTALLATION AUF EIGENE GEFAHR!</string>
     <string name="devicetype_amazfit_gts4_mini">Amazfit GTS 4 Mini</string>
     <string name="devicetype_sony_linkbuds_s">Sony LinkBuds S</string>
+    <string name="intent_api_allow_trigger_export_title">Datenbankexport zulassen</string>
 </resources>
