@@ -1692,7 +1692,7 @@
     <string name="pref_title_banglejs_text_bitmap">作为位图的文本</string>
     <string name="pref_summary_banglejs_text_bitmap">如果无法使用手表的字体呈现单词，请将其呈现为 Gadgetbridge 中的位图，并在手表上显示位图</string>
     <string name="pref_summary_device_intents">允许 Bangle.js 手表应用发送 Android 意图，并允许 Android 上的其他应用（如 Tasker）使用 com.banglejs.uart.tx 意图向 Bangle.js 发送数据。需要“能在其他应用前显示”权限。</string>
-    <string name="pref_title_device_intents">允许意向</string>
+    <string name="pref_title_device_intents">允许意图</string>
     <string name="pref_title_device_internet_access">允许互联网访问</string>
     <string name="pref_summary_device_internet_access">允许此设备上的应用访问互联网</string>
     <string name="pref_workout_start_on_phone_title">健身应用追踪</string>
@@ -2079,4 +2079,11 @@
 \n风险自担！</string>
     <string name="devicetype_amazfit_gts4_mini">跃我 GTS 4 Mini</string>
     <string name="devicetype_sony_linkbuds_s">索尼 LinkBuds S</string>
+    <string name="pref_header_intent_api">意图接口</string>
+    <string name="intent_api_allow_activity_sync_title">允许活动同步触发器</string>
+    <string name="intent_api_allow_activity_sync_summary">允许通过意图 API 触发活动同步</string>
+    <string name="intent_api_allow_trigger_export_summary">允许通过意图 API 触发数据库导出</string>
+    <string name="intent_api_broadcast_export_title">数据库导出时广播</string>
+    <string name="intent_api_allow_trigger_export_title">允许数据库导出</string>
+    <string name="intent_api_broadcast_export_summary">数据库导出完成后广播意图</string>
 </resources>
