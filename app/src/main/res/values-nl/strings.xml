@@ -2009,4 +2009,80 @@
     <string name="pref_enable_unsupported_settings_title">Niet-ondersteunde instellingen inschakelen</string>
     <string name="prefs_always_on_display_style">Stijl</string>
     <string name="prefs_control_center">Bedieningspaneel</string>
+    <string name="pref_title_touch_spotify_galaxy_app">Spotify (alleen Galaxy Wearable-app)</string>
+    <string name="intent_api_allow_trigger_export_summary">Het activeren van database-export via Intent API toestaan</string>
+    <string name="world_clock_code">Code</string>
+    <string name="function_enabled">Ingeschakeld</string>
+    <string name="activity_prefs_goal_standing_time_minutes">Dagelijks doel: statijd in minuten</string>
+    <string name="menuitem_calendar">Kalender</string>
+    <string name="menuitem_membership_cards">Lidmaatschapskaarten</string>
+    <string name="menuitem_phone">Telefoon</string>
+    <string name="pref_title_upper_button_long_press_action">Bovenste knop lang indrukken actie</string>
+    <string name="pref_screen_auto_brightness_summary">Pas de helderheid van het scherm aan op basis van het omgevingslicht</string>
+    <string name="devicetype_sony_wh_1000xm2">Sony WH-1000XM3</string>
+    <string name="pref_chart_sleep_lines_limit">Hoeveel slaapsessieregels moeten worden weergegeven voordat ze worden gescrolld</string>
+    <string name="devicetype_sony_wf_1000xm4">Sony WH-1000XM4</string>
+    <string name="fw_upgrade_notice_amazfit_gtr4">U staat op het punt de %s-firmware op uw Amazfit GTR 4 te installeren.
+\n
+\nDe band zal opnieuw opstarten na het installeren van het .zip-bestand.
+\n
+\nVERDERGAAN IS OP EIGEN RISICO!</string>
+    <string name="menuitem_voice_memos">Spraakmemo\'s</string>
+    <string name="fw_upgrade_notice_amazfit_gts4">U staat op het punt de %s-firmware op uw Amazfit GTS 4 te installeren.
+\n
+\nDe band zal opnieuw opstarten na het installeren van het .zip-bestand.
+\n
+\nVERDERGAAN IS OP EIGEN RISICO!</string>
+    <string name="activity_type_indoor_walking">Binnen wandelen</string>
+    <string name="devicetype_amazfit_gts4">Amazfit GTS 4</string>
+    <string name="menuitem_todo">Te doen</string>
+    <string name="pref_title_lower_button_short_press_action">Onderste knop korte druk actie</string>
+    <string name="pref_header_intent_api">Intent API</string>
+    <string name="prefs_control_center_summary">Kies de items in de keuzelijst van het controlecentrum</string>
+    <string name="activity_prefs_target_weight_kg">Streefgewicht in kg</string>
+    <string name="activity_prefs_goal_fat_burn_time_minutes">Dagelijks doel: vetverbrandingstijd in minuten</string>
+    <string name="menuitem_sun_moon">Zon &amp; Maan</string>
+    <string name="menuitem_one_tap_measuring">Meten met één tik</string>
+    <string name="menuitem_offline_voice">Offline stem</string>
+    <string name="elevationGain">Hoogtewinst</string>
+    <string name="elevationLoss">Hoogteverlies</string>
+    <string name="pref_title_touch_spotify_official_app">Spotify (alleen officiële app)</string>
+    <string name="prefs_touch_lock_buds2">Aanraakbediening</string>
+    <string name="intent_api_allow_activity_sync_title">Activiteitssynchronisatietrigger toestaan</string>
+    <string name="intent_api_allow_activity_sync_summary">Activeringssynchronisatie toestaan via Intent API</string>
+    <string name="intent_api_allow_trigger_export_title">Database-export toestaan</string>
+    <string name="intent_api_broadcast_export_title">Broadcast op database export</string>
+    <string name="intent_api_broadcast_export_summary">Een Intent uitzenden wanneer het exporteren van de database is voltooid</string>
+    <string name="devicetype_amazfit_gtr4">Amazfit GTR 4</string>
+    <string name="debugactivity_confirm_remove_device_preferences_title">Apparaatvoorkeuren verwijderen\?</string>
+    <string name="debugactivity_confirm_remove_device_preferences">Hiermee worden de apparaatvoorkeuren voor alle aangesloten apparaten gereset. Weet je het zeker\?</string>
+    <string name="fw_upgrade_notice_amazfit_gts4_mini">U staat op het punt de %s-firmware op uw Amazfit GTS 4 Mini te installeren.
+\n
+\nDe band zal opnieuw opstarten na het installeren van het .zip-bestand.
+\n
+\nVERDERGAAN IS OP EIGEN RISICO!</string>
+    <string name="pref_title_notification_media_ignores_application_list">App-lijst negeren voor medianotificaties</string>
+    <string name="pref_summary_notification_media_ignores_application_list">Verwerk mediameldingen vóór de app-lijst. Als deze voorkeur niet is aangevinkt, moeten media-apps worden toegestaan in de app-lijst om mediabediening op het apparaat te laten werken.</string>
+    <string name="devicetype_amazfit_gts4_mini">Amazfit GTS 4 Mini</string>
+    <string name="menuitem_brightness">Helderheid</string>
+    <string name="menuitem_bluetooth">Bluetooth</string>
+    <string name="menuitem_wifi">Wi-Fi</string>
+    <string name="menuitem_theater_mode">Theatermodus</string>
+    <string name="menuitem_volume">Volume</string>
+    <string name="menuitem_screen_always_lit">Scherm altijd verlicht</string>
+    <string name="menuitem_lockscreen">Vergrendelscherm</string>
+    <string name="menuitem_eject_water">Water uitwerpen</string>
+    <string name="menuitem_unsupported">[NIET ONDERSTEUND] %s</string>
+    <string name="sony_speak_to_chat_sensitivity_standard">Standaard</string>
+    <string name="pref_screen_auto_brightness_title">Automatische helderheid</string>
+    <string name="devicetype_galaxybuds_2">Galaxy Buds2</string>
+    <string name="fw_upgrade_notice_amazfit_band7">U staat op het punt de %s-firmware op uw Amazfit Band 7 te installeren.
+\n
+\nDe band zal opnieuw opstarten na het installeren van het .zip-bestand.
+\n
+\nVERDERGAAN IS OP EIGEN RISICO!</string>
+    <string name="activity_type_pool_swimming">Zwembad zwemmen</string>
+    <string name="devicetype_amazfit_band7">Amazfit-band 7</string>
+    <string name="pref_huami_truncate_fetch_operation_timestamps_summary">Verkort de tijdstempels van de ophaalbewerking tot minuten. Schakel deze instelling uit om de tijdstempels binnen enkele seconden te behouden als u problemen ondervindt tijdens het ophalen van zeer korte trainingen.</string>
+    <string name="pref_huami_truncate_fetch_operation_timestamps_title">Tijdstempels voor ophaalbewerkingen inkorten</string>
 </resources>
