@@ -287,7 +287,7 @@
     <string name="weeksteps_today_steps_description">Passi di oggi, traguardo: %1$s</string>
     <string name="pref_title_dont_ack_transfer">Non confermare il trasferimento dati</string>
     <string name="pref_summary_dont_ack_transfers">Se ACK non viene inviato alla band, i dati relativi alle attività non vengono cancellati. Utile se GB viene usato insieme ad altre applicazioni.</string>
-    <string name="pref_summary_keep_data_on_device">Conserva i dati delle attività sulla Mi Band anche dopo averli sincronizzati. Utile se GB è usato insieme ad altre app.</string>
+    <string name="pref_summary_keep_data_on_device">Conserva i dati delle attività sull dispositivo anche dopo averli sincronizzati. Utile se GB è usato insieme ad altre app.</string>
     <string name="pref_title_low_latency_fw_update">Utilizza la modalità a bassa latenza per gli aggiornamenti del firmware</string>
     <string name="pref_summary_low_latency_fw_update">Può essere utile quando l\'aggiornamento del firmware fallisce.</string>
     <string name="live_activity_steps_history">Storico dei passi</string>
@@ -1470,7 +1470,7 @@
     <string name="pref_ambient_sound_tone">Tono del Suono Ambiente</string>
     <string name="pref_ambient_sound_tone_summary">Da Morbido a Limpido</string>
     <string name="prefs_touch_lock">Blocco tocchi</string>
-    <string name="pref_title_device_intents">Consenti Intent</string>
+    <string name="pref_title_device_intents">Consenti Intenti</string>
     <string name="world_clock_delete_confirm_title">Cancella \'%1$s\'</string>
     <string name="activity_type_elliptical">Ellittica</string>
     <string name="watchface_setting_display_refresh_partial">Aggiornamento parziale (in minuti)</string>
@@ -1662,7 +1662,7 @@
     <string name="heartrate_bpm_145">145 bpm</string>
     <string name="prefs_customize_ambient_sound_summary">Personalizza Suono Ambiente</string>
     <string name="prefs_ambient_sound_during_call_title">Suono Ambiente in chiamata</string>
-    <string name="prefs_ambient_sound_during_call_summary">Ascolta la propria voce in chiamata</string>
+    <string name="prefs_ambient_sound_during_call_summary">Ascolta la propria voce chiaramente in chiamata</string>
     <string name="prefs_ambient_mode">Modalità Ambiente</string>
     <string name="pref_title_touch_quick_ambient">Suono Ambiente Rapido</string>
     <string name="pref_balance">Equilibrio</string>
@@ -1713,7 +1713,7 @@
     <string name="about_activity_title_banglejs_nightly">Su Bangle.js Gadgetbridge (Nightly)</string>
     <string name="pref_title_overwrite_settings_on_connection">Sovrascrivi impostazioni al collegamento</string>
     <string name="pref_summary_overwrite_settings_on_connection">Durante la connessione alla band, sovrascrivi tutte le sue impostazioni.</string>
-    <string name="pref_summary_device_intents">Consenti alle app del Bangle.js di inviare Intent Android e permetti ad altre app su Android (come Tasker) di inviare dati a Bangle.js con l\'intento com.banglejs.uart.tx. Serve l\'autorizzazione a visualizzare su altre app per funzionare in background.</string>
+    <string name="pref_summary_device_intents">Consenti alle app del Bangle.js di inviare Intenti Android e permetti ad altre app su Android (come Tasker) di inviare dati a Bangle.js con l\'intento com.banglejs.uart.tx. Serve l\'autorizzazione a visualizzare su altre app per funzionare in background.</string>
     <string name="pref_explanation_authkey_new_protocol">Se ricevi \"Aggiorna l\'app alla versione più recente\" sulla band, assicurati di controllare il \"Nuovo protocollo di autorizzazione\" come sopra. Tocca qui per maggiori dettagli nella wiki.</string>
     <string name="sony_anc_optimize_confirmation_title">Ottimizzazione Cancellazione Rumore</string>
     <string name="sony_sound_position_front">Anteriore</string>
@@ -1734,7 +1734,7 @@
     <string name="step_streak_longest">Massima</string>
     <string name="step_streak_average_steps_hint">Passi medi per giorno durante la striscia</string>
     <string name="steps_streaks_total_steps_hint_totals">Numero totale di passi registrati</string>
-    <string name="activity_prefs_summary_allow_bluetooth_intent_api">Consenti il controllo della connessione Bluetooth tramite Intent API</string>
+    <string name="activity_prefs_summary_allow_bluetooth_intent_api">Consenti il controllo della connessione Bluetooth tramite API Intenti</string>
     <string name="sony_ambient_sound_focus_voice">Concentrato sulla Voce</string>
     <string name="pref_header_sony_ambient_sound_control">Controllo Suono Ambiente</string>
     <string name="sony_sound_position_front_right">Anteriore Destra</string>
@@ -1895,7 +1895,7 @@
     <string name="prefs_hourly_chime_summary">L\'orologio emette un beep una volta all\'ora</string>
     <string name="sony_speak_to_chat">Parla-per-chattare</string>
     <string name="devicetype_flipper_zero">Flipper zero</string>
-    <string name="activity_prefs_allow_bluetooth_intent_api">API Bluetooth Intent</string>
+    <string name="activity_prefs_allow_bluetooth_intent_api">API Intenti Bluetooth</string>
     <string name="steps_streaks_achievement_rate">Frequenza
 \nconseguimento</string>
     <string name="pref_media_playpause">Cambia stato riproduzione</string>
@@ -1920,4 +1920,161 @@
     <string name="activity_type_zumba">Zumba</string>
     <string name="activity_type_boxing">Pugilato</string>
     <string name="activity_type_volleyball">Pallavolo</string>
+    <string name="pref_gps_header">GPS</string>
+    <string name="menuitem_theater_mode">Modalità Teatro</string>
+    <string name="pref_title_touch_spotify_official_app">Spotify (solo app ufficiale)</string>
+    <string name="hrZoneNa">N/A</string>
+    <string name="menuitem_eject_water">Rimuovi Acqua</string>
+    <string name="HeartRateZones">Zone Battito Cardiaco</string>
+    <string name="menuitem_unsupported">[NON SUPPORTATO] %s</string>
+    <string name="world_clock_code">Codice</string>
+    <string name="function_enabled">Attivata</string>
+    <string name="activity_type_core_training">Core Training</string>
+    <string name="menuitem_volume">Volume</string>
+    <string name="sports_activity_confirm_delete_title">Elimina %d attività</string>
+    <string name="sports_activity_confirm_delete_description">Sei sicuro di voler eliminare %d attività\?</string>
+    <string name="devicetype_sony_wh_1000xm2">Sony WH-1000XM2</string>
+    <string name="accuracy">Precisione</string>
+    <string name="balanced">Equilibrato</string>
+    <string name="power_saving">Risparmio energetico</string>
+    <string name="custom">Personalizzato</string>
+    <string name="single_band">Banda singola</string>
+    <string name="dual_band">Banda doppia</string>
+    <string name="low_power_gps">GPS a basso consumo</string>
+    <string name="gps_bds">GPS + BDS</string>
+    <string name="gps">GPS</string>
+    <string name="gps_gnolass">GPS + GNOLASS</string>
+    <string name="gps_galileo">GPS + GALILEO</string>
+    <string name="all_satellites">Tutti i satelliti</string>
+    <string name="speed_first">Preferisci velocità</string>
+    <string name="accuracy_first">Preferisci precisione</string>
+    <string name="prefs_always_on_display_follow_watchface">Segui stile quadrante</string>
+    <string name="prefs_always_on_display_style">Stile</string>
+    <string name="prefs_control_center_summary">Scegli le voci nel menu a tendina del centro di controllo</string>
+    <string name="prefs_control_center">Centro di Controllo</string>
+    <string name="activity_prefs_goal_standing_time_minutes">Obiettivo giornaliero: tempo in piedi in minuti</string>
+    <string name="activity_prefs_goal_fat_burn_time_minutes">Obiettivo giornaliero: tempo consumo grassi in minuti</string>
+    <string name="fw_upgrade_notice_amazfit_gtr4">Stai per installare il firmware %s sul tuo Amazfit GTR 4.
+\n
+\nLa band si riavvierà dopo l\'installazione del file .zip.
+\n
+\nPROCEDI A TUO RISCHIO E PERICOLO!</string>
+    <string name="pref_header_sound_vibration">Suono &amp; Vibrazione</string>
+    <string name="activity_type_indoor_walking">Camminata al chiuso</string>
+    <string name="menuitem_todo">Da Fare</string>
+    <string name="menuitem_calendar">Calendario</string>
+    <string name="menuitem_bluetooth">Bluetooth</string>
+    <string name="hrZoneWarmUp">Riscaldamento</string>
+    <string name="pref_header_authentication">Autenticazione</string>
+    <string name="fw_upgrade_notice_amazfit_gts4">Stai per installare il firmware %s sul tuo Amazfit GTS 4.
+\n
+\nLa band si riavvierà dopo l\'installazione del file .zip.
+\n
+\nPROCEDI A TUO RISCHIO E PERICOLO!</string>
+    <string name="pref_title_upper_button_long_press_action">Azione pressione prolungata pulsante superiore</string>
+    <string name="pref_title_lower_button_short_press_action">Azione pressione breve pulsante inferiore</string>
+    <string name="activity_type_hiit">Allenamento a intervalli ad alta intensità</string>
+    <string name="activity_type_stepper">Stepper</string>
+    <string name="watchface_setting_button_move_hands">Movimento mani</string>
+    <string name="maximumOxygenUptake">Massimo Assorbimento Ossigeno</string>
+    <string name="menuitem_brightness">Luminosità</string>
+    <string name="pref_header_intent_api">API Intenti</string>
+    <string name="pref_sleep_mode_smart_enable_title">Attivazione intelligente</string>
+    <string name="buttons_on_left">Pulsanti a sinistra</string>
+    <string name="vibration_profile_default">Predefinito</string>
+    <string name="abstract_chart_fragment_kind_rem_sleep">Sonno REM</string>
+    <string name="activity_prefs_target_weight_kg">Peso desiderato in kg</string>
+    <string name="pref_chart_sleep_lines_limit">Quante righe della sessione di sonno sono mostrate prima di scorrere</string>
+    <string name="activity_type_pool_swimming">Nuoto in piscina</string>
+    <string name="activity_type_street_dance">Danza di Strada</string>
+    <string name="menuitem_screen_always_lit">Schermo Sempre Acceso</string>
+    <string name="menuitem_wifi">Wi-Fi</string>
+    <string name="menuitem_lockscreen">Schermata di blocco</string>
+    <string name="hrZoneFatBurn">Consumo Grassi</string>
+    <string name="elevationLoss">Perdita di quota</string>
+    <string name="elevationGain">Aumento di quota</string>
+    <string name="pref_title_touch_spotify_galaxy_app">Spotify (solo app Galaxy Wearable)</string>
+    <string name="pref_screen_auto_brightness_title">Luminosità Automatica</string>
+    <string name="pref_screen_auto_brightness_summary">Regola la luminosità dello schermo in base alla luce ambientale</string>
+    <string name="devicetype_galaxybuds_2">Galaxy Buds2</string>
+    <string name="prefs_touch_lock_buds2">Controlli Tocco</string>
+    <string name="intent_api_broadcast_export_title">Trasmetti sull\'esportazione database</string>
+    <string name="intent_api_broadcast_export_summary">Trasmetti un intento al termine dell\'esportazione database</string>
+    <string name="supercars_lights_label">Luci</string>
+    <string name="intent_api_allow_trigger_export_title">Consenti esportazione database</string>
+    <string name="intent_api_allow_trigger_export_summary">Consenti attivazione dell\'esportazione database attraverso API intenti</string>
+    <string name="intent_api_allow_activity_sync_title">Consenti sincronizzazione attività</string>
+    <string name="intent_api_allow_activity_sync_summary">Consenti l\'attivazione della sincronizzazione attività attraverso API intenti</string>
+    <string name="supercars_turbo_speed_label">Velocità Turbo</string>
+    <string name="buttons_on_right">Pulsanti a destra</string>
+    <string name="pref_huami_truncate_fetch_operation_timestamps_title">Tronca i timestamp dell\'operazione di recupero</string>
+    <string name="pref_huami_truncate_fetch_operation_timestamps_summary">Tronca i timestamp delle operazioni di recupero in minuti. Disattiva questa impostazione per tenere i timestamp in secondi, se riscontri problemi durante il recupero di allenamenti molto brevi.</string>
+    <string name="pref_enable_unsupported_settings_summary">Questo abilita l\'accesso a tutte le impostazioni disponibili, anche se non supportate dal dispositivo. Ciò può causare instabilità e arresti anomali del dispositivo.</string>
+    <string name="fw_upgrade_notice_amazfit_gts4_mini">Stai per installare il firmware %s sul tuo Amazfit GTS 4 Mini.
+\n
+\nLa band si riavvierà dopo l\'installazione del file .zip.
+\n
+\nPROCEDI A TUO RISCHIO E PERICOLO!</string>
+    <string name="pref_header_offline_voice">Voce Offline</string>
+    <string name="pref_title_notification_media_ignores_application_list">Lista app ignorate per notifiche media</string>
+    <string name="pref_enable_unsupported_settings_title">Attiva impostazioni non supportate</string>
+    <string name="devicetype_amazfit_gts4">Amazfit GTS 4</string>
+    <string name="devicetype_amazfit_gts4_mini">Amazfit GTS 4 Mini</string>
+    <string name="devicetype_sony_wf_1000xm4">Sony WF-1000XM4</string>
+    <string name="hrZoneAerobic">Aerobica</string>
+    <string name="aerobicTrainingEffect">Effetto Aerobico</string>
+    <string name="anaerobicTrainingEffect">Effetto Anaerobico</string>
+    <string name="currentWorkoutLoad">Carico Allenamento</string>
+    <string name="debugactivity_confirm_remove_device_preferences_title">Rimuovere le preferenze del dispositivo\?</string>
+    <string name="debugactivity_confirm_remove_device_preferences">Così si ripristineranno le preferenze per tutti i dispositivi collegati. Sei sicuro\?</string>
+    <string name="pref_alert_tone">Tono di Avviso</string>
+    <string name="pref_vibrate_for_alert">Vibra per gli Avvisi</string>
+    <string name="pref_text_to_speech">Sintesi Vocale</string>
+    <string name="pref_gps_band">Banda GPS</string>
+    <string name="pref_crown_vibration">Vibrazione Corona</string>
+    <string name="pref_gps_combination">Combinazione GPS</string>
+    <string name="pref_gps_satellite_search">Ricerca satelliti</string>
+    <string name="pref_cover_to_mute">Copri per silenziare</string>
+    <string name="offline_voice_respond_turn_wrist">Rispondi ruotando il polso</string>
+    <string name="offline_voice_respond_screen_on">Rispondi quando lo schermo è attivo</string>
+    <string name="pref_workout_detection_title">Rilevamento allenamento</string>
+    <string name="seconds_25">25 secondi</string>
+    <string name="menuitem_voice_memos">Note Vocali</string>
+    <string name="menuitem_sun_moon">Sole &amp; Luna</string>
+    <string name="menuitem_offline_voice">Voce Offline</string>
+    <string name="menuitem_membership_cards">Carte Fedeltà</string>
+    <string name="menuitem_phone">Telefono</string>
+    <string name="menuitem_one_tap_measuring">Misurazione con un tocco</string>
+    <string name="hrZoneAnaerobic">Anaerobica</string>
+    <string name="supercars_lights_blinking_label">Lampeggianti</string>
+    <string name="fw_upgrade_notice_amazfit_band7">Stai per installare il firmware %s sul tuo Amazfit Band 7.
+\n
+\nLa band si riavvierà dopo l\'installazione del file .zip.
+\n
+\nPROCEDI A TUO RISCHIO E PERICOLO!</string>
+    <string name="pref_summary_notification_media_ignores_application_list">Elabora le notifiche multimediali prima dell\'elenco delle app. Se non selezionata, le app multimediali devono essere abilitate nell\'elenco per far funzionare i controlli multimediali sul dispositivo.</string>
+    <string name="pref_workout_detection_sensitivity">Sensibilità</string>
+    <string name="pref_gps_mode_preset">Modalità GPS</string>
+    <string name="pref_agps_header">AGPS</string>
+    <string name="pref_agps_expiry_reminder_enabled">Promemoria Scadenza AGPS</string>
+    <string name="pref_agps_expiry_reminder_time">Tempo Promemoria Scadenza AGPS</string>
+    <string name="pref_workout_detection_summary">Rileva allenamenti automaticamente</string>
+    <string name="pref_workout_detection_categories_title">Categorie Allenamenti</string>
+    <string name="pref_workout_detection_categories_summary">Categorie allenamenti da rilevare automaticamente</string>
+    <string name="pref_workout_detection_alert_summary">Notifica quando viene rilevato un allenamento</string>
+    <string name="pref_sleep_mode_title">Modalità Sospensione</string>
+    <string name="pref_sleep_mode_sleep_screen_title">Schermata Sospensione</string>
+    <string name="pref_sleep_mode_sleep_screen_summary">Mostra la Schermata di Sospensione al risveglio dello schermo durante la modalità di sospensione, per ridurre le distrazioni</string>
+    <string name="pref_workout_detection_alert_title">Avviso</string>
+    <string name="offline_voice_response_during_screen_lighting">Rispondi durante l\'illuminazione dello schermo</string>
+    <string name="pref_sleep_mode_smart_enable_summary">Attiva automaticamente la modalità sospensione quando si indossa la band durante il sonno</string>
+    <string name="prefs_weardirection">Direzione d\'uso</string>
+    <string name="pref_screen_notification_profile_schedule">Pianifica</string>
+    <string name="pref_screen_notification_profile_todo_list">Lista Da Fare</string>
+    <string name="devicetype_amazfit_gtr4">Amazfit GTR 4</string>
+    <string name="devicetype_amazfit_band7">Amazfit Band 7</string>
+    <string name="devicetype_amazfit_gtr_lite">Amazfit GTR Lite</string>
+    <string name="hrZoneExtreme">Estrema</string>
+    <string name="TrainingEffect">Effetto Allenamento</string>
+    <string name="sony_speak_to_chat_sensitivity_standard">Standard</string>
 </resources>
