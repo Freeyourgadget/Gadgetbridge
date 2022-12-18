@@ -34,7 +34,7 @@ public final class QHybridConstants {
             put("notificationsPanelApp", "3.7");
             put("ringPhoneApp", "3.8");
             put("settingApp", "3.13");
-            put("stopwatchApp", "3.6");
+            put("stopwatchApp", "3.8");
             put("timerApp", "3.9");
             put("weatherApp", "3.11");
             put("wellnessApp", "3.16");
