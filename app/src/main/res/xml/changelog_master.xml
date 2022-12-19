@@ -1,5 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
+    <release version="0.72.0" versioncode="220">
+        <change>Initial support for Amazfit GTR 4/GTS 4/GTS 4 Mini</change>
+        <change>Initial support for Amazfit Band 7</change>
+        <change>Initial support for Galaxy Buds 2</change>
+        <change>Initial Support for Sony WH-1000XM2/WF-1000XM4</change>
+        <change>Sony headphones: Fix pause when taken off</change>
+        <change>Sony Headphones: Fix setting surround mode</change>
+        <change>Zepp OS: Map strength training, basketball and cricket activity types</change>
+        <change>Zepp OS: Add World Clocks</change>
+        <change>Zepp OS: Fix notification icons larger than 56x56px</change>
+        <change>Zepp OS: Fix notification icons for work profile apps</change>
+        <change>Zepp OS: Fix notification icon for SMS</change>
+        <change>Zepp OS: Fix app and watchface install</change>
+        <change>Zepp OS: Fix NPE when no weather data is available</change>
+        <change>Amazfit GTR 2: Fix activate display upon lift only working when scheduled</change>
+        <change>Bangle.js: Fix calendar sync</change>
+        <change>InfiniTime: Fix weather</change>
+        <change>InfiniTime: Add support for local time service</change>
+        <change>InfiniTime: Add world clock support</change>
+        <change>Skagen Gen 6 Hybrid HR: Add support for 38mm watches</change>
+        <change>Complete rewrite of new device discovery</change>
+        <change>Add Intent API to trigger activity sync and DB export</change>
+        <change>Allow media notifications to bypass app list</change>
+        <change>Debug Activity: Add confirmation dialog before removing device preferences</change>
+    </release>
     <release version="0.71.3" versioncode="219">
         <change>Fossil/Skagen Hybrids: Update known watch app versions</change>
         <change>Skagen Hybrids: Allow firmware installation</change>

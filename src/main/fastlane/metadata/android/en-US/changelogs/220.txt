@@ -1,0 +1,23 @@
+* Initial support for Amazfit GTR 4/GTS 4/GTS 4 Mini
+* Initial support for Amazfit Band 7
+* Initial support for Galaxy Buds 2
+* Initial Support for Sony WH-1000XM2/WF-1000XM4
+* Sony headphones: Fix pause when taken off
+* Sony Headphones: Fix setting surround mode
+* Zepp OS: Map strength training, basketball and cricket activity types
+* Zepp OS: Add World Clocks
+* Zepp OS: Fix notification icons larger than 56x56px
+* Zepp OS: Fix notification icons for work profile apps
+* Zepp OS: Fix notification icon for SMS
+* Zepp OS: Fix app and watchface install
+* Zepp OS: Fix NPE when no weather data is available
+* Amazfit GTR 2: Fix activate display upon lift only working when scheduled
+* Bangle.js: Fix calendar sync
+* InfiniTime: Fix weather
+* InfiniTime: Add support for local time service
+* InfiniTime: Add world clock support
+* Skagen Gen 6 Hybrid HR: Add support for 38mm watches
+* Complete rewrite of new device discovery
+* Add Intent API to trigger activity sync and DB export
+* Allow media notifications to bypass app list
+* Debug Activity: Add confirmation dialog before removing device preferences

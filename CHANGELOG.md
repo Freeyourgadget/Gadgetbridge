@@ -1,6 +1,6 @@
 ### Changelog
 
-#### 0.72.0 (NEXT)
+#### 0.72.0
 * Initial support for Amazfit GTR 4/GTS 4/GTS 4 Mini
 * Initial support for Amazfit Band 7
 * Initial support for Galaxy Buds 2
@@ -21,6 +21,7 @@
 * InfiniTime: Add world clock support
 * Skagen Gen 6 Hybrid HR: Add support for 38mm watches
 * Complete rewrite of new device discovery
+* Add Intent API to trigger activity sync and DB export
 * Allow media notifications to bypass app list
 * Debug Activity: Add confirmation dialog before removing device preferences
 
