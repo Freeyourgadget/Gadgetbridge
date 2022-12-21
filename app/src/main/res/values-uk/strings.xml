@@ -544,7 +544,7 @@
     <string name="notif_battery_low_extended">%1$s низький заряд: %2$s</string>
     <string name="pref_summary_rtl">Увімкніть, якщо ваш пристрій не показує мови «справа наліво»</string>
     <string name="pref_rtl_max_line_length">Найбільша довжина рядка «справа наліво»</string>
-    <string name="pref_rtl_max_line_length_summary">Подовжує чи скорочує строки на які розбитий текст \"зправа наліво\"</string>
+    <string name="pref_rtl_max_line_length_summary">Подовжує чи скорочує строки на які розбитий текст «cправа наліво»</string>
     <string name="lack_of_sleep">Недосипання: %1$s</string>
     <string name="overslept">Пересип: %1$s</string>
     <string name="lack_of_step">Недостатньо кроків: %1$d</string>
@@ -1053,7 +1053,7 @@
 \n
 \nПРОДОВЖУЙТЕ НА ВЛАСНИЙ РИЗИК!</string>
     <string name="sonyswr12_settings_title">Sony SWR12 налаштування</string>
-    <string name="sonyswr12_settings_low_vibration">Cлабка вібрація</string>
+    <string name="sonyswr12_settings_low_vibration">Слабка вібрація</string>
     <string name="sonyswr12_settings_stamina">Режим енергозаощадження ввімкнено</string>
     <string name="sonyswr12_settings_alarm_interval">Інтелектуальний інтервал тривоги в хвилинах</string>
     <string name="sonyswr12_settings_low_vibration_summary">Увімкніть низьку інтенсивність вібрації на браслеті</string>
