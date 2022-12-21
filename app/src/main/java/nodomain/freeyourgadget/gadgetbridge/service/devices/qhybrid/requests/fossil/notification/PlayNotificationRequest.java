@@ -61,11 +61,11 @@ public abstract class PlayNotificationRequest extends FilePutRequest {
         byte[] titleBytes = nullTerminatedTitle.getBytes(charsetUTF8);
         String nullTerminatedSender = StringUtils.terminateNull(sender);
         byte[] senderBytes = nullTerminatedSender.getBytes(charsetUTF8);
+        if (message.length() > 475) {
+            message = message.substring(0, 475);
+        }
         String nullTerminatedMessage = StringUtils.terminateNull(message);
         byte[] messageBytes = nullTerminatedMessage.getBytes(charsetUTF8);
-        if (messageBytes.length > 490) {
-            messageBytes = Arrays.copyOf(messageBytes, 475);
-        }
         short mainBufferLength = (short) (lengthBufferLength + uidLength + appBundleCRCLength + titleBytes.length + senderBytes.length + messageBytes.length);
 
         ByteBuffer mainBuffer = ByteBuffer.allocate(mainBufferLength);
