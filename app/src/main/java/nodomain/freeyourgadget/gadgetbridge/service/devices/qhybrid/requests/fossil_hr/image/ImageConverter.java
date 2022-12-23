@@ -102,6 +102,22 @@ public class ImageConverter {
         return sum;
     }
 
+    public static @ColorInt int convertFromMonochrome(int color) {
+        int result = 0;
+        switch (color) {
+            case 1:
+                result = 0xff * 1/3;
+                break;
+            case 2:
+                result = 0xff * 2/3;
+                break;
+            case 3:
+                result = 0xff;
+                break;
+        }
+        return Color.rgb(result, result, result);
+    }
+
     public static Bitmap decodeFromRLEImage(byte[] rleImage) {
         ByteBuffer buf = ByteBuffer.wrap(rleImage);
         buf.order(ByteOrder.LITTLE_ENDIAN);
@@ -113,10 +129,9 @@ public class ImageConverter {
         while (buf.remaining() > 2) {
             int repetitions = buf.get() & 0xff;
             int pixel = buf.get() & 0xff;
-            int color = pixel << 6;
-            int combinedColor = Color.rgb(color, color, color);
+            int color = convertFromMonochrome(pixel & 0b00000011);
             for (int i=0; i<repetitions; i++) {
-                bitmap.setPixel(posX, posY, combinedColor);
+                bitmap.setPixel(posX, posY, color);
                 posX++;
                 if (posX >= width) {
                     posX = 0;
@@ -139,11 +154,10 @@ public class ImageConverter {
         int posX = 239;
         int posY = 239;
         while (buf.remaining() > 0) {
-            int currentPixels = buf.get() & 0xff;
+            int currentPixel = buf.get() & 0xff;
             for (int shift=6; shift>=0; shift-=2) {
-                int color = ((currentPixels >> shift) & 0b00000011) << 6;
-                int combinedColor = Color.rgb(color, color, color);
-                bitmap.setPixel(posX, posY, combinedColor);
+                int color = convertFromMonochrome((currentPixel >> shift) & 0b00000011);
+                bitmap.setPixel(posX, posY, color);
                 posX--;
                 if (posX < 0) {
                     posX = 239;
