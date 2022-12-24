@@ -539,7 +539,7 @@
     <string name="pref_title_notifications_timeout">Tempo minimo tra le notifiche</string>
     <string name="pref_title_rtl">Da destra a sinistra</string>
     <string name="pref_summary_rtl">Abilita questo se il tuo dispositivo non mostra le lingue lette da destra a sinistra</string>
-    <string name="pref_rtl_max_line_length">Lunghezza massima delle linee</string>
+    <string name="pref_rtl_max_line_length">Lunghezza massima delle righe destra-sinistra</string>
     <string name="pref_rtl_max_line_length_summary">Aumenta o diminuisci il numero di righe con cui separare il testo da destra a sinistra</string>
     <string name="prefs_screen_orientation">Orientamento dello schermo</string>
     <string name="pref_auto_fetch_limit_fetches">Tempo minimo tra le sincronizzazioni</string>
@@ -2077,4 +2077,5 @@
     <string name="hrZoneExtreme">Estrema</string>
     <string name="TrainingEffect">Effetto Allenamento</string>
     <string name="sony_speak_to_chat_sensitivity_standard">Standard</string>
+    <string name="devicetype_super_cars">Shell Racing</string>
 </resources>
