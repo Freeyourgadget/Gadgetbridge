@@ -21,7 +21,7 @@ public class SensorState extends Parameter{
     }
 
     public static SensorState decode(byte[] data){
-        int dataInt = (data[1] << 8) | data[0];
+        int dataInt = ((data[1] & 0xFF) << 8) | (data[0] & 0xFF);
         byte stateByte = (byte)((dataInt >> 11) & 0x01);
         int count = dataInt & 0b11111111111;
         return new SensorState(
