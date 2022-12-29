@@ -59,14 +59,14 @@ public class PhoneNetworkLocationProvider extends AbstractLocationProvider {
         final LocationManager locationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
         locationManager.removeUpdates(getLocationListener());
         locationManager.requestLocationUpdates(
-                LocationManager.GPS_PROVIDER,
+                LocationManager.NETWORK_PROVIDER,
                 interval,
                 INTERVAL_MIN_DISTANCE,
                 getLocationListener(),
                 Looper.getMainLooper()
         );
 
-        final Location lastKnownLocation = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+        final Location lastKnownLocation = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
         LOG.debug("Last known network location: {}", lastKnownLocation);
     }
 
