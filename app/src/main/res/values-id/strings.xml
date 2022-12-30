@@ -2075,4 +2075,11 @@
     <string name="intent_api_allow_trigger_export_title">Perbolehkan pengeksporan basis data</string>
     <string name="intent_api_allow_trigger_export_summary">Perbolehkan memicu pengeksporan basis data melalui API Intent</string>
     <string name="intent_api_broadcast_export_summary">Siarkan intent ketika pengeksporan basis data selesai</string>
+    <string name="sony_ambient_sound_control_button_mode_nc_as_off">Pembatalan Kebisingan, Suara Sekitar, Mati</string>
+    <string name="sony_ambient_sound_control_button_mode_nc_as">Pembatalan Kebisingan, Suara Sekitar</string>
+    <string name="sony_ambient_sound_control_button_mode_nc_off">Pembatalan Kebisingan, Mati</string>
+    <string name="sony_quick_access_double_tap">Akses Cepat (Ketuk Dua Kali)</string>
+    <string name="sony_quick_access_triple_tap">Akses Cepat (Ketuk Tiga Kali)</string>
+    <string name="sony_ambient_sound_control_button_modes">Mode Tombol Kontrol Suara Sekitar</string>
+    <string name="sony_ambient_sound_control_button_mode_as_off">Suara Sekitar, Mati</string>
 </resources>
