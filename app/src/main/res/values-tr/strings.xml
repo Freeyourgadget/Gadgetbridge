@@ -2100,4 +2100,11 @@
     <string name="intent_api_allow_trigger_export_summary">Amaç API\'si aracılığıyla veri tabanı dışa aktarmanın tetiklenmesine izin verin</string>
     <string name="intent_api_broadcast_export_title">Veri tabanı dışa aktarmada yayın gönder</string>
     <string name="intent_api_broadcast_export_summary">Veri tabanı dışa aktarma işlemi tamamlandığında bir amaç yayınlayın</string>
+    <string name="sony_ambient_sound_control_button_mode_nc_off">Gürültü Engelleme, Kapalı</string>
+    <string name="sony_ambient_sound_control_button_mode_as_off">Ortam Sesi, Kapalı</string>
+    <string name="sony_quick_access_double_tap">Hızlı Erişim (Çift Dokunuş)</string>
+    <string name="sony_ambient_sound_control_button_modes">Ortam Sesi Denetim Düğmesi Modları</string>
+    <string name="sony_ambient_sound_control_button_mode_nc_as_off">Gürültü Engelleme, Ortam Sesi, Kapalı</string>
+    <string name="sony_ambient_sound_control_button_mode_nc_as">Gürültü Engelleme, Ortam Sesi</string>
+    <string name="sony_quick_access_triple_tap">Hızlı Erişim (Üç Dokunuş)</string>
 </resources>
