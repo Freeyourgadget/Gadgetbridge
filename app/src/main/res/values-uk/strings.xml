@@ -2094,4 +2094,11 @@
     <string name="intent_api_allow_activity_sync_title">Дозволити ініціацію синхронізації дій</string>
     <string name="intent_api_allow_activity_sync_summary">Дозволити ініціювання синхронізації активності через Intent API</string>
     <string name="intent_api_allow_trigger_export_summary">Дозволити ініціювати експорт бази даних через Intent API</string>
+    <string name="sony_ambient_sound_control_button_mode_nc_as_off">Шумозаглушення, Навколишній звук, Вимк</string>
+    <string name="sony_ambient_sound_control_button_mode_nc_as">Шумозаглушення, навколишній звук</string>
+    <string name="sony_ambient_sound_control_button_mode_as_off">Навколишній звук, Вимк</string>
+    <string name="sony_quick_access_double_tap">Швидкий доступ (подвійне торкання)</string>
+    <string name="sony_quick_access_triple_tap">Швидкий доступ (потрійне торкання)</string>
+    <string name="sony_ambient_sound_control_button_modes">Режими кнопки керування навколишнім звуком</string>
+    <string name="sony_ambient_sound_control_button_mode_nc_off">Шумозаглушення, Вимк</string>
 </resources>
