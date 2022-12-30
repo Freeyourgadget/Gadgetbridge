@@ -2090,4 +2090,11 @@ Temps de sommeil préféré en heures</string>
     <string name="intent_api_allow_trigger_export_title">Autoriser l\'export de la base de données</string>
     <string name="intent_api_broadcast_export_title">Diffusion sur un export de la base de données</string>
     <string name="intent_api_broadcast_export_summary">Diffuser une commande vocale quand l\'export de la base de données est fini</string>
+    <string name="sony_ambient_sound_control_button_modes">Modes des boutons de contrôle du son ambiant</string>
+    <string name="sony_ambient_sound_control_button_mode_nc_as_off">Annulation de bruit, Son ambiant, Éteint</string>
+    <string name="sony_ambient_sound_control_button_mode_nc_as">Annulation de bruit, Son Ambiant</string>
+    <string name="sony_ambient_sound_control_button_mode_nc_off">Annulation de Bruit, Éteint</string>
+    <string name="sony_ambient_sound_control_button_mode_as_off">Son Ambiant, Éteint</string>
+    <string name="sony_quick_access_double_tap">Accès rapide (Double Appui)</string>
+    <string name="sony_quick_access_triple_tap">Accès Rapide (Triple Appui)</string>
 </resources>
