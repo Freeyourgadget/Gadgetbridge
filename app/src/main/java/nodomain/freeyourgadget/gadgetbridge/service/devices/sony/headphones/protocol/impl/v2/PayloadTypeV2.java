@@ -19,6 +19,10 @@ package nodomain.freeyourgadget.gadgetbridge.service.devices.sony.headphones.pro
 import nodomain.freeyourgadget.gadgetbridge.service.devices.sony.headphones.protocol.MessageType;
 
 public enum PayloadTypeV2 {
+    AUDIO_CODEC_REQUEST(MessageType.COMMAND_1, 0x12),
+    AUDIO_CODEC_REPLY(MessageType.COMMAND_1, 0x13),
+    AUDIO_CODEC_NOTIFY(MessageType.COMMAND_1, 0x15),
+
     BATTERY_LEVEL_REQUEST(MessageType.COMMAND_1, 0x22),
     BATTERY_LEVEL_REPLY(MessageType.COMMAND_1, 0x23),
     BATTERY_LEVEL_NOTIFY(MessageType.COMMAND_1, 0x25),

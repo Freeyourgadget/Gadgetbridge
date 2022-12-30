@@ -71,7 +71,8 @@ public class SonyProtocolImplV2Test {
 
     @Test
     public void getAudioCodec() {
-        // TODO
+        final Request requestEnabled = protocol.getAudioCodec();
+        assertRequest(requestEnabled, "3e:0c:01:00:00:00:02:12:02:23:3c");
     }
 
     @Test
