@@ -31,9 +31,11 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.UUID;
 
+import nodomain.freeyourgadget.gadgetbridge.devices.sony.headphones.SonyHeadphonesCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.service.btclassic.BtClassicIoThread;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.sony.headphones.protocol.Message;
+import nodomain.freeyourgadget.gadgetbridge.util.DeviceHelper;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
 public class SonyHeadphonesIoThread extends BtClassicIoThread {
@@ -117,26 +119,39 @@ public class SonyHeadphonesIoThread extends BtClassicIoThread {
     @NonNull
     @Override
     protected UUID getUuidToConnect(@NonNull final ParcelUuid[] uuids) {
+        boolean hasV1 = false;
         boolean hasV2 = false;
+        boolean preferV2 = getCoordinator().preferServiceV2();
         for (final ParcelUuid uuid : uuids) {
             if (uuid.getUuid().equals(btrfcommUuidV1)) {
-                // Prioritize V1
-                return btrfcommUuidV1;
+                LOG.info("Found Sony UUID V1");
+                hasV1 = true;
             } else if (uuid.getUuid().equals(btrfcommUuidV2)) {
+                LOG.info("Found Sony UUID V2");
                 hasV2 = true;
             }
         }
 
         if (hasV2) {
+            LOG.info("Using Sony UUID V2");
             return btrfcommUuidV2;
+        } else if (hasV1) {
+            LOG.info("Using Sony UUID V1");
+            return btrfcommUuidV1;
         }
 
-        return super.getUuidToConnect(uuids);
+        LOG.warn("Failed to find a known Sony UUID, will fallback to {}", (preferV2 ? "V2" : "V1"));
+
+        return preferV2 ? btrfcommUuidV2 : btrfcommUuidV1;
     }
 
     private void scheduleInitRetry() {
         LOG.info("Scheduling init retry");
 
         handler.postDelayed(initSendRunnable, 1250);
+    }
+
+    private SonyHeadphonesCoordinator getCoordinator() {
+        return (SonyHeadphonesCoordinator) DeviceHelper.getInstance().getCoordinator(getDevice());
     }
 }

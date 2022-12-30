@@ -145,7 +145,7 @@ public abstract class SonyHeadphonesCoordinator extends AbstractBLClassicDeviceC
         if (supports(SonyHeadphonesCapabilities.BatterySingle)) {
             if (supports(SonyHeadphonesCapabilities.BatteryDual)) {
                 throw new IllegalStateException("A device can't have both single and dual battery");
-            } else if(supports(SonyHeadphonesCapabilities.BatteryCase)) {
+            } else if (supports(SonyHeadphonesCapabilities.BatteryCase)) {
                 throw new IllegalStateException("Devices with single battery + case are not supported by the protocol");
             }
         }
@@ -194,6 +194,8 @@ public abstract class SonyHeadphonesCoordinator extends AbstractBLClassicDeviceC
 
         addSettingsUnderHeader(settings, R.xml.devicesettings_header_system, new LinkedHashMap<SonyHeadphonesCapabilities, Integer>() {{
             put(SonyHeadphonesCapabilities.ButtonModesLeftRight, R.xml.devicesettings_sony_headphones_button_modes_left_right);
+            put(SonyHeadphonesCapabilities.AmbientSoundControlButtonMode, R.xml.devicesettings_sony_headphones_ambient_sound_control_button_modes);
+            put(SonyHeadphonesCapabilities.QuickAccess, R.xml.devicesettings_sony_headphones_quick_access);
             put(SonyHeadphonesCapabilities.TouchSensorSingle, R.xml.devicesettings_sony_headphones_touch_sensor_single);
             put(SonyHeadphonesCapabilities.PauseWhenTakenOff, R.xml.devicesettings_sony_headphones_pause_when_taken_off);
             put(SonyHeadphonesCapabilities.AutomaticPowerOffWhenTakenOff, R.xml.devicesettings_automatic_power_off_when_taken_off);
@@ -217,8 +219,8 @@ public abstract class SonyHeadphonesCoordinator extends AbstractBLClassicDeviceC
     /**
      * Add the preference screens for capabilities under a header. The header is also only added if at least one capability is supported by the device.
      *
-     * @param settings the list of settings to update
-     * @param header the header to add, if any capability supported
+     * @param settings     the list of settings to update
+     * @param header       the header to add, if any capability supported
      * @param capabilities the map of capability to preference screen
      */
     private void addSettingsUnderHeader(final List<Integer> settings,
@@ -243,5 +245,9 @@ public abstract class SonyHeadphonesCoordinator extends AbstractBLClassicDeviceC
                 settings.add(capabilitiesSetting.getValue());
             }
         }
+    }
+
+    public boolean preferServiceV2() {
+        return false;
     }
 }

@@ -1,4 +1,4 @@
-/*  Copyright (C) 2021 José Rebelo
+/*  Copyright (C) 2022 José Rebelo
 
     This file is part of Gadgetbridge.
 
@@ -24,42 +24,40 @@ import java.util.Map;
 
 import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst;
 
-public class ButtonModes {
-    public enum Mode {
-        OFF,
-        AMBIENT_SOUND_CONTROL,
-        PLAYBACK_CONTROL,
-        VOLUME_CONTROL,
-        ;
+public enum AmbientSoundControlButtonMode {
+    NC_AS_OFF((byte) 0x01),
+    NC_AS((byte) 0x02),
+    NC_OFF((byte) 0x03),
+    AS_OFF((byte) 0x04),
+    ;
+
+    private final byte code;
+
+    AmbientSoundControlButtonMode(final byte code) {
+        this.code = code;
     }
 
-    final Mode left;
-    final Mode right;
-
-    public ButtonModes(final Mode left, final Mode right) {
-        this.left = left;
-        this.right = right;
-    }
-
-    public Mode getModeLeft() {
-        return left;
-    }
-
-    public Mode getModeRight() {
-        return right;
+    public byte getCode() {
+        return this.code;
     }
 
     public Map<String, Object> toPreferences() {
         return new HashMap<String, Object>() {{
-            put(DeviceSettingsPreferenceConst.PREF_SONY_BUTTON_MODE_LEFT, left.name().toLowerCase(Locale.getDefault()));
-            put(DeviceSettingsPreferenceConst.PREF_SONY_BUTTON_MODE_RIGHT, right.name().toLowerCase(Locale.getDefault()));
+            put(DeviceSettingsPreferenceConst.PREF_SONY_AMBIENT_SOUND_CONTROL_BUTTON_MODE, name().toLowerCase(Locale.getDefault()));
         }};
     }
 
-    public static ButtonModes fromPreferences(final SharedPreferences prefs) {
-        return new ButtonModes(
-                Mode.valueOf(prefs.getString(DeviceSettingsPreferenceConst.PREF_SONY_BUTTON_MODE_LEFT, "off").toUpperCase()),
-                Mode.valueOf(prefs.getString(DeviceSettingsPreferenceConst.PREF_SONY_BUTTON_MODE_RIGHT, "off").toUpperCase())
-        );
+    public static AmbientSoundControlButtonMode fromCode(final byte code) {
+        for (AmbientSoundControlButtonMode value : AmbientSoundControlButtonMode.values()) {
+            if (value.getCode() == code) {
+                return value;
+            }
+        }
+
+        return null;
+    }
+
+    public static AmbientSoundControlButtonMode fromPreferences(final SharedPreferences prefs) {
+        return AmbientSoundControlButtonMode.valueOf(prefs.getString(DeviceSettingsPreferenceConst.PREF_SONY_AMBIENT_SOUND_CONTROL_BUTTON_MODE, "nc_as_off").toUpperCase());
     }
 }

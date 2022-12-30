@@ -14,26 +14,27 @@
 
     You should have received a copy of the GNU Affero General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
-package nodomain.freeyourgadget.gadgetbridge.service.devices.sony.headphones.protocol.impl.v2;
+package nodomain.freeyourgadget.gadgetbridge.service.devices.sony.headphones.protocol.impl.v3;
 
 import nodomain.freeyourgadget.gadgetbridge.service.devices.sony.headphones.protocol.MessageType;
 
-public enum PayloadTypeV2 {
-    BATTERY_LEVEL_REQUEST(MessageType.COMMAND_1, 0x22),
-    BATTERY_LEVEL_REPLY(MessageType.COMMAND_1, 0x23),
-    BATTERY_LEVEL_NOTIFY(MessageType.COMMAND_1, 0x24), // TODO confirm
+public enum PayloadTypeV3 {
+    QUICK_ACCESS_GET(MessageType.COMMAND_1, 0xf6),
+    QUICK_ACCESS_RET(MessageType.COMMAND_1, 0xf7),
+    QUICK_ACCESS_SET(MessageType.COMMAND_1, 0xf8),
+    QUICK_ACCESS_NOTIFY(MessageType.COMMAND_1, 0xf9),
 
-    AUTOMATIC_POWER_OFF_GET(MessageType.COMMAND_1, 0x26),
-    AUTOMATIC_POWER_OFF_RET(MessageType.COMMAND_1, 0x27),
-    AUTOMATIC_POWER_OFF_SET(MessageType.COMMAND_1, 0x28),
-    AUTOMATIC_POWER_OFF_NOTIFY(MessageType.COMMAND_1, 0x29),
+    AMBIENT_SOUND_CONTROL_BUTTON_MODE_GET(MessageType.COMMAND_1, 0xfa),
+    AMBIENT_SOUND_CONTROL_BUTTON_MODE_RET(MessageType.COMMAND_1, 0xfb),
+    AMBIENT_SOUND_CONTROL_BUTTON_MODE_SET(MessageType.COMMAND_1, 0xfc),
+    AMBIENT_SOUND_CONTROL_BUTTON_MODE_NOTIFY(MessageType.COMMAND_1, 0xfd),
 
     UNKNOWN(MessageType.UNKNOWN, 0xff);
 
     private final MessageType messageType;
     private final byte code;
 
-    PayloadTypeV2(final MessageType messageType, final int code) {
+    PayloadTypeV3(final MessageType messageType, final int code) {
         this.messageType = messageType;
         this.code = (byte) code;
     }
@@ -46,13 +47,13 @@ public enum PayloadTypeV2 {
         return this.code;
     }
 
-    public static PayloadTypeV2 fromCode(final MessageType messageType, final byte code) {
-        for (final PayloadTypeV2 payloadType : values()) {
+    public static PayloadTypeV3 fromCode(final MessageType messageType, final byte code) {
+        for (final PayloadTypeV3 payloadType : values()) {
             if (messageType.equals(payloadType.messageType) && payloadType.code == code) {
                 return payloadType;
             }
         }
 
-        return PayloadTypeV2.UNKNOWN;
+        return PayloadTypeV3.UNKNOWN;
     }
 }

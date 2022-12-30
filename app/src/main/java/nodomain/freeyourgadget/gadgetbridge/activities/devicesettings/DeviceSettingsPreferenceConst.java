@@ -253,6 +253,7 @@ public class DeviceSettingsPreferenceConst {
 
     public static final String PREF_SONY_AUDIO_CODEC = "pref_sony_audio_codec";
     public static final String PREF_SONY_AMBIENT_SOUND_CONTROL = "pref_sony_ambient_sound_control";
+    public static final String PREF_SONY_AMBIENT_SOUND_CONTROL_BUTTON_MODE = "pref_sony_ambient_sound_control_button_mode";
     public static final String PREF_SONY_FOCUS_VOICE = "pref_sony_focus_voice";
     public static final String PREF_SONY_AMBIENT_SOUND_LEVEL = "pref_sony_ambient_sound_level";
     public static final String PREF_SONY_NOISE_OPTIMIZER_START = "pref_sony_noise_optimizer_start";
@@ -274,6 +275,8 @@ public class DeviceSettingsPreferenceConst {
     public static final String PREF_SONY_PAUSE_WHEN_TAKEN_OFF = "pref_sony_pause_when_taken_off";
     public static final String PREF_SONY_BUTTON_MODE_LEFT = "pref_sony_button_mode_left";
     public static final String PREF_SONY_BUTTON_MODE_RIGHT = "pref_sony_button_mode_right";
+    public static final String PREF_SONY_QUICK_ACCESS_DOUBLE_TAP = "pref_sony_quick_access_double_tap";
+    public static final String PREF_SONY_QUICK_ACCESS_TRIPLE_TAP = "pref_sony_quick_access_triple_tap";
     public static final String PREF_SONY_AUTOMATIC_POWER_OFF = "pref_sony_automatic_power_off";
     public static final String PREF_SONY_NOTIFICATION_VOICE_GUIDE = "pref_sony_notification_voice_guide";
     public static final String PREF_SONY_SPEAK_TO_CHAT = "pref_sony_speak_to_chat";

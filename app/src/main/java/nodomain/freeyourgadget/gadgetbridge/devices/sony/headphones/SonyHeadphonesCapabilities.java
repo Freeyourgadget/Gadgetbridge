@@ -27,6 +27,7 @@ public enum SonyHeadphonesCapabilities {
     AudioSettingsOnlyOnSbcCodec,
     AudioUpsampling,
     ButtonModesLeftRight,
+    AmbientSoundControlButtonMode,
     VoiceNotifications,
     AutomaticPowerOffWhenTakenOff,
     AutomaticPowerOffByTime,
@@ -35,5 +36,6 @@ public enum SonyHeadphonesCapabilities {
     EqualizerWithCustomBands,
     SoundPosition,
     SurroundMode,
+    QuickAccess,
     PauseWhenTakenOff
 }

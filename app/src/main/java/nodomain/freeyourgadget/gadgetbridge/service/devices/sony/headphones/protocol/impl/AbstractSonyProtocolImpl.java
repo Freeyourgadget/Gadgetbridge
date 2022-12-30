@@ -21,12 +21,14 @@ import java.util.List;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEvent;
 import nodomain.freeyourgadget.gadgetbridge.devices.sony.headphones.SonyHeadphonesCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.sony.headphones.prefs.AmbientSoundControl;
+import nodomain.freeyourgadget.gadgetbridge.devices.sony.headphones.prefs.AmbientSoundControlButtonMode;
 import nodomain.freeyourgadget.gadgetbridge.devices.sony.headphones.prefs.AudioUpsampling;
 import nodomain.freeyourgadget.gadgetbridge.devices.sony.headphones.prefs.AutomaticPowerOff;
 import nodomain.freeyourgadget.gadgetbridge.devices.sony.headphones.prefs.ButtonModes;
 import nodomain.freeyourgadget.gadgetbridge.devices.sony.headphones.prefs.EqualizerCustomBands;
 import nodomain.freeyourgadget.gadgetbridge.devices.sony.headphones.prefs.EqualizerPreset;
 import nodomain.freeyourgadget.gadgetbridge.devices.sony.headphones.prefs.PauseWhenTakenOff;
+import nodomain.freeyourgadget.gadgetbridge.devices.sony.headphones.prefs.QuickAccess;
 import nodomain.freeyourgadget.gadgetbridge.devices.sony.headphones.prefs.SoundPosition;
 import nodomain.freeyourgadget.gadgetbridge.devices.sony.headphones.prefs.SurroundMode;
 import nodomain.freeyourgadget.gadgetbridge.devices.sony.headphones.prefs.TouchSensor;
@@ -75,6 +77,14 @@ public abstract class AbstractSonyProtocolImpl {
     public abstract Request getButtonModes();
 
     public abstract Request setButtonModes(final ButtonModes config);
+
+    public abstract Request getQuickAccess();
+
+    public abstract Request setQuickAccess(final QuickAccess quickAccess);
+
+    public abstract Request getAmbientSoundControlButtonMode();
+
+    public abstract Request setAmbientSoundControlButtonMode(final AmbientSoundControlButtonMode ambientSoundControlButtonMode);
 
     public abstract Request getPauseWhenTakenOff();
 

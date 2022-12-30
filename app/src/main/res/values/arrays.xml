@@ -2729,6 +2729,30 @@
         <item>volume_control</item>
     </string-array>
 
+    <string-array name="sony_quick_access_names">
+        <item>@string/off</item>
+        <item>@string/pref_title_touch_spotify</item>
+    </string-array>
+
+    <string-array name="sony_quick_access_values">
+        <item>off</item>
+        <item>spotify</item>
+    </string-array>
+
+    <string-array name="sony_ambient_sound_control_button_mode_names">
+        <item>@string/sony_ambient_sound_control_button_mode_nc_as_off</item>
+        <item>@string/sony_ambient_sound_control_button_mode_nc_as</item>
+        <item>@string/sony_ambient_sound_control_button_mode_nc_off</item>
+        <item>@string/sony_ambient_sound_control_button_mode_as_off</item>
+    </string-array>
+
+    <string-array name="sony_ambient_sound_control_button_mode_values">
+        <item>nc_as_off</item>
+        <item>nc_as</item>
+        <item>nc_off</item>
+        <item>as_off</item>
+    </string-array>
+
     <string-array name="fossil_hr_activity_recognition_modes">
         <item>@string/pref_activity_recognition_mode_none</item>
         <item>@string/pref_activity_recognition_mode_ask</item>

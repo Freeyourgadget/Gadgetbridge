@@ -32,12 +32,14 @@ import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEvent;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventSendBytes;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventUpdateDeviceState;
 import nodomain.freeyourgadget.gadgetbridge.devices.sony.headphones.prefs.AmbientSoundControl;
+import nodomain.freeyourgadget.gadgetbridge.devices.sony.headphones.prefs.AmbientSoundControlButtonMode;
 import nodomain.freeyourgadget.gadgetbridge.devices.sony.headphones.prefs.AudioUpsampling;
 import nodomain.freeyourgadget.gadgetbridge.devices.sony.headphones.prefs.AutomaticPowerOff;
 import nodomain.freeyourgadget.gadgetbridge.devices.sony.headphones.prefs.ButtonModes;
 import nodomain.freeyourgadget.gadgetbridge.devices.sony.headphones.prefs.EqualizerCustomBands;
 import nodomain.freeyourgadget.gadgetbridge.devices.sony.headphones.prefs.EqualizerPreset;
 import nodomain.freeyourgadget.gadgetbridge.devices.sony.headphones.prefs.PauseWhenTakenOff;
+import nodomain.freeyourgadget.gadgetbridge.devices.sony.headphones.prefs.QuickAccess;
 import nodomain.freeyourgadget.gadgetbridge.devices.sony.headphones.prefs.VoiceNotifications;
 import nodomain.freeyourgadget.gadgetbridge.devices.sony.headphones.prefs.SoundPosition;
 import nodomain.freeyourgadget.gadgetbridge.devices.sony.headphones.prefs.SurroundMode;
@@ -49,6 +51,7 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.sony.headphones.prot
 import nodomain.freeyourgadget.gadgetbridge.service.devices.sony.headphones.protocol.impl.AbstractSonyProtocolImpl;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.sony.headphones.protocol.impl.v1.SonyProtocolImplV1;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.sony.headphones.protocol.impl.v2.SonyProtocolImplV2;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.sony.headphones.protocol.impl.v3.SonyProtocolImplV3;
 import nodomain.freeyourgadget.gadgetbridge.service.serial.GBDeviceProtocol;
 
 public class SonyHeadphonesProtocol extends GBDeviceProtocol {
@@ -101,9 +104,21 @@ public class SonyHeadphonesProtocol extends GBDeviceProtocol {
             if (MessageType.COMMAND_1.equals(messageType) && message.getPayload()[0] == 0x01) {
                 // Init reply, set the protocol version
                 if (message.getPayload().length == 4) {
+                    // WH-1000XM3:      01:00:40:10
+                    // WF-SP800N 1.0.1: 01:00:70:00
                     protocolImpl = new SonyProtocolImplV1(getDevice());
                 } else if (message.getPayload().length == 8) {
-                    protocolImpl = new SonyProtocolImplV2(getDevice());
+                    switch (message.getPayload()[2]) {
+                        case 0x01:
+                            // WF-1000XM4 1.1.5: 01:00:01:00:00:00:00:00
+                            protocolImpl = new SonyProtocolImplV2(getDevice());
+                            break;
+                        case 0x03:
+                            // LinkBuds S 2.0.2: 01:00:03:00:00:07:00:00
+                        default:
+                            protocolImpl = new SonyProtocolImplV3(getDevice());
+                            return null;
+                    }
                 } else {
                     LOG.error("Unexpected init response payload length: {}", message.getPayload().length);
                     return null;
@@ -152,6 +167,9 @@ public class SonyHeadphonesProtocol extends GBDeviceProtocol {
             case DeviceSettingsPreferenceConst.PREF_SONY_AMBIENT_SOUND_LEVEL:
                 configRequest = protocolImpl.setAmbientSoundControl(AmbientSoundControl.fromPreferences(prefs));
                 break;
+            case DeviceSettingsPreferenceConst.PREF_SONY_AMBIENT_SOUND_CONTROL_BUTTON_MODE:
+                configRequest = protocolImpl.setAmbientSoundControlButtonMode(AmbientSoundControlButtonMode.fromPreferences(prefs));
+                break;
             case DeviceSettingsPreferenceConst.PREF_SONY_NOISE_OPTIMIZER_START:
                 configRequest = protocolImpl.startNoiseCancellingOptimizer(true);
                 break;
@@ -187,6 +205,10 @@ public class SonyHeadphonesProtocol extends GBDeviceProtocol {
             case DeviceSettingsPreferenceConst.PREF_SONY_BUTTON_MODE_LEFT:
             case DeviceSettingsPreferenceConst.PREF_SONY_BUTTON_MODE_RIGHT:
                 configRequest = protocolImpl.setButtonModes(ButtonModes.fromPreferences(prefs));
+                break;
+            case DeviceSettingsPreferenceConst.PREF_SONY_QUICK_ACCESS_DOUBLE_TAP:
+            case DeviceSettingsPreferenceConst.PREF_SONY_QUICK_ACCESS_TRIPLE_TAP:
+                configRequest = protocolImpl.setQuickAccess(QuickAccess.fromPreferences(prefs));
                 break;
             case DeviceSettingsPreferenceConst.PREF_SONY_PAUSE_WHEN_TAKEN_OFF:
                 configRequest = protocolImpl.setPauseWhenTakenOff(PauseWhenTakenOff.fromPreferences(prefs));

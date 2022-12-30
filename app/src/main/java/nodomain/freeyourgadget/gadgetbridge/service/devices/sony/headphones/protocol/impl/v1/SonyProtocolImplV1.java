@@ -41,12 +41,14 @@ import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventVersionInf
 import nodomain.freeyourgadget.gadgetbridge.devices.sony.headphones.SonyHeadphonesCapabilities;
 import nodomain.freeyourgadget.gadgetbridge.devices.sony.headphones.SonyHeadphonesCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.sony.headphones.prefs.AmbientSoundControl;
+import nodomain.freeyourgadget.gadgetbridge.devices.sony.headphones.prefs.AmbientSoundControlButtonMode;
 import nodomain.freeyourgadget.gadgetbridge.devices.sony.headphones.prefs.AudioUpsampling;
 import nodomain.freeyourgadget.gadgetbridge.devices.sony.headphones.prefs.AutomaticPowerOff;
 import nodomain.freeyourgadget.gadgetbridge.devices.sony.headphones.prefs.ButtonModes;
 import nodomain.freeyourgadget.gadgetbridge.devices.sony.headphones.prefs.EqualizerCustomBands;
 import nodomain.freeyourgadget.gadgetbridge.devices.sony.headphones.prefs.EqualizerPreset;
 import nodomain.freeyourgadget.gadgetbridge.devices.sony.headphones.prefs.PauseWhenTakenOff;
+import nodomain.freeyourgadget.gadgetbridge.devices.sony.headphones.prefs.QuickAccess;
 import nodomain.freeyourgadget.gadgetbridge.devices.sony.headphones.prefs.SoundPosition;
 import nodomain.freeyourgadget.gadgetbridge.devices.sony.headphones.prefs.SurroundMode;
 import nodomain.freeyourgadget.gadgetbridge.devices.sony.headphones.prefs.TouchSensor;
@@ -247,10 +249,34 @@ public class SonyProtocolImplV1 extends AbstractSonyProtocolImpl {
                         PayloadTypeV1.AUTOMATIC_POWER_OFF_BUTTON_MODE_SET.getCode(),
                         (byte) 0x06,
                         (byte) 0x02,
-                        config.getModeLeft().getCode(),
-                        config.getModeRight().getCode()
+                        encodeButtonMode(config.getModeLeft()),
+                        encodeButtonMode(config.getModeRight())
                 }
         );
+    }
+
+    @Override
+    public Request getQuickAccess() {
+        LOG.warn("Quick access not implemented for V1");
+        return null;
+    }
+
+    @Override
+    public Request setQuickAccess(final QuickAccess quickAccess) {
+        LOG.warn("Quick access not implemented for V1");
+        return null;
+    }
+
+    @Override
+    public Request getAmbientSoundControlButtonMode() {
+        LOG.warn("Ambient sound control button modes not implemented for V1");
+        return null;
+    }
+
+    @Override
+    public Request setAmbientSoundControlButtonMode(final AmbientSoundControlButtonMode ambientSoundControlButtonMode) {
+        LOG.warn("Ambient sound control button modes not implemented for V1");
+        return null;
     }
 
     @Override
@@ -517,6 +543,8 @@ public class SonyProtocolImplV1 extends AbstractSonyProtocolImpl {
             put(SonyHeadphonesCapabilities.SoundPosition, getSoundPosition());
             put(SonyHeadphonesCapabilities.SurroundMode, getSurroundMode());
             put(SonyHeadphonesCapabilities.PauseWhenTakenOff, getPauseWhenTakenOff());
+            put(SonyHeadphonesCapabilities.AmbientSoundControlButtonMode, getAmbientSoundControlButtonMode());
+            put(SonyHeadphonesCapabilities.QuickAccess, getQuickAccess());
         }};
 
         for (Map.Entry<SonyHeadphonesCapabilities, Request> capabilityEntry : capabilityRequestMap.entrySet()) {
@@ -685,8 +713,8 @@ public class SonyProtocolImplV1 extends AbstractSonyProtocolImpl {
             return Collections.emptyList();
         }
 
-        final ButtonModes.Mode modeLeft = ButtonModes.Mode.fromCode(payload[3]);
-        final ButtonModes.Mode modeRight = ButtonModes.Mode.fromCode(payload[4]);
+        final ButtonModes.Mode modeLeft = decodeButtonMode(payload[3]);
+        final ButtonModes.Mode modeRight = decodeButtonMode(payload[4]);
         if (modeLeft == null || modeRight == null) {
             LOG.warn("Unknown button mode codes {}", String.format("%02x %02x", payload[3], payload[4]));
             return Collections.emptyList();
@@ -1062,5 +1090,35 @@ public class SonyProtocolImplV1 extends AbstractSonyProtocolImpl {
         }
 
         throw new IllegalArgumentException("Unknown battery type " + batteryType);
+    }
+
+    protected ButtonModes.Mode decodeButtonMode(final byte b) {
+        switch (b) {
+            case (byte) 0xff:
+                return ButtonModes.Mode.OFF;
+            case (byte) 0x00:
+                return ButtonModes.Mode.AMBIENT_SOUND_CONTROL;
+            case (byte) 0x20:
+                return ButtonModes.Mode.PLAYBACK_CONTROL;
+            case (byte) 0x10:
+                return ButtonModes.Mode.VOLUME_CONTROL;
+        }
+
+        return null;
+    }
+
+    protected byte encodeButtonMode(final ButtonModes.Mode buttonMode) {
+        switch (buttonMode) {
+            case OFF:
+                return (byte) 0xff;
+            case AMBIENT_SOUND_CONTROL:
+                return (byte) 0x00;
+            case PLAYBACK_CONTROL:
+                return (byte) 0x20;
+            case VOLUME_CONTROL:
+                return (byte) 0x10;
+        }
+
+        throw new IllegalArgumentException("Unknown button mode " + buttonMode);
     }
 }

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <ListPreference
+        android:defaultValue="off"
+        android:entries="@array/sony_quick_access_names"
+        android:entryValues="@array/sony_quick_access_values"
+        android:icon="@drawable/ic_filter_2"
+        android:key="pref_sony_quick_access_double_tap"
+        android:summary="%s"
+        android:title="@string/sony_quick_access_double_tap" />
+
+    <ListPreference
+        android:defaultValue="off"
+        android:entries="@array/sony_quick_access_names"
+        android:entryValues="@array/sony_quick_access_values"
+        android:icon="@drawable/ic_filter_3"
+        android:key="pref_sony_quick_access_triple_tap"
+        android:summary="%s"
+        android:title="@string/sony_quick_access_triple_tap" />
+</androidx.preference.PreferenceScreen>

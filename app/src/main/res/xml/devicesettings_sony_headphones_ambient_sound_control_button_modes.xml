@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <ListPreference
+        android:defaultValue="nc_as_off"
+        android:entries="@array/sony_ambient_sound_control_button_mode_names"
+        android:entryValues="@array/sony_ambient_sound_control_button_mode_values"
+        android:icon="@drawable/ic_touch"
+        android:key="pref_sony_ambient_sound_control_button_mode"
+        android:summary="%s"
+        android:title="@string/sony_ambient_sound_control_button_modes" />
+</androidx.preference.PreferenceScreen>

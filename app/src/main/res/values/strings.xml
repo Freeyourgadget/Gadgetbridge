@@ -1230,6 +1230,7 @@
     <string name="devicetype_sony_wf_sp800n">Sony WF-SP800N</string>
     <string name="devicetype_sony_wf_1000xm3">Sony WF-1000XM3</string>
     <string name="devicetype_sony_wf_1000xm4">Sony WF-1000XM4</string>
+    <string name="devicetype_sony_linkbuds_s">Sony LinkBuds S</string>
     <string name="devicetype_binary_sensor">Binary sensor</string>
     <string name="choose_auto_export_location">Choose export location</string>
     <string name="notification_channel_name">General</string>
@@ -1877,6 +1878,13 @@
     <string name="sony_button_mode_ambient_sound_control">Ambient Sound Control</string>
     <string name="sony_button_mode_playback_control">Playback Control</string>
     <string name="sony_button_mode_volume_control">Volume Control</string>
+    <string name="sony_ambient_sound_control_button_modes">Ambient Sound Control Button Modes</string>
+    <string name="sony_ambient_sound_control_button_mode_nc_as_off">Noise Cancelling, Ambient Sound, Off</string>
+    <string name="sony_ambient_sound_control_button_mode_nc_as">Noise Cancelling, Ambient Sound</string>
+    <string name="sony_ambient_sound_control_button_mode_nc_off">Noise Cancelling, Off</string>
+    <string name="sony_ambient_sound_control_button_mode_as_off">Ambient Sound, Off</string>
+    <string name="sony_quick_access_double_tap">Quick Access (Double Tap)</string>
+    <string name="sony_quick_access_triple_tap">Quick Access (Triple Tap)</string>
     <string name="pref_screen_auto_brightness_title">Auto Brightness</string>
     <string name="pref_screen_auto_brightness_summary">Adjust screen brightness according to ambient light</string>
     <string name="pref_screen_brightness">Screen Brightness</string>

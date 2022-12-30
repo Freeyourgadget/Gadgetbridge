@@ -485,6 +485,7 @@ public class DeviceSpecificSettingsFragment extends PreferenceFragmentCompat imp
         addPreferenceHandlerFor(PREF_GALAXY_BUDS_TOUCH_RIGHT_SWITCH);
 
         addPreferenceHandlerFor(PREF_SONY_AMBIENT_SOUND_CONTROL);
+        addPreferenceHandlerFor(PREF_SONY_AMBIENT_SOUND_CONTROL_BUTTON_MODE);
         addPreferenceHandlerFor(PREF_SONY_FOCUS_VOICE);
         addPreferenceHandlerFor(PREF_SONY_AMBIENT_SOUND_LEVEL);
         addPreferenceHandlerFor(PREF_SONY_SOUND_POSITION);
@@ -501,6 +502,8 @@ public class DeviceSpecificSettingsFragment extends PreferenceFragmentCompat imp
         addPreferenceHandlerFor(PREF_SONY_PAUSE_WHEN_TAKEN_OFF);
         addPreferenceHandlerFor(PREF_SONY_BUTTON_MODE_LEFT);
         addPreferenceHandlerFor(PREF_SONY_BUTTON_MODE_RIGHT);
+        addPreferenceHandlerFor(PREF_SONY_QUICK_ACCESS_DOUBLE_TAP);
+        addPreferenceHandlerFor(PREF_SONY_QUICK_ACCESS_TRIPLE_TAP);
         addPreferenceHandlerFor(PREF_SONY_AUTOMATIC_POWER_OFF);
         addPreferenceHandlerFor(PREF_SONY_NOTIFICATION_VOICE_GUIDE);
         addPreferenceHandlerFor(PREF_SONY_SPEAK_TO_CHAT);
