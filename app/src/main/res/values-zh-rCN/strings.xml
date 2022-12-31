@@ -2086,4 +2086,11 @@
     <string name="intent_api_broadcast_export_title">数据库导出时广播</string>
     <string name="intent_api_allow_trigger_export_title">允许数据库导出</string>
     <string name="intent_api_broadcast_export_summary">数据库导出完成后广播意图</string>
+    <string name="sony_ambient_sound_control_button_modes">环境声控制按钮模式</string>
+    <string name="sony_ambient_sound_control_button_mode_nc_as_off">降噪，环境音，关闭</string>
+    <string name="sony_ambient_sound_control_button_mode_nc_off">降噪，关闭</string>
+    <string name="sony_ambient_sound_control_button_mode_as_off">环境音，关闭</string>
+    <string name="sony_quick_access_double_tap">快速访问（双击）</string>
+    <string name="sony_quick_access_triple_tap">快速访问（三连击）</string>
+    <string name="sony_ambient_sound_control_button_mode_nc_as">降噪，环境音</string>
 </resources>
