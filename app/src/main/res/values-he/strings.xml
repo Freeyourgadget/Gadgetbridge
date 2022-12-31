@@ -2085,4 +2085,11 @@
     <string name="intent_api_allow_trigger_export_summary">לאפשר הקפצת ייצוא מסד נתונים דרך API של Intent</string>
     <string name="intent_api_broadcast_export_title">להפיץ שידור על ייצוא מסד נתונים</string>
     <string name="intent_api_broadcast_export_summary">להפיץ intent עם סיום ייצוא מסד הנתונים</string>
+    <string name="sony_ambient_sound_control_button_modes">מצבי כפתור שליטה השמע היקפי</string>
+    <string name="sony_ambient_sound_control_button_mode_nc_as_off">ביטול רעשים, שמע היקפי, כבוי</string>
+    <string name="sony_ambient_sound_control_button_mode_nc_as">ביטול רעשים, שמע היקפי</string>
+    <string name="sony_ambient_sound_control_button_mode_nc_off">ביטול רעשים, כבוי</string>
+    <string name="sony_ambient_sound_control_button_mode_as_off">שמע היקפי, כבוי</string>
+    <string name="sony_quick_access_double_tap">גישה מהירה (נקישה כפולה)</string>
+    <string name="sony_quick_access_triple_tap">גישה מהירה (נקישה משולשת)</string>
 </resources>
