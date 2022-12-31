@@ -86,6 +86,7 @@ vendor's servers.
 - Roidmi, Roidmi 3, Mojietu 3 (Bluetooth FM Transmitters)
 - [SMA](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/SMA) Q2 (SMA-Q2-OSS Firmware)
 - [Sony Headphones](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Sony-Headphones)
+	- LinkBuds S
 	- WH-1000XM2, WH-1000XM3, WH-1000XM4
 	- WF-SP800N
 	- WF-1000XM3, WF-1000XM4
