@@ -2085,4 +2085,12 @@
     <string name="devicetype_amazfit_band7">Amazfit-band 7</string>
     <string name="pref_huami_truncate_fetch_operation_timestamps_summary">Verkort de tijdstempels van de ophaalbewerking tot minuten. Schakel deze instelling uit om de tijdstempels binnen enkele seconden te behouden als u problemen ondervindt tijdens het ophalen van zeer korte trainingen.</string>
     <string name="pref_huami_truncate_fetch_operation_timestamps_title">Tijdstempels voor ophaalbewerkingen inkorten</string>
+    <string name="sony_ambient_sound_control_button_modes">Instellingen knop omgevingsgeluid</string>
+    <string name="sony_ambient_sound_control_button_mode_nc_off">Ruisonderdrukking, uit</string>
+    <string name="devicetype_sony_linkbuds_s">Sony LinkBuds S</string>
+    <string name="sony_ambient_sound_control_button_mode_nc_as_off">Ruisonderdrukking, Omgevingsgeluid, Uit</string>
+    <string name="sony_ambient_sound_control_button_mode_nc_as">Ruisonderdrukking, omgevingsgeluid</string>
+    <string name="sony_ambient_sound_control_button_mode_as_off">Omgevingsgeluid, uit</string>
+    <string name="sony_quick_access_double_tap">Snelle toegang (dubbele tik)</string>
+    <string name="sony_quick_access_triple_tap">Snelle toegang (driedubbele tik)</string>
 </resources>
