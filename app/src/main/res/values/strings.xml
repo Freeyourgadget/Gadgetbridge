@@ -2001,4 +2001,5 @@
     <string name="supercars_turbo_speed_label">Turbo Speed</string>
     <string name="supercars_lights_label">Lights</string>
     <string name="supercars_lights_blinking_label">Blinking</string>
+    <string name="devicetype_asteroidos">AsteroidOS</string>
 </resources>

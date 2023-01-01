@@ -127,6 +127,7 @@ public enum DeviceType {
     BINARY_SENSOR(510, R.drawable.ic_device_unknown, R.drawable.ic_device_unknown_disabled, R.string.devicetype_binary_sensor),
     FLIPPER_ZERO(520, R.drawable.ic_device_flipper, R.drawable.ic_device_flipper_disabled, R.string.devicetype_flipper_zero),
     SUPER_CARS(530, R.drawable.ic_device_supercars, R.drawable.ic_device_supercars_disabled, R.string.devicetype_super_cars),
+    ASTEROIDOS(540, R.drawable.ic_device_default, R.drawable.ic_device_default_disabled, R.string.devicetype_asteroidos),
     TEST(1000, R.drawable.ic_device_default, R.drawable.ic_device_default_disabled, R.string.devicetype_test);
 
     private final int key;
