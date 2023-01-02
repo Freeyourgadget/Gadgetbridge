@@ -472,6 +472,20 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
         queueWrite(new SelectedThemePutRequest(this, appName));
     }
 
+    public void startAppOnWatch(String appName) {
+        try {
+            JSONObject jsonObject = new JSONObject()
+                    .put("push", new JSONObject()
+                            .put("set", new JSONObject()
+                                    .put("customWatchFace._.config.start_app", appName)
+                            )
+                    );
+            queueWrite(new JsonPutRequest(jsonObject, this));
+        } catch (JSONException e) {
+            LOG.warn("Couldn't start app on watch: " + e.getMessage());
+        }
+    }
+
     private void setVibrationStrengthFromConfig() {
         Prefs prefs = new Prefs(getDeviceSpecificPreferences());
         int vibrationStrengh = prefs.getInt(DeviceSettingsPreferenceConst.PREF_VIBRATION_STRENGH_PERCENTAGE, 2);
@@ -1858,6 +1872,9 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
             if (UUID.nameUUIDFromBytes(appInfo.getAppName().getBytes(StandardCharsets.UTF_8)).equals(uuid)) {
                 return appInfo.getAppName();
             }
+        }
+        if (uuid.equals(UUID.nameUUIDFromBytes("workoutApp".getBytes(StandardCharsets.UTF_8)))) {
+            return "workoutApp";
         }
         return null;
     }

@@ -825,7 +825,9 @@ public class QHybridSupport extends QHybridBaseSupport {
     public void onAppStart(UUID uuid, boolean start) {
         if(this.watchAdapter instanceof FossilHRWatchAdapter) {
             String appName = ((FossilHRWatchAdapter) watchAdapter).getInstalledAppNameFromUUID(uuid);
-            if (appName != null) {
+            if ((appName != null) && (appName.endsWith("App"))) {
+                ((FossilHRWatchAdapter) watchAdapter).startAppOnWatch(appName);
+            } else {
                 ((FossilHRWatchAdapter) watchAdapter).activateWatchface(appName);
             }
         }

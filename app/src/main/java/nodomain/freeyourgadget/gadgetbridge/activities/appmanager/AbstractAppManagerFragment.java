@@ -148,6 +148,12 @@ public abstract class AbstractAppManagerFragment extends Fragment {
                 appList.add(app);
             }
         }
+        if (mGBDevice.getType() == DeviceType.FOSSILQHYBRID) {
+            List<GBDeviceApp> systemApps = getSystemAppsInCategory();
+            for (GBDeviceApp systemApp : systemApps) {
+                appList.add(systemApp);
+            }
+        }
     }
 
     private Bitmap getAppPreviewImage(String name) {
