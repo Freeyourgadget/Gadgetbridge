@@ -3,6 +3,18 @@ package nodomain.freeyourgadget.gadgetbridge.devices.asteroidos;
 import java.util.UUID;
 
 public class AsteroidOSConstants {
+
+    // A list of all the supported devices and their codenames
+    public static final String[] SUPPORTED_DEVICE_CODENAMES = {
+            "bass", "sturgeon", "catfish", "catfish_ext",
+            "catshark", "lenok", "smelt", "carp",
+            "sparrow", "wren", "anthias", "beluga",
+            "dory", "firefish", "harmony", "inharmony",
+            "narwhal", "ray", "sawfish", "sawshark",
+            "skipjack", "tunny", "mooneye", "swift",
+            "minnow", "sprat", "tetra"
+    };
+
     // AsteroidOS Service Watch Filter UUID
     public static final UUID SERVICE_UUID               = UUID.fromString("00000000-0000-0000-0000-00A57E401D05");
 

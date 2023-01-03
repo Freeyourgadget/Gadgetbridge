@@ -73,6 +73,11 @@ public class AsteroidOSDeviceCoordinator extends AbstractDeviceCoordinator {
         if (candidate.supportsService(AsteroidOSConstants.SERVICE_UUID)) {
             return DeviceType.ASTEROIDOS;
         }
+        for (String name : AsteroidOSConstants.SUPPORTED_DEVICE_CODENAMES) {
+            if (candidate.getName().equals(name)) {
+                return DeviceType.ASTEROIDOS;
+            }
+        }
         return DeviceType.UNKNOWN;
     }
 
