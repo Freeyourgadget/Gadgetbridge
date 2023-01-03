@@ -2,6 +2,7 @@ package nodomain.freeyourgadget.gadgetbridge.devices.asteroidos;
 
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEvent;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventMusicControl;
+import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventNotificationControl;
 
 public class AsteroidOSMediaCommand {
     public static final byte COMMAND_PREVIOUS = 0x0;

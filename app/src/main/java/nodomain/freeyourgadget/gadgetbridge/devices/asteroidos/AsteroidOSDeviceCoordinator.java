@@ -73,13 +73,6 @@ public class AsteroidOSDeviceCoordinator extends AbstractDeviceCoordinator {
         if (candidate.supportsService(AsteroidOSConstants.SERVICE_UUID)) {
             return DeviceType.ASTEROIDOS;
         }
-        {
-            LOG.debug("Name: " + candidate.getName());
-            LOG.debug("Num services: " + candidate.getServiceUuids().length);
-            for (ParcelUuid uuid : candidate.getServiceUuids()) {
-                LOG.debug("Service UUID: " + uuid.toString());
-            }
-        }
         return DeviceType.UNKNOWN;
     }
 
@@ -131,7 +124,7 @@ public class AsteroidOSDeviceCoordinator extends AbstractDeviceCoordinator {
 
     @Override
     public boolean supportsFindDevice() {
-        return false;
+        return true;
     }
 
     @Override

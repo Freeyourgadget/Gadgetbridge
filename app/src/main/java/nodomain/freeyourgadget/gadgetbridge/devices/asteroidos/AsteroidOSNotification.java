@@ -4,6 +4,8 @@ import android.content.Context;
 
 import androidx.annotation.NonNull;
 
+import java.util.Locale;
+
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.model.CallSpec;
@@ -27,17 +29,7 @@ public class AsteroidOSNotification {
         @NonNull
         @Override
         public String toString() {
-            switch (this) {
-                case STRONG:
-                    return "strong";
-                case NORMAL:
-                    return "normal";
-                case RINGTONE:
-                    return "ringtone";
-                case NONE:
-                    return "none";
-            }
-            return "";
+            return name().toLowerCase(Locale.ROOT);
         }
     }
     private VibrationStrength vibrationStrength = VibrationStrength.NORMAL;

@@ -135,7 +135,7 @@ public class AsteroidOSDeviceSupport extends AbstractBTLEDeviceSupport {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         baos.write((byte) nowTime.getYear());
         baos.write((byte) nowTime.getMonth());
-        baos.write((byte) nowTime.getDay());
+        baos.write((byte) nowTime.getDay() + 1);
         baos.write((byte) nowTime.getHours());
         baos.write((byte) nowTime.getMinutes());
         baos.write((byte) nowTime.getSeconds());
@@ -176,25 +176,14 @@ public class AsteroidOSDeviceSupport extends AbstractBTLEDeviceSupport {
 
     @Override
     public void onSetMusicInfo(MusicSpec musicSpec) {
+        TransactionBuilder builder = new TransactionBuilder("send music information");
         // Send title
-        {
-            TransactionBuilder builder = new TransactionBuilder("set music title");
-            safeWriteToCharacteristic(builder, AsteroidOSConstants.MEDIA_TITLE_CHAR, musicSpec.track.getBytes(StandardCharsets.UTF_8));
-            builder.queue(getQueue());
-        }
+        safeWriteToCharacteristic(builder, AsteroidOSConstants.MEDIA_TITLE_CHAR, musicSpec.track.getBytes(StandardCharsets.UTF_8));
         // Send album
-        {
-            TransactionBuilder builder = new TransactionBuilder("set music album");
-            safeWriteToCharacteristic(builder, AsteroidOSConstants.MEDIA_ALBUM_CHAR, musicSpec.album.getBytes(StandardCharsets.UTF_8));
-            builder.queue(getQueue());
-        }
+        safeWriteToCharacteristic(builder, AsteroidOSConstants.MEDIA_ALBUM_CHAR, musicSpec.album.getBytes(StandardCharsets.UTF_8));
         // Send artist
-        {
-            TransactionBuilder builder = new TransactionBuilder("set music artist");
-            safeWriteToCharacteristic(builder, AsteroidOSConstants.MEDIA_ARTIST_CHAR, musicSpec.artist.getBytes(StandardCharsets.UTF_8));
-            builder.queue(getQueue());
-        }
-
+        safeWriteToCharacteristic(builder, AsteroidOSConstants.MEDIA_ARTIST_CHAR, musicSpec.artist.getBytes(StandardCharsets.UTF_8));
+        builder.queue(getQueue());
     }
 
     @Override
@@ -254,7 +243,10 @@ public class AsteroidOSDeviceSupport extends AbstractBTLEDeviceSupport {
 
     @Override
     public void onFindDevice(boolean start) {
-
+        final CallSpec callSpec = new CallSpec();
+        callSpec.command = start ? CallSpec.CALL_INCOMING : CallSpec.CALL_END;
+        callSpec.name = "Gadgetbridge";
+        onSetCallState(callSpec);
     }
 
     @Override
@@ -305,30 +297,17 @@ public class AsteroidOSDeviceSupport extends AbstractBTLEDeviceSupport {
     @Override
     public void onSendWeather(WeatherSpec weatherSpec) {
         AsteroidOSWeather asteroidOSWeather = new AsteroidOSWeather(weatherSpec);
-        // Send weather city
-        {
-            TransactionBuilder builder = new TransactionBuilder("send weather city");
-            safeWriteToCharacteristic(builder, AsteroidOSConstants.WEATHER_CITY_CHAR, asteroidOSWeather.getCityName());
-            builder.queue(getQueue());
-        }
-        // Send weather conditions
-        {
-            TransactionBuilder builder = new TransactionBuilder("send weather conditions");
-            safeWriteToCharacteristic(builder, AsteroidOSConstants.WEATHER_IDS_CHAR, asteroidOSWeather.getWeatherConditions());
-            builder.queue(getQueue());
-        }
+        TransactionBuilder builder = new TransactionBuilder("send weather info");
+        // Send city name
+        safeWriteToCharacteristic(builder, AsteroidOSConstants.WEATHER_CITY_CHAR, asteroidOSWeather.getCityName());
+        // Send conditions
+        safeWriteToCharacteristic(builder, AsteroidOSConstants.WEATHER_IDS_CHAR, asteroidOSWeather.getWeatherConditions());
         // Send min temps
-        {
-            TransactionBuilder builder = new TransactionBuilder("send weather min temps");
-            safeWriteToCharacteristic(builder, AsteroidOSConstants.WEATHER_MIN_TEMPS_CHAR, asteroidOSWeather.getMinTemps());
-            builder.queue(getQueue());
-        }
+        safeWriteToCharacteristic(builder, AsteroidOSConstants.WEATHER_MIN_TEMPS_CHAR, asteroidOSWeather.getMinTemps());
         // Send max temps
-        {
-            TransactionBuilder builder = new TransactionBuilder("send weather max temps");
-            safeWriteToCharacteristic(builder, AsteroidOSConstants.WEATHER_MAX_TEMPS_CHAR, asteroidOSWeather.getMaxTemps());
-            builder.queue(getQueue());
-        }
+        safeWriteToCharacteristic(builder, AsteroidOSConstants.WEATHER_MAX_TEMPS_CHAR, asteroidOSWeather.getMaxTemps());
+        // Flush queue
+        builder.queue(getQueue());
     }
 
     @Override
