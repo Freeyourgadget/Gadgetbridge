@@ -102,7 +102,6 @@ public class FossilHRInstallHandler implements InstallHandler {
         installActivity.setInstallItem(installItem);
     }
 
-
     @Override
     public void onStartInstall(GBDevice device) {
         DeviceCoordinator mCoordinator = DeviceHelper.getInstance().getCoordinator(device);
@@ -116,7 +115,7 @@ public class FossilHRInstallHandler implements InstallHandler {
         manager.sendBroadcast(new Intent(AbstractAppManagerFragment.ACTION_REFRESH_APPLIST));
     }
 
-    public static void saveAppInCache(FossilFileReader fossilFile, Bitmap backgroundImg, Bitmap previewImg, DeviceCoordinator mCoordinator, Context mContext) {
+    public static boolean saveAppInCache(FossilFileReader fossilFile, Bitmap backgroundImg, Bitmap previewImg, DeviceCoordinator mCoordinator, Context mContext) {
         GBDeviceApp app;
         File destDir;
         // write app file
@@ -127,7 +126,7 @@ public class FossilHRInstallHandler implements InstallHandler {
             FileUtils.copyURItoFile(mContext, fossilFile.getUri(), new File(destDir, app.getUUID().toString() + mCoordinator.getAppFileExtension()));
         } catch (IOException e) {
             LOG.error("Saving app in cache failed: " + e.getMessage(), e);
-            return;
+            return false;
         }
         // write app metadata
         File outputFile = new File(destDir, app.getUUID().toString() + ".json");
@@ -136,7 +135,7 @@ public class FossilHRInstallHandler implements InstallHandler {
             writer = new BufferedWriter(new FileWriter(outputFile));
         } catch (IOException e) {
             LOG.error("Failed to open output file: " + e.getMessage(), e);
-            return;
+            return false;
         }
         try {
             LOG.info(app.getJSON().toString());
@@ -150,8 +149,10 @@ public class FossilHRInstallHandler implements InstallHandler {
             writer.close();
         } catch (IOException e) {
             LOG.error("Failed to write to output file: " + e.getMessage(), e);
+            return false;
         } catch (JSONException e) {
-            LOG.error(e.getMessage(), e);
+            LOG.error("Failed to load or write appKeys JSON: " + e.getMessage(), e);
+            return false;
         }
         // write watchface background image
         if (backgroundImg != null) {
@@ -162,6 +163,7 @@ public class FossilHRInstallHandler implements InstallHandler {
                 fos.close();
             } catch (IOException e) {
                 LOG.error("Failed to write to output file: " + e.getMessage(), e);
+                return false;
             }
         }
         // write watchface preview image
@@ -173,8 +175,10 @@ public class FossilHRInstallHandler implements InstallHandler {
                 fos.close();
             } catch (IOException e) {
                 LOG.error("Failed to write to output file: " + e.getMessage(), e);
+                return false;
             }
         }
+        return true;
     }
 
     @Override

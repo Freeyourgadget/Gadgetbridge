@@ -284,10 +284,10 @@ public class QHybridSupport extends QHybridBaseSupport {
                         break;
                     }
                     case QHYBRID_COMMAND_DOWNLOAD_FILE:{
-                        Object handleObject = intent.getSerializableExtra("EXTRA_HANDLE");
-                        if(handleObject == null || !(handleObject instanceof FileHandle)) return;
-                        FileHandle handle = (FileHandle) handleObject;
-                        watchAdapter.downloadFile(handle, intent.getBooleanExtra("EXTRA_ENCRYPTED", false));
+                        byte majorHandle = intent.getByteExtra("EXTRA_MAJORHANDLE", (byte) 0x00);
+                        byte minorHandle = intent.getByteExtra("EXTRA_MINORHANDLE", (byte) 0x00);
+                        String filename = intent.getStringExtra("EXTRA_NAME");
+                        watchAdapter.downloadFile(majorHandle, minorHandle, filename, intent.getBooleanExtra("EXTRA_ENCRYPTED", false), false);
                         break;
                     }
                     case QHYBRID_COMMAND_UPLOAD_FILE:{
@@ -831,6 +831,11 @@ public class QHybridSupport extends QHybridBaseSupport {
                 ((FossilHRWatchAdapter) watchAdapter).activateWatchface(appName);
             }
         }
+    }
+
+    @Override
+    public void onAppDownload(UUID uuid) {
+        ((FossilHRWatchAdapter) watchAdapter).downloadAppToCache(uuid);
     }
 
     @Override

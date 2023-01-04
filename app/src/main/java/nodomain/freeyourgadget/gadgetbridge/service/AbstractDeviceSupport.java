@@ -749,6 +749,16 @@ public abstract class AbstractDeviceSupport implements DeviceSupport {
     }
 
     /**
+     * If apps can be downloaded from the device, this method can be
+     * overridden and implemented by the device support class.
+     * @param uuid the Gadgetbridge internal UUID of the app
+     */
+    @Override
+    public void onAppDownload(UUID uuid) {
+
+    }
+
+    /**
      * If apps on the device can be deleted with a command, this method
      * can be overridden and implemented by the device support class.
      * @param uuid the Gadgetbridge internal UUID of the app

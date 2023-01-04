@@ -24,12 +24,14 @@ import java.util.UUID;
 import java.util.zip.CRC32;
 
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.adapter.fossil.FossilWatchAdapter;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.adapter.fossil_hr.FossilHRWatchAdapter;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.file.FileHandle;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.FossilRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.file.ResultCode;
 
 public abstract class FileGetRawRequest extends FossilRequest {
-    private short handle;
+    private byte majorHandle;
+    private byte minorHandle;
     private FossilWatchAdapter adapter;
 
     private ByteBuffer fileBuffer;
@@ -38,20 +40,26 @@ public abstract class FileGetRawRequest extends FossilRequest {
 
     private boolean finished = false;
 
-    public FileGetRawRequest(short handle, FossilWatchAdapter adapter) {
-        this.handle = handle;
+    public FileGetRawRequest(byte majorHandle, byte minorHandle, FossilWatchAdapter adapter) {
+        this.majorHandle = majorHandle;
+        this.minorHandle = minorHandle;
         this.adapter = adapter;
 
         this.data =
                 createBuffer()
-                        .putShort(handle)
+                        .put(minorHandle)
+                        .put(majorHandle)
                         .putInt(0)
                         .putInt(0xFFFFFFFF)
                         .array();
     }
 
-    public FileGetRawRequest(FileHandle handle, FossilWatchAdapter adapter){
-        this(handle.getHandle(), adapter);
+    public FileGetRawRequest(FileHandle handle, FossilWatchAdapter adapter) {
+        this(handle.getMajorHandle(), handle.getMinorHandle(), adapter);
+    }
+
+    public FileGetRawRequest(short handle, FossilWatchAdapter adapter) {
+        this((byte) ((handle >> 8) & 0xff), (byte) (handle), adapter);
     }
 
     public FossilWatchAdapter getAdapter() {
@@ -72,7 +80,8 @@ public abstract class FileGetRawRequest extends FossilRequest {
                 ByteBuffer buffer = ByteBuffer.wrap(value);
                 buffer.order(ByteOrder.LITTLE_ENDIAN);
 
-                short handle = buffer.getShort(1);
+                short minorHandle = buffer.get(1);
+                short majorHandle = buffer.get(2);
                 int size = buffer.getInt(4);
 
                 byte status = buffer.get(3);
@@ -82,8 +91,11 @@ public abstract class FileGetRawRequest extends FossilRequest {
                     throw new RuntimeException("FileGet error: " + code + "   (" + status + ")");
                 }
 
-                if(this.handle != handle){
-                    throw new RuntimeException("handle: " + handle + "   expected: " + this.handle);
+                if (this.minorHandle != minorHandle) {
+                    throw new RuntimeException("minor handle: " + minorHandle + "   expected: " + this.minorHandle);
+                }
+                if (this.majorHandle != majorHandle) {
+                    throw new RuntimeException("major handle: " + majorHandle + "   expected: " + this.majorHandle);
                 }
                 log("file size: " + size);
                 fileBuffer = ByteBuffer.allocate(size);
@@ -94,8 +106,11 @@ public abstract class FileGetRawRequest extends FossilRequest {
                 buffer.order(ByteOrder.LITTLE_ENDIAN);
 
                 short handle = buffer.getShort(1);
-                if(this.handle != handle){
-                    throw new RuntimeException("handle: " + handle + "   expected: " + this.handle);
+                if (this.minorHandle != minorHandle) {
+                    throw new RuntimeException("minor handle: " + minorHandle + "   expected: " + this.minorHandle);
+                }
+                if (this.majorHandle != majorHandle) {
+                    throw new RuntimeException("major handle: " + majorHandle + "   expected: " + this.majorHandle);
                 }
 
                 CRC32 crc = new CRC32();
@@ -104,7 +119,7 @@ public abstract class FileGetRawRequest extends FossilRequest {
                 int crcExpected = buffer.getInt(8);
 
                 if((int) crc.getValue() != crcExpected){
-                    throw new RuntimeException("handle: " + handle + "   expected: " + this.handle);
+                    throw new RuntimeException("crc: " + crc.getValue() + "   expected: " + crcExpected);
                 }
 
                 this.handleFileRawData(this.fileData);

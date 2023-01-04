@@ -302,6 +302,13 @@ public class GBDeviceService implements DeviceService {
     }
 
     @Override
+    public void onAppDownload(UUID uuid) {
+        Intent intent = createIntent().setAction(ACTION_DOWNLOADAPP)
+                .putExtra(EXTRA_APP_UUID, uuid);
+        invokeService(intent);
+    }
+
+    @Override
     public void onAppDelete(UUID uuid) {
         Intent intent = createIntent().setAction(ACTION_DELETEAPP)
                 .putExtra(EXTRA_APP_UUID, uuid);

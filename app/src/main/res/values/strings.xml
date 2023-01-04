@@ -102,6 +102,9 @@
     <string name="appmanager_cached_watchapps_watchfaces">Apps in cache</string>
     <string name="appmanager_installed_watchapps">Installed apps</string>
     <string name="appmanager_installed_watchfaces">Installed watchfaces</string>
+    <string name="appmanager_watchface_activate">Activate</string>
+    <string name="appmanager_app_start">Start</string>
+    <string name="appmanager_app_download">Download to cache</string>
     <string name="appmananger_app_delete">Delete</string>
     <string name="appmananger_app_delete_cache">Delete and remove from cache</string>
     <string name="appmananger_app_reinstall">Reinstall</string>
@@ -117,6 +120,9 @@
     <string name="app_configure">Configure</string>
     <string name="app_move_to_top">Move to top</string>
     <string name="appmanager_item_outdated">(outdated)</string>
+    <string name="appmanager_download_started">App download started</string>
+    <string name="appmanager_downloaded_to_cache">Downloaded %s to cache</string>
+    <string name="appmanager_download_app_error">Error downloading app</string>
     <!-- Strings related to AppBlacklist -->
     <string name="title_activity_notification_management">Notification settings</string>
     <string name="blacklist_all_for_notifications">Blacklist all for notifications</string>

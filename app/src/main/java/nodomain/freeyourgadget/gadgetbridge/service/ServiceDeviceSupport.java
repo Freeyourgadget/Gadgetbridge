@@ -252,6 +252,14 @@ public class ServiceDeviceSupport implements DeviceSupport {
     }
 
     @Override
+    public void onAppDownload(UUID uuid) {
+        if (checkBusy("app download")) {
+            return;
+        }
+        delegate.onAppDownload(uuid);
+    }
+
+    @Override
     public void onAppDelete(UUID uuid) {
         if (checkBusy("app delete")) {
             return;

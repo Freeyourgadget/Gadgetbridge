@@ -147,7 +147,7 @@ public abstract class WatchAdapter {
     public void onDeleteNotification(int id) {
     }
 
-    public void downloadFile(FileHandle handle, boolean fileIsEncrypted) {
+    public void downloadFile(byte majorHandle, byte minorHandle, String name, boolean fileIsEncrypted, boolean toCache) {
     }
 
     public void uploadFileGenerateHeader(FileHandle handle, String filePath, boolean fileIsEncrypted) {

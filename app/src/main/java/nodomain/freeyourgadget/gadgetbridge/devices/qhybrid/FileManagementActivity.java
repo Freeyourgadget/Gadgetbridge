@@ -175,7 +175,9 @@ public class FileManagementActivity extends AbstractGBActivity implements View.O
             Intent fileIntent = new Intent();
             fileIntent.putExtra("EXTRA_ENCRYPTED", isEncrypted);
             fileIntent.setAction(QHybridSupport.QHYBRID_COMMAND_DOWNLOAD_FILE);
-            fileIntent.putExtra("EXTRA_HANDLE", (FileHandle) fileTypesSpinner.getSelectedItem());
+            fileIntent.putExtra("EXTRA_MAJORHANDLE", ((FileHandle) fileTypesSpinner.getSelectedItem()).getMajorHandle());
+            fileIntent.putExtra("EXTRA_MINORHANDLE", ((FileHandle) fileTypesSpinner.getSelectedItem()).getMinorHandle());
+            fileIntent.putExtra("EXTRA_NAME", ((FileHandle) fileTypesSpinner.getSelectedItem()).name());
             LocalBroadcastManager.getInstance(this).sendBroadcast(fileIntent);
         } else if (v.getId() == R.id.qhybrid_button_upload_file) {
             Intent chooserIntent = new Intent()

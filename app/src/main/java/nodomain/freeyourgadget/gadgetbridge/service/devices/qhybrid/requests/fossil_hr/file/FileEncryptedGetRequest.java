@@ -43,7 +43,8 @@ import nodomain.freeyourgadget.gadgetbridge.util.GB;
 import nodomain.freeyourgadget.gadgetbridge.util.StringUtils;
 
 public abstract class FileEncryptedGetRequest extends FossilRequest implements FileEncryptedInterface{
-    private short handle;
+    private byte majorHandle;
+    private byte minorHandle;
     private FossilHRWatchAdapter adapter;
 
     private ByteBuffer fileBuffer;
@@ -61,20 +62,22 @@ public abstract class FileEncryptedGetRequest extends FossilRequest implements F
     private int packetCount = 0;
     private int ivIncrementor = 0x1f;
 
-    public FileEncryptedGetRequest(short handle, FossilHRWatchAdapter adapter) {
-        this.handle = handle;
+    public FileEncryptedGetRequest(byte majorHandle, byte minorHandle, FossilHRWatchAdapter adapter) {
+        this.majorHandle = majorHandle;
+        this.minorHandle = minorHandle;
         this.adapter = adapter;
 
         this.data =
                 createBuffer()
-                        .putShort(handle)
+                        .put(minorHandle)
+                        .put(majorHandle)
                         .putInt(0)
                         .putInt(0xFFFFFFFF)
                         .array();
     }
 
-    public FileEncryptedGetRequest(FileHandle handle, FossilHRWatchAdapter adapter) {
-        this(handle.getHandle(), adapter);
+    public FileEncryptedGetRequest(short handle, FossilHRWatchAdapter adapter) {
+        this((byte) ((handle >> 8) & 0xff), (byte) (handle), adapter);
     }
 
     private void initDecryption() {
@@ -134,7 +137,8 @@ public abstract class FileEncryptedGetRequest extends FossilRequest implements F
 
                 this.initDecryption();
 
-                short handle = buffer.getShort(1);
+                short minorHandle = buffer.get(1);
+                short majorHandle = buffer.get(2);
                 fileSize = buffer.getInt(4);
 
                 byte status = buffer.get(3);
@@ -144,8 +148,11 @@ public abstract class FileEncryptedGetRequest extends FossilRequest implements F
                     throw new RuntimeException("FileGet error: " + code + "   (" + status + ")");
                 }
 
-                if (this.handle != handle) {
-                    throw new RuntimeException("handle: " + handle + "   expected: " + this.handle);
+                if (this.minorHandle != minorHandle) {
+                    throw new RuntimeException("minor handle: " + minorHandle + "   expected: " + this.minorHandle);
+                }
+                if (this.majorHandle != majorHandle) {
+                    throw new RuntimeException("major handle: " + majorHandle + "   expected: " + this.majorHandle);
                 }
                 log("file size: " + fileSize);
                 fileBuffer = ByteBuffer.allocate(fileSize);
@@ -156,8 +163,11 @@ public abstract class FileEncryptedGetRequest extends FossilRequest implements F
                 buffer.order(ByteOrder.LITTLE_ENDIAN);
 
                 short handle = buffer.getShort(1);
-                if (this.handle != handle) {
-                    throw new RuntimeException("handle: " + handle + "   expected: " + this.handle);
+                if (this.minorHandle != minorHandle) {
+                    throw new RuntimeException("minor handle: " + minorHandle + "   expected: " + this.minorHandle);
+                }
+                if (this.majorHandle != majorHandle) {
+                    throw new RuntimeException("major handle: " + majorHandle + "   expected: " + this.majorHandle);
                 }
 
                 CRC32 crc = new CRC32();

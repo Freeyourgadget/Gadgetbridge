@@ -134,6 +134,7 @@ import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_SE
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_SET_WORLD_CLOCKS;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_START;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_STARTAPP;
+import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_DOWNLOADAPP;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_TEST_NEW_FUNCTION;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_ALARMS;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_APP_CONFIG;
@@ -845,6 +846,11 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
                 UUID uuid = (UUID) intent.getSerializableExtra(EXTRA_APP_UUID);
                 boolean start = intent.getBooleanExtra(EXTRA_APP_START, true);
                 deviceSupport.onAppStart(uuid, start);
+                break;
+            }
+            case ACTION_DOWNLOADAPP: {
+                UUID uuid = (UUID) intent.getSerializableExtra(EXTRA_APP_UUID);
+                deviceSupport.onAppDownload(uuid);
                 break;
             }
             case ACTION_DELETEAPP: {

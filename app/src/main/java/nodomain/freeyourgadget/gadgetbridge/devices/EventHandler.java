@@ -76,6 +76,8 @@ public interface EventHandler {
 
     void onAppStart(UUID uuid, boolean start);
 
+    void onAppDownload(UUID uuid);
+
     void onAppDelete(UUID uuid);
 
     void onAppConfiguration(UUID appUuid, String config, Integer id);

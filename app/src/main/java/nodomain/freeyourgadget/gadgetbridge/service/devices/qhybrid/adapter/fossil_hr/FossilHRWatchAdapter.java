@@ -486,6 +486,16 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
         }
     }
 
+    public void downloadAppToCache(UUID uuid) {
+        LOG.info("Going to download app with UUID " + uuid.toString());
+        for (ApplicationInformation appInfo : installedApplications) {
+            if (UUID.nameUUIDFromBytes(appInfo.getAppName().getBytes(StandardCharsets.UTF_8)).equals(uuid)) {
+                LOG.info("Going to download app with name " + appInfo.getAppName() + " and handle " + appInfo.getFileHandle());
+                downloadFile(FileHandle.APP_CODE.getMajorHandle(), appInfo.getFileHandle(), appInfo.getAppName(), false, true);
+            }
+        }
+    }
+
     private void setVibrationStrengthFromConfig() {
         Prefs prefs = new Prefs(getDeviceSpecificPreferences());
         int vibrationStrengh = prefs.getInt(DeviceSettingsPreferenceConst.PREF_VIBRATION_STRENGH_PERCENTAGE, 2);
@@ -920,15 +930,18 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
         }
     }
 
-    private void handleFileDownload(FileHandle handle, byte[] file) {
+    private void handleFileDownload(String name, byte[] file, boolean toCache) {
         Intent resultIntent = new Intent(QHybridSupport.QHYBRID_ACTION_DOWNLOADED_FILE);
-        File outputFile = new File(getContext().getExternalFilesDir("download"), handle.name() + "_" + System.currentTimeMillis() + ".bin");
+        File outputFile = new File(getContext().getExternalFilesDir("download"), name + "_" + System.currentTimeMillis() + ".bin");
         try {
             FileOutputStream fos = new FileOutputStream(outputFile);
             fos.write(file);
             fos.close();
             resultIntent.putExtra("EXTRA_SUCCESS", true);
             resultIntent.putExtra("EXTRA_PATH", outputFile.getAbsolutePath());
+            resultIntent.putExtra("EXTRA_NAME", name);
+            resultIntent.putExtra("EXTRA_TOCACHE", toCache);
+            LOG.info("Wrote downloaded file to " + outputFile.getAbsolutePath());
         } catch (IOException e) {
             LOG.error("Error while downloading file", e);
             resultIntent.putExtra("EXTRA_SUCCESS", false);
@@ -1002,21 +1015,21 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
     }
 
     @Override
-    public void downloadFile(final FileHandle handle, boolean fileIsEncrypted) {
+    public void downloadFile(byte majorHandle, byte minorHandle, String name, boolean fileIsEncrypted, boolean toCache) {
         if (fileIsEncrypted) {
-            queueWrite((FileEncryptedInterface) new FileEncryptedGetRequest(handle, this) {
+            queueWrite((FileEncryptedInterface) new FileEncryptedGetRequest(majorHandle, minorHandle, this) {
                 @Override
                 public void handleFileData(byte[] fileData) {
                     LOG.debug("downloaded encrypted file");
-                    handleFileDownload(handle, fileData);
+                    handleFileDownload(name, fileData, toCache);
                 }
             });
         } else {
-            queueWrite(new FileGetRawRequest(handle, this) {
+            queueWrite(new FileGetRawRequest(majorHandle, minorHandle, this) {
                 @Override
                 public void handleFileRawData(byte[] fileData) {
                     LOG.debug("downloaded regular file");
-                    handleFileDownload(handle, fileData);
+                    handleFileDownload(name, fileData, toCache);
                 }
             });
         }

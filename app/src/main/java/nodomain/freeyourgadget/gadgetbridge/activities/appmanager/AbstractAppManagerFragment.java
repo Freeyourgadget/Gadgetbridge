@@ -17,6 +17,8 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.activities.appmanager;
 
+import static nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.QHybridSupport.QHYBRID_ACTION_DOWNLOADED_FILE;
+
 import android.app.Activity;
 import android.content.ActivityNotFoundException;
 import android.content.BroadcastReceiver;
@@ -34,6 +36,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.PopupMenu;
+import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -57,7 +60,11 @@ import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.activities.ExternalPebbleJSActivity;
 import nodomain.freeyourgadget.gadgetbridge.adapter.GBDeviceAppAdapter;
 import nodomain.freeyourgadget.gadgetbridge.devices.DeviceCoordinator;
+import nodomain.freeyourgadget.gadgetbridge.devices.qhybrid.FileManagementActivity;
+import nodomain.freeyourgadget.gadgetbridge.devices.qhybrid.FossilFileReader;
+import nodomain.freeyourgadget.gadgetbridge.devices.qhybrid.FossilHRInstallHandler;
 import nodomain.freeyourgadget.gadgetbridge.devices.qhybrid.QHybridConstants;
+import nodomain.freeyourgadget.gadgetbridge.devices.qhybrid.QHybridCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceApp;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceService;
@@ -65,6 +72,7 @@ import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.pebble.PebbleProtocol;
 import nodomain.freeyourgadget.gadgetbridge.util.DeviceHelper;
 import nodomain.freeyourgadget.gadgetbridge.util.FileUtils;
+import nodomain.freeyourgadget.gadgetbridge.util.GB;
 import nodomain.freeyourgadget.gadgetbridge.util.GridAutoFitLayoutManager;
 import nodomain.freeyourgadget.gadgetbridge.util.PebbleUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.Version;
@@ -142,6 +150,7 @@ public abstract class AbstractAppManagerFragment extends Fragment {
                     app.setUpToDate(false);
                 }
             } catch (IllegalArgumentException e) {
+                LOG.warn("App JSON: " + app.getJSON().toString());
                 LOG.warn("Couldn't read app version", e);
             }
             if (filterApp(app)) {
@@ -174,19 +183,55 @@ public abstract class AbstractAppManagerFragment extends Fragment {
         @Override
         public void onReceive(Context context, Intent intent) {
             String action = intent.getAction();
-            if (action.equals(ACTION_REFRESH_APPLIST)) {
-                if (intent.hasExtra("app_count")) {
-                    LOG.info("got app info from device");
-                    if (!isCacheManager()) {
-                        LOG.info("will refresh list based on data from device");
-                        refreshListFromDevice(intent);
+            switch (action) {
+                case ACTION_REFRESH_APPLIST: {
+                    if (intent.hasExtra("app_count")) {
+                        LOG.info("got app info from device");
+                        if (!isCacheManager()) {
+                            LOG.info("will refresh list based on data from device");
+                            refreshListFromDevice(intent);
+                        }
+                    } else if (mCoordinator.supportsAppListFetching()) {
+                        refreshList();
+                    } else if (isCacheManager()) {
+                        refreshList();
                     }
-                } else if (mCoordinator.supportsAppListFetching()) {
-                    refreshList();
-                } else if (isCacheManager()) {
-                    refreshList();
+                    mGBDeviceAppAdapter.notifyDataSetChanged();
+                    break;
                 }
-                mGBDeviceAppAdapter.notifyDataSetChanged();
+                case QHYBRID_ACTION_DOWNLOADED_FILE: {
+                    if (!intent.getBooleanExtra("EXTRA_SUCCESS", false)) {
+                        LOG.warn("wapp download was not successful");
+                        GB.toast(context.getString(R.string.appmanager_download_app_error), Toast.LENGTH_LONG, GB.ERROR);
+                        break;
+                    }
+                    if (!intent.getBooleanExtra("EXTRA_TOCACHE", false)) {
+                        break;
+                    }
+                    String path = intent.getStringExtra("EXTRA_PATH");
+                    String name = intent.getStringExtra("EXTRA_NAME");
+                    LOG.info("Attempting to add downloaded app " + name + " to cache");
+                    FossilFileReader fileReader;
+                    try {
+                        fileReader = new FossilFileReader(Uri.fromFile(new File(path)), context);
+                    } catch (IOException e) {
+                        LOG.warn("Could not find downloaded wapp", e);
+                        break;
+                    }
+                    if (FossilHRInstallHandler.saveAppInCache(fileReader, fileReader.getBackground(), fileReader.getPreview(), mCoordinator, context)) {
+                        LOG.info("Successfully moved downloaded app " + name + " to cache");
+                        GB.toast(String.format(context.getString(R.string.appmanager_downloaded_to_cache), name), Toast.LENGTH_LONG, GB.INFO);
+                        if (isCacheManager()) {
+                            refreshList();
+                            mGBDeviceAppAdapter.notifyDataSetChanged();
+                        }
+                        (new File(path)).delete();
+                    } else {
+                        LOG.warn("Parsing downloaded wapp was not successful");
+                        GB.toast(context.getString(R.string.appmanager_download_app_error), Toast.LENGTH_LONG, GB.ERROR);
+                    }
+                    break;
+                }
             }
         }
     };
@@ -306,6 +351,7 @@ public abstract class AbstractAppManagerFragment extends Fragment {
 
         IntentFilter filter = new IntentFilter();
         filter.addAction(ACTION_REFRESH_APPLIST);
+        filter.addAction(QHYBRID_ACTION_DOWNLOADED_FILE);
 
         LocalBroadcastManager.getInstance(getContext()).registerReceiver(mReceiver, filter);
 
@@ -401,12 +447,7 @@ public abstract class AbstractAppManagerFragment extends Fragment {
     }
 
     public void onItemClick(View view, GBDeviceApp deviceApp) {
-        if (isCacheManager()) {
-            openPopupMenu(view, deviceApp);
-        } else {
-            UUID uuid = deviceApp.getUUID();
-            GBApplication.deviceService(mGBDevice).onAppStart(uuid, true);
-        }
+        openPopupMenu(view, deviceApp);
     }
 
     public boolean openPopupMenu(View view, GBDeviceApp deviceApp) {
@@ -415,6 +456,12 @@ public abstract class AbstractAppManagerFragment extends Fragment {
         Menu menu = popupMenu.getMenu();
         final GBDeviceApp selectedApp = deviceApp;
 
+        if (!selectedApp.isOnDevice() || selectedApp.getType() != GBDeviceApp.Type.WATCHFACE) {
+            menu.removeItem(R.id.appmanager_watchface_activate);
+        }
+        if (!selectedApp.isOnDevice() || selectedApp.getType() != GBDeviceApp.Type.APP_GENERIC) {
+            menu.removeItem(R.id.appmanager_app_start);
+        }
         if (!selectedApp.isInCache()) {
             menu.removeItem(R.id.appmanager_app_edit);
             menu.removeItem(R.id.appmanager_app_reinstall);
@@ -454,6 +501,9 @@ public abstract class AbstractAppManagerFragment extends Fragment {
 
         if ((mGBDevice.getType() != DeviceType.FOSSILQHYBRID) || (selectedApp.getType() != GBDeviceApp.Type.WATCHFACE)) {
             menu.removeItem(R.id.appmanager_app_edit);
+        }
+        if ((mGBDevice.getType() != DeviceType.FOSSILQHYBRID) || (!selectedApp.isOnDevice()) || ((selectedApp.getType() != GBDeviceApp.Type.WATCHFACE) && (selectedApp.getType() != GBDeviceApp.Type.APP_GENERIC))) {
+            menu.removeItem(R.id.appmanager_app_download);
         }
 
         if (mGBDevice.getType() == DeviceType.PEBBLE) {
@@ -513,6 +563,14 @@ public abstract class AbstractAppManagerFragment extends Fragment {
                     LocalBroadcastManager.getInstance(getContext()).sendBroadcast(refreshIntent);
                 }
                 GBApplication.deviceService(mGBDevice).onAppDelete(selectedApp.getUUID());
+                return true;
+            case R.id.appmanager_app_start:
+            case R.id.appmanager_watchface_activate:
+                GBApplication.deviceService(mGBDevice).onAppStart(selectedApp.getUUID(), true);
+                return true;
+            case R.id.appmanager_app_download:
+                GBApplication.deviceService(mGBDevice).onAppDownload(selectedApp.getUUID());
+                GB.toast(getContext().getString(R.string.appmanager_download_started), Toast.LENGTH_LONG, GB.INFO);
                 return true;
             case R.id.appmanager_app_reinstall:
                 File cachePath = new File(appCacheDir, selectedApp.getUUID() + mCoordinator.getAppFileExtension());

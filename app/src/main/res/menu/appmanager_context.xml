@@ -1,6 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android" >
     <item
+        android:id="@+id/appmanager_watchface_activate"
+        android:title="@string/appmanager_watchface_activate"/>
+    <item
+        android:id="@+id/appmanager_app_start"
+        android:title="@string/appmanager_app_start"/>
+    <item
         android:id="@+id/appmanager_app_edit"
         android:title="@string/appmanager_app_edit"/>
     <item
@@ -9,6 +15,9 @@
     <item
         android:id="@+id/appmanager_app_share"
         android:title="@string/appmanager_app_share"/>
+    <item
+        android:id="@+id/appmanager_app_download"
+        android:title="@string/appmanager_app_download"/>
     <item
         android:id="@+id/appmanager_app_delete"
         android:title="@string/appmananger_app_delete"/>
