@@ -2093,4 +2093,5 @@
     <string name="sony_quick_access_double_tap">快速访问（双击）</string>
     <string name="sony_quick_access_triple_tap">快速访问（三连击）</string>
     <string name="sony_ambient_sound_control_button_mode_nc_as">降噪，环境音</string>
+    <string name="menuitem_wechat_pay">微信支付</string>
 </resources>
