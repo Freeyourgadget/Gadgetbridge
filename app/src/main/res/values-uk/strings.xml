@@ -2101,4 +2101,5 @@
     <string name="sony_quick_access_triple_tap">Швидкий доступ (потрійне торкання)</string>
     <string name="sony_ambient_sound_control_button_modes">Режими кнопки керування навколишнім звуком</string>
     <string name="sony_ambient_sound_control_button_mode_nc_off">Шумозаглушення, Вимк</string>
+    <string name="menuitem_wechat_pay">WeChat Pay</string>
 </resources>
