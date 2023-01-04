@@ -2082,4 +2082,5 @@
     <string name="sony_quick_access_triple_tap">Akses Cepat (Ketuk Tiga Kali)</string>
     <string name="sony_ambient_sound_control_button_modes">Mode Tombol Kontrol Suara Sekitar</string>
     <string name="sony_ambient_sound_control_button_mode_as_off">Suara Sekitar, Mati</string>
+    <string name="menuitem_wechat_pay">WeChat Pay</string>
 </resources>
