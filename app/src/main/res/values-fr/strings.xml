@@ -2097,4 +2097,5 @@ Temps de sommeil préféré en heures</string>
     <string name="sony_ambient_sound_control_button_mode_as_off">Son Ambiant, Éteint</string>
     <string name="sony_quick_access_double_tap">Accès rapide (Double Appui)</string>
     <string name="sony_quick_access_triple_tap">Accès Rapide (Triple Appui)</string>
+    <string name="menuitem_wechat_pay">Paiement WeChat</string>
 </resources>
