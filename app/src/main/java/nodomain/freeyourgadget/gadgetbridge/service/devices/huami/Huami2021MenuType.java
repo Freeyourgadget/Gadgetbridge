@@ -36,11 +36,13 @@ public class Huami2021MenuType {
         put("0000000D", "countdown");
         put("0000000E", "findphone");
         put("0000000F", "mutephone");
+        put("00000011", "alipay");
         put("00000013", "settings");
         put("00000014", "workout_history");
         put("00000015", "eventreminder");
         put("00000016", "compass");
         put("00000019", "pai");
+        put("00000031", "wechat_pay");
         put("0000001A", "worldclock");
         put("0000001C", "stress");
         put("0000001D", "female_health");
@@ -69,6 +71,8 @@ public class Huami2021MenuType {
         put("00000003", "pai");
         put("00000004", "music");
         put("00000005", "sleep");
+        put("00000006", "alipay");
+        put("00000008", "wechat_pay");
         put("0000000A", "workout");
         put("0000000B", "workout_history");
         put("0000000C", "workout_status");

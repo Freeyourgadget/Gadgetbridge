@@ -760,6 +760,8 @@
         <item>@string/menuitem_workout</item>
         <item>@string/menuitem_workout_status</item>
         <item>@string/menuitem_worldclock</item>
+        <item>@string/menuitem_alipay</item>
+        <item>@string/menuitem_wechat_pay</item>
         <!-- dummy item -->
         <item>@string/menuitem_more</item>
     </string-array>
@@ -802,6 +804,8 @@
         <item>workout</item>
         <item>workout_status</item>
         <item>worldclock</item>
+        <item>alipay</item>
+        <item>wechat_pay</item>
         <!-- dummy item -->
         <item>more</item>
     </string-array>
