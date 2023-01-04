@@ -16,6 +16,11 @@ public class AsteroidOSWeather {
             maxTemp = forecast.maxTemp;
             condition = forecast.conditionCode;
         }
+        public Day(WeatherSpec spec) {
+            minTemp = spec.todayMinTemp;
+            maxTemp = spec.todayMaxTemp;
+            condition = spec.currentConditionCode;
+        }
     }
     public Day[] days = new Day[5];
     public String cityName = "";
@@ -23,7 +28,8 @@ public class AsteroidOSWeather {
 
     public AsteroidOSWeather(WeatherSpec spec) {
         cityName = spec.location;
-        for (int i = 0; i < 5 && i < spec.forecasts.size(); i++) {
+        days[0] = new Day(spec);
+        for (int i = 1; i < 5 && i < spec.forecasts.size(); i++) {
             days[i] = new Day(spec.forecasts.get(i));
         }
     }
