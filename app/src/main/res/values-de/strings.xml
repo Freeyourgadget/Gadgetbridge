@@ -2087,4 +2087,12 @@
     <string name="devicetype_amazfit_gts4_mini">Amazfit GTS 4 Mini</string>
     <string name="devicetype_sony_linkbuds_s">Sony LinkBuds S</string>
     <string name="intent_api_allow_trigger_export_title">Datenbankexport zulassen</string>
+    <string name="menuitem_wechat_pay">WeChat Pay</string>
+    <string name="sony_ambient_sound_control_button_mode_nc_off">Geräuschunterdrückung, Aus</string>
+    <string name="sony_ambient_sound_control_button_mode_as_off">Umgebungsgeräusche, Aus</string>
+    <string name="sony_quick_access_triple_tap">Schnellzugriff (Dreifachtippen)</string>
+    <string name="sony_ambient_sound_control_button_mode_nc_as_off">Geräuschunterdrückung, Umgebungsgeräusche, Aus</string>
+    <string name="sony_quick_access_double_tap">Schnellzugriff (Doppeltippen)</string>
+    <string name="intent_api_broadcast_export_title">Übertragung beim Datenbankexport</string>
+    <string name="sony_ambient_sound_control_button_mode_nc_as">Geräuschunterdrückung, Umgebungsgeräusche</string>
 </resources>
