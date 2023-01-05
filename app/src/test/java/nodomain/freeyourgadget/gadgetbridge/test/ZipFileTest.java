@@ -122,6 +122,24 @@ public class ZipFileTest extends TestBase {
         Assert.assertEquals(contents3, readContents3);
     }
 
+    @Test
+    public void testZipFilesFileExists() throws IOException, ZipFileException {
+        final ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        final ZipOutputStream zipWriteStream = new ZipOutputStream(baos);
+
+        writeFileToZip(TEST_FILE_CONTENTS_1, "file1", zipWriteStream);
+        writeFileToZip(TEST_FILE_CONTENTS_2, "file2", zipWriteStream);
+        writeFileToZip("Hello, World!", "folder1/file3", zipWriteStream);
+        zipWriteStream.close();
+
+        final ZipFile zipFile = new ZipFile(baos.toByteArray());
+        Assert.assertTrue(zipFile.fileExists("file2"));
+        Assert.assertTrue(zipFile.fileExists("file1"));
+        Assert.assertTrue(zipFile.fileExists("folder1/file3"));
+        Assert.assertFalse(zipFile.fileExists("folder1"));
+        Assert.assertFalse(zipFile.fileExists("file4"));
+    }
+
     /**
      * Create a ZIP archive with a single text file.
      * The archive will not be saved to a file, it is kept in memory.

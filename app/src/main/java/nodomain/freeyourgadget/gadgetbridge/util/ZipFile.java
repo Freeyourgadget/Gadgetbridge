@@ -73,9 +73,32 @@ public class ZipFile {
             throw new ZipFileException(String.format("Path in ZIP file was not found: %s", path));
 
         } catch (ZipException e) {
-            throw new ZipFileException("The ZIP file might be corrupted");
+            throw new ZipFileException("The ZIP file might be corrupted", e);
         } catch (IOException e) {
-            throw new ZipFileException("General IO error");
+            throw new ZipFileException("General IO error", e);
+        }
+    }
+
+    public boolean fileExists(final String path) throws ZipFileException {
+        try (InputStream is = new ByteArrayInputStream(zipBytes); ZipInputStream zipInputStream = new ZipInputStream(is)) {
+            ZipEntry zipEntry;
+            while ((zipEntry = zipInputStream.getNextEntry()) != null) {
+                if (!zipEntry.getName().equals(path)) {
+                    continue;
+                }
+
+                if (zipEntry.isDirectory()) {
+                    return false;
+                }
+
+                return true;
+            }
+
+            return false;
+        } catch (final ZipException e) {
+            throw new ZipFileException("The ZIP file might be corrupted", e);
+        } catch (final IOException e) {
+            throw new ZipFileException("General IO error", e);
         }
     }
 

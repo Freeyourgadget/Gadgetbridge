@@ -456,6 +456,8 @@
     <string name="pref_agps_header">AGPS</string>
     <string name="pref_agps_expiry_reminder_enabled">AGPS Expiry Reminder</string>
     <string name="pref_agps_expiry_reminder_time">AGPS Expiry Reminder Time</string>
+    <string name="pref_agps_update_time">AGPS Update Time</string>
+    <string name="pref_agps_expire_time">AGPS Expire Time</string>
     <string name="pref_workout_start_on_phone_title">Fitness app tracking</string>
     <string name="pref_workout_start_on_phone_summary">Start/stop fitness app tracking on phone when a GPS workout is started on the band</string>
     <string name="pref_workout_send_gps_title">Send GPS during workout</string>

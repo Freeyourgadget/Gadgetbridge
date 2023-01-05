@@ -103,7 +103,6 @@ public abstract class AbstractMiBandFWInstallHandler implements InstallHandler {
         StringBuilder builder = new StringBuilder();
         if (helper.getFirmwareType() != WATCHFACE && helper.getFirmwareType() != AGPS_UIHH) {
             if (helper.isSingleFirmware()) {
-                getFwUpgradeNotice();
                 builder.append(getFwUpgradeNotice());
             } else {
                 builder.append(mContext.getString(R.string.fw_multi_upgrade_notice, helper.getHumanFirmwareVersion(), helper.getHumanFirmwareVersion2()));

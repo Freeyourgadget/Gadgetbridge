@@ -124,7 +124,7 @@ public class ZeppOsFileUploadService extends AbstractZeppOsService {
     public void sendFile(final String url, final String filename, final byte[] bytes, final Callback callback) {
         if (mChunkSize < 0) {
             LOG.error("Service not initialized, refusing to send {}", url);
-            callback.onFinish(false);
+            callback.onFileUploadFinish(false);
             return;
         }
 
@@ -198,7 +198,7 @@ public class ZeppOsFileUploadService extends AbstractZeppOsService {
 
         request.setProgress(request.getProgress() + payload.length);
         request.setIndex((byte) (request.getIndex() + 1));
-        request.getCallback().onProgress(request.getProgress());
+        request.getCallback().onFileUploadProgress(request.getProgress());
 
         write("send file data", buf.array());
     }
@@ -212,7 +212,7 @@ public class ZeppOsFileUploadService extends AbstractZeppOsService {
 
         mSessionRequests.remove(session);
 
-        request.getCallback().onFinish(success);
+        request.getCallback().onFileUploadFinish(success);
     }
 
     /**
@@ -271,8 +271,8 @@ public class ZeppOsFileUploadService extends AbstractZeppOsService {
     }
 
     public interface Callback {
-        void onFinish(boolean success);
+        void onFileUploadFinish(boolean success);
 
-        void onProgress(int progress);
+        void onFileUploadProgress(int progress);
     }
 }

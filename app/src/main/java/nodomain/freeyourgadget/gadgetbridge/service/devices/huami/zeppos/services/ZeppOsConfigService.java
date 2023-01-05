@@ -205,6 +205,7 @@ public class ZeppOsConfigService extends AbstractZeppOsService {
     }
 
     public enum ConfigGroup {
+        AGPS(0x00, 0x01),
         DISPLAY(0x01, 0x02),
         // TODO 0x02
         SOUND_AND_VIBRATION(0x03, 0x02),
@@ -254,6 +255,7 @@ public class ZeppOsConfigService extends AbstractZeppOsService {
         BYTE(0x10),
         BYTE_LIST(0x11),
         DATETIME_HH_MM(0x30),
+        TIMESTAMP_MILLIS(0x40),
         ;
 
         private final byte value;
@@ -278,6 +280,10 @@ public class ZeppOsConfigService extends AbstractZeppOsService {
     }
 
     public enum ConfigArg {
+        // AGPS
+        AGPS_UPDATE_TIME(ConfigGroup.AGPS, ConfigType.TIMESTAMP_MILLIS, 0x09, PREF_AGPS_UPDATE_TIME),
+        AGPS_EXPIRE_TIME(ConfigGroup.AGPS, ConfigType.TIMESTAMP_MILLIS, 0x0a, PREF_AGPS_EXPIRE_TIME),
+
         // Display
         SCREEN_AUTO_BRIGHTNESS(ConfigGroup.DISPLAY, ConfigType.BOOL, 0x01, PREF_SCREEN_AUTO_BRIGHTNESS),
         SCREEN_BRIGHTNESS(ConfigGroup.DISPLAY, ConfigType.SHORT, 0x02, PREF_SCREEN_BRIGHTNESS),
@@ -908,6 +914,17 @@ public class ZeppOsConfigService extends AbstractZeppOsService {
                             argPrefs = convertDatetimeHhMmToPrefs(configArg, valHhMm);
                         }
                         break;
+                    case TIMESTAMP_MILLIS:
+                        final ConfigTimestamp valTimestamp = ConfigTimestamp.consume(buf);
+                        if (valTimestamp == null) {
+                            LOG.error("Failed to parse {} for {}", configType, configArg);
+                            return prefs;
+                        }
+                        LOG.info("Got {} ({}) = {}", configArg, String.format("0x%02x", configArgByte), valTimestamp);
+                        if (configArg != null) {
+                            argPrefs = convertTimestampToPrefs(configArg, valTimestamp);
+                        }
+                        break;
                     default:
                         LOG.error("No parser for {}", configArg);
                         // Abort, since we don't know how to parse this type or how many bytes it is
@@ -1045,6 +1062,15 @@ public class ZeppOsConfigService extends AbstractZeppOsService {
                 }
 
                 return prefs;
+            }
+
+            return null;
+        }
+
+        private Map<String, Object> convertTimestampToPrefs(final ConfigArg configArg, final ConfigTimestamp value) {
+            if (configArg.getPrefKey() != null) {
+                // The arg maps to a number pref directly
+                return singletonMap(configArg.getPrefKey(), value.getValue());
             }
 
             return null;
@@ -1443,6 +1469,29 @@ public class ZeppOsConfigService extends AbstractZeppOsService {
             } else {
                 return String.format(Locale.ROOT, "ConfigInt{value=%d}", value);
             }
+        }
+    }
+
+    private static class ConfigTimestamp {
+        private final long value;
+
+        public ConfigTimestamp(final long value) {
+            this.value = value;
+        }
+
+        public long getValue() {
+            return value;
+        }
+
+        private static ConfigTimestamp consume(final ByteBuffer buf) {
+            final long value = buf.getLong();
+
+            return new ConfigTimestamp(value);
+        }
+
+        @Override
+        public String toString() {
+            return String.format(Locale.ROOT, "ConfigTimestamp{value=%s}", new Date(value));
         }
     }
 

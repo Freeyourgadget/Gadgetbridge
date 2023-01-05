@@ -25,8 +25,10 @@ import androidx.preference.Preference;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -72,6 +74,8 @@ public class Huami2021SettingsCustomizer extends HuamiSettingsCustomizer {
                 case SHORT:
                 case INT:
                 case DATETIME_HH_MM:
+                case TIMESTAMP_MILLIS:
+                default:
                     // For other preferences, just hide them if they were not reported as supported by the device
                     hidePrefIfNoConfigSupported(handler, prefs, config.getPrefKey(), config);
                     break;
@@ -204,13 +208,15 @@ public class Huami2021SettingsCustomizer extends HuamiSettingsCustomizer {
         ));
         hidePrefIfNoneVisible(handler, DeviceSettingsPreferenceConst.PREF_HEADER_AGPS, Arrays.asList(
                 DeviceSettingsPreferenceConst.PREF_AGPS_EXPIRY_REMINDER_ENABLED,
-                DeviceSettingsPreferenceConst.PREF_AGPS_EXPIRY_REMINDER_TIME
+                DeviceSettingsPreferenceConst.PREF_AGPS_EXPIRY_REMINDER_TIME,
+                DeviceSettingsPreferenceConst.PREF_AGPS_UPDATE_TIME,
+                DeviceSettingsPreferenceConst.PREF_AGPS_EXPIRE_TIME
         ));
 
-        setupGpsPreference(handler);
+        setupGpsPreference(handler, prefs);
     }
 
-    private void setupGpsPreference(final DeviceSpecificSettingsHandler handler) {
+    private void setupGpsPreference(final DeviceSpecificSettingsHandler handler, final Prefs prefs) {
         final ListPreference prefGpsPreset = handler.findPreference(DeviceSettingsPreferenceConst.PREF_GPS_MODE_PRESET);
         final ListPreference prefGpsBand = handler.findPreference(DeviceSettingsPreferenceConst.PREF_GPS_BAND);
         final ListPreference prefGpsCombination = handler.findPreference(DeviceSettingsPreferenceConst.PREF_GPS_COMBINATION);
@@ -286,6 +292,28 @@ public class Huami2021SettingsCustomizer extends HuamiSettingsCustomizer {
                     GpsCapability.Preset.CUSTOM.name().toLowerCase(Locale.ROOT).equals(prefGpsPreset.getValue());
             if (isCustomPreset) {
                 onGpsBandUpdate.onPreferenceChange(prefGpsPreset, prefGpsBand.getValue());
+            }
+        }
+
+        final SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
+
+        final Preference prefAgpsUpdateTime = handler.findPreference(DeviceSettingsPreferenceConst.PREF_AGPS_UPDATE_TIME);
+        if (prefAgpsUpdateTime != null) {
+            final long ts = prefs.getLong(DeviceSettingsPreferenceConst.PREF_AGPS_UPDATE_TIME, 0L);
+            if (ts > 0) {
+                prefAgpsUpdateTime.setSummary(sdf.format(new Date(ts)));
+            } else {
+                prefAgpsUpdateTime.setSummary(handler.getContext().getString(R.string.unknown));
+            }
+        }
+
+        final Preference prefAgpsExpireTime = handler.findPreference(DeviceSettingsPreferenceConst.PREF_AGPS_EXPIRE_TIME);
+        if (prefAgpsExpireTime != null) {
+            final long ts = prefs.getLong(DeviceSettingsPreferenceConst.PREF_AGPS_EXPIRE_TIME, 0L);
+            if (ts > 0) {
+                prefAgpsExpireTime.setSummary(sdf.format(new Date(ts)));
+            } else {
+                prefAgpsExpireTime.setSummary(handler.getContext().getString(R.string.unknown));
             }
         }
     }

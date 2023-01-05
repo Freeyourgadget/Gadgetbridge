@@ -89,6 +89,7 @@ import nodomain.freeyourgadget.gadgetbridge.devices.huami.Huami2021Service;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiService;
+import nodomain.freeyourgadget.gadgetbridge.devices.huami.zeppos.ZeppOsAgpsInstallHandler;
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst;
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.VibrationProfile;
@@ -115,6 +116,9 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.operations.Hua
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.operations.UpdateFirmwareOperation;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.operations.UpdateFirmwareOperation2021;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.AbstractZeppOsService;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.operations.ZeppOsAgpsFile;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.operations.ZeppOsAgpsUpdateOperation;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.services.ZeppOsAgpsService;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.services.ZeppOsConfigService;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.services.ZeppOsFileUploadService;
 import nodomain.freeyourgadget.gadgetbridge.util.AlarmUtils;
@@ -142,9 +146,11 @@ public abstract class Huami2021Support extends HuamiSupport {
     // Services
     private final ZeppOsFileUploadService fileUploadService = new ZeppOsFileUploadService(this);
     private final ZeppOsConfigService configService = new ZeppOsConfigService(this);
+    private final ZeppOsAgpsService agpsService = new ZeppOsAgpsService(this);
     private final Map<Short, AbstractZeppOsService> mServiceMap = new HashMap<Short, AbstractZeppOsService>() {{
         put(fileUploadService.getEndpoint(), fileUploadService);
         put(configService.getEndpoint(), configService);
+        put(agpsService.getEndpoint(), agpsService);
     }};
 
     public Huami2021Support() {
@@ -896,6 +902,26 @@ public abstract class Huami2021Support extends HuamiSupport {
         final byte[] cmd = {STEPS_CMD_ENABLE_REALTIME, bool(enable)};
 
         writeToChunked2021("toggle realtime steps", CHUNKED2021_ENDPOINT_STEPS, cmd, false);
+    }
+
+    @Override
+    public void onInstallApp(final Uri uri) {
+        final ZeppOsAgpsInstallHandler agpsHandler = new ZeppOsAgpsInstallHandler(uri, getContext());
+        if (agpsHandler.isValid()) {
+            try {
+                new ZeppOsAgpsUpdateOperation(
+                        this,
+                        agpsHandler.getFile(),
+                        agpsService,
+                        fileUploadService,
+                        configService
+                ).perform();
+            } catch (final Exception e) {
+                GB.toast(getContext(), "AGPS File cannot be installed: " + e.getMessage(), Toast.LENGTH_LONG, GB.ERROR, e);
+            }
+        } else {
+            super.onInstallApp(uri);
+        }
     }
 
     @Override
@@ -2151,7 +2177,7 @@ public abstract class Huami2021Support extends HuamiSupport {
                 tga565,
                 new ZeppOsFileUploadService.Callback() {
                     @Override
-                    public void onFinish(final boolean success) {
+                    public void onFileUploadFinish(final boolean success) {
                         LOG.info("Finished sending icon, success={}", success);
                         if (success) {
                             ackNotificationAfterIconSent(packageName);
@@ -2159,7 +2185,7 @@ public abstract class Huami2021Support extends HuamiSupport {
                     }
 
                     @Override
-                    public void onProgress(final int progress) {
+                    public void onFileUploadProgress(final int progress) {
                         LOG.trace("Icon send progress: {}", progress);
                     }
                 }

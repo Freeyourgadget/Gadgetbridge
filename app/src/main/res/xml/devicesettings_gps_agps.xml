@@ -57,6 +57,14 @@
                 android:dependency="pref_agps_expiry_reminder_enabled"
                 android:key="pref_agps_expiry_reminder_time"
                 android:title="@string/pref_agps_expiry_reminder_time" />
+
+            <Preference
+                android:key="pref_agps_update_time"
+                android:title="@string/pref_agps_update_time" />
+
+            <Preference
+                android:key="pref_agps_expire_time"
+                android:title="@string/pref_agps_expire_time" />
         </PreferenceCategory>
     </PreferenceScreen>
 </androidx.preference.PreferenceScreen>

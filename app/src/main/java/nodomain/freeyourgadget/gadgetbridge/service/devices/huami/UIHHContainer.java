@@ -174,6 +174,9 @@ public class UIHHContainer {
         LLE_GLO_LLE(0x88, "lle_glo.lle"),
         LLE_GAL_LLE(0x89, "lle_gal.lle"),
         LLE_QZSS_LLE(0x8a, "lle_qzss.lle"),
+        AGPS_EPO_GR_3(-116, "EPO_GR_3.DAT"),
+        AGPS_EPO_GAL_7(-115, "EPO_GAL_7.DAT"),
+        AGPS_EPO_BDS_3(-114, "EPO_BDS_3.DAT"),
         ;
 
         private final byte value;
