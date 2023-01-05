@@ -178,11 +178,6 @@ public class LefunDeviceSupport extends AbstractBTLEDeviceSupport {
     }
 
     @Override
-    public void onDeleteNotification(int id) {
-
-    }
-
-    @Override
     public void onSetTime() {
         try {
             TransactionBuilder builder = performInitialized(SetTimeRequest.class.getSimpleName());
@@ -238,56 +233,6 @@ public class LefunDeviceSupport extends AbstractBTLEDeviceSupport {
     }
 
     @Override
-    public void onSetCannedMessages(CannedMessagesSpec cannedMessagesSpec) {
-
-    }
-
-    @Override
-    public void onSetMusicState(MusicStateSpec stateSpec) {
-
-    }
-
-    @Override
-    public void onSetMusicInfo(MusicSpec musicSpec) {
-
-    }
-
-    @Override
-    public void onEnableRealtimeSteps(boolean enable) {
-
-    }
-
-    @Override
-    public void onInstallApp(Uri uri) {
-
-    }
-
-    @Override
-    public void onAppInfoReq() {
-
-    }
-
-    @Override
-    public void onAppStart(UUID uuid, boolean start) {
-
-    }
-
-    @Override
-    public void onAppDelete(UUID uuid) {
-
-    }
-
-    @Override
-    public void onAppConfiguration(UUID appUuid, String config, Integer id) {
-
-    }
-
-    @Override
-    public void onAppReorder(UUID[] uuids) {
-
-    }
-
-    @Override
     public void onFetchRecordedData(int dataTypes) {
         if ((dataTypes & RecordedDataTypes.TYPE_ACTIVITY) != 0) {
             for (int i = 0; i < 7; ++i) {
@@ -313,11 +258,6 @@ public class LefunDeviceSupport extends AbstractBTLEDeviceSupport {
     }
 
     @Override
-    public void onReset(int flags) {
-
-    }
-
-    @Override
     public void onHeartRateTest() {
         try {
             TransactionBuilder builder = performInitialized(StartPpgRequest.class.getSimpleName());
@@ -330,11 +270,6 @@ public class LefunDeviceSupport extends AbstractBTLEDeviceSupport {
             GB.toast(getContext(), "Failed to start heart rate test", Toast.LENGTH_SHORT,
                     GB.ERROR, e);
         }
-    }
-
-    @Override
-    public void onEnableRealtimeHeartRateMeasurement(boolean enable) {
-
     }
 
     @Override
@@ -351,36 +286,6 @@ public class LefunDeviceSupport extends AbstractBTLEDeviceSupport {
                         GB.ERROR, e);
             }
         }
-    }
-
-    @Override
-    public void onSetConstantVibration(int integer) {
-
-    }
-
-    @Override
-    public void onScreenshotReq() {
-
-    }
-
-    @Override
-    public void onEnableHeartRateSleepSupport(boolean enable) {
-
-    }
-
-    @Override
-    public void onSetHeartRateMeasurementInterval(int seconds) {
-
-    }
-
-    @Override
-    public void onAddCalendarEvent(CalendarEventSpec calendarEventSpec) {
-
-    }
-
-    @Override
-    public void onDeleteCalendarEvent(byte type, long id) {
-
     }
 
     @Override
@@ -757,16 +662,6 @@ public class LefunDeviceSupport extends AbstractBTLEDeviceSupport {
             GB.toast(getContext(), "Failed to retrieve settings", Toast.LENGTH_SHORT,
                     GB.ERROR, e);
         }
-    }
-
-    @Override
-    public void onTestNewFunction() {
-
-    }
-
-    @Override
-    public void onSendWeather(WeatherSpec weatherSpec) {
-
     }
 
     @Override

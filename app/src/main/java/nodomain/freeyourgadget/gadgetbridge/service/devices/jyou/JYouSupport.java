@@ -186,11 +186,6 @@ public class JYouSupport extends AbstractBTLEDeviceSupport {
     }
 
     @Override
-    public void onDeleteNotification(int id) {
-
-    }
-
-    @Override
     public void onSetAlarms(ArrayList<? extends Alarm> alarms) {
         try {
             TransactionBuilder builder = performInitialized("SetAlarms");
@@ -244,58 +239,8 @@ public class JYouSupport extends AbstractBTLEDeviceSupport {
     }
 
     @Override
-    public void onSetCannedMessages(CannedMessagesSpec cannedMessagesSpec) {
-
-    }
-
-    @Override
-    public void onSetMusicState(MusicStateSpec stateSpec) {
-
-    }
-
-    @Override
-    public void onSetMusicInfo(MusicSpec musicSpec) {
-
-    }
-
-    @Override
     public void onEnableRealtimeSteps(boolean enable) {
         onEnableRealtimeHeartRateMeasurement(enable);
-    }
-
-    @Override
-    public void onInstallApp(Uri uri) {
-
-    }
-
-    @Override
-    public void onAppInfoReq() {
-
-    }
-
-    @Override
-    public void onAppStart(UUID uuid, boolean start) {
-
-    }
-
-    @Override
-    public void onAppDelete(UUID uuid) {
-
-    }
-
-    @Override
-    public void onAppConfiguration(UUID appUuid, String config, Integer id) {
-
-    }
-
-    @Override
-    public void onAppReorder(UUID[] uuids) {
-
-    }
-
-    @Override
-    public void onFetchRecordedData(int dataTypes) {
-
     }
 
     @Override
@@ -343,56 +288,6 @@ public class JYouSupport extends AbstractBTLEDeviceSupport {
             showNotification(JYouConstants.ICON_QQ, "Gadgetbridge", "Bzzt! Bzzt!");
             GB.toast(getContext(), "As your device doesn't have sound, it will only vibrate 3 times consecutively", Toast.LENGTH_LONG, GB.INFO);
         }
-    }
-
-    @Override
-    public void onSetConstantVibration(int integer) {
-
-    }
-
-    @Override
-    public void onScreenshotReq() {
-
-    }
-
-    @Override
-    public void onEnableHeartRateSleepSupport(boolean enable) {
-
-    }
-
-    @Override
-    public void onSetHeartRateMeasurementInterval(int seconds) {
-
-    }
-
-    @Override
-    public void onAddCalendarEvent(CalendarEventSpec calendarEventSpec) {
-
-    }
-
-    @Override
-    public void onDeleteCalendarEvent(byte type, long id) {
-
-    }
-
-    @Override
-    public void onSendConfiguration(String config) {
-
-    }
-
-    @Override
-    public void onReadConfiguration(String config) {
-
-    }
-
-    @Override
-    public void onTestNewFunction() {
-
-    }
-
-    @Override
-    public void onSendWeather(WeatherSpec weatherSpec) {
-
     }
 
     protected byte[] commandWithChecksum(byte cmd, int argSlot1, int argSlot2)

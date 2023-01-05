@@ -168,11 +168,6 @@ public class No1F1Support extends AbstractBTLEDeviceSupport {
     }
 
     @Override
-    public void onDeleteNotification(int id) {
-
-    }
-
-    @Override
     public void onSetTime() {
         try {
             TransactionBuilder builder = performInitialized("setTime");
@@ -242,62 +237,8 @@ public class No1F1Support extends AbstractBTLEDeviceSupport {
     }
 
     @Override
-    public void onSetCannedMessages(CannedMessagesSpec cannedMessagesSpec) {
-
-    }
-
-    @Override
-    public void onSetMusicState(MusicStateSpec stateSpec) {
-
-    }
-
-    @Override
-    public void onSetMusicInfo(MusicSpec musicSpec) {
-
-    }
-
-    @Override
-    public void onEnableRealtimeSteps(boolean enable) {
-
-    }
-
-    @Override
-    public void onInstallApp(Uri uri) {
-
-    }
-
-    @Override
-    public void onAppInfoReq() {
-
-    }
-
-    @Override
-    public void onAppStart(UUID uuid, boolean start) {
-
-    }
-
-    @Override
-    public void onAppDelete(UUID uuid) {
-
-    }
-
-    @Override
-    public void onAppConfiguration(UUID appUuid, String config, Integer id) {
-
-    }
-
-    @Override
-    public void onAppReorder(UUID[] uuids) {
-
-    }
-
-    @Override
     public void onFetchRecordedData(int dataTypes) {
         sendFetchCommand(No1F1Constants.CMD_FETCH_STEPS);
-    }
-
-    @Override
-    public void onReset(int flags) {
     }
 
     @Override
@@ -316,46 +257,11 @@ public class No1F1Support extends AbstractBTLEDeviceSupport {
     }
 
     @Override
-    public void onEnableRealtimeHeartRateMeasurement(boolean enable) {
-
-    }
-
-    @Override
     public void onFindDevice(boolean start) {
         if (start)
             setVibration(3, 10);
         else
             setVibration(0, 0);
-    }
-
-    @Override
-    public void onSetConstantVibration(int integer) {
-
-    }
-
-    @Override
-    public void onScreenshotReq() {
-
-    }
-
-    @Override
-    public void onEnableHeartRateSleepSupport(boolean enable) {
-
-    }
-
-    @Override
-    public void onSetHeartRateMeasurementInterval(int seconds) {
-
-    }
-
-    @Override
-    public void onAddCalendarEvent(CalendarEventSpec calendarEventSpec) {
-
-    }
-
-    @Override
-    public void onDeleteCalendarEvent(byte type, long id) {
-
     }
 
     @Override
@@ -372,21 +278,6 @@ public class No1F1Support extends AbstractBTLEDeviceSupport {
         } catch (IOException e) {
             GB.toast("Error setting configuration", Toast.LENGTH_LONG, GB.ERROR, e);
         }
-    }
-
-    @Override
-    public void onReadConfiguration(String config) {
-
-    }
-
-    @Override
-    public void onTestNewFunction() {
-
-    }
-
-    @Override
-    public void onSendWeather(WeatherSpec weatherSpec) {
-
     }
 
     @Override

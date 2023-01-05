@@ -1094,11 +1094,6 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
         } catch (JSONException e) {
             LOG.info("JSONException: " + e.getLocalizedMessage());
         }
-}
-
-    @Override
-    public void onSetCannedMessages(CannedMessagesSpec cannedMessagesSpec) {
-
     }
 
     @Override
@@ -1158,36 +1153,6 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
     }
 
     @Override
-    public void onInstallApp(Uri uri) {
-
-    }
-
-    @Override
-    public void onAppInfoReq() {
-
-    }
-
-    @Override
-    public void onAppStart(UUID uuid, boolean start) {
-
-    }
-
-    @Override
-    public void onAppDelete(UUID uuid) {
-
-    }
-
-    @Override
-    public void onAppConfiguration(UUID appUuid, String config, Integer id) {
-
-    }
-
-    @Override
-    public void onAppReorder(UUID[] uuids) {
-
-    }
-
-    @Override
     public void onFetchRecordedData(int dataTypes) {
         if (dataTypes == RecordedDataTypes.TYPE_DEBUGLOGS) {
             File dir;
@@ -1210,16 +1175,6 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
                 LOG.warn("Could not write to file", e);
             }
         }
-    }
-
-    @Override
-    public void onReset(int flags) {
-
-    }
-
-    @Override
-    public void onHeartRateTest() {
-
     }
 
     @Override
@@ -1251,16 +1206,6 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
         } catch (JSONException e) {
             LOG.info("JSONException: " + e.getLocalizedMessage());
         }
-    }
-
-    @Override
-    public void onScreenshotReq() {
-
-    }
-
-    @Override
-    public void onEnableHeartRateSleepSupport(boolean enable) {
-
     }
 
     @Override
@@ -1300,21 +1245,6 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
         } catch (JSONException e) {
             LOG.info("JSONException: " + e.getLocalizedMessage());
         }
-    }
-
-    @Override
-    public void onSendConfiguration(String config) {
-
-    }
-
-    @Override
-    public void onReadConfiguration(String config) {
-
-    }
-
-    @Override
-    public void onTestNewFunction() {
-
     }
 
     @Override

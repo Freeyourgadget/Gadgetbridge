@@ -472,56 +472,6 @@ public class FitProDeviceSupport extends AbstractBTLEDeviceSupport {
     }
 
     @Override
-    public void onSetCannedMessages(CannedMessagesSpec cannedMessagesSpec) {
-
-    }
-
-    @Override
-    public void onSetMusicState(MusicStateSpec stateSpec) {
-
-    }
-
-    @Override
-    public void onSetMusicInfo(MusicSpec musicSpec) {
-
-    }
-
-    @Override
-    public void onEnableRealtimeSteps(boolean enable) {
-
-    }
-
-    @Override
-    public void onInstallApp(Uri uri) {
-
-    }
-
-    @Override
-    public void onAppInfoReq() {
-
-    }
-
-    @Override
-    public void onAppStart(UUID uuid, boolean start) {
-
-    }
-
-    @Override
-    public void onAppDelete(UUID uuid) {
-
-    }
-
-    @Override
-    public void onAppConfiguration(UUID appUuid, String config, Integer id) {
-
-    }
-
-    @Override
-    public void onAppReorder(UUID[] uuids) {
-
-    }
-
-    @Override
     public void onSendConfiguration(String config) {
 
         LOG.debug("FitPro on send config: " + config);
@@ -583,11 +533,6 @@ public class FitProDeviceSupport extends AbstractBTLEDeviceSupport {
         } catch (IOException e) {
             GB.toast(getContext(), "Error sending configuration: " + e.getLocalizedMessage(), Toast.LENGTH_LONG, GB.ERROR);
         }
-    }
-
-    @Override
-    public void onReadConfiguration(String config) {
-
     }
 
     public void sendAck(byte command_group, byte length_high, byte length_low, byte command) {
@@ -702,11 +647,6 @@ public class FitProDeviceSupport extends AbstractBTLEDeviceSupport {
 
         writeChunkedData(builder, craftData(CMD_GROUP_GENERAL, CMD_NOTIFICATION_MESSAGE, output.getBytes(StandardCharsets.UTF_8)));
         builder.queue(getQueue());
-    }
-
-    @Override
-    public void onDeleteNotification(int id) {
-
     }
 
     public FitProDeviceSupport setLanguage(TransactionBuilder builder) {
@@ -1043,11 +983,6 @@ public class FitProDeviceSupport extends AbstractBTLEDeviceSupport {
     }
 
     @Override
-    public void onEnableRealtimeHeartRateMeasurement(boolean enable) {
-
-    }
-
-    @Override
     public void onFindDevice(boolean start) {
         getQueue().clear();
         LOG.debug("FitPro find device");
@@ -1055,37 +990,6 @@ public class FitProDeviceSupport extends AbstractBTLEDeviceSupport {
         builder.write(writeCharacteristic, craftData(CMD_GROUP_GENERAL, CMD_FIND_BAND, start ? VALUE_ON : VALUE_OFF));
         builder.queue(getQueue());
     }
-
-    @Override
-    public void onSetConstantVibration(int integer) {
-
-    }
-
-    @Override
-    public void onScreenshotReq() {
-
-    }
-
-    @Override
-    public void onEnableHeartRateSleepSupport(boolean enable) {
-
-    }
-
-    @Override
-    public void onSetHeartRateMeasurementInterval(int seconds) {
-
-    }
-
-    @Override
-    public void onAddCalendarEvent(CalendarEventSpec calendarEventSpec) {
-
-    }
-
-    @Override
-    public void onDeleteCalendarEvent(byte type, long id) {
-
-    }
-
 
     public FitProDeviceSupport setAutoHeartRate(TransactionBuilder builder) {
         LOG.debug("FitPro set automatic heartrate measurements");

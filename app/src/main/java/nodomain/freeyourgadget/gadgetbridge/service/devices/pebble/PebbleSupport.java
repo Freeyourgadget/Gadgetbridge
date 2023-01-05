@@ -128,21 +128,6 @@ public class PebbleSupport extends AbstractSerialDeviceSupport {
     }
 
     @Override
-    public void onHeartRateTest() {
-
-    }
-
-    @Override
-    public void onSetConstantVibration(int intensity) {
-
-    }
-
-    @Override
-    public void onSetHeartRateMeasurementInterval(int seconds) {
-
-    }
-
-    @Override
     public synchronized PebbleIoThread getDeviceIOThread() {
         return (PebbleIoThread) super.getDeviceIOThread();
     }
@@ -211,12 +196,6 @@ public class PebbleSupport extends AbstractSerialDeviceSupport {
         }
     }
 
-
-    @Override
-    public void onSetAlarms(ArrayList<? extends Alarm> alarms) {
-        //nothing to do ATM
-    }
-
     @Override
     public void onAddCalendarEvent(CalendarEventSpec calendarEventSpec) {
         if (reconnect()) {
@@ -236,11 +215,6 @@ public class PebbleSupport extends AbstractSerialDeviceSupport {
         if (reconnect()) {
             super.onSendConfiguration(config);
         }
-    }
-
-    @Override
-    public void onReadConfiguration(String config) {
-
     }
 
     @Override

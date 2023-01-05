@@ -94,11 +94,6 @@ public class ID115Support extends AbstractBTLEDeviceSupport {
     }
 
     @Override
-    public void onDeleteNotification(int id) {
-
-    }
-
-    @Override
     public void onSetTime() {
         try {
             TransactionBuilder builder = performInitialized("time");
@@ -107,11 +102,6 @@ public class ID115Support extends AbstractBTLEDeviceSupport {
         } catch(IOException e) {
             LOG.warn("Unable to send current time", e);
         }
-    }
-
-    @Override
-    public void onSetAlarms(ArrayList<? extends Alarm> alarms) {
-
     }
 
     @Override
@@ -125,56 +115,6 @@ public class ID115Support extends AbstractBTLEDeviceSupport {
         } else {
             sendStopCallNotification();
         }
-    }
-
-    @Override
-    public void onSetCannedMessages(CannedMessagesSpec cannedMessagesSpec) {
-
-    }
-
-    @Override
-    public void onSetMusicState(MusicStateSpec stateSpec) {
-
-    }
-
-    @Override
-    public void onSetMusicInfo(MusicSpec musicSpec) {
-
-    }
-
-    @Override
-    public void onEnableRealtimeSteps(boolean enable) {
-
-    }
-
-    @Override
-    public void onInstallApp(Uri uri) {
-
-    }
-
-    @Override
-    public void onAppInfoReq() {
-
-    }
-
-    @Override
-    public void onAppStart(UUID uuid, boolean start) {
-
-    }
-
-    @Override
-    public void onAppDelete(UUID uuid) {
-
-    }
-
-    @Override
-    public void onAppConfiguration(UUID appUuid, String config, Integer id) {
-
-    }
-
-    @Override
-    public void onAppReorder(UUID[] uuids) {
-
     }
 
     @Override
@@ -198,71 +138,6 @@ public class ID115Support extends AbstractBTLEDeviceSupport {
             builder.queue(getQueue());
         } catch(Exception e) {
         }
-    }
-
-    @Override
-    public void onHeartRateTest() {
-
-    }
-
-    @Override
-    public void onEnableRealtimeHeartRateMeasurement(boolean enable) {
-
-    }
-
-    @Override
-    public void onFindDevice(boolean start) {
-
-    }
-
-    @Override
-    public void onSetConstantVibration(int integer) {
-
-    }
-
-    @Override
-    public void onScreenshotReq() {
-
-    }
-
-    @Override
-    public void onEnableHeartRateSleepSupport(boolean enable) {
-
-    }
-
-    @Override
-    public void onSetHeartRateMeasurementInterval(int seconds) {
-
-    }
-
-    @Override
-    public void onAddCalendarEvent(CalendarEventSpec calendarEventSpec) {
-
-    }
-
-    @Override
-    public void onDeleteCalendarEvent(byte type, long id) {
-
-    }
-
-    @Override
-    public void onSendConfiguration(String config) {
-
-    }
-
-    @Override
-    public void onReadConfiguration(String config) {
-
-    }
-
-    @Override
-    public void onTestNewFunction() {
-
-    }
-
-    @Override
-    public void onSendWeather(WeatherSpec weatherSpec) {
-
     }
 
     private void setInitialized(TransactionBuilder builder) {

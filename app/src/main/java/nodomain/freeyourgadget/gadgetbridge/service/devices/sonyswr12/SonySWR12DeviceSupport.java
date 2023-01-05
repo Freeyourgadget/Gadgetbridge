@@ -128,16 +128,6 @@ public class SonySWR12DeviceSupport extends AbstractBTLEDeviceSupport {
     }
 
     @Override
-    public void onNotification(NotificationSpec notificationSpec) {
-
-    }
-
-    @Override
-    public void onDeleteNotification(int id) {
-
-    }
-
-    @Override
     public void onSetTime() {
         try {
             TransactionBuilder builder = performInitialized("setTime");
@@ -196,62 +186,6 @@ public class SonySWR12DeviceSupport extends AbstractBTLEDeviceSupport {
     }
 
     @Override
-    public void onSetCallState(CallSpec callSpec) {
-
-    }
-
-    @Override
-    public void onSetCannedMessages(CannedMessagesSpec cannedMessagesSpec) {
-
-    }
-
-    @Override
-    public void onSetMusicState(MusicStateSpec stateSpec) {
-
-    }
-
-    @Override
-    public void onSetMusicInfo(MusicSpec musicSpec) {
-
-    }
-
-    @Override
-    public void onEnableRealtimeSteps(boolean enable) {
-        //doesn't support realtime steps
-        //supports only realtime heart rate
-    }
-
-    @Override
-    public void onInstallApp(Uri uri) {
-
-    }
-
-    @Override
-    public void onAppInfoReq() {
-
-    }
-
-    @Override
-    public void onAppStart(UUID uuid, boolean start) {
-
-    }
-
-    @Override
-    public void onAppDelete(UUID uuid) {
-
-    }
-
-    @Override
-    public void onAppConfiguration(UUID appUuid, String config, Integer id) {
-
-    }
-
-    @Override
-    public void onAppReorder(UUID[] uuids) {
-
-    }
-
-    @Override
     public void onFetchRecordedData(int dataTypes) {
         try {
             TransactionBuilder builder = performInitialized("fetchActivity");
@@ -265,15 +199,6 @@ public class SonySWR12DeviceSupport extends AbstractBTLEDeviceSupport {
     }
 
     @Override
-    public void onReset(int flags) {
-
-    }
-
-    @Override
-    public void onHeartRateTest() {
-    }
-
-    @Override
     public void onEnableRealtimeHeartRateMeasurement(boolean enable) {
         try {
             TransactionBuilder builder = performInitialized("HeartRateTest");
@@ -284,41 +209,6 @@ public class SonySWR12DeviceSupport extends AbstractBTLEDeviceSupport {
         } catch (IOException ex) {
             LOG.error("Unable to read heart rate from Sony device", ex);
         }
-    }
-
-    @Override
-    public void onFindDevice(boolean start) {
-
-    }
-
-    @Override
-    public void onSetConstantVibration(int integer) {
-
-    }
-
-    @Override
-    public void onScreenshotReq() {
-
-    }
-
-    @Override
-    public void onEnableHeartRateSleepSupport(boolean enable) {
-
-    }
-
-    @Override
-    public void onSetHeartRateMeasurementInterval(int seconds) {
-
-    }
-
-    @Override
-    public void onAddCalendarEvent(CalendarEventSpec calendarEventSpec) {
-
-    }
-
-    @Override
-    public void onDeleteCalendarEvent(byte type, long id) {
-
     }
 
     @Override
@@ -350,20 +240,5 @@ public class SonySWR12DeviceSupport extends AbstractBTLEDeviceSupport {
         } catch (Exception exc) {
             LOG.error("failed to send config " + config, exc);
         }
-    }
-
-    @Override
-    public void onReadConfiguration(String config) {
-
-    }
-
-    @Override
-    public void onTestNewFunction() {
-
-    }
-
-    @Override
-    public void onSendWeather(WeatherSpec weatherSpec) {
-
     }
 }

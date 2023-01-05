@@ -268,11 +268,6 @@ public class BFH16DeviceSupport extends AbstractBTLEDeviceSupport {
         showNotification(icon, notificationTitle, notificationSpec.body);
     }
 
-    @Override
-    public void onDeleteNotification(int id) {
-
-    }
-
     //TODO: check
     @Override
     public void onSetCallState(CallSpec callSpec) {
@@ -344,96 +339,6 @@ public class BFH16DeviceSupport extends AbstractBTLEDeviceSupport {
         } catch(Exception e) {
             LOG.warn(e.getMessage());
         }
-    }
-
-    @Override
-    public void onSetCannedMessages(CannedMessagesSpec cannedMessagesSpec) {
-
-    }
-
-    @Override
-    public void onSetMusicState(MusicStateSpec stateSpec) {
-
-    }
-
-    @Override
-    public void onSetMusicInfo(MusicSpec musicSpec) {
-
-    }
-
-    @Override
-    public void onInstallApp(Uri uri) {
-
-    }
-
-    @Override
-    public void onAppInfoReq() {
-
-    }
-
-    @Override
-    public void onAppStart(UUID uuid, boolean start) {
-
-    }
-
-    @Override
-    public void onAppDelete(UUID uuid) {
-
-    }
-
-    @Override
-    public void onAppConfiguration(UUID appUuid, String config, Integer id) {
-
-    }
-
-    @Override
-    public void onAppReorder(UUID[] uuids) {
-
-    }
-
-    @Override
-    public void onFetchRecordedData(int dataTypes) {
-
-    }
-
-    @Override
-    public void onScreenshotReq() {
-
-    }
-
-    @Override
-    public void onEnableHeartRateSleepSupport(boolean enable) {
-
-    }
-
-    @Override
-    public void onSetHeartRateMeasurementInterval(int seconds) {
-
-    }
-
-    @Override
-    public void onAddCalendarEvent(CalendarEventSpec calendarEventSpec) {
-
-    }
-
-    @Override
-    public void onDeleteCalendarEvent(byte type, long id) {
-
-    }
-
-    @Override
-    public void onSendConfiguration(String config) {
-
-    }
-
-    @Override
-    public void onReadConfiguration(String config) {
-
-    }
-
-    @Override
-    public void onSendWeather(WeatherSpec weatherSpec) {
-
     }
 
     @Override

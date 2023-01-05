@@ -356,47 +356,7 @@ public abstract class AbstractBTLEDeviceSupport extends AbstractDeviceSupport im
     }
 
     @Override
-    public void onFindPhone(boolean start) {
-
-    }
-
-    @Override
     public void onMtuChanged(BluetoothGatt gatt, int mtu, int status) {
-
-    }
-
-    @Override
-    public void onSetFmFrequency(float frequency) {
-
-    }
-
-    @Override
-    public void onSetLedColor(int color) {
-
-    }
-
-    @Override
-    public void onPowerOff() {
-
-    }
-
-    @Override
-    public void onSetPhoneVolume(final float volume) {
-
-    }
-
-    @Override
-    public void onSetGpsLocation(Location location) {
-
-    }
-
-    @Override
-    public void onSetReminders(ArrayList<? extends Reminder> reminders) {
-
-    }
-
-    @Override
-    public void onSetWorldClocks(ArrayList<? extends WorldClock> clocks) {
 
     }
 

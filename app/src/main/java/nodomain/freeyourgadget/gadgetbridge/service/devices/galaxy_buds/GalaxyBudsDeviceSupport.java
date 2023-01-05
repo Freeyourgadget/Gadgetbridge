@@ -23,41 +23,6 @@ public class GalaxyBudsDeviceSupport extends AbstractSerialDeviceSupport {
     }
 
     @Override
-    public void onSetAlarms(ArrayList<? extends Alarm> alarms) {
-
-    }
-
-    @Override
-    public void onInstallApp(Uri uri) {
-
-    }
-
-    @Override
-    public void onAppConfiguration(UUID appUuid, String config, Integer id) {
-
-    }
-
-    @Override
-    public void onHeartRateTest() {
-
-    }
-
-    @Override
-    public void onSetConstantVibration(int integer) {
-
-    }
-
-    @Override
-    public void onSetHeartRateMeasurementInterval(int seconds) {
-
-    }
-
-    @Override
-    public void onReadConfiguration(String config) {
-
-    }
-
-    @Override
     public void onTestNewFunction() {
         super.onTestNewFunction();
     }

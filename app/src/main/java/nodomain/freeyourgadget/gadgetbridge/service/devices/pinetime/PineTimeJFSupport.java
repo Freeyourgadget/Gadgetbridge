@@ -318,11 +318,6 @@ public class PineTimeJFSupport extends AbstractBTLEDeviceSupport implements DfuL
     }
 
     @Override
-    public void onDeleteNotification(int id) {
-
-    }
-
-    @Override
     public void onSetTime() {
         // Since this is a standard we should generalize this in Gadgetbridge (properly)
         GregorianCalendar now = BLETypeConversions.createCalendar();
@@ -336,11 +331,6 @@ public class PineTimeJFSupport extends AbstractBTLEDeviceSupport implements DfuL
     }
 
     @Override
-    public void onSetAlarms(ArrayList<? extends Alarm> alarms) {
-
-    }
-
-    @Override
     public void onSetCallState(CallSpec callSpec) {
         if (callSpec.command == CallSpec.CALL_INCOMING) {
             TransactionBuilder builder = new TransactionBuilder("incomingcall");
@@ -351,16 +341,6 @@ public class PineTimeJFSupport extends AbstractBTLEDeviceSupport implements DfuL
             profile.newAlert(builder, alert, OverflowStrategy.TRUNCATE);
             builder.queue(getQueue());
         }
-    }
-
-    @Override
-    public void onSetCannedMessages(CannedMessagesSpec cannedMessagesSpec) {
-
-    }
-
-    @Override
-    public void onEnableRealtimeSteps(boolean enable) {
-
     }
 
     @Override
@@ -401,86 +381,11 @@ public class PineTimeJFSupport extends AbstractBTLEDeviceSupport implements DfuL
     }
 
     @Override
-    public void onAppInfoReq() {
-
-    }
-
-    @Override
-    public void onAppStart(UUID uuid, boolean start) {
-
-    }
-
-    @Override
-    public void onAppDelete(UUID uuid) {
-
-    }
-
-    @Override
-    public void onAppConfiguration(UUID appUuid, String config, Integer id) {
-
-    }
-
-    @Override
-    public void onAppReorder(UUID[] uuids) {
-
-    }
-
-    @Override
-    public void onFetchRecordedData(int dataTypes) {
-
-    }
-
-    @Override
-    public void onReset(int flags) {
-
-    }
-
-    @Override
-    public void onHeartRateTest() {
-
-    }
-
-    @Override
-    public void onEnableRealtimeHeartRateMeasurement(boolean enable) {
-
-    }
-
-    @Override
     public void onFindDevice(boolean start) {
         CallSpec callSpec = new CallSpec();
         callSpec.command = start ? CallSpec.CALL_INCOMING : CallSpec.CALL_END;
         callSpec.name = "Gadgetbridge";
         onSetCallState(callSpec);
-    }
-
-    @Override
-    public void onSetConstantVibration(int intensity) {
-
-    }
-
-    @Override
-    public void onScreenshotReq() {
-
-    }
-
-    @Override
-    public void onEnableHeartRateSleepSupport(boolean enable) {
-
-    }
-
-    @Override
-    public void onSetHeartRateMeasurementInterval(int seconds) {
-
-    }
-
-    @Override
-    public void onAddCalendarEvent(CalendarEventSpec calendarEventSpec) {
-
-    }
-
-    @Override
-    public void onDeleteCalendarEvent(byte type, long id) {
-
     }
 
     @Override
@@ -643,20 +548,6 @@ public class PineTimeJFSupport extends AbstractBTLEDeviceSupport implements DfuL
     @Override
     public void onSetWorldClocks(ArrayList<? extends WorldClock> clocks) {
         sendWorldClocks(clocks);
-    }
-
-    @Override
-    public void onSendConfiguration(String config) {
-    }
-
-    @Override
-    public void onReadConfiguration(String config) {
-
-    }
-
-    @Override
-    public void onTestNewFunction() {
-
     }
 
     @Override

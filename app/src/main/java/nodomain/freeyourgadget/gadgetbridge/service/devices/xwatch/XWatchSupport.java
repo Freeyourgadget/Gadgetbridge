@@ -173,21 +173,6 @@ public class XWatchSupport extends AbstractBTLEDeviceSupport {
     }
 
     @Override
-    public void onEnableHeartRateSleepSupport(boolean enable) {
-        //Not supported
-    }
-
-    @Override
-    public void onAddCalendarEvent(CalendarEventSpec calendarEventSpec) {
-        // not supported
-    }
-
-    @Override
-    public void onDeleteCalendarEvent(byte type, long id) {
-        // not supported
-    }
-
-    @Override
     public void onSetAlarms(ArrayList<? extends Alarm> alarms) {
         //TODO: Implement
     }
@@ -238,35 +223,6 @@ public class XWatchSupport extends AbstractBTLEDeviceSupport {
     }
 
     @Override
-    public void onSetCannedMessages(CannedMessagesSpec cannedMessagesSpec) {
-    }
-
-    @Override
-    public void onSetMusicState(MusicStateSpec stateSpec) {
-        // not supported
-    }
-
-    @Override
-    public void onSetMusicInfo(MusicSpec musicSpec) {
-        // not supported
-    }
-
-    @Override
-    public void onReset(int flags) {
-        //Not supported
-    }
-
-    @Override
-    public void onHeartRateTest() {
-        //Not supported
-    }
-
-    @Override
-    public void onEnableRealtimeHeartRateMeasurement(boolean enable) {
-        //Not supported
-    }
-
-    @Override
     public void onFindDevice(boolean start) {
         //TODO: Implement
     }
@@ -287,41 +243,6 @@ public class XWatchSupport extends AbstractBTLEDeviceSupport {
         } catch (IOException e) {
             GB.toast(getContext(), "Error fetching activity data: " + e.getLocalizedMessage(), Toast.LENGTH_LONG, GB.ERROR);
         }
-    }
-
-    @Override
-    public void onEnableRealtimeSteps(boolean enable) {
-        //Not supported
-    }
-
-    @Override
-    public void onInstallApp(Uri uri) {
-        //Not supported
-    }
-
-    @Override
-    public void onAppInfoReq() {
-        // not supported
-    }
-
-    @Override
-    public void onAppStart(UUID uuid, boolean start) {
-        // not supported
-    }
-
-    @Override
-    public void onAppDelete(UUID uuid) {
-        // not supported
-    }
-
-    @Override
-    public void onAppReorder(UUID[] uuids) {
-        // not supported
-    }
-
-    @Override
-    public void onScreenshotReq() {
-        // not supported
     }
 
     @Override
@@ -383,26 +304,6 @@ public class XWatchSupport extends AbstractBTLEDeviceSupport {
             versionCmd.fwVersion = "1.0";
             handleGBDeviceEvent(versionCmd);
         }
-    }
-
-    @Override
-    public void onSendConfiguration(String config) {
-        // nothing yet
-    }
-
-    @Override
-    public void onReadConfiguration(String config) {
-
-    }
-
-    @Override
-    public void onTestNewFunction() {
-        //Not supported
-    }
-
-    @Override
-    public void onSendWeather(WeatherSpec weatherSpec) {
-        //Not supported
     }
 
     private void handleSummarizedData(byte[] value) {
@@ -513,16 +414,6 @@ public class XWatchSupport extends AbstractBTLEDeviceSupport {
         }
 
         lastButtonTimestamp = currentTimestamp;
-    }
-
-    @Override
-    public void onAppConfiguration(UUID appUuid, String config, Integer id) {
-        //Not supported
-    }
-
-    @Override
-    public void onSetHeartRateMeasurementInterval(int seconds) {
-        //Not supported
     }
 
     private void requestSummarizedData(TransactionBuilder builder) {

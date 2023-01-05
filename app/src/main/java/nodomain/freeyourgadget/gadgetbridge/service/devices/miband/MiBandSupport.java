@@ -448,21 +448,6 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
         }
     }
 
-    @Override
-    public void onSetHeartRateMeasurementInterval(int seconds) {
-
-    }
-
-    @Override
-    public void onAddCalendarEvent(CalendarEventSpec calendarEventSpec) {
-        // not supported
-    }
-
-    @Override
-    public void onDeleteCalendarEvent(byte type, long id) {
-        // not supported
-    }
-
     /**
      * Part of device initialization process. Do not call manually.
      *
@@ -671,10 +656,6 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
         }
     }
 
-    @Override
-    public void onSetCannedMessages(CannedMessagesSpec cannedMessagesSpec) {
-    }
-
     private boolean isAlarmClockRinging() {
         // don't synchronize, this is not really important
         return alarmClockRinging;
@@ -682,16 +663,6 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
     private boolean isTelephoneRinging() {
         // don't synchronize, this is not really important
         return telephoneRinging;
-    }
-
-    @Override
-    public void onSetMusicState(MusicStateSpec stateSpec) {
-        // not supported
-    }
-
-    @Override
-    public void onSetMusicInfo(MusicSpec musicSpec) {
-        // not supported
     }
 
     @Override
@@ -766,11 +737,6 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
     }
 
     @Override
-    public void onSetConstantVibration(int intensity) {
-
-    }
-
-    @Override
     public void onFetchRecordedData(int dataTypes) {
         try {
             new FetchActivityOperation(this).perform();
@@ -841,36 +807,6 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
         } catch (IOException ex) {
             GB.toast(getContext(), "Firmware cannot be installed: " + ex.getMessage(), Toast.LENGTH_LONG, GB.ERROR, ex);
         }
-    }
-
-    @Override
-    public void onAppInfoReq() {
-        // not supported
-    }
-
-    @Override
-    public void onAppStart(UUID uuid, boolean start) {
-        // not supported
-    }
-
-    @Override
-    public void onAppDelete(UUID uuid) {
-        // not supported
-    }
-
-    @Override
-    public void onAppConfiguration(UUID uuid, String config, Integer id) {
-        // not supported
-    }
-
-    @Override
-    public void onAppReorder(UUID[] uuids) {
-        // not supported
-    }
-
-    @Override
-    public void onScreenshotReq() {
-        // not supported
     }
 
     @Override
@@ -1254,16 +1190,6 @@ public class MiBandSupport extends AbstractBTLEDeviceSupport {
         } catch (IOException ex) {
             LOG.error("Unable to send Events to MI device", ex);
         }
-    }
-
-    @Override
-    public void onSendConfiguration(String config) {
-        // nothing yet
-    }
-
-    @Override
-    public void onReadConfiguration(String config) {
-
     }
 
     @Override

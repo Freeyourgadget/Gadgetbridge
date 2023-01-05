@@ -168,14 +168,6 @@ public class SMAQ2OSSSupport extends AbstractBTLEDeviceSupport {
         } catch (Exception ex) {
             LOG.error("Error sending notification", ex);
         }
-
-
-
-    }
-
-    @Override
-    public void onDeleteNotification(int id) {
-
     }
 
     @Override
@@ -186,11 +178,6 @@ public class SMAQ2OSSSupport extends AbstractBTLEDeviceSupport {
             performConnected(builder.getTransaction());
         } catch(IOException e) {
         }
-    }
-
-    @Override
-    public void onSetAlarms(ArrayList<? extends Alarm> alarms) {
-
     }
 
     @Override
@@ -212,7 +199,6 @@ public class SMAQ2OSSSupport extends AbstractBTLEDeviceSupport {
         } catch (Exception ex) {
             LOG.error("Error sending call state", ex);
         }
-
     }
 
     @Override
@@ -221,14 +207,7 @@ public class SMAQ2OSSSupport extends AbstractBTLEDeviceSupport {
     }
 
     @Override
-    public void onSetMusicState(MusicStateSpec stateSpec) {
-
-    }
-
-    @Override
     public void onSetMusicInfo(MusicSpec musicSpec) {
-
-
         SMAQ2OSSProtos.MusicInfo.Builder musicInfo = SMAQ2OSSProtos.MusicInfo.newBuilder();
 
         musicInfo.setArtist(truncateUTF8(musicSpec.artist,SMAQ2OSSConstants.MUSIC_ARTIST_MAX_LEN));
@@ -251,46 +230,6 @@ public class SMAQ2OSSSupport extends AbstractBTLEDeviceSupport {
     }
 
     @Override
-    public void onEnableRealtimeSteps(boolean enable) {
-
-    }
-
-    @Override
-    public void onInstallApp(Uri uri) {
-
-    }
-
-    @Override
-    public void onAppInfoReq() {
-
-    }
-
-    @Override
-    public void onAppStart(UUID uuid, boolean start) {
-
-    }
-
-    @Override
-    public void onAppDelete(UUID uuid) {
-
-    }
-
-    @Override
-    public void onAppConfiguration(UUID appUuid, String config, Integer id) {
-
-    }
-
-    @Override
-    public void onAppReorder(UUID[] uuids) {
-
-    }
-
-    @Override
-    public void onFetchRecordedData(int dataTypes) {
-
-    }
-
-    @Override
     public void onReset(int flags) {
 //        try {
 //            getQueue().clear();
@@ -302,66 +241,6 @@ public class SMAQ2OSSSupport extends AbstractBTLEDeviceSupport {
 //            performConnected(builder.getTransaction());
 //        } catch(Exception e) {
 //        }
-    }
-
-    @Override
-    public void onHeartRateTest() {
-
-    }
-
-    @Override
-    public void onEnableRealtimeHeartRateMeasurement(boolean enable) {
-
-    }
-
-    @Override
-    public void onFindDevice(boolean start) {
-
-    }
-
-    @Override
-    public void onSetConstantVibration(int integer) {
-
-    }
-
-    @Override
-    public void onScreenshotReq() {
-
-    }
-
-    @Override
-    public void onEnableHeartRateSleepSupport(boolean enable) {
-
-    }
-
-    @Override
-    public void onSetHeartRateMeasurementInterval(int seconds) {
-
-    }
-
-    @Override
-    public void onAddCalendarEvent(CalendarEventSpec calendarEventSpec) {
-
-    }
-
-    @Override
-    public void onDeleteCalendarEvent(byte type, long id) {
-
-    }
-
-    @Override
-    public void onSendConfiguration(String config) {
-
-    }
-
-    @Override
-    public void onReadConfiguration(String config) {
-
-    }
-
-    @Override
-    public void onTestNewFunction() {
-
     }
 
     @Override

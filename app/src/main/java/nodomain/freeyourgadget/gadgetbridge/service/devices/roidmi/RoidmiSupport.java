@@ -129,11 +129,6 @@ public class RoidmiSupport extends AbstractSerialDeviceSupport {
     }
 
     @Override
-    public void onReadConfiguration(String config) {
-
-    }
-
-    @Override
     protected GBDeviceIoThread createDeviceIOThread() {
         return new RoidmiIoThread(getDevice(), getContext(), (RoidmiProtocol) getDeviceProtocol(), RoidmiSupport.this, getBluetoothAdapter());
     }
@@ -146,35 +141,5 @@ public class RoidmiSupport extends AbstractSerialDeviceSupport {
     @Override
     public boolean useAutoConnect() {
         return false;
-    }
-
-    @Override
-    public void onInstallApp(Uri uri) {
-        // Nothing to do
-    }
-
-    @Override
-    public void onAppConfiguration(UUID uuid, String config, Integer id) {
-        // Nothing to do
-    }
-
-    @Override
-    public void onHeartRateTest() {
-        // Nothing to do
-    }
-
-    @Override
-    public void onSetConstantVibration(int intensity) {
-        // Nothing to do
-    }
-
-    @Override
-    public void onSetHeartRateMeasurementInterval(int seconds) {
-        // Nothing to do
-    }
-
-    @Override
-    public void onSetAlarms(ArrayList<? extends Alarm> alarms) {
-        // Nothing to do
     }
 }

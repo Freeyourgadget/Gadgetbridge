@@ -78,39 +78,4 @@ public class SonyHeadphonesSupport extends AbstractSerialDeviceSupport {
     public boolean useAutoConnect() {
         return false;
     }
-
-    @Override
-    public void onInstallApp(Uri uri) {
-        // Nothing to do
-    }
-
-    @Override
-    public void onAppConfiguration(UUID uuid, String config, Integer id) {
-        // Nothing to do
-    }
-
-    @Override
-    public void onHeartRateTest() {
-        // Nothing to do
-    }
-
-    @Override
-    public void onSetConstantVibration(int intensity) {
-        // Nothing to do
-    }
-
-    @Override
-    public void onSetHeartRateMeasurementInterval(int seconds) {
-        // Nothing to do
-    }
-
-    @Override
-    public void onSetAlarms(ArrayList<? extends Alarm> alarms) {
-        // Nothing to do
-    }
-
-    @Override
-    public void onReadConfiguration(String config) {
-        // Nothing to do
-    }
 }

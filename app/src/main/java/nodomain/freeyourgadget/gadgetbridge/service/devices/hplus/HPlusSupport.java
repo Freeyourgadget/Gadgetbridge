@@ -402,11 +402,6 @@ public class HPlusSupport extends AbstractBTLEDeviceSupport {
     }
 
     @Override
-    public void onDeleteNotification(int id) {
-
-    }
-
-    @Override
     public void onSetTime() {
 
         try {
@@ -471,47 +466,8 @@ public class HPlusSupport extends AbstractBTLEDeviceSupport {
     }
 
     @Override
-    public void onSetMusicState(MusicStateSpec stateSpec) {
-    }
-
-    @Override
-    public void onSetMusicInfo(MusicSpec musicSpec) {
-
-    }
-
-    @Override
     public void onEnableRealtimeSteps(boolean enable) {
         onEnableRealtimeHeartRateMeasurement(enable);
-    }
-
-    @Override
-    public void onInstallApp(Uri uri) {
-
-    }
-
-    @Override
-    public void onAppInfoReq() {
-
-    }
-
-    @Override
-    public void onAppStart(UUID uuid, boolean start) {
-
-    }
-
-    @Override
-    public void onAppDelete(UUID uuid) {
-
-    }
-
-    @Override
-    public void onAppConfiguration(UUID appUuid, String config, Integer id) {
-
-    }
-
-    @Override
-    public void onAppReorder(UUID[] uuids) {
-
     }
 
     @Override
@@ -601,28 +557,8 @@ public class HPlusSupport extends AbstractBTLEDeviceSupport {
     }
 
     @Override
-    public void onScreenshotReq() {
-
-    }
-
-    @Override
     public void onEnableHeartRateSleepSupport(boolean enable) {
         onEnableRealtimeHeartRateMeasurement(enable);
-
-    }
-
-    @Override
-    public void onSetHeartRateMeasurementInterval(int seconds) {
-
-    }
-
-    @Override
-    public void onAddCalendarEvent(CalendarEventSpec calendarEventSpec) {
-
-    }
-
-    @Override
-    public void onDeleteCalendarEvent(byte type, long id) {
 
     }
 
@@ -640,11 +576,6 @@ public class HPlusSupport extends AbstractBTLEDeviceSupport {
         } catch (IOException e) {
             GB.toast("Error setting configuration", Toast.LENGTH_LONG, GB.ERROR, e);
         }
-    }
-
-    @Override
-    public void onReadConfiguration(String config) {
-
     }
 
     @Override

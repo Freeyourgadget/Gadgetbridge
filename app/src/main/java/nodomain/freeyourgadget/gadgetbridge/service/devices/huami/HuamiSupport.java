@@ -700,16 +700,6 @@ public abstract class HuamiSupport extends AbstractBTLEDeviceSupport implements 
         }
     }
 
-    @Override
-    public void onAddCalendarEvent(CalendarEventSpec calendarEventSpec) {
-        // not supported
-    }
-
-    @Override
-    public void onDeleteCalendarEvent(byte type, long id) {
-        // not supported
-    }
-
     protected HuamiSupport setPassword(final TransactionBuilder builder) {
         final boolean passwordEnabled = HuamiCoordinator.getPasswordEnabled(gbDevice.getAddress());
         final String password = HuamiCoordinator.getPassword(gbDevice.getAddress());
@@ -1230,11 +1220,6 @@ public abstract class HuamiSupport extends AbstractBTLEDeviceSupport implements 
     }
 
     @Override
-    public void onDeleteNotification(int id) {
-
-    }
-
-    @Override
     public void onSetTime() {
         try {
             TransactionBuilder builder = performInitialized("Set date and time");
@@ -1657,11 +1642,6 @@ public abstract class HuamiSupport extends AbstractBTLEDeviceSupport implements 
     }
 
     @Override
-    public void onSetConstantVibration(int intensity) {
-
-    }
-
-    @Override
     public void onFetchRecordedData(int dataTypes) {
         try {
             new FetchActivityOperation(this).perform();
@@ -1692,36 +1672,6 @@ public abstract class HuamiSupport extends AbstractBTLEDeviceSupport implements 
         } catch (IOException ex) {
             GB.toast(getContext(), "Firmware cannot be installed: " + ex.getMessage(), Toast.LENGTH_LONG, GB.ERROR, ex);
         }
-    }
-
-    @Override
-    public void onAppInfoReq() {
-        // not supported
-    }
-
-    @Override
-    public void onAppStart(UUID uuid, boolean start) {
-        // not supported
-    }
-
-    @Override
-    public void onAppDelete(UUID uuid) {
-        // not supported
-    }
-
-    @Override
-    public void onAppConfiguration(UUID uuid, String config, Integer id) {
-        // not supported
-    }
-
-    @Override
-    public void onAppReorder(UUID[] uuids) {
-        // not supported
-    }
-
-    @Override
-    public void onScreenshotReq() {
-        // not supported
     }
 
     // this could go though onion code with preferred notification, but I this should work on all huami devices
@@ -2920,11 +2870,6 @@ public abstract class HuamiSupport extends AbstractBTLEDeviceSupport implements 
         } catch (IOException e) {
             GB.toast("Error setting configuration", Toast.LENGTH_LONG, GB.ERROR, e);
         }
-    }
-
-    @Override
-    public void onReadConfiguration(String config) {
-
     }
 
     @Override
