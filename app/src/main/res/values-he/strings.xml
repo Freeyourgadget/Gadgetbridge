@@ -2093,4 +2093,6 @@
     <string name="sony_quick_access_double_tap">גישה מהירה (נקישה כפולה)</string>
     <string name="sony_quick_access_triple_tap">גישה מהירה (נקישה משולשת)</string>
     <string name="menuitem_wechat_pay">‎WeChat Pay</string>
+    <string name="pref_agps_expire_time">מועד תפוגת AGPS</string>
+    <string name="pref_agps_update_time">מועד עדכון AGPS</string>
 </resources>
