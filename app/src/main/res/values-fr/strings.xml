@@ -2098,4 +2098,6 @@ Temps de sommeil préféré en heures</string>
     <string name="sony_quick_access_double_tap">Accès rapide (Double Appui)</string>
     <string name="sony_quick_access_triple_tap">Accès Rapide (Triple Appui)</string>
     <string name="menuitem_wechat_pay">Paiement WeChat</string>
+    <string name="pref_agps_update_time">Mise à jour de l\'heure AGPS</string>
+    <string name="pref_agps_expire_time">Heure d\'expiration AGPS</string>
 </resources>
