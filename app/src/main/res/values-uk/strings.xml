@@ -3,7 +3,7 @@
     <string name="application_name_generic">Gadgetbridge</string>
     <string name="title_activity_controlcenter_generic">Gadgetbridge</string>
     <string name="action_settings">Налаштування</string>
-    <string name="action_debug">Дебаг</string>
+    <string name="action_debug">Зневадження</string>
     <string name="action_quit">Вийти</string>
     <string name="controlcenter_fetch_activity_data">Синхронізувати</string>
     <string name="controlcenter_find_device">Знайти загублений пристрій</string>
@@ -1769,7 +1769,7 @@
     <string name="open_fw_installer_warning_title">Попередження</string>
     <string name="open_fw_installer_pick_file">Вибрати файл</string>
     <string name="open_fw_installer_connect_minimum_one_device">Будь ласка, під\'єднайте ПРИНАЙМНІ ОДИН пристрій, на який ви хочете надіслати файл.</string>
-    <string name="open_fw_installer_info_text">Встановлювач Мікропрограм/Циферблатів/Застосунків/Файлів дозволяє загрузити/встановити підтримувані файли (мікропрограми, циферблати, застосунки, GPS, ресурси, шрифти...) на пристрій. Більше інформації дивіться у вікі: https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Firmware-Update</string>
+    <string name="open_fw_installer_info_text">Встановлювач Мікропрограм/Циферблатів/Застосунків/Файлів дає змогу завантажити/установити підтримувані файли (мікропрограми, циферблати, застосунки, GPS, ресурси, шрифти...) на пристрій. Більше інформації дивіться у вікі: https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Firmware-Update</string>
     <string name="open_fw_installer_warning_text">Ця функція може зламати ваш пристрій. Однак цього ніколи не траплялося у жодного з розробників через перепрошивання, але пам\'ятайте, що ви робите це на власний ризик.</string>
     <string name="open_fw_installer_getting_files_title">Отримання файлу мікропрограми/застосунку</string>
     <string name="open_fw_installer_getting_files_text">Оскільки ми можемо не поширювати файли мікропрограми, вам доведеться отримати файли самостійно. Це означає, що вам потрібно буде шукати файли в apk-файлах, онлайн, на форумах, на Amazfitwatchfaces (для пристроїв Miband/Amazfit) тощо.</string>
