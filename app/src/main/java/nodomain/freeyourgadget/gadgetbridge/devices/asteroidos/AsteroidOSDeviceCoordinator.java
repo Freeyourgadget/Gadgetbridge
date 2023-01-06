@@ -156,6 +156,4 @@ public class AsteroidOSDeviceCoordinator extends AbstractDeviceCoordinator {
     public boolean supportsMusicInfo() {
         return true;
     }
-
-
 }

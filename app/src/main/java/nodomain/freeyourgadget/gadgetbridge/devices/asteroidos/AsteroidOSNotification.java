@@ -11,6 +11,9 @@ import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.model.CallSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
 
+/**
+ * An adapter for notifications on AsteroidOS
+ */
 public class AsteroidOSNotification {
     private String packageName = null;
     private Integer id = null;
@@ -20,6 +23,9 @@ public class AsteroidOSNotification {
     private String icon = null;
     private Boolean remove = false;
 
+    /**
+     * The vibration strength of a notification
+     */
     public enum VibrationStrength {
         STRONG,
         NORMAL,
@@ -33,6 +39,11 @@ public class AsteroidOSNotification {
         }
     }
     private VibrationStrength vibrationStrength = VibrationStrength.NORMAL;
+
+    /**
+     * Creates a notification
+     * @param spec The NotificationSpec to create the notification from
+     */
     public AsteroidOSNotification(NotificationSpec spec) {
         this.body = spec.body;
         this.applicationName = spec.sourceName;
@@ -57,7 +68,6 @@ public class AsteroidOSNotification {
             default:
                 this.id = (callSpec.name + callSpec.number).hashCode();
                 this.remove = true;
-                break;
         }
     }
 
@@ -71,6 +81,9 @@ public class AsteroidOSNotification {
     }
 
     @Override
+    /**
+     * Converts the notification to a string to be sent to the device
+     */
     public String toString() {
         if (remove) {
             return "<remove><id>" + this.id + "</id></remove>";

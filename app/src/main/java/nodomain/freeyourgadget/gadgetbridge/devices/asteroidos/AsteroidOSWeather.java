@@ -6,26 +6,63 @@ import java.nio.charset.StandardCharsets;
 
 import nodomain.freeyourgadget.gadgetbridge.model.WeatherSpec;
 
+
+/**
+ * An adapter class for weather
+ */
 public class AsteroidOSWeather {
+    /**
+     * Provides a day's worth of weather
+     */
     public class Day {
+        /**
+         * The minimum temp of the day
+         */
         public int minTemp;
+        /**
+         * The maximum temp of the day
+         */
         public int maxTemp;
+        /**
+         * The current OWM weather condition code
+         */
         public int condition;
+
+        /**
+         * Creates a Day from the forecast given
+         * @param forecast
+         */
         public Day(WeatherSpec.Forecast forecast) {
             minTemp = forecast.minTemp;
             maxTemp = forecast.maxTemp;
             condition = forecast.conditionCode;
         }
+
+        /**
+         * Creates a Day from the WeatherSpec given
+         * @param spec
+         */
         public Day(WeatherSpec spec) {
             minTemp = spec.todayMinTemp;
             maxTemp = spec.todayMaxTemp;
             condition = spec.currentConditionCode;
         }
     }
+
+    /**
+     * The days of the weather
+     */
     public Day[] days = new Day[5];
+    /**
+     * The city name of the weather
+     */
     public String cityName = "";
 
 
+    /**
+     * Creates an AsteroidOSWeather from the WeatherSpec given
+     * @param spec
+     */
     public AsteroidOSWeather(WeatherSpec spec) {
         cityName = spec.location;
         days[0] = new Day(spec);
@@ -34,10 +71,18 @@ public class AsteroidOSWeather {
         }
     }
 
+    /**
+     * Returns a byte array of the city name
+     * @return a byte array of the city name
+     */
     public byte[] getCityName() {
         return cityName.getBytes(StandardCharsets.UTF_8);
     }
 
+    /**
+     * Parses the days' weather conditions and returns them in a format AsteroidOS can handle
+     * @return a byte array to be sent to the device
+     */
     public byte[] getWeatherConditions() {
         ByteArrayOutputStream stream = new ByteArrayOutputStream();
         for (Day day : days) {
@@ -47,6 +92,10 @@ public class AsteroidOSWeather {
         return stream.toByteArray();
     }
 
+    /**
+     * Parses the days' min temps and returns them in a format AsteroidOS can handle
+     * @return a byte array to be sent to the device
+     */
     public byte[] getMinTemps() {
         ByteArrayOutputStream stream = new ByteArrayOutputStream();
         for (Day day : days) {
@@ -56,6 +105,10 @@ public class AsteroidOSWeather {
         return stream.toByteArray();
     }
 
+    /**
+     * Parses the days' max temps and returns them in a format AsteroidOS can handle
+     * @return a byte array to be sent to the device
+     */
     public byte[] getMaxTemps() {
         ByteArrayOutputStream stream = new ByteArrayOutputStream();
         for (Day day : days) {

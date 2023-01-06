@@ -4,6 +4,9 @@ import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEvent;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventMusicControl;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventNotificationControl;
 
+/**
+ * An adapter class for the media commands sent by AsteroidOS
+ */
 public class AsteroidOSMediaCommand {
     public static final byte COMMAND_PREVIOUS = 0x0;
     public static final byte COMMAND_NEXT = 0x1;
@@ -16,6 +19,10 @@ public class AsteroidOSMediaCommand {
         command = value;
     }
 
+    /**
+     * Convert the MediaCommand to a music control event
+     * @return the matching music control event
+     */
     public GBDeviceEventMusicControl toMusicControlEvent() {
         GBDeviceEventMusicControl event = new GBDeviceEventMusicControl();
         switch (command) {
@@ -34,9 +41,7 @@ public class AsteroidOSMediaCommand {
             case COMMAND_VOLUME:
             default:
                 event.event = GBDeviceEventMusicControl.Event.UNKNOWN;
-
         }
-
         return event;
     }
 }

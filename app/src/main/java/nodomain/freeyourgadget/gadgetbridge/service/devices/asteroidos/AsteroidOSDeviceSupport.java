@@ -43,8 +43,8 @@ import nodomain.freeyourgadget.gadgetbridge.service.btle.profiles.battery.Batter
 public class AsteroidOSDeviceSupport extends AbstractBTLEDeviceSupport {
     private static final Logger LOG = LoggerFactory.getLogger(AsteroidOSDeviceSupport.class);
     private final BatteryInfoProfile<AsteroidOSDeviceSupport> batteryInfoProfile;
-
     private final GBDeviceEventBatteryInfo batteryCmd = new GBDeviceEventBatteryInfo();
+
     public AsteroidOSDeviceSupport() {
         super(LOG);
         addSupportedService(AsteroidOSConstants.SERVICE_UUID);
@@ -68,8 +68,6 @@ public class AsteroidOSDeviceSupport extends AbstractBTLEDeviceSupport {
         batteryInfoProfile = new BatteryInfoProfile<>(this);
         batteryInfoProfile.addListener(mListener);
         addSupportedProfile(batteryInfoProfile);
-
-
     }
 
     private void handleBatteryInfo(nodomain.freeyourgadget.gadgetbridge.service.btle.profiles.battery.BatteryInfo info) {
@@ -232,6 +230,12 @@ public class AsteroidOSDeviceSupport extends AbstractBTLEDeviceSupport {
         return false;
     }
 
+
+    /**
+     * Handles a media command sent from the AsteroidOS device
+     * @param gatt The bluetooth device's GATT info
+     * @param characteristic The Characteristic information
+     */
     public void handleMediaCommand (BluetoothGatt gatt, BluetoothGattCharacteristic characteristic) {
         LOG.info("handle media command");
         AsteroidOSMediaCommand command = new AsteroidOSMediaCommand(characteristic.getValue()[0]);
