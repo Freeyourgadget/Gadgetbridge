@@ -933,7 +933,7 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
         try {
             o.put("t", "gps");
             o.put("lat", location.getLatitude());
-            o.put("long", location.getLongitude());
+            o.put("lon", location.getLongitude());
             o.put("alt", location.getAltitude());
             o.put("speed", location.getSpeed());
             o.put("course", 0);
