@@ -2096,4 +2096,10 @@
     <string name="pref_agps_update_time">AGPS-updatetijd</string>
     <string name="menuitem_wechat_pay">WeChat Pay</string>
     <string name="pref_agps_expire_time">AGPS-vervaltijd</string>
+    <string name="appmanager_watchface_activate">Activeer</string>
+    <string name="appmanager_app_start">Start</string>
+    <string name="appmanager_app_download">Download naar cache</string>
+    <string name="appmanager_download_started">Downloaden van app gestart</string>
+    <string name="appmanager_downloaded_to_cache">%s gedownload naar cache</string>
+    <string name="appmanager_download_app_error">Fout bij het downloaden van de app</string>
 </resources>
