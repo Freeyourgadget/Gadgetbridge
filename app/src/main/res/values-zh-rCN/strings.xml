@@ -2096,4 +2096,10 @@
     <string name="menuitem_wechat_pay">微信支付</string>
     <string name="pref_agps_expire_time">AGPS 过期时间</string>
     <string name="pref_agps_update_time">AGPS 更新时间</string>
+    <string name="appmanager_app_download">下载到缓存</string>
+    <string name="appmanager_download_started">开始下载应用程序</string>
+    <string name="appmanager_downloaded_to_cache">已下载 %s 到缓存</string>
+    <string name="appmanager_download_app_error">下载应用程序时出错</string>
+    <string name="appmanager_watchface_activate">启用</string>
+    <string name="appmanager_app_start">开始</string>
 </resources>
