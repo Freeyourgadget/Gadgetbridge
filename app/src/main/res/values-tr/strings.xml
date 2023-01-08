@@ -2110,4 +2110,10 @@
     <string name="menuitem_wechat_pay">WeChat Pay</string>
     <string name="pref_agps_update_time">AGPS Güncelleme Zamanı</string>
     <string name="pref_agps_expire_time">AGPS Sona Erme Zamanı</string>
+    <string name="appmanager_watchface_activate">Etkinleştir</string>
+    <string name="appmanager_app_start">Başlat</string>
+    <string name="appmanager_app_download">Önbelleğe indir</string>
+    <string name="appmanager_downloaded_to_cache">%s önbelleğe indirildi</string>
+    <string name="appmanager_download_started">Uygulama indirme başladı</string>
+    <string name="appmanager_download_app_error">Uygulama indirilirken hata oluştu</string>
 </resources>
