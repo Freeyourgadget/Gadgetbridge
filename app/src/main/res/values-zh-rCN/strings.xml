@@ -16,7 +16,7 @@
     <string name="controlcenter_delete_device_dialogmessage">此操作将删除该设备和所有相关的数据！</string>
     <string name="controlcenter_navigation_drawer_open">打开导航菜单</string>
     <string name="controlcenter_navigation_drawer_close">关闭导航菜单</string>
-    <string name="controlcenter_snackbar_need_longpress">长按此卡片则断开连接</string>
+    <string name="controlcenter_snackbar_need_longpress">长按此卡片以断开连接</string>
     <string name="controlcenter_snackbar_disconnecting">正在断开</string>
     <string name="controlcenter_snackbar_connecting">正在连接…</string>
     <string name="controlcenter_snackbar_requested_screenshot">获取设备屏幕截图</string>
@@ -527,7 +527,7 @@
     <string name="lack_of_step">缺少步数：%1$d</string>
     <string name="overstep">超过步数：%1$d</string>
     <string name="live_activity_max_heart_rate">当前／最大心率：%1$d / %2$d</string>
-    <string name="you_slept">您睡了 %1$s 到 %2$s</string>
+    <string name="you_slept">您从 %1$s 睡到了 %2$s</string>
     <string name="you_did_not_sleep">您没有睡觉</string>
     <string name="mi3_prefs_band_screen_unlock">手环屏幕解锁</string>
     <string name="mi3_prefs_band_screen_unlock_summary">滑动以解锁手环屏幕</string>
@@ -934,7 +934,7 @@
     <string name="error_exporting_device_preferences">导出设备特定首选项时遇到错误</string>
     <string name="pref_check_permission_status_summary">检查并要求尚未获得的权限即使并非立刻需要。若您的设备的确不支持此类功能，也可禁用。不进行授权可能会导致问题！</string>
     <string name="pref_check_permission_status">检查权限状态</string>
-    <string name="device_requires_key">需要按键，长按可进入</string>
+    <string name="device_requires_key">需要密钥，长按可进入</string>
     <string name="device_is_currently_bonded">已经绑定过了</string>
     <string name="companiondevice_pairing">CompanionDevice 配对</string>
     <string name="require_location_provider">必须启动定位</string>
@@ -1811,8 +1811,8 @@
     <string name="controlcenter_get_heartrate_measurement">获取心率测量值</string>
     <string name="pref_write_logfiles_not_available">文件日志初始化失败，写日志文件目前不可用。请尝试重新启动应用程序，然诺再次初始化日志文件。</string>
     <string name="devicetype_binary_sensor">二进制传感器</string>
-    <string name="application_name_banglejs_nightly">Bangle.js Gadgetbridge (每页编译版)</string>
-    <string name="title_activity_controlcenter_banglejs_nightly">Bangle.js Gadgetbridge (每页编译版)</string>
+    <string name="application_name_banglejs_nightly">Bangle.js Gadgetbridge (每夜编译版)</string>
+    <string name="title_activity_controlcenter_banglejs_nightly">Bangle.js Gadgetbridge (每夜编译版)</string>
     <string name="about_activity_title_banglejs_nightly">关于Bangle.js Gadgetbridge (每夜编译版)</string>
     <string name="gadgetbridge_running_banglejs_nightly">Bangle.js 每夜编译版正在运行中</string>
     <string name="about_description_banglejs_nightly">Bangle.js 的 Android 配套应用程序构建在 Gadgetbridge 项目之上，增加了 Internet 访问。
