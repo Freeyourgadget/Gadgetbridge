@@ -979,6 +979,12 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
         boolean needsTranslate = false;
         for (int i=0;i<txt.length();i++) {
             char ch = txt.charAt(i);
+            // Special cases where we can just use a built-in character...
+            // Based on https://op.europa.eu/en/web/eu-vocabularies/formex/physical-specifications/character-encoding
+            if (ch=='–' || ch=='‐' || ch=='—') ch='-';
+            else if (ch=='‘' || ch=='’' || ch =='‚' || ch=='‛' || ch=='′' || ch=='ʹ') ch='\'';
+            else if (ch=='“' || ch=='”' || ch =='„' || ch=='‟' || ch=='″') ch='"';
+            // chars which break words up
             if (" -_/:.,?!'\"&*()".indexOf(ch)>=0) {
                 // word split
                 if (needsTranslate) { // convert word
