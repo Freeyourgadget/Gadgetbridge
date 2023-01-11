@@ -2095,4 +2095,10 @@
     <string name="sony_quick_access_double_tap">Schnellzugriff (Doppeltippen)</string>
     <string name="intent_api_broadcast_export_title">Übertragung beim Datenbankexport</string>
     <string name="sony_ambient_sound_control_button_mode_nc_as">Geräuschunterdrückung, Umgebungsgeräusche</string>
+    <string name="appmanager_watchface_activate">Aktivieren</string>
+    <string name="appmanager_app_start">Start</string>
+    <string name="appmanager_downloaded_to_cache">%s in den Cache heruntergeladen</string>
+    <string name="appmanager_download_app_error">Fehler beim Herunterladen der App</string>
+    <string name="appmanager_app_download">In den Cache herunterladen</string>
+    <string name="appmanager_download_started">App-Download gestartet</string>
 </resources>
