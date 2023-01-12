@@ -2110,4 +2110,5 @@
     <string name="appmanager_download_started">Розпочато завантаження застосунку</string>
     <string name="appmanager_downloaded_to_cache">Завантажено %s в кеш</string>
     <string name="appmanager_download_app_error">Помилка під час завантаження застосунку</string>
+    <string name="devicetype_asteroidos">AsteroidOS</string>
 </resources>
