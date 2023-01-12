@@ -2091,4 +2091,5 @@
     <string name="appmanager_watchface_activate">Aktifkan</string>
     <string name="appmanager_app_download">Unduh ke tembolok</string>
     <string name="appmanager_download_started">Pengunduhan aplikasi dimulai</string>
+    <string name="devicetype_asteroidos">AsteroidOS</string>
 </resources>
