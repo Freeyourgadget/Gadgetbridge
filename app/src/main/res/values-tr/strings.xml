@@ -2116,4 +2116,5 @@
     <string name="appmanager_downloaded_to_cache">%s önbelleğe indirildi</string>
     <string name="appmanager_download_started">Uygulama indirme başladı</string>
     <string name="appmanager_download_app_error">Uygulama indirilirken hata oluştu</string>
+    <string name="devicetype_asteroidos">AsteroidOS</string>
 </resources>
