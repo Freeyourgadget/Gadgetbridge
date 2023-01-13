@@ -2106,4 +2106,5 @@ Temps de sommeil préféré en heures</string>
     <string name="appmanager_download_app_error">Erreur en téléchargeant l\'app</string>
     <string name="appmanager_download_started">Téléchargement de l\'app démarré</string>
     <string name="appmanager_watchface_activate">Activer</string>
+    <string name="devicetype_asteroidos">AsteroidOS</string>
 </resources>
