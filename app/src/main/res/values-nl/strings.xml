@@ -2102,4 +2102,5 @@
     <string name="appmanager_download_started">Downloaden van app gestart</string>
     <string name="appmanager_downloaded_to_cache">%s gedownload naar cache</string>
     <string name="appmanager_download_app_error">Fout bij het downloaden van de app</string>
+    <string name="devicetype_asteroidos">AsteroidOS</string>
 </resources>
