@@ -441,8 +441,11 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
             // JSON - we hope!
             try {
                 JSONObject json = new JSONObject(line);
-                LOG.info("UART RX JSON parsed successfully");
-                handleUartRxJSON(json);
+                if (json.has("t")) {
+                    handleUartRxJSON(json);
+                    LOG.info("UART RX JSON parsed successfully");
+                } else
+                    LOG.warn("UART RX JSON parsed but doesn't contain 't' - ignoring");
             } catch (JSONException e) {
                 LOG.info("UART RX JSON parse failure: "+ e.getLocalizedMessage());
                 GB.toast(getContext(), "Malformed JSON from Bangle.js: " + e.getLocalizedMessage(), Toast.LENGTH_LONG, GB.ERROR);
