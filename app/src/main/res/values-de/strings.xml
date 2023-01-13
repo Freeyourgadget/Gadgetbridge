@@ -2101,4 +2101,5 @@
     <string name="appmanager_download_app_error">Fehler beim Herunterladen der App</string>
     <string name="appmanager_app_download">In den Cache herunterladen</string>
     <string name="appmanager_download_started">App-Download gestartet</string>
+    <string name="devicetype_asteroidos">AsteroidOS</string>
 </resources>
