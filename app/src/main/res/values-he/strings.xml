@@ -2101,4 +2101,5 @@
     <string name="appmanager_app_download">הורדה למטמון</string>
     <string name="appmanager_download_app_error">שגיאה בהורדת יישומון</string>
     <string name="appmanager_download_started">הורדת היישומון החלה</string>
+    <string name="devicetype_asteroidos">AsteroidOS‎</string>
 </resources>
