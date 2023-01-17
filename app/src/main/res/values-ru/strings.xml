@@ -1658,7 +1658,7 @@
     <string name="heartrate_bpm_110">110 уд/мин</string>
     <string name="heartrate_bpm_125">125 уд/мин</string>
     <string name="appmanager_app_start">Начать</string>
-    <string name="appmanager_download_started">Началась загрузка приложения</string>
+    <string name="appmanager_download_started">Запущена загрузка приложения</string>
     <string name="appmanager_downloaded_to_cache">Загружено %s в кэш</string>
     <string name="appmanager_download_app_error">Ошибка при загрузке приложения</string>
     <string name="prefs_stress_monitoring_description">Наблюдение за уровнем напряженности во время отдыха</string>
@@ -1748,4 +1748,99 @@
     <string name="pref_workout_start_on_phone_title">Отслеживание фитнес-приложений</string>
     <string name="persian">Персидский</string>
     <string name="scandinavian">Скандинавский</string>
+    <string name="watchface_dialog_widget_cat_custom_widget">Кастомный виджет</string>
+    <string name="watchface_dialog_title_widget">Настройки виджета</string>
+    <string name="nothing_prefs_inear_title">Обнаружение уха</string>
+    <string name="sony_sound_position_front_left">Передний левый</string>
+    <string name="sony_anc_optimizer_status_starting">Запуск…</string>
+    <string name="sony_sound_position_front">Перед</string>
+    <string name="appmanager_watchface_activate">Включить</string>
+    <string name="appmanager_app_download">Скачать в кэш</string>
+    <string name="pref_enable_unsupported_settings_title">Включить неподдерживаемые настройки</string>
+    <string name="mi2_prefs_heart_rate_monitoring_summary">Настроить отслеживание сердечного ритма</string>
+    <string name="prefs_always_on_display">Всегда на экране</string>
+    <string name="prefs_always_on_display_summary">Оставлять экран часов постоянно включенным</string>
+    <string name="prefs_activate_display_on_lift_sensitivity">Чувствительность</string>
+    <string name="activity_type_zumba">Зумба</string>
+    <string name="devicetype_amazfit_gts4">Amazfit GTS 4</string>
+    <string name="menuitem_unsupported">[НЕ ПОДДЕРЖИВАЕТСЯ] %s</string>
+    <string name="watchface_dialog_widget_background">Фон</string>
+    <string name="prefs_sleep_time_label">Указать часы сна</string>
+    <string name="prefs_in_ear_detection_summary">Воспроизводить звонки через наушники, когда они находятся в ушах</string>
+    <string name="pref_title_touch_spotify_official_app">Spotify (только официальное приложение)</string>
+    <string name="pref_title_touch_spotify_galaxy_app">Spotify (только приожение Galaxy Wearable)</string>
+    <string name="pref_header_spo2">Кислород в крови</string>
+    <string name="pref_header_sony_anc_optimizer">Оптимизация шумоподавления</string>
+    <string name="sony_anc_optimize_description">Нажмите для оптимизации шумоподавления.</string>
+    <string name="sony_sound_position_rear_left">Задний левый</string>
+    <string name="sony_anc_optimizer_status_not_running">Не запущено</string>
+    <string name="sony_sound_position_rear_right">Задний правый</string>
+    <string name="sony_surround_mode">Режим объемного звучания</string>
+    <string name="sony_warn_sbc_codec">Внимание: эквалайзер, аудио позиция и настройки объемности работают только с SBC кодеком.</string>
+    <string name="menuitem_nothing">Ничего</string>
+    <string name="menuitem_volume">Громкость</string>
+    <string name="pref_title_upper_button_long_press_action">Действие при долгом нажатии на верхнюю кнопку</string>
+    <string name="pref_header_heartrate_allday">Отслеживание в течение всего дня</string>
+    <string name="pref_voice_detect_duration_10">10 секунд</string>
+    <string name="pref_header_heartrate_sleep">Сон</string>
+    <string name="pref_switch_controls_anc_off">Шумоподавление ←→ Выключено</string>
+    <string name="pref_agps_update_time">Время обновления AGPS</string>
+    <string name="mi2_dnd_always">Всегда</string>
+    <string name="sony_anc_optimizer_status_atmospheric_pressure">Измерение атмосферного давления…</string>
+    <string name="prefs_relaxation_reminder_description">Вибрировать когда значение стресса выше 80</string>
+    <string name="hybridhr_widget_bg_dashed_circle">Пунктирный круг</string>
+    <string name="pref_voice_detect_duration_15">15 секунд</string>
+    <string name="activity_type_pilates">Пилатес</string>
+    <string name="share_log_not_enabled_message">Сначала необходимо включить логгирование в Настройках - Записывать логи</string>
+    <string name="hybridhr_widget_bg_thin_circle">Тонкий круг</string>
+    <string name="hybridhr_widget_bg_double_circle">Двойной круг</string>
+    <string name="gps">GPS</string>
+    <string name="gps_bds">GPS + BDS</string>
+    <string name="gps_gnolass">GPS + ГЛОНАСС</string>
+    <string name="gps_galileo">GPS + GALILEO</string>
+    <string name="pref_agps_header">AGPS</string>
+    <string name="fw_upgrade_notice_amazfit_gts4">Вы собираетесь установить прошивку %s на свой Amazfit GTS 4.
+\n
+\nВаши часы перезагрузятся после установки .zip файла.
+\n
+\nПРОДОЛЖАЙТЕ НА СВОЙ СТРАХ И РИСК!</string>
+    <string name="sony_anc_optimize_confirmation_title">Оптимизация шумоподавления</string>
+    <string name="pref_balance">Баланс</string>
+    <string name="pref_voice_detect_duration_5">5 секунд</string>
+    <string name="mi2_prefs_heart_rate_monitoring">Отслеживание сердечного ритма</string>
+    <string name="pref_title_third_party_app_device_settings">Разрешить сторонним приложениям изменять настройки</string>
+    <string name="sony_anc_optimize_title">Оптимизировать</string>
+    <string name="prefs_active_noise_cancelling_level">Уровень шумоподавления</string>
+    <string name="prefs_active_noise_cancelling_level_high">Высокий</string>
+    <string name="prefs_active_noise_cancelling_level_low">Низкий</string>
+    <string name="hrZoneFatBurn">Сжигание жира</string>
+    <string name="pref_title_touch_anc">Шумоподавление</string>
+    <string name="pref_title_touch_voice_assistant">Голосовой ассистент</string>
+    <string name="pref_header_stress">Стресс</string>
+    <string name="pref_header_heartrate_alerts">Оповещения о частоте сердцебиения</string>
+    <string name="watchface_setting_button_toggle_widgets">Переключить виджеты</string>
+    <string name="watchface_setting_button_toggle_backlight">Включить подсветку</string>
+    <string name="pref_title_touch_volume">Громкость</string>
+    <string name="devicetype_binary_sensor">Бинарный датчик</string>
+    <string name="pref_header_intent_api">Intent API</string>
+    <string name="offline_voice_respond_screen_on">Отвечать, когда экран включен</string>
+    <string name="kind_app">Приложение</string>
+    <string name="pref_title_lower_button_short_press_action">Действие при быстром нажатии на нижнюю кнопку</string>
+    <string name="devicetype_miband7">Xiaomi Smart Band 7</string>
+    <string name="devicetype_amazfit_gts3">Amazfit GTS 3</string>
+    <string name="devicetype_amazfit_gtr4">Amazfit GTR 4</string>
+    <string name="pref_cover_to_mute">Накрыть для отключения звука</string>
+    <string name="fw_upgrade_notice_amazfit_band7">Вы собираетесь установить прошивку %s на свой Amazfit Band 7.
+\n
+\nВаши часы перезагрузятся после установки .zip файла.
+\n
+\nПРОДОЛЖАЙТЕ НА СВОЙ СТРАХ И РИСК!</string>
+    <string name="fw_upgrade_notice_amazfit_gts4_mini">Вы собираетесь установить прошивку %s на свой Amazfit GTS 4 Mini.
+\n
+\nВаши часы перезагрузятся после установки .zip файла.
+\n
+\nПРОДОЛЖАЙТЕ НА СВОЙ СТРАХ И РИСК!</string>
+    <string name="pref_enable_unsupported_settings_summary">Это откроет доступ ко всем доступным настройкам, даже тем, которые не поддерживаются вашим устройством. Это может привести к нестабильной работе и сбоям устройства.</string>
+    <string name="prefs_seamless_connection_switch_summary">Переключаться между устройствами автоматически</string>
+    <string name="sony_sound_position_front_right">Передний правый</string>
 </resources>
