@@ -1880,4 +1880,13 @@
     <string name="auto_reconnect_ble_summary">Периодически пытаться переподключиться</string>
     <string name="application_name_banglejs_nightly">Bangle.js Gadgetbridge (Nightly)</string>
     <string name="devicetype_amazfit_band7">Amazfit Band 7</string>
+    <string name="activity_db_management_autoexport_enabled_yes">Авто-экспорт включен.</string>
+    <string name="activity_db_management_autoexport_scheduled_no">Авто-экспорт не был запланирован.</string>
+    <string name="activity_prefs_allow_bluetooth_intent_api">Bluetooth Intent API</string>
+    <string name="menuitem_wifi">Wi-Fi</string>
+    <string name="autoExport_lastTime_label">Последний Авто-экспорт: %1$s</string>
+    <string name="activity_db_management_autoexport_scheduled_yes">Авто-экспорт (первоначально) был запланирован на %1$s</string>
+    <string name="activity_db_management_autoexport_location">Местоположение не определено. Это может быть проблема с обновленной системой разрешений Android. Скорее всего авто-экспорт сейчас не работает.</string>
+    <string name="activity_db_management_autoexport_enabled_no">Авто-экспорт выключен.</string>
+    <string name="menuitem_bluetooth">Bluetooth</string>
 </resources>
