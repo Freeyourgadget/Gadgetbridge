@@ -157,6 +157,9 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
     private Timer gpsPositionTimer;
     private final int gpsUpdateTimerInterval = 1000;
 
+    // this stores the globalUartReceiver (for uart.tx intents)
+    private BroadcastReceiver globalUartReceiver = null;
+
     /// Maximum amount of characters to store in receiveHistory
     public static final int MAX_RECEIVE_HISTORY_CHARS = 100000;
     /// Used to avoid spamming logs with ACTION_DEVICE_CHANGED messages
@@ -179,6 +182,7 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
     @Override
     public void dispose() {
         super.dispose();
+        GBApplication.getContext().unregisterReceiver(globalUartReceiver); // remove uart.tx intent listener
         stopLocationUpdate();
     }
 
@@ -237,7 +241,7 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
     private void registerGlobalIntents() {
         IntentFilter commandFilter = new IntentFilter();
         commandFilter.addAction(BANGLE_ACTION_UART_TX);
-        BroadcastReceiver commandReceiver = new BroadcastReceiver() {
+        globalUartReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
                 switch (intent.getAction()) {
@@ -270,7 +274,7 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
                 }
             }
         };
-        GBApplication.getContext().registerReceiver(commandReceiver, commandFilter);
+        GBApplication.getContext().registerReceiver(globalUartReceiver, commandFilter);
     }
 
     @Override
