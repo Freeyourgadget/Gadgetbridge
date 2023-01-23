@@ -2078,4 +2078,22 @@
     <string name="TrainingEffect">Effetto Allenamento</string>
     <string name="sony_speak_to_chat_sensitivity_standard">Standard</string>
     <string name="devicetype_super_cars">Shell Racing</string>
+    <string name="appmanager_watchface_activate">Abilita</string>
+    <string name="appmanager_app_start">Avvia</string>
+    <string name="appmanager_app_download">Scarica nella cache</string>
+    <string name="appmanager_download_started">Download app avviato</string>
+    <string name="appmanager_downloaded_to_cache">%s scaricato nella cache</string>
+    <string name="pref_agps_update_time">Ora Aggiornamento AGPS</string>
+    <string name="menuitem_wechat_pay">WeChat Pay</string>
+    <string name="sony_ambient_sound_control_button_mode_nc_as_off">Cancellazione Rumore, Suono Ambiente, Spento</string>
+    <string name="sony_ambient_sound_control_button_mode_nc_as">Cancellazione Rumore, Suono Ambiente</string>
+    <string name="sony_quick_access_double_tap">Accesso Rapido (Doppio Tocco)</string>
+    <string name="sony_ambient_sound_control_button_mode_nc_off">Cancellazione Rumore, Spento</string>
+    <string name="sony_ambient_sound_control_button_mode_as_off">Suono Ambiente, Spento</string>
+    <string name="sony_quick_access_triple_tap">Accesso Rapido (Triplo Tocco)</string>
+    <string name="appmanager_download_app_error">Errore nello scaricamento</string>
+    <string name="pref_agps_expire_time">Ora Scadenza AGPS</string>
+    <string name="sony_ambient_sound_control_button_modes">Modalità Pulsante Controllo Suono Ambiente</string>
+    <string name="devicetype_asteroidos">AsteroidOS</string>
+    <string name="devicetype_sony_linkbuds_s">Sony LinkBuds S</string>
 </resources>
