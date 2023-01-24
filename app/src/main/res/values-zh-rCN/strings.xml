@@ -2103,4 +2103,10 @@
     <string name="appmanager_watchface_activate">启用</string>
     <string name="appmanager_app_start">开始</string>
     <string name="devicetype_asteroidos">AsteroidOS</string>
+    <string name="fw_upgrade_notice_amazfit_trex2">您即将在您的 跃我 T-Rex 2 上安装 %s 固件。
+\n
+\n您的手环将会在安装了 .zip 文件后重启。
+\n
+\n风险自担！</string>
+    <string name="devicetype_amazfit_trex_2">跃我 T-Rex 2</string>
 </resources>
