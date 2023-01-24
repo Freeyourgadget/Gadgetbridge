@@ -2107,4 +2107,10 @@ Temps de sommeil préféré en heures</string>
     <string name="appmanager_download_started">Téléchargement de l\'app démarré</string>
     <string name="appmanager_watchface_activate">Activer</string>
     <string name="devicetype_asteroidos">AsteroidOS</string>
+    <string name="devicetype_amazfit_trex_2">Amazfit T-Rex 2</string>
+    <string name="fw_upgrade_notice_amazfit_trex2">Vous êtes sur le point d\'installer le micro-logiciel %s dans votre Amazfit T-Rex 2.
+\n
+\nVotre bracelet redémarrera une fois le fichier .zip installé.
+\n
+\nA VOS RISQUES ET PÉRILS !</string>
 </resources>
