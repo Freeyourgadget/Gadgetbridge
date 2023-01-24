@@ -2103,4 +2103,10 @@
     <string name="appmanager_downloaded_to_cache">%s gedownload naar cache</string>
     <string name="appmanager_download_app_error">Fout bij het downloaden van de app</string>
     <string name="devicetype_asteroidos">AsteroidOS</string>
+    <string name="fw_upgrade_notice_amazfit_trex2">U staat op het punt de %s-firmware op uw Amazfit T-Rex 2 te installeren.
+\n
+\nDe band zal opnieuw opstarten na het installeren van het .zip-bestand.
+\n
+\nVERDERGAAN IS OP EIGEN RISICO!</string>
+    <string name="devicetype_amazfit_trex_2">Amazfit T-Rex 2</string>
 </resources>
