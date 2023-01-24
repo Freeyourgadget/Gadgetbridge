@@ -2102,4 +2102,10 @@
     <string name="appmanager_download_app_error">שגיאה בהורדת יישומון</string>
     <string name="appmanager_download_started">הורדת היישומון החלה</string>
     <string name="devicetype_asteroidos">AsteroidOS‎</string>
+    <string name="devicetype_amazfit_trex_2">Amazfit T-Rex 2‎</string>
+    <string name="fw_upgrade_notice_amazfit_trex2">פעולה זו תתקין את הקושחה %s ב־Amazfit T-Rex 2 שלך.
+\n
+\nהצמיד שלך יופעל מחדש לאחר התקנת קובץ ה־‎.zip
+\n
+\nהמשך התהליך הוא על אחריותך!</string>
 </resources>
