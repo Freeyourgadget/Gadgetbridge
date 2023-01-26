@@ -146,7 +146,8 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
     private String receiveHistory = "";
     private boolean realtimeHRM = false;
     private boolean realtimeStep = false;
-    private int realtimeHRMInterval = 30*60;
+    /// How often should activity data be sent - in seconds
+    private int realtimeHRMInterval = 10;
     /// Last battery percentage reported (or -1) to help with smoothing reported battery levels
     private int lastBatteryPercent = -1;
 
@@ -450,6 +451,7 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
                 LOG.info("UART RX JSON parse failure: "+ e.getLocalizedMessage());
                 GB.toast(getContext(), "Malformed JSON from Bangle.js: " + e.getLocalizedMessage(), Toast.LENGTH_LONG, GB.ERROR);
             }
+
         } else {
             LOG.info("UART RX line started with "+(int)line.charAt(0)+" - ignoring");
         }

@@ -140,6 +140,17 @@ public class BangleJSCoordinator extends AbstractBLEDeviceCoordinator {
     }
 
     @Override
+    public boolean supportsManualHeartRateMeasurement(GBDevice device) {
+        /* we could do this, but the current code for onHeartRateTest
+        looks completely broken. There's no way to stop heart rate measurements
+        and it doesn't even appear to care what device it's getting the current
+        heart rate measurements from. Fixing it is too much work so disabling
+        for now.
+         */
+        return false;
+    }
+
+    @Override
     public int getAlarmSlotCount() {
         return 10;
     }
