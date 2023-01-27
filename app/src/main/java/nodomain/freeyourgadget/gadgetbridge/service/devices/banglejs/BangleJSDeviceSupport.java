@@ -182,9 +182,16 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
     @Override
     public void dispose() {
         super.dispose();
-        GBApplication.getContext().unregisterReceiver(globalUartReceiver); // remove uart.tx intent listener
+        stopGlobalUartReceiver();
         stopLocationUpdate();
     }
+
+    private void stopGlobalUartReceiver(){
+        if(globalUartReceiver != null){
+            GBApplication.getContext().unregisterReceiver(globalUartReceiver); // remove uart.tx intent listener
+        }
+    }
+
 
     private void stopLocationUpdate() {
         GBLocationManager.stop(getContext(), this, null);
