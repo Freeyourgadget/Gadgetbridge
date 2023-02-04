@@ -476,6 +476,12 @@
     <string name="pref_workout_detection_alert_title">Alert</string>
     <string name="pref_workout_detection_alert_summary">Notify when a workout is detected</string>
     <string name="pref_workout_detection_sensitivity">Sensitivity</string>
+    <string name="pref_workout_detection_enabled">Detection enabled</string>
+    <string name="pref_workout_detection_enabled_summary">Enable automatic detection of this workout</string>
+    <string name="pref_workout_detection_ask_first">Ask me first</string>
+    <string name="pref_workout_detection_ask_first_summary">Require on-watch confirmation when detecting this workout</string>
+    <string name="pref_workout_detection_time">Active minutes before detection</string>
+    <string name="pref_workout_detection_time_summary">The amount of minutes the workout must be ongoing before detecting it</string>
     <string name="pref_sleep_mode_title">Sleep Mode</string>
     <string name="pref_sleep_mode_sleep_screen_title">Sleep Screen</string>
     <string name="pref_sleep_mode_sleep_screen_summary">Show the Sleep Screen when waking the screen during sleep mode, to reduce distractions</string>
@@ -1112,6 +1118,7 @@
     <string name="activity_type_yoga">Yoga</string>
     <string name="activity_type_soccer">Soccer</string>
     <string name="activity_type_rowing_machine">Rowing Machine</string>
+    <string name="activity_type_rowing">Rowing</string>
     <string name="activity_type_cricket">Cricket</string>
     <string name="activity_type_basketball">Basketball</string>
     <string name="activity_type_pingpong">Ping Pong</string>
@@ -1932,15 +1939,6 @@
     <string name="distance_format_miles">###.#mi</string>
     <!-- Translators: the ### indicate number of digits, keep intact -->
     <string name="distance_format_feet">###ft</string>
-
-    <string name="prefs_activity_recognition">Activity recognition settings</string>
-    <string name="pref_activity_recognize_running">recognize running</string>
-    <string name="pref_activity_recognize_biking">recognize biking</string>
-    <string name="pref_activity_recognize_walking">recognize walking</string>
-    <string name="pref_activity_recognize_rowing">recognize rowing</string>
-    <string name="pref_activity_recognition_mode_none">none</string>
-    <string name="pref_activity_recognition_mode_ask">ask</string>
-    <string name="pref_activity_recognition_mode_auto">auto</string>
 
     <string name="menuitem_menu">Menu</string>
     <string name="fossil_hr_button_config_info">Some buttons cannot be configured because their functions are hard-coded in the watch firmware.\n\nWarning: long-pressing the upper button when a watchface from the official Fossil app is installed will also toggle between showing/hiding widgets.</string>

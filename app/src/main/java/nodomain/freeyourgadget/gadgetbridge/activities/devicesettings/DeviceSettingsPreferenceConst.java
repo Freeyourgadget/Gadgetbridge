@@ -88,11 +88,18 @@ public class DeviceSettingsPreferenceConst {
     public static final String PREF_HYBRID_HR_DRAW_WIDGET_CIRCLES = "widget_draw_circles";
     public static final String PREF_HYBRID_HR_SAVE_RAW_ACTIVITY_FILES = "save_raw_activity_files";
     public static final String PREF_HYBRID_HR_DANGEROUS_EXTERNAL_INTENTS = "dangerous_external_intents";
-    public static final String PREF_HYBRID_HR_ACTIVITY_RECOGNITION_RUNNING = "activity_recognize_running";
-    public static final String PREF_HYBRID_HR_ACTIVITY_RECOGNITION_BIKING = "activity_recognize_biking";
-    public static final String PREF_HYBRID_HR_ACTIVITY_RECOGNITION_WALKING = "activity_recognize_walking";
-    public static final String PREF_HYBRID_HR_ACTIVITY_RECOGNITION_ROWING = "activity_recognize_rowing";
-
+    public static final String PREF_HYBRID_HR_ACTIVITY_RECOGNITION_RUNNING_ENABLED = "activity_recognize_running_enabled";
+    public static final String PREF_HYBRID_HR_ACTIVITY_RECOGNITION_RUNNING_ASK_FIRST = "activity_recognize_running_ask_first";
+    public static final String PREF_HYBRID_HR_ACTIVITY_RECOGNITION_RUNNING_MINUTES = "activity_recognize_running_minutes";
+    public static final String PREF_HYBRID_HR_ACTIVITY_RECOGNITION_BIKING_ENABLED = "activity_recognize_biking_enabled";
+    public static final String PREF_HYBRID_HR_ACTIVITY_RECOGNITION_BIKING_ASK_FIRST = "activity_recognize_biking_ask_first";
+    public static final String PREF_HYBRID_HR_ACTIVITY_RECOGNITION_BIKING_MINUTES = "activity_recognize_biking_minutes";
+    public static final String PREF_HYBRID_HR_ACTIVITY_RECOGNITION_WALKING_ENABLED = "activity_recognize_walking_enabled";
+    public static final String PREF_HYBRID_HR_ACTIVITY_RECOGNITION_WALKING_ASK_FIRST = "activity_recognize_walking_ask_first";
+    public static final String PREF_HYBRID_HR_ACTIVITY_RECOGNITION_WALKING_MINUTES = "activity_recognize_walking_minutes";
+    public static final String PREF_HYBRID_HR_ACTIVITY_RECOGNITION_ROWING_ENABLED = "activity_recognize_rowing_enabled";
+    public static final String PREF_HYBRID_HR_ACTIVITY_RECOGNITION_ROWING_ASK_FIRST = "activity_recognize_rowing_ask_first";
+    public static final String PREF_HYBRID_HR_ACTIVITY_RECOGNITION_ROWING_MINUTES = "activity_recognize_rowing_minutes";
 
     public static final String PREF_ACTIVATE_DISPLAY_ON_LIFT = "activate_display_on_lift_wrist";
     public static final String PREF_DISPLAY_ON_LIFT_START = "display_on_lift_start";

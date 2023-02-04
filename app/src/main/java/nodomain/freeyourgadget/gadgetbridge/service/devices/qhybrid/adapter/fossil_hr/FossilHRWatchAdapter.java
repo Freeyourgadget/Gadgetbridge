@@ -40,7 +40,6 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.os.Message;
@@ -75,8 +74,6 @@ import java.util.Set;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.UUID;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
@@ -1578,20 +1575,41 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
 
     private void setActivityRecognition(){
         SharedPreferences prefs = getDeviceSpecificPreferences();
-        String modeRunning = prefs.getString(DeviceSettingsPreferenceConst.PREF_HYBRID_HR_ACTIVITY_RECOGNITION_RUNNING, "none");
-        String modeBiking = prefs.getString(DeviceSettingsPreferenceConst.PREF_HYBRID_HR_ACTIVITY_RECOGNITION_BIKING, "none");
-        String modeWalking = prefs.getString(DeviceSettingsPreferenceConst.PREF_HYBRID_HR_ACTIVITY_RECOGNITION_WALKING, "none");
-        String modeRowing = prefs.getString(DeviceSettingsPreferenceConst.PREF_HYBRID_HR_ACTIVITY_RECOGNITION_ROWING, "none");
+        boolean runningEnabled = prefs.getBoolean(DeviceSettingsPreferenceConst.PREF_HYBRID_HR_ACTIVITY_RECOGNITION_RUNNING_ENABLED, false);
+        boolean runningAskFirst = prefs.getBoolean(DeviceSettingsPreferenceConst.PREF_HYBRID_HR_ACTIVITY_RECOGNITION_RUNNING_ASK_FIRST, false);
+        int runningMinutes = Integer.parseInt(prefs.getString(DeviceSettingsPreferenceConst.PREF_HYBRID_HR_ACTIVITY_RECOGNITION_RUNNING_MINUTES, "3"));
+        boolean bikingEnabled = prefs.getBoolean(DeviceSettingsPreferenceConst.PREF_HYBRID_HR_ACTIVITY_RECOGNITION_BIKING_ENABLED, false);
+        boolean bikingAskFirst = prefs.getBoolean(DeviceSettingsPreferenceConst.PREF_HYBRID_HR_ACTIVITY_RECOGNITION_BIKING_ASK_FIRST, false);
+        int bikingMinutes = Integer.parseInt(prefs.getString(DeviceSettingsPreferenceConst.PREF_HYBRID_HR_ACTIVITY_RECOGNITION_BIKING_MINUTES, "5"));
+        boolean walkingEnabled = prefs.getBoolean(DeviceSettingsPreferenceConst.PREF_HYBRID_HR_ACTIVITY_RECOGNITION_WALKING_ENABLED, false);
+        boolean walkingAskFirst = prefs.getBoolean(DeviceSettingsPreferenceConst.PREF_HYBRID_HR_ACTIVITY_RECOGNITION_WALKING_ASK_FIRST, false);
+        int walkingMinutes = Integer.parseInt(prefs.getString(DeviceSettingsPreferenceConst.PREF_HYBRID_HR_ACTIVITY_RECOGNITION_WALKING_MINUTES, "10"));
+        boolean rowingEnabled = prefs.getBoolean(DeviceSettingsPreferenceConst.PREF_HYBRID_HR_ACTIVITY_RECOGNITION_ROWING_ENABLED, false);
+        boolean rowingAskFirst = prefs.getBoolean(DeviceSettingsPreferenceConst.PREF_HYBRID_HR_ACTIVITY_RECOGNITION_ROWING_ASK_FIRST, false);
+        int rowingMinutes = Integer.parseInt(prefs.getString(DeviceSettingsPreferenceConst.PREF_HYBRID_HR_ACTIVITY_RECOGNITION_ROWING_MINUTES, "3"));
+
+        if (runningMinutes < 1) runningMinutes = 1;
+        if (runningMinutes > 255) runningMinutes = 255;
+        if (bikingMinutes < 1) bikingMinutes = 1;
+        if (bikingMinutes > 255) bikingMinutes = 255;
+        if (walkingMinutes < 1) walkingMinutes = 1;
+        if (walkingMinutes > 255) walkingMinutes = 255;
+        if (rowingMinutes < 1) rowingMinutes = 1;
+        if (rowingMinutes > 255) rowingMinutes = 255;
 
         FitnessConfigItem fitnessConfigItem = new FitnessConfigItem(
-                !modeRunning.equals("none"),
-                modeRunning.equals("ask"),
-                !modeBiking.equals("none"),
-                modeBiking.equals("ask"),
-                !modeWalking.equals("none"),
-                modeWalking.equals("ask"),
-                !modeRowing.equals("none"),
-                modeRowing.equals("ask")
+                runningEnabled,
+                runningAskFirst,
+                runningMinutes,
+                bikingEnabled,
+                bikingAskFirst,
+                bikingMinutes,
+                walkingEnabled,
+                walkingAskFirst,
+                walkingMinutes,
+                rowingEnabled,
+                rowingAskFirst,
+                rowingMinutes
         );
 
         queueWrite((FileEncryptedInterface) new ConfigurationPutRequest(fitnessConfigItem, this));
@@ -1628,10 +1646,18 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
             case SettingsActivity.PREF_MEASUREMENT_SYSTEM:
                 setUnitsConfig();
                 break;
-            case DeviceSettingsPreferenceConst.PREF_HYBRID_HR_ACTIVITY_RECOGNITION_RUNNING:
-            case DeviceSettingsPreferenceConst.PREF_HYBRID_HR_ACTIVITY_RECOGNITION_BIKING:
-            case DeviceSettingsPreferenceConst.PREF_HYBRID_HR_ACTIVITY_RECOGNITION_WALKING:
-            case DeviceSettingsPreferenceConst.PREF_HYBRID_HR_ACTIVITY_RECOGNITION_ROWING:
+            case DeviceSettingsPreferenceConst.PREF_HYBRID_HR_ACTIVITY_RECOGNITION_RUNNING_ENABLED:
+            case DeviceSettingsPreferenceConst.PREF_HYBRID_HR_ACTIVITY_RECOGNITION_RUNNING_ASK_FIRST:
+            case DeviceSettingsPreferenceConst.PREF_HYBRID_HR_ACTIVITY_RECOGNITION_RUNNING_MINUTES:
+            case DeviceSettingsPreferenceConst.PREF_HYBRID_HR_ACTIVITY_RECOGNITION_BIKING_ENABLED:
+            case DeviceSettingsPreferenceConst.PREF_HYBRID_HR_ACTIVITY_RECOGNITION_BIKING_ASK_FIRST:
+            case DeviceSettingsPreferenceConst.PREF_HYBRID_HR_ACTIVITY_RECOGNITION_BIKING_MINUTES:
+            case DeviceSettingsPreferenceConst.PREF_HYBRID_HR_ACTIVITY_RECOGNITION_WALKING_ENABLED:
+            case DeviceSettingsPreferenceConst.PREF_HYBRID_HR_ACTIVITY_RECOGNITION_WALKING_ASK_FIRST:
+            case DeviceSettingsPreferenceConst.PREF_HYBRID_HR_ACTIVITY_RECOGNITION_WALKING_MINUTES:
+            case DeviceSettingsPreferenceConst.PREF_HYBRID_HR_ACTIVITY_RECOGNITION_ROWING_ENABLED:
+            case DeviceSettingsPreferenceConst.PREF_HYBRID_HR_ACTIVITY_RECOGNITION_ROWING_ASK_FIRST:
+            case DeviceSettingsPreferenceConst.PREF_HYBRID_HR_ACTIVITY_RECOGNITION_ROWING_MINUTES:
                 setActivityRecognition();
                 break;
         }

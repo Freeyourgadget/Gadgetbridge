@@ -16,10 +16,6 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.configuration;
 
-import static android.content.ContentValues.TAG;
-
-import android.util.Log;
-
 import androidx.annotation.NonNull;
 
 import java.nio.ByteBuffer;
@@ -31,7 +27,6 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.adapter.foss
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.file.FileHandle;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.file.FilePutRequest;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
-import nodomain.freeyourgadget.gadgetbridge.util.StringUtils;
 
 public class ConfigurationPutRequest extends FilePutRequest {
     private static final HashMap<Short, Class<? extends ConfigItem>> itemsById = new HashMap<>();
@@ -344,31 +339,48 @@ public class ConfigurationPutRequest extends FilePutRequest {
     static public class FitnessConfigItem extends ConfigItem {
         boolean recognizeRunning = false;
         boolean askRunning = false;
+        int minutesRunning = 3;
 
         boolean recognizeBiking = false;
         boolean askBiking = false;
+        int minutesBiking = 5;
 
-        boolean recognizeWalk = false;
-        boolean askWalk = false;
+        boolean recognizeWalking = false;
+        boolean askWalking = false;
+        int minutesWalking = 10;
 
-        boolean recognizeRudder = false;
-        boolean askRudder = false;
+        boolean recognizeRowing = false;
+        boolean askRowing = false;
+        int minutesRowing = 3;
 
-        public FitnessConfigItem(boolean recognizeRunning, boolean askRunning, boolean recognizeBiking, boolean askBiking, boolean recognizeWalk, boolean askWalk, boolean recognizeRudder, boolean askRudder) {
+        public FitnessConfigItem(boolean recognizeRunning,
+                                 boolean askRunning,
+                                 int minutesRunning,
+                                 boolean recognizeBiking,
+                                 boolean askBiking,
+                                 int minutesBiking,
+                                 boolean recognizeWalking,
+                                 boolean askWalking,
+                                 int minutesWalking,
+                                 boolean recognizeRowing,
+                                 boolean askRowing,
+                                 int minutesRowing) {
             this.recognizeRunning = recognizeRunning;
             this.askRunning = askRunning;
+            this.minutesRunning = minutesRunning;
             this.recognizeBiking = recognizeBiking;
             this.askBiking = askBiking;
-            this.recognizeWalk = recognizeWalk;
-            this.askWalk = askWalk;
-            this.recognizeRudder = recognizeRudder;
-            this.askRudder = askRudder;
+            this.minutesBiking = minutesBiking;
+            this.recognizeWalking = recognizeWalking;
+            this.askWalking = askWalking;
+            this.minutesWalking = minutesWalking;
+            this.recognizeRowing = recognizeRowing;
+            this.askRowing = askRowing;
+            this.minutesRowing = minutesRowing;
         }
 
         public FitnessConfigItem() {
         }
-
-        ;
 
         @Override
         public int getItemSize() {
@@ -383,31 +395,44 @@ public class ConfigurationPutRequest extends FilePutRequest {
         @Override
         public byte[] getContent() {
             byte[] data = new byte[]{
-                    (byte) 0x01, (byte) 0x00, (byte) 0x03, (byte) 0x01, (byte) 0x01, (byte) 0x05, (byte) 0x02, (byte) 0x00, (byte) 0x0A, (byte) 0x01, (byte) 0x01, (byte) 0x01, (byte) 0x04, (byte) 0x00, (byte) 0xFF, (byte) 0xFF, (byte) 0xFF, (byte) 0xFF, (byte) 0x08, (byte) 0x00, (byte) 0x0A, (byte) 0x01, (byte) 0x01, (byte) 0x05, (byte) 0x09, (byte) 0x00, (byte) 0x03, (byte) 0x01, (byte) 0x01, (byte) 0x01
+                    // 2nd byte of each workout type is activation mode
+                    // 3rd byte of each is amount of minutes before asking/activating
+                    // Running
+                    (byte) 0x01, (byte) 0x00, (byte) 0x03, (byte) 0x01, (byte) 0x01, (byte) 0x05,
+                    // Biking
+                    (byte) 0x02, (byte) 0x00, (byte) 0x05, (byte) 0x01, (byte) 0x01, (byte) 0x01,
+                    // Walking
+                    (byte) 0x08, (byte) 0x00, (byte) 0x0A, (byte) 0x01, (byte) 0x01, (byte) 0x05,
+                    // Rowing
+                    (byte) 0x09, (byte) 0x00, (byte) 0x03, (byte) 0x01, (byte) 0x01, (byte) 0x01
             };
             if (recognizeRunning) {
                 data[1] |= 0x01;
                 if (askRunning) {
                     data[1] |= 0x02;
                 }
+                data[2] = (byte) (minutesRunning & 0xFF);
             }
             if (recognizeBiking) {
                 data[7] |= 0x01;
                 if (askBiking) {
                     data[7] |= 0x02;
                 }
+                data[8] = (byte) (minutesBiking & 0xFF);
             }
-            if (recognizeWalk) {
+            if (recognizeWalking) {
+                data[13] |= 0x01;
+                if (askWalking) {
+                    data[13] |= 0x02;
+                }
+                data[14] = (byte) (minutesWalking & 0xFF);
+            }
+            if (recognizeRowing) {
                 data[19] |= 0x01;
-                if (askWalk) {
+                if (askRowing) {
                     data[19] |= 0x02;
                 }
-            }
-            if (recognizeRudder) {
-                data[25] |= 0x01;
-                if (askRudder) {
-                    data[25] |= 0x02;
-                }
+                data[20] = (byte) (minutesRowing & 0xFF);
             }
             return data;
         }
@@ -416,25 +441,29 @@ public class ConfigurationPutRequest extends FilePutRequest {
         public void parseData(byte[] data) {
             recognizeRunning = (data[1] & 0x01) == 0x01;
             askRunning = (data[1] & 0x02) == 0x02;
+            minutesRunning = data[2] & 0xFF;
 
             recognizeBiking = (data[7] & 0x01) == 0x01;
             askBiking = (data[7] & 0x02) == 0x02;
+            minutesBiking = data[8] & 0xFF;
 
-            recognizeWalk = (data[19] & 0x01) == 0x01;
-            askWalk = (data[19] & 0x02) == 0x02;
+            recognizeWalking = (data[13] & 0x01) == 0x01;
+            askWalking = (data[13] & 0x02) == 0x02;
+            minutesWalking = data[14] & 0xFF;
 
-            recognizeRudder = (data[25] & 0x01) == 0x01;
-            askRudder = (data[25] & 0x02) == 0x02;
+            recognizeRowing = (data[19] & 0x01) == 0x01;
+            askRowing = (data[19] & 0x02) == 0x02;
+            minutesRowing = data[20] & 0xFF;
         }
 
         @NonNull
         @Override
         public String toString() {
             return
-                    "recognizeRunning: " + recognizeRunning + "   askRunning: " + askRunning + "\n" +
-                            "recognizeBiking: " + recognizeBiking + "   askBiking: " + askBiking + "\n" +
-                            "recognizeWalking: " + recognizeWalk + "   askWalk: " + askWalk + "\n" +
-                            "recognizeRudder: " + recognizeRudder + "   askRudder: " + askRudder;
+                    "recognizeRunning: " + recognizeRunning + "   askRunning: " + askRunning + "  minutesRunning: " + minutesRunning + "\n" +
+                            "recognizeBiking: " + recognizeBiking + "   askBiking: " + askBiking + "  minutesBiking: " + minutesBiking + "\n" +
+                            "recognizeWalking: " + recognizeWalking + "   askWalking: " + askWalking + "  minutesWalking: " + minutesWalking + "\n" +
+                            "recognizeRowing: " + recognizeRowing + "   askRowing: " + askRowing + "  minutesRowing: " + minutesRowing;
         }
     }
 }

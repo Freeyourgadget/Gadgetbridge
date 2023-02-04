@@ -2757,18 +2757,6 @@
         <item>as_off</item>
     </string-array>
 
-    <string-array name="fossil_hr_activity_recognition_modes">
-        <item>@string/pref_activity_recognition_mode_none</item>
-        <item>@string/pref_activity_recognition_mode_ask</item>
-        <item>@string/pref_activity_recognition_mode_auto</item>
-    </string-array>
-
-    <string-array name="fossil_hr_activity_recognition_mode_values">
-        <item>mode_none</item>
-        <item>mode_ask</item>
-        <item>mode_auto</item>
-    </string-array>
-
     <string-array name="fitness_tracking_apps_package_names">
         <item>de.dennisguse.opentracks</item>
         <item>de.dennisguse.opentracks.playStore</item>
