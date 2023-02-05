@@ -18,6 +18,7 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.util.language.impl;
 
+import java.nio.charset.StandardCharsets;
 import java.text.Normalizer;
 import java.util.HashMap;
 
@@ -32,6 +33,7 @@ public class FlattenToAsciiTransliterator implements Transliterator {
         }
 
         txt = Normalizer.normalize(txt, Normalizer.Form.NFD);
+        txt = new String(txt.getBytes(StandardCharsets.US_ASCII), StandardCharsets.US_ASCII);
         return txt.replaceAll("\\p{M}", "");
     }
 }
