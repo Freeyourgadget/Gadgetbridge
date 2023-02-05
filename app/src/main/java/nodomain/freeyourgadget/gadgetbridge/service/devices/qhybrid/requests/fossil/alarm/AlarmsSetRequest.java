@@ -42,14 +42,20 @@ public class AlarmsSetRequest extends FilePutRequest {
             int sizeWhole = 17 * alarms.length;
             for(Alarm alarm : alarms){
                 String label = alarm.getTitle();
+                if (label == null || label.isEmpty()) {
+                    label = "---";
+                }
                 label = label.substring(0, Math.min(label.length(), 15));
                 alarm.setTitle(label);
 
                 String message = alarm.getMessage();
+                if (message == null || message.isEmpty()) {
+                    message = "---";
+                }
                 message = message.substring(0, Math.min(message.length(), 50));
                 alarm.setMessage(message);
 
-                sizeWhole += label.length() + message.length();
+                sizeWhole += label.getBytes().length + message.getBytes().length;
             }
             buffer = ByteBuffer.allocate(sizeWhole); // 4 for overall length
             buffer.order(ByteOrder.LITTLE_ENDIAN);
@@ -57,7 +63,7 @@ public class AlarmsSetRequest extends FilePutRequest {
             for (Alarm alarm : alarms) {
                 String label = alarm.getTitle();
                 String message = alarm.getMessage();
-                int alarmSize = 17 + label.length() + message.length();
+                int alarmSize = 17 + label.getBytes().length + message.getBytes().length;
 
                 buffer.put((byte) 0x00); // No information why
                 buffer.putShort((short) (alarmSize - 3)); // Alarm size, 0 above and this does not count
@@ -66,12 +72,12 @@ public class AlarmsSetRequest extends FilePutRequest {
                 buffer.put(alarm.getData());
 
                 buffer.put((byte) 0x01); // Another entry id label
-                buffer.putShort((short) (label.length() + 1));  // Entry length
+                buffer.putShort((short) (label.getBytes().length + 1));  // Entry length
                 buffer.put(label.getBytes());
                 buffer.put((byte) 0x00); // Null terminator
 
                 buffer.put((byte) 0x02); // Entry ID subtext
-                buffer.putShort((short) (message.length() + 1)); // Entry length
+                buffer.putShort((short) (message.getBytes().length + 1)); // Entry length
                 buffer.put(message.getBytes());
                 buffer.put((byte) 0x00); // Null terminator
             }
