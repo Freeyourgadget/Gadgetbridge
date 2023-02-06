@@ -2113,4 +2113,11 @@ Temps de sommeil préféré en heures</string>
 \nVotre bracelet redémarrera une fois le fichier .zip installé.
 \n
 \nA VOS RISQUES ET PÉRILS !</string>
+    <string name="pref_workout_detection_ask_first">Me demander d\'abord</string>
+    <string name="pref_workout_detection_ask_first_summary">Demander une confirmation sur le bracelet quand un exercice est détecté</string>
+    <string name="pref_workout_detection_time">Minutes d\'activité avant la détection</string>
+    <string name="pref_workout_detection_enabled_summary">Permettre la détection automatique de cet exercice</string>
+    <string name="pref_workout_detection_enabled">Détection activée</string>
+    <string name="pref_workout_detection_time_summary">Le nombre de minutes pendant lesquelles l\'exercice doit être en cours pour le détecter</string>
+    <string name="activity_type_rowing">Rameur</string>
 </resources>
