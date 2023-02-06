@@ -2123,4 +2123,11 @@
 \nBilekliğiniz .zip dosyasını kurduktan sonra yeniden başlatılacak.
 \n
 \nİLERLEMENİZ DURUMUNDA RİSK SİZE AİTTİR!</string>
+    <string name="pref_workout_detection_ask_first_summary">Bu egzersizi algılarken saat üzerinden onay iste</string>
+    <string name="pref_workout_detection_enabled_summary">Bu egzersizin otomatik olarak algılanmasını etkinleştir</string>
+    <string name="pref_workout_detection_time">Algılamadan önceki etkin dakikalar</string>
+    <string name="pref_workout_detection_enabled">Algılama etkin</string>
+    <string name="pref_workout_detection_ask_first">Önce bana sor</string>
+    <string name="pref_workout_detection_time_summary">Egzersizin algılanmadan önce devam etmesi gereken dakika miktarı</string>
+    <string name="activity_type_rowing">Kürek Çekme</string>
 </resources>
