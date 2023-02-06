@@ -250,6 +250,7 @@ public class QHybridCoordinator extends AbstractBLEDeviceCoordinator {
         //Settings applicable to all firmware versions
         int[] supportedSettings = new int[]{
                 R.xml.devicesettings_fossilhybridhr,
+                R.xml.devicesettings_inactivity,
                 R.xml.devicesettings_autoremove_notifications,
                 R.xml.devicesettings_canned_dismisscall_16,
                 R.xml.devicesettings_transliteration

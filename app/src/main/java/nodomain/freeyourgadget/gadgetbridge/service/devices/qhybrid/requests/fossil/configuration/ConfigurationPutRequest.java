@@ -34,6 +34,7 @@ public class ConfigurationPutRequest extends FilePutRequest {
     static {
         itemsById.put((short) 0x02, CurrentStepCountConfigItem.class);
         itemsById.put((short) 0x03, DailyStepGoalConfigItem.class);
+        itemsById.put((short) 0x09, InactivityWarningItem.class);
         itemsById.put((short) 0x0A, VibrationStrengthConfigItem.class);
         itemsById.put((short) 0x0C, TimeConfigItem.class);
         itemsById.put((short) 0x0D, BatteryConfigItem.class);
@@ -466,5 +467,62 @@ public class ConfigurationPutRequest extends FilePutRequest {
                             "recognizeRowing: " + recognizeRowing + "   askRowing: " + askRowing + "  minutesRowing: " + minutesRowing;
         }
     }
+
+    static public class InactivityWarningItem extends ConfigItem {
+        private int fromTimeHour, fromTimeMinute, untilTimeHour, untilTimeMinute, inactiveMinutes;
+        boolean enabled;
+
+        public InactivityWarningItem() {
+            this(0, 0, 0, 0, 0, false);
+        }
+
+        public InactivityWarningItem(int fromTimeHour, int fromTimeMinute, int untilTimeHour, int untilTimeMinute, int inactiveMinutes, boolean enabled) {
+            this.fromTimeHour = fromTimeHour;
+            this.fromTimeMinute = fromTimeMinute;
+            this.untilTimeHour = untilTimeHour;
+            this.untilTimeMinute = untilTimeMinute;
+            this.inactiveMinutes = inactiveMinutes;
+            this.enabled = enabled;
+        }
+
+        @Override
+        public int getItemSize() {
+            return 6;
+        }
+
+        @Override
+        public short getId() {
+            return (short) 9;
+        }
+
+        @Override
+        public byte[] getContent() {
+            ByteBuffer buffer = ByteBuffer.allocate(getItemSize());
+            buffer.order(ByteOrder.LITTLE_ENDIAN);
+            buffer.put((byte) this.fromTimeHour);
+            buffer.put((byte) this.fromTimeMinute);
+            buffer.put((byte) this.untilTimeHour);
+            buffer.put((byte) this.untilTimeMinute);
+            buffer.put((byte) this.inactiveMinutes);
+            buffer.put((byte) (this.enabled ? 1 : 0));
+            return buffer.array();
+        }
+
+        @Override
+        public void parseData(byte[] data) {
+            if (data.length != getItemSize()) throw new RuntimeException("wrong data");
+
+            ByteBuffer buffer = ByteBuffer.wrap(data);
+            buffer.order(ByteOrder.LITTLE_ENDIAN);
+
+            this.fromTimeHour = buffer.get();
+            this.fromTimeMinute = buffer.get();
+            this.untilTimeHour = buffer.get();
+            this.untilTimeMinute = buffer.get();
+            this.inactiveMinutes = buffer.get();
+            this.enabled = buffer.get() == 0x01;
+        }
+    }
+
 }
 

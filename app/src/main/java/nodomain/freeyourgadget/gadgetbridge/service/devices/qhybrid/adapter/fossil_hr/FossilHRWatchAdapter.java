@@ -1615,6 +1615,25 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
         queueWrite((FileEncryptedInterface) new ConfigurationPutRequest(fitnessConfigItem, this));
     }
 
+    private void setInactivityWarning(){
+        SharedPreferences prefs = getDeviceSpecificPreferences();
+        boolean enabled = prefs.getBoolean(DeviceSettingsPreferenceConst.PREF_INACTIVITY_ENABLE, false);
+        int threshold = Integer.parseInt(prefs.getString(DeviceSettingsPreferenceConst.PREF_INACTIVITY_THRESHOLD, "60"));
+        String start = prefs.getString(DeviceSettingsPreferenceConst.PREF_INACTIVITY_START, "06:00");
+        String end = prefs.getString(DeviceSettingsPreferenceConst.PREF_INACTIVITY_END, "22:00");
+
+        int startHour = Integer.parseInt(start.split(":")[0]);
+        int startMinute = Integer.parseInt(start.split(":")[1]);
+        int endHour = Integer.parseInt(end.split(":")[0]);
+        int endMinute = Integer.parseInt(end.split(":")[1]);
+
+        InactivityWarningItem inactivityWarningItem = new InactivityWarningItem(
+                startHour, startMinute, endHour, endMinute, threshold, enabled
+        );
+
+        queueWrite((FileEncryptedInterface) new ConfigurationPutRequest(inactivityWarningItem, this));
+    }
+
     @Override
     public void onSendConfiguration(String config) {
         switch (config) {
@@ -1659,6 +1678,12 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
             case DeviceSettingsPreferenceConst.PREF_HYBRID_HR_ACTIVITY_RECOGNITION_ROWING_ASK_FIRST:
             case DeviceSettingsPreferenceConst.PREF_HYBRID_HR_ACTIVITY_RECOGNITION_ROWING_MINUTES:
                 setActivityRecognition();
+                break;
+            case DeviceSettingsPreferenceConst.PREF_INACTIVITY_ENABLE:
+            case DeviceSettingsPreferenceConst.PREF_INACTIVITY_THRESHOLD:
+            case DeviceSettingsPreferenceConst.PREF_INACTIVITY_START:
+            case DeviceSettingsPreferenceConst.PREF_INACTIVITY_END:
+                setInactivityWarning();
                 break;
         }
     }
