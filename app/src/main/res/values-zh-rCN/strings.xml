@@ -2109,4 +2109,11 @@
 \n
 \n风险自担！</string>
     <string name="devicetype_amazfit_trex_2">跃我 T-Rex 2</string>
+    <string name="pref_workout_detection_enabled_summary">对此锻炼启用自动检测</string>
+    <string name="pref_workout_detection_enabled">检测已开启</string>
+    <string name="pref_workout_detection_ask_first">先询问我</string>
+    <string name="pref_workout_detection_ask_first_summary">检测到该锻炼时，需要在手表上进行确认</string>
+    <string name="pref_workout_detection_time">检测前几分钟的活动</string>
+    <string name="pref_workout_detection_time_summary">锻炼必须持续多少分钟才能检测到它</string>
+    <string name="activity_type_rowing">赛艇</string>
 </resources>
