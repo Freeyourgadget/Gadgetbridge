@@ -2096,4 +2096,10 @@
     <string name="sony_ambient_sound_control_button_modes">Modalità Pulsante Controllo Suono Ambiente</string>
     <string name="devicetype_asteroidos">AsteroidOS</string>
     <string name="devicetype_sony_linkbuds_s">Sony LinkBuds S</string>
+    <string name="devicetype_amazfit_trex_2">Amazfit T-Rex 2</string>
+    <string name="fw_upgrade_notice_amazfit_trex2">Stai per installare il firmware %s sul tuo Amazfit T-Rex 2.
+\n
+\nLa band si riavvierà dopo l\'installazione del file .zip.
+\n
+\nPROCEDI A TUO RISCHIO E PERICOLO!</string>
 </resources>
