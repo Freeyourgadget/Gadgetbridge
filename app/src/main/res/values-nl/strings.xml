@@ -368,8 +368,8 @@
     <string name="mi2_prefs_inactivity_warnings_summary">De armband zal trillen als je een tijdje inactief bent</string>
     <string name="mi2_prefs_inactivity_warnings_threshold">Inactiviteits-drempel (in minuten)</string>
     <string name="mi2_prefs_inactivity_warnings_dnd_summary">Schakel de inactiviteits-waarschuwing uit voor een bepaald tijdsinterval</string>
-    <string name="mi2_prefs_do_not_disturb_start">Start tijd</string>
-    <string name="mi2_prefs_do_not_disturb_end">Eind tijd</string>
+    <string name="mi2_prefs_do_not_disturb_start">Starttijd</string>
+    <string name="mi2_prefs_do_not_disturb_end">Eindtijd</string>
     <string name="automatic">Automatisch</string>
     <string name="simplified_chinese">Versimpeld Chinees</string>
     <string name="traditional_chinese">Traditioneel Chinees</string>
@@ -2109,4 +2109,11 @@
 \n
 \nVERDERGAAN IS OP EIGEN RISICO!</string>
     <string name="devicetype_amazfit_trex_2">Amazfit T-Rex 2</string>
+    <string name="pref_workout_detection_ask_first">Vraag het mij eerst</string>
+    <string name="pref_workout_detection_ask_first_summary">Bevestiging op horloge vereisen bij het detecteren van deze training</string>
+    <string name="activity_type_rowing">Roeien</string>
+    <string name="pref_workout_detection_time">Actieve minuten voor detectie</string>
+    <string name="pref_workout_detection_enabled">Detectie ingeschakeld</string>
+    <string name="pref_workout_detection_enabled_summary">Schakel automatische detectie van deze training in</string>
+    <string name="pref_workout_detection_time_summary">Het aantal minuten dat de training aan de gang moet zijn voordat deze wordt gedetecteerd</string>
 </resources>
