@@ -2098,4 +2098,11 @@
 \n
 \nLANJUTKAN DENGAN RISIKO ANDA SENDIRI!</string>
     <string name="devicetype_amazfit_trex_2">Amazfit T-Rex 2</string>
+    <string name="pref_workout_detection_enabled_summary">Aktifkan deteksi otomatis untuk olahraga ini</string>
+    <string name="pref_workout_detection_ask_first">Tanyakan saya terlebih dahulu</string>
+    <string name="pref_workout_detection_ask_first_summary">Membutuhkan konfirmasi pada jam ketika mendeteksi olahraga ini</string>
+    <string name="pref_workout_detection_time">Menit aktif sebelum deteksi</string>
+    <string name="activity_type_rowing">Mendayung</string>
+    <string name="pref_workout_detection_time_summary">Jumlah menit olahraga harus berlangsung sebelum mendeteksinya</string>
+    <string name="pref_workout_detection_enabled">Deteksi diaktifkan</string>
 </resources>
