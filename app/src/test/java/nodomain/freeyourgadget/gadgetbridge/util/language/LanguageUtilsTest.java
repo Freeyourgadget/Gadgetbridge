@@ -164,6 +164,16 @@ public class LanguageUtilsTest extends TestBase {
     }
 
     @Test
+    public void testStringTransliterateGeorgian() {
+        final Transliterator transliterator = LanguageUtils.getTransliterator("georgian");
+
+        String input = "ა ბ ტ თ ჟ ყ წ ჭ ჰ";
+        String output = transliterator.transliterate(input);
+        String expected = "a b t T J y w W h";
+        assertEquals("georgian transliteration failed", expected, output);
+    }
+
+    @Test
     public void testTransliterateOption() throws Exception {
         enableTransliteration(false);
         assertNull("Transliteration option fail! Expected 'Off' by default, but result is 'On'",
@@ -177,7 +187,7 @@ public class LanguageUtilsTest extends TestBase {
         SharedPreferences devicePrefs = GBApplication.getDeviceSpecificSharedPrefs(dummyGBDevice.getAddress());
         SharedPreferences.Editor editor = devicePrefs.edit();
         if (enable) {
-            editor.putString(PREF_TRANSLITERATION_LANGUAGES, "extended_ascii,scandinavian,german,russian,hebrew,greek,ukranian,arabic,persian,lithuanian,polish,estonian,icelandic,czech,turkish,bengali,korean");
+            editor.putString(PREF_TRANSLITERATION_LANGUAGES, "extended_ascii,scandinavian,german,russian,hebrew,greek,ukranian,arabic,persian,lithuanian,polish,estonian,icelandic,czech,turkish,bengali,korean,georgian");
         } else {
             editor.remove(PREF_TRANSLITERATION_LANGUAGES);
         }
