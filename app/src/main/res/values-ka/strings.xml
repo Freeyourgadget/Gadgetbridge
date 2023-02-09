@@ -184,4 +184,5 @@
     <string name="controlcenter_take_screenshot">გაკეთება სკრინშოტი</string>
     <string name="action_debug">გამართვა</string>
     <string name="calendar_three_months">3 თვე</string>
+    <string name="about_activity_title_generic">Gadgetbridge შესახებ</string>
 </resources>
