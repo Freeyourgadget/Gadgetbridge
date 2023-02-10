@@ -2108,4 +2108,12 @@
 \nהצמיד שלך יופעל מחדש לאחר התקנת קובץ ה־‎.zip
 \n
 \nהמשך התהליך הוא על אחריותך!</string>
+    <string name="georgian">גאורגית</string>
+    <string name="activity_type_rowing">חתירה</string>
+    <string name="pref_workout_detection_enabled">זיהוי מופעל</string>
+    <string name="pref_workout_detection_enabled_summary">הפעלת זיהוי אוטומטי של סוג האימון הזה</string>
+    <string name="pref_workout_detection_ask_first">לשאול אותי קודם</string>
+    <string name="pref_workout_detection_ask_first_summary">לדרוש אישור בשעון בעת זיהוי סוג האימון הזה</string>
+    <string name="pref_workout_detection_time">דקות פעילות עד הזיהוי</string>
+    <string name="pref_workout_detection_time_summary">כמות הדקות לתוך האימון בטרם זיהויו</string>
 </resources>
