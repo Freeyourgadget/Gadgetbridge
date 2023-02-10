@@ -2116,4 +2116,5 @@
     <string name="pref_workout_detection_enabled">Detectie ingeschakeld</string>
     <string name="pref_workout_detection_enabled_summary">Schakel automatische detectie van deze training in</string>
     <string name="pref_workout_detection_time_summary">Het aantal minuten dat de training aan de gang moet zijn voordat deze wordt gedetecteerd</string>
+    <string name="georgian">Georgisch</string>
 </resources>
