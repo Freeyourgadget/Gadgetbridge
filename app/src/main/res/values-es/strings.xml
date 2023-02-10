@@ -1588,7 +1588,9 @@
     <string name="application_name_banglejs_main">Bangle.js Gadgetbridge</string>
     <string name="title_activity_controlcenter_banglejs_main">Bangle.js Gadgetbridge</string>
     <string name="about_activity_title_banglejs_main">Acerca de Bangle.js Gadgetbridge</string>
-    <string name="about_description_banglejs_main">Aplicación complementaria de Android para Bangle.js construida sobre el proyecto Gadgetbridge, con acceso a Internet añadido.</string>
+    <string name="about_description_banglejs_main">Aplicación complementaria de Android para Bangle.js construida sobre el proyecto Gadgetbridge, con acceso a Internet añadido.
+\n
+\nDebido a las políticas de Google Play Store, no se nos permite un enlace de donación en la propia aplicación, pero si le gusta esta aplicación por favor considere donar a través de la página de inicio de Gadgetbridge a continuación.</string>
     <string name="gadgetbridge_running_banglejs_main">Bangle.js ejecutándose</string>
     <string name="application_name_banglejs_nopebble">Bangle.js Gadgetbridge</string>
     <string name="title_activity_controlcenter_banglejs_nopebble">Bangle.js Gadgetbridge</string>
@@ -1614,4 +1616,135 @@
     <string name="pref_title_device_internet_access">Permitir acceso a Internet</string>
     <string name="pref_summary_device_internet_access">Permitir que las aplicaciones de este dispositivo accedan a Internet</string>
     <string name="pref_title_device_intents">Permitir intenciones</string>
+    <string name="low_power_gps">GPS de bajo consumo</string>
+    <string name="gps_bds">GPS + BDS</string>
+    <string name="fw_upgrade_notice_amazfit_gts4">Está a punto de instalar el firmware %s en su Amazfit GTS 4.
+\n
+\nSu reloj se reiniciará después de instalar el archivo .zip.
+\n
+\n¡PROCEDA BAJO SU PROPIO RIESGO!</string>
+    <string name="gps_gnolass">GPS + GNOLASS</string>
+    <string name="pref_header_workout">Entrenamiento</string>
+    <string name="pref_title_screen_on_on_notifications">Pantalla encendida en las notificaciones</string>
+    <string name="pref_summary_screen_on_on_notifications">Encender la pantalla de la pulsera cuando llegue una notificación</string>
+    <string name="pref_explanation_authkey">Algunos dispositivos requieren una clave de emparejamiento especial para el primer inicio del dispositivo. Pulse aquí para obtener más detalles en la wiki.</string>
+    <string name="appmanager_watchface_activate">Activar</string>
+    <string name="appmanager_app_start">Iniciar</string>
+    <string name="appmanager_app_download">Descargar a caché</string>
+    <string name="appmanager_download_started">Descarga de la App iniciada</string>
+    <string name="appmanager_downloaded_to_cache">Descargado %s a la caché</string>
+    <string name="appmanager_download_app_error">Error descargando la app</string>
+    <string name="fw_upgrade_notice_amazfit_gts4_mini">Está a punto de instalar el firmware %s en su Amazfit GTS 4 Mini.
+\n
+\nSu reloj se reiniciará después de instalar el archivo .zip.
+\n
+\n¡PROCEDA BAJO SU PROPIO RIESGO!</string>
+    <string name="fw_upgrade_notice_amazfit_gtr3">Está a punto de instalar el firmware %s en su Amazfit GTR 3.
+\n
+\nSu pulsera se reiniciará después de instalar el archivo .zip.
+\n
+\n¡PROCEDA BAJO SU PROPIO RIESGO!</string>
+    <string name="fw_upgrade_notice_amazfit_band7">Está a punto de instalar el firmware %s en su Amazfit Band 7.
+\n
+\nSu pulsera se reiniciará después de instalar el archivo .zip.
+\n
+\n¡PROCEDA BAJO SU PROPIO RIESGO!</string>
+    <string name="open_fw_installer_pick_file">Seleccionar archivo</string>
+    <string name="open_fw_installer_info_text_title">Instalador de archivos</string>
+    <string name="pref_header_connection">Conexión</string>
+    <string name="pref_header_sound_vibration">Sonido y vibración</string>
+    <string name="pref_header_offline_voice">Voz sin conexión</string>
+    <string name="pref_title_banglejs_txt_bitmap_size">Tamaño de los mapas de bits de texto</string>
+    <string name="pref_explanation_authkey_new_protocol">Si aparece el mensaje \"Actualizar la aplicación a la última versión\" en la pulsera, asegúrese de comprobar el \"Nuevo protocolo de autentificación\" más arriba. Pulse aquí para obtener más detalles en la wiki.</string>
+    <string name="pref_gps_header">GPS</string>
+    <string name="pref_gps_mode_preset">Modo GPS</string>
+    <string name="pref_gps_band">Banda GPS</string>
+    <string name="pref_gps_combination">Combinación GPS</string>
+    <string name="pref_gps_satellite_search">Búsqueda de satélites</string>
+    <string name="pref_crown_vibration">Vibración de la corona</string>
+    <string name="pref_alert_tone">Tono de alerta</string>
+    <string name="pref_text_to_speech">Texto a voz</string>
+    <string name="offline_voice_respond_turn_wrist">Responder al girar la muñeca</string>
+    <string name="offline_voice_respond_screen_on">Responder cuando la pantalla está encendida</string>
+    <string name="offline_voice_response_during_screen_lighting">Responder durante la iluminación de la pantalla</string>
+    <string name="pref_agps_header">AGPS</string>
+    <string name="pref_agps_expiry_reminder_enabled">Recordatorio de expiración de AGPS</string>
+    <string name="pref_header_health">Salud</string>
+    <string name="pref_workout_start_on_phone_title">Seguimiento de apps de fitness</string>
+    <string name="power_saving">Ahorro de energía</string>
+    <string name="custom">Personalizado</string>
+    <string name="accuracy">Preciso</string>
+    <string name="balanced">Equilibrado</string>
+    <string name="gps">GPS</string>
+    <string name="gps_galileo">GPS + GALILEO</string>
+    <string name="all_satellites">Todos los satélites</string>
+    <string name="accuracy_first">La precisión primero</string>
+    <string name="dual_band">Banda dual</string>
+    <string name="single_band">Banda única</string>
+    <string name="speed_first">Más veloz primero</string>
+    <string name="fw_upgrade_notice_miband7">Está a punto de instalar el firmware %s en su Xiaomi Smart Band 7.
+\n
+\nSu Band se reiniciará después de instalar el archivo .zip.
+\n
+\n¡PROCEDA BAJO SU PROPIO RIESGO!</string>
+    <string name="open_fw_installer_select_file">Seleccione el archivo que desea cargar en el dispositivo: %s</string>
+    <string name="pref_header_calendar">Calendario</string>
+    <string name="open_fw_installer_warning_title">Aviso</string>
+    <string name="fw_upgrade_notice_amazfit_gts3">Está a punto de instalar el firmware %s en su Amazfit GTS 3.
+\n
+\nSu reloj se reiniciará después de instalar el archivo .zip.
+\n
+\n¡PROCEDA BAJO SU PROPIO RIESGO!</string>
+    <string name="open_fw_installer_getting_files_text">Dado que no podemos distribuir los archivos de firmware, tendrá que conseguirlos usted mismo. Esto significa que tendrá que buscar los archivos apk, en línea, en foros, en Amazfitwatchfaces (para dispositivos Miband/Amazfit) y así sucesivamente.</string>
+    <string name="pref_title_notification_prefer_long_text">Preferir un texto de notificación largo</string>
+    <string name="pref_summary_notification_prefer_long_text">Si está disponible, envía el texto de notificación largo al dispositivo</string>
+    <string name="controlcenter_get_heartrate_measurement">Medición de la frecuencia cardiaca</string>
+    <string name="open_fw_installer_warning_text">Esta función puede bloquear el dispositivo. Dicho lo cual, esto nunca ha sucedido a ninguno de los desarrolladores a través del flasheo, pero recuerde que usted está haciendo esto bajo su propio riesgo.</string>
+    <string name="open_fw_installer_getting_files_title">Obtener el archivo de firmware/app</string>
+    <string name="about_description_banglejs_nightly">Aplicación complementaria de Android para Bangle.js construida sobre el proyecto Gadgetbridge, con acceso a Internet añadido.
+\n
+\nDebido a las políticas de Google Play Store, no se nos permite un enlace de donación en la propia aplicación, pero si le gusta esta aplicación por favor considere donar a través de la página de inicio de Gadgetbridge a continuación.</string>
+    <string name="application_name_banglejs_nightly">Bangle.js Gadgetbridge (Nightly)</string>
+    <string name="title_activity_controlcenter_banglejs_nightly">Bangle.js Gadgetbridge (Nightly)</string>
+    <string name="about_activity_title_banglejs_nightly">Acerca de Bangle.js Gadgetbridge (Nightly)</string>
+    <string name="gadgetbridge_running_banglejs_nightly">Bangle.js Nightly ejecutándose</string>
+    <string name="fw_upgrade_notice_amazfit_trex2">Está a punto de instalar el firmware %s en su Amazfit T-Rex 2.
+\n
+\nSu pulsera se reiniciará después de instalar el archivo .zip.
+\n
+\n¡PROCEDA BAJO SU PROPIO RIESGO!</string>
+    <string name="open_fw_installer_info_text">El Instalador de Firmware/Watchface/App/Archivos le permite cargar/instalar archivos compatibles (firmware, watchfaces, aplicaciones, GPS, recursos, fuentes...) en el dispositivo. Más información en la wiki: https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Firmware-Update</string>
+    <string name="open_fw_installer_connect_minimum_one_device">Conecte AL MENOS UN dispositivo al que desee enviar el archivo.</string>
+    <string name="pref_summary_notification_delay_calls">Retraso antes de enviar notificaciones de llamadas entrantes al dispositivo, en segundos.</string>
+    <string name="pref_summary_notification_media_ignores_application_list">Procesar las notificaciones multimedia antes que la lista de aplicaciones. Si esta preferencia no está marcada, las aplicaciones multimedia deben estar permitidas en la lista de aplicaciones para que los controles multimedia funcionen en el dispositivo.</string>
+    <string name="pref_summary_banglejs_txt_bitmap_size">Si se activa \'Texto como mapa de bits\', ¿a qué tamaño debe representarse el texto\?</string>
+    <string name="pref_title_banglejs_webview_url">URL del cargador de Apps</string>
+    <string name="pref_summary_banglejs_webview_url">Si quiere un cargador de aplicaciones personalizado ponga aquí su URL https://.../android.html. De lo contrario, deje en blanco https://banglejs.com/apps</string>
+    <string name="pref_blacklist_calendars_summary">Los calendarios de la lista negra no se sincronizarán con el dispositivo</string>
+    <string name="pref_summary_canned_replies">Responder desde el reloj con mensajes predefinidos</string>
+    <string name="pref_header_intent_api">API de función</string>
+    <string name="pref_header_authentication">Autentificación</string>
+    <string name="pref_summary_overwrite_settings_on_connection">Al conectarte a la pulsera, sobrescribe todos los ajustes de la misma.</string>
+    <string name="pref_summary_device_intents">Permitir que las aplicaciones de reloj Bangle.js envíen intentos de Android, y permitir que otras aplicaciones en Android (como Tasker) envíen datos a Bangle.js con intentos de com.banglejs.uart.tx. Necesita permiso para mostrarse sobre otras apps y trabajar en segundo plano.</string>
+    <string name="pref_vibrate_for_alert">Alerta por vibración</string>
+    <string name="pref_agps_expiry_reminder_time">Recordatorio del tiempo de expiración AGPS</string>
+    <string name="pref_agps_update_time">Tiempo de actualización de AGPS</string>
+    <string name="pref_agps_expire_time">Tiempo de expiración de AGPS</string>
+    <string name="prefs_activity_monitoring_description">Aumenta automáticamente la detección de la frecuencia cardiaca cuando la pulsera detecta ejercicio físico, para aumentar su precisión en la captura.</string>
+    <string name="pref_title_notification_media_ignores_application_list">Las notificaciones multimedia ignoran la lista de aplicaciones</string>
+    <string name="appmanager_app_share">Compartir</string>
+    <string name="appmanager_item_outdated">(obsoleto)</string>
+    <string name="open_fw_installer_connect_maximum_one_device">Conecte SÓLO UN dispositivo al que desee enviar el archivo.</string>
+    <string name="open_fw_installer_ensure_device_connected">Asegúrese de que el dispositivo %s está conectado</string>
+    <string name="debugactivity_confirm_remove_device_preferences_title">¿Quitar las preferencias del dispositivo\?</string>
+    <string name="debugactivity_confirm_remove_device_preferences">Esto restablecerá las preferencias del dispositivo para todos los dispositivos conectados. ¿Está seguro\?</string>
+    <string name="fw_upgrade_notice_amazfit_gtr4">Está a punto de instalar el firmware %s en su Amazfit GTR 4.
+\n
+\nSu pulsera se reiniciará después de instalar el archivo .zip.
+\n
+\n¡PROCEDA BAJO SU PROPIO RIESGO!</string>
+    <string name="pref_title_notification_delay_calls">Retardo de notificación de llamada</string>
+    <string name="pref_title_notifications_ignore_low_priority">Ignorar las notificaciones de baja prioridad</string>
+    <string name="pref_summary_notifications_ignore_low_priority">No enviar notificaciones de prioridad baja y mínima al reloj</string>
+    <string name="pref_title_overwrite_settings_on_connection">Sobrescribir los ajustes al conectarse</string>
 </resources>
