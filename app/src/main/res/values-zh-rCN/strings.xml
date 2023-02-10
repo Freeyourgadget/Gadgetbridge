@@ -2116,4 +2116,5 @@
     <string name="pref_workout_detection_time">检测前几分钟的活动</string>
     <string name="pref_workout_detection_time_summary">锻炼必须持续多少分钟才能检测到它</string>
     <string name="activity_type_rowing">赛艇</string>
+    <string name="georgian">乔治亚</string>
 </resources>
