@@ -2108,4 +2108,12 @@
 \n
 \nINSTALLATION AUF EIGENE GEFAHR!</string>
     <string name="devicetype_amazfit_trex_2">Amazfit T-Rex 2</string>
+    <string name="activity_type_rowing">Rudern</string>
+    <string name="georgian">Georgisch</string>
+    <string name="pref_workout_detection_enabled">Erkennung aktiviert</string>
+    <string name="pref_workout_detection_enabled_summary">Automatische Erkennung dieses Training aktivieren</string>
+    <string name="pref_workout_detection_ask_first">Frage mich zuerst</string>
+    <string name="pref_workout_detection_ask_first_summary">Bestätigung auf der Uhr erforderlich, wenn dieses Training erkannt wird</string>
+    <string name="pref_workout_detection_time">Aktive Minuten vor der Erkennung</string>
+    <string name="pref_workout_detection_time_summary">Die Anzahl der Minuten, die das Training andauern muss, bevor es erkannt wird</string>
 </resources>
