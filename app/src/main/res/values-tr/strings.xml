@@ -2130,4 +2130,5 @@
     <string name="pref_workout_detection_ask_first">Önce bana sor</string>
     <string name="pref_workout_detection_time_summary">Egzersizin algılanmadan önce devam etmesi gereken dakika miktarı</string>
     <string name="activity_type_rowing">Kürek Çekme</string>
+    <string name="georgian">Gürcüce</string>
 </resources>
