@@ -21,7 +21,6 @@ import android.bluetooth.BluetoothGattCharacteristic;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Handler;
 import android.os.Looper;
 import android.widget.Toast;
@@ -580,7 +579,6 @@ public class FossilWatchAdapter extends WatchAdapter {
             alarms = (ArrayList<? extends Alarm>) AlarmUtils.mergeOneshotToDeviceAlarms(getDeviceSupport().getDevice(), (nodomain.freeyourgadget.gadgetbridge.entities.Alarm) oneshot, 5);
         }
 
-        //  throw new RuntimeException("noope");
         ArrayList<nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.alarm.Alarm> activeAlarms = new ArrayList<>();
         for (Alarm alarm : alarms) {
             if (!alarm.getEnabled()) continue;
@@ -652,7 +650,6 @@ public class FossilWatchAdapter extends WatchAdapter {
                             // setDeviceState(GBDevice.State.AUTHENTICATION_REQUIRED);
                         }else {
                             GB.log("error", GB.ERROR, e);
-                            getDeviceSupport().notifiyException(fossilRequest.getName(), e);
                             GB.toast(fossilRequest.getName() + " failed", Toast.LENGTH_SHORT, GB.ERROR);
                         }
 
@@ -697,7 +694,7 @@ public class FossilWatchAdapter extends WatchAdapter {
                 }
             }
         } catch (UnsupportedOperationException e) {
-            getDeviceSupport().notifiyException(e);
+            GB.log("error", GB.ERROR, e);
         }
 
         if (start && getDeviceSupport().searchDevice) return;

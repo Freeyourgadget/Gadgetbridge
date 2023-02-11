@@ -80,7 +80,6 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.mis
 import nodomain.freeyourgadget.gadgetbridge.service.serial.GBDeviceProtocol;
 import nodomain.freeyourgadget.gadgetbridge.util.FileUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
-import nodomain.freeyourgadget.gadgetbridge.util.Version;
 
 public class QHybridSupport extends QHybridBaseSupport {
     public static final String QHYBRID_COMMAND_CONTROL = "qhybrid_command_control";
@@ -703,47 +702,6 @@ public class QHybridSupport extends QHybridBaseSupport {
         super.handleGBDeviceEvent(deviceEvent);
     }
 
-    public void notifiyException(Exception e){
-        notifiyException("", e);
-    }
-
-    public void notifiyException(String requestName, Exception e) {
-        if (!BuildConfig.DEBUG) {
-            logger.error("Error: " + requestName, e);
-            return;
-        }
-        GB.toast("Please contact dakhnod@gmail.com\n", Toast.LENGTH_SHORT, GB.ERROR, e);
-
-        StringWriter sw = new StringWriter();
-        PrintWriter pw = new PrintWriter(sw);
-        e.printStackTrace(pw);
-        String sStackTrace = sw.toString();
-
-        Notification.Builder notificationBuilder = null;
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            notificationBuilder = new Notification.Builder(getContext(), GB.NOTIFICATION_CHANNEL_ID);
-        } else {
-            notificationBuilder = new Notification.Builder(getContext());
-        }
-        notificationBuilder
-                .setContentTitle("Q Error " + requestName)
-                .setSmallIcon(R.drawable.ic_notification_qhybrid)
-                .setContentText(sStackTrace)
-                .setStyle(new Notification.BigTextStyle())
-                .build();
-
-        Intent emailIntent = new Intent(Intent.ACTION_SENDTO, Uri.fromParts(
-                "mailto","dakhnod@gmail.com", null));
-        emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Exception Report");
-        emailIntent.putExtra(Intent.EXTRA_TEXT, "Here's a crash from your stupid app: \n\n" + sStackTrace);
-
-        PendingIntent intent = PendingIntent.getActivity(getContext(), 0, emailIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-
-        notificationBuilder.addAction(new Notification.Action(0, "report", intent));
-
-        GB.notify((int) System.currentTimeMillis(), notificationBuilder.build(), getContext());
-    }
-
     @Override
     public boolean onCharacteristicWrite(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic, int status) {
         watchAdapter.onCharacteristicWrite(gatt, characteristic, status);
@@ -777,7 +735,7 @@ public class QHybridSupport extends QHybridBaseSupport {
                     gbDevice.addDeviceInfo(new GenericItem(ITEM_EXTENDED_VIBRATION_SUPPORT, String.valueOf(watchAdapter.supportsExtendedVibration())));
                     gbDevice.addDeviceInfo(new GenericItem(ITEM_HAS_ACTIVITY_HAND, String.valueOf(watchAdapter.supportsActivityHand())));
                 } catch (UnsupportedOperationException e) {
-                    notifiyException(e);
+                    GB.log("error", GB.ERROR, e);
                     gbDevice.addDeviceInfo(new GenericItem(ITEM_EXTENDED_VIBRATION_SUPPORT, "false"));
                 }
                 break;
