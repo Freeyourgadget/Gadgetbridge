@@ -749,6 +749,7 @@
     <string name="widget_1_hour">1 hora</string>
     <plurals name="widget_alarm_target_hours">
         <item quantity="one">%d hora</item>
+        <item quantity="many">%d horas</item>
         <item quantity="other">%d horas</item>
     </plurals>
     <string name="pref_display_add_device_fab_on">Siempre visible</string>
@@ -1899,7 +1900,7 @@
     <string name="menuitem_unsupported">[NO SOPORTADO] %s</string>
     <string name="hrZoneExtreme">Extremo</string>
     <string name="hrZoneAnaerobic">Anaeróbico</string>
-    <string name="hybridhr_widget_bg_thin_circle">Círculo fino</string>
+    <string name="hybridhr_widget_bg_thin_circle">Círculo estrecho</string>
     <string name="error_setting_parent_folder">Error al establecer la carpeta principal: %s</string>
     <string name="error_deleting_device">Error borrando el dispositivo: %s</string>
     <string name="controlcenter_unset_folder">Carpeta sin configurar</string>
