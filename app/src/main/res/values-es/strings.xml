@@ -122,7 +122,7 @@
     <string name="pref_title_location_latitude">Latitud</string>
     <string name="pref_title_location_longitude">Longitud</string>
     <string name="pref_title_location_keep_uptodate">Mantener la localización actualizada</string>
-    <string name="pref_summary_location_keep_uptodate">Intentar conseguir la localización en marcha, usar la guardada como respaldo</string>
+    <string name="pref_summary_location_keep_uptodate">Intenta obtener la ubicación actual en curso, utiliza la ubicación almacenada como alternativa</string>
     <string name="toast_enable_networklocationprovider">Por favor, active la ubicación por red</string>
     <string name="toast_aqurired_networklocation">localización encontrada</string>
     <string name="pref_title_pebble_forceprotocol">Forzar protocolo de notificación</string>
@@ -153,16 +153,16 @@
     <string name="this_is_a_test_notification_from_gadgetbridge">Notificación de prueba desde Gadgetbridge</string>
     <string name="bluetooth_is_not_supported_">No se admite el Bluetooth.</string>
     <string name="bluetooth_is_disabled_">El Bluetooth está desactivado.</string>
-    <string name="tap_connected_device_for_app_mananger">Toque el dispositivo conectado para el administrador de aplicaciones</string>
-    <string name="tap_connected_device_for_activity">Toca el dispositivo conectado para actividad</string>
-    <string name="tap_connected_device_for_vibration">Toque el dispositivo conectado para la vibración</string>
-    <string name="tap_a_device_to_connect">Toca un dispositivo para conectarlo</string>
+    <string name="tap_connected_device_for_app_mananger">Pulse en el dispositivo conectado para acceder al administrador de aplicaciones</string>
+    <string name="tap_connected_device_for_activity">Pulse el dispositivo conectado para ver la actividad</string>
+    <string name="tap_connected_device_for_vibration">Pulse el dispositivo conectado para la vibración</string>
+    <string name="tap_a_device_to_connect">Pulse un dispositivo para conectarse</string>
     <string name="cannot_connect_bt_address_invalid_">No se puede conectar. ¿Dirección BT incorrecta?</string>
     <string name="gadgetbridge_running_generic">Gadgetbridge funcionando</string>
     <string name="installing_binary_d_d">Instalando binario %1$d/%2$d</string>
     <string name="installation_failed_">Instalación fallida</string>
     <string name="installation_successful">Instalado</string>
-    <string name="firmware_install_warning">ESTÁS INTENTANDO INSTALAR UN FIRMWARE, PROCEDE BAJO TU PROPIA RESPONSABILIDAD.
+    <string name="firmware_install_warning">ESTÁ INTENTANDO INSTALAR UN FIRMWARE, PROCEDA BAJO SU PROPIA RESPONSABILIDAD.
 \n
 \n
 \n Este firmware es para la revisión de HW: %s</string>
@@ -196,7 +196,7 @@
     <string name="left">Izquierda</string>
     <string name="right">Derecha</string>
     <string name="miband_pairing_using_dummy_userdata">No se proporcionaron datos de usuario válidos. Por ahora se emplearán datos ficticios.</string>
-    <string name="miband_pairing_tap_hint">Cuando tu MiBand vibre y parpadee, púlsala repetidas veces.</string>
+    <string name="miband_pairing_tap_hint">Cuando su MiBand vibre y parpadee, púlsela repetidas veces.</string>
     <string name="appinstaller_install">Instalar</string>
     <string name="discovery_connected_devices_hint">Haga su dispositivo detectable. Los dispositivos conectados no serán detectables. En Android 6 o superior, necesita activar la localización (ej. GPS). Desactive Privacy Guard para Gadgetbridge, debido a que podría detener y reiniciar su teléfono. Si su dispositivo no aparece en dos minutos, vuelva a intentarlo tras reiniciar su teléfono.</string>
     <string name="discovery_note">Nota:</string>
@@ -398,7 +398,7 @@
     <string name="unit_metric">Métrica</string>
     <string name="unit_imperial">Imperial</string>
     <string name="timeformat_24h">24H</string>
-    <string name="timeformat_am_pm">a. m./p. m.</string>
+    <string name="timeformat_am_pm">AM/PM</string>
     <string name="pref_screen_notification_profile_alarm_clock">Despertador</string>
     <string name="StringUtils_sender">(%1$s)</string>
     <string name="find_device_you_found_it">¡Lo ha encontrado!</string>
@@ -536,7 +536,7 @@
     <string name="pref_rtl_max_line_length">Longitud de línea máxima de derecha a izquierda</string>
     <string name="pref_rtl_max_line_length_summary">Alarga o acorta las líneas de texto de derecha a izquierda si contiene separaciones</string>
     <string name="pref_title_pebble_gatt_clientonly">Sólo cliente GATT</string>
-    <string name="pref_summary_pebble_gatt_clientonly">Esto es solo para Pebble 2 y experimental, intente esto si tiene problemas de conectividad</string>
+    <string name="pref_summary_pebble_gatt_clientonly">Esto es solo para Pebble 2 y experimental, pruebe esto si tiene problemas de conectividad</string>
     <string name="prefs_screen_orientation">Orientación de pamtalla</string>
     <string name="pref_auto_fetch_summary">La recuperación funciona luego de desbloquear la pantalla. ¡Sólo funciona si se ha definido un mecanismo de bloqueo!</string>
     <string name="horizontal">Horizontal</string>
@@ -1224,18 +1224,18 @@
 \nNota: no es necesario instalar el archivo .res si es idéntico al instalado previamente.
 \n
 \n¡PROCEDA BAJO SU PROPIA CUENTA Y RIESGO!</string>
-    <string name="qhybrid_pref_title_external_intents">Permitir intenciones externas peligrosas</string>
+    <string name="qhybrid_pref_title_external_intents">Permitir intents externos peligrosos</string>
     <string name="pref_summary_developer_settings">Ajustes y funcionalidades utilizadas por los desarrolladores</string>
     <string name="pref_title_developer_settings">Configuración de los desarrolladores</string>
     <string name="qhybrid_pref_title_actions">Acciones</string>
     <string name="qhybrid_calibration_100_steps">100 pasos</string>
     <string name="qhybrid_calibration_10_steps">10 pasos</string>
-    <string name="qhybrid_pref_summary_external_intents">Permite que otras aplicaciones de Android suban/sobreescriban archivos</string>
+    <string name="qhybrid_pref_summary_external_intents">Permite que otras apps de Android suban/sobreescriban archivos</string>
     <string name="fossil_hr_new_action">Nueva acción</string>
     <string name="fossil_hr_new_action_cancel">cancelar</string>
     <string name="fossil_hr_edit_action">Editar acción</string>
     <string name="fossil_hr_edit_action_delete">borrar</string>
-    <string name="fossil_hr_commute_actions_explanation">Las acciones configuradas aquí aparecerán en la aplicación Commute de su reloj. Lea la wiki para obtener información sobre cómo manejar los intentos producidos por estas acciones.</string>
+    <string name="fossil_hr_commute_actions_explanation">Las acciones configuradas aquí aparecerán en la app Commute de su reloj. Lea la wiki para obtener información sobre cómo manejar los Intents producidos por estas acciones.</string>
     <string name="qhybrid_title_watchface">Configuración de Watchface</string>
     <string name="notification_channel_low_battery_name">Batería baja</string>
     <string name="notification_channel_transfer_name">Transferencia de datos</string>
@@ -1437,9 +1437,9 @@
     <string name="prefs_fm_presets_presets">Preconfiguración</string>
     <string name="sony_automatic_power_off_when_taken_off">Al quitar (el dispositivo)</string>
     <string name="watchface_dialog_widget_timezone">Zona horaria</string>
-    <string name="watchface_dialog_widget_update_timeout">Tiempo de actualización en minutos:</string>
-    <string name="watchface_dialog_widget_timeout_hide_text">Ocultar texto en tiempo de espera:</string>
-    <string name="watchface_dialog_widget_timeout_show_circle">Mostrar círculo en tiempo de espera:</string>
+    <string name="watchface_dialog_widget_update_timeout">Tiempo de actualización en minutos</string>
+    <string name="watchface_dialog_widget_timeout_hide_text">Ocultar texto en tiempo de espera</string>
+    <string name="watchface_dialog_widget_timeout_show_circle">Mostrar círculo en tiempo de espera</string>
     <string name="device_card_activity_card_title">Información de actividad en la tarjeta del dispositivo</string>
     <string name="device_card_activity_card_title_summary">Elija qué detalles de la actividad son mostrados en la tarjeta del dispositivo</string>
     <string name="prefs_activity_in_device_card_title">Mostrar información de actividad en la tarjeta del dispositivo</string>
@@ -1616,7 +1616,7 @@
     <string name="pref_summary_banglejs_text_bitmap">Si una palabra no puede ser reproducida con la fuente del reloj, renderícela en un mapa de bits en Gadgetbridge y muestre el mapa de bits en el reloj</string>
     <string name="pref_title_device_internet_access">Permitir acceso a Internet</string>
     <string name="pref_summary_device_internet_access">Permitir que las aplicaciones de este dispositivo accedan a Internet</string>
-    <string name="pref_title_device_intents">Permitir intenciones</string>
+    <string name="pref_title_device_intents">Permitir Intents</string>
     <string name="low_power_gps">GPS de bajo consumo</string>
     <string name="gps_bds">GPS + BDS</string>
     <string name="fw_upgrade_notice_amazfit_gts4">Está a punto de instalar el firmware %s en su Amazfit GTS 4.
@@ -1726,7 +1726,7 @@
     <string name="pref_header_intent_api">API de función</string>
     <string name="pref_header_authentication">Autentificación</string>
     <string name="pref_summary_overwrite_settings_on_connection">Al conectarte a la pulsera, sobrescribe todos los ajustes de la misma.</string>
-    <string name="pref_summary_device_intents">Permitir que las aplicaciones de reloj Bangle.js envíen intentos de Android, y permitir que otras aplicaciones en Android (como Tasker) envíen datos a Bangle.js con intentos de com.banglejs.uart.tx. Necesita permiso para mostrarse sobre otras apps y trabajar en segundo plano.</string>
+    <string name="pref_summary_device_intents">Permitir que las aplicaciones de reloj Bangle.js envíen Intent de Android, y permitir que otras aplicaciones en Android (como Tasker) envíen datos a Bangle.js con Intent de com.banglejs.uart.tx. Necesita permiso para mostrarse sobre otras apps y trabajar en segundo plano.</string>
     <string name="pref_vibrate_for_alert">Alerta por vibración</string>
     <string name="pref_agps_expiry_reminder_time">Recordatorio del tiempo de expiración AGPS</string>
     <string name="pref_agps_update_time">Tiempo de actualización de AGPS</string>
@@ -1762,15 +1762,15 @@
     <string name="watchface_dialog_widget_cat_custom_widget">Personalizar widget</string>
     <string name="watchface_dialog_title_widget">Configuración del widget</string>
     <string name="pref_voice_detect_duration_10">10 segundos</string>
-    <string name="prefs_double_tap_edge">Doble toque al borde</string>
+    <string name="prefs_double_tap_edge">Doble pulsación al borde</string>
     <string name="sony_ambient_sound_control_button_modes">Modos del botón de control de sonido ambiente</string>
     <string name="sony_ambient_sound_control_button_mode_nc_as_off">Cancelación de ruido, sonido ambiente, apagado</string>
     <string name="sony_ambient_sound_control_button_mode_as_off">Sonido ambiente, apagado</string>
     <string name="info_no_devices_connected">no hay dispositivos conectados</string>
     <string name="controlcenter_set_folder_title">Establecer o crear una nueva carpeta</string>
     <string name="autoconnect_from_device_summary">Establecer una conexión cuando ésta es iniciada por un dispositivo, como los auriculares</string>
-    <string name="activity_prefs_allow_bluetooth_intent_api">API de intents Bluetooth</string>
-    <string name="activity_prefs_summary_allow_bluetooth_intent_api">Permitir el control de la conexión Bluetooth a través de la API Intent</string>
+    <string name="activity_prefs_allow_bluetooth_intent_api">API Intent de Bluetooth</string>
+    <string name="activity_prefs_summary_allow_bluetooth_intent_api">Permite el control de la conexión Bluetooth a través de la API Intent</string>
     <string name="pref_workout_detection_title">Detección de entrenamiento</string>
     <string name="pref_workout_detection_time_summary">La cantidad de minutos que el entrenamiento debe estar en curso antes de detectarlo</string>
     <string name="pref_header_display">Mostrar</string>
@@ -1838,7 +1838,7 @@
     <string name="pref_title_third_party_app_device_settings">Permitir que aplicaciones de terceros cambien la configuración</string>
     <string name="pref_enable_unsupported_settings_summary">Esto permitirá el acceso a todos los ajustes disponibles, incluso si no son compatibles con el dispositivo. Esto puede causar inestabilidad y fallos en el dispositivo.</string>
     <string name="prefs_always_on_display">Siempre en pantalla</string>
-    <string name="pref_summary_third_party_app_device_settings">Permitir que otras aplicaciones de terceros instaladas establezcan la configuración del dispositivo a través de intentos.</string>
+    <string name="pref_summary_third_party_app_device_settings">Permitir que otras aplicaciones de terceros instaladas establezcan la configuración del dispositivo a través de Intent.</string>
     <string name="mi2_prefs_heart_rate_monitoring">Control de la frecuencia cardiaca</string>
     <string name="mi2_prefs_heart_rate_monitoring_summary">Configurar la monitorización de la frecuencia cardiaca</string>
     <string name="prefs_always_on_display_follow_watchface">El estilo se ajusta a la esfera del reloj</string>
@@ -1894,7 +1894,7 @@
     <string name="pref_title_lower_button_short_press_action">Acción de pulsación corta del botón inferior</string>
     <string name="menuitem_todo">Tareas pendientes</string>
     <string name="menuitem_voice_memos">Notas de voz</string>
-    <string name="menuitem_one_tap_measuring">Medición con un solo toque</string>
+    <string name="menuitem_one_tap_measuring">Medición con una sola pulsación</string>
     <string name="menuitem_wifi">Wi-Fi</string>
     <string name="menuitem_lockscreen">Bloqueo de pantalla</string>
     <string name="menuitem_unsupported">[NO SOPORTADO] %s</string>
@@ -1917,7 +1917,7 @@
     <string name="heartrate_bpm_40">40 ppm</string>
     <string name="permission_notification_policy_access">%1$s necesita acceder a los ajustes de No molestar para poder utilizarlos en su reloj cuando la pantalla de su teléfono esté apagada.
 \n
-\nToque \'%2$s\' y a continuación \'%1$s\' active \'Permitir no molestar\' y a continuación, toque \'Atrás\' para volver a %1$s.</string>
+\nPulse \'%2$s\' y a continuación \'%1$s\' active \'Permitir no molestar\' y a continuación, pulse \'Atrás\' para volver a %1$s.</string>
     <string name="pref_voice_detect_duration_15">15 segundos</string>
     <string name="controlcenter_connected_fraction">Conectado: %d/%d</string>
     <string name="heartrate_bpm_50">50 ppm</string>
@@ -1980,7 +1980,7 @@
     <string name="connection_over_bt_classic">Conexión a través de Bluetooth clásico</string>
     <string name="autoconnect_from_device_title">Conectar en conexión desde el dispositivo</string>
     <string name="step_streak_days_hint">Número de días consecutivos en los que se ha alcanzado el objetivo de pasos</string>
-    <string name="step_streaks_achievements_sharing_message">Mis logros diarios</string>
+    <string name="step_streaks_achievements_sharing_message">¡Mis logros diarios!</string>
     <string name="intent_api_allow_activity_sync_title">Permitir la sincronización de actividades</string>
     <string name="prefs_hourly_chime_summary">El reloj emitirá un pitido cada hora</string>
     <string name="devicetype_super_cars">Shell Racing</string>
@@ -2012,7 +2012,7 @@
     <string name="controlcenter_add_new_folder">Añadir nueva carpeta</string>
     <string name="auto_reconnect_ble_summary">Intenta conectarse al dispositivo de forma proactiva periódicamente</string>
     <string name="devicetype_galaxybuds_2">Galaxy Buds2</string>
-    <string name="intent_api_allow_activity_sync_summary">Permitir la activación de la sincronización de actividades a través de la API Intent</string>
+    <string name="intent_api_allow_activity_sync_summary">Permite la activación de la sincronización de actividades a través de la API Intent</string>
     <string name="pref_workout_detection_enabled">Detección activada</string>
     <string name="pref_workout_detection_enabled_summary">Activar la detección automática de este entrenamiento</string>
     <string name="pref_screen_vibration_patterns_summary">Configura los patrones de vibración para las distintas notificaciones</string>
@@ -2037,7 +2037,7 @@
     <string name="prefs_double_tap_edge_summary">Detecta la doble pulsación aunque no se pulse en el panel táctil</string>
     <string name="pref_header_spo2">Oxígeno en sangre</string>
     <string name="pref_header_stress">Tensión</string>
-    <string name="sony_quick_access_double_tap">Acceso rápido (doble toque)</string>
+    <string name="sony_quick_access_double_tap">Acceso rápido (doble pulsación)</string>
     <string name="step_streak_longest">Más largo</string>
     <string name="steps_streaks_hint">Serie de días consecutivos sin interrupción con pasos objetivo alcanzados</string>
     <string name="steps_streaks">Medición de los pasos</string>
@@ -2083,11 +2083,11 @@
     <string name="prefs_voice_detect_summary">Activa el sonido ambiente y baja la reproducción automáticamente tras detectar la voz</string>
     <string name="step_streak_ongoing">En curso</string>
     <string name="intent_api_allow_trigger_export_summary">Permitir la activación de la exportación de bases de datos a través de la API Intent</string>
-    <string name="intent_api_broadcast_export_summary">Emitir un intent cuando finalice la exportación de la base de datos</string>
+    <string name="intent_api_broadcast_export_summary">Emite un Intent cuando finalice la exportación de la base de datos</string>
     <string name="intent_api_broadcast_export_title">Transmitir al exportar la base de datos</string>
     <string name="supercars_turbo_speed_label">Velocidad turbo</string>
     <string name="devicetype_asteroidos">AsteroidOS</string>
-    <string name="sony_quick_access_triple_tap">Acceso rápido (triple toque)</string>
+    <string name="sony_quick_access_triple_tap">Acceso rápido (triple pulsación)</string>
     <string name="pref_device_action_fitness_app_control_toggle">Alternar el seguimiento de aplicaciones de fitness</string>
     <string name="pref_chart_sleep_lines_limit">Cuántas líneas de sesión de sueño mostrar antes de desplazarlas</string>
     <string name="HeartRateZones">Zonas de frecuencia cardíaca</string>
