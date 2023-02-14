@@ -27,6 +27,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -58,7 +59,7 @@ public class GBLocationManager {
             return;
         }
 
-        GB.createGpsNotification(context, providers.size() + 1);
+        GB.createGpsNotification(context, providers.size());
 
         final GBLocationListener locationListener = new GBLocationListener(eventHandler);
         final AbstractLocationProvider locationProvider;
@@ -99,24 +100,33 @@ public class GBLocationManager {
         if (!providers.containsKey(eventHandler)) return;
         Map<LocationProviderType, AbstractLocationProvider> providerMap = providers.get(eventHandler);
         if (gpsType == null) {
+            Set<LocationProviderType> toBeRemoved = new HashSet<>();
             for (LocationProviderType providerType: providerMap.keySet()) {
-                if (!providerMap.containsKey(providerType)) return;
                 stopProvider(context, providerMap.get(providerType));
+                toBeRemoved.add(providerType);
             }
+            toBeRemoved.forEach(c->{providerMap.remove(c);});
+        } else {
+            stopProvider(context, providerMap.get(gpsType));
+            providerMap.remove(gpsType);
+        }
+        LOG.debug("Remaining providers: " + providers.size());
+        if (providers.get(eventHandler).size() == 0)
+            providers.remove(eventHandler);
+        updateNotification(context);
+    }
+
+    private static void updateNotification(final Context context){
+        if (!providers.isEmpty()) {
+            GB.createGpsNotification(context, providers.size());
+        } else {
+            GB.removeGpsNotification(context);
         }
     }
 
     private static void stopProvider(final Context context, AbstractLocationProvider locationProvider) {
         if (locationProvider != null) {
-            LOG.warn("EventHandler not registered");
-
             locationProvider.stop(context);
-        }
-
-        if (!providers.isEmpty()) {
-            GB.createGpsNotification(context, providers.size());
-        } else {
-            GB.removeGpsNotification(context);
         }
     }
 
