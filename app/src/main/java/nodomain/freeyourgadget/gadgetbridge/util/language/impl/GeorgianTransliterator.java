@@ -27,7 +27,7 @@
             super(new HashMap<Character, String>() {{
                 put('ა', "a"); put('ბ', "b"); put('გ', "g"); 
                 put('დ', "d"); put('ე', "e"); put('ვ', "v"); 
-                put('ზ', "z"); put('თ', "t"); put('ი', "i"); 
+                put('ზ', "z"); put('თ', "T"); put('ი', "i");
                 put('კ', "k"); put('ლ', "l"); put('მ', "m"); 
                 put('ნ', "n"); put('ო', "o"); put('პ', "p"); 
                 put('ჟ', "J"); put('რ', "r"); put('ს', "s"); 
