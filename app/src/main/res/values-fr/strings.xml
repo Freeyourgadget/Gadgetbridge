@@ -2121,4 +2121,7 @@ Temps de sommeil préféré en heures</string>
     <string name="pref_workout_detection_time_summary">Le nombre de minutes pendant lesquelles l\'exercice doit être en cours pour le détecter</string>
     <string name="activity_type_rowing">Rameur</string>
     <string name="georgian">Georgien</string>
+    <string name="devicetype_soflow_s06">SoFlow SO6</string>
+    <string name="pref_title_lock_unlock">Verrouiler</string>
+    <string name="devicetype_galaxybuds_2_pro">Galaxy Buds2 Pro</string>
 </resources>
