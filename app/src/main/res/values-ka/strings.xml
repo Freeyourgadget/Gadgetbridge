@@ -163,7 +163,7 @@
     <string name="appmanager_weather_install_provider">დააინსტალირე ამინდის შეტყობინების აპი</string>
     <string name="appmanager_weather_activate">გაააქტიურე სისტემის ამინდის აპლიკაცია</string>
     <string name="appmanager_weather_deactivate">გამორთე სისტემის ამინდის აპლიკაცია</string>
-    <string name="appmanager_hrm_activate">გაააქტიურე HRM</string>
+    <string name="appmanager_hrm_activate">HRM გააქტიურება</string>
     <string name="appmanager_hrm_deactivate">გამორთე HRM</string>
     <string name="controlcenter_snackbar_requested_screenshot">გაკეთება სკრინშოტი</string>
     <string name="controlcenter_navigation_drawer_close">სანავიგაციო უჯრის დახურვა</string>
