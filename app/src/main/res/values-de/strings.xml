@@ -590,7 +590,7 @@
     <string name="activity_prefs_charts">Diagrammeinstellungen</string>
     <string name="activity_prefs_chart_max_heart_rate">Maximale Herzfrequenz</string>
     <string name="activity_prefs_chart_min_heart_rate">Minimale Herzfrequenz</string>
-    <string name="ok">Ok</string>
+    <string name="ok">OK</string>
     <string name="mi3_night_mode_sunset">Bei Sonnenuntergang</string>
     <string name="pref_rtl_max_line_length">Maximale Zeilenlänge linksläufiger Text</string>
     <string name="overslept">Schlafüberschuss: %1$s</string>
@@ -2116,4 +2116,7 @@
     <string name="pref_workout_detection_ask_first_summary">Bestätigung auf der Uhr erforderlich, wenn dieses Training erkannt wird</string>
     <string name="pref_workout_detection_time">Aktive Minuten vor der Erkennung</string>
     <string name="pref_workout_detection_time_summary">Die Anzahl der Minuten, die das Training andauern muss, bevor es erkannt wird</string>
+    <string name="devicetype_galaxybuds_2_pro">Galaxy Buds2 Pro</string>
+    <string name="devicetype_soflow_s06">SoFlow SO6</string>
+    <string name="pref_title_lock_unlock">Sperren</string>
 </resources>
