@@ -2125,4 +2125,7 @@
     <string name="pref_workout_detection_enabled">Виявлення увімкнено</string>
     <string name="pref_workout_detection_time">Хвилин активності до визначення</string>
     <string name="georgian">Грузинська</string>
+    <string name="devicetype_soflow_s06">SoFlow SO6</string>
+    <string name="pref_title_lock_unlock">Заблокувати</string>
+    <string name="devicetype_galaxybuds_2_pro">Galaxy Buds2 Pro</string>
 </resources>
