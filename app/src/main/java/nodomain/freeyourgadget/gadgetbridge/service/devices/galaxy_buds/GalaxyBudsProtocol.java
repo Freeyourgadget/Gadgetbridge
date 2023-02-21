@@ -520,9 +520,11 @@ public class GalaxyBudsProtocol extends GBDeviceProtocol {
 
     protected GalaxyBudsProtocol(GBDevice device) {
         super(device);
-        if (device.getType().equals(DeviceType.GALAXY_BUDS_LIVE)
-                || device.getType().equals(DeviceType.GALAXY_BUDS_PRO)
-                || device.getType().equals(DeviceType.GALAXY_BUDS2)) {
+        DeviceType type = device.getType();
+        if (type.equals(DeviceType.GALAXY_BUDS_LIVE)
+                || type.equals(DeviceType.GALAXY_BUDS_PRO)
+                || type.equals(DeviceType.GALAXY_BUDS2)
+                || type.equals(DeviceType.GALAXY_BUDS2_PRO)) {
             StartOfMessage = SOM_BUDS_PLUS;
             EndOfMessage = EOM_BUDS_PLUS;
         }

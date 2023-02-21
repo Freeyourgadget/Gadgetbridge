@@ -1730,6 +1730,8 @@
     <string name="devicetype_galaxybuds">Galaxy Buds</string>
     <string name="devicetype_galaxybuds_live">Galaxy Buds Live</string>
     <string name="devicetype_galaxybuds_pro">Galaxy Buds Pro</string>
+    <string name="devicetype_galaxybuds_2">Galaxy Buds2</string>
+    <string name="devicetype_galaxybuds_2_pro">Galaxy Buds2 Pro</string>
     <string name="nothing_prefs_inear_summary">Play/pause the music depending if you wear the earbuds</string>
     <string name="nothing_prefs_inear_title">In-Ear detection</string>
     <string name="prefs_in_ear_detection_summary">Play calls through your earbuds when they are in your ears</string>
@@ -1748,6 +1750,7 @@
     <string name="prefs_game_mode">Game mode</string>
     <string name="prefs_game_mode_summary">Only if your phone supports game mode</string>
     <string name="prefs_touch_lock">Touch Lock</string>
+    <string name="prefs_touch_lock_buds2">Touch controls</string>
     <string name="prefs_touch_lock_summary">Disable touch events</string>
     <string name="prefs_galaxy_buds_experimental">Experimental</string>
     <string name="prefs_seamless_connection_switch_title">Seamless connection switch</string>
@@ -1987,8 +1990,6 @@
     <string name="step_streaks_achievements_sharing_title">Steps Achievements</string>
     <string name="prefs_hourly_chime">Hourly chime</string>
     <string name="prefs_hourly_chime_summary">The watch will beep once an hour</string>
-    <string name="devicetype_galaxybuds_2">Galaxy Buds2</string>
-    <string name="prefs_touch_lock_buds2">Touch controls</string>
     <string name="devicetype_flipper_zero">Flipper zero</string>
     <string name="activity_prefs_allow_bluetooth_intent_api">Bluetooth Intent API</string>
     <string name="activity_prefs_summary_allow_bluetooth_intent_api">Allow controlling Bluetooth connection via Intent API</string>

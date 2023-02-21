@@ -60,6 +60,7 @@ import nodomain.freeyourgadget.gadgetbridge.devices.flipper.zero.FlipperZeroCoor
 import nodomain.freeyourgadget.gadgetbridge.devices.galaxy_buds.GalaxyBudsDeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.galaxy_buds.GalaxyBudsLiveDeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.galaxy_buds.GalaxyBudsProDeviceCoordinator;
+import nodomain.freeyourgadget.gadgetbridge.devices.galaxy_buds.GalaxyBuds2ProDeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.hplus.EXRIZUK8Coordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.hplus.HPlusCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.hplus.MakibesF68Coordinator;
@@ -350,6 +351,7 @@ public class DeviceHelper {
         result.add(new GalaxyBudsLiveDeviceCoordinator());
         result.add(new GalaxyBudsProDeviceCoordinator());
         result.add(new GalaxyBuds2DeviceCoordinator());
+        result.add(new GalaxyBuds2ProDeviceCoordinator());
         result.add(new VescCoordinator());
         result.add(new SonyLinkBudsSCoordinator());
         result.add(new SonyWH1000XM3Coordinator());

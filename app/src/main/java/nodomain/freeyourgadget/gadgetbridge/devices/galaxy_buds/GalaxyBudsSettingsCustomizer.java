@@ -77,19 +77,21 @@ public class GalaxyBudsSettingsCustomizer implements DeviceSpecificSettingsCusto
 
         if (pref_galaxy_buds_pro_noise_control != null) {
 
-            switch (pref_galaxy_buds_pro_noise_control_value) {
-                case "0":
-                    pref_galaxy_buds_pro_anc_level.setEnabled(false);
-                    pref_galaxy_buds_ambient_volume.setEnabled(false);
-                    break;
-                case "1":
-                    pref_galaxy_buds_pro_anc_level.setEnabled(true);
-                    pref_galaxy_buds_ambient_volume.setEnabled(false);
-                    break;
-                case "2":
-                    pref_galaxy_buds_pro_anc_level.setEnabled(false);
-                    pref_galaxy_buds_ambient_volume.setEnabled(true);
-                    break;
+            if (pref_galaxy_buds_pro_anc_level != null && pref_galaxy_buds_ambient_volume != null) {
+                switch (pref_galaxy_buds_pro_noise_control_value) {
+                    case "0":
+                        pref_galaxy_buds_pro_anc_level.setEnabled(false);
+                        pref_galaxy_buds_ambient_volume.setEnabled(false);
+                        break;
+                    case "1":
+                        pref_galaxy_buds_pro_anc_level.setEnabled(true);
+                        pref_galaxy_buds_ambient_volume.setEnabled(false);
+                        break;
+                    case "2":
+                        pref_galaxy_buds_pro_anc_level.setEnabled(false);
+                        pref_galaxy_buds_ambient_volume.setEnabled(true);
+                        break;
+                }
             }
 
             pref_galaxy_buds_pro_noise_control.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
@@ -98,16 +100,22 @@ public class GalaxyBudsSettingsCustomizer implements DeviceSpecificSettingsCusto
                     handler.notifyPreferenceChanged(PREF_GALAXY_BUDS_PRO_NOISE_CONTROL);
                     switch (newVal.toString()) {
                         case "0":
-                            pref_galaxy_buds_pro_anc_level.setEnabled(false);
-                            pref_galaxy_buds_ambient_volume.setEnabled(false);
+                            if (pref_galaxy_buds_pro_anc_level != null)
+                                pref_galaxy_buds_pro_anc_level.setEnabled(false);
+                            if (pref_galaxy_buds_ambient_volume != null)
+                                pref_galaxy_buds_ambient_volume.setEnabled(false);
                             break;
                         case "1":
-                            pref_galaxy_buds_pro_anc_level.setEnabled(true);
-                            pref_galaxy_buds_ambient_volume.setEnabled(false);
+                            if (pref_galaxy_buds_pro_anc_level != null)
+                                pref_galaxy_buds_pro_anc_level.setEnabled(true);
+                            if (pref_galaxy_buds_ambient_volume != null)
+                                pref_galaxy_buds_ambient_volume.setEnabled(false);
                             break;
                         case "2":
-                            pref_galaxy_buds_pro_anc_level.setEnabled(false);
-                            pref_galaxy_buds_ambient_volume.setEnabled(true);
+                            if (pref_galaxy_buds_pro_anc_level != null)
+                                pref_galaxy_buds_pro_anc_level.setEnabled(false);
+                            if (pref_galaxy_buds_ambient_volume != null)
+                                pref_galaxy_buds_ambient_volume.setEnabled(true);
                             break;
                     }
 

@@ -115,6 +115,7 @@ public enum DeviceType {
     GALAXY_BUDS_LIVE(419, R.drawable.ic_device_galaxy_buds_live, R.drawable.ic_device_galaxy_buds_live_disabled, R.string.devicetype_galaxybuds_live),
     GALAXY_BUDS(420, R.drawable.ic_device_galaxy_buds, R.drawable.ic_device_galaxy_buds_disabled, R.string.devicetype_galaxybuds),
     GALAXY_BUDS2(421, R.drawable.ic_device_galaxy_buds_pro, R.drawable.ic_device_galaxy_buds_pro_disabled, R.string.devicetype_galaxybuds_2),
+    GALAXY_BUDS2_PRO(422, R.drawable.ic_device_galaxy_buds_pro, R.drawable.ic_device_galaxy_buds_pro_disabled, R.string.devicetype_galaxybuds_2_pro),
     SONY_WH_1000XM3(430, R.drawable.ic_device_sony_overhead, R.drawable.ic_device_sony_overhead_disabled, R.string.devicetype_sony_wh_1000xm3),
     SONY_WF_SP800N(431, R.drawable.ic_device_sony_wf_800n, R.drawable.ic_device_sony_wf_800n_disabled, R.string.devicetype_sony_wf_sp800n),
     SONY_WH_1000XM4(432, R.drawable.ic_device_sony_overhead, R.drawable.ic_device_sony_overhead_disabled, R.string.devicetype_sony_wh_1000xm4),

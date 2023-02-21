@@ -31,13 +31,7 @@ public class GalaxyBudsIOThread extends BtClassicIoThread {
         if (gbDevice.getType().equals(DeviceType.GALAXY_BUDS)) {
             return galaxyBudsProtocol.UUID_GALAXY_BUDS_DEVICE_CTRL;
         }
-        if (gbDevice.getType().equals(DeviceType.GALAXY_BUDS_LIVE)
-                || gbDevice.getType().equals(DeviceType.GALAXY_BUDS_PRO)
-                || gbDevice.getType().equals(DeviceType.GALAXY_BUDS2)) {
-            return galaxyBudsProtocol.UUID_GALAXY_BUDS_LIVE_DEVICE_CTRL;
-        }
-        return galaxyBudsProtocol.UUID_GALAXY_BUDS_DEVICE_CTRL;
-
+        return galaxyBudsProtocol.UUID_GALAXY_BUDS_LIVE_DEVICE_CTRL;
     }
 
     public GalaxyBudsIOThread(GBDevice device, Context context, GalaxyBudsProtocol deviceProtocol,

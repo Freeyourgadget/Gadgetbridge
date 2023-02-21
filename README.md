@@ -60,6 +60,8 @@ vendor's servers.
     - [Galaxy Buds](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Galaxy-Buds#user-content-galaxy-buds)
     - [Galaxy Buds Live](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Galaxy-Buds#user-content-galaxy-buds-live)
     - [Galaxy Buds Pro](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Galaxy-Buds#galaxy-buds-pro)
+    - [Galaxy Buds2](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Galaxy-Buds#galaxy-buds2)
+    - [Galaxy Buds2 Pro](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Galaxy-Buds#galaxy-buds2-pro)
 
 - [HPlus Devices (e.g. ZeBand)](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/HPlus)
 - ID115
