@@ -2105,4 +2105,8 @@
     <string name="activity_type_rowing">Mendayung</string>
     <string name="pref_workout_detection_time_summary">Jumlah menit olahraga harus berlangsung sebelum mendeteksinya</string>
     <string name="pref_workout_detection_enabled">Deteksi diaktifkan</string>
+    <string name="georgian">Georgia</string>
+    <string name="devicetype_soflow_s06">SoFlow SO6</string>
+    <string name="devicetype_galaxybuds_2_pro">Galaxy Buds2 Pro</string>
+    <string name="pref_title_lock_unlock">Kunci</string>
 </resources>
