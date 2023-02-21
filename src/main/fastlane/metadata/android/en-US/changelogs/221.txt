@@ -1,0 +1,23 @@
+* Initial support for Amazfit T-Rex 2
+* Initial support for AsteroidOS watches
+* Initial support for Sony LinkBuds S
+* Initial support for Galaxy Buds2 Pro
+* Initial support for SoFlow S06(just for lock and unlock, needs key)
+* Fossil/Skagen Hybrids: Fix truncation of notifications
+* Fossil/Skagen Hybrids: Fix washed out colors in imported watchfaces
+* Fossil/Skagen Hybrids: Allow launching watch apps from app manager
+* Fossil/Skagen Hybrids: Fix activity parser
+* Fossil/Skagen Hybrids: Add app/watchface downloading from watch to app manager
+* Fossil/Skagen Hybrids: Fix crash on empty or multi-byte unicode alarm texts
+* Fossil/Skagen Hybrids: Implement inactivity warnings
+* Fossil/Skagen Hybrids: Remove obsolete debug message
+* Mi Band 6: Add NFC display item
+* Zepp OS: Fix Alipay and WeChat Pay display item and shortcuts
+* Amazfit GTR 4/GTS 4: Support for AGPS Updates
+* Bangle.js: Stop sending bitmaps for common characters that already have good enough equivalents on the watch
+* Bangle.js: Stop toast warning message appearing when starting the app loader
+* Bangle.js: Increase default realtime HRM/step interval to 10 seconds
+* Bangle.js: Support additional values for GPS event
+* Sony WF-1000XM4: Fix battery updates while connected
+* Sony WF-1000XM4: Fix audio codec
+* Add Georgian Transliteration

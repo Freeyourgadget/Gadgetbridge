@@ -1,5 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
+    <release version="0.73.0" versioncode="221">
+        <change>Initial support for Amazfit T-Rex 2</change>
+        <change>Initial support for AsteroidOS watches</change>
+        <change>Initial support for Sony LinkBuds S</change>
+        <change>Initial support for Galaxy Buds2 Pro</change>
+        <change>Initial support for SoFlow S06(just for lock and unlock, needs key)</change>
+        <change>Fossil/Skagen Hybrids: Fix truncation of notifications</change>
+        <change>Fossil/Skagen Hybrids: Fix washed out colors in imported watchfaces</change>
+        <change>Fossil/Skagen Hybrids: Allow launching watch apps from app manager</change>
+        <change>Fossil/Skagen Hybrids: Fix activity parser</change>
+        <change>Fossil/Skagen Hybrids: Add app/watchface downloading from watch to app manager</change>
+        <change>Fossil/Skagen Hybrids: Fix crash on empty or multi-byte unicode alarm texts</change>
+        <change>Fossil/Skagen Hybrids: Implement inactivity warnings</change>
+        <change>Fossil/Skagen Hybrids: Remove obsolete debug message</change>
+        <change>Mi Band 6: Add NFC display item</change>
+        <change>Zepp OS: Fix Alipay and WeChat Pay display item and shortcuts</change>
+        <change>Amazfit GTR 4/GTS 4: Support for AGPS Updates</change>
+        <change>Bangle.js: Stop sending bitmaps for common characters that already have good enough equivalents on the watch</change>
+        <change>Bangle.js: Stop toast warning message appearing when starting the app loader</change>
+        <change>Bangle.js: Increase default realtime HRM/step interval to 10 seconds</change>
+        <change>Bangle.js: Support additional values for GPS event</change>
+        <change>Sony WF-1000XM4: Fix battery updates while connected</change>
+        <change>Sony WF-1000XM4: Fix audio codec</change>
+        <change>Add Georgian Transliteration</change>
+    </release>
     <release version="0.72.0" versioncode="220">
         <change>Initial support for Amazfit GTR 4/GTS 4/GTS 4 Mini</change>
         <change>Initial support for Amazfit Band 7</change>
