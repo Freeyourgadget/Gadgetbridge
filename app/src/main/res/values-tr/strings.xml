@@ -2131,4 +2131,7 @@
     <string name="pref_workout_detection_time_summary">Egzersizin algılanmadan önce devam etmesi gereken dakika miktarı</string>
     <string name="activity_type_rowing">Kürek Çekme</string>
     <string name="georgian">Gürcüce</string>
+    <string name="devicetype_galaxybuds_2_pro">Galaxy Buds2 Pro</string>
+    <string name="devicetype_soflow_s06">SoFlow SO6</string>
+    <string name="pref_title_lock_unlock">Kilitle</string>
 </resources>
