@@ -37,7 +37,7 @@
     <string name="sonyswr12_settings_alarm_interval_summary">ჭკვიანი განგაშის ინტერვალი არის დაინსტალირებული მაღვიძარის ინტერვალი. ამ ინტერვალში მოწყობილობა ცდილობს გამოავლინოს ძილის ყველაზე მსუბუქი ფაზა, რომ გაიღვიძოს მომხმარებელი</string>
     <string name="sonyswr12_settings_low_vibration">ჩართულია დაბალი ვიბრაცია</string>
     <string name="sonyswr12_settings_stamina">ენერგიის დაზოგვის რეჟიმი ჩართულია</string>
-    <string name="fw_upgrade_notice_amazfitbip">დააინსტალირე %s firmware შენს Amazfit Bip-ზე.</string>
+    <string name="fw_upgrade_notice_amazfitbip"></string>
     <string name="fw_upgrade_notice">დააინსტალირე %s.</string>
     <string name="title_activity_fw_app_insaller">FW/აპი ინსტალერი</string>
     <string name="title_activity_calblacklist">კალენდარი შავ სიაში</string>
@@ -146,7 +146,7 @@
     <string name="pbw_install_handler_unable_to_install">არ შეუძლია ამ ფაილის ინსტალაცია: %1$s</string>
     <string name="installer_activity_unable_to_find_handler">არ შეუძლია ამ ფაილის დასაყენებლად დამმუშავებლის პოვნა.</string>
     <string name="cannot_connect">არ შეუძლია დაკავშირება: %1$s</string>
-    <string name="controlcenter_start_activitymonitor">შენი საქმიანობა (ALPHA)</string>
+    <string name="controlcenter_start_activitymonitor">შენი საქმიანობა</string>
     <string name="dbaccess_error_executing">\'%1$s\'-ის შესრულებისას მოხდა შეცდომა</string>
     <string name="miband_prefs_fitness_goal">ყოველდღიური ნაბიჯის მიზანი</string>
     <string name="user_feedback_miband_activity_data_transfer">%1$s მონაცემების გადატანაა %2$s-დან დაწყებული</string>
@@ -172,7 +172,7 @@
     <string name="debugactivity_really_factoryreset">ქარხნის გადატვირთვისას წაიშლება ყველა მონაცემი დაკავშირებული მოწყობილობიდან (თუ მხარდაჭერილია). Xiaomi/Huami მოწყობილობები ასევე ცვლის Bluetooth MAC მისამართს, ამიტომ ისინი Gadgetbridge- ისთვის ახალი მოწყობილობებით გამოჩნდებიან.</string>
     <string name="title_activity_debug">გამართვა</string>
     <string name="calendar_year">წელი</string>
-    <string name="calendar_six_months">6 თვე</string>
+    <string name="calendar_six_months">ექვსი თვე</string>
     <string name="calendar_month">თვე</string>
     <string name="calendar_two_weeks">ორი კვირა</string>
     <string name="calendar_week">კვირა</string>
@@ -180,9 +180,12 @@
     <string name="battery_level">ელემენტის დონე</string>
     <string name="battery_detail_activity_title">ელემენტის ინფორმაცია</string>
     <string name="controlcenter_set_alias">აირჩიე მეტსახელი</string>
-    <string name="find_lost_device_message">ეძებთ გაჯეტს\?</string>
+    <string name="find_lost_device_message">მოვძებნო %1$s\?</string>
     <string name="controlcenter_take_screenshot">გაკეთება სკრინშოტი</string>
     <string name="action_debug">გამართვა</string>
     <string name="calendar_three_months">3 თვე</string>
     <string name="about_activity_title_generic">Gadgetbridge შესახებ</string>
+    <string name="blacklist_all_for_notifications">შეტყობინებებიდან ყველას გაცხრილვა</string>
+    <string name="whitelist_all_for_notifications">ყველა გაფრთხილების თეთრ სიაში ჩასმა</string>
+    <string name="pref_header_sensors_calibration">სენსორის კალიბრაცია</string>
 </resources>
