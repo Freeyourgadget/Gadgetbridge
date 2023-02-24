@@ -534,7 +534,7 @@
     <string name="menuitem_activity">Atividade</string>
     <string name="menuitem_weather">Clima</string>
     <string name="menuitem_alarm">Alarme</string>
-    <string name="menuitem_timer">Cronômetro</string>
+    <string name="menuitem_timer">Contagem Regressiva</string>
     <string name="menuitem_compass">Bússola</string>
     <string name="menuitem_settings">Configurações</string>
     <string name="menuitem_alipay">Alipay</string>

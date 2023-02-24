@@ -1417,6 +1417,7 @@
         <item>@string/p_menuitem_findphone</item>
         <item>@string/p_menuitem_takephoto</item>
         <item>@string/p_menuitem_settings</item>
+        <item>@string/p_menuitem_alexa</item>
         <item>@string/p_menuitem_more</item>
     </string-array>
 
