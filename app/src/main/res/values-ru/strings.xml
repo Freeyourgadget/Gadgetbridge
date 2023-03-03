@@ -402,20 +402,20 @@
     <string name="action_donate">Пожертвовать</string>
     <string name="controlcenter_connect">Подключить…</string>
     <string name="title_activity_calblacklist">Заблокированные календари</string>
-    <string name="fw_upgrade_notice_amazfitbip">Вы собираетесь установить прошивку %s на ваш Amazfit Bip. 
-\n 
-\nБудьте внимательны: сначала установите файл .fw, затем .res, и затем .gps. После установки файла .fw часы перезагрузятся. 
-\n 
-\nЕсли файлы .gps и .res такие же, как в текущей версии, их не нужно переустанавливать. 
-\n 
-\nВы действуете на свой страх и риск!</string>
-    <string name="fw_upgrade_notice_amazfitcor">Вы собираетесь установить прошивку %s на ваш Amazfit Cor. 
-\n 
-\nБудьте внимательны: сначала установите файл .fw, затем .res. После установки файла .fw часы перезагрузятся. 
-\n 
-\nЕсли файл и .res такой же, как в текущей версии, его не нужно переустанавливать. 
-\n 
-\nВы действуете на свой страх и риск!</string>
+    <string name="fw_upgrade_notice_amazfitbip">Вы собираетесь установить прошивку %s на ваш Amazfit Bip.
+\n
+\nБудьте внимательны: сначала установите файл .fw, затем .res, и затем .gps. После установки файла .fw часы перезагрузятся.
+\n
+\nЕсли файлы .gps и .res такие же, как в текущей версии, их не нужно переустанавливать.
+\n
+\nВЫ ДЕЙСТВУЕТЕ НА СВОЙ СТРАХ И РИСК!</string>
+    <string name="fw_upgrade_notice_amazfitcor">Вы собираетесь установить прошивку %s на ваш Amazfit Cor.
+\n
+\nБудьте внимательны: сначала установите файл .fw, затем .res. После установки файла .fw часы перезагрузятся.
+\n
+\nЕсли файл и .res такой же, как в текущей версии, его не нужно переустанавливать.
+\n
+\nВЫ ДЕЙСТВУЕТЕ НА СВОЙ СТРАХ И РИСК!</string>
     <string name="pref_title_charts_swipe">Включить жесты \"провести направо и налево\" в графиках активности</string>
     <string name="pref_blacklist_calendars">Заблокированные календари</string>
     <string name="pref_header_pebble_timeline">Временной график Pebble</string>
@@ -772,13 +772,13 @@
     <string name="prefs_find_phone_duration">Продолжительность звонка в секундах</string>
     <string name="maximum_duration">Продолжительность</string>
     <string name="discovery_need_to_enter_authkey">Это устройство нуждается в ключе авторизации, используйте длительное нажатие на устройство, чтобы войти в него. Читайте Wiki.</string>
-    <string name="fw_upgrade_notice_amazfitbip_lite">Вы собираетесь установить прошивку %s на ваш Amazfit Bip Lite. 
-\n 
-\nБудьте внимательны: сначала установите файл .fw, затем .res. После установки файла .fw часы перезагрузятся. 
-\n 
-\nЕсли файл и .res такой же, как в текущей версии, его не нужно переустанавливать. 
-\n 
-\nВы действуете на свой страх и риск!</string>
+    <string name="fw_upgrade_notice_amazfitbip_lite">Вы собираетесь установить прошивку %s на ваш Amazfit Bip Lite.
+\n
+\nБудьте внимательны: сначала установите файл .fw, затем .res. После установки файла .fw часы перезагрузятся.
+\n
+\nЕсли файл и .res такой же, как в текущей версии, его не нужно переустанавливать.
+\n
+\nВЫ ДЕЙСТВУЕТЕ НА СВОЙ СТРАХ И РИСК!</string>
     <string name="devicetype_amazfit_gtr">Amazfit GTR</string>
     <string name="fw_upgrade_notice_amazfitgtr">Вы собираетесь установить прошивку %s на ваш Amazfit GTR. 
 \n 
@@ -1145,7 +1145,7 @@
 \n
 \nПримечание: вам не нужно устанавливать .res и .gps, если эти файлы точно такие же, как ранее установленные.
 \n
-\nДЕЙСТВУЙТЕ НА СВОЙ СТРАХ И РИСК!</string>
+\nВЫ ДЕЙСТВУЕТЕ НА СВОЙ СТРАХ И РИСК!</string>
     <string name="qhybrid_calibration_align_hint">Использовать кнопки ниже, чтобы выровнять стрелки к 12:00.</string>
     <string name="dbmanagementactivity_export_confirmation">Действительно экспортировать данные\? Ранее экспортированные данные о активности (если таковые имеются) и настройки будут перезаписаны.</string>
     <string name="dbmanagementactivity_export_data_title">Экспорт данных\?</string>
@@ -1178,7 +1178,7 @@
 \n
 \nПримечание: Вам не нужно устанавливать .res, если он точно такой же, как ранее установленный.
 \n
-\nДЕЙСТВУЙТЕ НА СВОЙ СТРАХ И РИСК!</string>
+\nВЫ ДЕЙСТВУЕТЕ НА СВОЙ СТРАХ И РИСК!</string>
     <string name="devicetype_amazfit_x">Amazfit X</string>
     <string name="calendar_year">Год</string>
     <string name="calendar_six_months">6 месяцев</string>
@@ -1207,7 +1207,7 @@
 \n
 \nПримечание: Не нужно устанавливать .res если он ничем не отличаются от установленных ранее.
 \n
-\nДЕЙСТВУЙТЕ НА СВОЙ СТРАХ И РИСК!</string>
+\nВЫ ДЕЙСТВУЕТЕ НА СВОЙ СТРАХ И РИСК!</string>
     <string name="devicetype_amazfit_trex_pro">Amazfit T-Rex Pro</string>
     <string name="qhybrid_pref_summary_external_intents">Позволяет другим приложениям Android загружать/перезаписывать файлы</string>
     <string name="qhybrid_pref_title_external_intents">Разрешить опасные внешние намерения</string>
@@ -1252,7 +1252,7 @@
 \n
 \nПосле установки файла .fw устройство перезагрузится.
 \n
-\nДЕЙСТВУЙТЕ НА СВОЙ СТРАХ И РИСК!</string>
+\nВЫ ДЕЙСТВУЕТЕ НА СВОЙ СТРАХ И РИСК!</string>
     <string name="watchface_setting_wrist_flick_duration">Продолжительность (в мс)</string>
     <string name="watchface_setting_wrist_flick_minute">Минутная стрелка (от -360 до 360)</string>
     <string name="watchface_setting_wrist_flick_hour">Часовая стрелка (от -360 до 360)</string>
@@ -1476,7 +1476,7 @@
 \n
 \nПосле установки файла .zip ваш браслет перезагрузится.
 \n
-\nДЕЙСТВУЙТЕ НА СВОЙ СТРАХ И РИСК!</string>
+\nВЫ ДЕЙСТВУЕТЕ НА СВОЙ СТРАХ И РИСК!</string>
     <string name="open_fw_installer_warning_title">Предупреждение</string>
     <string name="open_fw_installer_warning_text">Эта функция может привести к поломке вашего устройства. Однако такого никогда не случалось ни с одним из разработчиков из-за перепрошивки, но помните, что вы делаете это на свой страх и риск.</string>
     <string name="pref_header_calendar">Календарь</string>
@@ -1496,7 +1496,7 @@
 \n
 \nПосле установки файла .zip ваш браслет перезагрузится.
 \n
-\nДЕЙСТВУЙТЕ НА СВОЙ СТРАХ И РИСК!</string>
+\nВЫ ДЕЙСТВУЕТЕ НА СВОЙ СТРАХ И РИСК!</string>
     <string name="open_fw_installer_select_file">Выберите файл, который вы хотите загрузить на устройство: %s</string>
     <string name="open_fw_installer_connect_minimum_one_device">Пожалуйста, подключите КАК МИНИМУМ ОДНО устройство, на которое вы хотите отправить файл.</string>
     <string name="open_fw_installer_connect_maximum_one_device">Пожалуйста, подключайте ТОЛЬКО ОДНО устройство, на которое вы хотите отправить файл.</string>
@@ -1505,7 +1505,7 @@
 \n
 \nПосле установки файла .zip ваш браслет перезагрузится.
 \n
-\nДЕЙСТВУЙТЕ НА СВОЙ СТРАХ И РИСК!</string>
+\nВЫ ДЕЙСТВУЕТЕ НА СВОЙ СТРАХ И РИСК!</string>
     <string name="pref_title_notifications_ignore_low_priority">Игнорировать уведомления с низким приоритетом</string>
     <string name="pref_summary_notifications_ignore_low_priority">Не отправлять на часы уведомления с низким и минимальным приоритетом</string>
     <string name="pref_title_notification_prefer_long_text">Предпочитать длинный текст уведомления</string>
@@ -1565,7 +1565,7 @@
 \n
 \nПосле установки файла .zip ваш браслет перезагрузится.
 \n
-\nДЕЙСТВУЙТЕ НА СВОЙ СТРАХ И РИСК!</string>
+\nВЫ ДЕЙСТВУЕТЕ НА СВОЙ СТРАХ И РИСК!</string>
     <string name="pref_header_sound_vibration">Звук и вибрация</string>
     <string name="pref_header_offline_voice">Голос в автономном режиме</string>
     <string name="pref_gps_combination">Комбинированный GPS</string>
@@ -1803,7 +1803,7 @@
 \n
 \nВаши часы перезагрузятся после установки .zip файла.
 \n
-\nПРОДОЛЖАЙТЕ НА СВОЙ СТРАХ И РИСК!</string>
+\nВЫ ДЕЙСТВУЕТЕ НА СВОЙ СТРАХ И РИСК!</string>
     <string name="sony_anc_optimize_confirmation_title">Оптимизация шумоподавления</string>
     <string name="pref_balance">Баланс</string>
     <string name="pref_voice_detect_duration_5">5 секунд</string>
@@ -1834,12 +1834,12 @@
 \n
 \nВаши часы перезагрузятся после установки .zip файла.
 \n
-\nПРОДОЛЖАЙТЕ НА СВОЙ СТРАХ И РИСК!</string>
+\nВЫ ДЕЙСТВУЕТЕ НА СВОЙ СТРАХ И РИСК!</string>
     <string name="fw_upgrade_notice_amazfit_gts4_mini">Вы собираетесь установить прошивку %s на свой Amazfit GTS 4 Mini.
 \n
 \nВаши часы перезагрузятся после установки .zip файла.
 \n
-\nПРОДОЛЖАЙТЕ НА СВОЙ СТРАХ И РИСК!</string>
+\nВЫ ДЕЙСТВУЕТЕ НА СВОЙ СТРАХ И РИСК!</string>
     <string name="pref_enable_unsupported_settings_summary">Это откроет доступ ко всем доступным настройкам, даже тем, которые не поддерживаются вашим устройством. Это может привести к нестабильной работе и сбоям устройства.</string>
     <string name="prefs_seamless_connection_switch_summary">Переключаться между устройствами автоматически</string>
     <string name="sony_sound_position_front_right">Передний правый</string>
@@ -1889,4 +1889,13 @@
     <string name="activity_db_management_autoexport_location">Местоположение не определено. Это может быть проблема с обновленной системой разрешений Android. Скорее всего авто-экспорт сейчас не работает.</string>
     <string name="activity_db_management_autoexport_enabled_no">Авто-экспорт выключен.</string>
     <string name="menuitem_bluetooth">Bluetooth</string>
+    <string name="prefs_screen_timeout">Тайм-аут дисплея</string>
+    <string name="pref_workout_detection_enabled">Обнаружение включено</string>
+    <string name="fw_upgrade_notice_amazfit_trex2">Вы собираетесь установить прошивку %s на свой Amazfit T-Rex 2.
+\n
+\nВаши часы перезагрузятся после установки .zip файла.
+\n
+\nВЫ ДЕЙСТВУЕТЕ НА СВОЙ СТРАХ И РИСК!</string>
+    <string name="pref_workout_detection_enabled_summary">Включить автоматическое обнаружение этой тренировки</string>
+    <string name="pref_workout_detection_ask_first">Сначала спросите меня</string>
 </resources>
