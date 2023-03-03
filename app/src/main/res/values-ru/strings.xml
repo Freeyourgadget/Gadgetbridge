@@ -1889,7 +1889,7 @@
     <string name="activity_db_management_autoexport_location">Местоположение не определено. Это может быть проблема с обновленной системой разрешений Android. Скорее всего авто-экспорт сейчас не работает.</string>
     <string name="activity_db_management_autoexport_enabled_no">Авто-экспорт выключен.</string>
     <string name="menuitem_bluetooth">Bluetooth</string>
-    <string name="prefs_screen_timeout">Время работы экрана</string>
+    <string name="prefs_screen_timeout">Время ожидания экрана</string>
     <string name="pref_workout_detection_enabled">Обнаружение включено</string>
     <string name="fw_upgrade_notice_amazfit_trex2">Вы собираетесь установить прошивку %s на свой Amazfit T-Rex 2.
 \n
