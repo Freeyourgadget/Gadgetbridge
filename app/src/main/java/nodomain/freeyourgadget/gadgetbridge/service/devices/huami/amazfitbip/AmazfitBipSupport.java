@@ -87,7 +87,7 @@ public class AmazfitBipSupport extends HuamiSupport {
             if (dataTypes == RecordedDataTypes.TYPE_ACTIVITY) {
                 new FetchActivityOperation(this).perform();
             } else if (dataTypes == RecordedDataTypes.TYPE_GPS_TRACKS) {
-                new FetchSportsSummaryOperation(this).perform();
+                new FetchSportsSummaryOperation(this, 1).perform();
             } else if (dataTypes == RecordedDataTypes.TYPE_DEBUGLOGS) {
                 new HuamiFetchDebugLogsOperation(this).perform();
             } else {

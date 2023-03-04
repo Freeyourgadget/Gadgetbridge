@@ -390,7 +390,7 @@ public abstract class Huami2021Support extends HuamiSupport {
                     new FetchActivityOperation(this).perform();
                     break;
                 case RecordedDataTypes.TYPE_GPS_TRACKS:
-                    new FetchSportsSummaryOperation(this).perform();
+                    new FetchSportsSummaryOperation(this, 1).perform();
                     break;
                 case RecordedDataTypes.TYPE_DEBUGLOGS:
                     new HuamiFetchDebugLogsOperation(this).perform();

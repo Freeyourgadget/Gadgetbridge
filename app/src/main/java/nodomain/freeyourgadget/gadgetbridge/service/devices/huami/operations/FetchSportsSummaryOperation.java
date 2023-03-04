@@ -57,9 +57,10 @@ public class FetchSportsSummaryOperation extends AbstractFetchOperation {
     private static final Logger LOG = LoggerFactory.getLogger(FetchSportsSummaryOperation.class);
 
     private ByteArrayOutputStream buffer = new ByteArrayOutputStream(140);
-    public FetchSportsSummaryOperation(HuamiSupport support) {
+    public FetchSportsSummaryOperation(HuamiSupport support, int fetchCount) {
         super(support);
         setName("fetching sport summaries");
+        this.fetchCount = fetchCount;
     }
 
     @Override
@@ -73,15 +74,6 @@ public class FetchSportsSummaryOperation extends AbstractFetchOperation {
     protected boolean handleActivityFetchFinish(boolean success) {
         LOG.info(getName() + " has finished round " + fetchCount);
 
-//        GregorianCalendar lastSyncTimestamp = saveSamples();
-//        if (lastSyncTimestamp != null && needsAnotherFetch(lastSyncTimestamp)) {
-//            try {
-//                startFetching();
-//                return;
-//            } catch (IOException ex) {
-//                LOG.error("Error starting another round of fetching activity data", ex);
-//            }
-//        }
 
         BaseActivitySummary summary = null;
         final DeviceCoordinator coordinator = DeviceHelper.getInstance().getCoordinator(getDevice());
@@ -124,7 +116,7 @@ public class FetchSportsSummaryOperation extends AbstractFetchOperation {
         if (summary != null) {
             final AbstractHuamiActivityDetailsParser detailsParser = ((HuamiActivitySummaryParser) summaryParser).getDetailsParser(summary);
 
-            FetchSportsDetailsOperation nextOperation = new FetchSportsDetailsOperation(summary, detailsParser, getSupport(), getLastSyncTimeKey());
+            FetchSportsDetailsOperation nextOperation = new FetchSportsDetailsOperation(summary, detailsParser, getSupport(), getLastSyncTimeKey(), fetchCount);
             try {
                 nextOperation.perform();
             } catch (IOException ex) {

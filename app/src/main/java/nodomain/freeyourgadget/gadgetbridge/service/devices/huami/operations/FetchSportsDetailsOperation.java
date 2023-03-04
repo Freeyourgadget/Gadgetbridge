@@ -17,6 +17,7 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.service.devices.huami.operations;
 
+import android.text.format.DateUtils;
 import android.widget.Toast;
 
 import org.slf4j.Logger;
@@ -29,6 +30,7 @@ import java.io.IOException;
 import java.util.GregorianCalendar;
 
 import androidx.annotation.NonNull;
+
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.Logging;
 import nodomain.freeyourgadget.gadgetbridge.R;
@@ -64,12 +66,14 @@ public class FetchSportsDetailsOperation extends AbstractFetchOperation {
     FetchSportsDetailsOperation(@NonNull BaseActivitySummary summary,
                                 @NonNull AbstractHuamiActivityDetailsParser detailsParser,
                                 @NonNull HuamiSupport support,
-                                @NonNull String lastSyncTimeKey) {
+                                @NonNull String lastSyncTimeKey,
+                                int fetchCount) {
         super(support);
         setName("fetching sport details");
         this.summary = summary;
         this.detailsParser = detailsParser;
         this.lastSyncTimeKey = lastSyncTimeKey;
+        this.fetchCount = fetchCount;
     }
 
     @Override
@@ -83,15 +87,6 @@ public class FetchSportsDetailsOperation extends AbstractFetchOperation {
     @Override
     protected boolean handleActivityFetchFinish(boolean success) {
         LOG.info(getName() + " has finished round " + fetchCount);
-//        GregorianCalendar lastSyncTimestamp = saveSamples();
-//        if (lastSyncTimestamp != null && needsAnotherFetch(lastSyncTimestamp)) {
-//            try {
-//                startFetching();
-//                return;
-//            } catch (IOException ex) {
-//                LOG.error("Error starting another round of fetching activity data", ex);
-//            }
-//        }
 
         boolean parseSuccess = true;
 
@@ -125,7 +120,7 @@ public class FetchSportsDetailsOperation extends AbstractFetchOperation {
                 }
                 final String rawBytesPath = saveRawBytes();
 
-                String fileName = FileUtils.makeValidFileName("gadgetbridge-"+trackType.toLowerCase()+"-" + DateTimeUtils.formatIso8601(summary.getStartTime()) + ".gpx");
+                String fileName = FileUtils.makeValidFileName("gadgetbridge-" + trackType.toLowerCase() + "-" + DateTimeUtils.formatIso8601(summary.getStartTime()) + ".gpx");
                 File targetFile = new File(FileUtils.getExternalFilesDir(), fileName);
 
                 try {
@@ -147,16 +142,45 @@ public class FetchSportsDetailsOperation extends AbstractFetchOperation {
             }
         }
 
+        final boolean superSuccess = super.handleActivityFetchFinish(success);
+
         if (success && parseSuccess) {
             // Always increment the sync timestamp on success, even if we did not get data
             GregorianCalendar endTime = BLETypeConversions.createCalendar();
             endTime.setTime(summary.getEndTime());
             saveLastSyncTimestamp(endTime);
+
+            if (needsAnotherFetch(endTime)) {
+                FetchSportsSummaryOperation nextOperation = new FetchSportsSummaryOperation(getSupport(), fetchCount);
+                try {
+                    nextOperation.perform();
+                } catch (IOException ex) {
+                    LOG.error("Error starting another round of fetching activity data", ex);
+                }
+            }
         }
 
-        final boolean superSuccess = super.handleActivityFetchFinish(success);
 
         return superSuccess && parseSuccess;
+    }
+
+    private boolean needsAnotherFetch(GregorianCalendar lastSyncTimestamp) {
+        // We have 2 operations per fetch round: summary + details
+        if (fetchCount > 10) {
+            LOG.warn("Already have 5 fetch rounds, not doing another one.");
+            return false;
+        }
+
+        if (DateUtils.isToday(lastSyncTimestamp.getTimeInMillis())) {
+            LOG.info("Hopefully no further fetch needed, last synced timestamp is from today.");
+            return false;
+        }
+        if (lastSyncTimestamp.getTimeInMillis() > System.currentTimeMillis()) {
+            LOG.warn("Not doing another fetch since last synced timestamp is in the future: {}", DateTimeUtils.formatDateTime(lastSyncTimestamp.getTime()));
+            return false;
+        }
+        LOG.info("Doing another fetch since last sync timestamp is still too old: {}", DateTimeUtils.formatDateTime(lastSyncTimestamp.getTime()));
+        return true;
     }
 
     @Override
@@ -196,7 +220,7 @@ public class FetchSportsDetailsOperation extends AbstractFetchOperation {
             return;
         }
 
-        if ((byte) (lastPacketCounter + 1) == value[0] ) {
+        if ((byte) (lastPacketCounter + 1) == value[0]) {
             lastPacketCounter++;
             bufferActivityData(value);
         } else {
@@ -208,6 +232,7 @@ public class FetchSportsDetailsOperation extends AbstractFetchOperation {
     /**
      * Buffers the given activity summary data. If the total size is reached,
      * it is converted to an object and saved in the database.
+     *
      * @param value
      */
     @Override
