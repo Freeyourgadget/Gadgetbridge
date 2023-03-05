@@ -151,7 +151,7 @@
     <string name="sleep_activity_date_range">Od %1$s do %2$s</string>
     <string name="prefs_wearside">Na której ręce noszone jest urządzenie\?</string>
     <string name="pref_screen_vibration_profile">Profil wibracji</string>
-    <string name="vibration_profile_staccato">Staccato</string>
+    <string name="vibration_profile_staccato">Wzorowane na Staccato</string>
     <string name="vibration_profile_short">Krótkie</string>
     <string name="vibration_profile_medium">Średnie</string>
     <string name="vibration_profile_long">Długie</string>
@@ -1611,19 +1611,19 @@
     <string name="pref_title_banglejs_text_bitmap">Tekst jako bitmapy</string>
     <string name="pref_title_device_internet_access">Zezwól na dostęp do internetu</string>
     <string name="pref_summary_device_internet_access">Zezwól aplikacjom na tym urządzeniu na dostęp do Internetu</string>
-    <string name="heartrate_bpm_100">100 bpm</string>
+    <string name="heartrate_bpm_100">100 uderzeń</string>
     <string name="world_clock_delete_confirm_title">Usuń \'%1$s\'</string>
     <string name="world_clock_timezone">Strefa czasowa</string>
-    <string name="heartrate_bpm_105">105 bpm</string>
-    <string name="heartrate_bpm_110">110 bpm</string>
+    <string name="heartrate_bpm_105">105 uderzeń</string>
+    <string name="heartrate_bpm_110">110 uderzeń</string>
     <string name="heartrate_bpm_112">112 bpm</string>
-    <string name="heartrate_bpm_120">120 bpm</string>
-    <string name="heartrate_bpm_125">125 bpm</string>
-    <string name="heartrate_bpm_130">130 bpm</string>
-    <string name="heartrate_bpm_135">135 bpm</string>
-    <string name="heartrate_bpm_140">140 bpm</string>
-    <string name="heartrate_bpm_145">145 bpm</string>
-    <string name="heartrate_bpm_150">150 bpm</string>
+    <string name="heartrate_bpm_120">120 uderzeń</string>
+    <string name="heartrate_bpm_125">125 uderzeń</string>
+    <string name="heartrate_bpm_130">130 uderzeń</string>
+    <string name="heartrate_bpm_135">135 uderzeń</string>
+    <string name="heartrate_bpm_140">140 uderzeń</string>
+    <string name="heartrate_bpm_145">145 uderzeń</string>
+    <string name="heartrate_bpm_150">150 uderzeń</string>
     <string name="pref_title_touch_spotify">Spotify</string>
     <string name="pref_voice_detect_duration_5">5 sekund</string>
     <string name="pref_voice_detect_duration_10">10 sekund</string>
@@ -1649,7 +1649,7 @@
     <string name="pref_header_calendar">Kalendarz</string>
     <string name="pref_header_health">Zdrowie</string>
     <string name="pref_header_time">Czas</string>
-    <string name="heartrate_bpm_40">40 bpm</string>
+    <string name="heartrate_bpm_40">40 uderzeń</string>
     <string name="heartrate_bpm_45">45 uderzeń/min</string>
     <string name="heartrate_bpm_50">50 uderzeń/min</string>
     <string name="spo2_perc_80">80%</string>
@@ -1719,8 +1719,8 @@
     <string name="about_description_banglejs_main">Aplikacja towarzysząca dla Bangle.js, zbudowana na bazie projektu Gadgetbridge, z dodanym dostępem do Internetu.
 \n
 \nZe względu na politykę Sklepu Google Play, nie możemy umieścić linku do darowizny w samej aplikacji, ale jeśli Ci się ona podoba, rozważ przekazanie darowizny poprzez stronę główną Gadgetbridge poniżej.</string>
-    <string name="application_name_main_nightly">Gadgetbridge (Nightly)</string>
-    <string name="title_activity_controlcenter_main_nightly">Gadgetbridge Nightly</string>
+    <string name="application_name_main_nightly">Gadgetbridge (Wczesna)</string>
+    <string name="title_activity_controlcenter_main_nightly">Gadgetbridge Wczesna</string>
     <string name="about_activity_title_main_nightly">O Gadgetbridge Nightly</string>
     <string name="about_description_main_nightly">Niewymagający chmury wolny zamiennik dla zamkniętoźródłowych aplikacji dostarczanych przez producentów gadżetów na system Android. Wydania Nightly Gadgetbridge. Nie można go zainstalować, jeśli masz już zainstalowaną aplikację Gadgetbridge lub Pebble, ze względu na konflikt w dostawcy Pebble.</string>
     <string name="gadgetbridge_running_main_nightly">Gadgetbridge (Nightly) działa</string>
@@ -1752,8 +1752,8 @@
     <string name="open_fw_installer_getting_files_text">Ponieważ nie możemy rozpowszechniać plików oprogramowania sprzętowego, będziesz musiał zdobyć je samodzielnie. Oznacza to, że będziesz musiał szukać plików w plikach apk, online, na forach, na Amazfitwatchfaces (dla urządzeń Miband/Amazfit) i tak dalej.</string>
     <string name="open_fw_installer_connect_minimum_one_device">Proszę podłączyć PRZYNAJMNIEJ JEDNO urządzenie, do którego chcesz wysłać plik.</string>
     <string name="pref_write_logfiles_not_available">Inicjalizacja logowania plików nie powiodła się, zapisywanie plików dziennika jest obecnie niedostępne. Uruchom ponownie aplikację, aby spróbować ponownie zainicjować pliki dziennika.</string>
-    <string name="application_name_banglejs_nightly">Bangle.js Gadgetbridge (Nightly)</string>
-    <string name="title_activity_controlcenter_banglejs_nightly">Bangle.js Gadgetbridge (Nightly)</string>
+    <string name="application_name_banglejs_nightly">Bangle.js Gadgetbridge (Wczesna)</string>
+    <string name="title_activity_controlcenter_banglejs_nightly">Bangle.js Gadgetbridge (Wczesna)</string>
     <string name="about_activity_title_banglejs_nightly">O Bangle.js Gadgetbridge (Nightly)</string>
     <string name="about_description_banglejs_nightly">Aplikacja towarzysząca dla Bangle.js, zbudowana na bazie projektu Gadgetbridge, z dodanym dostępem do Internetu.
 \n
@@ -1772,7 +1772,7 @@
     <string name="pref_summary_banglejs_txt_bitmap_size">Jeśli \'Tekst jako bitmapy\' jest włączony, jaki rozmiar powinien mieć generowany tekst\?</string>
     <string name="prefs_heartrate_alert_high_threshold">Próg alarmowy wysokiego tętna</string>
     <string name="prefs_stress_monitoring_description">Monitorowanie poziomu stresu podczas odpoczynku</string>
-    <string name="controlcenter_set_preferences">Ustaw ustawienia</string>
+    <string name="controlcenter_set_preferences">Ustaw preferencje</string>
     <string name="controlcenter_toggle_details">Pokaż detale</string>
     <string name="controlcenter_connected_fraction">Połączono: %d/%d</string>
     <string name="activity_type_elliptical">Eliptyczna</string>
@@ -1786,22 +1786,22 @@
     <string name="menuitem_workout_status">Status treningu</string>
     <string name="share_log_not_enabled_message">Musisz najpierw włączyć rejestrowanie w Ustawieniach - Zapisywanie plików dziennika</string>
     <string name="menuitem_personal_activity_intelligence">Inteligencja działań osobistych (PAI)</string>
-    <string name="permission_display_over_other_apps">%1$s potrzebuje pozwolenia na wyświetlanie nad innymi aplikacjami, aby umożliwić zegarkom Bangle.js rozpoczęcie działań poprzez intencje, gdy %1$s jest w tle.
+    <string name="permission_display_over_other_apps">%1$s potrzebuje uprawnień do wyświetlania nad innymi aplikacjami, aby zegarki Bangle.js mogły rozpoczynać działania za pomocą intencji, gdy %1$s działa w tle.
 \n
-\nMożna to wykorzystać do uruchomienia aplikacji muzycznej i odtworzenia piosenki oraz wielu innych rzeczy.
+\nMożna go użyć do uruchomienia aplikacji muzycznej i odtworzenia utworu oraz wielu innych rzeczy.
 \n
-\nProszę dotknąć \"%2$s\", a następnie \"%1$s\" i włączyć \"Pozwól na wyświetlanie ponad innymi aplikacjami\", a następnie dotknąć \"Wróć\", aby powrócić do %1$s. 
-\n 
-\nPrzejdź do \'Ustawienia\' i odznacz \'Sprawdzanie stanu powiadomień\', aby wyłączyć to powiadomienie. 
-\n 
-\nUpewnij się, że zezwolono na dostęp do %1$s, gwarantuje to prawidłową pracę.</string>
+\nWybierz „%2$s”, a następnie „%1$s” i włącz opcję „Zezwalaj na wyświetlanie w innych aplikacjach”, a następnie dotknij „Wstecz”, aby powrócić do %1$s.
+\n
+\nAby przestać pytać %1$s o uprawnienia, przejdź do „Ustawień” i odznacz „Sprawdź stan uprawnień”.
+\n
+\nUpewnij się, że przyznałeś %1$s uprawnienia potrzebne do działania zgodnie z oczekiwaniami.</string>
     <string name="watchface_dialog_widget_cat_generic">Generyczny</string>
     <string name="watchface_dialog_widget_cat_2nd_tz_widget">Drugi widżet strefy czasowej</string>
-    <string name="prefs_double_tap_edge_summary">Wykrywaj podwójne stuknięcie, nawet jeśli nie stuknięto w panel dotykowy</string>
+    <string name="prefs_double_tap_edge_summary">Wykrywaj podwójne dotknięcie, nawet jeśli nie zostało dotknięte na płytce dotykowej</string>
     <string name="connection_over_bt_classic">Połączenie przez Bluetooth (klasyczne)</string>
     <string name="autoconnect_from_device_title">Podłączenie przy połączeniu z urządzenia</string>
     <string name="autoconnect_from_device_summary">Nawiąż połączenie, gdy połączenie jest inicjowane przez urządzenie, np. słuchawki</string>
-    <string name="prefs_always_on_display">Always On Display</string>
+    <string name="prefs_always_on_display">Ekran zawsze włączony</string>
     <string name="prefs_password_4_digits_1_to_4_summary">Hasło musi składać się z 4 znaków, z użyciem cyfr od 1 do 4</string>
     <string name="prefs_password_6_digits_0_to_9_summary">Hasło musi mieć 6 znaków, z użyciem tylko cyfr</string>
     <string name="prefs_screen_timeout">Czas trwania ekranu</string>
@@ -1817,7 +1817,7 @@
     <string name="pref_header_heartrate_sleep">Sen</string>
     <string name="pref_header_heartrate_allday">Całodzienny monitoring</string>
     <string name="pref_header_heartrate_alerts">Alerty tętna</string>
-    <string name="prefs_ambient_sound_during_call_summary">Słysz własny głos podczas połączenia</string>
+    <string name="prefs_ambient_sound_during_call_summary">Słysz wyraźnie własny głos podczas połączeń</string>
     <string name="step_streak_ongoing">W toku</string>
     <string name="note">Uwaga</string>
     <string name="watchface_setting_button_toggle_widgets">Przełączanie widżetów</string>
@@ -1965,4 +1965,168 @@
     <string name="sports_activity_confirm_delete_title">Usuń %d aktywności</string>
     <string name="sports_activity_confirm_delete_description">Czy na pewno chcesz usunąć %d aktywności\?</string>
     <string name="accuracy">Dokładność</string>
+    <string name="all_satellites">Wszystkie satelity</string>
+    <string name="gps_bds">GPS + BDS</string>
+    <string name="speed_first">Najpierw prędkość</string>
+    <string name="debugactivity_confirm_remove_device_preferences_title">Usunąć preferencje urządzenia\?</string>
+    <string name="debugactivity_confirm_remove_device_preferences">Usunie to wszystkie preferencje dla wszystkich podłączonych urządzeń, kontynuować\?</string>
+    <string name="pref_vibrate_for_alert">Wibracje dla alertów</string>
+    <string name="appmanager_app_start">Start</string>
+    <string name="appmanager_downloaded_to_cache">Pobrano %s do cache</string>
+    <string name="appmanager_watchface_activate">Aktywne</string>
+    <string name="appmanager_download_started">Rozpoczęto pobieranie aplikacji</string>
+    <string name="fw_upgrade_notice_amazfit_gts4">Zamierzasz zainstalować oprogramowanie układowe %s na Twoim Amazfit GTS 4.
+\n
+\nOpaska uruchomi się ponownie po instalacji *.zip.
+\n
+\nKontynuujesz na własne ryzyko!</string>
+    <string name="pref_title_notification_media_ignores_application_list">Lista ignorowanych powiadomień ze stron społecznościowych</string>
+    <string name="pref_summary_notification_media_ignores_application_list">Przetwarzaj powiadomienia multimedialne przed listą aplikacji. Jeśli ta preferencja nie jest zaznaczona, aplikacje multimedialne muszą być dozwolone na liście aplikacji, aby elementy sterujące multimediami działały na urządzeniu.</string>
+    <string name="pref_workout_detection_categories_summary">Automatyczne wykrywanie kategorii ćwiczeń</string>
+    <string name="world_clock_code">Kod</string>
+    <string name="activity_prefs_goal_standing_time_minutes">Cel dzienny: czas stania [min]</string>
+    <string name="offline_voice_response_during_screen_lighting">Reaguj podczas rozjaśniania ekranu</string>
+    <string name="pref_agps_header">AGPS</string>
+    <string name="offline_voice_respond_screen_on">Reaguj podczas włączania ekranu</string>
+    <string name="pref_workout_detection_ask_first_summary">Wymagaj potwierdzenia na zegarku po wykryciu tego ćwiczenia</string>
+    <string name="pref_workout_detection_time_summary">Ilość minut, przez które ćwiczenie musi trwać, zanim zostanie wykryte</string>
+    <string name="pref_sleep_mode_smart_enable_summary">Automatycznie włączaj tryb uśpienia podczas noszenia opaski w trakcie snu</string>
+    <string name="prefs_always_on_display_style">Styl</string>
+    <string name="pref_huami_truncate_fetch_operation_timestamps_summary">Skróć sygnatury czasowe operacji pobierania do minut. Wyłącz to ustawienie, aby zachować sygnatury czasowe w sekundach, jeśli napotkasz problemy podczas pobierania bardzo krótkich treningów.</string>
+    <string name="devicetype_sony_linkbuds_s">Sony LinkBuds S</string>
+    <string name="menuitem_phone">Telefon</string>
+    <string name="pref_title_upper_button_long_press_action">Akcja długiego naciśnięcia dla górnego przycisku</string>
+    <string name="sony_quick_access_triple_tap">Szybki dostęp (potrójne dotknięcie)</string>
+    <string name="pref_title_touch_spotify_galaxy_app">Spotyfi (wyłącznie aplikacja dla Wearable Galaxy)</string>
+    <string name="intent_api_allow_activity_sync_title">Zezwól na wyzwalacz synchronizacji aktywności</string>
+    <string name="intent_api_allow_activity_sync_summary">Zezwalaj na wyzwalanie synchronizacji aktywności przez Intent API</string>
+    <string name="intent_api_broadcast_export_title">Rozgłaszaj przy eksporcie bazy danych</string>
+    <string name="intent_api_broadcast_export_summary">Rozgłaszaj intencję po zakończeniu eksportu bazy danych</string>
+    <string name="pref_title_lock_unlock">Blokuj</string>
+    <string name="devicetype_soflow_s06">SoFlow SO6</string>
+    <string name="appmanager_app_download">Pobierz do cache</string>
+    <string name="appmanager_download_app_error">Błąd pobierania aplikacji</string>
+    <string name="pref_agps_update_time">Czas aktualizacji AGPS</string>
+    <string name="pref_workout_detection_categories_title">Kategorie ćwiczeń</string>
+    <string name="pref_agps_expire_time">Czas wygaśnięcia AGPS</string>
+    <string name="pref_workout_detection_alert_summary">Powiadom, gdy ćwiczenie zostanie wykryte</string>
+    <string name="pref_workout_detection_sensitivity">Czułość</string>
+    <string name="menuitem_sun_moon">Słońce i księżyc</string>
+    <string name="menuitem_calendar">Kalendarz</string>
+    <string name="menuitem_todo">Do zrobienia</string>
+    <string name="menuitem_voice_memos">Notatki głosowe</string>
+    <string name="sony_ambient_sound_control_button_mode_as_off">Dźwięk otoczenia, wył</string>
+    <string name="sony_quick_access_double_tap">Szybki dostęp (dwukrotne dotknięcie)</string>
+    <string name="prefs_touch_lock_buds2">Sterowanie dotykowe</string>
+    <string name="vibration_profile_default">Domyślny</string>
+    <string name="activity_prefs_target_weight_kg">Docelowa waga [kg]</string>
+    <string name="menuitem_wechat_pay">WeChat Pay</string>
+    <string name="function_enabled">Włączono</string>
+    <string name="anaerobicTrainingEffect">Efekt beztlenowy</string>
+    <string name="pref_title_touch_spotify_official_app">Spotify (wyłącznie oficjalna aplikacja)</string>
+    <string name="sony_ambient_sound_control_button_mode_nc_as_off">Redukcja szumów, dźwięk otoczenia, wył</string>
+    <string name="sony_ambient_sound_control_button_mode_nc_as">Redukcja szumów, dźwięk otoczenia</string>
+    <string name="sony_ambient_sound_control_button_mode_nc_off">Redukcja szumów, wył</string>
+    <string name="pref_screen_auto_brightness_title">Automatyczna jasność</string>
+    <string name="intent_api_allow_trigger_export_summary">Zezwalaj na wyzwalanie eksportu bazy danych przez Intent API</string>
+    <string name="devicetype_asteroidos">AsteroidOS</string>
+    <string name="georgian">Gruziński</string>
+    <string name="activity_prefs_goal_fat_burn_time_minutes">Cel dzienny: spalanie tłuszczu [min]</string>
+    <string name="activity_type_pool_swimming">Pływanie w basenie</string>
+    <string name="activity_type_rowing">Wiosłowanie</string>
+    <string name="devicetype_amazfit_gts4_mini">Amazfit GTS 4 Mini</string>
+    <string name="devicetype_amazfit_gtr4">Amazfit GTR 4</string>
+    <string name="devicetype_amazfit_trex_2">Amazfit T-Rex 2</string>
+    <string name="devicetype_amazfit_band7">Amazfit Band 7</string>
+    <string name="menuitem_membership_cards">kart członkowskie</string>
+    <string name="menuitem_wifi">Wi-Fi</string>
+    <string name="menuitem_lockscreen">Ekran blokady</string>
+    <string name="menuitem_eject_water">Wylej wodę</string>
+    <string name="hrZoneExtreme">Ekstremalna</string>
+    <string name="balanced">Zbalansowany</string>
+    <string name="power_saving">Oszczędzanie energii</string>
+    <string name="custom">Własne</string>
+    <string name="single_band">Pojedyncza opaska</string>
+    <string name="dual_band">Podwójna opaska</string>
+    <string name="low_power_gps">GPS niskiego zasilania</string>
+    <string name="gps">GPS</string>
+    <string name="gps_gnolass">GPS + GNOLASS</string>
+    <string name="gps_galileo">GPS + GALILEO</string>
+    <string name="accuracy_first">Najpierw dokładność</string>
+    <string name="buttons_on_left">Przyciski po lewej stronie</string>
+    <string name="pref_header_offline_voice">Głos offline</string>
+    <string name="devicetype_galaxybuds_2_pro">Galaxy Buds2 Pro</string>
+    <string name="sony_ambient_sound_control_button_modes">Tryby przycisków sterowania dźwiękiem otoczenia</string>
+    <string name="pref_screen_auto_brightness_summary">Dostosuj jasność ekranu do światła otoczenia</string>
+    <string name="intent_api_allow_trigger_export_title">Zezwól na eksport bazy danych</string>
+    <string name="pref_workout_detection_enabled">Włączono wykrywanie</string>
+    <string name="pref_workout_detection_enabled_summary">Włącz automatyczne wykrywanie dla tego ćwiczenia</string>
+    <string name="pref_workout_detection_ask_first">Zapytaj mnie</string>
+    <string name="pref_workout_detection_time">Ilość minut aktywność tego ćwiczenia przed wykryciem</string>
+    <string name="pref_sleep_mode_title">Tryb snu</string>
+    <string name="pref_sleep_mode_sleep_screen_title">Ekran uśpienia</string>
+    <string name="pref_sleep_mode_sleep_screen_summary">Pokaż ekran uśpienia podczas wybudzania ekranu w trybie uśpienia, aby zmniejszyć rozproszenie uwagi</string>
+    <string name="buttons_on_right">Przyciski po prawej stronie</string>
+    <string name="prefs_weardirection">Kierunek noszenia</string>
+    <string name="seconds_25">25 sek</string>
+    <string name="pref_huami_truncate_fetch_operation_timestamps_title">Skróć sygnatury czasowe operacji pobierania</string>
+    <string name="pref_enable_unsupported_settings_title">Włącz niewspierane ustawienia</string>
+    <string name="pref_title_lower_button_short_press_action">Akcja krótkiego naciśnięcia dla dolnego przycisku</string>
+    <string name="prefs_control_center">Centrum kontroli</string>
+    <string name="aerobicTrainingEffect">Efekt aerobowy</string>
+    <string name="sony_speak_to_chat_sensitivity_standard">Standardowa</string>
+    <string name="fw_upgrade_notice_amazfit_trex2">Zamierzasz zainstalować oprogramowanie układowe %s na Twoim Amazfit T-Rex 2.
+\n
+\nOpaska uruchomi się ponownie po instalacji *.zip.
+\n
+\nKontynuujesz na własne ryzyko!</string>
+    <string name="pref_header_sound_vibration">Dźwięki i wibracje</string>
+    <string name="pref_header_intent_api">Interfejs API intencji</string>
+    <string name="pref_text_to_speech">Tekst na mowę</string>
+    <string name="pref_workout_detection_alert_title">Alarm</string>
+    <string name="offline_voice_respond_turn_wrist">Reaguj podczas obracania nadgarstka</string>
+    <string name="pref_agps_expiry_reminder_enabled">Powiadomienie o wygasaniu AGPS</string>
+    <string name="pref_sleep_mode_smart_enable_title">Włącz Smart</string>
+    <string name="pref_screen_notification_profile_schedule">Harmonogram</string>
+    <string name="devicetype_amazfit_gts4">Amazfit GTS 4</string>
+    <string name="menuitem_one_tap_measuring">Pomiar jednorazowy</string>
+    <string name="menuitem_theater_mode">Tryb teatralny</string>
+    <string name="menuitem_volume">Głośność</string>
+    <string name="menuitem_unsupported">[Niewspierane] %s</string>
+    <string name="menuitem_screen_always_lit">Ekran zawsze podświetlony</string>
+    <string name="menuitem_brightness">Jasność</string>
+    <string name="menuitem_offline_voice">Głos offline</string>
+    <string name="activity_type_indoor_walking">Spacer wewnątrz</string>
+    <string name="menuitem_bluetooth">Bluetooth</string>
+    <string name="pref_gps_header">GPS</string>
+    <string name="pref_gps_mode_preset">Tryb GPS</string>
+    <string name="pref_gps_band">GPS opaski</string>
+    <string name="fw_upgrade_notice_amazfit_gts4_mini">Zamierzasz zainstalować oprogramowanie układowe %s na Twoim Amazfit GTS 4 mini.
+\n
+\nOpaska uruchomi się ponownie po instalacji *.zip.
+\n
+\nKontynuujesz na własne ryzyko!</string>
+    <string name="fw_upgrade_notice_amazfit_gtr4">Zamierzasz zainstalować oprogramowanie układowe %s na Twoim Amazfit GTR 4.
+\n
+\nOpaska uruchomi się ponownie po instalacji *.zip.
+\n
+\nKontynuujesz na własne ryzyko!</string>
+    <string name="pref_agps_expiry_reminder_time">Czas powiadamiania o wygasaniu AGPS</string>
+    <string name="pref_workout_detection_title">Kierunek ćwiczeń</string>
+    <string name="pref_enable_unsupported_settings_summary">Umożliwi to dostęp do wszystkich dostępnych ustawień, nawet jeśli nie są obsługiwane przez urządzenie. Może to spowodować niestabilność i awarie urządzenia.</string>
+    <string name="prefs_always_on_display_follow_watchface">Styl według tarczy zegarka</string>
+    <string name="prefs_control_center_summary">Wybierz elementy z rozwijanego menu centrum kontroli</string>
+    <string name="devicetype_galaxybuds_2">Galaxy Buds2</string>
+    <string name="fw_upgrade_notice_amazfit_band7">Zamierzasz zainstalować oprogramowanie układowe %s na Twoim Amazfit Band 7.
+\n
+\nOpaska uruchomi się ponownie po instalacji *.zip.
+\n
+\nKontynuujesz na własne ryzyko!</string>
+    <string name="pref_gps_combination">Mieszanie GPS</string>
+    <string name="pref_gps_satellite_search">Wyszukiwanie satelit</string>
+    <string name="pref_crown_vibration">Wibracja koronki</string>
+    <string name="pref_alert_tone">Ton alertu</string>
+    <string name="pref_cover_to_mute">Przykryj, aby wyciszyć</string>
+    <string name="pref_workout_detection_summary">Automatyczny kierunek ćwiczeń</string>
+    <string name="pref_screen_notification_profile_todo_list">Lista Do zrobienia</string>
 </resources>
