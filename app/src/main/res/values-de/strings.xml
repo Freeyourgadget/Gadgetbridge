@@ -1770,7 +1770,7 @@
     <string name="open_fw_installer_warning_text">Diese Funktion hat das Potenzial, dein Gerät zu beschädigen. Das heißt, dies ist noch nie einem der Entwickler durch Flashen passiert, aber denke daran, dass du dies auf eigene Gefahr tust.</string>
     <string name="open_fw_installer_getting_files_title">Abrufen der Firmware-/App-Datei</string>
     <string name="open_fw_installer_pick_file">Datei auswählen</string>
-    <string name="open_fw_installer_info_text_title">File Installer</string>
+    <string name="open_fw_installer_info_text_title">Datei Installer</string>
     <string name="open_fw_installer_select_file">Wähle eine Datei aus, die du auf das Gerät hochladen möchtest: %s</string>
     <string name="open_fw_installer_connect_minimum_one_device">Bitte verbinde MINDESTENS EIN Gerät, an das du die Datei senden möchtest.</string>
     <string name="open_fw_installer_connect_maximum_one_device">Bitte verbinde NUR EIN Gerät, an das du die Datei senden möchtest.</string>
@@ -2119,4 +2119,12 @@
     <string name="devicetype_galaxybuds_2_pro">Galaxy Buds2 Pro</string>
     <string name="devicetype_soflow_s06">SoFlow SO6</string>
     <string name="pref_title_lock_unlock">Sperren</string>
+    <string name="pref_header_intent_api">Intent API</string>
+    <string name="pref_agps_update_time">AGPS Aktualisierungszeit</string>
+    <string name="pref_agps_expire_time">AGPS Ablaufzeit</string>
+    <string name="intent_api_allow_activity_sync_summary">Auslösen der Aktivitätssynchronisierung über die Intent API erlauben</string>
+    <string name="intent_api_allow_activity_sync_title">Aktivitätssynchronisierungsauslöser zulassen</string>
+    <string name="sony_ambient_sound_control_button_modes">Tastenmodi für die Steuerung von Umgebungsgeräuschen</string>
+    <string name="intent_api_allow_trigger_export_summary">Datenbankexport über die Intent API erlauben</string>
+    <string name="intent_api_broadcast_export_summary">Einen Intent via Broadcast verschicken, wenn der Datenbankexport abgeschlossen ist</string>
 </resources>
