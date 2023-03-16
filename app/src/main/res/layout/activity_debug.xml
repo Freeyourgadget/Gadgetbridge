@@ -132,6 +132,14 @@
                 android:text="Set Weather" />
 
             <Button
+                android:id="@+id/showCachedWeatherButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                grid:layout_columnSpan="2"
+                grid:layout_gravity="fill_horizontal"
+                android:text="Show Cached Weather" />
+
+            <Button
                 android:id="@+id/factoryResetButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

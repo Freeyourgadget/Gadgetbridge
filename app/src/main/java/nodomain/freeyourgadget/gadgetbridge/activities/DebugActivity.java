@@ -115,6 +115,7 @@ import nodomain.freeyourgadget.gadgetbridge.model.NotificationType;
 import nodomain.freeyourgadget.gadgetbridge.model.RecordedDataTypes;
 import nodomain.freeyourgadget.gadgetbridge.model.Weather;
 import nodomain.freeyourgadget.gadgetbridge.model.WeatherSpec;
+import nodomain.freeyourgadget.gadgetbridge.model.WeatherSpec.Forecast;
 import nodomain.freeyourgadget.gadgetbridge.service.serial.GBDeviceProtocol;
 import nodomain.freeyourgadget.gadgetbridge.util.DeviceHelper;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
@@ -373,6 +374,25 @@ public class DebugActivity extends AbstractGBActivity {
                 }
 
                 GBApplication.deviceService().onSendWeather(Weather.getInstance().getWeatherSpec());
+            }
+        });
+
+        Button showCachedWeatherButton = findViewById(R.id.showCachedWeatherButton);
+        showCachedWeatherButton.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                String weatherInfo = getWeatherInfo();
+
+                new AlertDialog.Builder(DebugActivity.this)
+                        .setCancelable(false)
+                        .setTitle("Cached Weather Data")
+                        .setMessage(weatherInfo)
+                        .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                            }
+                        })
+                        .show();
             }
         });
 
@@ -1013,6 +1033,39 @@ public class DebugActivity extends AbstractGBActivity {
                 String.format("%02x", random.nextInt(0xff))
         };
         return TextUtils.join(separator, mac).toUpperCase(Locale.ROOT);
+    }
+
+    private String getWeatherInfo() {
+        Prefs prefs = new Prefs(PreferenceManager.getDefaultSharedPreferences(DebugActivity.this));
+        String info = "";
+        Weather weather = Weather.getInstance();
+        weather.setCacheFile(getCacheDir(), prefs.getBoolean("cache_weather", true));
+        WeatherSpec weatherSpec = weather.getWeatherSpec();
+
+        if (weatherSpec == null)
+            return "Weather cache is empty...";
+
+        info += "Location: " + weatherSpec.location + "\n";
+        info += "Timestamp: " + weatherSpec.timestamp + "\n";
+        info += "Current Temp: " + weatherSpec.currentTemp + " K\n";
+        info += "Max Temp: " + weatherSpec.todayMaxTemp + " K\n";
+        info += "Min Temp: " + weatherSpec.location + "\n";
+        info += "Condition: " + weatherSpec.currentCondition + "\n";
+        info += "Condition Code: " + weatherSpec.currentConditionCode + "\n";
+        info += "Humidity: " + weatherSpec.currentHumidity + "\n";
+        info += "Wind Speed: " + weatherSpec.windSpeed + " kmph\n";
+        info += "Wind Direction: " + weatherSpec.windDirection + " deg\n";
+        for (int i=0;i<weatherSpec.forecasts.size();i++)
+        {
+            info += "-------------\n";
+            info += "-->Day " + i +"\n";
+            info += "Max Temp: " + weatherSpec.forecasts.get(i).maxTemp + " K\n";
+            info += "Min Temp: " + weatherSpec.forecasts.get(i).minTemp + " K\n";
+            info += "Condition Code: " + weatherSpec.forecasts.get(i).conditionCode + "\n";
+            info += "Humidity: " + weatherSpec.forecasts.get(i).humidity + "\n";
+        }
+
+        return info;
     }
 
     public static LinkedHashMap getAllSupportedDevices(Context appContext) {
