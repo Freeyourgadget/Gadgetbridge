@@ -89,6 +89,12 @@ public class AmazfitBipUCoordinator extends HuamiCoordinator {
     }
 
     @Override
+    public boolean supportsAlarmSnoozing() {
+        // All alarms snooze by default, there doesn't seem to be a flag that disables it
+        return false;
+    }
+
+    @Override
     public int getReminderSlotCount(final GBDevice device) {
         return 0;
     }
