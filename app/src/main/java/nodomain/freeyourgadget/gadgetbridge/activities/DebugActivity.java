@@ -1036,11 +1036,8 @@ public class DebugActivity extends AbstractGBActivity {
     }
 
     private String getWeatherInfo() {
-        Prefs prefs = new Prefs(PreferenceManager.getDefaultSharedPreferences(DebugActivity.this));
         String info = "";
-        Weather weather = Weather.getInstance();
-        weather.setCacheFile(getCacheDir(), prefs.getBoolean("cache_weather", true));
-        WeatherSpec weatherSpec = weather.getWeatherSpec();
+        WeatherSpec weatherSpec = Weather.getInstance().getWeatherSpec();
 
         if (weatherSpec == null)
             return "Weather cache is empty...";
@@ -1055,8 +1052,7 @@ public class DebugActivity extends AbstractGBActivity {
         info += "Humidity: " + weatherSpec.currentHumidity + "\n";
         info += "Wind Speed: " + weatherSpec.windSpeed + " kmph\n";
         info += "Wind Direction: " + weatherSpec.windDirection + " deg\n";
-        for (int i=0;i<weatherSpec.forecasts.size();i++)
-        {
+        for (int i=0;i<weatherSpec.forecasts.size();i++) {
             info += "-------------\n";
             info += "-->Day " + i +"\n";
             info += "Max Temp: " + weatherSpec.forecasts.get(i).maxTemp + " K\n";
