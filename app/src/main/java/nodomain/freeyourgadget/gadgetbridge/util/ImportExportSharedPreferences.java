@@ -124,15 +124,15 @@ public class ImportExportSharedPreferences {
                                 for (int z = 0; z < text.split(",").length; z++) {
                                     apps_blacklist.add(text.split(",")[z].trim());
                                 }
-                                GBApplication.setAppsNotifBlackList(apps_blacklist);
+                                GBApplication.setAppsNotifBlackList(apps_blacklist, editor);
                                 break;
-                            case GBPrefs.PACKAGE_PEBBLEMSG_BLACKLIST:  //TODO: untested
+                            case GBPrefs.PACKAGE_PEBBLEMSG_BLACKLIST:
                                 Set<String> apps_pebble_blacklist = new HashSet<>();
                                 text = text.replace("[", "").replace("]", "");
                                 for (int z = 0; z < text.split(",").length; z++) {
                                     apps_pebble_blacklist.add(text.split(",")[z].trim());
                                 }
-                                GBApplication.setAppsPebbleBlackList(apps_pebble_blacklist);
+                                GBApplication.setAppsPebbleBlackList(apps_pebble_blacklist, editor);
                                 break;
                         }
                     } else if (!PREFERENCES.equals(name)) {

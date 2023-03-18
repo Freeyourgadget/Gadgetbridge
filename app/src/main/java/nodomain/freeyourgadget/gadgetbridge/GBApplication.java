@@ -454,6 +454,10 @@ public class GBApplication extends Application {
     }
 
     public static void setAppsNotifBlackList(Set<String> packageNames) {
+        setAppsNotifBlackList(packageNames, sharedPrefs.edit());
+    }
+
+    public static void setAppsNotifBlackList(Set<String> packageNames, SharedPreferences.Editor editor) {
         if (packageNames == null) {
             GB.log("Set null apps_notification_blacklist", GB.INFO, null);
             apps_notification_blacklist = new HashSet<>();
@@ -461,7 +465,7 @@ public class GBApplication extends Application {
             apps_notification_blacklist = new HashSet<>(packageNames);
         }
         GB.log("New apps_notification_blacklist has " + apps_notification_blacklist.size() + " entries", GB.INFO, null);
-        saveAppsNotifBlackList();
+        saveAppsNotifBlackList(editor);
     }
 
     private static void loadAppsNotifBlackList() {
@@ -474,8 +478,11 @@ public class GBApplication extends Application {
     }
 
     private static void saveAppsNotifBlackList() {
+       saveAppsNotifBlackList(sharedPrefs.edit());
+    }
+
+    private static void saveAppsNotifBlackList(SharedPreferences.Editor editor) {
         GB.log("Saving apps_notification_blacklist with " + apps_notification_blacklist.size() + " entries", GB.INFO, null);
-        SharedPreferences.Editor editor = sharedPrefs.edit();
         if (apps_notification_blacklist.isEmpty()) {
             editor.putStringSet(GBPrefs.PACKAGE_BLACKLIST, null);
         } else {
@@ -506,6 +513,10 @@ public class GBApplication extends Application {
     }
 
     public static void setAppsPebbleBlackList(Set<String> packageNames) {
+        setAppsPebbleBlackList(packageNames, sharedPrefs.edit());
+    }
+
+    public static void setAppsPebbleBlackList(Set<String> packageNames, SharedPreferences.Editor editor) {
         if (packageNames == null) {
             GB.log("Set null apps_pebblemsg_blacklist", GB.INFO, null);
             apps_pebblemsg_blacklist = new HashSet<>();
@@ -513,7 +524,7 @@ public class GBApplication extends Application {
             apps_pebblemsg_blacklist = new HashSet<>(packageNames);
         }
         GB.log("New apps_pebblemsg_blacklist has " + apps_pebblemsg_blacklist.size() + " entries", GB.INFO, null);
-        saveAppsPebbleBlackList();
+        saveAppsPebbleBlackList(editor);
     }
 
     private static void loadAppsPebbleBlackList() {
@@ -526,8 +537,11 @@ public class GBApplication extends Application {
     }
 
     private static void saveAppsPebbleBlackList() {
+       saveAppsPebbleBlackList(sharedPrefs.edit());
+    }
+
+    private static void saveAppsPebbleBlackList(SharedPreferences.Editor editor) {
         GB.log("Saving apps_pebblemsg_blacklist with " + apps_pebblemsg_blacklist.size() + " entries", GB.INFO, null);
-        SharedPreferences.Editor editor = sharedPrefs.edit();
         if (apps_pebblemsg_blacklist.isEmpty()) {
             editor.putStringSet(GBPrefs.PACKAGE_PEBBLEMSG_BLACKLIST, null);
         } else {
