@@ -28,6 +28,7 @@ public class AmazfitGTR4FirmwareInfo extends Huami2021FirmwareInfo {
     private static final Map<Integer, String> crcToVersion = new HashMap<Integer, String>() {{
         // firmware
         put(1699, "3.17.0.2");
+        put(20712, "3.18.1.1 (diff from 3.17.0.2)");
     }};
 
     public AmazfitGTR4FirmwareInfo(final byte[] bytes) {
