@@ -252,6 +252,7 @@ public abstract class Huami2021Coordinator extends HuamiCoordinator {
         settings.add(R.xml.devicesettings_buttonactions_upper_long);
         settings.add(R.xml.devicesettings_buttonactions_lower_short);
         settings.add(R.xml.devicesettings_weardirection);
+        settings.add(R.xml.devicesettings_camera_remote);
 
         //
         // Connection

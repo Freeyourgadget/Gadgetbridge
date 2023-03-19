@@ -186,6 +186,7 @@ public class DeviceSettingsPreferenceConst {
     public static final String PREF_DO_NOT_DISTURB_AUTOMATIC = "automatic";
     public static final String PREF_DO_NOT_DISTURB_ALWAYS = "always";
     public static final String PREF_DO_NOT_DISTURB_SCHEDULED = "scheduled";
+    public static final String PREF_CAMERA_REMOTE = "camera_remote";
 
     public static final String PREF_WORKOUT_START_ON_PHONE = "workout_start_on_phone";
     public static final String PREF_WORKOUT_SEND_GPS_TO_BAND = "workout_send_gps_to_band";

@@ -436,6 +436,7 @@ public class DeviceSpecificSettingsFragment extends PreferenceFragmentCompat imp
         addPreferenceHandlerFor(PREF_HYDRATION_PERIOD);
         addPreferenceHandlerFor(PREF_AMPM_ENABLED);
         addPreferenceHandlerFor(PREF_SOUNDS);
+        addPreferenceHandlerFor(PREF_CAMERA_REMOTE);
 
         addPreferenceHandlerFor(PREF_SLEEP_MODE_SLEEP_SCREEN);
         addPreferenceHandlerFor(PREF_SLEEP_MODE_SMART_ENABLE);
