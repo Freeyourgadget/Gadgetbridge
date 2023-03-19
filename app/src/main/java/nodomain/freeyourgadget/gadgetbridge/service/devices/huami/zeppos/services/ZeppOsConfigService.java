@@ -52,6 +52,8 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import nodomain.freeyourgadget.gadgetbridge.BuildConfig;
 import nodomain.freeyourgadget.gadgetbridge.activities.SettingsActivity;
@@ -1761,6 +1763,12 @@ public class ZeppOsConfigService extends AbstractZeppOsService {
             if (anEnum.name().toLowerCase(Locale.ROOT).equals(val)) {
                 return reverse.get(anEnum);
             }
+        }
+
+        // Byte doesn't match a known enum value, attempt to parse it as hex
+        final Matcher matcher = Pattern.compile("^0[xX]([0-9a-fA-F]{1,2})$").matcher(val);
+        if (matcher.find()) {
+            return (byte) Integer.parseInt(matcher.group(1), 16);
         }
 
         return null;
