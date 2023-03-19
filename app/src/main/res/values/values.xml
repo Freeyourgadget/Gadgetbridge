@@ -75,6 +75,7 @@
     <item name="p_always" type="string">always</item>
     <item name="p_automatic" type="string">automatic</item>
     <item name="p_scheduled" type="string">scheduled</item>
+    <item name="p_smart" type="string">smart</item>
 
     <item name="p_normal" type="string">normal</item>
     <item name="p_sensitive" type="string">sensitive</item>

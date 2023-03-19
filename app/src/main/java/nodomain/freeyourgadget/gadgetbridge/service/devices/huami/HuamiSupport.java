@@ -3311,6 +3311,9 @@ public abstract class HuamiSupport extends AbstractBTLEDeviceSupport implements 
                 cmd[7] = (byte) calendar.get(Calendar.MINUTE);
 
                 writeToConfiguration(builder, cmd);
+                break;
+            default:
+                LOG.warn("Unknown display on lift mode {}", displayOnLift);
         }
         return this;
     }

@@ -1683,6 +1683,7 @@ public class ZeppOsConfigService extends AbstractZeppOsService {
         put((byte) 0x00, ActivateDisplayOnLift.OFF);
         put((byte) 0x01, ActivateDisplayOnLift.SCHEDULED);
         put((byte) 0x02, ActivateDisplayOnLift.ON);
+        put((byte) 0x03, ActivateDisplayOnLift.SMART);
     }};
 
     private static final Map<Byte, Enum<?>> LIFT_WRIST_SENSITIVITY_MAP = new HashMap<Byte, Enum<?>>() {{
