@@ -204,7 +204,8 @@ public class Huami2021SettingsCustomizer extends HuamiSettingsCustomizer {
                 DeviceSettingsPreferenceConst.PREF_HEADER_GPS,
                 DeviceSettingsPreferenceConst.PREF_WORKOUT_START_ON_PHONE,
                 DeviceSettingsPreferenceConst.PREF_WORKOUT_SEND_GPS_TO_BAND,
-                DeviceSettingsPreferenceConst.PREF_HEADER_WORKOUT_DETECTION
+                DeviceSettingsPreferenceConst.PREF_HEADER_WORKOUT_DETECTION,
+                DeviceSettingsPreferenceConst.PREF_WORKOUT_KEEP_SCREEN_ON
         ));
         hidePrefIfNoneVisible(handler, DeviceSettingsPreferenceConst.PREF_HEADER_AGPS, Arrays.asList(
                 DeviceSettingsPreferenceConst.PREF_AGPS_EXPIRY_REMINDER_ENABLED,

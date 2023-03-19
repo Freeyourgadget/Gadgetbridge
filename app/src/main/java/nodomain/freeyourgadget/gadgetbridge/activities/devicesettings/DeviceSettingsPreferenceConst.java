@@ -208,6 +208,7 @@ public class DeviceSettingsPreferenceConst {
     public static final String PREF_AUTOREMOVE_MESSAGE = "autoremove_message";
     public static final String PREF_AUTOREMOVE_NOTIFICATIONS = "autoremove_notifications";
     public static final String PREF_SCREEN_ON_ON_NOTIFICATIONS = "screen_on_on_notifications";
+    public static final String PREF_WORKOUT_KEEP_SCREEN_ON = "workout_keep_screen_on";
     public static final String PREF_OPERATING_SOUNDS = "operating_sounds";
     public static final String PREF_KEY_VIBRATION = "key_vibration";
     public static final String PREF_FAKE_RING_DURATION = "fake_ring_duration";

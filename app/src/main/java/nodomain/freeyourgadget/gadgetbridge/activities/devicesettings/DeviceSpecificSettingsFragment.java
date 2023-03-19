@@ -427,6 +427,7 @@ public class DeviceSpecificSettingsFragment extends PreferenceFragmentCompat imp
         addPreferenceHandlerFor(PREF_AUTOREMOVE_MESSAGE);
         addPreferenceHandlerFor(PREF_AUTOREMOVE_NOTIFICATIONS);
         addPreferenceHandlerFor(PREF_SCREEN_ON_ON_NOTIFICATIONS);
+        addPreferenceHandlerFor(PREF_WORKOUT_KEEP_SCREEN_ON);
         addPreferenceHandlerFor(PREF_KEY_VIBRATION);
         addPreferenceHandlerFor(PREF_OPERATING_SOUNDS);
         addPreferenceHandlerFor(PREF_FAKE_RING_DURATION);

@@ -222,6 +222,7 @@ public abstract class Huami2021Coordinator extends HuamiCoordinator {
             settings.add(R.xml.devicesettings_workout_start_on_phone);
             settings.add(R.xml.devicesettings_workout_send_gps_to_band);
         }
+        settings.add(R.xml.devicesettings_workout_keep_screen_on);
         settings.add(R.xml.devicesettings_workout_detection);
 
         //

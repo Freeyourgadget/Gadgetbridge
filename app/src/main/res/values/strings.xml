@@ -469,6 +469,8 @@
     <string name="pref_workout_start_on_phone_summary">Start/stop fitness app tracking on phone when a GPS workout is started on the band</string>
     <string name="pref_workout_send_gps_title">Send GPS during workout</string>
     <string name="pref_workout_send_gps_summary">Send the current GPS location to the band during a workout</string>
+    <string name="pref_workout_keep_screen_on_title">Keep screen on during a workout</string>
+    <string name="pref_workout_keep_screen_on_summary">The screen will stay on during a workout, and brightness will be adjusted to continuously display real-time workout data</string>
     <string name="pref_workout_detection_title">Workout Detection</string>
     <string name="pref_workout_detection_summary">Detect workout automatically</string>
     <string name="pref_workout_detection_categories_title">Workout Categories</string>
