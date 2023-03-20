@@ -2102,4 +2102,19 @@
 \nLa band si riavvierà dopo l\'installazione del file .zip.
 \n
 \nPROCEDI A TUO RISCHIO E PERICOLO!</string>
+    <string name="georgian">Georgiano</string>
+    <string name="pref_workout_keep_screen_on_title">Mantieni lo schermo acceso durante un allenamento</string>
+    <string name="pref_workout_detection_time">Minuti di attività prima del rilevamento</string>
+    <string name="pref_workout_detection_time_summary">Minuti di allenamento prima che questo sia rilevato</string>
+    <string name="devicetype_galaxybuds_2_pro">Galaxy Buds2 Pro</string>
+    <string name="pref_title_lock_unlock">Blocca</string>
+    <string name="pref_camera_remote_title">Telecomando Fotocamera</string>
+    <string name="pref_camera_remote_summary">Consenti all\'orologio di attivare la fotocamera del telefono</string>
+    <string name="pref_workout_keep_screen_on_summary">Lo schermo rimarrà acceso durante l\'allenamento e la luminosità verrà regolata per mostrare continuamente i dati dell\'allenamento in tempo reale</string>
+    <string name="pref_workout_detection_ask_first_summary">Richiedi la conferma sull\'orologio per rilevare questo allenamento</string>
+    <string name="devicetype_soflow_s06">SoFlow SO6</string>
+    <string name="pref_workout_detection_enabled">Rilevamento attivo</string>
+    <string name="pref_workout_detection_enabled_summary">Attiva rilevamento automatico per questo allenamento</string>
+    <string name="pref_workout_detection_ask_first">Chiedimi prima</string>
+    <string name="activity_type_rowing">Canottaggio</string>
 </resources>
