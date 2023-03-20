@@ -2134,4 +2134,8 @@
     <string name="devicetype_galaxybuds_2_pro">Galaxy Buds2 Pro</string>
     <string name="devicetype_soflow_s06">SoFlow SO6</string>
     <string name="pref_title_lock_unlock">Kilitle</string>
+    <string name="pref_camera_remote_summary">Saatin telefonun kamerasını tetiklemesine izin verir</string>
+    <string name="pref_camera_remote_title">Kamera Kumandası</string>
+    <string name="pref_workout_keep_screen_on_summary">Egzersiz sırasında ekran açık kalacak ve gerçek zamanlı egzersiz verilerini sürekli olarak görüntülemek için parlaklık ayarlanacaktır</string>
+    <string name="pref_workout_keep_screen_on_title">Egzersiz sırasında ekranı açık tut</string>
 </resources>
