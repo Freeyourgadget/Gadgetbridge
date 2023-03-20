@@ -2128,4 +2128,8 @@
     <string name="devicetype_soflow_s06">SoFlow SO6</string>
     <string name="pref_title_lock_unlock">Заблокувати</string>
     <string name="devicetype_galaxybuds_2_pro">Galaxy Buds2 Pro</string>
+    <string name="pref_camera_remote_title">Віддалене керування камерою</string>
+    <string name="pref_camera_remote_summary">Дозволяє годиннику керувати камерою телефону</string>
+    <string name="pref_workout_keep_screen_on_title">Лишати екран увімкненим під час тренування</string>
+    <string name="pref_workout_keep_screen_on_summary">Екран буде ввімкнений під час тренування, а яскравість буде регулюватися для безперервного показу даних тренування в режимі реального часу</string>
 </resources>
