@@ -2120,4 +2120,8 @@
     <string name="pref_title_lock_unlock">锁定</string>
     <string name="devicetype_soflow_s06">SoFlow SO6</string>
     <string name="devicetype_galaxybuds_2_pro">Galaxy Buds 2 Pro</string>
+    <string name="pref_workout_keep_screen_on_title">在锻炼时让屏幕保持开启</string>
+    <string name="pref_camera_remote_title">相机遥控</string>
+    <string name="pref_camera_remote_summary">允许手表使用手机相机遥控拍照</string>
+    <string name="pref_workout_keep_screen_on_summary">屏幕在锻炼期间将保持开启，并且亮度将被调整以持续显示实时的锻炼数据</string>
 </resources>
