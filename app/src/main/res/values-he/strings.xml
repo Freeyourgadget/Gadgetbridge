@@ -2141,4 +2141,5 @@
     <string name="wifi_hotspot_stop_summary">עצירת הנקודה החמה בשעון</string>
     <string name="ftp_server">שרת FTP</string>
     <string name="address">כתובת</string>
+    <string name="croatian">קרואטית</string>
 </resources>
