@@ -2150,4 +2150,5 @@
     <string name="ftp_server_summary">Керування FTP-сервером з годинника</string>
     <string name="ftp_server_stop_summary">Зупинити FTP-сервер з годинника</string>
     <string name="ftp_server_status">Стан FTP-сервера</string>
+    <string name="croatian">Хорватська</string>
 </resources>
