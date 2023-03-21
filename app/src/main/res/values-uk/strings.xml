@@ -1249,7 +1249,7 @@
     <string name="activity_summary_detail_editing_gpx_track">Редагувати пов\'язану трасу GPX</string>
     <string name="activity_summary_detail_clear_gpx_track">Очистити трасу GPX</string>
     <string name="activity_summary_detail_select_gpx_track">Вибрати трасу GPX</string>
-    <string name="set">Встановити</string>
+    <string name="set">Налаштувати</string>
     <string name="watchface_install_info">Ви збираєтесь установити цей циферблат:
 \n
 \n%1$s
@@ -2132,5 +2132,22 @@
     <string name="pref_camera_remote_summary">Дозволяє годиннику керувати камерою телефону</string>
     <string name="pref_workout_keep_screen_on_title">Лишати екран увімкненим під час тренування</string>
     <string name="pref_workout_keep_screen_on_summary">Екран буде ввімкнений під час тренування, а яскравість буде регулюватися для безперервного показу даних тренування в режимі реального часу</string>
-    <string name="status">Статус</string>
+    <string name="status">Стан</string>
+    <string name="stop">Зупинити</string>
+    <string name="wifi_hotspot_configuration">Налаштування точки доступу Wi-Fi</string>
+    <string name="wifi_hotspot_start_summary">Запустити точку доступу Wi-Fi з годинника</string>
+    <string name="ftp_server">FTP-сервер</string>
+    <string name="ftp_server_configuration">Налаштування FTP-сервера</string>
+    <string name="ftp_server_root_dir">Кореневий каталог</string>
+    <string name="address">Адреса</string>
+    <string name="username">Ім’я користувача</string>
+    <string name="wifi_hotspot">Точка доступу Wi-Fi</string>
+    <string name="wifi_hotspot_summary">Керування точкою доступу Wi-Fi з годинника</string>
+    <string name="wifi_hotspot_status">Стан точки доступу Wi-Fi</string>
+    <string name="wifi_ssid">SSID</string>
+    <string name="wifi_hotspot_stop_summary">Зупинити точку доступу Wi-Fi з годинника</string>
+    <string name="ftp_server_start_summary">Запустити FTP-сервер з годинника</string>
+    <string name="ftp_server_summary">Керування FTP-сервером з годинника</string>
+    <string name="ftp_server_stop_summary">Зупинити FTP-сервер з годинника</string>
+    <string name="ftp_server_status">Стан FTP-сервера</string>
 </resources>
