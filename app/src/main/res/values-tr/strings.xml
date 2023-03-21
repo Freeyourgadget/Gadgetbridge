@@ -2138,4 +2138,22 @@
     <string name="pref_camera_remote_title">Kamera Kumandası</string>
     <string name="pref_workout_keep_screen_on_summary">Egzersiz sırasında ekran açık kalacak ve gerçek zamanlı egzersiz verilerini sürekli olarak görüntülemek için parlaklık ayarlanacaktır</string>
     <string name="pref_workout_keep_screen_on_title">Egzersiz sırasında ekranı açık tut</string>
+    <string name="status">Durum</string>
+    <string name="wifi_hotspot">Wi-Fi Erişim Noktası</string>
+    <string name="wifi_hotspot_summary">Saatteki Wi-Fi erişim noktasını denetleyin</string>
+    <string name="wifi_hotspot_configuration">Wi-Fi Erişim Noktası Yapılandırması</string>
+    <string name="wifi_ssid">SSID</string>
+    <string name="wifi_hotspot_status">Wi-Fi Erişim Noktası Durumu</string>
+    <string name="wifi_hotspot_start_summary">Saatteki Wi-Fi erişim noktasını başlatın</string>
+    <string name="wifi_hotspot_stop_summary">Saatteki Wi-Fi erişim noktasını durdurun</string>
+    <string name="ftp_server">FTP Sunucusu</string>
+    <string name="ftp_server_summary">Saatteki FTP sunucusunu denetleyin</string>
+    <string name="ftp_server_start_summary">Saatteki FTP sunucusunu başlatın</string>
+    <string name="ftp_server_stop_summary">Saatteki FTP sunucusunu durdurun</string>
+    <string name="address">Adres</string>
+    <string name="username">Kullanıcı Adı</string>
+    <string name="ftp_server_configuration">FTP Sunucusu Yapılandırması</string>
+    <string name="stop">Durdur</string>
+    <string name="ftp_server_root_dir">Kök Dizin</string>
+    <string name="ftp_server_status">FTP Sunucusu Durumu</string>
 </resources>
