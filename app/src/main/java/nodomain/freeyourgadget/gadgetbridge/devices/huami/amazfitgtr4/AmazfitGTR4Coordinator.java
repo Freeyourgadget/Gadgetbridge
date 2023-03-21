@@ -29,6 +29,7 @@ import nodomain.freeyourgadget.gadgetbridge.devices.InstallHandler;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.Huami2021Coordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.zeppos.ZeppOsAgpsInstallHandler;
+import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceCandidate;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
 
@@ -78,6 +79,16 @@ public class AmazfitGTR4Coordinator extends Huami2021Coordinator {
 
     @Override
     public boolean supportsToDoList() {
+        return true;
+    }
+
+    @Override
+    public boolean supportsWifiHotspot(final GBDevice device) {
+        return true;
+    }
+
+    @Override
+    public boolean supportsFtpServer(final GBDevice device) {
         return true;
     }
 }

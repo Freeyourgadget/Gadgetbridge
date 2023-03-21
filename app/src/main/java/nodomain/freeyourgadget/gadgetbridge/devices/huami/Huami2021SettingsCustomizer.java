@@ -33,14 +33,15 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Set;
 
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst;
 import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSpecificSettingsHandler;
 import nodomain.freeyourgadget.gadgetbridge.capabilities.GpsCapability;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.services.ZeppOsConfigService;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.HuamiVibrationPatternNotificationType;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.services.ZeppOsConfigService;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 
 public class Huami2021SettingsCustomizer extends HuamiSettingsCustomizer {
@@ -215,6 +216,22 @@ public class Huami2021SettingsCustomizer extends HuamiSettingsCustomizer {
         ));
 
         setupGpsPreference(handler, prefs);
+        setupWifiFtpPreferences(handler);
+    }
+
+    @Override
+    public Set<String> getPreferenceKeysWithSummary() {
+        final Set<String> preferenceKeysWithSummary = super.getPreferenceKeysWithSummary();
+
+        preferenceKeysWithSummary.add(DeviceSettingsPreferenceConst.WIFI_HOTSPOT_SSID);
+        preferenceKeysWithSummary.add(DeviceSettingsPreferenceConst.WIFI_HOTSPOT_PASSWORD);
+        preferenceKeysWithSummary.add(DeviceSettingsPreferenceConst.WIFI_HOTSPOT_STATUS);
+        preferenceKeysWithSummary.add(DeviceSettingsPreferenceConst.FTP_SERVER_ROOT_DIR);
+        preferenceKeysWithSummary.add(DeviceSettingsPreferenceConst.FTP_SERVER_ADDRESS);
+        preferenceKeysWithSummary.add(DeviceSettingsPreferenceConst.FTP_SERVER_USERNAME);
+        preferenceKeysWithSummary.add(DeviceSettingsPreferenceConst.FTP_SERVER_STATUS);
+
+        return preferenceKeysWithSummary;
     }
 
     private void setupGpsPreference(final DeviceSpecificSettingsHandler handler, final Prefs prefs) {
@@ -315,6 +332,25 @@ public class Huami2021SettingsCustomizer extends HuamiSettingsCustomizer {
                 prefAgpsExpireTime.setSummary(sdf.format(new Date(ts)));
             } else {
                 prefAgpsExpireTime.setSummary(handler.getContext().getString(R.string.unknown));
+            }
+        }
+    }
+
+    private void setupWifiFtpPreferences(final DeviceSpecificSettingsHandler handler) {
+        // Notify preference changed on button click, so we can react to them
+        final List<Preference> wifiFtpButtons = Arrays.asList(
+                handler.findPreference(DeviceSettingsPreferenceConst.WIFI_HOTSPOT_START),
+                handler.findPreference(DeviceSettingsPreferenceConst.WIFI_HOTSPOT_STOP),
+                handler.findPreference(DeviceSettingsPreferenceConst.FTP_SERVER_START),
+                handler.findPreference(DeviceSettingsPreferenceConst.FTP_SERVER_STOP)
+        );
+
+        for (final Preference btn : wifiFtpButtons) {
+            if (btn != null) {
+                btn.setOnPreferenceClickListener(preference -> {
+                    handler.notifyPreferenceChanged(btn.getKey());
+                    return true;
+                });
             }
         }
     }

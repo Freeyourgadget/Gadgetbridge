@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceScreen
+        android:icon="@drawable/ic_file_upload"
+        android:key="pref_screen_ftp_server"
+        android:summary="@string/ftp_server_summary"
+        android:title="@string/ftp_server">
+
+        <PreferenceCategory
+            android:key="pref_header_ftp_server_configuration"
+            android:title="@string/ftp_server_configuration">
+
+            <EditTextPreference
+                android:icon="@drawable/ic_folder"
+                android:defaultValue=""
+                android:key="ftp_server_root_dir"
+                android:title="@string/ftp_server_root_dir" />
+
+            <Preference
+                android:icon="@drawable/ic_link"
+                android:key="ftp_server_address"
+                android:summary=""
+                android:title="@string/address" />
+
+            <Preference
+                android:icon="@drawable/ic_person"
+                android:key="ftp_server_username"
+                android:summary=""
+                android:title="@string/username" />
+        </PreferenceCategory>
+
+        <PreferenceCategory
+            android:key="pref_header_ftp_status"
+            android:title="@string/ftp_server_status">
+
+            <Preference
+                android:icon="@drawable/ic_play"
+                android:key="ftp_server_start"
+                android:summary="@string/ftp_server_start_summary"
+                android:title="@string/start" />
+
+            <Preference
+                android:icon="@drawable/ic_stop"
+                android:key="ftp_server_stop"
+                android:summary="@string/ftp_server_stop_summary"
+                android:title="@string/stop" />
+
+            <Preference
+                android:icon="@drawable/ic_mtu"
+                android:key="ftp_server_status"
+                android:summary=""
+                android:title="@string/status" />
+        </PreferenceCategory>
+    </PreferenceScreen>
+</androidx.preference.PreferenceScreen>

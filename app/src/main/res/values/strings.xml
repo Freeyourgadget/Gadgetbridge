@@ -1046,6 +1046,8 @@
     <string name="ok">OK</string>
     <string name="dismiss">Dismiss</string>
     <string name="start">Start</string>
+    <string name="stop">Stop</string>
+    <string name="status">Status</string>
     <string name="set">Set</string>
     <string name="activity_data_management_directory_content_title">Export/Import directory content</string>
     <string name="activity_DB_ShowContentButton">Show Export/Import directory content</string>
@@ -2010,4 +2012,20 @@
     <string name="devicetype_asteroidos">AsteroidOS</string>
     <string name="devicetype_soflow_s06">SoFlow SO6</string>
     <string name="pref_title_lock_unlock">Lock</string>
+    <string name="wifi_hotspot">Wi-Fi Hotspot</string>
+    <string name="wifi_hotspot_summary">Control the Wi-Fi hotspot on the watch</string>
+    <string name="wifi_hotspot_configuration">Wi-Fi Hotspot Configuration</string>
+    <string name="wifi_ssid">SSID</string>
+    <string name="wifi_hotspot_status">Wi-Fi Hotspot Status</string>
+    <string name="wifi_hotspot_start_summary">Start the Wi-Fi hotspot on the watch</string>
+    <string name="wifi_hotspot_stop_summary">Stop the Wi-Fi hotspot on the watch</string>
+    <string name="ftp_server">FTP Server</string>
+    <string name="ftp_server_summary">Control the FTP server on the watch</string>
+    <string name="ftp_server_start_summary">Start the FTP server on the watch</string>
+    <string name="ftp_server_stop_summary">Stop the FTP server on the watch</string>
+    <string name="ftp_server_status">FTP Server Status</string>
+    <string name="ftp_server_configuration">FTP Server Configuration</string>
+    <string name="ftp_server_root_dir">Root Directory</string>
+    <string name="address">Address</string>
+    <string name="username">Username</string>
 </resources>

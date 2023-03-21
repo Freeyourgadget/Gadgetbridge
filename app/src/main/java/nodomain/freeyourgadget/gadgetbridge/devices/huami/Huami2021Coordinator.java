@@ -266,6 +266,12 @@ public abstract class Huami2021Coordinator extends HuamiCoordinator {
         // Developer
         //
         settings.add(R.xml.devicesettings_header_developer);
+        if (supportsWifiHotspot(device)) {
+            settings.add(R.xml.devicesettings_wifi_hotspot);
+        }
+        if (supportsFtpServer(device)) {
+            settings.add(R.xml.devicesettings_ftp_server);
+        }
         settings.add(R.xml.devicesettings_keep_activity_data_on_device);
         settings.add(R.xml.devicesettings_huami2021_fetch_operation_time_unit);
 
@@ -335,6 +341,14 @@ public abstract class Huami2021Coordinator extends HuamiCoordinator {
     public boolean mainMenuHasMoreSection() {
         // Devices that have a control center don't seem to have a "more" section in the main menu
         return !supportsControlCenter();
+    }
+
+    public boolean supportsWifiHotspot(final GBDevice device) {
+        return false;
+    }
+
+    public boolean supportsFtpServer(final GBDevice device) {
+        return false;
     }
 
     public boolean hasGps(final GBDevice device) {

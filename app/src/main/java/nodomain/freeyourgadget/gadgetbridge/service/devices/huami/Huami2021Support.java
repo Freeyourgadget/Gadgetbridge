@@ -77,6 +77,7 @@ import java.util.regex.Pattern;
 
 import nodomain.freeyourgadget.gadgetbridge.BuildConfig;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
+import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHelper;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventCallControl;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventFindPhone;
@@ -116,11 +117,12 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.operations.Hua
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.operations.UpdateFirmwareOperation;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.operations.UpdateFirmwareOperation2021;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.AbstractZeppOsService;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.operations.ZeppOsAgpsFile;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.operations.ZeppOsAgpsUpdateOperation;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.services.ZeppOsAgpsService;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.services.ZeppOsConfigService;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.services.ZeppOsFileUploadService;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.services.ZeppOsFtpServerService;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.services.ZeppOsWifiService;
 import nodomain.freeyourgadget.gadgetbridge.util.AlarmUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.BitmapUtil;
 import nodomain.freeyourgadget.gadgetbridge.util.DeviceHelper;
@@ -147,10 +149,14 @@ public abstract class Huami2021Support extends HuamiSupport {
     private final ZeppOsFileUploadService fileUploadService = new ZeppOsFileUploadService(this);
     private final ZeppOsConfigService configService = new ZeppOsConfigService(this);
     private final ZeppOsAgpsService agpsService = new ZeppOsAgpsService(this);
+    private final ZeppOsWifiService wifiService = new ZeppOsWifiService(this);
+    private final ZeppOsFtpServerService ftpServerService = new ZeppOsFtpServerService(this);
     private final Map<Short, AbstractZeppOsService> mServiceMap = new HashMap<Short, AbstractZeppOsService>() {{
         put(fileUploadService.getEndpoint(), fileUploadService);
         put(configService.getEndpoint(), configService);
         put(agpsService.getEndpoint(), agpsService);
+        put(wifiService.getEndpoint(), wifiService);
+        put(ftpServerService.getEndpoint(), ftpServerService);
     }};
 
     public Huami2021Support() {
@@ -184,6 +190,43 @@ public abstract class Huami2021Support extends HuamiSupport {
     public void onSendConfiguration(final String config) {
         final ZeppOsConfigService.ConfigSetter configSetter = configService.newSetter();
         final Prefs prefs = getDevicePrefs();
+
+        // Handle button presses - these are not preferences
+        // See Huami2021SettingsCustomizer
+        switch (config) {
+            case DeviceSettingsPreferenceConst.WIFI_HOTSPOT_START:
+                final String ssid = getDevicePrefs().getString(DeviceSettingsPreferenceConst.WIFI_HOTSPOT_SSID, "");
+                if (StringUtils.isNullOrEmpty(ssid)) {
+                    LOG.error("Wi-Fi hotspot SSID not specified");
+                    return;
+                }
+
+                final String password = getDevicePrefs().getString(DeviceSettingsPreferenceConst.WIFI_HOTSPOT_PASSWORD, "");
+                if (StringUtils.isNullOrEmpty(password) || password.length() < 8) {
+                    LOG.error("Wi-Fi hotspot password is not valid");
+                    return;
+                }
+                wifiService.startWifiHotspot(ssid, password);
+                return;
+            case DeviceSettingsPreferenceConst.WIFI_HOTSPOT_STOP:
+                wifiService.stopWifiHotspot();
+                return;
+            case DeviceSettingsPreferenceConst.FTP_SERVER_START:
+                ftpServerService.startFtpServer(getDevicePrefs().getString(DeviceSettingsPreferenceConst.FTP_SERVER_ROOT_DIR, ""));
+                return;
+            case DeviceSettingsPreferenceConst.FTP_SERVER_STOP:
+                ftpServerService.stopFtpServer();
+                return;
+            case DeviceSettingsPreferenceConst.WIFI_HOTSPOT_SSID:
+            case DeviceSettingsPreferenceConst.WIFI_HOTSPOT_PASSWORD:
+            case DeviceSettingsPreferenceConst.WIFI_HOTSPOT_STATUS:
+            case DeviceSettingsPreferenceConst.FTP_SERVER_ROOT_DIR:
+            case DeviceSettingsPreferenceConst.FTP_SERVER_ADDRESS:
+            case DeviceSettingsPreferenceConst.FTP_SERVER_USERNAME:
+            case DeviceSettingsPreferenceConst.FTP_SERVER_STATUS:
+                // Ignore preferences that are not reloadable
+                return;
+        }
 
         try {
             if (configService.setConfig(prefs, config, configSetter)) {
@@ -1384,6 +1427,13 @@ public abstract class Huami2021Support extends HuamiSupport {
         LOG.info("2021 phase2Initialize...");
         requestMTU(builder);
         requestBatteryInfo(builder);
+
+        final GBDeviceEventUpdatePreferences evt = new GBDeviceEventUpdatePreferences()
+                .withPreference(DeviceSettingsPreferenceConst.WIFI_HOTSPOT_STATUS, null)
+                .withPreference(DeviceSettingsPreferenceConst.FTP_SERVER_ADDRESS, null)
+                .withPreference(DeviceSettingsPreferenceConst.FTP_SERVER_USERNAME, null)
+                .withPreference(DeviceSettingsPreferenceConst.FTP_SERVER_STATUS, null);
+        evaluateGBDeviceEvent(evt);
     }
 
     @Override

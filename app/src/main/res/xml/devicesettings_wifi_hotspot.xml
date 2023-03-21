@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceScreen
+        android:icon="@drawable/ic_wifi_tethering"
+        android:key="pref_screen_wifi_hotspot"
+        android:summary="@string/wifi_hotspot_summary"
+        android:title="@string/wifi_hotspot">
+
+        <PreferenceCategory
+            android:key="pref_header_wifi_hotspot_configuration"
+            android:title="@string/wifi_hotspot_configuration">
+
+            <EditTextPreference
+                android:defaultValue=""
+                android:key="wifi_hotspot_ssid"
+                android:title="@string/wifi_ssid" />
+
+            <EditTextPreference
+                android:defaultValue=""
+                android:key="wifi_hotspot_password"
+                android:title="@string/prefs_password" />
+        </PreferenceCategory>
+
+        <PreferenceCategory
+            android:key="pref_header_wifi_hotspot_status"
+            android:title="@string/wifi_hotspot_status">
+
+            <Preference
+                android:icon="@drawable/ic_play"
+                android:key="wifi_hotspot_start"
+                android:summary="@string/wifi_hotspot_start_summary"
+                android:title="@string/start" />
+
+            <Preference
+                android:icon="@drawable/ic_stop"
+                android:key="wifi_hotspot_stop"
+                android:summary="@string/wifi_hotspot_stop_summary"
+                android:title="@string/stop" />
+
+            <Preference
+                android:icon="@drawable/ic_mtu"
+                android:key="wifi_hotspot_status"
+                android:summary=""
+                android:title="@string/status" />
+        </PreferenceCategory>
+    </PreferenceScreen>
+</androidx.preference.PreferenceScreen>
