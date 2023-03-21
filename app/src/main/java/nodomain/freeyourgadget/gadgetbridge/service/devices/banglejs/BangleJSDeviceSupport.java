@@ -905,7 +905,7 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
       // set timezone
       cmd += "E.setTimeZone("+tz+");";
       // write timezone to settings
-      cmd += "(s=>{s&&(s.timezone="+tz+")&&require('Storage').write('setting.json',s);})(require('Storage').readJSON('setting.json',1))";
+      cmd += "(s=>s&&(s.timezone="+tz+",require('Storage').write('setting.json',s)))(require('Storage').readJSON('setting.json',1))";
       uartTx(builder, cmd+"\n");
     }
 
