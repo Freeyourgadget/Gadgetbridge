@@ -394,16 +394,16 @@
 \n
 \nUnterstützte Zifferblätter zeigen das Wetter automatisch an.</string>
     <string name="pref_title_setup_bt_pairing">Bluetooth-Kopplung aktivieren</string>
-    <string name="pref_summary_setup_bt_pairing">Hier deaktivieren, wenn du Probleme beim Verbinden hast</string>
+    <string name="pref_summary_setup_bt_pairing">Deaktivierbar, falls du Probleme beim Verbinden hast</string>
     <string name="unit_metric">Metrisch</string>
     <string name="unit_imperial">Imperial (US/UK)</string>
     <string name="timeformat_24h">24h</string>
     <string name="timeformat_am_pm">AM/PM</string>
     <string name="pref_screen_notification_profile_alarm_clock">Wecker</string>
     <string name="StringUtils_sender"> (%1$s)</string>
-    <string name="find_device_you_found_it">Du hast es gefunden!</string>
+    <string name="find_device_you_found_it">Gefunden!</string>
     <string name="miband2_prefs_timeformat">Mi2: Zeitformat</string>
-    <string name="mi2_fw_installhandler_fw53_hint">Du musst die Version %1$s installieren, bevor du diese Firmware installieren kannst!</string>
+    <string name="mi2_fw_installhandler_fw53_hint">Du musst Version %1$s installieren, um diese Firmware installierbar zu machen!</string>
     <string name="mi2_enable_text_notifications">Textbenachrichtigungen</string>
     <string name="mi2_enable_text_notifications_summary">Benötigt Firmware &gt;= 1.0.1.28 und installiertes Mili_pro.ft*.</string>
     <string name="off">Aus</string>
@@ -412,8 +412,8 @@
     <string name="mi2_dnd_scheduled">Geplant (Zeitintervall)</string>
     <string name="discovery_attempting_to_pair">Versuche mit %1$s zu koppeln</string>
     <string name="discovery_bonding_failed_immediately">Bindung mit %1$s sofort fehlgeschlagen.</string>
-    <string name="discovery_trying_to_connect_to">Versuchen zu verbinden mit: %1$s</string>
-    <string name="discovery_enable_bluetooth">Aktiviere Bluetooth, um Geräte zu erkennen.</string>
+    <string name="discovery_trying_to_connect_to">Verbindungsversuch mit: %1$s</string>
+    <string name="discovery_enable_bluetooth">Aktiviere Bluetooth um Geräte zu finden.</string>
     <string name="discovery_successfully_bonded">Gebunden an %1$s.</string>
     <string name="discovery_pair_title">Koppeln mit %1$s?</string>
     <string name="discovery_pair_question">Wähle Koppeln, um dein Gerät zu verbinden. Falls dies fehlschlägt, versuche es erneut ohne koppeln.</string>
@@ -462,7 +462,7 @@
     <string name="interval_thirty_minutes">alle 30 Minuten</string>
     <string name="interval_one_hour">Stündlich</string>
     <string name="automatic">Automatisch</string>
-    <string name="activity_web_view">Webansicht-Aktivität</string>
+    <string name="activity_web_view">Webansicht Aktivität</string>
     <string name="pref_title_weather">Wetter</string>
     <string name="kind_firmware">Firmware</string>
     <string name="kind_invalid">Ungültige Daten</string>
@@ -504,7 +504,7 @@
     <string name="activity_summaries">Sportliche Aktivitäten</string>
     <string name="activity_type_biking">Radfahren</string>
     <string name="activity_type_treadmill">Laufband</string>
-    <string name="activity_error_no_app_for_gpx">Um Aktivitäten zu betrachten, App installieren, die GPX-Dateien verarbeiten kann.</string>
+    <string name="activity_error_no_app_for_gpx">Um Aktivitäten zu betrachten ist eine App zu installieren, die GPX-Dateien verarbeiten kann.</string>
     <string name="select_all">Alle auswählen</string>
     <string name="share">Teilen</string>
     <string name="reset_index">Abrufdatum zurücksetzen</string>
@@ -512,7 +512,7 @@
     <string name="kind_gps_almanac">GPS-Kalender</string>
     <string name="kind_gps_cep">GPS-Fehlerkorrektur</string>
     <string name="kind_resources">Quellen</string>
-    <string name="kind_watchface">Zifferblatt</string>
+    <string name="kind_watchface">Ziffernblatt</string>
     <string name="devicetype_xwatch">XWatch</string>
     <string name="choose_auto_export_location">Speicherort für Export auswählen</string>
     <string name="notification_channel_name">Allgemein</string>
@@ -1066,7 +1066,7 @@
     <string name="devicetype_nut_mini">Nut mini</string>
     <string name="descentSeconds">Absteigend</string>
     <string name="devicetype_lefun">Lefun</string>
-    <string name="activity_error_no_app_for_png">Um diesen Screenshot zu teilen, installiere eine App, die Bilddateien verarbeiten kann.</string>
+    <string name="activity_error_no_app_for_png">Um diesen Screenshot zu teilen installiere eine App die Bilder verarbeiten kann.</string>
     <string name="activity_prefs_chart_min_session_length">Minimale Aktivitätsdauer (Minuten)</string>
     <string name="activity_prefs_chart_max_idle_phase_length">Pausenlänge zum Trennen von Aktivitäten (Minuten)</string>
     <string name="activity_prefs_chart_min_steps_per_minute">Minimale Schritte pro Minute zur Erkennung einer Aktivität (Gehen)</string>
@@ -2131,4 +2131,6 @@
     <string name="pref_workout_keep_screen_on_summary">Der Bildschirm bleibt während des Trainings eingeschaltet und die Helligkeit wird angepasst, um die Trainingsdaten in Echtzeit anzuzeigen</string>
     <string name="pref_camera_remote_summary">Ermöglicht es der Uhr, die Kamera des Telefons auszulösen</string>
     <string name="pref_camera_remote_title">Kamera-Fernauslösung</string>
+    <string name="stop">Stop</string>
+    <string name="status">Status</string>
 </resources>
