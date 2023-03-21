@@ -2126,4 +2126,23 @@
     <string name="pref_camera_remote_title">Control remoto de la cámara</string>
     <string name="pref_camera_remote_summary">Permite que el reloj active la cámara del teléfono</string>
     <string name="pref_workout_keep_screen_on_summary">La pantalla permanecerá encendida durante el entrenamiento y el brillo se ajustará para mostrar continuamente los datos del entrenamiento en tiempo real</string>
+    <string name="wifi_hotspot">Punto de acceso Wi-Fi</string>
+    <string name="wifi_hotspot_summary">Control del punto de acceso Wi-Fi en el reloj</string>
+    <string name="wifi_hotspot_configuration">Configuración del punto de acceso Wi-Fi</string>
+    <string name="stop">Detener</string>
+    <string name="status">Estado</string>
+    <string name="wifi_hotspot_start_summary">Iniciar el punto de acceso Wi-Fi del reloj</string>
+    <string name="wifi_hotspot_stop_summary">Detener el punto de acceso Wi-Fi del reloj</string>
+    <string name="ftp_server">Servidor FTP</string>
+    <string name="ftp_server_summary">Controlar el servidor FTP del reloj</string>
+    <string name="ftp_server_start_summary">Iniciar el servidor FTP del reloj</string>
+    <string name="ftp_server_stop_summary">Detener el servidor FTP del reloj</string>
+    <string name="ftp_server_status">Estado del servidor FTP</string>
+    <string name="username">Nombre de usuario</string>
+    <string name="croatian">Croata</string>
+    <string name="wifi_ssid">SSID</string>
+    <string name="wifi_hotspot_status">Estado del punto de acceso Wi-Fi</string>
+    <string name="address">Dirección</string>
+    <string name="ftp_server_configuration">Configuración del servidor FTP</string>
+    <string name="ftp_server_root_dir">Directorio raíz</string>
 </resources>
