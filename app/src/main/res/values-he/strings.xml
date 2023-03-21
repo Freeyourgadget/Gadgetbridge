@@ -2119,4 +2119,26 @@
     <string name="devicetype_soflow_s06">SoFlow SO6‎</string>
     <string name="pref_title_lock_unlock">נעילה</string>
     <string name="devicetype_galaxybuds_2_pro">Galaxy Buds2 Pro‎</string>
+    <string name="pref_camera_remote_summary">לאפשר לשעון להפעיל את המצלמה של הטלפון</string>
+    <string name="pref_workout_keep_screen_on_title">להשאיר את המסך דולק במהלך אימון</string>
+    <string name="wifi_hotspot_summary">שליטה בנקודת הרשת האלחוטית החמה דרך השעון</string>
+    <string name="wifi_hotspot_configuration">הגדרות נקודה אלחוטית חמה</string>
+    <string name="wifi_ssid">שם רשת</string>
+    <string name="wifi_hotspot_status">מצב נקודה אלחוטית חמה</string>
+    <string name="wifi_hotspot_start_summary">הפעלת הנקודה החמה בשעון</string>
+    <string name="ftp_server_summary">שליטה בשרת ה־FTP בשעון</string>
+    <string name="ftp_server_start_summary">הפעלת שרת ה־FTP בשעון</string>
+    <string name="ftp_server_stop_summary">עצירת שרת ה־FTP בשעון</string>
+    <string name="ftp_server_status">מצב שרת FTP</string>
+    <string name="ftp_server_configuration">הגדרות שרת FTP</string>
+    <string name="username">שם משתמש</string>
+    <string name="wifi_hotspot">נקודה אלחוטית חמה</string>
+    <string name="status">מצב</string>
+    <string name="pref_camera_remote_title">מצלמה מרחוק</string>
+    <string name="stop">עצירה</string>
+    <string name="pref_workout_keep_screen_on_summary">המסך יישאר דולק במהלך אימון והבהירות תכוון כדי להציג נתוני אימון בזמן אמת ובאופן רציף</string>
+    <string name="ftp_server_root_dir">תיקיית מקור</string>
+    <string name="wifi_hotspot_stop_summary">עצירת הנקודה החמה בשעון</string>
+    <string name="ftp_server">שרת FTP</string>
+    <string name="address">כתובת</string>
 </resources>
