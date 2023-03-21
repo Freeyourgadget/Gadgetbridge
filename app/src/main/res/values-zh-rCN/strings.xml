@@ -2124,4 +2124,22 @@
     <string name="pref_camera_remote_title">相机遥控</string>
     <string name="pref_camera_remote_summary">允许手表使用手机相机遥控拍照</string>
     <string name="pref_workout_keep_screen_on_summary">屏幕在锻炼期间将保持开启，并且亮度将被调整以持续显示实时的锻炼数据</string>
+    <string name="wifi_ssid">SSID</string>
+    <string name="stop">停止</string>
+    <string name="status">状态</string>
+    <string name="wifi_hotspot_stop_summary">在手表上停止 Wi-Fi 热点</string>
+    <string name="wifi_hotspot_summary">在手表上控制 Wi-Fi 热点</string>
+    <string name="ftp_server">FTP 服务器</string>
+    <string name="ftp_server_summary">在手表上控制 FTP 服务器</string>
+    <string name="ftp_server_start_summary">在手表上启动 FTP 服务器</string>
+    <string name="ftp_server_stop_summary">在手表上停止 FTP 服务器</string>
+    <string name="wifi_hotspot_configuration">Wi-Fi 热点配置</string>
+    <string name="wifi_hotspot">Wi-Fi 热点</string>
+    <string name="wifi_hotspot_status">Wi-Fi 热点状态</string>
+    <string name="wifi_hotspot_start_summary">在手表上启动 Wi-Fi 热点</string>
+    <string name="address">地址</string>
+    <string name="ftp_server_root_dir">根目录</string>
+    <string name="username">用户名</string>
+    <string name="ftp_server_configuration">FTP 服务器配置</string>
+    <string name="ftp_server_status">FTP 服务器状态</string>
 </resources>
