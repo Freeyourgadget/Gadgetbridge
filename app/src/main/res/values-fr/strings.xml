@@ -2128,4 +2128,11 @@ Temps de sommeil préféré en heures</string>
     <string name="pref_workout_keep_screen_on_title">Garder l\'écran allumé durant un exercice</string>
     <string name="pref_camera_remote_title">Télécommande Photo</string>
     <string name="pref_camera_remote_summary">Permettre au bracelet de déclencher l\'appareil photo du téléphone</string>
+    <string name="stop">Arrêt</string>
+    <string name="wifi_hotspot">Point d\'accès Wifi</string>
+    <string name="wifi_hotspot_status">Etat du point d\'accès Wifi</string>
+    <string name="status">État</string>
+    <string name="wifi_hotspot_configuration">Configuration du point d\'accès Wifi</string>
+    <string name="wifi_ssid">SSID</string>
+    <string name="wifi_hotspot_summary">Contrôler le point d\'accès Wifi depuis la montre</string>
 </resources>
