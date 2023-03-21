@@ -56,6 +56,7 @@ import nodomain.freeyourgadget.gadgetbridge.util.language.impl.ScandinavianTrans
 import nodomain.freeyourgadget.gadgetbridge.util.language.impl.TurkishTransliterator;
 import nodomain.freeyourgadget.gadgetbridge.util.language.impl.UkranianTransliterator;
 import nodomain.freeyourgadget.gadgetbridge.util.language.impl.GeorgianTransliterator;
+import nodomain.freeyourgadget.gadgetbridge.util.language.impl.CroatianTransliterator;
 
 public class LanguageUtils {
     private static final Logger LOG = LoggerFactory.getLogger(LanguageUtils.class);
@@ -63,6 +64,7 @@ public class LanguageUtils {
     private static final Map<String, Transliterator> TRANSLITERATORS_MAP = new HashMap<String, Transliterator>() {{
         put("arabic", new ArabicTransliterator());
         put("bengali", new BengaliTransliterator());
+        put("croatian", new CroatianTransliterator());
         put("czech", new CzechTransliterator());
         put("estonian", new EstonianTransliterator());
         put("extended_ascii", new ExtendedAsciiTransliterator());

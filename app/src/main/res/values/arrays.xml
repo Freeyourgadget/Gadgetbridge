@@ -2781,6 +2781,7 @@
     <string-array name="pref_transliteration_languages">
         <item>@string/arabic</item>
         <item>@string/bengali</item>
+        <item>@string/croatian</item>
         <item>@string/czech</item>
         <item>@string/estonian</item>
         <item>@string/extended_ascii</item>
@@ -2803,6 +2804,7 @@
     <string-array name="pref_transliteration_languages_values">
         <item>arabic</item>
         <item>bengali</item>
+        <item>croatian</item>
         <item>czech</item>
         <item>estonian</item>
         <item>extended_ascii</item>

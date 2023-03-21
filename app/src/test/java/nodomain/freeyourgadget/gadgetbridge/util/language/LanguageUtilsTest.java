@@ -174,6 +174,16 @@ public class LanguageUtilsTest extends TestBase {
     }
 
     @Test
+    public void testStringTransliterateCroatian() {
+        final Transliterator transliterator = LanguageUtils.getTransliterator("croatian");
+
+        String input = "č ć đ š ž";
+        String output = transliterator.transliterate(input);
+        String expected = "c c d s z";
+        assertEquals("croatian transliteration failed", expected, output);
+    }
+
+    @Test
     public void testTransliterateOption() throws Exception {
         enableTransliteration(false);
         assertNull("Transliteration option fail! Expected 'Off' by default, but result is 'On'",
@@ -187,7 +197,7 @@ public class LanguageUtilsTest extends TestBase {
         SharedPreferences devicePrefs = GBApplication.getDeviceSpecificSharedPrefs(dummyGBDevice.getAddress());
         SharedPreferences.Editor editor = devicePrefs.edit();
         if (enable) {
-            editor.putString(PREF_TRANSLITERATION_LANGUAGES, "extended_ascii,scandinavian,german,russian,hebrew,greek,ukranian,arabic,persian,lithuanian,polish,estonian,icelandic,czech,turkish,bengali,korean,georgian");
+            editor.putString(PREF_TRANSLITERATION_LANGUAGES, "extended_ascii,scandinavian,german,russian,hebrew,greek,ukranian,arabic,persian,lithuanian,polish,estonian,icelandic,czech,turkish,bengali,korean,georgian,croatian");
         } else {
             editor.remove(PREF_TRANSLITERATION_LANGUAGES);
         }
