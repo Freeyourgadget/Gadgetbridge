@@ -2135,4 +2135,16 @@ Temps de sommeil préféré en heures</string>
     <string name="wifi_hotspot_configuration">Configuration du point d\'accès Wifi</string>
     <string name="wifi_ssid">SSID</string>
     <string name="wifi_hotspot_summary">Contrôler le point d\'accès Wifi depuis la montre</string>
+    <string name="wifi_hotspot_start_summary">Démarrer le point d’accès Wifi depuis la montre</string>
+    <string name="wifi_hotspot_stop_summary">Arrêter le point d\'accès Wifi depuis la montre</string>
+    <string name="ftp_server_summary">Contrôler le serveur FTP depuis la montre</string>
+    <string name="ftp_server_stop_summary">Arrêter le serveur FTP depuis la montre</string>
+    <string name="ftp_server_configuration">Configuration du serveur FTP</string>
+    <string name="ftp_server_root_dir">Répertoire racine</string>
+    <string name="croatian">Croate</string>
+    <string name="ftp_server">Serveur FTP</string>
+    <string name="ftp_server_start_summary">Démarrer le serveur FTP depuis la montre</string>
+    <string name="ftp_server_status">État du serveur FTP</string>
+    <string name="username">Nom d\'utilisateur</string>
+    <string name="address">Adresse</string>
 </resources>
