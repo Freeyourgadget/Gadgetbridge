@@ -2156,4 +2156,5 @@
     <string name="stop">Durdur</string>
     <string name="ftp_server_root_dir">Kök Dizin</string>
     <string name="ftp_server_status">FTP Sunucusu Durumu</string>
+    <string name="croatian">Hırvatça</string>
 </resources>
