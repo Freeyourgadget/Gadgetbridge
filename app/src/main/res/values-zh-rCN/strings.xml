@@ -2142,4 +2142,5 @@
     <string name="username">用户名</string>
     <string name="ftp_server_configuration">FTP 服务器配置</string>
     <string name="ftp_server_status">FTP 服务器状态</string>
+    <string name="croatian">克罗地亚语</string>
 </resources>
