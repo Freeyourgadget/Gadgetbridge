@@ -40,6 +40,7 @@ import nodomain.freeyourgadget.gadgetbridge.devices.sony.headphones.prefs.Equali
 import nodomain.freeyourgadget.gadgetbridge.devices.sony.headphones.prefs.EqualizerPreset;
 import nodomain.freeyourgadget.gadgetbridge.devices.sony.headphones.prefs.PauseWhenTakenOff;
 import nodomain.freeyourgadget.gadgetbridge.devices.sony.headphones.prefs.QuickAccess;
+import nodomain.freeyourgadget.gadgetbridge.devices.sony.headphones.prefs.SpeakToChat;
 import nodomain.freeyourgadget.gadgetbridge.devices.sony.headphones.prefs.VoiceNotifications;
 import nodomain.freeyourgadget.gadgetbridge.devices.sony.headphones.prefs.SoundPosition;
 import nodomain.freeyourgadget.gadgetbridge.devices.sony.headphones.prefs.SurroundMode;
@@ -223,8 +224,8 @@ public class SonyHeadphonesProtocol extends GBDeviceProtocol {
             case DeviceSettingsPreferenceConst.PREF_SONY_SPEAK_TO_CHAT_SENSITIVITY:
             case DeviceSettingsPreferenceConst.PREF_SONY_SPEAK_TO_CHAT_FOCUS_ON_VOICE:
             case DeviceSettingsPreferenceConst.PREF_SONY_SPEAK_TO_CHAT_TIMEOUT:
-                LOG.warn("Speak-to-chat is not implemented ('{}')", config);
-                return super.encodeSendConfiguration(config);
+                configRequest = protocolImpl.setSpeakToChat(SpeakToChat.fromPreferences(prefs));
+                break;
             default:
                 LOG.warn("Unknown config '{}'", config);
                 return super.encodeSendConfiguration(config);

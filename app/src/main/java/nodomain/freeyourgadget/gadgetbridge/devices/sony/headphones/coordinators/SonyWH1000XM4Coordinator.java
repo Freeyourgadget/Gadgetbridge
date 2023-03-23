@@ -51,6 +51,7 @@ public class SonyWH1000XM4Coordinator extends SonyHeadphonesCoordinator {
                 SonyHeadphonesCapabilities.BatterySingle,
                 SonyHeadphonesCapabilities.AmbientSoundControl,
                 SonyHeadphonesCapabilities.WindNoiseReduction,
+                SonyHeadphonesCapabilities.SpeakToChat,
                 SonyHeadphonesCapabilities.AncOptimizer,
                 SonyHeadphonesCapabilities.EqualizerWithCustomBands,
                 SonyHeadphonesCapabilities.AudioUpsampling,

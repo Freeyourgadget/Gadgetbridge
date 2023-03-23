@@ -41,6 +41,7 @@ import nodomain.freeyourgadget.gadgetbridge.devices.sony.headphones.prefs.Equali
 import nodomain.freeyourgadget.gadgetbridge.devices.sony.headphones.prefs.PauseWhenTakenOff;
 import nodomain.freeyourgadget.gadgetbridge.devices.sony.headphones.prefs.QuickAccess;
 import nodomain.freeyourgadget.gadgetbridge.devices.sony.headphones.prefs.SoundPosition;
+import nodomain.freeyourgadget.gadgetbridge.devices.sony.headphones.prefs.SpeakToChat;
 import nodomain.freeyourgadget.gadgetbridge.devices.sony.headphones.prefs.SurroundMode;
 import nodomain.freeyourgadget.gadgetbridge.devices.sony.headphones.prefs.TouchSensor;
 import nodomain.freeyourgadget.gadgetbridge.devices.sony.headphones.prefs.VoiceNotifications;
@@ -102,6 +103,18 @@ public class SonyProtocolImplV2 extends SonyProtocolImplV1 {
         buf.put((byte) (ambientSoundControl.getAmbientSound()));
 
         return new Request(PayloadTypeV1.AMBIENT_SOUND_CONTROL_SET.getMessageType(), buf.array());
+    }
+
+    @Override
+    public Request setSpeakToChat(SpeakToChat config) {
+        LOG.warn("Speak-to-chat not implemented for V2");
+        return null;
+    }
+
+    @Override
+    public Request getSpeakToChat() {
+        LOG.warn("Speak-to-chat not implemented for V2");
+        return null;
     }
 
     @Override
