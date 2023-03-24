@@ -178,7 +178,9 @@ public abstract class SonyHeadphonesCoordinator extends AbstractBLClassicDeviceC
                 settings.add(R.xml.devicesettings_sony_headphones_ambient_sound_control);
             }
 
-            if (supports(SonyHeadphonesCapabilities.SpeakToChat)) {
+            if (supports(SonyHeadphonesCapabilities.SpeakToChatConfig)) {
+                settings.add(R.xml.devicesettings_sony_headphones_speak_to_chat_with_settings);
+            } else if (supports(SonyHeadphonesCapabilities.SpeakToChatEnabled)) {
                 settings.add(R.xml.devicesettings_sony_headphones_speak_to_chat_simple);
             }
 

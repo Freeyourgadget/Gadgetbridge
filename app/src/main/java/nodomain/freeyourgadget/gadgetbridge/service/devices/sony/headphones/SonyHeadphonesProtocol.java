@@ -40,7 +40,8 @@ import nodomain.freeyourgadget.gadgetbridge.devices.sony.headphones.prefs.Equali
 import nodomain.freeyourgadget.gadgetbridge.devices.sony.headphones.prefs.EqualizerPreset;
 import nodomain.freeyourgadget.gadgetbridge.devices.sony.headphones.prefs.PauseWhenTakenOff;
 import nodomain.freeyourgadget.gadgetbridge.devices.sony.headphones.prefs.QuickAccess;
-import nodomain.freeyourgadget.gadgetbridge.devices.sony.headphones.prefs.SpeakToChat;
+import nodomain.freeyourgadget.gadgetbridge.devices.sony.headphones.prefs.SpeakToChatConfig;
+import nodomain.freeyourgadget.gadgetbridge.devices.sony.headphones.prefs.SpeakToChatEnabled;
 import nodomain.freeyourgadget.gadgetbridge.devices.sony.headphones.prefs.VoiceNotifications;
 import nodomain.freeyourgadget.gadgetbridge.devices.sony.headphones.prefs.SoundPosition;
 import nodomain.freeyourgadget.gadgetbridge.devices.sony.headphones.prefs.SurroundMode;
@@ -221,10 +222,12 @@ public class SonyHeadphonesProtocol extends GBDeviceProtocol {
                 LOG.warn("Connection to two devices not implemented ('{}')", config);
                 return super.encodeSendConfiguration(config);
             case DeviceSettingsPreferenceConst.PREF_SONY_SPEAK_TO_CHAT:
+                configRequest = protocolImpl.setSpeakToChatEnabled(SpeakToChatEnabled.fromPreferences(prefs));
+                break;
             case DeviceSettingsPreferenceConst.PREF_SONY_SPEAK_TO_CHAT_SENSITIVITY:
             case DeviceSettingsPreferenceConst.PREF_SONY_SPEAK_TO_CHAT_FOCUS_ON_VOICE:
             case DeviceSettingsPreferenceConst.PREF_SONY_SPEAK_TO_CHAT_TIMEOUT:
-                configRequest = protocolImpl.setSpeakToChat(SpeakToChat.fromPreferences(prefs));
+                configRequest = protocolImpl.setSpeakToChatConfig(SpeakToChatConfig.fromPreferences(prefs));
                 break;
             default:
                 LOG.warn("Unknown config '{}'", config);

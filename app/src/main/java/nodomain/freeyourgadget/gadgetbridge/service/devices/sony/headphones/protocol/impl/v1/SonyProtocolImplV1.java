@@ -50,7 +50,8 @@ import nodomain.freeyourgadget.gadgetbridge.devices.sony.headphones.prefs.Equali
 import nodomain.freeyourgadget.gadgetbridge.devices.sony.headphones.prefs.PauseWhenTakenOff;
 import nodomain.freeyourgadget.gadgetbridge.devices.sony.headphones.prefs.QuickAccess;
 import nodomain.freeyourgadget.gadgetbridge.devices.sony.headphones.prefs.SoundPosition;
-import nodomain.freeyourgadget.gadgetbridge.devices.sony.headphones.prefs.SpeakToChat;
+import nodomain.freeyourgadget.gadgetbridge.devices.sony.headphones.prefs.SpeakToChatConfig;
+import nodomain.freeyourgadget.gadgetbridge.devices.sony.headphones.prefs.SpeakToChatEnabled;
 import nodomain.freeyourgadget.gadgetbridge.devices.sony.headphones.prefs.SurroundMode;
 import nodomain.freeyourgadget.gadgetbridge.devices.sony.headphones.prefs.TouchSensor;
 import nodomain.freeyourgadget.gadgetbridge.devices.sony.headphones.prefs.VoiceNotifications;
@@ -141,7 +142,7 @@ public class SonyProtocolImplV1 extends AbstractSonyProtocolImpl {
     }
 
     @Override
-    public Request setSpeakToChat(final SpeakToChat config) {
+    public Request setSpeakToChatEnabled(final SpeakToChatEnabled config) {
         return new Request(
                 PayloadTypeV1.AUTOMATIC_POWER_OFF_BUTTON_MODE_SET.getMessageType(),
                 new byte[]{
@@ -154,11 +155,37 @@ public class SonyProtocolImplV1 extends AbstractSonyProtocolImpl {
     }
 
     @Override
-    public Request getSpeakToChat() {
+    public Request getSpeakToChatEnabled() {
         return new Request(
                 PayloadTypeV1.AUTOMATIC_POWER_OFF_BUTTON_MODE_GET.getMessageType(),
                 new byte[]{
                         PayloadTypeV1.AUTOMATIC_POWER_OFF_BUTTON_MODE_GET.getCode(),
+                        (byte) 0x05
+                }
+        );
+    }
+
+    @Override
+    public Request setSpeakToChatConfig(final SpeakToChatConfig config) {
+        return new Request(
+                PayloadTypeV1.SPEAK_TO_CHAT_CONFIG_SET.getMessageType(),
+                new byte[]{
+                        PayloadTypeV1.SPEAK_TO_CHAT_CONFIG_SET.getCode(),
+                        (byte) 0x05,
+                        (byte) 0x00,
+                        config.getSensitivity().getCode(),
+                        (byte) (config.isFocusOnVoice() ? 0x01 : 0x00),
+                        config.getTimeout().getCode()
+                }
+        );
+    }
+
+    @Override
+    public Request getSpeakToChatConfig() {
+        return new Request(
+                PayloadTypeV1.SPEAK_TO_CHAT_CONFIG_GET.getMessageType(),
+                new byte[]{
+                        PayloadTypeV1.SPEAK_TO_CHAT_CONFIG_GET.getCode(),
                         (byte) 0x05
                 }
         );
@@ -530,6 +557,9 @@ public class SonyProtocolImplV1 extends AbstractSonyProtocolImpl {
             case AUTOMATIC_POWER_OFF_BUTTON_MODE_RET:
             case AUTOMATIC_POWER_OFF_BUTTON_MODE_NOTIFY:
                 return handleAutomaticPowerOffButtonMode(payload);
+            case SPEAK_TO_CHAT_CONFIG_RET:
+            case SPEAK_TO_CHAT_CONFIG_NOTIFY:
+                return handleSpeakToChatConfig(payload);
             case VOICE_NOTIFICATIONS_RET:
             case VOICE_NOTIFICATIONS_NOTIFY:
                 return handleVoiceNotifications(payload);
@@ -567,7 +597,8 @@ public class SonyProtocolImplV1 extends AbstractSonyProtocolImpl {
             put(SonyHeadphonesCapabilities.EqualizerWithCustomBands, getEqualizer());
             put(SonyHeadphonesCapabilities.SoundPosition, getSoundPosition());
             put(SonyHeadphonesCapabilities.SurroundMode, getSurroundMode());
-            put(SonyHeadphonesCapabilities.SpeakToChat, getSpeakToChat());
+            put(SonyHeadphonesCapabilities.SpeakToChatEnabled, getSpeakToChatEnabled());
+            put(SonyHeadphonesCapabilities.SpeakToChatConfig, getSpeakToChatConfig());
             put(SonyHeadphonesCapabilities.PauseWhenTakenOff, getPauseWhenTakenOff());
             put(SonyHeadphonesCapabilities.AmbientSoundControlButtonMode, getAmbientSoundControlButtonMode());
             put(SonyHeadphonesCapabilities.QuickAccess, getQuickAccess());
@@ -733,7 +764,7 @@ public class SonyProtocolImplV1 extends AbstractSonyProtocolImpl {
         return Collections.singletonList(event);
     }
 
-    public List<? extends GBDeviceEvent> handleSpeakToChat(final byte[] payload) {
+    public List<? extends GBDeviceEvent> handleSpeakToChatEnabled(final byte[] payload) {
         if (payload.length != 4) {
             LOG.warn("Unexpected payload length {}", payload.length);
             return Collections.emptyList();
@@ -748,7 +779,7 @@ public class SonyProtocolImplV1 extends AbstractSonyProtocolImpl {
         LOG.debug("Speak to chat: {}", enabled);
 
         final GBDeviceEventUpdatePreferences event = new GBDeviceEventUpdatePreferences()
-                .withPreferences(new SpeakToChat(enabled).toPreferences());
+                .withPreferences(new SpeakToChatEnabled(enabled).toPreferences());
 
         return Collections.singletonList(event);
     }
@@ -954,7 +985,7 @@ public class SonyProtocolImplV1 extends AbstractSonyProtocolImpl {
             case 0x03:
                 return handlePauseWhenTakenOff(payload);
             case 0x05:
-                return handleSpeakToChat(payload);
+                return handleSpeakToChatEnabled(payload);
             case 0x06:
                 return handleButtonModes(payload);
         }
@@ -1064,6 +1095,45 @@ public class SonyProtocolImplV1 extends AbstractSonyProtocolImpl {
 
         final GBDeviceEventUpdatePreferences event = new GBDeviceEventUpdatePreferences()
                 .withPreferences(new TouchSensor(enabled).toPreferences());
+
+        return Collections.singletonList(event);
+    }
+
+    public List<? extends GBDeviceEvent> handleSpeakToChatConfig(final byte[] payload) {
+        if (payload.length != 6) {
+            LOG.warn("Unexpected payload length {}", payload.length);
+            return Collections.emptyList();
+        }
+
+        if (payload[1] != 0x05) {
+            LOG.warn("Not speak to chat config, ignoring");
+            return Collections.emptyList();
+        }
+
+        final SpeakToChatConfig.Sensitivity sensitivity = SpeakToChatConfig.Sensitivity.fromCode(payload[3]);
+        if (sensitivity == null) {
+            LOG.warn("Unknown sensitivity code {}", String.format("%02x", payload[3]));
+            return Collections.emptyList();
+        }
+
+        final Boolean focusOnVoice = booleanFromByte(payload[4]);
+        if (focusOnVoice == null) {
+            LOG.warn("Unknown focus on voice code {}", String.format("%02x", payload[3]));
+            return Collections.emptyList();
+        }
+
+        final SpeakToChatConfig.Timeout timeout = SpeakToChatConfig.Timeout.fromCode(payload[5]);
+        if (timeout == null) {
+            LOG.warn("Unknown timeout code {}", String.format("%02x", payload[3]));
+            return Collections.emptyList();
+        }
+
+        final SpeakToChatConfig speakToChatConfig = new SpeakToChatConfig(focusOnVoice, sensitivity, timeout);
+
+        LOG.debug("Speak to chat config: {}", speakToChatConfig);
+
+        final GBDeviceEventUpdatePreferences event = new GBDeviceEventUpdatePreferences()
+                .withPreferences(speakToChatConfig.toPreferences());
 
         return Collections.singletonList(event);
     }

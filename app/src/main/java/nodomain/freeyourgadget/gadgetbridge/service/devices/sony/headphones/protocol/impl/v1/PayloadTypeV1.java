@@ -75,6 +75,11 @@ public enum PayloadTypeV1 {
     AUTOMATIC_POWER_OFF_BUTTON_MODE_SET(MessageType.COMMAND_1, 0xf8),
     AUTOMATIC_POWER_OFF_BUTTON_MODE_NOTIFY(MessageType.COMMAND_1, 0xf9),
 
+    SPEAK_TO_CHAT_CONFIG_GET(MessageType.COMMAND_1, 0xfa),
+    SPEAK_TO_CHAT_CONFIG_RET(MessageType.COMMAND_1, 0xfb),
+    SPEAK_TO_CHAT_CONFIG_SET(MessageType.COMMAND_1, 0xfc),
+    SPEAK_TO_CHAT_CONFIG_NOTIFY(MessageType.COMMAND_1, 0xfd),
+
     // TODO: The headphones spit out a lot of json, analyze it
     JSON_GET(MessageType.COMMAND_1, 0xc4),
     JSON_RET(MessageType.COMMAND_1, 0xc9),

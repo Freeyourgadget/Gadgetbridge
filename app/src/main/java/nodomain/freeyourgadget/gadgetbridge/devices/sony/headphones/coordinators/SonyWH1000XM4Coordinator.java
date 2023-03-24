@@ -47,11 +47,11 @@ public class SonyWH1000XM4Coordinator extends SonyHeadphonesCoordinator {
         return Arrays.asList(
                 // TODO: Function of [CUSTOM] button
                 // TODO R.xml.devicesettings_connect_two_devices,
-                // TODO R.xml.devicesettings_sony_headphones_speak_to_chat_with_settings,
                 SonyHeadphonesCapabilities.BatterySingle,
                 SonyHeadphonesCapabilities.AmbientSoundControl,
                 SonyHeadphonesCapabilities.WindNoiseReduction,
-                SonyHeadphonesCapabilities.SpeakToChat,
+                SonyHeadphonesCapabilities.SpeakToChatEnabled,
+                SonyHeadphonesCapabilities.SpeakToChatConfig,
                 SonyHeadphonesCapabilities.AncOptimizer,
                 SonyHeadphonesCapabilities.EqualizerWithCustomBands,
                 SonyHeadphonesCapabilities.AudioUpsampling,

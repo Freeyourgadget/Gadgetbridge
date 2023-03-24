@@ -24,15 +24,15 @@ import java.util.Map;
 
 import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst;
 
-public class SpeakToChat {
+public class SpeakToChatEnabled {
     private final boolean enabled;
 
-    public SpeakToChat(final boolean enabled) {
+    public SpeakToChatEnabled(final boolean enabled) {
         this.enabled = enabled;
     }
 
     public String toString() {
-        return String.format(Locale.getDefault(), "SpeakToChat{enabled=%s}", enabled);
+        return String.format(Locale.getDefault(), "SpeakToChatEnabled{enabled=%s}", enabled);
     }
 
     public boolean isEnabled() {
@@ -45,9 +45,9 @@ public class SpeakToChat {
         }};
     }
 
-    public static SpeakToChat fromPreferences(final SharedPreferences prefs) {
+    public static SpeakToChatEnabled fromPreferences(final SharedPreferences prefs) {
         final boolean enabled = prefs.getBoolean(DeviceSettingsPreferenceConst.PREF_SONY_SPEAK_TO_CHAT, false);
 
-        return new SpeakToChat(enabled);
+        return new SpeakToChatEnabled(enabled);
     }
 }

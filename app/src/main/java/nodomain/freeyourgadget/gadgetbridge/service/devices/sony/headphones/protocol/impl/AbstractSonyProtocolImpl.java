@@ -30,7 +30,8 @@ import nodomain.freeyourgadget.gadgetbridge.devices.sony.headphones.prefs.Equali
 import nodomain.freeyourgadget.gadgetbridge.devices.sony.headphones.prefs.PauseWhenTakenOff;
 import nodomain.freeyourgadget.gadgetbridge.devices.sony.headphones.prefs.QuickAccess;
 import nodomain.freeyourgadget.gadgetbridge.devices.sony.headphones.prefs.SoundPosition;
-import nodomain.freeyourgadget.gadgetbridge.devices.sony.headphones.prefs.SpeakToChat;
+import nodomain.freeyourgadget.gadgetbridge.devices.sony.headphones.prefs.SpeakToChatConfig;
+import nodomain.freeyourgadget.gadgetbridge.devices.sony.headphones.prefs.SpeakToChatEnabled;
 import nodomain.freeyourgadget.gadgetbridge.devices.sony.headphones.prefs.SurroundMode;
 import nodomain.freeyourgadget.gadgetbridge.devices.sony.headphones.prefs.TouchSensor;
 import nodomain.freeyourgadget.gadgetbridge.devices.sony.headphones.prefs.VoiceNotifications;
@@ -59,9 +60,13 @@ public abstract class AbstractSonyProtocolImpl {
 
     public abstract Request setAmbientSoundControl(final AmbientSoundControl config);
 
-    public abstract Request setSpeakToChat(final SpeakToChat config);
+    public abstract Request setSpeakToChatEnabled(final SpeakToChatEnabled config);
 
-    public abstract Request getSpeakToChat();
+    public abstract Request getSpeakToChatEnabled();
+
+    public abstract Request setSpeakToChatConfig(final SpeakToChatConfig config);
+
+    public abstract Request getSpeakToChatConfig();
 
     public abstract Request getNoiseCancellingOptimizerState();
 
