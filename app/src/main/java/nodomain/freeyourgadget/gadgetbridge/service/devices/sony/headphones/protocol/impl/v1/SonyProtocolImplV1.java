@@ -770,6 +770,12 @@ public class SonyProtocolImplV1 extends AbstractSonyProtocolImpl {
             return Collections.emptyList();
         }
 
+        if (payload[1] != 0x01) {
+            // TODO: Handle these, setting speak to chat sends a 0x02 back
+            LOG.warn("Not speak to chat enabled, ignoring");
+            return Collections.emptyList();
+        }
+
         final Boolean enabled = booleanFromByte(payload[3]);
         if (enabled == null) {
             LOG.warn("Unknown speak to chat code {}", String.format("%02x", payload[3]));
