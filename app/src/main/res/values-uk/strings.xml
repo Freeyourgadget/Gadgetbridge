@@ -2151,4 +2151,5 @@
     <string name="ftp_server_stop_summary">Зупинити FTP-сервер з годинника</string>
     <string name="ftp_server_status">Стан FTP-сервера</string>
     <string name="croatian">Хорватська</string>
+    <string name="sony_speak_to_chat_summary">Автоматично вимикати шумозаглушення, коли ви починаєте говорити.</string>
 </resources>
