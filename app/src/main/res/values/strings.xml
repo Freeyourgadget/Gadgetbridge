@@ -1880,6 +1880,7 @@
     <string name="sony_audio_upsampling">Audio Upsampling</string>
     <string name="sony_touch_sensor">Touch sensor control</string>
     <string name="sony_speak_to_chat">Speak-to-chat</string>
+    <string name="sony_speak_to_chat_summary">Turn off noise cancelling automatically when you start talking.</string>
     <string name="sony_speak_to_chat_sensitivity">Voice Detection Sensitivity</string>
     <string name="sony_speak_to_chat_sensitivity_auto">Automatic</string>
     <string name="sony_speak_to_chat_sensitivity_high">High</string>

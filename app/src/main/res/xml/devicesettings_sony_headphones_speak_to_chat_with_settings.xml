@@ -5,12 +5,14 @@
         android:icon="@drawable/ic_voice"
         android:key="pref_sony_speak_to_chat_header"
         android:persistent="false"
+        android:summary="@string/sony_speak_to_chat_summary"
         android:title="@string/sony_speak_to_chat">
 
         <SwitchPreference
             android:defaultValue="false"
             android:icon="@drawable/ic_voice"
             android:key="pref_sony_speak_to_chat"
+            android:summary="@string/sony_speak_to_chat_summary"
             android:title="@string/sony_speak_to_chat" />
 
         <PreferenceCategory
