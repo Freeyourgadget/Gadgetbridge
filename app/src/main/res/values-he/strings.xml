@@ -2142,4 +2142,5 @@
     <string name="ftp_server">שרת FTP</string>
     <string name="address">כתובת</string>
     <string name="croatian">קרואטית</string>
+    <string name="sony_speak_to_chat_summary">כיבוי ביטול רעשים אוטומטית בעת דיבור.</string>
 </resources>
