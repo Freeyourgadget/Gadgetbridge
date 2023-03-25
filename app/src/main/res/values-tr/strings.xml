@@ -2157,4 +2157,5 @@
     <string name="ftp_server_root_dir">Kök Dizin</string>
     <string name="ftp_server_status">FTP Sunucusu Durumu</string>
     <string name="croatian">Hırvatça</string>
+    <string name="sony_speak_to_chat_summary">Konuşmaya başladığınızda gürültü engellemeyi otomatik olarak kapatın.</string>
 </resources>
