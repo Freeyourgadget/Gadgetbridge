@@ -2132,4 +2132,5 @@
     <string name="ftp_server_stop_summary">Hentikan server FTP di jam tangan</string>
     <string name="ftp_server_root_dir">Direktori Akar</string>
     <string name="username">Nama pengguna</string>
+    <string name="sony_speak_to_chat_summary">Nonaktifkan peredam bising secara otomatis saat Anda mulai berbicara.</string>
 </resources>
