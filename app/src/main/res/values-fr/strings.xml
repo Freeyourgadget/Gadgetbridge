@@ -2147,4 +2147,5 @@ Temps de sommeil préféré en heures</string>
     <string name="ftp_server_status">État du serveur FTP</string>
     <string name="username">Nom d\'utilisateur</string>
     <string name="address">Adresse</string>
+    <string name="sony_speak_to_chat_summary">Désactiver l\'annulation de bruit automatiquement lors d\'un appel.</string>
 </resources>
