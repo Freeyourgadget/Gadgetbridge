@@ -2145,4 +2145,5 @@
     <string name="address">Dirección</string>
     <string name="ftp_server_configuration">Configuración del servidor FTP</string>
     <string name="ftp_server_root_dir">Directorio raíz</string>
+    <string name="sony_speak_to_chat_summary">Desactiva automáticamente la cancelación de ruido cuando empieces a hablar.</string>
 </resources>
