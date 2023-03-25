@@ -1,5 +1,21 @@
 ### Changelog
 
+#### Next Version
+
+* Add Croatian transliterator
+* Amazfit Bip U: Remove alarm snooze option
+* Amazfit GTR 4 / GTS 4: Add watch Wi-Fi Hotspot and FTP Server
+* Amazfit GTR 4: Whitelist fw 3.18.1.1 diff from 3.17.0.2
+* Amazfit GTS 2 Mini: Add missing alexa menu item
+* Bangle.js: Fix updating timezone in settings.json if the timezone is zero
+* Fix restoring app notification/pebble blacklist preferences on import
+* Huami: Implement repeated activity fetching
+* Sony WH-1000XM4: Add speak-to-chat
+* Zepp OS: Add config to keep screen on during workout
+* Zepp OS: Add preference for camera remote
+* Zepp OS: Fix activate display upon lift wrist smart mode
+* Zepp OS: Fix setting of unknown configuration values
+
 #### 0.73.0
 * Initial support for Amazfit T-Rex 2
 * Initial support for AsteroidOS watches
