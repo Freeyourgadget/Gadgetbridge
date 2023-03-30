@@ -2141,4 +2141,14 @@
     <string name="address">Adresse</string>
     <string name="username">Nutzername</string>
     <string name="sony_speak_to_chat_summary">Deaktiviere Noise-Cancelling automatisch, wenn du anfängst zu reden.</string>
+    <string name="ftp_server">FTP-Server</string>
+    <string name="ftp_server_stop_summary">Beende den FTP-Server auf der Uhr</string>
+    <string name="wifi_hotspot_status">Status des WLAN-Hotspots</string>
+    <string name="wifi_hotspot_start_summary">Starte den WLAN-Hotspot auf der Uhr</string>
+    <string name="wifi_hotspot_stop_summary">Beende den WLAN-Hotspot auf der Uhr</string>
+    <string name="ftp_server_summary">Steuern des FTP-Servers auf der Uhr</string>
+    <string name="ftp_server_start_summary">Starte den FTP-Server auf der Uhr</string>
+    <string name="ftp_server_status">Status des FTP-Servers</string>
+    <string name="ftp_server_configuration">FTP-Serverkonfiguration</string>
+    <string name="ftp_server_root_dir">Stammverzeichnis</string>
 </resources>
