@@ -33,6 +33,13 @@
 
         <CheckBoxPreference
             android:defaultValue="false"
+            android:key="notification_cache_while_disconnected"
+            android:layout="@layout/preference_checkbox"
+            android:title="@string/pref_title_notification_cache_while_disconnected"
+            android:summary="@string/pref_summary_notification_cache_while_disconnected" />
+
+        <CheckBoxPreference
+            android:defaultValue="false"
             android:key="minimize_priority"
             android:layout="@layout/preference_checkbox"
             android:summaryOff="@string/pref_summary_minimize_priority_off"

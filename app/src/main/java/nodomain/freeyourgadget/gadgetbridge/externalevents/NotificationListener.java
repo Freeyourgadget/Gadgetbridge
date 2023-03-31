@@ -772,7 +772,7 @@ public class NotificationListener extends NotificationListenerService {
         notificationsActive.removeAll(notificationsToRemove);
 
         // Send notification remove request to device
-        List<GBDevice> devices = GBApplication.app().getDeviceManager().getSelectedDevices();
+        List<GBDevice> devices = GBApplication.app().getDeviceManager().getDevices();
         for(GBDevice device : devices){
             Prefs devicePrefs = new  Prefs(GBApplication.getDeviceSpecificSharedPrefs(device.getAddress()));
             if (devicePrefs.getBoolean("autoremove_notifications", true)) {

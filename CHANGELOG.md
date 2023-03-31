@@ -17,6 +17,7 @@
 * Zepp OS: Fix setting of unknown configuration values
 * Add Croatian transliterator
 * Fix restoring app notification/pebble blacklist preferences on import
+* Cache notifications while devices are out of range (opt-in)
 
 #### 0.73.0
 * Initial support for Amazfit T-Rex 2

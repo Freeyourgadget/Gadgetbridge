@@ -45,6 +45,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 
@@ -310,6 +311,7 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
 
     private DeviceSupportFactory mFactory;
     private final ArrayList<DeviceStruct> deviceStructs = new ArrayList<>(1);
+    private final HashMap<String, ArrayList<Intent>> cachedNotifications = new HashMap<>();
 
     private PhoneCallReceiver mPhoneCallReceiver = null;
     private SMSReceiver mSMSReceiver = null;
@@ -347,6 +349,7 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
 
     private final String COMMAND_BLUETOOTH_CONNECT = "nodomain.freeyourgadget.gadgetbridge.BLUETOOTH_CONNECT";
     private final String ACTION_DEVICE_CONNECTED = "nodomain.freeyourgadget.gadgetbridge.BLUETOOTH_CONNECTED";
+    private final int NOTIFICATIONS_CACHE_MAX = 10;  // maximum amount of notifications to cache per device while disconnected
     private boolean allowBluetoothIntentApi = false;
 
     private void sendDeviceConnectedBroadcast(String address){
@@ -442,6 +445,7 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
                 if(subject == GBDevice.DeviceUpdateSubject.DEVICE_STATE && device.isInitialized()){
                     LOG.debug("device state update reason");
                     sendDeviceConnectedBroadcast(device.getAddress());
+                    sendCachedNotifications(device);
                 }
             }
         }
@@ -626,6 +630,28 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
                     for(GBDevice device : getGBDevices()){
                         if(isDeviceInitialized(device)){
                             targetedDevices.add(device);
+                        } else if (isDeviceReconnecting(device) && action.equals(ACTION_NOTIFICATION) && GBApplication.getPrefs().getBoolean("notification_cache_while_disconnected", false)) {
+                            if (!cachedNotifications.containsKey(device.getAddress())) {
+                                cachedNotifications.put(device.getAddress(), new ArrayList<>());
+                            }
+                            ArrayList<Intent> notifCache = cachedNotifications.get(device.getAddress());
+                            notifCache.add(intent);
+                            if (notifCache.size() > NOTIFICATIONS_CACHE_MAX) {
+                                // remove the oldest notification if the maximum is reached
+                                notifCache.remove(0);
+                            }
+                        } else if (action.equals(ACTION_DELETE_NOTIFICATION)) {
+                            ArrayList<Intent> notifCache = cachedNotifications.get(device.getAddress());
+                            if (notifCache != null) {
+                                int notifId = intent.getIntExtra(EXTRA_NOTIFICATION_ID, -1);
+                                ArrayList<Intent> toRemove = new ArrayList<>();
+                                for (Intent cached : notifCache) {
+                                    if (notifId == cached.getIntExtra(EXTRA_NOTIFICATION_ID, -1)) {
+                                        toRemove.add(cached);
+                                    }
+                                }
+                                notifCache.removeAll(toRemove);
+                            }
                         }
                     }
                 }
@@ -1088,6 +1114,15 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
         return false;
     }
 
+    private boolean isDeviceReconnecting(GBDevice device) {
+        for(DeviceStruct struct : deviceStructs){
+            if(struct.getDevice().getAddress().compareToIgnoreCase(device.getAddress()) == 0){
+                return struct.getDevice().getStateOrdinal() == GBDevice.State.WAITING_FOR_RECONNECT.ordinal();
+            }
+        }
+        return false;
+    }
+
     private boolean deviceHasCalendarReceiverRegistered(GBDevice device){
         for (CalendarReceiver receiver: mCalendarReceiver){
             if(receiver.getGBDevice().equals(device)){
@@ -1272,6 +1307,18 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
                 unregisterReceiver(mGenericWeatherReceiver);
                 mGenericWeatherReceiver = null;
             }
+        }
+    }
+
+    private void sendCachedNotifications(GBDevice device) {
+        ArrayList<Intent> notifCache = cachedNotifications.get(device.getAddress());
+        if (notifCache == null) return;
+        try {
+            while (notifCache.size() > 0) {
+                handleAction(notifCache.remove(0), ACTION_NOTIFICATION, device);
+            }
+        } catch (DeviceNotFoundException e) {
+            LOG.error("Error while sending cached notifications to "+device.getAliasOrName(), e);
         }
     }
 

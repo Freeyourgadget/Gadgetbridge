@@ -247,6 +247,8 @@
     <string name="pref_summary_notifications_ignore_low_priority">Do not send low and minimum priority notifications to the watch</string>
     <string name="pref_title_notification_prefer_long_text">Prefer long notification text</string>
     <string name="pref_summary_notification_prefer_long_text">If available, send the long notification text to the device</string>
+    <string name="pref_title_notification_cache_while_disconnected">Cache while out of range</string>
+    <string name="pref_summary_notification_cache_while_disconnected">Send missed notifications when a device reconnects after being out of range</string>
     <string name="pref_title_notification_filter">Do Not Disturb</string>
     <string name="pref_summary_notification_filter">Block all notifications when Do Not Disturb is enabled on the phone</string>
     <string name="pref_title_notification_media_ignores_application_list">Media notifications ignore app list</string>
