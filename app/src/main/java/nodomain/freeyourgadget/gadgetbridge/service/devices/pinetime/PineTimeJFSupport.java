@@ -1061,7 +1061,7 @@ public class PineTimeJFSupport extends AbstractBTLEDeviceSupport implements DfuL
         logDebug(String.format("onReceiveHeartRateMeasurement: \nheartrate=%d", heartrate));
 
         if (heartrate > 0) {
-            sample.setHeartRate((int)heartrate);
+            sample.setHeartRate(heartrate);
             sample.setTimestamp(timeStamp);
             // since it's a local timestamp, it should NOT be treated as Activity because it will spoil activity charts
             sample.setRawKind(ActivityKind.TYPE_UNKNOWN);
