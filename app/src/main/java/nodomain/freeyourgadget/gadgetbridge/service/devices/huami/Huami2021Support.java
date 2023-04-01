@@ -123,6 +123,7 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.service
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.services.ZeppOsContactsService;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.services.ZeppOsFileUploadService;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.services.ZeppOsFtpServerService;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.services.ZeppOsMorningUpdatesService;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.services.ZeppOsWifiService;
 import nodomain.freeyourgadget.gadgetbridge.util.AlarmUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.BitmapUtil;
@@ -153,6 +154,8 @@ public abstract class Huami2021Support extends HuamiSupport {
     private final ZeppOsWifiService wifiService = new ZeppOsWifiService(this);
     private final ZeppOsFtpServerService ftpServerService = new ZeppOsFtpServerService(this);
     private final ZeppOsContactsService contactsService = new ZeppOsContactsService(this);
+    private final ZeppOsMorningUpdatesService morningUpdatesService = new ZeppOsMorningUpdatesService(this);
+
     private final Map<Short, AbstractZeppOsService> mServiceMap = new HashMap<Short, AbstractZeppOsService>() {{
         put(fileUploadService.getEndpoint(), fileUploadService);
         put(configService.getEndpoint(), configService);
@@ -160,6 +163,7 @@ public abstract class Huami2021Support extends HuamiSupport {
         put(wifiService.getEndpoint(), wifiService);
         put(ftpServerService.getEndpoint(), ftpServerService);
         put(contactsService.getEndpoint(), contactsService);
+        put(morningUpdatesService.getEndpoint(), morningUpdatesService);
     }};
 
     public Huami2021Support() {
@@ -228,6 +232,21 @@ public abstract class Huami2021Support extends HuamiSupport {
             case DeviceSettingsPreferenceConst.FTP_SERVER_USERNAME:
             case DeviceSettingsPreferenceConst.FTP_SERVER_STATUS:
                 // Ignore preferences that are not reloadable
+                return;
+        }
+
+        // morning updates preferences, they do not use the configService
+        switch (config) {
+            case DeviceSettingsPreferenceConst.MORNING_UPDATES_ENABLED:
+                final boolean morningUpdatesEnabled = prefs.getBoolean(config, false);
+                LOG.info("Setting morning updates enabled = {}", morningUpdatesEnabled);
+                morningUpdatesService.setEnabled(morningUpdatesEnabled);
+                return;
+            case DeviceSettingsPreferenceConst.MORNING_UPDATES_CATEGORIES_SORTABLE:
+                final List<String> categories = new ArrayList<>(prefs.getList(config, Collections.emptyList()));
+                final List<String> allCategories = new ArrayList<>(prefs.getList(Huami2021Coordinator.getPrefPossibleValuesKey(config), Collections.emptyList()));
+                LOG.info("Setting morning updates categories = {}", categories);
+                morningUpdatesService.setCategories(categories, allCategories);
                 return;
         }
 
@@ -1134,7 +1153,7 @@ public abstract class Huami2021Support extends HuamiSupport {
         setDisplayItems2021(
                 builder,
                 DISPLAY_ITEMS_MENU,
-                new ArrayList<>(prefs.getList(ZeppOsConfigService.getPrefPossibleValuesKey(HuamiConst.PREF_DISPLAY_ITEMS_SORTABLE), Collections.emptyList())),
+                new ArrayList<>(prefs.getList(Huami2021Coordinator.getPrefPossibleValuesKey(HuamiConst.PREF_DISPLAY_ITEMS_SORTABLE), Collections.emptyList())),
                 new ArrayList<>(prefs.getList(HuamiConst.PREF_DISPLAY_ITEMS_SORTABLE, Collections.emptyList()))
         );
         return this;
@@ -1147,7 +1166,7 @@ public abstract class Huami2021Support extends HuamiSupport {
         setDisplayItems2021(
                 builder,
                 DISPLAY_ITEMS_SHORTCUTS,
-                new ArrayList<>(prefs.getList(ZeppOsConfigService.getPrefPossibleValuesKey(HuamiConst.PREF_SHORTCUTS_SORTABLE), Collections.emptyList())),
+                new ArrayList<>(prefs.getList(Huami2021Coordinator.getPrefPossibleValuesKey(HuamiConst.PREF_SHORTCUTS_SORTABLE), Collections.emptyList())),
                 new ArrayList<>(prefs.getList(HuamiConst.PREF_SHORTCUTS_SORTABLE, Collections.emptyList()))
         );
         return this;
@@ -1159,7 +1178,7 @@ public abstract class Huami2021Support extends HuamiSupport {
         setDisplayItems2021(
                 builder,
                 DISPLAY_ITEMS_CONTROL_CENTER,
-                new ArrayList<>(prefs.getList(ZeppOsConfigService.getPrefPossibleValuesKey(HuamiConst.PREF_CONTROL_CENTER_SORTABLE), Collections.emptyList())),
+                new ArrayList<>(prefs.getList(Huami2021Coordinator.getPrefPossibleValuesKey(HuamiConst.PREF_CONTROL_CENTER_SORTABLE), Collections.emptyList())),
                 new ArrayList<>(prefs.getList(HuamiConst.PREF_CONTROL_CENTER_SORTABLE, Collections.emptyList()))
         );
         return this;
@@ -1465,6 +1484,8 @@ public abstract class Huami2021Support extends HuamiSupport {
         requestAlarms(builder);
         //requestReminders(builder);
         //contactsService.requestCapabilities(builder);
+        morningUpdatesService.getEnabled(builder);
+        morningUpdatesService.getCategories(builder);
     }
 
     @Override
@@ -1813,7 +1834,7 @@ public abstract class Huami2021Support extends HuamiSupport {
                 LOG.error("Unknown display items type {}", String.format("0x%x", payload[1]));
                 return;
         }
-        final String allScreensPrefKey = ZeppOsConfigService.getPrefPossibleValuesKey(prefKey);
+        final String allScreensPrefKey = Huami2021Coordinator.getPrefPossibleValuesKey(prefKey);
 
         final boolean menuHasMoreSection;
 

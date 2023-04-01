@@ -467,6 +467,10 @@
     <string name="pref_agps_expire_time">AGPS Expire Time</string>
     <string name="pref_camera_remote_title">Camera Remote</string>
     <string name="pref_camera_remote_summary">Allows the watch to trigger the phone\'s camera</string>
+    <string name="pref_morning_updates_title">Morning Updates</string>
+    <string name="pref_morning_updates_summary">Display updates every morning</string>
+    <string name="pref_morning_updates_categories_title">Morning Updates Categories</string>
+    <string name="pref_morning_updates_categories_summary">List of categories to display every morning</string>
     <string name="pref_workout_start_on_phone_title">Fitness app tracking</string>
     <string name="pref_workout_start_on_phone_summary">Start/stop fitness app tracking on phone when a GPS workout is started on the band</string>
     <string name="pref_workout_send_gps_title">Send GPS during workout</string>
@@ -1333,6 +1337,7 @@
     <string name='menuitem_eject_water'>Eject Water</string>
     <string name="menuitem_unknown_app">Unknown (%s)</string>
     <string name="menuitem_unsupported">[UNSUPPORTED] %s</string>
+    <string name="yesterdays_activity">Yesterday\'s Activity</string>
     <string name="watch9_time_minutes">Minutes:</string>
     <string name="watch9_time_hours">Hours:</string>
     <string name="watch9_time_seconds">Seconds:</string>

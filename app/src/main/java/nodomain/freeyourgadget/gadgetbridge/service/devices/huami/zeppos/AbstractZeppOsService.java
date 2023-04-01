@@ -51,4 +51,20 @@ public abstract class AbstractZeppOsService {
     protected void write(final TransactionBuilder builder, final byte[] data) {
         this.mSupport.writeToChunked2021(builder, getEndpoint(), data, isEncrypted());
     }
+
+    protected static Boolean booleanFromByte(final byte b) {
+        switch (b) {
+            case 0x00:
+                return false;
+            case 0x01:
+                return true;
+            default:
+        }
+
+        return null;
+    }
+
+    protected byte bool(final boolean bool) {
+        return (byte) (bool ? 0x01 : 0x00);
+    }
 }

@@ -59,6 +59,7 @@ public class Huami2021SettingsCustomizer extends HuamiSettingsCustomizer {
         removeUnsupportedElementsFromListPreference(HuamiConst.PREF_DISPLAY_ITEMS_SORTABLE, handler, prefs);
         removeUnsupportedElementsFromListPreference(HuamiConst.PREF_SHORTCUTS_SORTABLE, handler, prefs);
         removeUnsupportedElementsFromListPreference(HuamiConst.PREF_CONTROL_CENTER_SORTABLE, handler, prefs);
+        removeUnsupportedElementsFromListPreference(DeviceSettingsPreferenceConst.MORNING_UPDATES_CATEGORIES_SORTABLE, handler, prefs);
 
         for (final ZeppOsConfigService.ConfigArg config : ZeppOsConfigService.ConfigArg.values()) {
             if (config.getPrefKey() == null) {
@@ -78,102 +79,106 @@ public class Huami2021SettingsCustomizer extends HuamiSettingsCustomizer {
                 case TIMESTAMP_MILLIS:
                 default:
                     // For other preferences, just hide them if they were not reported as supported by the device
-                    hidePrefIfNoConfigSupported(handler, prefs, config.getPrefKey(), config);
+                    hidePrefIfNoConfigSupported(handler, prefs, config.getPrefKey(), config.name());
                     break;
             }
         }
 
         // Hide all config groups that may not be mapped directly to a preference
-        final Map<String, List<ZeppOsConfigService.ConfigArg>> configScreens = new HashMap<String, List<ZeppOsConfigService.ConfigArg>>() {{
+        final Map<String, List<String>> configScreens = new HashMap<String, List<String>>() {{
             put(DeviceSettingsPreferenceConst.PREF_SCREEN_NIGHT_MODE, Arrays.asList(
-                    ZeppOsConfigService.ConfigArg.NIGHT_MODE_MODE,
-                    ZeppOsConfigService.ConfigArg.NIGHT_MODE_SCHEDULED_START,
-                    ZeppOsConfigService.ConfigArg.NIGHT_MODE_SCHEDULED_END
+                    ZeppOsConfigService.ConfigArg.NIGHT_MODE_MODE.name(),
+                    ZeppOsConfigService.ConfigArg.NIGHT_MODE_SCHEDULED_START.name(),
+                    ZeppOsConfigService.ConfigArg.NIGHT_MODE_SCHEDULED_END.name()
             ));
             put(DeviceSettingsPreferenceConst.PREF_SCREEN_SLEEP_MODE, Arrays.asList(
-                    ZeppOsConfigService.ConfigArg.SLEEP_MODE_SLEEP_SCREEN,
-                    ZeppOsConfigService.ConfigArg.SLEEP_MODE_SMART_ENABLE
+                    ZeppOsConfigService.ConfigArg.SLEEP_MODE_SLEEP_SCREEN.name(),
+                    ZeppOsConfigService.ConfigArg.SLEEP_MODE_SMART_ENABLE.name()
             ));
             put(DeviceSettingsPreferenceConst.PREF_SCREEN_LIFT_WRIST, Arrays.asList(
-                    ZeppOsConfigService.ConfigArg.LIFT_WRIST_MODE,
-                    ZeppOsConfigService.ConfigArg.LIFT_WRIST_SCHEDULED_START,
-                    ZeppOsConfigService.ConfigArg.LIFT_WRIST_SCHEDULED_END,
-                    ZeppOsConfigService.ConfigArg.LIFT_WRIST_RESPONSE_SENSITIVITY
+                    ZeppOsConfigService.ConfigArg.LIFT_WRIST_MODE.name(),
+                    ZeppOsConfigService.ConfigArg.LIFT_WRIST_SCHEDULED_START.name(),
+                    ZeppOsConfigService.ConfigArg.LIFT_WRIST_SCHEDULED_END.name(),
+                    ZeppOsConfigService.ConfigArg.LIFT_WRIST_RESPONSE_SENSITIVITY.name()
             ));
             put(DeviceSettingsPreferenceConst.PREF_SCREEN_PASSWORD, Arrays.asList(
-                    ZeppOsConfigService.ConfigArg.PASSWORD_ENABLED,
-                    ZeppOsConfigService.ConfigArg.PASSWORD_TEXT
+                    ZeppOsConfigService.ConfigArg.PASSWORD_ENABLED.name(),
+                    ZeppOsConfigService.ConfigArg.PASSWORD_TEXT.name()
             ));
             put(DeviceSettingsPreferenceConst.PREF_SCREEN_ALWAYS_ON_DISPLAY, Arrays.asList(
-                    ZeppOsConfigService.ConfigArg.ALWAYS_ON_DISPLAY_MODE,
-                    ZeppOsConfigService.ConfigArg.ALWAYS_ON_DISPLAY_SCHEDULED_START,
-                    ZeppOsConfigService.ConfigArg.ALWAYS_ON_DISPLAY_SCHEDULED_END,
-                    ZeppOsConfigService.ConfigArg.ALWAYS_ON_DISPLAY_FOLLOW_WATCHFACE,
-                    ZeppOsConfigService.ConfigArg.ALWAYS_ON_DISPLAY_STYLE
+                    ZeppOsConfigService.ConfigArg.ALWAYS_ON_DISPLAY_MODE.name(),
+                    ZeppOsConfigService.ConfigArg.ALWAYS_ON_DISPLAY_SCHEDULED_START.name(),
+                    ZeppOsConfigService.ConfigArg.ALWAYS_ON_DISPLAY_SCHEDULED_END.name(),
+                    ZeppOsConfigService.ConfigArg.ALWAYS_ON_DISPLAY_FOLLOW_WATCHFACE.name(),
+                    ZeppOsConfigService.ConfigArg.ALWAYS_ON_DISPLAY_STYLE.name()
             ));
             put(DeviceSettingsPreferenceConst.PREF_SCREEN_AUTO_BRIGHTNESS, Arrays.asList(
-                    ZeppOsConfigService.ConfigArg.SCREEN_AUTO_BRIGHTNESS
+                    ZeppOsConfigService.ConfigArg.SCREEN_AUTO_BRIGHTNESS.name()
             ));
             put(DeviceSettingsPreferenceConst.PREF_SCREEN_HEARTRATE_MONITORING, Arrays.asList(
-                    ZeppOsConfigService.ConfigArg.HEART_RATE_ALL_DAY_MONITORING,
-                    ZeppOsConfigService.ConfigArg.HEART_RATE_HIGH_ALERTS,
-                    ZeppOsConfigService.ConfigArg.HEART_RATE_LOW_ALERTS,
-                    ZeppOsConfigService.ConfigArg.HEART_RATE_ACTIVITY_MONITORING,
-                    ZeppOsConfigService.ConfigArg.SLEEP_HIGH_ACCURACY_MONITORING,
-                    ZeppOsConfigService.ConfigArg.SLEEP_BREATHING_QUALITY_MONITORING,
-                    ZeppOsConfigService.ConfigArg.STRESS_MONITORING,
-                    ZeppOsConfigService.ConfigArg.STRESS_RELAXATION_REMINDER,
-                    ZeppOsConfigService.ConfigArg.SPO2_ALL_DAY_MONITORING,
-                    ZeppOsConfigService.ConfigArg.SPO2_LOW_ALERT
+                    ZeppOsConfigService.ConfigArg.HEART_RATE_ALL_DAY_MONITORING.name(),
+                    ZeppOsConfigService.ConfigArg.HEART_RATE_HIGH_ALERTS.name(),
+                    ZeppOsConfigService.ConfigArg.HEART_RATE_LOW_ALERTS.name(),
+                    ZeppOsConfigService.ConfigArg.HEART_RATE_ACTIVITY_MONITORING.name(),
+                    ZeppOsConfigService.ConfigArg.SLEEP_HIGH_ACCURACY_MONITORING.name(),
+                    ZeppOsConfigService.ConfigArg.SLEEP_BREATHING_QUALITY_MONITORING.name(),
+                    ZeppOsConfigService.ConfigArg.STRESS_MONITORING.name(),
+                    ZeppOsConfigService.ConfigArg.STRESS_RELAXATION_REMINDER.name(),
+                    ZeppOsConfigService.ConfigArg.SPO2_ALL_DAY_MONITORING.name(),
+                    ZeppOsConfigService.ConfigArg.SPO2_LOW_ALERT.name()
             ));
             put(DeviceSettingsPreferenceConst.PREF_SCREEN_INACTIVITY_EXTENDED, Arrays.asList(
-                    ZeppOsConfigService.ConfigArg.INACTIVITY_WARNINGS_ENABLED,
-                    ZeppOsConfigService.ConfigArg.INACTIVITY_WARNINGS_SCHEDULED_START,
-                    ZeppOsConfigService.ConfigArg.INACTIVITY_WARNINGS_SCHEDULED_END,
-                    ZeppOsConfigService.ConfigArg.INACTIVITY_WARNINGS_DND_ENABLED,
-                    ZeppOsConfigService.ConfigArg.INACTIVITY_WARNINGS_DND_SCHEDULED_START,
-                    ZeppOsConfigService.ConfigArg.INACTIVITY_WARNINGS_DND_SCHEDULED_END
+                    ZeppOsConfigService.ConfigArg.INACTIVITY_WARNINGS_ENABLED.name(),
+                    ZeppOsConfigService.ConfigArg.INACTIVITY_WARNINGS_SCHEDULED_START.name(),
+                    ZeppOsConfigService.ConfigArg.INACTIVITY_WARNINGS_SCHEDULED_END.name(),
+                    ZeppOsConfigService.ConfigArg.INACTIVITY_WARNINGS_DND_ENABLED.name(),
+                    ZeppOsConfigService.ConfigArg.INACTIVITY_WARNINGS_DND_SCHEDULED_START.name(),
+                    ZeppOsConfigService.ConfigArg.INACTIVITY_WARNINGS_DND_SCHEDULED_END.name()
             ));
             put(DeviceSettingsPreferenceConst.PREF_HEADER_GPS, Arrays.asList(
-                    ZeppOsConfigService.ConfigArg.WORKOUT_GPS_PRESET,
-                    ZeppOsConfigService.ConfigArg.WORKOUT_GPS_BAND,
-                    ZeppOsConfigService.ConfigArg.WORKOUT_GPS_COMBINATION,
-                    ZeppOsConfigService.ConfigArg.WORKOUT_GPS_SATELLITE_SEARCH,
-                    ZeppOsConfigService.ConfigArg.WORKOUT_AGPS_EXPIRY_REMINDER_ENABLED,
-                    ZeppOsConfigService.ConfigArg.WORKOUT_AGPS_EXPIRY_REMINDER_TIME
+                    ZeppOsConfigService.ConfigArg.WORKOUT_GPS_PRESET.name(),
+                    ZeppOsConfigService.ConfigArg.WORKOUT_GPS_BAND.name(),
+                    ZeppOsConfigService.ConfigArg.WORKOUT_GPS_COMBINATION.name(),
+                    ZeppOsConfigService.ConfigArg.WORKOUT_GPS_SATELLITE_SEARCH.name(),
+                    ZeppOsConfigService.ConfigArg.WORKOUT_AGPS_EXPIRY_REMINDER_ENABLED.name(),
+                    ZeppOsConfigService.ConfigArg.WORKOUT_AGPS_EXPIRY_REMINDER_TIME.name()
             ));
             put(DeviceSettingsPreferenceConst.PREF_SCREEN_SOUND_AND_VIBRATION, Arrays.asList(
-                    ZeppOsConfigService.ConfigArg.VOLUME,
-                    ZeppOsConfigService.ConfigArg.CROWN_VIBRATION,
-                    ZeppOsConfigService.ConfigArg.ALERT_TONE,
-                    ZeppOsConfigService.ConfigArg.COVER_TO_MUTE,
-                    ZeppOsConfigService.ConfigArg.VIBRATE_FOR_ALERT,
-                    ZeppOsConfigService.ConfigArg.TEXT_TO_SPEECH
+                    ZeppOsConfigService.ConfigArg.VOLUME.name(),
+                    ZeppOsConfigService.ConfigArg.CROWN_VIBRATION.name(),
+                    ZeppOsConfigService.ConfigArg.ALERT_TONE.name(),
+                    ZeppOsConfigService.ConfigArg.COVER_TO_MUTE.name(),
+                    ZeppOsConfigService.ConfigArg.VIBRATE_FOR_ALERT.name(),
+                    ZeppOsConfigService.ConfigArg.TEXT_TO_SPEECH.name()
             ));
             put(DeviceSettingsPreferenceConst.PREF_SCREEN_DO_NOT_DISTURB, Arrays.asList(
-                    ZeppOsConfigService.ConfigArg.DND_MODE,
-                    ZeppOsConfigService.ConfigArg.DND_SCHEDULED_START,
-                    ZeppOsConfigService.ConfigArg.DND_SCHEDULED_END
+                    ZeppOsConfigService.ConfigArg.DND_MODE.name(),
+                    ZeppOsConfigService.ConfigArg.DND_SCHEDULED_START.name(),
+                    ZeppOsConfigService.ConfigArg.DND_SCHEDULED_END.name()
             ));
             put(DeviceSettingsPreferenceConst.PREF_HEADER_WORKOUT_DETECTION, Arrays.asList(
-                    ZeppOsConfigService.ConfigArg.WORKOUT_DETECTION_CATEGORY,
-                    ZeppOsConfigService.ConfigArg.WORKOUT_DETECTION_ALERT,
-                    ZeppOsConfigService.ConfigArg.WORKOUT_DETECTION_SENSITIVITY
+                    ZeppOsConfigService.ConfigArg.WORKOUT_DETECTION_CATEGORY.name(),
+                    ZeppOsConfigService.ConfigArg.WORKOUT_DETECTION_ALERT.name(),
+                    ZeppOsConfigService.ConfigArg.WORKOUT_DETECTION_SENSITIVITY.name()
             ));
             put(DeviceSettingsPreferenceConst.PREF_SCREEN_OFFLINE_VOICE, Arrays.asList(
-                    ZeppOsConfigService.ConfigArg.OFFLINE_VOICE_RESPOND_TURN_WRIST,
-                    ZeppOsConfigService.ConfigArg.OFFLINE_VOICE_RESPOND_SCREEN_ON,
-                    ZeppOsConfigService.ConfigArg.OFFLINE_VOICE_RESPONSE_DURING_SCREEN_LIGHTING,
-                    ZeppOsConfigService.ConfigArg.OFFLINE_VOICE_LANGUAGE
+                    ZeppOsConfigService.ConfigArg.OFFLINE_VOICE_RESPOND_TURN_WRIST.name(),
+                    ZeppOsConfigService.ConfigArg.OFFLINE_VOICE_RESPOND_SCREEN_ON.name(),
+                    ZeppOsConfigService.ConfigArg.OFFLINE_VOICE_RESPONSE_DURING_SCREEN_LIGHTING.name(),
+                    ZeppOsConfigService.ConfigArg.OFFLINE_VOICE_LANGUAGE.name()
+            ));
+            put(DeviceSettingsPreferenceConst.PREF_SCREEN_MORNING_UPDATES, Arrays.asList(
+                    DeviceSettingsPreferenceConst.MORNING_UPDATES_ENABLED,
+                    DeviceSettingsPreferenceConst.MORNING_UPDATES_CATEGORIES_SORTABLE
             ));
         }};
 
-        for (final Map.Entry<String, List<ZeppOsConfigService.ConfigArg>> configScreen : configScreens.entrySet()) {
+        for (final Map.Entry<String, List<String>> configScreen : configScreens.entrySet()) {
             hidePrefIfNoConfigSupported(
                     handler,
                     prefs,
                     configScreen.getKey(),
-                    configScreen.getValue().toArray(new ZeppOsConfigService.ConfigArg[0])
+                    configScreen.getValue().toArray(new String[0])
             );
         }
 
@@ -368,7 +373,7 @@ public class Huami2021SettingsCustomizer extends HuamiSettingsCustomizer {
         }
 
         // Get the list of possible values for this preference, as reported by the band
-        final List<String> possibleValues = prefs.getList(ZeppOsConfigService.getPrefPossibleValuesKey(prefKey), null);
+        final List<String> possibleValues = prefs.getList(Huami2021Coordinator.getPrefPossibleValuesKey(prefKey), null);
         if (possibleValues == null || possibleValues.isEmpty()) {
             // The band hasn't reported this setting, so we don't know the possible values.
             // Hide it
@@ -425,14 +430,15 @@ public class Huami2021SettingsCustomizer extends HuamiSettingsCustomizer {
     private void hidePrefIfNoConfigSupported(final DeviceSpecificSettingsHandler handler,
                                              final Prefs prefs,
                                              final String prefToHide,
-                                             final ZeppOsConfigService.ConfigArg... configs) {
+                                             final String... supportedPref) {
         final Preference pref = handler.findPreference(prefToHide);
         if (pref == null) {
             return;
         }
 
-        for (final ZeppOsConfigService.ConfigArg config : configs) {
-            if (ZeppOsConfigService.deviceHasConfig(prefs, config)) {
+        for (final String prefKey : supportedPref) {
+            final boolean deviceHasConfig = prefs.getBoolean(Huami2021Coordinator.getPrefKnownConfig(prefKey), false);
+            if (deviceHasConfig) {
                 // This preference is supported, don't hide
                 return;
             }

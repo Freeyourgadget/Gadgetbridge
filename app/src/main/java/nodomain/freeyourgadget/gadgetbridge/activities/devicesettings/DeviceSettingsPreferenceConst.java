@@ -41,6 +41,7 @@ public class DeviceSettingsPreferenceConst {
     public static final String PREF_SCREEN_OFFLINE_VOICE = "pref_screen_offline_voice";
     public static final String PREF_SCREEN_WIFI_HOTSPOT = "pref_screen_wifi_hotspot";
     public static final String PREF_SCREEN_FTP_SERVER = "pref_screen_ftp_server";
+    public static final String PREF_SCREEN_MORNING_UPDATES = "pref_morning_updates";
 
     public static final String PREF_LANGUAGE = "language";
     public static final String PREF_LANGUAGE_AUTO = "auto";
@@ -239,6 +240,9 @@ public class DeviceSettingsPreferenceConst {
     public static final String WIFI_HOTSPOT_START = "wifi_hotspot_start";
     public static final String WIFI_HOTSPOT_STOP = "wifi_hotspot_stop";
     public static final String WIFI_HOTSPOT_STATUS = "wifi_hotspot_status";
+
+    public static final String MORNING_UPDATES_ENABLED = "morning_updates_enabled";
+    public static final String MORNING_UPDATES_CATEGORIES_SORTABLE = "morning_updates_categories";
 
     public static final String FTP_SERVER_ROOT_DIR = "ftp_server_root_dir";
     public static final String FTP_SERVER_ADDRESS = "ftp_server_address";

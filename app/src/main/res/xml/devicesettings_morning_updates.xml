@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceScreen
+        android:icon="@drawable/ic_wb_sunny"
+        android:key="pref_morning_updates"
+        android:persistent="false"
+        android:summary="@string/pref_morning_updates_summary"
+        android:title="@string/pref_morning_updates_title">
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:icon="@drawable/ic_wb_sunny"
+            android:key="morning_updates_enabled"
+            android:summary="@string/pref_morning_updates_summary"
+            android:title="@string/pref_morning_updates_title" />
+
+        <com.mobeta.android.dslv.DragSortListPreference
+            android:defaultValue="@array/pref_huami2021_empty_array"
+            android:dialogTitle="@string/pref_morning_updates_categories_title"
+            android:entries="@array/pref_morning_updates_categories"
+            android:entryValues="@array/pref_morning_updates_categories_values"
+            android:icon="@drawable/ic_list_numbered"
+            android:key="morning_updates_categories"
+            android:persistent="true"
+            android:summary="@string/pref_morning_updates_categories_summary"
+            android:title="@string/pref_morning_updates_categories_title" />
+    </PreferenceScreen>
+</androidx.preference.PreferenceScreen>

@@ -26,6 +26,7 @@ import org.apache.commons.lang3.ArrayUtils;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Locale;
 
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSpecificSettingsCustomizer;
@@ -44,6 +45,7 @@ import nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryParser;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.services.ZeppOsConfigService;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.HuamiLanguageType;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.HuamiVibrationPatternNotificationType;
+import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 
 public abstract class Huami2021Coordinator extends HuamiCoordinator {
     @Override
@@ -253,6 +255,7 @@ public abstract class Huami2021Coordinator extends HuamiCoordinator {
         settings.add(R.xml.devicesettings_buttonactions_lower_short);
         settings.add(R.xml.devicesettings_weardirection);
         settings.add(R.xml.devicesettings_camera_remote);
+        settings.add(R.xml.devicesettings_morning_updates);
 
         //
         // Connection
@@ -361,5 +364,23 @@ public abstract class Huami2021Coordinator extends HuamiCoordinator {
 
     private boolean supportsConfig(final GBDevice device, final ZeppOsConfigService.ConfigArg config) {
         return ZeppOsConfigService.deviceHasConfig(getPrefs(device), config);
+    }
+
+    /**
+     * Returns the preference key where to save the list of possible value for a preference, comma-separated.
+     */
+    public static String getPrefPossibleValuesKey(final String key) {
+        return String.format(Locale.ROOT, "%s_huami_2021_possible_values", key);
+    }
+
+    /**
+     * Returns the preference key where to that a config was reported as supported (boolean).
+     */
+    public static String getPrefKnownConfig(final String key) {
+        return String.format(Locale.ROOT, "huami_2021_known_config_%s", key);
+    }
+
+    public static boolean deviceHasConfig(final Prefs devicePrefs, final ZeppOsConfigService.ConfigArg config) {
+        return devicePrefs.getBoolean(Huami2021Coordinator.getPrefKnownConfig(config.name()), false);
     }
 }
