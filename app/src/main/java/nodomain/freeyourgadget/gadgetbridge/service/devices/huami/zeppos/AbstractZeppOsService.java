@@ -44,6 +44,10 @@ public abstract class AbstractZeppOsService {
         this.mSupport.writeToChunked2021(taskName, getEndpoint(), data, isEncrypted());
     }
 
+    protected void write(final TransactionBuilder builder, final byte b) {
+        this.write(builder, new byte[]{b});
+    }
+
     protected void write(final TransactionBuilder builder, final byte[] data) {
         this.mSupport.writeToChunked2021(builder, getEndpoint(), data, isEncrypted());
     }

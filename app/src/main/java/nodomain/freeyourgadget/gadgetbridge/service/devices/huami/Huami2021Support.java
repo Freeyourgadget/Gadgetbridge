@@ -120,6 +120,7 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.Abstrac
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.operations.ZeppOsAgpsUpdateOperation;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.services.ZeppOsAgpsService;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.services.ZeppOsConfigService;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.services.ZeppOsContactsService;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.services.ZeppOsFileUploadService;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.services.ZeppOsFtpServerService;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.services.ZeppOsWifiService;
@@ -151,12 +152,14 @@ public abstract class Huami2021Support extends HuamiSupport {
     private final ZeppOsAgpsService agpsService = new ZeppOsAgpsService(this);
     private final ZeppOsWifiService wifiService = new ZeppOsWifiService(this);
     private final ZeppOsFtpServerService ftpServerService = new ZeppOsFtpServerService(this);
+    private final ZeppOsContactsService contactsService = new ZeppOsContactsService(this);
     private final Map<Short, AbstractZeppOsService> mServiceMap = new HashMap<Short, AbstractZeppOsService>() {{
         put(fileUploadService.getEndpoint(), fileUploadService);
         put(configService.getEndpoint(), configService);
         put(agpsService.getEndpoint(), agpsService);
         put(wifiService.getEndpoint(), wifiService);
         put(ftpServerService.getEndpoint(), ftpServerService);
+        put(contactsService.getEndpoint(), contactsService);
     }};
 
     public Huami2021Support() {
@@ -1461,6 +1464,7 @@ public abstract class Huami2021Support extends HuamiSupport {
         }
         requestAlarms(builder);
         //requestReminders(builder);
+        //contactsService.requestCapabilities(builder);
     }
 
     @Override
