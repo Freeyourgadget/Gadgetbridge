@@ -2152,4 +2152,9 @@
     <string name="ftp_server_status">Стан FTP-сервера</string>
     <string name="croatian">Хорватська</string>
     <string name="sony_speak_to_chat_summary">Автоматично вимикати шумозаглушення, коли ви починаєте говорити.</string>
+    <string name="pref_morning_updates_title">Ранкові оновлення</string>
+    <string name="pref_morning_updates_summary">Показувати оновлення щоранку</string>
+    <string name="pref_morning_updates_categories_title">Категорії ранкових оновлень</string>
+    <string name="pref_morning_updates_categories_summary">Список показуваних щоранку категорій</string>
+    <string name="yesterdays_activity">Учорашня діяльність</string>
 </resources>
