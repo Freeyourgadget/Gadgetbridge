@@ -2158,4 +2158,9 @@
     <string name="ftp_server_status">FTP Sunucusu Durumu</string>
     <string name="croatian">Hırvatça</string>
     <string name="sony_speak_to_chat_summary">Konuşmaya başladığınızda gürültü engellemeyi otomatik olarak kapatın.</string>
+    <string name="pref_morning_updates_title">Sabah Güncellemeleri</string>
+    <string name="pref_morning_updates_summary">Her sabah güncellemeleri göster</string>
+    <string name="pref_morning_updates_categories_title">Sabah Güncellemeleri Kategorileri</string>
+    <string name="pref_morning_updates_categories_summary">Her sabah görüntülenecek kategorilerin listesi</string>
+    <string name="yesterdays_activity">Dünkü Etkinlik</string>
 </resources>
