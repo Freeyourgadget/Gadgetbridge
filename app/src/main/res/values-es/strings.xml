@@ -2146,4 +2146,9 @@
     <string name="ftp_server_configuration">Configuración del servidor FTP</string>
     <string name="ftp_server_root_dir">Directorio raíz</string>
     <string name="sony_speak_to_chat_summary">Desactiva automáticamente la cancelación de ruido cuando empiece a hablar.</string>
+    <string name="pref_morning_updates_title">Actualización matinal</string>
+    <string name="pref_morning_updates_summary">Mostrar actualizaciones cada mañana</string>
+    <string name="pref_morning_updates_categories_title">Categorías de las actualizaciones matinales</string>
+    <string name="yesterdays_activity">Actividades de ayer</string>
+    <string name="pref_morning_updates_categories_summary">Lista de categorías a mostrar cada mañana</string>
 </resources>
