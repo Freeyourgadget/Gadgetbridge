@@ -2149,4 +2149,18 @@
     <string name="pref_morning_updates_categories_summary">每天早上要显示的分类列表</string>
     <string name="pref_morning_updates_title">早上更新</string>
     <string name="pref_morning_updates_categories_title">早上更新分类</string>
+    <string name="bluetooth_calls">蓝牙通话</string>
+    <string name="bluetooth_calls_pairing">蓝牙通话配对</string>
+    <string name="bluetooth_calls_settings">蓝牙通话设置</string>
+    <string name="pref_display_caller_title">显示联系人信息</string>
+    <string name="pref_display_caller_summary">显示来电者的电话号码或姓名</string>
+    <string name="pref_pair_bluetooth_calls_title">配对以进行蓝牙通话</string>
+    <string name="pref_pair_bluetooth_calls_help_title">如何接听蓝牙电话</string>
+    <string name="pref_pair_bluetooth_calls_help_1">1. 点击下面的按钮开始配对过程。</string>
+    <string name="pref_pair_bluetooth_calls_help_2">2. 转到手机的蓝牙设置，并与将显示的新设备配对（与您当前手表的名称相似，但带有后缀，例如“Amazfit GTR 4 - AFC8”）。</string>
+    <string name="pref_pair_bluetooth_calls_help_3">3. 启用下方的蓝牙通话设置。</string>
+    <string name="pref_summary_receive_calls_watch">直接在手表上接打电话</string>
+    <string name="pref_pair_bluetooth_calls_help_warning">警告：如果您在未与第二个实例配对的情况下启用蓝牙呼叫，来电通知可能无法按预期工作。</string>
+    <string name="pref_pair_bluetooth_calls_summary">单击此处开始配对过程</string>
+    <string name="pref_pair_bluetooth_calls_help_summary">为了接听蓝牙电话，您需要将手机与手表的第二个实例配对。</string>
 </resources>
