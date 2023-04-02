@@ -1586,4 +1586,39 @@
 \n
 \nDevido às políticas da Google Play Store, não nos é permitido incluir links para doações dentro da aplicação. No entanto, se gostas desta aplicação, por favor considera fazer uma doação através da página do Gadgetbridge abaixo.</string>
     <string name="appmanager_app_share">Partilhar</string>
+    <string name="appmanager_watchface_activate">Ativar</string>
+    <string name="appmanager_app_start">Início</string>
+    <string name="pref_header_workout">Treino</string>
+    <string name="watchface_dialog_widget_cat_custom_widget">Widget personalizado</string>
+    <string name="world_clock_timezone">Fuso horário</string>
+    <string name="spo2_off">Desligado</string>
+    <string name="world_clock_delete_confirm_title">Apagar \'%1$s\'</string>
+    <string name="normal">Normal</string>
+    <string name="pref_header_heartrate_sleep">Sono</string>
+    <string name="menuitem_nothing">Nada</string>
+    <string name="pref_header_time">Hora</string>
+    <string name="menuitem_countdown">Contagem Regressiva</string>
+    <string name="hrZoneNa">N/A</string>
+    <string name="status">Estado</string>
+    <string name="mi2_dnd_always">Sempre</string>
+    <string name="activity_type_freestyle">Livre</string>
+    <string name="gadgetbridge_running_main_nopebble">Nightly GB Sem Pebble em execução</string>
+    <string name="pref_title_notifications_generic_settings">Configurações de notificação de Android</string>
+    <string name="czech">Tcheco</string>
+    <string name="about_description_main_nightly">Substituto para apps não open source de aparelhos Android dos fabricantes, sem necessitar de nuvem e código-aberto. Atualizações Nightly (diárias) de Gadgetbridge. Não pode ser instalado se já tem a app Gadgetbridge ou Pebble, devido a um conflito no provedor Pebble.</string>
+    <string name="gadgetbridge_running_main_nightly">Nightly GB em execução</string>
+    <string name="application_name_main_nopebble">Gadgetbridge (Nightly, Sem provedor Pebble)</string>
+    <string name="title_activity_controlcenter_main_nopebble">Gadgetbridge Nightly Sem Pebble</string>
+    <string name="about_activity_title_main_nopebble">Sobre Gadgetbridge Nightly Sem Pebble</string>
+    <string name="about_description_main_nopebble">Substituto para apps não de código-aberto de aparelhos Android dos fabricantes, sem necessitar de nuvem e possui código livre. Atualizações Nightly (diárias) de Gadgetbridge. Essa versão tem o provedor Pebble renomeado para prevenir conflitos, então algumas integrações do Pebble não funcionarão, mas pode ser instalado com Gadgetbridge já existente.</string>
+    <string name="vibration_profile_default">Padrão</string>
+    <string name="world_clock_delete_confirm_description">Tem certeza que deseja apagar o relógio mundial\?</string>
+    <string name="world_clock_no_free_slots_title">Não há espaço</string>
+    <string name="world_clock_no_free_slots_description">O aparelho não tem espaço para relógios mundiais (total de espaços: %1$s)</string>
+    <string name="world_clock_label">Etiqueta</string>
+    <string name="pref_title_touch_anc">Cancelamento de ruído ativo</string>
+    <string name="pref_title_touch_ambient">Som ambiente</string>
+    <string name="pref_voice_detect_duration_5">5 segundos</string>
+    <string name="pref_voice_detect_duration_10">10 segundos</string>
+    <string name="pref_header_stress">Estresse</string>
 </resources>
