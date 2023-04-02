@@ -2151,4 +2151,9 @@
     <string name="ftp_server_status">Status des FTP-Servers</string>
     <string name="ftp_server_configuration">FTP-Serverkonfiguration</string>
     <string name="ftp_server_root_dir">Stammverzeichnis</string>
+    <string name="pref_morning_updates_title">Morgendliche Updates</string>
+    <string name="pref_morning_updates_summary">Zeigt jeden Morgen Updates an</string>
+    <string name="pref_morning_updates_categories_title">Morgendliche Kategorie-Updates</string>
+    <string name="yesterdays_activity">Gestrige Aktivität</string>
+    <string name="pref_morning_updates_categories_summary">Liste der Kategorien, die jeden Morgen angezeigt werden</string>
 </resources>
