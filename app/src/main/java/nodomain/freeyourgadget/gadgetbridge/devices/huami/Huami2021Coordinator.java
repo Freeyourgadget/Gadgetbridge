@@ -45,6 +45,7 @@ import nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryParser;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.services.ZeppOsConfigService;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.HuamiLanguageType;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.HuamiVibrationPatternNotificationType;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.services.ZeppOsPhoneService;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 
 public abstract class Huami2021Coordinator extends HuamiCoordinator {
@@ -231,6 +232,9 @@ public abstract class Huami2021Coordinator extends HuamiCoordinator {
         // Notifications
         //
         settings.add(R.xml.devicesettings_header_notifications);
+        if (supportsBluetoothPhoneCalls(device)) {
+            settings.add(R.xml.devicesettings_phone_calls_watch_pair);
+        }
         settings.add(R.xml.devicesettings_sound_and_vibration);
         settings.add(R.xml.devicesettings_vibrationpatterns);
         settings.add(R.xml.devicesettings_donotdisturb_withauto_and_always);
@@ -360,6 +364,10 @@ public abstract class Huami2021Coordinator extends HuamiCoordinator {
 
     public boolean supportsAutoBrightness(final GBDevice device) {
         return supportsConfig(device, ZeppOsConfigService.ConfigArg.SCREEN_AUTO_BRIGHTNESS);
+    }
+
+    public boolean supportsBluetoothPhoneCalls(final GBDevice device) {
+        return ZeppOsPhoneService.isSupported(getPrefs(device));
     }
 
     private boolean supportsConfig(final GBDevice device, final ZeppOsConfigService.ConfigArg config) {

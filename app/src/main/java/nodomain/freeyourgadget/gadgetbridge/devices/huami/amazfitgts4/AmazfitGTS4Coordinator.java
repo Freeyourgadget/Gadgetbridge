@@ -91,4 +91,9 @@ public class AmazfitGTS4Coordinator extends Huami2021Coordinator {
     public boolean supportsFtpServer(final GBDevice device) {
         return true;
     }
+
+    @Override
+    public boolean supportsBluetoothPhoneCalls(final GBDevice device) {
+        return true;
+    }
 }

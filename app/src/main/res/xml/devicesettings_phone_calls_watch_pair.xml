@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceScreen
+        android:icon="@drawable/ic_phone"
+        android:key="pref_phone_calls_header"
+        android:persistent="false"
+        android:summary="@string/pref_summary_receive_calls_watch"
+        android:title="@string/pref_title_notifications_call">
+
+        <PreferenceCategory
+            android:key="pref_bluetooth_calls_pairing_header"
+            android:title="@string/bluetooth_calls_pairing">
+
+            <Preference
+                android:icon="@drawable/ic_info"
+                android:key="phone_calls_pair_info"
+                android:summary="@string/pref_pair_bluetooth_calls_help_summary" />
+
+            <Preference
+                android:key="phone_calls_pair_info_1"
+                android:summary="@string/pref_pair_bluetooth_calls_help_1" />
+
+            <Preference
+                android:key="phone_calls_pair_info_2"
+                android:summary="@string/pref_pair_bluetooth_calls_help_2" />
+
+            <Preference
+                android:key="phone_calls_pair_info_3"
+                android:summary="@string/pref_pair_bluetooth_calls_help_3" />
+
+            <Preference
+                android:icon="@drawable/ic_warning_gray"
+                android:key="phone_calls_pair_info_warning"
+                android:summary="@string/pref_pair_bluetooth_calls_help_warning" />
+
+            <Preference
+                android:icon="@drawable/ic_link"
+                android:key="bluetooth_calls_pair"
+                android:summary="@string/pref_pair_bluetooth_calls_summary"
+                android:title="@string/pref_pair_bluetooth_calls_title" />
+        </PreferenceCategory>
+
+        <PreferenceCategory
+            android:key="pref_bluetooth_calls_settings_header"
+            android:title="@string/bluetooth_calls_settings">
+
+            <SwitchPreference
+                android:defaultValue="false"
+                android:icon="@drawable/ic_voice"
+                android:key="bluetooth_calls_enabled"
+                android:summary="@string/pref_summary_receive_calls_watch"
+                android:title="@string/bluetooth_calls" />
+
+            <SwitchPreference
+                android:defaultValue="true"
+                android:icon="@drawable/ic_person"
+                android:key="display_caller"
+                android:summary="@string/pref_display_caller_summary"
+                android:title="@string/pref_display_caller_title" />
+
+            <EditTextPreference
+                android:defaultValue="0"
+                android:digits="0123456789"
+                android:icon="@drawable/ic_access_time"
+                android:inputType="number"
+                android:key="notification_delay_calls"
+                android:maxLength="2"
+                android:summary="@string/pref_summary_notification_delay_calls"
+                android:title="@string/pref_title_notification_delay_calls" />
+        </PreferenceCategory>
+
+    </PreferenceScreen>
+
+</androidx.preference.PreferenceScreen>

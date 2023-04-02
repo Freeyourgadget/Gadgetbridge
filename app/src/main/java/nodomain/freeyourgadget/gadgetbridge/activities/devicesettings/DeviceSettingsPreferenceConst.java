@@ -235,6 +235,11 @@ public class DeviceSettingsPreferenceConst {
     public static final String PREF_BT_CONNECTED_ADVERTISEMENT = "bt_connected_advertisement";
     public static final String PREF_TRANSLITERATION_LANGUAGES = "pref_transliteration_languages";
 
+    public static final String PREF_BLUETOOTH_CALLS_PAIR = "bluetooth_calls_pair";
+    public static final String PREF_BLUETOOTH_CALLS_ENABLED = "bluetooth_calls_enabled";
+    public static final String PREF_DISPLAY_CALLER = "display_caller";
+    public static final String PREF_NOTIFICATION_DELAY_CALLS = "notification_delay_calls";
+
     public static final String WIFI_HOTSPOT_SSID = "wifi_hotspot_ssid";
     public static final String WIFI_HOTSPOT_PASSWORD = "wifi_hotspot_password";
     public static final String WIFI_HOTSPOT_START = "wifi_hotspot_start";

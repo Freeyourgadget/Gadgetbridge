@@ -124,6 +124,7 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.service
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.services.ZeppOsFileUploadService;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.services.ZeppOsFtpServerService;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.services.ZeppOsMorningUpdatesService;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.services.ZeppOsPhoneService;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.services.ZeppOsWifiService;
 import nodomain.freeyourgadget.gadgetbridge.util.AlarmUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.BitmapUtil;
@@ -155,6 +156,7 @@ public abstract class Huami2021Support extends HuamiSupport {
     private final ZeppOsFtpServerService ftpServerService = new ZeppOsFtpServerService(this);
     private final ZeppOsContactsService contactsService = new ZeppOsContactsService(this);
     private final ZeppOsMorningUpdatesService morningUpdatesService = new ZeppOsMorningUpdatesService(this);
+    private final ZeppOsPhoneService phoneService = new ZeppOsPhoneService(this);
 
     private final Map<Short, AbstractZeppOsService> mServiceMap = new HashMap<Short, AbstractZeppOsService>() {{
         put(fileUploadService.getEndpoint(), fileUploadService);
@@ -164,6 +166,7 @@ public abstract class Huami2021Support extends HuamiSupport {
         put(ftpServerService.getEndpoint(), ftpServerService);
         put(contactsService.getEndpoint(), contactsService);
         put(morningUpdatesService.getEndpoint(), morningUpdatesService);
+        put(phoneService.getEndpoint(), phoneService);
     }};
 
     public Huami2021Support() {
@@ -201,6 +204,14 @@ public abstract class Huami2021Support extends HuamiSupport {
         // Handle button presses - these are not preferences
         // See Huami2021SettingsCustomizer
         switch (config) {
+            case DeviceSettingsPreferenceConst.PREF_BLUETOOTH_CALLS_PAIR:
+                if (!phoneService.isSupported()) {
+                    GB.toast(getContext(), "Phone service is not supported.", Toast.LENGTH_LONG, GB.ERROR);
+                    return;
+                }
+
+                phoneService.startPairing();
+                return;
             case DeviceSettingsPreferenceConst.WIFI_HOTSPOT_START:
                 final String ssid = getDevicePrefs().getString(DeviceSettingsPreferenceConst.WIFI_HOTSPOT_SSID, "");
                 if (StringUtils.isNullOrEmpty(ssid)) {
@@ -250,6 +261,16 @@ public abstract class Huami2021Support extends HuamiSupport {
                 return;
         }
 
+        // phoneService preferences, they do not use the configService
+        switch (config) {
+            case DeviceSettingsPreferenceConst.PREF_BLUETOOTH_CALLS_ENABLED:
+                final boolean bluetoothCallsEnabled = prefs.getBoolean(DeviceSettingsPreferenceConst.PREF_BLUETOOTH_CALLS_ENABLED, false);
+                LOG.info("Setting bluetooth calls enabled = {}", bluetoothCallsEnabled);
+                phoneService.setEnabled(bluetoothCallsEnabled);
+                return;
+        }
+
+        // Defer everything else to the configService
         try {
             if (configService.setConfig(prefs, config, configSetter)) {
                 // If the ConfigSetter was able to set the config, just write it and return
@@ -260,11 +281,11 @@ public abstract class Huami2021Support extends HuamiSupport {
 
                 return;
             }
-
-            super.onSendConfiguration(config);
         } catch (final Exception e) {
             GB.toast("Error setting configuration", Toast.LENGTH_LONG, GB.ERROR, e);
         }
+
+        super.onSendConfiguration(config);
     }
 
     @Override
@@ -1460,6 +1481,11 @@ public abstract class Huami2021Support extends HuamiSupport {
 
     @Override
     public void phase3Initialize(final TransactionBuilder builder) {
+        // Make sure that performInitialized is not called accidentally in here
+        // (eg. by creating a new TransactionBuilder).
+        // In those cases, the device will be initialized twice, which will change the shared
+        // session key during these phase3 requests and decrypting messages will fail
+
         final Huami2021Coordinator coordinator = getCoordinator();
 
         LOG.info("2021 phase3Initialize...");
@@ -1483,6 +1509,10 @@ public abstract class Huami2021Support extends HuamiSupport {
         }
         requestAlarms(builder);
         //requestReminders(builder);
+        if (coordinator.supportsBluetoothPhoneCalls(gbDevice)) {
+            phoneService.requestCapabilities(builder);
+            phoneService.requestEnabled(builder);
+        }
         //contactsService.requestCapabilities(builder);
         morningUpdatesService.getEnabled(builder);
         morningUpdatesService.getCategories(builder);

@@ -438,6 +438,10 @@ public class DeviceSpecificSettingsFragment extends PreferenceFragmentCompat imp
         addPreferenceHandlerFor(PREF_SOUNDS);
         addPreferenceHandlerFor(PREF_CAMERA_REMOTE);
 
+        addPreferenceHandlerFor(PREF_BLUETOOTH_CALLS_ENABLED);
+        addPreferenceHandlerFor(PREF_DISPLAY_CALLER);
+        addPreferenceHandlerFor(PREF_NOTIFICATION_DELAY_CALLS);
+
         addPreferenceHandlerFor(PREF_SLEEP_MODE_SLEEP_SCREEN);
         addPreferenceHandlerFor(PREF_SLEEP_MODE_SMART_ENABLE);
 

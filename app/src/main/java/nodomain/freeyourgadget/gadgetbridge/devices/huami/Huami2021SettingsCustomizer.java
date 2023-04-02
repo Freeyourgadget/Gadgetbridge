@@ -17,7 +17,11 @@
 package nodomain.freeyourgadget.gadgetbridge.devices.huami;
 
 import android.os.Parcel;
+import android.text.InputFilter;
+import android.text.InputType;
+import android.text.Spanned;
 
+import androidx.preference.EditTextPreference;
 import androidx.preference.ListPreference;
 import androidx.preference.MultiSelectListPreference;
 import androidx.preference.Preference;
@@ -65,16 +69,25 @@ public class Huami2021SettingsCustomizer extends HuamiSettingsCustomizer {
             if (config.getPrefKey() == null) {
                 continue;
             }
-            switch (config.getConfigType(null)) {
+            final ZeppOsConfigService.ConfigType configType = config.getConfigType(null);
+            if (configType == null) {
+                // Should never happen
+                LOG.error("configType is null - this should never happen");
+                return;
+            }
+            switch (configType) {
                 case BYTE:
                 case BYTE_LIST:
                 case STRING_LIST:
                     // For list preferences, remove the unsupported items
                     removeUnsupportedElementsFromListPreference(config.getPrefKey(), handler, prefs);
                     break;
-                case BOOL:
                 case SHORT:
                 case INT:
+                    hidePrefIfNoConfigSupported(handler, prefs, config.getPrefKey(), config.name());
+                    enforceMinMax(handler, prefs, config);
+                    break;
+                case BOOL:
                 case DATETIME_HH_MM:
                 case TIMESTAMP_MILLIS:
                 default:
@@ -221,7 +234,7 @@ public class Huami2021SettingsCustomizer extends HuamiSettingsCustomizer {
         ));
 
         setupGpsPreference(handler, prefs);
-        setupWifiFtpPreferences(handler);
+        setupButtonClickPreferences(handler);
     }
 
     @Override
@@ -231,6 +244,7 @@ public class Huami2021SettingsCustomizer extends HuamiSettingsCustomizer {
         preferenceKeysWithSummary.add(DeviceSettingsPreferenceConst.WIFI_HOTSPOT_SSID);
         preferenceKeysWithSummary.add(DeviceSettingsPreferenceConst.WIFI_HOTSPOT_PASSWORD);
         preferenceKeysWithSummary.add(DeviceSettingsPreferenceConst.WIFI_HOTSPOT_STATUS);
+
         preferenceKeysWithSummary.add(DeviceSettingsPreferenceConst.FTP_SERVER_ROOT_DIR);
         preferenceKeysWithSummary.add(DeviceSettingsPreferenceConst.FTP_SERVER_ADDRESS);
         preferenceKeysWithSummary.add(DeviceSettingsPreferenceConst.FTP_SERVER_USERNAME);
@@ -341,9 +355,10 @@ public class Huami2021SettingsCustomizer extends HuamiSettingsCustomizer {
         }
     }
 
-    private void setupWifiFtpPreferences(final DeviceSpecificSettingsHandler handler) {
+    private void setupButtonClickPreferences(final DeviceSpecificSettingsHandler handler) {
         // Notify preference changed on button click, so we can react to them
         final List<Preference> wifiFtpButtons = Arrays.asList(
+                handler.findPreference(DeviceSettingsPreferenceConst.PREF_BLUETOOTH_CALLS_PAIR),
                 handler.findPreference(DeviceSettingsPreferenceConst.WIFI_HOTSPOT_START),
                 handler.findPreference(DeviceSettingsPreferenceConst.WIFI_HOTSPOT_STOP),
                 handler.findPreference(DeviceSettingsPreferenceConst.FTP_SERVER_START),
@@ -475,6 +490,42 @@ public class Huami2021SettingsCustomizer extends HuamiSettingsCustomizer {
         pref.setVisible(false);
     }
 
+    private void enforceMinMax(final DeviceSpecificSettingsHandler handler, final Prefs prefs, final ZeppOsConfigService.ConfigArg config) {
+        final String prefKey = config.getPrefKey();
+        final Preference pref = handler.findPreference(prefKey);
+        if (pref == null) {
+            return;
+        }
+
+        if (!(pref instanceof EditTextPreference)) {
+            return;
+        }
+
+        final int minValue = prefs.getInt(ZeppOsConfigService.getPrefMinKey(prefKey), Integer.MAX_VALUE);
+        if (minValue == Integer.MAX_VALUE) {
+            LOG.warn("Missing min value for {}", prefKey);
+            return;
+        }
+
+        final int maxValue = prefs.getInt(ZeppOsConfigService.getPrefMaxKey(prefKey), Integer.MIN_VALUE);
+        if (maxValue == Integer.MAX_VALUE) {
+            LOG.warn("Missing max value for {}", prefKey);
+            return;
+        }
+
+        if (minValue >= maxValue) {
+            LOG.warn("Invalid min/max values: {}/{}", minValue, maxValue);
+            return;
+        }
+
+        final EditTextPreference textPref = (EditTextPreference) pref;
+        textPref.setOnBindEditTextListener(editText -> {
+            editText.setInputType(InputType.TYPE_CLASS_NUMBER);
+            editText.setFilters(new InputFilter[]{new MinMaxInputFilter(minValue, maxValue)});
+            editText.setSelection(editText.getText().length());
+        });
+    }
+
     public static final Creator<Huami2021SettingsCustomizer> CREATOR = new Creator<Huami2021SettingsCustomizer>() {
         @Override
         public Huami2021SettingsCustomizer createFromParcel(final Parcel in) {
@@ -489,4 +540,26 @@ public class Huami2021SettingsCustomizer extends HuamiSettingsCustomizer {
             return new Huami2021SettingsCustomizer[size];
         }
     };
+
+    public static final class MinMaxInputFilter implements InputFilter {
+        private final int min;
+        private final int max;
+
+        public MinMaxInputFilter(final int min, final int max) {
+            this.min = min;
+            this.max = max;
+        }
+
+        @Override
+        public CharSequence filter(CharSequence source, int start, int end, Spanned dest, int dstart, int dend) {
+            try {
+                final int input = Integer.parseInt(dest.toString() + source.toString());
+                if (input >= min && input <= max) {
+                    return null;
+                }
+            } catch (final NumberFormatException ignored) {
+            }
+            return "";
+        }
+    }
 }

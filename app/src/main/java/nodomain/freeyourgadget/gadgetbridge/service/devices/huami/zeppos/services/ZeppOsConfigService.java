@@ -372,11 +372,12 @@ public class ZeppOsConfigService extends AbstractZeppOsService {
         DND_MODE(ConfigGroup.SYSTEM, ConfigType.BYTE, 0x0a, PREF_DO_NOT_DISTURB),
         DND_SCHEDULED_START(ConfigGroup.SYSTEM, ConfigType.DATETIME_HH_MM, 0x0b, PREF_DO_NOT_DISTURB_START),
         DND_SCHEDULED_END(ConfigGroup.SYSTEM, ConfigType.DATETIME_HH_MM, 0x0c, PREF_DO_NOT_DISTURB_END),
+        CALL_DELAY(ConfigGroup.SYSTEM, ConfigType.SHORT, 0x11, PREF_NOTIFICATION_DELAY_CALLS),
         TEMPERATURE_UNIT(ConfigGroup.SYSTEM, ConfigType.BYTE, 0x12, SettingsActivity.PREF_MEASUREMENT_SYSTEM),
         TIME_FORMAT_FOLLOWS_PHONE(ConfigGroup.SYSTEM, ConfigType.BOOL, 0x13, null /* special case, handled below */),
         UPPER_BUTTON_LONG_PRESS(ConfigGroup.SYSTEM, ConfigType.STRING_LIST, 0x15, PREF_UPPER_BUTTON_LONG_PRESS),
         LOWER_BUTTON_PRESS(ConfigGroup.SYSTEM, ConfigType.STRING_LIST, 0x16, PREF_LOWER_BUTTON_SHORT_PRESS),
-        DISPLAY_CALLER(ConfigGroup.SYSTEM, ConfigType.BOOL, 0x18, null), // TODO Handle
+        DISPLAY_CALLER(ConfigGroup.SYSTEM, ConfigType.BOOL, 0x18, PREF_DISPLAY_CALLER),
         NIGHT_MODE_MODE(ConfigGroup.SYSTEM, ConfigType.BYTE, 0x1b, PREF_NIGHT_MODE),
         NIGHT_MODE_SCHEDULED_START(ConfigGroup.SYSTEM, ConfigType.DATETIME_HH_MM, 0x1c, PREF_NIGHT_MODE_START),
         NIGHT_MODE_SCHEDULED_END(ConfigGroup.SYSTEM, ConfigType.DATETIME_HH_MM, 0x1d, PREF_NIGHT_MODE_END),
@@ -1028,8 +1029,14 @@ public class ZeppOsConfigService extends AbstractZeppOsService {
 
         private Map<String, Object> convertShortToPrefs(final ConfigArg configArg, final ConfigShort value) {
             if (configArg.getPrefKey() != null) {
-                // The arg maps to a number pref directly
-                final Map<String, Object> prefs = singletonMap(configArg.getPrefKey(), value.getValue());
+                final Map<String, Object> prefs;
+                if (configArg == ConfigArg.CALL_DELAY) {
+                    // Persist as string, otherwise the EditText crashes
+                    prefs = singletonMap(configArg.getPrefKey(), String.valueOf(value.getValue()));
+                } else {
+                    // The arg maps to a number pref directly
+                    prefs = singletonMap(configArg.getPrefKey(), value.getValue());
+                }
 
                 if (value.isMinMaxKnown()) {
                     prefs.put(getPrefMinKey(configArg.getPrefKey()), value.getMin());
