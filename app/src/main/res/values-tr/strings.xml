@@ -2163,4 +2163,18 @@
     <string name="pref_morning_updates_categories_title">Sabah Güncellemeleri Kategorileri</string>
     <string name="pref_morning_updates_categories_summary">Her sabah görüntülenecek kategorilerin listesi</string>
     <string name="yesterdays_activity">Dünkü Etkinlik</string>
+    <string name="bluetooth_calls_pairing">Bluetooth arama eşleştirme</string>
+    <string name="bluetooth_calls_settings">Bluetooth arama ayarları</string>
+    <string name="pref_display_caller_title">Kişi bilgilerini göster</string>
+    <string name="pref_display_caller_summary">Gelen aramalar için telefon numarasını veya adı görüntüle</string>
+    <string name="pref_pair_bluetooth_calls_title">Bluetooth aramaları için eşleştir</string>
+    <string name="pref_pair_bluetooth_calls_help_summary">Bluetooth aramalarını alabilmek için telefonunuzu saatin ikinci bir örneğiyle eşleştirmeniz gerekir.</string>
+    <string name="pref_pair_bluetooth_calls_help_2">2. Telefonunuzun bluetooth ayarlarına gidin ve görünecek yeni aygıtla eşleştirin (geçerli saatinize benzer bir ad, ancak bir son ek ile, örneğin \"Amazfit GTR 4 - AFC8\").</string>
+    <string name="pref_pair_bluetooth_calls_help_3">3. Aşağıdaki Bluetooth arama ayarını etkinleştirin.</string>
+    <string name="pref_pair_bluetooth_calls_help_warning">UYARI: İkinci örnekle eşleştirme yapmadan bluetooth aramalarını etkinleştirirseniz, arama bildirimleri beklendiği gibi çalışmayabilir.</string>
+    <string name="pref_pair_bluetooth_calls_help_1">1. Eşleştirme işlemini başlatmak için aşağıdaki düğmeye dokunun.</string>
+    <string name="pref_summary_receive_calls_watch">Aramaları doğrudan saat üzerinden gerçekleştirin ve alın</string>
+    <string name="pref_pair_bluetooth_calls_help_title">Bluetooth aramaları nasıl alınır</string>
+    <string name="bluetooth_calls">Bluetooth aramaları</string>
+    <string name="pref_pair_bluetooth_calls_summary">Eşleştirme işlemini başlatmak için buraya tıklayın</string>
 </resources>
