@@ -2144,4 +2144,9 @@
     <string name="ftp_server_status">FTP 服务器状态</string>
     <string name="croatian">克罗地亚语</string>
     <string name="sony_speak_to_chat_summary">开始说话时自动关闭降噪。</string>
+    <string name="yesterdays_activity">昨天的活动</string>
+    <string name="pref_morning_updates_summary">每天早上显示更新</string>
+    <string name="pref_morning_updates_categories_summary">每天早上要显示的分类列表</string>
+    <string name="pref_morning_updates_title">早上更新</string>
+    <string name="pref_morning_updates_categories_title">早上更新分类</string>
 </resources>
