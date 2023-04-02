@@ -2148,4 +2148,9 @@ Temps de sommeil préféré en heures</string>
     <string name="username">Nom d\'utilisateur</string>
     <string name="address">Adresse</string>
     <string name="sony_speak_to_chat_summary">Désactiver l\'annulation de bruit automatiquement lors d\'un appel.</string>
+    <string name="yesterdays_activity">Activité d\'hier</string>
+    <string name="pref_morning_updates_title">Mises à jour le matin</string>
+    <string name="pref_morning_updates_summary">Afficher les mises à jour tous les matins</string>
+    <string name="pref_morning_updates_categories_title">Les catégories de mises à jour du matin</string>
+    <string name="pref_morning_updates_categories_summary">Liste des catégories à afficher tous les matins</string>
 </resources>
