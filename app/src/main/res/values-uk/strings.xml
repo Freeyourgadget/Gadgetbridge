@@ -2157,4 +2157,18 @@
     <string name="pref_morning_updates_categories_title">Категорії ранкових оновлень</string>
     <string name="pref_morning_updates_categories_summary">Список показуваних щоранку категорій</string>
     <string name="yesterdays_activity">Учорашня діяльність</string>
+    <string name="bluetooth_calls">Виклики через Bluetooth</string>
+    <string name="bluetooth_calls_pairing">Сполучення викликів Bluetooth</string>
+    <string name="bluetooth_calls_settings">Налаштування викликів Bluetooth</string>
+    <string name="pref_display_caller_summary">Показувати номер телефону або ім\'я для вхідних викликів</string>
+    <string name="pref_pair_bluetooth_calls_title">Пара для викликів через Bluetooth</string>
+    <string name="pref_pair_bluetooth_calls_help_title">Як приймати виклики Bluetooth</string>
+    <string name="pref_pair_bluetooth_calls_help_1">1. Торкніться кнопки нижче, щоб розпочати процес створення пари.</string>
+    <string name="pref_summary_receive_calls_watch">Здійснювати та приймати виклики безпосередньо на годиннику</string>
+    <string name="pref_display_caller_title">Показати контактну інформацію</string>
+    <string name="pref_pair_bluetooth_calls_help_summary">Щоб приймати виклики через Bluetooth, вам потрібно з\'єднати телефон з другим екземпляром годинника.</string>
+    <string name="pref_pair_bluetooth_calls_summary">Клацніть тут, щоб розпочати процес створення пари</string>
+    <string name="pref_pair_bluetooth_calls_help_2">2. Перейдіть до налаштувань Bluetooth свого телефону та створіть пару з новим пристроєм, який з’явиться (назва схожа на поточний годинник, але з суфіксом, наприклад, «Amazfit GTR 4 - AFC8»).</string>
+    <string name="pref_pair_bluetooth_calls_help_warning">ПОПЕРЕДЖЕННЯ. Якщо ввімкнути виклики через Bluetooth без під\'єднання до другого екземпляра, сповіщення про виклики можуть не працювати належним чином.</string>
+    <string name="pref_pair_bluetooth_calls_help_3">3. Увімкніть налаштування викликів Bluetooth нижче.</string>
 </resources>
