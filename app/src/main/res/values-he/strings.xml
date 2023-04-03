@@ -2143,4 +2143,23 @@
     <string name="address">כתובת</string>
     <string name="croatian">קרואטית</string>
     <string name="sony_speak_to_chat_summary">כיבוי ביטול רעשים אוטומטית בעת דיבור.</string>
+    <string name="yesterdays_activity">הפעילות של אתמול</string>
+    <string name="bluetooth_calls">שיחות Bluetooth</string>
+    <string name="bluetooth_calls_pairing">צימוד לשיחות Bluetooth</string>
+    <string name="bluetooth_calls_settings">הגדרות שיחות Bluetooth</string>
+    <string name="pref_display_caller_title">הצגת פרטי קשר</string>
+    <string name="pref_display_caller_summary">הצגת מספר טלפון או שם לשיחות נכנסות</string>
+    <string name="pref_pair_bluetooth_calls_title">צימוד לשיחות Bluetooth</string>
+    <string name="pref_pair_bluetooth_calls_summary">לחיצה כאן תתחיל את תהליך הצימוד</string>
+    <string name="pref_pair_bluetooth_calls_help_title">איך לקבל שיחות Bluetooth</string>
+    <string name="pref_pair_bluetooth_calls_help_1">1. לגעת בכפתור שלהלן כדי להתחיל את תהליך הצימוד.</string>
+    <string name="pref_pair_bluetooth_calls_help_3">3. להפעיל את הגדרות שיחות Bluetooth להלן.</string>
+    <string name="pref_pair_bluetooth_calls_help_2">2. לגשת להגדרות ה־Bluetooth של הטלפון שלך ולצמד עם המכשיר החדש שיופיע (שם שדומה לשעון הנוכחי שלך, אבל עם סיומת, למשל: „Amazfit GTR 4 - AFC8”.</string>
+    <string name="pref_morning_updates_categories_title">קטגוריות עדכוני בוקר</string>
+    <string name="pref_morning_updates_summary">הצגת עדכונים כל בוקר</string>
+    <string name="pref_morning_updates_title">עדכוני בוקר</string>
+    <string name="pref_pair_bluetooth_calls_help_summary">כדי לקבל שיחות Bluetooth יש לצמד את הטלפון שלך עם מופע שני של השעון.</string>
+    <string name="pref_summary_receive_calls_watch">התקשרות ומענה לשיחות ישירות מהשעון</string>
+    <string name="pref_morning_updates_categories_summary">רשימת הקטגוריות להצגה בכל בוקר</string>
+    <string name="pref_pair_bluetooth_calls_help_warning">אזהרה: כדי להפעיל שיחות Bluetooth מבלי לצמד למופע השני, התראות שיחה לא תעבודנה כמתוכנן.</string>
 </resources>
