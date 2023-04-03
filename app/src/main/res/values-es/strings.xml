@@ -2160,7 +2160,7 @@
     <string name="pref_pair_bluetooth_calls_title">Emparejar para llamadas bluetooth</string>
     <string name="pref_pair_bluetooth_calls_summary">Haz clic aquí para iniciar el proceso de emparejamiento</string>
     <string name="pref_pair_bluetooth_calls_help_title">Cómo recibir llamadas por bluetooth</string>
-    <string name="pref_pair_bluetooth_calls_help_summary">Para recibir llamadas por bluetooth, tienes que emparejar tu teléfono y con tú reloj.</string>
+    <string name="pref_pair_bluetooth_calls_help_summary">Para recibir llamadas por bluetooth, tienes que emparejar tu teléfono con tú reloj.</string>
     <string name="pref_pair_bluetooth_calls_help_1">1. Pulsa el botón de abajo para iniciar el proceso de emparejamiento.</string>
     <string name="pref_pair_bluetooth_calls_help_2">2. Ve a la configuración del Bluetooth de tú teléfono y empareja con el nuevo dispositivo que aparecerá (similar al nombre de tú reloj actual, pero con un sufijo, por ejemplo, \"Amazfit GTR 4 - AFC8\").</string>
     <string name="pref_pair_bluetooth_calls_help_warning">ADVERTENCIA: Si activas las llamadas bluetooth sin emparejar con la segunda instancia, es posible que las notificaciones de llamadas no funcionen como se espera.</string>
