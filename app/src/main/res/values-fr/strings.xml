@@ -2153,4 +2153,18 @@ Temps de sommeil préféré en heures</string>
     <string name="pref_morning_updates_summary">Afficher les mises à jour tous les matins</string>
     <string name="pref_morning_updates_categories_title">Les catégories de mises à jour du matin</string>
     <string name="pref_morning_updates_categories_summary">Liste des catégories à afficher tous les matins</string>
+    <string name="bluetooth_calls_pairing">Pairage pour les appels Bluetooth</string>
+    <string name="bluetooth_calls_settings">Configuration des appels Bluetooth</string>
+    <string name="pref_display_caller_title">Afficher les informations du contact</string>
+    <string name="pref_display_caller_summary">Afficher le numéro ou le nom pour les appels entrants</string>
+    <string name="pref_pair_bluetooth_calls_summary">Appuyer ici pour commencer le processus de pairage</string>
+    <string name="pref_pair_bluetooth_calls_help_title">Comment recevoir des appels Bluetooth</string>
+    <string name="pref_pair_bluetooth_calls_help_1">1. Appuyer sur le bouton ci-dessous pour commencer le processus de pairage.</string>
+    <string name="pref_pair_bluetooth_calls_help_3">3. Activer les réglages d\'appel en Bluetooth ci-dessous.</string>
+    <string name="pref_pair_bluetooth_calls_help_warning">AVERTISSEMENT : Si vous activez les appels Bluetooth sans faire le pairage avec la seconde instance, les notifications d\'appel pourraient ne pas marcher comme prévu.</string>
+    <string name="bluetooth_calls">Appels Bluetooth</string>
+    <string name="pref_summary_receive_calls_watch">Passer et recevoir des appels directement depuis la montre</string>
+    <string name="pref_pair_bluetooth_calls_title">Coupler pour les appels Bluetooth</string>
+    <string name="pref_pair_bluetooth_calls_help_summary">Afin de recevoir les appels en Bluetooth, vous devez pairer votre téléphone avec une seconde instance de la montre.</string>
+    <string name="pref_pair_bluetooth_calls_help_2">2. Rendez-vous dans les réglages Bluetooth de votre téléphone, et pairez-le avec le nouvel appareil qui apparaitra (nom similaire à votre montre existante, mais avec un suffixe, du style \"Amazfit GTR 4 - AFC8\".</string>
 </resources>
