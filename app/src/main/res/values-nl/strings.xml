@@ -2144,4 +2144,25 @@
     <string name="address">Adres</string>
     <string name="pref_workout_keep_screen_on_summary">Het scherm blijft aan tijdens een training en de helderheid wordt aangepast om continu real-time trainingsgegevens weer te geven</string>
     <string name="status">Status</string>
+    <string name="yesterdays_activity">Activiteit van gisteren</string>
+    <string name="pref_morning_updates_categories_title">Categorieën ochtendupdates</string>
+    <string name="pref_title_notification_cache_while_disconnected">Onthouden wanneer buiten bereik</string>
+    <string name="pref_summary_notification_cache_while_disconnected">Stuur gemiste meldingen wanneer een apparaat opnieuw verbinding maakt nadat het buiten bereik is geweest</string>
+    <string name="pref_morning_updates_title">Ochtendupdates</string>
+    <string name="pref_morning_updates_summary">Geef elke ochtend updates weer</string>
+    <string name="pref_morning_updates_categories_summary">Lijst met categorieën om elke ochtend weer te geven</string>
+    <string name="pref_summary_receive_calls_watch">Voer en ontvang oproepen rechtstreeks op het horloge</string>
+    <string name="bluetooth_calls">Bluetooth-oproepen</string>
+    <string name="bluetooth_calls_pairing">Koppelen voor Bluetooth-oproepen</string>
+    <string name="bluetooth_calls_settings">Instellingen voor Bluetooth-oproepen</string>
+    <string name="pref_display_caller_title">Contactgegevens weergeven</string>
+    <string name="pref_display_caller_summary">Telefoonnummer of naam weergeven voor inkomende oproepen</string>
+    <string name="pref_pair_bluetooth_calls_title">Koppelen voor bluetooth-oproepen</string>
+    <string name="pref_pair_bluetooth_calls_summary">Klik hier om het koppelingsproces te starten</string>
+    <string name="pref_pair_bluetooth_calls_help_title">Bluetooth-oproepen ontvangen</string>
+    <string name="pref_pair_bluetooth_calls_help_summary">Om bluetooth-oproepen te ontvangen, moet u uw telefoon koppelen met het tweede bluetooth-apparaat van het horloge.</string>
+    <string name="pref_pair_bluetooth_calls_help_1">1. Tik op de onderstaande knop om het koppelingsproces te starten.</string>
+    <string name="pref_pair_bluetooth_calls_help_2">2. Ga naar de Bluetooth-instellingen van je telefoon en koppel met het nieuwe apparaat dat verschijnt (met soortgelijke naam als je huidige horloge, maar met een achtervoegsel, bijv. \"Amazfit GTR 4 - AFC8\").</string>
+    <string name="pref_pair_bluetooth_calls_help_3">3. Schakel de instelling voor Bluetooth-oproepen hieronder in.</string>
+    <string name="pref_pair_bluetooth_calls_help_warning">WAARSCHUWING: Als u Bluetooth-oproepen inschakelt zonder te koppelen met het tweede bluetooth-apparaat, werken oproepmeldingen mogelijk niet zoals verwacht.</string>
 </resources>
