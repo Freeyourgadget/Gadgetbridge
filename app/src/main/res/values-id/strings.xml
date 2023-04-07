@@ -2133,4 +2133,25 @@
     <string name="ftp_server_root_dir">Direktori Akar</string>
     <string name="username">Nama pengguna</string>
     <string name="sony_speak_to_chat_summary">Nonaktifkan peredam bising secara otomatis saat Anda mulai berbicara.</string>
+    <string name="pref_summary_notification_cache_while_disconnected">Kirim notifikasi yang terlewat ketika sebuah perangkat menghubungkan kembali setelah di luar jangka</string>
+    <string name="pref_morning_updates_categories_title">Kategori Pembaruan Pagi</string>
+    <string name="pref_title_notification_cache_while_disconnected">Tembolok saat di luar jangka</string>
+    <string name="pref_morning_updates_title">Pembaruan Pagi</string>
+    <string name="pref_morning_updates_summary">Menampilkan pembaruan setiap pagi</string>
+    <string name="pref_morning_updates_categories_summary">Daftar kategori untuk ditampilkan setiap pagi</string>
+    <string name="yesterdays_activity">Aktivitas Kemarin</string>
+    <string name="pref_summary_receive_calls_watch">Lakukan dan terima panggilan secara langsung di jam tangan</string>
+    <string name="bluetooth_calls">Panggilan Bluetooth</string>
+    <string name="bluetooth_calls_pairing">Penyandingan panggilan Bluetooth</string>
+    <string name="bluetooth_calls_settings">Pengaturan panggilan Bluetooth</string>
+    <string name="pref_display_caller_title">Tampilkan informasi kontak</string>
+    <string name="pref_display_caller_summary">Tampilkan nomor telepon atau nama untuk panggilan masuk</string>
+    <string name="pref_pair_bluetooth_calls_title">Sandingkan untuk panggilan Bluetooth</string>
+    <string name="pref_pair_bluetooth_calls_summary">Klik di sini untuk memulai proses penyandingan</string>
+    <string name="pref_pair_bluetooth_calls_help_title">Cara menerima panggilan Bluetooth</string>
+    <string name="pref_pair_bluetooth_calls_help_summary">Untuk menerima panggilan Bluetooth, Anda harus menyandingkan ponsel Anda dengan bagian jam tangan yang kedua.</string>
+    <string name="pref_pair_bluetooth_calls_help_1">1. Ketuk tombol di bawah untuk memulai proses penyandingan.</string>
+    <string name="pref_pair_bluetooth_calls_help_2">2. Pergi ke pengaturan Bluetooth ponsel Anda, dan sandingkan dengan perangkat baru yang akan muncul (nama sama dengan jam tangan Anda, tetapi dengan akhiran, mis. \"Amazfit GTR 4 - AFC8\").</string>
+    <string name="pref_pair_bluetooth_calls_help_3">3. Aktifkan pengaturan panggilan Bluetooth di bawah.</string>
+    <string name="pref_pair_bluetooth_calls_help_warning">PERINGATAN: Jika Anda mengaktifkan panggilan Bluetooth tanpa menyandingkan dengan bagian kedua, notifikasi panggilan mungkin tidak bekerja dengan seharusnya.</string>
 </resources>
