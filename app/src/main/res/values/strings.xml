@@ -1827,6 +1827,7 @@
     <string name="pref_switch_controls_anc_ambient">Noise cancelling ←→ Ambient</string>
     <string name="pref_switch_controls_anc_off">Noise cancelling ←→ Off</string>
     <string name="pref_switch_controls_ambient_off">Ambient ←→ Off</string>
+    <string name="pref_switch_controls_anc_ambient_off">Noise cancelling ←→ Ambient ←→ Off</string>
     <string name="prefs_noise_control">Noise control</string>
     <string name="prefs_voice_detect">Voice detect</string>
     <string name="prefs_voice_detect_summary">Enable Ambient sound and lower playback automatically after voice has been detected</string>
@@ -1926,6 +1927,8 @@
     <string name="sony_button_mode_left">Button Mode (Left)</string>
     <string name="sony_button_mode_right">Button Mode (Right)</string>
     <string name="sony_button_mode_off">Off</string>
+    <string name="sony_button_mode_help_title">Button Modes - Help</string>
+    <string name="sony_button_mode_help_summary">A description of each button mode</string>
     <string name="sony_button_mode_ambient_sound_control">Ambient Sound Control</string>
     <string name="sony_button_mode_playback_control">Playback Control</string>
     <string name="sony_button_mode_volume_control">Volume Control</string>
@@ -1939,6 +1942,12 @@
     <string name="pref_screen_auto_brightness_title">Auto Brightness</string>
     <string name="pref_screen_auto_brightness_summary">Adjust screen brightness according to ambient light</string>
     <string name="pref_screen_brightness">Screen Brightness</string>
+    <string name="single_tap">Single Tap</string>
+    <string name="double_tap">Double Tap</string>
+    <string name="triple_tap">Triple Tap</string>
+    <string name="long_press">Long Press</string>
+    <string name="continue_pressing">Continue Pressing</string>
+    <string name="quick_attention">Quick Attention</string>
     <string name="watchface_widget_type_custom">Custom widget</string>
     <string name="watchface_dialog_widget_timezone">Time zone</string>
     <string name="watchface_dialog_widget_timezone_duration">Clock visibility duration (in seconds)</string>

@@ -1,5 +1,72 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceScreen
+        android:icon="@drawable/ic_help_outline"
+        android:key="pref_screen_sony_button_mode_help"
+        android:persistent="false"
+        android:summary="@string/sony_button_mode_help_summary"
+        android:title="@string/sony_button_mode_help_title">
+
+        <PreferenceCategory android:title="@string/sony_button_mode_ambient_sound_control">
+            <Preference
+                android:icon="@drawable/ic_filter_1"
+                android:key="pref_button_mode_help_ambient_sound_single_tap"
+                android:summary="@string/pref_switch_controls_anc_ambient_off"
+                android:title="@string/single_tap" />
+
+            <Preference
+                android:icon="@drawable/ic_horizontal_rule"
+                android:key="pref_button_mode_help_ambient_sound_continue_pressing"
+                android:summary="@string/quick_attention"
+                android:title="@string/continue_pressing" />
+        </PreferenceCategory>
+
+        <PreferenceCategory android:title="@string/sony_button_mode_playback_control">
+            <Preference
+                android:icon="@drawable/ic_filter_1"
+                android:key="pref_button_mode_help_playback_control_single_tap"
+                android:summary="@string/pref_media_playpause"
+                android:title="@string/single_tap" />
+            <Preference
+                android:icon="@drawable/ic_filter_2"
+                android:key="pref_button_mode_help_playback_control_double_tap"
+                android:summary="@string/pref_media_next"
+                android:title="@string/double_tap" />
+            <Preference
+                android:icon="@drawable/ic_filter_3"
+                android:key="pref_button_mode_help_playback_control_triple_tap"
+                android:summary="@string/pref_media_previous"
+                android:title="@string/triple_tap" />
+            <Preference
+                android:icon="@drawable/ic_horizontal_rule"
+                android:key="pref_button_mode_help_playback_control_long_press"
+                android:summary="@string/pref_title_touch_voice_assistant"
+                android:title="@string/long_press" />
+        </PreferenceCategory>
+
+        <PreferenceCategory android:title="@string/sony_button_mode_volume_control">
+            <Preference
+                android:icon="@drawable/ic_filter_1"
+                android:key="pref_button_mode_help_volume_control_single_tap"
+                android:summary="@string/pref_media_volumeup"
+                android:title="@string/single_tap" />
+            <Preference
+                android:icon="@drawable/ic_horizontal_rule"
+                android:key="pref_button_mode_help_volume_control_continue_pressing"
+                android:summary="@string/pref_media_volumedown"
+                android:title="@string/continue_pressing" />
+        </PreferenceCategory>
+
+        <!--
+            Google Assistant:
+                - Tap: Cancel Audio Input
+                - Double Tap: Voice Notification
+                - Continue Pressing: Audio Input
+            Amazon Alexa
+                - Tap: Audio Input / Cancel
+        -->
+    </PreferenceScreen>
+
     <ListPreference
         android:defaultValue="off"
         android:entries="@array/sony_wfsp800n_button_mode_names"
