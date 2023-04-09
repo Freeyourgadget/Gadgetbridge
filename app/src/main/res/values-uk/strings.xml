@@ -2173,4 +2173,13 @@
     <string name="pref_pair_bluetooth_calls_help_3">3. Увімкніть налаштування викликів Bluetooth нижче.</string>
     <string name="pref_title_notification_cache_while_disconnected">Кеш поза зоною досяжності</string>
     <string name="pref_summary_notification_cache_while_disconnected">Надсилати пропущені сповіщення, коли пристрій під\'єднується після перебування поза зоною досяжності</string>
+    <string name="sony_button_mode_help_summary">Опис режиму кожної кнопки</string>
+    <string name="single_tap">Один дотик</string>
+    <string name="double_tap">Подвійне торкання</string>
+    <string name="triple_tap">Потрійний дотик</string>
+    <string name="continue_pressing">Продовжити натискання</string>
+    <string name="quick_attention">Швидка увага</string>
+    <string name="long_press">Затискання</string>
+    <string name="pref_switch_controls_anc_ambient_off">Шумозаглушення ←→ Навколишнє середовище ←→ Вимкнено</string>
+    <string name="sony_button_mode_help_title">Режими кнопок - Довідка</string>
 </resources>
