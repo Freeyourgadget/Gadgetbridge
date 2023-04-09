@@ -2163,4 +2163,15 @@
     <string name="pref_pair_bluetooth_calls_help_warning">警告：如果您在未与第二个实例配对的情况下启用蓝牙呼叫，来电通知可能无法按预期工作。</string>
     <string name="pref_pair_bluetooth_calls_summary">单击此处开始配对过程</string>
     <string name="pref_pair_bluetooth_calls_help_summary">为了接听蓝牙电话，您需要将手机与手表的第二个实例配对。</string>
+    <string name="pref_switch_controls_anc_ambient_off">降噪 ←→ 环境音 ←→ 关闭</string>
+    <string name="sony_button_mode_help_title">按钮模式 - 帮助</string>
+    <string name="long_press">长按</string>
+    <string name="pref_summary_notification_cache_while_disconnected">当设备超出范围后重新连接时发送错过的通知</string>
+    <string name="single_tap">单击</string>
+    <string name="sony_button_mode_help_summary">每个按钮模式的说明</string>
+    <string name="triple_tap">三连击</string>
+    <string name="double_tap">双击</string>
+    <string name="continue_pressing">持续按下</string>
+    <string name="quick_attention">快速关注</string>
+    <string name="pref_title_notification_cache_while_disconnected">超出范围外时的缓存</string>
 </resources>
