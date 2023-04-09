@@ -2167,4 +2167,13 @@
     <string name="pref_pair_bluetooth_calls_help_3">3. Habilita el ajuste para las llamadas Bluetooth a continuación.</string>
     <string name="pref_summary_notification_cache_while_disconnected">Enviar notificaciones perdidas cuando un dispositivo se vuelve a conectar después de estar fuera de cobertura</string>
     <string name="pref_title_notification_cache_while_disconnected">Caché mientras está fuera de cobertura</string>
+    <string name="sony_button_mode_help_summary">Descripción de cada modo de botón</string>
+    <string name="single_tap">Toque único</string>
+    <string name="double_tap">Toque doble</string>
+    <string name="triple_tap">Toque triple</string>
+    <string name="quick_attention">Pulsación rápida</string>
+    <string name="pref_switch_controls_anc_ambient_off">Cancelación de ruido ←→ Ambiente ←→ Apagado</string>
+    <string name="sony_button_mode_help_title">Modos de botón - Ayuda</string>
+    <string name="long_press">Pulsación larga</string>
+    <string name="continue_pressing">Pulsación continua</string>
 </resources>
