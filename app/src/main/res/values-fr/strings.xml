@@ -2167,4 +2167,15 @@ Temps de sommeil préféré en heures</string>
     <string name="pref_pair_bluetooth_calls_title">Coupler pour les appels Bluetooth</string>
     <string name="pref_pair_bluetooth_calls_help_summary">Afin de recevoir les appels en Bluetooth, vous devez pairer votre téléphone avec une seconde instance de la montre.</string>
     <string name="pref_pair_bluetooth_calls_help_2">2. Rendez-vous dans les réglages Bluetooth de votre téléphone, et pairez-le avec le nouvel appareil qui apparaitra (nom similaire à votre montre existante, mais avec un suffixe, du style \"Amazfit GTR 4 - AFC8\".</string>
+    <string name="pref_title_notification_cache_while_disconnected">Masquer lorsque hors de portée</string>
+    <string name="pref_summary_notification_cache_while_disconnected">Envoyer les notifications manquées lorsqu\'un appareil se reconnecte après avoir été hors de portée</string>
+    <string name="pref_switch_controls_anc_ambient_off">Annulation de bruit ←→ Ambiance ←→ Off</string>
+    <string name="single_tap">Appui simple</string>
+    <string name="double_tap">Double appui</string>
+    <string name="triple_tap">Triple appui</string>
+    <string name="long_press">Appui long</string>
+    <string name="continue_pressing">Continuer à presser</string>
+    <string name="quick_attention">Aperçu rapide</string>
+    <string name="sony_button_mode_help_title">Bouton Modes - Aide</string>
+    <string name="sony_button_mode_help_summary">Description du mode de chaque bouton</string>
 </resources>
