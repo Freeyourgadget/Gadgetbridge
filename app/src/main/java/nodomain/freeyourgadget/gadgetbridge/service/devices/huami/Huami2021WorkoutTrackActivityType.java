@@ -57,6 +57,7 @@ public enum Huami2021WorkoutTrackActivityType {
     Darts(0x75),
     Dodgeball(0x99),
     DragonBoat(0x8a),
+    Driving(0x84),
     Elliptical(0x09),
     Esports(0xbd),
     Esquestrian(0x5e),
