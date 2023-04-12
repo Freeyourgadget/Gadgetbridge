@@ -2165,4 +2165,13 @@
     <string name="pref_pair_bluetooth_calls_help_2">2. Ga naar de Bluetooth-instellingen van je telefoon en koppel met het nieuwe apparaat dat verschijnt (met soortgelijke naam als je huidige horloge, maar met een achtervoegsel, bijv. \"Amazfit GTR 4 - AFC8\").</string>
     <string name="pref_pair_bluetooth_calls_help_3">3. Schakel de instelling voor Bluetooth-oproepen hieronder in.</string>
     <string name="pref_pair_bluetooth_calls_help_warning">WAARSCHUWING: Als u Bluetooth-oproepen inschakelt zonder te koppelen met het tweede bluetooth-apparaat, werken oproepmeldingen mogelijk niet zoals verwacht.</string>
+    <string name="sony_button_mode_help_title">Knopmodi - Help</string>
+    <string name="pref_switch_controls_anc_ambient_off">Ruisonderdrukking ←→ Omgeving ←→ Uit</string>
+    <string name="sony_button_mode_help_summary">Een beschrijving van elke knopmodus</string>
+    <string name="single_tap">Enkele tik</string>
+    <string name="double_tap">Dubbeltik</string>
+    <string name="triple_tap">Driedubbele tik</string>
+    <string name="long_press">Lang indrukken</string>
+    <string name="quick_attention">Snelle aandacht</string>
+    <string name="continue_pressing">Blijf drukken</string>
 </resources>
