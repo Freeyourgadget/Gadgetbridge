@@ -2154,4 +2154,13 @@
     <string name="pref_pair_bluetooth_calls_help_2">2. Pergi ke pengaturan Bluetooth ponsel Anda, dan sandingkan dengan perangkat baru yang akan muncul (nama sama dengan jam tangan Anda, tetapi dengan akhiran, mis. \"Amazfit GTR 4 - AFC8\").</string>
     <string name="pref_pair_bluetooth_calls_help_3">3. Aktifkan pengaturan panggilan Bluetooth di bawah.</string>
     <string name="pref_pair_bluetooth_calls_help_warning">PERINGATAN: Jika Anda mengaktifkan panggilan Bluetooth tanpa menyandingkan dengan bagian kedua, notifikasi panggilan mungkin tidak bekerja dengan seharusnya.</string>
+    <string name="pref_switch_controls_anc_ambient_off">Pembatalan bising ←→ Ambien ←→ Nonaktif</string>
+    <string name="sony_button_mode_help_title">Mode Tombol - Bantuan</string>
+    <string name="quick_attention">Pengingat Cepat</string>
+    <string name="sony_button_mode_help_summary">Deskripsi dari setiap mode tombol</string>
+    <string name="long_press">Tekan Lama</string>
+    <string name="single_tap">Ketuk Sekali</string>
+    <string name="continue_pressing">Lanjut Menekan</string>
+    <string name="triple_tap">Ketuk Tiga Kali</string>
+    <string name="double_tap">Ketuk Dua Kali</string>
 </resources>
