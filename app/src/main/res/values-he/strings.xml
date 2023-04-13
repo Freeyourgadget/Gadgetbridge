@@ -1372,14 +1372,14 @@
     <string name="prefs_active_noise_cancelling_summary">חסימת רעשי רקע</string>
     <string name="prefs_pressure_relief">הפגת מתחים עם צלילים אופפים</string>
     <string name="pressure_relief_summary">מניעת תחושת הלחץ באזניים בהעדר שימוש בביטול רעשים פעיל</string>
-    <string name="pref_header_sony_ambient_sound_control">בקרת שמע אופף</string>
+    <string name="pref_header_sony_ambient_sound_control">בקרת שמע הקפי</string>
     <string name="sony_ambient_sound">מצב</string>
     <string name="sony_ambient_sound_off">כבוי</string>
     <string name="sony_ambient_sound_noise_cancelling">ביטול רעשים</string>
     <string name="sony_ambient_sound_wind_noise_reduction">הפחתת רעשי רוח</string>
-    <string name="sony_ambient_sound_ambient_sound">צליל אופף</string>
+    <string name="sony_ambient_sound_ambient_sound">צליל הקפי</string>
     <string name="sony_ambient_sound_focus_voice">התמקדות על קול</string>
-    <string name="sony_ambient_sound_level">עצמת שמע אופף</string>
+    <string name="sony_ambient_sound_level">עצמת שמע הקפי</string>
     <string name="sony_sound_position">מיקום הצליל</string>
     <string name="sony_sound_position_off">כבוי</string>
     <string name="sony_sound_position_front">קדימה</string>
@@ -1492,7 +1492,7 @@
     <string name="devicetype_sony_wf_sp800n">Sony WF-SP800N</string>
     <string name="discover_unsupported_devices_description">הפעלת אפשרות זו תציג התקני Bluetooth בעת הסריקה. נגיעה קצרה תעתיק את שם ההתקן ואת כתובת החומרה שלו ללוח הגזירים. לחיצה ארוכה תפעיל את חלונית `הוספת התקן בדיקה`. עלול לגרום לתקלות בדמות הקפאת היישומון.</string>
     <string name="sony_pause_when_taken_off">להשהות כאשר האוזניות מוסרות</string>
-    <string name="sony_button_mode_ambient_sound_control">בקרת שמע אופף</string>
+    <string name="sony_button_mode_ambient_sound_control">בקרת שמע הקפי</string>
     <string name="sony_button_mode_playback_control">בקרת נגינה</string>
     <string name="devicetype_bose_qc35">Bose QC35</string>
     <string name="devicetype_vesc">VESC</string>
@@ -2164,4 +2164,13 @@
     <string name="pref_pair_bluetooth_calls_help_warning">אזהרה: כדי להפעיל שיחות Bluetooth מבלי לצמד למופע השני, התראות שיחה לא תעבודנה כמתוכנן.</string>
     <string name="pref_title_notification_cache_while_disconnected">שמירה במטמון תוך חריגה מהטווח</string>
     <string name="pref_summary_notification_cache_while_disconnected">לשלוח התראות שהוחמצו כאשר ההתקן מתחבר מחדש לאחר היציאה מהטווח</string>
+    <string name="pref_switch_controls_anc_ambient_off">ביטול רעשים →← הקפי →← כבוי</string>
+    <string name="sony_button_mode_help_title">מצבי כפתורים - עזרה</string>
+    <string name="sony_button_mode_help_summary">תיאור של כל מצב כפתור</string>
+    <string name="single_tap">נגיעה בודדת</string>
+    <string name="double_tap">נגיעה כפולה</string>
+    <string name="triple_tap">נגיעה משולשת</string>
+    <string name="long_press">נגיעה ארוכה</string>
+    <string name="quick_attention">תשומת לב מהירה</string>
+    <string name="continue_pressing">להמשיך ללחוץ</string>
 </resources>
