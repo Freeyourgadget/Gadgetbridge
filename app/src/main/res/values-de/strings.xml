@@ -2170,4 +2170,5 @@
     <string name="pref_pair_bluetooth_calls_help_title">Wie man Bluetooth-Anrufe empfängt</string>
     <string name="pref_pair_bluetooth_calls_help_2">2. Gehen Sie zu den Bluetooth-Einstellungen deines Telefons und koppel es mit dem neuen Gerät, das angezeigt wird (ähnlicher Name wie deine aktuelle Uhr, aber mit einem Suffix, z. B. \"Amazfit GTR 4 - AFC8\").</string>
     <string name="pref_pair_bluetooth_calls_help_3">3. Aktiviere die nachstehende Einstellung für Bluetooth-Anrufe.</string>
+    <string name="pref_title_notification_cache_while_disconnected">Cache außerhalb der Reichweite</string>
 </resources>
