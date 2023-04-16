@@ -794,6 +794,8 @@
         <item>@string/menuitem_worldclock</item>
         <item>@string/menuitem_alipay</item>
         <item>@string/menuitem_wechat_pay</item>
+        <item>@string/menuitem_cards</item>
+        <item>@string/menuitem_mi_ai</item>
         <!-- dummy item -->
         <item>@string/menuitem_more</item>
     </string-array>
@@ -838,6 +840,8 @@
         <item>worldclock</item>
         <item>alipay</item>
         <item>wechat_pay</item>
+        <item>cards</item>
+        <item>mi_ai</item>
         <!-- dummy item -->
         <item>more</item>
     </string-array>
