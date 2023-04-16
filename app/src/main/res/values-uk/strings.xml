@@ -2182,4 +2182,6 @@
     <string name="long_press">Затискання</string>
     <string name="pref_switch_controls_anc_ambient_off">Шумозаглушення ←→ Навколишнє середовище ←→ Вимкнено</string>
     <string name="sony_button_mode_help_title">Режими кнопок - Довідка</string>
+    <string name="menuitem_mi_ai">MI AI</string>
+    <string name="menuitem_cards">Картки</string>
 </resources>
