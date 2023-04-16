@@ -2176,4 +2176,6 @@
     <string name="sony_button_mode_help_title">Modos de botón - Ayuda</string>
     <string name="long_press">Pulsación larga</string>
     <string name="continue_pressing">Pulsación continua</string>
+    <string name="menuitem_mi_ai">MI AI</string>
+    <string name="menuitem_cards">Tarjetas</string>
 </resources>
