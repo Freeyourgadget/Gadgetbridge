@@ -2174,4 +2174,6 @@
     <string name="continue_pressing">持续按下</string>
     <string name="quick_attention">快速关注</string>
     <string name="pref_title_notification_cache_while_disconnected">超出范围外时的缓存</string>
+    <string name="menuitem_cards">卡包</string>
+    <string name="menuitem_mi_ai">小爱同学</string>
 </resources>
