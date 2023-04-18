@@ -2163,4 +2163,6 @@
     <string name="continue_pressing">Lanjut Menekan</string>
     <string name="triple_tap">Ketuk Tiga Kali</string>
     <string name="double_tap">Ketuk Dua Kali</string>
+    <string name="menuitem_cards">Kartu</string>
+    <string name="menuitem_mi_ai">MI AI</string>
 </resources>
