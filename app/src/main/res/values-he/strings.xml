@@ -2173,4 +2173,6 @@
     <string name="long_press">נגיעה ארוכה</string>
     <string name="quick_attention">תשומת לב מהירה</string>
     <string name="continue_pressing">להמשיך ללחוץ</string>
+    <string name="menuitem_cards">כרטיסים</string>
+    <string name="menuitem_mi_ai">MI AI</string>
 </resources>
