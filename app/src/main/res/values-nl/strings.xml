@@ -2174,4 +2174,6 @@
     <string name="long_press">Lang indrukken</string>
     <string name="quick_attention">Snelle aandacht</string>
     <string name="continue_pressing">Blijf drukken</string>
+    <string name="menuitem_cards">Kaarten</string>
+    <string name="menuitem_mi_ai">MI AI</string>
 </resources>
