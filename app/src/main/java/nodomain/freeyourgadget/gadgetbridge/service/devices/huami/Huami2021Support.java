@@ -270,6 +270,13 @@ public abstract class Huami2021Support extends HuamiSupport {
                 return;
         }
 
+        // Other preferences
+        switch (config) {
+            case HuamiConst.PREF_CONTROL_CENTER_SORTABLE:
+                setControlCenter();
+                return;
+        }
+
         // Defer everything else to the configService
         try {
             if (configService.setConfig(prefs, config, configSetter)) {
@@ -1193,16 +1200,23 @@ public abstract class Huami2021Support extends HuamiSupport {
         return this;
     }
 
-    protected Huami2021Support setControlCenter(final TransactionBuilder builder) {
-        final Prefs prefs = getDevicePrefs();
+    protected void setControlCenter() {
+        try {
+            final TransactionBuilder builder = performInitialized("set control center");
 
-        setDisplayItems2021(
-                builder,
-                DISPLAY_ITEMS_CONTROL_CENTER,
-                new ArrayList<>(prefs.getList(Huami2021Coordinator.getPrefPossibleValuesKey(HuamiConst.PREF_CONTROL_CENTER_SORTABLE), Collections.emptyList())),
-                new ArrayList<>(prefs.getList(HuamiConst.PREF_CONTROL_CENTER_SORTABLE, Collections.emptyList()))
-        );
-        return this;
+            final Prefs prefs = getDevicePrefs();
+
+            setDisplayItems2021(
+                    builder,
+                    DISPLAY_ITEMS_CONTROL_CENTER,
+                    new ArrayList<>(prefs.getList(Huami2021Coordinator.getPrefPossibleValuesKey(HuamiConst.PREF_CONTROL_CENTER_SORTABLE), Collections.emptyList())),
+                    new ArrayList<>(prefs.getList(HuamiConst.PREF_CONTROL_CENTER_SORTABLE, Collections.emptyList()))
+            );
+
+            builder.queue(getQueue());
+        } catch (final Exception e) {
+            GB.toast("Error setting control center", Toast.LENGTH_LONG, GB.ERROR, e);
+        }
     }
 
     private void setDisplayItems2021(final TransactionBuilder builder,
