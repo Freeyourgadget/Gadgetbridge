@@ -3,7 +3,7 @@
     <string name="application_name_generic">Gadgetbridge</string>
     <string name="title_activity_controlcenter_generic">Gadgetbridge</string>
     <string name="action_settings">Налаштування</string>
-    <string name="action_debug">Зневадження</string>
+    <string name="action_debug">Налагодження</string>
     <string name="action_quit">Вийти</string>
     <string name="controlcenter_fetch_activity_data">Синхронізувати</string>
     <string name="controlcenter_find_device">Знайти загублений пристрій</string>
@@ -12,7 +12,7 @@
     <string name="controlcenter_delete_device">Видалити пристрій</string>
     <string name="controlcenter_delete_device_name">Видалити %1$s</string>
     <string name="controlcenter_delete_device_dialogmessage">Це видалить пристрій та всі пов\'язані з ним дані!</string>
-    <string name="title_activity_debug">Зневадження</string>
+    <string name="title_activity_debug">Налагодження</string>
     <!--Strings related to AppManager-->
     <string name="title_activity_appmanager">Менеджер застосунків</string>
     <string name="appmanager_installed_watchapps">Встановлені застосунки</string>
