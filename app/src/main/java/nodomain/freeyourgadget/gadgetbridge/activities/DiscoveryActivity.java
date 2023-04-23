@@ -400,10 +400,8 @@ public class DiscoveryActivity extends AbstractGBActivity implements AdapterView
         if (ensureBluetoothReady()) {
             if (GB.supportsBluetoothLE()) {
                 startBTLEDiscovery();
-                startBTDiscovery();
-            } else {
-                startBTDiscovery();
             }
+            startBTDiscovery();
             setScanning(true);
         } else {
             toast(DiscoveryActivity.this, getString(R.string.discovery_enable_bluetooth), Toast.LENGTH_SHORT, GB.ERROR);
