@@ -434,6 +434,8 @@ public class GBDevice implements Parcelable {
                 return GBApplication.getContext().getString(R.string.not_connected);
             case WAITING_FOR_RECONNECT:
                 return GBApplication.getContext().getString(R.string.waiting_for_reconnect);
+            case WAITING_FOR_SCAN:
+                return GBApplication.getContext().getString(R.string.device_state_waiting_scan);
             case CONNECTING:
                 return GBApplication.getContext().getString(R.string.connecting);
             case CONNECTED:
@@ -734,6 +736,7 @@ public class GBDevice implements Parcelable {
         // Note: the order is important!
         NOT_CONNECTED,
         WAITING_FOR_RECONNECT,
+        WAITING_FOR_SCAN,
         CONNECTING,
         CONNECTED,
         INITIALIZING,

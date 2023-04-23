@@ -52,6 +52,7 @@ import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice.State;
 import nodomain.freeyourgadget.gadgetbridge.service.DeviceSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.WriteAction;
+import nodomain.freeyourgadget.gadgetbridge.util.GBPrefs;
 
 /**
  * One queue/thread per connectable device.
@@ -344,6 +345,14 @@ public final class BtLEQueue {
      */
     private boolean maybeReconnect() {
         if (mAutoReconnect && mBluetoothGatt != null) {
+            boolean shouldUseScan = GBApplication.getGBPrefs().getAutoReconnectByScan(mGbDevice);
+            if(shouldUseScan){
+                LOG.info("Waiting for BLE scan before attempting reconnection...");
+                setDeviceConnectionState(State.WAITING_FOR_SCAN);
+                // TODO: here we need to start scanning for the device
+                return true;
+            }
+
             LOG.info("Enabling automatic ble reconnect...");
             boolean result = mBluetoothGatt.connect();
             mPauseTransaction = false;

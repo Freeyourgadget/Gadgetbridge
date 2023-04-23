@@ -44,6 +44,7 @@ public class GBPrefs {
     public static final String PACKAGE_PEBBLEMSG_BLACKLIST = "package_pebblemsg_blacklist";
     public static final String CALENDAR_BLACKLIST = "calendar_blacklist";
     public static final String DEVICE_AUTO_RECONNECT = "prefs_key_device_auto_reconnect";
+    public static final String DEVICE_AUTO_RECONNECT_SCAN = "prefs_key_device_auto_reconnect_scan";
     public static final String DEVICE_CONNECT_BACK = "prefs_key_device_reconnect_on_acl";
     private static final String AUTO_START = "general_autostartonboot";
     public static final String AUTO_EXPORT_ENABLED = "auto_export_enabled";
@@ -74,6 +75,11 @@ public class GBPrefs {
     public boolean getAutoReconnect(GBDevice device) {
         SharedPreferences deviceSpecificPreferences = GBApplication.getDeviceSpecificSharedPrefs(device.getAddress());
         return deviceSpecificPreferences.getBoolean(DEVICE_AUTO_RECONNECT, AUTO_RECONNECT_DEFAULT);
+    }
+
+    public boolean getAutoReconnectByScan(GBDevice device) {
+        SharedPreferences deviceSpecificPreferences = GBApplication.getDeviceSpecificSharedPrefs(device.getAddress());
+        return deviceSpecificPreferences.getBoolean(DEVICE_AUTO_RECONNECT_SCAN, false);
     }
 
     public boolean getAutoStart() {
