@@ -1900,4 +1900,12 @@
     <string name="devicetype_amazfit_gts3">Amazfit GTS 3</string>
     <string name="menuitem_unknown_app">Neznámá (%s)</string>
     <string name="activity_prefs_summary_allow_bluetooth_intent_api">Povolit ovládání připojení Bluetooth pomocí intent API</string>
+    <string name="pref_header_sound_vibration">Zvuk a vibrace</string>
+    <string name="pref_gps_satellite_search">Hledání satelitů</string>
+    <string name="pref_camera_remote_title">Ovládání kamery</string>
+    <string name="pref_gps_band">Pásmo GPS</string>
+    <string name="pref_gps_mode_preset">Režim GPS</string>
+    <string name="pref_crown_vibration">Vibrace korunky</string>
+    <string name="pref_display_caller_summary">Zobrazit jméno nebo telefonní číslo příchozích hovorů</string>
+    <string name="pref_pair_bluetooth_calls_summary">Klepněte sem pro zahájení párovacího procesu</string>
 </resources>
