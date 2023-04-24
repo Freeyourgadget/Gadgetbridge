@@ -10,10 +10,14 @@
 * Bangle.js: Fix updating timezone in settings.json if the timezone is zero
 * Huami: Implement repeated activity fetching
 * Sony WH-1000XM4: Add speak-to-chat
+* Sony Headphones: Add button modes help
+* Zepp OS: Add shortcut cards preference
 * Zepp OS: Add support for morning updates
 * Zepp OS: Add preference to keep screen on during workout
 * Zepp OS: Add preference for camera remote
 * Zepp OS: Fix activate display upon lift wrist smart mode
+* Zepp OS: Fix Cards and MI AI display item and shortcuts
+* Zepp OS: Fix setting of control center
 * Zepp OS: Fix setting of unknown configuration values
 * Add Croatian transliterator
 * Fix restoring app notification/pebble blacklist preferences on import
