@@ -11,29 +11,59 @@ import android.bluetooth.le.ScanSettings;
 import android.content.Intent;
 import android.os.IBinder;
 
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
+
 import java.util.ArrayList;
 
+import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 
 public class BLEScanService extends Service {
-    public final String ACTION_SCAN_DEVICE = "nodomain.freeyourgadget.gadgetbridge.service.ble.scan.SCAN_FOR_DEVICE";
+    public static final String COMMAND_SCAN_DEVICE = "nodomain.freeyourgadget.gadgetbridge.service.ble.scan.command.START_SCAN_FOR_DEVICE";
+    public static final String COMMAND_START_SCAN_ALL = "nodomain.freeyourgadget.gadgetbridge.service.ble.scan.command.START_SCAN_ALL";
+    public static final String COMMAND_STOP_SCAN_ALL = "nodomain.freeyourgadget.gadgetbridge.service.ble.scan.command.STOP_SCAN_ALL";
 
-    public final String EXTRA_DEVICE = "EXTRA_DEVICE";
+    public static final String EVENT_DEVICE_FOUND = "nodomain.freeyourgadget.gadgetbridge.service.ble.scan.event.DEVICE_FOUND";
+
+    public static final String EXTRA_DEVICE = "EXTRA_DEVICE";
+    public static final String EXTRA_DEVICE_ADDRESS = "EXTRA_DEVICE_ADDRESS";
+
+    LocalBroadcastManager localBroadcastManager;
 
     private BluetoothLeScanner scanner;
-    private ArrayList<ScanFilter> currentFilters = new ArrayList<>();
-    private boolean isScanning = false;
+    private final ArrayList<ScanFilter> currentFilters = new ArrayList<>();
 
-    private ScanCallback scanCallback = new ScanCallback() {
+    private enum ScanningState {
+        NOT_SCANNING,
+        SCANNING_WITHOUT_FILTERS,
+        SCANNING_WITH_FILTERS;
+
+        public boolean isDoingAnyScan(){
+            return ordinal() > NOT_SCANNING.ordinal();
+        }
+
+        public boolean shouldDiscardAfterFirstMatch(){
+            return this == SCANNING_WITH_FILTERS;
+        }
+    };
+    private ScanningState currentState = ScanningState.NOT_SCANNING;
+
+    private final ScanCallback scanCallback = new ScanCallback() {
         @Override
         public void onScanResult(int callbackType, ScanResult result) {
             super.onScanResult(callbackType, result);
             BluetoothDevice device = result.getDevice();
 
+            Intent intent = new Intent(EVENT_DEVICE_FOUND);
+            intent.putExtra(EXTRA_DEVICE_ADDRESS, device.getAddress());
+            localBroadcastManager.sendBroadcast(intent);
+
             // device found, attempt connection
             // stop scanning for device for now
             // will restart when connection attempt fails
-            stopScanningForDevice(device.getAddress());
+            if(currentState.shouldDiscardAfterFirstMatch()) {
+                stopScanningForDevice(device.getAddress());
+            }
         }
     };
 
@@ -43,6 +73,12 @@ public class BLEScanService extends Service {
 
         BluetoothManager manager = (BluetoothManager) getSystemService(BLUETOOTH_SERVICE);
         scanner = manager.getAdapter().getBluetoothLeScanner();
+
+        localBroadcastManager = LocalBroadcastManager.getInstance(this);
+    }
+
+    private void registerNotification(){
+
     }
 
     @Override
@@ -55,14 +91,29 @@ public class BLEScanService extends Service {
          return START_NOT_STICKY;
         }
         switch (action) {
-            case ACTION_SCAN_DEVICE:
+            case COMMAND_SCAN_DEVICE:
                 handleScanDevice(intent);
                 break;
-
+            case COMMAND_START_SCAN_ALL:
+                handleScanAll(intent);
+                break;
+            case COMMAND_STOP_SCAN_ALL:
+                handleStopScanAll(intent);
+                break;
             default:
                 return START_NOT_STICKY;
         }
         return START_STICKY;
+    }
+
+    private void handleStopScanAll(Intent intent){
+        restartScan(true);
+    }
+
+    private void handleScanAll(Intent intent){
+        if(currentState != ScanningState.SCANNING_WITHOUT_FILTERS){
+            restartScan(false);
+        }
     }
 
     private void handleScanDevice(Intent intent){
@@ -70,11 +121,12 @@ public class BLEScanService extends Service {
         if(device == null){
             return;
         }
+        scanForDevice(device);
     }
 
     private boolean isDeviceIncludedInCurrentFilters(GBDevice device){
         for(ScanFilter currentFilter : currentFilters){
-            if(device.getAddress() == currentFilter.getDeviceAddress()){
+            if(device.getAddress().equals(currentFilter.getDeviceAddress())){
                 return true;
             }
         }
@@ -82,7 +134,7 @@ public class BLEScanService extends Service {
     }
 
     private void stopScanningForDevice(GBDevice device){
-
+        this.stopScanningForDevice(device.getAddress());
     }
 
     private void stopScanningForDevice(String deviceAddress){
@@ -91,7 +143,7 @@ public class BLEScanService extends Service {
                 .equals(deviceAddress)
         );
 
-        restartScan();
+        restartScan(true);
     }
 
     private void scanForDevice(GBDevice device){
@@ -106,18 +158,18 @@ public class BLEScanService extends Service {
         currentFilters.add(deviceFilter);
 
         // restart scan here
-        restartScan();
+        restartScan(true);
     }
 
-    private void restartScan(){
-        if(isScanning){
+    private void restartScan(boolean applyFilters){
+        if(currentState.isDoingAnyScan()){
             scanner.stopScan(scanCallback);
         }
 
-        if(currentFilters.size() == 0){
+        if(applyFilters && (currentFilters.size() == 0)){
             // not sure if this is the right place to check for this
             // yet, if there is not device to scan for, there is no need to start a new scan
-            isScanning = false;
+            currentState = ScanningState.NOT_SCANNING;
             return;
         }
 
@@ -127,8 +179,14 @@ public class BLEScanService extends Service {
                 .setMatchMode(ScanSettings.MATCH_MODE_STICKY)
                 .setLegacy(false)
                 .build();
-        scanner.startScan(currentFilters, scanSettings, scanCallback);
-        isScanning = true;
+        if(applyFilters) {
+            scanner.startScan(currentFilters, scanSettings, scanCallback);
+            currentState = ScanningState.SCANNING_WITH_FILTERS;
+        }else{
+            scanner.startScan(null, scanSettings, scanCallback);
+            currentState = ScanningState.SCANNING_WITHOUT_FILTERS;
+        }
+
     }
 
     @Override
