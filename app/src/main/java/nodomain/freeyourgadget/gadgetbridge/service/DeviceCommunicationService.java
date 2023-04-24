@@ -35,6 +35,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
+import android.util.Log;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -85,6 +86,7 @@ import nodomain.freeyourgadget.gadgetbridge.model.NotificationType;
 import nodomain.freeyourgadget.gadgetbridge.model.Reminder;
 import nodomain.freeyourgadget.gadgetbridge.model.WeatherSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.WorldClock;
+import nodomain.freeyourgadget.gadgetbridge.service.btle.BLEScanService;
 import nodomain.freeyourgadget.gadgetbridge.service.receivers.AutoConnectIntervalReceiver;
 import nodomain.freeyourgadget.gadgetbridge.service.receivers.GBAutoFetchReceiver;
 import nodomain.freeyourgadget.gadgetbridge.util.DeviceHelper;
@@ -450,6 +452,22 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
                     sendDeviceConnectedBroadcast(device.getAddress());
                     sendCachedNotifications(device);
                 }
+            }else if(BLEScanService.EVENT_DEVICE_FOUND.equals(action)){
+                String deviceAddress = intent.getStringExtra(BLEScanService.EXTRA_DEVICE_ADDRESS);
+
+                try {
+                    GBDevice target = getDeviceByAddress(deviceAddress);
+                    Intent connectIntent = new Intent(ACTION_CONNECT);
+                    connectIntent.setClass(
+                            DeviceCommunicationService.this,
+                            DeviceCommunicationService.class
+                    );
+                    connectIntent.putExtra(GBDevice.EXTRA_DEVICE, target);
+                    startService(connectIntent);
+                } catch (DeviceNotFoundException e) {
+                    Log.e("DeviceCommService", "onReceive: device not found");
+                    return;
+                }
             }
         }
     };
@@ -485,13 +503,16 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
     public void onCreate() {
         LOG.debug("DeviceCommunicationService is being created");
         super.onCreate();
-        LocalBroadcastManager.getInstance(this).registerReceiver(mReceiver, new IntentFilter(GBDevice.ACTION_DEVICE_CHANGED));
+        IntentFilter localFilter = new IntentFilter();
+        localFilter.addAction(GBDevice.ACTION_DEVICE_CHANGED);
+        localFilter.addAction(BLEScanService.EVENT_DEVICE_FOUND);
+        LocalBroadcastManager.getInstance(this).registerReceiver(mReceiver, localFilter);
         mFactory = getDeviceSupportFactory();
 
         mBlueToothConnectReceiver = new BluetoothConnectReceiver(this);
         registerReceiver(mBlueToothConnectReceiver, new IntentFilter(BluetoothDevice.ACTION_ACL_CONNECTED));
 
-        mAutoConnectInvervalReceiver= new AutoConnectIntervalReceiver(this);
+        mAutoConnectInvervalReceiver =  new AutoConnectIntervalReceiver(this);
         registerReceiver(mAutoConnectInvervalReceiver, new IntentFilter("GB_RECONNECT"));
 
         if (hasPrefs()) {

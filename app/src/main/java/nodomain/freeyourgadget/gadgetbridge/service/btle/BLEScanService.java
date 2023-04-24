@@ -9,13 +9,20 @@ import android.bluetooth.le.ScanCallback;
 import android.bluetooth.le.ScanFilter;
 import android.bluetooth.le.ScanResult;
 import android.bluetooth.le.ScanSettings;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.IBinder;
+import android.util.Log;
+import android.widget.RemoteViews;
 
 import androidx.core.app.NotificationCompat;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
@@ -31,10 +38,12 @@ public class BLEScanService extends Service {
     public static final String EXTRA_DEVICE = "EXTRA_DEVICE";
     public static final String EXTRA_DEVICE_ADDRESS = "EXTRA_DEVICE_ADDRESS";
 
+    private static final String TAG = "BLEScanService";
+
     LocalBroadcastManager localBroadcastManager;
 
     private BluetoothLeScanner scanner;
-    private final ArrayList<ScanFilter> currentFilters = new ArrayList<>();
+    // private final ArrayList<ScanFilter> currentFilters = new ArrayList<>();
 
     private enum ScanningState {
         NOT_SCANNING,
@@ -65,7 +74,7 @@ public class BLEScanService extends Service {
             // stop scanning for device for now
             // will restart when connection attempt fails
             if(currentState.shouldDiscardAfterFirstMatch()) {
-                stopScanningForDevice(device.getAddress());
+                // stopScanningForDevice(device.getAddress());
             }
         }
     };
@@ -89,6 +98,7 @@ public class BLEScanService extends Service {
                     .setContentTitle("Scan service")
                     .setContentText("Scanning x devices")
                     .build();
+
         startForeground(GB.NOTIFICATION_ID_SCAN, serviceNotification);
     }
 
@@ -128,14 +138,18 @@ public class BLEScanService extends Service {
     }
 
     private void handleScanDevice(Intent intent){
+        /*
         GBDevice device = intent.getParcelableExtra(EXTRA_DEVICE);
         if(device == null){
             return;
         }
         scanForDevice(device);
+         */
+        restartScan(true);
     }
 
-    private boolean isDeviceIncludedInCurrentFilters(GBDevice device){
+
+    /*private boolean isDeviceIncludedInCurrentFilters(GBDevice device){
         for(ScanFilter currentFilter : currentFilters){
             if(device.getAddress().equals(currentFilter.getDeviceAddress())){
                 return true;
@@ -143,11 +157,15 @@ public class BLEScanService extends Service {
         }
         return false;
     }
+    */
 
+    /*
     private void stopScanningForDevice(GBDevice device){
         this.stopScanningForDevice(device.getAddress());
     }
+     */
 
+    /*
     private void stopScanningForDevice(String deviceAddress){
         currentFilters.removeIf(scanFilter -> scanFilter
                 .getDeviceAddress()
@@ -156,7 +174,9 @@ public class BLEScanService extends Service {
 
         restartScan(true);
     }
+    */
 
+    /*
     private void scanForDevice(GBDevice device){
         if(isDeviceIncludedInCurrentFilters(device)){
             // already scanning for device
@@ -171,17 +191,56 @@ public class BLEScanService extends Service {
         // restart scan here
         restartScan(true);
     }
+    */
+
+    BroadcastReceiver deviceStateUpdateReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            GBDevice.DeviceUpdateSubject subject =
+                    (GBDevice.DeviceUpdateSubject)
+                            intent.getSerializableExtra(GBDevice.EXTRA_UPDATE_SUBJECT);
+
+            if(subject != GBDevice.DeviceUpdateSubject.CONNECTION_STATE){
+                return;
+            }
+            Log.d(TAG, "onReceive: received device connection change: " + subject);
+            restartScan(true);
+        }
+    };
+
+    private void registerReceivers(){
+        localBroadcastManager.registerReceiver(
+                deviceStateUpdateReceiver,
+                new IntentFilter(GBDevice.ACTION_DEVICE_CHANGED)
+        );
+    }
 
     private void restartScan(boolean applyFilters){
         if(currentState.isDoingAnyScan()){
             scanner.stopScan(scanCallback);
         }
+        ArrayList<ScanFilter> scanFilters = null;
 
-        if(applyFilters && (currentFilters.size() == 0)){
-            // not sure if this is the right place to check for this
-            // yet, if there is not device to scan for, there is no need to start a new scan
-            currentState = ScanningState.NOT_SCANNING;
-            return;
+        if(applyFilters) {
+            List<GBDevice> devices = GBApplication.app().getDeviceManager().getDevices();
+
+            scanFilters = new ArrayList<>(devices.size());
+
+            for (GBDevice device : devices) {
+                if (device.getState() == GBDevice.State.WAITING_FOR_SCAN) {
+                    scanFilters.add(new ScanFilter.Builder()
+                            .setDeviceAddress(device.getAddress())
+                            .build()
+                    );
+                }
+            }
+
+            if(scanFilters.size() == 0){
+                // no need to start scanning
+                Log.d(TAG, "restartScan: stopping BLE scan, no devices");
+                currentState = ScanningState.NOT_SCANNING;
+                return;
+            }
         }
 
         ScanSettings scanSettings = new ScanSettings.Builder()
@@ -190,11 +249,13 @@ public class BLEScanService extends Service {
                 .setMatchMode(ScanSettings.MATCH_MODE_STICKY)
                 .setLegacy(false)
                 .build();
+
+        scanner.startScan(scanFilters, scanSettings, scanCallback);
         if(applyFilters) {
-            scanner.startScan(currentFilters, scanSettings, scanCallback);
+            Log.d(TAG, "restartScan: started scan for " + scanFilters.size() + " devices");
             currentState = ScanningState.SCANNING_WITH_FILTERS;
         }else{
-            scanner.startScan(null, scanSettings, scanCallback);
+            Log.d(TAG, "restartScan: started scan for all devices");
             currentState = ScanningState.SCANNING_WITHOUT_FILTERS;
         }
 
