@@ -136,7 +136,7 @@ public class ZeppOsShortcutCardsService extends AbstractZeppOsService {
                     return;
                 }
                 maxCards = payload[2] & 0xFF;
-                LOG.info("Contacts version={}, maxCards={}", version, maxCards);
+                LOG.info("Shortcut cards version={}, maxCards={}", version, maxCards);
                 break;
             case CMD_LIST_RET:
                 LOG.info("Got shortcut cards list");
@@ -146,7 +146,7 @@ public class ZeppOsShortcutCardsService extends AbstractZeppOsService {
                 LOG.info("Got enabled shortcut cards ack, status = {}", payload[1]);
                 break;
             default:
-                LOG.warn("Unexpected contacts byte {}", String.format("0x%02x", payload[0]));
+                LOG.warn("Unexpected shortcut cards byte {}", String.format("0x%02x", payload[0]));
         }
     }
 

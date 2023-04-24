@@ -127,6 +127,7 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.service
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.services.ZeppOsFtpServerService;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.services.ZeppOsMorningUpdatesService;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.services.ZeppOsPhoneService;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.services.ZeppOsWatchfaceService;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.services.ZeppOsWifiService;
 import nodomain.freeyourgadget.gadgetbridge.util.AlarmUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.BitmapUtil;
@@ -160,6 +161,7 @@ public abstract class Huami2021Support extends HuamiSupport {
     private final ZeppOsMorningUpdatesService morningUpdatesService = new ZeppOsMorningUpdatesService(this);
     private final ZeppOsPhoneService phoneService = new ZeppOsPhoneService(this);
     private final ZeppOsShortcutCardsService shortcutCardsService = new ZeppOsShortcutCardsService(this);
+    private final ZeppOsWatchfaceService watchfaceService = new ZeppOsWatchfaceService(this);
 
     private final Map<Short, AbstractZeppOsService> mServiceMap = new HashMap<Short, AbstractZeppOsService>() {{
         put(fileUploadService.getEndpoint(), fileUploadService);
@@ -171,6 +173,7 @@ public abstract class Huami2021Support extends HuamiSupport {
         put(morningUpdatesService.getEndpoint(), morningUpdatesService);
         put(phoneService.getEndpoint(), phoneService);
         put(shortcutCardsService.getEndpoint(), shortcutCardsService);
+        put(watchfaceService.getEndpoint(), watchfaceService);
     }};
 
     public Huami2021Support() {
@@ -280,6 +283,15 @@ public abstract class Huami2021Support extends HuamiSupport {
                 final List<String> shortcutCards = prefs.getList(SHORTCUT_CARDS_SORTABLE, Collections.emptyList());
                 LOG.info("Setting shortcut cards to {}", shortcutCards);
                 shortcutCardsService.setShortcutCards(shortcutCards);
+                return;
+        }
+
+        // watchfaceService preferences, they do not use the configService
+        switch (config) {
+            case DeviceSettingsPreferenceConst.PREF_WATCHFACE:
+                final String watchface = prefs.getString(DeviceSettingsPreferenceConst.PREF_WATCHFACE, null);
+                LOG.info("Setting watchface to {}", watchface);
+                watchfaceService.setWatchface(watchface);
                 return;
         }
 
@@ -1545,6 +1557,8 @@ public abstract class Huami2021Support extends HuamiSupport {
         morningUpdatesService.getCategories(builder);
         shortcutCardsService.requestCapabilities(builder);
         shortcutCardsService.requestShortcutCards(builder);
+        watchfaceService.requestWatchfaces(builder);
+        watchfaceService.requestCurrentWatchface(builder);
     }
 
     @Override

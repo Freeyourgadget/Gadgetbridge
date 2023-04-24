@@ -19,6 +19,7 @@
 * Zepp OS: Fix Cards and MI AI display item and shortcuts
 * Zepp OS: Fix setting of control center
 * Zepp OS: Fix setting of unknown configuration values
+* Zepp OS: Set watchface from phone
 * Add Croatian transliterator
 * Fix restoring app notification/pebble blacklist preferences on import
 * Cache notifications while devices are out of range (opt-in)

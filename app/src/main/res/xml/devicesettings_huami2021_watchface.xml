@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <ListPreference
+        android:defaultValue=""
+        android:dialogTitle="@string/kind_watchface"
+        android:entries="@array/pref_huami2021_empty_array"
+        android:entryValues="@array/pref_huami2021_empty_array"
+        android:icon="@drawable/ic_watch"
+        android:key="watchface"
+        android:title="@string/kind_watchface" />
+</androidx.preference.PreferenceScreen>

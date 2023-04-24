@@ -251,6 +251,8 @@ public class DeviceSettingsPreferenceConst {
 
     public static final String SHORTCUT_CARDS_SORTABLE = "shortcut_cards_sortable";
 
+    public static final String PREF_WATCHFACE = "watchface";
+
     public static final String FTP_SERVER_ROOT_DIR = "ftp_server_root_dir";
     public static final String FTP_SERVER_ADDRESS = "ftp_server_address";
     public static final String FTP_SERVER_USERNAME = "ftp_server_username";
