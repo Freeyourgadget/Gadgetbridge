@@ -914,6 +914,8 @@
     <string name="mi3_prefs_night_mode_summary">Lower band screen brightness automatically at night</string>
     <string name="bip_prefs_shortcuts">Shortcuts</string>
     <string name="bip_prefs_shotcuts_summary">Choose the shortcuts on the band screen</string>
+    <string name="prefs_shortcut_cards">Shortcut Cards</string>
+    <string name="prefs_shortcut_cards_summary">Shortcut cards seen when swiping right on the watchface. When an app is running, auto-generated cards are not affected by this setting.</string>
     <string name="prefs_control_center">Control Center</string>
     <string name="prefs_control_center_summary">Choose the items on the control center dropdown</string>
     <string name="prefs_activate_display_on_lift_sensitivity">Sensitivity</string>
@@ -1295,6 +1297,11 @@
     <string name="menuitem_notifications">Notifications</string>
     <string name="menuitem_activity">Workout History</string>
     <string name="menuitem_weather">Weather</string>
+    <string name="menuitem_forecast">Forecast</string>
+    <string name="menuitem_last_workout">Last workout</string>
+    <string name="menuitem_total_workout">Total workout</string>
+    <string name="menuitem_vo2_max">VO₂ Max</string>
+    <string name="menuitem_recommendation">Recommendation</string>
     <string name="menuitem_breathing">Breathing</string>
     <string name="menuitem_cycles">Cycle Tracking</string>
     <string name="menuitem_alarm">Alarm</string>

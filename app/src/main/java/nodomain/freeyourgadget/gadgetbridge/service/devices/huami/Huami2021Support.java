@@ -17,6 +17,7 @@
 package nodomain.freeyourgadget.gadgetbridge.service.devices.huami;
 
 import static org.apache.commons.lang3.ArrayUtils.subarray;
+import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.SHORTCUT_CARDS_SORTABLE;
 import static nodomain.freeyourgadget.gadgetbridge.devices.huami.Huami2021Service.*;
 import static nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiService.SUCCESS;
 import static nodomain.freeyourgadget.gadgetbridge.model.ActivityUser.PREF_USER_NAME;
@@ -119,6 +120,7 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.operations.Upd
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.AbstractZeppOsService;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.operations.ZeppOsAgpsUpdateOperation;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.services.ZeppOsAgpsService;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.services.ZeppOsShortcutCardsService;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.services.ZeppOsConfigService;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.services.ZeppOsContactsService;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.services.ZeppOsFileUploadService;
@@ -157,6 +159,7 @@ public abstract class Huami2021Support extends HuamiSupport {
     private final ZeppOsContactsService contactsService = new ZeppOsContactsService(this);
     private final ZeppOsMorningUpdatesService morningUpdatesService = new ZeppOsMorningUpdatesService(this);
     private final ZeppOsPhoneService phoneService = new ZeppOsPhoneService(this);
+    private final ZeppOsShortcutCardsService shortcutCardsService = new ZeppOsShortcutCardsService(this);
 
     private final Map<Short, AbstractZeppOsService> mServiceMap = new HashMap<Short, AbstractZeppOsService>() {{
         put(fileUploadService.getEndpoint(), fileUploadService);
@@ -167,6 +170,7 @@ public abstract class Huami2021Support extends HuamiSupport {
         put(contactsService.getEndpoint(), contactsService);
         put(morningUpdatesService.getEndpoint(), morningUpdatesService);
         put(phoneService.getEndpoint(), phoneService);
+        put(shortcutCardsService.getEndpoint(), shortcutCardsService);
     }};
 
     public Huami2021Support() {
@@ -267,6 +271,15 @@ public abstract class Huami2021Support extends HuamiSupport {
                 final boolean bluetoothCallsEnabled = prefs.getBoolean(DeviceSettingsPreferenceConst.PREF_BLUETOOTH_CALLS_ENABLED, false);
                 LOG.info("Setting bluetooth calls enabled = {}", bluetoothCallsEnabled);
                 phoneService.setEnabled(bluetoothCallsEnabled);
+                return;
+        }
+
+        // shortcutCardsService preferences, they do not use the configService
+        switch (config) {
+            case DeviceSettingsPreferenceConst.SHORTCUT_CARDS_SORTABLE:
+                final List<String> shortcutCards = prefs.getList(SHORTCUT_CARDS_SORTABLE, Collections.emptyList());
+                LOG.info("Setting shortcut cards to {}", shortcutCards);
+                shortcutCardsService.setShortcutCards(shortcutCards);
                 return;
         }
 
@@ -1530,6 +1543,8 @@ public abstract class Huami2021Support extends HuamiSupport {
         //contactsService.requestCapabilities(builder);
         morningUpdatesService.getEnabled(builder);
         morningUpdatesService.getCategories(builder);
+        shortcutCardsService.requestCapabilities(builder);
+        shortcutCardsService.requestShortcutCards(builder);
     }
 
     @Override

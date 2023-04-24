@@ -846,6 +846,60 @@
         <item>more</item>
     </string-array>
 
+    <string-array name="pref_zepp_os_shortcut_cards">
+        <item>@string/menuitem_weather</item>
+        <item>@string/menuitem_forecast</item>
+        <item>@string/menuitem_pai</item>
+        <item>@string/menuitem_alarm</item>
+        <item>@string/menuitem_sleep</item>
+        <item>@string/menuitem_hr</item>
+        <item>@string/menuitem_activity</item>
+        <item>@string/menuitem_spo2</item>
+        <item>@string/menuitem_phone</item>
+        <item>@string/menuitem_events</item>
+        <item>@string/menuitem_stress</item>
+        <item>@string/menuitem_worldclock</item>
+        <item>@string/menuitem_todo</item>
+        <item>@string/menuitem_countdown</item>
+        <item>@string/menuitem_last_workout</item>
+        <item>@string/menuitem_total_workout</item>
+        <item>@string/menuitem_workout_status</item>
+        <item>@string/menuitem_vo2_max</item>
+        <item>@string/menuitem_music</item>
+        <item>@string/menuitem_cycles</item>
+        <item>@string/menuitem_one_tap_measuring</item>
+        <item>@string/menuitem_breathing</item>
+        <item>@string/menuitem_stopwatch</item>
+        <item>@string/menuitem_recommendation</item>
+    </string-array>
+
+    <string-array name="pref_zepp_os_shortcut_cards_values">
+        <item>weather</item>
+        <item>forecast</item>
+        <item>pai</item>
+        <item>alarm</item>
+        <item>sleep</item>
+        <item>heartrate</item>
+        <item>activity</item>
+        <item>spo2</item>
+        <item>phone</item>
+        <item>events</item>
+        <item>stress</item>
+        <item>worldclock</item>
+        <item>todo</item>
+        <item>countdown</item>
+        <item>last_workout</item>
+        <item>total_workout</item>
+        <item>workout_status</item>
+        <item>vo2_max</item>
+        <item>music</item>
+        <item>cycle_tracking</item>
+        <item>one_tap_measuring</item>
+        <item>breathing</item>
+        <item>stopwatch</item>
+        <item>recommendation</item>
+    </string-array>
+
     <string-array name="pref_huami2021_control_center">
         <item>@string/battery</item>
         <item>@string/menuitem_dnd</item>

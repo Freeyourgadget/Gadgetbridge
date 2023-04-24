@@ -63,6 +63,7 @@ public class Huami2021SettingsCustomizer extends HuamiSettingsCustomizer {
         removeUnsupportedElementsFromListPreference(HuamiConst.PREF_DISPLAY_ITEMS_SORTABLE, handler, prefs);
         removeUnsupportedElementsFromListPreference(HuamiConst.PREF_SHORTCUTS_SORTABLE, handler, prefs);
         removeUnsupportedElementsFromListPreference(HuamiConst.PREF_CONTROL_CENTER_SORTABLE, handler, prefs);
+        removeUnsupportedElementsFromListPreference(DeviceSettingsPreferenceConst.SHORTCUT_CARDS_SORTABLE, handler, prefs);
         removeUnsupportedElementsFromListPreference(DeviceSettingsPreferenceConst.MORNING_UPDATES_CATEGORIES_SORTABLE, handler, prefs);
 
         for (final ZeppOsConfigService.ConfigArg config : ZeppOsConfigService.ConfigArg.values()) {

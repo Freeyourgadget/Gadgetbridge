@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <com.mobeta.android.dslv.DragSortListPreference
+        android:defaultValue="@array/pref_huami2021_empty_array"
+        android:dialogTitle="@string/bip_prefs_shortcuts"
+        android:entries="@array/pref_zepp_os_shortcut_cards"
+        android:entryValues="@array/pref_zepp_os_shortcut_cards_values"
+        android:icon="@drawable/ic_shortcut"
+        android:key="shortcut_cards_sortable"
+        android:persistent="true"
+        android:summary="@string/prefs_shortcut_cards_summary"
+        android:title="@string/prefs_shortcut_cards" />
+</androidx.preference.PreferenceScreen>

@@ -501,6 +501,8 @@ public class DeviceSpecificSettingsFragment extends PreferenceFragmentCompat imp
         addPreferenceHandlerFor(MORNING_UPDATES_ENABLED);
         addPreferenceHandlerFor(MORNING_UPDATES_CATEGORIES_SORTABLE);
 
+        addPreferenceHandlerFor(SHORTCUT_CARDS_SORTABLE);
+
         addPreferenceHandlerFor(PREF_SONY_AMBIENT_SOUND_CONTROL);
         addPreferenceHandlerFor(PREF_SONY_AMBIENT_SOUND_CONTROL_BUTTON_MODE);
         addPreferenceHandlerFor(PREF_SONY_FOCUS_VOICE);
