@@ -1,5 +1,6 @@
 package nodomain.freeyourgadget.gadgetbridge.service.btle;
 
+import android.app.Notification;
 import android.app.Service;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothManager;
@@ -11,12 +12,14 @@ import android.bluetooth.le.ScanSettings;
 import android.content.Intent;
 import android.os.IBinder;
 
+import androidx.core.app.NotificationCompat;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import java.util.ArrayList;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
+import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
 public class BLEScanService extends Service {
     public static final String COMMAND_SCAN_DEVICE = "nodomain.freeyourgadget.gadgetbridge.service.ble.scan.command.START_SCAN_FOR_DEVICE";
@@ -75,10 +78,18 @@ public class BLEScanService extends Service {
         scanner = manager.getAdapter().getBluetoothLeScanner();
 
         localBroadcastManager = LocalBroadcastManager.getInstance(this);
+
+        startForeground();
     }
 
-    private void registerNotification(){
-
+    private void startForeground(){
+        Notification serviceNotification =
+                new NotificationCompat
+                    .Builder(this, GB.NOTIFICATION_CHANNEL_ID)
+                    .setContentTitle("Scan service")
+                    .setContentText("Scanning x devices")
+                    .build();
+        startForeground(GB.NOTIFICATION_ID_SCAN, serviceNotification);
     }
 
     @Override
