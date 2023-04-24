@@ -24,6 +24,7 @@ import android.util.Log;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.database.PeriodicExporter;
+import nodomain.freeyourgadget.gadgetbridge.service.btle.BLEScanService;
 
 public class AutoStartReceiver extends BroadcastReceiver {
     private static final String TAG = AutoStartReceiver.class.getName();
@@ -44,6 +45,10 @@ public class AutoStartReceiver extends BroadcastReceiver {
             }
             Log.i(TAG, "Going to enable periodic exporter");
             PeriodicExporter.enablePeriodicExport(context);
+
+            Intent scanServiceIntent = new Intent();
+            scanServiceIntent.setClass(this, BLEScanService.class);
+            context.startService(scanServiceIntent);
         }
     }
 }
