@@ -15,7 +15,6 @@
     <!-- Since Android 10 -->
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
-
     <uses-permission android:name="android.permission.READ_CALL_LOG" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.PROCESS_OUTGOING_CALLS" />
@@ -25,29 +24,20 @@
     <uses-permission android:name="android.permission.RECEIVE_SMS" />
     <uses-permission android:name="android.permission.SEND_SMS" />
     <uses-permission android:name="android.permission.READ_CONTACTS" />
-
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_CALENDAR" />
     <uses-permission
         android:name="android.permission.MEDIA_CONTENT_CONTROL"
-        tools:ignore="ProtectedPermissions" />
-
-    <!-- Used for background service -->
+        tools:ignore="ProtectedPermissions" /> <!-- Used for background service -->
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
-    <uses-permission android:name="android.permission.REQUEST_COMPANION_RUN_IN_BACKGROUND" />
-
-    <!-- Used for reverse find device -->
-    <uses-permission android:name="android.permission.VIBRATE" />
-
-    <!-- Used for weather provider access -->
+    <uses-permission android:name="android.permission.REQUEST_COMPANION_RUN_IN_BACKGROUND" /> <!-- Used for reverse find device -->
+    <uses-permission android:name="android.permission.VIBRATE" /> <!-- Used for weather provider access -->
     <uses-permission android:name="cyanogenmod.permission.ACCESS_WEATHER_MANAGER" />
     <uses-permission android:name="cyanogenmod.permission.READ_WEATHER" />
     <uses-permission android:name="lineageos.permission.ACCESS_WEATHER_MANAGER" />
     <uses-permission android:name="lineageos.permission.READ_WEATHER" />
-    <uses-permission android:name="org.omnirom.omnijaws.READ_WEATHER" />
-
-    <!-- Used for starting activities from the background with intents -->
+    <uses-permission android:name="org.omnirom.omnijaws.READ_WEATHER" /> <!-- Used for starting activities from the background with intents -->
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
 
     <uses-feature
@@ -69,15 +59,16 @@
         android:fullBackupContent="false"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
         android:requestLegacyExternalStorage="true"
+        android:roundIcon="@mipmap/ic_launcher_round"
         android:theme="@style/GadgetbridgeTheme"
         tools:replace="android:label">
+
         <activity
             android:name=".activities.ControlCenterv2"
             android:label="@string/title_activity_controlcenter"
-            android:theme="@style/SplashTheme"
-            android:launchMode="singleTop">
+            android:launchMode="singleTop"
+            android:theme="@style/SplashTheme">
             <intent-filter>
                 <category android:name="android.intent.category.DEFAULT" />
 
@@ -360,6 +351,12 @@
                 <action android:name="android.service.notification.NotificationListenerService" />
             </intent-filter>
         </service>
+
+        <service
+            android:name=".BLEScanService"
+            android:enabled="true"
+            android:exported="false"></service>
+
         <service android:name=".service.NotificationCollectorMonitorService" />
         <service android:name=".service.DeviceCommunicationService" />
         <service
@@ -373,7 +370,6 @@
                 <action android:name="nodomain.freeyourgadget.gadgetbridge.ACTION_GENERIC_WEATHER" />
             </intent-filter>
         </receiver>
-
         <receiver
             android:name=".externalevents.WeatherNotificationReceiver"
             android:enabled="true">
@@ -393,11 +389,12 @@
             android:permission="android.permission.RECEIVE_BOOT_COMPLETED">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
+
                 <category android:name="android.intent.category.DEFAULT" />
-                <action android:name="android.intent.action.MY_PACKAGE_REPLACED"/>
+
+                <action android:name="android.intent.action.MY_PACKAGE_REPLACED" />
             </intent-filter>
         </receiver>
-
         <receiver
             android:name=".externalevents.BluetoothStateChangeReceiver"
             android:exported="true"
@@ -405,13 +402,11 @@
             <intent-filter>
                 <action android:name="android.bluetooth.adapter.action.STATE_CHANGED" />
                 <action android:name="android.bluetooth.adapter.action.CONNECTION_STATE_CHANGED" />
-
                 <action android:name="android.bluetooth.device.action.ACL_CONNECTED" />
                 <action android:name="android.bluetooth.device.action.ACL_DISCONNECTED" />
                 <action android:name="android.bluetooth.device.action.ACL_DISCONNECT_REQUESTED" />
             </intent-filter>
         </receiver>
-
         <receiver
             android:name=".service.receivers.GBMusicControlReceiver"
             android:exported="false">
@@ -454,7 +449,6 @@
             android:name=".activities.BatteryInfoActivity"
             android:label="@string/battery_detail_activity_title"
             android:parentActivityName=".activities.ControlCenterv2" />
-
         <activity
             android:name=".activities.ActivitySummaryDetail"
             android:label="@string/activity_summary_detail"
@@ -462,10 +456,9 @@
             android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".activities.ActivitySummariesFilter"
+            android:excludeFromRecents="true"
             android:label="@string/activity_filter_filter_title"
-            android:parentActivityName=".activities.ActivitySummariesActivity"
-            android:excludeFromRecents="true"/>
-
+            android:parentActivityName=".activities.ActivitySummariesActivity" />
         <activity
             android:name=".activities.DataManagementActivity"
             android:label="@string/title_activity_db_management"
@@ -570,7 +563,6 @@
             android:name=".contentprovider.PebbleContentProvider"
             android:authorities="@string/pebble_content_provider"
             android:exported="true" />
-
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="${applicationId}.screenshot_provider"
@@ -613,19 +605,16 @@
             android:excludeFromRecents="true"
             android:launchMode="singleInstance"
             android:theme="@style/Theme.AppCompat.Light.Dialog" />
-
         <activity android:name=".activities.WidgetConfigurationActivity">
             <intent-filter>
-                <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE"/>
+                <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE" />
             </intent-filter>
         </activity>
-
         <activity android:name=".activities.SleepAlarmWidgetConfigurationActivity">
             <intent-filter>
-                <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE"/>
+                <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".activities.ExternalPebbleJSActivity"
             android:allowTaskReparenting="true"
@@ -646,39 +635,39 @@
                 <data android:scheme="gadgetbridge" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".devices.qhybrid.ConfigActivity"
-            android:label="@string/qhybrid_title_watchface"
             android:exported="true"
+            android:label="@string/qhybrid_title_watchface"
             android:parentActivityName=".activities.ControlCenterv2" />
         <activity
             android:name=".devices.qhybrid.QHybridAppChoserActivity"
-            android:label="@string/qhybrid_title_apps"
             android:exported="true"
+            android:label="@string/qhybrid_title_apps"
             android:parentActivityName=".devices.qhybrid.ConfigActivity" />
         <activity
             android:name=".devices.qhybrid.HRConfigActivity"
-            android:label="@string/qhybrid_title_watchface"
             android:exported="true"
+            android:label="@string/qhybrid_title_watchface"
             android:parentActivityName=".activities.ControlCenterv2" />
-        <activity android:name=".devices.qhybrid.WidgetSettingsActivity"
+        <activity
+            android:name=".devices.qhybrid.WidgetSettingsActivity"
             android:label="@string/add_widget"
             android:parentActivityName=".devices.qhybrid.HRConfigActivity" />
         <activity
             android:name=".devices.qhybrid.ImageEditActivity"
-            android:label="@string/qhybrid_title_background_image"
             android:exported="true"
+            android:label="@string/qhybrid_title_background_image"
             android:parentActivityName=".devices.qhybrid.HRConfigActivity" />
         <activity
             android:name=".devices.qhybrid.FileManagementActivity"
-            android:label="@string/qhybrid_title_file_management"
             android:exported="true"
-            android:parentActivityName=".devices.qhybrid.HRConfigActivity"/>
+            android:label="@string/qhybrid_title_file_management"
+            android:parentActivityName=".devices.qhybrid.HRConfigActivity" />
         <activity
             android:name=".devices.qhybrid.AppsManagementActivity"
-            android:label="@string/qhybrid_title_apps_management"
             android:exported="true"
+            android:label="@string/qhybrid_title_apps_management"
             android:parentActivityName=".devices.qhybrid.HRConfigActivity" />
         <activity
             android:name=".devices.qhybrid.CalibrationActivity"
@@ -691,9 +680,9 @@
         <activity
             android:name=".devices.qhybrid.HybridHRWatchfaceDesignerActivity"
             android:label="@string/qhybrid_title_watchface_designer"
-            android:screenOrientation="portrait"
             android:launchMode="singleTop"
-            android:parentActivityName=".activities.appmanager.AppManagerActivity" />
+            android:parentActivityName=".activities.appmanager.AppManagerActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".devices.qhybrid.HybridHRWatchfaceSettingsActivity"
             android:label="@string/watchface_dialog_title_settings"
@@ -702,19 +691,15 @@
             android:name=".devices.qhybrid.HybridHRWatchfaceWidgetActivity"
             android:label="@string/watchface_dialog_title_widget"
             android:parentActivityName=".devices.qhybrid.HybridHRWatchfaceDesignerActivity" />
-
         <activity
             android:name=".devices.um25.Activity.DataActivity"
             android:exported="true" />
-
         <activity
             android:name=".devices.supercars.ControlActivity"
             android:exported="true" />
-
         <activity
             android:name=".devices.binary_sensor.activity.DataActivity"
             android:exported="true" />
-
         <activity
             android:name=".activities.GpxReceiverActivity"
             android:label="@string/gpx_receiver_activity_title"
@@ -723,20 +708,19 @@
             <intent-filter>
                 <action android:name="android.intent.action.SEND" />
                 <action android:name="android.intent.action.SEND_MULTIPLE" />
+
                 <category android:name="android.intent.category.DEFAULT" />
+
                 <data android:mimeType="*/*" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".activities.WakeActivity"
-            android:label="WakeActivity">
-        </activity>
-
+            android:label="WakeActivity"></activity>
         <activity
             android:name=".externalevents.opentracks.OpenTracksController"
-            android:label="OpenTracks controller and intent receiver"
-            android:exported="true"/>
+            android:exported="true"
+            android:label="OpenTracks controller and intent receiver" />
     </application>
 
 </manifest>
