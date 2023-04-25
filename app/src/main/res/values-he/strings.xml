@@ -2175,4 +2175,10 @@
     <string name="continue_pressing">להמשיך ללחוץ</string>
     <string name="menuitem_cards">כרטיסים</string>
     <string name="menuitem_mi_ai">MI AI</string>
+    <string name="prefs_shortcut_cards">כרטיסי קיצורים</string>
+    <string name="prefs_shortcut_cards_summary">כרטיסי קיצורים מופיעים כשמחליקים ימינה על פני השעון. כאשר יישומון רץ, כרטיסים שנוצרו אוטומטית לא מושפעים על ידי ההגדרה הזאת.</string>
+    <string name="menuitem_forecast">תשקיף</string>
+    <string name="menuitem_last_workout">אימון אחרון</string>
+    <string name="menuitem_total_workout">סך כל האימונים</string>
+    <string name="menuitem_recommendation">המלצה</string>
 </resources>
