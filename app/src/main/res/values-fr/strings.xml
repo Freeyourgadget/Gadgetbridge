@@ -2178,4 +2178,5 @@ Temps de sommeil préféré en heures</string>
     <string name="quick_attention">Aperçu rapide</string>
     <string name="sony_button_mode_help_title">Bouton Modes - Aide</string>
     <string name="sony_button_mode_help_summary">Description du mode de chaque bouton</string>
+    <string name="prefs_shortcut_cards">Cartes de raccourcis</string>
 </resources>
