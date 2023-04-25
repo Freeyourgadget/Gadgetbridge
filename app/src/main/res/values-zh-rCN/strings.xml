@@ -2176,4 +2176,11 @@
     <string name="pref_title_notification_cache_while_disconnected">超出范围外时的缓存</string>
     <string name="menuitem_cards">卡包</string>
     <string name="menuitem_mi_ai">小爱同学</string>
+    <string name="prefs_shortcut_cards">快捷方式卡片</string>
+    <string name="prefs_shortcut_cards_summary">在表盘上向右滑动时看到的快捷方式卡片。当应用程序运行时，自动生成的卡片不受此设置的影响。</string>
+    <string name="menuitem_forecast">预报</string>
+    <string name="menuitem_last_workout">最后一次锻炼</string>
+    <string name="menuitem_total_workout">总锻炼</string>
+    <string name="menuitem_vo2_max">最大摄氧量</string>
+    <string name="menuitem_recommendation">推荐</string>
 </resources>
