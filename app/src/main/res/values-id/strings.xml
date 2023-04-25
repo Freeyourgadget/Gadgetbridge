@@ -2165,4 +2165,11 @@
     <string name="double_tap">Ketuk Dua Kali</string>
     <string name="menuitem_cards">Kartu</string>
     <string name="menuitem_mi_ai">MI AI</string>
+    <string name="prefs_shortcut_cards">Kartu Pintasan</string>
+    <string name="menuitem_forecast">Prakiraan</string>
+    <string name="prefs_shortcut_cards_summary">Kartu pintasan terlihat saat mengusap ke kanan di wajah jam. Ketika sebuah aplikasi sedang berjalan, kartu yang dibuat secara otomatis tidak berpengaruh oleh pengaturan ini.</string>
+    <string name="menuitem_total_workout">Jumlah olahraga</string>
+    <string name="menuitem_recommendation">Saran</string>
+    <string name="menuitem_last_workout">Olahraga terakhir</string>
+    <string name="menuitem_vo2_max">Maks VO</string>
 </resources>
