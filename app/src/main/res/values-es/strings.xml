@@ -2178,4 +2178,11 @@
     <string name="continue_pressing">Pulsación continua</string>
     <string name="menuitem_mi_ai">MI AI</string>
     <string name="menuitem_cards">Tarjetas</string>
+    <string name="menuitem_last_workout">Último entrenamiento</string>
+    <string name="prefs_shortcut_cards_summary">Accesos directos que se ven al deslizar el dedo hacia la derecha en la esfera del reloj. Cuando se ejecuta una aplicación, este ajuste no afecta a los accesos directos generados automáticamente.</string>
+    <string name="prefs_shortcut_cards">Accesos directos</string>
+    <string name="menuitem_vo2_max">VO₂ Máx</string>
+    <string name="menuitem_recommendation">Recomendación</string>
+    <string name="menuitem_total_workout">Entrenamiento completo</string>
+    <string name="menuitem_forecast">Previsión</string>
 </resources>
