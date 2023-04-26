@@ -2176,4 +2176,21 @@
     <string name="continue_pressing">Blijf drukken</string>
     <string name="menuitem_cards">Kaarten</string>
     <string name="menuitem_mi_ai">MI AI</string>
+    <string name="zepp_os_watchface_simplicity_data">Eenvoudige gegevens</string>
+    <string name="zepp_os_watchface_vibrant">Levendig</string>
+    <string name="zepp_os_watchface_emerald_moonlight">Smaragdgroen maanlicht</string>
+    <string name="zepp_os_watchface_rotating_earth">Roterende aarde</string>
+    <string name="zepp_os_watchface_superposition">Superpositie</string>
+    <string name="zepp_os_watchface_multiple_data">Meerdere gegevens</string>
+    <string name="zepp_os_watchface_red_fantasy">Rode fantasie</string>
+    <string name="zepp_os_watchface_minimalist">Minimalistisch</string>
+    <string name="zepp_os_watchface_rush">Haast</string>
+    <string name="zepp_os_watchface_business_style">Zakelijke stijl</string>
+    <string name="prefs_shortcut_cards">Snelkoppelingskaarten</string>
+    <string name="prefs_shortcut_cards_summary">Snelkoppelingskaarten zichtbaar wanneer u naar rechts veegt op de wijzerplaat. Wanneer een app actief is, worden automatisch gegenereerde kaarten niet beïnvloed door deze instelling.</string>
+    <string name="menuitem_forecast">Voorspelling</string>
+    <string name="menuitem_last_workout">Laatste training</string>
+    <string name="menuitem_total_workout">Totale training</string>
+    <string name="menuitem_vo2_max">VO₂ Max</string>
+    <string name="menuitem_recommendation">Aanbeveling</string>
 </resources>
