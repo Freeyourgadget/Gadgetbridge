@@ -119,7 +119,9 @@ public class BLEScanService extends Service {
         String content = "Not scanning";
         if(isScanning){
             icon = R.drawable.ic_bluetooth_searching;
-            if(scannedDevicesCount > 0){
+            if(scannedDevicesCount == 1) {
+                content = String.format("Scanning %d device", scannedDevicesCount);
+            }else if(scannedDevicesCount > 1){
                 content = String.format("Scanning %d devices", scannedDevicesCount);
             }else{
                 content = "Scanning all devices";
