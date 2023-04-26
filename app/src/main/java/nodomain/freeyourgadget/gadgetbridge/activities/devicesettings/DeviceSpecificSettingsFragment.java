@@ -943,6 +943,7 @@ public class DeviceSpecificSettingsFragment extends PreferenceFragmentCompat imp
                 supportedSettings = ArrayUtils.addAll(supportedSettings, R.xml.devicesettings_miband6_new_auth_protocol_explanation);
             }
         } else { //device settings
+            supportedSettings = ArrayUtils.insert(0, supportedSettings, coordinator.getSupportedDeviceSpecificConnectionSettings());
             supportedSettings = ArrayUtils.insert(0, supportedSettings, coordinator.getSupportedDeviceSpecificSettings(device));
             supportedLanguages = coordinator.getSupportedLanguageSettings(device);
             if (supportedLanguages != null) {
