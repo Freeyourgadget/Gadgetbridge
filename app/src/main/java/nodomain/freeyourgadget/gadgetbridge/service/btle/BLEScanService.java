@@ -97,6 +97,8 @@ public class BLEScanService extends Service {
         registerReceivers();
 
         this.startForeground();
+
+        restartScan(true);
     }
 
     @Override

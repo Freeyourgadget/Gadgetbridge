@@ -31,6 +31,7 @@ import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.Location;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -356,6 +357,7 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
     private final String ACTION_DEVICE_CONNECTED = "nodomain.freeyourgadget.gadgetbridge.BLUETOOTH_CONNECTED";
     private final int NOTIFICATIONS_CACHE_MAX = 10;  // maximum amount of notifications to cache per device while disconnected
     private boolean allowBluetoothIntentApi = false;
+    private boolean reconnectViaScan = GBPrefs.RECONNECT_SCAN_DEFAULT;
 
     private void sendDeviceConnectedBroadcast(String address){
         if(!allowBluetoothIntentApi){
@@ -530,9 +532,11 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
         if (hasPrefs()) {
             getPrefs().getPreferences().registerOnSharedPreferenceChangeListener(this);
             allowBluetoothIntentApi = getPrefs().getBoolean(GBPrefs.PREF_ALLOW_INTENT_API, false);
+            reconnectViaScan = getGBPrefs().getAutoReconnectByScan();
         }
 
         this.startForeground();
+        connectToAllDevices();
     }
 
     private DeviceSupportFactory getDeviceSupportFactory() {
@@ -542,7 +546,27 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
         return new DeviceSupportFactory(this);
     }
 
+    private void scanAllDevices(){
+        List<GBDevice> devices = GBApplication.app().getDeviceManager().getDevices();
+        for(GBDevice device : devices){
+            if(device.getState() != GBDevice.State.NOT_CONNECTED){
+                continue;
+            }
+            boolean shouldAutoConnect = getGBPrefs().getAutoReconnect(device);
+            if(!shouldAutoConnect){
+                continue;
+            }
+            createDeviceStruct(device);
+            device.setState(GBDevice.State.WAITING_FOR_SCAN);
+            device.sendDeviceUpdateIntent(this);
+        }
+    }
+
     private void connectToAllDevices(){
+        if(reconnectViaScan){
+            scanAllDevices();
+            return;
+        }
         Prefs prefs = getPrefs();
         if(prefs == null){
             return;
@@ -565,13 +589,19 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
         connectToDevice(targetDevice, false);
     }
 
+    private void createDeviceStruct(GBDevice target){
+        DeviceStruct registeredStruct = new DeviceStruct();
+        registeredStruct.setDevice(target);
+        registeredStruct.setCoordinator(DeviceHelper.getInstance().getCoordinator(target));
+        deviceStructs.add(registeredStruct);
+    }
+
     private void connectToDevice(GBDevice targetDevice, boolean firstTime){
         if(targetDevice == null){
             return;
         }
 
         boolean autoReconnect = GBPrefs.AUTO_RECONNECT_DEFAULT;
-        boolean scanReconnect = GBPrefs.RECONNECT_SCAN_DEFAULT;
 
         Prefs prefs = getPrefs();
 
@@ -579,7 +609,6 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
             prefs.getPreferences().edit().putString("last_device_address", targetDevice.getAddress()).apply();
 
             autoReconnect = getGBPrefs().getAutoReconnect(targetDevice);
-            scanReconnect = getGBPrefs().getAutoReconnectByScan();
         }
 
         DeviceStruct registeredStruct = getDeviceStructOrNull(targetDevice);
@@ -594,10 +623,7 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
                 e.printStackTrace();
             }
         }else{
-            registeredStruct = new DeviceStruct();
-            registeredStruct.setDevice(targetDevice);
-            registeredStruct.setCoordinator(DeviceHelper.getInstance().getCoordinator(targetDevice));
-            deviceStructs.add(registeredStruct);
+            createDeviceStruct(targetDevice);
         }
 
         try {
@@ -608,7 +634,7 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
                     deviceSupport.connectFirstTime();
                 } else {
                     deviceSupport.setAutoReconnect(autoReconnect);
-                    deviceSupport.setScanReconnect(scanReconnect);
+                    deviceSupport.setScanReconnect(reconnectViaScan);
                     deviceSupport.connect();
                 }
             } else {
