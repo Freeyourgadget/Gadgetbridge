@@ -2183,4 +2183,14 @@
     <string name="menuitem_total_workout">总锻炼</string>
     <string name="menuitem_vo2_max">最大摄氧量</string>
     <string name="menuitem_recommendation">推荐</string>
+    <string name="zepp_os_watchface_rotating_earth">旋转地球</string>
+    <string name="zepp_os_watchface_superposition">叠加</string>
+    <string name="zepp_os_watchface_simplicity_data">简化数据</string>
+    <string name="zepp_os_watchface_red_fantasy">红色幻想</string>
+    <string name="zepp_os_watchface_multiple_data">多个数据</string>
+    <string name="zepp_os_watchface_rush">快冲</string>
+    <string name="zepp_os_watchface_minimalist">极简主义</string>
+    <string name="zepp_os_watchface_vibrant">充满活力</string>
+    <string name="zepp_os_watchface_business_style">商务风格</string>
+    <string name="zepp_os_watchface_emerald_moonlight">翡翠月光</string>
 </resources>
