@@ -9,6 +9,12 @@
             android:key="general_autostartonboot"
             android:title="@string/pref_title_general_autostartonboot" />
         <CheckBoxPreference
+            android:icon="@drawable/ic_bluetooth"
+            android:key="prefs_general_key_auto_reconnect_scan"
+            android:title="@string/auto_reconnect_ble_scan_title"
+            android:summary="@string/auto_reconnect_ble_scan_summary"
+            android:layout="@layout/preference_checkbox" />
+        <CheckBoxPreference
             android:layout="@layout/preference_checkbox"
             android:defaultValue="false"
             android:key="general_autoconnectonbluetooth"

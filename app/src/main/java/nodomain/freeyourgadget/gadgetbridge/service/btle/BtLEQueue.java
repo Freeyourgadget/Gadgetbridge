@@ -82,6 +82,7 @@ public final class BtLEQueue {
     private final InternalGattCallback internalGattCallback;
     private final InternalGattServerCallback internalGattServerCallback;
     private boolean mAutoReconnect;
+    private boolean scanReconnect;
     private boolean mImplicitGattCallbackModify = true;
 
     private Thread dispatchThread = new Thread("Gadgetbridge GATT Dispatcher") {
@@ -218,6 +219,10 @@ public final class BtLEQueue {
         mAutoReconnect = enable;
     }
 
+    public void setScanReconnect(boolean enable){
+        this.scanReconnect = enable;
+    }
+
     public void setImplicitGattCallbackModify(final boolean enable) {
         mImplicitGattCallbackModify = enable;
     }
@@ -345,8 +350,7 @@ public final class BtLEQueue {
      */
     private boolean maybeReconnect() {
         if (mAutoReconnect && mBluetoothGatt != null) {
-            boolean shouldUseScan = GBApplication.getGBPrefs().getAutoReconnectByScan(mGbDevice);
-            if(shouldUseScan){
+            if(scanReconnect){
                 LOG.info("Waiting for BLE scan before attempting reconnection...");
                 setDeviceConnectionState(State.WAITING_FOR_SCAN);
                 // TODO: here we need to start scanning for the device

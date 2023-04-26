@@ -571,6 +571,7 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
         }
 
         boolean autoReconnect = GBPrefs.AUTO_RECONNECT_DEFAULT;
+        boolean scanReconnect = GBPrefs.RECONNECT_SCAN_DEFAULT;
 
         Prefs prefs = getPrefs();
 
@@ -578,6 +579,7 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
             prefs.getPreferences().edit().putString("last_device_address", targetDevice.getAddress()).apply();
 
             autoReconnect = getGBPrefs().getAutoReconnect(targetDevice);
+            scanReconnect = getGBPrefs().getAutoReconnectByScan();
         }
 
         DeviceStruct registeredStruct = getDeviceStructOrNull(targetDevice);
@@ -606,6 +608,7 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
                     deviceSupport.connectFirstTime();
                 } else {
                     deviceSupport.setAutoReconnect(autoReconnect);
+                    deviceSupport.setScanReconnect(scanReconnect);
                     deviceSupport.connect();
                 }
             } else {
