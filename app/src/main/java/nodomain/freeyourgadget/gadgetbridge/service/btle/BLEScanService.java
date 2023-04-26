@@ -1,6 +1,7 @@
 package nodomain.freeyourgadget.gadgetbridge.service.btle;
 
 import android.app.Notification;
+import android.app.NotificationManager;
 import android.app.Service;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothManager;
@@ -25,6 +26,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
+import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
@@ -40,8 +42,8 @@ public class BLEScanService extends Service {
 
     private static final String TAG = "BLEScanService";
 
-    LocalBroadcastManager localBroadcastManager;
-
+    private LocalBroadcastManager localBroadcastManager;
+    private NotificationManager notificationManager;
     private BluetoothLeScanner scanner;
     // private final ArrayList<ScanFilter> currentFilters = new ArrayList<>();
 
@@ -66,6 +68,8 @@ public class BLEScanService extends Service {
             super.onScanResult(callbackType, result);
             BluetoothDevice device = result.getDevice();
 
+            Log.d(TAG, "onScanResult: " + result);
+
             Intent intent = new Intent(EVENT_DEVICE_FOUND);
             intent.putExtra(EXTRA_DEVICE_ADDRESS, device.getAddress());
             localBroadcastManager.sendBroadcast(intent);
@@ -88,28 +92,59 @@ public class BLEScanService extends Service {
 
         localBroadcastManager = LocalBroadcastManager.getInstance(this);
 
-        startForeground();
+        notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+
+        registerReceivers();
+
+        this.startForeground();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        unregisterReceivers();
+    }
+
+    private void updateNotification(boolean isScanning, int scannedDeviceCount){
+        notificationManager.notify(
+                GB.NOTIFICATION_ID_SCAN,
+                createNotification(isScanning, scannedDeviceCount)
+        );
+    }
+
+    private Notification createNotification(boolean isScanning, int scannedDevicesCount){
+        int icon = R.drawable.ic_bluetooth;
+        String content = "Not scanning";
+        if(isScanning){
+            icon = R.drawable.ic_bluetooth_searching;
+            if(scannedDevicesCount > 0){
+                content = String.format("Scanning %d devices", scannedDevicesCount);
+            }else{
+                content = "Scanning all devices";
+            }
+        }
+        return new NotificationCompat
+            .Builder(this, GB.NOTIFICATION_CHANNEL_ID)
+            .setContentTitle("Scan service")
+            .setContentText(content)
+            .setSmallIcon(icon)
+            .build();
     }
 
     private void startForeground(){
-        Notification serviceNotification =
-                new NotificationCompat
-                    .Builder(this, GB.NOTIFICATION_CHANNEL_ID)
-                    .setContentTitle("Scan service")
-                    .setContentText("Scanning x devices")
-                    .build();
+        Notification serviceNotification = createNotification(false, 0);
 
-        startForeground(GB.NOTIFICATION_ID_SCAN, serviceNotification);
+        super.startForeground(GB.NOTIFICATION_ID_SCAN, serviceNotification);
     }
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         if(intent == null){
-            return START_NOT_STICKY;
+            return START_STICKY;
         }
         String action = intent.getAction();
         if(action == null){
-         return START_NOT_STICKY;
+         return START_STICKY;
         }
         switch (action) {
             case COMMAND_SCAN_DEVICE:
@@ -122,7 +157,7 @@ public class BLEScanService extends Service {
                 handleStopScanAll(intent);
                 break;
             default:
-                return START_NOT_STICKY;
+                return START_STICKY;
         }
         return START_STICKY;
     }
@@ -203,7 +238,6 @@ public class BLEScanService extends Service {
             if(subject != GBDevice.DeviceUpdateSubject.CONNECTION_STATE){
                 return;
             }
-            Log.d(TAG, "onReceive: received device connection change: " + subject);
             restartScan(true);
         }
     };
@@ -213,6 +247,10 @@ public class BLEScanService extends Service {
                 deviceStateUpdateReceiver,
                 new IntentFilter(GBDevice.ACTION_DEVICE_CHANGED)
         );
+    }
+
+    private void unregisterReceivers(){
+        localBroadcastManager.unregisterReceiver(deviceStateUpdateReceiver);
     }
 
     private void restartScan(boolean applyFilters){
@@ -239,6 +277,7 @@ public class BLEScanService extends Service {
                 // no need to start scanning
                 Log.d(TAG, "restartScan: stopping BLE scan, no devices");
                 currentState = ScanningState.NOT_SCANNING;
+                updateNotification(false, 0);
                 return;
             }
         }
@@ -253,9 +292,11 @@ public class BLEScanService extends Service {
         scanner.startScan(scanFilters, scanSettings, scanCallback);
         if(applyFilters) {
             Log.d(TAG, "restartScan: started scan for " + scanFilters.size() + " devices");
+            updateNotification(true, scanFilters.size());
             currentState = ScanningState.SCANNING_WITH_FILTERS;
         }else{
             Log.d(TAG, "restartScan: started scan for all devices");
+            updateNotification(true, 0);
             currentState = ScanningState.SCANNING_WITHOUT_FILTERS;
         }
 

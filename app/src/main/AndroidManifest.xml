@@ -362,7 +362,7 @@
         </service>
 
         <service
-            android:name=".BLEScanService"
+            android:name=".service.btle.BLEScanService"
             android:enabled="true"
             android:exported="false">
         </service>

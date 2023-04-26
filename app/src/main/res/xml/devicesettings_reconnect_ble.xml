@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Preferencescreen
+<PreferenceScreen
     xmlns:android="http://schemas.android.com/apk/res/android">
     <PreferenceCategory
         android:title="@string/connection_over_ble" />
@@ -19,4 +19,4 @@
         android:summary="@string/auto_reconnect_ble_scan_summary"
         android:layout="@layout/preference_checkbox" />
 
-</Preferencescreen>
+</PreferenceScreen>

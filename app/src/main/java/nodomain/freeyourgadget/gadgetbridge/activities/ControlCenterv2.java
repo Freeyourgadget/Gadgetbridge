@@ -24,6 +24,7 @@ import android.app.Dialog;
 import android.app.NotificationManager;
 import android.content.ActivityNotFoundException;
 import android.content.BroadcastReceiver;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -310,9 +311,8 @@ public class ControlCenterv2 extends AppCompatActivity
 
         GBApplication.deviceService().start();
 
-        Intent scanServiceIntent = new Intent();
-        scanServiceIntent.setClass(this, BLEScanService.class);
-        startService(scanServiceIntent);
+        Intent scanServiceIntent = new Intent(this, BLEScanService.class);
+        ComponentName result = startService(scanServiceIntent);
 
         if (GB.isBluetoothEnabled() && deviceList.isEmpty() && Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
             startActivity(new Intent(this, DiscoveryActivity.class));

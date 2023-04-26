@@ -457,11 +457,11 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
 
                 try {
                     GBDevice target = getDeviceByAddress(deviceAddress);
-                    Intent connectIntent = new Intent(ACTION_CONNECT);
-                    connectIntent.setClass(
+                    Intent connectIntent = new Intent(
                             DeviceCommunicationService.this,
                             DeviceCommunicationService.class
                     );
+                    connectIntent.setAction(ACTION_CONNECT);
                     connectIntent.putExtra(GBDevice.EXTRA_DEVICE, target);
                     startService(connectIntent);
                 } catch (DeviceNotFoundException e) {
