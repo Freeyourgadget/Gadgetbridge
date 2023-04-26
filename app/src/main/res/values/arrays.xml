@@ -754,6 +754,34 @@
         <item>low</item>
     </string-array>
 
+    <string-array name="pref_zepp_os_watchfaces">
+        <!-- GTR 4 -->
+        <item>@string/zepp_os_watchface_red_fantasy</item>
+        <item>@string/zepp_os_watchface_multiple_data</item>
+        <item>@string/zepp_os_watchface_rush</item>
+        <item>@string/zepp_os_watchface_minimalist</item>
+        <item>@string/zepp_os_watchface_simplicity_data</item>
+        <item>@string/zepp_os_watchface_vibrant</item>
+        <item>@string/zepp_os_watchface_business_style</item>
+        <item>@string/zepp_os_watchface_emerald_moonlight</item>
+        <item>@string/zepp_os_watchface_rotating_earth</item>
+        <item>@string/zepp_os_watchface_superposition</item>
+    </string-array>
+
+    <string-array name="pref_zepp_os_watchfaces_values">
+        <!-- GTR 4 -->
+        <item>red_fantasy</item>
+        <item>multiple_data</item>
+        <item>rush</item>
+        <item>minimalist</item>
+        <item>simplicity_data</item>
+        <item>vibrant</item>
+        <item>business_style</item>
+        <item>emerald_moonlight</item>
+        <item>rotating_earth</item>
+        <item>superposition</item>
+    </string-array>
+
     <string-array name="pref_zepp_os_apps">
         <item>@string/menuitem_activity</item>
         <item>@string/menuitem_alarm</item>

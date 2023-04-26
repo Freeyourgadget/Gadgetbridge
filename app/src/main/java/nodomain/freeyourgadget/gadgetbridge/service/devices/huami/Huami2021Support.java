@@ -1460,6 +1460,11 @@ public abstract class Huami2021Support extends HuamiSupport {
         return this;
     }
 
+    public void requestWatchfaces(final TransactionBuilder builder) {
+        watchfaceService.requestWatchfaces(builder);
+        watchfaceService.requestCurrentWatchface(builder);
+    }
+
     protected Huami2021Support requestShortcuts(final TransactionBuilder builder) {
         LOG.info("Requesting shortcuts");
 

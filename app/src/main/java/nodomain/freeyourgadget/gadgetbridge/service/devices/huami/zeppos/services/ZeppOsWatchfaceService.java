@@ -48,6 +48,41 @@ public class ZeppOsWatchfaceService extends AbstractZeppOsService {
     public static final byte CMD_CURRENT_GET = 0x09;
     public static final byte CMD_CURRENT_RET = 0x0a;
 
+    public enum Watchface {
+        // Codes are from GTR 4, not sure if they match on other watches
+        RED_FANTASY(0x00002D38),
+        MULTIPLE_DATA(0x00002D10),
+        RUSH(0x00002D37),
+        MINIMALIST(0x00002D0E),
+        SIMPLICITY_DATA(0x00002D08),
+        VIBRANT(0x00002D09),
+        BUSINESS_STYLE(0x00002D0D),
+        EMERALD_MOONLIGHT(0x00002D0A),
+        ROTATING_EARTH(0x00002D0F),
+        SUPERPOSITION(0x00002D0C),
+        ;
+
+        private final int code;
+
+        Watchface(final int code) {
+            this.code = code;
+        }
+
+        public int getCode() {
+            return code;
+        }
+
+        public static Watchface fromCode(final int code) {
+            for (final Watchface watchface : values()) {
+                if (watchface.getCode() == code) {
+                    return watchface;
+                }
+            }
+
+            return null;
+        }
+    }
+
     public ZeppOsWatchfaceService(final Huami2021Support support) {
         super(support);
     }
@@ -104,8 +139,15 @@ public class ZeppOsWatchfaceService extends AbstractZeppOsService {
         final List<String> watchfaces = new ArrayList<>();
 
         for (int i = 0; i < numWatchfaces; i++) {
-            final int watchface = buf.getInt();
-            watchfaces.add(String.format(Locale.ROOT, "0x%08X", watchface));
+            final int watchfaceCode = buf.getInt();
+            final Watchface watchface = Watchface.fromCode(watchfaceCode);
+            if (watchface != null) {
+                watchfaces.add(watchface.name().toLowerCase(Locale.ROOT));
+            } else {
+                final String watchfaceHex = String.format(Locale.ROOT, "0x%08X", watchfaceCode);
+                LOG.warn("Unknown watchface code {}", watchfaceHex);
+                watchfaces.add(watchfaceHex);
+            }
         }
 
         final GBDeviceEventUpdatePreferences evt = new GBDeviceEventUpdatePreferences()
@@ -113,18 +155,26 @@ public class ZeppOsWatchfaceService extends AbstractZeppOsService {
         getSupport().evaluateGBDeviceEvent(evt);
     }
 
-    public void setWatchface(final String watchface) {
-        if (watchface == null) {
+    public void setWatchface(final String watchfacePrefValue) {
+        if (watchfacePrefValue == null) {
             LOG.warn("watchface is null");
             return;
         }
 
-        final Matcher matcher = Pattern.compile("^0[xX]([0-9a-fA-F]+)$").matcher(watchface);
-        if (!matcher.find()) {
-            LOG.warn("Failed to parse watchface '{}' as hex", watchface);
-            return;
+        int watchfaceInt;
+
+        try {
+            final Watchface watchfaceEnum = Watchface.valueOf(watchfacePrefValue.toUpperCase(Locale.ROOT));
+            watchfaceInt = watchfaceEnum.getCode();
+        } catch (final IllegalArgumentException e) {
+            // attempt to parse as hex
+            final Matcher matcher = Pattern.compile("^0[xX]([0-9a-fA-F]+)$").matcher(watchfacePrefValue);
+            if (!matcher.find()) {
+                LOG.warn("Failed to parse watchface '{}' as hex", watchfacePrefValue);
+                return;
+            }
+            watchfaceInt = Integer.parseInt(matcher.group(1), 16);
         }
-        final int watchfaceInt = Integer.parseInt(matcher.group(1), 16);
 
         final ByteBuffer buf = ByteBuffer.allocate(5).order(ByteOrder.LITTLE_ENDIAN);
         buf.put(CMD_SET);

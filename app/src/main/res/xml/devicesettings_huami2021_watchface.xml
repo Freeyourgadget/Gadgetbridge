@@ -3,8 +3,8 @@
     <ListPreference
         android:defaultValue=""
         android:dialogTitle="@string/kind_watchface"
-        android:entries="@array/pref_huami2021_empty_array"
-        android:entryValues="@array/pref_huami2021_empty_array"
+        android:entries="@array/pref_zepp_os_watchfaces"
+        android:entryValues="@array/pref_zepp_os_watchfaces_values"
         android:icon="@drawable/ic_watch"
         android:key="watchface"
         android:title="@string/kind_watchface" />
