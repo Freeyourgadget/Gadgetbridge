@@ -457,13 +457,7 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
 
                 try {
                     GBDevice target = getDeviceByAddress(deviceAddress);
-                    Intent connectIntent = new Intent(
-                            DeviceCommunicationService.this,
-                            DeviceCommunicationService.class
-                    );
-                    connectIntent.setAction(ACTION_CONNECT);
-                    connectIntent.putExtra(GBDevice.EXTRA_DEVICE, target);
-                    startService(connectIntent);
+                    connectToDevice(target);
                 } catch (DeviceNotFoundException e) {
                     Log.e("DeviceCommService", "onReceive: device not found");
                     return;
@@ -549,66 +543,26 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
     }
 
     private void connectToAllDevices(){
-        String btDeviceAddress = null;
-        if (targetDevice == null) {
-            if (prefs != null) { // may be null in test cases
-                btDeviceAddress = prefs.getString("last_device_address", null);
-                if (btDeviceAddress != null) {
-                    targetDevice = DeviceHelper.getInstance().findAvailableDevice(btDeviceAddress, this);
-                }
-            }
-        } else {
-            btDeviceAddress = targetDevice.getAddress();
+        Prefs prefs = getPrefs();
+        if(prefs == null){
+            return;
         }
 
-        if(targetDevice == null){
-            return START_NOT_STICKY;
+        String btDeviceAddress = prefs.getString("last_device_address", null);
+        if(btDeviceAddress == null){
+            return;
         }
 
-        boolean autoReconnect = GBPrefs.AUTO_RECONNECT_DEFAULT;
-        if (prefs != null && prefs.getPreferences() != null) {
-            prefs.getPreferences().edit().putString("last_device_address", btDeviceAddress).apply();
-            autoReconnect = getGBPrefs().getAutoReconnect(targetDevice);
+        GBDevice lastConnectedDevice = DeviceHelper.getInstance().findAvailableDevice(btDeviceAddress, this);
+        if(lastConnectedDevice == null){
+            return;
         }
 
-        DeviceStruct registeredStruct = getDeviceStructOrNull(targetDevice);
-        if(registeredStruct != null){
-            boolean deviceAlreadyConnected = isDeviceConnecting(registeredStruct.getDevice()) || isDeviceConnected(registeredStruct.getDevice());
-            if(deviceAlreadyConnected){
-                break;
-            }
-            try {
-                removeDeviceSupport(targetDevice);
-            } catch (DeviceNotFoundException e) {
-                e.printStackTrace();
-            }
-        }else{
-            registeredStruct = new DeviceStruct();
-            registeredStruct.setDevice(targetDevice);
-            registeredStruct.setCoordinator(DeviceHelper.getInstance().getCoordinator(targetDevice));
-            deviceStructs.add(registeredStruct);
-        }
+        connectToDevice(lastConnectedDevice);
+    }
 
-        try {
-            DeviceSupport deviceSupport = mFactory.createDeviceSupport(targetDevice);
-            if (deviceSupport != null) {
-                setDeviceSupport(targetDevice, deviceSupport);
-                if (firstTime) {
-                    deviceSupport.connectFirstTime();
-                } else {
-                    deviceSupport.setAutoReconnect(autoReconnect);
-                    deviceSupport.connect();
-                }
-            } else {
-                GB.toast(this, getString(R.string.cannot_connect, "Can't create device support"), Toast.LENGTH_SHORT, GB.ERROR);
-            }
-        } catch (Exception e) {
-            GB.toast(this, getString(R.string.cannot_connect, e.getMessage()), Toast.LENGTH_SHORT, GB.ERROR, e);
-        }
-
-        for(DeviceStruct struct2 : deviceStructs){
-            struct2.getDevice().sendDeviceUpdateIntent(this);
-        }
+    private void connectToDevice(GBDevice targetDevice){
+        connectToDevice(targetDevice, false);
     }
 
     private void connectToDevice(GBDevice targetDevice, boolean firstTime){
@@ -621,6 +575,8 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
         Prefs prefs = getPrefs();
 
         if (prefs != null && prefs.getPreferences() != null) {
+            prefs.getPreferences().edit().putString("last_device_address", targetDevice.getAddress()).apply();
+
             autoReconnect = getGBPrefs().getAutoReconnect(targetDevice);
         }
 
