@@ -2185,4 +2185,12 @@
     <string name="menuitem_recommendation">Recomendación</string>
     <string name="menuitem_total_workout">Entrenamiento completo</string>
     <string name="menuitem_forecast">Previsión</string>
+    <string name="zepp_os_watchface_multiple_data">Datos Múltiples</string>
+    <string name="zepp_os_watchface_simplicity_data">Datos sencillos</string>
+    <string name="zepp_os_watchface_vibrant">Vibrante</string>
+    <string name="zepp_os_watchface_business_style">Estilo de negocios</string>
+    <string name="zepp_os_watchface_superposition">superposición</string>
+    <string name="zepp_os_watchface_red_fantasy">Fantasía roja</string>
+    <string name="zepp_os_watchface_minimalist">Minimalismo</string>
+    <string name="zepp_os_watchface_rotating_earth">Rotación de la Tierra</string>
 </resources>
