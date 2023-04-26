@@ -2181,4 +2181,15 @@
     <string name="menuitem_last_workout">אימון אחרון</string>
     <string name="menuitem_total_workout">סך כל האימונים</string>
     <string name="menuitem_recommendation">המלצה</string>
+    <string name="zepp_os_watchface_multiple_data">נתונים מגוונים</string>
+    <string name="zepp_os_watchface_rush">בהלה</string>
+    <string name="zepp_os_watchface_minimalist">סגפנות</string>
+    <string name="zepp_os_watchface_vibrant">עז</string>
+    <string name="zepp_os_watchface_rotating_earth">כדור ארץ מסתובב</string>
+    <string name="zepp_os_watchface_superposition">סופר פוזיציה</string>
+    <string name="zepp_os_watchface_red_fantasy">פנטזיה אדומה</string>
+    <string name="zepp_os_watchface_emerald_moonlight">אור ירח ברקת</string>
+    <string name="zepp_os_watchface_simplicity_data">נתונים פשוטים</string>
+    <string name="zepp_os_watchface_business_style">סגנון עסקי</string>
+    <string name="menuitem_vo2_max">צח״מ</string>
 </resources>
