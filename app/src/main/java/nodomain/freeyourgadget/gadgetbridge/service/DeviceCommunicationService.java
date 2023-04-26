@@ -499,36 +499,44 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
         setReceiversEnableState(enableReceivers, anyDeviceInitialized, features, devicesWithCalendar);
     }
 
-    @Override
-    public void onCreate() {
-        LOG.debug("DeviceCommunicationService is being created");
-        super.onCreate();
+    private void registerInternalReceivers(){
         IntentFilter localFilter = new IntentFilter();
         localFilter.addAction(GBDevice.ACTION_DEVICE_CHANGED);
         localFilter.addAction(BLEScanService.EVENT_DEVICE_FOUND);
         LocalBroadcastManager.getInstance(this).registerReceiver(mReceiver, localFilter);
-        mFactory = getDeviceSupportFactory();
+    }
 
+    private void registerExternalReceivers(){
         mBlueToothConnectReceiver = new BluetoothConnectReceiver(this);
         registerReceiver(mBlueToothConnectReceiver, new IntentFilter(BluetoothDevice.ACTION_ACL_CONNECTED));
 
         mAutoConnectInvervalReceiver =  new AutoConnectIntervalReceiver(this);
         registerReceiver(mAutoConnectInvervalReceiver, new IntentFilter("GB_RECONNECT"));
 
-        if (hasPrefs()) {
-            getPrefs().getPreferences().registerOnSharedPreferenceChangeListener(this);
-            allowBluetoothIntentApi = getPrefs().getBoolean(GBPrefs.PREF_ALLOW_INTENT_API, false);
-        }
-
         IntentFilter bluetoothCommandFilter = new IntentFilter();
         bluetoothCommandFilter.addAction(COMMAND_BLUETOOTH_CONNECT);
         registerReceiver(bluetoothCommandReceiver, bluetoothCommandFilter);
 
-        final IntentFilter deviceSettingsIntentFilter = new IntentFilter();
+        IntentFilter deviceSettingsIntentFilter = new IntentFilter();
         deviceSettingsIntentFilter.addAction(DeviceSettingsReceiver.COMMAND);
         registerReceiver(deviceSettingsReceiver, deviceSettingsIntentFilter);
 
         registerReceiver(intentApiReceiver, intentApiReceiver.buildFilter());
+    }
+
+    @Override
+    public void onCreate() {
+        LOG.debug("DeviceCommunicationService is being created");
+        super.onCreate();
+        mFactory = getDeviceSupportFactory();
+
+        registerInternalReceivers();
+        registerExternalReceivers();
+
+        if (hasPrefs()) {
+            getPrefs().getPreferences().registerOnSharedPreferenceChangeListener(this);
+            allowBluetoothIntentApi = getPrefs().getBoolean(GBPrefs.PREF_ALLOW_INTENT_API, false);
+        }
     }
 
     private DeviceSupportFactory getDeviceSupportFactory() {
@@ -540,7 +548,6 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
 
     @Override
     public synchronized int onStartCommand(Intent intent, int flags, int startId) {
-
         if (intent == null) {
             LOG.info("no intent");
             return START_NOT_STICKY;
