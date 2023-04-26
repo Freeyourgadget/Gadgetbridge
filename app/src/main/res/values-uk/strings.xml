@@ -2184,4 +2184,11 @@
     <string name="sony_button_mode_help_title">Режими кнопок - Довідка</string>
     <string name="menuitem_mi_ai">MI AI</string>
     <string name="menuitem_cards">Картки</string>
+    <string name="prefs_shortcut_cards">Картки ярликів</string>
+    <string name="prefs_shortcut_cards_summary">Картки ярликів, які видно під час гортання праворуч по циферблату. Під час роботи застосунку це налаштування не впливає на автоматично створені картки.</string>
+    <string name="menuitem_last_workout">Останнє тренування</string>
+    <string name="menuitem_forecast">Погода</string>
+    <string name="menuitem_total_workout">Загалом тренувань</string>
+    <string name="menuitem_vo2_max">VO₂ Max</string>
+    <string name="menuitem_recommendation">Рекомендації</string>
 </resources>
