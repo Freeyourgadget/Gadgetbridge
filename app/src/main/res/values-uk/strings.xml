@@ -2191,4 +2191,14 @@
     <string name="menuitem_total_workout">Загалом тренувань</string>
     <string name="menuitem_vo2_max">VO₂ Max</string>
     <string name="menuitem_recommendation">Рекомендації</string>
+    <string name="zepp_os_watchface_rush">Квапливість</string>
+    <string name="zepp_os_watchface_minimalist">Мінімаліст</string>
+    <string name="zepp_os_watchface_vibrant">Яскравість</string>
+    <string name="zepp_os_watchface_rotating_earth">Обертання Землі</string>
+    <string name="zepp_os_watchface_superposition">накладання</string>
+    <string name="zepp_os_watchface_simplicity_data">Простота даних</string>
+    <string name="zepp_os_watchface_multiple_data">Багато даних</string>
+    <string name="zepp_os_watchface_red_fantasy">Червона фантазія</string>
+    <string name="zepp_os_watchface_business_style">Діловий стиль</string>
+    <string name="zepp_os_watchface_emerald_moonlight">Смарагдове місячне сяйво</string>
 </resources>
