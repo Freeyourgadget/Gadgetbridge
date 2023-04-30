@@ -517,6 +517,8 @@ public abstract class Huami2021Support extends HuamiSupport {
         LOG.info("Attempting to set user info...");
 
         final Prefs prefs = GBApplication.getPrefs();
+        final Prefs devicePrefs = getDevicePrefs();
+
         final String alias = prefs.getString(PREF_USER_NAME, null);
         final ActivityUser activityUser = new ActivityUser();
         final int height = activityUser.getHeightCm();
@@ -524,6 +526,7 @@ public abstract class Huami2021Support extends HuamiSupport {
         final int birthYear = activityUser.getYearOfBirth();
         final byte birthMonth = 7; // not in user attributes
         final byte birthDay = 1; // not in user attributes
+        final String region = devicePrefs.getString(DeviceSettingsPreferenceConst.PREF_DEVICE_REGION, "unknown");
 
         if (alias == null || weight == 0 || height == 0 || birthYear == 0) {
             LOG.warn("Unable to set user info, make sure it is set up");
@@ -543,16 +546,18 @@ public abstract class Huami2021Support extends HuamiSupport {
         final ByteArrayOutputStream baos = new ByteArrayOutputStream();
 
         try {
-            baos.write(new byte[]{0x01, 0x4f, 0x07, 0x00, 0x00});
+            baos.write(USER_INFO_CMD_SET);
+            baos.write(new byte[]{0x4f, 0x07, 0x00, 0x00});
             baos.write(fromUint16(birthYear));
             baos.write(birthMonth);
             baos.write(birthDay);
             baos.write(genderByte);
-            baos.write((byte) height);
-            baos.write((byte) 0); // TODO ?
+            baos.write(fromUint16(height));
             baos.write(fromUint16(weight * 200));
-            baos.write(BLETypeConversions.fromUint32(userid));
-            baos.write(new byte[]{0x00, 0x00, 0x00, 0x00, 0x75, 0x6e, 0x6b, 0x6e, 0x6f, 0x77, 0x6e, 0x00, 0x09}); // TODO ?
+            baos.write(BLETypeConversions.fromUint64(userid));
+            baos.write(region.getBytes(StandardCharsets.UTF_8));
+            baos.write(0);
+            baos.write(0x09); // TODO ?
             baos.write(alias.getBytes(StandardCharsets.UTF_8));
             baos.write((byte) 0);
 
@@ -2501,7 +2506,12 @@ public abstract class Huami2021Support extends HuamiSupport {
     }
 
     protected void handle2021UserInfo(final byte[] payload) {
-        // TODO handle2021UserInfo
+        switch (payload[0]) {
+            case USER_INFO_CMD_SET_ACK:
+                LOG.info("Got user info set ack, status = {}", payload[1]);
+                return;
+        }
+
         LOG.warn("Unexpected user info payload byte {}", String.format("0x%02x", payload[0]));
     }
 

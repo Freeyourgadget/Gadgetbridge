@@ -256,4 +256,11 @@ public class Huami2021Service {
      */
     public static final byte WEATHER_CMD_SET_DEFAULT_LOCATION = 0x09;
     public static final byte WEATHER_CMD_DEFAULT_LOCATION_ACK = 0x0a;
+
+    /**
+     * User Info, for {@link Huami2021Service#CHUNKED2021_ENDPOINT_USER_INFO}.
+     */
+    public static final byte USER_INFO_CMD_SET = 0x01;
+    public static final byte USER_INFO_CMD_SET_ACK = 0x02;
+
 }
