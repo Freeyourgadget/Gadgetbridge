@@ -2192,4 +2192,5 @@
     <string name="zepp_os_watchface_simplicity_data">נתונים פשוטים</string>
     <string name="zepp_os_watchface_business_style">סגנון עסקי</string>
     <string name="menuitem_vo2_max">צח״מ</string>
+    <string name="menuitem_aqi">מדד איכות אוויר</string>
 </resources>
