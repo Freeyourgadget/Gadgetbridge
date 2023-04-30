@@ -18,6 +18,7 @@ package nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos;
 
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.Huami2021Support;
+import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 
 public abstract class AbstractZeppOsService {
     private final Huami2021Support mSupport;
@@ -31,6 +32,20 @@ public abstract class AbstractZeppOsService {
     public abstract boolean isEncrypted();
 
     public abstract void handlePayload(final byte[] payload);
+
+    /**
+     * Handle a preference change.
+     * @param config the preference key
+     * @param prefs the device preferences
+     * @return true if the preference was handled, false otherwise
+     */
+    public boolean onSendConfiguration(final String config, final Prefs prefs) {
+        return false;
+    }
+
+    public void initialize(final TransactionBuilder builder) {
+        // Do nothing by default
+    }
 
     protected Huami2021Support getSupport() {
         return mSupport;

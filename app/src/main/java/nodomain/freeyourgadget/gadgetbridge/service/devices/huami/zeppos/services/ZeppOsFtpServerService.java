@@ -26,9 +26,11 @@ import java.nio.charset.StandardCharsets;
 
 import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventUpdatePreferences;
+import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.Huami2021Support;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.AbstractZeppOsService;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
+import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 import nodomain.freeyourgadget.gadgetbridge.util.StringUtils;
 
 public class ZeppOsFtpServerService extends AbstractZeppOsService {
@@ -113,6 +115,30 @@ public class ZeppOsFtpServerService extends AbstractZeppOsService {
             default:
                 LOG.warn("Unexpected FTP byte {}", String.format("0x%02x", payload[0]));
         }
+    }
+
+    @Override
+    public boolean onSendConfiguration(final String config, final Prefs prefs) {
+        switch (config) {
+            case DeviceSettingsPreferenceConst.FTP_SERVER_START:
+                startFtpServer(prefs.getString(DeviceSettingsPreferenceConst.FTP_SERVER_ROOT_DIR, ""));
+                return true;
+            case DeviceSettingsPreferenceConst.FTP_SERVER_STOP:
+                stopFtpServer();
+                return true;
+            case DeviceSettingsPreferenceConst.FTP_SERVER_ROOT_DIR:
+            case DeviceSettingsPreferenceConst.FTP_SERVER_ADDRESS:
+            case DeviceSettingsPreferenceConst.FTP_SERVER_USERNAME:
+            case DeviceSettingsPreferenceConst.FTP_SERVER_STATUS:
+                // Ignore preferences that are not reloadable
+                return true;
+        }
+
+        return false;
+    }
+
+    @Override
+    public void initialize(final TransactionBuilder builder) {
     }
 
     public void setCallback(final Callback callback) {

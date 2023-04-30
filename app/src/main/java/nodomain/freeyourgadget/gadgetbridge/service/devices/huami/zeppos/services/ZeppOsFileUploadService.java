@@ -31,6 +31,7 @@ import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.Huami2021Support;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.AbstractZeppOsService;
 import nodomain.freeyourgadget.gadgetbridge.util.CheckSums;
+import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 
 public class ZeppOsFileUploadService extends AbstractZeppOsService {
     private static final Logger LOG = LoggerFactory.getLogger(ZeppOsFileUploadService.class);
@@ -115,6 +116,11 @@ public class ZeppOsFileUploadService extends AbstractZeppOsService {
             default:
                 LOG.warn("Unexpected file upload byte {}", String.format("0x%02x", payload[0]));
         }
+    }
+
+    @Override
+    public void initialize(final TransactionBuilder builder) {
+        requestCapability(builder);
     }
 
     public void requestCapability(final TransactionBuilder builder) {

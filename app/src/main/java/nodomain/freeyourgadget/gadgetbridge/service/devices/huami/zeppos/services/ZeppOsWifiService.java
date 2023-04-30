@@ -28,9 +28,12 @@ import java.util.Locale;
 
 import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventUpdatePreferences;
+import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.Huami2021Support;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.AbstractZeppOsService;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
+import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
+import nodomain.freeyourgadget.gadgetbridge.util.StringUtils;
 
 public class ZeppOsWifiService extends AbstractZeppOsService {
     private static final Logger LOG = LoggerFactory.getLogger(ZeppOsWifiService.class);
@@ -96,6 +99,41 @@ public class ZeppOsWifiService extends AbstractZeppOsService {
             default:
                 LOG.warn("Unexpected Wi-Fi byte {}", String.format("0x%02x", payload[0]));
         }
+    }
+
+    @Override
+    public boolean onSendConfiguration(final String config, final Prefs prefs) {
+        switch (config) {
+            case DeviceSettingsPreferenceConst.WIFI_HOTSPOT_START:
+                final String ssid = prefs.getString(DeviceSettingsPreferenceConst.WIFI_HOTSPOT_SSID, "");
+                if (StringUtils.isNullOrEmpty(ssid)) {
+                    LOG.error("Wi-Fi hotspot SSID not specified");
+                    return true;
+                }
+
+                final String password = prefs.getString(DeviceSettingsPreferenceConst.WIFI_HOTSPOT_PASSWORD, "");
+                if (StringUtils.isNullOrEmpty(password) || password.length() < 8) {
+                    LOG.error("Wi-Fi hotspot password is not valid");
+                    return true;
+                }
+                startWifiHotspot(ssid, password);
+                return true;
+            case DeviceSettingsPreferenceConst.WIFI_HOTSPOT_STOP:
+                stopWifiHotspot();
+                return true;
+            case DeviceSettingsPreferenceConst.WIFI_HOTSPOT_SSID:
+            case DeviceSettingsPreferenceConst.WIFI_HOTSPOT_PASSWORD:
+            case DeviceSettingsPreferenceConst.WIFI_HOTSPOT_STATUS:
+                // Ignore preferences that are not reloadable
+                return true;
+        }
+
+        return false;
+    }
+
+    @Override
+    public void initialize(final TransactionBuilder builder) {
+
     }
 
     public void setCallback(final Callback callback) {

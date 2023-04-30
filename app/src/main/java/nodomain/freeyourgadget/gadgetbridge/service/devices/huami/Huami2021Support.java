@@ -69,6 +69,7 @@ import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
@@ -163,7 +164,7 @@ public abstract class Huami2021Support extends HuamiSupport {
     private final ZeppOsShortcutCardsService shortcutCardsService = new ZeppOsShortcutCardsService(this);
     private final ZeppOsWatchfaceService watchfaceService = new ZeppOsWatchfaceService(this);
 
-    private final Map<Short, AbstractZeppOsService> mServiceMap = new HashMap<Short, AbstractZeppOsService>() {{
+    private final Map<Short, AbstractZeppOsService> mServiceMap = new LinkedHashMap<Short, AbstractZeppOsService>() {{
         put(fileUploadService.getEndpoint(), fileUploadService);
         put(configService.getEndpoint(), configService);
         put(agpsService.getEndpoint(), agpsService);
@@ -208,91 +209,11 @@ public abstract class Huami2021Support extends HuamiSupport {
         final ZeppOsConfigService.ConfigSetter configSetter = configService.newSetter();
         final Prefs prefs = getDevicePrefs();
 
-        // Handle button presses - these are not preferences
-        // See Huami2021SettingsCustomizer
-        switch (config) {
-            case DeviceSettingsPreferenceConst.PREF_BLUETOOTH_CALLS_PAIR:
-                if (!phoneService.isSupported()) {
-                    GB.toast(getContext(), "Phone service is not supported.", Toast.LENGTH_LONG, GB.ERROR);
-                    return;
-                }
-
-                phoneService.startPairing();
+        // Check if any of the services handles this config
+        for (AbstractZeppOsService service : mServiceMap.values()) {
+            if (service.onSendConfiguration(config, prefs)) {
                 return;
-            case DeviceSettingsPreferenceConst.WIFI_HOTSPOT_START:
-                final String ssid = getDevicePrefs().getString(DeviceSettingsPreferenceConst.WIFI_HOTSPOT_SSID, "");
-                if (StringUtils.isNullOrEmpty(ssid)) {
-                    LOG.error("Wi-Fi hotspot SSID not specified");
-                    return;
-                }
-
-                final String password = getDevicePrefs().getString(DeviceSettingsPreferenceConst.WIFI_HOTSPOT_PASSWORD, "");
-                if (StringUtils.isNullOrEmpty(password) || password.length() < 8) {
-                    LOG.error("Wi-Fi hotspot password is not valid");
-                    return;
-                }
-                wifiService.startWifiHotspot(ssid, password);
-                return;
-            case DeviceSettingsPreferenceConst.WIFI_HOTSPOT_STOP:
-                wifiService.stopWifiHotspot();
-                return;
-            case DeviceSettingsPreferenceConst.FTP_SERVER_START:
-                ftpServerService.startFtpServer(getDevicePrefs().getString(DeviceSettingsPreferenceConst.FTP_SERVER_ROOT_DIR, ""));
-                return;
-            case DeviceSettingsPreferenceConst.FTP_SERVER_STOP:
-                ftpServerService.stopFtpServer();
-                return;
-            case DeviceSettingsPreferenceConst.WIFI_HOTSPOT_SSID:
-            case DeviceSettingsPreferenceConst.WIFI_HOTSPOT_PASSWORD:
-            case DeviceSettingsPreferenceConst.WIFI_HOTSPOT_STATUS:
-            case DeviceSettingsPreferenceConst.FTP_SERVER_ROOT_DIR:
-            case DeviceSettingsPreferenceConst.FTP_SERVER_ADDRESS:
-            case DeviceSettingsPreferenceConst.FTP_SERVER_USERNAME:
-            case DeviceSettingsPreferenceConst.FTP_SERVER_STATUS:
-                // Ignore preferences that are not reloadable
-                return;
-        }
-
-        // morning updates preferences, they do not use the configService
-        switch (config) {
-            case DeviceSettingsPreferenceConst.MORNING_UPDATES_ENABLED:
-                final boolean morningUpdatesEnabled = prefs.getBoolean(config, false);
-                LOG.info("Setting morning updates enabled = {}", morningUpdatesEnabled);
-                morningUpdatesService.setEnabled(morningUpdatesEnabled);
-                return;
-            case DeviceSettingsPreferenceConst.MORNING_UPDATES_CATEGORIES_SORTABLE:
-                final List<String> categories = new ArrayList<>(prefs.getList(config, Collections.emptyList()));
-                final List<String> allCategories = new ArrayList<>(prefs.getList(Huami2021Coordinator.getPrefPossibleValuesKey(config), Collections.emptyList()));
-                LOG.info("Setting morning updates categories = {}", categories);
-                morningUpdatesService.setCategories(categories, allCategories);
-                return;
-        }
-
-        // phoneService preferences, they do not use the configService
-        switch (config) {
-            case DeviceSettingsPreferenceConst.PREF_BLUETOOTH_CALLS_ENABLED:
-                final boolean bluetoothCallsEnabled = prefs.getBoolean(DeviceSettingsPreferenceConst.PREF_BLUETOOTH_CALLS_ENABLED, false);
-                LOG.info("Setting bluetooth calls enabled = {}", bluetoothCallsEnabled);
-                phoneService.setEnabled(bluetoothCallsEnabled);
-                return;
-        }
-
-        // shortcutCardsService preferences, they do not use the configService
-        switch (config) {
-            case DeviceSettingsPreferenceConst.SHORTCUT_CARDS_SORTABLE:
-                final List<String> shortcutCards = prefs.getList(SHORTCUT_CARDS_SORTABLE, Collections.emptyList());
-                LOG.info("Setting shortcut cards to {}", shortcutCards);
-                shortcutCardsService.setShortcutCards(shortcutCards);
-                return;
-        }
-
-        // watchfaceService preferences, they do not use the configService
-        switch (config) {
-            case DeviceSettingsPreferenceConst.PREF_WATCHFACE:
-                final String watchface = prefs.getString(DeviceSettingsPreferenceConst.PREF_WATCHFACE, null);
-                LOG.info("Setting watchface to {}", watchface);
-                watchfaceService.setWatchface(watchface);
-                return;
+            }
         }
 
         // Other preferences
@@ -1537,7 +1458,6 @@ public abstract class Huami2021Support extends HuamiSupport {
 
         configService.requestAllConfigs(builder);
         requestCapabilityReminders(builder);
-        fileUploadService.requestCapability(builder);
 
         for (final HuamiVibrationPatternNotificationType type : coordinator.getVibrationPatternNotificationTypes(gbDevice)) {
             // FIXME: Can we read these from the band?
@@ -1553,17 +1473,16 @@ public abstract class Huami2021Support extends HuamiSupport {
         }
         requestAlarms(builder);
         //requestReminders(builder);
+
+        for (AbstractZeppOsService service : mServiceMap.values()) {
+            service.initialize(builder);
+        }
+
         if (coordinator.supportsBluetoothPhoneCalls(gbDevice)) {
             phoneService.requestCapabilities(builder);
             phoneService.requestEnabled(builder);
         }
         //contactsService.requestCapabilities(builder);
-        morningUpdatesService.getEnabled(builder);
-        morningUpdatesService.getCategories(builder);
-        shortcutCardsService.requestCapabilities(builder);
-        shortcutCardsService.requestShortcutCards(builder);
-        watchfaceService.requestWatchfaces(builder);
-        watchfaceService.requestCurrentWatchface(builder);
     }
 
     @Override

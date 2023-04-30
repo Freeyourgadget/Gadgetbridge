@@ -27,11 +27,13 @@ import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventUpdatePreferences;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.Huami2021Coordinator;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
@@ -148,6 +150,25 @@ public class ZeppOsShortcutCardsService extends AbstractZeppOsService {
             default:
                 LOG.warn("Unexpected shortcut cards byte {}", String.format("0x%02x", payload[0]));
         }
+    }
+
+    @Override
+    public boolean onSendConfiguration(final String config, final Prefs prefs) {
+        switch (config) {
+            case DeviceSettingsPreferenceConst.SHORTCUT_CARDS_SORTABLE:
+                final List<String> shortcutCards = prefs.getList(SHORTCUT_CARDS_SORTABLE, Collections.emptyList());
+                LOG.info("Setting shortcut cards to {}", shortcutCards);
+                setShortcutCards(shortcutCards);
+                return true;
+        }
+
+        return false;
+    }
+
+    @Override
+    public void initialize(final TransactionBuilder builder) {
+        requestCapabilities(builder);
+        requestShortcutCards(builder);
     }
 
     public void requestCapabilities(final TransactionBuilder builder) {

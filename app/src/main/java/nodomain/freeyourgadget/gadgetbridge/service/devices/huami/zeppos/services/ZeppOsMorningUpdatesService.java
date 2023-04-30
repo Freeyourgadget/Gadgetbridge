@@ -22,6 +22,7 @@ import org.slf4j.LoggerFactory;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -35,6 +36,7 @@ import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.Huami2021Support;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.AbstractZeppOsService;
 import nodomain.freeyourgadget.gadgetbridge.util.MapUtils;
+import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 import nodomain.freeyourgadget.gadgetbridge.util.StringUtils;
 
 public class ZeppOsMorningUpdatesService extends AbstractZeppOsService {
@@ -107,6 +109,31 @@ public class ZeppOsMorningUpdatesService extends AbstractZeppOsService {
             default:
                 LOG.warn("Unexpected morning updates byte {}", String.format("0x%02x", payload[0]));
         }
+    }
+
+    @Override
+    public boolean onSendConfiguration(final String config, final Prefs prefs) {
+        switch (config) {
+            case DeviceSettingsPreferenceConst.MORNING_UPDATES_ENABLED:
+                final boolean morningUpdatesEnabled = prefs.getBoolean(config, false);
+                LOG.info("Setting morning updates enabled = {}", morningUpdatesEnabled);
+                setEnabled(morningUpdatesEnabled);
+                return true;
+            case DeviceSettingsPreferenceConst.MORNING_UPDATES_CATEGORIES_SORTABLE:
+                final List<String> categories = new ArrayList<>(prefs.getList(config, Collections.emptyList()));
+                final List<String> allCategories = new ArrayList<>(prefs.getList(Huami2021Coordinator.getPrefPossibleValuesKey(config), Collections.emptyList()));
+                LOG.info("Setting morning updates categories = {}", categories);
+                setCategories(categories, allCategories);
+                return true;
+        }
+
+        return false;
+    }
+
+    @Override
+    public void initialize(final TransactionBuilder builder) {
+        getEnabled(builder);
+        getCategories(builder);
     }
 
     public void getEnabled(final TransactionBuilder builder) {

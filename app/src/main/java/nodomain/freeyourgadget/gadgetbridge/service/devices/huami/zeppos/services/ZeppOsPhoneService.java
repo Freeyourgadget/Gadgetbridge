@@ -17,6 +17,7 @@
 package nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.services;
 
 import android.bluetooth.BluetoothAdapter;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 
@@ -32,6 +33,7 @@ import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventUpdatePref
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.Huami2021Support;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.AbstractZeppOsService;
+import nodomain.freeyourgadget.gadgetbridge.util.GB;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 
 public class ZeppOsPhoneService extends AbstractZeppOsService {
@@ -111,6 +113,31 @@ public class ZeppOsPhoneService extends AbstractZeppOsService {
             default:
                 LOG.warn("Unexpected phone byte {}", String.format("0x%02x", payload[0]));
         }
+    }
+
+    @Override
+    public boolean onSendConfiguration(final String config, final Prefs prefs) {
+        switch (config) {
+            case DeviceSettingsPreferenceConst.PREF_BLUETOOTH_CALLS_PAIR:
+                if (!isSupported()) {
+                    LOG.warn("Phone service is not supported.");
+                    return false;
+                }
+
+                startPairing();
+                return true;
+            case DeviceSettingsPreferenceConst.PREF_BLUETOOTH_CALLS_ENABLED:
+                final boolean bluetoothCallsEnabled = prefs.getBoolean(DeviceSettingsPreferenceConst.PREF_BLUETOOTH_CALLS_ENABLED, false);
+                LOG.info("Setting bluetooth calls enabled = {}", bluetoothCallsEnabled);
+                setEnabled(bluetoothCallsEnabled);
+                return true;
+        }
+
+        return false;
+    }
+
+    @Override
+    public void initialize(final TransactionBuilder builder) {
     }
 
     public boolean isSupported() {

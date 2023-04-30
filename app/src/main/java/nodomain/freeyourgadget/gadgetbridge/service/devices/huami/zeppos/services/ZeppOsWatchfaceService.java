@@ -29,12 +29,14 @@ import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventUpdatePreferences;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.Huami2021Coordinator;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.BLETypeConversions;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.Huami2021Support;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.AbstractZeppOsService;
+import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 
 public class ZeppOsWatchfaceService extends AbstractZeppOsService {
     private static final Logger LOG = LoggerFactory.getLogger(ZeppOsWatchfaceService.class);
@@ -120,6 +122,25 @@ public class ZeppOsWatchfaceService extends AbstractZeppOsService {
             default:
                 LOG.warn("Unexpected watchface byte {}", String.format("0x%02x", payload[0]));
         }
+    }
+
+    @Override
+    public boolean onSendConfiguration(final String config, final Prefs prefs) {
+        switch (config) {
+            case DeviceSettingsPreferenceConst.PREF_WATCHFACE:
+                final String watchface = prefs.getString(DeviceSettingsPreferenceConst.PREF_WATCHFACE, null);
+                LOG.info("Setting watchface to {}", watchface);
+                setWatchface(watchface);
+                return true;
+        }
+
+        return false;
+    }
+
+    @Override
+    public void initialize(final TransactionBuilder builder) {
+        requestWatchfaces(builder);
+        requestCurrentWatchface(builder);
     }
 
     public void requestWatchfaces(final TransactionBuilder builder) {
