@@ -58,6 +58,7 @@ public class ZeppOsShortcutCardsService extends AbstractZeppOsService {
 
     public enum ShortcutCard {
         WEATHER("2", "1"),
+        AQI("2", "2"),
         FORECAST("2", "3"),
         PAI("3", "1"),
         ALARM("4", "1"),

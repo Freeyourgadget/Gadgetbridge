@@ -1297,6 +1297,7 @@
     <string name="menuitem_notifications">Notifications</string>
     <string name="menuitem_activity">Workout History</string>
     <string name="menuitem_weather">Weather</string>
+    <string name="menuitem_aqi">Air Quality Index</string>
     <string name="menuitem_forecast">Forecast</string>
     <string name="menuitem_last_workout">Last workout</string>
     <string name="menuitem_total_workout">Total workout</string>

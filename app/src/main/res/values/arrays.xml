@@ -876,6 +876,7 @@
 
     <string-array name="pref_zepp_os_shortcut_cards">
         <item>@string/menuitem_weather</item>
+        <item>@string/menuitem_aqi</item>
         <item>@string/menuitem_forecast</item>
         <item>@string/menuitem_pai</item>
         <item>@string/menuitem_alarm</item>
@@ -903,6 +904,7 @@
 
     <string-array name="pref_zepp_os_shortcut_cards_values">
         <item>weather</item>
+        <item>aqi</item>
         <item>forecast</item>
         <item>pai</item>
         <item>alarm</item>
