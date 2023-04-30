@@ -2171,4 +2171,19 @@
     <string name="menuitem_last_workout">Ultimo allenamento</string>
     <string name="menuitem_total_workout">Totale allenamenti</string>
     <string name="menuitem_vo2_max">Max VO₂</string>
+    <string name="zepp_os_watchface_minimalist">Minimalista</string>
+    <string name="zepp_os_watchface_simplicity_data">Dati in Semplicità</string>
+    <string name="zepp_os_watchface_rush">Fretta</string>
+    <string name="zepp_os_watchface_superposition">sovrapposizione</string>
+    <string name="zepp_os_watchface_rotating_earth">Terra in Rotazione</string>
+    <string name="zepp_os_watchface_vibrant">Vivace</string>
+    <string name="continue_pressing">Tieni premuto</string>
+    <string name="zepp_os_watchface_emerald_moonlight">Chiaro di luna Smeraldo</string>
+    <string name="zepp_os_watchface_multiple_data">Dati Multipli</string>
+    <string name="zepp_os_watchface_business_style">Stile Business</string>
+    <string name="zepp_os_watchface_red_fantasy">Fantasia in Rosso</string>
+    <string name="wifi_ssid">SSID</string>
+    <string name="menuitem_cards">Schede</string>
+    <string name="menuitem_mi_ai">AI MI</string>
+    <string name="menuitem_recommendation">Consigli</string>
 </resources>
