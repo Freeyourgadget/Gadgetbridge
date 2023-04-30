@@ -81,6 +81,15 @@ public class BLEScanService extends Service {
                 // stopScanningForDevice(device.getAddress());
             }
         }
+
+        @Override
+        public void onScanFailed(int errorCode) {
+            super.onScanFailed(errorCode);
+
+            Log.e(TAG, "onScanFailed: " + errorCode);
+
+            updateNotification("Scan failed: " + errorCode);
+        }
     };
 
     @Override
@@ -114,6 +123,13 @@ public class BLEScanService extends Service {
         );
     }
 
+    private void updateNotification(String content){
+        notificationManager.notify(
+                GB.NOTIFICATION_ID_SCAN,
+                createNotification(content, R.drawable.ic_bluetooth)
+        );
+    }
+
     private Notification createNotification(boolean isScanning, int scannedDevicesCount){
         int icon = R.drawable.ic_bluetooth;
         String content = "Not scanning";
@@ -127,12 +143,18 @@ public class BLEScanService extends Service {
                 content = "Scanning all devices";
             }
         }
+
+        return createNotification(content, icon);
+    }
+
+    private Notification createNotification(String content, int icon){
+
         return new NotificationCompat
-            .Builder(this, GB.NOTIFICATION_CHANNEL_ID)
-            .setContentTitle("Scan service")
-            .setContentText(content)
-            .setSmallIcon(icon)
-            .build();
+                .Builder(this, GB.NOTIFICATION_CHANNEL_ID)
+                .setContentTitle("Scan service")
+                .setContentText(content)
+                .setSmallIcon(icon)
+                .build();
     }
 
     private void startForeground(){
