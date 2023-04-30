@@ -2165,4 +2165,10 @@
     <string name="pref_pair_bluetooth_calls_help_2">2. Vai nelle impostazioni bluetooth del telefono e associa il nuovo dispositivo visualizzato (nome simile a quello dell\'orologio corrente, ma con un suffisso, ad es. \"Amazfit GTR 4 - AFC8\".</string>
     <string name="pref_pair_bluetooth_calls_help_3">3. Attiva l\'impostazione delle chiamate Bluetooth in basso.</string>
     <string name="pref_pair_bluetooth_calls_help_warning">ATTENZIONE: se attivi le chiamate bluetooth senza effettuare l\'accoppiamento con la seconda istanza, le notifiche di chiamata potrebbero non funzionare correttamente.</string>
+    <string name="prefs_shortcut_cards_summary">Schede di scelta rapida visualizzate quando si scorre a destra dal quadrante. Quando un\'app è in esecuzione, le schede generate automaticamente non sono influenzate da questa impostazione.</string>
+    <string name="prefs_shortcut_cards">Schede di Scelta Rapida</string>
+    <string name="menuitem_forecast">Previsione</string>
+    <string name="menuitem_last_workout">Ultimo allenamento</string>
+    <string name="menuitem_total_workout">Totale allenamenti</string>
+    <string name="menuitem_vo2_max">Max VO₂</string>
 </resources>
