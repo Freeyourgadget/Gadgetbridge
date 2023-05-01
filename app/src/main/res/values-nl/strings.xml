@@ -2193,4 +2193,5 @@
     <string name="menuitem_total_workout">Totale training</string>
     <string name="menuitem_vo2_max">VO₂ Max</string>
     <string name="menuitem_recommendation">Aanbeveling</string>
+    <string name="menuitem_aqi">Luchtkwaliteitsindex</string>
 </resources>
