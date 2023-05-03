@@ -60,6 +60,7 @@ public class HuamiConst {
     public static final String AMAZFIT_GTS4_NAME = "Amazfit GTS 4";
     public static final String AMAZFIT_GTS4_MINI_NAME = "Amazfit GTS 4 Mini";
     public static final String AMAZFIT_GTR3_NAME = "Amazfit GTR 3";
+    public static final String AMAZFIT_GTR3_PRO_NAME = "Amazfit GTR 3 Pro";
     public static final String AMAZFIT_GTR4_NAME = "Amazfit GTR 4";
     public static final String AMAZFIT_TREX_2_NAME = "Amazfit T-Rex 2";
 

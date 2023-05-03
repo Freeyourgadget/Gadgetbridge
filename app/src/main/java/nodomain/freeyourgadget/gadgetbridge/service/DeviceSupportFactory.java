@@ -59,6 +59,7 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.amazfitgtr.Ama
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.amazfitgtr2.AmazfitGTR2Support;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.amazfitgtr2.AmazfitGTR2eSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.amazfitgtr3.AmazfitGTR3Support;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.amazfitgtr3pro.AmazfitGTR3ProSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.amazfitgtr4.AmazfitGTR4Support;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.amazfitgts.AmazfitGTSSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.amazfitgts2.AmazfitGTS2MiniSupport;
@@ -207,6 +208,8 @@ public class DeviceSupportFactory {
                 return new ServiceDeviceSupport(new AmazfitGTS4MiniSupport());
             case AMAZFITTREX2:
                 return new ServiceDeviceSupport(new AmazfitTRex2Support());
+            case AMAZFITGTR3PRO:
+                return new ServiceDeviceSupport(new AmazfitGTR3ProSupport());
             case AMAZFITBIP:
                 return new ServiceDeviceSupport(new AmazfitBipSupport());
             case AMAZFITBIP_LITE:
