@@ -2194,4 +2194,10 @@
     <string name="zepp_os_watchface_business_style">商务风格</string>
     <string name="zepp_os_watchface_emerald_moonlight">翡翠月光</string>
     <string name="menuitem_aqi">空气质量指数</string>
+    <string name="fw_upgrade_notice_amazfit_gtr3_pro">您即将在跃我 GTR 3 Pro (Amazfit GTR 3 Pro)上安装 %s 版本的固件
+\n
+\n您的手环将会在安装了 .fw 文件后重启
+\n
+\n风险自担！</string>
+    <string name="devicetype_amazfit_gtr3_pro">跃我 GTR 3 Pro</string>
 </resources>
