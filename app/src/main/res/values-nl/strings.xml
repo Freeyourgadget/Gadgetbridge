@@ -2194,4 +2194,10 @@
     <string name="menuitem_vo2_max">VO₂ Max</string>
     <string name="menuitem_recommendation">Aanbeveling</string>
     <string name="menuitem_aqi">Luchtkwaliteitsindex</string>
+    <string name="devicetype_amazfit_gtr3_pro">Amazfit GTR 3 Pro</string>
+    <string name="fw_upgrade_notice_amazfit_gtr3_pro">U staat op het punt de %s-firmware op uw Amazfit GTR 3 Pro te installeren.
+\n
+\nDe band zal opnieuw opstarten na het installeren van het .zip-bestand.
+\n
+\nVERDERGAAN IS OP EIGEN RISICO!</string>
 </resources>
