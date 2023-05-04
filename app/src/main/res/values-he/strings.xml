@@ -2193,4 +2193,10 @@
     <string name="zepp_os_watchface_business_style">סגנון עסקי</string>
     <string name="menuitem_vo2_max">צח״מ</string>
     <string name="menuitem_aqi">מדד איכות אוויר</string>
+    <string name="fw_upgrade_notice_amazfit_gtr3_pro">פעולה זו תתקין את הקושחה %s על ה־Amazfit GTR 3 Pro שלך.
+\n
+\nהצמיד שלך יופעל מחדש לאחר התקנת קובץ ה־‎.zip.
+\n
+\nהמשך התהליך הוא על אחריותך בלבד!</string>
+    <string name="devicetype_amazfit_gtr3_pro">Amazfit GTR 3 Pro‎</string>
 </resources>
