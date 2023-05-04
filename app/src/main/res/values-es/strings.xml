@@ -2196,4 +2196,10 @@
     <string name="zepp_os_watchface_rush">Rápido</string>
     <string name="zepp_os_watchface_emerald_moonlight">Luz de luna esmeralda</string>
     <string name="menuitem_aqi">Índice de la calidad del aire</string>
+    <string name="devicetype_amazfit_gtr3_pro">Amazfit GTR 3 Pro</string>
+    <string name="fw_upgrade_notice_amazfit_gtr3_pro">Estás a punto de instalar el firmware %s en su Amazfit GTR 3 Pro.
+\n
+\nSu reloj se reiniciará después de instalar el archivo .zip.
+\n
+\n¡PROCEDA BAJO SU PROPIO RIESGO!</string>
 </resources>
