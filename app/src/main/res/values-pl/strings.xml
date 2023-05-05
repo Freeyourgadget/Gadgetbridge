@@ -2129,4 +2129,9 @@
     <string name="pref_cover_to_mute">Przykryj, aby wyciszyć</string>
     <string name="pref_workout_detection_summary">Automatyczny kierunek ćwiczeń</string>
     <string name="pref_screen_notification_profile_todo_list">Lista Do zrobienia</string>
+    <string name="fw_upgrade_notice_amazfit_gtr3_pro">Właśnie zamierzasz zainstalować oprogramowanie układowe %s na Amazfit GTR 3 Pro.
+\n
+\nUrządzenie uruchomi się ponownie po instalacji pliku .zip.
+\n
+\nKONTYNUUJ NA WŁASNE RYZYKO!</string>
 </resources>
