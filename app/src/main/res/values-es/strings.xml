@@ -2202,4 +2202,5 @@
 \nSu reloj se reiniciará después de instalar el archivo .zip.
 \n
 \n¡PROCEDA BAJO SU PROPIO RIESGO!</string>
+    <string name="devicetype_sony_wh_1000xm5">Sony WH-1000XM5</string>
 </resources>
