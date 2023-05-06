@@ -2200,4 +2200,5 @@
 \nDe band zal opnieuw opstarten na het installeren van het .zip-bestand.
 \n
 \nVERDERGAAN IS OP EIGEN RISICO!</string>
+    <string name="devicetype_sony_wh_1000xm5">Sony WH-1000XM5</string>
 </resources>
