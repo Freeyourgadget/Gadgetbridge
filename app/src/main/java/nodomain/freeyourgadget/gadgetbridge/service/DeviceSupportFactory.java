@@ -353,6 +353,8 @@ public class DeviceSupportFactory {
                 return new ServiceDeviceSupport(new SonyHeadphonesSupport());
             case SONY_LINKBUDS_S:
                 return new ServiceDeviceSupport(new SonyHeadphonesSupport());
+            case SONY_WH_1000XM5:
+                return new ServiceDeviceSupport(new SonyHeadphonesSupport());
             case VESC_NRF:
             case VESC_HM10:
                 return new ServiceDeviceSupport(new VescDeviceSupport(device.getType()));

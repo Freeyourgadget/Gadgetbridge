@@ -117,8 +117,11 @@ public class SonyHeadphonesProtocol extends GBDeviceProtocol {
                             break;
                         case 0x03:
                             // LinkBuds S 2.0.2: 01:00:03:00:00:07:00:00
-                        default:
+                            // WH-1000XM5 1.1.3: 01:00:03:00:00:00:00:00
                             protocolImpl = new SonyProtocolImplV3(getDevice());
+                            break;
+                        default:
+                            LOG.error("Unexpected version for payload of length 8: {}", message.getPayload()[2]);
                             return null;
                     }
                 } else {

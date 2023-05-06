@@ -20,10 +20,13 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static nodomain.freeyourgadget.gadgetbridge.service.devices.sony.headphones.protocol.impl.SonyTestUtils.assertPrefs;
 import static nodomain.freeyourgadget.gadgetbridge.service.devices.sony.headphones.protocol.impl.SonyTestUtils.assertRequest;
+import static nodomain.freeyourgadget.gadgetbridge.service.devices.sony.headphones.protocol.impl.SonyTestUtils.assertRequests;
 import static nodomain.freeyourgadget.gadgetbridge.service.devices.sony.headphones.protocol.impl.SonyTestUtils.handleMessage;
 
+import org.junit.Before;
 import org.junit.Test;
 
+import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -32,18 +35,68 @@ import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSett
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEvent;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventUpdatePreferences;
 import nodomain.freeyourgadget.gadgetbridge.devices.sony.headphones.SonyHeadphonesCoordinator;
-import nodomain.freeyourgadget.gadgetbridge.devices.sony.headphones.coordinators.SonyLinkBudsSCoordinator;
+import nodomain.freeyourgadget.gadgetbridge.devices.sony.headphones.prefs.AmbientSoundControl;
 import nodomain.freeyourgadget.gadgetbridge.devices.sony.headphones.prefs.AmbientSoundControlButtonMode;
+import nodomain.freeyourgadget.gadgetbridge.devices.sony.headphones.prefs.AutomaticPowerOff;
+import nodomain.freeyourgadget.gadgetbridge.devices.sony.headphones.prefs.EqualizerCustomBands;
+import nodomain.freeyourgadget.gadgetbridge.devices.sony.headphones.prefs.PauseWhenTakenOff;
 import nodomain.freeyourgadget.gadgetbridge.devices.sony.headphones.prefs.QuickAccess;
+import nodomain.freeyourgadget.gadgetbridge.devices.sony.headphones.prefs.SpeakToChatConfig;
+import nodomain.freeyourgadget.gadgetbridge.devices.sony.headphones.prefs.SpeakToChatEnabled;
+import nodomain.freeyourgadget.gadgetbridge.devices.sony.headphones.prefs.VoiceNotifications;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.sony.headphones.protocol.Request;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.sony.headphones.protocol.impl.MockSonyCoordinator;
 
 public class SonyProtocolImplV3Test {
+    private final MockSonyCoordinator coordinator = new MockSonyCoordinator();
     private final SonyProtocolImplV3 protocol = new SonyProtocolImplV3(null) {
         @Override
         protected SonyHeadphonesCoordinator getCoordinator() {
-            return new SonyLinkBudsSCoordinator();
+            return coordinator;
         }
     };
+
+    @Before
+    public void before() {
+        coordinator.getCapabilities().clear();
+    }
+
+    @Test
+    public void setAmbientSoundControl() {
+        final Map<AmbientSoundControl, String> commands = new LinkedHashMap<AmbientSoundControl, String>() {{
+            put(new AmbientSoundControl(AmbientSoundControl.Mode.AMBIENT_SOUND, false, 20), "68:17:01:01:01:00:14");
+            put(new AmbientSoundControl(AmbientSoundControl.Mode.OFF, false, 20), "68:17:01:00:00:00:14");
+            put(new AmbientSoundControl(AmbientSoundControl.Mode.AMBIENT_SOUND, false, 10), "68:17:01:01:01:00:0a");
+            put(new AmbientSoundControl(AmbientSoundControl.Mode.AMBIENT_SOUND, true, 20), "68:17:01:01:01:01:14");
+            put(new AmbientSoundControl(AmbientSoundControl.Mode.NOISE_CANCELLING, false, 20), "68:17:01:01:00:00:14");
+        }};
+
+        for (Map.Entry<AmbientSoundControl, String> entry : commands.entrySet()) {
+            final Request request = protocol.setAmbientSoundControl(entry.getKey());
+            assertRequest(request, 0x0c, entry.getValue());
+        }
+    }
+
+    @Test
+    public void setSpeakToChatEnabled() {
+        assertRequests(protocol::setSpeakToChatEnabled, new LinkedHashMap<SpeakToChatEnabled, String>() {{
+            put(new SpeakToChatEnabled(false), "f8:0c:01:01");
+            put(new SpeakToChatEnabled(true), "f8:0c:00:01");
+        }});
+    }
+
+    @Test
+    public void setSpeakToChatConfig() {
+        assertRequests(protocol::setSpeakToChatConfig, new LinkedHashMap<SpeakToChatConfig, String>() {{
+            put(new SpeakToChatConfig(false, SpeakToChatConfig.Sensitivity.HIGH, SpeakToChatConfig.Timeout.STANDARD), "fc:0c:01:01");
+            put(new SpeakToChatConfig(false, SpeakToChatConfig.Sensitivity.LOW, SpeakToChatConfig.Timeout.STANDARD), "fc:0c:02:01");
+            put(new SpeakToChatConfig(false, SpeakToChatConfig.Sensitivity.AUTO, SpeakToChatConfig.Timeout.STANDARD), "fc:0c:00:01");
+            put(new SpeakToChatConfig(false, SpeakToChatConfig.Sensitivity.AUTO, SpeakToChatConfig.Timeout.SHORT), "fc:0c:00:00");
+            put(new SpeakToChatConfig(false, SpeakToChatConfig.Sensitivity.AUTO, SpeakToChatConfig.Timeout.LONG), "fc:0c:00:02");
+            put(new SpeakToChatConfig(false, SpeakToChatConfig.Sensitivity.AUTO, SpeakToChatConfig.Timeout.OFF), "fc:0c:00:03");
+            put(new SpeakToChatConfig(false, SpeakToChatConfig.Sensitivity.AUTO, SpeakToChatConfig.Timeout.STANDARD), "fc:0c:00:01");
+        }});
+    }
 
     @Test
     public void getQuickAccess() {
@@ -84,6 +137,42 @@ public class SonyProtocolImplV3Test {
             final Request request = protocol.setAmbientSoundControlButtonMode(entry.getKey());
             assertRequest(request, entry.getValue());
         }
+    }
+
+    @Test
+    public void setPauseWhenTakenOff() {
+        assertRequests(protocol::setPauseWhenTakenOff, new LinkedHashMap<PauseWhenTakenOff, String>() {{
+            put(new PauseWhenTakenOff(false), "f8:01:01");
+            put(new PauseWhenTakenOff(true), "f8:01:00");
+        }});
+    }
+
+    @Test
+    public void setEqualizerCustomBands() {
+        assertRequests(protocol::setEqualizerCustomBands, new LinkedHashMap<EqualizerCustomBands, String>() {{
+            put(new EqualizerCustomBands(Arrays.asList(0, 1, 2, 3, 1), 0), "58:00:a0:06:0a:0a:0b:0c:0d:0b");
+            put(new EqualizerCustomBands(Arrays.asList(0, 1, 2, 3, 5), 0), "58:00:a0:06:0a:0a:0b:0c:0d:0f");
+            put(new EqualizerCustomBands(Arrays.asList(0, 1, 2, 4, 5), 0), "58:00:a0:06:0a:0a:0b:0c:0e:0f");
+            put(new EqualizerCustomBands(Arrays.asList(5, 1, 2, 3, 5), 0), "58:00:a0:06:0a:0f:0b:0c:0d:0f");
+            put(new EqualizerCustomBands(Arrays.asList(0, 1, 2, 3, 5), -6), "58:00:a0:06:04:0a:0b:0c:0d:0f");
+            put(new EqualizerCustomBands(Arrays.asList(0, 1, 2, 3, 5), 10), "58:00:a0:06:14:0a:0b:0c:0d:0f");
+        }});
+    }
+
+    @Test
+    public void setAutomaticPowerOff() {
+        assertRequests(protocol::setAutomaticPowerOff, new LinkedHashMap<AutomaticPowerOff, String>() {{
+            put(AutomaticPowerOff.OFF, "28:05:11:00");
+            put(AutomaticPowerOff.WHEN_TAKEN_OFF, "28:05:10:00");
+        }});
+    }
+
+    @Test
+    public void setVoiceNotifications() {
+        assertRequests(protocol::setVoiceNotifications, 0x0e, new LinkedHashMap<VoiceNotifications, String>() {{
+            put(new VoiceNotifications(false), "48:01:01");
+            put(new VoiceNotifications(true), "48:01:00");
+        }});
     }
 
     @Test

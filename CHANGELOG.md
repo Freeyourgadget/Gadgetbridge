@@ -3,6 +3,7 @@
 #### Next Version
 
 * Initial support for Amazfit GTR 3 Pro
+* Initial support for Sony WH-1000XM5
 * Amazfit Bip U: Remove alarm snooze option
 * Amazfit GTR 4 / GTS 4: Add watch Wi-Fi Hotspot and FTP Server
 * Amazfit GTR 4 / GTS 4: Perform and receive phone calls on watch

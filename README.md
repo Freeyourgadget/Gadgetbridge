@@ -89,7 +89,7 @@ vendor's servers.
 - [SMA](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/SMA) Q2 (SMA-Q2-OSS Firmware)
 - [Sony Headphones](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Sony-Headphones)
 	- LinkBuds S
-	- WH-1000XM2, WH-1000XM3, WH-1000XM4
+	- WH-1000XM2, WH-1000XM3, WH-1000XM4, WH-1000XM5
 	- WF-SP800N
 	- WF-1000XM3, WF-1000XM4
 - Teclast H10, H30
