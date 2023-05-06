@@ -16,6 +16,9 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos;
 
+import android.content.Context;
+
+import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEvent;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.Huami2021Support;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
@@ -65,6 +68,14 @@ public abstract class AbstractZeppOsService {
 
     protected void write(final TransactionBuilder builder, final byte[] data) {
         this.mSupport.writeToChunked2021(builder, getEndpoint(), data, isEncrypted());
+    }
+
+    protected void evaluateGBDeviceEvent(final GBDeviceEvent event) {
+        getSupport().evaluateGBDeviceEvent(event);
+    }
+
+    protected Context getContext() {
+        return getSupport().getContext();
     }
 
     protected static Boolean booleanFromByte(final byte b) {

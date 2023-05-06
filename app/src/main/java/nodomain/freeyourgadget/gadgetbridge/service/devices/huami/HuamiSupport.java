@@ -116,6 +116,7 @@ import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityUser;
 import nodomain.freeyourgadget.gadgetbridge.model.Alarm;
 import nodomain.freeyourgadget.gadgetbridge.model.CalendarEventSpec;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.services.ZeppOsCannedMessagesService;
 import nodomain.freeyourgadget.gadgetbridge.util.calendar.CalendarEvent;
 import nodomain.freeyourgadget.gadgetbridge.util.calendar.CalendarManager;
 import nodomain.freeyourgadget.gadgetbridge.model.CallSpec;
@@ -201,10 +202,6 @@ import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.Dev
 import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_TIMEFORMAT;
 import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_USER_FITNESS_GOAL_NOTIFICATION;
 import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_WEARLOCATION;
-import static nodomain.freeyourgadget.gadgetbridge.devices.huami.Huami2021Service.CANNED_MESSAGES_CMD_REPLY_SMS;
-import static nodomain.freeyourgadget.gadgetbridge.devices.huami.Huami2021Service.CANNED_MESSAGES_CMD_REPLY_SMS_ACK;
-import static nodomain.freeyourgadget.gadgetbridge.devices.huami.Huami2021Service.CANNED_MESSAGES_CMD_REPLY_SMS_ALLOW;
-import static nodomain.freeyourgadget.gadgetbridge.devices.huami.Huami2021Service.CHUNKED2021_ENDPOINT_CANNED_MESSAGES;
 import static nodomain.freeyourgadget.gadgetbridge.devices.huami.Huami2021Service.WORKOUT_GPS_FLAG_POSITION;
 import static nodomain.freeyourgadget.gadgetbridge.devices.huami.Huami2021Service.WORKOUT_GPS_FLAG_STATUS;
 import static nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst.PREF_BUTTON_ACTION_SELECTION_BROADCAST;
@@ -4130,17 +4127,17 @@ public abstract class HuamiSupport extends AbstractBTLEDeviceSupport implements 
             return;
         }
 
-        if (type == CHUNKED2021_ENDPOINT_CANNED_MESSAGES && false) { // unsafe for now, disabled
+        if (type == ZeppOsCannedMessagesService.ENDPOINT && false) { // unsafe for now, disabled
             LOG.debug("got command for SMS reply");
             if (payload[0] == 0x0d) {
                 try {
                     TransactionBuilder builder = performInitialized("allow sms reply");
-                    writeToChunked2021(builder, CHUNKED2021_ENDPOINT_CANNED_MESSAGES, new byte[]{(byte) CANNED_MESSAGES_CMD_REPLY_SMS_ALLOW, 0x01}, false);
+                    writeToChunked2021(builder, ZeppOsCannedMessagesService.ENDPOINT, new byte[]{(byte) ZeppOsCannedMessagesService.CMD_REPLY_SMS_ALLOW, 0x01}, false);
                     builder.queue(getQueue());
                 } catch (IOException e) {
                     LOG.error("Unable to allow sms reply");
                 }
-            } else if (payload[0] == CANNED_MESSAGES_CMD_REPLY_SMS) {
+            } else if (payload[0] == ZeppOsCannedMessagesService.CMD_REPLY_SMS) {
                 String phoneNumber = null;
                 String smsReply = null;
                 for (int i = 1; i < payload.length; i++) {
@@ -4161,8 +4158,8 @@ public abstract class HuamiSupport extends AbstractBTLEDeviceSupport implements 
                     evaluateGBDeviceEvent(devEvtNotificationControl);
                     try {
                         TransactionBuilder builder = performInitialized("ack sms reply");
-                        byte[] ackSentCommand = new byte[]{CANNED_MESSAGES_CMD_REPLY_SMS_ACK, 0x01};
-                        writeToChunked2021(builder, CHUNKED2021_ENDPOINT_CANNED_MESSAGES, ackSentCommand, false);
+                        byte[] ackSentCommand = new byte[]{ZeppOsCannedMessagesService.CMD_REPLY_SMS_ACK, 0x01};
+                        writeToChunked2021(builder, ZeppOsCannedMessagesService.ENDPOINT, ackSentCommand, false);
                         builder.queue(getQueue());
                     } catch (IOException e) {
                         LOG.error("Unable to ack sms reply");

@@ -21,10 +21,7 @@ public class Huami2021Service {
      * Endpoints for 2021 chunked protocol
      */
     public static final short CHUNKED2021_ENDPOINT_HTTP = 0x0001;
-    public static final short CHUNKED2021_ENDPOINT_CALENDAR = 0x0007;
     public static final short CHUNKED2021_ENDPOINT_WEATHER = 0x000e;
-    public static final short CHUNKED2021_ENDPOINT_ALARMS = 0x000f;
-    public static final short CHUNKED2021_ENDPOINT_CANNED_MESSAGES = 0x0013;
     public static final short CHUNKED2021_ENDPOINT_CONNECTION = 0x0015;
     public static final short CHUNKED2021_ENDPOINT_USER_INFO = 0x0017;
     public static final short CHUNKED2021_ENDPOINT_STEPS = 0x0016;
@@ -33,7 +30,6 @@ public class Huami2021Service {
     public static final short CHUNKED2021_ENDPOINT_FIND_DEVICE = 0x001a;
     public static final short CHUNKED2021_ENDPOINT_MUSIC = 0x001b;
     public static final short CHUNKED2021_ENDPOINT_HEARTRATE = 0x001d;
-    public static final short CHUNKED2021_ENDPOINT_NOTIFICATIONS = 0x001e;
     public static final short CHUNKED2021_ENDPOINT_DISPLAY_ITEMS = 0x0026;
     public static final short CHUNKED2021_ENDPOINT_BATTERY = 0x0029;
     public static final short CHUNKED2021_ENDPOINT_REMINDERS = 0x0038;
@@ -48,29 +44,6 @@ public class Huami2021Service {
     public static final byte HTTP_CMD_RESPONSE = 0x02;
     public static final byte HTTP_RESPONSE_SUCCESS = 0x01;
     public static final byte HTTP_RESPONSE_NO_INTERNET = 0x02;
-
-    /**
-     * Alarms, for {@link Huami2021Service#CHUNKED2021_ENDPOINT_ALARMS}.
-     */
-    public static final byte ALARMS_CMD_CAPABILITIES_REQUEST = 0x01;
-    public static final byte ALARMS_CMD_CAPABILITIES_RESPONSE = 0x02;
-    public static final byte ALARMS_CMD_CREATE = 0x03;
-    public static final byte ALARMS_CMD_CREATE_ACK = 0x04;
-    public static final byte ALARMS_CMD_DELETE = 0x05;
-    public static final byte ALARMS_CMD_DELETE_ACK = 0x06;
-    public static final byte ALARMS_CMD_UPDATE = 0x07;
-    public static final byte ALARMS_CMD_UPDATE_ACK = 0x08;
-    public static final byte ALARMS_CMD_REQUEST = 0x09;
-    public static final byte ALARMS_CMD_RESPONSE = 0x0a;
-    public static final byte ALARMS_CMD_NOTIFY_CHANGE = 0x0f;
-    public static final int ALARM_IDX_FLAGS = 0;
-    public static final int ALARM_IDX_POSITION = 1;
-    public static final int ALARM_IDX_HOUR = 2;
-    public static final int ALARM_IDX_MINUTE = 3;
-    public static final int ALARM_IDX_REPETITION = 4;
-    public static final int ALARM_FLAG_SMART = 0x01;
-    public static final int ALARM_FLAG_UNKNOWN_2 = 0x02;
-    public static final int ALARM_FLAG_ENABLED = 0x04;
 
     /**
      * Display Items, for {@link Huami2021Service#CHUNKED2021_ENDPOINT_DISPLAY_ITEMS}.
@@ -139,22 +112,6 @@ public class Huami2021Service {
     public static final byte SILENT_MODE_CMD_ACK = 0x08;
 
     /**
-     * Canned Messages, for {@link Huami2021Service#CHUNKED2021_ENDPOINT_CANNED_MESSAGES}.
-     */
-    public static final byte CANNED_MESSAGES_CMD_CAPABILITIES_REQUEST = 0x01;
-    public static final byte CANNED_MESSAGES_CMD_CAPABILITIES_RESPONSE = 0x02;
-    public static final byte CANNED_MESSAGES_CMD_REQUEST = 0x03;
-    public static final byte CANNED_MESSAGES_CMD_RESPONSE = 0x04;
-    public static final byte CANNED_MESSAGES_CMD_SET = 0x05;
-    public static final byte CANNED_MESSAGES_CMD_SET_ACK = 0x06;
-    public static final byte CANNED_MESSAGES_CMD_DELETE = 0x07;
-    public static final byte CANNED_MESSAGES_CMD_DELETE_ACK = 0x08;
-    public static final byte CANNED_MESSAGES_CMD_REPLY_SMS = 0x0b;
-    public static final byte CANNED_MESSAGES_CMD_REPLY_SMS_ACK = 0x0c;
-    public static final byte CANNED_MESSAGES_CMD_REPLY_SMS_CHECK = 0x0d;
-    public static final byte CANNED_MESSAGES_CMD_REPLY_SMS_ALLOW = 0x0e;
-
-    /**
      * Connection, for {@link Huami2021Service#CHUNKED2021_ENDPOINT_CONNECTION}.
      */
     public static final byte CONNECTION_CMD_MTU_REQUEST = 0x01;
@@ -173,26 +130,6 @@ public class Huami2021Service {
     public static final byte HEART_RATE_REALTIME_MODE_STOP = 0x00;
     public static final byte HEART_RATE_REALTIME_MODE_START = 0x01;
     public static final byte HEART_RATE_REALTIME_MODE_CONTINUE = 0x02;
-
-    /**
-     * Notifications, for {@link Huami2021Service#CHUNKED2021_ENDPOINT_NOTIFICATIONS}.
-     */
-    public static final byte NOTIFICATION_CMD_SEND = 0x03;
-    public static final byte NOTIFICATION_CMD_REPLY = 0x04;
-    public static final byte NOTIFICATION_CMD_DISMISS = 0x05;
-    public static final byte NOTIFICATION_CMD_REPLY_ACK = 0x06;
-    public static final byte NOTIFICATION_CMD_ICON_REQUEST = 0x10;
-    public static final byte NOTIFICATION_CMD_ICON_REQUEST_ACK = 0x11;
-    public static final byte NOTIFICATION_TYPE_NORMAL = (byte) 0xfa;
-    public static final byte NOTIFICATION_TYPE_CALL = 0x03;
-    public static final byte NOTIFICATION_TYPE_SMS = (byte) 0x05;
-    public static final byte NOTIFICATION_SUBCMD_SHOW = 0x00;
-    public static final byte NOTIFICATION_SUBCMD_DISMISS_FROM_PHONE = 0x02;
-    public static final byte NOTIFICATION_DISMISS_NOTIFICATION = 0x03;
-    public static final byte NOTIFICATION_DISMISS_MUTE_CALL = 0x02;
-    public static final byte NOTIFICATION_DISMISS_REJECT_CALL = 0x01;
-    public static final byte NOTIFICATION_CALL_STATE_START = 0x00;
-    public static final byte NOTIFICATION_CALL_STATE_END = 0x02;
 
     /**
      * Workout, for {@link Huami2021Service#CHUNKED2021_ENDPOINT_WORKOUT}.
@@ -238,18 +175,6 @@ public class Huami2021Service {
     public static final int REMINDER_FLAG_REPEAT_MONTH = 0x1000;
     public static final int REMINDER_FLAG_REPEAT_YEAR = 0x2000;
     public static final String REMINDERS_PREF_CAPABILITY = "huami_2021_capability_reminders";
-
-    /**
-     * Calendar, for {@link Huami2021Service#CHUNKED2021_ENDPOINT_CALENDAR}.
-     */
-    public static final byte CALENDAR_CMD_CAPABILITIES_REQUEST = 0x01;
-    public static final byte CALENDAR_CMD_CAPABILITIES_RESPONSE = 0x02;
-    public static final byte CALENDAR_CMD_EVENTS_REQUEST = 0x05;
-    public static final byte CALENDAR_CMD_EVENTS_RESPONSE = 0x06;
-    public static final byte CALENDAR_CMD_CREATE_EVENT = 0x07;
-    public static final byte CALENDAR_CMD_CREATE_EVENT_ACK = 0x08;
-    public static final byte CALENDAR_CMD_DELETE_EVENT = 0x09;
-    public static final byte CALENDAR_CMD_DELETE_EVENT_ACK = 0x0a;
 
     /**
      * Weather, for {@link Huami2021Service#CHUNKED2021_ENDPOINT_WEATHER}.
