@@ -365,8 +365,14 @@ public class SonyProtocolImplV2 extends SonyProtocolImplV1 {
 
     @Override
     public Request powerOff() {
-        LOG.warn("Power off not implemented for V2");
-        return null;
+        return new Request(
+                PayloadTypeV2.POWER_SET.getMessageType(),
+                new byte[]{
+                        PayloadTypeV2.POWER_SET.getCode(),
+                        (byte) 0x03,
+                        (byte) 0x01
+                }
+        );
     }
 
     @Override
@@ -661,6 +667,8 @@ public class SonyProtocolImplV2 extends SonyProtocolImplV1 {
     @Override
     protected BatteryType decodeBatteryType(final byte b) {
         switch (b) {
+            case 0x00:
+                return BatteryType.SINGLE;
             case 0x09:
                 return BatteryType.DUAL;
             case 0x0a:
@@ -673,10 +681,11 @@ public class SonyProtocolImplV2 extends SonyProtocolImplV1 {
     @Override
     protected byte encodeBatteryType(final BatteryType batteryType) {
         switch (batteryType) {
+            case SINGLE:
+                return 0x00;
             case DUAL:
                 return 0x09;
             case CASE:
-            case SINGLE: // TODO: This is not the code for single, but we need to encode something
                 return 0x0a;
         }
 

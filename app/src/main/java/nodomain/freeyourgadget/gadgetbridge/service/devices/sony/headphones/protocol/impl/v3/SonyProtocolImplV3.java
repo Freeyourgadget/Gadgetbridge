@@ -135,9 +135,9 @@ public class SonyProtocolImplV3 extends SonyProtocolImplV2 {
     @Override
     public Request getQuickAccess() {
         return new Request(
-                PayloadTypeV3.QUICK_ACCESS_GET.getMessageType(),
+                PayloadTypeV1.AUTOMATIC_POWER_OFF_BUTTON_MODE_GET.getMessageType(),
                 new byte[]{
-                        PayloadTypeV3.QUICK_ACCESS_GET.getCode(),
+                        PayloadTypeV1.AUTOMATIC_POWER_OFF_BUTTON_MODE_GET.getCode(),
                         (byte) 0x0d
                 }
         );
@@ -146,9 +146,9 @@ public class SonyProtocolImplV3 extends SonyProtocolImplV2 {
     @Override
     public Request setQuickAccess(final QuickAccess quickAccess) {
         return new Request(
-                PayloadTypeV3.QUICK_ACCESS_SET.getMessageType(),
+                PayloadTypeV1.AUTOMATIC_POWER_OFF_BUTTON_MODE_SET.getMessageType(),
                 new byte[]{
-                        PayloadTypeV3.QUICK_ACCESS_SET.getCode(),
+                        PayloadTypeV1.AUTOMATIC_POWER_OFF_BUTTON_MODE_SET.getCode(),
                         (byte) 0x0d,
                         (byte) 0x02,
                         quickAccess.getModeDoubleTap().getCode(),
@@ -232,9 +232,6 @@ public class SonyProtocolImplV3 extends SonyProtocolImplV2 {
         final PayloadTypeV3 payloadType = PayloadTypeV3.fromCode(messageType, payload[0]);
 
         switch (payloadType) {
-            case QUICK_ACCESS_RET:
-            case QUICK_ACCESS_NOTIFY:
-                return handleQuickAccess(payload);
             case AMBIENT_SOUND_CONTROL_BUTTON_MODE_RET:
             case AMBIENT_SOUND_CONTROL_BUTTON_MODE_NOTIFY:
                 return handleAmbientSoundControlButtonMode(payload);
@@ -348,6 +345,43 @@ public class SonyProtocolImplV3 extends SonyProtocolImplV2 {
                 .withPreferences(mode.toPreferences());
 
         return Collections.singletonList(event);
+    }
+
+    @Override
+    public List<? extends GBDeviceEvent> handleSpeakToChatEnabled(final byte[] payload) {
+        if (payload.length != 4) {
+            LOG.warn("Unexpected payload length {}", payload.length);
+            return Collections.emptyList();
+        }
+
+        if (payload[1] != 0x0c) {
+            LOG.warn("Not speak to chat enabled, ignoring");
+            return Collections.emptyList();
+        }
+
+        final Boolean disabled = booleanFromByte(payload[3]);
+        if (disabled == null) {
+            LOG.warn("Unknown speak to chat enabled code {}", String.format("%02x", payload[3]));
+            return Collections.emptyList();
+        }
+
+        LOG.debug("Speak to chat: {}", !disabled);
+
+        final GBDeviceEventUpdatePreferences event = new GBDeviceEventUpdatePreferences()
+                .withPreferences(new SpeakToChatEnabled(!disabled).toPreferences());
+
+        return Collections.singletonList(event);
+    }
+
+    public List<? extends GBDeviceEvent> handleAutomaticPowerOffButtonMode(final byte[] payload) {
+        switch (payload[1]) {
+            case 0x0c:
+                return handleSpeakToChatEnabled(payload);
+            case 0x0d:
+                return handleQuickAccess(payload);
+        }
+
+        return Collections.emptyList();
     }
 
     public List<? extends GBDeviceEvent> handleVoiceNotifications(final byte[] payload) {

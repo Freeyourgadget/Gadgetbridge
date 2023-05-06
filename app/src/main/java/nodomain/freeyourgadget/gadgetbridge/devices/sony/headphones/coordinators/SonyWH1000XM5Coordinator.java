@@ -48,7 +48,7 @@ public class SonyWH1000XM5Coordinator extends SonyHeadphonesCoordinator {
                 // TODO R.xml.devicesettings_connect_two_devices,
                 // TODO automatic ANC depending on state (might need phone?)
                 SonyHeadphonesCapabilities.BatterySingle,
-                // TODO SonyHeadphonesCapabilities.PowerOffFromPhone,
+                SonyHeadphonesCapabilities.PowerOffFromPhone,
                 SonyHeadphonesCapabilities.AmbientSoundControl,
                 SonyHeadphonesCapabilities.SpeakToChatEnabled,
                 SonyHeadphonesCapabilities.SpeakToChatConfig,

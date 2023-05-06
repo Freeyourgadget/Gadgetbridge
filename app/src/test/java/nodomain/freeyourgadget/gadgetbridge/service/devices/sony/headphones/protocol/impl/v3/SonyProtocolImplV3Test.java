@@ -46,6 +46,7 @@ import nodomain.freeyourgadget.gadgetbridge.devices.sony.headphones.prefs.SpeakT
 import nodomain.freeyourgadget.gadgetbridge.devices.sony.headphones.prefs.VoiceNotifications;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.sony.headphones.protocol.Request;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.sony.headphones.protocol.impl.MockSonyCoordinator;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.sony.headphones.protocol.impl.v1.params.BatteryType;
 
 public class SonyProtocolImplV3Test {
     private final MockSonyCoordinator coordinator = new MockSonyCoordinator();
@@ -96,6 +97,20 @@ public class SonyProtocolImplV3Test {
             put(new SpeakToChatConfig(false, SpeakToChatConfig.Sensitivity.AUTO, SpeakToChatConfig.Timeout.OFF), "fc:0c:00:03");
             put(new SpeakToChatConfig(false, SpeakToChatConfig.Sensitivity.AUTO, SpeakToChatConfig.Timeout.STANDARD), "fc:0c:00:01");
         }});
+    }
+
+    @Test
+    public void getBattery() {
+        final Map<BatteryType, String> commands = new LinkedHashMap<BatteryType, String>() {{
+            put(BatteryType.SINGLE, "22:00");
+            put(BatteryType.DUAL, "22:09");
+            put(BatteryType.CASE, "22:0a");
+        }};
+
+        for (Map.Entry<BatteryType, String> entry : commands.entrySet()) {
+            final Request request = protocol.getBattery(entry.getKey());
+            assertRequest(request, 0x0c, entry.getValue());
+        }
     }
 
     @Test
@@ -173,6 +188,12 @@ public class SonyProtocolImplV3Test {
             put(new VoiceNotifications(false), "48:01:01");
             put(new VoiceNotifications(true), "48:01:00");
         }});
+    }
+
+    @Test
+    public void powerOff() {
+        final Request request = protocol.powerOff();
+        assertRequest(request, 0x0c, "24:03:01");
     }
 
     @Test

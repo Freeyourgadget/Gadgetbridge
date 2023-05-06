@@ -25,6 +25,7 @@ public enum PayloadTypeV2 {
 
     BATTERY_LEVEL_REQUEST(MessageType.COMMAND_1, 0x22),
     BATTERY_LEVEL_REPLY(MessageType.COMMAND_1, 0x23),
+    POWER_SET(MessageType.COMMAND_1, 0x24),
     BATTERY_LEVEL_NOTIFY(MessageType.COMMAND_1, 0x25),
 
     AUTOMATIC_POWER_OFF_GET(MessageType.COMMAND_1, 0x26),
