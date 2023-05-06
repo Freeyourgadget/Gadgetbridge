@@ -2198,4 +2198,10 @@ Temps de sommeil préféré en heures</string>
     <string name="zepp_os_watchface_multiple_data">Données multiples</string>
     <string name="zepp_os_watchface_simplicity_data">Données simplifiées</string>
     <string name="prefs_shortcut_cards_summary">Cartes de raccourcis visibles en glissant vers la droite sur l\'écran de la montre. Lorsque l\'app est en fonctionnement, les cartes auto-générées ne sont pas affectés par ce réglage.</string>
+    <string name="fw_upgrade_notice_amazfit_gtr3_pro">Vous êtes sur le point d\'installer le micrologiciel %s dans votre Amazfit GTR 3 Pro.
+\n
+\nVotre bracelet redémarrera après l\'installation du fichier .zip.
+\n
+\nA VOS RISQUES ET PÉRILS !</string>
+    <string name="devicetype_amazfit_gtr3_pro">Amazfit GTR 3 Pro</string>
 </resources>
