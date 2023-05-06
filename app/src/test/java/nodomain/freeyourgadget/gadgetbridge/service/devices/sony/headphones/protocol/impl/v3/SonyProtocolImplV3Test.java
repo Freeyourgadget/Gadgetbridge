@@ -18,6 +18,7 @@ package nodomain.freeyourgadget.gadgetbridge.service.devices.sony.headphones.pro
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static nodomain.freeyourgadget.gadgetbridge.service.devices.sony.headphones.protocol.impl.SonyTestUtils.assertPrefs;
 import static nodomain.freeyourgadget.gadgetbridge.service.devices.sony.headphones.protocol.impl.SonyTestUtils.assertRequest;
 import static nodomain.freeyourgadget.gadgetbridge.service.devices.sony.headphones.protocol.impl.SonyTestUtils.handleMessage;
 
@@ -87,25 +88,21 @@ public class SonyProtocolImplV3Test {
 
     @Test
     public void handleQuickAccess() {
-        final Map<QuickAccess, String> commands = new LinkedHashMap<QuickAccess, String>() {{
+        final Map<String, QuickAccess> commands = new LinkedHashMap<String, QuickAccess>() {{
+            // Ret
+            put("3e:0c:00:00:00:00:05:f7:0d:02:00:00:17:3c", new QuickAccess(QuickAccess.Mode.OFF, QuickAccess.Mode.OFF));
+            put("3e:0c:01:00:00:00:05:f7:0d:02:00:01:19:3c", new QuickAccess(QuickAccess.Mode.OFF, QuickAccess.Mode.SPOTIFY));
+            put("3e:0c:01:00:00:00:05:f7:0d:02:01:00:19:3c", new QuickAccess(QuickAccess.Mode.SPOTIFY, QuickAccess.Mode.OFF));
+
             // Notify
-            put(new QuickAccess(QuickAccess.Mode.OFF, QuickAccess.Mode.OFF), "3e:0c:00:00:00:00:05:f9:0d:02:00:00:19:3c");
-            put(new QuickAccess(QuickAccess.Mode.OFF, QuickAccess.Mode.SPOTIFY), "3e:0c:01:00:00:00:05:f9:0d:02:00:01:1b:3c");
-            put(new QuickAccess(QuickAccess.Mode.SPOTIFY, QuickAccess.Mode.OFF), "3e:0c:01:00:00:00:05:f9:0d:02:01:00:1b:3c");
+            put("3e:0c:00:00:00:00:05:f9:0d:02:00:00:19:3c", new QuickAccess(QuickAccess.Mode.OFF, QuickAccess.Mode.OFF));
+            put("3e:0c:01:00:00:00:05:f9:0d:02:00:01:1b:3c", new QuickAccess(QuickAccess.Mode.OFF, QuickAccess.Mode.SPOTIFY));
+            put("3e:0c:01:00:00:00:05:f9:0d:02:01:00:1b:3c", new QuickAccess(QuickAccess.Mode.SPOTIFY, QuickAccess.Mode.OFF));
         }};
 
-        for (Map.Entry<QuickAccess, String> entry : commands.entrySet()) {
-            final List<? extends GBDeviceEvent> events = handleMessage(protocol, entry.getValue());
-            assertEquals("Expect 1 events", 1, events.size());
-            final GBDeviceEventUpdatePreferences event = (GBDeviceEventUpdatePreferences) events.get(0);
-            final Map<String, Object> expectedPrefs = entry.getKey().toPreferences();
-            assertEquals("Expect 2 prefs", 2, expectedPrefs.size());
-            final Object prefDoubleTap = expectedPrefs.get(DeviceSettingsPreferenceConst.PREF_SONY_QUICK_ACCESS_DOUBLE_TAP);
-            assertNotNull(prefDoubleTap);
-            assertEquals(prefDoubleTap, event.preferences.get(DeviceSettingsPreferenceConst.PREF_SONY_QUICK_ACCESS_DOUBLE_TAP));
-            final Object prefTripleTap = expectedPrefs.get(DeviceSettingsPreferenceConst.PREF_SONY_QUICK_ACCESS_TRIPLE_TAP);
-            assertNotNull(prefTripleTap);
-            assertEquals(prefTripleTap, event.preferences.get(DeviceSettingsPreferenceConst.PREF_SONY_QUICK_ACCESS_TRIPLE_TAP));
+        for (Map.Entry<String, QuickAccess> entry : commands.entrySet()) {
+            final List<? extends GBDeviceEvent> events = handleMessage(protocol, entry.getKey());
+            assertPrefs(events, entry.getValue().toPreferences());
         }
     }
 

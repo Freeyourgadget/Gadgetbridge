@@ -21,13 +21,14 @@ import android.content.SharedPreferences;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst;
 
 public class EqualizerCustomBands {
-    private List<Integer> bands;
-    private int bass;
+    private final List<Integer> bands;
+    private final int bass;
 
     public EqualizerCustomBands(final List<Integer> bands, final int bass) {
         if (bands.size() != 5) {
@@ -57,7 +58,7 @@ public class EqualizerCustomBands {
     }
 
     public String toString() {
-        return String.format("EqualizerCustomBands{clearBass=%d, bands=%s}", bass, bands);
+        return String.format(Locale.ROOT, "EqualizerCustomBands{clearBass=%d, bands=%s}", bass, bands);
     }
 
     public Map<String, Object> toPreferences() {

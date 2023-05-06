@@ -1172,7 +1172,7 @@ public class SonyProtocolImplV1 extends AbstractSonyProtocolImpl {
         return Collections.singletonList(event);
     }
 
-    protected Boolean booleanFromByte(final byte b) {
+    protected static Boolean booleanFromByte(final byte b) {
         switch (b) {
             case 0x00:
                 return false;
