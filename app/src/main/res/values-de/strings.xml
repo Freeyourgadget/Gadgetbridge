@@ -1467,7 +1467,7 @@
     <string name="reminder_time_every_year">%1$s, jedes Jahr</string>
     <string name="toast_app_must_be_selected">App muss zum Konfigurieren ausgewählt sein</string>
     <string name="prefs_pressure_relief">Druckentlastung mit Umgebungsgeräuschen</string>
-    <string name="pressure_relief_summary">Verhindert Druckgefühl in den Ohren, wenn Active Noise Cancelling nicht verwendet wird</string>
+    <string name="pressure_relief_summary">Verhindert Druckgefühl in den Ohren, wenn die aktive Geräuschunterdrückung nicht verwendet wird</string>
     <string name="mi2_prefs_do_not_disturb_lift_wrist">Anzeige beim Anheben auch während „Bitte nicht stören“ aktivieren</string>
     <string name="watchface_dialog_widget_update_timeout">Aktualisierungszeit in Minuten</string>
     <string name="device_card_activity_card_title">Aktivitätsinfo in der Geräteübersicht</string>
@@ -2140,7 +2140,7 @@
     <string name="croatian">Kroatisch</string>
     <string name="address">Adresse</string>
     <string name="username">Nutzername</string>
-    <string name="sony_speak_to_chat_summary">Deaktiviere Noise-Cancelling automatisch, wenn du anfängst zu reden.</string>
+    <string name="sony_speak_to_chat_summary">Deaktiviere Geräuschunterdrückung automatisch, wenn du anfängst zu reden.</string>
     <string name="ftp_server">FTP-Server</string>
     <string name="ftp_server_stop_summary">Beende den FTP-Server auf der Uhr</string>
     <string name="wifi_hotspot_status">Status des WLAN-Hotspots</string>
@@ -2172,4 +2172,40 @@
     <string name="pref_pair_bluetooth_calls_help_3">3. Aktiviere die nachstehende Einstellung für Bluetooth-Anrufe.</string>
     <string name="pref_title_notification_cache_while_disconnected">Cache außerhalb der Reichweite</string>
     <string name="pref_summary_notification_cache_while_disconnected">Verpasste Benachrichtigungen senden, wenn sich ein Gerät wieder verbindet, nachdem es sich außerhalb der Reichweite befand</string>
+    <string name="zepp_os_watchface_business_style">Business-Stil</string>
+    <string name="triple_tap">Dreifaches Antippen</string>
+    <string name="long_press">Langes Drücken</string>
+    <string name="sony_button_mode_help_title">Tastenmodi - Hilfe</string>
+    <string name="zepp_os_watchface_vibrant">Lebendig</string>
+    <string name="zepp_os_watchface_emerald_moonlight">Smaragdgrünes Mondlicht</string>
+    <string name="zepp_os_watchface_rotating_earth">Rotierende Erde</string>
+    <string name="zepp_os_watchface_superposition">Überlagerung</string>
+    <string name="quick_attention">Schnelle Aufmerksamkeit</string>
+    <string name="double_tap">Doppeltes Antippen</string>
+    <string name="continue_pressing">Gedrückt halten</string>
+    <string name="devicetype_amazfit_gtr3_pro">Amazfit GTR 3 Pro</string>
+    <string name="menuitem_vo2_max">VO₂ Max</string>
+    <string name="menuitem_mi_ai">MI AI</string>
+    <string name="zepp_os_watchface_simplicity_data">Einfache Daten</string>
+    <string name="zepp_os_watchface_rush">Eile</string>
+    <string name="zepp_os_watchface_minimalist">Minimalistisch</string>
+    <string name="sony_button_mode_help_summary">Eine Beschreibung der einzelnen Tastenmodi</string>
+    <string name="menuitem_aqi">Luftqualitätsindex</string>
+    <string name="menuitem_total_workout">Training insgesamt</string>
+    <string name="menuitem_recommendation">Empfehlung</string>
+    <string name="zepp_os_watchface_red_fantasy">Rote Fantasie</string>
+    <string name="zepp_os_watchface_multiple_data">Mehrere Daten</string>
+    <string name="menuitem_cards">Karten</string>
+    <string name="fw_upgrade_notice_amazfit_gtr3_pro">Du bist dabei, die Firmware %s auf deine Amazfit GTR 3 Pro zu installieren.
+\n
+\nDeine Uhr wird nach der Installation der .zip Datei neu starten.
+\n
+\nINSTALLATION AUF EIGENE GEFAHR!</string>
+    <string name="devicetype_sony_wh_1000xm5">Sony WH-1000XM5</string>
+    <string name="menuitem_forecast">Vorhersage</string>
+    <string name="menuitem_last_workout">Letztes Training</string>
+    <string name="pref_switch_controls_anc_ambient_off">Geräuschunterdrückung ←→ Umgebungsgeräusche ←→ Aus</string>
+    <string name="single_tap">Einmaliges Antippen</string>
+    <string name="prefs_shortcut_cards_summary">Verknüpfungskarten, die beim Wischen nach rechts auf dem Zifferblatt angezeigt werden. Wenn eine App ausgeführt wird, sind automatisch generierte Karten von dieser Einstellung nicht betroffen.</string>
+    <string name="prefs_shortcut_cards">Verknüpfungskarten</string>
 </resources>
