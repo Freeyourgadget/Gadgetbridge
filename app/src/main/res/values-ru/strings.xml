@@ -1908,4 +1908,5 @@
     <string name="pref_summary_receive_calls_watch">Совершайте и принимайте звонки прямо на часах</string>
     <string name="pref_display_caller_title">Показать контакт</string>
     <string name="pref_display_caller_summary">Показать номер телефона или имя для входящих вызовов</string>
+    <string name="prefs_spo2_alert_threshold">Порог предупреждения SPO2</string>
 </resources>
