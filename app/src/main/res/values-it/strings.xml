@@ -2186,4 +2186,12 @@
     <string name="menuitem_cards">Schede</string>
     <string name="menuitem_mi_ai">AI MI</string>
     <string name="menuitem_recommendation">Consigli</string>
+    <string name="menuitem_aqi">Induce Qualità dell\'Aria</string>
+    <string name="fw_upgrade_notice_amazfit_gtr3_pro">Stai per installare il firmware %s sul tuo Amazfit GTR 3 Pro.
+\n
+\nLa band si riavvierà dopo l\'installazione del file .zip.
+\n
+\nPROCEDI A TUO RISCHIO E PERICOLO!</string>
+    <string name="devicetype_sony_wh_1000xm5">Sony WH-1000XM5</string>
+    <string name="devicetype_amazfit_gtr3_pro">Amazfit GTR 3 Pro</string>
 </resources>
