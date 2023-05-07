@@ -1898,4 +1898,14 @@
 \nВЫ ДЕЙСТВУЕТЕ НА СВОЙ СТРАХ И РИСК!</string>
     <string name="pref_workout_detection_enabled_summary">Включить автоматическое обнаружение этой тренировки</string>
     <string name="pref_workout_detection_ask_first">Сначала спросите меня</string>
+    <string name="pref_camera_remote_title">Удаленная фотосъемка</string>
+    <string name="fw_upgrade_notice_amazfit_gtr3_pro">Вы собираетесь установить прошивку %s на вашAmazfit GTR 3 Pro.
+\n
+\nПосле установки файла .zip часы перезагрузятся.
+\n
+\nВЫ ДЕЙСТВУЕТЕ НА СВОЙ СТРАХ И РИСК!</string>
+    <string name="abstract_chart_fragment_kind_rem_sleep">БДГ-фаза</string>
+    <string name="pref_summary_receive_calls_watch">Совершайте и принимайте звонки прямо на часах</string>
+    <string name="pref_display_caller_title">Показать контакт</string>
+    <string name="pref_display_caller_summary">Показать номер телефона или имя для входящих вызовов</string>
 </resources>
