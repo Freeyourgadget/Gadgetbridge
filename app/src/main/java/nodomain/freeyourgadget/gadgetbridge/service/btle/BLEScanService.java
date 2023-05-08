@@ -3,6 +3,7 @@ package nodomain.freeyourgadget.gadgetbridge.service.btle;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.Service;
+import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothManager;
 import android.bluetooth.le.BluetoothLeScanner;
@@ -44,6 +45,7 @@ public class BLEScanService extends Service {
 
     private LocalBroadcastManager localBroadcastManager;
     private NotificationManager notificationManager;
+    private BluetoothManager bluetoothManager;
     private BluetoothLeScanner scanner;
     // private final ArrayList<ScanFilter> currentFilters = new ArrayList<>();
 
@@ -96,8 +98,8 @@ public class BLEScanService extends Service {
     public void onCreate() {
         super.onCreate();
 
-        BluetoothManager manager = (BluetoothManager) getSystemService(BLUETOOTH_SERVICE);
-        scanner = manager.getAdapter().getBluetoothLeScanner();
+        bluetoothManager = (BluetoothManager) getSystemService(BLUETOOTH_SERVICE);
+        scanner = bluetoothManager.getAdapter().getBluetoothLeScanner();
 
         localBroadcastManager = LocalBroadcastManager.getInstance(this);
 
@@ -107,7 +109,11 @@ public class BLEScanService extends Service {
 
         this.startForeground();
 
-        restartScan(true);
+        if(scanner == null){
+            updateNotification("Waiting for bluetooth...");
+        }else{
+            restartScan(true);
+        }
     }
 
     @Override
@@ -268,18 +274,55 @@ public class BLEScanService extends Service {
         }
     };
 
+    BroadcastReceiver bluetoothStateChangedReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if(intent == null){
+                return;
+            }
+            final int state = intent.getIntExtra(BluetoothAdapter.EXTRA_STATE, BluetoothAdapter.ERROR);
+            switch(state) {
+                case BluetoothAdapter.STATE_OFF:
+                case BluetoothAdapter.STATE_TURNING_OFF:
+                    updateNotification("Waiting for bluetooth...");
+                    break;
+                case BluetoothAdapter.STATE_ON:
+                    restartScan(true);
+                    break;
+            }
+        }
+    };
+
     private void registerReceivers(){
         localBroadcastManager.registerReceiver(
                 deviceStateUpdateReceiver,
                 new IntentFilter(GBDevice.ACTION_DEVICE_CHANGED)
         );
+
+        registerReceiver(
+                bluetoothStateChangedReceiver,
+                new IntentFilter(BluetoothAdapter.ACTION_STATE_CHANGED)
+        );
     }
 
     private void unregisterReceivers(){
         localBroadcastManager.unregisterReceiver(deviceStateUpdateReceiver);
+
+        unregisterReceiver(bluetoothStateChangedReceiver);
     }
 
     private void restartScan(boolean applyFilters){
+        if(scanner == null){
+            scanner = bluetoothManager.getAdapter().getBluetoothLeScanner();
+        }
+        if(scanner == null){
+            // at this point we should already be waiting for bluetooth to turn back on
+            return;
+        }
+        if(bluetoothManager.getAdapter().getState() != BluetoothAdapter.STATE_ON){
+            // again, we should be waiting for the adapter to turn on again
+            return;
+        }
         if(currentState.isDoingAnyScan()){
             scanner.stopScan(scanCallback);
         }
