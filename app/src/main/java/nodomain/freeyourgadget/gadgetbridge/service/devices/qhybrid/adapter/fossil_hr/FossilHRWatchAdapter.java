@@ -122,7 +122,9 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fos
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.application.ApplicationsListRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.async.ConfirmAppStatusRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.authentication.CheckDeviceNeedsConfirmationRequest;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.authentication.CheckDevicePairingRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.authentication.ConfirmOnDeviceRequest;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.authentication.PerformDevicePairingRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.authentication.VerifyPrivateKeyRequest;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.buttons.ButtonConfiguration;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.buttons.ButtonConfigurationPutRequest;
@@ -269,7 +271,7 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
         }
         boolean shouldAuthenticateOnWatch = getDeviceSpecificPreferences().getBoolean("enable_on_device_confirmation", true);
         if (!shouldAuthenticateOnWatch) {
-            GB.toast("Skipping on-device confirmation", Toast.LENGTH_SHORT, GB.INFO);
+            GB.toast(getContext().getString(R.string.fossil_hr_confirmation_skipped), Toast.LENGTH_SHORT, GB.INFO);
             initializeAfterWatchConfirmation(false);
             return;
         }
@@ -282,7 +284,7 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
             if (!(fossilRequest instanceof ConfirmOnDeviceRequest)) {
                 return;
             }
-            GB.toast("Confirmation timeout, continuing", Toast.LENGTH_SHORT, GB.INFO);
+            GB.toast(getContext().getString(R.string.fossil_hr_confirmation_timeout), Toast.LENGTH_SHORT, GB.INFO);
             ((ConfirmOnDeviceRequest) fossilRequest).onResult(false);
         }
     };
@@ -294,14 +296,16 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
                 GB.log("needs confirmation: " + needsConfirmation, GB.INFO, null);
                 if (needsConfirmation) {
                     final Timer timer = new Timer();
-                    GB.toast("please confirm on device.", Toast.LENGTH_SHORT, GB.INFO);
+                    GB.toast(getContext().getString(R.string.fossil_hr_confirm_connection), Toast.LENGTH_SHORT, GB.INFO);
                     queueWrite(new ConfirmOnDeviceRequest() {
                         @Override
                         public void onResult(boolean confirmationSuccess) {
                             isFinished = true;
                             timer.cancel();
-                            if (!confirmationSuccess) {
-                                GB.toast("connection unconfirmed on watch, unauthenticated mode", Toast.LENGTH_LONG, GB.ERROR);
+                            if (confirmationSuccess) {
+                                pairToWatch();
+                            } else {
+                                GB.toast(getContext().getString(R.string.fossil_hr_connection_not_confirmed), Toast.LENGTH_LONG, GB.ERROR);
                             }
                             initializeAfterWatchConfirmation(confirmationSuccess);
                         }
@@ -309,6 +313,29 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
                     timer.schedule(confirmTimeoutRunnable, 30000);
                 } else {
                     initializeAfterWatchConfirmation(true);
+                }
+            }
+        });
+    }
+
+    private void pairToWatch() {
+        queueWrite(new CheckDevicePairingRequest() {
+            @Override
+            public void onResult(boolean pairingStatus) {
+                GB.log("watch pairing status: " + pairingStatus, GB.INFO, null);
+                if (!pairingStatus) {
+                    queueWrite(new PerformDevicePairingRequest() {
+                        @Override
+                        public void onResult(boolean pairingSuccess) {
+                            isFinished = true;
+                            GB.log("watch pairing result: " + pairingSuccess, GB.INFO, null);
+                            if (pairingSuccess) {
+                                GB.toast(getContext().getString(R.string.fossil_hr_pairing_successful), Toast.LENGTH_LONG, GB.ERROR);
+                            } else {
+                                GB.toast(getContext().getString(R.string.fossil_hr_pairing_failed), Toast.LENGTH_LONG, GB.ERROR);
+                            }
+                        }
+                    }, true);
                 }
             }
         });

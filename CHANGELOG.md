@@ -10,6 +10,7 @@
 * Amazfit GTR 4: Whitelist fw 3.18.1.1 diff from 3.17.0.2
 * Amazfit GTS 2 Mini: Add missing alexa menu item
 * Bangle.js: Fix updating timezone in settings.json if the timezone is zero
+* Fossil/Skagen Hybrids: Pair watch to phone, fixes repeating confirmation request
 * Huami: Implement repeated activity fetching
 * Sony WH-1000XM4: Add speak-to-chat
 * Sony Headphones: Add button modes help
