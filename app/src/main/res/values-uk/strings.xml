@@ -2209,4 +2209,10 @@
 \n
 \nПРОДОВЖУЙТЕ НА ВЛАСНИЙ РИЗИК!</string>
     <string name="devicetype_sony_wh_1000xm5">Sony WH-1000XM5</string>
+    <string name="fossil_hr_pairing_successful">Успішне сполучення з годинником</string>
+    <string name="fossil_hr_pairing_failed">Не вдалося створити пару з годинником</string>
+    <string name="fossil_hr_connection_not_confirmed">З\'єднання не підтверджено на годиннику, використовується неавтентифікований режим</string>
+    <string name="fossil_hr_confirm_connection">Підтвердьте на годиннику</string>
+    <string name="fossil_hr_confirmation_skipped">Пропуск підтвердження на пристрої</string>
+    <string name="fossil_hr_confirmation_timeout">Час очікування підтвердження, продовжується</string>
 </resources>
