@@ -2200,4 +2200,10 @@
 \nהמשך התהליך הוא על אחריותך בלבד!</string>
     <string name="devicetype_amazfit_gtr3_pro">Amazfit GTR 3 Pro‎</string>
     <string name="devicetype_sony_wh_1000xm5">Sony WH-1000XM5‎</string>
+    <string name="fossil_hr_confirm_connection">נא לאשר בשעון שלך</string>
+    <string name="fossil_hr_connection_not_confirmed">החיבור לא אושר בשעון, מעבר למצב לא מאומת</string>
+    <string name="fossil_hr_pairing_successful">הצימוד עם השעון הצליח</string>
+    <string name="fossil_hr_pairing_failed">הצימוד עם השעון נכשל</string>
+    <string name="fossil_hr_confirmation_skipped">אישור בשעון דולג</string>
+    <string name="fossil_hr_confirmation_timeout">פג חלון הזמן לאישור, ממשיכים</string>
 </resources>
