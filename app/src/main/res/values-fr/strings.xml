@@ -2205,4 +2205,10 @@ Temps de sommeil préféré en heures</string>
 \nA VOS RISQUES ET PÉRILS !</string>
     <string name="devicetype_amazfit_gtr3_pro">Amazfit GTR 3 Pro</string>
     <string name="devicetype_sony_wh_1000xm5">Sony WH-1000XM5</string>
+    <string name="fossil_hr_confirm_connection">Merci de confirmer sur le bracelet</string>
+    <string name="fossil_hr_connection_not_confirmed">Connexion non confirmée sur l\'appareil, utilisation du mode non identifié</string>
+    <string name="fossil_hr_pairing_successful">Pairage avec l\'appareil réussie</string>
+    <string name="fossil_hr_pairing_failed">Pairage avec l\'appareil raté</string>
+    <string name="fossil_hr_confirmation_skipped">Passer la confirmation sur l\'appareil</string>
+    <string name="fossil_hr_confirmation_timeout">Hors délai pour la confirmation</string>
 </resources>
