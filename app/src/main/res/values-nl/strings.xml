@@ -2201,4 +2201,10 @@
 \n
 \nVERDERGAAN IS OP EIGEN RISICO!</string>
     <string name="devicetype_sony_wh_1000xm5">Sony WH-1000XM5</string>
+    <string name="fossil_hr_connection_not_confirmed">Verbinding niet bevestigd op horloge, gebruikt nu ongeauthenticeerde modus</string>
+    <string name="fossil_hr_pairing_successful">Koppelen met horloge gelukt</string>
+    <string name="fossil_hr_pairing_failed">Koppelen met horloge mislukt</string>
+    <string name="fossil_hr_confirmation_skipped">Bevestiging op apparaat overslaan</string>
+    <string name="fossil_hr_confirmation_timeout">Time-out voor bevestiging</string>
+    <string name="fossil_hr_confirm_connection">Bevestig alstublieft op het horloge</string>
 </resources>
