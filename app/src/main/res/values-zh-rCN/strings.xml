@@ -2201,4 +2201,10 @@
 \n风险自担！</string>
     <string name="devicetype_amazfit_gtr3_pro">跃我 GTR 3 Pro</string>
     <string name="devicetype_sony_wh_1000xm5">Sony WH-1000XM5</string>
+    <string name="fossil_hr_confirm_connection">请在您的手表上确认</string>
+    <string name="fossil_hr_connection_not_confirmed">未在手表上确认连接，使用未验证模式</string>
+    <string name="fossil_hr_pairing_successful">与手表配对成功</string>
+    <string name="fossil_hr_pairing_failed">与手表配对失败</string>
+    <string name="fossil_hr_confirmation_skipped">跳过设备上的确认</string>
+    <string name="fossil_hr_confirmation_timeout">确认超时，正在继续</string>
 </resources>
