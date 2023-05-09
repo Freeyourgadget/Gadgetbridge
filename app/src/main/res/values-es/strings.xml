@@ -2203,4 +2203,10 @@
 \n
 \n¡PROCEDA BAJO SU PROPIO RIESGO!</string>
     <string name="devicetype_sony_wh_1000xm5">Sony WH-1000XM5</string>
+    <string name="fossil_hr_confirm_connection">Por favor, confírmelo en su reloj</string>
+    <string name="fossil_hr_pairing_successful">Emparejamiento con el reloj correcto</string>
+    <string name="fossil_hr_pairing_failed">Falló el emparejamiento con el reloj</string>
+    <string name="fossil_hr_confirmation_timeout">Tiempo límite de confirmación, continuando</string>
+    <string name="fossil_hr_connection_not_confirmed">Conexión no confirmada en el reloj, utilizando el modo no autenticado</string>
+    <string name="fossil_hr_confirmation_skipped">Omitir la confirmación en el dispositivo</string>
 </resources>
