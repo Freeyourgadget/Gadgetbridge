@@ -2183,4 +2183,17 @@
     <string name="zepp_os_watchface_red_fantasy">Fantasi Merah</string>
     <string name="zepp_os_watchface_business_style">Gaya Bisnis</string>
     <string name="menuitem_aqi">Indeks Kualitas Udara</string>
+    <string name="devicetype_sony_wh_1000xm5">Sony WH-1000XM5</string>
+    <string name="fossil_hr_connection_not_confirmed">Koneksi tidak dikonfirmasi di jam tangan, menggunakan mode tidak diautentikasi</string>
+    <string name="fossil_hr_confirm_connection">Harap konfirmasi di jam tangan Anda</string>
+    <string name="fw_upgrade_notice_amazfit_gtr3_pro">Anda akan memasang perangkat tegar %s pada Amazfit GTR 3 Pro Anda.
+\n
+\nGelang Anda akan dinyalakan ulang setelah memasang berkas .zip.
+\n
+\nLANJUTKAN DENGAN RISIKO ANDA SENDIRI!</string>
+    <string name="devicetype_amazfit_gtr3_pro">Amazfit GTR 3 Pro</string>
+    <string name="fossil_hr_pairing_successful">Berhasil menyandingkan dengan jam tangan</string>
+    <string name="fossil_hr_pairing_failed">Penyandingan dengan jam tangan gagal</string>
+    <string name="fossil_hr_confirmation_skipped">Melewatkan konfirmasi pada perangkat</string>
+    <string name="fossil_hr_confirmation_timeout">Waktu konfirmasi habis, melanjutkan</string>
 </resources>
