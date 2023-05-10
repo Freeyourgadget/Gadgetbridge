@@ -2089,4 +2089,5 @@
     <string name="fossil_hr_pairing_failed">Pairing with watch failed</string>
     <string name="fossil_hr_confirmation_skipped">Skipping on-device confirmation</string>
     <string name="fossil_hr_confirmation_timeout">Confirmation timeout, continuing</string>
+    <string name="device_name_bicycle_sensor">Bicycle sensor</string>
 </resources>

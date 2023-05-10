@@ -44,6 +44,7 @@ import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHelper;
 import nodomain.freeyourgadget.gadgetbridge.devices.DeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.asteroidos.AsteroidOSDeviceCoordinator;
+import nodomain.freeyourgadget.gadgetbridge.devices.bicycle_sensor.coordinator.BicycleSensorCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.amazfitgtr3pro.AmazfitGTR3ProCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.amazfitgts4.AmazfitGTS4Coordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.amazfitgts4mini.AmazfitGTS4MiniCoordinator;
@@ -371,6 +372,7 @@ public class DeviceHelper {
         result.add(new SuperCarsCoordinator());
         result.add(new AsteroidOSDeviceCoordinator());
         result.add(new SoFlowCoordinator());
+        result.add(new BicycleSensorCoordinator());
 
         return result;
     }
