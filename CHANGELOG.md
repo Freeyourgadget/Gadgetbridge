@@ -1,13 +1,11 @@
 ### Changelog
 
-#### Next Version
-
+#### 0.74.0
 * Initial support for Amazfit GTR 3 Pro
 * Initial support for Sony WH-1000XM5
 * Amazfit Bip U: Remove alarm snooze option
 * Amazfit GTR 4 / GTS 4: Add watch Wi-Fi Hotspot and FTP Server
 * Amazfit GTR 4 / GTS 4: Perform and receive phone calls on watch
-* Amazfit GTR 4: Whitelist fw 3.18.1.1 diff from 3.17.0.2
 * Amazfit GTS 2 Mini: Add missing alexa menu item
 * Bangle.js: Fix updating timezone in settings.json if the timezone is zero
 * Fossil/Skagen Hybrids: Pair watch to phone, fixes repeating confirmation request

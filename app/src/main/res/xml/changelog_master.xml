@@ -1,5 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
+    <release version="0.74.0" versioncode="222">
+        <change>Initial support for Amazfit GTR 3 Pro</change>
+        <change>Initial support for Sony WH-1000XM5</change>
+        <change>Amazfit Bip U: Remove alarm snooze option</change>
+        <change>Amazfit GTR 4 / GTS 4: Add watch Wi-Fi Hotspot and FTP Server</change>
+        <change>Amazfit GTR 4 / GTS 4: Perform and receive phone calls on watch</change>
+        <change>Amazfit GTS 2 Mini: Add missing alexa menu item</change>
+        <change>Bangle.js: Fix updating timezone in settings.json if the timezone is zero</change>
+        <change>Fossil/Skagen Hybrids: Pair watch to phone, fixes repeating confirmation request</change>
+        <change>Huami: Implement repeated activity fetching</change>
+        <change>Sony WH-1000XM4: Add speak-to-chat</change>
+        <change>Sony Headphones: Add button modes help</change>
+        <change>Zepp OS: Add shortcut cards preference</change>
+        <change>Zepp OS: Add support for morning updates</change>
+        <change>Zepp OS: Add preference to keep screen on during workout</change>
+        <change>Zepp OS: Add preference for camera remote</change>
+        <change>Zepp OS: Fix activate display upon lift wrist smart mode</change>
+        <change>Zepp OS: Fix Cards and MI AI display item and shortcuts</change>
+        <change>Zepp OS: Fix setting of control center</change>
+        <change>Zepp OS: Fix setting of unknown configuration values</change>
+        <change>Zepp OS: Set watchface from phone</change>
+        <change>Add Croatian transliterator</change>
+        <change>Fix restoring app notification/pebble blacklist preferences on import</change>
+        <change>Cache notifications while devices are out of range (opt-in)</change>
+    </release>
     <release version="0.73.0" versioncode="221">
         <change>Initial support for Amazfit T-Rex 2</change>
         <change>Initial support for AsteroidOS watches</change>
