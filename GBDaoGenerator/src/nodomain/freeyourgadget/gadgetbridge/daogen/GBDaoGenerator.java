@@ -43,7 +43,7 @@ public class GBDaoGenerator {
 
 
     public static void main(String[] args) throws Exception {
-        final Schema schema = new Schema(45, MAIN_PACKAGE + ".entities");
+        final Schema schema = new Schema(46, MAIN_PACKAGE + ".entities");
 
         Entity userAttributes = addUserAttributes(schema);
         Entity user = addUserInfo(schema, userAttributes);
@@ -89,6 +89,7 @@ public class GBDaoGenerator {
         addAlarms(schema, user, device);
         addReminders(schema, user, device);
         addWorldClocks(schema, user, device);
+        addBicycleSensorActivitySample(schema, user, device);
 
         Entity notificationFilter = addNotificationFilters(schema);
 
@@ -387,6 +388,16 @@ public class GBDaoGenerator {
         activitySample.addBooleanProperty("active").notNull();
         activitySample.addByteProperty("wear_type").notNull();
         addHeartRateProperties(activitySample);
+        return activitySample;
+    }
+
+    private static Entity addBicycleSensorActivitySample(Schema schema, Entity user, Entity device){
+        Entity activitySample = addEntity(schema, "BicycleSensorActivitySample");
+        activitySample.implementsSerializable();
+
+        addCommonActivitySampleProperties("AbstractBicycleSensorActivitySample", activitySample, user, device);
+
+        activitySample.addIntProperty("revolution_count");
         return activitySample;
     }
 
