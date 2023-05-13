@@ -279,7 +279,15 @@
                 android:layout_height="wrap_content"
                 grid:layout_columnSpan="2"
                 grid:layout_gravity="fill_horizontal"
-                android:text="Show associated companion devices" />
+                android:text="@string/debug_companion_show_associated" />
+
+            <Button
+                android:id="@+id/pairAsCompanion"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                grid:layout_columnSpan="2"
+                grid:layout_gravity="fill_horizontal"
+                android:text="@string/debug_companion_pair_current" />
         </androidx.gridlayout.widget.GridLayout>
 
     </ScrollView>

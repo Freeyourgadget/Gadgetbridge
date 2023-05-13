@@ -2089,4 +2089,6 @@
     <string name="fossil_hr_pairing_failed">Pairing with watch failed</string>
     <string name="fossil_hr_confirmation_skipped">Skipping on-device confirmation</string>
     <string name="fossil_hr_confirmation_timeout">Confirmation timeout, continuing</string>
+    <string name="debug_companion_show_associated">Show associated companion devices</string>
+    <string name="debug_companion_pair_current">Pair current device as companion</string>
 </resources>

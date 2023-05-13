@@ -21,11 +21,15 @@ package nodomain.freeyourgadget.gadgetbridge.activities;
 import static android.content.Intent.EXTRA_SUBJECT;
 import static nodomain.freeyourgadget.gadgetbridge.util.GB.NOTIFICATION_CHANNEL_ID;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.PendingIntent;
 import android.appwidget.AppWidgetHost;
 import android.appwidget.AppWidgetManager;
+import android.bluetooth.BluetoothDevice;
+import android.companion.AssociationRequest;
+import android.companion.BluetoothDeviceFilter;
 import android.companion.CompanionDeviceManager;
 import android.content.BroadcastReceiver;
 import android.content.ComponentName;
@@ -33,6 +37,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.IntentSender;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Build;
@@ -57,6 +62,8 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.RequiresApi;
+import androidx.core.app.ActivityCompat;
 import androidx.core.app.NavUtils;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.RemoteInput;
@@ -147,6 +154,7 @@ public class DebugActivity extends AbstractGBActivity {
     private long selectedTestDeviceKey = SELECT_DEVICE;
     private String selectedTestDeviceMAC;
 
+    private static final int SELECT_DEVICE_REQUEST_CODE = 1;
 
     private void handleRealtimeSample(Serializable extra) {
         if (extra instanceof ActivitySample) {
@@ -648,6 +656,14 @@ public class DebugActivity extends AbstractGBActivity {
             }
         });
 
+        final Button pairAsCompanion = findViewById(R.id.pairAsCompanion);
+        pairAsCompanion.setVisibility(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O ? View.VISIBLE : View.GONE);
+        pairAsCompanion.setOnClickListener(v -> {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                pairCurrentAsCompanion();
+            }
+        });
+
         Button showStatusFitnessAppTracking = findViewById(R.id.showStatusFitnessAppTracking);
         final int delay = 2 * 1000;
 
@@ -700,7 +716,86 @@ public class DebugActivity extends AbstractGBActivity {
         });
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
 
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O &&
+                requestCode == SELECT_DEVICE_REQUEST_CODE &&
+                resultCode == Activity.RESULT_OK) {
+
+            final BluetoothDevice deviceToPair = data.getParcelableExtra(CompanionDeviceManager.EXTRA_DEVICE);
+
+            if (deviceToPair != null) {
+                if (deviceToPair.getBondState() != BluetoothDevice.BOND_BONDED) {
+                    GB.toast("Creating bond...", Toast.LENGTH_SHORT, GB.INFO);
+                    deviceToPair.createBond();
+                } else {
+                    GB.toast("Bonding complete", Toast.LENGTH_LONG, GB.INFO);
+                }
+            } else {
+                GB.toast("No device to pair", Toast.LENGTH_LONG, GB.ERROR);
+            }
+        }
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    private void pairCurrentAsCompanion() {
+        final GBApplication gbApp = (GBApplication) getApplicationContext();
+        final List<GBDevice> devices = gbApp.getDeviceManager().getSelectedDevices();
+        if (devices.size() != 1) {
+            GB.toast("Please connect to a single device that you want to pair as companion", Toast.LENGTH_LONG, GB.WARN);
+            return;
+        }
+
+        final GBDevice device = devices.get(0);
+
+        final CompanionDeviceManager manager = (CompanionDeviceManager) GBApplication.getContext().getSystemService(Context.COMPANION_DEVICE_SERVICE);
+
+        if (manager.getAssociations().contains(device.getAddress())) {
+            GB.toast(device.getAliasOrName() + " already paired as companion", Toast.LENGTH_LONG, GB.INFO);
+            return;
+        }
+
+        final BluetoothDeviceFilter deviceFilter = new BluetoothDeviceFilter.Builder()
+                .setAddress(device.getAddress())
+                .build();
+
+        final AssociationRequest pairingRequest = new AssociationRequest.Builder()
+                .addDeviceFilter(deviceFilter)
+                .setSingleDevice(true)
+                .build();
+
+        CompanionDeviceManager.Callback callback = new CompanionDeviceManager.Callback() {
+            @Override
+            public void onFailure(final CharSequence error) {
+                GB.toast("Companion pairing failed: " + error, Toast.LENGTH_LONG, GB.ERROR);
+            }
+
+            @Override
+            public void onDeviceFound(final IntentSender chooserLauncher) {
+                GB.toast("Found device", Toast.LENGTH_SHORT, GB.INFO);
+
+                try {
+                    ActivityCompat.startIntentSenderForResult(
+                            DebugActivity.this,
+                            chooserLauncher,
+                            SELECT_DEVICE_REQUEST_CODE,
+                            null,
+                            0,
+                            0,
+                            0,
+                            null
+                    );
+                } catch (final IntentSender.SendIntentException e) {
+                    LOG.error("Failed to send intent", e);
+                }
+            }
+        };
+
+        manager.associate(pairingRequest, callback, null);
+    }
 
     @Override
     protected void onPause() {
