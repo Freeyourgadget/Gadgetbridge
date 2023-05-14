@@ -64,20 +64,16 @@ public class Huami2021Weather {
 
         switch (path) {
             case "/weather/v2/forecast":
-                final String daysStr = query.get("days");
-                final int days;
-                if (daysStr != null) {
-                    days = Integer.parseInt(daysStr);
-                } else {
-                    days = 10;
-                }
-                return new ForecastResponse(weatherSpec, days);
+                final int forecastDays = getQueryNum(query, "days", 10);
+                return new ForecastResponse(weatherSpec, forecastDays);
             case "/weather/index":
-                return new IndexResponse(weatherSpec);
+                final int indexDays = getQueryNum(query, "days", 3);
+                return new IndexResponse(weatherSpec, indexDays);
             case "/weather/current":
                 return new CurrentResponse(weatherSpec);
             case "/weather/forecast/hourly":
-                return new HourlyResponse();
+                final int hours = getQueryNum(query, "hours", 72);
+                return new HourlyResponse(hours);
             case "/weather/alerts":
                 return new AlertsResponse();
             //case "/weather/tide":
@@ -86,6 +82,15 @@ public class Huami2021Weather {
 
         LOG.error("Unknown weather path {}", path);
         return new Huami2021Weather.ErrorResponse(404, -2001, "Not found");
+    }
+
+    private static int getQueryNum(final Map<String, String> query, final String key, final int defaultValue) {
+        final String daysStr = query.get(key);
+        if (daysStr != null) {
+            return Integer.parseInt(daysStr);
+        } else {
+            return defaultValue;
+        }
     }
 
     private static class RawJsonStringResponse extends Response {
@@ -144,8 +149,8 @@ public class Huami2021Weather {
     // locationKey=00.000,-0.000,xiaomi_accu:000000
     public static class ForecastResponse extends Response {
         public Date pubTime;
-        public List<String> humidity = new ArrayList<>();
-        public List<Range> temperature = new ArrayList<>();
+        public List<String> humidity = new ArrayList<>(); // int
+        public List<Range> temperature = new ArrayList<>(); // ints
         public List<Range> weather = new ArrayList<>();
         public List<Range> windDirection = new ArrayList<>();
         public List<Range> sunRiseSet = new ArrayList<>();
@@ -237,18 +242,18 @@ public class Huami2021Weather {
         public Date pubTime;
         public List<IndexEntry> dataList = new ArrayList<>();
 
-        public IndexResponse(final WeatherSpec weatherSpec) {
+        public IndexResponse(final WeatherSpec weatherSpec, final int days) {
             pubTime = new Date(weatherSpec.timestamp * 1000L);
         }
     }
 
     private static class IndexEntry {
         public String date; // YYYY-MM-DD, but LocalDate would need API 26+
-        public String osi;
-        public String uvi;
+        public String osi; // int
+        public String uvi; // int
         public Object pai;
-        public String cwi;
-        public String fi;
+        public String cwi; // int
+        public String fi; // int
     }
 
     // /weather/current
@@ -289,8 +294,14 @@ public class Huami2021Weather {
     }
 
     private static class AqiModel {
-        public String pm10 = "";
-        public String pm25 = "";
+        public String aqi; // int
+        public String co; // float
+        public String no2; // float
+        public String o3; // float
+        public String pm10; // int
+        public String pm25; // int
+        public String pubTime; // 2023-05-14T12:00:00-0400
+        public String so2; // float
     }
 
     // /weather/tide
@@ -391,6 +402,10 @@ public class Huami2021Weather {
         public List<String> windDirection;
         public List<String> windSpeed;
         public List<String> windScale; // each element in the form of 1-2
+
+        public HourlyResponse(final int hours) {
+
+        }
     }
 
     // /weather/alerts
