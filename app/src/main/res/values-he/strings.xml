@@ -2206,4 +2206,15 @@
     <string name="fossil_hr_pairing_failed">הצימוד עם השעון נכשל</string>
     <string name="fossil_hr_confirmation_skipped">אישור בשעון דולג</string>
     <string name="fossil_hr_confirmation_timeout">פג חלון הזמן לאישור, ממשיכים</string>
+    <string name="gpx_route_upload_in_progress">נתיבי GPX נשלחים</string>
+    <string name="activity_detail_share_raw_details">שיתוף פרטים גולמיים</string>
+    <string name="gpx_route_upload_failed">העלאת נתיבים כ־GPX נכשלה</string>
+    <string name="gpx_route_upload_complete">העלאת נתיבים כ־GPX הושלמה</string>
+    <string name="debug_companion_pair_current">צימוד המכשיר הנוכחי כמלווה</string>
+    <string name="activity_error_share_failed">שיתוף הקובץ נכשל.</string>
+    <string name="kind_gpx_route">נתיב GPX</string>
+    <string name="activity_detail_share_gps_label">שיתוף מסלול GPX</string>
+    <string name="activity_detail_share_raw_summary">שיתוף תקציר גולמי</string>
+    <string name="dev_tools">כלים למפתחים</string>
+    <string name="debug_companion_show_associated">הצגת מכשירים מלווים משויכים</string>
 </resources>
