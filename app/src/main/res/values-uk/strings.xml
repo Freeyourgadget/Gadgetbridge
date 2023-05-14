@@ -2215,4 +2215,15 @@
     <string name="fossil_hr_confirm_connection">Підтвердьте на годиннику</string>
     <string name="fossil_hr_confirmation_skipped">Пропуск підтвердження на пристрої</string>
     <string name="fossil_hr_confirmation_timeout">Час очікування підтвердження, продовжується</string>
+    <string name="debug_companion_pair_current">Пов\'язати поточний пристрій з компаньйоном</string>
+    <string name="debug_companion_show_associated">Показати пов\'язані супутні пристрої</string>
+    <string name="kind_gpx_route">GPX маршрут</string>
+    <string name="activity_detail_share_raw_summary">Поділіться необробленим підсумком</string>
+    <string name="dev_tools">Інструменти розробника</string>
+    <string name="activity_error_share_failed">Не вдалося поділитися файлом.</string>
+    <string name="activity_detail_share_gps_label">Поділитися GPS-треком</string>
+    <string name="activity_detail_share_raw_details">Поділіться необробленими подробицями</string>
+    <string name="gpx_route_upload_failed">Помилка завантаження маршруту Gpx</string>
+    <string name="gpx_route_upload_complete">Завантаження маршруту Gpx завершено</string>
+    <string name="gpx_route_upload_in_progress">Вивантаження gpx маршруту</string>
 </resources>
