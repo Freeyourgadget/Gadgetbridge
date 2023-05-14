@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.preference.PreferenceScreen
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <EditTextPreference
+        android:defaultValue="60"
+        android:inputType="number"
+        android:title="Persistence interval"
+        android:summary="Interval in seconds when the current cycling data should be written to the database"
+        android:icon="@drawable/ic_activity_biking"
+        android:key="pref_bicycle_persistence_interval" />
+
+</androidx.preference.PreferenceScreen>
