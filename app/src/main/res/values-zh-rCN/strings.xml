@@ -2207,4 +2207,10 @@
     <string name="fossil_hr_pairing_failed">与手表配对失败</string>
     <string name="fossil_hr_confirmation_skipped">跳过设备上的确认</string>
     <string name="fossil_hr_confirmation_timeout">确认超时，正在继续</string>
+    <string name="debug_companion_pair_current">将当前设备配对为配套设备</string>
+    <string name="debug_companion_show_associated">显示关联的配套设备</string>
+    <string name="gpx_route_upload_complete">GPX路径上传成功</string>
+    <string name="gpx_route_upload_in_progress">正在上传GPX路径</string>
+    <string name="gpx_route_upload_failed">GPX 路径上传失败</string>
+    <string name="kind_gpx_route">GPX路径</string>
 </resources>
