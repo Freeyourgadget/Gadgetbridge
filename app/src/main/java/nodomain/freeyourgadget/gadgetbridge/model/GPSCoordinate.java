@@ -20,7 +20,7 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.Comparator;
 
-public final class GPSCoordinate {
+public class GPSCoordinate {
     private final double latitude;
     private final double longitude;
     private final double altitude;

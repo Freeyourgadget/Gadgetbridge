@@ -1,0 +1,36 @@
+<?xml version='1.0' encoding='UTF-8' standalone='yes'?>
+<gpx version="1.1" creator="GBApplication.app().getNameAndVersion()"
+    xsi:schemaLocation="http://www.topografix.com/GPX/1/1 http://www.topografix.com/GPX/1/1/gpx.xsd
+                        http://opentracksapp.com/xmlschemas/v1 http://opentracksapp.com/xmlschemas/OpenTracks_v1.xsd"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:gpxtpx="http://www.garmin.com/xmlschemas/TrackPointExtension/v1"
+    xmlns="http://www.topografix.com/GPX/1/1"
+    xmlns:opentracks="http://opentracksapp.com/xmlschemas/v1">
+    <metadata>
+        <name>Order Test</name>
+        <author />
+        <time>2023-04-07T16:15:20+01:00</time>
+    </metadata>
+    <trk>
+        <trkseg>
+            <trkpt lon="-8.2695876" lat="-70.6666343">
+                <ele>790.000000</ele>
+                <time>2023-04-08T16:03:08Z</time>
+                <extensions>
+                    <gpxtpx:TrackPointExtension>
+                        <gpxtpx:hr>123</gpxtpx:hr>
+                    </gpxtpx:TrackPointExtension>
+                </extensions>
+            </trkpt>
+            <trkpt lon="-8.2653274" lat="-70.6670617">
+                <time>2023-04-08T16:17:19Z</time>
+                <ele>296.000000</ele>
+                <extensions>
+                    <gpxtpx:TrackPointExtension>
+                        <gpxtpx:hr>56</gpxtpx:hr>
+                    </gpxtpx:TrackPointExtension>
+                </extensions>
+            </trkpt>
+        </trkseg>
+    </trk>
+</gpx>

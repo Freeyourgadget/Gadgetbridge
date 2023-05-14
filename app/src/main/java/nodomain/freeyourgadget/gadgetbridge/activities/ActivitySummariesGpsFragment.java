@@ -34,13 +34,16 @@ import org.slf4j.LoggerFactory;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.model.GPSCoordinate;
-import nodomain.freeyourgadget.gadgetbridge.util.GpxParser;
+import nodomain.freeyourgadget.gadgetbridge.util.gpx.GpxParseException;
+import nodomain.freeyourgadget.gadgetbridge.util.gpx.GpxParser;
+import nodomain.freeyourgadget.gadgetbridge.util.gpx.model.GpxFile;
 
 import static android.graphics.Bitmap.createBitmap;
 
@@ -74,37 +77,35 @@ public class ActivitySummariesGpsFragment extends AbstractGBFragment {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                GpxParser gpxParser = null;
-                FileInputStream inputStream = null;
+                final GpxFile gpxFile;
 
-                try {
-                    inputStream = new FileInputStream(inputFile);
-                } catch (FileNotFoundException e) {
-                    e.printStackTrace();
+                try (FileInputStream inputStream = new FileInputStream(inputFile)) {
+                    final GpxParser gpxParser = new GpxParser(inputStream);
+                    gpxFile = gpxParser.getGpxFile();
+                } catch (final IOException e) {
+                    LOG.error("Failed to open {}", inputFile, e);
+                    return;
+                } catch (final GpxParseException e) {
+                    LOG.error("Failed to parse gpx file", e);
+                    return;
                 }
 
-                if (inputStream != null) {
-                    gpxParser = new GpxParser(inputStream);
-                }
-
-                if (gpxParser != null) {
-                    if (gpxParser.getPoints().toArray().length > 0) {
-                        drawTrack(canvas, gpxParser.getPoints());
-                    }
+                if (!gpxFile.getPoints().isEmpty()) {
+                    drawTrack(canvas, gpxFile.getPoints());
                 }
             }
         }).start();
     }
 
-    private void drawTrack(Canvas canvas, List<GPSCoordinate> trackPoints) {
+    private void drawTrack(Canvas canvas, List<? extends GPSCoordinate> trackPoints) {
         double maxLat = (Collections.max(trackPoints, new GPSCoordinate.compareLatitude())).getLatitude();
         double minLat = (Collections.min(trackPoints, new GPSCoordinate.compareLatitude())).getLatitude();
         double maxLon = (Collections.max(trackPoints, new GPSCoordinate.compareLongitude())).getLongitude();
         double minLon = (Collections.min(trackPoints, new GPSCoordinate.compareLongitude())).getLongitude();
         double maxAlt = (Collections.max(trackPoints, new GPSCoordinate.compareElevation())).getAltitude();
         double minAlt = (Collections.min(trackPoints, new GPSCoordinate.compareElevation())).getAltitude();
-        float scale_factor_w = (float) ((maxLat - minLat) / (maxLon - minLon));
-        float scale_factor_h = (float) ((maxLon - minLon) / (maxLat - minLat));
+        float scale_factor_w = (float) ((maxLon - minLon) / (maxLat - minLat));
+        float scale_factor_h = (float) ((maxLat - minLat) / (maxLon - minLon));
 
         if (scale_factor_h > scale_factor_w) { //scaling to draw proportionally
             scale_factor_h = 1;
@@ -122,7 +123,7 @@ public class ActivitySummariesGpsFragment extends AbstractGBFragment {
             float lon = (float) ((p.getLongitude() - minLon) / (maxLon - minLon));
             float alt = (float) ((p.getAltitude() - minAlt) / (maxAlt - minAlt));
             paint.setStrokeWidth(1 + alt); //make thicker with higher altitude, we could do more here
-            canvas.drawPoint(CANVAS_SIZE * lat * scale_factor_w, CANVAS_SIZE * lon * scale_factor_h, paint);
+            canvas.drawPoint(CANVAS_SIZE * lon * scale_factor_w, CANVAS_SIZE * lat * scale_factor_h, paint);
         }
     }
 
