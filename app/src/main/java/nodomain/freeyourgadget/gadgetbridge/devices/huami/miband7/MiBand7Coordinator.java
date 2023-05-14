@@ -57,9 +57,8 @@ public class MiBand7Coordinator extends Huami2021Coordinator {
     }
 
     @Override
-    public AbstractHuami2021FWInstallHandler findInstallHandler(final Uri uri, final Context context) {
-        final MiBand7FWInstallHandler handler = new MiBand7FWInstallHandler(uri, context);
-        return handler.isValid() ? handler : null;
+    public AbstractHuami2021FWInstallHandler createFwInstallHandler(final Uri uri, final Context context) {
+        return new MiBand7FWInstallHandler(uri, context);
     }
 
     @Override

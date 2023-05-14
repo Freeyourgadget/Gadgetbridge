@@ -57,9 +57,8 @@ public class AmazfitTRex2Coordinator extends Huami2021Coordinator {
     }
 
     @Override
-    public AbstractHuami2021FWInstallHandler findInstallHandler(final Uri uri, final Context context) {
-        final AmazfitTRex2FWInstallHandler handler = new AmazfitTRex2FWInstallHandler(uri, context);
-        return handler.isValid() ? handler : null;
+    public AbstractHuami2021FWInstallHandler createFwInstallHandler(final Uri uri, final Context context) {
+        return new AmazfitTRex2FWInstallHandler(uri, context);
     }
 
     @Override

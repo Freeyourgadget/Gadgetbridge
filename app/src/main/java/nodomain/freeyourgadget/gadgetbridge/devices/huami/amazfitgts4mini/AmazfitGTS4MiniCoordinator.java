@@ -57,9 +57,8 @@ public class AmazfitGTS4MiniCoordinator extends Huami2021Coordinator {
     }
 
     @Override
-    public AbstractHuami2021FWInstallHandler findInstallHandler(final Uri uri, final Context context) {
-        final AmazfitGTS4MiniFWInstallHandler handler = new AmazfitGTS4MiniFWInstallHandler(uri, context);
-        return handler.isValid() ? handler : null;
+    public AbstractHuami2021FWInstallHandler createFwInstallHandler(final Uri uri, final Context context) {
+        return new AmazfitGTS4MiniFWInstallHandler(uri, context);
     }
 
     @Override

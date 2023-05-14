@@ -57,9 +57,8 @@ public class AmazfitGTR3ProCoordinator extends Huami2021Coordinator {
     }
 
     @Override
-    public AbstractHuami2021FWInstallHandler findInstallHandler(final Uri uri, final Context context) {
-        final AmazfitGTR3ProFWInstallHandler handler = new AmazfitGTR3ProFWInstallHandler(uri, context);
-        return handler.isValid() ? handler : null;
+    public AbstractHuami2021FWInstallHandler createFwInstallHandler(final Uri uri, final Context context) {
+        return new AmazfitGTR3ProFWInstallHandler(uri, context);
     }
 
     @Override

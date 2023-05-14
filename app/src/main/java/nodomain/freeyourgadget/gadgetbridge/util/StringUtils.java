@@ -46,6 +46,27 @@ public class StringUtils {
         return s.substring(0, length);
     }
 
+    /**
+     * Truncate a string to a certain maximum number of bytes, assuming UTF-8 encoding.
+     * Does not include the null terminator. Due to multi-byte characters, it's possible
+     * that the resulting array is smaller than len, but never larger.
+     */
+    public static byte[] truncateToBytes(final String s, final int len) {
+        if (StringUtils.isNullOrEmpty(s)) {
+            return new byte[]{};
+        }
+
+        int i = 0;
+        while (++i < s.length()) {
+            final String subString = s.substring(0, i + 1);
+            if (subString.getBytes(StandardCharsets.UTF_8).length > len) {
+                break;
+            }
+        }
+
+        return s.substring(0, i).getBytes(StandardCharsets.UTF_8);
+    }
+
     public static int utf8ByteLength(String string, int length) {
         if (string == null) {
             return 0;

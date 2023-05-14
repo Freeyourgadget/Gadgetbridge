@@ -57,9 +57,8 @@ public class AmazfitBand7Coordinator extends Huami2021Coordinator {
     }
 
     @Override
-    public AbstractHuami2021FWInstallHandler findInstallHandler(final Uri uri, final Context context) {
-        final AmazfitBand7FWInstallHandler handler = new AmazfitBand7FWInstallHandler(uri, context);
-        return handler.isValid() ? handler : null;
+    public AbstractHuami2021FWInstallHandler createFwInstallHandler(final Uri uri, final Context context) {
+        return new AmazfitBand7FWInstallHandler(uri, context);
     }
 
     @Override

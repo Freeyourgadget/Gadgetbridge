@@ -25,13 +25,12 @@ import androidx.annotation.NonNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import nodomain.freeyourgadget.gadgetbridge.devices.InstallHandler;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.Huami2021Coordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst;
-import nodomain.freeyourgadget.gadgetbridge.devices.huami.zeppos.ZeppOsAgpsInstallHandler;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceCandidate;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.AbstractHuami2021FWInstallHandler;
 
 public class AmazfitGTR4Coordinator extends Huami2021Coordinator {
     private static final Logger LOG = LoggerFactory.getLogger(AmazfitGTR4Coordinator.class);
@@ -58,17 +57,22 @@ public class AmazfitGTR4Coordinator extends Huami2021Coordinator {
     }
 
     @Override
-    public InstallHandler findInstallHandler(final Uri uri, final Context context) {
-        final ZeppOsAgpsInstallHandler agpsInstallHandler = new ZeppOsAgpsInstallHandler(uri, context);
-        if (agpsInstallHandler.isValid()) {
-            return agpsInstallHandler;
-        }
-        final AmazfitGTR4FWInstallHandler handler = new AmazfitGTR4FWInstallHandler(uri, context);
-        return handler.isValid() ? handler : null;
+    public AbstractHuami2021FWInstallHandler createFwInstallHandler(final Uri uri, final Context context) {
+        return new AmazfitGTR4FWInstallHandler(uri, context);
     }
 
     @Override
     public boolean supportsContinuousFindDevice() {
+        return true;
+    }
+
+    @Override
+    public boolean supportsAgpsUpdates() {
+        return true;
+    }
+
+    @Override
+    public boolean supportsGpxUploads() {
         return true;
     }
 

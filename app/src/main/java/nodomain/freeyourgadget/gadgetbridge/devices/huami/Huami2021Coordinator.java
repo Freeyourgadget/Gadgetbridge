@@ -36,12 +36,15 @@ import de.greenrobot.dao.query.QueryBuilder;
 import nodomain.freeyourgadget.gadgetbridge.GBException;
 import nodomain.freeyourgadget.gadgetbridge.devices.InstallHandler;
 import nodomain.freeyourgadget.gadgetbridge.devices.SampleProvider;
+import nodomain.freeyourgadget.gadgetbridge.devices.huami.zeppos.ZeppOsAgpsInstallHandler;
+import nodomain.freeyourgadget.gadgetbridge.devices.huami.zeppos.ZeppOsGpxRouteInstallHandler;
 import nodomain.freeyourgadget.gadgetbridge.entities.AbstractActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
 import nodomain.freeyourgadget.gadgetbridge.entities.Device;
 import nodomain.freeyourgadget.gadgetbridge.entities.HuamiExtendedActivitySampleDao;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryParser;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.AbstractHuami2021FWInstallHandler;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.services.ZeppOsShortcutCardsService;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.services.ZeppOsConfigService;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.HuamiLanguageType;
@@ -50,8 +53,27 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.service
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 
 public abstract class Huami2021Coordinator extends HuamiCoordinator {
+    public abstract AbstractHuami2021FWInstallHandler createFwInstallHandler(final Uri uri, final Context context);
+
     @Override
-    public abstract InstallHandler findInstallHandler(final Uri uri, final Context context);
+    public InstallHandler findInstallHandler(final Uri uri, final Context context) {
+        if (supportsAgpsUpdates()) {
+            final ZeppOsAgpsInstallHandler agpsInstallHandler = new ZeppOsAgpsInstallHandler(uri, context);
+            if (agpsInstallHandler.isValid()) {
+                return agpsInstallHandler;
+            }
+        }
+
+        if (supportsGpxUploads()) {
+            final ZeppOsGpxRouteInstallHandler gpxRouteInstallHandler = new ZeppOsGpxRouteInstallHandler(uri, context);
+            if (gpxRouteInstallHandler.isValid()) {
+                return gpxRouteInstallHandler;
+            }
+        }
+
+        final AbstractHuami2021FWInstallHandler handler = createFwInstallHandler(uri, context);
+        return handler.isValid() ? handler : null;
+    }
 
     @Override
     public boolean supportsHeartRateMeasurement(final GBDevice device) {
@@ -336,6 +358,14 @@ public abstract class Huami2021Coordinator extends HuamiCoordinator {
 
     public boolean supportsContinuousFindDevice() {
         // TODO: Auto-detect continuous find device?
+        return false;
+    }
+
+    public boolean supportsAgpsUpdates() {
+        return false;
+    }
+
+    public boolean supportsGpxUploads() {
         return false;
     }
 
