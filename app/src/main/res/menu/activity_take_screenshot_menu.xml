@@ -17,10 +17,34 @@
                 app:showAsAction="never" />
 
             <item
-                android:id="@+id/activity_action_share_gpx"
+                android:id="@+id/activity_action_show_gpx"
                 android:icon="@drawable/ic_map"
                 android:title="@string/activity_detail_show_gps_label"
                 app:showAsAction="never" />
+
+            <item
+                android:id="@+id/activity_action_share_gpx"
+                android:icon="@drawable/ic_share"
+                android:title="@string/activity_detail_share_gps_label"
+                app:showAsAction="never" />
+
+            <item
+                android:id="@+id/activity_action_dev_tools"
+                android:icon="@drawable/ic_developer_mode"
+                android:title="@string/dev_tools"
+                app:showAsAction="never">
+                <menu>
+                    <item
+                        android:id="@+id/activity_action_dev_share_raw_summary"
+                        android:title="@string/activity_detail_share_raw_summary"
+                        app:showAsAction="never" />
+
+                    <item
+                        android:id="@+id/activity_action_dev_share_raw_details"
+                        android:title="@string/activity_detail_share_raw_details"
+                        app:showAsAction="never" />
+                </menu>
+            </item>
 
         </menu>
     </item>

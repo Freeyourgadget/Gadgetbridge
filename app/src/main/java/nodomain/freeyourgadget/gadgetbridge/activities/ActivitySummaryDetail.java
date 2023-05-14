@@ -188,7 +188,7 @@ public class ActivitySummaryDetail extends AbstractGBActivity {
                     }
 
                     layout.startAnimation(animFadeRight);
-                    show_hide_gpx_menu();
+                    updateMenuItems();
                 } else {
                     layout.startAnimation(animBounceRight);
                 }
@@ -211,7 +211,7 @@ public class ActivitySummaryDetail extends AbstractGBActivity {
 
 
                     layout.startAnimation(animFadeLeft);
-                    show_hide_gpx_menu();
+                    updateMenuItems();
                 } else {
                     layout.startAnimation(animBounceLeft);
                 }
@@ -560,8 +560,17 @@ public class ActivitySummaryDetail extends AbstractGBActivity {
             case R.id.activity_action_take_screenshot:
                 take_share_screenshot(ActivitySummaryDetail.this);
                 return true;
+            case R.id.activity_action_show_gpx:
+                viewGpxTrack(ActivitySummaryDetail.this);
+                return true;
             case R.id.activity_action_share_gpx:
-                share_gpx_track(ActivitySummaryDetail.this);
+                shareGpxTrack(ActivitySummaryDetail.this, currentItem);
+                return true;
+            case R.id.activity_action_dev_share_raw_summary:
+                shareRawSummary(ActivitySummaryDetail.this, currentItem);
+                return true;
+            case R.id.activity_action_dev_share_raw_details:
+                shareRawDetails(ActivitySummaryDetail.this, currentItem);
                 return true;
         }
         return super.onOptionsItemSelected(item);
@@ -604,7 +613,7 @@ public class ActivitySummaryDetail extends AbstractGBActivity {
         }
     }
 
-    private void share_gpx_track(Context context) {
+    private void viewGpxTrack(Context context) {
         final String gpxTrack = currentItem.getGpxTrack();
 
         if (gpxTrack != null) {
@@ -618,16 +627,63 @@ public class ActivitySummaryDetail extends AbstractGBActivity {
         }
     }
 
-    private void show_hide_gpx_menu() {
-        String gpxTrack = null;
+    private static void shareGpxTrack(final Context context, final BaseActivitySummary summary) {
+        try {
+            AndroidUtils.shareFile(context, new File(summary.getGpxTrack()));
+        } catch (final Exception e) {
+            GB.toast(context, "Unable to share GPX track: " + e.getMessage(), Toast.LENGTH_LONG, GB.ERROR, e);
+        }
+    }
+
+    private static void shareRawSummary(final Context context, final BaseActivitySummary summary) {
+        if (summary.getRawSummaryData() == null) {
+            GB.toast(context, "No raw summary in this activity", Toast.LENGTH_LONG, GB.WARN);
+            return;
+        }
+
+        final String rawSummaryFilename = FileUtils.makeValidFileName(String.format("%s_summary.bin", DateTimeUtils.formatIso8601(summary.getStartTime())));
+
+        try {
+            AndroidUtils.shareBytesAsFile(context, rawSummaryFilename, summary.getRawSummaryData());
+        } catch (final Exception e) {
+            GB.toast(context, "Unable to share GPX track: " + e.getMessage(), Toast.LENGTH_LONG, GB.ERROR, e);
+        }
+    }
+
+    private static void shareRawDetails(final Context context, final BaseActivitySummary summary) {
+        if (summary.getRawDetailsPath() == null) {
+            GB.toast(context, "No raw details in this activity", Toast.LENGTH_LONG, GB.WARN);
+            return;
+        }
+
+        try {
+            AndroidUtils.shareFile(context, new File(summary.getRawDetailsPath()));
+        } catch (final Exception e) {
+            GB.toast(context, "Unable to share raw details: " + e.getMessage(), Toast.LENGTH_LONG, GB.ERROR, e);
+        }
+    }
+
+    private void updateMenuItems() {
+        boolean hasGpx = false;
+        boolean hasRawSummary = false;
+        boolean hasRawDetails = false;
+
         if (currentItem != null) {
-            gpxTrack = currentItem.getGpxTrack();
+            hasGpx = currentItem.getGpxTrack() != null;
+            hasRawSummary = currentItem.getRawSummaryData() != null;
+
+            final String rawDetailsPath = currentItem.getRawDetailsPath();
+            if (rawDetailsPath != null) {
+                hasRawDetails = new File(rawDetailsPath).exists();
+            }
         }
-        if (gpxTrack == null) {
-            mOptionsMenu.findItem(R.id.activity_detail_overflowMenu).getSubMenu().findItem(R.id.activity_action_share_gpx).setVisible(false);
-        } else {
-            mOptionsMenu.findItem(R.id.activity_detail_overflowMenu).getSubMenu().findItem(R.id.activity_action_share_gpx).setVisible(true);
-        }
+
+        mOptionsMenu.findItem(R.id.activity_detail_overflowMenu).getSubMenu().findItem(R.id.activity_action_show_gpx).setVisible(hasGpx);
+        mOptionsMenu.findItem(R.id.activity_detail_overflowMenu).getSubMenu().findItem(R.id.activity_action_share_gpx).setVisible(hasGpx);
+        mOptionsMenu.findItem(R.id.activity_detail_overflowMenu).getSubMenu().findItem(R.id.activity_action_dev_share_raw_summary).setVisible(hasRawSummary);
+        mOptionsMenu.findItem(R.id.activity_detail_overflowMenu).getSubMenu().findItem(R.id.activity_action_dev_share_raw_details).setVisible(hasRawDetails);
+        final MenuItem devToolsMenu = mOptionsMenu.findItem(R.id.activity_detail_overflowMenu).getSubMenu().findItem(R.id.activity_action_dev_tools);
+        devToolsMenu.setVisible(devToolsMenu.getSubMenu().hasVisibleItems());
     }
 
     private void showCanvas() {
@@ -663,7 +719,7 @@ public class ActivitySummaryDetail extends AbstractGBActivity {
         super.onCreateOptionsMenu(menu);
         mOptionsMenu = menu;
         getMenuInflater().inflate(R.menu.activity_take_screenshot_menu, menu);
-        show_hide_gpx_menu();
+        updateMenuItems();
         return true;
     }
 

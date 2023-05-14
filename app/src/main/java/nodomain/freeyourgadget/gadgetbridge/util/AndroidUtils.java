@@ -26,7 +26,6 @@ import android.content.res.Configuration;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Environment;
 import android.os.ParcelUuid;
 import android.os.Parcelable;
@@ -40,7 +39,11 @@ import androidx.annotation.Nullable;
 import androidx.core.content.FileProvider;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.Locale;
@@ -49,6 +52,8 @@ import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
 
 public class AndroidUtils {
+    private static final Logger LOG = LoggerFactory.getLogger(AndroidUtils.class);
+
     /**
      * Creates a new {@link ParcelUuid} array with the contents of the given uuids.
      * The given array is expected to contain only {@link ParcelUuid} elements.
@@ -242,6 +247,49 @@ public class AndroidUtils {
             context.startActivity(intent);
         } catch (ActivityNotFoundException e) {
             Toast.makeText(context, R.string.activity_error_no_app_for_gpx, Toast.LENGTH_LONG).show();
+        }
+    }
+
+    public static void shareBytesAsFile(final Context context, final String name, final byte[] bytes) throws IOException {
+        final File cacheDir = context.getCacheDir();
+        final File rawCacheDir = new File(cacheDir, "raw");
+        rawCacheDir.mkdir();
+        final File file = new File(rawCacheDir, name);
+
+        try (FileOutputStream outputStream = new FileOutputStream(file)) {
+            outputStream.write(bytes);
+        } catch (final IOException e) {
+            LOG.error("Failed to write bytes to temporary file", e);
+            return;
+        }
+
+        shareFile(context, file);
+    }
+
+    public static void shareFile(final Context context, final File file) throws IOException {
+        if (!file.exists()) {
+            LOG.warn("File {} does not exist", file.getPath());
+            return;
+        }
+
+        shareFile(context, file, "*/*");
+    }
+
+    public static void shareFile(final Context context, final File file, final String type) throws IOException {
+        final Uri contentUri = FileProvider.getUriForFile(
+                context,
+                context.getApplicationContext().getPackageName() + ".screenshot_provider",
+                file
+        );
+
+        final Intent intent = new Intent(Intent.ACTION_SEND);
+        intent.setType(type);
+        intent.putExtra(Intent.EXTRA_STREAM, contentUri);
+        intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+        try {
+            context.startActivity(Intent.createChooser(intent, "Share file"));
+        } catch (ActivityNotFoundException e) {
+            Toast.makeText(context, R.string.activity_error_share_failed, Toast.LENGTH_LONG).show();
         }
     }
 }

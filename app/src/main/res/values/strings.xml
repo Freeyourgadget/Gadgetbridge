@@ -1188,6 +1188,7 @@
     <string name="activity_type_exercise">Exercise</string>
     <string name="activity_error_no_app_for_gpx">To view activity trace, install app which can handle GPX files.</string>
     <string name="activity_error_no_app_for_png">To share this screenshot, install an app which can handle image files.</string>
+    <string name="activity_error_share_failed">Sharing file failed.</string>
     <string name="select_all">Select all</string>
     <string name="share">Share</string>
     <string name="reset_index">Reset fetch date</string>
@@ -1618,7 +1619,11 @@
     <string name="activity_detail_end_label">End</string>
     <string name="activity_detail_duration_label">Duration</string>
     <string name="activity_detail_show_gps_label">Show GPS Track</string>
+    <string name="activity_detail_share_gps_label">Share GPS Track</string>
+    <string name="activity_detail_share_raw_summary">Share Raw Summary</string>
+    <string name="activity_detail_share_raw_details">Share Raw Details</string>
     <string name="gps_track">GPS track</string>
+    <string name="dev_tools">Dev Tools</string>
     <!-- Device Actions Preferences -->
     <string name="prefs_events_forwarding_summary">Use device events to trigger actions and Android broadcasts</string>
     <string name="prefs_events_forwarding_title">Device actions</string>
