@@ -1579,6 +1579,8 @@
     <string name="error_background_service_reason">Starting the background service failed because of an exception. Error: </string>
     <string name="pref_check_permission_status">Check permission status</string>
     <string name="pref_check_permission_status_summary">Check and ask for missing permissions even when they might not be instantly needed. Disable this only if your devices actually doesn\'t support any of these features. Not granting a permission might cause issues!</string>
+    <string name="pref_show_changelog">Show changelog on startup</string>
+    <string name="pref_show_changelog_summary">Display the changelog since last version after Gadgetbridge is updated</string>
     <string name="error_exporting_device_preferences">Error exporting device specific preferences</string>
     <string name="error_setting_alias">Error setting alias: </string>
     <string name="error_retrieving_devices_database">Error retrieving devices from database</string>

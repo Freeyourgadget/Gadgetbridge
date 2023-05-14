@@ -362,7 +362,8 @@ public class ControlCenterv2 extends AppCompatActivity
         }
 
         GBChangeLog cl = createChangeLog();
-        if (cl.isFirstRun() && cl.hasChanges(cl.isFirstRunEver())) {
+        final boolean showChangelog = prefs.getBoolean("show_changelog", true);
+        if (showChangelog && cl.isFirstRun() && cl.hasChanges(cl.isFirstRunEver())) {
             try {
                 cl.getMaterialLogDialog().show();
             } catch (Exception ignored) {

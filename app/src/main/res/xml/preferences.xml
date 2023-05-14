@@ -308,6 +308,13 @@
             app:iconSpaceReserved="false" />
         <SwitchPreference
             android:defaultValue="true"
+            android:key="show_changelog"
+            android:layout="@layout/preference_checkbox"
+            android:summary="@string/pref_show_changelog_summary"
+            android:title="@string/pref_show_changelog"
+            app:iconSpaceReserved="false" />
+        <SwitchPreference
+            android:defaultValue="true"
             android:key="cache_weather"
             android:layout="@layout/preference_checkbox"
             android:summary="@string/pref_cache_weather_summary"
