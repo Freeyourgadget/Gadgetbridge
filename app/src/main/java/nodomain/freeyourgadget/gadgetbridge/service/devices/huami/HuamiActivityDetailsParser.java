@@ -135,7 +135,11 @@ public class HuamiActivityDetailsParser extends AbstractHuamiActivityDetailsPars
     private void fixupMissingTimestamps(ActivityTrack activityTrack) {
         try {
             int pointer = 0;
-            List<ActivityPoint> activityPointList = activityTrack.getTrackPoints();
+            List<ActivityPoint> activityPointList = new ArrayList<>();
+            for (List<ActivityPoint> segment : activityTrack.getSegments()) {
+                activityPointList.addAll(segment);
+            }
+
             Date gpsStartTime = null;
             List<ActivityPoint> entriesToFixUp = new ArrayList<>();
             while (pointer < activityPointList.size() - 1) {

@@ -28,7 +28,10 @@ public class ActivityTrack {
     private Device device;
     private User user;
     private String name;
-
+    private List<ActivityPoint> currentSegment = new ArrayList<>();
+    private List<List<ActivityPoint>> segments = new ArrayList<List<ActivityPoint>>() {{
+        add(currentSegment);
+    }};
 
     public void setBaseTime(Date baseTime) {
         this.baseTime = baseTime;
@@ -50,18 +53,23 @@ public class ActivityTrack {
         this.user = user;
     }
 
-    public void setTrackPoints(List<ActivityPoint> trackPoints) {
-        this.trackPoints = trackPoints;
+    /**
+     * Add a track point to the current segment.
+     */
+    public void addTrackPoint(final ActivityPoint point) {
+        currentSegment.add(point);
     }
 
-    private List<ActivityPoint> trackPoints = new ArrayList<>();
-
-    public void addTrackPoint(ActivityPoint point) {
-        trackPoints.add(point);
+    public void startNewSegment() {
+        // Only really start a new segment if the current one is not empty
+        if (!currentSegment.isEmpty()) {
+            currentSegment = new ArrayList<>();
+            segments.add(currentSegment);
+        }
     }
 
-    public List<ActivityPoint> getTrackPoints() {
-        return trackPoints;
+    public List<List<ActivityPoint>> getSegments() {
+        return segments;
     }
 
     public Date getBaseTime() {

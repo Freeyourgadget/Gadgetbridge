@@ -207,9 +207,11 @@ public class Huami2021ActivityDetailsParser extends AbstractHuamiActivityDetails
                 break;
             case 4:
                 status = "pause";
+                activityTrack.startNewSegment();
                 break;
             case 5:
                 status = "resume";
+                activityTrack.startNewSegment();
                 break;
             case 6:
                 status = "stop";

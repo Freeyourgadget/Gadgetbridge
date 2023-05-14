@@ -114,20 +114,26 @@ public class GPXExporter implements ActivityTrackExporter {
         ser.startTag(NS_GPX_URI, OPENTRACKS_PREFIX + ":trackid").text(uuid).endTag(NS_GPX_URI, OPENTRACKS_PREFIX + ":trackid");
         ser.endTag(NS_GPX_URI, "extensions");
 
-        ser.startTag(NS_GPX_URI, "trkseg");
-
-        List<ActivityPoint> trackPoints = track.getTrackPoints();
+        List<List<ActivityPoint>> segments = track.getSegments();
         String source = getSource(track);
         boolean atLeastOnePointExported = false;
-        for (ActivityPoint point : trackPoints) {
-            atLeastOnePointExported |= exportTrackPoint(ser, point, source, trackPoints);
+        for (List<ActivityPoint> segment : segments) {
+            if (segment.isEmpty()) {
+                // Skip empty segments
+                continue;
+            }
+
+            ser.startTag(NS_GPX_URI, "trkseg");
+            for (ActivityPoint point : segment) {
+                atLeastOnePointExported |= exportTrackPoint(ser, point, source, segment);
+            }
+            ser.endTag(NS_GPX_URI, "trkseg");
         }
 
-        if(!atLeastOnePointExported) {
+        if (!atLeastOnePointExported) {
             throw new GPXTrackEmptyException();
         }
 
-        ser.endTag(NS_GPX_URI, "trkseg");
         ser.endTag(NS_GPX_URI, "trk");
     }
 

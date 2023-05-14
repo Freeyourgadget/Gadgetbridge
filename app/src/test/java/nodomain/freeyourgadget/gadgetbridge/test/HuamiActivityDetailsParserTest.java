@@ -45,8 +45,9 @@ public class HuamiActivityDetailsParserTest extends TestBase {
             assertEquals("SuperBand 2000", track.getDevice().getName());
             assertEquals("Elvis", track.getUser().getName());
 
-            List<ActivityPoint> trackPoints = track.getTrackPoints();
-            assertEquals(972, trackPoints.size());
+            List<List<ActivityPoint>> segments = track.getSegments();
+            assertEquals(1, segments.size());
+            assertEquals(972, segments.get(0).size());
         }
     }
 
@@ -84,9 +85,9 @@ public class HuamiActivityDetailsParserTest extends TestBase {
         try (InputStream in = getContents(DETAILS_1)) {
             ActivityTrack track = parser.parse(FileUtils.readAll(in, MAX_DETAILS));
 
-            List<ActivityPoint> trackPoints = track.getTrackPoints();
-            assertEquals(972, trackPoints.size());
-
+            List<List<ActivityPoint>> segments = track.getSegments();
+            assertEquals(1, segments.size());
+            assertEquals(972, segments.get(0).size());
 
             GPXExporter exporter = new GPXExporter();
             exporter.setIncludeHeartRate(false);
