@@ -6,35 +6,37 @@ import androidx.annotation.Nullable;
 import de.greenrobot.dao.AbstractDao;
 import de.greenrobot.dao.Property;
 import nodomain.freeyourgadget.gadgetbridge.devices.AbstractSampleProvider;
+import nodomain.freeyourgadget.gadgetbridge.entities.BicycleSensorActivitySample;
+import nodomain.freeyourgadget.gadgetbridge.entities.BicycleSensorActivitySampleDao;
 import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 
 public class BicycleSensorActivitySampleProvider extends AbstractSampleProvider<BicycleSensorActivitySample> {
-    protected BicycleSensorActivitySampleProvider(GBDevice device, DaoSession session) {
+    public BicycleSensorActivitySampleProvider(GBDevice device, DaoSession session) {
         super(device, session);
     }
 
     @Override
     public AbstractDao<BicycleSensorActivitySample, ?> getSampleDao() {
-        return getSession().getBicycleSensorSampleDao();
+        return getSession().getBicycleSensorActivitySampleDao();
     }
 
     @Nullable
     @Override
     protected Property getRawKindSampleProperty() {
-        return BicycleSensorActivitySample.Properties.RevolutionCount;
+        return BicycleSensorActivitySampleDao.Properties.RevolutionCount;
     }
 
     @NonNull
     @Override
     protected Property getTimestampSampleProperty() {
-        return BicycleSensorActivitySample.Properties.Timestamp;
+        return BicycleSensorActivitySampleDao.Properties.Timestamp;
     }
 
     @NonNull
     @Override
     protected Property getDeviceIdentifierSampleProperty() {
-        return BicycleSensorActivitySample.Properties.DeviceId;
+        return BicycleSensorActivitySampleDao.Properties.DeviceId;
     }
 
     @Override

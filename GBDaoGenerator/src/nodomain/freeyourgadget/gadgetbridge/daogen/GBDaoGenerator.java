@@ -395,9 +395,9 @@ public class GBDaoGenerator {
         Entity activitySample = addEntity(schema, "BicycleSensorActivitySample");
         activitySample.implementsSerializable();
 
-        addCommonActivitySampleProperties("AbstractBicycleSensorActivitySample", activitySample, user, device);
+        addCommonActivitySampleProperties("AbstractActivitySample", activitySample, user, device);
 
-        activitySample.addIntProperty("revolution_count");
+        activitySample.addIntProperty("RevolutionCount");
         return activitySample;
     }
 

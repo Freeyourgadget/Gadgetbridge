@@ -10,6 +10,7 @@ import androidx.annotation.Nullable;
 import java.util.UUID;
 
 import nodomain.freeyourgadget.gadgetbridge.GBException;
+import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.devices.AbstractBLEDeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.InstallHandler;
 import nodomain.freeyourgadget.gadgetbridge.devices.SampleProvider;
@@ -60,7 +61,7 @@ public class BicycleSensorCoordinator extends AbstractBLEDeviceCoordinator {
 
     @Override
     public SampleProvider<? extends ActivitySample> getSampleProvider(GBDevice device, DaoSession session) {
-        return BicycleSensorActivitySampleProvider.class;
+        return new BicycleSensorActivitySampleProvider(device, session);
     }
 
     @Override
@@ -111,5 +112,17 @@ public class BicycleSensorCoordinator extends AbstractBLEDeviceCoordinator {
     @Override
     public boolean supportsFindDevice() {
         return false;
+    }
+
+    @Override
+    public int getBondingStyle() {
+        return BONDING_STYLE_NONE;
+    }
+
+    @Override
+    public int[] getSupportedDeviceSpecificSettings(GBDevice device) {
+        return new int[]{
+                R.xml.devicesettings_bicycle_sensor
+        };
     }
 }
