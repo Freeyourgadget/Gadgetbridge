@@ -2196,4 +2196,15 @@
     <string name="fossil_hr_pairing_failed">Penyandingan dengan jam tangan gagal</string>
     <string name="fossil_hr_confirmation_skipped">Melewatkan konfirmasi pada perangkat</string>
     <string name="fossil_hr_confirmation_timeout">Waktu konfirmasi habis, melanjutkan</string>
+    <string name="gpx_route_upload_failed">Pengunggahan rute GPX gagal</string>
+    <string name="gpx_route_upload_complete">Pengunggahan rute GPX selesai</string>
+    <string name="gpx_route_upload_in_progress">Mengunggah rute GPX</string>
+    <string name="activity_error_share_failed">Pembagian berkas gagal.</string>
+    <string name="kind_gpx_route">Rute GPX</string>
+    <string name="activity_detail_share_gps_label">Bagikan Trek GPS</string>
+    <string name="activity_detail_share_raw_summary">Bagikan Ikhtisar Mentah</string>
+    <string name="activity_detail_share_raw_details">Bagikan Detail Mentah</string>
+    <string name="dev_tools">Alat Pengembang</string>
+    <string name="debug_companion_show_associated">Tampilkan perangkat pendamping terkait</string>
+    <string name="debug_companion_pair_current">Sandingkan perangkat saat ini sebagai pendamping</string>
 </resources>
