@@ -2209,4 +2209,15 @@
     <string name="fossil_hr_confirmation_timeout">Tiempo límite de confirmación, continuando</string>
     <string name="fossil_hr_connection_not_confirmed">Conexión no confirmada en el reloj, utilizando el modo no autenticado</string>
     <string name="fossil_hr_confirmation_skipped">Omitir la confirmación en el dispositivo</string>
+    <string name="gpx_route_upload_complete">Carga de ruta Gpx completada</string>
+    <string name="gpx_route_upload_in_progress">Cargando ruta gpx</string>
+    <string name="kind_gpx_route">Ruta GPX</string>
+    <string name="dev_tools">Herramientas de desarrollo</string>
+    <string name="gpx_route_upload_failed">Error al cargar la ruta Gpx</string>
+    <string name="activity_error_share_failed">Error al compartir el archivo.</string>
+    <string name="activity_detail_share_gps_label">Compartir seguimiento GPS</string>
+    <string name="activity_detail_share_raw_summary">Compartir el resumen en bruto</string>
+    <string name="activity_detail_share_raw_details">Compartir detalles en bruto</string>
+    <string name="debug_companion_show_associated">Mostrar dispositivos asociados</string>
+    <string name="debug_companion_pair_current">Emparejar el dispositivo actual como compañero</string>
 </resources>
