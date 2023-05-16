@@ -2211,4 +2211,15 @@ Temps de sommeil préféré en heures</string>
     <string name="fossil_hr_pairing_failed">Pairage avec l\'appareil raté</string>
     <string name="fossil_hr_confirmation_skipped">Passer la confirmation sur l\'appareil</string>
     <string name="fossil_hr_confirmation_timeout">Hors délai pour la confirmation</string>
+    <string name="gpx_route_upload_failed">L\'envoi du tracé Gpx a échoué</string>
+    <string name="kind_gpx_route">Tracé GPX</string>
+    <string name="debug_companion_show_associated">Afficher les appareils associés</string>
+    <string name="activity_error_share_failed">Le partage du fichier a échoué.</string>
+    <string name="dev_tools">Outils Dev</string>
+    <string name="debug_companion_pair_current">Associer l\'appareil actuel comme compagnon</string>
+    <string name="gpx_route_upload_complete">L\'envoi du tracé Gpx a réussi</string>
+    <string name="activity_detail_share_raw_details">Partager les détails bruts</string>
+    <string name="activity_detail_share_gps_label">Partager un tracé GPS</string>
+    <string name="activity_detail_share_raw_summary">Partager le résumé brut</string>
+    <string name="gpx_route_upload_in_progress">Envoi du tracé Gpx en cours</string>
 </resources>
