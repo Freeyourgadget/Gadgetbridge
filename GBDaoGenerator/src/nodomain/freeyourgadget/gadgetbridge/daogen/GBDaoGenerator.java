@@ -398,6 +398,7 @@ public class GBDaoGenerator {
         addCommonActivitySampleProperties("AbstractActivitySample", activitySample, user, device);
 
         activitySample.addIntProperty("RevolutionCount");
+        activitySample.addIntProperty(SAMPLE_STEPS).notNull().codeBeforeGetterAndSetter(OVERRIDE);
         return activitySample;
     }
 
