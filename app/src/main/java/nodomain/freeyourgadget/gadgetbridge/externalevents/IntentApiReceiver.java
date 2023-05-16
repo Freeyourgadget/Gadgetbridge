@@ -24,6 +24,10 @@ import android.content.IntentFilter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.Locale;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.database.PeriodicExporter;
 import nodomain.freeyourgadget.gadgetbridge.model.RecordedDataTypes;
@@ -51,9 +55,22 @@ public class IntentApiReceiver extends BroadcastReceiver {
                     return;
                 }
 
-                LOG.info("Triggering activity sync");
+                final int dataTypes;
+                final String dataTypesHex = intent.getStringExtra("dataTypesHex");
+                if (dataTypesHex != null) {
+                    final Matcher matcher = Pattern.compile("^0[xX]([0-9a-fA-F]+)$").matcher(dataTypesHex);
+                    if (!matcher.find()) {
+                        LOG.warn("Failed to parse dataTypesHex '{}' as hex", dataTypesHex);
+                        return;
+                    }
+                    dataTypes = Integer.parseInt(matcher.group(1), 16);
+                } else {
+                    dataTypes = RecordedDataTypes.TYPE_ACTIVITY;
+                }
 
-                GBApplication.deviceService().onFetchRecordedData(RecordedDataTypes.TYPE_ACTIVITY);
+                LOG.info("Triggering activity sync for data types {}", String.format("0x%08x", dataTypes));
+
+                GBApplication.deviceService().onFetchRecordedData(dataTypes);
                 break;
             case COMMAND_TRIGGER_EXPORT:
                 if (!prefs.getBoolean("intent_api_allow_trigger_export", false)) {
