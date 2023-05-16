@@ -2207,4 +2207,15 @@
     <string name="fossil_hr_confirmation_skipped">Bevestiging op apparaat overslaan</string>
     <string name="fossil_hr_confirmation_timeout">Time-out voor bevestiging</string>
     <string name="fossil_hr_confirm_connection">Bevestig alstublieft op het horloge</string>
+    <string name="debug_companion_show_associated">Toon CompanionDevice-koppelingen</string>
+    <string name="debug_companion_pair_current">Koppel het huidige apparaat als CompanionDevice</string>
+    <string name="activity_error_share_failed">Bestand delen is mislukt.</string>
+    <string name="activity_detail_share_gps_label">GPS-track delen</string>
+    <string name="activity_detail_share_raw_summary">Ruwe samenvatting delen</string>
+    <string name="activity_detail_share_raw_details">Deel onbewerkte details</string>
+    <string name="gpx_route_upload_failed">Gpx-route-upload mislukt</string>
+    <string name="gpx_route_upload_in_progress">Gpx-route uploaden</string>
+    <string name="gpx_route_upload_complete">Gpx-route uploaden voltooid</string>
+    <string name="kind_gpx_route">GPX-route</string>
+    <string name="dev_tools">Ontwikkeltools</string>
 </resources>
