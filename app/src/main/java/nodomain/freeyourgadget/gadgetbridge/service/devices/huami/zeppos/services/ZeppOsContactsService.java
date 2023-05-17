@@ -23,6 +23,7 @@ import java.io.ByteArrayOutputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 
+import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventUpdatePreferences;
 import nodomain.freeyourgadget.gadgetbridge.model.Contact;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.BLETypeConversions;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
@@ -42,6 +43,8 @@ public class ZeppOsContactsService extends AbstractZeppOsService {
 
     private int version = 0;
     private int maxContacts = 0;
+
+    public static final String PREF_CONTACTS_SLOT_COUNT = "zepp_os_contacts_slot_count";
 
     public ZeppOsContactsService(final Huami2021Support support) {
         super(support);
@@ -68,6 +71,7 @@ public class ZeppOsContactsService extends AbstractZeppOsService {
                 }
                 maxContacts = BLETypeConversions.toUint16(payload, 2);
                 LOG.info("Contacts version={}, maxContacts={}", version, maxContacts);
+                getSupport().evaluateGBDeviceEvent(new GBDeviceEventUpdatePreferences(PREF_CONTACTS_SLOT_COUNT, maxContacts));
                 break;
             case CMD_SET_LIST_ACK:
                 LOG.info("Got contacts set list ack, status = {}", payload[1]);
@@ -77,12 +81,9 @@ public class ZeppOsContactsService extends AbstractZeppOsService {
         }
     }
 
-    public int maxContacts() {
-        return maxContacts;
-    }
-
-    public boolean isSupported() {
-        return version == 1 && maxContacts != 0;
+    @Override
+    public void initialize(final TransactionBuilder builder) {
+        requestCapabilities(builder);
     }
 
     public void requestCapabilities(final TransactionBuilder builder) {

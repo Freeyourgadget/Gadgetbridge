@@ -43,7 +43,7 @@ public class GBDaoGenerator {
 
 
     public static void main(String[] args) throws Exception {
-        final Schema schema = new Schema(45, MAIN_PACKAGE + ".entities");
+        final Schema schema = new Schema(46, MAIN_PACKAGE + ".entities");
 
         Entity userAttributes = addUserAttributes(schema);
         Entity user = addUserInfo(schema, userAttributes);
@@ -89,6 +89,7 @@ public class GBDaoGenerator {
         addAlarms(schema, user, device);
         addReminders(schema, user, device);
         addWorldClocks(schema, user, device);
+        addContacts(schema, user, device);
 
         Entity notificationFilter = addNotificationFilters(schema);
 
@@ -596,6 +597,24 @@ public class GBDaoGenerator {
         worldClock.addStringProperty("timeZoneId").notNull();
         worldClock.addToOne(user, userId);
         worldClock.addToOne(device, deviceId);
+    }
+
+    private static void addContacts(Schema schema, Entity user, Entity device) {
+        Entity contact = addEntity(schema, "Contact");
+        contact.implementsInterface("nodomain.freeyourgadget.gadgetbridge.model.Contact");
+        Property deviceId = contact.addLongProperty("deviceId").notNull().getProperty();
+        Property userId = contact.addLongProperty("userId").notNull().getProperty();
+        Property contactId = contact.addStringProperty("contactId").notNull().primaryKey().getProperty();
+        Index indexUnique = new Index();
+        indexUnique.addProperty(deviceId);
+        indexUnique.addProperty(userId);
+        indexUnique.addProperty(contactId);
+        indexUnique.makeUnique();
+        contact.addIndex(indexUnique);
+        contact.addStringProperty("name").notNull();
+        contact.addStringProperty("number").notNull();
+        contact.addToOne(user, userId);
+        contact.addToOne(device, deviceId);
     }
 
     private static void addNotificationFilterEntry(Schema schema, Entity notificationFilterEntity) {

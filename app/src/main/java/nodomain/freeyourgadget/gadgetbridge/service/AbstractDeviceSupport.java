@@ -84,6 +84,7 @@ import nodomain.freeyourgadget.gadgetbridge.model.BatteryState;
 import nodomain.freeyourgadget.gadgetbridge.model.CalendarEventSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.CallSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.CannedMessagesSpec;
+import nodomain.freeyourgadget.gadgetbridge.model.Contact;
 import nodomain.freeyourgadget.gadgetbridge.model.MusicSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.MusicStateSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
@@ -636,6 +637,16 @@ public abstract class AbstractDeviceSupport implements DeviceSupport {
      */
     @Override
     public void onSetWorldClocks(ArrayList<? extends WorldClock> clocks) {
+
+    }
+
+    /**
+     * If contacts can be configured on the device, this method can be
+     * overridden and implemented by the device support class.
+     * @param contacts {@link java.util.ArrayList} containing {@link nodomain.freeyourgadget.gadgetbridge.model.Contact} instances
+     */
+    @Override
+    public void onSetContacts(ArrayList<? extends Contact> contacts) {
 
     }
 

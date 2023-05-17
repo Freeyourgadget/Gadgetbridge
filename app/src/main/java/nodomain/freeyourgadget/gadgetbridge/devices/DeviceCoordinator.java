@@ -404,6 +404,11 @@ public interface DeviceCoordinator {
     boolean supportsDisabledWorldClocks();
 
     /**
+     * Indicates the maximum number of slots available for contacts in the device.
+     */
+    int getContactsSlotCount(GBDevice device);
+
+    /**
      * Indicates whether the device has an led which supports custom colors
      */
     boolean supportsLedColor();

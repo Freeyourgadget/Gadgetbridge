@@ -270,6 +270,11 @@ public abstract class AbstractDeviceCoordinator implements DeviceCoordinator {
     }
 
     @Override
+    public int getContactsSlotCount(final GBDevice device) {
+        return 0;
+    }
+
+    @Override
     public boolean supportsRgbLedColor() {
         return false;
     }

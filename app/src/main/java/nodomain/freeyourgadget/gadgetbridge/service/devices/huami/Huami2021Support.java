@@ -91,6 +91,7 @@ import nodomain.freeyourgadget.gadgetbridge.model.Alarm;
 import nodomain.freeyourgadget.gadgetbridge.model.CalendarEventSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.CallSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.CannedMessagesSpec;
+import nodomain.freeyourgadget.gadgetbridge.model.Contact;
 import nodomain.freeyourgadget.gadgetbridge.model.MusicSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.MusicStateSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
@@ -593,6 +594,11 @@ public abstract class Huami2021Support extends HuamiSupport {
         buf.put((byte) 0x00);
 
         writeToChunked2021(builder, CHUNKED2021_ENDPOINT_REMINDERS, buf.array(), false);
+    }
+
+    @Override
+    public void onSetContacts(ArrayList<? extends Contact> contacts) {
+        contactsService.setContacts((List<Contact>) contacts);
     }
 
     @Override
@@ -1182,7 +1188,6 @@ public abstract class Huami2021Support extends HuamiSupport {
             phoneService.requestCapabilities(builder);
             phoneService.requestEnabled(builder);
         }
-        //contactsService.requestCapabilities(builder);
     }
 
     @Override

@@ -50,6 +50,8 @@ import nodomain.freeyourgadget.gadgetbridge.entities.ActivityDescription;
 import nodomain.freeyourgadget.gadgetbridge.entities.ActivityDescriptionDao;
 import nodomain.freeyourgadget.gadgetbridge.entities.Alarm;
 import nodomain.freeyourgadget.gadgetbridge.entities.AlarmDao;
+import nodomain.freeyourgadget.gadgetbridge.entities.Contact;
+import nodomain.freeyourgadget.gadgetbridge.entities.ContactDao;
 import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
 import nodomain.freeyourgadget.gadgetbridge.entities.Device;
 import nodomain.freeyourgadget.gadgetbridge.entities.DeviceAttributes;
@@ -668,6 +670,28 @@ public class DBHelper {
         return Collections.emptyList();
     }
 
+    @NonNull
+    public static List<Contact> getContacts(@NonNull GBDevice gbDevice) {
+        try (DBHandler db = GBApplication.acquireDB()) {
+            final DaoSession daoSession = db.getDaoSession();
+            final User user = getUser(daoSession);
+            final Device dbDevice = DBHelper.findDevice(gbDevice, daoSession);
+            if (dbDevice != null) {
+                final ContactDao contactDao = daoSession.getContactDao();
+                final Long deviceId = dbDevice.getId();
+                final QueryBuilder<Contact> qb = contactDao.queryBuilder();
+                qb.where(
+                        ContactDao.Properties.UserId.eq(user.getId()),
+                        ContactDao.Properties.DeviceId.eq(deviceId)).orderAsc(ContactDao.Properties.Name);
+                return qb.build().list();
+            }
+        } catch (final Exception e) {
+            LOG.error("Error reading contacts from db", e);
+        }
+
+        return Collections.emptyList();
+    }
+
     public static void store(final Reminder reminder) {
         try (DBHandler db = GBApplication.acquireDB()) {
             final DaoSession daoSession = db.getDaoSession();
@@ -686,6 +710,15 @@ public class DBHelper {
         }
     }
 
+    public static void store(final Contact contact) {
+        try (DBHandler db = GBApplication.acquireDB()) {
+            final DaoSession daoSession = db.getDaoSession();
+            daoSession.insertOrReplace(contact);
+        } catch (final Exception e) {
+            LOG.error("Error acquiring database", e);
+        }
+    }
+
     public static void delete(final Reminder reminder) {
         try (DBHandler db = GBApplication.acquireDB()) {
             final DaoSession daoSession = db.getDaoSession();
@@ -699,6 +732,15 @@ public class DBHelper {
         try (DBHandler db = GBApplication.acquireDB()) {
             final DaoSession daoSession = db.getDaoSession();
             daoSession.delete(worldClock);
+        } catch (final Exception e) {
+            LOG.error("Error acquiring database", e);
+        }
+    }
+
+    public static void delete(final Contact contact) {
+        try (DBHandler db = GBApplication.acquireDB()) {
+            final DaoSession daoSession = db.getDaoSession();
+            daoSession.delete(contact);
         } catch (final Exception e) {
             LOG.error("Error acquiring database", e);
         }

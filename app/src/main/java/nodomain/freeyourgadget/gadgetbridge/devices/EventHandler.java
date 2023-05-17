@@ -28,6 +28,7 @@ import nodomain.freeyourgadget.gadgetbridge.model.Alarm;
 import nodomain.freeyourgadget.gadgetbridge.model.CalendarEventSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.CallSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.CannedMessagesSpec;
+import nodomain.freeyourgadget.gadgetbridge.model.Contact;
 import nodomain.freeyourgadget.gadgetbridge.model.MusicSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.MusicStateSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
@@ -52,6 +53,8 @@ public interface EventHandler {
     void onSetReminders(ArrayList<? extends Reminder> reminders);
 
     void onSetWorldClocks(ArrayList<? extends WorldClock> clocks);
+
+    void onSetContacts(ArrayList<? extends Contact> contacts);
 
     void onSetCallState(CallSpec callSpec);
 

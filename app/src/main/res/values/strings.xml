@@ -668,8 +668,11 @@
     <string name="title_activity_charts">Activity and Sleep</string>
     <string name="title_activity_set_alarm">Configure alarms</string>
     <string name="title_activity_set_reminders">Configure reminders</string>
+    <string name="title_activity_set_contacts">Configure contacts</string>
     <string name="pref_world_clocks_title">World Clocks</string>
     <string name="pref_world_clocks_summary">Configure clocks for other timezones</string>
+    <string name="pref_contacts_title">Contacts</string>
+    <string name="pref_contacts_summary">Configure contacts on the watch</string>
     <string name="controlcenter_start_configure_alarms">Configure alarms</string>
     <string name="controlcenter_start_configure_reminders">Configure reminders</string>
     <string name="reminder_repeat">Repeat</string>
@@ -690,6 +693,9 @@
     <string name="reminder_delete_confirm_description">Are you sure you want to delete the reminder?</string>
     <string name="reminder_no_free_slots_title">No free slots</string>
     <string name="reminder_no_free_slots_description">The device has no free slots for reminders (total slots: %1$s)</string>
+    <string name="contact_delete_confirm_title">Delete contact</string>
+    <string name="contact_delete_confirm_description">Are you sure you want to delete \'%1$s\'?</string>
+    <string name="contact_no_free_slots_description">The device has no free slots for contacts (total slots: %1$s)</string>
     <string name="world_clock_delete_confirm_title">Delete \'%1$s\'</string>
     <string name="world_clock_delete_confirm_description">Are you sure you want to delete the world clock?</string>
     <string name="world_clock_no_free_slots_title">No free slots</string>
@@ -700,6 +706,7 @@
     <string name="world_clock_code">Code</string>
     <string name="title_activity_alarm_details">Alarm details</string>
     <string name="title_activity_reminder_details">Reminder details</string>
+    <string name="title_activity_contact_details">Contact details</string>
     <string name="title_activity_world_clock_details">World Clock details</string>
     <string name="alarm_sun_short">Sun</string>
     <string name="alarm_mon_short">Mon</string>
@@ -2100,4 +2107,8 @@
     <string name="fossil_hr_confirmation_timeout">Confirmation timeout, continuing</string>
     <string name="debug_companion_show_associated">Show associated companion devices</string>
     <string name="debug_companion_pair_current">Pair current device as companion</string>
+    <string name="contact_name">Name</string>
+    <string name="contact_phone_number">Phone number</string>
+    <string name="contact_missing_name">Contact name is empty</string>
+    <string name="contact_missing_number">Contact number is empty</string>
 </resources>

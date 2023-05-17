@@ -45,6 +45,7 @@ import nodomain.freeyourgadget.gadgetbridge.entities.HuamiExtendedActivitySample
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryParser;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.AbstractHuami2021FWInstallHandler;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.services.ZeppOsContactsService;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.services.ZeppOsShortcutCardsService;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.services.ZeppOsConfigService;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.HuamiLanguageType;
@@ -172,6 +173,11 @@ public abstract class Huami2021Coordinator extends HuamiCoordinator {
     }
 
     @Override
+    public int getContactsSlotCount(final GBDevice device) {
+        return getPrefs(device).getInt(ZeppOsContactsService.PREF_CONTACTS_SLOT_COUNT, 0);
+    }
+
+    @Override
     public String[] getSupportedLanguageSettings(final GBDevice device) {
         // Return all known languages by default. Unsupported languages will be removed by Huami2021SettingsCustomizer
         final List<String> allLanguages = new ArrayList<>(HuamiLanguageType.idLookup.keySet());
@@ -280,6 +286,9 @@ public abstract class Huami2021Coordinator extends HuamiCoordinator {
         // Other
         //
         settings.add(R.xml.devicesettings_header_other);
+        if (getContactsSlotCount(device) > 0) {
+            settings.add(R.xml.devicesettings_contacts);
+        }
         settings.add(R.xml.devicesettings_offline_voice);
         settings.add(R.xml.devicesettings_device_actions_without_not_wear);
         settings.add(R.xml.devicesettings_buttonactions_upper_long);

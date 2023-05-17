@@ -39,6 +39,7 @@ import nodomain.freeyourgadget.gadgetbridge.model.Alarm;
 import nodomain.freeyourgadget.gadgetbridge.model.CalendarEventSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.CallSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.CannedMessagesSpec;
+import nodomain.freeyourgadget.gadgetbridge.model.Contact;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceService;
 import nodomain.freeyourgadget.gadgetbridge.model.MusicSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.MusicStateSpec;
@@ -265,6 +266,13 @@ public class GBDeviceService implements DeviceService {
     public void onSetWorldClocks(ArrayList<? extends WorldClock> clocks) {
         Intent intent = createIntent().setAction(ACTION_SET_WORLD_CLOCKS)
                 .putExtra(EXTRA_WORLD_CLOCKS, clocks);
+        invokeService(intent);
+    }
+
+    @Override
+    public void onSetContacts(ArrayList<? extends Contact> contacts) {
+        Intent intent = createIntent().setAction(ACTION_SET_CONTACTS)
+                .putExtra(EXTRA_CONTACTS, contacts);
         invokeService(intent);
     }
 
