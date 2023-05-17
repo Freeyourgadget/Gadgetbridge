@@ -192,6 +192,15 @@ public interface DeviceCoordinator {
     boolean supportsActivityTracking();
 
     /**
+     * Returns true if cycling data is supported by the device
+     * (with this coordinator).
+     * This enables the ChartsActivity.
+     *
+     * @return
+     */
+    boolean supportsCyclingData();
+
+    /**
      * Indicates whether the device supports recording dedicated activity tracks, like
      * walking, hiking, running, swimming, etc. and retrieving the recorded
      * data. This is different from the constant activity tracking since the tracks are

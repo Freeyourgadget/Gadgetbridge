@@ -6,8 +6,8 @@ import org.slf4j.LoggerFactory;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.AbstractBTLEDeviceSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.binary_sensor.BinarySensorSupport;
 
-public class BicycleSensorBaseSupport extends AbstractBTLEDeviceSupport {
-    public BicycleSensorBaseSupport(Logger logger) {
+public class CyclingSensorBaseSupport extends AbstractBTLEDeviceSupport {
+    public CyclingSensorBaseSupport(Logger logger) {
         super(logger);
     }
 

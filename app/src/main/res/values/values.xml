@@ -96,6 +96,7 @@
     <item name="p_call_privacy_mode_number" type="string">number</item>
     <item name="p_call_privacy_mode_complete" type="string">complete</item>
 
+    <item name="p_cycling" type="string">cycling</item>
     <item name="p_activity" type="string">activity</item>
     <item name="p_activity_list" type="string">activitylist</item>
     <item name="p_sleep" type="string">sleep</item>

@@ -27,14 +27,13 @@ import android.content.Context;
 import android.widget.Toast;
 
 import java.lang.reflect.Constructor;
-import java.util.EnumSet;
 
 import nodomain.freeyourgadget.gadgetbridge.GBException;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.asteroidos.AsteroidOSDeviceSupport;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.bicycle_sensor.support.BicycleSensorSupport;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.bicycle_sensor.support.CyclingSensorSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.binary_sensor.BinarySensorSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.fitpro.FitProDeviceSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.banglejs.BangleJSDeviceSupport;
@@ -44,7 +43,6 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.domyos.DomyosT540Sup
 import nodomain.freeyourgadget.gadgetbridge.service.devices.flipper.zero.support.FlipperZeroSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.galaxy_buds.GalaxyBudsDeviceSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.hplus.HPlusSupport;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.HuamiSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.amazfitband5.AmazfitBand5Support;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.amazfitband7.AmazfitBand7Support;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.amazfitbip.AmazfitBipLiteSupport;
@@ -372,7 +370,7 @@ public class DeviceSupportFactory {
             case SOFLOW_SO6:
                 return new ServiceDeviceSupport(new SoFlowSupport());
             case BICYCLE_SENSOR:
-                return new ServiceDeviceSupport(new BicycleSensorSupport());
+                return new ServiceDeviceSupport(new CyclingSensorSupport());
         }
         return null;
     }

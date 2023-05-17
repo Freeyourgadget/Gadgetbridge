@@ -291,6 +291,11 @@ public abstract class AbstractDeviceCoordinator implements DeviceCoordinator {
     }
 
     @Override
+    public boolean supportsCyclingData() {
+        return false;
+    }
+
+    @Override
     public boolean supportsRemSleep() {
         return false;
     }

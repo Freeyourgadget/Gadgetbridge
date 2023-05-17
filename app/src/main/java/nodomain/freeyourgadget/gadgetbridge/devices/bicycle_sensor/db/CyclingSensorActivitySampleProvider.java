@@ -11,8 +11,8 @@ import nodomain.freeyourgadget.gadgetbridge.entities.BicycleSensorActivitySample
 import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 
-public class BicycleSensorActivitySampleProvider extends AbstractSampleProvider<BicycleSensorActivitySample> {
-    public BicycleSensorActivitySampleProvider(GBDevice device, DaoSession session) {
+public class CyclingSensorActivitySampleProvider extends AbstractSampleProvider<BicycleSensorActivitySample> {
+    public CyclingSensorActivitySampleProvider(GBDevice device, DaoSession session) {
         super(device, session);
     }
 

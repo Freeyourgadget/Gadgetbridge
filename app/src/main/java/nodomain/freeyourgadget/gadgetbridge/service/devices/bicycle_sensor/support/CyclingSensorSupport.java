@@ -13,7 +13,6 @@ import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.Serializable;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.util.UUID;
@@ -23,23 +22,20 @@ import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSett
 import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHelper;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventBatteryInfo;
-import nodomain.freeyourgadget.gadgetbridge.devices.bicycle_sensor.db.BicycleSensorActivitySampleProvider;
+import nodomain.freeyourgadget.gadgetbridge.devices.bicycle_sensor.db.CyclingSensorActivitySampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.entities.BicycleSensorActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
 import nodomain.freeyourgadget.gadgetbridge.entities.Device;
 import nodomain.freeyourgadget.gadgetbridge.entities.User;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
-import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceService;
-import nodomain.freeyourgadget.gadgetbridge.model.Measurement;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.NotifyAction;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.ReadAction;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.SetDeviceStateAction;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.profiles.battery.BatteryInfoProfile;
-import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
-public class BicycleSensorSupport extends BicycleSensorBaseSupport{
+public class CyclingSensorSupport extends CyclingSensorBaseSupport {
     static class CyclingSpeedCadenceMeasurement {
 
 
@@ -96,7 +92,7 @@ public class BicycleSensorSupport extends BicycleSensorBaseSupport{
     public final static UUID UUID_BICYCLE_SENSOR_CSC_MEASUREMENT =
             UUID.fromString("00002a5b-0000-1000-8000-00805f9b34fb");
 
-    private static final Logger logger = LoggerFactory.getLogger(BicycleSensorSupport.class);
+    private static final Logger logger = LoggerFactory.getLogger(CyclingSensorSupport.class);
 
     private long persistenceInterval;
     private long nextPersistenceTimestamp = 0;
@@ -108,7 +104,7 @@ public class BicycleSensorSupport extends BicycleSensorBaseSupport{
 
     private BluetoothGattCharacteristic batteryCharacteristic = null;
 
-    public BicycleSensorSupport() {
+    public CyclingSensorSupport() {
         super(logger);
 
         addSupportedService(UUID_BICYCLE_SENSOR_SERVICE);
@@ -182,8 +178,8 @@ public class BicycleSensorSupport extends BicycleSensorBaseSupport{
             DaoSession session = handler.getDaoSession();
 
             BicycleSensorActivitySample sample = new BicycleSensorActivitySample();
-            BicycleSensorActivitySampleProvider sampleProvider =
-                    new BicycleSensorActivitySampleProvider(getDevice(), session);
+            CyclingSensorActivitySampleProvider sampleProvider =
+                    new CyclingSensorActivitySampleProvider(getDevice(), session);
 
             boolean persistSample = currentMeasurement.revolutionDataPresent || currentMeasurement.cadenceDataPresent;
 

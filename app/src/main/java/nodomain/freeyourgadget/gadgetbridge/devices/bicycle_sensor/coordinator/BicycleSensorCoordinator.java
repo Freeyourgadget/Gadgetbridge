@@ -7,21 +7,19 @@ import android.net.Uri;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import java.util.UUID;
-
 import nodomain.freeyourgadget.gadgetbridge.GBException;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.devices.AbstractBLEDeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.InstallHandler;
 import nodomain.freeyourgadget.gadgetbridge.devices.SampleProvider;
-import nodomain.freeyourgadget.gadgetbridge.devices.bicycle_sensor.db.BicycleSensorActivitySampleProvider;
+import nodomain.freeyourgadget.gadgetbridge.devices.bicycle_sensor.db.CyclingSensorActivitySampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
 import nodomain.freeyourgadget.gadgetbridge.entities.Device;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceCandidate;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.bicycle_sensor.support.BicycleSensorSupport;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.bicycle_sensor.support.CyclingSensorSupport;
 
 public class BicycleSensorCoordinator extends AbstractBLEDeviceCoordinator {
     @Override
@@ -32,7 +30,7 @@ public class BicycleSensorCoordinator extends AbstractBLEDeviceCoordinator {
     @NonNull
     @Override
     public DeviceType getSupportedType(GBDeviceCandidate candidate) {
-        if(candidate.supportsService(BicycleSensorSupport.UUID_BICYCLE_SENSOR_SERVICE)){
+        if(candidate.supportsService(CyclingSensorSupport.UUID_BICYCLE_SENSOR_SERVICE)){
             return getDeviceType();
         }
         return DeviceType.UNKNOWN;
@@ -55,13 +53,18 @@ public class BicycleSensorCoordinator extends AbstractBLEDeviceCoordinator {
     }
 
     @Override
+    public boolean supportsCyclingData() {
+        return true;
+    }
+
+    @Override
     public boolean supportsActivityTracking() {
         return true;
     }
 
     @Override
     public SampleProvider<? extends ActivitySample> getSampleProvider(GBDevice device, DaoSession session) {
-        return new BicycleSensorActivitySampleProvider(device, session);
+        return new CyclingSensorActivitySampleProvider(device, session);
     }
 
     @Override

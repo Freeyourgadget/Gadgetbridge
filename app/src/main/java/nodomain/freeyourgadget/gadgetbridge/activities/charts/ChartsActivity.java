@@ -257,6 +257,9 @@ public class ChartsActivity extends AbstractGBFragmentActivity implements Charts
         if (!coordinator.supportsRealtimeData()) {
             arrayList.remove("livestats");
         }
+        if (!coordinator.supportsCyclingData()) {
+            arrayList.remove("cycling");
+        }
         return arrayList;
     }
 
@@ -398,6 +401,8 @@ public class ChartsActivity extends AbstractGBFragmentActivity implements Charts
         public Fragment getItem(int position) {
             // getItem is called to instantiate the fragment for the given page.
             switch (enabledTabsList.get(position)) {
+                case "cycling":
+                    return new CyclingDataFragment();
                 case "activity":
                     return new ActivitySleepChartFragment();
                 case "activitylist":
