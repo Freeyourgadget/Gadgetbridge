@@ -47,6 +47,7 @@ import android.os.Messenger;
 import android.os.RemoteException;
 import android.widget.Toast;
 
+import androidx.core.content.res.ResourcesCompat;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import org.json.JSONArray;
@@ -156,6 +157,7 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fos
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.workout.WorkoutRequestHandler;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.misfit.FactoryResetRequest;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
+import nodomain.freeyourgadget.gadgetbridge.util.NotificationUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 import nodomain.freeyourgadget.gadgetbridge.util.StringUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.UriHelper;
@@ -1279,11 +1281,10 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
                     Drawable icon = null;
                     if (notificationSpec.iconId != 0) {
                         Context sourcePackageContext = getContext().createPackageContext(sourceAppId, 0);
-                        icon = sourcePackageContext.getResources().getDrawable(notificationSpec.iconId);
+                        icon = ResourcesCompat.getDrawable(sourcePackageContext.getResources(), notificationSpec.iconId, null);
                     }
                     if (icon == null) {
-                        PackageManager pm = getContext().getPackageManager();
-                        icon = pm.getApplicationIcon(sourceAppId);
+                        icon = NotificationUtils.getAppIcon(getContext(), sourceAppId);
                     }
                     Bitmap iconBitmap = convertDrawableToBitmap(icon);
                     appIconCache.put(sourceAppId, iconBitmap);

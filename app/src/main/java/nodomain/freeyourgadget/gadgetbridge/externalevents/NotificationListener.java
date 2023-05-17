@@ -80,6 +80,7 @@ import nodomain.freeyourgadget.gadgetbridge.model.NotificationType;
 import nodomain.freeyourgadget.gadgetbridge.service.DeviceCommunicationService;
 import nodomain.freeyourgadget.gadgetbridge.util.BitmapUtil;
 import nodomain.freeyourgadget.gadgetbridge.util.LimitedQueue;
+import nodomain.freeyourgadget.gadgetbridge.util.NotificationUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.PebbleUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 
@@ -966,7 +967,7 @@ public class NotificationListener extends NotificationListenerService {
         // Otherwise, we go and attempt to find the color from the app icon.
         Drawable icon;
         try {
-            icon = getApplicationContext().getPackageManager().getApplicationIcon(appId);
+            icon = NotificationUtils.getAppIcon(getApplicationContext(), appId);
             Objects.requireNonNull(icon);
         } catch (Exception ex) {
             // If we can't get the icon, we go with the default defined above.
