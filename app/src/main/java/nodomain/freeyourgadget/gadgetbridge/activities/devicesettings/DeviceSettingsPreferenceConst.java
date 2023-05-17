@@ -351,5 +351,5 @@ public class DeviceSettingsPreferenceConst {
     public static final String PREF_HOURLY_CHIME_ENABLE = "hourly_chime_enable";
     public static final String PREF_HOURLY_CHIME_START = "hourly_chime_start";
     public static final String PREF_HOURLY_CHIME_END = "hourly_chime_end";
-    public static final String PREF_BICYCLE_SENSOR_PERSISTENCE_INTERVAL = "pref_bicycle_persistence_interval";
+    public static final String PREF_CYCLING_SENSOR_PERSISTENCE_INTERVAL = "pref_cycling_persistence_interval";
 }

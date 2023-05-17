@@ -569,7 +569,7 @@ public class DeviceSpecificSettingsFragment extends PreferenceFragmentCompat imp
         addPreferenceHandlerFor(PREF_OFFLINE_VOICE_RESPONSE_DURING_SCREEN_LIGHTING);
         addPreferenceHandlerFor(PREF_OFFLINE_VOICE_LANGUAGE);
 
-        addPreferenceHandlerFor(PREF_BICYCLE_SENSOR_PERSISTENCE_INTERVAL);
+        addPreferenceHandlerFor(PREF_CYCLING_SENSOR_PERSISTENCE_INTERVAL);
 
         addPreferenceHandlerFor("lock");
 

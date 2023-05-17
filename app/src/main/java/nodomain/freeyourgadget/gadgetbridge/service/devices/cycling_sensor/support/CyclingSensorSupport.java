@@ -1,4 +1,4 @@
-package nodomain.freeyourgadget.gadgetbridge.service.devices.bicycle_sensor.support;
+package nodomain.freeyourgadget.gadgetbridge.service.devices.cycling_sensor.support;
 
 import static nodomain.freeyourgadget.gadgetbridge.model.ActivityKind.TYPE_CYCLING;
 
@@ -22,8 +22,8 @@ import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSett
 import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHelper;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventBatteryInfo;
-import nodomain.freeyourgadget.gadgetbridge.devices.bicycle_sensor.db.CyclingSensorActivitySampleProvider;
-import nodomain.freeyourgadget.gadgetbridge.entities.BicycleSensorActivitySample;
+import nodomain.freeyourgadget.gadgetbridge.devices.cycling_sensor.db.CyclingSensorActivitySampleProvider;
+import nodomain.freeyourgadget.gadgetbridge.entities.CyclingSensorActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
 import nodomain.freeyourgadget.gadgetbridge.entities.Device;
 import nodomain.freeyourgadget.gadgetbridge.entities.User;
@@ -87,9 +87,9 @@ public class CyclingSensorSupport extends CyclingSensorBaseSupport {
         }
     }
 
-    public final static UUID UUID_BICYCLE_SENSOR_SERVICE =
+    public final static UUID UUID_CYCLING_SENSOR_SERVICE =
             UUID.fromString("00001816-0000-1000-8000-00805f9b34fb");
-    public final static UUID UUID_BICYCLE_SENSOR_CSC_MEASUREMENT =
+    public final static UUID UUID_CYCLING_SENSOR_CSC_MEASUREMENT =
             UUID.fromString("00002a5b-0000-1000-8000-00805f9b34fb");
 
     private static final Logger logger = LoggerFactory.getLogger(CyclingSensorSupport.class);
@@ -107,19 +107,19 @@ public class CyclingSensorSupport extends CyclingSensorBaseSupport {
     public CyclingSensorSupport() {
         super(logger);
 
-        addSupportedService(UUID_BICYCLE_SENSOR_SERVICE);
+        addSupportedService(UUID_CYCLING_SENSOR_SERVICE);
         addSupportedService(BatteryInfoProfile.SERVICE_UUID);
     }
 
     private int getPersistenceInterval(){
         SharedPreferences deviceSpecificPrefs = GBApplication.getDeviceSpecificSharedPrefs(getDevice().getAddress());
-        return deviceSpecificPrefs.getInt(DeviceSettingsPreferenceConst.PREF_BICYCLE_SENSOR_PERSISTENCE_INTERVAL, 60);
+        return deviceSpecificPrefs.getInt(DeviceSettingsPreferenceConst.PREF_CYCLING_SENSOR_PERSISTENCE_INTERVAL, 60);
     }
 
     @Override
     public void onSendConfiguration(String config) {
         switch (config){
-            case DeviceSettingsPreferenceConst.PREF_BICYCLE_SENSOR_PERSISTENCE_INTERVAL:
+            case DeviceSettingsPreferenceConst.PREF_CYCLING_SENSOR_PERSISTENCE_INTERVAL:
                 persistenceInterval = getPersistenceInterval();
                 break;
         }
@@ -130,7 +130,7 @@ public class CyclingSensorSupport extends CyclingSensorBaseSupport {
         builder.add(new SetDeviceStateAction(getDevice(), GBDevice.State.INITIALIZING, getContext()));
 
         BluetoothGattCharacteristic measurementCharacteristic =
-                getCharacteristic(UUID_BICYCLE_SENSOR_CSC_MEASUREMENT);
+                getCharacteristic(UUID_CYCLING_SENSOR_CSC_MEASUREMENT);
 
         builder.add(new NotifyAction(measurementCharacteristic, true));
 
@@ -177,7 +177,7 @@ public class CyclingSensorSupport extends CyclingSensorBaseSupport {
         try(DBHandler handler = GBApplication.acquireDB()) {
             DaoSession session = handler.getDaoSession();
 
-            BicycleSensorActivitySample sample = new BicycleSensorActivitySample();
+            CyclingSensorActivitySample sample = new CyclingSensorActivitySample();
             CyclingSensorActivitySampleProvider sampleProvider =
                     new CyclingSensorActivitySampleProvider(getDevice(), session);
 
@@ -223,7 +223,7 @@ public class CyclingSensorSupport extends CyclingSensorBaseSupport {
 
     @Override
     public boolean onCharacteristicChanged(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic) {
-        if(characteristic.getUuid().equals(UUID_BICYCLE_SENSOR_CSC_MEASUREMENT)){
+        if(characteristic.getUuid().equals(UUID_CYCLING_SENSOR_CSC_MEASUREMENT)){
             handleMeasurementCharacteristic(characteristic);
             return true;
         }

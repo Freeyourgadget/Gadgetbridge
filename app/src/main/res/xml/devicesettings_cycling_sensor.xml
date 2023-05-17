@@ -8,6 +8,6 @@
         android:title="Persistence interval"
         android:summary="Interval in seconds when the current cycling data should be written to the database"
         android:icon="@drawable/ic_activity_biking"
-        android:key="pref_bicycle_persistence_interval" />
+        android:key="pref_cycling_persistence_interval" />
 
 </androidx.preference.PreferenceScreen>

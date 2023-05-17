@@ -33,7 +33,7 @@ import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.asteroidos.AsteroidOSDeviceSupport;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.bicycle_sensor.support.CyclingSensorSupport;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.cycling_sensor.support.CyclingSensorSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.binary_sensor.BinarySensorSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.fitpro.FitProDeviceSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.banglejs.BangleJSDeviceSupport;
@@ -369,7 +369,7 @@ public class DeviceSupportFactory {
                 return new ServiceDeviceSupport(new AsteroidOSDeviceSupport());
             case SOFLOW_SO6:
                 return new ServiceDeviceSupport(new SoFlowSupport());
-            case BICYCLE_SENSOR:
+            case CYCLING_SENSOR:
                 return new ServiceDeviceSupport(new CyclingSensorSupport());
         }
         return null;

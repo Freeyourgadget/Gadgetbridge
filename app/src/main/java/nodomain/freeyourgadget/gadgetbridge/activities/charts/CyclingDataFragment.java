@@ -77,8 +77,6 @@ public class CyclingDataFragment extends AbstractChartFragment{
         currentSpeedChart.setHighlightPerTapEnabled(true);
         currentSpeedChart.setCenterTextOffset(0, 0);
 
-        currentSpeedChart.
-
         return rootView;
     }
 }
