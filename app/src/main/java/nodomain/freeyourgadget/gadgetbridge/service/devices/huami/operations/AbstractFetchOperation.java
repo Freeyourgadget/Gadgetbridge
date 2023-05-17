@@ -297,7 +297,7 @@ public abstract class AbstractFetchOperation extends AbstractHuamiOperation {
         sendAck2021(keepActivityDataOnDevice || !handleFinishSuccess);
     }
 
-    private void sendAck2021(final boolean keepDataOnDevice) {
+    protected void sendAck2021(final boolean keepDataOnDevice) {
         if (!(getSupport() instanceof Huami2021Support)) {
             return;
         }
