@@ -2220,4 +2220,15 @@
     <string name="activity_detail_share_raw_details">Compartir detalles en bruto</string>
     <string name="debug_companion_show_associated">Mostrar dispositivos asociados</string>
     <string name="debug_companion_pair_current">Emparejar el dispositivo actual como compañero</string>
+    <string name="pref_contacts_title">Contactos</string>
+    <string name="contact_no_free_slots_description">El dispositivo no tiene espacios libres para contactos (total de espacios: %1$s)</string>
+    <string name="title_activity_contact_details">Datos de contacto</string>
+    <string name="contact_name">Nombre</string>
+    <string name="pref_contacts_summary">Configurar los contactos del reloj</string>
+    <string name="contact_delete_confirm_title">Borrar contacto</string>
+    <string name="contact_phone_number">Número de teléfono</string>
+    <string name="contact_delete_confirm_description">¿Seguro que quiere borrar \'%1$s\'\?</string>
+    <string name="title_activity_set_contacts">Configurar contactos</string>
+    <string name="contact_missing_number">El número de contacto está vacío</string>
+    <string name="contact_missing_name">El nombre del contacto está vacío</string>
 </resources>
