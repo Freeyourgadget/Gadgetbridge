@@ -52,9 +52,10 @@ public class BluetoothPairingRequestReceiver extends BroadcastReceiver {
             return;
         }
 
-        GBDevice gbDevice = null;
         try {
-            gbDevice = service.getDeviceByAddress(device.getAddress());
+            GBDevice gbDevice = service
+                    .getDeviceStructByAddress(device.getAddress())
+                    .getDevice();
 
             DeviceCoordinator coordinator = DeviceHelper.getInstance().getCoordinator(gbDevice);
             try {

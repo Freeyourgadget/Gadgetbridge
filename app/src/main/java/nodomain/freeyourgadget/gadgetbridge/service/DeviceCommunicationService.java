@@ -457,13 +457,17 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
             }else if(BLEScanService.EVENT_DEVICE_FOUND.equals(action)){
                 String deviceAddress = intent.getStringExtra(BLEScanService.EXTRA_DEVICE_ADDRESS);
 
-                try {
-                    GBDevice target = getDeviceByAddress(deviceAddress);
-                    connectToDevice(target);
-                } catch (DeviceNotFoundException e) {
+                GBDevice target = GBApplication
+                        .app()
+                        .getDeviceManager()
+                        .getDeviceByAddress(deviceAddress);
+
+                if(target == null){
                     Log.e("DeviceCommService", "onReceive: device not found");
                     return;
                 }
+
+                connectToDevice(target);
             }
         }
     };
@@ -1080,52 +1084,27 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
     }
 
     public DeviceStruct getDeviceStruct(GBDevice device) throws DeviceNotFoundException {
-        if(device == null){
+        return getDeviceStructByAddress(device.getAddress());
+    }
+
+    public DeviceStruct getDeviceStructByAddress(String address) throws DeviceNotFoundException {
+        if(address == null){
             throw new DeviceNotFoundException("null");
         }
         for(DeviceStruct struct : deviceStructs){
-            if(struct.getDevice().equals(device)){
+            if(struct.getDevice().getAddress().equals(address)){
                 return struct;
             }
         }
-        throw new DeviceNotFoundException(device);
-    }
-
-    public GBDevice getDeviceByAddress(String deviceAddress) throws DeviceNotFoundException {
-        if(deviceAddress == null){
-            throw new DeviceNotFoundException(deviceAddress);
-        }
-        for(DeviceStruct struct : deviceStructs){
-            if(struct.getDevice().getAddress().equals(deviceAddress)){
-                return struct.getDevice();
-            }
-        }
-        throw new DeviceNotFoundException(deviceAddress);
-    }
-
-    public GBDevice getDeviceByAddressOrNull(String deviceAddress){
-        GBDevice device = null;
-        try {
-            device = getDeviceByAddress(deviceAddress);
-        } catch (DeviceNotFoundException e) {
-            e.printStackTrace();
-        }
-        return device;
+        throw new DeviceNotFoundException(address);
     }
 
     private DeviceSupport getDeviceSupport(GBDevice device) throws DeviceNotFoundException {
-        if(device == null){
-            throw new DeviceNotFoundException("null");
-        }
-        for(DeviceStruct struct : deviceStructs){
-            if(struct.getDevice().equals(device)){
-                if(struct.getDeviceSupport() == null)
-                    throw new DeviceNotFoundException(device);
+        DeviceStruct deviceStruct = getDeviceStruct(device);
+        if(deviceStruct.getDeviceSupport() == null)
+            throw new DeviceNotFoundException(device);
 
-                return struct.getDeviceSupport();
-            }
-        }
-        throw new DeviceNotFoundException(device);
+        return deviceStruct.getDeviceSupport();
     }
 
     private void startForeground() {
