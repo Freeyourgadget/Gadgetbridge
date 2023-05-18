@@ -236,7 +236,7 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
                           LOG.info("ACTION_DEVICE_CHANGED " + stateString);
                           addReceiveHistory("\n================================================\nACTION_DEVICE_CHANGED "+stateString+" "+(new SimpleDateFormat("yyyy-mm-dd hh:mm:ss", Locale.US)).format(Calendar.getInstance().getTime())+"\n================================================\n");
                         }
-                        if (gbDevice!=null && gbDevice.getState() == GBDevice.State.NOT_CONNECTED) {
+                        if (gbDevice!=null && (gbDevice.getState() == GBDevice.State.NOT_CONNECTED || gbDevice.getState() == GBDevice.State.WAITING_FOR_RECONNECT)) {
                             stopLocationUpdate();
                         }
                     }
