@@ -2217,4 +2217,15 @@
     <string name="activity_detail_share_raw_summary">שיתוף תקציר גולמי</string>
     <string name="dev_tools">כלים למפתחים</string>
     <string name="debug_companion_show_associated">הצגת מכשירים מלווים משויכים</string>
+    <string name="pref_contacts_title">אנשי קשר</string>
+    <string name="title_activity_contact_details">פרטי קשר</string>
+    <string name="contact_name">שם</string>
+    <string name="contact_missing_number">מספר איש הקשר ריק</string>
+    <string name="contact_no_free_slots_description">למכשיר אין מקומות פנויים לאנשי קשר (סך כל המקומות: %1$s)</string>
+    <string name="title_activity_set_contacts">הגדרת אנשי קשר</string>
+    <string name="pref_contacts_summary">הגדרת אנשי קשר בשעון</string>
+    <string name="contact_delete_confirm_description">למחוק את ‚%1$s’\?</string>
+    <string name="contact_delete_confirm_title">מחיקת איש קשר</string>
+    <string name="contact_phone_number">מס׳ טלפון</string>
+    <string name="contact_missing_name">שם איש הקשר ריק</string>
 </resources>
