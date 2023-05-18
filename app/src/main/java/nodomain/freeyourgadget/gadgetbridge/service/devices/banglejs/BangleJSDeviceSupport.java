@@ -967,7 +967,7 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
             }
             o.put("hdop", location.getAccuracy());
             o.put("externalSource", true);
-            LOG.debug("Sending gps valu: " + o.toString());
+            LOG.debug("Sending gps value: " + o.toString());
             uartTxJSON("gps", o);
         } catch (JSONException e) {
             GB.toast(getContext(), "uartTxJSONError: " + e.getLocalizedMessage(), Toast.LENGTH_LONG, GB.ERROR);

@@ -38,7 +38,7 @@ import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
 /**
  * A static location manager, which keeps track of what providers are currently running. A notification is kept
- * while there is at least one provider runnin.
+ * while there is at least one provider running.
  */
 public class GBLocationManager {
     private static final Logger LOG = LoggerFactory.getLogger(GBLocationManager.class);
