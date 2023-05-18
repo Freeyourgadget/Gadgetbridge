@@ -2218,4 +2218,15 @@
     <string name="gpx_route_upload_complete">Gpx-route uploaden voltooid</string>
     <string name="kind_gpx_route">GPX-route</string>
     <string name="dev_tools">Ontwikkeltools</string>
+    <string name="contact_no_free_slots_description">Het apparaat heeft geen vrije slots voor contacten (totaal slots: %1$s)</string>
+    <string name="title_activity_set_contacts">Contacten configureren</string>
+    <string name="pref_contacts_title">Contactpersonen</string>
+    <string name="pref_contacts_summary">Configureer contactpersonen op het horloge</string>
+    <string name="contact_delete_confirm_description">Weet u zeker dat u \'%1$s\' wilt verwijderen\?</string>
+    <string name="contact_delete_confirm_title">Contactpersoon verwijderen</string>
+    <string name="title_activity_contact_details">Contactpersoondetails</string>
+    <string name="contact_name">Naam</string>
+    <string name="contact_missing_number">Contactpersoonnummer is leeg</string>
+    <string name="contact_phone_number">Telefoonnummer</string>
+    <string name="contact_missing_name">De naam van de contactpersoon is leeg</string>
 </resources>
