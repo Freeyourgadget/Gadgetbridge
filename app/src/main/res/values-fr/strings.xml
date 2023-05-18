@@ -2222,4 +2222,15 @@ Temps de sommeil préféré en heures</string>
     <string name="activity_detail_share_gps_label">Partager un tracé GPS</string>
     <string name="activity_detail_share_raw_summary">Partager le résumé brut</string>
     <string name="gpx_route_upload_in_progress">Envoi du tracé Gpx en cours</string>
+    <string name="contact_delete_confirm_title">Effacer le contact</string>
+    <string name="title_activity_contact_details">Détails du contact</string>
+    <string name="title_activity_set_contacts">Configurer les contacts</string>
+    <string name="contact_delete_confirm_description">Etes-vous sûr de vouloir effacer \'%1$s\' \?</string>
+    <string name="contact_name">Nom</string>
+    <string name="contact_missing_name">Le nom du contact est vide</string>
+    <string name="contact_missing_number">Le numéro du contact est vide</string>
+    <string name="pref_contacts_title">Contacts</string>
+    <string name="contact_no_free_slots_description">L\'appareil n\'a plus d\'emplacement libre pour des contacts (nombre d\'emplacements : %1$s)</string>
+    <string name="contact_phone_number">Numéro de téléphone</string>
+    <string name="pref_contacts_summary">Configurer les contacts sur la montre</string>
 </resources>
