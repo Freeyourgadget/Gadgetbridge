@@ -2225,4 +2225,15 @@
     <string name="fossil_hr_pairing_failed">Kopplung mit Uhr fehlgeschlagen</string>
     <string name="fossil_hr_confirmation_skipped">Überspringen der Bestätigung auf dem Gerät</string>
     <string name="fossil_hr_confirmation_timeout">Zeitüberschreitung bei der Bestätigung, wird fortgesetzt</string>
+    <string name="pref_contacts_title">Kontakte</string>
+    <string name="contact_no_free_slots_description">Das Gerät hat keine freien Speicherplätze für Kontakte (Gesamtspeicherplatz: %1$s)</string>
+    <string name="title_activity_contact_details">Kontaktdetails</string>
+    <string name="contact_delete_confirm_description">Bist du sicher, dass du \'%1$s\' löschen möchtest\?</string>
+    <string name="contact_delete_confirm_title">Kontakt löschen</string>
+    <string name="contact_name">Name</string>
+    <string name="contact_phone_number">Telefonnummer</string>
+    <string name="title_activity_set_contacts">Kontakte konfigurieren</string>
+    <string name="contact_missing_name">Kontaktname ist leer</string>
+    <string name="pref_contacts_summary">Konfigurieren der Kontakte auf der Uhr</string>
+    <string name="contact_missing_number">Kontaktnummer ist leer</string>
 </resources>
