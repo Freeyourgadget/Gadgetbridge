@@ -942,7 +942,7 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
                 LOG.warn("NETWORK provider could not be started", e);
             }
         } else {
-            LOG.debug("Phone gps data update is deactivated in the settings");
+            GB.toast("Phone gps data update is deactivated in the settings", Toast.LENGTH_SHORT, GB.INFO);
         }
     }
 

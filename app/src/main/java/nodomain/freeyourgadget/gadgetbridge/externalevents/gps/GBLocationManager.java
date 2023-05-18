@@ -53,7 +53,7 @@ public class GBLocationManager {
     }
 
     public static void start(final Context context, final EventHandler eventHandler, final LocationProviderType providerType, Integer updateInterval) {
-        System.out.println("Starting");
+        LOG.info("Starting");
         if (providers.containsKey(eventHandler) && providers.get(eventHandler).containsKey(providerType)) {
             LOG.warn("EventHandler already registered");
             return;
