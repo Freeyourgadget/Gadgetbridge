@@ -2226,4 +2226,15 @@
     <string name="gpx_route_upload_failed">Помилка завантаження маршруту Gpx</string>
     <string name="gpx_route_upload_complete">Завантаження маршруту Gpx завершено</string>
     <string name="gpx_route_upload_in_progress">Вивантаження gpx маршруту</string>
+    <string name="pref_contacts_summary">Налаштувати контакти на годиннику</string>
+    <string name="contact_missing_name">Ім\'я контакту порожнє</string>
+    <string name="contact_phone_number">Номер телефону</string>
+    <string name="title_activity_set_contacts">Налаштувати контакти</string>
+    <string name="pref_contacts_title">Контакти</string>
+    <string name="contact_delete_confirm_title">Видалити контакт</string>
+    <string name="contact_no_free_slots_description">У пристрої немає вільних слотів для контактів (усього слотів: %1$s)</string>
+    <string name="contact_name">Ім\'я</string>
+    <string name="title_activity_contact_details">Контактні дані</string>
+    <string name="contact_delete_confirm_description">Ви впевнені, що хочете видалити \'%1$s\'\?</string>
+    <string name="contact_missing_number">Контактний номер порожній</string>
 </resources>
