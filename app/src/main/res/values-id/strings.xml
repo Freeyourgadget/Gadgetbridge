@@ -2207,4 +2207,15 @@
     <string name="dev_tools">Alat Pengembang</string>
     <string name="debug_companion_show_associated">Tampilkan perangkat pendamping terkait</string>
     <string name="debug_companion_pair_current">Sandingkan perangkat saat ini sebagai pendamping</string>
+    <string name="title_activity_set_contacts">Atur kontak</string>
+    <string name="pref_contacts_title">Kontak</string>
+    <string name="pref_contacts_summary">Atur kontak di jam tangan</string>
+    <string name="contact_no_free_slots_description">Perangkat ini tidak memiliki tempat kosong untuk kontak (jumlah tempat: %1$s)</string>
+    <string name="title_activity_contact_details">Detail kontak</string>
+    <string name="contact_phone_number">Nomor telepon</string>
+    <string name="contact_name">Nama</string>
+    <string name="contact_missing_name">Nama kontak kosong</string>
+    <string name="contact_delete_confirm_title">Hapus kontak</string>
+    <string name="contact_missing_number">Nomor kontak kosong</string>
+    <string name="contact_delete_confirm_description">Apakah Anda yakin ingin menghapus \'%1$s\'\?</string>
 </resources>
