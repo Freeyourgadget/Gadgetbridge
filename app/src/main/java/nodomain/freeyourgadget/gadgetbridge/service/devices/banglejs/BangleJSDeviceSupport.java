@@ -927,7 +927,7 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
         }
         Prefs devicePrefs = new Prefs(GBApplication.getDeviceSpecificSharedPrefs(getDevice().getAddress()));
         if(devicePrefs.getBoolean(PREF_DEVICE_GPS_UPDATE, false)) {
-            int intervalLength = devicePrefs.getInt(PREF_DEVICE_GPS_UPDATE_INTERVAL, 10000);
+            int intervalLength = devicePrefs.getInt(PREF_DEVICE_GPS_UPDATE_INTERVAL, 1000);
             LOG.info("Setup location listener with an update interval of " + intervalLength + " ms");
 
             try {
