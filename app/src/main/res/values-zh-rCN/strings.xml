@@ -2213,4 +2213,20 @@
     <string name="gpx_route_upload_in_progress">正在上传GPX路径</string>
     <string name="gpx_route_upload_failed">GPX 路径上传失败</string>
     <string name="kind_gpx_route">GPX路径</string>
+    <string name="activity_error_share_failed">共享文件失败。</string>
+    <string name="activity_detail_share_raw_summary">分享原始摘要</string>
+    <string name="activity_detail_share_raw_details">分享原始详情</string>
+    <string name="dev_tools">开发工具</string>
+    <string name="contact_phone_number">电话号码</string>
+    <string name="contact_missing_number">联系人电话号码为空</string>
+    <string name="pref_contacts_title">联系人</string>
+    <string name="title_activity_set_contacts">配置联系人</string>
+    <string name="contact_delete_confirm_title">删除联系人</string>
+    <string name="contact_delete_confirm_description">您确定要删除 “%1$s” 吗？</string>
+    <string name="title_activity_contact_details">联系人详情</string>
+    <string name="pref_contacts_summary">在手表上配置联系人</string>
+    <string name="activity_detail_share_gps_label">分享 GPS 轨迹</string>
+    <string name="contact_no_free_slots_description">此设备没有空闲的联系人位置了（总位置数：%1$s）</string>
+    <string name="contact_name">名称</string>
+    <string name="contact_missing_name">联系人姓名为空</string>
 </resources>
