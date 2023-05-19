@@ -1039,6 +1039,13 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
         return result;
     }
 
+    /// Crop a text string to ensure it's not longer than requested
+    public String cropToLength(String txt, int len) {
+        if (txt==null) return "";
+        if (txt.length()<=len) return txt;
+        return txt.substring(0,len-3)+"...";
+    }
+
     @Override
     public void onNotification(NotificationSpec notificationSpec) {
         if (notificationSpec.attachedActions!=null)
@@ -1052,10 +1059,10 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
             o.put("t", "notify");
             o.put("id", notificationSpec.getId());
             o.put("src", notificationSpec.sourceName);
-            o.put("title", renderUnicodeAsImage(notificationSpec.title));
-            o.put("subject", renderUnicodeAsImage(notificationSpec.subject));
-            o.put("body", renderUnicodeAsImage(notificationSpec.body));
-            o.put("sender", renderUnicodeAsImage(notificationSpec.sender));
+            o.put("title", renderUnicodeAsImage(cropToLength(notificationSpec.title,80)));
+            o.put("subject", renderUnicodeAsImage(cropToLength(notificationSpec.subject,80)));
+            o.put("body", renderUnicodeAsImage(cropToLength(notificationSpec.body, 400)));
+            o.put("sender", renderUnicodeAsImage(cropToLength(notificationSpec.sender,40)));
             o.put("tel", notificationSpec.phoneNumber);
             uartTxJSON("onNotification", o);
         } catch (JSONException e) {
@@ -1255,15 +1262,15 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
     public void onAddCalendarEvent(CalendarEventSpec calendarEventSpec) {
         try {
             JSONObject o = new JSONObject();
-            o.put("t", "calendar"); //TODO implement command
+            o.put("t", "calendar");
             o.put("id", calendarEventSpec.id);
             o.put("type", calendarEventSpec.type); //implement this too? (sunrise and set)
             o.put("timestamp", calendarEventSpec.timestamp);
             o.put("durationInSeconds", calendarEventSpec.durationInSeconds);
-            o.put("title", renderUnicodeAsImage(calendarEventSpec.title));
-            o.put("description", renderUnicodeAsImage(calendarEventSpec.description));
-            o.put("location", renderUnicodeAsImage(calendarEventSpec.location));
-            o.put("calName", calendarEventSpec.calName);
+            o.put("title", renderUnicodeAsImage(cropToLength(calendarEventSpec.title,40)));
+            o.put("description", renderUnicodeAsImage(cropToLength(calendarEventSpec.description,200)));
+            o.put("location", renderUnicodeAsImage(cropToLength(calendarEventSpec.location,40)));
+            o.put("calName", cropToLength(calendarEventSpec.calName,20));
             o.put("color", calendarEventSpec.color);
             o.put("allDay", calendarEventSpec.allDay);
             uartTxJSON("onAddCalendarEvent", o);
