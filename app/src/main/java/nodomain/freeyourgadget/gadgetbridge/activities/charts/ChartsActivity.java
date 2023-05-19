@@ -463,25 +463,3 @@ public class ChartsActivity extends AbstractGBFragmentActivity implements Charts
     }
 }
 
-class NonSwipeableViewPager extends ViewPager {
-
-    public NonSwipeableViewPager(Context context, AttributeSet attrs) {
-        super(context, attrs);
-    }
-
-    @Override
-    public boolean onInterceptTouchEvent(MotionEvent ev) {
-        if (GBApplication.getPrefs().getBoolean("charts_allow_swipe", true)) {
-            return super.onInterceptTouchEvent(ev);
-        }
-        return false;
-    }
-
-    @Override
-    public boolean onTouchEvent(MotionEvent ev) {
-        if (GBApplication.getPrefs().getBoolean("charts_allow_swipe", true)) {
-            return super.onTouchEvent(ev);
-        }
-        return false;
-    }
-}
