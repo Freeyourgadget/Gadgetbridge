@@ -45,10 +45,6 @@ public class AutoStartReceiver extends BroadcastReceiver {
             }
             Log.i(TAG, "Going to enable periodic exporter");
             PeriodicExporter.enablePeriodicExport(context);
-
-            Intent scanServiceIntent = new Intent();
-            scanServiceIntent.setClass(context, BLEScanService.class);
-            context.startService(scanServiceIntent);
         }
     }
 }

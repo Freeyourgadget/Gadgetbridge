@@ -569,6 +569,9 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
     private void connectToAllDevices(){
         if(reconnectViaScan){
             scanAllDevices();
+
+            Intent scanServiceIntent = new Intent(this, BLEScanService.class);
+            startService(scanServiceIntent);
             return;
         }
         Prefs prefs = getPrefs();
