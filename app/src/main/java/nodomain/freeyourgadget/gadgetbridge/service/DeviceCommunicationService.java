@@ -688,14 +688,14 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
     public synchronized int onStartCommand(Intent intent, int flags, int startId) {
         if (intent == null) {
             LOG.info("no intent");
-            return START_NOT_STICKY;
+            return START_STICKY;
         }
 
         String action = intent.getAction();
 
         if (action == null) {
             LOG.info("no action");
-            return START_NOT_STICKY;
+            return START_STICKY;
         }
 
         LOG.debug("Service startcommand: " + action);
