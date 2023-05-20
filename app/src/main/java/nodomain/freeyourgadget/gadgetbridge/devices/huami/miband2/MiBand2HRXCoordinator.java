@@ -86,6 +86,11 @@ public class MiBand2HRXCoordinator extends HuamiCoordinator {
     }
 
     @Override
+    public boolean supportsDebugLogs() {
+        return false;
+    }
+
+    @Override
     public int[] getSupportedDeviceSpecificSettings(GBDevice device) {
         return new int[]{
                 R.xml.devicesettings_miband2,

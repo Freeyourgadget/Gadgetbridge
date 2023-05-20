@@ -515,6 +515,10 @@ public abstract class HuamiCoordinator extends AbstractBLEDeviceCoordinator {
         return 22; // At least, Mi Fit still allows more
     }
 
+    public boolean supportsDebugLogs() {
+        return true;
+    }
+
     public List<HuamiVibrationPatternNotificationType> getVibrationPatternNotificationTypes(final GBDevice device) {
         return Arrays.asList(
                 HuamiVibrationPatternNotificationType.APP_ALERTS,

@@ -81,24 +81,6 @@ public class AmazfitBipSupport extends HuamiSupport {
     }
 
     @Override
-    public void onFetchRecordedData(int dataTypes) {
-        try {
-            // FIXME: currently only one data type supported, these are meant to be flags
-            if (dataTypes == RecordedDataTypes.TYPE_ACTIVITY) {
-                new FetchActivityOperation(this).perform();
-            } else if (dataTypes == RecordedDataTypes.TYPE_GPS_TRACKS) {
-                new FetchSportsSummaryOperation(this, 1).perform();
-            } else if (dataTypes == RecordedDataTypes.TYPE_DEBUGLOGS) {
-                new HuamiFetchDebugLogsOperation(this).perform();
-            } else {
-                LOG.warn("fetching multiple data types at once is not supported yet");
-            }
-        } catch (IOException ex) {
-            LOG.error("Unable to fetch recorded data types" + dataTypes, ex);
-        }
-    }
-
-    @Override
     public void phase2Initialize(TransactionBuilder builder) {
         super.phase2Initialize(builder);
         LOG.info("phase2Initialize...");

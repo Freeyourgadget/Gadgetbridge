@@ -116,6 +116,9 @@ import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityUser;
 import nodomain.freeyourgadget.gadgetbridge.model.Alarm;
 import nodomain.freeyourgadget.gadgetbridge.model.CalendarEventSpec;
+import nodomain.freeyourgadget.gadgetbridge.model.RecordedDataTypes;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.operations.FetchSportsSummaryOperation;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.operations.HuamiFetchDebugLogsOperation;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.services.ZeppOsCannedMessagesService;
 import nodomain.freeyourgadget.gadgetbridge.util.calendar.CalendarEvent;
 import nodomain.freeyourgadget.gadgetbridge.util.calendar.CalendarManager;
@@ -1640,10 +1643,21 @@ public abstract class HuamiSupport extends AbstractBTLEDeviceSupport implements 
 
     @Override
     public void onFetchRecordedData(int dataTypes) {
+        final HuamiCoordinator coordinator = getCoordinator();
+
         try {
-            new FetchActivityOperation(this).perform();
-        } catch (IOException ex) {
-            LOG.error("Unable to fetch activity data", ex);
+            // FIXME: currently only one data type supported, these are meant to be flags
+            if (dataTypes == RecordedDataTypes.TYPE_ACTIVITY) {
+                new FetchActivityOperation(this).perform();
+            } else if (dataTypes == RecordedDataTypes.TYPE_GPS_TRACKS && coordinator.supportsActivityTracks()) {
+                new FetchSportsSummaryOperation(this, 1).perform();
+            } else if (dataTypes == RecordedDataTypes.TYPE_DEBUGLOGS && coordinator.supportsDebugLogs()) {
+                new HuamiFetchDebugLogsOperation(this).perform();
+            } else {
+                LOG.warn("fetching multiple data types at once is not supported yet");
+            }
+        } catch (final IOException ex) {
+            LOG.error("Unable to fetch recorded data types" + dataTypes, ex);
         }
     }
 
