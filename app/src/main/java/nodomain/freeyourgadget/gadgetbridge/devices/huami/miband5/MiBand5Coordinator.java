@@ -85,6 +85,11 @@ public class MiBand5Coordinator extends HuamiCoordinator {
     }
 
     @Override
+    public boolean supportsStressMeasurement() {
+        return true;
+    }
+
+    @Override
     public boolean supportsMusicInfo() {
         return true;
     }

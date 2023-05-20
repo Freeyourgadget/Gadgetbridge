@@ -69,7 +69,7 @@ public class FetchSpo2SleepOperation extends AbstractRepeatingFetchOperation {
 
             timestamp.setTimeInMillis(timestampSeconds * 1000L);
 
-            LOG.info("SPO2 (sleep) at {}: {} unknown={}", timestamp.getTime(), spo2, GB.hexdump(unknown));
+            LOG.debug("SPO2 (sleep) at {}: {} unknown={}", timestamp.getTime(), spo2, GB.hexdump(unknown));
             // TODO save
         }
 

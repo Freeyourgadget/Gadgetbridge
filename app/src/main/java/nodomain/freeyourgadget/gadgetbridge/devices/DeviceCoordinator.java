@@ -41,6 +41,8 @@ import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryParser;
 import nodomain.freeyourgadget.gadgetbridge.model.BatteryConfig;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
+import nodomain.freeyourgadget.gadgetbridge.model.Spo2Sample;
+import nodomain.freeyourgadget.gadgetbridge.model.StressSample;
 
 /**
  * This interface is implemented at least once for every supported gadget device.
@@ -183,7 +185,7 @@ public interface DeviceCoordinator {
     /**
      * Returns true if activity tracking is supported by the device
      * (with this coordinator).
-     * This enables the ChartsActivity.
+     * This enables the ActivityChartsActivity.
      *
      * @return
      */
@@ -196,6 +198,18 @@ public interface DeviceCoordinator {
      * usually recorded with additional features, like e.g. GPS.
      */
     boolean supportsActivityTracks();
+
+    /**
+     * Returns true if stress measurement and fetching is supported by the device
+     * (with this coordinator).
+     */
+    boolean supportsStressMeasurement();
+
+    /**
+     * Returns true if SpO2 measurement and fetching is supported by the device
+     * (with this coordinator).
+     */
+    boolean supportsSpo2();
 
     /**
      * Returns true if activity data fetching is supported AND possible at this
@@ -213,6 +227,16 @@ public interface DeviceCoordinator {
      * @return
      */
     SampleProvider<? extends ActivitySample> getSampleProvider(GBDevice device, DaoSession session);
+
+    /**
+     * Returns the sample provider for stress data, for the device being supported.
+     */
+    TimeSampleProvider<? extends StressSample> getStressSampleProvider(GBDevice device, DaoSession session);
+
+    /**
+     * Returns the sample provider for SpO2 data, for the device being supported.
+     */
+    TimeSampleProvider<? extends Spo2Sample> getSpo2SampleProvider(GBDevice device, DaoSession session);
 
     /**
      * Returns the {@link ActivitySummaryParser} for the device being supported.

@@ -113,6 +113,16 @@ public abstract class Huami2021Coordinator extends HuamiCoordinator {
     }
 
     @Override
+    public boolean supportsStressMeasurement() {
+        return true;
+    }
+
+    @Override
+    public boolean supportsSpo2() {
+        return true;
+    }
+
+    @Override
     public boolean supportsMusicInfo() {
         return true;
     }

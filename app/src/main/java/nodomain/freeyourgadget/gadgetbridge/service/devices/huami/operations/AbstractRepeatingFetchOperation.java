@@ -61,20 +61,20 @@ public abstract class AbstractRepeatingFetchOperation extends AbstractFetchOpera
 
     @Override
     protected void startFetching(final TransactionBuilder builder) {
-        LOG.info("start {}", getName());
         final GregorianCalendar sinceWhen = getLastSuccessfulSyncTime();
+        LOG.info("start {} since {}", getName(), sinceWhen.getTime());
         startFetching(builder, dataType, sinceWhen);
     }
 
     /**
-     * Handle the buffered activity data.
+     * Handle the buffered data.
      *
      * @param timestamp The timestamp of the first sample. This function should update this to the
      *                  timestamp of the last processed sample.
      * @param bytes     the buffered bytes
      * @return true on success
      */
-    protected abstract boolean handleActivityData(final GregorianCalendar timestamp, final byte[] bytes);
+    protected abstract boolean handleActivityData(GregorianCalendar timestamp, byte[] bytes);
 
     @Override
     protected boolean handleActivityFetchFinish(final boolean success) {
@@ -186,7 +186,7 @@ public abstract class AbstractRepeatingFetchOperation extends AbstractFetchOpera
         return true;
     }
 
-    public void dumpBytesToExternalStorage(final byte[] bytes, final GregorianCalendar timestamp) {
+    protected void dumpBytesToExternalStorage(final byte[] bytes, final GregorianCalendar timestamp) {
         try {
             final File externalFilesDir = FileUtils.getExternalFilesDir();
             final File targetDir = new File(externalFilesDir, "rawFetchOperations");
