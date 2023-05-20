@@ -125,6 +125,12 @@ public class DateTimeUtils {
         return cal.getTime();
     }
 
+    public static Date parseTimestampMillis(long timestamp) {
+        GregorianCalendar cal = (GregorianCalendar) GregorianCalendar.getInstance();
+        cal.setTimeInMillis(timestamp);
+        return cal.getTime();
+    }
+
     public static String dayToString(Date date) {
         return DAY_STORAGE_FORMAT.format(date);
     }
