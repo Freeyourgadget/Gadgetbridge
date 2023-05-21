@@ -228,6 +228,7 @@ public class HuamiService {
     public static final byte COMMAND_ACTIVITY_DATA_TYPE_STRESS_AUTOMATIC = 0x13;
     public static final byte COMMAND_ACTIVITY_DATA_TYPE_SPO2_NORMAL = 0x25;
     public static final byte COMMAND_ACTIVITY_DATA_TYPE_SPO2_SLEEP = 0x26;
+    public static final byte COMMAND_ACTIVITY_DATA_TYPE_SLEEP_RESPIRATORY_RATE = 0x38;
     public static final byte COMMAND_ACTIVITY_DATA_TYPE_RESTING_HEART_RATE = 0x3a;
 
     public static final byte COMMAND_FIRMWARE_INIT = 0x01; // to UUID_CHARACTERISTIC_FIRMWARE, followed by fw file size in bytes
