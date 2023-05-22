@@ -47,14 +47,14 @@ public class FetchSleepRespiratoryRateOperation extends AbstractRepeatingFetchOp
 
         while (buf.position() < bytes.length) {
             final long timestampSeconds = buf.getInt();
-            final byte unknown1 = buf.get(); // always 4?
+            final byte utcOffsetInQuarterHours = buf.get();
             final int respiratoryRate = buf.get() & 0xff;
-            final byte unknown2 = buf.get(); // always 0?
-            final byte unknown3 = buf.get(); // mostly 1, sometimes 2, 4 when waking up?
+            final byte unknown1 = buf.get(); // always 0?
+            final byte unknown2 = buf.get(); // mostly 1, sometimes 2, 4 when waking up?
 
             timestamp.setTimeInMillis(timestampSeconds * 1000L);
 
-            LOG.debug("Sleep Respiratory Rate at {}: respiratoryRate={} unknown1={} unknown2={} unknown3={}", timestamp.getTime(), respiratoryRate, unknown1, unknown2, unknown3);
+            LOG.debug("Sleep Respiratory Rate at {} + {}: respiratoryRate={} unknown1={} unknown2={}", timestamp.getTime(), respiratoryRate, utcOffsetInQuarterHours, unknown1, unknown2);
             // TODO save
         }
 

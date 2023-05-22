@@ -50,10 +50,10 @@ public class FetchManualHeartRateOperation extends AbstractRepeatingFetchOperati
             final long currentTimestamp = BLETypeConversions.toUnsigned(buffer.getInt()) * 1000;
             timestamp.setTimeInMillis(currentTimestamp);
 
-            final byte unknown1 = buffer.get(); // always 4?
+            final byte utcOffsetInQuarterHours = buffer.get();
             final int hr = buffer.get() & 0xff;
 
-            LOG.info("Manual HR at {}: {}", timestamp.getTime(), hr);
+            LOG.info("Manual HR at {} + {}: {}", timestamp.getTime(), utcOffsetInQuarterHours, hr);
 
             // TODO: Save manual hr data
         }

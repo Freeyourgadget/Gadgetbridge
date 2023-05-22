@@ -49,12 +49,12 @@ public class FetchRestingHeartRateOperation extends AbstractRepeatingFetchOperat
         while (buffer.position() < bytes.length) {
             final long currentTimestamp = BLETypeConversions.toUnsigned(buffer.getInt()) * 1000;
             timestamp.setTimeInMillis(currentTimestamp);
-            // Official app only shows this at day-level
 
-            final byte unknown1 = buffer.get(); // always 4?
+            // Official app only shows this at day-level
+            final byte utcOffsetInQuarterHours = buffer.get();
             final int hr = buffer.get() & 0xff;
 
-            LOG.debug("Resting HR at {}: {}", timestamp.getTime(), hr);
+            LOG.debug("Resting HR at {} + {}: {}", timestamp.getTime(), utcOffsetInQuarterHours, hr);
 
             // TODO: Save resting hr data
         }
