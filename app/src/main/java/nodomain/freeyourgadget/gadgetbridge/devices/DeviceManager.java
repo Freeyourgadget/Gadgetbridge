@@ -82,7 +82,8 @@ public class DeviceManager {
                 case BLUETOOTH_DEVICE_ACTION_ALIAS_CHANGED:
                     BluetoothDevice device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
                     String newName = intent.getStringExtra(BluetoothDevice.EXTRA_NAME);
-                    updateDeviceName(device, newName);
+                    if (device!=null)
+                      updateDeviceName(device, newName);
                     break;
                 case GBDevice.ACTION_DEVICE_CHANGED:
                     GBDevice dev = intent.getParcelableExtra(GBDevice.EXTRA_DEVICE);
