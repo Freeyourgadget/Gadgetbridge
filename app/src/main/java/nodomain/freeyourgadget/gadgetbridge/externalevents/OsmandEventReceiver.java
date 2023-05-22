@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.os.IBinder;
+import android.os.PowerManager;
 import android.os.RemoteException;
 import android.view.KeyEvent;
 import android.widget.Toast;
@@ -27,6 +28,7 @@ import java.util.List;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.model.NavigationInfoSpec;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
+import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 
 public class OsmandEventReceiver {
     private static final Logger LOG = LoggerFactory.getLogger(OsmandEventReceiver.class);
@@ -60,9 +62,12 @@ public class OsmandEventReceiver {
         public void updateNavigationInfo(ADirectionInfo directionInfo) {
             navigationInfoSpec.nextAction = directionInfo.getTurnType();
             navigationInfoSpec.distanceToTurn = directionInfo.getDistanceTo();
-            GBApplication.deviceService().onSetNavigationInfo(navigationInfoSpec);
 
-            LOG.error("Distance: " + directionInfo.getDistanceTo() + " turnType: " + directionInfo.getTurnType());
+            if (shouldSendNavigation()) {
+                GBApplication.deviceService().onSetNavigationInfo(navigationInfoSpec);
+            }
+
+            LOG.debug("Distance: {}, turnType: {}", directionInfo.getDistanceTo(), directionInfo.getTurnType());
         }
 
         @Override
@@ -74,7 +79,7 @@ public class OsmandEventReceiver {
             List<String> played = params.getPlayed();
             for (String instuction : played) {
                 navigationInfoSpec.instruction = instuction;
-                LOG.error("instruction: " + instuction);
+                LOG.debug("instruction: {}", instuction);
                 // only first one for now
                 break;
             }
@@ -90,16 +95,16 @@ public class OsmandEventReceiver {
         public void onServiceConnected(ComponentName className,
                                        IBinder service) {
             mIOsmAndAidlInterface = IOsmAndAidlInterface.Stub.asInterface(service);
-            GB.toast("OsmAnd service conncted", Toast.LENGTH_SHORT, GB.INFO);
+            LOG.info("OsmAnd service connected");
             registerForNavigationUpdates(true, 6666); // what is this id for?
-            registerForVoiceRouterMessages(true,6667);
+            registerForVoiceRouterMessages(true, 6667);
 //            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("osmand.api://GET_INFO"));
 //            OsmandEventReceiver.this.startActivityForResult(intent,666);
         }
 
         public void onServiceDisconnected(ComponentName className) {
             mIOsmAndAidlInterface = null;
-            GB.toast("OsmAnd service disconnected", Toast.LENGTH_SHORT, GB.INFO);
+            LOG.info("OsmAnd service disconnected");
         }
     };
 
@@ -108,7 +113,6 @@ public class OsmandEventReceiver {
         if (!bindService()) {
             LOG.warn("Could not bind to OsmAnd");
         }
-
     }
 
     private boolean bindService() {
@@ -117,10 +121,10 @@ public class OsmandEventReceiver {
             intent.setPackage(OSMAND_PACKAGE_NAME);
             boolean res = app.bindService(intent, mConnection, Context.BIND_AUTO_CREATE);
             if (res) {
-                GB.toast("bound to OsmAnd service", Toast.LENGTH_SHORT, GB.INFO);
+                LOG.info("Bound to OsmAnd service");
                 return true;
             } else {
-                GB.toast("could not bind to OsmAnd service", Toast.LENGTH_SHORT, GB.INFO);
+                LOG.warn("Could not bind to OsmAnd service");
                 return false;
             }
         } else {
@@ -149,12 +153,31 @@ public class OsmandEventReceiver {
         return -1L;
     }
 
+    private boolean shouldSendNavigation() {
+        final Prefs prefs = GBApplication.getPrefs();
+
+        final boolean navigationForward = prefs.getBoolean("navigation_forward", true);
+        if (!navigationForward) {
+            return false;
+        }
+
+        final boolean navigationScreenOn = prefs.getBoolean("nagivation_screen_on", true);
+        if (!navigationScreenOn) {
+            final PowerManager powermanager = (PowerManager) app.getSystemService(Context.POWER_SERVICE);
+            if (powermanager != null && powermanager.isScreenOn()) {
+                LOG.info("Not forwarding navigation instructions, screen seems to be on and settings do not allow this");
+                return false;
+            }
+        }
+
+        return true;
+    }
+
         /**
          * Method to register for Voice Router voice messages during navigation. Notifies user about voice messages.
          *
          * @param subscribeToUpdates (boolean) - boolean flag to subscribe or unsubscribe from messages
          * @param callbackId         (long) - id of callback, needed to unsubscribe from messages
-         * @param callback           (IOsmAndAidlCallback) - callback to notify user on voice message
          */
         public long registerForVoiceRouterMessages(boolean subscribeToUpdates, long callbackId) {
             ANavigationVoiceRouterMessageParams params = new ANavigationVoiceRouterMessageParams();

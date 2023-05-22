@@ -324,6 +324,7 @@
     <string name="pref_pebble_privacy_mode_content">Shift the notification text off-screen</string>
     <string name="pref_pebble_privacy_mode_complete">Show only the notification icon</string>
     <string name="pref_header_location">Location</string>
+    <string name="pref_header_navigation">Navigation</string>
     <string name="pref_title_location_aquire">Acquire location</string>
     <string name="pref_title_location_latitude">Latitude</string>
     <string name="pref_title_location_longitude">Longitude</string>
@@ -2025,6 +2026,8 @@
     <string name="fossil_hr_button_config_info">Some buttons cannot be configured because their functions are hard-coded in the watch firmware.\n\nWarning: long-pressing the upper button when a watchface from the official Fossil app is installed will also toggle between showing/hiding widgets.</string>
     <string name="pref_title_opentracks_packagename">OpenTracks package name</string>
     <string name="pref_summary_opentracks_packagename">Used for starting/stopping GPS track recording in external fitness app.</string>
+    <string name="pref_summary_navigation_forward">Forward instructions from navigation apps to the watch</string>
+    <string name="pref_title_navigation_forward">Send navigation to watch</string>
     <string name="watchface_dialog_pre_setting_position">pre-setting position to %s</string>
     <string name="watchface_setting_light_up_on_notification">Light up on new notification</string>
 
