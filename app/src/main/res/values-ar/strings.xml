@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="action_settings">الاعدادات</string>
+    <string name="action_settings">الإعدادات</string>
     <string name="action_quit">أخرج</string>
     <string name="controlcenter_connect">اتصل…</string>
     <string name="battery_level">مستوى البطارية</string>
@@ -19,7 +19,7 @@
     <string name="calendar_six_months">6 اشهر</string>
     <string name="calendar_year">سنة</string>
     <string name="title_activity_appmanager">مدير التطبيق</string>
-    <string name="appmanager_installed_watchfaces">مثبتة watchfaces</string>
+    <string name="appmanager_installed_watchfaces">واجهات الساعة المثبتة</string>
     <string name="appmananger_app_delete">حذف</string>
     <string name="appmananger_app_delete_cache">حذف وإزالة من ذاكرة التخزين المؤقت</string>
     <string name="appmananger_app_reinstall">أعد التثبيت</string>
@@ -79,7 +79,7 @@
     <string name="watchface_widget_type_date">تاريخ</string>
     <string name="watchface_dialog_widget_preset_left">يسار</string>
     <string name="watchface_dialog_widget_preset_right">يمين</string>
-    <string name="watchface_dialog_widget_color">لون:</string>
+    <string name="watchface_dialog_widget_color">اللون</string>
     <string name="pref_title_language">لغة</string>
     <string name="pref_title_call_privacy_mode">وضع خصوصية الاتصال</string>
     <string name="pref_title_pebble_settings">إعدادات Pebble</string>
@@ -102,7 +102,7 @@
     <string name="pref_title_notifications_sms">الرسائل القصيرة</string>
     <string name="pref_call_privacy_mode_number">إخفاء الرقم ولكن اعرض الاسم</string>
     <string name="pref_title_weather_location">موقع الطقس (لمزود الطقس في LineageOS)</string>
-    <string name="watchface_dialog_widget_type">نوع:</string>
+    <string name="watchface_dialog_widget_type">النوع</string>
     <string name="pref_title_message_privacy_mode">وضع خصوصية الرسائل</string>
     <string name="pref_message_privacy_mode_complete">إخفاء المحتوى</string>
     <string name="pref_title_sync_caldendar">مزامنة أحداث التقويم</string>
@@ -198,10 +198,249 @@
     <string name="watchface_widget_type_battery">بطارية</string>
     <string name="prefs_galaxy_buds_experimental">تجريبي</string>
     <string name="prefs_right">يمين</string>
-    <string name="controlcenter_fetch_activity_data">مزامنه</string>
+    <string name="controlcenter_fetch_activity_data">المزامنه</string>
     <string name="controlcenter_find_device">ابحث عن الجهاز المفقود</string>
     <string name="app_configure">تهيئة</string>
     <string name="title_activity_fw_app_insaller">FW / مثبت التطبيق</string>
     <string name="pref_title_audio_player">مشغل الصوت المفضل</string>
     <string name="pref_theme_black_background">استخدام خلفية سوداء في السمة الداكنة</string>
+    <string name="appmanager_watchface_activate">تفعيل</string>
+    <string name="appmanager_download_started">بدأ تنزيل التطبيق</string>
+    <string name="appmanager_downloaded_to_cache">تم تنزيل %s إلى ذاكرة التخزين المؤقت</string>
+    <string name="fw_upgrade_notice_amazfitgts">أنت على وشك تثبيت البرنامج الثابت %s على Amazfit GTS.
+\n
+\nيرجى التأكد من تثبيت ملف .fw ، ثم ملف .res ، وأخيرا ملف .gps. سيتم إعادة تشغيل ساعتك بعد تثبيت ملف .fw.
+\n
+\nملاحظة: لا يلزم تثبيت .res و .gps إذا كانت هذه الملفات هي نفسها تماما مثل الملفات المثبتة مسبقا.
+\n
+\nالمضي قدما على مسؤوليتك الخاصة!</string>
+    <string name="miband_firmware_known">تم اختبار هذا البرنامج الثابت ومن المعروف أنه متوافق مع Gadgetbridge.</string>
+    <string name="pref_header_other">أخرى</string>
+    <string name="pref_header_calendar">التقويم</string>
+    <string name="fw_upgrade_notice_miband7">أنت على وشك تثبيت البرنامج الثابت %s على Xiaomi Smart Band 7.
+\n
+\nستتم إعادة تشغيل السوار بعد تثبيت ملف zip.
+\n
+\nالمضي قدما على مسؤوليتك الخاصة!</string>
+    <string name="pref_header_time">الوقت</string>
+    <string name="pref_header_workout">التمرين</string>
+    <string name="single_band">نطاق واحد</string>
+    <string name="accuracy">الدقة</string>
+    <string name="balanced">متوازن</string>
+    <string name="power_saving">توفير الطاقة</string>
+    <string name="custom">مُخصّص</string>
+    <string name="dual_band">نطاق مزدوج</string>
+    <string name="low_power_gps">نظام تحديد المواقع العالمي (GPS) منخفض الطاقة</string>
+    <string name="gps">تحديد المواقع</string>
+    <string name="gps_bds">نظام تحديد المواقع + BDS</string>
+    <string name="gps_gnolass">نظام تحديد المواقع + جنولاس</string>
+    <string name="gps_galileo">نظام تحديد المواقع + غاليليو</string>
+    <string name="all_satellites">جميع الأقمار الصناعية</string>
+    <string name="speed_first">السرعة أولا</string>
+    <string name="accuracy_first">الدقة أولا</string>
+    <string name="appmanager_hrm_deactivate">تعطيل HRM</string>
+    <string name="appmanager_weather_activate">تفعيل تطبيق طقس النظام</string>
+    <string name="appmanager_weather_deactivate">قم بإلغاء تنشيط تطبيق طقس النظام</string>
+    <string name="fw_upgrade_notice_miband4">أنت على وشك تثبيت البرنامج الثابت %s على Mi Band 4.
+\n
+\nيرجى التأكد من تثبيت ملف .fw ، وبعد ذلك ملف .res. سيتم إعادة تشغيل الفرقة الخاصة بك بعد تثبيت ملف .fw.
+\n
+\nملاحظة: لا يتعين عليك تثبيت .res إذا كان مطابقا تماما للتثبيت الذي تم تثبيته مسبقا.
+\n
+\nالمضي قدما على مسؤوليتك الخاصة!</string>
+    <string name="fw_upgrade_notice_amazfit_gtr4">أنت على وشك تثبيت البرنامج الثابت %s على جهاز Amazfit GTR 4.
+\n
+\nستتم إعادة تشغيل السوار بعد تثبيت ملف zip.
+\n
+\nالمضي قدما على مسؤوليتك الخاصة!</string>
+    <string name="about_activity_title_generic">حول Gadgetbridge</string>
+    <string name="about_description_generic">استبدال حر متروك الحقوق بدون سحابة لتطبيقات و أدوات اندرويد مغلقة المصدر من البائعين.</string>
+    <string name="gadgetbridge_running_generic">Gadgetbridge قيد التشغيل</string>
+    <string name="about_activity_title_banglejs_main">حول Bangle.js Gadgetbridge</string>
+    <string name="about_description_banglejs_main">تطبيق مصاحب لنظام Android لـ Bangle.js مبني على قمة مشروع Gadgetbridge ، مع وصول إضافي إلى الإنترنت.
+\n
+\nنظرًا لسياسات متجر Google Play ، لا يُسمح لنا باستخدام رابط تبرع في التطبيق نفسه ، ولكن إذا أعجبك هذا التطبيق ، فيرجى التفكير في التبرع عبر صفحة Gadgetbridge الرئيسية أدناه.</string>
+    <string name="gadgetbridge_running_banglejs_main">Bangle.js قيد التشغيل</string>
+    <string name="about_description_main_nightly">استبدال حر بدون حقوق متروكة الحقوق بدون سحابة لتطبيقات أدوات اندرويد مغلقة المصدر من البائعين. الإصدارات الليلية من Gadgetbridge. لا يمكن تثبيته إذا كان لديك بالفعل Gadgetbridge أو تطبيق Pebble مثبتًا ، بسبب تعارض في موفر Pebble.</string>
+    <string name="application_name_main_nopebble">Gadgetbridge (اليلي, لايوجد موفر Pebble)</string>
+    <string name="about_description_main_nopebble">استبدال حر بدون حقوق متروكة الحقوق بدون سحابة لتطبيقات أدوات اندرويد مغلقة المصدر من البائعين. الإصدارات الليلية من Gadgetbridge. يحتوي هذا الإصدار على موفر Pebble الذي تمت إعادة تسميته لمنع التعارضات ، لذلك لن تعمل بعض عمليات التكامل ذات الصلة بـ Pebble ، ولكن يمكن تثبيتها جنبًا إلى جنب مع تثبيت Gadgetbridge الحالي.</string>
+    <string name="controlcenter_power_off">إيقاف التشغيل</string>
+    <string name="controlcenter_power_off_confirm_title">إيقاف التشغيل</string>
+    <string name="controlcenter_power_off_confirm_description">هل أنت متأكد من أنك تريد إيقاف تشغيل الجهاز؟</string>
+    <string name="controlcenter_navigation_drawer_open">فتح درج التنقل</string>
+    <string name="controlcenter_navigation_drawer_close">إغلاق درج التنقل</string>
+    <string name="prefs_activity_in_device_card_steps_title_summary">إظهار مجموع الخطوات</string>
+    <string name="prefs_activity_in_device_card_distance_title_summary">يتم حساب المسافة من الخطوات وطول الخطوة (قابل للتعديل في الإعدادات - حولك أنت)</string>
+    <string name="blacklist_all_for_notifications">إدراج الكل في القائمة السوداء للإشعارات</string>
+    <string name="whitelist_all_for_notifications">إضافة الكل إلى القائمة البيضاء للإشعارات</string>
+    <string name="fw_upgrade_notice_amazfitgtr">أنت على وشك تثبيت البرنامج الثابت %s على Amazfit GTR.
+\n
+\nيرجى التأكد من تثبيت ملف .fw ، ثم ملف .res ، وأخيرا ملف .gps. سيتم إعادة تشغيل ساعتك بعد تثبيت ملف .fw.
+\n
+\nملاحظة: لا يلزم تثبيت .res و .gps إذا كانت هذه الملفات هي نفسها تماما مثل الملفات المثبتة مسبقا.
+\n
+\nالمضي قدما على مسؤوليتك الخاصة!</string>
+    <string name="pref_summary_datetime_syctimeonconnect">مزامنة الوقت مع جهاز Gadgetbridge عند الاتصال ، وعندما يتغير الوقت أو المنطقة الزمنية على جهاز Android</string>
+    <string name="fw_upgrade_notice_amazfit_gts4">أنت على وشك تثبيت البرنامج الثابت %s على Amazfit GTS 4.
+\n
+\nستتم إعادة تشغيل السوار بعد تثبيت ملف zip.
+\n
+\nالمضي قدما على مسؤوليتك الخاصة!</string>
+    <string name="appmanager_item_outdated">(عفا عليه الزمن)</string>
+    <string name="open_fw_installer_warning_title">تحذير</string>
+    <string name="open_fw_installer_getting_files_title">الحصول على ملف البرنامج الثابت / التطبيق</string>
+    <string name="pref_header_display">الشاشة</string>
+    <string name="prefs_activity_in_device_card_title_summary">إظهار الخطوات الحالية أو المسافة أو السكون على بطاقة الجهاز</string>
+    <string name="prefs_activity_in_device_card_sleep_title_summary">عرض مدة النوم</string>
+    <string name="controlcenter_get_heartrate_measurement">الحصول على قياس معدل ضربات القلب</string>
+    <string name="device_card_activity_card_title">معلومات النشاط على بطاقة الجهاز</string>
+    <string name="title_activity_calblacklist">التقاويم المدرجة في القائمة السوداء</string>
+    <string name="action_debug">التصحيح</string>
+    <string name="title_activity_debug">تصحيح</string>
+    <string name="open_fw_installer_warning_text">هذه الميزة لديها القدرة على عطب جهازك. ومع ذلك ، لم يحدث هذا مطلقًا لأي من المطورين من خلال التثبيت ، ولكن تذكر أنك تقوم بذلك على مسؤوليتك الخاصة.</string>
+    <string name="open_fw_installer_pick_file">حدد الملف</string>
+    <string name="open_fw_installer_select_file">حدد الملف الذي تريد تحميله على الجهاز: %s</string>
+    <string name="pref_header_system">النظام</string>
+    <string name="pref_header_health">الصحة</string>
+    <string name="pref_header_equalizer">المعادل</string>
+    <string name="pref_title_minimize_priority">إخفاء إشعار Gadgetbridge</string>
+    <string name="about_description_banglejs_nightly">تطبيق مصاحب لنظام Android لـ Bangle.js مبني على مشروع Gadgetbridge ، مع وصول إضافي إلى الإنترنت.
+\n
+\nنظرًا لسياسات متجر Google Play ، لا يُسمح لنا باستخدام رابط تبرع في التطبيق نفسه ، ولكن إذا أعجبك هذا التطبيق ، فيرجى التفكير في التبرع عبر صفحة Gadgetbridge الرئيسية أدناه.</string>
+    <string name="fw_multi_upgrade_notice">أنت على وشك تثبيت البرامج الثابتة %1$s و %2$s ، بدلاً من البرامج الموجودة حاليًا على Mi Band.</string>
+    <string name="open_fw_installer_info_text_title">مثبت الملفات</string>
+    <string name="open_fw_installer_getting_files_text">نظرًا لأننا قد لا نوزع ملفات البرامج الثابتة ، فسيتعين عليك الحصول على الملفات بنفسك. هذا يعني أنك ستحتاج إلى البحث عن الملفات في ملفات apk ، عبر الإنترنت ، في المنتديات ، على Amazfitwatchfaces (لأجهزة Miband / Amazfit) وما إلى ذلك.</string>
+    <string name="fw_upgrade_notice_amazfit_trex2">أنت على وشك تثبيت البرنامج الثابت %s على Amazfit T-Rex 2.
+\n
+\nستتم إعادة تشغيل السوار بعد تثبيت ملف zip.
+\n
+\nالمضي قدما على مسؤوليتك الخاصة!</string>
+    <string name="fw_upgrade_notice_amazfitneo">أنت على وشك تثبيت البرنامج الثابت %s على جهاز Amazfit Neo الخاص بك.
+\n
+\nستتم إعادة تشغيل السوار بعد تثبيت ملف .fw.
+\n
+\nالمضي قدما على مسؤوليتك الخاصة!</string>
+    <string name="appmanager_app_share">مشاركة</string>
+    <string name="fw_upgrade_notice_amazfitbip">أنت على وشك تثبيت البرنامج الثابت %s على Amazfit Bip.
+\n
+\nيرجى التأكد من تثبيت ملف .fw ، ثم ملف .res ، وأخيرا ملف .gps. سيتم إعادة تشغيل ساعتك بعد تثبيت ملف .fw.
+\n
+\nملاحظة: لا يلزم تثبيت .res و .gps إذا كانت هذه الملفات هي نفسها تماما مثل الملفات المثبتة مسبقا.
+\n
+\nالمضي قدما على مسؤوليتك الخاصة!</string>
+    <string name="fw_upgrade_notice_amazfitcor2">أنت على وشك تثبيت البرنامج الثابت %s على Amazfit Cor 2.
+\n
+\nيرجى التأكد من تثبيت ملف .fw ، وبعد ذلك ملف .res. سيتم إعادة تشغيل الفرقة الخاصة بك بعد تثبيت ملف .fw.
+\n
+\nملاحظة: لا يتعين عليك تثبيت .res إذا كان مطابقا تماما للتثبيت الذي تم تثبيته مسبقا.
+\n
+\nالمضي قدما على مسؤوليتك الخاصة!
+\n
+\nلم يتم اختباره تماما ، ربما تحتاج إلى وميض برنامج ثابت BEATS_W إذا كان اسم جهازك هو \"Amazfit Band 2\"</string>
+    <string name="open_fw_installer_connect_maximum_one_device">الرجاء توصيل جهاز واحد فقط الذي تريد إرسال الملف إليه.</string>
+    <string name="open_fw_installer_ensure_device_connected">تأكد من توصيل الجهاز %s</string>
+    <string name="appmanager_hrm_activate">تفعيل HRM</string>
+    <string name="debugactivity_confirm_remove_device_preferences_title">إزالة تفضيلات الجهاز؟</string>
+    <string name="appmanager_app_openinstore">البحث في متجر تطبيقات Pebble</string>
+    <string name="fw_upgrade_notice_amazfit_gts4_mini">أنت على وشك تثبيت البرنامج الثابت %s على Amazfit GTS 4 Mini.
+\n
+\nستتم إعادة تشغيل السوار بعد تثبيت ملف zip.
+\n
+\nالمضي قدما على مسؤوليتك الخاصة!</string>
+    <string name="fw_upgrade_notice_amazfit_band7">أنت على وشك تثبيت البرنامج الثابت %s على Amazfit Band 7.
+\n
+\nستتم إعادة تشغيل السوار بعد تثبيت ملف zip.
+\n
+\nالمضي قدما على مسؤوليتك الخاصة!</string>
+    <string name="pref_header_connection">الإتصال</string>
+    <string name="pref_header_sound_vibration">الصوت والاهتزاز</string>
+    <string name="pref_header_offline_voice">صوت غير متصل</string>
+    <string name="device_card_activity_card_title_summary">اختيار تفاصيل النشاط التي يتم عرضها على بطاقة الجهاز</string>
+    <string name="prefs_activity_in_device_card_title">إظهار معلومات النشاط على بطاقة الجهاز</string>
+    <string name="prefs_activity_in_device_card_sleep_title">النوم</string>
+    <string name="appmanager_app_start">بدء</string>
+    <string name="debugactivity_confirm_remove_device_preferences">سيؤدي هذا إلى إعادة تعيين تفضيلات الجهاز لجميع الأجهزة المتصلة. هل أنت متأكد؟</string>
+    <string name="appmanager_app_download">تنزيل إلى ذاكرة التخزين المؤقت</string>
+    <string name="fw_upgrade_notice_amazfit_trex">أنت على وشك تثبيت البرنامج الثابت %s على Amazfit T-Rex.
+\n
+\nيرجى التأكد من تثبيت ملف .fw ، ثم ملف .res ، وأخيرا ملف .gps. سيتم إعادة تشغيل ساعتك بعد تثبيت ملف .fw.
+\n
+\nملاحظة: لا يلزم تثبيت .res و .gps إذا كانت هذه الملفات هي نفسها تماما مثل الملفات المثبتة مسبقا.
+\n
+\nالمضي قدما على مسؤوليتك الخاصة!</string>
+    <string name="fw_upgrade_notice_amazfitx">أنت على وشك تثبيت البرنامج الثابت %s على جهاز Amazfit X.
+\n
+\nيرجى التأكد من تثبيت ملف .fw ، وبعد ذلك ملف .res. ستتم إعادة تشغيل السوار بعد تثبيت ملف .fw.
+\n
+\nملاحظة: ليس عليك تثبيت .res إذا كان مطابقًا تمامًا لما تم تثبيته مسبقًا.
+\n
+\nالمضي قدما على مسؤوليتك الخاصة!</string>
+    <string name="appmanager_health_activate">تفعيل</string>
+    <string name="appmanager_health_deactivate">تعطيل</string>
+    <string name="fw_upgrade_notice_amazfitvergel">أنت على وشك تثبيت البرنامج الثابت %s على Amazfit Verge Lite.
+\n
+\nيرجى التأكد من تثبيت ملف .fw ، ثم ملف .res ، وأخيرًا ملف .gps. ستتم إعادة تشغيل ساعتك بعد تثبيت ملف .fw.
+\n
+\nملاحظة: ليس عليك تثبيت .res و. gps إذا كانت هذه الملفات مطابقة تمامًا لتلك التي تم تثبيتها مسبقًا.
+\n
+\nالمضي قدما على مسؤوليتك الخاصة!</string>
+    <string name="appmanager_download_app_error">خطأ في تنزيل التطبيق</string>
+    <string name="fw_upgrade_notice_amazfitbip_lite">أنت على وشك تثبيت البرنامج الثابت %s على Amazfit Bip Lite.
+\n
+\nيرجى التأكد من تثبيت ملف .fw ، وبعد ذلك ملف .res. ستتم إعادة تشغيل ساعتك بعد تثبيت ملف .fw.
+\n
+\nملاحظة: ليس عليك تثبيت .res إذا كان مطابقًا تمامًا لما تم تثبيته مسبقًا.
+\n
+\nالمضي قدما على مسؤوليتك الخاصة!</string>
+    <string name="fw_upgrade_notice_amazfitcor">أنت على وشك تثبيت البرنامج الثابت %s على Amazfit Cor.
+\n
+\nيرجى التأكد من تثبيت ملف .fw ، وبعد ذلك ملف .res. سيتم إعادة تشغيل الفرقة الخاصة بك بعد تثبيت ملف .fw.
+\n
+\nملاحظة: لا يتعين عليك تثبيت .res إذا كان مطابقا تماما للتثبيت الذي تم تثبيته مسبقا.
+\n
+\nالمضي قدما على مسؤوليتك الخاصة!</string>
+    <string name="fw_upgrade_notice_amazfit_gtr3">أنت على وشك تثبيت البرنامج الثابت %s على جهاز Amazfit GTR 3.
+\n
+\nستتم إعادة تشغيل السوار بعد تثبيت ملف zip.
+\n
+\nالمضي قدما على مسؤوليتك الخاصة!</string>
+    <string name="fw_upgrade_notice_miband3">أنت على وشك تثبيت البرنامج الثابت %s على Mi Band 3.
+\n
+\nيرجى التأكد من تثبيت ملف .fw ، وبعد ذلك ملف .res. ستتم إعادة تشغيل السوار بعد تثبيت ملف .fw.
+\n
+\nملاحظة: ليس عليك تثبيت .res إذا كان مطابقًا تمامًا لما تم تثبيته مسبقًا.
+\n
+\nالمضي قدما على مسؤوليتك الخاصة!</string>
+    <string name="fw_upgrade_notice_miband5">أنت على وشك تثبيت البرنامج الثابت %s على Mi Band 5.
+\n
+\nيرجى التأكد من تثبيت ملف .fw ، وبعد ذلك ملف .res. سيتم إعادة تشغيل الفرقة الخاصة بك بعد تثبيت ملف .fw.
+\n
+\nملاحظة: لا يتعين عليك تثبيت .res إذا كان مطابقا تماما للتثبيت الذي تم تثبيته مسبقا.
+\n
+\nالمضي قدما على مسؤوليتك الخاصة!</string>
+    <string name="fw_upgrade_notice_miband6">أنت على وشك تثبيت البرنامج الثابت %s على Mi Band 6.
+\n
+\nيرجى التأكد من تثبيت ملف .fw ، وبعد ذلك ملف .res. سيتم إعادة تشغيل الفرقة الخاصة بك بعد تثبيت ملف .fw.
+\n
+\nملاحظة: لا يتعين عليك تثبيت .res إذا كان مطابقا تماما للتثبيت الذي تم تثبيته مسبقا.
+\n
+\nالمضي قدما على مسؤوليتك الخاصة!</string>
+    <string name="fw_upgrade_notice_amazfit_gts3">أنت على وشك تثبيت البرنامج الثابت %s على Amazfit GTS 3.
+\n
+\nستتم إعادة تشغيل السوار بعد تثبيت ملف zip.
+\n
+\nالمضي قدما على مسؤوليتك الخاصة!</string>
+    <string name="fw_upgrade_notice_amazfit_gtr3_pro">أنت على وشك تثبيت البرنامج الثابت %s على جهاز Amazfit GTR 3 Pro.
+\n
+\nستتم إعادة تشغيل السوار بعد تثبيت ملف zip.
+\n
+\nالمضي قدما على مسؤوليتك الخاصة!</string>
+    <string name="miband_firmware_unknown_warning">لم يتم اختبار هذا البرنامج الثابت وقد لا يكون متوافقا مع Gadgetbridge.
+\n
+\nأنت ممنوع من تثبيتها!</string>
+    <string name="miband_firmware_suggest_whitelist">إذا كنت لا تزال ترغب في المتابعة واستمرت الأمور في العمل بشكل صحيح بعد ذلك ، فالرجاء إخبار مطوري Gadgetbridge بإدراج إصدار البرنامج الثابت %s في القائمة البيضاء.</string>
+    <string name="open_fw_installer_info_text">يسمح لك برنامج Firmware / Watchface / App / File Installer بتحميل / تثبيت الملفات المدعومة (البرامج الثابتة ، وواجهات المراقبة ، والتطبيقات ، ونظام تحديد المواقع العالمي (GPS) ، والموارد ، والخطوط ...) على الجهاز. اطلع على مزيد من المعلومات في الويكي: https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/Firmware-Update</string>
+    <string name="pref_title_general_autoconnectonbluetooth">قم بالاتصال بجهاز Gadgetbridge عند تشغيل Bluetooth</string>
+    <string name="open_fw_installer_connect_minimum_one_device">الرجاء توصيل جهاز واحد على الأقل الذي تريد إرسال الملف إليه.</string>
+    <string name="pref_summary_minimize_priority_off">يتم عرض الرمز الموجود في شريط الحالة والإشعار في شاشة القفل</string>
 </resources>
