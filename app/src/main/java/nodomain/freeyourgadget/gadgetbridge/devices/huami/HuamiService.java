@@ -224,6 +224,7 @@ public class HuamiService {
     public static final byte COMMAND_ACTIVITY_DATA_TYPE_ACTIVTY = 0x01;
     public static final byte COMMAND_ACTIVITY_DATA_TYPE_MANUAL_HEART_RATE = 0x02;
     public static final byte COMMAND_ACTIVITY_DATA_XXX_DATE = 0x02; // issued on first connect, followd by COMMAND_XXXX_ACTIVITY_DATA instead of COMMAND_FETCH_DATA
+    public static final byte COMMAND_ACTIVITY_DATA_TYPE_PAI = 0x0d;
     public static final byte COMMAND_ACTIVITY_DATA_TYPE_STRESS_MANUAL = 0x12;
     public static final byte COMMAND_ACTIVITY_DATA_TYPE_STRESS_AUTOMATIC = 0x13;
     public static final byte COMMAND_ACTIVITY_DATA_TYPE_SPO2_NORMAL = 0x25;
