@@ -341,7 +341,7 @@ public class SleepChartFragment extends AbstractChartFragment {
             public void onClick(View v) {
                 DecimalFormat df = new DecimalFormat("###.#");
                 String detailedDuration = String.format(getString(R.string.charts_min_max_heartrate_popup), heartRateMin, heartRateMax, df.format(intensityTotal));
-                new ChartsActivity.ShowDurationDialog(detailedDuration, getContext()).show();
+                new ShowDurationDialog(detailedDuration, getContext()).show();
             }
         };
 
