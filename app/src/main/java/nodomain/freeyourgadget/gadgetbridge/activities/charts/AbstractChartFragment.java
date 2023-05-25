@@ -35,7 +35,6 @@ import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.charts.BarLineChartBase;
 import com.github.mikephil.charting.charts.Chart;
 import com.github.mikephil.charting.components.YAxis;
-import com.github.mikephil.charting.data.ChartData;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
@@ -45,7 +44,6 @@ import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
@@ -825,89 +823,5 @@ public abstract class AbstractChartFragment extends AbstractGBFragment {
 
     private int toTimestamp(Date date) {
         return (int) ((date.getTime() / 1000));
-    }
-
-    public static class DefaultChartsData<T extends ChartData<?>> extends ChartsData {
-        private final T data;
-        private ValueFormatter xValueFormatter;
-
-        public DefaultChartsData(T data, ValueFormatter xValueFormatter) {
-            this.xValueFormatter = xValueFormatter;
-            this.data = data;
-        }
-
-        public ValueFormatter getXValueFormatter() {
-            return xValueFormatter;
-        }
-
-        public T getData() {
-            return data;
-        }
-    }
-
-    protected static class SampleXLabelFormatter extends ValueFormatter {
-        private final TimestampTranslation tsTranslation;
-        SimpleDateFormat annotationDateFormat = new SimpleDateFormat("HH:mm");
-//        SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy HH:mm");
-        Calendar cal = GregorianCalendar.getInstance();
-
-        public SampleXLabelFormatter(TimestampTranslation tsTranslation) {
-            this.tsTranslation = tsTranslation;
-
-        }
-        // TODO: this does not work. Cannot use precomputed labels
-        @Override
-        public String getFormattedValue(float value) {
-            cal.clear();
-            int ts = (int) value;
-            cal.setTimeInMillis(tsTranslation.toOriginalValue(ts) * 1000L);
-            Date date = cal.getTime();
-            String dateString = annotationDateFormat.format(date);
-            return dateString;
-        }
-    }
-
-    protected static class PreformattedXIndexLabelFormatter extends ValueFormatter {
-        private ArrayList<String> xLabels;
-
-        public PreformattedXIndexLabelFormatter(ArrayList<String> xLabels) {
-            this.xLabels = xLabels;
-
-        }
-        @Override
-        public String getFormattedValue(float value) {
-            int index = (int) value;
-            if (xLabels == null || index >= xLabels.size()) {
-                return String.valueOf(value);
-            }
-            return xLabels.get(index);
-        }
-    }
-
-    /**
-     * Awkward class that helps in translating long timestamp
-     * values to float (sic!) values. It basically rebases all
-     * timestamps to a base (the very first) timestamp value.
-     *
-     * It does this so that the large timestamp values can be used
-     * floating point values, where the mantissa is just 24 bits.
-     */
-    public static class TimestampTranslation {
-        private int tsOffset = -1;
-
-        public int shorten(int timestamp) {
-            if (tsOffset == -1) {
-                tsOffset = timestamp;
-                return 0;
-            }
-            return timestamp - tsOffset;
-        }
-
-        public int toOriginalValue(int timestamp) {
-            if (tsOffset == -1) {
-                return timestamp;
-            }
-            return timestamp + tsOffset;
-        }
     }
 }
