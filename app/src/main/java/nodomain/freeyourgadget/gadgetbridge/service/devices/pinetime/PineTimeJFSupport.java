@@ -51,6 +51,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 import java.util.TimeZone;
+import java.util.Optional;
 
 import co.nstant.in.cbor.CborBuilder;
 import co.nstant.in.cbor.CborEncoder;
@@ -1142,6 +1143,12 @@ public class PineTimeJFSupport extends AbstractBTLEDeviceSupport implements DfuL
                 sample.setProvider(provider);
 
                 sample.setRawIntensity(ActivitySample.NOT_MEASURED);
+
+                Optional<PineTimeActivitySample> storedSample = provider.getSampleForTimestamp(sample.getTimestamp());
+                if (storedSample.isPresent()) {
+                    sample.setHeartRate(Math.max(sample.getHeartRate(), storedSample.get().getHeartRate()));
+                    sample.setSteps(Math.max(sample.getSteps(), storedSample.get().getSteps()));
+                }
 
                 provider.addGBActivitySample(sample);
             }
