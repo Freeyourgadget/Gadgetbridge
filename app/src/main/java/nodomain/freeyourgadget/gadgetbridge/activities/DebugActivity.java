@@ -20,7 +20,9 @@ package nodomain.freeyourgadget.gadgetbridge.activities;
 
 import static android.content.Intent.EXTRA_SUBJECT;
 import static nodomain.freeyourgadget.gadgetbridge.util.GB.NOTIFICATION_CHANNEL_ID;
+import static nodomain.freeyourgadget.gadgetbridge.util.GB.toast;
 
+import android.Manifest;
 import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.PendingIntent;
@@ -37,11 +39,15 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.IntentSender;
+import android.content.ServiceConnection;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.IBinder;
+import android.os.RemoteException;
 import android.preference.PreferenceManager;
 import android.text.Editable;
 import android.text.TextUtils;
@@ -122,6 +128,7 @@ import nodomain.freeyourgadget.gadgetbridge.util.PendingIntentUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 import nodomain.freeyourgadget.gadgetbridge.util.StringUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.WidgetPreferenceStorage;
+import nodomain.freeyourgadget.internethelper.INetworkService;
 
 public class DebugActivity extends AbstractGBActivity {
     private static final Logger LOG = LoggerFactory.getLogger(DebugActivity.class);
@@ -902,8 +909,52 @@ public class DebugActivity extends AbstractGBActivity {
                 .show();
     }
 
+    INetworkService iRemoteService;
+
     private void testNewFunctionality() {
-        GBApplication.deviceService().onTestNewFunction();
+        if (ActivityCompat.checkSelfPermission(getApplicationContext(), "nodomain.freeyourgadget.internethelper.INTERNET") != PackageManager.PERMISSION_GRANTED) {
+            LOG.error("No permission to access internet!");
+            toast(DebugActivity.this, "internet permission missing", Toast.LENGTH_SHORT, GB.ERROR);
+            ActivityCompat.requestPermissions(this, new String[]{"nodomain.freeyourgadget.internethelper.INTERNET"}, 0);
+            return;
+        }
+
+        if (iRemoteService == null) {
+            LOG.info("connecting");
+            ServiceConnection mConnection = new ServiceConnection() {
+                // Called when the connection with the service is established.
+                public void onServiceConnected(ComponentName className, IBinder service) {
+                    LOG.info("onServiceConnected");
+
+                    // Following the preceding example for an AIDL interface,
+                    // this gets an instance of the IRemoteInterface, which we can use to call on the service.
+                    iRemoteService = INetworkService.Stub.asInterface(service);
+                }
+
+                // Called when the connection with the service disconnects unexpectedly.
+                public void onServiceDisconnected(ComponentName className) {
+                    LOG.error("Service has unexpectedly disconnected");
+                    iRemoteService = null;
+                }
+            };
+            Intent intent = new Intent("nodomain.freeyourgadget.internethelper.NetworkService");
+            intent.setPackage("nodomain.freeyourgadget.internethelper");
+            boolean res = this.bindService(intent, mConnection, Context.BIND_AUTO_CREATE);
+            if (res) {
+                LOG.info("Bound to NetworkService");
+            } else {
+                LOG.warn("Could not bind to NetworkService");
+            }
+        } else {
+            try {
+                final int version = iRemoteService.version();
+                LOG.info("version = {}", version);
+            } catch (RemoteException e) {
+                throw new RuntimeException(e);
+            }
+        }
+
+        //GBApplication.deviceService().onTestNewFunction();
     }
 
     private void shareLog() {
