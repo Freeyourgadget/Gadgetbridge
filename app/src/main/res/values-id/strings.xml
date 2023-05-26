@@ -2218,4 +2218,7 @@
     <string name="contact_delete_confirm_title">Hapus kontak</string>
     <string name="contact_missing_number">Nomor kontak kosong</string>
     <string name="contact_delete_confirm_description">Apakah Anda yakin ingin menghapus \'%1$s\'\?</string>
+    <string name="pref_header_navigation">Navigasi</string>
+    <string name="pref_summary_navigation_forward">Teruskan petunjuk dari aplikasi navigasi ke jam tangan</string>
+    <string name="pref_title_navigation_forward">Kirim navigasi ke jam tangan</string>
 </resources>
