@@ -16,11 +16,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.IBinder;
-import android.util.Log;
 import android.widget.RemoteViews;
 
 import androidx.core.app.NotificationCompat;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -47,6 +49,8 @@ public class BLEScanService extends Service {
     private NotificationManager notificationManager;
     private BluetoothManager bluetoothManager;
     private BluetoothLeScanner scanner;
+    
+    private Logger LOG = LoggerFactory.getLogger(getClass());
     // private final ArrayList<ScanFilter> currentFilters = new ArrayList<>();
 
     private enum ScanningState {
@@ -70,7 +74,7 @@ public class BLEScanService extends Service {
             super.onScanResult(callbackType, result);
             BluetoothDevice device = result.getDevice();
 
-            Log.d(TAG, "onScanResult: " + result);
+            LOG.debug("onScanResult: " + result);
 
             Intent intent = new Intent(EVENT_DEVICE_FOUND);
             intent.putExtra(EXTRA_DEVICE_ADDRESS, device.getAddress());
@@ -88,7 +92,7 @@ public class BLEScanService extends Service {
         public void onScanFailed(int errorCode) {
             super.onScanFailed(errorCode);
 
-            Log.e(TAG, "onScanFailed: " + errorCode);
+            LOG.error("onScanFailed: " + errorCode);
 
             updateNotification("Scan failed: " + errorCode);
         }
@@ -344,7 +348,7 @@ public class BLEScanService extends Service {
 
             if(scanFilters.size() == 0){
                 // no need to start scanning
-                Log.d(TAG, "restartScan: stopping BLE scan, no devices");
+                LOG.debug("restartScan: stopping BLE scan, no devices");
                 currentState = ScanningState.NOT_SCANNING;
                 updateNotification(false, 0);
                 return;
@@ -360,11 +364,11 @@ public class BLEScanService extends Service {
 
         scanner.startScan(scanFilters, scanSettings, scanCallback);
         if(applyFilters) {
-            Log.d(TAG, "restartScan: started scan for " + scanFilters.size() + " devices");
+            LOG.debug("restartScan: started scan for " + scanFilters.size() + " devices");
             updateNotification(true, scanFilters.size());
             currentState = ScanningState.SCANNING_WITH_FILTERS;
         }else{
-            Log.d(TAG, "restartScan: started scan for all devices");
+            LOG.debug("restartScan: started scan for all devices");
             updateNotification(true, 0);
             currentState = ScanningState.SCANNING_WITHOUT_FILTERS;
         }
