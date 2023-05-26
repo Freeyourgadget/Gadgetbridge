@@ -2229,4 +2229,7 @@
     <string name="contact_no_free_slots_description">此设备没有空闲的联系人位置了（总位置数：%1$s）</string>
     <string name="contact_name">名称</string>
     <string name="contact_missing_name">联系人姓名为空</string>
+    <string name="pref_header_navigation">导航</string>
+    <string name="pref_summary_navigation_forward">将导航应用程序的指令转发到手表</string>
+    <string name="pref_title_navigation_forward">发送导航到手表</string>
 </resources>
