@@ -2237,4 +2237,7 @@
     <string name="title_activity_contact_details">Контактні дані</string>
     <string name="contact_delete_confirm_description">Ви впевнені, що хочете видалити \'%1$s\'\?</string>
     <string name="contact_missing_number">Контактний номер порожній</string>
+    <string name="pref_header_navigation">Навігація</string>
+    <string name="pref_title_navigation_forward">Надсилати навігацію на годинник</string>
+    <string name="pref_summary_navigation_forward">Пересилати інструкції з навігаційних застосунків на годинник</string>
 </resources>
