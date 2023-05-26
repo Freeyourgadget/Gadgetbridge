@@ -2231,4 +2231,7 @@
     <string name="title_activity_set_contacts">Configurar contactos</string>
     <string name="contact_missing_number">El número de contacto está vacío</string>
     <string name="contact_missing_name">El nombre del contacto está vacío</string>
+    <string name="pref_title_navigation_forward">Enviar navegación al reloj</string>
+    <string name="pref_summary_navigation_forward">Reenvía las instrucciones de las aplicaciones de navegación al reloj</string>
+    <string name="pref_header_navigation">Navegador</string>
 </resources>
