@@ -1296,7 +1296,7 @@
     <string name="activity_error_share_failed">فشلت مشاركة الملف.</string>
     <string name="kind_gpx_route">طريق GPX</string>
     <string name="devicetype_amazfit_trex">Amazfit T-Rex</string>
-    <string name="devicetype_amazfit_bips_lite">Amazfit Bip S Lite</string>
+    <string name="devicetype_amazfit_bips_lite">Amazfit Bip S لايت</string>
     <string name="devicetype_qhybrid">Fossil Q Hybrid</string>
     <string name="devicetype_sony_wh_1000xm5">Sony WH-1000XM5</string>
     <string name="pref_title_contextual_arabic">السياق العربي</string>
@@ -1706,11 +1706,11 @@
     <string name="sony_equalizer_preset_bright">ساطع</string>
     <string name="controlcenter_folder_name">اسم المجلد:</string>
     <string name="step_streak_ongoing">جارية</string>
-    <string name="devicetype_amazfit_bips">Amazfit Bip S</string>
+    <string name="devicetype_amazfit_bips">امازفيت Bip S</string>
     <string name="pref_title_chart_sleep_rolling_24_hour">نطاق النوم</string>
     <string name="pref_chart_sleep_rolling_24_on">ال 24 ساعة الماضية</string>
     <string name="kind_gps_almanac">تقويم GPS</string>
-    <string name="devicetype_amazfit_gts2_mini">Amazfit GTS 2 Mini</string>
+    <string name="devicetype_amazfit_gts2_mini">Amazfit GTS 2 ميني</string>
     <string name="devicetype_vibratissimo">Vibratissimo</string>
     <string name="preferences_led_color">لون LED</string>
     <string name="preferences_fm_frequency">تردد FM</string>
@@ -1807,7 +1807,7 @@
     <string name="georgian">الجورجية</string>
     <string name="activity_type_pingpong">بينج بونج</string>
     <string name="devicetype_amazfit_x">Amazfit X</string>
-    <string name="devicetype_amazfit_bip_lite">Amazfit Bip Lite</string>
+    <string name="devicetype_amazfit_bip_lite">امازفيت Bip لايت</string>
     <string name="devicetype_xwatch">XWatch</string>
     <string name="devicetype_itag">iTag</string>
     <string name="devicetype_amazfit_gts">Amazfit GTS</string>
@@ -1854,7 +1854,7 @@
     <string name="activity_summary_detail">تفاصيل النشاط الرياضي</string>
     <string name="devicetype_amazfit_gts4">Amazfit GTS 4</string>
     <string name="devicetype_unknown">جهاز غير معروف</string>
-    <string name="devicetype_amazfit_band5">Amazfit Band 5</string>
+    <string name="devicetype_amazfit_band5">امازفيت Band 5</string>
     <string name="devicetype_amazfit_band7">Amazfit Band 7</string>
     <string name="devicetype_amazfit_neo">Amazfit Neo</string>
     <string name="devicetype_watchxplus">Watch X Plus</string>
@@ -2021,7 +2021,7 @@
     <string name="mi2_dnd_scheduled">مجدول (فاصل زمني)</string>
     <string name="activity_type_not_worn">الجهاز ام يتم إرتداءه</string>
     <string name="devicetype_amazfit_trex_2">Amazfit T-Rex 2</string>
-    <string name="devicetype_amazfit_cor2">Amazfit Cor 2</string>
+    <string name="devicetype_amazfit_cor2">امازفيت Cor 2</string>
     <string name="devicetype_amazfit_gtr_lite">Amazfit GTR Lite</string>
     <string name="devicetype_um25">UM-25</string>
     <string name="devicetype_teclast_h30">Teclast H30</string>
@@ -2208,10 +2208,10 @@
     <string name="devicetype_amazfit_gtr4">Amazfit GTR 4</string>
     <string name="devicetype_amazfit_bip">Amazfit Bip</string>
     <string name="devicetype_amazfit_gtr">Amazfit GTR</string>
-    <string name="devicetype_amazfit_bipu">Amazfit Bip U</string>
-    <string name="devicetype_amazfit_bipupro">Amazfit Bip U Pro</string>
+    <string name="devicetype_amazfit_bipu">امازفيت Bip U</string>
+    <string name="devicetype_amazfit_bipupro">Amazfit Bip U برو</string>
     <string name="devicetype_amazfit_pop_pro">Amazfit Pop Pro</string>
-    <string name="devicetype_amazfit_gtr2">Amazfit GTR 2</string>
-    <string name="devicetype_amazfit_gtr2e">Amazfit GTR 2e</string>
+    <string name="devicetype_amazfit_gtr2">امازفيت GTR 2</string>
+    <string name="devicetype_amazfit_gtr2e">امازفيت GTR 2e</string>
     <string name="devicetype_roidmi">Roidmi</string>
 </resources>
