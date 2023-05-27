@@ -67,6 +67,7 @@ public class GBDaoGenerator {
         addHuamiHeartRateMaxSample(schema, user, device);
         addHuamiHeartRateRestingSample(schema, user, device);
         addHuamiPaiSample(schema, user, device);
+        addHuamiSleepRespiratoryRateSample(schema, user, device);
         addPebbleHealthActivitySample(schema, user, device);
         addPebbleHealthActivityKindOverlay(schema, user, device);
         addPebbleMisfitActivitySample(schema, user, device);
@@ -298,6 +299,14 @@ public class GBDaoGenerator {
         paiSample.addFloatProperty("paiToday").notNull().codeBeforeGetter(OVERRIDE);
         paiSample.addFloatProperty("paiTotal").notNull().codeBeforeGetter(OVERRIDE);
         return paiSample;
+    }
+
+    private static Entity addHuamiSleepRespiratoryRateSample(Schema schema, Entity user, Entity device) {
+        Entity sleepRespiratoryRateSample = addEntity(schema, "HuamiSleepRespiratoryRateSample");
+        addCommonTimeSampleProperties("AbstractSleepRespiratoryRateSample", sleepRespiratoryRateSample, user, device);
+        sleepRespiratoryRateSample.addIntProperty("utcOffset").notNull();
+        sleepRespiratoryRateSample.addIntProperty("rate").notNull().codeBeforeGetter(OVERRIDE);
+        return sleepRespiratoryRateSample;
     }
 
     private static void addHeartRateProperties(Entity activitySample) {

@@ -133,6 +133,11 @@ public abstract class Huami2021Coordinator extends HuamiCoordinator {
     }
 
     @Override
+    public boolean supportsSleepRespiratoryRate() {
+        return true;
+    }
+
+    @Override
     public boolean supportsMusicInfo() {
         return true;
     }

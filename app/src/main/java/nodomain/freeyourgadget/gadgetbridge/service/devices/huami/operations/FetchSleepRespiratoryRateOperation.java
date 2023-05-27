@@ -16,15 +16,30 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.service.devices.huami.operations;
 
+import android.widget.Toast;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
+import java.util.ArrayList;
 import java.util.GregorianCalendar;
+import java.util.List;
 
+import nodomain.freeyourgadget.gadgetbridge.GBApplication;
+import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
+import nodomain.freeyourgadget.gadgetbridge.database.DBHelper;
+import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiService;
+import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiSleepRespiratoryRateSampleProvider;
+import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
+import nodomain.freeyourgadget.gadgetbridge.entities.Device;
+import nodomain.freeyourgadget.gadgetbridge.entities.HuamiSleepRespiratoryRateSample;
+import nodomain.freeyourgadget.gadgetbridge.entities.User;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.HuamiSupport;
+import nodomain.freeyourgadget.gadgetbridge.util.DeviceHelper;
+import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
 /**
  * An operation that fetches sleep respiratory rate data.
@@ -43,6 +58,8 @@ public class FetchSleepRespiratoryRateOperation extends AbstractRepeatingFetchOp
             return false;
         }
 
+        final List<HuamiSleepRespiratoryRateSample> samples = new ArrayList<>();
+
         final ByteBuffer buf = ByteBuffer.wrap(bytes).order(ByteOrder.LITTLE_ENDIAN);
 
         while (buf.position() < bytes.length) {
@@ -54,8 +71,37 @@ public class FetchSleepRespiratoryRateOperation extends AbstractRepeatingFetchOp
 
             timestamp.setTimeInMillis(timestampSeconds * 1000L);
 
-            LOG.debug("Sleep Respiratory Rate at {} + {}: respiratoryRate={} unknown1={} unknown2={}", timestamp.getTime(), respiratoryRate, utcOffsetInQuarterHours, unknown1, unknown2);
-            // TODO save
+            LOG.trace("Sleep Respiratory Rate at {} + {}: respiratoryRate={} unknown1={} unknown2={}", timestamp.getTime(), respiratoryRate, utcOffsetInQuarterHours, unknown1, unknown2);
+            final HuamiSleepRespiratoryRateSample sample = new HuamiSleepRespiratoryRateSample();
+            sample.setTimestamp(timestamp.getTimeInMillis());
+            sample.setUtcOffset(utcOffsetInQuarterHours * 900000);
+            sample.setRate(respiratoryRate);
+            samples.add(sample);
+        }
+
+        return persistSamples(samples);
+    }
+
+    protected boolean persistSamples(final List<HuamiSleepRespiratoryRateSample> samples) {
+        try (DBHandler handler = GBApplication.acquireDB()) {
+            final DaoSession session = handler.getDaoSession();
+
+            final Device device = DBHelper.getDevice(getDevice(), session);
+            final User user = DBHelper.getUser(session);
+
+            final HuamiCoordinator coordinator = (HuamiCoordinator) DeviceHelper.getInstance().getCoordinator(getDevice());
+            final HuamiSleepRespiratoryRateSampleProvider sampleProvider = coordinator.getSleepRespiratoryRateSampleProvider(getDevice(), session);
+
+            for (final HuamiSleepRespiratoryRateSample sample : samples) {
+                sample.setDevice(device);
+                sample.setUser(user);
+            }
+
+            LOG.debug("Will persist {} sleep respiratory rate samples", samples.size());
+            sampleProvider.addSamples(samples);
+        } catch (final Exception e) {
+            GB.toast(getContext(), "Error saving sleep respiratory rate samples", Toast.LENGTH_LONG, GB.ERROR, e);
+            return false;
         }
 
         return true;
