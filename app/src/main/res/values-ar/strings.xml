@@ -2214,4 +2214,7 @@
     <string name="devicetype_amazfit_gtr2">امازفيت GTR 2</string>
     <string name="devicetype_amazfit_gtr2e">امازفيت GTR 2e</string>
     <string name="devicetype_roidmi">Roidmi</string>
+    <string name="pref_summary_navigation_forward">إعادة توجيه التعليمات من تطبيقات الملاحة إلى الساعة</string>
+    <string name="pref_title_navigation_forward">إرسال الملاحة للساعة</string>
+    <string name="pref_header_navigation">الملاحة</string>
 </resources>
