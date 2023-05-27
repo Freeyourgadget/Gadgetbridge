@@ -166,6 +166,11 @@ public abstract class HuamiCoordinator extends AbstractBLEDeviceCoordinator {
     }
 
     @Override
+    public HuamiPaiSampleProvider getPaiSampleProvider(GBDevice device, DaoSession session) {
+        return new HuamiPaiSampleProvider(device, session);
+    }
+
+    @Override
     public ActivitySummaryParser getActivitySummaryParser(final GBDevice device) {
         return new HuamiActivitySummaryParser();
     }

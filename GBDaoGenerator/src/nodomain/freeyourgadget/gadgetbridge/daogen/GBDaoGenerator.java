@@ -66,6 +66,7 @@ public class GBDaoGenerator {
         addHuamiHeartRateManualSample(schema, user, device);
         addHuamiHeartRateMaxSample(schema, user, device);
         addHuamiHeartRateRestingSample(schema, user, device);
+        addHuamiPaiSample(schema, user, device);
         addPebbleHealthActivitySample(schema, user, device);
         addPebbleHealthActivityKindOverlay(schema, user, device);
         addPebbleMisfitActivitySample(schema, user, device);
@@ -282,6 +283,21 @@ public class GBDaoGenerator {
         hrRestingSample.addIntProperty("utcOffset").notNull();
         hrRestingSample.addIntProperty(SAMPLE_HEART_RATE).notNull().codeBeforeGetter(OVERRIDE);
         return hrRestingSample;
+    }
+
+    private static Entity addHuamiPaiSample(Schema schema, Entity user, Entity device) {
+        Entity paiSample = addEntity(schema, "HuamiPaiSample");
+        addCommonTimeSampleProperties("AbstractPaiSample", paiSample, user, device);
+        paiSample.addIntProperty("utcOffset").notNull();
+        paiSample.addFloatProperty("paiLow").notNull().codeBeforeGetter(OVERRIDE);
+        paiSample.addFloatProperty("paiModerate").notNull().codeBeforeGetter(OVERRIDE);
+        paiSample.addFloatProperty("paiHigh").notNull().codeBeforeGetter(OVERRIDE);
+        paiSample.addIntProperty("timeLow").notNull().codeBeforeGetter(OVERRIDE);
+        paiSample.addIntProperty("timeModerate").notNull().codeBeforeGetter(OVERRIDE);
+        paiSample.addIntProperty("timeHigh").notNull().codeBeforeGetter(OVERRIDE);
+        paiSample.addFloatProperty("paiToday").notNull().codeBeforeGetter(OVERRIDE);
+        paiSample.addFloatProperty("paiTotal").notNull().codeBeforeGetter(OVERRIDE);
+        return paiSample;
     }
 
     private static void addHeartRateProperties(Entity activitySample) {

@@ -42,6 +42,7 @@ import nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryParser;
 import nodomain.freeyourgadget.gadgetbridge.model.BatteryConfig;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
 import nodomain.freeyourgadget.gadgetbridge.model.HeartRateSample;
+import nodomain.freeyourgadget.gadgetbridge.model.PaiSample;
 import nodomain.freeyourgadget.gadgetbridge.model.Spo2Sample;
 import nodomain.freeyourgadget.gadgetbridge.model.StressSample;
 
@@ -219,6 +220,12 @@ public interface DeviceCoordinator {
     boolean supportsHeartRateStats();
 
     /**
+     * Returns true if PAI (Personal Activity Intelligence) measurement and fetching is supported by
+     * the device (with this coordinator).
+     */
+    boolean supportsPai();
+
+    /**
      * Returns true if activity data fetching is supported AND possible at this
      * very moment. This will consider the device state (being connected/disconnected/busy...)
      * etc.
@@ -259,6 +266,11 @@ public interface DeviceCoordinator {
      * Returns the sample provider for manual HR data, for the device being supported.
      */
     TimeSampleProvider<? extends HeartRateSample> getHeartRateManualSampleProvider(GBDevice device, DaoSession session);
+
+    /**
+     * Returns the sample provider for PAI data, for the device being supported.
+     */
+    TimeSampleProvider<? extends PaiSample> getPaiSampleProvider(GBDevice device, DaoSession session);
 
     /**
      * Returns the {@link ActivitySummaryParser} for the device being supported.

@@ -121,6 +121,7 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.operations.Abs
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.operations.FetchHeartRateManualOperation;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.operations.FetchHeartRateMaxOperation;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.operations.FetchHeartRateRestingOperation;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.operations.FetchPaiOperation;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.operations.FetchSpo2NormalOperation;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.operations.FetchSportsSummaryOperation;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.operations.FetchStressAutoOperation;
@@ -1679,6 +1680,10 @@ public abstract class HuamiSupport extends AbstractBTLEDeviceSupport implements 
             this.fetchOperationQueue.add(new FetchHeartRateManualOperation(this));
             this.fetchOperationQueue.add(new FetchHeartRateMaxOperation(this));
             this.fetchOperationQueue.add(new FetchHeartRateRestingOperation(this));
+        }
+
+        if ((dataTypes & RecordedDataTypes.TYPE_PAI) != 0 && coordinator.supportsPai()) {
+            this.fetchOperationQueue.add(new FetchPaiOperation(this));
         }
 
         final AbstractFetchOperation nextOperation = this.fetchOperationQueue.poll();

@@ -1,4 +1,4 @@
-/*  Copyright (C) 2015-2020 Andreas Shimokawa, Carsten Pfeiffer
+/*  Copyright (C) 2023 José Rebelo
 
     This file is part of Gadgetbridge.
 
@@ -14,19 +14,22 @@
 
     You should have received a copy of the GNU Affero General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
-
 package nodomain.freeyourgadget.gadgetbridge.model;
 
-public class RecordedDataTypes {
-    public static final int TYPE_ACTIVITY     = 0x00000001;
-    public static final int TYPE_WORKOUTS     = 0x00000002;
-    public static final int TYPE_GPS_TRACKS   = 0x00000004;
-    public static final int TYPE_TEMPERATURE  = 0x00000008;
-    public static final int TYPE_DEBUGLOGS    = 0x00000010;
-    public static final int TYPE_SPO2         = 0x00000020;
-    public static final int TYPE_STRESS       = 0x00000040;
-    public static final int TYPE_HEART_RATE   = 0x00000080;
-    public static final int TYPE_PAI          = 0x00000100;
+public interface PaiSample extends TimeSample {
+    float getPaiLow();
 
-    public static final int TYPE_ALL          = (int)0xffffffff;
+    float getPaiModerate();
+
+    float getPaiHigh();
+
+    int getTimeLow();
+
+    int getTimeModerate();
+
+    int getTimeHigh();
+
+    float getPaiToday();
+
+    float getPaiTotal();
 }
