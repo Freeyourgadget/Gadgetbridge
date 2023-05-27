@@ -118,6 +118,9 @@ import nodomain.freeyourgadget.gadgetbridge.model.ActivityUser;
 import nodomain.freeyourgadget.gadgetbridge.model.Alarm;
 import nodomain.freeyourgadget.gadgetbridge.model.RecordedDataTypes;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.operations.AbstractFetchOperation;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.operations.FetchHeartRateManualOperation;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.operations.FetchHeartRateMaxOperation;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.operations.FetchHeartRateRestingOperation;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.operations.FetchSpo2NormalOperation;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.operations.FetchSportsSummaryOperation;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.operations.FetchStressAutoOperation;
@@ -1670,6 +1673,12 @@ public abstract class HuamiSupport extends AbstractBTLEDeviceSupport implements 
         if ((dataTypes & RecordedDataTypes.TYPE_STRESS) != 0 && coordinator.supportsStressMeasurement()) {
             this.fetchOperationQueue.add(new FetchStressAutoOperation(this));
             this.fetchOperationQueue.add(new FetchStressManualOperation(this));
+        }
+
+        if ((dataTypes & RecordedDataTypes.TYPE_HEART_RATE) != 0 && coordinator.supportsHeartRateStats()) {
+            this.fetchOperationQueue.add(new FetchHeartRateManualOperation(this));
+            this.fetchOperationQueue.add(new FetchHeartRateMaxOperation(this));
+            this.fetchOperationQueue.add(new FetchHeartRateRestingOperation(this));
         }
 
         final AbstractFetchOperation nextOperation = this.fetchOperationQueue.poll();

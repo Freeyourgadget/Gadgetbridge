@@ -151,6 +151,21 @@ public abstract class HuamiCoordinator extends AbstractBLEDeviceCoordinator {
     }
 
     @Override
+    public HuamiHeartRateMaxSampleProvider getHeartRateMaxSampleProvider(final GBDevice device, final DaoSession session) {
+        return new HuamiHeartRateMaxSampleProvider(device, session);
+    }
+
+    @Override
+    public HuamiHeartRateRestingSampleProvider getHeartRateRestingSampleProvider(final GBDevice device, final DaoSession session) {
+        return new HuamiHeartRateRestingSampleProvider(device, session);
+    }
+
+    @Override
+    public HuamiHeartRateManualSampleProvider getHeartRateManualSampleProvider(final GBDevice device, final DaoSession session) {
+        return new HuamiHeartRateManualSampleProvider(device, session);
+    }
+
+    @Override
     public ActivitySummaryParser getActivitySummaryParser(final GBDevice device) {
         return new HuamiActivitySummaryParser();
     }

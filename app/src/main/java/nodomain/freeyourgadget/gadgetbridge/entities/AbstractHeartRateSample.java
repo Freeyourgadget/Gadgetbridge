@@ -18,7 +18,6 @@ package nodomain.freeyourgadget.gadgetbridge.entities;
 
 import androidx.annotation.NonNull;
 
-import nodomain.freeyourgadget.gadgetbridge.devices.TimeSampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.model.HeartRateSample;
 import nodomain.freeyourgadget.gadgetbridge.util.DateTimeUtils;
 
@@ -29,7 +28,6 @@ public abstract class AbstractHeartRateSample extends AbstractTimeSample impleme
         return getClass().getSimpleName() + "{" +
                 "timestamp=" + DateTimeUtils.formatDateTime(DateTimeUtils.parseTimestampMillis(getTimestamp())) +
                 ", hr=" + getHeartRate() +
-                ", type=" + getType() +
                 ", userId=" + getUserId() +
                 ", deviceId=" + getDeviceId() +
                 "}";

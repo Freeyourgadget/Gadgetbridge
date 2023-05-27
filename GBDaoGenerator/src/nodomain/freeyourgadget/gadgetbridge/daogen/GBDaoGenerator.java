@@ -63,6 +63,9 @@ public class GBDaoGenerator {
         addHuamiExtendedActivitySample(schema, user, device);
         addHuamiStressSample(schema, user, device);
         addHuamiSpo2Sample(schema, user, device);
+        addHuamiHeartRateManualSample(schema, user, device);
+        addHuamiHeartRateMaxSample(schema, user, device);
+        addHuamiHeartRateRestingSample(schema, user, device);
         addPebbleHealthActivitySample(schema, user, device);
         addPebbleHealthActivityKindOverlay(schema, user, device);
         addPebbleMisfitActivitySample(schema, user, device);
@@ -255,6 +258,30 @@ public class GBDaoGenerator {
         spo2sample.addIntProperty("typeNum").notNull().codeBeforeGetterAndSetter(OVERRIDE);
         spo2sample.addIntProperty("spo2").notNull().codeBeforeGetter(OVERRIDE);
         return spo2sample;
+    }
+
+    private static Entity addHuamiHeartRateManualSample(Schema schema, Entity user, Entity device) {
+        Entity hrManualSample = addEntity(schema, "HuamiHeartRateManualSample");
+        addCommonTimeSampleProperties("AbstractHeartRateSample", hrManualSample, user, device);
+        hrManualSample.addIntProperty("utcOffset").notNull();
+        hrManualSample.addIntProperty(SAMPLE_HEART_RATE).notNull().codeBeforeGetter(OVERRIDE);
+        return hrManualSample;
+    }
+
+    private static Entity addHuamiHeartRateMaxSample(Schema schema, Entity user, Entity device) {
+        Entity hrMaxSample = addEntity(schema, "HuamiHeartRateMaxSample");
+        addCommonTimeSampleProperties("AbstractHeartRateSample", hrMaxSample, user, device);
+        hrMaxSample.addIntProperty("utcOffset").notNull();
+        hrMaxSample.addIntProperty(SAMPLE_HEART_RATE).notNull().codeBeforeGetter(OVERRIDE);
+        return hrMaxSample;
+    }
+
+    private static Entity addHuamiHeartRateRestingSample(Schema schema, Entity user, Entity device) {
+        Entity hrRestingSample = addEntity(schema, "HuamiHeartRateRestingSample");
+        addCommonTimeSampleProperties("AbstractHeartRateSample", hrRestingSample, user, device);
+        hrRestingSample.addIntProperty("utcOffset").notNull();
+        hrRestingSample.addIntProperty(SAMPLE_HEART_RATE).notNull().codeBeforeGetter(OVERRIDE);
+        return hrRestingSample;
     }
 
     private static void addHeartRateProperties(Entity activitySample) {

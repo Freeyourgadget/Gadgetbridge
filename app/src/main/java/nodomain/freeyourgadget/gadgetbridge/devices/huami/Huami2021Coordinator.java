@@ -123,6 +123,11 @@ public abstract class Huami2021Coordinator extends HuamiCoordinator {
     }
 
     @Override
+    public boolean supportsHeartRateStats() {
+        return true;
+    }
+
+    @Override
     public boolean supportsMusicInfo() {
         return true;
     }

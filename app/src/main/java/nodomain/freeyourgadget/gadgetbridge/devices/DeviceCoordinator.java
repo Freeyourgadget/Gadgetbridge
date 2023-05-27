@@ -41,6 +41,7 @@ import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryParser;
 import nodomain.freeyourgadget.gadgetbridge.model.BatteryConfig;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
+import nodomain.freeyourgadget.gadgetbridge.model.HeartRateSample;
 import nodomain.freeyourgadget.gadgetbridge.model.Spo2Sample;
 import nodomain.freeyourgadget.gadgetbridge.model.StressSample;
 
@@ -212,6 +213,12 @@ public interface DeviceCoordinator {
     boolean supportsSpo2();
 
     /**
+     * Returns true if heart rate stats (max, resting, manual) measurement and fetching is supported
+     * by the device (with this coordinator).
+     */
+    boolean supportsHeartRateStats();
+
+    /**
      * Returns true if activity data fetching is supported AND possible at this
      * very moment. This will consider the device state (being connected/disconnected/busy...)
      * etc.
@@ -237,6 +244,21 @@ public interface DeviceCoordinator {
      * Returns the sample provider for SpO2 data, for the device being supported.
      */
     TimeSampleProvider<? extends Spo2Sample> getSpo2SampleProvider(GBDevice device, DaoSession session);
+
+    /**
+     * Returns the sample provider for max HR data, for the device being supported.
+     */
+    TimeSampleProvider<? extends HeartRateSample> getHeartRateMaxSampleProvider(GBDevice device, DaoSession session);
+
+    /**
+     * Returns the sample provider for resting HR data, for the device being supported.
+     */
+    TimeSampleProvider<? extends HeartRateSample> getHeartRateRestingSampleProvider(GBDevice device, DaoSession session);
+
+    /**
+     * Returns the sample provider for manual HR data, for the device being supported.
+     */
+    TimeSampleProvider<? extends HeartRateSample> getHeartRateManualSampleProvider(GBDevice device, DaoSession session);
 
     /**
      * Returns the {@link ActivitySummaryParser} for the device being supported.

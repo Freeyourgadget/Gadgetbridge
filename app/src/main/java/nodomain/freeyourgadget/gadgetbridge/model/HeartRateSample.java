@@ -17,14 +17,6 @@
 package nodomain.freeyourgadget.gadgetbridge.model;
 
 public interface HeartRateSample extends TimeSample {
-    int TYPE_MANUAL = 0;
-    int TYPE_AUTOMATIC_RESTING = 1;
-
-    /**
-     * Returns the measurement type for this heart rate value.
-     */
-    int getType();
-
     /**
      * Returns the heart rate value.
      */

@@ -25,6 +25,7 @@ public class RecordedDataTypes {
     public static final int TYPE_DEBUGLOGS    = 0x00000010;
     public static final int TYPE_SPO2         = 0x00000020;
     public static final int TYPE_STRESS       = 0x00000040;
+    public static final int TYPE_HEART_RATE   = 0x00000080;
 
     public static final int TYPE_ALL          = (int)0xffffffff;
 }
