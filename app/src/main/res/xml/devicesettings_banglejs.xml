@@ -18,7 +18,7 @@
         android:inputType="number"
         android:icon="@drawable/ic_access_time"
         android:key="banglejs_gps_use_network_only"
-        android:summary="This option is only active, if the gps data of the phone is being used. This option can be used to use only the network provider to reduce the power consumption for the cost of accuracy"
+        android:summary="This option is only active, if the gps data of the phone is being used. This option can be used to use only the network provider to reduce the power consumption for the cost of accuracy. A reconnection of the device is needed."
         android:title="Only use network to determine location" />
 
     <SwitchPreference
