@@ -21,6 +21,7 @@ import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.Dev
 import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_BANGLEJS_TEXT_BITMAP_SIZE;
 import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_DEVICE_GPS_UPDATE;
 import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_DEVICE_GPS_UPDATE_INTERVAL;
+import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_DEVICE_GPS_USE_NETWORK_ONLY;
 import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_DEVICE_INTENTS;
 import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_DEVICE_INTERNET_ACCESS;
 import static nodomain.freeyourgadget.gadgetbridge.database.DBHelper.getUser;
@@ -948,11 +949,14 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
         if(devicePrefs.getBoolean(PREF_DEVICE_GPS_UPDATE, false)) {
             int intervalLength = devicePrefs.getInt(PREF_DEVICE_GPS_UPDATE_INTERVAL, 1000);
             LOG.info("Setup location listener with an update interval of " + intervalLength + " ms");
-
-            try {
-                GBLocationManager.start(getContext(), this, LocationProviderType.GPS, intervalLength);
-            } catch (IllegalArgumentException e) {
-                LOG.warn("GPS provider could not be started", e);
+            boolean onlyUseNetworkGPS = devicePrefs.getBoolean(PREF_DEVICE_GPS_USE_NETWORK_ONLY, false);
+            LOG.info("Using combined GPS and NETWORK based location: " + onlyUseNetworkGPS);
+            if (!onlyUseNetworkGPS) {
+                try {
+                    GBLocationManager.start(getContext(), this, LocationProviderType.GPS, intervalLength);
+                } catch (IllegalArgumentException e) {
+                    LOG.warn("GPS provider could not be started", e);
+                }
             }
 
             try {

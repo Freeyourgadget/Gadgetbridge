@@ -14,6 +14,14 @@
         android:summary="This option is only active, if the gps data of the phone is being used. This option sets the interval in ms how often the gps position is being updated"
         android:title="GPS data update interval in ms" />
     <SwitchPreference
+        android:defaultValue="1000"
+        android:inputType="number"
+        android:icon="@drawable/ic_access_time"
+        android:key="banglejs_gps_use_network_only"
+        android:summary="This option is only active, if the gps data of the phone is being used. This option can be used to use only the network provider to reduce the power consumption for the cost of accuracy"
+        android:title="Only use network to determine location" />
+
+    <SwitchPreference
         android:defaultValue="false"
         android:icon="@drawable/ic_translate"
         android:key="banglejs_text_bitmap"

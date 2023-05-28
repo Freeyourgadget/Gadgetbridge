@@ -80,6 +80,7 @@ public class DeviceSettingsPreferenceConst {
 
     public static final String PREF_DEVICE_GPS_UPDATE = "banglejs_gps_update";
     public static final String PREF_DEVICE_GPS_UPDATE_INTERVAL = "banglejs_gps_update_interval";
+    public static final String PREF_DEVICE_GPS_USE_NETWORK_ONLY = "banglejs_gps_use_network_only";
 
     public static final String PREF_DEVICE_INTERNET_ACCESS = "device_internet_access";
     public static final String PREF_DEVICE_INTENTS = "device_intents";
