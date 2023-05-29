@@ -2079,6 +2079,8 @@
     <string name="intent_api_allow_trigger_export_summary">Allow triggering database export via Intent API</string>
     <string name="intent_api_broadcast_export_title">Broadcast on database export</string>
     <string name="intent_api_broadcast_export_summary">Broadcast an intent when database export finishes</string>
+    <string name="intent_api_allow_debug_commands_title">Allow Debug Commands</string>
+    <string name="intent_api_allow_debug_commands_summary">Allow triggering debug menu commands via Intent API</string>
     <string name="devicetype_super_cars">Shell Racing</string>
     <string name="supercars_turbo_speed_label">Turbo Speed</string>
     <string name="supercars_lights_label">Lights</string>
