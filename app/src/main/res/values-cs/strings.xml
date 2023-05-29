@@ -1908,4 +1908,8 @@
     <string name="pref_crown_vibration">Vibrace korunky</string>
     <string name="pref_display_caller_summary">Zobrazit jméno nebo telefonní číslo příchozích hovorů</string>
     <string name="pref_pair_bluetooth_calls_summary">Klepněte sem pro zahájení párovacího procesu</string>
+    <string name="accuracy">Přesnost</string>
+    <string name="balanced">Vyvážený</string>
+    <string name="power_saving">Šetření energie</string>
+    <string name="custom">Vlastní</string>
 </resources>
