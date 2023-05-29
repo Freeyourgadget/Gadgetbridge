@@ -2228,4 +2228,7 @@
     <string name="contact_delete_confirm_title">מחיקת איש קשר</string>
     <string name="contact_phone_number">מס׳ טלפון</string>
     <string name="contact_missing_name">שם איש הקשר ריק</string>
+    <string name="pref_header_navigation">ניווט</string>
+    <string name="pref_summary_navigation_forward">העברת הנחיות מיישומוני הניווט לשעון</string>
+    <string name="pref_title_navigation_forward">שליחת ניווט לשעון</string>
 </resources>
