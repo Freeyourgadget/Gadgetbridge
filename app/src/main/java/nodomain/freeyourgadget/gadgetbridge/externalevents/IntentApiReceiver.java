@@ -45,7 +45,7 @@ public class IntentApiReceiver extends BroadcastReceiver {
 
     public static final String COMMAND_ACTIVITY_SYNC = "nodomain.freeyourgadget.gadgetbridge.command.ACTIVITY_SYNC";
     public static final String COMMAND_TRIGGER_EXPORT = "nodomain.freeyourgadget.gadgetbridge.command.TRIGGER_EXPORT";
-    public static final String COMMAND_DEBUG_SEND = "nodomain.freeyourgadget.gadgetbridge.command.DEBUG_SEND";
+    public static final String COMMAND_DEBUG_SEND_NOTIFICATION = "nodomain.freeyourgadget.gadgetbridge.command.DEBUG_SEND_NOTIFICATION";
     public static final String COMMAND_DEBUG_INCOMING_CALL = "nodomain.freeyourgadget.gadgetbridge.command.DEBUG_INCOMING_CALL";
 
     @Override
@@ -94,7 +94,7 @@ public class IntentApiReceiver extends BroadcastReceiver {
                 context.sendBroadcast(exportIntent);
                 break;
 
-            case COMMAND_DEBUG_SEND:
+            case COMMAND_DEBUG_SEND_NOTIFICATION:
                 if (!prefs.getBoolean("intent_api_allow_debug_commands", false)) {
                     LOG.warn(msgDebugNotAllowed);
                     return;
@@ -103,19 +103,19 @@ public class IntentApiReceiver extends BroadcastReceiver {
                 NotificationSpec notificationSpec = new NotificationSpec();
                 notificationSpec.sender = intent.getStringExtra("sender");
                 if (notificationSpec.sender == null) {
-                    notificationSpec.sender = "DEBUG_SEND";
+                    notificationSpec.sender = "DEBUG Sender";
                 }
                 notificationSpec.phoneNumber = intent.getStringExtra("phoneNumber");
                 if (notificationSpec.phoneNumber == null) {
-                    notificationSpec.phoneNumber = "DEBUG_SEND";
+                    notificationSpec.phoneNumber = "DEBUG PhoneNumber";
                 }
                 notificationSpec.subject = intent.getStringExtra("subject");
                 if (notificationSpec.subject == null) {
-                    notificationSpec.subject = "DEBUG_SEND";
+                    notificationSpec.subject = "DEBUG Subject";
                 }
                 notificationSpec.body = intent.getStringExtra("body");
                 if (notificationSpec.body == null) {
-                    notificationSpec.body = "DEBUG_SEND";
+                    notificationSpec.body = "DEBUG Body";
                 }
                 notificationSpec.type = NotificationType.GENERIC_SMS;
                 if (intent.getStringExtra("type") != null) {
@@ -164,7 +164,7 @@ public class IntentApiReceiver extends BroadcastReceiver {
         final IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction(COMMAND_ACTIVITY_SYNC);
         intentFilter.addAction(COMMAND_TRIGGER_EXPORT);
-        intentFilter.addAction(COMMAND_DEBUG_SEND);
+        intentFilter.addAction(COMMAND_DEBUG_SEND_NOTIFICATION);
         intentFilter.addAction(COMMAND_DEBUG_INCOMING_CALL);
         return intentFilter;
     }
