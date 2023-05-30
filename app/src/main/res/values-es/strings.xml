@@ -2234,4 +2234,6 @@
     <string name="pref_title_navigation_forward">Enviar navegación al reloj</string>
     <string name="pref_summary_navigation_forward">Reenvía las instrucciones de las aplicaciones de navegación al reloj</string>
     <string name="pref_header_navigation">Navegador</string>
+    <string name="intent_api_allow_debug_commands_summary">Permitir la activación de comandos de menú de depuración a través de Intent API</string>
+    <string name="intent_api_allow_debug_commands_title">Permitir comandos de depuración</string>
 </resources>
