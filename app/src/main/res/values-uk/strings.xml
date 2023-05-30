@@ -2240,4 +2240,6 @@
     <string name="pref_header_navigation">Навігація</string>
     <string name="pref_title_navigation_forward">Надсилати навігацію на годинник</string>
     <string name="pref_summary_navigation_forward">Пересилати інструкції з навігаційних застосунків на годинник</string>
+    <string name="intent_api_allow_debug_commands_title">Дозволити команди налагодження</string>
+    <string name="intent_api_allow_debug_commands_summary">Дозволити запуск команд меню налагодження через Intent API</string>
 </resources>
