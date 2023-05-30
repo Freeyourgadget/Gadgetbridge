@@ -2217,4 +2217,6 @@
     <string name="pref_summary_navigation_forward">إعادة توجيه التعليمات من تطبيقات الملاحة إلى الساعة</string>
     <string name="pref_title_navigation_forward">إرسال الملاحة للساعة</string>
     <string name="pref_header_navigation">الملاحة</string>
+    <string name="intent_api_allow_debug_commands_title">السماح بأوامر التصحيح</string>
+    <string name="intent_api_allow_debug_commands_summary">السماح بتشغيل أوامر قائمة تصحيح الأخطاء عبر واجهة برمجة تطبيقات النية</string>
 </resources>
