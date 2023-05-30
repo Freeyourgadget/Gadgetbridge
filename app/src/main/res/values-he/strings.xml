@@ -2231,4 +2231,6 @@
     <string name="pref_header_navigation">ניווט</string>
     <string name="pref_summary_navigation_forward">העברת הנחיות מיישומוני הניווט לשעון</string>
     <string name="pref_title_navigation_forward">שליחת ניווט לשעון</string>
+    <string name="intent_api_allow_debug_commands_summary">לאפשר הפעלת פקודות תפריט ניפוי שגיאות דרך API של Intent</string>
+    <string name="intent_api_allow_debug_commands_title">לאפשר פקודות ניפוי שגיאות</string>
 </resources>
