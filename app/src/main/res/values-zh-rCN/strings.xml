@@ -2232,4 +2232,6 @@
     <string name="pref_header_navigation">导航</string>
     <string name="pref_summary_navigation_forward">将导航应用程序的指令转发到手表</string>
     <string name="pref_title_navigation_forward">发送导航到手表</string>
+    <string name="intent_api_allow_debug_commands_summary">允许通过意图 API 触发调试菜单命令</string>
+    <string name="intent_api_allow_debug_commands_title">允许调试命令</string>
 </resources>
