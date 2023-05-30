@@ -2229,4 +2229,9 @@
     <string name="contact_missing_number">Contactpersoonnummer is leeg</string>
     <string name="contact_phone_number">Telefoonnummer</string>
     <string name="contact_missing_name">De naam van de contactpersoon is leeg</string>
+    <string name="intent_api_allow_debug_commands_summary">Sta het activeren van debug-menucommando\'s toe via Intent API</string>
+    <string name="intent_api_allow_debug_commands_title">Debug-commando\'s toestaan</string>
+    <string name="pref_header_navigation">Navigatie</string>
+    <string name="pref_summary_navigation_forward">Instructies van navigatie-apps doorsturen naar het apparaat</string>
+    <string name="pref_title_navigation_forward">Stuur navigatie naar apparaat</string>
 </resources>
