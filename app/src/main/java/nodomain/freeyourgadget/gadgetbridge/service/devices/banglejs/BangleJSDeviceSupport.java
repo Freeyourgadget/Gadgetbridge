@@ -160,6 +160,9 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
     // this stores the globalUartReceiver (for uart.tx intents)
     private BroadcastReceiver globalUartReceiver = null;
 
+    // used to make HTTP requests and handle responses
+    private RequestQueue requestQueue = null;
+
     /// Maximum amount of characters to store in receiveHistory
     public static final int MAX_RECEIVE_HISTORY_CHARS = 100000;
     /// Used to avoid spamming logs with ACTION_DEVICE_CHANGED messages
@@ -184,6 +187,7 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
         super.dispose();
         stopGlobalUartReceiver();
         stopLocationUpdate();
+        stopRequestQueue();
     }
 
     private void stopGlobalUartReceiver(){
@@ -197,6 +201,19 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
         LOG.info("Stop location updates");
         GBLocationManager.stop(getContext(), this);
         gpsUpdateSetup = false;
+    }
+
+    private void stopRequestQueue() {
+        if (requestQueue != null) {
+            requestQueue.stop();
+        }
+    }
+
+    private RequestQueue getRequestQueue() {
+        if (requestQueue == null) {
+            requestQueue = Volley.newRequestQueue(getContext());
+        }
+        return requestQueue;
     }
 
     private void addReceiveHistory(String s) {
@@ -598,7 +615,6 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
                 final String id = _id;
 
                 if (BuildConfig.INTERNET_ACCESS && devicePrefs.getBoolean(PREF_DEVICE_INTERNET_ACCESS, false)) {
-                    RequestQueue queue = Volley.newRequestQueue(getContext());
                     String url = json.getString("url");
 
                     int method = Request.Method.GET;
@@ -691,6 +707,7 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
                             return h;
                         }
                     };
+                    RequestQueue queue = getRequestQueue();
                     queue.add(stringRequest);
                 } else {
                     if (BuildConfig.INTERNET_ACCESS)
