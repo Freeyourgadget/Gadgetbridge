@@ -2221,4 +2221,6 @@
     <string name="pref_header_navigation">Navigasi</string>
     <string name="pref_summary_navigation_forward">Teruskan petunjuk dari aplikasi navigasi ke jam tangan</string>
     <string name="pref_title_navigation_forward">Kirim navigasi ke jam tangan</string>
+    <string name="intent_api_allow_debug_commands_summary">Perbolehkan memicu menu perintah pengawakutu melalui API Intent</string>
+    <string name="intent_api_allow_debug_commands_title">Perbolehkan Perintah Pengawakutu</string>
 </resources>
