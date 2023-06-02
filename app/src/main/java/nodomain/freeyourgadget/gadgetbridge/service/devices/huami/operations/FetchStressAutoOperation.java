@@ -56,8 +56,6 @@ public class FetchStressAutoOperation extends AbstractRepeatingFetchOperation {
         final List<HuamiStressSample> samples = new ArrayList<>();
 
         for (byte b : bytes) {
-            timestamp.add(Calendar.MINUTE, 1);
-
             if (b == -1) {
                 continue;
             }
@@ -75,7 +73,11 @@ public class FetchStressAutoOperation extends AbstractRepeatingFetchOperation {
             sample.setType(StressSample.Type.AUTOMATIC);
             sample.setStress(stress);
             samples.add(sample);
+
+            timestamp.add(Calendar.MINUTE, 1);
         }
+
+        timestamp.add(Calendar.MINUTE, -1);
 
         return persistSamples(samples);
     }
