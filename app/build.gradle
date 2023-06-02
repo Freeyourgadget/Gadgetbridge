@@ -78,13 +78,13 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
-    compileSdkVersion 31
-    buildToolsVersion "31.0.0"
+    compileSdkVersion 33
+    buildToolsVersion "33.0.0"
 
     defaultConfig {
         applicationId "nodomain.freeyourgadget.gadgetbridge"
         minSdkVersion 21
-        targetSdkVersion 31
+        targetSdkVersion 33
 
         // Note: always bump BOTH versionCode and versionName!
         versionName "0.76.1"
@@ -133,8 +133,8 @@ android {
             resValue "string", "about_activity_title", "@string/about_activity_title_banglejs_main"
             resValue "string", "about_description", "@string/about_description_banglejs_main"
             resValue "string", "gadgetbridge_running", "@string/gadgetbridge_running_banglejs_main"
-            targetSdkVersion 31 // Bangle.js flavor only - We need SDK 31 for updates pushed to Play Store from 2022-11-01
-            // Note: app/src/banglejs/AndroidManifest.xml contains some extra permissions we need to make SDK 30 and up work
+            targetSdkVersion 33
+            // Note: app/src/banglejs/AndroidManifest.xml contains some extra permissions
         }
     }
 
