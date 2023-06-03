@@ -1195,8 +1195,6 @@ public abstract class Huami2021Support extends HuamiSupport {
             return;
         }
 
-        LOG.debug("Got 2021 payload for {}: {}", String.format("0x%04x", type), GB.hexdump(payload));
-
         if (mServiceMap.containsKey(type)) {
             mServiceMap.get(type).handlePayload(payload);
             return;
