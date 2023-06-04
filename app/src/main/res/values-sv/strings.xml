@@ -20,7 +20,7 @@
     <string name="controlcenter_snackbar_need_longpress">Tryck länge på kortet för att koppla ifrån</string>
     <string name="controlcenter_snackbar_disconnecting">Kopplar ifrån</string>
     <string name="controlcenter_snackbar_connecting">Ansluter…</string>
-    <string name="controlcenter_snackbar_requested_screenshot">Tar en skärmdump av enheten</string>
+    <string name="controlcenter_snackbar_requested_screenshot">Tar en skärmdump från enheten</string>
     <string name="controlcenter_calibrate_device">Kalibrera enhet</string>
     <string name="title_activity_debug">Avlusa</string>
     <string name="debugactivity_really_factoryreset_title">Vill du verkligen återställa till fabriksinställningar\?</string>
@@ -56,4 +56,44 @@
     <string name="sonyswr12_settings_alarm_interval_summary">Smart alarmintervall är intervall före installerat larm. I detta intervall försöker enheten att upptäcka den lättaste fasen av sömn för att vakna användare</string>
     <string name="devicetype_galaxybuds_2">Galaxy Buds2</string>
     <string name="about_activity_title_generic">Om Gadgetbridge</string>
+    <string name="about_activity_title_main_nightly">Om Gadgetbridge Nightly</string>
+    <string name="gadgetbridge_running_banglejs_main">Bangle.js körs</string>
+    <string name="about_description_main_nightly">Fri mjukvara utan molnlagring som ersätter produkttillverkares proprietära androidappar. Nattliga släpp av Gadgetbridge. Den kan inte installeras om du redan har antingen Gadgetbridge eller Pebble-appen installerad, på grund av en konflikt i Pebble-leverantören.</string>
+    <string name="about_description_main_nopebble">Fri mjukvara utan molnlagring som ersätter produkttillverkares proprietära androidappar. Nattliga utgivningar av Gadgetbridge. Den här versionen har bytt namn på Pebble-leverantören för att förhindra konflikter, så vissa Pebble-relaterade integrationer kommer inte att fungera, men den kan installeras tillsammans med en befintlig Gadgetbridge-installation.</string>
+    <string name="all_satellites">Alla satelliter</string>
+    <string name="find_lost_device_message">Sök efter %1$s\?</string>
+    <string name="speed_first">Hastighet först</string>
+    <string name="controlcenter_power_off">Stäng av</string>
+    <string name="controlcenter_power_off_confirm_title">Stäng av</string>
+    <string name="prefs_activity_in_device_card_sleep_title">Sömn</string>
+    <string name="accuracy">noggrannhet</string>
+    <string name="balanced">Balanserad</string>
+    <string name="power_saving">Energibesparing</string>
+    <string name="custom">Anpassad</string>
+    <string name="single_band">Enkelband</string>
+    <string name="dual_band">Dubbelband</string>
+    <string name="low_power_gps">Strömsnål GPS</string>
+    <string name="accuracy_first">Noggrannhet först</string>
+    <string name="gadgetbridge_running_generic">Gadgetbridge körs</string>
+    <string name="about_activity_title_banglejs_main">Om Bangle.js Gadgetbridge</string>
+    <string name="about_description_banglejs_main">Följeslagarapp för Bangle.js byggd på Gadgetbridge projektet, med Internetåtkomst.
+\n
+\nPå grund av Google Play Butikens policyer får vi inte ha en donationslänk i själva appen. Men om du gillar den här appen kan du överväga att donera via Gadgetbridges hemsida nedan.</string>
+    <string name="about_description_generic">Fri mjukvara utan molnlagring som ersätter produkttillverkares proprietära androidappar.</string>
+    <string name="gadgetbridge_running_main_nightly">Nightly GB körs</string>
+    <string name="about_activity_title_main_nopebble">Om Gadgetbridge Nightly No Pebble</string>
+    <string name="prefs_activity_in_device_card_title">Visa aktivitetsinformation på enhetskortet</string>
+    <string name="gadgetbridge_running_main_nopebble">Nightly NoPebble GB körs</string>
+    <string name="controlcenter_power_off_confirm_description">Är du säker på att du vill stänga av enheten\?</string>
+    <string name="device_card_activity_card_title">Aktivitetsinformation på enhetskortet</string>
+    <string name="device_card_activity_card_title_summary">Välj vilken aktivitetsinformation som ska visas på enhetskortet</string>
+    <string name="controlcenter_set_alias">Ange alias</string>
+    <string name="action_debug">Felsök</string>
+    <string name="controlcenter_get_heartrate_measurement">Utför pulsmätning</string>
+    <string name="prefs_activity_in_device_card_title_summary">Visa aktuella steg, avstånd eller viloläge på enhetskortet</string>
+    <string name="about_activity_title_banglejs_nightly">Om Bangle.js Gadgetbridge (Nightly)</string>
+    <string name="about_description_banglejs_nightly">Följeslagarapp för Bangle.js byggd på Gadgetbridge projektet, med Internetåtkomst.
+\n
+\nPå grund av Google Play Butikens policyer får vi inte ha en donationslänk i själva appen. Men om du gillar den här appen kan du överväga att donera via Gadgetbridges hemsida nedan.</string>
+    <string name="gadgetbridge_running_banglejs_nightly">Nightly Bangle.js körs</string>
 </resources>
