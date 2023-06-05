@@ -1316,7 +1316,11 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
             JSONObject o = new JSONObject();
             o.put("t", "weather");
             o.put("temp", weatherSpec.currentTemp);
+            o.put("hi", weatherSpec.todayMaxTemp);
+            o.put("lo", weatherSpec.todayMinTemp );
             o.put("hum", weatherSpec.currentHumidity);
+            o.put("rain", weatherSpec.precipProbability);
+            o.put("uv", Math.round(weatherSpec.uvIndex*10)/10);
             o.put("code", weatherSpec.currentConditionCode);
             o.put("txt", weatherSpec.currentCondition);
             o.put("wind", weatherSpec.windSpeed);
