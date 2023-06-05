@@ -38,7 +38,7 @@ public class WeatherSpec implements Parcelable, Serializable {
             return new WeatherSpec[size];
         }
     };
-    public static final int VERSION = 2;
+    public static final int VERSION = 3;
     private static final long serialVersionUID = VERSION;
     public int timestamp;
     public String location;
@@ -50,6 +50,8 @@ public class WeatherSpec implements Parcelable, Serializable {
     public int todayMinTemp; // kelvin
     public float windSpeed; // km per hour
     public int windDirection; // deg
+    public float uvIndex;
+    public int precipProbability; // %
 
     public ArrayList<Forecast> forecasts = new ArrayList<>();
 
@@ -72,7 +74,7 @@ public class WeatherSpec implements Parcelable, Serializable {
 
     protected WeatherSpec(Parcel in) {
         int version = in.readInt();
-        if (version == VERSION) {
+        if (version >= 2) {
             timestamp = in.readInt();
             location = in.readString();
             currentTemp = in.readInt();
@@ -84,6 +86,10 @@ public class WeatherSpec implements Parcelable, Serializable {
             windSpeed = in.readFloat();
             windDirection = in.readInt();
             in.readList(forecasts, Forecast.class.getClassLoader());
+        }
+        if (version >= 3) {
+            uvIndex = in.readFloat();
+            precipProbability = in.readInt();
         }
     }
 
@@ -106,6 +112,8 @@ public class WeatherSpec implements Parcelable, Serializable {
         dest.writeFloat(windSpeed);
         dest.writeInt(windDirection);
         dest.writeList(forecasts);
+        dest.writeFloat(uvIndex);
+        dest.writeInt(precipProbability);
     }
 
     public static class Forecast implements Parcelable, Serializable {
