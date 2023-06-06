@@ -569,6 +569,7 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
                 sample.setTimestamp((int) (GregorianCalendar.getInstance().getTimeInMillis() / 1000L));
                 int hrm = 0;
                 int steps = 0;
+                if (json.has("time")) sample.setTimestamp(json.getInt("time"));
                 if (json.has("hrm")) hrm = json.getInt("hrm");
                 if (json.has("stp")) steps = json.getInt("stp");
                 int activity = BangleJSSampleProvider.TYPE_ACTIVITY;
