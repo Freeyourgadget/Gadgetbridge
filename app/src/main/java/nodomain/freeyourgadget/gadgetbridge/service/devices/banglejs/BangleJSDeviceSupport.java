@@ -1336,6 +1336,8 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
         float baseline = -paint.ascent(); // ascent() is negative
         int width = (int) (paint.measureText(text) + 0.5f); // round
         int height = (int) (baseline + paint.descent() + 0.5f);
+        if (width<1) width=1;
+        if (height<1) height=1;
         Bitmap image = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
         Canvas canvas = new Canvas(image);
         canvas.drawText(text, 0, baseline, paint);
