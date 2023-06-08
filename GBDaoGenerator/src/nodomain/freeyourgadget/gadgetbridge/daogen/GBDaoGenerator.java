@@ -43,7 +43,7 @@ public class GBDaoGenerator {
 
 
     public static void main(String[] args) throws Exception {
-        final Schema schema = new Schema(46, MAIN_PACKAGE + ".entities");
+        final Schema schema = new Schema(48, MAIN_PACKAGE + ".entities");
 
         Entity userAttributes = addUserAttributes(schema);
         Entity user = addUserInfo(schema, userAttributes);
@@ -61,6 +61,13 @@ public class GBDaoGenerator {
         addMakibesHR3ActivitySample(schema, user, device);
         addMiBandActivitySample(schema, user, device);
         addHuamiExtendedActivitySample(schema, user, device);
+        addHuamiStressSample(schema, user, device);
+        addHuamiSpo2Sample(schema, user, device);
+        addHuamiHeartRateManualSample(schema, user, device);
+        addHuamiHeartRateMaxSample(schema, user, device);
+        addHuamiHeartRateRestingSample(schema, user, device);
+        addHuamiPaiSample(schema, user, device);
+        addHuamiSleepRespiratoryRateSample(schema, user, device);
         addPebbleHealthActivitySample(schema, user, device);
         addPebbleHealthActivityKindOverlay(schema, user, device);
         addPebbleMisfitActivitySample(schema, user, device);
@@ -237,6 +244,69 @@ public class GBDaoGenerator {
         activitySample.addIntProperty("deepSleep");
         activitySample.addIntProperty("remSleep");
         return activitySample;
+    }
+
+    private static Entity addHuamiStressSample(Schema schema, Entity user, Entity device) {
+        Entity stressSample = addEntity(schema, "HuamiStressSample");
+        addCommonTimeSampleProperties("AbstractStressSample", stressSample, user, device);
+        stressSample.addIntProperty("typeNum").notNull().codeBeforeGetterAndSetter(OVERRIDE);
+        stressSample.addIntProperty("stress").notNull().codeBeforeGetter(OVERRIDE);
+        return stressSample;
+    }
+
+    private static Entity addHuamiSpo2Sample(Schema schema, Entity user, Entity device) {
+        Entity spo2sample = addEntity(schema, "HuamiSpo2Sample");
+        addCommonTimeSampleProperties("AbstractSpo2Sample", spo2sample, user, device);
+        spo2sample.addIntProperty("typeNum").notNull().codeBeforeGetterAndSetter(OVERRIDE);
+        spo2sample.addIntProperty("spo2").notNull().codeBeforeGetter(OVERRIDE);
+        return spo2sample;
+    }
+
+    private static Entity addHuamiHeartRateManualSample(Schema schema, Entity user, Entity device) {
+        Entity hrManualSample = addEntity(schema, "HuamiHeartRateManualSample");
+        addCommonTimeSampleProperties("AbstractHeartRateSample", hrManualSample, user, device);
+        hrManualSample.addIntProperty("utcOffset").notNull();
+        hrManualSample.addIntProperty(SAMPLE_HEART_RATE).notNull().codeBeforeGetter(OVERRIDE);
+        return hrManualSample;
+    }
+
+    private static Entity addHuamiHeartRateMaxSample(Schema schema, Entity user, Entity device) {
+        Entity hrMaxSample = addEntity(schema, "HuamiHeartRateMaxSample");
+        addCommonTimeSampleProperties("AbstractHeartRateSample", hrMaxSample, user, device);
+        hrMaxSample.addIntProperty("utcOffset").notNull();
+        hrMaxSample.addIntProperty(SAMPLE_HEART_RATE).notNull().codeBeforeGetter(OVERRIDE);
+        return hrMaxSample;
+    }
+
+    private static Entity addHuamiHeartRateRestingSample(Schema schema, Entity user, Entity device) {
+        Entity hrRestingSample = addEntity(schema, "HuamiHeartRateRestingSample");
+        addCommonTimeSampleProperties("AbstractHeartRateSample", hrRestingSample, user, device);
+        hrRestingSample.addIntProperty("utcOffset").notNull();
+        hrRestingSample.addIntProperty(SAMPLE_HEART_RATE).notNull().codeBeforeGetter(OVERRIDE);
+        return hrRestingSample;
+    }
+
+    private static Entity addHuamiPaiSample(Schema schema, Entity user, Entity device) {
+        Entity paiSample = addEntity(schema, "HuamiPaiSample");
+        addCommonTimeSampleProperties("AbstractPaiSample", paiSample, user, device);
+        paiSample.addIntProperty("utcOffset").notNull();
+        paiSample.addFloatProperty("paiLow").notNull().codeBeforeGetter(OVERRIDE);
+        paiSample.addFloatProperty("paiModerate").notNull().codeBeforeGetter(OVERRIDE);
+        paiSample.addFloatProperty("paiHigh").notNull().codeBeforeGetter(OVERRIDE);
+        paiSample.addIntProperty("timeLow").notNull().codeBeforeGetter(OVERRIDE);
+        paiSample.addIntProperty("timeModerate").notNull().codeBeforeGetter(OVERRIDE);
+        paiSample.addIntProperty("timeHigh").notNull().codeBeforeGetter(OVERRIDE);
+        paiSample.addFloatProperty("paiToday").notNull().codeBeforeGetter(OVERRIDE);
+        paiSample.addFloatProperty("paiTotal").notNull().codeBeforeGetter(OVERRIDE);
+        return paiSample;
+    }
+
+    private static Entity addHuamiSleepRespiratoryRateSample(Schema schema, Entity user, Entity device) {
+        Entity sleepRespiratoryRateSample = addEntity(schema, "HuamiSleepRespiratoryRateSample");
+        addCommonTimeSampleProperties("AbstractSleepRespiratoryRateSample", sleepRespiratoryRateSample, user, device);
+        sleepRespiratoryRateSample.addIntProperty("utcOffset").notNull();
+        sleepRespiratoryRateSample.addIntProperty("rate").notNull().codeBeforeGetter(OVERRIDE);
+        return sleepRespiratoryRateSample;
     }
 
     private static void addHeartRateProperties(Entity activitySample) {
@@ -516,6 +586,19 @@ public class GBDaoGenerator {
         activitySample.addToOne(device, deviceId);
         Property userId = activitySample.addLongProperty("userId").notNull().codeBeforeGetterAndSetter(OVERRIDE).getProperty();
         activitySample.addToOne(user, userId);
+    }
+
+    private static void addCommonTimeSampleProperties(String superClass, Entity timeSample, Entity user, Entity device) {
+        timeSample.setSuperclass(superClass);
+        timeSample.addImport(MAIN_PACKAGE + ".devices.TimeSampleProvider");
+        timeSample.setJavaDoc(
+                "This class represents a sample specific to the device. Values might be device specific, depending on the sample type.\n" +
+                        "Normalized values can be retrieved through the corresponding {@link TimeSampleProvider}.");
+        timeSample.addLongProperty("timestamp").notNull().codeBeforeGetterAndSetter(OVERRIDE).primaryKey();
+        Property deviceId = timeSample.addLongProperty("deviceId").primaryKey().notNull().codeBeforeGetterAndSetter(OVERRIDE).getProperty();
+        timeSample.addToOne(device, deviceId);
+        Property userId = timeSample.addLongProperty("userId").notNull().codeBeforeGetterAndSetter(OVERRIDE).getProperty();
+        timeSample.addToOne(user, userId);
     }
 
     private static void addCalendarSyncState(Schema schema, Entity device) {

@@ -18,12 +18,10 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.devices;
 
-import android.annotation.TargetApi;
 import android.app.Activity;
 import android.bluetooth.le.ScanFilter;
 import android.content.Context;
 import android.net.Uri;
-import android.os.Build;
 
 import java.io.File;
 import java.io.IOException;
@@ -43,6 +41,11 @@ import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryParser;
 import nodomain.freeyourgadget.gadgetbridge.model.BatteryConfig;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
+import nodomain.freeyourgadget.gadgetbridge.model.HeartRateSample;
+import nodomain.freeyourgadget.gadgetbridge.model.PaiSample;
+import nodomain.freeyourgadget.gadgetbridge.model.SleepRespiratoryRateSample;
+import nodomain.freeyourgadget.gadgetbridge.model.Spo2Sample;
+import nodomain.freeyourgadget.gadgetbridge.model.StressSample;
 
 /**
  * This interface is implemented at least once for every supported gadget device.
@@ -185,7 +188,7 @@ public interface DeviceCoordinator {
     /**
      * Returns true if activity tracking is supported by the device
      * (with this coordinator).
-     * This enables the ChartsActivity.
+     * This enables the ActivityChartsActivity.
      *
      * @return
      */
@@ -198,6 +201,36 @@ public interface DeviceCoordinator {
      * usually recorded with additional features, like e.g. GPS.
      */
     boolean supportsActivityTracks();
+
+    /**
+     * Returns true if stress measurement and fetching is supported by the device
+     * (with this coordinator).
+     */
+    boolean supportsStressMeasurement();
+
+    /**
+     * Returns true if SpO2 measurement and fetching is supported by the device
+     * (with this coordinator).
+     */
+    boolean supportsSpo2();
+
+    /**
+     * Returns true if heart rate stats (max, resting, manual) measurement and fetching is supported
+     * by the device (with this coordinator).
+     */
+    boolean supportsHeartRateStats();
+
+    /**
+     * Returns true if PAI (Personal Activity Intelligence) measurement and fetching is supported by
+     * the device (with this coordinator).
+     */
+    boolean supportsPai();
+
+    /**
+     * Returns true if sleep respiratory rate measurement and fetching is supported by
+     * the device (with this coordinator).
+     */
+    boolean supportsSleepRespiratoryRate();
 
     /**
      * Returns true if activity data fetching is supported AND possible at this
@@ -215,6 +248,41 @@ public interface DeviceCoordinator {
      * @return
      */
     SampleProvider<? extends ActivitySample> getSampleProvider(GBDevice device, DaoSession session);
+
+    /**
+     * Returns the sample provider for stress data, for the device being supported.
+     */
+    TimeSampleProvider<? extends StressSample> getStressSampleProvider(GBDevice device, DaoSession session);
+
+    /**
+     * Returns the sample provider for SpO2 data, for the device being supported.
+     */
+    TimeSampleProvider<? extends Spo2Sample> getSpo2SampleProvider(GBDevice device, DaoSession session);
+
+    /**
+     * Returns the sample provider for max HR data, for the device being supported.
+     */
+    TimeSampleProvider<? extends HeartRateSample> getHeartRateMaxSampleProvider(GBDevice device, DaoSession session);
+
+    /**
+     * Returns the sample provider for resting HR data, for the device being supported.
+     */
+    TimeSampleProvider<? extends HeartRateSample> getHeartRateRestingSampleProvider(GBDevice device, DaoSession session);
+
+    /**
+     * Returns the sample provider for manual HR data, for the device being supported.
+     */
+    TimeSampleProvider<? extends HeartRateSample> getHeartRateManualSampleProvider(GBDevice device, DaoSession session);
+
+    /**
+     * Returns the sample provider for PAI data, for the device being supported.
+     */
+    TimeSampleProvider<? extends PaiSample> getPaiSampleProvider(GBDevice device, DaoSession session);
+
+    /**
+     * Returns the sample provider for sleep respiratory rate data, for the device being supported.
+     */
+    TimeSampleProvider<? extends SleepRespiratoryRateSample> getSleepRespiratoryRateSampleProvider(GBDevice device, DaoSession session);
 
     /**
      * Returns the {@link ActivitySummaryParser} for the device being supported.
@@ -480,4 +548,6 @@ public interface DeviceCoordinator {
     PasswordCapabilityImpl.Mode getPasswordCapability();
 
     List<HeartRateCapability.MeasurementInterval> getHeartRateMeasurementIntervals();
+
+    boolean supportsNavigation();
 }

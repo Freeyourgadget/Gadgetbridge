@@ -69,6 +69,7 @@ import nodomain.freeyourgadget.gadgetbridge.externalevents.IntentApiReceiver;
 import nodomain.freeyourgadget.gadgetbridge.externalevents.LineageOsWeatherReceiver;
 import nodomain.freeyourgadget.gadgetbridge.externalevents.MusicPlaybackReceiver;
 import nodomain.freeyourgadget.gadgetbridge.externalevents.OmniJawsObserver;
+import nodomain.freeyourgadget.gadgetbridge.externalevents.OsmandEventReceiver;
 import nodomain.freeyourgadget.gadgetbridge.externalevents.PebbleReceiver;
 import nodomain.freeyourgadget.gadgetbridge.externalevents.PhoneCallReceiver;
 import nodomain.freeyourgadget.gadgetbridge.externalevents.SMSReceiver;
@@ -83,6 +84,7 @@ import nodomain.freeyourgadget.gadgetbridge.model.CannedMessagesSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.Contact;
 import nodomain.freeyourgadget.gadgetbridge.model.MusicSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.MusicStateSpec;
+import nodomain.freeyourgadget.gadgetbridge.model.NavigationInfoSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationType;
 import nodomain.freeyourgadget.gadgetbridge.model.Reminder;
@@ -128,6 +130,7 @@ import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_SE
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_SETCANNEDMESSAGES;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_SETMUSICINFO;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_SETMUSICSTATE;
+import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_SETNAVIGATIONINFO;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_SETTIME;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_SET_ALARMS;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_SET_CONSTANT_VIBRATION;
@@ -183,6 +186,9 @@ import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_MUS
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_MUSIC_TRACK;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_MUSIC_TRACKCOUNT;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_MUSIC_TRACKNR;
+import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_NAVIGATION_DISTANCE_TO_TURN;
+import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_NAVIGATION_INSTRUCTION;
+import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_NAVIGATION_NEXT_ACTION;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_NOTIFICATION_ACTIONS;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_NOTIFICATION_BODY;
 import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.EXTRA_NOTIFICATION_DNDSUPPRESSED;
@@ -242,6 +248,7 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
         private boolean supportsActivityDataFetching = false;
         private boolean supportsCalendarEvents = false;
         private boolean supportsMusicInfo = false;
+        private boolean supportsNavigation = false;
 
         public boolean supportsWeather() {
             return supportsWeather;
@@ -275,6 +282,14 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
             this.supportsMusicInfo = supportsMusicInfo;
         }
 
+        public boolean supportsNavigation() {
+            return supportsNavigation;
+        }
+
+        public void setSupportsNavigation(boolean supportsNavigation) {
+            this.supportsNavigation = supportsNavigation;
+        }
+
         public void logicalOr(DeviceCoordinator operand){
             if(operand.supportsCalendarEvents()){
                 setSupportsCalendarEvents(true);
@@ -287,6 +302,9 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
             }
             if(operand.supportsMusicInfo()){
                 setSupportsMusicInfo(true);
+            }
+            if(operand.supportsNavigation()){
+                setSupportsNavigation(true);
             }
         }
     }
@@ -328,7 +346,7 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
     private BluetoothPairingRequestReceiver mBlueToothPairingRequestReceiver = null;
     private AlarmClockReceiver mAlarmClockReceiver = null;
     private GBAutoFetchReceiver mGBAutoFetchReceiver = null;
-    private AutoConnectIntervalReceiver mAutoConnectInvervalReceiver= null;
+    private AutoConnectIntervalReceiver mAutoConnectInvervalReceiver = null;
 
     private AlarmReceiver mAlarmReceiver = null;
     private List<CalendarReceiver> mCalendarReceiver = new ArrayList<>();
@@ -339,6 +357,8 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
     private OmniJawsObserver mOmniJawsObserver = null;
     private final DeviceSettingsReceiver deviceSettingsReceiver = new DeviceSettingsReceiver();
     private final IntentApiReceiver intentApiReceiver = new IntentApiReceiver();
+
+    private OsmandEventReceiver mOsmandAidlHelper = null;
 
     private final String[] mMusicActions = {
             "com.android.music.metachanged",
@@ -930,6 +950,13 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
                 stateSpec.state = intent.getByteExtra(EXTRA_MUSIC_STATE, (byte) 0);
                 deviceSupport.onSetMusicState(stateSpec);
                 break;
+            case ACTION_SETNAVIGATIONINFO:
+                NavigationInfoSpec navigationInfoSpec = new NavigationInfoSpec();
+                navigationInfoSpec.instruction = intent.getStringExtra(EXTRA_NAVIGATION_INSTRUCTION);
+                navigationInfoSpec.nextAction = intent.getIntExtra(EXTRA_NAVIGATION_NEXT_ACTION,0);
+                navigationInfoSpec.distanceToTurn = intent.getIntExtra(EXTRA_NAVIGATION_DISTANCE_TO_TURN,0);
+                deviceSupport.onSetNavigationInfo(navigationInfoSpec);
+                break;
             case ACTION_REQUEST_APPINFO:
                 deviceSupport.onAppInfoReq();
                 break;
@@ -1256,6 +1283,10 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
                 registerReceiver(mAlarmClockReceiver, filter);
             }
 
+            if (mOsmandAidlHelper == null && features.supportsNavigation()) {
+                mOsmandAidlHelper = new OsmandEventReceiver(this.getApplication());
+            }
+
             // Weather receivers
             if (features.supportsWeather()) {
                 if (GBApplication.isRunningOreoOrLater()) {
@@ -1263,8 +1294,7 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
                         mLineageOsWeatherReceiver = new LineageOsWeatherReceiver();
                         registerReceiver(mLineageOsWeatherReceiver, new IntentFilter("GB_UPDATE_WEATHER"));
                     }
-                }
-                else {
+                } else {
                     if (mCMWeatherReceiver == null) {
                         mCMWeatherReceiver = new CMWeatherReceiver();
                         registerReceiver(mCMWeatherReceiver, new IntentFilter("GB_UPDATE_WEATHER"));
@@ -1338,6 +1368,10 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
             if (mTinyWeatherForecastGermanyReceiver != null) {
                 unregisterReceiver(mTinyWeatherForecastGermanyReceiver);
                 mTinyWeatherForecastGermanyReceiver = null;
+            }
+            if (mOsmandAidlHelper != null) {
+                mOsmandAidlHelper.cleanupResources();
+                mOsmandAidlHelper = null;
             }
             if (mGBAutoFetchReceiver != null) {
                 unregisterReceiver(mGBAutoFetchReceiver);

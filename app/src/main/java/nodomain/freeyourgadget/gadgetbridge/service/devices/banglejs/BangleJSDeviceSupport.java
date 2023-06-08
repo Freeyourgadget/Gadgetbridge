@@ -160,6 +160,9 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
     // this stores the globalUartReceiver (for uart.tx intents)
     private BroadcastReceiver globalUartReceiver = null;
 
+    // used to make HTTP requests and handle responses
+    private RequestQueue requestQueue = null;
+
     /// Maximum amount of characters to store in receiveHistory
     public static final int MAX_RECEIVE_HISTORY_CHARS = 100000;
     /// Used to avoid spamming logs with ACTION_DEVICE_CHANGED messages
@@ -184,6 +187,7 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
         super.dispose();
         stopGlobalUartReceiver();
         stopLocationUpdate();
+        stopRequestQueue();
     }
 
     private void stopGlobalUartReceiver(){
@@ -197,6 +201,19 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
         LOG.info("Stop location updates");
         GBLocationManager.stop(getContext(), this);
         gpsUpdateSetup = false;
+    }
+
+    private void stopRequestQueue() {
+        if (requestQueue != null) {
+            requestQueue.stop();
+        }
+    }
+
+    private RequestQueue getRequestQueue() {
+        if (requestQueue == null) {
+            requestQueue = Volley.newRequestQueue(getContext());
+        }
+        return requestQueue;
     }
 
     private void addReceiveHistory(String s) {
@@ -236,7 +253,7 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
                           LOG.info("ACTION_DEVICE_CHANGED " + stateString);
                           addReceiveHistory("\n================================================\nACTION_DEVICE_CHANGED "+stateString+" "+(new SimpleDateFormat("yyyy-mm-dd hh:mm:ss", Locale.US)).format(Calendar.getInstance().getTime())+"\n================================================\n");
                         }
-                        if (gbDevice!=null && gbDevice.getState() == GBDevice.State.NOT_CONNECTED) {
+                        if (gbDevice!=null && (gbDevice.getState() == GBDevice.State.NOT_CONNECTED || gbDevice.getState() == GBDevice.State.WAITING_FOR_RECONNECT)) {
                             stopLocationUpdate();
                         }
                     }
@@ -552,6 +569,7 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
                 sample.setTimestamp((int) (GregorianCalendar.getInstance().getTimeInMillis() / 1000L));
                 int hrm = 0;
                 int steps = 0;
+                if (json.has("time")) sample.setTimestamp(json.getInt("time"));
                 if (json.has("hrm")) hrm = json.getInt("hrm");
                 if (json.has("stp")) steps = json.getInt("stp");
                 int activity = BangleJSSampleProvider.TYPE_ACTIVITY;
@@ -598,7 +616,6 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
                 final String id = _id;
 
                 if (BuildConfig.INTERNET_ACCESS && devicePrefs.getBoolean(PREF_DEVICE_INTERNET_ACCESS, false)) {
-                    RequestQueue queue = Volley.newRequestQueue(getContext());
                     String url = json.getString("url");
 
                     int method = Request.Method.GET;
@@ -691,6 +708,7 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
                             return h;
                         }
                     };
+                    RequestQueue queue = getRequestQueue();
                     queue.add(stringRequest);
                 } else {
                     if (BuildConfig.INTERNET_ACCESS)
@@ -927,7 +945,7 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
         }
         Prefs devicePrefs = new Prefs(GBApplication.getDeviceSpecificSharedPrefs(getDevice().getAddress()));
         if(devicePrefs.getBoolean(PREF_DEVICE_GPS_UPDATE, false)) {
-            int intervalLength = devicePrefs.getInt(PREF_DEVICE_GPS_UPDATE_INTERVAL, 10000);
+            int intervalLength = devicePrefs.getInt(PREF_DEVICE_GPS_UPDATE_INTERVAL, 1000);
             LOG.info("Setup location listener with an update interval of " + intervalLength + " ms");
 
             try {
@@ -942,7 +960,7 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
                 LOG.warn("NETWORK provider could not be started", e);
             }
         } else {
-            LOG.debug("Phone gps data update is deactivated in the settings");
+            GB.toast("Phone gps data update is deactivated in the settings", Toast.LENGTH_SHORT, GB.INFO);
         }
     }
 
@@ -967,7 +985,7 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
             }
             o.put("hdop", location.getAccuracy());
             o.put("externalSource", true);
-            LOG.debug("Sending gps valu: " + o.toString());
+            LOG.debug("Sending gps value: " + o.toString());
             uartTxJSON("gps", o);
         } catch (JSONException e) {
             GB.toast(getContext(), "uartTxJSONError: " + e.getLocalizedMessage(), Toast.LENGTH_LONG, GB.ERROR);
@@ -1039,6 +1057,13 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
         return result;
     }
 
+    /// Crop a text string to ensure it's not longer than requested
+    public String cropToLength(String txt, int len) {
+        if (txt==null) return "";
+        if (txt.length()<=len) return txt;
+        return txt.substring(0,len-3)+"...";
+    }
+
     @Override
     public void onNotification(NotificationSpec notificationSpec) {
         if (notificationSpec.attachedActions!=null)
@@ -1052,10 +1077,10 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
             o.put("t", "notify");
             o.put("id", notificationSpec.getId());
             o.put("src", notificationSpec.sourceName);
-            o.put("title", renderUnicodeAsImage(notificationSpec.title));
-            o.put("subject", renderUnicodeAsImage(notificationSpec.subject));
-            o.put("body", renderUnicodeAsImage(notificationSpec.body));
-            o.put("sender", renderUnicodeAsImage(notificationSpec.sender));
+            o.put("title", renderUnicodeAsImage(cropToLength(notificationSpec.title,80)));
+            o.put("subject", renderUnicodeAsImage(cropToLength(notificationSpec.subject,80)));
+            o.put("body", renderUnicodeAsImage(cropToLength(notificationSpec.body, 400)));
+            o.put("sender", renderUnicodeAsImage(cropToLength(notificationSpec.sender,40)));
             o.put("tel", notificationSpec.phoneNumber);
             uartTxJSON("onNotification", o);
         } catch (JSONException e) {
@@ -1255,15 +1280,15 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
     public void onAddCalendarEvent(CalendarEventSpec calendarEventSpec) {
         try {
             JSONObject o = new JSONObject();
-            o.put("t", "calendar"); //TODO implement command
+            o.put("t", "calendar");
             o.put("id", calendarEventSpec.id);
             o.put("type", calendarEventSpec.type); //implement this too? (sunrise and set)
             o.put("timestamp", calendarEventSpec.timestamp);
             o.put("durationInSeconds", calendarEventSpec.durationInSeconds);
-            o.put("title", renderUnicodeAsImage(calendarEventSpec.title));
-            o.put("description", renderUnicodeAsImage(calendarEventSpec.description));
-            o.put("location", renderUnicodeAsImage(calendarEventSpec.location));
-            o.put("calName", calendarEventSpec.calName);
+            o.put("title", renderUnicodeAsImage(cropToLength(calendarEventSpec.title,40)));
+            o.put("description", renderUnicodeAsImage(cropToLength(calendarEventSpec.description,200)));
+            o.put("location", renderUnicodeAsImage(cropToLength(calendarEventSpec.location,40)));
+            o.put("calName", cropToLength(calendarEventSpec.calName,20));
             o.put("color", calendarEventSpec.color);
             o.put("allDay", calendarEventSpec.allDay);
             uartTxJSON("onAddCalendarEvent", o);

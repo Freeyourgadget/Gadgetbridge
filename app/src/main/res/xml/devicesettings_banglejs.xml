@@ -7,7 +7,7 @@
         android:summary="Use the gps data of the phone to overwrite the gps data of the bangle device"
         android:title="Use phone gps data" />
     <EditTextPreference
-        android:defaultValue="10000"
+        android:defaultValue="1000"
         android:inputType="number"
         android:icon="@drawable/ic_access_time"
         android:key="banglejs_gps_update_interval"

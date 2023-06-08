@@ -106,7 +106,6 @@ public class Huami2021ChunkedDecoder {
                 try {
                     buf = CryptoUtils.decryptAES(buf, messagekey);
                     buf = ArrayUtils.subarray(buf, 0, currentLength);
-                    LOG.debug("decrypted data {}: {}", String.format("0x%04x", currentType), GB.hexdump(buf));
                 } catch (Exception e) {
                     LOG.warn("error decrypting " + e);
                     currentHandle = null;
@@ -114,6 +113,13 @@ public class Huami2021ChunkedDecoder {
                     return;
                 }
             }
+            LOG.debug(
+                    "{} data {}: {}",
+                    encrypted ? "Decrypted" : "Plaintext",
+                    String.format("0x%04x", currentType),
+                    GB.hexdump(buf)
+            );
+
             try {
                 huami2021Handler.handle2021Payload((short) currentType, buf);
             } catch (final Exception e) {

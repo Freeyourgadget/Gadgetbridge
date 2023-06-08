@@ -19,7 +19,6 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.service.devices.huami;
 
-import android.app.Notification;
 import android.bluetooth.BluetoothGatt;
 import android.bluetooth.BluetoothGattCharacteristic;
 import android.content.Context;
@@ -57,9 +56,11 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Queue;
 import java.util.Set;
 import java.util.SimpleTimeZone;
 import java.util.TimeZone;
@@ -115,7 +116,18 @@ import nodomain.freeyourgadget.gadgetbridge.model.ActivityKind;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityUser;
 import nodomain.freeyourgadget.gadgetbridge.model.Alarm;
-import nodomain.freeyourgadget.gadgetbridge.model.CalendarEventSpec;
+import nodomain.freeyourgadget.gadgetbridge.model.RecordedDataTypes;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.operations.AbstractFetchOperation;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.operations.FetchHeartRateManualOperation;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.operations.FetchHeartRateMaxOperation;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.operations.FetchHeartRateRestingOperation;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.operations.FetchPaiOperation;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.operations.FetchSleepRespiratoryRateOperation;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.operations.FetchSpo2NormalOperation;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.operations.FetchSportsSummaryOperation;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.operations.FetchStressAutoOperation;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.operations.FetchStressManualOperation;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.operations.HuamiFetchDebugLogsOperation;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.services.ZeppOsCannedMessagesService;
 import nodomain.freeyourgadget.gadgetbridge.util.calendar.CalendarEvent;
 import nodomain.freeyourgadget.gadgetbridge.util.calendar.CalendarManager;
@@ -322,6 +334,8 @@ public abstract class HuamiSupport extends AbstractBTLEDeviceSupport implements 
 
     protected Huami2021ChunkedEncoder huami2021ChunkedEncoder;
     protected Huami2021ChunkedDecoder huami2021ChunkedDecoder;
+
+    private final Queue<AbstractFetchOperation> fetchOperationQueue = new LinkedList<>();
 
     public HuamiSupport() {
         this(LOG);
@@ -1640,11 +1654,55 @@ public abstract class HuamiSupport extends AbstractBTLEDeviceSupport implements 
 
     @Override
     public void onFetchRecordedData(int dataTypes) {
-        try {
-            new FetchActivityOperation(this).perform();
-        } catch (IOException ex) {
-            LOG.error("Unable to fetch activity data", ex);
+        final HuamiCoordinator coordinator = getCoordinator();
+
+        if ((dataTypes & RecordedDataTypes.TYPE_ACTIVITY) != 0) {
+            this.fetchOperationQueue.add(new FetchActivityOperation(this));
         }
+
+        if ((dataTypes & RecordedDataTypes.TYPE_GPS_TRACKS) != 0 && coordinator.supportsActivityTracks()) {
+            this.fetchOperationQueue.add(new FetchSportsSummaryOperation(this, 1));
+        }
+
+        if ((dataTypes & RecordedDataTypes.TYPE_DEBUGLOGS) != 0 && coordinator.supportsDebugLogs()) {
+            this.fetchOperationQueue.add(new HuamiFetchDebugLogsOperation(this));
+        }
+
+        if ((dataTypes & RecordedDataTypes.TYPE_SPO2) != 0 && coordinator.supportsSpo2()) {
+            this.fetchOperationQueue.add(new FetchSpo2NormalOperation(this));
+        }
+
+        if ((dataTypes & RecordedDataTypes.TYPE_STRESS) != 0 && coordinator.supportsStressMeasurement()) {
+            this.fetchOperationQueue.add(new FetchStressAutoOperation(this));
+            this.fetchOperationQueue.add(new FetchStressManualOperation(this));
+        }
+
+        if ((dataTypes & RecordedDataTypes.TYPE_HEART_RATE) != 0 && coordinator.supportsHeartRateStats()) {
+            this.fetchOperationQueue.add(new FetchHeartRateManualOperation(this));
+            this.fetchOperationQueue.add(new FetchHeartRateMaxOperation(this));
+            this.fetchOperationQueue.add(new FetchHeartRateRestingOperation(this));
+        }
+
+        if ((dataTypes & RecordedDataTypes.TYPE_PAI) != 0 && coordinator.supportsPai()) {
+            this.fetchOperationQueue.add(new FetchPaiOperation(this));
+        }
+
+        if ((dataTypes & RecordedDataTypes.TYPE_SLEEP_RESPIRATORY_RATE) != 0 && coordinator.supportsSleepRespiratoryRate()) {
+            this.fetchOperationQueue.add(new FetchSleepRespiratoryRateOperation(this));
+        }
+
+        final AbstractFetchOperation nextOperation = this.fetchOperationQueue.poll();
+        if (nextOperation != null) {
+            try {
+                nextOperation.perform();
+            } catch (final IOException e) {
+                LOG.error("Unable to fetch recorded data", e);
+            }
+        }
+    }
+
+    public AbstractFetchOperation getNextFetchOperation() {
+        return fetchOperationQueue.poll();
     }
 
     @Override

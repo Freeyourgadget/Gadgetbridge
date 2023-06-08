@@ -77,7 +77,8 @@
             android:name=".activities.ControlCenterv2"
             android:label="@string/title_activity_controlcenter"
             android:theme="@style/SplashTheme"
-            android:launchMode="singleTop">
+            android:launchMode="singleTop"
+            android:exported="true">
             <intent-filter>
                 <category android:name="android.intent.category.DEFAULT" />
 
@@ -134,7 +135,8 @@
         <activity
             android:name=".activities.FwAppInstallerActivity"
             android:label="@string/title_activity_fw_app_insaller"
-            android:parentActivityName=".activities.ControlCenterv2">
+            android:parentActivityName=".activities.ControlCenterv2"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
 
@@ -355,7 +357,8 @@
         <service
             android:name=".externalevents.NotificationListener"
             android:label="@string/app_name"
-            android:permission="android.permission.BIND_NOTIFICATION_LISTENER_SERVICE">
+            android:permission="android.permission.BIND_NOTIFICATION_LISTENER_SERVICE"
+            android:exported="false">
             <intent-filter>
                 <action android:name="android.service.notification.NotificationListenerService" />
             </intent-filter>
@@ -375,7 +378,8 @@
 
         <receiver
             android:name=".externalevents.GenericWeatherReceiver"
-            android:enabled="true">
+            android:enabled="true"
+            android:exported="false">
             <intent-filter>
                 <action android:name="nodomain.freeyourgadget.gadgetbridge.ACTION_GENERIC_WEATHER" />
             </intent-filter>
@@ -383,13 +387,15 @@
 
         <receiver
             android:name=".externalevents.WeatherNotificationReceiver"
-            android:enabled="true">
+            android:enabled="true"
+            android:exported="false">
             <intent-filter>
                 <action android:name="ru.gelin.android.weather.notification.ACTION_WEATHER_UPDATE_2" />
             </intent-filter>
         </receiver>
 
-        <activity android:name=".externalevents.WeatherNotificationConfig">
+        <activity android:name=".externalevents.WeatherNotificationConfig"
+            android:exported="false">
             <intent-filter>
                 <action android:name="ru.gelin.android.weather.notification.ACTION_WEATHER_SKIN_PREFERENCES" />
             </intent-filter>
@@ -397,7 +403,8 @@
 
         <receiver
             android:name=".externalevents.AutoStartReceiver"
-            android:permission="android.permission.RECEIVE_BOOT_COMPLETED">
+            android:permission="android.permission.RECEIVE_BOOT_COMPLETED"
+            android:exported="false">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
                 <category android:name="android.intent.category.DEFAULT" />
@@ -590,7 +597,8 @@
 
         <receiver
             android:name=".SleepAlarmWidget"
-            android:label="@string/appwidget_sleep_alarm_widget_label">
+            android:label="@string/appwidget_sleep_alarm_widget_label"
+            android:exported="false">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
                 <action android:name="nodomain.freeyourgadget.gadgetbridge.SLEEP_ALARM_WIDGET_CLICK" />
@@ -602,7 +610,8 @@
         </receiver>
         <receiver
             android:name=".Widget"
-            android:label="@string/widget_listing_label">
+            android:label="@string/widget_listing_label"
+            android:exported="false">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
                 <action android:name="android.appwidget.action.APPWIDGET_DELETED" />
@@ -621,13 +630,15 @@
             android:launchMode="singleInstance"
             android:theme="@style/Theme.AppCompat.Light.Dialog" />
 
-        <activity android:name=".activities.WidgetConfigurationActivity">
+        <activity android:name=".activities.WidgetConfigurationActivity"
+            android:exported="false">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE"/>
             </intent-filter>
         </activity>
 
-        <activity android:name=".activities.SleepAlarmWidgetConfigurationActivity">
+        <activity android:name=".activities.SleepAlarmWidgetConfigurationActivity"
+            android:exported="false">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE"/>
             </intent-filter>
@@ -639,7 +650,8 @@
             android:clearTaskOnLaunch="true"
             android:label="@string/app_configure"
             android:launchMode="singleTask"
-            android:parentActivityName=".activities.appmanager.AppManagerActivity">
+            android:parentActivityName=".activities.appmanager.AppManagerActivity"
+            android:exported="true">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="nodomain.freeyourgadget.gadgetbridge.activities.ControlCenterv2" />
@@ -726,7 +738,8 @@
             android:name=".activities.GpxReceiverActivity"
             android:label="@string/gpx_receiver_activity_title"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden">
+            android:windowSoftInputMode="stateHidden"
+            android:exported="false">
             <intent-filter>
                 <action android:name="android.intent.action.SEND" />
                 <action android:name="android.intent.action.SEND_MULTIPLE" />

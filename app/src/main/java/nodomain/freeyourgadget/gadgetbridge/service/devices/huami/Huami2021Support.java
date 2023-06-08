@@ -334,28 +334,6 @@ public abstract class Huami2021Support extends HuamiSupport {
     }
 
     @Override
-    public void onFetchRecordedData(final int dataTypes) {
-        try {
-            // FIXME: currently only one data type supported, these are meant to be flags
-            switch (dataTypes) {
-                case RecordedDataTypes.TYPE_ACTIVITY:
-                    new FetchActivityOperation(this).perform();
-                    break;
-                case RecordedDataTypes.TYPE_GPS_TRACKS:
-                    new FetchSportsSummaryOperation(this, 1).perform();
-                    break;
-                case RecordedDataTypes.TYPE_DEBUGLOGS:
-                    new HuamiFetchDebugLogsOperation(this).perform();
-                    break;
-                default:
-                    LOG.warn("fetching multiple data types at once is not supported yet");
-            }
-        } catch (final Exception e) {
-            LOG.error("Unable to fetch recorded data types {}", dataTypes, e);
-        }
-    }
-
-    @Override
     public void onHeartRateTest() {
         // TODO onHeartRateTest - what modes? this only works sometimes
 
@@ -1216,8 +1194,6 @@ public abstract class Huami2021Support extends HuamiSupport {
             LOG.warn("Empty or null payload for {}", String.format("0x%04x", type));
             return;
         }
-
-        LOG.debug("Got 2021 payload for {}: {}", String.format("0x%04x", type), GB.hexdump(payload));
 
         if (mServiceMap.containsKey(type)) {
             mServiceMap.get(type).handlePayload(payload);

@@ -23,6 +23,11 @@ public class RecordedDataTypes {
     public static final int TYPE_GPS_TRACKS   = 0x00000004;
     public static final int TYPE_TEMPERATURE  = 0x00000008;
     public static final int TYPE_DEBUGLOGS    = 0x00000010;
+    public static final int TYPE_SPO2         = 0x00000020;
+    public static final int TYPE_STRESS       = 0x00000040;
+    public static final int TYPE_HEART_RATE   = 0x00000080;
+    public static final int TYPE_PAI          = 0x00000100;
+    public static final int TYPE_SLEEP_RESPIRATORY_RATE = 0x00000200;
 
     public static final int TYPE_ALL          = (int)0xffffffff;
 }

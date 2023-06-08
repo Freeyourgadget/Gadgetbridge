@@ -17,13 +17,11 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.service.devices.huami.operations;
 
-import android.text.format.DateUtils;
 import android.widget.Toast;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -43,91 +41,54 @@ import nodomain.freeyourgadget.gadgetbridge.entities.Device;
 import nodomain.freeyourgadget.gadgetbridge.entities.HuamiExtendedActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.entities.MiBandActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.entities.User;
-import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.HuamiSupport;
-import nodomain.freeyourgadget.gadgetbridge.util.CheckSums;
 import nodomain.freeyourgadget.gadgetbridge.util.DateTimeUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.DeviceHelper;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
-import nodomain.freeyourgadget.gadgetbridge.util.StringUtils;
 
 /**
  * An operation that fetches activity data. For every fetch, a new operation must
  * be created, i.e. an operation may not be reused for multiple fetches.
  */
-public class FetchActivityOperation extends AbstractFetchOperation {
+public class FetchActivityOperation extends AbstractRepeatingFetchOperation {
     private static final Logger LOG = LoggerFactory.getLogger(FetchActivityOperation.class);
 
     private final int sampleSize;
-    private List<MiBandActivitySample> samples = new ArrayList<>(60 * 24); // 1day per default
 
-    public FetchActivityOperation(HuamiSupport support) {
-        super(support);
-        setName("fetching activity data");
-        sampleSize = getSupport().getActivitySampleSize();
+    public FetchActivityOperation(final HuamiSupport support) {
+        super(support, HuamiService.COMMAND_ACTIVITY_DATA_TYPE_ACTIVTY, "activity data");
+        this.sampleSize = support.getActivitySampleSize();
     }
 
     @Override
-    protected void startFetching() throws IOException {
-        samples.clear();
-        super.startFetching();
-    }
+    protected boolean handleActivityData(final GregorianCalendar timestamp, final byte[] bytes) {
+        if (bytes.length % sampleSize != 0) {
+            GB.toast(getContext(), "Unexpected " + getName() + " array size: " + bytes.length, Toast.LENGTH_LONG, GB.ERROR);
+            return false;
+        }
 
-    @Override
-    protected void startFetching(TransactionBuilder builder) {
-        GregorianCalendar sinceWhen = getLastSuccessfulSyncTime();
-        startFetching(builder, HuamiService.COMMAND_ACTIVITY_DATA_TYPE_ACTIVTY, sinceWhen);
-    }
+        final List<MiBandActivitySample> samples = new ArrayList<>(60 * 24); // 1day per default
 
-    @Override
-    protected boolean handleActivityFetchFinish(boolean success) {
-        LOG.info("{} has finished round {}", getName(), fetchCount);
-        GregorianCalendar lastSyncTimestamp = saveSamples();
+        for (int i = 0; i < bytes.length; i += sampleSize) {
+            final MiBandActivitySample sample;
 
-        if (lastSyncTimestamp != null && needsAnotherFetch(lastSyncTimestamp)) {
-            try {
-                startFetching();
-                return true;
-            } catch (IOException ex) {
-                LOG.error("Error starting another round of {}", getName(), ex);
-                return false;
+            switch (sampleSize) {
+                case 4:
+                    sample = createSample(bytes, i);
+                    break;
+                case 8:
+                    sample = createExtendedSample(bytes, i);
+                    break;
+                default:
+                    throw new IllegalStateException("Unsupported sample size " + sampleSize);
             }
+
+            samples.add(sample);
         }
 
-        final boolean superSuccess = super.handleActivityFetchFinish(success);
-        GB.signalActivityDataFinish();
-        return superSuccess;
-    }
-
-    @Override
-    protected boolean validChecksum(int crc32) {
-        // TODO actually check it
-        LOG.warn("Checksum not implemented for activity data, assuming it's valid");
-        return true;
-    }
-
-    private boolean needsAnotherFetch(GregorianCalendar lastSyncTimestamp) {
-        if (fetchCount > 5) {
-            LOG.warn("Already have 5 fetch rounds, not doing another one.");
-            return false;
-        }
-
-        if (DateUtils.isToday(lastSyncTimestamp.getTimeInMillis())) {
-            LOG.info("Hopefully no further fetch needed, last synced timestamp is from today.");
-            return false;
-        }
-        if (lastSyncTimestamp.getTimeInMillis() > System.currentTimeMillis()) {
-            LOG.warn("Not doing another fetch since last synced timestamp is in the future: {}", DateTimeUtils.formatDateTime(lastSyncTimestamp.getTime()));
-            return false;
-        }
-        LOG.info("Doing another fetch since last sync timestamp is still too old: {}", DateTimeUtils.formatDateTime(lastSyncTimestamp.getTime()));
-        return true;
-    }
-
-    private GregorianCalendar saveSamples() {
         if (samples.isEmpty()) {
             LOG.info("No samples to save");
-            return null;
+            return true;
         }
 
         LOG.info("Saving {} samples", samples.size());
@@ -141,7 +102,6 @@ public class FetchActivityOperation extends AbstractFetchOperation {
             Device device = DBHelper.getDevice(getDevice(), session);
             User user = DBHelper.getUser(session);
 
-            GregorianCalendar timestamp = (GregorianCalendar) startTimestamp.clone();
             for (MiBandActivitySample sample : samples) {
                 sample.setDevice(device);
                 sample.setUser(user);
@@ -154,77 +114,27 @@ public class FetchActivityOperation extends AbstractFetchOperation {
             }
             sampleProvider.addGBActivitySamples(samples.toArray(new MiBandActivitySample[0]));
 
-            saveLastSyncTimestamp(timestamp);
+            timestamp.add(Calendar.MINUTE, -1);
+
             LOG.info("Huami activity data: last sample timestamp: {}", DateTimeUtils.formatDateTime(timestamp.getTime()));
-            return timestamp;
+            return true;
         } catch (Exception ex) {
             GB.toast(getContext(), "Error saving activity samples", Toast.LENGTH_LONG, GB.ERROR);
             LOG.error("Error saving activity samples", ex);
-            return null;
-        } finally {
-            samples.clear();
+            return false;
         }
     }
 
-    /**
-     * Method to handle the incoming activity data.
-     * There are two kind of messages we currently know:
-     * - the first one is 11 bytes long and contains metadata (how many bytes to expect, when the data starts, etc.)
-     * - the second one is 20 bytes long and contains the actual activity data
-     * <p/>
-     * The first message type is parsed by this method, for every other length of the value param, bufferActivityData is called.
-     *
-     * @param value
-     */
-    protected void handleActivityNotif(byte[] value) {
-        if (!isOperationRunning()) {
-            LOG.error("ignoring activity data notification because operation is not running. Data length: " + value.length);
-            getSupport().logMessageContent(value);
-            return;
-        }
-
-        if ((value.length % sampleSize) == 1) {
-            if ((byte) (lastPacketCounter + 1) == value[0]) {
-                lastPacketCounter++;
-                bufferActivityData(value);
-            } else {
-                GB.toast("Error " + getName() + ", invalid package counter: " + value[0], Toast.LENGTH_LONG, GB.ERROR);
-                handleActivityFetchFinish(false);
-                return;
-            }
-        } else {
-            GB.toast("Error " + getName() + ", unexpected package length: " + value.length, Toast.LENGTH_LONG, GB.ERROR);
-            handleActivityFetchFinish(false);
-        }
+    @Override
+    protected void postActivityFetchFinish(final boolean success) {
+        GB.signalActivityDataFinish();
     }
 
-    /**
-     * Creates samples from the given 17-length array
-     * @param value
-     */
-    protected void bufferActivityData(byte[] value) {
-        int len = value.length;
-
-        if (len % sampleSize != 1) {
-            throw new AssertionError("Unexpected activity array size: " + len);
-        }
-
-        for (int i = 1; i < len; i += sampleSize) {
-            final MiBandActivitySample sample;
-
-            switch (sampleSize) {
-                case 4:
-                    sample = createSample(value, i);
-                    break;
-                case 8:
-                    sample = createExtendedSample(value, i);
-                    break;
-                default:
-                    throw new IllegalStateException("Unsupported sample size " + sampleSize);
-            }
-
-            samples.add(sample);
-        }
+    @Override
+    protected boolean validChecksum(final int crc32) {
+        // TODO actually check it
+        LOG.warn("Checksum not implemented for activity data, assuming it's valid");
+        return true;
     }
 
     private MiBandActivitySample createSample(byte[] value, int i) {

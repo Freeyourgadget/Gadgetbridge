@@ -130,6 +130,24 @@ public abstract class AbstractFetchOperation extends AbstractHuamiOperation {
      */
     @CallSuper
     protected boolean handleActivityFetchFinish(boolean success) {
+        final AbstractFetchOperation nextFetchOperation = getSupport().getNextFetchOperation();
+        if (nextFetchOperation != null) {
+            LOG.debug("Performing next operation {}", nextFetchOperation.getName());
+            try {
+                nextFetchOperation.perform();
+                return true;
+            } catch (final IOException e) {
+                GB.toast(
+                        getContext(),
+                        "Failed to run next fetch operation",
+                        Toast.LENGTH_SHORT,
+                        GB.ERROR, e
+                );
+
+                return false;
+            }
+        }
+
         GB.updateTransferNotification(null, "", false, 100, getContext());
         operationFinished();
         unsetBusy();

@@ -38,6 +38,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.ByteArrayOutputStream;
 import java.nio.ByteBuffer;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
@@ -87,6 +88,7 @@ import nodomain.freeyourgadget.gadgetbridge.model.CannedMessagesSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceService;
 import nodomain.freeyourgadget.gadgetbridge.model.MusicSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.MusicStateSpec;
+import nodomain.freeyourgadget.gadgetbridge.model.NavigationInfoSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.WeatherSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.WorldClock;
@@ -257,6 +259,7 @@ public class PineTimeJFSupport extends AbstractBTLEDeviceSupport implements DfuL
         addSupportedService(GattService.UUID_SERVICE_BATTERY_SERVICE);
         addSupportedService(PineTimeJFConstants.UUID_SERVICE_MUSIC_CONTROL);
         addSupportedService(PineTimeJFConstants.UUID_SERVICE_WEATHER);
+        addSupportedService(PineTimeJFConstants.UUID_SERVICE_NAVIGATION);
         addSupportedService(PineTimeJFConstants.UUID_CHARACTERISTIC_ALERT_NOTIFICATION_EVENT);
         addSupportedService(PineTimeJFConstants.UUID_SERVICE_MOTION);
 
@@ -315,6 +318,71 @@ public class PineTimeJFSupport extends AbstractBTLEDeviceSupport implements DfuL
         profile.setMaxLength(MaxNotificationLength);
         profile.newAlert(builder, alert, OverflowStrategy.TRUNCATE);
         builder.queue(getQueue());
+    }
+
+    @Override
+    public void onSetNavigationInfo(NavigationInfoSpec navigationInfoSpec) {
+        TransactionBuilder builder = new TransactionBuilder("navigation info");
+        if (navigationInfoSpec.instruction == null) {
+            navigationInfoSpec.instruction = "";
+        }
+
+        safeWriteToCharacteristic(builder, PineTimeJFConstants.UUID_CHARACTERISTICS_NAVIGATION_NARRATIVE, navigationInfoSpec.instruction.getBytes(StandardCharsets.UTF_8));
+        safeWriteToCharacteristic(builder, PineTimeJFConstants.UUID_CHARACTERISTICS_NAVIGATION_MAN_DISTANCE, (navigationInfoSpec.distanceToTurn + "m").getBytes(StandardCharsets.UTF_8));
+        String iconname;
+        switch (navigationInfoSpec.nextAction) {
+            case NavigationInfoSpec.ACTION_CONTINUE:
+                iconname = "continue";
+                break;
+            case NavigationInfoSpec.ACTION_TURN_LEFT:
+                iconname = "turn-left";
+                break;
+            case NavigationInfoSpec.ACTION_TURN_LEFT_SLIGHTLY:
+                iconname = "turn-slight-left";
+                break;
+            case NavigationInfoSpec.ACTION_TURN_LEFT_SHARPLY:
+                iconname = "turn-sharp-left";
+                break;
+            case NavigationInfoSpec.ACTION_TURN_RIGHT:
+                iconname = "turn-right";
+                break;
+            case NavigationInfoSpec.ACTION_TURN_RIGHT_SLIGHTLY:
+                iconname = "turn-slight-right";
+                break;
+            case NavigationInfoSpec.ACTION_TURN_RIGHT_SHARPLY:
+                iconname = "turn-sharp-right";
+                break;
+            case NavigationInfoSpec.ACTION_KEEP_LEFT:
+                iconname = "continue-left";
+                break;
+            case NavigationInfoSpec.ACTION_KEEP_RIGHT:
+                iconname = "continue-right";
+                break;
+            case NavigationInfoSpec.ACTION_UTURN_LEFT:
+            case NavigationInfoSpec.ACTION_UTURN_RIGHT:
+                iconname = "uturn";
+                break;
+            case NavigationInfoSpec.ACTION_ROUNDABOUT_RIGHT:
+		iconname = "roundabout-right";
+		break;
+            case NavigationInfoSpec.ACTION_ROUNDABOUT_LEFT:
+                iconname = "roundabout-left";
+                break;
+            case NavigationInfoSpec.ACTION_OFFROUTE:
+                iconname = "close";
+                break;
+            default:
+                iconname = "invalid";
+                break;
+        }
+
+        safeWriteToCharacteristic(builder, PineTimeJFConstants.UUID_CHARACTERISTICS_NAVIGATION_FLAGS, iconname.getBytes(StandardCharsets.UTF_8));
+        builder.queue(getQueue());
+    }
+
+    @Override
+    public void onDeleteNotification(int id) {
+
     }
 
     @Override

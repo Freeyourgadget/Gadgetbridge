@@ -46,7 +46,7 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
-    compileSdkVersion 29
+    compileSdkVersion 31
     buildToolsVersion "31.0.0"
 
     defaultConfig {
@@ -101,8 +101,8 @@ android {
             resValue "string", "about_activity_title", "@string/about_activity_title_banglejs_main"
             resValue "string", "about_description", "@string/about_description_banglejs_main"
             resValue "string", "gadgetbridge_running", "@string/gadgetbridge_running_banglejs_main"
-            targetSdkVersion 30 // Bangle.js flavor only - We need SDK 30 for play store
-            // Note: app/src/banglejs/AndroidManifest.xml contains some extra permissions we need to make SDK 30 work
+            targetSdkVersion 31 // Bangle.js flavor only - We need SDK 31 for updates pushed to Play Store from 2022-11-01
+            // Note: app/src/banglejs/AndroidManifest.xml contains some extra permissions we need to make SDK 30 and up work
         }
     }
 
@@ -223,6 +223,8 @@ dependencies {
     implementation "androidx.legacy:legacy-support-v4:1.0.0"
     implementation "androidx.gridlayout:gridlayout:1.0.0"
     implementation "androidx.palette:palette:1.0.0"
+    implementation "androidx.activity:activity:1.4.0"
+    implementation "androidx.fragment:fragment:1.4.0"
 
     implementation "com.google.android.material:material:1.4.0"
     implementation 'com.google.android.flexbox:flexbox:3.0.0'

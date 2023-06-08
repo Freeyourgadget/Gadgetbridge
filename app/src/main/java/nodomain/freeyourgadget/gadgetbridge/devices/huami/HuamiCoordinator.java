@@ -141,6 +141,41 @@ public abstract class HuamiCoordinator extends AbstractBLEDeviceCoordinator {
     }
 
     @Override
+    public HuamiStressSampleProvider getStressSampleProvider(final GBDevice device, final  DaoSession session) {
+        return new HuamiStressSampleProvider(device, session);
+    }
+
+    @Override
+    public HuamiSpo2SampleProvider getSpo2SampleProvider(final GBDevice device, final  DaoSession session) {
+        return new HuamiSpo2SampleProvider(device, session);
+    }
+
+    @Override
+    public HuamiHeartRateMaxSampleProvider getHeartRateMaxSampleProvider(final GBDevice device, final DaoSession session) {
+        return new HuamiHeartRateMaxSampleProvider(device, session);
+    }
+
+    @Override
+    public HuamiHeartRateRestingSampleProvider getHeartRateRestingSampleProvider(final GBDevice device, final DaoSession session) {
+        return new HuamiHeartRateRestingSampleProvider(device, session);
+    }
+
+    @Override
+    public HuamiHeartRateManualSampleProvider getHeartRateManualSampleProvider(final GBDevice device, final DaoSession session) {
+        return new HuamiHeartRateManualSampleProvider(device, session);
+    }
+
+    @Override
+    public HuamiPaiSampleProvider getPaiSampleProvider(GBDevice device, DaoSession session) {
+        return new HuamiPaiSampleProvider(device, session);
+    }
+
+    @Override
+    public HuamiSleepRespiratoryRateSampleProvider getSleepRespiratoryRateSampleProvider(GBDevice device, DaoSession session) {
+        return new HuamiSleepRespiratoryRateSampleProvider(device, session);
+    }
+
+    @Override
     public ActivitySummaryParser getActivitySummaryParser(final GBDevice device) {
         return new HuamiActivitySummaryParser();
     }
@@ -513,6 +548,10 @@ public abstract class HuamiCoordinator extends AbstractBLEDeviceCoordinator {
     @Override
     public int getReminderSlotCount(final GBDevice device) {
         return 22; // At least, Mi Fit still allows more
+    }
+
+    public boolean supportsDebugLogs() {
+        return true;
     }
 
     public List<HuamiVibrationPatternNotificationType> getVibrationPatternNotificationTypes(final GBDevice device) {

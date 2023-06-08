@@ -17,16 +17,13 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.activities.charts;
 
-import android.app.Dialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
-import android.util.AttributeSet;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -75,33 +72,6 @@ public class ChartsActivity extends AbstractGBFragmentActivity implements Charts
 
     LimitedQueue mActivityAmountCache = new LimitedQueue(60);
     ArrayList<String> enabledTabsList;
-
-    public static class ShowDurationDialog extends Dialog {
-        private final String mDuration;
-        private TextView durationLabel;
-
-        ShowDurationDialog(String duration, Context context) {
-            super(context);
-            mDuration = duration;
-        }
-
-        @Override
-        protected void onCreate(Bundle savedInstanceState) {
-            super.onCreate(savedInstanceState);
-            setContentView(R.layout.activity_charts_durationdialog);
-
-            durationLabel = findViewById(R.id.charts_duration_label);
-            setDuration(mDuration);
-        }
-
-        public void setDuration(String duration) {
-            if (mDuration != null) {
-                durationLabel.setText(duration);
-            } else {
-                durationLabel.setText("");
-            }
-        }
-    }
 
     private final BroadcastReceiver mReceiver = new BroadcastReceiver() {
         @Override
@@ -463,25 +433,3 @@ public class ChartsActivity extends AbstractGBFragmentActivity implements Charts
     }
 }
 
-class NonSwipeableViewPager extends ViewPager {
-
-    public NonSwipeableViewPager(Context context, AttributeSet attrs) {
-        super(context, attrs);
-    }
-
-    @Override
-    public boolean onInterceptTouchEvent(MotionEvent ev) {
-        if (GBApplication.getPrefs().getBoolean("charts_allow_swipe", true)) {
-            return super.onInterceptTouchEvent(ev);
-        }
-        return false;
-    }
-
-    @Override
-    public boolean onTouchEvent(MotionEvent ev) {
-        if (GBApplication.getPrefs().getBoolean("charts_allow_swipe", true)) {
-            return super.onTouchEvent(ev);
-        }
-        return false;
-    }
-}

@@ -149,6 +149,10 @@ public class PineTimeJFCoordinator extends AbstractBLEDeviceCoordinator {
         return 8;
     }
 
+    public boolean supportsNavigation() {
+        return true;
+    }
+
     @Override
     protected void deleteDevice(@NonNull GBDevice gbDevice, @NonNull Device device, @NonNull DaoSession session) {
         // nothing to delete, yet

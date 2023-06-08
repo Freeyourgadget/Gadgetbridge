@@ -44,6 +44,7 @@ import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.activities.charts.AbstractChartFragment;
 import nodomain.freeyourgadget.gadgetbridge.activities.charts.ChartsData;
 import nodomain.freeyourgadget.gadgetbridge.activities.charts.ChartsHost;
+import nodomain.freeyourgadget.gadgetbridge.activities.charts.DefaultChartsData;
 import nodomain.freeyourgadget.gadgetbridge.database.DBAccess;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;

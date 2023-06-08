@@ -113,6 +113,31 @@ public abstract class Huami2021Coordinator extends HuamiCoordinator {
     }
 
     @Override
+    public boolean supportsStressMeasurement() {
+        return true;
+    }
+
+    @Override
+    public boolean supportsSpo2() {
+        return true;
+    }
+
+    @Override
+    public boolean supportsHeartRateStats() {
+        return true;
+    }
+
+    @Override
+    public boolean supportsPai() {
+        return true;
+    }
+
+    @Override
+    public boolean supportsSleepRespiratoryRate() {
+        return true;
+    }
+
+    @Override
     public boolean supportsMusicInfo() {
         return true;
     }
@@ -267,6 +292,8 @@ public abstract class Huami2021Coordinator extends HuamiCoordinator {
         settings.add(R.xml.devicesettings_header_notifications);
         if (supportsBluetoothPhoneCalls(device)) {
             settings.add(R.xml.devicesettings_phone_calls_watch_pair);
+        } else {
+            settings.add(R.xml.devicesettings_display_caller);
         }
         settings.add(R.xml.devicesettings_sound_and_vibration);
         settings.add(R.xml.devicesettings_vibrationpatterns);

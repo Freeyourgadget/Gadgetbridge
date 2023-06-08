@@ -43,6 +43,7 @@ import nodomain.freeyourgadget.gadgetbridge.model.Contact;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceService;
 import nodomain.freeyourgadget.gadgetbridge.model.MusicSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.MusicStateSpec;
+import nodomain.freeyourgadget.gadgetbridge.model.NavigationInfoSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.Reminder;
 import nodomain.freeyourgadget.gadgetbridge.model.WeatherSpec;
@@ -285,6 +286,15 @@ public class GBDeviceService implements DeviceService {
                 .putExtra(EXTRA_MUSIC_DURATION, musicSpec.duration)
                 .putExtra(EXTRA_MUSIC_TRACKCOUNT, musicSpec.trackCount)
                 .putExtra(EXTRA_MUSIC_TRACKNR, musicSpec.trackNr);
+        invokeService(intent);
+    }
+
+    @Override
+    public void onSetNavigationInfo(NavigationInfoSpec navigationInfoSpec) {
+        Intent intent = createIntent().setAction(ACTION_SETNAVIGATIONINFO)
+                .putExtra(EXTRA_NAVIGATION_INSTRUCTION, navigationInfoSpec.instruction)
+                .putExtra(EXTRA_NAVIGATION_NEXT_ACTION, navigationInfoSpec.nextAction)
+                .putExtra(EXTRA_NAVIGATION_DISTANCE_TO_TURN, navigationInfoSpec.distanceToTurn);
         invokeService(intent);
     }
 

@@ -38,6 +38,7 @@ import nodomain.freeyourgadget.gadgetbridge.model.ActivityUser;
 import nodomain.freeyourgadget.gadgetbridge.model.Alarm;
 import nodomain.freeyourgadget.gadgetbridge.util.AlarmUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
+import nodomain.freeyourgadget.gadgetbridge.util.PendingIntentUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.WidgetPreferenceStorage;
 
 /**
@@ -62,8 +63,8 @@ public class SleepAlarmWidget extends AppWidgetProvider {
         Intent intent = new Intent(context, SleepAlarmWidget.class);
         intent.setAction(ACTION_CLICK);
         intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId);
-        PendingIntent clickPI = PendingIntent.getBroadcast(
-                context, appWidgetId, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        PendingIntent clickPI = PendingIntentUtils.getBroadcast(
+                context, appWidgetId, intent, PendingIntent.FLAG_UPDATE_CURRENT, false);
         views.setOnClickPendingIntent(R.id.sleepalarmwidget_text, clickPI);
 
         // Instruct the widget manager to update the widget
@@ -147,8 +148,8 @@ public class SleepAlarmWidget extends AppWidgetProvider {
         AlarmManager am = (AlarmManager) packageContext.getSystemService(Context.ALARM_SERVICE);
         // TODO: launch the alarm configuration activity when clicking the alarm in the status bar
         Intent intent = new Intent(packageContext, ConfigureAlarms.class);
-        PendingIntent pi = PendingIntent.getBroadcast(packageContext, 0, intent,
-                PendingIntent.FLAG_CANCEL_CURRENT);
+        PendingIntent pi = PendingIntentUtils.getBroadcast(packageContext, 0, intent,
+                PendingIntent.FLAG_CANCEL_CURRENT, false);
         am.setAlarmClock(new AlarmManager.AlarmClockInfo(triggerTime, pi), pi);
     }
 }

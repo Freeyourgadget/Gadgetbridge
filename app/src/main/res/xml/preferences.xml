@@ -154,6 +154,20 @@
             android:summary="@string/pref_summary_opentracks_packagename"
             android:title="@string/pref_title_opentracks_packagename" />
     </PreferenceCategory>
+    <PreferenceCategory android:title="@string/pref_header_navigation">
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="navigation_forward"
+            android:layout="@layout/preference_checkbox"
+            android:summary="@string/pref_summary_navigation_forward"
+            android:title="@string/pref_title_navigation_forward" />
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:dependency="navigation_forward"
+            android:key="nagivation_screen_on"
+            android:layout="@layout/preference_checkbox"
+            android:title="@string/pref_title_whenscreenon" />
+    </PreferenceCategory>
     <PreferenceCategory android:title="@string/preferences_category_device_specific_settings">
 
         <Preference
@@ -415,5 +429,10 @@
             android:key="intent_api_broadcast_export"
             android:title="@string/intent_api_broadcast_export_title"
             android:summary="@string/intent_api_broadcast_export_summary" />
+
+        <CheckBoxPreference
+            android:key="intent_api_allow_debug_commands"
+            android:title="@string/intent_api_allow_debug_commands_title"
+            android:summary="@string/intent_api_allow_debug_commands_summary" />
     </PreferenceCategory>
 </PreferenceScreen>

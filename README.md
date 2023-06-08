@@ -21,6 +21,12 @@ vendor's servers.
 [![Total Alerts](https://img.shields.io/lgtm/alerts/g/Freeyourgadget/Gadgetbridge.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/Freeyourgadget/Gadgetbridge/alerts)
 [![Translate](https://hosted.weblate.org/widgets/freeyourgadget/-/gadgetbridge/svg-badge.svg)](https://hosted.weblate.org/projects/freeyourgadget/gadgetbridge)
 
+## Code Licenses
+
+* Gadgetbrige is licensed under the AGPLv3
+* Files in app/src/main/java/net/osmand/ and app/src/main/aidl/net/osmand/ are licensed under the GPLv3 by OsmAnd BV
+
+
 ## Download
 
 [<img src="https://f-droid.org/badge/get-it-on.png" alt="Get it on F-Droid" height="80">](https://f-droid.org/app/nodomain.freeyourgadget.gadgetbridge)
