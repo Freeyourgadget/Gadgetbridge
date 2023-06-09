@@ -19,8 +19,11 @@ package nodomain.freeyourgadget.gadgetbridge.service.devices.huami.amazfitgtr3pr
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
@@ -41,6 +44,11 @@ public class AmazfitGTR3ProFirmwareInfo extends Huami2021FirmwareInfo {
     @Override
     public String deviceName() {
         return HuamiConst.AMAZFIT_GTR3_PRO_NAME;
+    }
+
+    @Override
+    public Set<Integer> deviceSources() {
+        return new HashSet<>(Arrays.asList(229, 230, 6095106));
     }
 
     @Override

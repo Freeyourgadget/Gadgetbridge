@@ -16,8 +16,11 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.service.devices.huami.amazfittrex2;
 
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
@@ -36,6 +39,11 @@ public class AmazfitTRex2FirmwareInfo extends Huami2021FirmwareInfo {
     @Override
     public String deviceName() {
         return HuamiConst.AMAZFIT_TREX_2_NAME;
+    }
+
+    @Override
+    public Set<Integer> deviceSources() {
+        return new HashSet<>(Arrays.asList(418, 419));
     }
 
     @Override

@@ -27,6 +27,7 @@ import java.io.IOException;
 import java.lang.reflect.Constructor;
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
+import java.util.Set;
 
 import nodomain.freeyourgadget.gadgetbridge.service.btle.BLETypeConversions;
 import nodomain.freeyourgadget.gadgetbridge.util.ArrayUtils;
@@ -48,6 +49,12 @@ public abstract class Huami2021FirmwareInfo extends AbstractHuamiFirmwareInfo {
      * The device name, to search on firmware.bin in order to determine compatibility.
      */
     public abstract String deviceName();
+
+    /**
+     * The device sources, to match compatible packages.
+     * As per: https://docs.zepp.com/docs/reference/related-resources/device-list/
+     */
+    public abstract Set<Integer> deviceSources();
 
     @Override
     protected HuamiFirmwareType determineFirmwareType(final byte[] bytes) {
@@ -178,7 +185,7 @@ public abstract class Huami2021FirmwareInfo extends AbstractHuamiFirmwareInfo {
                 for (int j = 0; j < platforms.length(); j++) {
                     final JSONObject platform = platforms.getJSONObject(j);
 
-                    if (deviceName().equals(platform.getString("name"))) {
+                    if (!deviceSources().contains(platform.getInt("deviceSource"))) {
                         // It's compatible with the device, fetch device.zip
                         final String name = zpkEntry.getString("name");
                         final byte[] zpkBytes = zipFile.getFileFromZip(name);
