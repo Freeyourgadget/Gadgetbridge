@@ -71,6 +71,7 @@ import nodomain.freeyourgadget.gadgetbridge.entities.NotificationFilter;
 import nodomain.freeyourgadget.gadgetbridge.entities.NotificationFilterDao;
 import nodomain.freeyourgadget.gadgetbridge.entities.NotificationFilterEntry;
 import nodomain.freeyourgadget.gadgetbridge.entities.NotificationFilterEntryDao;
+import nodomain.freeyourgadget.gadgetbridge.externalevents.notifications.GoogleMapsNotificationHandler;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.AppNotificationType;
 import nodomain.freeyourgadget.gadgetbridge.model.CallSpec;
@@ -127,6 +128,8 @@ public class NotificationListener extends NotificationListenerService {
     private final Handler mHandler = new Handler();
     private Runnable mSetMusicInfoRunnable = null;
     private Runnable mSetMusicStateRunnable = null;
+
+    private GoogleMapsNotificationHandler googleMapsNotificationHandler = new GoogleMapsNotificationHandler();
 
     private final BroadcastReceiver mReceiver = new BroadcastReceiver() {
 
@@ -276,6 +279,9 @@ public class NotificationListener extends NotificationListenerService {
         if (mediaIgnoresAppList && handleMediaSessionNotification(sbn)) return;
 
         if (shouldIgnoreSource(sbn)) return;
+
+        /* Check for navigation notifications and ignore if we're handling them */
+        if (googleMapsNotificationHandler.handle(getApplicationContext(), sbn)) return;
 
         // If media notifications do NOT ignore app list, check them after
         if (!mediaIgnoresAppList && handleMediaSessionNotification(sbn)) return;
@@ -729,6 +735,8 @@ public class NotificationListener extends NotificationListenerService {
         logNotification(sbn, false);
 
         notificationStack.remove(sbn.getPackageName());
+
+        googleMapsNotificationHandler.handleRemove(sbn);
 
         if (isServiceNotRunningAndShouldIgnoreNotifications()) return;
 

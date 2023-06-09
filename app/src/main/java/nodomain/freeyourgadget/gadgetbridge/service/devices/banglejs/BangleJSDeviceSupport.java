@@ -116,6 +116,7 @@ import nodomain.freeyourgadget.gadgetbridge.model.CannedMessagesSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceService;
 import nodomain.freeyourgadget.gadgetbridge.model.MusicSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.MusicStateSpec;
+import nodomain.freeyourgadget.gadgetbridge.model.NavigationInfoSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.RecordedDataTypes;
 import nodomain.freeyourgadget.gadgetbridge.model.WeatherSpec;
@@ -1522,6 +1523,28 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
             o.put("t", "force_calendar_sync_start");
             uartTxJSON("forceCalendarSync", o);
         } catch(JSONException e) {
+            LOG.info("JSONException: " + e.getLocalizedMessage());
+        }
+    }
+
+    @Override
+    public void onSetNavigationInfo(NavigationInfoSpec navigationInfoSpec) {
+        try {
+            JSONObject o = new JSONObject();
+            o.put("t", "nav");
+            if (navigationInfoSpec.instruction!=null)
+                o.put("instr", navigationInfoSpec.instruction);
+            o.put("distance", navigationInfoSpec.distanceToTurn);
+            String[] navActions = {
+                    "","continue", "left", "left_sharp", "left_slight", "right", "right_slight",
+                    "right_sharp", "keep_left", "keep_right", "uturn_left", "uturn_right",
+                    "offroute", "roundabout_right", "roundabout_left", "roundabout_straight", "finish"};
+            if (navigationInfoSpec.nextAction>0 && navigationInfoSpec.nextAction<navActions.length)
+                o.put("action", navActions[navigationInfoSpec.nextAction]);
+            if (navigationInfoSpec.ETA!=null)
+                o.put("eta", navigationInfoSpec.ETA);
+            uartTxJSON("onSetNavigationInfo", o);
+        } catch (JSONException e) {
             LOG.info("JSONException: " + e.getLocalizedMessage());
         }
     }

@@ -294,7 +294,8 @@ public class GBDeviceService implements DeviceService {
         Intent intent = createIntent().setAction(ACTION_SETNAVIGATIONINFO)
                 .putExtra(EXTRA_NAVIGATION_INSTRUCTION, navigationInfoSpec.instruction)
                 .putExtra(EXTRA_NAVIGATION_NEXT_ACTION, navigationInfoSpec.nextAction)
-                .putExtra(EXTRA_NAVIGATION_DISTANCE_TO_TURN, navigationInfoSpec.distanceToTurn);
+                .putExtra(EXTRA_NAVIGATION_DISTANCE_TO_TURN, navigationInfoSpec.distanceToTurn)
+                .putExtra(EXTRA_NAVIGATION_ETA, navigationInfoSpec.ETA);
         invokeService(intent);
     }
 
