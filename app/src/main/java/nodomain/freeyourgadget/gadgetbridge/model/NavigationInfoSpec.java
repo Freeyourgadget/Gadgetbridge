@@ -32,7 +32,8 @@ public class NavigationInfoSpec {
     public static final int ACTION_ROUNDABOUT_RIGHT = 13;
     public static final int ACTION_ROUNDABOUT_LEFT = 14;
     public static final int ACTION_ROUNDABOUT_STRAIGHT = 15;
-    public static final int ACTION_FINISH = 16;
+    public static final int ACTION_ROUNDABOUT_UTURN = 16;
+    public static final int ACTION_FINISH = 17;
 
     // ETA? Total Distance?
     public String instruction;

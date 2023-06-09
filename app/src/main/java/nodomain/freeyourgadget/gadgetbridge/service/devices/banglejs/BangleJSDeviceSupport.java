@@ -1538,7 +1538,7 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
             String[] navActions = {
                     "","continue", "left", "left_sharp", "left_slight", "right", "right_slight",
                     "right_sharp", "keep_left", "keep_right", "uturn_left", "uturn_right",
-                    "offroute", "roundabout_right", "roundabout_left", "roundabout_straight", "finish"};
+                    "offroute", "roundabout_right", "roundabout_left", "roundabout_straight", "roundabout_uturn", "finish"};
             if (navigationInfoSpec.nextAction>0 && navigationInfoSpec.nextAction<navActions.length)
                 o.put("action", navActions[navigationInfoSpec.nextAction]);
             if (navigationInfoSpec.ETA!=null)
