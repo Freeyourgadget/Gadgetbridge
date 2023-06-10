@@ -20,6 +20,7 @@ package nodomain.freeyourgadget.gadgetbridge.activities.appmanager;
 import static nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.QHybridSupport.QHYBRID_ACTION_DOWNLOADED_FILE;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.ActivityNotFoundException;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -538,31 +539,12 @@ public abstract class AbstractAppManagerFragment extends Fragment {
             LOG.warn("could not get external dir while trying to access app cache.");
             return true;
         }
-        Intent refreshIntent;
         switch (item.getItemId()) {
             case R.id.appmanager_app_delete_cache:
-                String baseName = selectedApp.getUUID().toString();
-                String[] suffixToDelete = new String[]{mCoordinator.getAppFileExtension(), ".json", "_config.js", "_preset.json", ".png", "_preview.png", "_bg.png"};
-                for (String suffix : suffixToDelete) {
-                    File fileToDelete = new File(appCacheDir,baseName + suffix);
-                    if (!fileToDelete.delete()) {
-                        LOG.warn("could not delete file from app cache: " + fileToDelete.toString());
-                    } else {
-                        LOG.info("deleted file: " + fileToDelete.toString());
-                    }
-                }
-                AppManagerActivity.deleteFromAppOrderFile(getSortFilename(), selectedApp.getUUID()); // FIXME: only if successful
-                refreshIntent = new Intent(AbstractAppManagerFragment.ACTION_REFRESH_APPLIST);
-                LocalBroadcastManager.getInstance(getContext()).sendBroadcast(refreshIntent);
-                // fall through
+                deleteAppConfirm(selectedApp, true);
+                return true;
             case R.id.appmanager_app_delete:
-                if (mCoordinator.supportsAppReordering()) {
-                    AppManagerActivity.deleteFromAppOrderFile(mGBDevice.getAddress() + ".watchapps", selectedApp.getUUID()); // FIXME: only if successful
-                    AppManagerActivity.deleteFromAppOrderFile(mGBDevice.getAddress() + ".watchfaces", selectedApp.getUUID()); // FIXME: only if successful
-                    refreshIntent = new Intent(AbstractAppManagerFragment.ACTION_REFRESH_APPLIST);
-                    LocalBroadcastManager.getInstance(getContext()).sendBroadcast(refreshIntent);
-                }
-                GBApplication.deviceService(mGBDevice).onAppDelete(selectedApp.getUUID());
+                deleteAppConfirm(selectedApp, false);
                 return true;
             case R.id.appmanager_app_start:
             case R.id.appmanager_watchface_activate:
@@ -637,6 +619,56 @@ public abstract class AbstractAppManagerFragment extends Fragment {
             default:
                 return super.onContextItemSelected(item);
         }
+    }
+
+    private void deleteAppConfirm(final GBDeviceApp selectedApp, final boolean deleteFromCache) {
+        new AlertDialog.Builder(getContext())
+                .setTitle(R.string.Delete)
+                .setMessage(requireContext().getString(R.string.contact_delete_confirm_description, selectedApp.getName()))
+                .setIcon(R.drawable.ic_warning)
+                .setPositiveButton(android.R.string.yes, (dialog, whichButton) -> {
+                    if (deleteFromCache) {
+                        deleteAppFromCache(selectedApp);
+                    }
+                    deleteAppFromDevice(selectedApp);
+                })
+                .setNegativeButton(android.R.string.no, null)
+                .show();
+    }
+
+    private void deleteAppFromCache(final GBDeviceApp selectedApp) {
+        final File appCacheDir;
+        try {
+            appCacheDir = mCoordinator.getAppCacheDir();
+        } catch (final IOException e) {
+            LOG.warn("Could not get external dir while trying to access app cache", e);
+            return;
+        }
+
+        String baseName = selectedApp.getUUID().toString();
+        String[] suffixToDelete = new String[]{mCoordinator.getAppFileExtension(), ".json", "_config.js", "_preset.json", ".png", "_preview.png", "_bg.png"};
+        for (String suffix : suffixToDelete) {
+            File fileToDelete = new File(appCacheDir, baseName + suffix);
+            if (!fileToDelete.delete()) {
+                LOG.warn("Could not delete file from app cache: {}", fileToDelete);
+            } else {
+                LOG.debug("Deleted from app cache: {}", fileToDelete);
+            }
+        }
+        AppManagerActivity.deleteFromAppOrderFile(getSortFilename(), selectedApp.getUUID()); // FIXME: only if successful
+        Intent refreshIntent = new Intent(AbstractAppManagerFragment.ACTION_REFRESH_APPLIST);
+        LocalBroadcastManager.getInstance(requireContext()).sendBroadcast(refreshIntent);
+    }
+
+    private void deleteAppFromDevice(final GBDeviceApp selectedApp) {
+        if (mCoordinator.supportsAppReordering()) {
+            AppManagerActivity.deleteFromAppOrderFile(mGBDevice.getAddress() + ".watchapps", selectedApp.getUUID()); // FIXME: only if successful
+            AppManagerActivity.deleteFromAppOrderFile(mGBDevice.getAddress() + ".watchfaces", selectedApp.getUUID()); // FIXME: only if successful
+            Intent refreshIntent = new Intent(AbstractAppManagerFragment.ACTION_REFRESH_APPLIST);
+            LocalBroadcastManager.getInstance(requireContext()).sendBroadcast(refreshIntent);
+        }
+
+        GBApplication.deviceService(mGBDevice).onAppDelete(selectedApp.getUUID());
     }
 
     @Override
