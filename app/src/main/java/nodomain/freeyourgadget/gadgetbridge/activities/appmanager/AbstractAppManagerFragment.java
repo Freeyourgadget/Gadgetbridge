@@ -143,17 +143,20 @@ public abstract class AbstractAppManagerFragment extends Fragment {
 
             GBDeviceApp app = new GBDeviceApp(uuid, appName, appCreator, appVersion, appType, previewImage);
             app.setOnDevice(true);
-            if ((mGBDevice.getType() == DeviceType.FOSSILQHYBRID) && (app.getType() == GBDeviceApp.Type.WATCHFACE) && (!QHybridConstants.HYBRIDHR_WATCHFACE_VERSION.equals(appVersion))) {
-                app.setUpToDate(false);
-            }
-            try {
-                if ((app.getType() == GBDeviceApp.Type.APP_GENERIC) && ((new Version(app.getVersion())).smallerThan(new Version(QHybridConstants.KNOWN_WAPP_VERSIONS.get(app.getName()))))) {
+            if (mGBDevice.getType() == DeviceType.FOSSILQHYBRID) {
+                if ((app.getType() == GBDeviceApp.Type.WATCHFACE) && (!QHybridConstants.HYBRIDHR_WATCHFACE_VERSION.equals(appVersion))) {
                     app.setUpToDate(false);
                 }
-            } catch (IllegalArgumentException e) {
-                LOG.warn("App JSON: " + app.getJSON().toString());
-                LOG.warn("Couldn't read app version", e);
+                try {
+                    if ((app.getType() == GBDeviceApp.Type.APP_GENERIC) && ((new Version(app.getVersion())).smallerThan(new Version(QHybridConstants.KNOWN_WAPP_VERSIONS.get(app.getName()))))) {
+                        app.setUpToDate(false);
+                    }
+                } catch (IllegalArgumentException e) {
+                    LOG.warn("App JSON: " + app.getJSON().toString());
+                    LOG.warn("Couldn't read app version", e);
+                }
             }
+
             if (filterApp(app)) {
                 appList.add(app);
             }
