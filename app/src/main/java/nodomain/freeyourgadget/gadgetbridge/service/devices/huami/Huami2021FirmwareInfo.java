@@ -185,7 +185,7 @@ public abstract class Huami2021FirmwareInfo extends AbstractHuamiFirmwareInfo {
                 for (int j = 0; j < platforms.length(); j++) {
                     final JSONObject platform = platforms.getJSONObject(j);
 
-                    if (!deviceSources().contains(platform.getInt("deviceSource"))) {
+                    if (deviceSources().contains(platform.getInt("deviceSource"))) {
                         // It's compatible with the device, fetch device.zip
                         final String name = zpkEntry.getString("name");
                         final byte[] zpkBytes = zipFile.getFileFromZip(name);
