@@ -2219,4 +2219,9 @@
     <string name="pref_header_navigation">الملاحة</string>
     <string name="intent_api_allow_debug_commands_title">السماح بأوامر التصحيح</string>
     <string name="intent_api_allow_debug_commands_summary">السماح بتشغيل أوامر قائمة تصحيح الأخطاء عبر واجهة برمجة تطبيقات النية</string>
+    <string name="voice_service_package_summary">التطبيق الذي يحتوي على خدمة التعامل مع الأوامر الصوتية</string>
+    <string name="voice_service_class_title">فئة الخدمة الصوتية</string>
+    <string name="voice_service">الخدمة الصوتية</string>
+    <string name="voice_service_package_title">مجموعة خدمات الصوت</string>
+    <string name="voice_service_class_summary">مسار الخدمة الكامل الذي يتعامل مع الأوامر الصوتية</string>
 </resources>
