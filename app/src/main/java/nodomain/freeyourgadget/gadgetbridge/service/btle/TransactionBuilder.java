@@ -28,6 +28,7 @@ import androidx.annotation.RequiresApi;
 
 import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.NotifyAction;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.ReadAction;
+import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.RequestConnectionPriorityAction;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.RequestMtuAction;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.WaitAction;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.WriteAction;
@@ -63,6 +64,12 @@ public class TransactionBuilder {
     public TransactionBuilder requestMtu(int mtu){
         return add(
                 new RequestMtuAction(mtu)
+        );
+    }
+
+    public TransactionBuilder requestConnectionPriority(int mtu){
+        return add(
+                new RequestConnectionPriorityAction(mtu)
         );
     }
 
