@@ -148,8 +148,10 @@ public class ZeppOsAlexaService extends AbstractZeppOsService {
 
     @Override
     public void initialize(final TransactionBuilder builder) {
-        requestCapabilities(builder);
-        requestLanguages(builder);
+        if (Huami2021Coordinator.experimentalFeatures(getSupport().getDevice())) {
+            requestCapabilities(builder);
+            requestLanguages(builder);
+        }
     }
 
     public void requestCapabilities(final TransactionBuilder builder) {

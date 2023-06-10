@@ -450,7 +450,7 @@ public abstract class Huami2021Coordinator extends HuamiCoordinator {
     }
 
     public boolean supportsAlexa(final GBDevice device) {
-        return ZeppOsAlexaService.isSupported(getPrefs(device));
+        return experimentalFeatures(device) && ZeppOsAlexaService.isSupported(getPrefs(device));
     }
 
     private boolean supportsConfig(final GBDevice device, final ZeppOsConfigService.ConfigArg config) {
@@ -473,5 +473,9 @@ public abstract class Huami2021Coordinator extends HuamiCoordinator {
 
     public static boolean deviceHasConfig(final Prefs devicePrefs, final ZeppOsConfigService.ConfigArg config) {
         return devicePrefs.getBoolean(Huami2021Coordinator.getPrefKnownConfig(config.name()), false);
+    }
+
+    public static boolean experimentalFeatures(final GBDevice device) {
+        return getPrefs(device).getBoolean("zepp_os_experimental_features", false);
     }
 }
