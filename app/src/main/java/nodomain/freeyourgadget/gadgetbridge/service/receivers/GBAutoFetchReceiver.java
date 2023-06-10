@@ -35,7 +35,7 @@ public class GBAutoFetchReceiver extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
         Date nextSync = DateUtils.addMinutes(lastSync, GBApplication.getPrefs().getInt("auto_fetch_interval_limit", 0));
         if (nextSync.before(new Date())) {
-            GBApplication.deviceService().onFetchRecordedData(RecordedDataTypes.TYPE_ACTIVITY);
+            GBApplication.deviceService().onFetchRecordedData(RecordedDataTypes.TYPE_SYNC);
             lastSync = new Date();
         }
     }

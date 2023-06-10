@@ -74,7 +74,7 @@ public class IntentApiReceiver extends BroadcastReceiver {
                     }
                     dataTypes = Integer.parseInt(matcher.group(1), 16);
                 } else {
-                    dataTypes = RecordedDataTypes.TYPE_ACTIVITY;
+                    dataTypes = RecordedDataTypes.TYPE_SYNC;
                 }
 
                 LOG.info("Triggering activity sync for data types {}", String.format("0x%08x", dataTypes));

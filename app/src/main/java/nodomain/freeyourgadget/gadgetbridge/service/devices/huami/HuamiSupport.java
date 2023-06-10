@@ -89,6 +89,7 @@ import nodomain.freeyourgadget.gadgetbridge.devices.SampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.ActivateDisplayOnLift;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.ActivateDisplayOnLiftSensitivity;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.DisconnectNotificationSetting;
+import nodomain.freeyourgadget.gadgetbridge.devices.huami.Huami2021Coordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.Huami2021Service;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiCoordinator;
@@ -1668,27 +1669,29 @@ public abstract class HuamiSupport extends AbstractBTLEDeviceSupport implements 
             this.fetchOperationQueue.add(new HuamiFetchDebugLogsOperation(this));
         }
 
-        if ((dataTypes & RecordedDataTypes.TYPE_SPO2) != 0 && coordinator.supportsSpo2()) {
-            this.fetchOperationQueue.add(new FetchSpo2NormalOperation(this));
-        }
+        if (Huami2021Coordinator.experimentalFeatures(getDevice())) {
+            if ((dataTypes & RecordedDataTypes.TYPE_SPO2) != 0 && coordinator.supportsSpo2()) {
+                this.fetchOperationQueue.add(new FetchSpo2NormalOperation(this));
+            }
 
-        if ((dataTypes & RecordedDataTypes.TYPE_STRESS) != 0 && coordinator.supportsStressMeasurement()) {
-            this.fetchOperationQueue.add(new FetchStressAutoOperation(this));
-            this.fetchOperationQueue.add(new FetchStressManualOperation(this));
-        }
+            if ((dataTypes & RecordedDataTypes.TYPE_STRESS) != 0 && coordinator.supportsStressMeasurement()) {
+                this.fetchOperationQueue.add(new FetchStressAutoOperation(this));
+                this.fetchOperationQueue.add(new FetchStressManualOperation(this));
+            }
 
-        if ((dataTypes & RecordedDataTypes.TYPE_HEART_RATE) != 0 && coordinator.supportsHeartRateStats()) {
-            this.fetchOperationQueue.add(new FetchHeartRateManualOperation(this));
-            this.fetchOperationQueue.add(new FetchHeartRateMaxOperation(this));
-            this.fetchOperationQueue.add(new FetchHeartRateRestingOperation(this));
-        }
+            if ((dataTypes & RecordedDataTypes.TYPE_HEART_RATE) != 0 && coordinator.supportsHeartRateStats()) {
+                this.fetchOperationQueue.add(new FetchHeartRateManualOperation(this));
+                this.fetchOperationQueue.add(new FetchHeartRateMaxOperation(this));
+                this.fetchOperationQueue.add(new FetchHeartRateRestingOperation(this));
+            }
 
-        if ((dataTypes & RecordedDataTypes.TYPE_PAI) != 0 && coordinator.supportsPai()) {
-            this.fetchOperationQueue.add(new FetchPaiOperation(this));
-        }
+            if ((dataTypes & RecordedDataTypes.TYPE_PAI) != 0 && coordinator.supportsPai()) {
+                this.fetchOperationQueue.add(new FetchPaiOperation(this));
+            }
 
-        if ((dataTypes & RecordedDataTypes.TYPE_SLEEP_RESPIRATORY_RATE) != 0 && coordinator.supportsSleepRespiratoryRate()) {
-            this.fetchOperationQueue.add(new FetchSleepRespiratoryRateOperation(this));
+            if ((dataTypes & RecordedDataTypes.TYPE_SLEEP_RESPIRATORY_RATE) != 0 && coordinator.supportsSleepRespiratoryRate()) {
+                this.fetchOperationQueue.add(new FetchSleepRespiratoryRateOperation(this));
+            } 
         }
 
         final AbstractFetchOperation nextOperation = this.fetchOperationQueue.poll();
