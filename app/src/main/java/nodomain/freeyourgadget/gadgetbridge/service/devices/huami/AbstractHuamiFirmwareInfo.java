@@ -17,6 +17,10 @@
 
 package nodomain.freeyourgadget.gadgetbridge.service.devices.huami;
 
+import android.graphics.Bitmap;
+
+import androidx.annotation.Nullable;
+
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.util.Map;
@@ -84,6 +88,11 @@ public abstract class AbstractHuamiFirmwareInfo {
 
     public void unsetFwBytes() {
         this.bytes = null;
+    }
+
+    @Nullable
+    public Bitmap getPreview() {
+        return null;
     }
 
     public abstract String toVersion(int crc16);

@@ -15,10 +15,19 @@
         tools:context="nodomain.freeyourgadget.gadgetbridge.activities.FwAppInstallerActivity"
         tools:ignore="ScrollViewSize">
 
+        <ImageView
+            android:id="@+id/previewImage"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:contentDescription="preview image"
+            android:visibility="gone" />
+
         <ListView
             android:id="@+id/itemListView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_below="@+id/previewImage"
             android:layout_alignParentEnd="false" />
 
         <TextView

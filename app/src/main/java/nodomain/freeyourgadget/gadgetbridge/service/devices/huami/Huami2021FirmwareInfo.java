@@ -17,20 +17,29 @@
 
 package nodomain.freeyourgadget.gadgetbridge.service.devices.huami;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+
+import androidx.annotation.Nullable;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Constructor;
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.Set;
+import java.util.UUID;
 
+import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceApp;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.BLETypeConversions;
 import nodomain.freeyourgadget.gadgetbridge.util.ArrayUtils;
+import nodomain.freeyourgadget.gadgetbridge.util.BitmapUtil;
 import nodomain.freeyourgadget.gadgetbridge.util.ZipFile;
 import nodomain.freeyourgadget.gadgetbridge.util.ZipFileException;
 
@@ -39,6 +48,7 @@ public abstract class Huami2021FirmwareInfo extends AbstractHuamiFirmwareInfo {
     private static final Logger LOG = LoggerFactory.getLogger(Huami2021FirmwareInfo.class);
 
     private final String preComputedVersion;
+    private GBDeviceApp gbDeviceApp;
 
     public Huami2021FirmwareInfo(final byte[] bytes) {
         super(bytes);
@@ -125,22 +135,64 @@ public abstract class Huami2021FirmwareInfo extends AbstractHuamiFirmwareInfo {
         // Attempt to handle as an app / watchface
         final JSONObject appJson = getJson(zipFile, "app.json");
         if (appJson != null) {
+            final int appId;
+            final String appName;
+            final String appVersion;
             final String appType;
+            final String appCreator;
+            final String appIconPath;
+            final JSONObject appJsonApp;
             try {
-                appType = appJson.getJSONObject("app").getString("appType");
+                appJsonApp = appJson.getJSONObject("app");
+                appId = appJsonApp.getInt("appId");
+                appName = appJsonApp.getString("appName");
+                appVersion = appJsonApp.getJSONObject("version").getString("name");
+                appType = appJsonApp.getString("appType");
+                appCreator = appJsonApp.getString("vender");
+                appIconPath = appJsonApp.getString("icon");
             } catch (final Exception e) {
                 LOG.error("Failed to get appType from app.json", e);
                 return HuamiFirmwareType.INVALID;
             }
 
+            final HuamiFirmwareType huamiFirmwareType;
+            final GBDeviceApp.Type gbDeviceAppType;
             switch (appType) {
                 case "watchface":
-                    return HuamiFirmwareType.WATCHFACE;
+                    huamiFirmwareType = HuamiFirmwareType.WATCHFACE;
+                    gbDeviceAppType = GBDeviceApp.Type.WATCHFACE;
+                    break;
                 case "app":
-                    return HuamiFirmwareType.APP;
+                    huamiFirmwareType = HuamiFirmwareType.APP;
+                    gbDeviceAppType = GBDeviceApp.Type.APP_GENERIC;
+                    break;
                 default:
                     LOG.warn("Unknown app type {}", appType);
+                    return HuamiFirmwareType.INVALID;
             }
+
+            Bitmap icon = null;
+            try {
+                final byte[] iconBytes = zipFile.getFileFromZip("assets/" + appIconPath);
+                if (BitmapUtil.isPng(iconBytes)) {
+                    icon = BitmapFactory.decodeByteArray(iconBytes, 0, iconBytes.length);
+                } else {
+                    icon = BitmapUtil.decodeTga(iconBytes);
+                }
+            } catch (final ZipFileException e) {
+                LOG.error("Failed to get app icon from zip", e);
+            }
+
+            gbDeviceApp = new GBDeviceApp(
+                    UUID.fromString(String.format("%08x-0000-0000-0000-000000000000", appId)),
+                    appName,
+                    appCreator,
+                    appVersion,
+                    gbDeviceAppType,
+                    icon
+            );
+
+            return huamiFirmwareType;
         }
 
         // Attempt to handle as a zab file
@@ -249,6 +301,20 @@ public abstract class Huami2021FirmwareInfo extends AbstractHuamiFirmwareInfo {
             }
         } catch (final Exception e) {
             LOG.error("Failed to pre compute version", e);
+        }
+
+        return null;
+    }
+
+    public GBDeviceApp getAppInfo() {
+        return gbDeviceApp;
+    }
+
+    @Nullable
+    @Override
+    public Bitmap getPreview() {
+        if (gbDeviceApp != null) {
+            return gbDeviceApp.getPreviewImage();
         }
 
         return null;
