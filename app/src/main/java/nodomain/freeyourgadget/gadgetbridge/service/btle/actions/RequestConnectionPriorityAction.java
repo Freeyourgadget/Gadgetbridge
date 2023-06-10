@@ -29,7 +29,6 @@ public class RequestConnectionPriorityAction extends BtLEAction {
         this.priority = priority;
     }
 
-
     @Override
     public boolean expectsResult() {
         return true;

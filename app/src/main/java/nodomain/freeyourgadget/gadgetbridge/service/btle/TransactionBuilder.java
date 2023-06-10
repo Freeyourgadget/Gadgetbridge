@@ -67,9 +67,9 @@ public class TransactionBuilder {
         );
     }
 
-    public TransactionBuilder requestConnectionPriority(int mtu){
+    public TransactionBuilder requestConnectionPriority(int priority){
         return add(
-                new RequestConnectionPriorityAction(mtu)
+                new RequestConnectionPriorityAction(priority)
         );
     }
 
