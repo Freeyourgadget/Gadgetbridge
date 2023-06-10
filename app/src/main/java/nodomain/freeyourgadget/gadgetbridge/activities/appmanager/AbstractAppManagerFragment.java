@@ -408,7 +408,12 @@ public abstract class AbstractAppManagerFragment extends Fragment {
             }
         });
         appListView.setLayoutManager(new GridAutoFitLayoutManager(getActivity(), 300));
-        mGBDeviceAppAdapter = new GBDeviceAppAdapter(appList, R.layout.item_appmanager_watchapp, this);
+        mGBDeviceAppAdapter = new GBDeviceAppAdapter(
+                appList,
+                R.layout.item_appmanager_watchapp,
+                this,
+                mCoordinator.supportsAppReordering() || isCacheManager()
+        );
         appListView.setAdapter(mGBDeviceAppAdapter);
 
         ItemTouchHelper.Callback appItemTouchHelperCallback = new AppItemTouchHelperCallback(mGBDeviceAppAdapter);
