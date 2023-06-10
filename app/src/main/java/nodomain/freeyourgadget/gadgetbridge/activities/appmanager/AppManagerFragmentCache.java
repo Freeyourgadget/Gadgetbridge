@@ -24,7 +24,9 @@ public class AppManagerFragmentCache extends AbstractAppManagerFragment {
     @Override
     public void refreshList() {
         appList.clear();
-        appList.addAll(getCachedApps(null));
+        final List<GBDeviceApp> cachedApps = getCachedApps(null);
+        sortAppList(cachedApps);
+        appList.addAll(cachedApps);
     }
 
     @Override

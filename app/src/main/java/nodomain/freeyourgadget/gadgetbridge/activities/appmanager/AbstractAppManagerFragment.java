@@ -48,7 +48,10 @@ import org.slf4j.LoggerFactory;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import androidx.core.content.FileProvider;
@@ -677,6 +680,30 @@ public abstract class AbstractAppManagerFragment extends Fragment {
         }
 
         GBApplication.deviceService(mGBDevice).onAppDelete(selectedApp.getUUID());
+    }
+
+    /**
+     * Sort an app list by the UUIDs in the sort filename.
+     *
+     * @param appList the app list to sort in-place
+     */
+    protected void sortAppList(final List<GBDeviceApp> appList) {
+        final ArrayList<UUID> uuids = AppManagerActivity.getUuidsFromFile(getSortFilename());
+        final Map<UUID, Integer> uuidPosMap = new HashMap<>();
+        for (int i = 0; i < uuids.size(); i++) {
+            uuidPosMap.put(uuids.get(i), i);
+        }
+
+        Collections.sort(appList, (a1, a2) -> {
+            final Integer pos1 = uuidPosMap.get(a1.getUUID());
+            final Integer pos2 = uuidPosMap.get(a2.getUUID());
+
+            if (pos1 != null && pos2 != null) return Integer.compare(pos1, pos2);
+            if (pos1 == null && pos2 == null) return a1.getName().compareToIgnoreCase(a2.getName());
+            if (pos1 != null) return -1;
+
+            return 1;
+        });
     }
 
     @Override
