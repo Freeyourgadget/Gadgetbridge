@@ -66,6 +66,7 @@ public class Huami2021SettingsCustomizer extends HuamiSettingsCustomizer {
         removeUnsupportedElementsFromListPreference(DeviceSettingsPreferenceConst.SHORTCUT_CARDS_SORTABLE, handler, prefs);
         removeUnsupportedElementsFromListPreference(DeviceSettingsPreferenceConst.PREF_WATCHFACE, handler, prefs);
         removeUnsupportedElementsFromListPreference(DeviceSettingsPreferenceConst.MORNING_UPDATES_CATEGORIES_SORTABLE, handler, prefs);
+        removeUnsupportedElementsFromListPreference(DeviceSettingsPreferenceConst.PREF_VOICE_SERVICE_LANGUAGE, handler, prefs);
 
         for (final ZeppOsConfigService.ConfigArg config : ZeppOsConfigService.ConfigArg.values()) {
             if (config.getPrefKey() == null) {
@@ -364,7 +365,11 @@ public class Huami2021SettingsCustomizer extends HuamiSettingsCustomizer {
                 handler.findPreference(DeviceSettingsPreferenceConst.WIFI_HOTSPOT_START),
                 handler.findPreference(DeviceSettingsPreferenceConst.WIFI_HOTSPOT_STOP),
                 handler.findPreference(DeviceSettingsPreferenceConst.FTP_SERVER_START),
-                handler.findPreference(DeviceSettingsPreferenceConst.FTP_SERVER_STOP)
+                handler.findPreference(DeviceSettingsPreferenceConst.FTP_SERVER_STOP),
+                // TODO: These are temporary for debugging and will be removed
+                handler.findPreference("zepp_os_alexa_btn_trigger"),
+                handler.findPreference("zepp_os_alexa_btn_send_simple"),
+                handler.findPreference("zepp_os_alexa_btn_send_complex")
         );
 
         for (final Preference btn : wifiFtpButtons) {

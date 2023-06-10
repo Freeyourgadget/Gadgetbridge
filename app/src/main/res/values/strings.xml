@@ -2116,4 +2116,9 @@
     <string name="contact_phone_number">Phone number</string>
     <string name="contact_missing_name">Contact name is empty</string>
     <string name="contact_missing_number">Contact number is empty</string>
+    <string name="voice_service_package_title">Voice service package</string>
+    <string name="voice_service_package_summary">Application that contains the service handling voice commands</string>
+    <string name="voice_service_class_title">Voice service class</string>
+    <string name="voice_service_class_summary">Full service path handling voice commands</string>
+    <string name="voice_service">Voice Service</string>
 </resources>

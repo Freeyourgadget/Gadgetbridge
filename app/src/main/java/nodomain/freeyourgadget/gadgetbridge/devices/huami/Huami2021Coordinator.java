@@ -45,6 +45,7 @@ import nodomain.freeyourgadget.gadgetbridge.entities.HuamiExtendedActivitySample
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryParser;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.AbstractHuami2021FWInstallHandler;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.services.ZeppOsAlexaService;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.services.ZeppOsContactsService;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.services.ZeppOsShortcutCardsService;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.services.ZeppOsConfigService;
@@ -336,6 +337,9 @@ public abstract class Huami2021Coordinator extends HuamiCoordinator {
         // Developer
         //
         settings.add(R.xml.devicesettings_header_developer);
+        if (supportsAlexa(device)) {
+            settings.add(R.xml.devicesettings_huami2021_alexa);
+        }
         if (supportsWifiHotspot(device)) {
             settings.add(R.xml.devicesettings_wifi_hotspot);
         }
@@ -443,6 +447,10 @@ public abstract class Huami2021Coordinator extends HuamiCoordinator {
 
     public boolean supportsShortcutCards(final GBDevice device) {
         return ZeppOsShortcutCardsService.isSupported(getPrefs(device));
+    }
+
+    public boolean supportsAlexa(final GBDevice device) {
+        return ZeppOsAlexaService.isSupported(getPrefs(device));
     }
 
     private boolean supportsConfig(final GBDevice device, final ZeppOsConfigService.ConfigArg config) {
