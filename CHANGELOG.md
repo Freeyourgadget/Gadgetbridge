@@ -2,6 +2,7 @@
 
 #### Next Version (WIP)
 * Bangle.js: Add message size limitation to Calendar and Messages
+* Bangle.js: Send more weather data to watch
 * Bangle.js: Allow an activity sample to have a timestamp
 * Bangle.js: Bump flavor target SDK version to 31
 * Bangle.js: Fix convertion of emoji/unicode to bitmap without width/height
@@ -9,6 +10,7 @@
 * Bangle.js: Fix memory leak from HTTP requests
 * Bangle.js: Fix return to applications management activity after having opened another window
 * Bangle.js: Set default value for GPS event interval to 1 second
+* Bangle.js: Support navigation instructions
 * Fossil/Skagen Hybrids: Add support for ultraviolet index and rain probability
 * Fossil/Skagen Hybrids: Allow launching the calibration activity on any Gadgetbridge variant
 * InfiniTime: Fix weather expiry time
@@ -16,6 +18,7 @@
 * Mi Band 6: Allow making device discoverable via Bluetooth when connected
 * Mi Band 7: Add preference to display call contact information
 * Zepp OS: Add gpx route file upload
+* Zepp OS: Display watchface and app preview on install
 * Zepp OS: Fix update operations on Zepp OS 2.1+
 * Zepp OS: Manage contacts on watch
 * Zepp OS: Start new GPX segments on pause/resume
@@ -26,6 +29,8 @@
 * Intent API: Add dataTypes parameter for activity sync
 * Intent API: Add debug actions for notifications and incoming calls
 * OsmAnd: Add support for navigation instructions
+* Scrape navigation instructions from Google Maps notifications
+* Fix transliteration returning non-ASCII characters
 
 #### 0.74.0
 * Initial support for Amazfit GTR 3 Pro
