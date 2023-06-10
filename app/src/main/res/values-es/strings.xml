@@ -2236,4 +2236,9 @@
     <string name="pref_header_navigation">Navegador</string>
     <string name="intent_api_allow_debug_commands_summary">Permitir la activación de comandos de menú de depuración a través de Intent API</string>
     <string name="intent_api_allow_debug_commands_title">Permitir comandos de depuración</string>
+    <string name="voice_service_package_title">Paquete de servicio de voz</string>
+    <string name="voice_service_package_summary">Aplicación que contiene el servicio de gestión de comandos de voz</string>
+    <string name="voice_service_class_summary">Ruta completa del servicio de gestión de comandos de voz</string>
+    <string name="voice_service">Servicio de voz</string>
+    <string name="voice_service_class_title">Clases de servicio de voz</string>
 </resources>
