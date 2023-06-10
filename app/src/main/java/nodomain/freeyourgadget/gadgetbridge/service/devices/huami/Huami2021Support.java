@@ -66,6 +66,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 import java.util.regex.Pattern;
 
@@ -112,6 +113,7 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.operati
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.services.ZeppOsAgpsService;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.services.ZeppOsAlarmsService;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.services.ZeppOsAlexaService;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.services.ZeppOsAppsService;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.services.ZeppOsCalendarService;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.services.ZeppOsCannedMessagesService;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.services.ZeppOsNotificationService;
@@ -154,6 +156,7 @@ public abstract class Huami2021Support extends HuamiSupport {
     private final ZeppOsCannedMessagesService cannedMessagesService = new ZeppOsCannedMessagesService(this);
     private final ZeppOsNotificationService notificationService = new ZeppOsNotificationService(this, fileUploadService);
     private final ZeppOsAlexaService alexaService = new ZeppOsAlexaService(this);
+    private final ZeppOsAppsService appsService = new ZeppOsAppsService(this);
 
     private final Map<Short, AbstractZeppOsService> mServiceMap = new LinkedHashMap<Short, AbstractZeppOsService>() {{
         put(fileUploadService.getEndpoint(), fileUploadService);
@@ -171,6 +174,7 @@ public abstract class Huami2021Support extends HuamiSupport {
         put(cannedMessagesService.getEndpoint(), cannedMessagesService);
         put(notificationService.getEndpoint(), notificationService);
         put(alexaService.getEndpoint(), alexaService);
+        put(appsService.getEndpoint(), appsService);
     }};
 
     public Huami2021Support() {
@@ -667,6 +671,24 @@ public abstract class Huami2021Support extends HuamiSupport {
         }
 
         super.onInstallApp(uri);
+    }
+
+    @Override
+    public void onAppInfoReq() {
+        appsService.requestApps();
+        // TODO watchfaceService.requestWatchfaces();
+    }
+
+    @Override
+    public void onAppStart(final UUID uuid, final boolean start) {
+        // TODO check if watchface
+        //LOG.warn("TODO: onAppStart {} {}", uuid, start);
+        //watchfaceService.setWatchface("0x" + uuid.toString().split("-")[0]);
+    }
+
+    @Override
+    public void onAppDelete(final UUID uuid) {
+        appsService.deleteApp(Integer.parseInt(uuid.toString().split("-")[0], 16));
     }
 
     @Override

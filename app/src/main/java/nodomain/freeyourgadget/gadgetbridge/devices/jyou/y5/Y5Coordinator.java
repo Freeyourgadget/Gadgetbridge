@@ -118,7 +118,7 @@ public class Y5Coordinator extends AbstractBLEDeviceCoordinator {
     }
 
     @Override
-    public boolean supportsAppsManagement() {
+    public boolean supportsAppsManagement(final GBDevice device) {
         return false;
     }
 

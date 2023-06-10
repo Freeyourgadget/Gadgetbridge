@@ -114,7 +114,7 @@ public class QC35Coordinator extends AbstractBLClassicDeviceCoordinator {
     }
 
     @Override
-    public boolean supportsAppsManagement() {
+    public boolean supportsAppsManagement(final GBDevice device) {
         return false;
     }
 

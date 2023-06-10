@@ -106,7 +106,7 @@ public abstract class SonyHeadphonesCoordinator extends AbstractBLClassicDeviceC
     }
 
     @Override
-    public boolean supportsAppsManagement() {
+    public boolean supportsAppsManagement(final GBDevice device) {
         return false;
     }
 

@@ -76,7 +76,7 @@ public abstract class GalaxyBudsGenericCoordinator extends AbstractBLClassicDevi
     }
 
     @Override
-    public boolean supportsAppsManagement() {
+    public boolean supportsAppsManagement(final GBDevice device) {
         return false;
     }
 

@@ -364,7 +364,7 @@ public interface DeviceCoordinator {
      *
      * @return
      */
-    boolean supportsAppsManagement();
+    boolean supportsAppsManagement(GBDevice device);
 
     /**
      * Returns the Activity class that will be used to manage device apps.

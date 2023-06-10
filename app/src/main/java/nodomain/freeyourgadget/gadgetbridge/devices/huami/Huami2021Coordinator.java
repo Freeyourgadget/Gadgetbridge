@@ -16,6 +16,7 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.devices.huami;
 
+import android.app.Activity;
 import android.content.Context;
 import android.net.Uri;
 
@@ -23,12 +24,15 @@ import androidx.annotation.NonNull;
 
 import org.apache.commons.lang3.ArrayUtils;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 
 import nodomain.freeyourgadget.gadgetbridge.R;
+import nodomain.freeyourgadget.gadgetbridge.activities.appmanager.AppManagerActivity;
 import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSpecificSettingsCustomizer;
 import nodomain.freeyourgadget.gadgetbridge.capabilities.HeartRateCapability;
 import nodomain.freeyourgadget.gadgetbridge.capabilities.password.PasswordCapabilityImpl;
@@ -52,6 +56,7 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.service
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.HuamiLanguageType;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.HuamiVibrationPatternNotificationType;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.services.ZeppOsPhoneService;
+import nodomain.freeyourgadget.gadgetbridge.util.FileUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 
 public abstract class Huami2021Coordinator extends HuamiCoordinator {
@@ -156,6 +161,41 @@ public abstract class Huami2021Coordinator extends HuamiCoordinator {
     @Override
     public boolean supportsDisabledWorldClocks() {
         return true;
+    }
+
+    @Override
+    public boolean supportsAppsManagement(final GBDevice device) {
+        return experimentalFeatures(device);
+    }
+
+    @Override
+    public Class<? extends Activity> getAppsManagementActivity() {
+        return AppManagerActivity.class;
+    }
+
+    @Override
+    public File getAppCacheDir() throws IOException {
+        return new File(FileUtils.getExternalFilesDir(), "zepp-os-app-cache");
+    }
+
+    @Override
+    public String getAppCacheSortFilename() {
+        return "zepp-os-app-cache-order.txt";
+    }
+
+    @Override
+    public String getAppFileExtension() {
+        return ".zip";
+    }
+
+    @Override
+    public boolean supportsAppListFetching() {
+        return true;
+    }
+
+    @Override
+    public boolean supportsAppReordering() {
+        return false;
     }
 
     @Override

@@ -438,7 +438,7 @@ public class GBDeviceAdapterv2 extends ListAdapter<GBDevice, GBDeviceAdapterv2.V
         );
 
         //manage apps
-        holder.manageAppsView.setVisibility((device.isInitialized() && coordinator.supportsAppsManagement()) ? View.VISIBLE : View.GONE);
+        holder.manageAppsView.setVisibility((device.isInitialized() && coordinator.supportsAppsManagement(device)) ? View.VISIBLE : View.GONE);
         holder.manageAppsView.setOnClickListener(new View.OnClickListener()
 
                                                  {
@@ -811,7 +811,7 @@ public class GBDeviceAdapterv2 extends ListAdapter<GBDevice, GBDeviceAdapterv2.V
 
     private boolean showInstallerItem(GBDevice device) {
         final DeviceCoordinator coordinator = DeviceHelper.getInstance().getCoordinator(device);
-        return coordinator.supportsAppsManagement() || coordinator.supportsFlashing();
+        return coordinator.supportsAppsManagement(device) || coordinator.supportsFlashing();
     }
 
     private void showDeviceSubmenu(final View v, final GBDevice device) {

@@ -161,7 +161,7 @@ public class HPlusCoordinator extends AbstractBLEDeviceCoordinator {
     }
 
     @Override
-    public boolean supportsAppsManagement() {
+    public boolean supportsAppsManagement(final GBDevice device) {
         return false;
     }
 

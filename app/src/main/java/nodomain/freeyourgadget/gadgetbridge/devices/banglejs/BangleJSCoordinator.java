@@ -156,7 +156,9 @@ public class BangleJSCoordinator extends AbstractBLEDeviceCoordinator {
     }
 
     @Override
-    public boolean supportsAppsManagement() { return BuildConfig.INTERNET_ACCESS; }
+    public boolean supportsAppsManagement(final GBDevice device) {
+        return BuildConfig.INTERNET_ACCESS;
+    }
 
     @Override
     public Class<? extends Activity> getAppsManagementActivity() {

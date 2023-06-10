@@ -146,7 +146,7 @@ public class PebbleCoordinator extends AbstractBLClassicDeviceCoordinator {
     }
 
     @Override
-    public boolean supportsAppsManagement() {
+    public boolean supportsAppsManagement(final GBDevice device) {
         return true;
     }
 

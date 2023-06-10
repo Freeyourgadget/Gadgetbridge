@@ -87,7 +87,7 @@ public class Ear1Coordinator extends AbstractBLClassicDeviceCoordinator {
     }
 
     @Override
-    public boolean supportsAppsManagement() {
+    public boolean supportsAppsManagement(final GBDevice device) {
         return false;
     }
 

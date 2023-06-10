@@ -99,7 +99,7 @@ public abstract class RoidmiCoordinator extends AbstractBLClassicDeviceCoordinat
     }
 
     @Override
-    public boolean supportsAppsManagement() {
+    public boolean supportsAppsManagement(final GBDevice device) {
         return false;
     }
 

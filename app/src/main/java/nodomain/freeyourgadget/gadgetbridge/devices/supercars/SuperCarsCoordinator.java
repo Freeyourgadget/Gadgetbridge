@@ -115,7 +115,7 @@ public class SuperCarsCoordinator extends AbstractDeviceCoordinator {
     }
 
     @Override
-    public boolean supportsAppsManagement() {
+    public boolean supportsAppsManagement(final GBDevice device) {
         return true;
     }
 
