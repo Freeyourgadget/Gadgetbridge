@@ -376,6 +376,20 @@ public class DBHelper {
         return null;
     }
 
+    public static void updateDeviceMacAddress(final DaoSession session, final String oldAddress, final String newAddress) {
+        final DeviceDao deviceDao = session.getDeviceDao();
+        final Query<Device> query = deviceDao.queryBuilder().where(DeviceDao.Properties.Identifier.eq(oldAddress)).build();
+        final List<Device> devices = query.list();
+        if (devices.isEmpty()) {
+            LOG.warn("Failed to find device with address {}", oldAddress);
+            return;
+        }
+
+        final Device device = devices.get(0);
+        device.setIdentifier(newAddress);
+        session.getDeviceDao().update(device);
+    }
+
     /**
      * Returns all active (that is, not old, archived ones) from the database.
      * (currently the active handling is not available)

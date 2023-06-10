@@ -20,18 +20,24 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
-import java.util.Locale;
+import java.util.HashSet;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import nodomain.freeyourgadget.gadgetbridge.BuildConfig;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
+import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
+import nodomain.freeyourgadget.gadgetbridge.database.DBHelper;
 import nodomain.freeyourgadget.gadgetbridge.database.PeriodicExporter;
+import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
+import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.CallSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationType;
@@ -40,13 +46,16 @@ import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 
 public class IntentApiReceiver extends BroadcastReceiver {
     private static final Logger LOG = LoggerFactory.getLogger(IntentApiReceiver.class);
-    
+
     private static final String msgDebugNotAllowed = "Intent API Allow Debug Commands not allowed";
 
     public static final String COMMAND_ACTIVITY_SYNC = "nodomain.freeyourgadget.gadgetbridge.command.ACTIVITY_SYNC";
     public static final String COMMAND_TRIGGER_EXPORT = "nodomain.freeyourgadget.gadgetbridge.command.TRIGGER_EXPORT";
     public static final String COMMAND_DEBUG_SEND_NOTIFICATION = "nodomain.freeyourgadget.gadgetbridge.command.DEBUG_SEND_NOTIFICATION";
     public static final String COMMAND_DEBUG_INCOMING_CALL = "nodomain.freeyourgadget.gadgetbridge.command.DEBUG_INCOMING_CALL";
+    public static final String COMMAND_DEBUG_SET_DEVICE_ADDRESS = "nodomain.freeyourgadget.gadgetbridge.command.DEBUG_SET_DEVICE_ADDRESS";
+
+    private static final String MAC_ADDR_PATTERN = "^([0-9A-F]{2}:){5}[0-9A-F]{2}$";
 
     @Override
     public void onReceive(final Context context, final Intent intent) {
@@ -121,7 +130,8 @@ public class IntentApiReceiver extends BroadcastReceiver {
                 if (intent.getStringExtra("type") != null) {
                     try {
                         notificationSpec.type = NotificationType.valueOf(intent.getStringExtra("type"));
-                    } catch(IllegalArgumentException e) {}
+                    } catch (IllegalArgumentException e) {
+                    }
                 }
                 if (notificationSpec.type != NotificationType.GENERIC_SMS) {
                     // SMS notifications don't have a source app ID when sent by the SMSReceiver,
@@ -157,6 +167,13 @@ public class IntentApiReceiver extends BroadcastReceiver {
                 }
                 GBApplication.deviceService().onSetCallState(callSpec);
                 break;
+            case COMMAND_DEBUG_SET_DEVICE_ADDRESS:
+                if (!prefs.getBoolean("intent_api_allow_debug_commands", false)) {
+                    LOG.warn(msgDebugNotAllowed);
+                    return;
+                }
+                setDeviceAddress(intent);
+                break;
         }
     }
 
@@ -166,6 +183,95 @@ public class IntentApiReceiver extends BroadcastReceiver {
         intentFilter.addAction(COMMAND_TRIGGER_EXPORT);
         intentFilter.addAction(COMMAND_DEBUG_SEND_NOTIFICATION);
         intentFilter.addAction(COMMAND_DEBUG_INCOMING_CALL);
+        intentFilter.addAction(COMMAND_DEBUG_SET_DEVICE_ADDRESS);
         return intentFilter;
+    }
+
+    private void setDeviceAddress(final Intent intent) {
+        final String oldAddress = intent.getStringExtra("oldAddress");
+        if (!validAddress(oldAddress)) {
+            return;
+        }
+
+        final String newAddress = intent.getStringExtra("newAddress");
+        if (!validAddress(newAddress)) {
+            return;
+        }
+
+        if (oldAddress.equals(newAddress)) {
+            LOG.warn("Old and new addresses are the same");
+            return;
+        }
+
+        final GBDevice oldDevice = GBApplication.app()
+                .getDeviceManager()
+                .getDeviceByAddress(oldAddress);
+        if (oldDevice == null) {
+            LOG.warn("Old device with address {} not found", oldAddress);
+            return;
+        }
+
+        final GBDevice newDevice = GBApplication.app()
+                .getDeviceManager()
+                .getDeviceByAddress(newAddress);
+        if (newDevice != null) {
+            LOG.warn("New device address {} already exists", newAddress);
+            return;
+        }
+
+        LOG.info("Updating device address from {} to {}", oldAddress, newAddress);
+
+        final SharedPreferences settingsOld = GBApplication.getDeviceSpecificSharedPrefs(oldAddress);
+        final SharedPreferences settingsNew = GBApplication.getDeviceSpecificSharedPrefs(newAddress);
+        final SharedPreferences.Editor editorNew = settingsNew.edit().clear();
+        final Map<String, ?> allSettings = settingsOld.getAll();
+        LOG.debug("Copying {} preferences to new device", allSettings.size());
+        for (final Map.Entry<String, ?> e : allSettings.entrySet()) {
+            if (e.getValue().getClass().equals(Boolean.class)) {
+                editorNew.putBoolean(e.getKey(), (Boolean) e.getValue());
+            } else if (e.getValue().getClass().equals(Float.class)) {
+                editorNew.putFloat(e.getKey(), (Float) e.getValue());
+            } else if (e.getValue().getClass().equals(Integer.class)) {
+                editorNew.putInt(e.getKey(), (Integer) e.getValue());
+            } else if (e.getValue().getClass().equals(Long.class)) {
+                editorNew.putLong(e.getKey(), (Long) e.getValue());
+            } else if (e.getValue().getClass().equals(String.class)) {
+                editorNew.putString(e.getKey(), (String) e.getValue());
+            } else if (e.getValue().getClass().equals(HashSet.class)) {
+                editorNew.putStringSet(e.getKey(), (HashSet<String>) e.getValue());
+            } else {
+                LOG.error("Unexpected preference type {}", e.getValue().getClass());
+                return;
+            }
+        }
+        if (!editorNew.commit()) {
+            LOG.error("Failed to persist preferences for new address");
+            return;
+        }
+
+        try (DBHandler dbHandler = GBApplication.acquireDB()) {
+            final DaoSession session = dbHandler.getDaoSession();
+            DBHelper.updateDeviceMacAddress(session, oldAddress, newAddress);
+        } catch (final Exception e) {
+            LOG.error("Failed to update device address", e);
+            return;
+        }
+
+        LOG.info("Quitting GB after device address update");
+
+        GBApplication.quit();
+    }
+
+    private boolean validAddress(final String address) {
+        if (address == null) {
+            return false;
+        }
+
+        if (!address.matches(MAC_ADDR_PATTERN)) {
+            LOG.warn("Device address '{}' does not match '{}'", address, MAC_ADDR_PATTERN);
+            return false;
+        }
+
+        return true;
     }
 }
