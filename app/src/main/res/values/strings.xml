@@ -1200,6 +1200,8 @@
     <string name="activity_error_share_failed">Sharing file failed.</string>
     <string name="select_all">Select all</string>
     <string name="share">Share</string>
+    <string name="share_screenshot">Share screenshot</string>
+    <string name="screenshot_taken">Screenshot taken</string>
     <string name="reset_index">Reset fetch date</string>
     <string name="kind_firmware">Firmware</string>
     <string name="kind_invalid">Invalid data</string>

@@ -401,14 +401,14 @@ public abstract class AbstractDeviceSupport implements DeviceSupport {
             shareIntent.setType("image/*");
             shareIntent.putExtra(Intent.EXTRA_STREAM, screenshotURI);
 
-            PendingIntent pendingShareIntent = PendingIntentUtils.getActivity(context, 0, Intent.createChooser(shareIntent, "share screenshot"),
+            PendingIntent pendingShareIntent = PendingIntentUtils.getActivity(context, 0, Intent.createChooser(shareIntent, context.getString(R.string.share_screenshot)),
                     PendingIntent.FLAG_UPDATE_CURRENT, false);
 
-            NotificationCompat.Action action = new NotificationCompat.Action.Builder(android.R.drawable.ic_menu_share, "share", pendingShareIntent).build();
+            NotificationCompat.Action action = new NotificationCompat.Action.Builder(android.R.drawable.ic_menu_share, context.getString(R.string.share), pendingShareIntent).build();
 
             Notification notif = new NotificationCompat.Builder(context, NOTIFICATION_CHANNEL_HIGH_PRIORITY_ID)
-                    .setContentTitle("Screenshot taken")
-                    .setTicker("Screenshot taken")
+                    .setContentTitle(context.getString(R.string.screenshot_taken))
+                    .setTicker(context.getString(R.string.screenshot_taken))
                     .setContentText(filename)
                     .setSmallIcon(R.drawable.ic_notification)
                     .setStyle(new NotificationCompat.BigPictureStyle()
