@@ -2224,4 +2224,8 @@
     <string name="voice_service">الخدمة الصوتية</string>
     <string name="voice_service_package_title">مجموعة خدمات الصوت</string>
     <string name="voice_service_class_summary">مسار الخدمة الكامل الذي يتعامل مع الأوامر الصوتية</string>
+    <string name="pref_app_logs_summary">تمكين السجلات من تطبيقات الساعة</string>
+    <string name="pref_app_logs_stop_summary">توقف عن التسجيل من تطبيقات الساعة</string>
+    <string name="pref_app_logs_title">سجل التطبيق</string>
+    <string name="pref_app_logs_start_summary">بدء تسجيل السجل من تطبيقات الساعة</string>
 </resources>
