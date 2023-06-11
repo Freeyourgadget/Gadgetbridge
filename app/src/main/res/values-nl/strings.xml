@@ -2237,4 +2237,10 @@
     <string name="voice_service_package_title">Spraakservicepakket</string>
     <string name="voice_service_package_summary">Applicatie die de service bevat die spraakopdrachten afhandelt</string>
     <string name="voice_service_class_title">Spraakserviceklasse</string>
+    <string name="voice_service_class_summary">Volledig servicepad voor het verwerken van spraakopdrachten</string>
+    <string name="voice_service">Spraakservice</string>
+    <string name="pref_app_logs_summary">Logboeken van horloge-apps inschakelen</string>
+    <string name="pref_app_logs_start_summary">Loggen vanuit horloge-apps starten</string>
+    <string name="pref_app_logs_title">App-logboeken</string>
+    <string name="pref_app_logs_stop_summary">Loggen vanuit horloge-apps stoppen</string>
 </resources>
