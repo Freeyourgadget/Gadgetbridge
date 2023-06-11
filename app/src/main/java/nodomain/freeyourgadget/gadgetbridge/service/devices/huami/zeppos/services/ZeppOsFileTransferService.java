@@ -202,6 +202,8 @@ public class ZeppOsFileTransferService extends AbstractZeppOsService {
 
         LOG.debug("Got data for session={}, progress={}/{}", session, request.getProgress(), request.getSize());
 
+        write("ack file data", new byte[]{CMD_DATA_ACK, session, 0x00});
+
         if (lastPacket) {
             mSessionRequests.remove(session);
 
