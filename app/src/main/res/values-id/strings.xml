@@ -2223,4 +2223,9 @@
     <string name="pref_title_navigation_forward">Kirim navigasi ke jam tangan</string>
     <string name="intent_api_allow_debug_commands_summary">Perbolehkan memicu menu perintah pengawakutu melalui API Intent</string>
     <string name="intent_api_allow_debug_commands_title">Perbolehkan Perintah Pengawakutu</string>
+    <string name="voice_service_package_title">Paket layanan suara</string>
+    <string name="voice_service_package_summary">Aplikasi yang berisi layanan menangani perintah suara</string>
+    <string name="voice_service_class_title">Kelas layanan suara</string>
+    <string name="voice_service">Layanan Suara</string>
+    <string name="voice_service_class_summary">Jalur layanan lengkap penanganan perintah suara</string>
 </resources>
