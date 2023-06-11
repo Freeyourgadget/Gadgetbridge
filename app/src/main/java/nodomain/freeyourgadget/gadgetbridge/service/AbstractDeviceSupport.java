@@ -406,7 +406,7 @@ public abstract class AbstractDeviceSupport implements DeviceSupport {
 
             NotificationCompat.Action action = new NotificationCompat.Action.Builder(android.R.drawable.ic_menu_share, "share", pendingShareIntent).build();
 
-            Notification notif = new NotificationCompat.Builder(context, NOTIFICATION_CHANNEL_ID)
+            Notification notif = new NotificationCompat.Builder(context, NOTIFICATION_CHANNEL_HIGH_PRIORITY_ID)
                     .setContentTitle("Screenshot taken")
                     .setTicker("Screenshot taken")
                     .setContentText(filename)
