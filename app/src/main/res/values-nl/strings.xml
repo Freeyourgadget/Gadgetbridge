@@ -2234,4 +2234,7 @@
     <string name="pref_header_navigation">Navigatie</string>
     <string name="pref_summary_navigation_forward">Instructies van navigatie-apps doorsturen naar het apparaat</string>
     <string name="pref_title_navigation_forward">Stuur navigatie naar apparaat</string>
+    <string name="voice_service_package_title">Spraakservicepakket</string>
+    <string name="voice_service_package_summary">Applicatie die de service bevat die spraakopdrachten afhandelt</string>
+    <string name="voice_service_class_title">Spraakserviceklasse</string>
 </resources>
