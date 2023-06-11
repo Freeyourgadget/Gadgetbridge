@@ -2233,4 +2233,9 @@
     <string name="pref_title_navigation_forward">שליחת ניווט לשעון</string>
     <string name="intent_api_allow_debug_commands_summary">לאפשר הפעלת פקודות תפריט ניפוי שגיאות דרך API של Intent</string>
     <string name="intent_api_allow_debug_commands_title">לאפשר פקודות ניפוי שגיאות</string>
+    <string name="voice_service">שירות קולי</string>
+    <string name="voice_service_package_title">חבילת שירות קולי</string>
+    <string name="voice_service_class_summary">נתיב מלא של שירות שמטפל בפקודות קוליות</string>
+    <string name="voice_service_package_summary">יישומון שמכיל את השירות שמטפל בפקודות קוליות</string>
+    <string name="voice_service_class_title">מחלקת שירות קולי</string>
 </resources>
