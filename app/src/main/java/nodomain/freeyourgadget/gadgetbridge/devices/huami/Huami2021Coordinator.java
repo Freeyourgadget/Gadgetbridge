@@ -84,6 +84,11 @@ public abstract class Huami2021Coordinator extends HuamiCoordinator {
     }
 
     @Override
+    public boolean supportsScreenshots() {
+        return true;
+    }
+
+    @Override
     public boolean supportsHeartRateMeasurement(final GBDevice device) {
         return true;
     }

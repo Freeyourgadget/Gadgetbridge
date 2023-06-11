@@ -48,6 +48,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -74,6 +76,7 @@ import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventFindPhone;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventMusicControl;
+import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventScreenshot;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventUpdatePreferences;
 import nodomain.freeyourgadget.gadgetbridge.devices.DeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.Huami2021Coordinator;
@@ -125,6 +128,7 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.service
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.services.ZeppOsWatchfaceService;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.services.ZeppOsWifiService;
 import nodomain.freeyourgadget.gadgetbridge.util.DeviceHelper;
+import nodomain.freeyourgadget.gadgetbridge.util.FileUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 import nodomain.freeyourgadget.gadgetbridge.util.GBPrefs;
 import nodomain.freeyourgadget.gadgetbridge.util.MapUtils;
@@ -303,6 +307,11 @@ public abstract class Huami2021Support extends HuamiSupport implements ZeppOsFil
         if (!start) {
             stopFindPhone();
         }
+    }
+
+    @Override
+    public void onScreenshotReq() {
+        appsService.requestScreenshot();
     }
 
     @Override
@@ -1883,6 +1892,32 @@ public abstract class Huami2021Support extends HuamiSupport implements ZeppOsFil
     @Override
     public void onFileDownloadFinish(final String url, final String filename, final byte[] data) {
         LOG.info("File received: url={} filename={} length={}", url, filename, data.length);
+
+        if (filename.startsWith("screenshot-")) {
+            GBDeviceEventScreenshot gbDeviceEventScreenshot = new GBDeviceEventScreenshot(data);
+            evaluateGBDeviceEvent(gbDeviceEventScreenshot);
+            return;
+        }
+
+        final String fileDownloadsDir = "zepp-os-received-files";
+        final File targetFile;
+        try {
+            final String validFilename = FileUtils.makeValidFileName(filename);
+            final File targetFolder = new File(FileUtils.getExternalFilesDir(), fileDownloadsDir);
+            targetFolder.mkdirs();
+            targetFile = new File(targetFolder, validFilename);
+        } catch (final IOException e) {
+            LOG.error("Failed create folder to save file", e);
+            return;
+        }
+
+        try (FileOutputStream outputStream = new FileOutputStream(targetFile)) {
+            final File targetFolder = new File(FileUtils.getExternalFilesDir(), fileDownloadsDir);
+            targetFolder.mkdirs();
+            outputStream.write(data);
+        } catch (final IOException e) {
+            LOG.error("Failed to save file bytes", e);
+        }
     }
 
     private byte bool(final boolean b) {

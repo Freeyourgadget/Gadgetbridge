@@ -29,23 +29,27 @@ import java.util.UUID;
 
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventAppInfo;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceApp;
+import nodomain.freeyourgadget.gadgetbridge.service.btle.BLETypeConversions;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.Huami2021Support;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.AbstractZeppOsService;
-import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
 public class ZeppOsAppsService extends AbstractZeppOsService {
     private static final Logger LOG = LoggerFactory.getLogger(ZeppOsAppsService.class);
 
     private static final short ENDPOINT = 0x00a0;
 
-    private static final byte CMD_BYTE = 0x02;
+    private static final byte CMD_JS = 0x01;
+    private static final byte CMD_APPS = 0x02;
+    private static final byte CMD_SCREENSHOT = 0x03;
 
     private static final byte CMD_INCOMING = 0x00;
     private static final byte CMD_OUTGOING = 0x01;
 
-    private static final byte CMD_APP_LIST = 0x01;
-    private static final byte CMD_APP_DELETE = 0x03;
-    private static final byte CMD_APP_DELETING = 0x04;
+    private static final byte CMD_APPS_LIST = 0x01;
+    private static final byte CMD_APPS_DELETE = 0x03;
+    private static final byte CMD_APPS_DELETING = 0x04;
+    private static final byte CMD_APPS_API_LEVEL = 0x05;
+    private static final byte CMD_SCREENSHOT_REQUEST = 0x01;
 
     public ZeppOsAppsService(final Huami2021Support support) {
         super(support);
@@ -63,28 +67,62 @@ public class ZeppOsAppsService extends AbstractZeppOsService {
 
     @Override
     public void handlePayload(final byte[] payload) {
-        if (payload[0] != CMD_BYTE) {
-            LOG.warn("Unexpected apps byte {}", String.format("0x%02x", payload[0]));
-            return;
+        switch (payload[0]) {
+            case CMD_JS:
+                handleJsPayload(payload);
+                return;
+            case CMD_APPS:
+                handleAppsPayload(payload);
+                return;
+            case CMD_SCREENSHOT:
+                handleScreenshotPayload(payload);
+                return;
+            default:
+                LOG.warn("Unexpected apps byte {}", String.format("0x%02x", payload[0]));
         }
+    }
 
+    private void handleJsPayload(final byte[] payload) {
+        LOG.warn("Handling js payloads not implemented");
+    }
+
+    private void handleAppsPayload(final byte[] payload) {
         if (payload[1] != CMD_INCOMING) {
-            LOG.warn("Unexpected apps 2nd byte {}", String.format("0x%02x", payload[1]));
+            LOG.warn("Unexpected non-incoming payload ({})", String.format("0x%02x", payload[1]));
             return;
         }
 
         switch (payload[2]) {
-            case CMD_APP_LIST:
+            case CMD_APPS_LIST:
                 parseAppList(payload);
                 return;
-            case CMD_APP_DELETE:
+            case CMD_APPS_DELETE:
                 LOG.info("Got app delete");
                 return;
-            case CMD_APP_DELETING:
+            case CMD_APPS_DELETING:
                 LOG.info("Got app deleting");
                 return;
+            case CMD_APPS_API_LEVEL:
+                final int apiLevel = payload[17] & 0xff;
+                LOG.info("Got API level: {}", apiLevel); // 200 = 2.0
+                return;
             default:
-                LOG.warn("Unexpected apps payload {}", GB.hexdump(payload));
+                LOG.warn("Unexpected apps payload byte {}", payload[2]);
+        }
+    }
+
+    private void handleScreenshotPayload(final byte[] payload) {
+        if (payload[1] != CMD_INCOMING) {
+            LOG.warn("Unexpected non-incoming payload ({})", String.format("0x%02x", payload[1]));
+            return;
+        }
+
+        switch (payload[2]) {
+            case CMD_SCREENSHOT_REQUEST:
+                LOG.info("Got screenshot request ack, status={}", payload[16]);  // 0 for success
+                return;
+            default:
+                LOG.warn("Unexpected screenshot payload byte {}", payload[2]);
         }
     }
 
@@ -130,12 +168,24 @@ public class ZeppOsAppsService extends AbstractZeppOsService {
 
         final ByteBuffer buf = ByteBuffer.allocate(16).order(ByteOrder.LITTLE_ENDIAN);
 
-        buf.put(CMD_BYTE);
+        buf.put(CMD_APPS);
         buf.put(CMD_OUTGOING);
-        buf.put(CMD_APP_LIST);
+        buf.put(CMD_APPS_LIST);
         buf.put((byte) 0x00);
 
         write("request apps", buf.array());
+    }
+
+    public void requestApilevel() {
+        LOG.info("Request api level");
+
+        final ByteBuffer buf = ByteBuffer.allocate(16).order(ByteOrder.LITTLE_ENDIAN);
+
+        buf.put(CMD_APPS);
+        buf.put(CMD_OUTGOING);
+        buf.put(CMD_APPS_API_LEVEL);
+
+        write("request api level", buf.array());
     }
 
     public void deleteApp(final int appId) {
@@ -143,9 +193,9 @@ public class ZeppOsAppsService extends AbstractZeppOsService {
 
         final ByteBuffer buf = ByteBuffer.allocate(20).order(ByteOrder.LITTLE_ENDIAN);
 
-        buf.put(CMD_BYTE);
+        buf.put(CMD_APPS);
         buf.put(CMD_OUTGOING);
-        buf.put(CMD_APP_DELETE);
+        buf.put(CMD_APPS_DELETE);
         buf.put((byte) 0x00);
         buf.putInt(0x00);
         buf.putInt(0x00);
@@ -153,5 +203,18 @@ public class ZeppOsAppsService extends AbstractZeppOsService {
         buf.putInt(appId);
 
         write("delete app", buf.array());
+    }
+
+    public void requestScreenshot() {
+        LOG.info("Requesting screenshot");
+
+        final ByteBuffer buf = ByteBuffer.allocate(20).order(ByteOrder.LITTLE_ENDIAN);
+
+        buf.put(CMD_SCREENSHOT);
+        buf.put(CMD_OUTGOING);
+        buf.put(CMD_SCREENSHOT_REQUEST);
+        buf.put((byte) 0x00);
+
+        write("request screenshot", buf.array());
     }
 }
