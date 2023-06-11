@@ -31,28 +31,28 @@ import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.Huami2021Support;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.AbstractZeppOsService;
 import nodomain.freeyourgadget.gadgetbridge.util.CheckSums;
-import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
+import nodomain.freeyourgadget.gadgetbridge.util.StringUtils;
 
-public class ZeppOsFileUploadService extends AbstractZeppOsService {
-    private static final Logger LOG = LoggerFactory.getLogger(ZeppOsFileUploadService.class);
+public class ZeppOsFileTransferService extends AbstractZeppOsService {
+    private static final Logger LOG = LoggerFactory.getLogger(ZeppOsFileTransferService.class);
 
     private static final short ENDPOINT = 0x000d;
 
     private static final byte CMD_CAPABILITIES_REQUEST = 0x01;
     private static final byte CMD_CAPABILITIES_RESPONSE = 0x02;
-    private static final byte CMD_UPLOAD_REQUEST = 0x03;
-    private static final byte CMD_UPLOAD_RESPONSE = 0x04;
+    private static final byte CMD_TRANSFER_REQUEST = 0x03;
+    private static final byte CMD_TRANSFER_RESPONSE = 0x04;
     private static final byte CMD_DATA_SEND = 0x10;
     private static final byte CMD_DATA_ACK = 0x11;
 
     private static final byte FLAG_FIRST_CHUNK = 0x01;
     private static final byte FLAG_LAST_CHUNK = 0x02;
 
-    private final Map<Byte, FileSendRequest> mSessionRequests = new HashMap<>();
+    private final Map<Byte, FileTransferRequest> mSessionRequests = new HashMap<>();
 
     private int mChunkSize = -1;
 
-    public ZeppOsFileUploadService(final Huami2021Support support) {
+    public ZeppOsFileTransferService(final Huami2021Support support) {
         super(support);
     }
 
@@ -75,25 +75,28 @@ public class ZeppOsFileUploadService extends AbstractZeppOsService {
             case CMD_CAPABILITIES_RESPONSE:
                 final int version = payload[1] & 0xff;
                 if (version != 1 && version != 2) {
-                    LOG.error("Unsupported file upload service version: {}", version);
+                    LOG.error("Unsupported file transfer service version: {}", version);
                     return;
                 }
                 mChunkSize = BLETypeConversions.toUint16(payload, 2);
-                LOG.info("Got file upload service: version={}, chunkSize={}", version, mChunkSize);
+                LOG.info("Got file transfer service: version={}, chunkSize={}", version, mChunkSize);
                 return;
-            case CMD_UPLOAD_RESPONSE:
+            case CMD_TRANSFER_REQUEST:
+                handleFileTransferRequest(payload);
+                return;
+            case CMD_TRANSFER_RESPONSE:
                 session = payload[1];
                 status = payload[2];
                 final int existingProgress = BLETypeConversions.toUint32(payload, 3);
-                LOG.info("Band acknowledged file upload request: session={}, status={}, existingProgress={}", session, status, existingProgress);
+                LOG.info("Band acknowledged file transfer request: session={}, status={}, existingProgress={}", session, status, existingProgress);
                 if (status != 0) {
                     LOG.error("Unexpected status from band for session {}, aborting", session);
-                    onFinish(session, false);
+                    onUploadFinish(session, false);
                     return;
                 }
                 if (existingProgress != 0) {
                     LOG.info("Updating existing progress for session {} to {}", session, existingProgress);
-                    final FileSendRequest request = mSessionRequests.get(session);
+                    final FileTransferRequest request = mSessionRequests.get(session);
                     if (request == null) {
                         LOG.error("No request found for session {}", session);
                         return;
@@ -102,19 +105,22 @@ public class ZeppOsFileUploadService extends AbstractZeppOsService {
                 }
                 sendNextQueuedData(session);
                 return;
+            case CMD_DATA_SEND:
+                handleFileTransferData(payload);
+                return;
             case CMD_DATA_ACK:
                 session = payload[1];
                 status = payload[2];
-                LOG.info("Band acknowledged file upload data: session={}, status={}", session, status);
+                LOG.info("Band acknowledged file transfer data: session={}, status={}", session, status);
                 if (status != 0) {
                     LOG.error("Unexpected status from band, aborting session {}", session);
-                    onFinish(session, false);
+                    onUploadFinish(session, false);
                     return;
                 }
                 sendNextQueuedData(session);
                 return;
             default:
-                LOG.warn("Unexpected file upload byte {}", String.format("0x%02x", payload[0]));
+                LOG.warn("Unexpected file transfer byte {}", String.format("0x%02x", payload[0]));
         }
     }
 
@@ -127,6 +133,93 @@ public class ZeppOsFileUploadService extends AbstractZeppOsService {
         write(builder, new byte[]{CMD_CAPABILITIES_REQUEST});
     }
 
+    private void handleFileTransferRequest(final byte[] payload) {
+        // File transfer request initialized from watch
+        int pos = 1;
+        final byte session = payload[pos++];
+        final String url = StringUtils.untilNullTerminator(payload, pos);
+        if (url == null) {
+            LOG.error("Unable to parse url from transfer request");
+            return;
+        }
+        pos += url.length() + 1;
+        final String filename = StringUtils.untilNullTerminator(payload, pos);
+        if (filename == null) {
+            LOG.error("Unable to parse filename from transfer request");
+            return;
+        }
+        pos += filename.length() + 1;
+        final int length = BLETypeConversions.toUint32(payload, pos);
+        pos += 4;
+        final int crc32 = BLETypeConversions.toUint32(payload, pos);
+
+        LOG.info("Got transfer request: session={}, url={}, filename={}, length={}", session, url, filename, length);
+
+        final FileTransferRequest request = new FileTransferRequest(url, filename, new byte[length], getSupport());
+        request.setCrc32(crc32);
+
+        final ByteBuffer buf = ByteBuffer.allocate(7).order(ByteOrder.LITTLE_ENDIAN);
+        buf.order(ByteOrder.LITTLE_ENDIAN);
+        buf.put(CMD_TRANSFER_RESPONSE);
+        buf.put(session);
+        buf.put((byte) 0x00);
+        buf.putInt(0);
+
+        mSessionRequests.put(session, request);
+
+        write("send file transfer response", buf.array());
+    }
+
+    private void handleFileTransferData(final byte[] payload) {
+        final ByteBuffer buf = ByteBuffer.wrap(payload).order(ByteOrder.LITTLE_ENDIAN);
+        buf.get(); // Discard first byte
+        final byte secondByte = buf.get();
+        final boolean firstPacket = (secondByte == 1);
+        final boolean lastPacket = (secondByte == 2);
+        final byte session = buf.get();
+        final byte index = buf.get();
+        final short size = buf.getShort();
+
+        final FileTransferRequest request = mSessionRequests.get(session);
+        if (request == null) {
+            LOG.error("No request found for session {}", session);
+            return;
+        }
+
+        if (index != request.index) {
+            LOG.warn("Unexpected index {}, expected {}", index, request.index);
+            return;
+        }
+
+        if (firstPacket && request.getProgress() != 0) {
+            LOG.warn("Got first packet, but progress is {}", request.getProgress());
+            return;
+        }
+
+        buf.get(request.getBytes(), request.getProgress(), size);
+        request.setIndex((byte) (index + 1));
+        request.setProgress(request.getProgress() + size);
+
+        LOG.debug("Got data for session={}, progress={}/{}", session, request.getProgress(), request.getSize());
+
+        if (lastPacket) {
+            mSessionRequests.remove(session);
+
+            if (request.getProgress() != request.getSize()) {
+                LOG.warn("Request not finished: {}/{}", request.getProgress(), request.getSize());
+                return;
+            }
+
+            final int checksum = CheckSums.getCRC32(request.getBytes());
+            if (checksum != request.getCrc32()) {
+                LOG.warn("Checksum mismatch: expected {}, got {}", request.getCrc32(), checksum);
+                return;
+            }
+
+            request.getCallback().onFileDownloadFinish(request.getUrl(), request.getFilename(), request.getBytes());
+        }
+    }
+
     public void sendFile(final String url, final String filename, final byte[] bytes, final Callback callback) {
         if (mChunkSize < 0) {
             LOG.error("Service not initialized, refusing to send {}", url);
@@ -136,20 +229,23 @@ public class ZeppOsFileUploadService extends AbstractZeppOsService {
 
         LOG.info("Sending {} bytes to {}", bytes.length, url);
 
-        final FileSendRequest request = new FileSendRequest(url, filename, bytes, callback);
+        final FileTransferRequest request = new FileTransferRequest(url, filename, bytes, callback);
 
-        final byte session = (byte) mSessionRequests.size();
+        byte session = (byte) mSessionRequests.size();
+        while (mSessionRequests.containsKey(session)) {
+            session++;
+        }
 
         final ByteBuffer buf = ByteBuffer.allocate(2 + url.length() + 1 + filename.length() + 1 + 4 + 4);
         buf.order(ByteOrder.LITTLE_ENDIAN);
-        buf.put(CMD_UPLOAD_REQUEST);
+        buf.put(CMD_TRANSFER_REQUEST);
         buf.put(session);
         buf.put(url.getBytes(StandardCharsets.UTF_8));
         buf.put((byte) 0x00);
         buf.put(filename.getBytes(StandardCharsets.UTF_8));
         buf.put((byte) 0x00);
         buf.putInt(bytes.length);
-        buf.putInt(CheckSums.getCRC32(bytes));
+        buf.putInt(request.getCrc32());
 
         write("send file upload request", buf.array());
 
@@ -157,7 +253,7 @@ public class ZeppOsFileUploadService extends AbstractZeppOsService {
     }
 
     private void sendNextQueuedData(final byte session) {
-        final FileSendRequest request = mSessionRequests.get(session);
+        final FileTransferRequest request = mSessionRequests.get(session);
         if (request == null) {
             LOG.error("No request found for session {}", session);
             return;
@@ -165,7 +261,7 @@ public class ZeppOsFileUploadService extends AbstractZeppOsService {
 
         if (request.getProgress() >= request.getSize()) {
             LOG.info("Sending {} finished", request.getUrl());
-            onFinish(session, true);
+            onUploadFinish(session, true);
             return;
         }
 
@@ -209,8 +305,8 @@ public class ZeppOsFileUploadService extends AbstractZeppOsService {
         write("send file data", buf.array());
     }
 
-    private void onFinish(final byte session, final boolean success) {
-        final FileSendRequest request = mSessionRequests.get(session);
+    private void onUploadFinish(final byte session, final boolean success) {
+        final FileTransferRequest request = mSessionRequests.get(session);
         if (request == null) {
             LOG.error("No request found for session {}", session);
             return;
@@ -224,19 +320,21 @@ public class ZeppOsFileUploadService extends AbstractZeppOsService {
     /**
      * Wrapper class to keep track of ongoing file send requests and their progress.
      */
-    public static class FileSendRequest {
+    public static class FileTransferRequest {
         private final String url;
         private final String filename;
         private final byte[] bytes;
         private final Callback callback;
         private int progress = 0;
         private byte index = 0;
+        private int crc32;
 
-        public FileSendRequest(final String url, final String filename, final byte[] bytes, final Callback callback) {
+        public FileTransferRequest(final String url, final String filename, final byte[] bytes, final Callback callback) {
             this.url = url;
             this.filename = filename;
             this.bytes = bytes;
             this.callback = callback;
+            this.crc32 = CheckSums.getCRC32(bytes);
         }
 
         public String getUrl() {
@@ -274,11 +372,21 @@ public class ZeppOsFileUploadService extends AbstractZeppOsService {
         public void setIndex(final byte index) {
             this.index = index;
         }
+
+        public int getCrc32() {
+            return crc32;
+        }
+
+        public void setCrc32(final int crc32) {
+            this.crc32 = crc32;
+        }
     }
 
     public interface Callback {
         void onFileUploadFinish(boolean success);
 
         void onFileUploadProgress(int progress);
+
+        void onFileDownloadFinish(String url, String filename, byte[] data);
     }
 }

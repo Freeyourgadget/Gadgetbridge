@@ -96,15 +96,11 @@ import nodomain.freeyourgadget.gadgetbridge.model.Contact;
 import nodomain.freeyourgadget.gadgetbridge.model.MusicSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.MusicStateSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
-import nodomain.freeyourgadget.gadgetbridge.model.RecordedDataTypes;
 import nodomain.freeyourgadget.gadgetbridge.model.Reminder;
 import nodomain.freeyourgadget.gadgetbridge.model.WeatherSpec;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.BLETypeConversions;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.GattCharacteristic;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.operations.FetchActivityOperation;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.operations.FetchSportsSummaryOperation;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.operations.HuamiFetchDebugLogsOperation;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.operations.UpdateFirmwareOperation;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.operations.UpdateFirmwareOperation2021;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.AbstractZeppOsService;
@@ -120,7 +116,7 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.service
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.services.ZeppOsShortcutCardsService;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.services.ZeppOsConfigService;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.services.ZeppOsContactsService;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.services.ZeppOsFileUploadService;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.services.ZeppOsFileTransferService;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.services.ZeppOsFtpServerService;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.services.ZeppOsMorningUpdatesService;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.services.ZeppOsPhoneService;
@@ -133,7 +129,7 @@ import nodomain.freeyourgadget.gadgetbridge.util.MapUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 import nodomain.freeyourgadget.gadgetbridge.util.StringUtils;
 
-public abstract class Huami2021Support extends HuamiSupport {
+public abstract class Huami2021Support extends HuamiSupport implements ZeppOsFileTransferService.Callback {
     private static final Logger LOG = LoggerFactory.getLogger(Huami2021Support.class);
 
     // Tracks whether realtime HR monitoring is already started, so we can just
@@ -141,7 +137,7 @@ public abstract class Huami2021Support extends HuamiSupport {
     private boolean heartRateRealtimeStarted;
 
     // Services
-    private final ZeppOsFileUploadService fileUploadService = new ZeppOsFileUploadService(this);
+    private final ZeppOsFileTransferService fileTransferService = new ZeppOsFileTransferService(this);
     private final ZeppOsConfigService configService = new ZeppOsConfigService(this);
     private final ZeppOsAgpsService agpsService = new ZeppOsAgpsService(this);
     private final ZeppOsWifiService wifiService = new ZeppOsWifiService(this);
@@ -154,12 +150,12 @@ public abstract class Huami2021Support extends HuamiSupport {
     private final ZeppOsAlarmsService alarmsService = new ZeppOsAlarmsService(this);
     private final ZeppOsCalendarService calendarService = new ZeppOsCalendarService(this);
     private final ZeppOsCannedMessagesService cannedMessagesService = new ZeppOsCannedMessagesService(this);
-    private final ZeppOsNotificationService notificationService = new ZeppOsNotificationService(this, fileUploadService);
+    private final ZeppOsNotificationService notificationService = new ZeppOsNotificationService(this, fileTransferService);
     private final ZeppOsAlexaService alexaService = new ZeppOsAlexaService(this);
     private final ZeppOsAppsService appsService = new ZeppOsAppsService(this);
 
     private final Map<Short, AbstractZeppOsService> mServiceMap = new LinkedHashMap<Short, AbstractZeppOsService>() {{
-        put(fileUploadService.getEndpoint(), fileUploadService);
+        put(fileTransferService.getEndpoint(), fileTransferService);
         put(configService.getEndpoint(), configService);
         put(agpsService.getEndpoint(), agpsService);
         put(wifiService.getEndpoint(), wifiService);
@@ -645,7 +641,7 @@ public abstract class Huami2021Support extends HuamiSupport {
                         this,
                         agpsHandler.getFile(),
                         agpsService,
-                        fileUploadService,
+                        fileTransferService,
                         configService
                 ).perform();
             } catch (final Exception e) {
@@ -661,7 +657,7 @@ public abstract class Huami2021Support extends HuamiSupport {
                 new ZeppOsGpxRouteUploadOperation(
                         this,
                         gpxRouteHandler.getFile(),
-                        fileUploadService
+                        fileTransferService
                 ).perform();
             } catch (final Exception e) {
                 GB.toast(getContext(), "Gpx route file cannot be installed: " + e.getMessage(), Toast.LENGTH_LONG, GB.ERROR, e);
@@ -1866,6 +1862,21 @@ public abstract class Huami2021Support extends HuamiSupport {
             default:
                 LOG.warn("Unexpected music byte {}", String.format("0x%02x", payload[0]));
         }
+    }
+
+    @Override
+    public void onFileUploadFinish(final boolean success) {
+        LOG.warn("Unexpected file upload finish: {}", success);
+    }
+
+    @Override
+    public void onFileUploadProgress(final int progress) {
+        LOG.warn("Unexpected file upload progress: {}", progress);
+    }
+
+    @Override
+    public void onFileDownloadFinish(final String url, final String filename, final byte[] data) {
+        LOG.info("File received: url={} filename={} length={}", url, filename, data.length);
     }
 
     private byte bool(final boolean b) {
