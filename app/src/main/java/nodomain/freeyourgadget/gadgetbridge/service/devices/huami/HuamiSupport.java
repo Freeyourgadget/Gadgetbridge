@@ -2293,8 +2293,8 @@ public abstract class HuamiSupport extends AbstractBTLEDeviceSupport implements 
         } else if (HuamiService.UUID_CHARACTERISTIC_3_CONFIGURATION.equals(characteristicUUID)) {
             handleConfigurationInfo(characteristic.getValue());
             return true;
-        } else if (HuamiService.UUID_CHARACTERISTIC_CHUNKEDTRANSFER_2021_READ.equals(characteristicUUID) && huami2021ChunkedDecoder != null) {
-            huami2021ChunkedDecoder.decode(characteristic.getValue());
+        } else if (HuamiService.UUID_CHARACTERISTIC_CHUNKEDTRANSFER_2021_READ.equals(characteristicUUID)) {
+            handleChunked(characteristic.getValue());
             return true;
         } else if (HuamiService.UUID_CHARACTERISTIC_RAW_SENSOR_DATA.equals(characteristicUUID)) {
             handleRawSensorData(characteristic.getValue());
@@ -2452,6 +2452,47 @@ public abstract class HuamiSupport extends AbstractBTLEDeviceSupport implements 
             }
         } else {
             LOG.warn("unknown response got from configuration request " + GB.hexdump(value, 0, -1));
+        }
+    }
+
+    private void handleChunked(final byte[] value) {
+        switch (value[0]) {
+            case 0x03:
+                if (huami2021ChunkedDecoder != null) {
+                    final boolean needsAck = huami2021ChunkedDecoder.decode(value);
+                    if (needsAck) {
+                        sendChunkedAck();
+                    }
+                } else {
+                    LOG.warn("Got chunked payload, but decoder is null");
+                }
+                return;
+            case 0x04:
+                final byte handle = value[2];
+                final byte count = value[4];
+                LOG.info("Got chunked ack, handle={}, count={}", handle, count);
+                // TODO: We should probably update the handle and count on the encoder
+                return;
+            default:
+                LOG.warn("Unhandled chunked payload of type {}", value[0]);
+        }
+    }
+
+    public void sendChunkedAck() {
+        if (characteristicChunked2021Read == null) {
+            LOG.error("Chunked read characteristic is null, can't send ack");
+            return;
+        }
+
+        final byte handle = huami2021ChunkedDecoder.getLastHandle();
+        final byte count = huami2021ChunkedDecoder.getLastCount();
+
+        try {
+            final TransactionBuilder builder = performInitialized("send chunked ack");
+            builder.write(characteristicChunked2021Read, new byte[] {0x04, 0x00, handle, 0x01, count});
+            builder.queue(getQueue());
+        } catch (final Exception e) {
+            LOG.error("Failed to send chunked ack", e);
         }
     }
 
