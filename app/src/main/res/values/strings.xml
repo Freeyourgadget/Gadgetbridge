@@ -2121,4 +2121,8 @@
     <string name="voice_service_class_title">Voice service class</string>
     <string name="voice_service_class_summary">Full service path handling voice commands</string>
     <string name="voice_service">Voice Service</string>
+    <string name="pref_app_logs_title">App logs</string>
+    <string name="pref_app_logs_summary">Enable logs from watch apps</string>
+    <string name="pref_app_logs_start_summary">Start logging from watch apps</string>
+    <string name="pref_app_logs_stop_summary">Stop logging from watch apps</string>
 </resources>

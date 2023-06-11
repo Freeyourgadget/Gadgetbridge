@@ -51,6 +51,7 @@ import nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryParser;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.AbstractHuami2021FWInstallHandler;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.services.ZeppOsAlexaService;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.services.ZeppOsContactsService;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.services.ZeppOsLogsService;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.services.ZeppOsShortcutCardsService;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.services.ZeppOsConfigService;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.HuamiLanguageType;
@@ -377,6 +378,9 @@ public abstract class Huami2021Coordinator extends HuamiCoordinator {
         // Developer
         //
         settings.add(R.xml.devicesettings_header_developer);
+        if (ZeppOsLogsService.isSupported(getPrefs(device))) {
+            settings.add(R.xml.devicesettings_app_logs_start_stop);
+        }
         if (supportsAlexa(device)) {
             settings.add(R.xml.devicesettings_huami2021_alexa);
         }

@@ -362,6 +362,8 @@ public class Huami2021SettingsCustomizer extends HuamiSettingsCustomizer {
         // Notify preference changed on button click, so we can react to them
         final List<Preference> wifiFtpButtons = Arrays.asList(
                 handler.findPreference(DeviceSettingsPreferenceConst.PREF_BLUETOOTH_CALLS_PAIR),
+                handler.findPreference(DeviceSettingsPreferenceConst.PREF_APP_LOGS_START),
+                handler.findPreference(DeviceSettingsPreferenceConst.PREF_APP_LOGS_STOP),
                 handler.findPreference(DeviceSettingsPreferenceConst.WIFI_HOTSPOT_START),
                 handler.findPreference(DeviceSettingsPreferenceConst.WIFI_HOTSPOT_STOP),
                 handler.findPreference(DeviceSettingsPreferenceConst.FTP_SERVER_START),

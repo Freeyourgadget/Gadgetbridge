@@ -112,6 +112,7 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.service
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.services.ZeppOsAppsService;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.services.ZeppOsCalendarService;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.services.ZeppOsCannedMessagesService;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.services.ZeppOsLogsService;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.services.ZeppOsNotificationService;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.services.ZeppOsShortcutCardsService;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.services.ZeppOsConfigService;
@@ -153,6 +154,7 @@ public abstract class Huami2021Support extends HuamiSupport implements ZeppOsFil
     private final ZeppOsNotificationService notificationService = new ZeppOsNotificationService(this, fileTransferService);
     private final ZeppOsAlexaService alexaService = new ZeppOsAlexaService(this);
     private final ZeppOsAppsService appsService = new ZeppOsAppsService(this);
+    private final ZeppOsLogsService logsService = new ZeppOsLogsService(this);
 
     private final Map<Short, AbstractZeppOsService> mServiceMap = new LinkedHashMap<Short, AbstractZeppOsService>() {{
         put(fileTransferService.getEndpoint(), fileTransferService);
@@ -171,6 +173,7 @@ public abstract class Huami2021Support extends HuamiSupport implements ZeppOsFil
         put(notificationService.getEndpoint(), notificationService);
         put(alexaService.getEndpoint(), alexaService);
         put(appsService.getEndpoint(), appsService);
+        put(logsService.getEndpoint(), logsService);
     }};
 
     public Huami2021Support() {

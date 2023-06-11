@@ -248,6 +248,9 @@ public class DeviceSettingsPreferenceConst {
     public static final String WIFI_HOTSPOT_STOP = "wifi_hotspot_stop";
     public static final String WIFI_HOTSPOT_STATUS = "wifi_hotspot_status";
 
+    public static final String PREF_APP_LOGS_START = "pref_app_logs_start";
+    public static final String PREF_APP_LOGS_STOP = "pref_app_logs_stop";
+
     public static final String MORNING_UPDATES_ENABLED = "morning_updates_enabled";
     public static final String MORNING_UPDATES_CATEGORIES_SORTABLE = "morning_updates_categories";
 
