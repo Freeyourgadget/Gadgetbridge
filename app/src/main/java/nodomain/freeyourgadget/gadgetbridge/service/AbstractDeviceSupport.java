@@ -379,6 +379,11 @@ public abstract class AbstractDeviceSupport implements DeviceSupport {
     }
 
     private void handleGBDeviceEvent(GBDeviceEventScreenshot screenshot) {
+        if (screenshot.getData() == null) {
+            LOG.warn("Screnshot data is null");
+            return;
+        }
+
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd-hhmmss", Locale.US);
         String filename = "screenshot_" + dateFormat.format(new Date()) + ".bmp";
 

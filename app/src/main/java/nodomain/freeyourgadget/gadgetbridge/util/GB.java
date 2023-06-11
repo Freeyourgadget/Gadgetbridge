@@ -347,44 +347,12 @@ public class GB {
     }
 
     public static String writeScreenshot(GBDeviceEventScreenshot screenshot, String filename) throws IOException {
+        LOG.info("Will write screenshot as {}", filename);
 
-        LOG.info("Will write screenshot: " + screenshot.width + "x" + screenshot.height + "x" + screenshot.bpp + "bpp");
-        final int FILE_HEADER_SIZE = 14;
-        final int INFO_HEADER_SIZE = 40;
-
-        File dir = FileUtils.getExternalFilesDir();
-        File outputFile = new File(dir, filename);
+        final File dir = FileUtils.getExternalFilesDir();
+        final File outputFile = new File(dir, filename);
         try (FileOutputStream fos = new FileOutputStream(outputFile)) {
-            ByteBuffer headerbuf = ByteBuffer.allocate(FILE_HEADER_SIZE + INFO_HEADER_SIZE + screenshot.clut.length);
-            headerbuf.order(ByteOrder.LITTLE_ENDIAN);
-
-            // file header
-            headerbuf.put((byte) 'B');
-            headerbuf.put((byte) 'M');
-            headerbuf.putInt(0); // size in bytes (uncompressed = 0)
-            headerbuf.putInt(0); // reserved
-            headerbuf.putInt(FILE_HEADER_SIZE + INFO_HEADER_SIZE + screenshot.clut.length);
-
-            // info header
-            headerbuf.putInt(INFO_HEADER_SIZE);
-            headerbuf.putInt(screenshot.width);
-            headerbuf.putInt(-screenshot.height);
-            headerbuf.putShort((short) 1); // planes
-            headerbuf.putShort((short) screenshot.bpp);
-            headerbuf.putInt(0); // compression
-            headerbuf.putInt(0); // length of pixeldata in bytes (uncompressed=0)
-            headerbuf.putInt(0); // pixels per meter (x)
-            headerbuf.putInt(0); // pixels per meter (y)
-            headerbuf.putInt(screenshot.clut.length / 4); // number of colors in CLUT
-            headerbuf.putInt(0); // numbers of used colors
-            headerbuf.put(screenshot.clut);
-            fos.write(headerbuf.array());
-            int rowbytes = (screenshot.width * screenshot.bpp) / 8;
-            byte[] pad = new byte[rowbytes % 4];
-            for (int i = 0; i < screenshot.height; i++) {
-                fos.write(screenshot.data, rowbytes * i, rowbytes);
-                fos.write(pad);
-            }
+            fos.write(screenshot.getData());
         }
         return outputFile.getAbsolutePath();
     }
