@@ -173,11 +173,16 @@ public class ZeppOsFileTransferService extends AbstractZeppOsService {
     private void handleFileTransferData(final byte[] payload) {
         final ByteBuffer buf = ByteBuffer.wrap(payload).order(ByteOrder.LITTLE_ENDIAN);
         buf.get(); // Discard first byte
-        final byte secondByte = buf.get();
-        final boolean firstPacket = (secondByte == 1);
-        final boolean lastPacket = (secondByte == 2);
+        final byte flags = buf.get();
+        final boolean firstPacket = (flags == 1);
+        final boolean lastPacket = (flags == 2);
         final byte session = buf.get();
         final byte index = buf.get();
+
+        if ((flags & 0x01) != 0) {
+            buf.getInt(); // ?
+        }
+
         final short size = buf.getShort();
 
         final FileTransferRequest request = mSessionRequests.get(session);
