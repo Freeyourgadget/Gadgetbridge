@@ -114,6 +114,7 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.service
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.services.ZeppOsCannedMessagesService;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.services.ZeppOsLogsService;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.services.ZeppOsNotificationService;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.services.ZeppOsServicesService;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.services.ZeppOsShortcutCardsService;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.services.ZeppOsConfigService;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.services.ZeppOsContactsService;
@@ -138,6 +139,7 @@ public abstract class Huami2021Support extends HuamiSupport implements ZeppOsFil
     private boolean heartRateRealtimeStarted;
 
     // Services
+    private final ZeppOsServicesService servicesService = new ZeppOsServicesService(this);
     private final ZeppOsFileTransferService fileTransferService = new ZeppOsFileTransferService(this);
     private final ZeppOsConfigService configService = new ZeppOsConfigService(this);
     private final ZeppOsAgpsService agpsService = new ZeppOsAgpsService(this);
@@ -157,6 +159,7 @@ public abstract class Huami2021Support extends HuamiSupport implements ZeppOsFil
     private final ZeppOsLogsService logsService = new ZeppOsLogsService(this);
 
     private final Map<Short, AbstractZeppOsService> mServiceMap = new LinkedHashMap<Short, AbstractZeppOsService>() {{
+        put(servicesService.getEndpoint(), servicesService);
         put(fileTransferService.getEndpoint(), fileTransferService);
         put(configService.getEndpoint(), configService);
         put(agpsService.getEndpoint(), agpsService);
