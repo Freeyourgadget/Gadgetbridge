@@ -2228,4 +2228,8 @@
     <string name="voice_service_class_title">Kelas layanan suara</string>
     <string name="voice_service">Layanan Suara</string>
     <string name="voice_service_class_summary">Jalur layanan lengkap penanganan perintah suara</string>
+    <string name="pref_app_logs_summary">Aktifkan catatan dari aplikasi jam tangan</string>
+    <string name="pref_app_logs_title">Catatan aplikasi</string>
+    <string name="pref_app_logs_start_summary">Mulai mencatat dari aplikasi jam tangan</string>
+    <string name="pref_app_logs_stop_summary">Berhenti mencatat dari aplikasi jam tangan</string>
 </resources>
