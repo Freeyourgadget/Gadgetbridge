@@ -2241,4 +2241,8 @@
     <string name="voice_service_class_summary">Ruta completa del servicio de gestión de comandos de voz</string>
     <string name="voice_service">Servicio de voz</string>
     <string name="voice_service_class_title">Clases de servicio de voz</string>
+    <string name="pref_app_logs_stop_summary">Detener el registro de las aplicaciones del reloj</string>
+    <string name="pref_app_logs_summary">Activar los registros de las aplicaciones del reloj</string>
+    <string name="pref_app_logs_title">Registros de aplicaciones</string>
+    <string name="pref_app_logs_start_summary">Iniciar el registro de las aplicaciones del reloj</string>
 </resources>
