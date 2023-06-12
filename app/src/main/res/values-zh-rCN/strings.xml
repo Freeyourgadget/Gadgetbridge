@@ -2239,4 +2239,8 @@
     <string name="voice_service_package_summary">包含处理语音命令服务的应用程序</string>
     <string name="voice_service_class_title">语音服务类别</string>
     <string name="voice_service_class_summary">完整的服务路径处理语音命令</string>
+    <string name="pref_app_logs_title">应用日志</string>
+    <string name="pref_app_logs_summary">在手表应用程序里启用日志</string>
+    <string name="pref_app_logs_start_summary">在手表应用里开始日志</string>
+    <string name="pref_app_logs_stop_summary">在手表应用里停止日志</string>
 </resources>
