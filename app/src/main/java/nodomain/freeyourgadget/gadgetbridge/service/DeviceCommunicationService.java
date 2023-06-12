@@ -890,7 +890,7 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
                 NavigationInfoSpec navigationInfoSpec = new NavigationInfoSpec();
                 navigationInfoSpec.instruction = intent.getStringExtra(EXTRA_NAVIGATION_INSTRUCTION);
                 navigationInfoSpec.nextAction = intent.getIntExtra(EXTRA_NAVIGATION_NEXT_ACTION,0);
-                navigationInfoSpec.distanceToTurn = intent.getIntExtra(EXTRA_NAVIGATION_DISTANCE_TO_TURN,0);
+                navigationInfoSpec.distanceToTurn = intent.getStringExtra(EXTRA_NAVIGATION_DISTANCE_TO_TURN);
                 navigationInfoSpec.ETA = intent.getStringExtra(EXTRA_NAVIGATION_ETA);
                 deviceSupport.onSetNavigationInfo(navigationInfoSpec);
                 break;

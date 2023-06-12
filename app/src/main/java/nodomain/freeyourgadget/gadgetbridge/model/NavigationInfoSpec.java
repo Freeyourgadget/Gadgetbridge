@@ -37,7 +37,7 @@ public class NavigationInfoSpec {
 
     // ETA? Total Distance?
     public String instruction;
-    public int distanceToTurn; ///< Distance to turn (in metres?)
+    public String distanceToTurn; ///< Distance to turn (as a string, eg "100m")
     public int nextAction; ///< One of the ACTION_ constants
     public String ETA; ///< Estimated time of Arrival
 }

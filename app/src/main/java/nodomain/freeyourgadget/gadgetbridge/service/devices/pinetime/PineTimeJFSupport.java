@@ -326,9 +326,11 @@ public class PineTimeJFSupport extends AbstractBTLEDeviceSupport implements DfuL
         if (navigationInfoSpec.instruction == null) {
             navigationInfoSpec.instruction = "";
         }
-
+        if (navigationInfoSpec.distanceToTurn == null) {
+            navigationInfoSpec.distanceToTurn = "";
+        }
         safeWriteToCharacteristic(builder, PineTimeJFConstants.UUID_CHARACTERISTICS_NAVIGATION_NARRATIVE, navigationInfoSpec.instruction.getBytes(StandardCharsets.UTF_8));
-        safeWriteToCharacteristic(builder, PineTimeJFConstants.UUID_CHARACTERISTICS_NAVIGATION_MAN_DISTANCE, (navigationInfoSpec.distanceToTurn + "m").getBytes(StandardCharsets.UTF_8));
+        safeWriteToCharacteristic(builder, PineTimeJFConstants.UUID_CHARACTERISTICS_NAVIGATION_MAN_DISTANCE, navigationInfoSpec.distanceToTurn.getBytes(StandardCharsets.UTF_8));
         String iconname;
         switch (navigationInfoSpec.nextAction) {
             case NavigationInfoSpec.ACTION_CONTINUE:

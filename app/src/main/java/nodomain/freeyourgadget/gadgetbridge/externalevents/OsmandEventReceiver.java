@@ -61,7 +61,7 @@ public class OsmandEventReceiver {
         @Override
         public void updateNavigationInfo(ADirectionInfo directionInfo) {
             navigationInfoSpec.nextAction = directionInfo.getTurnType();
-            navigationInfoSpec.distanceToTurn = directionInfo.getDistanceTo();
+            navigationInfoSpec.distanceToTurn = directionInfo.getDistanceTo()+"m";
 
             if (shouldSendNavigation()) {
                 GBApplication.deviceService().onSetNavigationInfo(navigationInfoSpec);

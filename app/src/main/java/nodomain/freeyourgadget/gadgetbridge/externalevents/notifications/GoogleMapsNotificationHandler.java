@@ -958,21 +958,8 @@ public class GoogleMapsNotificationHandler {
             if (matchedIcon>=0)
                 navInfo.nextAction = matchedIcon;
             navInfo.instruction = instruction;
-            if (distance != null) {
-                float distanceMultiplier = 1;
-                String distanceUnit = distance.replaceAll("[\\d.\\s]", "").toLowerCase();
-                if (distanceUnit.equals("m")) distanceMultiplier = 1;
-                else if (distanceUnit.equals("mi")) distanceMultiplier = 1609.34f;
-                else if (distanceUnit.equals("yd")) distanceMultiplier = 0.9144f;
-                else if (distanceUnit.equals("ft")) distanceMultiplier = 0.3048f;
-                else if (distanceUnit.equals("km")) distanceMultiplier = 1000;
-                else LOG.info("Unknown distance unit '"+distanceUnit+"'");
-                try {
-                    navInfo.distanceToTurn = Math.round(distanceMultiplier * Float.parseFloat(distance.replaceAll("[^\\d.]", "")));
-                } catch (NumberFormatException e) {
-                    LOG.info("Couldn't parse distance");
-                }
-            }
+            if (distance != null)
+                navInfo.distanceToTurn = distance;
             if (navLines[2].contains("ETA"))
               navInfo.ETA = navLines[2].replace("ETA","").trim();
             GBApplication.deviceService().onSetNavigationInfo(navInfo);
