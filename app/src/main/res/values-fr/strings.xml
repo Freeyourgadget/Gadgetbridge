@@ -2243,4 +2243,8 @@ Temps de sommeil préféré en heures</string>
     <string name="voice_service_class_title">Classe des services audio</string>
     <string name="voice_service_class_summary">Chemin d\'accès au service qui gère les commandes vocales</string>
     <string name="voice_service">Service vocal</string>
+    <string name="pref_app_logs_summary">Activer les logs des apps de la montre</string>
+    <string name="pref_app_logs_start_summary">Activer les logs pour les apps de la montre</string>
+    <string name="pref_app_logs_title">Logs de l\'app</string>
+    <string name="pref_app_logs_stop_summary">Arrêter les logs pour les apps de la montre</string>
 </resources>
