@@ -57,6 +57,7 @@ public class FetchStressAutoOperation extends AbstractRepeatingFetchOperation {
 
         for (byte b : bytes) {
             if (b == -1) {
+                timestamp.add(Calendar.MINUTE, 1);
                 continue;
             }
 
