@@ -77,7 +77,11 @@ public abstract class AbstractMiBandFWInstallHandler implements InstallHandler {
             return;
         }
 
-        if (!isSupportedDeviceType(device) || !device.isInitialized()) {
+        if (!isSupportedDeviceType(device)) {
+            installActivity.setInfoText(mContext.getString(R.string.fwapp_install_device_not_supported));
+            installActivity.setInstallEnabled(false);
+            return;
+        } else if (!device.isInitialized()) {
             installActivity.setInfoText(mContext.getString(R.string.fwapp_install_device_not_ready));
             installActivity.setInstallEnabled(false);
             return;

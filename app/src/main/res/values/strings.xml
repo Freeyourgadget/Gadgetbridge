@@ -785,6 +785,7 @@
     <string name="devicestatus_upload_failed">Upload has failed</string>
     <string name="firmware_update_progress">Upload is in progress\n%1d%% at %.2fkbps (average %.2fkbps)\nPart %1d of %1d</string>
     <string name="updating_firmware">Flashing firmware…</string>
+    <string name="fwapp_install_device_not_supported">File cannot be installed, device not supported.</string>
     <string name="fwapp_install_device_not_ready">File cannot be installed, device not ready.</string>
     <string name="installhandler_firmware_name">%1$s: %2$s %3$s</string>
     <string name="miband_fwinstaller_compatible_version">Compatible version</string>
