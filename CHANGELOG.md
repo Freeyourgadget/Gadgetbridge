@@ -1,6 +1,9 @@
 ### Changelog
 
 #### Next Version (WIP)
+
+* Amazfit GTR 3/GTS 3/GTR 3 Pro: Enable AGPS Updates
+* Amazfit T-Rex 2: Enable AGPS updates and gpx route upload
 * Bangle.js: Add message size limitation to Calendar and Messages
 * Bangle.js: Send more weather data to watch
 * Bangle.js: Allow an activity sample to have a timestamp
@@ -18,14 +21,19 @@
 * Mi Band 6: Allow making device discoverable via Bluetooth when connected
 * Mi Band 7: Add preference to display call contact information
 * Zepp OS: Add gpx route file upload
+* Zepp OS: Add watch app logs developer option
 * Zepp OS: Display watchface and app preview on install
 * Zepp OS: Fix update operations on Zepp OS 2.1+
 * Zepp OS: Manage contacts on watch
 * Zepp OS: Start new GPX segments on pause/resume
 * Zepp OS: Support flashing zab files
+* App Manager: Fix cached apps sorting
+* App Manager: Hide drag handle if app reorder is not supported
+* App Manager: Add confirmation before deleting app
 * Add menus to share GPX, raw summary, raw details
 * Debug Activity: Allow pairing current device as companion
 * Fix some null pointer exception crashes
+* Intent API: Add command to set device mac address
 * Intent API: Add dataTypes parameter for activity sync
 * Intent API: Add debug actions for notifications and incoming calls
 * OsmAnd: Add support for navigation instructions
