@@ -2228,4 +2228,5 @@
     <string name="pref_app_logs_stop_summary">توقف عن التسجيل من تطبيقات الساعة</string>
     <string name="pref_app_logs_title">سجل التطبيق</string>
     <string name="pref_app_logs_start_summary">بدء تسجيل السجل من تطبيقات الساعة</string>
+    <string name="fwapp_install_device_not_supported">لا يمكن تثبيت الملف ، الجهاز غير مدعوم.</string>
 </resources>
