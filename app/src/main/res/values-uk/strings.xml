@@ -2242,4 +2242,14 @@
     <string name="pref_summary_navigation_forward">Пересилати інструкції з навігаційних застосунків на годинник</string>
     <string name="intent_api_allow_debug_commands_title">Дозволити команди налагодження</string>
     <string name="intent_api_allow_debug_commands_summary">Дозволити запуск команд меню налагодження через Intent API</string>
+    <string name="voice_service_class_title">Клас голосових послуг</string>
+    <string name="voice_service_class_summary">Повний шлях до служби обробки голосових команд</string>
+    <string name="voice_service_package_title">Пакет голосових послуг</string>
+    <string name="voice_service_package_summary">Застосунок, що містить службу обробки голосових команд</string>
+    <string name="voice_service">Голосова служба</string>
+    <string name="pref_app_logs_summary">Увімкнути журнали із застосунків годинника</string>
+    <string name="pref_app_logs_start_summary">Розпочати журналювання із застосунків годинника</string>
+    <string name="pref_app_logs_stop_summary">Припинити запис журналу із застосунків годинника</string>
+    <string name="pref_app_logs_title">Журнали застосунків</string>
+    <string name="fwapp_install_device_not_supported">Неможливо встановити файл, пристрій не підтримується.</string>
 </resources>
