@@ -232,7 +232,7 @@ public final class BtBRQueue {
     protected void setDeviceConnectionState(GBDevice.State newState) {
         LOG.debug("New device connection state: " + newState);
         mGbDevice.setState(newState);
-        mGbDevice.sendDeviceUpdateIntent(mContext, GBDevice.DeviceUpdateSubject.DEVICE_STATE);
+        mGbDevice.sendDeviceUpdateIntent(mContext, GBDevice.DeviceUpdateSubject.CONNECTION_STATE);
     }
 
     public void dispose() {
