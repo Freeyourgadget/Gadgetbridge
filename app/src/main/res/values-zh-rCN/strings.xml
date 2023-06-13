@@ -2243,4 +2243,5 @@
     <string name="pref_app_logs_summary">在手表应用程序里启用日志</string>
     <string name="pref_app_logs_start_summary">在手表应用里开始日志</string>
     <string name="pref_app_logs_stop_summary">在手表应用里停止日志</string>
+    <string name="fwapp_install_device_not_supported">无法安装文件，设备不被支持。</string>
 </resources>
