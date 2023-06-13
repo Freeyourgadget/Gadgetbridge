@@ -91,7 +91,7 @@ public class TLW64Coordinator extends AbstractBLEDeviceCoordinator {
     }
 
     @Override
-    public int getAlarmSlotCount() {
+    public int getAlarmSlotCount(GBDevice device) {
         return 3;
     }
 

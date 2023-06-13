@@ -843,7 +843,7 @@ public abstract class HuamiSupport extends AbstractBTLEDeviceSupport implements 
     @Override
     public void onSetAlarms(ArrayList<? extends Alarm> alarms) {
         final DeviceCoordinator coordinator = DeviceHelper.getInstance().getCoordinator(gbDevice);
-        int maxAlarms = coordinator.getAlarmSlotCount();
+        int maxAlarms = coordinator.getAlarmSlotCount(gbDevice);
 
         try {
             TransactionBuilder builder = performInitialized("Set alarm");
@@ -2674,7 +2674,7 @@ public abstract class HuamiSupport extends AbstractBTLEDeviceSupport implements 
     private HuamiSupport sendCalendarEventsAsAlarms(TransactionBuilder builder) {
         DeviceCoordinator coordinator = DeviceHelper.getInstance().getCoordinator(gbDevice);
         Prefs prefs = new Prefs(GBApplication.getDeviceSpecificSharedPrefs(gbDevice.getAddress()));
-        int maxAlarms = coordinator.getAlarmSlotCount();
+        int maxAlarms = coordinator.getAlarmSlotCount(gbDevice);
         int availableSlots = Math.min(prefs.getInt(PREF_RESERVER_ALARMS_CALENDAR, 0), maxAlarms);
 
         if (availableSlots <= 0) {

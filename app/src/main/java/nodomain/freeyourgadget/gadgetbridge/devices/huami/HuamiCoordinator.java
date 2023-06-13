@@ -116,7 +116,7 @@ public abstract class HuamiCoordinator extends AbstractBLEDeviceCoordinator {
     }
 
     @Override
-    public int getAlarmSlotCount() {
+    public int getAlarmSlotCount(GBDevice device) {
         return 10;
     }
 

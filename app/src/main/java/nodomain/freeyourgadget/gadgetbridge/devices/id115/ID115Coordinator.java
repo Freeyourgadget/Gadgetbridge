@@ -106,7 +106,7 @@ public class ID115Coordinator extends AbstractBLEDeviceCoordinator {
     }
 
     @Override
-    public int getAlarmSlotCount() {
+    public int getAlarmSlotCount(GBDevice device) {
         return 0;
     }
 

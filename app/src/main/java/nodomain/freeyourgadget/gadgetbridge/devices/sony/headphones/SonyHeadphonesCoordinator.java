@@ -91,7 +91,7 @@ public abstract class SonyHeadphonesCoordinator extends AbstractBLClassicDeviceC
     }
 
     @Override
-    public int getAlarmSlotCount() {
+    public int getAlarmSlotCount(GBDevice device) {
         return 0;
     }
 

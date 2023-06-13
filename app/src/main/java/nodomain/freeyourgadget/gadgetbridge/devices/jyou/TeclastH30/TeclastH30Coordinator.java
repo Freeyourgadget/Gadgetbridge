@@ -142,7 +142,7 @@ public class TeclastH30Coordinator extends AbstractBLEDeviceCoordinator {
     }
 
     @Override
-    public int getAlarmSlotCount() {
+    public int getAlarmSlotCount(GBDevice device) {
         return 3;
     }
 

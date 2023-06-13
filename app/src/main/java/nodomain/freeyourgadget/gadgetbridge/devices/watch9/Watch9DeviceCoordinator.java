@@ -114,7 +114,7 @@ public class Watch9DeviceCoordinator extends AbstractBLEDeviceCoordinator {
     }
 
     @Override
-    public int getAlarmSlotCount() {
+    public int getAlarmSlotCount(GBDevice device) {
         return 3; // FIXME - check the real value
     }
 

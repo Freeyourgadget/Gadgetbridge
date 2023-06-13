@@ -149,7 +149,7 @@ public class QHybridCoordinator extends AbstractBLEDeviceCoordinator {
     }
 
     @Override
-    public int getAlarmSlotCount() {
+    public int getAlarmSlotCount(GBDevice device) {
         return this.supportsAlarmConfiguration() ? 5 : 0;
     }
 

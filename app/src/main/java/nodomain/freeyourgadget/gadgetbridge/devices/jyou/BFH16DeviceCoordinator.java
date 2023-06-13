@@ -122,7 +122,7 @@ public class BFH16DeviceCoordinator extends AbstractBLEDeviceCoordinator
     //Supported ________________________________________________________
 
     @Override
-    public int getAlarmSlotCount()
+    public int getAlarmSlotCount(GBDevice device)
     {
         return 3;
     }

@@ -236,7 +236,7 @@ public class MakibesHR3Coordinator extends AbstractBLEDeviceCoordinator {
     }
 
     @Override
-    public int getAlarmSlotCount() {
+    public int getAlarmSlotCount(GBDevice device) {
         return 8;
     }
 

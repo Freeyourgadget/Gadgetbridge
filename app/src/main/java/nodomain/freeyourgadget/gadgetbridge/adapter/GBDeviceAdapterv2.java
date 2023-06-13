@@ -456,7 +456,7 @@ public class GBDeviceAdapterv2 extends ListAdapter<GBDevice, GBDeviceAdapterv2.V
         );
 
         //set alarms
-        holder.setAlarmsView.setVisibility(coordinator.getAlarmSlotCount() > 0 ? View.VISIBLE : View.GONE);
+        holder.setAlarmsView.setVisibility(coordinator.getAlarmSlotCount(device) > 0 ? View.VISIBLE : View.GONE);
         holder.setAlarmsView.setOnClickListener(new View.OnClickListener()
 
                                                 {

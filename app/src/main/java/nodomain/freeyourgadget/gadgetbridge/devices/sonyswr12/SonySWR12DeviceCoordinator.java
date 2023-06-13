@@ -96,7 +96,7 @@ public class SonySWR12DeviceCoordinator extends AbstractBLEDeviceCoordinator {
     }
 
     @Override
-    public int getAlarmSlotCount() {
+    public int getAlarmSlotCount(GBDevice device) {
         return 5;
     }
 

@@ -126,7 +126,7 @@ public class SleepAlarmWidgetConfigurationActivity extends Activity {
                 Device dbDevice = DBHelper.findDevice(device, daoSession);
                 int icon = device.isInitialized() ? device.getType().getIcon() : device.getType().getDisabledIcon();
                 if (dbDevice != null && coordinator != null
-                        && (coordinator.getAlarmSlotCount() > 0)
+                        && (coordinator.getAlarmSlotCount(device) > 0)
                         && !newMap.containsKey(device.getAliasOrName())) {
                     newMap.put(device.getAliasOrName(), new Pair(device.getAddress(), icon));
                 }

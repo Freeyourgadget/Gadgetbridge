@@ -596,7 +596,7 @@ public class DBHelper {
         Prefs prefs = new Prefs(GBApplication.getDeviceSpecificSharedPrefs(gbDevice.getAddress()));
 
         int reservedSlots = prefs.getInt(DeviceSettingsPreferenceConst.PREF_RESERVER_ALARMS_CALENDAR, 0);
-        int alarmSlots = coordinator.getAlarmSlotCount();
+        int alarmSlots = coordinator.getAlarmSlotCount(gbDevice);
 
         try (DBHandler db = GBApplication.acquireDB()) {
             DaoSession daoSession = db.getDaoSession();

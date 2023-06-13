@@ -67,7 +67,7 @@ public class Ear1Coordinator extends AbstractBLClassicDeviceCoordinator {
     }
 
     @Override
-    public int getAlarmSlotCount() {
+    public int getAlarmSlotCount(GBDevice device) {
         return 0;
     }
 
