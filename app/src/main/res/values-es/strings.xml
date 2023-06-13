@@ -2245,4 +2245,5 @@
     <string name="pref_app_logs_summary">Activar los registros de las aplicaciones del reloj</string>
     <string name="pref_app_logs_title">Registros de aplicaciones</string>
     <string name="pref_app_logs_start_summary">Iniciar el registro de las aplicaciones del reloj</string>
+    <string name="fwapp_install_device_not_supported">No se puede instalar el archivo, el dispositivo no es compatible.</string>
 </resources>
