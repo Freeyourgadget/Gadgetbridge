@@ -39,6 +39,7 @@
 * OsmAnd: Add support for navigation instructions
 * Scrape navigation instructions from Google Maps notifications
 * Fix transliteration returning non-ASCII characters
+* Enable "allow high MTU" setting by default
 
 #### 0.74.0
 * Initial support for Amazfit GTR 3 Pro
