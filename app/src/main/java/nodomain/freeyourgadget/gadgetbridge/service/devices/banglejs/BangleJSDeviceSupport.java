@@ -317,7 +317,7 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
         builder.notify(rxCharacteristic, true);
 
         Prefs devicePrefs = new Prefs(GBApplication.getDeviceSpecificSharedPrefs(gbDevice.getAddress()));
-        allowHighMTU = devicePrefs.getBoolean(PREF_ALLOW_HIGH_MTU, false);
+        allowHighMTU = devicePrefs.getBoolean(PREF_ALLOW_HIGH_MTU, true);
 
         uartTx(builder, " \u0003"); // clear active line
 

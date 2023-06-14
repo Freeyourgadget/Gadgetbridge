@@ -4142,7 +4142,7 @@ public abstract class HuamiSupport extends AbstractBTLEDeviceSupport implements 
 
     protected void setMtu(final int mtu) {
         final Prefs prefs = getDevicePrefs();
-        if (!prefs.getBoolean(PREF_ALLOW_HIGH_MTU, false)) {
+        if (!prefs.getBoolean(PREF_ALLOW_HIGH_MTU, true)) {
             LOG.warn("High MTU is not allowed, ignoring");
             return;
         }
