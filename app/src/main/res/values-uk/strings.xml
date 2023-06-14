@@ -1589,10 +1589,10 @@
     <string name="watchface_setting_light_up_on_notification">Засвітлювати за нового сповіщення</string>
     <string name="menuitem_email">Е-пошта</string>
     <string name="application_name_banglejs_main">Bangle.js Gadgetbridge</string>
-    <string name="about_description_banglejs_main">Супутній застосунок Android для Bangle.js побудований на основі проєкту Gadgetbridge з додатковим доступом до Інтернету.
+    <string name="about_description_banglejs_main">Android-застосунок для Bangle.js побудований на основі проєкту Gadgetbridge з додатковим доступом до інтернету.
 \n
 \nВідповідно до правил Google Play Маркету, нам заборонено розміщувати посилання на внески в самому застосунку, але якщо він вам подобається, розгляньте можливість допомогти через домашню сторінку Gadgetbridge нижче.</string>
-    <string name="gadgetbridge_running_banglejs_main">Bangle.js працює</string>
+    <string name="gadgetbridge_running_banglejs_main">Bangle.js запущено</string>
     <string name="application_name_banglejs_nopebble">Bangle.js Gadgetbridge</string>
     <string name="title_activity_controlcenter_banglejs_nopebble">Bangle.js Gadgetbridge</string>
     <string name="gadgetbridge_running_banglejs_nopebble">Bangle.js працює</string>
@@ -1819,11 +1819,11 @@
     <string name="controlcenter_get_heartrate_measurement">Виміряти пульс</string>
     <string name="pref_write_logfiles_not_available">Помилка ініціалізації журналу файлів, запис файлів журналу наразі недоступний. Перезапустіть застосунок, щоб знову спробувати ініціалізувати файли журналу.</string>
     <string name="devicetype_binary_sensor">Бінарний датчик</string>
-    <string name="gadgetbridge_running_banglejs_nightly">Nightly Bangle.js працює</string>
+    <string name="gadgetbridge_running_banglejs_nightly">Nightly Bangle.js запущено</string>
     <string name="application_name_banglejs_nightly">Bangle.js Gadgetbridge (Nightly)</string>
     <string name="title_activity_controlcenter_banglejs_nightly">Bangle.js Gadgetbridge (Nightly)</string>
     <string name="about_activity_title_banglejs_nightly">Про Bangle.js Gadgetbridge (Nightly)</string>
-    <string name="about_description_banglejs_nightly">Супутній застосунок Android для Bangle.js побудований на основі проєкту Gadgetbridge з додатковим доступом до Інтернету.
+    <string name="about_description_banglejs_nightly">Android-застосунок для Bangle.js побудований на основі проєкту Gadgetbridge з додатковим доступом до інтернету.
 \n
 \nВідповідно до правил Google Play Маркету, нам заборонено розміщувати посилання на внески в самому застосунку, але якщо він вам подобається, розгляньте можливість допомогти через домашню сторінку Gadgetbridge нижче.</string>
     <string name="prefs_hourly_chime">Дзвін щогодини</string>
