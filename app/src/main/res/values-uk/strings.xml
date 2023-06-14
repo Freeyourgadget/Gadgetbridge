@@ -2252,4 +2252,6 @@
     <string name="pref_app_logs_stop_summary">Припинити запис журналу із застосунків годинника</string>
     <string name="pref_app_logs_title">Журнали застосунків</string>
     <string name="fwapp_install_device_not_supported">Неможливо встановити файл, пристрій не підтримується.</string>
+    <string name="screenshot_taken">Знімок екрана зроблено</string>
+    <string name="share_screenshot">Поділитися знімком екрана</string>
 </resources>
