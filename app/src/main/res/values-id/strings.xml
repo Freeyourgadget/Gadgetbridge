@@ -2232,4 +2232,5 @@
     <string name="pref_app_logs_title">Catatan aplikasi</string>
     <string name="pref_app_logs_start_summary">Mulai mencatat dari aplikasi jam tangan</string>
     <string name="pref_app_logs_stop_summary">Berhenti mencatat dari aplikasi jam tangan</string>
+    <string name="fwapp_install_device_not_supported">Berkas tidak dapat dipasang, perangkat tidak didukung.</string>
 </resources>
