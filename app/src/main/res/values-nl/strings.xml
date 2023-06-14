@@ -2243,4 +2243,5 @@
     <string name="pref_app_logs_start_summary">Loggen vanuit horloge-apps starten</string>
     <string name="pref_app_logs_title">App-logboeken</string>
     <string name="pref_app_logs_stop_summary">Loggen vanuit horloge-apps stoppen</string>
+    <string name="fwapp_install_device_not_supported">Bestand kan niet worden geïnstalleerd, apparaat wordt niet ondersteund.</string>
 </resources>
