@@ -163,7 +163,9 @@ public class GBDeviceAdapterv2 extends ListAdapter<GBDevice, GBDeviceAdapterv2.V
 
         for (final Map.Entry<String, List<GBDevice>> folder : devicesPerFolder.entrySet()) {
             enrichedList.add(new GBDeviceFolder(folder.getKey()));
-            enrichedList.addAll(folder.getValue());
+            if (folder.getKey().equals(expandedFolderName)) {
+                enrichedList.addAll(folder.getValue());
+            }
         }
 
         return enrichedList;
@@ -213,6 +215,7 @@ public class GBDeviceAdapterv2 extends ListAdapter<GBDevice, GBDeviceAdapterv2.V
                 }else {
                     expandedFolderName = folder.getName();
                 }
+                rebuildFolders();
                 notifyDataSetChanged();
             }
         });
