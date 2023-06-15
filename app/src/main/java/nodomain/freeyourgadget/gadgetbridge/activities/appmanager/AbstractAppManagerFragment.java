@@ -41,6 +41,7 @@ import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import org.apache.commons.lang3.StringUtils;
 import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -134,6 +135,8 @@ public abstract class AbstractAppManagerFragment extends Fragment {
     }
 
     private void refreshListFromDevice(Intent intent) {
+        final Map<UUID, GBDeviceApp> cachedAppsMap = getCachedAppsMap(null);
+
         appList.clear();
         int appCount = intent.getIntExtra("app_count", 0);
         for (int i = 0; i < appCount; i++) {
@@ -143,6 +146,22 @@ public abstract class AbstractAppManagerFragment extends Fragment {
             UUID uuid = UUID.fromString(intent.getStringExtra("app_uuid" + i));
             GBDeviceApp.Type appType = GBDeviceApp.Type.values()[intent.getIntExtra("app_type" + i, 0)];
             Bitmap previewImage = getAppPreviewImage(uuid.toString());
+
+            // Fill out information from the cached app if missing
+            final GBDeviceApp cachedApp = cachedAppsMap.get(uuid);
+            if (cachedApp != null) {
+                if (StringUtils.isBlank(appName)) {
+                    appName = cachedApp.getName();
+                }
+                if (StringUtils.isBlank(appCreator)) {
+                    appCreator = cachedApp.getCreator();
+                }
+            } else {
+                if (StringUtils.isBlank(appName)) {
+                    // If the app does not have a name, fallback to uuid
+                    appName = uuid.toString();
+                }
+            }
 
             GBDeviceApp app = new GBDeviceApp(uuid, appName, appCreator, appVersion, appType, previewImage);
             app.setOnDevice(true);
@@ -242,6 +261,15 @@ public abstract class AbstractAppManagerFragment extends Fragment {
             }
         }
     };
+
+    protected Map<UUID, GBDeviceApp> getCachedAppsMap(final List<UUID> uuids) {
+        final List<GBDeviceApp> cachedApps = getCachedApps(uuids);
+        final Map<UUID, GBDeviceApp> cachedAppsMap = new HashMap<>();
+        for (GBDeviceApp cachedApp : cachedApps) {
+            cachedAppsMap.put(cachedApp.getUUID(), cachedApp);
+        }
+        return cachedAppsMap;
+    }
 
     protected List<GBDeviceApp> getCachedApps(List<UUID> uuids) {
         List<GBDeviceApp> cachedAppList = new ArrayList<>();
