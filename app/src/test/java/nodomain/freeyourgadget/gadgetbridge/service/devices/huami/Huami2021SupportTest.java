@@ -31,7 +31,7 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.UUID;
 
-import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiFWHelper;
+import nodomain.freeyourgadget.gadgetbridge.devices.huami.Huami2021FWHelper;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.WriteAction;
 
@@ -55,7 +55,7 @@ public class Huami2021SupportTest {
             }
 
             @Override
-            public HuamiFWHelper createFWHelper(final Uri uri, final Context context) throws IOException {
+            public Huami2021FWHelper createFWHelper(final Uri uri, final Context context) throws IOException {
                 return null;
             }
 

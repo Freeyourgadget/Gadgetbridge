@@ -28,16 +28,19 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
+import java.util.Set;
 
+import de.greenrobot.dao.query.QueryBuilder;
+import nodomain.freeyourgadget.gadgetbridge.GBException;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.activities.appmanager.AppManagerActivity;
 import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSpecificSettingsCustomizer;
 import nodomain.freeyourgadget.gadgetbridge.capabilities.HeartRateCapability;
 import nodomain.freeyourgadget.gadgetbridge.capabilities.password.PasswordCapabilityImpl;
-import de.greenrobot.dao.query.QueryBuilder;
-import nodomain.freeyourgadget.gadgetbridge.GBException;
 import nodomain.freeyourgadget.gadgetbridge.devices.InstallHandler;
 import nodomain.freeyourgadget.gadgetbridge.devices.SampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.zeppos.ZeppOsAgpsInstallHandler;
@@ -48,21 +51,19 @@ import nodomain.freeyourgadget.gadgetbridge.entities.Device;
 import nodomain.freeyourgadget.gadgetbridge.entities.HuamiExtendedActivitySampleDao;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySummaryParser;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.AbstractHuami2021FWInstallHandler;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.services.ZeppOsAlexaService;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.services.ZeppOsContactsService;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.services.ZeppOsLogsService;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.services.ZeppOsShortcutCardsService;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.services.ZeppOsConfigService;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.Huami2021FWInstallHandler;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.HuamiLanguageType;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.HuamiVibrationPatternNotificationType;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.services.ZeppOsAlexaService;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.services.ZeppOsConfigService;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.services.ZeppOsContactsService;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.services.ZeppOsLogsService;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.services.ZeppOsPhoneService;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.services.ZeppOsShortcutCardsService;
 import nodomain.freeyourgadget.gadgetbridge.util.FileUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 
 public abstract class Huami2021Coordinator extends HuamiCoordinator {
-    public abstract AbstractHuami2021FWInstallHandler createFwInstallHandler(final Uri uri, final Context context);
-
     @Override
     public InstallHandler findInstallHandler(final Uri uri, final Context context) {
         if (supportsAgpsUpdates()) {
@@ -79,7 +80,15 @@ public abstract class Huami2021Coordinator extends HuamiCoordinator {
             }
         }
 
-        final AbstractHuami2021FWInstallHandler handler = createFwInstallHandler(uri, context);
+        final Huami2021FWInstallHandler handler = new Huami2021FWInstallHandler(
+                uri,
+                context,
+                deviceName(),
+                deviceSources(),
+                getDeviceType(),
+                getFirmwareCrcMap()
+        );
+
         return handler.isValid() ? handler : null;
     }
 
@@ -443,6 +452,21 @@ public abstract class Huami2021Coordinator extends HuamiCoordinator {
     @Override
     public int getBondingStyle() {
         return BONDING_STYLE_REQUIRE_KEY;
+    }
+
+    /**
+     * The device name, to search on firmware.bin in order to determine compatibility.
+     */
+    public abstract String deviceName();
+
+    /**
+     * The device sources, to match compatible packages.
+     * As per: https://docs.zepp.com/docs/reference/related-resources/device-list/
+     */
+    public abstract Set<Integer> deviceSources();
+
+    public Map<Integer, String> getFirmwareCrcMap() {
+        return Collections.emptyMap();
     }
 
     public boolean supportsContinuousFindDevice() {

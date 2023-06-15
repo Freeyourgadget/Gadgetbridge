@@ -23,20 +23,21 @@ import android.graphics.BitmapFactory;
 import androidx.annotation.Nullable;
 
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Constructor;
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
+import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 
+import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceApp;
+import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.BLETypeConversions;
 import nodomain.freeyourgadget.gadgetbridge.util.ArrayUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.BitmapUtil;
@@ -44,27 +45,39 @@ import nodomain.freeyourgadget.gadgetbridge.util.ZipFile;
 import nodomain.freeyourgadget.gadgetbridge.util.ZipFileException;
 
 
-public abstract class Huami2021FirmwareInfo extends AbstractHuamiFirmwareInfo {
+public class Huami2021FirmwareInfo extends AbstractHuamiFirmwareInfo {
     private static final Logger LOG = LoggerFactory.getLogger(Huami2021FirmwareInfo.class);
+
+    private final String deviceName;
+    private final Set<Integer> deviceSources;
+    private final DeviceType deviceType;
+    private final Map<Integer, String> crcMap;
 
     private final String preComputedVersion;
     private GBDeviceApp gbDeviceApp;
 
-    public Huami2021FirmwareInfo(final byte[] bytes) {
+    public Huami2021FirmwareInfo(final byte[] bytes,
+                                 final String deviceName,
+                                 final Set<Integer> deviceSources,
+                                 final DeviceType deviceType,
+                                 final Map<Integer, String> crcMap) {
         super(bytes);
+        this.deviceName = deviceName;
+        this.deviceSources = deviceSources;
+        this.deviceType = deviceType;
+        this.crcMap = crcMap;
         this.preComputedVersion = preComputeVersion();
     }
 
-    /**
-     * The device name, to search on firmware.bin in order to determine compatibility.
-     */
-    public abstract String deviceName();
+    @Override
+    public boolean isGenerallyCompatibleWith(final GBDevice device) {
+        return device.getType() == deviceType;
+    }
 
-    /**
-     * The device sources, to match compatible packages.
-     * As per: https://docs.zepp.com/docs/reference/related-resources/device-list/
-     */
-    public abstract Set<Integer> deviceSources();
+    @Override
+    protected Map<Integer, String> getCrcMap() {
+        return crcMap;
+    }
 
     @Override
     protected HuamiFirmwareType determineFirmwareType(final byte[] bytes) {
@@ -237,7 +250,7 @@ public abstract class Huami2021FirmwareInfo extends AbstractHuamiFirmwareInfo {
                 for (int j = 0; j < platforms.length(); j++) {
                     final JSONObject platform = platforms.getJSONObject(j);
 
-                    if (deviceSources().contains(platform.getInt("deviceSource"))) {
+                    if (deviceSources.contains(platform.getInt("deviceSource"))) {
                         // It's compatible with the device, fetch device.zip
                         final String name = zpkEntry.getString("name");
                         final byte[] zpkBytes = zipFile.getFileFromZip(name);
@@ -354,8 +367,8 @@ public abstract class Huami2021FirmwareInfo extends AbstractHuamiFirmwareInfo {
             return false;
         }
 
-        if (!searchString(firmwareBin, deviceName())) {
-            LOG.warn("Failed to find {} in fwBytes", deviceName());
+        if (!searchString(firmwareBin, deviceName)) {
+            LOG.warn("Failed to find {} in fwBytes", deviceName);
             return false;
         }
 
