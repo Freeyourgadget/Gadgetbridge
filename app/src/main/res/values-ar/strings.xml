@@ -184,7 +184,7 @@
     <string name="backstroke">ظهر</string>
     <string name="fossil_hr_edit_action_delete">حذف</string>
     <string name="qhybrid_pref_title_actions">أجراءات</string>
-    <string name="watchface_widget_type_steps">خطوات</string>
+    <string name="watchface_widget_type_steps">الخطوات</string>
     <string name="appmanager_app_edit">حرر</string>
     <string name="maxAltitude">الحد الاقصي</string>
     <string name="minAltitude">الحد الادني</string>
@@ -722,7 +722,7 @@
     <string name="world_clock_delete_confirm_description">هل أنت متأكد أنك تريد حذف الساعة العالمية؟</string>
     <string name="world_clock_no_free_slots_description">لا يحتوي الجهاز على صفحات حرة للساعات العالمية (إجمالي الصفحات: %1$s)</string>
     <string name="alarm_sun_short">الاح</string>
-    <string name="alarm_sat_short">الاح</string>
+    <string name="alarm_sat_short">الس</string>
     <string name="alarm_snooze">غفوة</string>
     <string name="firmware_update_progress">التحميل قيد التقدم
 \n%1d ٪٪ بمعدل %.2f كيلوبت في الثانية (متوسط %.2f كيلوبت في الثانية)
@@ -1490,7 +1490,7 @@
     <string name="prefs_active_noise_cancelling_level_low">منخفض</string>
     <string name="prefs_double_tap_edge">حافة النقر المزدوج</string>
     <string name="sony_speak_to_chat_focus_on_voice">ركز على الصوت</string>
-    <string name="sony_speak_to_chat_timeout">الوقت</string>
+    <string name="sony_speak_to_chat_timeout">نفذ الوقت</string>
     <string name="info_connected_count">%d الأجهزة المتصلة</string>
     <string name="controlcenter_set_parent_folder">تعيين مجلد الأصل</string>
     <string name="supercars_turbo_speed_label">سرعة توربو</string>
