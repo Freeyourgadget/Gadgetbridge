@@ -17,23 +17,20 @@
 package nodomain.freeyourgadget.gadgetbridge.devices.huami.amazfitgtr4;
 
 import android.bluetooth.BluetoothDevice;
+import android.content.Context;
+import android.net.Uri;
 
 import androidx.annotation.NonNull;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
-
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.Huami2021Coordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceCandidate;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.AbstractHuami2021FWInstallHandler;
 
 public class AmazfitGTR4Coordinator extends Huami2021Coordinator {
     private static final Logger LOG = LoggerFactory.getLogger(AmazfitGTR4Coordinator.class);
@@ -60,22 +57,8 @@ public class AmazfitGTR4Coordinator extends Huami2021Coordinator {
     }
 
     @Override
-    public String deviceName() {
-        return HuamiConst.AMAZFIT_GTR4_NAME;
-    }
-
-    @Override
-    public Set<Integer> deviceSources() {
-        return new HashSet<>(Arrays.asList(7930112, 7930113));
-    }
-
-    @Override
-    public Map<Integer, String> getFirmwareCrcMap() {
-        return new HashMap<Integer, String>() {{
-            // firmware
-            put(1699, "3.17.0.2");
-            put(20712, "3.18.1.1 (diff from 3.17.0.2)");
-        }};
+    public AbstractHuami2021FWInstallHandler createFwInstallHandler(final Uri uri, final Context context) {
+        return new AmazfitGTR4FWInstallHandler(uri, context);
     }
 
     @Override

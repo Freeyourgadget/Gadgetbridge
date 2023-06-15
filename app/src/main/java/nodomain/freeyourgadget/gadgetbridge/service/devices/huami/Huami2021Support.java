@@ -38,7 +38,6 @@ import static nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.
 import static nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.services.ZeppOsConfigService.ConfigArg.TEMPERATURE_UNIT;
 import static nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.services.ZeppOsConfigService.ConfigArg.TIME_FORMAT;
 
-import android.content.Context;
 import android.location.Location;
 import android.net.Uri;
 import android.os.Handler;
@@ -81,7 +80,6 @@ import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventScreenshot
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventUpdatePreferences;
 import nodomain.freeyourgadget.gadgetbridge.devices.DeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.Huami2021Coordinator;
-import nodomain.freeyourgadget.gadgetbridge.devices.huami.Huami2021FWHelper;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.Huami2021Service;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiCoordinator;
@@ -137,7 +135,7 @@ import nodomain.freeyourgadget.gadgetbridge.util.MapUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 import nodomain.freeyourgadget.gadgetbridge.util.StringUtils;
 
-public class Huami2021Support extends HuamiSupport implements ZeppOsFileTransferService.Callback {
+public abstract class Huami2021Support extends HuamiSupport implements ZeppOsFileTransferService.Callback {
     private static final Logger LOG = LoggerFactory.getLogger(Huami2021Support.class);
 
     // Tracks whether realtime HR monitoring is already started, so we can just
@@ -1204,19 +1202,6 @@ public class Huami2021Support extends HuamiSupport implements ZeppOsFileTransfer
             phoneService.requestCapabilities(builder);
             phoneService.requestEnabled(builder);
         }
-    }
-
-    @Override
-    public Huami2021FWHelper createFWHelper(final Uri uri, final Context context) throws IOException {
-        final Huami2021Coordinator coordinator = getCoordinator();
-        return new Huami2021FWHelper(
-                uri,
-                context,
-                coordinator.deviceName(),
-                coordinator.deviceSources(),
-                coordinator.getDeviceType(),
-                coordinator.getFirmwareCrcMap()
-        );
     }
 
     @Override

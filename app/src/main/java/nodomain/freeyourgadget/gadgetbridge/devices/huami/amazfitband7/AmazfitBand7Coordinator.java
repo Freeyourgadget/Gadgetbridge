@@ -17,23 +17,20 @@
 package nodomain.freeyourgadget.gadgetbridge.devices.huami.amazfitband7;
 
 import android.bluetooth.BluetoothDevice;
+import android.content.Context;
+import android.net.Uri;
 
 import androidx.annotation.NonNull;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
-
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.Huami2021Coordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceCandidate;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.AbstractHuami2021FWInstallHandler;
 
 public class AmazfitBand7Coordinator extends Huami2021Coordinator {
     private static final Logger LOG = LoggerFactory.getLogger(AmazfitBand7Coordinator.class);
@@ -60,13 +57,8 @@ public class AmazfitBand7Coordinator extends Huami2021Coordinator {
     }
 
     @Override
-    public String deviceName() {
-        return HuamiConst.AMAZFIT_BAND7_NAME;
-    }
-
-    @Override
-    public Set<Integer> deviceSources() {
-        return new HashSet<>(Arrays.asList(252, 253, 254));
+    public AbstractHuami2021FWInstallHandler createFwInstallHandler(final Uri uri, final Context context) {
+        return new AmazfitBand7FWInstallHandler(uri, context);
     }
 
     @Override

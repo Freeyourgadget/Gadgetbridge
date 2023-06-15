@@ -24,12 +24,12 @@ import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 
-import nodomain.freeyourgadget.gadgetbridge.devices.huami.Huami2021FWHelper;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiService;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.BLETypeConversions;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.Huami2021FirmwareInfo;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.AbstractHuamiFirmwareInfo;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.Huami2021Support;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.HuamiFirmwareType;
 import nodomain.freeyourgadget.gadgetbridge.util.ArrayUtils;
 
 public class UpdateFirmwareOperation2021 extends UpdateFirmwareOperation2020 {
@@ -40,9 +40,8 @@ public class UpdateFirmwareOperation2021 extends UpdateFirmwareOperation2020 {
     }
 
     @Override
-    Huami2021FirmwareInfo createFwInfo(final Uri uri, final Context context) throws IOException {
-        final Huami2021FWHelper fwHelper = getSupport().createFWHelper(uri, context);
-        return fwHelper.getFirmwareInfo();
+    AbstractHuamiFirmwareInfo createFwInfo(final Uri uri, final Context context) throws IOException {
+        return super.createFwInfo(uri, context);
 
         /*  This does not actually seem to be needed, but it's what the official app does
         final HuamiFWHelper fwHelper = getSupport().createFWHelper(uri, context);
@@ -72,7 +71,7 @@ public class UpdateFirmwareOperation2021 extends UpdateFirmwareOperation2020 {
         super.handleNotificationNotif(value);
 
         if (ArrayUtils.startsWith(value, new byte[]{HuamiService.RESPONSE, COMMAND_FINALIZE_UPDATE, HuamiService.SUCCESS})) {
-            if (getFirmwareInfo().getFirmwareType().isApp()) {
+            if (getFirmwareInfo().getFirmwareType() == HuamiFirmwareType.APP) {
                 // After an app is installed, request the display items from the band (new app will be at the end)
                 try {
                     TransactionBuilder builder = performInitialized("request display items");
@@ -81,7 +80,7 @@ public class UpdateFirmwareOperation2021 extends UpdateFirmwareOperation2020 {
                 } catch (final IOException e) {
                     LOG.error("Failed to request display items after app install", e);
                 }
-            } else if (getFirmwareInfo().getFirmwareType().isWatchface()) {
+            } else if (getFirmwareInfo().getFirmwareType() == HuamiFirmwareType.WATCHFACE) {
                 // After a watchface is installed, request the watchfaces from the band (new watchface will be at the end)
                 try {
                     TransactionBuilder builder = performInitialized("request watchfaces");
@@ -92,11 +91,6 @@ public class UpdateFirmwareOperation2021 extends UpdateFirmwareOperation2020 {
                 }
             }
         }
-    }
-
-    @Override
-    Huami2021FirmwareInfo getFirmwareInfo() {
-        return (Huami2021FirmwareInfo) firmwareInfo;
     }
 
     @Override

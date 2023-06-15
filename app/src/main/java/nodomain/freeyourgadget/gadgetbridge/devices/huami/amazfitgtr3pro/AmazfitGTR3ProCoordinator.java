@@ -17,21 +17,20 @@
 package nodomain.freeyourgadget.gadgetbridge.devices.huami.amazfitgtr3pro;
 
 import android.bluetooth.BluetoothDevice;
+import android.content.Context;
+import android.net.Uri;
 
 import androidx.annotation.NonNull;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
-
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.Huami2021Coordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceCandidate;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.AbstractHuami2021FWInstallHandler;
 
 public class AmazfitGTR3ProCoordinator extends Huami2021Coordinator {
     private static final Logger LOG = LoggerFactory.getLogger(AmazfitGTR3ProCoordinator.class);
@@ -58,13 +57,8 @@ public class AmazfitGTR3ProCoordinator extends Huami2021Coordinator {
     }
 
     @Override
-    public String deviceName() {
-        return HuamiConst.AMAZFIT_GTR3_PRO_NAME;
-    }
-
-    @Override
-    public Set<Integer> deviceSources() {
-        return new HashSet<>(Arrays.asList(229, 230, 6095106));
+    public AbstractHuami2021FWInstallHandler createFwInstallHandler(final Uri uri, final Context context) {
+        return new AmazfitGTR3ProFWInstallHandler(uri, context);
     }
 
     @Override

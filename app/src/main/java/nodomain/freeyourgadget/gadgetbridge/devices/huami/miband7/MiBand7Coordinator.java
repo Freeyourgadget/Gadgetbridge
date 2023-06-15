@@ -17,23 +17,20 @@
 package nodomain.freeyourgadget.gadgetbridge.devices.huami.miband7;
 
 import android.bluetooth.BluetoothDevice;
+import android.content.Context;
+import android.net.Uri;
 
 import androidx.annotation.NonNull;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
-
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.Huami2021Coordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceCandidate;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.AbstractHuami2021FWInstallHandler;
 
 public class MiBand7Coordinator extends Huami2021Coordinator {
     private static final Logger LOG = LoggerFactory.getLogger(MiBand7Coordinator.class);
@@ -60,23 +57,8 @@ public class MiBand7Coordinator extends Huami2021Coordinator {
     }
 
     @Override
-    public String deviceName() {
-        return HuamiConst.XIAOMI_SMART_BAND7_NAME;
-    }
-
-    @Override
-    public Set<Integer> deviceSources() {
-        return new HashSet<>(Arrays.asList(260, 262, 263, 264, 265));
-    }
-
-    @Override
-    public Map<Integer, String> getFirmwareCrcMap() {
-        return new HashMap<Integer, String>() {{
-            // firmware
-            put(26036, "1.20.3.1");
-            put(55449, "1.27.0.4");
-            put(14502, "2.0.0.2");
-        }};
+    public AbstractHuami2021FWInstallHandler createFwInstallHandler(final Uri uri, final Context context) {
+        return new MiBand7FWInstallHandler(uri, context);
     }
 
     @Override
