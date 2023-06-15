@@ -74,6 +74,7 @@ import java.util.regex.Pattern;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst;
+import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventAppInfo;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventFindPhone;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventMusicControl;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventScreenshot;
@@ -89,6 +90,7 @@ import nodomain.freeyourgadget.gadgetbridge.devices.huami.zeppos.ZeppOsGpxRouteI
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst;
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.VibrationProfile;
+import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceApp;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityKind;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityUser;
 import nodomain.freeyourgadget.gadgetbridge.model.Alarm;
@@ -96,6 +98,7 @@ import nodomain.freeyourgadget.gadgetbridge.model.CalendarEventSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.CallSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.CannedMessagesSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.Contact;
+import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
 import nodomain.freeyourgadget.gadgetbridge.model.MusicSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.MusicStateSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
@@ -686,20 +689,56 @@ public abstract class Huami2021Support extends HuamiSupport implements ZeppOsFil
 
     @Override
     public void onAppInfoReq() {
-        appsService.requestApps();
-        // TODO watchfaceService.requestWatchfaces();
+        // Merge the data from apps and watchfaces
+        // This is required because the apps service only knows the versions, not the app type,
+        // and the watchface service only knows the app IDs, and not the versions
+
+        final GBDeviceEventAppInfo appInfoCmd = new GBDeviceEventAppInfo();
+        final List<GBDeviceApp> appsFull = new ArrayList<>();
+
+        final Map<UUID, GBDeviceApp> watchfacesById = new HashMap<>();
+        final List<GBDeviceApp> watchfaces = watchfaceService.getWatchfaces();
+        for (final GBDeviceApp watchface : watchfaces) {
+            watchfacesById.put(watchface.getUUID(), watchface);
+        }
+
+        final List<GBDeviceApp> apps = appsService.getApps();
+        for (final GBDeviceApp app : apps) {
+            final GBDeviceApp watchface = watchfacesById.get(app.getUUID());
+            if (watchface != null) {
+                appsFull.add(new GBDeviceApp(
+                        watchface.getUUID(),
+                        watchface.getName(),
+                        watchface.getCreator(),
+                        app.getVersion(),
+                        GBDeviceApp.Type.WATCHFACE
+                ));
+            } else {
+                appsFull.add(new GBDeviceApp(
+                        app.getUUID(),
+                        app.getName(),
+                        app.getCreator(),
+                        app.getVersion(),
+                        GBDeviceApp.Type.APP_GENERIC
+                ));
+            }
+        }
+
+        appInfoCmd.apps = appsFull.toArray(new GBDeviceApp[0]);
+        evaluateGBDeviceEvent(appInfoCmd);
     }
 
     @Override
     public void onAppStart(final UUID uuid, final boolean start) {
-        // TODO check if watchface
-        //LOG.warn("TODO: onAppStart {} {}", uuid, start);
-        //watchfaceService.setWatchface("0x" + uuid.toString().split("-")[0]);
+        if (start) {
+            // This actually also starts apps...
+            watchfaceService.setWatchface(uuid);
+        }
     }
 
     @Override
     public void onAppDelete(final UUID uuid) {
-        appsService.deleteApp(Integer.parseInt(uuid.toString().split("-")[0], 16));
+        appsService.deleteApp(uuid);
     }
 
     @Override
@@ -1099,6 +1138,10 @@ public abstract class Huami2021Support extends HuamiSupport implements ZeppOsFil
         );
 
         return this;
+    }
+
+    public void requestApps(final TransactionBuilder builder) {
+        appsService.requestApps(builder);
     }
 
     public void requestWatchfaces(final TransactionBuilder builder) {

@@ -30,6 +30,7 @@ import java.util.UUID;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventAppInfo;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceApp;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.BLETypeConversions;
+import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.Huami2021Support;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.AbstractZeppOsService;
 
@@ -50,6 +51,8 @@ public class ZeppOsAppsService extends AbstractZeppOsService {
     private static final byte CMD_APPS_DELETING = 0x04;
     private static final byte CMD_APPS_API_LEVEL = 0x05;
     private static final byte CMD_SCREENSHOT_REQUEST = 0x01;
+
+    private final List<GBDeviceApp> apps = new ArrayList<>();
 
     public ZeppOsAppsService(final Huami2021Support support) {
         super(support);
@@ -80,6 +83,14 @@ public class ZeppOsAppsService extends AbstractZeppOsService {
             default:
                 LOG.warn("Unexpected apps byte {}", String.format("0x%02x", payload[0]));
         }
+    }
+
+    public void initialize(final TransactionBuilder builder) {
+        requestApps(builder);
+    }
+
+    public List<GBDeviceApp> getApps() {
+        return apps;
     }
 
     private void handleJsPayload(final byte[] payload) {
@@ -127,7 +138,7 @@ public class ZeppOsAppsService extends AbstractZeppOsService {
     }
 
     private void parseAppList(final byte[] payload) {
-        final List<GBDeviceApp> apps = new ArrayList<>();
+        apps.clear();
 
         final byte[] appListStringBytes = ArrayUtils.subarray(payload, 16, payload.length);
         final String appListString = new String(appListStringBytes);
@@ -150,20 +161,17 @@ public class ZeppOsAppsService extends AbstractZeppOsService {
 
             apps.add(new GBDeviceApp(
                     UUID.fromString(String.format("%08x-0000-0000-0000-000000000000", appId)),
-                    "", //String.format("0x%08x", appId),
+                    "",
                     "",
                     appVersion,
-                    GBDeviceApp.Type.APP_GENERIC // it might actually be a watchface
+                    GBDeviceApp.Type.UNKNOWN // it might be an app or watchface
             ));
         }
 
-        final GBDeviceEventAppInfo appInfoCmd = new GBDeviceEventAppInfo();
-        appInfoCmd.apps = apps.toArray(new GBDeviceApp[0]);
-
-        getSupport().evaluateGBDeviceEvent(appInfoCmd);
+        // TODO broadcast something to update app manager
     }
 
-    public void requestApps() {
+    public void requestApps(final TransactionBuilder builder) {
         LOG.info("Request apps");
 
         final ByteBuffer buf = ByteBuffer.allocate(16).order(ByteOrder.LITTLE_ENDIAN);
@@ -173,7 +181,7 @@ public class ZeppOsAppsService extends AbstractZeppOsService {
         buf.put(CMD_APPS_LIST);
         buf.put((byte) 0x00);
 
-        write("request apps", buf.array());
+        write(builder, buf.array());
     }
 
     public void requestApilevel() {
@@ -186,6 +194,10 @@ public class ZeppOsAppsService extends AbstractZeppOsService {
         buf.put(CMD_APPS_API_LEVEL);
 
         write("request api level", buf.array());
+    }
+
+    public void deleteApp(final UUID uuid) {
+        deleteApp(Integer.parseInt(uuid.toString().split("-")[0], 16));
     }
 
     public void deleteApp(final int appId) {
