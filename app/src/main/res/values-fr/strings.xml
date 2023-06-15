@@ -2248,4 +2248,6 @@ Temps de sommeil préféré en heures</string>
     <string name="pref_app_logs_title">Logs de l\'app</string>
     <string name="pref_app_logs_stop_summary">Arrêter les logs pour les apps de la montre</string>
     <string name="fwapp_install_device_not_supported">Le fichier ne peut pas être installé, l\'appareil n\'est pas supporté.</string>
+    <string name="share_screenshot">Partager la capture écran</string>
+    <string name="screenshot_taken">Capture écran faite</string>
 </resources>
