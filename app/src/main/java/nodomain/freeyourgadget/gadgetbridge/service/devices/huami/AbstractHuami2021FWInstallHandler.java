@@ -50,10 +50,13 @@ public abstract class AbstractHuami2021FWInstallHandler extends AbstractMiBandFW
     @Override
     public void onStartInstall(final GBDevice device) {
         final AbstractHuamiFirmwareInfo firmwareInfo = getHelper().getFirmwareInfo();
-        if (firmwareInfo instanceof Huami2021FirmwareInfo) {
-            saveToCache((Huami2021FirmwareInfo) firmwareInfo, device);
-        } else {
-            LOG.warn("firmwareInfo is {} - this should never happen", firmwareInfo.getClass());
+        final boolean shouldCache = firmwareInfo.getFirmwareType().isApp() || firmwareInfo.getFirmwareType().isWatchface();
+        if (shouldCache) {
+            if (firmwareInfo instanceof Huami2021FirmwareInfo) {
+                saveToCache((Huami2021FirmwareInfo) firmwareInfo, device);
+            } else {
+                LOG.warn("firmwareInfo is {} - this should never happen", firmwareInfo.getClass());
+            }
         }
 
         // Unset the firmware bytes
