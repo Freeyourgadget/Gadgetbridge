@@ -1,0 +1,21 @@
+package nodomain.freeyourgadget.gadgetbridge.service.devices.vivomovehr;
+
+public enum GarminSystemEventType {
+    SYNC_COMPLETE,
+    SYNC_FAIL,
+    FACTORY_RESET,
+    PAIR_START,
+    PAIR_COMPLETE,
+    PAIR_FAIL,
+    HOST_DID_ENTER_FOREGROUND,
+    HOST_DID_ENTER_BACKGROUND,
+    SYNC_READY,
+    NEW_DOWNLOAD_AVAILABLE,
+    DEVICE_SOFTWARE_UPDATE,
+    DEVICE_DISCONNECT,
+    TUTORIAL_COMPLETE,
+    SETUP_WIZARD_START,
+    SETUP_WIZARD_COMPLETE,
+    SETUP_WIZARD_SKIPPED,
+    TIME_UPDATED;
+}

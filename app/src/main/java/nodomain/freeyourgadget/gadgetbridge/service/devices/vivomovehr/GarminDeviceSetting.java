@@ -1,0 +1,13 @@
+package nodomain.freeyourgadget.gadgetbridge.service.devices.vivomovehr;
+
+public enum GarminDeviceSetting {
+	DEVICE_NAME,
+	CURRENT_TIME,
+	DAYLIGHT_SAVINGS_TIME_OFFSET,
+	TIME_ZONE_OFFSET,
+	NEXT_DAYLIGHT_SAVINGS_START,
+	NEXT_DAYLIGHT_SAVINGS_END,
+	AUTO_UPLOAD_ENABLED,
+	WEATHER_CONDITIONS_ENABLED,
+	WEATHER_ALERTS_ENABLED;
+}
