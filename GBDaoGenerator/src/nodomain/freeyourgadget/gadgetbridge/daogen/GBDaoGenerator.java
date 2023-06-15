@@ -90,8 +90,9 @@ public class GBDaoGenerator {
         addCasioGBX100Sample(schema, user, device);
         addFitProActivitySample(schema, user, device);
         addPineTimeActivitySample(schema, user, device);
-
         addHybridHRActivitySample(schema, user, device);
+        addVivomoveHrActivitySample(schema, user, device);
+
         addCalendarSyncState(schema, device);
         addAlarms(schema, user, device);
         addReminders(schema, user, device);
@@ -458,6 +459,19 @@ public class GBDaoGenerator {
         activitySample.addBooleanProperty("active").notNull();
         activitySample.addByteProperty("wear_type").notNull();
         addHeartRateProperties(activitySample);
+        return activitySample;
+    }
+
+    private static Entity addVivomoveHrActivitySample(Schema schema, Entity user, Entity device) {
+        final Entity activitySample = addEntity(schema, "VivomoveHrActivitySample");
+        activitySample.implementsSerializable();
+        addCommonActivitySampleProperties("AbstractActivitySample", activitySample, user, device);
+        activitySample.addIntProperty(SAMPLE_STEPS).notNull().codeBeforeGetterAndSetter(OVERRIDE);
+        activitySample.addIntProperty(SAMPLE_RAW_KIND).notNull().codeBeforeGetterAndSetter(OVERRIDE);
+        activitySample.addIntProperty(SAMPLE_RAW_INTENSITY).notNull().codeBeforeGetterAndSetter(OVERRIDE);
+        activitySample.addIntProperty(SAMPLE_HEART_RATE).notNull().codeBeforeGetterAndSetter(OVERRIDE);
+        activitySample.addIntProperty("caloriesBurnt");
+        activitySample.addIntProperty("floorsClimbed");
         return activitySample;
     }
 

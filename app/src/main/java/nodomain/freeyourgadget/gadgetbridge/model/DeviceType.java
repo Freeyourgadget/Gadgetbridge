@@ -106,6 +106,7 @@ public enum DeviceType {
     FITPRO(230, R.drawable.ic_device_default, R.drawable.ic_device_default_disabled, R.string.devicetype_fitpro),
     ITAG(250, R.drawable.ic_device_itag, R.drawable.ic_device_itag_disabled, R.string.devicetype_itag),
     NUTMINI(251, R.drawable.ic_device_itag, R.drawable.ic_device_itag_disabled, R.string.devicetype_nut_mini),
+    VIVOMOVE_HR(260, R.drawable.ic_device_default, R.drawable.ic_device_default_disabled, R.string.devicetype_vivomove_hr),
     VIBRATISSIMO(300, R.drawable.ic_device_lovetoy, R.drawable.ic_device_lovetoy_disabled, R.string.devicetype_vibratissimo),
     SONY_SWR12(310, R.drawable.ic_device_default, R.drawable.ic_device_default_disabled, R.string.devicetype_sonyswr12),
     LIVEVIEW(320, R.drawable.ic_device_default, R.drawable.ic_device_default_disabled, R.string.devicetype_liveview),

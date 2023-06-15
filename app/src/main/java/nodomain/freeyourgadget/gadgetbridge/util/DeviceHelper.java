@@ -27,6 +27,7 @@ import android.bluetooth.BluetoothDevice;
 import android.content.Context;
 import android.widget.Toast;
 
+import nodomain.freeyourgadget.gadgetbridge.devices.vivomovehr.VivomoveHrCoordinator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -373,6 +374,7 @@ public class DeviceHelper {
         result.add(new SuperCarsCoordinator());
         result.add(new AsteroidOSDeviceCoordinator());
         result.add(new SoFlowCoordinator());
+        result.add(new VivomoveHrCoordinator());
 
         return result;
     }

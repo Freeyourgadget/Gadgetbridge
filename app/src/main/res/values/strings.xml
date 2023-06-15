@@ -1269,6 +1269,7 @@
     <string name="devicetype_amazfit_gts2e">Amazfit GTS 2e</string>
     <string name="devicetype_amazfit_x">Amazfit X</string>
     <string name="devicetype_zepp_e">Zepp E</string>
+    <string name="devicetype_vivomove_hr">Garmin Vivomove HR</string>
     <string name="devicetype_vibratissimo">Vibratissimo</string>
     <string name="devicetype_um25">UM-25</string>
     <string name="devicetype_liveview">LiveView</string>
