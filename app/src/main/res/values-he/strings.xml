@@ -2243,4 +2243,6 @@
     <string name="pref_app_logs_title">יומני היישומונים</string>
     <string name="pref_app_logs_stop_summary">עצירת תיעוד מיישומוני השעון</string>
     <string name="fwapp_install_device_not_supported">אי אפשר להתקין את הקובץ, המכשיר לא נתמך.</string>
+    <string name="share_screenshot">שיתוף צילום מסך</string>
+    <string name="screenshot_taken">המסך צולם</string>
 </resources>
