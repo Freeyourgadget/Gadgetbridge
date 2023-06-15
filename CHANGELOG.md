@@ -19,6 +19,7 @@
 * Mi Band 6: Allow making device discoverable via Bluetooth when connected
 * Mi Band 7: Add preference to display call contact information
 * Zepp OS: Add gpx route file upload
+* Zepp OS: Add screenshot support
 * Zepp OS: Add watch app logs developer option
 * Zepp OS: Display watchface and app preview on install
 * Zepp OS: Fix update operations on Zepp OS 2.1+
@@ -36,6 +37,7 @@
 * Intent API: Add debug actions for notifications and incoming calls
 * OsmAnd: Add support for navigation instructions
 * Scrape navigation instructions from Google Maps notifications
+* Fix lag when a folder has a lot of devices
 * Fix transliteration returning non-ASCII characters
 * Enable "allow high MTU" setting by default
 
