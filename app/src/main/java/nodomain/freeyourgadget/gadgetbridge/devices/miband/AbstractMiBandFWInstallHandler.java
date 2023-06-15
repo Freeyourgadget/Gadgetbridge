@@ -36,11 +36,13 @@ import static nodomain.freeyourgadget.gadgetbridge.service.devices.huami.HuamiFi
 public abstract class AbstractMiBandFWInstallHandler implements InstallHandler {
     private static final Logger LOG = LoggerFactory.getLogger(AbstractMiBandFWInstallHandler.class);
 
+    protected final Uri mUri;
     protected final Context mContext;
     protected AbstractMiBandFWHelper helper;
     private String errorMessage;
 
     public AbstractMiBandFWInstallHandler(Uri uri, Context context) {
+        mUri = uri;
         mContext = context;
 
         try {
@@ -49,6 +51,10 @@ public abstract class AbstractMiBandFWInstallHandler implements InstallHandler {
             errorMessage = e.getMessage();
             LOG.warn(errorMessage, e);
         }
+    }
+
+    public Uri getUri() {
+        return mUri;
     }
 
     public Context getContext() {
