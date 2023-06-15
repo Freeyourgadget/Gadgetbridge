@@ -2,8 +2,6 @@
 
 #### Next Version (WIP)
 
-* Amazfit GTR 3/GTS 3/GTR 3 Pro: Enable AGPS Updates
-* Amazfit T-Rex 2: Enable AGPS updates and gpx route upload
 * Bangle.js: Add message size limitation to Calendar and Messages
 * Bangle.js: Send more weather data to watch
 * Bangle.js: Allow an activity sample to have a timestamp

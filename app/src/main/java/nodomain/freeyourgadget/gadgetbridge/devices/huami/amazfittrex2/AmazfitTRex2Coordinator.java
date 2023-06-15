@@ -62,16 +62,6 @@ public class AmazfitTRex2Coordinator extends Huami2021Coordinator {
     }
 
     @Override
-    public boolean supportsAgpsUpdates() {
-        return true;
-    }
-
-    @Override
-    public boolean supportsGpxUploads() {
-        return true;
-    }
-
-    @Override
     public boolean supportsControlCenter() {
         return true;
     }
