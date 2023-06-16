@@ -17,57 +17,37 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.activities.charts;
 
+import android.annotation.SuppressLint;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.TypedValue;
 import android.view.View;
 
-import androidx.annotation.Nullable;
-import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentActivity;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.charts.BarLineChartBase;
 import com.github.mikephil.charting.charts.Chart;
-import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.Entry;
-import com.github.mikephil.charting.data.LineData;
-import com.github.mikephil.charting.data.LineDataSet;
-import com.github.mikephil.charting.formatter.ValueFormatter;
-import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Calendar;
 import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
-import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.activities.AbstractGBFragment;
-import nodomain.freeyourgadget.gadgetbridge.activities.HeartRateUtils;
 import nodomain.freeyourgadget.gadgetbridge.database.DBAccess;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
-import nodomain.freeyourgadget.gadgetbridge.devices.DeviceCoordinator;
-import nodomain.freeyourgadget.gadgetbridge.devices.SampleProvider;
-import nodomain.freeyourgadget.gadgetbridge.entities.AbstractActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
-import nodomain.freeyourgadget.gadgetbridge.model.ActivityKind;
-import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.util.DateTimeUtils;
-import nodomain.freeyourgadget.gadgetbridge.util.DeviceHelper;
-import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 
 /**
  * A base class fragment to be used with ChartsActivity. The fragment can supply
@@ -87,7 +67,7 @@ import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
  * The default implementations #handleDatePrev(Date,Date) and #handleDateNext(Date,Date)
  * shift the date by one day.
  */
-public abstract class AbstractChartFragment extends AbstractGBFragment {
+public abstract class AbstractChartFragment<D extends ChartsData> extends AbstractGBFragment {
     protected final int ANIM_TIME = 250;
 
     private static final Logger LOG = LoggerFactory.getLogger(AbstractChartFragment.class);
@@ -99,59 +79,9 @@ public abstract class AbstractChartFragment extends AbstractGBFragment {
             AbstractChartFragment.this.onReceive(context, intent);
         }
     };
+
     private boolean mChartDirty = true;
     private AsyncTask refreshTask;
-
-    public boolean isChartDirty() {
-        return mChartDirty;
-    }
-
-    @Override
-    public abstract String getTitle();
-
-    public boolean supportsHeartrate(GBDevice device) {
-        DeviceCoordinator coordinator = DeviceHelper.getInstance().getCoordinator(device);
-        return coordinator != null && coordinator.supportsHeartRateMeasurement(device);
-    }
-
-    public boolean supportsRemSleep(GBDevice device) {
-        DeviceCoordinator coordinator = DeviceHelper.getInstance().getCoordinator(device);
-        return coordinator != null && coordinator.supportsRemSleep();
-    }
-
-    protected static final class ActivityConfig {
-        public final int type;
-        public final String label;
-        public final Integer color;
-
-        public ActivityConfig(int kind, String label, Integer color) {
-            this.type = kind;
-            this.label = label;
-            this.color = color;
-        }
-    }
-
-    protected ActivityConfig akActivity;
-    protected ActivityConfig akLightSleep;
-    protected ActivityConfig akDeepSleep;
-    protected ActivityConfig akRemSleep;
-    protected ActivityConfig akNotWorn;
-
-
-    protected int BACKGROUND_COLOR;
-    protected int DESCRIPTION_COLOR;
-    protected int CHART_TEXT_COLOR;
-    protected int LEGEND_TEXT_COLOR;
-    protected int HEARTRATE_COLOR;
-    protected int HEARTRATE_FILL_COLOR;
-    protected int AK_ACTIVITY_COLOR;
-    protected int AK_DEEP_SLEEP_COLOR;
-    protected int AK_REM_SLEEP_COLOR;
-    protected int AK_LIGHT_SLEEP_COLOR;
-    protected int AK_NOT_WORN_COLOR;
-
-    protected String HEARTRATE_LABEL;
-    protected String HEARTRATE_AVERAGE_LABEL;
 
     protected AbstractChartFragment(String... intentFilterActions) {
         mIntentFilterActions = new HashSet<>();
@@ -168,59 +98,70 @@ public abstract class AbstractChartFragment extends AbstractGBFragment {
     }
 
     @Override
+    public abstract String getTitle();
+
+    /**
+     * Called in the fragment's onCreate, initializes this fragment.
+     */
+    protected abstract void init();
+
+    /**
+     * This method reads the data from the database, analyzes and prepares it for
+     * the charts. This will be called from a background task, so there must not be
+     * any UI access. #updateChartsInUIThread and #renderCharts will be automatically called after this method.
+     */
+    protected abstract D refreshInBackground(ChartsHost chartsHost, DBHandler db, GBDevice device);
+
+    /**
+     * Triggers the actual (re-) rendering of the chart.
+     * Always called from the UI thread.
+     */
+    protected abstract void renderCharts();
+
+    protected abstract void setupLegend(Chart<?> chart);
+
+    protected abstract void updateChartsnUIThread(D chartsData);
+
+    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         init();
 
-        IntentFilter filter = new IntentFilter();
+        final IntentFilter filter = new IntentFilter();
         for (String action : mIntentFilterActions) {
             filter.addAction(action);
         }
-        LocalBroadcastManager.getInstance(getActivity()).registerReceiver(mReceiver, filter);
+        LocalBroadcastManager.getInstance(requireActivity()).registerReceiver(mReceiver, filter);
     }
 
-    protected void init() {
-        Prefs prefs = GBApplication.getPrefs();
-        TypedValue runningColor = new TypedValue();
-        BACKGROUND_COLOR = GBApplication.getBackgroundColor(getContext());
-        LEGEND_TEXT_COLOR = DESCRIPTION_COLOR = GBApplication.getTextColor(getContext());
-        CHART_TEXT_COLOR = ContextCompat.getColor(getContext(), R.color.secondarytext);
-        if (prefs.getBoolean("chart_heartrate_color", false)) {
-            HEARTRATE_COLOR = ContextCompat.getColor(getContext(), R.color.chart_heartrate_alternative);
-        }else{
-            HEARTRATE_COLOR = ContextCompat.getColor(getContext(), R.color.chart_heartrate);
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        LocalBroadcastManager.getInstance(requireActivity()).unregisterReceiver(mReceiver);
+    }
+
+    /**
+     * Called when this fragment has been fully scrolled into the activity.
+     *
+     * @see #isVisibleInActivity()
+     * @see #onMadeInvisibleInActivity()
+     */
+    @Override
+    protected void onMadeVisibleInActivity() {
+        super.onMadeVisibleInActivity();
+        showDateBar(true);
+        if (mChartDirty) {
+            refresh();
         }
-        HEARTRATE_FILL_COLOR = ContextCompat.getColor(getContext(), R.color.chart_heartrate_fill);
+    }
 
-        getContext().getTheme().resolveAttribute(R.attr.chart_activity, runningColor, true);
-        AK_ACTIVITY_COLOR = runningColor.data;
-        getContext().getTheme().resolveAttribute(R.attr.chart_deep_sleep, runningColor, true);
-        AK_DEEP_SLEEP_COLOR = runningColor.data;
-        getContext().getTheme().resolveAttribute(R.attr.chart_light_sleep, runningColor, true);
-        AK_LIGHT_SLEEP_COLOR = runningColor.data;
-        getContext().getTheme().resolveAttribute(R.attr.chart_rem_sleep, runningColor, true);
-        AK_REM_SLEEP_COLOR = runningColor.data;
-        getContext().getTheme().resolveAttribute(R.attr.chart_not_worn, runningColor, true);
-        AK_NOT_WORN_COLOR = runningColor.data;
-
-        HEARTRATE_LABEL = getContext().getString(R.string.charts_legend_heartrate);
-        HEARTRATE_AVERAGE_LABEL = getContext().getString(R.string.charts_legend_heartrate_average);
-
-        akActivity = new ActivityConfig(ActivityKind.TYPE_ACTIVITY, getString(R.string.abstract_chart_fragment_kind_activity), AK_ACTIVITY_COLOR);
-        akLightSleep = new ActivityConfig(ActivityKind.TYPE_LIGHT_SLEEP, getString(R.string.abstract_chart_fragment_kind_light_sleep), AK_LIGHT_SLEEP_COLOR);
-        akDeepSleep = new ActivityConfig(ActivityKind.TYPE_DEEP_SLEEP, getString(R.string.abstract_chart_fragment_kind_deep_sleep), AK_DEEP_SLEEP_COLOR);
-        akRemSleep = new ActivityConfig(ActivityKind.TYPE_REM_SLEEP, getString(R.string.abstract_chart_fragment_kind_rem_sleep), AK_REM_SLEEP_COLOR);
-        akNotWorn = new ActivityConfig(ActivityKind.TYPE_NOT_WORN, getString(R.string.abstract_chart_fragment_kind_not_worn), AK_NOT_WORN_COLOR);
+    protected ChartsHost getChartsHost() {
+        return (ChartsHost) requireActivity();
     }
 
     private void setStartDate(Date date) {
         getChartsHost().setStartDate(date);
-    }
-
-    @Nullable
-    protected ChartsHost getChartsHost() {
-        return (ChartsHost) getActivity();
     }
 
     private void setEndDate(Date date) {
@@ -235,29 +176,20 @@ public abstract class AbstractChartFragment extends AbstractGBFragment {
         return getChartsHost().getEndDate();
     }
 
-    /**
-     * Called when this fragment has been fully scrolled into the activity.
-     *
-     * @see #isVisibleInActivity()
-     * @see #onMadeInvisibleInActivity()
-     */
-    @Override
-    protected void onMadeVisibleInActivity() {
-        super.onMadeVisibleInActivity();
-        showDateBar(true);
-        if (isChartDirty()) {
-            refresh();
-        }
+    protected int getTSEnd() {
+        return toTimestamp(getEndDate());
+    }
+
+    protected int getTSStart() {
+        return toTimestamp(getStartDate());
+    }
+
+    protected int toTimestamp(Date date) {
+        return (int) ((date.getTime() / 1000));
     }
 
     protected void showDateBar(boolean show) {
         getChartsHost().getDateBar().setVisibility(show ? View.VISIBLE : View.GONE);
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        LocalBroadcastManager.getInstance(getActivity()).unregisterReceiver(mReceiver);
     }
 
     protected void onReceive(Context context, Intent intent) {
@@ -265,26 +197,26 @@ public abstract class AbstractChartFragment extends AbstractGBFragment {
         if (ChartsHost.REFRESH.equals(action)) {
             refresh();
         } else if (ChartsHost.DATE_NEXT_DAY.equals(action)) {
-            handleDate(getStartDate(), getEndDate(),+1);
+            handleDate(getStartDate(), getEndDate(), +1);
         } else if (ChartsHost.DATE_PREV_DAY.equals(action)) {
-            handleDate(getStartDate(), getEndDate(),-1);
+            handleDate(getStartDate(), getEndDate(), -1);
         } else if (ChartsHost.DATE_NEXT_WEEK.equals(action)) {
-            handleDate(getStartDate(), getEndDate(),+7);
+            handleDate(getStartDate(), getEndDate(), +7);
         } else if (ChartsHost.DATE_PREV_WEEK.equals(action)) {
-            handleDate(getStartDate(), getEndDate(),-7);
+            handleDate(getStartDate(), getEndDate(), -7);
         } else if (ChartsHost.DATE_NEXT_MONTH.equals(action)) {
             //calculate dates to jump by month but keep subsequent logic working
-            int time1 = DateTimeUtils.shiftMonths((int )(getStartDate().getTime()/1000), 1);
-            int time2 = DateTimeUtils.shiftMonths((int )(getEndDate().getTime()/1000), 1);
+            int time1 = DateTimeUtils.shiftMonths((int) (getStartDate().getTime() / 1000), 1);
+            int time2 = DateTimeUtils.shiftMonths((int) (getEndDate().getTime() / 1000), 1);
             Date date1 = DateTimeUtils.shiftByDays(new Date(time1 * 1000L), 30);
             Date date2 = DateTimeUtils.shiftByDays(new Date(time2 * 1000L), 30);
-            handleDate(date1, date2,-30);
+            handleDate(date1, date2, -30);
         } else if (ChartsHost.DATE_PREV_MONTH.equals(action)) {
-            int time1 = DateTimeUtils.shiftMonths((int )(getStartDate().getTime()/1000), -1);
-            int time2 = DateTimeUtils.shiftMonths((int )(getEndDate().getTime()/1000), -1);
+            int time1 = DateTimeUtils.shiftMonths((int) (getStartDate().getTime() / 1000), -1);
+            int time2 = DateTimeUtils.shiftMonths((int) (getEndDate().getTime() / 1000), -1);
             Date date1 = DateTimeUtils.shiftByDays(new Date(time1 * 1000L), -30);
             Date date2 = DateTimeUtils.shiftByDays(new Date(time2 * 1000L), -30);
-            handleDate(date1, date2,30);
+            handleDate(date1, date2, 30);
         }
     }
 
@@ -292,21 +224,20 @@ public abstract class AbstractChartFragment extends AbstractGBFragment {
      * Default implementation shifts the dates by one day, if visible
      * and calls #refreshIfVisible().
      *
-     * @param startDate
-     * @param endDate
-     * @param Offset
+     * @param startDate the start date
+     * @param endDate   the end date
+     * @param offset    the offset, in days
      */
-    protected void handleDate(Date startDate, Date endDate, Integer Offset) {
+    private void handleDate(Date startDate, Date endDate, Integer offset) {
         if (isVisibleInActivity()) {
-            if (!shiftDates(startDate, endDate, Offset)) {
+            if (!shiftDates(startDate, endDate, offset)) {
                 return;
             }
         }
         refreshIfVisible();
     }
 
-
-    protected void refreshIfVisible() {
+    private void refreshIfVisible() {
         if (isVisibleInActivity()) {
             refresh();
         } else {
@@ -317,63 +248,20 @@ public abstract class AbstractChartFragment extends AbstractGBFragment {
     /**
      * Shifts the given dates by offset days. offset may be positive or negative.
      *
-     * @param startDate
-     * @param endDate
+     * @param startDate the start date
+     * @param endDate   the end date
      * @param offset    a positive or negative number of days to shift the dates
      * @return true if the shift was successful and false otherwise
      */
-    protected boolean shiftDates(Date startDate, Date endDate, int offset) {
+    private boolean shiftDates(Date startDate, Date endDate, int offset) {
         Date newStart = DateTimeUtils.shiftByDays(startDate, offset);
         Date newEnd = DateTimeUtils.shiftByDays(endDate, offset);
         Date now = new Date();
         if (newEnd.after(now)) { //allow to jump to the end (now) if week/month reach after now
-            newEnd=now;
-            newStart=DateTimeUtils.shiftByDays(now,-1);
+            newEnd = now;
+            newStart = DateTimeUtils.shiftByDays(now, -1);
         }
         return setDateRange(newStart, newEnd);
-    }
-
-    protected Integer getColorFor(int activityKind) {
-        switch (activityKind) {
-            case ActivityKind.TYPE_DEEP_SLEEP:
-                return akDeepSleep.color;
-            case ActivityKind.TYPE_LIGHT_SLEEP:
-                return akLightSleep.color;
-            case ActivityKind.TYPE_REM_SLEEP:
-                return akRemSleep.color;
-            case ActivityKind.TYPE_ACTIVITY:
-                return akActivity.color;
-        }
-        return akActivity.color;
-    }
-
-    protected SampleProvider<? extends AbstractActivitySample> getProvider(DBHandler db, GBDevice device) {
-        DeviceCoordinator coordinator = DeviceHelper.getInstance().getCoordinator(device);
-        return coordinator.getSampleProvider(device, db.getDaoSession());
-    }
-
-    /**
-     * Returns all kinds of samples for the given device.
-     * To be called from a background thread.
-     *
-     * @param device
-     * @param tsFrom
-     * @param tsTo
-     */
-    protected List<? extends ActivitySample> getAllSamples(DBHandler db, GBDevice device, int tsFrom, int tsTo) {
-        SampleProvider<? extends ActivitySample> provider = getProvider(db, device);
-        return provider.getAllActivitySamples(tsFrom, tsTo);
-    }
-
-    protected List<? extends AbstractActivitySample> getActivitySamples(DBHandler db, GBDevice device, int tsFrom, int tsTo) {
-        SampleProvider<? extends AbstractActivitySample> provider = getProvider(db, device);
-        return provider.getActivitySamples(tsFrom, tsTo);
-    }
-
-
-    protected List<? extends ActivitySample> getSleepSamples(DBHandler db, GBDevice device, int tsFrom, int tsTo) {
-        SampleProvider<? extends ActivitySample> provider = getProvider(db, device);
-        return provider.getSleepSamples(tsFrom, tsTo);
     }
 
     protected void configureChartDefaults(Chart<?> chart) {
@@ -432,271 +320,21 @@ public abstract class AbstractChartFragment extends AbstractGBFragment {
         }
     }
 
-    /**
-     * This method reads the data from the database, analyzes and prepares it for
-     * the charts. This will be called from a background task, so there must not be
-     * any UI access. #updateChartsInUIThread and #renderCharts will be automatically called after this method.
-     */
-    protected abstract ChartsData refreshInBackground(ChartsHost chartsHost, DBHandler db, GBDevice device);
-
-    /**
-     * Triggers the actual (re-) rendering of the chart.
-     * Always called from the UI thread.
-     */
-    protected abstract void renderCharts();
-
-    public DefaultChartsData<LineData> refresh(GBDevice gbDevice, List<? extends ActivitySample> samples) {
-//        Calendar cal = GregorianCalendar.getInstance();
-//        cal.clear();
-        TimestampTranslation tsTranslation = new TimestampTranslation();
-//        Date date;
-//        String dateStringFrom = "";
-//        String dateStringTo = "";
-//        ArrayList<String> xLabels = null;
-
-        LOG.info("" + getTitle() + ": number of samples:" + samples.size());
-        LineData lineData;
-        if (samples.size() > 1) {
-            boolean annotate = true;
-            boolean use_steps_as_movement;
-
-            int last_type = ActivityKind.TYPE_UNKNOWN;
-
-            int numEntries = samples.size();
-            List<Entry> activityEntries = new ArrayList<>(numEntries);
-            List<Entry> deepSleepEntries = new ArrayList<>(numEntries);
-            List<Entry> lightSleepEntries = new ArrayList<>(numEntries);
-            List<Entry> remSleepEntries = new ArrayList<>(numEntries);
-            List<Entry> notWornEntries = new ArrayList<>(numEntries);
-            boolean hr = supportsHeartrate(gbDevice);
-            List<Entry> heartrateEntries = hr ? new ArrayList<Entry>(numEntries) : null;
-            List<Integer> colors = new ArrayList<>(numEntries); // this is kinda inefficient...
-            int lastHrSampleIndex = -1;
-            HeartRateUtils heartRateUtilsInstance = HeartRateUtils.getInstance();
-
-            for (int i = 0; i < numEntries; i++) {
-                ActivitySample sample = samples.get(i);
-                int type = sample.getKind();
-                int ts = tsTranslation.shorten(sample.getTimestamp());
-
-//                System.out.println(ts);
-//                ts = i;
-                // determine start and end dates
-//                if (i == 0) {
-//                    cal.setTimeInMillis(ts * 1000L); // make sure it's converted to long
-//                    date = cal.getTime();
-//                    dateStringFrom = dateFormat.format(date);
-//                } else if (i == samples.size() - 1) {
-//                    cal.setTimeInMillis(ts * 1000L); // same here
-//                    date = cal.getTime();
-//                    dateStringTo = dateFormat.format(date);
-//                }
-
-                float movement = sample.getIntensity();
-
-                float value = movement;
-                switch (type) {
-                    case ActivityKind.TYPE_DEEP_SLEEP:
-                        if (last_type != type) { //FIXME: this is ugly but it works (repeated in each case)
-                            deepSleepEntries.add(createLineEntry(0, ts - 1));
-
-                            lightSleepEntries.add(createLineEntry(0, ts));
-                            remSleepEntries.add(createLineEntry(0, ts));
-                            notWornEntries.add(createLineEntry(0, ts));
-                            activityEntries.add(createLineEntry(0, ts));
-                        }
-                        deepSleepEntries.add(createLineEntry(value + SleepUtils.Y_VALUE_DEEP_SLEEP, ts));
-                        break;
-                    case ActivityKind.TYPE_LIGHT_SLEEP:
-                        if (last_type != type) {
-                            lightSleepEntries.add(createLineEntry(0, ts - 1));
-
-                            deepSleepEntries.add(createLineEntry(0, ts));
-                            remSleepEntries.add(createLineEntry(0, ts));
-                            notWornEntries.add(createLineEntry(0, ts));
-                            activityEntries.add(createLineEntry(0, ts));
-                        }
-                        lightSleepEntries.add(createLineEntry(value, ts));
-                        break;
-                    case ActivityKind.TYPE_REM_SLEEP:
-                        if (last_type != type) {
-                            remSleepEntries.add(createLineEntry(0, ts - 1));
-
-                            lightSleepEntries.add(createLineEntry(0, ts));
-                            deepSleepEntries.add(createLineEntry(0, ts));
-                            notWornEntries.add(createLineEntry(0, ts));
-                            activityEntries.add(createLineEntry(0, ts));
-                        }
-                        remSleepEntries.add(createLineEntry(value, ts));
-                        break;
-                    case ActivityKind.TYPE_NOT_WORN:
-                        if (last_type != type) {
-                            notWornEntries.add(createLineEntry(0, ts - 1));
-
-                            lightSleepEntries.add(createLineEntry(0, ts));
-                            deepSleepEntries.add(createLineEntry(0, ts));
-                            remSleepEntries.add(createLineEntry(0, ts));
-                            activityEntries.add(createLineEntry(0, ts));
-                        }
-                        notWornEntries.add(createLineEntry(SleepUtils.Y_VALUE_DEEP_SLEEP, ts)); //a small value, just to show something on the graphs
-                        break;
-                    default:
-//                        short steps = sample.getSteps();
-//                        if (use_steps_as_movement && steps != 0) {
-//                            // I'm not sure using steps for this is actually a good idea
-//                            movement = steps;
-//                        }
-//                        value = ((float) movement) / movement_divisor;
-                        if (last_type != type) {
-                            activityEntries.add(createLineEntry(0, ts - 1));
-
-                            lightSleepEntries.add(createLineEntry(0, ts));
-                            notWornEntries.add(createLineEntry(0, ts));
-                            deepSleepEntries.add(createLineEntry(0, ts));
-                            remSleepEntries.add(createLineEntry(0, ts));
-                        }
-                        activityEntries.add(createLineEntry(value, ts));
-                }
-                if (hr && sample.getKind() != ActivityKind.TYPE_NOT_WORN && heartRateUtilsInstance.isValidHeartRateValue(sample.getHeartRate())) {
-                    if (lastHrSampleIndex > -1 && ts - lastHrSampleIndex > 1800*HeartRateUtils.MAX_HR_MEASUREMENTS_GAP_MINUTES) {
-                        heartrateEntries.add(createLineEntry(0, lastHrSampleIndex + 1));
-                        heartrateEntries.add(createLineEntry(0, ts - 1));
-                    }
-
-                    heartrateEntries.add(createLineEntry(sample.getHeartRate(), ts));
-                    lastHrSampleIndex = ts;
-                }
-
-                String xLabel = "";
-                if (annotate) {
-//                    cal.setTimeInMillis((ts + tsOffset) * 1000L);
-//                    date = cal.getTime();
-//                    String dateString = annotationDateFormat.format(date);
-//                    xLabel = dateString;
-//                    if (last_type != type) {
-//                        if (isSleep(last_type) && !isSleep(type)) {
-//                            // woken up
-//                            LimitLine line = new LimitLine(i, dateString);
-//                            line.enableDashedLine(8, 8, 0);
-//                            line.setTextColor(Color.WHITE);
-//                            line.setTextSize(15);
-//                            chart.getXAxis().addLimitLine(line);
-//                        } else if (!isSleep(last_type) && isSleep(type)) {
-//                            // fallen asleep
-//                            LimitLine line = new LimitLine(i, dateString);
-//                            line.enableDashedLine(8, 8, 0);
-//                            line.setTextSize(15);
-//                            line.setTextColor(Color.WHITE);
-//                            chart.getXAxis().addLimitLine(line);
-//                        }
-//                    }
-                }
-                last_type = type;
-            }
-
-
-            List<ILineDataSet> lineDataSets = new ArrayList<>();
-            LineDataSet activitySet = createDataSet(activityEntries, akActivity.color, "Activity");
-            lineDataSets.add(activitySet);
-            LineDataSet deepSleepSet = createDataSet(deepSleepEntries, akDeepSleep.color, "Deep Sleep");
-            lineDataSets.add(deepSleepSet);
-            LineDataSet lightSleepSet = createDataSet(lightSleepEntries, akLightSleep.color, "Light Sleep");
-            lineDataSets.add(lightSleepSet);
-            if (supportsRemSleep(gbDevice)) {
-                LineDataSet remSleepSet = createDataSet(remSleepEntries, akRemSleep.color, "REM Sleep");
-                lineDataSets.add(remSleepSet);
-            }
-            LineDataSet notWornSet = createDataSet(notWornEntries, akNotWorn.color, "Not worn");
-            lineDataSets.add(notWornSet);
-
-            if (hr && heartrateEntries.size() > 0) {
-                LineDataSet heartrateSet = createHeartrateSet(heartrateEntries, "Heart Rate");
-
-                lineDataSets.add(heartrateSet);
-            }
-            lineData = new LineData(lineDataSets);
-
-//            chart.setDescription(getString(R.string.sleep_activity_date_range, dateStringFrom, dateStringTo));
-//            chart.setDescriptionPosition(?, ?);
-        } else {
-            lineData = new LineData();
-        }
-
-        ValueFormatter xValueFormatter = new SampleXLabelFormatter(tsTranslation);
-        return new DefaultChartsData(lineData, xValueFormatter);
-    }
-
-    /**
-     * Implement this to supply the samples to be displayed.
-     *
-     * @param db
-     * @param device
-     * @param tsFrom
-     * @param tsTo
-     * @return
-     */
-    protected abstract List<? extends ActivitySample> getSamples(DBHandler db, GBDevice device, int tsFrom, int tsTo);
-
-    protected abstract void setupLegend(Chart chart);
-
-    protected Entry createLineEntry(float value, int xValue) {
-        return new Entry(xValue, value);
-    }
-
-    protected LineDataSet createDataSet(List<Entry> values, Integer color, String label) {
-        LineDataSet set1 = new LineDataSet(values, label);
-        set1.setColor(color);
-//        set1.setDrawCubic(true);
-//        set1.setCubicIntensity(0.2f);
-        set1.setDrawFilled(true);
-        set1.setDrawCircles(false);
-//        set1.setLineWidth(2f);
-//        set1.setCircleSize(5f);
-        set1.setFillColor(color);
-        set1.setFillAlpha(255);
-        set1.setDrawValues(false);
-//        set1.setHighLightColor(Color.rgb(128, 0, 255));
-//        set1.setColor(Color.rgb(89, 178, 44));
-        set1.setValueTextColor(CHART_TEXT_COLOR);
-        set1.setAxisDependency(YAxis.AxisDependency.LEFT);
-        return set1;
-    }
-
-    protected LineDataSet createHeartrateSet(List<Entry> values, String label) {
-        LineDataSet set1 = new LineDataSet(values, label);
-        set1.setLineWidth(2.2f);
-        set1.setColor(HEARTRATE_COLOR);
-//        set1.setDrawCubic(true);
-        set1.setMode(LineDataSet.Mode.HORIZONTAL_BEZIER);
-        set1.setCubicIntensity(0.1f);
-        set1.setDrawCircles(false);
-//        set1.setCircleRadius(2f);
-//        set1.setDrawFilled(true);
-//        set1.setColor(getResources().getColor(android.R.color.background_light));
-//        set1.setCircleColor(HEARTRATE_COLOR);
-//        set1.setFillColor(ColorTemplate.getHoloBlue());
-//        set1.setHighLightColor(Color.rgb(128, 0, 255));
-//        set1.setColor(Color.rgb(89, 178, 44));
-        set1.setDrawValues(true);
-        set1.setValueTextColor(CHART_TEXT_COLOR);
-        set1.setAxisDependency(YAxis.AxisDependency.RIGHT);
-        return set1;
-    }
-
-    protected RefreshTask createRefreshTask(String task, Context context) {
+    private RefreshTask createRefreshTask(final String task, final Context context) {
         return new RefreshTask(task, context);
     }
 
-    public class RefreshTask extends DBAccess {
-        private ChartsData chartsData;
+    @SuppressLint("StaticFieldLeak")
+    private final class RefreshTask extends DBAccess {
+        private D chartsData;
 
-        public RefreshTask(String task, Context context) {
+        public RefreshTask(final String task, final Context context) {
             super(task, context);
         }
 
         @Override
-        protected void doInBackground(DBHandler db) {
-            ChartsHost chartsHost = getChartsHost();
+        protected void doInBackground(final DBHandler db) {
+            final ChartsHost chartsHost = getChartsHost();
             if (chartsHost != null) {
                 chartsData = refreshInBackground(chartsHost, db, chartsHost.getDevice());
             } else {
@@ -705,9 +343,9 @@ public abstract class AbstractChartFragment extends AbstractGBFragment {
         }
 
         @Override
-        protected void onPostExecute(Object o) {
+        protected void onPostExecute(final Object o) {
             super.onPostExecute(o);
-            FragmentActivity activity = getActivity();
+            final FragmentActivity activity = getActivity();
             if (activity != null && !activity.isFinishing() && !activity.isDestroyed()) {
                 updateChartsnUIThread(chartsData);
                 renderCharts();
@@ -717,22 +355,20 @@ public abstract class AbstractChartFragment extends AbstractGBFragment {
         }
     }
 
-    protected abstract void updateChartsnUIThread(ChartsData chartsData);
-
     /**
      * Returns true if the date was successfully shifted, and false if the shift
      * was ignored, e.g. when the to-value is in the future.
      *
-     * @param from
-     * @param to
+     * @param from the start date
+     * @param to   the end date
      */
-    public boolean setDateRange(Date from, Date to) {
+    private boolean setDateRange(final Date from, final Date to) {
         if (from.compareTo(to) > 0) {
             throw new IllegalArgumentException("Bad date range: " + from + ".." + to);
         }
-        Date now = new Date();
+        final Date now = new Date();
         if (to.after(now) || //do not refresh chart if we reached now
-                to.getTime()/10000 == (getEndDate().getTime()/10000)) {
+                to.getTime() / 10000 == (getEndDate().getTime() / 10000)) {
             return false;
         }
         setStartDate(from);
@@ -740,88 +376,11 @@ public abstract class AbstractChartFragment extends AbstractGBFragment {
         return true;
     }
 
-    protected void updateDateInfo(Date from, Date to) {
+    private void updateDateInfo(final Date from, final Date to) {
         if (from.equals(to)) {
             getChartsHost().setDateInfo(DateTimeUtils.formatDate(from));
         } else {
             getChartsHost().setDateInfo(DateTimeUtils.formatDateRange(from, to));
         }
-    }
-
-    protected List<? extends ActivitySample> getSamples(DBHandler db, GBDevice device) {
-        int tsStart = getTSStart();
-        int tsEnd = getTSEnd();
-        List<ActivitySample> samples = (List<ActivitySample>) getSamples(db, device, tsStart, tsEnd);
-        ensureStartAndEndSamples(samples, tsStart, tsEnd);
-//        List<ActivitySample> samples2 = new ArrayList<>();
-//        int min = Math.min(samples.size(), 10);
-//        int min = Math.min(samples.size(), 10);
-//        for (int i = 0; i < min; i++) {
-//            samples2.add(samples.get(i));
-//        }
-//        return samples2;
-        return samples;
-    }
-
-    protected List<? extends ActivitySample> getSamplesofSleep(DBHandler db, GBDevice device) {
-        int SLEEP_HOUR_LIMIT = 12;
-
-        int tsStart = getTSStart();
-        Calendar day = GregorianCalendar.getInstance();
-        day.setTimeInMillis(tsStart * 1000L);
-        day.set(Calendar.HOUR_OF_DAY, SLEEP_HOUR_LIMIT);
-        day.set(Calendar.MINUTE, 0);
-        day.set(Calendar.SECOND, 0);
-        tsStart = toTimestamp(day.getTime());
-
-        int tsEnd = getTSEnd();
-        day.setTimeInMillis(tsEnd* 1000L);
-        day.set(Calendar.HOUR_OF_DAY, SLEEP_HOUR_LIMIT);
-        day.set(Calendar.MINUTE, 0);
-        day.set(Calendar.SECOND, 0);
-        tsEnd = toTimestamp(day.getTime());
-
-        List<ActivitySample> samples = (List<ActivitySample>) getSamples(db, device, tsStart, tsEnd);
-        ensureStartAndEndSamples(samples, tsStart, tsEnd);
-        return samples;
-    }
-
-    protected void ensureStartAndEndSamples(List<ActivitySample> samples, int tsStart, int tsEnd) {
-        if (samples == null || samples.isEmpty()) {
-            return;
-        }
-        ActivitySample lastSample = samples.get(samples.size() - 1);
-        if (lastSample.getTimestamp() < tsEnd) {
-            samples.add(createTrailingActivitySample(lastSample, tsEnd));
-        }
-
-        ActivitySample firstSample = samples.get(0);
-        if (firstSample.getTimestamp() > tsStart) {
-            samples.add(createTrailingActivitySample(firstSample, tsStart));
-        }
-    }
-
-    private ActivitySample createTrailingActivitySample(ActivitySample referenceSample, int timestamp) {
-        TrailingActivitySample sample = new TrailingActivitySample();
-        if (referenceSample instanceof AbstractActivitySample) {
-            AbstractActivitySample reference = (AbstractActivitySample) referenceSample;
-            sample.setUserId(reference.getUserId());
-            sample.setDeviceId(reference.getDeviceId());
-            sample.setProvider(reference.getProvider());
-        }
-        sample.setTimestamp(timestamp);
-        return sample;
-    }
-
-    private int getTSEnd() {
-        return toTimestamp(getEndDate());
-    }
-
-    private int getTSStart() {
-        return toTimestamp(getStartDate());
-    }
-
-    private int toTimestamp(Date date) {
-        return (int) ((date.getTime() / 1000));
     }
 }

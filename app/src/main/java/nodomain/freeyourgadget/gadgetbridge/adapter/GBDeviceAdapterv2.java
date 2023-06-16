@@ -96,7 +96,7 @@ import nodomain.freeyourgadget.gadgetbridge.activities.ControlCenterv2;
 import nodomain.freeyourgadget.gadgetbridge.activities.HeartRateDialog;
 import nodomain.freeyourgadget.gadgetbridge.activities.OpenFwAppInstallerActivity;
 import nodomain.freeyourgadget.gadgetbridge.activities.VibrationActivity;
-import nodomain.freeyourgadget.gadgetbridge.activities.charts.ChartsActivity;
+import nodomain.freeyourgadget.gadgetbridge.activities.charts.ActivityChartsActivity;
 import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsActivity;
 import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
@@ -496,7 +496,7 @@ public class GBDeviceAdapterv2 extends ListAdapter<GBDevice, GBDeviceAdapterv2.V
                                                          @Override
                                                          public void onClick(View v) {
                                                              Intent startIntent;
-                                                             startIntent = new Intent(context, ChartsActivity.class);
+                                                             startIntent = new Intent(context, ActivityChartsActivity.class);
                                                              startIntent.putExtra(GBDevice.EXTRA_DEVICE, device);
                                                              context.startActivity(startIntent);
                                                          }
@@ -1315,9 +1315,9 @@ public class GBDeviceAdapterv2 extends ListAdapter<GBDevice, GBDeviceAdapterv2.V
 
         //do the multiple mini-charts for activities in a loop
         Hashtable<PieChart, Pair<Boolean, Integer>> activitiesStatusMiniCharts = new Hashtable<>();
-        activitiesStatusMiniCharts.put(holder.TotalStepsChart, new Pair<>(showActivitySteps && steps > 0, ChartsActivity.getChartsTabIndex("stepsweek", device, context)));
-        activitiesStatusMiniCharts.put(holder.SleepTimeChart, new Pair<>(showActivitySleep && sleep > 0, ChartsActivity.getChartsTabIndex("sleep", device, context)));
-        activitiesStatusMiniCharts.put(holder.TotalDistanceChart, new Pair<>(showActivityDistance && steps > 0, ChartsActivity.getChartsTabIndex("activity", device, context)));
+        activitiesStatusMiniCharts.put(holder.TotalStepsChart, new Pair<>(showActivitySteps && steps > 0, ActivityChartsActivity.getChartsTabIndex("stepsweek", device, context)));
+        activitiesStatusMiniCharts.put(holder.SleepTimeChart, new Pair<>(showActivitySleep && sleep > 0, ActivityChartsActivity.getChartsTabIndex("sleep", device, context)));
+        activitiesStatusMiniCharts.put(holder.TotalDistanceChart, new Pair<>(showActivityDistance && steps > 0, ActivityChartsActivity.getChartsTabIndex("activity", device, context)));
 
         for (Map.Entry<PieChart, Pair<Boolean, Integer>> miniCharts : activitiesStatusMiniCharts.entrySet()) {
             PieChart miniChart = miniCharts.getKey();
@@ -1327,9 +1327,9 @@ public class GBDeviceAdapterv2 extends ListAdapter<GBDevice, GBDeviceAdapterv2.V
                                              @Override
                                              public void onClick(View v) {
                                                  Intent startIntent;
-                                                 startIntent = new Intent(context, ChartsActivity.class);
+                                                 startIntent = new Intent(context, ActivityChartsActivity.class);
                                                  startIntent.putExtra(GBDevice.EXTRA_DEVICE, device);
-                                                 startIntent.putExtra(ChartsActivity.EXTRA_FRAGMENT_ID, parameters.second);
+                                                 startIntent.putExtra(ActivityChartsActivity.EXTRA_FRAGMENT_ID, parameters.second);
                                                  context.startActivity(startIntent);
                                              }
                                          }

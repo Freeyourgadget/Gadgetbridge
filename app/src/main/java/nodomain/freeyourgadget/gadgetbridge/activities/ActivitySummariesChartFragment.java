@@ -41,7 +41,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import nodomain.freeyourgadget.gadgetbridge.R;
-import nodomain.freeyourgadget.gadgetbridge.activities.charts.AbstractChartFragment;
+import nodomain.freeyourgadget.gadgetbridge.activities.charts.AbstractActivityChartFragment;
 import nodomain.freeyourgadget.gadgetbridge.activities.charts.ChartsData;
 import nodomain.freeyourgadget.gadgetbridge.activities.charts.ChartsHost;
 import nodomain.freeyourgadget.gadgetbridge.activities.charts.DefaultChartsData;
@@ -51,7 +51,7 @@ import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
 
 
-public class ActivitySummariesChartFragment extends AbstractChartFragment {
+public class ActivitySummariesChartFragment extends AbstractActivityChartFragment<ChartsData> {
     private static final Logger LOG = LoggerFactory.getLogger(ActivitySummariesChartFragment.class);
 
     private LineChart mChart;
@@ -139,7 +139,7 @@ public class ActivitySummariesChartFragment extends AbstractChartFragment {
     }
 
     @Override
-    protected void setupLegend(Chart chart) {
+    protected void setupLegend(Chart<?> chart) {
         List<LegendEntry> legendEntries = new ArrayList<>(5);
 
         LegendEntry activityEntry = new LegendEntry();

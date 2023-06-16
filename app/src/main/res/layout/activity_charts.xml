@@ -4,7 +4,7 @@
     android:id="@+id/activity_swipe_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="nodomain.freeyourgadget.gadgetbridge.activities.charts.ChartsActivity">
+    tools:context="nodomain.freeyourgadget.gadgetbridge.activities.charts.ActivityChartsActivity">
 
     <LinearLayout
         android:id="@+id/charts_main_layout"
@@ -17,7 +17,7 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
-            tools:context="nodomain.freeyourgadget.gadgetbridge.activities.charts.ChartsActivity">
+            tools:context="nodomain.freeyourgadget.gadgetbridge.activities.charts.ActivityChartsActivity">
 
             <com.google.android.material.tabs.TabLayout
                 android:id="@+id/charts_pagerTabStrip"

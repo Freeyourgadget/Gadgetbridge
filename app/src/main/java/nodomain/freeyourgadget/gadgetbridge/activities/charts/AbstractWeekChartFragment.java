@@ -60,7 +60,7 @@ import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.util.LimitedQueue;
 
 
-public abstract class AbstractWeekChartFragment extends AbstractChartFragment {
+public abstract class AbstractWeekChartFragment extends AbstractActivityChartFragment<AbstractWeekChartFragment.MyChartsData> {
     protected static final Logger LOG = LoggerFactory.getLogger(AbstractWeekChartFragment.class);
     protected final int TOTAL_DAYS = getRangeDays();
     protected int TOTAL_DAYS_FOR_AVERAGE = 0;
@@ -76,20 +76,18 @@ public abstract class AbstractWeekChartFragment extends AbstractChartFragment {
     ImageView stepsStreaksButton;
 
     @Override
-    protected ChartsData refreshInBackground(ChartsHost chartsHost, DBHandler db, GBDevice device) {
+    protected MyChartsData refreshInBackground(ChartsHost chartsHost, DBHandler db, GBDevice device) {
         Calendar day = Calendar.getInstance();
         day.setTime(chartsHost.getEndDate());
         //NB: we could have omitted the day, but this way we can move things to the past easily
         DayData dayData = refreshDayPie(db, day, device);
-        WeekChartsData weekBeforeData = refreshWeekBeforeData(db, mWeekChart, day, device);
+        WeekChartsData<BarData> weekBeforeData = refreshWeekBeforeData(db, mWeekChart, day, device);
 
         return new MyChartsData(dayData, weekBeforeData);
     }
 
     @Override
-    protected void updateChartsnUIThread(ChartsData chartsData) {
-        MyChartsData mcd = (MyChartsData) chartsData;
-
+    protected void updateChartsnUIThread(MyChartsData mcd) {
         setupLegend(mWeekChart);
         mTodayPieChart.setCenterText(mcd.getDayData().centerText);
         mTodayPieChart.setData(mcd.getDayData().data);
@@ -353,7 +351,7 @@ public abstract class AbstractWeekChartFragment extends AbstractChartFragment {
         }
     }
 
-    private static class MyChartsData extends ChartsData {
+    protected static class MyChartsData extends ChartsData {
         private final WeekChartsData<BarData> weekBeforeData;
         private final DayData dayData;
 
@@ -379,7 +377,7 @@ public abstract class AbstractWeekChartFragment extends AbstractChartFragment {
         Activity activity = getActivity();
         int key = (int) (day.getTimeInMillis() / 1000) + (mOffsetHours * 3600);
         if (activity != null) {
-            activityAmountCache = ((ChartsActivity) activity).mActivityAmountCache;
+            activityAmountCache = ((ActivityChartsActivity) activity).mActivityAmountCache;
             amounts = (ActivityAmounts) (activityAmountCache.lookup(key));
         }
 

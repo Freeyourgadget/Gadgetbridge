@@ -514,7 +514,7 @@
             android:name=".devices.lenovo.LenovoWatchCalibrationActivity"
             android:label="@string/title_activity_LenovoWatch_calibration" />
         <activity
-            android:name=".activities.charts.ChartsActivity"
+            android:name=".activities.charts.ActivityChartsActivity"
             android:label="@string/title_activity_charts"
             android:parentActivityName=".activities.ControlCenterv2" />
         <activity

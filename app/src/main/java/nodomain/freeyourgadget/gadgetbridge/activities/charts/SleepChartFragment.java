@@ -67,7 +67,7 @@ import nodomain.freeyourgadget.gadgetbridge.util.DateTimeUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 
 
-public class SleepChartFragment extends AbstractChartFragment {
+public class SleepChartFragment extends AbstractActivityChartFragment<SleepChartFragment.MyChartsData> {
     protected static final Logger LOG = LoggerFactory.getLogger(ActivitySleepChartFragment.class);
 
     private LineChart mActivityChart;
@@ -94,7 +94,7 @@ public class SleepChartFragment extends AbstractChartFragment {
 
 
     @Override
-    protected ChartsData refreshInBackground(ChartsHost chartsHost, DBHandler db, GBDevice device) {
+    protected MyChartsData refreshInBackground(ChartsHost chartsHost, DBHandler db, GBDevice device) {
         List<? extends ActivitySample> samples;
         if (CHARTS_SLEEP_RANGE_24H) {
             samples = getSamples(db, device);
@@ -117,7 +117,7 @@ public class SleepChartFragment extends AbstractChartFragment {
                 }
             }
         }
-        DefaultChartsData chartsData = refresh(device, samples);
+        DefaultChartsData<LineData> chartsData = refresh(device, samples);
         Triple<Float, Integer, Integer> hrData = calculateHrData(samples);
         Triple<Float, Float, Float> intensityData = calculateIntensityData(samples);
         return new MyChartsData(mySleepChartsData, chartsData, hrData.getLeft(), hrData.getMiddle(), hrData.getRight(), intensityData.getLeft(), intensityData.getMiddle(), intensityData.getRight());
@@ -197,8 +197,7 @@ public class SleepChartFragment extends AbstractChartFragment {
     }
 
     @Override
-    protected void updateChartsnUIThread(ChartsData chartsData) {
-        MyChartsData mcd = (MyChartsData) chartsData;
+    protected void updateChartsnUIThread(MyChartsData mcd) {
         MySleepChartsData pieData = mcd.getPieData();
         mSleepAmountChart.setCenterText(pieData.getTotalSleep());
         mSleepAmountChart.setData(pieData.getPieData());
@@ -420,7 +419,7 @@ public class SleepChartFragment extends AbstractChartFragment {
     }
 
     @Override
-    protected void setupLegend(Chart chart) {
+    protected void setupLegend(Chart<?> chart) {
         List<LegendEntry> legendEntries = new ArrayList<>(3);
         LegendEntry lightSleepEntry = new LegendEntry();
         lightSleepEntry.label = akLightSleep.label;
@@ -497,7 +496,7 @@ public class SleepChartFragment extends AbstractChartFragment {
         }
     }
 
-    private static class MyChartsData extends ChartsData {
+    protected static class MyChartsData extends ChartsData {
         private final DefaultChartsData<LineData> chartsData;
         private final MySleepChartsData pieData;
         private final float heartRateAverage;

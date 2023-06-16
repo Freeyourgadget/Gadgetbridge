@@ -8,7 +8,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="horizontal"
-        tools:context="nodomain.freeyourgadget.gadgetbridge.activities.charts.ChartsActivity$PlaceholderFragment">
+        tools:context="nodomain.freeyourgadget.gadgetbridge.activities.charts.ActivityChartsActivity$PlaceholderFragment">
 
         <LinearLayout
             android:layout_width="match_parent"

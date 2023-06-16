@@ -40,7 +40,6 @@ import org.slf4j.LoggerFactory;
 
 import java.util.Calendar;
 import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.List;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
@@ -51,7 +50,7 @@ import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySession;
 import nodomain.freeyourgadget.gadgetbridge.util.DateTimeUtils;
 
-public class ActivityListingChartFragment extends AbstractChartFragment {
+public class ActivityListingChartFragment extends AbstractActivityChartFragment<ActivityListingChartFragment.MyChartsData> {
     protected static final Logger LOG = LoggerFactory.getLogger(ActivityListingChartFragment.class);
     int tsDateTo;
 
@@ -114,7 +113,7 @@ public class ActivityListingChartFragment extends AbstractChartFragment {
     }
 
     @Override
-    protected ChartsData refreshInBackground(ChartsHost chartsHost, DBHandler db, GBDevice device) {
+    protected MyChartsData refreshInBackground(ChartsHost chartsHost, DBHandler db, GBDevice device) {
         List<? extends ActivitySample> activitySamples;
         activitySamples = getSamples(db, device);
         List<ActivitySession> stepSessions = null;
@@ -138,16 +137,14 @@ public class ActivityListingChartFragment extends AbstractChartFragment {
     }
 
     @Override
-    protected void updateChartsnUIThread(ChartsData chartsData) {
-        MyChartsData mcd = (MyChartsData) chartsData;
-
+    protected void updateChartsnUIThread(MyChartsData mcd) {
         if (mcd == null) {
             return;
         }
         if (mcd.getStepSessions() == null) {
             return;
         }
-        
+
         if (mcd.getStepSessions().toArray().length == 0) {
             getChartsHost().enableSwipeRefresh(true); //enable pull to refresh, might be needed
         } else {
@@ -170,7 +167,7 @@ public class ActivityListingChartFragment extends AbstractChartFragment {
     }
 
     @Override
-    protected void setupLegend(Chart chart) {
+    protected void setupLegend(Chart<?> chart) {
     }
 
     @Override
@@ -200,7 +197,7 @@ public class ActivityListingChartFragment extends AbstractChartFragment {
         final Snackbar snackbar = Snackbar.make(rootView, text, 1000 * 8);
 
         View snackbarView = snackbar.getView();
-        snackbarView.setBackgroundColor(getContext().getResources().getColor(R.color.accent));
+        snackbarView.setBackgroundColor(requireContext().getResources().getColor(R.color.accent));
         snackbar.setActionTextColor(Color.WHITE);
         snackbar.setAction(getString(R.string.dialog_hide).toUpperCase(), new View.OnClickListener() {
                     @Override
@@ -213,18 +210,18 @@ public class ActivityListingChartFragment extends AbstractChartFragment {
     }
 
     private void showDashboard(int date, GBDevice device) {
-        FragmentManager fm = getActivity().getSupportFragmentManager();
+        FragmentManager fm = requireActivity().getSupportFragmentManager();
         ActivityListingDashboard listingDashboardFragment = ActivityListingDashboard.newInstance(date, device);
         listingDashboardFragment.show(fm, "activity_list_total_dashboard");
     }
 
     private void showDetail(int tsFrom, int tsTo, ActivitySession item, GBDevice device) {
-        FragmentManager fm = getActivity().getSupportFragmentManager();
+        FragmentManager fm = requireActivity().getSupportFragmentManager();
         ActivityListingDetail listingDetailFragment = ActivityListingDetail.newInstance(tsFrom, tsTo, item, device);
         listingDetailFragment.show(fm, "activity_list_detail");
     }
 
-    private static class MyChartsData extends ChartsData {
+    protected static final class MyChartsData extends ChartsData {
         private final List<ActivitySession> stepSessions;
         private final ActivitySession ongoingSession;
 

@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="nodomain.freeyourgadget.gadgetbridge.activities.charts.ChartsActivity$PlaceholderFragment">
+    tools:context="nodomain.freeyourgadget.gadgetbridge.activities.charts.ActivityChartsActivity$PlaceholderFragment">
 
     <TextView
         android:id="@+id/stepsDateView"
