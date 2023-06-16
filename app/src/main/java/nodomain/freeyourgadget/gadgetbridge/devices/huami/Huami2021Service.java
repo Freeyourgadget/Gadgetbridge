@@ -20,7 +20,6 @@ public class Huami2021Service {
     /**
      * Endpoints for 2021 chunked protocol
      */
-    public static final short CHUNKED2021_ENDPOINT_HTTP = 0x0001;
     public static final short CHUNKED2021_ENDPOINT_WEATHER = 0x000e;
     public static final short CHUNKED2021_ENDPOINT_CONNECTION = 0x0015;
     public static final short CHUNKED2021_ENDPOINT_USER_INFO = 0x0017;
@@ -30,36 +29,10 @@ public class Huami2021Service {
     public static final short CHUNKED2021_ENDPOINT_FIND_DEVICE = 0x001a;
     public static final short CHUNKED2021_ENDPOINT_MUSIC = 0x001b;
     public static final short CHUNKED2021_ENDPOINT_HEARTRATE = 0x001d;
-    public static final short CHUNKED2021_ENDPOINT_DISPLAY_ITEMS = 0x0026;
     public static final short CHUNKED2021_ENDPOINT_BATTERY = 0x0029;
-    public static final short CHUNKED2021_ENDPOINT_REMINDERS = 0x0038;
     public static final short CHUNKED2021_ENDPOINT_SILENT_MODE = 0x003b;
     public static final short CHUNKED2021_ENDPOINT_AUTH = 0x0082;
     public static final short CHUNKED2021_ENDPOINT_COMPAT = 0x0090;
-
-    /**
-     * HTTP, for {@link Huami2021Service#CHUNKED2021_ENDPOINT_HTTP}.
-     */
-    public static final byte HTTP_CMD_REQUEST = 0x01;
-    public static final byte HTTP_CMD_RESPONSE = 0x02;
-    public static final byte HTTP_RESPONSE_SUCCESS = 0x01;
-    public static final byte HTTP_RESPONSE_NO_INTERNET = 0x02;
-
-    /**
-     * Display Items, for {@link Huami2021Service#CHUNKED2021_ENDPOINT_DISPLAY_ITEMS}.
-     */
-    public static final byte DISPLAY_ITEMS_CMD_CAPABILITIES_REQUEST = 0x01;
-    public static final byte DISPLAY_ITEMS_CMD_CAPABILITIES_RESPONSE = 0x02;
-    public static final byte DISPLAY_ITEMS_CMD_REQUEST = 0x03;
-    public static final byte DISPLAY_ITEMS_CMD_RESPONSE = 0x04;
-    public static final byte DISPLAY_ITEMS_CMD_CREATE = 0x05;
-    public static final byte DISPLAY_ITEMS_CMD_CREATE_ACK = 0x06;
-    public static final byte DISPLAY_ITEMS_MENU = 0x01;
-    public static final byte DISPLAY_ITEMS_SHORTCUTS = 0x02;
-    public static final byte DISPLAY_ITEMS_CONTROL_CENTER = 0x03;
-    public static final byte DISPLAY_ITEMS_SECTION_MAIN = 0x01;
-    public static final byte DISPLAY_ITEMS_SECTION_MORE = 0x02;
-    public static final byte DISPLAY_ITEMS_SECTION_DISABLED = 0x03;
 
     /**
      * Find Device, for {@link Huami2021Service#CHUNKED2021_ENDPOINT_FIND_DEVICE}.
@@ -156,25 +129,6 @@ public class Huami2021Service {
     public static final byte MUSIC_BUTTON_PREVIOUS = 0x04;
     public static final byte MUSIC_BUTTON_VOLUME_UP = 0x05;
     public static final byte MUSIC_BUTTON_VOLUME_DOWN = 0x06;
-
-    /**
-     * Reminders, for {@link Huami2021Service#CHUNKED2021_ENDPOINT_REMINDERS}.
-     */
-    public static final byte REMINDERS_CMD_CAPABILITIES_REQUEST = 0x01;
-    public static final byte REMINDERS_CMD_CAPABILITIES_RESPONSE = 0x02;
-    public static final byte REMINDERS_CMD_REQUEST = 0x03;
-    public static final byte REMINDERS_CMD_RESPONSE = 0x04;
-    public static final byte REMINDERS_CMD_CREATE = 0x05;
-    public static final byte REMINDERS_CMD_CREATE_ACK = 0x06;
-    public static final byte REMINDERS_CMD_UPDATE = 0x07;
-    public static final byte REMINDERS_CMD_UPDATE_ACK = 0x08;
-    public static final byte REMINDERS_CMD_DELETE = 0x09;
-    public static final byte REMINDERS_CMD_DELETE_ACK = 0x0a;
-    public static final int REMINDER_FLAG_ENABLED = 0x0001;
-    public static final int REMINDER_FLAG_TEXT = 0x0008;
-    public static final int REMINDER_FLAG_REPEAT_MONTH = 0x1000;
-    public static final int REMINDER_FLAG_REPEAT_YEAR = 0x2000;
-    public static final String REMINDERS_PREF_CAPABILITY = "huami_2021_capability_reminders";
 
     /**
      * Weather, for {@link Huami2021Service#CHUNKED2021_ENDPOINT_WEATHER}.

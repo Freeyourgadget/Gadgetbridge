@@ -52,6 +52,7 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.AbstractHuami2
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.services.ZeppOsAlexaService;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.services.ZeppOsContactsService;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.services.ZeppOsLogsService;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.services.ZeppOsRemindersService;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.services.ZeppOsShortcutCardsService;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.services.ZeppOsConfigService;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.HuamiLanguageType;
@@ -241,7 +242,7 @@ public abstract class Huami2021Coordinator extends HuamiCoordinator {
 
     @Override
     public int getReminderSlotCount(final GBDevice device) {
-        return getPrefs(device).getInt(Huami2021Service.REMINDERS_PREF_CAPABILITY, 0);
+        return ZeppOsRemindersService.getSlotCount(getPrefs(device));
     }
 
     @Override

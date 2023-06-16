@@ -1009,7 +1009,7 @@ public abstract class HuamiSupport extends AbstractBTLEDeviceSupport implements 
         sendReminders(builder, reminders);
     }
 
-    protected void sendReminders(final TransactionBuilder builder, final List<? extends Reminder> reminders) {
+    private void sendReminders(final TransactionBuilder builder, final List<? extends Reminder> reminders) {
         final DeviceCoordinator coordinator = DeviceHelper.getInstance().getCoordinator(gbDevice);
 
         final Prefs prefs = new Prefs(GBApplication.getDeviceSpecificSharedPrefs(gbDevice.getAddress()));
@@ -1032,7 +1032,7 @@ public abstract class HuamiSupport extends AbstractBTLEDeviceSupport implements 
         }
     }
 
-    protected void sendReminderToDevice(final TransactionBuilder builder, int position, final Reminder reminder) {
+    private void sendReminderToDevice(final TransactionBuilder builder, int position, final Reminder reminder) {
         if (characteristicChunked == null) {
             LOG.warn("characteristicChunked is null, not sending reminder");
             return;
@@ -4082,11 +4082,6 @@ public abstract class HuamiSupport extends AbstractBTLEDeviceSupport implements 
         //FIXME: on older devices only the first one works, and on newer only the last is sufficient
         writeToConfiguration(builder, HuamiService.COMMAND_REQUEST_ALARMS);
         writeToConfiguration(builder, HuamiService.COMMAND_REQUEST_ALARMS_WITH_TIMES);
-        return this;
-    }
-
-    public HuamiSupport requestDisplayItems(TransactionBuilder builder) {
-        LOG.warn("Function not implemented");
         return this;
     }
 

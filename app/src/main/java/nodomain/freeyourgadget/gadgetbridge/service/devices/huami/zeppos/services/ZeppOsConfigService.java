@@ -25,6 +25,8 @@ import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.PR
 import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.PREF_NIGHT_MODE_END;
 import static nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandConst.PREF_NIGHT_MODE_START;
 
+import android.widget.Toast;
+
 import androidx.annotation.Nullable;
 
 import org.apache.commons.lang3.ArrayUtils;
@@ -124,6 +126,34 @@ public class ZeppOsConfigService extends AbstractZeppOsService {
             default:
                 LOG.warn("Unexpected configuration payload byte {}", String.format("0x%02x", payload[0]));
         }
+    }
+
+    @Override
+    public void initialize(TransactionBuilder builder) {
+        requestAllConfigs(builder);
+    }
+
+    @Override
+    public boolean onSendConfiguration(final String prefKey, Prefs prefs) {
+        if (!PREF_TO_CONFIG.containsKey(prefKey)) {
+            return false;
+        }
+
+        final ConfigSetter configSetter = new ConfigSetter();
+        if (setConfig(prefs, prefKey, configSetter)) {
+            try {
+                // If the ConfigSetter was able to set the config, just write it and return
+                final TransactionBuilder builder = new TransactionBuilder("Sending configuration for " + prefKey);
+                configSetter.write(builder);
+                builder.queue(getSupport().getQueue());
+            } catch (final Exception e) {
+                GB.toast("Error setting configuration", Toast.LENGTH_LONG, GB.ERROR, e);
+            }
+
+            return true;
+        }
+
+        return false;
     }
 
     private boolean sentFitnessGoal = false;
