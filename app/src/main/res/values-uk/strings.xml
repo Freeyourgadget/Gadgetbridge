@@ -443,7 +443,7 @@
     <string name="watch9_time_minutes">Хвилин:</string>
     <string name="watch9_time_hours">Годин:</string>
     <string name="watch9_time_seconds">Секунд:</string>
-    <string name="watch9_calibration_button">Калібрування</string>
+    <string name="watch9_calibration_button">Відкалібрувати</string>
     <string name="share_log">Поділитися звітом</string>
     <string name="warning">Увага!</string>
     <string name="no_data">Немає даних</string>
@@ -490,7 +490,7 @@
     <string name="mi2_prefs_do_not_disturb">Не турбувати</string>
     <string name="mi2_prefs_inactivity_warnings">Попередження про неактивність</string>
     <string name="mi2_prefs_inactivity_warnings_threshold">Поріг неактивності (хв)</string>
-    <string name="mi2_prefs_do_not_disturb_start">Початок</string>
+    <string name="mi2_prefs_do_not_disturb_start">Час початку</string>
     <string name="mi2_prefs_do_not_disturb_end">Завершення</string>
     <string name="authenticating">Авторизація</string>
     <string name="authentication_required">Потрібна авторизація</string>
@@ -538,8 +538,8 @@
     <string name="norwegian_bokmal">Норвезький літературний</string>
     <string name="mi3_prefs_night_mode">Нічний режим</string>
     <string name="activity_prefs_charts">Налаштування графіків</string>
-    <string name="activity_prefs_chart_max_heart_rate">Найвищий пульс</string>
-    <string name="activity_prefs_chart_min_heart_rate">Найнижчий пульс</string>
+    <string name="activity_prefs_chart_max_heart_rate">Найшвидше серцебиття</string>
+    <string name="activity_prefs_chart_min_heart_rate">Найповільніше серцебиття</string>
     <string name="notif_battery_low">%1$s низький заряд</string>
     <string name="notif_battery_low_extended">%1$s низький заряд: %2$s</string>
     <string name="pref_summary_rtl">Увімкніть, якщо ваш пристрій не показує мови «справа наліво»</string>
@@ -1477,11 +1477,11 @@
     <string name="mi2_prefs_do_not_disturb_lift_wrist">Вмикати екран під час піднесення руки в режимі «Не турбувати»</string>
     <string name="averageAltitude">Середня</string>
     <string name="minSpeed">Мінімальна</string>
-    <string name="maxHR">Найвищий пульс</string>
+    <string name="maxHR">Найшвидше серцебиття</string>
     <string name="spm">кроків/хв</string>
     <string name="averageCadence">Середній темп</string>
     <string name="maxCadence">Максимальний темп</string>
-    <string name="minHR">Найнижчий пульс</string>
+    <string name="minHR">Найповільніше серцебиття</string>
     <string name="maxStride">Максимальний крок</string>
     <string name="minStride">Мінімальний крок</string>
     <string name="minCadence">Мінімальний темп</string>
