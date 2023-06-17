@@ -16,7 +16,8 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.adapter.fossil_hr;
 
-import static nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.configuration.ConfigurationPutRequest.*;
+import static nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.configuration.ConfigurationPutRequest.FitnessConfigItem;
+import static nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.configuration.ConfigurationPutRequest.InactivityWarningItem;
 import static nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.configuration.ConfigurationPutRequest.UnitsConfigItem;
 import static nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil.configuration.ConfigurationPutRequest.VibrationStrengthConfigItem;
 import static nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.fossil_hr.music.MusicControlRequest.MUSIC_PHONE_REQUEST;
@@ -39,6 +40,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.drawable.Drawable;
+import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.IBinder;
@@ -49,6 +51,9 @@ import android.widget.Toast;
 
 import androidx.core.content.res.ResourcesCompat;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
+
+import net.e175.klaus.solarpositioning.DeltaT;
+import net.e175.klaus.solarpositioning.SPA;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -67,6 +72,7 @@ import java.nio.ByteOrder;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -102,6 +108,7 @@ import nodomain.freeyourgadget.gadgetbridge.model.MusicStateSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.Weather;
 import nodomain.freeyourgadget.gadgetbridge.model.WeatherSpec;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.pebble.webview.CurrentPosition;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.QHybridSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.adapter.fossil.FossilWatchAdapter;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.file.FileHandle;
@@ -1414,6 +1421,11 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
 
     @Override
     public void onSendWeather(WeatherSpec weatherSpec) {
+        // TODO: We should send sunrise on the same location as the weather
+        final Location lastKnownLocation = new CurrentPosition().getLastKnownLocation();
+        GregorianCalendar[] sunrise = SPA.calculateSunriseTransitSet(new GregorianCalendar(), lastKnownLocation.getLatitude(), lastKnownLocation.getLongitude(), DeltaT.estimate(new GregorianCalendar()));
+        Boolean isNight = sunrise[0].getTimeInMillis() > System.currentTimeMillis() || sunrise[2].getTimeInMillis() < System.currentTimeMillis();
+
         long ts = System.currentTimeMillis();
         ts /= 1000;
         try {
@@ -1425,7 +1437,7 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
                                             .put("alive", ts + 60 * 60)
                                             .put("unit", "c") // FIXME: do not hardcode
                                             .put("temp", weatherSpec.currentTemp - 273)
-                                            .put("cond_id", getIconForConditionCode(weatherSpec.currentConditionCode, false)) // FIXME do not assume daylight
+                                            .put("cond_id", getIconForConditionCode(weatherSpec.currentConditionCode, isNight))
                                     )
                             )
                     );
@@ -1442,7 +1454,7 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
                 int dayOfWeek = cal.get(Calendar.DAY_OF_WEEK);
                 forecastWeekArray.put(new JSONObject()
                         .put("day", weekdays[dayOfWeek])
-                        .put("cond_id", getIconForConditionCode(forecast.conditionCode, false)) // FIXME do not assume daylight
+                        .put("cond_id", getIconForConditionCode(forecast.conditionCode, false))
                         .put("high", forecast.maxTemp - 273)
                         .put("low", forecast.minTemp - 273)
                 );
@@ -1475,7 +1487,7 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
                                                     .put("rain", weatherSpec.precipProbability)
                                                     .put("uv", Math.round(weatherSpec.uvIndex))
                                                     .put("message", weatherSpec.currentCondition)
-                                                    .put("cond_id", getIconForConditionCode(weatherSpec.currentConditionCode, false)) // FIXME do not assume daylight
+                                                    .put("cond_id", getIconForConditionCode(weatherSpec.currentConditionCode, isNight))
                                                     .put("forecast_day", forecastDayArray)
                                                     .put("forecast_week", forecastWeekArray)
                                             )
