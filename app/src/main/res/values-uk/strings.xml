@@ -2254,4 +2254,9 @@
     <string name="fwapp_install_device_not_supported">Неможливо встановити файл, пристрій не підтримується.</string>
     <string name="screenshot_taken">Знімок екрана зроблено</string>
     <string name="share_screenshot">Поділитися знімком екрана</string>
+    <string name="stress_mild">Легкий</string>
+    <string name="stress_moderate">Помірний</string>
+    <string name="charts_legend_stress_average">Середній рівень стресу</string>
+    <string name="stress_relaxed">Розслаблений</string>
+    <string name="stress_high">Високий</string>
 </resources>
