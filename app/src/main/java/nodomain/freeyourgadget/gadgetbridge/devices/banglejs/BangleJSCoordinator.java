@@ -108,6 +108,11 @@ public class BangleJSCoordinator extends AbstractBLEDeviceCoordinator {
     }
 
     @Override
+    public boolean supportsActivityTracks() {
+        return true;
+    }
+
+    @Override
     public boolean supportsScreenshots() {
         return false;
     }
