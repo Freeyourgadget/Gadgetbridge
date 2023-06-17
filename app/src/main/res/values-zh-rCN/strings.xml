@@ -2246,4 +2246,9 @@
     <string name="fwapp_install_device_not_supported">无法安装文件，设备不被支持。</string>
     <string name="screenshot_taken">已截图</string>
     <string name="share_screenshot">分享屏幕截图</string>
+    <string name="stress_high">高</string>
+    <string name="charts_legend_stress_average">压力平均值</string>
+    <string name="stress_mild">温和</string>
+    <string name="stress_moderate">缓和</string>
+    <string name="stress_relaxed">放松</string>
 </resources>
