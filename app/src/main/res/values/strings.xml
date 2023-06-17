@@ -1028,6 +1028,7 @@
     <string name="charts_legend_heartrate">Heart rate</string>
     <string name="live_activity_heart_rate">Heart rate</string>
     <string name="charts_legend_heartrate_average">Heart rate average</string>
+    <string name="charts_legend_stress_average">Stress average</string>
     <string name="activity_prefs_calories_burnt">Daily target: calories burnt</string>
     <string name="activity_prefs_distance_meters">Daily target: distance in meters</string>
     <string name="activity_prefs_activetime_minutes">Daily target: active time in minutes</string>
@@ -1887,6 +1888,10 @@
     <string name="pref_header_spo2">Blood Oxygen</string>
     <string name="pref_header_sony_ambient_sound_control">Ambient Sound Control</string>
     <string name="pref_header_sony_device_info">Device Information</string>
+    <string name="stress_relaxed">Relaxed</string>
+    <string name="stress_mild">Mild</string>
+    <string name="stress_moderate">Moderate</string>
+    <string name="stress_high">High</string>
     <string name="sony_ambient_sound">Mode</string>
     <string name="sony_ambient_sound_off">Off</string>
     <string name="sony_ambient_sound_noise_cancelling">Noise Cancelling</string>

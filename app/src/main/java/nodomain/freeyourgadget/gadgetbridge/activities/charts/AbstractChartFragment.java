@@ -32,11 +32,11 @@ import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.charts.BarLineChartBase;
 import com.github.mikephil.charting.charts.Chart;
-import com.github.mikephil.charting.data.Entry;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.HashSet;
@@ -71,6 +71,8 @@ public abstract class AbstractChartFragment<D extends ChartsData> extends Abstra
     protected final int ANIM_TIME = 250;
 
     private static final Logger LOG = LoggerFactory.getLogger(AbstractChartFragment.class);
+    @SuppressLint("SimpleDateFormat")
+    protected final SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
 
     private final Set<String> mIntentFilterActions;
     private final BroadcastReceiver mReceiver = new BroadcastReceiver() {
@@ -307,6 +309,8 @@ public abstract class AbstractChartFragment<D extends ChartsData> extends Abstra
      * #renderCharts
      */
     protected void refresh() {
+        LOG.info("Refreshing data for {} from {} to {}", getTitle(), sdf.format(getStartDate()), sdf.format(getEndDate()));
+
         ChartsHost chartsHost = getChartsHost();
         if (chartsHost != null) {
             if (chartsHost.getDevice() != null) {

@@ -42,4 +42,8 @@ public class TimestampTranslation {
         }
         return timestamp + tsOffset;
     }
+
+    public void reset() {
+        tsOffset = -1;
+    }
 }

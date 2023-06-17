@@ -48,7 +48,7 @@ public class ActivityChartsActivity extends AbstractChartsActivity {
 
     @Override
     protected int getRecordedDataType() {
-        return RecordedDataTypes.TYPE_ACTIVITY;
+        return RecordedDataTypes.TYPE_ACTIVITY | RecordedDataTypes.TYPE_STRESS;
     }
 
     @Override
@@ -83,6 +83,9 @@ public class ActivityChartsActivity extends AbstractChartsActivity {
         if (!coordinator.supportsRealtimeData()) {
             tabList.remove("livestats");
         }
+        if (!coordinator.supportsStressMeasurement()) {
+            tabList.remove("stress");
+        }
         return tabList;
     }
 
@@ -112,6 +115,8 @@ public class ActivityChartsActivity extends AbstractChartsActivity {
                     return new SleepChartFragment();
                 case "sleepweek":
                     return new WeekSleepChartFragment();
+                case "stress":
+                    return new StressChartFragment();
                 case "stepsweek":
                     return new WeekStepsChartFragment();
                 case "speedzones":
@@ -154,6 +159,8 @@ public class ActivityChartsActivity extends AbstractChartsActivity {
                     return getString(R.string.sleepchart_your_sleep);
                 case "sleepweek":
                     return getSleepTitle();
+                case "stress":
+                    return getString(R.string.menuitem_stress);
                 case "stepsweek":
                     return getStepsTitle();
                 case "speedzones":
