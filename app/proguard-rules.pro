@@ -62,4 +62,4 @@
 }
 
 # Keep generated protobuf classes
--keep class nodomain.freeyourgadget.gadgetbridge.proto.* { *; }
+-keep class nodomain.freeyourgadget.gadgetbridge.proto.** { *; }

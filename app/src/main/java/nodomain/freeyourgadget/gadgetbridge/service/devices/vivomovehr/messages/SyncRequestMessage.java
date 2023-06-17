@@ -1,6 +1,6 @@
 package nodomain.freeyourgadget.gadgetbridge.service.devices.vivomovehr.messages;
 
-import nodomain.freeyourgadget.gadgetbridge.service.devices.vivomovehr.BinaryUtils;
+import nodomain.freeyourgadget.gadgetbridge.service.btle.BLETypeConversions;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.vivomovehr.GarminMessageType;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
@@ -25,7 +25,7 @@ public class SyncRequestMessage {
         final int option = reader.readByte();
         final int bitMaskSize = reader.readByte();
         final byte[] longBits = reader.readBytesTo(bitMaskSize, new byte[8], 0);
-        long bitMask = BinaryUtils.readLong(longBits, 0);
+        long bitMask = BLETypeConversions.toUint64(longBits, 0);
 
         final Set<GarminMessageType> fileTypes = new HashSet<>(GarminMessageType.values().length);
         for (GarminMessageType messageType : GarminMessageType.values()) {

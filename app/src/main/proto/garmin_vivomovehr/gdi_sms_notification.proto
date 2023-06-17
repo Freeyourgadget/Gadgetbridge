@@ -2,7 +2,7 @@ syntax = "proto2";
 
 package garmin_vivomovehr;
 
-option java_package = "nodomain.freeyourgadget.gadgetbridge.service.devices.vivomovehr.protobuf";
+option java_package = "nodomain.freeyourgadget.gadgetbridge.proto.vivomovehr";
 
 message SmsNotificationService {
     optional SmsSendMessageRequest sms_send_message_request = 1;

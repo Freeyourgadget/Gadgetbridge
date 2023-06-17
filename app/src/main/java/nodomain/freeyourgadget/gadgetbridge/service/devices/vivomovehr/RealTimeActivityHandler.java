@@ -15,14 +15,11 @@ import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityKind;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceService;
+import nodomain.freeyourgadget.gadgetbridge.service.btle.BLETypeConversions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.UUID;
-
-import static nodomain.freeyourgadget.gadgetbridge.service.devices.vivomovehr.BinaryUtils.readByte;
-import static nodomain.freeyourgadget.gadgetbridge.service.devices.vivomovehr.BinaryUtils.readInt;
-import static nodomain.freeyourgadget.gadgetbridge.service.devices.vivomovehr.BinaryUtils.readShort;
 
 /* default */ class RealTimeActivityHandler {
     private static final Logger LOG = LoggerFactory.getLogger(RealTimeActivityHandler.class);
@@ -64,10 +61,10 @@ import static nodomain.freeyourgadget.gadgetbridge.service.devices.vivomovehr.Bi
     }
 
     private void processRealtimeHeartRate(byte[] data) {
-        int unknown1 = readByte(data, 0);
-        int heartRate = readByte(data, 1);
-        int unknown2 = readByte(data, 2);
-        int unknown3 = readShort(data, 3);
+        int unknown1 = BLETypeConversions.toUnsigned(data, 0);
+        int heartRate = BLETypeConversions.toUnsigned(data, 1);
+        int unknown2 = BLETypeConversions.toUnsigned(data, 2);
+        int unknown3 = BLETypeConversions.toUint16(data, 3);
 
         lastSample.setHeartRate(heartRate);
         processSample();
@@ -76,8 +73,8 @@ import static nodomain.freeyourgadget.gadgetbridge.service.devices.vivomovehr.Bi
     }
 
     private void processRealtimeSteps(byte[] data) {
-        int steps = readInt(data, 0);
-        int goal = readInt(data, 4);
+        int steps = BLETypeConversions.toUint32(data, 0);
+        int goal = BLETypeConversions.toUint32(data, 4);
 
         lastSample.setSteps(steps);
         processSample();
@@ -86,8 +83,8 @@ import static nodomain.freeyourgadget.gadgetbridge.service.devices.vivomovehr.Bi
     }
 
     private void processRealtimeCalories(byte[] data) {
-        int calories = readInt(data, 0);
-        int unknown = readInt(data, 4);
+        int calories = BLETypeConversions.toUint32(data, 0);
+        int unknown = BLETypeConversions.toUint32(data, 4);
 
         lastSample.setCaloriesBurnt(calories);
         processSample();
@@ -96,9 +93,9 @@ import static nodomain.freeyourgadget.gadgetbridge.service.devices.vivomovehr.Bi
     }
 
     private void processRealtimeStairs(byte[] data) {
-        int floorsClimbed = readShort(data, 0);
-        int unknown = readShort(data, 2);
-        int floorGoal = readShort(data, 4);
+        int floorsClimbed = BLETypeConversions.toUint16(data, 0);
+        int unknown = BLETypeConversions.toUint16(data, 2);
+        int floorGoal = BLETypeConversions.toUint16(data, 4);
 
         lastSample.setFloorsClimbed(floorsClimbed);
         processSample();
@@ -107,14 +104,14 @@ import static nodomain.freeyourgadget.gadgetbridge.service.devices.vivomovehr.Bi
     }
 
     private void processRealtimeIntensityMinutes(byte[] data) {
-        int weeklyLimit = readInt(data, 10);
+        int weeklyLimit = BLETypeConversions.toUint32(data, 10);
 
         LOG.debug("Realtime intensity recorded; weekly limit: {}", weeklyLimit);
     }
 
     private void handleRealtimeHeartbeat(byte[] data) {
-        int interval = readShort(data, 0);
-        int timer = readInt(data, 2);
+        int interval = BLETypeConversions.toUint16(data, 0);
+        int timer = BLETypeConversions.toUint32(data, 2);
 
         float heartRate = (60.0f * 1024.0f) / interval;
         LOG.debug("Realtime heartbeat frequency {} at {}", heartRate, timer);

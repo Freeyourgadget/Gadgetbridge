@@ -1,6 +1,6 @@
 package nodomain.freeyourgadget.gadgetbridge.service.devices.vivomovehr.messages;
 
-import nodomain.freeyourgadget.gadgetbridge.service.devices.vivomovehr.BinaryUtils;
+import nodomain.freeyourgadget.gadgetbridge.service.btle.BLETypeConversions;
 
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
@@ -21,25 +21,25 @@ public class MessageWriter {
 
     public void writeByte(int value) {
         if (position + 1 > buffer.length) throw new IllegalStateException();
-        BinaryUtils.writeByte(buffer, position, value);
+        BLETypeConversions.writeUint8(buffer, position, value);
         ++position;
     }
 
     public void writeShort(int value) {
         if (position + 2 > buffer.length) throw new IllegalStateException();
-        BinaryUtils.writeShort(buffer, position, value);
+        BLETypeConversions.writeUint16(buffer, position, value);
         position += 2;
     }
 
     public void writeInt(int value) {
         if (position + 4 > buffer.length) throw new IllegalStateException();
-        BinaryUtils.writeInt(buffer, position, value);
+        BLETypeConversions.writeUint32(buffer, position, value);
         position += 4;
     }
 
     public void writeLong(long value) {
         if (position + 8 > buffer.length) throw new IllegalStateException();
-        BinaryUtils.writeLong(buffer, position, value);
+        BLETypeConversions.writeUint64(buffer, position, value);
         position += 8;
     }
 

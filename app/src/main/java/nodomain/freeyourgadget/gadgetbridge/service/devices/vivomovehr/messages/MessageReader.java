@@ -1,6 +1,6 @@
 package nodomain.freeyourgadget.gadgetbridge.service.devices.vivomovehr.messages;
 
-import nodomain.freeyourgadget.gadgetbridge.service.devices.vivomovehr.BinaryUtils;
+import nodomain.freeyourgadget.gadgetbridge.service.btle.BLETypeConversions;
 
 import java.nio.charset.StandardCharsets;
 
@@ -32,28 +32,28 @@ public class MessageReader {
 
     public int readByte() {
         if (position + 1 > data.length) throw new IllegalStateException();
-        final int result = BinaryUtils.readByte(data, position);
+        final int result = BLETypeConversions.toUnsigned(data, position);
         ++position;
         return result;
     }
 
     public int readShort() {
         if (position + 2 > data.length) throw new IllegalStateException();
-        final int result = BinaryUtils.readShort(data, position);
+        final int result = BLETypeConversions.toUint16(data, position);
         position += 2;
         return result;
     }
 
     public int readInt() {
         if (position + 4 > data.length) throw new IllegalStateException();
-        final int result = BinaryUtils.readInt(data, position);
+        final int result = BLETypeConversions.toUint32(data, position);
         position += 4;
         return result;
     }
 
     public long readLong() {
         if (position + 8 > data.length) throw new IllegalStateException();
-        final long result = BinaryUtils.readLong(data, position);
+        final long result = BLETypeConversions.toUint64(data, position);
         position += 8;
         return result;
     }

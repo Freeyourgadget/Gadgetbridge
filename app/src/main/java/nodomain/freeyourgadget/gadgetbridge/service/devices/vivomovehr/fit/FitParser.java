@@ -1,7 +1,7 @@
 package nodomain.freeyourgadget.gadgetbridge.service.devices.vivomovehr.fit;
 
 import android.util.SparseArray;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.vivomovehr.BinaryUtils;
+import nodomain.freeyourgadget.gadgetbridge.service.btle.BLETypeConversions;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.vivomovehr.messages.MessageReader;
 import nodomain.freeyourgadget.gadgetbridge.util.ArrayUtils;
 import org.slf4j.Logger;
@@ -184,7 +184,7 @@ public class FitParser {
                 // this is strange?
                 byte[] bytes = new byte[4];
                 reader.readBytesTo(3, bytes, 0);
-                return BinaryUtils.readInt(bytes, 0);
+                return BLETypeConversions.toUint32(bytes, 0);
             }
             case 4:
                 return reader.readInt();
@@ -192,7 +192,7 @@ public class FitParser {
                 // this is strange?
                 byte[] bytes = new byte[8];
                 reader.readBytesTo(7, bytes, 0);
-                return BinaryUtils.readLong(bytes, 0);
+                return BLETypeConversions.toUint64(bytes, 0);
             }
             case 8:
                 return reader.readLong();

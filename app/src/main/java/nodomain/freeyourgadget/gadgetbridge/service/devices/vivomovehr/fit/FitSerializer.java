@@ -3,7 +3,7 @@ package nodomain.freeyourgadget.gadgetbridge.service.devices.vivomovehr.fit;
 import android.util.SparseArray;
 import android.util.SparseBooleanArray;
 import android.util.SparseIntArray;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.vivomovehr.BinaryUtils;
+import nodomain.freeyourgadget.gadgetbridge.service.btle.BLETypeConversions;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.vivomovehr.ChecksumCalculator;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.vivomovehr.messages.MessageWriter;
 import org.slf4j.Logger;
@@ -96,9 +96,9 @@ public class FitSerializer {
 
         final byte[] bytes = writer.getBytes();
         // rewrite size
-        BinaryUtils.writeInt(bytes, 4, bytes.length - 14 - 2);
+        BLETypeConversions.writeUint32(bytes, 4, bytes.length - 14 - 2);
         // rewrite header CRC
-        BinaryUtils.writeShort(bytes, 12, ChecksumCalculator.computeCrc(bytes, 0, 12));
+        BLETypeConversions.writeUint16(bytes, 12, ChecksumCalculator.computeCrc(bytes, 0, 12));
         return bytes;
     }
 
@@ -216,7 +216,7 @@ public class FitSerializer {
             case 3: {
                 // this is strange?
                 byte[] bytes = new byte[4];
-                BinaryUtils.writeInt(bytes, 0, (int) value);
+                BLETypeConversions.writeUint32(bytes, 0, (int) value);
                 writer.writeBytes(bytes, 0, 3);
                 break;
             }
@@ -226,7 +226,7 @@ public class FitSerializer {
             case 7: {
                 // this is strange?
                 byte[] bytes = new byte[8];
-                BinaryUtils.writeLong(bytes, 0, (long) value);
+                BLETypeConversions.writeUint64(bytes, 0, (long) value);
                 writer.writeBytes(bytes, 0, 7);
                 break;
             }

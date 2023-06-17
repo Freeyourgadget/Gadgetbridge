@@ -2,7 +2,7 @@ syntax = "proto2";
 
 package garmin_vivomovehr;
 
-option java_package = "nodomain.freeyourgadget.gadgetbridge.service.devices.vivomovehr.protobuf";
+option java_package = "nodomain.freeyourgadget.gadgetbridge.proto.vivomovehr";
 
 message DeviceStatusService {
     optional RemoteDeviceBatteryStatusChangedNotification remote_device_battery_status_changed_notification = 1;

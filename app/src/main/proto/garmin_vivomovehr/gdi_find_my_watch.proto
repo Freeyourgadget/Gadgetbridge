@@ -2,7 +2,7 @@ syntax = "proto2";
 
 package garmin_vivomovehr;
 
-option java_package = "nodomain.freeyourgadget.gadgetbridge.service.devices.vivomovehr.protobuf";
+option java_package = "nodomain.freeyourgadget.gadgetbridge.proto.vivomovehr";
 
 message FindMyWatchService {
     optional FindMyWatchRequest find_request = 1;

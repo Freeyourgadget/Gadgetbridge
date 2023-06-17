@@ -164,6 +164,10 @@ public class BLETypeConversions {
         return value & 0xff;
     }
 
+    public static int toUnsigned(byte[] bytes, int offset) {
+        return bytes[offset + 0] & 0xff;
+    }
+
     public static int toUint16(byte value) {
         return toUnsigned(value);
     }
@@ -186,6 +190,16 @@ public class BLETypeConversions {
 
     public static int toUint32(byte[] bytes, int offset) {
         return (bytes[offset + 0] & 0xff) | ((bytes[offset + 1] & 0xff) << 8) | ((bytes[offset + 2] & 0xff) << 16) | ((bytes[offset + 3] & 0xff) << 24);
+    }
+
+    public static long toUint64(byte... bytes) {
+        return (bytes[0] & 0xFFL) | ((bytes[1] & 0xFFL) << 8) | ((bytes[2] & 0xFFL) << 16) | ((bytes[3] & 0xFFL) << 24) |
+                ((bytes[4] & 0xFFL) << 32) | ((bytes[5] & 0xFFL) << 40) | ((bytes[6] & 0xFFL) << 48) | ((bytes[7] & 0xFFL) << 56);
+    }
+
+    public static long toUint64(byte[] bytes, int offset) {
+        return (bytes[offset + 0] & 0xFFL) | ((bytes[offset + 1] & 0xFFL) << 8) | ((bytes[offset + 2] & 0xFFL) << 16) | ((bytes[offset + 3] & 0xFFL) << 24) |
+                ((bytes[offset + 4] & 0xFFL) << 32) | ((bytes[offset + 5] & 0xFFL) << 40) | ((bytes[offset + 6] & 0xFFL) << 48) | ((bytes[offset + 7] & 0xFFL) << 56);
     }
 
     public static byte[] fromUint16(int value) {
@@ -227,6 +241,33 @@ public class BLETypeConversions {
 
     public static byte fromUint8(int value) {
         return (byte) (value & 0xff);
+    }
+
+    public static void writeUint8(byte[] array, int offset, int value) {
+        array[offset] = (byte) value;
+    }
+
+    public static void writeUint16(byte[] array, int offset, int value) {
+        array[offset] = (byte) value;
+        array[offset + 1] = (byte) (value >> 8);
+    }
+
+    public static void writeUint32(byte[] array, int offset, int value) {
+        array[offset] = (byte) value;
+        array[offset + 1] = (byte) (value >> 8);
+        array[offset + 2] = (byte) (value >> 16);
+        array[offset + 3] = (byte) (value >> 24);
+    }
+
+    public static void writeUint64(byte[] array, int offset, long value) {
+        array[offset] = (byte) value;
+        array[offset + 1] = (byte) (value >> 8);
+        array[offset + 2] = (byte) (value >> 16);
+        array[offset + 3] = (byte) (value >> 24);
+        array[offset + 4] = (byte) (value >> 32);
+        array[offset + 5] = (byte) (value >> 40);
+        array[offset + 6] = (byte) (value >> 48);
+        array[offset + 7] = (byte) (value >> 56);
     }
 
     /**

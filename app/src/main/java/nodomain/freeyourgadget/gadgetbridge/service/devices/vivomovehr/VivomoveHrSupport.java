@@ -21,11 +21,15 @@ import nodomain.freeyourgadget.gadgetbridge.entities.DownloadedFitFile;
 import nodomain.freeyourgadget.gadgetbridge.entities.DownloadedFitFileDao;
 import nodomain.freeyourgadget.gadgetbridge.entities.User;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
-import nodomain.freeyourgadget.gadgetbridge.model.BatteryState;
 import nodomain.freeyourgadget.gadgetbridge.model.MusicSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.WeatherSpec;
+import nodomain.freeyourgadget.gadgetbridge.proto.vivomovehr.GdiCore;
+import nodomain.freeyourgadget.gadgetbridge.proto.vivomovehr.GdiDeviceStatus;
+import nodomain.freeyourgadget.gadgetbridge.proto.vivomovehr.GdiFindMyWatch;
+import nodomain.freeyourgadget.gadgetbridge.proto.vivomovehr.GdiSmartProto;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.AbstractBTLEDeviceSupport;
+import nodomain.freeyourgadget.gadgetbridge.service.btle.BLETypeConversions;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.vivomovehr.ams.AmsEntity;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.vivomovehr.ams.AmsEntityAttribute;
@@ -89,10 +93,6 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.vivomovehr.messages.
 import nodomain.freeyourgadget.gadgetbridge.service.devices.vivomovehr.messages.WeatherRequestResponseMessage;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.vivomovehr.notifications.NotificationData;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.vivomovehr.notifications.NotificationStorage;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.vivomovehr.protobuf.GdiCore;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.vivomovehr.protobuf.GdiDeviceStatus;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.vivomovehr.protobuf.GdiFindMyWatch;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.vivomovehr.protobuf.GdiSmartProto;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.vivomovehr.uploads.FileUploadQueue;
 import nodomain.freeyourgadget.gadgetbridge.service.serial.GBDeviceProtocol;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
@@ -109,8 +109,6 @@ import java.util.Set;
 import java.util.TimeZone;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
-
-import static nodomain.freeyourgadget.gadgetbridge.service.devices.vivomovehr.BinaryUtils.readShort;
 
 public class VivomoveHrSupport extends AbstractBTLEDeviceSupport implements FileDownloadListener {
     private static final Logger LOG = LoggerFactory.getLogger(VivomoveHrSupport.class);
@@ -219,19 +217,19 @@ public class VivomoveHrSupport extends AbstractBTLEDeviceSupport implements File
     }
 
     private void processGfdiPacket(byte[] packet) {
-        final int size = readShort(packet, 0);
+        final int size = BLETypeConversions.toUint16(packet, 0);
         if (size != packet.length) {
             LOG.error("Received GFDI packet with invalid length: {} vs {}", size, packet.length);
             return;
         }
-        final int crc = readShort(packet, packet.length - 2);
+        final int crc = BLETypeConversions.toUint16(packet, packet.length - 2);
         final int correctCrc = ChecksumCalculator.computeCrc(packet, 0, packet.length - 2);
         if (crc != correctCrc) {
             LOG.error("Received GFDI packet with invalid CRC: {} vs {}", crc, correctCrc);
             return;
         }
 
-        final int messageType = readShort(packet, 2);
+        final int messageType = BLETypeConversions.toUint16(packet, 2);
         switch (messageType) {
             case VivomoveConstants.MESSAGE_RESPONSE:
                 processResponseMessage(ResponseMessage.parsePacket(packet), packet);

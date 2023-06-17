@@ -1,6 +1,6 @@
 package nodomain.freeyourgadget.gadgetbridge.service.devices.vivomovehr.ancs;
 
-import nodomain.freeyourgadget.gadgetbridge.service.devices.vivomovehr.BinaryUtils;
+import nodomain.freeyourgadget.gadgetbridge.service.btle.BLETypeConversions;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.vivomovehr.messages.MessageReader;
 import nodomain.freeyourgadget.gadgetbridge.util.ArrayUtils;
 import org.slf4j.Logger;
@@ -23,7 +23,7 @@ public abstract class AncsControlCommand {
     }
 
     public static AncsControlCommand parseCommand(byte[] buffer, int offset, int size) {
-        final int commandID = BinaryUtils.readByte(buffer, offset);
+        final int commandID = BLETypeConversions.toUnsigned(buffer, offset);
         final AncsCommand command = AncsCommand.getByCode(commandID);
         if (command == null) {
             LOG.error("Unknown ANCS command {}", commandID);
@@ -45,8 +45,8 @@ public abstract class AncsControlCommand {
     }
 
     private static AncsPerformAndroidAction createPerformAndroidAction(byte[] buffer, int offset, int size) {
-        final int notificationUID = BinaryUtils.readInt(buffer, offset);
-        final int actionID = BinaryUtils.readByte(buffer, offset + 4);
+        final int notificationUID = BLETypeConversions.toUint32(buffer, offset);
+        final int actionID = BLETypeConversions.toUnsigned(buffer, offset + 4);
         final AncsAndroidAction action = AncsAndroidAction.getByCode(actionID);
         if (action == null) {
             LOG.error("Unknown ANCS Android action {}", actionID);
@@ -77,7 +77,7 @@ public abstract class AncsControlCommand {
         final int attributeCount = size - (zero - offset);
         final List<AncsAppAttribute> requestedAttributes = new ArrayList<>(attributeCount);
         for (int i = 0; i < attributeCount; ++i) {
-            final int attributeID = BinaryUtils.readByte(buffer, zero + 1 + i);
+            final int attributeID = BLETypeConversions.toUnsigned(buffer, zero + 1 + i);
             if (attributeID < 0 || attributeID >= APP_ATTRIBUTE_VALUES.length) {
                 LOG.error("Unknown ANCS app attribute {}", attributeID);
                 return null;

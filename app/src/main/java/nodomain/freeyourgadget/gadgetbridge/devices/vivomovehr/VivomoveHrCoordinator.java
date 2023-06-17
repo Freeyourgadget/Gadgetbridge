@@ -108,6 +108,12 @@ public class VivomoveHrCoordinator extends AbstractDeviceCoordinator {
     }
 
     @Override
+    public int[] getSupportedDeviceSpecificSettings(GBDevice device) {
+        // no device-specific settings yet
+        return null;
+    }
+
+    @Override
     public boolean supportsFindDevice() {
         return true;
     }
