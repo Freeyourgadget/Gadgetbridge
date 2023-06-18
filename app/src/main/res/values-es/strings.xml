@@ -216,7 +216,7 @@
     <string name="vibration_profile_long">Largo</string>
     <string name="vibration_profile_waterdrop">Muy largo</string>
     <string name="vibration_profile_ring">Timbre</string>
-    <string name="vibration_profile_alarm_clock">Alarma</string>
+    <string name="vibration_profile_alarm_clock">Despertador</string>
     <string name="miband_prefs_vibration">Vibración</string>
     <string name="vibration_try">Probar</string>
     <string name="pref_screen_notification_profile_sms">Notificación de SMS</string>
@@ -284,7 +284,7 @@
     <string name="calories">Calorías</string>
     <string name="distance">Distancia</string>
     <string name="clock">Reloj</string>
-    <string name="heart_rate">Ritmo cardíaco</string>
+    <string name="heart_rate">Frecuencia cardíaca</string>
     <string name="battery">Batería</string>
     <string name="liveactivity_live_activity">Actividad en directo</string>
     <string name="weeksteps_today_steps_description">Pasos hoy, objetivo: %1$s</string>
@@ -346,8 +346,8 @@
     <string name="DEVINFO_HR_VER">"Frec. card.: "</string>
     <string name="updatefirmwareoperation_update_in_progress">Instalando firmware</string>
     <string name="updatefirmwareoperation_firmware_not_sent">Firmware no enviado</string>
-    <string name="charts_legend_heartrate">Ritmo cardíaco</string>
-    <string name="live_activity_heart_rate">Ritmo cardíaco</string>
+    <string name="charts_legend_heartrate">Frecuencia cardíaca</string>
+    <string name="live_activity_heart_rate">Frecuencia cardíaca</string>
     <string name="pref_title_pebble_health_store_raw">Almacenar datos en bruto en la base de datos </string>
     <string name="pref_summary_pebble_health_store_raw">Guarda los datos en bruto para poder ser interpretados más tarde, esto incrementa el tamaño de la base de datos.</string>
     <string name="action_db_management">Administración de datos</string>
@@ -813,7 +813,7 @@
     <string name="qhybrid_use_activity_hand_as_notification_counter">utilizar manecilla de actividad como contador de notificaciones</string>
     <string name="qhybrid_buttons_overwrite_error">Error al sobrescribir botones</string>
     <string name="alarm_snooze">Dormitar</string>
-    <string name="hr_widget_heart_rate">Ritmo cardíaco</string>
+    <string name="hr_widget_heart_rate">Frecuencia cardíaca</string>
     <string name="hr_widget_steps">Pasos</string>
     <string name="hr_widget_active_minutes">Minutos activos</string>
     <string name="pref_title_force_white_color_scheme">Forzar el esquema de color negro sobre blanco</string>
@@ -953,7 +953,7 @@
     <string name="descentSeconds">Descendiendo</string>
     <string name="descentMeters">Cuesta abajo</string>
     <string name="ascentMeters">Cuesta arriba</string>
-    <string name="averageHR">Ritmo cardíaco</string>
+    <string name="averageHR">Frecuencia cardíaca</string>
     <string name="totalStride">Avance total</string>
     <string name="qhybrid_calibration_align_hint">Usa los botones de abajo para alinear las manecillas del reloj a las 12:00.</string>
     <string name="devicetype_nut_mini">Nut Mini</string>
@@ -1041,7 +1041,7 @@
     <string name="seconds_km">km/s</string>
     <string name="calories_unit">kcal</string>
     <string name="laps_unit">vueltas</string>
-    <string name="swim_style">estilo de nado</string>
+    <string name="swim_style">estilo de natación</string>
     <string name="swolfIndex">índice swolf</string>
     <string name="swolf_index">índice swolf</string>
     <string name="seconds">seg</string>
@@ -1053,7 +1053,7 @@
     <string name="cm">cm</string>
     <string name="meters">m</string>
     <string name="laps">Vueltas</string>
-    <string name="swimStyle">estilo de nado</string>
+    <string name="swimStyle">estilo de natación</string>
     <string name="maxPace">Ritmo más rápido</string>
     <string name="minPace">Ritmo más lento</string>
     <string name="maxSpeed">Máximo</string>
@@ -1116,7 +1116,7 @@
     <string name="menuitem_workout">Entrenamiento</string>
     <string name="menuitem_eventreminder">Recordatorio de eventos</string>
     <string name="menuitem_spo2">SpO2</string>
-    <string name="menuitem_hr">Ritmo cardíaco</string>
+    <string name="menuitem_hr">Frecuencia cardíaca</string>
     <string name="menuitem_pai">PAI</string>
     <string name="menuitem_cycles">Seguimiento del ciclo</string>
     <string name="menuitem_breathing">Respiración</string>
@@ -1279,7 +1279,7 @@
     <string name="appmanager_app_edit">Editar</string>
     <string name="button_watchface_save_apply">Guardar y aplicar</string>
     <string name="button_watchface_preview">Vista previa en el reloj</string>
-    <string name="watchface_widget_type_heart_rate">Ritmo cardíaco</string>
+    <string name="watchface_widget_type_heart_rate">Frecuencia cardíaca</string>
     <string name="watchface_widget_type_steps">Pasos</string>
     <string name="watchface_widget_type_weather">Tiempo</string>
     <string name="watchface_widget_type_date">Fecha</string>
