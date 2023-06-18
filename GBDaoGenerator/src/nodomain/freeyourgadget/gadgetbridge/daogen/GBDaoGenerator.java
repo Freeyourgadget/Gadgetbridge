@@ -43,7 +43,7 @@ public class GBDaoGenerator {
 
 
     public static void main(String[] args) throws Exception {
-        final Schema schema = new Schema(48, MAIN_PACKAGE + ".entities");
+        final Schema schema = new Schema(49, MAIN_PACKAGE + ".entities");
 
         Entity userAttributes = addUserAttributes(schema);
         Entity user = addUserInfo(schema, userAttributes);
@@ -92,7 +92,7 @@ public class GBDaoGenerator {
         addPineTimeActivitySample(schema, user, device);
         addHybridHRActivitySample(schema, user, device);
         addVivomoveHrActivitySample(schema, user, device);
-        addDownloadedFitFile(schema, user, device);
+        addGarminFitFile(schema, user, device);
 
         addCalendarSyncState(schema, device);
         addAlarms(schema, user, device);
@@ -476,10 +476,10 @@ public class GBDaoGenerator {
         return activitySample;
     }
 
-    private static Entity addDownloadedFitFile(Schema schema, Entity user, Entity device) {
-        final Entity downloadedFitFile = addEntity(schema, "DownloadedFitFile");
+    private static Entity addGarminFitFile(Schema schema, Entity user, Entity device) {
+        final Entity downloadedFitFile = addEntity(schema, "GarminFitFile");
         downloadedFitFile.implementsSerializable();
-        downloadedFitFile.setJavaDoc("This class represents a single FIT file downloaded from a FIT-compatible device.");
+        downloadedFitFile.setJavaDoc("This class represents a single FIT file downloaded from a FIT-compatible Garmin device.");
         downloadedFitFile.addIdProperty().autoincrement();
         downloadedFitFile.addLongProperty("downloadTimestamp").notNull();
         final Property deviceId = downloadedFitFile.addLongProperty("deviceId").notNull().getProperty();

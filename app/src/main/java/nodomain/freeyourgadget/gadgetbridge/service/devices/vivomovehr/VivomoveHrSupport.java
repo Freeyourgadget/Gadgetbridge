@@ -17,8 +17,8 @@ import nodomain.freeyourgadget.gadgetbridge.devices.vivomovehr.GarminCapability;
 import nodomain.freeyourgadget.gadgetbridge.devices.vivomovehr.VivomoveConstants;
 import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
 import nodomain.freeyourgadget.gadgetbridge.entities.Device;
-import nodomain.freeyourgadget.gadgetbridge.entities.DownloadedFitFile;
-import nodomain.freeyourgadget.gadgetbridge.entities.DownloadedFitFileDao;
+import nodomain.freeyourgadget.gadgetbridge.entities.GarminFitFile;
+import nodomain.freeyourgadget.gadgetbridge.entities.GarminFitFileDao;
 import nodomain.freeyourgadget.gadgetbridge.entities.User;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.MusicSpec;
@@ -137,8 +137,8 @@ public class VivomoveHrSupport extends AbstractBTLEDeviceSupport implements File
     public VivomoveHrSupport() {
         super(LOG);
 
-        addSupportedService(VivomoveConstants.UUID_SERVICE_GARMIN_1);
-        addSupportedService(VivomoveConstants.UUID_SERVICE_GARMIN_2);
+        addSupportedService(VivomoveConstants.UUID_SERVICE_GARMIN_GFDI);
+        addSupportedService(VivomoveConstants.UUID_SERVICE_GARMIN_REALTIME);
     }
 
     private int getNextProtobufRequestId() {
@@ -928,19 +928,19 @@ public class VivomoveHrSupport extends AbstractBTLEDeviceSupport implements File
     private long totalDownloadSize;
     private long lastTransferNotificationTimestamp;
 
-    private DownloadedFitFile findDownloadedFitFile(DaoSession session, Device device, User user, int fileNumber, int fileDataType, int fileSubType) {
-        final DownloadedFitFileDao fileDao = session.getDownloadedFitFileDao();
-        final Query<DownloadedFitFile> query = fileDao.queryBuilder()
+    private GarminFitFile findDownloadedFitFile(DaoSession session, Device device, User user, int fileNumber, int fileDataType, int fileSubType) {
+        final GarminFitFileDao fileDao = session.getGarminFitFileDao();
+        final Query<GarminFitFile> query = fileDao.queryBuilder()
                 .where(
-                        DownloadedFitFileDao.Properties.DeviceId.eq(device.getId()),
-                        DownloadedFitFileDao.Properties.UserId.eq(user.getId()),
-                        DownloadedFitFileDao.Properties.FileNumber.eq(fileNumber),
-                        DownloadedFitFileDao.Properties.FileDataType.eq(fileDataType),
-                        DownloadedFitFileDao.Properties.FileSubType.eq(fileSubType)
+                        GarminFitFileDao.Properties.DeviceId.eq(device.getId()),
+                        GarminFitFileDao.Properties.UserId.eq(user.getId()),
+                        GarminFitFileDao.Properties.FileNumber.eq(fileNumber),
+                        GarminFitFileDao.Properties.FileDataType.eq(fileDataType),
+                        GarminFitFileDao.Properties.FileSubType.eq(fileSubType)
                 )
                 .build();
 
-        final List<DownloadedFitFile> files = query.list();
+        final List<GarminFitFile> files = query.list();
         return files.size() > 0 ? files.get(0) : null;
     }
 
@@ -967,7 +967,7 @@ public class VivomoveHrSupport extends AbstractBTLEDeviceSupport implements File
                     }
 
                     final long timestamp = entry.fileDate.getTime();
-                    final DownloadedFitFile alreadyDownloadedFile = findDownloadedFitFile(session, device, user, entry.fileNumber, entry.fileDataType, entry.fileSubType);
+                    final GarminFitFile alreadyDownloadedFile = findDownloadedFitFile(session, device, user, entry.fileNumber, entry.fileDataType, entry.fileSubType);
                     if (alreadyDownloadedFile == null) {
                         LOG.debug("File not yet downloaded");
                     } else {
@@ -1007,8 +1007,8 @@ public class VivomoveHrSupport extends AbstractBTLEDeviceSupport implements File
                 final User user = DBHelper.getUser(session);
                 final int ts = (int) (System.currentTimeMillis() / 1000);
 
-                final DownloadedFitFile downloadedFitFile = new DownloadedFitFile(null, ts, device.getId(), user.getId(), downloadedDirectoryEntry.fileNumber, downloadedDirectoryEntry.fileDataType, downloadedDirectoryEntry.fileSubType, downloadedDirectoryEntry.fileDate.getTime(), downloadedDirectoryEntry.specificFlags, downloadedDirectoryEntry.fileSize, STORE_FIT_FILES ? data : null);
-                session.getDownloadedFitFileDao().insert(downloadedFitFile);
+                final GarminFitFile garminFitFile = new GarminFitFile(null, ts, device.getId(), user.getId(), downloadedDirectoryEntry.fileNumber, downloadedDirectoryEntry.fileDataType, downloadedDirectoryEntry.fileSubType, downloadedDirectoryEntry.fileDate.getTime(), downloadedDirectoryEntry.specificFlags, downloadedDirectoryEntry.fileSize, STORE_FIT_FILES ? data : null);
+                session.getGarminFitFileDao().insert(garminFitFile);
             } catch (Exception e) {
                 LOG.error("Error saving downloaded file to database", e);
             }

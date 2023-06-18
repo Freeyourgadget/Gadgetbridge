@@ -1,11 +1,14 @@
 package nodomain.freeyourgadget.gadgetbridge.devices.vivomovehr;
 
 import android.app.Activity;
+import android.bluetooth.le.ScanFilter;
 import android.content.Context;
 import android.net.Uri;
+import android.os.ParcelUuid;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import nodomain.freeyourgadget.gadgetbridge.GBException;
+import nodomain.freeyourgadget.gadgetbridge.devices.AbstractBLEDeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.AbstractDeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.InstallHandler;
 import nodomain.freeyourgadget.gadgetbridge.devices.SampleProvider;
@@ -16,14 +19,25 @@ import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceCandidate;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
 
-public class VivomoveHrCoordinator extends AbstractDeviceCoordinator {
+import java.util.Collection;
+import java.util.Collections;
+
+public class VivomoveHrCoordinator extends AbstractBLEDeviceCoordinator {
     @NonNull
     @Override
     public DeviceType getSupportedType(GBDeviceCandidate candidate) {
         if ("vívomove HR".equals(candidate.getName())) return DeviceType.VIVOMOVE_HR;
 
         final boolean hasServiceUuids = candidate.getServiceUuids().length > 0;
-        return hasServiceUuids && candidate.supportsService(VivomoveConstants.UUID_SERVICE_GARMIN_2) ? DeviceType.VIVOMOVE_HR : DeviceType.UNKNOWN;
+        return hasServiceUuids && candidate.supportsService(VivomoveConstants.UUID_SERVICE_GARMIN_GFDI) ? DeviceType.VIVOMOVE_HR : DeviceType.UNKNOWN;
+    }
+
+    @NonNull
+    @Override
+    public Collection<? extends ScanFilter> createBLEScanFilters() {
+        final ParcelUuid garminService = new ParcelUuid(VivomoveConstants.UUID_SERVICE_GARMIN_GFDI);
+        final ScanFilter filter = new ScanFilter.Builder().setServiceUuid(garminService).build();
+        return Collections.singletonList(filter);
     }
 
     @Override

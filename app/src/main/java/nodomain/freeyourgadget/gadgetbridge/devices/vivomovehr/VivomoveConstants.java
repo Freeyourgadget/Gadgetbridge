@@ -6,8 +6,8 @@ import java.util.Set;
 import java.util.UUID;
 
 public class VivomoveConstants {
-    public static final UUID UUID_SERVICE_GARMIN_1 = UUID.fromString("6A4E2401-667B-11E3-949A-0800200C9A66");
-    public static final UUID UUID_SERVICE_GARMIN_2 = UUID.fromString("6A4E2500-667B-11E3-949A-0800200C9A66");
+    public static final UUID UUID_SERVICE_GARMIN_GFDI = UUID.fromString("6A4E2401-667B-11E3-949A-0800200C9A66");
+    public static final UUID UUID_SERVICE_GARMIN_REALTIME = UUID.fromString("6A4E2500-667B-11E3-949A-0800200C9A66");
 
     public static final UUID UUID_CHARACTERISTIC_GARMIN_GFDI_SEND = UUID.fromString("6a4e4c80-667b-11e3-949a-0800200c9a66");
     public static final UUID UUID_CHARACTERISTIC_GARMIN_GFDI_RECEIVE = UUID.fromString("6a4ecd28-667b-11e3-949a-0800200c9a66");
