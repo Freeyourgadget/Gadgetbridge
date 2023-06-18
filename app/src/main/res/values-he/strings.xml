@@ -84,7 +84,7 @@
     <string name="pref_title_canned_messages_dismisscall">התעלמות משיחות</string>
     <string name="pref_title_canned_messages_set">עדכון במכשיר</string>
     <string name="pref_header_development">אפשרויות פיתוח</string>
-    <string name="pref_title_development_miaddr">כתובת </string>
+    <string name="pref_title_development_miaddr">כתובת Mi Band</string>
     <string name="pref_title_pebble_settings">הגדרות Pebble</string>
     <string name="pref_header_activitytrackers">עוקבי פעילות</string>
     <string name="pref_title_pebble_activitytracker">עוקב פעילות מועדף</string>
@@ -1992,7 +1992,7 @@
     <string name="prefs_always_on_display_follow_watchface">הסגנון הוא כמו פני השעון</string>
     <string name="prefs_always_on_display_style">סגנון</string>
     <string name="menuitem_sun_moon">שמש וירח</string>
-    <string name="menuitem_todo">רשימת מטלות</string>
+    <string name="menuitem_todo">מטלות</string>
     <string name="menuitem_calendar">לוח שנה</string>
     <string name="menuitem_volume">עצמת שמע</string>
     <string name="menuitem_theater_mode">מצב תיאטרון</string>
@@ -2245,4 +2245,9 @@
     <string name="fwapp_install_device_not_supported">אי אפשר להתקין את הקובץ, המכשיר לא נתמך.</string>
     <string name="share_screenshot">שיתוף צילום מסך</string>
     <string name="screenshot_taken">המסך צולם</string>
+    <string name="charts_legend_stress_average">ממוצע לחץ</string>
+    <string name="stress_mild">בינוני</string>
+    <string name="stress_moderate">מתון</string>
+    <string name="stress_high">גבוה</string>
+    <string name="stress_relaxed">רגוע</string>
 </resources>
