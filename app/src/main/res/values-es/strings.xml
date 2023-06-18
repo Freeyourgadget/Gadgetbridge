@@ -2248,4 +2248,9 @@
     <string name="fwapp_install_device_not_supported">No se puede instalar el archivo, el dispositivo no es compatible.</string>
     <string name="share_screenshot">Compartir captura de pantalla</string>
     <string name="screenshot_taken">Captura de pantalla realizada</string>
+    <string name="stress_mild">Leve</string>
+    <string name="stress_moderate">Moderado</string>
+    <string name="stress_high">Alto</string>
+    <string name="charts_legend_stress_average">Promedio del estrés</string>
+    <string name="stress_relaxed">Relajado</string>
 </resources>
