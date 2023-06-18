@@ -2250,4 +2250,9 @@ Temps de sommeil préféré en heures</string>
     <string name="fwapp_install_device_not_supported">Le fichier ne peut pas être installé, l\'appareil n\'est pas supporté.</string>
     <string name="share_screenshot">Partager la capture écran</string>
     <string name="screenshot_taken">Capture écran faite</string>
+    <string name="stress_relaxed">Relaxé</string>
+    <string name="stress_mild">Moyen</string>
+    <string name="stress_moderate">Modéré</string>
+    <string name="stress_high">Élevé</string>
+    <string name="charts_legend_stress_average">Stress moyen</string>
 </resources>
