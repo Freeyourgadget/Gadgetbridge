@@ -2259,4 +2259,5 @@
     <string name="charts_legend_stress_average">Середній рівень стресу</string>
     <string name="stress_relaxed">Розслаблений</string>
     <string name="stress_high">Високий</string>
+    <string name="watchface_widget_type_uv_index">УФ-індекс</string>
 </resources>
