@@ -2231,4 +2231,9 @@
     <string name="fwapp_install_device_not_supported">لا يمكن تثبيت الملف ، الجهاز غير مدعوم.</string>
     <string name="screenshot_taken">تم التقاط لقطة الشاشة</string>
     <string name="share_screenshot">مشاركة لقطة الشاشة</string>
+    <string name="charts_legend_stress_average">متوسط الإجهاد</string>
+    <string name="stress_moderate">معتدل</string>
+    <string name="stress_high">عال</string>
+    <string name="stress_relaxed">مسترخي</string>
+    <string name="stress_mild">خفيف</string>
 </resources>
