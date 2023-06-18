@@ -16,6 +16,7 @@ $jerry generate -f '' widget_calories.js -o widgetCalories.bin
 $jerry generate -f '' widget_2nd_tz.js -o widget2ndTZ.bin
 $jerry generate -f '' widget_activemins.js -o widgetActiveMins.bin
 $jerry generate -f '' widget_chanceofrain.js -o widgetChanceOfRain.bin
+$jerry generate -f '' widget_uv.js -o widgetUV.bin
 $jerry generate -f '' widget_custom.js -o widgetCustom.bin
 popd
 mv fossil-hr-watchface/*.bin ../app/src/main/assets/fossil_hr/

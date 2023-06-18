@@ -1502,6 +1502,46 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
         }
     }
 
+    public void onSendChanceOfRain(WeatherSpec weatherSpec) {
+        long ts = System.currentTimeMillis();
+        ts /= 1000;
+        try {
+            JSONObject rainObject = new JSONObject()
+                .put("res", new JSONObject()
+                    .put("set", new JSONObject()
+                        .put("widgetChanceOfRain._.config.info", new JSONObject()
+                            .put("alive", ts + 60 * 15)
+                            .put("rain", weatherSpec.precipProbability)
+                        )
+                    )
+                );
+
+            queueWrite(new JsonPutRequest(rainObject, this));
+        } catch (JSONException e) {
+            LOG.error("JSON exception: ", e);
+        }
+    }
+
+    public void onSendUVIndex(WeatherSpec weatherSpec) {
+        long ts = System.currentTimeMillis();
+        ts /= 1000;
+        try {
+            JSONObject rainObject = new JSONObject()
+                .put("res", new JSONObject()
+                    .put("set", new JSONObject()
+                        .put("widgetUV._.config.info", new JSONObject()
+                            .put("alive", ts + 60 * 15)
+                            .put("uv", Math.round(weatherSpec.uvIndex))
+                        )
+                    )
+                );
+
+            queueWrite(new JsonPutRequest(rainObject, this));
+        } catch (JSONException e) {
+            LOG.error("JSON exception: ", e);
+        }
+    }
+
     @Override
     public void factoryReset() {
         queueWrite(new FactoryResetRequest());
@@ -1807,6 +1847,22 @@ public class FossilHRWatchAdapter extends FossilWatchAdapter {
                     WeatherSpec weatherSpec = Weather.getInstance().getWeatherSpec();
                     if (weatherSpec != null) {
                         onSendWeather(weatherSpec);
+                    } else {
+                        LOG.info("no weather data available  - ignoring request");
+                    }
+                } else if (request.has("widgetChanceOfRain._.config.info")) {
+                    LOG.info("Got widgetChanceOfRain request");
+                    WeatherSpec weatherSpec = Weather.getInstance().getWeatherSpec();
+                    if (weatherSpec != null) {
+                        onSendChanceOfRain(weatherSpec);
+                    } else {
+                        LOG.info("no weather data available  - ignoring request");
+                    }
+                } else if (request.has("widgetUV._.config.info")) {
+                    LOG.info("Got widgetUV request");
+                    WeatherSpec weatherSpec = Weather.getInstance().getWeatherSpec();
+                    if (weatherSpec != null) {
+                        onSendUVIndex(weatherSpec);
                     } else {
                         LOG.info("no weather data available  - ignoring request");
                     }

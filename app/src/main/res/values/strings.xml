@@ -1779,6 +1779,7 @@
     <string name="watchface_widget_type_2nd_tz">2nd time zone</string>
     <string name="watchface_widget_type_active_mins">Active minutes</string>
     <string name="watchface_widget_type_chance_rain">Chance of rain</string>
+    <string name="watchface_widget_type_uv_index">UV index</string>
     <string name="watchface_setting_title_power_saving">Power saving</string>
     <string name="watchface_setting_power_saving_display">Disable display updates while off wrist</string>
     <string name="watchface_setting_power_saving_hands">Disable hands movement while off wrist</string>
