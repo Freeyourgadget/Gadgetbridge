@@ -8,7 +8,7 @@
     <string name="action_donate">Spenden</string>
     <string name="controlcenter_fetch_activity_data">Synchronisieren</string>
     <string name="controlcenter_find_device">Verlorenes Gerät finden</string>
-    <string name="controlcenter_take_screenshot">Bildschirmfoto machen</string>
+    <string name="controlcenter_take_screenshot">Screenshot erstellen</string>
     <string name="controlcenter_disconnect">Trennen</string>
     <string name="controlcenter_delete_device">Gerät löschen</string>
     <string name="controlcenter_delete_device_name">%1$s löschen</string>
@@ -1311,7 +1311,7 @@
     <string name="watchface_widget_type_2nd_tz">Zweite Zeitzone</string>
     <string name="watchface_widget_type_calories">Kalorien</string>
     <string name="watchface_widget_type_battery">Akku</string>
-    <string name="watchface_setting_power_saving_hands">Bewegungserkennung deaktivieren, wenn Uhr nicht getragen wird</string>
+    <string name="watchface_setting_power_saving_hands">Zeigerbewegung deaktivieren, wenn Uhr nicht getragen wird</string>
     <string name="watchface_setting_power_saving_display">Bildschirmaktualisierungen deaktivieren, wenn Uhr nicht getragen wird</string>
     <string name="pref_summary_huami_force_new_protocol">Aktivieren, wenn das Gerät nach einem Firmware-Upgrade keine Verbindung mehr herstellt</string>
     <string name="pref_title_huami_force_new_protocol">Neues Auth-Protokoll</string>
@@ -2236,4 +2236,26 @@
     <string name="contact_missing_name">Kontaktname ist leer</string>
     <string name="pref_contacts_summary">Konfigurieren der Kontakte auf der Uhr</string>
     <string name="contact_missing_number">Kontaktnummer ist leer</string>
+    <string name="pref_app_logs_stop_summary">Beenden der Protokollierung über Watch-Apps</string>
+    <string name="stress_relaxed">Entspannt</string>
+    <string name="stress_mild">Leicht</string>
+    <string name="stress_moderate">Mäßig</string>
+    <string name="stress_high">Hoch</string>
+    <string name="charts_legend_stress_average">Durchschnittliche Belastung</string>
+    <string name="intent_api_allow_debug_commands_summary">Auslösen von Debug-Menübefehlen über Intent-API ermöglichen</string>
+    <string name="intent_api_allow_debug_commands_title">Debug-Befehle zulassen</string>
+    <string name="screenshot_taken">Screenshot aufgenommen</string>
+    <string name="share_screenshot">Screenshot teilen</string>
+    <string name="pref_summary_navigation_forward">Anweisungen von Navigations-Apps an die Uhr weiterleiten</string>
+    <string name="pref_title_navigation_forward">Navigation an Uhr senden</string>
+    <string name="voice_service_package_summary">Anwendung, die den Dienst zur Bearbeitung von Sprachbefehlen enthält</string>
+    <string name="voice_service_class_title">Sprachdienstklasse</string>
+    <string name="voice_service_class_summary">Vollständiger Servicepfad zur Verarbeitung von Sprachbefehlen</string>
+    <string name="voice_service">Sprachdienst</string>
+    <string name="voice_service_package_title">Sprachdienstpaket</string>
+    <string name="pref_app_logs_title">App-Protokolle</string>
+    <string name="pref_app_logs_summary">Protokolle von Uhr-Apps aktivieren</string>
+    <string name="pref_app_logs_start_summary">Start der Protokollierung über Watch-Apps</string>
+    <string name="pref_header_navigation">Navigation</string>
+    <string name="fwapp_install_device_not_supported">Datei kann nicht installiert werden, das Gerät wird nicht unterstützt.</string>
 </resources>
