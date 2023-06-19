@@ -2240,4 +2240,5 @@
     <string name="stress_high">Tinggi</string>
     <string name="screenshot_taken">Tangkapan layar diambil</string>
     <string name="stress_mild">Ringan</string>
+    <string name="watchface_widget_type_uv_index">Indeks UV</string>
 </resources>
