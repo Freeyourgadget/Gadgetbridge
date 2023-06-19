@@ -2246,4 +2246,10 @@
     <string name="fwapp_install_device_not_supported">Bestand kan niet worden geïnstalleerd, apparaat wordt niet ondersteund.</string>
     <string name="share_screenshot">Schermafbeelding delen</string>
     <string name="screenshot_taken">Schermafbeelding gemaakt</string>
+    <string name="charts_legend_stress_average">Stress gemiddeld</string>
+    <string name="watchface_widget_type_uv_index">UV-index</string>
+    <string name="stress_relaxed">Ontspannen</string>
+    <string name="stress_mild">Mild</string>
+    <string name="stress_moderate">Matig</string>
+    <string name="stress_high">Hoog</string>
 </resources>
