@@ -2236,4 +2236,5 @@
     <string name="stress_high">عال</string>
     <string name="stress_relaxed">مسترخي</string>
     <string name="stress_mild">خفيف</string>
+    <string name="watchface_widget_type_uv_index">مؤشر الأشعة فوق البنفسجية</string>
 </resources>
