@@ -2251,4 +2251,5 @@
     <string name="stress_mild">温和</string>
     <string name="stress_moderate">缓和</string>
     <string name="stress_relaxed">放松</string>
+    <string name="watchface_widget_type_uv_index">紫外线指数</string>
 </resources>
