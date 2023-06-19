@@ -2253,4 +2253,5 @@
     <string name="stress_high">Alto</string>
     <string name="charts_legend_stress_average">Promedio del estrés</string>
     <string name="stress_relaxed">Relajado</string>
+    <string name="watchface_widget_type_uv_index">Índice UV</string>
 </resources>
