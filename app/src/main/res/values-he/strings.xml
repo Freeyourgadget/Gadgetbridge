@@ -2250,4 +2250,5 @@
     <string name="stress_moderate">מתון</string>
     <string name="stress_high">גבוה</string>
     <string name="stress_relaxed">רגוע</string>
+    <string name="watchface_widget_type_uv_index">מדד קרינה אולטרה סגולה</string>
 </resources>
