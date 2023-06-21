@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="action_settings">الإعدادات</string>
-    <string name="action_quit">أخرج</string>
+    <string name="action_quit">انهاء</string>
     <string name="controlcenter_connect">اتصل…</string>
     <string name="battery_level">مستوى البطارية</string>
     <string name="title_activity_settings">إعدادات</string>
@@ -58,7 +58,7 @@
     <string name="pref_summary_transliteration">قم بتمكين هذا إذا كان جهازك لا يدعم خط لغتك</string>
     <string name="pref_rtl_max_line_length">أقصى طول للخط من اليمين إلى اليسار</string>
     <string name="pref_rtl_max_line_length_summary">يطيل أو يقصر الأسطر التي يتم فصل النص من اليمين إلى اليسار إليها</string>
-    <string name="pref_call_privacy_mode_name">إخفاء الاسم ولكن عرض الرقم</string>
+    <string name="pref_call_privacy_mode_name">إخفاء الاسم ولكن أعرض الرقم</string>
     <string name="pref_title_pebble_activitytracker">متعقب النشاط المفضل</string>
     <string name="pref_title_enable_outgoing_call">دعم المكالمات الصادرة</string>
     <string name="pref_title_enable_pebblekit">السماح بالوصول إلى تطبيقات Android التابعة لجهات خارجية</string>
@@ -100,7 +100,7 @@
     <string name="toast_aqurired_networklocation">تم الحصول على الموقع</string>
     <string name="pref_display_add_device_fab_on">مرئي دائما</string>
     <string name="pref_title_notifications_sms">الرسائل القصيرة</string>
-    <string name="pref_call_privacy_mode_number">إخفاء الرقم ولكن اعرض الاسم</string>
+    <string name="pref_call_privacy_mode_number">إخفاء الرقم ولكن أعرض الاسم</string>
     <string name="pref_title_weather_location">موقع الطقس (لمزود الطقس في LineageOS)</string>
     <string name="watchface_dialog_widget_type">النوع</string>
     <string name="pref_title_message_privacy_mode">وضع خصوصية الرسائل</string>
@@ -124,7 +124,7 @@
     <string name="pref_title_timeformat">تنسيق الوقت</string>
     <string name="watchface_dialog_widget_color_black">أسود</string>
     <string name="ascentSeconds">تصاعدي</string>
-    <string name="activity_detail_duration_label">مدة</string>
+    <string name="activity_detail_duration_label">المدة</string>
     <string name="pref_title_canned_messages_set">التحديث على الجهاز</string>
     <string name="pref_header_development">خيارات المطور</string>
     <string name="prefs_sensors_button_bp_calibration_sum">اضغط هنا لبدء المعايرة</string>
@@ -261,7 +261,7 @@
 \n
 \nنظرًا لسياسات متجر Google Play ، لا يُسمح لنا باستخدام رابط تبرع في التطبيق نفسه ، ولكن إذا أعجبك هذا التطبيق ، فيرجى التفكير في التبرع عبر صفحة Gadgetbridge الرئيسية أدناه.</string>
     <string name="gadgetbridge_running_banglejs_main">Bangle.js قيد التشغيل</string>
-    <string name="about_description_main_nightly">استبدال حر بدون حقوق متروكة الحقوق بدون سحابة لتطبيقات أدوات اندرويد مغلقة المصدر من البائعين. الإصدارات الليلية من Gadgetbridge. لا يمكن تثبيته إذا كان لديك بالفعل Gadgetbridge أو تطبيق Pebble مثبتًا ، بسبب تعارض في موفر Pebble.</string>
+    <string name="about_description_main_nightly">تطبيق حر مفتوح المصدر متروك الحقوق بدون سحابة بديل لتطبيقات أدوات اندرويد مغلقة المصدر من المصنعين. الإصدارات الليلية من Gadgetbridge. لا يمكن تثبيتها إذا كنت بالفعل مثبتا Gadgetbridge أو تطبيق Pebble ، بسبب تعارض في موفر Pebble.</string>
     <string name="application_name_main_nopebble">Gadgetbridge (اليلي, لايوجد موفر Pebble)</string>
     <string name="about_description_main_nopebble">استبدال حر بدون حقوق متروكة الحقوق بدون سحابة لتطبيقات أدوات اندرويد مغلقة المصدر من البائعين. الإصدارات الليلية من Gadgetbridge. يحتوي هذا الإصدار على موفر Pebble الذي تمت إعادة تسميته لمنع التعارضات ، لذلك لن تعمل بعض عمليات التكامل ذات الصلة بـ Pebble ، ولكن يمكن تثبيتها جنبًا إلى جنب مع تثبيت Gadgetbridge الحالي.</string>
     <string name="controlcenter_power_off">إيقاف التشغيل</string>
@@ -453,7 +453,7 @@
     <string name="zetime_prefs_inactivity_su">الأحد</string>
     <string name="pref_summary_notification_filter">حظر جميع الإشعارات عند تمكين \"عدم الإزعاج\" على الهاتف</string>
     <string name="pref_title_notification_media_ignores_application_list">إشعارات الوسائط تتجاهل قائمة التطبيقات</string>
-    <string name="pref_summary_banglejs_webview_url">إذا كنت تريد أداة تحميل تطبيقات مخصصة ، فضع عنوان URL https://.../android.html هنا. وإلا اتركه فارغا لمدة https://banglejs.com/apps</string>
+    <string name="pref_summary_banglejs_webview_url">إذا كنت تريد أداة تحميل تطبيقات مخصصة ، فضع عنوان URL https://.../android.html هنا. وإلا اتركه فارغا لـ https://banglejs.com/apps</string>
     <string name="dateformat_time">الوقت</string>
     <string name="zetime_title_alarm_signaling">تعيين نوع الإشارات للإنذار</string>
     <string name="male">ذكر</string>
@@ -599,7 +599,7 @@
     <string name="mi2_prefs_do_not_disturb_summary">لن يتلقى السوار إشعارات أثناء تنشيطه</string>
     <string name="mi2_prefs_inactivity_warnings_dnd_summary">تعطيل تحذيرات عدم النشاط لفترة زمنية</string>
     <string name="prefs_password_summary">قفل السوار بكلمة مرور عند إزالته من المعصم</string>
-    <string name="mi2_prefs_do_not_disturb_lift_wrist">قم بتنشيط العرض عند الرفع أثناء وضع \"عدم الإزعاج\"</string>
+    <string name="mi2_prefs_do_not_disturb_lift_wrist">قم بتنشيط الشاشة عند الرفع أثناء وضع \"عدم الإزعاج\"</string>
     <string name="bip_prefs_shortcuts">الاختصارات</string>
     <string name="mi3_prefs_band_screen_unlock_summary">اسحب لأعلى لإلغاء قفل شاشة السوار</string>
     <string name="mi3_prefs_night_mode_summary">انخفاض سطوع شاشة السوار تلقائيًا في الليل</string>
@@ -656,7 +656,7 @@
     <string name="permission_granting_mandatory">كل هذه الأذونات مطلوبة وقد يحدث عدم استقرار إذا لم يتم منحها</string>
     <string name="permission_display_over_other_apps">يحتاج %1$s إلى إذن للعرض فوق التطبيقات الأخرى للسماح لساعات Bangle.js ببدء الأنشطة عبر النوايا عندما يكون %1$s في الخلفية.
 \n
-\nيمكن استخدام هذا لبدء تشغيل تطبيق موسيقى وتشغيل أغنية وأشياء أخرى كثيرة.
+\nيمكن استخدام هذا لبدء تشغيل تطبيق الموسيقى وتشغيل أغنية وأشياء أخرى كثيرة.
 \n
 \nيُرجى النقر على \"%2$s\" ثم \"%1$s\" وتمكين \"السماح بالعرض فوق التطبيقات الأخرى\" ، ثم النقر على \"رجوع\" للعودة إلى %1$s.
 \n
@@ -746,7 +746,7 @@
     <string name="pref_summary_minimize_priority_on">يتم إخفاء الرمز الموجود في شريط الحالة والإشعار في شاشة القفل</string>
     <string name="pref_summary_notification_delay_calls">تأخير قبل إرسال إشعارات المكالمات الواردة إلى الجهاز ، في ثوان.</string>
     <string name="pref_title_notifications_generic_settings">إعدادات إشعارات اندرويد</string>
-    <string name="pref_title_notification_prefer_long_text">تفضل نص إشعار طويل</string>
+    <string name="pref_title_notification_prefer_long_text">تفضيل نص طويل للإشعار</string>
     <string name="pref_summary_notification_cache_while_disconnected">إرسال إشعارات فائتة عند إعادة اتصال الجهاز بعد خروجه عن النطاق</string>
     <string name="pref_header_notification_application_settings">إعدادات لكل تطبيق</string>
     <string name="pref_title_notification_use_as_deny">رفض الإشعارات من التطبيقات المحددة</string>
@@ -757,7 +757,7 @@
     <string name="pref_title_canned_reply_suffix">لاحقة مشتركة</string>
     <string name="pref_header_pebble_timeline">Pebble الجدول الزمني</string>
     <string name="pref_title_screen_on_on_notifications">الشاشة قيد التشغيل عند الإشعارات</string>
-    <string name="pref_title_pebble_forcele">تفضل دائمًا BLE</string>
+    <string name="pref_title_pebble_forcele">تفضيل BLE دائمًا</string>
     <string name="pref_summary_expose_hr">يسمح للتطبيقات الأخرى بالوصول إلى بيانات الموارد في الوقت الفعلي أثناء اتصال Gadgetbridge</string>
     <string name="pref_summary_device_internet_access">اسمح للتطبيقات الموجودة على هذا الجهاز بالوصول إلى الإنترنت</string>
     <string name="pref_explanation_authkey">تتطلب بعض الأجهزة مفتاح إقران خاص من أجل التهيئة الأولى للجهاز. انقر هنا لمزيد من التفاصيل في الويكي.</string>
@@ -941,7 +941,7 @@
     <string name="step_streak_average_steps_hint">متوسط الخطوات في اليوم من الخط</string>
     <string name="zetime_prefs_inactivity_sa">السبت</string>
     <string name="vibration_profile_waterdrop">قطرة ماء</string>
-    <string name="pref_title_third_party_app_device_settings">السماح لتطبيقات الطرف 3rd لتغيير الإعدادات</string>
+    <string name="pref_title_third_party_app_device_settings">السماح لتطبيقات الطرف الثالث بتغيير الإعدادات</string>
     <string name="zetime_prefs_inactivity_we">الأربعاء</string>
     <string name="zetime_prefs_inactivity_th">الخميس</string>
     <string name="sleepchart_your_sleep">النوم</string>
@@ -1419,7 +1419,7 @@
     <string name="activity_type_hiking">المشي</string>
     <string name="kind_invalid">بيانات غير صالحة</string>
     <string name="pref_header_statistics">إحصائيات الأنشطة الرياضية</string>
-    <string name="watchface_setting_button_toggle_widgets">تبديل الوبدجيت</string>
+    <string name="watchface_setting_button_toggle_widgets">تبديل الويدجيت</string>
     <string name="prefs_sleep_time">أوقات النوم</string>
     <string name="sony_anc_optimizer_status_not_running">لا يعمل</string>
     <string name="sony_equalizer_preset_vocal">صوتي</string>
@@ -1672,7 +1672,7 @@
     <string name="prefs_touch_lock">قفل اللمس</string>
     <string name="battery_case">بطارية العلبة</string>
     <string name="audio_codec">برنامج ترميز الصوت</string>
-    <string name="pref_title_touch_voice_assistant">النساعد الصوتي</string>
+    <string name="pref_title_touch_voice_assistant">المساعد الصوتي</string>
     <string name="pref_ambient_sound_tone_summary">من الناعم إلى الواضح</string>
     <string name="prefs_noise_control">التحكم في الضوضاء</string>
     <string name="sony_ambient_sound_level">مستوى الصوت المحيطي</string>
@@ -1685,7 +1685,7 @@
     <string name="pref_media_play">تشغيل الوسائط</string>
     <string name="pref_media_volumedown">خفض مستوى الصوت</string>
     <string name="pref_media_forward">تخطي إلى الأمام</string>
-    <string name="pref_device_action_fitness_app_control_stop">توقف تتبع تطبيق اللياقة البدنية</string>
+    <string name="pref_device_action_fitness_app_control_stop">إيقاف تتبع تطبيق اللياقة البدنية</string>
     <string name="watchface_dialog_pre_setting_position">وضع الإعداد المسبق على %s</string>
     <string name="auto_reconnect_ble_title">إعادة الاتصال التلقائي بالجهاز</string>
     <string name="steps_streaks">خطوط الخطوات</string>
@@ -1971,7 +1971,7 @@
     <string name="prefs_ambient_volume">الصوت المحيطي</string>
     <string name="prefs_touch_lock_buds2">عناصر التحكم باللمس</string>
     <string name="prefs_touch_lock_summary">تعطيل أحداث اللمس</string>
-    <string name="prefs_seamless_connection_switch_title">تبديل الإتصال السلس</string>
+    <string name="prefs_seamless_connection_switch_title">التبديل السلس للإتصال</string>
     <string name="pref_title_touch_volume">المستوى</string>
     <string name="pref_title_touch_spotify_official_app">سبوتيفي (التطبيق الرسمي فقط)</string>
     <string name="pref_title_touch_ambient">الصوت المحيطي</string>
