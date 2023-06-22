@@ -2255,4 +2255,5 @@ Temps de sommeil préféré en heures</string>
     <string name="stress_moderate">Modéré</string>
     <string name="stress_high">Élevé</string>
     <string name="charts_legend_stress_average">Stress moyen</string>
+    <string name="watchface_widget_type_uv_index">Index UV</string>
 </resources>
