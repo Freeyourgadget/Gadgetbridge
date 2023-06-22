@@ -34,6 +34,7 @@
     <string name="action_debug">Debug</string>
     <string name="action_quit">Quit</string>
     <string name="action_donate">Donate</string>
+    <string name="action_changelog">Changelog</string>
     <string name="controlcenter_fetch_activity_data">Synchronize</string>
     <string name="controlcenter_find_device">Find lost device</string>
     <string name="find_lost_device_message">Search for %1$s?</string>
@@ -264,8 +265,11 @@
     <string name="pref_summary_banglejs_text_bitmap">If a word cannot be rendered with the watch\'s font, render it to a bitmap in Gadgetbridge and display the bitmap on the watch</string>
     <string name="pref_title_banglejs_txt_bitmap_size">Text Bitmaps Size</string>
     <string name="pref_summary_banglejs_txt_bitmap_size">If \'Text as Bitmaps\' enabled, what size should text be rendered?</string>
+    <string name="pref_title_banglejs_phone_gps_enbale">Use phone gps data</string>
     <string name="pref_summary_banglejs_phone_gps_enbale">Use the gps data of the phone to overwrite the gps data of the bangle device</string>
+    <string name="pref_title_banglejs_phone_gps_network_only">Only use network to determine location</string>
     <string name="pref_summary_banglejs_phone_gps_network_only">This option is only active, if the gps data of the phone is being used. This option can be used to use only the network provider to determine the location. This reduces the power consumption for the cost of accuracy. A reconnection of the device is needed.</string>
+    <string name="pref_title_banglejs_phone_gps_update_interval">GPS data update interval in ms</string>
     <string name="pref_summary_banglejs_phone_gps_update_interval">This option is only active, if the gps data of the phone is being used. This option sets the interval in ms how often the gps position is being updated</string>
     <string name="pref_title_banglejs_webview_url">App loader URL</string>
     <string name="pref_summary_banglejs_webview_url">If you want a custom app loader put your https://…/android.html URL here. Otherwise leave blank for https://banglejs.com/apps</string>
@@ -2137,4 +2141,8 @@
     <string name="pref_app_logs_summary">Enable logs from watch apps</string>
     <string name="pref_app_logs_start_summary">Start logging from watch apps</string>
     <string name="pref_app_logs_stop_summary">Stop logging from watch apps</string>
+    <string name="title">Title</string>
+    <string name="description">Description</string>
+    <string name="preview_image">Preview image</string>
+    <string name="status_icon">Status icon</string>
 </resources>

@@ -20,7 +20,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
-            android:contentDescription="preview image"
+            android:contentDescription="@string/preview_image"
             android:visibility="gone" />
 
         <ListView
@@ -48,7 +48,7 @@
             android:layout_alignParentTop="false"
             android:layout_below="@+id/infoTextView"
             android:layout_centerHorizontal="true"
-            android:contentDescription="Status icon" />
+            android:contentDescription="@string/status_icon" />
 
         <ProgressBar
             style="@android:style/Widget.DeviceDefault.ProgressBar.Horizontal"

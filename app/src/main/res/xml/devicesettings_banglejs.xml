@@ -5,20 +5,20 @@
         android:icon="@drawable/ic_gps_location"
         android:key="banglejs_gps_update"
         android:summary="@string/pref_summary_banglejs_phone_gps_enbale"
-        android:title="Use phone gps data" />
+        android:title="@string/pref_title_banglejs_phone_gps_enbale" />
     <EditTextPreference
         android:defaultValue="1000"
         android:inputType="number"
         android:icon="@drawable/ic_access_time"
         android:key="banglejs_gps_update_interval"
         android:summary="@string/pref_summary_banglejs_phone_gps_update_interval"
-        android:title="GPS data update interval in ms" />
+        android:title="@string/pref_title_banglejs_phone_gps_update_interval" />
     <SwitchPreference
         android:defaultValue="false"
         android:icon="@drawable/ic_gps_location"
         android:key="banglejs_gps_use_network_only"
         android:summary="@string/pref_summary_banglejs_phone_gps_network_only"
-        android:title="Only use network to determine location" />
+        android:title="@string/pref_title_banglejs_phone_gps_network_only" />
 
     <SwitchPreference
         android:defaultValue="false"

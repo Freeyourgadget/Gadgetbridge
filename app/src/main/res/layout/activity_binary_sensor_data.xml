@@ -19,14 +19,14 @@
                 android:layout_width="250dp"
                 android:layout_height="250dp"
                 android:background="@android:color/holo_red_light"
-                android:text="unknown"
+                android:text="@string/unknown"
                 android:textSize="50dp"
                 android:gravity="center"/>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="unknown"
+                android:text="@string/unknown"
                 android:textSize="50dp"
                 android:id="@+id/text_sensor_count"/>
 
