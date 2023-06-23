@@ -2241,4 +2241,19 @@
     <string name="screenshot_taken">Tangkapan layar diambil</string>
     <string name="stress_mild">Ringan</string>
     <string name="watchface_widget_type_uv_index">Indeks UV</string>
+    <string name="pref_title_banglejs_phone_gps_network_only">Hanya gunakan jaringan untuk menentukan lokasi</string>
+    <string name="title">Judul</string>
+    <string name="pref_title_banglejs_phone_gps_enbale">Gunakan data GPS ponsel</string>
+    <string name="pref_summary_banglejs_phone_gps_enbale">Gunakan data GPS ponsel untuk menimpa data GPS dari perangkat Bangle</string>
+    <string name="pref_title_banglejs_phone_gps_update_interval">Interval pembaruan data GPS dalam milidetik</string>
+    <string name="description">Deskripsi</string>
+    <string name="preview_image">Pratinjau gambar</string>
+    <string name="status_icon">Ikon status</string>
+    <string name="changelog_full_title">Catatan Perubahan</string>
+    <string name="changelog_show_full">Lainnya…</string>
+    <string name="changelog_ok_button">Oke</string>
+    <string name="changelog_title">Apa Yang Baru</string>
+    <string name="pref_summary_banglejs_phone_gps_network_only">Pilihan ini hanya aktif, jika data GPS ponsel sedang digunakan. Pilihan ini dapat digunakan untuk hanya menggunakan penyedia jaringan untuk menentukan lokasi. Hal ini mengurangi konsumsi daya untuk biaya akurasi. Diperlukan penyambungan ulang perangkat.</string>
+    <string name="pref_summary_banglejs_phone_gps_update_interval">Opsi ini hanya aktif, jika data GPS ponsel sedang digunakan. Opsi ini mengatur interval dalam milidetik seberapa sering posisi GPS diperbarui</string>
+    <string name="action_changelog">Catatan Perubahan</string>
 </resources>
