@@ -2254,4 +2254,19 @@
     <string name="charts_legend_stress_average">Promedio del estrés</string>
     <string name="stress_relaxed">Relajado</string>
     <string name="watchface_widget_type_uv_index">Índice UV</string>
+    <string name="action_changelog">Registro de los cambios</string>
+    <string name="pref_title_banglejs_phone_gps_network_only">Solo usa la red para determinar la ubicación</string>
+    <string name="pref_title_banglejs_phone_gps_update_interval">Intervalo de actualización de los datos GPS en ms</string>
+    <string name="pref_summary_banglejs_phone_gps_enbale">Utiliza los datos GPS del teléfono móvil para sobrescribir los datos GPS del dispositivo de pulsera</string>
+    <string name="pref_summary_banglejs_phone_gps_update_interval">Esta opción solo está activa si se están utilizando los datos GPS del teléfono. Esta opción establece el intervalo en ms y con qué frecuencia se actualiza la posición del GPS</string>
+    <string name="pref_title_banglejs_phone_gps_enbale">Usa los datos GPS de tu teléfono</string>
+    <string name="pref_summary_banglejs_phone_gps_network_only">Esta opción solo está disponible cuando se utilizan los datos GPS del teléfono. Esta opción se puede usar para determinar la ubicación usando solo tu proveedor de red. Esto reduce el consumo de energía, pero a expensas de la precisión. El dispositivo necesita ser reconectado.</string>
+    <string name="description">Descripción</string>
+    <string name="preview_image">Vista previa de la imagen</string>
+    <string name="status_icon">Icono del estado</string>
+    <string name="changelog_full_title">Registro de los cambios</string>
+    <string name="changelog_ok_button">DE ACUERDO</string>
+    <string name="changelog_show_full">Más…</string>
+    <string name="changelog_title">Qué novedades hay</string>
+    <string name="title">Título</string>
 </resources>
