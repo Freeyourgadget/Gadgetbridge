@@ -2237,4 +2237,19 @@
     <string name="stress_relaxed">مسترخي</string>
     <string name="stress_mild">خفيف</string>
     <string name="watchface_widget_type_uv_index">مؤشر الأشعة فوق البنفسجية</string>
+    <string name="preview_image">معاينة الصورة</string>
+    <string name="status_icon">أيقونة الحالة</string>
+    <string name="changelog_full_title">سجل التغيير</string>
+    <string name="pref_title_banglejs_phone_gps_enbale">استخدم بيانات GPS الخاصة بالهاتف</string>
+    <string name="pref_summary_banglejs_phone_gps_enbale">استخدم بيانات GPS الخاصة بالهاتف للكتابة فوق بيانات GPS لجهاز الإسورة</string>
+    <string name="pref_title_banglejs_phone_gps_network_only">استخدم الشبكة فقط لتحديد الموقع</string>
+    <string name="pref_summary_banglejs_phone_gps_network_only">هذا الخيار نشط فقط ، إذا تم استخدام بيانات GPS الخاصة بالهاتف. يمكن استخدام هذا الخيار لاستخدام مزود الشبكة فقط لتحديد الموقع. هذا يقلل من استهلاك الطاقة على حساب الدقة. يلزم إعادة توصيل الجهاز.</string>
+    <string name="pref_title_banglejs_phone_gps_update_interval">الفاصل الزمني لتحديث بيانات GPS بالمللي ثانية</string>
+    <string name="title">العنوان</string>
+    <string name="description">الوصف</string>
+    <string name="changelog_ok_button">حسنا</string>
+    <string name="pref_summary_banglejs_phone_gps_update_interval">هذا الخيار نشط فقط ، إذا تم استخدام بيانات GPS الخاصة بالهاتف. يحدد هذا الخيار الفاصل الزمني بالمللي ثانية كم مرة يتم تحديث موضع GPS</string>
+    <string name="changelog_show_full">أكثر…</string>
+    <string name="changelog_title">ما الجديد</string>
+    <string name="action_changelog">سجل التغييرات</string>
 </resources>
