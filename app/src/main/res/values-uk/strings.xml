@@ -2260,4 +2260,19 @@
     <string name="stress_relaxed">Розслаблений</string>
     <string name="stress_high">Високий</string>
     <string name="watchface_widget_type_uv_index">УФ-індекс</string>
+    <string name="pref_summary_banglejs_phone_gps_enbale">Використовувати дані GPS телефону, щоб перезаписати дані GPS браслета</string>
+    <string name="action_changelog">Журнал змін</string>
+    <string name="pref_title_banglejs_phone_gps_enbale">Використовувати дані GPS телефону</string>
+    <string name="pref_title_banglejs_phone_gps_network_only">Для визначення розташування використовувати лише мережу</string>
+    <string name="title">Назва</string>
+    <string name="pref_summary_banglejs_phone_gps_update_interval">Ця опція активна, лише якщо використовуються дані GPS телефону. Ця опція встановлює інтервал у мс, як часто оновлюється GPS-позиція</string>
+    <string name="pref_title_banglejs_phone_gps_update_interval">Інтервал оновлення даних GPS у мс</string>
+    <string name="pref_summary_banglejs_phone_gps_network_only">Ця опція активна, лише якщо використовуються дані GPS телефону. Цю опцію можна використовувати для визначення місця перебування лише за допомогою мережевого провайдера. Це знижує енергоспоживання внаслідок точності. Потрібно повторно під\'єднати пристрій.</string>
+    <string name="description">Опис</string>
+    <string name="preview_image">Попередній перегляд зображення</string>
+    <string name="status_icon">Піктограма стану</string>
+    <string name="changelog_full_title">Журнал змін</string>
+    <string name="changelog_show_full">Більше…</string>
+    <string name="changelog_ok_button">ГАРАЗД</string>
+    <string name="changelog_title">Що нового</string>
 </resources>
