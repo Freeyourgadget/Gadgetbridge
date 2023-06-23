@@ -923,12 +923,12 @@
     <string name="Strokes">Záběry</string>
     <string name="bpm">tepů/min</string>
     <string name="minutes_km">min/km</string>
-    <string name="seconds_km">sec/km</string>
+    <string name="seconds_km">s/km</string>
     <string name="calories_unit">kcal</string>
     <string name="laps_unit">bazénů</string>
     <string name="swim_style">plavecký styl</string>
     <string name="swolf_index">swolf index</string>
-    <string name="seconds">sec</string>
+    <string name="seconds">sek</string>
     <string name="strokes_unit">záb</string>
     <string name="strokes_second">záb/s</string>
     <string name="km_h">km/h</string>
