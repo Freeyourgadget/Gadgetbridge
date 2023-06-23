@@ -2258,4 +2258,20 @@
     <string name="pref_app_logs_start_summary">Start der Protokollierung über Watch-Apps</string>
     <string name="pref_header_navigation">Navigation</string>
     <string name="fwapp_install_device_not_supported">Datei kann nicht installiert werden, das Gerät wird nicht unterstützt.</string>
+    <string name="pref_title_banglejs_phone_gps_network_only">Standortbestimmung nur über das Netzwerk</string>
+    <string name="action_changelog">Änderungsprotokoll</string>
+    <string name="pref_title_banglejs_phone_gps_enbale">GPS-Daten des Telefons verwenden</string>
+    <string name="title">Titel</string>
+    <string name="description">Beschreibung</string>
+    <string name="status_icon">Statussymbol</string>
+    <string name="pref_summary_banglejs_phone_gps_enbale">Verwende die GPS-Daten des Telefons, um die GPS-Daten des Armbands zu überschreiben</string>
+    <string name="pref_summary_banglejs_phone_gps_network_only">Diese Option ist nur aktiv, wenn die GPS-Daten des Telefons verwendet werden. Diese Option kann verwendet werden, um nur den Netzbetreiber für die Standortbestimmung zu verwenden. Dadurch wird der Stromverbrauch auf Kosten der Genauigkeit reduziert. Eine erneute Verbindung mit dem Gerät ist erforderlich.</string>
+    <string name="watchface_widget_type_uv_index">UV-Index</string>
+    <string name="pref_summary_banglejs_phone_gps_update_interval">Diese Option ist nur aktiv, wenn die GPS-Daten des Telefons verwendet werden. Diese Option legt das Intervall in ms fest, wie oft die GPS-Position aktualisiert wird</string>
+    <string name="preview_image">Vorschaubild</string>
+    <string name="changelog_full_title">Änderungsprotokoll</string>
+    <string name="changelog_show_full">Mehr…</string>
+    <string name="pref_title_banglejs_phone_gps_update_interval">Aktualisierungsintervall der GPS-Daten in ms</string>
+    <string name="changelog_ok_button">OK</string>
+    <string name="changelog_title">Was gibt\'s Neues</string>
 </resources>
