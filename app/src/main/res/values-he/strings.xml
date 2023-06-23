@@ -2251,4 +2251,19 @@
     <string name="stress_high">גבוה</string>
     <string name="stress_relaxed">רגוע</string>
     <string name="watchface_widget_type_uv_index">מדד קרינה אולטרה סגולה</string>
+    <string name="pref_title_banglejs_phone_gps_update_interval">הפרש בין עדכוני נתוני נווטן במילישניות</string>
+    <string name="pref_summary_banglejs_phone_gps_network_only">האפשרות הזאת פעילה בלבד אם נעשה שימוש בנתוני הנווטן של הטלפון. אפשר להשתמש באפשרות הזאת כדי להשתמש רק ברשת כדי לזהות את המיקום. מפחית את צריכת הסוללה בתמורה לדיוק. נדרש חיבור מחדש למכשיר.</string>
+    <string name="pref_summary_banglejs_phone_gps_update_interval">האפשרות הזאת פעילה רק אם נעשה שימוש בנתוני הנווטן של הטלפון. אפשרות זו מגדיר את ההפרש במילישניות לעדכון מיקום הנווטן</string>
+    <string name="pref_title_banglejs_phone_gps_enbale">להשתמש בנתוני הנווטן של הטלפון</string>
+    <string name="changelog_show_full">עוד…</string>
+    <string name="preview_image">תמונת תצוגה מקדימה</string>
+    <string name="description">תיאור</string>
+    <string name="action_changelog">יומן שינויים</string>
+    <string name="status_icon">סמל מצב</string>
+    <string name="title">כותרת</string>
+    <string name="pref_summary_banglejs_phone_gps_enbale">להשתמש בנתוני הנווטן של הטלפון כדי לדרוס את נתוני הנווטן של מכשיר ה־bangle</string>
+    <string name="pref_title_banglejs_phone_gps_network_only">להשתמש רק ברשת כדי למצוא מיקום</string>
+    <string name="changelog_full_title">יומן שינויים</string>
+    <string name="changelog_ok_button">אישור</string>
+    <string name="changelog_title">מה חדש</string>
 </resources>
