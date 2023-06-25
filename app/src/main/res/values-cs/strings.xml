@@ -2013,4 +2013,61 @@
     <string name="pref_title_banglejs_phone_gps_network_only">Použít pouze sítě pro určení polohy</string>
     <string name="pref_workout_detection_summary">Automaticky rozpoznávat cvičení</string>
     <string name="contact_delete_confirm_title">Odstranit kontakt</string>
+    <string name="pref_pair_bluetooth_calls_help_title">Jak přijímat hovory přes Bluetooth</string>
+    <string name="pref_pair_bluetooth_calls_help_3">3. Povolte níže uvedené nastavení volání přes Bluetooth.</string>
+    <string name="fw_upgrade_notice_amazfit_gtr3_pro">Chystáte se nainstalovat firmvér %s na vašem Amazfit GTR 3 Pro.
+\n
+\nVaše hodinky se po instalaci souboru .zip restartují.
+\n
+\nPOKRAČUJTE TO NA VLASTNÍ NEBEZPEČÍ!</string>
+    <string name="pref_header_offline_voice">Hlasové ovládání offline</string>
+    <string name="pref_pair_bluetooth_calls_help_1">1. Klepnutím na tlačítko níže zahájíte proces párování.</string>
+    <string name="pref_title_notification_cache_while_disconnected">Mezipaměť, když je telefon mimo dosah</string>
+    <string name="appmanager_app_start">Start</string>
+    <string name="fw_upgrade_notice_amazfit_trex2">Chystáte se nainstalovat firmvér %s na vašem Amazfit T-Rex 2.
+\n
+\nVaše hodinky se po instalaci souboru .zip restartují.
+\n
+\nPOKRAČUJTE TO NA VLASTNÍ NEBEZPEČÍ!</string>
+    <string name="fw_upgrade_notice_amazfit_gts4">Chystáte se nainstalovat firmvér %s na vašem Amazfit GTS 4.
+\n
+\nVaše hodinky se po instalaci souboru .zip restartují.
+\n
+\nPOKRAČUJTE TO NA VLASTNÍ NEBEZPEČÍ!</string>
+    <string name="fw_upgrade_notice_amazfit_gts4_mini">Chystáte se nainstalovat firmvér %s na vašem GTS 4 Mini.
+\n
+\nVaše hodinky se po instalaci souboru .zip restartují.
+\n
+\nPOKRAČUJTE TO NA VLASTNÍ NEBEZPEČÍ!</string>
+    <string name="pref_pair_bluetooth_calls_help_2">2. Přejděte do nastavení bluetooth telefonu a spárujte se s novým zařízením, které se zobrazí (podobný název jako vaše aktuální hodinky, ale s příponou, např. \"Amazfit GTR 4 - AFC8\".</string>
+    <string name="pref_summary_notification_cache_while_disconnected">Odesílání zmeškaných oznámení, když se zařízení znovu připojí poté, co bylo mimo dosah telefonu</string>
+    <string name="pref_summary_notification_media_ignores_application_list">Zpracovávat oznámení multimediálních aplikací před běžným seznamem aplikací. Pokud není tato předvolba zaškrtnuta, musí být mediální aplikace povoleny v seznamu aplikací, aby fungovalo ovládání médií ze zařízení.</string>
+    <string name="pref_title_notification_media_ignores_application_list">Seznam multimedálních aplikací s ignorovanými notifikacemi</string>
+    <string name="debugactivity_confirm_remove_device_preferences_title">Odebrat předvolby zařízení\?</string>
+    <string name="single_band">Jednoduché Pásmo</string>
+    <string name="dual_band">Duální Pásmo</string>
+    <string name="low_power_gps">Nízká spotřeba GPS</string>
+    <string name="accuracy_first">Upřednostnit přesnost</string>
+    <string name="speed_first">Upřednostnit rychlost</string>
+    <string name="debugactivity_confirm_remove_device_preferences">Tím se resetují předvolby zařízení pro všechna připojená zařízení. Jste si jisti\?</string>
+    <string name="fw_upgrade_notice_amazfit_gtr3">Chystáte se nainstalovat firmvér %s na vašem Amazfit GTR 3.
+\n
+\nVaše hodinky se po instalaci souboru .zip restartují.
+\n
+\nPOKRAČUJTE TO NA VLASTNÍ NEBEZPEČÍ!</string>
+    <string name="fw_upgrade_notice_amazfit_gtr4">Chystáte se nainstalovat firmvér %s na vašem Amazfit GTR 4.
+\n
+\nVaše hodinky se po instalaci souboru .zip restartují.
+\n
+\nPOKRAČUJTE TO NA VLASTNÍ NEBEZPEČÍ!</string>
+    <string name="fw_upgrade_notice_amazfit_band7">Chystáte se nainstalovat firmvér %s na vašem Amazfit Band 7.
+\n
+\nVaše hodinky se po instalaci souboru .zip restartují.
+\n
+\nPOKRAČUJTE TO NA VLASTNÍ NEBEZPEČÍ!</string>
+    <string name="pref_summary_receive_calls_watch">Provádění a přijímání hovorů přímo na hodinkách</string>
+    <string name="pref_pair_bluetooth_calls_title">Párování pro hovory přes Bluetooth</string>
+    <string name="pref_pair_bluetooth_calls_help_summary">Chcete-li přijímat hovory přes Bluetooth, musíte telefon spárovat s druhou instancí hodinek.</string>
+    <string name="pref_pair_bluetooth_calls_help_warning">UPOZORNĚNÍ: Pokud povolíte volání Bluetooth bez spárování s druhou instancí hodinek, oznámení o hovorech nemusí fungovat podle očekávání.</string>
+    <string name="pref_summary_banglejs_phone_gps_enbale">Využít gps telefonu k přepsání gps dat bangle hodinek</string>
 </resources>
