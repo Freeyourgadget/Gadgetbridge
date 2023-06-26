@@ -381,7 +381,8 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
                 else if (ch==12) json += "\\f";
                 else if (ch==34) json += "\\\""; // quote
                 else if (ch==92) json += "\\\\"; // slash
-                else if (ch<32 || ch==127 || ch==173)
+                else if (ch<32 || ch==127 || ch==173 ||
+                         ((ch>=0xC2) && (ch<=0xF4))) // unicode start char range
                     json += "\\x"+Integer.toHexString((ch&255)|256).substring(1);
                 else json += s.charAt(i);
             }
