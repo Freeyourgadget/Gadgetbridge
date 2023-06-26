@@ -155,7 +155,7 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
 
     private final LimitedQueue/*Long*/ mNotificationReplyAction = new LimitedQueue(16);
 
-    private Boolean gpsUpdateSetup = false;
+    private boolean gpsUpdateSetup = false;
     private Timer gpsPositionTimer;
     private final int gpsUpdateTimerInterval = 1000;
 
@@ -200,6 +200,8 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
 
 
     private void stopLocationUpdate() {
+        if (!gpsUpdateSetup)
+            return;
         LOG.info("Stop location updates");
         GBLocationManager.stop(getContext(), this);
         gpsUpdateSetup = false;
@@ -968,6 +970,7 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
         } else {
             GB.toast("Phone gps data update is deactivated in the settings", Toast.LENGTH_SHORT, GB.INFO);
         }
+        gpsUpdateSetup = true;
     }
 
     @Override
