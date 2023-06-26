@@ -71,7 +71,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -311,7 +310,7 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
         Prefs devicePrefs = new Prefs(GBApplication.getDeviceSpecificSharedPrefs(gbDevice.getAddress()));
         allowHighMTU = devicePrefs.getBoolean(PREF_ALLOW_HIGH_MTU, true);
 
-        uartTx(builder, " \u0003"); // clear active line
+        // No need to clear active line with Ctrl-C now - firmwares in 2023 auto-clear on connect
 
         Prefs prefs = GBApplication.getPrefs();
         if (prefs.getBoolean("datetime_synconconnect", true))
@@ -326,6 +325,27 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
         getDevice().setFirmwareVersion("N/A");
         getDevice().setFirmwareVersion2("N/A");
         lastBatteryPercent = -1;
+
+        /* Here we get the last Activity info saved from Bangle.js, and then send
+        its timestamp. Bangle.js can then look back at its history and can try and
+        send any missing data.  */
+        try (DBHandler dbHandler = GBApplication.acquireDB()) {
+            BangleJSSampleProvider provider = new BangleJSSampleProvider(getDevice(), dbHandler.getDaoSession());
+            BangleJSActivitySample sample = provider.getLatestActivitySample();
+            if (sample!=null) {
+                LOG.info("Send 'actlast' with last activity's timestamp: "+sample.getTimestamp());
+                try {
+                    JSONObject o = new JSONObject();
+                    o.put("t", "actlast");
+                    o.put("time", sample.getTimestamp());
+                    uartTxJSON("actlast", o);
+                } catch (JSONException e) {
+                    LOG.info("JSONException: " + e.getLocalizedMessage());
+                }
+            }
+        } catch (Exception ex) {
+            LOG.warn("Error getting last activity: " + ex.getLocalizedMessage());
+        }
 
         LOG.info("Initialization Done");
 
@@ -560,7 +580,7 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
             } break;
             case "act": {
                 BangleJSActivitySample sample = new BangleJSActivitySample();
-                sample.setTimestamp((int) (GregorianCalendar.getInstance().getTimeInMillis() / 1000L));
+                sample.setTimestamp((int) (System.currentTimeMillis() / 1000L));
                 int hrm = 0;
                 int steps = 0;
                 if (json.has("time")) sample.setTimestamp(json.getInt("time"));
