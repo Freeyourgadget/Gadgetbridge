@@ -38,7 +38,6 @@ import android.graphics.Paint;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.location.Location;
-import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Build;
 import android.util.Base64;
@@ -79,8 +78,6 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.SimpleTimeZone;
-import java.util.Timer;
-import java.util.UUID;
 
 import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathFactory;
@@ -100,12 +97,10 @@ import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventMusicContr
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventNotificationControl;
 import nodomain.freeyourgadget.gadgetbridge.devices.banglejs.BangleJSConstants;
 import nodomain.freeyourgadget.gadgetbridge.devices.banglejs.BangleJSSampleProvider;
-import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.entities.BangleJSActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.entities.CalendarSyncState;
 import nodomain.freeyourgadget.gadgetbridge.entities.CalendarSyncStateDao;
 import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
-import nodomain.freeyourgadget.gadgetbridge.externalevents.CalendarReceiver;
 import nodomain.freeyourgadget.gadgetbridge.externalevents.gps.GBLocationManager;
 import nodomain.freeyourgadget.gadgetbridge.externalevents.gps.LocationProviderType;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
@@ -113,7 +108,6 @@ import nodomain.freeyourgadget.gadgetbridge.model.Alarm;
 import nodomain.freeyourgadget.gadgetbridge.model.BatteryState;
 import nodomain.freeyourgadget.gadgetbridge.model.CalendarEventSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.CallSpec;
-import nodomain.freeyourgadget.gadgetbridge.model.CannedMessagesSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceService;
 import nodomain.freeyourgadget.gadgetbridge.model.MusicSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.MusicStateSpec;
@@ -124,14 +118,11 @@ import nodomain.freeyourgadget.gadgetbridge.model.WeatherSpec;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.AbstractBTLEDeviceSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.BtLEQueue;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.HuamiPhoneGpsStatus;
 import nodomain.freeyourgadget.gadgetbridge.util.EmojiConverter;
 import nodomain.freeyourgadget.gadgetbridge.util.FileUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 import nodomain.freeyourgadget.gadgetbridge.util.LimitedQueue;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
-import nodomain.freeyourgadget.gadgetbridge.util.calendar.CalendarEvent;
-import nodomain.freeyourgadget.gadgetbridge.util.calendar.CalendarManager;
 
 public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
     private static final Logger LOG = LoggerFactory.getLogger(BangleJSDeviceSupport.class);
@@ -156,8 +147,6 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
     private final LimitedQueue/*Long*/ mNotificationReplyAction = new LimitedQueue(16);
 
     private boolean gpsUpdateSetup = false;
-    private Timer gpsPositionTimer;
-    private final int gpsUpdateTimerInterval = 1000;
 
     // this stores the globalUartReceiver (for uart.tx intents)
     private BroadcastReceiver globalUartReceiver = null;
@@ -255,7 +244,7 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
                         if (!stateString.equals(lastStateString)) {
                           lastStateString = stateString;
                           LOG.info("ACTION_DEVICE_CHANGED " + stateString);
-                          addReceiveHistory("\n================================================\nACTION_DEVICE_CHANGED "+stateString+" "+(new SimpleDateFormat("yyyy-mm-dd hh:mm:ss", Locale.US)).format(Calendar.getInstance().getTime())+"\n================================================\n");
+                          addReceiveHistory("\n================================================\nACTION_DEVICE_CHANGED "+stateString+" "+(new SimpleDateFormat("yyyy-MM-dd hh:mm:ss", Locale.US)).format(Calendar.getInstance().getTime())+"\n================================================\n");
                         }
                         if (gbDevice!=null && (gbDevice.getState() == GBDevice.State.NOT_CONNECTED || gbDevice.getState() == GBDevice.State.WAITING_FOR_RECONNECT)) {
                             stopLocationUpdate();
@@ -792,7 +781,7 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
                 //if(!GBApplication.getPrefs().getBoolean("enable_calendar_sync", false)) return;
                 //pretty much like the updateEvents in CalendarReceiver, but would need a lot of libraries here
                 JSONArray ids = json.getJSONArray("ids");
-                ArrayList<Long> idsList = new ArrayList(ids.length());
+                ArrayList<Long> idsList = new ArrayList<>(ids.length());
                 try (DBHandler dbHandler = GBApplication.acquireDB()) {
                     DaoSession session = dbHandler.getDaoSession();
                     Long deviceId = DBHelper.getDevice(gbDevice, session).getId();
@@ -832,7 +821,6 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
                     GB.toast("Database Error while forcefully syncing Calendar", Toast.LENGTH_SHORT, GB.ERROR, e1);
                 }
                 //force a syncCalendar now, send missing events
-                Context context = GBApplication.getContext();
                 Intent intent = new Intent("FORCE_CALENDAR_SYNC");
                 intent.setPackage(BuildConfig.APPLICATION_ID);
                 GBApplication.getContext().sendBroadcast(intent);
@@ -1055,7 +1043,7 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
                 needsTranslate = false;
             } else {
                 // TODO: better check?
-                if (ch<0 || ch>255) needsTranslate = true;
+                if (ch>255) needsTranslate = true;
                 word += ch;
             }
         }
@@ -1363,7 +1351,7 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
         MONOCHROME_TRANSPARENT, // 1bpp, black = transparent
         RGB_3BPP, // 3bpp
         RGB_3BPP_TRANSPARENT // 3bpp, least used color as transparent
-    };
+    }
 
     /** Used for writing single bits to an array */
     public static class BitWriter {
