@@ -6,6 +6,7 @@
 * Bangle.js: Add switch to control if the GPS chip should be used to locate the location
 * Bangle.js: Send more weather data to watch
 * Bangle.js: Allow an activity sample to have a timestamp
+* Bangle.js: Send last received activity timestamp on connect (to allow sync of activity samples)
 * Bangle.js: Allow connecting HW keyboard without closing app loader
 * Bangle.js: Bump flavor target SDK version to 31
 * Bangle.js: Fix convertion of emoji/unicode to bitmap without width/height
@@ -15,6 +16,7 @@
 * Bangle.js: Fix return to applications management activity after having opened another window
 * Bangle.js: Set default value for GPS event interval to 1 second
 * Bangle.js: Support navigation instructions
+* Bangle.js: Escape characters that fall in the Unicode codepoint area (for Espruino ~2v18.20 and later)
 * Fossil/Skagen Hybrids: Add support for ultraviolet index and rain probability
 * Fossil/Skagen Hybrids: Add UV index and chance of rain widgets
 * Fossil/Skagen Hybrids: Allow launching the calibration activity on any Gadgetbridge variant
