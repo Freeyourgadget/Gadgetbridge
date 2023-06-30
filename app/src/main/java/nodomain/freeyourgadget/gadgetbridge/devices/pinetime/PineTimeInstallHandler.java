@@ -45,27 +45,41 @@ public class PineTimeInstallHandler implements InstallHandler {
 
     private final Context context;
 
+    public enum InfiniTimeUpdateType {
+        UNKNOWN,
+        DFU,
+        RESOURCES
+    }
+    public InfiniTimeUpdateType updateType;
+
     private InfiniTimeDFUPackage dfuPackageManifest;
 
     public PineTimeInstallHandler(Uri uri, Context context) {
         this.context = context;
 
+        updateType = InfiniTimeUpdateType.UNKNOWN;
         UriHelper uriHelper;
 
         try {
             uriHelper = UriHelper.get(uri, this.context);
 
-            GBZipFile dfuPackage = new GBZipFile(uriHelper.openInputStream());
-            String manifest = new String(dfuPackage.getFileFromZip("manifest.json"));
+            GBZipFile zipPackage = new GBZipFile(uriHelper.openInputStream());
+            if (zipPackage.fileExists("manifest.json")) {
+                updateType = InfiniTimeUpdateType.DFU;
+                String manifest = new String(zipPackage.getFileFromZip("manifest.json"));
 
-            if (!manifest.trim().isEmpty()) {
-                dfuPackageManifest = new Gson().fromJson(manifest.trim(), InfiniTimeDFUPackage.class);
+                if (!manifest.trim().isEmpty()) {
+                    dfuPackageManifest = new Gson().fromJson(manifest.trim(), InfiniTimeDFUPackage.class);
+                }
+            } else if (zipPackage.fileExists("resources.json")) {
+                updateType = InfiniTimeUpdateType.RESOURCES;
+            } else {
+                LOG.error("Unable to determine update type, no manifest.json or resources.json file found.");
             }
-
         } catch (ZipFileException e) {
-            LOG.error("Unable to read manifest file.", e);
+            LOG.error("Unable to read the zip file.", e);
         } catch (FileNotFoundException e) {
-            LOG.error("The DFU file was not found.", e);
+            LOG.error("The update file was not found.", e);
         } catch (IOException e) {
             LOG.error("General IO error occurred.", e);
         } catch (Exception e) {
@@ -100,7 +114,11 @@ public class PineTimeInstallHandler implements InstallHandler {
 
         GenericItem installItem = new GenericItem();
         installItem.setIcon(R.drawable.ic_firmware);
-        installItem.setName("PineTime firmware");
+        if (updateType == InfiniTimeUpdateType.DFU) {
+            installItem.setName("PineTime firmware");
+        } else {
+            installItem.setName("PineTime resources");
+        }
         installItem.setDetails(getVersion());
 
         installActivity.setInfoText(context.getString(R.string.firmware_install_warning, "(unknown)"));
@@ -114,19 +132,28 @@ public class PineTimeInstallHandler implements InstallHandler {
 
     @Override
     public boolean isValid() {
-        return dfuPackageManifest != null &&
-            dfuPackageManifest.manifest != null &&
-            dfuPackageManifest.manifest.application != null &&
-            dfuPackageManifest.manifest.application.bin_file != null;
+        if (updateType == InfiniTimeUpdateType.DFU) {
+            return dfuPackageManifest != null &&
+                dfuPackageManifest.manifest != null &&
+                dfuPackageManifest.manifest.application != null &&
+                dfuPackageManifest.manifest.application.bin_file != null;
+        } else if (updateType == InfiniTimeUpdateType.RESOURCES) {
+            return true; // TODO What counts as valid for a resource update?
+        } else { // updateType == UNKNOWN
+            return false;
+        }
     }
 
     // TODO: obtain version information from manifest file instead
     private String getVersion() {
-        String binFileName = dfuPackageManifest.manifest.application.bin_file;
-        Matcher regexMatcher = binNameVersionPattern.matcher(binFileName);
+        if (updateType == InfiniTimeUpdateType.DFU) {
+            String binFileName = dfuPackageManifest.manifest.application.bin_file;
+            Matcher regexMatcher = binNameVersionPattern.matcher(binFileName);
 
-        if (regexMatcher.matches())
-            return regexMatcher.group(1);
+            if (regexMatcher.matches())
+                return regexMatcher.group(1);
+        }
+        // TODO Get version of a resources.package
         return "(Unknown version)";
     }
 }
