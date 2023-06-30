@@ -58,6 +58,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 
 import java.io.BufferedWriter;
@@ -79,6 +80,7 @@ import java.util.Map;
 import java.util.SimpleTimeZone;
 
 import javax.xml.xpath.XPath;
+import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathFactory;
 
 import de.greenrobot.dao.query.QueryBuilder;
@@ -395,6 +397,8 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
                 else if (ch<32 || ch==127 || ch==173 ||
                          ((ch>=0xC2) && (ch<=0xF4))) // unicode start char range
                     json += "\\x"+Integer.toHexString((ch&255)|256).substring(1);
+                else if (ch>255)
+                    json += "\\u"+Integer.toHexString((ch&65535)|65536).substring(1);
                 else json += s.charAt(i);
             }
             // if it was less characters to send base64, do that!
@@ -435,7 +439,10 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
                 if (iter.hasNext()) json+=",";
             }
             return json+"}";
-        } // else int/double/null
+        } else if (v==null) {
+            // else int/double/null
+            return "null";
+        }
         return v.toString();
     }
 
@@ -666,11 +673,14 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
                     final Map<String,String> headers = _headers;
 
                     String _xmlPath = "";
+                    String _xmlReturn = "";
                     try {
                         _xmlPath = json.getString("xpath");
+                        _xmlReturn = json.getString("return");
                     } catch (JSONException e) {
                     }
                     final String xmlPath = _xmlPath;
+                    final String xmlReturn = _xmlReturn;
                     // Request a string response from the provided URL.
                     StringRequest stringRequest = new StringRequest(method, url,
                             new Response.Listener<String>() {
@@ -681,7 +691,18 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
                                         try {
                                             InputSource inputXML = new InputSource(new StringReader(response));
                                             XPath xPath = XPathFactory.newInstance().newXPath();
-                                            response = xPath.evaluate(xmlPath, inputXML);
+                                            if (xmlReturn.equals("array")) {
+                                                NodeList result = (NodeList) xPath.evaluate(xmlPath, inputXML, XPathConstants.NODESET);
+                                                response = null; // don't add it below
+                                                JSONArray arr = new JSONArray();
+                                                if (result != null) {
+                                                    for (int i = 0; i < result.getLength(); i++)
+                                                        arr.put(result.item(i).getTextContent());
+                                                }
+                                                o.put("resp", arr);
+                                            } else {
+                                                response = xPath.evaluate(xmlPath, inputXML);
+                                            }
                                         } catch (Exception error) {
                                             uartTxJSONError("http", error.toString(), id);
                                             return;
@@ -691,7 +712,8 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
                                         o.put("t", "http");
                                         if( id!=null)
                                             o.put("id", id);
-                                        o.put("resp", response);
+                                        if (response!=null)
+                                            o.put("resp", response);
                                     } catch (JSONException e) {
                                         GB.toast(getContext(), "HTTP: " + e.getLocalizedMessage(), Toast.LENGTH_LONG, GB.ERROR);
                                     }
@@ -1055,6 +1077,7 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
             if (" -_/:.,?!'\"&*()".indexOf(ch)>=0) {
                 // word split
                 if (needsTranslate) { // convert word
+                    LOG.info("renderUnicodeAsImage converting " + word);
                     result += renderUnicodeWordAsImage(word)+ch;
                 } else { // or just copy across
                     result += word+ch;
@@ -1068,6 +1091,7 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
             }
         }
         if (needsTranslate) { // convert word
+            LOG.info("renderUnicodeAsImage converting " + word);
             result += renderUnicodeWordAsImage(word);
         } else { // or just copy across
             result += word;

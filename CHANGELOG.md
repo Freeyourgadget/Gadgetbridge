@@ -17,6 +17,7 @@
 * Bangle.js: Set default value for GPS event interval to 1 second
 * Bangle.js: Support navigation instructions
 * Bangle.js: Escape characters that fall in the Unicode codepoint area (for Espruino ~2v18.20 and later)
+* Bangle.js: HTTP request XPath can now return Arrays
 * Fossil/Skagen Hybrids: Add support for ultraviolet index and rain probability
 * Fossil/Skagen Hybrids: Add UV index and chance of rain widgets
 * Fossil/Skagen Hybrids: Allow launching the calibration activity on any Gadgetbridge variant
