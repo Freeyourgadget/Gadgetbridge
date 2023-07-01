@@ -1989,4 +1989,12 @@
     <string name="menuitem_wechat_pay">WeChat Pay</string>
     <string name="notification_gps_title">Gadgetbridge GPS</string>
     <string name="notification_gps_text">Отправка GPS местоположения на устройства %1$d</string>
+    <string name="prefs_shortcut_cards">Карточки быстрого доступа</string>
+    <string name="kind_gpx_route">GPX Маршрут</string>
+    <string name="activity_type_rowing">Гребля</string>
+    <string name="menuitem_female_health">Женское здоровье</string>
+    <string name="menuitem_total_workout">Общая тренировка</string>
+    <string name="menuitem_cards">Карточки</string>
+    <string name="menuitem_personal_activity_intelligence">Персональный Индекс Активности</string>
+    <string name="menuitem_mi_ai">MI AI</string>
 </resources>
