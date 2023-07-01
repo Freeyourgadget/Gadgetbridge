@@ -1909,4 +1909,27 @@
     <string name="pref_display_caller_title">Показать контакт</string>
     <string name="pref_display_caller_summary">Показать номер телефона или имя для входящих вызовов</string>
     <string name="prefs_spo2_alert_threshold">Порог предупреждения SPO2</string>
+    <string name="pref_pair_bluetooth_calls_help_3">3. Включите возможность звонков по Bluetooth ниже.</string>
+    <string name="bluetooth_calls">Звонки по Bluetooth</string>
+    <string name="bluetooth_calls_pairing">Привязка Bluetooth звонков</string>
+    <string name="pref_pair_bluetooth_calls_title">Привязать для звонков по Bluetooth</string>
+    <string name="pref_pair_bluetooth_calls_summary">Нажмите сюда чтобы начать процесс привязки</string>
+    <string name="pref_pair_bluetooth_calls_help_summary">Чтобы получать звонки по Bluetooth, вам требуется привязать ваш телефон к второму экземпляру часов.</string>
+    <string name="pref_pair_bluetooth_calls_help_2">2. Зайдите в настройки Bluetooth на вашем телефоне и выполните сопряжение с новым устройством который появится в списке(похожее название как у ваших текущих часов, но с суффиксом, например \"Amazfit GTR 4 - AFC8\").</string>
+    <string name="pref_pair_bluetooth_calls_help_warning">ВНИМАНИЕ: Если вы включите звонки по Bluetooth без сопряжения второго экземпляра, уведомления о звонках могут работать не так, как обычно.</string>
+    <string name="pref_summary_device_intents">Разрешить Bangle.js приложениям отправлять Интенты Android, и разрешить другим приложениям на Android(как Tasker) отправлять данные на Bangle.js через интент com.banglejs.uart.tx. Требует разрешение отображаться поверх других приложений чтобы работать в фоне.</string>
+    <string name="pref_title_notification_cache_while_disconnected">Кэшировать когда вне радиуса</string>
+    <string name="pref_summary_banglejs_webview_url">Если вы хотите использовать пользовательский загрузчик приложений, поместите сюда https://…/android.html ссылку. В противном случае оставьте пустым для https://banglejs.com/apps</string>
+    <string name="pref_header_navigation">Навигация</string>
+    <string name="action_changelog">Список изменений</string>
+    <string name="pref_pair_bluetooth_calls_help_1">1. Нажмите на кнопку ниже чтобы начать процесс привязки.</string>
+    <string name="pref_summary_notification_cache_while_disconnected">Отправлять пропущенные уведомления когда устройство переподключается после нахождения вне радиуса</string>
+    <string name="pref_summary_banglejs_phone_gps_enbale">Использовать геолокацию телефона для перезаписи данных о геолокации на браслете</string>
+    <string name="pref_title_banglejs_phone_gps_network_only">Использовать интернет только для определения местоположения</string>
+    <string name="pref_title_banglejs_phone_gps_update_interval">Частота обновления геопозиции в миллисекундах</string>
+    <string name="pref_summary_banglejs_phone_gps_update_interval">Эта опция активна, только если используются данные GPS телефона. Эта опция устанавливает частоту обновления геопозиции в миллисекундах</string>
+    <string name="bluetooth_calls_settings">Настройки звонков по Bluetooth</string>
+    <string name="pref_pair_bluetooth_calls_help_title">Как получать звонки по Bluetooth</string>
+    <string name="pref_title_banglejs_phone_gps_enbale">Использовать GPS телефона</string>
+    <string name="pref_summary_banglejs_phone_gps_network_only">Эта опция активна, только если используются данные GPS телефона. Эта опция может быть использована чтобы определять местоположение только по провайдеру интернета. Это позволяет снизить энергопотребление ценой снижения точности. Требуется переподключение к браслету.</string>
 </resources>
