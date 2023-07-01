@@ -1997,4 +1997,7 @@
     <string name="menuitem_cards">Карточки</string>
     <string name="menuitem_personal_activity_intelligence">Персональный Индекс Активности</string>
     <string name="menuitem_mi_ai">MI AI</string>
+    <string name="menuitem_eject_water">Вытряхнуть воду</string>
+    <string name="menuitem_membership_cards">Членские карточки</string>
+    <string name="sensitive">Чувствительный</string>
 </resources>
