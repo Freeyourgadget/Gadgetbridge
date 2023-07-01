@@ -1919,7 +1919,7 @@
     <string name="pref_pair_bluetooth_calls_help_warning">ВНИМАНИЕ: Если вы включите звонки по Bluetooth без сопряжения второго экземпляра, уведомления о звонках могут работать не так, как обычно.</string>
     <string name="pref_summary_device_intents">Разрешить Bangle.js приложениям отправлять Интенты Android, и разрешить другим приложениям на Android(как Tasker) отправлять данные на Bangle.js через интент com.banglejs.uart.tx. Требует разрешение отображаться поверх других приложений чтобы работать в фоне.</string>
     <string name="pref_title_notification_cache_while_disconnected">Кэшировать когда вне радиуса</string>
-    <string name="pref_summary_banglejs_webview_url">Если вы хотите использовать пользовательский загрузчик приложений, поместите сюда https://…/android.html ссылку. В противном случае оставьте пустым для https://banglejs.com/apps</string>
+    <string name="pref_summary_banglejs_webview_url">Если вы хотите кастомный загрузчик приложения, введите свой https://…/android.html URL здесь. Иначе оставьте пустым, чтобы использовать https://banglejs.com/apps</string>
     <string name="pref_header_navigation">Навигация</string>
     <string name="action_changelog">Список изменений</string>
     <string name="pref_pair_bluetooth_calls_help_1">1. Нажмите на кнопку ниже чтобы начать процесс привязки.</string>
