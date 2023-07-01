@@ -1985,4 +1985,8 @@
     <string name="prefs_control_center_summary">Выберите элементы в раскрывающемся списке центра управления</string>
     <string name="activity_type_indoor_ice_skating">Катание на коньках в помещении</string>
     <string name="menuitem_aqi">Индекс качества воздуха</string>
+    <string name="pref_agps_expire_time">Время истечения AGPS</string>
+    <string name="menuitem_wechat_pay">WeChat Pay</string>
+    <string name="notification_gps_title">Gadgetbridge GPS</string>
+    <string name="notification_gps_text">Отправка GPS местоположения на устройства %1$d</string>
 </resources>
