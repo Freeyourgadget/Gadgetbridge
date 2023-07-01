@@ -1932,4 +1932,5 @@
     <string name="pref_pair_bluetooth_calls_help_title">Как получать звонки по Bluetooth</string>
     <string name="pref_title_banglejs_phone_gps_enbale">Использовать GPS телефона</string>
     <string name="pref_summary_banglejs_phone_gps_network_only">Эта опция активна, только если используются данные GPS телефона. Эта опция может быть использована чтобы определять местоположение только по провайдеру интернета. Это позволяет снизить энергопотребление ценой снижения точности. Требуется переподключение к браслету.</string>
+    <string name="pref_crown_vibration">Вибрация коронки</string>
 </resources>
