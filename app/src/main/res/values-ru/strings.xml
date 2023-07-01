@@ -2025,4 +2025,8 @@
     <string name="currentWorkoutLoad">Тренировочная нагрузка</string>
     <string name="maximumOxygenUptake">Максимальное поглощение кислорода</string>
     <string name="zepp_os_watchface_vibrant">Vibrant</string>
+    <string name="TrainingEffect">Эффект тренировки</string>
+    <string name="quick_alarm">Быстрое оповещение</string>
+    <string name="quick_alarm_description">Оповещение из виджета</string>
+    <string name="hrZoneWarmUp">Разминка</string>
 </resources>
