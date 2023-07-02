@@ -2,44 +2,4 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-
-    <!--
-        SDK 30 & Android 11 - Used for getting app name from notifications, and for starting
-        services from other packages via intents, when targeting Android API level 30 or later
-        (e.g. Bangle.js build variant) on devices running Android 11 or later.
-        https://developer.android.com/training/package-visibility
-        https://support.google.com/googleplay/android-developer/answer/10158779?hl=en#zippy=%2Cpermitted-uses-of-the-query-all-packages-permission%2Cexceptions
-    -->
-    <uses-permission android:name="android.permission.QUERY_ALL_PACKAGES" />
-
-    <!-- https://developer.android.com/guide/topics/connectivity/bluetooth/permissions -->
-    <!-- Request legacy Bluetooth permissions on older devices. -->
-    <!-- We do this in the main Android Manifest already, but without android:maxSdkVersion="30".
-    <uses-permission android:name="android.permission.BLUETOOTH"
-        android:maxSdkVersion="30" />
-    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN"
-        android:maxSdkVersion="30" />
-        -->
-
-
-    <!-- Needed only if your app looks for Bluetooth devices.
-         If your app doesn't use Bluetooth scan results to derive physical
-         location information, you can strongly assert that your app
-         doesn't derive physical location.
-
-         We need to ask the user for this permission, if it's not granted the app crashes when
-         clicking the plus-button. -->
-    <uses-permission android:name="android.permission.BLUETOOTH_SCAN" />
-
-    <!-- Needed only if your app makes the device discoverable to Bluetooth
-         devices. -->
-    <!-- <uses-permission android:name="android.permission.BLUETOOTH_ADVERTISE" /> -->
-
-    <!-- Needed only if your app communicates with already-paired Bluetooth
-         devices. -->
-    <uses-permission android:name="android.permission.BLUETOOTH_CONNECT" />
-
-    <!-- Needed only if your app uses Bluetooth scan results to derive physical location. -->
-    <!-- <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" /> -->
-
 </manifest>
