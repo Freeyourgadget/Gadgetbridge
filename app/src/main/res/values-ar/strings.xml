@@ -2252,4 +2252,10 @@
     <string name="changelog_show_full">أكثر…</string>
     <string name="changelog_title">ما الجديد</string>
     <string name="action_changelog">سجل التغييرات</string>
+    <string name="pai_plus_num">+%d</string>
+    <string name="num_min">%d دقيقة</string>
+    <string name="pai_chart_per_week">PAI في الأسبوع</string>
+    <string name="pai_chart_per_month">PAI في الشهر</string>
+    <string name="pai_total">مجموع PAI</string>
+    <string name="pai_day">زيادة PAI في اليوم</string>
 </resources>
