@@ -95,6 +95,7 @@ public abstract class AbstractActivityChartFragment<D extends ChartsData> extend
     protected String HEARTRATE_LABEL;
     protected String HEARTRATE_AVERAGE_LABEL;
 
+    @Override
     protected void init() {
         Prefs prefs = GBApplication.getPrefs();
         TypedValue runningColor = new TypedValue();

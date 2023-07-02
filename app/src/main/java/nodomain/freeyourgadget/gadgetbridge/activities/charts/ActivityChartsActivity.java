@@ -86,6 +86,9 @@ public class ActivityChartsActivity extends AbstractChartsActivity {
         if (!coordinator.supportsStressMeasurement()) {
             tabList.remove("stress");
         }
+        if (!coordinator.supportsPai()) {
+            tabList.remove("pai");
+        }
         return tabList;
     }
 
@@ -117,6 +120,8 @@ public class ActivityChartsActivity extends AbstractChartsActivity {
                     return new WeekSleepChartFragment();
                 case "stress":
                     return new StressChartFragment();
+                case "pai":
+                    return new PaiChartFragment();
                 case "stepsweek":
                     return new WeekStepsChartFragment();
                 case "speedzones":
@@ -161,6 +166,8 @@ public class ActivityChartsActivity extends AbstractChartsActivity {
                     return getSleepTitle();
                 case "stress":
                     return getString(R.string.menuitem_stress);
+                case "pai":
+                    return getString(R.string.menuitem_pai);
                 case "stepsweek":
                     return getStepsTitle();
                 case "speedzones":

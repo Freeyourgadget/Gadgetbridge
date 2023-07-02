@@ -766,6 +766,10 @@
     <string name="weeksleepchart_sleep_a_week">Sleep per week</string>
     <string name="weeksleepchart_today_sleep_description">Sleep today, target: %1$s</string>
     <string name="weekstepschart_steps_a_week">Steps per week</string>
+    <string name="pai_chart_per_week">PAI per week</string>
+    <string name="pai_chart_per_month">PAI per month</string>
+    <string name="pai_plus_num">+%d</string>
+    <string name="num_min">%d min</string>
     <string name="activity_sleepchart_activity_and_sleep">Activity</string>
     <string name="charts_activity_list">Activity list</string>
     <string name="activity_list_summary_active_steps">Active steps</string>
@@ -1900,6 +1904,8 @@
     <string name="stress_mild">Mild</string>
     <string name="stress_moderate">Moderate</string>
     <string name="stress_high">High</string>
+    <string name="pai_total">PAI Total</string>
+    <string name="pai_day">Day PAI increase</string>
     <string name="sony_ambient_sound">Mode</string>
     <string name="sony_ambient_sound_off">Off</string>
     <string name="sony_ambient_sound_noise_cancelling">Noise Cancelling</string>
