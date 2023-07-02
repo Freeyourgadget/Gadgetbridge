@@ -2267,4 +2267,10 @@
     <string name="pref_summary_banglejs_phone_gps_enbale">使用手机的GPS数据覆盖手环设备的GPS数据</string>
     <string name="action_changelog">更改日志</string>
     <string name="pref_title_banglejs_phone_gps_network_only">仅使用网络来确定位置</string>
+    <string name="pai_chart_per_month">每月 PAI</string>
+    <string name="num_min">%d 分钟</string>
+    <string name="pai_chart_per_week">每周 PAI</string>
+    <string name="pai_plus_num">+%d</string>
+    <string name="pai_total">总计 PAI</string>
+    <string name="pai_day">每日 AAI 增长</string>
 </resources>
