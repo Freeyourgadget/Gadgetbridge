@@ -2266,4 +2266,6 @@
     <string name="changelog_full_title">יומן שינויים</string>
     <string name="changelog_ok_button">אישור</string>
     <string name="changelog_title">מה חדש</string>
+    <string name="num_min">%d דק׳</string>
+    <string name="pai_plus_num">+%d</string>
 </resources>
