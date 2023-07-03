@@ -75,6 +75,7 @@ import java.util.regex.Pattern;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventAppInfo;
+import nodomain.freeyourgadget.gadgetbridge.capabilities.loyaltycards.LoyaltyCard;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventFindPhone;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventMusicControl;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventScreenshot;
@@ -121,6 +122,7 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.service
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.services.ZeppOsDisplayItemsService;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.services.ZeppOsHttpService;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.services.ZeppOsLogsService;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.services.ZeppOsLoyaltyCardService;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.services.ZeppOsNotificationService;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.services.ZeppOsRemindersService;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.services.ZeppOsServicesService;
@@ -170,6 +172,7 @@ public abstract class Huami2021Support extends HuamiSupport implements ZeppOsFil
     private final ZeppOsDisplayItemsService displayItemsService = new ZeppOsDisplayItemsService(this);
     private final ZeppOsHttpService httpService = new ZeppOsHttpService(this);
     private final ZeppOsRemindersService remindersService = new ZeppOsRemindersService(this);
+    private final ZeppOsLoyaltyCardService loyaltyCardService = new ZeppOsLoyaltyCardService(this);
 
     private final Map<Short, AbstractZeppOsService> mServiceMap = new LinkedHashMap<Short, AbstractZeppOsService>() {{
         put(servicesService.getEndpoint(), servicesService);
@@ -193,6 +196,7 @@ public abstract class Huami2021Support extends HuamiSupport implements ZeppOsFil
         put(displayItemsService.getEndpoint(), displayItemsService);
         put(httpService.getEndpoint(), httpService);
         put(remindersService.getEndpoint(), remindersService);
+        put(loyaltyCardService.getEndpoint(), loyaltyCardService);
     }};
 
     public Huami2021Support() {
@@ -512,6 +516,11 @@ public abstract class Huami2021Support extends HuamiSupport implements ZeppOsFil
         } catch (final IOException e) {
             LOG.error("Unable to send reminders to device", e);
         }
+    }
+
+    @Override
+    public void onSetLoyaltyCards(final ArrayList<LoyaltyCard> cards) {
+        loyaltyCardService.setCards(cards);
     }
 
     @Override

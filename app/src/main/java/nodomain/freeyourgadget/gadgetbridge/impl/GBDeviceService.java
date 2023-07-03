@@ -25,16 +25,15 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.location.Location;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Parcelable;
 import android.provider.ContactsContract;
 
 import java.util.ArrayList;
 import java.util.UUID;
 
-import androidx.annotation.Nullable;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
+import nodomain.freeyourgadget.gadgetbridge.capabilities.loyaltycards.LoyaltyCard;
 import nodomain.freeyourgadget.gadgetbridge.model.Alarm;
 import nodomain.freeyourgadget.gadgetbridge.model.CalendarEventSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.CallSpec;
@@ -260,6 +259,13 @@ public class GBDeviceService implements DeviceService {
     public void onSetReminders(ArrayList<? extends Reminder> reminders) {
         Intent intent = createIntent().setAction(ACTION_SET_REMINDERS)
                 .putExtra(EXTRA_REMINDERS, reminders);
+        invokeService(intent);
+    }
+
+    @Override
+    public void onSetLoyaltyCards(final ArrayList<LoyaltyCard> cards) {
+        final Intent intent = createIntent().setAction(ACTION_SET_LOYALTY_CARDS)
+                .putExtra(EXTRA_LOYALTY_CARDS, cards);
         invokeService(intent);
     }
 

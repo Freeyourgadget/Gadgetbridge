@@ -52,6 +52,7 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.AbstractHuami2
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.services.ZeppOsAlexaService;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.services.ZeppOsContactsService;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.services.ZeppOsLogsService;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.services.ZeppOsLoyaltyCardService;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.services.ZeppOsRemindersService;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.services.ZeppOsShortcutCardsService;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.services.ZeppOsConfigService;
@@ -276,6 +277,15 @@ public abstract class Huami2021Coordinator extends HuamiCoordinator {
     @Override
     public int[] getSupportedDeviceSpecificSettings(final GBDevice device) {
         final List<Integer> settings = new ArrayList<>();
+
+        //
+        // Apps
+        // TODO: These should go somewhere else
+        //
+        settings.add(R.xml.devicesettings_header_apps);
+        if (ZeppOsLoyaltyCardService.isSupported(getPrefs(device))) {
+            settings.add(R.xml.devicesettings_loyalty_cards);
+        }
 
         //
         // Time

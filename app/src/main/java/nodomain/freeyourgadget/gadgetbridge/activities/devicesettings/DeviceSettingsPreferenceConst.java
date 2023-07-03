@@ -17,6 +17,7 @@
 package nodomain.freeyourgadget.gadgetbridge.activities.devicesettings;
 
 public class DeviceSettingsPreferenceConst {
+    public static final String PREF_HEADER_APPS = "pref_header_apps";
     public static final String PREF_HEADER_TIME = "pref_header_time";
     public static final String PREF_HEADER_DISPLAY = "pref_header_display";
     public static final String PREF_HEADER_HEALTH = "pref_header_health";

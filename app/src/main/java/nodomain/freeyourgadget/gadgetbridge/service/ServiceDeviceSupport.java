@@ -31,6 +31,7 @@ import java.util.Arrays;
 import java.util.EnumSet;
 import java.util.UUID;
 
+import nodomain.freeyourgadget.gadgetbridge.capabilities.loyaltycards.LoyaltyCard;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.Alarm;
 import nodomain.freeyourgadget.gadgetbridge.model.CalendarEventSpec;
@@ -371,6 +372,13 @@ public class ServiceDeviceSupport implements DeviceSupport {
             return;
         }
         delegate.onSetContacts(contacts);
+    }
+
+    public void onSetLoyaltyCards(final ArrayList<LoyaltyCard> cards) {
+        if (checkBusy("set loyalty cards")) {
+            return;
+        }
+        delegate.onSetLoyaltyCards(cards);
     }
 
     @Override

@@ -2155,4 +2155,23 @@
     <string name="changelog_show_full">More…</string>
     <string name="changelog_ok_button">OK</string>
     <string name="changelog_title">What\'s New</string>
+    <string name="loyalty_cards_catima_package">Catima package name</string>
+    <string name="loyalty_cards_install">Install Catima</string>
+    <string name="loyalty_cards_sync_groups_only">Sync only specific groups</string>
+    <string name="loyalty_cards_sync_groups">Groups to Sync</string>
+    <string name="loyalty_cards_sync_archived">Sync archived cards</string>
+    <string name="loyalty_cards_install_catima_fail">Failed to open app store to install Catima</string>
+    <string name="loyalty_cards_sync_starred">Sync only starred cards</string>
+    <string name="loyalty_cards_sync_title">Sync Loyalty Cards</string>
+    <string name="loyalty_cards_sync_summary">Tap to sync the cards to the watch</string>
+    <string name="loyalty_cards_catima_not_installed">Catima is needed to manage the loyalty cards</string>
+    <string name="loyalty_cards_catima_not_compatible">The installed Catima version is not compatible with Gadgetbridge. Please update Catima and Gadgetbridge to the latest versions.</string>
+    <string name="loyalty_cards_sync_options">Sync Options</string>
+    <string name="loyalty_cards_sync">Sync</string>
+    <string name="loyalty_cards_catima">Catima</string>
+    <string name="loyalty_cards_open_catima">Open Catima</string>
+    <string name="loyalty_cards_catima_permissions_title">Missing permissions</string>
+    <string name="loyalty_cards_catima_permissions_summary">Gadgetbridge needs read permissions on Catima cards to sync them. Tap this button to grant them.</string>
+    <string name="loyalty_cards">Loyalty Cards</string>
+    <string name="loyalty_cards_syncing">Syncing %d loyalty cards to device</string>
 </resources>

@@ -26,6 +26,9 @@
     <uses-permission android:name="android.permission.SEND_SMS" />
     <uses-permission android:name="android.permission.READ_CONTACTS" />
 
+    <!-- Read loyalty cards from Catima -->
+    <uses-permission android:name="me.hackerchick.catima.READ_CARDS"/>
+
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_CALENDAR" />
     <uses-permission
@@ -107,6 +110,10 @@
             android:name=".devices.miband.MiBandPreferencesActivity"
             android:label="@string/preferences_miband_settings"
             android:parentActivityName=".activities.SettingsActivity" />
+        <activity
+            android:name=".activities.loyaltycards.LoyaltyCardsSettingsActivity"
+            android:label="@string/loyalty_cards"
+            android:parentActivityName=".activities.devicesettings.DeviceSettingsActivity" />
         <activity
             android:name=".devices.zetime.ZeTimePreferenceActivity"
             android:label="@string/zetime_title_settings"

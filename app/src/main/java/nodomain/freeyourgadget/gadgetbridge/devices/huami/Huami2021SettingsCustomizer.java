@@ -42,6 +42,7 @@ import java.util.Set;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst;
 import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSpecificSettingsHandler;
+import nodomain.freeyourgadget.gadgetbridge.activities.loyaltycards.LoyaltyCardsSettingsConst;
 import nodomain.freeyourgadget.gadgetbridge.capabilities.GpsCapability;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.HuamiVibrationPatternNotificationType;
@@ -199,6 +200,9 @@ public class Huami2021SettingsCustomizer extends HuamiSettingsCustomizer {
         }
 
         // Hides the headers if none of the preferences under them are available
+        hidePrefIfNoneVisible(handler, DeviceSettingsPreferenceConst.PREF_HEADER_APPS, Arrays.asList(
+                LoyaltyCardsSettingsConst.PREF_KEY_LOYALTY_CARDS
+        ));
         hidePrefIfNoneVisible(handler, DeviceSettingsPreferenceConst.PREF_HEADER_TIME, Arrays.asList(
                 DeviceSettingsPreferenceConst.PREF_TIMEFORMAT,
                 DeviceSettingsPreferenceConst.PREF_DATEFORMAT,
