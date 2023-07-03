@@ -2258,4 +2258,23 @@
     <string name="pai_chart_per_month">PAI في الشهر</string>
     <string name="pai_total">مجموع PAI</string>
     <string name="pai_day">زيادة PAI في اليوم</string>
+    <string name="loyalty_cards_install">تثبيت كاتيما</string>
+    <string name="loyalty_cards_sync_groups_only">مزامنة مجموعات محددة فقط</string>
+    <string name="loyalty_cards_install_catima_fail">فشل في فتح متجر التطبيقات لتثبيت كاتيما</string>
+    <string name="loyalty_cards_sync_title">مزامنة بطاقات الولا</string>
+    <string name="loyalty_cards_sync_options">خيارات المزامنة</string>
+    <string name="loyalty_cards_sync">مزامنة</string>
+    <string name="loyalty_cards_catima_permissions_title">أذونات مفقودة</string>
+    <string name="loyalty_cards_syncing">مزامنة بطاقات الولاء %d مع الجهاز</string>
+    <string name="loyalty_cards_catima_package">اسم حزمة كاتيما</string>
+    <string name="loyalty_cards_open_catima">افتح كاتيما</string>
+    <string name="loyalty_cards_sync_groups">المجموعات المراد مزامنتها</string>
+    <string name="loyalty_cards_sync_archived">مزامنة البطاقات المؤرشفة</string>
+    <string name="loyalty_cards_catima_not_compatible">إصدار كاتيما المثبت غير متوافق مع Gadgetbridge. يرجى تحديث كاتيما و Gadgetbridge إلى أحدث اصدار.</string>
+    <string name="loyalty_cards_sync_starred">مزامنة البطاقات المميزة بنجمة فقط</string>
+    <string name="loyalty_cards_sync_summary">انقر لمزامنة البطاقات مع الساعة</string>
+    <string name="loyalty_cards_catima">كاتيما</string>
+    <string name="loyalty_cards">بطاقات الولاء</string>
+    <string name="loyalty_cards_catima_permissions_summary">يحتاج Gadgetbridge إلى أذونات قراءة لبطاقات كاتيما لمزامنتها. اضغط على هذا الزر لمنحها.</string>
+    <string name="loyalty_cards_catima_not_installed">هناك حاجة إلى كاتيما لإدارة بطاقات الولاء</string>
 </resources>
