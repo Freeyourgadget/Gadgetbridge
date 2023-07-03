@@ -2256,4 +2256,10 @@
     <string name="pref_summary_banglejs_phone_gps_network_only">Pilihan ini hanya aktif, jika data GPS ponsel sedang digunakan. Pilihan ini dapat digunakan untuk hanya menggunakan penyedia jaringan untuk menentukan lokasi. Hal ini mengurangi konsumsi daya untuk biaya akurasi. Diperlukan penyambungan ulang perangkat.</string>
     <string name="pref_summary_banglejs_phone_gps_update_interval">Opsi ini hanya aktif, jika data GPS ponsel sedang digunakan. Opsi ini mengatur interval dalam milidetik seberapa sering posisi GPS diperbarui</string>
     <string name="action_changelog">Catatan Perubahan</string>
+    <string name="pai_chart_per_month">PAI per bulan</string>
+    <string name="pai_day">Pemambahan PAI hari</string>
+    <string name="pai_plus_num">+%d</string>
+    <string name="pai_total">Jumlah PAI</string>
+    <string name="pai_chart_per_week">PAI per minggu</string>
+    <string name="num_min">%d mnt</string>
 </resources>
