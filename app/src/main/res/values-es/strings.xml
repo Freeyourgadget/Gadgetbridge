@@ -2269,4 +2269,10 @@
     <string name="changelog_show_full">Más…</string>
     <string name="changelog_title">Qué novedades hay</string>
     <string name="title">Título</string>
+    <string name="pai_chart_per_week">PAI por semana</string>
+    <string name="pai_chart_per_month">PAI al mes</string>
+    <string name="pai_plus_num">+%d</string>
+    <string name="num_min">%d min</string>
+    <string name="pai_total">PAI total</string>
+    <string name="pai_day">Aumento del PAI por día</string>
 </resources>
