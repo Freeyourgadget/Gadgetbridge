@@ -213,7 +213,7 @@
     <string name="vibration_profile_long">Long</string>
     <string name="vibration_profile_waterdrop">Goute d\'eau</string>
     <string name="vibration_profile_ring">Sonnette</string>
-    <string name="vibration_profile_alarm_clock">Réveil</string>
+    <string name="vibration_profile_alarm_clock">Alarme</string>
     <string name="miband_prefs_vibration">Vibreur</string>
     <string name="vibration_try">Essayer</string>
     <string name="pref_screen_notification_profile_sms">Notification Texto</string>
@@ -397,7 +397,7 @@ Temps de sommeil préféré en heures</string>
     <string name="unit_imperial">Impériale</string>
     <string name="timeformat_24h">24H</string>
     <string name="timeformat_am_pm">AM/PM</string>
-    <string name="pref_screen_notification_profile_alarm_clock">Réveil</string>
+    <string name="pref_screen_notification_profile_alarm_clock">Alarme</string>
     <string name="StringUtils_sender">(%1$s)</string>
     <string name="find_device_you_found_it">Vous l\'avez trouvé !</string>
     <string name="miband2_prefs_timeformat">Mi2 : format de l\'heure</string>
@@ -2271,4 +2271,10 @@ Temps de sommeil préféré en heures</string>
     <string name="changelog_ok_button">OK</string>
     <string name="pref_title_banglejs_phone_gps_network_only">Utiliser le réseau uniquement pour déterminer la position</string>
     <string name="title">Titre</string>
+    <string name="pai_chart_per_month">PAI par mois</string>
+    <string name="pai_plus_num">+%d</string>
+    <string name="num_min">%d min</string>
+    <string name="pai_chart_per_week">PAI par semaine</string>
+    <string name="pai_total">PAI Total</string>
+    <string name="pai_day">Augmentation journalière du PAI</string>
 </resources>
