@@ -2267,4 +2267,10 @@
     <string name="changelog_show_full">Meer…</string>
     <string name="changelog_ok_button">OK</string>
     <string name="title">Titel</string>
+    <string name="num_min">%d min</string>
+    <string name="pai_total">PAI totaal</string>
+    <string name="pai_chart_per_week">PAI per week</string>
+    <string name="pai_plus_num">+%d</string>
+    <string name="pai_chart_per_month">PAI per maand</string>
+    <string name="pai_day">Dag PAI-toename</string>
 </resources>
