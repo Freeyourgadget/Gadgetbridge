@@ -2275,4 +2275,10 @@
     <string name="changelog_show_full">Більше…</string>
     <string name="changelog_ok_button">ГАРАЗД</string>
     <string name="changelog_title">Що нового</string>
+    <string name="pai_chart_per_week">PAI на тиждень</string>
+    <string name="pai_chart_per_month">PAI на місяць</string>
+    <string name="pai_plus_num">+%d</string>
+    <string name="num_min">%d хв</string>
+    <string name="pai_day">Денний приріст PAI</string>
+    <string name="pai_total">Всього PAI</string>
 </resources>
