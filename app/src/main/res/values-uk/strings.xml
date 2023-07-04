@@ -2281,4 +2281,23 @@
     <string name="num_min">%d хв</string>
     <string name="pai_day">Денний приріст PAI</string>
     <string name="pai_total">Всього PAI</string>
+    <string name="loyalty_cards_catima_package">Назва пакунка Catima</string>
+    <string name="loyalty_cards_install">Установити Catima</string>
+    <string name="loyalty_cards_sync_groups_only">Синхронізувати лише певні групи</string>
+    <string name="loyalty_cards_sync_groups">Групи для синхронізації</string>
+    <string name="loyalty_cards_install_catima_fail">Не вдалося відкрити магазин застосунків для встановлення Catima</string>
+    <string name="loyalty_cards_sync_title">Синхронізувати картки лояльності</string>
+    <string name="loyalty_cards_sync_options">Параметри синхронізації</string>
+    <string name="loyalty_cards_catima">Catima</string>
+    <string name="loyalty_cards">Картки лояльності</string>
+    <string name="loyalty_cards_syncing">Синхронізація карток лояльності %d з пристроєм</string>
+    <string name="loyalty_cards_sync_archived">Синхронізувати архівні картки</string>
+    <string name="loyalty_cards_sync_starred">Синхронізувати лише картки з зірками</string>
+    <string name="loyalty_cards_catima_not_installed">Catima потрібна для керування картками лояльності</string>
+    <string name="loyalty_cards_sync_summary">Торкніться, щоб синхронізувати картки з годинником</string>
+    <string name="loyalty_cards_catima_not_compatible">Встановлена версія Catima не сумісна з Gadgetbridge. Оновіть Catima та Gadgetbridge до останніх версій.</string>
+    <string name="loyalty_cards_sync">Синхронізація</string>
+    <string name="loyalty_cards_catima_permissions_title">Відсутні дозволи</string>
+    <string name="loyalty_cards_open_catima">Відкрити Catima</string>
+    <string name="loyalty_cards_catima_permissions_summary">Для синхронізації Gadgetbridge потрібні дозволи на читання карток Catima. Натисніть цю кнопку, щоб надати їх.</string>
 </resources>
