@@ -915,6 +915,10 @@ public class LefunDeviceSupport extends AbstractBTLEDeviceSupport {
                 sample.setHeartRate(ppgData0);
 
                 session.getLefunActivitySampleDao().insertOrReplace(sample);
+
+                final Intent intent = new Intent(DeviceService.ACTION_REALTIME_SAMPLES)
+                        .putExtra(DeviceService.EXTRA_REALTIME_SAMPLE, sample);
+                LocalBroadcastManager.getInstance(getContext()).sendBroadcast(intent);
             }
 
             LefunBiometricSample bioSample = new LefunBiometricSample(timestamp,
