@@ -1997,7 +1997,7 @@
     <string name="menuitem_volume">עצמת שמע</string>
     <string name="menuitem_theater_mode">מצב תיאטרון</string>
     <string name="menuitem_phone">טלפון</string>
-    <string name="menuitem_membership_cards">כרטיסי מועדון</string>
+    <string name="menuitem_membership_cards">כרטיסי חברות</string>
     <string name="menuitem_offline_voice">קול בלתי מקוון</string>
     <string name="menuitem_lockscreen">מסך נעילה</string>
     <string name="menuitem_brightness">בהירות</string>
@@ -2268,4 +2268,27 @@
     <string name="changelog_title">מה חדש</string>
     <string name="num_min">%d דק׳</string>
     <string name="pai_plus_num">+%d</string>
+    <string name="pai_chart_per_month">PAI בחודש</string>
+    <string name="pai_chart_per_week">PAI בשבוע</string>
+    <string name="loyalty_cards_install">התקנת Catima</string>
+    <string name="loyalty_cards_sync_groups_only">סנכרון קבוצות מסוימות בלבד</string>
+    <string name="loyalty_cards_sync_archived">סנכרון כרטיסים בארכיון</string>
+    <string name="loyalty_cards_install_catima_fail">פתיחת החנות להתקנת Catima נכשלה</string>
+    <string name="loyalty_cards_sync_starred">לסנכרן כרטיסים בכוכב בלבד</string>
+    <string name="loyalty_cards_catima_not_compatible">גרסת ה־Catima המותקנת לא תואמת ל־Gadgetbridge. נא לעדכן את Catima ואת Gadgetbridge לגרסאות העדכניות ביותר.</string>
+    <string name="loyalty_cards_catima">Catima</string>
+    <string name="loyalty_cards_open_catima">פתיחת Catima</string>
+    <string name="pai_total">PAI כולל</string>
+    <string name="pai_day">צמיחת PAI יומית</string>
+    <string name="loyalty_cards_sync_groups">קבוצות לסנכרון</string>
+    <string name="loyalty_cards_sync_title">סנכרון כרטיסי מועדון</string>
+    <string name="loyalty_cards_catima_package">שם חבילת Catima</string>
+    <string name="loyalty_cards_sync_summary">יש ללחוץ כדי לסנכרן את הכרטיסים לשעון</string>
+    <string name="loyalty_cards_catima_not_installed">צריך Catima כדי לנהל את כרטיסי המועדון</string>
+    <string name="loyalty_cards_catima_permissions_title">חסרות הרשאות</string>
+    <string name="loyalty_cards_sync_options">אפשרויות סנכרון</string>
+    <string name="loyalty_cards_sync">סנכרון</string>
+    <string name="loyalty_cards_catima_permissions_summary">ל־Gadgetbridge דרושות הרשאות לקרוא כרטיסים מ־Catima כדי סלנכרן אותם. נגיעה בכפתור הזה תאשר את הגישה.</string>
+    <string name="loyalty_cards">כרטיסי מועדון</string>
+    <string name="loyalty_cards_syncing">%d כרטיסי מועדון מסונכרנים למכשיר</string>
 </resources>
