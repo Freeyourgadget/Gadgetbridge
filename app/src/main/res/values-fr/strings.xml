@@ -2277,4 +2277,23 @@ Temps de sommeil préféré en heures</string>
     <string name="pai_chart_per_week">PAI par semaine</string>
     <string name="pai_total">PAI Total</string>
     <string name="pai_day">Augmentation journalière du PAI</string>
+    <string name="loyalty_cards_install">Installer Catima</string>
+    <string name="loyalty_cards_sync_groups">Groupes à synchroniser</string>
+    <string name="loyalty_cards_install_catima_fail">Impossible d\'ouvrir l\'app store pour installer Catima</string>
+    <string name="loyalty_cards_sync_summary">Toucher pour synchroniser les cartes dans la montre</string>
+    <string name="loyalty_cards_catima_not_installed">Catima est requis pour gérer les cartes de fidélité</string>
+    <string name="loyalty_cards_sync_options">Options de synchronisation</string>
+    <string name="loyalty_cards_sync">Synchronisation</string>
+    <string name="loyalty_cards_catima">Catima</string>
+    <string name="loyalty_cards_open_catima">Démarrer Catima</string>
+    <string name="loyalty_cards_catima_permissions_title">Autorisations manquantes</string>
+    <string name="loyalty_cards_catima_permissions_summary">Gadgetbridge a besoin d\'une autorisation de lecture sur les cartes Catima pour les synchroniser. Appuyer sur ce bouton pour l\'autoriser.</string>
+    <string name="loyalty_cards_catima_package">Nom du logiciel Catima</string>
+    <string name="loyalty_cards_sync_groups_only">Synchroniser uniquement certains groupes</string>
+    <string name="loyalty_cards_sync_archived">Synchroniser les cartes archivées</string>
+    <string name="loyalty_cards_sync_starred">Synchroniser uniquement les cartes étoilées</string>
+    <string name="loyalty_cards_sync_title">Synchroniser les cartes de fidélité</string>
+    <string name="loyalty_cards_syncing">Synchronisation de %d des cartes de fidélité dans l\'appareil</string>
+    <string name="loyalty_cards_catima_not_compatible">La version installée de Catima est incompatible avec Gadgetbridge. Merci de mettre à jour Catima et Gadgetbridge en dernière version.</string>
+    <string name="loyalty_cards">Cartes de fidélité</string>
 </resources>
