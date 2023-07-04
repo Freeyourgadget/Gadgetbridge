@@ -2275,4 +2275,23 @@
     <string name="num_min">%d min</string>
     <string name="pai_total">PAI total</string>
     <string name="pai_day">Aumento del PAI por día</string>
+    <string name="loyalty_cards_install">Instalar Catima</string>
+    <string name="loyalty_cards_sync_groups">Grupos a sincronizar</string>
+    <string name="loyalty_cards_sync_starred">Sincronizar sólo tarjetas favoritas</string>
+    <string name="loyalty_cards_sync_title">Sincronizar tarjetas de fidelización</string>
+    <string name="loyalty_cards_catima_not_installed">Se necesita Catima para gestionar las tarjetas de fidelización</string>
+    <string name="loyalty_cards_sync_options">Opciones de sincronización</string>
+    <string name="loyalty_cards_sync">Sincronizar</string>
+    <string name="loyalty_cards_catima">Catima</string>
+    <string name="loyalty_cards">Tarjetas de fidelización</string>
+    <string name="loyalty_cards_syncing">Sincronizando %d tarjetas de fidelización con el dispositivo</string>
+    <string name="loyalty_cards_catima_package">Nombre del paquete Catima</string>
+    <string name="loyalty_cards_sync_groups_only">Sincronizar sólo grupos específicos</string>
+    <string name="loyalty_cards_sync_archived">Sincronizar tarjetas archivadas</string>
+    <string name="loyalty_cards_install_catima_fail">Fallo al abrir la tienda de aplicaciones para instalar Catima</string>
+    <string name="loyalty_cards_sync_summary">Toque para sincronizar las tarjetas con el reloj</string>
+    <string name="loyalty_cards_catima_not_compatible">La versión instalada de Catima no es compatible con Gadgetbridge. Por favor, actualiza Catima y Gadgetbridge a las últimas versiones.</string>
+    <string name="loyalty_cards_catima_permissions_title">Faltan permisos</string>
+    <string name="loyalty_cards_open_catima">Abrir Catima</string>
+    <string name="loyalty_cards_catima_permissions_summary">Gadgetbridge necesita permisos de lectura en las tarjetas Catima para sincronizarlas. Toque este botón para concederlos.</string>
 </resources>
