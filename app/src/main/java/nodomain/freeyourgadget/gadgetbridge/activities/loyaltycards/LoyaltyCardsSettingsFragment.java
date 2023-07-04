@@ -131,8 +131,11 @@ public class LoyaltyCardsSettingsFragment extends PreferenceFragmentCompat {
                 return true;
             });
 
-            if (StringUtils.isNullOrEmpty(catimaPackage.getValue()) || !installedCatimaPackages.contains(catimaPackage.getValue())) {
-                catimaPackage.setValue(installedCatimaPackages.get(0).toString());
+            if (catimaInstalled) {
+                // Ensure the currently selected value is actually an installed Catima package
+                if (StringUtils.isNullOrEmpty(catimaPackage.getValue()) || !installedCatimaPackages.contains(catimaPackage.getValue())) {
+                    catimaPackage.setValue(installedCatimaPackages.get(0).toString());
+                }
             }
 
             if (installedCatimaPackages.size() <= 1) {
@@ -172,19 +175,17 @@ public class LoyaltyCardsSettingsFragment extends PreferenceFragmentCompat {
         }
 
         final boolean permissionGranted = ContextCompat.checkSelfPermission(requireContext(), CatimaContentProvider.PERMISSION_READ_CARDS) == PackageManager.PERMISSION_GRANTED;
-        if (catimaInstalled) {
-            final Preference catimaPermissions = findPreference(LOYALTY_CARDS_CATIMA_PERMISSIONS);
-            if (catimaPermissions != null) {
-                catimaPermissions.setVisible(!permissionGranted);
-                catimaPermissions.setOnPreferenceClickListener(preference -> {
-                    ActivityCompat.requestPermissions(
-                            requireActivity(),
-                            new String[]{CatimaContentProvider.PERMISSION_READ_CARDS},
-                            LoyaltyCardsSettingsActivity.PERMISSION_REQUEST_CODE
-                    );
-                    return true;
-                });
-            }
+        final Preference catimaPermissions = findPreference(LOYALTY_CARDS_CATIMA_PERMISSIONS);
+        if (catimaPermissions != null) {
+            catimaPermissions.setVisible(catimaInstalled && !permissionGranted);
+            catimaPermissions.setOnPreferenceClickListener(preference -> {
+                ActivityCompat.requestPermissions(
+                        requireActivity(),
+                        new String[]{CatimaContentProvider.PERMISSION_READ_CARDS},
+                        LoyaltyCardsSettingsActivity.PERMISSION_REQUEST_CODE
+                );
+                return true;
+            });
         }
 
         final boolean catimaCompatible = catima != null && catima.isCatimaCompatible();
