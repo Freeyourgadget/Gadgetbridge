@@ -2273,4 +2273,23 @@
     <string name="pai_plus_num">+%d</string>
     <string name="pai_total">总计 PAI</string>
     <string name="pai_day">每日 AAI 增长</string>
+    <string name="loyalty_cards_catima_not_installed">需要 Catima 来管理会员卡</string>
+    <string name="loyalty_cards_catima_package">Catima 包名</string>
+    <string name="loyalty_cards_install">安装 Catima</string>
+    <string name="loyalty_cards_sync_groups_only">仅同步特定的分组</string>
+    <string name="loyalty_cards_sync_groups">要同步的群组</string>
+    <string name="loyalty_cards_sync_archived">同步已存档的卡片</string>
+    <string name="loyalty_cards_install_catima_fail">无法打开应用程序商店来安装 Catima</string>
+    <string name="loyalty_cards_sync_starred">仅同步加星标的卡片</string>
+    <string name="loyalty_cards_sync_title">同步会员卡</string>
+    <string name="loyalty_cards_sync_summary">点击即可将卡片同步到手表</string>
+    <string name="loyalty_cards_catima_not_compatible">安装的 Catima 版本与 Gadgetbridge 不兼容。请将 Catima 和 Gadgetbridge 更新到最新版本。</string>
+    <string name="loyalty_cards_sync_options">同步选项</string>
+    <string name="loyalty_cards_sync">同步</string>
+    <string name="loyalty_cards_catima">Catima</string>
+    <string name="loyalty_cards_catima_permissions_title">缺少权限</string>
+    <string name="loyalty_cards_open_catima">打开 Catima</string>
+    <string name="loyalty_cards_catima_permissions_summary">Gadgetbridge 需要 Catima 卡包的读取权限才能同步它们。点击此按钮即可进行授权。</string>
+    <string name="loyalty_cards_syncing">正在将 %d 张会员卡同步到设备</string>
+    <string name="loyalty_cards">会员卡</string>
 </resources>
