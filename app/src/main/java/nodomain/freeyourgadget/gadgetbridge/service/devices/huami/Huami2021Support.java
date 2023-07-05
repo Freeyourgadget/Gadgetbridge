@@ -150,6 +150,9 @@ public abstract class Huami2021Support extends HuamiSupport implements ZeppOsFil
     // send CONTINUE commands
     private boolean heartRateRealtimeStarted;
 
+    // Keep track of whether the rawSensor is enabled
+    private boolean rawSensor = false;
+
     // Services
     private final ZeppOsServicesService servicesService = new ZeppOsServicesService(this);
     private final ZeppOsFileTransferService fileTransferService = new ZeppOsFileTransferService(this);
@@ -242,13 +245,7 @@ public abstract class Huami2021Support extends HuamiSupport implements ZeppOsFil
 
     @Override
     public void onTestNewFunction() {
-        try {
-            final TransactionBuilder builder = performInitialized("test");
-            //requestMTU(247);
-            builder.queue(getQueue());
-        } catch (final Exception e) {
-            LOG.error("Failed to test new function", e);
-        }
+        setRawSensor(!rawSensor);
     }
 
     @Override
@@ -977,6 +974,8 @@ public abstract class Huami2021Support extends HuamiSupport implements ZeppOsFil
     @Override
     protected void setRawSensor(final boolean enable) {
         LOG.info("Set raw sensor to {}", enable);
+        rawSensor = enable;
+
         try {
             final TransactionBuilder builder = performInitialized("set raw sensor");
             if (enable) {
@@ -995,7 +994,51 @@ public abstract class Huami2021Support extends HuamiSupport implements ZeppOsFil
 
     @Override
     protected void handleRawSensorData(final byte[] value) {
-        LOG.debug("Raw sensor: {}", GB.hexdump(value));
+        // The g values seem to vary between -4100 and 4100, so we scale them
+        final float scaleFactor = 4100f;
+        final float gravity = -9.81f;
+
+        final ByteBuffer buf = ByteBuffer.wrap(value).order(ByteOrder.LITTLE_ENDIAN);
+        final byte type = buf.get();
+        final int index = buf.get() & 0xff; // always incrementing, for each type
+
+        if (type == 0x00) {
+            // g-sensor x y z values, per second
+            if ((value.length - 2) % 6 != 0) {
+                LOG.warn("Raw sensor value for type 0 not divisible by 6");
+                return;
+            }
+
+            for (int i = 2; i < value.length; i += 6) {
+                final int x = (BLETypeConversions.toUint16(value, i) << 16) >> 16;
+                final int y = (BLETypeConversions.toUint16(value, i + 2) << 16) >> 16;
+                final int z = (BLETypeConversions.toUint16(value, i + 4) << 16) >> 16;
+
+                final float gx = (x * gravity) / scaleFactor;
+                final float gy = (y * gravity) / scaleFactor;
+                final float gz = (z * gravity) / scaleFactor;
+
+                LOG.info("Raw sensor g: x={} y={} z={}", gx, gy, gz);
+            }
+        } else if (type == 0x01) {
+            // TODO not sure what this is?
+            if ((value.length - 2) % 4 != 0) {
+                LOG.warn("Raw sensor value for type 1 not divisible by 4");
+                return;
+            }
+
+            for (int i = 2; i < value.length; i += 4) {
+                int val = BLETypeConversions.toUint32(value, i);
+                LOG.info("Raw sensor 1: {}", val);
+            }
+        } else if (type == 0x07) {
+            // Timestamp for the targetType, sent in intervals of ~10 seconds
+            final int targetType = buf.get() & 0xff;
+            final long tsMillis = buf.getLong();
+            LOG.debug("Raw sensor timestamp for type={} index={}: {}", targetType, index, new Date(tsMillis));
+        } else {
+            LOG.warn("Unknown raw sensor type: {}", GB.hexdump(value));
+        }
     }
 
     @Override
