@@ -2273,4 +2273,23 @@
     <string name="pai_plus_num">+%d</string>
     <string name="pai_chart_per_month">PAI per maand</string>
     <string name="pai_day">Dag PAI-toename</string>
+    <string name="loyalty_cards_catima_package">Catima-pakketnaam</string>
+    <string name="loyalty_cards_sync_archived">Gearchiveerde kaarten synchroniseren</string>
+    <string name="loyalty_cards_sync_starred">Alleen kaarten met ster synchroniseren</string>
+    <string name="loyalty_cards_sync_title">Klantenkaarten synchroniseren</string>
+    <string name="loyalty_cards_catima_not_compatible">De geïnstalleerde Catima-versie is niet compatibel met Gadgetbridge. Update Catima en Gadgetbridge naar de nieuwste versies.</string>
+    <string name="loyalty_cards_catima">Catima</string>
+    <string name="loyalty_cards_open_catima">Open Catima</string>
+    <string name="loyalty_cards_catima_permissions_title">Ontbrekende machtigingen</string>
+    <string name="loyalty_cards_sync">Synchroniseren</string>
+    <string name="loyalty_cards">Klantenkaarten</string>
+    <string name="loyalty_cards_syncing">%d klantenkaarten synchroniseren met apparaat</string>
+    <string name="loyalty_cards_sync_groups_only">Alleen specifieke groepen synchroniseren</string>
+    <string name="loyalty_cards_install">Catima installeren</string>
+    <string name="loyalty_cards_sync_groups">Te synchroniseren groepen</string>
+    <string name="loyalty_cards_sync_summary">Tik om de kaarten met het horloge te synchroniseren</string>
+    <string name="loyalty_cards_catima_not_installed">Catima is nodig om de klantenkaarten te beheren</string>
+    <string name="loyalty_cards_install_catima_fail">Kan app store niet openen om Catima te installeren</string>
+    <string name="loyalty_cards_catima_permissions_summary">Gadgetbridge heeft leesrechten op Catima-kaarten nodig om ze te synchroniseren. Tik op deze knop om ze te verlenen.</string>
+    <string name="loyalty_cards_sync_options">Synchronisatie-opties</string>
 </resources>
