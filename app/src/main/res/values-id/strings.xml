@@ -2262,4 +2262,23 @@
     <string name="pai_total">Jumlah PAI</string>
     <string name="pai_chart_per_week">PAI per minggu</string>
     <string name="num_min">%d mnt</string>
+    <string name="loyalty_cards_catima_package">Nama paket Catima</string>
+    <string name="loyalty_cards_sync_groups_only">Hanya sinkronkan grup spesifik</string>
+    <string name="loyalty_cards_sync_groups">Grup untuk Disinkronkan</string>
+    <string name="loyalty_cards_sync_archived">Sinkronkan kartu yang terarsip</string>
+    <string name="loyalty_cards_install_catima_fail">Gagal membuka toko aplikasi untuk memasang Catima</string>
+    <string name="loyalty_cards_sync_title">Sinkronkan Kartu Loyalitas</string>
+    <string name="loyalty_cards_sync_summary">Ketuk untuk menyinkronkan kartu ke jam tangan</string>
+    <string name="loyalty_cards_catima_not_installed">Catima dibutuhkan untuk mengelola kartu loyalitas</string>
+    <string name="loyalty_cards_catima_not_compatible">Versi Catima yang terpasang tidak kompatibel dengan Gadgetbridge. Silakan perbarui Catima dan Gadgetbridge ke versi yang terbaru.</string>
+    <string name="loyalty_cards_catima">Catima</string>
+    <string name="loyalty_cards_catima_permissions_summary">Gadgetbridge perlu izin membaca pada kartu Catima untuk disinkronkan. Ketuk tombol ini untuk mengizinkan.</string>
+    <string name="loyalty_cards">Kartu Loyalitas</string>
+    <string name="loyalty_cards_install">Pasang Catima</string>
+    <string name="loyalty_cards_open_catima">Buka Catima</string>
+    <string name="loyalty_cards_sync_starred">Hanya sinkronkan kartu yang dibintangi</string>
+    <string name="loyalty_cards_syncing">Menyinkronkan %d kartu loyalitas ke perangkat</string>
+    <string name="loyalty_cards_sync">Sinkronkan</string>
+    <string name="loyalty_cards_sync_options">Opsi Sinkronisasi</string>
+    <string name="loyalty_cards_catima_permissions_title">Izin dibutuhkan</string>
 </resources>
