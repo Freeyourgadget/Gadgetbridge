@@ -2134,4 +2134,7 @@
 \nUrządzenie uruchomi się ponownie po instalacji pliku .zip.
 \n
 \nKONTYNUUJ NA WŁASNE RYZYKO!</string>
+    <string name="pref_summary_receive_calls_watch">Otrzymuj i wykonuj połączenia bezpośrednio na zegarku</string>
+    <string name="pref_display_caller_title">Pokaż informacje o kontakcie</string>
+    <string name="bluetooth_calls">Połączenia przez Bluetooth</string>
 </resources>
