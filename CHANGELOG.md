@@ -1,5 +1,8 @@
 ### Changelog
 
+#### 0.75.1
+* Fix Weather Notification integration
+
 #### 0.75.0
 * Bangle.js: Add message size limitation to Calendar and Messages
 * Bangle.js: Add switch to control if the GPS chip should be used to locate the location
