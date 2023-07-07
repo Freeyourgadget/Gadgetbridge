@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog>
+    <release version="0.75.1" versioncode="224">
+        <change>Fix Weather Notification integration</change>
+    </release>
     <release version="0.75.0" versioncode="223">
         <change>Bangle.js: Add message size limitation to Calendar and Messages</change>
         <change>Bangle.js: Add switch to control if the GPS chip should be used to locate the location</change>
