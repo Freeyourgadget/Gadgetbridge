@@ -10,8 +10,8 @@ import nodomain.freeyourgadget.gadgetbridge.entities.PineTimeActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.entities.PineTimeActivitySampleDao;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityKind;
+import nodomain.freeyourgadget.gadgetbridge.util.Optional;
 
-import java.util.Optional;
 import java.util.List;
 
 public class PineTimeActivitySampleProvider extends AbstractSampleProvider<PineTimeActivitySample> {
