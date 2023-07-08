@@ -976,7 +976,7 @@
     <string name="companiondevice_pairing">Párování systémem Doprovodného Zařízení</string>
     <string name="require_location_provider">Poloha musí být povolena</string>
     <string name="menuitem_stress">Stres</string>
-    <string name="menuitem_cycles">Cyklus</string>
+    <string name="menuitem_cycles">Menstruační kalendář</string>
     <string name="menuitem_breathing">Dýchání</string>
     <string name="devicetype_pinetime_jf">PineTime (JF Firmware)</string>
     <string name="devicetype_tlw64">TLW64</string>
@@ -1104,7 +1104,7 @@
     <string name="menuitem_dnd">Nerušit</string>
     <string name="menuitem_alexa">Alexa</string>
     <string name="menuitem_takephoto">Pořízení fotografie</string>
-    <string name="menuitem_mutephone">Zamutovat telefon</string>
+    <string name="menuitem_mutephone">Ztišit telefon</string>
     <string name="menuitem_findphone">Najít telefon</string>
     <string name="menuitem_spo2">SpO2</string>
     <string name="devicetype_amazfit_gtr2">Amazfit GTR 2</string>
@@ -2070,4 +2070,12 @@
     <string name="pref_pair_bluetooth_calls_help_summary">Chcete-li přijímat hovory přes Bluetooth, musíte telefon spárovat s druhou instancí hodinek.</string>
     <string name="pref_pair_bluetooth_calls_help_warning">UPOZORNĚNÍ: Pokud povolíte volání Bluetooth bez spárování s druhou instancí hodinek, oznámení o hovorech nemusí fungovat podle očekávání.</string>
     <string name="pref_summary_banglejs_phone_gps_enbale">Využít gps telefonu k přepsání gps dat bangle hodinek</string>
+    <string name="activity_type_stretching">Protahování</string>
+    <string name="activity_type_street_dance">Pouliční tanec</string>
+    <string name="activity_type_pool_swimming">Bazénové plavání</string>
+    <string name="activity_type_hiit">HIIT</string>
+    <string name="activity_type_indoor_walking">Chůze vevnitř</string>
+    <string name="activity_type_kickboxing">Kickbox</string>
+    <string name="activity_type_indoor_ice_skating">Bruslení na ledě vevnitř</string>
+    <string name="activity_type_rowing">Veslování</string>
 </resources>
