@@ -730,11 +730,15 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
 
         final Transliterator transliterator = LanguageUtils.getTransliterator(device);
 
-        if (transliterator != null) {
-            for (String extra : GBDeviceService.transliterationExtras) {
-                if (intent.hasExtra(extra)) {
-                    intent.putExtra(extra, transliterator.transliterate(intent.getStringExtra(extra)));
+        for (String extra : GBDeviceService.transliterationExtras) {
+            if (intent.hasExtra(extra)) {
+                // Ensure the text is sanitized (eg. emoji converted to ascii) before applying the transliterators
+                // otherwise the emoji are removed before converting them
+                String sanitizedText = sanitizeNotifText(intent.getStringExtra(extra), device);
+                if (transliterator != null) {
+                    sanitizedText = transliterator.transliterate(sanitizedText);
                 }
+                intent.putExtra(extra, sanitizedText);
             }
         }
 
@@ -746,10 +750,10 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
                 int desiredId = intent.getIntExtra(EXTRA_NOTIFICATION_ID, -1);
                 NotificationSpec notificationSpec = new NotificationSpec(desiredId);
                 notificationSpec.phoneNumber = intent.getStringExtra(EXTRA_NOTIFICATION_PHONENUMBER);
-                notificationSpec.sender = sanitizeNotifText(intent.getStringExtra(EXTRA_NOTIFICATION_SENDER), device);
-                notificationSpec.subject = sanitizeNotifText(intent.getStringExtra(EXTRA_NOTIFICATION_SUBJECT), device);
-                notificationSpec.title = sanitizeNotifText(intent.getStringExtra(EXTRA_NOTIFICATION_TITLE), device);
-                notificationSpec.body = sanitizeNotifText(intent.getStringExtra(EXTRA_NOTIFICATION_BODY), device);
+                notificationSpec.sender = intent.getStringExtra(EXTRA_NOTIFICATION_SENDER);
+                notificationSpec.subject = intent.getStringExtra(EXTRA_NOTIFICATION_SUBJECT);
+                notificationSpec.title = intent.getStringExtra(EXTRA_NOTIFICATION_TITLE);
+                notificationSpec.body = intent.getStringExtra(EXTRA_NOTIFICATION_BODY);
                 notificationSpec.sourceName = intent.getStringExtra(EXTRA_NOTIFICATION_SOURCENAME);
                 notificationSpec.type = (NotificationType) intent.getSerializableExtra(EXTRA_NOTIFICATION_TYPE);
                 notificationSpec.attachedActions = (ArrayList<NotificationSpec.Action>) intent.getSerializableExtra(EXTRA_NOTIFICATION_ACTIONS);
@@ -793,10 +797,10 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
                 calendarEventSpec.timestamp = intent.getIntExtra(EXTRA_CALENDAREVENT_TIMESTAMP, -1);
                 calendarEventSpec.durationInSeconds = intent.getIntExtra(EXTRA_CALENDAREVENT_DURATION, -1);
                 calendarEventSpec.allDay = intent.getBooleanExtra(EXTRA_CALENDAREVENT_ALLDAY, false);
-                calendarEventSpec.title = sanitizeNotifText(intent.getStringExtra(EXTRA_CALENDAREVENT_TITLE), device);
-                calendarEventSpec.description = sanitizeNotifText(intent.getStringExtra(EXTRA_CALENDAREVENT_DESCRIPTION), device);
-                calendarEventSpec.location = sanitizeNotifText(intent.getStringExtra(EXTRA_CALENDAREVENT_LOCATION), device);
-                calendarEventSpec.calName = sanitizeNotifText(intent.getStringExtra(EXTRA_CALENDAREVENT_CALNAME), device);
+                calendarEventSpec.title = intent.getStringExtra(EXTRA_CALENDAREVENT_TITLE);
+                calendarEventSpec.description = intent.getStringExtra(EXTRA_CALENDAREVENT_DESCRIPTION);
+                calendarEventSpec.location = intent.getStringExtra(EXTRA_CALENDAREVENT_LOCATION);
+                calendarEventSpec.calName = intent.getStringExtra(EXTRA_CALENDAREVENT_CALNAME);
                 calendarEventSpec.color = intent.getIntExtra(EXTRA_CALENDAREVENT_COLOR, 0);
                 deviceSupport.onAddCalendarEvent(calendarEventSpec);
                 break;
@@ -850,7 +854,7 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
                 CallSpec callSpec = new CallSpec();
                 callSpec.command = intent.getIntExtra(EXTRA_CALL_COMMAND, CallSpec.CALL_UNDEFINED);
                 callSpec.number = intent.getStringExtra(EXTRA_CALL_PHONENUMBER);
-                callSpec.name = sanitizeNotifText(intent.getStringExtra(EXTRA_CALL_DISPLAYNAME), device);
+                callSpec.name = intent.getStringExtra(EXTRA_CALL_DISPLAYNAME);
                 callSpec.dndSuppressed = intent.getIntExtra(EXTRA_CALL_DNDSUPPRESSED, 0);
                 deviceSupport.onSetCallState(callSpec);
                 break;
@@ -868,9 +872,9 @@ public class DeviceCommunicationService extends Service implements SharedPrefere
                 break;
             case ACTION_SETMUSICINFO:
                 MusicSpec musicSpec = new MusicSpec();
-                musicSpec.artist = sanitizeNotifText(intent.getStringExtra(EXTRA_MUSIC_ARTIST), device);
-                musicSpec.album = sanitizeNotifText(intent.getStringExtra(EXTRA_MUSIC_ALBUM), device);
-                musicSpec.track = sanitizeNotifText(intent.getStringExtra(EXTRA_MUSIC_TRACK), device);
+                musicSpec.artist = intent.getStringExtra(EXTRA_MUSIC_ARTIST);
+                musicSpec.album = intent.getStringExtra(EXTRA_MUSIC_ALBUM);
+                musicSpec.track = intent.getStringExtra(EXTRA_MUSIC_TRACK);
                 musicSpec.duration = intent.getIntExtra(EXTRA_MUSIC_DURATION, 0);
                 musicSpec.trackCount = intent.getIntExtra(EXTRA_MUSIC_TRACKCOUNT, 0);
                 musicSpec.trackNr = intent.getIntExtra(EXTRA_MUSIC_TRACKNR, 0);

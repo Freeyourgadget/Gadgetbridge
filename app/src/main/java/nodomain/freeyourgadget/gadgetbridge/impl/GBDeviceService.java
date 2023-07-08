@@ -71,7 +71,9 @@ public class GBDeviceService implements DeviceService {
             EXTRA_MUSIC_ALBUM,
             EXTRA_MUSIC_TRACK,
             EXTRA_CALENDAREVENT_TITLE,
-            EXTRA_CALENDAREVENT_DESCRIPTION
+            EXTRA_CALENDAREVENT_DESCRIPTION,
+            EXTRA_CALENDAREVENT_LOCATION,
+            EXTRA_CALENDAREVENT_CALNAME,
     };
     private static final Logger LOG = LoggerFactory.getLogger(GBDeviceService.class);
 
