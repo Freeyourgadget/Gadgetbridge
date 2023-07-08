@@ -28,17 +28,19 @@
             android:summaryOn="@string/pref_display_add_device_fab_on"
             android:title="@string/pref_display_add_device_fab" />
 
-        <ListPreference
-            android:defaultValue="default"
-            android:key="audio_player"
-            android:title="@string/pref_title_audio_player"
-            android:summary="%s" />
-
         <CheckBoxPreference
             android:layout="@layout/preference_checkbox"
             android:defaultValue="false"
             android:key="mb_intents"
-            android:title="@string/pref_title_mb_intents" />
+            android:title="@string/pref_title_mb_intents" 
+            android:summary="@string/pref_summary_mb_intents"  />
+
+        <ListPreference
+            android:defaultValue="default"
+            android:key="audio_player"
+            android:title="@string/pref_title_audio_player"
+            android:summary="%s"
+            android:dependency="mb_intents" />
 
         <PreferenceScreen android:title="@string/pref_title_theme">
             <ListPreference
