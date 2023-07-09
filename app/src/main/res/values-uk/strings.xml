@@ -2300,4 +2300,6 @@
     <string name="loyalty_cards_catima_permissions_title">Відсутні дозволи</string>
     <string name="loyalty_cards_open_catima">Відкрити Catima</string>
     <string name="loyalty_cards_catima_permissions_summary">Для синхронізації Gadgetbridge потрібні дозволи на читання карток Catima. Натисніть цю кнопку, щоб надати їх.</string>
+    <string name="pref_title_mb_intents">Безпосередньо транслювати дії медіа-кнопок</string>
+    <string name="pref_summary_mb_intents">Увімкніть, якщо керування керування музикою не працює у певних застосунках</string>
 </resources>
