@@ -43,7 +43,6 @@ import android.net.Uri;
 import android.os.Handler;
 import android.widget.Toast;
 
-import org.apache.commons.lang3.ArrayUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -51,36 +50,27 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.net.URLDecoder;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
-import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
-import java.util.regex.Pattern;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventAppInfo;
 import nodomain.freeyourgadget.gadgetbridge.capabilities.loyaltycards.LoyaltyCard;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventFindPhone;
-import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventMusicControl;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventScreenshot;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventUpdatePreferences;
-import nodomain.freeyourgadget.gadgetbridge.devices.DeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.Huami2021Coordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.Huami2021Service;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiConst;
@@ -99,7 +89,6 @@ import nodomain.freeyourgadget.gadgetbridge.model.CalendarEventSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.CallSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.CannedMessagesSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.Contact;
-import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
 import nodomain.freeyourgadget.gadgetbridge.model.MusicSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.MusicStateSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
@@ -123,6 +112,7 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.service
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.services.ZeppOsHttpService;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.services.ZeppOsLogsService;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.services.ZeppOsLoyaltyCardService;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.services.ZeppOsMusicService;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.services.ZeppOsNotificationService;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.services.ZeppOsRemindersService;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.services.ZeppOsServicesService;
@@ -139,9 +129,7 @@ import nodomain.freeyourgadget.gadgetbridge.util.DeviceHelper;
 import nodomain.freeyourgadget.gadgetbridge.util.FileUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 import nodomain.freeyourgadget.gadgetbridge.util.GBPrefs;
-import nodomain.freeyourgadget.gadgetbridge.util.MapUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
-import nodomain.freeyourgadget.gadgetbridge.util.StringUtils;
 
 public abstract class Huami2021Support extends HuamiSupport implements ZeppOsFileTransferService.Callback {
     private static final Logger LOG = LoggerFactory.getLogger(Huami2021Support.class);
@@ -176,6 +164,7 @@ public abstract class Huami2021Support extends HuamiSupport implements ZeppOsFil
     private final ZeppOsHttpService httpService = new ZeppOsHttpService(this);
     private final ZeppOsRemindersService remindersService = new ZeppOsRemindersService(this);
     private final ZeppOsLoyaltyCardService loyaltyCardService = new ZeppOsLoyaltyCardService(this);
+    private final ZeppOsMusicService musicService = new ZeppOsMusicService(this);
 
     private final Map<Short, AbstractZeppOsService> mServiceMap = new LinkedHashMap<Short, AbstractZeppOsService>() {{
         put(servicesService.getEndpoint(), servicesService);
@@ -200,6 +189,7 @@ public abstract class Huami2021Support extends HuamiSupport implements ZeppOsFil
         put(httpService.getEndpoint(), httpService);
         put(remindersService.getEndpoint(), remindersService);
         put(loyaltyCardService.getEndpoint(), loyaltyCardService);
+        put(musicService.getEndpoint(), musicService);
     }};
 
     public Huami2021Support() {
@@ -555,17 +545,12 @@ public abstract class Huami2021Support extends HuamiSupport implements ZeppOsFil
 
     @Override
     public void onSetPhoneVolume(final float volume) {
-        // FIXME: we need to send the music info and state as well, or it breaks the info
-        sendMusicStateToDevice(bufferMusicSpec, bufferMusicStateSpec);
+        musicService.sendVolume(volume);
     }
 
-    protected void sendMusicStateToDevice(final MusicSpec musicSpec,
-                                          final MusicStateSpec musicStateSpec) {
-        byte[] cmd = ArrayUtils.addAll(new byte[]{MUSIC_CMD_MEDIA_INFO}, encodeMusicState(musicSpec, musicStateSpec, true));
-
-        LOG.info("sendMusicStateToDevice: {}, {}", musicSpec, musicStateSpec);
-
-        writeToChunked2021("send playback info", CHUNKED2021_ENDPOINT_MUSIC, cmd, false);
+    @Override
+    protected void sendMusicStateToDevice(final MusicSpec musicSpec, final MusicStateSpec musicStateSpec) {
+        musicService.sendMusicState(musicSpec, musicStateSpec);
     }
 
     @Override
@@ -1091,9 +1076,6 @@ public abstract class Huami2021Support extends HuamiSupport implements ZeppOsFil
             case CHUNKED2021_ENDPOINT_SILENT_MODE:
                 handle2021SilentMode(payload);
                 return;
-            case CHUNKED2021_ENDPOINT_MUSIC:
-                handle2021Music(payload);
-                return;
             default:
                 LOG.warn("Unhandled 2021 payload {}", String.format("0x%04x", type));
         }
@@ -1317,55 +1299,6 @@ public abstract class Huami2021Support extends HuamiSupport implements ZeppOsFil
                 return;
             default:
                 LOG.warn("Unexpected silent mode payload byte {}", String.format("0x%02x", payload[0]));
-        }
-    }
-
-    protected void handle2021Music(final byte[] payload) {
-        switch (payload[0]) {
-            case MUSIC_CMD_APP_STATE:
-                switch (payload[1]) {
-                    case MUSIC_APP_OPEN:
-                        onMusicAppOpen();
-                        break;
-                    case MUSIC_APP_CLOSE:
-                        onMusicAppClosed();
-                        break;
-                    default:
-                        LOG.warn("Unexpected music app state {}", String.format("0x%02x", payload[1]));
-                        break;
-                }
-                return;
-
-            case MUSIC_CMD_BUTTON_PRESS:
-                LOG.info("Got music button press");
-                final GBDeviceEventMusicControl deviceEventMusicControl = new GBDeviceEventMusicControl();
-                switch (payload[1]) {
-                    case MUSIC_BUTTON_PLAY:
-                        deviceEventMusicControl.event = GBDeviceEventMusicControl.Event.PLAY;
-                        break;
-                    case MUSIC_BUTTON_PAUSE:
-                        deviceEventMusicControl.event = GBDeviceEventMusicControl.Event.PAUSE;
-                        break;
-                    case MUSIC_BUTTON_NEXT:
-                        deviceEventMusicControl.event = GBDeviceEventMusicControl.Event.NEXT;
-                        break;
-                    case MUSIC_BUTTON_PREVIOUS:
-                        deviceEventMusicControl.event = GBDeviceEventMusicControl.Event.PREVIOUS;
-                        break;
-                    case MUSIC_BUTTON_VOLUME_UP:
-                        deviceEventMusicControl.event = GBDeviceEventMusicControl.Event.VOLUMEUP;
-                        break;
-                    case MUSIC_BUTTON_VOLUME_DOWN:
-                        deviceEventMusicControl.event = GBDeviceEventMusicControl.Event.VOLUMEDOWN;
-                        break;
-                    default:
-                        LOG.warn("Unexpected music button {}", String.format("0x%02x", payload[1]));
-                        return;
-                }
-                evaluateGBDeviceEvent(deviceEventMusicControl);
-                return;
-            default:
-                LOG.warn("Unexpected music byte {}", String.format("0x%02x", payload[0]));
         }
     }
 

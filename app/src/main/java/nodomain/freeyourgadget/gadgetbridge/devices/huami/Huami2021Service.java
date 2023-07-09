@@ -27,7 +27,6 @@ public class Huami2021Service {
     public static final short CHUNKED2021_ENDPOINT_VIBRATION_PATTERNS = 0x0018;
     public static final short CHUNKED2021_ENDPOINT_WORKOUT = 0x0019;
     public static final short CHUNKED2021_ENDPOINT_FIND_DEVICE = 0x001a;
-    public static final short CHUNKED2021_ENDPOINT_MUSIC = 0x001b;
     public static final short CHUNKED2021_ENDPOINT_HEARTRATE = 0x001d;
     public static final short CHUNKED2021_ENDPOINT_BATTERY = 0x0029;
     public static final short CHUNKED2021_ENDPOINT_SILENT_MODE = 0x003b;
@@ -114,21 +113,6 @@ public class Huami2021Service {
     public static final int WORKOUT_GPS_FLAG_POSITION = 0x40000;
     public static final byte WORKOUT_STATUS_START = 0x01;
     public static final byte WORKOUT_STATUS_END = 0x04;
-
-    /**
-     * Music, for {@link Huami2021Service#CHUNKED2021_ENDPOINT_MUSIC}.
-     */
-    public static final byte MUSIC_CMD_MEDIA_INFO = 0x03;
-    public static final byte MUSIC_CMD_APP_STATE = 0x04;
-    public static final byte MUSIC_CMD_BUTTON_PRESS = 0x05;
-    public static final byte MUSIC_APP_OPEN = 0x01;
-    public static final byte MUSIC_APP_CLOSE = 0x02;
-    public static final byte MUSIC_BUTTON_PLAY = 0x00;
-    public static final byte MUSIC_BUTTON_PAUSE = 0x01;
-    public static final byte MUSIC_BUTTON_NEXT = 0x03;
-    public static final byte MUSIC_BUTTON_PREVIOUS = 0x04;
-    public static final byte MUSIC_BUTTON_VOLUME_UP = 0x05;
-    public static final byte MUSIC_BUTTON_VOLUME_DOWN = 0x06;
 
     /**
      * Weather, for {@link Huami2021Service#CHUNKED2021_ENDPOINT_WEATHER}.

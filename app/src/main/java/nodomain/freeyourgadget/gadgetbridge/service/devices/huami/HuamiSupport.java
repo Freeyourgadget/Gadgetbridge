@@ -19,6 +19,7 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.service.devices.huami;
 
+import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothGatt;
 import android.bluetooth.BluetoothGattCharacteristic;
 import android.content.Context;
@@ -27,8 +28,9 @@ import android.content.SharedPreferences;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.location.Location;
-import android.media.AudioManager;
 import android.net.Uri;
+import android.os.Handler;
+import android.os.Looper;
 import android.widget.Toast;
 
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
@@ -112,6 +114,7 @@ import nodomain.freeyourgadget.gadgetbridge.entities.MiBandActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.entities.User;
 import nodomain.freeyourgadget.gadgetbridge.externalevents.gps.GBLocationManager;
 import nodomain.freeyourgadget.gadgetbridge.externalevents.opentracks.OpenTracksController;
+import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice.State;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivityKind;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
@@ -130,6 +133,7 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.operations.Fet
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.operations.FetchStressManualOperation;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.operations.HuamiFetchDebugLogsOperation;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.huami.zeppos.services.ZeppOsCannedMessagesService;
+import nodomain.freeyourgadget.gadgetbridge.util.MediaManager;
 import nodomain.freeyourgadget.gadgetbridge.util.calendar.CalendarEvent;
 import nodomain.freeyourgadget.gadgetbridge.util.calendar.CalendarManager;
 import nodomain.freeyourgadget.gadgetbridge.model.CallSpec;
@@ -327,8 +331,7 @@ public abstract class HuamiSupport extends AbstractBTLEDeviceSupport implements 
     private RealtimeSamplesSupport realtimeSamplesSupport;
 
     protected boolean isMusicAppStarted = false;
-    protected MusicSpec bufferMusicSpec = null;
-    protected MusicStateSpec bufferMusicStateSpec = null;
+    protected MediaManager mediaManager;
     private boolean heartRateNotifyEnabled;
     private int mMTU = 23;
     protected int mActivitySampleSize = 4;
@@ -358,6 +361,12 @@ public abstract class HuamiSupport extends AbstractBTLEDeviceSupport implements 
         deviceInfoProfile = new DeviceInfoProfile<>(this);
         deviceInfoProfile.addListener(mListener);
         addSupportedProfile(deviceInfoProfile);
+    }
+
+    @Override
+    public void setContext(final GBDevice gbDevice, final BluetoothAdapter btAdapter, final Context context) {
+        super.setContext(gbDevice, btAdapter, context);
+        this.mediaManager = new MediaManager(context);
     }
 
     @Override
@@ -1337,53 +1346,49 @@ public abstract class HuamiSupport extends AbstractBTLEDeviceSupport implements 
     }
 
     @Override
-    public void onSetMusicState(MusicStateSpec stateSpec) {
-        DeviceCoordinator coordinator = DeviceHelper.getInstance().getCoordinator(gbDevice);
-        if (!coordinator.supportsMusicInfo()) {
+    public void onSetMusicState(final MusicStateSpec stateSpec) {
+        if (!getCoordinator().supportsMusicInfo()) {
             return;
         }
 
-        if (stateSpec != null && !stateSpec.equals(bufferMusicStateSpec)) {
-            bufferMusicStateSpec = stateSpec;
-            if (isMusicAppStarted) {
-                sendMusicStateToDevice(null, bufferMusicStateSpec);
-            }
+        if (mediaManager.onSetMusicState(stateSpec) && isMusicAppStarted) {
+            sendMusicStateToDevice(null, mediaManager.getBufferMusicStateSpec());
         }
     }
 
     @Override
-    public void onSetMusicInfo(MusicSpec musicSpec) {
-        DeviceCoordinator coordinator = DeviceHelper.getInstance().getCoordinator(gbDevice);
-        if (!coordinator.supportsMusicInfo()) {
+    public void onSetMusicInfo(final MusicSpec musicSpec) {
+        if (!getCoordinator().supportsMusicInfo()) {
             return;
         }
 
-        if (musicSpec != null && !musicSpec.equals(bufferMusicSpec)) {
-            bufferMusicSpec = musicSpec;
-            if (bufferMusicStateSpec != null) {
-                bufferMusicStateSpec.state = 0;
-                bufferMusicStateSpec.position = 0;
-            }
-            if (isMusicAppStarted) {
-                sendMusicStateToDevice(bufferMusicSpec, bufferMusicStateSpec);
-            }
+        if (mediaManager.onSetMusicInfo(musicSpec) && isMusicAppStarted) {
+            sendMusicStateToDevice(mediaManager.getBufferMusicSpec(), mediaManager.getBufferMusicStateSpec());
         }
     }
 
-    protected void onMusicAppOpen() {
+    public void onMusicAppOpen() {
         LOG.info("Music app started");
         isMusicAppStarted = true;
-        sendMusicStateToDevice();
-        sendVolumeStateToDevice();
+        sendMusicStateDelayed();
     }
 
-    protected void onMusicAppClosed() {
+    public void onMusicAppClosed() {
         LOG.info("Music app terminated");
         isMusicAppStarted = false;
     }
 
-    private void sendMusicStateToDevice() {
-        sendMusicStateToDevice(bufferMusicSpec, bufferMusicStateSpec);
+    /**
+     * Send the music state after a small delay. If we send it right as the app notifies us that it opened,
+     * it won't be recognized.
+     */
+    private void sendMusicStateDelayed() {
+        final Looper mainLooper = Looper.getMainLooper();
+        new Handler(mainLooper).postDelayed(() -> {
+            mediaManager.refresh();
+            sendMusicStateToDevice(mediaManager.getBufferMusicSpec(), mediaManager.getBufferMusicStateSpec());
+            onSetPhoneVolume(mediaManager.getPhoneVolume());
+        }, 100);
     }
 
     @Override
@@ -1406,20 +1411,6 @@ public abstract class HuamiSupport extends AbstractBTLEDeviceSupport implements 
         LOG.info("sendVolumeStateToDevice: {}", volume);
     }
 
-    private void sendVolumeStateToDevice() {
-        onSetPhoneVolume(getPhoneVolume());
-    }
-
-    protected int getPhoneVolume() {
-        final AudioManager audioManager = (AudioManager) getContext().getSystemService(Context.AUDIO_SERVICE);
-
-        final int volumeLevel = audioManager.getStreamVolume(AudioManager.STREAM_MUSIC);
-        final int volumeMax = audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
-        final int volumePercentage = (byte) Math.round(100 * (volumeLevel / (float) volumeMax));
-
-        return volumePercentage;
-    }
-
     protected void sendMusicStateToDevice(final MusicSpec musicSpec, final MusicStateSpec musicStateSpec) {
         if (characteristicChunked == null) {
             return;
@@ -1431,7 +1422,7 @@ public abstract class HuamiSupport extends AbstractBTLEDeviceSupport implements 
 
         try {
             TransactionBuilder builder = performInitialized("send playback info");
-            writeToChunked(builder, 3, encodeMusicState(musicSpec, musicStateSpec, false));
+            writeToChunked(builder, 3, encodeMusicState(getContext(), musicSpec, musicStateSpec, false));
             builder.queue(getQueue());
         } catch (IOException e) {
             LOG.error("Unable to send playback state");
@@ -1439,7 +1430,10 @@ public abstract class HuamiSupport extends AbstractBTLEDeviceSupport implements 
         LOG.info("sendMusicStateToDevice: {}, {}", musicSpec, musicStateSpec);
     }
 
-    protected byte[] encodeMusicState(final MusicSpec musicSpec, final MusicStateSpec musicStateSpec, final boolean includeVolume) {
+    public static byte[] encodeMusicState(final Context context,
+                                          final MusicSpec musicSpec,
+                                          final MusicStateSpec musicStateSpec,
+                                          final boolean includeVolume) {
         String artist = "";
         String album = "";
         String track = "";
@@ -1518,7 +1512,7 @@ public abstract class HuamiSupport extends AbstractBTLEDeviceSupport implements 
         }
 
         if (includeVolume) {
-            buf.put((byte) getPhoneVolume());
+            buf.put((byte) MediaManager.getPhoneVolume(context));
         }
 
         return buf.array();
