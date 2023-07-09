@@ -2294,4 +2294,6 @@
     <string name="loyalty_cards_catima_permissions_title">Faltan permisos</string>
     <string name="loyalty_cards_open_catima">Abrir Catima</string>
     <string name="loyalty_cards_catima_permissions_summary">Gadgetbridge necesita permisos de lectura en las tarjetas Catima para sincronizarlas. Toque este botón para concederlos.</string>
+    <string name="pref_title_mb_intents">Transmitir directamente los intentos de los botones multimedia</string>
+    <string name="pref_summary_mb_intents">Activar si el control de medios del dispositivo no funciona para determinadas aplicaciones</string>
 </resources>
