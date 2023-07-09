@@ -96,50 +96,65 @@ public class MediaManager {
             }
             final MediaController controller = controllers.get(0);
 
-            final MediaMetadata metadata = controller.getMetadata();
-            final PlaybackState playbackState = controller.getPlaybackState();
+            bufferMusicSpec = extractMusicSpec(controller.getMetadata());
+            bufferMusicStateSpec = extractMusicStateSpec(controller.getPlaybackState());
+        } catch (final SecurityException e) {
+            LOG.warn("No permission to get media sessions - did not grant notification access?", e);
+        } catch (final Exception e) {
+            LOG.error("Failed to get media info", e);
+        }
+    }
 
-            final MusicSpec musicSpec = new MusicSpec();
-            musicSpec.artist = StringUtils.ensureNotNull(metadata.getString(MediaMetadata.METADATA_KEY_ARTIST));
-            musicSpec.album = StringUtils.ensureNotNull(metadata.getString(MediaMetadata.METADATA_KEY_ALBUM));
-            musicSpec.track = StringUtils.ensureNotNull(metadata.getString(MediaMetadata.METADATA_KEY_TITLE));
-            musicSpec.trackNr = (int) metadata.getLong(MediaMetadata.METADATA_KEY_TRACK_NUMBER);
-            musicSpec.trackCount = (int) metadata.getLong(MediaMetadata.METADATA_KEY_NUM_TRACKS);
-            musicSpec.duration = (int) metadata.getLong(MediaMetadata.METADATA_KEY_DURATION) / 1000;
+    public static MusicSpec extractMusicSpec(final MediaMetadata d) {
+        final MusicSpec musicSpec = new MusicSpec();
 
-            final MusicStateSpec stateSpec = new MusicStateSpec();
-            switch (playbackState.getState()) {
+        try {
+            if (d.containsKey(MediaMetadata.METADATA_KEY_ARTIST))
+                musicSpec.artist = d.getString(MediaMetadata.METADATA_KEY_ARTIST);
+            if (d.containsKey(MediaMetadata.METADATA_KEY_ALBUM))
+                musicSpec.album = d.getString(MediaMetadata.METADATA_KEY_ALBUM);
+            if (d.containsKey(MediaMetadata.METADATA_KEY_TITLE))
+                musicSpec.track = d.getString(MediaMetadata.METADATA_KEY_TITLE);
+            if (d.containsKey(MediaMetadata.METADATA_KEY_DURATION))
+                musicSpec.duration = (int) d.getLong(MediaMetadata.METADATA_KEY_DURATION) / 1000;
+            if (d.containsKey(MediaMetadata.METADATA_KEY_NUM_TRACKS))
+                musicSpec.trackCount = (int) d.getLong(MediaMetadata.METADATA_KEY_NUM_TRACKS);
+            if (d.containsKey(MediaMetadata.METADATA_KEY_TRACK_NUMBER))
+                musicSpec.trackNr = (int) d.getLong(MediaMetadata.METADATA_KEY_TRACK_NUMBER);
+        } catch (final Exception e) {
+            LOG.error("Failed to extract music spec", e);
+        }
+
+        return musicSpec;
+    }
+
+    public static MusicStateSpec extractMusicStateSpec(final PlaybackState s) {
+        final MusicStateSpec stateSpec = new MusicStateSpec();
+
+        try {
+            stateSpec.position = (int) (s.getPosition() / 1000);
+            stateSpec.playRate = Math.round(100 * s.getPlaybackSpeed());
+            stateSpec.repeat = MusicStateSpec.STATE_UNKNOWN;
+            stateSpec.shuffle = MusicStateSpec.STATE_UNKNOWN;
+            switch (s.getState()) {
                 case PlaybackState.STATE_PLAYING:
-                case PlaybackState.STATE_FAST_FORWARDING:
-                case PlaybackState.STATE_REWINDING:
-                case PlaybackState.STATE_BUFFERING:
-                case PlaybackState.STATE_CONNECTING:
-                case PlaybackState.STATE_SKIPPING_TO_PREVIOUS:
-                case PlaybackState.STATE_SKIPPING_TO_NEXT:
-                case PlaybackState.STATE_SKIPPING_TO_QUEUE_ITEM:
                     stateSpec.state = MusicStateSpec.STATE_PLAYING;
+                    break;
+                case PlaybackState.STATE_STOPPED:
+                    stateSpec.state = MusicStateSpec.STATE_STOPPED;
                     break;
                 case PlaybackState.STATE_PAUSED:
                     stateSpec.state = MusicStateSpec.STATE_PAUSED;
                     break;
-                case PlaybackState.STATE_STOPPED:
-                case PlaybackState.STATE_ERROR:
-                    stateSpec.state = MusicStateSpec.STATE_STOPPED;
-                    break;
-                case PlaybackState.STATE_NONE:
                 default:
                     stateSpec.state = MusicStateSpec.STATE_UNKNOWN;
+                    break;
             }
-            stateSpec.position = (int) playbackState.getPosition() / 1000;
-            stateSpec.playRate = (int) (playbackState.getPlaybackSpeed() * 100);
-            stateSpec.repeat = MusicStateSpec.STATE_UNKNOWN;
-            stateSpec.shuffle = MusicStateSpec.STATE_UNKNOWN;
-
-            bufferMusicStateSpec = stateSpec;
-            bufferMusicSpec = musicSpec;
-        } catch (final SecurityException e) {
-            LOG.warn("No permission to get media sessions - did not grant notification access?", e);
+        } catch (final Exception e) {
+            LOG.error("Failed to extract music state spec", e);
         }
+
+        return stateSpec;
     }
 
     public int getPhoneVolume() {
