@@ -41,13 +41,12 @@ public class CatimaContentProvider {
         add("me.hackerchick.catima.debug");
     }};
 
-    public static final String PERMISSION_READ_CARDS = "me.hackerchick.catima.READ_CARDS";
-
     private final Context mContext;
     private final Uri versionUri;
     private final Uri cardsUri;
     private final Uri groupsUri;
     private final Uri cardGroupsUri;
+    private final String readPermission;
 
     public CatimaContentProvider(final Context context, final String catimaPackageName) {
         this.mContext = context;
@@ -56,6 +55,11 @@ public class CatimaContentProvider {
         this.cardsUri = Uri.parse(String.format(Locale.ROOT, "content://%s/cards", catimaAuthority));
         this.groupsUri = Uri.parse(String.format(Locale.ROOT, "content://%s/groups", catimaAuthority));
         this.cardGroupsUri = Uri.parse(String.format(Locale.ROOT, "content://%s/card_groups", catimaAuthority));
+        this.readPermission = String.format(Locale.ROOT, "%s.READ_CARDS", catimaPackageName);
+    }
+
+    public String getReadPermission() {
+        return this.readPermission;
     }
 
     public boolean isCatimaCompatible() {

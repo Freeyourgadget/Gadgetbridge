@@ -74,7 +74,7 @@ public class LoyaltyCardsSettingsFragment extends PreferenceFragmentCompat {
     private GBDevice device;
 
     private void setSettingsFileSuffix(final String settingsFileSuffix) {
-        Bundle args = new Bundle();
+        final Bundle args = new Bundle();
         args.putString("settingsFileSuffix", settingsFileSuffix);
         setArguments(args);
     }
@@ -113,45 +113,52 @@ public class LoyaltyCardsSettingsFragment extends PreferenceFragmentCompat {
         return fragment;
     }
 
-    protected void reloadPreferences(String catimaPackageName) {
+    protected void reloadPreferences(final String catimaPackageName) {
         final CatimaManager catimaManager = new CatimaManager(requireContext());
 
         final List<CharSequence> installedCatimaPackages = catimaManager.findInstalledCatimaPackages();
         final boolean catimaInstalled = !installedCatimaPackages.isEmpty();
 
-        final ListPreference catimaPackage = findPreference(LOYALTY_CARDS_CATIMA_PACKAGE);
-        CatimaContentProvider catima = null;
+        final ListPreference catimaPackagePreference = findPreference(LOYALTY_CARDS_CATIMA_PACKAGE);
 
-        if (catimaPackage != null) {
-            catimaPackage.setEntries(installedCatimaPackages.toArray(new CharSequence[0]));
-            catimaPackage.setEntryValues(installedCatimaPackages.toArray(new CharSequence[0]));
-            catimaPackage.setOnPreferenceChangeListener((preference, newValue) -> {
-                LOG.info("Catima package changed to {}", newValue);
+        if (catimaPackagePreference != null) {
+            catimaPackagePreference.setEntries(installedCatimaPackages.toArray(new CharSequence[0]));
+            catimaPackagePreference.setEntryValues(installedCatimaPackages.toArray(new CharSequence[0]));
+            catimaPackagePreference.setVisible(installedCatimaPackages.size() > 1);
+            catimaPackagePreference.setOnPreferenceChangeListener((preference, newValue) -> {
+                LOG.info("Catima package preference changed to {}", newValue);
                 reloadPreferences((String) newValue);
                 return true;
             });
 
             if (catimaInstalled) {
                 // Ensure the currently selected value is actually an installed Catima package
-                if (StringUtils.isNullOrEmpty(catimaPackage.getValue()) || !installedCatimaPackages.contains(catimaPackage.getValue())) {
-                    catimaPackage.setValue(installedCatimaPackages.get(0).toString());
+                if (StringUtils.isNullOrEmpty(catimaPackagePreference.getValue()) || !installedCatimaPackages.contains(catimaPackagePreference.getValue())) {
+                    catimaPackagePreference.setValue(installedCatimaPackages.get(0).toString());
                 }
             }
-
-            if (installedCatimaPackages.size() <= 1) {
-                catimaPackage.setVisible(false);
-            }
-
-            catima = new CatimaContentProvider(requireContext(), catimaPackageName != null ? catimaPackageName : catimaPackage.getValue());
         }
 
-        final Preference openCatima = findPreference(LOYALTY_CARDS_OPEN_CATIMA);
-        if (openCatima != null) {
-            openCatima.setVisible(catimaInstalled);
-            openCatima.setOnPreferenceClickListener(preference -> {
-                if (catimaPackage != null) {
+        final String finalCatimaPackageName;
+
+        if (catimaPackageName != null) {
+            finalCatimaPackageName = catimaPackageName;
+        } else if (catimaPackagePreference != null) {
+            finalCatimaPackageName = catimaPackagePreference.getValue();
+        } else {
+            LOG.warn("This should never happen - catima package not found");
+            finalCatimaPackageName = "this.should.never.happen";
+        }
+
+        final CatimaContentProvider catima = new CatimaContentProvider(requireContext(), finalCatimaPackageName);
+
+        final Preference openCatimaPreference = findPreference(LOYALTY_CARDS_OPEN_CATIMA);
+        if (openCatimaPreference != null) {
+            openCatimaPreference.setVisible(catimaInstalled);
+            openCatimaPreference.setOnPreferenceClickListener(preference -> {
+                if (catimaPackagePreference != null) {
                     final PackageManager packageManager = requireContext().getPackageManager();
-                    final Intent launchIntent = packageManager.getLaunchIntentForPackage(catimaPackageName != null ? catimaPackageName : catimaPackage.getValue());
+                    final Intent launchIntent = packageManager.getLaunchIntentForPackage(finalCatimaPackageName);
                     if (launchIntent != null) {
                         startActivity(launchIntent);
                     }
@@ -160,44 +167,44 @@ public class LoyaltyCardsSettingsFragment extends PreferenceFragmentCompat {
             });
         }
 
-        final Preference catimaNotInstalled = findPreference(LOYALTY_CARDS_CATIMA_NOT_INSTALLED);
-        if (catimaNotInstalled != null) {
-            catimaNotInstalled.setVisible(!catimaInstalled);
+        final Preference catimaNotInstalledPreference = findPreference(LOYALTY_CARDS_CATIMA_NOT_INSTALLED);
+        if (catimaNotInstalledPreference != null) {
+            catimaNotInstalledPreference.setVisible(!catimaInstalled);
         }
 
-        final Preference installCatima = findPreference(LOYALTY_CARDS_INSTALL_CATIMA);
-        if (installCatima != null) {
-            installCatima.setVisible(!catimaInstalled);
-            installCatima.setOnPreferenceClickListener(preference -> {
+        final Preference installCatimaPreference = findPreference(LOYALTY_CARDS_INSTALL_CATIMA);
+        if (installCatimaPreference != null) {
+            installCatimaPreference.setVisible(!catimaInstalled);
+            installCatimaPreference.setOnPreferenceClickListener(preference -> {
                 installCatima();
                 return true;
             });
         }
 
-        final boolean permissionGranted = ContextCompat.checkSelfPermission(requireContext(), CatimaContentProvider.PERMISSION_READ_CARDS) == PackageManager.PERMISSION_GRANTED;
-        final Preference catimaPermissions = findPreference(LOYALTY_CARDS_CATIMA_PERMISSIONS);
-        if (catimaPermissions != null) {
-            catimaPermissions.setVisible(catimaInstalled && !permissionGranted);
-            catimaPermissions.setOnPreferenceClickListener(preference -> {
+        final boolean permissionGranted = ContextCompat.checkSelfPermission(requireContext(), catima.getReadPermission()) == PackageManager.PERMISSION_GRANTED;
+        final Preference catimaPermissionsPreference = findPreference(LOYALTY_CARDS_CATIMA_PERMISSIONS);
+        if (catimaPermissionsPreference != null) {
+            catimaPermissionsPreference.setVisible(catimaInstalled && !permissionGranted);
+            catimaPermissionsPreference.setOnPreferenceClickListener(preference -> {
                 ActivityCompat.requestPermissions(
                         requireActivity(),
-                        new String[]{CatimaContentProvider.PERMISSION_READ_CARDS},
+                        new String[]{catima.getReadPermission()},
                         LoyaltyCardsSettingsActivity.PERMISSION_REQUEST_CODE
                 );
                 return true;
             });
         }
 
-        final boolean catimaCompatible = catima != null && catima.isCatimaCompatible();
-        final Preference catimaNotCompatible = findPreference(LOYALTY_CARDS_CATIMA_NOT_COMPATIBLE);
-        if (catimaNotCompatible != null) {
-            catimaNotCompatible.setVisible(catimaInstalled && permissionGranted && !catimaCompatible);
+        final boolean catimaCompatible = catima.isCatimaCompatible();
+        final Preference catimaNotCompatiblePreference = findPreference(LOYALTY_CARDS_CATIMA_NOT_COMPATIBLE);
+        if (catimaNotCompatiblePreference != null) {
+            catimaNotCompatiblePreference.setVisible(catimaInstalled && permissionGranted && !catimaCompatible);
         }
 
-        final Preference sync = findPreference(LOYALTY_CARDS_SYNC);
-        if (sync != null) {
-            sync.setEnabled(catimaInstalled);
-            sync.setOnPreferenceClickListener(preference -> {
+        final Preference syncPreference = findPreference(LOYALTY_CARDS_SYNC);
+        if (syncPreference != null) {
+            syncPreference.setEnabled(catimaInstalled && catimaCompatible && permissionGranted);
+            syncPreference.setOnPreferenceClickListener(preference -> {
                 catimaManager.sync(device);
                 return true;
             });
