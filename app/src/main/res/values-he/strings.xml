@@ -2291,4 +2291,6 @@
     <string name="loyalty_cards_catima_permissions_summary">ל־Gadgetbridge דרושות הרשאות לקרוא כרטיסים מ־Catima כדי סלנכרן אותם. נגיעה בכפתור הזה תאשר את הגישה.</string>
     <string name="loyalty_cards">כרטיסי מועדון</string>
     <string name="loyalty_cards_syncing">%d כרטיסי מועדון מסונכרנים למכשיר</string>
+    <string name="pref_title_mb_intents">שידור Intents של כפתורי מדיה ישירות</string>
+    <string name="pref_summary_mb_intents">יש להפעיל אם בקרת המדיה של המכשיר לא עובדת ביישומים מסוימים</string>
 </resources>
