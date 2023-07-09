@@ -2296,4 +2296,6 @@ Temps de sommeil préféré en heures</string>
     <string name="loyalty_cards_syncing">Synchronisation de %d des cartes de fidélité dans l\'appareil</string>
     <string name="loyalty_cards_catima_not_compatible">La version installée de Catima est incompatible avec Gadgetbridge. Merci de mettre à jour Catima et Gadgetbridge en dernière version.</string>
     <string name="loyalty_cards">Cartes de fidélité</string>
+    <string name="pref_title_mb_intents">Diffuser les annonces Media directement</string>
+    <string name="pref_summary_mb_intents">Activer si le contrôle des médias ne marchent pas dans certaines applications</string>
 </resources>
