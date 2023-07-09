@@ -2292,4 +2292,7 @@
     <string name="loyalty_cards_install_catima_fail">Kan app store niet openen om Catima te installeren</string>
     <string name="loyalty_cards_catima_permissions_summary">Gadgetbridge heeft leesrechten op Catima-kaarten nodig om ze te synchroniseren. Tik op deze knop om ze te verlenen.</string>
     <string name="loyalty_cards_sync_options">Synchronisatie-opties</string>
+    <string name="pref_title_mb_intents">Broadcast Media Knop Intents Direct</string>
+    <string name="pref_summary_mb_intents">Inschakelen als mediabediening van apparaat niet werkt voor bepaalde apps</string>
+    <string name="devicetype_bohemic_smart_bracelet">Bohemic Smart Armband</string>
 </resources>
