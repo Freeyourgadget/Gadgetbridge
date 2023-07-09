@@ -72,6 +72,8 @@ vendor's servers.
 - [iTag](https://codeberg.org/Freeyourgadget/Gadgetbridge/wiki/iTag)
 - JYou Y5
 - Lefun
+  - Lefun ID115 Plus
+  - Other clones: bohemic smart bracelet
 - Lenovo
 	- Watch 9
 	- [Watch X (Plus)](https://codeberg.org/mamutcho/Gadgetbridge/wiki)

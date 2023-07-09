@@ -48,6 +48,7 @@ import nodomain.freeyourgadget.gadgetbridge.devices.huami.amazfitgtr3pro.Amazfit
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.amazfitgts4.AmazfitGTS4Coordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.amazfitgts4mini.AmazfitGTS4MiniCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.amazfittrex2.AmazfitTRex2Coordinator;
+import nodomain.freeyourgadget.gadgetbridge.devices.lefun.BohemicSmartBraceletDeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.sony.headphones.coordinators.SonyLinkBudsSCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.soflow.SoFlowCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.sony.headphones.coordinators.SonyWH1000XM5Coordinator;
@@ -344,6 +345,7 @@ public class DeviceHelper {
         result.add(new PineTimeJFCoordinator());
         result.add(new SG2Coordinator());
         result.add(new LefunDeviceCoordinator());
+        result.add(new BohemicSmartBraceletDeviceCoordinator());
         result.add(new SonySWR12DeviceCoordinator());
         result.add(new WaspOSCoordinator());
         result.add(new SMAQ2OSSCoordinator());

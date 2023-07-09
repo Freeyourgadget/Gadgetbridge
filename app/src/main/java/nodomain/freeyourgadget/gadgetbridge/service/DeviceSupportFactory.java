@@ -317,6 +317,8 @@ public class DeviceSupportFactory {
                 return new ServiceDeviceSupport(new HPlusSupport(DeviceType.SG2));
             case LEFUN:
                 return new ServiceDeviceSupport(new LefunDeviceSupport());
+            case BOHEMIC_SMART_BRACELET:
+                return new ServiceDeviceSupport(new LefunDeviceSupport());
             case SONY_SWR12:
                 return new ServiceDeviceSupport(new SonySWR12DeviceSupport());
             case WASPOS:
