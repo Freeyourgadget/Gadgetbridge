@@ -2279,4 +2279,5 @@
     <string name="loyalty_cards_catima_not_installed">هناك حاجة إلى كاتيما لإدارة بطاقات الولاء</string>
     <string name="pref_title_mb_intents">نوايا زر بث الوسائط مباشرة</string>
     <string name="pref_summary_mb_intents">تمكين إذا كان التحكم في وسائط الجهاز لا يعمل مع تطبيقات معينة</string>
+    <string name="devicetype_bohemic_smart_bracelet">سوار Bohemic الذكي</string>
 </resources>
