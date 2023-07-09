@@ -2281,4 +2281,7 @@
     <string name="loyalty_cards_sync">Sinkronkan</string>
     <string name="loyalty_cards_sync_options">Opsi Sinkronisasi</string>
     <string name="loyalty_cards_catima_permissions_title">Izin dibutuhkan</string>
+    <string name="devicetype_bohemic_smart_bracelet">Bohemic Smart Bracelet</string>
+    <string name="pref_title_mb_intents">Intent Tombol Media Siaran Secara Langsung</string>
+    <string name="pref_summary_mb_intents">Aktifkan jika kontrol media perangkat tidak berfungsi untuk aplikasi tertentu</string>
 </resources>
