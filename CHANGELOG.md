@@ -1,5 +1,14 @@
 ### Changelog
 
+#### Next Version (WIP)
+* Initial support for Bohemic Smart Bracelet
+* Huami/Zepp OS: Improve music info stability
+* LeFun: Fix heart rate popup when measurement is triggered from phone
+* Zepp OS: Add loyalty cards integration with Catima
+* Zepp OS: Add PAI charts
+* Bump target SDK version to 31
+* Fix media button control for some applications
+
 #### 0.75.1
 * Fix Weather Notification integration
 
