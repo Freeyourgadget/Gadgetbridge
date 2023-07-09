@@ -2298,4 +2298,5 @@ Temps de sommeil préféré en heures</string>
     <string name="loyalty_cards">Cartes de fidélité</string>
     <string name="pref_title_mb_intents">Diffuser les annonces Media directement</string>
     <string name="pref_summary_mb_intents">Activer si le contrôle des médias ne marchent pas dans certaines applications</string>
+    <string name="devicetype_bohemic_smart_bracelet">Bohemic Smart Bracelet</string>
 </resources>
