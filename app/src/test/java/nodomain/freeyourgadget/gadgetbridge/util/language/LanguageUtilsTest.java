@@ -7,6 +7,7 @@ import org.junit.Test;
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.test.TestBase;
+import nodomain.freeyourgadget.gadgetbridge.util.language.impl.FlattenToAsciiTransliterator;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -181,6 +182,15 @@ public class LanguageUtilsTest extends TestBase {
         String output = transliterator.transliterate(input);
         String expected = "c c d s z";
         assertEquals("croatian transliteration failed", expected, output);
+    }
+
+    @Test
+    public void testFlattenToAscii() throws Exception {
+        final FlattenToAsciiTransliterator transliterator = new FlattenToAsciiTransliterator();
+        String input = "ä ș ț ă";
+        String output = transliterator.transliterate(input);
+        String expected = "a s t a";
+        assertEquals("flatten to ascii transliteration failed", expected, output);
     }
 
     @Test
