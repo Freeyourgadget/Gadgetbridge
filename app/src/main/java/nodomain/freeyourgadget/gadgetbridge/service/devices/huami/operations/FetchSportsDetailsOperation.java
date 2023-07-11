@@ -123,18 +123,22 @@ public class FetchSportsDetailsOperation extends AbstractFetchOperation {
                 String fileName = FileUtils.makeValidFileName("gadgetbridge-" + trackType.toLowerCase() + "-" + DateTimeUtils.formatIso8601(summary.getStartTime()) + ".gpx");
                 File targetFile = new File(FileUtils.getExternalFilesDir(), fileName);
 
+                boolean exportGpxSuccess = true;
                 try {
                     exporter.performExport(track, targetFile);
-
-                    try (DBHandler dbHandler = GBApplication.acquireDB()) {
-                        summary.setGpxTrack(targetFile.getAbsolutePath());
-                        if (rawBytesPath != null) {
-                            summary.setRawDetailsPath(rawBytesPath);
-                        }
-                        dbHandler.getDaoSession().getBaseActivitySummaryDao().update(summary);
-                    }
                 } catch (ActivityTrackExporter.GPXTrackEmptyException ex) {
+                    exportGpxSuccess = false;
                     GB.toast(getContext(), "This activity does not contain GPX tracks.", Toast.LENGTH_LONG, GB.ERROR, ex);
+                }
+
+                try (DBHandler dbHandler = GBApplication.acquireDB()) {
+                    if (exportGpxSuccess) {
+                        summary.setGpxTrack(targetFile.getAbsolutePath());
+                    }
+                    if (rawBytesPath != null) {
+                        summary.setRawDetailsPath(rawBytesPath);
+                    }
+                    dbHandler.getDaoSession().getBaseActivitySummaryDao().update(summary);
                 }
             } catch (Exception ex) {
                 GB.toast(getContext(), "Error getting activity details: " + ex.getMessage(), Toast.LENGTH_LONG, GB.ERROR, ex);
