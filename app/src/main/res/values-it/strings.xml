@@ -51,7 +51,7 @@
     <string name="miband_firmware_suggest_whitelist">Se si procede e tutto continua a funzionare ti invitiamo a contattare gli sviluppatori e dire loro di aggiungere il firmware %s all\'elenco di quelli compatibili.</string>
     <!--Strings related to Settings-->
     <string name="title_activity_settings">Impostazioni</string>
-    <string name="pref_header_general">Impostazioni</string>
+    <string name="pref_header_general">Impostazioni generali</string>
     <string name="pref_title_general_autoconnectonbluetooth">Collegati al dispositivo Gadgetbridge quando il Bluetooth viene acceso</string>
     <string name="pref_title_general_autostartonboot">Avvio automatico</string>
     <string name="pref_title_general_autoreconnect">Riconnessione automatica</string>
@@ -2227,4 +2227,5 @@
     <string name="kind_gpx_route">Traccia GPX</string>
     <string name="pref_title_navigation_forward">Invia navigazione all\'orologio</string>
     <string name="pref_summary_navigation_forward">Inoltra istruzioni da app di navigazione all\'orologio</string>
+    <string name="action_changelog">Changelog</string>
 </resources>
