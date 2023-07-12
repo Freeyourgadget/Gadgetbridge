@@ -582,205 +582,11 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
             case "act":
                 handleActivity(json);
                 break;
-            case "trksList": 
-                {
-                LOG.info("trksList says hi!");
-                GB.toast(getContext(), "trksList says hi!", Toast.LENGTH_LONG, GB.INFO);
-                JSONArray tracksList = json.getJSONArray("list");
-                LOG.info("New recorder logs since last fetch: " + String.valueOf(tracksList));
-                for (int i = 0; i < tracksList.length(); i ++) {
-                    requestActivityTrackLog(tracksList.getString(i));
-                }
-                };
-            break;
+            case "trksList":
+                handleTrksList(json);
+                break;
             case "actTrk":
-                {
-                LOG.info("actTrk says hi!");
-                //GB.toast(getContext(), "actTrk says hi!", Toast.LENGTH_LONG, GB.INFO);
-                String log = json.getString("log");
-                String line = json.getString("line");
-                LOG.info(log);
-                LOG.info(line);
-                File dir;
-                try {
-                    dir = FileUtils.getExternalFilesDir();
-                } catch (IOException e) {
-                    return;
-                }
-                String filename = "recorder.log" + log + ".csv";
-
-                if (line.equals("end of recorder log")) { // TODO: Persist log to database here by reading the now completely transferred csv file from GB storage directory
-
-                    File inputFile = new File(dir, filename);
-                    try { // FIXME: There is maybe code inside this try-statement that should be outside of it.
-
-                        // Read from the previously stored log (see the else-statement below) into a string.
-                        BufferedReader reader = new BufferedReader(new FileReader(inputFile));
-                        StringBuilder storedLogBuilder = new StringBuilder(reader.readLine() + "\n");
-                        while ((line = reader.readLine()) != null) {
-                           storedLogBuilder.append(line).append("\n");
-                        }
-                        reader.close();
-                        String storedLog = String.valueOf(storedLogBuilder);
-                        storedLog = storedLog.replace(",",", "); // So all rows (internal arrays) in storedLogArray2 get the same number of entries.
-                        LOG.info("Contents of log read from GB storage:\n" + storedLog);
-
-                        // Turn the string log into a 2d array in two steps.
-                        String[] storedLogArray = storedLog.split("\n") ;
-                        String[][] storedLogArray2 = new String[storedLogArray.length][1];
-
-                        for (int i = 0; i < storedLogArray.length; i++) {
-                            storedLogArray2[i] = storedLogArray[i].split(",");
-                            for (int j = 0; j < storedLogArray2[i].length;j++) {
-                                storedLogArray2[i][j] = storedLogArray2[i][j].trim(); // Remove the extra spaces we introduced above for getting the same number of entries on all rows.
-                            }
-                        }
-
-                        LOG.info("Contents of storedLogArray2:\n" + Arrays.deepToString(storedLogArray2));
-
-                        // Turn the 2d array into an object for easier access later on.
-                        JSONObject storedLogObject = new JSONObject();
-                        JSONArray valueArray = new JSONArray();
-                        for (int i = 0; i < storedLogArray2[0].length; i++){
-                            for (int j = 1; j < storedLogArray2.length; j++) {
-                               valueArray.put(storedLogArray2[j][i]);
-                            }
-                            storedLogObject.put(storedLogArray2[0][i], valueArray);
-                            valueArray = new JSONArray();
-                        }
-
-                        LOG.info("storedLogObject:\n" + storedLogObject);
-
-                        BaseActivitySummary summary = null;
-
-                        Date startTime = new Date(Long.parseLong(storedLogArray2[1][0])*1000L);
-                        Date endTime = new Date(Long.parseLong(storedLogArray2[storedLogArray2.length-1][0])*1000L);
-                        summary = new BaseActivitySummary();
-                        summary.setName(log);
-                        summary.setStartTime(startTime);
-                        summary.setEndTime(endTime);
-                        summary.setActivityKind(ActivityKind.TYPE_RUNNING); // TODO: Make this depend on info from watch (currently this info isn't supplied in Bangle.js recorder logs).
-                        summary.setRawDetailsPath(String.valueOf(inputFile));
-                        summary.setSummaryData(storedLog);
-
-                        ActivityTrack track = new ActivityTrack(); // detailsParser.parse(buffer.toByteArray());
-                        track.startNewSegment();
-                        track.setBaseTime(startTime);
-                        track.setName(log);
-                        try (DBHandler dbHandler = GBApplication.acquireDB()) {
-                            DaoSession session = dbHandler.getDaoSession();
-                            Device device = DBHelper.getDevice(getDevice(), session);
-                            User user = DBHelper.getUser(session);
-                            track.setDevice(device);
-                            track.setUser(user);
-                        } catch (Exception ex) {
-                            GB.toast(getContext(), "Error setting user for activity track.", Toast.LENGTH_LONG, GB.ERROR, ex);
-                        }
-                        ActivityPoint point = new ActivityPoint();
-                        Date timeOfPoint = new Date();
-                        for (int i = 0; i < storedLogObject.getJSONArray("Time").length(); i++) {
-                            timeOfPoint.setTime(storedLogObject.getJSONArray("Time").getLong(i)*1000L);
-                            point.setTime(timeOfPoint);
-                            if (storedLogObject.has("Longitude")) {
-                                if (!Objects.equals(storedLogObject.getJSONArray("Longitude").getString(i), "")
-                                        && !Objects.equals(storedLogObject.getJSONArray("Latitude").getString(i), "")
-                                        && !Objects.equals(storedLogObject.getJSONArray("Altitude").getString(i), "")) {
-
-                                    point.setLocation(new GPSCoordinate(
-                                                    storedLogObject.getJSONArray("Longitude").getDouble(i),
-                                                    storedLogObject.getJSONArray("Latitude").getDouble(i),
-                                                    storedLogObject.getJSONArray("Altitude").getDouble(i)
-                                            )
-                                    );
-                                }
-                            }
-                            if (storedLogObject.has("Heartrate") && !Objects.equals(storedLogObject.getJSONArray("Heartrate").getString(i), "")) {
-                                point.setHeartRate(storedLogObject.getJSONArray("Heartrate").getInt(i));
-                            }
-                            track.addTrackPoint(point);
-                            point = new ActivityPoint();
-                        }
-
-                        ActivityTrackExporter exporter = createExporter();
-                        String trackType = "track";
-                        switch (summary.getActivityKind()) {
-                            case ActivityKind.TYPE_CYCLING:
-                                trackType = getContext().getString(R.string.activity_type_biking);
-                                break;
-                            case ActivityKind.TYPE_RUNNING:
-                                trackType = getContext().getString(R.string.activity_type_running);
-                                break;
-                            case ActivityKind.TYPE_WALKING:
-                                trackType = getContext().getString(R.string.activity_type_walking);
-                                break;
-                            case ActivityKind.TYPE_HIKING:
-                                trackType = getContext().getString(R.string.activity_type_hiking);
-                                break;
-                            case ActivityKind.TYPE_CLIMBING:
-                                trackType = getContext().getString(R.string.activity_type_climbing);
-                                break;
-                            case ActivityKind.TYPE_SWIMMING:
-                                trackType = getContext().getString(R.string.activity_type_swimming);
-                                break;
-                        }
-
-                        String fileName = FileUtils.makeValidFileName("gadgetbridge-" + trackType.toLowerCase() + "-" + summary.getName() + ".gpx");
-                        File targetFile = new File(FileUtils.getExternalFilesDir(), fileName);
-
-                        try {
-                            exporter.performExport(track, targetFile);
-
-                            try (DBHandler dbHandler = GBApplication.acquireDB()) {
-                                summary.setGpxTrack(targetFile.getAbsolutePath());
-                                //dbHandler.getDaoSession().getBaseActivitySummaryDao().update(summary);
-                            } catch (Exception e) {
-                                throw new RuntimeException(e);
-                            }
-                        } catch (ActivityTrackExporter.GPXTrackEmptyException ex) {
-                            GB.toast(getContext(), "This activity does not contain GPX tracks.", Toast.LENGTH_LONG, GB.ERROR, ex);
-                        }
-
-                        //summary.setSummaryData(null); // remove json before saving to database,
-
-                        try (DBHandler dbHandler = GBApplication.acquireDB()) {
-                            DaoSession session = dbHandler.getDaoSession();
-                            Device device = DBHelper.getDevice(getDevice(), session);
-                            User user = DBHelper.getUser(session);
-                            summary.setDevice(device);
-                            summary.setUser(user);
-                            session.getBaseActivitySummaryDao().insertOrReplace(summary);
-                        } catch (Exception ex) {
-                            GB.toast(getContext(), "Error saving activity summary", Toast.LENGTH_LONG, GB.ERROR, ex);
-                        }
-
-
-                    } catch (FileNotFoundException e) {
-                        throw new RuntimeException(e);
-                    } catch (IOException e) {
-                        throw new RuntimeException(e);
-                    }
-                } else { // We received a line of the csv, now we append it to the file in storage.
-                    // TODO: File manipulation adapted from onFetchRecordedData() - break out to a new function to avoid code duplication?
-
-                    File outputFile = new File(dir, filename);
-                    String filenameLogID = "latestFetchedRecorderLog.txt";
-                    File outputFileLogID = new File(dir, filenameLogID);
-                    LOG.warn("Writing log to " + outputFile.toString());
-                    try {
-                        BufferedWriter writer = new BufferedWriter(new FileWriter(outputFile, true));
-                        writer.write(line);
-                        writer.close();
-                        GB.toast(getContext(), "Log written to " + filename, Toast.LENGTH_LONG, GB.INFO);
-
-                        BufferedWriter writerLogID = new BufferedWriter(new FileWriter(outputFileLogID));
-                        writerLogID.write(log);
-                        writerLogID.close();
-                        GB.toast(getContext(), "Log ID " + log + " written to " + filenameLogID, Toast.LENGTH_LONG, GB.INFO);
-                    } catch (IOException e) {
-                        LOG.warn("Could not write to file", e);
-                    }
-                }
-                };
+                handleActTrk(json);
                 break;
             case "http":
                 handleHttp(json);
@@ -925,6 +731,204 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
             Intent intent = new Intent(DeviceService.ACTION_REALTIME_SAMPLES)
                     .putExtra(DeviceService.EXTRA_REALTIME_SAMPLE, sample);
             LocalBroadcastManager.getInstance(getContext()).sendBroadcast(intent);
+        }
+    }
+
+    private void handleTrksList(JSONObject json) throws JSONException {
+        LOG.info("trksList says hi!");
+        GB.toast(getContext(), "trksList says hi!", Toast.LENGTH_LONG, GB.INFO);
+        JSONArray tracksList = json.getJSONArray("list");
+        LOG.info("New recorder logs since last fetch: " + String.valueOf(tracksList));
+        for (int i = 0; i < tracksList.length(); i ++) {
+            requestActivityTrackLog(tracksList.getString(i));
+        }
+    }
+
+    private void handleActTrk(JSONObject json) throws JSONException {
+        LOG.info("actTrk says hi!");
+        //GB.toast(getContext(), "actTrk says hi!", Toast.LENGTH_LONG, GB.INFO);
+        String log = json.getString("log");
+        String line = json.getString("line");
+        LOG.info(log);
+        LOG.info(line);
+        File dir;
+        try {
+            dir = FileUtils.getExternalFilesDir();
+        } catch (IOException e) {
+            return;
+        }
+        String filename = "recorder.log" + log + ".csv";
+
+        if (line.equals("end of recorder log")) { // TODO: Persist log to database here by reading the now completely transferred csv file from GB storage directory
+
+            File inputFile = new File(dir, filename);
+            try { // FIXME: There is maybe code inside this try-statement that should be outside of it.
+
+                // Read from the previously stored log (see the else-statement below) into a string.
+                BufferedReader reader = new BufferedReader(new FileReader(inputFile));
+                StringBuilder storedLogBuilder = new StringBuilder(reader.readLine() + "\n");
+                while ((line = reader.readLine()) != null) {
+                    storedLogBuilder.append(line).append("\n");
+                }
+                reader.close();
+                String storedLog = String.valueOf(storedLogBuilder);
+                storedLog = storedLog.replace(",",", "); // So all rows (internal arrays) in storedLogArray2 get the same number of entries.
+                LOG.info("Contents of log read from GB storage:\n" + storedLog);
+
+                // Turn the string log into a 2d array in two steps.
+                String[] storedLogArray = storedLog.split("\n") ;
+                String[][] storedLogArray2 = new String[storedLogArray.length][1];
+
+                for (int i = 0; i < storedLogArray.length; i++) {
+                    storedLogArray2[i] = storedLogArray[i].split(",");
+                    for (int j = 0; j < storedLogArray2[i].length;j++) {
+                        storedLogArray2[i][j] = storedLogArray2[i][j].trim(); // Remove the extra spaces we introduced above for getting the same number of entries on all rows.
+                    }
+                }
+
+                LOG.info("Contents of storedLogArray2:\n" + Arrays.deepToString(storedLogArray2));
+
+                // Turn the 2d array into an object for easier access later on.
+                JSONObject storedLogObject = new JSONObject();
+                JSONArray valueArray = new JSONArray();
+                for (int i = 0; i < storedLogArray2[0].length; i++){
+                    for (int j = 1; j < storedLogArray2.length; j++) {
+                        valueArray.put(storedLogArray2[j][i]);
+                    }
+                    storedLogObject.put(storedLogArray2[0][i], valueArray);
+                    valueArray = new JSONArray();
+                }
+
+                LOG.info("storedLogObject:\n" + storedLogObject);
+
+                BaseActivitySummary summary = null;
+
+                Date startTime = new Date(Long.parseLong(storedLogArray2[1][0])*1000L);
+                Date endTime = new Date(Long.parseLong(storedLogArray2[storedLogArray2.length-1][0])*1000L);
+                summary = new BaseActivitySummary();
+                summary.setName(log);
+                summary.setStartTime(startTime);
+                summary.setEndTime(endTime);
+                summary.setActivityKind(ActivityKind.TYPE_RUNNING); // TODO: Make this depend on info from watch (currently this info isn't supplied in Bangle.js recorder logs).
+                summary.setRawDetailsPath(String.valueOf(inputFile));
+                summary.setSummaryData(storedLog);
+
+                ActivityTrack track = new ActivityTrack(); // detailsParser.parse(buffer.toByteArray());
+                track.startNewSegment();
+                track.setBaseTime(startTime);
+                track.setName(log);
+                try (DBHandler dbHandler = GBApplication.acquireDB()) {
+                    DaoSession session = dbHandler.getDaoSession();
+                    Device device = DBHelper.getDevice(getDevice(), session);
+                    User user = DBHelper.getUser(session);
+                    track.setDevice(device);
+                    track.setUser(user);
+                } catch (Exception ex) {
+                    GB.toast(getContext(), "Error setting user for activity track.", Toast.LENGTH_LONG, GB.ERROR, ex);
+                }
+                ActivityPoint point = new ActivityPoint();
+                Date timeOfPoint = new Date();
+                for (int i = 0; i < storedLogObject.getJSONArray("Time").length(); i++) {
+                    timeOfPoint.setTime(storedLogObject.getJSONArray("Time").getLong(i)*1000L);
+                    point.setTime(timeOfPoint);
+                    if (storedLogObject.has("Longitude")) {
+                        if (!Objects.equals(storedLogObject.getJSONArray("Longitude").getString(i), "")
+                                && !Objects.equals(storedLogObject.getJSONArray("Latitude").getString(i), "")
+                                && !Objects.equals(storedLogObject.getJSONArray("Altitude").getString(i), "")) {
+
+                            point.setLocation(new GPSCoordinate(
+                                            storedLogObject.getJSONArray("Longitude").getDouble(i),
+                                            storedLogObject.getJSONArray("Latitude").getDouble(i),
+                                            storedLogObject.getJSONArray("Altitude").getDouble(i)
+                                    )
+                            );
+                        }
+                    }
+                    if (storedLogObject.has("Heartrate") && !Objects.equals(storedLogObject.getJSONArray("Heartrate").getString(i), "")) {
+                        point.setHeartRate(storedLogObject.getJSONArray("Heartrate").getInt(i));
+                    }
+                    track.addTrackPoint(point);
+                    point = new ActivityPoint();
+                }
+
+                ActivityTrackExporter exporter = createExporter();
+                String trackType = "track";
+                switch (summary.getActivityKind()) {
+                    case ActivityKind.TYPE_CYCLING:
+                        trackType = getContext().getString(R.string.activity_type_biking);
+                        break;
+                    case ActivityKind.TYPE_RUNNING:
+                        trackType = getContext().getString(R.string.activity_type_running);
+                        break;
+                    case ActivityKind.TYPE_WALKING:
+                        trackType = getContext().getString(R.string.activity_type_walking);
+                        break;
+                    case ActivityKind.TYPE_HIKING:
+                        trackType = getContext().getString(R.string.activity_type_hiking);
+                        break;
+                    case ActivityKind.TYPE_CLIMBING:
+                        trackType = getContext().getString(R.string.activity_type_climbing);
+                        break;
+                    case ActivityKind.TYPE_SWIMMING:
+                        trackType = getContext().getString(R.string.activity_type_swimming);
+                        break;
+                }
+
+                String fileName = FileUtils.makeValidFileName("gadgetbridge-" + trackType.toLowerCase() + "-" + summary.getName() + ".gpx");
+                File targetFile = new File(FileUtils.getExternalFilesDir(), fileName);
+
+                try {
+                    exporter.performExport(track, targetFile);
+
+                    try (DBHandler dbHandler = GBApplication.acquireDB()) {
+                        summary.setGpxTrack(targetFile.getAbsolutePath());
+                        //dbHandler.getDaoSession().getBaseActivitySummaryDao().update(summary);
+                    } catch (Exception e) {
+                        throw new RuntimeException(e);
+                    }
+                } catch (ActivityTrackExporter.GPXTrackEmptyException ex) {
+                    GB.toast(getContext(), "This activity does not contain GPX tracks.", Toast.LENGTH_LONG, GB.ERROR, ex);
+                }
+
+                //summary.setSummaryData(null); // remove json before saving to database,
+
+                try (DBHandler dbHandler = GBApplication.acquireDB()) {
+                    DaoSession session = dbHandler.getDaoSession();
+                    Device device = DBHelper.getDevice(getDevice(), session);
+                    User user = DBHelper.getUser(session);
+                    summary.setDevice(device);
+                    summary.setUser(user);
+                    session.getBaseActivitySummaryDao().insertOrReplace(summary);
+                } catch (Exception ex) {
+                    GB.toast(getContext(), "Error saving activity summary", Toast.LENGTH_LONG, GB.ERROR, ex);
+                }
+
+
+            } catch (FileNotFoundException e) {
+                throw new RuntimeException(e);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        } else { // We received a line of the csv, now we append it to the file in storage.
+            // TODO: File manipulation adapted from onFetchRecordedData() - break out to a new function to avoid code duplication?
+
+            File outputFile = new File(dir, filename);
+            String filenameLogID = "latestFetchedRecorderLog.txt";
+            File outputFileLogID = new File(dir, filenameLogID);
+            LOG.warn("Writing log to " + outputFile.toString());
+            try {
+                BufferedWriter writer = new BufferedWriter(new FileWriter(outputFile, true));
+                writer.write(line);
+                writer.close();
+                GB.toast(getContext(), "Log written to " + filename, Toast.LENGTH_LONG, GB.INFO);
+
+                BufferedWriter writerLogID = new BufferedWriter(new FileWriter(outputFileLogID));
+                writerLogID.write(log);
+                writerLogID.close();
+                GB.toast(getContext(), "Log ID " + log + " written to " + filenameLogID, Toast.LENGTH_LONG, GB.INFO);
+            } catch (IOException e) {
+                LOG.warn("Could not write to file", e);
+            }
         }
     }
 
