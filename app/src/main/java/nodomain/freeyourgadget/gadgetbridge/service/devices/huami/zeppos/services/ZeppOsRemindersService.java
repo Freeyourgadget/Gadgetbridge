@@ -139,9 +139,11 @@ public class ZeppOsRemindersService extends AbstractZeppOsService {
             return;
         }
 
-        // Send the reminders, skipping the reserved slots for calendar events
+        // Send the reminders
         for (int i = 0; i < reminders.size(); i++) {
             LOG.debug("Sending reminder at position {}", i);
+
+            sendReminderToDevice(builder, i, reminders.get(i));
         }
 
         // Delete the remaining slots, skipping the sent reminders
@@ -223,12 +225,14 @@ public class ZeppOsRemindersService extends AbstractZeppOsService {
     }
 
     private void decodeAndUpdateReminders(final byte[] payload) {
-        final int numReminders = payload[1];
+        final int numReminders = payload[1] & 0xff;
 
         if (payload.length < 3 + numReminders * 11) {
             LOG.warn("Unexpected payload length of {} for {} reminders", payload.length, numReminders);
             return;
         }
+
+        LOG.debug("Got {} reminders from band", numReminders);
 
         int i = 3;
         while (i < payload.length) {
@@ -252,7 +256,7 @@ public class ZeppOsRemindersService extends AbstractZeppOsService {
 
             i += reminderText.length() + 1;
 
-            LOG.info("Reminder {}, {}, {}, {}", reminderPosition, String.format("0x%04x", reminderFlags), reminderDate, reminderText);
+            LOG.info("Reminder[{}]: {}, {}, {}", reminderPosition, String.format("0x%04x", reminderFlags), reminderDate, reminderText);
         }
         if (i != payload.length) {
             LOG.error("Unexpected reminders payload trailer, {} bytes were not consumed", payload.length - i);
