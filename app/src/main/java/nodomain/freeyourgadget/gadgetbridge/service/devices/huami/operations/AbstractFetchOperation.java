@@ -197,7 +197,7 @@ public abstract class AbstractFetchOperation extends AbstractHuamiOperation {
                         if (expectedDataLength == 0 && isHuami2021) {
                             // Nothing to receive, if we try to fetch data it will fail
                             sendAck2021(true);
-                        } else {
+                        } else if (expectedDataLength != 0) {
                             TransactionBuilder newBuilder = createTransactionBuilder(taskName + " Step 2");
                             newBuilder.notify(characteristicActivityData, true);
                             newBuilder.write(characteristicFetch, new byte[]{HuamiService.COMMAND_FETCH_DATA});
