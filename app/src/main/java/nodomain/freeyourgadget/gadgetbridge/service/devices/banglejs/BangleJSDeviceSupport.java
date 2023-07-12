@@ -740,7 +740,7 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
         JSONArray tracksList = json.getJSONArray("list");
         LOG.info("New recorder logs since last fetch: " + String.valueOf(tracksList));
         for (int i = 0; i < tracksList.length(); i ++) {
-            requestActivityTrackLog(tracksList.getString(i));
+            requestActivityTrackLog(tracksList.getString(i), i==tracksList.length()-1);
         }
     }
 
@@ -929,6 +929,9 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
             } catch (IOException e) {
                 LOG.warn("Could not write to file", e);
             }
+        }
+        if (json.getString("last").equals("true")) {
+            getDevice().unsetBusyTask();
         }
     }
 
@@ -1610,11 +1613,12 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
         }
     }
 
-    private void requestActivityTrackLog(String id) {
+    private void requestActivityTrackLog(String id, Boolean isLastId) {
         try {
             JSONObject o = new JSONObject();
             o.put("t", "fetchRec");
             o.put("id", id);
+            o.put("last", String.valueOf(isLastId));
             uartTxJSON("requestActivityTrackLog", o);
         } catch (JSONException e) {
             LOG.info("JSONException: " + e.getLocalizedMessage());
@@ -1635,6 +1639,7 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
         }
 
         if (dataTypes == RecordedDataTypes.TYPE_GPS_TRACKS) {
+            getDevice().setBusyTask("Fetch Activity Tracks");
             GB.toast("TYPE_GPS_TRACKS says hi!", Toast.LENGTH_LONG, GB.INFO);
             File dir;
             try {
