@@ -73,6 +73,11 @@ public class AmazfitNeoCoordinator extends HuamiCoordinator {
     }
 
     @Override
+    public boolean supportsPai(){
+        return true;
+    }
+
+    @Override
     public boolean supportsWeather() {
         return true;
     }
