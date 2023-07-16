@@ -247,7 +247,7 @@
                         android:gravity="center"
                         android:maxLines="2"
                         android:scrollHorizontally="false"
-                        android:text="@string/prefs_active_noise_cancelling_level_low"
+                        android:text="@string/stress_high"
                         android:textAllCaps="true"
                         android:textColor="@color/accent"
                         android:textStyle="bold" />
