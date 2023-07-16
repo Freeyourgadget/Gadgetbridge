@@ -395,6 +395,7 @@ public abstract class AbstractDeviceSupport implements DeviceSupport {
             intent.setAction(android.content.Intent.ACTION_VIEW);
             Uri screenshotURI = FileProvider.getUriForFile(context, context.getApplicationContext().getPackageName() + ".screenshot_provider", new File(fullpath));
             intent.setDataAndType(screenshotURI, "image/*");
+            intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
 
             PendingIntent pIntent = PendingIntentUtils.getActivity(context, 0, intent, 0, false);
 
