@@ -2044,4 +2044,5 @@
     <string name="menuitem_offline_voice">Оффлайн голос</string>
     <string name="pref_title_mb_intents">Транслировать Интенты Медиа-кнопок Напрямую</string>
     <string name="pref_summary_mb_intents">Включите, если управление медиа устройства не работает для определённых приложений</string>
+    <string name="minCadence">Минимальная частота</string>
 </resources>
