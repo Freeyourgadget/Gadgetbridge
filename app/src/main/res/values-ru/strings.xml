@@ -2029,4 +2029,19 @@
     <string name="quick_alarm">Быстрое оповещение</string>
     <string name="quick_alarm_description">Оповещение из виджета</string>
     <string name="hrZoneWarmUp">Разминка</string>
+    <string name="sports_activity_confirm_delete_title">Удалить %d активностей</string>
+    <string name="pai_chart_per_month">PAI в месяц</string>
+    <string name="pai_plus_num">+%d</string>
+    <string name="num_min">%d мин.</string>
+    <string name="pai_chart_per_week">PAI в неделю</string>
+    <string name="prefs_shortcut_cards_summary">Карточки ярлыков видны при свайпе вправо на циферблате. Когда приложение запущено, авто-сгенерированные карточки не затронуты данной настройкой.</string>
+    <string name="activity_detail_share_gps_label">Поделиться GPS-треком</string>
+    <string name="activity_detail_share_raw_summary">Поделиться Необработанной Сводкой</string>
+    <string name="activity_detail_share_raw_details">Поделиться Необработанными Деталями</string>
+    <string name="dev_tools">Инструменты Разработчика</string>
+    <string name="prefs_always_on_display_follow_watchface">Стиль следует циферблату</string>
+    <string name="sports_activity_confirm_delete_description">Вы уверены, что хотите удалить %d активностей\?</string>
+    <string name="menuitem_offline_voice">Оффлайн голос</string>
+    <string name="pref_title_mb_intents">Транслировать Интенты Медиа-кнопок Напрямую</string>
+    <string name="pref_summary_mb_intents">Включите, если управление медиа устройства не работает для определённых приложений</string>
 </resources>
