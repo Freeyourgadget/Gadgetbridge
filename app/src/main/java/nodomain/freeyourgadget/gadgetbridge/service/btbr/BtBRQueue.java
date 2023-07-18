@@ -56,6 +56,7 @@ public final class BtBRQueue {
     private Context mContext;
     private CountDownLatch mConnectionLatch;
     private CountDownLatch mAvailableData;
+    private int mBufferSize;
 
     private Thread writeThread = new Thread("Gadgetbridge IO writeThread") {
         @Override
@@ -124,7 +125,7 @@ public final class BtBRQueue {
                             mAvailableData.countDown();
                         }
                     }
-                    byte[] data = new byte[1024];
+                    byte[] data = new byte[mBufferSize];
                     int len = mBtSocket.getInputStream().read(data);
                     LOG.debug("Received data: " + StringUtils.bytesToHex(data));
                     mCallback.onSocketRead(Arrays.copyOf(data, len));
@@ -140,12 +141,13 @@ public final class BtBRQueue {
         }
     };
 
-    public BtBRQueue(BluetoothAdapter btAdapter, GBDevice gbDevice, Context context, SocketCallback socketCallback, UUID supportedService) {
+    public BtBRQueue(BluetoothAdapter btAdapter, GBDevice gbDevice, Context context, SocketCallback socketCallback, UUID supportedService, int bufferSize) {
         mBtAdapter = btAdapter;
         mGbDevice = gbDevice;
         mContext = context;
         mCallback = socketCallback;
         mService = supportedService;
+        mBufferSize = bufferSize;
 
         writeThread.start();
         readThread.start();

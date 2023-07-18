@@ -42,6 +42,7 @@ import nodomain.freeyourgadget.gadgetbridge.service.btbr.actions.CheckInitialize
 public abstract class AbstractBTBRDeviceSupport extends AbstractDeviceSupport implements SocketCallback {
     private BtBRQueue mQueue;
     private UUID mSupportedService = null;
+    private int mBufferSize = 1024;
     private Logger logger;
 
     public AbstractBTBRDeviceSupport(Logger logger) {
@@ -54,7 +55,7 @@ public abstract class AbstractBTBRDeviceSupport extends AbstractDeviceSupport im
     @Override
     public boolean connect() {
         if (mQueue == null) {
-            mQueue = new BtBRQueue(getBluetoothAdapter(), getDevice(), getContext(), this, getSupportedService());
+            mQueue = new BtBRQueue(getBluetoothAdapter(), getDevice(), getContext(), this, getSupportedService(), getBufferSize());
         }
         return mQueue.connect();
     }
@@ -115,6 +116,14 @@ public abstract class AbstractBTBRDeviceSupport extends AbstractDeviceSupport im
 
     protected UUID getSupportedService() {
         return mSupportedService;
+    }
+
+    protected void setBufferSize(int bufferSize) {
+        mBufferSize = bufferSize;
+    }
+
+    protected int getBufferSize() {
+        return mBufferSize;
     }
 
     /**
