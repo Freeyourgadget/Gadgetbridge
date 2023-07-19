@@ -976,7 +976,7 @@
     <string name="minAltitude">Minimale Höhe</string>
     <string name="maxAltitude">Maximale Höhe</string>
     <string name="descentMeters">Höhenverlust</string>
-    <string name="ascentMeters">Höhengewinn</string>
+    <string name="ascentMeters">Bergauf</string>
     <string name="distanceMeters">Strecke</string>
     <string name="activity_summary_detail">Detail der Sportaktivität</string>
     <string name="maxSpeed">Maximum</string>
