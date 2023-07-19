@@ -2301,4 +2301,5 @@
     <string name="loyalty_cards">Kundenkarten</string>
     <string name="loyalty_cards_syncing">Synchronisieren der %d Kundenkarten mit dem Gerät</string>
     <string name="loyalty_cards_catima">Catima</string>
+    <string name="devicetype_bohemic_smart_bracelet">Bohemic Smart Bracelet</string>
 </resources>
