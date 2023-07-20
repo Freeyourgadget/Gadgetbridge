@@ -1291,6 +1291,7 @@
     <string name="devicetype_y5">Y5</string>
     <string name="devicetype_casiogb6900">Casio GB-6900</string>
     <string name="devicetype_casiogbx100">Casio GBX-100</string>
+    <string name="devicetype_casiogwb5600">Casio GW-B5600</string>
     <string name="devicetype_miscale2">Mi Scale 2</string>
     <string name="devicetype_itag">iTag</string>
     <string name="devicetype_bfh16">BFH-16</string>
@@ -1523,7 +1524,7 @@
     <string name="about_contributors">Contributors</string>
     <string name="about_core_team_members" translatable="false">Andreas Shimokawa\nCarsten Pfeiffer\nDaniele Gobbetti</string>
     <string name="about_additional_device_support">Additional device support</string>
-    <string name="about_additional_contributors" translatable="false">João Paulo Barraca (HPlus)\nVitaly Svyastyn (NO.1 F1)\nSami Alaoui (Teclast H30)\n“ladbsoft” (XWatch)\nSebastian Kranz (ZeTime)\nVadim Kaushan (ID115)\n“maxirnilian” (Lenovo Watch 9)\n“ksiwczynski”, “mkusnierz”, “mamutcho” (Lenovo Watch X Plus)\nAndreas Böhler (Casio GB-6900B, Casio GB-5600B, Casio GBX-100)\nJean-François Greffier (Mi Scale 2)\nJohannes Schmitt (BFH-16)\nLukas Schwichtenberg (Makibes HR3)\nDaniel Dakhno (Fossil Q Hybrid, Fossil Hybrid HR)\nGordon Williams (Bangle.js)\nPavel Elagin (JYou Y5)\nTaavi Eomäe (iTag)</string>
+    <string name="about_additional_contributors" translatable="false">João Paulo Barraca (HPlus)\nVitaly Svyastyn (NO.1 F1)\nSami Alaoui (Teclast H30)\n“ladbsoft” (XWatch)\nSebastian Kranz (ZeTime)\nVadim Kaushan (ID115)\n“maxirnilian” (Lenovo Watch 9)\n“ksiwczynski”, “mkusnierz”, “mamutcho” (Lenovo Watch X Plus)\nAndreas Böhler (Casio GB-6900B, Casio GB-5600B, Casio GBX-100)\nJean-François Greffier (Mi Scale 2)\nJohannes Schmitt (BFH-16)\nLukas Schwichtenberg (Makibes HR3)\nDaniel Dakhno (Fossil Q Hybrid, Fossil Hybrid HR)\nGordon Williams (Bangle.js)\nPavel Elagin (JYou Y5)\nTaavi Eomäe (iTag)\nJohannes Krude(Casio GW-B5600)</string>
     <string name="about_additional_contributions">Many thanks to all unlisted contributors for contributing code, translations, support, ideas, motivation, bug reports, money… ✊</string>
     <string name="about_links">Links</string>
     <string name="permission_granting_mandatory">All these permissions are required and instability might occur if not granted</string>

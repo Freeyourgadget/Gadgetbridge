@@ -8,6 +8,7 @@
 * Zepp OS: Add PAI charts
 * Bump target SDK version to 31
 * Fix media button control for some applications
+* Initial support for Casio GW-B5600
 
 #### 0.75.1
 * Fix Weather Notification integration

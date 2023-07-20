@@ -34,6 +34,7 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.banglejs.BangleJSDev
 import nodomain.freeyourgadget.gadgetbridge.service.devices.binary_sensor.BinarySensorSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.casio.gb6900.CasioGB6900DeviceSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.casio.gbx100.CasioGBX100DeviceSupport;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.casio.gwb5600.CasioGWB5600DeviceSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.domyos.DomyosT540Support;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.fitpro.FitProDeviceSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.flipper.zero.support.FlipperZeroSupport;
@@ -293,6 +294,8 @@ public class DeviceSupportFactory {
                 return new ServiceDeviceSupport(new CasioGB6900DeviceSupport());
             case CASIOGBX100:
                 return new ServiceDeviceSupport(new CasioGBX100DeviceSupport());
+            case CASIOGWB5600:
+                return new ServiceDeviceSupport(new CasioGWB5600DeviceSupport());
             case MISCALE2:
                 return new ServiceDeviceSupport(new MiScale2DeviceSupport());
             case BFH16:

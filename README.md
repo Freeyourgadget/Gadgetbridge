@@ -51,6 +51,8 @@ vendor's servers.
     - Casio GB-X6900B
     - Casio GB-6900B
     - Casio GB-5600B
+    - Casio GW-B5600
+    - Casio GMW-B5000 (untested)
     - Casio STB-1000
     - Casio GBX-100
     - Casio GBD-100

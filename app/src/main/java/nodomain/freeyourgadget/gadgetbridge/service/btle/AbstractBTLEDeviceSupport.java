@@ -1,5 +1,6 @@
-/*  Copyright (C) 2015-2021 Andreas Böhler, Andreas Shimokawa, Carsten
-    Pfeiffer, Daniel Dakhno, Daniele Gobbetti, JohnnySun, José Rebelo
+/*  Copyright (C) 2015-2023 Andreas Böhler, Andreas Shimokawa, Carsten
+    Pfeiffer, Daniel Dakhno, Daniele Gobbetti, JohnnySun, José Rebelo,
+    Johannes Krude
 
     This file is part of Gadgetbridge.
 
@@ -80,6 +81,12 @@ public abstract class AbstractBTLEDeviceSupport extends AbstractDeviceSupport im
             mQueue.setImplicitGattCallbackModify(getImplicitCallbackModify());
         }
         return mQueue.connect();
+    }
+
+    public void disconnect() {
+        if (mQueue != null) {
+            mQueue.disconnect();
+        }
     }
 
     @Override

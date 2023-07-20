@@ -1,8 +1,9 @@
-/*  Copyright (C) 2015-2020 Andreas Böhler, Andreas Shimokawa, Carsten
+/*  Copyright (C) 2015-2023 Andreas Böhler, Andreas Shimokawa, Carsten
     Pfeiffer, Cre3per, Daniel Dakhno, Daniele Gobbetti, Gordon Williams,
     Jean-François Greffier, João Paulo Barraca, José Rebelo, Kranz, ladbsoft,
     Manuel Ruß, maxirnilian, Pavel, Pavel Elagin, protomors, Quallenauge,
-    Sami Alaoui, Sebastian Kranz, Sophanimus, tiparega, Vadim Kaushan
+    Sami Alaoui, Sebastian Kranz, Sophanimus, tiparega, Vadim Kaushan,
+    Johannes Krude
 
     This file is part of Gadgetbridge.
 
@@ -92,6 +93,7 @@ public enum DeviceType {
     ROIDMI3(112, R.drawable.ic_device_roidmi, R.drawable.ic_device_roidmi_disabled, R.string.devicetype_roidmi3),
     CASIOGB6900(120, R.drawable.ic_device_default, R.drawable.ic_device_default_disabled, R.string.devicetype_casiogb6900),
     CASIOGBX100(121, R.drawable.ic_device_default, R.drawable.ic_device_default_disabled, R.string.devicetype_casiogbx100),
+    CASIOGWB5600(122, R.drawable.ic_device_default, R.drawable.ic_device_default_disabled, R.string.devicetype_casiogbx100),
     MISCALE2(131, R.drawable.ic_device_miscale2, R.drawable.ic_device_miscale2_disabled, R.string.devicetype_miscale2),
     BFH16(140, R.drawable.ic_device_default, R.drawable.ic_device_default_disabled, R.string.devicetype_bfh16),
     MAKIBESHR3(150, R.drawable.ic_device_default, R.drawable.ic_device_hplus_disabled, R.string.devicetype_makibes_hr3),
