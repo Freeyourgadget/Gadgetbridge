@@ -14,7 +14,7 @@
 
     You should have received a copy of the GNU Affero General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
-package nodomain.freeyourgadget.gadgetbridge.service.devices.casio.operations;
+package nodomain.freeyourgadget.gadgetbridge.service.devices.casio.gb6900;
 
 import android.bluetooth.BluetoothGatt;
 import android.bluetooth.BluetoothGattCharacteristic;
@@ -30,16 +30,16 @@ import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.AbstractBTLEOperation;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.SetDeviceStateAction;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.casio.CasioGB6900DeviceSupport;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.casio.gb6900.CasioGB6900DeviceSupport;
 
-public class InitOperationGB6900 extends AbstractBTLEOperation<CasioGB6900DeviceSupport> {
-    private static final Logger LOG = LoggerFactory.getLogger(InitOperationGB6900.class);
+public class InitOperation extends AbstractBTLEOperation<CasioGB6900DeviceSupport> {
+    private static final Logger LOG = LoggerFactory.getLogger(InitOperation.class);
 
     private final TransactionBuilder builder;
     private byte[] mBleSettings = null;
 
 
-    public InitOperationGB6900(CasioGB6900DeviceSupport support, TransactionBuilder builder) {
+    public InitOperation(CasioGB6900DeviceSupport support, TransactionBuilder builder) {
         super(support);
         this.builder = builder;
         builder.setCallback(this);

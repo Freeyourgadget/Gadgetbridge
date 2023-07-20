@@ -1,5 +1,5 @@
-/*  Copyright (C) 2016-2021 Andreas Böhler, Andreas Shimokawa, Carsten
-    Pfeiffer, Daniele Gobbetti, José Rebelo
+/*  Copyright (C) 2016-2023 Andreas Böhler, Andreas Shimokawa, Carsten
+    Pfeiffer, Daniele Gobbetti, José Rebelo, Johannes Krude
 
     based on code from BlueWatcher, https://github.com/masterjc/bluewatcher
 
@@ -31,10 +31,10 @@ import androidx.annotation.NonNull;
 import de.greenrobot.dao.query.QueryBuilder;
 import nodomain.freeyourgadget.gadgetbridge.GBException;
 import nodomain.freeyourgadget.gadgetbridge.R;
-import nodomain.freeyourgadget.gadgetbridge.devices.AbstractBLEDeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.InstallHandler;
 import nodomain.freeyourgadget.gadgetbridge.devices.SampleProvider;
-import nodomain.freeyourgadget.gadgetbridge.devices.casio.CasioGBX100SampleProvider;
+import nodomain.freeyourgadget.gadgetbridge.devices.casio.CasioDeviceCoordinator;
+import nodomain.freeyourgadget.gadgetbridge.devices.casio.gbx100.CasioGBX100SampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.entities.CasioGBX100ActivitySampleDao;
 import nodomain.freeyourgadget.gadgetbridge.entities.DaoSession;
 import nodomain.freeyourgadget.gadgetbridge.entities.Device;
@@ -43,7 +43,7 @@ import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceCandidate;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
 
-public class CasioGBX100DeviceCoordinator extends AbstractBLEDeviceCoordinator {
+public class CasioGBX100DeviceCoordinator extends CasioDeviceCoordinator {
     protected static final Logger LOG = LoggerFactory.getLogger(CasioGBX100DeviceCoordinator.class);
 
     @NonNull
@@ -134,11 +134,6 @@ public class CasioGBX100DeviceCoordinator extends AbstractBLEDeviceCoordinator {
     @Override
     public boolean supportsHeartRateMeasurement(GBDevice device) {
         return false;
-    }
-
-    @Override
-    public String getManufacturer() {
-        return "Casio";
     }
 
     @Override

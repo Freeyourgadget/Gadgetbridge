@@ -1,5 +1,5 @@
-/*  Copyright (C) 2016-2021 Andreas Böhler, Andreas Shimokawa, Carsten
-    Pfeiffer, Sebastian Kranz
+/*  Copyright (C) 2016-2023 Andreas Böhler, Andreas Shimokawa, Carsten
+    Pfeiffer, Sebastian Kranz, Johannes Krude
 
     This file is part of Gadgetbridge.
 
@@ -15,7 +15,7 @@
 
     You should have received a copy of the GNU Affero General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
-package nodomain.freeyourgadget.gadgetbridge.service.devices.casio;
+package nodomain.freeyourgadget.gadgetbridge.service.devices.casio.gbx100;
 
 import android.bluetooth.BluetoothGatt;
 import android.bluetooth.BluetoothGattCharacteristic;
@@ -27,15 +27,18 @@ import android.widget.Toast;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import org.threeten.bp.ZonedDateTime;
+
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Calendar;
 import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
+
+import org.threeten.bp.ZonedDateTime;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
@@ -44,7 +47,7 @@ import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHelper;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventFindPhone;
 import nodomain.freeyourgadget.gadgetbridge.devices.casio.CasioConstants;
-import nodomain.freeyourgadget.gadgetbridge.devices.casio.CasioGBX100SampleProvider;
+import nodomain.freeyourgadget.gadgetbridge.devices.casio.gbx100.CasioGBX100SampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.devices.makibeshr3.MakibesHR3Constants;
 import nodomain.freeyourgadget.gadgetbridge.entities.CasioGBX100ActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.entities.Device;
@@ -59,12 +62,12 @@ import nodomain.freeyourgadget.gadgetbridge.model.MusicSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.MusicStateSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.WeatherSpec;
-import nodomain.freeyourgadget.gadgetbridge.service.btle.AbstractBTLEDeviceSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.casio.operations.FetchStepCountDataOperation;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.casio.operations.GetConfigurationOperation;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.casio.operations.InitOperationGBX100;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.casio.operations.SetConfigurationOperation;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.casio.Casio2C2DSupport;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.casio.gbx100.FetchStepCountDataOperation;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.casio.gbx100.GetConfigurationOperation;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.casio.gbx100.InitOperation;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.casio.gbx100.SetConfigurationOperation;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 
 import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_AUTOLIGHT;
@@ -84,7 +87,7 @@ import static nodomain.freeyourgadget.gadgetbridge.model.ActivityUser.PREF_USER_
 import static nodomain.freeyourgadget.gadgetbridge.model.ActivityUser.PREF_USER_WEIGHT_KG;
 import static nodomain.freeyourgadget.gadgetbridge.model.ActivityUser.PREF_USER_YEAR_OF_BIRTH;
 
-public class CasioGBX100DeviceSupport extends CasioSupport implements SharedPreferences.OnSharedPreferenceChangeListener {
+public class CasioGBX100DeviceSupport extends Casio2C2DSupport implements SharedPreferences.OnSharedPreferenceChangeListener {
     private static final Logger LOG = LoggerFactory.getLogger(CasioGBX100DeviceSupport.class);
 
 
@@ -99,14 +102,18 @@ public class CasioGBX100DeviceSupport extends CasioSupport implements SharedPref
 
     public CasioGBX100DeviceSupport() {
         super(LOG);
+    }
 
+    @Override
+    public boolean useAutoConnect() {
+        return true;
     }
 
     @Override
     protected TransactionBuilder initializeDevice(TransactionBuilder builder) {
 
         try {
-            new InitOperationGBX100(this, builder, mFirstConnect).perform();
+            new InitOperation(this, builder, mFirstConnect).perform();
         } catch (IOException e) {
             GB.toast(getContext(), "Initializing Casio watch failed", Toast.LENGTH_SHORT, GB.ERROR, e);
         }
@@ -225,7 +232,7 @@ public class CasioGBX100DeviceSupport extends CasioSupport implements SharedPref
                 if(data[1] == 0x00) {
                     try {
                         TransactionBuilder builder = performInitialized("writeCurrentTime");
-                        writeCurrentTime(builder);
+                        writeCurrentTime(builder, ZonedDateTime.now());
                         builder.queue(getQueue());
                     } catch (IOException e) {
                         LOG.warn("writing current time failed: " + e.getMessage());
@@ -423,23 +430,6 @@ public class CasioGBX100DeviceSupport extends CasioSupport implements SharedPref
         }
     }
 
-    public void writeCurrentTime(TransactionBuilder builder) {
-        byte[] arr = new byte[11];
-        arr[0] = CasioConstants.characteristicToByte.get("CASIO_CURRENT_TIME");
-        byte[] tmp = prepareCurrentTime();
-        System.arraycopy(tmp, 0, arr, 1, 10);
-
-        writeAllFeatures(builder, arr);
-    }
-
-    public void writeAllFeatures(TransactionBuilder builder, byte[] arr) {
-        builder.write(getCharacteristic(CasioConstants.CASIO_ALL_FEATURES_CHARACTERISTIC_UUID), arr);
-    }
-
-    public void writeAllFeaturesRequest(TransactionBuilder builder, byte[] arr) {
-        builder.write(getCharacteristic(CasioConstants.CASIO_READ_REQUEST_FOR_ALL_FEATURES_CHARACTERISTIC_UUID), arr);
-    }
-
     @Override
     public void onSetAlarms(ArrayList<? extends Alarm> alarms) {
         byte[] data1 = new byte[5];
@@ -484,7 +474,7 @@ public class CasioGBX100DeviceSupport extends CasioSupport implements SharedPref
         LOG.debug("onSetTime called");
         try {
             TransactionBuilder builder = performInitialized("onSetTime");
-            writeCurrentTime(builder);
+            writeCurrentTime(builder, ZonedDateTime.now());
             builder.queue(getQueue());
         } catch (IOException e) {
             LOG.warn("onSetTime failed: " + e.getMessage());

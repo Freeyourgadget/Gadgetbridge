@@ -14,7 +14,7 @@
 
     You should have received a copy of the GNU Affero General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
-package nodomain.freeyourgadget.gadgetbridge.service.devices.casio;
+package nodomain.freeyourgadget.gadgetbridge.service.devices.casio.gb6900;
 
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothGatt;
@@ -35,6 +35,8 @@ import java.util.Calendar;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
+import org.threeten.bp.ZonedDateTime;
+
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventCallControl;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventFindPhone;
@@ -54,8 +56,10 @@ import nodomain.freeyourgadget.gadgetbridge.service.btle.GattCharacteristic;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.GattService;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.ServerTransactionBuilder;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.casio.operations.InitOperationGB6900;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.casio.operations.SetAlarmOperation;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.casio.CasioSupport;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.casio.gb6900.CasioGB6900HandlerThread;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.casio.gb6900.InitOperation;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.casio.gb6900.SetAlarmOperation;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 import nodomain.freeyourgadget.gadgetbridge.util.StringUtils;
 
@@ -65,7 +69,7 @@ public class CasioGB6900DeviceSupport extends CasioSupport {
     private static final Logger LOG = LoggerFactory.getLogger(CasioGB6900DeviceSupport.class);
 
     private final ArrayList<BluetoothGattCharacteristic> mCasioCharacteristics = new ArrayList<BluetoothGattCharacteristic>();
-    private CasioHandlerThread mHandlerThread = null;
+    private CasioGB6900HandlerThread mHandlerThread = null;
     private MusicSpec mBufferMusicSpec = null;
     private MusicStateSpec mBufferMusicStateSpec = null;
     private BluetoothGatt mBtGatt = null;
@@ -103,6 +107,11 @@ public class CasioGB6900DeviceSupport extends CasioSupport {
         casioGATTService.addCharacteristic(bluetoothGATTCharacteristic2);
 
         addSupportedServerService(casioGATTService);
+    }
+
+    @Override
+    public boolean useAutoConnect() {
+        return true;
     }
 
     @Override
@@ -161,7 +170,7 @@ public class CasioGB6900DeviceSupport extends CasioSupport {
         // BLE on the watch.
         if(mModel != CasioConstants.Model.MODEL_CASIO_STB1000) {
             try {
-                new InitOperationGB6900(this, builder).perform();
+                new InitOperation(this, builder).perform();
             } catch (IOException e) {
                 GB.toast(getContext(), "Initializing Casio watch failed", Toast.LENGTH_SHORT, GB.ERROR, e);
             }
@@ -236,7 +245,7 @@ public class CasioGB6900DeviceSupport extends CasioSupport {
     }
 
     private void writeCasioCurrentTime(TransactionBuilder builder) {
-        byte[] arr = prepareCurrentTime();
+        byte[] arr = prepareCurrentTime(ZonedDateTime.now());
 
         BluetoothGattCharacteristic charact = getCharacteristic(CasioConstants.CURRENT_TIME_CHARACTERISTIC_UUID);
         if(charact != null) {
@@ -291,7 +300,7 @@ public class CasioGB6900DeviceSupport extends CasioSupport {
                         mHandlerThread.interrupt();
                     }
                 }
-                mHandlerThread = new CasioHandlerThread(getDevice(), getContext(), this);
+                mHandlerThread = new CasioGB6900HandlerThread(getDevice(), getContext(), this);
                 mHandlerThread.start();
                 gbDevice.setState(GBDevice.State.INITIALIZED);
                 gbDevice.sendDeviceUpdateIntent(getContext());

@@ -15,7 +15,7 @@
 
     You should have received a copy of the GNU Affero General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
-package nodomain.freeyourgadget.gadgetbridge.service.devices.casio;
+package nodomain.freeyourgadget.gadgetbridge.service.devices.casio.gb6900;
 
 import android.content.Context;
 
@@ -28,8 +28,8 @@ import java.util.GregorianCalendar;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.service.serial.GBDeviceIoThread;
 
-public class CasioHandlerThread extends GBDeviceIoThread {
-    private static final Logger LOG = LoggerFactory.getLogger(CasioHandlerThread.class);
+public class CasioGB6900HandlerThread extends GBDeviceIoThread {
+    private static final Logger LOG = LoggerFactory.getLogger(CasioGB6900HandlerThread.class);
     private static final int TX_PERIOD = 60;
     private final Object waitObject = new Object();
     private boolean mQuit;
@@ -38,7 +38,7 @@ public class CasioHandlerThread extends GBDeviceIoThread {
 
     private Calendar mTxTime = GregorianCalendar.getInstance();
 
-    public CasioHandlerThread(GBDevice gbDevice, Context context, CasioGB6900DeviceSupport deviceSupport) {
+    public CasioGB6900HandlerThread(GBDevice gbDevice, Context context, CasioGB6900DeviceSupport deviceSupport) {
         super(gbDevice, context);
         LOG.info("Initializing Casio Handler Thread");
         mQuit = false;
@@ -100,7 +100,7 @@ public class CasioHandlerThread extends GBDeviceIoThread {
 
     @Override
     public void quit() {
-        LOG.info("CasioHandlerThread: Quit Handler Thread");
+        LOG.info("CasioGB6900HandlerThread: Quit Handler Thread");
         mQuit = true;
         synchronized (waitObject) {
             waitObject.notify();

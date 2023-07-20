@@ -14,13 +14,15 @@
 
     You should have received a copy of the GNU Affero General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
-package nodomain.freeyourgadget.gadgetbridge.service.devices.casio.operations;
+package nodomain.freeyourgadget.gadgetbridge.service.devices.casio.gbx100;
 
 import android.bluetooth.BluetoothGatt;
 import android.bluetooth.BluetoothGattCharacteristic;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import org.threeten.bp.ZonedDateTime;
 
 import java.io.IOException;
 import java.util.Calendar;
@@ -32,17 +34,17 @@ import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.AbstractBTLEOperation;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.SetDeviceStateAction;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.casio.CasioGBX100DeviceSupport;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.casio.gbx100.CasioGBX100DeviceSupport;
 
-public class InitOperationGBX100 extends AbstractBTLEOperation<CasioGBX100DeviceSupport> {
-    private static final Logger LOG = LoggerFactory.getLogger(InitOperationGBX100.class);
+public class InitOperation extends AbstractBTLEOperation<CasioGBX100DeviceSupport> {
+    private static final Logger LOG = LoggerFactory.getLogger(InitOperation.class);
 
     private final TransactionBuilder builder;
     private final CasioGBX100DeviceSupport support;
     private final boolean mFirstConnect;
     private boolean mWriteAllFeaturesInitPending = false;
 
-    public InitOperationGBX100(CasioGBX100DeviceSupport support, TransactionBuilder builder, boolean firstConnect) {
+    public InitOperation(CasioGBX100DeviceSupport support, TransactionBuilder builder, boolean firstConnect) {
         super(support);
         this.builder = builder;
         this.support = support;
@@ -339,7 +341,7 @@ public class InitOperationGBX100 extends AbstractBTLEOperation<CasioGBX100Device
                     LOG.debug("We need to bond here. This is actually the request for the link loss service.");
                     try {
                         TransactionBuilder builder = createTransactionBuilder("writeCurrentTime");
-                        support.writeCurrentTime(builder);
+                        support.writeCurrentTime(builder, ZonedDateTime.now());
                         writeAllFeaturesInit(builder);
                         support.performImmediately(builder);
                     } catch(IOException e) {

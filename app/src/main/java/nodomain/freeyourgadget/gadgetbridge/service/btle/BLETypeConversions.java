@@ -1,5 +1,5 @@
-/*  Copyright (C) 2016-2021 Andreas Shimokawa, Carsten Pfeiffer, Daniele
-    Gobbetti, Lukas Veneziano, Maxim Baz
+/*  Copyright (C) 2016-2023 Andreas Shimokawa, Carsten Pfeiffer, Daniele
+    Gobbetti, Lukas Veneziano, Maxim Baz, Johannes Krude
 
     This file is part of Gadgetbridge.
 
@@ -22,6 +22,8 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.TimeZone;
 
+import org.threeten.bp.ZonedDateTime;
+
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationType;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.profiles.alertnotification.AlertCategory;
@@ -37,10 +39,11 @@ public class BLETypeConversions {
      * Converts a timestamp to the byte sequence to be sent to the current time characteristic
      *
      * @param timestamp
+     * @param reason
      * @return
      * @see GattCharacteristic#UUID_CHARACTERISTIC_CURRENT_TIME
      */
-    public static byte[] calendarToCurrentTime(Calendar timestamp) {
+    public static byte[] calendarToCurrentTime(Calendar timestamp, int reason) {
         // year,year,month,dayofmonth,hour,minute,second,dayofweek,fractions256,reason
 
         byte[] year = fromUint16(timestamp.get(Calendar.YEAR));
@@ -54,7 +57,33 @@ public class BLETypeConversions {
                 fromUint8(timestamp.get(Calendar.SECOND)),
                 dayOfWeekToRawBytes(timestamp),
                 fromUint8((int) (timestamp.get(Calendar.MILLISECOND) / 1000. * 256)),
-                0, // reason (not set)
+                (byte) reason, // use 0 if unknown reason
+        };
+    }
+
+    /**
+     * Converts a timestamp to the byte sequence to be sent to the current time characteristic
+     *
+     * @param timestamp
+     * @param reason
+     * @return
+     * @see GattCharacteristic#UUID_CHARACTERISTIC_CURRENT_TIME
+     */
+    public static byte[] toCurrentTime(ZonedDateTime timestamp, int reason) {
+        // year,year,month,dayofmonth,hour,minute,second,dayofweek,fractions256,reason
+
+        byte[] year = fromUint16(timestamp.getYear());
+        return new byte[] {
+                year[0],
+                year[1],
+                fromUint8(timestamp.getMonthValue()),
+                fromUint8(timestamp.getDayOfMonth()),
+                fromUint8(timestamp.getHour()),
+                fromUint8(timestamp.getMinute()),
+                fromUint8(timestamp.getSecond()),
+                fromUint8(timestamp.getDayOfWeek().getValue()),
+                fromUint8((int) (timestamp.getNano() / 1000000000. * 256)),
+                (byte) reason, // use 0 if unknown reason
         };
     }
 

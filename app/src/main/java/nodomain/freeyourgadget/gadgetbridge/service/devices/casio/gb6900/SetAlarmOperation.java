@@ -14,7 +14,7 @@
 
     You should have received a copy of the GNU Affero General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
-package nodomain.freeyourgadget.gadgetbridge.service.devices.casio.operations;
+package nodomain.freeyourgadget.gadgetbridge.service.devices.casio.gb6900;
 
 import android.bluetooth.BluetoothGatt;
 import android.bluetooth.BluetoothGattCharacteristic;
@@ -30,11 +30,11 @@ import nodomain.freeyourgadget.gadgetbridge.devices.casio.CasioConstants;
 import nodomain.freeyourgadget.gadgetbridge.model.Alarm;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.AbstractBTLEOperation;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
-import nodomain.freeyourgadget.gadgetbridge.service.devices.casio.CasioGB6900DeviceSupport;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.casio.gb6900.CasioGB6900DeviceSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.miband.operations.OperationStatus;
 
 public class SetAlarmOperation extends AbstractBTLEOperation<CasioGB6900DeviceSupport> {
-    private static final Logger LOG = LoggerFactory.getLogger(GetConfigurationOperation.class);
+    private static final Logger LOG = LoggerFactory.getLogger(SetAlarmOperation.class);
     private final ArrayList<? extends Alarm> mAlarms;
 
     public SetAlarmOperation(CasioGB6900DeviceSupport support, ArrayList<? extends Alarm> alarms) {
