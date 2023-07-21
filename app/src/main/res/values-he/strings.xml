@@ -2294,4 +2294,5 @@
     <string name="pref_title_mb_intents">שידור Intents של כפתורי מדיה ישירות</string>
     <string name="pref_summary_mb_intents">יש להפעיל אם בקרת המדיה של המכשיר לא עובדת ביישומים מסוימים</string>
     <string name="devicetype_bohemic_smart_bracelet">צמיד חכם של Bohemic</string>
+    <string name="devicetype_vivomove_hr">Garmin Vivomove HR‎</string>
 </resources>
