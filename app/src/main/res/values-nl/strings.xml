@@ -2295,4 +2295,5 @@
     <string name="pref_title_mb_intents">Broadcast Media Knop Intents Direct</string>
     <string name="pref_summary_mb_intents">Inschakelen als mediabediening van apparaat niet werkt voor bepaalde apps</string>
     <string name="devicetype_bohemic_smart_bracelet">Bohemic Smart Armband</string>
+    <string name="devicetype_vivomove_hr">Garmin Vivomove HR</string>
 </resources>
