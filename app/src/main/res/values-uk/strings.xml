@@ -2303,4 +2303,5 @@
     <string name="pref_title_mb_intents">Безпосередньо транслювати дії медіакнопок</string>
     <string name="pref_summary_mb_intents">Увімкніть, якщо керування музикою не працює у певних застосунках</string>
     <string name="devicetype_bohemic_smart_bracelet">Розумний браслет Bohemic</string>
+    <string name="devicetype_vivomove_hr">Garmin Vivomove HR</string>
 </resources>
