@@ -2295,4 +2295,5 @@
     <string name="pref_title_mb_intents">广播媒体按钮直接广播意图</string>
     <string name="pref_summary_mb_intents">如果设备媒体控制对某些应用程序不起作用，则可以启用</string>
     <string name="devicetype_bohemic_smart_bracelet">Bohemic 智能手环</string>
+    <string name="devicetype_vivomove_hr">佳明 Vivomove HR</string>
 </resources>
