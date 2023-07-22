@@ -44,6 +44,14 @@ public class CasioGWB5600DeviceSupport extends Casio2C2DSupport {
     }
 
     @Override
+    public boolean connectFirstTime() {
+    // remove this workaround in case Gadgetbridge fixes
+    // https://codeberg.org/Freeyourgadget/Gadgetbridge/issues/3216
+        setAutoReconnect(true);
+        return connect();
+    }
+
+    @Override
     protected TransactionBuilder initializeDevice(TransactionBuilder builder) {
         // remove this workaround once Gadgetbridge does discovery on initial pairing
         if (getCharacteristic(CasioConstants.CASIO_READ_REQUEST_FOR_ALL_FEATURES_CHARACTERISTIC_UUID) == null ||
