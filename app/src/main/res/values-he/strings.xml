@@ -2295,4 +2295,14 @@
     <string name="pref_summary_mb_intents">יש להפעיל אם בקרת המדיה של המכשיר לא עובדת ביישומים מסוימים</string>
     <string name="devicetype_bohemic_smart_bracelet">צמיד חכם של Bohemic</string>
     <string name="devicetype_vivomove_hr">Garmin Vivomove HR‎</string>
+    <string name="busy_task_fetch_sports_summaries">תקצירי הספורט מעודכנים</string>
+    <string name="busy_task_fetch_sports_details">פרטי הספורט מתעדכנים</string>
+    <string name="busy_task_fetch_debug_logs">יומני ניפוי התקלות מעודכנים</string>
+    <string name="busy_task_fetch_pai_data">נתוני PAI מעודכנים</string>
+    <string name="busy_task_fetch_spo2_data">נתוני חמצן בדם מעודכנים</string>
+    <string name="busy_task_fetch_hr_data">נתוני דופק מעודכנים</string>
+    <string name="busy_task_fetch_stress_data">נתוני הלחץ מעודכנים</string>
+    <string name="busy_task_fetch_sleep_respiratory_rate_data">נתוני קצב נשימות בשינה מעודכנים</string>
+    <string name="devicetype_casiogwb5600">Casio GW-B5600‎</string>
+    <string name="devicetype_casiogmwb5000">Casio GMW-B5000‎</string>
 </resources>
