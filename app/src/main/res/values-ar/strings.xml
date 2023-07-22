@@ -2283,4 +2283,12 @@
     <string name="devicetype_vivomove_hr">غارمين فيفوموفوف HR</string>
     <string name="devicetype_casiogwb5600">كاسيو GW-B5600</string>
     <string name="devicetype_casiogmwb5000">كاسيو GMW-B5000</string>
+    <string name="busy_task_fetch_sports_details">جلب التفاصيل الرياضية</string>
+    <string name="busy_task_fetch_hr_data">جلب بيانات معدل ضربات القلب</string>
+    <string name="busy_task_fetch_sleep_respiratory_rate_data">جلب بيانات معدل التنفس أثناء النوم</string>
+    <string name="busy_task_fetch_sports_summaries">جلب ملخصات الرياضة</string>
+    <string name="busy_task_fetch_debug_logs">جلب سجلات التصحيح</string>
+    <string name="busy_task_fetch_stress_data">جلب بيانات الإجهاد</string>
+    <string name="busy_task_fetch_pai_data">جلب بيانات PAI</string>
+    <string name="busy_task_fetch_spo2_data">جلب بيانات SpO2</string>
 </resources>
