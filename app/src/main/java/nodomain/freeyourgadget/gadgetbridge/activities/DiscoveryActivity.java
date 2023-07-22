@@ -18,9 +18,10 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.activities;
 
+import static nodomain.freeyourgadget.gadgetbridge.util.GB.toast;
+
 import android.Manifest;
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothManager;
@@ -64,6 +65,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.core.app.ActivityCompat;
 
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -93,8 +96,6 @@ import nodomain.freeyourgadget.gadgetbridge.util.BondingUtil;
 import nodomain.freeyourgadget.gadgetbridge.util.DeviceHelper;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
-
-import static nodomain.freeyourgadget.gadgetbridge.util.GB.toast;
 
 
 public class DiscoveryActivity extends AbstractGBActivity implements AdapterView.OnItemClickListener, AdapterView.OnItemLongClickListener, BondingInterface {
@@ -834,7 +835,7 @@ public class DiscoveryActivity extends AbstractGBActivity implements AdapterView
             linearLayout.addView(deviceListSpinner);
             linearLayout.addView(macLayout);
 
-            new AlertDialog.Builder(DiscoveryActivity.this)
+            new MaterialAlertDialogBuilder(DiscoveryActivity.this)
                     .setCancelable(true)
                     .setTitle(R.string.add_test_device)
                     .setView(linearLayout)

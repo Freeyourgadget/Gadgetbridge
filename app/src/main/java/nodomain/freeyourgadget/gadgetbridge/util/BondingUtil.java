@@ -20,7 +20,6 @@ import static androidx.core.app.ActivityCompat.startIntentSenderForResult;
 import static nodomain.freeyourgadget.gadgetbridge.util.GB.toast;
 
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.bluetooth.BluetoothClass;
 import android.bluetooth.BluetoothDevice;
 import android.companion.AssociationRequest;
@@ -37,6 +36,8 @@ import android.os.Looper;
 import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
+
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -195,7 +196,7 @@ public class BondingUtil {
             // Do nothing
             return;
         } else if (bondingStyle == DeviceCoordinator.BONDING_STYLE_ASK) {
-            new AlertDialog.Builder(bondingInterface.getContext())
+            new MaterialAlertDialogBuilder(bondingInterface.getContext())
                     .setCancelable(true)
                     .setTitle(bondingInterface.getContext().getString(R.string.discovery_pair_title, deviceCandidate.getName()))
                     .setMessage(bondingInterface.getContext().getString(R.string.discovery_pair_question))

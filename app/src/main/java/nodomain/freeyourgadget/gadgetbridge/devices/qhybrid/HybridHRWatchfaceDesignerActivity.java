@@ -17,7 +17,6 @@
 package nodomain.freeyourgadget.gadgetbridge.devices.qhybrid;
 
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.BroadcastReceiver;
 import android.content.ContentResolver;
 import android.content.Context;
@@ -31,7 +30,6 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.Paint;
-
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -41,19 +39,16 @@ import android.view.DragEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
+
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -68,10 +63,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Iterator;
-import java.util.LinkedHashMap;
-import java.util.TimeZone;
 import java.util.UUID;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
@@ -115,7 +107,7 @@ public class HybridHRWatchfaceDesignerActivity extends AbstractGBActivity implem
                     }
                 } else {
                     readyToCloseActivity = false;
-                    new AlertDialog.Builder(HybridHRWatchfaceDesignerActivity.this)
+                    new MaterialAlertDialogBuilder(HybridHRWatchfaceDesignerActivity.this)
                             .setMessage(R.string.watchface_upload_failed)
                             .setPositiveButton(R.string.ok, null)
                             .show();
@@ -223,7 +215,7 @@ public class HybridHRWatchfaceDesignerActivity extends AbstractGBActivity implem
                     LinearLayout.LayoutParams.MATCH_PARENT,
                     LinearLayout.LayoutParams.MATCH_PARENT);
             input.setLayoutParams(lp);
-            new AlertDialog.Builder(this)
+            new MaterialAlertDialogBuilder(this)
                     .setView(input)
                     .setNegativeButton(R.string.fossil_hr_new_action_cancel, null)
                     .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
@@ -605,7 +597,7 @@ public class HybridHRWatchfaceDesignerActivity extends AbstractGBActivity implem
                 File cacheDir = mCoordinator.getAppCacheDir();
                 File destFile = new File(cacheDir, app.getUUID().toString() + mCoordinator.getAppFileExtension());
                 if (destFile.exists()) {
-                    new AlertDialog.Builder(this)
+                    new MaterialAlertDialogBuilder(this)
                             .setMessage(R.string.watchface_cache_confirm_overwrite)
                             .setNegativeButton(R.string.no, null)
                             .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {

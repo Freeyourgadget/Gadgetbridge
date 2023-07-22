@@ -1,7 +1,6 @@
 package nodomain.freeyourgadget.gadgetbridge.activities;
 
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.appwidget.AppWidgetManager;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -9,6 +8,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Pair;
 import android.widget.ListView;
+
+import androidx.appcompat.app.AlertDialog;
+
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,7 +23,6 @@ import java.util.Map;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
-import nodomain.freeyourgadget.gadgetbridge.Widget;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHelper;
 import nodomain.freeyourgadget.gadgetbridge.devices.DeviceCoordinator;
@@ -59,7 +61,7 @@ public class WidgetConfigurationActivity extends Activity {
             finish();
         }
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(WidgetConfigurationActivity.this);
+        MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(WidgetConfigurationActivity.this);
         builder.setTitle(R.string.widget_settings_select_device_title);
 
         allDevices = getAllDevices(getApplicationContext());

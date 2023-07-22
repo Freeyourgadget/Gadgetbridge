@@ -34,17 +34,16 @@ import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.Dev
 import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_SONY_SOUND_POSITION;
 import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_SONY_SURROUND_MODE;
 
-import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Parcel;
 
 import androidx.preference.EditTextPreference;
-
-import android.app.ProgressDialog;
-import android.content.DialogInterface;
-
 import androidx.preference.ListPreference;
 import androidx.preference.Preference;
+
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -154,7 +153,7 @@ public class SonyHeadphonesSettingsCustomizer implements DeviceSpecificSettingsC
 
                     final Context context = preference.getContext();
 
-                    new AlertDialog.Builder(context)
+                    new MaterialAlertDialogBuilder(context)
                             .setTitle(R.string.sony_anc_optimize_confirmation_title)
                             .setMessage(R.string.sony_anc_optimize_confirmation_description)
                             .setIcon(R.drawable.ic_hearing)

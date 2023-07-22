@@ -16,7 +16,6 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.devices.qhybrid;
 
-import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.pm.PackageInfo;
@@ -37,9 +36,13 @@ import android.widget.RadioGroup;
 import android.widget.ScrollView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
+
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+
 import nodomain.freeyourgadget.gadgetbridge.service.devices.qhybrid.requests.misfit.PlayNotificationRequest;
 
-public class TimePicker extends AlertDialog.Builder {
+public class TimePicker extends MaterialAlertDialogBuilder {
     ImageView pickerView;
     Canvas pickerCanvas;
     Bitmap pickerBitmap;

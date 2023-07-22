@@ -22,6 +22,7 @@ import android.os.Bundle;
 import androidx.fragment.app.DialogFragment;
 import androidx.preference.EditTextPreference;
 import androidx.preference.ListPreference;
+import androidx.preference.MultiSelectListPreference;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceCategory;
 import androidx.preference.PreferenceFragmentCompat;
@@ -40,10 +41,11 @@ import org.slf4j.LoggerFactory;
 import java.util.Collections;
 import java.util.Set;
 
-import nodomain.freeyourgadget.gadgetbridge.R;
-import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsActivity;
 import nodomain.freeyourgadget.gadgetbridge.util.XTimePreference;
 import nodomain.freeyourgadget.gadgetbridge.util.XTimePreferenceFragment;
+import nodomain.freeyourgadget.gadgetbridge.util.dialogs.MaterialEditTextPreferenceDialogFragment;
+import nodomain.freeyourgadget.gadgetbridge.util.dialogs.MaterialListPreferenceDialogFragment;
+import nodomain.freeyourgadget.gadgetbridge.util.dialogs.MaterialMultiSelectListPreferenceDialogFragment;
 
 public abstract class AbstractPreferenceFragment extends PreferenceFragmentCompat {
     protected static final Logger LOG = LoggerFactory.getLogger(AbstractPreferenceFragment.class);
@@ -92,24 +94,24 @@ public abstract class AbstractPreferenceFragment extends PreferenceFragmentCompa
         DialogFragment dialogFragment;
         if (preference instanceof XTimePreference) {
             dialogFragment = new XTimePreferenceFragment();
-            final Bundle bundle = new Bundle(1);
-            bundle.putString("key", preference.getKey());
-            dialogFragment.setArguments(bundle);
-            dialogFragment.setTargetFragment(this, 0);
-            if (getFragmentManager() != null) {
-                dialogFragment.show(getFragmentManager(), "androidx.preference.PreferenceFragment.DIALOG");
-            }
         } else if (preference instanceof DragSortListPreference) {
             dialogFragment = new DragSortListPreferenceFragment();
-            final Bundle bundle = new Bundle(1);
-            bundle.putString("key", preference.getKey());
-            dialogFragment.setArguments(bundle);
-            dialogFragment.setTargetFragment(this, 0);
-            if (getFragmentManager() != null) {
-                dialogFragment.show(getFragmentManager(), "androidx.preference.PreferenceFragment.DIALOG");
-            }
+        } else if (preference instanceof EditTextPreference) {
+            dialogFragment = MaterialEditTextPreferenceDialogFragment.newInstance(preference.getKey());
+        } else if (preference instanceof ListPreference) {
+            dialogFragment = MaterialListPreferenceDialogFragment.newInstance(preference.getKey());
+        } else if (preference instanceof MultiSelectListPreference) {
+            dialogFragment = MaterialMultiSelectListPreferenceDialogFragment.newInstance(preference.getKey());
         } else {
             super.onDisplayPreferenceDialog(preference);
+            return;
+        }
+        final Bundle bundle = new Bundle(1);
+        bundle.putString("key", preference.getKey());
+        dialogFragment.setArguments(bundle);
+        dialogFragment.setTargetFragment(this, 0);
+        if (getFragmentManager() != null) {
+            dialogFragment.show(getFragmentManager(), "androidx.preference.PreferenceFragment.DIALOG");
         }
     }
 

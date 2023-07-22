@@ -16,7 +16,6 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.activities;
 
-import android.app.AlertDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -30,12 +29,12 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Locale;
 import java.util.TimeZone;
@@ -92,7 +91,7 @@ public class ConfigureWorldClocks extends AbstractGBActivity {
 
                 if (mGBWorldClockListAdapter.getItemCount() >= deviceSlots) {
                     // No more free slots
-                    new AlertDialog.Builder(v.getContext())
+                    new MaterialAlertDialogBuilder(v.getContext())
                             .setTitle(R.string.world_clock_no_free_slots_title)
                             .setMessage(getBaseContext().getString(R.string.world_clock_no_free_slots_description, String.format(Locale.getDefault(), "%d", deviceSlots)))
                             .setIcon(R.drawable.ic_warning)

@@ -1,17 +1,22 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
 
-    <style name="GadgetbridgeTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+    <!-- light theme -->
+    <style name="GadgetbridgeTheme" parent="Theme.Material3.Light">
         <item name="textColorPrimary">@color/primarytext_light</item>
         <item name="textColorSecondary">@color/secondarytext</item>
         <item name="textColorTertiary">@color/tertiarytext_light</item>
 
-        <item name="colorPrimary">@color/primary_light</item>
+        <item name="colorPrimary">@color/primarydark_light</item>
         <item name="colorPrimaryDark">@color/primarydark_light</item>
-        <item name="colorAccent">@color/accent</item>
 
-        <item name="android:buttonStyle">@style/Widget.AppCompat.Button.Colored</item>
-        <item name="buttonStyle">@style/Widget.AppCompat.Button.Colored</item>
+        <item name="colorPrimaryContainer">@color/accent</item>
+        <item name="colorOnPrimaryContainer">@android:color/white</item>
 
+        <item name="actionBarStyle">@style/GadgetbridgeTheme.RedActionBar</item>
+        <item name="drawerArrowStyle">@style/GadgetbridgeTheme.DrawerButtonStyle</item>
+        <item name="toolbarNavigationButtonStyle">@style/GadgetbridgeTheme.NavigationButtonStyle</item>
+
+        <item name="drawer_header_color">?attr/colorPrimaryDark</item>
         <item name="chart_deep_sleep">@color/chart_deep_sleep_light</item>
         <item name="chart_light_sleep">@color/chart_light_sleep_light</item>
         <item name="chart_rem_sleep">@color/chart_rem_sleep_light</item>
@@ -21,24 +26,22 @@
         <item name="sports_activity_summary_background">@color/chart_heartrate_fill</item>
     </style>
 
-    <style name="GadgetbridgeTheme.NoActionBar">
-        <item name="windowActionBar">false</item>
-        <item name="windowNoTitle">true</item>
-    </style>
-
     <!-- dark theme -->
-    <style name="GadgetbridgeThemeDark" parent="Theme.AppCompat">
+    <style name="GadgetbridgeThemeDark" parent="Theme.Material3.Dark">
         <item name="textColorPrimary">@color/primarytext_dark</item>
         <item name="textColorSecondary">@color/secondarytext</item>
         <item name="textColorTertiary">@color/tertiarytext_dark</item>
 
-        <item name="colorPrimary">@color/primary_dark</item>
+        <item name="colorPrimary">@color/primarydark_dark</item>
         <item name="colorPrimaryDark">@color/primarydark_dark</item>
-        <item name="colorAccent">@color/accent</item>
 
-        <item name="android:buttonStyle">@style/ButtonDark</item>
-        <item name="buttonStyle">@style/ButtonDark</item>
+        <item name="colorOnPrimary">@android:color/white</item>
+        <item name="colorPrimaryContainer">@color/accent</item>
+        <item name="colorOnPrimaryContainer">@android:color/white</item>
 
+        <item name="actionBarStyle">@style/GadgetbridgeTheme.RedActionBar</item>
+
+        <item name="drawer_header_color">?attr/colorPrimaryDark</item>
         <item name="chart_deep_sleep">@color/chart_deep_sleep_dark</item>
         <item name="chart_light_sleep">@color/chart_light_sleep_dark</item>
         <item name="chart_rem_sleep">@color/chart_rem_sleep_dark</item>
@@ -50,52 +53,80 @@
     </style>
 
     <!-- black theme -->
-    <style name="GadgetbridgeThemeBlack" parent="Theme.AppCompat">
-        <item name="textColorPrimary">@color/primarytext_dark</item>
-        <item name="textColorSecondary">@color/secondarytext</item>
-        <item name="textColorTertiary">@color/tertiarytext_dark</item>
+    <style name="GadgetbridgeThemeBlack" parent="GadgetbridgeThemeDark">
         <item name="android:windowBackground">@android:color/black</item>
-
-        <item name="colorPrimary">@color/primary_dark</item>
-        <item name="colorPrimaryDark">@color/primarydark_dark</item>
-        <item name="colorAccent">@color/accent</item>
-
-        <item name="android:buttonStyle">@style/ButtonDark</item>
-        <item name="buttonStyle">@style/ButtonDark</item>
-
-        <item name="chart_deep_sleep">@color/chart_deep_sleep_dark</item>
-        <item name="chart_light_sleep">@color/chart_light_sleep_dark</item>
-        <item name="chart_rem_sleep">@color/chart_rem_sleep_dark</item>
-        <item name="chart_activity">@color/chart_activity_dark</item>
-        <item name="chart_not_worn">@color/chart_not_worn_dark</item>
-        <item name="alternate_row_background">@color/alternate_row_background_dark</item>
-        <item name="sports_activity_summary_background">@color/alternate_row_background_dark</item>
-
     </style>
 
-
-    <style name="ButtonDark" parent="Widget.AppCompat.Button.Colored">
-        <item name="android:textColor">@color/btn_dark</item>
+    <!-- Material 3 dynamic color (Material You) themes -->
+    <style name="GadgetbridgeThemeDynamicLight" parent="Theme.Material3.DynamicColors.Light">
+        <item name="actionBarStyle">@style/GadgetbridgeThemeDynamic.ActionBar</item>
+        <item name="android:statusBarColor">?attr/colorSurface</item>
+        <item name="android:windowLightStatusBar" tools:targetApi="23">true</item>
+        <item name="drawer_header_color">?attr/colorSurface</item>
+        <item name="alternate_row_background">?attr/colorSecondaryContainer</item>
+    </style>
+    <style name="GadgetbridgeThemeDynamicDark" parent="Theme.Material3.DynamicColors.Dark">
+        <item name="actionBarStyle">@style/GadgetbridgeThemeDynamic.ActionBar</item>
+        <item name="android:statusBarColor">?attr/colorSurface</item>
+        <item name="android:windowLightStatusBar" tools:targetApi="23">false</item>
+        <item name="drawer_header_color">?attr/colorSurface</item>
+        <item name="alternate_row_background">?attr/colorSecondaryContainer</item>
+    </style>
+    <style name="GadgetbridgeThemeDynamicDarkAmoled" parent="GadgetbridgeThemeDynamicDark">
+        <item name="android:windowBackground">@android:color/black</item>
     </style>
 
+    <!-- theme variants without action bar -->
+    <style name="GadgetbridgeTheme.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
     <style name="GadgetbridgeThemeDark.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
     </style>
-
     <style name="GadgetbridgeThemeBlack.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
     </style>
+    <style name="GadgetbridgeThemeDynamicLight.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+    <style name="GadgetbridgeThemeDynamicDark.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+    <style name="GadgetbridgeThemeDynamicDarkAmoled.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
 
+    <!-- action bar styles -->
+    <style name="GadgetbridgeTheme.RedActionBar" parent="Widget.Material3.ActionBar.Solid">
+        <item name="titleTextStyle">@style/GadgetbridgeTheme.ActionBarTitleStyle</item>
+        <item name="background">@color/primarydark_dark</item>
+    </style>
+    <style name="GadgetbridgeThemeDynamic.ActionBar" parent="Widget.Material3.ActionBar.Solid">
+        <item name="background">?attr/colorSurface</item>
+    </style>
+    <style name="GadgetbridgeTheme.DrawerButtonStyle" parent="@style/Widget.AppCompat.DrawerArrowToggle">
+        <item name="spinBars">true</item>
+        <item name="color">@android:color/white</item>
+    </style>
+    <style name="GadgetbridgeTheme.NavigationButtonStyle" parent="Widget.AppCompat.Toolbar.Button.Navigation">
+        <item name="tint">@android:color/white</item>
+    </style>
+    <style name="GadgetbridgeTheme.AppBarOverlay" parent="ThemeOverlay.Material3.DynamicColors.DayNight" />
+    <style name="GadgetbridgeTheme.PopupOverlay" parent="ThemeOverlay.Material3.DynamicColors.DayNight" />
+    <style name="GadgetbridgeTheme.ActionBarTitleStyle" parent="TextAppearance.Material3.ActionBar.Title">
+        <item name="android:textColor">@color/primarytext_dark</item>
+    </style>
 
-    <style name="GadgetbridgeTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
-
-    <style name="GadgetbridgeTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
-
+    <!-- splash screen -->
     <style name="SplashTheme" parent="GadgetbridgeTheme.NoActionBar">
-        <item tools:targetApi="21" name="android:statusBarColor">@color/primarydark_dark</item>
-        <item tools:targetApi="21" name="android:navigationBarColor">@color/primarydark_dark</item>
+        <item name="android:statusBarColor">@color/primarydark_dark</item>
+        <item name="android:navigationBarColor">@color/primarydark_dark</item>
         <item name="android:windowBackground">@drawable/splash</item>
     </style>
 </resources>

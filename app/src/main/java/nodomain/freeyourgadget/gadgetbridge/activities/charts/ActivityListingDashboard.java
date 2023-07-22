@@ -13,7 +13,6 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
-import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.FragmentActivity;
 
 import org.slf4j.Logger;
@@ -22,7 +21,6 @@ import org.slf4j.LoggerFactory;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
@@ -36,15 +34,15 @@ import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySession;
 import nodomain.freeyourgadget.gadgetbridge.util.DateTimeUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.DeviceHelper;
+import nodomain.freeyourgadget.gadgetbridge.util.dialogs.MaterialDialogFragment;
 
-public class ActivityListingDashboard extends DialogFragment {
+public class ActivityListingDashboard extends MaterialDialogFragment {
     protected static final Logger LOG = LoggerFactory.getLogger(ActivityListingDashboard.class);
     GBDevice gbDevice;
     ActivityListingAdapter stepListAdapter;
     ActivitySession stepSessionsSummary;
     private int timeFrom;
     private int timeTo;
-    private View fragmentView;
 
     public ActivityListingDashboard() {
 
@@ -91,19 +89,18 @@ public class ActivityListingDashboard extends DialogFragment {
             throw new IllegalArgumentException("Must provide a device when invoking this activity");
         }
         stepListAdapter = new ActivityListingAdapter(getContext());
-        fragmentView = view;
 
-        final TextView battery_status_date_from_text = (TextView) view.findViewById(R.id.battery_status_date_from_text);
-        final TextView battery_status_date_to_text = (TextView) view.findViewById(R.id.battery_status_date_to_text);
-        LinearLayout battery_status_date_to_layout = (LinearLayout) view.findViewById(R.id.battery_status_date_to_layout);
-        final SeekBar battery_status_time_span_seekbar = (SeekBar) view.findViewById(R.id.battery_status_time_span_seekbar);
+        final TextView battery_status_date_from_text = (TextView) getView().findViewById(R.id.battery_status_date_from_text);
+        final TextView battery_status_date_to_text = (TextView) getView().findViewById(R.id.battery_status_date_to_text);
+        LinearLayout battery_status_date_to_layout = (LinearLayout) getView().findViewById(R.id.battery_status_date_to_layout);
+        final SeekBar battery_status_time_span_seekbar = (SeekBar) getView().findViewById(R.id.battery_status_time_span_seekbar);
 
         boolean activity_list_debug_extra_time_range_value = GBApplication.getPrefs().getPreferences().getBoolean("activity_list_debug_extra_time_range", false);
 
         if (!activity_list_debug_extra_time_range_value) {
             battery_status_time_span_seekbar.setMax(3);
         }
-        final TextView battery_status_time_span_text = (TextView) view.findViewById(R.id.battery_status_time_span_text);
+        final TextView battery_status_time_span_text = (TextView) getView().findViewById(R.id.battery_status_time_span_text);
 
         battery_status_time_span_seekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
 
@@ -223,8 +220,8 @@ public class ActivityListingDashboard extends DialogFragment {
     }
 
     void indicate_progress(boolean inProgress) {
-        LinearLayout activity_list_dashboard_results_layout = fragmentView.findViewById(R.id.activity_list_dashboard_results_layout);
-        RelativeLayout activity_list_dashboard_loading_layout = fragmentView.findViewById(R.id.activity_list_dashboard_loading_layout);
+        LinearLayout activity_list_dashboard_results_layout = getView().findViewById(R.id.activity_list_dashboard_results_layout);
+        RelativeLayout activity_list_dashboard_loading_layout = getView().findViewById(R.id.activity_list_dashboard_loading_layout);
         if (inProgress) {
             activity_list_dashboard_results_layout.setVisibility(View.GONE);
             activity_list_dashboard_loading_layout.setVisibility(View.VISIBLE);
@@ -235,16 +232,16 @@ public class ActivityListingDashboard extends DialogFragment {
     }
 
     void populateData(ActivitySession item) {
-        TextView stepLabel = fragmentView.findViewById(R.id.line_layout_step_label);
-        TextView stepTotalLabel = fragmentView.findViewById(R.id.line_layout_total_step_label);
-        TextView distanceLabel = fragmentView.findViewById(R.id.line_layout_distance_label);
-        TextView durationLabel = fragmentView.findViewById(R.id.line_layout_duration_label);
-        TextView sessionCountLabel = fragmentView.findViewById(R.id.line_layout_count_label);
-        LinearLayout durationLayout = fragmentView.findViewById(R.id.line_layout_duration);
-        LinearLayout countLayout = fragmentView.findViewById(R.id.line_layout_count);
-        LinearLayout stepsLayout = fragmentView.findViewById(R.id.line_layout_step);
-        LinearLayout stepsTotalLayout = fragmentView.findViewById(R.id.line_layout_total_step);
-        LinearLayout distanceLayout = fragmentView.findViewById(R.id.line_layout_distance);
+        TextView stepLabel = getView().findViewById(R.id.line_layout_step_label);
+        TextView stepTotalLabel = getView().findViewById(R.id.line_layout_total_step_label);
+        TextView distanceLabel = getView().findViewById(R.id.line_layout_distance_label);
+        TextView durationLabel = getView().findViewById(R.id.line_layout_duration_label);
+        TextView sessionCountLabel = getView().findViewById(R.id.line_layout_count_label);
+        LinearLayout durationLayout = getView().findViewById(R.id.line_layout_duration);
+        LinearLayout countLayout = getView().findViewById(R.id.line_layout_count);
+        LinearLayout stepsLayout = getView().findViewById(R.id.line_layout_step);
+        LinearLayout stepsTotalLayout = getView().findViewById(R.id.line_layout_total_step);
+        LinearLayout distanceLayout = getView().findViewById(R.id.line_layout_distance);
 
         stepLabel.setText(stepListAdapter.getStepLabel(item));
         stepTotalLabel.setText(stepListAdapter.getStepTotalLabel(item));

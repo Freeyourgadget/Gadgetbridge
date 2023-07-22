@@ -5,12 +5,11 @@
     <item
         android:id="@+id/charts_fetch_activity_data"
         app:showAsAction="ifRoom"
-        android:icon="@android:drawable/stat_notify_sync_noanim"
+        android:icon="@drawable/ic_refresh"
         android:title="@string/controlcenter_fetch_activity_data"/>
     <item
         android:id="@+id/prefs_charts_menu"
         android:icon="@drawable/ic_settings"
         android:title="@string/pref_header_charts"
-        app:iconTint="@color/primarytext_dark"
         app:showAsAction="ifRoom" />
 </menu>

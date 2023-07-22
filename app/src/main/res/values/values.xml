@@ -127,5 +127,6 @@
     <item name="pref_theme_value_system" translatable="false" type="string">system</item>
     <item name="pref_theme_value_light" translatable="false" type="string">light</item>
     <item name="pref_theme_value_dark" translatable="false" type="string">dark</item>
+    <item name="pref_theme_value_dynamic" translatable="false" type="string">dynamic</item>
 
 </resources>

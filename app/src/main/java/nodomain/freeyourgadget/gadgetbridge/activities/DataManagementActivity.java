@@ -17,7 +17,6 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.activities;
 
-import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -35,7 +34,10 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.core.app.NavUtils;
+
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -98,7 +100,7 @@ public class DataManagementActivity extends AbstractGBActivity {
                     e.printStackTrace();
                 }
 
-                AlertDialog.Builder builder = new AlertDialog.Builder(DataManagementActivity.this);
+                MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(DataManagementActivity.this);
                 builder.setTitle("Export/Import directory content:");
 
                 ArrayAdapter<String> directory_listing = new ArrayAdapter<String>(DataManagementActivity.this, android.R.layout.simple_list_item_1, export_path.list());
@@ -328,7 +330,7 @@ public class DataManagementActivity extends AbstractGBActivity {
     }
 
     private void exportDB() {
-        new AlertDialog.Builder(this)
+        new MaterialAlertDialogBuilder(this)
                 .setCancelable(true)
                 .setIcon(R.drawable.ic_warning)
                 .setTitle(R.string.dbmanagementactivity_export_data_title)
@@ -356,7 +358,7 @@ public class DataManagementActivity extends AbstractGBActivity {
     }
 
     private void importDB() {
-        new AlertDialog.Builder(this)
+        new MaterialAlertDialogBuilder(this)
                 .setCancelable(true)
                 .setIcon(R.drawable.ic_warning)
                 .setTitle(R.string.dbmanagementactivity_import_data_title)
@@ -387,7 +389,7 @@ public class DataManagementActivity extends AbstractGBActivity {
     }
 
     private void deleteActivityDatabase() {
-        new AlertDialog.Builder(this)
+        new MaterialAlertDialogBuilder(this)
                 .setCancelable(true)
                 .setIcon(R.drawable.ic_warning)
                 .setTitle(R.string.dbmanagementactivity_delete_activity_data_title)
@@ -411,7 +413,7 @@ public class DataManagementActivity extends AbstractGBActivity {
     }
 
     private void deleteOldActivityDbFile() {
-        new AlertDialog.Builder(this)
+        new MaterialAlertDialogBuilder(this)
                 .setCancelable(true)
                 .setTitle(R.string.dbmanagementactivity_delete_old_activity_db)
                 .setIcon(R.drawable.ic_warning)
@@ -426,16 +428,16 @@ public class DataManagementActivity extends AbstractGBActivity {
                 }
             }
         });
-        new AlertDialog.Builder(this).setNegativeButton(R.string.Cancel, new DialogInterface.OnClickListener() {
+        new MaterialAlertDialogBuilder(this).setNegativeButton(R.string.Cancel, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
             }
         });
-        new AlertDialog.Builder(this).show();
+        new MaterialAlertDialogBuilder(this).show();
     }
 
     private void cleanExportDirectory() {
-        new AlertDialog.Builder(this)
+        new MaterialAlertDialogBuilder(this)
                 .setCancelable(true)
                 .setIcon(R.drawable.ic_warning)
                 .setTitle(R.string.activity_DB_clean_export_directory_warning_title)

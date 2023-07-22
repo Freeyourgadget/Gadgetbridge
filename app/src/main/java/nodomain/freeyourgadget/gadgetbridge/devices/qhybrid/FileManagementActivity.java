@@ -16,7 +16,6 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.devices.qhybrid;
 
-import android.app.AlertDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -31,6 +30,8 @@ import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
+
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -145,7 +146,7 @@ public class FileManagementActivity extends AbstractGBActivity implements View.O
                     if (!handleFound)
                         text = "File does not start with a known handle. Are you sure the header is already generated?";
                     text += " Repeat to continue anyway.";
-                    new AlertDialog.Builder(this)
+                    new MaterialAlertDialogBuilder(this)
                             .setTitle("warning")
                             .setMessage(text)
                             .setPositiveButton("ok", null)

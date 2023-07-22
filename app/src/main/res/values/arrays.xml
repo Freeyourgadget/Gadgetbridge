@@ -4,11 +4,13 @@
         <item>@string/pref_theme_system</item>
         <item>@string/pref_theme_light</item>
         <item>@string/pref_theme_dark</item>
+        <item>@string/pref_theme_dynamic</item>
     </string-array>
     <string-array name="pref_theme_values">
         <item>@string/pref_theme_value_system</item>
         <item>@string/pref_theme_value_light</item>
         <item>@string/pref_theme_value_dark</item>
+        <item>@string/pref_theme_value_dynamic</item>
     </string-array>
 
     <string-array name="pref_language_options">

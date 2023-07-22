@@ -209,12 +209,9 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="4dp"
                 android:layout_marginTop="7dp"
-                android:background="@color/accent"
-                android:buttonTint="@color/btn_dark"
                 android:padding="4dp"
                 android:paddingLeft="10dp"
                 android:text="Activity summary extra date range (takes long to generate when used)"
-                android:textColor="@android:color/white"
                 android:textStyle="bold"
                 grid:layout_columnSpan="2" />
             <Button

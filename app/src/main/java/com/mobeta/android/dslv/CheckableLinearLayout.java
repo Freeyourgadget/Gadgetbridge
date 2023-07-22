@@ -7,7 +7,7 @@ import android.widget.LinearLayout;
 
 public class CheckableLinearLayout extends LinearLayout implements Checkable {
 
-    private static final int CHECKABLE_CHILD_INDEX = 1;
+    private static final int CHECKABLE_CHILD_INDEX = 0;
     private Checkable child;
 
     public CheckableLinearLayout(Context context, AttributeSet attrs) {

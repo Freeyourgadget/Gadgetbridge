@@ -17,7 +17,6 @@
 package nodomain.freeyourgadget.gadgetbridge.adapter;
 
 
-import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.view.LayoutInflater;
@@ -29,12 +28,13 @@ import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 import java.util.TimeZone;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
@@ -83,7 +83,7 @@ public class GBWorldClockListAdapter extends RecyclerView.Adapter<GBWorldClockLi
         holder.container.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                new AlertDialog.Builder(v.getContext())
+                new MaterialAlertDialogBuilder(v.getContext())
                         .setTitle(v.getContext().getString(R.string.world_clock_delete_confirm_title, worldClock.getLabel()))
                         .setMessage(R.string.world_clock_delete_confirm_description)
                         .setIcon(R.drawable.ic_warning)

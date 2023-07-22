@@ -17,8 +17,9 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.adapter;
 
+import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_CONNECT;
+
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -58,6 +59,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AlertDialog;
 import androidx.cardview.widget.CardView;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
@@ -71,6 +73,7 @@ import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
 import com.github.mikephil.charting.utils.MPPointF;
 import com.google.android.flexbox.FlexboxLayout;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.snackbar.Snackbar;
 import com.jaredrummler.android.colorpicker.ColorPickerDialog;
 import com.jaredrummler.android.colorpicker.ColorPickerDialogListener;
@@ -119,8 +122,6 @@ import nodomain.freeyourgadget.gadgetbridge.util.DeviceHelper;
 import nodomain.freeyourgadget.gadgetbridge.util.FormatUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 import nodomain.freeyourgadget.gadgetbridge.util.StringUtils;
-
-import static nodomain.freeyourgadget.gadgetbridge.model.DeviceService.ACTION_CONNECT;
 
 /**
  * Adapter for displaying GBDevice instances.
@@ -548,7 +549,7 @@ public class GBDeviceAdapterv2 extends ListAdapter<GBDevice, GBDeviceAdapterv2.V
         holder.findDevice.setOnClickListener(new View.OnClickListener() {
                                                  @Override
                                                  public void onClick(View v) {
-                                                     new AlertDialog.Builder(context)
+                                                     new MaterialAlertDialogBuilder(context)
                                                              .setCancelable(true)
                                                              .setTitle(context.getString(R.string.controlcenter_find_device))
                                                              .setMessage(context.getString(R.string.find_lost_device_message, device.getName()))
@@ -626,7 +627,7 @@ public class GBDeviceAdapterv2 extends ListAdapter<GBDevice, GBDeviceAdapterv2.V
 
             @Override
             public void onClick(View view) {
-                final AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                final MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(context);
                 final LayoutInflater inflater = LayoutInflater.from(context);
                 final View frequency_picker_view = inflater.inflate(R.layout.dialog_frequency_picker, null);
                 builder.setTitle(R.string.preferences_fm_frequency);
@@ -714,7 +715,7 @@ public class GBDeviceAdapterv2 extends ListAdapter<GBDevice, GBDeviceAdapterv2.V
                             public void onClick(DialogInterface dialog, int which) {
                                 float frequency = (float) (frequency_decimal_picker.getValue() + (0.1 * frequency_fraction_picker.getValue()));
                                 if (frequency < FREQ_MIN || frequency > FREQ_MAX) {
-                                    new AlertDialog.Builder(context)
+                                    new MaterialAlertDialogBuilder(context)
                                             .setTitle(R.string.pref_invalid_frequency_title)
                                             .setMessage(R.string.pref_invalid_frequency_message)
                                             .setNeutralButton(android.R.string.ok, new DialogInterface.OnClickListener() {
@@ -796,7 +797,7 @@ public class GBDeviceAdapterv2 extends ListAdapter<GBDevice, GBDeviceAdapterv2.V
             holder.powerOff.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    new AlertDialog.Builder(context)
+                    new MaterialAlertDialogBuilder(context)
                             .setTitle(R.string.controlcenter_power_off_confirm_title)
                             .setMessage(R.string.controlcenter_power_off_confirm_description)
                             .setIcon(R.drawable.ic_power_settings_new)
@@ -898,7 +899,7 @@ public class GBDeviceAdapterv2 extends ListAdapter<GBDevice, GBDeviceAdapterv2.V
     }
 
     private void showRemoveDeviceDialog(final GBDevice device) {
-        new AlertDialog.Builder(context)
+        new MaterialAlertDialogBuilder(context)
                 .setCancelable(true)
                 .setTitle(context.getString(R.string.controlcenter_delete_device_name, device.getName()))
                 .setMessage(R.string.controlcenter_delete_device_dialogmessage)
@@ -1019,7 +1020,7 @@ public class GBDeviceAdapterv2 extends ListAdapter<GBDevice, GBDeviceAdapterv2.V
         linearLayout.addView(deviceListSpinner);
         linearLayout.addView(newFolderLayout);
 
-        new AlertDialog.Builder(context)
+        new MaterialAlertDialogBuilder(context)
                 .setCancelable(true)
                 .setTitle(R.string.controlcenter_set_folder_title)
                 .setView(linearLayout)
@@ -1079,7 +1080,7 @@ public class GBDeviceAdapterv2 extends ListAdapter<GBDevice, GBDeviceAdapterv2.V
         container.addView(input);
         // Specify the type of input expected; this, for example, sets the input as a password, and will mask the text
 
-        new AlertDialog.Builder(context)
+        new MaterialAlertDialogBuilder(context)
                 .setView(container)
                 .setCancelable(true)
                 .setTitle(context.getString(R.string.controlcenter_set_alias))

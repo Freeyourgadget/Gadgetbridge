@@ -49,18 +49,19 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
 import androidx.preference.ListPreference;
-import androidx.preference.ListPreferenceDialogFragmentCompat;
 import androidx.preference.Preference;
+
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import nodomain.freeyourgadget.gadgetbridge.R;
+import nodomain.freeyourgadget.gadgetbridge.util.dialogs.MaterialListPreferenceDialogFragment;
 
 
-public class DragSortListPreferenceFragment extends ListPreferenceDialogFragmentCompat implements ListPreference.TargetFragment {
+public class DragSortListPreferenceFragment extends MaterialListPreferenceDialogFragment implements ListPreference.TargetFragment {
 	protected DragSortListView mListView;
 	protected ArrayAdapter<CharSequence> mAdapter;
 
@@ -112,7 +113,7 @@ public class DragSortListPreferenceFragment extends ListPreferenceDialogFragment
 	}
 
 	@Override
-	protected void onPrepareDialogBuilder(AlertDialog.Builder builder) {
+	protected void onPrepareDialogBuilder(MaterialAlertDialogBuilder builder) {
 		// must be empty
 	}
 

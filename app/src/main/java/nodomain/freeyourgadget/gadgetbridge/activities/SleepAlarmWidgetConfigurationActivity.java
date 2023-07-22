@@ -1,7 +1,6 @@
 package nodomain.freeyourgadget.gadgetbridge.activities;
 
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.appwidget.AppWidgetManager;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -9,6 +8,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Pair;
 import android.widget.ListView;
+
+import androidx.appcompat.app.AlertDialog;
+
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -64,7 +67,7 @@ public class SleepAlarmWidgetConfigurationActivity extends Activity {
             finish();
         }
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(SleepAlarmWidgetConfigurationActivity.this);
+        MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(SleepAlarmWidgetConfigurationActivity.this);
         builder.setTitle(R.string.widget_settings_select_device_title);
 
         allDevices = getAllDevices(getApplicationContext());

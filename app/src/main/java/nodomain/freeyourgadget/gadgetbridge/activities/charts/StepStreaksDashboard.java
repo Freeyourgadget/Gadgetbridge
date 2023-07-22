@@ -23,7 +23,6 @@ import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.core.content.FileProvider;
-import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.FragmentActivity;
 
 import org.slf4j.Logger;
@@ -45,14 +44,14 @@ import nodomain.freeyourgadget.gadgetbridge.model.DailyTotals;
 import nodomain.freeyourgadget.gadgetbridge.util.DateTimeUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.FileUtils;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
+import nodomain.freeyourgadget.gadgetbridge.util.dialogs.MaterialDialogFragment;
 
-public class StepStreaksDashboard extends DialogFragment {
+public class StepStreaksDashboard extends MaterialDialogFragment {
     protected static final Logger LOG = LoggerFactory.getLogger(StepStreaksDashboard.class);
     GBDevice gbDevice;
     int stepsGoal;
     boolean cancelTasks = false;
     boolean backgroundTaskFinished = false;
-    private View fragmentView;
     private StepsStreaks stepsStreaks = new StepsStreaks();
     private static final String GOAL = "goal";
     private static final String STREAKS = "streaks";
@@ -113,7 +112,6 @@ public class StepStreaksDashboard extends DialogFragment {
 
         stepsGoal = getArguments().getInt(GOAL, 0);
         gbDevice = getArguments().getParcelable(GBDevice.EXTRA_DEVICE);
-        fragmentView = view;
         if (gbDevice == null) {
             throw new IllegalArgumentException("Must provide a device when invoking this activity");
         }
@@ -133,7 +131,7 @@ public class StepStreaksDashboard extends DialogFragment {
     }
 
     void indicate_progress(boolean inProgress) {
-        ProgressBar step_streak_dashboard_loading_circle = fragmentView.findViewById(R.id.step_streak_dashboard_loading_circle);
+        ProgressBar step_streak_dashboard_loading_circle = getView().findViewById(R.id.step_streak_dashboard_loading_circle);
         if (inProgress) {
             step_streak_dashboard_loading_circle.setAlpha(0.4f); //make it a bit softer
         } else {

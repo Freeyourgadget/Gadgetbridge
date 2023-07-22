@@ -214,6 +214,7 @@
     <string name="pref_theme_light">Light</string>
     <string name="pref_theme_dark">Dark</string>
     <string name="pref_theme_system">System</string>
+    <string name="pref_theme_dynamic">Dynamic colors</string>
     <string name="pref_theme_black_background">Use black background in Dark Theme</string>
     <string name="pref_title_language">Language</string>
     <string name="pref_title_minimize_priority">Hide the Gadgetbridge notification</string>
@@ -2217,4 +2218,5 @@
     <string name="withings_calibration_text_activity_target">Finally align the activity hand to 100%. Please be aware that this hand only moves clockwise.</string>
     <string name="withings_bt_calibration_previous">Previous</string>
     <string name="withings_bt_calibration_next">Next</string>
+    <string name="drag_handle">drag handle</string>
 </resources>
