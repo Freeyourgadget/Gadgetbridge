@@ -2303,4 +2303,6 @@
     <string name="loyalty_cards_catima">Catima</string>
     <string name="devicetype_bohemic_smart_bracelet">Bohemic Smart Bracelet</string>
     <string name="devicetype_vivomove_hr">Garmin Vivomove HR</string>
+    <string name="devicetype_casiogmwb5000">Casio GMW-B5000</string>
+    <string name="devicetype_casiogwb5600">Casio GW-B5600</string>
 </resources>
