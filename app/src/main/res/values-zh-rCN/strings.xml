@@ -2296,4 +2296,6 @@
     <string name="pref_summary_mb_intents">如果设备媒体控制对某些应用程序不起作用，则可以启用</string>
     <string name="devicetype_bohemic_smart_bracelet">Bohemic 智能手环</string>
     <string name="devicetype_vivomove_hr">佳明 Vivomove HR</string>
+    <string name="devicetype_casiogwb5600">卡西欧 GW-B5600</string>
+    <string name="devicetype_casiogmwb5000">卡西欧 GMW-B5000</string>
 </resources>
