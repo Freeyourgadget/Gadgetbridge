@@ -223,12 +223,28 @@ public abstract class Huami2021Support extends HuamiSupport implements ZeppOsFil
     public void onSendConfiguration(final String config) {
         final Prefs prefs = getDevicePrefs();
 
+        // FIXME: This should not be handled here
+        switch (config) {
+            case ActivityUser.PREF_USER_STEPS_GOAL:
+            case ActivityUser.PREF_USER_CALORIES_BURNT:
+            case ActivityUser.PREF_USER_SLEEP_DURATION:
+            case ActivityUser.PREF_USER_GOAL_WEIGHT_KG:
+            case ActivityUser.PREF_USER_GOAL_STANDING_TIME_HOURS:
+            case ActivityUser.PREF_USER_GOAL_FAT_BURN_TIME_MINUTES:
+                final TransactionBuilder builder = createTransactionBuilder("set fitness goal");
+                setFitnessGoal(builder);
+                builder.queue(getQueue());
+                return;
+        }
+
         // Check if any of the services handles this config
         for (AbstractZeppOsService service : mServiceMap.values()) {
             if (service.onSendConfiguration(config, prefs)) {
                 return;
             }
         }
+
+        LOG.warn("Unhandled config {}, will pass to HuamiSupport", config);
 
         super.onSendConfiguration(config);
     }

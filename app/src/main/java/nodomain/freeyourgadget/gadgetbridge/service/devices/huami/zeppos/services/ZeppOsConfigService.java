@@ -143,7 +143,7 @@ public class ZeppOsConfigService extends AbstractZeppOsService {
         if (setConfig(prefs, prefKey, configSetter)) {
             try {
                 // If the ConfigSetter was able to set the config, just write it and return
-                final TransactionBuilder builder = new TransactionBuilder("Sending configuration for " + prefKey);
+                final TransactionBuilder builder = new TransactionBuilder("send config " + prefKey);
                 configSetter.write(builder);
                 builder.queue(getSupport().getQueue());
             } catch (final Exception e) {
