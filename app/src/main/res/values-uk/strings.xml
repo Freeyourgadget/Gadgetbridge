@@ -2304,4 +2304,6 @@
     <string name="pref_summary_mb_intents">Увімкніть, якщо керування музикою не працює у певних застосунках</string>
     <string name="devicetype_bohemic_smart_bracelet">Розумний браслет Bohemic</string>
     <string name="devicetype_vivomove_hr">Garmin Vivomove HR</string>
+    <string name="devicetype_casiogwb5600">Casio GW-B5600</string>
+    <string name="devicetype_casiogmwb5000">Casio GMW-B5000</string>
 </resources>
