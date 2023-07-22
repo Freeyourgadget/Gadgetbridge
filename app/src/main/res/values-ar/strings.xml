@@ -2281,4 +2281,6 @@
     <string name="pref_summary_mb_intents">تمكين إذا كان التحكم في وسائط الجهاز لا يعمل مع تطبيقات معينة</string>
     <string name="devicetype_bohemic_smart_bracelet">سوار Bohemic الذكي</string>
     <string name="devicetype_vivomove_hr">غارمين فيفوموفوف HR</string>
+    <string name="devicetype_casiogwb5600">كاسيو GW-B5600</string>
+    <string name="devicetype_casiogmwb5000">كاسيو GMW-B5000</string>
 </resources>
