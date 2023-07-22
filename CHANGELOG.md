@@ -5,8 +5,10 @@
 * Initial support for Casio GW-B5600
 * Initial support for Garmin Vivomove HR
 * Amazfit GTS 2e: Add activate display on lift sensitivity
-* Huami/Zepp OS: Improve music info stability
+* Fossil/Skagen Hybrids: Strip unicode characters that the watch can't display
 * Huami/Zepp OS: Add PAI charts
+* Huami/Zepp OS: Improve music info stability
+* Huami/Zepp OS: Improve reconnection and device initialization
 * Huami: Persist workout raw details even if gpx has no points
 * Mi Band 5: Fix activity fetch error toast when stress monitoring is enabled
 * LeFun: Fix heart rate popup when measurement is triggered from phone
@@ -16,6 +18,7 @@
 * Bump target SDK version to 31
 * Fix media button control for some applications
 * Fix opening screenshots from notification on external apps
+* Fix reconnect delay reset after all devices are initialized
 * Fix transliteration of emoji
 * Fix transliteration of non-ASCII accented characters
 
