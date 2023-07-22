@@ -89,7 +89,7 @@ public abstract class AbstractFetchOperation extends AbstractHuamiOperation {
 
         TransactionBuilder builder = performInitialized(getName());
         if (fetchCount == 0) {
-            builder.add(new SetDeviceBusyAction(getDevice(), getContext().getString(R.string.busy_task_fetch_activity_data), getContext()));
+            builder.add(new SetDeviceBusyAction(getDevice(), taskDescription(), getContext()));
         }
         fetchCount++;
 
@@ -103,6 +103,11 @@ public abstract class AbstractFetchOperation extends AbstractHuamiOperation {
         startFetching(builder);
         builder.queue(getQueue());
     }
+
+    /**
+     * A task description, to display in notifications and device card.
+     */
+    protected abstract String taskDescription();
 
     protected abstract void startFetching(TransactionBuilder builder);
 
@@ -277,7 +282,7 @@ public abstract class AbstractFetchOperation extends AbstractHuamiOperation {
         setStartTimestamp(startTimestamp);
         LOG.info("Will transfer {} packets since {}", expectedDataLength, startTimestamp.getTime());
 
-        GB.updateTransferNotification(getContext().getString(R.string.busy_task_fetch_activity_data),
+        GB.updateTransferNotification(taskDescription(),
                 getContext().getString(R.string.FetchActivityOperation_about_to_transfer_since,
                         DateFormat.getDateTimeInstance().format(startTimestamp.getTime())), true, 0, getContext());
     }

@@ -28,6 +28,7 @@ import java.util.GregorianCalendar;
 import java.util.List;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
+import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHelper;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiCoordinator;
@@ -50,6 +51,11 @@ public class FetchSpo2NormalOperation extends AbstractRepeatingFetchOperation {
 
     public FetchSpo2NormalOperation(final HuamiSupport support) {
         super(support, HuamiService.COMMAND_ACTIVITY_DATA_TYPE_SPO2_NORMAL, "spo2 normal data");
+    }
+
+    @Override
+    protected String taskDescription() {
+        return getContext().getString(R.string.busy_task_fetch_spo2_data);
     }
 
     @Override

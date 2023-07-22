@@ -77,6 +77,11 @@ public class FetchSportsDetailsOperation extends AbstractFetchOperation {
     }
 
     @Override
+    protected String taskDescription() {
+        return getContext().getString(R.string.busy_task_fetch_sports_details);
+    }
+
+    @Override
     protected void startFetching(TransactionBuilder builder) {
         LOG.info("start " + getName());
         buffer = new ByteArrayOutputStream(1024);

@@ -30,6 +30,7 @@ import java.util.GregorianCalendar;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.Logging;
+import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHelper;
 import nodomain.freeyourgadget.gadgetbridge.devices.DeviceCoordinator;
@@ -61,6 +62,11 @@ public class FetchSportsSummaryOperation extends AbstractFetchOperation {
         super(support);
         setName("fetching sport summaries");
         this.fetchCount = fetchCount;
+    }
+
+    @Override
+    protected String taskDescription() {
+        return getContext().getString(R.string.busy_task_fetch_sports_summaries);
     }
 
     @Override

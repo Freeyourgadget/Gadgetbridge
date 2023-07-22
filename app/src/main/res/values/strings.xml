@@ -610,6 +610,14 @@
     <string name="pref_write_logfiles_not_available">File logging initialization failed, writing log files is currently not available. Restart the application to attempt to initialize the log files again.</string>
     <string name="initializing">Initializing</string>
     <string name="busy_task_fetch_activity_data">Fetching activity data</string>
+    <string name="busy_task_fetch_sports_summaries">Fetching sports summaries</string>
+    <string name="busy_task_fetch_sports_details">Fetching sports details</string>
+    <string name="busy_task_fetch_debug_logs">Fetching debug logs</string>
+    <string name="busy_task_fetch_stress_data">Fetching stress data</string>
+    <string name="busy_task_fetch_pai_data">Fetching PAI data</string>
+    <string name="busy_task_fetch_spo2_data">Fetching SpO2 data</string>
+    <string name="busy_task_fetch_hr_data">Fetching heart rate data</string>
+    <string name="busy_task_fetch_sleep_respiratory_rate_data">Fetching sleep respiratory rate data</string>
     <string name="sleep_activity_date_range">From %1$s to %2$s</string>
     <string name="prefs_wearside">Wearing left or right?</string>
     <string name="prefs_weardirection">Wearing direction</string>

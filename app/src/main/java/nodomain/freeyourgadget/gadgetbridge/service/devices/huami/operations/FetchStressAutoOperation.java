@@ -27,6 +27,7 @@ import java.util.GregorianCalendar;
 import java.util.List;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
+import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHandler;
 import nodomain.freeyourgadget.gadgetbridge.database.DBHelper;
 import nodomain.freeyourgadget.gadgetbridge.devices.huami.HuamiCoordinator;
@@ -49,6 +50,11 @@ public class FetchStressAutoOperation extends AbstractRepeatingFetchOperation {
 
     public FetchStressAutoOperation(final HuamiSupport support) {
         super(support, HuamiService.COMMAND_ACTIVITY_DATA_TYPE_STRESS_AUTOMATIC, "auto stress data");
+    }
+
+    @Override
+    protected String taskDescription() {
+        return getContext().getString(R.string.busy_task_fetch_stress_data);
     }
 
     @Override
