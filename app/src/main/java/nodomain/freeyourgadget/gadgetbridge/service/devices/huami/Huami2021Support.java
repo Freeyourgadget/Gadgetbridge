@@ -721,10 +721,15 @@ public abstract class Huami2021Support extends HuamiSupport implements ZeppOsFil
     }
 
     @Override
+    public HuamiSupport enableNotifications(final TransactionBuilder builder, final boolean enable) {
+        builder.notify(getCharacteristic(HuamiService.UUID_CHARACTERISTIC_CHUNKEDTRANSFER_2021_READ), enable);
+        return this;
+    }
+
+    @Override
     public Huami2021Support enableFurtherNotifications(final TransactionBuilder builder,
                                                        final boolean enable) {
-        builder.notify(getCharacteristic(HuamiService.UUID_CHARACTERISTIC_CHUNKEDTRANSFER_2021_READ), enable);
-
+        // Nothing to do here, they are already enabled from enableNotifications
         return this;
     }
 

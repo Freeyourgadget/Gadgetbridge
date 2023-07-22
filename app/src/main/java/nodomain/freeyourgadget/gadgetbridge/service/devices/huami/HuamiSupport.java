@@ -333,7 +333,10 @@ public abstract class HuamiSupport extends AbstractBTLEDeviceSupport implements 
     protected boolean isMusicAppStarted = false;
     protected MediaManager mediaManager;
     private boolean heartRateNotifyEnabled;
-    private int mMTU = 23;
+    private static final int MIN_MTU = 23;
+    private int mMTU = MIN_MTU;
+    // Keep track of the previous MTU before reconnection, so that we can request it after reconnection
+    private int previousMtu = -1;
     protected int mActivitySampleSize = 4;
 
     protected Huami2021ChunkedEncoder huami2021ChunkedEncoder;
@@ -371,6 +374,12 @@ public abstract class HuamiSupport extends AbstractBTLEDeviceSupport implements 
 
     @Override
     protected TransactionBuilder initializeDevice(TransactionBuilder builder) {
+        if (getMTU() != MIN_MTU) {
+            // Reset the MTU before re-initializing the device, otherwise initialization will sometimes fail
+            previousMtu = getMTU();
+            setMtu(MIN_MTU);
+        }
+
         try {
             byte authFlags = getAuthFlags();
             byte cryptFlags = getCryptFlags();
@@ -385,8 +394,13 @@ public abstract class HuamiSupport extends AbstractBTLEDeviceSupport implements 
             if (characteristicChunked2021Write != null && huami2021ChunkedEncoder == null) {
                 huami2021ChunkedEncoder = new Huami2021ChunkedEncoder(characteristicChunked2021Write, force2021Protocol(), mMTU);
             }
-            if (characteristicChunked2021Write != null && force2021Protocol()) {
-                new InitOperation2021(authenticate, authFlags, cryptFlags, this, builder, huami2021ChunkedEncoder, huami2021ChunkedDecoder).perform();
+            if (force2021Protocol()) {
+                if (characteristicChunked2021Write != null && characteristicChunked2021Read != null) {
+                    new InitOperation2021(authenticate, authFlags, cryptFlags, this, builder, huami2021ChunkedEncoder, huami2021ChunkedDecoder).perform();
+                } else {
+                    LOG.warn("Chunked 2021 characteristics are null, will attempt to reconnect");
+                    builder.add(new SetDeviceStateAction(getDevice(), State.WAITING_FOR_RECONNECT, getContext()));
+                }
             } else {
                 new InitOperation(authenticate, authFlags, cryptFlags, this, builder).perform();
             }
@@ -510,7 +524,6 @@ public abstract class HuamiSupport extends AbstractBTLEDeviceSupport implements 
     // TODO: tear down the notifications on quit
     public HuamiSupport enableNotifications(TransactionBuilder builder, boolean enable) {
         builder.notify(getCharacteristic(MiBandService.UUID_CHARACTERISTIC_NOTIFICATION), enable);
-        builder.notify(getCharacteristic(GattService.UUID_SERVICE_CURRENT_TIME), enable);
         // Notify CHARACTERISTIC9 to receive random auth code
         builder.notify(getCharacteristic(HuamiService.UUID_CHARACTERISTIC_AUTH), enable);
         if (characteristicChunked2021Read != null) {
@@ -4116,6 +4129,13 @@ public abstract class HuamiSupport extends AbstractBTLEDeviceSupport implements 
 
     public void phase2Initialize(TransactionBuilder builder) {
         LOG.info("phase2Initialize...");
+
+        if (previousMtu > MIN_MTU) {
+            // We're reconnecting - request the previously set MTU
+            builder.requestMtu(previousMtu);
+            previousMtu = -1;
+        }
+
         requestBatteryInfo(builder);
     }
 
@@ -4171,13 +4191,12 @@ public abstract class HuamiSupport extends AbstractBTLEDeviceSupport implements 
     }
 
     protected void setMtu(final int mtu) {
-        final Prefs prefs = getDevicePrefs();
-        if (!prefs.getBoolean(PREF_ALLOW_HIGH_MTU, true)) {
+        if (mtu > MIN_MTU && !allowHighMtu()) {
             LOG.warn("High MTU is not allowed, ignoring");
             return;
         }
 
-        if (mtu < 23) {
+        if (mtu < MIN_MTU) {
             LOG.error("Device announced unreasonable low MTU of {}, ignoring", mtu);
             return;
         }
@@ -4186,6 +4205,10 @@ public abstract class HuamiSupport extends AbstractBTLEDeviceSupport implements 
         if (huami2021ChunkedEncoder != null) {
             huami2021ChunkedEncoder.setMTU(mtu);
         }
+    }
+
+    protected boolean allowHighMtu() {
+        return getDevicePrefs().getBoolean(PREF_ALLOW_HIGH_MTU, true);
     }
 
     public int getActivitySampleSize() {
