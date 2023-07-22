@@ -1292,6 +1292,7 @@
     <string name="devicetype_casiogb6900">Casio GB-6900</string>
     <string name="devicetype_casiogbx100">Casio GBX-100</string>
     <string name="devicetype_casiogwb5600">Casio GW-B5600</string>
+    <string name="devicetype_casiogmwb5000">Casio GMW-B5000</string>
     <string name="devicetype_miscale2">Mi Scale 2</string>
     <string name="devicetype_itag">iTag</string>
     <string name="devicetype_bfh16">BFH-16</string>

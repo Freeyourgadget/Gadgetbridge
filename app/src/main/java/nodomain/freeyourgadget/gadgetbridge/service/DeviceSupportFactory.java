@@ -296,6 +296,8 @@ public class DeviceSupportFactory {
                 return new ServiceDeviceSupport(new CasioGBX100DeviceSupport());
             case CASIOGWB5600:
                 return new ServiceDeviceSupport(new CasioGWB5600DeviceSupport());
+            case CASIOGMWB5000:
+                return new ServiceDeviceSupport(new CasioGWB5600DeviceSupport());
             case MISCALE2:
                 return new ServiceDeviceSupport(new MiScale2DeviceSupport());
             case BFH16:

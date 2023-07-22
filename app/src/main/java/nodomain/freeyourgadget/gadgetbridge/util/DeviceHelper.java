@@ -60,6 +60,7 @@ import nodomain.freeyourgadget.gadgetbridge.devices.banglejs.BangleJSCoordinator
 import nodomain.freeyourgadget.gadgetbridge.devices.casio.gb6900.CasioGB6900DeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.casio.gbx100.CasioGBX100DeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.casio.gwb5600.CasioGWB5600DeviceCoordinator;
+import nodomain.freeyourgadget.gadgetbridge.devices.casio.gwb5600.CasioGMWB5000DeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.domyos.DomyosT540Coordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.galaxy_buds.GalaxyBuds2DeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.flipper.zero.FlipperZeroCoordinator;
@@ -338,6 +339,7 @@ public class DeviceHelper {
         result.add(new CasioGB6900DeviceCoordinator());
         result.add(new CasioGBX100DeviceCoordinator());
         result.add(new CasioGWB5600DeviceCoordinator());
+        result.add(new CasioGMWB5000DeviceCoordinator());
         result.add(new BFH16DeviceCoordinator());
         result.add(new MijiaLywsd02Coordinator());
         result.add(new ITagCoordinator());
