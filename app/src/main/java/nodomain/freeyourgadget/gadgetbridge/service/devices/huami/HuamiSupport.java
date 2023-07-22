@@ -2482,7 +2482,7 @@ public abstract class HuamiSupport extends AbstractBTLEDeviceSupport implements 
         final byte count = huami2021ChunkedDecoder.getLastCount();
 
         try {
-            final TransactionBuilder builder = performInitialized("send chunked ack");
+            final TransactionBuilder builder = createTransactionBuilder("send chunked ack");
             builder.write(characteristicChunked2021Read, new byte[] {0x04, 0x00, handle, 0x01, count});
             builder.queue(getQueue());
         } catch (final Exception e) {
