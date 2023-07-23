@@ -2298,4 +2298,12 @@
     <string name="devicetype_vivomove_hr">佳明 Vivomove HR</string>
     <string name="devicetype_casiogwb5600">卡西欧 GW-B5600</string>
     <string name="devicetype_casiogmwb5000">卡西欧 GMW-B5000</string>
+    <string name="busy_task_fetch_sports_summaries">正在获取运动摘要</string>
+    <string name="busy_task_fetch_sports_details">正在获取运动详情</string>
+    <string name="busy_task_fetch_debug_logs">正在获取调试日志</string>
+    <string name="busy_task_fetch_stress_data">正在获取压力数据</string>
+    <string name="busy_task_fetch_pai_data">正在获取 PAI 数据</string>
+    <string name="busy_task_fetch_spo2_data">正在获取 SpO2 数据</string>
+    <string name="busy_task_fetch_hr_data">正在获取心率数据</string>
+    <string name="busy_task_fetch_sleep_respiratory_rate_data">正在获取睡眠呼吸频率数据</string>
 </resources>
