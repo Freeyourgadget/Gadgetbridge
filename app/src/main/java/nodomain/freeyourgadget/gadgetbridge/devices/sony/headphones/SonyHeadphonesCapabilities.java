@@ -39,5 +39,6 @@ public enum SonyHeadphonesCapabilities {
     SoundPosition,
     SurroundMode,
     QuickAccess,
-    PauseWhenTakenOff
+    PauseWhenTakenOff,
+    Volume,
 }

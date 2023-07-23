@@ -201,6 +201,9 @@ public class SonyHeadphonesProtocol extends GBDeviceProtocol {
             case DeviceSettingsPreferenceConst.PREF_SONY_AUDIO_UPSAMPLING:
                 configRequest = protocolImpl.setAudioUpsampling(AudioUpsampling.fromPreferences(prefs));
                 break;
+            case DeviceSettingsPreferenceConst.PREF_VOLUME:
+                configRequest = protocolImpl.setVolume(prefs.getInt(config, 15));
+                break;
             case DeviceSettingsPreferenceConst.PREF_SONY_TOUCH_SENSOR:
                 configRequest = protocolImpl.setTouchSensor(TouchSensor.fromPreferences(prefs));
                 break;

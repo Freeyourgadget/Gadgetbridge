@@ -12,6 +12,7 @@
 * Huami: Persist workout raw details even if gpx has no points
 * Mi Band 5: Fix activity fetch error toast when stress monitoring is enabled
 * LeFun: Fix heart rate popup when measurement is triggered from phone
+* Sony WH-1000XM3/WF-SP800N: Add volume setting
 * Sony WH-1000XM5: Fix speak-to-chat enable/disable
 * Zepp OS: Add loyalty cards integration with Catima
 * Zepp OS: Fix reminder creation

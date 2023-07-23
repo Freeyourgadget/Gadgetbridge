@@ -126,5 +126,9 @@ public abstract class AbstractSonyProtocolImpl {
 
     public abstract Request powerOff();
 
+    public abstract Request getVolume();
+
+    public abstract Request setVolume(final int volume);
+
     public abstract List<? extends GBDeviceEvent> handlePayload(final MessageType messageType, final byte[] payload);
 }
