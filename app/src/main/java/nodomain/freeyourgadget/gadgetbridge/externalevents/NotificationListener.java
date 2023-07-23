@@ -96,6 +96,7 @@ import java.util.concurrent.TimeUnit;
 import static nodomain.freeyourgadget.gadgetbridge.activities.NotificationFilterActivity.NOTIFICATION_FILTER_MODE_BLACKLIST;
 import static nodomain.freeyourgadget.gadgetbridge.activities.NotificationFilterActivity.NOTIFICATION_FILTER_MODE_WHITELIST;
 import static nodomain.freeyourgadget.gadgetbridge.activities.NotificationFilterActivity.NOTIFICATION_FILTER_SUBMODE_ALL;
+import static nodomain.freeyourgadget.gadgetbridge.util.StringUtils.ensureNotNull;
 
 public class NotificationListener extends NotificationListenerService {
 
@@ -387,8 +388,9 @@ public class NotificationListener extends NotificationListenerService {
 
         dissectNotificationTo(notification, notificationSpec, preferBigText);
 
-        if (notificationSpec.body != null) {
-            if (!checkNotificationContentForWhiteAndBlackList(sbn.getPackageName().toLowerCase(), notificationSpec.title + " " + notificationSpec.body)) {
+        if (notificationSpec.title != null || notificationSpec.body != null) {
+            final String textToCheck = ensureNotNull(notificationSpec.title) + " " + ensureNotNull(notificationSpec.body);
+            if (!checkNotificationContentForWhiteAndBlackList(sbn.getPackageName().toLowerCase(), textToCheck)) {
                 return;
             }
         }

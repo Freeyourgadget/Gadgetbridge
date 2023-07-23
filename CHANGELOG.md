@@ -18,6 +18,7 @@
 * Zepp OS: Fix reminder creation
 * Bump target SDK version to 31
 * Fix media button control for some applications
+* Fix notification filters by title if notification does not contain a body
 * Fix opening screenshots from notification on external apps
 * Fix reconnect delay reset after all devices are initialized
 * Fix transliteration of emoji
