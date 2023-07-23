@@ -2306,4 +2306,12 @@
     <string name="devicetype_vivomove_hr">Garmin Vivomove HR</string>
     <string name="devicetype_casiogwb5600">Casio GW-B5600</string>
     <string name="devicetype_casiogmwb5000">Casio GMW-B5000</string>
+    <string name="busy_task_fetch_hr_data">Отримання даних про пульс</string>
+    <string name="busy_task_fetch_sleep_respiratory_rate_data">Отримання даних про частоту дихання уві сні</string>
+    <string name="busy_task_fetch_debug_logs">Отримання журналів налагодження</string>
+    <string name="busy_task_fetch_sports_summaries">Отримання спортивних підсумків</string>
+    <string name="busy_task_fetch_stress_data">Отримання даних про напруження</string>
+    <string name="busy_task_fetch_spo2_data">Отримання даних SpO2</string>
+    <string name="busy_task_fetch_sports_details">Отримання спортивних подробиць</string>
+    <string name="busy_task_fetch_pai_data">Отримання даних PAI</string>
 </resources>
