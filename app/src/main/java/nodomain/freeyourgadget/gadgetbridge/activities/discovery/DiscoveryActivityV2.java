@@ -753,6 +753,16 @@ public class DiscoveryActivityV2 extends AbstractGBActivity implements AdapterVi
     }
 
     @Override
+    public String getMacAddress() {
+        return deviceTarget.getDevice().getAddress();
+    }
+
+    @Override
+    public boolean getAttemptToConnect() {
+        return true;
+    }
+
+    @Override
     public void registerBroadcastReceivers() {
         final IntentFilter bluetoothIntents = new IntentFilter();
         bluetoothIntents.addAction(BluetoothDevice.ACTION_FOUND);

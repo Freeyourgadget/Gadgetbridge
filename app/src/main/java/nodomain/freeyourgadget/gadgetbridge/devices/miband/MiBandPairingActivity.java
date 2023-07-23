@@ -143,7 +143,7 @@ public class MiBandPairingActivity extends AbstractGBActivity implements Bonding
             return;
         }
 
-        BondingUtil.tryBondThenComplete(this, deviceCandidate);
+        BondingUtil.tryBondThenComplete(this, deviceCandidate.getDevice(), deviceCandidate.getMacAddress());
     }
 
 
@@ -187,6 +187,16 @@ public class MiBandPairingActivity extends AbstractGBActivity implements Bonding
     protected void onResume() {
         registerBroadcastReceivers();
         super.onResume();
+    }
+
+    @Override
+    public String getMacAddress() {
+        return deviceCandidate.getDevice().getAddress();
+    }
+
+    @Override
+    public boolean getAttemptToConnect() {
+        return true;
     }
 
     @Override

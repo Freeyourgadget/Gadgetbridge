@@ -28,6 +28,7 @@ import androidx.annotation.RequiresApi;
 
 import java.util.Arrays;
 
+import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.BondAction;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.NotifyAction;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.ReadAction;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.RequestConnectionPriorityAction;
@@ -85,6 +86,11 @@ public class TransactionBuilder {
         return add(
                 new RequestConnectionPriorityAction(priority)
         );
+    }
+
+    public TransactionBuilder bond() {
+        BondAction action = new BondAction();
+        return add(action);
     }
 
     public TransactionBuilder notify(BluetoothGattCharacteristic characteristic, boolean enable) {

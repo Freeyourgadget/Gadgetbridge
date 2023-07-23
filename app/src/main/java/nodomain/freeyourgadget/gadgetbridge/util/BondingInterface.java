@@ -54,6 +54,9 @@ public interface BondingInterface {
      **/
     void unregisterBroadcastReceivers();
 
+    String getMacAddress();
+
+    boolean getAttemptToConnect();
     /**
      * This forces bonding activities to handle the addition
      * of all broadcast receivers in the same place

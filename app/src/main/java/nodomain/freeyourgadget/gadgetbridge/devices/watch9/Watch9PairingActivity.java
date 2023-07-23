@@ -102,6 +102,16 @@ public class Watch9PairingActivity extends AbstractGBActivity implements Bonding
     }
 
     @Override
+    public String getMacAddress() {
+        return deviceCandidate.getDevice().getAddress();
+    }
+
+    @Override
+    public boolean getAttemptToConnect() {
+        return true;
+    }
+
+    @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         BondingUtil.handleActivityResult(this, requestCode, resultCode, data);

@@ -125,7 +125,7 @@ public class PebblePairingActivity extends AbstractGBActivity implements Bonding
                 btDevice.getBondState() == BluetoothDevice.BOND_BONDING) {
             BondingUtil.connectThenComplete(this, deviceCandidate);
         } else {
-            BondingUtil.tryBondThenComplete(this, deviceCandidate);
+            BondingUtil.tryBondThenComplete(this, deviceCandidate.getDevice(), deviceCandidate.getDevice().getAddress());
         }
     }
 
@@ -185,6 +185,16 @@ public class PebblePairingActivity extends AbstractGBActivity implements Bonding
     @Override
     public GBDeviceCandidate getCurrentTarget() {
         return this.deviceCandidate;
+    }
+
+    @Override
+    public String getMacAddress() {
+        return deviceCandidate.getDevice().getAddress();
+    }
+
+    @Override
+    public boolean getAttemptToConnect() {
+        return true;
     }
 
     @Override

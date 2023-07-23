@@ -54,7 +54,7 @@ public class CasioGB6900DeviceCoordinator extends CasioDeviceCoordinator {
 
     @Override
     public int getBondingStyle(){
-        return BONDING_STYLE_BOND;
+        return BONDING_STYLE_LAZY;
     }
 
     @Override

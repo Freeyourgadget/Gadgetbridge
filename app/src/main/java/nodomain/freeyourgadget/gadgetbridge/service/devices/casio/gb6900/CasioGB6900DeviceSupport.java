@@ -60,6 +60,7 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.casio.CasioSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.casio.gb6900.CasioGB6900HandlerThread;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.casio.gb6900.InitOperation;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.casio.gb6900.SetAlarmOperation;
+import nodomain.freeyourgadget.gadgetbridge.util.BondingUtil;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
 import nodomain.freeyourgadget.gadgetbridge.util.StringUtils;
 
@@ -151,6 +152,7 @@ public class CasioGB6900DeviceSupport extends CasioSupport {
             setInitialized();
             getDevice().setFirmwareVersion("N/A");
             getDevice().setFirmwareVersion2("N/A");
+            builder.bond();
             return builder;
         }
 

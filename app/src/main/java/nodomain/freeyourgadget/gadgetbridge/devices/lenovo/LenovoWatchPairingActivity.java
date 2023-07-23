@@ -111,6 +111,16 @@ public class LenovoWatchPairingActivity extends AbstractGBActivity implements Bo
     }
 
     @Override
+    public String getMacAddress() {
+        return deviceCandidate.getDevice().getAddress();
+    }
+
+    @Override
+    public boolean getAttemptToConnect() {
+        return true;
+    }
+
+    @Override
     protected void onResume() {
         registerBroadcastReceivers();
         super.onResume();
