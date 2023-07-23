@@ -2296,4 +2296,14 @@
     <string name="pref_summary_mb_intents">Inschakelen als mediabediening van apparaat niet werkt voor bepaalde apps</string>
     <string name="devicetype_bohemic_smart_bracelet">Bohemic Smart Armband</string>
     <string name="devicetype_vivomove_hr">Garmin Vivomove HR</string>
+    <string name="busy_task_fetch_sleep_respiratory_rate_data">Gegevens over slaapademhalingsfrequentie ophalen</string>
+    <string name="busy_task_fetch_sports_summaries">Sportoverzichten ophalen</string>
+    <string name="busy_task_fetch_debug_logs">Foutopsporingslogboeken ophalen</string>
+    <string name="busy_task_fetch_sports_details">Sportgegevens ophalen</string>
+    <string name="busy_task_fetch_stress_data">Stressgegevens ophalen</string>
+    <string name="busy_task_fetch_pai_data">PAI-gegevens ophalen</string>
+    <string name="busy_task_fetch_spo2_data">SpO2-gegevens ophalen</string>
+    <string name="busy_task_fetch_hr_data">Hartslaggegevens ophalen</string>
+    <string name="devicetype_casiogwb5600">Casio GW-B5600</string>
+    <string name="devicetype_casiogmwb5000">Casio GMW-B5000</string>
 </resources>
