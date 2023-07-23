@@ -19,6 +19,7 @@ package nodomain.freeyourgadget.gadgetbridge.activities.devicesettings;
 import android.os.Bundle;
 import android.view.MenuItem;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.fragment.app.Fragment;
 import androidx.preference.PreferenceFragmentCompat;
 import androidx.preference.PreferenceScreen;
@@ -77,7 +78,15 @@ public class DeviceSettingsActivity extends AbstractGBActivity implements
                 .replace(R.id.settings_container, fragment, preferenceScreen.getKey())
                 .addToBackStack(preferenceScreen.getKey())
                 .commit();
+
         return true;
+    }
+
+    public void setActionBarTitle(final CharSequence title) {
+        final ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setTitle(title);
+        }
     }
 
     @Override

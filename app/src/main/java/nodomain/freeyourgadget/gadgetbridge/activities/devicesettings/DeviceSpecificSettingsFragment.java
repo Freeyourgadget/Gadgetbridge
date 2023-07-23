@@ -39,6 +39,7 @@ import com.mobeta.android.dslv.DragSortListPreference;
 import com.mobeta.android.dslv.DragSortListPreferenceFragment;
 
 import org.apache.commons.lang3.ArrayUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -197,6 +198,25 @@ public class DeviceSpecificSettingsFragment extends PreferenceFragmentCompat imp
         getPreferenceManager().getSharedPreferences().unregisterOnSharedPreferenceChangeListener(sharedPreferencesChangeHandler);
 
         super.onStop();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        updateActionBarTitle();
+    }
+
+    private void updateActionBarTitle() {
+        try {
+            CharSequence title = getPreferenceScreen().getTitle();
+            if (StringUtils.isBlank(title)) {
+                title = getString(R.string.title_activity_device_specific_settings);
+            }
+            ((DeviceSettingsActivity) requireActivity()).setActionBarTitle(title);
+        } catch (final Exception e) {
+            LOG.error("Failed to update action bar title", e);
+        }
     }
 
     /*
