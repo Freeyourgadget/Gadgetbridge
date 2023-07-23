@@ -408,33 +408,38 @@
             android:title="@string/activity_prefs_discovery_pairing" />
     </PreferenceCategory>
 
-    <PreferenceCategory
-        android:key="pref_key_intent_api"
+    <PreferenceScreen
+        android:key="pref_screen_intent_api"
         android:title="@string/pref_header_intent_api">
 
-        <CheckBoxPreference
-            android:key="prefs_key_allow_bluetooth_intent_api"
-            android:title="@string/activity_prefs_allow_bluetooth_intent_api"
-            android:summary="@string/activity_prefs_summary_allow_bluetooth_intent_api" />
+        <PreferenceCategory
+            android:key="pref_key_intent_api"
+            android:title="@string/pref_header_intent_api">
 
-        <CheckBoxPreference
-            android:key="intent_api_allow_activity_sync"
-            android:title="@string/intent_api_allow_activity_sync_title"
-            android:summary="@string/intent_api_allow_activity_sync_summary" />
+            <CheckBoxPreference
+                android:key="prefs_key_allow_bluetooth_intent_api"
+                android:title="@string/activity_prefs_allow_bluetooth_intent_api"
+                android:summary="@string/activity_prefs_summary_allow_bluetooth_intent_api" />
 
-        <CheckBoxPreference
-            android:key="intent_api_allow_trigger_export"
-            android:title="@string/intent_api_allow_trigger_export_title"
-            android:summary="@string/intent_api_allow_trigger_export_summary" />
+            <CheckBoxPreference
+                android:key="intent_api_allow_activity_sync"
+                android:title="@string/intent_api_allow_activity_sync_title"
+                android:summary="@string/intent_api_allow_activity_sync_summary" />
 
-        <CheckBoxPreference
-            android:key="intent_api_broadcast_export"
-            android:title="@string/intent_api_broadcast_export_title"
-            android:summary="@string/intent_api_broadcast_export_summary" />
+            <CheckBoxPreference
+                android:key="intent_api_allow_trigger_export"
+                android:title="@string/intent_api_allow_trigger_export_title"
+                android:summary="@string/intent_api_allow_trigger_export_summary" />
 
-        <CheckBoxPreference
-            android:key="intent_api_allow_debug_commands"
-            android:title="@string/intent_api_allow_debug_commands_title"
-            android:summary="@string/intent_api_allow_debug_commands_summary" />
-    </PreferenceCategory>
+            <CheckBoxPreference
+                android:key="intent_api_broadcast_export"
+                android:title="@string/intent_api_broadcast_export_title"
+                android:summary="@string/intent_api_broadcast_export_summary" />
+
+            <CheckBoxPreference
+                android:key="intent_api_allow_debug_commands"
+                android:title="@string/intent_api_allow_debug_commands_title"
+                android:summary="@string/intent_api_allow_debug_commands_summary" />
+        </PreferenceCategory>
+    </PreferenceScreen>
 </PreferenceScreen>
