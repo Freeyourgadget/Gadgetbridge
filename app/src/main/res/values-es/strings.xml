@@ -2298,4 +2298,14 @@
     <string name="pref_summary_mb_intents">Activar si el control de medios del dispositivo no funciona para determinadas aplicaciones</string>
     <string name="devicetype_bohemic_smart_bracelet">Pulsera inteligente Bohemia</string>
     <string name="devicetype_vivomove_hr">Garmin Vivomove HR</string>
+    <string name="busy_task_fetch_sports_details">Obtener la información deportiva</string>
+    <string name="busy_task_fetch_stress_data">Obtener los datos de la tensión</string>
+    <string name="busy_task_fetch_pai_data">Obtener los datos PAI</string>
+    <string name="busy_task_fetch_spo2_data">Obtener los datos de SpO2</string>
+    <string name="busy_task_fetch_sleep_respiratory_rate_data">Obtener los datos de la respiración durante el sueño</string>
+    <string name="busy_task_fetch_sports_summaries">Consultar los resúmenes deportivos</string>
+    <string name="busy_task_fetch_debug_logs">Obtener los registros de depuración</string>
+    <string name="devicetype_casiogwb5600">Casio GW-B5600</string>
+    <string name="busy_task_fetch_hr_data">Obtener los datos de la frecuencia cardíaca</string>
+    <string name="devicetype_casiogmwb5000">Casio GMW-B5000</string>
 </resources>
