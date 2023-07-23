@@ -2299,4 +2299,15 @@ Temps de sommeil préféré en heures</string>
     <string name="pref_title_mb_intents">Diffuser les annonces Media directement</string>
     <string name="pref_summary_mb_intents">Activer si le contrôle des médias ne marchent pas dans certaines applications</string>
     <string name="devicetype_bohemic_smart_bracelet">Bohemic Smart Bracelet</string>
+    <string name="devicetype_vivomove_hr">Garmin Vivomove HR</string>
+    <string name="busy_task_fetch_stress_data">Récupération des données de stress</string>
+    <string name="busy_task_fetch_hr_data">Récupération des données de rythme cardiaque</string>
+    <string name="busy_task_fetch_sports_summaries">Récupération des résumés d\'exercice</string>
+    <string name="busy_task_fetch_sports_details">Récupération des détails d\'activité</string>
+    <string name="busy_task_fetch_debug_logs">Récupération des logs de dépannage</string>
+    <string name="busy_task_fetch_pai_data">Récupération des données RAI</string>
+    <string name="busy_task_fetch_spo2_data">Récupération des données SpO2</string>
+    <string name="busy_task_fetch_sleep_respiratory_rate_data">Récupération des données du rythme respiratoire</string>
+    <string name="devicetype_casiogwb5600">Casio GW-B5600</string>
+    <string name="devicetype_casiogmwb5000">Casio GMW-B5000</string>
 </resources>
