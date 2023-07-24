@@ -1,5 +1,5 @@
-/*  Copyright (C) 2015-2020 Andreas Shimokawa, Carsten Pfeiffer, Lem Dulfo,
-    vanous
+/*  Copyright (C) 2015-2023 Andreas Shimokawa, Carsten Pfeiffer, Lem Dulfo,
+    vanous, José Rebelo
 
     This file is part of Gadgetbridge.
 
@@ -19,49 +19,57 @@ package nodomain.freeyourgadget.gadgetbridge.activities.charts;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.preference.Preference;
+import android.text.InputType;
 
-import nodomain.freeyourgadget.gadgetbridge.GBApplication;
+import androidx.fragment.app.Fragment;
+import androidx.preference.Preference;
+
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.activities.AboutUserPreferencesActivity;
-import nodomain.freeyourgadget.gadgetbridge.activities.AbstractSettingsActivity;
-import nodomain.freeyourgadget.gadgetbridge.activities.SettingsActivity;
+import nodomain.freeyourgadget.gadgetbridge.activities.AbstractGBActivity;
 import nodomain.freeyourgadget.gadgetbridge.util.GBPrefs;
-import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 
-public class ChartsPreferencesActivity extends AbstractSettingsActivity {
+public class ChartsPreferencesActivity extends AbstractGBActivity {
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        addPreferencesFromResource(R.xml.charts_preferences);
-    }
-    @Override
-    protected void onPostCreate(Bundle savedInstanceState) {
-        super.onPostCreate(savedInstanceState);
+        setContentView(R.layout.activity_device_settings);
 
-        Preference pref = findPreference("pref_category_activity_personal");
-        pref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-            public boolean onPreferenceClick(Preference preference) {
-                Intent enableIntent = new Intent(ChartsPreferencesActivity.this, AboutUserPreferencesActivity.class);
-                startActivity(enableIntent);
-                return true;
+        if (savedInstanceState == null) {
+            Fragment fragment = getSupportFragmentManager().findFragmentByTag(ChartsPreferencesFragment.FRAGMENT_TAG);
+            if (fragment == null) {
+                fragment = new ChartsPreferencesFragment();
             }
-        });
-
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.settings_container, fragment, ChartsPreferencesFragment.FRAGMENT_TAG)
+                    .commit();
+        }
     }
 
+    public static class ChartsPreferencesFragment extends AbstractPreferenceFragment {
+        static final String FRAGMENT_TAG = "CHARTS_PREFERENCES_FRAGMENT";
 
-    @Override
-    protected String[] getPreferenceKeysWithSummary() {
-        return new String[]{
-                "chart_list_min_session_length",
-                "chart_list_max_idle_phase_length",
-                "chart_list_min_steps_per_minute",
-                "chart_list_min_steps_per_minute_for_run",
-                GBPrefs.CHART_MAX_HEART_RATE,
-                GBPrefs.CHART_MIN_HEART_RATE,
-                "chart_sleep_lines_limit",
-        };
+        @Override
+        public void onCreatePreferences(final Bundle savedInstanceState, final String rootKey) {
+            addPreferencesFromResource(R.xml.charts_preferences);
+
+            setInputTypeFor(GBPrefs.CHART_MAX_HEART_RATE, InputType.TYPE_CLASS_NUMBER);
+            setInputTypeFor(GBPrefs.CHART_MIN_HEART_RATE, InputType.TYPE_CLASS_NUMBER);
+            setInputTypeFor("chart_sleep_lines_limit", InputType.TYPE_CLASS_NUMBER);
+            setInputTypeFor("chart_list_min_session_length", InputType.TYPE_CLASS_NUMBER);
+            setInputTypeFor("chart_list_max_idle_phase_length", InputType.TYPE_CLASS_NUMBER);
+            setInputTypeFor("chart_list_min_steps_per_minute", InputType.TYPE_CLASS_NUMBER);
+            setInputTypeFor("chart_list_min_steps_per_minute_for_run", InputType.TYPE_CLASS_NUMBER);
+
+            final Preference aboutUserPref = findPreference("pref_category_activity_personal");
+            if (aboutUserPref != null) {
+                aboutUserPref.setOnPreferenceClickListener(preference -> {
+                    final Intent enableIntent = new Intent(getActivity(), AboutUserPreferencesActivity.class);
+                    startActivity(enableIntent);
+                    return true;
+                });
+            }
+        }
     }
-
 }
