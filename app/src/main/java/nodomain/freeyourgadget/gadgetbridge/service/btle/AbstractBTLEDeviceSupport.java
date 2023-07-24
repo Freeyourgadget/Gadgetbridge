@@ -79,6 +79,7 @@ public abstract class AbstractBTLEDeviceSupport extends AbstractDeviceSupport im
             mQueue = new BtLEQueue(getBluetoothAdapter(), getDevice(), this, this, getContext(), mSupportedServerServices);
             mQueue.setAutoReconnect(getAutoReconnect());
             mQueue.setImplicitGattCallbackModify(getImplicitCallbackModify());
+            mQueue.setSendWriteRequestResponse(getSendWriteRequestResponse());
         }
         return mQueue.connect();
     }
@@ -87,6 +88,19 @@ public abstract class AbstractBTLEDeviceSupport extends AbstractDeviceSupport im
         if (mQueue != null) {
             mQueue.disconnect();
         }
+    }
+
+    /**
+     * Whether to send a write request response to the device, if requested. The standard actually
+     * expects this to happen, but Gadgetbridge did not originally support it. This is set to false
+     * to prevent breaking devices that are somehow not expecting the response.
+     * <p>
+     * See also: https://codeberg.org/Freeyourgadget/Gadgetbridge/pulls/2831#issuecomment-941568
+     *
+     * @return whether to send write request responses, if a response is requested
+     */
+    public boolean getSendWriteRequestResponse() {
+        return false;
     }
 
     @Override
