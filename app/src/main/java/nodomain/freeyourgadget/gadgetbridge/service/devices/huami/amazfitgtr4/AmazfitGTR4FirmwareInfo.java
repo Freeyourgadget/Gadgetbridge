@@ -32,6 +32,7 @@ public class AmazfitGTR4FirmwareInfo extends Huami2021FirmwareInfo {
         // firmware
         put(1699, "3.17.0.2");
         put(20712, "3.18.1.1 (diff from 3.17.0.2)");
+        put(49685, "3.23.3.1 (diff from 3.21.0.1)");
     }};
 
     public AmazfitGTR4FirmwareInfo(final byte[] bytes) {
