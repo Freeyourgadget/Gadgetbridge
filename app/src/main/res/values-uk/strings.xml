@@ -2314,4 +2314,12 @@
     <string name="busy_task_fetch_spo2_data">Отримання даних SpO2</string>
     <string name="busy_task_fetch_sports_details">Отримання спортивних подробиць</string>
     <string name="busy_task_fetch_pai_data">Отримання даних PAI</string>
+    <string name="activity_prefs_goals">Цілі</string>
+    <string name="error_no_bluetooth_scan">Для коректної роботи сканування необхідно надати доступ до сканування через Bluetooth та ввімкнути його</string>
+    <string name="error_no_bluetooth_connect">Для коректної роботи сканування необхідно надати доступ до з\'єднання Bluetooth та ввімкнути його</string>
+    <string name="permission_request">%1$s дозволяє надсилати повідомлення та інші дані з Android на ваш пристрій. Для цього потрібен дозвіл на доступ до цих даних, без якого застосунок може працювати неналежним чином.
+\n
+\nЗараз вам буде показано кілька діалогових вікон Android, які запитують ці дозволи.
+\n
+\nТоркніться \'%2$s\', щоб продовжити.</string>
 </resources>
