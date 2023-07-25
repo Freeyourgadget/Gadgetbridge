@@ -2308,4 +2308,12 @@
     <string name="devicetype_casiogwb5600">Casio GW-B5600</string>
     <string name="busy_task_fetch_hr_data">Obtener los datos de la frecuencia cardíaca</string>
     <string name="devicetype_casiogmwb5000">Casio GMW-B5000</string>
+    <string name="error_no_bluetooth_scan">Para que el escaneado funcione correctamente, se debe conceder y activar el acceso al Bluetooth</string>
+    <string name="error_no_bluetooth_connect">Se debe otorgar y habilitar el acceso a la conexión Bluetooth para que el escaneo funcione correctamente</string>
+    <string name="permission_request">%1$s te permite enviar mensajes y otros datos desde Android a tu dispositivo. Para ello necesita permiso para acceder a esos datos y, sin él, podría no funcionar correctamente.
+\n
+\nAhora se mostrarán unos diálogos en Android solicitando esos permisos.
+\n
+\nPor favor, pulsa \'%2$s\' para continuar.</string>
+    <string name="activity_prefs_goals">Objetivos</string>
 </resources>
