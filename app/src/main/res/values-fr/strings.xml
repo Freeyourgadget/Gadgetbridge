@@ -2310,4 +2310,12 @@ Temps de sommeil préféré en heures</string>
     <string name="busy_task_fetch_sleep_respiratory_rate_data">Récupération des données du rythme respiratoire</string>
     <string name="devicetype_casiogwb5600">Casio GW-B5600</string>
     <string name="devicetype_casiogmwb5000">Casio GMW-B5000</string>
+    <string name="activity_prefs_goals">Objectifs</string>
+    <string name="error_no_bluetooth_scan">L\'accès au Bluetooth doit être autorisé et activé pour que le scan fonctionne correctement</string>
+    <string name="error_no_bluetooth_connect">L\'accès au Bluetooth doit être autorisé et activé pour que le scan fonctionne correctement</string>
+    <string name="permission_request">%1$s vous permet d\'envoyer des messages et d\'autres données depuis Android vers votre appareil. Pour cela il a besoin de permission pour accéder à ces données, sans quoi cela risque de ne pas fonctionner correctement.
+\n
+\nVous allez maintenant pouvoir configurer ces autorisations.
+\n
+\nMerci d\'appuyer sur \'%2$s\' pour continuer.</string>
 </resources>
