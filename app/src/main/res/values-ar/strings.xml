@@ -2291,4 +2291,12 @@
     <string name="busy_task_fetch_stress_data">جلب بيانات الإجهاد</string>
     <string name="busy_task_fetch_pai_data">جلب بيانات PAI</string>
     <string name="busy_task_fetch_spo2_data">جلب بيانات SpO2</string>
+    <string name="error_no_bluetooth_connect">يجب منح الوصول إلى اتصال Bluetooth وتمكينه للفحص ليعمل بشكل صحيح</string>
+    <string name="activity_prefs_goals">الاهداف</string>
+    <string name="error_no_bluetooth_scan">يجب منح الوصول إلى الفحص عبر Bluetooth وتمكينه حتى يعمل الفحص بشكل صحيح</string>
+    <string name="permission_request">يسمح لك %1$s بإرسال الرسائل والبيانات الأخرى من Android إلى جهازك. للقيام بذلك ، يتطلب الأمر إذنا للوصول إلى تلك البيانات وبدونها ، قد لا تعمل بشكل صحيح.
+\n
+\nستظهر لك الآن بعض مربعات حوار Android التي تطلب هذه الأذونات.
+\n
+\nالرجاء النقر على \"%2$s\" للمتابعة.</string>
 </resources>
