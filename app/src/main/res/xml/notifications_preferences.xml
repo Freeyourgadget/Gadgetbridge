@@ -1,76 +1,92 @@
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
     <PreferenceCategory xmlns:app="http://schemas.android.com/apk/res-auto"
         android:key="pref_key_notifications"
-        android:title="@string/pref_header_notifications">
+        android:title="@string/pref_header_notifications"
+        app:iconSpaceReserved="false">
 
         <Preference
             android:key="notifications_settings"
-            android:title="@string/pref_title_notifications_generic_settings" />
+            android:title="@string/pref_title_notifications_generic_settings"
+            app:iconSpaceReserved="false" />
 
         <Preference
             android:key="notifications_generic"
-            android:title="@string/pref_title_notifications_generic" />
+            android:title="@string/pref_title_notifications_generic"
+            app:iconSpaceReserved="false" />
 
-        <CheckBoxPreference
+        <SwitchPreference
             android:defaultValue="false"
             android:key="notifications_generic_whenscreenon"
             android:layout="@layout/preference_checkbox"
-            android:title="@string/pref_title_whenscreenon" />
+            android:title="@string/pref_title_whenscreenon"
+            app:iconSpaceReserved="false" />
 
-        <CheckBoxPreference
+        <SwitchPreference
             android:defaultValue="true"
             android:key="notifications_ignore_low_priority"
             android:layout="@layout/preference_checkbox"
+            android:summary="@string/pref_summary_notifications_ignore_low_priority"
             android:title="@string/pref_title_notifications_ignore_low_priority"
-            android:summary="@string/pref_summary_notifications_ignore_low_priority" />
+            app:iconSpaceReserved="false" />
 
-        <CheckBoxPreference
+        <SwitchPreference
             android:defaultValue="true"
             android:key="notification_prefer_long_text"
             android:layout="@layout/preference_checkbox"
+            android:summary="@string/pref_summary_notification_prefer_long_text"
             android:title="@string/pref_title_notification_prefer_long_text"
-            android:summary="@string/pref_summary_notification_prefer_long_text" />
+            app:iconSpaceReserved="false" />
 
-        <CheckBoxPreference
+        <SwitchPreference
             android:defaultValue="false"
             android:key="notification_cache_while_disconnected"
             android:layout="@layout/preference_checkbox"
+            android:summary="@string/pref_summary_notification_cache_while_disconnected"
             android:title="@string/pref_title_notification_cache_while_disconnected"
-            android:summary="@string/pref_summary_notification_cache_while_disconnected" />
+            app:iconSpaceReserved="false" />
 
-        <CheckBoxPreference
+        <SwitchPreference
             android:defaultValue="false"
             android:key="minimize_priority"
             android:layout="@layout/preference_checkbox"
             android:summaryOff="@string/pref_summary_minimize_priority_off"
             android:summaryOn="@string/pref_summary_minimize_priority_on"
-            android:title="@string/pref_title_minimize_priority" />
+            android:title="@string/pref_title_minimize_priority"
+            app:iconSpaceReserved="false" />
 
         <Preference
             android:id="@+id/preference"
             android:key="ping_tone"
             android:title="@string/pref_title_ping_tone"
+            app:iconSpaceReserved="false"
             app:summary="%s" />
+
         <ListPreference
             android:defaultValue="always"
             android:entries="@array/notification_mode_toggle"
             android:entryValues="@array/notification_mode_values_toggle"
             android:key="notification_mode_calls"
             android:summary="%s"
-            android:title="@string/pref_title_notifications_call" />
-        <CheckBoxPreference
+            android:title="@string/pref_title_notifications_call"
+            app:iconSpaceReserved="false" />
+
+        <SwitchPreference
             android:defaultValue="false"
             android:key="notification_support_voip_calls"
             android:layout="@layout/preference_checkbox"
-            android:title="@string/pref_title_support_voip_calls" />
+            android:title="@string/pref_title_support_voip_calls"
+            app:iconSpaceReserved="false" />
+
         <EditTextPreference
             android:defaultValue="0"
-            android:inputType="number"
             android:digits="0123456789"
+            android:inputType="number"
             android:key="notification_delay_calls"
             android:maxLength="2"
+            android:summary="@string/pref_summary_notification_delay_calls"
             android:title="@string/pref_title_notification_delay_calls"
-            android:summary="@string/pref_summary_notification_delay_calls" />
+            app:iconSpaceReserved="false" />
 
         <ListPreference
             android:defaultValue="when_screen_off"
@@ -78,7 +94,8 @@
             android:entryValues="@array/notification_mode_values"
             android:key="notification_mode_sms"
             android:summary="%s"
-            android:title="@string/pref_title_notifications_sms" />
+            android:title="@string/pref_title_notifications_sms"
+            app:iconSpaceReserved="false" />
 
         <ListPreference
             android:defaultValue="when_screen_off"
@@ -86,7 +103,8 @@
             android:entryValues="@array/notification_mode_values"
             android:key="notification_mode_pebblemsg"
             android:summary="@string/pref_summary_notifications_pebblemsg"
-            android:title="@string/pref_title_notifications_pebblemsg" />
+            android:title="@string/pref_title_notifications_pebblemsg"
+            app:iconSpaceReserved="false" />
 
         <ListPreference
             android:defaultValue="0"
@@ -94,48 +112,66 @@
             android:entryValues="@array/notifications_timeout_values"
             android:key="notifications_timeout"
             android:summary="%s"
-            android:title="@string/pref_title_notifications_timeout" />
+            android:title="@string/pref_title_notifications_timeout"
+            app:iconSpaceReserved="false" />
 
-        <CheckBoxPreference
+        <SwitchPreference
             android:defaultValue="false"
             android:key="notification_filter"
             android:layout="@layout/preference_checkbox"
             android:summary="@string/pref_summary_notification_filter"
-            android:title="@string/pref_title_notification_filter" />
+            android:title="@string/pref_title_notification_filter"
+            app:iconSpaceReserved="false" />
     </PreferenceCategory>
-    <PreferenceCategory android:title="@string/pref_header_notification_application_settings">
+
+    <PreferenceCategory
+        android:title="@string/pref_header_notification_application_settings"
+        app:iconSpaceReserved="false">
+
         <ListPreference
             android:defaultValue="true"
             android:entries="@array/notification_list_is_blacklist_names"
             android:entryValues="@array/notification_list_is_blacklist_values"
             android:key="notification_list_is_blacklist"
             android:summary="%s"
-            android:title="@string/pref_title_notification_use_as" />
-        <CheckBoxPreference
+            android:title="@string/pref_title_notification_use_as"
+            app:iconSpaceReserved="false" />
+
+        <SwitchPreference
             android:defaultValue="false"
             android:key="notification_media_ignores_application_list"
             android:layout="@layout/preference_checkbox"
             android:summary="@string/pref_summary_notification_media_ignores_application_list"
-            android:title="@string/pref_title_notification_media_ignores_application_list" />
+            android:title="@string/pref_title_notification_media_ignores_application_list"
+            app:iconSpaceReserved="false" />
+
         <Preference
             android:key="pref_key_blacklist"
-            android:title="@string/pref_applications_settings" />
+            android:title="@string/pref_applications_settings"
+            app:iconSpaceReserved="false" />
     </PreferenceCategory>
-    <PreferenceCategory android:title="@string/pref_header_privacy">
+
+    <PreferenceCategory
+        android:title="@string/pref_header_privacy"
+        app:iconSpaceReserved="false">
+
         <ListPreference
             android:defaultValue="@string/p_call_privacy_mode_off"
             android:entries="@array/pref_call_privacy_mode"
             android:entryValues="@array/pref_call_privacy_mode_values"
             android:key="pref_call_privacy_mode"
             android:summary="%s"
-            android:title="@string/pref_title_call_privacy_mode" />
+            android:title="@string/pref_title_call_privacy_mode"
+            app:iconSpaceReserved="false" />
+
         <ListPreference
             android:defaultValue="off"
             android:entries="@array/pref_message_privacy_mode"
             android:entryValues="@array/pref_message_privacy_mode_values"
             android:key="pref_message_privacy_mode"
             android:summary="%s"
-            android:title="@string/pref_title_message_privacy_mode" />
+            android:title="@string/pref_title_message_privacy_mode"
+            app:iconSpaceReserved="false" />
     </PreferenceCategory>
 
 </PreferenceScreen>

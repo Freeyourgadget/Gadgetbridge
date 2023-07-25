@@ -22,7 +22,6 @@ import android.os.Bundle;
 import androidx.fragment.app.Fragment;
 
 import nodomain.freeyourgadget.gadgetbridge.R;
-import nodomain.freeyourgadget.gadgetbridge.activities.charts.AbstractPreferenceFragment;
 
 public class DiscoveryPairingPreferenceActivity extends AbstractGBActivity {
     @Override
