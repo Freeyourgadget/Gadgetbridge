@@ -2,10 +2,12 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <PreferenceCategory
+        app:iconSpaceReserved="false"
         android:key="pref_category_activity_personal"
         android:title="@string/activity_prefs_about_you">
 
         <EditTextPreference
+            app:iconSpaceReserved="false"
             android:inputType="number"
             android:key="activity_user_year_of_birth"
             android:maxLength="4"
@@ -13,6 +15,7 @@
             app:useSimpleSummaryProvider="true" />
 
         <ListPreference
+            app:iconSpaceReserved="false"
             android:defaultValue="2"
             android:entries="@array/gender"
             android:entryValues="@array/gender_values"
@@ -22,6 +25,7 @@
 
         <!--TODO: support localized heights and weights -->
         <EditTextPreference
+            app:iconSpaceReserved="false"
             android:inputType="number"
             android:key="activity_user_height_cm"
             android:maxLength="3"
@@ -29,6 +33,7 @@
             app:useSimpleSummaryProvider="true" />
 
         <EditTextPreference
+            app:iconSpaceReserved="false"
             android:inputType="number"
             android:key="activity_user_weight_kg"
             android:maxLength="3"
@@ -36,6 +41,22 @@
             app:useSimpleSummaryProvider="true" />
 
         <EditTextPreference
+            app:iconSpaceReserved="false"
+            android:inputType="number"
+            android:key="activity_user_step_length_cm"
+            android:maxLength="3"
+            android:title="@string/activity_prefs_step_length_cm"
+            app:useSimpleSummaryProvider="true" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        app:iconSpaceReserved="false"
+        android:key="pref_category_targets"
+        android:title="@string/activity_prefs_goals">
+
+        <EditTextPreference
+            app:iconSpaceReserved="false"
             android:inputType="number"
             android:key="activity_user_goal_weight_kg"
             android:maxLength="3"
@@ -43,13 +64,7 @@
             app:useSimpleSummaryProvider="true" />
 
         <EditTextPreference
-            android:inputType="number"
-            android:key="activity_user_step_length_cm"
-            android:maxLength="3"
-            android:title="@string/activity_prefs_step_length_cm"
-            app:useSimpleSummaryProvider="true" />
-
-        <EditTextPreference
+            app:iconSpaceReserved="false"
             android:defaultValue="10000"
             android:inputType="number"
             android:key="fitness_goal"
@@ -58,6 +73,7 @@
             app:useSimpleSummaryProvider="true" />
 
         <EditTextPreference
+            app:iconSpaceReserved="false"
             android:inputType="number"
             android:key="activity_user_sleep_duration"
             android:maxLength="2"
@@ -65,6 +81,7 @@
             app:useSimpleSummaryProvider="true" />
 
         <EditTextPreference
+            app:iconSpaceReserved="false"
             android:defaultValue="2000"
             android:inputType="number"
             android:key="activity_user_calories_burnt"
@@ -73,6 +90,7 @@
             app:useSimpleSummaryProvider="true" />
 
         <EditTextPreference
+            app:iconSpaceReserved="false"
             android:defaultValue="5000"
             android:inputType="number"
             android:key="activity_user_distance_meters"
@@ -81,6 +99,7 @@
             app:useSimpleSummaryProvider="true" />
 
         <EditTextPreference
+            app:iconSpaceReserved="false"
             android:defaultValue="60"
             android:inputType="number"
             android:key="activity_user_activetime_minutes"
@@ -89,6 +108,7 @@
             app:useSimpleSummaryProvider="true" />
 
         <EditTextPreference
+            app:iconSpaceReserved="false"
             android:defaultValue="12"
             android:inputType="number"
             android:key="activity_user_goal_standing_time_minutes"
@@ -97,6 +117,7 @@
             app:useSimpleSummaryProvider="true" />
 
         <EditTextPreference
+            app:iconSpaceReserved="false"
             android:defaultValue="30"
             android:inputType="number"
             android:key="activity_user_goal_fat_burn_time_minutes"

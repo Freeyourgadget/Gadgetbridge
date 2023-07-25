@@ -1007,6 +1007,7 @@
     <string name="FetchActivityOperation_about_to_transfer_since">About to transfer data since %1$s</string>
     <string name="waiting_for_reconnect">Waiting for reconnect</string>
     <string name="activity_prefs_about_you">About you</string>
+    <string name="activity_prefs_goals">Goals</string>
     <string name="activity_prefs_year_birth">Year of birth</string>
     <string name="activity_prefs_gender">Gender</string>
     <string name="activity_prefs_height_cm">Height in cm</string>

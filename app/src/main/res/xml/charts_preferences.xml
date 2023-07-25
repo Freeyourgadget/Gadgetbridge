@@ -3,7 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <PreferenceCategory
         android:key="pref_charts"
-        android:title="@string/activity_prefs_charts">
+        android:title="@string/activity_prefs_charts"
+        app:iconSpaceReserved="false">
 
         <EditTextPreference
             android:defaultValue="250"
@@ -11,6 +12,7 @@
             android:key="chart_max_heart_rate"
             android:maxLength="3"
             android:title="@string/activity_prefs_chart_max_heart_rate"
+            app:iconSpaceReserved="false"
             app:useSimpleSummaryProvider="true" />
 
         <EditTextPreference
@@ -19,6 +21,7 @@
             android:key="chart_min_heart_rate"
             android:maxLength="3"
             android:title="@string/activity_prefs_chart_min_heart_rate"
+            app:iconSpaceReserved="false"
             app:useSimpleSummaryProvider="true" />
 
         <SwitchPreference
@@ -26,36 +29,42 @@
             android:key="chart_heartrate_color"
             android:summaryOff="@string/pref_chart_heartrate_color_orange"
             android:summaryOn="@string/pref_chart_heartrate_color_red"
-            android:title="@string/pref_title_chart_heartrate_color" />
+            android:title="@string/pref_title_chart_heartrate_color"
+            app:iconSpaceReserved="false" />
 
         <SwitchPreference
             android:defaultValue="true"
             android:key="charts_allow_swipe"
-            android:title="@string/pref_title_charts_swipe" />
+            android:title="@string/pref_title_charts_swipe"
+            app:iconSpaceReserved="false" />
 
         <SwitchPreference
             android:defaultValue="false"
             android:key="chart_sleep_range_24h"
             android:summaryOff="@string/pref_chart_sleep_rolling_24_off"
             android:summaryOn="@string/pref_chart_sleep_rolling_24_on"
-            android:title="@string/pref_title_chart_sleep_rolling_24_hour" />
+            android:title="@string/pref_title_chart_sleep_rolling_24_hour"
+            app:iconSpaceReserved="false" />
 
         <SwitchPreference
             android:defaultValue="true"
             android:key="charts_show_average"
-            android:title="@string/pref_title_charts_average" />
+            android:title="@string/pref_title_charts_average"
+            app:iconSpaceReserved="false" />
 
         <SwitchPreference
             android:defaultValue="false"
             android:key="charts_range"
             android:summaryOff="@string/pref_charts_range_off"
             android:summaryOn="@string/pref_charts_range_on"
-            android:title="@string/pref_title_charts_range" />
+            android:title="@string/pref_title_charts_range"
+            app:iconSpaceReserved="false" />
 
         <SwitchPreference
             android:defaultValue="true"
             android:key="charts_show_ongoing_activity"
-            android:title="@string/show_ongoing_activity" />
+            android:title="@string/show_ongoing_activity"
+            app:iconSpaceReserved="false" />
 
         <EditTextPreference
             android:defaultValue="6"
@@ -63,13 +72,15 @@
             android:key="chart_sleep_lines_limit"
             android:maxLength="2"
             android:title="@string/pref_chart_sleep_lines_limit"
+            app:iconSpaceReserved="false"
             app:useSimpleSummaryProvider="true" />
 
     </PreferenceCategory>
 
     <PreferenceCategory
         android:key="pref_charts_activity_list"
-        android:title="@string/charts_activity_list">
+        android:title="@string/charts_activity_list"
+        app:iconSpaceReserved="false">
 
         <EditTextPreference
             android:defaultValue="5"
@@ -77,6 +88,7 @@
             android:key="chart_list_min_session_length"
             android:maxLength="2"
             android:title="@string/activity_prefs_chart_min_session_length"
+            app:iconSpaceReserved="false"
             app:useSimpleSummaryProvider="true" />
 
         <EditTextPreference
@@ -85,6 +97,7 @@
             android:key="chart_list_max_idle_phase_length"
             android:maxLength="2"
             android:title="@string/activity_prefs_chart_max_idle_phase_length"
+            app:iconSpaceReserved="false"
             app:useSimpleSummaryProvider="true" />
 
         <EditTextPreference
@@ -93,6 +106,7 @@
             android:key="chart_list_min_steps_per_minute"
             android:maxLength="3"
             android:title="@string/activity_prefs_chart_min_steps_per_minute"
+            app:iconSpaceReserved="false"
             app:useSimpleSummaryProvider="true" />
 
         <EditTextPreference
@@ -101,15 +115,18 @@
             android:key="chart_list_min_steps_per_minute_for_run"
             android:maxLength="3"
             android:title="@string/activity_prefs_chart_min_steps_per_minute_for_run"
+            app:iconSpaceReserved="false"
             app:useSimpleSummaryProvider="true" />
     </PreferenceCategory>
 
     <PreferenceCategory
         android:key="pref_category_activity_personal_title"
-        android:title="@string/activity_prefs_about_you">
+        android:title="@string/activity_prefs_about_you"
+        app:iconSpaceReserved="false">
 
         <Preference
             android:key="pref_category_activity_personal"
-            android:title="@string/activity_prefs_about_you" />
+            android:title="@string/activity_prefs_about_you"
+            app:iconSpaceReserved="false" />
     </PreferenceCategory>
 </PreferenceScreen>
