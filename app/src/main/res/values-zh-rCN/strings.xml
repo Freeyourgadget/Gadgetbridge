@@ -2306,4 +2306,12 @@
     <string name="busy_task_fetch_spo2_data">正在获取 SpO2 数据</string>
     <string name="busy_task_fetch_hr_data">正在获取心率数据</string>
     <string name="busy_task_fetch_sleep_respiratory_rate_data">正在获取睡眠呼吸频率数据</string>
+    <string name="activity_prefs_goals">目标</string>
+    <string name="error_no_bluetooth_scan">必须授予并启用蓝牙扫描访问权限才能使扫描正常的工作</string>
+    <string name="permission_request">%1$s 允许您将消息和其他数据从 Android 发送到您的设备。 为此，它需要访问该数据的权限，如果没有该权限，它可能无法正常运行。
+\n
+\n现在您将看到一些请求这些权限的 Android 对话框。
+\n
+\n请点击“%2$s”继续。</string>
+    <string name="error_no_bluetooth_connect">必须授予并启用蓝牙连接访问权限才能使扫描正常的工作</string>
 </resources>
