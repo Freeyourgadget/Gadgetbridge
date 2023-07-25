@@ -2305,4 +2305,5 @@
     <string name="busy_task_fetch_sleep_respiratory_rate_data">נתוני קצב נשימות בשינה מעודכנים</string>
     <string name="devicetype_casiogwb5600">Casio GW-B5600‎</string>
     <string name="devicetype_casiogmwb5000">Casio GMW-B5000‎</string>
+    <string name="activity_prefs_goals">יעדים</string>
 </resources>
