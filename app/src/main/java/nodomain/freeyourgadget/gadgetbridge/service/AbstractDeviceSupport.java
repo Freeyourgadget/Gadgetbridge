@@ -311,6 +311,9 @@ public abstract class AbstractDeviceSupport implements DeviceSupport {
             return;
         }
         gbDevice.setFirmwareVersion(infoEvent.fwVersion);
+        if (infoEvent.fwVersion2 != null) {
+            gbDevice.setFirmwareVersion2(infoEvent.fwVersion2);
+        }
         gbDevice.setModel(infoEvent.hwVersion);
         gbDevice.sendDeviceUpdateIntent(context);
     }

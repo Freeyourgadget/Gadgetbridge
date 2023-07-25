@@ -21,6 +21,7 @@ import nodomain.freeyourgadget.gadgetbridge.R;
 
 public class GBDeviceEventVersionInfo extends GBDeviceEvent {
     public String fwVersion = "N/A";
+    public String fwVersion2 = null;
     public String hwVersion = "N/A";
 
     public GBDeviceEventVersionInfo() {
@@ -33,6 +34,6 @@ public class GBDeviceEventVersionInfo extends GBDeviceEvent {
 
     @Override
     public String toString() {
-        return super.toString() + "fwVersion: " + fwVersion + "; hwVersion: " + hwVersion;
+        return super.toString() + "fwVersion: " + fwVersion + "; fwVersion2: " + fwVersion2 + "; hwVersion: " + hwVersion;
     }
 }

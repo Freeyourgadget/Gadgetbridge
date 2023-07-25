@@ -102,6 +102,7 @@ import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventFindPhone;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventMusicControl;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventNotificationControl;
 import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventUpdatePreferences;
+import nodomain.freeyourgadget.gadgetbridge.deviceevents.GBDeviceEventVersionInfo;
 import nodomain.freeyourgadget.gadgetbridge.devices.banglejs.BangleJSConstants;
 import nodomain.freeyourgadget.gadgetbridge.devices.banglejs.BangleJSSampleProvider;
 import nodomain.freeyourgadget.gadgetbridge.entities.BangleJSActivitySample;
@@ -328,12 +329,12 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
         //sendSettings(builder);
 
         // get version
-
         gbDevice.setState(GBDevice.State.INITIALIZED);
         gbDevice.sendDeviceUpdateIntent(getContext());
-
-        getDevice().setFirmwareVersion("N/A");
-        getDevice().setFirmwareVersion2("N/A");
+        if (getDevice().getFirmwareVersion() == null) {
+            getDevice().setFirmwareVersion("N/A");
+            getDevice().setFirmwareVersion2("N/A");
+        }
         lastBatteryPercent = -1;
 
         LOG.info("Initialization Done");
@@ -507,10 +508,12 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
                 GB.toast(getContext(), "Bangle.js: " + json.getString("msg"), Toast.LENGTH_LONG, GB.ERROR);
                 break;
             case "ver": {
-                if (json.has("fw1"))
-                    getDevice().setFirmwareVersion(json.getString("fw1"));
-                if (json.has("fw2"))
-                    getDevice().setFirmwareVersion2(json.getString("fw2"));
+                final GBDeviceEventVersionInfo gbDeviceEventVersionInfo = new GBDeviceEventVersionInfo();
+                if (json.has("fw"))
+                    gbDeviceEventVersionInfo.fwVersion = json.getString("fw");
+                if (json.has("hw"))
+                    gbDeviceEventVersionInfo.hwVersion = json.getString("hw");
+                evaluateGBDeviceEvent(gbDeviceEventVersionInfo);
             } break;
             case "findPhone": {
                 boolean start = json.has("n") && json.getBoolean("n");
@@ -1701,5 +1704,4 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
             LOG.info("JSONException: " + e.getLocalizedMessage());
         }
     }
-
 }
