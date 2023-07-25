@@ -38,6 +38,7 @@ import org.slf4j.LoggerFactory;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
+import nodomain.freeyourgadget.gadgetbridge.activities.AboutUserPreferencesActivity;
 import nodomain.freeyourgadget.gadgetbridge.activities.AbstractGBActivity;
 import nodomain.freeyourgadget.gadgetbridge.activities.ControlCenterv2;
 import nodomain.freeyourgadget.gadgetbridge.activities.DiscoveryActivity;
@@ -96,7 +97,7 @@ public class MiBandPairingActivity extends AbstractGBActivity implements Bonding
         }
 
         if (!MiBandCoordinator.hasValidUserInfo()) {
-            Intent userSettingsIntent = new Intent(this, MiBandPreferencesActivity.class);
+            Intent userSettingsIntent = new Intent(this, AboutUserPreferencesActivity.class);
             startActivityForResult(userSettingsIntent, REQ_CODE_USER_SETTINGS, null);
             return;
         }

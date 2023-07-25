@@ -53,22 +53,6 @@ public class MiBandPreferencesActivity extends AbstractSettingsActivity {
         addPreferencesFromResource(R.xml.miband_preferences);
 
         addTryListeners();
-
-        Prefs prefs = GBApplication.getPrefs();
-
-        final Preference fitnessGoal = findPreference(ActivityUser.PREF_USER_STEPS_GOAL);
-        fitnessGoal.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
-            @Override
-            public boolean onPreferenceChange(Preference preference, Object newVal) {
-                invokeLater(new Runnable() {
-                    @Override
-                    public void run() {
-                        GBApplication.deviceService().onSendConfiguration(ActivityUser.PREF_USER_STEPS_GOAL);
-                    }
-                });
-                return true;
-            }
-        });
     }
 
     /**
@@ -121,10 +105,7 @@ public class MiBandPreferencesActivity extends AbstractSettingsActivity {
     @Override
     protected String[] getPreferenceKeysWithSummary() {
         Set<String> prefKeys = new HashSet<>();
-        prefKeys.add(PREF_USER_NAME);
         prefKeys.add(PREF_MIBAND_ADDRESS);
-        prefKeys.add(ActivityUser.PREF_USER_STEPS_GOAL);
-        prefKeys.add(PREF_INACTIVITY_THRESHOLD);
         prefKeys.add(getNotificationPrefKey(VIBRATION_COUNT, ORIGIN_ALARM_CLOCK));
         prefKeys.add(getNotificationPrefKey(VIBRATION_COUNT, ORIGIN_INCOMING_CALL));
 

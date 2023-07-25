@@ -7,6 +7,13 @@
         android:title="@string/activity_prefs_about_you">
 
         <EditTextPreference
+            android:key="mi_user_alias"
+            android:maxLength="17"
+            android:title="@string/miband_prefs_alias"
+            app:iconSpaceReserved="false"
+            app:useSimpleSummaryProvider="true" />
+
+        <EditTextPreference
             app:iconSpaceReserved="false"
             android:inputType="number"
             android:key="activity_user_year_of_birth"
