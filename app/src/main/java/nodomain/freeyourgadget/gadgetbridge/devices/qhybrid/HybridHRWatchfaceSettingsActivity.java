@@ -18,22 +18,25 @@ package nodomain.freeyourgadget.gadgetbridge.devices.qhybrid;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.preference.EditTextPreference;
-import android.preference.ListPreference;
-import android.preference.Preference;
-import android.preference.PreferenceFragment;
-import android.preference.SwitchPreference;
+import androidx.preference.EditTextPreference;
+import androidx.preference.ListPreference;
+import androidx.preference.Preference;
+import androidx.preference.SwitchPreference;
 import android.view.MenuItem;
 
-import nodomain.freeyourgadget.gadgetbridge.R;
-import nodomain.freeyourgadget.gadgetbridge.activities.AbstractSettingsActivity;
+import androidx.fragment.app.Fragment;
 
-public class HybridHRWatchfaceSettingsActivity extends AbstractSettingsActivity {
+import nodomain.freeyourgadget.gadgetbridge.R;
+import nodomain.freeyourgadget.gadgetbridge.activities.AbstractGBActivity;
+import nodomain.freeyourgadget.gadgetbridge.activities.AbstractPreferenceFragment;
+
+public class HybridHRWatchfaceSettingsActivity extends AbstractGBActivity {
     static HybridHRWatchfaceSettings settings;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_device_settings);
 
         Intent intent = getIntent();
         Bundle bundle = intent.getExtras();
@@ -43,7 +46,16 @@ public class HybridHRWatchfaceSettingsActivity extends AbstractSettingsActivity 
             throw new IllegalArgumentException("Must provide a settings object when invoking this activity");
         }
 
-        getFragmentManager().beginTransaction().replace(android.R.id.content, new HybridHRWatchfaceSettingsFragment()).commit();
+        if (savedInstanceState == null) {
+            Fragment fragment = getSupportFragmentManager().findFragmentByTag(HybridHRWatchfaceSettingsFragment.FRAGMENT_TAG);
+            if (fragment == null) {
+                fragment = new HybridHRWatchfaceSettingsFragment();
+            }
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.settings_container, fragment, HybridHRWatchfaceSettingsFragment.FRAGMENT_TAG)
+                    .commit();
+        }
     }
 
     @Override
@@ -69,11 +81,11 @@ public class HybridHRWatchfaceSettingsActivity extends AbstractSettingsActivity 
         return super.onOptionsItemSelected(item);
     }
 
-    public static class HybridHRWatchfaceSettingsFragment extends PreferenceFragment implements Preference.OnPreferenceChangeListener
-    {
+    public static class HybridHRWatchfaceSettingsFragment extends AbstractPreferenceFragment implements Preference.OnPreferenceChangeListener {
+        static final String FRAGMENT_TAG = "HYBRID_HR_WATCHFACE_SETTINGS_FRAGMENT";
+
         @Override
-        public void onCreate(final Bundle savedInstanceState) {
-            super.onCreate(savedInstanceState);
+        public void onCreatePreferences(final Bundle savedInstanceState, final String rootKey) {
             addPreferencesFromResource(R.xml.fossil_hr_watchface_settings);
 
             EditTextPreference refresh_full = (EditTextPreference) findPreference("pref_hybridhr_watchface_refresh_full");

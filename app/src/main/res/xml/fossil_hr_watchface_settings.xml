@@ -1,97 +1,114 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PreferenceScreen
-    xmlns:android="http://schemas.android.com/apk/res/android">
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <PreferenceCategory
-        android:title="@string/watchface_setting_title_display_refresh_timeout">
+        android:title="@string/watchface_setting_title_display_refresh_timeout"
+        app:iconSpaceReserved="false">
 
         <EditTextPreference
-            android:persistent="false"
             android:key="pref_hybridhr_watchface_refresh_full"
-            android:title="@string/watchface_setting_display_refresh_full" />
-        <EditTextPreference
             android:persistent="false"
+            android:title="@string/watchface_setting_display_refresh_full"
+            app:iconSpaceReserved="false" />
+        <EditTextPreference
             android:key="pref_hybridhr_watchface_refresh_partial"
-            android:title="@string/watchface_setting_display_refresh_partial" />
+            android:persistent="false"
+            android:title="@string/watchface_setting_display_refresh_partial"
+            app:iconSpaceReserved="false" />
 
     </PreferenceCategory>
 
     <PreferenceCategory
-        android:title="@string/watchface_setting_title_wrist_flick">
+        android:title="@string/watchface_setting_title_wrist_flick"
+        app:iconSpaceReserved="false">
 
         <Preference
-            android:selectable="false"
             android:enabled="false"
+            android:selectable="false"
             android:singleLineTitle="false"
-            android:title="@string/watchface_setting_desc_wrist_flick" />
+            android:title="@string/watchface_setting_desc_wrist_flick"
+            app:iconSpaceReserved="false" />
         <SwitchPreference
-            android:persistent="false"
             android:key="pref_hybridhr_watchface_wrist_flick_relative"
+            android:persistent="false"
+            android:singleLineTitle="false"
             android:title="@string/watchface_setting_wrist_flick_move_relative"
-            android:singleLineTitle="false" />
+            app:iconSpaceReserved="false" />
         <EditTextPreference
-            android:persistent="false"
             android:key="pref_hybridhr_watchface_wrist_flick_hour_hand"
-            android:title="@string/watchface_setting_wrist_flick_hour" />
-        <EditTextPreference
             android:persistent="false"
+            android:title="@string/watchface_setting_wrist_flick_hour"
+            app:iconSpaceReserved="false" />
+        <EditTextPreference
             android:key="pref_hybridhr_watchface_wrist_flick_minute_hand"
-            android:title="@string/watchface_setting_wrist_flick_minute" />
-        <EditTextPreference
             android:persistent="false"
+            android:title="@string/watchface_setting_wrist_flick_minute"
+            app:iconSpaceReserved="false" />
+        <EditTextPreference
             android:key="pref_hybridhr_watchface_wrist_flick_duration"
-            android:title="@string/watchface_setting_wrist_flick_duration" />
+            android:persistent="false"
+            android:title="@string/watchface_setting_wrist_flick_duration"
+            app:iconSpaceReserved="false" />
 
     </PreferenceCategory>
 
     <PreferenceCategory
-        android:title="@string/watchface_setting_title_custom_events">
+        android:title="@string/watchface_setting_title_custom_events"
+        app:iconSpaceReserved="false">
 
         <ListPreference
+            android:dialogTitle="@string/watchface_setting_button_toggle_widgets"
+            android:entries="@array/pref_hybridhr_watchface_events_items"
+            android:entryValues="@array/pref_hybridhr_watchface_events_values"
+            android:key="pref_hybridhr_watchface_toggle_widgets"
+            android:negativeButtonText="@string/Cancel"
             android:persistent="false"
             android:title="@string/watchface_setting_button_toggle_widgets"
-            android:key="pref_hybridhr_watchface_toggle_widgets"
+            app:iconSpaceReserved="false" />
+        <ListPreference
+            android:dialogTitle="@string/watchface_setting_button_toggle_backlight"
             android:entries="@array/pref_hybridhr_watchface_events_items"
             android:entryValues="@array/pref_hybridhr_watchface_events_values"
-            android:dialogTitle="@string/watchface_setting_button_toggle_widgets"
-            android:negativeButtonText="@string/Cancel"/>
-        <ListPreference
+            android:key="pref_hybridhr_watchface_toggle_backlight"
+            android:negativeButtonText="@string/Cancel"
             android:persistent="false"
             android:title="@string/watchface_setting_button_toggle_backlight"
-            android:key="pref_hybridhr_watchface_toggle_backlight"
+            app:iconSpaceReserved="false" />
+        <ListPreference
+            android:dialogTitle="@string/watchface_setting_button_move_hands"
             android:entries="@array/pref_hybridhr_watchface_events_items"
             android:entryValues="@array/pref_hybridhr_watchface_events_values"
-            android:dialogTitle="@string/watchface_setting_button_toggle_backlight"
-            android:negativeButtonText="@string/Cancel"/>
-        <ListPreference
+            android:key="pref_hybridhr_watchface_move_hands"
+            android:negativeButtonText="@string/Cancel"
             android:persistent="false"
             android:title="@string/watchface_setting_button_move_hands"
-            android:key="pref_hybridhr_watchface_move_hands"
-            android:entries="@array/pref_hybridhr_watchface_events_items"
-            android:entryValues="@array/pref_hybridhr_watchface_events_values"
-            android:dialogTitle="@string/watchface_setting_button_move_hands"
-            android:negativeButtonText="@string/Cancel"/>
+            app:iconSpaceReserved="false" />
 
     </PreferenceCategory>
 
     <PreferenceCategory
-        android:title="@string/watchface_setting_title_power_saving">
+        android:title="@string/watchface_setting_title_power_saving"
+        app:iconSpaceReserved="false">
 
         <SwitchPreference
-            android:persistent="false"
             android:key="pref_hybridhr_watchface_power_saving_display"
+            android:persistent="false"
+            android:singleLineTitle="false"
             android:title="@string/watchface_setting_power_saving_display"
-            android:singleLineTitle="false" />
+            app:iconSpaceReserved="false" />
         <SwitchPreference
-            android:persistent="false"
             android:key="pref_hybridhr_watchface_power_saving_hands"
-            android:title="@string/watchface_setting_power_saving_hands"
-            android:singleLineTitle="false" />
-        <SwitchPreference
             android:persistent="false"
+            android:singleLineTitle="false"
+            android:title="@string/watchface_setting_power_saving_hands"
+            app:iconSpaceReserved="false" />
+        <SwitchPreference
             android:key="pref_hybridhr_watchface_light_up_on_notification"
+            android:persistent="false"
+            android:singleLineTitle="false"
             android:title="@string/watchface_setting_light_up_on_notification"
-            android:singleLineTitle="false" />
+            app:iconSpaceReserved="false" />
 
     </PreferenceCategory>
 </PreferenceScreen>
