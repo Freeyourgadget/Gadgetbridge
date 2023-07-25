@@ -94,6 +94,7 @@ import nodomain.freeyourgadget.gadgetbridge.model.MusicStateSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.NotificationSpec;
 import nodomain.freeyourgadget.gadgetbridge.model.Reminder;
 import nodomain.freeyourgadget.gadgetbridge.model.WeatherSpec;
+import nodomain.freeyourgadget.gadgetbridge.service.btle.AbstractBTLEOperation;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.BLETypeConversions;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.GattCharacteristic;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.TransactionBuilder;
@@ -581,13 +582,34 @@ public abstract class Huami2021Support extends HuamiSupport implements ZeppOsFil
         final ZeppOsAgpsInstallHandler agpsHandler = new ZeppOsAgpsInstallHandler(uri, getContext());
         if (agpsHandler.isValid()) {
             try {
-                new ZeppOsAgpsUpdateOperation(
-                        this,
-                        agpsHandler.getFile(),
-                        agpsService,
-                        fileTransferService,
-                        configService
-                ).perform();
+                if (getCoordinator().sendAgpsAsFileTransfer()) {
+                    LOG.info("Sending AGPS as file transfer");
+                    new ZeppOsAgpsUpdateOperation(
+                            this,
+                            agpsHandler.getFile(),
+                            agpsService,
+                            fileTransferService,
+                            configService
+                    ).perform();
+                } else {
+                    LOG.info("Sending AGPS as firmware update");
+
+                    // Write the agps epo update to a temporary file in cache, so we can reuse the firmware update operation
+                    final File cacheDir = getContext().getCacheDir();
+                    final File agpsCacheDir = new File(cacheDir, "zepp-os-agps");
+                    agpsCacheDir.mkdir();
+                    final File uihhFile = new File(agpsCacheDir, "epo-agps.uihh");
+
+                    try (FileOutputStream outputStream = new FileOutputStream(uihhFile)) {
+                        outputStream.write(agpsHandler.getFile().getUihhBytes());
+                    } catch (final IOException e) {
+                        LOG.error("Failed to write agps bytes to temporary uihhFile", e);
+                        return;
+                    }
+
+                    new UpdateFirmwareOperation2021(Uri.parse(uihhFile.toURI().toString()), this).perform();
+                }
+
             } catch (final Exception e) {
                 GB.toast(getContext(), "AGPS file cannot be installed: " + e.getMessage(), Toast.LENGTH_LONG, GB.ERROR, e);
             }

@@ -33,6 +33,7 @@ import java.io.IOException;
 import java.lang.reflect.Constructor;
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 
@@ -84,6 +85,7 @@ public abstract class Huami2021FirmwareInfo extends AbstractHuamiFirmwareInfo {
             return HuamiFirmwareType.INVALID;
         }
 
+        final Set<UIHHContainer.FileType> agpsEpoTypes = new HashSet<>();
         UIHHContainer.FileEntry uihhFirmwareZipFile = null;
         boolean hasChangelog = false;
         for (final UIHHContainer.FileEntry file : uihh.getFiles()) {
@@ -94,12 +96,18 @@ public abstract class Huami2021FirmwareInfo extends AbstractHuamiFirmwareInfo {
                 case FIRMWARE_CHANGELOG:
                     hasChangelog = true;
                     continue;
+                case AGPS_EPO_GR_3:
+                case AGPS_EPO_GAL_7:
+                case AGPS_EPO_BDS_3:
+                    agpsEpoTypes.add(file.getType());
+                    continue;
                 default:
                     LOG.warn("Unexpected file for {}", file.getType());
             }
         }
 
         if (uihhFirmwareZipFile != null && hasChangelog) {
+            // UIHH firmware update
             final ZipFile zipFile = new ZipFile(uihhFirmwareZipFile.getContent());
             final byte[] firmwareBin;
             try {
@@ -112,6 +120,11 @@ public abstract class Huami2021FirmwareInfo extends AbstractHuamiFirmwareInfo {
             if (isCompatibleFirmwareBin(firmwareBin)) {
                 return HuamiFirmwareType.FIRMWARE_UIHH_2021_ZIP_WITH_CHANGELOG;
             }
+        }
+
+        if (agpsEpoTypes.size() == 3) {
+            // AGPS EPO update
+            return HuamiFirmwareType.AGPS_UIHH;
         }
 
         return HuamiFirmwareType.INVALID;

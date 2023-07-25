@@ -465,6 +465,10 @@ public abstract class Huami2021Coordinator extends HuamiCoordinator {
         return false;
     }
 
+    public boolean sendAgpsAsFileTransfer() {
+        return true;
+    }
+
     public boolean supportsGpxUploads() {
         return false;
     }
