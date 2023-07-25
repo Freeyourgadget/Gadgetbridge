@@ -2305,4 +2305,20 @@
     <string name="devicetype_vivomove_hr">Garmin Vivomove HR</string>
     <string name="devicetype_casiogmwb5000">Casio GMW-B5000</string>
     <string name="devicetype_casiogwb5600">Casio GW-B5600</string>
+    <string name="busy_task_fetch_sports_details">Abrufen von Sportdaten</string>
+    <string name="busy_task_fetch_sports_summaries">Abrufen von Sportübersichten</string>
+    <string name="busy_task_fetch_debug_logs">Abrufen von Debug-Protokollen</string>
+    <string name="busy_task_fetch_stress_data">Abrufen von Stressdaten</string>
+    <string name="busy_task_fetch_pai_data">Abrufen von PAI-Daten</string>
+    <string name="busy_task_fetch_spo2_data">Abrufen von SpO2-Daten</string>
+    <string name="busy_task_fetch_sleep_respiratory_rate_data">Abruf von Daten zur Atemfrequenz im Schlaf</string>
+    <string name="error_no_bluetooth_scan">Zugriff auf den Bluetooth-Scan muss gewährt und aktiviert sein, damit der Scanvorgang ordnungsgemäß funktioniert</string>
+    <string name="error_no_bluetooth_connect">Zugriff auf die Bluetooth-Verbindung muss gewährt und aktiviert sein, damit der Scanvorgang ordnungsgemäß funktioniert</string>
+    <string name="permission_request">Mit %1$s kannst du Nachrichten und andere Daten von Android an dein Gerät senden. Dazu ist die Berechtigung für den Zugriff auf diese Daten erforderlich, und ohne diese Berechtigung funktioniert sie möglicherweise nicht richtig.
+\n
+\nEs werden nun einige Android-Dialogfelder angezeigt, in denen diese Berechtigungen angefordert werden.
+\n
+\nBitte tippe auf \'%2$s\', um fortzufahren.</string>
+    <string name="busy_task_fetch_hr_data">Abrufen von Herzfrequenzdaten</string>
+    <string name="activity_prefs_goals">Ziele</string>
 </resources>
