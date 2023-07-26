@@ -4,13 +4,17 @@
 * Initial support for Bohemic Smart Bracelet
 * Initial support for Casio GW-B5600
 * Initial support for Garmin Vivomove HR
+* Initial support for Withings Steel HR
 * Amazfit GTS 2e: Add activate display on lift sensitivity
+* Amazfit GTR 3 / GTS 3: Enable AGPS Updates
+* Amazfit Neo: Enable PAI support
 * Fossil/Skagen Hybrids: Strip unicode characters that the watch can't display
 * Huami/Zepp OS: Add PAI charts
 * Huami/Zepp OS: Improve music info stability
 * Huami/Zepp OS: Improve reconnection and device initialization
 * Huami: Persist workout raw details even if gpx has no points
 * Mi Band 5: Fix activity fetch error toast when stress monitoring is enabled
+* Mi Band 6: Enable PAI and stress support
 * LeFun: Fix heart rate popup when measurement is triggered from phone
 * Sony WH-1000XM3/WF-SP800N: Add volume setting
 * Sony WH-1000XM5: Fix speak-to-chat enable/disable
@@ -21,8 +25,11 @@
 * Fix notification filters by title if notification does not contain a body
 * Fix opening screenshots from notification on external apps
 * Fix reconnect delay reset after all devices are initialized
+* Fix some security error crashes when permissions are not granted
 * Fix transliteration of emoji
 * Fix transliteration of non-ASCII accented characters
+* Introduce native app shortcuts for android > 30
+* Update device settings action bar title depending on current screen
 
 #### 0.75.1
 * Fix Weather Notification integration
