@@ -2314,4 +2314,29 @@
 \n
 \n请点击“%2$s”继续。</string>
     <string name="error_no_bluetooth_connect">必须授予并启用蓝牙连接访问权限才能使扫描正常的工作</string>
+    <string name="activity_type_surfing">冲浪</string>
+    <string name="activity_type_kitesurfing">风筝冲浪</string>
+    <string name="activity_type_windsurfing">风帆冲浪</string>
+    <string name="activity_type_football">足球</string>
+    <string name="activity_type_dancing">跳舞</string>
+    <string name="activity_type_skiing">滑雪</string>
+    <string name="activity_type_snowboarding">单板滑雪</string>
+    <string name="withings_steel_hr">Withings Steel HR</string>
+    <string name="activity_type_icehockey">冰球</string>
+    <string name="activity_type_other">其他</string>
+    <string name="withings_calibration_text_activity_target">最后将活动表盘对齐到100％。请注意，这只活动表盘只能顺时针旋转。</string>
+    <string name="withings_bt_calibration_next">之后</string>
+    <string name="activity_type_rugby">橄榄球</string>
+    <string name="activity_type_baseball">棒球</string>
+    <string name="activity_type_handball">手球</string>
+    <string name="activity_type_tennis">网球</string>
+    <string name="activity_type_squash">壁球</string>
+    <string name="activity_type_weightlifting">举重</string>
+    <string name="activity_type_riding">骑马</string>
+    <string name="activity_type_hockey">曲棍球</string>
+    <string name="activity_type_iceskating">溜冰</string>
+    <string name="activity_type_golf">打高尔夫球</string>
+    <string name="withings_calibration_text_hours">请使用下面的表盘将时针对准 12。</string>
+    <string name="withings_calibration_text_minutes">现在使用表盘将分针与 12 对齐。</string>
+    <string name="withings_bt_calibration_previous">之前</string>
 </resources>
