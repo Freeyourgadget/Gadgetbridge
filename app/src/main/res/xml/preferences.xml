@@ -1,26 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
     <PreferenceCategory
         android:key="pref_key_general"
         android:title="@string/pref_header_general">
-        <CheckBoxPreference
+        <SwitchPreference
             android:layout="@layout/preference_checkbox"
             android:defaultValue="true"
             android:key="general_autostartonboot"
             android:title="@string/pref_title_general_autostartonboot" />
-        <CheckBoxPreference
+        <SwitchPreference
             android:layout="@layout/preference_checkbox"
             android:defaultValue="false"
             android:key="general_autoconnectonbluetooth"
             android:title="@string/pref_title_general_autoconnectonbluetooth" />
-        <CheckBoxPreference
+        <SwitchPreference
             android:layout="@layout/preference_checkbox"
             android:defaultValue="false"
             android:key="general_autocreconnect"
             android:title="@string/pref_title_general_autoreconnect"
             android:enabled="false"
             android:summary="setting has been moved to device specific settings"/>
-        <CheckBoxPreference
+        <SwitchPreference
             android:layout="@layout/preference_checkbox"
             android:defaultValue="true"
             android:key="display_add_device_fab"
@@ -28,7 +29,7 @@
             android:summaryOn="@string/pref_display_add_device_fab_on"
             android:title="@string/pref_display_add_device_fab" />
 
-        <CheckBoxPreference
+        <SwitchPreference
             android:layout="@layout/preference_checkbox"
             android:defaultValue="false"
             android:key="mb_intents"
@@ -42,7 +43,7 @@
             android:summary="%s"
             android:dependency="mb_intents" />
 
-        <PreferenceScreen android:title="@string/pref_title_theme">
+        <PreferenceScreen android:key="pref_screen_theme" android:title="@string/pref_title_theme">
             <ListPreference
                 android:defaultValue="@string/pref_theme_value_light"
                 android:entries="@array/pref_theme_options"
@@ -50,7 +51,7 @@
                 android:key="pref_key_theme"
                 android:summary="%s"
                 android:title="@string/pref_title_theme" />
-            <CheckBoxPreference
+            <SwitchPreference
                 android:defaultValue="false"
                 android:key="pref_key_theme_amoled_black"
                 android:layout="@layout/preference_checkbox"
@@ -75,14 +76,15 @@
                 android:summary="%s"
                 android:title="@string/pref_title_unit_system" />
             <PreferenceScreen
+                android:key="pref_screen_rtl"
                 android:title="@string/preferences_rtl_settings">
-                <CheckBoxPreference
+                <SwitchPreference
                     android:layout="@layout/preference_checkbox"
                     android:defaultValue="false"
                     android:key="rtl"
                     android:summary="@string/pref_summary_rtl"
                     android:title="@string/pref_title_rtl" />
-                <CheckBoxPreference
+                <SwitchPreference
                     android:layout="@layout/preference_checkbox"
                     android:defaultValue="false"
                     android:key="contextualArabic"
@@ -99,13 +101,15 @@
         </PreferenceScreen>
 
         <PreferenceScreen
+            android:key="pref_screen_weather"
             android:title="@string/pref_title_weather"
             android:summary="@string/pref_title_weather_summary">
 
             <EditTextPreference
                 android:inputType="text"
                 android:key="weather_city"
-                android:title="@string/pref_title_weather_location" />
+                android:title="@string/pref_title_weather_location"
+                app:useSimpleSummaryProvider="true"  />
         </PreferenceScreen>
 
     </PreferenceCategory>
@@ -121,7 +125,7 @@
     <PreferenceCategory
         android:key="pref_key_datetime"
         android:title="@string/pref_header_datetime">
-        <CheckBoxPreference
+        <SwitchPreference
             android:layout="@layout/preference_checkbox"
             android:defaultValue="true"
             android:key="datetime_synconconnect"
@@ -137,14 +141,16 @@
             android:inputType="numberDecimal|numberSigned"
             android:key="location_latitude"
             android:maxLength="7"
-            android:title="@string/pref_title_location_latitude" />
+            android:title="@string/pref_title_location_latitude"
+            app:useSimpleSummaryProvider="true"  />
         <EditTextPreference
             android:defaultValue="0"
             android:inputType="numberDecimal|numberSigned"
             android:key="location_longitude"
             android:maxLength="7"
-            android:title="@string/pref_title_location_longitude" />
-        <CheckBoxPreference
+            android:title="@string/pref_title_location_longitude"
+            app:useSimpleSummaryProvider="true"  />
+        <SwitchPreference
             android:defaultValue="true"
             android:dependency="location_aquire"
             android:key="use_updated_location_if_available"
@@ -157,13 +163,13 @@
             android:title="@string/pref_title_opentracks_packagename" />
     </PreferenceCategory>
     <PreferenceCategory android:title="@string/pref_header_navigation">
-        <CheckBoxPreference
+        <SwitchPreference
             android:defaultValue="true"
             android:key="navigation_forward"
             android:layout="@layout/preference_checkbox"
             android:summary="@string/pref_summary_navigation_forward"
             android:title="@string/pref_title_navigation_forward" />
-        <CheckBoxPreference
+        <SwitchPreference
             android:defaultValue="true"
             android:dependency="navigation_forward"
             android:key="nagivation_screen_on"
@@ -188,13 +194,13 @@
             android:title="@string/pref_title_pebble_settings">
             <PreferenceCategory
                 android:title="@string/pref_header_general">
-                <CheckBoxPreference
+                <SwitchPreference
             android:layout="@layout/preference_checkbox"
                     android:defaultValue="true"
                     android:key="pebble_enable_outgoing_call"
                     android:summary="@string/pref_summary_enable_outgoing_call"
                     android:title="@string/pref_title_enable_outgoing_call" />
-                <CheckBoxPreference
+                <SwitchPreference
             android:layout="@layout/preference_checkbox"
                     android:defaultValue="false"
                     android:key="pebble_enable_pebblekit"
@@ -205,7 +211,8 @@
                     android:inputType="number"
                     android:key="pebble_reconnect_attempts"
                     android:maxLength="4"
-                    android:title="@string/pref_title_pebble_reconnect_attempts" />
+                    android:title="@string/pref_title_pebble_reconnect_attempts"
+                    app:useSimpleSummaryProvider="true" />
                 <ListPreference
                     android:key="pebble_pref_privacy_mode"
                     android:title="@string/pref_title_pebble_privacy_mode"
@@ -215,7 +222,7 @@
                     android:summary="%s" />
             </PreferenceCategory>
             <PreferenceCategory android:title="@string/pref_header_pebble_timeline">
-                <CheckBoxPreference
+                <SwitchPreference
             android:layout="@layout/preference_checkbox"
                     android:key="send_sunrise_sunset"
                     android:summary="@string/pref_summary_sunrise_sunset"
@@ -229,24 +236,24 @@
                     android:key="pebble_activitytracker"
                     android:summary="%s"
                     android:title="@string/pref_title_pebble_activitytracker" />
-                <CheckBoxPreference
+                <SwitchPreference
             android:layout="@layout/preference_checkbox"
                     android:defaultValue="true"
                     android:key="pebble_sync_health"
                     android:title="@string/pref_title_pebble_sync_health" />
-                <CheckBoxPreference
+                <SwitchPreference
             android:layout="@layout/preference_checkbox"
                     android:defaultValue="true"
                     android:key="pebble_health_store_raw"
                     android:dependency="pebble_sync_health"
                     android:title="@string/pref_title_pebble_health_store_raw"
                     android:summary="@string/pref_summary_pebble_health_store_raw" />
-                <CheckBoxPreference
+                <SwitchPreference
             android:layout="@layout/preference_checkbox"
                     android:defaultValue="true"
                     android:key="pebble_sync_misfit"
                     android:title="@string/pref_title_pebble_sync_misfit" />>
-                <CheckBoxPreference
+                <SwitchPreference
             android:layout="@layout/preference_checkbox"
                     android:defaultValue="true"
                     android:key="pebble_sync_morpheuz"
@@ -254,19 +261,19 @@
             </PreferenceCategory>
             <PreferenceCategory
                 android:title="@string/pref_header_development">
-                <CheckBoxPreference
+                <SwitchPreference
                     android:defaultValue="false"
                     android:key="pebble_force_protocol"
                     android:layout="@layout/preference_checkbox"
                     android:summary="@string/pref_summary_pebble_forceprotocol"
                     android:title="@string/pref_title_pebble_forceprotocol" />
-                <CheckBoxPreference
+                <SwitchPreference
                     android:defaultValue="false"
                     android:key="pebble_force_untested"
                     android:layout="@layout/preference_checkbox"
                     android:summary="@string/pref_summary_pebble_forceuntested"
                     android:title="@string/pref_title_pebble_forceuntested" />
-                <CheckBoxPreference
+                <SwitchPreference
                     android:defaultValue="false"
                     android:key="pebble_force_le"
                     android:layout="@layout/preference_checkbox"
@@ -279,25 +286,25 @@
                     android:defaultValue="512"
                     android:title="@string/pref_title_pebble_mtu_limit"
                     android:summary="@string/pref_summary_pebble_mtu_limit" />
-                <CheckBoxPreference
+                <SwitchPreference
                     android:defaultValue="false"
                     android:key="pebble_gatt_clientonly"
                     android:layout="@layout/preference_checkbox"
                     android:summary="@string/pref_summary_pebble_gatt_clientonly"
                     android:title="@string/pref_title_pebble_gatt_clientonly" />
-                <CheckBoxPreference
+                <SwitchPreference
                     android:defaultValue="false"
                     android:key="pebble_enable_applogs"
                     android:layout="@layout/preference_checkbox"
                     android:summary="@string/pref_summary_pebble_enable_applogs"
                     android:title="@string/pref_title_pebble_enable_applogs" />
-                <CheckBoxPreference
+                <SwitchPreference
                     android:defaultValue="false"
                     android:key="pebble_always_ack_pebblekit"
                     android:layout="@layout/preference_checkbox"
                     android:summary="@string/pref_summary_pebble_always_ack_pebblekit"
                     android:title="@string/pref_title_pebble_always_ack_pebblekit" />
-                <CheckBoxPreference
+                <SwitchPreference
                     android:defaultValue="false"
                     android:dependency="pebble_force_untested"
                     android:key="pebble_enable_background_javascript"
@@ -308,12 +315,14 @@
                     android:digits="0123456789."
                     android:key="pebble_emu_addr"
                     android:maxLength="15"
-                    android:title="Emulator IP" />
+                    android:title="Emulator IP"
+                    app:useSimpleSummaryProvider="true" />
                 <EditTextPreference
                     android:inputType="number"
                     android:key="pebble_emu_port"
                     android:maxLength="5"
-                    android:title="Emulator Port" />
+                    android:title="Emulator Port"
+                    app:useSimpleSummaryProvider="true"  />
             </PreferenceCategory>
         </PreferenceScreen>
         <PreferenceScreen
@@ -329,7 +338,7 @@
                     android:key="hplus_screentime"
                     android:title="@string/pref_title_screentime"/>
 
-                <CheckBoxPreference
+                <SwitchPreference
                     android:layout="@layout/preference_checkbox"
                     android:defaultValue="true"
                     android:key="hplus_alldayhr"
@@ -350,7 +359,7 @@
             android:key="auto_export_location"
             android:title="@string/pref_title_auto_export_location"
             android:summary="%s" />
-        <CheckBoxPreference
+        <SwitchPreference
             android:layout="@layout/preference_checkbox"
             android:defaultValue="false"
             android:key="auto_export_enabled"
@@ -367,7 +376,7 @@
 
     <PreferenceCategory
         android:title="@string/pref_header_auto_fetch">
-        <CheckBoxPreference
+        <SwitchPreference
             android:layout="@layout/preference_checkbox"
             android:defaultValue="false"
             android:key="auto_fetch_enabled"
@@ -386,18 +395,18 @@
     <PreferenceCategory
         android:key="pref_key_development"
         android:title="@string/pref_header_development">
-        <CheckBoxPreference
+        <SwitchPreference
             android:layout="@layout/preference_checkbox"
             android:defaultValue="false"
             android:key="log_to_file"
             android:title="@string/pref_write_logfiles" />
-        <CheckBoxPreference
+        <SwitchPreference
             android:defaultValue="true"
             android:key="permission_pestering"
             android:layout="@layout/preference_checkbox"
             android:summary="@string/pref_check_permission_status_summary"
             android:title="@string/pref_check_permission_status" />
-        <CheckBoxPreference
+        <SwitchPreference
             android:layout="@layout/preference_checkbox"
             android:defaultValue="true"
             android:key="cache_weather"
@@ -416,27 +425,27 @@
             android:key="pref_key_intent_api"
             android:title="@string/pref_header_intent_api">
 
-            <CheckBoxPreference
+            <SwitchPreference
                 android:key="prefs_key_allow_bluetooth_intent_api"
                 android:title="@string/activity_prefs_allow_bluetooth_intent_api"
                 android:summary="@string/activity_prefs_summary_allow_bluetooth_intent_api" />
 
-            <CheckBoxPreference
+            <SwitchPreference
                 android:key="intent_api_allow_activity_sync"
                 android:title="@string/intent_api_allow_activity_sync_title"
                 android:summary="@string/intent_api_allow_activity_sync_summary" />
 
-            <CheckBoxPreference
+            <SwitchPreference
                 android:key="intent_api_allow_trigger_export"
                 android:title="@string/intent_api_allow_trigger_export_title"
                 android:summary="@string/intent_api_allow_trigger_export_summary" />
 
-            <CheckBoxPreference
+            <SwitchPreference
                 android:key="intent_api_broadcast_export"
                 android:title="@string/intent_api_broadcast_export_title"
                 android:summary="@string/intent_api_broadcast_export_summary" />
 
-            <CheckBoxPreference
+            <SwitchPreference
                 android:key="intent_api_allow_debug_commands"
                 android:title="@string/intent_api_allow_debug_commands_title"
                 android:summary="@string/intent_api_allow_debug_commands_summary" />
