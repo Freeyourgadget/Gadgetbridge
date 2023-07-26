@@ -543,12 +543,11 @@ public class SettingsActivity extends AbstractSettingsActivityV2 {
             String longitude = String.format(Locale.US, "%.6g", location.getLongitude());
             LOG.info("got location. Lat: " + latitude + " Lng: " + longitude);
             GB.toast(requireContext(), getString(R.string.toast_aqurired_networklocation), 2000, 0);
-            EditTextPreference pref_latitude = findPreference("location_latitude");
-            EditTextPreference pref_longitude = findPreference("location_longitude");
-            pref_latitude.setText(latitude);
-            pref_longitude.setText(longitude);
-            pref_latitude.setSummary(latitude);
-            pref_longitude.setSummary(longitude);
+            GBApplication.getPrefs().getPreferences()
+                    .edit()
+                    .putString("location_latitude", latitude)
+                    .putString("location_longitude", longitude)
+                    .apply();
         }
     }
 }
