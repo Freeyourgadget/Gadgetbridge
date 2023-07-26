@@ -2321,4 +2321,29 @@
 \nBitte tippe auf \'%2$s\', um fortzufahren.</string>
     <string name="busy_task_fetch_hr_data">Abrufen von Herzfrequenzdaten</string>
     <string name="activity_prefs_goals">Ziele</string>
+    <string name="activity_type_surfing">Surfen</string>
+    <string name="activity_type_windsurfing">Windsurfen</string>
+    <string name="activity_type_football">Fußball</string>
+    <string name="activity_type_rugby">Rugby</string>
+    <string name="activity_type_baseball">Baseball</string>
+    <string name="activity_type_handball">Handball</string>
+    <string name="activity_type_tennis">Tennis</string>
+    <string name="activity_type_squash">Squash</string>
+    <string name="activity_type_weightlifting">Gewichtheben</string>
+    <string name="activity_type_skiing">Skifahren</string>
+    <string name="activity_type_hockey">Hockey</string>
+    <string name="activity_type_icehockey">Eishockey</string>
+    <string name="activity_type_iceskating">Schlittschuhlaufen</string>
+    <string name="activity_type_golf">Golfen</string>
+    <string name="withings_calibration_text_hours">Bitte verwende das Zifferblatt unten, um den Stundenzeiger auf die 12 auszurichten.</string>
+    <string name="withings_calibration_text_minutes">Verwende nun das Zifferblatt, um den Minutenzeiger auf die 12 auszurichten.</string>
+    <string name="withings_calibration_text_activity_target">Zum Schluss richte den Aktivitätszeiger auf 100% aus. Bitte beachte, dass sich dieser Zeiger nur im Uhrzeigersinn bewegt.</string>
+    <string name="withings_bt_calibration_previous">Vorherige</string>
+    <string name="withings_bt_calibration_next">Nächste</string>
+    <string name="activity_type_kitesurfing">Kitesurfen</string>
+    <string name="activity_type_snowboarding">Snowboarden</string>
+    <string name="activity_type_dancing">Tanzen</string>
+    <string name="activity_type_riding">Reiten</string>
+    <string name="activity_type_other">Andere</string>
+    <string name="withings_steel_hr">Withings Steel HR</string>
 </resources>
