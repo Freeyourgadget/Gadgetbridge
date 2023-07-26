@@ -2322,4 +2322,29 @@
 \nЗараз вам буде показано кілька діалогових вікон Android, які запитують ці дозволи.
 \n
 \nТоркніться \'%2$s\', щоб продовжити.</string>
+    <string name="withings_bt_calibration_next">Наступне</string>
+    <string name="activity_type_surfing">Серфінг</string>
+    <string name="activity_type_squash">Сквош</string>
+    <string name="activity_type_weightlifting">Важка атлетика</string>
+    <string name="withings_calibration_text_hours">Використовуйте циферблат нижче, щоб вирівняти годинникову стрілку на 12.</string>
+    <string name="withings_calibration_text_minutes">Тепер за допомогою циферблата вирівняйте хвилинну стрілку на 12.</string>
+    <string name="withings_steel_hr">Withings Steel HR</string>
+    <string name="withings_calibration_text_activity_target">Нарешті вирівняйте стрілку діяльності на 100%. Зверніть увагу, що ця стрілка рухається лише за годинниковою стрілкою.</string>
+    <string name="withings_bt_calibration_previous">Попереднє</string>
+    <string name="activity_type_windsurfing">Віндсерфінг</string>
+    <string name="activity_type_kitesurfing">Кайтсерфінг</string>
+    <string name="activity_type_football">Футбол</string>
+    <string name="activity_type_rugby">Регбі</string>
+    <string name="activity_type_baseball">Бейсбол</string>
+    <string name="activity_type_handball">Гандбол</string>
+    <string name="activity_type_tennis">Теніс</string>
+    <string name="activity_type_dancing">Танці</string>
+    <string name="activity_type_skiing">Катання на лижах</string>
+    <string name="activity_type_snowboarding">Сноубординг</string>
+    <string name="activity_type_riding">Верхова їзда</string>
+    <string name="activity_type_hockey">Хокей</string>
+    <string name="activity_type_icehockey">Хокей на льоду</string>
+    <string name="activity_type_iceskating">Катання на ковзанах</string>
+    <string name="activity_type_golf">Гольф</string>
+    <string name="activity_type_other">Інше</string>
 </resources>
