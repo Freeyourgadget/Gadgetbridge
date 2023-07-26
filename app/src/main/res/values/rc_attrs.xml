@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="RotaryControl">
+        <attr name="start_angle" format="float" />
+        <attr name="angle" format="float" />
+        <attr name="line_thickness" format="dimension" />
+        <attr name="line_color" format="color" />
+        <attr name="controlpoint_size" format="dimension" />
+        <attr name="controlpoint_color" format="color" />
+    </declare-styleable>
+</resources>

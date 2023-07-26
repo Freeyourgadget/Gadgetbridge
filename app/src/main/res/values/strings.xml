@@ -1170,6 +1170,9 @@
     <string name="activity_type_outdoor_running">Outdoor Running</string>
     <string name="activity_type_walking">Walking</string>
     <string name="activity_type_indoor_walking">Indoor Walking</string>
+    <string name="activity_type_surfing">Surfing</string>
+    <string name="activity_type_windsurfing">Windsurfing</string>
+    <string name="activity_type_kitesurfing">Kitesurfing</string>
     <string name="activity_type_freestyle">Freestyle</string>
     <string name="activity_type_hiking">Hiking</string>
     <string name="activity_type_climbing">Climbing</string>
@@ -1183,12 +1186,19 @@
     <string name="activity_type_jump_roping">Jumping Rope</string>
     <string name="activity_type_yoga">Yoga</string>
     <string name="activity_type_soccer">Soccer</string>
+    <string name="activity_type_football">Football</string>
+    <string name="activity_type_rugby">Rugby</string>
     <string name="activity_type_rowing_machine">Rowing Machine</string>
     <string name="activity_type_rowing">Rowing</string>
     <string name="activity_type_cricket">Cricket</string>
+    <string name="activity_type_baseball">Baseball</string>
     <string name="activity_type_basketball">Basketball</string>
+    <string name="activity_type_handball">Handball</string>
+    <string name="activity_type_tennis">Tennis</string>
     <string name="activity_type_pingpong">Ping Pong</string>
+    <string name="activity_type_squash">Squash</string>
     <string name="activity_type_badminton">Badminton</string>
+    <string name="activity_type_weightlifting">Weightlifting</string>
     <string name="activity_type_strength_training">Strength Training</string>
     <string name="activity_type_dance">Dance</string>
     <string name="activity_type_indoor_fitness">Indoor Fitness</string>
@@ -1206,6 +1216,15 @@
     <string name="activity_type_street_dance">Street Dance</string>
     <string name="activity_type_zumba">Zumba</string>
     <string name="activity_type_indoor_ice_skating">Indoor Ice Skating</string>
+    <string name="activity_type_dancing">Dancing</string>
+    <string name="activity_type_skiing">Skiing</string>
+    <string name="activity_type_snowboarding">Snowboarding</string>
+    <string name="activity_type_riding">Horseback Riding</string>
+    <string name="activity_type_hockey">Hockey</string>
+    <string name="activity_type_icehockey">Icehockey</string>
+    <string name="activity_type_iceskating">Ice Skating</string>
+    <string name="activity_type_golf">Golfing</string>
+    <string name="activity_type_other">Other</string>
     <string name="activity_type_unknown">Unknown activity</string>
     <string name="activity_summaries">Sport Activities</string>
     <string name="activity_summary_detail">Sport Activity Detail</string>
@@ -2038,6 +2057,7 @@
     <string name="qhybrid_summary_on_device_confirmation">On-device pairing confirmations can get annoying. Disabling them might lose you functionality.</string>
     <string name="devicetype_vesc">VESC</string>
     <string name="devicetype_bose_qc35">Bose QC35</string>
+    <string name="withings_steel_hr">Withings Steel HR</string>
     <string name="pref_button_action_disabled">Disabled</string>
     <string name="pref_media_play">Media Play</string>
     <string name="pref_media_pause">Media Pause</string>
@@ -2192,4 +2212,9 @@
     <string name="loyalty_cards_catima_permissions_summary">Gadgetbridge needs read permissions on Catima cards to sync them. Tap this button to grant them.</string>
     <string name="loyalty_cards">Loyalty Cards</string>
     <string name="loyalty_cards_syncing">Syncing %d loyalty cards to device</string>
+    <string name="withings_calibration_text_hours">Please use the dial below to align the hour hand to the 12.</string>
+    <string name="withings_calibration_text_minutes">Now use the dial to align the minute hand to the 12.</string>
+    <string name="withings_calibration_text_activity_target">Finally align the activity hand to 100%. Please be aware that this hand only moves clockwise.</string>
+    <string name="withings_bt_calibration_previous">Previous</string>
+    <string name="withings_bt_calibration_next">Next</string>
 </resources>

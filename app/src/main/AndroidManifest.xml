@@ -723,6 +723,10 @@
             android:label="@string/qhybrid_title_calibration"
             android:parentActivityName=".devices.qhybrid.HRConfigActivity" />
         <activity
+            android:name=".devices.withingssteelhr.WithingsCalibrationActivity"
+            android:label="@string/qhybrid_title_calibration"
+            android:parentActivityName=".devices.withingssteelhr.WithingsCalibrationActivity" />
+        <activity
             android:name=".devices.qhybrid.CommuteActionsActivity"
             android:label="@string/qhybrid_pref_title_actions"
             android:parentActivityName=".devices.qhybrid.HRConfigActivity" />

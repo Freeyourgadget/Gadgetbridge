@@ -1112,6 +1112,93 @@
         <item>indoor_ice_skating</item>
     </string-array>
 
+    <string-array name="pref_withings_steel_activity_types">
+        <item>@string/activity_type_outdoor_running</item>
+        <item>@string/activity_type_hiking</item>
+        <item>@string/activity_type_biking</item>
+        <item>@string/activity_type_swimming</item>
+        <item>@string/activity_type_surfing</item>
+        <item>@string/activity_type_windsurfing</item>
+        <item>@string/activity_type_kitesurfing</item>
+        <item>@string/activity_type_tennis</item>
+        <item>@string/activity_type_pingpong</item>
+        <item>@string/activity_type_squash</item>
+        <item>@string/activity_type_badminton</item>
+        <item>@string/activity_type_basketball</item>
+        <item>@string/activity_type_soccer</item>
+        <item>@string/activity_type_football</item>
+        <item>@string/activity_type_rugby</item>
+        <item>@string/activity_type_volleyball</item>
+        <item>@string/activity_type_baseball</item>
+        <item>@string/activity_type_handball</item>
+        <item>@string/activity_type_golf</item>
+        <item>@string/activity_type_gymnastics</item>
+        <item>@string/activity_type_elliptical</item>
+        <item>@string/activity_type_pilates</item>
+        <item>@string/activity_type_yoga</item>
+        <item>@string/activity_type_dancing</item>
+        <item>@string/activity_type_zumba</item>
+        <item>@string/activity_type_weightlifting</item>
+        <item>@string/activity_type_boxing</item>
+        <item>@string/activity_type_skiing</item>
+        <item>@string/activity_type_snowboarding</item>
+        <item>@string/activity_type_rowing_machine</item>
+        <item>@string/activity_type_hockey</item>
+        <item>@string/activity_type_icehockey</item>
+        <item>@string/activity_type_climbing</item>
+        <item>@string/activity_type_iceskating</item>
+        <item>@string/activity_type_riding</item>
+        <item>@string/activity_type_other</item>
+    </string-array>
+
+    <string-array name="pref_withings_steel_activity_types_values">
+        <item>running</item>
+        <item>hiking</item>
+        <item>biking</item>
+        <item>swimming</item>
+        <item>surfing</item>
+        <item>windsurfing</item>
+        <item>kitesurfing</item>
+        <item>tennis</item>
+        <item>pingpong</item>
+        <item>squash</item>
+        <item>badminton</item>
+        <item>basketball</item>
+        <item>soccer</item>
+        <item>football</item>
+        <item>rugby</item>
+        <item>volleyball</item>
+        <item>baseball</item>
+        <item>handball</item>
+        <item>golf</item>
+        <item>gymnastics</item>
+        <item>elliptical</item>
+        <item>pilates</item>
+        <item>yoga</item>
+        <item>dancing</item>
+        <item>zumba</item>
+        <item>weightlifting</item>
+        <item>boxing</item>
+        <item>skiing</item>
+        <item>snowboarding</item>
+        <item>rowing_machine</item>
+        <item>hockey</item>
+        <item>icehockey</item>
+        <item>climbing</item>
+        <item>iceskating</item>
+        <item>riding</item>
+        <item>other</item>
+    </string-array>
+
+    <string-array name="pref_withings_steel_activity_types_default">
+        <item>running</item>
+        <item>hiking</item>
+        <item>biking</item>
+        <item>swimming</item>
+        <item>climbing</item>
+        <item>other</item>
+    </string-array>
+
     <string-array name="pref_neo_display_items">
         <item>@string/menuitem_pai</item>
         <item>@string/menuitem_dnd</item>

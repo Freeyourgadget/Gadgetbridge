@@ -26,6 +26,8 @@ import org.slf4j.LoggerFactory;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 
+import java.util.Arrays;
+
 import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.NotifyAction;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.ReadAction;
 import nodomain.freeyourgadget.gadgetbridge.service.btle.actions.RequestConnectionPriorityAction;
@@ -61,6 +63,18 @@ public class TransactionBuilder {
         return add(action);
     }
 
+    public TransactionBuilder writeChunkedData(BluetoothGattCharacteristic characteristic, byte[] data, int chunkSize) {
+        for (int start = 0; start < data.length; start += chunkSize) {
+            int end = start + chunkSize;
+            if (end > data.length) end = data.length;
+            WriteAction action = new WriteAction(characteristic, Arrays.copyOfRange(data, start, end));
+            add(action);
+        }
+
+        return this;
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     public TransactionBuilder requestMtu(int mtu){
         return add(
                 new RequestMtuAction(mtu)

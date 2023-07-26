@@ -111,6 +111,7 @@ import nodomain.freeyourgadget.gadgetbridge.service.devices.vibratissimo.Vibrati
 import nodomain.freeyourgadget.gadgetbridge.service.devices.vivomovehr.VivomoveHrSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.waspos.WaspOSDeviceSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.watch9.Watch9DeviceSupport;
+import nodomain.freeyourgadget.gadgetbridge.service.devices.withingssteelhr.WithingsSteelHRDeviceSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.xwatch.XWatchSupport;
 import nodomain.freeyourgadget.gadgetbridge.service.devices.zetime.ZeTimeDeviceSupport;
 import nodomain.freeyourgadget.gadgetbridge.util.GB;
@@ -375,6 +376,8 @@ public class DeviceSupportFactory {
                 return new ServiceDeviceSupport(new AsteroidOSDeviceSupport());
             case SOFLOW_SO6:
                 return new ServiceDeviceSupport(new SoFlowSupport());
+            case WITHINGS_STEEL_HR:
+                return new ServiceDeviceSupport(new WithingsSteelHRDeviceSupport());
             case VIVOMOVE_HR:
                 return new ServiceDeviceSupport(new VivomoveHrSupport());
         }
