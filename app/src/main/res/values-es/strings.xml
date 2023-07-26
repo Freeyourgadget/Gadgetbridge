@@ -2316,4 +2316,29 @@
 \n
 \nPor favor, pulsa \'%2$s\' para continuar.</string>
     <string name="activity_prefs_goals">Objetivos</string>
+    <string name="withings_bt_calibration_previous">Anterior</string>
+    <string name="activity_type_surfing">Surfear</string>
+    <string name="activity_type_windsurfing">Windsurf</string>
+    <string name="activity_type_kitesurfing">Kitesurf</string>
+    <string name="activity_type_rugby">Rugby</string>
+    <string name="activity_type_baseball">Béisbol</string>
+    <string name="activity_type_handball">Balonmano</string>
+    <string name="activity_type_tennis">Tenis</string>
+    <string name="activity_type_squash">Squash</string>
+    <string name="activity_type_weightlifting">Halterofilia</string>
+    <string name="activity_type_snowboarding">Snowboard</string>
+    <string name="activity_type_icehockey">Jockey sobre hielo</string>
+    <string name="activity_type_iceskating">Patinaje sobre hielo</string>
+    <string name="activity_type_golf">Golf</string>
+    <string name="withings_calibration_text_hours">Utilice el dial de abajo para alinear la aguja de las horas con las 12.</string>
+    <string name="withings_calibration_text_minutes">Ahora utilice el dial para alinear el minutero con las 12.</string>
+    <string name="withings_calibration_text_activity_target">Por último, alinee la manecilla de actividad al 100%. Tenga en cuenta que esta manecilla sólo se mueve en el sentido de las agujas del reloj.</string>
+    <string name="withings_bt_calibration_next">Siguiente</string>
+    <string name="withings_steel_hr">Withings Steel HR</string>
+    <string name="activity_type_football">Fútbol</string>
+    <string name="activity_type_riding">Equitación</string>
+    <string name="activity_type_hockey">Jockey</string>
+    <string name="activity_type_skiing">Esquí</string>
+    <string name="activity_type_other">Otros</string>
+    <string name="activity_type_dancing">Danza</string>
 </resources>
