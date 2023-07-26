@@ -1,116 +1,136 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:iconSpaceReserved="false">
     <PreferenceCategory
         android:key="pref_key_general"
-        android:title="@string/pref_header_general">
+        android:title="@string/pref_header_general"
+        app:iconSpaceReserved="false">
         <SwitchPreference
             android:defaultValue="true"
             android:key="general_autostartonboot"
             android:layout="@layout/preference_checkbox"
-            android:title="@string/pref_title_general_autostartonboot" />
+            android:title="@string/pref_title_general_autostartonboot"
+            app:iconSpaceReserved="false" />
         <SwitchPreference
             android:defaultValue="false"
             android:key="general_autoconnectonbluetooth"
             android:layout="@layout/preference_checkbox"
-            android:title="@string/pref_title_general_autoconnectonbluetooth" />
+            android:title="@string/pref_title_general_autoconnectonbluetooth"
+            app:iconSpaceReserved="false" />
         <SwitchPreference
             android:defaultValue="false"
             android:enabled="false"
             android:key="general_autocreconnect"
             android:layout="@layout/preference_checkbox"
             android:summary="setting has been moved to device specific settings"
-            android:title="@string/pref_title_general_autoreconnect" />
+            android:title="@string/pref_title_general_autoreconnect"
+            app:iconSpaceReserved="false" />
         <SwitchPreference
             android:defaultValue="true"
             android:key="display_add_device_fab"
             android:layout="@layout/preference_checkbox"
             android:summaryOff="@string/pref_display_add_device_fab_off"
             android:summaryOn="@string/pref_display_add_device_fab_on"
-            android:title="@string/pref_display_add_device_fab" />
+            android:title="@string/pref_display_add_device_fab"
+            app:iconSpaceReserved="false" />
 
         <SwitchPreference
             android:defaultValue="false"
             android:key="mb_intents"
             android:layout="@layout/preference_checkbox"
             android:summary="@string/pref_summary_mb_intents"
-            android:title="@string/pref_title_mb_intents" />
+            android:title="@string/pref_title_mb_intents"
+            app:iconSpaceReserved="false" />
 
         <ListPreference
             android:defaultValue="default"
             android:dependency="mb_intents"
             android:key="audio_player"
             android:summary="%s"
-            android:title="@string/pref_title_audio_player" />
+            android:title="@string/pref_title_audio_player"
+            app:iconSpaceReserved="false" />
 
         <PreferenceScreen
             android:key="pref_screen_theme"
-            android:title="@string/pref_title_theme">
+            android:title="@string/pref_title_theme"
+            app:iconSpaceReserved="false">
             <ListPreference
                 android:defaultValue="@string/pref_theme_value_light"
                 android:entries="@array/pref_theme_options"
                 android:entryValues="@array/pref_theme_values"
                 android:key="pref_key_theme"
                 android:summary="%s"
-                android:title="@string/pref_title_theme" />
+                android:title="@string/pref_title_theme"
+                app:iconSpaceReserved="false" />
             <SwitchPreference
                 android:defaultValue="false"
                 android:key="pref_key_theme_amoled_black"
                 android:layout="@layout/preference_checkbox"
-                android:title="@string/pref_theme_black_background" />
+                android:title="@string/pref_theme_black_background"
+                app:iconSpaceReserved="false" />
         </PreferenceScreen>
 
         <PreferenceScreen
             android:key="language_category"
-            android:title="@string/language_and_region_prefs">
+            android:title="@string/language_and_region_prefs"
+            app:iconSpaceReserved="false">
             <ListPreference
                 android:defaultValue="default"
                 android:entries="@array/pref_language_options"
                 android:entryValues="@array/pref_language_values"
                 android:key="language"
                 android:summary="%s"
-                android:title="@string/pref_title_language" />
+                android:title="@string/pref_title_language"
+                app:iconSpaceReserved="false" />
             <ListPreference
                 android:defaultValue="metric"
                 android:entries="@array/pref_entries_unit_system"
                 android:entryValues="@array/pref_values_unit_system"
                 android:key="measurement_system"
                 android:summary="%s"
-                android:title="@string/pref_title_unit_system" />
+                android:title="@string/pref_title_unit_system"
+                app:iconSpaceReserved="false" />
             <PreferenceScreen
                 android:key="pref_screen_rtl"
-                android:title="@string/preferences_rtl_settings">
+                android:title="@string/preferences_rtl_settings"
+                app:iconSpaceReserved="false">
                 <SwitchPreference
                     android:defaultValue="false"
                     android:key="rtl"
                     android:layout="@layout/preference_checkbox"
                     android:summary="@string/pref_summary_rtl"
-                    android:title="@string/pref_title_rtl" />
+                    android:title="@string/pref_title_rtl"
+                    app:iconSpaceReserved="false" />
                 <SwitchPreference
                     android:defaultValue="false"
                     android:key="contextualArabic"
                     android:layout="@layout/preference_checkbox"
                     android:summary="@string/pref_summary_contextual_arabic"
-                    android:title="@string/pref_title_contextual_arabic" />
+                    android:title="@string/pref_title_contextual_arabic"
+                    app:iconSpaceReserved="false" />
                 <EditTextPreference
                     android:defaultValue="20"
                     android:inputType="number"
                     android:key="rtl_max_line_length"
                     android:maxLength="159"
                     android:summary="@string/pref_rtl_max_line_length_summary"
-                    android:title="@string/pref_rtl_max_line_length" />
+                    android:title="@string/pref_rtl_max_line_length"
+                    app:iconSpaceReserved="false" />
             </PreferenceScreen>
         </PreferenceScreen>
 
         <PreferenceScreen
             android:key="pref_screen_weather"
             android:summary="@string/pref_title_weather_summary"
-            android:title="@string/pref_title_weather">
+            android:title="@string/pref_title_weather"
+            app:iconSpaceReserved="false">
 
             <EditTextPreference
                 android:inputType="text"
                 android:key="weather_city"
                 android:title="@string/pref_title_weather_location"
+                app:iconSpaceReserved="false"
                 app:useSimpleSummaryProvider="true" />
         </PreferenceScreen>
 
@@ -118,32 +138,40 @@
 
     <Preference
         android:key="pref_category_activity_personal"
-        android:title="@string/activity_prefs_about_you" />
+        android:title="@string/activity_prefs_about_you"
+        app:iconSpaceReserved="false" />
 
     <Preference
         android:key="pref_charts"
-        android:title="@string/activity_prefs_charts" />
+        android:title="@string/activity_prefs_charts"
+        app:iconSpaceReserved="false" />
 
     <PreferenceCategory
         android:key="pref_key_datetime"
-        android:title="@string/pref_header_datetime">
+        android:title="@string/pref_header_datetime"
+        app:iconSpaceReserved="false">
         <SwitchPreference
             android:defaultValue="true"
             android:key="datetime_synconconnect"
             android:layout="@layout/preference_checkbox"
             android:summary="@string/pref_summary_datetime_syctimeonconnect"
-            android:title="@string/pref_title_datetime_syctimeonconnect" />
+            android:title="@string/pref_title_datetime_syctimeonconnect"
+            app:iconSpaceReserved="false" />
     </PreferenceCategory>
-    <PreferenceCategory android:title="@string/pref_header_location">
+    <PreferenceCategory
+        android:title="@string/pref_header_location"
+        app:iconSpaceReserved="false">
         <Preference
             android:key="location_aquire"
-            android:title="@string/pref_title_location_aquire" />
+            android:title="@string/pref_title_location_aquire"
+            app:iconSpaceReserved="false" />
         <EditTextPreference
             android:defaultValue="0"
             android:inputType="numberDecimal|numberSigned"
             android:key="location_latitude"
             android:maxLength="7"
             android:title="@string/pref_title_location_latitude"
+            app:iconSpaceReserved="false"
             app:useSimpleSummaryProvider="true" />
         <EditTextPreference
             android:defaultValue="0"
@@ -151,6 +179,7 @@
             android:key="location_longitude"
             android:maxLength="7"
             android:title="@string/pref_title_location_longitude"
+            app:iconSpaceReserved="false"
             app:useSimpleSummaryProvider="true" />
         <SwitchPreference
             android:defaultValue="true"
@@ -158,27 +187,35 @@
             android:key="use_updated_location_if_available"
             android:layout="@layout/preference_checkbox"
             android:summary="@string/pref_summary_location_keep_uptodate"
-            android:title="@string/pref_title_location_keep_uptodate" />
+            android:title="@string/pref_title_location_keep_uptodate"
+            app:iconSpaceReserved="false" />
         <Preference
             android:key="pref_key_opentracks_packagename"
             android:summary="@string/pref_summary_opentracks_packagename"
-            android:title="@string/pref_title_opentracks_packagename" />
+            android:title="@string/pref_title_opentracks_packagename"
+            app:iconSpaceReserved="false" />
     </PreferenceCategory>
-    <PreferenceCategory android:title="@string/pref_header_navigation">
+    <PreferenceCategory
+        android:title="@string/pref_header_navigation"
+        app:iconSpaceReserved="false">
         <SwitchPreference
             android:defaultValue="true"
             android:key="navigation_forward"
             android:layout="@layout/preference_checkbox"
             android:summary="@string/pref_summary_navigation_forward"
-            android:title="@string/pref_title_navigation_forward" />
+            android:title="@string/pref_title_navigation_forward"
+            app:iconSpaceReserved="false" />
         <SwitchPreference
             android:defaultValue="true"
             android:dependency="navigation_forward"
             android:key="nagivation_screen_on"
             android:layout="@layout/preference_checkbox"
-            android:title="@string/pref_title_whenscreenon" />
+            android:title="@string/pref_title_whenscreenon"
+            app:iconSpaceReserved="false" />
     </PreferenceCategory>
-    <PreferenceCategory android:title="@string/preferences_category_device_specific_settings">
+    <PreferenceCategory
+        android:title="@string/preferences_category_device_specific_settings"
+        app:iconSpaceReserved="false">
 
         <Preference
             android:icon="@drawable/ic_device_pebble"
@@ -194,25 +231,30 @@
             android:icon="@drawable/ic_device_pebble"
             android:key="pref_key_pebble"
             android:title="@string/pref_title_pebble_settings">
-            <PreferenceCategory android:title="@string/pref_header_general">
+            <PreferenceCategory
+                android:title="@string/pref_header_general"
+                app:iconSpaceReserved="false">
                 <SwitchPreference
                     android:defaultValue="true"
                     android:key="pebble_enable_outgoing_call"
                     android:layout="@layout/preference_checkbox"
                     android:summary="@string/pref_summary_enable_outgoing_call"
-                    android:title="@string/pref_title_enable_outgoing_call" />
+                    android:title="@string/pref_title_enable_outgoing_call"
+                    app:iconSpaceReserved="false" />
                 <SwitchPreference
                     android:defaultValue="false"
                     android:key="pebble_enable_pebblekit"
                     android:layout="@layout/preference_checkbox"
                     android:summary="@string/pref_summary_enable_pebblekit"
-                    android:title="@string/pref_title_enable_pebblekit" />
+                    android:title="@string/pref_title_enable_pebblekit"
+                    app:iconSpaceReserved="false" />
                 <EditTextPreference
                     android:defaultValue="12"
                     android:inputType="number"
                     android:key="pebble_reconnect_attempts"
                     android:maxLength="4"
                     android:title="@string/pref_title_pebble_reconnect_attempts"
+                    app:iconSpaceReserved="false"
                     app:useSimpleSummaryProvider="true" />
                 <ListPreference
                     android:defaultValue="@string/p_pebble_privacy_mode_off"
@@ -220,129 +262,156 @@
                     android:entryValues="@array/pebble_privacymode_values"
                     android:key="pebble_pref_privacy_mode"
                     android:summary="%s"
-                    android:title="@string/pref_title_pebble_privacy_mode" />
+                    android:title="@string/pref_title_pebble_privacy_mode"
+                    app:iconSpaceReserved="false" />
             </PreferenceCategory>
-            <PreferenceCategory android:title="@string/pref_header_pebble_timeline">
+            <PreferenceCategory
+                android:title="@string/pref_header_pebble_timeline"
+                app:iconSpaceReserved="false">
                 <SwitchPreference
                     android:key="send_sunrise_sunset"
                     android:layout="@layout/preference_checkbox"
                     android:summary="@string/pref_summary_sunrise_sunset"
-                    android:title="@string/pref_title_sunrise_sunset" />
+                    android:title="@string/pref_title_sunrise_sunset"
+                    app:iconSpaceReserved="false" />
             </PreferenceCategory>
-            <PreferenceCategory android:title="@string/pref_header_activitytrackers">
+            <PreferenceCategory
+                android:title="@string/pref_header_activitytrackers"
+                app:iconSpaceReserved="false">
                 <ListPreference
                     android:defaultValue="4"
                     android:entries="@array/pebble_activitytracker"
                     android:entryValues="@array/pebble_activitytracker_values"
                     android:key="pebble_activitytracker"
                     android:summary="%s"
-                    android:title="@string/pref_title_pebble_activitytracker" />
+                    android:title="@string/pref_title_pebble_activitytracker"
+                    app:iconSpaceReserved="false" />
                 <SwitchPreference
                     android:defaultValue="true"
                     android:key="pebble_sync_health"
                     android:layout="@layout/preference_checkbox"
-                    android:title="@string/pref_title_pebble_sync_health" />
+                    android:title="@string/pref_title_pebble_sync_health"
+                    app:iconSpaceReserved="false" />
                 <SwitchPreference
                     android:defaultValue="true"
                     android:dependency="pebble_sync_health"
                     android:key="pebble_health_store_raw"
                     android:layout="@layout/preference_checkbox"
                     android:summary="@string/pref_summary_pebble_health_store_raw"
-                    android:title="@string/pref_title_pebble_health_store_raw" />
+                    android:title="@string/pref_title_pebble_health_store_raw"
+                    app:iconSpaceReserved="false" />
                 <SwitchPreference
                     android:defaultValue="true"
                     android:key="pebble_sync_misfit"
                     android:layout="@layout/preference_checkbox"
-                    android:title="@string/pref_title_pebble_sync_misfit" />>
+                    android:title="@string/pref_title_pebble_sync_misfit"
+                    app:iconSpaceReserved="false" />>
                 <SwitchPreference
                     android:defaultValue="true"
                     android:key="pebble_sync_morpheuz"
                     android:layout="@layout/preference_checkbox"
-                    android:title="@string/pref_title_pebble_sync_morpheuz" />
+                    android:title="@string/pref_title_pebble_sync_morpheuz"
+                    app:iconSpaceReserved="false" />
             </PreferenceCategory>
-            <PreferenceCategory android:title="@string/pref_header_development">
+            <PreferenceCategory
+                android:title="@string/pref_header_development"
+                app:iconSpaceReserved="false">
                 <SwitchPreference
                     android:defaultValue="false"
                     android:key="pebble_force_protocol"
                     android:layout="@layout/preference_checkbox"
                     android:summary="@string/pref_summary_pebble_forceprotocol"
-                    android:title="@string/pref_title_pebble_forceprotocol" />
+                    android:title="@string/pref_title_pebble_forceprotocol"
+                    app:iconSpaceReserved="false" />
                 <SwitchPreference
                     android:defaultValue="false"
                     android:key="pebble_force_untested"
                     android:layout="@layout/preference_checkbox"
                     android:summary="@string/pref_summary_pebble_forceuntested"
-                    android:title="@string/pref_title_pebble_forceuntested" />
+                    android:title="@string/pref_title_pebble_forceuntested"
+                    app:iconSpaceReserved="false" />
                 <SwitchPreference
                     android:defaultValue="false"
                     android:key="pebble_force_le"
                     android:layout="@layout/preference_checkbox"
                     android:summary="@string/pref_summary_pebble_forcele"
-                    android:title="@string/pref_title_pebble_forcele" />
+                    android:title="@string/pref_title_pebble_forcele"
+                    app:iconSpaceReserved="false" />
                 <EditTextPreference
                     android:defaultValue="512"
                     android:inputType="number"
                     android:key="pebble_mtu_limit"
                     android:maxLength="3"
                     android:summary="@string/pref_summary_pebble_mtu_limit"
-                    android:title="@string/pref_title_pebble_mtu_limit" />
+                    android:title="@string/pref_title_pebble_mtu_limit"
+                    app:iconSpaceReserved="false" />
                 <SwitchPreference
                     android:defaultValue="false"
                     android:key="pebble_gatt_clientonly"
                     android:layout="@layout/preference_checkbox"
                     android:summary="@string/pref_summary_pebble_gatt_clientonly"
-                    android:title="@string/pref_title_pebble_gatt_clientonly" />
+                    android:title="@string/pref_title_pebble_gatt_clientonly"
+                    app:iconSpaceReserved="false" />
                 <SwitchPreference
                     android:defaultValue="false"
                     android:key="pebble_enable_applogs"
                     android:layout="@layout/preference_checkbox"
                     android:summary="@string/pref_summary_pebble_enable_applogs"
-                    android:title="@string/pref_title_pebble_enable_applogs" />
+                    android:title="@string/pref_title_pebble_enable_applogs"
+                    app:iconSpaceReserved="false" />
                 <SwitchPreference
                     android:defaultValue="false"
                     android:key="pebble_always_ack_pebblekit"
                     android:layout="@layout/preference_checkbox"
                     android:summary="@string/pref_summary_pebble_always_ack_pebblekit"
-                    android:title="@string/pref_title_pebble_always_ack_pebblekit" />
+                    android:title="@string/pref_title_pebble_always_ack_pebblekit"
+                    app:iconSpaceReserved="false" />
                 <SwitchPreference
                     android:defaultValue="false"
                     android:dependency="pebble_force_untested"
                     android:key="pebble_enable_background_javascript"
                     android:layout="@layout/preference_checkbox"
                     android:summary="@string/pref_summary_pebble_enable_bgjs"
-                    android:title="@string/pref_title_pebble_enable_bgjs" />
+                    android:title="@string/pref_title_pebble_enable_bgjs"
+                    app:iconSpaceReserved="false" />
                 <EditTextPreference
                     android:digits="0123456789."
                     android:key="pebble_emu_addr"
                     android:maxLength="15"
                     android:title="Emulator IP"
+                    app:iconSpaceReserved="false"
                     app:useSimpleSummaryProvider="true" />
                 <EditTextPreference
                     android:inputType="number"
                     android:key="pebble_emu_port"
                     android:maxLength="5"
                     android:title="Emulator Port"
+                    app:iconSpaceReserved="false"
                     app:useSimpleSummaryProvider="true" />
             </PreferenceCategory>
         </PreferenceScreen>
         <PreferenceScreen
             android:icon="@drawable/ic_device_hplus"
             android:key="pref_key_hplus"
-            android:title="@string/preferences_hplus_settings">
+            android:title="@string/preferences_hplus_settings"
+            app:iconSpaceReserved="false">
             <PreferenceCategory
                 android:key="pref_category_hplus_general"
-                android:title="@string/pref_header_general">
+                android:title="@string/pref_header_general"
+                app:iconSpaceReserved="false">
 
                 <EditTextPreference
                     android:defaultValue="5"
                     android:key="hplus_screentime"
-                    android:title="@string/pref_title_screentime" />
+                    android:title="@string/pref_title_screentime"
+                    app:iconSpaceReserved="false" />
 
                 <SwitchPreference
                     android:defaultValue="true"
                     android:key="hplus_alldayhr"
                     android:layout="@layout/preference_checkbox"
-                    android:title="@string/prefs_title_all_day_heart_rate" />
+                    android:title="@string/prefs_title_all_day_heart_rate"
+                    app:iconSpaceReserved="false" />
 
             </PreferenceCategory>
 
@@ -353,16 +422,20 @@
             android:title="@string/zetime_title_settings" />
     </PreferenceCategory>
 
-    <PreferenceCategory android:title="@string/pref_header_auto_export">
+    <PreferenceCategory
+        android:title="@string/pref_header_auto_export"
+        app:iconSpaceReserved="false">
         <Preference
             android:key="auto_export_location"
             android:summary="%s"
-            android:title="@string/pref_title_auto_export_location" />
+            android:title="@string/pref_title_auto_export_location"
+            app:iconSpaceReserved="false" />
         <SwitchPreference
             android:defaultValue="false"
             android:key="auto_export_enabled"
             android:layout="@layout/preference_checkbox"
-            android:title="@string/pref_title_auto_export_enabled" />
+            android:title="@string/pref_title_auto_export_enabled"
+            app:iconSpaceReserved="false" />
         <EditTextPreference
             android:defaultValue="3"
             android:dependency="auto_export_enabled"
@@ -370,16 +443,20 @@
             android:key="auto_export_interval"
             android:maxLength="3"
             android:summary="@string/pref_summary_auto_export_interval"
-            android:title="@string/pref_title_auto_export_interval" />
+            android:title="@string/pref_title_auto_export_interval"
+            app:iconSpaceReserved="false" />
     </PreferenceCategory>
 
-    <PreferenceCategory android:title="@string/pref_header_auto_fetch">
+    <PreferenceCategory
+        android:title="@string/pref_header_auto_fetch"
+        app:iconSpaceReserved="false">
         <SwitchPreference
             android:defaultValue="false"
             android:key="auto_fetch_enabled"
             android:layout="@layout/preference_checkbox"
             android:summary="@string/pref_auto_fetch_summary"
-            android:title="@string/pref_auto_fetch" />
+            android:title="@string/pref_auto_fetch"
+            app:iconSpaceReserved="false" />
         <EditTextPreference
             android:defaultValue="0"
             android:dependency="auto_fetch_enabled"
@@ -387,66 +464,79 @@
             android:key="auto_fetch_interval_limit"
             android:maxLength="3"
             android:summary="@string/pref_auto_fetch_limit_fetches_summary"
-            android:title="@string/pref_auto_fetch_limit_fetches" />
+            android:title="@string/pref_auto_fetch_limit_fetches"
+            app:iconSpaceReserved="false" />
     </PreferenceCategory>
 
     <PreferenceCategory
         android:key="pref_key_development"
-        android:title="@string/pref_header_development">
+        android:title="@string/pref_header_development"
+        app:iconSpaceReserved="false">
         <SwitchPreference
             android:defaultValue="false"
             android:key="log_to_file"
             android:layout="@layout/preference_checkbox"
-            android:title="@string/pref_write_logfiles" />
+            android:title="@string/pref_write_logfiles"
+            app:iconSpaceReserved="false" />
         <SwitchPreference
             android:defaultValue="true"
             android:key="permission_pestering"
             android:layout="@layout/preference_checkbox"
             android:summary="@string/pref_check_permission_status_summary"
-            android:title="@string/pref_check_permission_status" />
+            android:title="@string/pref_check_permission_status"
+            app:iconSpaceReserved="false" />
         <SwitchPreference
             android:defaultValue="true"
             android:key="cache_weather"
             android:layout="@layout/preference_checkbox"
             android:summary="@string/pref_cache_weather_summary"
-            android:title="@string/pref_cache_weather" />
+            android:title="@string/pref_cache_weather"
+            app:iconSpaceReserved="false" />
         <Preference
             android:key="pref_discovery_pairing"
-            android:title="@string/activity_prefs_discovery_pairing" />
+            android:title="@string/activity_prefs_discovery_pairing"
+            app:iconSpaceReserved="false" />
     </PreferenceCategory>
 
     <PreferenceScreen
         android:key="pref_screen_intent_api"
-        android:title="@string/pref_header_intent_api">
+        android:title="@string/pref_header_intent_api"
+        app:iconSpaceReserved="false">
 
         <PreferenceCategory
             android:key="pref_key_intent_api"
-            android:title="@string/pref_header_intent_api">
+            android:title="@string/pref_header_intent_api"
+            app:iconSpaceReserved="false">
 
             <SwitchPreference
                 android:key="prefs_key_allow_bluetooth_intent_api"
                 android:summary="@string/activity_prefs_summary_allow_bluetooth_intent_api"
-                android:title="@string/activity_prefs_allow_bluetooth_intent_api" />
+                android:title="@string/activity_prefs_allow_bluetooth_intent_api"
+                app:iconSpaceReserved="false" />
 
             <SwitchPreference
                 android:key="intent_api_allow_activity_sync"
                 android:summary="@string/intent_api_allow_activity_sync_summary"
-                android:title="@string/intent_api_allow_activity_sync_title" />
+                android:title="@string/intent_api_allow_activity_sync_title"
+                app:iconSpaceReserved="false" />
 
             <SwitchPreference
                 android:key="intent_api_allow_trigger_export"
                 android:summary="@string/intent_api_allow_trigger_export_summary"
-                android:title="@string/intent_api_allow_trigger_export_title" />
+                android:title="@string/intent_api_allow_trigger_export_title"
+                app:iconSpaceReserved="false" />
 
             <SwitchPreference
                 android:key="intent_api_broadcast_export"
                 android:summary="@string/intent_api_broadcast_export_summary"
-                android:title="@string/intent_api_broadcast_export_title" />
+                android:title="@string/intent_api_broadcast_export_title"
+                app:iconSpaceReserved="false" />
 
             <SwitchPreference
                 android:key="intent_api_allow_debug_commands"
                 android:summary="@string/intent_api_allow_debug_commands_summary"
-                android:title="@string/intent_api_allow_debug_commands_title" />
+                android:title="@string/intent_api_allow_debug_commands_title"
+                app:iconSpaceReserved="false" />
         </PreferenceCategory>
     </PreferenceScreen>
 </PreferenceScreen>
