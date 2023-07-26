@@ -2306,4 +2306,11 @@
     <string name="devicetype_casiogwb5600">Casio GW-B5600‎</string>
     <string name="devicetype_casiogmwb5000">Casio GMW-B5000‎</string>
     <string name="activity_prefs_goals">יעדים</string>
+    <string name="error_no_bluetooth_scan">יש להעניק גישה לסריקת Bluetooth ולהפעיל אותה כדי שזה יעבוד כראוי</string>
+    <string name="error_no_bluetooth_connect">יש להעניק גישה לחיבור Bluetooth ולהפעיל אותו כדי שהסריקה תעבוד כראוי</string>
+    <string name="permission_request">%1$s מאפשר לך לשלוח הודעות ונתונים נוספים מ־Android למכשיר שלך. כדי לעשות זאת נדרשת גישה לנתונים האלה ובלעדיה, כנראה שזה לא יעבוד כראוי.
+\n
+\nעכשיו יוצגו בפניך מספר חלוניות של Android שמבקשות את ההרשאות האלה.
+\n
+\nנא לגעת ב־‚%2$s’ כדי להמשיך.</string>
 </resources>
