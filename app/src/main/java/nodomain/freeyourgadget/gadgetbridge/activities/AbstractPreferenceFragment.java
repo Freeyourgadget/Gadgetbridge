@@ -33,12 +33,15 @@ import androidx.preference.SwitchPreference;
 import com.mobeta.android.dslv.DragSortListPreference;
 import com.mobeta.android.dslv.DragSortListPreferenceFragment;
 
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.Collections;
 import java.util.Set;
 
+import nodomain.freeyourgadget.gadgetbridge.R;
+import nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsActivity;
 import nodomain.freeyourgadget.gadgetbridge.util.XTimePreference;
 import nodomain.freeyourgadget.gadgetbridge.util.XTimePreferenceFragment;
 
@@ -56,6 +59,25 @@ public abstract class AbstractPreferenceFragment extends PreferenceFragmentCompa
         reloadPreferences(sharedPreferences, getPreferenceScreen());
 
         sharedPreferences.registerOnSharedPreferenceChangeListener(sharedPreferencesChangeHandler);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        updateActionBarTitle();
+    }
+
+    private void updateActionBarTitle() {
+        try {
+            CharSequence title = getPreferenceScreen().getTitle();
+            if (StringUtils.isBlank(title)) {
+                title = requireActivity().getTitle();
+            }
+            ((AbstractSettingsActivityV2) requireActivity()).setActionBarTitle(title);
+        } catch (final Exception e) {
+            LOG.error("Failed to update action bar title", e);
+        }
     }
 
     @Override

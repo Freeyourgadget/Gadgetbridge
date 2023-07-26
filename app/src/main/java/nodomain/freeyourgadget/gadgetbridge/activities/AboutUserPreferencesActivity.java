@@ -36,30 +36,23 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.InputType;
 
-import androidx.fragment.app.Fragment;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.preference.Preference;
+import androidx.preference.PreferenceFragmentCompat;
 
 import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.devices.DeviceManager;
 
-public class AboutUserPreferencesActivity extends AbstractGBActivity {
+public class AboutUserPreferencesActivity extends AbstractSettingsActivityV2 {
     @Override
-    protected void onCreate(final Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_device_settings);
+    protected String fragmentTag() {
+        return AboutUserPreferencesFragment.FRAGMENT_TAG;
+    }
 
-        if (savedInstanceState == null) {
-            Fragment fragment = getSupportFragmentManager().findFragmentByTag(AboutUserPreferencesFragment.FRAGMENT_TAG);
-            if (fragment == null) {
-                fragment = new AboutUserPreferencesFragment();
-            }
-            getSupportFragmentManager()
-                    .beginTransaction()
-                    .replace(R.id.settings_container, fragment, AboutUserPreferencesFragment.FRAGMENT_TAG)
-                    .commit();
-        }
+    @Override
+    protected PreferenceFragmentCompat newFragment() {
+        return new AboutUserPreferencesFragment();
     }
 
     public static class AboutUserPreferencesFragment extends AbstractPreferenceFragment {
@@ -67,7 +60,7 @@ public class AboutUserPreferencesActivity extends AbstractGBActivity {
 
         @Override
         public void onCreatePreferences(final Bundle savedInstanceState, final String rootKey) {
-            addPreferencesFromResource(R.xml.about_user);
+            setPreferencesFromResource(R.xml.about_user, rootKey);
 
             addPreferenceHandlerFor(PREF_USER_NAME, true, false);
             addPreferenceHandlerFor(PREF_USER_YEAR_OF_BIRTH, true, false);

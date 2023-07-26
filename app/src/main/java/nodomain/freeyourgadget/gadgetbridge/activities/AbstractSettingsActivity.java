@@ -46,7 +46,10 @@ import nodomain.freeyourgadget.gadgetbridge.util.AndroidUtils;
  * If you combine such preferences with a custom OnPreferenceChangeListener, you have
  * to set that listener in #onCreate, *not* in #onPostCreate, otherwise the value will
  * not be displayed.
+ *
+ * @deprecated use AbstractSettingsActivityV2
  */
+@Deprecated
 public abstract class AbstractSettingsActivity extends AppCompatPreferenceActivity implements GBActivity {
 
     private static final Logger LOG = LoggerFactory.getLogger(AbstractSettingsActivity.class);

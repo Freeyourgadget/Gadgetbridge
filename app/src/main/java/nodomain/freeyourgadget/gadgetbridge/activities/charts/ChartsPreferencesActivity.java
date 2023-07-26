@@ -21,31 +21,24 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.InputType;
 
-import androidx.fragment.app.Fragment;
 import androidx.preference.Preference;
+import androidx.preference.PreferenceFragmentCompat;
 
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.activities.AboutUserPreferencesActivity;
-import nodomain.freeyourgadget.gadgetbridge.activities.AbstractGBActivity;
 import nodomain.freeyourgadget.gadgetbridge.activities.AbstractPreferenceFragment;
+import nodomain.freeyourgadget.gadgetbridge.activities.AbstractSettingsActivityV2;
 import nodomain.freeyourgadget.gadgetbridge.util.GBPrefs;
 
-public class ChartsPreferencesActivity extends AbstractGBActivity {
+public class ChartsPreferencesActivity extends AbstractSettingsActivityV2 {
     @Override
-    protected void onCreate(final Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_device_settings);
+    protected String fragmentTag() {
+        return ChartsPreferencesFragment.FRAGMENT_TAG;
+    }
 
-        if (savedInstanceState == null) {
-            Fragment fragment = getSupportFragmentManager().findFragmentByTag(ChartsPreferencesFragment.FRAGMENT_TAG);
-            if (fragment == null) {
-                fragment = new ChartsPreferencesFragment();
-            }
-            getSupportFragmentManager()
-                    .beginTransaction()
-                    .replace(R.id.settings_container, fragment, ChartsPreferencesFragment.FRAGMENT_TAG)
-                    .commit();
-        }
+    @Override
+    protected PreferenceFragmentCompat newFragment() {
+        return new ChartsPreferencesFragment();
     }
 
     public static class ChartsPreferencesFragment extends AbstractPreferenceFragment {
@@ -53,7 +46,7 @@ public class ChartsPreferencesActivity extends AbstractGBActivity {
 
         @Override
         public void onCreatePreferences(final Bundle savedInstanceState, final String rootKey) {
-            addPreferencesFromResource(R.xml.charts_preferences);
+            setPreferencesFromResource(R.xml.charts_preferences, rootKey);
 
             setInputTypeFor(GBPrefs.CHART_MAX_HEART_RATE, InputType.TYPE_CLASS_NUMBER);
             setInputTypeFor(GBPrefs.CHART_MIN_HEART_RATE, InputType.TYPE_CLASS_NUMBER);

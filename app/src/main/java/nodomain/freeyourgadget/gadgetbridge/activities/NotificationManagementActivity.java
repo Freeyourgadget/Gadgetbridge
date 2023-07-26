@@ -26,6 +26,7 @@ import android.provider.Settings;
 import androidx.fragment.app.Fragment;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceCategory;
+import androidx.preference.PreferenceFragmentCompat;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -35,26 +36,19 @@ import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.util.GBPrefs;
 import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 
-public class NotificationManagementActivity extends AbstractGBActivity {
+public class NotificationManagementActivity extends AbstractSettingsActivityV2 {
     private static final Logger LOG = LoggerFactory.getLogger(NotificationManagementActivity.class);
     private static final int RINGTONE_REQUEST_CODE = 4712;
     private static final String DEFAULT_RINGTONE_URI = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_RINGTONE).toString();
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_device_settings);
+    protected String fragmentTag() {
+        return NotificationPreferencesFragment.FRAGMENT_TAG;
+    }
 
-        if (savedInstanceState == null) {
-            Fragment fragment = getSupportFragmentManager().findFragmentByTag(NotificationPreferencesFragment.FRAGMENT_TAG);
-            if (fragment == null) {
-                fragment = new NotificationPreferencesFragment();
-            }
-            getSupportFragmentManager()
-                    .beginTransaction()
-                    .replace(R.id.settings_container, fragment, NotificationPreferencesFragment.FRAGMENT_TAG)
-                    .commit();
-        }
+    @Override
+    protected PreferenceFragmentCompat newFragment() {
+        return new NotificationPreferencesFragment();
     }
 
     public static class NotificationPreferencesFragment extends AbstractPreferenceFragment {
@@ -76,7 +70,7 @@ public class NotificationManagementActivity extends AbstractGBActivity {
 
         @Override
         public void onCreatePreferences(final Bundle savedInstanceState, final String rootKey) {
-            addPreferencesFromResource(R.xml.notifications_preferences);
+            setPreferencesFromResource(R.xml.notifications_preferences, rootKey);
 
             Preference pref = findPreference("notifications_generic");
             pref.setOnPreferenceClickListener(preference -> {

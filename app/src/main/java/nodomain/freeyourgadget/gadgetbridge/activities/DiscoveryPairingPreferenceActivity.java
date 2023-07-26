@@ -19,34 +19,26 @@ package nodomain.freeyourgadget.gadgetbridge.activities;
 
 import android.os.Bundle;
 
-import androidx.fragment.app.Fragment;
+import androidx.preference.PreferenceFragmentCompat;
 
 import nodomain.freeyourgadget.gadgetbridge.R;
 
-public class DiscoveryPairingPreferenceActivity extends AbstractGBActivity {
+public class DiscoveryPairingPreferenceActivity extends AbstractSettingsActivityV2 {
     @Override
-    protected void onCreate(final Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_device_settings);
+    protected String fragmentTag() {
+        return DiscoveryPairingPreferenceFragment.FRAGMENT_TAG;
+    }
 
-        if (savedInstanceState == null) {
-            Fragment fragment = getSupportFragmentManager().findFragmentByTag(DiscoveryPairingPreferenceFragment.FRAGMENT_TAG);
-            if (fragment == null) {
-                fragment = new DiscoveryPairingPreferenceFragment();
-            }
-            getSupportFragmentManager()
-                    .beginTransaction()
-                    .replace(R.id.settings_container, fragment, DiscoveryPairingPreferenceFragment.FRAGMENT_TAG)
-                    .commit();
-        }
+    @Override
+    protected PreferenceFragmentCompat newFragment() {
+        return new DiscoveryPairingPreferenceFragment();
     }
 
     public static class DiscoveryPairingPreferenceFragment extends AbstractPreferenceFragment {
         static final String FRAGMENT_TAG = "DISCOVERY_PAIRING_PREFERENCES_FRAGMENT";
 
         public void onCreatePreferences(final Bundle savedInstanceState, final String rootKey) {
-            addPreferencesFromResource(R.xml.discovery_pairing_preferences);
-
+            setPreferencesFromResource(R.xml.discovery_pairing_preferences, rootKey);
         }
     }
 }

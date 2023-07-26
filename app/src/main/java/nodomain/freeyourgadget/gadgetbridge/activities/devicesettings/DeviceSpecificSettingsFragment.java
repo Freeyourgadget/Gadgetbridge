@@ -166,25 +166,6 @@ public class DeviceSpecificSettingsFragment extends AbstractPreferenceFragment i
         setChangeListener();
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-
-        updateActionBarTitle();
-    }
-
-    private void updateActionBarTitle() {
-        try {
-            CharSequence title = getPreferenceScreen().getTitle();
-            if (StringUtils.isBlank(title)) {
-                title = getString(R.string.title_activity_device_specific_settings);
-            }
-            ((DeviceSettingsActivity) requireActivity()).setActionBarTitle(title);
-        } catch (final Exception e) {
-            LOG.error("Failed to update action bar title", e);
-        }
-    }
-
     /*
      * delayed execution so that the preferences are applied first
      */
