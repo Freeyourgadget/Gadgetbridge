@@ -2299,4 +2299,29 @@
 \nستظهر لك الآن بعض مربعات حوار Android التي تطلب هذه الأذونات.
 \n
 \nالرجاء النقر على \"%2$s\" للمتابعة.</string>
+    <string name="activity_type_surfing">ركوب الأمواج</string>
+    <string name="activity_type_windsurfing">طائرة شراعية</string>
+    <string name="activity_type_kitesurfing">ركوب الأمواج الشراعي</string>
+    <string name="activity_type_football">كرة القدم الامريكية</string>
+    <string name="activity_type_rugby">الركبي</string>
+    <string name="activity_type_baseball">بيسبول</string>
+    <string name="activity_type_handball">كرة اليد</string>
+    <string name="activity_type_tennis">تنس</string>
+    <string name="activity_type_squash">إسكواش</string>
+    <string name="activity_type_weightlifting">رفع الاثقال</string>
+    <string name="activity_type_dancing">الرقص</string>
+    <string name="activity_type_skiing">التزلج</string>
+    <string name="activity_type_snowboarding">التزلج على الجليد</string>
+    <string name="activity_type_riding">ركوب الخيل</string>
+    <string name="activity_type_hockey">هوكي</string>
+    <string name="activity_type_golf">الجولف</string>
+    <string name="activity_type_other">أخرى</string>
+    <string name="withings_steel_hr">ويثينجز ستيل إتش آر</string>
+    <string name="withings_bt_calibration_previous">السابق</string>
+    <string name="activity_type_icehockey">هوكي الجليد</string>
+    <string name="activity_type_iceskating">التزلج على الثلج</string>
+    <string name="withings_calibration_text_hours">يرجى استخدام القرص أدناه لمحاذاة عقرب الساعة إلى 12.</string>
+    <string name="withings_calibration_text_minutes">الآن استخدم القرص لمحاذاة عقرب الدقائق إلى 12.</string>
+    <string name="withings_calibration_text_activity_target">أخيرًا قم بمحاذاة يد النشاط إلى 100٪. يرجى الانتباه إلى أن هذا العقرب يتحرك في اتجاه عقارب الساعة فقط.</string>
+    <string name="withings_bt_calibration_next">التالي</string>
 </resources>
