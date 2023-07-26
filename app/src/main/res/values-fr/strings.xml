@@ -2318,4 +2318,29 @@ Temps de sommeil préféré en heures</string>
 \nVous allez maintenant pouvoir configurer ces autorisations.
 \n
 \nMerci d\'appuyer sur \'%2$s\' pour continuer.</string>
+    <string name="activity_type_handball">Handball</string>
+    <string name="activity_type_windsurfing">Surf à voile</string>
+    <string name="activity_type_kitesurfing">Kitesurfing</string>
+    <string name="activity_type_rugby">Rugby</string>
+    <string name="activity_type_baseball">Baseball</string>
+    <string name="activity_type_squash">Squash</string>
+    <string name="activity_type_skiing">Ski</string>
+    <string name="activity_type_snowboarding">Snowboard</string>
+    <string name="activity_type_riding">Course à cheval</string>
+    <string name="activity_type_hockey">Hockey</string>
+    <string name="withings_calibration_text_hours">Merci d\'utiliser la molette ci-dessous pour aligner la main sur le 12.</string>
+    <string name="withings_calibration_text_minutes">Maintenant utiliser la molette pour aligner la main des minutes sur le 12.</string>
+    <string name="withings_calibration_text_activity_target">Pour finir aligner la main d\'activité sur 100%. Attention cette main ne bouge que dans le sens des aiguilles d\'une montre.</string>
+    <string name="activity_type_weightlifting">Halthérophilie</string>
+    <string name="activity_type_dancing">Danse</string>
+    <string name="activity_type_icehockey">Hockey sur glace</string>
+    <string name="activity_type_iceskating">Patinage sur glace</string>
+    <string name="activity_type_golf">Golf</string>
+    <string name="activity_type_other">Autre</string>
+    <string name="withings_steel_hr">Withings Steel HR</string>
+    <string name="withings_bt_calibration_previous">Précédent</string>
+    <string name="withings_bt_calibration_next">Suivant</string>
+    <string name="activity_type_tennis">Tennis</string>
+    <string name="activity_type_surfing">Surf</string>
+    <string name="activity_type_football">Football</string>
 </resources>
