@@ -2313,4 +2313,29 @@
 \nעכשיו יוצגו בפניך מספר חלוניות של Android שמבקשות את ההרשאות האלה.
 \n
 \nנא לגעת ב־‚%2$s’ כדי להמשיך.</string>
+    <string name="activity_type_surfing">גלישה</string>
+    <string name="activity_type_windsurfing">גלישת רוח</string>
+    <string name="activity_type_rugby">רוגבי</string>
+    <string name="activity_type_baseball">בייסבול</string>
+    <string name="activity_type_handball">כדור־יד</string>
+    <string name="activity_type_tennis">טניס</string>
+    <string name="activity_type_squash">סקווש</string>
+    <string name="activity_type_weightlifting">הרמת משקולות</string>
+    <string name="activity_type_dancing">ריקוד</string>
+    <string name="activity_type_hockey">הוקי</string>
+    <string name="activity_type_icehockey">הוקי קרח</string>
+    <string name="activity_type_iceskating">החלקה על קרח</string>
+    <string name="activity_type_football">פוטבול</string>
+    <string name="activity_type_kitesurfing">קייטסרפינג</string>
+    <string name="activity_type_snowboarding">גלישת שלג</string>
+    <string name="activity_type_other">אחר</string>
+    <string name="withings_steel_hr">Withings Steel HR‎</string>
+    <string name="withings_bt_calibration_previous">הקודם</string>
+    <string name="withings_calibration_text_minutes">כעת יש להשתמש בחוגה כדי ליישר את מחוג הדקות ל־12.</string>
+    <string name="withings_bt_calibration_next">הבא</string>
+    <string name="activity_type_skiing">סקי</string>
+    <string name="activity_type_golf">גולף</string>
+    <string name="withings_calibration_text_hours">נא להשתמש בחוגה שלהלן כדי ליישר את מחוג השעות ל־12.</string>
+    <string name="activity_type_riding">רכיבת סוסים</string>
+    <string name="withings_calibration_text_activity_target">ולבסוף, יש ליישר את מחוג הפעילות ל־100%. כדאי לשים לב שהמחוג הזה נע רק נגד כיוון השעון.</string>
 </resources>
