@@ -1,72 +1,88 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
     <PreferenceCategory
         android:key="pref_category_zetime_general"
-        android:title="@string/pref_header_general">
+        android:title="@string/pref_header_general"
+        app:iconSpaceReserved="false">
 
         <EditTextPreference
-            android:inputType="number"
-            android:maxLength="5"
             android:defaultValue="30"
+            android:inputType="number"
             android:key="zetime_screentime"
-            android:title="@string/zetime_title_screentime"/>
+            android:maxLength="5"
+            android:title="@string/zetime_title_screentime"
+            app:iconSpaceReserved="false"
+            app:useSimpleSummaryProvider="true" />
 
-        <CheckBoxPreference
+        <SwitchPreference
             android:defaultValue="false"
             android:key="zetime_activity_tracking"
+            android:summary="@string/zetime_activity_tracking_summary"
             android:title="@string/zetime_activity_tracking"
-            android:summary="@string/zetime_activity_tracking_summary" />
+            app:iconSpaceReserved="false" />
 
         <EditTextPreference
             android:defaultValue="10000"
             android:inputType="number"
             android:key="fitness_goal"
             android:maxLength="5"
-            android:title="@string/miband_prefs_fitness_goal" />
+            android:title="@string/miband_prefs_fitness_goal"
+            app:iconSpaceReserved="false"
+            app:useSimpleSummaryProvider="true" />
 
         <EditTextPreference
             android:inputType="number"
             android:key="activity_user_sleep_duration"
             android:maxLength="2"
-            android:title="@string/activity_prefs_sleep_duration" />
+            android:title="@string/activity_prefs_sleep_duration"
+            app:iconSpaceReserved="false"
+            app:useSimpleSummaryProvider="true" />
 
         <EditTextPreference
             android:defaultValue="2000"
             android:inputType="number"
             android:key="activity_user_calories_burnt"
             android:maxLength="4"
-            android:title="@string/activity_prefs_calories_burnt" />
+            android:title="@string/activity_prefs_calories_burnt"
+            app:iconSpaceReserved="false"
+            app:useSimpleSummaryProvider="true" />
 
         <EditTextPreference
             android:defaultValue="5"
             android:inputType="number"
             android:key="activity_user_distance_meters"
             android:maxLength="5"
-            android:title="@string/activity_prefs_distance_meters" />
+            android:title="@string/activity_prefs_distance_meters"
+            app:iconSpaceReserved="false"
+            app:useSimpleSummaryProvider="true" />
 
         <EditTextPreference
             android:defaultValue="60"
             android:inputType="number"
             android:key="activity_user_activetime_minutes"
             android:maxLength="3"
-            android:title="@string/activity_prefs_activetime_minutes" />
+            android:title="@string/activity_prefs_activetime_minutes"
+            app:iconSpaceReserved="false"
+            app:useSimpleSummaryProvider="true" />
 
         <PreferenceScreen
             android:key="inactivity_warnings_key"
             android:summary="@string/mi2_prefs_inactivity_warnings_summary"
             android:title="@string/mi2_prefs_inactivity_warnings"
-            android:persistent="false">
+            app:iconSpaceReserved="false">
 
             <!-- workaround for missing toolbar -->
             <PreferenceCategory
                 android:title="@string/mi2_prefs_inactivity_warnings"
-                />
+                app:iconSpaceReserved="false" />
 
-            <CheckBoxPreference
+            <SwitchPreference
                 android:defaultValue="false"
                 android:key="inactivity_warnings_enable"
                 android:summary="@string/mi2_prefs_inactivity_warnings_summary"
-                android:title="@string/mi2_prefs_inactivity_warnings" />
+                android:title="@string/mi2_prefs_inactivity_warnings"
+                app:iconSpaceReserved="false" />
 
             <EditTextPreference
                 android:defaultValue="60"
@@ -74,51 +90,64 @@
                 android:inputType="numberSigned"
                 android:key="inactivity_warnings_threshold"
                 android:maxLength="3"
-                android:title="@string/mi2_prefs_inactivity_warnings_threshold" />
+                android:title="@string/mi2_prefs_inactivity_warnings_threshold"
+                app:iconSpaceReserved="false"
+                app:useSimpleSummaryProvider="true" />
 
-            <nodomain.freeyourgadget.gadgetbridge.util.TimePreference
+            <nodomain.freeyourgadget.gadgetbridge.util.XTimePreference
                 android:defaultValue="06:00"
                 android:dependency="inactivity_warnings_enable"
                 android:key="inactivity_warnings_start"
-                android:title="@string/mi2_prefs_do_not_disturb_start" />
+                android:title="@string/mi2_prefs_do_not_disturb_start"
+                app:iconSpaceReserved="false" />
 
-            <nodomain.freeyourgadget.gadgetbridge.util.TimePreference
+            <nodomain.freeyourgadget.gadgetbridge.util.XTimePreference
                 android:defaultValue="22:00"
                 android:dependency="inactivity_warnings_enable"
                 android:key="inactivity_warnings_end"
-                android:title="@string/mi2_prefs_do_not_disturb_end" />
+                android:title="@string/mi2_prefs_do_not_disturb_end"
+                app:iconSpaceReserved="false" />
 
             <!-- workaround for missing toolbar -->
-            <PreferenceCategory android:title="@string/zetime_prefs_inactivity_repetitions"
-                android:dependency="inactivity_warnings_enable">
-                <CheckBoxPreference
+            <PreferenceCategory
+                android:dependency="inactivity_warnings_enable"
+                android:title="@string/zetime_prefs_inactivity_repetitions"
+                app:iconSpaceReserved="false">
+                <SwitchPreference
                     android:defaultValue="false"
                     android:key="inactivity_warnings_mo"
-                    android:title="@string/zetime_prefs_inactivity_mo" />
-                <CheckBoxPreference
+                    android:title="@string/zetime_prefs_inactivity_mo"
+                    app:iconSpaceReserved="false" />
+                <SwitchPreference
                     android:defaultValue="false"
                     android:key="inactivity_warnings_tu"
-                    android:title="@string/zetime_prefs_inactivity_tu" />
-                <CheckBoxPreference
+                    android:title="@string/zetime_prefs_inactivity_tu"
+                    app:iconSpaceReserved="false" />
+                <SwitchPreference
                     android:defaultValue="false"
                     android:key="inactivity_warnings_we"
-                    android:title="@string/zetime_prefs_inactivity_we" />
-                <CheckBoxPreference
+                    android:title="@string/zetime_prefs_inactivity_we"
+                    app:iconSpaceReserved="false" />
+                <SwitchPreference
                     android:defaultValue="false"
                     android:key="inactivity_warnings_th"
-                    android:title="@string/zetime_prefs_inactivity_th" />
-                <CheckBoxPreference
+                    android:title="@string/zetime_prefs_inactivity_th"
+                    app:iconSpaceReserved="false" />
+                <SwitchPreference
                     android:defaultValue="false"
                     android:key="inactivity_warnings_fr"
-                    android:title="@string/zetime_prefs_inactivity_fr" />
-                <CheckBoxPreference
+                    android:title="@string/zetime_prefs_inactivity_fr"
+                    app:iconSpaceReserved="false" />
+                <SwitchPreference
                     android:defaultValue="false"
                     android:key="inactivity_warnings_sa"
-                    android:title="@string/zetime_prefs_inactivity_sa" />
-                <CheckBoxPreference
+                    android:title="@string/zetime_prefs_inactivity_sa"
+                    app:iconSpaceReserved="false" />
+                <SwitchPreference
                     android:defaultValue="false"
                     android:key="inactivity_warnings_su"
-                    android:title="@string/zetime_prefs_inactivity_su" />
+                    android:title="@string/zetime_prefs_inactivity_su"
+                    app:iconSpaceReserved="false" />
             </PreferenceCategory>
         </PreferenceScreen>
 
@@ -128,13 +157,15 @@
             android:entryValues="@array/zetime_calories_type_values"
             android:key="zetime_calories_type"
             android:title="@string/zetime_calories_type"
-            android:summary="%s" />
+            app:iconSpaceReserved="false"
+            app:useSimpleSummaryProvider="true" />
 
-        <CheckBoxPreference
+        <SwitchPreference
             android:defaultValue="false"
             android:key="zetime_handmove_display"
+            android:summary="@string/zetime_handmove_display_summary"
             android:title="@string/zetime_handmove_display"
-            android:summary="@string/zetime_handmove_display_summary" />
+            app:iconSpaceReserved="false" />
 
         <ListPreference
             android:defaultValue="0"
@@ -142,7 +173,8 @@
             android:entryValues="@array/zetime_analog_mode_values"
             android:key="zetime_analog_mode"
             android:title="@string/zetime_analog_mode"
-            android:summary="%s" />
+            app:iconSpaceReserved="false"
+            app:useSimpleSummaryProvider="true" />
 
         <ListPreference
             android:defaultValue="2"
@@ -150,24 +182,27 @@
             android:entryValues="@array/zetime_date_format_values"
             android:key="zetime_date_format"
             android:title="@string/zetime_date_format"
-            android:summary="%s" />
+            app:iconSpaceReserved="false"
+            app:useSimpleSummaryProvider="true" />
 
-        <CheckBoxPreference
+        <SwitchPreference
+            android:defaultValue="true"
             android:key="zetime_dont_del_actdata"
-            android:title="@string/pref_title_keep_data_on_device"
             android:summary="@string/pref_summary_keep_data_on_device"
-            android:defaultValue="true" />
+            android:title="@string/pref_title_keep_data_on_device"
+            app:iconSpaceReserved="false" />
 
         <PreferenceScreen
             android:key="zetime_do_not_disturb_key"
-            android:title="@string/mi2_prefs_do_not_disturb"
             android:persistent="false"
-            android:summary="@string/mi2_prefs_do_not_disturb_summary">
+            android:summary="@string/mi2_prefs_do_not_disturb_summary"
+            android:title="@string/mi2_prefs_do_not_disturb"
+            app:iconSpaceReserved="false">
 
             <!-- workaround for missing toolbar -->
             <PreferenceCategory
                 android:title="@string/mi2_prefs_do_not_disturb"
-                />
+                app:iconSpaceReserved="false" />
 
             <ListPreference
                 android:defaultValue="@string/p_off"
@@ -175,78 +210,92 @@
                 android:entryValues="@array/zetime_do_not_disturb_values"
                 android:key="do_not_disturb"
                 android:title="@string/mi2_prefs_do_not_disturb"
-                android:summary="%s" />
+                app:iconSpaceReserved="false"
+                app:useSimpleSummaryProvider="true" />
 
-            <nodomain.freeyourgadget.gadgetbridge.util.TimePreference
+            <nodomain.freeyourgadget.gadgetbridge.util.XTimePreference
                 android:defaultValue="22:00"
                 android:key="do_not_disturb_start"
-                android:title="@string/mi2_prefs_do_not_disturb_start" />
+                android:title="@string/mi2_prefs_do_not_disturb_start"
+                app:iconSpaceReserved="false" />
 
-            <nodomain.freeyourgadget.gadgetbridge.util.TimePreference
+            <nodomain.freeyourgadget.gadgetbridge.util.XTimePreference
                 android:defaultValue="07:00"
                 android:key="do_not_disturb_end"
-                android:title="@string/mi2_prefs_do_not_disturb_end" />
+                android:title="@string/mi2_prefs_do_not_disturb_end"
+                app:iconSpaceReserved="false" />
 
         </PreferenceScreen>
     </PreferenceCategory>
     <PreferenceCategory
         android:key="pref_category_zetime_heartrate"
-        android:title="@string/zetime_title_heartrate">
+        android:title="@string/zetime_title_heartrate"
+        app:iconSpaceReserved="false">
         <ListPreference
             android:defaultValue="0"
             android:entries="@array/prefs_zetime_heartrate_measurement_interval"
             android:entryValues="@array/prefs_zetime_heartrate_measurement_interval_values"
             android:key="heartrate_measurement_interval"
-            android:summary="%s"
-            android:title="@string/prefs_title_heartrate_measurement_interval" />
+            android:title="@string/prefs_title_heartrate_measurement_interval"
+            app:iconSpaceReserved="false"
+            app:useSimpleSummaryProvider="true" />
         <PreferenceScreen
             android:key="zetime_heartrate_alarm_key"
+            android:persistent="false"
             android:summary="@string/zetime_title_heart_rate_alarm_summary"
             android:title="@string/zetime_title_heart_rate_alarm"
-            android:persistent="false">
+            app:iconSpaceReserved="false">
 
             <!-- workaround for missing toolbar -->
             <PreferenceCategory
                 android:title="@string/zetime_title_heart_rate_alarm"
-                />
 
-            <CheckBoxPreference
+                app:iconSpaceReserved="false" />
+
+            <SwitchPreference
                 android:defaultValue="false"
                 android:key="zetime_heartrate_alarm_enable"
                 android:summary="@string/zetime_title_heart_rate_alarm_summary"
-                android:title="@string/zetime_heart_rate_alarm_enable" />
+                android:title="@string/zetime_heart_rate_alarm_enable"
+                app:iconSpaceReserved="false" />
 
             <EditTextPreference
-                android:inputType="number"
+                android:defaultValue="180"
                 android:dependency="zetime_heartrate_alarm_enable"
+                android:inputType="number"
                 android:key="alarm_max_heart_rate"
                 android:maxLength="3"
-                android:defaultValue="180"
-                android:title="@string/activity_prefs_alarm_max_heart_rate" />
+                android:title="@string/activity_prefs_alarm_max_heart_rate"
+                app:iconSpaceReserved="false"
+                app:useSimpleSummaryProvider="true" />
 
             <EditTextPreference
-                android:inputType="number"
+                android:defaultValue="60"
                 android:dependency="zetime_heartrate_alarm_enable"
+                android:inputType="number"
                 android:key="alarm_min_heart_rate"
                 android:maxLength="3"
-                android:defaultValue="60"
-                android:title="@string/activity_prefs_alarm_min_heart_rate" />
+                android:title="@string/activity_prefs_alarm_min_heart_rate"
+                app:iconSpaceReserved="false"
+                app:useSimpleSummaryProvider="true" />
         </PreferenceScreen>
     </PreferenceCategory>
 
     <PreferenceCategory
         android:key="pref_category_miband_notification"
-        android:title="@string/pref_header_vibration_settings">
+        android:title="@string/pref_header_vibration_settings"
+        app:iconSpaceReserved="false">
 
         <PreferenceScreen
-            android:key="vibration_profile_key"
+            android:key="vibration_profile_key_sms"
+            android:persistent="false"
             android:title="@string/pref_screen_notification_profile_sms"
-            android:persistent="false">
+            app:iconSpaceReserved="false">
 
             <!-- workaround for missing toolbar -->
             <PreferenceCategory
                 android:title="@string/pref_screen_notification_profile_sms"
-                />
+                app:iconSpaceReserved="false" />
 
             <ListPreference
                 android:defaultValue="2"
@@ -254,23 +303,26 @@
                 android:entryValues="@array/zetime_signaling_types_values"
                 android:key="zetime_vibration_profile_sms"
                 android:title="@string/miband_prefs_vibration"
-                android:summary="%s" />
+                app:iconSpaceReserved="false"
+                app:useSimpleSummaryProvider="true" />
 
             <Preference
                 android:key="zetime_try_generic_sms"
                 android:persistent="false"
-                android:title="@string/vibration_try"/>
+                android:title="@string/vibration_try"
+                app:iconSpaceReserved="false" />
         </PreferenceScreen>
 
         <PreferenceScreen
-            android:key="vibration_profile_key"
+            android:key="vibration_profile_key_incoming_call"
+            android:persistent="false"
             android:title="@string/pref_screen_notification_profile_incoming_call"
-            android:persistent="false">
+            app:iconSpaceReserved="false">
 
             <!-- workaround for missing toolbar -->
             <PreferenceCategory
                 android:title="@string/pref_screen_notification_profile_incoming_call"
-                />
+                app:iconSpaceReserved="false" />
 
             <ListPreference
                 android:defaultValue="13"
@@ -278,18 +330,20 @@
                 android:entryValues="@array/zetime_signaling_types_values"
                 android:key="zetime_vibration_profile_incoming_call"
                 android:title="@string/miband_prefs_vibration"
-                android:summary="%s" />
+                app:iconSpaceReserved="false"
+                app:useSimpleSummaryProvider="true" />
         </PreferenceScreen>
 
         <PreferenceScreen
-            android:key="vibration_profile_key"
+            android:key="vibration_profile_key_missed_call"
+            android:persistent="false"
             android:title="@string/pref_screen_notification_profile_missed_call"
-            android:persistent="false">
+            app:iconSpaceReserved="false">
 
             <!-- workaround for missing toolbar -->
             <PreferenceCategory
                 android:title="@string/pref_screen_notification_profile_missed_call"
-                />
+                app:iconSpaceReserved="false" />
 
             <ListPreference
                 android:defaultValue="12"
@@ -297,18 +351,20 @@
                 android:entryValues="@array/zetime_signaling_types_values"
                 android:key="zetime_vibration_profile_missed_call"
                 android:title="@string/miband_prefs_vibration"
-                android:summary="%s" />
+                app:iconSpaceReserved="false"
+                app:useSimpleSummaryProvider="true" />
         </PreferenceScreen>
 
         <PreferenceScreen
-            android:key="vibration_profile_key"
+            android:key="vibration_profile_key_generic_email"
+            android:persistent="false"
             android:title="@string/pref_screen_notification_profile_email"
-            android:persistent="false">
+            app:iconSpaceReserved="false">
 
             <!-- workaround for missing toolbar -->
             <PreferenceCategory
                 android:title="@string/pref_screen_notification_profile_email"
-                />
+                app:iconSpaceReserved="false" />
 
             <ListPreference
                 android:defaultValue="12"
@@ -316,23 +372,26 @@
                 android:entryValues="@array/zetime_signaling_types_values"
                 android:key="zetime_vibration_profile_generic_email"
                 android:title="@string/miband_prefs_vibration"
-                android:summary="%s" />
+                app:iconSpaceReserved="false"
+                app:useSimpleSummaryProvider="true" />
 
             <Preference
                 android:key="zetime_try_generic_email"
                 android:persistent="false"
-                android:title="@string/vibration_try"/>
+                android:title="@string/vibration_try"
+                app:iconSpaceReserved="false" />
         </PreferenceScreen>
 
         <PreferenceScreen
-            android:key="vibration_profile_key"
+            android:key="vibration_profile_key_generic_social"
+            android:persistent="false"
             android:title="@string/pref_screen_notification_profile_generic_social"
-            android:persistent="false">
+            app:iconSpaceReserved="false">
 
             <!-- workaround for missing toolbar -->
             <PreferenceCategory
                 android:title="@string/pref_screen_notification_profile_generic_social"
-                />
+                app:iconSpaceReserved="false" />
 
             <ListPreference
                 android:defaultValue="12"
@@ -340,23 +399,26 @@
                 android:entryValues="@array/zetime_signaling_types_values"
                 android:key="zetime_vibration_profile_generic_social"
                 android:title="@string/miband_prefs_vibration"
-                android:summary="%s" />
+                app:iconSpaceReserved="false"
+                app:useSimpleSummaryProvider="true" />
 
             <Preference
                 android:key="zetime_try_generic_social"
                 android:persistent="false"
-                android:title="@string/vibration_try"/>
+                android:title="@string/vibration_try"
+                app:iconSpaceReserved="false" />
         </PreferenceScreen>
 
         <PreferenceScreen
-            android:key="vibration_profile_key"
+            android:key="vibration_profile_key_alarm"
+            android:persistent="false"
             android:title="@string/pref_screen_notification_profile_alarm_clock"
-            android:persistent="false">
+            app:iconSpaceReserved="false">
 
             <!-- workaround for missing toolbar -->
             <PreferenceCategory
                 android:title="@string/pref_screen_notification_profile_alarm_clock"
-                />
+                app:iconSpaceReserved="false" />
 
             <ListPreference
                 android:defaultValue="11"
@@ -364,23 +426,26 @@
                 android:entryValues="@array/zetime_signaling_types_values"
                 android:key="zetime_alarm_signaling"
                 android:title="@string/miband_prefs_vibration"
-                android:summary="%s" />
+                app:iconSpaceReserved="false"
+                app:useSimpleSummaryProvider="true" />
 
             <Preference
                 android:key="zetime_try_generic_alarm_clock"
                 android:persistent="false"
-                android:title="@string/vibration_try"/>
+                android:title="@string/vibration_try"
+                app:iconSpaceReserved="false" />
         </PreferenceScreen>
 
         <PreferenceScreen
-            android:key="vibration_profile_key"
+            android:key="vibration_profile_key_calendar"
+            android:persistent="false"
             android:title="@string/pref_screen_notification_profile_calendar"
-            android:persistent="false">
+            app:iconSpaceReserved="false">
 
             <!-- workaround for missing toolbar -->
             <PreferenceCategory
                 android:title="@string/pref_screen_notification_profile_calendar"
-                />
+                app:iconSpaceReserved="false" />
 
             <ListPreference
                 android:defaultValue="12"
@@ -388,23 +453,26 @@
                 android:entryValues="@array/zetime_signaling_types_values"
                 android:key="zetime_vibration_profile_calendar"
                 android:title="@string/miband_prefs_vibration"
-                android:summary="%s" />
+                app:iconSpaceReserved="false"
+                app:useSimpleSummaryProvider="true" />
 
             <Preference
                 android:key="zetime_try_calendar"
                 android:persistent="false"
-                android:title="@string/vibration_try"/>
+                android:title="@string/vibration_try"
+                app:iconSpaceReserved="false" />
         </PreferenceScreen>
 
         <PreferenceScreen
-            android:key="vibration_profile_key"
+            android:key="vibration_profile_key_inactivity"
+            android:persistent="false"
             android:title="@string/pref_screen_notification_profile_inactivity"
-            android:persistent="false">
+            app:iconSpaceReserved="false">
 
             <!-- workaround for missing toolbar -->
             <PreferenceCategory
                 android:title="@string/pref_screen_notification_profile_inactivity"
-                />
+                app:iconSpaceReserved="false" />
 
             <ListPreference
                 android:defaultValue="12"
@@ -412,23 +480,26 @@
                 android:entryValues="@array/zetime_signaling_types_values"
                 android:key="zetime_vibration_profile_inactivity"
                 android:title="@string/miband_prefs_vibration"
-                android:summary="%s" />
+                app:iconSpaceReserved="false"
+                app:useSimpleSummaryProvider="true" />
 
             <Preference
                 android:key="zetime_try_inactivity"
                 android:persistent="false"
-                android:title="@string/vibration_try"/>
+                android:title="@string/vibration_try"
+                app:iconSpaceReserved="false" />
         </PreferenceScreen>
 
         <PreferenceScreen
-            android:key="vibration_profile_key"
+            android:key="vibration_profile_key_lowpower"
+            android:persistent="false"
             android:title="@string/pref_screen_notification_profile_low_power"
-            android:persistent="false">
+            app:iconSpaceReserved="false">
 
             <!-- workaround for missing toolbar -->
             <PreferenceCategory
                 android:title="@string/pref_screen_notification_profile_low_power"
-                />
+                app:iconSpaceReserved="false" />
 
             <ListPreference
                 android:defaultValue="4"
@@ -436,23 +507,26 @@
                 android:entryValues="@array/zetime_signaling_types_values"
                 android:key="zetime_vibration_profile_lowpower"
                 android:title="@string/miband_prefs_vibration"
-                android:summary="%s" />
+                app:iconSpaceReserved="false"
+                app:useSimpleSummaryProvider="true" />
 
             <Preference
                 android:key="zetime_try_lowpower"
                 android:persistent="false"
-                android:title="@string/vibration_try"/>
+                android:title="@string/vibration_try"
+                app:iconSpaceReserved="false" />
         </PreferenceScreen>
 
         <PreferenceScreen
-            android:key="vibration_profile_key"
+            android:key="vibration_profile_key_antiloss"
+            android:persistent="false"
             android:title="@string/pref_screen_notification_profile_anti_loss"
-            android:persistent="false">
+            app:iconSpaceReserved="false">
 
             <!-- workaround for missing toolbar -->
             <PreferenceCategory
                 android:title="@string/pref_screen_notification_profile_anti_loss"
-                />
+                app:iconSpaceReserved="false" />
 
             <ListPreference
                 android:defaultValue="13"
@@ -460,12 +534,14 @@
                 android:entryValues="@array/zetime_signaling_types_values"
                 android:key="zetime_vibration_profile_antiloss"
                 android:title="@string/miband_prefs_vibration"
-                android:summary="%s" />
+                app:iconSpaceReserved="false"
+                app:useSimpleSummaryProvider="true" />
 
             <Preference
                 android:key="zetime_try_antiloss"
                 android:persistent="false"
-                android:title="@string/vibration_try"/>
+                android:title="@string/vibration_try"
+                app:iconSpaceReserved="false" />
         </PreferenceScreen>
 
     </PreferenceCategory>
