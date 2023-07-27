@@ -92,7 +92,7 @@ public class SettingsActivity extends AbstractSettingsActivityV2 {
 
         static final String FRAGMENT_TAG = "SETTINGS_FRAGMENT";
 
-        private static final int FILE_REQUEST_CODE = 4711;
+        private static final int EXPORT_LOCATION_FILE_REQUEST_CODE = 4711;
         private EditText fitnessAppEditText = null;
         private int fitnessAppSelectionListSpinnerFirstRun = 0;
 
@@ -296,9 +296,10 @@ public class SettingsActivity extends AbstractSettingsActivityV2 {
                     Intent i = new Intent(Intent.ACTION_CREATE_DOCUMENT);
                     i.setType("application/x-sqlite3");
                     i.addCategory(Intent.CATEGORY_OPENABLE);
+                    i.putExtra(Intent.EXTRA_TITLE, "Gadgetbridge.db");
                     i.addFlags(Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION | Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
                     String title = requireContext().getApplicationContext().getString(R.string.choose_auto_export_location);
-                    startActivityForResult(Intent.createChooser(i, title), FILE_REQUEST_CODE);
+                    startActivityForResult(Intent.createChooser(i, title), EXPORT_LOCATION_FILE_REQUEST_CODE);
                     return true;
                 });
                 pref.setSummary(getAutoExportLocationSummary());
@@ -483,7 +484,7 @@ public class SettingsActivity extends AbstractSettingsActivityV2 {
 
         @Override
         public void onActivityResult(int requestCode, int resultCode, Intent intent) {
-            if (requestCode == FILE_REQUEST_CODE && intent != null) {
+            if (requestCode == EXPORT_LOCATION_FILE_REQUEST_CODE && intent != null) {
                 Uri uri = intent.getData();
                 requireContext().getContentResolver().takePersistableUriPermission(uri, Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
                 GBApplication.getPrefs().getPreferences()
