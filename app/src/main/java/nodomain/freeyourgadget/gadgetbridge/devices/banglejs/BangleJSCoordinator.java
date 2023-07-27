@@ -17,27 +17,23 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 package nodomain.freeyourgadget.gadgetbridge.devices.banglejs;
 
-import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_DEVICE_GPS_UPDATE;
-import static nodomain.freeyourgadget.gadgetbridge.activities.devicesettings.DeviceSettingsPreferenceConst.PREF_DEVICE_INTENTS;
-
-import android.annotation.TargetApi;
 import android.app.Activity;
 import android.bluetooth.le.ScanFilter;
 import android.content.Context;
 import android.net.Uri;
-import android.os.Build;
 import android.os.ParcelUuid;
 
 import androidx.annotation.NonNull;
 
+import org.apache.commons.lang3.ArrayUtils;
+
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.Vector;
+import java.util.List;
 
 import nodomain.freeyourgadget.gadgetbridge.BuildConfig;
-import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
-import nodomain.freeyourgadget.gadgetbridge.activities.appmanager.AppManagerActivity;
 import nodomain.freeyourgadget.gadgetbridge.devices.AbstractBLEDeviceCoordinator;
 import nodomain.freeyourgadget.gadgetbridge.devices.InstallHandler;
 import nodomain.freeyourgadget.gadgetbridge.devices.SampleProvider;
@@ -47,7 +43,6 @@ import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDeviceCandidate;
 import nodomain.freeyourgadget.gadgetbridge.model.ActivitySample;
 import nodomain.freeyourgadget.gadgetbridge.model.DeviceType;
-import nodomain.freeyourgadget.gadgetbridge.util.Prefs;
 
 public class BangleJSCoordinator extends AbstractBLEDeviceCoordinator {
 
@@ -193,19 +188,28 @@ public class BangleJSCoordinator extends AbstractBLEDeviceCoordinator {
         return true;
     }
 
-    public int[] getSupportedDeviceSpecificSettings(GBDevice device) {
-        Vector<Integer> settings = new Vector<Integer>();
-        settings.add(R.xml.devicesettings_banglejs);
+    public int[] getSupportedDeviceSpecificSettings(final GBDevice device) {
+        final List<Integer> settings = new ArrayList<>();
+
+        settings.add(R.xml.devicesettings_banglejs_location);
+
+        settings.add(R.xml.devicesettings_header_notifications);
+        settings.add(R.xml.devicesettings_text_bitmaps);
         settings.add(R.xml.devicesettings_transliteration);
+
+        settings.add(R.xml.devicesettings_header_calendar);
+        settings.add(R.xml.devicesettings_sync_calendar);
+
+        settings.add(R.xml.devicesettings_header_connection);
         settings.add(R.xml.devicesettings_high_mtu);
         if (BuildConfig.INTERNET_ACCESS)
             settings.add(R.xml.devicesettings_device_internet_access);
+
+        settings.add(R.xml.devicesettings_header_developer);
+        settings.add(R.xml.devicesettings_banglejs_apploader);
         settings.add(R.xml.devicesettings_device_intents);
-        settings.add(R.xml.devicesettings_sync_calendar);
-        // must be a better way of doing this?
-        int[] settingsInt = new int[settings.size()];
-        for (int i=0; i<settings.size(); i++) settingsInt[i] = settings.get(i);
-        return settingsInt;
+
+        return ArrayUtils.toPrimitive(settings.toArray(new Integer[0]));
     }
 
     @Override

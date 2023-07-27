@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <SwitchPreference
+        android:defaultValue="false"
+        android:icon="@drawable/ic_translate"
+        android:key="banglejs_text_bitmap"
+        android:summary="@string/pref_summary_banglejs_text_bitmap"
+        android:title="@string/pref_title_banglejs_text_bitmap" />
+    <EditTextPreference
+        android:dependency="banglejs_text_bitmap"
+        android:defaultValue="18"
+        android:inputType="number"
+        android:icon="@drawable/ic_font_size"
+        android:key="banglejs_txt_bitmap_size"
+        android:summary="@string/pref_summary_banglejs_txt_bitmap_size"
+        android:title="@string/pref_title_banglejs_txt_bitmap_size" />
+</androidx.preference.PreferenceScreen>
