@@ -2295,4 +2295,37 @@
     <string name="busy_task_fetch_stress_data">Mendapatkan data stres</string>
     <string name="busy_task_fetch_hr_data">Mendapatkan data detak jantung</string>
     <string name="busy_task_fetch_pai_data">Mendapatkan data PAI</string>
+    <string name="activity_prefs_goals">Sasaran</string>
+    <string name="error_no_bluetooth_connect">Akses koneksi Bluetooth harus diberikan dan diaktifkan agar pemindaian dapat bekerja dengan baik</string>
+    <string name="permission_request">%1$s memungkinkan Anda untuk mengirim pesan dan data lain dari Android ke perangkat Anda. Untuk melakukan hal ini, diperlukan izin untuk mengakses data tersebut dan tanpa izin, aplikasi ini tidak akan berfungsi dengan baik.
+\n
+\nSekarang Anda akan dihadapkan pada beberapa dialog Android yang meminta izin tersebut.
+\n
+\nSilakan ketuk \'%2$s\' untuk melanjutkan.</string>
+    <string name="activity_type_windsurfing">Selancar angin</string>
+    <string name="activity_type_football">Sepak bola</string>
+    <string name="activity_type_baseball">Bisbol</string>
+    <string name="activity_type_handball">Bola tangan</string>
+    <string name="activity_type_tennis">Tenis</string>
+    <string name="activity_type_squash">Squash</string>
+    <string name="activity_type_rugby">Rugbi</string>
+    <string name="activity_type_weightlifting">Angkat Berat</string>
+    <string name="activity_type_dancing">Menari</string>
+    <string name="activity_type_skiing">Ski</string>
+    <string name="activity_type_snowboarding">Seluncur salju</string>
+    <string name="activity_type_riding">Menunggang Kuda</string>
+    <string name="activity_type_hockey">Hoki</string>
+    <string name="activity_type_icehockey">Hoki es</string>
+    <string name="activity_type_iceskating">Seluncur Es</string>
+    <string name="activity_type_golf">Golf</string>
+    <string name="activity_type_other">Lainnya</string>
+    <string name="withings_steel_hr">Withings Steel HR</string>
+    <string name="withings_calibration_text_activity_target">Terakhir, sejajarkan jarum penunjuk aktivitas ke 100%. Perlu diketahui bahwa jarum penunjuk ini hanya bergerak searah jarum jam.</string>
+    <string name="withings_bt_calibration_previous">Sebelumnya</string>
+    <string name="withings_bt_calibration_next">Lanjutkan</string>
+    <string name="activity_type_surfing">Berselancar</string>
+    <string name="activity_type_kitesurfing">Berselancar layang-layang</string>
+    <string name="error_no_bluetooth_scan">Akses pemindaian Bluetooth harus diberikan dan diaktifkan agar pemindaian dapat bekerja dengan baik</string>
+    <string name="withings_calibration_text_hours">Silakan gunakan dial di bawah ini untuk menyelaraskan jarum penunjuk jam ke angka 12.</string>
+    <string name="withings_calibration_text_minutes">Sekarang, gunakan dial untuk menyelaraskan jarum penunjuk menit ke angka 12.</string>
 </resources>
