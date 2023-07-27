@@ -43,11 +43,9 @@ import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import androidx.preference.EditTextPreference;
+import androidx.core.app.ActivityCompat;
 import androidx.preference.ListPreference;
 import androidx.preference.Preference;
-import androidx.core.app.ActivityCompat;
-import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.preference.PreferenceFragmentCompat;
 
 import org.slf4j.Logger;
@@ -64,8 +62,9 @@ import nodomain.freeyourgadget.gadgetbridge.GBApplication;
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.activities.charts.ChartsPreferencesActivity;
 import nodomain.freeyourgadget.gadgetbridge.database.PeriodicExporter;
-import nodomain.freeyourgadget.gadgetbridge.devices.DeviceManager;
+import nodomain.freeyourgadget.gadgetbridge.devices.hplus.HPlusSettingsActivity;
 import nodomain.freeyourgadget.gadgetbridge.devices.miband.MiBandPreferencesActivity;
+import nodomain.freeyourgadget.gadgetbridge.devices.pebble.PebbleSettingsActivity;
 import nodomain.freeyourgadget.gadgetbridge.devices.qhybrid.ConfigActivity;
 import nodomain.freeyourgadget.gadgetbridge.devices.zetime.ZeTimePreferenceActivity;
 import nodomain.freeyourgadget.gadgetbridge.model.Weather;
@@ -143,31 +142,29 @@ public class SettingsActivity extends AbstractSettingsActivityV2 {
                 });
             }
 
-            pref = findPreference("pref_key_zetime");
+            pref = findPreference("pref_key_pebble");
             if (pref != null) {
                 pref.setOnPreferenceClickListener(preference -> {
-                    Intent enableIntent = new Intent(requireContext(), ZeTimePreferenceActivity.class);
+                    Intent enableIntent = new Intent(requireContext(), PebbleSettingsActivity.class);
                     startActivity(enableIntent);
                     return true;
                 });
             }
 
-            pref = findPreference("pebble_emu_addr");
+            pref = findPreference("pref_key_hplus");
             if (pref != null) {
-                pref.setOnPreferenceChangeListener((preference, newVal) -> {
-                    Intent refreshIntent = new Intent(DeviceManager.ACTION_REFRESH_DEVICELIST);
-                    LocalBroadcastManager.getInstance(requireContext().getApplicationContext()).sendBroadcast(refreshIntent);
-                    preference.setSummary(newVal.toString());
+                pref.setOnPreferenceClickListener(preference -> {
+                    Intent enableIntent = new Intent(requireContext(), HPlusSettingsActivity.class);
+                    startActivity(enableIntent);
                     return true;
                 });
             }
 
-            pref = findPreference("pebble_emu_port");
+            pref = findPreference("pref_key_zetime");
             if (pref != null) {
-                pref.setOnPreferenceChangeListener((preference, newVal) -> {
-                    Intent refreshIntent = new Intent(DeviceManager.ACTION_REFRESH_DEVICELIST);
-                    LocalBroadcastManager.getInstance(requireContext().getApplicationContext()).sendBroadcast(refreshIntent);
-                    preference.setSummary(newVal.toString());
+                pref.setOnPreferenceClickListener(preference -> {
+                    Intent enableIntent = new Intent(requireContext(), ZeTimePreferenceActivity.class);
+                    startActivity(enableIntent);
                     return true;
                 });
             }
