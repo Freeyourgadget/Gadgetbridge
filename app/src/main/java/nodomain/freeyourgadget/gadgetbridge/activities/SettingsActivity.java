@@ -435,6 +435,13 @@ public class SettingsActivity extends AbstractSettingsActivityV2 {
                     addListenerOnSpinnerDeviceSelection(selectionListSpinner);
                     Prefs prefs1 = GBApplication.getPrefs();
                     String packageName = prefs1.getString("opentracks_packagename", "de.dennisguse.opentracks");
+                    // Set the spinner to the selected package name by default
+                    for (int i = 0; i < appListArray.length; i++) {
+                        if (appListArray[i].equals(packageName)) {
+                            selectionListSpinner.setSelection(i);
+                            break;
+                        }
+                    }
                     fitnessAppEditText = new EditText(requireContext());
                     fitnessAppEditText.setText(packageName);
                     innerLayout.addView(fitnessAppEditText);
@@ -445,20 +452,13 @@ public class SettingsActivity extends AbstractSettingsActivityV2 {
                             .setCancelable(true)
                             .setTitle(R.string.pref_title_opentracks_packagename)
                             .setView(outerLayout)
-                            .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    SharedPreferences.Editor editor = GBApplication.getPrefs().getPreferences().edit();
-                                    editor.putString("opentracks_packagename", fitnessAppEditText.getText().toString());
-                                    editor.apply();
-                                    editor.commit();
-                                }
+                            .setPositiveButton(R.string.ok, (dialog, which) -> {
+                                SharedPreferences.Editor editor = GBApplication.getPrefs().getPreferences().edit();
+                                editor.putString("opentracks_packagename", fitnessAppEditText.getText().toString());
+                                editor.apply();
+                                editor.commit();
                             })
-                            .setNegativeButton(R.string.Cancel, new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                }
-                            })
+                            .setNegativeButton(R.string.Cancel, (dialog, which) -> {})
                             .show();
                     return false;
                 });
