@@ -1929,7 +1929,7 @@
 \n 
 \nLANJUTKAN DENGAN RISIKO ANDA SENDIRI!</string>
     <string name="pref_title_banglejs_txt_bitmap_size">Ukuran Teks Bitmap</string>
-    <string name="pref_summary_banglejs_txt_bitmap_size">Jika \'Teks sebagai Bitmap\' diaktifkan, ukuran apa teks seharusnya ditampilkan\?</string>
+    <string name="pref_summary_banglejs_txt_bitmap_size">Ukuran yang digunakan untuk rendering teks bitmap</string>
     <string name="pref_summary_banglejs_webview_url">Jika Anda ingin pemuat aplikasi kustom letakkan URL https://…/android.html di sini. Jika tidak tinggalkan kosong untuk https://banglejs.com/apps</string>
     <string name="pref_title_pebble_sync_health">Sinkron Kesehatan Pebble</string>
     <string name="pref_summary_enable_pebblekit">Aktifkan dukungan eksperimental untuk aplikasi Android menggunakan PebbleKit</string>
@@ -2245,7 +2245,7 @@
     <string name="title">Judul</string>
     <string name="pref_title_banglejs_phone_gps_enbale">Gunakan data GPS ponsel</string>
     <string name="pref_summary_banglejs_phone_gps_enbale">Gunakan data GPS ponsel untuk menimpa data GPS dari perangkat Bangle</string>
-    <string name="pref_title_banglejs_phone_gps_update_interval">Interval pembaruan data GPS dalam milidetik</string>
+    <string name="pref_title_banglejs_phone_gps_update_interval">Interval pembaruan data GPS</string>
     <string name="description">Deskripsi</string>
     <string name="preview_image">Pratinjau gambar</string>
     <string name="status_icon">Ikon status</string>
@@ -2253,8 +2253,8 @@
     <string name="changelog_show_full">Lainnya…</string>
     <string name="changelog_ok_button">Oke</string>
     <string name="changelog_title">Apa Yang Baru</string>
-    <string name="pref_summary_banglejs_phone_gps_network_only">Pilihan ini hanya aktif, jika data GPS ponsel sedang digunakan. Pilihan ini dapat digunakan untuk hanya menggunakan penyedia jaringan untuk menentukan lokasi. Hal ini mengurangi konsumsi daya untuk biaya akurasi. Diperlukan penyambungan ulang perangkat.</string>
-    <string name="pref_summary_banglejs_phone_gps_update_interval">Opsi ini hanya aktif, jika data GPS ponsel sedang digunakan. Opsi ini mengatur interval dalam milidetik seberapa sering posisi GPS diperbarui</string>
+    <string name="pref_summary_banglejs_phone_gps_network_only">Hanya gunakan penyedia jaringan untuk menentukan lokasi. Hal ini akan mengurangi konsumsi daya dengan mengorbankan keakuratan. Diperlukan koneksi ulang.</string>
+    <string name="pref_summary_banglejs_phone_gps_update_interval">Interval seberapa sering posisi gps diperbarui, dalam ms</string>
     <string name="action_changelog">Catatan Perubahan</string>
     <string name="pai_chart_per_month">PAI per bulan</string>
     <string name="pai_day">Pemambahan PAI hari</string>
