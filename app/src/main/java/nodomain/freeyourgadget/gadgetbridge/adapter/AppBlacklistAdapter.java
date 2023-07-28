@@ -85,7 +85,7 @@ public class AppBlacklistAdapter extends RecyclerView.Adapter<AppBlacklistAdapte
             public int compare(ApplicationInfo ai1, ApplicationInfo ai2) {
                 final String s1 = mNameMap.get(ai1);
                 final String s2 = mNameMap.get(ai2);
-                return s1.compareTo(s2);
+                return s1.compareToIgnoreCase(s2);
             }
         });
 
