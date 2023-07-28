@@ -855,7 +855,7 @@
     <string name="pref_pair_bluetooth_calls_help_title">كيفية استقبال مكالمات البلوتوث</string>
     <string name="pref_summary_receive_calls_watch">قم بإجراء واستقبال المكالمات مباشرة على الساعة</string>
     <string name="pref_title_banglejs_text_bitmap">النص كصور نقطية</string>
-    <string name="pref_summary_banglejs_txt_bitmap_size">إذا تم تمكين \"النص على هيئة صور نقطية\" ، فما الحجم الذي يجب عرض النص؟</string>
+    <string name="pref_summary_banglejs_txt_bitmap_size">الحجم المطلوب استخدامه لعرض النص النقطي</string>
     <string name="pref_summary_overwrite_settings_on_connection">عند الاتصال بالسوار ، اكتب جميع الإعدادات الموجودة عليه.</string>
     <string name="left">يسار</string>
     <string name="user_feedback_miband_activity_data_transfer">على وشك نقل %1$s من البيانات بدءا من %2$s</string>
@@ -2243,12 +2243,12 @@
     <string name="pref_title_banglejs_phone_gps_enbale">استخدم بيانات GPS الخاصة بالهاتف</string>
     <string name="pref_summary_banglejs_phone_gps_enbale">استخدم بيانات GPS الخاصة بالهاتف للكتابة فوق بيانات GPS لجهاز الإسورة</string>
     <string name="pref_title_banglejs_phone_gps_network_only">استخدم الشبكة فقط لتحديد الموقع</string>
-    <string name="pref_summary_banglejs_phone_gps_network_only">هذا الخيار نشط فقط ، إذا تم استخدام بيانات GPS الخاصة بالهاتف. يمكن استخدام هذا الخيار لاستخدام مزود الشبكة فقط لتحديد الموقع. هذا يقلل من استهلاك الطاقة على حساب الدقة. يلزم إعادة توصيل الجهاز.</string>
-    <string name="pref_title_banglejs_phone_gps_update_interval">الفاصل الزمني لتحديث بيانات GPS بالمللي ثانية</string>
+    <string name="pref_summary_banglejs_phone_gps_network_only">استخدم موفر الشبكة فقط لتحديد الموقع. هذا يقلل من استهلاك الطاقة على حساب الدقة. هناك حاجة إلى إعادة الاتصال.</string>
+    <string name="pref_title_banglejs_phone_gps_update_interval">الفاصل الزمني لتحديث بيانات GPS</string>
     <string name="title">العنوان</string>
     <string name="description">الوصف</string>
     <string name="changelog_ok_button">حسنا</string>
-    <string name="pref_summary_banglejs_phone_gps_update_interval">هذا الخيار نشط فقط ، إذا تم استخدام بيانات GPS الخاصة بالهاتف. يحدد هذا الخيار الفاصل الزمني بالمللي ثانية كم مرة يتم تحديث موضع GPS</string>
+    <string name="pref_summary_banglejs_phone_gps_update_interval">الفاصل الزمني لعدد المرات التي يتم فيها تحديث موضع GPS ، بالمللي ثانية</string>
     <string name="changelog_show_full">أكثر…</string>
     <string name="changelog_title">ما الجديد</string>
     <string name="action_changelog">سجل التغييرات</string>
