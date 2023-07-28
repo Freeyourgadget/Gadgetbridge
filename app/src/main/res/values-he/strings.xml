@@ -1780,7 +1780,7 @@
     <string name="watchface_dialog_widget_cat_custom_widget">וידג׳ט משלך</string>
     <string name="watchface_dialog_title_widget">הגדרות וידג׳ט</string>
     <string name="pref_title_banglejs_txt_bitmap_size">גודל מפות סיביות של כתב</string>
-    <string name="pref_summary_banglejs_txt_bitmap_size">אם ‚כתב כמפות סיביות’ מופעל, באיזה גודל יוצג הכתב\?</string>
+    <string name="pref_summary_banglejs_txt_bitmap_size">הגודל לשימוש לעיבוד מפות סיביות של טקסט</string>
     <string name="steps_streaks_achievement_rate">קצב
 \nהישגיות</string>
     <string name="share_log_not_enabled_message">עליך להפעיל תיעוד ליומנים תחילה דרך הגדרות - כתיבת קובצי יומן</string>
@@ -2251,9 +2251,9 @@
     <string name="stress_high">גבוה</string>
     <string name="stress_relaxed">רגוע</string>
     <string name="watchface_widget_type_uv_index">מדד קרינה אולטרה סגולה</string>
-    <string name="pref_title_banglejs_phone_gps_update_interval">הפרש בין עדכוני נתוני נווטן במילישניות</string>
-    <string name="pref_summary_banglejs_phone_gps_network_only">האפשרות הזאת פעילה בלבד אם נעשה שימוש בנתוני הנווטן של הטלפון. אפשר להשתמש באפשרות הזאת כדי להשתמש רק ברשת כדי לזהות את המיקום. מפחית את צריכת הסוללה בתמורה לדיוק. נדרש חיבור מחדש למכשיר.</string>
-    <string name="pref_summary_banglejs_phone_gps_update_interval">האפשרות הזאת פעילה רק אם נעשה שימוש בנתוני הנווטן של הטלפון. אפשרות זו מגדיר את ההפרש במילישניות לעדכון מיקום הנווטן</string>
+    <string name="pref_title_banglejs_phone_gps_update_interval">הפרש בין עדכוני נתוני נווטן</string>
+    <string name="pref_summary_banglejs_phone_gps_network_only">אפשר להשתמש באפשרות הזאת כדי להשתמש רק ברשת כדי לזהות את המיקום. מפחית את צריכת הסוללה בתמורה לדיוק. נדרש חיבור מחדש.</string>
+    <string name="pref_summary_banglejs_phone_gps_update_interval">ההפרש לעדכון מיקום הנווטן, במילישניות</string>
     <string name="pref_title_banglejs_phone_gps_enbale">להשתמש בנתוני הנווטן של הטלפון</string>
     <string name="changelog_show_full">עוד…</string>
     <string name="preview_image">תמונת תצוגה מקדימה</string>
