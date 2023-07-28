@@ -1718,7 +1718,7 @@
     <string name="open_fw_installer_connect_minimum_one_device">Conecte AL MENOS UN dispositivo al que desee enviar el archivo.</string>
     <string name="pref_summary_notification_delay_calls">Retraso antes de enviar notificaciones de llamadas entrantes al dispositivo, en segundos.</string>
     <string name="pref_summary_notification_media_ignores_application_list">Procesar las notificaciones multimedia antes que la lista de aplicaciones. Si esta preferencia no está marcada, las aplicaciones multimedia deben estar permitidas en la lista de aplicaciones para que los controles multimedia funcionen en el dispositivo.</string>
-    <string name="pref_summary_banglejs_txt_bitmap_size">Si se activa \'Texto como mapa de bits\', ¿a qué tamaño debe representarse el texto\?</string>
+    <string name="pref_summary_banglejs_txt_bitmap_size">Tamaño a utilizar para la representación de texto en mapa de bits</string>
     <string name="pref_title_banglejs_webview_url">URL del cargador de Apps</string>
     <string name="pref_summary_banglejs_webview_url">Si quiere un cargador de aplicaciones personalizado ponga aquí su URL https://.../android.html. De lo contrario, deje en blanco https://banglejs.com/apps</string>
     <string name="pref_blacklist_calendars_summary">Los calendarios de la lista negra no se sincronizarán con el dispositivo</string>
@@ -2256,11 +2256,11 @@
     <string name="watchface_widget_type_uv_index">Índice UV</string>
     <string name="action_changelog">Registro de los cambios</string>
     <string name="pref_title_banglejs_phone_gps_network_only">Solo usa la red para determinar la ubicación</string>
-    <string name="pref_title_banglejs_phone_gps_update_interval">Intervalo de actualización de los datos GPS en ms</string>
+    <string name="pref_title_banglejs_phone_gps_update_interval">Intervalo de actualización de datos GPS</string>
     <string name="pref_summary_banglejs_phone_gps_enbale">Utiliza los datos GPS del teléfono móvil para sobrescribir los datos GPS del dispositivo de pulsera</string>
-    <string name="pref_summary_banglejs_phone_gps_update_interval">Esta opción solo está activa si se están utilizando los datos GPS del teléfono. Esta opción establece el intervalo en ms y con qué frecuencia se actualiza la posición del GPS</string>
+    <string name="pref_summary_banglejs_phone_gps_update_interval">El intervalo de actualización de la posición GPS, en ms</string>
     <string name="pref_title_banglejs_phone_gps_enbale">Utiliza los datos GPS de su teléfono</string>
-    <string name="pref_summary_banglejs_phone_gps_network_only">Esta opción solo está disponible cuando se utilizan los datos GPS del teléfono. Esta opción se puede usar para determinar la ubicación usando solo tu proveedor de red. Esto reduce el consumo de energía, pero a expensas de la precisión. El dispositivo necesita ser reconectado.</string>
+    <string name="pref_summary_banglejs_phone_gps_network_only">Utiliza sólo el proveedor de red para determinar la ubicación. Esto reduce el consumo de energía a costa de la precisión. Es necesaria una reconexión.</string>
     <string name="description">Descripción</string>
     <string name="preview_image">Vista previa de la imagen</string>
     <string name="status_icon">Icono de estado</string>
