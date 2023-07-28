@@ -29,10 +29,11 @@ import androidx.preference.PreferenceScreen;
 
 import nodomain.freeyourgadget.gadgetbridge.R;
 import nodomain.freeyourgadget.gadgetbridge.activities.AbstractGBActivity;
+import nodomain.freeyourgadget.gadgetbridge.activities.AbstractSettingsActivityV2;
 import nodomain.freeyourgadget.gadgetbridge.impl.GBDevice;
 
 
-public class LoyaltyCardsSettingsActivity extends AbstractGBActivity implements
+public class LoyaltyCardsSettingsActivity extends AbstractSettingsActivityV2 implements
         PreferenceFragmentCompat.OnPreferenceStartScreenCallback,
         ActivityCompat.OnRequestPermissionsResultCallback {
 
@@ -41,52 +42,20 @@ public class LoyaltyCardsSettingsActivity extends AbstractGBActivity implements
     private GBDevice device;
 
     @Override
+    protected String fragmentTag() {
+        return LoyaltyCardsSettingsFragment.FRAGMENT_TAG;
+    }
+
+    @Override
+    protected PreferenceFragmentCompat newFragment() {
+        return LoyaltyCardsSettingsFragment.newInstance(device);
+    }
+
+    @Override
     protected void onCreate(final Bundle savedInstanceState) {
         device = getIntent().getParcelableExtra(GBDevice.EXTRA_DEVICE);
 
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_loyalty_cards);
-        if (savedInstanceState == null) {
-            Fragment fragment = getSupportFragmentManager().findFragmentByTag(LoyaltyCardsSettingsFragment.FRAGMENT_TAG);
-            if (fragment == null) {
-                fragment = LoyaltyCardsSettingsFragment.newInstance(device);
-            }
-            getSupportFragmentManager()
-                    .beginTransaction()
-                    .replace(R.id.settings_container, fragment, LoyaltyCardsSettingsFragment.FRAGMENT_TAG)
-                    .commit();
-        }
-    }
-
-    @Override
-    public boolean onPreferenceStartScreen(final PreferenceFragmentCompat caller, final PreferenceScreen preferenceScreen) {
-        final PreferenceFragmentCompat fragment = LoyaltyCardsSettingsFragment.newInstance(device);
-        final Bundle args = fragment.getArguments();
-        if (args != null) {
-            args.putString(PreferenceFragmentCompat.ARG_PREFERENCE_ROOT, preferenceScreen.getKey());
-            fragment.setArguments(args);
-        }
-
-        getSupportFragmentManager()
-                .beginTransaction()
-                .replace(R.id.settings_container, fragment, preferenceScreen.getKey())
-                .addToBackStack(preferenceScreen.getKey())
-                .commit();
-
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(@NonNull final MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                // Simulate a back press, so that we don't actually exit the activity when
-                // in a nested PreferenceScreen
-                this.onBackPressed();
-                return true;
-        }
-
-        return super.onOptionsItemSelected(item);
     }
 
     @Override
