@@ -225,7 +225,7 @@
         <Preference
             android:icon="@drawable/ic_device_miband"
             android:key="pref_key_miband"
-            android:title="@string/preferences_miband_settings" />
+            android:title="@string/preferences_miband_1_2_settings" />
 
         <Preference
             android:icon="@drawable/ic_device_pebble"
