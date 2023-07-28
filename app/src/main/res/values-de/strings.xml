@@ -1779,7 +1779,7 @@
     <string name="open_fw_installer_getting_files_text">Da wir die Firmware-Dateien nicht verteilen dürfen, musst du dir die Dateien selbst beschaffen. Das bedeutet, dass du nach den Dateien in apk-Dateien, online, in Foren, auf Amazfitwatchfaces (für Miband/Amazfit-Geräte) und so weiter suchen musst.</string>
     <string name="appmanager_item_outdated">(veraltet)</string>
     <string name="pref_title_banglejs_txt_bitmap_size">Größe der Text-Bitmaps</string>
-    <string name="pref_summary_banglejs_txt_bitmap_size">Wenn \"Text als Bitmap\" aktiviert ist, in welcher Größe soll der Text gerendert werden\?</string>
+    <string name="pref_summary_banglejs_txt_bitmap_size">Größe, die für das Rendern von Text als Bitmap verwendet werden soll</string>
     <string name="watchface_dialog_widget_cat_generic">Allgemein</string>
     <string name="watchface_dialog_widget_cat_custom_widget">Benutzerdefiniertes Widget</string>
     <string name="watchface_dialog_widget_cat_2nd_tz_widget">2. Zeitzonen-Widget</string>
@@ -2265,13 +2265,13 @@
     <string name="description">Beschreibung</string>
     <string name="status_icon">Statussymbol</string>
     <string name="pref_summary_banglejs_phone_gps_enbale">Verwende die GPS-Daten des Telefons, um die GPS-Daten des Armbands zu überschreiben</string>
-    <string name="pref_summary_banglejs_phone_gps_network_only">Diese Option ist nur aktiv, wenn die GPS-Daten des Telefons verwendet werden. Diese Option kann verwendet werden, um nur den Netzbetreiber für die Standortbestimmung zu verwenden. Dadurch wird der Stromverbrauch auf Kosten der Genauigkeit reduziert. Eine erneute Verbindung mit dem Gerät ist erforderlich.</string>
+    <string name="pref_summary_banglejs_phone_gps_network_only">Verwende nur den Netzbetreiber, um den Standort zu bestimmen. Dies reduziert den Stromverbrauch auf Kosten der Genauigkeit. Eine erneute Verbindung ist erforderlich.</string>
     <string name="watchface_widget_type_uv_index">UV-Index</string>
-    <string name="pref_summary_banglejs_phone_gps_update_interval">Diese Option ist nur aktiv, wenn die GPS-Daten des Telefons verwendet werden. Diese Option legt das Intervall in ms fest, wie oft die GPS-Position aktualisiert wird</string>
+    <string name="pref_summary_banglejs_phone_gps_update_interval">Das Intervall in ms, in dem die GPS-Position aktualisiert wird</string>
     <string name="preview_image">Vorschaubild</string>
     <string name="changelog_full_title">Änderungsprotokoll</string>
     <string name="changelog_show_full">Mehr…</string>
-    <string name="pref_title_banglejs_phone_gps_update_interval">Aktualisierungsintervall der GPS-Daten in ms</string>
+    <string name="pref_title_banglejs_phone_gps_update_interval">Aktualisierungsintervall der GPS-Daten</string>
     <string name="changelog_ok_button">OK</string>
     <string name="changelog_title">Was gibt\'s Neues</string>
     <string name="num_min">%d min</string>
