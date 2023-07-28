@@ -187,6 +187,12 @@ public class SettingsActivity extends AbstractSettingsActivityV2 {
                     }
                     return true;
                 });
+
+                // If we didn't manage to initialize file logging, disable the preference
+                if (!GBApplication.getLogging().isFileLoggerInitialized()) {
+                    pref.setEnabled(false);
+                    pref.setSummary(R.string.pref_write_logfiles_not_available);
+                }
             }
 
             pref = findPreference("cache_weather");
@@ -198,12 +204,6 @@ public class SettingsActivity extends AbstractSettingsActivityV2 {
 
                     return true;
                 });
-
-                // If we didn't manage to initialize file logging, disable the preference
-                if (!GBApplication.getLogging().isFileLoggerInitialized()) {
-                    pref.setEnabled(false);
-                    pref.setSummary(R.string.pref_write_logfiles_not_available);
-                }
             }
 
             pref = findPreference("language");
