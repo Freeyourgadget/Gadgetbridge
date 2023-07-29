@@ -1782,7 +1782,7 @@
     <string name="watchface_dialog_widget_cat_position">Позиція</string>
     <string name="pref_title_banglejs_txt_bitmap_size">Розмір растрового зображення тексту</string>
     <string name="hybridhr_widget_bg_thin_circle">Тонке коло</string>
-    <string name="pref_summary_banglejs_txt_bitmap_size">Якщо ввімкнено функцію «Текст у вигляді растрових зображень», якого розміру має бути текст\?</string>
+    <string name="pref_summary_banglejs_txt_bitmap_size">Розмір для відтворення растрового тексту</string>
     <string name="watchface_dialog_widget_cat_custom_widget">Користувальницький віджет</string>
     <string name="watchface_dialog_widget_cat_2nd_tz_widget">Віджет 2-го часового поясу</string>
     <string name="hybridhr_widget_bg_dashed_circle">Пунктирне коло</string>
@@ -2265,9 +2265,9 @@
     <string name="pref_title_banglejs_phone_gps_enbale">Використовувати дані GPS телефону</string>
     <string name="pref_title_banglejs_phone_gps_network_only">Для визначення розташування використовувати лише мережу</string>
     <string name="title">Назва</string>
-    <string name="pref_summary_banglejs_phone_gps_update_interval">Ця опція активна, лише якщо використовуються дані GPS телефону. Ця опція встановлює інтервал у мс, як часто оновлюється GPS-позиція</string>
-    <string name="pref_title_banglejs_phone_gps_update_interval">Інтервал оновлення даних GPS у мс</string>
-    <string name="pref_summary_banglejs_phone_gps_network_only">Ця опція активна, лише якщо використовуються дані GPS телефону. Цю опцію можна використовувати для визначення місця перебування лише за допомогою мережевого провайдера. Це знижує енергоспоживання внаслідок точності. Потрібно повторно під\'єднати пристрій.</string>
+    <string name="pref_summary_banglejs_phone_gps_update_interval">Інтервал частоти оновлення GPS-позиції у мс</string>
+    <string name="pref_title_banglejs_phone_gps_update_interval">Інтервал оновлення даних GPS</string>
+    <string name="pref_summary_banglejs_phone_gps_network_only">Використовувати для визначення місця перебування лише за допомогою мережевого провайдера. Це знижує енергоспоживання знижуючи точність. Потрібне повторне під\'єднання.</string>
     <string name="description">Опис</string>
     <string name="preview_image">Попередній перегляд зображення</string>
     <string name="status_icon">Піктограма стану</string>
