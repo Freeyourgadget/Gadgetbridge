@@ -1906,7 +1906,7 @@
 \nВЫ ДЕЙСТВУЕТЕ НА СВОЙ СТРАХ И РИСК!</string>
     <string name="abstract_chart_fragment_kind_rem_sleep">БДГ-фаза</string>
     <string name="pref_summary_receive_calls_watch">Совершайте и принимайте звонки прямо на часах</string>
-    <string name="pref_display_caller_title">Показать контакт</string>
+    <string name="pref_display_caller_title">Показать контактную информацию</string>
     <string name="pref_display_caller_summary">Показать номер телефона или имя для входящих вызовов</string>
     <string name="prefs_spo2_alert_threshold">Порог предупреждения SPO2</string>
     <string name="pref_pair_bluetooth_calls_help_3">3. Включите возможность звонков по Bluetooth ниже.</string>
@@ -1926,8 +1926,8 @@
     <string name="pref_summary_notification_cache_while_disconnected">Отправлять пропущенные уведомления когда устройство переподключается после нахождения вне радиуса</string>
     <string name="pref_summary_banglejs_phone_gps_enbale">Использовать геолокацию телефона для перезаписи данных о геолокации на браслете</string>
     <string name="pref_title_banglejs_phone_gps_network_only">Использовать интернет только для определения местоположения</string>
-    <string name="pref_title_banglejs_phone_gps_update_interval">Частота обновления геопозиции в миллисекундах</string>
-    <string name="pref_summary_banglejs_phone_gps_update_interval">Эта опция активна, только если используются данные GPS телефона. Эта опция устанавливает частоту обновления геопозиции в миллисекундах</string>
+    <string name="pref_title_banglejs_phone_gps_update_interval">Частота обновления данных GPS</string>
+    <string name="pref_summary_banglejs_phone_gps_update_interval">Частота обновления положения GPS в мс</string>
     <string name="bluetooth_calls_settings">Настройки звонков по Bluetooth</string>
     <string name="pref_pair_bluetooth_calls_help_title">Как получать звонки по Bluetooth</string>
     <string name="pref_title_banglejs_phone_gps_enbale">Использовать GPS телефона</string>
@@ -2045,4 +2045,6 @@
     <string name="pref_title_mb_intents">Транслировать Интенты Медиа-кнопок Напрямую</string>
     <string name="pref_summary_mb_intents">Включите, если управление медиа устройства не работает для определённых приложений</string>
     <string name="minCadence">Минимальная частота</string>
+    <string name="busy_task_fetch_stress_data">Получение данных о нагрузке</string>
+    <string name="busy_task_fetch_sleep_respiratory_rate_data">Получение данных о частоте дыхания во сне</string>
 </resources>
