@@ -435,7 +435,7 @@ public class BangleJSDeviceSupport extends AbstractBTLEDeviceSupport {
                 } catch (JSONException e) {
                     LOG.warn("jsonToString object error: " + e.getLocalizedMessage());
                 }
-                json += key+":"+jsonToStringInternal(o);
+                json += "\""+key+"\":"+jsonToStringInternal(o);
                 if (iter.hasNext()) json+=",";
             }
             return json+"}";
